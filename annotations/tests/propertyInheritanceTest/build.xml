@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+ The contents of this file are subject to the terms
+ of the Common Development and Distribution License
+ (the License).  You may not use this file except in
+ compliance with the License.
+ 
+ You can obtain a copy of the license at
+ https://woodstock.dev.java.net/public/CDDLv1.0.html.
+ See the License for the specific language governing
+ permissions and limitations under the License.
+ 
+ When distributing Covered Code, include this CDDL
+ Header Notice in each file and include the License file
+ at https://woodstock.dev.java.net/public/CDDLv1.0.html.
+ If applicable, add the following below the CDDL Header,
+ with the fields enclosed by brackets [] replaced by
+ you own identifying information:
+ "Portions Copyrighted [year] [name of copyright owner]"
+ 
+ Copyright 2007 Sun Microsystems, Inc. All rights reserved.
+-->
+
+<project name="InheritanceTest" default="default" basedir=".">
+    
+    <import file="nbproject/build-impl.xml"/>
+    
+    <target name="-pre-compile">
+        <ant target="process-annotations"/>
+    </target>
+    
+    <target name="compile" depends="init,Property_Inheritance_Test-impl.compile">
+        <!-- Compile run-time classes -->
+        <javac srcdir="${src.runtime.dir}:${src.gen.runtime.dir}"
+            destdir="${build.dir}"
+            optimize="${javac.optimize}"
+            debug="${javac.debug}"
+            classpath="${javac.classpath}">
+        </javac>
+        <!-- Compile design-time classes -->
+        <javac srcdir="${src.designtime.dir}:${src.gen.designtime.dir}"
+            destdir="${build.dir}"
+            optimize="${javac.optimize}"
+            debug="${javac.debug}"
+            classpath="${javac.classpath}:${build.dir}:${src.designtime.dir}">
+        </javac>
+    </target>
+    
+    <target name="-post-clean">
+        <deltree dir="gen"/>
+    </target>
+    
+    <target name="process-annotations" depends="init">
+        <path id="apt.classpath">
+            <pathelement path="${src.dir}"/>
+            <pathelement path="${javac.classpath}"/>
+            <pathelement path="${basedir}/../../processor/dist/jsfa-proc.jar"/>
+            <pathelement path="${basedir}/../../processor/lib/velocity-1.4.jar"/>
+            <pathelement path="${basedir}/../../processor/lib/velocity-dep-1.4.jar"/>
+        </path>
+        <pathconvert property="apt.classes" refid="apt.classpath"/>
+        <path id="apt.sourcepath">
+            <fileset dir="${src.runtime.dir}">
+                <include name="**/*.java"/>
+            </fileset>
+            <fileset dir="${src.designtime.dir}">
+                <include name="org/example/CategoryDescriptors.java"/>
+            </fileset>
+        </path>
+        <pathconvert property="apt.sources" refid="apt.sourcepath" pathsep=" "/>
+        <exec executable="${jdk.home}/bin/apt">
+            <arg line="-s ${basedir}/gen/runtime"/>
+            <arg line="-nocompile"/>
+            <arg line="-d ${basedir}/build"/>
+            <arg value="-A generate.runtime"/>
+            <arg value="-A namespace.uri=http://my.org.example"/>
+            <arg value="-A namespace.prefix=my"/>
+            <arg line="-classpath ${apt.classes}"/>
+            <arg line="-factory com.sun.faces.mirror.FacesAnnotationProcessorFactory"/>
+            <arg line="${apt.sources}"/>
+        </exec>
+        <exec executable="${jdk.home}/bin/apt">
+            <arg line="-s ${basedir}/gen/designtime"/>
+            <arg line="-nocompile"/>
+            <arg line="-d ${basedir}/build"/>
+            <arg value="-A localize"/>
+            <arg value="-A generate.designtime"/>
+            <arg value="-A namespace.uri=http://my.org.example"/>
+            <arg value="-A namespace.prefix=my"/>
+            <arg line="-classpath ${apt.classes}"/>
+            <arg line="-factory com.sun.faces.mirror.FacesAnnotationProcessorFactory"/>
+            <arg line="${apt.sources}"/>
+        </exec>
+    </target>
+    
+</project>

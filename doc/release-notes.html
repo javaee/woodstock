@@ -1,0 +1,89 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<!--
+      The contents of this file are subject to the terms
+      of the Common Development and Distribution License
+      (the License).  You may not use this file except in
+      compliance with the License.
+      
+      You can obtain a copy of the license at
+      https://woodstock.dev.java.net/public/CDDLv1.0.html.
+      See the License for the specific language governing
+      permissions and limitations under the License.
+      
+      When distributing Covered Code, include this CDDL
+      Header Notice in each file and include the License file
+      at https://woodstock.dev.java.net/public/CDDLv1.0.html.
+      If applicable, add the following below the CDDL Header,
+      with the fields enclosed by brackets [] replaced by
+      you own identifying information:
+      "Portions Copyrighted [year] [name of copyright owner]"
+      
+      Copyright 2007 Sun Microsystems, Inc. All rights reserved.
+    -->
+  <meta http-equiv="content-type"
+ content="text/html; charset=ISO-8859-1">
+  <title>Woodstock 4.0 Components Release Notes</title>
+</head>
+<body>
+<h1>Woodstock 4.0.1 JSF Components Release Notes</h1>
+<h3>IE7 Button width issue</h3>
+When displayed in IE7, the button component might be rendered
+with an incorrect width. This problem occurs when the button is placed
+using absolute positioning.For example, Netbeans with
+Visual Web Pack, uses absolute positioning to place components in Grid
+Layout
+Mode, and in such situation this problem could occur.<br>
+<br>
+IE7 expects a value to be specified for the width of buttons. If
+a width attribute is not specified, the width is set to width:auto,
+which results in the button's width being set to the entire available
+width of the button's container element.&nbsp; For example, if the
+button
+style has left=130px then the button will start at 130px left and will
+expand to the width of the &lt;body&gt;.<br>
+<h4>Workarounds</h4>
+There are several workarounds that can be used in the
+developer's code to solve the problem.<br>
+<br>
+<ul>
+  <li>Specify the width attribute for the button, or resize
+the button in the IDE to make the IDE assign a width to the button.</li>
+  <li>Use relative positioning instead of absolute positioning on
+the button component.&nbsp; For example:<br>
+  </li>
+</ul>
+<pre style="margin-left: 80px;">&lt;input name="Button2" style="position:relative; left:72px;top:18px" type="button" value="Button" /&gt;</pre>
+<ul>
+  <li>Enclose the button inside a div or span element to
+restrict the available width to the div/span element's width. Remember
+to
+set the positioning for the div/span element.</li>
+  <ul>
+    <li>HTML Example 1:&nbsp; Button inside a div tag<br>
+    </li>
+  </ul>
+</ul>
+<pre style="margin-left: 80px;">&lt;div style="position:absolute; left:72px; top:68px"&gt;<br>  &lt;input name="Button1" type="button" value="button" /&gt;<br>&lt;/div&gt;</pre>
+<ul>
+  <ul>
+    <li>HTML Example 2:&nbsp; Button inside span tag<br>
+    </li>
+  </ul>
+</ul>
+<pre style="margin-left: 80px;">&lt;span style="position:absolute; left:72px; top:68px"&gt;<br>  &lt;input name="Button1" type="button" value="button" /&gt;<br>&lt;/span&gt;</pre>
+<ul>
+  <li>In VWP IDE, drop the button into a Group Panel to put the
+button inside a span tag.&nbsp; In this case no need to set the
+positioning as IDE
+sets the positioning for Group Panel.</li>
+  <ul>
+    <li>JSP Example:&nbsp;&nbsp; Button inside Group Panel component <br>
+    </li>
+  </ul>
+</ul>
+<pre style="margin-left: 80px;">&lt;webuijsf:panelGroup binding="#{Page1.groupPanel1}" id="groupPanel1" style="position:absolute; left:240px; top:168px"&gt;<br>  &lt;webuijsf:button binding="#{Page1.button1}" id="button1" text="Button"/&gt;<br>&lt;/webuijsf:panelGroup&gt;</pre>
+<br>
+</body>
+</html>

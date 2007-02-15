@@ -1,0 +1,15 @@
+<?xml version='1.0' encoding='ISO-8859-1' ?>
+
+<project name="Woodstock" default="all" basedir=".">
+
+    <target name="clean" description="clean up" >
+        <ant dir="library" target="clean" inheritAll="false"/>
+        <ant dir="processor" target="clean" inheritAll="false"/>
+    </target>
+
+    <target name="all">
+        <ant dir="library" target="default" inheritAll="false"/>
+        <ant dir="processor" target="default" inheritAll="false"/>
+    </target>
+
+</project>

@@ -1,0 +1,203 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<!--
+      The contents of this file are subject to the terms
+      of the Common Development and Distribution License
+      (the License).  You may not use this file except in
+      compliance with the License.
+      
+      You can obtain a copy of the license at
+      https://woodstock.dev.java.net/public/CDDLv1.0.html.
+      See the License for the specific language governing
+      permissions and limitations under the License.
+      
+      When distributing Covered Code, include this CDDL
+      Header Notice in each file and include the License file
+      at https://woodstock.dev.java.net/public/CDDLv1.0.html.
+      If applicable, add the following below the CDDL Header,
+      with the fields enclosed by brackets [] replaced by
+      you own identifying information:
+      "Portions Copyrighted [year] [name of copyright owner]"
+      
+      Copyright 2007 Sun Microsystems, Inc. All rights reserved.
+    -->
+  <meta http-equiv="content-type"
+ content="text/html; charset=ISO-8859-1">
+  <title>Woodstock 4.0 Components Readme</title>
+</head>
+<body>
+<h1>Woodstock Components 4.0.1 Readme</h1>
+<a href="#WhatAre">What are the Woodstock
+Components?</a><br>
+<a href="#RelatedDoc">Related
+Documentation</a><br>
+<span style="text-decoration: line-through;"></span><a
+ href="#FilingBugs">Filing Bugs</a><br>
+<a href="#SWrequirements">Software Requirements</a><br>
+<a href="#ReleaseContents"></a><a href="#InstallGlassfish"></a><a
+ href="#GettingStarted">Getting Started</a><br>
+<a href="#BuildSource">Build the Source</a><br>
+<a href="#QuickStart"></a><br>
+<h2><a name="WhatAre"></a>What are the Woodstock Components?</h2>
+<p>The Woodstock components are a set of general purpose UI components
+that follow Sun Web Application Guidelines (to be supplied), and can be
+used for
+developing
+web applications and portlets at Sun. The components are built on the <a
+ href="http://java.sun.com/j2ee/javaserverfaces/">JavaServer(TM) Faces
+library</a>, a JSR standard technology for building web components with
+Java.&nbsp; The components will work in any web container that complies
+with Servlets 2.5, JSP 2.1, and JSF 1.2.&nbsp; Currently, only
+GlassFish (Application Server 9) meets all these
+requirements.&nbsp;&nbsp; See <a href="#SWrequirements">Software
+Requirements</a>.<br>
+</p>
+<span style="text-decoration: line-through;"></span>
+<p>The Woodstock components are <span style="color: rgb(0, 0, 0);">available
+in the Visual Web Pack plugin module for Netbeans 5.5</span>, but can
+also be used standalone to
+build web applications.&nbsp; This readme describes how to <span
+ style="color: rgb(0, 0, 0);">build and</span> use the
+standalone Woodstock components.</p>
+<p> </p>
+<h2><a name="RelatedDoc"></a>Related Documentation</h2>
+<ul>
+  <li>Component Release Notes are included in the components jar
+(Woodstock.4.0.1-yyyymmddhhmm.jar). </li>
+</ul>
+<ul>
+  <li>Javadocs for the components are created when you build the
+components.&nbsp; An online version will be available in the future.</li>
+  <br>
+  <li>TLD (tag library descriptor) documentation describes how to
+use the components, is included in the components jar.</li>
+</ul>
+<h2><a name="FilingBugs"></a>Filing Bugs</h2>
+If you find a bug, please file it on the <a
+ href="https://woodstock.dev.java.net/servlets/ProjectIssues">Project
+Woodstock Issues</a> site.<br>
+<h2><span style="font-style: italic;"><a name="SWrequirements"></a></span>Software
+Requirements</h2>
+<p><span style="font-weight: bold;">JSF 1.2 / Glassfish v1 or App
+Server PE 9</span> - The Woodstock components are based on JSF 1.2,
+which currently
+requires you to deploy using Glassfish (Sun Java System Application
+Server PE 9), the only freely available web container that
+supports JSF 1.2.&nbsp; The easiest way to get everything you need to
+develop apps using the Woodstock components is to get the latest
+Netbeans 5.5 bundled with App Server 9.&nbsp; Currently Netbeans 5.5 <span
+ style="text-decoration: line-through;"></span>can be
+downloaded with AppServer 9 from <a
+ href="http://www.netbeans.info/downloads/index.php">http://www.netbeans.info/downloads/index.php</a>.You
+can also download GlassFish from <a
+ href="http://glassfish.dev.java.net/public/downloadsindex.html">http://glassfish.dev.java.net/public/downloadsindex.html</a>.<span
+ style="text-decoration: line-through;"></span><br>
+</p>
+<p><span style="font-weight: bold;">JDK 1.5.0</span> -The Java version
+should be at least 1.5.0_06, with 1.5.0_08
+recommended.&nbsp;&nbsp; If you will be using the Visual Web Pack,
+1.5.0_08 is required.<br>
+</p>
+<span style="font-weight: bold;">Ant 1.6.5</span> - This Ant version is
+included in NetBeans 5.5. If not using NetBeans, you can get Ant 1.6.5
+from
+the <a href="http://ant.apache.org/">Apache Ant site</a>. <br>
+<p><span style="font-weight: bold;">Netbeans&nbsp; 5.5 </span>-
+Netbeans is not required to use the components, but is
+recommended because of its source level
+debugging, and full
+featured editor for building web
+applications.&nbsp; If you use Netbeans, it should be at least version
+5.5<span style="text-decoration: line-through;"></span>.&nbsp;
+You can download various different bundles that
+contain Netbeans 5.5 from <a
+ href="http://www.netbeans.org/downloads/index.html">netbeans.org</a>.<br>
+</p>
+<h2><a name="GettingStarted"></a>Getting Started</h2>
+You should first
+get a good background in JavaServer Faces. Here are a few suggestions:
+<ul>
+  <li> Java EE documentation: <a
+ href="http://java.sun.com/j2ee/javaserverfaces/index.jsp">http://java.sun.com/javaee/javaserverfaces/index.jsp</a>
+  </li>
+  <br>
+  <li> Tutorial: <a
+ href="http://java.sun.com/javaee/5/docs/tutorial/doc/index.html">http://java.sun.com/javaee/5/docs/tutorial/doc/index.html</a>
+  </li>
+  <br>
+  <li> <i>JavaServer Faces</i>, Hans Bergsten,
+O'Reilly
+Media, Inc.,
+ISBN: 0596005393</li>
+  <li>
+    <p><i>Core JavaServer Faces</i>, Geary and
+Horstmann, Prentice
+Hall PTR / Sun Microsystems Press, ISBN: 0131463055</p>
+  </li>
+</ul>
+Once you know JSF, you need to decide how you want to build
+your application. There are a few ways to do this, but this document
+only discusses Netbeans. You can also use a text editor if you code
+manually.&nbsp; You can also use the Visual Web Pack for Netbeans<span
+ style="text-decoration: line-through;"><span
+ style="font-style: italic;">.</span></span><span
+ style="font-style: italic; color: rgb(204, 0, 0);"></span><br>
+<p>Netbeans 5.5 is recommended because of its source level
+debugging, and full
+featured editor for building web
+applications. </p>
+<h2><a name="BuildSource"></a>Build the Source</h2>
+The Project Woodstock source code distribution includes the code for
+the components and an example application that demonstrates how to use
+the components API.&nbsp; See <a href="#SWrequirements">Software
+Requirements</a> for dependencies needed to build the source.<br>
+<br>
+Before you can download the source code, you will first need to:<br>
+<ul>
+  <li><a href="https://www.dev.java.net/servlets/Join">register</a> for
+an account on java.net</li>
+  <li>install <a
+ href="https://www.dev.java.net/nonav/scdocs/ddCVS.html">CVS</a> on
+your machine</li>
+</ul>
+To download the source code:<br>
+<ul>
+  <li><a href="https://woodstock.dev.java.net/servlets/ProjectSource">checkout</a>
+the source</li>
+</ul>
+To build from the command line, presuming you checked out the code into
+&lt;myWorkspace&gt;:<br>
+<ul>
+  <li>ant -f &lt;myWorkspace&gt;/woodstock/master/build.xml<br>
+  </li>
+</ul>
+Alternatively, the Woodstock code comes complete with Netbeans 5.5
+compatible project files such that each project can be loaded and build
+seperately within the Netbeans IDE:<br>
+<ul>
+  <li>Launch netbeans. This task is different for each
+OS, so consult the Netbeans documentation.</li>
+  <li>From the File Menu, choose: Open Project</li>
+  <li>In the Open Project dialog, navigate to
+&lt;myWorkspace&gt;/woodstock</li>
+  <li>Select one of the available projects: <span
+ style="font-style: italic;">example</span>, <span
+ style="font-style: italic;">themes</span>, or <span
+ style="font-style: italic;">webui</span>.&nbsp; If you choose <span
+ style="font-style: italic;">example</span>, then <span
+ style="font-style: italic;">themes</span> and <span
+ style="font-style: italic;">webui</span> are loaded automatically.</li>
+  <li>Click the Open Project Folder button</li>
+  <li>In the Projects pane, right click on each project and select the
+Build Project menu item.&nbsp; The projects must be built in this
+order:&nbsp; <span style="font-style: italic;">themes</span>, <span
+ style="font-style: italic;">webui</span>, <span
+ style="font-style: italic;">example</span>.<br>
+  </li>
+</ul>
+You can deploy &lt;myWorkspace&gt;/woodstock/example/dist/example.war
+to any supported web container container using<br>
+the mechanisms available for that container, or thru Netbeans.<br>
+</body>
+</html>
