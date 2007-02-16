@@ -1,0 +1,33 @@
+#!/bin/sh
+
+# This is tricky
+# "ui:" is found in many places in the documentation on the conf files.
+# It is defined in the renderer conf files by the taglib-prefix.
+# Make this an entity.
+# Need to find out how it is passed to the tld generator.
+# It looks like the "-p ui" option. These args are ant properties
+# defined in webui/build.properties
+
+newmodule="woodstock"
+tagprefix="webuijsf"
+#taguri="http://jvnet.org/webui/${tagprefix}"
+taguri="http://www.sun.com/webui/${tagprefix}"
+
+
+### Fix up lockhart/example jsp's ###
+
+cd $newmodule/lockhart/example/web
+for f in `find . -name \*.jsp -print` ; do
+
+    sed -e 's?ui="http://www.sun.com/web/ui"?'${tagprefix}'="'${taguri}'"?' \
+	-e 's?uri="http://www.sun.com/web/ui"?uri="'${taguri}'"?' \
+	-e 's?prefix="ui"?prefix="'${tagprefix}'"?' \
+	-e 's?<ui:?<'${tagprefix}':?g' \
+	-e 's?</ui:?</'${tagprefix}':?g' \
+	-e 's?lt;ui:?lt;'${tagprefix}':?g' \
+	-e 's?lt;/ui:?lt;/'${tagprefix}':?g' \
+	-e 's? ui:? '${tagprefix}':?g' $f > /tmp/junk
+
+    mv /tmp/junk $f
+
+done

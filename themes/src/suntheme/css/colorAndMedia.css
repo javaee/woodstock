@@ -1,0 +1,1092 @@
+/*
+ * The contents of this file are subject to the terms
+ * of the Common Development and Distribution License
+ * (the License).  You may not use this file except in
+ * compliance with the License.
+ * 
+ * You can obtain a copy of the license at
+ * https://woodstock.dev.java.net/public/CDDLv1.0.html.
+ * See the License for the specific language governing
+ * permissions and limitations under the License.
+ * 
+ * When distributing Covered Code, include this CDDL
+ * Header Notice in each file and include the License file
+ * at https://woodstock.dev.java.net/public/CDDLv1.0.html.
+ * If applicable, add the following below the CDDL Header,
+ * with the fields enclosed by brackets [] replaced by
+ * you own identifying information:
+ * "Portions Copyrighted [year] [name of copyright owner]"
+ * 
+ * Copyright 2007 Sun Microsystems, Inc. All rights reserved.
+ */
+/* CSS Document */
+
+body {
+	color:#000;}
+
+a:link, a:visited {
+	color:#003399;
+	text-decoration:none;
+}
+a:hover {
+	color:#003399;
+	text-decoration:underline;
+}
+
+/* SKIP NAVIGATION LINK */
+.SkpWht@THEME_CSS@ {
+	background-color:#FFFFFF;
+}
+.SkpMedGry1@THEME_CSS@ {
+	background-color:#E5E9ED
+}
+/*---*/
+
+/* ADDREMOVE [originalName: ADD-REMOVE-IDIOM]*/
+
+.AddRmvLbl@THEME_CSS@ {
+	color:#000;
+}
+
+.AddRmvLbl2@THEME_CSS@ {
+	background: #f7f8fb url(../images/addremove/add-rem_header.gif) repeat-x top;
+	border-top: 1px solid #a4aaaf;
+	border-right: 1px solid #a4aaaf;
+	border-bottom: 1px solid #686b6e;
+	border-left: 1px solid #a4aaaf;
+}
+
+.AddRmvLbl2@THEME_CSS@, .AddRmvLbl2ReadOnly@THEME_CSS@ {
+	color:#000;
+}
+
+/*---*/
+/* BREADCRUMBS */
+.BcmWhtDiv@THEME_CSS@ {
+	background-color:#FFF;
+}
+.BcmGryDiv@THEME_CSS@ {
+	background-color:#E5E9ED;
+}
+a.BcmLnk@THEME_CSS@:link, a.BcmLnk@THEME_CSS@:visited, a.BcmLnk@THEME_CSS@:hover, .BcmSep@THEME_CSS@ {
+	color:#003399;
+}
+a.BcmLnk@THEME_CSS@:link, a.BcmLnk@THEME_CSS@:visited {
+	text-decoration:none;
+}
+a.BcmLnk@THEME_CSS@:hover {
+	text-decoration:underline;
+}
+/*---*/
+
+/* BUTTONS */
+
+.Btn1@THEME_CSS@, .Btn1Mni@THEME_CSS@ {
+	background:#ABD2EB url(../images/button/primary-enabled.gif) repeat-x top;
+	border-top-color:#6C8197;
+	border-right-color:#4E647A;
+	border-bottom-color:#263E5A;
+	border-left-color:#4E647A;
+}
+
+.Btn1Hov@THEME_CSS@, .Btn1MniHov@THEME_CSS@ {
+	background:#E2F1FF url(../images/button/primary-roll.gif) repeat-x top;
+	border-top-color:#6D8197;
+	border-right-color:#475D75;
+	border-bottom-color:#273E5A;
+	border-left-color:#475D75;
+}
+
+.Btn2@THEME_CSS@, .Btn2Mni@THEME_CSS@, .Btn2Hov@THEME_CSS@, .Btn2MniHov@THEME_CSS@ {
+	border-top-color:#83858C;
+	border-right-color:#62656B;
+	border-bottom-color:#44464C;
+	border-left-color:#62656B;
+}
+
+.Btn2@THEME_CSS@, .Btn2Mni@THEME_CSS@ {
+	background:#E0E3EB url(../images/button/secondary-enabled.gif) repeat-x top;
+}
+
+.Btn2Hov@THEME_CSS@, .Btn2MniHov@THEME_CSS@ {
+	background: #F4F7FE url(../images/button/secondary-roll.gif) repeat-x top;
+}
+
+
+
+.Btn1Dis@THEME_CSS@, .Btn1MniDis@THEME_CSS@ {
+	background:#BAC4D1 url(../images/button/primary-disabled.gif) repeat-x top;
+	color:#777E86;
+	border-top-color:#B5BDC6;
+	border-right-color:#A7AFB8;
+	border-bottom-color:#99A0A8;
+	border-left-color:#A7AFB8;
+}
+
+.Btn2Dis@THEME_CSS@, .Btn2MniDis@THEME_CSS@ {
+	background:#D1D4DB url(../images/button/secondary-disabled.gif) repeat-x top;
+	color:#7C7D82;
+	border-top-color:#CCCDD0;
+	border-right-color:#BEBFC2;
+	border-bottom-color:#AEAFB2;
+	border-left-color:#BEBFC2;
+}
+
+.Btn1Hov@THEME_CSS@, .Btn1MniHov@THEME_CSS@, .Btn2Hov@THEME_CSS@, .Btn2MniHov@THEME_CSS@ {
+	cursor:pointer;
+}
+.MstDiv@THEME_CSS@ .Btn1@THEME_CSS@, .MstDiv@THEME_CSS@ .Btn1Mni@THEME_CSS@, .MstDiv@THEME_CSS@ .Btn2@THEME_CSS@, .MstDiv@THEME_CSS@ .Btn2Mni@THEME_CSS@, .MstDiv@THEME_CSS@ .Btn1Hov@THEME_CSS@, .MstDiv@THEME_CSS@ .Btn1MniHov@THEME_CSS@, .MstDiv@THEME_CSS@ .Btn2Hov@THEME_CSS@, .MstDiv@THEME_CSS@ .Btn2MniHov@THEME_CSS@,
+.mastheadButton_4@THEME_CSS@ a:link, .mastheadButton_4@THEME_CSS@ a:visited, .mastheadButton_4@THEME_CSS@ a:hover {
+	color:#FFF;
+	vertical-align:middle;
+}.MstDiv@THEME_CSS@ .Btn1@THEME_CSS@, .MstDiv@THEME_CSS@ .Btn1Mni@THEME_CSS@, .MstDiv@THEME_CSS@ .Btn2@THEME_CSS@, .MstDiv@THEME_CSS@ .Btn2Mni@THEME_CSS@,
+.mastheadButton_4@THEME_CSS@ a:link, .mastheadButton_4@THEME_CSS@ a:visited {
+	background:#7595AB url(../images/masthead/masthead_button.gif) repeat-x bottom;
+}.mastheadButton_4@THEME_CSS@ a:link, .mastheadButton_4@THEME_CSS@ a:visited, .mastheadButton_4@THEME_CSS@ a:hover {
+	text-decoration:none;
+}
+.mastheadButton_4@THEME_CSS@ a:hover,
+.MstDiv@THEME_CSS@ .Btn1Hov@THEME_CSS@, .MstDiv@THEME_CSS@ .Btn1MniHov@THEME_CSS@, .MstDiv@THEME_CSS@ .Btn2Hov@THEME_CSS@, .MstDiv@THEME_CSS@ .Btn2MniHov@THEME_CSS@ {
+	background:#99B0C4 url(../images/masthead/masthead_button_over.gif) repeat-x bottom;
+}
+
+.mastheadButton_4@THEME_CSS@ {
+	background-color:#374154;
+	border-top-color:#4a5467;
+	border-right-color:#374154;
+	border-left-color:#374154;
+	border-bottom-color:#7ea0b8;
+}
+/*---*/
+/* SCHEDULER [originalName: DATE AND TIME]*/
+.DatCalDiv@THEME_CSS@ {
+	border-left-color: #5F6466;
+	border-right-color:#5F6466;
+	border-bottom-color:#5F6466;
+}
+.DatSelTopMiddle@THEME_CSS@ {
+	background-color:#3D6079;
+	border-top-color:#5F6466;
+}
+
+.DatSelContent@THEME_CSS@ {
+	border-left-color: #5F6466;
+	border-right-color:#5F6466;
+	background:#3D6079 url(../images/scheduler/header-short.gif) bottom left repeat-x;
+	color:#FFFFFF;
+}
+
+.DatCalDiv@THEME_CSS@ {
+	border-left-color: #5F6466;
+	border-right-color:#5F6466;
+	border-bottom-color:#5F6466;
+}
+
+.DatCalDiv@THEME_CSS@, .DatCalTbl@THEME_CSS@ th {
+	background-color:#E3E7EA;
+}
+
+.DatCalTbl@THEME_CSS@ th {
+	border-color:#E3E7EA;
+}
+
+.DatCalTbl@THEME_CSS@ td {
+	border-color:#E1E5E8;
+}
+
+.DatDayHdrTxt@THEME_CSS@, .DatZonTxt@THEME_CSS@ {
+	color:#000000;
+}
+.DatZonTxt@THEME_CSS@ {
+	color:#707277;
+}
+.DatLblTxt@THEME_CSS@ {
+	color:#666;
+}
+
+a.DatLnk@THEME_CSS@:link, a.DatLnk@THEME_CSS@:visited {
+	color:#000000;
+	background-color:#fff;
+	text-decoration:none;
+	border-color:#fff;
+}
+
+a.DatLnk@THEME_CSS@:hover {
+	text-decoration:underline;
+	border-color:#fff;
+}
+
+a.DatBldLnk@THEME_CSS@:link, a.DatBldLnk@THEME_CSS@:visited {
+	color:#000000;
+	background-color:#90B7D0;
+	border-top-color:#242E34;
+	border-right-color:#90B7D0;
+	border-bottom-color:#90B7D0;
+	border-left-color:#242E34;
+	text-decoration:none;
+}
+
+a.DatBldLnk@THEME_CSS@:hover {
+	text-decoration:underline;
+}
+
+a.DatCurLnk@THEME_CSS@:link, a.DatCurLnk@THEME_CSS@:visited {
+	color:#000;
+	background-color:#fff;
+	text-decoration:none;
+	border-color:#fff;
+}
+
+a.DatCurLnk@THEME_CSS@:hover {
+	text-decoration:underline;
+	border-color:#fff;
+}
+
+a.DatOthLnk@THEME_CSS@ {
+	color:#000;
+	background-color:#ECF0F3;
+	text-decoration:none;
+	border-color:#ECF0F3;
+}
+
+a.DatOthLnk@THEME_CSS@:hover {
+	text-decoration:underline;
+}
+
+a.DatOthBldLnk@THEME_CSS@:link, a.DatOthBldLnk@THEME_CSS@:visited {
+	color:#000000;
+	background-color:#90B7D0;
+	border-top-color:#242E34;
+	border-right-color:#90B7D0;
+	border-bottom-color:#90B7D0;
+	border-left-color:#242E34;
+	text-decoration:none;
+}
+
+a.DatOthBldLnk@THEME_CSS@:hover {
+	text-decoration:underline;
+}
+/*---*/
+
+/*CALENDAR */
+.CalPopDiv@THEME_CSS@ {
+	background:transparent url(../images/calendar/calpop_dropshadow.png) bottom right no-repeat;
+}
+.CalPopDiv@THEME_CSS@  a.DatCurLnk@THEME_CSS@:hover, .CalPopDiv@THEME_CSS@  a.DatLnk@THEME_CSS@:hover, .CalPopDiv@THEME_CSS@ a.DatBldLnk@THEME_CSS@:hover, .CalPopDiv@THEME_CSS@ a.DatOthBldLnk@THEME_CSS@:hover {
+	text-decoration:underline;
+}
+.CalPopDiv@THEME_CSS@ .DatCalDiv@THEME_CSS@ {
+	background-color:#E5E9ED;
+}
+.CalPopDiv@THEME_CSS@ a.DatOthLnk@THEME_CSS@ {
+	background-color:#E5E9ED;
+	border-color:#E5E9ED;
+}
+.CalPopDiv@THEME_CSS@ a.DatOthLnk@THEME_CSS@:hover {
+	text-decoration:underline;
+}
+.DatCalDiv@THEME_CSS@, .DatCalTbl@THEME_CSS@ th {
+	background-color:#E3E7EA;
+}
+.CalPopDiv@THEME_CSS@ .DatCalTbl@THEME_CSS@ {
+	border-color:#D6DCE1;
+}
+.CalPopDiv@THEME_CSS@ .DatCalTbl@THEME_CSS@ td {
+	border-color:#D6DCE1;
+}
+.CalPopDiv@THEME_CSS@ .DatCalTbl@THEME_CSS@ th {
+	border-color:#D6DCE1;
+	background-color:#E5E9ED;
+}
+.CalPopDiv@THEME_CSS@ a.CalPopClsLnk@THEME_CSS@:link, .CalPopDiv@THEME_CSS@ a.CalPopClsLnk@THEME_CSS@:active {
+	color:#333;
+	border-color:#A8B8C3;
+	text-decoration:none;
+}
+.CalPopDiv@THEME_CSS@ a.CalPopClsLnk@THEME_CSS@:hover {
+	text-decoration:underline;
+}
+.CalPopDiv@THEME_CSS@ .CalPopFtrDiv@THEME_CSS@ {
+	background:#EEF1F4 url(../images/calendar/calpop_footer_grad.gif) bottom left repeat-x;
+}
+.CalPopDiv@THEME_CSS@ .CurDayTxt@THEME_CSS@ {
+	color:#333;
+}
+/*---*/
+
+/* FILE CHOOSER */
+.ChoLblTxt@THEME_CSS@ {
+	color:#5F6466;
+}
+.ChoSrvTxt@THEME_CSS@ {
+	color:#333;
+}
+.ChoHr@THEME_CSS@ {
+	background-color: #98a0a5;
+}
+.ChoLstHdr@THEME_CSS@ {
+	background: #f7f8fb url(../images/file-chooser/column_hdr_gradient.gif) repeat-x top;
+	border-top: 1px solid #9ca4aa;
+	border-bottom: 1px none #686b6e;
+	border-left: 1px solid #9ca4aa;
+	border-right: 1px solid #9ca4aa;
+}
+.ChoLstHdr@THEME_CSS@ .ChoSizeHdr@THEME_CSS@ {
+	border-right: 1px solid #ced0d3;
+	border-left: 1px solid #ced0d3;
+}
+
+/*---*/
+/* PAGEALERT [originalName: FULL ALERTS]*/
+.FulAlrtHdrTxt@THEME_CSS@, .FulAlrtMsgTxt@THEME_CSS@ {
+	color:#000;
+}
+/* INLINE ALERT */
+.inlineAlert_4@THEME_CSS@ .topLeftCorner@THEME_CSS@ {
+	background:transparent url(../images/inlineAlert/alertbackground_top_left.gif) no-repeat;
+}
+.inlineAlert_4@THEME_CSS@ .topMiddle@THEME_CSS@ {
+	background:transparent url(../images/inlineAlert/alertbackground_top.gif) top repeat-x;
+}
+.inlineAlert_4@THEME_CSS@ .topRightCorner@THEME_CSS@ {
+	background:transparent url(../images/inlineAlert/alertbackground_top_right.gif) no-repeat;
+}
+.inlineAlert_4@THEME_CSS@ .middleRow@THEME_CSS@ {
+	background-color:#FFF7C8;
+}
+.inlineAlert_4@THEME_CSS@ .leftMiddle@THEME_CSS@ {
+	background:#FFF7C8 url(../images/inlineAlert/alertbackground_middle.gif) top left repeat-x;
+	border-left-color:#EDE18D;
+} 
+.inlineAlert_4@THEME_CSS@ .middle@THEME_CSS@ {
+	background:#FFF7C8 url(../images/inlineAlert/alertbackground_middle.gif) top left repeat-x;
+} 
+.inlineAlert_4@THEME_CSS@ .middle@THEME_CSS@ .details@THEME_CSS@ a {
+	color:#003399;
+	text-decoration:none;
+}
+.inlineAlert_4@THEME_CSS@ .middle@THEME_CSS@ .details@THEME_CSS@ a:hover {
+	text-decoration:underline;
+}
+.inlineAlert_4@THEME_CSS@ .rightMiddle@THEME_CSS@ {
+	background:#FFF7C8 url(../images/inlineAlert/alertbackground_middle.gif) top left repeat-x;
+	border-right-color:#EDE18D;
+}
+.inlineAlert_4@THEME_CSS@ .bottomLeftCorner@THEME_CSS@ {
+	background:transparent url(../images/inlineAlert/alertbackground_bottom_left.gif) no-repeat;
+}
+.inlineAlert_4@THEME_CSS@ .bottomMiddle@THEME_CSS@ {
+	background-color:#FFF7C8;
+	border-bottom-color:#E6DDA2;
+}
+.inlineAlert_4@THEME_CSS@ .bottomRightCorner@THEME_CSS@ {
+	background:transparent url(../images/inlineAlert/alertbackground_bottom_right.gif) no-repeat;}
+/*---*/
+
+/* HELP WINDOW */
+body.HlpBdy@THEME_CSS@ {
+	background-color:#FFF;
+	color:#000000;
+	border-left-color:#A8B0B5;
+}
+.HlpMstTtlBdy@THEME_CSS@ {
+	background-color:#E5E9ED;
+}
+.HlpBtnDiv@THEME_CSS@ {
+	background:#E5E9ED url(../images/tabs/background_border_bottom.gif) bottom left repeat-x;
+}
+/*---*/
+
+/* HELPINLINE [originalName: INLINE HELP]*/
+.inlinePageHelp@THEME_CSS@, .inlineFieldHelp@THEME_CSS@ {
+	color:#707277;
+}
+ .inlinePageHelp@THEME_CSS@ a, a.HlpPgeLnk@THEME_CSS@:link, a.HlpPgeLnk@THEME_CSS@:visited, a.HlpFldLnk@THEME_CSS@:link, a.HlpFldLnk@THEME_CSS@:visited {
+	color:#003399;
+	text-decoration:none;
+}
+.inlinePageHelp@THEME_CSS@ a:hover, a.HlpPgeLnk@THEME_CSS@:hover, a.HlpFldLnk@THEME_CSS@:hover {
+	color:#003399;
+	text-decoration:underline;
+}
+/*---*/
+
+/* CHECKBOXES AND RADIO BUTTONS */
+.CbDis@THEME_CSS@, .RbDis@THEME_CSS@ {
+	color:#848687;
+}
+/*---*/
+
+/* LABEL [originalName: GENERIC FIELD LABELS]*/
+
+.LblLev1Txt@THEME_CSS@, .LblLev2Txt@THEME_CSS@, .LblLev2smTxt@THEME_CSS@ .LblLev3Txt@THEME_CSS@ {
+	color:#000000;
+}
+.LblLev1TxtDis@THEME_CSS@, .LblLev2TxtDis@THEME_CSS@, .LblLev2smTxtDis@THEME_CSS@, .LblLev3TxtDis@THEME_CSS@ {
+	color:#7E7E7E;
+}
+.LblRqdDiv@THEME_CSS@ {
+	color:#707277;
+}
+
+/*---*/
+/* LEFT PANE HELP */
+.LftHlpMst@THEME_CSS@ {
+	background:#E5E9ED;
+}
+.LftHlpHlp@THEME_CSS@ {
+	background:#E5E9ED url(../images/leftpane/left-pane-background.gif) left top repeat-x;
+}
+.LftHlpBdy@THEME_CSS@ {
+	background-color:#FFFFFF;
+}
+.LftHlpBtm@THEME_CSS@, .LftHlpBtnBtm@THEME_CSS@ {
+	background-color:#E5E9ED;
+}
+.LftHlpTxt@THEME_CSS@, .LftHlpHlp@THEME_CSS@, .LftHlpBdy@THEME_CSS@ {
+	color:#000000;
+}
+.LftHlpBdy@THEME_CSS@, .LftHlpBtm@THEME_CSS@, .LftHlpBtnBtm@THEME_CSS@, .LftHlpMst@THEME_CSS@ {
+	border-color:#A8B0B5;
+}
+/*---*/
+/* LISTS */
+/* Regular List */
+.Lst@THEME_CSS@, .LstMno@THEME_CSS@ {
+	background:#FFFFFF url(../images/field/bg_gradient.gif) repeat-x top;
+}
+.LstDis@THEME_CSS@, .LstMnoDis@THEME_CSS@ {
+	background:#EAEDF0 url(../images/field/bg_gradient_disabled.gif) repeat-x top;
+}
+.Lst@THEME_CSS@, .LstDis@THEME_CSS@, .LstMno@THEME_CSS@, .LstMnoDis@THEME_CSS@ {
+	border-top-color:#686B6E;
+	border-right-color:#CDCDCF;
+	border-bottom-color:#CDCDCF;
+	border-left-color:#CDCDCF;
+}
+.Lst@THEME_CSS@, .LstOpt@THEME_CSS@, .LstOptSel@THEME_CSS@, .LstOptGrp@THEME_CSS@, .LstMno@THEME_CSS@, .LstMno@THEME_CSS@ .LstOptGrp@THEME_CSS@ {
+	color:#333;
+}
+.LstOptSep@THEME_CSS@, .LstOptDis@THEME_CSS@ {
+	color:#848687;
+}
+.LstDis@THEME_CSS@, .LstDis@THEME_CSS@ option, .LstDis@THEME_CSS@ .LstOptGrp@THEME_CSS@, .LstMnoDis@THEME_CSS@, .LstMnoDis@THEME_CSS@ option, .LstMnoDis@THEME_CSS@ .LstOptGrp@THEME_CSS@ {
+	background-color:#EAEDF0;
+	color:#848687;
+}
+/*---*/
+
+/* MESSAGE AND MESSAGE GROUPS */
+.MsgFldSumTxt@THEME_CSS@ {
+    color:#C00;
+}
+.MsgFldTxt@THEME_CSS@ {
+    color:#C00;
+}
+.MsgGrpTbl@THEME_CSS@ {
+    border:solid 1px #C00;
+    margin-top:10px;
+}
+.MsgGrpTbl@THEME_CSS@ td {
+    background-color:#FAEDED;
+}
+.MsgGrpTblTtl@THEME_CSS@ {
+    color:#000;
+    background-color:#FAEDED;
+}
+.MsgGrpDiv@THEME_CSS@ ul {
+    color:#C00;
+    list-style-type:square;
+}
+.MsgGrpSumTxt@THEME_CSS@ {
+    color:#000;
+}
+.MsgGrpTxt@THEME_CSS@ {
+    color:#333;
+}
+/*---*/
+
+/* PROPERTY SHEET */
+/* [check overwrite classes on css_ie55up.css] */
+.ConLin@THEME_CSS@ {
+	margin:10px 0 10px 10px;
+	background-color:#92A2AA;
+	width:100%;
+}
+.ConFldSetLgdDiv@THEME_CSS@, .ConSubSecTtlTxt@THEME_CSS@, .ConFldSetLgd@THEME_CSS@ {
+	color:#000000;
+}
+.ConDefTxt@THEME_CSS@, .ConRqdTxt@THEME_CSS@ {
+	color:#707277;
+}
+.ConErrLblTxt@THEME_CSS@ {
+	color:#C00;
+}
+.ConWrnLblTxt@THEME_CSS@ {
+	color:#C90;
+}
+a.JmpLnk@THEME_CSS@, a.JmpTopLnk@THEME_CSS@ {
+	color:#003399;
+}
+a.JmpLnk@THEME_CSS@:link, a.JmpLnk@THEME_CSS@:visited {
+	text-decoration:none;
+	vertical-align:top;
+}
+a.JmpLnk@THEME_CSS@:hover {
+	text-decoration:underline;
+	vertical-align:top;
+}
+a.JmpTopLnk@THEME_CSS@:link, a.JmpTopLnk@THEME_CSS@:visited {
+	text-decoration:none;
+}
+a.JmpTopLnk@THEME_CSS@:hover {
+	text-decoration:underline;
+}
+/*---*/
+/* CONTENTPAGETITLE [originalName: PAGE TITLE]*/
+.TtlLin@THEME_CSS@ {
+	background-color:#81939B;
+}
+span.TtlTxt@THEME_CSS@, h1.TtlTxt@THEME_CSS@ {
+	color:#000;
+}
+.TtlVewLbl@THEME_CSS@ {
+	color:#5F6466;
+}
+/*---*/
+/* TABSET [originalName: LEVEL TABS]*/
+.Tab1Div@THEME_CSS@, .Tab1Div@THEME_CSS@ .Tab1TblSpcTd@THEME_CSS@ {
+	background:#E5E9ED url(../images/tabs/background_border_bottom.gif) left bottom repeat-x;
+} 
+a.Tab1Lnk@THEME_CSS@:link, a.Tab1Lnk@THEME_CSS@:visited  {
+	color:#000;
+	text-decoration:none;
+}
+a.Tab1Lnk@THEME_CSS@:hover {
+	text-decoration:underline;
+}
+.Tab1Div@THEME_CSS@ td {
+	border-color: #80929B;
+	background:#FCFFFF url(../images/tabs/level1_deselect.jpg) left top repeat-x;
+}.Tab1Tbl2New@THEME_CSS@ .Tab1SelTxtLeft@THEME_CSS@ {
+	background-image:url(../images/tabs/level1_selected-left.jpg);
+}.Tab1Tbl2New@THEME_CSS@ .Tab1SelTxtNew@THEME_CSS@{
+	background-image:url(../images/tabs/level1_selected-right.jpg);
+}
+.Tab1TblNew@THEME_CSS@ .Tab1TblSelTd@THEME_CSS@ {
+	background-color:#FFFFFF ;
+	background-image:url(../images/tabs/level1_selected-1lvl.jpg);
+}
+.Tab1Tbl2New@THEME_CSS@ .Tab1TblSelTd@THEME_CSS@, .Tab1Tbl3New@THEME_CSS@ .Tab1TblSelTd@THEME_CSS@ {
+	background-color:#EEF0F4;
+	background-image:url(../images/tabs/level1_selected-middle.jpg);
+}
+/* LEVEL 2 TABS */
+.Tab2Div@THEME_CSS@ {
+	background:#F1F3F6 url(../images/tabs/background_border_bottom.gif) left bottom repeat-x;
+}
+a.Tab2Lnk@THEME_CSS@:link, a.Tab2Lnk@THEME_CSS@:visited {
+	color:#000;
+	text-decoration:none;
+}
+a.Tab2Lnk@THEME_CSS@:hover {
+	text-decoration:underline;
+}
+.Tab2Div@THEME_CSS@ td {
+	border-color:#80929B;
+	background:#FCFFFF url(../images/tabs/level2_deselect.jpg) left top repeat-x;
+}.Tab2Tbl3New@THEME_CSS@ .Tab2SelTxtLeft@THEME_CSS@ {
+	background-image:url(../images/tabs/level2_selected-left.jpg);
+}.Tab2Tbl3New@THEME_CSS@ .Tab2SelTxt@THEME_CSS@ {
+	background-image:url(../images/tabs/level2_selected-right.jpg);
+}.Tab2TblNew@THEME_CSS@ .Tab2TblSelTd@THEME_CSS@ {
+	border-color:#80929B;	background-image:url(../images/tabs/level2_selected.gif);
+}.Tab2Tbl3New@THEME_CSS@ .Tab2TblSelTd@THEME_CSS@ {
+	border-color:#80929B;
+	background:#F8F9FB url(../images/tabs/level2_selected-middle.jpg) left top repeat-x;
+}
+.Tab2Div@THEME_CSS@ {
+	padding:6px 0px 0px 10px;
+}
+.Tab2Div@THEME_CSS@ table {
+	border-collapse:collapse;
+}
+.Tab2Div@THEME_CSS@ td.Tab2TblSelTd@THEME_CSS@ {
+	border-bottom:none;
+}
+/* LEVEL 3 TABS*/
+.Tab3Div@THEME_CSS@ {
+	background:#F8F9FA url(../images/tabs/background_border_bottom.gif) right bottom repeat-x;
+}
+.Tab3Div@THEME_CSS@ td {
+	border-color:#80929B;
+}
+.Tab3Div@THEME_CSS@ table {
+	border-collapse:collapse;
+}
+a.Tab3Lnk@THEME_CSS@:link,a.Tab3Lnk@THEME_CSS@:visited {
+	color:#000;
+	text-decoration:none;
+}
+a.Tab3Lnk@THEME_CSS@:hover {
+	text-decoration:underline;
+}
+table.Tab3TblNew@THEME_CSS@ {
+	background-color:#E2E7EA;
+}
+table.Tab3TblNew@THEME_CSS@ td {
+	border-bottom-color:#80929B;
+	background:#FCFFFF url(../images/tabs/level3_deselect.jpg) left top repeat-x;
+}.Tab3TblNew@THEME_CSS@ td.Tab3TblSelTd@THEME_CSS@ {
+	border-color:#80929B;
+	background:#FFFFFF url(../images/tabs/level3_selected.jpg) left top repeat-x;
+}
+/* MINI-TABS */
+.MniTabDiv@THEME_CSS@ {
+	background:#E5E9ED url(../images/tabs/background_border_bottom.gif) bottom left repeat-x;
+}
+table.MniTabTbl@THEME_CSS@ td {
+	border-color:#80929B;
+	background:#FCFFFF url(../images/tabs/minitab_deselect.jpg) left top repeat-x;
+}
+a.MniTabLnk@THEME_CSS@:link,a.MniTabLnk@THEME_CSS@:visited {
+	color:#000;
+	text-decoration:none;
+}
+a.MniTabLnk@THEME_CSS@:hover {
+	text-decoration:underline;
+}
+.MniTabSelTxt@THEME_CSS@ {
+	color:#000;
+	text-decoration:none;
+}
+table.MniTabTbl@THEME_CSS@ td.MniTabTblSelTd@THEME_CSS@ {
+	background:#FFFFFF url(../images/tabs/minitab_selected.jpg) left top repeat-x;
+	border-color:#80929B;
+}
+/* MINI-TABS - LIGHTWEIGHT */
+.TabGrp@THEME_CSS@ .TabGrpBox@THEME_CSS@ {
+	border-color:#80929B;
+}
+.TabGrp@THEME_CSS@ .MniTabDiv@THEME_CSS@ {
+	background-color:transparent;
+	background-image:url(../images/tabs/background_border_bottom.gif);
+}
+/*---*/
+/* TEXT AND PASSWORD FIELDS */
+
+.TxtFld@THEME_CSS@, .TxtAra@THEME_CSS@ {
+	background:#FFFFFF url(../images/field/bg_gradient.gif) repeat-x top;
+}
+
+.TxtFldDis@THEME_CSS@, .TxtAraDis@THEME_CSS@ {
+	background:#EAEDF0 url(../images/field/bg_gradient_disabled.gif) repeat-x top;
+	color:#7E7E7E;
+}
+
+.TxtFld@THEME_CSS@Sel {
+	background:#A0BBD8 url(../images/field/bg_gradient_selected.gif) repeat-x top;
+}
+
+.TxtFld@THEME_CSS@, .TxtFldDis@THEME_CSS@, .TxtAra@THEME_CSS@, .TxtAraDis@THEME_CSS@ {
+	border-top-color:#9D9FA1;
+	border-right-color:#AEAFB0;
+	border-bottom-color:#B9B9BA;
+	border-left-color:#AEAFB0;
+}
+
+/*---*/
+
+/* MENUS */
+
+.MnuJmpOptGrp@THEME_CSS@, .MnuStdOptGrp@THEME_CSS@ {color:#000;}
+
+.MnuStdOpt@THEME_CSS@, .MnuStdOptSel@THEME_CSS@, .MnuStd@THEME_CSS@ {color:#333;}
+
+.MnuJmpOpt@THEME_CSS@, .MnuJmpOpt@THEME_CSS@:hover, .MnuJmp@THEME_CSS@ {color:#0A3A9C;}
+
+.MnuJmpOptSep@THEME_CSS@, .MnuJmpOptDis@THEME_CSS@, .MnuStdOptSep@THEME_CSS@, .MnuStdOptDis@THEME_CSS@, .MnuJmpDis@THEME_CSS@, .MnuStdDis@THEME_CSS@ {
+	color:#848687;
+	border-top-color:#9D9FA1;
+	border-right-color:#AEAFB0;
+	border-bottom-color:#B9B9BA;
+	border-left-color:#AEAFB0;
+}
+
+.MnuJmpOpt@THEME_CSS@:hover {text-decoration:underline;}
+
+.MnuJmp@THEME_CSS@, .MnuStd@THEME_CSS@ {
+	background:#FFFFFF url(../images/field/bg_gradient.gif) repeat-x top;
+	border-top-color:#9D9FA1;
+	border-right-color:#AEAFB0;
+	border-bottom-color:#B9B9BA;
+	border-left-color:#AEAFB0;
+}
+
+.MnuJmpOptSel@THEME_CSS@ {font-weight:normal;}
+
+.MnuJmpOptGrp@THEME_CSS@, .MnuStdOptGrp@THEME_CSS@ {font-weight:normal;font-style:normal;}
+
+/*---*/
+
+/* MASTHEAD */
+
+span.MstLbl@THEME_CSS@, span.MstTxt@THEME_CSS@, span.MstUsrRole@THEME_CSS@, span.MstAlmDwnTxt@THEME_CSS@, span.MstAlmCrtTxt@THEME_CSS@, span.MstAlmMajTxt@THEME_CSS@, span.MstAlmMinTxt@THEME_CSS@,
+a.MstUsrLnk@THEME_CSS@:link, a.MstUsrLnk@THEME_CSS@:visited, a.MstAlmLnk@THEME_CSS@:link, a.MstAlmLnk@THEME_CSS@:visited, a.MstPrgLnk@THEME_CSS@:link, a.MstPrgLnk@THEME_CSS@:visited {
+	color:#FFFFFF;
+}
+
+a.MstUsrLnk@THEME_CSS@:hover, a.MstAlmLnk@THEME_CSS@:hover, a.MstPrgLnk@THEME_CSS@:hover,
+a.MstUsrLnk@THEME_CSS@:link, a.MstUsrLnk@THEME_CSS@:visited, a.MstAlmLnk@THEME_CSS@:link, a.MstAlmLnk@THEME_CSS@:visited, a.MstPrgLnk@THEME_CSS@:link, a.MstPrgLnk@THEME_CSS@:visited {
+	text-decoration:underline;
+}
+
+.MstBdy@THEME_CSS@ {
+	background-color:#5B87A5;
+}
+
+.MstTblEnd@THEME_CSS@ {
+	background-color:#5B87A5;
+}
+.MstTblBot@THEME_CSS@ .hrule@THEME_CSS@{
+	border-top-color:#3E637E;
+	background-color:#7196B0;
+}	
+
+.MstDiv@THEME_CSS@ {
+	background:#5B87A5 url(../images/masthead/masthead-background.jpg) top left repeat-x;
+	border-color:#000000;
+}
+.MstSec@THEME_CSS@ {
+	background:#5B87A5 url(../images/masthead/sec-masthead-background.jpg) top left repeat-x;
+	border-color:#000000;
+}
+.MstFooter@THEME_CSS@ {
+	background-color:#5B87A5;
+	border-color:#000000;
+}
+
+a.MstLnk@THEME_CSS@:hover, a.MstLnkLft@THEME_CSS@:hover, a.MstLnkRt@THEME_CSS@:hover, a.MstLnkCen@THEME_CSS@:hover {
+	background-color:#EAF9FF;
+	background-image:url(../images/masthead/masthead_link_roll.gif);
+}
+
+a.MstLnk@THEME_CSS@:link, a.MstLnk@THEME_CSS@:visited, a.MstLnkLft@THEME_CSS@:link, a.MstLnkLft@THEME_CSS@:visited, a.MstLnkRt@THEME_CSS@:link, a.MstLnkRt@THEME_CSS@:visited, a.MstLnkCen@THEME_CSS@:link, a.MstLnkCen@THEME_CSS@:visited {
+	background-color:#D9E6EC;
+	background-image:url(../images/masthead/masthead_link_enabled.gif);
+	color:#000;
+	text-decoration:none;
+	border-top-color:#2D3C46;
+	border-bottom-color:#0E1418;
+	border-left-color:#1C262D;
+}
+
+a.MstLnk@THEME_CSS@:link, a.MstLnk@THEME_CSS@:visited, a.MstLnkRt@THEME_CSS@:link, a.MstLnkRt@THEME_CSS@:visited {
+	border-right-color:#1C262D;
+}
+/*---*/
+/* TABLE [originalName: ACTION TABLE] */
+.Tbl@THEME_CSS@ {
+	border-color:#A0A3A5;
+	border-top-color:#35556A;
+	background-color:#E5E9ED;
+	color:#000;
+}
+table.Tbl@THEME_CSS@ td, table.Tbl@THEME_CSS@ th {border-color:#CAD0D2;	background-color:#fff;}
+/* Table Caption/Title */
+table.Tbl@THEME_CSS@ caption.TblTtlTxt@THEME_CSS@ {
+	color:#fff;
+	background:#36586F url(../images/table/table_titlebar_gradient.gif) bottom left repeat-x;
+}
+caption.TblTtlTxt@THEME_CSS@ span.TblTtlMsgSpn@THEME_CSS@ {color:#fff;}
+/* Action Bar */
+table.Tbl@THEME_CSS@ td.TblActTdLst@THEME_CSS@ {border-top-color:#e5e5e5;background-color:#E5E9ED;}
+table.Tbl@THEME_CSS@ td.TblActTd@THEME_CSS@ {background-color:#E5E9ED;} 
+/* Selection Column - Headers */
+table.Tbl@THEME_CSS@ th.TblColHdrSel@THEME_CSS@ {border-top-color:#81939B;border-left-color:#81939B;border-bottom-color:#81939B;background-color:#f8f8f9;}
+table.Tbl@THEME_CSS@ th.TblColHdrSrtSel@THEME_CSS@ {
+	background:#f8f8f9  url(../images/table/column_hdr_sort_gradient.gif) left bottom repeat-x;
+	border-top-color:#959aa5;
+	border-left-color:#959aa5;
+	border-bottom-color:#828da4;
+}
+table.Tbl@THEME_CSS@ th.TblColHdrSel@THEME_CSS@ a.TblHdrLnk@THEME_CSS@:link, table.Tbl@THEME_CSS@ th.TblColHdrSel@THEME_CSS@ a.TblHdrLnk@THEME_CSS@:visited, table.Tbl@THEME_CSS@ th.TblColHdrSel@THEME_CSS@ a.TblHdrLnk@THEME_CSS@:hover   {background-color:#fff;text-decoration:none;}
+table.Tbl@THEME_CSS@ th.TblColHdrSrtSel@THEME_CSS@ a.TblHdrImgLnk@THEME_CSS@:link, table.Tbl@THEME_CSS@ th.TblColHdrSrtSel@THEME_CSS@ a.TblHdrImgLnk@THEME_CSS@:visited {border-left-color:#C7C8CA;color:#336699;text-decoration:none;}
+table.Tbl@THEME_CSS@ th.TblColHdrSrtSel@THEME_CSS@ a.TblHdrImgLnk@THEME_CSS@:hover {color:#003399;}
+table.Tbl@THEME_CSS@ th.TblColHdrSrtSel@THEME_CSS@ a.TblHdrLnk@THEME_CSS@:link,table.Tbl@THEME_CSS@  th.TblColHdrSrtSel@THEME_CSS@ a.TblHdrLnk@THEME_CSS@:visited {color:#000000;text-decoration:none;}
+table.Tbl@THEME_CSS@ th.TblColHdrSel@THEME_CSS@ a.TblHdrLnk@THEME_CSS@:link,
+table.Tbl@THEME_CSS@ th.TblColHdrSel@THEME_CSS@ a.TblHdrLnk@THEME_CSS@:visited {background:#f8f8f9 url(../images/table/column_hdr_gradient.gif) repeat-x left bottom;}
+table.Tbl@THEME_CSS@ th.TblColHdrSel@THEME_CSS@ a.TblHdrLnk@THEME_CSS@:hover {background:#fdfefe url(../images/table/column_hdr_hov_gradient.gif) repeat-x left bottom;}
+table.Tbl@THEME_CSS@ th.TblColHdrSrtSel@THEME_CSS@ a.TblHdrImgLnk@THEME_CSS@:hover {background-color:#f8f8f9; background-image:url(../images/table/column_hdr_sort_hov_gradient.gif);}
+table.Tbl@THEME_CSS@ th.TblColHdrSrtSel@THEME_CSS@ a.TblHdrImgLnk@THEME_CSS@:hover {background-repeat:repeat-x;background-position:left bottom;}
+table.Tbl@THEME_CSS@ th.TblColHdrSrtSel@THEME_CSS@ a.TblHdrLnk@THEME_CSS@:hover {background-color:#f8f8f9; background-image:url(../images/table/column_hdr_sort_hov_gradient.gif);}
+table.Tbl@THEME_CSS@ th.TblColHdrSrtSel@THEME_CSS@ a.TblHdrLnk@THEME_CSS@:hover {background-repeat:repeat-x;background-position:left bottom;}
+table.Tbl@THEME_CSS@ th.TblColHdrSrtSel@THEME_CSS@ a.TblHdrImgLnk@THEME_CSS@:link, th.TblColHdrSrtSel@THEME_CSS@ a.TblHdrImgLnk@THEME_CSS@:visited {background:none;}
+table.Tbl@THEME_CSS@ th.TblColHdrSrtSel@THEME_CSS@ a.TblHdrLnk@THEME_CSS@:link, th.TblColHdrSrtSel@THEME_CSS@ a.TblHdrLnk@THEME_CSS@:visited {background:none;}
+/* Selection Column - Cells */
+table.Tbl@THEME_CSS@ td.TblTdSel@THEME_CSS@ {background-color:#FFFFFF;}
+table.Tbl@THEME_CSS@ td.TblTdSrtSel@THEME_CSS@ {background-color:#e5e9ed;}
+/* Regular Column Headers */
+table.Tbl@THEME_CSS@ th.TblColHdr@THEME_CSS@ {border-color:#81939B;background-color:#FFFFFF;}
+table.Tbl@THEME_CSS@ .TblHdrTxt@THEME_CSS@ {color:#000000;text-decoration:none;background:#f8f8f9 url(../images/table/column_hdr_gradient.gif) repeat-x left bottom;}
+table.Tbl@THEME_CSS@ a.TblHdrLnk@THEME_CSS@:link, table.Tbl@THEME_CSS@ a.TblHdrLnk@THEME_CSS@:visited {background-color:#f8f8f9;background-position:left bottom;color:#000000;text-decoration:none; background-image:url(../images/table/column_hdr_gradient.gif);}
+table.Tbl@THEME_CSS@ a.TblHdrLnk@THEME_CSS@:link, table.Tbl@THEME_CSS@ a.TblHdrLnk@THEME_CSS@:visited {background-repeat:repeat-x;background-position:left bottom;}
+table.Tbl@THEME_CSS@ a.TblHdrLnk@THEME_CSS@:hover {color:#000000;text-decoration:underline;background-color:#fdfefe; background-image:url(../images/table/column_hdr_hov_gradient.gif);}
+table.Tbl@THEME_CSS@ a.TblHdrLnk@THEME_CSS@:hover {background-repeat:repeat-x;background-position:left bottom;}
+table.Tbl@THEME_CSS@ a.TblHdrImgLnk@THEME_CSS@:link, table.Tbl@THEME_CSS@ a.TblHdrImgLnk@THEME_CSS@:visited {background-color:#f8f8f9;color:#336699;text-decoration:none;border-left-color:#DBE0E3; background-image:url(../images/table/column_hdr_gradient.gif);}
+table.Tbl@THEME_CSS@ a.TblHdrImgLnk@THEME_CSS@:link, table.Tbl@THEME_CSS@ a.TblHdrImgLnk@THEME_CSS@:visited {background-repeat:repeat-x;background-position:left bottom;}
+table.Tbl@THEME_CSS@ a.TblHdrImgLnk@THEME_CSS@:hover {color:#336699; background-image:url(../images/table/column_hdr_hov_gradient.gif);}
+table.Tbl@THEME_CSS@ a.TblHdrImgLnk@THEME_CSS@:hover {background-repeat:repeat-x;background-position:left bottom;}
+table.TblHdrTbl@THEME_CSS@ {background:none;}
+table.TblHdrTbl@THEME_CSS@ td {background:none;}
+/* Current Sort Column */
+table.Tbl@THEME_CSS@ th.TblColHdrSrt@THEME_CSS@ {
+	border-color:#81939B;
+	background:#f8f8f9  url(../images/table/column_hdr_sort_gradient.gif) left bottom repeat-x; 	
+}
+table.Tbl@THEME_CSS@ th.TblColHdrSrt@THEME_CSS@ a.TblHdrLnk@THEME_CSS@:link, table.Tbl@THEME_CSS@ th.TblColHdrSrt@THEME_CSS@ a.TblHdrLnk@THEME_CSS@:visited {color:#000000;text-decoration:none;}
+table.Tbl@THEME_CSS@ th.TblColHdrSrt@THEME_CSS@ a.TblHdrImgLnk@THEME_CSS@:link, table.Tbl@THEME_CSS@ th.TblColHdrSrt@THEME_CSS@ a.TblHdrImgLnk@THEME_CSS@:visited {color:#336699;border-left-color:#C7C8CA;text-decoration:none;}
+table.Tbl@THEME_CSS@ th.TblColHdrSrt@THEME_CSS@ a.TblHdrLnk@THEME_CSS@:hover {
+	color:#000000;
+	text-decoration:underline;
+	background-color:#f8f8f9;
+	background-image:url(../images/table/column_hdr_sort_hov_gradient.gif);
+	background-position:left bottom;
+	background-repeat:repeat-x;
+}
+table.Tbl@THEME_CSS@ th.TblColHdrSrt@THEME_CSS@ a.TblHdrImgLnk@THEME_CSS@:hover {
+	color:#003399;
+	background-color:#f8f8f9;
+   	background-image:url(../images/table/column_hdr_sort_hov_gradient.gif);
+	background-repeat:repeat-x;
+	background-position:left bottom;
+}
+
+table.Tbl@THEME_CSS@ span.TblColHdrSrtDis@THEME_CSS@ {
+	color:#000000;
+	text-decoration:none;
+	border-left-color:#C7C8CA;
+	background:none;
+}
+table.Tbl@THEME_CSS@ span.TblColHdrSelDis@THEME_CSS@ {
+	background-color:#f8f8f9;
+	color:#000000;
+	text-decoration:none;
+	border-left-color:#DBE0E3;
+       	background-image:url(../images/table/column_hdr_gradient.gif);
+	background-repeat:repeat-x;
+	background-position:left bottom;
+}
+table.Tbl@THEME_CSS@ th.TblColHdrSrt@THEME_CSS@ table.TblHdrTbl@THEME_CSS@ {background:none;}
+table.Tbl@THEME_CSS@ th.TblColHdrSrt@THEME_CSS@ a.TblHdrLnk@THEME_CSS@:link, table.Tbl@THEME_CSS@ th.TblColHdrSrt@THEME_CSS@ a.TblHdrLnk@THEME_CSS@:visited {background:none;}
+table.Tbl@THEME_CSS@ th.TblColHdrSrt@THEME_CSS@ a.TblHdrImgLnk@THEME_CSS@:link, table.Tbl@THEME_CSS@ th.TblColHdrSrt@THEME_CSS@ a.TblHdrImgLnk@THEME_CSS@:visited {background:none;border-left-color:#C7C8CA;}
+/* Multi-Column Headers */ 
+table.Tbl@THEME_CSS@ th.TblMultColHdr@THEME_CSS@ {border-left-color:#81939B;border-bottom-color:#81939B;background-color:#fff;}
+.TblMultHdrTxt@THEME_CSS@ {color:#000000;}
+table.Tbl@THEME_CSS@ th.TblMultHdr@THEME_CSS@ {background-color:#fff;border-top-color:#81939B;border-left-color:#81939B;}
+table.Tbl@THEME_CSS@ th.TblMultColHdr@THEME_CSS@ a.TblHdrLnk@THEME_CSS@:link, table.Tbl@THEME_CSS@ th.TblMultColHdr@THEME_CSS@ a.TblHdrLnk@THEME_CSS@:visited {color:#000000;text-decoration:none;}
+table.Tbl@THEME_CSS@ th.TblMultColHdr@THEME_CSS@ a.TblHdrLnk@THEME_CSS@:hover {text-decoration:underline;}
+table.Tbl@THEME_CSS@ th.TblMultColHdrSrt@THEME_CSS@ {border-left-color:#CAD0D2;border-bottom-color:#81939B;background-color:#E2E4E9;background-image:url(../images/table/mult_column_hdr_sort_gradient.gif);background-repeat:repeat-x}
+table.Tbl@THEME_CSS@ th.TblMultColHdrSrt@THEME_CSS@ a.TblHdrLnk@THEME_CSS@:link, table.Tbl@THEME_CSS@ th.TblMultColHdrSrt@THEME_CSS@ a.TblHdrLnk@THEME_CSS@:visited {background:none;color:#000000;text-decoration:none;}
+table.Tbl@THEME_CSS@ th.TblMultColHdrSrt@THEME_CSS@ a.TblHdrLnk@THEME_CSS@:hover {background-color:#f8f8f9; color:#000000;text-decoration:underline; background-image:url(../images/table/column_hdr_sort_hov_gradient.gif);}
+table.Tbl@THEME_CSS@ th.TblMultColHdrSrt@THEME_CSS@ a.TblHdrImgLnk@THEME_CSS@:link, table.Tbl@THEME_CSS@ th.TblMultColHdrSrt@THEME_CSS@ a.TblHdrImgLnk@THEME_CSS@:visited {background:none;color:#336699;text-decoration:none;border-left-color:#C7C8CA;}
+table.Tbl@THEME_CSS@ th.TblMultColHdrSrt@THEME_CSS@ a.TblHdrImgLnk@THEME_CSS@:hover {background-color:#f8f8f9;color:#003399; background-image:url(../images/table/column_hdr_sort_hov_gradient.gif);}
+/* Sorted Cells */
+table.Tbl@THEME_CSS@ .TblTdSrt@THEME_CSS@ {background-color:#e5e9ed;}
+table.Tbl@THEME_CSS@ .TblColFtrSpc@THEME_CSS@ {border-bottom-color:#CAD0D2;border-top-color:#E5E9ED;background-color:#fff;} 
+/* Spacer Colums */
+table.Tbl@THEME_CSS@ th.TblTdSpc@THEME_CSS@ {border-color:#81939B;;background-color:#fff;}
+/* Alarm Cells */
+table.Tbl@THEME_CSS@ .TblTdAlm@THEME_CSS@, table.Tbl@THEME_CSS@ .TblTdSrtAlm@THEME_CSS@ {background-color:#FFFEE7;}
+/*Other Table Content Styles*/
+table.Tbl@THEME_CSS@ a:link, table.Tbl@THEME_CSS@ a:visited {color:#003399;text-decoration:none;}
+table.Tbl@THEME_CSS@ a:hover {color:#003399;text-decoration:underline;}
+.TblMsgTxt@THEME_CSS@ {color:#000000;}
+/* Mouseover and Row Selection Styles */
+table.Tbl@THEME_CSS@ tr.TblSelRow@THEME_CSS@ td, table.Tbl@THEME_CSS@ tr.TblSelRow@THEME_CSS@ th {background-color:#90B7D0;}
+/*Table Sub-Grouping */
+table.Tbl@THEME_CSS@ .TblGrpRow@THEME_CSS@ {
+	border-left-color:#CAD0D2;
+   	border-bottom-color:#CAD0D2;
+   	border-top-color:#E5E9ED;
+	background:#fff url(../images/table/grouprow_gradient.gif) left bottom repeat-x; 
+}	
+.TblGrpTxt@THEME_CSS@ {color:#000000;text-decoration:none;}
+.TblGrpTxt@THEME_CSS@ {color:#000000;margin:0px 3px;}
+table.Tbl@THEME_CSS@ .TblGrpMsgTxt@THEME_CSS@ {color:#000000;}
+/* Table Footers */
+/* Table Column-level Footer */
+table.Tbl@THEME_CSS@ .TblColFtr@THEME_CSS@ {border-bottom-color:#CAD0D2;border-top-color:#E5E9ED;background-color:#fff;} 
+table.Tbl@THEME_CSS@ .TblColFtrSrt@THEME_CSS@ {background-color:#e5e9ed;border-bottom-color:#CAD0D2;border-top-color:#E5E9ED;}
+.TblColFtrTxt@THEME_CSS@ {color:#000000;}
+/* Table Overall Footer */ 
+table.Tbl@THEME_CSS@ td.TblFtrRow@THEME_CSS@ {background-color:#E5E9ED;}
+table.Tbl@THEME_CSS@ .TblFtrRowTxt@THEME_CSS@ {color:#000000;}
+table.Tbl@THEME_CSS@ .TblFtrLft@THEME_CSS@ {color:#000000;}
+/*Table Group Column-Level Footer */
+table.Tbl@THEME_CSS@ .TblGrpColFtr@THEME_CSS@ {border-bottom-color:#CAD0D2;background-color:#fff;}
+table.Tbl@THEME_CSS@ .TblGrpColFtrSrt@THEME_CSS@ {border-bottom-color:#CAD0D2;background-color:#e5e9ed;}
+.TblGrpFtrRowTxt@THEME_CSS@ {color:#000000;}
+/* Embedded Table Panels */
+table.Tbl@THEME_CSS@ td.TblPnlTd@THEME_CSS@ {background-color:#E5E9ED;}
+.TblPnlLytDiv@THEME_CSS@ {border-top-color:#A3AAAC;}
+.TblPnlShd3Div@THEME_CSS@ {}
+.TblPnlShd2Div@THEME_CSS@ {}
+.TblPnlShd1Div@THEME_CSS@ {
+	border-top-color:#4c4f53 ;
+	border-right-color:#76797C;
+	border-bottom-color:#8C8F91;
+	border-left-color:#76797C;
+}
+.TblPnlDiv@THEME_CSS@ {
+	background-color:#FFFFFF;
+	border-top:1px solid #CBCCCD;
+}
+.TblPnlBtnDiv@THEME_CSS@ {
+   border-top-color:#81939B;
+} 
+.TblPnlTtl@THEME_CSS@ {color:#000000;}
+.TblCstFltMnu@THEME_CSS@ {background-color:#90B7D0;color:#003399;border-right-color:#AEAFB0;border-bottom-color:#B9B9BA;}
+table.Tbl@THEME_CSS@ div.TblPnlDiv@THEME_CSS@ td {background:transparent;}
+.TblPnlCnt@THEME_CSS@ {background:none;}
+.TblPnlHlpTxt@THEME_CSS@ {
+   background:#DBE5ED url(../images/table/tipbackground.gif) top left repeat-x;
+   border-top-color:#758B9B;
+   border-right-color:#9CB6C7;
+   border-bottom-color:#CADDED;
+   border-left-color:#9CB6C7;
+} 
+/*---*/
+
+/* LIGHTWEIGHT TABLE DESIGN */
+table.TblLt@THEME_CSS@ {background-color:#fff;color:#000000;}
+/* Table Caption/Title */
+table.TblLt@THEME_CSS@ caption.TblTtlTxt@THEME_CSS@ {color:#000000;background:none;}
+table.TblLt@THEME_CSS@ caption.TblTtlTxt@THEME_CSS@ span.TblTtlMsgSpn {color:#000000;}
+/* Action Bar */
+table.TblLt@THEME_CSS@ td.TblActTd@THEME_CSS@ {background-color:#E5E9ED;border-color:#e5e5e5;}
+table.TblLt@THEME_CSS@ td.TblActTdLst@THEME_CSS@ {background-color:#E5E9ED;border-color:#e5e5e5;}
+/* Selection Column - Headers */
+table.TblLt@THEME_CSS@ th.TblColHdrSel@THEME_CSS@ {border-top-color:#81939B; border-left-color:#81939B; border-bottom-color:#81939B; background-color:#FFFFFF;}
+table.TblLt@THEME_CSS@ th.TblColHdrSrtSel@THEME_CSS@ {background-color:#f8f8f9 ;border-top-color:#959aa5;border-left-color:#959aa5;border-bottom-color:#828da4; background-image:url(../images/table/lite_column_hdr_sort_gradient.gif)}
+table.TblLt@THEME_CSS@ th.TblColHdrSel@THEME_CSS@ a.TblHdrLnk@THEME_CSS@:link {background-color:#f8f8f9;background-image:url(../images/table/lite_column_hdr_gradient.gif);background-position:left bottom}
+table.TblLt@THEME_CSS@ th.TblColHdrSel@THEME_CSS@ a.TblHdrLnk@THEME_CSS@:visited {background-color:#f8f8f9;background-image:url(../images/table/lite_column_hdr_gradient.gif);background-position:left bottom}
+table.TblLt@THEME_CSS@ th.TblColHdrSel@THEME_CSS@ a.TblHdrLnk@THEME_CSS@:hover {background-color:#fdfefe; background-image:url(../images/table/lite_column_hdr_hov_gradient.gif);background-position:left bottom}
+table.TblLt@THEME_CSS@ th.TblColHdrSrtSel@THEME_CSS@ a.TblHdrImgLnk@THEME_CSS@:hover {background-color:#f1f3f7; background-image:url(../images/table/lite_column_hdr_sort_hov_gradient.gif);background-position:left top}
+table.TblLt@THEME_CSS@ th.TblColHdrSrtSel@THEME_CSS@ a.TblHdrLnk@THEME_CSS@:hover {background-color:#f1f3f7; background-image:url(../images/table/lite_column_hdr_sort_hov_gradient.gif);background-position:left top}
+/* Regular Column Headers */
+table.TblLt@THEME_CSS@ th.TblColHdr@THEME_CSS@ {border-top-color:#81939B;border-left-color:#81939B;border-bottom-color:#81939B;background-color:#E6EBEF;}
+table.TblLt@THEME_CSS@ table.TblHdrTbl@THEME_CSS@ td {background:none;}
+table.TblLt@THEME_CSS@ a.TblHdrLnk@THEME_CSS@:link, table.TblLt@THEME_CSS@ a.TblHdrLnk@THEME_CSS@:visited {background-color:#f8f8f9;background-position:left bottom;color:#000000;text-decoration:none; background-image:url(../images/table/lite_column_hdr_gradient.gif);background-position:left bottom;}
+table.TblLt@THEME_CSS@ a.TblHdrLnk@THEME_CSS@:hover {color:#000000;text-decoration:underline;background-color:#fdfefe; background-image:url(../images/table/lite_column_hdr_hov_gradient.gif);background-position:left bottom;}
+table.TblLt@THEME_CSS@ a.TblHdrImgLnk@THEME_CSS@:link, table.TblLt@THEME_CSS@ a.TblHdrImgLnk@THEME_CSS@:visited {background-color:#f8f8f9;border-left-color:#DBE0E3;color:#336699;text-decoration:none; background-image:url(../images/table/lite_column_hdr_gradient.gif);background-position:left bottom;}
+table.TblLt@THEME_CSS@ a.TblHdrImgLnk@THEME_CSS@:hover {background-color:#fdfefe; color:#336699; background-image:url(../images/table/lite_column_hdr_hov_gradient.gif);background-position:left bottom;}
+table.TblLt@THEME_CSS@ span.TblColHdrSelDis@THEME_CSS@ {border-left-color:#DBE0E3;background-color:#f8f8f9;color:#000000;text-decoration:none; background-image:url(../images/table/lite_column_hdr_gradient.gif);background-position:left bottom;}
+table.TblLt@THEME_CSS@ .TblHdrTxt@THEME_CSS@ {background-color:#f8f8f9;color:#000000;text-decoration:none;background-image:url(../images/table/lite_column_hdr_gradient.gif);background-position:left bottom;}
+/* Current Sort Column */
+table.TblLt@THEME_CSS@ th.TblColHdrSrt@THEME_CSS@ {border-top-color:#81939B;border-left-color:#81939B;border-bottom-color:#81939B;background-color:#f8f8f9; background-image:url(../images/table/lite_column_hdr_sort_gradient.gif)}
+table.TblLt@THEME_CSS@ th.TblColHdrSrt@THEME_CSS@ a.TblHdrLnk@THEME_CSS@:hover {background-color:#f1f3f7; color:#000000;text-decoration:underline; background-image:url(../images/table/lite_column_hdr_sort_hov_gradient.gif);}
+table.TblLt@THEME_CSS@ th.TblColHdrSrt@THEME_CSS@ a.TblHdrImgLnk@THEME_CSS@:link, table.Tbl@THEME_CSS@ th.TblColHdrSrt@THEME_CSS@ a.TblHdrImgLnk@THEME_CSS@:visited {border-left-color:#C7C8CA; color:#336699; text-decoration:none;}
+table.TblLt@THEME_CSS@ th.TblColHdrSrt@THEME_CSS@ a.TblHdrImgLnk@THEME_CSS@:hover {background-color:#f1f3f7; color:#003399; background-image:url(../images/table/lite_column_hdr_sort_hov_gradient.gif);}
+/* Multi-Column Headers */
+table.TblLt@THEME_CSS@ th.TblMultColHdr@THEME_CSS@ {border-left-color:#81939B;border-bottom-color:#81939B;background-color:#E6EBEF;}
+table.TblLt@THEME_CSS@ th.TblMultHdr@THEME_CSS@ {border-top-color:#81939B;border-left-color:#81939B;background-color:#E6EBEF;}
+table.TblLt@THEME_CSS@ th.TblMultColHdrSrt@THEME_CSS@ a.TblHdrLnk@THEME_CSS@:hover {background-color:#f1f3f7;color:#000000;text-decoration:underline; background-image:url(../images/table/lite_column_hdr_sort_hov_gradient.gif);}
+table.TblLt@THEME_CSS@ th.TblMultColHdrSrt@THEME_CSS@ a.TblHdrImgLnk@THEME_CSS@:hover {background-color:#f1f3f7;color:#003399; background-image:url(../images/table/lite_column_hdr_sort_hov_gradient.gif);}
+/*Table Sub-Grouping */
+table.TblLt@THEME_CSS@ .TblGrpRow@THEME_CSS@ {background-color:#FFFFFF;border-left-color:#CAD0D2;
+   	border-bottom-color:#CAD0D2;
+   	border-top-color:#E5E9ED;}
+/* Table Footers */ 
+table.TblLt@THEME_CSS@ td.TblFtrRow@THEME_CSS@ {background-color:#fff;}
+table.TblLt@THEME_CSS@ .TblFtrRowTxt@THEME_CSS@ {color:#5F6466;}
+table.TblLt@THEME_CSS@ .TblColFtr@THEME_CSS@ {border-bottom-color:#a8b2b6;border-top-color:#A9ADB5;background-color:#fff;} 
+table.TblLt@THEME_CSS@ .TblColFtrSrt@THEME_CSS@ {background-color:#e5e9ed;border-bottom-color:#a8b2b6;border-top-color:#A9ADB5;}
+table.TblLt@THEME_CSS@ .TblColFtrSpc@THEME_CSS@ {border-bottom-color:#a8b2b6; border-top-color:#A9ADB5; background-color:#fff;} 
+/*---*/
+
+/* TREE */
+.TreTtl@THEME_CSS@ {
+	color:#000;
+}
+.Tree@THEME_CSS@ {
+	background-color:#fff;
+}
+a.TreeLink@THEME_CSS@:link, a.TreeLink@THEME_CSS@:visited {
+	color:#003399;
+	text-decoration:none;
+}
+a.TreeLink@THEME_CSS@:hover {
+	color:#003399;
+	text-decoration:underline;
+}
+a.TreeParentLink@THEME_CSS@:link, a.TreeParentLink@THEME_CSS@:visited {
+	color:#003399;
+	text-decoration:none;
+}
+a.TreeParentLink@THEME_CSS@:hover {
+	color:#003399;
+	text-decoration:underline;
+}
+a.TreeSelLink@THEME_CSS@:link, a.TreeSelLink@THEME_CSS@:visited {
+	color:#000;
+	text-decoration:none;
+}
+a.TreeSelLink@THEME_CSS@:hover {
+	color:#000;
+	text-decoration:underline;
+}
+.TreeRootRow@THEME_CSS@, .TreeRootRowHeader@THEME_CSS@ {
+	background-color:#e5e9ed;
+}
+.TreeSelRow@THEME_CSS@, .TreeRootSelRow  {
+	background-color:#90b7d0;
+}
+.TreeSelText@THEME_CSS@ {
+	color:#000;
+}
+.TreeContent@THEME_CSS@ a:link, .TreeContent@THEME_CSS@ a:visited {
+	color:#000;
+	text-decoration:none;
+}
+/*---*/
+
+/* VERSION DIALOG */
+.VrsBdy@THEME_CSS@, .VrsMgn@THEME_CSS@, .VrsBtnBdy@THEME_CSS@ {
+	background-color:#D2DBE4;
+}
+.VrsHdrTxt@THEME_CSS@, .VrsTxt@THEME_CSS@ {
+	color:#000000;
+}
+.VrsMstBdy@THEME_CSS@ {
+	background:#FFFFFF url(../images/version/version_brand.jpg) no-repeat;
+}
+/*---*/
+/* WIZARD */
+.WizTtlBar@THEME_CSS@ {
+	background:#5B87A5 url(../images/masthead/sec-masthead-background.jpg) top left repeat-x;
+	border-color:#000000;
+	color:#FFFFFF;
+}
+.WizBar@THEME_CSS@ {
+        background-color:#E5E9ED;
+        border-bottom-color:#80929B;
+}
+.WizBdy@THEME_CSS@ {
+	border-left-color:#98A0A5;
+}
+.WizBtm@THEME_CSS@ {
+	background-color:#E5E9ED;
+	border-top-color:#98A0A5;
+}.WizHlpDiv@THEME_CSS@ {
+	background:#E5E9ED url(../images/wizard/left-pane-background.gif) left top repeat-x;
+}
+.WizSubTtlDiv@THEME_CSS@, .WizStpsPnTtlDiv@THEME_CSS@, .WizTtl@THEME_CSS@ .TtlLin@THEME_CSS@ {}
+a.WizStpLnk@THEME_CSS@ {
+	color:#003399;
+	text-decoration:none;
+}
+a.WizStpLnk@THEME_CSS@:hover {
+	text-decoration:underline;
+}
+/*---*/

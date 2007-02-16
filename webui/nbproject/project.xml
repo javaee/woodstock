@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+ The contents of this file are subject to the terms
+ of the Common Development and Distribution License
+ (the License).  You may not use this file except in
+ compliance with the License.
+ 
+ You can obtain a copy of the license at
+ https://woodstock.dev.java.net/public/CDDLv1.0.html.
+ See the License for the specific language governing
+ permissions and limitations under the License.
+ 
+ When distributing Covered Code, include this CDDL
+ Header Notice in each file and include the License file
+ at https://woodstock.dev.java.net/public/CDDLv1.0.html.
+ If applicable, add the following below the CDDL Header,
+ with the fields enclosed by brackets [] replaced by
+ you own identifying information:
+ "Portions Copyrighted [year] [name of copyright owner]"
+ 
+ Copyright 2007 Sun Microsystems, Inc. All rights reserved.
+-->
+<project xmlns="http://www.netbeans.org/ns/project/1">
+    <type>org.netbeans.modules.ant.freeform</type>
+    <configuration>
+        <general-data xmlns="http://www.netbeans.org/ns/freeform-project/1">
+            <!--Do not use Project Properties customizer when editing this file manually.-->
+            <name>webui</name>
+            <folders>
+                <source-folder>
+                    <label>Run-time Generated Source</label>
+                    <type>java</type>
+                    <location>gen/taglib</location>
+                </source-folder>
+                <source-folder>
+                    <label>Design-time Generated Source</label>
+                    <type>java</type>
+                    <location>gen/beaninfo</location>
+                </source-folder>
+                <source-folder>
+                    <label>src/designtime</label>
+                    <type>java</type>
+                    <location>src/designtime</location>
+                </source-folder>
+                <source-folder>
+                    <label>src/runtime</label>
+                    <type>java</type>
+                    <location>src/runtime</location>
+                </source-folder>
+            </folders>
+            <ide-actions>
+                <action name="build">
+                    <target>netbeans</target>
+                </action>
+                <action name="rebuild">
+                    <target>clean</target>
+                    <target>netbeans</target>
+                </action>
+                <action name="clean">
+                    <target>clean</target>
+                </action>
+                <action name="compile.single">
+                    <script>nbproject/ide-file-targets.xml</script>
+                    <target>compile-selected-files-in-src</target>
+                    <context>
+                        <property>files</property>
+                        <folder>src</folder>
+                        <pattern>\.java$</pattern>
+                        <format>relative-path</format>
+                        <arity>
+                            <separated-files>,</separated-files>
+                        </arity>
+                    </context>
+                </action>
+            </ide-actions>
+            <export>
+                <type>jar</type>
+                <location>netbeans/modules/autoload/ext/webui-jsf.jar</location>
+                <build-target>netbeans</build-target>
+            </export>
+            <export>
+                <type>jar</type>
+                <location>netbeans/modules/autoload/ext/webui-jsf-dt.jar</location>
+                <build-target>netbeans</build-target>
+            </export>
+            <view>
+                <items>
+                    <source-folder style="packages">
+                        <label>src/designtime</label>
+                        <location>src/designtime</location>
+                    </source-folder>
+                    <source-folder style="packages">
+                        <label>src/runtime</label>
+                        <location>src/runtime</location>
+                    </source-folder>
+                    <source-file>
+                        <location>build.xml</location>
+                    </source-file>
+                </items>
+                <context-menu>
+                    <ide-action name="build"/>
+                    <ide-action name="rebuild"/>
+                    <ide-action name="clean"/>
+                    <action>
+                        <label>tlddoc</label>
+                        <target>tlddoc</target>
+                    </action>
+                </context-menu>
+            </view>
+            <subprojects/>
+        </general-data>
+        <java-data xmlns="http://www.netbeans.org/ns/freeform-project-java/1">
+            <compilation-unit>
+                <package-root>gen/taglib</package-root>
+                <classpath mode="compile">lib/external/commons-beanutils.jar:lib/external/commons-collections.jar:lib/external/commons-digester.jar:lib/external/commons-logging.jar:lib/external/javaee.jar:lib/external/junit.jar:lib/external/portlet.jar:lib/external/rowset.jar:lib/creator/designtime.jar:lib/creator/propertyeditors.jar:gen/beaninfo:gen/taglib:lib/annotations/jsfa-lib.jar:src/runtime</classpath>
+                <built-to>netbeans/modules/autoload/ext/webui-jsf.jar</built-to>
+                <source-level>1.5</source-level>
+            </compilation-unit>
+            <compilation-unit>
+                <package-root>gen/beaninfo</package-root>
+                <classpath mode="compile">lib/external/commons-beanutils.jar:lib/external/commons-collections.jar:lib/external/commons-digester.jar:lib/external/commons-logging.jar:lib/external/jsf-api.jar:lib/external/jsf-impl.jar:lib/external/jsp-api.jar:lib/external/jstl.jar:lib/external/junit.jar:lib/external/portlet.jar:lib/external/rowset.jar:lib/external/servlet-api.jar:lib/creator/designtime.jar:lib/creator/propertyeditors.jar:gen/beaninfo:src/runtime:src/designtime</classpath>
+                <built-to>netbeans/modules/autoload/ext/webui-jsf-dt.jar</built-to>
+                <source-level>1.5</source-level>
+            </compilation-unit>
+            <compilation-unit>
+                <package-root>src/designtime</package-root>
+                <classpath mode="compile">lib/external/commons-beanutils.jar;lib/external/commons-collections.jar;lib/external/commons-digester.jar;lib/external/commons-logging.jar;lib/external/jsf-api.jar;lib/external/jsf-impl.jar;lib/external/jsp-api.jar;lib/external/jstl.jar;lib/external/junit.jar;lib/external/portlet.jar;lib/external/rowset.jar;lib/external/servlet-api.jar;lib/creator/designtime.jar;lib/creator/propertyeditors.jar;src/runtime;src/designtime</classpath>
+                <built-to>netbeans/modules/autoload/ext/webui-jsf-dt.jar</built-to>
+                <source-level>1.5</source-level>
+            </compilation-unit>
+            <compilation-unit>
+                <package-root>src/runtime</package-root>
+                <classpath mode="compile">lib/external/commons-beanutils.jar;lib/external/commons-collections.jar;lib/external/commons-digester.jar;lib/external/commons-logging.jar;lib/external/javaee.jar;lib/external/jsf-api.jar;lib/external/jsf-impl.jar;lib/external/jsp-api.jar;lib/external/jstl.jar;lib/external/junit.jar;lib/external/portlet.jar;lib/external/rowset.jar;lib/external/servlet-api.jar;gen/beaninfo;lib/annotations/jsfa-lib.jar;lib/external/dataprovider.jar;build/complib/webui-jsf.jar;src/runtime</classpath>
+                <built-to>netbeans/modules/autoload/ext/webui-jsf.jar</built-to>
+                <source-level>1.5</source-level>
+            </compilation-unit>
+        </java-data>
+    </configuration>
+</project>

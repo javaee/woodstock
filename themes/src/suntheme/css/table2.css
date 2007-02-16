@@ -1,0 +1,119 @@
+/*
+ * The contents of this file are subject to the terms
+ * of the Common Development and Distribution License
+ * (the License).  You may not use this file except in
+ * compliance with the License.
+ * 
+ * You can obtain a copy of the license at
+ * https://woodstock.dev.java.net/public/CDDLv1.0.html.
+ * See the License for the specific language governing
+ * permissions and limitations under the License.
+ * 
+ * When distributing Covered Code, include this CDDL
+ * Header Notice in each file and include the License file
+ * at https://woodstock.dev.java.net/public/CDDLv1.0.html.
+ * If applicable, add the following below the CDDL Header,
+ * with the fields enclosed by brackets [] replaced by
+ * you own identifying information:
+ * "Portions Copyrighted [year] [name of copyright owner]"
+ * 
+ * Copyright 2007 Sun Microsystems, Inc. All rights reserved.
+ */
+/* Top level div tag */
+.Tbl2@THEME_CSS@ {
+  /* Styles from old table */
+  -moz-border-radius-topleft:5px; 
+  -moz-border-radius-topright:5px;
+  border-style:solid;
+  border-width:1px;
+  border-color:#A0A3A5; 
+  border-top-color:#35556A; 
+  background-color:#E5E9ED; 
+  color:#000;
+}
+
+/* Title */ 
+.Tbl2Ttl@THEME_CSS@ {
+  border-bottom-style:solid; 
+  border-bottom-width:1px;
+
+  /* Styles from old table */
+  color:#fff; 
+  background:#36586F url(../images/table/table_titlebar_gradient.gif) bottom left repeat-x;
+  text-align:left; 
+  background-position:5px 5px; 
+  padding:3px 10px 2px 10px;
+  -moz-border-radius-topleft:5px; 
+  -moz-border-radius-topright:5px;
+}
+
+/* Margin */
+.Tbl2Mgn@THEME_CSS@ {
+  padding:6px;
+}
+
+/* Actions */
+.Tbl2Act@THEME_CSS@ {
+  /* Styles from old table */
+  vertical-align:middle;
+}
+
+/* Outer div to capture absolutely positioned header/footer */
+.Tbl2Grps@THEME_CSS@ {
+  position: relative;
+  padding-bottom: 2.9em; /* Must be dynamic */
+  padding-top: 3.1em; /* Must be dynamic */
+  width: 100%; /* Required for IE */
+}
+
+/* Inner div enabling table to scroll */
+.Tbl2Grp@THEME_CSS@ {
+  overflow: auto;
+}
+
+/* Group header */
+.Tbl2GrpHdr@THEME_CSS@ {
+  position: absolute;
+  top: 7px;
+  left: 0px;
+}
+.Tbl2GrpHdr@THEME_CSS@ th {
+  min-height:1.5em;
+}
+.Tbl2GrpHdrTxt@THEME_CSS@ {
+  float: left;
+}
+.Tbl2GrpHdrRowsTxt@THEME_CSS@ {
+  float: right;
+}
+
+/* Column header */
+.Tbl2ColHdr@THEME_CSS@ {
+  position: absolute;
+  top: 1.95em; /* Must be dynamic */
+  left: 0px;
+}
+.Tbl2ColHdr@THEME_CSS@ th {
+  text-align: left;
+  min-height:1.5em;
+}
+
+/* Column footer */
+.Tbl2ColFtr@THEME_CSS@ {
+  position: absolute;
+  bottom: 1.35em; /* Must be dynamic */
+  left: 0px;
+}
+.Tbl2ColFtr@THEME_CSS@ td {
+  min-height:1.5em;
+}
+
+/* Group footer */
+.Tbl2GrpFtr@THEME_CSS@ {
+  position: absolute;
+  bottom: 0px;
+  left: 0px;
+}
+.Tbl2GrpFtr@THEME_CSS@ td {
+  min-height:1.5em;
+}

@@ -1,0 +1,370 @@
+/*
+ * The contents of this file are subject to the terms
+ * of the Common Development and Distribution License
+ * (the License).  You may not use this file except in
+ * compliance with the License.
+ * 
+ * You can obtain a copy of the license at
+ * https://woodstock.dev.java.net/public/CDDLv1.0.html.
+ * See the License for the specific language governing
+ * permissions and limitations under the License.
+ * 
+ * When distributing Covered Code, include this CDDL
+ * Header Notice in each file and include the License file
+ * at https://woodstock.dev.java.net/public/CDDLv1.0.html.
+ * If applicable, add the following below the CDDL Header,
+ * with the fields enclosed by brackets [] replaced by
+ * you own identifying information:
+ * "Portions Copyrighted [year] [name of copyright owner]"
+ * 
+ * Copyright 2007 Sun Microsystems, Inc. All rights reserved.
+ */
+/* CSS Document */
+
+body {
+	font-family:Arial, Helvetica, sans-serif;
+	font-size:70%;
+}
+TABLE, TH, TD, P, DIV, SPAN, INPUT, BUTTON, SELECT, TEXTAREA, FORM, B, STRONG, LABEL, I, U, H1, H2, H3, H4, H5, H6, DL, DD, DT, UL, LI, OL, OPTION, OPTGROUP, A {
+	font-size:100%;
+}
+H1, H2, H3, H4, H5, H6 {
+	font-weight:bold;
+}
+H1 {
+	font-size:1.7em;
+}
+H2 {
+	font-size:1.4em;
+}
+H3 {
+	font-size:1.3em;
+}
+H4 {
+	font-size:1.2em;
+}
+H5, H6 {
+	font-size:1.0em;
+}
+input, select {
+	font-size:1.0em;
+}
+strong {
+	font-size:1.0em;
+	font-weight:bold;
+}
+
+/* ADDREMOVE [originalName: ADD-REMOVE-IDIOM]*/
+.AddRmvLbl@THEME_CSS@, .AddRmvLbl2@THEME_CSS@ {
+	font-size:1.0em;
+	font-weight:bold;
+}
+/*---*/
+
+/* BREADCRUMBS */
+a.BcmLnk@THEME_CSS@ {
+	font-size:1.0em;
+}
+/*---*/
+
+/* BUTTONS */
+.Btn1@THEME_CSS@, .Btn1Hov@THEME_CSS@, .Btn1Dis@THEME_CSS@, .Btn2@THEME_CSS@, .Btn2Hov@THEME_CSS@, .Btn2Dis@THEME_CSS@, .Btn1Mni@THEME_CSS@, .Btn1MniHov@THEME_CSS@, .Btn1MniDis@THEME_CSS@, .Btn2Mni@THEME_CSS@, .Btn2MniHov@THEME_CSS@, .Btn2MniDis@THEME_CSS@ {
+	font-size:1.0em;
+}
+/*---*/
+
+/* FILE CHOOSER */
+.ChoLstHdr@THEME_CSS@ {
+	font-size:1.0em;
+	font-weight: bold;
+}
+.ChoSrvTxt@THEME_CSS@ {
+	font-size:1.0em;
+}
+/*---*/
+
+/* PAGEALERT [originalName: FULL ALERTS]*/
+.FulAlrtHdrTxt@THEME_CSS@, .FulAlrtMsgTxt@THEME_CSS@ {
+	font-size:1.0em;
+}
+.FulAlrtHdrTxt@THEME_CSS@ {
+	font-weight:bold;
+} 
+/*---*/
+
+/* INLINE ALERT */
+.inlineAlert_4@THEME_CSS@ .middle@THEME_CSS@ .details@THEME_CSS@ {
+	font-size:1.0em;
+}
+.inlineAlert_4@THEME_CSS@ .middle@THEME_CSS@ .header@THEME_CSS@ .label@THEME_CSS@ {
+	font-size:1.2em;
+	font-weight:bold;
+}
+/*---*/
+
+/* HELP WINDOW */
+body.HlpBdy@THEME_CSS@ h1, body.HlpBdy@THEME_CSS@ h2, body.HlpBdy@THEME_CSS@ h3, body.HlpBdy@THEME_CSS@ h4, body.HlpBdy@THEME_CSS@ h5, body.HlpBdy@THEME_CSS@ h6 {
+	font-family:sans-serif;
+	font-weight:bold;
+}
+body.HlpBdy@THEME_CSS@ h1 {
+	font-size:1.5em;
+}
+body.HlpBdy@THEME_CSS@ h2 {
+	font-size:1.3em;
+}
+body.HlpBdy@THEME_CSS@ h3 {
+	font-size:1.2em;
+}
+body.HlpBdy@THEME_CSS@ h4 {
+	font-size:1.1em;
+}
+body.HlpBdy@THEME_CSS@ h5, H6 {
+	font-size:1.0em;
+}
+/*---*/
+
+/* HELPINLINE [originalName: INLINE HELP] */
+.inlineFieldHelp@THEME_CSS@, a.HlpFldLnk@THEME_CSS@ {
+	font-size:1.0em;
+}
+/*---*/
+
+/* EDITABLE LIST */
+table.EdtLstTbl@THEME_CSS@ td.EdtLstRmvLblTd@THEME_CSS@ span.LblLev2Txt@THEME_CSS@,
+table.EdtLstTbl@THEME_CSS@ td.EdtLstAddLblTd@THEME_CSS@ span.LblLev2Txt@THEME_CSS@ {
+	font-weight: bold;
+	font-size:1.0em;
+}
+/*---*/
+/* LABEL [originalName: GENERIC FIELD LABELS]*/
+
+.LblLev2Txt@THEME_CSS@, .LblLev2smTxt@THEME_CSS@, .LblRqdDiv@THEME_CSS@, .LblLev3Txt@THEME_CSS@, .LblLev3TxtDis@THEME_CSS@ {
+	font-size:1.0em;
+}
+.LblLev1Txt@THEME_CSS@ {
+	font-size:1.3em;
+}
+.LblLev1Txt@THEME_CSS@, .LblLev2Txt@THEME_CSS@, .LblLev2smTxt@THEME_CSS@,
+.LblLev1TxtDis@THEME_CSS@, .LblLev2TxtDis@THEME_CSS@, .LblLev2smTxtDis@THEME_CSS@, .LblLev3Txt@THEME_CSS@, .LblLev3TxtDis@THEME_CSS@ {
+	font-weight:bold;
+}
+/*---*/
+
+/* LEFT PANE HELP */
+.LftHlpDiv@THEME_CSS@ {
+	font-size:1.0em;
+}
+/*---*/
+
+/* LISTS */
+.LstOptSel@THEME_CSS@, 
+.LstOptSep@THEME_CSS@, 
+.LstOptGrp@THEME_CSS@, 
+.LstDis@THEME_CSS@ .LstOptGrp@THEME_CSS@ {
+	font-size:1.0em;
+}
+
+/* Use fixed font size in listboxes with mono-spaced fonts */
+.LstMno@THEME_CSS@ .LstOptGrp@THEME_CSS@, 
+.LstMnoDis@THEME_CSS@ .LstOptGrp@THEME_CSS@, 
+.LstMno@THEME_CSS@, 
+.LstMno@THEME_CSS@ option, 
+.LstMno@THEME_CSS@ .LstOptGrp@THEME_CSS@, 
+.LstMnoDis@THEME_CSS@, 
+.LstMnoDis@THEME_CSS@ option, 
+.LstMnoDis@THEME_CSS@ .LstOptGrp@THEME_CSS@  {
+	font-size:11px;
+}
+
+.LstOptGrp@THEME_CSS@, .LstDis@THEME_CSS@ .LstOptGrp@THEME_CSS@, .LstMno@THEME_CSS@ .LstOptGrp@THEME_CSS@, .LstMnoDis@THEME_CSS@ .LstOptGrp@THEME_CSS@ {
+	font-weight:normal;
+	font-style:normal;
+}
+.LstMno@THEME_CSS@, .LstMno@THEME_CSS@ option, .LstMno@THEME_CSS@ .LstOptGrp@THEME_CSS@, .LstMnoDis@THEME_CSS@, .LstMnoDis@THEME_CSS@ option, .LstMnoDis@THEME_CSS@ .LstOptGrp@THEME_CSS@  {
+	font-family:monospace;
+}
+/*---*/
+
+/* PROPERTY SHEET */
+.ConFldSetLgdDiv@THEME_CSS@ {
+	font-size:1.1em;
+}
+.ConSubSecTtlTxt@THEME_CSS@ {
+	font-size:1.5em;
+	font-weight:bold;
+}
+.ConFldSetLgdDiv@THEME_CSS@, .ConErrLblTxt@THEME_CSS@, .ConWrnLblTxt@THEME_CSS@ {
+	font-weight:bold;
+}
+.ConJmpTopDiv@THEME_CSS@, a.JmpLnk@THEME_CSS@ {
+	font-size:1.0em;
+}
+/*---*/
+
+/* CONTENTPAGETITLE [originalName: PAGE TITLE]*/
+.TtlVewLbl@THEME_CSS@ {
+	font-weight:bold;
+}
+.TtlTxt@THEME_CSS@ {
+	font-size:1.5em;
+	font-weight:bold;
+}
+/*---*/
+
+/* TEXTAREA*/
+.TxtAra@THEME_CSS@, .TxtAraDis@THEME_CSS@ {
+	font-family:Arial, Helvetica, sans-serif;
+	font-size:1.0em;
+}
+/*---*/
+
+/* TABSET [originalName: LEVEL TABS]*/
+.Tab1Div@THEME_CSS@, .Tab2Div@THEME_CSS@, .Tab3Div@THEME_CSS@, .MniTabDiv@THEME_CSS@, .TabGrpBox@THEME_CSS@ {
+	font-size:1.0em;
+}
+.Tab1Div@THEME_CSS@, .Tab2Div@THEME_CSS@, .Tab3Div@THEME_CSS@, .MniTabDiv@THEME_CSS@ {
+	font-weight:bold;
+}
+/*---*/
+
+/* SCHEDULER/POPUP CALENDAR*/
+a.DatLnk@THEME_CSS@:hover, a.DatOthLnk@THEME_CSS@:hover, .DatLblTxt@THEME_CSS@, a.DatBldLnk@THEME_CSS@:link, a.DatBldLnk@THEME_CSS@:visited, a.DatCurLnk@THEME_CSS@:link,
+ a.DatCurLnk@THEME_CSS@:visited, a.DatCurLnk@THEME_CSS@:hover, a.DatOthBldLnk@THEME_CSS@:link, a.DatOthBldLnk@THEME_CSS@:visited, .DatSelContent@THEME_CSS@ {
+	font-weight:bold;
+}
+.DatDayHdrTxt@THEME_CSS@ {
+	font-weight:normal;
+}
+a.DatLnk@THEME_CSS@, a.DatBldLnk@THEME_CSS@, a.DatOthLnk@THEME_CSS@, a.DatOthBldLnk@THEME_CSS@, a.DatCurLnk@THEME_CSS@, .DatDayHdrTxt@THEME_CSS@, .DatSelContent@THEME_CSS@ {
+	font-size:1.1em;
+}
+.DatZonTxt@THEME_CSS@ {
+	font-size:1.0em;
+}
+.CalPopDiv@THEME_CSS@ a.DatLnk@THEME_CSS@, .CalPopDiv@THEME_CSS@ a.DatBldLnk@THEME_CSS@, .CalPopDiv@THEME_CSS@ a.DatOthLnk@THEME_CSS@, .CalPopDiv@THEME_CSS@ a.DatOthBldLnk@THEME_CSS@,
+.CalPopDiv@THEME_CSS@ a.DatCurLnk@THEME_CSS@, .CalPopDiv@THEME_CSS@ .DatDayHdrTxt@THEME_CSS@, .CalPopDiv@THEME_CSS@ .DatSelContent@THEME_CSS@ {
+	font-size:1.0em;
+}
+.CalPopDiv@THEME_CSS@  a.DatCurLnk@THEME_CSS@:link,.CalPopDiv@THEME_CSS@ a.DatCurLnk@THEME_CSS@:visited, .CalPopDiv@THEME_CSS@ a.DatBldLnk@THEME_CSS@:link,.CalPopDiv@THEME_CSS@ a.DatBldLnk@THEME_CSS@:visited,
+.CalPopDiv@THEME_CSS@ a.DatOthBldLnk@THEME_CSS@:link,.CalPopDiv@THEME_CSS@ a.DatOthBldLnk@THEME_CSS@:visited, .CalPopDiv@THEME_CSS@ .DatDayHdrTxt@THEME_CSS@ {
+	font-weight:bold;
+}
+/*---*/
+
+/* MASTHEAD */
+span.MstLbl@THEME_CSS@, span.MstUsrRole@THEME_CSS@ {
+	font-weight:bold;
+	font-size:1.0em;
+}
+span.MstTxt@THEME_CSS@ {
+	font-weight:normal;
+	font-size:1.0em;
+}
+a.MstPrgLnk@THEME_CSS@, a.MstAlmLnk@THEME_CSS@ {
+	font-size:1.0em;
+	font-weight:bold;
+}
+/*---*/
+
+/* TABLE [originalName: ACTION TABLE] */
+.TblTtlTxt@THEME_CSS@ {
+	font-size:1.0em;
+	font-weight:bold;
+}
+.TblTtlMsgSpn@THEME_CSS@ {
+	font-weight:normal;
+}
+.TblHdrTxt@THEME_CSS@, .TblMultHdrTxt@THEME_CSS@, .TblGrpTxt@THEME_CSS@ {
+	font-weight:bold;
+}
+table.Tbl@THEME_CSS@ th {font-weight:normal}
+table.Tbl@THEME_CSS@ th.TblMultColHdr@THEME_CSS@ a.TblHdrLnk@THEME_CSS@:link, table.Tbl@THEME_CSS@ th.TblMultColHdr@THEME_CSS@ a.TblHdrLnk@THEME_CSS@:visited {font-weight:normal;}
+table.Tbl@THEME_CSS@ th.TblMultColHdr@THEME_CSS@ .TblHdrTxt@THEME_CSS@ {font-weight:normal;}
+table.Tbl@THEME_CSS@ th.TblMultColHdrSrt@THEME_CSS@ a.TblHdrLnk@THEME_CSS@:link, table.Tbl@THEME_CSS@ th.TblMultColHdrSrt@THEME_CSS@ a.TblHdrLnk@THEME_CSS@:visited {font-weight:normal;}
+.TblActLbl@THEME_CSS@ {font-weight:bold;}
+table.Tbl@THEME_CSS@ th.TblColHdrSrtSel@THEME_CSS@ a.TblHdrImgLnk@THEME_CSS@:link, th.TblColHdrSrtSel@THEME_CSS@ a.TblHdrImgLnk@THEME_CSS@:visited {font-weight:bold;}
+table.Tbl@THEME_CSS@ a.TblHdrLnk@THEME_CSS@:link, table.Tbl@THEME_CSS@ a.TblHdrLnk@THEME_CSS@:visited {font-weight:bold;}
+table.Tbl@THEME_CSS@ a.TblHdrLnk@THEME_CSS@:hover {font-weight:bold;}
+table.Tbl@THEME_CSS@ th.TblColHdrSrt@THEME_CSS@ a.TblHdrLnk@THEME_CSS@:link, table.Tbl@THEME_CSS@ th.TblColHdrSrt@THEME_CSS@ a.TblHdrLnk@THEME_CSS@:visited {font-weight:bold;}
+table.Tbl@THEME_CSS@ th.TblColHdrSrt@THEME_CSS@ a.TblHdrLnk@THEME_CSS@:hover {font-weight:bold;}
+table.Tbl@THEME_CSS@ th.TblColHdrSrt@THEME_CSS@ a.TblHdrImgLnk@THEME_CSS@:link, table.Tbl@THEME_CSS@ th.TblColHdrSrt@THEME_CSS@ a.TblHdrImgLnk@THEME_CSS@:visited {font-weight:bold;}
+table.Tbl@THEME_CSS@ .TblHdrSrtNum@THEME_CSS@ {font-size:.9em;font-weight:normal;}
+.TblGrpTxt@THEME_CSS@ {font-weight:bold;}
+.TblColFtrTxt@THEME_CSS@ {font-weight:bold;}
+table.Tbl@THEME_CSS@ .TblFtrRowTxt@THEME_CSS@ {font-weight:bold;}
+table.Tbl@THEME_CSS@ .TblFtrLft@THEME_CSS@ {font-weight:bold;}
+.TblGrpColFtrTxt@THEME_CSS@ {font-weight:bold;}
+.TblGrpFtrRowTxt@THEME_CSS@ {font-weight:bold;}
+.TblPnlTtl@THEME_CSS@ {
+	font-size:1.2em;
+	font-weight:bold;
+}
+.TblPnlHlpTxt@THEME_CSS@ {font-size:1.0em;}
+/*---*/
+
+/* LIGHTWEIGHT TABLE DESIGN */
+/* Table Caption/Title */
+table.TblLt@THEME_CSS@ caption.TblTtlTxt@THEME_CSS@ {font-weight:bold;font-size:1.0em;}
+table.TblLt@THEME_CSS@ caption.TblTtlTxt@THEME_CSS@ span.TblTtlTxtSpn@THEME_CSS@ {font-weight:bold;font-size:1.0em;}
+table.TblLt@THEME_CSS@ caption.TblTtlTxt@THEME_CSS@ span.TblTtlMsgSpn@THEME_CSS@ {font-weight:normal;font-size:1.0em;}
+/* Table Footers */ 
+table.TblLt@THEME_CSS@ .TblFtrRowTxt@THEME_CSS@ {font-weight:normal;}
+/*---*/
+
+/* TREE */
+.Tree@THEME_CSS@ {
+	font-size:1.0em;
+}
+.TreTtl@THEME_CSS@ {
+	font-weight:bold;
+}
+a.TreeParentLink@THEME_CSS@:link, a.TreeParentLink@THEME_CSS@:visited {
+	font-weight:bold;
+}
+a.TreeParentLink@THEME_CSS@:hover {
+	font-weight:bold;
+}
+a.TreeSelLink@THEME_CSS@:link, a.TreeSelLink@THEME_CSS@:visited {
+	font-weight:bold;
+}
+a.TreeSelLink@THEME_CSS@:hover {
+	font-weight:bold;
+}
+.TreeSelText@THEME_CSS@ {
+	font-weight:bold;
+}
+/*---*/
+
+/* VERSION DIALOG */
+.VrsHdrTxt@THEME_CSS@ {
+	font-size:1.3em;
+	font-weight:bold;
+} 
+.VrsTxt@THEME_CSS@ {
+	font-size:1.1em;
+} 
+/*---*/
+
+/* WIZARD */
+.WizStpTitle@THEME_CSS@, .WizStpTxt@THEME_CSS@, .WizHlpTxt@THEME_CSS@, .WizStpCurTxt@THEME_CSS@, a.WizStpLnk@THEME_CSS@, .WizSubStpTtlTxt@THEME_CSS@, .WizCntHlpTxt@THEME_CSS@ {
+	font-size:1.0em;
+}
+.WizTtlBar@THEME_CSS@ {
+	font-size:1.3em;
+	font-weight:bold;
+}
+.WizStpTxt@THEME_CSS@ {
+	font-weight:normal;
+}
+.WizStpTitle@THEME_CSS@ {
+        font-weight:bold;
+}
+.WizSubStpTtlTxt@THEME_CSS@, .WizStpCurTxt@THEME_CSS@ {
+	font-weight:bold;
+}
+.WizSubTtlTxt@THEME_CSS@ {
+	font-weight:bold;
+	font-size:1.4em;
+}
+/*---*/

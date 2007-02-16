@@ -1,0 +1,143 @@
+<?xml encoding='UTF-8'?>
+<!--
+ The contents of this file are subject to the terms
+ of the Common Development and Distribution License
+ (the License).  You may not use this file except in
+ compliance with the License.
+ 
+ You can obtain a copy of the license at
+ https://woodstock.dev.java.net/public/CDDLv1.0.html.
+ See the License for the specific language governing
+ permissions and limitations under the License.
+ 
+ When distributing Covered Code, include this CDDL
+ Header Notice in each file and include the License file
+ at https://woodstock.dev.java.net/public/CDDLv1.0.html.
+ If applicable, add the following below the CDDL Header,
+ with the fields enclosed by brackets [] replaced by
+ you own identifying information:
+ "Portions Copyrighted [year] [name of copyright owner]"
+ 
+ Copyright 2007 Sun Microsystems, Inc. All rights reserved.
+-->
+
+
+<!-- ========== UIComponent Properties ===================================== -->
+
+      <property>
+        <property-name>attributes</property-name>
+        <property-class>java.util.Map</property-class>
+        <property-extension>
+          <category>INTERNAL</category>
+          <is-hidden>true</is-hidden>
+          <read-only>true</read-only>
+          <tag-attribute>false</tag-attribute>
+        </property-extension>
+      </property>
+
+      <property>
+        <property-name>childCount</property-name>
+        <property-class>int</property-class>
+        <property-extension>
+          <category>INTERNAL</category>
+          <is-hidden>true</is-hidden>
+          <read-only>true</read-only>
+          <tag-attribute>false</tag-attribute>
+        </property-extension>
+      </property>
+
+      <property>
+        <property-name>children</property-name>
+        <property-class>java.util.List</property-class>
+        <property-extension>
+          <category>INTERNAL</category>
+          <is-hidden>true</is-hidden>
+          <read-only>true</read-only>
+          <tag-attribute>false</tag-attribute>
+        </property-extension>
+      </property>
+
+      <property>
+        <property-name>facets</property-name>
+        <property-class>java.util.Map</property-class>
+        <property-extension>
+          <category>INTERNAL</category>
+          <is-hidden>true</is-hidden>
+          <read-only>true</read-only>
+          <tag-attribute>false</tag-attribute>
+        </property-extension>
+      </property>
+
+      <property>
+        <property-name>family</property-name>
+        <property-class>java.util.String</property-class>
+        <property-extension>
+          <category>INTERNAL</category>
+          <is-hidden>true</is-hidden>
+          <read-only>true</read-only>
+          <tag-attribute>false</tag-attribute>
+        </property-extension>
+      </property>
+
+      <property>
+        <description>
+            The component identifier for this component. This value must be 
+            unique within the closest parent component that is a naming container
+        </description>
+        <property-name>id</property-name>
+        <property-class>java.lang.String</property-class>
+        <property-extension>
+          <category>GENERAL</category>
+          <is-bindable>false</is-bindable>
+          <is-hidden>true</is-hidden>
+        </property-extension>
+      </property>
+
+      <property>
+        <property-name>parent</property-name>
+        <property-class>javax.faces.UIComponent</property-class>
+        <property-extension>
+          <category>INTERNAL</category>
+          <is-hidden>true</is-hidden>
+          <tag-attribute>false</tag-attribute>
+        </property-extension>
+      </property>
+
+      <property>
+        <description>
+            Use the rendered attribute to indicate whether the HTML code for the
+            component should be included in the rendered HTML page. If set to 
+            false, the rendered HTML page does not include the HTML for the 
+            component. If the component is not rendered, it is also not 
+            processed on any subsequent form submission. 
+        </description>
+        <display-name>Rendered Flag</display-name>
+        <property-name>rendered</property-name>
+        <property-class>boolean</property-class>
+        <property-extension>
+          <category>ADVANCED</category>
+          <is-hidden>false</is-hidden>
+        </property-extension>
+      </property>
+
+      <property>
+        <property-name>rendererType</property-name>
+        <property-class>java.lang.String</property-class>
+        <property-extension>
+          <category>INTERNAL</category>
+          <is-hidden>true</is-hidden>
+          <tag-attribute>false</tag-attribute>
+        </property-extension>
+      </property>
+
+      <property>
+        <property-name>rendersChildren</property-name>
+        <property-class>boolean</property-class>
+        <property-extension>
+          <category>INTERNAL</category>
+          <is-hidden>true</is-hidden>
+          <read-method>getRendersChildren</read-method>
+          <read-only>true</read-only>
+          <tag-attribute>false</tag-attribute>
+        </property-extension>
+      </property>

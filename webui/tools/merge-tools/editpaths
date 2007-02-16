@@ -1,0 +1,114 @@
+#!/bin/sh
+
+# uncomment lines in build.xml in themes and webui
+# complib/manifest-complib.mf needs to reflect complib-congif.xml
+
+newpkg_prefix_path="com/sun/webui/jsf"
+newpkg_prefix="com.sun.webui.jsf"
+
+ravepkg_prefix_path="com/sun/webui/tool"
+ravepkg_prefix="com.sun.webui.tool"
+
+# Don't forget manifests
+
+newmodule="woodstock"
+
+rm -rf $newmodule
+
+find webui lockhart themes -type f -print | \
+while read f; do
+    if [ -z f ]; then
+	break
+    fi
+    if [ "$f" = "." ]; then
+	continue
+    fi
+
+    # create the new path
+    dir=`dirname $f | sed -e 's?com/sun/web/ui?'$newpkg_prefix_path'?' \
+			  -e 's?com/sun/rave?'$ravepkg_prefix_path'?'`
+    mkdir -p $newmodule/$dir
+    docopy=`echo $f | sed  -e 's?^.*\.gif$?yes?' \
+			    -e 's?^.*\.jpg$?yes?' \
+			    -e 's?^.*\.jar$?yes?' \
+			    -e 's?^.*\.png$?yes?' \
+			    -e 's?^.*CVS?yes?' \
+			    -e 's?^.*\.cvsignore$?yes?' \
+			    -e 's?^.*\.zip$?yes?'`
+
+    if [ "$docopy" = "yes" ]; then
+	cp $f $newmodule/$dir/`basename $f`
+	continue
+    fi
+	
+    # Do build.xml and build.properties manually.
+    # Should only need to edit build.properties
+    #
+    if [ "$f" = "webui/build.xml" ]; then 
+	cp $f $newmodule/$dir/`basename $f`
+	continue
+    fi
+    # ignore designtime/build.xml for now
+    #
+    if [ "$f" = "webui/designtime/build.xml" ]; then 
+	cp $f $newmodule/$dir/`basename $f`
+	continue
+    fi
+    # Don't change com.sun.rave since that generator path
+    # hasn't been changed
+    #
+    # The taglib uri and taglib prefix must match 
+    # fixjsptagprefix
+    #
+    # http://www.sun.com/webui/webuijsf
+    # webuijsf
+    #
+    # Eventually it will be "jvnet.org"
+    # http://jvnet.org/webui/webuijsf
+    # webuijsf
+    #
+    if [ "$f" = "webui/build.properties" ]; then
+	sed -e 's?com\(.\)sun\(.\)web\(.\)ui?com\1sun\2webui\2jsf?g' \
+	    -e '/^taglib-prefix/s?ui?webuijsf?' \
+	-e '/^taglib-uri/s?http://www.sun.com/web/ui?http://www.sun.com/webui/webuijsf?' \
+	    $f > $newmodule/$dir/`basename $f`
+	continue
+    fi
+
+    # Eventually 
+
+    #if [ "$f" = "webui/build.properties" ]; then
+    #	sed -e 's?com\(.\)sun\(.\)web\(.\)ui?org\1jvnet\2webui?g'
+    #	    -e '/^taglib-prefix/s?ui?webuijsf?'
+    #	-e '/^taglib-uri/s?http://www.sun.com/web/ui?http://jvnet.org/webui/webuijsf?'
+    #	    $f > $newmodule/$dir/`basename $f`
+    #	continue
+    #fi
+
+    sed -e 's?com\(.\)sun\(.\)web\(.\)ui?com\1sun\2webui\2jsf?g' \
+	-e 's?com\(.\)sun\(.\)rave?com\1sun\2webui\2tool?g' $f > \
+	$newmodule/$dir/`basename $f`
+
+    # Eventually
+    #sed -e 's?com\(.\)sun\(.\)web\(.\)ui?org\1jvnet\2webui?g' \
+    #	-e 's?com\(.\)sun\(.\)rave?org\1jvnet\2tool?g' $f > \
+    #	$newmodule/$dir/`basename $f`
+
+    # Now fixup some creator problems with designtime
+    #
+    sed \
+    -e 's?com\(.\)sun\(.\)webui\(.\)tool\(.\)designtime?com\1sun\2\rave\3designtime?' \
+    -e 's?com\(.\)sun\(.\)webui\(.\)tool\(.\)propertyeditors?com\1sun\2\rave\3propertyeditors?' \
+    $newmodule/$dir/`basename $f` > /tmp/junk
+    mv /tmp/junk $newmodule/$dir/`basename $f`
+
+done
+
+# fix themes manifest
+cd $newmodule/themes/META-INF
+
+sed -e 's?com\(.\)sun\(.\)web\(.\)ui?com\1sun\2webui\2jsf?g' \
+    manifest.mf > /tmp/junk
+mv /tmp/junk manifest.mf
+
+echo "Don't forget to fix javadoc tools, doclet script and rebuild first"

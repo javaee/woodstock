@@ -1,0 +1,16 @@
+**/*.java
+**/*.jj
+**/*.jjt
+**/*.orig
+**/*.bak
+**/*.rej
+**/*.form
+**/*.jar.MAKEME
+**/filesystem.attributes
+**/.nbattrs
+**/.#*
+**/*.wswmgr
+**/*.wswksp
+**/*.wsmode
+**/*.wstcref
+**/.DS_Store

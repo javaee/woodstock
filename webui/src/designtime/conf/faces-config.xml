@@ -1,0 +1,264 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<!--
+ The contents of this file are subject to the terms
+ of the Common Development and Distribution License
+ (the License).  You may not use this file except in
+ compliance with the License.
+ 
+ You can obtain a copy of the license at
+ https://woodstock.dev.java.net/public/CDDLv1.0.html.
+ See the License for the specific language governing
+ permissions and limitations under the License.
+ 
+ When distributing Covered Code, include this CDDL
+ Header Notice in each file and include the License file
+ at https://woodstock.dev.java.net/public/CDDLv1.0.html.
+ If applicable, add the following below the CDDL Header,
+ with the fields enclosed by brackets [] replaced by
+ you own identifying information:
+ "Portions Copyrighted [year] [name of copyright owner]"
+ 
+ Copyright 2007 Sun Microsystems, Inc. All rights reserved.
+-->
+
+
+<faces-config xmlns="http://java.sun.com/xml/ns/javaee"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-facesconfig_1_2.xsd"
+    version="1.2">
+
+  <!--
+    Design-time configuration, describing any additions to the base run-time configuration.
+    Note that the order in which the faces-config files are processed is not deterministic, but,
+    the last component or renderer definition wins.
+    
+    This file defines design-time renderer types for those components that need additional
+    design-time rendering behavior, of a manner not easily handled using the design-time
+    API. The renderers will generally delegate all encoding and decoding to the base renderer
+    type, as defined in the Web UI faces-config.
+  -->
+      
+  <render-kit>
+    
+    <renderer>
+      <component-family>com.sun.webui.jsf.AddRemove</component-family>
+      <renderer-type>com.sun.webui.jsf.AddRemoveDesignTime</renderer-type>
+      <renderer-class>com.sun.webui.jsf.renderkit.html.AddRemoveDesignTimeRenderer</renderer-class>
+    </renderer>
+    
+    <renderer>
+      <component-family>com.sun.webui.jsf.Alert</component-family>
+      <renderer-type>com.sun.webui.jsf.AlertDesignTime</renderer-type>
+      <renderer-class>com.sun.webui.jsf.renderkit.html.AlertDesignTimeRenderer</renderer-class>
+    </renderer>
+    
+    <renderer>
+      <component-family>com.sun.webui.jsf.Anchor</component-family>
+      <renderer-type>com.sun.webui.jsf.AnchorDesignTime</renderer-type>
+      <renderer-class>com.sun.webui.jsf.renderkit.html.AnchorDesignTimeRenderer</renderer-class>
+    </renderer>
+    
+    <renderer>
+      <component-family>com.sun.webui.jsf.Breadcrumbs</component-family>
+      <renderer-type>com.sun.webui.jsf.BreadcrumbsDesignTime</renderer-type>
+      <renderer-class>com.sun.webui.jsf.renderkit.html.BreadcrumbsDesignTimeRenderer</renderer-class>
+    </renderer>
+    
+    <renderer>
+      <component-family>com.sun.webui.jsf.Button</component-family>
+      <renderer-type>com.sun.webui.jsf.ButtonDesignTime</renderer-type>
+      <renderer-class>com.sun.webui.jsf.renderkit.html.ButtonDesignTimeRenderer</renderer-class>
+    </renderer>
+    
+    <renderer>
+      <component-family>com.sun.webui.jsf.CheckboxGroup</component-family>
+      <renderer-type>com.sun.webui.jsf.CheckboxGroupDesignTime</renderer-type>
+      <renderer-class>com.sun.webui.jsf.renderkit.html.CheckboxGroupDesignTimeRenderer</renderer-class>
+    </renderer>
+    
+    <renderer>
+        <component-family>com.sun.webui.jsf.CommonTasksSection</component-family>
+        <renderer-type>com.sun.webui.jsf.CommonTasksSectionDesignTime</renderer-type>
+        <renderer-class>com.sun.webui.jsf.renderkit.html.CommonTasksSectionDesignTimeRenderer</renderer-class>
+    </renderer>
+    
+    
+    <renderer>
+        <component-family>com.sun.webui.jsf.CommonTask</component-family>
+        <renderer-type>com.sun.webui.jsf.CommonTaskDesignTime</renderer-type>
+        <renderer-class>com.sun.webui.jsf.renderkit.html.CommonTaskDesignTimeRenderer</renderer-class>
+    </renderer>
+    
+    
+    <renderer>
+        <component-family>com.sun.webui.jsf.CommonTasksGroup</component-family>
+        <renderer-type>com.sun.webui.jsf.CommonTasksGroupDesignTime</renderer-type>
+        <renderer-class>com.sun.webui.jsf.renderkit.html.CommonTasksGroupDesignTimeRenderer</renderer-class>
+    </renderer>
+    
+    
+    <renderer>
+      <component-family>com.sun.webui.jsf.ContentPageTitle</component-family>
+      <renderer-type>com.sun.webui.jsf.ContentPageTitleDesignTime</renderer-type>
+      <renderer-class>com.sun.webui.jsf.renderkit.html.ContentPageTitleDesignTimeRenderer</renderer-class>
+    </renderer>
+    
+    <renderer>
+      <component-family>com.sun.webui.jsf.DropDown</component-family>
+      <renderer-type>com.sun.webui.jsf.DropDownDesignTime</renderer-type>
+      <renderer-class>com.sun.webui.jsf.renderkit.html.DropDownDesignTimeRenderer</renderer-class>
+    </renderer>
+
+    <renderer>
+      <component-family>com.sun.webui.jsf.HelpInline</component-family>
+      <renderer-type>com.sun.webui.jsf.HelpInlineDesignTime</renderer-type>
+      <renderer-class>com.sun.webui.jsf.renderkit.html.HelpInlineDesignTimeRenderer</renderer-class>
+    </renderer>
+    
+    <renderer>
+      <component-family>com.sun.webui.jsf.Hyperlink</component-family>
+      <renderer-type>com.sun.webui.jsf.HyperlinkDesignTime</renderer-type>
+      <renderer-class>com.sun.webui.jsf.renderkit.html.HyperlinkDesignTimeRenderer</renderer-class>
+    </renderer>
+        
+    <renderer>
+      <component-family>com.sun.webui.jsf.Image</component-family>
+      <renderer-type>com.sun.webui.jsf.ImageDesignTime</renderer-type>
+      <renderer-class>com.sun.webui.jsf.renderkit.html.ImageDesignTimeRenderer</renderer-class>
+    </renderer>
+        
+    <renderer>
+      <component-family>com.sun.webui.jsf.ImageHyperlink</component-family>
+      <renderer-type>com.sun.webui.jsf.ImageHyperlinkDesignTime</renderer-type>
+      <renderer-class>com.sun.webui.jsf.renderkit.html.ImageHyperlinkDesignTimeRenderer</renderer-class>
+    </renderer>
+    
+    <renderer>
+      <component-family>com.sun.webui.jsf.Label</component-family>
+      <renderer-type>com.sun.webui.jsf.LabelDesignTime</renderer-type>
+      <renderer-class>com.sun.webui.jsf.renderkit.html.LabelDesignTimeRenderer</renderer-class>
+    </renderer>
+    
+    <renderer>
+      <component-family>com.sun.webui.jsf.Listbox</component-family>
+      <renderer-type>com.sun.webui.jsf.ListboxDesignTime</renderer-type>
+      <renderer-class>com.sun.webui.jsf.renderkit.html.ListboxDesignTimeRenderer</renderer-class>
+    </renderer>
+    
+    <renderer>
+      <component-family>com.sun.webui.jsf.Masthead</component-family>
+      <renderer-type>com.sun.webui.jsf.MastheadDesignTime</renderer-type>
+      <renderer-class>com.sun.webui.jsf.renderkit.html.MastheadDesignTimeRenderer</renderer-class>
+    </renderer>
+    
+    <renderer>
+      <component-family>com.sun.webui.jsf.PageAlert</component-family>
+      <renderer-type>com.sun.webui.jsf.PageAlertDesignTime</renderer-type>
+      <renderer-class>com.sun.webui.jsf.renderkit.html.PageAlertDesignTimeRenderer</renderer-class>
+    </renderer>
+
+    <renderer>
+      <component-family>com.sun.webui.jsf.PanelGroup</component-family>
+      <renderer-type>com.sun.webui.jsf.PanelGroupDesignTime</renderer-type>
+      <renderer-class>com.sun.webui.jsf.renderkit.html.PanelGroupDesignTimeRenderer</renderer-class>
+    </renderer>
+
+    <renderer>
+      <component-family>com.sun.webui.jsf.PanelLayout</component-family>
+      <renderer-type>com.sun.webui.jsf.PanelLayoutDesignTime</renderer-type>
+      <renderer-class>com.sun.webui.jsf.renderkit.html.PanelLayoutDesignTimeRenderer</renderer-class>
+    </renderer>
+
+    <renderer>
+      <component-family>com.sun.webui.jsf.PanelGroup</component-family>
+      <renderer-type>com.sun.webui.jsf.PanelGroupDesignTime</renderer-type>
+      <renderer-class>com.sun.webui.jsf.renderkit.html.PanelGroupDesignTimeRenderer</renderer-class>
+    </renderer>
+
+    <renderer>
+      <component-family>com.sun.webui.jsf.PanelLayout</component-family>
+      <renderer-type>com.sun.webui.jsf.PanelLayoutDesignTime</renderer-type>
+      <renderer-class>com.sun.webui.jsf.renderkit.html.PanelLayoutDesignTimeRenderer</renderer-class>
+    </renderer>
+    
+    <renderer>
+      <component-family>com.sun.webui.jsf.PasswordField</component-family>
+      <renderer-type>com.sun.webui.jsf.PasswordFieldDesignTime</renderer-type>
+      <renderer-class>com.sun.webui.jsf.renderkit.html.PasswordFieldDesignTimeRenderer</renderer-class>
+    </renderer>
+    
+    <renderer>
+      <component-family>com.sun.webui.jsf.ProgressBar</component-family>
+      <renderer-type>com.sun.webui.jsf.widget.ProgressBarDesignTime</renderer-type>
+      <renderer-class>com.sun.webui.jsf.renderkit.html.ProgressBarDesignTimeRenderer</renderer-class>
+    </renderer>
+    
+    <renderer>
+      <component-family>com.sun.webui.jsf.RadioButtonGroup</component-family>
+      <renderer-type>com.sun.webui.jsf.RadioButtonGroupDesignTime</renderer-type>
+      <renderer-class>com.sun.webui.jsf.renderkit.html.RadioButtonGroupDesignTimeRenderer</renderer-class>
+    </renderer>
+    
+    <renderer>
+      <component-family>com.sun.webui.jsf.StaticText</component-family>
+      <renderer-type>com.sun.webui.jsf.StaticTextDesignTime</renderer-type>
+      <renderer-class>com.sun.webui.jsf.renderkit.html.StaticTextDesignTimeRenderer</renderer-class>
+    </renderer>
+
+    <renderer>
+      <component-family>com.sun.webui.jsf.Table</component-family>
+      <renderer-type>com.sun.webui.jsf.TableDesignTime</renderer-type>
+      <renderer-class>com.sun.webui.jsf.renderkit.html.TableDesignTimeRenderer</renderer-class>
+    </renderer>
+
+    <renderer>
+      <component-family>com.sun.webui.jsf.Table2</component-family>
+      <renderer-type>com.sun.webui.jsf.Table2DesignTime</renderer-type>
+      <renderer-class>com.sun.webui.jsf.renderkit.html.Table2DesignTimeRenderer</renderer-class>
+    </renderer>
+
+    <renderer>
+      <component-family>com.sun.webui.jsf.Tab</component-family>
+      <renderer-type>com.sun.webui.jsf.TabDesignTime</renderer-type>
+      <renderer-class>com.sun.webui.jsf.renderkit.html.TabDesignTimeRenderer</renderer-class>
+    </renderer>
+    
+    <renderer>
+      <component-family>com.sun.webui.jsf.TabSet</component-family>
+      <renderer-type>com.sun.webui.jsf.TabSetDesignTime</renderer-type>
+      <renderer-class>com.sun.webui.jsf.renderkit.html.TabSetDesignTimeRenderer</renderer-class>
+    </renderer>
+    
+    <renderer>
+      <component-family>com.sun.webui.jsf.TextArea</component-family>
+      <renderer-type>com.sun.webui.jsf.TextAreaDesignTime</renderer-type>
+      <renderer-class>com.sun.webui.jsf.renderkit.html.TextAreaDesignTimeRenderer</renderer-class>
+    </renderer>
+    
+    <renderer>
+      <component-family>com.sun.webui.jsf.TextField</component-family>
+      <renderer-type>com.sun.webui.jsf.TextFieldDesignTime</renderer-type>
+      <renderer-class>com.sun.webui.jsf.renderkit.html.TextFieldDesignTimeRenderer</renderer-class>
+    </renderer>
+    
+    <renderer>
+      <component-family>com.sun.webui.jsf.TreeNode</component-family>
+      <renderer-type>com.sun.webui.jsf.TreeNodeDesignTime</renderer-type>
+      <renderer-class>com.sun.webui.jsf.renderkit.html.TreeNodeDesignTimeRenderer</renderer-class>
+    </renderer>
+    
+    <renderer>
+      <component-family>com.sun.webui.jsf.Upload</component-family>
+      <renderer-type>com.sun.webui.jsf.UploadDesignTime</renderer-type>
+      <renderer-class>com.sun.webui.jsf.renderkit.html.UploadDesignTimeRenderer</renderer-class>
+    </renderer>
+    
+    <renderer>
+      <component-family>com.sun.webui.jsf.VersionPage</component-family>
+      <renderer-type>com.sun.webui.jsf.VersionPageDesignTime</renderer-type>
+      <renderer-class>com.sun.webui.jsf.renderkit.html.VersionPageDesignTimeRenderer</renderer-class>
+    </renderer>
+
+  </render-kit>
+
+</faces-config>

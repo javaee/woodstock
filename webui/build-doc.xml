@@ -1,0 +1,416 @@
+<!--
+ The contents of this file are subject to the terms
+ of the Common Development and Distribution License
+ (the License).  You may not use this file except in
+ compliance with the License.
+ 
+ You can obtain a copy of the license at
+ https://woodstock.dev.java.net/public/CDDLv1.0.html.
+ See the License for the specific language governing
+ permissions and limitations under the License.
+ 
+ When distributing Covered Code, include this CDDL
+ Header Notice in each file and include the License file
+ at https://woodstock.dev.java.net/public/CDDLv1.0.html.
+ If applicable, add the following below the CDDL Header,
+ with the fields enclosed by brackets [] replaced by
+ you own identifying information:
+ "Portions Copyrighted [year] [name of copyright owner]"
+ 
+ Copyright 2007 Sun Microsystems, Inc. All rights reserved.
+-->
+
+<project name="sjwc-doc" default="netbeans" basedir=".">
+
+  <!-- Get release time overrides forom ../build.properties -->
+  <property file="../build.properties"/>
+
+  <!-- Initialize property values -->
+  <property file="build.properties"/>
+
+  <property name="build" value="."/>
+  <property name="build.libs" value="${build}/lib/external"/>
+  <property name="build.dtlibs" value="${build}/lib/creator"/>
+  <property name="build.idelibs" value="${build}/lib/netbeans"/>
+  <property name="build.annotations" value="${build}/lib/annotations"/>
+  <property name="build.tools" value="${build}/lib/external"/>
+  <property name="build.classes" value="${build}/classes/runtime"/>
+  <property name="javadocs" value="${build}/javadocs"/>
+
+  <!-- runtime javadoc properties -->
+  <property name="runtime-javadocs" value="${javadocs}/runtime"/>
+
+  <property name="runtime" value="src/runtime"/>
+  <property name="webui-bean" value="${runtime}"/>
+  <property name="webui-component" value="${runtime}"/>
+  <property name="webui-renderkit" value="${runtime}"/>
+  <property name="webui-util" value="${runtime}"/>    
+  <property name="webui-theme" value="${runtime}"/>    
+  <property name="webui-event" value="${runtime}"/>    
+  <property name="webui-model" value="${runtime}"/>    
+
+  <property name="tlddocs" value="${build}/tlddocs"/>
+  <property name="webui-tld"
+	value="${build.classes}/META-INF/webui-jsf.tld"/>
+
+  <!-- designtime javadoc properties -->
+  <property name="designtime-javadocs" value="${javadocs}/designtime"/>
+  <property name="designtime-gen" value="${build}/gen/beaninfo"/>
+  <property name="designtime" value="src/designtime"/>
+  <property name="designtime-component" value="src/designtime"/>
+
+  <!-- tool jars should be defined in one place not this file -->
+  <property name="tlddoc.jar" value="${build.tools}/tlddoc.jar"/>
+  <path id="tlddoc.jar">
+    <pathelement location="${tlddoc.jar}"/>
+  </path>
+
+  <!-- dependent libraries - should be defined in one place not this file -->
+  <property name="commons-collections.jar" value="commons-collections.jar"/>
+  <property name="commons-beanutils.jar" value="commons-beanutils.jar"/>
+  <property name="commons-fileupload-1.0.jar" 
+    value="commons-fileupload-1.0.jar"/>
+  <property name="commons-digester.jar" value="commons-digester.jar"/>
+  <property name="commons-logging-1.0.4.jar" value="commons-logging-1.0.4.jar"/>
+  <property name="commons-logging.jar" value="commons-logging.jar"/>
+  <property name="dataprovider-rowset.jar" value="dataprovider-rowset.jar"/>
+  <property name="dataprovider.jar" value="dataprovider.jar"/>
+  <property name="designtime.jar" value="designtime.jar"/>
+  <property name="propertyeditors.jar" value="com-sun-rave-propertyeditors.jar"/>
+  <property name="portlet.jar" value="portlet.jar"/>
+  <property name="jsfcl.jar" value="jsfcl.jar"/>
+  <property name="jstl.jar" value="jstl.jar"/>
+  <property name="javaee.jar" value="javaee.jar"/>
+  <property name="jsf-impl.jar" value="jsf-impl.jar"/>
+  <property name="jsp-api.jar" value="jsp-api.jar"/>
+  <property name="openide.jar" value="openide.jar"/>
+  <property name="servlet-api.jar" value="servlet-api.jar"/>
+  <property name="rowset.jar" value="rowset.jar"/>
+  <property name="json.jar" value="json.jar"/>
+  <property name="jsfa-lib.jar" value="jsfa-lib.jar"/>
+  <property name="jsf-dt.jar" value="jsf-dt.jar"/>
+  <property name="jsf-ext-dynafaces.jar"
+	value="jsf-extensions-dynamic-faces-0.1.jar"/>
+  <property name="jsf-extensions-common.jar"
+	value="jsf-extensions-common-0.1.jar"/>
+
+  <patternset id="dependent-libs">
+    <include name="${commons-collections.jar}"/>
+    <include name="${commons-beanutils.jar}"/>
+    <include name="${commons-fileupload-1.0.jar}"/>
+    <include name="${commons-digester.jar}"/>
+    <include name="${commons-logging-1.0.4.jar}"/>
+    <include name="${commons-logging.jar}"/>
+    <include name="${dataprovider-rowset.jar}"/>
+    <include name="${dataprovider.jar}"/>
+    <include name="${portlet.jar}"/>
+    <include name="${jstl.jar}"/>
+    <include name="${javaee.jar}"/>
+    <include name="${jsf-impl.jar}"/>
+    <include name="${servlet-api.jar}"/>
+    <include name="${rowset.jar}"/>
+    <include name="${json.jar}"/>
+  </patternset>
+  <patternset id="annotation-libs">
+    <include name="${jsfa-lib.jar}"/>
+    <include name="${jsf-dt.jar}"/>
+  </patternset>
+  <patternset id="jsf-ext-libs">
+    <include name="${jsf-ext-dynafaces.jar}"/>
+    <include name="${jsf-extensions-common.jar}"/>
+  </patternset>
+  <patternset id="designtime-libs">
+    <include name="${designtime.jar}"/>
+    <include name="${propertyeditors.jar}"/>
+    <include name="${jsfcl.jar}"/>
+  </patternset>
+  <patternset id="ide-libs">
+    <include name="${openide.jar}"/>
+  </patternset>
+
+  <patternset id="webui-renderkit">
+    <include name="${pkg-path-prefix}/renderkit/html/**"/>
+    <include name="${pkg-path-prefix}/renderkit/ajax/**"/>
+    <include name="${pkg-path-prefix}/renderkit/widget/**"/>
+    <exclude name="${pkg-path-prefix}/renderkit/html/Bundle.properties"/>
+  </patternset>
+
+  <patternset id="webui-component">
+    <include name="${pkg-path-prefix}/component/**"/>
+    <exclude name="${pkg-path-prefix}/component/*Base.**"/>
+    <exclude name="${pkg-path-prefix}/component/util/**"/>
+    <exclude name="${pkg-path-prefix}/component/CalendarMonth.java"/>
+    <exclude name="${pkg-path-prefix}/component/ComplexComponent.java"/>
+    <exclude name="${pkg-path-prefix}/component/ListManager.java"/>
+    <exclude name="${pkg-path-prefix}/component/RbCbSelector.java"/>
+    <exclude name="${pkg-path-prefix}/component/SelectorManager.java"/>
+    <exclude name="${pkg-path-prefix}/component/Bundle.properties"/>
+    <exclude name="${pkg-path-prefix}/component/Table2*.java"/>
+    <exclude name="${pkg-path-prefix}/component/Widget.java"/>
+  </patternset>
+
+  <patternset id="webui-util">
+    <include name="${pkg-path-prefix}/util/ThemeUtilities.**"/>
+    <include name="${pkg-path-prefix}/util/UploadFilter.**"/>
+  </patternset>
+
+  <patternset id="webui-theme">
+    <include name="${theme-pkg-path-prefix}/theme/Theme.**"/>
+    <include name="${theme-pkg-path-prefix}/theme/ThemeConfigurationException.**"/>
+    <include name="${theme-pkg-path-prefix}/theme/ThemeFactory.**"/>
+    <include name="${theme-pkg-path-prefix}/theme/ThemeManager.**"/>
+    <include name="${theme-pkg-path-prefix}/theme/ThemeServlet.**"/>
+    <include name="${theme-pkg-path-prefix}/theme/ThemeContext.**"/>
+  </patternset>
+
+  <patternset id="webui-jsf-theme">
+    <include name="${pkg-path-prefix}/theme/ThemeImages.**"/>
+    <include name="${pkg-path-prefix}/theme/ThemeJavascript.**"/>
+    <include name="${pkg-path-prefix}/theme/ThemeStyles.**"/>
+    <include name="${pkg-path-prefix}/theme/ThemeTemplates.**"/>
+  </patternset>
+
+  <patternset id="webui-event">
+    <include name="${pkg-path-prefix}/event/TableSelectPhaseListener.**"/>
+    <include name="${pkg-path-prefix}/event/WizardEvent.**"/>
+    <include name="${pkg-path-prefix}/event/WizardEventListener.**"/>
+  </patternset>
+
+  <patternset id="webui-model">
+    <include name="${pkg-path-prefix}/model/FileChooserModel.**"/>
+    <include name="${pkg-path-prefix}/model/Option.**"/>
+    <include name="${pkg-path-prefix}/model/OptionGroup.**"/>
+    <include name="${pkg-path-prefix}/model/OptionTitle.**"/>
+    <include name="${pkg-path-prefix}/model/ResourceModelException.**"/>
+    <include name="${pkg-path-prefix}/model/ScheduledEvent.**"/>
+    <include name="${pkg-path-prefix}/model/Separator.**"/>
+    <include name="${pkg-path-prefix}/model/UploadedFile.**"/>
+    <include name="${pkg-path-prefix}/model/WizardModel.**"/>
+    <include name="${pkg-path-prefix}/model/WizardModelBase.**"/>
+    <include name="${pkg-path-prefix}/model/WizardStepItemBase.**"/>
+    <include name="${pkg-path-prefix}/model/WizardStepList.**"/>
+    <include name="${pkg-path-prefix}/model/WizardStepListBase.**"/>
+    <include name="${pkg-path-prefix}/model/WizardStepListItem.**"/>
+    <include name="${pkg-path-prefix}/model/scheduler/RepeatInterval.**"/>
+    <include name="${pkg-path-prefix}/model/scheduler/RepeatUnit.**"/>
+    <exclude name="${pkg-path-prefix}/model/Bundle.properties"/>
+
+  </patternset>
+
+  <patternset id="webui-bean">
+    <include name="${pkg-path-prefix}/bean/**"/>
+  </patternset>
+
+  <!-- Targets -->
+  <!-- default, not sure why default should be netbeans, just
+	 copying this convention from build.xml
+  -->
+
+  <target name="netbeans" depends="build-javadoc">
+  </target>
+
+  <target name="clean">
+	<delete dir="${javadocs}"/>
+	<delete dir="${tlddocs}"/>
+  </target>
+
+  <target name="javadoc-init">
+    <mkdir dir="${javadocs}"/>
+  </target>
+
+  <target name="build-javadoc" 
+    depends="javadoc-init,runtime-javadoc,designtime-javadoc"
+    description="Build webui runtime and designtime java doc">
+  </target>
+
+  <!-- Woodstock runtime JavaDoc -->
+  <target name="runtime-javadoc-init" depends="javadoc-init"
+    description="runtime-uptodate is set if class files are newer than index.html.">
+
+    <mkdir dir="${runtime-javadocs}"/>
+        
+    <uptodate property="_rt-javadoc.skip" 
+      targetfile="${runtime-javadocs}/index.html">
+      <srcfiles dir="${build}" includes="classes/runtime/**/*.class"/>
+    </uptodate>
+
+    <condition property="runtime-javadoc-uptodate">
+      <and>
+	<isset property="_rt-javadoc.skip"/>
+        <not>
+	  <isset property="build-javadoc.force"/>
+	</not>
+      </and>	
+    </condition>
+
+  </target>
+
+  <target name="runtime-javadoc" depends="runtime-javadoc-init"
+    unless="runtime-javadoc-uptodate"
+    description="Build runtime webui java doc">
+
+    <!-- for now use break iterator to cut down on noise -->
+      <!--
+      docletpath="${build}/tools/javadoc/lib/doclets.jar"
+      doclet="${pkg-prefix}.doclets.standard.Standard">
+      -->
+    <javadoc 
+      destdir="${runtime-javadocs}"
+      public="yes"
+      author="false"
+      version="true"
+      use="true"
+      breakiterator="no"
+      windowtitle="Web UI Components 4.0">
+      <!-- bean directory -->
+      <fileset dir="${webui-bean}">
+        <patternset refid="webui-bean"/>
+      </fileset>
+      <!-- component directory -->
+      <fileset dir="${webui-component}">
+        <patternset refid="webui-component"/>
+      </fileset>
+      <fileset dir="${webui-renderkit}">
+        <patternset refid="webui-renderkit"/>
+      </fileset>
+      <!-- util directory -->
+      <fileset dir="${webui-util}">
+        <patternset refid="webui-util"/>
+      </fileset>
+      <!-- ${webui-theme} is the theme src root directory
+	   the refid's refer to the theme infrastructure
+	   implementation "webui-theme" and the theme consants
+	   webui-jsf-theme -->
+      <fileset dir="${webui-theme}">
+        <patternset refid="webui-jsf-theme"/>
+      </fileset>
+      <fileset dir="${webui-theme}">
+        <patternset refid="webui-theme"/>
+      </fileset>
+      <!-- event package -->
+      <fileset dir="${webui-event}">
+        <patternset refid="webui-event"/>
+      </fileset>
+      <!-- model package -->
+      <fileset dir="${webui-model}">
+        <patternset refid="webui-model"/>
+      </fileset>
+      <classpath>
+        <fileset dir="${build.libs}">
+	  <patternset refid="dependent-libs"/>
+	  <patternset refid="jsf-ext-libs"/>
+        </fileset>
+	<fileset dir="${build.annotations}">
+	  <patternset refid="annotation-libs"/>
+	</fileset>
+        <pathelement location="${build.classes}"/>
+      </classpath>
+      <doctitle><![CDATA[<h1>Woodstock</h1>]]></doctitle>
+      <bottom><![CDATA[<i>Copyright &#169; 2007 Sun Microsystems, Inc. All Rights Reserved.</i>]]></bottom>
+      <group title="Woodstock" packages="${pkg-prefix}.*"/>
+    </javadoc>
+  </target>
+
+  <!-- Woodstock designtime JavaDoc -->
+  <target name="designtime-javadoc-init" depends="javadoc-init"
+    description="designtime-uptodate is set if class files are newer than index.html.">
+
+    <mkdir dir="${designtime-javadocs}"/>
+        
+    <uptodate property="_dt-javadoc.skip" 
+      targetfile="${designtime-javadocs}/index.html">
+      <srcfiles dir="${build.classes}" includes="designtime/**/*.class"/>
+    </uptodate>
+
+    <condition property="designtime-javadoc-uptodate">
+      <and>
+	<isset property="_dt-javadoc.skip"/>
+        <not>
+	  <isset property="build-javadoc.force"/>
+	</not>
+      </and>	
+    </condition>
+
+  </target>
+
+  <target name="designtime-javadoc" depends="designtime-javadoc-init"
+    unless="designtime-javadoc-uptodate">
+
+    <mkdir dir="${designtime-javadocs}"/>
+
+    <!-- for now use break iterator to cut down on noise -->
+    <javadoc 
+      destdir="${designtime-javadocs}"
+      public="yes"
+      author="false"
+      version="true"
+      use="true"
+      breakiterator="no"
+      windowtitle="Woodstock">
+      <!-- Generated classes -->
+      <packageset dir="${build}/gen/beaninfo">
+        <include name="com/sun/webui/**"/>
+      </packageset>
+      <packageset dir="${designtime-component}">
+        <include name="com/sun/webui/**"/>
+      </packageset>
+      <classpath>
+        <fileset dir="${build.libs}">
+	  <patternset refid="dependent-libs"/>
+	  <patternset refid="jsf-ext-libs"/>
+        </fileset>
+	<fileset dir="${build.annotations}">
+	  <patternset refid="annotation-libs"/>
+	</fileset>
+        <fileset dir="${build.dtlibs}">
+	  <patternset refid="designtime-libs"/>
+	</fileset>
+        <fileset dir="${build.idelibs}">
+	  <patternset refid="ide-libs"/>
+	</fileset>
+        <pathelement location="${build.classes}"/>
+      </classpath>
+      <doctitle><![CDATA[<h1>Woodstock</h1>]]></doctitle>
+      <bottom><![CDATA[<i>Copyright &#169; 2007 Sun Microsystems, Inc. All Rights Reserved.</i>]]></bottom>
+      <group title="Woodstock" packages="${pkg-prefix}.*"/>
+    </javadoc>
+
+  </target>
+
+  <!-- Generate tag library documentation from the tag library descriptor -->
+
+  <target name="tlddoc-init"
+    description="tlddoc-uptodate == false if webui.tld is newer tlddocs/index.html">
+
+    <mkdir dir="${tlddocs}"/>
+
+    <uptodate property="_index-uptodate" targetfile="${tlddocs}/index.html"
+      srcfile="${webui-tld}">
+    </uptodate>
+
+    <condition property="tlddoc-uptodate">
+      <and>
+	<isset property="_index-uptodate"/>
+	<not>
+	  <isset property="build-tlddoc.force"/>
+	</not>
+      </and>	
+    </condition>
+
+  </target>
+
+  <target name="build-tlddoc" depends="tlddoc-init"
+    unless="tlddoc-uptodate"
+    description="Build tld documentation">
+
+    <java jar="${tlddoc.jar}" fork="true">
+      <arg line="-d tlddocs"/>
+      <arg line="${webui-tld}"/>
+      <classpath>
+	<path refid="tlddoc.jar"/>
+      </classpath>
+    </java>
+
+  </target>
+
+</project>

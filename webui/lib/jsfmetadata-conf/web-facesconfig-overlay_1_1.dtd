@@ -1,0 +1,839 @@
+<!--
+ The contents of this file are subject to the terms
+ of the Common Development and Distribution License
+ (the License).  You may not use this file except in
+ compliance with the License.
+ 
+ You can obtain a copy of the license at
+ https://woodstock.dev.java.net/public/CDDLv1.0.html.
+ See the License for the specific language governing
+ permissions and limitations under the License.
+ 
+ When distributing Covered Code, include this CDDL
+ Header Notice in each file and include the License file
+ at https://woodstock.dev.java.net/public/CDDLv1.0.html.
+ If applicable, add the following below the CDDL Header,
+ with the fields enclosed by brackets [] replaced by
+ you own identifying information:
+ "Portions Copyrighted [year] [name of copyright owner]"
+ 
+ Copyright 2007 Sun Microsystems, Inc. All rights reserved.
+-->
+
+<!--
+    DTD for the JavaServer Faces Configuration Overlay File (Version 1.0)
+
+    To support validation of your overlay file(s), include the following
+    DOCTYPE element at the beginning (after the "xml" declaration):
+
+    <!DOCTYPE faces-config PUBLIC
+     "-//Sun Microsystems, Inc.//DTD JavaServer Faces Overlay 1.1//EN"
+     "http://www.sun.com/dtd/web-facesconfig-overlay_1_1.dtd">
+
+    $Id: web-facesconfig-overlay_1_1.dtd,v 1.1 2007-02-16 00:10:54 bob_yennaco Exp $
+
+-->
+
+
+<!-- ==================== Defined Types =================================== -->
+
+
+<!--
+    A "Boolean" is a true/false value that can be specified in any of
+    the following ways.
+-->
+<!ENTITY % Boolean "(true|false|TRUE|FALSE|yes|no|YES|NO)">
+
+
+<!--
+    A "ClassName" is the fully qualified name of a Java class that is
+    instantiated to provide the functionality of the enclosing element.
+-->
+<!ENTITY % ClassName "CDATA">
+
+
+<!--
+    A "ComponentFamily" is a String value that matches the "component-family"
+    subelement value of some "component" element in the same
+    configuration file, or the component family of a standard JSF component.
+-->
+<!ENTITY % ComponentFamily "CDATA">
+
+
+<!--
+    A "ComponentType" is a String value that matches the "component-type"
+    subelement value of some "component" element in the same
+    configuration file, or the component type of a standard JSF component.
+-->
+<!ENTITY % ComponentType "CDATA">
+
+
+<!--
+    A "Language" is a lower case two-letter code for a language as defined
+    by ISO-639.
+-->
+<!ENTITY % Language "CDATA">
+
+
+<!--
+    A "MethodName" is an identifier that corresponds to the syntax of a
+    legal Java method name.
+-->
+<!ENTITY % MethodName "CDATA">
+
+
+<!--
+    A "RendererType" is a String value that matches the "renderer-type"
+    subelement value of some "renderer" element in the same
+    configuration file, or the renderer type of a standard JSF renderer.
+-->
+<!ENTITY % RendererType "CDATA">
+
+
+<!--
+    A "VariableName" is an identifier that corresponds to the syntax of a
+    legal Java variable name.
+-->
+<!ENTITY % VariableName "CDATA">
+
+
+<!-- ==================== Top Level Elements ============================== -->
+
+
+<!--
+    The "faces-config" element is the root of the configuration information
+    hierarchy, and contains nested elements for all of the other configuration
+    settings.
+-->
+<!ELEMENT faces-config    ((component|converter|render-kit|validator)*)>
+<!ATTLIST faces-config
+       xmlns CDATA #FIXED "http://java.sun.com/JSF/Configuration">
+
+
+
+<!-- ==================== Definition Elements ============================= -->
+
+
+<!--
+    The "attribute" element represents a named, typed, value associated with
+    the parent UIComponent via the generic attributes mechanism.
+
+    Attribute names must be unique within the scope of the parent (or related)
+    component.
+-->
+<!ELEMENT attribute       (description*, display-name*, icon*, attribute-name, attribute-class?, default-value?, suggested-value?, attribute-extension*)>
+
+
+<!-- 
+    Extension element for attribute.
+-->
+<!ELEMENT attribute-extension ((category|default-value|editor-class|help-key|is-bindable|is-expert|is-hidden|named-value|pass-through|read-method|read-only|required|tag-attribute|write-method|write-only)*)>
+
+
+<!--
+    The "component" element represents a concrete UIComponent implementation
+    class that should be registered under the specified type identifier,
+    along with its associated properties and attributes.  Component types must
+    be unique within the entire web application.
+
+    Nested "attribute" elements identify generic attributes that are recognized
+    by the implementation logic of this component.  Nested "property" elements
+    identify JavaBeans properties of the component class that may be exposed
+    for manipulation via tools.
+-->
+<!ELEMENT component       (description*, display-name*, icon*, component-type, component-class?, facet*, attribute*, property*, component-extension*)>
+
+
+<!-- 
+    Extension element for component.
+-->
+<!ELEMENT component-extension ((base-component-type|component-family|customizer-class|is-expert|is-hidden|is-preferred|named-value|renderer-type)*)>
+
+
+<!--
+    The "converter" element represents a concrete Converter implementation
+    class that should be registered under the specified converter identifier.
+    Converter identifiers must be unique within the entire web application.
+
+    Nested "attribute" elements identify generic attributes that may be
+    configured on the corresponding UIComponent in order to affect the
+    operation of the Converter.  Nested "property" elements identify JavaBeans
+    properties of the Converter implementation class that may be configured
+    to affect the operation of the Converter.
+-->
+<!ELEMENT converter       (description*, display-name*, icon*, (converter-id | converter-for-class), converter-class?, attribute*, property*, converter-extension*)>
+
+
+<!-- 
+    Extension element for converter.  Reserved for future use.
+-->
+<!ELEMENT converter-extension EMPTY>
+
+
+<!--
+   Define the name and other design-time information for a facet that is
+   associated with a renderer or a component.
+-->
+<!ELEMENT facet       (description*, display-name*, icon*, facet-name, facet-extension*)>
+
+
+<!-- 
+    Extension element for facet.  Reserved for future use.
+-->
+<!ELEMENT facet-extension EMPTY>
+
+
+<!--
+    The "icon" element contains "small-icon" and "large-icon" elements that
+    specify the resoruce paths for small and large GIF or JPG icon images
+    used to represent the parent element in a GUI tool.
+-->
+<!ELEMENT icon            (small-icon?, large-icon?)>
+<!ATTLIST icon            xml:lang        %Language;      #IMPLIED>
+
+
+<!--
+    The "named-value" element represents an arbitrary name, coupled with
+    either a literal value or an expression used to calculate the value.
+-->
+<!ELEMENT named-value     (name, (expression | value))>
+
+
+<!--
+    The "property" element represents a JavaBean property of the Java class
+    represented by our parent element.
+
+    Property names must be unique within the scope of the Java class
+    that is represented by the parent element, and must correspond to
+    property names that will be recognized when performing introspection
+    against that class via java.beans.Introspector.
+-->
+<!ELEMENT property        (description*, display-name*, icon*, property-name, property-class?, default-value?, suggested-value?, property-extension*)>
+
+
+<!-- 
+    Extension element for property.
+-->
+<!ELEMENT property-extension ((alias-for|category|default-value|editor-class|help-key|is-bindable|is-expert|is-hidden|is-preferred|named-value|pass-through|read-method|read-only|required|tag-attribute|short-description|write-method|write-only)*)>
+
+
+<!--
+    The "render-kit" element represents a concrete RenderKit implementation
+    that should be registered under the specified render-kit-id.  If no
+    render-kit-id is specified, the identifier of the default RenderKit
+    (RenderKitFactory.DEFAULT_RENDER_KIT) is assumed.
+-->
+<!ELEMENT render-kit      (description*, display-name*, icon*, render-kit-id?, render-kit-class?, renderer*)>
+
+
+<!--
+    The "renderer" element represents a concrete Renderer implementation
+    class that should be registered under the specified component family
+    and renderer type identifiers, in the RenderKit associated with the
+    parent "render-kit" element.  Combinations of component family and renderer
+    type must be unique within the RenderKit associated with the parent
+    "render-kit" element.
+
+    Nested "attribute" elements identify generic component attributes that
+    are recognized by this renderer.
+-->
+<!ELEMENT renderer        (description*, display-name*, icon*, component-family, renderer-type, renderer-class?, facet*, attribute*, renderer-extension*)>
+
+
+<!-- 
+    Extension element for renderer.  May contain implementation
+    specific content.
+-->
+<!ELEMENT renderer-extension ((component-help-key|default-property-name|exclude-attributes|facet|instance-name|is-container|is-non-visual|markup-section|named-value|properties-help-key|property-categories|renders-children|resize-constraints|tag-name|taglib-prefix|taglib-uri)*)>
+
+
+<!--
+    The "validator" element represents a concrete Validator implementation
+    class that should be registered under the specified validator identifier.
+    Validator identifiers must be unique within the entire web application.
+
+    Nested "attribute" elements identify generic attributes that may be
+    configured on the corresponding UIComponent in order to affect the
+    operation of the Validator.  Nested "property" elements identify JavaBeans
+    properties of the Validator implementation class that may be configured
+    to affect the operation of the Validator.
+-->
+<!ELEMENT validator       (description*, display-name*, icon*, validator-id, validator-class?, attribute*, property*, validator-extension*)>
+
+
+<!-- 
+    Extension element for validator.  Reserved for future use.
+-->
+<!ELEMENT validator-extension EMPTY>
+
+
+<!-- ==================== Subordinate Elements ============================ -->
+
+
+<!--
+    The "alias-for" element represents the name of another property
+    on this component (or one of its superclasses) for which the containing
+    property is an alias.  Any generated getter and setter method for this
+    property should pass through to the corresponding getter or setter
+    on the aliased property.
+-->
+<!ELEMENT alias-for (#PCDATA)>
+
+
+<!--
+    The "attribute-class" element represents the Java type of the value
+    associated with this attribute name.  It must be of type "ClassName".
+-->
+<!ELEMENT attribute-class (#PCDATA)>
+
+
+<!--
+    The "attribute-name" element represents the name under which the
+    corresponding value will be stored, in the generic attributes of the
+    UIComponent we are related to.
+-->
+<!ELEMENT attribute-name  (#PCDATA)>
+
+
+<!--
+    The "base-component-type" element identifies the component type of
+    another component defined in the same configuration file, or the
+    component type of a standard JSF component.  Inclusion of a
+    "base-component-type" subelement causes the surrounding "component"
+    element to inherit all attribute and property elements defined on
+    that base component type.  It must be of type "ComponentType".
+    
+    In addition, a special value "com.sun.faces.Component" may be used
+    as the value of "base-component-type" for components whose implementation
+    class directly extends the javax.faces.component.UIComponentBase
+    abstract class, in order to inherit the standard attributes and
+    properties provided by UIComponentBase.
+-->
+<!ELEMENT base-component-type (#PCDATA)>
+
+
+<!--
+    The "category" element contains the property category under which this
+    property should appear in the property sheet for the containing
+    component.  It must be one of the values specified in the
+    "property-categories" element on the surrounding component.
+-->
+<!ELEMENT category (#PCDATA)>
+
+
+<!--
+    The "component-class" element represents the fully qualified class name
+    of a concrete UIComponent implementation class.  It must be of
+    type "ClassName".
+-->
+<!ELEMENT component-class (#PCDATA)>
+
+
+<!--
+    The "component-family" element represents the component family for
+    which the Renderer represented by the parent "renderer" element will be
+    used.
+-->
+<!ELEMENT component-family (#PCDATA)>
+
+
+<!--
+    The "component-help-key" element contains the lookup identifier for the
+    context sensitive help associated with this component.
+-->
+<!ELEMENT component-help-key (#PCDATA)>
+
+
+<!--
+    The "component-type" element represents the name under which the
+    corresponding UIComponent class should be registered.
+-->
+<!ELEMENT component-type  (#PCDATA)>
+
+
+<!--
+    The "converter-class" element represents the fully qualified class name
+    of a concrete Converter implementation class.  It must be of
+    type "ClassName".
+-->
+<!ELEMENT converter-class (#PCDATA)>
+
+
+<!--
+    The "converter-for-class" element represents the fully qualified class name
+    for which a Converter class will be registered.  It must be of
+    type "ClassName".
+-->
+<!ELEMENT converter-for-class (#PCDATA)>
+
+
+<!--
+    The "converter-id" element represents the identifier under which the
+    corresponding Converter class should be registered.
+-->
+<!ELEMENT converter-id    (#PCDATA)>
+
+
+<!--
+    The "customizer-class" element contains the fully qualified class name of
+    a java.beans.Customizer class associated with this component.
+-->
+<!ELEMENT customizer-class    (#PCDATA)>
+
+
+<!--
+    The "default-property-name" element contains the property name
+    of the property (in the property sheet) whose value should be
+    updated if the page author selects this component and begins typing.
+-->
+<!ELEMENT default-property-name (#PCDATA)>
+
+
+<!--
+    The "default-value" contains the value for the property or attribute
+    in which this element resides.  This value differs from the
+    "suggested-value" in that the property or attribute must take the
+    value, whereas in "suggested-value" taking the value is optional.
+-->
+<!ELEMENT default-value (#PCDATA)>
+
+
+<!--
+    The "description" element contains a textual description of the element
+    it is nested in, optionally flagged with a language code using the
+    "xml:lang" attribute.
+-->
+<!ELEMENT description     ANY>
+<!ATTLIST description     xml:lang        %Language;      #IMPLIED>
+
+
+<!--
+    The "display-name" element is a short descriptive name describing the
+    entity associated with the element it is nested in, intended to be
+    displayed by tools, and optionally flagged with a language code using
+    the "xml:lang" attribute.
+-->
+<!ELEMENT display-name    (#PCDATA)>
+<!ATTLIST display-name    xml:lang        %Language;      #IMPLIED>
+
+
+<!--
+    The "editor-class" element contains the fully qualified class name of
+    a java.beans.PropertyEditor class associated with this component.
+    If not specified, a default property editor will be used.
+-->
+<!ELEMENT editor-class    (#PCDATA)>
+
+
+<!--
+    The "exclude-attributes" element contains a space separated list of
+    component properties for which JSP custom tag attributes should not
+    be generated.
+-->
+<!ELEMENT exclude-attributes (#PCDATA)>
+
+
+<!--
+    The "expression" element represents a Java expression used to calculate
+    the value for an arbitrary named value.
+-->
+<!ELEMENT expression      (#PCDATA)>
+
+
+<!--
+    The "facet-name" element represents the facet name under which a
+    UIComponent will be added to its parent.  It must be of type
+    "Identifier".
+-->
+<!ELEMENT facet-name (#PCDATA)>
+
+
+<!--
+    The "help-key" element contains the lookup identifier for the
+    context sensitive help associated with this property.
+-->
+<!ELEMENT help-key (#PCDATA)>
+
+
+<!--
+    The "instance-name" element contains the base variable name for
+    the component property that will be created in the page bean
+    and bound to the corresponding JSP tag.  If more than one component
+    of the same type is used in the same page, a suffix will be
+    added automatically to make the names unique.  It must be of
+    type "VariableName".
+-->
+<!ELEMENT instance-name (#PCDATA)>
+
+
+<!--
+    The "is-bindable" element contains a boolean value indicating whether
+    or not value binding expressions may be used to specify the value of
+    the surrounding attribute or property.  If not specified, the default
+    value is true.  It must be of type "Boolean".
+-->
+<!ELEMENT is-bindable (#PCDATA)>
+
+
+<!--
+    The "is-container" element contains a boolean value indicating whether
+    or not this component is a "container" that can contain nested
+    components.  If not specified, the default value is "true".  It
+    must be of type "Boolean".
+-->
+<!ELEMENT is-container (#PCDATA)>
+
+
+<!--
+    The "is-expert" element contains a boolean value indicating whether
+    this component or property should be marked as for "experts".
+-->
+<!ELEMENT is-expert (#PCDATA)>
+
+
+<!--
+    The "is-hidden" element contains a boolean value indicating whether
+    this property should be hidden (not appear on the property sheet),
+    or this component should be hidden (not appear on the palette).
+    It must be of type "Boolean".
+-->
+<!ELEMENT is-hidden (#PCDATA)>
+
+
+<!--
+    The "is-non-visual" element contains a boolean value indicating whether
+    or not this component creates no visible rendering markup.  Such a
+    component will be placed in the tray for the JSP page, so that it
+    may still be conveniently selected and modified.  It must be of
+    type "Boolean".
+-->
+<!ELEMENT is-non-visual (#PCDATA)>
+
+
+<!--
+    The "is-preferred" element contains a boolean value indicating whether
+    this component or property should be preferred to others.  It must be
+    of type "Boolean".
+-->
+<!ELEMENT is-preferred (#PCDATA)>
+
+
+<!--
+    The "large-icon" element contains the resource path to a large (32x32)
+    icon image.  The image may be in either GIF or JPG format.
+-->
+<!ELEMENT large-icon      (#PCDATA)>
+
+
+<!--
+    The "markup-section" element contains the identifier of the HTML
+    area into which this type of component wishes to be bound.  Valid
+    values are "head" (HTML "head" element), "body" (HTML "body" element),
+    and "form" (the standard form element created by default).  If not
+    specified, the default value is "form".
+-->
+<!ELEMENT markup-section  (#PCDATA)>
+
+
+<!--
+    The "name" element represents the name of an arbitrary named value.
+-->
+<!ELEMENT name            (#PCDATA)>
+
+
+<!--
+    The "pass-through" element is a flag indicating that the
+    attribute or property is passed straight through to rendered
+    markup, if it has a configured value, with no interpretation
+    by the renderer.  It must be of type "Boolean"
+-->
+<!ELEMENT pass-through    (#PCDATA)>
+
+
+<!--
+    The "properties-help-key" element contains the lookup identifier for the
+    context sensitive help associated with the property sheet for this
+    component.
+-->
+<!ELEMENT properties-help-key (#PCDATA)>
+
+
+<!--
+    The "property-categories" element contains a comma-separated list of
+    the property categories to be presented on the property sheet for
+    this component.  By default, categories corresponding to all of these
+    symbolic labels are used:  GENERAL, APPEARANCE, DATA, EVENTS,
+    JAVASCRIPT, ADVANCED, INTERNAL.  Any specified list must be a
+    subset of these symbolic labels.
+-->
+<!ELEMENT property-categories (#PCDATA)>
+
+
+<!--
+    The "property-class" element represents the Java type of the value
+    associated with this property name.  It must be of type "JavaType".
+    If not specified, it can be inferred from existing classes; however,
+    this element should be specified if the configuration file is going
+    to be the source for generating the corresponding classes.
+-->
+<!ELEMENT property-class  (#PCDATA)>
+
+
+<!--
+    The "property-name" element represents the JavaBeans property name
+    under which the corresponding value may be stored.
+-->
+<!ELEMENT property-name   (#PCDATA)>
+
+
+<!--
+    The "read-method" element contains the name of the property getter
+    method for the containing property, if it does not match the
+    standard JavaBeans design pattern (isFoo for a boolean property foo,
+    or getFoo for any other property type).  It must be of type "MethodName".
+-->
+<!ELEMENT read-method     (#PCDATA)>
+
+
+<!--
+    The "read-only" element is a flag indicating that the
+    attribute or property has a property getter but not a
+    setter.  It must be of type "Boolean".
+-->
+<!ELEMENT read-only       (#PCDATA)>
+
+
+<!--
+    The "render-kit-id" element represents an identifier for the
+    RenderKit represented by the parent "render-kit" element.
+-->
+<!ELEMENT render-kit-id   (#PCDATA)>
+
+
+<!--
+    The "render-kit-class" element represents the fully qualified class name
+    of a concrete RenderKit implementation class.  It must be of
+    type "ClassName".
+-->
+<!ELEMENT render-kit-class (#PCDATA)>
+
+
+<!--
+    The "renderer-class" element represents the fully qualified class name
+    of a concrete Renderer implementation class.  It must be of
+    type "ClassName".
+-->
+<!ELEMENT renderer-class  (#PCDATA)>
+
+
+<!--
+    The "renderer-type" element represents a renderer type identifier for the
+    Renderer represented by the parent "renderer" element.  It must be
+    of type "RendererType"
+-->
+<!ELEMENT renderer-type   (#PCDATA)>
+
+
+<!--
+    The "renders-children" element is a boolean that describes whether
+    the getRendersChildren() method for this component returns "true"
+    or "false".  It must be of type "boolean".
+-->
+<!ELEMENT renders-children (#PCDATA)>
+
+
+<!--
+    The "required" element is a flag indicating that the
+    attribute or property should have a "required" attribute
+    on the corresponding JSP tag attribute.  It must be of type "Boolean".
+-->
+<!ELEMENT required        (#PCDATA)>
+
+
+<!--
+    The "resize-constraints" element contains a symbolic value
+    identifying in which directions this component may be resized
+    on the design surface.  Legal values are: TOP, LEFT, BOTTOM,
+    RIGHT, VERTICAL, HORIZONTAL, ANY, NONE.  If not specified,
+    ANY is assumed.
+-->
+<!ELEMENT resize-constraints (#PCDATA)>
+
+
+<!--
+    The "small-icon" element contains the resource path to a large (16x16)
+    icon image.  The image may be in either GIF or JPG format.
+-->
+<!ELEMENT small-icon      (#PCDATA)>
+
+
+<!--
+    The "suggested-value" contains the value for the property or
+    attribute in which this element resides.  This value is advisory
+    only and is intended for tools to use when populating pallettes.
+-->
+<!ELEMENT suggested-value (#PCDATA)>
+
+
+<!--
+    The "tag-attribute" element is a flag indicating that the
+    attribute or property should have a JSP tag attribute
+    on the corresponding JSP tag.  It must be of type "Boolean".
+-->
+<!ELEMENT tag-attribute   (#PCDATA)>
+
+<!-- 
+    The "short-description" element contains the tool tip for the property.
+-->
+<!ELEMENT short-description   (#PCDATA)>
+
+
+<!--
+    The "tag-name" element contains the name of the JSP custom tag
+    that the designer should create when a component of this type is
+    dropped onto the design surface.  For correct behavior at runtime,
+    it *must* match the actual tag from the tag library identified by
+    the corresonding "taglib-prefix" and "taglib-uri" attributes.
+-->
+<!ELEMENT tag-name        (#PCDATA)>
+
+
+<!--
+    The "taglib-prefix" element contains the tag library prefix
+    (without the ":" separator) that will be generated in front of
+    the tag name when a component of this type is droped onto the
+    design surface.  For correct behavior at runtime, all of the
+    component definitions which have custom tags in the same tag library
+    must have identical values for the "taglib-prefix" and
+    "taglib-uri" elements.
+-->
+<!ELEMENT taglib-prefix   (#PCDATA)>
+
+
+<!--
+    The "taglib-uri" element contains the uniform resource identifier
+    (URI) that corresponds to the tag library descriptor containing
+    the JSP custom tag for this component.  For correct behavior at
+    runtime, all of the component definitions which have custom tags
+    in the same tag library must have identical values for the
+    "taglib-prefix" and "taglib-uri" elements.
+-->
+<!ELEMENT taglib-uri      (#PCDATA)>
+
+
+<!--
+    The "validator-class" element represents the fully qualified class name
+    of a concrete Validator implementation class.  It must be of
+    type "ClassName".
+-->
+<!ELEMENT validator-class (#PCDATA)>
+
+
+<!--
+    The "validator-id" element represents the identifier under which the
+    corresponding Validator class should be registered.
+-->
+<!ELEMENT validator-id    (#PCDATA)>
+
+
+<!--
+    The "value" element represents a literal value for an arbitrary
+    named value.
+-->
+<!ELEMENT value           (#PCDATA)>
+
+
+<!--
+    The "write-method" element contains the name of the property setter
+    method for the containing property, if it does not match the
+    standard JavaBeans design pattern (setFoo for a property named foo).
+    It must be of type "MethodName".
+-->
+<!ELEMENT write-method    (#PCDATA)>
+
+
+<!--
+    The "write-only" element is a flag indicating that the
+    attribute or property has a property setter but not a
+    getter.  It must be of type "Boolean".
+-->
+<!ELEMENT write-only      (#PCDATA)>
+
+
+<!-- ============================ Identifier Attributes ==================== -->
+
+
+<!ATTLIST alias-for                         id ID #IMPLIED>
+<!ATTLIST attribute                         id ID #IMPLIED>
+<!ATTLIST attribute-class                   id ID #IMPLIED>
+<!ATTLIST attribute-extension               id ID #IMPLIED>
+<!ATTLIST attribute-name                    id ID #IMPLIED>
+<!ATTLIST base-component-type               id ID #IMPLIED>
+<!ATTLIST category                          id ID #IMPLIED>
+<!ATTLIST component                         id ID #IMPLIED>
+<!ATTLIST component-class                   id ID #IMPLIED>
+<!ATTLIST component-extension               id ID #IMPLIED>
+<!ATTLIST component-family                  id ID #IMPLIED>
+<!ATTLIST component-help-key                id ID #IMPLIED>
+<!ATTLIST component-type                    id ID #IMPLIED>
+<!ATTLIST converter                         id ID #IMPLIED>
+<!ATTLIST converter-class                   id ID #IMPLIED>
+<!ATTLIST converter-extension               id ID #IMPLIED>
+<!ATTLIST converter-for-class               id ID #IMPLIED>
+<!ATTLIST converter-id                      id ID #IMPLIED>
+<!ATTLIST customizer-class                  id ID #IMPLIED>
+<!ATTLIST default-property-name             id ID #IMPLIED>
+<!ATTLIST default-value                     id ID #IMPLIED>
+<!ATTLIST description                       id ID #IMPLIED>
+<!ATTLIST display-name                      id ID #IMPLIED>
+<!ATTLIST editor-class                      id ID #IMPLIED>
+<!ATTLIST exclude-attributes                id ID #IMPLIED>
+<!ATTLIST expression                        id ID #IMPLIED>
+<!ATTLIST faces-config                      id ID #IMPLIED>
+<!ATTLIST facet                             id ID #IMPLIED>
+<!ATTLIST facet-extension                   id ID #IMPLIED>
+<!ATTLIST facet-name                        id ID #IMPLIED>
+<!ATTLIST help-key                          id ID #IMPLIED>
+<!ATTLIST icon                              id ID #IMPLIED>
+<!ATTLIST instance-name                     id ID #IMPLIED>
+<!ATTLIST is-bindable                       id ID #IMPLIED>
+<!ATTLIST is-container                      id ID #IMPLIED>
+<!ATTLIST is-expert                         id ID #IMPLIED>
+<!ATTLIST is-hidden                         id ID #IMPLIED>
+<!ATTLIST is-non-visual                     id ID #IMPLIED>
+<!ATTLIST is-preferred                      id ID #IMPLIED>
+<!ATTLIST large-icon                        id ID #IMPLIED>
+<!ATTLIST markup-section                    id ID #IMPLIED>
+<!ATTLIST name                              id ID #IMPLIED>
+<!ATTLIST named-value                       id ID #IMPLIED>
+<!ATTLIST pass-through                      id ID #IMPLIED>
+<!ATTLIST properties-help-key               id ID #IMPLIED>
+<!ATTLIST property                          id ID #IMPLIED>
+<!ATTLIST property-categories               id ID #IMPLIED>
+<!ATTLIST property-class                    id ID #IMPLIED>
+<!ATTLIST property-extension                id ID #IMPLIED>
+<!ATTLIST property-name                     id ID #IMPLIED>
+<!ATTLIST read-method                       id ID #IMPLIED>
+<!ATTLIST read-only                         id ID #IMPLIED>
+<!ATTLIST render-kit                        id ID #IMPLIED>
+<!ATTLIST render-kit-class                  id ID #IMPLIED>
+<!ATTLIST render-kit-id                     id ID #IMPLIED>
+<!ATTLIST renderer                          id ID #IMPLIED>
+<!ATTLIST renderer-class                    id ID #IMPLIED>
+<!ATTLIST renderer-extension                id ID #IMPLIED>
+<!ATTLIST renderer-type                     id ID #IMPLIED>
+<!ATTLIST renders-children                  id ID #IMPLIED>
+<!ATTLIST required                          id ID #IMPLIED>
+<!ATTLIST resize-constraints                id ID #IMPLIED>
+<!ATTLIST small-icon                        id ID #IMPLIED>
+<!ATTLIST suggested-value                   id ID #IMPLIED>
+<!ATTLIST tag-name                          id ID #IMPLIED>
+<!ATTLIST taglib-prefix                     id ID #IMPLIED>
+<!ATTLIST taglib-uri                        id ID #IMPLIED>
+<!ATTLIST validator                         id ID #IMPLIED>
+<!ATTLIST validator-class                   id ID #IMPLIED>
+<!ATTLIST validator-extension               id ID #IMPLIED>
+<!ATTLIST validator-id                      id ID #IMPLIED>
+<!ATTLIST value                             id ID #IMPLIED>
+<!ATTLIST write-method                      id ID #IMPLIED>
+<!ATTLIST write-only                        id ID #IMPLIED>

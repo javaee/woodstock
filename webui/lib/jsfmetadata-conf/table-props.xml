@@ -1,0 +1,185 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<!--
+ The contents of this file are subject to the terms
+ of the Common Development and Distribution License
+ (the License).  You may not use this file except in
+ compliance with the License.
+ 
+ You can obtain a copy of the license at
+ https://woodstock.dev.java.net/public/CDDLv1.0.html.
+ See the License for the specific language governing
+ permissions and limitations under the License.
+ 
+ When distributing Covered Code, include this CDDL
+ Header Notice in each file and include the License file
+ at https://woodstock.dev.java.net/public/CDDLv1.0.html.
+ If applicable, add the following below the CDDL Header,
+ with the fields enclosed by brackets [] replaced by
+ you own identifying information:
+ "Portions Copyrighted [year] [name of copyright owner]"
+ 
+ Copyright 2007 Sun Microsystems, Inc. All rights reserved.
+-->
+
+
+
+<!-- ========== Table Properties =========================================== -->
+
+
+      <property>
+        <property-name>bgcolor</property-name>
+        <property-extension>
+          <category>APPEARANCE</category>
+        </property-extension>
+      </property>
+
+      <property>
+        <property-name>border</property-name>
+        <property-extension>
+          <category>APPEARANCE</category>
+          <editor-class>
+            com.sun.jsfcl.std.property.IntegerPropertyEditor
+          </editor-class>
+          <named-value>
+            <name>minValue</name>
+            <expression>new Integer(0)</expression>
+          </named-value>
+          <named-value>
+            <name>unsetValue</name>
+            <expression>new Integer(Integer.MIN_VALUE)</expression>
+         </named-value>       
+        </property-extension>
+      </property>
+
+      <property>
+        <property-name>cellpadding</property-name>
+        <property-extension>
+          <category>APPEARANCE</category>
+          <editor-class>
+            com.sun.jsfcl.std.property.LengthValuePropertyEditor
+          </editor-class>
+        </property-extension>
+      </property>
+
+      <property>
+        <property-name>cellspacing</property-name>
+        <property-extension>
+          <category>APPEARANCE</category>
+          <editor-class>
+            com.sun.jsfcl.std.property.LengthValuePropertyEditor
+          </editor-class>
+        </property-extension>
+      </property>
+
+      <property>
+        <property-name>columnClasses</property-name>
+        <property-extension>
+          <category>APPEARANCE</category>
+          <editor-class>
+            com.sun.jsfcl.std.property.ChooseManyOfManyReferenceDataPropertyEditor
+          </editor-class>
+          <named-value>
+            <name>referenceDataDefiner</name>
+            <expression>
+              com.sun.jsfcl.std.reference.ReferenceDataManager.STYLE_CLASSES
+            </expression>
+          </named-value>
+        </property-extension>
+      </property>
+
+      <property>
+        <property-name>footerClass</property-name>
+        <property-extension>
+          <category>APPEARANCE</category>
+          <editor-class>
+            com.sun.jsfcl.std.property.ChooseManyReferenceDataPropertyEditor
+          </editor-class>
+          <named-value>
+            <name>referenceDataDefiner</name>
+            <expression>
+              com.sun.jsfcl.std.reference.ReferenceDataManager.STYLE_CLASSES
+            </expression>
+          </named-value>
+        </property-extension>
+      </property>
+
+      <property>
+        <property-name>frame</property-name>
+        <property-extension>
+          <category>ADVANCED</category>
+          <editor-class>
+            com.sun.jsfcl.std.property.ChooseOneReferenceDataPropertyEditor
+          </editor-class>
+          <named-value>
+            <name>referenceDataDefiner</name>
+            <expression>
+              com.sun.jsfcl.std.reference.ReferenceDataManager.TFRAMES
+            </expression>
+          </named-value>
+        </property-extension>
+      </property>
+
+      <property>
+        <property-name>headerClass</property-name>
+        <property-extension>
+          <category>APPEARANCE</category>
+          <editor-class>
+            com.sun.jsfcl.std.property.ChooseManyReferenceDataPropertyEditor
+          </editor-class>
+          <named-value>
+            <name>referenceDataDefiner</name>
+            <expression>
+              com.sun.jsfcl.std.reference.ReferenceDataManager.STYLE_CLASSES
+            </expression>
+          </named-value>
+        </property-extension>
+      </property>
+
+      <property>
+        <property-name>rowClasses</property-name>
+        <property-extension>
+          <category>APPEARANCE</category>
+          <editor-class>
+            com.sun.jsfcl.std.property.ChooseManyOfManyReferenceDataPropertyEditor
+          </editor-class>
+          <named-value>
+            <name>referenceDataDefiner</name>
+            <expression>
+              com.sun.jsfcl.std.reference.ReferenceDataManager.STYLE_CLASSES
+            </expression>
+          </named-value>
+        </property-extension>
+      </property>
+
+      <property>
+        <property-name>rules</property-name>
+        <property-extension>
+          <category>APPEARANCE</category>
+          <editor-class>
+            com.sun.jsfcl.std.property.ChooseOneReferenceDataPropertyEditor
+          </editor-class>
+          <named-value>
+            <name>referenceDataDefiner</name>
+            <expression>
+              com.sun.jsfcl.std.reference.ReferenceDataManager.TABLE_RULES
+            </expression>
+          </named-value>
+        </property-extension>
+      </property>
+
+      <property>
+        <property-name>summary</property-name>
+        <property-extension>
+            <category>APPEARANCE</category>
+        </property-extension>
+      </property>
+
+      <property>
+        <property-name>width</property-name>
+        <property-extension>
+            <category>APPEARANCE</category>
+            <editor-class>
+              com.sun.jsfcl.std.property.LengthValuePropertyEditor
+            </editor-class>
+        </property-extension>
+      </property>

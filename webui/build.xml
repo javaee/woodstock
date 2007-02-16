@@ -1,0 +1,451 @@
+<?xml version='1.0' encoding='ISO-8859-1' ?>
+<!--
+ The contents of this file are subject to the terms
+ of the Common Development and Distribution License
+ (the License).  You may not use this file except in
+ compliance with the License.
+ 
+ You can obtain a copy of the license at
+ https://woodstock.dev.java.net/public/CDDLv1.0.html.
+ See the License for the specific language governing
+ permissions and limitations under the License.
+ 
+ When distributing Covered Code, include this CDDL
+ Header Notice in each file and include the License file
+ at https://woodstock.dev.java.net/public/CDDLv1.0.html.
+ If applicable, add the following below the CDDL Header,
+ with the fields enclosed by brackets [] replaced by
+ you own identifying information:
+ "Portions Copyrighted [year] [name of copyright owner]"
+ 
+ Copyright 2007 Sun Microsystems, Inc. All rights reserved.
+-->
+
+<project name="webui" default="netbeans" basedir=".">
+
+    <!-- ### See build-manifest.xml for manifest generation information ### -->
+
+    <!-- Initialize property values -->
+    <property file="build.properties"/>
+
+    <!-- ### Defined in build.properties ### 
+    <property name="taglib-prefix" value="ui"/>
+    <property name="taglib-uri" value="http://www.sun.com/web/ui"/>
+    <property name="generator-class"
+    value="com.sun.rave.jsfmeta.generators.Main"/>
+    <property name="pkg-prefix" value="com.sun.webui.jsf"/>
+    <property name="pkg-path-prefix" value="com/sun/webui/jsf"/>
+    -->
+
+    <property name="build" value="build"/>
+
+    <!-- ### Shouldn't these go under "build" ? ### -->
+    <property name="gen" value="${basedir}/gen"/>
+    <property name="dist" value="${basedir}/dist"/>
+    <property name="classes" value="${basedir}/classes"/>
+
+    <!-- build-doc.xml assumes this location -->
+    <property name="javadoc" value="${basedir}/javadocs"/>
+
+    <property name="netbeans" value="${basedir}/netbeans"/>
+    <property name="lib" value="${basedir}/lib"/>
+    <property name="lib.annotations" value="${lib}/annotations"/>
+    <property name="lib.creator" value="${lib}/creator"/>
+    <property name="lib.external" value="${lib}/external"/>
+    <property name="lib.netbeans" value="${lib}/netbeans"/>
+
+    <property name="module" value="${basedir}/module"/>
+    <property name="module-runtime" value="${module}"/>
+  
+    <property name="themes.dir" value="${basedir}/../themes"/>
+
+    <property name="runtime" value="${basedir}/src/runtime"/>
+    <property name="runtime-conf" value="src/runtime/conf"/>
+    <property name="designtime" value="${basedir}/src/designtime"/>
+    <property name="designtime-conf" value="src/designtime/conf"/>
+
+
+    <!-- build-doc.xml assumes this location  -->
+    <property name="runtime-javadoc" value="${javadoc}/runtime"/>
+    <property name="webui-src.zip" value="webui-jsf-src.zip"/>
+    <property name="webui-doc.zip" value="webui-jsf-doc.zip"/>
+
+    <!-- build-doc.xml assumes this location as well -->
+    <property name="designtime-javadoc" value="${javadoc}/designtime"/>
+    <property name="webui-dt-src.zip" value="webui-jsf-dt-src.zip"/>
+    <property name="webui-dt-doc.zip" value="webui-jsf-dt-doc.zip"/>
+
+    <property name="webui.jar" value="webui-jsf.jar"/>
+    <property name="webui-dt.jar" value="webui-jsf-dt.jar"/>
+    <property name="webui.tld" value="webui-jsf.tld"/>
+
+    <property name="suntheme.jar" value="webui-jsf-suntheme.jar"/>
+
+    <!-- JAVA_HOME points to JDK on Mac, to JRE elsewhere. -->
+    <condition property="apt.home" value="${java.home}" else="${java.home}/..">
+        <os family="mac"/>
+    </condition>
+
+    <!-- Path references -->
+
+    <path id="annotation-lib.jars">
+        <!-- The Faces annotation library -->
+        <pathelement location="${lib.annotations}/jsfa-lib.jar"/>
+    </path>
+
+    <path id="annotation-beaninfo.jars">
+        <!-- BeanInfo implementations for the JSF base components -->
+        <pathelement location="${lib.annotations}/jsf-dt.jar"/>
+    </path>
+    
+    <path id="annotation-processor.jars">
+        <!-- Libraries need to execute the annotation processor -->
+        <pathelement location="${lib.annotations}/jsfa-proc.jar"/>
+        <pathelement location="${lib.annotations}/velocity-1.4.jar"/>
+        <pathelement location="${lib.annotations}/velocity-dep-1.4.jar"/>
+    </path>
+    
+    <path id="annotation-classpath">
+        <path refid="annotation-lib.jars"/>
+        <path refid="annotation-beaninfo.jars"/>
+        <path refid="annotation-processor.jars"/>
+        <path refid="propertyeditors.jars"/>
+        <path refid="jsf.jars"/>
+        <path refid="jsf-ri.jars"/>
+        <path refid="designtime.jars"/>
+        <path refid="dataprovider.jars"/>
+	<path refid="jsf-extension.jars"/>
+	<path refid="json.jars"/>
+        <path location="src/runtime"/>
+    </path>
+    
+    <path id="annotation-sourcepath">
+        <fileset dir="src/runtime">
+            <include name="com/sun/webui/jsf/component/*.java"/>
+            <include name="com/sun/webui/jsf/renderkit/html/*.java"/>
+            <include name="com/sun/webui/jsf/renderkit/ajax/*.java"/>
+            <include name="com/sun/webui/jsf/renderkit/designtime/*.java"/>
+            <include name="com/sun/webui/jsf/renderkit/widget/*.java"/>
+            <include name="com/sun/webui/jsf/faces/*.java"/>
+        </fileset>
+        <fileset dir="src/designtime">
+            <include name="com/sun/webui/jsf/design/CategoryDescriptors.java"/>
+        </fileset>
+    </path>
+
+    <path id="dataprovider.jars">
+        <pathelement location="${lib.external}/dataprovider.jar"/>
+        <pathelement location="${lib.external}/dataprovider-dt.jar"/>
+    </path>
+
+    <path id="digester.jars">
+        <pathelement location="${lib.external}/commons-beanutils.jar"/>
+        <pathelement location="${lib.external}/commons-digester.jar"/>
+    </path>
+
+
+    <path id="jhelp.jars">
+        <pathelement location="${lib.external}/jhall.jar"/>
+    </path>
+
+    <path id="jsf.jars">
+        <pathelement location="${lib.external}/commons-collections.jar"/>
+        <pathelement location="${lib.external}/commons-fileupload-1.0.jar"/>
+        <pathelement location="${lib.external}/commons-logging.jar"/>
+        <pathelement location="${lib.external}/portlet.jar"/>
+        <pathelement location="${lib.external}/javaee.jar"/>
+        <pathelement location="${lib.external}/appserver-rt.jar"/>
+    </path>
+
+    <path id="jsf-ri.jars">
+        <pathelement location="${lib.external}/jsf-impl.jar"/>
+    </path>
+
+    <path id="tlddoc.jars">
+        <pathelement location="${lib.external}/tlddoc.jar"/>
+    </path>
+
+    <path id="webui.jars">
+        <pathelement location="${netbeans}/modules/autoload/ext/${webui.jar}"/>
+    </path>
+
+    <path id="jsfcl.jars">
+        <pathelement location="${lib.creator}/jsfcl.jar"/>
+        <pathelement location="${lib.creator}/jsfsupport-designtime.jar"/>
+        <pathelement location="${lib.external}/rowset.jar"/>
+    </path>
+  
+    <path id="designtime.jars">
+        <pathelement location="${lib.creator}/designtime.jar"/>
+    </path>
+    
+    <path id="propertyeditors.jars">
+        <pathelement location="${lib.creator}/com-sun-rave-propertyeditors.jar"/>
+        <pathelement location="${lib.netbeans}/openide.jar"/>
+        <pathelement location="${lib.netbeans}/openide-loaders.jar"/>
+    </path>
+
+    <path id="jsf-extension.jars">
+        <pathelement location="${lib.external}/jsf-extensions-dynamic-faces-0.1.jar"/>
+    </path>
+
+    <path id="json.jars">
+        <pathelement location="${lib.external}/json.jar"/>
+    </path>
+
+    
+    <!-- Build targets -->
+  
+    <target name="process-runtime-annotations">
+        <uptodate property="annotations-uptodate" targetfile="gen/.runtime-annotations-processed">
+            <srcfiles dir="src/runtime" includes="**/*.java"/>
+        </uptodate>
+        <antcall target="process-annotations">
+            <param name="generate-option" value="generate.runtime"/>
+            <param name="generated-source-dir" value="gen/taglib"/>
+            <param name="generated-classes-dir" value="gen/META-INF"/>
+        </antcall>
+        <touch file="gen/.runtime-annotations-processed"/>
+    </target>
+  
+    <target name="process-designtime-annotations">
+        <uptodate property="annotations-uptodate" targetfile="gen/.designtime-annotations-processed">
+            <srcfiles dir="src/runtime" includes="**/*.java"/>
+        </uptodate>
+        <antcall target="process-annotations">
+            <param name="generate-option" value="generate.designtime"/>
+            <param name="generated-source-dir" value="gen/beaninfo"/>
+            <param name="generated-classes-dir" value="gen/META-INF"/>
+        </antcall>
+        <touch file="gen/.designtime-annotations-processed"/>
+    </target>
+  
+    <target name="process-annotations" unless="annotations-uptodate">
+        <pathconvert property="apt.classpath">
+            <path refid="annotation-classpath"/>
+        </pathconvert>
+        <pathconvert property="apt.sourcepath" pathsep=" ">
+            <path refid="annotation-sourcepath"/>
+        </pathconvert>
+        <exec executable="${apt.home}/bin/apt">
+            <arg line="-s ${generated-source-dir}"/>
+            <arg line="-d ${generated-classes-dir}"/>
+            <arg line="-nocompile"/>
+            <arg value="-A ${generate-option}"/>
+            <arg value="-A namespace.uri=${taglib-uri}"/>
+            <arg value="-A namespace.prefix=${taglib-prefix}"/>
+            <arg value="-A taglibdoc=src/runtime/conf/tag-descriptions.xml"/>
+            <arg value="-A localize"/>
+            <arg line="-classpath ${apt.classpath}"/>
+            <arg line="-factory com.sun.faces.mirror.FacesAnnotationProcessorFactory"/>
+            <arg line="${apt.sourcepath}"/>
+        </exec>
+    </target>
+
+    <target name="compile-precopy-runtime" depends="process-runtime-annotations"
+        unless="runtime-conf-uptodate">
+        <mkdir dir="${classes}/runtime"/>
+        <mkdir dir="${module-runtime}/src"/>
+    </target>
+
+    <target name="compile-all-runtime" depends="compile-precopy-runtime">
+        <javac srcdir="${runtime}:${gen}/taglib" 
+            destdir="${classes}/runtime" deprecation="false"
+            debug="${debug}"
+            optimize="false"
+            source="1.5" target="1.5">
+            <compilerarg line="-Xmaxwarns 1000"/>
+            <classpath>
+                <path refid="annotation-lib.jars"/>
+                <path refid="dataprovider.jars"/>
+                <path refid="jsf.jars"/>
+                <path refid="jhelp.jars"/>
+                <path refid="jsf-extension.jars"/>
+                <path refid="json.jars"/>
+            </classpath>
+        </javac>
+        <copy todir="${classes}/runtime">
+            <fileset dir="${runtime}">
+                <exclude name="**/*.java"/>
+                <exclude name="**/conf/**"/>
+            </fileset>
+            <fileset dir="${gen}/taglib">
+                <exclude name="**/*.java"/>
+            </fileset>
+        </copy>
+    </target>
+
+    <target name="compile-precopy-designtime" depends="process-designtime-annotations"
+        unless="designtime-conf-uptodate">
+        <mkdir dir="${classes}/designtime"/>
+    </target>
+
+    <target name="compile-all-designtime" depends="runtime-jars,compile-precopy-designtime">
+  
+        <javac srcdir="${designtime}:${gen}/beaninfo"
+            destdir="${classes}/designtime" deprecation="false"
+            debug="${debug}"
+            optimize="false"
+            source="1.5" target="1.5">
+            <compilerarg line="-Xmaxwarns 1000"/>
+            <classpath>
+                <path refid="dataprovider.jars"/>
+                <path refid="jsf.jars"/>
+                <path refid="jsf-ri.jars"/>
+                <path refid="webui.jars"/>
+                <path refid="jsfcl.jars"/>
+                <path refid="propertyeditors.jars"/>
+                <path refid="designtime.jars"/>
+                <!-- mbohm: add annotation-lib.jars -->
+                <path refid="annotation-lib.jars"/>
+            </classpath>
+        </javac>
+
+        <copy todir="${classes}/designtime">
+            <fileset dir="${designtime}">
+                <exclude name="**/*.java"/>
+                <exclude name="**/conf/**"/>
+            </fileset>
+            <fileset dir="${gen}/beaninfo">
+                <exclude name="**/*.java"/>
+            </fileset>
+        </copy>
+
+    </target>
+
+    <target name="compile-postcopy" 
+    depends="compile-all-runtime,postcopy-runtime,compile-all-designtime,postcopy-designtime"/>
+
+    <target name="postcopy-runtime">
+    </target>
+
+    <target name="postcopy-designtime">
+    </target>
+
+    <target name="runtime-jars" depends="compile-all-runtime">
+
+        <!-- build manifests -->
+        <!-- The webui target creates "webui.mf" 
+        The webui-module-stub target creates "webui-module-stub.mf -->
+        <ant antfile="build-manifest.xml" inheritAll="false">
+            <target name="webui"/>
+            <target name="webui-module-stub"/>
+        </ant>
+
+        <mkdir dir="${netbeans}/modules/ext" />
+        <mkdir dir="${netbeans}/modules/autoload/ext" />
+
+        <!-- Copy the generated JSP taglib config to the runtime directory -->
+        <copy file="${gen}/META-INF/taglib.xml" tofile="${classes}/runtime/META-INF/${webui.tld}"/>
+        
+        <!-- Copy the generated JSF faces config to the runtime directory -->
+        <copy file="${gen}/META-INF/faces-config.xml" tofile="${classes}/runtime/META-INF/faces-config.xml"/>
+
+        <!-- Create the runtime JAR -->
+        <jar jarfile="${netbeans}/modules/autoload/ext/${webui.jar}"
+            manifest="webui.mf"   
+            basedir="${classes}/runtime"
+            excludesfile="${lib.netbeans}/standard-jar-excludes.txt"
+            excludes="${all.exclude}" 
+            compress="${build.package.compress}" index="${build.package.index}">
+        </jar>
+
+    </target>
+
+    <target name="designtime-jars" depends="compile-all-designtime">
+
+        <!-- build manifest -->
+        <!-- The webui-dt target creates "webui-dt.mf" -->
+        <ant antfile="build-manifest.xml" target="webui-dt" inheritAll="false"/>
+        
+        <!-- Copy the JSF faces config for registering design-time renderers -->
+        <copy file="src/designtime/conf/faces-config.xml" tofile="${classes}/designtime/META-INF/faces-config.xml"/>
+
+        <!-- Create designtime jar -->
+        <jar jarfile="${netbeans}/modules/autoload/ext/${webui-dt.jar}"
+            manifest="webui-dt.mf"   
+            basedir="${classes}/designtime"
+            excludesfile="${lib.netbeans}/standard-jar-excludes.txt"
+            excludes="${all.exclude}" 
+            compress="${build.package.compress}" index="${build.package.index}">
+        </jar>
+
+    </target>
+
+    <target name="compile-all"
+    depends="compile-all-runtime, compile-all-designtime, compile-postcopy"/>
+
+    <target name="jars" depends="runtime-jars,designtime-jars"/>
+
+    <target name="source" depends="jars,javadoc">
+
+        <mkdir dir="${dist}"/>
+
+        <!-- Runtime Source files for file completion -->
+        <zip destfile="${dist}/${webui-src.zip}">
+            <fileset dir="${runtime}">
+                <include name="com/**"/>
+            </fileset>
+            <fileset dir="${gen}/taglib">
+                <include name="com/**"/>
+            </fileset>
+        </zip>
+
+        <!-- Javadocs -->
+        <copy todir="${dist}">
+            <fileset dir="${netbeans}/docs">
+                <include name="${webui-doc.zip}"/>
+            </fileset>
+        </copy>
+
+    </target>
+
+    <!-- Use this target if you don't want javadoc to build and
+    comment out build-javadoc in the build.properties file if you
+    don't want javadoc to build when modifying java files
+    -->
+
+    <target name="javadoc" if="build-javadoc" depends="compile-all"
+	description="Generate Java documentation">
+
+        <!-- always create the directory -->
+        <mkdir dir="${netbeans}/docs"/>
+
+        <!-- Generate javadoc from the source -->
+
+        <!-- call build-doc.xml to build javadoc -->
+        <ant antfile="build-doc.xml" target="build-javadoc" inheritAll="false"/>
+        
+        <mkdir dir="${runtime-javadoc}"/>
+        <mkdir dir="${designtime-javadoc}"/>
+
+        <!-- bundle up the javadoc -->
+        <zip basedir="${runtime-javadoc}"
+            destfile="${netbeans}/docs/${webui-doc.zip}" />
+        <zip basedir="${designtime-javadoc}"
+        destfile="${netbeans}/docs/${webui-dt-doc.zip}" />
+
+    </target>
+
+    <target name="tlddoc" if="build-tlddoc" depends="jars"
+        description="Generate tag library documentation">
+        <ant antfile="build-doc.xml" target="build-tlddoc" inheritAll="false"/>
+    </target>
+
+    <target name="clean" description="Clean build products.">
+        <delete dir="${gen}"/>
+        <delete dir="${dist}"/>
+        <delete dir="${build}"/>
+        <delete dir="${classes}"/>
+        <delete dir="${checkstyle}/report"/>
+        <delete dir="${netbeans}"/>
+        <ant antfile="build-doc.xml" target="clean" inheritAll="false"/>
+        <ant antfile="build-manifest.xml" target="clean" inheritAll="false"/>
+    </target>
+
+    <!-- ### Default Target ### -->
+
+    <target name="netbeans" depends="jars,tlddoc,javadoc,source">
+    </target>
+
+</project>

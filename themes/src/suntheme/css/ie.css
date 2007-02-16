@@ -1,0 +1,256 @@
+/*
+ * The contents of this file are subject to the terms
+ * of the Common Development and Distribution License
+ * (the License).  You may not use this file except in
+ * compliance with the License.
+ * 
+ * You can obtain a copy of the license at
+ * https://woodstock.dev.java.net/public/CDDLv1.0.html.
+ * See the License for the specific language governing
+ * permissions and limitations under the License.
+ * 
+ * When distributing Covered Code, include this CDDL
+ * Header Notice in each file and include the License file
+ * at https://woodstock.dev.java.net/public/CDDLv1.0.html.
+ * If applicable, add the following below the CDDL Header,
+ * with the fields enclosed by brackets [] replaced by
+ * you own identifying information:
+ * "Portions Copyrighted [year] [name of copyright owner]"
+ * 
+ * Copyright 2007 Sun Microsystems, Inc. All rights reserved.
+ */
+/* CSS Document */
+/*BUTTON*/
+.Btn1Mni@THEME_CSS@, .Btn1MniHov@THEME_CSS@, .Btn1MniDis@THEME_CSS@, .Btn2Mni@THEME_CSS@, .Btn2MniHov@THEME_CSS@, .Btn2MniDis@THEME_CSS@, .Btn1@THEME_CSS@, .Btn1Hov@THEME_CSS@, .Btn1Dis@THEME_CSS@, .Btn2@THEME_CSS@, .Btn2Hov@THEME_CSS@, .Btn2Dis@THEME_CSS@,
+.MstDiv@THEME_CSS@ .Btn1@THEME_CSS@, .MstDiv@THEME_CSS@ .Btn1Mni@THEME_CSS@, .MstDiv@THEME_CSS@ .Btn1Hov@THEME_CSS@, .MstDiv@THEME_CSS@ .Btn1MniHov@THEME_CSS@, .MstDiv@THEME_CSS@ .Btn2@THEME_CSS@, .MstDiv@THEME_CSS@ .Btn2Mni@THEME_CSS@, .MstDiv@THEME_CSS@ .Btn2Hov@THEME_CSS@, .MstDiv@THEME_CSS@ .Btn2MniHov@THEME_CSS@ {
+	padding:1px 0 1px 0;
+}
+.mastheadButton_4@THEME_CSS@ a:link, .mastheadButton_4@THEME_CSS@ a:visited, .mastheadButton_4@THEME_CSS@ a:hover {
+	padding:1px 5px 2px 7px;
+}
+.mastheadButton_4@THEME_CSS@ {
+	display:inline;
+	margin:0;
+	padding:0 1px;
+}
+/**/
+/* progress bar */
+.progressBar_4@THEME_CSS@ .barContainer@THEME_CSS@ {
+	margin-bottom:-2px;
+}
+.progressBar_4@THEME_CSS@ .failure@THEME_CSS@{
+	margin-bottom:-1px;
+}
+.progressBar_4@THEME_CSS@ .buttonsRight@THEME_CSS@ {
+	margin: -2px 0 -4px 0;
+}
+.progressBar_4@THEME_CSS@ .buttonsBottom@THEME_CSS@ {
+	margin: 10px 0 0 -1px;
+}
+/**/
+
+/* CHECKBOXES AND RADIO BUTTONS */
+.CbLbl@THEME_CSS@, CbLblDis@THEME_CSS@ {
+	vertical-align: 1px;
+}
+.CbImg@THEME_CSS@, .CbImgDis@THEME_CSS@ {
+	vertical-align: -6px;
+}
+/**/
+
+/* PROPERTY SHEET */
+div.ConTblCl2Div@THEME_CSS@ .CbSpn@THEME_CSS@ input {
+	margin-top:-5px;
+}
+/**/
+
+/* LEFT PANE HELP */
+.LftHlpHlp@THEME_CSS@ {
+	clear:none;
+	width:30%;
+}
+.LftHlpBdy@THEME_CSS@ {
+	clear:right;
+	width:69.8%;
+}
+.LftHlpBtm@THEME_CSS@ {
+	float:left;
+}
+.LftHlpHlp@THEME_CSS@, .LftHlpBdy@THEME_CSS@ {
+	float:left;
+	height:94.7%;
+}
+/*---*/
+
+/* SCHEDULER [originalName: DATE AND TIME]*/
+.DatSelDiv@THEME_CSS@ {
+	padding:0 3px;
+}
+.DatCalTbl@THEME_CSS@ {
+	border:2px solid #bec7cc;
+}
+.DatCalTbl@THEME_CSS@ td, .DatCalTbl@THEME_CSS@ th  {
+	border:none;
+	width:29px;
+}
+/*---*/
+/*CALENDAR */
+.CalPopShd2Div@THEME_CSS@ {
+	position:relative;
+	width:17.75em;
+	padding:0 0 0 0;
+}
+
+.CalPopDiv@THEME_CSS@ .DatCalDiv@THEME_CSS@ {
+	float:left;
+	width:16.8em;
+	margin-left:0;
+	padding-left:1px;
+}
+.CalPopDiv@THEME_CSS@ .DatCalDiv@THEME_CSS@ select {
+	margin:1px 1px 1px 2px;
+	vertical-align:top;
+	clear:none;
+}
+.CalPopDiv@THEME_CSS@ .DatCalDiv@THEME_CSS@ img{
+	margin:0;
+	padding:0;
+	clear:none;
+}
+.DatCalRight@THEME_CSS@ select, .DatCalRight@THEME_CSS@ a {
+	text-align:right; 
+}
+/*---*/
+/* COMMON TASKS */
+.commonTask_4@THEME_CSS@ .infoPanel@THEME_CSS@ .info@THEME_CSS@ {
+	margin-right:1px;
+}
+.commonTask_4@THEME_CSS@ .TskPgeTskLftBtm@THEME_CSS@ {
+	bottom: -.49em;
+}
+.commonTask_4@THEME_CSS@ .TskPgeTskRghtBtm@THEME_CSS@ {
+	bottom: -.49em;
+	right:-.1em;
+}     
+.commonTask_4@THEME_CSS@ .TskPgeTskRghtTp@THEME_CSS@ {
+	right:-.1em;
+}
+.commonTask_4@THEME_CSS@ .TskPgeTskRghtBrdr@THEME_CSS@ {
+	height:1.3em;
+	top: 20%;
+	right:-.1em;
+}
+.commonTask_4@THEME_CSS@ .TskPgeTskLftBtm@THEME_CSS@,.commonTask_4@THEME_CSS@ .TskPgeTskLftTp@THEME_CSS@,.commonTask_4@THEME_CSS@ .TskPgeTskRghtBtm@THEME_CSS@,.commonTask_4@THEME_CSS@ .TskPgeTskRghtTp@THEME_CSS@,.commonTask_4@THEME_CSS@ .TskPgeTskRghtBrdr@THEME_CSS@ {
+	cursor:hand;
+}
+.commonTask_4@THEME_CSS@ .bullet@THEME_CSS@ {
+	vertical-align:middle;
+}
+/*---*/
+
+/* EDITABLE LIST */
+.EdtLstTbl@THEME_CSS@ .EdtLstAddTxtTd@THEME_CSS@ .TxtFld@THEME_CSS@,
+.EdtLstTbl@THEME_CSS@ .EdtLstAddTxtTd@THEME_CSS@ .TxtFldDis@THEME_CSS@ {
+	height: 1.6em;
+}
+/* HELP WINDOW */
+.HlpStpTab@THEME_CSS@ {
+	margin-right:-10px;
+}
+/*---*/
+/* LEFT PANE HELP */
+.LftHlpHlp@THEME_CSS@ {
+	clear:none;
+	width:30%;
+}
+.LftHlpBdy@THEME_CSS@ {
+	clear:right;
+	width:69.8%;
+}
+.LftHlpBtm@THEME_CSS@ {
+	float:left;
+}
+.LftHlpHlp@THEME_CSS@, .LftHlpBdy@THEME_CSS@ {
+	float:left;
+	height:94.7%;
+}
+/*---*/
+
+/* TABLE [originalName: ACTION TABLE] */
+table.Tbl@THEME_CSS@ {
+	width:100%;
+	padding:0;
+	margin:0;
+}
+.TblHdrTxt@THEME_CSS@ {width:100%;}
+.TblMgn@THEME_CSS@ {margin:0;}
+span.TblTtlTxtSpn@THEME_CSS@ {float:left;}
+span.TblTtlMsgSpn@THEME_CSS@ {float:right;margin-top:1px;}
+table.Tbl@THEME_CSS@ td.TblActTd@THEME_CSS@, table.Tbl@THEME_CSS@ td.TblActTdLst@THEME_CSS@ {padding:6px;vertical-align:middle;} 
+table.Tbl@THEME_CSS@ td.TblActTd@THEME_CSS@ img {margin-top:1px;} 
+table.Tbl@THEME_CSS@ td.TblActTdLst@THEME_CSS@ img {margin-top:2px;} 
+table.Tbl@THEME_CSS@ td.TblPnlTd@THEME_CSS@ .TblPnlHlpTxt@THEME_CSS@ {width:97%;}
+table.Tbl@THEME_CSS@ table.TblHdrTbl@THEME_CSS@ img {margin-right:5px;margin-left:5px;padding-right:0;padding-left:0;}
+table.Tbl@THEME_CSS@ a.TblHdrImgLnk@THEME_CSS@ img {margin-right:2px; padding-right:0;}
+table.Tbl@THEME_CSS@ span.TblColHdrSrtDis@THEME_CSS@ img {margin-right:2px; padding-right:0;}
+table.Tbl@THEME_CSS@ .TblHdrSrtNum@THEME_CSS@ {width:auto;}
+table.Tbl@THEME_CSS@ td.TblFtrRow@THEME_CSS@ {padding:5px 10px;}
+table.Tbl@THEME_CSS@ .TblTdLyt@THEME_CSS@ img, table.Tbl@THEME_CSS@ .TblTdSrt@THEME_CSS@ img, table.Tbl@THEME_CSS@ .TblTdAlm@THEME_CSS@ img,  table.Tbl@THEME_CSS@ .TblTdSrtAlm@THEME_CSS@ img {margin-bottom:0;}
+/*Table Sub-Grouping */
+table.Tbl@THEME_CSS@ .TblGrpRow@THEME_CSS@ {background-repeat:repeat-x;background-position:left bottom;vertical-align:bottom;padding:3px 5px 4px 3px;}
+table.Tbl@THEME_CSS@ .TblGrpLft@THEME_CSS@ input {margin:-1px 0px;}
+.TblGrpTxt@THEME_CSS@ {margin:0px 3px;}
+table.Tbl@THEME_CSS@ .TblGrpCbImg@THEME_CSS@ img {margin-left:-4px;margin-bottom:-3px;}
+/* For when appearing in titledbox*/
+.TtldBoxInrDiv@THEME_CSS@ .Tbl@THEME_CSS@ {margin:0px;width:96%;}
+/*---*/
+
+/* TABLE - LIGHTER WEIGHT DESIGN */
+table.TblLt@THEME_CSS@ {width:98%;padding:0px;margin-left:10px;border:none}
+table.TblLt@THEME_CSS@ caption.TblTtlTxt@THEME_CSS@ {padding-left:3px;background:none}
+table.Tbl@THEME_CSS@ td.TblFtrRow@THEME_CSS@ {padding:5px 5px 5px 10px}
+/*---*/
+
+/* VERSION DIALOG */
+.VrsBdy@THEME_CSS@ {
+	height:100%;
+}
+/*---*/
+/* WIZARD */
+.WizStp@THEME_CSS@ {
+	width:29.7%;
+	border-right:1px solid #98A0A5;
+}
+.WizBdy@THEME_CSS@ {
+	border-left:0;
+}
+.WizStp@THEME_CSS@, .WizBdy@THEME_CSS@ {
+	top:75px;
+	height:86.9%;
+}
+.WizHlpDiv@THEME_CSS@ {
+	top:76px;
+	height:83.6%;
+	width:29.7%;
+	border-right:1px solid #98A0A5;
+}
+.WizNoTabs@THEME_CSS@ .WizStp@THEME_CSS@, .WizNoTabs@THEME_CSS@ .WizBdy@THEME_CSS@ {
+	height:91.8%;
+}
+.WizBtm@THEME_CSS@ {
+	float:left;
+	padding:0 13px 0 0;
+	z-index:10;
+}
+.WizBtmSpacer@THEME_CSS@ {
+	width:30.5%; 
+	float:left; 
+	clear:none; 
+}
+/*---*/
+
+/* FILE CHOOSER */
+.ChoSortByDiv@THEME_CSS@ {
+	margin-bottom: 10px;
+}
+/*---*/

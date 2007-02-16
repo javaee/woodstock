@@ -1,0 +1,127 @@
+#!/bin/sh
+
+# This is tricky
+# "ui:" is found in many places in the documentation on the conf files.
+# It is defined in the renderer conf files by the taglib-prefix.
+# Make this an entity.
+# Need to find out how it is passed to the tld generator.
+# It looks like the "-p ui" option. These args are ant properties
+# defined in webui/build.properties
+
+newmodule="woodstock"
+tagprefix="webuijsf"
+#taguri="http://jvnet.org/webui/${tagprefix}"
+taguri="http://www.sun.com/webui/${tagprefix}"
+
+### Fix up conf files ###
+
+cd $newmodule/webui/conf
+
+# Add the following to sun-faces-config
+# <!-- Create an entity for use with the "taglib-(prefix|uri)" elements -->
+# <!ENTITY taglib-prefix "ui">
+# <!ENTITY taglib-uri "http://www.sun.com/web/ui">
+# Assume that the first "^]>$" is the end of the entity decl's
+# and that there is only one.
+
+sed '/^[ 	]*\]>$/ c\
+\
+ <!-- Define the tag lib prefix and uri -->\
+\
+ <!ENTITY taglib-prefix "'${tagprefix}'">\
+ <!ENTITY taglib-uri "'${taguri}'">\
+]>' sun-faces-config.xml > /tmp/sun-faces-config.xml
+mv /tmp/sun-faces-config.xml sun-faces-config.xml
+
+# Fixup the conf files to use an entity that defines 
+# the taglib prefix and urls
+
+for f in *-renderer.xml; do
+    sed -e 's/<taglib-prefix>ui</<taglib-prefix>\&taglib-prefix;</' \
+	-e 's/<taglib-uri>.*</<taglib-uri>\&taglib-uri;</' $f > /tmp/$f
+    mv /tmp/$f $f
+done
+
+for f in *-*.xml; do
+    sed -e 's?ui="http://www.sun.com/web/ui"?'${tagprefix}'="'${taguri}'"?' \
+	-e 's?uri="http://www.sun.com/web/ui"?uri="'${taguri}'"?' \
+	-e 's?prefix="ui"?prefix="'${tagprefix}'"?' \
+	-e 's?<ui:?<'${tagprefix}':?g' \
+	-e 's?</ui:?</'${tagprefix}':?g' \
+	-e 's?lt;ui:?lt;'${tagprefix}':?g' \
+	-e 's?lt;/ui:?lt;/'${tagprefix}':?g' \
+	-e 's?>ui:?>'${tagprefix}':?g' \
+	-e 's? ui:? '${tagprefix}':?g' \
+	-e 's?^ui:? '${tagprefix}':?g' \
+	-e 's?gt;ui:?gt;'${tagprefix}':?g' \
+	-e 's?>/ui:?>/'${tagprefix}':?g' \
+	-e 's?nbsp;ui:?nbsp;'${tagprefix}':?g' \
+	-e 's?"ui:?"'${tagprefix}':?g' \
+	$f > /tmp/$f
+    mv /tmp/$f $f
+done
+	
+### Fix up JSP files in webui ###
+
+# JSP pages have the following references
+#
+# <%@taglib uri="http://www.sun.com/web/ui" prefix="ui" %>
+# xmlns:ui="http://www.sun.com/web/ui">
+# <ui:
+# </ui:
+
+# Need to do the help jsp's that live under webui
+#
+cd ..
+for f in `find jsp -name \*.jsp -print` ; do
+
+    sed -e 's?ui="http://www.sun.com/web/ui"?'${tagprefix}'="'${taguri}'"?' \
+	-e 's?uri="http://www.sun.com/web/ui"?uri="'${taguri}'"?' \
+	-e 's?prefix="ui"?prefix="'${tagprefix}'"?' \
+	-e 's?<ui:?<'${tagprefix}':?g' \
+	-e 's?</ui:?</'${tagprefix}':?g' \
+	-e 's?lt;ui:?lt;'${tagprefix}':?g' \
+	-e 's?lt;/ui:?lt;/'${tagprefix}':?g' \
+	-e 's? ui:? '${tagprefix}':?g' $f > /tmp/junk
+
+    mv /tmp/junk $f
+
+done
+
+# fix complib
+# Need to "sync" up with final jar names, and using "webui.jar" or
+# the original names conflicts with built in jars
+
+cd complib
+sed -e 's?http://www.sun.com/web/ui-bhrave?'${taguri}'?' \
+    -e 's?bhrave-defaulttheme?webui-jsf-defaulttheme?' \
+    -e 's?bhrave-webui?webui-jsf?' \
+    -e 's?"webui"?"webui-jsf"?' \
+    -e 's?BH_RAVE?WEBUI_JSF?' \
+    -e 's?BH-RAVE?WEBUI-JSF?' \
+    complib-config.xml > /tmp/junk
+mv /tmp/junk complib-config.xml
+
+sed -e 's?BH_RAVE?WEBUI_JSF?' complib-bundle.properties \
+    -e 's?BH-RAVE?WEBUI-JSF?' \
+    > /tmp/junk
+mv /tmp/junk complib-bundle.properties
+
+### Fix up lockhart jsp's ###
+
+cd ../../lockhart/testapp/web
+for f in `find . -name \*.jsp -print` ; do
+
+    sed -e 's?ui="http://www.sun.com/web/ui"?'${tagprefix}'="'${taguri}'"?' \
+	-e 's?uri="http://www.sun.com/web/ui"?uri="'${taguri}'"?' \
+	-e 's?prefix="ui"?prefix="'${tagprefix}'"?' \
+	-e 's?<ui:?<'${tagprefix}':?g' \
+	-e 's?</ui:?</'${tagprefix}':?g' \
+	-e 's?lt;ui:?lt;'${tagprefix}':?g' \
+	-e 's?lt;/ui:?lt;/'${tagprefix}':?g' \
+	-e 's? ui:? '${tagprefix}':?g' $f > /tmp/junk
+
+    mv /tmp/junk $f
+
+done
+

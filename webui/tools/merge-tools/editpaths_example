@@ -1,0 +1,62 @@
+#!/bin/sh
+
+# uncomment lines in build.xml in themes and webui
+# complib/manifest-complib.mf needs to reflect complib-congif.xml
+
+newpkg_prefix_path="com/sun/webui/jsf"
+
+examplepkg_prefix_path="com/sun/webui/jsf"
+
+# Don't forget manifests
+
+newmodule="woodstock"
+
+rm -rf $newmodule/lockhart/example
+
+find lockhart/example -type f -print | \
+while read f; do
+    if [ -z f ]; then
+	break
+    fi
+    if [ "$f" = "." ]; then
+	continue
+    fi
+
+    # create the new path
+    dir=`dirname $f | sed -e 's?com/sun/web/ui?'$newpkg_prefix_path'?' \
+			  -e 's?com/sun/web/admin?'$examplepkg_prefix_path'?'`
+    mkdir -p $newmodule/$dir
+    docopy=`echo $f | sed  -e 's?^.*\.gif$?yes?' \
+			    -e 's?^.*\.jpg$?yes?' \
+			    -e 's?^.*\.jar$?yes?' \
+			    -e 's?^.*\.png$?yes?' \
+			    -e 's?^.*CVS?yes?' \
+			    -e 's?^.*\.cvsignore$?yes?' \
+			    -e 's?^.*\.zip$?yes?'`
+
+    if [ "$docopy" = "yes" ]; then
+	cp $f $newmodule/$dir/`basename $f`
+	continue
+    fi
+	
+    # Do build.xml and build.properties manually.
+    # Should only need to edit build.properties
+    #
+    if [ "$f" = "example/build.xml" ]; then 
+	cp $f $newmodule/$dir/`basename $f`
+	continue
+    fi
+    if [ "$f" = "nbproject/genfiles.properties" -o \
+         "$f" = "nbproject/build-impl.xml" -o \
+	 "$f" = "nbproject/project.properties" -o \
+	 "$f" = "nbproject/project.xml" ]; then 
+
+	cp $f $newmodule/$dir/`basename $f`
+	continue
+    fi
+
+    sed -e 's?com\(.\)sun\(.\)web\(.\)ui?com\1sun\2webui\3jsf?g' \
+	-e 's?com\(.\)sun\(.\)web\(.\)admin?com\1sun\2webui\3jsf?g' $f > \
+	$newmodule/$dir/`basename $f`
+
+done

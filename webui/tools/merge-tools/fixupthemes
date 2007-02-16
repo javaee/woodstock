@@ -1,0 +1,9 @@
+#!/bin/sh
+
+cd themes
+
+# Change portlet file names
+cp portletTaglib/META-INF/portletSetupTags-doc.tld \
+	portletTaglib/META-INF/webui-jsf-portletSetupTags-doc.tld
+cp portletTaglib/META-INF/portletSetupTags.tld \
+	portletTaglib/META-INF/webui-jsf-portletSetupTags.tld

@@ -1,0 +1,1194 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<!--
+ The contents of this file are subject to the terms
+ of the Common Development and Distribution License
+ (the License).  You may not use this file except in
+ compliance with the License.
+ 
+ You can obtain a copy of the license at
+ https://woodstock.dev.java.net/public/CDDLv1.0.html.
+ See the License for the specific language governing
+ permissions and limitations under the License.
+ 
+ When distributing Covered Code, include this CDDL
+ Header Notice in each file and include the License file
+ at https://woodstock.dev.java.net/public/CDDLv1.0.html.
+ If applicable, add the following below the CDDL Header,
+ with the fields enclosed by brackets [] replaced by
+ you own identifying information:
+ "Portions Copyrighted [year] [name of copyright owner]"
+ 
+ Copyright 2007 Sun Microsystems, Inc. All rights reserved.
+-->
+
+
+<!--
+ Creator Overlay for Standard HTML RenderKit
+-->
+
+<!DOCTYPE faces-config PUBLIC
+  "-//Sun Microsystems, Inc.//DTD JavaServer Faces Overlay 1.1//EN"
+  "http://www.sun.com/dtd/web-facesconfig-overlay_1_1.dtd" [ 
+
+  <!ENTITY actionsource-props       SYSTEM "actionsource-props.xml">
+  <!ENTITY valueholder-props        SYSTEM "valueholder-props.xml">
+  <!ENTITY editable-props           SYSTEM "editable-props.xml">
+  <!ENTITY uicomponent-props        SYSTEM "uicomponent-props.xml">
+
+  <!ENTITY uicolumn-props           SYSTEM "uicolumn-props.xml">
+  <!ENTITY uicommand-props          SYSTEM "uicommand-props.xml">
+  <!ENTITY uidata-props             SYSTEM "uidata-props.xml">
+  <!ENTITY uiform-props             SYSTEM "uiform-props.xml">
+  <!ENTITY uigraphic-props          SYSTEM "uigraphic-props.xml">
+  <!ENTITY uimessage-props          SYSTEM "uimessage-props.xml">
+  <!ENTITY uimessages-props         SYSTEM "uimessages-props.xml">
+  <!ENTITY uinamingcontainer-props  SYSTEM "uinamingcontainer-props.xml">
+  <!ENTITY uioutput-props           SYSTEM "uioutput-props.xml">
+  <!ENTITY uipanel-props            SYSTEM "uipanel-props.xml">
+  <!ENTITY uiparameter-props        SYSTEM "uiparameter-props.xml">
+  <!ENTITY uiselectitem-props       SYSTEM "uiselectitem-props.xml">
+  <!ENTITY uiselectitems-props      SYSTEM "uiselectitems-props.xml">
+  <!ENTITY uiviewroot-props         SYSTEM "uiviewroot-props.xml">
+
+  <!ENTITY uiinput-props            SYSTEM "uiinput-props.xml">
+  <!ENTITY uiselectboolean-props    SYSTEM "uiselectboolean-props.xml">
+  <!ENTITY uiselectmany-props       SYSTEM "uiselectmany-props.xml">
+  <!ENTITY uiselectone-props        SYSTEM "uiselectone-props.xml">
+
+  <!ENTITY core-props               SYSTEM "core-props.xml">
+  <!ENTITY events-props             SYSTEM "events-props.xml">
+  <!ENTITY focus-props              SYSTEM "focus-props.xml">
+  <!ENTITY i18n-props               SYSTEM "i18n-props.xml">
+  <!ENTITY input-props              SYSTEM "input-props.xml">
+  <!ENTITY link-props               SYSTEM "link-props.xml">
+  <!ENTITY list-props               SYSTEM "list-props.xml">
+  <!ENTITY listbox-props            SYSTEM "listbox-props.xml">
+  <!ENTITY table-props              SYSTEM "table-props.xml">
+  <!ENTITY text-props               SYSTEM "text-props.xml">
+
+  <!ENTITY command-button-props     SYSTEM "command-button-props.xml">
+  <!ENTITY form-form-props          SYSTEM "form-form-props.xml">
+  <!ENTITY graphic-image-props      SYSTEM "graphic-image-props.xml">
+  <!ENTITY input-secret-props       SYSTEM "input-secret-props.xml">
+  <!ENTITY input-textarea-props     SYSTEM "input-textarea-props.xml">
+  <!ENTITY message-message-props    SYSTEM "message-message-props.xml">
+  <!ENTITY messages-messages-props  SYSTEM "messages-messages-props.xml">
+  <!ENTITY output-format-props      SYSTEM "output-format-props.xml">
+  <!ENTITY output-label-props       SYSTEM "output-label-props.xml">
+  <!ENTITY output-text-props        SYSTEM "output-text-props.xml">
+  <!ENTITY panel-grid-props         SYSTEM "panel-grid-props.xml">
+  <!ENTITY panel-group-props        SYSTEM "panel-group-props.xml">
+  <!ENTITY selectmany-checkbox-props SYSTEM "selectmany-checkbox-props.xml">
+  <!ENTITY selectone-radio-props    SYSTEM "selectone-radio-props.xml">
+
+  <!ENTITY core-attrs               SYSTEM "core-attrs.xml">
+  <!ENTITY events-attrs             SYSTEM "events-attrs.xml">
+  <!ENTITY focus-attrs              SYSTEM "focus-attrs.xml">
+  <!ENTITY i18n-attrs               SYSTEM "i18n-attrs.xml">
+  <!ENTITY input-attrs              SYSTEM "input-attrs.xml">
+  <!ENTITY link-attrs               SYSTEM "link-attrs.xml">
+  <!ENTITY list-attrs               SYSTEM "list-attrs.xml">
+  <!ENTITY listbox-attrs            SYSTEM "listbox-attrs.xml">
+  <!ENTITY table-attrs              SYSTEM "table-attrs.xml">
+  <!ENTITY text-attrs               SYSTEM "text-attrs.xml">
+
+  <!ENTITY command-button-attrs     SYSTEM "command-button-attrs.xml">
+  <!ENTITY form-form-attrs          SYSTEM "form-form-attrs.xml">
+  <!ENTITY graphic-image-attrs      SYSTEM "graphic-image-attrs.xml">
+  <!ENTITY input-secret-attrs       SYSTEM "input-secret-attrs.xml">
+  <!ENTITY input-textarea-attrs     SYSTEM "input-textarea-attrs.xml">
+  <!ENTITY message-message-attrs    SYSTEM "message-message-attrs.xml">
+  <!ENTITY messages-messages-attrs  SYSTEM "messages-messages-attrs.xml">
+  <!ENTITY output-format-attrs      SYSTEM "output-format-attrs.xml">
+  <!ENTITY output-label-attrs       SYSTEM "output-label-attrs.xml">
+  <!ENTITY output-text-attrs        SYSTEM "output-text-attrs.xml">
+  <!ENTITY panel-grid-attrs         SYSTEM "panel-grid-attrs.xml">
+  <!ENTITY panel-group-attrs        SYSTEM "panel-group-attrs.xml">
+  <!ENTITY selectmany-checkbox-attrs SYSTEM "selectmany-checkbox-attrs.xml">
+  <!ENTITY selectone-radio-attrs    SYSTEM "selectone-radio-attrs.xml">
+
+  <!ENTITY taglib-values            SYSTEM "taglib-values.xml">
+
+]>
+
+
+<!-- =========== FULL CONFIGURATION FILE ================================== -->
+
+<faces-config>
+
+
+  <!-- Abstract Base Component Definition -->
+
+  <component>
+    <component-type>com.sun.faces.Component</component-type>
+    <component-class>javax.faces.component.UIComponentBase</component-class>
+    &uicomponent-props;
+     <component-extension>
+    </component-extension>
+  </component>
+
+  <!-- Generic User Interface Components -->
+
+  <component>
+    <component-type>javax.faces.Column</component-type>
+    &uicolumn-props;
+    <component-extension>
+    </component-extension>
+  </component>
+
+  <component>
+    <component-type>javax.faces.Command</component-type>
+    &uicommand-props;
+    <component-extension>
+    </component-extension>
+  </component>
+
+  <component>
+    <component-type>javax.faces.Data</component-type>
+    &uidata-props;
+    <component-extension>
+    </component-extension>
+  </component>
+
+  <component>
+    <component-type>javax.faces.Form</component-type>
+    &uiform-props;
+    <component-extension>
+    </component-extension>
+  </component>
+
+  <component>
+    <component-type>javax.faces.Graphic</component-type>
+    &uigraphic-props;
+    <component-extension>
+    </component-extension>
+  </component>
+
+  <component>
+    <component-type>javax.faces.Input</component-type>
+    &uiinput-props;
+    <component-extension>
+    </component-extension>
+  </component>
+
+  <component>
+    <component-type>javax.faces.Message</component-type>
+    &uimessage-props;
+    <component-extension>
+    </component-extension>
+  </component>
+
+  <component>
+    <component-type>javax.faces.Messages</component-type>
+    &uimessages-props;
+    <component-extension>
+    </component-extension>
+  </component>
+
+  <component>
+    <component-type>javax.faces.NamingContainer</component-type>
+    &uinamingcontainer-props;
+    <component-extension>
+    </component-extension>
+  </component>
+
+  <component>
+    <component-type>javax.faces.Output</component-type>
+    &uioutput-props;
+    <component-extension>
+    </component-extension>
+  </component>
+
+  <component>
+    <component-type>javax.faces.Panel</component-type>
+    &uipanel-props;
+    <component-extension>
+    </component-extension>
+  </component>
+
+  <component>
+    <component-type>javax.faces.Parameter</component-type>
+    &uiparameter-props;
+    <component-extension>
+    </component-extension>
+  </component>
+
+  <component>
+    <component-type>javax.faces.SelectBoolean</component-type>
+    &uiselectboolean-props;
+    <component-extension>
+    </component-extension>
+  </component>
+
+  <component>
+    <component-type>javax.faces.SelectItem</component-type>
+    &uiselectitem-props;
+    <component-extension>
+    </component-extension>
+  </component>
+
+  <component>
+    <component-type>javax.faces.SelectItems</component-type>
+    &uiselectitems-props;
+    <component-extension>
+    </component-extension>
+  </component>
+
+  <component>
+    <component-type>javax.faces.SelectMany</component-type>
+    &uiselectmany-props;
+    <component-extension>
+    </component-extension>
+  </component>
+
+  <component>
+    <component-type>javax.faces.SelectOne</component-type>
+    &uiselectone-props;
+    <component-extension>
+    </component-extension>
+  </component>
+    
+  <component>
+    <component-type>javax.faces.ViewRoot</component-type>
+    &uiviewroot-props;
+    <component-extension>
+    </component-extension>
+  </component>
+
+
+  <!-- Concrete HTML Components -->
+
+
+  <component>
+    <component-type>javax.faces.HtmlCommandButton</component-type>
+    &uicommand-props;
+    &core-props;
+    &events-props;
+    &focus-props;
+    &i18n-props;
+    &input-props;
+    &command-button-props;
+    <component-extension>
+    </component-extension>
+  </component>
+
+  <component>
+    <component-type>javax.faces.HtmlCommandLink</component-type>
+    &uicommand-props;
+    &core-props;
+    &events-props;
+    &focus-props;
+    &i18n-props;
+    &link-props;
+    <property>
+      <property-name>value</property-name>
+      <property-extension>
+        <is-hidden>true</is-hidden>
+      </property-extension>
+    </property>
+    <component-extension>
+    </component-extension>
+  </component>
+
+  <component>
+    <component-type>javax.faces.HtmlDataTable</component-type>
+    &uidata-props;
+    &core-props;
+    &events-props;
+    &i18n-props;
+    &table-props;
+    <component-extension>
+    </component-extension>
+  </component>
+
+  <component>
+    <component-type>javax.faces.HtmlForm</component-type>
+    &uiform-props;
+    &core-props;
+    &events-props;
+    &i18n-props;
+    &form-form-props;
+    <component-extension>
+    </component-extension>
+  </component>
+
+  <component>
+    <component-type>javax.faces.HtmlGraphicImage</component-type>
+    &uigraphic-props;
+    &core-props;
+    &events-props;
+    &i18n-props;
+    &graphic-image-props;
+    <property>
+      <property-name>value</property-name>
+      <property-extension>
+        <editor-class>
+          com.sun.jsfcl.std.URLPropertyEditor
+        </editor-class>
+      </property-extension>
+    </property>
+    <component-extension>
+    </component-extension>
+  </component>
+
+  <component>
+    <component-type>javax.faces.HtmlInputHidden</component-type>
+    &uiinput-props;
+    <component-extension>
+    </component-extension>
+  </component>
+
+  <component>
+    <component-type>javax.faces.HtmlInputSecret</component-type>
+    &uiinput-props;
+    &core-props;
+    &events-props;
+    &focus-props;
+    &i18n-props;
+    &input-props;
+    &text-props;
+    &input-secret-props;
+    <component-extension>
+    </component-extension>
+  </component>
+
+  <component>
+    <component-type>javax.faces.HtmlInputText</component-type>
+    &uiinput-props;
+    &core-props;
+    &events-props;
+    &focus-props;
+    &i18n-props;
+    &input-props;
+    &text-props;
+    <component-extension>
+    </component-extension>
+  </component>
+
+  <component>
+    <component-type>javax.faces.HtmlInputTextarea</component-type>
+    &uiinput-props;
+    &core-props;
+    &events-props;
+    &focus-props;
+    &i18n-props;
+    &input-props;
+    &input-textarea-props;
+    <component-extension>
+    </component-extension>
+  </component>
+
+  <component>
+    <component-type>javax.faces.HtmlMessage</component-type>
+    &uimessage-props;
+    &core-props;
+    &message-message-props;
+    <component-extension>
+    </component-extension>
+  </component>
+
+  <component>
+    <component-type>javax.faces.HtmlMessages</component-type>
+    &uimessages-props;
+    &core-props;
+    &messages-messages-props;
+    <component-extension>
+    </component-extension>
+  </component>
+
+  <component>
+    <component-type>javax.faces.HtmlOutputFormat</component-type>
+    &uioutput-props;
+    &core-props;
+    &output-format-props;
+    <component-extension>
+    </component-extension>
+  </component>
+
+  <component>
+    <component-type>javax.faces.HtmlOutputLabel</component-type>
+    &uioutput-props;
+    &core-props;
+    &events-props;
+    &focus-props;
+    &i18n-props;
+    &output-label-props;
+    <property>
+      <property-name>value</property-name>
+      <property-extension>
+        <is-hidden>true</is-hidden>
+      </property-extension>
+    </property>
+    <component-extension>
+    </component-extension>
+  </component>
+
+  <component>
+    <component-type>javax.faces.HtmlOutputLink</component-type>
+    &uioutput-props;
+    &core-props;
+    &events-props;
+    &focus-props;
+    &i18n-props;
+    &link-props;
+    <component-extension>
+    </component-extension>
+  </component>
+
+  <component>
+    <component-type>javax.faces.HtmlOutputText</component-type>
+    &uioutput-props;
+    &core-props;
+    &output-text-props;
+    <component-extension>
+    </component-extension>
+  </component>
+
+  <component>
+    <component-type>javax.faces.HtmlPanelGrid</component-type>
+    &uipanel-props;
+    &core-props;
+    &events-props;
+    &i18n-props;
+    &table-props;
+    &panel-grid-props;
+    <component-extension>
+    </component-extension>
+  </component>
+
+  <component>
+    <component-type>javax.faces.HtmlPanelGroup</component-type>
+    &uipanel-props;
+    &panel-group-props;
+    <component-extension>
+    </component-extension>
+  </component>
+
+  <component>
+    <component-type>javax.faces.HtmlSelectBooleanCheckbox</component-type>
+    &uiselectboolean-props;
+    &core-props;
+    &events-props;
+    &focus-props;
+    &i18n-props;
+    &input-props;
+    <component-extension>
+    </component-extension>
+  </component>
+
+  <component>
+    <component-type>javax.faces.HtmlSelectManyCheckbox</component-type>
+    &uiselectmany-props;
+    &core-props;
+    &events-props;
+    &focus-props;
+    &i18n-props;
+    &input-props;
+    &selectmany-checkbox-props;
+    <component-extension>
+    </component-extension>
+  </component>
+
+  <component>
+    <component-type>javax.faces.HtmlSelectManyListbox</component-type>
+    &uiselectmany-props;
+    &core-props;
+    &events-props;
+    &focus-props;
+    &i18n-props;
+    &input-props;
+    &listbox-props;
+    <component-extension>
+    </component-extension>
+  </component>
+
+  <component>
+    <component-type>javax.faces.HtmlSelectManyMenu</component-type>
+    &uiselectmany-props;
+    &core-props;
+    &events-props;
+    &focus-props;
+    &i18n-props;
+    &input-props;
+    <component-extension>
+    </component-extension>
+  </component>
+
+  <component>
+    <component-type>javax.faces.HtmlSelectOneListbox</component-type>
+    &uiselectone-props;
+    &core-props;
+    &events-props;
+    &focus-props;
+    &i18n-props;
+    &input-props;
+    &listbox-props;
+    <component-extension>
+    </component-extension>
+  </component>
+
+  <component>
+    <component-type>javax.faces.HtmlSelectOneMenu</component-type>
+    &uiselectone-props;
+    &core-props;
+    &events-props;
+    &focus-props;
+    &i18n-props;
+    &input-props;
+    <component-extension>
+    </component-extension>
+  </component>
+
+  <component>
+    <component-type>javax.faces.HtmlSelectOneRadio</component-type>
+    &uiselectone-props;
+    &core-props;
+    &events-props;
+    &focus-props;
+    &i18n-props;
+    &input-props;
+    &selectone-radio-props;
+    <component-extension>
+    </component-extension>
+  </component>
+
+  <!-- Standard HTML Renderkit -->
+
+  <render-kit>
+
+    <renderer>
+      <description>
+        Button component - can submit or reset form
+      </description>
+      <display-name>Button</display-name>
+      <component-family>javax.faces.Command</component-family>
+      <renderer-type>javax.faces.Button</renderer-type>
+      &core-attrs;
+      &events-attrs;
+      &focus-attrs;
+      &i18n-attrs;
+      &input-attrs;
+      &command-button-attrs;
+      <renderer-extension>
+        <component-help-key>
+          projrave_ui_elements_palette_jsfstd_command_button
+        </component-help-key>
+        <default-property-name>value</default-property-name>
+        <instance-name>button</instance-name>
+	<is-container>false</is-container>
+        <properties-help-key>
+          projrave_ui_elements_propsheets_jsfstd_command_button_props
+        </properties-help-key>
+        <tag-name>commandButton</tag-name>
+        &taglib-values;
+      </renderer-extension>
+    </renderer>
+
+    <renderer>
+      <description>
+        Hyperlink that can submit the form
+      </description>
+      <display-name>Link Action</display-name>
+      <component-family>javax.faces.Command</component-family>
+      <renderer-type>javax.faces.Link</renderer-type>
+      &core-attrs;
+      &events-attrs;
+      &focus-attrs;
+      &i18n-attrs;
+      &link-attrs;
+      <renderer-extension>
+        <component-help-key>
+          projrave_ui_elements_palette_jsfstd_command_hyperlink
+        </component-help-key>
+        <instance-name>linkAction</instance-name>
+        <properties-help-key>
+          projrave_ui_elements_propsheets_jsfstd_command_hyperlink_props
+        </properties-help-key>
+        <tag-name>commandLink</tag-name>
+        &taglib-values;
+      </renderer-extension>
+    </renderer>
+
+    <renderer>
+      <description>
+        HTML table that displays columns and rows from underlying data
+        - HTML tag &amp;lt;table&amp;gt;
+      </description>
+      <display-name>Data Table</display-name>
+      <component-family>javax.faces.Data</component-family>
+      <renderer-type>javax.faces.Table</renderer-type>
+      &core-attrs;
+      &events-attrs;
+      &i18n-attrs;
+      &table-attrs;
+      <renderer-extension>
+        <component-help-key>
+          projrave_ui_elements_palette_jsfstd_data_table
+        </component-help-key>
+        <facet>
+          <description>
+            Footer content for the entire table
+          </description>
+          <display-name>Table Footer</display-name>
+          <facet-name>footer</facet-name>
+        </facet>
+        <facet>
+          <description>
+            Header content for the entire table
+          </description>
+          <display-name>Table Header</display-name>
+          <facet-name>header</facet-name>
+        </facet>
+        <instance-name>dataTable</instance-name>
+        <properties-help-key>
+          projrave_ui_elements_propsheets_jsfstd_data_table_props
+        </properties-help-key>
+        <tag-name>dataTable</tag-name>
+        &taglib-values;
+      </renderer-extension>
+    </renderer>
+
+    <renderer>
+      <description>
+        Form component - HTML tag &amp;lt;form&amp;gt;
+      </description>
+      <display-name>Form</display-name>
+      <component-family>javax.faces.Form</component-family>
+      <renderer-type>javax.faces.Form</renderer-type>
+      &core-attrs;
+      &events-attrs;
+      &i18n-attrs;
+      &form-form-attrs;
+      <renderer-extension>
+        <component-help-key>
+          projrave_ui_elements_palette_jsfstd_form
+        </component-help-key>
+        <instance-name>form</instance-name>
+        <markup-section>BODY</markup-section>
+        <properties-help-key>
+          projrave_ui_elements_propsheets_jsfstd_form_props
+        </properties-help-key>
+        <tag-name>form</tag-name>
+        &taglib-values;
+      </renderer-extension>
+    </renderer>
+
+    <renderer>
+      <description>
+        Image component - HTML tag &amp;lt;img&amp;gt;
+      </description>
+      <display-name>Image</display-name>
+      <component-family>javax.faces.Graphic</component-family>
+      <renderer-type>javax.faces.Image</renderer-type>
+      &core-attrs;
+      &events-attrs;
+      &i18n-attrs;
+      &graphic-image-attrs;
+      <renderer-extension>
+        <component-help-key>
+          projrave_ui_elements_palette_jsfstd_graphic_image
+        </component-help-key>
+        <default-property-name>value</default-property-name>
+        <instance-name>image</instance-name>
+	<is-container>false</is-container>
+        <properties-help-key>
+          projrave_ui_elements_propsheets_jsfstd_graphic_image_props
+        </properties-help-key>
+        <tag-name>graphicImage</tag-name>
+        &taglib-values;
+      </renderer-extension>
+    </renderer>
+
+    <renderer>
+      <description>
+        Hidden input field - HTML tag &amp;lt;input type=&amp;quot;&amp;hidden&amp;quot;&amp;gt;
+      </description>
+      <display-name>Hidden Field</display-name>
+      <component-family>javax.faces.Input</component-family>
+      <renderer-type>javax.faces.Hidden</renderer-type>
+      <renderer-extension>
+        <component-help-key>
+          projrave_ui_elements_palette_jsfstd_hidden_field
+        </component-help-key>
+        <instance-name>hiddenField</instance-name>
+	<is-container>false</is-container>
+        <is-non-visual>true</is-non-visual>
+        <properties-help-key>
+          projrave_ui_elements_propsheets_jsfstd_hidden_field_props
+        </properties-help-key>
+        <tag-name>inputHidden</tag-name>
+        &taglib-values;
+      </renderer-extension>
+    </renderer>
+
+    <renderer>
+      <description>
+        Input field that hides user input - HTML tag &amp;lt;input type=&amp;quot&amp;password&amp;quot;&amp;gt;
+      </description>
+      <display-name>Secret Field</display-name>
+      <component-family>javax.faces.Input</component-family>
+      <renderer-type>javax.faces.Secret</renderer-type>
+      &core-attrs;
+      &events-attrs;
+      &focus-attrs;
+      &i18n-attrs;
+      &input-attrs;
+      &text-attrs;
+      &input-secret-attrs;
+      <renderer-extension>
+        <component-help-key>
+          projrave_ui_elements_palette_jsfstd_secret_field
+        </component-help-key>
+        <instance-name>secretField</instance-name>
+	<is-container>false</is-container>
+        <tag-name>inputSecret</tag-name>
+        <properties-help-key>
+          projrave_ui_elements_propsheets_jsfstd_secret_field_props
+        </properties-help-key>
+        &taglib-values;
+      </renderer-extension>
+    </renderer>
+
+    <renderer>
+      <description>
+        Input field for standard text - HTML tag &amp;lt;input type=&amp;quot&amp;text&amp;quot;&amp;gt;
+      </description>
+      <display-name>Text Field</display-name>
+      <component-family>javax.faces.Input</component-family>
+      <renderer-type>javax.faces.Text</renderer-type>
+      &core-attrs;
+      &events-attrs;
+      &focus-attrs;
+      &i18n-attrs;
+      &input-attrs;
+      &text-attrs;
+      <renderer-extension>
+        <component-help-key>
+          projrave_ui_elements_palette_jsfstd_input_text
+        </component-help-key>
+        <default-property-name>value</default-property-name>
+        <instance-name>textField</instance-name>
+	<is-container>false</is-container>
+        <properties-help-key>
+          projrave_ui_elements_propsheets_jsfstd_input_text_props
+        </properties-help-key>
+        <tag-name>inputText</tag-name>
+        &taglib-values;
+      </renderer-extension>
+    </renderer>
+
+    <renderer>
+      <description>
+        Multiple line text area - HTML tag &amp;lt;textarea&amp;gt;
+      </description>
+      <display-name>Multi Line Text Area</display-name>
+      <component-family>javax.faces.Input</component-family>
+      <renderer-type>javax.faces.Textarea</renderer-type>
+      &core-attrs;
+      &events-attrs;
+      &focus-attrs;
+      &i18n-attrs;
+      &input-attrs;
+      &input-textarea-attrs;
+      <renderer-extension>
+        <component-help-key>
+          projrave_ui_elements_palette_jsfstd_input_textarea
+        </component-help-key>
+        <default-property-name>value</default-property-name>
+	<instance-name>textArea</instance-name>
+	<is-container>false</is-container>
+        <properties-help-key>
+          projrave_ui_elements_propsheets_jsfstd_input_textarea_props
+        </properties-help-key>
+        <tag-name>inputTextarea</tag-name>
+        &taglib-values;
+      </renderer-extension>
+    </renderer>
+
+    <renderer>
+      <description>
+        Display messages for a single component, such as validation or conversion errors
+      </description>
+      <display-name>Inline Message</display-name>
+      <component-family>javax.faces.Message</component-family>
+      <renderer-type>javax.faces.Message</renderer-type>
+      &core-attrs;
+      &message-message-attrs;
+      <renderer-extension>
+        <component-help-key>
+          projrave_ui_elements_palette_jsfstd_inline_message
+        </component-help-key>
+	<instance-name>inlineMessage</instance-name>
+	<is-container>false</is-container>
+        <properties-help-key>
+          projrave_ui_elements_propsheets_jsfstd_inline_message_props
+        </properties-help-key>
+        <tag-name>message</tag-name>
+        &taglib-values;
+      </renderer-extension>
+    </renderer>
+
+    <renderer>
+      <description>
+        Display global or all messages for a page
+      </description>
+      <display-name>Message List</display-name>
+      <component-family>javax.faces.Messages</component-family>
+      <renderer-type>javax.faces.Messages</renderer-type>
+      &core-attrs;
+      &messages-messages-attrs;
+      <renderer-extension>
+        <component-help-key>
+          projrave_ui_elements_palette_jsfstd_message_list
+        </component-help-key>
+	<instance-name>messageList</instance-name>
+	<is-container>false</is-container>
+        <properties-help-key>
+          projrave_ui_elements_propsheets_jsfstd_message_list_props
+        </properties-help-key>
+        <tag-name>messages</tag-name>
+        &taglib-values;
+      </renderer-extension>
+    </renderer>
+
+    <renderer>
+      <description>
+        Display formatted text from a localized resource bundle
+      </description>
+      <display-name>Formatted Output</display-name>
+      <component-family>javax.faces.Output</component-family>
+      <renderer-type>javax.faces.Format</renderer-type>
+      &core-attrs;
+      &output-format-attrs;
+      <renderer-extension>
+        <component-help-key>
+          projrave_ui_elements_palette_jsfstd_formatted_output
+        </component-help-key>
+        <default-property-name>value</default-property-name>
+	<instance-name>formattedOutput</instance-name>
+	<is-container>false</is-container>
+        <properties-help-key>
+          projrave_ui_elements_propsheets_jsfstd_formatted_output_props
+        </properties-help-key>
+        <tag-name>outputFormat</tag-name>
+        &taglib-values;
+      </renderer-extension>
+    </renderer>
+
+    <renderer>
+      <description>
+         Associates a display label with another component for accessibility - uses an HTML &lt;label&gt; tag
+      </description>
+      <display-name>Component Label</display-name>
+      <component-family>javax.faces.Output</component-family>
+      <renderer-type>javax.faces.Label</renderer-type>
+      &core-attrs;
+      &events-attrs;
+      &focus-attrs;
+      &i18n-attrs;
+      &output-label-attrs;
+      <renderer-extension>
+        <component-help-key>
+          projrave_ui_elements_palette_jsfstd_output_label
+        </component-help-key>
+        <instance-name>componentLabel</instance-name>
+        <properties-help-key>
+          projrave_ui_elements_propsheets_jsfstd_output_label_props
+        </properties-help-key>
+        <tag-name>outputLabel</tag-name>
+        &taglib-values;
+      </renderer-extension>
+    </renderer>
+
+    <renderer>
+      <description>
+        Hyperlink to an external URL - HTML tag &amp;lt;a href=&amp;quot;URL&amp;quot;&amp;gt;
+      </description>
+      <display-name>Hyperlink</display-name>
+      <component-family>javax.faces.Output</component-family>
+      <renderer-type>javax.faces.Link</renderer-type>
+      &core-attrs;
+      &events-attrs;
+      &focus-attrs;
+      &i18n-attrs;
+      &link-attrs;
+      <renderer-extension>
+        <component-help-key>
+          projrave_ui_elements_palette_jsfstd_output_hyperlink
+        </component-help-key>
+        <instance-name>hyperlink</instance-name>
+        <properties-help-key>
+          projrave_ui_elements_propsheets_jsfstd_output_hyperlink_props
+        </properties-help-key>
+        <tag-name>outputLink</tag-name>
+        &taglib-values;
+      </renderer-extension>
+    </renderer>
+
+    <renderer>
+      <description>
+        Output text for labels, instructions, and display-only values
+      </description>
+      <display-name>Output Text</display-name>
+      <component-family>javax.faces.Output</component-family>
+      <renderer-type>javax.faces.Text</renderer-type>
+      &core-attrs;
+      &output-text-attrs;
+      <renderer-extension>
+        <component-help-key>
+          projrave_ui_elements_palette_jsfstd_output_text
+        </component-help-key>
+        <default-property-name>value</default-property-name>
+	<instance-name>outputText</instance-name>
+	<is-container>false</is-container>
+        <properties-help-key>
+          projrave_ui_elements_propsheets_jsfstd_output_text_props
+        </properties-help-key>
+        <tag-name>outputText</tag-name>
+        &taglib-values;
+      </renderer-extension>
+    </renderer>
+
+    <renderer>
+      <description>
+        Table that organizes child components into a grid
+      </description>
+      <display-name>Grid Panel</display-name>
+      <component-family>javax.faces.Panel</component-family>
+      <renderer-type>javax.faces.Grid</renderer-type>
+      &core-attrs;
+      &events-attrs;
+      &i18n-attrs;
+      &table-attrs;
+      &panel-grid-attrs;
+      <renderer-extension>
+        <component-help-key>
+          projrave_ui_elements_palette_jsfstd_grid_panel
+        </component-help-key>
+        <facet>
+          <description>
+            Footer content for the entire grid
+          </description>
+          <display-name>Grid Footer</display-name>
+          <facet-name>footer</facet-name>
+        </facet>
+        <facet>
+          <description>
+            Header content for the entire grid
+          </description>
+          <display-name>Grid Header</display-name>
+          <facet-name>header</facet-name>
+        </facet>
+        <instance-name>gridPanel</instance-name>
+        <properties-help-key>
+          projrave_ui_elements_propsheets_jsfstd_grid_panel_props
+        </properties-help-key>
+        <tag-name>panelGrid</tag-name>
+        &taglib-values;
+      </renderer-extension>
+    </renderer>
+
+    <renderer>
+      <description>
+        Group a set of child components for parent that expects one child
+      </description>
+      <display-name>Group Panel</display-name>
+      <component-family>javax.faces.Panel</component-family>
+      <renderer-type>javax.faces.Group</renderer-type>
+      &panel-group-attrs;
+      <renderer-extension>
+        <component-help-key>
+          projrave_ui_elements_palette_jsfstd_group_panel
+        </component-help-key>
+        <instance-name>groupPanel</instance-name>
+        <properties-help-key>
+          projrave_ui_elements_propsheets_jsfstd_group_panel_props
+        </properties-help-key>
+        <tag-name>panelGroup</tag-name>
+        &taglib-values;
+     </renderer-extension>
+    </renderer>
+
+    <renderer>
+      <description>
+        Single checkbox - HTML tag &amp;lt;input type=&amp;quot&amp;checkbox&amp;quot;&amp;gt;
+      </description>
+      <display-name>Checkbox</display-name>
+      <component-family>javax.faces.SelectBoolean</component-family>
+      <renderer-type>javax.faces.Checkbox</renderer-type>
+      &core-attrs;
+      &events-attrs;
+      &focus-attrs;
+      &i18n-attrs;
+      &input-attrs;
+      <renderer-extension>
+        <component-help-key>
+          projrave_ui_elements_palette_jsfstd_checkbox
+        </component-help-key>
+	<instance-name>checkbox</instance-name>
+	<is-container>false</is-container>
+        <properties-help-key>
+          projrave_ui_elements_propsheets_jsfstd_checkbox_props
+        </properties-help-key>
+        <tag-name>selectBooleanCheckbox</tag-name>
+        &taglib-values;
+      </renderer-extension>
+    </renderer>
+
+    <renderer>
+      <description>
+        Multiple choice control represented as checkboxes
+      </description>
+      <display-name>Checkbox List</display-name>
+      <component-family>javax.faces.SelectMany</component-family>
+      <renderer-type>javax.faces.Checkbox</renderer-type>
+      &core-attrs;
+      &events-attrs;
+      &focus-attrs;
+      &i18n-attrs;
+      &input-attrs;
+      &selectmany-checkbox-attrs;
+      <renderer-extension>
+        <component-help-key>
+          projrave_ui_elements_palette_jsfstd_checkbox_list
+        </component-help-key>
+        <instance-name>checkboxList</instance-name>
+        <properties-help-key>
+          projrave_ui_elements_propsheets_jsfstd_checkbox_list_props
+        </properties-help-key>
+        <tag-name>selectManyCheckbox</tag-name>
+        &taglib-values;
+      </renderer-extension>
+    </renderer>
+
+    <renderer>
+      <description>
+        Multiple choice control represented as a listbox
+      </description>
+      <display-name>Multi Select Listbox</display-name>
+      <component-family>javax.faces.SelectMany</component-family>
+      <renderer-type>javax.faces.Listbox</renderer-type>
+      &core-attrs;
+      &events-attrs;
+      &focus-attrs;
+      &i18n-attrs;
+      &input-attrs;
+      &listbox-attrs;
+      <renderer-extension>
+        <component-help-key>
+          projrave_ui_elements_palette_jsfstd_multi_listbox
+        </component-help-key>
+        <instance-name>multiSelectListbox</instance-name>
+        <properties-help-key>
+          projrave_ui_elements_propsheets_jsfstd_multi_listbox_props
+        </properties-help-key>
+        <tag-name>selectManyListbox</tag-name>
+        &taglib-values;
+      </renderer-extension>
+    </renderer>
+
+    <renderer>
+      <description>
+        Multiple choice control represented as a menu or listbox
+      </description>
+      <display-name>Multi Select Menu</display-name>
+      <component-family>javax.faces.SelectMany</component-family>
+      <renderer-type>javax.faces.Menu</renderer-type>
+      &core-attrs;
+      &events-attrs;
+      &focus-attrs;
+      &i18n-attrs;
+      &input-attrs;
+      <renderer-extension>
+        <component-help-key>
+          projrave_ui_elements_palette_jsfstd_multi-select_menu
+        </component-help-key>
+        <instance-name>menu</instance-name>
+        <properties-help-key>
+          projrave_ui_elements_propsheets_jsfstd_multi-select_menu_props
+        </properties-help-key>
+        <tag-name>selectManyMenu</tag-name>
+        &taglib-values;
+      </renderer-extension>
+    </renderer>
+
+    <renderer>
+      <description>
+        Single choice control represented as a listbox
+      </description>
+      <display-name>Listbox</display-name>
+      <component-family>javax.faces.SelectOne</component-family>
+      <renderer-type>javax.faces.Listbox</renderer-type>
+      &core-attrs;
+      &events-attrs;
+      &focus-attrs;
+      &i18n-attrs;
+      &input-attrs;
+      &listbox-attrs;
+      <renderer-extension>
+        <component-help-key>
+          projrave_ui_elements_palette_jsfstd_listbox
+        </component-help-key>
+        <instance-name>listbox</instance-name>
+        <properties-help-key>
+          projrave_ui_elements_propsheets_jsfstd_listbox_props
+        </properties-help-key>
+        <tag-name>selectOneListbox</tag-name>
+        &taglib-values;
+      </renderer-extension>
+    </renderer>
+
+    <renderer>
+      <description>
+        Single choice control represented as a dropdown
+      </description>
+      <display-name>Dropdown List</display-name>
+      <component-family>javax.faces.SelectOne</component-family>
+      <renderer-type>javax.faces.Menu</renderer-type>
+      &core-attrs;
+      &events-attrs;
+      &focus-attrs;
+      &i18n-attrs;
+      &input-attrs;
+      <renderer-extension>
+        <component-help-key>
+          projrave_ui_elements_palette_jsfstd_dropdown_list
+        </component-help-key>
+        <instance-name>dropdown</instance-name>
+        <properties-help-key>
+          projrave_ui_elements_propsheets_jsfstd_dropdown_list_props
+        </properties-help-key>
+        <tag-name>selectOneMenu</tag-name>
+        &taglib-values;
+      </renderer-extension>
+    </renderer>
+
+    <renderer>
+      <description>
+        Single choice control represented as a set of radio buttons
+      </description>
+      <display-name>Radio Button List</display-name>
+      <component-family>javax.faces.SelectOne</component-family>
+      <renderer-type>javax.faces.Radio</renderer-type>
+      &core-attrs;
+      &events-attrs;
+      &focus-attrs;
+      &i18n-attrs;
+      &input-attrs;
+      &selectone-radio-attrs;
+      <renderer-extension>
+        <component-help-key>
+          projrave_ui_elements_palette_jsfstd_radiobutton_list
+        </component-help-key>
+        <instance-name>radioButtonList</instance-name>
+        <properties-help-key>
+          projrave_ui_elements_propsheets_jsfstd_radiobutton_list_props
+        </properties-help-key>
+        <tag-name>selectOneRadio</tag-name>
+        &taglib-values;
+      </renderer-extension>
+    </renderer>
+
+  </render-kit>
+
+</faces-config>

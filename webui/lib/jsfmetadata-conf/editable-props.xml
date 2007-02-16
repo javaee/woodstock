@@ -1,0 +1,110 @@
+<?xml encoding='UTF-8'?>
+<!--
+ The contents of this file are subject to the terms
+ of the Common Development and Distribution License
+ (the License).  You may not use this file except in
+ compliance with the License.
+ 
+ You can obtain a copy of the license at
+ https://woodstock.dev.java.net/public/CDDLv1.0.html.
+ See the License for the specific language governing
+ permissions and limitations under the License.
+ 
+ When distributing Covered Code, include this CDDL
+ Header Notice in each file and include the License file
+ at https://woodstock.dev.java.net/public/CDDLv1.0.html.
+ If applicable, add the following below the CDDL Header,
+ with the fields enclosed by brackets [] replaced by
+ you own identifying information:
+ "Portions Copyrighted [year] [name of copyright owner]"
+ 
+ Copyright 2007 Sun Microsystems, Inc. All rights reserved.
+-->
+
+
+<!-- ========== EditableValueHolder Properties ============================= -->
+
+
+     <property>
+      <description>
+        Flag indicating that event handling for this component
+          should be handled immediately (in Apply Request Values
+          phase) rather than waiting until Invoke Application phase.
+      </description>
+      <display-name>Immediate</display-name>
+      <property-name>immediate</property-name>
+      <property-class>boolean</property-class>
+      <property-extension>
+        <category>ADVANCED</category>
+        <is-bindable>true</is-bindable>
+      </property-extension>
+    </property>
+
+      <property>
+        <property-name>localValueSet</property-name>
+        <property-extension>
+          <category>INTERNAL</category>
+          <is-hidden>true</is-hidden>
+          <tag-attribute>false</tag-attribute>
+        </property-extension>
+      </property>
+
+      <property>
+        <description>
+          Flag indicating that an input value for this field is
+          mandatory, and failure to provide one will trigger a
+          validation error.
+        </description>
+        <property-name>required</property-name>
+        <property-extension>
+            <category>DATA</category>
+        </property-extension>
+      </property>
+
+      <property>
+        <property-name>submittedValue</property-name>
+        <property-extension>
+          <category>INTERNAL</category>
+          <is-hidden>true</is-hidden>
+          <tag-attribute>false</tag-attribute>
+        </property-extension>
+      </property>
+
+      <property>
+        <property-name>valid</property-name>
+        <property-extension>
+          <category>INTERNAL</category>
+          <is-hidden>true</is-hidden>
+          <tag-attribute>false</tag-attribute>
+        </property-extension>
+      </property>
+
+      <property>
+        <description>
+          Method binding representing a method that performs
+          validations on this component's value.
+        </description>
+        <property-name>validator</property-name>
+        <property-extension>
+            <category>DATA</category>
+            <editor-class>
+              com.sun.jsfcl.std.ValidatorRefPropertyEditor
+            </editor-class>
+        </property-extension>
+      </property>
+
+      <property>
+        <description>
+          Method binding representing a method that receives value
+          change events from this component.
+        </description>
+        <property-name>valueChangeListener</property-name>
+        <!-- Work around typo in JSF 1.1 metadata -->
+        <property-class>javax.faces.el.MethodBinding</property-class>
+        <property-extension>
+            <category>ADVANCED</category>
+            <editor-class>
+              com.sun.jsfcl.std.MethodBindingPropertyEditor
+            </editor-class>
+        </property-extension>
+      </property>

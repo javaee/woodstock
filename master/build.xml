@@ -1,0 +1,359 @@
+<?xml version='1.0' encoding='ISO-8859-1' ?>
+<!--
+ The contents of this file are subject to the terms
+ of the Common Development and Distribution License
+ (the License).  You may not use this file except in
+ compliance with the License.
+ 
+ You can obtain a copy of the license at
+ https://woodstock.dev.java.net/public/CDDLv1.0.html.
+ See the License for the specific language governing
+ permissions and limitations under the License.
+ 
+ When distributing Covered Code, include this CDDL
+ Header Notice in each file and include the License file
+ at https://woodstock.dev.java.net/public/CDDLv1.0.html.
+ If applicable, add the following below the CDDL Header,
+ with the fields enclosed by brackets [] replaced by
+ you own identifying information:
+ "Portions Copyrighted [year] [name of copyright owner]"
+ 
+ Copyright 2007 Sun Microsystems, Inc. All rights reserved.
+-->
+
+<project name="Woodstock" default="all" basedir=".">
+    <!-- get a build time setup -->
+    <tstamp/>
+    <tstamp>
+      <format property="buildnumber" pattern="yyyyMMddHHmm"/>
+    </tstamp>
+
+    <!-- properties to use with the ant script -->
+    <property file="../build.properties"/>
+    <property file="build.properties"/>
+
+    <property name="webui.jar" value="webui-jsf.jar"/>
+    <property name="webui-dt.jar" value="webui-jsf-dt.jar"/>
+    <property name="suntheme.jar" value="webui-jsf-suntheme.jar"/>
+
+    <target name="createFolders" 
+            description="Create folders necessary for building" >
+        <mkdir dir="${build}" />
+        <mkdir dir="${src}"/>
+        <mkdir dir="${dst}"/>
+        <mkdir dir="${ship}"/>
+        <mkdir dir="${releaselib}"/>
+	<mkdir dir="${releasejsp}"/>
+        <mkdir dir="${doc}"/>
+        <mkdir dir="${meta-inf}"/>
+    </target>
+
+ 
+
+    <!-- ========== extralibs ========== -->
+    <!-- This copies some core libs needed for ${sdkspectitle} component distribution   
+         To compile and run a web application   -->
+    <target name="extralibs" depends="createFolders">
+        <!-- files needed for deploy   -->
+        <copy todir="${releaselib}" >
+            <fileset dir="${webui.external.libs}">
+                <include name="commons*" />
+		<include name="dojo*" />
+		<include name="jh*" />
+		<include name="jsearch*" />
+                <include name="jsf*" />
+                <include name="jstl*" />
+		<include name="json*" />
+                <include name="portlet*" />
+		<include name="prototype*" />
+            </fileset>
+            <fileset dir="${webui.component.libs}">
+                <include name="${webui.jar}" />
+                <include name="${webui-dt.jar}" />
+            </fileset>
+            <fileset dir="${dataprovider.component.libs}">
+                <include name="dataprovider.jar" />
+            </fileset>
+	    <!-- get some dataprovider auxilary jars -->
+	    <fileset dir="${webui.creator.libs}">
+		<include name="sqlx.jar"/>
+	    </fileset>
+            <fileset dir="${themes.dist}">
+                <include name="${suntheme.jar}" />
+	    </fileset>
+        </copy>
+    </target> 
+
+ 
+
+    <!-- ========== clean ========== --> 
+    <!-- This creates the extra jars needed for ${sdkspectitle} component distribution   -->
+    <target name="clean"
+            description="clean up" >
+        <!-- Delete the ${build} and ${dist} directory trees -->
+        <delete dir="${build}" />
+        <delete dir="${src}" />
+        <delete dir="${meta-inf}" />
+        <ant dir="${example}" target="clean" inheritAll="false"/>
+        <ant dir="${webui}" target="clean" inheritAll="false"/>
+        <ant dir="${themes}" target="clean" inheritAll="false"/>
+    </target>
+
+     <!-- ========== webui ========== -->
+     <!-- This builds the webui component tree   -->
+    <target name="webui">
+        <ant dir="${webui}" inheritAll="false"> 
+             <property name="buildnumber" value="${buildnumber}"/> 
+        </ant> 
+
+	<!-- jsp -->
+	<copy todir="${releasejsp}/help" >
+	    <fileset dir="${webui.component.jsp}/help">
+                <include name="**" />
+            </fileset>
+	</copy>
+     </target>
+
+     <!-- ========== themes ========== -->
+     <!-- This builds the suntheme   -->
+    <target name="themes">
+        <ant dir="${themes}" inheritAll="false"> 
+            <property name="buildnumber" value="${buildnumber}"/> 
+        </ant> 
+    </target>
+
+    <!-- ========== docs ========== -->
+     <!-- This copies any documentation into the kit  -->
+    <target name="doc">
+        <!-- readme -->
+        <copy todir="${ship}" >
+            <fileset dir="${doc_fromdir}">
+                <include name="**" />
+            </fileset>
+        </copy>
+        
+        <!-- Copy TLDDOC -->
+        <copy todir="${tlddoc_todir}" >
+             <fileset dir="${tlddoc_fromdir}">
+                <include name="**" />
+            </fileset>
+        </copy>
+    </target>
+
+     <!-- ========== example ========== -->
+     <!-- This builds the example app   -->
+    <target name="example">
+        <ant dir="${example}" inheritAll="false" />
+    </target>
+
+    
+    <!-- All these jars are not direct dependencies. Some
+	 are runtime dependenices like "jsf*" and some are
+	 jsf* dependencies provided as a convenience. -->
+
+    <patternset id="dependency-libs">
+	<include name="lib/commons-beanutils.jar"/>
+	<include name="lib/commons-collections.jar"/>
+	<include name="lib/commons-digester.jar"/>
+	<include name="lib/commons-fileupload-1.0.jar"/>
+	<include name="lib/commons-logging.jar"/>
+	<include name="lib/jh.jar"/>
+	<include name="lib/jhall.jar"/>
+	<include name="lib/jhbasic.jar"/>
+	<include name="lib/jhsearch.jar"/>
+	<include name="lib/javaee.jar"/>
+	<include name="lib/portlet.jar"/>
+	<include name="lib/jstl.jar"/>
+        <include name="lib/sqlx.jar"/>
+        <include name="lib/jsf-extensions-common-0.1.jar"/>
+        <include name="lib/jsf-extensions-dynamic-faces-0.1.jar"/>
+    </patternset>
+
+    <patternset id="core-libs">
+	<include name="lib/${webui.jar}"/>
+	<include name="lib/${webui-dt.jar}"/>
+	<include name="lib/dataprovider.jar"/>
+	<include name="lib/${suntheme.jar}"/>
+	<include name="lib/json.jar"/>
+	<include name="lib/dojo-0.4.1-ajax.jar"/>
+	<include name="lib/prototype-1.5.0.jar"/>
+    </patternset>
+
+    <patternset id="com-sun-webui-jsf">
+	<include name="com_sun_webui_jsf/**"/>
+    </patternset>
+
+    <patternset id="core-doc">
+	<include name="doc/**"/>
+    </patternset>
+
+    <patternset id="core-src">
+	<include name="src/**"/>
+    </patternset>
+
+    <patternset id="core-release-notes">
+	<include name="readme.html"/>
+	<include name="release-notes.html"/>
+	<include name="tld-changes.txt"/>
+	<include name="namingcontainer.txt"/>
+    </patternset>
+
+    <!-- ========== buildsdk ========== -->
+    <!-- This creates the kit sdk "jar" needed for ${sdkspectitle} component distribution   -->
+    <target name="buildsdk" depends="build-manifests">
+
+	<!-- create core jar -->
+	<jar jarfile="${sdkjar}"
+	    manifest="${meta-inf}/sdk.mf">
+	    <fileset dir="${ship}">
+		<patternset refid="core-libs"/>
+		<patternset refid="com-sun-webui-jsf"/>
+		<patternset refid="core-doc"/>
+		<patternset refid="core-src"/>
+		<patternset refid="core-release-notes"/>
+	    </fileset>
+            <fileset dir="${ship}">
+                <include name="licenses/**"/>
+            </fileset>
+	</jar>
+
+       <echo message="TSTAMP=${DSTAMP}.${TSTAMP} Version=${sdkversion}"/> 
+
+	<!-- build the dependency jar -->
+	<antcall target="build-dependent-jar"/>
+
+    </target> 
+
+    <!-- ========== build dependencies ========== -->
+    <target name="build-dependent-jar">
+
+	 <!-- create the dependent.jar manifest 
+	  -->
+
+	<antcall target="build-manifest">
+	    <param name="mf-name" value="sdk-dependency.mf"/>
+	    <param name="implementation-title"
+		value="${sdkimpltitle} Build and Runtime jars" />
+	    <param name="implementation-version" value="${FullVersion}" />
+	    <param name="specification-title"
+		value="${sdkspectitle}" />
+	    <param name="specification-version" value="${sdkspecversion}" />
+	</antcall>
+
+	<!-- create a jar containing build time and runtime dependent jars
+	-->
+	<jar jarfile="${sdk-dependency-jar}"
+	    manifest="${meta-inf}/sdk-dependency.mf">
+	    <fileset dir="${ship}">
+		<patternset refid="dependency-libs"/>
+	    </fileset>
+	</jar>
+
+    </target> 
+
+    <!-- ========== dataprovider implementation jars ========== -->
+    <target name="build-dataprovider-impl-jar">
+
+	 <!-- create the manifest -->
+
+	<antcall target="build-manifest">
+	    <param name="mf-name" value="sdk-dpimpl.mf"/>
+	    <param name="implementation-title"
+		value="Dataprovider Implementation: Rowset" />
+	    <param name="implementation-version" value="${FullVersion}" />
+	    <param name="specification-title"
+		value="Dataprovider Implementation: Rowset" />
+	    <param name="specification-version" value="${sdkspecversion}" />
+	</antcall>
+
+	<!-- create a jar containing build time and runtime dependent jars
+	-->
+	<jar jarfile="${dataprovider-impl-rowset-jar}"
+	    manifest="${meta-inf}/sdk-dpimpl.mf">
+	    <fileset dir="${ship}">
+		<patternset refid="dataprovider-impl-libs"/>
+	    </fileset>
+	</jar>
+
+    </target> 
+
+    <target name="all" depends="clean, ship">
+    </target>
+
+    <target name="ship" depends="themes, webui, extralibs, doc, buildsdk, example">
+    </target>
+    
+    <target name="build-manifests">
+	<antcall target="sdk-mf"/>
+    </target>
+
+    <target name="sdk-mf">
+	<antcall target="build-manifest">
+	    <param name="mf-name" value="sdk.mf"/>
+	    <param name="section-name" value="com.sun.webui.jsf"/>
+	    <param name="implementation-title" value="${sdkimpltitle}" />
+	    <param name="implementation-version" value="${FullVersion}" />
+	    <param name="specification-title" value="${sdkspectitle}" />
+	    <param name="specification-version" value="${sdkspecversion}" />
+	</antcall>
+    </target>
+
+    <!-- Don't do this anymore
+    <target name="webui-mf">
+	<antcall target="build-manifest">
+	    <param name="mf-name" value="webui.mf"/>
+	    <param name="section-name" value="com.sun.webui.jsf"/>
+	    <param name="implementation-title"
+		value="${sdkimpltitle}" />
+	    <param name="implementation-version" value="${FullVersion}" />
+	    <param name="specification-title"
+		value="${sdkspectitle} Components" />
+	    <param name="specification-version" value="${sdkspecversion}" />
+	</antcall>
+    </target>
+    -->
+    
+    <!-- we don't want to do themes this way anymore -->
+    <target name="theme-mf">
+	<antcall target="build-manifest">
+	    <param name="mf-name" value="theme.mf"/>
+	    <param name="section-name" value="com.sun.webui.jsf.theme"/>
+	    <param name="implementation-title"
+		value="${sdkimpltitle} Theme Properties" />
+	    <param name="implementation-version" value="${FullVersion}" />
+	    <param name="specification-title"
+		value="${sdkspectitle} Theme" />
+	    <param name="specification-version" value="${sdkspecversion}" />
+	</antcall>
+    </target>
+
+    <target name="build-manifest">
+	<manifest file="${meta-inf}/${mf-name}" mode="replace">
+	    <attribute name="Created-By" value="${sdkcompany}"/>
+	    <!-- Main section
+	    <section name="${section-name}">
+	    -->
+	        <attribute name="Implementation-Title" 
+			value="${implementation-title}"/>
+	        <attribute name="Implementation-Version" 
+			value="${implementation-version}"/> 
+	        <attribute name="Implementation-Vendor" 
+			value="${sdkcompany}"/>
+	        <attribute name="Implementation-Vendor-Id" 
+			value="com.sun"/>
+	        <attribute name="Specification-Title" 
+			value="${specification-title}"/>
+	        <attribute name="Specification-Version" 
+			value="${specification-version}"/>
+	        <attribute name="Specification-Vendor" 
+			value="${sdkcompany}"/>
+	    <!--
+	    </section>
+	    -->
+	</manifest>
+            <echo message="Specification-Title: ${specification-title}"/>
+            <echo message="Implementation-Title: ${implementation-title}"/>
+            <echo message="Specification-Version: ${specification-version}"/>
+            <echo message="Implementation-Version: ${implementation-version}"/>
+    </target>
+</project>

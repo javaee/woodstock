@@ -1,0 +1,161 @@
+<?xml version='1.0' encoding='ISO-8859-1' ?>
+<!--
+ The contents of this file are subject to the terms
+ of the Common Development and Distribution License
+ (the License).  You may not use this file except in
+ compliance with the License.
+ 
+ You can obtain a copy of the license at
+ https://woodstock.dev.java.net/public/CDDLv1.0.html.
+ See the License for the specific language governing
+ permissions and limitations under the License.
+ 
+ When distributing Covered Code, include this CDDL
+ Header Notice in each file and include the License file
+ at https://woodstock.dev.java.net/public/CDDLv1.0.html.
+ If applicable, add the following below the CDDL Header,
+ with the fields enclosed by brackets [] replaced by
+ you own identifying information:
+ "Portions Copyrighted [year] [name of copyright owner]"
+ 
+ Copyright 2007 Sun Microsystems, Inc. All rights reserved.
+-->
+
+<project name="themes" default="all" basedir=".">
+
+    <tstamp>
+      <format property="buildnumber" pattern="yyyyMMddHHmm"/>
+    </tstamp>
+
+    <property file="../build.properties"/>
+    <property file="build.properties"/>
+
+    <property name="dist" value="./dist"/>
+    <property name="build" value="./build"/>    
+
+    <property name="suntheme" value="suntheme"/>
+    <property name="suntheme.build" value="build/suntheme"/>
+    <property name="suntheme.path"  value="/com/sun/webui/jsf/suntheme"/>
+    <property name="suntheme.jar" value="webui-jsf-suntheme.jar"/>
+    <property name="suntheme.css" value="_sun4"/>
+
+    <!-- ========== all ========== -->
+    <!-- This creates the theme jars for component distribution. -->
+    <target name="all" depends="buildSunTheme" />
+
+    <target name="buildSunTheme">
+
+	<echo message="Build Sun Theme" /> 
+	<antcall target="buildTheme">
+	    <param name="_build-dir_" value="${suntheme.build}"/>
+	    <param name="_theme-dir_" value="src/suntheme"/>
+	    <param name="_theme-name_" value="${suntheme}"/>
+	    <param name="_theme-name-css_" value="${suntheme.css}"/>
+	    <param name="_theme-path_" value="${suntheme.path}"/>
+	    <param name="_theme-jar_" value="${suntheme.jar}"/>
+	</antcall>
+
+    </target> 
+    
+    <!-- Accept params
+	 _build-dir_
+	 _theme-dir_
+	 _theme-name_
+	 _theme-path_
+	 _theme-jar_
+    -->
+
+    <target name="buildTheme">
+
+	<property name="_dest-path_" value="${_build-dir_}${_theme-path_}"/>
+
+        <mkdir dir="${_build-dir_}" />
+        <mkdir dir="${_dest-path_}" />
+
+        <copy todir="${_dest-path_}/javascript">
+            <fileset dir="javascript">
+	        <exclude name="**/CVS/**" />
+	    </fileset>
+            <filterset>
+                <filter token="THEME" value="${_theme-name_}"/> 
+                <filter token="THEME_CSS" value="${_theme-name-css_}"/> 
+            </filterset>
+        </copy>
+	<copy todir="${_dest-path_}/images">
+            <fileset dir="${_theme-dir_}/images">
+                <exclude name="**/CVS/**" /> 
+	    </fileset>
+        </copy>
+        <copy todir="${_dest-path_}/css">
+            <fileset dir="${_theme-dir_}/css">
+                <exclude name="**/CVS/**" /> 
+	    </fileset>
+            <filterset>
+              <filter token="THEME_CSS" value="${_theme-name-css_}"/>
+            </filterset>
+        </copy>
+        <copy todir="${_dest-path_}/messages">
+            <fileset dir="messages">
+                <exclude name="**/CVS/**" /> 
+	    </fileset>
+        </copy>
+        <copy todir="${_dest-path_}/templates">
+            <fileset dir="templates">
+	        <exclude name="**/CVS/**" /> 
+	    </fileset>
+            <filterset>
+              <filter token="THEME_CSS" value="${_theme-name-css_}"/>
+            </filterset>
+        </copy>
+
+	<!-- copy messages.properties to messages_en.properties JSF hack -->
+	<copy file="${_dest-path_}/messages/messages.properties"
+	     tofile="${_dest-path_}/messages/messages_en.properties"/>
+
+        <copy todir="${_dest-path_}/properties">
+            <fileset dir="${_theme-dir_}/props">
+                <include name="images.properties" />
+                <include name="javascript.properties" />
+                <include name="stylesheets.properties" />
+                <include name="templates.properties" />
+	    </fileset>
+            <filterset>
+              <filter token="THEME" value="${_theme-name_}"/>
+            </filterset>
+        </copy>
+
+        <!-- copy styles.properties using shorter theme name -->
+        <copy todir="${_dest-path_}/properties">
+            <fileset dir="${_theme-dir_}/props">
+                <include name="styles.properties" /> 
+	    </fileset>
+            <filterset>
+              <filter token="THEME_CSS" value="${_theme-name-css_}"/>
+            </filterset>
+        </copy>
+        <copy todir="${_build-dir_}/META-INF">
+            <fileset dir="META-INF">
+                <include name="manifest.mf" /> 
+	    </fileset>
+            <filterset>
+              <filter token="DATESTAMP" value="${buildnumber}"/>
+              <filter token="THEME" value="${_theme-name_}"/>
+              <filter token="FULL_VERSION" value="${FullVersion}"/>
+              <filter token="VERSION" value="${Version}"/>
+            </filterset>
+        </copy>
+
+        <mkdir dir="dist" />
+	<jar destfile="dist/${_theme-jar_}"
+	     basedir="${_build-dir_}"
+	     manifest="${_build-dir_}/META-INF/manifest.mf">
+        </jar>
+    </target> 
+
+    <target name="clean">
+      <delete dir="${build}" />
+      <delete dir="${dist}" />
+      <delete dir="temp" />
+    </target>
+
+</project>

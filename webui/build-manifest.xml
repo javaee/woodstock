@@ -1,0 +1,180 @@
+<?xml version='1.0' encoding='ISO-8859-1' ?>
+<!--
+ The contents of this file are subject to the terms
+ of the Common Development and Distribution License
+ (the License).  You may not use this file except in
+ compliance with the License.
+ 
+ You can obtain a copy of the license at
+ https://woodstock.dev.java.net/public/CDDLv1.0.html.
+ See the License for the specific language governing
+ permissions and limitations under the License.
+ 
+ When distributing Covered Code, include this CDDL
+ Header Notice in each file and include the License file
+ at https://woodstock.dev.java.net/public/CDDLv1.0.html.
+ If applicable, add the following below the CDDL Header,
+ with the fields enclosed by brackets [] replaced by
+ you own identifying information:
+ "Portions Copyrighted [year] [name of copyright owner]"
+ 
+ Copyright 2007 Sun Microsystems, Inc. All rights reserved.
+-->
+
+<project name="webui-manifests" default="netbeans" basedir=".">
+
+  <tstamp>
+    <format property="buildnumber" pattern="yyyyMMddHHmm"/>
+  </tstamp>
+
+  <property file="../build.properties"/>
+
+  <!-- ### Override these properties in "../build.properties" for
+       release values ### -->
+
+  <!-- target "build-manifest" parameter values for
+       "webui" and "webui module stub" -->
+  <property name="webui-title"
+    value="Woodstock"/>
+  <property name="webui-impl-version" value="4.0-${buildnumber}-dev"/>
+  <property name="webui-impl-title"
+    value="${webui-title} ${webui-impl-version}"/>
+  <property name="webui-spec-version" value="4.0-dev"/>
+  <property name="webui-spec-title" value="${webui-title}"/>
+
+  <property name="component-version" value="4.0"/>
+  <property name="swaed-version" value="4.0"/>
+  <property name="theme-required-version" value="4.0"/>
+  <property name="jsf-version" value="1.1.02_b08"/>
+  <property name="dependencies" value="dataprovider.jar/1.0, jhall.jar/2.0"/>
+  <property name="fileupload-dependencies" value="commons-fileupload.jar/1.0"/>
+  <property name="jsf-ri-dependencies" value="commons-beanutils.jar/1.6, commons-digester.jar/1.5, commons-collections.jar/2.1, commons-logging.jar/1.0.4"/>
+
+  <!-- target "build-manifest" parameter values for "webui-dt" -->
+  <property name="webui-dt-title"
+    value="Woodstock"/>
+  <property name="webui-dt-impl-version" value="4.0-${buildnumber}-dev"/>
+  <property name="webui-dt-impl-title"
+    value="${webui-dt-title} ${webui-dt-impl-version}"/>
+  <property name="webui-dt-spec-version" value="4.0-dev"/>
+  <property name="webui-dt-spec-title" value="${webui-dt-title}"/>
+
+  <!-- Global "build-manifest" properties -->
+  <property name="package-name" value="com.sun.webui.jsf"/>
+  <property name="package-path" value="com/sun/webui/jsf/"/>
+  <property name="vendor" value="Sun Microsystems Inc."/>
+
+  <target name="build-manifests">
+    <antcall target="webui"/>
+    <antcall target="webui-module-stub"/>
+    <antcall target="webui-dt"/>
+  </target>
+
+  <target name="webui">
+    <antcall target="build-webui-manifest">
+      <param name="mf-name" value="webui.mf"/>
+      <param name="section-name" value="${package-path}"/>
+      <param name="implementation-title" value="${webui-impl-title}" />
+      <param name="implementation-version" value="${webui-impl-version}" />
+      <param name="specification-title" value="${webui-spec-title}" />
+      <param name="specification-version" value="${webui-spec-version}" />
+      <param name="component-version" value="${component-version}"/>
+      <param name="swaed-version" value="${swaed-version}"/>
+      <param name="theme-required-version" value="${theme-required-version}"/>
+      <param name="jsf-version" value="${jsf-version}"/>
+      <param name="dependencies" value="${dependencies}"/>
+      <param name="fileupload-dependencies" 
+	value="${fileupload-dependencies}"/>
+      <param name="jsf-ri-dependencies" value="${jsf-ri-dependencies}"/>
+    </antcall>
+  </target>
+
+  <target name="webui-module-stub">
+    <antcall target="build-manifest">
+      <param name="mf-name" value="webui-module-stub.mf"/>
+      <param name="implementation-title" value="${webui-impl-title}" />
+      <param name="implementation-version" value="${webui-impl-version}" />
+      <param name="specification-title" value="${webui-spec-title}" />
+      <param name="specification-version" value="${webui-spec-version}" />
+    </antcall>
+  </target>
+  
+  <target name="webui-dt">
+    <antcall target="build-manifest">
+      <param name="mf-name" value="webui-dt.mf"/>
+      <param name="implementation-title" value="${webui-dt-impl-title}" />
+      <param name="implementation-version" value="${webui-dt-impl-version}" />
+      <param name="specification-title" value="${webui-dt-spec-title}" />
+      <param name="specification-version" value="${webui-dt-spec-version}" />
+    </antcall>
+  </target>
+
+  <target name="build-manifest">
+    <manifest file="${mf-name}" mode="replace">
+      <attribute name="Created-By" value="${vendor}"/>
+
+        <attribute name="Implementation-Title" 
+            value="${implementation-title}"/>
+        <attribute name="Implementation-Version" 
+            value="${implementation-version}"/> 
+        <attribute name="Implementation-Vendor" 
+            value="${vendor}"/>
+        <attribute name="Implementation-Vendor-Id" 
+            value="com.sun"/>
+        <attribute name="Specification-Title" 
+            value="${specification-title}"/>
+        <attribute name="Specification-Version" 
+            value="${specification-version}"/>
+        <attribute name="Specification-Vendor" 
+            value="${vendor}"/>
+    </manifest>
+  </target>
+
+  <target name="build-webui-manifest">
+    <manifest file="${mf-name}" mode="replace">
+      <attribute name="Created-By" value="${vendor}"/>
+
+        <attribute name="Implementation-Title" 
+            value="${implementation-title}"/>
+        <attribute name="Implementation-Version" 
+            value="${implementation-version}"/> 
+        <attribute name="Implementation-Vendor" 
+            value="${vendor}"/>
+        <attribute name="Implementation-Vendor-Id" 
+            value="com.sun"/>
+        <attribute name="Specification-Title" 
+            value="${specification-title}"/>
+        <attribute name="Specification-Version" 
+            value="${specification-version}"/>
+        <attribute name="Specification-Vendor" 
+            value="${vendor}"/>
+
+	<section name="${section-name}">
+	  <attribute name="X-SJWUIC-SWAED-Version" value="${swaed-version}"/>
+	  <attribute name="X-SJWUIC-Components-Version"
+	      value="${component-version}"/>
+	  <attribute name="X-SJWUIC-Components-Timestamp"
+	      value="${buildnumber}"/>
+	  <attribute name="X-SJWUIC-Theme-Version-Required"
+	    value="${theme-required-version}"/>
+	  <attribute name="X-SJWUIC-JSF-Version" value="${jsf-version}"/>
+	  <attribute name="X-SJWUIC-Dependencies" value="${dependencies}"/>
+	  <attribute name="X-SJWUIC-Dependencies-FileUpload"
+	    value="${fileupload-dependencies}"/>
+	  <attribute name="X-SJWUIC-JSF-RI-Dependencies"
+	    value="${jsf-ri-dependencies}"/>
+	</section>
+
+
+    </manifest>
+  </target>
+  <target name="netbeans" depends="build-manifests"/>
+
+  <target name="clean" description="Remove generated manifests.">
+    <delete file="webui.mf"/>
+    <delete file="webui-dt.mf"/>
+    <delete file="webui-module-stub.mf"/>
+  </target>
+
+
+</project>

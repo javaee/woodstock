@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+ The contents of this file are subject to the terms
+ of the Common Development and Distribution License
+ (the License).  You may not use this file except in
+ compliance with the License.
+ 
+ You can obtain a copy of the license at
+ https://woodstock.dev.java.net/public/CDDLv1.0.html.
+ See the License for the specific language governing
+ permissions and limitations under the License.
+ 
+ When distributing Covered Code, include this CDDL
+ Header Notice in each file and include the License file
+ at https://woodstock.dev.java.net/public/CDDLv1.0.html.
+ If applicable, add the following below the CDDL Header,
+ with the fields enclosed by brackets [] replaced by
+ you own identifying information:
+ "Portions Copyrighted [year] [name of copyright owner]"
+ 
+ Copyright 2007 Sun Microsystems, Inc. All rights reserved.
+-->
+<!DOCTYPE catalog PUBLIC "-//OASIS//DTD Entity Resolution XML Catalog V1.0//EN"
+         "nbres:/org/netbeans/modules/xml/catalog/impl/oasis/catalog.dtd">
+<!-- if HTTP connection is established (proxy) the original systemId can be used: -->
+<!--
+<!DOCTYPE catalog PUBLIC "-//OASIS//DTD Entity Resolution XML Catalog V1.0//EN"
+         "http://www.oasis-open.org/committees/entity/release/1.0/catalog.dtd">
+-->
+<!--
+    Document   : Creator-catalog.xml
+    Created on : November 17, 2004, 10:50 AM
+    Author     : avk
+    Description:
+        Purpose of the OASIS XML Catalog document follows.
+-->
+
+<!-- see http://www.oasis-open.org/committees/entity/spec.html -->
+
+<catalog xmlns="urn:oasis:names:tc:entity:xmlns:xml:catalog">                
+
+    <!-- TODO fill real entries instead of sample one. -->
+    <public publicId="-//Sun Microsystems, Inc.//DTD JavaServer Faces Overlay 1.1//EN"
+            uri="file:lib/jsfmetadata-conf/web-facesconfig-overlay_1_1.dtd"/>
+      
+    <!-- For XML schemas the <uri> element is recommended 
+         to specify the resource, e.g: -->
+    <!--
+    <uri name="http://org.company/xml/schemas" uri="file:/path/schema.xsd"/>
+    -->
+        
+    <!-- If xsi:schemaLocation is specified in XML document e.g.
+         xsi:schemaLocation="http://org.company/xml/schemas http://org.company/xml/schemas/schema.xsd"
+         the <system> element can be used to specify the local resource, e.g: -->
+    <!--
+    <system systemId="http://org.company/xml/schemas/schema.xsd" uri="file:/path/schema.xsd"/>
+    -->
+</catalog>
