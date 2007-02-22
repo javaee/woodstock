@@ -456,7 +456,7 @@ public class Alert extends UIOutput implements NamingContainer {
      * <p>Absolute, relative, or context relative (starting with "/") URL to the 
      * resource to navigate to when the link that is specified with linkText is selected.</p>
      */
-    @Property(name="linkURL", displayName="Link URL", category="Navigation", editorClassName="com.sun.webui.jsf.component.propertyeditors.SunWebUrlPropertyEditor")
+    @Property(name="linkURL", displayName="Link URL", category="Navigation", editorClassName="com.sun.rave.propertyeditors.UrlPropertyEditor")
     private String linkURL = null;
 
     /**

@@ -141,7 +141,7 @@ public class Script extends UIComponentBase {
      * script.  Use this attribute to refer to a file instead of inserting the 
      * script into your HTML document</p>
      */
-    @Property(name="url", displayName="URL", category="Data", isDefault=true, editorClassName="com.sun.webui.jsf.component.propertyeditors.SunWebUrlPropertyEditor")
+    @Property(name="url", displayName="URL", category="Data", isDefault=true, editorClassName="com.sun.rave.propertyeditors.UrlPropertyEditor")
     private String url = null;
 
     /**

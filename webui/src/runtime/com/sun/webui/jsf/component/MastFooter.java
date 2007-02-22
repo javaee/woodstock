@@ -156,7 +156,7 @@ public class MastFooter extends javax.faces.component.UIComponentBase
      * <p>The url to the image file to use for the Corporate Image. Use this 
      * attribute to override the corporate image that is set in the theme.</p>
      */
-    @Property(name="corporateImageURL", displayName="Corporate Image URL", category="Navigation", editorClassName="com.sun.webui.jsf.component.propertyeditors.SunWebUrlPropertyEditor")
+    @Property(name="corporateImageURL", displayName="Corporate Image URL", category="Navigation", editorClassName="com.sun.rave.propertyeditors.UrlPropertyEditor")
     private String corporateImageURL = null;
 
     /**

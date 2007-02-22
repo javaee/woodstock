@@ -184,7 +184,7 @@ public class VersionPage extends UIOutput implements NamingContainer {
     /**
      * <p>The url to use for the Product Name Image</p>
      */
-    @Property(name="productImageURL", displayName="Product Image URL", category="Navigation", editorClassName="com.sun.webui.jsf.component.propertyeditors.SunWebUrlPropertyEditor")
+    @Property(name="productImageURL", displayName="Product Image URL", category="Navigation", editorClassName="com.sun.rave.propertyeditors.UrlPropertyEditor")
     private String productImageURL = null;
 
     /**

@@ -210,7 +210,7 @@ public class Link extends UIComponentBase {
     /**
      * <p>The absolute or relative target URL of the resource.</p>
      */
-    @Property(name="url", displayName="URL", category="Appearance", isDefault=true, editorClassName="com.sun.webui.jsf.component.propertyeditors.SunWebUrlPropertyEditor")
+    @Property(name="url", displayName="URL", category="Appearance", isDefault=true, editorClassName="com.sun.rave.propertyeditors.UrlPropertyEditor")
     private String url = null;
 
     /**

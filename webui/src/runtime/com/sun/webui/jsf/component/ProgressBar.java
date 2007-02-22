@@ -526,7 +526,7 @@ public class ProgressBar extends javax.faces.component.UIOutput
      * <p>URL to an image to use instead of the default image for the progress indicator.</p>
      */
     @Property(name="progressImageUrl", displayName="Image Url", category="Appearance", 
-              editorClassName="com.sun.webui.jsf.component.propertyeditors.SunWebUrlPropertyEditor")
+              editorClassName="com.sun.rave.propertyeditors.UrlPropertyEditor")
     private String progressImageUrl = null;
     
     /**

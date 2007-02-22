@@ -200,7 +200,7 @@ public class Masthead extends UIOutput implements NamingContainer {
     /**
      * <p>The url to the image file to use as the Brand Image. Use this attribute to override the  brand image that is set in the theme.</p>
      */
-    @Property(name="brandImageURL", displayName="Brand Image URL", category="Navigation", editorClassName="com.sun.webui.jsf.component.propertyeditors.SunWebUrlPropertyEditor")
+    @Property(name="brandImageURL", displayName="Brand Image URL", category="Navigation", editorClassName="com.sun.rave.propertyeditors.UrlPropertyEditor")
     private String brandImageURL = null;
 
     /**
@@ -447,7 +447,7 @@ public class Masthead extends UIOutput implements NamingContainer {
     /**
      * <p>The url to the image file to use for the Product Name Image.</p>
      */
-    @Property(name="productImageURL", displayName="Product Image URL", category="Appearance", editorClassName="com.sun.webui.jsf.component.propertyeditors.SunWebUrlPropertyEditor")
+    @Property(name="productImageURL", displayName="Product Image URL", category="Appearance", editorClassName="com.sun.rave.propertyeditors.UrlPropertyEditor")
     private String productImageURL = null;
 
     /**

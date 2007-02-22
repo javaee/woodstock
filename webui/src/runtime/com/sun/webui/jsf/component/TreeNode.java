@@ -507,7 +507,7 @@ public class TreeNode extends UIComponentBase implements NamingContainer, Serial
     *       If the imageURL attribute is used with the url attribute, the image is
     *       hyperlinked. The url attribute does not apply to facets. </p>
     */
-    @Property(name="url", displayName="Hyperlink Url", category="Behavior", editorClassName="com.sun.webui.jsf.component.propertyeditors.SunWebUrlPropertyEditor")
+    @Property(name="url", displayName="Hyperlink Url", category="Behavior", editorClassName="com.sun.rave.propertyeditors.UrlPropertyEditor")
     private String url = null;
 
     /**

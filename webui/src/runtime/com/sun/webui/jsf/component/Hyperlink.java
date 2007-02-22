@@ -862,7 +862,7 @@ public class Hyperlink extends WebuiCommand implements ComplexComponent {
      * attribute is specified, the form is submitted. If both are specified,
      * the url attribute takes precedence.</p>
      */
-    @Property(name="url", displayName="URL", category="Behavior", editorClassName="com.sun.webui.jsf.component.propertyeditors.SunWebUrlPropertyEditor")
+    @Property(name="url", displayName="URL", category="Behavior", editorClassName="com.sun.rave.propertyeditors.UrlPropertyEditor")
     private String url = null;
 
     /**

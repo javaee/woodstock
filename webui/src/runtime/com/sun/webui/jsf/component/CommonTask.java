@@ -375,7 +375,7 @@ public class CommonTask extends com.sun.webui.jsf.component.WebuiCommand
      * information panel.
      * </p>
      */    
-    @Property(name="infoLinkUrl", displayName="infoLinkUrl", category="Behavior", editorClassName="com.sun.webui.jsf.component.propertyeditors.SunWebUrlPropertyEditor")
+    @Property(name="infoLinkUrl", displayName="infoLinkUrl", category="Behavior", editorClassName="com.sun.rave.propertyeditors.UrlPropertyEditor")
     private String infoLinkUrl = null;
 
     /**
