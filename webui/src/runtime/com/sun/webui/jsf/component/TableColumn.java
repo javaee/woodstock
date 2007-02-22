@@ -167,7 +167,7 @@ public class TableColumn extends UIComponentBase implements NamingContainer {
      * objects are aligned "center". All columns, including select columns, are 
      * aligned "left" by default. Note that the align property overrides this value.
      */
-    @Property(name="alignKey", displayName="Horizontal Alignment Key", category="Appearance", editorClassName="com.sun.rave.propertyeditors.StringPropertyEditor")
+    @Property(name="alignKey", displayName="Horizontal Alignment Key", category="Appearance")
     private Object alignKey = null;
 
     /**
@@ -176,7 +176,7 @@ public class TableColumn extends UIComponentBase implements NamingContainer {
      * HTML 4.0 Recommendation's section on categorizing cells for an
      * application of AXIS.
      */
-    @Property(name="axis", displayName="Category of Header Cell", category="Advanced", editorClassName="com.sun.rave.propertyeditors.StringPropertyEditor", isHidden=true, isAttribute=false)
+    @Property(name="axis", displayName="Category of Header Cell", category="Advanced", isHidden=true, isAttribute=false)
     private String axis = null;
 
     /**
@@ -267,7 +267,7 @@ public class TableColumn extends UIComponentBase implements NamingContainer {
      * element, and is not checked for validity. For example, you might set this 
      * attribute to <code>"nowrap=`nowrap'"</code>.
      */
-    @Property(name="extraFooterHtml", displayName="Extra Footer HTML", category="Advanced", editorClassName="com.sun.rave.propertyeditors.StringPropertyEditor")
+    @Property(name="extraFooterHtml", displayName="Extra Footer HTML", category="Advanced")
     private String extraFooterHtml = null;
 
     /**
@@ -277,7 +277,7 @@ public class TableColumn extends UIComponentBase implements NamingContainer {
      * element, and is not checked for validity. For example, you might set this 
      * attribute to <code>"nowrap=`nowrap'"</code>.
      */
-    @Property(name="extraHeaderHtml", displayName="Extra Header HTML", category="Advanced", editorClassName="com.sun.rave.propertyeditors.StringPropertyEditor")
+    @Property(name="extraHeaderHtml", displayName="Extra Header HTML", category="Advanced")
     private String extraHeaderHtml = null;
 
     /**
@@ -287,19 +287,19 @@ public class TableColumn extends UIComponentBase implements NamingContainer {
      * element, and is not checked for validity. For example, you might set this 
      * attribute to <code>"nowrap=`nowrap'"</code>.
      */
-    @Property(name="extraTableFooterHtml", displayName="Extra Table Footer HTML", category="Advanced", editorClassName="com.sun.rave.propertyeditors.StringPropertyEditor")
+    @Property(name="extraTableFooterHtml", displayName="Extra Table Footer HTML", category="Advanced")
     private String extraTableFooterHtml = null;
 
     /**
      * The text to be displayed in the column footer.
      */
-    @Property(name="footerText", displayName="Footer Text", category="Appearance", editorClassName="com.sun.rave.propertyeditors.StringPropertyEditor")
+    @Property(name="footerText", displayName="Footer Text", category="Appearance")
     private String footerText = null;
 
     /**
      * The text to be displayed in the column header.
      */
-    @Property(name="headerText", displayName="header Text", category="Appearance", editorClassName="com.sun.rave.propertyeditors.StringPropertyEditor")
+    @Property(name="headerText", displayName="header Text", category="Appearance")
     private String headerText = null;
 
     /**
@@ -308,14 +308,14 @@ public class TableColumn extends UIComponentBase implements NamingContainer {
      * attribute values. The HEADERS attribute allows non-visual browsers to
      * render the header information for a given cell.
      */
-    @Property(name="headers", displayName="List of Header Cells for Current Cell", category="Advanced", isHidden=true, editorClassName="com.sun.rave.propertyeditors.StringPropertyEditor", isAttribute=false)
+    @Property(name="headers", displayName="List of Header Cells for Current Cell", category="Advanced", isHidden=true, isAttribute=false)
     private String headers = null;
 
     /**
      * The number of pixels for the cell's height. Styles should be used to specify 
      * cell height when possible because the height attribute is deprecated in HTML 4.0.
      */
-    @Property(name="height", displayName="Height", category="Layout", editorClassName="com.sun.rave.propertyeditors.StringPropertyEditor")
+    @Property(name="height", displayName="Height", category="Layout")
     private String height = null;
 
     /**
@@ -448,7 +448,7 @@ public class TableColumn extends UIComponentBase implements NamingContainer {
      * <li><code>colgroup</code>, when the cells provide header information for the column group</li>
      * </ul>
      */
-    @Property(name="scope", displayName="Cells Covered By Header Cell", category="Advanced", editorClassName="com.sun.rave.propertyeditors.StringPropertyEditor")
+    @Property(name="scope", displayName="Cells Covered By Header Cell", category="Advanced")
     private String scope = null;
 
     /**
@@ -464,7 +464,7 @@ public class TableColumn extends UIComponentBase implements NamingContainer {
      * identifies the column as a select column, for which the table component 
      * uses different CSS styles.
      */
-    @Property(name="selectId", displayName="Select Component Id", category="Data", editorClassName="com.sun.rave.propertyeditors.StringPropertyEditor")
+    @Property(name="selectId", displayName="Select Component Id", category="Data")
     private String selectId = null;
 
     /**
@@ -477,7 +477,7 @@ public class TableColumn extends UIComponentBase implements NamingContainer {
      * the level of severity. This functionality is overridden by the 
      * <code>emptyCell</code> attribute.
      */
-    @Property(name="severity", displayName="Severity", category="Appearance", editorClassName="com.sun.rave.propertyeditors.StringPropertyEditor")
+    @Property(name="severity", displayName="Severity", category="Appearance")
     private String severity = null;
 
     /**
@@ -494,7 +494,7 @@ public class TableColumn extends UIComponentBase implements NamingContainer {
      * a String. The <code>sort</code> attribute is required for a column to be shown 
      * as sortable.
      */
-    @Property(name="sort", displayName="Sort Key", category="Data", editorClassName="com.sun.rave.propertyeditors.StringPropertyEditor")
+    @Property(name="sort", displayName="Sort Key", category="Data")
     private Object sort = null;
 
     /**
@@ -543,7 +543,7 @@ public class TableColumn extends UIComponentBase implements NamingContainer {
      * displayed once per table, and is especially useful in tables with multiple 
      * groups of rows.
      */
-    @Property(name="tableFooterText", displayName="Table Footer Text", category="Appearance", editorClassName="com.sun.rave.propertyeditors.StringPropertyEditor")
+    @Property(name="tableFooterText", displayName="Table Footer Text", category="Appearance")
     private String tableFooterText = null;
 
     /**
@@ -551,7 +551,7 @@ public class TableColumn extends UIComponentBase implements NamingContainer {
      * The specified text will display as a tooltip if the mouse cursor hovers 
      * over the HTML element.
      */
-    @Property(name="toolTip", displayName="Tool Tip", category="Behavior", editorClassName="com.sun.rave.propertyeditors.StringPropertyEditor")
+    @Property(name="toolTip", displayName="Tool Tip", category="Behavior")
     private String toolTip = null;
 
     /**
@@ -585,7 +585,7 @@ public class TableColumn extends UIComponentBase implements NamingContainer {
      * the table width, and is especially useful for spacer columns. This attribute is 
      * deprecated in HTML 4.0 in favor of style sheets.
      */
-    @Property(name="width", displayName="Width", category="Layout", editorClassName="com.sun.rave.propertyeditors.StringPropertyEditor")
+    @Property(name="width", displayName="Width", category="Layout")
     private String width = null;
 
     /** Default constructor */

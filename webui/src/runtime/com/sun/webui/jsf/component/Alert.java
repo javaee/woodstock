@@ -243,7 +243,7 @@ public class Alert extends UIOutput implements NamingContainer {
      * text can be used by screen readers and in tool tips, and when image display is turned off in
      * the web browser.</p>
      */
-    @Property(name="alt", displayName="Alt Text", category="Accessibility", editorClassName="com.sun.rave.propertyeditors.StringPropertyEditor")
+    @Property(name="alt", displayName="Alt Text", category="Accessibility")
     private String alt = null;
 
     /**
@@ -275,7 +275,7 @@ public class Alert extends UIOutput implements NamingContainer {
     /**
      * <p>Optional detailed message text for the alert. This message might include more information about the alert and instructions for what to do about the alert.</p>
      */ 
-    @Property(name="detail", displayName="Detail Message", category="Appearance", editorClassName="com.sun.rave.propertyeditors.StringPropertyEditor")
+    @Property(name="detail", displayName="Detail Message", category="Appearance")
     private String detail = null;
 
     /**
@@ -399,7 +399,7 @@ public class Alert extends UIOutput implements NamingContainer {
     /**
      * <p>The text for an optional link that is appended to the detail message.</p>
      */
-    @Property(name="linkText", displayName="Link Text", category="Appearance", editorClassName="com.sun.rave.propertyeditors.StringPropertyEditor")
+    @Property(name="linkText", displayName="Link Text", category="Appearance")
     private String linkText = null;
 
     /**
@@ -427,7 +427,7 @@ public class Alert extends UIOutput implements NamingContainer {
     /**
      * <p>Sets the value of the title attribute for the HTML element. The specified text will display as a tooltip if the mouse cursor hovers over the link that is specified with linkText.</p>
      */
-    @Property(name="linkToolTip", displayName="Link Tooltip", category="Behavior", editorClassName="com.sun.rave.propertyeditors.StringPropertyEditor")
+    @Property(name="linkToolTip", displayName="Link Tooltip", category="Behavior")
     private String linkToolTip = null;
 
     /**
@@ -549,7 +549,7 @@ public class Alert extends UIOutput implements NamingContainer {
      * <p>Summary message text for the alert. This brief message is prominently 
      * displayed next to the icon.</p>
      */
-    @Property(name="summary", displayName="Summary Message", category="Appearance", isDefault=true, editorClassName="com.sun.rave.propertyeditors.StringPropertyEditor")
+    @Property(name="summary", displayName="Summary Message", category="Appearance", isDefault=true)
     private String summary = null;
 
     /**

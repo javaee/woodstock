@@ -903,7 +903,7 @@ public class Label extends UIOutput implements NamingContainer {
      * binding expression that corresponds to a message from a resource
      * bundle declared using <code>f:loadBundle</code>.</p>
      */
-    @Property(name="text", displayName="Label Text", category="Appearance", isDefault=true, editorClassName="com.sun.rave.propertyeditors.StringPropertyEditor")
+    @Property(name="text", displayName="Label Text", category="Appearance", isDefault=true)
     public Object getText() {
         return getValue();
     }
@@ -925,7 +925,7 @@ public class Label extends UIOutput implements NamingContainer {
      * The specified text will display as a tooltip if the mouse cursor hovers 
      * over the HTML element.</p>
      */
-    @Property(name="toolTip", displayName="Tool Tip", category="Behavior", editorClassName="com.sun.rave.propertyeditors.StringPropertyEditor")
+    @Property(name="toolTip", displayName="Tool Tip", category="Behavior")
     private String toolTip = null;
 
     /**

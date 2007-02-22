@@ -93,7 +93,7 @@ public class VersionPage extends UIOutput implements NamingContainer {
     /**
      * <p>The application copyright information.</p>
      */
-    @Property(name="copyrightString", displayName="Copyright String", category="Appearance", editorClassName="com.sun.rave.propertyeditors.StringPropertyEditor")
+    @Property(name="copyrightString", displayName="Copyright String", category="Appearance")
     private String copyrightString = null;
 
     /**
@@ -121,7 +121,7 @@ public class VersionPage extends UIOutput implements NamingContainer {
     /**
      * <p>The description to use for the Product Name Image displayed in the version page.</p>
      */
-    @Property(name="productImageDescription", displayName="Product Image Description", category="Appearance", editorClassName="com.sun.rave.propertyeditors.StringPropertyEditor")
+    @Property(name="productImageDescription", displayName="Product Image Description", category="Appearance")
     private String productImageDescription = null;
 
     /**
@@ -309,7 +309,7 @@ public class VersionPage extends UIOutput implements NamingContainer {
     /**
      * <p>The name of version information file containing the formatted application version and copyright message.</p>
      */
-    @Property(name="versionInformationFile", displayName="Version Information File", category="Appearance", editorClassName="com.sun.rave.propertyeditors.StringPropertyEditor", isHidden=true, isAttribute=false)
+    @Property(name="versionInformationFile", displayName="Version Information File", category="Appearance", isHidden=true, isAttribute=false)
     private String versionInformationFile = null;
 
     /**
@@ -337,7 +337,7 @@ public class VersionPage extends UIOutput implements NamingContainer {
     /**
      * <p>The application version.</p>
      */
-    @Property(name="versionString", displayName="Version String", category="Appearance", editorClassName="com.sun.rave.propertyeditors.StringPropertyEditor")
+    @Property(name="versionString", displayName="Version String", category="Appearance")
     private String versionString = null;
 
     /**

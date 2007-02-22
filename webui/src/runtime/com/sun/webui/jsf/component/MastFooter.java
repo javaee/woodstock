@@ -186,7 +186,7 @@ public class MastFooter extends javax.faces.component.UIComponentBase
     /**
      * <p>The description for the Corporate Image, used as alt text for the image.</p>
      */
-    @Property(name="corporateImageDescription", displayName="Corporate Image Description", category="Appearance", editorClassName="com.sun.rave.propertyeditors.StringPropertyEditor")
+    @Property(name="corporateImageDescription", displayName="Corporate Image Description", category="Appearance")
     private String corporateImageDescription = null;
 
     /**

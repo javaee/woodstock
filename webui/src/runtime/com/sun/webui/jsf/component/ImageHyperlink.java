@@ -227,7 +227,7 @@ public class ImageHyperlink extends Hyperlink implements NamingContainer {
      * text can be used by screen readers and in tool tips, and when image display is turned off in
      * the web browser.</p>
      */
-    @Property(name="alt", displayName="Alt Text", category="Accessibility", editorClassName="com.sun.rave.propertyeditors.StringPropertyEditor")
+    @Property(name="alt", displayName="Alt Text", category="Accessibility")
     private String alt = null;
 
     /**

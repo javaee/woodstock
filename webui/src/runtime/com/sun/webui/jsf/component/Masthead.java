@@ -134,7 +134,7 @@ public class Masthead extends UIOutput implements NamingContainer {
     /**
      * <p>The description to use for the Brand Image, used as alt text for the image.</p>
      */
-    @Property(name="brandImageDescription", displayName="Brand Image Description", category="Appearance", editorClassName="com.sun.rave.propertyeditors.StringPropertyEditor")
+    @Property(name="brandImageDescription", displayName="Brand Image Description", category="Appearance")
     private String brandImageDescription = null;
 
     /**
@@ -350,7 +350,7 @@ public class Masthead extends UIOutput implements NamingContainer {
     /**
      * <p>Text to display for the notification info in the status area</p>
      */
-    @Property(name="notificationMsg", displayName="Notification Message", category="Appearance", editorClassName="com.sun.rave.propertyeditors.StringPropertyEditor")
+    @Property(name="notificationMsg", displayName="Notification Message", category="Appearance")
     private String notificationMsg = null;
 
     /**
@@ -378,7 +378,7 @@ public class Masthead extends UIOutput implements NamingContainer {
     /**
      * <p>The description for the product name image, used as alt text for the image.</p>
      */
-    @Property(name="productImageDescription", displayName="Product Image Description", category="Appearance", editorClassName="com.sun.rave.propertyeditors.StringPropertyEditor")
+    @Property(name="productImageDescription", displayName="Product Image Description", category="Appearance")
     private String productImageDescription = null;
 
     /**
@@ -555,7 +555,7 @@ public class Masthead extends UIOutput implements NamingContainer {
      * <p>Text to display for the current Server information, such as the name 
      * of the server whose data is being displayed.</p>
      */
-    @Property(name="serverInfo", displayName="Current Server Info", category="Appearance", editorClassName="com.sun.rave.propertyeditors.StringPropertyEditor")
+    @Property(name="serverInfo", displayName="Current Server Info", category="Appearance")
     private String serverInfo = null;
 
     /**
@@ -585,7 +585,7 @@ public class Masthead extends UIOutput implements NamingContainer {
     /**
      * <p>The label text to display for the current Server information.</p>
      */
-    @Property(name="serverInfoLabel", displayName="Current Server Info Label", category="Appearance", editorClassName="com.sun.rave.propertyeditors.StringPropertyEditor")
+    @Property(name="serverInfoLabel", displayName="Current Server Info Label", category="Appearance")
     private String serverInfoLabel = null;
 
     /**
@@ -676,7 +676,7 @@ public class Masthead extends UIOutput implements NamingContainer {
      * <p>Text to display for the current User information, such as the name of 
      * the user who is running the application.</p>
      */
-    @Property(name="userInfo", displayName="Current User Info", category="Appearance", editorClassName="com.sun.rave.propertyeditors.StringPropertyEditor")
+    @Property(name="userInfo", displayName="Current User Info", category="Appearance")
     private String userInfo = null;
 
     /**
@@ -706,7 +706,7 @@ public class Masthead extends UIOutput implements NamingContainer {
     /**
      * <p>The label text to display for the current User information.</p>
      */
-    @Property(name="userInfoLabel", displayName="Current User Info Label", category="Appearance", editorClassName="com.sun.rave.propertyeditors.StringPropertyEditor")
+    @Property(name="userInfoLabel", displayName="Current User Info Label", category="Appearance")
     private String userInfoLabel = null;
 
     /**
@@ -735,7 +735,7 @@ public class Masthead extends UIOutput implements NamingContainer {
      * <p>Text to display for the current Role information, such as the name of 
      * the user who is running the application.</p>
      */
-    @Property(name="roleInfo", displayName="Current Role Info", category="Appearance", editorClassName="com.sun.rave.propertyeditors.StringPropertyEditor")
+    @Property(name="roleInfo", displayName="Current Role Info", category="Appearance")
     private String roleInfo = null;
 
     /**
@@ -765,7 +765,7 @@ public class Masthead extends UIOutput implements NamingContainer {
     /**
      * <p>The label text to display for the current User information.</p>
      */
-    @Property(name="roleInfoLabel", displayName="Current Role Info Label", category="Appearance", editorClassName="com.sun.rave.propertyeditors.StringPropertyEditor")
+    @Property(name="roleInfoLabel", displayName="Current Role Info Label", category="Appearance")
     private String roleInfoLabel = null;
 
     /**

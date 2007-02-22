@@ -193,7 +193,7 @@ public class Table extends UIComponentBase implements NamingContainer {
      * Style sheets provide more flexibility in suggesting table alignment
      * but with less browser support than the ALIGN attribute.</p>
      */
-    @Property(name="align", displayName="Table Alignment", category="Appearance", editorClassName="com.sun.rave.propertyeditors.StringPropertyEditor", isHidden=true, isAttribute=false)
+    @Property(name="align", displayName="Table Alignment", category="Appearance", isHidden=true, isAttribute=false)
     private String align = null;
 
     /**
@@ -217,7 +217,7 @@ public class Table extends UIComponentBase implements NamingContainer {
      * other author-specified colors. Style sheets provide a safer, more
      * flexible method of specifying a table's background color.
      */
-    @Property(name="bgColor", displayName="Table Background Color", category="Appearance", editorClassName="com.sun.rave.propertyeditors.StringPropertyEditor", isHidden=true, isAttribute=false)
+    @Property(name="bgColor", displayName="Table Background Color", category="Appearance", isHidden=true, isAttribute=false)
     private String bgColor = null;
 
     /**
@@ -239,7 +239,7 @@ public class Table extends UIComponentBase implements NamingContainer {
      * the sides. Most browsers that do not support percentages treat 
      * <code>cellpadding="20%"</code> as if it were <code>cellpadding="20"</code>.</p>
      */
-    @Property(name="cellPadding", displayName="Spacing Within Cells", category="Appearance", editorClassName="com.sun.rave.propertyeditors.StringPropertyEditor")
+    @Property(name="cellPadding", displayName="Spacing Within Cells", category="Appearance")
     private String cellPadding = null;
 
     /**
@@ -254,7 +254,7 @@ public class Table extends UIComponentBase implements NamingContainer {
      * the sides. Most browsers that do not support percentages treat 
      * <code>cellspacing="20%"</code> as if it were <code>cellspacing="20"</code>.</p>
      */
-    @Property(name="cellSpacing", displayName="Spacing Between Cells", category="Appearance", editorClassName="com.sun.rave.propertyeditors.StringPropertyEditor")
+    @Property(name="cellSpacing", displayName="Spacing Between Cells", category="Appearance")
     private String cellSpacing = null;
 
     /**
@@ -311,7 +311,7 @@ public class Table extends UIComponentBase implements NamingContainer {
      * element, and is not checked for validity. For example, you might set this 
      * attribute to <code>"style=`myActionBarStyle'"</code>.
      */
-    @Property(name="extraActionBottomHtml", displayName="Extra Action (bottom) HTML", category="Advanced", editorClassName="com.sun.rave.propertyeditors.StringPropertyEditor")
+    @Property(name="extraActionBottomHtml", displayName="Extra Action (bottom) HTML", category="Advanced")
     private String extraActionBottomHtml = null;
 
     /**
@@ -321,7 +321,7 @@ public class Table extends UIComponentBase implements NamingContainer {
      * element, and is not checked for validity. For example, you might set this 
      * attribute to <code>"style=`myActionBarStyle'"</code>.
      */
-    @Property(name="extraActionTopHtml", displayName="Extra Action (top) HTML", category="Advanced", editorClassName="com.sun.rave.propertyeditors.StringPropertyEditor")
+    @Property(name="extraActionTopHtml", displayName="Extra Action (top) HTML", category="Advanced")
     private String extraActionTopHtml = null;
 
     // filterId
@@ -332,7 +332,7 @@ public class Table extends UIComponentBase implements NamingContainer {
      * element, and is not checked for validity. For example, you might set this 
      * attribute to <code>"nowrap=`nowrap'"</code>.
      */
-    @Property(name="extraFooterHtml", displayName="Extra Footer HTML", category="Advanced", editorClassName="com.sun.rave.propertyeditors.StringPropertyEditor")
+    @Property(name="extraFooterHtml", displayName="Extra Footer HTML", category="Advanced")
     private String extraFooterHtml = null;
 
     /**
@@ -341,7 +341,7 @@ public class Table extends UIComponentBase implements NamingContainer {
      * <code>&lt;td&gt;</code> element. The code you specify is inserted in the HTML 
      * element, and is not checked for validity.
      */
-    @Property(name="extraPanelHtml", displayName="Extra Panel HTML", category="Advanced", editorClassName="com.sun.rave.propertyeditors.StringPropertyEditor")
+    @Property(name="extraPanelHtml", displayName="Extra Panel HTML", category="Advanced")
     private String extraPanelHtml = null;
 
     /**
@@ -351,7 +351,7 @@ public class Table extends UIComponentBase implements NamingContainer {
      * HTML element, and is not checked for validity. For example, you might set this 
      * attribute to <code>"style=`myTitleStyle'"</code>.
      */
-    @Property(name="extraTitleHtml", displayName="Extra Title HTML", category="Advanced", editorClassName="com.sun.rave.propertyeditors.StringPropertyEditor")
+    @Property(name="extraTitleHtml", displayName="Extra Title HTML", category="Advanced")
     private String extraTitleHtml = null;
 
     /**
@@ -365,7 +365,7 @@ public class Table extends UIComponentBase implements NamingContainer {
      * use the <code>webuijsf:dropDown</code> as a child component, you must specify a 
      * filterID.
      */
-    @Property(name="filterId", displayName="Filter Component Id", category="Appearance", isHidden=true, editorClassName="com.sun.rave.propertyeditors.StringPropertyEditor")
+    @Property(name="filterId", displayName="Filter Component Id", category="Appearance", isHidden=true)
     private String filterId = null;
    
     /**
@@ -382,14 +382,14 @@ public class Table extends UIComponentBase implements NamingContainer {
      * filterText attribute is inserted into the table title, as follows: Your Table's 
      * Title <span style="font-style: italic;">filterText</span> Filter Applied.
      */
-    @Property(name="filterText", displayName="Filter Text", category="Appearance", isHidden=true, editorClassName="com.sun.rave.propertyeditors.StringPropertyEditor")
+    @Property(name="filterText", displayName="Filter Text", category="Appearance", isHidden=true)
     private String filterText = null;
 
     /**
      * The text to be displayed in the table footer, which expands across the width of 
      * the table.
      */
-    @Property(name="footerText", displayName="Footer Text", category="Appearance", editorClassName="com.sun.rave.propertyeditors.StringPropertyEditor")
+    @Property(name="footerText", displayName="Footer Text", category="Appearance")
     private String footerText = null;
 
     /**
@@ -446,7 +446,7 @@ public class Table extends UIComponentBase implements NamingContainer {
      * table title would be Critical (20). If you specify itemsText="alerts", the title 
      * would be Critical (20 alerts).
      */
-    @Property(name="itemsText", displayName="Items Text", category="Appearance", editorClassName="com.sun.rave.propertyeditors.StringPropertyEditor")
+    @Property(name="itemsText", displayName="Items Text", category="Appearance")
     private String itemsText = null;
 
     /**
@@ -560,7 +560,7 @@ public class Table extends UIComponentBase implements NamingContainer {
      * if BORDER=0 is used or if no BORDER attribute is given. All is the
      * default value for any other use of BORDER.
      */
-    @Property(name="rules", displayName="Inner Borders", category="Appearance", editorClassName="com.sun.rave.propertyeditors.StringPropertyEditor", isHidden=true, isAttribute=false)
+    @Property(name="rules", displayName="Inner Borders", category="Appearance", isHidden=true, isAttribute=false)
     private String rules = null;
 
     /**
@@ -611,7 +611,7 @@ public class Table extends UIComponentBase implements NamingContainer {
      * Text that describes this table's purpose and structure, for user agents 
      * rendering to non-visual media such as speech and Braille.
      */
-    @Property(name="summary", displayName="Purpose of Table", category="Appearance", editorClassName="com.sun.rave.propertyeditors.StringPropertyEditor")
+    @Property(name="summary", displayName="Purpose of Table", category="Appearance")
     private String summary = null;
 
     /**
@@ -627,7 +627,7 @@ public class Table extends UIComponentBase implements NamingContainer {
     /**
      * The text displayed for the table title.
      */
-    @Property(name="title", displayName="Table Title", category="Appearance", editorClassName="com.sun.rave.propertyeditors.StringPropertyEditor")
+    @Property(name="title", displayName="Table Title", category="Appearance")
     private String title = null;
 
     /**
@@ -635,7 +635,7 @@ public class Table extends UIComponentBase implements NamingContainer {
      * The specified text will display as a tooltip if the mouse cursor hovers 
      * over the HTML element.
      */
-    @Property(name="toolTip", displayName="Tool Tip", category="Behavior", editorClassName="com.sun.rave.propertyeditors.StringPropertyEditor")
+    @Property(name="toolTip", displayName="Tool Tip", category="Behavior")
     private String toolTip = null;
 
     /**
@@ -657,7 +657,7 @@ public class Table extends UIComponentBase implements NamingContainer {
      * width, and is especially useful for spacer columns. This attribute is 
      * deprecated in HTML 4.0 in favor of style sheets.
      */
-    @Property(name="width", displayName="Table Width", category="Appearance", editorClassName="com.sun.rave.propertyeditors.StringPropertyEditor")
+    @Property(name="width", displayName="Table Width", category="Appearance")
     private String width = null;
 
     /** Default constructor */

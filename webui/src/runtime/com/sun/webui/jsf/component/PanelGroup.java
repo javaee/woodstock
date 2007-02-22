@@ -142,7 +142,7 @@ public class PanelGroup extends UIComponentBase implements NamingContainer {
      * separator attribute is not specified, the components are rendered with a single
      * space between them.</p>
      */
-    @Property(name="separator", displayName="Separator", category="Appearance", editorClassName="com.sun.rave.propertyeditors.StringPropertyEditor")
+    @Property(name="separator", displayName="Separator", category="Appearance")
     private String separator = null;
 
     /**

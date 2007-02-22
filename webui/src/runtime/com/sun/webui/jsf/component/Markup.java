@@ -81,7 +81,7 @@ public class Markup extends UIComponentBase {
      * <p>Add the rest of the attribute name="value" type pairs inside this 
      * attribute.  The inserted attributes will need to be escaped.</p>
      */
-    @Property(name="extraAttributes", displayName="Extra Attributes", category="Advanced", editorClassName="com.sun.rave.propertyeditors.StringPropertyEditor")
+    @Property(name="extraAttributes", displayName="Extra Attributes", category="Advanced")
     private String extraAttributes = null;
 
     /**
@@ -211,7 +211,7 @@ public class Markup extends UIComponentBase {
     /**
      * <p>Name of the HTML element to render.</p>
      */
-    @Property(name="tag", displayName="Tag Name", category="Advanced", isDefault=true, editorClassName="com.sun.rave.propertyeditors.StringPropertyEditor")
+    @Property(name="tag", displayName="Tag Name", category="Advanced", isDefault=true)
     private String tag = null;
 
     /**

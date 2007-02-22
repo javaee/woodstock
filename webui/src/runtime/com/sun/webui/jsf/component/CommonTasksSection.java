@@ -105,7 +105,7 @@ public class CommonTasksSection extends javax.faces.component.UIComponentBase im
     /**
      * <p>The help text to be displayed for the common tasks section.</p>
      */
-    @Property(name="helpText", displayName="Inline help to be displayed", category="Appearance", editorClassName="com.sun.rave.propertyeditors.StringPropertyEditor")
+    @Property(name="helpText", displayName="Inline help to be displayed", category="Appearance")
     private String helpText = null;
 
     /**
@@ -195,7 +195,7 @@ public class CommonTasksSection extends javax.faces.component.UIComponentBase im
     /**
      * <p>The title text to be displayed for the common tasks section.</p>
      */
-    @Property(name="title", displayName="Common Tasks section Text", category="Appearance", isDefault=true, editorClassName="com.sun.rave.propertyeditors.StringPropertyEditor")
+    @Property(name="title", displayName="Common Tasks section Text", category="Appearance", isDefault=true)
     private String title = null;
 
     /**

@@ -1847,7 +1847,7 @@ public class Scheduler extends WebuiInput
      * is overridden, you may need to override the hint on a
      * per-locale basis too. </p>
      */
-    @Property(name="dateFormatPatternHelp", displayName="Date Format Pattern Help", category="Appearance", editorClassName="com.sun.rave.propertyeditors.StringPropertyEditor")
+    @Property(name="dateFormatPatternHelp", displayName="Date Format Pattern Help", category="Appearance")
     private String dateFormatPatternHelp = null;
 
     /**
@@ -1913,7 +1913,7 @@ public class Scheduler extends WebuiInput
     /**
      * <p>This text replaces the "Start Date" label.</p>
      */
-    @Property(name="dateLabel", displayName="Date Label", category="Appearance", editorClassName="com.sun.rave.propertyeditors.StringPropertyEditor")
+    @Property(name="dateLabel", displayName="Date Label", category="Appearance")
     private String dateLabel = null;
 
     /**
@@ -2020,7 +2020,7 @@ public class Scheduler extends WebuiInput
     /**
      * <p>This text replaces the "End Time" label.</p>
      */
-    @Property(name="endTimeLabel", displayName="End Time Label", category="Appearance", editorClassName="com.sun.rave.propertyeditors.StringPropertyEditor")
+    @Property(name="endTimeLabel", displayName="End Time Label", category="Appearance")
     private String endTimeLabel = null;
 
     /**
@@ -2328,7 +2328,7 @@ public class Scheduler extends WebuiInput
      * <p>Override the default value of the label for the repeat
      * interval menu.</p>
      */
-    @Property(name="repeatIntervalLabel", displayName="Repeat Interval Label", category="Appearance", editorClassName="com.sun.rave.propertyeditors.StringPropertyEditor")
+    @Property(name="repeatIntervalLabel", displayName="Repeat Interval Label", category="Appearance")
     private String repeatIntervalLabel = null;
 
     /**
@@ -2359,7 +2359,7 @@ public class Scheduler extends WebuiInput
      * <p>Override the default value of the label for the repeat
      * limit menu.</p>
      */
-    @Property(name="repeatLimitLabel", displayName="Repeat Limit Label", category="Appearance", editorClassName="com.sun.rave.propertyeditors.StringPropertyEditor")
+    @Property(name="repeatLimitLabel", displayName="Repeat Limit Label", category="Appearance")
     private String repeatLimitLabel = null;
 
     /**
@@ -2590,7 +2590,7 @@ public class Scheduler extends WebuiInput
     /**
      * <p>This text replaces the "Start Time" label.</p>
      */
-    @Property(name="startTimeLabel", displayName="Start Time Label", category="Appearance", editorClassName="com.sun.rave.propertyeditors.StringPropertyEditor")
+    @Property(name="startTimeLabel", displayName="Start Time Label", category="Appearance")
     private String startTimeLabel = null;
 
     /**

@@ -184,7 +184,7 @@ public class HelpInline extends UIOutput {
     /**
      * <p>The inline help text to display.</p>
      */
-    @Property(name="text", displayName="text", category="Appearance", isDefault=true, editorClassName="com.sun.rave.propertyeditors.StringPropertyEditor")
+    @Property(name="text", displayName="text", category="Appearance", isDefault=true)
     public Object getText() {
         return getValue();
     }

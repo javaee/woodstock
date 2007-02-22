@@ -434,7 +434,7 @@ public class TreeNode extends UIComponentBase implements NamingContainer, Serial
     *     or action attributes are specified, the specified text is rendered as static text.
     *     The text attribute does not apply when the content facet is used.</p>
     */
-    @Property(name="text", displayName="Text", category="Appearance", isDefault=true, editorClassName="com.sun.rave.propertyeditors.StringPropertyEditor")
+    @Property(name="text", displayName="Text", category="Appearance", isDefault=true)
     private String text = null;
 
     /**
@@ -471,7 +471,7 @@ public class TreeNode extends UIComponentBase implements NamingContainer, Serial
     *     The specified text will display as a tooltip if the mouse cursor hovers 
     *     over the HTML element.</p>
     */
-    @Property(name="toolTip", displayName="Tool Tip", category="Behavior", editorClassName="com.sun.rave.propertyeditors.StringPropertyEditor")
+    @Property(name="toolTip", displayName="Tool Tip", category="Behavior")
     private String toolTip = null;
 
     /**

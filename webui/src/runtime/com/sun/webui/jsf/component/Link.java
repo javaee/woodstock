@@ -114,7 +114,7 @@ public class Link extends UIComponentBase {
      * stylesheets for print and viewing on a screen.  The default value is 
      * "screen".</p>
      */
-    @Property(name="media", displayName="Media Type", category="Appearance", editorClassName="com.sun.rave.propertyeditors.StringPropertyEditor")
+    @Property(name="media", displayName="Media Type", category="Appearance")
     private String media = null;
 
     /**

@@ -81,7 +81,7 @@ public class Script extends UIComponentBase {
      * <p>Defines the character (charset) encoding of the target URL.
      * See iana.org for a complete list of character encodings.</p>
      */
-    @Property(name="charset", displayName="Charset", category="Advanced", editorClassName="com.sun.rave.propertyeditors.StringPropertyEditor")
+    @Property(name="charset", displayName="Charset", category="Advanced")
     private String charset = null;
 
     /**
@@ -111,7 +111,7 @@ public class Script extends UIComponentBase {
     /**
      * <p>Indicates the MIME type of the script.  Default is "text/javascript"</p>
      */
-    @Property(name="type", displayName="Type", category="Advanced", editorClassName="com.sun.rave.propertyeditors.StringPropertyEditor")
+    @Property(name="type", displayName="Type", category="Advanced")
     private String type = null;
 
     /**

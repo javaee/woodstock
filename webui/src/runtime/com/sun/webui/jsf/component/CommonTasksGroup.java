@@ -146,7 +146,7 @@ public class CommonTasksGroup  extends javax.faces.component.UIComponentBase  im
     /**
      * <p>The title text to be displayed for the common tasks group.</p>
      */    
-    @Property(name="title", displayName="Common Tasks Group Text", category="Appearance", isDefault=true, editorClassName="com.sun.rave.propertyeditors.StringPropertyEditor")
+    @Property(name="title", displayName="Common Tasks Group Text", category="Appearance", isDefault=true)
     private String title = null;
 
     /**

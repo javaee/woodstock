@@ -164,7 +164,7 @@ public class Button extends WebuiCommand implements ComplexComponent {//, Widget
      * text can be used by screen readers and in tool tips, and when image display is turned off in
      * the web browser.</p>
      */
-    @Property(name="alt", displayName="Alt Text", category="Accessibility", editorClassName="com.sun.rave.propertyeditors.StringPropertyEditor")
+    @Property(name="alt", displayName="Alt Text", category="Accessibility")
     private String alt = null;
 
     /**
@@ -1020,7 +1020,7 @@ public class Button extends WebuiCommand implements ComplexComponent {//, Widget
      * an <code>imageURL</code> value is given, the button type is set to 
      * <code>image</code>.</p>
      */
-    @Property(name="text", displayName="Button Text", category="Appearance", isDefault=true, editorClassName="com.sun.rave.propertyeditors.StringPropertyEditor")
+    @Property(name="text", displayName="Button Text", category="Appearance", isDefault=true)
     public Object getText() {
         return getValue();
     }
@@ -1041,7 +1041,7 @@ public class Button extends WebuiCommand implements ComplexComponent {//, Widget
      * The specified text will display as a tooltip if the mouse cursor hovers 
      * over the HTML element.</p>
      */
-    @Property(name="toolTip", displayName="Tool Tip", category="Behavior", editorClassName="com.sun.rave.propertyeditors.StringPropertyEditor")
+    @Property(name="toolTip", displayName="Tool Tip", category="Behavior")
     private String toolTip = null;
 
     /**

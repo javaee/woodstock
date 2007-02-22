@@ -780,7 +780,7 @@ public class Hyperlink extends WebuiCommand implements ComplexComponent {
     /**
      * <p>The text to be displayed for the hyperlink.</p>
      */
-    @Property(name="text", displayName="text", category="Appearance", isDefault=true, editorClassName="com.sun.rave.propertyeditors.StringPropertyEditor")
+    @Property(name="text", displayName="text", category="Appearance", isDefault=true)
     public Object getText() {
         return getValue();
     }
@@ -798,7 +798,7 @@ public class Hyperlink extends WebuiCommand implements ComplexComponent {
      * The specified text will display as a tooltip if the mouse cursor hovers 
      * over the HTML element.</p>
      */
-    @Property(name="toolTip", displayName="Tool Tip", category="Behavior", editorClassName="com.sun.rave.propertyeditors.StringPropertyEditor")
+    @Property(name="toolTip", displayName="Tool Tip", category="Behavior")
     private String toolTip = null;
 
     /**

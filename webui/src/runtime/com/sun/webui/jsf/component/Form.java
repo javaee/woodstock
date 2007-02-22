@@ -1694,7 +1694,7 @@ public class Form extends UIForm {
      * Multiple such virtual form "descriptors" are separated by commas. The component ids may 
      * be qualified (for instance, "table1:tableRowGroup1:tableColumn1:textField1").</p>
      */
-    @Property(name="virtualFormsConfig", displayName="Virtual Forms Configuration", category="Advanced", editorClassName="com.sun.rave.propertyeditors.StringPropertyEditor")
+    @Property(name="virtualFormsConfig", displayName="Virtual Forms Configuration", category="Advanced")
     private String virtualFormsConfig = null;
 
     public String getVirtualFormsConfig() {

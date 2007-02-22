@@ -94,7 +94,7 @@ public class Message extends UIComponentBase {
      * text can be used by screen readers and in tool tips, and when image display is turned off in
      * the web browser.</p>
      */
-    @Property(name="alt", displayName="Alt Text", category="Accessibility", editorClassName="com.sun.rave.propertyeditors.StringPropertyEditor", isHidden=true, isAttribute=false)
+    @Property(name="alt", displayName="Alt Text", category="Accessibility", isHidden=true, isAttribute=false)
     private String alt = null;
 
     /**

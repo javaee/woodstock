@@ -196,7 +196,7 @@ public class Alarm extends ImageComponent implements Comparator {
      * text can be used by screen readers and in tool tips, and when image display is turned off in
      * the web browser.</p>
      */
-    @Property(name="alt", displayName="Alt Text", category="Accessibility", editorClassName="com.sun.rave.propertyeditors.StringPropertyEditor")
+    @Property(name="alt", displayName="Alt Text", category="Accessibility")
     private String alt = null;
 
     /**
@@ -713,7 +713,7 @@ public class Alarm extends ImageComponent implements Comparator {
      * The specified text will display as a tooltip if the mouse cursor hovers 
      * over the HTML element.</p>
      */
-    @Property(name="toolTip", displayName="Tool Tip", category="Behavior", editorClassName="com.sun.rave.propertyeditors.StringPropertyEditor")
+    @Property(name="toolTip", displayName="Tool Tip", category="Behavior")
     private String toolTip = null;
 
     /**

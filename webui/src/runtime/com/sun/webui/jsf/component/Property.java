@@ -452,7 +452,7 @@ public class Property extends UIComponentBase implements ComplexComponent,
      * a ValueBinding expression. If you want greater control over the content 
      * that is displayed in the help text area, use the helpText facet.</p>
      */
-    @com.sun.faces.annotation.Property(name="helpText", displayName="Help Text", category="Appearance", editorClassName="com.sun.rave.propertyeditors.StringPropertyEditor")
+    @com.sun.faces.annotation.Property(name="helpText", displayName="Help Text", category="Appearance")
     private String helpText = null;
 
     /**
@@ -491,7 +491,7 @@ public class Property extends UIComponentBase implements ComplexComponent,
      * first input element in the content area of the property.  
      * To label a different component, use the label facet instead.</p>
      */
-    @com.sun.faces.annotation.Property(name="label", displayName="Label", category="Appearance", editorClassName="com.sun.rave.propertyeditors.StringPropertyEditor")
+    @com.sun.faces.annotation.Property(name="label", displayName="Label", category="Appearance")
     private String label = null;
 
     /**

@@ -432,7 +432,7 @@ public class Calendar extends Field implements DateManager, NamingContainer {
      * is overridden, you may need to override the hint on a
      * per-locale basis too. </p>
      */
-    @Property(name="dateFormatPatternHelp", displayName="Date Format Pattern Help", category="Appearance", editorClassName="com.sun.rave.propertyeditors.StringPropertyEditor")
+    @Property(name="dateFormatPatternHelp", displayName="Date Format Pattern Help", category="Appearance")
     private String dateFormatPatternHelp = null;
 
     /**

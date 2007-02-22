@@ -341,7 +341,7 @@ public class CommonTask extends com.sun.webui.jsf.component.WebuiCommand
      * panel. 
      * </p>
      */    
-    @Property(name="infoLinkText", displayName="infoLinkText", category="Appearance",  editorClassName="com.sun.rave.propertyeditors.StringPropertyEditor")
+    @Property(name="infoLinkText", displayName="infoLinkText", category="Appearance")
     private String infoLinkText = null;
 
     /**
@@ -407,7 +407,7 @@ public class CommonTask extends com.sun.webui.jsf.component.WebuiCommand
     /**
      * <p>Specify the text to be displayed in the information panel for this task. </p>
      */
-    @Property(name="infoText", displayName="infoText", category="Appearance", editorClassName="com.sun.rave.propertyeditors.StringPropertyEditor")
+    @Property(name="infoText", displayName="infoText", category="Appearance")
     private String infoText = null;
 
     /**
@@ -435,7 +435,7 @@ public class CommonTask extends com.sun.webui.jsf.component.WebuiCommand
     /**
      * <p>Specify the title text to be displayed in the information panel for this task. </p>
      */
-    @Property(name="infoTitle", displayName="infoTitle", category="Appearance", editorClassName="com.sun.rave.propertyeditors.StringPropertyEditor")
+    @Property(name="infoTitle", displayName="infoTitle", category="Appearance")
     private String infoTitle = null;
 
     /**
@@ -975,7 +975,7 @@ public class CommonTask extends com.sun.webui.jsf.component.WebuiCommand
     /**
      * <p>The text to be displayed for the task.</p>
      */
-    @Property(name="text", displayName="text", category="Appearance", isDefault=true, editorClassName="com.sun.rave.propertyeditors.StringPropertyEditor")
+    @Property(name="text", displayName="text", category="Appearance", isDefault=true)
     public Object getText() {
         return getValue();
     }
@@ -1018,7 +1018,7 @@ public class CommonTask extends com.sun.webui.jsf.component.WebuiCommand
      * The specified text will display as a tooltip if the mouse cursor hovers 
      * over the HTML element.</p>
      */
-    @Property(name="toolTip", displayName="Tool Tip", category="Behavior", editorClassName="com.sun.rave.propertyeditors.StringPropertyEditor")
+    @Property(name="toolTip", displayName="Tool Tip", category="Behavior")
     private String toolTip = null;
 
     /**

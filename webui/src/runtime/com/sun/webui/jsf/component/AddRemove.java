@@ -1496,7 +1496,7 @@ public class AddRemove extends ListSelector implements ListManager {
     /**
      * <p>The label for the list of available items.</p>
      */
-    @Property(name="availableItemsLabel", displayName="Available Items label", category="Appearance", editorClassName="com.sun.rave.propertyeditors.StringPropertyEditor")
+    @Property(name="availableItemsLabel", displayName="Available Items label", category="Appearance")
     private String availableItemsLabel = null;
 
     /**
@@ -1641,7 +1641,7 @@ public class AddRemove extends ListSelector implements ListManager {
     /**
      * <p>The label for the list of selected items.</p>
      */
-    @Property(name="selectedItemsLabel", displayName="Selected Items label", category="Appearance", editorClassName="com.sun.rave.propertyeditors.StringPropertyEditor")
+    @Property(name="selectedItemsLabel", displayName="Selected Items label", category="Appearance")
     private String selectedItemsLabel = null;
 
     /**

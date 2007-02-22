@@ -251,7 +251,7 @@ public class PageAlert extends UIComponentBase implements NamingContainer {
      * text can be used by screen readers and in tool tips, and when image display is turned off in
      * the web browser.</p>
      */
-    @Property(name="alt", displayName="Alt Text", category="Accessibility", editorClassName="com.sun.rave.propertyeditors.StringPropertyEditor")
+    @Property(name="alt", displayName="Alt Text", category="Accessibility")
     private String alt = null;
 
     /**
@@ -283,7 +283,7 @@ public class PageAlert extends UIComponentBase implements NamingContainer {
     /**
      * <p>Detailed message text for the alert. This message might include more information about the alert and instructions for what to do about the alert.</p>
      */
-    @Property(name="detail", displayName="Detail Message", category="Appearance", editorClassName="com.sun.rave.propertyeditors.StringPropertyEditor")
+    @Property(name="detail", displayName="Detail Message", category="Appearance")
     private String detail = null;
 
     /**
@@ -411,7 +411,7 @@ public class PageAlert extends UIComponentBase implements NamingContainer {
     /**
      * <b>Deprecated.</b><br/><i>Use the title attribute to display the message summary in the page title.</i>
      */
-    @Property(name="summary", displayName="Summary Message", category="Appearance", editorClassName="com.sun.rave.propertyeditors.StringPropertyEditor")
+    @Property(name="summary", displayName="Summary Message", category="Appearance")
     private String summary = null;
 
     /**
@@ -483,7 +483,7 @@ public class PageAlert extends UIComponentBase implements NamingContainer {
     /**
      * <p>The text to display as the page title</p>
      */
-    @Property(name="title", displayName="Title", category="Appearance", isDefault=true, editorClassName="com.sun.rave.propertyeditors.StringPropertyEditor")
+    @Property(name="title", displayName="Title", category="Appearance", isDefault=true)
     private String title = null;
 
     /**

@@ -1523,7 +1523,7 @@ public class EditableList extends WebuiInput implements ListManager,
     /**
      * <p>Text to be used as the label next to the input text field.</p>
      */
-    @Property(name="fieldLabel", displayName="Textfield Label", category="Appearance", editorClassName="com.sun.rave.propertyeditors.StringPropertyEditor")
+    @Property(name="fieldLabel", displayName="Textfield Label", category="Appearance")
     private String fieldLabel = null;
 
     /**
@@ -1609,7 +1609,7 @@ public class EditableList extends WebuiInput implements ListManager,
     /**
      * <p>Text to be used as the label next to the list box.</p>
      */
-    @Property(name="listLabel", displayName="List Label", category="Appearance", editorClassName="com.sun.rave.propertyeditors.StringPropertyEditor")
+    @Property(name="listLabel", displayName="List Label", category="Appearance")
     private String listLabel = null;
 
     /**
@@ -1979,7 +1979,7 @@ public class EditableList extends WebuiInput implements ListManager,
      * The specified text will display as a tooltip if the mouse cursor hovers 
      * over the HTML element.</p>
      */
-    @Property(name="toolTip", displayName="Tool Tip", category="Behavior", editorClassName="com.sun.rave.propertyeditors.StringPropertyEditor")
+    @Property(name="toolTip", displayName="Tool Tip", category="Behavior")
     private String toolTip = null;
 
     /**

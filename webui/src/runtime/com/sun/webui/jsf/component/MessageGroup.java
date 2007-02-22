@@ -270,7 +270,7 @@ public class MessageGroup extends UIComponentBase {
      * The specified text will display as a tooltip if the mouse cursor hovers 
      * over the HTML element.</p>
      */
-    @Property(name="toolTip", displayName="Tool Tip", category="Behavior", editorClassName="com.sun.rave.propertyeditors.StringPropertyEditor")
+    @Property(name="toolTip", displayName="Tool Tip", category="Behavior")
     private String toolTip = null;
 
     /**
@@ -356,7 +356,7 @@ public class MessageGroup extends UIComponentBase {
      * <p>Sets the title of the message group. If this attribute is not
      * specified, the default title "System Messages" will be used.</p>
      */
-    @Property(name="title", displayName="title", category="Behavior", editorClassName="com.sun.rave.propertyeditors.StringPropertyEditor")
+    @Property(name="title", displayName="title", category="Behavior")
     private String title = null;
     
     /**

@@ -593,7 +593,7 @@ public class Selector extends WebuiInput implements SelectorManager {
      * <p>If set, a label is rendered adjacent to the component with the
      * value of this attribute as the label text.</p>
      */
-    @Property(name="label", displayName="Label", category="Appearance", editorClassName="com.sun.rave.propertyeditors.StringPropertyEditor")
+    @Property(name="label", displayName="Label", category="Appearance")
     private String label = null;
 
     /**
@@ -1266,7 +1266,7 @@ public class Selector extends WebuiInput implements SelectorManager {
      * The specified text will display as a tooltip if the mouse cursor hovers 
      * over the HTML element.</p>
      */
-    @Property(name="toolTip", displayName="Tool Tip", category="Behavior", editorClassName="com.sun.rave.propertyeditors.StringPropertyEditor")
+    @Property(name="toolTip", displayName="Tool Tip", category="Behavior")
     private String toolTip = null;
 
     /**

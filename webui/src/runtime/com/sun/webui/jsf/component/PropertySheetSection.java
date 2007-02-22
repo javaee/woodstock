@@ -185,7 +185,7 @@ public class PropertySheetSection extends UIComponentBase
      * 	String, or it may be a ValueBinding expression (useful for
      * 	localization).</p>
      */
-    @com.sun.faces.annotation.Property(name="label", displayName="Label", category="Appearance", editorClassName="com.sun.rave.propertyeditors.StringPropertyEditor")
+    @com.sun.faces.annotation.Property(name="label", displayName="Label", category="Appearance")
     private String label = null;
 
     /**

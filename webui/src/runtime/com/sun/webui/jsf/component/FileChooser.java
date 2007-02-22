@@ -2998,7 +2998,7 @@ public class FileChooser extends WebuiInput implements NamingContainer {
      * Only <code>java.io.File</code> or <code>java.lang.String</code> objects 
      * can be bound to this attribute.</p>
      */
-    @Property(name="lookin", displayName="Lookin", category="Data", editorClassName="com.sun.rave.propertyeditors.StringPropertyEditor")
+    @Property(name="lookin", displayName="Lookin", category="Data")
     private Object lookin = null;
 
     public Object getLookin() {

@@ -113,7 +113,7 @@ public class ContentPageTitle extends UIComponentBase
     /**
      * <p>The help text to display just below the page title.</p>
      */
-    @Property(name="helpText", displayName="Help Text", category="Appearance", editorClassName="com.sun.rave.propertyeditors.StringPropertyEditor")
+    @Property(name="helpText", displayName="Help Text", category="Appearance")
     private String helpText = null;
 
     /**
@@ -250,7 +250,7 @@ public class ContentPageTitle extends UIComponentBase
     /**
      * <p>The text to display as the page title.</p>
      */
-    @Property(name="title", displayName="Title", category="Appearance", editorClassName="com.sun.rave.propertyeditors.StringPropertyEditor")
+    @Property(name="title", displayName="Title", category="Appearance")
     private String title = null;
 
     /**

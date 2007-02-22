@@ -272,7 +272,7 @@ public class TableRowGroup extends UIComponentBase implements NamingContainer {
      * instructions, such as "This table contains no files. To add a file to monitor, 
      * click the New button."
      */
-    @Property(name="emptyDataMsg", displayName="Empty Data Message", category="Advanced", editorClassName="com.sun.rave.propertyeditors.StringPropertyEditor")
+    @Property(name="emptyDataMsg", displayName="Empty Data Message", category="Advanced")
     private String emptyDataMsg = null;
 
     /**
@@ -282,7 +282,7 @@ public class TableRowGroup extends UIComponentBase implements NamingContainer {
      * element, and is not checked for validity. For example, you might set this 
      * attribute to <code>"nowrap=`nowrap'"</code>.
      */
-    @Property(name="extraFooterHtml", displayName="Extra Footer HTML", category="Advanced", editorClassName="com.sun.rave.propertyeditors.StringPropertyEditor")
+    @Property(name="extraFooterHtml", displayName="Extra Footer HTML", category="Advanced")
     private String extraFooterHtml = null;
 
     /**
@@ -292,7 +292,7 @@ public class TableRowGroup extends UIComponentBase implements NamingContainer {
      * element, and is not checked for validity. For example, you might set this 
      * attribute to <code>"nowrap=`nowrap'"</code>.
      */
-    @Property(name="extraHeaderHtml", displayName="Extra Header HTML", category="Advanced", editorClassName="com.sun.rave.propertyeditors.StringPropertyEditor")
+    @Property(name="extraHeaderHtml", displayName="Extra Header HTML", category="Advanced")
     private String extraHeaderHtml = null;
 
     /**
@@ -309,7 +309,7 @@ public class TableRowGroup extends UIComponentBase implements NamingContainer {
     /**
      * The text to be displayed in the group footer.
      */
-    @Property(name="footerText", displayName="Footer Text", category="Appearance", editorClassName="com.sun.rave.propertyeditors.StringPropertyEditor")
+    @Property(name="footerText", displayName="Footer Text", category="Appearance")
     private String footerText = null;
 
     /**
@@ -323,7 +323,7 @@ public class TableRowGroup extends UIComponentBase implements NamingContainer {
     /**
      * The text to be displayed in the group header.
      */
-    @Property(name="headerText", displayName="header Text", category="Appearance", editorClassName="com.sun.rave.propertyeditors.StringPropertyEditor")
+    @Property(name="headerText", displayName="header Text", category="Appearance")
     private String headerText = null;
 
     /**
@@ -510,7 +510,7 @@ public class TableRowGroup extends UIComponentBase implements NamingContainer {
      * The specified text will display as a tooltip if the mouse cursor hovers 
      * over the HTML element.
      */
-    @Property(name="toolTip", displayName="Tool Tip", category="Behavior", editorClassName="com.sun.rave.propertyeditors.StringPropertyEditor")
+    @Property(name="toolTip", displayName="Tool Tip", category="Behavior")
     private String toolTip = null;
 
     /**

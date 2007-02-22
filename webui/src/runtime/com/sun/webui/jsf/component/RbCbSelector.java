@@ -684,7 +684,7 @@ public class RbCbSelector extends Selector implements NamingContainer {
      * in the group, within the scope of the <code>Form</code>
      * parent component containing the grouped components.</p>
      */
-    @Property(name="name", displayName="Group Name", category="Advanced", editorClassName="com.sun.rave.propertyeditors.StringPropertyEditor")
+    @Property(name="name", displayName="Group Name", category="Advanced")
     private String name = null;
 
     /**
@@ -760,7 +760,7 @@ public class RbCbSelector extends Selector implements NamingContainer {
      * If a boolean component is not selected, the <code>selected</code>
      * property value is a false <code>Boolean</code> instance.</p>
      */
-    @Property(name="selectedValue", category="Advanced", editorClassName="com.sun.rave.propertyeditors.StringPropertyEditor")
+    @Property(name="selectedValue", category="Advanced")
     private Object _getSelectedValue() {
         return getItems();
     }
