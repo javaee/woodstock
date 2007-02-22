@@ -35,7 +35,7 @@ import javax.faces.context.FacesContext;
 @Component(type="com.sun.webui.jsf.table2Column",
     family="com.sun.webui.jsf.table2Column",
     tagRendererType="com.sun.webui.jsf.widget.Table2Column",
-    displayName="Table2Column", tagName="table2Column", isTag=false) // Remove isTag to run
+    displayName="Table2Column", tagName="table2Column")
 public class Table2Column extends TableColumn
         implements NamingContainer, Widget {
     public Table2Column() {
@@ -66,17 +66,4 @@ public class Table2Column extends TableColumn
     public String getHtmlTemplate() {
         return null; // Not implemented
     }
-
-    /**
-     * Get the Dojo modules required to instantiate the widget.
-     *
-     * @return The module(s) required to render the widget.
-     */
-    public Iterator getModules() {
-        return null; // Not implemented
-    }
-
-    // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    // Private methods
-    // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 }

@@ -42,7 +42,7 @@ import javax.faces.el.ValueBinding;
 @Component(type="com.sun.webui.jsf.Table2RowGroup",
     family="com.sun.webui.jsf.Table2RowGroup",
     tagRendererType="com.sun.webui.jsf.widget.Table2RowGroup",
-    displayName="Table2RowGroup", tagName="table2RowGroup", isTag=false) // Remove isTag to run
+    displayName="Table2RowGroup", tagName="table2RowGroup")
 public class Table2RowGroup extends TableRowGroup
         implements NamingContainer, Widget {
     // A List containing Table2Column children. 
@@ -187,5 +187,30 @@ public class Table2RowGroup extends TableRowGroup
      */
     public void setHtmlTemplate(String htmlTemplate) {
         this.htmlTemplate = htmlTemplate;
+    }
+
+    // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    // State methods
+    // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+    /**
+     * Restore the state of this component.
+     */
+    public void restoreState(FacesContext _context,Object _state) {
+        Object _values[] = (Object[]) _state;
+        super.restoreState(_context, _values[0]);
+        this.htmlTemplate = (String) _values[1];
+        this.ajaxify = ((Boolean) _values[2]).booleanValue();
+    }
+
+    /**
+     * Save the state of this component.
+     */
+    public Object saveState(FacesContext _context) {
+        Object _values[] = new Object[3];
+        _values[0] = super.saveState(_context);
+        _values[1] = this.htmlTemplate;
+        _values[2] = this.ajaxify ? Boolean.TRUE : Boolean.FALSE;
+        return _values;
     }
 }

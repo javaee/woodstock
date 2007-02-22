@@ -30,7 +30,7 @@ dojo.require("webui.@THEME@.widget.table2RowGroup");
 /**
  * This function is used to obtain data asynchronously.
  */
-webui.@THEME@.widget.table2RowGroup.jsfx = {
+webui.@THEME@.widget.jsfx.table2RowGroup = {
     /**
      * This function is used to process scroll events.
      *
@@ -55,7 +55,7 @@ webui.@THEME@.widget.table2RowGroup.jsfx = {
         new DynaFaces.fireAjaxTransaction((src) ? src : document.forms[0], {
             execute: "none",
             render: domNode.id,
-            replaceElement: webui.@THEME@.widget.table2RowGroup.jsfx.update,
+            replaceElement: webui.@THEME@.widget.jsfx.table2RowGroup.update,
             xjson: {
                 first: domNode._first
             }
@@ -94,6 +94,6 @@ webui.@THEME@.widget.table2RowGroup.jsfx = {
 
 // Listen for Dojo Widget events.
 dojo.event.topic.subscribe(webui.@THEME@.widget.table2RowGroup.scroll.beginEventTopic,
-    webui.@THEME@.widget.table2RowGroup.jsfx, "processScrollEvent");
+    webui.@THEME@.widget.jsfx.table2RowGroup, "processScrollEvent");
 
 //-->

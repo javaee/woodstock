@@ -41,7 +41,7 @@ import javax.faces.el.ValueBinding;
 @Component(type="com.sun.webui.jsf.Table2",
     family="com.sun.webui.jsf.Table2",
     tagRendererType="com.sun.webui.jsf.widget.Table2", 
-    displayName="Table2", tagName="table2", isTag=false) // Remove isTag to run
+    displayName="Table2", tagName="table2")
 public class Table2 extends Table implements NamingContainer, Widget {
     /** The facet name for the actions area. */ 
     public static final String ACTIONS_FACET = "actions"; //NOI18N 
@@ -132,5 +132,28 @@ public class Table2 extends Table implements NamingContainer, Widget {
      */
     public void setHtmlTemplate(String htmlTemplate) {
         this.htmlTemplate = htmlTemplate;
+    }
+
+    // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    // State methods
+    // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+    /**
+     * Restore the state of this component.
+     */
+    public void restoreState(FacesContext _context,Object _state) {
+        Object _values[] = (Object[]) _state;
+        super.restoreState(_context, _values[0]);
+        this.htmlTemplate = (String) _values[1];
+    }
+
+    /**
+     * Save the state of this component.
+     */
+    public Object saveState(FacesContext _context) {
+        Object _values[] = new Object[2];
+        _values[0] = super.saveState(_context);
+        _values[1] = this.htmlTemplate;
+        return _values;
     }
 }

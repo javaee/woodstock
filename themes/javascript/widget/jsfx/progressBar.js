@@ -30,7 +30,7 @@ dojo.require("webui.@THEME@.widget.progressBar");
 /**
  * This name space is used to update data asynchronously.
  */
-webui.@THEME@.widget.progressBar.jsfx =  {
+webui.@THEME@.widget.jsfx.progressBar =  {
     /**
      * This function is used to process refresh events.
      *
@@ -43,7 +43,7 @@ webui.@THEME@.widget.progressBar.jsfx =  {
         new DynaFaces.fireAjaxTransaction(dom, {
             execute: (dom) ? id : "none",
             render: id,
-            replaceElement: webui.@THEME@.widget.progressBar.jsfx.update });
+            replaceElement: webui.@THEME@.widget.jsfx.progressBar.update });
 
         return true;
     },
@@ -83,6 +83,6 @@ webui.@THEME@.widget.progressBar.jsfx =  {
 
 // Listen for Dojo Widget events.
 dojo.event.topic.subscribe(webui.@THEME@.widget.progressBar.refresh.beginEventTopic,
-    webui.@THEME@.widget.progressBar.jsfx, "processRefreshEvent");
+    webui.@THEME@.widget.jsfx.progressBar, "processRefreshEvent");
 
 //-->
