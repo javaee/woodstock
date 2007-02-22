@@ -157,6 +157,7 @@ public class BodyRenderer extends AbstractRenderer {
             sb.append(onload);
             sb.append("; "); //NOI18N
         }
+        writer.writeAttribute("onload", sb.toString(), null); //NOI18N
 
 	// Apply a background image
  	String imageUrl = body.getImageURL();
@@ -173,6 +174,7 @@ public class BodyRenderer extends AbstractRenderer {
             sb.append(onUnload);
             sb.append("; "); //NOI18N
         }
+        writer.writeAttribute("onunload", sb.toString(), null); //NOI18N
 
         addIntegerAttributes(context, component, writer, integerAttributes);
         writer.write("\n"); //NOI18N
