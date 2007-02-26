@@ -289,7 +289,7 @@ helpKey="projrave_ui_elements_palette_wdstk-jsf1.2_tab_set",
     /**
      * The id of the selected tab.
      */
-    @Property(name="selected", displayName="Selected", category="Data", editorClassName="com.sun.webui.jsf.component.propertyeditors.TabIdsEditor")
+    @Property(name="selected", displayName="Selected", category="Data")
     
     /**
      * The id of the selected tab.

@@ -625,7 +625,7 @@ public class Selector extends WebuiInput implements SelectorManager {
      * label attribute has been set. Valid values are 1 (largest), 2 and
      * 3 (smallest). The default value is 2.</p>
      */
-    @Property(name="labelLevel", displayName="Label Level", category="Appearance", editorClassName="com.sun.webui.jsf.component.propertyeditors.LabelLevelsEditor")
+    @Property(name="labelLevel", displayName="Label Level", category="Appearance")
     private int labelLevel = Integer.MIN_VALUE;
     private boolean labelLevel_set = false;
 

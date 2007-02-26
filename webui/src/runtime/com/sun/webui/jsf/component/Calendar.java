@@ -306,7 +306,8 @@ public class Calendar extends Field implements DateManager, NamingContainer {
     }
     
     // Hide text
-    @Property(name="text", isHidden=true, isAttribute=false)
+    @Property(name="text", isHidden=true, isAttribute=false,
+        editorClassName="com.sun.rave.propertyeditors.StringPropertyEditor")
     public Object getText() {
         return super.getText();
     }
@@ -361,7 +362,7 @@ public class Calendar extends Field implements DateManager, NamingContainer {
      * documentation for that attribute. 
      * </p>
      */
-    @Property(name="dateFormatPattern", displayName="Date Format Pattern", category="Appearance", editorClassName="com.sun.webui.jsf.component.propertyeditors.DateFormatPatternsEditor", shortDescription="The date format pattern to use (e.g., yyyy-MM-dd).")
+    @Property(name="dateFormatPattern", displayName="Date Format Pattern", category="Appearance", shortDescription="The date format pattern to use (e.g., yyyy-MM-dd).")
     private String dateFormatPattern = null;
 
     /**

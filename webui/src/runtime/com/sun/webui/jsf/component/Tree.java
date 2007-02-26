@@ -514,8 +514,7 @@ helpKey="projrave_ui_elements_palette_wdstk-jsf1.2_tree",
      * <p>Returns the id of the selected tree node. Should be cast to a String and
      * nothing else.</p>
      */
-    @Property(name="selected", displayName="Selected", category="Data",
-        editorClassName="com.sun.webui.jsf.component.propertyeditors.TreeNodeIdsEditor")
+    @Property(name="selected", displayName="Selected", category="Data")
     public String getSelected() {
         return (String) getValue();
     }

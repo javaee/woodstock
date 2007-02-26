@@ -212,7 +212,8 @@ public class HiddenField extends WebuiInput {
      * expression, the corresponding value will be updated
      * if validation succeeds.</p>
      */
-    @Property(name="text", displayName="Text", category="Data", isDefault=true)
+    @Property(name="text", displayName="Text", category="Data", isDefault=true,
+        editorClassName="com.sun.rave.propertyeditors.StringPropertyEditor")
     public Object getText() {
         return getValue();
     }

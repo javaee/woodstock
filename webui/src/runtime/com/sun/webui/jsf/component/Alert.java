@@ -371,7 +371,7 @@ public class Alert extends UIOutput implements NamingContainer {
     /**
      * <p>The window (target) in which to load the link that is specified with linkText.</p>
      */
-    @Property(name="linkTarget", displayName="Link Target", category="Navigation", editorClassName="com.sun.webui.jsf.component.propertyeditors.FrameTargetsEditor")
+    @Property(name="linkTarget", displayName="Link Target", category="Navigation")
     private String linkTarget = null;
 
     /**
@@ -625,7 +625,7 @@ public class Alert extends UIOutput implements NamingContainer {
      * "information", "success", "warning" or "error". The type specified determines
      * which icon is rendered for the alert.</p>
      */
-    @Property(name="type", displayName="Alert Type", category="Advanced", editorClassName="com.sun.webui.jsf.component.propertyeditors.AlertTypesEditor")
+    @Property(name="type", displayName="Alert Type", category="Advanced")
     private String type = null;
 
     /**

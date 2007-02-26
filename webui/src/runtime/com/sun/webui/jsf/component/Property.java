@@ -534,7 +534,7 @@ public class Property extends UIComponentBase implements ComplexComponent,
      * is left. This attibute applies to labels that are specified with either 
      * the label attribute or the label facet.</p>
      */
-    @com.sun.faces.annotation.Property(name="labelAlign", displayName="Label Alignment", category="Appearance", editorClassName="com.sun.webui.jsf.component.propertyeditors.HtmlHorizontalAlignEditor")
+    @com.sun.faces.annotation.Property(name="labelAlign", displayName="Label Alignment", category="Appearance")
     private String labelAlign = null;
 
     /**

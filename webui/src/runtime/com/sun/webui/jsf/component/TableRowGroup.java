@@ -216,7 +216,7 @@ public class TableRowGroup extends UIComponentBase implements NamingContainer {
      * example, to align cell contents on colons, set <code>align="char"</code> and 
      * <code>char=":"</code>
      */
-    @Property(name="align", displayName="Horizontal Alignment Cells In Group", category="Appearance", editorClassName="com.sun.webui.jsf.component.propertyeditors.TableAlignEditor")
+    @Property(name="align", displayName="Horizontal Alignment Cells In Group", category="Appearance")
     private String align = null;
 
     /**
@@ -492,7 +492,7 @@ public class TableRowGroup extends UIComponentBase implements NamingContainer {
      * that resolves to a backing bean of type 
      * <code>com.sun.data.provider.TableDataFilter</code>.
      */
-    @Property(name="tableDataFilter", displayName="Table Data Filter", category="Data", isHidden=true, isAttribute=true, editorClassName="com.sun.webui.jsf.component.propertyeditors.FieldKeyEditor")
+    @Property(name="tableDataFilter", displayName="Table Data Filter", category="Data", isHidden=true, isAttribute=true)
     private TableDataFilter tableDataFilter = null;
 
     /**
@@ -502,7 +502,7 @@ public class TableRowGroup extends UIComponentBase implements NamingContainer {
      * that resolves to a backing bean of type 
      * <code>com.sun.data.provider.TableDataSorter</code>.
      */
-    @Property(name="tableDataSorter", displayName="Table Data Sorter", category="Data", isHidden=true, isAttribute=true, editorClassName="com.sun.webui.jsf.component.propertyeditors.FieldKeyEditor")
+    @Property(name="tableDataSorter", displayName="Table Data Sorter", category="Data", isHidden=true, isAttribute=true)
     private TableDataSorter tableDataSorter = null;
 
     /**
@@ -522,7 +522,7 @@ public class TableRowGroup extends UIComponentBase implements NamingContainer {
      * each cell's content to be aligned on the text baseline, the invisible line on 
      * which text characters rest.
      */
-    @Property(name="valign", displayName="Vertical Alignment Of Cells In Group", category="Appearance", editorClassName="com.sun.webui.jsf.component.propertyeditors.HtmlVerticalAlignEditor")
+    @Property(name="valign", displayName="Vertical Alignment Of Cells In Group", category="Appearance")
     private String valign = null;
 
     /**

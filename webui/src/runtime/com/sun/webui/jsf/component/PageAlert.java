@@ -511,7 +511,7 @@ public class PageAlert extends UIComponentBase implements NamingContainer {
     /**
      * <p>The type or category of alert. The type attribute can be set to one of the following:  "question", "information", "warning" or "error". The default type is error.</p>
      */
-    @Property(name="type", displayName="Alert Type", category="Advanced", editorClassName="com.sun.webui.jsf.component.propertyeditors.PageAlertTypesEditor")
+    @Property(name="type", displayName="Alert Type", category="Advanced")
     private String type = null;
 
     /**

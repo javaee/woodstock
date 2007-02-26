@@ -126,7 +126,7 @@ public class Message extends UIComponentBase {
     /**
      * <p>Identifier for the component associated with this message component.</p>
      */
-    @Property(name="for", displayName="Input Component", category="Behavior", editorClassName="com.sun.webui.jsf.component.propertyeditors.InputComponentIdsEditor")
+    @Property(name="for", displayName="Input Component", category="Behavior")
     private String _for = null;
 
     /**

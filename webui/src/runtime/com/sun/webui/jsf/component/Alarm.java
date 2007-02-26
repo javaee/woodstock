@@ -546,7 +546,7 @@ public class Alarm extends ImageComponent implements Comparator {
      * </ul>
      * The default value is "ok", which renders no alarm icon.</p>
      */
-    @Property(name="severity", displayName="Severity", category="Appearance", isDefault=true, editorClassName="com.sun.webui.jsf.component.propertyeditors.AlertTypesEditor")
+    @Property(name="severity", displayName="Severity", category="Appearance", isDefault=true)
     private String severity = null;
 
     /**

@@ -161,7 +161,7 @@ public class CommonTask extends com.sun.webui.jsf.component.WebuiCommand
      * the task. The key <code>CTS_OVERVIEW</code> will generate 
      * an image that can be used to mark tasks that are for overview information about the task</p>
      */
-    @Property(name="icon", displayName="icon", category="Appearance", editorClassName="com.sun.webui.jsf.component.propertyeditors.ThemeIconsEditor")
+    @Property(name="icon", displayName="icon", category="Appearance")
     private String icon = null;
 
     /**
@@ -941,7 +941,7 @@ public class CommonTask extends com.sun.webui.jsf.component.WebuiCommand
      * valid for the target attribute of a HTML anchor element are also valid 
      * for this attribute in this component</p>
      */    
-    @Property(name="target", displayName="Target", category="Behavior", editorClassName="com.sun.webui.jsf.component.propertyeditors.FrameTargetsEditor")
+    @Property(name="target", displayName="Target", category="Behavior")
     private String target = null;
 
     /**
@@ -975,7 +975,8 @@ public class CommonTask extends com.sun.webui.jsf.component.WebuiCommand
     /**
      * <p>The text to be displayed for the task.</p>
      */
-    @Property(name="text", displayName="text", category="Appearance", isDefault=true)
+    @Property(name="text", displayName="text", category="Appearance", isDefault=true,
+        editorClassName="com.sun.rave.propertyeditors.StringPropertyEditor")
     public Object getText() {
         return getValue();
     }

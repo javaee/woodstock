@@ -1633,7 +1633,7 @@ public class Form extends UIForm {
     /**
      * <p>Use this attribute to set the target of the XHTML form tag.</p>
      */
-    @Property(name="target", displayName="Target", category="Behavior", editorClassName="com.sun.webui.jsf.component.propertyeditors.FrameTargetsEditor")
+    @Property(name="target", displayName="Target", category="Behavior")
     private String target = null;
 
     public String getTarget() {

@@ -446,7 +446,8 @@ public class StaticText extends UIOutput {
     /**
      * <p>The text to be displayed for this component.</p>
      */
-    @Property(name="text", displayName="Text", category="Appearance", isDefault=true)
+    @Property(name="text", displayName="Text", category="Appearance", isDefault=true,
+        editorClassName="com.sun.rave.propertyeditors.StringPropertyEditor")
     public Object getText() {
         return getValue();
     }

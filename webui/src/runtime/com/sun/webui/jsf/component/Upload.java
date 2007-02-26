@@ -497,7 +497,7 @@ public class Upload extends Field implements Serializable {
     }
     
     // Hide text
-    @Property(name="text", isHidden=true, isAttribute=false)
+    @Property(name="text", isHidden=true, isAttribute=false, editorClassName="com.sun.rave.propertyeditors.StringPropertyEditor")
     public Object getText() {
         return _getText();
     }

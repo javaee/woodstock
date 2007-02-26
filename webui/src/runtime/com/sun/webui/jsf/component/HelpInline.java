@@ -184,7 +184,8 @@ public class HelpInline extends UIOutput {
     /**
      * <p>The inline help text to display.</p>
      */
-    @Property(name="text", displayName="text", category="Appearance", isDefault=true)
+    @Property(name="text", displayName="text", category="Appearance", isDefault=true,
+        editorClassName="com.sun.rave.propertyeditors.StringPropertyEditor")
     public Object getText() {
         return getValue();
     }
@@ -201,7 +202,7 @@ public class HelpInline extends UIOutput {
      * <p>The type of inline help to display. Valid values are "page" or "field". 
      * Page help is displayed by default.</p>
      */
-    @Property(name="type", displayName="Type of Help", category="Appearance", editorClassName="com.sun.webui.jsf.component.propertyeditors.HelpTypesEditor")
+    @Property(name="type", displayName="Type of Help", category="Appearance")
     private String type = null;
 
     public String getType() {

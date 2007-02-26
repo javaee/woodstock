@@ -81,7 +81,7 @@ public class Link extends UIComponentBase {
      * <p>Defines the character (charset) encoding of the target URL. Default 
      * value is "ISO-8859-1".</p>
      */
-    @Property(name="charset", displayName="Charset", category="Advanced", editorClassName="com.sun.webui.jsf.component.propertyeditors.CharacterSetsEditor")
+    @Property(name="charset", displayName="Charset", category="Advanced")
     private String charset = null;
 
     /**
@@ -150,7 +150,7 @@ public class Link extends UIComponentBase {
      * targeted document. Default is "stylesheet". Other possible values 
      * are described at w3.org.</p>
      */
-    @Property(name="rel", displayName="Rel", category="Appearance", editorClassName="com.sun.webui.jsf.component.propertyeditors.HtmlLinkTypesEditor")
+    @Property(name="rel", displayName="Rel", category="Appearance")
     private String rel = null;
 
     /**
@@ -239,7 +239,7 @@ public class Link extends UIComponentBase {
      * <p>Defines the ISO language code of the human language used in the target 
      * URL file. For example, valid values might be en, fr, es.</p>
      */
-    @Property(name="urlLang", displayName="URL Language", category="Advanced", editorClassName="com.sun.webui.jsf.component.propertyeditors.LanguagesEditor")
+    @Property(name="urlLang", displayName="URL Language", category="Advanced")
     private String urlLang = null;
 
     /**

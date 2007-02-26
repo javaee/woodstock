@@ -310,7 +310,7 @@ public class Button extends WebuiCommand implements ComplexComponent {//, Widget
     /**
      * <p>The identifier key of a theme image to be used for the button. </p>
      */
-    @Property(name="icon", displayName="Icon", category="Appearance", isHidden=true, isAttribute=true, editorClassName="com.sun.webui.jsf.component.propertyeditors.ThemeIconsEditor")
+    @Property(name="icon", displayName="Icon", category="Appearance", isHidden=true, isAttribute=true)
     private String icon = null;
 
     /**
@@ -1020,7 +1020,8 @@ public class Button extends WebuiCommand implements ComplexComponent {//, Widget
      * an <code>imageURL</code> value is given, the button type is set to 
      * <code>image</code>.</p>
      */
-    @Property(name="text", displayName="Button Text", category="Appearance", isDefault=true)
+    @Property(name="text", displayName="Button Text", category="Appearance", isDefault=true,
+        editorClassName="com.sun.rave.propertyeditors.StringPropertyEditor")
     public Object getText() {
         return getValue();
     }

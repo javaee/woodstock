@@ -153,7 +153,7 @@ public class TableColumn extends UIComponentBase implements NamingContainer {
      * <code>align="char"</code> and <code>char=":" </code>Some browsers do not 
      * support aligning on the character.
      */
-    @Property(name="align", displayName="Horizontal Alignment", category="Appearance", editorClassName="com.sun.webui.jsf.component.propertyeditors.TableAlignEditor")
+    @Property(name="align", displayName="Horizontal Alignment", category="Appearance")
     private String align = null;
 
     /**
@@ -167,7 +167,8 @@ public class TableColumn extends UIComponentBase implements NamingContainer {
      * objects are aligned "center". All columns, including select columns, are 
      * aligned "left" by default. Note that the align property overrides this value.
      */
-    @Property(name="alignKey", displayName="Horizontal Alignment Key", category="Appearance")
+    @Property(name="alignKey", displayName="Horizontal Alignment Key", category="Appearance",
+        editorClassName="com.sun.rave.propertyeditors.StringPropertyEditor")
     private Object alignKey = null;
 
     /**
@@ -494,14 +495,15 @@ public class TableColumn extends UIComponentBase implements NamingContainer {
      * a String. The <code>sort</code> attribute is required for a column to be shown 
      * as sortable.
      */
-    @Property(name="sort", displayName="Sort Key", category="Data")
+    @Property(name="sort", displayName="Sort Key", category="Data", 
+        editorClassName="com.sun.rave.propertyeditors.StringPropertyEditor")
     private Object sort = null;
 
     /**
      * The theme identifier to use for the sort button that is displayed in the column 
      * header. Use this attribute to override the default image.
      */
-    @Property(name="sortIcon", displayName="Sort Icon", category="Appearance", editorClassName="com.sun.webui.jsf.component.propertyeditors.ThemeIconsEditor")
+    @Property(name="sortIcon", displayName="Sort Icon", category="Appearance")
     private String sortIcon = null;
 
     /**
@@ -563,7 +565,7 @@ public class TableColumn extends UIComponentBase implements NamingContainer {
      * each cell's content to be aligned on the text baseline, the invisible line on 
      * which text characters rest.
      */
-    @Property(name="valign", displayName="Vertical Position", category="Appearance", editorClassName="com.sun.webui.jsf.component.propertyeditors.HtmlVerticalAlignEditor")
+    @Property(name="valign", displayName="Vertical Position", category="Appearance")
     private String valign = null;
 
     /**

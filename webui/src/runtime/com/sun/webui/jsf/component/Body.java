@@ -156,7 +156,7 @@ public class Body extends UIComponentBase {
      * receives focus.  By setting the focus attribute, you can ensure that
      * a particular component receives focus each time.</p>
      */
-    @Property(name="focus", displayName="Component to receive focus", category="Behavior", isDefault=true, editorClassName="com.sun.webui.jsf.component.propertyeditors.EventClientIdsEditor")
+    @Property(name="focus", displayName="Component to receive focus", category="Behavior", isDefault=true)
     private String focus = null;
 
     /**

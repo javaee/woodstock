@@ -394,7 +394,7 @@ public class TreeNode extends UIComponentBase implements NamingContainer, Serial
     *       attribute in the tree components. The target attribute is useful only with 
     *       the url attribute, and does not apply when a facet is used.
     */
-    @Property(name="target", displayName="Hyperlink Target", category="Behavior", editorClassName="com.sun.webui.jsf.component.propertyeditors.FrameTargetsEditor")
+    @Property(name="target", displayName="Hyperlink Target", category="Behavior")
     private String target = null;
 
     /**

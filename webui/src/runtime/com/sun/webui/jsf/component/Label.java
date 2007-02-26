@@ -468,7 +468,7 @@ public class Label extends UIOutput implements NamingContainer {
      *  to search its children to see whether any of them can be used for evaluating
      * the value of this "for" attribute.</p>
      */
-    @Property(name="for", displayName="Input Component", category="Appearance", editorClassName="com.sun.webui.jsf.component.propertyeditors.InputComponentIdsEditor")
+    @Property(name="for", displayName="Input Component", category="Appearance")
     private String _for = null;
 
     /**
@@ -566,7 +566,7 @@ public class Label extends UIOutput implements NamingContainer {
      * Valid values are 1, 2, and 3. The default label level is 2.  Any label
      * level outside this range will result in no label level being added.</p>
      */
-    @Property(name="labelLevel", displayName="Style Level", category="Appearance", editorClassName="com.sun.webui.jsf.component.propertyeditors.LabelLevelsEditor")
+    @Property(name="labelLevel", displayName="Style Level", category="Appearance")
     private int labelLevel = Integer.MIN_VALUE;
     private boolean labelLevel_set = false;
 
@@ -903,7 +903,8 @@ public class Label extends UIOutput implements NamingContainer {
      * binding expression that corresponds to a message from a resource
      * bundle declared using <code>f:loadBundle</code>.</p>
      */
-    @Property(name="text", displayName="Label Text", category="Appearance", isDefault=true)
+    @Property(name="text", displayName="Label Text", category="Appearance", isDefault=true,
+        editorClassName="com.sun.rave.propertyeditors.StringPropertyEditor")
     public Object getText() {
         return getValue();
     }

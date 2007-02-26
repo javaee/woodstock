@@ -1776,7 +1776,7 @@ public class Scheduler extends WebuiInput
      * documentation for that attribute. 
      * </p>
      */
-    @Property(name="dateFormatPattern", displayName="Date Format Pattern", category="Appearance", editorClassName="com.sun.webui.jsf.component.propertyeditors.DateFormatPatternsEditor", shortDescription="The date format pattern to use (e.g., yyyy-MM-dd).")
+    @Property(name="dateFormatPattern", displayName="Date Format Pattern", category="Appearance", shortDescription="The date format pattern to use (e.g., yyyy-MM-dd).")
     private String dateFormatPattern = null;
 
     /**

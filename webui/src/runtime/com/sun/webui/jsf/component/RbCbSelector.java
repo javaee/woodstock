@@ -389,6 +389,8 @@ public class RbCbSelector extends Selector implements NamingContainer {
      * true instance is returned and the control will behave as a
      * boolean control.
      */
+    @Property(name="selectedValue", category="Advanced",
+        editorClassName="com.sun.rave.propertyeditors.StringPropertyEditor")
     public Object getSelectedValue() {
 	Object sv = _getSelectedValue();
 	return sv == null ? trueSelectedValue : sv;
@@ -760,7 +762,6 @@ public class RbCbSelector extends Selector implements NamingContainer {
      * If a boolean component is not selected, the <code>selected</code>
      * property value is a false <code>Boolean</code> instance.</p>
      */
-    @Property(name="selectedValue", category="Advanced")
     private Object _getSelectedValue() {
         return getItems();
     }

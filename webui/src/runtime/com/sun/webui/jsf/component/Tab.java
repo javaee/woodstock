@@ -84,7 +84,8 @@ public class Tab extends Hyperlink implements NamingContainer {
         return super.getValue();
     }
 
-    @Property(shortDescription="The display label for this tab")
+    @Property(shortDescription="The display label for this tab",
+        editorClassName="com.sun.rave.propertyeditors.StringPropertyEditor")
     @Override
     public Object getText() {
         return super.getText();

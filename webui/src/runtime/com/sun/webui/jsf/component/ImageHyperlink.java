@@ -195,7 +195,7 @@ public class ImageHyperlink extends Hyperlink implements NamingContainer {
      * <p>Specifies the position of the image with respect to its context.
      * Valid values are: bottom (the default); middle; top; left; right.</p>
      */
-    @Property(name="align", displayName="Align", category="Appearance", editorClassName="com.sun.webui.jsf.component.propertyeditors.HtmlAlignEditor")
+    @Property(name="align", displayName="Align", category="Appearance")
     private String align = null;
 
     /**
@@ -373,7 +373,7 @@ public class ImageHyperlink extends Hyperlink implements NamingContainer {
     /**
      * <p>The identifier of the desired theme image.</p>
      */
-    @Property(name="icon", displayName="Icon", category="Appearance", editorClassName="com.sun.webui.jsf.component.propertyeditors.ThemeIconsEditor")
+    @Property(name="icon", displayName="Icon", category="Appearance")
     private String icon = null;
 
     /**
@@ -430,7 +430,7 @@ public class ImageHyperlink extends Hyperlink implements NamingContainer {
      * <p>Specifies where the text will be placed relative to the image. The valid 
      * values currently are "right" or "left".</p>
      */
-    @Property(name="textPosition", displayName="Text Position", category="Appearance", editorClassName="com.sun.webui.jsf.component.propertyeditors.HtmlHorizontalAlignEditor")
+    @Property(name="textPosition", displayName="Text Position", category="Appearance")
     private String textPosition = null;
 
     /**

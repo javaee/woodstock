@@ -113,7 +113,7 @@ public class PasswordField extends Field {
     }
     
     // Hide text
-    @Property(name="text", isHidden=true, isAttribute=false)
+    @Property(name="text", isHidden=true, isAttribute=false, editorClassName="com.sun.rave.propertyeditors.StringPropertyEditor")
     public Object getText() {
         return super.getText();
     }

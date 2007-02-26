@@ -116,7 +116,7 @@ public class ImageComponent extends UIGraphic {
      * <p>Specifies the position of the image with respect to its context.
      * Valid values are: bottom (the default); middle; top; left; right.</p>
      */
-    @Property(name="align", displayName="Align", category="Appearance", editorClassName="com.sun.webui.jsf.component.propertyeditors.HtmlAlignEditor")
+    @Property(name="align", displayName="Align", category="Appearance")
     private String align = null;
 
     /**
@@ -303,7 +303,7 @@ public class ImageComponent extends UIGraphic {
     /**
      * <p>The identifier of the desired theme image.</p>
      */
-    @Property(name="icon", displayName="Icon", category="Appearance", editorClassName="com.sun.webui.jsf.component.propertyeditors.ThemeIconsEditor")
+    @Property(name="icon", displayName="Icon", category="Appearance")
     private String icon = null;
 
     /**

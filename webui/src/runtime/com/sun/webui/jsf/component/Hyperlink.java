@@ -746,7 +746,7 @@ public class Hyperlink extends WebuiCommand implements ComplexComponent {
      * valid for the target attribute of a HTML anchor element are also valid 
      * for this attribute in this component</p>
      */
-    @Property(name="target", displayName="Target", category="Behavior", editorClassName="com.sun.webui.jsf.component.propertyeditors.FrameTargetsEditor")
+    @Property(name="target", displayName="Target", category="Behavior")
     private String target = null;
 
     /**
@@ -780,7 +780,8 @@ public class Hyperlink extends WebuiCommand implements ComplexComponent {
     /**
      * <p>The text to be displayed for the hyperlink.</p>
      */
-    @Property(name="text", displayName="text", category="Appearance", isDefault=true)
+    @Property(name="text", displayName="text", category="Appearance", isDefault=true,
+        editorClassName="com.sun.rave.propertyeditors.StringPropertyEditor")
     public Object getText() {
         return getValue();
     }
@@ -830,7 +831,7 @@ public class Hyperlink extends WebuiCommand implements ComplexComponent {
     /**
      * <p>The MIME content type of the resource specified by this component.</p>
      */
-    @Property(name="type", displayName="Type", category="Advanced", editorClassName="com.sun.webui.jsf.component.propertyeditors.MimeTypesEditor")
+    @Property(name="type", displayName="Type", category="Advanced")
     private String type = null;
 
     /**
@@ -898,7 +899,7 @@ public class Hyperlink extends WebuiCommand implements ComplexComponent {
     /**
      * <p>The language code of the resource designated by this hyperlink.</p>
      */
-    @Property(name="urlLang", displayName="URL Lang", category="Advanced", editorClassName="com.sun.webui.jsf.component.propertyeditors.LanguagesEditor")
+    @Property(name="urlLang", displayName="URL Lang", category="Advanced")
     private String urlLang = null;
 
     /**
