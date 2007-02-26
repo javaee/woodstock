@@ -25,6 +25,7 @@ import com.sun.rave.designtime.CategoryDescriptor;
 import com.sun.webui.jsf.component.util.DesignUtil;
 import java.beans.BeanDescriptor;
 import com.sun.rave.designtime.Constants;
+import com.sun.webui.jsf.component.propertyeditors.LabelLevelsDomain;
 import com.sun.webui.jsf.design.CategoryDescriptors;
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
@@ -35,6 +36,7 @@ import javax.faces.context.FacesContext;
 public class DropDownBeanInfo extends DropDownBeanInfoBase {
     
     public DropDownBeanInfo() {
+        DesignUtil.applyPropertyDomain(this, "labelLevel", LabelLevelsDomain.class);
         BeanDescriptor beanDescriptor = super.getBeanDescriptor();
         DesignUtil.hideProperties(this, new String[]{"submitForm"});
         DesignUtil.updateInputEventSetDescriptors(this);

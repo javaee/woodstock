@@ -24,6 +24,7 @@ package com.sun.webui.jsf.component;
 
 import com.sun.rave.designtime.CategoryDescriptor;
 import com.sun.rave.designtime.Constants;
+import com.sun.webui.jsf.component.propertyeditors.LabelLevelsDomain;
 import java.beans.EventSetDescriptor;
 import com.sun.webui.jsf.component.util.DesignUtil;
 import com.sun.webui.jsf.component.util.DesignMessageUtil;
@@ -37,6 +38,7 @@ import java.lang.reflect.Method;
 public class EditableListBeanInfo extends EditableListBeanInfoBase {
     
     public EditableListBeanInfo() {
+        DesignUtil.applyPropertyDomain(this, "labelLevel", LabelLevelsDomain.class);
         DesignUtil.updateInputEventSetDescriptors(this);
     }
     

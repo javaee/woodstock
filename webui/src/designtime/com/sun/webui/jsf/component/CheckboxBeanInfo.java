@@ -26,6 +26,7 @@ import com.sun.rave.designtime.CategoryDescriptor;
 import com.sun.webui.jsf.component.util.DesignUtil;
 import java.beans.BeanDescriptor;
 import com.sun.rave.designtime.Constants;
+import com.sun.webui.jsf.component.propertyeditors.LabelLevelsDomain;
 import com.sun.webui.jsf.design.CategoryDescriptors;
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
@@ -40,6 +41,7 @@ import com.sun.webui.jsf.util.ThemeUtilities;
 public class CheckboxBeanInfo extends CheckboxBeanInfoBase {
     
     public CheckboxBeanInfo() {
+        DesignUtil.applyPropertyDomain(this, "labelLevel", LabelLevelsDomain.class);
 	Theme theme =
 	    ThemeUtilities.getTheme(FacesContext.getCurrentInstance());
 	String cbLabel = theme.getStyleClass(ThemeStyles.CHECKBOX_LABEL);

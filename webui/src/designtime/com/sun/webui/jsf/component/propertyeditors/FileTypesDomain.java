@@ -22,29 +22,19 @@
 
 package com.sun.webui.jsf.component.propertyeditors;
 
-import com.sun.rave.propertyeditors.SelectOneDomainEditor;
 import com.sun.rave.propertyeditors.domains.Domain;
 import com.sun.rave.propertyeditors.domains.Element;
 import com.sun.webui.jsf.component.util.DesignMessageUtil;
 
-public class PageAlertTypesEditor extends SelectOneDomainEditor {
+public class FileTypesDomain extends Domain {
     
-    public PageAlertTypesEditor() {
-        super(new PageAlertTypesDomain());
+    private static Element[] elements = new Element[] {
+        new Element("file", DesignMessageUtil.getMessage(FileTypesDomain.class, "FileType.file")), //NOI18N
+        new Element("folder", DesignMessageUtil.getMessage(FileTypesDomain.class, "FileType.folder")) //NOI18N
+    };
+    
+    public Element[] getElements() {
+        return FileTypesDomain.elements;
     }
     
-    static class PageAlertTypesDomain extends Domain {
-        
-        private static Element[] elements = new Element[] {
-            new Element("error", DesignMessageUtil.getMessage(AlertTypesEditor.class, "AlertTypes.error")),
-            new Element("warning", DesignMessageUtil.getMessage(AlertTypesEditor.class, "AlertTypes.warning")),
-            new Element("information", DesignMessageUtil.getMessage(AlertTypesEditor.class, "AlertTypes.information")),
-            new Element("questioon", DesignMessageUtil.getMessage(AlertTypesEditor.class, "AlertTypes.question"))
-        };
-        
-        public Element[] getElements() {
-            return PageAlertTypesDomain.elements;
-        }
-        
-    }
 }

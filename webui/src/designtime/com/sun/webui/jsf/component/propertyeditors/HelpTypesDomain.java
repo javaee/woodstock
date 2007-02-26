@@ -22,12 +22,19 @@
 
 package com.sun.webui.jsf.component.propertyeditors;
 
-import com.sun.rave.propertyeditors.SelectOneDomainEditor;
+import com.sun.rave.propertyeditors.domains.Domain;
+import com.sun.rave.propertyeditors.domains.Element;
+import com.sun.webui.jsf.component.util.DesignMessageUtil;
 
-public class HtmlVerticalAlignEditor extends SelectOneDomainEditor {
+public class HelpTypesDomain extends Domain {
     
-    public HtmlVerticalAlignEditor() {
-        super(new com.sun.rave.propertyeditors.domains.HtmlVerticalAlignDomain());
+    private static Element[] elements = new Element[] {
+        new Element("page"),
+        new Element("field")
+    };
+    
+    public Element[] getElements() {
+        return HelpTypesDomain.elements;
     }
     
 }

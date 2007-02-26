@@ -22,12 +22,21 @@
 
 package com.sun.webui.jsf.component.propertyeditors;
 
-import com.sun.rave.propertyeditors.SelectOneDomainEditor;
+import com.sun.rave.propertyeditors.domains.Domain;
+import com.sun.rave.propertyeditors.domains.Element;
+import com.sun.webui.jsf.component.util.DesignMessageUtil;
 
-public class HtmlLinkTypesEditor extends SelectOneDomainEditor {
+public class AlertTypesDomain extends Domain {
     
-    public HtmlLinkTypesEditor() {
-        super(new com.sun.rave.propertyeditors.domains.HtmlLinkTypesDomain());
+    private static Element[] elements = new Element[] {
+        new Element("error", DesignMessageUtil.getMessage(AlertTypesDomain.class, "AlertTypes.error")),
+        new Element("warning", DesignMessageUtil.getMessage(AlertTypesDomain.class, "AlertTypes.warning")),
+        new Element("information", DesignMessageUtil.getMessage(AlertTypesDomain.class, "AlertTypes.information")),
+        new Element("success", DesignMessageUtil.getMessage(AlertTypesDomain.class, "AlertTypes.success"))
+    };
+    
+    public Element[] getElements() {
+        return AlertTypesDomain.elements;
     }
     
 }

@@ -23,13 +23,12 @@ package com.sun.webui.jsf.component;
 
 import java.beans.BeanDescriptor;
 import java.beans.EventSetDescriptor;
-import java.beans.PropertyDescriptor;
-import java.lang.reflect.Method;
 
 import javax.faces.context.FacesContext;
 
 import com.sun.rave.faces.event.Action;
 import com.sun.rave.designtime.Constants;
+import com.sun.webui.jsf.component.propertyeditors.TreeNodeIdsDomain;
 import com.sun.webui.jsf.component.util.DesignUtil;
 
 import com.sun.webui.theme.Theme;
@@ -45,6 +44,7 @@ import com.sun.webui.jsf.util.ThemeUtilities;
 public class TreeBeanInfo extends TreeBeanInfoBase {
 
     public TreeBeanInfo() {
+        DesignUtil.applyPropertyDomain(this, "selected", TreeNodeIdsDomain.class);
         DesignUtil.applyPropertyCategory(this, "text", com.sun.webui.jsf.design.CategoryDescriptors.APPEARANCE);   //NOI18N
         
         BeanDescriptor beanDescriptor = super.getBeanDescriptor();

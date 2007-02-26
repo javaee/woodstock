@@ -22,12 +22,20 @@
 
 package com.sun.webui.jsf.component.propertyeditors;
 
-import com.sun.rave.propertyeditors.SelectOneDomainEditor;
+import com.sun.webui.jsf.component.util.DesignMessageUtil;
+import com.sun.rave.propertyeditors.domains.Domain;
+import com.sun.rave.propertyeditors.domains.Element;
 
-public class InstanceVariableEditor extends SelectOneDomainEditor {
+public class SortFieldDomain extends Domain {
     
-    public InstanceVariableEditor() {
-        super(new com.sun.rave.propertyeditors.domains.InstanceVariableDomain());
+    private static Element[] elements = new Element[] {
+        new Element("alphabetic", DesignMessageUtil.getMessage(SortFieldDomain.class, "SortField.alphabetic")), //NOI18N
+        new Element("size", DesignMessageUtil.getMessage(SortFieldDomain.class, "SortField.bysize")), //NOI18N
+        new Element("time", DesignMessageUtil.getMessage(SortFieldDomain.class, "SortField.bydate")) //NOI18N
+    };
+    
+    public Element[] getElements() {
+        return SortFieldDomain.elements;
     }
-    
 }
+

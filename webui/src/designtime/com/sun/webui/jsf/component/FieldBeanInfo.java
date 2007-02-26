@@ -22,14 +22,10 @@
 
 package com.sun.webui.jsf.component;
 
+import com.sun.webui.jsf.component.propertyeditors.LabelLevelsDomain;
 import com.sun.webui.jsf.component.util.DesignUtil;
-import java.beans.BeanDescriptor;
-import java.beans.EventSetDescriptor;
-import java.beans.PropertyDescriptor;
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
-import com.sun.rave.designtime.Constants;
-import com.sun.webui.jsf.component.util.DesignMessageUtil;
 
 /**
  * BeanInfo for the {@link com.sun.webui.jsf.component.Field} component.
@@ -39,6 +35,7 @@ import com.sun.webui.jsf.component.util.DesignMessageUtil;
 public class FieldBeanInfo extends FieldBeanInfoBase {
 
     public FieldBeanInfo() {
+        DesignUtil.applyPropertyDomain(this, "labelLevel", LabelLevelsDomain.class);
         DesignUtil.updateInputEventSetDescriptors(this);
     }
     

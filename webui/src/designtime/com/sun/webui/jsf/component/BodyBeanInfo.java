@@ -22,13 +22,15 @@
 
 package com.sun.webui.jsf.component;
 
-import com.sun.rave.designtime.Constants;
+import com.sun.webui.jsf.component.propertyeditors.EventClientIdsDomain;
+import com.sun.webui.jsf.component.util.DesignUtil;
 import java.beans.BeanDescriptor;
 
 
 public class BodyBeanInfo extends BodyBeanInfoBase {
     
     public BeanDescriptor getBeanDescriptor() {
+        DesignUtil.applyPropertyDomain(this, "focus", EventClientIdsDomain.class);
         BeanDescriptor descriptor = super.getBeanDescriptor();
         // Make sure that this component does not appear in the palette
         descriptor.setHidden(true);

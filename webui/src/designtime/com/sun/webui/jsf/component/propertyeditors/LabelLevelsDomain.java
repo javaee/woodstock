@@ -22,12 +22,23 @@
 
 package com.sun.webui.jsf.component.propertyeditors;
 
-import com.sun.rave.propertyeditors.SelectOneDomainEditor;
+import com.sun.rave.propertyeditors.domains.Domain;
+import com.sun.rave.propertyeditors.domains.Element;
+import com.sun.webui.jsf.component.util.DesignMessageUtil;
 
-public class FrameTargetsEditor extends SelectOneDomainEditor {
+public class LabelLevelsDomain extends Domain {
     
-    public FrameTargetsEditor() {
-        super(new com.sun.rave.propertyeditors.domains.FrameTargetsDomain());
+    private static Element[] elements = new Element[] {
+        new Element(new Integer(1), //"Strong (1)"),
+                DesignMessageUtil.getMessage(LabelLevelsDomain.class, "LabelLevel.1")), //NOI18N
+        new Element(new Integer(2), //"Medium (2)"),
+                DesignMessageUtil.getMessage(LabelLevelsDomain.class, "LabelLevel.2")), //NOI18N
+        new Element(new Integer(3), //"Weak (3Ê)"),
+                DesignMessageUtil.getMessage(LabelLevelsDomain.class, "LabelLevel.3")) //NOI18N
+    };
+    
+    public Element[] getElements() {
+        return LabelLevelsDomain.elements;
     }
     
 }

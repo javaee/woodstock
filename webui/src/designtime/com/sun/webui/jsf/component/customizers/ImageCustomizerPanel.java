@@ -44,7 +44,7 @@ import java.awt.*;
 import java.awt.event.*;
 import java.beans.*;
 import com.sun.webui.jsf.component.util.DesignMessageUtil;
-import com.sun.webui.jsf.component.propertyeditors.ThemeIconsEditor.ThemeIconsDomain;
+import com.sun.webui.jsf.component.propertyeditors.ThemeIconsDomain;
 import com.sun.rave.designtime.*;
 import com.sun.rave.designtime.DesignProperty;
 import com.sun.rave.propertyeditors.domains.Element;

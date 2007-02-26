@@ -23,11 +23,9 @@
 package com.sun.webui.jsf.component;
 
 
+import com.sun.webui.jsf.component.propertyeditors.ThemeIconsDomain;
 import com.sun.webui.jsf.component.util.DesignUtil;
-import java.beans.BeanDescriptor;
-import java.beans.EventSetDescriptor;
 import java.beans.PropertyDescriptor;
-import java.lang.reflect.Method;
 
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
@@ -35,7 +33,6 @@ import javax.faces.event.ValueChangeEvent;
 import javax.faces.event.ValueChangeListener;
 import javax.faces.validator.Validator;
 
-import com.sun.rave.designtime.Constants;
 /**
  * BeanInfo for the {@link com.sun.webui.jsf.component.CommonTasksGroup} component.
  */
@@ -44,6 +41,8 @@ public class CommonTaskBeanInfo extends CommonTaskBeanInfoBase{
     /** Creates a new instance of CommonTaskBeanInfo */
     public CommonTaskBeanInfo() {
         super();
+        DesignUtil.applyPropertyDomain(this, "icon", ThemeIconsDomain.class);
+        DesignUtil.applyPropertyDomain(this, "target", com.sun.rave.propertyeditors.domains.FrameTargetsDomain.class);
         PropertyDescriptor[] descriptors = this.getPropertyDescriptors();
         for (int i = 0; i < descriptors.length; i++) {
             if (descriptors[i].getName().equals("action")) //NOI18N

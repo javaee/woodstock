@@ -22,12 +22,24 @@
 
 package com.sun.webui.jsf.component.propertyeditors;
 
-import com.sun.rave.propertyeditors.SelectOneDomainEditor;
+import com.sun.rave.propertyeditors.domains.Domain;
+import com.sun.rave.propertyeditors.domains.Element;
+import com.sun.webui.jsf.component.util.DesignMessageUtil;
+import com.sun.webui.jsf.component.ProgressBar;
 
-public class LocalesEditor extends SelectOneDomainEditor {
+public class ProgressBarTypesDomain extends Domain {
     
-    public LocalesEditor() {
-        super(new com.sun.rave.propertyeditors.domains.LocalesDomain());
+    private static Element[] elements = new Element[] {
+        new Element(ProgressBar.DETERMINATE, 
+                DesignMessageUtil.getMessage(ProgressBarTypesDomain.class, "ProgressBar.determinate")), //NOI18N
+        new Element(ProgressBar.INDETERMINATE, 
+                DesignMessageUtil.getMessage(ProgressBarTypesDomain.class, "ProgressBar.indeterminate")), //NOI18N
+        new Element(ProgressBar.BUSY_INDICATOR, 
+                DesignMessageUtil.getMessage(ProgressBarTypesDomain.class, "ProgressBar.busy")) //NOI18N
+    };
+    
+    public Element[] getElements() {
+        return ProgressBarTypesDomain.elements;
     }
     
 }

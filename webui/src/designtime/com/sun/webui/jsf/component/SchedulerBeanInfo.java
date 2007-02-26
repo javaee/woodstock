@@ -41,6 +41,9 @@ public class SchedulerBeanInfo extends SchedulerBeanInfoBase {
      * Default constructor.
      */
     public SchedulerBeanInfo() {
+        DesignUtil.applyPropertyDomain(this, "dateFormatPattern", com.sun.rave.propertyeditors.domains.DateFormatPatternsDomain.class);
+        DesignUtil.applyPropertyDomain(this, "repeatIntervalItems", com.sun.rave.propertyeditors.domains.DateFormatPatternsDomain.class);
+        DesignUtil.applyPropertyDomain(this, "repeatUnitItems", com.sun.rave.propertyeditors.domains.DateFormatPatternsDomain.class);
         // Add default body and parameter names to the event descriptors for the
         // valueChange event and the pseudo-event validate.
         DesignUtil.updateInputEventSetDescriptors(this);

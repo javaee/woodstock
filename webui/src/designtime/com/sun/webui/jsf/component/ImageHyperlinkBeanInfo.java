@@ -23,10 +23,9 @@
 package com.sun.webui.jsf.component;
 
 import com.sun.webui.jsf.component.util.DesignUtil;
-import java.beans.BeanDescriptor;
 import java.beans.EventSetDescriptor;
-import java.beans.PropertyDescriptor;
 import com.sun.rave.designtime.Constants;
+import com.sun.webui.jsf.component.propertyeditors.ThemeIconsDomain;
 
 /**
  * BeanInfo for the {@link com.sun.webui.jsf.component.ImageHyperlink} component.
@@ -34,6 +33,14 @@ import com.sun.rave.designtime.Constants;
 public class ImageHyperlinkBeanInfo extends ImageHyperlinkBeanInfoBase {
 
     public ImageHyperlinkBeanInfo() {
+        DesignUtil.applyPropertyDomain(this, "target", com.sun.rave.propertyeditors.domains.FrameTargetsDomain.class);
+        DesignUtil.applyPropertyDomain(this, "type", com.sun.rave.propertyeditors.domains.MimeTypesDomain.class);
+        DesignUtil.applyPropertyDomain(this, "charset", com.sun.rave.propertyeditors.domains.CharacterSetsDomain.class);
+        DesignUtil.applyPropertyDomain(this, "rel", com.sun.rave.propertyeditors.domains.HtmlLinkTypesDomain.class);
+        DesignUtil.applyPropertyDomain(this, "urlLang", com.sun.rave.propertyeditors.domains.LanguagesDomain.class);
+        DesignUtil.applyPropertyDomain(this, "align", com.sun.rave.propertyeditors.domains.HtmlAlignDomain.class);
+        DesignUtil.applyPropertyDomain(this, "icon", ThemeIconsDomain.class);
+        DesignUtil.applyPropertyDomain(this, "textPosition", com.sun.rave.propertyeditors.domains.HtmlHorizontalAlignDomain.class);
         DesignUtil.hideProperties(this, new String[]{"action", "value"});
         this.getBeanDescriptor().setValue(
             Constants.BeanDescriptor.INLINE_EDITABLE_PROPERTIES,
@@ -54,4 +61,5 @@ public class ImageHyperlinkBeanInfo extends ImageHyperlinkBeanInfoBase {
             eventSetDescriptors = DesignUtil.generateCommandEventSetDescriptors(this);
         return eventSetDescriptors;
     }
+    
 }

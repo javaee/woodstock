@@ -38,6 +38,11 @@ import com.sun.webui.jsf.design.CategoryDescriptors;
 public class HyperlinkBeanInfo extends HyperlinkBeanInfoBase {
 
     public HyperlinkBeanInfo() {
+        DesignUtil.applyPropertyDomain(this, "target", com.sun.rave.propertyeditors.domains.FrameTargetsDomain.class);
+        DesignUtil.applyPropertyDomain(this, "type", com.sun.rave.propertyeditors.domains.MimeTypesDomain.class);
+        DesignUtil.applyPropertyDomain(this, "charset", com.sun.rave.propertyeditors.domains.CharacterSetsDomain.class);
+        DesignUtil.applyPropertyDomain(this, "rel", com.sun.rave.propertyeditors.domains.HtmlLinkTypesDomain.class);
+        DesignUtil.applyPropertyDomain(this, "urlLang", com.sun.rave.propertyeditors.domains.LanguagesDomain.class);
         PropertyDescriptor[] descriptors = this.getPropertyDescriptors();
         DesignUtil.hideProperties(this, new String[]{"action", "actionListener", "actionListeners", "value"});
         BeanDescriptor beanDescriptor = this.getBeanDescriptor();

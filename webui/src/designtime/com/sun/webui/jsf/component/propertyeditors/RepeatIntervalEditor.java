@@ -22,14 +22,15 @@
 
 package com.sun.webui.jsf.component.propertyeditors;
 
-import com.sun.rave.propertyeditors.PropertyEditorBase;
+import com.sun.rave.designtime.PropertyEditor2;
 import com.sun.webui.jsf.model.Option;
 import com.sun.webui.jsf.model.scheduler.RepeatInterval;
+import java.beans.PropertyEditorSupport;
 
 /**
  * Property editor for the <code>RepeatIntervalItems</code> property of Scheduler component.
  */
-public class RepeatIntervalEditor extends PropertyEditorBase {
+public class RepeatIntervalEditor extends PropertyEditorSupport {
     
     /** Creates a new instance of RepeatIntervalEditor */
     public RepeatIntervalEditor() {

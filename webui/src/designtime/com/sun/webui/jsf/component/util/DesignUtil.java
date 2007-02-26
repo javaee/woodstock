@@ -24,6 +24,10 @@ package com.sun.webui.jsf.component.util;
 
 import com.sun.rave.designtime.Constants;
 import com.sun.rave.faces.event.Action;
+import com.sun.rave.designtime.CategoryDescriptor;
+import com.sun.rave.propertyeditors.domains.Domain;
+import com.sun.rave.propertyeditors.DomainPropertyEditor;
+import com.sun.rave.propertyeditors.SelectOneDomainEditor;
 
 import java.beans.BeanInfo;
 import java.beans.EventSetDescriptor;
@@ -37,8 +41,6 @@ import javax.faces.context.FacesContext;
 import javax.faces.event.ValueChangeEvent;
 import javax.faces.event.ValueChangeListener;
 import javax.faces.validator.Validator;
-import com.sun.webui.jsf.component.util.DesignMessageUtil;
-import com.sun.rave.designtime.CategoryDescriptor;
 
 /**
  * Miscellaneous design-time utility methods
@@ -155,6 +157,14 @@ public class DesignUtil {
     
     public static void applyPropertyCategory(BeanInfo beanInfo, String name, CategoryDescriptor category) {
         applyPropertyCategoryAndEditor(beanInfo, name, category, null);
+    }
+    
+    public static void applyPropertyDomain(BeanInfo beaninfo, String name, Class domainClass) {
+        PropertyDescriptor p = getPropertyDescriptor(beaninfo, name);
+        if (p != null) {
+            p.setPropertyEditorClass(SelectOneDomainEditor.class);
+            p.setValue(DomainPropertyEditor.DOMAIN_CLASS, domainClass);
+        }
     }
     
     /**

@@ -24,6 +24,8 @@ package com.sun.webui.jsf.component;
 
 import com.sun.rave.designtime.CategoryDescriptor;
 import com.sun.rave.designtime.Constants;
+import com.sun.webui.jsf.component.propertyeditors.LabelLevelsDomain;
+import com.sun.webui.jsf.component.util.DesignUtil;
 import com.sun.webui.jsf.design.CategoryDescriptors;
 import java.beans.BeanDescriptor;
 import javax.faces.component.UIComponent;
@@ -40,6 +42,7 @@ import com.sun.webui.jsf.util.ThemeUtilities;
 public class RadioButtonGroupBeanInfo extends RadioButtonGroupBeanInfoBase {
 
     public RadioButtonGroupBeanInfo() {
+        DesignUtil.applyPropertyDomain(this, "labelLevel", LabelLevelsDomain.class);
 	Theme theme =
 	    ThemeUtilities.getTheme(FacesContext.getCurrentInstance());
 	String rbGrpLbl = theme.getStyleClass(ThemeStyles.RADIOBUTTON_GROUP_LABEL);

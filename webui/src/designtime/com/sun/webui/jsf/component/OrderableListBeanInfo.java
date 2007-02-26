@@ -22,6 +22,7 @@
 package com.sun.webui.jsf.component;
 
 import com.sun.rave.designtime.CategoryDescriptor;
+import com.sun.webui.jsf.component.propertyeditors.LabelLevelsDomain;
 import com.sun.webui.jsf.component.util.DesignUtil;
 import com.sun.webui.jsf.design.CategoryDescriptors;
 
@@ -33,6 +34,7 @@ import com.sun.webui.jsf.design.CategoryDescriptors;
 public class OrderableListBeanInfo extends OrderableListBeanInfoBase {
     
     public OrderableListBeanInfo() {
+        DesignUtil.applyPropertyDomain(this, "labelLevel", LabelLevelsDomain.class);
         DesignUtil.updateInputEventSetDescriptors(this);
     }
 

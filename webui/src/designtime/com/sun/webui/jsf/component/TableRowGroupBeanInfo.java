@@ -23,14 +23,14 @@
 package com.sun.webui.jsf.component;
 
 import java.beans.BeanDescriptor;
-import java.beans.EventSetDescriptor;
 import java.beans.PropertyDescriptor;
-import java.lang.reflect.Method;
 
 import javax.faces.event.ActionEvent;
 import javax.faces.event.ActionListener;
 
 import com.sun.rave.designtime.Constants;
+import com.sun.webui.jsf.component.propertyeditors.TableAlignDomain;
+import com.sun.webui.jsf.component.util.DesignUtil;
 
 /**
  * BeanInfo for the {@link com.sun.webui.jsf.component.TableRowGroup} component.
@@ -38,7 +38,12 @@ import com.sun.rave.designtime.Constants;
  * @author Winston Prakash
  */
 public class TableRowGroupBeanInfo extends TableRowGroupBeanInfoBase {
+    
     public TableRowGroupBeanInfo(){
+        DesignUtil.applyPropertyDomain(this, "align", TableAlignDomain.class);
+        DesignUtil.applyPropertyDomain(this, "tableDataFilter", com.sun.rave.propertyeditors.domains.FieldKeyDomain.class);
+        DesignUtil.applyPropertyDomain(this, "tableDataSorter", com.sun.rave.propertyeditors.domains.FieldKeyDomain.class);
+        DesignUtil.applyPropertyDomain(this, "valign", com.sun.rave.propertyeditors.domains.HtmlVerticalAlignDomain.class);
         BeanDescriptor beanDescriptor = super.getBeanDescriptor();
         // Suppose to show up in a right-click "Add >" menu item. 
         beanDescriptor.setValue(Constants.BeanDescriptor.PREFERRED_CHILD_TYPES, 

@@ -42,6 +42,7 @@ import com.sun.webui.jsf.util.ThemeUtilities;
 public class TabBeanInfo extends TabBeanInfoBase {
 
     public TabBeanInfo() {
+        DesignUtil.applyPropertyDomain(this, "target", com.sun.rave.propertyeditors.domains.FrameTargetsDomain.class);
 	Theme theme =
 	    ThemeUtilities.getTheme(FacesContext.getCurrentInstance());
 	String tabPad = theme.getStyleClass(ThemeStyles.TAB_PADDING);

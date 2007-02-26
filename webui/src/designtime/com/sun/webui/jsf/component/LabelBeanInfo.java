@@ -23,7 +23,7 @@
 package com.sun.webui.jsf.component;
 
 import com.sun.rave.designtime.Constants;
-import java.beans.PropertyDescriptor;
+import com.sun.webui.jsf.component.propertyeditors.LabelLevelsDomain;
 import com.sun.webui.jsf.component.util.DesignUtil;
 
 
@@ -35,6 +35,8 @@ import com.sun.webui.jsf.component.util.DesignUtil;
 public class LabelBeanInfo extends LabelBeanInfoBase {
 
     public LabelBeanInfo() {
+        DesignUtil.applyPropertyDomain(this, "for", com.sun.rave.propertyeditors.domains.InputComponentIdsDomain.class);
+        DesignUtil.applyPropertyDomain(this, "labelLevel", LabelLevelsDomain.class);
         this.getBeanDescriptor().setValue(Constants.BeanDescriptor.INLINE_EDITABLE_PROPERTIES,
             new String[] { "*text://span://label" }); // NOI18N
     }

@@ -24,6 +24,7 @@ package com.sun.webui.jsf.component;
 
 import java.beans.BeanDescriptor;
 import com.sun.rave.designtime.Constants;
+import com.sun.webui.jsf.component.util.DesignUtil;
 
 /**
  * BeanInfo for the {@link com.sun.webui.jsf.component.Link} component.
@@ -33,6 +34,9 @@ import com.sun.rave.designtime.Constants;
 public class LinkBeanInfo extends LinkBeanInfoBase {
     
     public BeanDescriptor getBeanDescriptor() {
+        DesignUtil.applyPropertyDomain(this, "charset", com.sun.rave.propertyeditors.domains.CharacterSetsDomain.class);
+        DesignUtil.applyPropertyDomain(this, "rel", com.sun.rave.propertyeditors.domains.HtmlLinkTypesDomain.class);
+        DesignUtil.applyPropertyDomain(this, "urlLang", com.sun.rave.propertyeditors.domains.LanguagesDomain.class);
         BeanDescriptor descriptor = super.getBeanDescriptor();
         descriptor.setValue(Constants.BeanDescriptor.MARKUP_SECTION, "head");
         return descriptor;

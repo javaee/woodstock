@@ -28,6 +28,7 @@ import java.beans.BeanDescriptor;
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import com.sun.rave.designtime.Constants;
+import com.sun.webui.jsf.component.propertyeditors.LabelLevelsDomain;
 import com.sun.webui.jsf.design.CategoryDescriptors;
 
 import com.sun.webui.theme.Theme;
@@ -40,6 +41,7 @@ import com.sun.webui.jsf.util.ThemeUtilities;
 public class RadioButtonBeanInfo extends RadioButtonBeanInfoBase {
 
     public RadioButtonBeanInfo() {
+        DesignUtil.applyPropertyDomain(this, "labelLevel", LabelLevelsDomain.class);
 	Theme theme =
 	    ThemeUtilities.getTheme(FacesContext.getCurrentInstance());
 	String rbLbl = theme.getStyleClass(ThemeStyles.RADIOBUTTON_LABEL);

@@ -22,6 +22,8 @@
 
 package com.sun.webui.jsf.component;
 
+import com.sun.webui.jsf.component.propertyeditors.LabelLevelsDomain;
+import com.sun.webui.jsf.component.util.DesignUtil;
 import java.beans.BeanDescriptor;
 
 /**
@@ -32,6 +34,7 @@ import java.beans.BeanDescriptor;
 public class SelectorBeanInfo extends SelectorBeanInfoBase {
 
     public BeanDescriptor getBeanDescriptor() {
+        DesignUtil.applyPropertyDomain(this, "labelLevel", LabelLevelsDomain.class);
         BeanDescriptor descriptor = super.getBeanDescriptor();
         // Make sure that this component does not appear in the palette
         descriptor.setHidden(true);

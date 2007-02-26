@@ -27,9 +27,8 @@ import com.sun.webui.jsf.component.util.DesignUtil;
 import com.sun.webui.jsf.design.CategoryDescriptors;
 import java.beans.BeanDescriptor;
 import java.beans.EventSetDescriptor;
-import java.beans.PropertyDescriptor;
 import com.sun.rave.designtime.Constants;
-import com.sun.webui.jsf.component.util.DesignMessageUtil;
+import com.sun.webui.jsf.component.propertyeditors.ThemeIconsDomain;
 
 /**
  * BeanInfo for the {@link com.sun.webui.jsf.component.Button} component.
@@ -39,7 +38,7 @@ import com.sun.webui.jsf.component.util.DesignMessageUtil;
 public class ButtonBeanInfo extends ButtonBeanInfoBase {
     
     public ButtonBeanInfo() {
-        PropertyDescriptor[] descriptors = this.getPropertyDescriptors();
+        DesignUtil.applyPropertyDomain(this, "icon", ThemeIconsDomain.class);
         DesignUtil.hideProperties(this, new String[]{"action", "actionListener", "actionListeners", "value"});
         BeanDescriptor beanDescriptor = super.getBeanDescriptor();
         beanDescriptor.setValue(

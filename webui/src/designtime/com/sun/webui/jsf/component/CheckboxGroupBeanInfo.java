@@ -25,6 +25,8 @@ package com.sun.webui.jsf.component;
 import com.sun.rave.designtime.CategoryDescriptor;
 import java.beans.BeanDescriptor;
 import com.sun.rave.designtime.Constants;
+import com.sun.webui.jsf.component.propertyeditors.LabelLevelsDomain;
+import com.sun.webui.jsf.component.util.DesignUtil;
 import com.sun.webui.jsf.design.CategoryDescriptors;
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
@@ -40,6 +42,7 @@ import com.sun.webui.jsf.util.ThemeUtilities;
 public class CheckboxGroupBeanInfo extends CheckboxGroupBeanInfoBase {
 
     public CheckboxGroupBeanInfo() {
+        DesignUtil.applyPropertyDomain(this, "labelLevel", LabelLevelsDomain.class);
 	Theme theme =
 	    ThemeUtilities.getTheme(FacesContext.getCurrentInstance());
 	String cbGrpLabel = theme.getStyleClass(ThemeStyles.CHECKBOX_GROUP_LABEL);

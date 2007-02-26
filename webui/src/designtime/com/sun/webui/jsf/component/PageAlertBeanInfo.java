@@ -23,8 +23,9 @@
 package com.sun.webui.jsf.component;
 
 import java.beans.BeanDescriptor;
-import java.beans.PropertyDescriptor;
 import com.sun.rave.designtime.Constants;
+import com.sun.webui.jsf.component.propertyeditors.PageAlertTypesDomain;
+import com.sun.webui.jsf.component.util.DesignUtil;
                                                                                 
 import javax.faces.context.FacesContext;
 
@@ -38,6 +39,7 @@ import com.sun.webui.jsf.util.ThemeUtilities;
 public class PageAlertBeanInfo extends PageAlertBeanInfoBase {
 
     public BeanDescriptor getBeanDescriptor() {
+        DesignUtil.applyPropertyDomain(this, "type", PageAlertTypesDomain.class);
 	Theme theme =
 	    ThemeUtilities.getTheme(FacesContext.getCurrentInstance());
 	String altHdrTxt = theme.getStyleClass(ThemeStyles.ALERT_HEADER_TXT);

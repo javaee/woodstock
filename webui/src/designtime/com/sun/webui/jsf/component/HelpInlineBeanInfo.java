@@ -22,6 +22,7 @@
 package com.sun.webui.jsf.component;
 
 import com.sun.rave.designtime.Constants;
+import com.sun.webui.jsf.component.propertyeditors.HelpTypesDomain;
 import java.beans.BeanDescriptor;
 import com.sun.webui.jsf.component.util.DesignUtil;
 
@@ -33,6 +34,7 @@ import com.sun.webui.jsf.component.util.DesignUtil;
 public class HelpInlineBeanInfo extends HelpInlineBeanInfoBase {
     
     public HelpInlineBeanInfo() {
+        DesignUtil.applyPropertyDomain(this, "type", HelpTypesDomain.class);
         BeanDescriptor beanDescriptor = super.getBeanDescriptor();
         beanDescriptor.setValue(Constants.BeanDescriptor.HELP_KEY, "projrave_ui_elements_palette_bh_inline_help");
         beanDescriptor.setValue(Constants.BeanDescriptor.PROPERTIES_HELP_KEY,  "projrave_ui_elements_palette_bh_propsheets_bh_inline_help_props");

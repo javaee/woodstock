@@ -22,13 +22,11 @@
 package com.sun.webui.jsf.component;
 
 import java.beans.BeanDescriptor;
-import java.beans.EventSetDescriptor;
-import java.beans.PropertyDescriptor;
-import java.lang.reflect.Method;
 
 import javax.faces.event.ActionEvent;
 
 import com.sun.rave.designtime.Constants;
+import com.sun.webui.jsf.component.propertyeditors.TabIdsDomain;
 import com.sun.webui.jsf.component.util.DesignUtil;
 import java.beans.EventSetDescriptor;
 
@@ -40,6 +38,7 @@ import java.beans.EventSetDescriptor;
 public class TabSetBeanInfo extends TabSetBeanInfoBase {
 
     public TabSetBeanInfo() {
+        DesignUtil.applyPropertyDomain(this, "selected", TabIdsDomain.class);
         BeanDescriptor beanDescriptor = super.getBeanDescriptor();
         beanDescriptor.setValue(Constants.BeanDescriptor.PREFERRED_CHILD_TYPES,
                 new String[] {Tab.class.getName()});

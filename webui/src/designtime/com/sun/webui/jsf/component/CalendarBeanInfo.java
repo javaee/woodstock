@@ -34,7 +34,8 @@ import com.sun.webui.jsf.component.util.DesignUtil;
  */
 public class CalendarBeanInfo extends CalendarBeanInfoBase {
 
-    public CalendarBeanInfo() {
+    public CalendarBeanInfo() {        
+        DesignUtil.applyPropertyDomain(this, "dateFormatPattern", com.sun.rave.propertyeditors.domains.DateFormatPatternsDomain.class);
         DesignUtil.hideProperties(this,
                 new String[] { "converter", "maxLength" });
         DesignUtil.updateInputEventSetDescriptors(this);

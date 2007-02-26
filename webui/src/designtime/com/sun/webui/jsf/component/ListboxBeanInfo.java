@@ -27,6 +27,7 @@ import java.beans.BeanDescriptor;
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import com.sun.rave.designtime.Constants;
+import com.sun.webui.jsf.component.propertyeditors.LabelLevelsDomain;
 import com.sun.webui.jsf.design.CategoryDescriptors;
 
 /**
@@ -37,6 +38,7 @@ import com.sun.webui.jsf.design.CategoryDescriptors;
 public class ListboxBeanInfo  extends ListboxBeanInfoBase {
     
     public ListboxBeanInfo() {
+        DesignUtil.applyPropertyDomain(this, "labelLevel", LabelLevelsDomain.class);
         DesignUtil.updateInputEventSetDescriptors(this);
         BeanDescriptor beanDescriptor = super.getBeanDescriptor();
         beanDescriptor.setValue(

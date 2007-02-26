@@ -21,8 +21,7 @@
  */
 package com.sun.webui.jsf.component;
 
-import com.sun.rave.designtime.Constants;
-import java.beans.BeanDescriptor;
+import com.sun.webui.jsf.component.util.DesignUtil;
 
 /**
  * BeanInfo for the {@link com.sun.webui.jsf.component.Message} component.
@@ -30,5 +29,10 @@ import java.beans.BeanDescriptor;
  * @author gjmurphy
  */
 public class MessageBeanInfo extends MessageBeanInfoBase {
+    
+    public MessageBeanInfo() {
+        super();
+        DesignUtil.applyPropertyDomain(this, "for", com.sun.rave.propertyeditors.domains.InputComponentIdsDomain.class);
+    }
     
 }

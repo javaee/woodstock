@@ -22,12 +22,21 @@
 
 package com.sun.webui.jsf.component.propertyeditors;
 
-import com.sun.rave.propertyeditors.SelectOneDomainEditor;
+import com.sun.rave.propertyeditors.domains.Domain;
+import com.sun.rave.propertyeditors.domains.Element;
+import com.sun.webui.jsf.component.util.DesignMessageUtil;
 
-public class EventComponentIdsEditor extends SelectOneDomainEditor {
+public class PageAlertTypesDomain extends Domain {
     
-    public EventComponentIdsEditor() {
-        super(new com.sun.rave.propertyeditors.domains.EventComponentIdsDomain());
+    private static Element[] elements = new Element[] {
+        new Element("error", DesignMessageUtil.getMessage(PageAlertTypesDomain.class, "AlertTypes.error")),
+        new Element("warning", DesignMessageUtil.getMessage(PageAlertTypesDomain.class, "AlertTypes.warning")),
+        new Element("information", DesignMessageUtil.getMessage(PageAlertTypesDomain.class, "AlertTypes.information")),
+        new Element("questioon", DesignMessageUtil.getMessage(PageAlertTypesDomain.class, "AlertTypes.question"))
+    };
+    
+    public Element[] getElements() {
+        return PageAlertTypesDomain.elements;
     }
     
 }
