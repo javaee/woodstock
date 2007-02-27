@@ -42,7 +42,7 @@ import java.util.HashMap;
 import java.util.Map;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.DefaultListModel;
-import com.sun.rave.propertyeditors.binding.data.AddDataProviderDialog;
+//import com.sun.rave.propertyeditors.binding.data.AddDataProviderDialog;
 import java.awt.Component;
 import javax.swing.DefaultListCellRenderer;
 import javax.swing.JList;
@@ -486,8 +486,8 @@ public class TableBindToDataPanel extends javax.swing.JPanel implements DesignCo
     }//GEN-LAST:event_cbxTableDataproviderItemStateChanged
     
     private void addDataProviderButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addDataProviderButtonActionPerformed
-        AddDataProviderDialog addDataProviderDialog = new AddDataProviderDialog();
-        addDataProviderDialog.showDialog();
+//        AddDataProviderDialog addDataProviderDialog = new AddDataProviderDialog();
+//        addDataProviderDialog.showDialog();
     }//GEN-LAST:event_addDataProviderButtonActionPerformed
     
     private void selectedColumnsValueChanged(javax.swing.event.ListSelectionEvent evt) {//GEN-FIRST:event_selectedColumnsValueChanged

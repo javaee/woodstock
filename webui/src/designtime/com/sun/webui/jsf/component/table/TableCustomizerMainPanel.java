@@ -57,7 +57,7 @@ import java.util.List;
 import java.util.Map;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.DefaultListModel;
-import com.sun.rave.propertyeditors.binding.data.AddDataProviderDialog;
+//import com.sun.rave.propertyeditors.binding.data.AddDataProviderDialog;
 import java.awt.Component;
 import javax.swing.DefaultListCellRenderer;
 import javax.swing.JList;
@@ -1157,8 +1157,8 @@ public class TableCustomizerMainPanel extends javax.swing.JPanel implements Desi
     }//GEN-LAST:event_txtFooterFocusLost
     
     private void addDataProviderButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addDataProviderButtonActionPerformed
-        AddDataProviderDialog addDataProviderDialog = new AddDataProviderDialog();
-        addDataProviderDialog.showDialog();
+//        AddDataProviderDialog addDataProviderDialog = new AddDataProviderDialog();
+//        addDataProviderDialog.showDialog();
     }//GEN-LAST:event_addDataProviderButtonActionPerformed
     
     private void cbxComponentTypeItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_cbxComponentTypeItemStateChanged
