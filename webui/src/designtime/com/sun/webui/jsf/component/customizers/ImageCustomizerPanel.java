@@ -3,12 +3,12 @@
  * of the Common Development and Distribution License
  * (the License).  You may not use this file except in
  * compliance with the License.
- * 
+ *
  * You can obtain a copy of the license at
  * https://woodstock.dev.java.net/public/CDDLv1.0.html.
  * See the License for the specific language governing
  * permissions and limitations under the License.
- * 
+ *
  * When distributing Covered Code, include this CDDL
  * Header Notice in each file and include the License file
  * at https://woodstock.dev.java.net/public/CDDLv1.0.html.
@@ -16,7 +16,7 @@
  * with the fields enclosed by brackets [] replaced by
  * you own identifying information:
  * "Portions Copyrighted [year] [name of copyright owner]"
- * 
+ *
  * Copyright 2007 Sun Microsystems, Inc. All rights reserved.
  */
 /*
@@ -73,7 +73,7 @@ public class ImageCustomizerPanel extends javax.swing.JPanel implements Property
     public ImageCustomizerPanel(DesignBean designBean) {
         this.designBean = designBean;
         designContext = designBean.getDesignContext();
-        initComponents();        
+        initComponents();
         describeThemeIcon.setFont(lblIconIdentifier.getFont());
         iconList.setSelectedIndex(0);
         iconList.addListSelectionListener(new javax.swing.event.ListSelectionListener() {
@@ -181,8 +181,8 @@ public class ImageCustomizerPanel extends javax.swing.JPanel implements Property
             }
             
         } else if (rbIconPanel.isSelected()) {
-            if (iconList.getSelectedIndex() != -1) {              
-                String selected = iconList.getSelectedValue().toString();		
+            if (iconList.getSelectedIndex() != -1) {
+                String selected = iconList.getSelectedValue().toString();
                 com.sun.webui.theme.ThemeImage themeImage = this.getThemeImage((FacesDesignContext) designBean.getDesignContext(), selected);
                 if( themeImage != null ) {
                     try {
@@ -221,9 +221,9 @@ public class ImageCustomizerPanel extends javax.swing.JPanel implements Property
         if (iconList.getSelectedIndex() != -1) {
             if (evt.getSource() != null) {
                 tabName = DesignMessageUtil.getMessage(ImageCustomizer.class, "ThemeIconTab"); // NOI18N
-                JList list = (JList)evt.getSource();               
+                JList list = (JList)evt.getSource();
                 String selected = iconList.getSelectedValue().toString();
-		com.sun.webui.theme.ThemeImage themeImage = this.getThemeImage((FacesDesignContext) designBean.getDesignContext(), selected);
+                com.sun.webui.theme.ThemeImage themeImage = this.getThemeImage((FacesDesignContext) designBean.getDesignContext(), selected);
                 if( themeImage != null ) {
                     try {
                         URL themeUrl = new URL(themeImage.getPath());
@@ -263,8 +263,8 @@ public class ImageCustomizerPanel extends javax.swing.JPanel implements Property
         String iconValue = (String)property.getValue();
         if (iconValue != null) {
             iconList.setSelectedValue(iconValue, true);
-            lblImagePath.setText(iconValue);           
-            String selected = iconValue;		
+            lblImagePath.setText(iconValue);
+            String selected = iconValue;
             com.sun.webui.theme.ThemeImage themeImage = this.getThemeImage((FacesDesignContext) designBean.getDesignContext(), iconValue);
             if( themeImage != null ) {
                 try {
@@ -640,12 +640,12 @@ public class ImageCustomizerPanel extends javax.swing.JPanel implements Property
     public Result customizerApply() {
         String newUrl;
         if(rbIconPanel.isSelected()) {
-            property = designBean.getProperty("icon"); // NOI18N          
-                property.setValue(iconList.getSelectedValue());                 
-    
+            property = designBean.getProperty("icon"); // NOI18N
+            property.setValue(iconList.getSelectedValue());
+            
         } else if (rbURLPanel.isSelected()) {
             property = designBean.getProperty("icon");
-            property.unset();            
+            property.unset();
             if (cbxExpression.getModel().getSize() >1 ) {
                 if (!cbxExpression.getSelectedItem().toString().equals("<" + DesignMessageUtil.getMessage(ImageCustomizer.class, "ComboMessage") + ">")) { // NOI18N
                     property = designBean.getProperty("imageURL"); // NOI18N
@@ -662,7 +662,7 @@ public class ImageCustomizerPanel extends javax.swing.JPanel implements Property
         } else if(rbFilePanel.isSelected()) {
             try {
                 property = designBean.getProperty("icon");
-                property.unset();                
+                property.unset();
                 if (imageFileChooser.getSelectedFile() != null) {
                     // check if setting image's proeprty or imageHyperlink's imageURL property
                     if(designBean.getInstance() instanceof ImageHyperlink){
@@ -674,7 +674,7 @@ public class ImageCustomizerPanel extends javax.swing.JPanel implements Property
                     URL url = imageFileChooser.getSelectedFile().toURI().toURL();
                     //newUrl = designContext.addResource(url, true);
                     // Add to project web root resources directory (see bug 6316775)
-                    String encodedFileName = UrlPropertyEditor.encodeUrl(imageFileChooser.getSelectedFile().getName());
+                    String encodedFileName = encodeUrl(imageFileChooser.getSelectedFile().getName());
                     File newFile = designContext.getProject().getResourceFile(new URI("web/resources/" + encodedFileName));
                     if (newFile == null) {
                         newUrl = "/" + designContext.getProject().addResource(url, new URI("web/resources" + "/" + encodedFileName)).getPath();
@@ -682,7 +682,7 @@ public class ImageCustomizerPanel extends javax.swing.JPanel implements Property
                         property.setValue(newUrl);
                     } else {
                         if (newFile.exists()) {
-                            newUrl = "/resources/" + UrlPropertyEditor.encodeUrl(imageFileChooser.getSelectedFile().getName());  // NOI18N
+                            newUrl = "/resources/" + encodeUrl(imageFileChooser.getSelectedFile().getName());  // NOI18N
                             property.setValue(newUrl);
                         } else {
                             newUrl = "/" + designContext.getProject().addResource(url, new URI("web/resources" + "/" + encodedFileName)).getPath();
@@ -718,19 +718,19 @@ public class ImageCustomizerPanel extends javax.swing.JPanel implements Property
         splitPane.setDividerLocation(h);
     }
     
-     private com.sun.webui.theme.ThemeImage getThemeImage(FacesDesignContext facesDesignContext, String iconValue) {
- 	         FacesDesignProject facesDesignProject = (FacesDesignProject)facesDesignContext.getProject();
- 	         FacesContext facesContext =((FacesDesignContext) designBean.getDesignContext()).getFacesContext();
- 	         ClassLoader oldContextClassLoader = Thread.currentThread().getContextClassLoader();
- 	         com.sun.webui.theme.ThemeImage themeImage = null;
- 	         try {
- 	             Thread.currentThread().setContextClassLoader(facesDesignProject.getContextClassLoader());
-                     themeImage = com.sun.webui.jsf.util.ThemeUtilities.getTheme(facesContext).getImage(iconValue); 	             
- 	         } finally {
- 	             Thread.currentThread().setContextClassLoader(oldContextClassLoader);
- 	         }
- 	         return themeImage;
- 	     }
+    private com.sun.webui.theme.ThemeImage getThemeImage(FacesDesignContext facesDesignContext, String iconValue) {
+        FacesDesignProject facesDesignProject = (FacesDesignProject)facesDesignContext.getProject();
+        FacesContext facesContext =((FacesDesignContext) designBean.getDesignContext()).getFacesContext();
+        ClassLoader oldContextClassLoader = Thread.currentThread().getContextClassLoader();
+        com.sun.webui.theme.ThemeImage themeImage = null;
+        try {
+            Thread.currentThread().setContextClassLoader(facesDesignProject.getContextClassLoader());
+            themeImage = com.sun.webui.jsf.util.ThemeUtilities.getTheme(facesContext).getImage(iconValue);
+        } finally {
+            Thread.currentThread().setContextClassLoader(oldContextClassLoader);
+        }
+        return themeImage;
+    }
     
     
     
@@ -1031,5 +1031,98 @@ public class ImageCustomizerPanel extends javax.swing.JPanel implements Property
     private javax.swing.JScrollPane scrollPreview;
     private javax.swing.JSplitPane splitPane;
     // End of variables declaration//GEN-END:variables
+    
+    /**
+     * Convert a file system path to a URL by converting unsafe characters into
+     * numeric character entity references. The unsafe characters are listed in
+     * in the IETF specification of URLs
+     * (<a href="http://www.ietf.org/rfc/rfc1738.txt">RFC 1738</a>). Safe URL
+     * characters are all printable ASCII characters, with the exception of the
+     * space characters, '#', <', '>', '%', '[', ']', '{', '}', and '~'. This
+     * method differs from {@link java.net.URLEncoder#encode(String)}, in that
+     * it is intended for encoding the path portion of a URL, not the query
+     * string. This method also attempts to recognize value binding expressions
+     * within the string, as any sequence of characters matching the regular
+     * expression {@code #{[^{]*}). Value binding expressions are <emph>not</emph>
+     * escaped.
+     */
+    public static String encodeUrl(String url) {
+        if (url == null || url.length() == 0)
+            return url;
+        StringBuffer buffer = new StringBuffer();
+        String anchor = null;
+        int index = url.lastIndexOf('#');
+        if (index >= 0) {
+            if (index == url.length() - 1 || !(url.charAt(index + 1) == '{' && url.lastIndexOf('}') > index)) {
+                anchor = url.substring(index + 1);
+                url = url.substring(0, index);
+            }
+        }
+        char[] chars = url.toCharArray();
+        for (int i = 0; i < chars.length; i++) {
+            if (chars[i] <= '\u0020') {
+                buffer.append('%');
+                buffer.append(Integer.toHexString((int) chars[i]));
+            } else {
+                switch(chars[i]) {
+                    case '\u0009': // Tab
+                        buffer.append("%09");
+                        break;
+                    case '\u0020': // Space
+                        buffer.append("%20");
+                        break;
+                    case '#':
+                        if (i < chars.length - 1 && chars[i+1] == '{') {
+                            // Pass over value binding expressions
+                            int j = i + 2;
+                            while (j < chars.length && chars[j] != '}')
+                                j++;
+                            if (j < chars.length && chars[j] == '}') {
+                                buffer.append(chars, i, (j - i) + 1);
+                                i = j;
+                            } else {
+                                buffer.append("%23");
+                            }
+                        } else {
+                            buffer.append("%23");
+                        }
+                        break;
+                    case '%':
+                        buffer.append("%25");
+                        break;
+                    case '<':
+                        buffer.append("%3C");
+                        break;
+                    case '>':
+                        buffer.append("%3E");
+                        break;
+                    case '[':
+                        buffer.append("%5B");
+                        break;
+                    case ']':
+                        buffer.append("%5D");
+                        break;
+                    case '{':
+                        buffer.append("%7B");
+                        break;
+                    case '}':
+                        buffer.append("%7D");
+                        break;
+                    case '~':
+                        buffer.append("%7E");
+                        break;
+                    default:
+                        buffer.append(chars[i]);
+                }
+            }
+        }
+        if (anchor != null) {
+            buffer.append('#');
+            buffer.append(anchor);
+        }
+        if (buffer.length() == url.length())
+            return url;
+        return buffer.toString();
+    }
     
 }
