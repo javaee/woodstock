@@ -356,4 +356,29 @@
             <echo message="Specification-Version: ${specification-version}"/>
             <echo message="Implementation-Version: ${implementation-version}"/>
     </target>
+
+    <!--
+      Distribution target, not part of default build.
+      At this time it is NOT used to contain the full distribution,
+      but instead is only used to provide a single location for the
+      visual-web-nbsuite build to get its woodstock dependencies.
+    -->
+    <target name="dist">
+        <mkdir dir="${dist}"/>
+        <copy todir="${dist}" >
+            <fileset dir="${releaselib}">
+		<include name="dojo*" />
+                <include name="jsf-extension**" />
+                <include name="json*" />
+                <include name="prototype*" />
+            </fileset>
+            <fileset dir="${webui.component.libs}">
+                <include name="${webui.jar}" />
+                <include name="${webui-dt.jar}" />
+            </fileset>
+            <fileset dir="${webui.dist}">
+                <include name="webui-jsf*.zip" />
+	    </fileset>
+        </copy>
+    </target>
 </project>
