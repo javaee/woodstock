@@ -22,11 +22,9 @@
 package com.sun.webui.jsf.component.propertyeditors;
 
 import com.sun.webui.jsf.model.Option;
+import com.sun.rave.propertyeditors.util.JavaInitializer;
 import java.beans.PropertyEditorSupport;
-import java.util.Arrays;
 import java.util.Collection;
-import java.util.Collections;
-
 
 /**
  * An editor for properties that take lists of options, such as the
@@ -60,6 +58,29 @@ public class OptionsPropertyEditor extends PropertyEditorSupport {
         } else {
             buffer.append(value.toString());
         }
+        return buffer.toString();
+    }
+    
+    public String getJavaInitializationString() {
+        Object value = this.getValue();
+        if (!(value instanceof Option[]))
+            return null;
+        Option[] options = (Option[]) value;
+        StringBuffer buffer = new StringBuffer();
+        buffer.append("new " + Option.class.getName() + "[] {");
+        for (int i = 0; i < options.length; i++) {
+            if (i > 0)
+                buffer.append(", ");
+            buffer.append("new " + Option.class.getName() + "(");
+            buffer.append(JavaInitializer.toJavaInitializationString(options[i].getValue()));
+            buffer.append(", ");
+            buffer.append(JavaInitializer.toJavaInitializationString(options[i].getLabel()));
+            buffer.append(")");
+        }
+        buffer.append("}");
+
+
+
         return buffer.toString();
     }
     
