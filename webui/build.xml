@@ -168,21 +168,15 @@
     <path id="webui.jars">
         <pathelement location="${netbeans}/modules/autoload/ext/${webui.jar}"/>
     </path>
-
-    <path id="jsfcl.jars">
-        <pathelement location="${lib.creator}/jsfcl.jar"/>
-        <pathelement location="${lib.creator}/jsfsupport-designtime.jar"/>
-        <pathelement location="${lib.external}/rowset.jar"/>
-    </path>
   
     <path id="designtime.jars">
         <pathelement location="${lib.creator}/designtime.jar"/>
+        <pathelement location="${lib.creator}/jsfcl.jar"/>
+        <pathelement location="${lib.external}/rowset.jar"/>
     </path>
     
     <path id="propertyeditors.jars">
-        <pathelement location="${lib.creator}/com-sun-rave-propertyeditors.jar"/>
-        <pathelement location="${lib.netbeans}/openide.jar"/>
-        <pathelement location="${lib.netbeans}/openide-loaders.jar"/>
+        <pathelement location="${lib.creator}/editors.jar"/>
     </path>
 
     <path id="jsf-extension.jars">
@@ -293,7 +287,6 @@
                 <path refid="jsf.jars"/>
                 <path refid="jsf-ri.jars"/>
                 <path refid="webui.jars"/>
-                <path refid="jsfcl.jars"/>
                 <path refid="propertyeditors.jars"/>
                 <path refid="designtime.jars"/>
                 <!-- mbohm: add annotation-lib.jars -->
