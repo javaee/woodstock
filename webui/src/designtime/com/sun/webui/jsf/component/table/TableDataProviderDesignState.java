@@ -36,7 +36,6 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.Vector;
 import javax.swing.DefaultListModel;
-import org.openide.ErrorManager;
 
 /**
  * Data structure to hold design state of a data provider
@@ -64,7 +63,7 @@ public class TableDataProviderDesignState {
         try{
             ((TableDataProvider) dataProviderBean.getInstance()).getFieldKeys();
         }catch (Exception exc){
-            ErrorManager.getDefault().notify(exc);
+            exc.printStackTrace();
             dataProviderBroken = true;
         }
     }

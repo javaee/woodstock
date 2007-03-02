@@ -44,7 +44,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Vector;
-import org.openide.ErrorManager;
 
 /**
  * This class defines the design time state of the Table Group Component
@@ -196,7 +195,7 @@ public class TableRowGroupDesignState {
                     }
                 }
             }catch(Exception exc){
-                ErrorManager.getDefault().notify(exc);
+                exc.printStackTrace();
             }
             loadSourceVariable();
             // Load the child state from the TableColumn

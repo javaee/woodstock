@@ -59,11 +59,11 @@ import javax.swing.DefaultComboBoxModel;
 import javax.swing.DefaultListModel;
 //import com.sun.rave.propertyeditors.binding.data.AddDataProviderDialog;
 import java.awt.Component;
+import java.util.ResourceBundle;
 import javax.swing.DefaultListCellRenderer;
 import javax.swing.JList;
 import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
-import org.openide.ErrorManager;
 
 
 /**
@@ -92,6 +92,9 @@ public class TableCustomizerMainPanel extends javax.swing.JPanel implements Desi
     private List componentTypes = new ArrayList();
     
     private DesignContext[] designContexts;
+    
+    private ResourceBundle bundle = 
+            ResourceBundle.getBundle(TableCustomizerMainPanel.class.getPackage().getName() + ".Bundle");
     
     DesignBean currentModelBean;
     
@@ -147,33 +150,33 @@ public class TableCustomizerMainPanel extends javax.swing.JPanel implements Desi
         // XXX - Revisit and replace
         DefaultComboBoxModel componentTypeComboBoxModel = new DefaultComboBoxModel();
         componentTypes.add(StaticText.class);
-        componentTypeComboBoxModel.addElement(org.openide.util.NbBundle.getMessage(TableCustomizerMainPanel.class,  "Static_Text"));
+        componentTypeComboBoxModel.addElement(bundle.getString("Static_Text"));
         componentTypes.add(Label.class);
-        componentTypeComboBoxModel.addElement(org.openide.util.NbBundle.getMessage(TableCustomizerMainPanel.class,  "Label"));
+        componentTypeComboBoxModel.addElement(bundle.getString("Label"));
         componentTypes.add(TextField.class);
-        componentTypeComboBoxModel.addElement(org.openide.util.NbBundle.getMessage(TableCustomizerMainPanel.class,  "Text_Field"));
+        componentTypeComboBoxModel.addElement(bundle.getString("Text_Field"));
         componentTypes.add(TextArea.class);
-        componentTypeComboBoxModel.addElement(org.openide.util.NbBundle.getMessage(TableCustomizerMainPanel.class,  "Text_Area"));
+        componentTypeComboBoxModel.addElement(bundle.getString("Text_Area"));
         componentTypes.add(Button.class);
-        componentTypeComboBoxModel.addElement(org.openide.util.NbBundle.getMessage(TableCustomizerMainPanel.class,  "Button"));
+        componentTypeComboBoxModel.addElement(bundle.getString("Button"));
         componentTypes.add(Hyperlink.class);
-        componentTypeComboBoxModel.addElement(org.openide.util.NbBundle.getMessage(TableCustomizerMainPanel.class,  "Hyperlink"));
+        componentTypeComboBoxModel.addElement(bundle.getString("Hyperlink"));
         componentTypes.add(ImageHyperlink.class);
-        componentTypeComboBoxModel.addElement(org.openide.util.NbBundle.getMessage(TableCustomizerMainPanel.class,  "Image_Hyperlink"));
+        componentTypeComboBoxModel.addElement(bundle.getString("Image_Hyperlink"));
         componentTypes.add(DropDown.class);
-        componentTypeComboBoxModel.addElement(org.openide.util.NbBundle.getMessage(TableCustomizerMainPanel.class,  "Drop_Down_List"));
+        componentTypeComboBoxModel.addElement(bundle.getString("Drop_Down_List"));
         componentTypes.add(Checkbox.class);
-        componentTypeComboBoxModel.addElement(org.openide.util.NbBundle.getMessage(TableCustomizerMainPanel.class,  "Checkbox"));
+        componentTypeComboBoxModel.addElement(bundle.getString("Checkbox"));
         componentTypes.add(RadioButton.class);
-        componentTypeComboBoxModel.addElement(org.openide.util.NbBundle.getMessage(TableCustomizerMainPanel.class,  "Radio_Button"));
+        componentTypeComboBoxModel.addElement(bundle.getString("Radio_Button"));
         componentTypes.add(ImageComponent.class);
-        componentTypeComboBoxModel.addElement(org.openide.util.NbBundle.getMessage(TableCustomizerMainPanel.class,  "Image"));
+        componentTypeComboBoxModel.addElement(bundle.getString("Image"));
         //componentTypes.add(RadioButtonGroup.class);
         //componentTypes.add(CheckboxGroup.class);
         componentTypes.add(PanelGroup.class);
-        componentTypeComboBoxModel.addElement(org.openide.util.NbBundle.getMessage(TableCustomizerMainPanel.class, "Group_Panel"));
+        componentTypeComboBoxModel.addElement(bundle.getString("Group_Panel"));
         componentTypes.add(Message.class);
-        componentTypeComboBoxModel.addElement(org.openide.util.NbBundle.getMessage(TableCustomizerMainPanel.class,  "Message"));
+        componentTypeComboBoxModel.addElement(bundle.getString("Message"));
         
         cbxComponentType.setModel(componentTypeComboBoxModel);
         
@@ -524,7 +527,7 @@ public class TableCustomizerMainPanel extends javax.swing.JPanel implements Desi
         getDataPanel.add(cbxTableDataprovider, java.awt.BorderLayout.CENTER);
         cbxTableDataprovider.getAccessibleContext().setAccessibleDescription(java.util.ResourceBundle.getBundle("com/sun/webui/jsf/component/table/Bundle").getString("GET_DATA_FROM_ACCESS_DESC"));
 
-        addDataProviderButton.setMnemonic(org.openide.util.NbBundle.getMessage(TableCustomizerMainPanel.class, "ADD_DATAPROVIDER_BUTTON_MNEMONIC").charAt(0));
+        addDataProviderButton.setMnemonic(bundle.getString("ADD_DATAPROVIDER_BUTTON_MNEMONIC").charAt(0));
         addDataProviderButton.setText(java.util.ResourceBundle.getBundle("com/sun/webui/jsf/component/table/Bundle").getString("ADD_DP_BUTTON_LBL"));
         addDataProviderButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -821,7 +824,7 @@ public class TableCustomizerMainPanel extends javax.swing.JPanel implements Desi
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.insets = new java.awt.Insets(6, 10, 0, 10);
         columnDetailPanel.add(lblComponentType, gridBagConstraints);
-        lblComponentType.getAccessibleContext().setAccessibleDescription(org.openide.util.NbBundle.getMessage(TableCustomizerMainPanel.class, "SELECT_COLUMN_TYPE_ACCESS_DESC"));
+        lblComponentType.getAccessibleContext().setAccessibleDescription(bundle.getString("SELECT_COLUMN_TYPE_ACCESS_DESC"));
 
         cbxComponentType.addItemListener(new java.awt.event.ItemListener() {
             public void itemStateChanged(java.awt.event.ItemEvent evt) {
@@ -883,7 +886,7 @@ public class TableCustomizerMainPanel extends javax.swing.JPanel implements Desi
         columnDetailPanel.add(cbxVertAlign, gridBagConstraints);
         cbxVertAlign.getAccessibleContext().setAccessibleDescription(java.util.ResourceBundle.getBundle("com/sun/webui/jsf/component/table/Bundle").getString("VERT_ALIGN_ACCESS_DESC"));
 
-        cbSortable.setMnemonic(org.openide.util.NbBundle.getMessage(TableCustomizerMainPanel.class, "SORT_CHECKBOX_MNEMONIC").charAt(0));
+        cbSortable.setMnemonic(bundle.getString("SORT_CHECKBOX_MNEMONIC").charAt(0));
         cbSortable.setText(java.util.ResourceBundle.getBundle("com/sun/webui/jsf/component/table/Bundle").getString("SORTABLE_LBL"));
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
@@ -893,7 +896,7 @@ public class TableCustomizerMainPanel extends javax.swing.JPanel implements Desi
         columnDetailPanel.add(cbSortable, gridBagConstraints);
         cbSortable.getAccessibleContext().setAccessibleDescription(java.util.ResourceBundle.getBundle("com/sun/webui/jsf/component/table/Bundle").getString("MAKE_COLUMN_SORTABLE_ACCESS_DESC"));
 
-        jLabel1.setDisplayedMnemonic(org.openide.util.NbBundle.getMessage(TableCustomizerMainPanel.class, "WIDTH_MNEMONIC").charAt(0));
+        jLabel1.setDisplayedMnemonic(bundle.getString("WIDTH_MNEMONIC").charAt(0));
         jLabel1.setLabelFor(widthField);
         jLabel1.setText(java.util.ResourceBundle.getBundle("com/sun/webui/jsf/component/table/Bundle").getString("WIDTH_LABEL"));
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -902,7 +905,7 @@ public class TableCustomizerMainPanel extends javax.swing.JPanel implements Desi
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
         gridBagConstraints.insets = new java.awt.Insets(6, 10, 0, 10);
         columnDetailPanel.add(jLabel1, gridBagConstraints);
-        jLabel1.getAccessibleContext().setAccessibleDescription(org.openide.util.NbBundle.getMessage(TableCustomizerMainPanel.class, "WIDTH_ACCESS_DESC"));
+        jLabel1.getAccessibleContext().setAccessibleDescription(bundle.getString("WIDTH_ACCESS_DESC"));
 
         widthField.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -943,7 +946,7 @@ public class TableCustomizerMainPanel extends javax.swing.JPanel implements Desi
         gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
         gridBagConstraints.insets = new java.awt.Insets(4, 10, 0, 10);
         topPanel.add(lblTableSummary, gridBagConstraints);
-        lblTableSummary.getAccessibleContext().setAccessibleDescription(org.openide.util.NbBundle.getMessage(TableCustomizerMainPanel.class, "EMPTY_MESSAGE_ACCESS_DESC"));
+        lblTableSummary.getAccessibleContext().setAccessibleDescription(bundle.getString("EMPTY_MESSAGE_ACCESS_DESC"));
 
         txtTableTitle.addFocusListener(new java.awt.event.FocusAdapter() {
             public void focusGained(java.awt.event.FocusEvent evt) {
@@ -1001,7 +1004,7 @@ public class TableCustomizerMainPanel extends javax.swing.JPanel implements Desi
         gridBagConstraints.insets = new java.awt.Insets(4, 10, 0, 10);
         topPanel.add(lblTableFooter, gridBagConstraints);
 
-        lblEmptyDataMsg.setDisplayedMnemonic(org.openide.util.NbBundle.getMessage(TableCustomizerMainPanel.class, "EMPTY_MESSAGE_DISPLAYED_MNEMONIC").charAt(0));
+        lblEmptyDataMsg.setDisplayedMnemonic(bundle.getString("EMPTY_MESSAGE_DISPLAYED_MNEMONIC").charAt(0));
         lblEmptyDataMsg.setLabelFor(txtEmptyDataMsg);
         lblEmptyDataMsg.setText(java.util.ResourceBundle.getBundle("com/sun/webui/jsf/component/table/Bundle").getString("EMPTY_DATA_MSG_LBL"));
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -1056,12 +1059,12 @@ public class TableCustomizerMainPanel extends javax.swing.JPanel implements Desi
 
         pageSizePanel.setLayout(new java.awt.BorderLayout(5, 5));
 
-        lblPageSize.setDisplayedMnemonic(org.openide.util.NbBundle.getMessage(TableCustomizerMainPanel.class, "PAGINATION_MNEMONIC").charAt(0));
+        lblPageSize.setDisplayedMnemonic(bundle.getString("PAGINATION_MNEMONIC").charAt(0));
         lblPageSize.setLabelFor(txtPageRows);
         lblPageSize.setText(java.util.ResourceBundle.getBundle("com/sun/webui/jsf/component/table/Bundle").getString("PAGE_SIZE_LBL"));
         lblPageSize.setEnabled(false);
         pageSizePanel.add(lblPageSize, java.awt.BorderLayout.WEST);
-        lblPageSize.getAccessibleContext().setAccessibleDescription(org.openide.util.NbBundle.getMessage(TableCustomizerMainPanel.class, "PAGE_ROWS_ACCESS_DESC"));
+        lblPageSize.getAccessibleContext().setAccessibleDescription(bundle.getString("PAGE_ROWS_ACCESS_DESC"));
 
         txtPageRows.setEnabled(false);
         txtPageRows.setPreferredSize(new java.awt.Dimension(70, 20));
@@ -1091,7 +1094,7 @@ public class TableCustomizerMainPanel extends javax.swing.JPanel implements Desi
         optionPanel2.add(cbEnablePagination, gridBagConstraints);
         cbEnablePagination.getAccessibleContext().setAccessibleDescription(java.util.ResourceBundle.getBundle("com/sun/webui/jsf/component/table/Bundle").getString("ENABLE_PAGINATION_ACCESS_DESC"));
 
-        cbClearSortButton.setMnemonic(org.openide.util.NbBundle.getMessage(TableCustomizerMainPanel.class, "CLEAR_SORT_CHECKBOX_MNEMONIC").charAt(0));
+        cbClearSortButton.setMnemonic(bundle.getString("CLEAR_SORT_CHECKBOX_MNEMONIC").charAt(0));
         cbClearSortButton.setText(java.util.ResourceBundle.getBundle("com/sun/webui/jsf/component/table/Bundle").getString("SHOW_CLEAR_SORT_BUTTON_LBL"));
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
@@ -1101,7 +1104,7 @@ public class TableCustomizerMainPanel extends javax.swing.JPanel implements Desi
         optionPanel2.add(cbClearSortButton, gridBagConstraints);
         cbClearSortButton.getAccessibleContext().setAccessibleDescription(java.util.ResourceBundle.getBundle("com/sun/webui/jsf/component/table/Bundle").getString("SHOW_CLEAR_SORT_ACCESS_DESC"));
 
-        cbSortPanelButton.setMnemonic(org.openide.util.NbBundle.getMessage(TableCustomizerMainPanel.class, "SHOW_SORT_CHECKBOX_MNEMONIC").charAt(0));
+        cbSortPanelButton.setMnemonic(bundle.getString("SHOW_SORT_CHECKBOX_MNEMONIC").charAt(0));
         cbSortPanelButton.setText(java.util.ResourceBundle.getBundle("com/sun/webui/jsf/component/table/Bundle").getString("SHOW_SORT_PANEL_TOGGLE_BUTTON"));
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
@@ -1178,8 +1181,8 @@ public class TableCustomizerMainPanel extends javax.swing.JPanel implements Desi
                     currentTableColumnDesignState.setChildType(compType);
                     txtValueExpression.setText(currentTableColumnDesignState.getValueExpression());
                 }else{
-                    String message = org.openide.util.NbBundle.getMessage(TableCustomizerMainPanel.class,  "Incorrect_component_type_msg") + currentTableColumnDesignState.getColumnType().getName();
-                    String title = org.openide.util.NbBundle.getMessage(TableCustomizerMainPanel.class,  "Incorrect_component_type_title");
+                    String message = bundle.getString("Incorrect_component_type_msg") + currentTableColumnDesignState.getColumnType().getName();
+                    String title = bundle.getString("Incorrect_component_type_title");
                     JOptionPane.showMessageDialog(this, message, title, JOptionPane.ERROR_MESSAGE);
                     cbxComponentType.setSelectedIndex(0);
                     
@@ -1205,8 +1208,8 @@ public class TableCustomizerMainPanel extends javax.swing.JPanel implements Desi
     }//GEN-LAST:event_addAllButtonActionPerformed
     
     private void newColumnButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_newColumnButtonActionPerformed
-        String name = currentTableDataProviderDesignState.getUniqueColumnName(org.openide.util.NbBundle.getMessage(TableCustomizerMainPanel.class,  "column"));
-        TableColumnDesignState colDesignState = new TableColumnDesignState(name, name, org.openide.util.NbBundle.getMessage(TableCustomizerMainPanel.class,  "text")); //NOI18N
+        String name = currentTableDataProviderDesignState.getUniqueColumnName(bundle.getString("column"));
+        TableColumnDesignState colDesignState = new TableColumnDesignState(name, name, bundle.getString("text")); //NOI18N
         currentTableDataProviderDesignState.addColumnDesignStates(colDesignState);
         selectedColumns.setSelectedValue(name, true);
     }//GEN-LAST:event_newColumnButtonActionPerformed
