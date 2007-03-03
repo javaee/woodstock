@@ -5,4 +5,29 @@
 <project name="com.sun.webui.jsf" default="netbeans" basedir=".">
     <description>Builds, tests, and runs the project com.sun.webui.jsf.</description>
     <import file="nbproject/build-impl.xml"/>
+
+  <property name="master" value="../../master"/>
+
+  <!-- TODO there has got to be a better way but I don't know enough about
+  the NetBeans build system to figure it out. -->
+  <target name="netbeans-extra">
+    <ant dir="${master}" inheritAll="false" target="dist"/>
+
+    <delete dir="release"/>
+
+    <!-- Copy the dependent jars but not the theme jar -->
+    <copy todir="release/modules/ext">
+      <fileset dir="${master}/dist">
+        <include name="*.jar"/>
+        <exclude name="*theme*.jar"/>
+      </fileset>
+    </copy>
+
+    <!-- Copy javadoc and source zips -->
+    <copy todir="release/docs">
+      <fileset dir="${master}/dist">
+        <include name="*.zip"/>
+      </fileset>
+    </copy>
+  </target>
 </project>
