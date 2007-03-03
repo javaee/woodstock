@@ -363,7 +363,7 @@
       but instead is only used to provide a single location for the
       visual-web-nbsuite build to get its woodstock dependencies.
     -->
-    <target name="dist">
+    <target name="dist" depends="ship">
         <mkdir dir="${dist}"/>
         <copy todir="${dist}" >
             <fileset dir="${releaselib}">
@@ -371,6 +371,7 @@
                 <include name="jsf-extension**" />
                 <include name="json*" />
                 <include name="prototype*" />
+                <include name="${suntheme.jar}" />
             </fileset>
             <fileset dir="${webui.component.libs}">
                 <include name="${webui.jar}" />
