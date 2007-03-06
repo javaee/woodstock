@@ -8,10 +8,13 @@
 
   <property name="master" value="../../master"/>
 
+  <!-- TODO In the future, we just want a single woodstock project but NB
+  5.5 VWP has it defined in two so we must update both :-(. -->
   <!-- TODO there has got to be a better way but I don't know enough about
   the NetBeans build system to figure it out. -->
   <target name="netbeans-extra">
-    <ant dir="${master}" inheritAll="false" target="dist"/>
+    <!-- This project has a dependency on the main components project so
+    assume it has already been built. -->
 
     <delete dir="release"/>
 
