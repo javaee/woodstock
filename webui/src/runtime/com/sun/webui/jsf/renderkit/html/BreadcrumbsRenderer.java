@@ -144,7 +144,6 @@ public class BreadcrumbsRenderer extends javax.faces.render.Renderer {
         writer.writeText("\n", null); //NOI18N
     }
     
-    private String separator;
     
     /**
      * Renders a separator, in between two breadcrumb hyperlinks.
@@ -156,10 +155,11 @@ public class BreadcrumbsRenderer extends javax.faces.render.Renderer {
         String separatorStyle =
                 theme.getStyleClass(ThemeStyles.BREADCRUMB_SEPARATOR);
         writer.writeAttribute(HTMLAttributes.CLASS, separatorStyle, null);
-        if (this.separator == null) {
-            this.separator = escapeCharacterEntities(theme.getMessage(SEPARATOR_KEY));
-        }
-        writer.write(this.separator);
+	String separator =
+	    escapeCharacterEntities(theme.getMessage(SEPARATOR_KEY));
+	if (separator != null) {
+	    writer.write(separator);
+	}
         writer.endElement(HTMLElements.SPAN);
     }
     
