@@ -3,12 +3,12 @@
  * of the Common Development and Distribution License
  * (the License).  You may not use this file except in
  * compliance with the License.
- * 
+ *
  * You can obtain a copy of the license at
  * https://woodstock.dev.java.net/public/CDDLv1.0.html.
  * See the License for the specific language governing
  * permissions and limitations under the License.
- * 
+ *
  * When distributing Covered Code, include this CDDL
  * Header Notice in each file and include the License file
  * at https://woodstock.dev.java.net/public/CDDLv1.0.html.
@@ -16,7 +16,7 @@
  * with the fields enclosed by brackets [] replaced by
  * you own identifying information:
  * "Portions Copyrighted [year] [name of copyright owner]"
- * 
+ *
  * Copyright 2007 Sun Microsystems, Inc. All rights reserved.
  */
 package com.sun.webui.jsf.component.customizers;
@@ -48,28 +48,34 @@ import com.sun.webui.jsf.util.ThemeUtilities;
  */
 
 public class AutoSubmitOnChangeAction extends BasicDisplayAction implements
-    CheckedDisplayAction {
+        CheckedDisplayAction {
     
-    private static final Pattern submitPattern = Pattern.compile(
-        JavaScriptUtilities.getModuleName("common.timeoutSubmitForm") +
-            "\\s*\\(\\s*this\\s*\\.\\s*form\\s*,\\s*'\\S+'\\s*\\)\\s*;?"); //NOI18N
-
+    private static Pattern submitPattern;
+    
+    private static Pattern getSubmitPattern() {
+        if (submitPattern == null) {
+            submitPattern = Pattern.compile(JavaScriptUtilities.getModuleName("common.timeoutSubmitForm") +
+                    "\\s*\\(\\s*this\\s*\\.\\s*form\\s*,\\s*'\\S+'\\s*\\)\\s*;?"); //NOI18N
+        }
+        return submitPattern;
+    }
+    
     protected DesignBean bean;
-
+    
     public AutoSubmitOnChangeAction(DesignBean bean) {
         super(DesignMessageUtil.getMessage(AutoSubmitOnChangeAction.class,
                 "AutoSubmitOnChangeAction.label")); //NOI18N
         this.bean = bean;
     }
-
+    
     public boolean isChecked() {
         return isAutoSubmit();
     }
-
+    
     public Result invoke() {
         return toggleAutoSubmit();
     }
-
+    
     public boolean isAutoSubmit() {
         DesignProperty property = getSubmitProperty();
         if (property == null)
@@ -77,9 +83,9 @@ public class AutoSubmitOnChangeAction extends BasicDisplayAction implements
         String value = (String) property.getValue();
         if(value == null)
             return false;
-        return submitPattern.matcher(value).find();
+        return getSubmitPattern().matcher(value).find();
     }
-
+    
     public Result toggleAutoSubmit() {
         DesignProperty property = getSubmitProperty();
         if (property == null)
@@ -91,7 +97,7 @@ public class AutoSubmitOnChangeAction extends BasicDisplayAction implements
         } else {
             if (isAutoSubmit()) {
                 // If property value contains the onSubmit script, remove it
-                property.setValue(submitPattern.matcher(value).replaceFirst("")); //NOI18N
+                property.setValue(getSubmitPattern().matcher(value).replaceFirst("")); //NOI18N
             } else {
                 // Otherwise, append the onSubmit script
                 property.setValue(getSubmitScript(value));
@@ -102,14 +108,14 @@ public class AutoSubmitOnChangeAction extends BasicDisplayAction implements
     
     /**
      * Returns the <code>onChange</code> property for all components except
-     * checkbox and radio button types, for which <code>onClick</code> is 
-     * returned. Special casing for these components needed by Internet 
+     * checkbox and radio button types, for which <code>onClick</code> is
+     * returned. Special casing for these components needed by Internet
      * Explorer.
      */
     DesignProperty getSubmitProperty() {
         Object beanInstance = bean.getInstance();
         Class beanType = beanInstance.getClass();
-        if (RbCbSelector.class.isAssignableFrom(beanType) || 
+        if (RbCbSelector.class.isAssignableFrom(beanType) ||
                 beanInstance instanceof RadioButtonGroup ||
                 beanInstance instanceof CheckboxGroup)
             return bean.getProperty("onClick"); //NOI18N
@@ -131,17 +137,16 @@ public class AutoSubmitOnChangeAction extends BasicDisplayAction implements
         String id = FormDesignInfo.getFullyQualifiedId(bean);
         if (id == null) {
             id = bean.getInstanceName();
-        }
-        else if (id.startsWith(String.valueOf(NamingContainer.SEPARATOR_CHAR)) && id.length() > 1) {
+        } else if (id.startsWith(String.valueOf(NamingContainer.SEPARATOR_CHAR)) && id.length() > 1) {
             //fully qualified id (starting with ":") could look intimidating to users. so just chop off leading ":"
             id = id.substring(1, id.length());
         }
         buffer.append(JavaScriptUtilities.getModuleName(
-            "common.timeoutSubmitForm"));
+                "common.timeoutSubmitForm"));
         buffer.append("(this.form, '");
         buffer.append(id);
         buffer.append("');");
         return buffer.toString();
     }
-
+    
 }
