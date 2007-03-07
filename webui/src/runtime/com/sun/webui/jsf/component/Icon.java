@@ -30,7 +30,11 @@ import javax.faces.context.FacesContext;
  * The Icon component is used to display a theme-specific image in the 
  * rendered HTML page.
  */
-@Component(type="com.sun.webui.jsf.Icon", family="com.sun.webui.jsf.Icon", displayName="Image", isContainer=false, isTag=false,
+@Component(type="com.sun.webui.jsf.Icon", 
+    //family="com.sun.webui.jsf.Image",
+    family="com.sun.webui.jsf.Icon",
+   // tagRendererType="com.sun.webui.jsf.widget.Image",
+    displayName="Image", isContainer=false, isTag=false,
     helpKey="projrave_ui_elements_palette_wdstk-jsf1.2_icon",
     propertiesHelpKey="projrave_ui_elements_palette_wdstk-jsf1.2_propsheets_icon_props")
 public class Icon extends ImageComponent {
@@ -39,6 +43,7 @@ public class Icon extends ImageComponent {
      */
     public Icon() {
         super();
+        //setRendererType("com.sun.webui.jsf.widget.Image");
         setRendererType("com.sun.webui.jsf.Icon");
     }
 
@@ -46,8 +51,11 @@ public class Icon extends ImageComponent {
      * <p>Return the family for this component.</p>
      */
     public String getFamily() {
+        //return "com.sun.webui.jsf.Image";
         return "com.sun.webui.jsf.Icon";
     }
+    
+ 
 
     /**
      * <p>Restore the state of this component.</p>

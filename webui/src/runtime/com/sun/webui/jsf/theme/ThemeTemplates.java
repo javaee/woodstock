@@ -47,6 +47,10 @@ public class ThemeTemplates {
     public static final String PROGRESSBAR = "progressBar";
 
     /**
+     * A template file that contains HTML for the image component.
+     */
+    public static final String IMAGE = "image";
+    /**
      * This private constructor prevents this class from being instantiated
      * directly as its only purpose is to provide image constants.
      */

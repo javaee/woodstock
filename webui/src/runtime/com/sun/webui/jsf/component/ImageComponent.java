@@ -21,6 +21,8 @@
  */
 package com.sun.webui.jsf.component;
 
+import com.sun.webui.jsf.util.JavaScriptUtilities;
+import com.sun.webui.jsf.util.ThemeUtilities;
 import javax.el.ValueExpression;
 import javax.faces.component.UIGraphic;
 import javax.faces.context.FacesContext;
@@ -28,21 +30,32 @@ import javax.faces.context.FacesContext;
 import com.sun.faces.annotation.Component;
 import com.sun.faces.annotation.Property;
 
+import com.sun.webui.theme.Theme;
+import com.sun.webui.theme.ThemeImage;
+import com.sun.webui.jsf.theme.ThemeStyles;
+import com.sun.webui.jsf.theme.ThemeImages;
+
 /**
  * The ImageComponent is used to display in inline graphic image. 
  */
-@Component(type="com.sun.webui.jsf.Image", family="com.sun.webui.jsf.Image", displayName="Image",
-    tagName="image", instanceName="image",
+@Component(type="com.sun.webui.jsf.Image",
+    family="com.sun.webui.jsf.Image",
+    //tagRendererType="com.sun.webui.jsf.widget.Image", 
+    tagRendererType="com.sun.webui.jsf.Image",         
+    displayName="Image", tagName="image",instanceName="image",
     helpKey="projrave_ui_elements_palette_wdstk-jsf1.2_image_component",
     propertiesHelpKey="projrave_ui_elements_palette_wdstk-jsf1.2_propsheets_image_component_props")
-public class ImageComponent extends UIGraphic {
+public class ImageComponent extends UIGraphic{// implements Widget {
     
+    private ThemeImage themeImage = null;
+    private Theme theme = null;
     /**
      * <p>Construct a new <code>ImageComponent</code>.</p>
      */
     public ImageComponent() {
         super();
-        setRendererType("com.sun.webui.jsf.Image");
+      //  setRendererType("com.sun.webui.jsf.widget.Image");   
+        setRendererType("com.sun.webui.jsf.Image");   
     }
 
     /**
@@ -51,11 +64,21 @@ public class ImageComponent extends UIGraphic {
     public String getFamily() {
         return "com.sun.webui.jsf.Image";
     }
+    
+    /**
+     * Get the type of widget represented by this component.
+     *
+     * @return The type of widget represented by this component.
+     */
+//    public String getWidgetType() {
+//        return JavaScriptUtilities.getNamespace("image");
+//    }
 
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     // Tag attribute methods
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
+    
     /**
      * The component identifier for this component. This value must be unique 
      * within the closest parent component that is a naming container.
@@ -164,8 +187,22 @@ public class ImageComponent extends UIGraphic {
         if (_vb != null) {
             return (String) _vb.getValue(getFacesContext().getELContext());
         }
+        // An icon image can have its image set by the url property. In this case
+        // if an icon attribute is also specified along with the url attribute,
+        // we do not want the icon to supply the default values for the image specified
+        // by the url property.        
+        if (this.getIcon() != null && this.getUrl() == null) {
+            initThemeImage();
+            if (themeImage != null) {
+                return themeImage.getAlt();
+            }
+            
+        }
+        
         return null;
     }
+
+
 
     /**
      * <p>Alternative textual description of the image rendered by this 
@@ -244,8 +281,22 @@ public class ImageComponent extends UIGraphic {
                 return ((Integer) _result).intValue();
             }
         }
+        
+        // An icon image can have its image set by the url property. In this case
+        // if an icon attribute is also specified along with the url attribute,
+        // we do not want the icon to supply the default values for the image specified
+        // by the url property.
+        if (this.getIcon() != null && this.getUrl() == null) {
+            initThemeImage();
+            if (themeImage != null) {
+                return themeImage.getHeight();
+            }
+            
+        }
+        
         return Integer.MIN_VALUE;
     }
+    
 
     /**
      * <p>Image height override. When specified, the width and height attributes 
@@ -795,7 +846,7 @@ public class ImageComponent extends UIGraphic {
      * of these values, specified in pixels. Some browsers might not support 
      * this behavior.</p>
      */
-    public int getWidth() {
+      public int getWidth() {
         if (this.width_set) {
             return this.width;
         }
@@ -808,6 +859,18 @@ public class ImageComponent extends UIGraphic {
                 return ((Integer) _result).intValue();
             }
         }
+        // An icon image can have its image set by the url property. In this case
+        // if an icon attribute is also specified along with the url attribute,
+        // we do not want the icon to supply the default values for the image specified
+        // by the url property.        
+        if (this.getIcon() != null && this.getUrl() == null) {
+            initThemeImage();
+            if (themeImage != null) {
+                return themeImage.getWidth();
+            }
+            
+        }
+        
         return Integer.MIN_VALUE;
     }
 
@@ -823,6 +886,43 @@ public class ImageComponent extends UIGraphic {
         this.width_set = true;
     }
 
+    /**
+     * Alternative HTML template to be used by this component.
+     */
+//    @Property(name="htmlTemplate", displayName="HTML Template", category="Appearance")
+//    private String htmlTemplate = null;
+//
+//    /**
+//     * Get alternative HTML template to be used by this component.
+//     */
+//    public String getHtmlTemplate() {
+//        if (this.htmlTemplate != null) {
+//            return this.htmlTemplate;
+//        }
+//        ValueExpression _vb = getValueExpression("htmlTemplate");
+//        if (_vb != null) {
+//            return (String) _vb.getValue(getFacesContext().getELContext());
+//        }
+//        return null;
+//    }
+//    
+//    /**
+//     * Set alternative HTML template to be used by this component.
+//     */
+//    public void setHtmlTemplate(String htmlTemplate) {
+//        this.htmlTemplate = htmlTemplate;
+//    }
+    
+    private void initThemeImage() {
+        if (themeImage == null) {
+            themeImage = getTheme().getImage(getIcon());
+        }
+    }
+    
+     private Theme getTheme() {
+        return ThemeUtilities.getTheme(FacesContext.getCurrentInstance());
+    }
+    
     /**
      * <p>Restore the state of this component.</p>
      */
@@ -855,6 +955,7 @@ public class ImageComponent extends UIGraphic {
         this.vspace_set = ((Boolean) _values[24]).booleanValue();
         this.width = ((Integer) _values[25]).intValue();
         this.width_set = ((Boolean) _values[26]).booleanValue();
+      //  this.htmlTemplate = (String) _values[27];
     }
 
     /**
@@ -889,6 +990,8 @@ public class ImageComponent extends UIGraphic {
         _values[24] = this.vspace_set ? Boolean.TRUE : Boolean.FALSE;
         _values[25] = new Integer(this.width);
         _values[26] = this.width_set ? Boolean.TRUE : Boolean.FALSE;
+       // _values[27] = this.htmlTemplate;
         return _values;
     }
+    
 }

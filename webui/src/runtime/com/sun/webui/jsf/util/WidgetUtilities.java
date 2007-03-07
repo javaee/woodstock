@@ -23,9 +23,11 @@ package com.sun.webui.jsf.util;
 
 import java.io.IOException;
 import java.io.Writer;
+import java.util.ArrayList;
 import java.util.Iterator;
 
 import javax.faces.component.UIComponent;
+import javax.faces.component.UIParameter;
 import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 import javax.faces.context.ResponseWriter;
@@ -161,7 +163,30 @@ public class WidgetUtilities {
         return strWriter;
     }
 
+       
+        
+    
+        public static String encodeURL(FacesContext context, UIComponent component, 
+            String url) throws IOException  {
+        if (context == null) {
+            return null;
+        }
+        
+        // Initialize Writer to buffer rendered output.
+        ResponseWriter oldWriter = context.getResponseWriter();        
+        Writer newWriter = initStringWriter(context);
+
+        RenderingUtilities.renderURLAttribute(context, (context.getResponseWriter()), 
+                component, "url", url, null);
+        // Restore current writer and return buffered content.
+        context.setResponseWriter(oldWriter);
+        String tmp = newWriter.toString();
+        // Return the part of the string that we need.
+          return tmp.substring(6,tmp.length()-1);
+    }  
+
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     // Private methods
-    // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-       
 }
+     
