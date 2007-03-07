@@ -165,25 +165,35 @@ public class WidgetUtilities {
 
        
         
-    
-        public static String encodeURL(FacesContext context, UIComponent component, 
-            String url) throws IOException  {
-        if (context == null) {
-            return null;
-        }
-        
-        // Initialize Writer to buffer rendered output.
-        ResponseWriter oldWriter = context.getResponseWriter();        
-        Writer newWriter = initStringWriter(context);
+    /**
+     * Helper function to encode a typical URL.
+     * <p>
+     * Note: Path must be a valid absolute URL or full path URI.
+     * </p>
+     *
+     * @param component The uicomponent
+     * @param name The attribute name of the url to write out
+     * @param url The value passed in by the developer for the url
+     *
+     */
+    public static String encodeURL(FacesContext context, UIComponent component, 
+        String url) throws IOException  {
+    if (context == null) {
+        return null;
+    }
 
-        RenderingUtilities.renderURLAttribute(context, (context.getResponseWriter()), 
-                component, "url", url, null);
-        // Restore current writer and return buffered content.
-        context.setResponseWriter(oldWriter);
-        String tmp = newWriter.toString();
-        // Return the part of the string that we need.
-          return tmp.substring(6,tmp.length()-1);
-    }  
+    // Initialize Writer to buffer rendered output.
+    ResponseWriter oldWriter = context.getResponseWriter();        
+    Writer newWriter = initStringWriter(context);
+
+    RenderingUtilities.renderURLAttribute(context, (context.getResponseWriter()), 
+            component, "url", url, null);
+    // Restore current writer and return buffered content.
+    context.setResponseWriter(oldWriter);
+    String tmp = newWriter.toString();
+    // Return the part of the string that we need.
+      return tmp.substring(6,tmp.length()-1);
+}  
 
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     // Private methods
