@@ -5,21 +5,8 @@
         <data xmlns="http://www.netbeans.org/ns/nb-module-project/2">
             <code-name-base>com.sun.rave.webui.jsf.themes.defaulttheme</code-name-base>
             <suite-component/>
-            <module-dependencies>
-                <dependency>
-                    <code-name-base>com.sun.webui.jsf</code-name-base>
-                    <build-prerequisite/>
-                    <compile-dependency/>
-                    <run-dependency>
-                        <specification-version>2.1.0.1</specification-version>
-                    </run-dependency>
-                </dependency>
-            </module-dependencies>
+            <module-dependencies/>
             <public-packages/>
-            <class-path-extension>
-                <runtime-relative-path>ext/webui-jsf-suntheme.jar</runtime-relative-path>
-                <binary-origin>release/modules/ext/webui-jsf-suntheme.jar</binary-origin>
-            </class-path-extension>
         </data>
     </configuration>
 </project>

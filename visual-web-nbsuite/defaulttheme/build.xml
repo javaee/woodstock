@@ -5,24 +5,4 @@
 <project name="com.sun.rave.webui.jsf.themes.defaulttheme" default="netbeans" basedir=".">
     <description>Builds, tests, and runs the project com.sun.rave.webui.jsf.themes.defaulttheme.</description>
     <import file="nbproject/build-impl.xml"/>
-
-  <property name="master" value="../../master"/>
-
-  <!-- TODO In the future, we just want a single woodstock project but NB
-  5.5 VWP has it defined in two so we must update both :-(. -->
-  <!-- TODO there has got to be a better way but I don't know enough about
-  the NetBeans build system to figure it out. -->
-  <target name="netbeans-extra">
-    <!-- This project has a dependency on the main components project so
-    assume it has already been built. -->
-
-    <delete dir="release"/>
-
-    <!-- Copy just the theme jar -->
-    <copy todir="release/modules/ext">
-      <fileset dir="${master}/dist">
-        <include name="*theme*.jar"/>
-      </fileset>
-    </copy>
-  </target>
 </project>

@@ -6,28 +6,40 @@
     <description>Builds, tests, and runs the project com.sun.webui.jsf.</description>
     <import file="nbproject/build-impl.xml"/>
 
-  <property name="master" value="../../master"/>
+  <property name="original.project.dir" value="../../master"/>
 
-  <!-- TODO there has got to be a better way but I don't know enough about
-  the NetBeans build system to figure it out. -->
-  <target name="netbeans-extra">
-    <ant dir="${master}" inheritAll="false" target="dist"/>
+  <target name="release">
+    <echo message="Building ${original.project.dir}"/>
+    <ant dir="${original.project.dir}"
+      target="dist" inheritall="false" inheritrefs="false"/>
+    <echo message="Done building ${original.project.dir}"/>
 
-    <delete dir="release"/>
-
-    <!-- Copy the dependent jars but not the theme jar -->
-    <copy todir="release/modules/ext">
-      <fileset dir="${master}/dist">
-        <include name="*.jar"/>
-        <exclude name="*theme*.jar"/>
+    <!-- Copy the all dependent jars -->
+    <copy todir="${cluster}/modules/ext">
+      <fileset dir="${original.project.dir}/dist">
+        <include name="dojo-*.jar"/>
+        <include name="jsf-extensions-*.jar"/>
+        <include name="json*.jar"/>
+        <include name="prototype-*.jar"/>
+        <include name="webui-jsf*.jar"/>
+        <include name="*theme*.jar"/>
       </fileset>
     </copy>
 
     <!-- Copy javadoc and source zips -->
-    <copy todir="release/docs">
-      <fileset dir="${master}/dist">
-        <include name="*.zip"/>
+    <copy todir="${cluster}/docs/">
+      <fileset dir="${original.project.dir}/dist">
+        <include name="webui-jsf-*.zip"/>
       </fileset>
     </copy>
   </target>
+
+
+  <target name="clean" depends="projectized-common.clean">
+    <echo message="Cleaning ${original.project.dir}"/>
+    <ant dir="${original.project.dir}"
+      target="clean" inheritall="false" inheritrefs="false"/>
+    <echo message="Done cleaning ${original.project.dir}"/>
+  </target>
+
 </project>
