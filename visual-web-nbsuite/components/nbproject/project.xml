@@ -5,6 +5,38 @@
         <data xmlns="http://www.netbeans.org/ns/nb-module-project/2">
             <code-name-base>com.sun.webui.jsf</code-name-base>
             <suite-component/>
+            <class-path-extension>
+                <runtime-relative-path>ext/webui-jsf-dt.jar</runtime-relative-path>
+                <binary-origin>../../master/dist/webui-jsf-dt.jar</binary-origin>
+            </class-path-extension>
+            <class-path-extension>
+                <runtime-relative-path>ext/webui-jsf.jar</runtime-relative-path>
+                <binary-origin>../../master/dist/webui-jsf.jar</binary-origin>
+            </class-path-extension>
+            <class-path-extension>
+                <runtime-relative-path>ext/json.jar</runtime-relative-path>
+                <binary-origin>../../master/dist/json.jar</binary-origin>
+            </class-path-extension>
+            <class-path-extension>
+                <runtime-relative-path>ext/prototype-1.5.0.jar</runtime-relative-path>
+                <binary-origin>../../master/dist/prototype-1.5.0.jar</binary-origin>
+            </class-path-extension>
+            <class-path-extension>
+                <runtime-relative-path>ext/dojo-0.4.1-ajax.jar</runtime-relative-path>
+                <binary-origin>../../master/dist/dojo-0.4.1-ajax.jar</binary-origin>
+            </class-path-extension>
+            <class-path-extension>
+                <runtime-relative-path>ext/jsf-extensions-common-0.1.jar</runtime-relative-path>
+                <binary-origin>../../master/dist/jsf-extensions-common-0.1.jar</binary-origin>
+            </class-path-extension>
+            <class-path-extension>
+                <runtime-relative-path>ext/jsf-extensions-dynamic-faces-0.1.jar</runtime-relative-path>
+                <binary-origin>../../master/dist/jsf-extensions-dynamic-faces-0.1.jar</binary-origin>
+            </class-path-extension>
+            <class-path-extension>
+                <runtime-relative-path>ext/webui-jsf-suntheme.jar</runtime-relative-path>
+                <binary-origin>../../master/dist/webui-jsf-suntheme.jar</binary-origin>
+            </class-path-extension>
             <module-dependencies>
                 <dependency>
                     <code-name-base>com.sun.rave.dataprovider</code-name-base>
@@ -99,12 +131,27 @@
                     </run-dependency>
                 </dependency>
                 <dependency>
+                    <code-name-base>com.sun.rave.project.jsf</code-name-base>
+                    <build-prerequisite/>
+                    <compile-dependency/>
+                    <run-dependency>
+                        <release-version>1</release-version>
+                        <specification-version>2.0</specification-version>
+                    </run-dependency>
+                </dependency>
+                <dependency>
                     <code-name-base>com.sun.rave.propertyeditors</code-name-base>
                     <build-prerequisite/>
                     <compile-dependency/>
                     <run-dependency>
                         <release-version>1</release-version>
                         <specification-version>1.0</specification-version>
+                    </run-dependency>
+                </dependency>
+                <dependency>
+                    <code-name-base>com.sun.rave.webui.jsf.themes.defaulttheme</code-name-base>
+                    <run-dependency>
+                        <specification-version>2.1.0.1</specification-version>
                     </run-dependency>
                 </dependency>
                 <dependency>
@@ -141,38 +188,6 @@
                     </run-dependency>
                 </dependency>
             </module-dependencies>
-            <class-path-extension>
-                <runtime-relative-path>ext/webui-jsf-dt.jar</runtime-relative-path>
-                <binary-origin>../../master/dist/webui-jsf-dt.jar</binary-origin>
-            </class-path-extension>
-            <class-path-extension>
-                <runtime-relative-path>ext/webui-jsf.jar</runtime-relative-path>
-                <binary-origin>../../master/dist/webui-jsf.jar</binary-origin>
-            </class-path-extension>
-            <class-path-extension>
-	        <runtime-relative-path>ext/json.jar</runtime-relative-path>
-	        <binary-origin>../../master/dist/json.jar</binary-origin>
-            </class-path-extension>
-            <class-path-extension>
-	    	<runtime-relative-path>ext/prototype-1.5.0.jar</runtime-relative-path>
-	    	<binary-origin>../../master/dist/prototype-1.5.0.jar</binary-origin>
-            </class-path-extension>
-            <class-path-extension>
-	       <runtime-relative-path>ext/dojo-0.4.1-ajax.jar</runtime-relative-path>
-	       <binary-origin>../../master/dist/dojo-0.4.1-ajax.jar</binary-origin>
-            </class-path-extension>
-            <class-path-extension>
-	       <runtime-relative-path>ext/jsf-extensions-common-0.1.jar</runtime-relative-path>
-	       <binary-origin>../../master/dist/jsf-extensions-common-0.1.jar</binary-origin>
-            </class-path-extension>
-            <class-path-extension>
-	       <runtime-relative-path>ext/jsf-extensions-dynamic-faces-0.1.jar</runtime-relative-path>
-	       <binary-origin>../../master/dist/jsf-extensions-dynamic-faces-0.1.jar</binary-origin>
-            </class-path-extension>
-            <class-path-extension>
-                <runtime-relative-path>ext/webui-jsf-suntheme.jar</runtime-relative-path>
-                <binary-origin>../../master/dist/webui-jsf-suntheme.jar</binary-origin>
-            </class-path-extension>
             <public-packages>
                 <package>com.sun.webui.html</package>
                 <package>com.sun.webui.jsf.bean</package>

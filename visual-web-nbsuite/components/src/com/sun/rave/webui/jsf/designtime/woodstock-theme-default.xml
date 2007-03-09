@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+   {START_XML_COPYRIGHT_NOTICE
+   Copyright 2004 Sun Microsystems, Inc. All rights reserved.
+   Use is subject to license terms.
+   END_COPYRIGHT_NOTICE}
+-->
+<!DOCTYPE library PUBLIC "-//NetBeans//DTD Library Declaration 1.0//EN" "http://www.netbeans.org/dtds/library-declaration-1_0.dtd">
+<library version="1.0">
+    <name>woodstock-theme-default</name>
+    <type>theme</type>
+    <localizing-bundle>com.sun.rave.project.jsf.libraries.Bundle</localizing-bundle>
+    <volume>
+        <type>classpath</type>
+        <resource>jar:nbinst:///modules/ext/webui-jsf-suntheme.jar!/</resource>
+    </volume>
+    <volume>
+        <type>runtime</type>
+        <resource>jar:nbinst:///modules/ext/webui-jsf-suntheme.jar!/</resource>
+    </volume>
+</library>

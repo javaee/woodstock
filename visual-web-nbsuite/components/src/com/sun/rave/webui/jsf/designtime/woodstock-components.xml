@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+   {START_XML_COPYRIGHT_NOTICE
+   Copyright 2004 Sun Microsystems, Inc. All rights reserved.
+   Use is subject to license terms.
+   END_COPYRIGHT_NOTICE}
+-->
+<!DOCTYPE library PUBLIC "-//NetBeans//DTD Library Declaration 1.0//EN" "http://www.netbeans.org/dtds/library-declaration-1_0.dtd">
+<library version="1.0">
+    <name>woodstock-components</name>
+    <type>complib</type>
+    <localizing-bundle>com.sun.rave.project.jsf.libraries.Bundle</localizing-bundle>
+    <volume>
+        <type>classpath</type>
+        <resource>jar:nbinst:///modules/ext/webui-jsf.jar!/</resource>
+        <resource>jar:nbinst:///modules/ext/commons-fileupload.jar!/</resource>
+        <resource>jar:nbinst:///modules/ext/json.jar!/</resource>
+        <resource>jar:nbinst:///modules/ext/prototype-1.5.0.jar!/</resource>
+        <resource>jar:nbinst:///modules/ext/dojo-0.4.1-ajax.jar!/</resource>
+        
+        <resource>jar:nbinst:///modules/ext/jsf-extensions-common-0.1.jar!/</resource>
+        <resource>jar:nbinst:///modules/ext/jsf-extensions-dynamic-faces-0.1.jar!/</resource>
+    </volume>
+    <volume>
+        <type>src</type>
+        <resource>jar:nbinst:///docs/webui-jsf-src.zip!/</resource>
+    </volume>
+    <volume>
+        <type>javadoc</type>
+        <resource>jar:nbinst:///docs/webui-jsf-doc.zip!/</resource>
+        <resource>jar:nbinst:///docs/portlet-doc.zip!/</resource>
+    </volume>
+</library>

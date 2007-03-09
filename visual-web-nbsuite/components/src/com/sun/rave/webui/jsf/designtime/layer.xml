@@ -175,5 +175,12 @@
             <file name="WoodstockValueExpressionFilterCriteria.comp_palette_item" url="resources/WoodstockValueExpressionFilterCriteria.comp_palette_item"/>           
         </folder>
     </folder>
+
+  <folder name="org-netbeans-api-project-libraries">
+    <folder name="Libraries">
+      <file name="woodstock-components.xml" url="woodstock-components.xml"/>
+      <file name="woodstock-theme-default.xml" url="woodstock-theme-default.xml"/>
+    </folder>
+  </folder>
     
 </filesystem>
