@@ -171,7 +171,6 @@ public class CommonTasksGroupRenderer extends AbstractRenderer {
              JSONObject json = getJSONProperties(context, theme, component);
 
             buff.append(JavaScriptUtilities.getModule("commonTasksSection"))
-                .append("\n") // NOI18N
                 .append(JavaScriptUtilities.getModuleName(
                     "commonTasksSection.init(")) // NOI18N
                 .append(json.toString(JavaScriptUtilities.INDENT_FACTOR))
@@ -185,7 +184,6 @@ public class CommonTasksGroupRenderer extends AbstractRenderer {
                 LogUtil.fine(e.getStackTrace().toString()); //NOI18N
             }
         }
-        writer.write("\n");             // NOI18N
     }
     
      protected JSONObject getJSONProperties(FacesContext context, Theme theme, 

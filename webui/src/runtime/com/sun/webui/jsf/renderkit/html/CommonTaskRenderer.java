@@ -139,7 +139,11 @@ public class CommonTaskRenderer extends AbstractRenderer {
      *Append this string for the id of div for the hyperlink in the info panel.
      */
     private static final String INFO_DIV_LINK = "_infoLinkDiv";
-    
+    /**
+     * Append this string for the id of the ">>" image that comes in the bottom
+     * part of the info panel.
+     */
+    private static final String HREF_LINK="_linkImage";    
     /**
      * Ids that are appended for the spans that are present inside the
      * hyperlink 
@@ -240,8 +244,20 @@ public class CommonTaskRenderer extends AbstractRenderer {
         UIComponent facet = task.getInfoPanel();          
         
         if (facet != null || infoText != null || 
-                infoTitle != null ) { 
+                infoTitle != null ) {         
             renderInfoIcon(task, theme, context, writer);
+            // Start a new table for rending the info panel.
+            // Otherwise there appears to be a rendering problem
+            // on IE.
+             writer.endElement(HTMLElements.TR);
+             writer.endElement(HTMLElements.TABLE);
+             writer.startElement(HTMLElements.TABLE, task);
+             writer.writeAttribute(HTMLAttributes.BORDER,"0",
+                    HTMLAttributes.BORDER);          
+             writer.writeAttribute(HTMLAttributes.CELLSPACING,"0",
+                    HTMLAttributes.CELLSPACING); 
+             writer.writeAttribute(HTMLAttributes.CELLPADDING,"0",
+                    HTMLAttributes.CELLPADDING);             
             renderInfoText(task, theme, context, writer, infoText, infoTitle,
                     facet);                  
         } else {
@@ -376,6 +392,8 @@ public class CommonTaskRenderer extends AbstractRenderer {
               FacesContext context, ResponseWriter writer, 
             String infoText, String infoTitle, UIComponent facet)
             throws IOException {
+        writer.startElement(HTMLElements.TR, task);
+        writer.startElement(HTMLElements.TD, task);
 
         StringBuffer sb;
         ImageHyperlink close = new ImageHyperlink();
@@ -419,7 +437,7 @@ public class CommonTaskRenderer extends AbstractRenderer {
                   HTMLAttributes.CLASS);
 
             if (infoTitle != null) {
-                writer.write(infoTitle);
+                writer.writeText(infoTitle, null);
             }
 
             writer.endElement(HTMLElements.SPAN);
@@ -429,7 +447,7 @@ public class CommonTaskRenderer extends AbstractRenderer {
                  theme.getStyleClass(ThemeStyles.CTS_TASK_CONTENT), 
                   HTMLAttributes.CLASS);
             if (infoText != null) {
-                writer.write(infoText);
+                writer.writeText(infoText, null);
             }
             writer.endElement(HTMLElements.SPAN);
 
@@ -453,7 +471,7 @@ public class CommonTaskRenderer extends AbstractRenderer {
 
         try {
             JSONObject json = getJSONProperties(context, theme, task, close, 
-                              section);
+                section);
 
             sb.append(JavaScriptUtilities.getDomNode(context, section))
               .append(".addCommonTask(")
@@ -463,7 +481,8 @@ public class CommonTaskRenderer extends AbstractRenderer {
         }catch(JSONException e) {
             e.printStackTrace();
         }
-        writer.write("\n"); // NOI18N   
+        // Note: The TR will be closed in renderEnd().
+        writer.endElement(HTMLElements.TD);
     }
         
      /**
@@ -480,16 +499,17 @@ public class CommonTaskRenderer extends AbstractRenderer {
           writer.startElement(HTMLElements.P, task);
           writer.writeAttribute(HTMLAttributes.CLASS, theme.getStyleClass
                   (ThemeStyles.CTS_TASK_MORE), HTMLAttributes.CLASS);// NOI18N
-          writer.startElement(HTMLElements.IMG, task);
-          writer.writeAttribute(HTMLAttributes.BORDER,"0", HTMLAttributes.BORDER);
-          writer.writeAttribute(HTMLAttributes.SRC,
-                  theme.getImagePath(ThemeImages.HREF_LINK),
-		  HTMLAttributes.SRC);
-          writer.endElement(HTMLElements.IMG);
+          
+          Icon ic = new Icon();
+          ic = ThemeUtilities.getIcon(theme, ThemeImages.HREF_LINK);
+          ic.setBorder(0);
+          ic.setParent(task);
+          ic.setId(task.getId()+HREF_LINK);
+          RenderingUtilities.renderComponent(ic, context);
           RenderingUtilities.renderComponent(facet, context);                   
           writer.endElement(HTMLElements.P);
 
-      } 
+      }
       
     protected JSONObject getJSONProperties(FacesContext context, Theme theme, 
           UIComponent component, ImageHyperlink close, UIComponent section) 
@@ -659,7 +679,7 @@ public class CommonTaskRenderer extends AbstractRenderer {
         String text = ConversionUtilities.convertValueToString(task,
 			task.getText());
         if (text != null) {
-            writer.write(text);
+            writer.writeText(text, null);
         }
         writer.endElement(HTMLElements.SPAN);           
         writer.endElement(HTMLElements.A);

@@ -123,7 +123,6 @@ public class CommonTasksSectionRenderer extends AbstractRenderer {
         }
    
         String title;
-        writer.write("\n"); // NOI18N        
         writer.startElement(HTMLElements.DIV, cts);
         writer.writeAttribute(HTMLAttributes.ID, cts.getClientId(context),
                 HTMLAttributes.ID);         // NOI18N
@@ -157,7 +156,6 @@ public class CommonTasksSectionRenderer extends AbstractRenderer {
             cts.setTitle(title);
         }
   
-        writer.write("\n");                                        // NOI18N
         renderHeading(title, writer, cts, theme, context);
         writer.endElement(HTMLElements.TABLE);
          writer.startElement(HTMLElements.TABLE, cts);
@@ -169,10 +167,8 @@ public class CommonTasksSectionRenderer extends AbstractRenderer {
                 HTMLAttributes.CELLPADDING);
         writer.writeAttribute(HTMLAttributes.CELLSPACING, "0", 
                 HTMLAttributes.CELLSPACING);   
-        writer.writeAttribute(HTMLAttributes.TITLE, "", HTMLAttributes.TITLE);
-        
-        writer.write("\n");                                        // NOI18N
-        
+        writer.writeAttribute(HTMLAttributes.TITLE, "", HTMLAttributes.TITLE);        
+     
         renderSpacer(writer, cts, theme, numColumns, context);
         writer.startElement(HTMLElements.TR, cts);
                 writer.startElement(HTMLElements.TD, cts);
@@ -213,7 +209,6 @@ public class CommonTasksSectionRenderer extends AbstractRenderer {
 
             StringBuffer buff = new StringBuffer();
             buff.append(JavaScriptUtilities.getModule("commonTasksSection"))
-                .append("\n") // NOI18N
                 .append(JavaScriptUtilities.getModuleName(
                     "commonTasksSection.init(")) // NOI18N
                 .append(json.toString(JavaScriptUtilities.INDENT_FACTOR))
@@ -227,7 +222,6 @@ public class CommonTasksSectionRenderer extends AbstractRenderer {
                 LogUtil.fine(e.getStackTrace().toString()); //NOI18N
             }
         }
-        writer.write("\n");             // NOI18N
     }
     
     /**
@@ -255,7 +249,7 @@ public class CommonTasksSectionRenderer extends AbstractRenderer {
         writer.startElement(HTMLElements.DIV, cts);
         writer.writeAttribute(HTMLAttributes.CLASS, theme.getStyleClass
                 (ThemeStyles.CTS_HEADER), HTMLAttributes.CLASS);
-        writer.write(title);
+        writer.writeText(title, null);
         writer.endElement(HTMLElements.DIV);
 
         // Add Inline help.
