@@ -20,7 +20,6 @@
  * Copyright 2007 Sun Microsystems, Inc. All rights reserved.
  */
 
-
 package com.sun.webui.jsf.renderkit.widget;
 
 import java.text.MessageFormat;
@@ -58,8 +57,7 @@ import com.sun.webui.jsf.util.ClientSniffer;
 @Renderer(@Renderer.Renders(
     rendererType="com.sun.webui.jsf.widget.Image", 
     componentFamily="com.sun.webui.jsf.Image"))
-public class ImageRenderer extends RendererBase{
-    
+public class ImageRenderer extends RendererBase {
     /**
      * The set of pass-through attributes to be rendered.
      */
@@ -84,9 +82,11 @@ public class ImageRenderer extends RendererBase{
         "vspace",
         "border",
     };
+
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     // RendererBase methods
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
     /**
      * Get the Dojo modules required to instantiate the widget.
      *
@@ -107,8 +107,7 @@ public class ImageRenderer extends RendererBase{
      * @param component UIComponent to be rendered.
      */    
     protected JSONObject getProperties(FacesContext context,     
-         UIComponent component) throws JSONException, IOException {
-
+            UIComponent component) throws JSONException, IOException {
         ImageComponent image = (ImageComponent) component;
         String url = image.getUrl();
         String icon = image.getIcon();
@@ -130,21 +129,18 @@ public class ImageRenderer extends RendererBase{
                 if (LogUtil.warningEnabled(ImageRenderer.class)) {
                     LogUtil.warning(ImageRenderer.class, "  URL  was not " +
                             "specified and generally should be"); // NOI18N
-
                 }
             }
             // We do not want to invoke getResourceURL for an icon component.
         } else {
-            url = context.getApplication().getViewHandler()
-                    .getResourceURL(context, url);
+            url = context.getApplication().getViewHandler().getResourceURL(
+                context, url);
         }
 
-
-      // must encode the url (even though we call the function later)!  
+        // must encode the url (even though we call the function later)!  
         url = (url != null && url.trim().length() != 0)
             ? context.getExternalContext().encodeResourceURL(url) : "";
-         url = WidgetUtilities.encodeURL(context, component, url);       
-         
+        url = WidgetUtilities.translateURL(context, image, url);
         JSONObject json = new JSONObject();
         String style = image.getStyle();                     
         String templatePath = ((Widget)image).getHtmlTemplate(); // Get HTML template.                        
@@ -158,9 +154,10 @@ public class ImageRenderer extends RendererBase{
         if (isPngAndIE(context, url)) {            
             setPngProperties(json, width, height, theme, style, url);
         } else {        
-        json.put("src", url)
-            .put("style", style);
+            json.put("src", url)
+                .put("style", style);
         }
+
         if (width > 0) {
             json.put("width", width);
         }
@@ -168,23 +165,18 @@ public class ImageRenderer extends RendererBase{
         if (height > 0) {
             json.put("height", height);
         }
-       // Add core and attribute properties.
+
+        // Add core and attribute properties.
         addAttributeProperties(attributes, component, json);
         setCoreProperties(context, component, json);
 
         return json;
     }
     
-
-    
     protected void setPngProperties(JSONObject json, int width, int height, 
-            Theme theme, String style, String url)throws JSONException,
+        Theme theme, String style, String url) throws JSONException, 
             IOException {
-        
-        StringBuffer errorMsg = new StringBuffer("Image's {0} was not") 
-                .append(" specified. Using a generic")
-                .append(" default value of {1}"); 
-        MessageFormat mf = new MessageFormat(errorMsg.toString());                          
+                       
         String imgHeight = null;
         String imgWidth = null;
 
@@ -192,20 +184,13 @@ public class ImageRenderer extends RendererBase{
             imgWidth = Integer.toString(width);
         } else {
             imgWidth = theme.getMessage("Image.defaultWidth");
-            if (LogUtil.fineEnabled(ImageRenderer.class)) {
-                LogUtil.fine(ImageRenderer.class, mf.format(new String[]
-                {"width",imgWidth}));  //NOI18N
-            }
-        }
+            logMessage("width", imgWidth);        }
 
         if (height >= 0) {
             imgHeight = Integer.toString(height);
         } else {
             imgHeight =theme.getMessage("Image.defaultHeight");
-            if (LogUtil.fineEnabled(ImageRenderer.class)) {
-                LogUtil.fine(ImageRenderer.class, mf.format(new String[]
-                {"height",imgHeight}));  //NOI18N
-            }
+            logMessage("height", imgHeight);
         }
         String IEStyle = theme.getMessage("Image.IEPngCSSStyleQuirk", 
                 new String[] {imgWidth, imgHeight, url});
@@ -226,14 +211,13 @@ public class ImageRenderer extends RendererBase{
     // Helper method to get Theme objects.
     private Theme getTheme() {
         return ThemeUtilities.getTheme(FacesContext.getCurrentInstance());
-    }    
-    private boolean isPngAndIE(FacesContext context, String url) {
+    }
 
+    private boolean isPngAndIE(FacesContext context, String url) {
         ClientSniffer cs = ClientSniffer.getInstance(context);
         
         //Some time encodeResourceURL(url) adds the sessiod to the
         // image URL, make sure to take that in to account
-        //
         if (url.indexOf("sessionid") != -1){ //NOI18N
             if (url.substring(0,url.indexOf(';')).
 		    endsWith(".png")&& cs.isIe6up()) { //NOI18N
@@ -252,9 +236,26 @@ public class ImageRenderer extends RendererBase{
                     return true;
                 }
             }
-        }
-        
+        }   
         return false;
     }    
     
+    /**
+     * Log an error message.
+     * @param property The image property for which the value was not found
+     * @param message The defau lt value used.
+     */
+    private void logMessage(String property, String value) {
+        StringBuilder errorMsg = new StringBuilder();
+        errorMsg.append("Image's")
+                .append(property)
+                .append(" specified. Using a generic")
+                .append("default value of")
+                .append(value);
+        
+        if (LogUtil.fineEnabled(ImageRenderer.class)) {
+            LogUtil.fine(ImageRenderer.class, errorMsg.toString());  //NOI18N
+        }        
+        
+    }
 }
