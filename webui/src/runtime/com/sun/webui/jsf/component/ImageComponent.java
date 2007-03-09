@@ -40,12 +40,11 @@ import com.sun.webui.jsf.theme.ThemeImages;
  */
 @Component(type="com.sun.webui.jsf.Image",
     family="com.sun.webui.jsf.Image",
-    //tagRendererType="com.sun.webui.jsf.widget.Image", 
-    tagRendererType="com.sun.webui.jsf.Image",         
+    tagRendererType="com.sun.webui.jsf.widget.Image", 
     displayName="Image", tagName="image",instanceName="image",
     helpKey="projrave_ui_elements_palette_wdstk-jsf1.2_image_component",
     propertiesHelpKey="projrave_ui_elements_palette_wdstk-jsf1.2_propsheets_image_component_props")
-public class ImageComponent extends UIGraphic{// implements Widget {
+public class ImageComponent extends UIGraphic implements Widget {
     
     private ThemeImage themeImage = null;
     private Theme theme = null;
@@ -54,8 +53,7 @@ public class ImageComponent extends UIGraphic{// implements Widget {
      */
     public ImageComponent() {
         super();
-      //  setRendererType("com.sun.webui.jsf.widget.Image");   
-        setRendererType("com.sun.webui.jsf.Image");   
+        setRendererType("com.sun.webui.jsf.widget.Image");   
     }
 
     /**
@@ -70,9 +68,9 @@ public class ImageComponent extends UIGraphic{// implements Widget {
      *
      * @return The type of widget represented by this component.
      */
-//    public String getWidgetType() {
-//        return JavaScriptUtilities.getNamespace("image");
-//    }
+    public String getWidgetType() {
+        return JavaScriptUtilities.getNamespace("image");
+    }
 
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     // Tag attribute methods
@@ -889,29 +887,29 @@ public class ImageComponent extends UIGraphic{// implements Widget {
     /**
      * Alternative HTML template to be used by this component.
      */
-//    @Property(name="htmlTemplate", displayName="HTML Template", category="Appearance")
-//    private String htmlTemplate = null;
-//
-//    /**
-//     * Get alternative HTML template to be used by this component.
-//     */
-//    public String getHtmlTemplate() {
-//        if (this.htmlTemplate != null) {
-//            return this.htmlTemplate;
-//        }
-//        ValueExpression _vb = getValueExpression("htmlTemplate");
-//        if (_vb != null) {
-//            return (String) _vb.getValue(getFacesContext().getELContext());
-//        }
-//        return null;
-//    }
-//    
-//    /**
-//     * Set alternative HTML template to be used by this component.
-//     */
-//    public void setHtmlTemplate(String htmlTemplate) {
-//        this.htmlTemplate = htmlTemplate;
-//    }
+    @Property(name="htmlTemplate", displayName="HTML Template", category="Appearance")
+    private String htmlTemplate = null;
+
+    /**
+     * Get alternative HTML template to be used by this component.
+     */
+    public String getHtmlTemplate() {
+        if (this.htmlTemplate != null) {
+            return this.htmlTemplate;
+        }
+        ValueExpression _vb = getValueExpression("htmlTemplate");
+        if (_vb != null) {
+            return (String) _vb.getValue(getFacesContext().getELContext());
+        }
+        return null;
+    }
+    
+    /**
+     * Set alternative HTML template to be used by this component.
+     */
+    public void setHtmlTemplate(String htmlTemplate) {
+        this.htmlTemplate = htmlTemplate;
+    }
     
     private void initThemeImage() {
         if (themeImage == null) {
@@ -955,14 +953,14 @@ public class ImageComponent extends UIGraphic{// implements Widget {
         this.vspace_set = ((Boolean) _values[24]).booleanValue();
         this.width = ((Integer) _values[25]).intValue();
         this.width_set = ((Boolean) _values[26]).booleanValue();
-      //  this.htmlTemplate = (String) _values[27];
+        this.htmlTemplate = (String) _values[27];
     }
 
     /**
      * <p>Save the state of this component.</p>
      */
     public Object saveState(FacesContext _context) {
-        Object _values[] = new Object[27];
+        Object _values[] = new Object[28];
         _values[0] = super.saveState(_context);
         _values[1] = this.align;
         _values[2] = this.alt;
@@ -990,7 +988,7 @@ public class ImageComponent extends UIGraphic{// implements Widget {
         _values[24] = this.vspace_set ? Boolean.TRUE : Boolean.FALSE;
         _values[25] = new Integer(this.width);
         _values[26] = this.width_set ? Boolean.TRUE : Boolean.FALSE;
-       // _values[27] = this.htmlTemplate;
+        _values[27] = this.htmlTemplate;
         return _values;
     }
     

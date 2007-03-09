@@ -163,41 +163,50 @@ public class WidgetUtilities {
         return strWriter;
     }
 
-       
+   /**
+    * Helper function to translate a typical URL.
+    * It takes a given url and appends parameters
+    * if the component has any and returns back the string
+    * after calling <code>ExternalContext.encodeResourceURL()</code>
+    * <p>
+    * Note: Path must be a valid absolute URL or full path URI.
+    * </p>
+    *
+    * @param context The faces context    
+    * @param component The component that may contain parameters to 
+    * be appended along with the url.
+    * @param url The value passed in by the developer for the url
+    *
+    */      
         
-    /**
-     * Helper function to encode a typical URL.
-     * <p>
-     * Note: Path must be a valid absolute URL or full path URI.
-     * </p>
-     *
-     * @param component The uicomponent
-     * @param name The attribute name of the url to write out
-     * @param url The value passed in by the developer for the url
-     *
-     */
-    public static String encodeURL(FacesContext context, UIComponent component, 
-        String url) throws IOException  {
-    if (context == null) {
-        return null;
-    }
+    public static String translateURL(FacesContext context, UIComponent component,
+            String url) {
 
-    // Initialize Writer to buffer rendered output.
-    ResponseWriter oldWriter = context.getResponseWriter();        
-    Writer newWriter = initStringWriter(context);
-
-    RenderingUtilities.renderURLAttribute(context, (context.getResponseWriter()), 
-            component, "url", url, null);
-    // Restore current writer and return buffered content.
-    context.setResponseWriter(oldWriter);
-    String tmp = newWriter.toString();
-    // Return the part of the string that we need.
-      return tmp.substring(6,tmp.length()-1);
-}  
+        StringBuffer sb = new StringBuffer(url);
+        String name = null;        
+        int i = 0;        
+        RenderingUtilities.Param[] paramList = RenderingUtilities.getParamList(context, component);
+        int len = paramList.length;        
+        if (len > 0) {
+            sb.append("?");
+        }        
+        for (i=0 ; i<len ; i++) {
+            if (0 != i) {
+                sb.append("&");
+            }
+            name = paramList[i].getName();
+            if (name == null) {
+                continue;
+            }
+            sb.append(name);
+            sb.append("=");
+            sb.append(paramList[i].getValue());            
+        }
+        return context.getExternalContext().encodeResourceURL(sb.toString());
+    }  
 
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     // Private methods
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-       
 }
-     
 

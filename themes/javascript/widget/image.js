@@ -20,12 +20,13 @@
 // Copyright 2007 Sun Microsystems, Inc. All rights reserved.
 //
 
-
 dojo.provide("webui.@THEME@.widget.image");
 
 dojo.require("dojo.widget.*");
+dojo.require("dojo.uri.Uri");
 dojo.require("webui.@THEME@.*");
 dojo.require("webui.@THEME@.widget.*");
+
 
 /**
  * This function will be invoked when creating a Dojo widget. Please see
@@ -44,39 +45,39 @@ webui.@THEME@.widget.image = function() {
     this.fillInTemplate = function() {
         // Set public functions. 
         this.domNode.setProps = webui.@THEME@.widget.image.setProps;		
-            // Save given properties on the HTML element for later updates.
-            this.domNode.setProps({
-                alt: this.alt,
-                align: this.align,		
-                longDesc: this.longDesc,
-                className: this.className,
-                id: this.id,
-                onClick: this.onClick,
-                onDblClick: this.onDblClick,
-                onKeyDown: this.onKeyDown,
-                onKeyPress: this.onKeyPress,
-                onKeyUp: this.onKeyUp,
-                onMouseDown: this.onMouseDown,
-                onMouseOut: this.onMouseOut,
-                onMouseOver: this.onMouseOver,
-                onMouseUp: this.onMouseUp,
-                onMouseMove: this.onMouseMove,
-                templatePath: this.templatePath,
-                style: this.style,
-                tabIndex: this.tabIndex,
-                title: this.title,
-                visible: this.visible,
-                src:this.src,
-                vspace: this.vspace,
-                hspace: this.hspace,
-                width: this.width,
-                height: this.height,
-                border: (this.border) ? this.border : 0
-            });
+            
+        // Set properties.
+        this.domNode.setProps({
+            alt: this.alt,
+            align: this.align,		
+            longDesc: this.longDesc,
+            className: this.className,
+            id: this.id,
+            onClick: this.onClick,
+            onDblClick: this.onDblClick,
+            onKeyDown: this.onKeyDown,
+            onKeyPress: this.onKeyPress,
+            onKeyUp: this.onKeyUp,
+            onMouseDown: this.onMouseDown,
+            onMouseOut: this.onMouseOut,
+            onMouseOver: this.onMouseOver,
+            onMouseUp: this.onMouseUp,
+            onMouseMove: this.onMouseMove,
+            templatePath: this.templatePath,
+            style: this.style,
+            tabIndex: this.tabIndex,
+            title: this.title,
+            visible: this.visible,
+            src:this.src,
+            vspace: this.vspace,
+            hspace: this.hspace,
+            width: this.width,
+            height: this.height,
+            border: (this.border) ? this.border : 0
+        });
 	return true;		
     }
 }
-
 
 /**
  * This function is used to update widget properties with the
@@ -111,10 +112,10 @@ webui.@THEME@.widget.image = function() {
  *  <li>border</li>
  *  <li>visible</li>
  * </ul>
+ *
  * @param props Key-Value pairs of properties.
  */
 webui.@THEME@.widget.image.setProps = function(props){
-
     if (props == null) {
         return false;
     }
@@ -126,20 +127,18 @@ webui.@THEME@.widget.image.setProps = function(props){
         this._props = props;
     }
 
-    // Set attributes.
+    // Set DOM node properties.
     webui.@THEME@.widget.common.setCoreProperties(this, props);
     webui.@THEME@.widget.common.setJavaScriptProperties(this, props);
-    if (props.alt) {this.setAttribute("alt", props.alt);}
+    if (props.alt) { this.setAttribute("alt", props.alt); }
     if (props.align) { this.setAttribute("align", props.align); }
     if (props.longDesc) { this.setAttribute("longDesc", props.longDesc); }
-    if (props.src) { this.setAttribute("src", props.src);}
-    if (props.vspace) {this.setAttribute("vspace", props.vspace);}
-    if (props.hspace) {this.setAttribute("hspace", props.hspace);}
-    if (props.width) {this.setAttribute("width", props.width);}
-    if (props.height) {this.setAttribute("height", props.height);}
-    if (props != null) {
-        this.setAttribute("border", props.border);
-    }
+    if (props.src) { this.setAttribute("src", new dojo.uri.Uri(props.src).toString()); }
+    if (props.vspace) { this.setAttribute("vspace", props.vspace); }
+    if (props.hspace) { this.setAttribute("hspace", props.hspace); }
+    if (props.width) { this.setAttribute("width", props.width); }
+    if (props.height) { this.setAttribute("height", props.height); }
+    if (props.border != null) { this.setAttribute("border", props.border); }
     return true;            
 }
         

@@ -31,9 +31,8 @@ import javax.faces.context.FacesContext;
  * rendered HTML page.
  */
 @Component(type="com.sun.webui.jsf.Icon", 
-    //family="com.sun.webui.jsf.Image",
-    family="com.sun.webui.jsf.Icon",
-   // tagRendererType="com.sun.webui.jsf.widget.Image",
+    family="com.sun.webui.jsf.Image",
+    tagRendererType="com.sun.webui.jsf.widget.Image",
     displayName="Image", isContainer=false, isTag=false,
     helpKey="projrave_ui_elements_palette_wdstk-jsf1.2_icon",
     propertiesHelpKey="projrave_ui_elements_palette_wdstk-jsf1.2_propsheets_icon_props")
@@ -43,16 +42,14 @@ public class Icon extends ImageComponent {
      */
     public Icon() {
         super();
-        //setRendererType("com.sun.webui.jsf.widget.Image");
-        setRendererType("com.sun.webui.jsf.Icon");
+        setRendererType("com.sun.webui.jsf.widget.Image");
     }
 
     /**
      * <p>Return the family for this component.</p>
      */
     public String getFamily() {
-        //return "com.sun.webui.jsf.Image";
-        return "com.sun.webui.jsf.Icon";
+        return "com.sun.webui.jsf.Image";
     }
     
  
