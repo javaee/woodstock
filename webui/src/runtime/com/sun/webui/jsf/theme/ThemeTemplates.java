@@ -57,6 +57,11 @@ public class ThemeTemplates {
     public static final String LABEL = "label";
 
     /**
+     * A template file that contains HTML for the staticText component.
+     */
+    public static final String STATICTEXT = "staticText";
+
+    /**
      * This private constructor prevents this class from being instantiated
      * directly as its only purpose is to provide image constants.
      */

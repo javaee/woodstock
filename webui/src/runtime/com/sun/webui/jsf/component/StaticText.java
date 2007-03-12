@@ -28,22 +28,23 @@ import javax.faces.convert.Converter;
 
 import com.sun.faces.annotation.Component;
 import com.sun.faces.annotation.Property;
+import com.sun.webui.jsf.util.JavaScriptUtilities;
 
 /**
  * The StaticText component is used to display text that is not interactive in 
  * the rendered HTML page.
  */
-@Component(type="com.sun.webui.jsf.StaticText", family="com.sun.webui.jsf.StaticText", displayName="Static Text", tagName="staticText",
+@Component(type="com.sun.webui.jsf.StaticText", family="com.sun.webui.jsf.StaticText", displayName="Static Text", tagName="staticText", tagRendererType="com.sun.webui.jsf.widget.StaticText",
     helpKey="projrave_ui_elements_palette_wdstk-jsf1.2_static_text",
     propertiesHelpKey="projrave_ui_elements_palette_wdstk-jsf1.2_propsheets_static_text_props")
-public class StaticText extends UIOutput {
+public class StaticText extends UIOutput implements Widget {
 
     /**
      * <p>Construct a new <code>StaticText</code>.</p>
      */
     public StaticText() {
         super();
-        setRendererType("com.sun.webui.jsf.StaticText");
+        setRendererType("com.sun.webui.jsf.widget.StaticText");
     }
 
     /**
@@ -51,6 +52,47 @@ public class StaticText extends UIOutput {
      */
     public String getFamily() {
         return "com.sun.webui.jsf.StaticText";
+    }
+
+    /**
+     * Get the type of widget represented by this component.
+     *
+     * @return The type of widget represented by this component.
+     */
+
+     public String getWidgetType() {
+         return JavaScriptUtilities.getNamespace("staticText");
+     }
+     
+     
+     
+    /**
+     * Alternative HTML template to be used by this component.
+     */
+    @Property(name="htmlTemplate", displayName="HTML Template", category="Appearance")
+    private String htmlTemplate = null;
+
+    /**
+     * Get alternative HTML template to be used by this component.
+     */
+
+    public String getHtmlTemplate() {
+        if (this.htmlTemplate != null) {
+            return this.htmlTemplate;
+        }
+        ValueExpression _vb = getValueExpression("htmlTemplate");
+        if (_vb != null) {
+            return (String) _vb.getValue(getFacesContext().getELContext());
+        }
+        return null;
+    }
+
+    /**
+     * Set alternative HTML template to be used by this component.
+     */
+
+    public void setHtmlTemplate(String htmlTemplate) {
+        this.htmlTemplate = htmlTemplate;
     }
 
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -567,13 +609,14 @@ public class StaticText extends UIOutput {
         this.toolTip = (String) _values[12];
         this.visible = ((Boolean) _values[13]).booleanValue();
         this.visible_set = ((Boolean) _values[14]).booleanValue();
+        this.htmlTemplate = (String) _values[15];
     }
 
     /**
      * <p>Save the state of this component.</p>
      */
     public Object saveState(FacesContext _context) {
-        Object _values[] = new Object[15];
+        Object _values[] = new Object[16];
         _values[0] = super.saveState(_context);
         _values[1] = this.escape ? Boolean.TRUE : Boolean.FALSE;
         _values[2] = this.escape_set ? Boolean.TRUE : Boolean.FALSE;
@@ -589,6 +632,7 @@ public class StaticText extends UIOutput {
         _values[12] = this.toolTip;
         _values[13] = this.visible ? Boolean.TRUE : Boolean.FALSE;
         _values[14] = this.visible_set ? Boolean.TRUE : Boolean.FALSE;
+        _values[15] = this.htmlTemplate;
         return _values;
     }
 
