@@ -50,6 +50,12 @@ public class ThemeTemplates {
      * A template file that contains HTML for the image component.
      */
     public static final String IMAGE = "image";
+
+    /**
+     * A template file that contains HTML for the Label component.
+     */
+    public static final String LABEL = "label";
+
     /**
      * This private constructor prevents this class from being instantiated
      * directly as its only purpose is to provide image constants.

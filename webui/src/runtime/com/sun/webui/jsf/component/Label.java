@@ -25,7 +25,7 @@ import com.sun.faces.annotation.Component;
 import com.sun.faces.annotation.Property;
 import com.sun.webui.jsf.theme.ThemeImages;
 import com.sun.webui.jsf.util.ComponentUtilities;
-import com.sun.webui.jsf.util.ConversionUtilities;
+import com.sun.webui.jsf.util.JavaScriptUtilities;
 import com.sun.webui.jsf.util.LogUtil;
 import com.sun.webui.jsf.util.ThemeUtilities;
 import com.sun.webui.theme.Theme; 
@@ -46,10 +46,10 @@ import javax.faces.convert.Converter;
 /**
  * The Label component displays a label for a component.
  */
-@Component(type="com.sun.webui.jsf.Label", family="com.sun.webui.jsf.Label", displayName="Label", tagName="label",
+@Component(type="com.sun.webui.jsf.Label", family="com.sun.webui.jsf.Label", displayName="Label", tagName="label",tagRendererType="com.sun.webui.jsf.widget.Label",
     helpKey="projrave_ui_elements_palette_wdstk-jsf1.2_label",
     propertiesHelpKey="projrave_ui_elements_palette_wdstk-jsf1.2_propsheets_label_props")
-public class Label extends UIOutput implements NamingContainer {
+public class Label extends UIOutput implements NamingContainer, Widget {
     
     public static final String REQUIRED_ID = "_required";
     public static final String REQUIRED_FACET = "required";
@@ -67,7 +67,7 @@ public class Label extends UIOutput implements NamingContainer {
      */
     public Label() {
         super();
-        setRendererType("com.sun.webui.jsf.Label");
+        setRendererType("com.sun.webui.jsf.widget.Label");
     }
 
     /**
@@ -76,6 +76,48 @@ public class Label extends UIOutput implements NamingContainer {
     public String getFamily() {
         return "com.sun.webui.jsf.Label";
     }
+
+    /**
+     * Get the type of widget represented by this component.
+     *
+     * @return The type of widget represented by this component.
+     */
+
+     public String getWidgetType() {
+         return JavaScriptUtilities.getNamespace("label");
+     }
+     
+     
+     
+    /**
+     * Alternative HTML template to be used by this component.
+     */
+    @Property(name="htmlTemplate", displayName="HTML Template", category="Appearance")
+    private String htmlTemplate = null;
+
+    /**
+     * Get alternative HTML template to be used by this component.
+     */
+
+    public String getHtmlTemplate() {
+        if (this.htmlTemplate != null) {
+            return this.htmlTemplate;
+        }
+        ValueExpression _vb = getValueExpression("htmlTemplate");
+        if (_vb != null) {
+            return (String) _vb.getValue(getFacesContext().getELContext());
+        }
+        return null;
+    }
+
+    /**
+     * Set alternative HTML template to be used by this component.
+     */
+
+    public void setHtmlTemplate(String htmlTemplate) {
+        this.htmlTemplate = htmlTemplate;
+    }
+    
 
     /**
      * Set the labeled component to <code>comp</code>.
@@ -1032,13 +1074,14 @@ public class Label extends UIOutput implements NamingContainer {
         this.toolTip = (String) _values[16];
         this.visible = ((Boolean) _values[17]).booleanValue();
         this.visible_set = ((Boolean) _values[18]).booleanValue();
+        this.htmlTemplate = (String) _values[19];
     }
 
     /**
      * <p>Save the state of this component.</p>
      */
     public Object saveState(FacesContext _context) {
-        Object _values[] = new Object[19];
+        Object _values[] = new Object[20];
         _values[0] = super.saveState(_context);
         _values[1] = this._for;
         _values[2] = this.hideIndicators ? Boolean.TRUE : Boolean.FALSE;
@@ -1058,6 +1101,7 @@ public class Label extends UIOutput implements NamingContainer {
         _values[16] = this.toolTip;
         _values[17] = this.visible ? Boolean.TRUE : Boolean.FALSE;
         _values[18] = this.visible_set ? Boolean.TRUE : Boolean.FALSE;
+        _values[19] = this.htmlTemplate;
         return _values;
     }
 }
