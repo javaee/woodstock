@@ -61,6 +61,15 @@ webui.@THEME@.widget.props = {
         paused: "paused",
         resumed: "resumed",
         stopped: "stopped"
+    },
+
+    // Label properties.
+    label: {
+        errorStyleClass: "ConErrLblTxt@THEME_CSS@",
+        levelOneStyleClass: "LblLev1Txt@THEME_CSS@",
+        levelTwoStyleClass: "LblLev2Txt@THEME_CSS@",
+        levelThreeStyleClass: "LblLev3Txt@THEME_CSS@"
+        
     }
 }
 
