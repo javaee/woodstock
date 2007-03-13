@@ -155,14 +155,18 @@ public class Field extends HiddenField implements ComplexComponent,
         // private facet
         // 
         
-        if(labelString == null || labelString.length() < 1) {
+	// We need to allow an empty string label since this
+	// could mean that there is value binding and a 
+	// message bundle hasn't loaded yet, but there
+	// is a value binding since the javax.el never returns
+	// null for a String binding.
+	// 
+        if (labelString == null /*|| labelString.length() < 1*/) {
             if(DEBUG) log("\tNo label");
             // Remove any previously created one.
             //
             ComponentUtilities.removePrivateFacet(this, LABEL_FACET);
             return null;
-        } else if(DEBUG) {
-            log("\tLabel is " + labelString);  //NOI18N
         }
         
         Label label = (Label)ComponentUtilities.getPrivateFacet(this,
@@ -254,7 +258,12 @@ public class Field extends HiddenField implements ComplexComponent,
 	// like this method used to do.
 	//
 	String clntId = this.getClientId(context);
-	return clntId.concat(this.INPUT_ID);
+	UIComponent labelComp = getLabelComponent(context, null);
+	if (labelComp == null) {
+	    return clntId;
+	} else {
+	    return clntId.concat(this.INPUT_ID);
+	}
     }
 
     /**
@@ -294,7 +303,12 @@ public class Field extends HiddenField implements ComplexComponent,
 	// is read only. don't return getLabeledElementId here.
 	//
 	String clntId = this.getClientId(context);
-	return clntId.concat(this.INPUT_ID);
+	UIComponent labelComp = getLabelComponent(context, null);
+	if (labelComp == null) {
+	    return clntId;
+	} else {
+	    return clntId.concat(this.INPUT_ID);
+	}
     }
 
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~

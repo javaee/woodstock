@@ -498,8 +498,14 @@ public class ListSelector extends Selector implements ListManager,
 	    return labelComponent;
 	}
 
+	// We need to allow an empty string label since this
+	// could mean that there is value binding and a 
+	// message bundle hasn't loaded yet, but there
+	// is a value binding since the javax.el never returns
+	// null for a String binding.
+	// 
 	String labelString = getLabel(); 
-	if (labelString == null || labelString.length() == 0) { 
+	if (labelString == null /*|| labelString.length() == 0*/) { 
             return null;
 	} 
 
@@ -702,7 +708,12 @@ public class ListSelector extends Selector implements ListManager,
 	// like this method used to do.
 	//
 	String clntId = this.getClientId(context);
-	return clntId.concat(LIST_ID);
+	UIComponent labelComp = getLabelComponent();
+	if (labelComp == null) {
+	    return clntId;
+	} else {
+	    return clntId.concat(LIST_ID);
+	}
     }
 
     /**

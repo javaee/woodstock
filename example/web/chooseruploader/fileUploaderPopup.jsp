@@ -90,7 +90,7 @@
 
                         <!--Select Folder button - opens folder chooser in popup window. -->
                             <webuijsf:button primary="true"  text="#{msgs.uploader_buttonTextFolder}" id="folder"  
-                                       onClick="javascript: var win = window.open('../faces/chooseruploader/folderChooserPopup.jsp',
+                                       onClick="javascript: var win = window.open('../chooseruploader/folderChooserPopup.jsp',
                                                 'folderchooserPopup','height=630,width=750,top='+((screen.height-(screen.height/1.618))-(500/2))+',
                                                 left='+((screen.width-650)/2)+',scrollbars,resizable');win.focus();return false" 
                                         toolTip="#{msgs.uploader_folderButtonToolTip}"/>
@@ -109,7 +109,7 @@
                             
                             <!-- File Chooser hyper link - opens file chooser in a popup window.-->
                             <webuijsf:hyperlink  id="popupFile" text="#{msgs.uploader_fileChooserLink}" toolTip="#{msgs.uploader_fileChooserLinkTooltip}" 
-                                           onClick="javascript: var win = window.open('../faces/chooseruploader/fileChooserPopup.jsp',
+                                           onClick="javascript: var win = window.open('../chooseruploader/fileChooserPopup.jsp',
                                                     'filechooserPopup','height=630,width=750,top='+((screen.height-(screen.height/1.618))-(500/2))+',
                                                     left='+((screen.width-650)/2)+',scrollbars,resizable'); win.focus(); return false" />
                             <webuijsf:label id="textLabel2" text="#{msgs.uploader_fileChooserText2}" />

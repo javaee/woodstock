@@ -21,7 +21,7 @@
  */
 
  /*
-  * UploadRenderer.java
+  * $Id: UploadRenderer.java,v 1.1.4.1 2007-03-13 17:14:33 rratta Exp $
   */
 
 package com.sun.webui.jsf.renderkit.html;
@@ -34,7 +34,6 @@ import javax.faces.component.UIComponent;
 import javax.faces.context.ResponseWriter;
 import javax.faces.context.FacesContext;
 import javax.faces.application.FacesMessage;
-import com.sun.webui.jsf.component.ComplexComponent;
 import com.sun.webui.jsf.component.Upload;
 import com.sun.webui.jsf.util.MessageUtil;
 import com.sun.webui.jsf.util.JavaScriptUtilities;
@@ -51,9 +50,6 @@ public class UploadRenderer extends FieldRenderer {
     
     private static final boolean DEBUG = false;
      
-    // Don't know why but FieldRenderers decode method fails
-    // but this one succeeds. Too tired to figure it out ;(
-    //
     /**
      * <p>Override the default implementation to conditionally trim the
      * leading and trailing spaces from the submitted value.</p>
@@ -77,7 +73,8 @@ public class UploadRenderer extends FieldRenderer {
         return;
     }
 
-    public void encodeEnd(FacesContext context, UIComponent component) throws IOException {
+    public void encodeEnd(FacesContext context, UIComponent component) 
+	    throws IOException {
           
         if(!(component instanceof Upload)) { 
             Object[] params = { component.toString(), 
@@ -94,14 +91,16 @@ public class UploadRenderer extends FieldRenderer {
         Object error =  map.get(Upload.UPLOAD_ERROR_KEY);
         if (error != null) {
             if (error instanceof Throwable) {
-                if( error instanceof org.apache.commons.fileupload.FileUploadBase.SizeLimitExceededException ) {
+                if (error instanceof org.apache.commons.fileupload.FileUploadBase.SizeLimitExceededException ) {
                     // Caused by the file size is too big
                     String maxSize = (String)map.get(Upload.FILE_SIZE_KEY);
                     String [] detailArgs = {maxSize};
                     String summaryMsg = theme.getMessage("FileUpload.noFile");
-                    String detailMsg = theme.getMessage("Upload.error", detailArgs);
+                    String detailMsg = 
+			theme.getMessage("Upload.error", detailArgs);
                     FacesMessage fmsg = new FacesMessage(summaryMsg, detailMsg);
-                    context.addMessage(((Upload)component).getClientId(context), fmsg);
+                    context.addMessage(
+			((Upload)component).getClientId(context), fmsg);
                 } else {   
                     String summaryMsg = theme.getMessage("FileUpload.noFile");
                     FacesException fe = new FacesException(summaryMsg);
@@ -111,14 +110,12 @@ public class UploadRenderer extends FieldRenderer {
             }
         }
         
-        super.renderField(context, (Upload)component, 
+        boolean spanRendered = super.renderField(context, (Upload)component, 
             "file", getStyles(context));
-        
-        StringBuffer jsString = new StringBuffer(200);
+
 	String id = component.getClientId(context);
-	if (component instanceof ComplexComponent) {
-	    id = ((ComplexComponent)component).getLabeledElementId(context);
-	}
+
+        StringBuilder jsString = new StringBuilder(256);
         jsString.append(JavaScriptUtilities.getModuleName(
             "upload.setEncodingType")); //NOI18N
         jsString.append("(\'"); //NOI18N
@@ -129,5 +126,10 @@ public class UploadRenderer extends FieldRenderer {
         ResponseWriter writer = context.getResponseWriter();
         JavaScriptUtilities.renderJavaScript(component, writer,
             jsString.toString());
+
+	if (!spanRendered) {
+	    String param = id.concat(Upload.INPUT_PARAM_ID);
+	    RenderingUtilities.renderHiddenField(component, writer, param, id);
+	}
     }
 }

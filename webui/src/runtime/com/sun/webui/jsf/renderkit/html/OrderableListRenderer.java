@@ -20,7 +20,7 @@
  * Copyright 2007 Sun Microsystems, Inc. All rights reserved.
  */
 /*
- * $Id: OrderableListRenderer.java,v 1.1 2007-02-16 01:41:21 bob_yennaco Exp $
+ * $Id: OrderableListRenderer.java,v 1.1.4.1 2007-03-13 17:14:33 rratta Exp $
  */
 /*
  * OrderableListRenderer.java
@@ -39,7 +39,6 @@ import javax.faces.component.EditableValueHolder;
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.context.ResponseWriter;
-import com.sun.webui.jsf.component.ComplexComponent;
 import com.sun.webui.jsf.component.ListSelector;
 import com.sun.webui.jsf.component.OrderableList; 
 import com.sun.webui.theme.Theme;
@@ -168,10 +167,10 @@ public class OrderableListRenderer extends ListRendererBase {
 
 	// First column: available items
 	renderColumnTop(component, writer, styles[10]); 
-        String id = component.getClientId(context);
-	if (component instanceof ComplexComponent) {
-	    id = ((ComplexComponent)component).getLabeledElementId(context);
-	}
+        String id = 
+	    component.getClientId(context).concat(ListSelector.LIST_ID);
+
+
 	renderList(component, id, context, styles); 
 	renderColumnBottom(writer); 
 

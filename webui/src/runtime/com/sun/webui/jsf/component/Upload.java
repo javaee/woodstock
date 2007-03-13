@@ -206,7 +206,12 @@ public class Upload extends Field implements Serializable {
      */
     public String getPrimaryElementID(FacesContext context) {
 	String clntId = this.getClientId(context);
-	return clntId.concat(INPUT_ID);
+	UIComponent labelComp = getLabelComponent(context, null);
+	if (labelComp == null) {
+	    return clntId;
+	} else {
+	    return clntId.concat(INPUT_ID);
+	}
     }
      
     // Overrides the method in Field.java as a workaround for an 
@@ -243,7 +248,12 @@ public class Upload extends Field implements Serializable {
 	// like this method used to do.
 	//
 	String clntId = this.getClientId(context);
-	return clntId.concat(INPUT_ID);
+	UIComponent labelComp = getLabelComponent(context, null);
+	if (labelComp == null) {
+	    return clntId;
+	} else {
+	    return clntId.concat(INPUT_ID);
+	}
     }
     
     /**
