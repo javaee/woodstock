@@ -552,16 +552,14 @@ public class CalendarMonthRenderer extends AbstractRenderer {
          
         StringBuffer strBuffer = new StringBuffer(128);
         strBuffer.append(calendarMonth.getJavaScriptObjectName());
+        strBuffer.append(".setInitialFocus(); "); 
+        strBuffer.append(calendarMonth.getJavaScriptObjectName());
         strBuffer.append(".toggle(); return false;");     
         
         writer.startElement("a", calendarMonth);
         writer.writeAttribute("onclick", strBuffer.toString(), null);
         writer.writeAttribute("class", styles[25], null);
         writer.writeAttribute("href", "#", null); 
-        strBuffer = new StringBuffer(128); 
-        strBuffer.append(calendarMonth.getJavaScriptObjectName());
-        strBuffer.append(".setInitialFocus(); return false;"); 
-        writer.writeAttribute("onblur", strBuffer.toString(), null); 
 	
 	Icon icon = ThemeUtilities.getIcon(theme, ThemeImages.CALENDAR_CLOSE_BUTTON);
 	icon.setParent(calendarMonth);
