@@ -663,7 +663,7 @@ a.DatOthBldLnk@THEME_CSS@:link, a.DatOthBldLnk@THEME_CSS@:visited {
 	padding:0 1px
 }
 .DatSelDiv@THEME_CSS@ span {
-	margin-left:1.8em;
+	/* no attributes specified */
 }
 .DatSelDiv@THEME_CSS@ input {
 	padding-top:1px;
@@ -699,7 +699,7 @@ a.DatOthBldLnk@THEME_CSS@:link, a.DatOthBldLnk@THEME_CSS@:visited {
 	position:absolute;
 	z-index:1000;
 	margin:-9px 0 0 -22px;
-	width:18em;
+	width:20em;
 }
 .CalPopShd2Div@THEME_CSS@ {
 }
