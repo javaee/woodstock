@@ -96,7 +96,7 @@ webui.@THEME@.editableList = {
 	// of the rendered field component
 	//
         domNode.field =
-	    webui.@THEME@.field.getInputElement(facetid + "_field");
+	    webui.@THEME@.field.getInputElement(facetid /*+ "_field"*/);
         domNode.addButton = document.getElementById(facetid + "_addButton"); 
         domNode.removeButton = document.getElementById(facetid + "_removeButton"); 
     

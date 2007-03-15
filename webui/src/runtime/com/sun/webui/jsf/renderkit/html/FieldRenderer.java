@@ -19,16 +19,14 @@
  * 
  * Copyright 2007 Sun Microsystems, Inc. All rights reserved.
  */
-
  /*
-  * FieldRenderer.java
+  * $Id: FieldRenderer.java,v 1.2 2007-03-15 12:35:25 rratta Exp $
   */
 
 package com.sun.webui.jsf.renderkit.html;
 
 import com.sun.faces.annotation.Renderer;
 import java.io.IOException;
-import java.util.Map;
 
 import javax.faces.FacesException;
 import javax.faces.component.UIComponent;
@@ -61,55 +59,14 @@ public class FieldRenderer extends javax.faces.render.Renderer {
      */
     public static final String[] STRING_ATTRIBUTES = 
         { "onBlur", "onChange", "onClick", "onDblClick",        //NOI18N
-	  "onFocus", "onMouseDown", "onMouseUp", "onMouseOver", //NOI18N
-	  "onMouseMove", "onMouseOut",                          //NOI18N
-	  "onKeyDown", "onKeyPress", "onKeyUp", "onSelect"      //NOI18N
-	};
+          "onFocus", "onMouseDown", "onMouseUp", "onMouseOver", //NOI18N
+          "onMouseMove", "onMouseOut",                          //NOI18N
+          "onKeyDown", "onKeyPress", "onKeyUp", "onSelect"      //NOI18N
+        };
 
     public static final String SPACER_ID = "_spacer";
     
     private final static boolean DEBUG = false;       
-
-    // Don't rely on the static method in HiddenFieldRenderer
-    // any more.
-    //
-    /**
-     * Decode the component component
-     * @param context The FacesContext associated with this request
-     * @param component The TextField component to decode
-     */
-    public void decode(FacesContext context, UIComponent component) {
-        
-	if (context == null || component == null) {
-	    throw new NullPointerException();
-	}
-	if (!(component instanceof Field)) {
-	    return;
-	}
-	Field field = (Field)component;
-	if (field.isDisabled() || field.isReadOnly()) {
-	    return;
-	}
-
-        String id = field.getClientId(context); 
-	if (field instanceof ComplexComponent) {
-	    // This must be the id of the submitted element.
-	    // For now it is the same as the labeled element
-	    //
-	    id = field.getLabeledElementId(context);
-	}
-	
-	String value = null;
-        Map params = context.getExternalContext().getRequestParameterMap();
-        Object valueObject = params.get(id);
-        if (valueObject != null) { 
-            value = (String)valueObject;
-            if (field.isTrim()) {
-                value = value.toString().trim();
-            }
-        }
-        field.setSubmittedValue(value);
-    }
 
     public void encodeEnd(FacesContext context, UIComponent component) throws IOException {
           
@@ -139,23 +96,12 @@ public class FieldRenderer extends javax.faces.render.Renderer {
         
         String id = component.getClientId(context); 
         ResponseWriter writer = context.getResponseWriter();
-
-	// Always render the span.
-        writer.startElement("span", component); //NOI18N
-        writer.writeAttribute("id", id , "id"); //NOI18N
-        
-        String style = component.getStyle();
-        if(style != null && style.length() > 0) {
-            writer.writeAttribute("style", style, "style"); //NOI18N
-        }
-        
-        style = getStyleClass(component, styles[2]); 
-        if(style != null) {
-            writer.writeAttribute("class", style, "class"); //NOI18N
-        }
-
         UIComponent label = component.getLabelComponent(context, styles[3]);
+        boolean spanRendered = false; 
+
         if( label != null) {
+            renderOpeningSpan(component, id, styles[2], writer);
+            spanRendered = true; 
             writer.writeText("\n", null);
             RenderingUtilities.renderComponent(label, context);
             writer.writeText("\n", null);
@@ -165,44 +111,38 @@ public class FieldRenderer extends javax.faces.render.Renderer {
             // a developer has no control over the layout in this case.                       
             Theme theme = ThemeUtilities.getTheme(context); 
             Icon icon = ThemeUtilities.getIcon(theme, ThemeImages.DOT); 
-	    icon.setParent(component);
             icon.setId(component.getId().concat(SPACER_ID));
             icon.setHeight(1);
             icon.setWidth(10);               
             RenderingUtilities.renderComponent(icon, context);
-            writer.writeText("\n", null); //NOI18N	            
+            writer.writeText("\n", null); //NOI18N                  
             
+            // Set the ID to use on the inner component
+            if (component instanceof Upload) {
+                id = ((Upload)component).getLabeledElementId(context);
+            } else if(component instanceof ComplexComponent){
+                id = component.getLabeledElementId(context);         
+            } else {
+                id = component.getClientId(context);
+            }
         }
-
-        if (component.isReadOnly()) {
+        if(component.isReadOnly()) {
             UIComponent text = component.getReadOnlyComponent(context);
+            if(label == null) { 
+               text.getAttributes().put("style", component.getStyle());
+               text.getAttributes().put("styleClass", component.getStyleClass());
+            }
             RenderingUtilities.renderComponent(text, context);
         } else {
-	    // Set the ID to use on the inner component
-	    // Use the labeled element id.
-	    //
-	    if (component instanceof ComplexComponent) {
-		id = component.getLabeledElementId(context);         
-	    }
-
-	    // pass false because the styles are always rendered now
-	    // on the enclosing span.
-	    //
-            renderInput(component, type, id, false, styles, 
-		context, writer);
+            renderInput(component, type, id, label == null, styles, context, writer);
         }
-
-	writer.writeText("\n", null);
-	writer.endElement("span");
-
-	// Always return true since the span is always rendered.
-	// Too late to refactor this code.
-	//
-
-	return true;
+        if( label != null) {
+            writer.writeText("\n", null);
+            writer.endElement("span");
+        }
+        return spanRendered;
     }
 
-    // renderuser styles must always be true
     protected void renderInput(Field component, String type, String id, 
                              boolean renderUserStyles, String[] styles,
                              FacesContext context, ResponseWriter writer)
@@ -212,10 +152,10 @@ public class FieldRenderer extends javax.faces.render.Renderer {
             writer.startElement("textarea", component); //NOI18N        
             int rows = ((TextArea)component).getRows();
             if(rows > 0) {
-                writer.writeAttribute("rows", String.valueOf(rows), 
-		    "rows"); // NOI18N
+                writer.writeAttribute("rows", String.valueOf(rows), "rows"); // NOI18N
             }
-	    int columns = component.getColumns(); 
+                    int columns = component.getColumns(); 
+                    
             if (columns > 0) {
                 writer.writeAttribute("cols",     //NOI18N
                     String.valueOf(columns),
@@ -240,6 +180,8 @@ public class FieldRenderer extends javax.faces.render.Renderer {
         if (component.isDisabled()) {
             writer.writeAttribute("disabled", "disabled", null); //NOI18N
         }
+        
+
                
         int maxlength = component.getMaxLength();
         if (maxlength > 0) {
@@ -273,11 +215,7 @@ public class FieldRenderer extends javax.faces.render.Renderer {
         
         String style = null; 
         
-	// This will always be false for renderers that rely on
-	// renderField. However CalendarRenderer calls this with
-	// false as well.and that is the only one.
-	//
-        if (renderUserStyles) { 
+        if(renderUserStyles) { 
             
             String compStyleClass = getStyleClass(component, styles[2]); 
             if(compStyleClass != null) { 
@@ -295,29 +233,29 @@ public class FieldRenderer extends javax.faces.render.Renderer {
             writer.writeAttribute("style", style, null); //NOI18N
         } 
            
-	// Record the value that is rendered.
-	// Note that getValueAsString conforms to JSF conventions
-	// for NULL values, in that it returns "" if the component
-	// value is NULL. This value cannot be trusted since
-	// the fidelity of the data must be preserved, i.e. if the
-	// value is null, it must remain null if the component is unchanged
-	// by the user..
-	//
-	// If submittedValue is not null then the component's
-	// model value or local value has not been updated
-	// therefore assume that this is an immediate or premature
-	// render response. Therefore just assume that if the rendered
-	// value was null, the saved information is still valid.
-	// 
-	if (component.getSubmittedValue() == null) {
-	    ConversionUtilities.setRenderedValue(component,
-		component.getValue());
-	}
+        // Record the value that is rendered.
+        // Note that getValueAsString conforms to JSF conventions
+        // for NULL values, in that it returns "" if the component
+        // value is NULL. This value cannot be trusted since
+        // the fidelity of the data must be preserved, i.e. if the
+        // value is null, it must remain null if the component is unchanged
+        // by the user..
+        //
+        // If submittedValue is not null then the component's
+        // model value or local value has not been updated
+        // therefore assume that this is an immediate or premature
+        // render response. Therefore just assume that if the rendered
+        // value was null, the saved information is still valid.
+        // 
+        if (component.getSubmittedValue() == null) {
+            ConversionUtilities.setRenderedValue(component,
+                component.getValue());
+        }
 
-	// Still call the component's getValueAsString method
-	// in order to render it.
-	//
-	String value = component.getValueAsString(context);
+        // Still call the component's getValueAsString method
+        // in order to render it.
+        //
+        String value = component.getValueAsString(context);
         if(component instanceof TextArea) {
             writer.writeText(value, "value"); //NOI18N
             writer.endElement("textarea");
@@ -348,6 +286,15 @@ public class FieldRenderer extends javax.faces.render.Renderer {
         return style;
     }
     
+    /**
+     * Decode the component component
+     * @param context The FacesContext associated with this request
+     * @param component The TextField component to decode
+     */
+    public void decode(FacesContext context, UIComponent component) {
+        HiddenFieldRenderer.decodeInput(context, component); 
+    }
+
     /**
      * <p>No-op.</p>
      * 
@@ -398,4 +345,30 @@ public class FieldRenderer extends javax.faces.render.Renderer {
         return styles;
     }
 
+    // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    // Private renderer methods
+    // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+    /**
+     * <p>Render the TextField depending on the value of the
+     * <code>type</code> property.</p>
+     * @param context <code>FacesContext</code> for the current request
+     * @param component <code>UIComponent</code> to be rendered
+     * @exception IOException if an input/output error occurs
+     */
+    private void renderOpeningSpan(Field component, String id, 
+            String hiddenStyle, ResponseWriter writer) throws IOException {
+        writer.startElement("span", component); //NOI18N
+        writer.writeAttribute("id", id , "id"); //NOI18N
+        
+        String style = component.getStyle();
+        if(style != null && style.length() > 0) {
+            writer.writeAttribute("style", style, "style"); //NOI18N
+        }
+        
+        style = getStyleClass(component, hiddenStyle); 
+        if(style != null) {
+            writer.writeAttribute("class", style, "class"); //NOI18N
+        }
+    }
 }

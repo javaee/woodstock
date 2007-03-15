@@ -34,8 +34,8 @@
                      */
                     function fnPopulateDir(){
              
-                    var dirPath=document.getElementById("folderFormPopup:folderContent:folderChooser:folderChooser_lookinField_field").value;
-                    var selfield = document.getElementById("folderFormPopup:folderContent:folderChooser:folderChooser_selectedField_field").value;
+                    var dirPath=document.getElementById("folderFormPopup:folderContent:folderChooser:folderChooser_lookinField").value;
+                    var selfield = document.getElementById("folderFormPopup:folderContent:folderChooser:folderChooser_selectedField").value;
                         if (selfield.length > 0) {
                             if (((dirPath.lastIndexOf('\\')) == (dirPath.length-1))){
                                      dirPath = dirPath + selfield;   

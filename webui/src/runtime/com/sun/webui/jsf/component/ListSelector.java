@@ -498,8 +498,14 @@ public class ListSelector extends Selector implements ListManager,
 	    return labelComponent;
 	}
 
+	// We need to allow an empty string label since this 
+	// could mean that there is value binding and a  
+	// message bundle hasn't loaded yet, but there 
+	// is a value binding since the javax.el never returns 
+	// null for a String binding. 
+	//  
 	String labelString = getLabel(); 
-	if (labelString == null || labelString.length() == 0) { 
+	if (labelString == null /*|| labelString.length() == 0*/) { 
             return null;
 	} 
 
@@ -690,10 +696,12 @@ public class ListSelector extends Selector implements ListManager,
 
 	// If this component has a label either as a facet or
 	// an attribute, return the id of the select list
-	// that will have the "LIST_ID" suffix. IF there is not
+	// that will have the "LIST_ID" suffix. If there is no
 	// label, then the select list id will be the component's
 	// client id.
 	//
+	// Not sure if we need to return null here if the component
+	// is readonly. This seems to be handled by some subclasses.
 
 	// To ensure we get the right answer call getLabelComponent.
 	// This checks for a developer facet or the private label facet.
@@ -702,7 +710,12 @@ public class ListSelector extends Selector implements ListManager,
 	// like this method used to do.
 	//
 	String clntId = this.getClientId(context);
-	return clntId.concat(LIST_ID);
+	UIComponent labelComp = getLabelComponent(); 
+	if (labelComp == null) { 
+	    return clntId; 
+	} else { 
+	    return clntId.concat(LIST_ID);
+	}
     }
 
     /**
