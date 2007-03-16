@@ -57,7 +57,7 @@ import javax.faces.convert.ConverterException;
  * selection from a list of options using an HTML select element.
  */
 public class ListSelector extends Selector implements ListManager,
-	NamingContainer {
+        NamingContainer {
 
     // If true, debugging statements are printed to stdout
     private static final boolean DEBUG = false;
@@ -93,7 +93,7 @@ public class ListSelector extends Selector implements ListManager,
      * @param context The FacesContext of the request
      */
     public void checkSelectionModel(FacesContext context) {
-	
+        
         if(DEBUG) { 
             log("checkSelectionModel()"); //NOI18N
             log("\tComponent multiple = " + String.valueOf(isMultiple())); //NOI18N
@@ -101,15 +101,15 @@ public class ListSelector extends Selector implements ListManager,
         }
              
         if(isMultiple() && 
-	   valueTypeEvaluator.getValueType() != ValueType.ARRAY) {
+           valueTypeEvaluator.getValueType() != ValueType.ARRAY) {
          
             if(DEBUG) {
-		log("\tMultiple selection enabled for non-array value");//NOI18N
-	    }
-	    Object[] params = {  toString() }; 
-	    String msg = MessageUtil.getMessage
+                log("\tMultiple selection enabled for non-array value");//NOI18N
+            }
+            Object[] params = {  toString() }; 
+            String msg = MessageUtil.getMessage
                     ("com.sun.webui.jsf.resources.LogMessages", //NOI18N
-		     "Selector.multipleError",           //NOI18N
+                     "Selector.multipleError",           //NOI18N
                      params); 
             throw new RuntimeException(msg);
         }
@@ -122,21 +122,21 @@ public class ListSelector extends Selector implements ListManager,
      * @return an Iterator over {@link ListItem}. 
      */
     public Iterator getListItems(FacesContext context, boolean rulerAtEnd) 
-	throws FacesException {
+        throws FacesException {
         
         if(DEBUG) log("getListItems()"); //NOI18N
 
 
         listItems = new ArrayList();
-	separatorLength = 0; 
+        separatorLength = 0; 
 
-	// Retrieve the current selections. If there are selected
-	// objects, mark the corresponding items as selected. 
+        // Retrieve the current selections. If there are selected
+        // objects, mark the corresponding items as selected. 
         processOptions(getOptions());
-	
-	processSelections(); 
         
-	return listItems.iterator(); 
+        processSelections(); 
+        
+        return listItems.iterator(); 
     } 
     
     /**
@@ -154,14 +154,14 @@ public class ListSelector extends Selector implements ListManager,
        
         listItems = new ArrayList();
         processOptions(getOptions());
-	return listItems.iterator();
+        return listItems.iterator();
     } 
 
     /**
      * This method resets the options. Use this only if you need to
      * add or remove options after the component has been rendered once.
     public void resetOptions() { 
-	listItems = null; 
+        listItems = null; 
     } 
      */
 
@@ -184,15 +184,15 @@ public class ListSelector extends Selector implements ListManager,
      */
     protected Option[] getOptions() { 
 
-	Option[] options = null; 
-	Object optionsObject = getItems(); 
+        Option[] options = null; 
+        Object optionsObject = getItems(); 
 
-	// TODO - add some error reporting... 
+        // TODO - add some error reporting... 
 
-	if(optionsObject instanceof Option[]) { 
-	    options = (Option[])optionsObject;
-	} 
-	else if(optionsObject instanceof Collection) { 
+        if(optionsObject instanceof Option[]) { 
+            options = (Option[])optionsObject;
+        } 
+        else if(optionsObject instanceof Collection) { 
             Object[] objects = ((Collection)optionsObject).toArray(); 
             if(objects == null || objects.length == 0) {
                 options = new Option[0];
@@ -203,54 +203,54 @@ public class ListSelector extends Selector implements ListManager,
             for(int counter = 0; counter < numObjects; ++counter) { 
                 options[counter] = (Option)objects[counter];
             }
-	} 
-	else if(optionsObject instanceof Map) { 
-	    Collection itemsCollection = ((Map)optionsObject).values(); 
-	    options =  (Option[])(itemsCollection.toArray()); 
-	} 
-	// The items attribute has not been specified
-	else { 
-	    // do nothing
-	    options =  new Option[0]; 
-	} 
+        } 
+        else if(optionsObject instanceof Map) { 
+            Collection itemsCollection = ((Map)optionsObject).values(); 
+            options =  (Option[])(itemsCollection.toArray()); 
+        } 
+        // The items attribute has not been specified
+        else { 
+            // do nothing
+            options =  new Option[0]; 
+        } 
         return options;
     } 
 
     protected void processOptions(Option[] options) { 
 
-	if(DEBUG) log("processOptions()");  //NOI18N
-	int length = options.length; 
-	
-	for (int counter = 0; counter < length; ++counter) {
+        if(DEBUG) log("processOptions()");  //NOI18N
+        int length = options.length; 
+        
+        for (int counter = 0; counter < length; ++counter) {
 
-	    if(options[counter] instanceof OptionGroup) {
+            if(options[counter] instanceof OptionGroup) {
 
-		OptionGroup selectionGroup = 
+                OptionGroup selectionGroup = 
                     (OptionGroup)options[counter]; 
-		String groupLabel = selectionGroup.getLabel(); 
+                String groupLabel = selectionGroup.getLabel(); 
 
-		if(DEBUG) { 
-		    log("\tFound SelectionGroup"); //NOI18N
-		    log("\tLabel is " + groupLabel); //NOI18N
-		} 
+                if(DEBUG) { 
+                    log("\tFound SelectionGroup"); //NOI18N
+                    log("\tLabel is " + groupLabel); //NOI18N
+                } 
 
-		if((groupLabel.length() * 1.5) > separatorLength) { 
-		    // FIXME - needs to be dependent on the
-		    // browser if not the OS... ARRGGH.
-		    separatorLength = (int)(groupLabel.length() * 1.5); 
-		} 
+                if((groupLabel.length() * 1.5) > separatorLength) { 
+                    // FIXME - needs to be dependent on the
+                    // browser if not the OS... ARRGGH.
+                    separatorLength = (int)(groupLabel.length() * 1.5); 
+                } 
                 
-		listItems.add(new StartGroup(groupLabel)); 
-		processOptions(selectionGroup.getOptions());
-		listItems.add(new EndGroup()); 
-	    } 
-	    else if(options[counter] instanceof Separator) {
-		listItems.add(options[counter]); 
-	    }
-	    else {
+                listItems.add(new StartGroup(groupLabel)); 
+                processOptions(selectionGroup.getOptions());
+                listItems.add(new EndGroup()); 
+            } 
+            else if(options[counter] instanceof Separator) {
+                listItems.add(options[counter]); 
+            }
+            else {
                 listItems.add(createListItem(options[counter]));
             }
-	}
+        }
     }
 
     /**
@@ -261,40 +261,40 @@ public class ListSelector extends Selector implements ListManager,
         
         if(DEBUG) log("processSelections()"); //NOI18N
 
-	// For the "immediate" case: 
+        // For the "immediate" case: 
         Object value = getSubmittedValue();
 
-	if(value != null) { 
+        if(value != null) { 
 
-	    if(DEBUG) log("Found submitted value");  //NOI18N
+            if(DEBUG) log("Found submitted value");  //NOI18N
 
-	    if(value instanceof String[]) {
+            if(value instanceof String[]) {
 
-		if(DEBUG) log("found submitted value (string array)"); //NOI18N
+                if(DEBUG) log("found submitted value (string array)"); //NOI18N
 
-		String[] obj = (String[])value;
-		ArrayList list = new ArrayList(obj.length);
-		for(int counter =0; counter < obj.length; ++counter) { 
-		    list.add(obj[counter]); 
-		    if(DEBUG) log("\tAdded " + obj[counter]); //NOI18N
-		} 
-		markSelectedListItems(list, false); 
-		return;
-	    }
+                String[] obj = (String[])value;
+                ArrayList list = new ArrayList(obj.length);
+                for(int counter =0; counter < obj.length; ++counter) { 
+                    list.add(obj[counter]); 
+                    if(DEBUG) log("\tAdded " + obj[counter]); //NOI18N
+                } 
+                markSelectedListItems(list, false); 
+                return;
+            }
 
-	    throw new IllegalArgumentException
-		("Illegal submitted value"); //NOI18N
-	}
+            throw new IllegalArgumentException
+                ("Illegal submitted value"); //NOI18N
+        }
         
-	// For the first time and "non-immediate" case: 
+        // For the first time and "non-immediate" case: 
         if(DEBUG) log("No submitted values, use actual value");//NOI18N
 
-	// Covers List cases
+        // Covers List cases
         if(valueTypeEvaluator.getValueType() == ValueType.NONE || 
-	   valueTypeEvaluator.getValueType() == ValueType.INVALID) { 
+           valueTypeEvaluator.getValueType() == ValueType.INVALID) { 
             if(DEBUG) log("\tNo value");
-	    markSelectedListItems(new ArrayList(), true); 
-	    return; 
+            markSelectedListItems(new ArrayList(), true); 
+            return; 
         }
 
         value = getValue();
@@ -304,47 +304,47 @@ public class ListSelector extends Selector implements ListManager,
             else log("\t actual value is of type " +          //NOI18N
                     value.getClass().getName());
         }
-	if(value == null) { 
+        if(value == null) { 
             if(DEBUG) log("\tNo value");//NOI18N
-	    markSelectedListItems(new ArrayList(), true); 
-	    return; 
-	} 
+            markSelectedListItems(new ArrayList(), true); 
+            return; 
+        } 
 
-	// Covers List cases
+        // Covers List cases
         /*
         if(valueTypeEvaluator.getValueType() == ValueType.LIST) { 
             if(DEBUG) log("found actual value (list)");
 
-	    Object[] params = {  toString() }; 
-	    String msg =
+            Object[] params = {  toString() }; 
+            String msg =
                 ThemeUtilities.getTheme(FacesContext.getCurrentInstance()).
-		    getMessage("ListSelector.multipleError", params); //NOI18N
+                    getMessage("ListSelector.multipleError", params); //NOI18N
             throw new IllegalArgumentException(msg);
 
-	    //markSelectedOptions((java.util.List)value, true); 
-	    //return; 
+            //markSelectedOptions((java.util.List)value, true); 
+            //return; 
         }
          */
 
-	ArrayList list = new ArrayList(); 
+        ArrayList list = new ArrayList(); 
 
-	// Covers Object array
+        // Covers Object array
         if(valueTypeEvaluator.getValueType() == ValueType.ARRAY) { 
 
-	    int length = Array.getLength(value); 
-	    for(int counter = 0; counter < length; ++counter) { 
-		list.add(Array.get(value, counter)); 
-		if(DEBUG) log(String.valueOf(Array.get(value, counter))); 
-	    } 
-	    markSelectedListItems(list, true); 
-	    return; 
+            int length = Array.getLength(value); 
+            for(int counter = 0; counter < length; ++counter) { 
+                list.add(Array.get(value, counter)); 
+                if(DEBUG) log(String.valueOf(Array.get(value, counter))); 
+            } 
+            markSelectedListItems(list, true); 
+            return; 
         }
 
-	// Covers Object array
-	list.add(value); 
-	if(DEBUG) log("\tAdded object " + String.valueOf(value));  //NOI18N
-	markSelectedListItems(list, true); 
-	return; 
+        // Covers Object array
+        list.add(value); 
+        if(DEBUG) log("\tAdded object " + String.valueOf(value));  //NOI18N
+        markSelectedListItems(list, true); 
+        return; 
     }
 
     /** 
@@ -359,86 +359,86 @@ public class ListSelector extends Selector implements ListManager,
      * list items (this is done if we compare the submitted values
      * with the list items). */
     protected void markSelectedListItems(java.util.List list, 
-					 boolean processed) { 
+                                         boolean processed) { 
 
-	if(DEBUG) log("markSelectedListItems()");//NOI18N
+        if(DEBUG) log("markSelectedListItems()");//NOI18N
         
-	ListItem option = null; 
+        ListItem option = null; 
         Object nextItem = null;
-	Iterator items = listItems.iterator(); 
-	Iterator selected = null; 
+        Iterator items = listItems.iterator(); 
+        Iterator selected = null; 
        
-	while(items.hasNext()) { 
+        while(items.hasNext()) { 
             nextItem = items.next(); 
             // If the next item is a selection group, we continue. 
             // Need to check this with the guidelines, perhaps
             // you can select options too... 
-	    if(!(nextItem instanceof ListItem)) { 
+            if(!(nextItem instanceof ListItem)) { 
                   continue;
             }
             
-	    option = (ListItem)nextItem; 
+            option = (ListItem)nextItem; 
 
-	    // By default, the option will not be marked as selected
-	    option.setSelected(false); 
-	    
-	    if(DEBUG) { 
-		log("\tItem value: " + option.getValue()); //NOI18N
-		log("\tItem type: " +                      //NOI18N
-		    option.getValueObject().getClass().getName());
-	    }
+            // By default, the option will not be marked as selected
+            option.setSelected(false); 
+            
+            if(DEBUG) { 
+                log("\tItem value: " + option.getValue()); //NOI18N
+                log("\tItem type: " +                      //NOI18N
+                    option.getValueObject().getClass().getName());
+            }
 
-	    // There are no more selected items, continue with the
-	    // next option
-	    if(list.isEmpty()) { 
-		if(DEBUG) log("No more selected items"); //NOI18N
-		continue; 
-	    } 
+            // There are no more selected items, continue with the
+            // next option
+            if(list.isEmpty()) { 
+                if(DEBUG) log("No more selected items"); //NOI18N
+                continue; 
+            } 
 
-	    // There are still selected items to account for
-	    selected = list.iterator();
-	    while(selected.hasNext()) { 
-		if(processed) { 
-		    Object o = selected.next(); 
+            // There are still selected items to account for
+            selected = list.iterator();
+            while(selected.hasNext()) { 
+                if(processed) { 
+                    Object o = selected.next(); 
                     if(DEBUG) {
                         log("\tSelected object value: " +  //NOI18N
-			    String.valueOf(o));
+                            String.valueOf(o));
                         log("\tSelected object type: " +   //NOI18N 
-			    o.getClass().getName());
+                            o.getClass().getName());
                     }
-		    if (option.getValueObject().equals(o)) { 
-			if(DEBUG) { 
-			    log("\tFound a match: " +  //NOI18N
-				String.valueOf(o)); 
-			} 
-			option.setSelected(true); 
-			list.remove(o); 
-			break;
-		    }
+                    if (option.getValueObject().equals(o)) { 
+                        if(DEBUG) { 
+                            log("\tFound a match: " +  //NOI18N
+                                String.valueOf(o)); 
+                        } 
+                        option.setSelected(true); 
+                        list.remove(o); 
+                        break;
+                    }
                 }
-		else { 
-		    String s = (String)selected.next(); 
-		    if(s.equals(option.getValue())) { 
-			if(DEBUG) { 
-			    log("\tFound a match: " + s);   //NOI18N
-			} 
-			option.setSelected(true); 
-			list.remove(s); 
-			break;
+                else { 
+                    String s = (String)selected.next(); 
+                    if(s.equals(option.getValue())) { 
+                        if(DEBUG) { 
+                            log("\tFound a match: " + s);   //NOI18N
+                        } 
+                        option.setSelected(true); 
+                        list.remove(s); 
+                        break;
                     }
                 }
             }
         }
 
-	// At this point the selected list should be empty.
-	if(!list.isEmpty() && !Beans.isDesignTime()) { 
-	    String msg = MessageUtil.getMessage(
+        // At this point the selected list should be empty.
+        if(!list.isEmpty() && !Beans.isDesignTime()) { 
+            String msg = MessageUtil.getMessage(
                     "com.sun.webui.jsf.resources.LogMessages", //NOI18N
-		    "List.badValue", 
+                    "List.badValue", 
                 new Object[]{ getClientId(FacesContext.getCurrentInstance()) });
             //throw new FacesException(msg); 
-	    log(msg); 
-	}
+            log(msg); 
+        }
     }
     
     /* Add an option to the list */ 
@@ -446,23 +446,23 @@ public class ListSelector extends Selector implements ListManager,
         
         if(DEBUG) log("createListItem()");//NOI18N
         
-	String label = si.getLabel(); 
+        String label = si.getLabel(); 
         
          String valueString = 
- 	    ConversionUtilities.convertValueToString(this, si.getValue());
+            ConversionUtilities.convertValueToString(this, si.getValue());
          
          if(label == null)
              label = valueString;
          
         if(DEBUG) log("Label is " + label); 
-	if((label.length() * 1.5) > separatorLength) { 
-	    separatorLength = (int)(label.length() * 1.5); 
-	} 
+        if((label.length() * 1.5) > separatorLength) { 
+            separatorLength = (int)(label.length() * 1.5); 
+        } 
 
         ListItem listItem = new ListItem(si.getValue(), label, si.getDescription(), 
                                    si.isDisabled());
 
-	listItem.setValue(valueString); 
+        listItem.setValue(valueString); 
         if(si instanceof OptionTitle) { 
             listItem.setTitle(true);
         }
@@ -485,48 +485,47 @@ public class ListSelector extends Selector implements ListManager,
      * @return a label component for this ListSelector
      */
     public UIComponent getLabelComponent() { 
-	
-	if(DEBUG) log("getLabelComponent()"); //NOI18N
+        
+        if(DEBUG) log("getLabelComponent()"); //NOI18N
 
-	// Check if the page author has defined the facet
-	//
-	UIComponent labelComponent = getFacet(LABEL_FACET); 
-	if (labelComponent != null) {
-	    if (DEBUG) { 
-		log("\tFound facet"); //NOI18N
-	    } 
-	    return labelComponent;
-	}
-
-	// We need to allow an empty string label since this 
-	// could mean that there is value binding and a  
-	// message bundle hasn't loaded yet, but there 
-	// is a value binding since the javax.el never returns 
-	// null for a String binding. 
-	//  
+        // Check if the page author has defined the facet
+        //
+        UIComponent labelComponent = getFacet(LABEL_FACET); 
+        if (labelComponent != null) {
+            if (DEBUG) { 
+                log("\tFound facet"); //NOI18N
+            } 
+            return labelComponent;
+        }
+	// We need to allow an empty string label since this  
+	// could mean that there is value binding and a   
+	// message bundle hasn't loaded yet, but there  
+	// is a value binding since the javax.el never returns  
+	// null for a String binding.  
+	//   
 	String labelString = getLabel(); 
-	if (labelString == null /*|| labelString.length() == 0*/) { 
+	if (labelString == null /*|| labelString.length() == 0*/) {  
             return null;
-	} 
+        } 
 
-	// Return the private facet or create one, but initialize
-	// it every time
-	//
-	// We know it's a Label
-	//
-	Label label = (Label)ComponentUtilities.getPrivateFacet(this,
-		LABEL_FACET, true);
-	if (label == null) {
-	    if (DEBUG) log("create Label"); //NOI18N
-	    label = new Label(); 
-	    label.setId(ComponentUtilities.createPrivateFacetId(this,
-		LABEL_FACET));
-	}
-	initLabelFacet(label, labelString, this.getClientId(getFacesContext()));
+        // Return the private facet or create one, but initialize
+        // it every time
+        //
+        // We know it's a Label
+        //
+        Label label = (Label)ComponentUtilities.getPrivateFacet(this,
+                LABEL_FACET, true);
+        if (label == null) {
+            if (DEBUG) log("create Label"); //NOI18N
+            label = new Label(); 
+            label.setId(ComponentUtilities.createPrivateFacetId(this,
+                LABEL_FACET));
+        }
+        initLabelFacet(label, labelString, this.getClientId(getFacesContext()));
 
-	ComponentUtilities.putPrivateFacet(this, LABEL_FACET, label);
+        ComponentUtilities.putPrivateFacet(this, LABEL_FACET, label);
 
-	return label; 
+        return label; 
     }
     
     /**
@@ -537,13 +536,13 @@ public class ListSelector extends Selector implements ListManager,
      * @param forComponent the component instance this label is for
      */
     private void initLabelFacet(Label label, String labelString,
-	    String forComponentId) {
+            String forComponentId) {
         
         if(DEBUG) log("initLabelFacet()"); //NOI18N
         
         if(labelString == null || labelString.length() < 1) {
             // TODO - maybe print a default?
-	    // A Theme default value.
+            // A Theme default value.
             labelString = new String();
         }
 
@@ -572,32 +571,32 @@ public class ListSelector extends Selector implements ListManager,
         
         if(DEBUG) log("getReadOnlyValueComponent()"); //NOI18N
         
-	// Check if the page author has defined the facet
-	//
-	UIComponent textComponent = getFacet(READONLY_FACET); 
-	if (textComponent != null) {
-	    if (DEBUG) { 
-		log("\tFound facet"); //NOI18N
-	    } 
-	    return textComponent;
-	}
+        // Check if the page author has defined the facet
+        //
+        UIComponent textComponent = getFacet(READONLY_FACET); 
+        if (textComponent != null) {
+            if (DEBUG) { 
+                log("\tFound facet"); //NOI18N
+            } 
+            return textComponent;
+        }
 
-	// Just create it every time.
-	//
-	if (DEBUG) log("create StaticText"); //NOI18N
-	StaticText text = new StaticText(); 
-	text.setId(ComponentUtilities.createPrivateFacetId(this,
-		READONLY_FACET));
-	text.setParent(this);
-	
-	FacesContext context = FacesContext.getCurrentInstance();
-	String readOnlyString = getValueAsReadOnly(context);
+        // Just create it every time.
+        //
+        if (DEBUG) log("create StaticText"); //NOI18N
+        StaticText text = new StaticText(); 
+        text.setId(ComponentUtilities.createPrivateFacetId(this,
+                READONLY_FACET));
+        text.setParent(this);
+        
+        FacesContext context = FacesContext.getCurrentInstance();
+        String readOnlyString = getValueAsReadOnly(context);
         if (readOnlyString == null || readOnlyString.length() < 1) {
             // TODO - maybe print a default?
             readOnlyString = new String();
         }
         text.setText(readOnlyString);
-	return text; 
+        return text; 
     }
 
     /**
@@ -610,7 +609,7 @@ public class ListSelector extends Selector implements ListManager,
 
         String[] values = null; 
         
-	Object value = getSubmittedValue();    
+        Object value = getSubmittedValue();    
         if(value != null) {
             if(value instanceof String[]) {
                return (String[])value;
@@ -628,52 +627,52 @@ public class ListSelector extends Selector implements ListManager,
         
         // No submitted value found - look for 
 
-	if(valueTypeEvaluator.getValueType() == ValueType.NONE) { 
-	    return new String[0]; 
-	} 
+        if(valueTypeEvaluator.getValueType() == ValueType.NONE) { 
+            return new String[0]; 
+        } 
         
-	if(valueTypeEvaluator.getValueType() == ValueType.INVALID) { 
-	    return new String[0]; 
-	} 
+        if(valueTypeEvaluator.getValueType() == ValueType.INVALID) { 
+            return new String[0]; 
+        } 
         
         int counter = 0; 
         
-	if(valueTypeEvaluator.getValueType() == ValueType.LIST) { 
+        if(valueTypeEvaluator.getValueType() == ValueType.LIST) { 
 
-	    java.util.List list = (java.util.List)value; 
+            java.util.List list = (java.util.List)value; 
             counter = list.size(); 
             values = new String[counter]; 
             
-	    Iterator valueIterator = ((java.util.List)value).iterator();
-	    String valueString = null; 
+            Iterator valueIterator = ((java.util.List)value).iterator();
+            String valueString = null; 
 
-	    counter = 0;
-	    while(valueIterator.hasNext()) {
-		valueString = ConversionUtilities.convertValueToString
-			(this, valueIterator.next());
-		values[counter++] = valueString; 
-	    }
-	}
+            counter = 0;
+            while(valueIterator.hasNext()) {
+                valueString = ConversionUtilities.convertValueToString
+                        (this, valueIterator.next());
+                values[counter++] = valueString; 
+            }
+        }
         else if(valueTypeEvaluator.getValueType() == ValueType.ARRAY) {
 
-	    counter = Array.getLength(value); 
+            counter = Array.getLength(value); 
             values = new String[counter];
-	    Object valueObject = null;
-	    String valueString = null; 
-	    
-	    for(int i = 0; i < counter; ++i) { 
-		valueObject = Array.get(value,i); 
-		valueString = 
-		    ConversionUtilities.convertValueToString
-		    (this, valueObject); 
-		values[i] = valueString; 
-	    } 
-	} 
+            Object valueObject = null;
+            String valueString = null; 
+            
+            for(int i = 0; i < counter; ++i) { 
+                valueObject = Array.get(value,i); 
+                valueString = 
+                    ConversionUtilities.convertValueToString
+                    (this, valueObject); 
+                values[i] = valueString; 
+            } 
+        } 
         else if(valueTypeEvaluator.getValueType() == ValueType.OBJECT) {
-	    
+            
             values = new String[1]; 
             values[0] = ConversionUtilities.convertValueToString(this, value); 
-	} 
+        } 
         
         return values; 
     }
@@ -694,28 +693,23 @@ public class ListSelector extends Selector implements ListManager,
      */
     public String getLabeledElementId(FacesContext context) {
 
-	// If this component has a label either as a facet or
-	// an attribute, return the id of the select list
-	// that will have the "LIST_ID" suffix. If there is no
-	// label, then the select list id will be the component's
-	// client id.
-	//
-	// Not sure if we need to return null here if the component
-	// is readonly. This seems to be handled by some subclasses.
+        // If this component has a label either as a facet or
+        // an attribute, return the id of the select list
+        // that will have the "LIST_ID" suffix. IF there is not
+        // label, then the select list id will be the component's
+        // client id.
+        //
+	// Not sure if we need to return null here if the component 
+	// is readonly. This seems to be handled by some subclasses. 
 
-	// To ensure we get the right answer call getLabelComponent.
-	// This checks for a developer facet or the private label facet.
-	// It also checks the label attribute. This is better than
-	// relying on "getLabeledComponent" having been called
-	// like this method used to do.
-	//
-	String clntId = this.getClientId(context);
-	UIComponent labelComp = getLabelComponent(); 
-	if (labelComp == null) { 
-	    return clntId; 
-	} else { 
-	    return clntId.concat(LIST_ID);
-	}
+        // To ensure we get the right answer call getLabelComponent.
+        // This checks for a developer facet or the private label facet.
+        // It also checks the label attribute. This is better than
+        // relying on "getLabeledComponent" having been called
+        // like this method used to do.
+        //
+        String clntId = this.getClientId(context);
+        return clntId.concat(LIST_ID);
     }
 
     /**
@@ -735,9 +729,9 @@ public class ListSelector extends Selector implements ListManager,
      * @param context The FacesContext used for the request
      */
     public String getFocusElementId(FacesContext context) {
-	// For now just return the same id that is used for label.
-	//
-	return getLabeledElementId(context);
+        // For now just return the same id that is used for label.
+        //
+        return getLabeledElementId(context);
     }
 
     /**
@@ -754,7 +748,7 @@ public class ListSelector extends Selector implements ListManager,
      * @see #getFocusElementId
      */
     public String getPrimaryElementID(FacesContext context)  {
-	return getLabeledElementId(context);
+        return getLabeledElementId(context);
     }
 
     // remove me when the interface method goes.

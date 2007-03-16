@@ -155,13 +155,13 @@ public class Field extends HiddenField implements ComplexComponent,
         // private facet
         // 
         
-	// We need to allow an empty string label since this 
-	// could mean that there is value binding and a  
-	// message bundle hasn't loaded yet, but there 
-	// is a value binding since the javax.el never returns 
-	// null for a String binding. 
-	//  
-        if(labelString == null /*|| labelString.length() < 1*/) {
+	// We need to allow an empty string label since this  
+	// could mean that there is value binding and a   
+	// message bundle hasn't loaded yet, but there  
+	// is a value binding since the javax.el never returns  
+	// null for a String binding.  
+	//   
+	if(labelString == null /*|| labelString.length() < 1*/) { 
             if(DEBUG) log("\tNo label");
             // Remove any previously created one.
             //
@@ -172,14 +172,14 @@ public class Field extends HiddenField implements ComplexComponent,
         }
         
         Label label = (Label)ComponentUtilities.getPrivateFacet(this,
-		LABEL_FACET, true);
-	if (label == null) {
-	    label = new Label();
-	    label.setId(
-		ComponentUtilities.createPrivateFacetId(this, LABEL_FACET));
-	    ComponentUtilities.putPrivateFacet(this, LABEL_FACET, label);
-	}
-	label.setLabelLevel(getLabelLevel());
+                LABEL_FACET, true);
+        if (label == null) {
+            label = new Label();
+            label.setId(
+                ComponentUtilities.createPrivateFacetId(this, LABEL_FACET));
+            ComponentUtilities.putPrivateFacet(this, LABEL_FACET, label);
+        }
+        label.setLabelLevel(getLabelLevel());
         label.setStyleClass(style);
         label.setText(labelString);
         if (!isReadOnly()) {
@@ -241,31 +241,26 @@ public class Field extends HiddenField implements ComplexComponent,
      */
     public String getLabeledElementId(FacesContext context) {
 
-	// If this component has a label either as a facet or
-	// an attribute, return the id of the input element
-	// that will have the "INPUT_ID" suffix. IF there is no
-	// label, then the input element id will be the component's
-	// client id.
-	//
-	// If it is read only then return null
-	//
-	if (isReadOnly()) {
-	    return null;
-	}
+        // If this component has a label either as a facet or
+        // an attribute, return the id of the input element
+        // that will have the "INPUT_ID" suffix. IF there is no
+        // label, then the input element id will be the component's
+        // client id.
+        //
+        // If it is read only then return null
+        //
+        if (isReadOnly()) {
+            return null;
+        }
 
-	// To ensure we get the right answer call getLabelComponent.
-	// This checks for a developer facet or the private label facet.
-	// It also checks the label attribute. This is better than
-	// relying on "getLabeledComponent" having been called
-	// like this method used to do.
-	//
-	String clntId = this.getClientId(context);
-	UIComponent labelComp = getLabelComponent(context, null); 
-	if (labelComp == null) { 
-	    return clntId; 
-	} else { 
-	    return clntId.concat(this.INPUT_ID);
-	}
+        // To ensure we get the right answer call getLabelComponent.
+        // This checks for a developer facet or the private label facet.
+        // It also checks the label attribute. This is better than
+        // relying on "getLabeledComponent" having been called
+        // like this method used to do.
+        //
+        String clntId = this.getClientId(context);
+        return clntId.concat(this.INPUT_ID);
     }
 
     /**
@@ -284,7 +279,7 @@ public class Field extends HiddenField implements ComplexComponent,
      * @param context The FacesContext used for the request
      */
     public String getFocusElementId(FacesContext context) {
-	return getLabeledElementId(context);
+        return getLabeledElementId(context);
     }
 
     /**
@@ -301,16 +296,11 @@ public class Field extends HiddenField implements ComplexComponent,
      * @see #getFocusElementId
      */
     public String getPrimaryElementID(FacesContext context) {
-	// In case callers can't handle null when this component
-	// is read only. don't return getLabeledElementId here.
-	//
-	String clntId = this.getClientId(context);
-	UIComponent labelComp = getLabelComponent(context, null); 
-	if (labelComp == null) { 
-	    return clntId; 
-	} else { 
-	    return clntId.concat(this.INPUT_ID);
-	}
+        // In case callers can't handle null when this component
+        // is read only. don't return getLabeledElementId here.
+        //
+        String clntId = this.getClientId(context);
+        return clntId.concat(this.INPUT_ID);
     }
 
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~

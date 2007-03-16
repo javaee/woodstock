@@ -53,13 +53,13 @@ webui.@THEME@.editableList = {
         // Not a facet does not have "extra" editable list id.
 
         // child elements
-	// Get the field by calling the field getInputMethod
-	// because only it knows about the underlying structure
-	// of the rendered field component
-	//
-	domNode.list = 
-	    webui.@THEME@.listbox.getSelectElement(props.id + "_list");
-		
+        // Get the field by calling the field getInputMethod
+        // because only it knows about the underlying structure
+        // of the rendered field component
+        //
+        domNode.list = 
+            webui.@THEME@.listbox.getSelectElement(props.id + "_list");
+                
 
         // Bug 6338492 -
         //     ALL: If a component supports facets or children is must be a
@@ -91,12 +91,12 @@ webui.@THEME@.editableList = {
         }
         var facetid = props.id + ":" + componentid;
 
-	// Get the field by calling the field getInputMethod
-	// because only it knows about the underlying structure
-	// of the rendered field component
-	//
+        // Get the field by calling the field getInputMethod
+        // because only it knows about the underlying structure
+        // of the rendered field component
+        //
         domNode.field =
-	    webui.@THEME@.field.getInputElement(facetid /*+ "_field"*/);
+            webui.@THEME@.field.getInputElement(facetid + "_field");
         domNode.addButton = document.getElementById(facetid + "_addButton"); 
         domNode.removeButton = document.getElementById(facetid + "_removeButton"); 
     

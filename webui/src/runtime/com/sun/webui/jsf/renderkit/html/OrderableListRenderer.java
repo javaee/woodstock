@@ -20,12 +20,7 @@
  * Copyright 2007 Sun Microsystems, Inc. All rights reserved.
  */
 /*
- * $Id: OrderableListRenderer.java,v 1.2 2007-03-15 12:35:25 rratta Exp $
- */
-/*
- * OrderableListRenderer.java
- *
- * Created on December 23, 2004, 11:11 AM
+ * $Id: OrderableListRenderer.java,v 1.3 2007-03-16 18:54:46 rratta Exp $
  */
 
 package com.sun.webui.jsf.renderkit.html;
@@ -39,6 +34,7 @@ import javax.faces.component.EditableValueHolder;
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.context.ResponseWriter;
+import com.sun.webui.jsf.component.ComplexComponent;
 import com.sun.webui.jsf.component.ListSelector;
 import com.sun.webui.jsf.component.OrderableList; 
 import com.sun.webui.theme.Theme;
@@ -74,16 +70,16 @@ public class OrderableListRenderer extends ListRendererBase {
         
         if(DEBUG) log("encodeEnd()"); //NOI18N
 
-	if(component instanceof OrderableList) {
-	    renderListComponent(context, (OrderableList) component, 
+        if(component instanceof OrderableList) {
+            renderListComponent(context, (OrderableList) component, 
                 getStyles(component, context)); 
-	} else {
-	    String message = "Component " + component.toString() + //NOI18N
-		" has been associated with an OrderableListRenderer. " + //NOI18N
-		" This renderer can only be used by components " + //NOI18N
-		" that extend com.sun.webui.jsf.component.Selector."; //NOI18N
-	    throw new FacesException(message); 
-	}
+        } else {
+            String message = "Component " + component.toString() + //NOI18N
+                " has been associated with an OrderableListRenderer. " + //NOI18N
+                " This renderer can only be used by components " + //NOI18N
+                " that extend com.sun.webui.jsf.component.Selector."; //NOI18N
+            throw new FacesException(message); 
+        }
     }
 
     /*
@@ -135,18 +131,18 @@ public class OrderableListRenderer extends ListRendererBase {
      private void renderListComponent(FacesContext context, 
              OrderableList component, String[] styles) throws IOException {
         if(DEBUG) log("renderListComponent()");
-	if(component.isReadOnly()) { 
+        if(component.isReadOnly()) { 
             UIComponent label = component.getHeaderComponent(); 
             super.renderReadOnlyList(component, label, context, styles[15]); 
-	    return; 
-	} 
+            return; 
+        } 
         
         ResponseWriter writer = context.getResponseWriter();
         renderOpenEncloser(component, context, "div", styles[15]); //NOI18N
 
         // If the label goes on top, render it first... 
 
-	UIComponent headerComponent = component.getHeaderComponent(); 
+        UIComponent headerComponent = component.getHeaderComponent(); 
         if(headerComponent != null) {
             if(!component.isLabelOnTop()) {
                 writer.writeText("\n", null); //NOI18N
@@ -165,27 +161,27 @@ public class OrderableListRenderer extends ListRendererBase {
             }
         }
 
-	// First column: available items
-	renderColumnTop(component, writer, styles[10]); 
-        String id = 
-	    component.getClientId(context).concat(ListSelector.LIST_ID);
+        // First column: available items
+        renderColumnTop(component, writer, styles[10]); 
+        String id = component.getClientId(context);
+        if (component instanceof ComplexComponent) {
+            id = ((ComplexComponent)component).getLabeledElementId(context);
+        }
+        renderList(component, id, context, styles); 
+        renderColumnBottom(writer); 
 
-
-	renderList(component, id, context, styles); 
-	renderColumnBottom(writer); 
-
-	// Second column: button row
-	renderColumnTop(component, writer, styles[10]); 
-	renderButtons(component, context, writer, styles); 
-	renderColumnBottom(writer); 
+        // Second column: button row
+        renderColumnTop(component, writer, styles[10]); 
+        renderButtons(component, context, writer, styles); 
+        renderColumnBottom(writer); 
         
         writer.startElement("div", component); //NOI18N
         writer.writeAttribute("class", styles[11], null); //NOI18N
         writer.endElement("div"); //NOI18N
 
-	UIComponent footerComponent = 
-	    component.getFacet(OrderableList.FOOTER_FACET); 
-	if(footerComponent != null) {
+        UIComponent footerComponent = 
+            component.getFacet(OrderableList.FOOTER_FACET); 
+        if(footerComponent != null) {
             writer.startElement("div", component); //NOI18N
             writer.writeText("\n", null); //NOI18N
             RenderingUtilities.renderComponent(footerComponent, context);
@@ -196,20 +192,20 @@ public class OrderableListRenderer extends ListRendererBase {
         
         String jsID = component.getClientId(context);
 
-	// The value field
-	// Call super renderValueField ?
-	//
-	/*
+        // The value field
+        // Call super renderValueField ?
+        //
+        /*
         RenderingUtilities.renderHiddenField
                 (component, writer, jsID.concat(VALUES_ID), 
                  component.getValueAsString(context, component.getSeparator()));
-	*/
-	renderHiddenValue(component, context, writer, styles[15]);
+        */
+        renderHiddenValue(component, context, writer, styles[15]);
 
         writer.writeText("\n", null); //NOI18N
-	writer.endElement("div"); //NOI18N
+        writer.endElement("div"); //NOI18N
         writer.writeText("\n", null); //NOI18N
-	writer.endElement("div"); //NOI18N
+        writer.endElement("div"); //NOI18N
         writer.writeText("\n", null); //NOI18N
 
         renderJavaScript(component, context, writer, styles);
@@ -299,13 +295,13 @@ public class OrderableListRenderer extends ListRendererBase {
             ResponseWriter writer, FacesContext context) throws IOException { 
         if(comp == null) return;
 
-	writer.startElement("div", list); //NOI18N
-	writer.writeAttribute("class", style, null);  //NOI18N
-	writer.writeText("\n", null); //NOI18N
-	RenderingUtilities.renderComponent(comp, context);
-	writer.writeText("\n", null); //NOI18N
-	writer.endElement("div"); //NOI18N
-	writer.writeText("\n", null); //NOI18N
+        writer.startElement("div", list); //NOI18N
+        writer.writeAttribute("class", style, null);  //NOI18N
+        writer.writeText("\n", null); //NOI18N
+        RenderingUtilities.renderComponent(comp, context);
+        writer.writeText("\n", null); //NOI18N
+        writer.endElement("div"); //NOI18N
+        writer.writeText("\n", null); //NOI18N
     }
         
     /**
@@ -318,7 +314,7 @@ public class OrderableListRenderer extends ListRendererBase {
      */
     public void encodeChildren(javax.faces.context.FacesContext context,
             javax.faces.component.UIComponent component) throws java.io.IOException { 
-	return;
+        return;
     } 
 
     /**
@@ -331,17 +327,17 @@ public class OrderableListRenderer extends ListRendererBase {
     private void addComponentSingleRow(OrderableList list, 
             UIComponent component, FacesContext context) throws IOException {
         ResponseWriter writer = context.getResponseWriter();
-	writer.startElement("tr", list);                    //NOI18N
-	writer.writeText("\n", null);                       //NOI18N
-	writer.startElement("td", list);                    //NOI18N
-	RenderingUtilities.renderComponent(component, context); 
-	writer.writeText("\n", null);                       //NOI18N
-	// Perhaps this should depend on the dir?
-	// writer.writeAttribute("align", "left", null); 
-	writer.endElement("td");                            //NOI18N
-	writer.writeText("\n", null);                       //NOI18N
-	writer.endElement("tr");                            //NOI18N
-	writer.writeText("\n", null);                       //NOI18N
+        writer.startElement("tr", list);                    //NOI18N
+        writer.writeText("\n", null);                       //NOI18N
+        writer.startElement("td", list);                    //NOI18N
+        RenderingUtilities.renderComponent(component, context); 
+        writer.writeText("\n", null);                       //NOI18N
+        // Perhaps this should depend on the dir?
+        // writer.writeAttribute("align", "left", null); 
+        writer.endElement("td");                            //NOI18N
+        writer.writeText("\n", null);                       //NOI18N
+        writer.endElement("tr");                            //NOI18N
+        writer.writeText("\n", null);                       //NOI18N
     } 
 
     /**
@@ -367,7 +363,7 @@ public class OrderableListRenderer extends ListRendererBase {
 
         styles[0] = buff.toString();
         styles[1] = theme.getStyleClass(ThemeStyles.LIST);
-	styles[2] = theme.getStyleClass(ThemeStyles.LIST_DISABLED);
+        styles[2] = theme.getStyleClass(ThemeStyles.LIST_DISABLED);
         styles[3] = theme.getStyleClass(ThemeStyles.LIST_OPTION);
         styles[4] = theme.getStyleClass(ThemeStyles.LIST_OPTION_DISABLED);
         styles[5] = theme.getStyleClass(ThemeStyles.LIST_OPTION_SELECTED);
@@ -375,7 +371,7 @@ public class OrderableListRenderer extends ListRendererBase {
         styles[7] = theme.getStyleClass(ThemeStyles.LIST_OPTION_SEPARATOR);
         styles[8] = theme.getStyleClass(ThemeStyles.ADDREMOVE_HORIZONTAL_BETWEEN);
         styles[9] = theme.getStyleClass(ThemeStyles.ADDREMOVE_HORIZONTAL_WITHIN);
-	styles[10] = theme.getStyleClass(ThemeStyles.ADDREMOVE_HORIZONTAL_ALIGN);
+        styles[10] = theme.getStyleClass(ThemeStyles.ADDREMOVE_HORIZONTAL_ALIGN);
         styles[11] = theme.getStyleClass(ThemeStyles.ADDREMOVE_HORIZONTAL_LAST);
         styles[12] = theme.getStyleClass(ThemeStyles.ADDREMOVE_BUTTON_TABLE);
         styles[13] = null;

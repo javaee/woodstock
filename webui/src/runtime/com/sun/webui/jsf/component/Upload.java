@@ -205,13 +205,8 @@ public class Upload extends Field implements Serializable {
      * @see #getLabeledElementId
      */
     public String getPrimaryElementID(FacesContext context) {
-	String clntId = this.getClientId(context);
-	UIComponent labelComp = getLabelComponent(context, null); 
-	if (labelComp == null) { 
-	    return clntId; 
-	} else { 
-	    return clntId.concat(INPUT_ID);
-	}
+        String clntId = this.getClientId(context);
+        return clntId.concat(INPUT_ID);
     }
      
     // Overrides the method in Field.java as a workaround for an 
@@ -229,31 +224,26 @@ public class Upload extends Field implements Serializable {
      */      
     public String getLabeledElementId(FacesContext context) {
 
-	// If this component has a label either as a facet or
-	// an attribute, return the id of the input element
-	// that will have the "INPUT_ID" suffix. IF there is no
-	// label, then the input element id will be the component's
-	// client id.
-	//
-	// If it is read only then return null
-	//
-	if (isReadOnly()) {
-	    return null;
-	}
+        // If this component has a label either as a facet or
+        // an attribute, return the id of the input element
+        // that will have the "INPUT_ID" suffix. IF there is no
+        // label, then the input element id will be the component's
+        // client id.
+        //
+        // If it is read only then return null
+        //
+        if (isReadOnly()) {
+            return null;
+        }
 
-	// To ensure we get the right answer call getLabelComponent.
-	// This checks for a developer facet or the private label facet.
-	// It also checks the label attribute. This is better than
-	// relying on "getLabeledComponent" having been called
-	// like this method used to do.
-	//
-	String clntId = this.getClientId(context);
-	UIComponent labelComp = getLabelComponent(context, null); 
-	if (labelComp == null) { 
-	    return clntId; 
-	} else { 
-	    return clntId.concat(INPUT_ID);
-	}
+        // To ensure we get the right answer call getLabelComponent.
+        // This checks for a developer facet or the private label facet.
+        // It also checks the label attribute. This is better than
+        // relying on "getLabeledComponent" having been called
+        // like this method used to do.
+        //
+        String clntId = this.getClientId(context);
+        return clntId.concat(INPUT_ID);
     }
     
     /**
@@ -263,7 +253,7 @@ public class Upload extends Field implements Serializable {
      * @param context The FacesContext used for the request
      */
     public String getFocusElementId(FacesContext context) {
-	return getLabeledElementId(context);
+        return getLabeledElementId(context);
     }
 
     // Obtain the FileItem in the constructor, based on the
@@ -296,14 +286,14 @@ public class Upload extends Field implements Serializable {
         
         /** Creates a new instance of UploadedFileImpl */
         UploadedFileImpl(Object attribute, FacesContext context) {         
-	    // Allow null
-	    //
-	    try {
-		this.fileItemObject = (FileItem)
-		    context.getExternalContext().getRequestMap().get(attribute);
-	    } catch (Exception e) {
+            // Allow null
+            //
+            try {
+                this.fileItemObject = (FileItem)
+                    context.getExternalContext().getRequestMap().get(attribute);
+            } catch (Exception e) {
                 String message = 
-		    "File not uploaded. Is the upload filter installed ?";
+                    "File not uploaded. Is the upload filter installed ?";
                 throw new FacesException(message, e);
             }
         }
@@ -323,44 +313,44 @@ public class Upload extends Field implements Serializable {
          */
         public void write(java.io.File file) throws Exception {
             
-	    if (fileItemObject != null) {
-		fileItemObject.write(file);
-	    }
+            if (fileItemObject != null) {
+                fileItemObject.write(file);
+            }
         }
         
         /**
          * The size of the file in bytes.
-	 * If there is no fileItemObject, return 0.
+         * If there is no fileItemObject, return 0.
          *
          * @return The size of the file in bytes.
          */
         public long getSize() {
-	    if (fileItemObject != null) {
-		return fileItemObject.getSize();
-	    } else {
-		return 0;
-	    }
+            if (fileItemObject != null) {
+                return fileItemObject.getSize();
+            } else {
+                return 0;
+            }
         }
         
         /**
          * Use this method to retrieve the name that the file has on the web
          * application user's local system.
-	 * If the fileItemObject is null, return null;
+         * If the fileItemObject is null, return null;
          *
          * @return the name of the file on the web app user's system
          */
         public String getOriginalName() {
-	    if (fileItemObject != null) {
-		return fileItemObject.getName();
-	    } else {
-		return null;
-	    }
+            if (fileItemObject != null) {
+                return fileItemObject.getName();
+            } else {
+                return null;
+            }
         }
         
         /**
          * Returns a {@link java.io.InputStream InputStream} for
          * reading the file.
-	 * Returns null if fileItemObject is null.
+         * Returns null if fileItemObject is null.
          *
          * @return An {@link java.io.InputStream InputStream} for
          * reading the file. 
@@ -369,58 +359,58 @@ public class Upload extends Field implements Serializable {
          * the file 
          */
         public java.io.InputStream getInputStream() throws java.io.IOException {
-	    if (fileItemObject != null) {
-		return fileItemObject.getInputStream(); 
-	    } else {
-		return null;
-	    }
+            if (fileItemObject != null) {
+                return fileItemObject.getInputStream(); 
+            } else {
+                return null;
+            }
         }
         
         /**
          * Get the content-type that the browser communicated with the
          * request that included the uploaded file. If the browser did
          * not specify a content-type, this method returns null. 
-	 * Returns null if fileItemObject is null.
+         * Returns null if fileItemObject is null.
          *
          * @return  the content-type that the browser communicated
          * with the request that included the uploaded file
          */
         public String getContentType() {
-	    if (fileItemObject != null) {
-		return fileItemObject.getContentType();
-	    } else {
-		return null;
-	    }
+            if (fileItemObject != null) {
+                return fileItemObject.getContentType();
+            } else {
+                return null;
+            }
         }
         
         /**
          * Use this method to retrieve the contents of the file as an
          * array of bytes. 
-	 * Returns null if fileItemObject is null.
-	 *
-	 * @return The contents of the file as a byte array
+         * Returns null if fileItemObject is null.
+         *
+         * @return The contents of the file as a byte array
          */
         public byte[] getBytes() {
-	    if (fileItemObject != null) {
-		return fileItemObject.get();
-	    } else {
-		return null;
-	    }
+            if (fileItemObject != null) {
+                return fileItemObject.get();
+            } else {
+                return null;
+            }
         }
         
         /**
          * Use this method to retrieve the contents of the file as a
          * String 
-	 * Returns null if fileItemObject is null.
+         * Returns null if fileItemObject is null.
          *
          * @return the contents of the file as a String
          */
         public String getAsString() {
-	    if (fileItemObject != null) {
-		return fileItemObject.getString();
-	    } else {
-		return null;
-	    }
+            if (fileItemObject != null) {
+                return fileItemObject.getString();
+            } else {
+                return null;
+            }
         }
         
         /**
@@ -429,9 +419,9 @@ public class Upload extends Field implements Serializable {
          * garbage collected). 
          */
         public void dispose() {
-	    if (fileItemObject != null) {
-		fileItemObject.delete(); 
-	    }
+            if (fileItemObject != null) {
+                fileItemObject.delete(); 
+            }
         }       
     }
 

@@ -20,7 +20,7 @@
  * Copyright 2007 Sun Microsystems, Inc. All rights reserved.
  */
 /*
- * $Id: ListRendererBase.java,v 1.2 2007-03-15 12:35:25 rratta Exp $
+ * $Id: ListRendererBase.java,v 1.3 2007-03-16 18:54:46 rratta Exp $
  */
 package com.sun.webui.jsf.renderkit.html;
 
@@ -41,6 +41,7 @@ import javax.faces.context.FacesContext;
 import javax.faces.context.ResponseWriter;
 import javax.faces.render.Renderer;
 
+import com.sun.webui.jsf.component.ComplexComponent;
 import com.sun.webui.jsf.component.ListManager;
 import com.sun.webui.jsf.component.ListSelector;
 import com.sun.webui.jsf.component.Label;
@@ -118,24 +119,17 @@ abstract public class ListRendererBase extends Renderer {
         
         if(DEBUG) log("renderListComponent()");
         
-        boolean readonly = component.isReadOnly();     
-        if(readonly) {
-            if(DEBUG) log("\t component is readonly");
-            // We don't want to accidentally mark any label as
-            // required in this case...
-            component.setRequired(false);
-        }
-        
         UIComponent label = component.getLabelComponent();
         ResponseWriter writer = context.getResponseWriter();   
         String id = component.getClientId(context); 
-        boolean spanRendered = false; 
+
+        // Always render the span
+        //
+        renderOpenEncloser(component, context, "span", styles[8]); //NOI18N
             
         if( label != null) {
-            renderOpenEncloser(component, context, "span", styles[8]); //NOI18N
-            spanRendered = true; 
             writer.writeText("\n", null);
-             if(!component.isLabelOnTop() && component.getRows() > 1) {
+            if(!component.isLabelOnTop() && component.getRows() > 1) {
                 Map attributes = label.getAttributes();
                 Object styleClass = attributes.get("styleClass");
                 if(styleClass == null) {
@@ -155,9 +149,9 @@ abstract public class ListRendererBase extends Renderer {
             }
        
             writer.writeText("\n", null);    
-            id = id.concat(ListSelector.LIST_ID);       
         }
         
+        boolean readonly = component.isReadOnly();     
         if(readonly) {
             UIComponent value = component.getReadOnlyValueComponent();
             if(label == null) { 
@@ -167,6 +161,14 @@ abstract public class ListRendererBase extends Renderer {
             RenderingUtilities.renderComponent(value,context);            
         } 
         else {
+            // If its a complex componenet call getLabeledElementId
+            // this must be the id of the element that is submitted
+            // upon request, else leave it as getClientId().
+            //
+            if (component instanceof ComplexComponent) {
+                id = ((ComplexComponent)component).getLabeledElementId(context);
+            }
+
             //renderHiddenValue(component, context, writer, styles[8]);
             //writer.writeText("\n", null);
 
@@ -175,11 +177,9 @@ abstract public class ListRendererBase extends Renderer {
             // If it becomes uncommented remove this call.
             //
             recordRenderedValue(component);
-            renderList(component, id, context, styles, label == null);
+            renderList(component, id, context, styles);
         }
-        if(label != null) {
-            context.getResponseWriter().endElement("span"); //NOI18N
-        }       
+        context.getResponseWriter().endElement("span"); //NOI18N
     }
     
     /**
@@ -308,15 +308,8 @@ abstract public class ListRendererBase extends Renderer {
      * @throws java.io.IOException if the renderer fails to write to
      * the response
      */
-    protected void renderList(ListManager component, String id, 
+    protected void renderList(ListManager listManager, String id, 
                               FacesContext context, String[] styles)
-            throws IOException {
-        renderList(component, id, context, styles, false); 
-    }
-
-    private void renderList(ListManager listManager, String id, 
-                            FacesContext context, String[] styles, 
-                            boolean renderUserStyles)
             throws IOException {
         
         // Set the style class
@@ -327,20 +320,7 @@ abstract public class ListRendererBase extends Renderer {
 
         ResponseWriter writer = context.getResponseWriter();
    
-        writer.startElement("select", (UIComponent)listManager);              //NOI18N
-
-        if(renderUserStyles) { 
-            String style = listManager.getStyle(); 
-            if(style != null && style.length() > 0) {
-                writer.writeAttribute("style", style, null); //NOI18N
-            }
-            String compStyleClass = getStyleClass(listManager, 
-                                                  styles[8]); 
-
-            if(compStyleClass != null && compStyleClass.length() > 0) { 
-                styleClass = compStyleClass + " " + styleClass; 
-            }
-        } 
+        writer.startElement("select", (UIComponent)listManager); //NOI18N
 
         writer.writeAttribute("class", styleClass, null);      //NOI18N
         writer.writeAttribute("id", id, null); //NOI18N
@@ -668,8 +648,22 @@ abstract public class ListRendererBase extends Renderer {
     public void decode(FacesContext context, UIComponent component) {
         
         if(DEBUG) log("decode()");
-        String id = component.getClientId(context); 
+
+        // The other decode implementation does this too
+        // but we don't want to get there because 
+        // getLabeledElementId returns null if a component is readOnly.
+        // We should probably return if disabled too.
+        // It's too late to refactor this code.
+        //
+        if (((ListManager)component).isReadOnly()) {
+            return;
+        }
         
+        // The submitted select element will always have the value
+        // of getLabeledElementId. Leaving the following comment 
+        // for historical reasons.
+
+        // **** No Longer True ****
         // We used to depend on getLabelComponent() returning non-null
         // to calculate the ID to be used to retrieve parameters for the 
         // component. But after the changes made to the facet management, 
@@ -678,12 +672,19 @@ abstract public class ListRendererBase extends Renderer {
         // possible parameter names instead, similar to what field 
         // does. It works, though we can technically end up looking 
         // at the wrong parameter, if there was no input. 
+        // *****
+        String id = component.getClientId(context); 
+        if (component instanceof ComplexComponent) {
+            id = ((ComplexComponent)component).getLabeledElementId(context);
+        }
+        /*
         Map params = context.getExternalContext().getRequestParameterMap();
         Object valueObject = params.get(id);
         
         if(valueObject == null) { 
            id = id.concat(ListSelector.LIST_ID);
         }
+        */
         decode(context, component, id);
     }
     

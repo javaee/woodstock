@@ -34,8 +34,16 @@
                      */
                     function fnPopulateDir(){
              
-                    var dirPath=document.getElementById("folderFormPopup:folderContent:folderChooser:folderChooser_lookinField").value;
-                    var selfield = document.getElementById("folderFormPopup:folderContent:folderChooser:folderChooser_selectedField").value;
+		    // Note that explicitly referencing the subcomponent
+		    // TextField input element in the file chooser is not
+		    // appropriate. There is no way to guarantee that
+		    // the id will be literally defined this way.
+		    // The file chooser javascript must expose an
+		    // interface for this field if it is required
+		    // for applications.
+		    //
+                    var dirPath=document.getElementById("folderFormPopup:folderContent:folderChooser:folderChooser_lookinField_field").value;
+                    var selfield = document.getElementById("folderFormPopup:folderContent:folderChooser:folderChooser_selectedField_field").value;
                         if (selfield.length > 0) {
                             if (((dirPath.lastIndexOf('\\')) == (dirPath.length-1))){
                                      dirPath = dirPath + selfield;   
@@ -79,10 +87,10 @@
                        <!-- Folder Chooser -->
                        <f:verbatim><![CDATA[<table><tr><td>]]></f:verbatim>
                          <webuijsf:fileChooser id="folderChooser"
-			                 lookin="#{ChooserUploaderBean.lookin}"
+                                         lookin="#{ChooserUploaderBean.lookin}"
                                          selected="#{ChooserUploaderBean.selected}"
                                          sortField="size" descending="true" 
-		                         multiple="false" folderChooser="true"/>
+                                         multiple="false" folderChooser="true"/>
                        <f:verbatim><![CDATA[</td></tr>]]></f:verbatim>
                                                  
                        <!--  Folder Chooser button -->
