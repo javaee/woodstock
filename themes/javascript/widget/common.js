@@ -39,7 +39,8 @@ webui.@THEME@.widget.common = {
      * of the given parent node.
      *
      * Note: The position argument can be null for strings. However,
-     * if strings must be appended to the same DOM node, use "last".
+     * if fragments must be added to the same DOM node, use "last", "first", 
+     * etc. -- arguments are passed though to Dojo's createWidget function.
      *
      * @param parentNode The parent node used to add widget.
      * @param props Key-Value pairs of properties.
@@ -157,6 +158,32 @@ webui.@THEME@.widget.common = {
                 oldNode.parentNode.replaceChild(newNode.domNode, oldNode);
             } else {
                 return false;
+            }
+        }
+        return true;
+    },
+
+    /**
+     * This function is used to extend the given object with Key-Value pairs of
+     * properties. If a property is an object containing Key-Value pairs itself,
+     * this function is called recursively to preserve data which is not
+     * explicitly extended.
+     *
+     * Note: If all top level properties must be replaced, use Prototype's 
+     * Object.extend function.
+     *
+     * @param obj The object to extend.
+     * @param props Key-Value pairs of properties.
+     */
+    extend = function(obj, props) {
+        if (obj == null || props == null) {
+            return false;
+        }
+        for (var property in props) {
+            if (obj[property] && typeof obj[property] == "object") {
+                webui.suntheme.widget.common.extend(obj[property], props[property]);
+            } else {
+                obj[property] = props[property];
             }
         }
         return true;
