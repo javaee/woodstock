@@ -123,7 +123,7 @@
         
     <renderer>
       <component-family>com.sun.webui.jsf.Image</component-family>
-      <renderer-type>com.sun.webui.jsf.ImageDesignTime</renderer-type>
+      <renderer-type>com.sun.webui.jsf.widget.ImageDesignTime</renderer-type>
       <renderer-class>com.sun.webui.jsf.renderkit.html.ImageDesignTimeRenderer</renderer-class>
     </renderer>
         
@@ -135,7 +135,7 @@
     
     <renderer>
       <component-family>com.sun.webui.jsf.Label</component-family>
-      <renderer-type>com.sun.webui.jsf.LabelDesignTime</renderer-type>
+      <renderer-type>com.sun.webui.jsf.widget.LabelDesignTime</renderer-type>
       <renderer-class>com.sun.webui.jsf.renderkit.html.LabelDesignTimeRenderer</renderer-class>
     </renderer>
     
@@ -201,7 +201,7 @@
     
     <renderer>
       <component-family>com.sun.webui.jsf.StaticText</component-family>
-      <renderer-type>com.sun.webui.jsf.StaticTextDesignTime</renderer-type>
+      <renderer-type>com.sun.webui.jsf.widget.StaticTextDesignTime</renderer-type>
       <renderer-class>com.sun.webui.jsf.renderkit.html.StaticTextDesignTimeRenderer</renderer-class>
     </renderer>
 
