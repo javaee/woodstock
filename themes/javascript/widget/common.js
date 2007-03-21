@@ -175,7 +175,7 @@ webui.@THEME@.widget.common = {
      * @param obj The object to extend.
      * @param props Key-Value pairs of properties.
      */
-    extend = function(obj, props) {
+    extend: function(obj, props) {
         if (obj == null || props == null) {
             return false;
         }
