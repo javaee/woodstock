@@ -31,7 +31,9 @@
 package com.sun.webui.jsf.component;
 
 import java.beans.BeanDescriptor;
-
+import com.sun.webui.jsf.component.propertyeditors.ProgressBarTypesDomain;
+import com.sun.webui.jsf.component.propertyeditors.ProgressBarStatesTypeDomain;
+import com.sun.webui.jsf.component.util.DesignUtil;
 import com.sun.rave.designtime.Constants;
 
 /**
@@ -42,6 +44,8 @@ public class ProgressBarBeanInfo extends ProgressBarBeanInfoBase {
     
     /** Creates a new instance of ProgressBarBeanInfo */
     public ProgressBarBeanInfo() {
+        DesignUtil.applyPropertyDomain(this, "type", ProgressBarTypesDomain.class);
+        DesignUtil.applyPropertyDomain(this, "taskState", ProgressBarStatesTypeDomain.class);
     }
     
     public BeanDescriptor getBeanDescriptor() {

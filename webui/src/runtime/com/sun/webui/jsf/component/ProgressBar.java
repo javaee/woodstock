@@ -741,8 +741,7 @@ public class ProgressBar extends javax.faces.component.UIOutput
      * failed<br>
      * completed</code></p>
      */
-    @Property(name="taskState", displayName="Task State", category="Appearance",
-     editorClassName="com.sun.webui.jsf.component.propertyeditors.ProgressBarStatesTypeEditor")
+    @Property(name="taskState", displayName="Task State", category="Advanced")
     private String taskState = null;
     
        /**
@@ -807,8 +806,7 @@ public class ProgressBar extends javax.faces.component.UIOutput
      * "INDETERMINATE" for horizontal bar without percent complete<br>
      * "BUSY" for simple activity indicator</p>
      */
-    @Property(name="type", displayName="ProgressBar Type", category="Appearance",
-     editorClassName="com.sun.webui.jsf.component.propertyeditors.ProgressBarTypesEditor")
+    @Property(name="type", displayName="ProgressBar Type", category="Advanced")
     private String type = null;
     
     /**
