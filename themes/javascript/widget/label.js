@@ -34,7 +34,13 @@ dojo.require("webui.@THEME@.widget.*");
  * Note: This is considered a private API, do not use.
  */
 webui.@THEME@.widget.label = function() {
+    // Set defaults.
+    this.level = 2;
+    this.required = false;
+    this.valid = true;
     this.widgetType = "label";
+
+    // Register widget.
     dojo.widget.Widget.call(this);
 
     /**
@@ -51,39 +57,11 @@ webui.@THEME@.widget.label = function() {
         // Set public functions.
         this.domNode.setProps = webui.@THEME@.widget.label.setProps;
 
-        // Set private functions (private functions/props prefixed with "_").
-        this.domNode._getClassName = webui.@THEME@.widget.label.getClassName;
+        // Set private functions.
+        this.getClassName = webui.@THEME@.widget.label.getClassName;
 
         // Set properties.
-        this.domNode.setProps({
-            errorImage: this.errorImage,
-            htmlFor: this.htmlFor,
-            id: this.id,
-            level: (this.level > 0) ? this.level : 2,
-            className: this.className, 
-            required: (this.required != null) ? this.required : false,
-            requiredImage: this.requiredImage,
-            valid: (this.valid != null) ? this.valid : true,
-            value: this.value,
-            onClick: this.onClick,
-            onDblClick: this.onDblClick,
-            onFocus: this.onFocus,
-            onKeyDown: this.onKeyDown,
-            onKeyPress: this.onKeyPress,
-            onKeyUp: this.onKeyUp,
-            onMouseDown: this.onMouseDown,
-            onMouseOut: this.onMouseOut,
-            onMouseOver: this.onMouseOver,
-            onMouseUp: this.onMouseUp,
-            onMouseMove: this.onMouseMove,
-            dir: this.dir,
-            lang: this.lang,
-            accesskey: this.accesskey,
-            style: this.style,
-            title: this.title,
-            visible: this.visible
-
-        });
+        this.domNode.setProps(this);
         return true;
     }
 }
@@ -95,20 +73,16 @@ webui.@THEME@.widget.label.getClassName = function() {
     // Set style for default label level.
     var classNameLabel = webui.@THEME@.widget.props.label.levelTwoStyleClass;
 
-    if (this._props.valid == false) {
+    if (this.valid == false) {
         classNameLabel = webui.@THEME@.widget.props.label.errorStyleClass;
-    } else if (this._props.level == 1) {
+    } else if (this.level == 1) {
         classNameLabel = webui.@THEME@.widget.props.label.levelOneStyleClass;
-    } else if (this._props.level == 3) {
+    } else if (this.level == 3) {
         classNameLabel = webui.@THEME@.widget.props.label.levelThreeStyleClass;
     }
-
-    if (classNameLabel == this._props.className) {
-        this._props.className = "";
-    } 
-    return (this._props.className)
-           ? classNameLabel + " " + this._props.className
-           : classNameLabel;
+    return (this.className)
+        ? classNameLabel + " " + this.className
+        : classNameLabel;
 }
 
 /**
@@ -150,61 +124,77 @@ webui.@THEME@.widget.label.setProps = function(props) {
     if (props == null) {
         return false;
     }
-         
-    // Save properties for later updates.
-    if (this._props) {
-        Object.extend(this._props, props); // Override existing values, if any.
+
+    // Get label widget.
+    var widget = dojo.widget.byId(this.id);
+    if (widget != null) {
+        // Save properties for later updates.
+        webui.@THEME@.widget.common.extend(widget, props);
     } else {
-        this._props = props;
+        // SetProps called by widget -- do not extend object.
+        widget = dojo.widget.byId(props.id);
+        if (widget == null) {
+            return false;
+        }
     }
-     
-    props.className = this._getClassName();
+
+    // Set style class before calling setCoreProps.
+    props.className = widget.getClassName();
     
     // Set attributes.
-    webui.@THEME@.widget.common.setCoreProperties(this, props);    
-    webui.@THEME@.widget.common.setJavaScriptProperties(this, this._props);
+    webui.@THEME@.widget.common.setCoreProps(this, props);
+    webui.@THEME@.widget.common.setCommonProps(this, props);
+    webui.@THEME@.widget.common.setJavaScriptProps(this, props);
 
-    if (this._props.htmlFor) { this.setAttribute("for", this._props.htmlFor); }
-    if (this._props.value) { this.setAttribute("value", this._props.value); }
-        
-    // Set widget properties.
-    var widget = dojo.widget.byId(this.id);
-    if (widget == null) {
-        return false;
-    }
+    if (props.htmlFor) { this.setAttribute("for", props.htmlFor); }
+    if (props.value) { this.setAttribute("value", props.value); }
 
     // Set label value.
-    if (this._props.value) {
-        this._props.value = dojo.string.escape("html", this._props.value);
-        webui.@THEME@.widget.common.addFragment(widget.valueContainer, this._props.value);
+    if (props.value) {
+        webui.@THEME@.widget.common.addFragment(widget.valueContainer,
+            dojo.string.escape("html", props.value)); 
+    }
+  
+    // Set error image properties.
+    if (props.errorImage || props.valid != null) {
+        // Ensure property exists so we can call setProps just once.
+        if (props.errorImage == null) {
+            props.errorImage = {};
+        }
+
+        // Show error image.
+        props.errorImage.visible = (widget.valid != null)
+            ? !widget.valid : false;
+
+        // Update widget/add fragment.
+        var errorImageWidget = dojo.widget.byId(widget.errorImage.id); 
+        if (errorImageWidget) {
+            errorImageWidget.domNode.setProps(props.errorImage);
+        } else {
+            webui.@THEME@.widget.common.addFragment(widget.errorImageContainer,
+                props.errorImage);
+        }
     }
 
-    // Show required image.
-    var widgetRequiredImage = dojo.widget.byId(this._props.requiredImage.id);
-    
-    // Set required image.
-    if (this._props.requiredImage && this._props.required && !widgetRequiredImage) {
-        webui.@THEME@.widget.common.addFragment(widget.requiredImageContainer, this._props.requiredImage);
-    }
-    
-    // Error image widget.
-    
-    var widgetErrorImage = dojo.widget.byId(this._props.errorImage.id); 
-    
-    // Set error image.
-    if (this._props.errorImage && !this._props.valid && !widgetErrorImage) {
-        webui.@THEME@.widget.common.addFragment(widget.errorImageContainer, this._props.errorImage);
-    }
-    
-    
-    // Show error image
-    if (widgetErrorImage) {
-        widgetErrorImage.domNode.setProps({visible: !this._props.valid });
-    }
+    // Set required image properties.
+    if (props.requiredImage || props.required != null) {       
+        // Ensure property exists so we can call setProps just once.
+        if (props.requiredImage == null) {
+            props.requiredImage = {};
+        }
 
-    // Show required image
-    if (widgetRequiredImage) {
-        widgetRequiredImage.domNode.setProps({visible: this._props.required });
+        // Show required image.
+        props.requiredImage.visible = (widget.required != null)
+            ? widget.required : false;
+
+        // Update widget/add fragment.
+        var requiredImageWidget = dojo.widget.byId(widget.requiredImage.id);
+        if (requiredImageWidget) {
+            requiredImageWidget.domNode.setProps(props.requiredImage);
+        } else {
+            webui.@THEME@.widget.common.addFragment(widget.requiredImageContainer,
+                props.requiredImage);
+        }
     }
     return true;
 }

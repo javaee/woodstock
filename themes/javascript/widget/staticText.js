@@ -34,38 +34,22 @@ dojo.require("webui.@THEME@.widget.*");
  * Note: This is considered a private API, do not use.
  */
 webui.@THEME@.widget.staticText = function() {
+    // Set defaults.
+    this.escape = true;
     this.widgetType = "staticText";
+
+    // Register widget.
     dojo.widget.Widget.call(this);
 
     /**
      * This function is used to generate a template based widget.
      */
     this.fillInTemplate = function() {
-        
         // Set public functions.
         this.domNode.setProps = webui.@THEME@.widget.staticText.setProps;
-        
-        // Set properties.
-        this.domNode.setProps({
-            
-            id: this.id,
-            escape: this.escape,
-            className: this.className, 
-            value: this.value,
-            onClick: this.onClick,
-            onDblClick: this.onDblClick,
-            onMouseDown: this.onMouseDown,
-            onMouseOut: this.onMouseOut,
-            onMouseOver: this.onMouseOver,
-            onMouseUp: this.onMouseUp,
-            onMouseMove: this.onMouseMove,
-            dir: this.dir,
-            lang: this.lang,
-            style: this.style,
-            title: this.title,
-            visible: this.visible
 
-        });
+        // Set properties.
+        this.domNode.setProps(this);
         return true;
     }
 }
@@ -100,28 +84,34 @@ webui.@THEME@.widget.staticText.setProps = function(props) {
         return false;
     }
     
-    // Save properties for later updates.
-    if (this._props) {
-        Object.extend(this._props, props); // Override existing values, if any.
+    // Get label widget.
+    var widget = dojo.widget.byId(this.id);
+    if (widget != null) {
+        // Save properties for later updates.
+        webui.@THEME@.widget.common.extend(widget, props);
     } else {
-        this._props = props;
+        // SetProps called by widget -- do not extend object.
+        widget = dojo.widget.byId(props.id);
+        if (widget == null) {
+            return false;
+        }
     }
             
     // Set attributes.
-    webui.@THEME@.widget.common.setCoreProperties(this, this._props);
-    webui.@THEME@.widget.common.setJavaScriptProperties(this, this._props);
-    
+    webui.@THEME@.widget.common.setCoreProps(this, props);
+    webui.@THEME@.widget.common.setCommonProps(this, props);
+    webui.@THEME@.widget.common.setJavaScriptProps(this, props);
         
     // Set text value.
-    if (this._props.value) {
-        if (this._props.escape) {
-            this._props.value = dojo.string.escape("html", this._props.value);
-        }
-        this.innerHTML = null;
-        webui.@THEME@.widget.common.addFragment(this, this._props.value, "last");
+    if (props.value) {
+        this.innerHTML = ""; // Cannot be set null on IE.
+        webui.@THEME@.widget.common.addFragment(this,
+            (widget.escape == false)
+                ? props.value
+                : dojo.string.escape("html", props.value), // Default.
+            "last");
     }
 
-    
     return true;
 }
 

@@ -34,24 +34,22 @@ dojo.require("webui.@THEME@.widget.*");
  * Note: This is considered a private API, do not use.
  */
 webui.@THEME@.widget.hiddenField = function() {
+    // Set defaults.
+    this.disabled = false;
     this.widgetType = "hiddenField";
+
+    // Register widget.
     dojo.widget.Widget.call(this);
     
     /**
      * This function is used to generate a template based widget.
      */
     this.fillInTemplate = function() {
-        
         // Set public functions.
         this.domNode.setProps = webui.@THEME@.widget.hiddenField.setProps;
         
         // Set properties.
-        this.domNode.setProps({
-            id: this.id,
-            name: this.name,
-            value: this.value,
-            disabled: this.disabled
-        });
+        this.domNode.setProps(this);
         return true;
     }
 }
@@ -74,21 +72,30 @@ webui.@THEME@.widget.hiddenField.setProps = function(props) {
         return false;
     }
     
-    // Save properties for later updates.
-    if (this._props) {
-        webui.@THEME@.widget.common.extend(this._props, props); // Override existing values, if any.
+    // Get label widget.
+    var widget = dojo.widget.byId(this.id);
+    if (widget != null) {
+        // Save properties for later updates.
+        webui.@THEME@.widget.common.extend(widget, props);
     } else {
-        this._props = props;
+        // SetProps called by widget -- do not extend object.
+        widget = dojo.widget.byId(props.id);
+        if (widget == null) {
+            return false;
+        }
     }
             
     // Set attributes.
-    webui.@THEME@.widget.common.setCoreProperties(this, this._props);
+    webui.@THEME@.widget.common.setCoreProps(this, props);
                 
-    if (this._props.name) { this.setAttribute("name", this._props.name); }
-    if (this._props.value) { this.setAttribute("value", this._props.value); }
-    if (this._props.disabled == true) { this.setAttribute("disabled", "disabled");}
-    else { this.removeAttribute('disabled') };
-        
+    if (props.name) { this.setAttribute("name", props.name); }
+    if (props.value) { this.setAttribute("value", props.value); }
+    if (props.disabled == true) { 
+        this.setAttribute("disabled", "disabled");
+    } else { 
+        this.removeAttribute('disabled');
+    }
+   
     return true;
 }
 

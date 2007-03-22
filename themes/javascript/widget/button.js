@@ -34,14 +34,31 @@ dojo.require("webui.@THEME@.widget.*");
  * Note: This is considered a private API, do not use.
  */
 webui.@THEME@.widget.button = function() {
+    // Set defaults.
+    this.disabled = false;
+    this.mini = false;
+    this.primary = true;
+    this.type = "submit";
     this.widgetType = "button";
+
+    // Register widget.
     dojo.widget.Widget.call(this);
 
     /**
      * This function is used to generate a template based widget.
      */
     this.fillInTemplate = function() {
-        // Set public functions. Note: Except for update, all are deprecated.
+        // Set public functions.
+        this.domNode.setProps = webui.@THEME@.widget.button.setProps;
+
+        // Set private functions.
+        this.getClassName = webui.@THEME@.widget.button.getClassName;
+        this.getHoverClassName = webui.@THEME@.widget.button.getHoverClassName;
+
+        // Deprecated functions from formElements.js. 
+        // 
+        // Note: Although we now have a setProps function to update properties,
+        // the following functions must be backward compatible.
         this.domNode.isSecondary = webui.@THEME@.button.isSecondary;
         this.domNode.setSecondary = webui.@THEME@.button.setSecondary;
         this.domNode.isPrimary = webui.@THEME@.button.isPrimary;
@@ -55,14 +72,6 @@ webui.@THEME@.widget.button = function() {
         this.domNode.getText = webui.@THEME@.button.getText;
         this.domNode.setText = webui.@THEME@.button.setText;
         this.domNode.doClick = webui.@THEME@.button.click;
-        this.domNode.setProps = webui.@THEME@.widget.button.setProps;
-
-        // Set private functions (private functions/props prefixed with "_").
-        this.domNode._getClassName = webui.@THEME@.widget.button.getClassName;
-        this.domNode._onblur = webui.@THEME@.button.onblur;
-        this.domNode._onfocus = webui.@THEME@.button.onfocus;
-        this.domNode._onmouseover = webui.@THEME@.button.onmouseover;
-        this.domNode._onmouseout = webui.@THEME@.button.onmouseout;
 
         // Set events.
         dojo.event.connect(this.domNode, "onblur",
@@ -75,38 +84,7 @@ webui.@THEME@.widget.button = function() {
             webui.@THEME@.widget.button.createOnMouseOverCallback(this.id));
 
         // Set properties.
-        this.domNode.setProps({
-            alt: this.alt,
-            align: this.align,
-            className: this.className,
-            contents: this.contents,
-            dir: this.dir,
-            disabled: (this.disabled != null) ? this.disabled : false,
-            id: this.id,
-            lang: this.lang,
-            mini: (this.mini != null) ? this.mini : false,
-            name: this.name,
-            onBlur: this.onBlur,
-            onClick: this.onClick,
-            onDblClick: this.onDblClick,
-            onFocus: this.onFocus,
-            onKeyDown: this.onKeyDown,
-            onKeyPress: this.onKeyPress,
-            onKeyUp: this.onKeyUp,
-            onMouseDown: this.onMouseDown,
-            onMouseOut: this.onMouseOut,
-            onMouseOver: this.onMouseOver,
-            onMouseUp: this.onMouseUp,
-            onMouseMove: this.onMouseMove,
-            primary: (this.primary != null) ? this.primary : false,
-            style: this.style,
-            tabIndex: this.tabIndex,
-            templatePath: this.templatePath,
-            title: this.title,
-            type: this.type,
-            value: this.value,
-            visible: this.visible
-        });
+        this.domNode.setProps(this);
         return true;
     }
 }
@@ -117,13 +95,24 @@ webui.@THEME@.widget.button = function() {
  * @param id The HTML element id used to invoke the callback.
  */
 webui.@THEME@.widget.button.createOnBlurCallback = function(id) {
-    if (id != null) {
-        // New literals are created every time this function
-        // is called, and it's saved by closure magic.
-        return function(evt) { 
-            document.getElementById(id)._onblur();
-        };
+    if (id == null) {
+        return null;
     }
+    // New literals are created every time this function
+    // is called, and it's saved by closure magic.
+    return function(evt) { 
+        var widget = dojo.widget.byId(id);
+        if (widget == null) {
+            return false;
+        }
+        if (widget.disabled == true) {
+            return true;
+        }
+
+        // Set style class.
+        widget.domNode.className = widget.getClassName();
+        return true;
+    };
 }
 
 /**
@@ -132,13 +121,24 @@ webui.@THEME@.widget.button.createOnBlurCallback = function(id) {
  * @param id The HTML element id used to invoke the callback.
  */
 webui.@THEME@.widget.button.createOnFocusCallback = function(id) {
-    if (id != null) {
-        // New literals are created every time this function
-        // is called, and it's saved by closure magic.
-        return function(evt) { 
-            document.getElementById(id)._onfocus();
-        };
+    if (id == null) {
+        return null;
     }
+    // New literals are created every time this function
+    // is called, and it's saved by closure magic.
+    return function(evt) { 
+        var widget = dojo.widget.byId(id);
+        if (widget == null) {
+            return false;
+        }
+        if (widget.disabled == true) {
+            return true;
+        }
+
+        // Set style class.
+        widget.domNode.className = widget.getHoverClassName();
+        return true;
+    };
 }
 
 /**
@@ -147,13 +147,24 @@ webui.@THEME@.widget.button.createOnFocusCallback = function(id) {
  * @param id The HTML element id used to invoke the callback.
  */
 webui.@THEME@.widget.button.createOnMouseOutCallback = function(id) {
-    if (id != null) {
-        // New literals are created every time this function
-        // is called, and it's saved by closure magic.
-        return function(evt) { 
-            document.getElementById(id)._onmouseout();
-        };
+    if (id == null) {
+        return null;
     }
+    // New literals are created every time this function
+    // is called, and it's saved by closure magic.
+    return function(evt) { 
+        var widget = dojo.widget.byId(id);
+        if (widget == null) {
+            return false;
+        }
+        if (widget.disabled == true) {
+            return true;
+        }
+
+        // Set style class.
+        widget.domNode.className = widget.getClassName();
+        return true;
+    };
 }
 
 /**
@@ -162,40 +173,69 @@ webui.@THEME@.widget.button.createOnMouseOutCallback = function(id) {
  * @param id The HTML element id used to invoke the callback.
  */
 webui.@THEME@.widget.button.createOnMouseOverCallback = function(id) {
-    if (id != null) {
-        // New literals are created every time this function
-        // is called, and it's saved by closure magic.
-        return function(evt) { 
-            document.getElementById(id)._onmouseover();
-        };
+    if (id == null) {
+        return null;
     }
+    // New literals are created every time this function
+    // is called, and it's saved by closure magic.
+    return function(evt) { 
+        var widget = dojo.widget.byId(id);
+        if (widget == null) {
+            return false;
+        }
+        if (widget.disabled == true) {
+            return true;
+        }
+
+        // Set style class.
+        widget.domNode.className = widget.getHoverClassName();
+        return true;
+    };
 }
 
 /**
  * Helper function to obtain widget class names.
  */
 webui.@THEME@.widget.button.getClassName = function() {
-    // To Do: The this.mydisabledcheck is just a hack so I can use the old button JS for now...
     var className = null;
-    if (this._props.mini == true && this._props.primary == true) {
-        className = (this.disabled == true || this.mydisabled == true)
+    if (this.mini == true && this.primary == true) {
+        className = (this.disabled == true)
             ? webui.@THEME@.widget.props.button.primaryMiniDisabledClassName
             : webui.@THEME@.widget.props.button.primaryMiniClassName;
-    } else if (this._props.mini == true) {
-        className = (this.disabled == true || this.mydisabled == true)
+    } else if (this.mini == true) {
+        className = (this.disabled == true)
             ? webui.@THEME@.widget.props.button.secondaryMiniDisabledClassName
             : webui.@THEME@.widget.props.button.secondaryMiniClassName;
-    } else if (this._props.primary == true) {
-        className = (this.disabled == true || this.mydisabled == true)
+    } else if (this.primary == true) {
+        className = (this.disabled == true)
             ? webui.@THEME@.widget.props.button.primaryDisabledClassName
             : webui.@THEME@.widget.props.button.primaryClassName;
     } else {
-        className = (this.disabled == true || this.mydisabled == true)
+        className = (this.disabled == true)
             ? webui.@THEME@.widget.props.button.secondaryDisabledClassName
             : webui.@THEME@.widget.props.button.secondaryClassName;
     }
-    return (this._props.className) 
-        ? className + " " + this._props.className
+    return (this.className) 
+        ? className + " " + this.className
+        : className;
+}
+
+/**
+ * Helper function to obtain widget (mouse hover) class names.
+ */
+webui.@THEME@.widget.button.getHoverClassName = function() {
+    var className = null;
+    if (this.mini == true && this.primary == true) {
+        className = webui.@THEME@.widget.props.button.primaryHovMiniClassName;
+    } else if (this.mini == true) {
+        className = webui.@THEME@.widget.props.button.secondaryHovMiniClassName;
+    } else if (this.primary == true) {
+        className = webui.@THEME@.widget.props.button.primaryHovClassName;
+    } else {
+        className = webui.@THEME@.widget.props.button.secondaryHovClassName;
+    }
+    return (this.className) 
+        ? className + " " + this.className
         : className;
 }
 
@@ -242,49 +282,44 @@ webui.@THEME@.widget.button.setProps = function(props) {
         return false;
     }
 
-    // Save properties for later updates.
-    if (this._props) {
-        Object.extend(this._props, props); // Override existing values, if any.
+    // Get label widget.
+    var widget = dojo.widget.byId(this.id);
+    if (widget != null) {
+        // Save properties for later updates.
+        webui.@THEME@.widget.common.extend(widget, props);
     } else {
-        this._props = props;
+        // SetProps called by widget -- do not extend object.
+        widget = dojo.widget.byId(props.id);
+        if (widget == null) {
+            return false;
+        }
     }
 
-    // To Do: The following is just a hack so I can use the old button JS for now...
-    this.classNamePrimary = webui.@THEME@.widget.props.button.primaryClassName;
-    this.classNamePrimaryDisabled = webui.@THEME@.widget.props.button.primaryDisabledClassName;
-    this.classNamePrimaryHov = webui.@THEME@.widget.props.button.primaryHovClassName;
-    this.classNamePrimaryMini = webui.@THEME@.widget.props.button.primaryMiniClassName;
-    this.classNamePrimaryMiniDisabled = webui.@THEME@.widget.props.button.primaryMiniDisabledClassName;
-    this.classNamePrimaryMiniHov = webui.@THEME@.widget.props.button.primaryMiniHovClassName;
-    this.classNameSecondary = webui.@THEME@.widget.props.button.secondaryClassName;
-    this.classNameSecondaryDisabled = webui.@THEME@.widget.props.button.secondaryDisabledClassName;
-    this.classNameSecondaryHov = webui.@THEME@.widget.props.button.secondaryHovClassName;
-    this.classNameSecondaryMini = webui.@THEME@.widget.props.button.secondaryMiniClassName;
-    this.classNameSecondaryMiniDisabled = webui.@THEME@.widget.props.button.secondaryMiniDisabledClassName;
-    this.classNameSecondaryMiniHov = webui.@THEME@.widget.props.button.secondaryMiniHovClassName;
-    this.mini = this._props.mini;
-    this.mydisabled = this._props.disabled;
-    this.primary = this._props.primary;
-    this.secondary = !this.primary;
+    // Set style class before calling setCoreProps.
+    props.className = widget.getClassName();
 
     // Set DOM node properties.
-    webui.@THEME@.widget.common.setCoreProperties(this, props);
-    webui.@THEME@.widget.common.setJavaScriptProperties(this, props);
+    webui.@THEME@.widget.common.setCoreProps(this, props);
+    webui.@THEME@.widget.common.setCommonProps(this, props);
+    webui.@THEME@.widget.common.setJavaScriptProps(this, props);
 
     if (props.alt) { this.setAttribute("alt", props.alt); }
     if (props.align) { this.setAttribute("align", props.align); }
-    if (props.dir) { this.setAttribute("dir", props.dir); }
-    if (props.disabled != null) { this.disabled = props.disabled; }
+    if (props.disabled == true) {
+        this.setAttribute("disabled", "disabled");
+    } else {
+        this.removeAttribute("disabled");
+    }
     if (props.name) { this.setAttribute("name", props.name); }
     if (props.value) { this.setAttribute("value", props.value); }
-    this.setAttribute("type", props.type ? props.type : "submit");
-
-    // Set style class.
-    webui.@THEME@.common.addStyleClass(this, this._getClassName());
+    if (props.type) { this.setAttribute("type", props.type); }
 
     // Set contents.
     if (props.contents) {
-        webui.@THEME@.widget.common.addFragment(this, props.contents);
+        this.innerHTML = ""; // Cannot be set null on IE.
+//        for (var i = 0; i < props.contents.length; i++) {
+            webui.@THEME@.widget.common.addFragment(this, props.contents, "last");
+//        }
     }
     return true;
 }

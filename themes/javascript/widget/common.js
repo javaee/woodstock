@@ -33,7 +33,7 @@ webui.@THEME@.widget.common = {
      * Helper function to add a widget or string to the given
      * parent node. If props is an object containing a _widgetType
      * value, a widget will be added to the given parent node per the
-     * specified position. If props contains a _modules array,
+     * specified position. If props contains a _modules property,
      * the given resources shall be retrieved before creating the
      * widget. If props is a string, it will be added as the contents
      * of the given parent node.
@@ -131,7 +131,7 @@ webui.@THEME@.widget.common = {
      *
      * Note: If props does not contain id and _widgetType properties,
      * a widget shall not be created. If props contains a _modules
-     * array, the given resources shall be retrieved before creating
+     * property, the given resources shall be retrieved before creating
      * the widget.
      *
      * @param props Key-Value pairs of properties.
@@ -181,7 +181,7 @@ webui.@THEME@.widget.common = {
         }
         for (var property in props) {
             if (obj[property] && typeof obj[property] == "object") {
-                webui.suntheme.widget.common.extend(obj[property], props[property]);
+                webui.@THEME@.widget.common.extend(obj[property], props[property]);
             } else {
                 obj[property] = props[property];
             }
@@ -209,40 +209,61 @@ webui.@THEME@.widget.common = {
     },
 
     /**
-     * This function is used to set core properties for the given DOM
-     * node with the following Object literals.
+     * This function is used to set common accessibility properties for the 
+     * given DOM node with the following Object literals.
      *
      * <ul>
      *  <li>accesskey</li>
-     *  <li>className</li>
      *  <li>dir</li>
-     *  <li>id</li>
      *  <li>lang</li>
-     *  <li>style</li>
-     *  <li>title</li>
      *  <li>tabIndex</li>
+     *  <li>title</li>
+     * </ul>
+     *
+     * @param domNode The DOM node to assign properties to.
+     * @param props Key-Value pairs of properties.
+     */
+    setCommonProps: function(domNode, props) {
+        if (domNode == null || props == null) {
+            return false;
+        }
+        if (props.accesskey) { domNode.setAttribute("accesskey", props.accesskey); }
+        if (props.dir) { domNode.setAttribute("dir", props.dir); }
+        if (props.lang) { domNode.setAttribute("lang", props.lang); }
+        if (props.tabIndex > -1 && props.tabIndex < 32767) {
+            domNode.setAttribute("tabindex", props.tabIndex);
+        }
+        if (props.title) { domNode.setAttribute("title", props.title); }
+
+        return true;
+    },
+
+    /**
+     * This function is used to set core properties for the given DOM
+     * node with the following Object literals. These properties are typically
+     * set on the outermost element.
+     *
+     * <ul>
+     *  <li>className</li>
+     *  <li>id</li>
+     *  <li>style</li>
      *  <li>visible</li>
      * </ul>
      *
      * @param domNode The DOM node to assign properties to.
      * @param props Key-Value pairs of properties.
      */
-    setCoreProperties: function(domNode, props) {
+    setCoreProps: function(domNode, props) {
         if (domNode == null || props == null) {
             return false;
         }
-        if (props.accesskey) { domNode.setAttribute("accesskey", props.accesskey); }
         if (props.className) { domNode.setAttribute("class", props.className); }
-        if (props.dir) { domNode.setAttribute("dir", props.dir); }
         if (props.id) { domNode.setAttribute("id", props.id); }
-        if (props.lang) { domNode.setAttribute("lang", props.lang); }
         if (props.style) { 
             domNode.style.cssText = props.style; // Required for IE?
         }
-        if (props.title) { domNode.setAttribute("title", props.title); }
-        if (props.tabIndex) { domNode.setAttribute("tabindex", props.tabIndex); }
         if (props.visible != null) {
-            webui.suntheme.common.setVisibleElement(domNode, props.visible);
+            webui.@THEME@.common.setVisibleElement(domNode, props.visible);
         }
         return true;
     },
@@ -269,7 +290,7 @@ webui.@THEME@.widget.common = {
      * @param domNode The DOM node to assign properties to.
      * @param props Key-Value pairs of properties.
      */
-    setJavaScriptProperties: function(domNode, props) {
+    setJavaScriptProps: function(domNode, props) {
         if (domNode == null || props == null) {
             return false;
         }
@@ -286,6 +307,11 @@ webui.@THEME@.widget.common = {
             domNode.setAttribute("onclick", (is_ie && typeof props.onClick == 'string')
                 ? new Function("event", props.onClick)
                 : props.onClick);
+        }
+        if (props.onChange) {
+            domNode.setAttribute("onchange", (is_ie && typeof props.onChange == 'string')
+                ? new Function("event", props.onChange)
+                : props.onChange);
         }
         if (props.onDblClick) {
             domNode.setAttribute("ondblclick", (is_ie && typeof props.onDblClick == 'string')
@@ -336,6 +362,11 @@ webui.@THEME@.widget.common = {
             domNode.setAttribute("onmousemove", (is_ie && typeof props.onMouseMove == 'string')
                 ? new Function("event", props.onMouseMove)
                 : props.onMouseMove);
+        }
+        if (props.onSelect) {
+            domNode.setAttribute("onselect", (is_ie && typeof props.onSelect == 'string')
+                ? new Function("event", props.onSelect)
+                : props.onSelect);
         }
         return true;
     }

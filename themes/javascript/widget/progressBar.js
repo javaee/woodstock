@@ -702,6 +702,8 @@ webui.@THEME@.widget.progressBar.setProps = function(props) {
         return false;
     }
 
+// To do: Remove _props variable -- see label as an example.
+
     // Save properties for later updates.
     if (this._props) {
         Object.extend(this._props, props); // Override existing values, if any.
@@ -710,8 +712,9 @@ webui.@THEME@.widget.progressBar.setProps = function(props) {
     }
 
     // Set DOM node properties.
-    webui.@THEME@.widget.common.setCoreProperties(this, props);
-    webui.@THEME@.widget.common.setJavaScriptProperties(this, props);
+    webui.@THEME@.widget.common.setCoreProps(this, props);
+    webui.@THEME@.widget.common.setCommonProps(this, props);
+    webui.@THEME@.widget.common.setJavaScriptProps(this, props);
 
     // Set widget properties.
     var widget = dojo.widget.byId(this.id);
