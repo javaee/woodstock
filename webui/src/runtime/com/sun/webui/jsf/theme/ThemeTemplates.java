@@ -60,6 +60,11 @@ public class ThemeTemplates {
      * A template file that contains HTML for the staticText component.
      */
     public static final String STATICTEXT = "staticText";
+    
+    /**
+     * A template file that contains HTML for the hiddenField component.
+     */
+    public static final String HIDDENFIELD = "hiddenField";
 
     /**
      * This private constructor prevents this class from being instantiated

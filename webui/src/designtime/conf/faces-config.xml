@@ -116,6 +116,12 @@
     </renderer>
     
     <renderer>
+      <component-family>com.sun.webui.jsf.HiddenField</component-family>
+      <renderer-type>com.sun.webui.jsf.widget.HiddenFieldDesignTime</renderer-type>
+      <renderer-class>com.sun.webui.jsf.renderkit.html.HiddenFieldRenderer</renderer-class>
+    </renderer>
+    
+    <renderer>
       <component-family>com.sun.webui.jsf.Hyperlink</component-family>
       <renderer-type>com.sun.webui.jsf.HyperlinkDesignTime</renderer-type>
       <renderer-class>com.sun.webui.jsf.renderkit.html.HyperlinkDesignTimeRenderer</renderer-class>

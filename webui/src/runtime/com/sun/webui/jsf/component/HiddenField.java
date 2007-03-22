@@ -23,29 +23,27 @@ package com.sun.webui.jsf.component;
 
 import com.sun.faces.annotation.Component;
 import com.sun.faces.annotation.Property;
-import com.sun.webui.jsf.event.MethodExprValueChangeListener;
 import com.sun.webui.jsf.util.ConversionUtilities;
-import com.sun.webui.jsf.validator.MethodExprValidator;
+import com.sun.webui.jsf.util.JavaScriptUtilities;
 
 import javax.el.ValueExpression;
 import javax.faces.context.FacesContext;
-import javax.faces.event.ValueChangeListener;
-import javax.faces.validator.Validator;
 
 /**
  * The HiddenField component is used to create a hidden input field.
  */
 @Component(type="com.sun.webui.jsf.HiddenField", family="com.sun.webui.jsf.HiddenField", displayName="Hidden Field", tagName="hiddenField",
     helpKey="projrave_ui_elements_palette_wdstk-jsf1.2_hidden_field",
+    tagRendererType="com.sun.webui.jsf.widget.HiddenField",    
     propertiesHelpKey="projrave_ui_elements_palette_wdstk-jsf1.2_propsheets_hidden_field_props")
-public class HiddenField extends WebuiInput {
+public class HiddenField extends WebuiInput implements Widget {
     
     private final static boolean DEBUG = false;
     
     /** Creates a new instance of HiddenField */
     public HiddenField() {
         super();
-        setRendererType("com.sun.webui.jsf.HiddenField");
+        setRendererType("com.sun.webui.jsf.widget.HiddenField");
     }
 
     /**
@@ -55,6 +53,43 @@ public class HiddenField extends WebuiInput {
         return "com.sun.webui.jsf.HiddenField";
     }
             
+    /**
+     * Get the type of widget represented by this component.
+     * @return The type of widget represented by this component.
+     */
+     public String getWidgetType() {
+         return JavaScriptUtilities.getNamespace("hiddenField");
+     }
+          
+    /**
+     * Alternative HTML template to be used by this component.
+     */
+    @Property(name="htmlTemplate", displayName="HTML Template", category="Appearance")
+    private String htmlTemplate = null;
+
+    /**
+     * Get alternative HTML template to be used by this component.
+     */
+
+    public String getHtmlTemplate() {
+        if (this.htmlTemplate != null) {
+            return this.htmlTemplate;
+        }
+        ValueExpression _vb = getValueExpression("htmlTemplate");
+        if (_vb != null) {
+            return (String) _vb.getValue(getFacesContext().getELContext());
+        }
+        return null;
+    }
+
+    /**
+     * Set alternative HTML template to be used by this component.
+     */
+
+    public void setHtmlTemplate(String htmlTemplate) {
+        this.htmlTemplate = htmlTemplate;
+    }
+    
     /**
      * <p>Return the value to be rendered as a string when the
      * component is readOnly. The default behaviour is to
@@ -237,16 +272,18 @@ public class HiddenField extends WebuiInput {
         super.restoreState(_context, _values[0]);
         this.disabled = ((Boolean) _values[1]).booleanValue();
         this.disabled_set = ((Boolean) _values[2]).booleanValue();
+        this.htmlTemplate = (String) _values[3];
     }
 
     /**
      * <p>Save the state of this component.</p>
      */
     public Object saveState(FacesContext _context) {
-        Object _values[] = new Object[3];
+        Object _values[] = new Object[4];
         _values[0] = super.saveState(_context);
         _values[1] = this.disabled ? Boolean.TRUE : Boolean.FALSE;
         _values[2] = this.disabled_set ? Boolean.TRUE : Boolean.FALSE;
+        _values[3] = this.htmlTemplate;
         return _values;
     }
 }
