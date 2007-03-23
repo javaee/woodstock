@@ -45,11 +45,14 @@ webui.@THEME@.widget.staticText = function() {
      * This function is used to generate a template based widget.
      */
     this.fillInTemplate = function() {
-        // Set public functions.
-        this.domNode.setProps = webui.@THEME@.widget.staticText.setProps;
+        // Set public functions. 
+        this.domNode.setProps = function(props) { dojo.widget.byId(this.id).setProps(props); }
+
+        // Set private functions.
+        this.setProps = webui.@THEME@.widget.staticText.setProps;
 
         // Set properties.
-        this.domNode.setProps(this);
+        this.setProps(this);
         return true;
     }
 }
@@ -84,29 +87,23 @@ webui.@THEME@.widget.staticText.setProps = function(props) {
         return false;
     }
     
-    // Get label widget.
-    var widget = dojo.widget.byId(this.id);
-    if (widget != null) {
-        // Save properties for later updates.
-        webui.@THEME@.widget.common.extend(widget, props);
-    } else {
-        // SetProps called by widget -- do not extend object.
-        widget = dojo.widget.byId(props.id);
-        if (widget == null) {
-            return false;
-        }
+    // After widget has been initialized, save properties for later updates.
+    if (this.updateProps == true) {
+        webui.@THEME@.widget.common.extend(this, props);    
     }
+    // Set flag indicating properties can be updated.
+    this.updateProps = true;
             
     // Set attributes.
-    webui.@THEME@.widget.common.setCoreProps(this, props);
-    webui.@THEME@.widget.common.setCommonProps(this, props);
-    webui.@THEME@.widget.common.setJavaScriptProps(this, props);
+    webui.@THEME@.widget.common.setCoreProps(this.domNode, props);
+    webui.@THEME@.widget.common.setCommonProps(this.domNode, props);
+    webui.@THEME@.widget.common.setJavaScriptProps(this.domNode, props);
         
     // Set text value.
     if (props.value) {
-        this.innerHTML = ""; // Cannot be set null on IE.
-        webui.@THEME@.widget.common.addFragment(this,
-            (widget.escape == false)
+        this.domNode.innerHTML = ""; // Cannot be set null on IE.
+        webui.@THEME@.widget.common.addFragment(this.domNode,
+            (this.escape == false)
                 ? props.value
                 : dojo.string.escape("html", props.value), // Default.
             "last");

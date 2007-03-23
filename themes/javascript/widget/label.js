@@ -54,14 +54,15 @@ webui.@THEME@.widget.label = function() {
             this.valueContainer.id = this.id + "_valueContainer";
         }
 
-        // Set public functions.
-        this.domNode.setProps = webui.@THEME@.widget.label.setProps;
+        // Set public functions. 
+        this.domNode.setProps = function(props) { dojo.widget.byId(this.id).setProps(props); }
 
         // Set private functions.
         this.getClassName = webui.@THEME@.widget.label.getClassName;
+        this.setProps = webui.@THEME@.widget.label.setProps;
 
         // Set properties.
-        this.domNode.setProps(this);
+        this.setProps(this);
         return true;
     }
 }
@@ -125,33 +126,27 @@ webui.@THEME@.widget.label.setProps = function(props) {
         return false;
     }
 
-    // Get label widget.
-    var widget = dojo.widget.byId(this.id);
-    if (widget != null) {
-        // Save properties for later updates.
-        webui.@THEME@.widget.common.extend(widget, props);
-    } else {
-        // SetProps called by widget -- do not extend object.
-        widget = dojo.widget.byId(props.id);
-        if (widget == null) {
-            return false;
-        }
+    // After widget has been initialized, save properties for later updates.
+    if (this.updateProps == true) {
+        webui.@THEME@.widget.common.extend(this, props);    
     }
+    // Set flag indicating properties can be updated.
+    this.updateProps = true;
 
     // Set style class before calling setCoreProps.
-    props.className = widget.getClassName();
+    props.className = this.getClassName();
     
     // Set attributes.
-    webui.@THEME@.widget.common.setCoreProps(this, props);
-    webui.@THEME@.widget.common.setCommonProps(this, props);
-    webui.@THEME@.widget.common.setJavaScriptProps(this, props);
+    webui.@THEME@.widget.common.setCoreProps(this.domNode, props);
+    webui.@THEME@.widget.common.setCommonProps(this.domNode, props);
+    webui.@THEME@.widget.common.setJavaScriptProps(this.domNode, props);
 
-    if (props.htmlFor) { this.setAttribute("for", props.htmlFor); }
-    if (props.value) { this.setAttribute("value", props.value); }
+    if (props.htmlFor) { this.domNode.setAttribute("for", props.htmlFor); }
+    if (props.value) { this.domNode.setAttribute("value", props.value); }
 
     // Set label value.
     if (props.value) {
-        webui.@THEME@.widget.common.addFragment(widget.valueContainer,
+        webui.@THEME@.widget.common.addFragment(this.valueContainer,
             dojo.string.escape("html", props.value)); 
     }
   
@@ -163,15 +158,15 @@ webui.@THEME@.widget.label.setProps = function(props) {
         }
 
         // Show error image.
-        props.errorImage.visible = (widget.valid != null)
-            ? !widget.valid : false;
+        props.errorImage.visible = (this.valid != null)
+            ? !this.valid : false;
 
         // Update widget/add fragment.
-        var errorImageWidget = dojo.widget.byId(widget.errorImage.id); 
+        var errorImageWidget = dojo.widget.byId(this.errorImage.id); 
         if (errorImageWidget) {
-            errorImageWidget.domNode.setProps(props.errorImage);
+            errorImageWidget.setProps(props.errorImage);
         } else {
-            webui.@THEME@.widget.common.addFragment(widget.errorImageContainer,
+            webui.@THEME@.widget.common.addFragment(this.errorImageContainer,
                 props.errorImage);
         }
     }
@@ -184,15 +179,15 @@ webui.@THEME@.widget.label.setProps = function(props) {
         }
 
         // Show required image.
-        props.requiredImage.visible = (widget.required != null)
-            ? widget.required : false;
+        props.requiredImage.visible = (this.required != null)
+            ? this.required : false;
 
         // Update widget/add fragment.
-        var requiredImageWidget = dojo.widget.byId(widget.requiredImage.id);
+        var requiredImageWidget = dojo.widget.byId(this.requiredImage.id);
         if (requiredImageWidget) {
-            requiredImageWidget.domNode.setProps(props.requiredImage);
+            requiredImageWidget.setProps(props.requiredImage);
         } else {
-            webui.@THEME@.widget.common.addFragment(widget.requiredImageContainer,
+            webui.@THEME@.widget.common.addFragment(this.requiredImageContainer,
                 props.requiredImage);
         }
     }

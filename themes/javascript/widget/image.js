@@ -47,10 +47,13 @@ webui.@THEME@.widget.image = function() {
      */
     this.fillInTemplate = function() {
         // Set public functions. 
-        this.domNode.setProps = webui.@THEME@.widget.image.setProps;		
-            
+        this.domNode.setProps = function(props) { dojo.widget.byId(this.id).setProps(props); }
+
+        // Set private functions.
+        this.setProps = webui.@THEME@.widget.image.setProps;
+
         // Set properties.
-        this.domNode.setProps(this);
+        this.setProps(this);
 	return true;		
     }
 }
@@ -96,33 +99,27 @@ webui.@THEME@.widget.image.setProps = function(props){
         return false;
     }
 
-    // Get label widget.
-    var widget = dojo.widget.byId(this.id);
-    if (widget != null) {
-        // Save properties for later updates.
-        webui.@THEME@.widget.common.extend(widget, props);
-    } else {
-        // SetProps called by widget -- do not extend object.
-        widget = dojo.widget.byId(props.id);
-        if (widget == null) {
-            return false;
-        }
+    // After widget has been initialized, save properties for later updates.
+    if (this.updateProps == true) {
+        webui.@THEME@.widget.common.extend(this, props);    
     }
+    // Set flag indicating properties can be updated.
+    this.updateProps = true;
 
     // Set DOM node properties.
-    webui.@THEME@.widget.common.setCoreProps(this, props);
-    webui.@THEME@.widget.common.setCommonProps(this, props);
-    webui.@THEME@.widget.common.setJavaScriptProps(this, props);
+    webui.@THEME@.widget.common.setCoreProps(this.domNode, props);
+    webui.@THEME@.widget.common.setCommonProps(this.domNode, props);
+    webui.@THEME@.widget.common.setJavaScriptProps(this.domNode, props);
 
-    if (props.alt) { this.setAttribute("alt", props.alt); }
-    if (props.align) { this.setAttribute("align", props.align); }
-    if (props.longDesc) { this.setAttribute("longDesc", props.longDesc); }
-    if (props.src) { this.setAttribute("src", new dojo.uri.Uri(props.src).toString()); }
-    if (props.vspace) { this.setAttribute("vspace", props.vspace); }
-    if (props.hspace) { this.setAttribute("hspace", props.hspace); }
-    if (props.width) { this.setAttribute("width", props.width); }
-    if (props.height) { this.setAttribute("height", props.height); }
-    if (props.border != null) { this.setAttribute("border", props.border); }
+    if (props.alt) { this.domNode.setAttribute("alt", props.alt); }
+    if (props.align) { this.domNode.setAttribute("align", props.align); }
+    if (props.longDesc) { this.domNode.setAttribute("longDesc", props.longDesc); }
+    if (props.src) { this.domNode.setAttribute("src", new dojo.uri.Uri(props.src).toString()); }
+    if (props.vspace) { this.domNode.setAttribute("vspace", props.vspace); }
+    if (props.hspace) { this.domNode.setAttribute("hspace", props.hspace); }
+    if (props.width) { this.domNode.setAttribute("width", props.width); }
+    if (props.height) { this.domNode.setAttribute("height", props.height); }
+    if (props.border != null) { this.domNode.setAttribute("border", props.border); }
 
     return true;            
 }

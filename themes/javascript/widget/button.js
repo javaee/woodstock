@@ -48,12 +48,13 @@ webui.@THEME@.widget.button = function() {
      * This function is used to generate a template based widget.
      */
     this.fillInTemplate = function() {
-        // Set public functions.
-        this.domNode.setProps = webui.@THEME@.widget.button.setProps;
+        // Set public functions. 
+        this.domNode.setProps = function(props) { dojo.widget.byId(this.id).setProps(props); }
 
         // Set private functions.
         this.getClassName = webui.@THEME@.widget.button.getClassName;
         this.getHoverClassName = webui.@THEME@.widget.button.getHoverClassName;
+        this.setProps = webui.@THEME@.widget.button.setProps;
 
         // Deprecated functions from formElements.js. 
         // 
@@ -79,12 +80,12 @@ webui.@THEME@.widget.button = function() {
         dojo.event.connect(this.domNode, "onfocus",
             webui.@THEME@.widget.button.createOnFocusCallback(this.id));
         dojo.event.connect(this.domNode, "onmouseout",
-            webui.@THEME@.widget.button.createOnMouseOutCallback(this.id));
+            webui.@THEME@.widget.button.createOnBlurCallback(this.id));
         dojo.event.connect(this.domNode, "onmouseover",
-            webui.@THEME@.widget.button.createOnMouseOverCallback(this.id));
+            webui.@THEME@.widget.button.createOnFocusCallback(this.id));
 
         // Set properties.
-        this.domNode.setProps(this);
+        this.setProps(this);
         return true;
     }
 }
@@ -142,58 +143,6 @@ webui.@THEME@.widget.button.createOnFocusCallback = function(id) {
 }
 
 /**
- * Helper function to create callback for onMouseOut event.
- *
- * @param id The HTML element id used to invoke the callback.
- */
-webui.@THEME@.widget.button.createOnMouseOutCallback = function(id) {
-    if (id == null) {
-        return null;
-    }
-    // New literals are created every time this function
-    // is called, and it's saved by closure magic.
-    return function(evt) { 
-        var widget = dojo.widget.byId(id);
-        if (widget == null) {
-            return false;
-        }
-        if (widget.disabled == true) {
-            return true;
-        }
-
-        // Set style class.
-        widget.domNode.className = widget.getClassName();
-        return true;
-    };
-}
-
-/**
- * Helper function to create callback for onMouseOver event.
- *
- * @param id The HTML element id used to invoke the callback.
- */
-webui.@THEME@.widget.button.createOnMouseOverCallback = function(id) {
-    if (id == null) {
-        return null;
-    }
-    // New literals are created every time this function
-    // is called, and it's saved by closure magic.
-    return function(evt) { 
-        var widget = dojo.widget.byId(id);
-        if (widget == null) {
-            return false;
-        }
-        if (widget.disabled == true) {
-            return true;
-        }
-
-        // Set style class.
-        widget.domNode.className = widget.getHoverClassName();
-        return true;
-    };
-}
-
-/**
  * Helper function to obtain widget class names.
  */
 webui.@THEME@.widget.button.getClassName = function() {
@@ -226,9 +175,9 @@ webui.@THEME@.widget.button.getClassName = function() {
 webui.@THEME@.widget.button.getHoverClassName = function() {
     var className = null;
     if (this.mini == true && this.primary == true) {
-        className = webui.@THEME@.widget.props.button.primaryHovMiniClassName;
+        className = webui.@THEME@.widget.props.button.primaryMiniHovClassName;
     } else if (this.mini == true) {
-        className = webui.@THEME@.widget.props.button.secondaryHovMiniClassName;
+        className = webui.@THEME@.widget.props.button.secondaryMiniHovClassName;
     } else if (this.primary == true) {
         className = webui.@THEME@.widget.props.button.primaryHovClassName;
     } else {
@@ -282,43 +231,37 @@ webui.@THEME@.widget.button.setProps = function(props) {
         return false;
     }
 
-    // Get label widget.
-    var widget = dojo.widget.byId(this.id);
-    if (widget != null) {
-        // Save properties for later updates.
-        webui.@THEME@.widget.common.extend(widget, props);
-    } else {
-        // SetProps called by widget -- do not extend object.
-        widget = dojo.widget.byId(props.id);
-        if (widget == null) {
-            return false;
-        }
+    // After widget has been initialized, save properties for later updates.
+    if (this.updateProps == true) {
+        webui.@THEME@.widget.common.extend(this, props);    
     }
-
-    // Set style class before calling setCoreProps.
-    props.className = widget.getClassName();
+    // Set flag indicating properties can be updated.
+    this.updateProps = true;
 
     // Set DOM node properties.
-    webui.@THEME@.widget.common.setCoreProps(this, props);
-    webui.@THEME@.widget.common.setCommonProps(this, props);
-    webui.@THEME@.widget.common.setJavaScriptProps(this, props);
+    webui.@THEME@.widget.common.setCoreProps(this.domNode, props);
+    webui.@THEME@.widget.common.setCommonProps(this.domNode, props);
+    webui.@THEME@.widget.common.setJavaScriptProps(this.domNode, props);
 
-    if (props.alt) { this.setAttribute("alt", props.alt); }
-    if (props.align) { this.setAttribute("align", props.align); }
+    if (props.alt) { this.domNode.setAttribute("alt", props.alt); }
+    if (props.align) { this.domNode.setAttribute("align", props.align); }
     if (props.disabled == true) {
-        this.setAttribute("disabled", "disabled");
+        this.domNode.setAttribute("disabled", "disabled");
     } else {
-        this.removeAttribute("disabled");
+        this.domNode.removeAttribute("disabled");
     }
-    if (props.name) { this.setAttribute("name", props.name); }
-    if (props.value) { this.setAttribute("value", props.value); }
-    if (props.type) { this.setAttribute("type", props.type); }
+    if (props.name) { this.domNode.setAttribute("name", props.name); }
+    if (props.value) { this.domNode.setAttribute("value", props.value); }
+    if (props.type) { this.domNode.setAttribute("type", props.type); }
+
+    // Set style class -- must be done after disabled is set.
+    this.domNode.setAttribute("class", this.getClassName());
 
     // Set contents.
     if (props.contents) {
-        this.innerHTML = ""; // Cannot be set null on IE.
+        this.domNode.innerHTML = ""; // Cannot be set null on IE.
 //        for (var i = 0; i < props.contents.length; i++) {
-            webui.@THEME@.widget.common.addFragment(this, props.contents, "last");
+            webui.@THEME@.widget.common.addFragment(this.domNode, props.contents, "last");
 //        }
     }
     return true;
