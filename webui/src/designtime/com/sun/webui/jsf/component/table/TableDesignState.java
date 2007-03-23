@@ -29,7 +29,6 @@
 package com.sun.webui.jsf.component.table;
 
 import com.sun.data.provider.FieldKey;
-import com.sun.data.provider.TableDataProvider;
 import com.sun.rave.designtime.DesignBean;
 import com.sun.rave.designtime.DesignContext;
 import com.sun.rave.designtime.DesignProperty;
@@ -260,9 +259,6 @@ public class TableDesignState {
      * In turn the DataProvider of the TableRowGroup is set
      */
     public void setDataProviderBean(DesignBean dataProviderBean){
-        if(!(dataProviderBean.getInstance()  instanceof TableDataProvider)){
-            throw new IllegalArgumentException(dataProviderBean.getInstanceName() + " not a table data provider.");
-        }
         getTableRowGroupDesignState().setDataProviderBean(dataProviderBean,true);
     }
     

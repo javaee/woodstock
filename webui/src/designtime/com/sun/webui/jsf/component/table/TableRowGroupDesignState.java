@@ -3,12 +3,12 @@
  * of the Common Development and Distribution License
  * (the License).  You may not use this file except in
  * compliance with the License.
- * 
+ *
  * You can obtain a copy of the license at
  * https://woodstock.dev.java.net/public/CDDLv1.0.html.
  * See the License for the specific language governing
  * permissions and limitations under the License.
- * 
+ *
  * When distributing Covered Code, include this CDDL
  * Header Notice in each file and include the License file
  * at https://woodstock.dev.java.net/public/CDDLv1.0.html.
@@ -16,7 +16,7 @@
  * with the fields enclosed by brackets [] replaced by
  * you own identifying information:
  * "Portions Copyrighted [year] [name of copyright owner]"
- * 
+ *
  * Copyright 2007 Sun Microsystems, Inc. All rights reserved.
  */
 
@@ -30,6 +30,8 @@ package com.sun.webui.jsf.component.table;
 
 import com.sun.data.provider.FieldKey;
 import com.sun.data.provider.TableDataProvider;
+import com.sun.data.provider.impl.ObjectArrayDataProvider;
+import com.sun.data.provider.impl.ObjectListDataProvider;
 import com.sun.rave.designtime.DesignBean;
 import com.sun.rave.designtime.DesignContext;
 import com.sun.rave.designtime.DesignProject;
@@ -43,6 +45,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.ResourceBundle;
 import java.util.Vector;
 
 /**
@@ -51,6 +54,9 @@ import java.util.Vector;
  * @author Winston Prakash
  */
 public class TableRowGroupDesignState {
+    
+    private ResourceBundle bundle =
+            ResourceBundle.getBundle(TableRowGroupDesignState.class.getPackage().getName() + ".Bundle");
     
     private static final String MODEL_INSTANCE_NAME_SUFFIX =  "DefaultModel"; //NOI18N
     
@@ -61,7 +67,6 @@ public class TableRowGroupDesignState {
     private static final String PAGINATED_PROPERTY = "paginated";
     
     private DesignBean tableRowGroupBean = null;
-    private DesignBean sourceBean = null;
     
     FacesDesignContext fcontext = null;
     
@@ -73,6 +78,7 @@ public class TableRowGroupDesignState {
     private Vector selectedColumnNames = new Vector();
     private Vector availableColumnNames = new Vector();
     
+    private TableDataProvider tableDataProvider;
     private DesignBean dataProviderBean = null;
     
     private int paginationRows = 10;
@@ -153,12 +159,17 @@ public class TableRowGroupDesignState {
      * Set the Data model DesignBeean to this design state
      * Force the selected columns names with all columns from the Data model
      */
-    public void setDataProviderBean(DesignBean modelBean, boolean resetColumns){
-        if(!(modelBean.getInstance()  instanceof TableDataProvider)){
-            throw new IllegalArgumentException(dataProviderBean.getInstanceName() + " not a table data provider.");
-        }
-        
+    public void setDataProviderBean(DesignBean modelBean, boolean resetColumns){ 
         if(modelBean != dataProviderBean){
+            if(modelBean.getInstance()  instanceof TableDataProvider){
+                tableDataProvider =  (TableDataProvider) modelBean.getInstance();
+            }else if(modelBean.getInstance()  instanceof List){
+                tableDataProvider = new ObjectListDataProvider((List)modelBean.getInstance());
+            }else if(modelBean.getInstance()  instanceof Object[]){
+                tableDataProvider = new ObjectArrayDataProvider((Object[])modelBean.getInstance());
+            }else{
+                throw new IllegalArgumentException(dataProviderBean.getInstanceName() + bundle.getString("NOT_DATA_PROVIDER"));
+            }
             // OK new Table Data Provider is added. Remove all old columns
             DesignBean[] children = tableRowGroupBean.getChildBeans();
             for(int i=0; i< children.length; i++){
@@ -172,14 +183,14 @@ public class TableRowGroupDesignState {
         dataProviderBean = modelBean;
         
         if(resetColumns){
-            resetTableColumns(dataProviderBean);
+            resetTableColumns();
         }
     }
     
     public void loadState() {
         
         // Load the model bean.
-        dataProviderBean = loadModelBean();
+        loadModelBean();
         
         if(!dataProviderReset){
             Map dpFields = new HashMap();
@@ -239,7 +250,7 @@ public class TableRowGroupDesignState {
     }
     
     // For performance improvement. No need to get all the contexts in the project
-    // Bug Fix: 6422729 
+    // Bug Fix: 6422729
     private DesignContext[] getDesignContexts(DesignBean designBean){
         DesignProject designProject = designBean.getDesignContext().getProject();
         DesignContext[] contexts;
@@ -262,42 +273,61 @@ public class TableRowGroupDesignState {
      * Load the model bean from the TableRowGroup bean from the source data tag.
      * If not found create or get the default model bean from the context
      */
-    private DesignBean loadModelBean(){
-        DesignBean modelBean = null;
+    private void loadModelBean(){
         String sourceDataStr = getPropertyValueSource(SOURCE_DATA_PROPERTY);
         if(sourceDataStr != null) {
             //DesignContext[] contexts = fcontext.getProject().getDesignContexts();
             DesignContext[] contexts = getDesignContexts(tableRowGroupBean);
             for (int i = 0; i < contexts.length; i++) {
-                DesignBean[] modelBeans = contexts[i].getBeansOfType(TableDataProvider.class);
-                for(int j=0; j< modelBeans.length; j++){
-                    String modelBindingExpr = ((FacesDesignContext)contexts[i]).getBindingExpr(modelBeans[j]);
+                DesignBean[] dpModelBeans = contexts[i].getBeansOfType(TableDataProvider.class);
+                for(int j=0; j< dpModelBeans.length; j++){
+                    String modelBindingExpr = ((FacesDesignContext)contexts[i]).getBindingExpr(dpModelBeans[j]);
                     if(sourceDataStr.startsWith(modelBindingExpr)){
-                        modelBean = modelBeans[j];
+                        dataProviderBean = dpModelBeans[j];
+                        tableDataProvider =  (TableDataProvider) dataProviderBean.getInstance();
+                        break;
+                    }
+                }
+                
+                DesignBean[] listModelBeans = contexts[i].getBeansOfType(List.class);
+                for(int j=0; j< listModelBeans.length; j++){
+                    String modelBindingExpr = ((FacesDesignContext)contexts[i]).getBindingExpr(listModelBeans[j]);
+                    if(sourceDataStr.startsWith(modelBindingExpr)){
+                        dataProviderBean = listModelBeans[j];
+                        tableDataProvider =  new ObjectListDataProvider((List)dataProviderBean.getInstance());
+                        break;
+                    }
+                }
+                
+                DesignBean[] arrayModelBeans = contexts[i].getBeansOfType(Object[].class);
+                for(int j=0; j< arrayModelBeans.length; j++){
+                    String modelBindingExpr = ((FacesDesignContext)contexts[i]).getBindingExpr(arrayModelBeans[j]);
+                    if(sourceDataStr.startsWith(modelBindingExpr)){
+                        dataProviderBean = arrayModelBeans[j];
+                        tableDataProvider =  new ObjectArrayDataProvider((Object[])dataProviderBean.getInstance());
                         break;
                     }
                 }
             }
         }
         // XXX - What should we do if the user deleteds the source data?
-        if(modelBean == null){
-            modelBean = TableDesignHelper.createDefaultDataProvider(tableRowGroupBean.getBeanParent());
-            resetTableColumns(modelBean);
+        if(dataProviderBean == null){
+            dataProviderBean = TableDesignHelper.createDefaultDataProvider(tableRowGroupBean.getBeanParent());
+            tableDataProvider =  (TableDataProvider) dataProviderBean.getInstance();
+            resetTableColumns();
             dataProviderReset = true;
         }
-        return modelBean;
     }
     
-    private void resetTableColumns(DesignBean dataProviderBean){
+    private void resetTableColumns(){
         // Set the selected column names from the default data model
-        TableDataProvider tdp = (TableDataProvider) dataProviderBean.getInstance();
-        FieldKey[] columns = tdp.getFieldKeys();
+        FieldKey[] columns = tableDataProvider.getFieldKeys();
         if((columns != null) && (columns.length > 0)){
             for (int i=0; i< columns.length; i++){
                 selectedColumnNames.add(columns[i].getDisplayName());
                 TableColumnDesignState tblColDesignState = new TableColumnDesignState(columns[i].getDisplayName());
-                tblColDesignState.setColumnType(tdp.getType(columns[i]));
-                if (tdp.getType(columns[i]).isAssignableFrom(Boolean.class)){
+                tblColDesignState.setColumnType(tableDataProvider.getType(columns[i]));
+                if (tableDataProvider.getType(columns[i]).isAssignableFrom(Boolean.class)){
                     tblColDesignState.setChildType(Checkbox.class);
                 }
                 selectedColumnsDesignStates.put(tblColDesignState.getName(), tblColDesignState);

@@ -3,12 +3,12 @@
  * of the Common Development and Distribution License
  * (the License).  You may not use this file except in
  * compliance with the License.
- * 
+ *
  * You can obtain a copy of the license at
  * https://woodstock.dev.java.net/public/CDDLv1.0.html.
  * See the License for the specific language governing
  * permissions and limitations under the License.
- * 
+ *
  * When distributing Covered Code, include this CDDL
  * Header Notice in each file and include the License file
  * at https://woodstock.dev.java.net/public/CDDLv1.0.html.
@@ -16,7 +16,7 @@
  * with the fields enclosed by brackets [] replaced by
  * you own identifying information:
  * "Portions Copyrighted [year] [name of copyright owner]"
- * 
+ *
  * Copyright 2007 Sun Microsystems, Inc. All rights reserved.
  */
 
@@ -38,6 +38,7 @@ import com.sun.rave.designtime.faces.FacesDesignProject;
 import com.sun.rave.designtime.DesignProject;
 import com.sun.rave.designtime.event.DesignContextListener;
 import com.sun.webui.jsf.component.TableRowGroup;
+import java.awt.List;
 import java.util.HashMap;
 import java.util.Map;
 import javax.swing.DefaultComboBoxModel;
@@ -138,6 +139,42 @@ public class TableBindToDataPanel extends javax.swing.JPanel implements DesignCo
                     tableDataProviderDesignState.initialize();
                     dataProviderList.put(tableDataProvider, tableDataProviderDesignState);
                     dataProviderComboBoxModel.addElement(tableDataProvider);
+                }
+            }
+            
+            // Allow to Object List as Data to the table
+            
+            DesignBean[] objectListBeans = designContexts[i].getBeansOfType(List.class);
+            for (int j = 0; j < objectListBeans.length; j++) {
+                DesignBean objectList = objectListBeans[j];
+                if(objectList.getInstance() instanceof List){
+                    TableDataProviderDesignState tableDataProviderDesignState = new TableDataProviderDesignState(objectList);
+                    if(currentModelBean == objectList){
+                        currentTableDataProviderDesignState = tableDataProviderDesignState;
+                        tableDataProviderDesignState.setColumnDesignStates(tableRowGroupDesignState.getColumnDesignStates());
+                        tableDataProviderDesignState.setSelectedColumnNames(tableRowGroupDesignState.getSelectedColumnNames());
+                    }
+                    tableDataProviderDesignState.initialize();
+                    dataProviderList.put(objectList, tableDataProviderDesignState);
+                    dataProviderComboBoxModel.addElement(objectList);
+                }
+            }
+            
+            // Allow to Object Array as Data to the table
+            
+            DesignBean[] objectArrayBeans = designContexts[i].getBeansOfType(Object[].class);
+            for (int j = 0; j < objectArrayBeans.length; j++) {
+                DesignBean objectArray = objectArrayBeans[j];
+                if(objectArray.getInstance() instanceof Object[]){
+                    TableDataProviderDesignState tableDataProviderDesignState = new TableDataProviderDesignState(objectArray);
+                    if(currentModelBean == objectArray){
+                        currentTableDataProviderDesignState = tableDataProviderDesignState;
+                        tableDataProviderDesignState.setColumnDesignStates(tableRowGroupDesignState.getColumnDesignStates());
+                        tableDataProviderDesignState.setSelectedColumnNames(tableRowGroupDesignState.getSelectedColumnNames());
+                    }
+                    tableDataProviderDesignState.initialize();
+                    dataProviderList.put(objectArray, tableDataProviderDesignState);
+                    dataProviderComboBoxModel.addElement(objectArray);
                 }
             }
         }
@@ -625,7 +662,7 @@ public class TableBindToDataPanel extends javax.swing.JPanel implements DesignCo
         // This is not enough. The instance name and cached rowset are yet set.
         // It would be nice if this event is fired after creation is fully completed
         if (designBean.getInstance() instanceof TableDataProvider){
-            //System.out.println("Bean Created - " + designBean.getInstanceName());    
+            //System.out.println("Bean Created - " + designBean.getInstanceName());
         }
     }
     

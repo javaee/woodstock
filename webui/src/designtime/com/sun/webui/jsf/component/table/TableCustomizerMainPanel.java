@@ -239,6 +239,41 @@ public class TableCustomizerMainPanel extends javax.swing.JPanel implements Desi
                             dataProviderComboBoxModel.addElement(tableDataProvider);
                         }
                     }
+                    
+                    // Allow to Object List as Data to the table
+                    
+                    DesignBean[] objectListBeans = designContexts[i].getBeansOfType(List.class);
+                    for (int j = 0; j < objectListBeans.length; j++) {
+                        DesignBean objectList = objectListBeans[j];
+                        if(objectList.getInstance() instanceof List){
+                            TableDataProviderDesignState tableDataProviderDesignState = new TableDataProviderDesignState(objectList);
+                            if(currentModelBean == objectList){
+                                currentTableDataProviderDesignState = tableDataProviderDesignState;
+                                tableDataProviderDesignState.setColumnDesignStates(tableRowGroupDesignState.getColumnDesignStates());
+                                tableDataProviderDesignState.setSelectedColumnNames(tableRowGroupDesignState.getSelectedColumnNames());
+                            }
+                            tableDataProviderDesignState.initialize();
+                            dataProviderList.put(objectList, tableDataProviderDesignState);
+                            dataProviderComboBoxModel.addElement(objectList);
+                        }
+                    }
+                    
+                    // Allow to Object Array as Data to the table
+                    DesignBean[] objectArrayBeans = designContexts[i].getBeans();
+                    for (int j = 0; j < objectArrayBeans.length; j++) {
+                        DesignBean objectArray = objectArrayBeans[j];
+                        if(objectArray.getInstance() instanceof Object[]){
+                            TableDataProviderDesignState tableDataProviderDesignState = new TableDataProviderDesignState(objectArray);
+                            if(currentModelBean == objectArray){
+                                currentTableDataProviderDesignState = tableDataProviderDesignState;
+                                tableDataProviderDesignState.setColumnDesignStates(tableRowGroupDesignState.getColumnDesignStates());
+                                tableDataProviderDesignState.setSelectedColumnNames(tableRowGroupDesignState.getSelectedColumnNames());
+                            }
+                            tableDataProviderDesignState.initialize();
+                            dataProviderList.put(objectArray, tableDataProviderDesignState);
+                            dataProviderComboBoxModel.addElement(objectArray);
+                        }
+                    }
                 }
                 SwingUtilities.invokeLater(new Runnable() {
                     public void run(){

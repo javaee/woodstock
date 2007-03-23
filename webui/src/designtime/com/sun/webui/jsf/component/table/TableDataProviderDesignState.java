@@ -3,12 +3,12 @@
  * of the Common Development and Distribution License
  * (the License).  You may not use this file except in
  * compliance with the License.
- * 
+ *
  * You can obtain a copy of the license at
  * https://woodstock.dev.java.net/public/CDDLv1.0.html.
  * See the License for the specific language governing
  * permissions and limitations under the License.
- * 
+ *
  * When distributing Covered Code, include this CDDL
  * Header Notice in each file and include the License file
  * at https://woodstock.dev.java.net/public/CDDLv1.0.html.
@@ -16,7 +16,7 @@
  * with the fields enclosed by brackets [] replaced by
  * you own identifying information:
  * "Portions Copyrighted [year] [name of copyright owner]"
- * 
+ *
  * Copyright 2007 Sun Microsystems, Inc. All rights reserved.
  */
 /*
@@ -29,11 +29,15 @@ package com.sun.webui.jsf.component.table;
 
 import com.sun.data.provider.FieldKey;
 import com.sun.data.provider.TableDataProvider;
+import com.sun.data.provider.impl.ObjectArrayDataProvider;
+import com.sun.data.provider.impl.ObjectListDataProvider;
 import com.sun.rave.designtime.DesignBean;
 import com.sun.webui.jsf.component.Checkbox;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
+import java.util.ResourceBundle;
 import java.util.Vector;
 import javax.swing.DefaultListModel;
 
@@ -51,17 +55,30 @@ public class TableDataProviderDesignState {
     private DefaultListModel selectedColumnListModel = new DefaultListModel();
     private DefaultListModel availableColumnListModel = new DefaultListModel();
     
-    Map columnsDesignStates = null;
+    private Map columnsDesignStates = null;
+    
+    private TableDataProvider tableDataProvider;
+    
+    private ResourceBundle bundle =
+            ResourceBundle.getBundle(TableDataProviderDesignState.class.getPackage().getName() + ".Bundle");
     
     /** Creates a new instance of TableDataProviderDesignState */
     public TableDataProviderDesignState(DesignBean modelBean) {
-        if(!(modelBean.getInstance()  instanceof TableDataProvider)){
-            throw new IllegalArgumentException(dataProviderBean.getInstanceName() + " not a table data provider.");
+        
+        if(modelBean.getInstance()  instanceof TableDataProvider){
+            tableDataProvider =  (TableDataProvider) modelBean.getInstance();
+        }else if(modelBean.getInstance()  instanceof List){
+            tableDataProvider = new ObjectListDataProvider((List)modelBean.getInstance());
+        }else if(modelBean.getInstance()  instanceof Object[]){
+            tableDataProvider = new ObjectArrayDataProvider((Object[])modelBean.getInstance());
+        }else{
+            throw new IllegalArgumentException(dataProviderBean.getInstanceName() + bundle.getString("NOT_DATA_PROVIDER"));
         }
+        
         dataProviderBean = modelBean;
         // Check if this is a broken DP
         try{
-            ((TableDataProvider) dataProviderBean.getInstance()).getFieldKeys();
+            tableDataProvider.getFieldKeys();
         }catch (Exception exc){
             exc.printStackTrace();
             dataProviderBroken = true;
@@ -198,8 +215,8 @@ public class TableDataProviderDesignState {
      */
     public void initialize(){
         if (dataProviderBroken) return;
-        TableDataProvider tdp = (TableDataProvider) dataProviderBean.getInstance();
-        FieldKey[] columns = tdp.getFieldKeys();
+        
+        FieldKey[] columns = tableDataProvider.getFieldKeys();
         
         if((columns != null) && (columns.length > 0)){
             if(columnsDesignStates == null){
@@ -207,11 +224,11 @@ public class TableDataProviderDesignState {
                 // Populate the selected column list and create corresponding TableColumnDesignState
                 for (int i=0; i< columns.length; i++){
                     //Skip FieldKey of type "Class" - 6309491
-                    if((tdp.getType(columns[i]) != null) && tdp.getType(columns[i]).toString().indexOf("java.lang.Class") == -1){
+                    if((tableDataProvider.getType(columns[i]) != null) && tableDataProvider.getType(columns[i]).toString().indexOf("java.lang.Class") == -1){
                         String columnName = columns[i].getDisplayName();
                         selectedColumnListModel.addElement(columnName);
                         TableColumnDesignState tableColumnDesignState = new TableColumnDesignState(columnName);
-                        tableColumnDesignState.setColumnType(tdp.getType(columns[i]));
+                        tableColumnDesignState.setColumnType(tableDataProvider.getType(columns[i]));
                         if(tableColumnDesignState.getColumnType().isAssignableFrom(Boolean.class)){
                             tableColumnDesignState.setChildType(Checkbox.class);
                         }
@@ -222,12 +239,12 @@ public class TableDataProviderDesignState {
                 // Populate the available column list and create the corresponding TableColumnDesignState
                 for (int i=0; i< columns.length; i++){
                     //Skip FieldKey of type "Class" - 6309491
-                    if(tdp.getType(columns[i]).toString().indexOf("java.lang.Class") == -1){
+                    if(tableDataProvider.getType(columns[i]).toString().indexOf("java.lang.Class") == -1){
                         String columnName = columns[i].getDisplayName();
                         if(!selectedColumnListModel.contains(columnName)){
                             availableColumnListModel.addElement(columnName);
                             TableColumnDesignState tableColumnDesignState = new TableColumnDesignState(columnName);
-                            tableColumnDesignState.setColumnType(tdp.getType(columns[i]));
+                            tableColumnDesignState.setColumnType(tableDataProvider.getType(columns[i]));
                             if(tableColumnDesignState.getColumnType().isAssignableFrom(Boolean.class)){
                                 tableColumnDesignState.setChildType(Checkbox.class);
                             }
