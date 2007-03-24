@@ -39,6 +39,8 @@ import javax.faces.context.ResponseWriter;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import com.sun.faces.extensions.avatar.components.ScriptsComponent;
+
 /**
  * This class provides common methods for rendering JavaScript includes, default
  * properties, etc.
@@ -164,7 +166,11 @@ public class JavaScriptUtilities {
      */
     public static void renderJsfxInclude(UIComponent component,
             ResponseWriter writer) throws IOException {
-        renderJavaScriptInclude(component, writer, ThemeJavascript.JSFX);
+        Map requestMap = FacesContext.getCurrentInstance().getExternalContext().getRequestMap();
+        if (!requestMap.containsKey(ScriptsComponent.AJAX_JS_LINKED)) {
+            renderJavaScriptInclude(component, writer, ThemeJavascript.JSFX);
+            requestMap.put(ScriptsComponent.AJAX_JS_LINKED, Boolean.TRUE);
+        }
     }
 
     /**
@@ -190,7 +196,11 @@ public class JavaScriptUtilities {
      */
     public static void renderPrototypeInclude(UIComponent component,
             ResponseWriter writer) throws IOException {
-        renderJavaScriptInclude(component, writer, ThemeJavascript.PROTOTYPE);
+        Map requestMap = FacesContext.getCurrentInstance().getExternalContext().getRequestMap();
+        if (!requestMap.containsKey(ScriptsComponent.PROTOTYPE_JS_LINKED)) {
+            renderJavaScriptInclude(component, writer, ThemeJavascript.PROTOTYPE);
+            requestMap.put(ScriptsComponent.PROTOTYPE_JS_LINKED, Boolean.TRUE);
+        }
     }
 
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
