@@ -2998,7 +2998,7 @@ public class FileChooser extends WebuiInput implements NamingContainer {
      * Only <code>java.io.File</code> or <code>java.lang.String</code> objects 
      * can be bound to this attribute.</p>
      */
-    @Property(name="lookin", displayName="Lookin", category="Data")
+    @Property(name="lookin", displayName="Lookin", category="Data", editorClassName="com.sun.rave.propertyeditors.StringPropertyEditor")
     private Object lookin = null;
 
     public Object getLookin() {
@@ -3232,7 +3232,7 @@ public class FileChooser extends WebuiInput implements NamingContainer {
      * <li>time - sort by last modified date</li></ul>
      * <p>Note that these values are case sensitive. By default, the list is sorted alphabetically.</p></p>
      */
-    @Property(name="sortField", displayName="Sort Field", category="Advanced", editorClassName="com.sun.webui.jsf.component.propertyeditors.SortFieldEditor")
+    @Property(name="sortField", displayName="Sort Field", category="Advanced")
     private String sortField = "alphabetic";
     private boolean sortField_set = false;
 

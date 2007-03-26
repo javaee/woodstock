@@ -24,6 +24,7 @@ package com.sun.webui.jsf.component;
 
 import java.beans.BeanDescriptor;
 
+import com.sun.webui.jsf.component.propertyeditors.SortFieldDomain;
 import com.sun.webui.jsf.component.util.DesignUtil;
 import com.sun.webui.jsf.design.CategoryDescriptors;
 
@@ -41,6 +42,7 @@ public class FileChooserBeanInfo extends FileChooserBeanInfoBase {
      * Default constructor.
      */
     public FileChooserBeanInfo() {
+        DesignUtil.applyPropertyDomain(this, "sortField", SortFieldDomain.class);
         // Add default body and parameter names to the event descriptors for the
         // valueChange event and the pseudo-event validate.
         DesignUtil.updateInputEventSetDescriptors(this);
