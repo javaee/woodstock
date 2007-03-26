@@ -26,6 +26,7 @@ import com.sun.webui.theme.Theme;
 import com.sun.webui.jsf.util.JavaScriptUtilities;
 import com.sun.webui.jsf.util.RenderingUtilities;
 import com.sun.webui.jsf.util.ThemeUtilities;
+import com.sun.webui.jsf.util.WidgetUtilities;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -124,11 +125,19 @@ abstract public class RendererBase extends Renderer {
 
         // Get writer.
         ResponseWriter writer = context.getResponseWriter();
-        String widgetType = ((Widget) component).getWidgetType();
-        boolean isSubComponent = component.getParent() instanceof Widget;
 
-        // Render for JSF facets, but not subcomponents.
-        if (!isSubComponent && widgetType != null) {
+        // Not all components need to render JavaScript and instantiate a
+        // client-side widget. Therefore, if getWidgetType() returns null, only
+        // JSON properties are output.
+        String widgetType = ((Widget) component).getWidgetType();
+
+        // In order to update properties, JavaScript must not be output for 
+        // Widget children. Thus, if the component parent is a Widget and 
+        // RendererBase is its renderer, only JSON properties are output.
+        boolean isWidgetChild = WidgetUtilities.isWidgetChild(context, component);
+        
+        // Do not render for Widget children.
+        if (!isWidgetChild && widgetType != null) {
             // Render temporary place holder to position widget in page -- 
             // ultimately replaced by document fragment.
             writer.startElement("span", component);
@@ -157,8 +166,8 @@ abstract public class RendererBase extends Renderer {
             e.printStackTrace();
         }
 
-        // Render for JSF facets, but not subcomponents.
-        if (!isSubComponent && widgetType != null) {
+        // Do not render for Widget children.
+        if (!isWidgetChild && widgetType != null) {
             // Render enclosing tag.
             writer.write(");\n");
             writer.endElement("script");

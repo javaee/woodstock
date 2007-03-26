@@ -21,6 +21,9 @@
  */
 package com.sun.webui.jsf.util;
 
+import com.sun.webui.jsf.component.Widget;
+import com.sun.webui.jsf.renderkit.widget.RendererBase;
+
 import java.io.IOException;
 import java.io.Writer;
 import java.util.ArrayList;
@@ -93,6 +96,46 @@ public class WidgetUtilities {
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
     /**
+     * Helper method to determine if the given component is a Widget child. If
+     * the component parent is a Widget and RendererBase is its renderer, true
+     * is returned.
+     *
+     * @param context FacesContext for the current request.
+     * @param component UIComponent to be rendered.
+     *
+     * @returns An HTML or JSON string.
+     */
+    public static boolean isWidgetChild(FacesContext context,
+            UIComponent component) {
+        if (context == null || component == null) {
+            return false;
+        }
+
+        // Get component parent.
+        UIComponent parent = component.getParent();
+        if (parent == null) {
+            return false;
+        }
+
+        // If parent is not a Widget, no need to go any further.
+        if (!(parent instanceof Widget)) {
+            return false;
+        }
+
+        // Get render kit.
+        RenderKitFactory renderFactory = (RenderKitFactory)
+        FactoryFinder.getFactory(FactoryFinder.RENDER_KIT_FACTORY);
+        RenderKit renderKit = renderFactory.getRenderKit(context,
+            context.getViewRoot().getRenderKitId());
+
+        // Get renderer.
+        Renderer renderer = renderKit.getRenderer(parent.getFamily(),
+            parent.getRendererType());
+
+        return (renderer instanceof RendererBase);
+    }
+
+    /**
      * Helper method to capture rendered component properties for client-side
      * rendering. Based on the component renderer, either JSON or HTML text may 
      * be returned.
@@ -118,6 +161,44 @@ public class WidgetUtilities {
 
         return strWriter.toString(); // Return buffered output.
     }
+
+   /**
+    * Helper method to translate a typical URL. It takes a given url and 
+    * appends parameters if the component has any and returns back the string
+    * after calling <code>ExternalContext.encodeResourceURL()</code>.
+    * <p>
+    * Note: Path must be a valid absolute URL or full path URI.
+    * </p>
+    *
+    * @param context The faces context    
+    * @param component The component that may contain parameters to be appended
+    * along with the url.
+    * @param url The value passed in by the developer for the url
+    */      
+    public static String translateURL(FacesContext context, 
+            UIComponent component, String url) {
+        String name = null;
+        StringBuffer sb = new StringBuffer(url);
+        RenderingUtilities.Param[] paramList = RenderingUtilities.
+            getParamList(context, component); 
+        int len = paramList.length;        
+        if (len > 0) {
+            sb.append("?");
+        }        
+        for (int i = 0 ; i < len ; i++) {
+            if (0 != i) {
+                sb.append("&");
+            }
+            name = paramList[i].getName();
+            if (name == null) {
+                continue;
+            }
+            sb.append(name);
+            sb.append("=");
+            sb.append(paramList[i].getValue());            
+        }
+        return context.getExternalContext().encodeResourceURL(sb.toString());
+    } 
 
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     // Writer methods
@@ -161,49 +242,7 @@ public class WidgetUtilities {
         // Set new writer in context.
         context.setResponseWriter(newWriter);
         return strWriter;
-    }
-
-   /**
-    * Helper function to translate a typical URL.
-    * It takes a given url and appends parameters
-    * if the component has any and returns back the string
-    * after calling <code>ExternalContext.encodeResourceURL()</code>
-    * <p>
-    * Note: Path must be a valid absolute URL or full path URI.
-    * </p>
-    *
-    * @param context The faces context    
-    * @param component The component that may contain parameters to 
-    * be appended along with the url.
-    * @param url The value passed in by the developer for the url
-    *
-    */      
-        
-    public static String translateURL(FacesContext context, UIComponent component,
-            String url) {
-
-        StringBuffer sb = new StringBuffer(url);
-        String name = null;        
-        int i = 0;        
-        RenderingUtilities.Param[] paramList = RenderingUtilities.getParamList(context, component);
-        int len = paramList.length;        
-        if (len > 0) {
-            sb.append("?");
-        }        
-        for (i=0 ; i<len ; i++) {
-            if (0 != i) {
-                sb.append("&");
-            }
-            name = paramList[i].getName();
-            if (name == null) {
-                continue;
-            }
-            sb.append(name);
-            sb.append("=");
-            sb.append(paramList[i].getValue());            
-        }
-        return context.getExternalContext().encodeResourceURL(sb.toString());
-    }  
+    } 
 
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     // Private methods
