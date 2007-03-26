@@ -27,7 +27,57 @@
   <title>Woodstock 4.0 Components Release Notes</title>
 </head>
 <body>
-<h1>Woodstock 4.0.1 JSF Components Release Notes</h1>
+<h1><u>Woodstock 4.1 JSF Components Release Notes</u></h1>
+<p>&nbsp;</p>
+<h2><u>4.1 Build 1</u> (03/23/2007)</h2>
+<h3>New Features</h3>
+<ul>
+	<li>Client-side rendering for Image</li>
+	<li>Client-side rendering for StaticText</li>
+	<li>Client-side rendering for Label</li>
+	<li>NetBeans Visual Web Pack module to enable updating the components in 
+	NetBeans Visual Web Pack 5.5.x.</li>
+</ul>
+<h3>Bug Fixes</h3>
+<ul>
+	<li><a href="https://woodstock.dev.java.net/issues/show_bug.cgi?id=9">Issue 
+	#9</a> - onLoad/onUnLoad are broken </li>
+	<li>CR 6527268 - JavaScript namespace is incorrect </li>
+	<li><a href="https://woodstock.dev.java.net/issues/show_bug.cgi?id=6">Issue 
+	#6</a> - progressbar example fails - missing index.jsp </li>
+	<li><a href="http://www.netbeans.org/issues/show_bug.cgi?id=96990">NB Issue 
+	#96990</a>. <br>
+	During static initialization of the class AutoSubmitOnChangeAction, a call 
+	was made to JavaScriptUtilities.getMethodName(), which in turn tried to look 
+	up the theme. The theme however is not on the class path at this time, which 
+	is weird. As a work-around, I have moved the static initializer into a 
+	getter method, so that the invocation is done lazily. </li>
+	<li><a href="http://www.netbeans.org/issues/show_bug.cgi?id=97015">NB Issue 
+	# 97015</a>&nbsp; - CALENDAR: Renders poorly at runtime</li>
+	<li><a href="https://woodstock.dev.java.net/issues/show_bug.cgi?id=15">Issue 
+	#15 </a><br>
+	Due to recent changes that unconditionally render a span for a &nbsp; complex 
+	component that can have a &quot;built in&quot; label, resize functionality in Creator 
+	for these components broke.&nbsp; More information on this issue can be seen 
+	in CR 6519675. This &nbsp; CR resulted in the unconditional rendering of the 
+	&quot;span&quot; as the containing element for complex components with built in 
+	labels. Those changes are backed out.</li>
+	<li><a href="http://www.netbeans.org/issues/show_bug.cgi?id=97012">NB Issue 
+	#97012</a></li>
+	<li><a href="https://woodstock.dev.java.net/issues/show_bug.cgi?id=23">Issue 
+	#23 </a>- CTS: CommonTaskRenderer is missing tr and td tags</li>
+	<li><a href="https://woodstock.dev.java.net/issues/show_bug.cgi?id=24">Issue 
+	#24 </a>- CommonTaskRenderer &amp; CommonTasksSectionRenderer should use 
+	writer.writeText()</li>
+	<li><a href="https://woodstock.dev.java.net/issues/show_bug.cgi?id=25">Issue 
+	#25 </a>- CTS: CommonTaskRenderer does not use ImageComponent or Icon</li>
+	<li><a href="https://woodstock.dev.java.net/issues/show_bug.cgi?id=26">Issue 
+	#26</a> - Change the encoding of the url to client side.</li>
+	<li><a href="https://woodstock.dev.java.net/issues/show_bug.cgi?id=50">Issue 
+	#50</a> - Design time for client side components needs to be fixed.</li>
+</ul>
+<p>&nbsp;</p>
+<h2><u>4.0.1 GA </u>&nbsp;(02/15/2007)</h2>
 <h3>IE7 Button width issue</h3>
 When displayed in IE7, the button component might be rendered
 with an incorrect width. This problem occurs when the button is placed
