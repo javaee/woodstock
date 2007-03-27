@@ -26,7 +26,6 @@ import com.sun.faces.annotation.Property;
 import com.sun.faces.extensions.avatar.lifecycle.AsyncResponse;
 import com.sun.webui.theme.Theme;
 import com.sun.webui.jsf.theme.ThemeImages;
-import com.sun.webui.jsf.util.JavaScriptUtilities;
 import com.sun.webui.jsf.util.ThemeUtilities;
 
 import javax.el.ValueExpression;
@@ -79,7 +78,7 @@ import javax.faces.el.ValueBinding;
     displayName="ProgressBar", tagName="progressBar",
     tagRendererType="com.sun.webui.jsf.widget.ProgressBar")
 public class ProgressBar extends javax.faces.component.UIOutput  
-        implements NamingContainer, Widget {
+        implements NamingContainer {
     
     /** The facet name for the top text. */
     public static final String TOPTEXT_FACET = "progressTextTop"; //NOI18N
@@ -134,15 +133,6 @@ public class ProgressBar extends javax.faces.component.UIOutput
         } else {
             return super.getRendererType();
         }
-    }
-
-    /**
-     * Get the type of widget represented by this component.
-     *
-     * @return The type of widget represented by this component.
-     */
-    public String getWidgetType() {
-        return JavaScriptUtilities.getNamespace("progressBar");
     }
 
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~

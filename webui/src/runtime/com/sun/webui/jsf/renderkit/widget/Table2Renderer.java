@@ -125,6 +125,15 @@ public class Table2Renderer extends RendererBase {
         return json;
     }
 
+    /**
+     * Get the type of widget represented by this component.
+     *
+     * @return The type of widget represented by this component.
+     */
+    public String getWidgetType() {
+        return JavaScriptUtilities.getNamespace("table2");
+    }
+
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     // Property methods
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~

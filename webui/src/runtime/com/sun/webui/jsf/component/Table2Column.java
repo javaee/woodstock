@@ -36,8 +36,7 @@ import javax.faces.context.FacesContext;
     family="com.sun.webui.jsf.table2Column",
     tagRendererType="com.sun.webui.jsf.widget.Table2Column",
     displayName="Table2Column", tagName="table2Column")
-public class Table2Column extends TableColumn
-        implements NamingContainer, Widget {
+public class Table2Column extends TableColumn implements NamingContainer {
     public Table2Column() {
         super();
         setRendererType("com.sun.webui.jsf.widget.Table2Column");
@@ -49,15 +48,6 @@ public class Table2Column extends TableColumn
 
     public String getFamily() {
         return "com.sun.webui.jsf.Table2Column";
-    }
-
-    /**
-     * Get the type of widget represented by this component.
-     *
-     * @return The type of widget represented by this component.
-     */
-    public String getWidgetType() {
-        return null; // Not implemented
     }
 
     /**

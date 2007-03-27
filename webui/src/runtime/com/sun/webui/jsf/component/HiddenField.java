@@ -36,7 +36,7 @@ import javax.faces.context.FacesContext;
     helpKey="projrave_ui_elements_palette_wdstk-jsf1.2_hidden_field",
     tagRendererType="com.sun.webui.jsf.widget.HiddenField",    
     propertiesHelpKey="projrave_ui_elements_palette_wdstk-jsf1.2_propsheets_hidden_field_props")
-public class HiddenField extends WebuiInput implements Widget {
+public class HiddenField extends WebuiInput {
     
     private final static boolean DEBUG = false;
     
@@ -52,15 +52,7 @@ public class HiddenField extends WebuiInput implements Widget {
     public String getFamily() {
         return "com.sun.webui.jsf.HiddenField";
     }
-            
-    /**
-     * Get the type of widget represented by this component.
-     * @return The type of widget represented by this component.
-     */
-     public String getWidgetType() {
-         return JavaScriptUtilities.getNamespace("hiddenField");
-     }
-          
+         
     /**
      * Alternative HTML template to be used by this component.
      */

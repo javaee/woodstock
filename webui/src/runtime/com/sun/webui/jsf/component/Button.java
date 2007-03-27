@@ -23,7 +23,6 @@ package com.sun.webui.jsf.component;
 
 import com.sun.faces.annotation.Component;
 import com.sun.faces.annotation.Property;
-import com.sun.webui.jsf.util.JavaScriptUtilities;
 
 import javax.el.ValueExpression;
 import javax.faces.context.FacesContext;
@@ -34,11 +33,11 @@ import javax.faces.context.FacesContext;
 @Component(type="com.sun.webui.jsf.Button",
     family="com.sun.webui.jsf.Button",
     tagRendererType="com.sun.webui.jsf.Button",
-//    tagRendererType="com.sun.webui.jsf.widget.Button",
+//    tagRendererType="com.sun.webui.jsf.widget.Button"
     displayName="Button", tagName="button",
     helpKey="projrave_ui_elements_palette_wdstk-jsf1.2_button",
     propertiesHelpKey="projrave_ui_elements_palette_wdstk-jsf1.2_propsheets_button_props")
-public class Button extends WebuiCommand implements ComplexComponent {//, Widget {
+public class Button extends WebuiCommand implements ComplexComponent {
     /**
      * Default constructor.
      */
@@ -55,16 +54,6 @@ public class Button extends WebuiCommand implements ComplexComponent {//, Widget
         return "com.sun.webui.jsf.Button";
     }
 
-    /**
-     * Get the type of widget represented by this component.
-     *
-     * @return The type of widget represented by this component.
-     */
-/*
-    public String getWidgetType() {
-        return JavaScriptUtilities.getNamespace("button");
-    }
-*/
     /**
      * Returns the absolute ID of an HTML element suitable for use as
      * the value of an HTML LABEL element's <code>for</code> attribute.
@@ -281,13 +270,12 @@ public class Button extends WebuiCommand implements ComplexComponent {//, Widget
     /**
      * Alternative HTML template to be used by this component.
      */
-//    @Property(name="htmlTemplate", displayName="HTML Template", category="Appearance")
-//    private String htmlTemplate = null;
+    @Property(name="htmlTemplate", displayName="HTML Template", category="Appearance")
+    private String htmlTemplate = null;
 
     /**
      * Get alternative HTML template to be used by this component.
      */
-/*
     public String getHtmlTemplate() {
         if (this.htmlTemplate != null) {
             return this.htmlTemplate;
@@ -298,15 +286,14 @@ public class Button extends WebuiCommand implements ComplexComponent {//, Widget
         }
         return null;
     }
-*/
+
     /**
      * Set alternative HTML template to be used by this component.
      */
-/*
     public void setHtmlTemplate(String htmlTemplate) {
         this.htmlTemplate = htmlTemplate;
     }
-*/
+
     /**
      * <p>The identifier key of a theme image to be used for the button. </p>
      */
@@ -1164,13 +1151,14 @@ public class Button extends WebuiCommand implements ComplexComponent {//, Widget
         this.toolTip = (String) _values[32];
         this.visible = ((Boolean) _values[33]).booleanValue();
         this.visible_set = ((Boolean) _values[34]).booleanValue();
+        this.htmlTemplate = (String) _values[35];
     }
 
     /**
      * <p>Save the state of this component.</p>
      */
     public Object saveState(FacesContext _context) {
-        Object _values[] = new Object[35];
+        Object _values[] = new Object[36];
         _values[0] = super.saveState(_context);
         _values[1] = this.alt;
         _values[2] = this.disabled ? Boolean.TRUE : Boolean.FALSE;
@@ -1206,6 +1194,7 @@ public class Button extends WebuiCommand implements ComplexComponent {//, Widget
         _values[32] = this.toolTip;
         _values[33] = this.visible ? Boolean.TRUE : Boolean.FALSE;
         _values[34] = this.visible_set ? Boolean.TRUE : Boolean.FALSE;
+        _values[35] = this.htmlTemplate;
         return _values;
     }
 }

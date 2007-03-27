@@ -26,7 +26,6 @@ import com.sun.faces.annotation.Renderer;
 import com.sun.webui.jsf.component.ComplexComponent;
 import com.sun.webui.jsf.component.Field;
 import com.sun.webui.jsf.component.HiddenField;
-import com.sun.webui.jsf.component.Widget;
 import com.sun.webui.jsf.theme.ThemeTemplates;
 import com.sun.webui.jsf.util.ConversionUtilities;
 import com.sun.webui.jsf.util.JavaScriptUtilities;
@@ -45,21 +44,34 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-
 /**
  * This class renders HiddenField component.
  */
 @Renderer(@Renderer.Renders(
 rendererType="com.sun.webui.jsf.widget.HiddenField",
         componentFamily="com.sun.webui.jsf.HiddenField"))
-public class HiddenFieldRenderer extends RendererBase {
-        
-    private static final boolean DEBUG = false;
-    
+public class HiddenFieldRenderer extends RendererBase {   
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     // RendererBase methods
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    
+
+    /**
+     * Decode the component 
+     * @param context The FacesContext associated with this request
+     */
+    public void decode(FacesContext context, UIComponent component) {
+        
+        String id = component.getClientId(context); 
+        Map params = context.getExternalContext().getRequestParameterMap();
+        Object valueObject = params.get(id);
+        String value = null; 
+               
+        if(valueObject != null) { 
+            value = (String) valueObject;        
+        }
+        ((EditableValueHolder)component).setSubmittedValue(value);
+    }
+
     /**
      * Get the Dojo modules required to instantiate the widget.
      *
@@ -113,12 +125,12 @@ public class HiddenFieldRenderer extends RendererBase {
 	// render response. Therefore just assume that if the rendered
 	// value was null, the saved information is still valid.
 	// 
-	if (((HiddenField)component).getSubmittedValue() == null) {
+	if (((HiddenField) component).getSubmittedValue() == null) {
 	    ConversionUtilities.setRenderedValue(component,
-		((HiddenField)component).getText());
+		((HiddenField) component).getText());
 	}
         
-        String templatePath = ((Widget) hiddenField).getHtmlTemplate(); // Get HTML template.
+        String templatePath = hiddenField.getHtmlTemplate(); // Get HTML template.
         JSONObject json = new JSONObject();
         json.put("value", hiddenField.getValueAsString(context))
             .put("name", hiddenField.getClientId(context))
@@ -132,31 +144,15 @@ public class HiddenFieldRenderer extends RendererBase {
         
         return json;
     }
-    
+
     /**
-     * Decode the component 
-     * @param context The FacesContext associated with this request
+     * Get the type of widget represented by this component.
+     * @return The type of widget represented by this component.
      */
-    public void decode(FacesContext context, UIComponent component) {
-        
-        String id = component.getClientId(context); 
-        Map params = context.getExternalContext().getRequestParameterMap();
-        Object valueObject = params.get(id);
-        String value = null; 
-               
-        if(valueObject != null) { 
-            value = (String) valueObject;
-            if(DEBUG) log("Submitted value is " + value); 
-        
-        } else if(DEBUG) log("\tNo relevant input parameter");
-      
-        ((EditableValueHolder)component).setSubmittedValue(value);
+    public String getWidgetType() {
+        return JavaScriptUtilities.getNamespace("hiddenField");
     }
-        
-    protected void log(String s) {
-        System.out.println(s);
-    }
-    
+     
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     // Private renderer methods
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~

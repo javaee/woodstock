@@ -21,7 +21,6 @@
  */
 package com.sun.webui.jsf.component;
 
-import com.sun.webui.jsf.util.JavaScriptUtilities;
 import com.sun.webui.jsf.util.ThemeUtilities;
 import javax.el.ValueExpression;
 import javax.faces.component.UIGraphic;
@@ -44,7 +43,7 @@ import com.sun.webui.jsf.theme.ThemeImages;
     displayName="Image", tagName="image",instanceName="image",
     helpKey="projrave_ui_elements_palette_wdstk-jsf1.2_image_component",
     propertiesHelpKey="projrave_ui_elements_palette_wdstk-jsf1.2_propsheets_image_component_props")
-public class ImageComponent extends UIGraphic implements Widget {
+public class ImageComponent extends UIGraphic {
     
     private ThemeImage themeImage = null;
     private Theme theme = null;
@@ -61,15 +60,6 @@ public class ImageComponent extends UIGraphic implements Widget {
      */
     public String getFamily() {
         return "com.sun.webui.jsf.Image";
-    }
-    
-    /**
-     * Get the type of widget represented by this component.
-     *
-     * @return The type of widget represented by this component.
-     */
-    public String getWidgetType() {
-        return JavaScriptUtilities.getNamespace("image");
     }
 
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~

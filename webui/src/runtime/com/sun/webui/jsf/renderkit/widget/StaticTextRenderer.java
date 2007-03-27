@@ -24,7 +24,6 @@ package com.sun.webui.jsf.renderkit.widget;
 
 import com.sun.faces.annotation.Renderer;
 import com.sun.webui.jsf.component.StaticText;
-import com.sun.webui.jsf.component.Widget;
 import com.sun.webui.jsf.theme.ThemeTemplates;
 import com.sun.webui.jsf.util.ConversionUtilities;
 import com.sun.webui.jsf.util.JavaScriptUtilities;
@@ -42,15 +41,13 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-
 /**
  * This class renders StaticText component.
  */
 @Renderer(@Renderer.Renders(
-rendererType="com.sun.webui.jsf.widget.StaticText",
-        componentFamily="com.sun.webui.jsf.StaticText"))
+    rendererType="com.sun.webui.jsf.widget.StaticText",
+    componentFamily="com.sun.webui.jsf.StaticText"))
 public class StaticTextRenderer extends RendererBase {
-
     /**
      * The set of pass-through attributes to be rendered.
      */
@@ -94,9 +91,8 @@ public class StaticTextRenderer extends RendererBase {
             UIComponent component) throws IOException, JSONException {
         StaticText staticText = (StaticText) component;
                         
-        String currentValue =
-                ConversionUtilities.convertValueToString(component,
-                staticText.getText());
+        String currentValue = ConversionUtilities.convertValueToString(
+            component, staticText.getText());
         String message = null;        
         if (currentValue != null) {
             java.util.ArrayList parameterList = new ArrayList();
@@ -129,7 +125,7 @@ public class StaticTextRenderer extends RendererBase {
                         
         }
         
-        String templatePath = ((Widget) staticText).getHtmlTemplate(); // Get HTML template.
+        String templatePath = staticText.getHtmlTemplate(); // Get HTML template.
         JSONObject json = new JSONObject();
         json.put("value", message)
             .put("title", staticText.getToolTip())
@@ -145,7 +141,16 @@ public class StaticTextRenderer extends RendererBase {
         
         return json;
     }
-    
+
+    /**
+     * Get the type of widget represented by this component.
+     *
+     * @return The type of widget represented by this component.
+     */
+    public String getWidgetType() {
+        return JavaScriptUtilities.getNamespace("staticText");
+    }
+
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     // Private renderer methods
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~

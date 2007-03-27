@@ -28,7 +28,6 @@ import javax.faces.convert.Converter;
 
 import com.sun.faces.annotation.Component;
 import com.sun.faces.annotation.Property;
-import com.sun.webui.jsf.util.JavaScriptUtilities;
 
 /**
  * The StaticText component is used to display text that is not interactive in 
@@ -37,7 +36,7 @@ import com.sun.webui.jsf.util.JavaScriptUtilities;
 @Component(type="com.sun.webui.jsf.StaticText", family="com.sun.webui.jsf.StaticText", displayName="Static Text", tagName="staticText", tagRendererType="com.sun.webui.jsf.widget.StaticText",
     helpKey="projrave_ui_elements_palette_wdstk-jsf1.2_static_text",
     propertiesHelpKey="projrave_ui_elements_palette_wdstk-jsf1.2_propsheets_static_text_props")
-public class StaticText extends UIOutput implements Widget {
+public class StaticText extends UIOutput {
 
     /**
      * <p>Construct a new <code>StaticText</code>.</p>
@@ -53,18 +52,6 @@ public class StaticText extends UIOutput implements Widget {
     public String getFamily() {
         return "com.sun.webui.jsf.StaticText";
     }
-
-    /**
-     * Get the type of widget represented by this component.
-     *
-     * @return The type of widget represented by this component.
-     */
-
-     public String getWidgetType() {
-         return JavaScriptUtilities.getNamespace("staticText");
-     }
-     
-     
      
     /**
      * Alternative HTML template to be used by this component.

@@ -25,7 +25,6 @@ import com.sun.faces.annotation.Renderer;
 
 import com.sun.webui.jsf.component.ProgressBar;
 import com.sun.webui.jsf.component.TextArea;
-import com.sun.webui.jsf.component.Widget;
 import com.sun.webui.jsf.util.WidgetUtilities;
 import com.sun.webui.theme.Theme;
 import com.sun.webui.theme.ThemeImage;
@@ -129,6 +128,15 @@ public class ProgressBarRenderer extends RendererBase {
         setFacetProperties(context, progressBar, json);
 
         return json;
+    }
+
+    /**
+     * Get the type of widget represented by this component.
+     *
+     * @return The type of widget represented by this component.
+     */
+    public String getWidgetType() {
+        return JavaScriptUtilities.getNamespace("progressBar");
     }
 
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~

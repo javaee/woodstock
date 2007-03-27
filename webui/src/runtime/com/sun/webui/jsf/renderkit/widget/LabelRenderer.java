@@ -25,7 +25,6 @@ package com.sun.webui.jsf.renderkit.widget;
 import com.sun.faces.annotation.Renderer;
 import com.sun.webui.jsf.component.ComplexComponent;
 import com.sun.webui.jsf.component.Label;
-import com.sun.webui.jsf.component.Widget;
 import com.sun.webui.jsf.util.WidgetUtilities;
 import com.sun.webui.theme.Theme;
 import com.sun.webui.jsf.theme.ThemeTemplates;
@@ -57,8 +56,6 @@ import org.json.JSONObject;
     rendererType="com.sun.webui.jsf.widget.Label", 
     componentFamily="com.sun.webui.jsf.Label"))
 public class LabelRenderer extends RendererBase {
-    
-     
     /**
      * The set of pass-through attributes to be rendered.
      */
@@ -82,6 +79,7 @@ public class LabelRenderer extends RendererBase {
         "accesskey"
         
     };
+
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     // RendererBase methods
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -108,7 +106,7 @@ public class LabelRenderer extends RendererBase {
     protected JSONObject getProperties(FacesContext context,
             UIComponent component) throws IOException, JSONException {
         Label label = (Label) component;
-        String templatePath = ((Widget) label).getHtmlTemplate(); // Get HTML template.
+        String templatePath = label.getHtmlTemplate(); // Get HTML template.
         
         EditableValueHolder comp = label.getLabeledComponent();
         
@@ -154,15 +152,19 @@ public class LabelRenderer extends RendererBase {
         return json;
     }
 
+    /**
+     * Get the type of widget represented by this component.
+     *
+     * @return The type of widget represented by this component.
+     */
+    public String getWidgetType() {
+        return JavaScriptUtilities.getNamespace("label");
+    }
+
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    // Private renderer methods
+    // Property methods
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-    // Helper method to get Theme objects.
-    private Theme getTheme() {
-        return ThemeUtilities.getTheme(FacesContext.getCurrentInstance());
-    }
-    
     /**
      * <p>Return the text to be rendered for this label.  This will be either
      * the literal value of the <code>text</code> property, or the use of
@@ -172,7 +174,7 @@ public class LabelRenderer extends RendererBase {
      * @param context <code>FacesContext</code> for the current request
      * @param label <code>Label</code> we are rendering
      */
-    private String formatLabelText(FacesContext context, Label label) {
+    protected String formatLabelText(FacesContext context, Label label) {
         String text = ConversionUtilities.convertValueToString
                 (label, label.getValue());
         text = text.concat(" ");
@@ -192,7 +194,7 @@ public class LabelRenderer extends RendererBase {
         }
         return MessageFormat.format(text, list.toArray(new Object[list.size()]));
     }
-    
+
     /**
      * Returns an id suitable for the HTML label element's "for" attribute.
      * This implementation uses the following heuristic to obtain a
@@ -272,7 +274,7 @@ public class LabelRenderer extends RendererBase {
      * @param context The faces context instance
      * @param component The label component.
      */
-    private String getLabeledChildId(FacesContext context,
+    protected String getLabeledChildId(FacesContext context,
 	    UIComponent component) {
         
         if (component.getChildCount() == 0) {
@@ -288,5 +290,14 @@ public class LabelRenderer extends RendererBase {
         } else {
 	    return child.getClientId(context);
 	}
+    }
+
+    // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    // Private renderer methods
+    // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+    // Helper method to get Theme objects.
+    private Theme getTheme() {
+        return ThemeUtilities.getTheme(FacesContext.getCurrentInstance());
     }
 }

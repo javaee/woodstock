@@ -21,7 +21,6 @@
  */
 package com.sun.webui.jsf.util;
 
-import com.sun.webui.jsf.component.Widget;
 import com.sun.webui.jsf.renderkit.widget.RendererBase;
 
 import java.io.IOException;
@@ -94,46 +93,6 @@ public class WidgetUtilities {
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     // Renderer methods
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-    /**
-     * Helper method to determine if the given component is a Widget child. If
-     * the component parent is a Widget and RendererBase is its renderer, true
-     * is returned.
-     *
-     * @param context FacesContext for the current request.
-     * @param component UIComponent to be rendered.
-     *
-     * @returns An HTML or JSON string.
-     */
-    public static boolean isWidgetChild(FacesContext context,
-            UIComponent component) {
-        if (context == null || component == null) {
-            return false;
-        }
-
-        // Get component parent.
-        UIComponent parent = component.getParent();
-        if (parent == null) {
-            return false;
-        }
-
-        // If parent is not a Widget, no need to go any further.
-        if (!(parent instanceof Widget)) {
-            return false;
-        }
-
-        // Get render kit.
-        RenderKitFactory renderFactory = (RenderKitFactory)
-        FactoryFinder.getFactory(FactoryFinder.RENDER_KIT_FACTORY);
-        RenderKit renderKit = renderFactory.getRenderKit(context,
-            context.getViewRoot().getRenderKitId());
-
-        // Get renderer.
-        Renderer renderer = renderKit.getRenderer(parent.getFamily(),
-            parent.getRendererType());
-
-        return (renderer instanceof RendererBase);
-    }
 
     /**
      * Helper method to capture rendered component properties for client-side
@@ -221,7 +180,7 @@ public class WidgetUtilities {
 
         // Get render kit.
         RenderKitFactory renderFactory = (RenderKitFactory)
-        FactoryFinder.getFactory(FactoryFinder.RENDER_KIT_FACTORY);
+            FactoryFinder.getFactory(FactoryFinder.RENDER_KIT_FACTORY);
         RenderKit renderKit = renderFactory.getRenderKit(context,
             context.getViewRoot().getRenderKitId());
 

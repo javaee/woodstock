@@ -25,7 +25,6 @@ import com.sun.faces.annotation.Component;
 import com.sun.faces.annotation.Property;
 import com.sun.webui.jsf.theme.ThemeImages;
 import com.sun.webui.jsf.util.ComponentUtilities;
-import com.sun.webui.jsf.util.JavaScriptUtilities;
 import com.sun.webui.jsf.util.LogUtil;
 import com.sun.webui.jsf.util.ThemeUtilities;
 import com.sun.webui.theme.Theme; 
@@ -49,7 +48,7 @@ import javax.faces.convert.Converter;
 @Component(type="com.sun.webui.jsf.Label", family="com.sun.webui.jsf.Label", displayName="Label", tagName="label",tagRendererType="com.sun.webui.jsf.widget.Label",
     helpKey="projrave_ui_elements_palette_wdstk-jsf1.2_label",
     propertiesHelpKey="projrave_ui_elements_palette_wdstk-jsf1.2_propsheets_label_props")
-public class Label extends UIOutput implements NamingContainer, Widget {
+public class Label extends UIOutput implements NamingContainer {
     
     public static final String REQUIRED_ID = "_required";
     public static final String REQUIRED_FACET = "required";
@@ -75,19 +74,7 @@ public class Label extends UIOutput implements NamingContainer, Widget {
      */
     public String getFamily() {
         return "com.sun.webui.jsf.Label";
-    }
-
-    /**
-     * Get the type of widget represented by this component.
-     *
-     * @return The type of widget represented by this component.
-     */
-
-     public String getWidgetType() {
-         return JavaScriptUtilities.getNamespace("label");
-     }
-     
-     
+    }     
      
     /**
      * Alternative HTML template to be used by this component.

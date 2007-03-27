@@ -21,7 +21,6 @@
  */
 package com.sun.webui.jsf.renderkit.widget;
 
-import com.sun.webui.jsf.component.Widget;
 import com.sun.webui.theme.Theme;
 import com.sun.webui.jsf.util.JavaScriptUtilities;
 import com.sun.webui.jsf.util.RenderingUtilities;
@@ -38,7 +37,10 @@ import java.util.Map;
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.context.ResponseWriter;
+import javax.faces.FactoryFinder;
 import javax.faces.render.Renderer;
+import javax.faces.render.RenderKitFactory;
+import javax.faces.render.RenderKit;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -129,12 +131,12 @@ abstract public class RendererBase extends Renderer {
         // Not all components need to render JavaScript and instantiate a
         // client-side widget. Therefore, if getWidgetType() returns null, only
         // JSON properties are output.
-        String widgetType = ((Widget) component).getWidgetType();
+        String widgetType = getWidgetType();
 
         // In order to update properties, JavaScript must not be output for 
-        // Widget children. Thus, if the component parent is a Widget and 
-        // RendererBase is its renderer, only JSON properties are output.
-        boolean isWidgetChild = WidgetUtilities.isWidgetChild(context, component);
+        // widget children. Thus, if RendererBase is used by the component
+        // parent, only JSON properties are output.
+        boolean isWidgetChild = isWidgetChild(context, component);
         
         // Do not render for Widget children.
         if (!isWidgetChild && widgetType != null) {
@@ -234,6 +236,13 @@ abstract public class RendererBase extends Renderer {
         UIComponent component) throws IOException, JSONException;
 
     /**
+     * Get the type of widget represented by this component.
+     *
+     * @return The type of widget represented by this component.
+     */
+    abstract protected String getWidgetType();
+
+    /**
      * This method may be used to set core name/value pairs for the given
      * JSONObject.
      *
@@ -247,7 +256,7 @@ abstract public class RendererBase extends Renderer {
             JSONObject json) throws JSONException {
         json.put("id", component.getClientId(context))
             .put("_modules", getModules(context, component))
-            .put("_widgetType", ((Widget) component).getWidgetType());    
+            .put("_widgetType", getWidgetType());    
     }
 
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -257,5 +266,35 @@ abstract public class RendererBase extends Renderer {
     // Helper method to get Theme objects.
     private Theme getTheme() {
         return ThemeUtilities.getTheme(FacesContext.getCurrentInstance());
+    }
+
+    /**
+     * Helper method to test if the given component is a widget child. If
+     * RendererBase is used by the component parent, true is returned.
+     */
+    private boolean isWidgetChild(FacesContext context, UIComponent component) {
+        // Get component parent.
+        UIComponent parent = component.getParent();
+        if (parent == null) {
+            return false;
+        }
+
+        // Get family and renderer type.
+        String family = parent.getFamily();
+        String type = parent.getRendererType();
+        if (family == null || type == null) {
+            return false;
+        }
+
+        // Get render kit.
+        RenderKitFactory renderFactory = (RenderKitFactory)
+            FactoryFinder.getFactory(FactoryFinder.RENDER_KIT_FACTORY);
+        RenderKit renderKit = renderFactory.getRenderKit(context,
+            context.getViewRoot().getRenderKitId());
+
+        // Get renderer.
+        Renderer renderer = renderKit.getRenderer(family, type);
+
+        return (renderer instanceof RendererBase);
     }
 }

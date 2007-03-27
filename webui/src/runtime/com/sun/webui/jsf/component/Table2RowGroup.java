@@ -43,8 +43,7 @@ import javax.faces.el.ValueBinding;
     family="com.sun.webui.jsf.Table2RowGroup",
     tagRendererType="com.sun.webui.jsf.widget.Table2RowGroup",
     displayName="Table2RowGroup", tagName="table2RowGroup")
-public class Table2RowGroup extends TableRowGroup
-        implements NamingContainer, Widget {
+public class Table2RowGroup extends TableRowGroup implements NamingContainer {
     // A List containing Table2Column children. 
     private List table2ColumnChildren = null;
 
@@ -71,15 +70,6 @@ public class Table2RowGroup extends TableRowGroup
         } else {
             return super.getRendererType();
         }
-    }
-
-    /**
-     * Get the type of widget represented by this component.
-     *
-     * @return The type of widget represented by this component.
-     */
-    public String getWidgetType() {
-        return JavaScriptUtilities.getNamespace("table2RowGroup");
     }
 
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~

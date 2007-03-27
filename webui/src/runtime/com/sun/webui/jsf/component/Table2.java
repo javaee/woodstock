@@ -23,7 +23,6 @@ package com.sun.webui.jsf.component;
 
 import com.sun.faces.annotation.Component;
 import com.sun.faces.annotation.Property;
-import com.sun.webui.jsf.util.JavaScriptUtilities;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -42,7 +41,7 @@ import javax.faces.el.ValueBinding;
     family="com.sun.webui.jsf.Table2",
     tagRendererType="com.sun.webui.jsf.widget.Table2", 
     displayName="Table2", tagName="table2")
-public class Table2 extends Table implements NamingContainer, Widget {
+public class Table2 extends Table implements NamingContainer {
     /** The facet name for the actions area. */ 
     public static final String ACTIONS_FACET = "actions"; //NOI18N 
  
@@ -67,15 +66,6 @@ public class Table2 extends Table implements NamingContainer, Widget {
 
     public String getFamily() {
         return "com.sun.webui.jsf.Table2";
-    }
-
-    /**
-     * Get the type of widget represented by this component.
-     *
-     * @return The type of widget represented by this component.
-     */
-    public String getWidgetType() {
-        return JavaScriptUtilities.getNamespace("table2");
     }
 
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~

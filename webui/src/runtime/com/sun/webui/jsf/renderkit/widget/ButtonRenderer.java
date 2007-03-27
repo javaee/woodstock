@@ -25,7 +25,6 @@ package com.sun.webui.jsf.renderkit.widget;
 import com.sun.faces.annotation.Renderer;
 
 import com.sun.webui.jsf.component.Button;
-import com.sun.webui.jsf.component.Widget;
 import com.sun.webui.jsf.util.WidgetUtilities;
 import com.sun.webui.theme.Theme;
 import com.sun.webui.jsf.theme.ThemeStyles;
@@ -144,7 +143,7 @@ public class ButtonRenderer extends RendererBase {
     protected JSONObject getProperties(FacesContext context,
             UIComponent component) throws JSONException {
         Button button = (Button) component;
-        String templatePath = ((Widget) button).getHtmlTemplate(); // Get HTML template.
+        String templatePath = button.getHtmlTemplate(); // Get HTML template.
 
         JSONObject json = new JSONObject();
         json.put("className", button.getStyleClass())
@@ -182,6 +181,15 @@ public class ButtonRenderer extends RendererBase {
         setCoreProperties(context, component, json);
 
         return json;
+    }
+
+    /**
+     * Get the type of widget represented by this component.
+     *
+     * @return The type of widget represented by this component.
+     */
+    public String getWidgetType() {
+        return JavaScriptUtilities.getNamespace("button");
     }
 
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~

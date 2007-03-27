@@ -35,7 +35,6 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import com.sun.faces.annotation.Renderer;
-import com.sun.webui.jsf.component.Widget;
 import com.sun.webui.jsf.component.ImageComponent;
 import com.sun.webui.jsf.component.Icon;
 
@@ -141,9 +140,10 @@ public class ImageRenderer extends RendererBase {
         url = (url != null && url.trim().length() != 0)
             ? context.getExternalContext().encodeResourceURL(url) : "";
         url = WidgetUtilities.translateURL(context, image, url);
+
         JSONObject json = new JSONObject();
         String style = image.getStyle();                     
-        String templatePath = ((Widget)image).getHtmlTemplate(); // Get HTML template.                        
+        String templatePath = image.getHtmlTemplate(); // Get HTML template.                        
         json.put("templatePath", (templatePath != null)
                 ? templatePath 
                 : getTheme().getPathToTemplate(ThemeTemplates.IMAGE))        
@@ -172,7 +172,20 @@ public class ImageRenderer extends RendererBase {
 
         return json;
     }
-    
+
+    /**
+     * Get the type of widget represented by this component.
+     *
+     * @return The type of widget represented by this component.
+     */
+    public String getWidgetType() {
+        return JavaScriptUtilities.getNamespace("image");
+    }
+
+    // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    // Property methods
+    // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
     protected void setPngProperties(JSONObject json, int width, int height, 
         Theme theme, String style, String url) throws JSONException, 
             IOException {
@@ -184,13 +197,12 @@ public class ImageRenderer extends RendererBase {
             imgWidth = Integer.toString(width);
         } else {
             imgWidth = theme.getMessage("Image.defaultWidth");
-            logMessage("width", imgWidth);        }
+        }
 
         if (height >= 0) {
             imgHeight = Integer.toString(height);
         } else {
             imgHeight =theme.getMessage("Image.defaultHeight");
-            logMessage("height", imgHeight);
         }
         String IEStyle = theme.getMessage("Image.IEPngCSSStyleQuirk", 
                 new String[] {imgWidth, imgHeight, url});
@@ -238,24 +250,5 @@ public class ImageRenderer extends RendererBase {
             }
         }   
         return false;
-    }    
-    
-    /**
-     * Log an error message.
-     * @param property The image property for which the value was not found
-     * @param message The defau lt value used.
-     */
-    private void logMessage(String property, String value) {
-        StringBuilder errorMsg = new StringBuilder();
-        errorMsg.append("Image's")
-                .append(property)
-                .append(" specified. Using a generic")
-                .append("default value of")
-                .append(value);
-        
-        if (LogUtil.fineEnabled(ImageRenderer.class)) {
-            LogUtil.fine(ImageRenderer.class, errorMsg.toString());  //NOI18N
-        }        
-        
     }
 }
