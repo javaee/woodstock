@@ -79,7 +79,46 @@ abstract public class RendererBase extends Renderer {
      */
     public void encodeBegin(FacesContext context, UIComponent component) 
             throws IOException {
-        // Do nothing...
+        if (context == null || component == null) {
+            throw new NullPointerException();
+        }
+        if (!component.isRendered()) {
+            return;
+        }
+
+        // Get writer.
+        ResponseWriter writer = context.getResponseWriter();
+
+        // As both an optimization, and to update client-side properties,
+        // JavaScript is not output to instantiate widget children. Widget
+        // children shall output JSON properties only.
+        boolean isWidgetChild = isWidgetChild(context, component);
+
+        // Not all components need to render JavaScript and instantiate a
+        // client-side widget. Therefore, if getWidgetType() returns null, only
+        // JSON properties are output.
+        if (isWidgetChild || getWidgetType() == null) {
+            return;
+        }
+
+        // Render temporary place holder to position widget in page -- 
+        // ultimately replaced by document fragment.
+        writer.startElement("span", component);
+        writer.writeAttribute("id", component.getClientId(context), null);
+        writer.endElement("span");
+
+        // Render enclosing tag -- must be located after div.
+        writer.write("\n");
+        writer.startElement("script", component);
+        writer.writeAttribute("type", "text/javascript", null);
+        writer.write("\n");
+
+        // Render JavaScript to instantiate Dojo widget.
+        writer.write(JavaScriptUtilities.getModule("widget.*"));
+        writer.write("\n");
+        writer.write(JavaScriptUtilities.getModuleName(
+            "widget.common.createWidget"));
+        writer.write("(");
     }
 
     /**
@@ -94,8 +133,23 @@ abstract public class RendererBase extends Renderer {
      */
     public void encodeChildren(FacesContext context, UIComponent component)
             throws IOException {
-        // Do nothing... Children are rendered when obtaining component 
-        // properties via the encodeBegin method.
+        if (context == null || component == null) {
+            throw new NullPointerException();
+        }
+        if (!component.isRendered()) {
+            return;
+        }
+
+        try {
+            // Get writer.
+            ResponseWriter writer = context.getResponseWriter();
+
+            // Component and child properties are always output together.
+            writer.write(getProperties(context, component).toString(
+                JavaScriptUtilities.INDENT_FACTOR));
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
     }
 
     /**
@@ -128,53 +182,22 @@ abstract public class RendererBase extends Renderer {
         // Get writer.
         ResponseWriter writer = context.getResponseWriter();
 
+        // As both an optimization, and to update client-side properties,
+        // JavaScript is not output to instantiate widget children. Widget
+        // children shall output JSON properties only.
+        boolean isWidgetChild = isWidgetChild(context, component);
+
         // Not all components need to render JavaScript and instantiate a
         // client-side widget. Therefore, if getWidgetType() returns null, only
         // JSON properties are output.
-        String widgetType = getWidgetType();
-
-        // In order to update properties, JavaScript must not be output for 
-        // widget children. Thus, if RendererBase is used by the component
-        // parent, only JSON properties are output.
-        boolean isWidgetChild = isWidgetChild(context, component);
-        
-        // Do not render for Widget children.
-        if (!isWidgetChild && widgetType != null) {
-            // Render temporary place holder to position widget in page -- 
-            // ultimately replaced by document fragment.
-            writer.startElement("span", component);
-            writer.writeAttribute("id", component.getClientId(context), null);
-            writer.endElement("span");
-
-            // Render enclosing tag -- must be located after div.
-            writer.write("\n");
-            writer.startElement("script", component);
-            writer.writeAttribute("type", "text/javascript", null);
-            writer.write("\n");
-
-            // Render JavaScript to instantiate Dojo widget.
-            writer.write(JavaScriptUtilities.getModule("widget.*"));
-            writer.write("\n");
-            writer.write(JavaScriptUtilities.getModuleName(
-                "widget.common.createWidget"));
-            writer.write("(");
+        if (isWidgetChild || getWidgetType() == null) {
+            return;
         }
 
-        try {
-            // Always render properties.
-            writer.write(getProperties(context, component).toString(
-                JavaScriptUtilities.INDENT_FACTOR));
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-
-        // Do not render for Widget children.
-        if (!isWidgetChild && widgetType != null) {
-            // Render enclosing tag.
-            writer.write(");\n");
-            writer.endElement("script");
-            writer.write("\n");
-        }
+        // Render enclosing tag.
+        writer.write(");\n");
+        writer.endElement("script");
+        writer.write("\n");
     }
 
     /**
@@ -269,8 +292,9 @@ abstract public class RendererBase extends Renderer {
     }
 
     /**
-     * Helper method to test if the given component is a widget child. If
-     * RendererBase is used by the component parent, true is returned.
+     * Helper method to test if the given component is a widget child. If the
+     * component's parent renderer is an instance of RendererBase, it means that
+     * the parent is also widget; thus, true is returned.
      */
     private boolean isWidgetChild(FacesContext context, UIComponent component) {
         // Get component parent.
