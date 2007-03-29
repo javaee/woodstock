@@ -37,10 +37,7 @@ import java.util.Map;
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.context.ResponseWriter;
-import javax.faces.FactoryFinder;
 import javax.faces.render.Renderer;
-import javax.faces.render.RenderKitFactory;
-import javax.faces.render.RenderKit;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -310,14 +307,8 @@ abstract public class RendererBase extends Renderer {
             return false;
         }
 
-        // Get render kit.
-        RenderKitFactory renderFactory = (RenderKitFactory)
-            FactoryFinder.getFactory(FactoryFinder.RENDER_KIT_FACTORY);
-        RenderKit renderKit = renderFactory.getRenderKit(context,
-            context.getViewRoot().getRenderKitId());
-
         // Get renderer.
-        Renderer renderer = renderKit.getRenderer(family, type);
+        Renderer renderer = context.getRenderKit().getRenderer(family, type);
 
         return (renderer instanceof RendererBase);
     }

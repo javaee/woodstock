@@ -33,10 +33,7 @@ import javax.faces.component.UIParameter;
 import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 import javax.faces.context.ResponseWriter;
-import javax.faces.FactoryFinder;
 import javax.faces.render.Renderer;
-import javax.faces.render.RenderKitFactory;
-import javax.faces.render.RenderKit;
 import javax.servlet.ServletRequest;
 
 import org.json.JSONArray;
@@ -178,12 +175,6 @@ public class WidgetUtilities {
             return null;
         }
 
-        // Get render kit.
-        RenderKitFactory renderFactory = (RenderKitFactory)
-            FactoryFinder.getFactory(FactoryFinder.RENDER_KIT_FACTORY);
-        RenderKit renderKit = renderFactory.getRenderKit(context,
-            context.getViewRoot().getRenderKitId());
-
         // Get writers.
         ResponseWriter oldWriter = context.getResponseWriter();
         Writer strWriter = new FastStringWriter(1024);
@@ -195,8 +186,8 @@ public class WidgetUtilities {
         } else {
             ExternalContext extContext = context.getExternalContext();
             ServletRequest request = (ServletRequest) extContext.getRequest();
-            newWriter = renderKit.createResponseWriter(strWriter, null,
-                request.getCharacterEncoding());
+            newWriter = context.getRenderKit().createResponseWriter(
+                strWriter, null, request.getCharacterEncoding());
         }
         // Set new writer in context.
         context.setResponseWriter(newWriter);
@@ -205,6 +196,6 @@ public class WidgetUtilities {
 
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     // Private methods
-    // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-       
+    // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 }
 
