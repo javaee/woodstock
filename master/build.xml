@@ -117,7 +117,7 @@
 
      <!-- ========== themes ========== -->
      <!-- This builds the suntheme   -->
-    <target name="themes">
+    <target name="themes" depends="webui">
         <ant dir="${themes}" inheritAll="false"> 
             <property name="buildnumber" value="${buildnumber}"/> 
         </ant> 
@@ -281,7 +281,7 @@
     <target name="all" depends="clean, ship">
     </target>
 
-    <target name="ship" depends="themes, webui, extralibs, doc, buildsdk, example">
+    <target name="ship" depends="webui, themes, extralibs, doc, buildsdk, example">
     </target>
     
     <target name="build-manifests">

@@ -38,6 +38,22 @@
     <property name="suntheme.path"  value="/com/sun/webui/jsf/suntheme"/>
     <property name="suntheme.jar" value="webui-jsf-suntheme.jar"/>
     <property name="suntheme.css" value="_sun4"/>
+    <property name="suntheme-service-properties"
+	    value="com/sun/webui/jsf/suntheme/suntheme.properties"/>
+
+    <property name="suntheme-service-class"
+	value="com/sun/webui/jsf/suntheme/SunthemeThemeService.class"/>
+
+
+    <!-- Building a theme now depends on webui-jsf.jar 
+         In the future it will depend on just the theme implementation
+	 jar, but for now the SPI ThemeService 
+	 SunthemeThemeService implementation
+	 relies on com.sun.webui.theme.ThemeService which is in
+	 webui-jsf.jar -->
+
+    <property name="webui.jar"
+	 value="${components.home}/lib/webui-jsf.jar"/>
 
     <!-- ========== all ========== -->
     <!-- This creates the theme jars for component distribution. -->
@@ -53,6 +69,13 @@
 	    <param name="_theme-name-css_" value="${suntheme.css}"/>
 	    <param name="_theme-path_" value="${suntheme.path}"/>
 	    <param name="_theme-jar_" value="${suntheme.jar}"/>
+	    <param name="_theme-service-properties_" 
+		value="${suntheme-service-properties}"/>
+	    <param name="_theme-service-class_"
+		value="${suntheme.build}/${suntheme-service-class}"/>
+	    <param name="_theme-service-src_" value="src/suntheme"/>
+	    <param name="_theme-service-uptodate_"
+		value="suntheme-service-uptodate"/>
 	</antcall>
 
     </target> 
@@ -63,6 +86,10 @@
 	 _theme-name_
 	 _theme-path_
 	 _theme-jar_
+	 _theme-service-properties_
+	 _theme-service-class_
+	 _theme-service-src_
+	 _theme-service-uptodate_
     -->
 
     <target name="buildTheme">
@@ -70,6 +97,7 @@
 	<property name="_dest-path_" value="${_build-dir_}${_theme-path_}"/>
 
         <mkdir dir="${_build-dir_}" />
+
         <mkdir dir="${_dest-path_}" />
 
         <copy todir="${_dest-path_}/javascript">
@@ -112,6 +140,10 @@
 	<copy file="${_dest-path_}/messages/messages.properties"
 	     tofile="${_dest-path_}/messages/messages_en.properties"/>
 
+	<!-- copy the SPI theme properties files -->
+	<copy file="${_theme-dir_}/${_theme-service-properties_}"
+	    tofile="${_build-dir_}/${_theme-service-properties_}"/>
+
         <copy todir="${_dest-path_}/properties">
             <fileset dir="${_theme-dir_}/props">
                 <include name="images.properties" />
@@ -136,6 +168,7 @@
         <copy todir="${_build-dir_}/META-INF">
             <fileset dir="META-INF">
                 <include name="manifest.mf" /> 
+                <include name="services/com.sun.webui.theme.ThemeService" /> 
 	    </fileset>
             <filterset>
               <filter token="DATESTAMP" value="${buildnumber}"/>
@@ -145,12 +178,42 @@
             </filterset>
         </copy>
 
+	<uptodate property="${_theme-service-uptodate_}"
+		targetfile="${_theme-service-class_}">
+	    <srcfiles dir="${_theme-service-src_}"
+		includes="**/*.java"/>
+	</uptodate>
+
+	<antcall target="compile-theme-service">
+	    <param name="_java-src_" value="${_theme-service-src_}"/>
+	    <param name="_dest-dir_" value="${_build-dir_}"/>
+	    <param name="_uptodate-property_"
+		value="${_theme-service-uptodate_}"/>
+	</antcall>
+
         <mkdir dir="dist" />
 	<jar destfile="dist/${_theme-jar_}"
 	     basedir="${_build-dir_}"
 	     manifest="${_build-dir_}/META-INF/manifest.mf">
         </jar>
     </target> 
+
+
+    <target name="compile-theme-service"
+	    unless="${_uptodate-property_}">
+
+        <javac srcdir="${_java-src_}" 
+		destdir="${_dest-dir_}" deprecation="false"
+		debug="${debug}"
+		optimize="false"
+		source="1.5" target="1.5">
+	    <compilerarg line="-Xmaxwarns 1000"/>
+            <classpath>
+                <pathelement path="${webui.jar}"/>
+            </classpath>
+        </javac>
+
+    </target>
 
     <target name="clean">
       <delete dir="${build}" />

@@ -20,7 +20,7 @@
  * Copyright 2007 Sun Microsystems, Inc. All rights reserved.
  */
 /*
- * $Id: JarTheme.java,v 1.1 2007-02-16 01:52:41 bob_yennaco Exp $
+ * $Id: JarTheme.java,v 1.2 2007-04-03 00:25:46 rratta Exp $
  */
 
 package com.sun.webui.theme;
@@ -46,7 +46,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.portlet.PortletRequest;
 
 import com.sun.webui.jsf.component.Icon;
-import com.sun.webui.jsf.util.ClassLoaderFinder;
 import com.sun.webui.jsf.util.ClientSniffer;
 import com.sun.webui.jsf.util.ClientType;
 import com.sun.webui.jsf.util.MessageUtil;

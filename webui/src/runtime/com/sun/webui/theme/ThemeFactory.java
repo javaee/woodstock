@@ -43,58 +43,138 @@ import java.util.Vector;
 import java.util.jar.Attributes;
 import java.util.jar.Manifest;
 
-import javax.servlet.ServletContext;
-import javax.portlet.PortletContext;
-
-import javax.faces.FactoryFinder;
-import javax.faces.application.Application;
-import javax.faces.application.ApplicationFactory;
-import javax.faces.context.ExternalContext;
-import javax.faces.context.FacesContext;
-
-import com.sun.webui.jsf.util.ClassLoaderFinder;
-
 /**
- * <p>Factory class responsible for setting up the Sun Web Component
- * application's ThemeManager.</p>
+ * The <code>ThemeFactory</code> interface defines methods that return
+ * <code>{@link com.sun.webui.theme.Theme}</code> instances.
+ * <p>A <code>ThemeFactory</code> also defines how theme data is provided to an
+ * application. For example a jar file may be used to bundle the various
+ * resources such image files, JavaScipt files, CSS style sheet files, 
+ * <code>ResourceBundles</code> and/or <code>Properties</code> files.
+ * </p>
+ * <p>
+ * A <code>ThemeFactory</code> implementation may also provide a default
+ * theme policy, i.e. in the presence of multiple concrete theme
+ * implementations, choose one to be the default source, if there is no
+ * request for a specific theme.
+ * </p>
  */
 public interface ThemeFactory {
     
     // Private attribute names
-    public final static String MANIFEST = "META-INF/MANIFEST.MF"; //NOI18N
-    public final static String FILENAME = "manifest-file"; //NOI18N
-    public final static String COMPONENTS_SECTION = "com/sun/webui/jsf/"; //NOI18N
-    public final static String THEME_SECTION = "com/sun/webui/jsf/theme/"; //NOI18N
+    /**
+     * @deprecated
+     */
+    public final static String MANIFEST = "META-INF/MANIFEST.MF";
+    /**
+     * @deprecated
+     */
+    public final static String FILENAME = "manifest-file";
+    /**
+     * @deprecated
+     */
+    public final static String COMPONENTS_SECTION = "com/sun/webui/jsf/";
+    /**
+     * @deprecated
+     */
+    public final static String THEME_SECTION = "com/sun/webui/jsf/theme/";
+    /**
+     * @deprecated
+     */
     public final static String THEME_VERSION_REQUIRED = 
-        "X-SJWUIC-Theme-Version-Required"; //NOI18N
-    public final static String THEME_VERSION = "X-SJWUIC-Theme-Version"; //NOI18N
-    public final static String NAME = "X-SJWUIC-Theme-Name"; //NOI18N
-    public final static String PREFIX = "X-SJWUIC-Theme-Prefix"; //NOI18N
-    public final static String DEFAULT = "X-SJWUIC-Theme-Default"; //NOI18N
-    public final static String STYLESHEETS = "X-SJWUIC-Theme-Stylesheets"; //NOI18N
-    public final static String JSFILES = "X-SJWUIC-Theme-JavaScript"; //NOI18N
-    public final static String CLASSMAPPER = "X-SJWUIC-Theme-ClassMapper"; //NOI18N
-    public final static String IMAGES = "X-SJWUIC-Theme-Images"; //NOI18N
-    public final static String MESSAGES = "X-SJWUIC-Theme-Messages"; //NOI18N
-    public final static String TEMPLATES = "X-SJWUIC-Theme-Templates"; //NOI18N
+        "X-SJWUIC-Theme-Version-Required";
+    /**
+     * @deprecated
+     */
+    public final static String THEME_VERSION = "X-SJWUIC-Theme-Version";
+    /**
+     * @deprecated
+     */
+    public final static String NAME = "X-SJWUIC-Theme-Name";
+    /**
+     * @deprecated
+     */
+    public final static String PREFIX = "X-SJWUIC-Theme-Prefix";
+    /**
+     * @deprecated
+     */
+    public final static String DEFAULT = "X-SJWUIC-Theme-Default";
+    /**
+     * @deprecated
+     */
+    public final static String STYLESHEETS = "X-SJWUIC-Theme-Stylesheets";
+    /**
+     * @deprecated
+     */
+    public final static String JSFILES = "X-SJWUIC-Theme-JavaScript";
+    /**
+     * @deprecated
+     */
+    public final static String CLASSMAPPER = "X-SJWUIC-Theme-ClassMapper";
+    /**
+     * @deprecated
+     */
+    public final static String IMAGES = "X-SJWUIC-Theme-Images";
+    /**
+     * @deprecated
+     */
+    public final static String MESSAGES = "X-SJWUIC-Theme-Messages";
+    /**
+     * @deprecated
+     */
+    public final static String TEMPLATES = "X-SJWUIC-Theme-Templates";
 
     /**
-     * Return the default <code>Theme</code> for
-     * <code>locale</code> within the theme runtime environment of
-     * <code>themeContext</code>.
+     * Return the default <code>Theme</code> instance 
+     * for <code>locale</code> in the <code>themeContext</code>
+     * runtime environment.
+     * @param locale the current <code>Locale</code> in effect.
+     * @param themeContext the theme runtime environment
+     * @return the name of the default theme.
      */
     public Theme getTheme(Locale locale, ThemeContext themeContext);
 
     /**
-     * Return the <code>themeName</code> <code>Theme</code> for
-     * <code>locale</code> within the theme runtime environment of
-     * <code>themeContext</code>.
+     * Return the <code>Theme</code> instance named <code>themeName</code> for
+     * <code>locale</code> in the <code>themeContext</code> runtime environment.
+     * @param themeName the name of the desired <code>Theme</code> instance.
+     * @param locale the current <code>Locale</code> in effect.
+     * @param themeContext the theme runtime environment
+     * @return the name of the default theme.
      */
     public Theme getTheme(String themeName, Locale locale, 
 	    ThemeContext themeContext);
 
     /**
-     * Hack - this will go away
+     * Return the default <code>Theme</code> instance with version
+     * <code>version</code> for <code>locale</code> in the
+     * <code>themeContext</code> runtime environment.
+     * @param locale the current <code>Locale</code> in effect.
+     * @param version the version of the desired <code>Theme</code> instance.
+     * @param themeContext the theme runtime environment
+     * @return the name of the default theme.
+     */
+    public Theme getTheme(Locale locale, String version, 
+	    ThemeContext themeContext);
+
+    /**
+     * Return the <code>Theme</code> instance named <code>themeName</code>
+     * with version <code>version</code> for <code>locale</code> in the 
+     * <code>themeContext</code> runtime environment.
+     * @param themeName the name of the desired <code>Theme</code> instance.
+     * @param version the version of the desired <code>Theme</code> instance.
+     * @param locale the current <code>Locale</code> in effect.
+     * @param themeContext the theme runtime environment
+     * @return the name of the default theme.
+     */
+    public Theme getTheme(String themeName, String version, Locale locale,
+	    ThemeContext themeContext);
+
+    /**
+     * Return the name of the default concrete theme this
+     * <code>ThemeFactory</code> implementation will choose when no 
+     * theme name is explicitly requested.
+     * @param themeContext the theme runtime environment
+     * @return the name of the default theme.
      */
     public String getDefaultThemeName(ThemeContext themeContext);
 

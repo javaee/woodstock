@@ -85,31 +85,57 @@ public class ThemeUtilities {
 	long elapsed = System.currentTimeMillis();
 	*/
 
-	// Restore support for "THEME_ATTR" session theme name.
-	// Note that there really is no official support for
-	// changing a theme during a user session, but this code
-	// was in the original implementation, so provide the 
-	// same feature now. But this has to be formalized.
-	// The framework should be able to control the lifecycle 
-	// and scope of a ThemeContext and manipulate it to reflect
-	// user Session scoped information and servlet scoped information.
-	// hardcoded reference to the defined constant in creator
-	// ./designer/src/com/sun/rave/designer/RefreshServiceProvider.java
+        // We really don't want interfaces like this. They must be
+	// more formal. In order to have this functionality the
+	// framework should implement ThemeContext which allows
+	// it to control the Theme name and ThemeFactory.
 	//
-	String themeName = null;
-	Map sessionAttributes = 
-	    context.getExternalContext().getSessionMap();
-	Object themeObject = sessionAttributes.get(Theme.THEME_ATTR);
-	if (themeObject != null) {
-	    themeName = themeObject.toString().trim();
-	}
-    
+
+        // Note that there really is no official support for
+        // changing a theme during a user session, but this code
+        // was in the original implementation, so provide the 
+        // same feature now. But this has to be formalized.
+        // The framework should be able to control the lifecycle 
+        // and scope of a ThemeContext and manipulate it to reflect
+        // user Session scoped information and servlet scoped information.
+        // hardcoded reference to the defined constant in creator
+        // ./designer/src/com/sun/rave/designer/RefreshServiceProvider.java
+        //
+        String themeName = null;
+        Map sessionAttributes = 
+            context.getExternalContext().getSessionMap();
+        Object themeObject = sessionAttributes.get(Theme.THEME_ATTR);
+        if (themeObject != null) {
+            themeName = themeObject.toString().trim();
+        }
+
 	ThemeContext themeContext = JSFThemeContext.getInstance(context);
 
 	// We must ensure that a theme instance is always returned.
 	//
 	ThemeFactory themeFactory = themeContext.getThemeFactory();
-	theme = themeFactory.getTheme(themeName, locale, themeContext);
+
+	// Need to be clever here.
+	// This version is only useful for this jar of components.
+	// ThemeUtilities since it is embedded with this set of components
+	// should not be used by external components sets, since the 
+	// theme version may not be the same. 
+	// Although we have avoided passing the component instance
+	// in the getTheme call, this may be the only sure way to 
+	// determine the theme required by this component, and it is
+	// actually more dependent on the renderer than the component.
+	// Therefore the parameter passed must be of type "Themed" or
+	// "ThemeAble" and asked for its version.
+	// Since all components and renderers are "Themed" it is probably
+	// better to just pass the version to the "getTheme" call,
+	// since it is the caller that knows.
+	//
+	// In reality, the version really is a fruitless attempt to
+	// do something smart but at this point in the runtime
+	// environment, there isn't much one can do smartly or stupidly.
+	// The theme name should be sufficient.
+	//
+	theme = themeFactory.getTheme(null, "4.1", locale, themeContext);
 
 	// Now see if this call to getTheme, set a default theme
 	// as a result of not theme set in ThemeContext and the
@@ -117,7 +143,7 @@ public class ThemeUtilities {
 	// if THEME_ATTR was null
 	//
 	if (themeName == null) {
-	    // Hack - this will go away.
+	    // Hack -  we want this will go away.
 	    // 
 	    themeName = themeFactory.getDefaultThemeName(themeContext);
 	    if (themeName != null) {
@@ -160,10 +186,12 @@ public class ThemeUtilities {
 	// make sure to setIcon on parent and not the icon itself (which
 	// now does the theme stuff in the component
        
-	icon.setUrl(themeImage.getPath());
-	icon.setAlt(themeImage.getAlt());
-	icon.setHeight(themeImage.getHeight());
-	icon.setWidth(themeImage.getWidth());
+	if (themeImage != null) {
+	    icon.setUrl(themeImage.getPath());
+	    icon.setAlt(themeImage.getAlt());
+	    icon.setHeight(themeImage.getHeight());
+	    icon.setWidth(themeImage.getWidth());
+	}
 
         return icon;
     }

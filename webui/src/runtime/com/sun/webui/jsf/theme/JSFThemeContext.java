@@ -20,7 +20,7 @@
  * Copyright 2007 Sun Microsystems, Inc. All rights reserved.
  */
 /*
- * $Id: JSFThemeContext.java,v 1.1 2007-02-16 01:47:53 bob_yennaco Exp $
+ * $Id: JSFThemeContext.java,v 1.2 2007-04-03 00:25:45 rratta Exp $
  */
 
 package com.sun.webui.jsf.theme;
@@ -34,7 +34,6 @@ import java.util.Map;
 import javax.faces.FacesException;
 import javax.faces.context.FacesContext;
 
-import com.sun.webui.jsf.util.ClassLoaderFinder;
 import com.sun.webui.theme.ServletThemeContext;
 import com.sun.webui.theme.ThemeContext;
 
@@ -107,14 +106,13 @@ public class JSFThemeContext extends ServletThemeContext {
     }
 
     /**
-     * Return the default ClassLoader using ClassLoaderFinder.
-     * ClassLoaderFinder encapsulates Creator requirements.
+     * Return the default ClassLoader.
      */
     public ClassLoader getDefaultClassLoader() {
-	return ClassLoaderFinder.getCurrentLoader(JSFThemeContext.class);
+	return(Thread.currentThread().getContextClassLoader());
     }
     /**
-     * This implementation is a no-op. See ClassLoaderFinder.
+     * This implementation is a no-op.
      */
     public void setDefaultClassLoader(ClassLoader classLoader) {
     }
@@ -123,7 +121,7 @@ public class JSFThemeContext extends ServletThemeContext {
      * This implementation always returns 
      * <code>FacesContext.getCurrentInstance().getExternalContext().getRequestContextPath()</code>.
      * This depends on the implementation of
-     * <code>{@link com.sun.webui.theme.ThemeContext#getResourcePath()}</code>
+     * <code>{@link com.sun.webui.theme.ThemeContext#getResourcePath}</code>
      */
     public String getRequestContextPath() {
 	 return FacesContext.getCurrentInstance().getExternalContext().

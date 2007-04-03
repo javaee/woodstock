@@ -19,7 +19,7 @@
  * 
  * Copyright 2007 Sun Microsystems, Inc. All rights reserved.
  */
-/* $Id: ThemeImage.java,v 1.1 2007-02-16 01:53:30 bob_yennaco Exp $ */
+/* $Id: ThemeImage.java,v 1.2 2007-04-03 00:25:48 rratta Exp $ */
 
 package com.sun.webui.theme;
 
@@ -67,15 +67,9 @@ public class ThemeImage {
      */
     public static final String TITLE_SUFFIX = "_TITLE";
 
-    /**
-     * Defines the recognized units that the height and width can be
-     * expressed in.
-     */
-    public enum UNITS { px, em, percent, none };
-
     private int width;
     private int height;
-    private UNITS units;
+    private String units;
     private String alt;
     private String title;
     private String path;
@@ -83,7 +77,7 @@ public class ThemeImage {
     /**
      * Construct a <code>ThemeImage</code> from the passed arguments.
      */
-    public ThemeImage(int width, int height, ThemeImage.UNITS units,
+    public ThemeImage(int width, int height, String units,
 	String alt, String title, String path) {
 
 	this.width = width;
@@ -111,15 +105,14 @@ public class ThemeImage {
 	return height;
     }
     /**
-     * Returns the <code>UNITS</code> expressed in the <code>height</code>
+     * Returns the units expressed in the <code>height</code>
      * and <code>width</code>  members.
-     * <code>units</code> member.
      * @see #getHeight()
      * @see #setHeight(int)
      * @see #getWidth()
      * @see #setWidth(int)
      */
-    public ThemeImage.UNITS getUnits() {
+    public String getUnits() {
 	return units;
     }
     /**
@@ -162,7 +155,7 @@ public class ThemeImage {
      * Set the units used by the <code>height</code> and <code>width</code>
      * members.
      */
-    public void setUnits(ThemeImage.UNITS units) {
+    public void setUnits(String units) {
 	this.units = units;
     }
     /**

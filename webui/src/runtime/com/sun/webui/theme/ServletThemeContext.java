@@ -19,7 +19,7 @@
  * 
  * Copyright 2007 Sun Microsystems, Inc. All rights reserved.
  */
-/* $Id: ServletThemeContext.java,v 1.1 2007-02-16 01:52:55 bob_yennaco Exp $ */
+/* $Id: ServletThemeContext.java,v 1.2 2007-04-03 00:25:46 rratta Exp $ */
 
 package com.sun.webui.theme;
 
@@ -57,11 +57,17 @@ import com.sun.webui.theme.ThemeContext;
  * to instantiate to obtain theme instances for this application.</li>
  * <li><code>ThemeContext.THEME_SERVLET_CONTEXT</code> - the value of
  * the url-pattern element of the theme servlet's servlet-mapping, less the
- * terminating "/*".</li>
+ * terminating "/*". The default value is "/theme" corresponding to 
+ * a url pattern of "/theme/*".</li>
  * </ul>
  * </p>
  */
 public class ServletThemeContext extends ThemeContext {
+
+    /**
+     * The default <code>ThemeContext.THEME_SERVLET_CONTEXT</code>.
+     */
+    protected static final String DEFAULT_THEME_SERVLET_CONTEXT = "/theme";
 
     /**
      * An object to synchronize with.
@@ -110,9 +116,10 @@ public class ServletThemeContext extends ThemeContext {
 	// This must be the same as the ThemeServlet's context
 	//
 	value = (String)initParamMap.get(THEME_SERVLET_CONTEXT);
-	if (value != null) {
-	    setThemeServletContext(value);
+	if (value == null) {
+	    value = DEFAULT_THEME_SERVLET_CONTEXT;
 	}
+	setThemeServletContext(value);
     }
 
     /**
@@ -153,9 +160,10 @@ public class ServletThemeContext extends ThemeContext {
 	// Not sure why this is needed.
 	//
 	value = (String)context.getInitParameter(THEME_SERVLET_CONTEXT);
-	if (value != null) {
-	    setThemeServletContext(value);
+	if (value == null) {
+	    value = DEFAULT_THEME_SERVLET_CONTEXT;
 	}
+	setThemeServletContext(value);
     }
 
     /**

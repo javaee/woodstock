@@ -20,7 +20,7 @@
  * Copyright 2007 Sun Microsystems, Inc. All rights reserved.
  */
 /*
- * $Id: Theme.java,v 1.1 2007-02-16 01:53:03 bob_yennaco Exp $
+ * $Id: Theme.java,v 1.2 2007-04-03 00:25:47 rratta Exp $
  */
 
 package com.sun.webui.theme;
@@ -39,188 +39,215 @@ import java.util.ResourceBundle;
 import java.util.Set;
 import java.util.StringTokenizer;
 
-import javax.faces.context.FacesContext;
-import javax.servlet.ServletContext;
-import javax.servlet.ServletRequest;
-import javax.servlet.http.HttpServletRequest;
-import javax.portlet.PortletRequest;
-
-import com.sun.webui.jsf.component.Icon;
-import com.sun.webui.jsf.util.ClassLoaderFinder;
-import com.sun.webui.jsf.util.ClientSniffer;
-import com.sun.webui.jsf.util.ClientType;
-import com.sun.webui.jsf.util.MessageUtil;
-
-import com.sun.webui.jsf.theme.ThemeStyles;
-import com.sun.webui.jsf.theme.ThemeImages;
-
-
 /**
- * <p>The Sun Java Web UI Components rely on non-Java resources 
- * such a message files, image files, CSS stylesheets and JavaScript 
- * files to render correctly. These resources are collectively 
- * known as a "Theme" and are bundled together in a Jar file.
- * Themes are swappable, so you can switch from one Theme to another
- * by placing a different Theme jar in the web application's classpath.<p> 
- * 
- *<p> Themes consist of both of resources that are used directly 
- * by the Java classes at runtime (for example property files) and 
- * resources that are requested by the application users' browser 
+ * <p>
+ * The <code>Theme</code> interface defines a set of methods that 
+ * return resources that define a theme; for example a set of name value
+ * pairs defined in properties files representing strings and data,
+ * such as messages, image, CSS style sheet and JavaScript file paths.
+ * These resources are collectively known as a "Theme" and are typically
+ * bundled together in a Jar file. Themes based on the same set of name 
+ * value pairs should be swappable allowing an application to switch 
+ * from one Theme to another.
+ * </p> 
+ * <p>
+ * Themes may consist of resources that are used directly 
+ * by the Java classes at runtime (for example <code>ResourceBundles</code>
+ * and <code>Properties</code> files)
+ * and resources that are requested by the application users' browser 
  * (for example image files). In order to make Theme resources available
- * over HTTP, you must configure the ThemeServlet in at least one 
- * of the SJWUIC applications on the server (@see ThemeServlet).</p>
- *
- *<p>For more information on how to configure a SJWUIC web application
- * w.r.t. Themes, see the documentation for @see ThemeServlet.</p> 
- *
- *<p>The Theme class is used to access the resources associated 
- *with a particular Theme. The manifest of the Theme jar must 
- *contain a section named  
- * <code>com/sun/webui/theme</code> which contains attributes
- * whose values are used to locale the Theme resources. When the 
- * SJWUIC application is loaded on the server, the @see ThemeFactory 
- * class looks for manifest containing such sections and creates 
- * instances of the Theme class based on the information. For each Theme
- * jar, one instance is created for each locale specified in the 
- * JSF configuration file. </p>
- *
- * * <p>Note that, since the JAR files for all installed themes are loaded
- * into the same class loader, the actual resource paths for the resources
- * used by each theme <strong>MUST</strong> be unique.  This is true
- * regardless of whether the themes share a prefix or not.</p>
- *
+ * over HTTP, you can configure the {@link com.sun.webui.theme.ThemeServlet}
+ * in the Web UI web application on the server.
+ * </p>
+ * <p>
+ * For more information on how to configure a Web UI web application
+ * w.r.t. Themes, see the documentation for see
+ * {@link com.sun.webui.theme.ThemeServlet}.
+ * </p> 
+ * <p>
+ * A <code>Theme</code> implementation instance is used to obtain
+ * the resources defined by a concrete Theme, like the "suntheme".
+ * A <code>Theme</code> instance is obtained from a <code>ThemeFactory</code>
+ * implementation. A web application can define the the
+ * <code>{@link com.sun.webui.theme.ThemeFactory}</code> class that should 
+ * be used by Web UI components to obtain a <code>Theme</code> instance.
+ * </p>
+ * <p>
+ * Typically implementations will provide support for <code>Locale</code>
+ * variants for all resources that it provides, as appropriate.
+ * </p>
  */
 
 public interface Theme  {
 
     /**
      * Attribute name used to store the user's theme name in the Session
+     * @deprecated
      */
     public static final String THEME_ATTR = "com.sun.webui.jsf.Theme";
-    /** The context parameter name used to specify a console path, if one is used. */
+
+    /*
+     * The context parameter name used to specify a console path,
+     * if one is used.
     public static final String RESOURCE_PATH_ATTR = 
 	"com.sun.web.console.resource_path";
+     */
+
     /**
-     * Use this method to retrieve a String array of URIs
-     * to the JavaScript files that should be included 
-     * with all pages of this application
-     * @return String array of URIs to the JavaScript files
+     * Returns a String array of URIs to the JavaScript files to be
+     * included in every application page.
+     * <p>
+     * <em>Note that an implementation may return a value that is not
+     * the literal value defined in a theme resource bundle. For
+     * example an implementation may return the literal value prepended
+     * with a web application context.</em>
+     * </p>
+     * @return String array of URIs to JavaScript files or <code>null</code>.
      */
     public String[] getGlobalJSFiles();
 
     /**
-     * Use this method to retrieve a String array of URIs
-     * to the CSS stylesheets files that should be included 
-     * with all pages of this application
-     * @return String array of URIs to the stylesheets
-     */
-    public String[] getGlobalStylesheets();
-
-    /**
-     * Returns a String that represents a valid path to the JavaScript
-     * file corresponding to the key
-     * @return Returns a String that represents a valid path to the JavaScript
-     * file corresponding to the key
-     * @param key Key to retrieve the javascript file
+     * Returns a String URI to a JavaScript file defined by <code>key</code>.
+     * <p>
+     * <em>Note that an implementation may return a value that is not
+     * the literal value defined in a theme resource bundle. For
+     * example an implementation may return the literal value prepended
+     * with a web application context.</em>
+     * </p>
+     * @param key Defines a JavaScript file path.
+     * @return a String URI to a JavaScript file or <code>null</code>.
      */
     public String getPathToJSFile(String key);
  
     /**
-     * Retrieves a String from the JavaScript ResourceBundle without the theme
-     * path prefix.
+     * Returns the literal String value of the <code>key</code> JavaScript
+     * theme property.
      *
-     * @param key The key used to retrieve the message
-     * @return A localized message string
+     * @param key Defines a JavaScript theme property.
+     * @return the value of <code>key</code> or <code>null</code>.
      */
     public String getJSString(String key);
     
+    /**
+     * Returns a String array of URIs to the CSS style sheet files to 
+     * be included in every application page.
+     * <p>
+     * The implicatation of a <code>Master</code> style sheet is that
+     * these style sheets should be loaded first, before any other
+     * style sheets.
+     * </p>
+     * <p>
+     * <em>Note that an implementation may return a value that is not
+     * the literal value defined in a theme resource bundle. For
+     * example an implementation may return the literal value prepended
+     * with a web application context.</em>
+     * </p>
+     * @return String array of URIs to master style sheets
+     */
     public String[] getMasterStylesheets();
 
+    /**
+     * Returns a String array of URIs to the CSS style sheet files to be
+     * included in every application page.
+     * <p>
+     * <em>Note that an implementation may return a value that is not
+     * the literal value defined in a theme resource bundle. For
+     * example an implementation may return the literal value prepended
+     * with a web application context.</em>
+     * </p>
+     * @return String array of URIs to the style sheets
+     */
+    public String[] getGlobalStylesheets();
+
+    /**
+     * Returns a String array of URIs to the CSS style sheet files to be
+     * included in every application page, defined by <code>key</code>.
+     * <p>
+     * Note that these style sheets should be loaded after the 
+     * <code>Master</code> and <code>Global</code> style sheets.
+     * </p>
+     * <p>
+     * <em>Note that an implementation may return a value that is not
+     * the literal value defined in a theme resource bundle. For
+     * example an implementation may return the literal value prepended
+     * with a web application context.</em>
+     * </p>
+     * @param key Defines a style sheet file path.
+     * @return String array of URIs to the style sheets or <code>null</code>.
+     */
     public String[] getStylesheets(String key);
 
      /**
-     * Returns a String that represents a valid path to the HTML template
-     * corresponding to the key
-     * @return  A String that represents a valid path to the HTML template
-     * corresponding to the key
+     * Returns a String URI that represents a path to the HTML template
+     * defined by <code>key</code>.
+     * <em>Note that an implementation may return a value that is not
+     * the literal value defined in a theme resource bundle. For
+     * example an implementation may return the literal value prepended
+     * with a web application context.</em>
+     * </p>
+     * @param key Defines an HTML template file path.
+     * @return  A String URI defined by <code>key</code>.
      */
-    public String getPathToTemplate(String clientName);
+    public String getPathToTemplate(String key);
 
     /**
-     * Returns the name of a CSS style. If the Theme includes a class
-     * mapper, the method checks it for the presence of a mapping for
-     * the CSS class name passed in with the argument. If there 
-     * is no mapping, the name is used as is. 
+     * Returns a CSS selector defined by <code>key</code>, 
+     * unless <code>key</code> does not exist, in which case <code>key</code>
+     * is returned.
      * 
-     * up in the class mapper if there is one, a valid path to the CSS stylesheet
-     * corresponding to the key
-     * @param name The style class name to be used
-     * @return the name of a CSS style.
+     * @param key Defines a CSS selector.
+     * @return the name of a CSS selector or <code>key</code>.
      */  
-    public String getStyleClass(String name);
+    public String getStyleClass(String key);
 
     /**
-     * Retrieves a message from the appropriate ResourceBundle.
-     * If the web application specifies a bundle that overrides
-     * the standard bundle, that one is tried first. If no override 
-     * bundle is specified, or if the bundle does not contain the 
-     * key, the key is resolved from the Theme's default bundle.
-     * @param key The key used to retrieve the message
-     * @return A localized message string
+     * Returns a literal message value defined by <code>key</code>.
+     * @param key Defines a theme message or string.
+     * @return A message string
      */
     public String getMessage(String key);
 
     /**
-     * Retrieves a message from the appropriate ResourceBundle.
-     * If the web application specifies a bundle that overrides
-     * the standard bundle, that one is tried first. If no override 
-     * bundle is specified, or if the bundle does not contain the 
-     * key, the key is resolved from the Theme's default bundle.
-     * @param key The key used to retrieve the message
-     * @param params An object array specifying the parameters of
-     * the message
-     * @return A localized message string
+     * Return a message that has been formatted using
+     * <code>MessageFormat</code> to substitute <code>params</code>
+     * for placeholders in the literal value of <code>key</code>.
+     * @param key Defines a theme message or string.
+     * @param params Substitution parameters suitable for use by a
+     * <code>MessageFormat.format</code> call.
+     * @return A formatted message string
      */
     public String getMessage(String key, Object[] params);
 
     /**
-     * Return a translated image path, containing the theme servlet context.
+     * Return a String URI that can be used to access the physical
+     * image resource.
+     * <p>
+     * For example an implementation used by a web application
+     * might prepend a servlet context path suitable for delivery by
+     * <code>{@link com.sun.webui.theme.ThemeServlet}</code>
      *
-     * @param key The key used to retrieve the image path
-     * @return a path with the theme servlet context, or null if the
-     * <code>key</code> resolves to <code>null</code> or the empty string.
+     * @param key Defines an image path
+     * @return a path that can be used to access the physical resource.
      * @throws RuntimeException if <code>key</code> cannot be found.
      */
     public String getImagePath(String key);
 
-    /*
-     * Return a <code>ThemeImage</code> instance for an image identified
-     * by <code>key</code> from the
-     * <code>ThemeResourceBundle.ThemeBundle.IMAGES></code>
-     * resource bundle.
-     * The <code>key</code> property defines the path of the image resource.
-     * If <code>key</code> is not defined <code>null</code> is returned.<br/>
-     * The bundle should define additional properties
-     * where the each property is defined as <code>key</code> with the 
-     * following suffixes: (i.e. key == "SMALL_ALERT", SMALL_ALERT_ALT)
-     * <p>
-     * <ul>
-     * <li>{@link com.sun.webui.jsf.theme.ThemeImage.ALT_SUFFIX}</li>
-     * <li>{@link com.sun.webui.jsf.theme.ThemeImage.TITLE_SUFFIX}</li>
-     * <li>{@link com.sun.webui.jsf.theme.ThemeImage.HEIGHT_SUFFIX}</li>
-     * <li>{@link com.sun.webui.jsf.theme.ThemeImage.WIDTH_SUFFIX}</li>
-     * <li>{@link com.sun.webui.jsf.theme.ThemeImage.UNITS_SUFFIX}</li>
-     * </ul>
-     * If <code>key</code> is not defined <code>key</code> is returned.
+    /**
+     * Return a <code>{@link com.sun.webui.theme.ThemeImage}</code>
+     * instance for an image identified by <code>key</code>.
+     * @param key Defines an image resource.
+     * @return an instance of <code>ThemeImage</code> or <code>null if
+     * <code>key</code> cannot be found.
      */
     public ThemeImage getImage(String key);
 
     /**
-     * Retrieves a String from the images ResourceBundle without the theme path 
-     * prefix.
+     * Returns the literal String value of the <code>key</code> image
+     * theme property.
      *
-     * @param key The key used to retrieve the message
-     * @return A localized message string
+     * @param key Defines an image resource.
+     * @return The literal value of <code>key</code>.
+     * @throws RuntimeException if <code>key</code> cannot be found.
      */
     public String getImageString(String key);
 }

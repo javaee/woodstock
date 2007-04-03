@@ -19,7 +19,7 @@
  * 
  * Copyright 2007 Sun Microsystems, Inc. All rights reserved.
  */
-/* $Id: ThemeContext.java,v 1.1 2007-02-16 01:53:16 bob_yennaco Exp $ */
+/* $Id: ThemeContext.java,v 1.2 2007-04-03 00:25:47 rratta Exp $ */
 
 package com.sun.webui.theme;
 
@@ -153,6 +153,18 @@ public abstract class ThemeContext {
 	"com.sun.webui.theme.THEME_SERVLET_CONTEXT"; //NOI18N
 
     /**
+     * CAN'T SUPPORT THIS YET.
+     * Used to determine if a 
+     * <code>{@link com.sun.webui.theme.ThemeConfigurationException}</code>
+     * should be thrown when no themes are present. If set to
+     * <code>true</code> then a <code>ThemeConfigurationException exception
+     * will be thrown if no themes are present. The default is 
+     * <code>false</code>
+    protected final static String THROW_EXCEPTION_ON_NO_THEMES =
+	"com.sun.webui.theme.THROW_EXCEPTION_ON_NO_THEMES"; //NOI18N
+     */
+
+    /**
      * The default locale for the default theme in this
      * <code>ThemeContext</code>.
      */
@@ -204,6 +216,13 @@ public abstract class ThemeContext {
      */
     private String themeServletContext;
 
+    /* CAN'T SUPPORT THIS YET
+     * If <code>true</code> <code>ThemeConfigurationException</code>
+     * should be thrown if no themes are found; the default value is
+     * <code>false</code>
+    private boolean throwExceptionOnNoThemes = false;
+     */
+
     // Probably want a different name so as not to get confused
     // with theme.ThemeResources.
     //
@@ -252,10 +271,7 @@ public abstract class ThemeContext {
 			    Class.forName(getThemeFactoryClassName()).
 				newInstance();
 		    } catch (Exception e) {
-			// Use JarThemeFactory as the fallback default
-			// This should come from subclasses.
-			//
-			return (ThemeFactory)new JarThemeFactory();
+			return (ThemeFactory)new SPIThemeFactory();
 		    }
 		}
 	    }
@@ -425,6 +441,44 @@ public abstract class ThemeContext {
 	this.themeServletContext = themeServletContext;
     }
 
+    /* CAN'T SUPPORT THIS YET
+     * Returns <code>true</code> if configured to throw
+     * <code>{@link com.sun.webui.theme.ThemeConfigurationException}</code>
+     * when no themes are found; default value is false.
+     * If <code>true</code> then an exception should be thrown if:
+     * <ul>
+     * <li>No themes are found.</li>
+     * <li>An explicit requested theme or theme version is not found</li>
+     * </ul>
+     * <p>
+     * Note that typically a
+     * <code>{@link com.sun.webui.theme.ThemeFactory}</code>
+     * implementation will be responsible for implementing this policy.
+     * </p>
+    public boolean isThrowExceptionOnNoThemes() {
+	return throwExceptionOnNoThemes;
+    }
+     */
+
+    /* CAN'T SUPPORT THIS YET
+     * If <code>throwExceptionOnNoThemes</code> is <code>true</code> then
+     * <code>{@link com.sun.webui.theme.ThemeConfigurationException}</code>
+     * should be thrown when no themes are found; default value is false.
+     * If <code>true</code> then an exception should be thrown if:
+     * <ul>
+     * <li>No themes are found.</li>
+     * <li>An explicit requested theme or theme version is not found</li>
+     * </ul>
+     * <p>
+     * Note that typically a
+     * <code>{@link com.sun.webui.theme.ThemeFactory}</code>
+     * implementation will be responsible for implementing this policy.
+     * </p>
+    public void setThrowExceptionOnNoThemes(boolean throwExceptionOnNoThemes) {
+	this.throwExceptionOnNoThemes = throwExceptionOnNoThemes;
+    }
+     */
+
     /**
      * If no version can be identified from one of the version
      * methods, this constant is returned.
@@ -452,6 +506,7 @@ public abstract class ThemeContext {
     /**
      * Return the major version of the default theme version or 
      * <code>ThemeContext.NOVERSION</code>.
+     * @deprecated
      */
     public int getDefaultThemeMajorVersion() {
 	return getVersionNumber(Version.MAJOR);
@@ -460,6 +515,7 @@ public abstract class ThemeContext {
     /**
      * Return the minor version of the default theme version or 
      * <code>ThemeContext.NOVERSION</code>.
+     * @deprecated
      */
     public int getDefaultThemeMinorVersion() {
 	return getVersionNumber(Version.MINOR);
@@ -468,6 +524,7 @@ public abstract class ThemeContext {
     /**
      * The theme version format is "MAJOR.MINOR" where
      * MAJOR and MINOR are integers
+     * @deprecated
      */
     private int getVersionNumber(Version majorOrMinor) {
 	int version = NOVERSION;

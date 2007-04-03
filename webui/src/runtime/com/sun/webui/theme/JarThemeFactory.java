@@ -52,8 +52,6 @@ import javax.faces.application.ApplicationFactory;
 import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 
-import com.sun.webui.jsf.util.ClassLoaderFinder;
-
 /**
  * <p>Factory class responsible for setting up the Sun Web Component
  * application's ThemeManager.</p>
@@ -301,10 +299,6 @@ public class JarThemeFactory implements ThemeFactory {
     private Enumeration getManifests(ClassLoader classLoader) {
         
         Enumeration manifests = null;
-	/*
-        ClassLoader loader = 
-            ClassLoaderFinder.getCurrentLoader(JarThemeFactory.class);
-	*/
 
         // Temporary workaround for a Creator issue; direct questions on this
         // to tor.norbye@sun.com
@@ -359,7 +353,13 @@ public class JarThemeFactory implements ThemeFactory {
      * <code>themeContext</code>.
      */
     public Theme getTheme(Locale locale, ThemeContext themeContext) {
-	return getTheme(null, locale, themeContext);
+	return getTheme(locale, null, themeContext);
+    }
+    // Not sure how useful version really is.
+    //
+    public Theme getTheme(Locale locale, String version,
+          ThemeContext themeContext) {
+        return getTheme(null, version, locale, themeContext);
     }
 
     /**
@@ -368,6 +368,12 @@ public class JarThemeFactory implements ThemeFactory {
      * <code>themeContext</code>.
      */
     public Theme getTheme(String themeName, Locale locale, 
+	    ThemeContext themeContext) {
+	return getTheme(themeName, null, locale, themeContext);
+    }
+
+    // Not sure how useful version really is.
+    public Theme getTheme(String themeName, String version, Locale locale, 
 	    ThemeContext themeContext) {
 
         // First, get the ThemeManager
