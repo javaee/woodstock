@@ -49,17 +49,21 @@ webui.@THEME@.widget.button = function() {
      */
     this.fillInTemplate = function() {
         // Set public functions. 
-        this.domNode.setProps = function(props) { dojo.widget.byId(this.id).setProps(props); }
+        this.domNode.getProps = function() { return dojo.widget.byId(this.id).getProps(); }
+        this.domNode.setProps = function(props) { return dojo.widget.byId(this.id).setProps(props); }
 
         // Set private functions.
         this.getClassName = webui.@THEME@.widget.button.getClassName;
         this.getHoverClassName = webui.@THEME@.widget.button.getHoverClassName;
+        this.getProps = webui.@THEME@.widget.button.getProps;
+        this.initClassNames = webui.@THEME@.widget.button.initClassNames;
         this.setProps = webui.@THEME@.widget.button.setProps;
 
         // Deprecated functions from formElements.js. 
         // 
         // Note: Although we now have a setProps function to update properties,
-        // the following functions must be backward compatible.
+        // these functions were previously added to the DOM node; thus, we must
+        // continue to be backward compatible.
         this.domNode.isSecondary = webui.@THEME@.button.isSecondary;
         this.domNode.setSecondary = webui.@THEME@.button.setSecondary;
         this.domNode.isPrimary = webui.@THEME@.button.isPrimary;
@@ -83,6 +87,9 @@ webui.@THEME@.widget.button = function() {
             webui.@THEME@.widget.button.createOnBlurCallback(this.id));
         dojo.event.connect(this.domNode, "onmouseover",
             webui.@THEME@.widget.button.createOnFocusCallback(this.id));
+
+        // Initialize class names.
+        this.initClassNames();
 
         // Set properties.
         this.setProps(this);
@@ -149,20 +156,20 @@ webui.@THEME@.widget.button.getClassName = function() {
     var className = null;
     if (this.mini == true && this.primary == true) {
         className = (this.disabled == true)
-            ? webui.@THEME@.widget.props.button.primaryMiniDisabledClassName
-            : webui.@THEME@.widget.props.button.primaryMiniClassName;
+            ? this.primaryMiniDisabledClassName
+            : this.primaryMiniClassName;
     } else if (this.mini == true) {
         className = (this.disabled == true)
-            ? webui.@THEME@.widget.props.button.secondaryMiniDisabledClassName
-            : webui.@THEME@.widget.props.button.secondaryMiniClassName;
+            ? this.secondaryMiniDisabledClassName
+            : this.secondaryMiniClassName;
     } else if (this.primary == true) {
         className = (this.disabled == true)
-            ? webui.@THEME@.widget.props.button.primaryDisabledClassName
-            : webui.@THEME@.widget.props.button.primaryClassName;
+            ? this.primaryDisabledClassName
+            : this.primaryClassName;
     } else {
         className = (this.disabled == true)
-            ? webui.@THEME@.widget.props.button.secondaryDisabledClassName
-            : webui.@THEME@.widget.props.button.secondaryClassName;
+            ? this.secondaryDisabledClassName
+            : this.secondaryClassName;
     }
     return (this.className) 
         ? className + " " + this.className
@@ -175,17 +182,81 @@ webui.@THEME@.widget.button.getClassName = function() {
 webui.@THEME@.widget.button.getHoverClassName = function() {
     var className = null;
     if (this.mini == true && this.primary == true) {
-        className = webui.@THEME@.widget.props.button.primaryMiniHovClassName;
+        className = this.primaryMiniHovClassName;
     } else if (this.mini == true) {
-        className = webui.@THEME@.widget.props.button.secondaryMiniHovClassName;
+        className = this.secondaryMiniHovClassName;
     } else if (this.primary == true) {
-        className = webui.@THEME@.widget.props.button.primaryHovClassName;
+        className = this.primaryHovClassName;
     } else {
-        className = webui.@THEME@.widget.props.button.secondaryHovClassName;
+        className = this.secondaryHovClassName;
     }
     return (this.className) 
         ? className + " " + this.className
         : className;
+}
+
+/**
+ * Helper function to obtain widget (mouse hover) class names.
+ */
+webui.@THEME@.widget.button.initClassNames = function() {
+    // Set style classes
+    if (this.icon == true) {
+        this.primaryClassName = webui.@THEME@.props.button.imageClassName;
+        this.primaryDisabledClassName = webui.@THEME@.props.button.imageDisabledClassName;
+        this.primaryHovClassName = webui.@THEME@.props.button.imageHovClassName;
+
+        // Currently not used in theme.
+        this.primaryMiniClassName = "";
+        this.primaryMiniDisabledClassName = "";
+        this.primaryMiniHovClassName = "";
+        this.secondaryClassName = "";
+        this.secondaryDisabledClassName = "";
+        this.secondaryHovClassName = "";
+        this.secondaryMiniClassName = "";
+        this.secondaryMiniDisabledClassName = "";
+        this.secondaryMiniHovClassName = "";
+    } else {
+        this.primaryClassName = webui.@THEME@.props.button.primaryClassName;
+        this.primaryDisabledClassName = webui.@THEME@.props.button.primaryDisabledClassName;
+        this.primaryHovClassName = webui.@THEME@.props.button.primaryHovClassName;
+        this.primaryMiniClassName = webui.@THEME@.props.button.primaryMiniClassName;
+        this.primaryMiniDisabledClassName = webui.@THEME@.props.button.primaryMiniDisabledClassName;
+        this.primaryMiniHovClassName = webui.@THEME@.props.button.primaryMiniHovClassName;
+        this.secondaryClassName = webui.@THEME@.props.button.secondaryClassName;
+        this.secondaryDisabledClassName = webui.@THEME@.props.button.secondaryDisabledClassName;
+        this.secondaryHovClassName = webui.@THEME@.props.button.secondaryHovClassName;
+        this.secondaryMiniClassName = webui.@THEME@.props.button.secondaryMiniClassName;
+        this.secondaryMiniDisabledClassName = webui.@THEME@.props.button.secondaryMiniDisabledClassName;
+        this.secondaryMiniHovClassName = webui.@THEME@.props.button.secondaryMiniHovClassName;
+    }
+}
+
+/**
+ * This function is used to get widget properties. Please see
+ * webui.@THEME@.widget.button.setProps for a list of supported
+ * properties.
+ */
+webui.@THEME@.widget.button.getProps = function() {
+    var props = {};
+
+    // Set properties.
+    if (this.alt) { props.alt = this.alt; }
+    if (this.align) { props.align = this.align; }
+    if (this.contents) { props.contents = this.contents; }
+    if (this.disabled != null) { props.disabled = this.disabled; }
+    if (this.mini != null) { props.mini = this.mini; }
+    if (this.name) { props.name = this.name; }
+    if (this.primary != null) { props.primary = this.primary; }
+    if (this.type) { props.type = this.type; }
+    if (this.value) { props.value = this.value; }
+    if (this.title) { props.title = this.title; }
+
+    // Add DOM node properties.
+    Object.extend(props, webui.@THEME@.widget.common.getCommonProps(this));
+    Object.extend(props, webui.@THEME@.widget.common.getCoreProps(this));
+    Object.extend(props, webui.@THEME@.widget.common.getJavaScriptProps(this));
+
+    return props;
 }
 
 /**
@@ -217,7 +288,6 @@ webui.@THEME@.widget.button.getHoverClassName = function() {
  *  <li>onMouseMove</li>
  *  <li>primary</li>
  *  <li>style</li>
- *  <li>tabIndex</li>
  *  <li>title</li>
  *  <li>type</li>
  *  <li>value</li>

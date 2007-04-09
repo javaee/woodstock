@@ -41,23 +41,25 @@ webui.@THEME@.widget.jsfx.table2RowGroup = {
             return false;
         }
 
-        var domNode;
+        var widget;
         if (evt.currentTarget) {
-            domNode = evt.currentTarget;
+            // Event target could be either a widget or DOM node.
+            widget = dojo.widget.byId(evt.currentTarget.id);
         } else {
             return false;
         }
 
-        // Ensure we have a valid element node.
-        var src = document.getElementById(domNode.id);
+        // Dynamic Faces requires a DOM node as the source property.
+        var domNode = document.getElementById(widget.id);
 
         // Generate AJAX request using the JSF Extensions library.
-        new DynaFaces.fireAjaxTransaction((src) ? src : document.forms[0], {
+        new DynaFaces.fireAjaxTransaction(
+            (domNode) ? domNode : document.forms[0], {
             execute: "none",
-            render: domNode.id,
+            render: widget.id,
             replaceElement: webui.@THEME@.widget.jsfx.table2RowGroup.update,
             xjson: {
-                first: domNode._first
+                first: widget.first
             }
         });
         return true;
@@ -66,13 +68,13 @@ webui.@THEME@.widget.jsfx.table2RowGroup = {
     /**
      * This function is used to update widgets.
      *
-     * @param elementId The HTML element Id.
+     * @param id The client id.
      * @param content The content returned by the AJAX response.
      * @param closure The closure argument provided to DynaFaces.fireAjaxTransaction.
      * @param xjson The zjson argument provided to DynaFaces.fireAjaxTransaction.
      */
-    update: function(elementId, content, closure, xjson) {
-        if (elementId == null || content == null) {
+    update: function(id, content, closure, xjson) {
+        if (id == null || content == null) {
             return false;
         }
 
@@ -80,8 +82,8 @@ webui.@THEME@.widget.jsfx.table2RowGroup = {
         var json = JSON.parse(content);
 
         // Add rows.
-        var domNode = document.getElementById(elementId);
-        domNode._addRows({
+        var widget = dojo.widget.byId(id);
+        widget.addRows({
             first: xjson.first,
             rows: json
         });

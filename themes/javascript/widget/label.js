@@ -55,10 +55,12 @@ webui.@THEME@.widget.label = function() {
         }
 
         // Set public functions. 
-        this.domNode.setProps = function(props) { dojo.widget.byId(this.id).setProps(props); }
+        this.domNode.getProps = function() { return dojo.widget.byId(this.id).getProps(); }
+        this.domNode.setProps = function(props) { return dojo.widget.byId(this.id).setProps(props); }
 
         // Set private functions.
         this.getClassName = webui.@THEME@.widget.label.getClassName;
+        this.getProps = webui.@THEME@.widget.label.getProps;
         this.setProps = webui.@THEME@.widget.label.setProps;
 
         // Set properties.
@@ -87,19 +89,43 @@ webui.@THEME@.widget.label.getClassName = function() {
 }
 
 /**
+ * This function is used to get widget properties. Please see
+ * webui.@THEME@.widget.label.setProps for a list of supported
+ * properties.
+ */
+webui.@THEME@.widget.label.getProps = function() {
+    var props = {};
+
+    // Set properties.
+    if (this.errorImage) { props.errorImage = this.errorImage; }
+    if (this.htmlFor) { props.htmlFor = this.htmlFor; }
+    if (this.level != null) { props.level = this.level; }
+    if (this.required != null) { props.required = this.required; }
+    if (this.requiredImage) { props.requiredImage = this.requiredImage; }
+    if (this.valid != null) { props.valid = this.valid; }
+    if (this.value) { props.value = this.value; }
+
+    // Add DOM node properties.
+    Object.extend(props, webui.@THEME@.widget.common.getCommonProps(this));
+    Object.extend(props, webui.@THEME@.widget.common.getCoreProps(this));
+    Object.extend(props, webui.@THEME@.widget.common.getJavaScriptProps(this));
+
+    return props;
+}
+
+/**
  * This function is used to set widget properties with the
  * following Object literals.
  *
  * <ul>
+ *  <li>accesskey</li>
+ *  <li>className</li>
+ *  <li>dir</li>
  *  <li>errorImage</li>
  *  <li>htmlFor</li>
  *  <li>id</li>
+ *  <li>lang</li>
  *  <li>level</li>
- *  <li>styleClass</li>
- *  <li>required</li>
- *  <li>requiredImage</li>
- *  <li>valid</li>
- *  <li>value</li>
  *  <li>onClick</li>
  *  <li>onDblClick</li>
  *  <li>onFocus</li>
@@ -111,11 +137,12 @@ webui.@THEME@.widget.label.getClassName = function() {
  *  <li>onMouseOver</li>
  *  <li>onMouseUp</li>
  *  <li>onMouseMove</li>
- *  <li>dir</li>
- *  <li>lang</li>
- *  <li>accesskey</li>
+ *  <li>required</li>
+ *  <li>requiredImage</li>
  *  <li>style</li>
  *  <li>title</li>
+ *  <li>valid</li>
+ *  <li>value</li>
  *  <li>visible</li>
  * </ul>
  *

@@ -46,10 +46,12 @@ webui.@THEME@.widget.staticText = function() {
      */
     this.fillInTemplate = function() {
         // Set public functions. 
-        this.domNode.setProps = function(props) { dojo.widget.byId(this.id).setProps(props); }
+        this.domNode.getProps = function() { return dojo.widget.byId(this.id).getProps(); }
+        this.domNode.setProps = function(props) { return dojo.widget.byId(this.id).setProps(props); }
 
         // Set private functions.
         this.setProps = webui.@THEME@.widget.staticText.setProps;
+        this.getProps = webui.@THEME@.widget.staticText.getProps;
 
         // Set properties.
         this.setProps(this);
@@ -58,14 +60,35 @@ webui.@THEME@.widget.staticText = function() {
 }
 
 /**
+ * This function is used to get widget properties. Please see
+ * webui.@THEME@.widget.staticText.setProps for a list of supported
+ * properties.
+ */
+webui.@THEME@.widget.staticText.getProps = function() {
+    var props = {};
+
+    // Set properties.
+    if (this.escape) { props.escape = this.escape; }
+    if (this.value) { props.value = this.value; }
+
+    // Add DOM node properties.
+    Object.extend(props, webui.@THEME@.widget.common.getCommonProps(this));
+    Object.extend(props, webui.@THEME@.widget.common.getCoreProps(this));
+    Object.extend(props, webui.@THEME@.widget.common.getJavaScriptProps(this));
+
+    return props;
+}
+
+/**
  * This function is used to set widget properties with the
  * following Object literals.
  *
  * <ul>
- *  <li>id</li>
- *  <li>escape</li>
  *  <li>className</li>
- *  <li>value</li>
+ *  <li>dir</li>
+ *  <li>escape</li>
+ *  <li>id</li>
+ *  <li>lang</li>
  *  <li>onClick</li>
  *  <li>onDblClick</li>
  *  <li>onMouseDown</li>
@@ -73,10 +96,9 @@ webui.@THEME@.widget.staticText = function() {
  *  <li>onMouseOver</li>
  *  <li>onMouseUp</li>
  *  <li>onMouseMove</li>
- *  <li>dir</li>
- *  <li>lang</li>
  *  <li>style</li>
  *  <li>title</li>
+ *  <li>value</li>
  *  <li>visible</li>
  * </ul>
  *

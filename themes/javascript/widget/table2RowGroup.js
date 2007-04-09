@@ -34,7 +34,12 @@ dojo.require("webui.@THEME@.widget.*");
  * Note: This is considered a private API, do not use.
  */
 webui.@THEME@.widget.table2RowGroup = function() {
+    // Set defaults.
+    this.first = 0; // Index used to obtain rows.
+    this.currentRow = 0; // Current row in view.
     this.widgetType = "table2RowGroup";
+
+    // Register widget.
     dojo.widget.Widget.call(this);
 
     /**
@@ -63,14 +68,17 @@ webui.@THEME@.widget.table2RowGroup = function() {
         }
 
         // Set public functions.
-        this.domNode.setProps = webui.@THEME@.widget.table2RowGroup.setProps;
+        this.getProps = function() { return dojo.widget.byId(this.id).getProps(); }
+        this.setProps = function(props) { return dojo.widget.byId(this.id).setProps(props); }
 
-        // Set private functions (private functions/props prefixed with "_").
-        this.domNode._addColumns = webui.@THEME@.widget.table2RowGroup.addColumns;
-        this.domNode._addRows = webui.@THEME@.widget.table2RowGroup.addRows;
-        this.domNode._resize = webui.@THEME@.widget.table2RowGroup.resize.processEvent;
-        this.domNode._setHeight = webui.@THEME@.widget.table2RowGroup.setHeight;
-        this.domNode._setRowsText = webui.@THEME@.widget.table2RowGroup.setRowsText;
+        // Set private functions.
+        this.addColumns = webui.@THEME@.widget.table2RowGroup.addColumns;
+        this.addRows = webui.@THEME@.widget.table2RowGroup.addRows;
+        this.getProps = webui.@THEME@.widget.table2RowGroup.getProps;
+        this.resize = webui.@THEME@.widget.table2RowGroup.resize.processEvent;
+        this.setHeight = webui.@THEME@.widget.table2RowGroup.setHeight;
+        this.setProps = webui.@THEME@.widget.table2RowGroup.setProps;
+        this.setRowsText = webui.@THEME@.widget.table2RowGroup.setRowsText;
 
         // Set events.
         dojo.event.connect(this.domNode, "onscroll", 
@@ -82,25 +90,12 @@ webui.@THEME@.widget.table2RowGroup = function() {
                 webui.@THEME@.widget.table2RowGroup.resize.createCallback(this.id));
         }
 
-        // Set private properties (private functions/props prefixed with "_").
-        this.domNode._first = 0; // Index used to obtain rows.
-        this.domNode._currentRow = 0; // Current row in view.
-
         // Set properties.
-        this.domNode.setProps({
-            columns: this.columns,
-            footerText: this.footerText,
-            headerText: this.headerText,
-            height: this.height,
-            id: this.id,
-            maxRows: (this.maxRows > 0) ? this.maxRows : 5,
-            templatePath: this.templatePath,
-            totalRows: (this.totalRows > 0) ? this.totalRows : 0
-        });
+        this.setProps(this);
 
         // Add initial rows.
         webui.@THEME@.widget.table2RowGroup.scroll.processEvent({
-            currentTarget: this.domNode
+            currentTarget: this
         });
         return true;
     }
@@ -121,20 +116,14 @@ webui.@THEME@.widget.table2RowGroup.addColumns = function(props) {
         return false;
     }
 
-    // Get widget.
-    var widget = dojo.widget.byId(this.id);
-    if (widget == null) {
-        return false;
-    }
-
     // Containers are visible if at least one header/footer exists.
     var headerVisible = false;
     var footerVisible = false;
 
     for (var i = 0; i < props.columns.length; i++) {
         var col = props.columns[i];
-        var headerClone = widget.colHeaderNode;
-        var footerClone = widget.colFooterNode;
+        var headerClone = this.colHeaderNode;
+        var footerClone = this.colFooterNode;
 
         // Clone nodes.
         if (i + 1 < props.columns.length) {
@@ -142,8 +131,8 @@ webui.@THEME@.widget.table2RowGroup.addColumns = function(props) {
             footerClone = footerClone.cloneNode(true);
 
             // Append nodes.
-            widget.colHeaderContainer.insertBefore(headerClone, widget.colHeaderNode);
-            widget.colFooterContainer.insertBefore(footerClone, widget.colFooterNode);
+            this.colHeaderContainer.insertBefore(headerClone, this.colHeaderNode);
+            this.colFooterContainer.insertBefore(footerClone, this.colFooterNode);
         }
 
         // Set properties.
@@ -163,8 +152,8 @@ webui.@THEME@.widget.table2RowGroup.addColumns = function(props) {
     }
 
     // Show containers.
-    webui.@THEME@.common.setVisibleElement(widget.colHeaderContainer, headerVisible);
-    webui.@THEME@.common.setVisibleElement(widget.colFooterContainer, footerVisible);
+    webui.@THEME@.common.setVisibleElement(this.colHeaderContainer, headerVisible);
+    webui.@THEME@.common.setVisibleElement(this.colFooterContainer, footerVisible);
 }
 
 /**
@@ -183,21 +172,15 @@ webui.@THEME@.widget.table2RowGroup.addRows = function(props) {
         return false;
     }
 
-    // Get nodes.
-    var widget = dojo.widget.byId(this.id);
-    if (widget == null) {
-        return false;
-    }
-
     // Reject duplicate AJAX requests.
-    if (this._first != props.first) {
+    if (this.first != props.first) {
         return;
     }
 
     // For each row found, clone row container.
     for (var i = 0; i < props.rows.length; i++) {
         var cols = props.rows[i]; // Get next column.
-        var rowId = this.id + ":" + (this._first + i);
+        var rowId = this.id + ":" + (this.first + i);
 
         // Get row node.
         var rowNode = document.getElementById(this.id + "_rowNode");
@@ -207,8 +190,8 @@ webui.@THEME@.widget.table2RowGroup.addRows = function(props) {
 
         // Clone row container.
         rowNode.id = rowId + "_rowNode"; // Set id so we can locate row nodes in clone.
-        var rowContainerClone = widget.rowContainer.cloneNode(true); // Clone with new row id.
-        widget.tbodyContainer.appendChild(rowContainerClone); // Add row container clone.
+        var rowContainerClone = this.rowContainer.cloneNode(true); // Clone with new row id.
+        this.tbodyContainer.appendChild(rowContainerClone); // Add row container clone.
 
         // Set properties.
         rowContainerClone.id = rowId;
@@ -223,7 +206,7 @@ webui.@THEME@.widget.table2RowGroup.addRows = function(props) {
 
         // For each column found, clone row node.
         for (var k = 0; k < cols.length; k++) {
-            var col = this._props.columns[k]; // Get default column props.
+            var col = this.columns[k]; // Get default column props.
             var colId = col.id.replace(this.id, rowId);
             var rowNodeClone = rowNode;
 
@@ -243,20 +226,44 @@ webui.@THEME@.widget.table2RowGroup.addRows = function(props) {
     }
 
     // Set rows text upon first display only.
-    if (this._first == 0) {
-        this._setHeight();
-        this._setRowsText();
+    if (this.first == 0) {
+        this.setHeight();
+        this.setRowsText();
     }
 
     // Set resize event -- hack for Moz/Firefox.
     if (webui.@THEME@.common.browser.is_nav == true) {
-        this._resize();
+        this.resize();
     }
 
     // Set first row value.
-    this._first += props.rows.length;
+    this.first += props.rows.length;
 
     return true;
+}
+
+/**
+ * This function is used to get widget properties. Please see
+ * webui.@THEME@.widget.table2RowGroup.setProps for a list of supported
+ * properties.
+ */
+webui.@THEME@.widget.table2RowGroup.getProps = function() {
+    var props = {};
+
+    // Set properties.
+    if (this.columns) { props.columns = this.columns; }
+    if (this.footerText) { props.footerText = this.footerText; }
+    if (this.headerText) { props.headerText = this.headerText; }
+    if (this.height) { props.height = this.height; }
+    if (this.maxRows) { props.maxRows = this.maxRows; }
+    if (this.totalRows) { props.totalRows = this.totalRows; }
+
+    // Add DOM node properties.
+    Object.extend(props, webui.@THEME@.widget.common.getCommonProps(this));
+    Object.extend(props, webui.@THEME@.widget.common.getCoreProps(this));
+    Object.extend(props, webui.@THEME@.widget.common.getJavaScriptProps(this));
+
+    return props;
 }
 
 /**
@@ -274,11 +281,11 @@ webui.@THEME@.widget.table2RowGroup.resize = {
             // is called, and it's saved by closure magic.
             return function(evt) {
                 // Note: The evt param for this event is not required here.
-                var domNode = document.getElementById(id);
-                if (domNode == null) {
+                var widget = dojo.widget.byId(id);
+                if (widget == null) {
                     return null;
                 } else {
-                    domNode._resize();
+                    widget.resize();
                 }
             };
         }
@@ -292,8 +299,8 @@ webui.@THEME@.widget.table2RowGroup.resize = {
         var rowId = this.id + ":0";
 
         // Get height offset of each visible column.
-        for (var i = 0; i < this._props.columns.length; i++) {
-            var col = this._props.columns[i]; // Get default column props.
+        for (var i = 0; i < this.columns.length; i++) {
+            var col = this.columns[i]; // Get default column props.
             var colId = col.id.replace(this.id, rowId);
 
             // Get row node.
@@ -316,12 +323,8 @@ webui.@THEME@.widget.table2RowGroup.resize = {
         }
 
         // Set group header/footer width.
-        var widget = dojo.widget.byId(this.id);
-        if (widget == null) {
-            return false;
-        }
-        widget.groupHeaderNode.style.width = this.scrollWidth + "px";
-        widget.groupFooterNode.style.width = this.scrollWidth + "px";
+        this.groupHeaderNode.style.width = this.domNode.scrollWidth + "px";
+        this.groupFooterNode.style.width = this.domNode.scrollWidth + "px";
 
         return true;
     }
@@ -334,7 +337,7 @@ webui.@THEME@.widget.table2RowGroup.resize = {
 webui.@THEME@.widget.table2RowGroup.setHeight = function() {
     // Get height offset of each visible row.
     var offset = 0;
-    for (var i = this._currentRow; i < this._currentRow + this._props.maxRows; i++) {
+    for (var i = this.currentRow; i < this.currentRow + this.maxRows; i++) {
         var rowContainer = document.getElementById(this.id + ":" + i);
         if (rowContainer != null) {
             offset += rowContainer.offsetHeight;
@@ -345,7 +348,7 @@ webui.@THEME@.widget.table2RowGroup.setHeight = function() {
 
     // Set height offset.
     if (offset > 0) {
-        this.style.height = offset + "px";
+        this.domNode.style.height = offset + "px";
     }
     return true;
 }
@@ -370,53 +373,45 @@ webui.@THEME@.widget.table2RowGroup.setProps = function(props) {
     if (props == null) {
         return false;
     }
-
-// To do: Remove _props variable -- see label as an example.
-
-    // Save properties for later updates.
-    if (this._props) {
-        Object.extend(this._props, props); // Override existing values, if any.
-    } else {
-        this._props = props;
+    
+    // After widget has been initialized, save properties for later updates.
+    if (this.updateProps == true) {
+        webui.@THEME@.widget.common.extend(this, props);    
     }
+    // Set flag indicating properties can be updated.
+    this.updateProps = true;
 
     // Set DOM node properties.
-    webui.@THEME@.widget.common.setCoreProps(this, props);
-    webui.@THEME@.widget.common.setCommonProps(this, props);
-    webui.@THEME@.widget.common.setJavaScriptProps(this, props);
-
-    // Set widget properties.
-    var widget = dojo.widget.byId(this.id);
-    if (widget == null) {
-        return false;
-    }
+    webui.@THEME@.widget.common.setCoreProps(this.domNode, props);
+    webui.@THEME@.widget.common.setCommonProps(this.domNode, props);
+    webui.@THEME@.widget.common.setJavaScriptProps(this.domNode, props);
 
     // Add header.
     if (props.headerText) { 
-        webui.@THEME@.widget.common.addFragment(widget.groupHeaderTextNode, props.headerText);
-        webui.@THEME@.common.setVisibleElement(widget.groupHeaderContainer, true);
+        webui.@THEME@.widget.common.addFragment(this.groupHeaderTextNode, props.headerText);
+        webui.@THEME@.common.setVisibleElement(this.groupHeaderContainer, true);
     }
 
     // Add footer.
     if (props.footerText) {
-        webui.@THEME@.widget.common.addFragment(widget.groupFooterNode, props.footerText);
-        webui.@THEME@.common.setVisibleElement(widget.groupFooterContainer, true);
+        webui.@THEME@.widget.common.addFragment(this.groupFooterNode, props.footerText);
+        webui.@THEME@.common.setVisibleElement(this.groupFooterContainer, true);
     }
 
     // Add columns.
     if (props.columns) {
         // To do: Clear contents?
-        this._addColumns({
+        this.addColumns({
             columns: props.columns
         });
 
         // Set colspan -- only works for IE.
-        widget.groupHeaderNode.colSpan = props.columns.length;
-        widget.groupFooterNode.colSpan = props.columns.length;
+        this.groupHeaderNode.colSpan = props.columns.length;
+        this.groupFooterNode.colSpan = props.columns.length;
     }
 
     // To Do: Hack for A11Y testing.
-    widget.tableContainer.summary = "This is a row group";
+    this.tableContainer.summary = "This is a row group";
 
     return true;
 }
@@ -425,20 +420,15 @@ webui.@THEME@.widget.table2RowGroup.setProps = function(props) {
  * This function is used to set rows text (e.g., "1 - 5 of 20").
  */
 webui.@THEME@.widget.table2RowGroup.setRowsText = function() {
-    // Get widget.
-    var widget = dojo.widget.byId(this.id);
-    if (widget == null) {
-        return false;
-    }
 
     // To do: Localize & add filter text.
 
     // Add title augment.
-    var firstRow = this._currentRow + 1;
-    var lastRow = Math.min(this._props.totalRows,
-        this._currentRow + this._props.maxRows);
-    widget.groupHeaderRowsTextNode.innerHTML = "Items: " + firstRow + " - " + 
-        lastRow + " of " + this._props.totalRows;
+    var firstRow = this.currentRow + 1;
+    var lastRow = Math.min(this.totalRows,
+        this.currentRow + this.maxRows);
+    this.groupHeaderRowsTextNode.innerHTML = "Items: " + firstRow + " - " + 
+        lastRow + " of " + this.totalRows;
 
     return true;
 }
@@ -463,28 +453,28 @@ webui.@THEME@.widget.table2RowGroup.scroll = {
             return false;
         }
 
-        // Get DOM node.
-        var domNode;
+        // Get widget.
+        var widget;
         if (evt.currentTarget) {
-            domNode = evt.currentTarget;
+            widget = dojo.widget.byId(evt.currentTarget.id);
         } else {
             return false;
         }
 
         // Publish an event to retrieve rows.
-        if (domNode._first < domNode._props.totalRows 
-                && domNode._currentRow % domNode._props.maxRows == 0) {
+        if (widget.first < widget.totalRows 
+                && widget.currentRow % widget.maxRows == 0) {
             webui.@THEME@.widget.table2RowGroup.scroll.publishBeginEvent(evt);
         }
 
         // Set current row based on scroll position and row offset.
         var first = 0; // First row in range.
-        var last = Math.min(domNode._props.totalRows,
-            domNode._first + domNode._props.maxRows) - 1; // Last row in range.
-        var scrollTop = domNode.scrollTop + 5; // Offset for borders.
+        var last = Math.min(widget.totalRows,
+            widget.first + widget.maxRows) - 1; // Last row in range.
+        var scrollTop = widget.domNode.scrollTop + 5; // Offset for borders.
         while (first < last) {
             var mid = Math.floor((first + last) / 2); // Index of midpoint.
-            var rowContainer = document.getElementById(domNode.id + ":" + mid);
+            var rowContainer = document.getElementById(widget.id + ":" + mid);
             if (rowContainer == null) {
                 break;
             }
@@ -495,10 +485,10 @@ webui.@THEME@.widget.table2RowGroup.scroll = {
                 first = mid + 1; // Search right half.
             }
         }
-        domNode._currentRow = Math.max(0, first - 1);
+        widget.currentRow = Math.max(0, first - 1);
 
         // Set rows text.
-        domNode._setRowsText();
+        widget.setRowsText();
 
         return true;
     },

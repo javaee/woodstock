@@ -47,9 +47,11 @@ webui.@THEME@.widget.image = function() {
      */
     this.fillInTemplate = function() {
         // Set public functions. 
-        this.domNode.setProps = function(props) { dojo.widget.byId(this.id).setProps(props); }
+        this.domNode.getProps = function() { return dojo.widget.byId(this.id).getProps(); }
+        this.domNode.setProps = function(props) { return dojo.widget.byId(this.id).setProps(props); }
 
         // Set private functions.
+        this.getProps = webui.@THEME@.widget.image.getProps;
         this.setProps = webui.@THEME@.widget.image.setProps;
 
         // Set properties.
@@ -59,18 +61,47 @@ webui.@THEME@.widget.image = function() {
 }
 
 /**
+ * This function is used to get widget properties. Please see
+ * webui.@THEME@.widget.image.setProps for a list of supported
+ * properties.
+ */
+webui.@THEME@.widget.image.getProps = function() {
+    var props = {};
+
+    // Set properties.
+    if (this.alt) { props.alt = this.alt; }
+    if (this.align) { props.align = this.align; }
+    if (this.border != null) { props.border = this.border; }
+    if (this.height) { props.height = this.height; }
+    if (this.hspace) { props.hspace = this.hspace; }
+    if (this.longDesc) { props.longDesc = this.longDesc; }
+    if (this.src) { props.src = this.src; }
+    if (this.vspace) { props.vspace = this.vspace; }
+    if (this.width) { props.width = this.width; }
+
+    // Add DOM node properties.
+    Object.extend(props, webui.@THEME@.widget.common.getCommonProps(this));
+    Object.extend(props, webui.@THEME@.widget.common.getCoreProps(this));
+    Object.extend(props, webui.@THEME@.widget.common.getJavaScriptProps(this));
+
+    return props;
+}
+
+/**
  * This function is used to update widget properties with the
  * following Object literals. Not all properties are required.
  *
  * <ul>
  *  <li>alt</li>
  *  <li>align</li>
- *  <li>longDesc</li>
+ *  <li>border</li>
  *  <li>className</li>
- *  <li>src</li>
  *  <li>dir</li>
+ *  <li>height</li>
+ *  <li>hspace</li>
  *  <li>id</li>
  *  <li>lang</li>>
+ *  <li>longDesc</li>
  *  <li>onClick</li>
  *  <li>onDblClick</li>
  *  <li>onKeyDown</li>
@@ -81,15 +112,13 @@ webui.@THEME@.widget.image = function() {
  *  <li>onMouseOver</li>
  *  <li>onMouseUp</li>
  *  <li>onMouseMove</li>
+ *  <li>src</li>
  *  <li>style</li>
  *  <li>tabIndex</li>
  *  <li>title</li>
- *  <li>vspace</li>
- *  <li>hspace</li>
- *  <li>width</li>
- *  <li>height</li>
- *  <li>border</li>
  *  <li>visible</li>
+ *  <li>vspace</li>
+ *  <li>width</li>
  * </ul>
  *
  * @param props Key-Value pairs of properties.
@@ -113,13 +142,13 @@ webui.@THEME@.widget.image.setProps = function(props){
 
     if (props.alt) { this.domNode.setAttribute("alt", props.alt); }
     if (props.align) { this.domNode.setAttribute("align", props.align); }
+    if (props.border != null) { this.domNode.setAttribute("border", props.border); }
+    if (props.height) { this.domNode.setAttribute("height", props.height); }
+    if (props.hspace) { this.domNode.setAttribute("hspace", props.hspace); }
     if (props.longDesc) { this.domNode.setAttribute("longDesc", props.longDesc); }
     if (props.src) { this.domNode.setAttribute("src", new dojo.uri.Uri(props.src).toString()); }
     if (props.vspace) { this.domNode.setAttribute("vspace", props.vspace); }
-    if (props.hspace) { this.domNode.setAttribute("hspace", props.hspace); }
     if (props.width) { this.domNode.setAttribute("width", props.width); }
-    if (props.height) { this.domNode.setAttribute("height", props.height); }
-    if (props.border != null) { this.domNode.setAttribute("border", props.border); }
 
     return true;            
 }

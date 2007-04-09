@@ -23,12 +23,6 @@
 package com.sun.webui.jsf.renderkit.html;
 
 import com.sun.faces.annotation.Renderer;
-import java.io.IOException;
-import java.net.URL; 
-import javax.faces.component.UIComponent;
-import javax.faces.context.FacesContext;
-import javax.faces.context.ResponseWriter;
-
 import com.sun.webui.jsf.component.Head;
 import com.sun.webui.jsf.component.util.Util;
 import com.sun.webui.theme.Theme;
@@ -36,6 +30,14 @@ import com.sun.webui.jsf.theme.ThemeStyles;
 import com.sun.webui.jsf.util.JavaScriptUtilities;
 import com.sun.webui.jsf.util.RenderingUtilities;
 import com.sun.webui.jsf.util.ThemeUtilities;
+
+import java.io.IOException;
+import java.net.URL;
+import java.util.Map;
+
+import javax.faces.component.UIComponent;
+import javax.faces.context.FacesContext;
+import javax.faces.context.ResponseWriter;
 
 /**
  * <p>Renderer for a {@link Head} component.</p>
@@ -123,10 +125,13 @@ public class HeadRenderer extends AbstractRenderer {
                 return;
             }
 
+            // Get debug flag.
+            Map map = context.getExternalContext().getRequestParameterMap();
+            boolean isDebug = head.isDebug() || map.containsKey("debug");
+
             // Render Dojo config.
             JavaScriptUtilities.renderJavaScript(component, writer,
-                JavaScriptUtilities.getDojoConfig(head.isDebug(),
-                    head.isParseWidgets()));
+                JavaScriptUtilities.getDojoConfig(isDebug, head.isParseWidgets()));
 
             // Render Dojo include.
             JavaScriptUtilities.renderDojoInclude(component, writer);
@@ -142,7 +147,7 @@ public class HeadRenderer extends AbstractRenderer {
         
             // Render module config after including dojo.
             JavaScriptUtilities.renderJavaScript(component, writer,
-                JavaScriptUtilities.getModuleConfig(head.isDebug()));
+                JavaScriptUtilities.getModuleConfig(isDebug));
 
             // Render global include.
             JavaScriptUtilities.renderGlobalInclude(component, writer);

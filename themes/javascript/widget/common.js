@@ -190,6 +190,83 @@ webui.@THEME@.widget.common = {
     },
 
     /**
+     * This function is used to get common properties for the given obj. Please
+     * see webui.@THEME@.widget.common.setCommonProps for a list of supported
+     * properties.
+     *
+     * @param obj The object containing properties.
+     */
+    getCommonProps: function(obj) {
+        var props = {};
+        if (obj == null) {
+            return props;
+        }
+
+        // Set properties.
+        if (obj.accesskey) { props.accesskey = obj.accesskey; }
+        if (obj.dir) { props.dir = obj.dir; }
+        if (obj.lang) { props.lang = obj.lang; }
+        if (obj.tabIndex) { props.tabIndex = obj.tabIndex; }
+        if (obj.title) { props.title = obj.title; }
+
+        return props;
+    },
+
+    /**
+     * This function is used to get core properties for the given obj. Please
+     * see webui.@THEME@.widget.common.setCoreProps for a list of supported
+     * properties.
+     *
+     * @param obj The object containing properties.
+     */
+    getCoreProps: function(obj) {
+        var props = {};
+        if (obj == null) {
+            return props;
+        }
+
+        // Set properties.
+        if (obj.className) { props.className = obj.className; }
+        if (obj.id) { props.id = obj.id; }
+        if (obj.style) { props.style = obj.style; }
+        if (obj.visible != null) { props.visible = obj.visible; }
+
+        return props;
+    },
+
+    /**
+     * This function is used to get JavaScript properties for the given obj.
+     * Please see webui.@THEME@.widget.common.setJavaScriptProps for a list of
+     * supported properties.
+     *
+     * @param obj The object containing properties.
+     */
+    getJavaScriptProps: function(obj) {
+        var props = {};
+        if (obj == null) {
+            return props;
+        }
+
+        // Set properties.
+        if (obj.onBlur) { props.onBlur = obj.onBlur; }
+        if (obj.onChange) { props.onChange = obj.onChange; }
+        if (obj.onClick) { props.onClick = obj.onClick; }
+        if (obj.onDblClick) { props.onDblClick = obj.onDblClick; }
+        if (obj.onFocus) { props.onFocus = obj.onFocus; }
+        if (obj.onKeyDown) { props.onKeyDown = obj.onKeyDown; }
+        if (obj.onKeyPress) { props.onKeyPress = obj.onKeyPress; }
+        if (obj.onKeyUp) { props.onKeyUp = obj.onKeyUp; }
+        if (obj.onMouseDown) { props.onMouseDown = obj.onMouseDown; }
+        if (obj.onMouseOut) { props.onMouseOut = obj.onMouseOut; }
+        if (obj.onMouseOver) { props.onMouseOver = obj.onMouseOver; }
+        if (obj.onMouseUp) { props.onMouseUp = obj.onMouseUp; }
+        if (obj.onMouseMove) { props.onMouseMove = obj.onMouseMove; }
+        if (obj.onSelect) { props.onSelect = obj.onSelect; }
+
+        return props;
+    },
+
+    /**
      * Helper function to obtain a module resource.
      *
      * @param module The module resource to retrieve.
@@ -209,8 +286,8 @@ webui.@THEME@.widget.common = {
     },
 
     /**
-     * This function is used to set common accessibility properties for the 
-     * given DOM node with the following Object literals.
+     * This function is used to set common properties for the given DOM node
+     * with the following Object literals.
      *
      * <ul>
      *  <li>accesskey</li>

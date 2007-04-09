@@ -34,7 +34,10 @@ dojo.require("webui.@THEME@.widget.*");
  * Note: This is considered a private API, do not use.
  */
 webui.@THEME@.widget.table2 = function() {
+    // Set defaults.
     this.widgetType = "table2";
+
+    // Register widget.
     dojo.widget.Widget.call(this);
 
     /**
@@ -54,23 +57,39 @@ webui.@THEME@.widget.table2 = function() {
         }
 
         // Set public functions.
-        this.domNode.setProps = webui.@THEME@.widget.table2.setProps;
+        this.getProps = function() { return dojo.widget.byId(this.id).getProps(); }
+        this.setProps = function(props) { return dojo.widget.byId(this.id).setProps(props); }
 
-        // Set private functions (private functions/props prefixed with "_").
-        // TBD...
+        // Set private functions.
+        this.setProps = webui.@THEME@.widget.table2.setProps;
+        this.getProps = webui.@THEME@.widget.table2.getProps;
 
         // Set properties.
-        this.domNode.setProps({
-            actions: this.actions,
-            filterText: this.filterText,
-            id: this.id,
-            rowGroups: this.rowGroups,
-            templatePath: this.templatePath,
-            title: this.title,
-            width: this.width
-        });
+        this.setProps(this);
         return true;
     }
+}
+
+/**
+ * This function is used to get widget properties. Please see
+ * webui.@THEME@.widget.table2.setProps for a list of supported
+ * properties.
+ */
+webui.@THEME@.widget.table2.getProps = function() {
+    var props = {};
+
+    // Set properties.
+    if (this.actions) { props.actions = this.actions; }
+    if (this.filterText) { props.filterText = this.filterText; }
+    if (this.rowGroups) { props.rowGroups = this.rowGroups; }
+    if (this.width) { props.width = this.width; }
+
+    // Add DOM node properties.
+    Object.extend(props, webui.@THEME@.widget.common.getCommonProps(this));
+    Object.extend(props, webui.@THEME@.widget.common.getCoreProps(this));
+    Object.extend(props, webui.@THEME@.widget.common.getJavaScriptProps(this));
+
+    return props;
 }
 
 /**
@@ -92,54 +111,47 @@ webui.@THEME@.widget.table2.setProps = function(props) {
     if (props == null) {
         return false;
     }
-
-// To do: Remove _props variable -- see label as an example.
-
-    // Save properties for later updates.
-    if (this._props) {
-        Object.extend(this._props, props); // Override existing values, if any.
-    } else {
-        this._props = props;
+    
+    // After widget has been initialized, save properties for later updates.
+    if (this.updateProps == true) {
+        webui.@THEME@.widget.common.extend(this, props);    
     }
+    // Set flag indicating properties can be updated.
+    this.updateProps = true;
 
     // Set DOM node properties.
-    webui.@THEME@.widget.common.setCoreProps(this, props);
-    webui.@THEME@.widget.common.setCommonProps(this, props);
-    webui.@THEME@.widget.common.setJavaScriptProps(this, props);
+    webui.@THEME@.widget.common.setCoreProps(this.domNode, props);
+    webui.@THEME@.widget.common.setCommonProps(this.domNode, props);
+    webui.@THEME@.widget.common.setJavaScriptProps(this.domNode, props);
 
     // Set container width.
     if (props.width) {
-        this.style.width = this.width;
-    }
-
-    // Set widget properties.
-    var widget = dojo.widget.byId(this.id);
-    if (widget == null) {
-        return false;
+        this.domNode.style.width = this.width;
     }
 
     // Add title.
     if (props.title) {
-        webui.@THEME@.widget.common.addFragment(widget.titleContainer, props.title);
-        webui.@THEME@.common.setVisibleElement(widget.titleContainer, true);
+        webui.@THEME@.widget.common.addFragment(this.titleContainer, props.title);
+        webui.@THEME@.common.setVisibleElement(this.titleContainer, true);
     }
 
     // Add actions.
     if (props.actions) {
-        webui.@THEME@.widget.common.addFragment(widget.actionsContainer, props.actions);
-        webui.@THEME@.common.setVisibleElement(widget.actionsContainer, true);
+        webui.@THEME@.widget.common.addFragment(this.actionsContainer, props.actions);
+        webui.@THEME@.common.setVisibleElement(this.actionsContainer, true);
     }
 
     // Add row groups.
     if (props.rowGroups) {
-        widget.rowGroupsContainer.innerHTML = null; // Clear contents.
+        this.rowGroupsContainer.innerHTML = ""; // Cannot be null for IE.
         for (var i = 0; i < props.rowGroups.length; i++) {
-            var rowGroupsClone = widget.rowGroupsContainer;
+            // Each group must be added to separate containers for padding.
+            var rowGroupsClone = this.rowGroupsContainer;
 
             // Clone nodes.
             if (i + 1 < props.rowGroups.length) {
-                rowGroupsClone = widget.rowGroupsContainer.cloneNode(true);
-                widget.marginContainer.insertBefore(rowGroupsClone, widget.rowGroupsContainer);
+                rowGroupsClone = this.rowGroupsContainer.cloneNode(true);
+                this.marginContainer.insertBefore(rowGroupsClone, this.rowGroupsContainer);
             }
             webui.@THEME@.widget.common.addFragment(rowGroupsClone, props.rowGroups[i], "last");
         }

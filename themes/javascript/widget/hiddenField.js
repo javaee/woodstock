@@ -46,15 +46,36 @@ webui.@THEME@.widget.hiddenField = function() {
      */
     this.fillInTemplate = function() {
         // Set public functions. 
-        this.domNode.setProps = function(props) { dojo.widget.byId(this.id).setProps(props); }
+        this.domNode.getProps = function() { return dojo.widget.byId(this.id).getProps(); }
+        this.domNode.setProps = function(props) { return dojo.widget.byId(this.id).setProps(props); }
 
         // Set private functions.
+        this.getProps = webui.@THEME@.widget.hiddenField.getProps;
         this.setProps = webui.@THEME@.widget.hiddenField.setProps;
 
         // Set properties.
         this.setProps(this);
         return true;
     }
+}
+
+/**
+ * This function is used to get widget properties. Please see
+ * webui.@THEME@.widget.hiddenField.setProps for a list of supported
+ * properties.
+ */
+webui.@THEME@.widget.hiddenField.getProps = function() {
+    var props = {};
+
+    // Set properties.
+    if (this.disabled != null) { props.disabled = this.disabled; }
+    if (this.name) { props.name = this.name; }
+    if (this.value) { props.value = this.value; }
+
+    // Add DOM node properties.
+    Object.extend(props, webui.@THEME@.widget.common.getCoreProps(this));
+
+    return props;
 }
 
 /**
@@ -87,12 +108,13 @@ webui.@THEME@.widget.hiddenField.setProps = function(props) {
                 
     if (props.name) { this.domNode.setAttribute("name", props.name); }
     if (props.value) { this.domNode.setAttribute("value", props.value); }
-    if (props.disabled == true) { 
-        this.domNode.setAttribute("disabled", "disabled");
-    } else { 
-        this.domNode.removeAttribute('disabled');
+    if (props.disabled != null) {
+        if (props.disabled == true) { 
+            this.domNode.setAttribute("disabled", "disabled");
+        } else { 
+            this.domNode.removeAttribute('disabled');
+        }
     }
-   
     return true;
 }
 
