@@ -29,6 +29,71 @@
 <body>
 <h1><u>Woodstock 4.1 JSF Components Release Notes</u></h1>
 <p>&nbsp;</p>
+<h2><u>4.1 Build 2</u> (04/06/2007)</h2>
+<h3>New Features</h3>
+<ul>
+	<li>Client-side rendering for HiddenField</li>
+	<li>Updated jsf-extensions jar files</li>
+	<li>Fixed the build for the visual-web-nbsuite module.&nbsp; Added a readme.</li>
+	<li>Updates to the client widget renderer base<br>
+&nbsp;At one time, each widget renderer output their own JavaScript include(s) 
+	in the page. However, it's important that all JavaScript include statements 
+	are added to the page before instantiating the widget. Omitting some 
+	details, this meant that all child components needed to be rendered before 
+	outputting JavaScript includes in the page. Thus, the encodeBegin and 
+	endcodeEnd methods were not used in RendererBase. Fortunately, we found a 
+	better approach and this functionality was removed some time ago. JavaScript 
+	includes are now defined via the abstract getModules() method. In short, a 
+	modules property is added to the JSON object representing the includes 
+	required for each component. This allows the modules (i.e., JavaScript 
+	includes) to be added client-side via Dojo. Thus, JavaScript includes are 
+	added exactly once when the widget is instantiated.&nbsp; That said, I've 
+	modified RendererBase to use the encodeBegin and encodeChildren methods, 
+	again. Now encodeBegin and encodeEnd simply output the JavaScript used to 
+	instantiate a widget. There is no <br>
+&nbsp;change to the widget renderers themselves.</li>
+	<li>
+	<pre wrap><font face="Times New Roman" size="3">Major Changes to Theme code</font>
+  - The webui-jsf-theme.jar now depends on the existence of webui-jsf.jar.
+   Every theme jar MUST now implement com.sun.webui.theme.ThemeService.
+   Since this class is compiled within &quot;themes&quot; and is delivered in 
+   webui-jsf-suntheme.jar, webui-jsf.jar MUST be built first.
+   The &quot;com.sun.webui.theme&quot; package can be extracted from &quot;webui-jsf.jar&quot;
+   and exist independently as &quot;webui-theme.jar&quot;. That change will come
+   once we decide that delivering another jar is appropriate.
+   BUMPED ALL THEME VERSION REFERENCES TO 4.1
+   (Other misc versions have also been bumped to 4.1)
+ - Removed all references to ClassLoaderFinder from &quot;com.sun.webui.theme&quot;
+   package classes, and &quot;Jar&quot; theme classes.
+ - Added new ThemeFactory interface methods to JarThemeFactory, that
+   accept theme name and theme version. However, JarThemeFactory does not
+   rely on these values, its algorithm is still based solely on Manifest
+   attributes.
+ - ServletThemeContext defaults the &quot;THEME_SERVLET_CONTEXT&quot; param to
+   &quot;<i class="moz-txt-slash"><span class="moz-txt-tag">/</span>theme&quot;. This allows applications to use the &quot;common&quot; &quot;/theme<span class="moz-txt-tag">/</span></i>*&quot;
+   url-mapping without adding the extra &quot;THEME_SERVLET_CONTEXT&quot; param.
+ - Lots of javadoc changes.
+ - Added convenience ThemeLogger (not a javax.util.logging Logger but
+   uses javax.util.logging API's) just
+   to encapsulate commmon log entry fields. Used only by the 
+   com.sun.webui.theme package.
+ - The default ThemeFactory class in ThemeContext is SPIThemeFactory.
+   While it does support the deprecated manifest attributes in a theme
+   jar, theme jars should now provide a ThemeService implementation 
+   to supply the appropriate information.
+ - master/build.xml - changed dependencies such that webui must be built 
+   before themes.</pre>
+	</li>
+</ul>
+<h3>Bug Fixes</h3>
+<ul>
+	<li><a href="https://woodstock.dev.java.net/issues/show_bug.cgi?id=15">Issue 
+	#15</a> - PropertySheet labels are no longer showing the required 
+	indicators. (partial fix)</li>
+	<li><a href="https://woodstock.dev.java.net/issues/show_bug.cgi?id=67">Issue 
+	#67</a> - Adding FileChooser to NB6 webform generates ClassNotFoundException</li>
+</ul>
+<h2>&nbsp;</h2>
 <h2><u>4.1 Build 1</u> (03/23/2007)</h2>
 <h3>New Features</h3>
 <ul>
