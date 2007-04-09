@@ -20,7 +20,7 @@
  * Copyright 2007 Sun Microsystems, Inc. All rights reserved.
  */
 /*
- * $Id: JSFThemeContext.java,v 1.2 2007-04-03 00:25:45 rratta Exp $
+ * $Id: JSFThemeContext.java,v 1.3 2007-04-09 16:48:01 dcao Exp $
  */
 
 package com.sun.webui.jsf.theme;
@@ -144,7 +144,8 @@ public class JSFThemeContext extends ServletThemeContext {
         String resourcePath = path;
 	if (Beans.isDesignTime()) {
 	    ClassLoader cl = getDefaultClassLoader();
-	    URL url = cl.getResource(path);
+	    // NB6 gives warnings if the path has a leading "/". So, strip it off if it has one
+	    URL url = cl.getResource(path.startsWith("/") ? path.substring(1) : path);
             if (url != null) {
                 resourcePath = url.toExternalForm();
 	    }
