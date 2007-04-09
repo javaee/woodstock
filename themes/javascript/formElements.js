@@ -555,6 +555,8 @@ webui.@THEME@.button = {
 
 /**
  * Define webui.@THEME@.checkbox name space.
+ * 
+ * @deprecated
  */
 webui.@THEME@.checkbox = {
     /**
@@ -564,6 +566,8 @@ webui.@THEME@.checkbox = {
      * @param elementId The element Id
      * @param disabled true or false
      * @return true if successful; otherwise, false
+     *
+     * @deprecated Use document.getElementById(id).setProps({ disabled: boolean });     
      */
     setDisabled: function(elementId, disabled) {
         return webui.@THEME@.rbcb.setDisabled(elementId, disabled,
@@ -590,6 +594,8 @@ webui.@THEME@.checkbox = {
      * @param elementId The element Id
      * @param checked true or false
      * @return true if successful; otherwise, false
+     * 
+     * @deprecated Use document.getElementById(id).setProps({ checked: boolean });     
      */
     setChecked: function(elementId, checked) {
         return webui.@THEME@.rbcb.setChecked(elementId, checked,
@@ -1128,52 +1134,32 @@ webui.@THEME@.listbox = {
 // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 /**
- * Define webui.@THEME@.upload name space.
+ * Define webui.@THEME@.rbcb name space.
+ *
+ * @deprecated
  */
 webui.@THEME@.rbcb = {
-    setChecked: function(elementId, checked, type) {
-        if (elementId == null || type == null) {
-            return false;
+    /**
+     * @deprecated Use document.getElementById(id).setProps({ checked: boolean }); 
+     */ 
+    setChecked: function(elementId, _checked, type) {
+        var domNode = document.getElementById(elementId);
+        if (domNode) {
+            return domNode.setProps({ checked: _checked });
         }
-        var rbcb = document.getElementById(elementId);
-        if (rbcb == null) {
-            return false;
-        }
-        // wrong type
-        if (rbcb.type != type.toLowerCase()) {
-            return false;
-        }
-        // Get boolean value to ensure correct data type.
-        rbcb.checked = new Boolean(checked).valueOf();
-        return true;
+        return false; 
     },
 
-    setDisabled: function(elementId, disabled, type, enabledStyle,
+    /**
+     * @deprecated Use document.getElementById(id).setProps({ disabled: boolean }); 
+     */ 
+    setDisabled: function(elementId, _disabled, type, enabledStyle,
             disabledStyle) {
-        if (elementId == null || disabled == null || type == null) {
-            // must supply an elementId && state && type
-            return false;
+        var domNode = document.getElementById(elementId);
+        if (domNode) {
+            return domNode.setProps({ disabled: _disabled });
         }
-        var rbcb = document.getElementById(elementId);
-        if (rbcb == null) {
-            // specified elementId not found
-            return false;
-        }
-        // wrong type
-        if (rbcb.type != type.toLowerCase()) {
-            return false;
-        }
-        rbcb.disabled = new Boolean(disabled).valueOf();
-        if (rbcb.disabled) {
-            if (disabledStyle != null) {
-                rbcb.className = disabledStyle;
-            }
-        } else {
-            if (enabledStyle != null) {
-                rbcb.className = enabledStyle;
-            }
-        }
-        return true;
+        return false; 
     },
 
     /** 
@@ -1183,7 +1169,7 @@ webui.@THEME@.rbcb = {
      * @param elementId The element Id
      * @param formName The name of the form containing the element
      * @param disabled true or false
-     * @return true if successful; otherwise, false
+     * @return true if successful; otherwise, false     
      */
     setGroupDisabled: function(controlName, disabled, type, enabledStyle,
             disabledStyle) {

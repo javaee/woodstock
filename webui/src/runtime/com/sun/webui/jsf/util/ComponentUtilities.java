@@ -21,7 +21,7 @@
  */
 
 /*
- * $Id: ComponentUtilities.java,v 1.1 2007-02-16 01:48:59 bob_yennaco Exp $
+ * $Id: ComponentUtilities.java,v 1.2 2007-04-09 20:57:46 pegah Exp $
  */
 
 package com.sun.webui.jsf.util;
@@ -148,4 +148,38 @@ public class ComponentUtilities {
 	}
 	return pfacetName;
     }
+    
+    /**
+     * <p>Return <code>true</code> if the specified component is disabled.</p>
+     *
+     * @param component <code>UIComponent</code> to be checked
+     */
+    public static boolean isDisabled(UIComponent component) {        
+        Object disabled = component.getAttributes().get("disabled");
+        if (disabled == null) {
+            return (false);
+        }
+        if (disabled instanceof String) {
+            return (Boolean.valueOf((String) disabled).booleanValue());
+        } else {
+            return (disabled.equals(Boolean.TRUE));
+        }        
+    }    
+    
+    /**
+     * <p>Return <code>true</code> if the specified component is read only.</p>
+     *
+     * @param component <code>UIComponent</code> to be checked
+     */
+    public static boolean isReadOnly(UIComponent component) {        
+        Object readonly = component.getAttributes().get("readonly");
+        if (readonly == null) {
+            return (false);
+        }
+        if (readonly instanceof String) {
+            return (Boolean.valueOf((String) readonly).booleanValue());
+        } else {
+            return (readonly.equals(Boolean.TRUE));
+        }        
+    }   
 }

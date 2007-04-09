@@ -124,27 +124,18 @@ public class RbCbSelector extends Selector implements NamingContainer {
 
         if (context == null) {
             throw new NullPointerException();
-        }
-        if (!isRendered()) {
-            return;
-        }
+        }      
 
 	// If the checkbox or radio button isn't valid, or
 	// not in a group or not
 	// selected, don't put it in the RequestMap.
 	//
-	String groupName = getName();
-	if (groupName == null || !isValid() || !isChecked()) {
-	    return;
+	String groupName = getName();                
+	if (groupName != null && !isValid() && !isChecked()) {
+            addToRequestMap(context, groupName);
 	}
 
-	addToRequestMap(context, groupName);
-
-        String rendererType = getRendererType();
-        if (rendererType != null) {
-            getRenderer(context).encodeBegin(context, this);
-        }
-
+        super.encodeBegin(context);
     }
 
     /**

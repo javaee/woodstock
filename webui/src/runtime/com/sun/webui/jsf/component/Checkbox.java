@@ -203,10 +203,16 @@ import javax.faces.context.FacesContext;
  * for that property.</em>
  * </p>
  */
-@Component(type="com.sun.webui.jsf.Checkbox", family="com.sun.webui.jsf.Checkbox", displayName="Checkbox", tagName="checkbox",
+@Component(type="com.sun.webui.jsf.Checkbox", family="com.sun.webui.jsf.Checkbox",
+    displayName="Checkbox", tagName="checkbox",
+    tagRendererType="com.sun.webui.jsf.widget.Checkbox",
     helpKey="projrave_ui_elements_palette_wdstk-jsf1.2_checkbox",
     propertiesHelpKey="projrave_ui_elements_palette_wdstk-jsf1.2_propsheets_checkbox_props")
-public class Checkbox extends RbCbSelector {
+public class Checkbox extends RbCbSelector implements ComplexComponent {
+    
+    // The suffix used for the HTML input element's id.
+    private static final String CB_ID = "_cb";
+    
     /**
      * Constructor for a <code>Checkbox</code>.
      */
@@ -217,8 +223,8 @@ public class Checkbox extends RbCbSelector {
         // implementation of Checkbox vs. CheckboxGroup
         // does not need Multiple to be explicit.
         //
-        setMultiple(false);
-        setRendererType("com.sun.webui.jsf.Checkbox");
+        setMultiple(false);        
+        setRendererType("com.sun.webui.jsf.widget.Checkbox");
     }
 
     /**
@@ -227,7 +233,7 @@ public class Checkbox extends RbCbSelector {
     public String getFamily() {
         return "com.sun.webui.jsf.Checkbox";
     }
-
+         
     /**
      * Return an <code>ArrayList</code> containing the value of the
      * <code>selectedValue</code> property of each selected checkbox
@@ -322,6 +328,63 @@ public class Checkbox extends RbCbSelector {
         }
     }
 
+    /**
+     * Returns the absolute ID of an HTML element suitable for use as
+     * the value of an HTML LABEL element's <code>for</code> attribute.
+     * If the <code>ComplexComponent</code> has sub-compoents, and one of 
+     * the sub-components is the target of a label, if that sub-component
+     * is a <code>ComplexComponent</code>, then
+     * <code>getLabeledElementId</code> must called on the sub-component and
+     * the value returned. The value returned by this 
+     * method call may or may not resolve to a component instance.
+     *
+     * @param context The FacesContext used for the request
+     * @return An absolute id suitable for the value of an HTML LABEL element's
+     * <code>for</code> attribute.
+     */
+    public String getLabeledElementId(FacesContext context) {       
+        return this.getClientId(context).concat(CB_ID);        
+    }
+
+    /**
+     * Implement this method so that it returns the DOM ID of the 
+     * HTML element which should receive focus when the component 
+     * receives focus, and to which a component label should apply. 
+     * Usually, this is the first element that accepts input. 
+     * 
+     * @param context The FacesContext for the request
+     * @return The client id, also the JavaScript element id
+     *
+     * @deprecated
+     * @see #getLabeledElementId
+     * @see #getFocusElementId
+     */
+    public String getPrimaryElementID(FacesContext context)  {
+        return getLabeledElementId(context);
+    }
+    
+    /**
+     * Returns the id of an HTML element suitable to
+     * receive the focus.
+     * If the <code>ComplexComponent</code> has sub-compoents, and one of 
+     * the sub-components is to reveive the focus, if that sub-component
+     * is a <code>ComplexComponent</code>, then
+     * <code>getFocusElementId</code> must called on the sub-component and
+     * the value returned. The value returned by this 
+     * method call may or may not resolve to a component instance.
+     * <p>
+     * This implementations returns the value of 
+     * <code>getLabeledElementId</code>.
+     * </p>
+     *
+     * @param context The FacesContext used for the request
+     */
+    public String getFocusElementId(FacesContext context) {
+        // For now just return the same id that is used for label.
+        //
+        return getLabeledElementId(context);
+    }
+    
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     // Tag attribute methods
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -386,6 +449,33 @@ public class Checkbox extends RbCbSelector {
     }
 
     /**
+     * <p>Alternative HTML template to be used by this component.</p>
+     */
+    @Property(name="htmlTemplate", displayName="HTML Template", category="Appearance")
+    private String htmlTemplate = null;
+
+    /**
+     * <p>Get alternative HTML template to be used by this component.</p>
+     */
+    public String getHtmlTemplate() {
+        if (this.htmlTemplate != null) {
+            return this.htmlTemplate;
+        }
+        ValueExpression _vb = getValueExpression("htmlTemplate");
+        if (_vb != null) {
+            return (String) _vb.getValue(getFacesContext().getELContext());
+        }
+        return null;
+    }
+
+    /**
+     * <p>Set alternative HTML template to be used by this component.</p>
+     */
+    public void setHtmlTemplate(String htmlTemplate) {
+        this.htmlTemplate = htmlTemplate;
+    }
+    
+    /**
      * <p>Restore the state of this component.</p>
      */
     public void restoreState(FacesContext _context,Object _state) {
@@ -393,16 +483,18 @@ public class Checkbox extends RbCbSelector {
         super.restoreState(_context, _values[0]);
         this.labelLevel = ((Integer) _values[1]).intValue();
         this.labelLevel_set = ((Boolean) _values[2]).booleanValue();
+        this.htmlTemplate = (String) _values[3];
     }
 
     /**
      * <p>Save the state of this component.</p>
      */
     public Object saveState(FacesContext _context) {
-        Object _values[] = new Object[3];
+        Object _values[] = new Object[4];
         _values[0] = super.saveState(_context);
         _values[1] = new Integer(this.labelLevel);
         _values[2] = this.labelLevel_set ? Boolean.TRUE : Boolean.FALSE;
+        _values[3] = this.htmlTemplate;        
         return _values;
     }
 }

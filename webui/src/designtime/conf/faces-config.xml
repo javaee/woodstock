@@ -69,7 +69,13 @@
       <renderer-type>com.sun.webui.jsf.ButtonDesignTime</renderer-type>
       <renderer-class>com.sun.webui.jsf.renderkit.html.ButtonDesignTimeRenderer</renderer-class>
     </renderer>
-    
+
+    <renderer>
+      <component-family>com.sun.webui.jsf.Checkbox</component-family>
+      <renderer-type>com.sun.webui.jsf.widget.CheckboxDesignTime</renderer-type>
+      <renderer-class>com.sun.webui.jsf.renderkit.html.CheckboxRenderer</renderer-class>
+    </renderer>
+        
     <renderer>
       <component-family>com.sun.webui.jsf.CheckboxGroup</component-family>
       <renderer-type>com.sun.webui.jsf.CheckboxGroupDesignTime</renderer-type>

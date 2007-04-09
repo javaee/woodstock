@@ -1764,6 +1764,22 @@ the page, set the <code>reset</code> attribute to true.<br>
  checkboxes from the request map. The list will consist of indistinguishable
  <code>true</code> values; one for each selected checkbox.
  </p>
+ <p>
+ <h4>Example 7: Update checkbox client side.</h4>
+ <p>This exmaple shows how to update the checkbox component client side.</p>
+ <code><pre>
+ &lt;webuijsf:checkbox id="cb1" label="Checkbox 1" disabled="false"&gt;
+ 
+ &lt;webuijsf:button id="btn1" text="Disable" onClick="return disableCb();"&gt;
+                          
+ function disableCb() {
+     var cb = document.getElementById("form1:cb1:");
+     cb.setProps({ disabled: true });
+     return false;    
+ }
+</pre></code> 
+</p>
+ 
  <h3>HTML Elements and Layout</h3>
  <p>
  A <code>checkbox</code> is rendered as at least one HTML &lt;span&gt; 
@@ -1792,32 +1808,67 @@ the page, set the <code>reset</code> attribute to true.<br>
  being rendered.
  </p>
  <ul>
-   <li> <em>cid</em><b>_span</b> for the &lt;span&gt; element</li>
-   <li> <em>cid</em> for the &lt;input&gt; element</li>
+   <li> <em>cid</em> for the &lt;span&gt; element</li>
+   <li> <em>cid</em><b>_cb</b> for the &lt;input&gt; element</li>
    <li> <em>cid</em><b>_image</b> for the image component if created.</li>
    <li> <em>cid</em><b>_label</b> for the label component if created.</li>
  </ul>
  <h3>Client Side Javascript Functions </h3>
- <ul>
-   <li><em>webui.suntheme.checkbox.setChecked(elementId, checked)</em>: Set the 
-        checked property for a checkbox with the given element id,
-        <em>elementId</em>.
-        If <em>checked</em> is true, the checkbox is checked.
-        If <em>checked</em> is false, the checkbox is unchecked.</li>
+ <ul>   
+   <li><em>getInputElement()</em>: Use this function to access the HTML input element that makes up the chekcbox.</li>
+   <li><em>getProps()</em>: Use this function to get widget properties. Please see setProps for a list of supported properties.</li>
+   <li><em>setProps(props)</em>: Use this function to set widget properties with the
+        following Object literals.
+        <ul>
+            <li>accesskey</li>
+            <li>align</li>
+            <li>checked</li>
+            <li>className</li>
+            <li>dir</li>
+            <li>disabled</li>
+            <li>id</li>
+            <li>image</li>
+            <li>label</li>
+            <li>lang</li>
+            <li>name</li>
+            <li>onFocus</li>
+            <li>onBlur</li>
+            <li>onChange</li>
+            <li>onClick</li>
+            <li>onDblClick</li>
+            <li>onKeyDown</li>
+            <li>onKeyPress</li>
+            <li>onKeyUp</li>
+            <li>onMouseDown</li>
+            <li>onKeyPress</li>
+            <li>onKeyUp</li>
+            <li>onMouseOut</li>
+            <li>onMouseOver</li>
+            <li>onMouseUp</li>
+            <li>onMouseMove</li>
+            <li>onSelect</li>
+            <li>readOnly</li>
+            <li>style</li>
+            <li>tabIndex</li>
+            <li>title</li>
+            <li>value</li>
+            <li>visible</li>
+        </ul>
+      </li>      
  </ul>
  <p></p>
       <h3>Theme Identifiers</h3>
  <p>
-      <lo>
-      <li>Cb for the INPUT element</li>
-      <li>CbDis for the INPUT element for disabled checkbox</li>
+      <ul>
+      <li>Cb for the outermost span element</li>
+      <li>CbDis for the outermost span element for disabled checkbox</li>
       <li>CbLbl for a LABEL element of a checkbox</li>
       <li>CbLblDis for a LABEL element of a disabled checkbox</li>
       <li>CbImg for an IMG element of a checkbox</li>
       <li>CbImgDis for an IMG element of a disabled checkbox</li>
-      </lo>
+      </ul>
  </p>
- -->
+ 
 ]]></description>
     </tag>
 

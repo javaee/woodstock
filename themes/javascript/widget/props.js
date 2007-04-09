@@ -45,6 +45,16 @@ webui.@THEME@.widget.props = {
         secondaryMiniHovClassName: "Btn2MniHov@THEME_CSS@"
     },
 
+    // Checkbox properties.
+    checkbox: {
+        spanClassName: "CbSpn@THEME_CSS@",
+        spanDisabledClassName: "CbSpnDis@THEME_CSS@",
+        labelClassName: "CbLbl@THEME_CSS@",
+        labelDisabledClassName: "CbLblDis@THEME_CSS@",
+        imageClassName: "CbImg@THEME_CSS@",
+        imageDisabledClassName: "CbImgDis@THEME_CSS@"
+    },
+
     // Progress bar properties.
     progressBar: {
         barContainerClassName: "barContainer@THEME_CSS@",
@@ -69,7 +79,7 @@ webui.@THEME@.widget.props = {
         levelOneStyleClass: "LblLev1Txt@THEME_CSS@",
         levelTwoStyleClass: "LblLev2Txt@THEME_CSS@",
         levelThreeStyleClass: "LblLev3Txt@THEME_CSS@"
-        
+
     }
 }
 

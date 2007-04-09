@@ -45,6 +45,11 @@ public class ThemeTemplates {
      * A template file that contains HTML for the ProgressBar component.
      */
     public static final String PROGRESSBAR = "progressBar";
+    
+    /**
+     * A template file that contains HTML for the Checkbox component.
+     */
+    public static final String CHECKBOX = "checkbox";
 
     /**
      * A template file that contains HTML for the image component.
