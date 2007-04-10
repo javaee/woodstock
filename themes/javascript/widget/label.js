@@ -52,15 +52,16 @@ webui.@THEME@.widget.label = function() {
             this.requiredImageContainer.id = this.id + "_requiredImageContainer";
             this.errorImageContainer.id = this.id + "_errorImageContainer";
             this.valueContainer.id = this.id + "_valueContainer";
+            this.contentsContainer.id = this.id + "_contentsContainer";
         }
 
         // Set public functions. 
-        this.domNode.getProps = function() { return dojo.widget.byId(this.id).getProps(); }
+	this.domNode.getProps = function() { return dojo.widget.byId(this.id).getProps(); }
         this.domNode.setProps = function(props) { return dojo.widget.byId(this.id).setProps(props); }
 
         // Set private functions.
         this.getClassName = webui.@THEME@.widget.label.getClassName;
-        this.getProps = webui.@THEME@.widget.label.getProps;
+	this.getProps = webui.@THEME@.widget.label.getProps;
         this.setProps = webui.@THEME@.widget.label.setProps;
 
         // Set properties.
@@ -115,11 +116,13 @@ webui.@THEME@.widget.label.getProps = function() {
 
 /**
  * This function is used to set widget properties with the
- * following Object literals.
+ * following Object literals. In addition the "contents" 
+ * property is an array of children of the label.
  *
  * <ul>
  *  <li>accesskey</li>
  *  <li>className</li>
+ *  <li>contents</li>
  *  <li>dir</li>
  *  <li>errorImage</li>
  *  <li>htmlFor</li>
@@ -218,6 +221,16 @@ webui.@THEME@.widget.label.setProps = function(props) {
                 props.requiredImage);
         }
     }
+
+    // Set contents.
+    if (props.contents) {
+	this.contentsContainer.innerHtml = "";
+	for (var i = 0; i < props.contents.length; i++) {
+            webui.@THEME@.widget.common.addFragment(this.contentsContainer, 
+		props.contents[i], "last");
+        }
+    }
+
     return true;
 }
 
