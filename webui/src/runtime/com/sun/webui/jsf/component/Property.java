@@ -19,6 +19,9 @@
  * 
  * Copyright 2007 Sun Microsystems, Inc. All rights reserved.
  */
+/*
+ * $Id: Property.java,v 1.4 2007-04-10 19:43:38 rratta Exp $
+ */
 package com.sun.webui.jsf.component;
 
 import com.sun.faces.annotation.Component;
@@ -104,48 +107,87 @@ public class Property extends UIComponentBase implements ComplexComponent,
      * <code>getLabeledElementId</code> must called on the sub-component and
      * the value returned. The value returned by this 
      * method call may or may not resolve to a component instance.
+     * <p>
+     * The search for an suitable target for the label's "for"
+     * attribute is complicated by the fact that <code>Property</code>
+     * supports a <code>content</code> facet and random children.
+     * The actual heuristic is implemented in
+     * <code>{@link #findLabeledComponent}</code>.
+     * </p>
      *
      * @param context The FacesContext used for the request
      * @return An abolute id suitable for the value of an HTML LABEL element's
      * <code>for</code> attribute.
      */
     public String getLabeledElementId(FacesContext context) {
-	// Check for "content" facet first
-	UIComponent contentFacet = getContentComponent();
 
-	// The field component is the one that is labelled
-	UIComponent labeledComponent = null;
+        UIComponent labeledComponent = getLabeledComponent(context);
+        if (labeledComponent == null) {
+            return null;
+        }
+        // NOTE: Don't use ComplexComponent here, the Label component will.
+        if (Beans.isDesignTime()) {
+            //6474235: recalculate clientId
+            UIComponent resetIdComp = labeledComponent;
+            while (resetIdComp != null) {
+                resetIdComp.setId(resetIdComp.getId());  
+                resetIdComp = resetIdComp.getParent();
+            }
+        }
+        if (labeledComponent instanceof ComplexComponent) {
+            return ((ComplexComponent)
+                labeledComponent).getLabeledElementId(context);
+        } else {
+            return labeledComponent.getClientId(context);
+        }
+    }
+
+    /**
+     * Return the actual component represented by this
+     * <code>Property</code> that is referenced by <code>label</code>
+     * in order to evaluate the <code>required</code> and <code>valid</code>
+     * states of the component.
+     *
+     * @param context The current <code>FacesContext</code> instance
+     * @param label The <code>Label</code> that labels this component.
+     * @return a <code>UIComponent</code> in order to evaluate its
+     * required and valid states.
+     */
+    public UIComponent getIndicatorComponent(FacesContext context,
+            Label label) {
+        return getLabeledComponent(context);
+    }
+
+    /**
+     * Return the actual component this <code>Property</code>
+     * represents. First check for the <code>content</code> facet
+     * and if it exists call <code>findLabeledComponent</code>.
+     * If there is no facet, call <code>findLabeledComponent</code>
+     * to search through all facets and children.
+     * <p>
+     * <code>findLabeledComponent</code> returns the first
+     * <code>EditableValue</code> facet or child.
+     * </p>
+     */
+    private UIComponent getLabeledComponent(FacesContext context) {
+
+        // Check for "content" facet first
+        UIComponent contentFacet = getContentComponent();
+
+        UIComponent labeledComponent = null;
         
-	if (contentFacet == null) {
+        if (contentFacet == null) {
             // If there is no facet, assume that the content is specified 
             // as a child of this component. Search for a
             // required ComplexComponent among the children
-	    labeledComponent = findLabeledComponent(this, true);
-	} else {
+            labeledComponent = findLabeledComponent(this, true);
+        } else {
             // If a facet has been specified, see if the facet is a required
             // ComplexComponent or search for a required ComplexComponent
             // among the children of the facet component
-	    labeledComponent = findLabeledComponent(contentFacet, false);
-	}
-	
-        if (labeledComponent != null) {
-	    // NOTE: Don't use ComplexComponent here, the Label component will.
-            if (Beans.isDesignTime()) {
-                //6474235: recalculate clientId
-                UIComponent resetIdComp = labeledComponent;
-                while (resetIdComp != null) {
-                    resetIdComp.setId(resetIdComp.getId());  
-                    resetIdComp = resetIdComp.getParent();
-                }
-            }
-            if (labeledComponent instanceof ComplexComponent) {
-                return ((ComplexComponent)labeledComponent).getLabeledElementId(context);
-            } else {
-		return labeledComponent.getClientId(context);
-	    }
+            labeledComponent = findLabeledComponent(contentFacet, false);
         }
-        return null; 
-        
+        return labeledComponent; 
     }
 
     /**
@@ -218,7 +260,8 @@ public class Property extends UIComponentBase implements ComplexComponent,
                     resetIdComp = resetIdComp.getParent();
                 }
             }
-            return ":" + labeledComponent.getClientId(context); // NOI18N
+            return String.valueOf(NamingContainer.SEPARATOR_CHAR) + 
+		labeledComponent.getClientId(context);
         }
         return null; 
     }
@@ -234,7 +277,7 @@ public class Property extends UIComponentBase implements ComplexComponent,
       *
       *	@return	The first <code>EditableValueHolder</code>, null if not found.
       */
-    private static UIComponent findLabeledComponent(UIComponent comp, 
+    private UIComponent findLabeledComponent(UIComponent comp, 
 	    boolean skip) {
 	if (!skip) {
 	    // Check to see if comp is an EditableValueHolder
@@ -374,7 +417,13 @@ public class Property extends UIComponentBase implements ComplexComponent,
 	// find the labelled component, continue using that
 	// for now.
 	//
-	String id = getLabeledElementId(getFacesContext());
+        // Need to set the "Property" as the for component.
+        // It is a complex component. Otherwise we have
+        // no way of finding the actual component or element
+        // as the target of the for attribute. The "content" facet
+        // or child may not have been instantiated yet.
+        //
+        String id = this.getClientId(getFacesContext());
 	((Label)component).setFor(id);
 
 	return component;

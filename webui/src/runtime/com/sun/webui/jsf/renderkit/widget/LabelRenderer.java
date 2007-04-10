@@ -19,12 +19,15 @@
  * 
  * Copyright 2007 Sun Microsystems, Inc. All rights reserved.
  */
-
+/*
+ * $Id: LabelRenderer.java,v 1.3 2007-04-10 19:43:39 rratta Exp $
+ */
 package com.sun.webui.jsf.renderkit.widget;
 
 import com.sun.faces.annotation.Renderer;
 import com.sun.webui.jsf.component.ComplexComponent;
 import com.sun.webui.jsf.component.Label;
+import com.sun.webui.jsf.component.Property;
 import com.sun.webui.jsf.util.WidgetUtilities;
 import com.sun.webui.theme.Theme;
 import com.sun.webui.jsf.theme.ThemeTemplates;
@@ -105,49 +108,127 @@ public class LabelRenderer extends RendererBase {
      */
     protected JSONObject getProperties(FacesContext context,
             UIComponent component) throws IOException, JSONException {
+
         Label label = (Label) component;
-        String templatePath = label.getHtmlTemplate(); // Get HTML template.
+	Theme theme = ThemeUtilities.getTheme(context);
+
+	// Get HTML template.
+        String templatePath = label.getHtmlTemplate();
         
-        EditableValueHolder comp = label.getLabeledComponent();
-        
-        boolean requiredFlag = label.isRequiredIndicator();
-        boolean errorFlag = false; 
-        
-        if(!label.isHideIndicators() && comp != null) {
-            Object o = ((UIComponent)comp).getAttributes().get("readOnly"); 
-            if(o != null && o instanceof Boolean && o.equals(Boolean.TRUE)) { 
-                requiredFlag = false; 
-                errorFlag = false; 
-            } 
-           else {
-                requiredFlag = comp.isRequired();
-                errorFlag = !comp.isValid();
+        // For now, since we don't have independent attributes for
+        // the required component and the validated component
+        // use the component identified by the for attribute or 
+        // use the same algorithm to find a component.
+        //
+        // Ideally this strategy would be the fall back case when the 
+        // developer or subcomponent owner has not set the
+        // requiredComponentId or validationComponentId explicitly.
+        // Don't abstract this now, so we don't run
+        // findComponent too many times.
+        //
+        // Since we are getting the component and not the id
+        // we need to manually check for ComplexComponent which
+        // would have been done in getLabeledElementId, to obtain
+        // the attribute for the HTML "for" attribute.
+        //
+        // If the component is a ComplexComponent then we still 
+        // may not have the component instance for the validation
+        // and required check. We get the labeled element id and
+        // then find that component instance.
+        //
+        // But that is not sufficient either since it is defined
+        // to be an HTML element and not a component id.
+        //
+        // We need the "IndicatorComponent".
+        //
+        String forId = label.getFor();
+        UIComponent labeledComponent = 
+                label.getLabeledComponent(context, forId);
+        if (labeledComponent instanceof ComplexComponent) {
+            forId = ((ComplexComponent)
+                labeledComponent).getLabeledElementId(context);
+
+            // Since the value of "forId" is an HTML element id
+            // and therefore possibly not a component id we
+            // still need the component instance that is labeled.
+            // In all cases but the Property component, the ComplexComponent
+            // that was found, IS the labeled component instance.
+            // The Property has to find the instance according to 
+            // its rules. Unfortunately for Property this results
+            // in two calls to UIComponent.findComponent, but at this
+            // time it can't be helped.
+            //
+            if (labeledComponent instanceof Property) {
+                labeledComponent = 
+                    ((Property)labeledComponent).getIndicatorComponent(
+                        context, label);
+            }
+        }
+
+
+        // isRequiredIndicator was defined in case the labeledComponent could
+        // not be determined, as was the case when the labeled component
+        // appeared after the label in JSF 1.1. This property
+        // may no longer be needed.
+        // If the labeled component cannot be determined and this flag
+        // is true and isHideIndicators is false 
+        // then the required indicator is shown.
+        //
+        boolean isHideIndicators = label.isHideIndicators();
+        boolean requiredFlag = label.isRequiredIndicator() &&
+                !isHideIndicators;
+
+        boolean errorFlag = false;
+
+	// Use the attributes so that we don't have to test
+	// for EditableValueHolder.
+	//
+	// If hideIndicators is true, don't shoul any indicators.
+        // If hideIndicators is false and the labeled component is 
+        // readonly or null don't show any required indicator 
+        //
+        if (!isHideIndicators && labeledComponent != null) {
+            if (isProperty(labeledComponent, "readOnly", false)) { //NOI18N
+                requiredFlag = false;
+            } else {
+                requiredFlag =
+                    isProperty(labeledComponent, "required", false);//NOI18N
+		// We want error flag to be true if the valid 
+		// attribute exists and is false.
+		// Otherwise we want errorFlag to be false.
+		//
+                errorFlag = 
+                    !isProperty(labeledComponent, "valid", true); //NOI18N
            }
         }
         
         JSONObject json = new JSONObject();
         json.put("level", label.getLabelLevel())
             .put("value", formatLabelText(context, label))
-            .put("htmlFor", getLabeledElementId(context, label))
+            .put("htmlFor", forId)
             .put("required", requiredFlag)
             .put("valid", !errorFlag)
             .put("templatePath", (templatePath != null)
                 ? templatePath 
-                : getTheme().getPathToTemplate(ThemeTemplates.LABEL))
+                : theme.getPathToTemplate(ThemeTemplates.LABEL))
             .put("className", label.getStyleClass());    
             
         // Append required image properties.
         WidgetUtilities.addProperties(json, "requiredImage",
-            WidgetUtilities.renderComponent(context, label.getRequiredIcon(getTheme(),context)));
+            WidgetUtilities.renderComponent(context,
+		label.getRequiredIcon(theme, context)));
 
         // Append error image properties.
-        // passing valid=false so that it can output error icon (irrespective of valid attribute value). 
+        // passing valid=false so that it can output error icon 
+	// (irrespective of valid attribute value). 
         WidgetUtilities.addProperties(json, "errorImage",
-            WidgetUtilities.renderComponent(context, label.getErrorIcon(getTheme(),context,false)));
+            WidgetUtilities.renderComponent(context, 
+		label.getErrorIcon(theme, context,false)));
 
         // Add core and attribute properties.
         addAttributeProperties(attributes, component, json);
         setCoreProperties(context, component, json);
+	setContents(context, component, json);
 
         return json;
     }
@@ -195,109 +276,53 @@ public class LabelRenderer extends RendererBase {
         return MessageFormat.format(text, list.toArray(new Object[list.size()]));
     }
 
-    /**
-     * Returns an id suitable for the HTML label element's "for" attribute.
-     * This implementation uses the following heuristic to obtain a
-     * suitable id.
-     * <p>
-     * <ul>
-     * <li>If <code>label.getFor</code> returns null, return the value
-     * of <code>getLabeledChildId</code>.
-     * </li>
-     * <li>If <code>label.getFor</code> is not null, and the value
-     * is not an absolute id (does not contain a
-     * <code>NamingContainer.SEPARATOR_CHAR</code> try to resolve the
-     * id to a component instance as if it were a sibling of the label. If
-     * a component is found, and it is an instance of
-     * <code>ComplexComponent</code> return the value of
-     * <code>component.getLabeledElementId</code> else 
-     * <code>component.getClientId</code>.
-     * </li>
-     * <li>If <code>label.getFor</code> returns an absolute id
-     * i.e. contains a <code>NamingContainer.SEPARATOR_CHAR</code> then
-     * return the value of <code>RenderingUtilities.getLabeledElementId</code>.
-     * </li>
-     * </ul>
+    /** 
+     * Helper method to obtain label children.
      *
-     * @param context The faces context
-     * @param label The label component.
-     *
-     * @return A suitable id for the label element's "for" attribute.
-     */     
-    protected String getLabeledElementId(FacesContext context, Label label)
-	    throws IOException{
-
-        String id = label.getFor();
-        if (id == null) {
-            id = getLabeledChildId(context, label);
-        } else if (id.indexOf(NamingContainer.SEPARATOR_CHAR) == -1) {
-	    // The id may be a relative id.
-	    // This does not prove conclusively that the id is a
-	    // relative id. A relative id could contain a 
-	    // NamingContainer.SEPARATOR_CHAR.
-	    // Assume that the component's id is given as the value of
-	    // for attribute. Get the label's parent and try to find the 
-	    // client id of a sibling component.
-	    //
-	    UIComponent comp = label.getParent();
-	    if (comp != null) {
-		comp = comp.findComponent(id);
-		if (comp != null) {
-		    if (comp instanceof ComplexComponent) {
-			id = ((ComplexComponent)comp).getLabeledElementId(context);
-		    } else {
-			id = comp.getClientId(context);
-		    }
-		}
-	    }
-	} else {
-            id = RenderingUtilities.getLabeledElementId(context, id);
-	}
-	return id;
-    }
-    
-    /**
-     * Returns the client id of the first child of the label component.
-     * If there are no children, <code>null</code> is returned. If the
-     * first child is a <code>ComplexComponent</code> return the value of
-     * the <code>getLabeledElementId</code> instance method, else the
-     * value of <code>getClientId</code>.
-     * <p>
-     * Note that, no recursive search is made to find a suitable
-     * component to label, if the child has more than one child or 
-     * the child is a grouping component buy not a
-     * <code>ComplexComponent</code>. In such cases, it is advisable 
-     * to explicitly set the "for" attribute for the label to the 
-     * desired component contained by the grouping component or non
-     * first child of the <code>Label</code>.
-     * 
-     * @param context The faces context instance
-     * @param component The label component.
+     * @param context FacesContext for the current request.
+     * @param component Table2RowGroup to be rendered.
+     * @param json JSONObject to assign properties to.
      */
-    protected String getLabeledChildId(FacesContext context,
-	    UIComponent component) {
-        
-        if (component.getChildCount() == 0) {
-            if (LogUtil.fineEnabled(LabelRenderer.class)) {
-                LogUtil.fine(LabelRenderer.class,
-		    "No children available");  //NOI18N
-            }
-	    return null;
-        }
-        UIComponent child = (UIComponent)component.getChildren().get(0);
-        if (child instanceof ComplexComponent) {
-            return ((ComplexComponent)child).getLabeledElementId(context);
-        } else {
-	    return child.getClientId(context);
+    protected void setContents(FacesContext context,
+	    UIComponent component, JSONObject json) 
+	    throws IOException, JSONException {
+
+        Iterator kids = component.getChildren().iterator();
+
+	if (!kids.hasNext()) {
+	    return;
 	}
+
+        JSONArray jArray = new JSONArray();
+        json.put("contents", jArray);
+
+        while (kids.hasNext()) {
+            UIComponent child = (UIComponent) kids.next();
+            if (child.isRendered()) {
+                WidgetUtilities.addProperties(jArray,
+                    WidgetUtilities.renderComponent(context, child));
+            }
+        }
     }
 
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     // Private renderer methods
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-    // Helper method to get Theme objects.
-    private Theme getTheme() {
-        return ThemeUtilities.getTheme(FacesContext.getCurrentInstance());
+    /**
+     * Return <code>true</code> if <code>property</code> is a 
+     * <code>Boolean</code> property and its value is <code>true</code>
+     * else <code>false</code>. If the property does not exist 
+     * return <code>doesNotExist</code>.
+     */
+    private boolean isProperty(UIComponent component, String property,
+            boolean doesNotExist) {
+
+        Object o = ((UIComponent)component).getAttributes().get(property);
+        if (o == null) {
+            return doesNotExist;
+        } else {
+            return o instanceof Boolean ? ((Boolean)o).booleanValue() : false;
+        }
     }
 }

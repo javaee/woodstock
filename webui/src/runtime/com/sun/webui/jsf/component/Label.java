@@ -365,6 +365,17 @@ public class Label extends UIOutput implements NamingContainer {
 	icon.setBorder(0);
 	//icon.setLongDesc("TODO: Invalid");
 
+	// This is bogus because it assumes the image renederer
+	// will get the information again based on the "icon"
+	// attribute being set. The previous call to getIcon
+	// has already filled in the information for the 
+	// LABEL_INVALID_ICON icon. If the image renderer decides
+	// to not call the theme again then the images rendered
+	// will be messed up.
+	//
+	// This code also depends on labeledCOmponent which is 
+	// deprecated and no longer guaranteed to be set.
+	//
 	if (valid) {
 	   icon.setIcon(ThemeImages.DOT);
 	   icon.setAlt("");
@@ -389,14 +400,132 @@ public class Label extends UIOutput implements NamingContainer {
     /**
      * Return <code>span</code> if the label is not labeling another
      * component, else return <code>label</code>.
+     * @deprecated
      */
     public String getElement() { 
 	return element; 
     } 
 
+    /**
+     * Returns an id suitable for the HTML label element's "for" attribute.
+     * <p>
+     * If no labeled component can be found return the value of 
+     * <code>label.getFor()</code> else <code>null</code>.
+     * If <code>label.getFor()</code> is not
+     * <code>null</code> return the component with that id.<br/>
+     * If the id does not contain a <code>NamingContainer.SEPARATOR_CHAR</code>
+     * assume it is a relative id and look for the component as a
+     * sibling of <code>label</code>. If it is not found search among the
+     * the children of <code>label</code>. <br/>
+     * If <code>id</code> is <code>null</code> return the client id
+     * of the first child of the label.<br/>
+     * If <code>id</code> is an absolute path, i.e. contains a 
+     * <code>NamingContainer.SEPARATOR_CHAR</code> search from the
+     * view root. Return <code>null</code> if <code>label</code> is 
+     * <code>null</code> or a component with an id equal to
+     * <code>label.getFor()</code> cannot be found.
+     *
+     * @param context The faces context
+     * @param label The label component.
+     *
+     * @return A suitable id for the label element's "for" attribute.
+     */     
+    public String getLabeledElementId(FacesContext context, Label label) {
+
+        String id = getFor();
+        UIComponent labeledComponent = getLabeledComponent(context, id);
+        if (labeledComponent != null) {
+            if (labeledComponent instanceof ComplexComponent) {
+                id = ((ComplexComponent)labeledComponent).
+                        getLabeledElementId(context);
+            } else {
+                id = labeledComponent.getClientId(context);
+            }
+        }
+        return id;
+    }
+
+    
+    /**
+     * Return the labeled component, if <code>id</code> is not
+     * <code>null</code> return the component with that id. If
+     * the id does not contain a <code>NamingContainer.SEPARATOR_CHAR</code>
+     * assume it is a relative id and look for the component as a
+     * sibling of <code>label</code>. If it is not found search among the
+     * the children of <code>label</code>. If <code>id</code>
+     * is <code>null</code> return the first child of the label.
+     * If <code>id</code> is an absolute path, i.e. contains a 
+     * <code>NamingContainer.SEPARATOR_CHAR</code> search from the
+     * view root. Return <code>null</code> if <code>label</code> is 
+     * <code>null</code> or a component with an id equal to <code>id</code>
+     * cannot be found.
+     */
+    public UIComponent getLabeledComponent(FacesContext context,
+            String id) {
+
+        UIComponent labeledComponent = null;
+        // If there is no id specified (for the "for" attribute) then
+        // return the first label child.
+        //
+        if (id == null) {
+            Iterator iterator = getChildren().iterator();
+            labeledComponent = iterator.hasNext() ? 
+                (UIComponent)iterator.next() : null;
+        } else if (id.indexOf(NamingContainer.SEPARATOR_CHAR) == -1) {
+
+            // The id may be a relative id.
+            // This does not prove conclusively that the id is a
+            // relative id. A relative id could contain a 
+            // NamingContainer.SEPARATOR_CHAR.
+            // Assume that the component's id is given as the value of
+            // the "for" attribute. Get the label's parent and try to find the 
+            // client id of a sibling component.
+            //
+            labeledComponent = getParent();
+            if (labeledComponent != null) {
+                try {
+                    labeledComponent = labeledComponent.findComponent(id);
+                } catch (Exception e) {
+                    // try some other assumption
+                }
+            }
+            // if labeledComponent is still null, try and find it as
+            // a child of label, findComponent does not do a depth search
+            //
+            if (labeledComponent == null) {
+                try {
+                    labeledComponent = findComponent(id);
+                } catch (Exception e) {
+                    if (LogUtil.fineEnabled(Label.class)) {
+                        LogUtil.fine(Label.class,
+                            "Can't find relative " + id);  //NOI18N
+                    }
+                }
+            }
+        } else {
+            // Assume that it is an absolute path and search from the
+            // view root.
+            if (id.charAt(0) != NamingContainer.SEPARATOR_CHAR) {
+                id = String.valueOf(NamingContainer.SEPARATOR_CHAR).concat(id);
+            }
+            try {
+                labeledComponent = context.getViewRoot().findComponent(id);
+            } catch (Exception e) {
+                if (LogUtil.fineEnabled(Label.class)) {
+                    LogUtil.fine(Label.class,
+                        "Can't find absolute " + id);  //NOI18N
+                }
+            }
+        }
+        return labeledComponent;
+    }
     private void log(String s) { 
         System.out.println(getClass().getName() + "::" + s);
     }
+
+    // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    // Tag attribute methods
+    // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
     /**
      * Return the label level.
@@ -413,9 +542,6 @@ public class Label extends UIOutput implements NamingContainer {
         return level;
     }
 
-    // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    // Tag attribute methods
-    // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
     /**
      * The converter attribute is used to specify a method to translate native
