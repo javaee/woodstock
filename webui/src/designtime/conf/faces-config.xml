@@ -206,6 +206,12 @@
     </renderer>
     
     <renderer>
+      <component-family>com.sun.webui.jsf.RadioButton</component-family>
+      <renderer-type>com.sun.webui.jsf.widget.RadioButtonDesignTime</renderer-type>
+      <renderer-class>com.sun.webui.jsf.renderkit.html.RadioButtonRenderer</renderer-class>
+    </renderer>
+    
+    <renderer>
       <component-family>com.sun.webui.jsf.RadioButtonGroup</component-family>
       <renderer-type>com.sun.webui.jsf.RadioButtonGroupDesignTime</renderer-type>
       <renderer-class>com.sun.webui.jsf.renderkit.html.RadioButtonGroupDesignTimeRenderer</renderer-class>

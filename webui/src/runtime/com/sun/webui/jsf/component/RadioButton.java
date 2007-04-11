@@ -32,6 +32,7 @@ import javax.faces.context.FacesContext;
 import javax.faces.convert.Converter; // for javadoc
 import javax.faces.convert.ConverterException;
 import javax.faces.render.Renderer;
+import com.sun.webui.jsf.util.ConversionUtilities;
 
 /**
  * <p>A component that represents a radio button.</p>
@@ -213,16 +214,18 @@ import javax.faces.render.Renderer;
  * </p>
  */
 @Component(type="com.sun.webui.jsf.RadioButton", family="com.sun.webui.jsf.RadioButton", displayName="Radio Button", tagName="radioButton",
+    tagRendererType="com.sun.webui.jsf.widget.RadioButton", 
     helpKey="projrave_ui_elements_palette_wdstk-jsf1.2_radiobutton",
     propertiesHelpKey="projrave_ui_elements_palette_wdstk-jsf1.2_propsheets_radio_button_props")
-public class RadioButton extends RbCbSelector {
+public class RadioButton extends RbCbSelector implements ComplexComponent {
+    public static final String RB_ID = "_rb"; //NOI18N
     /**
      * Default constructor.
      */
     public RadioButton() {
 	super();
 	setMultiple(false);
-        setRendererType("com.sun.webui.jsf.RadioButton");
+        setRendererType("com.sun.webui.jsf.widget.RadioButton");
     }
 
     /**
@@ -256,6 +259,94 @@ public class RadioButton extends RbCbSelector {
 	} else {
 	    return null;
 	}
+    }
+    
+    /**
+     * Alternative HTML template to be used by this component.
+     */
+    @Property(name="htmlTemplate", displayName="HTML Template", category="Appearance")
+    private String htmlTemplate = null;
+    
+    /**
+     * Get alternative HTML template to be used by this component.
+     */
+    
+    public String getHtmlTemplate() {
+        if (this.htmlTemplate != null) {
+            return this.htmlTemplate;
+        }
+        ValueExpression _vb = getValueExpression("htmlTemplate");
+        if (_vb != null) {
+            return (String) _vb.getValue(getFacesContext().getELContext());
+        }
+        return null;
+    }
+    
+    /**
+     * Set alternative HTML template to be used by this component.
+     */
+    
+    public void setHtmlTemplate(String htmlTemplate) {
+        this.htmlTemplate = htmlTemplate;
+    }
+    
+    /**
+     * Implement this method so that it returns the DOM ID of the 
+     * HTML element which should receive focus when the component 
+     * receives focus, and to which a component label should apply. 
+     * Usually, this is the first element that accepts input. 
+     * 
+     * @param context The FacesContext for the request
+     * @return The client id, also the JavaScript element id
+     *
+     * @deprecated
+     * @see #getLabeledElementId
+     * @see #getFocusElementId
+     */
+    public String getPrimaryElementID(FacesContext context) {
+       return getLabeledElementId(context);
+    }
+    
+    /**
+     * Returns the absolute ID of an HTML element suitable for use as
+     * the value of an HTML LABEL element's <code>for</code> attribute.
+     * If the <code>ComplexComponent</code> has sub-compoents, and one of 
+     * the sub-components is the target of a label, if that sub-component
+     * is a <code>ComplexComponent</code>, then
+     * <code>getLabeledElementId</code> must called on the sub-component and
+     * the value returned. The value returned by this 
+     * method call may or may not resolve to a component instance.
+     * <p>
+     * If <code>isReadOnly</code> returns true, <code>null</code> is
+     * returned.
+     * </p>
+     *
+     * @param context The FacesContext used for the request
+     * @return An abolute id suitable for the value of an HTML LABEL element's
+     * <code>for</code> attribute.
+     */
+    public String getLabeledElementId(FacesContext context) {
+        String clntId = this.getClientId(context);
+        return clntId.concat(this.RB_ID);
+    }   
+    
+        /**
+     * Returns the id of an HTML element suitable to
+     * receive the focus.
+     * If the <code>ComplexComponent</code> has sub-compoents, and one of 
+     * the sub-components is to reveive the focus, if that sub-component
+     * is a <code>ComplexComponent</code>, then
+     * <code>getFocusElementId</code> must called on the sub-component and
+     * the value returned. The value returned by this 
+     * method call may or may not resolve to a component instance.
+     * <p>
+     * This implementation returns the value <code>getLabeledElementId</code>
+     * </p>
+     *
+     * @param context The FacesContext used for the request
+     */
+    public String getFocusElementId(FacesContext context) {
+        return getLabeledElementId(context);
     }
 
     /**
@@ -374,16 +465,18 @@ public class RadioButton extends RbCbSelector {
         super.restoreState(_context, _values[0]);
         this.labelLevel = ((Integer) _values[1]).intValue();
         this.labelLevel_set = ((Boolean) _values[2]).booleanValue();
+        this.htmlTemplate = (String) _values[3];
     }
 
     /**
      * <p>Save the state of this component.</p>
      */
     public Object saveState(FacesContext _context) {
-        Object _values[] = new Object[3];
+        Object _values[] = new Object[4];
         _values[0] = super.saveState(_context);
         _values[1] = new Integer(this.labelLevel);
         _values[2] = this.labelLevel_set ? Boolean.TRUE : Boolean.FALSE;
+        _values[3] = this.htmlTemplate;
         return _values;
     }
 }

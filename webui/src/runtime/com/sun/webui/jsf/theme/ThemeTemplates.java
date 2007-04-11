@@ -40,6 +40,11 @@ public class ThemeTemplates {
      * A template file that contains HTML for the Table2RowGroup component.
      */
     public static final String TABLE2ROWGROUP = "table2RowGroup";
+    
+    /**
+     * A template file that contains HTML for the radioButton component.
+     */
+    public static final String RADIOBUTTON = "radioButton";    
 
     /**
      * A template file that contains HTML for the ProgressBar component.

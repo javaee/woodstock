@@ -1231,6 +1231,7 @@ webui.@THEME@.radiobutton = {
      * @param elementId The element Id
      * @param disabled true or false
      * @return true if successful; otherwise, false
+     * @deprecated Use document.getElementById(id).setProps({ disabled: boolean });  
      */
     setDisabled: function(elementId, disabled) {    
         return webui.@THEME@.rbcb.setDisabled(elementId, disabled,
@@ -1257,6 +1258,7 @@ webui.@THEME@.radiobutton = {
      * @param elementId The element Id
      * @param checked true or false
      * @return true if successful; otherwise, false
+     * @deprecated Use document.getElementById(id).setProps({ checked: boolean });  
      */
     setChecked: function(elementId, checked) {
         return webui.@THEME@.rbcb.setChecked(elementId, checked,

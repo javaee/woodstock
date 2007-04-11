@@ -8563,15 +8563,100 @@ documentation</a>.</p>
  respectively.
  </p>
  <h3>Client Side Javascript Functions </h3>
+ 
+ <table style="text-align: left; width: 100%;" border="1"
+ cellpadding="2" cellspacing="2">
+    <tbody>
+      <tr>
+        <td><code>getInputElement()</code></td>
+        <td>Use this function to get the HTML Input element.</td>
+      </tr>
+      <tr>
+        <td><code>getProps()</code></td>
+        <td>Use this function to list all the properties that are supported.</td>
+      </tr>
+      <tr>
+        <td><code>setProps(props)</code></td>
+        <td>Use this function to change any of the following supported properties:
+           <ul>
+              <li>accesskey</li> 
+              <li>align</li>
+              <li>checked</li>
+              <li>className</li>
+              <li>dir</li>
+              <li>disabled</li>
+              <li>id</li>
+              <li>image</li>
+              <li>label</li>
+              <li>lang</li>
+              <li>name</li>
+              <li>onBlur</li>
+              <li>onChange</li>
+              <li>onClick</li> 
+              <li>onFocus</li> 
+              <li>onKeyDown</li>
+              <li>onKeyPress</li>
+              <li>onKeyUp</li>
+              <li>onMouseDown</li>
+              <li>onMouseMove</li>
+              <li>onMouseOut</li>
+              <li>onMouseOver</li>
+              <li>onMouseUp</li> 
+              <li>onSelect</li>
+              <li>readOnly</li>    
+              <li>style</li>
+              <li>tabIndex</li>
+              <li>title</li>
+              <li>value</li>  
+              <li>visible</li>  
+            </ul>
+        </td>
+      </tr>
+    </tbody>
+ </table>
  <p>
- <ul>
-     <li><em>radioButton_setChecked(elementId, checked)</em>: Set the checked
-     property for a radio button with the given element id, <em>elementId</em>.
-     If <em>checked</em> is true the radio button is checked.
-     If <em>checked</em> is false the radio button is unchecked.</li>
- </ul>
- </p>
- 	<h3>Theme Identifiers</h3>
+<h4> Example 7: Update radioButton client side using setProps function. </h4>
+<p>This example shows how to update the disabled property of a radioButton client side. </p>  
+<code><pre>     
+&lt;webuijsf:radioButton id="rb1" name="rb1" 
+    label="My Radio Button"&gt;<br>                  
+&lt;/webuijsf:radioButton&gt;                
+
+&lt;webuijsf:button primary="true" id="btn" text="Enable" onClick="return updateRb({disabled: false}, 'form1:rb1');"/&gt;     
+&lt;webuijsf:button primary="true" id="btn1" text="Disable" onClick="return updateRb({disabled: true}, 'form1:rb1');"/&gt;       
+
+&lt;webuijsf:script&gt;         
+   function updateRb(props, id) { 
+        var domNode = document.getElementById(id); 
+        domNode.setProps(props); 
+        return false; 
+    }        
+&lt;/webuijsf:script&gt;          
+</pre></code> 
+</p>
+
+<h4> Example 8: Update radioButton client side using getProps function. </h4>
+<p>This example shows how to toggle the disabled state of a radio button client side using getProps function. </p>  
+<code><pre>     
+&lt;webuijsf:radioButton id="rb1" name="rb1" 
+    label="My Radio Button"&gt;<br>                  
+&lt;/webuijsf:radioButton&gt;                
+
+&lt;webuijsf:button primary="true" id="btn" text="Toggle" onClick="return toggleState();"/&gt;     
+     
+
+&lt;webuijsf:script&gt;         
+   function toggleState() { 
+        var domNode = document.getElementById("form1:rb1"); 
+        domNode.setProps( { disabled: !domNode.getProps().disabled } ); 
+        return false; 
+    }        
+&lt;/webuijsf:script&gt;          
+</pre></code> 
+</p>
+ 
+	
+<h3>Theme Identifiers</h3>
  <p>
  	<lo>
  	<li>Rb for the INPUT element</li>
