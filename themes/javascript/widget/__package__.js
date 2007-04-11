@@ -40,6 +40,7 @@ dojo.requireIf(djConfig.isDebug, "webui.@THEME@.widget.label");
 dojo.requireIf(djConfig.isDebug, "webui.@THEME@.widget.staticText");
 dojo.requireIf(djConfig.isDebug, "webui.@THEME@.widget.checkbox");
 dojo.requireIf(djConfig.isDebug, "webui.@THEME@.widget.hiddenField");
+dojo.requireIf(djConfig.isDebug, "webui.@THEME@.widget.radioButton");
 
 dojo.require("dojo.ns");
 dojo.registerNamespace("webui.@THEME@", "webui.@THEME@.widget");

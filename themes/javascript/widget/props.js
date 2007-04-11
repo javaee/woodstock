@@ -73,6 +73,16 @@ webui.@THEME@.widget.props = {
         stopped: "stopped"
     },
 
+    // RadioButton properties.
+     radioButton: {
+        spanClassName: "RbSpn@THEME_CSS@",
+        spanDisabledClassName: "RbSpnDis@THEME_CSS@",
+        labelClassName: "RbLbl@THEME_CSS@",
+        labelDisabledClassName: "RbLblDis@THEME_CSS@",
+        imageClassName: "RbImg@THEME_CSS@",
+        imageDisabledClassName: "RbImgDis@THEME_CSS@"
+     },
+
     // Label properties.
     label: {
         errorStyleClass: "ConErrLblTxt@THEME_CSS@",
