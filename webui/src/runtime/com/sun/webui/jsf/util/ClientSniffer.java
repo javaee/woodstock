@@ -125,11 +125,12 @@ public class ClientSniffer {
 		version = st.nextToken();
 	    }
 
-	    // Remove white space & extra info.
-	    st = new StringTokenizer(version);
-
-	    if (st.hasMoreTokens()) {
-		version = st.nextToken();
+	    if (version != null) {
+		// Remove white space & extra info.
+		st = new StringTokenizer(version);
+		if (st.hasMoreTokens()) {
+		    version = st.nextToken();
+		}
 	    }
 	}
 
