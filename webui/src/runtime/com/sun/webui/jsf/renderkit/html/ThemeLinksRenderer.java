@@ -63,12 +63,14 @@ public class ThemeLinksRenderer extends javax.faces.render.Renderer {
         ResponseWriter writer = context.getResponseWriter();
         
         // Link and Scripts
-        Theme theme = ThemeUtilities.getTheme(context);
-        if (themeLinks.isStyleSheetInline()) {
-            RenderingUtilities.renderStyleSheetInline(themeLinks, theme, context, writer);
-        } else if (themeLinks.isStyleSheetLink()) {
-            RenderingUtilities.renderStyleSheetLink(themeLinks, theme, context, writer);
-        }
+	if (themeLinks.isStyleSheet()) {
+	    Theme theme = ThemeUtilities.getTheme(context);
+	    if (themeLinks.isStyleSheetInline()) {
+		RenderingUtilities.renderStyleSheetInline(themeLinks, theme, context, writer);
+	    } else if (themeLinks.isStyleSheetLink()) {
+		RenderingUtilities.renderStyleSheetLink(themeLinks, theme, context, writer);
+	    }
+	}
 
         // Do not render any JavaScript.
         if (!themeLinks.isJavaScript()) {
