@@ -34,7 +34,7 @@ import javax.faces.convert.Converter;
  * level.
  */
 @Component(type="com.sun.webui.jsf.HelpInline", family="com.sun.webui.jsf.HelpInline", displayName="Inline Help", tagName="helpInline",
-    helpKey="projrave_ui_elements_palette_wdstk-jsf1.2_help_inline",
+    helpKey="projrave_ui_elements_palette_wdstk-jsf1.2_inline_help",
     propertiesHelpKey="projrave_ui_elements_palette_wdstk-jsf1.2_propsheets_help_inline_props")
 public class HelpInline extends UIOutput {
     
