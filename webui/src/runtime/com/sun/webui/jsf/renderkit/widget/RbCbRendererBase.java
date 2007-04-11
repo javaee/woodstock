@@ -29,6 +29,7 @@ import com.sun.webui.jsf.util.WidgetUtilities;
 import java.io.IOException;
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
+import javax.faces.convert.ConverterException;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -80,6 +81,38 @@ abstract class RbCbRendererBase extends RendererBase {
      */
     protected abstract boolean isSelected(FacesContext context,
 	UIComponent component);
+    
+    /**
+     * <p>
+     * Attempt to convert previously stored state information into an
+     * object of the type required for this component (optionally using the
+     * registered {@link javax.faces.convert.Converter} for this component,
+     * if there is one).  If conversion is successful, the new value
+     * is returned and if not, a
+     * {@link javax.faces.convert.ConverterException} is thrown.
+     * </p>
+     * 
+     * @param context {@link FacesContext} for the request we are processing
+     * @param component component being renderer.
+     * @param submittedValue a value stored on the component during <code>decode</code>.
+     * 
+     * @exception ConverterException if the submitted value
+     *   cannot be converted successfully.
+     * @exception NullPointerException if <code>context</code>
+     *  or <code>component</code> is <code>null</code>
+     */
+    public Object getConvertedValue(FacesContext context,
+				    UIComponent  component,
+				    Object submittedValue) 
+	    throws ConverterException {
+
+	// I know this looks odd but it gives an opportunity
+	// for an alternative renderer for Checkbox and RadioButton
+	// to provide a converter.
+	//
+	return ((RbCbSelector)component).getConvertedValue(context,
+		(RbCbSelector)component, submittedValue);
+    }
     
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     // RendererBase methods
