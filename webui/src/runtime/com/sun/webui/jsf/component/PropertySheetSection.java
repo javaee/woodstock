@@ -50,7 +50,7 @@ import javax.faces.component.UIComponentBase;
 @com.sun.faces.annotation.Component(type="com.sun.webui.jsf.PropertySheetSection",
     family="com.sun.webui.jsf.PropertySheetSection",
     displayName="Property Sheet Section", instanceName="section", tagName="propertySheetSection",
-    helpKey="projrave_ui_elements_palette_wdstk-jsf1.2_property_sheet_sections")
+    helpKey="projrave_ui_elements_palette_wdstk-jsf1.2_property_sheet_section")
 public class PropertySheetSection extends UIComponentBase
         implements NamingContainer {
     /**
