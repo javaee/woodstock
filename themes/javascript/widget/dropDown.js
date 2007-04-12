@@ -195,6 +195,7 @@ webui.@THEME@.widget.dropDown.getProps = function() {
     if (this.submitForm != null) { props.submitForm = this.submitForm; }
     if (this.label ) { props.label = this.label; }
     if (this.labelOnTop != null) { props.labelOnTop = this.labelOnTop; }
+    if (this.options ) { props.options = this.options; }
 
     // Add DOM node properties.
     Object.extend(props, webui.@THEME@.widget.common.getCommonProps(this));
