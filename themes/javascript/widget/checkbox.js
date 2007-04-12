@@ -63,7 +63,7 @@ webui.@THEME@.widget.checkbox = function() {
         this.getInputElement = webui.@THEME@.widget.checkbox.getInputElement;        
 
         // Set properties
-        this.setProps(this);
+        this.setProps();
         return true;
     }
 }
@@ -77,7 +77,9 @@ webui.@THEME@.widget.checkbox.getClassName = function() {
     if (this.disabled == true) {
         className = webui.@THEME@.widget.props.checkbox.spanDisabledClassName;
     }
-    return className;
+    return (this.className)
+        ? className + " " + this.className
+        : className;
 }
 
 /**
@@ -158,19 +160,15 @@ webui.@THEME@.widget.checkbox.getProps = function() {
  * @param props Key-Value pairs of properties.
  */
 webui.@THEME@.widget.checkbox.setProps = function(props) {
-    if (props == null) {
-        return false;
+    // Save properties for later updates.
+    if (props != null) {
+        webui.@THEME@.widget.common.extend(this, props);
+    } else {
+        props = this.getProps(); // Widget is being initialized.
     }
-
-    // After widget has been initialized, save properties for later updates.
-    if (this.updateProps == true) {
-        webui.@THEME@.widget.common.extend(this, props);    
-    }
-    // Set flag indicating properties can be updated.
-    this.updateProps = true;
 
     // Set style class -- must be set before calling setCoreProps().
-    this.domNode.setAttribute("class", this.getClassName());
+    props.className = this.getClassName();
 
     // Set DOM node properties.    
     webui.@THEME@.widget.common.setCoreProps(this.domNode, props);               
@@ -208,7 +206,7 @@ webui.@THEME@.widget.checkbox.setProps = function(props) {
     }      	
     
     // Set image widget properties.
-    if (props.image || props.disabled != null) {
+    if (props.image || props.disabled != null && this.image) {
         // Ensure property exists so we can call setProps just once.
         if (props.image == null) {
             props.image = {};
@@ -229,7 +227,7 @@ webui.@THEME@.widget.checkbox.setProps = function(props) {
     }   
 
     // Set label widget properties.
-    if (props.label || props.disabled != null) {
+    if (props.label || props.disabled != null && this.label) {
         // Ensure property exists so we can call setProps just once.
         if (props.label == null) {
             props.label = {};

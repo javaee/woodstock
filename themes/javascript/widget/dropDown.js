@@ -76,13 +76,12 @@ webui.@THEME@.widget.dropDown = function() {
         this.initStyleClasses = webui.@THEME@.widget.dropDown.initStyleClasses;
         this.getSelectElement = webui.@THEME@.widget.dropDown.getSelectElement;
 
-        // Set properties.
-        this.setProps(this);
-
         // Set events.
         dojo.event.connect(this.domNode, "onchange",
             webui.@THEME@.widget.dropDown.createOnChangeCallback(this.id));
 
+        // Set properties.
+        this.setProps();
         return true;
     }
 }
@@ -124,18 +123,12 @@ webui.@THEME@.widget.dropDown = function() {
  * @param props Key-Value pairs of properties.
  */
 webui.@THEME@.widget.dropDown.setProps = function(props) {
-
-    if (props == null) {
-        return false;
+    // Save properties for later updates.
+    if (props != null) {
+        webui.@THEME@.widget.common.extend(this, props);
+    } else {
+        props = this.getProps(); // Widget is being initialized.
     }
-    
-    // After widget has been initialized, save properties for later updates
-    if (this.updateProps == true) {
-        webui.@THEME@.widget.common.extend(this, props); 
-    } 
-
-    // Set flag indicating properties can be updated.
-    this.updateProps = true;
 
     // Initialize the proper style classes based on whether this is a jump drop down or not
     this.initStyleClasses(props.submitForm);

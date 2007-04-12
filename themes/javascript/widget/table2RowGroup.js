@@ -93,7 +93,7 @@ webui.@THEME@.widget.table2RowGroup = function() {
         }
 
         // Set properties.
-        this.setProps(this);
+        this.setProps();
         return true;
     }
 }
@@ -159,10 +159,12 @@ webui.@THEME@.widget.table2RowGroup.getProps = function() {
 
     // Set properties.
     if (this.columns) { props.columns = this.columns; }
+    if (this.first) { props.first = this.first; }
     if (this.footerText) { props.footerText = this.footerText; }
     if (this.headerText) { props.headerText = this.headerText; }
     if (this.height) { props.height = this.height; }
     if (this.maxRows) { props.maxRows = this.maxRows; }
+    if (this.rows) { props.rows = this.rows; }
     if (this.totalRows) { props.totalRows = this.totalRows; }
 
     // Add DOM node properties.
@@ -366,27 +368,25 @@ webui.@THEME@.widget.table2RowGroup.setHeight = function() {
  *
  * <ul>
  *  <li>columns</li>
+ *  <li>first</li>
  *  <li>footerText</li>
  *  <li>headerText</li>
  *  <li>height</li>
  *  <li>id</li>
  *  <li>maxRows</li>
+ *  <li>rows</li>
  *  <li>totalRows</li>
  * </ul>
  *
  * @param props Key-Value pairs of properties.
  */
 webui.@THEME@.widget.table2RowGroup.setProps = function(props) {
-    if (props == null) {
-        return false;
+    // Save properties for later updates.
+    if (props != null) {
+        webui.@THEME@.widget.common.extend(this, props);
+    } else {
+        props = this.getProps(); // Widget is being initialized.
     }
-    
-    // After widget has been initialized, save properties for later updates.
-    if (this.updateProps == true) {
-        webui.@THEME@.widget.common.extend(this, props);    
-    }
-    // Set flag indicating properties can be updated.
-    this.updateProps = true;
 
     // Set DOM node properties.
     webui.@THEME@.widget.common.setCoreProps(this.domNode, props);

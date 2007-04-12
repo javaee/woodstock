@@ -364,10 +364,7 @@ webui.@THEME@.widget.common = {
         if (domNode == null || props == null) {
             return false;
         }
-
-        // Append className.
-        webui.@THEME@.common.addStyleClass(domNode, props.className);
-
+        if (props.className) {domNode.setAttribute("class", props.className); }
         if (props.id) { domNode.setAttribute("id", props.id); }
         if (props.style) { 
             domNode.style.cssText = props.style; // Required for IE?

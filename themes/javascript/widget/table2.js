@@ -67,7 +67,7 @@ webui.@THEME@.widget.table2 = function() {
         this.getProps = webui.@THEME@.widget.table2.getProps;
 
         // Set properties.
-        this.setProps(this);
+        this.setProps();
         return true;
     }
 }
@@ -157,16 +157,12 @@ webui.@THEME@.widget.table2.refresh = {
  * @param props Key-Value pairs of properties.
  */
 webui.@THEME@.widget.table2.setProps = function(props) {
-    if (props == null) {
-        return false;
+    // Save properties for later updates.
+    if (props != null) {
+        webui.@THEME@.widget.common.extend(this, props);
+    } else {
+        props = this.getProps(); // Widget is being initialized.
     }
-    
-    // After widget has been initialized, save properties for later updates.
-    if (this.updateProps == true) {
-        webui.@THEME@.widget.common.extend(this, props);    
-    }
-    // Set flag indicating properties can be updated.
-    this.updateProps = true;
 
     // Set DOM node properties.
     webui.@THEME@.widget.common.setCoreProps(this.domNode, props);

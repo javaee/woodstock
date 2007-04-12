@@ -65,7 +65,7 @@ webui.@THEME@.widget.label = function() {
         this.setProps = webui.@THEME@.widget.label.setProps;
 
         // Set properties.
-        this.setProps(this);
+        this.setProps();
         return true;
     }
 }
@@ -84,7 +84,9 @@ webui.@THEME@.widget.label.getClassName = function() {
     } else if (this.level == 3) {
         className = webui.@THEME@.widget.props.label.levelThreeStyleClass;
     }
-    return className;
+    return (this.className)
+        ? className + " " + this.className
+        : className;
 }
 
 /**
@@ -150,19 +152,15 @@ webui.@THEME@.widget.label.getProps = function() {
  * @param props Key-Value pairs of properties.
  */
 webui.@THEME@.widget.label.setProps = function(props) {
-    if (props == null) {
-        return false;
+    // Save properties for later updates.
+    if (props != null) {
+        webui.@THEME@.widget.common.extend(this, props);
+    } else {
+        props = this.getProps(); // Widget is being initialized.
     }
-
-    // After widget has been initialized, save properties for later updates.
-    if (this.updateProps == true) {
-        webui.@THEME@.widget.common.extend(this, props);    
-    }
-    // Set flag indicating properties can be updated.
-    this.updateProps = true;
 
     // Set style class -- must be set before calling setCoreProps().
-    this.domNode.setAttribute("class", this.getClassName());
+    props.className = this.getClassName();
     
     // Set DOM node properties.
     webui.@THEME@.widget.common.setCoreProps(this.domNode, props);

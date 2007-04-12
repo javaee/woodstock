@@ -82,7 +82,7 @@ webui.@THEME@.widget.button = function() {
         this.initClassNames();
 
         // Set properties.
-        this.setProps(this);
+        this.setProps();
         return true;
     }
 }
@@ -177,7 +177,9 @@ webui.@THEME@.widget.button.getClassName = function() {
             ? this.secondaryDisabledClassName
             : this.secondaryClassName;
     }
-    return className;
+    return (this.className)
+        ? className + " " + this.className
+        : className;
 }
 
 /**
@@ -194,7 +196,9 @@ webui.@THEME@.widget.button.getHoverClassName = function() {
     } else {
         className = this.secondaryHovClassName;
     }
-    return className;
+    return (this.className)
+        ? className + " " + this.className
+        : className;
 }
 
 /**
@@ -346,18 +350,14 @@ webui.@THEME@.widget.button.refresh = {
  * @param props Key-Value pairs of properties.
  */
 webui.@THEME@.widget.button.setProps = function(props) {
-    if (props == null) {
-        return false;
+    // Save properties for later updates.
+    if (props != null) {
+        webui.@THEME@.widget.common.extend(this, props);
+    } else {
+        props = this.getProps(); // Widget is being initialized.
     }
 
-    // After widget has been initialized, save properties for later updates.
-    if (this.updateProps == true) {
-        webui.@THEME@.widget.common.extend(this, props);    
-    }
-    // Set flag indicating properties can be updated.
-    this.updateProps = true;
-
-    // Set disabled.
+    // Set disabled before className.
     if (props.disabled != null) {
         if (props.disabled == true) {
             this.domNode.setAttribute("disabled", "disabled");
@@ -367,7 +367,7 @@ webui.@THEME@.widget.button.setProps = function(props) {
     }
 
     // Set style class -- must be set before calling setCoreProps().
-    this.domNode.setAttribute("class", this.getClassName()); // Set after disabled.
+    props.className = this.getClassName();
 
     // Set DOM node properties.
     webui.@THEME@.widget.common.setCoreProps(this.domNode, props);
