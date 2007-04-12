@@ -23,16 +23,21 @@ package com.sun.webui.jsf.component;
 
 import com.sun.faces.annotation.Component;
 import com.sun.faces.annotation.Property;
+import com.sun.faces.extensions.avatar.lifecycle.AsyncResponse;
 
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 
 import javax.el.ValueExpression;
 import javax.faces.component.NamingContainer;
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.el.ValueBinding;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 /**
  * Component that represents a table.
@@ -68,6 +73,23 @@ public class Table2 extends Table implements NamingContainer {
         return "com.sun.webui.jsf.Table2";
     }
 
+    public String getRendererType() {
+        // Ensure this request is not for an AjaxZone.
+        if (AsyncResponse.isAjaxRequest()) {
+            try {
+                Map map = getFacesContext().getExternalContext().
+                    getRequestHeaderMap();
+                JSONObject xjson = new JSONObject((String)
+                    map.get(AsyncResponse.XJSON_HEADER));
+
+                if (xjson.has("refresh")) {
+                    return "com.sun.webui.jsf.ajax.Table2";
+                }
+            } catch(JSONException e) {} // JSON property may be null.
+        }
+        return super.getRendererType();
+    }
+
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     // Child methods
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -96,6 +118,41 @@ public class Table2 extends Table implements NamingContainer {
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     // Tag attribute methods
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+    /**
+     * Flag indicating to turn off default Ajax functionality. Set ajaxify to
+     * false when providing a different Ajax implementation.
+     */
+    @Property(name="ajaxify", displayName="Ajaxify", category="Javascript")
+    private boolean ajaxify = true; 
+    private boolean ajaxify_set = false; 
+ 
+    /**
+     * Test if default Ajax functionality should be turned off.
+     */
+    public boolean isAjaxify() { 
+        if (this.ajaxify_set) {
+            return this.ajaxify;
+        }
+        ValueExpression _vb = getValueExpression("ajaxify");
+        if (_vb != null) {
+            Object _result = _vb.getValue(getFacesContext().getELContext());
+            if (_result == null) {
+                return false;
+            } else {
+                return ((Boolean) _result).booleanValue();
+            }
+        }
+        return true;
+    } 
+
+    /**
+     * Set flag indicating to turn off default Ajax functionality.
+     */
+    public void setAjaxify(boolean ajaxify) {
+        this.ajaxify = ajaxify;
+        this.ajaxify_set = true;
+    }
 
     /**
      * Alternative HTML template to be used by this component.
@@ -134,16 +191,18 @@ public class Table2 extends Table implements NamingContainer {
     public void restoreState(FacesContext _context,Object _state) {
         Object _values[] = (Object[]) _state;
         super.restoreState(_context, _values[0]);
-        this.htmlTemplate = (String) _values[1];
+        this.ajaxify = ((Boolean) _values[1]).booleanValue();
+        this.htmlTemplate = (String) _values[2];
     }
 
     /**
      * Save the state of this component.
      */
     public Object saveState(FacesContext _context) {
-        Object _values[] = new Object[2];
+        Object _values[] = new Object[3];
         _values[0] = super.saveState(_context);
-        _values[1] = this.htmlTemplate;
+        _values[1] = this.ajaxify ? Boolean.TRUE : Boolean.FALSE;
+        _values[2] = this.htmlTemplate;
         return _values;
     }
 }

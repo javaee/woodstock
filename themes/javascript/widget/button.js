@@ -50,6 +50,7 @@ webui.@THEME@.widget.button = function() {
     this.fillInTemplate = function() {
         // Set public functions. 
         this.domNode.getProps = function() { return dojo.widget.byId(this.id).getProps(); }
+        this.domNode.refresh = function(execute) { return dojo.widget.byId(this.id).refresh(execute); }
         this.domNode.setProps = function(props) { return dojo.widget.byId(this.id).setProps(props); }
 
         // Set private functions.
@@ -57,26 +58,15 @@ webui.@THEME@.widget.button = function() {
         this.getHoverClassName = webui.@THEME@.widget.button.getHoverClassName;
         this.getProps = webui.@THEME@.widget.button.getProps;
         this.initClassNames = webui.@THEME@.widget.button.initClassNames;
+        this.refresh = webui.@THEME@.widget.button.refresh.processEvent;
         this.setProps = webui.@THEME@.widget.button.setProps;
 
-        // Deprecated functions from formElements.js. 
+        // Initialize the deprecated functions in formElements.js. 
         // 
         // Note: Although we now have a setProps function to update properties,
         // these functions were previously added to the DOM node; thus, we must
         // continue to be backward compatible.
-        this.domNode.isSecondary = webui.@THEME@.button.isSecondary;
-        this.domNode.setSecondary = webui.@THEME@.button.setSecondary;
-        this.domNode.isPrimary = webui.@THEME@.button.isPrimary;
-        this.domNode.setPrimary = webui.@THEME@.button.setPrimary;
-        this.domNode.isMini = webui.@THEME@.button.isMini;
-        this.domNode.setMini = webui.@THEME@.button.setMini;
-        this.domNode.getDisabled = webui.@THEME@.button.getDisabled;
-        this.domNode.setDisabled = webui.@THEME@.button.setDisabled;
-        this.domNode.getVisible = webui.@THEME@.button.getVisible;
-        this.domNode.setVisible = webui.@THEME@.button.setVisible;
-        this.domNode.getText = webui.@THEME@.button.getText;
-        this.domNode.setText = webui.@THEME@.button.setText;
-        this.domNode.doClick = webui.@THEME@.button.click;
+        setTimeout(webui.@THEME@.widget.button.createInitCallback(this.id), 10);
 
         // Set events.
         dojo.event.connect(this.domNode, "onblur",
@@ -95,6 +85,22 @@ webui.@THEME@.widget.button = function() {
         this.setProps(this);
         return true;
     }
+}
+
+/**
+ * Helper function to create callback to initialize deprecated functions.
+ *
+ * @param id The HTML element id used to invoke the callback.
+ */
+webui.@THEME@.widget.button.createInitCallback = function(_id) {
+    if (_id == null) {
+        return null;
+    }
+    // New literals are created every time this function
+    // is called, and it's saved by closure magic.
+    return function(evt) { 
+        return webui.@THEME@.button.init({id: _id})
+    };
 }
 
 /**
@@ -171,9 +177,7 @@ webui.@THEME@.widget.button.getClassName = function() {
             ? this.secondaryDisabledClassName
             : this.secondaryClassName;
     }
-    return (this.className) 
-        ? className + " " + this.className
-        : className;
+    return className;
 }
 
 /**
@@ -190,9 +194,7 @@ webui.@THEME@.widget.button.getHoverClassName = function() {
     } else {
         className = this.secondaryHovClassName;
     }
-    return (this.className) 
-        ? className + " " + this.className
-        : className;
+    return className;
 }
 
 /**
@@ -260,6 +262,53 @@ webui.@THEME@.widget.button.getProps = function() {
 }
 
 /**
+ * This closure is used to process refresh events.
+ */
+webui.@THEME@.widget.button.refresh = {
+    /**
+     * Event topics for custom AJAX implementations to listen for.
+     */
+    beginEventTopic: "webui_widget_button_refresh_begin",
+    endEventTopic: "webui_widget_button_refresh_end",
+ 
+    /**
+     * Process refresh event.
+     *
+     * @param execute Comma separated string containing a list of client ids 
+     * against which the execute portion of the request processing lifecycle
+     * must be run.
+     */
+    processEvent: function(_execute) {
+        // Publish event.
+        webui.@THEME@.widget.button.refresh.publishBeginEvent({
+            id: this.id,
+            execute: _execute
+        });
+        return true;
+    },
+
+    /**
+     * Publish an event for custom AJAX implementations to listen for.
+     *
+     * @param props Key-Value pairs of properties of the widget.
+     */
+    publishBeginEvent: function(props) {
+        dojo.event.topic.publish(webui.@THEME@.widget.button.refresh.beginEventTopic, props);
+        return true;
+    },
+
+    /**
+     * Publish an event for custom AJAX implementations to listen for.
+     *
+     * @param props Key-Value pairs of properties of the widget.
+     */
+    publishEndEvent: function(props) {
+        dojo.event.topic.publish(webui.@THEME@.widget.button.refresh.endEventTopic, props);
+        return true;
+    }
+}
+
+/**
  * This function is used to set widget properties with the
  * following Object literals.
  *
@@ -308,6 +357,18 @@ webui.@THEME@.widget.button.setProps = function(props) {
     // Set flag indicating properties can be updated.
     this.updateProps = true;
 
+    // Set disabled.
+    if (props.disabled != null) {
+        if (props.disabled == true) {
+            this.domNode.setAttribute("disabled", "disabled");
+        } else {
+            this.domNode.removeAttribute("disabled");
+        }
+    }
+
+    // Set style class -- must be set before calling setCoreProps().
+    this.domNode.setAttribute("class", this.getClassName()); // Set after disabled.
+
     // Set DOM node properties.
     webui.@THEME@.widget.common.setCoreProps(this.domNode, props);
     webui.@THEME@.widget.common.setCommonProps(this.domNode, props);
@@ -315,24 +376,14 @@ webui.@THEME@.widget.button.setProps = function(props) {
 
     if (props.alt) { this.domNode.setAttribute("alt", props.alt); }
     if (props.align) { this.domNode.setAttribute("align", props.align); }
-    if (props.disabled == true) {
-        this.domNode.setAttribute("disabled", "disabled");
-    } else {
-        this.domNode.removeAttribute("disabled");
-    }
     if (props.name) { this.domNode.setAttribute("name", props.name); }
     if (props.value) { this.domNode.setAttribute("value", props.value); }
     if (props.type) { this.domNode.setAttribute("type", props.type); }
 
-    // Set style class -- must be done after disabled is set.
-    this.domNode.setAttribute("class", this.getClassName());
-
     // Set contents.
     if (props.contents) {
         this.domNode.innerHTML = ""; // Cannot be set null on IE.
-//        for (var i = 0; i < props.contents.length; i++) {
-            webui.@THEME@.widget.common.addFragment(this.domNode, props.contents, "last");
-//        }
+        webui.@THEME@.widget.common.addFragment(this.domNode, props.contents, "last");
     }
     return true;
 }

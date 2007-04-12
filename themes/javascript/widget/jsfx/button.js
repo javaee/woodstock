@@ -23,14 +23,14 @@
 // component, where JSF Extensions is used as the underlying transfer protocol.
 //
 
-dojo.provide("webui.@THEME@.widget.jsfx.table2RowGroup");
+dojo.provide("webui.@THEME@.widget.jsfx.button");
 
-dojo.require("webui.@THEME@.widget.table2RowGroup");
+dojo.require("webui.@THEME@.widget.button");
 
 /**
  * This function is used to obtain data asynchronously.
  */
-webui.@THEME@.widget.jsfx.table2RowGroup = {
+webui.@THEME@.widget.jsfx.button = {
     /**
      * This function is used to process refresh events with the following Object
      * literals.
@@ -55,42 +55,9 @@ webui.@THEME@.widget.jsfx.table2RowGroup = {
             (domNode) ? domNode : document.forms[0], {
             execute: (props.execute) ? props.execute : "none",
             render: props.id,
-            replaceElement: webui.@THEME@.widget.jsfx.table2RowGroup.refreshCallback,
+            replaceElement: webui.@THEME@.widget.jsfx.buttonRowGroup.refreshCallback,
             xjson: {
                 refresh: true
-            }
-        });
-        return true;
-    },
-
-    /**
-     * This function is used to process scroll events with the following Object
-     * literals.
-     *
-     * <ul>
-     *  <li>id</li>
-     *  <li>first</li>
-     * </ul>
-     *
-     * @param props Key-Value pairs of properties.
-     */
-    processScrollEvent: function(props) {
-        if (props == null) {
-            return false;
-        }
-
-        // Dynamic Faces requires a DOM node as the source property.
-        var domNode = document.getElementById(props.id);
-
-        // Generate AJAX request using the JSF Extensions library.
-        new DynaFaces.fireAjaxTransaction(
-            (domNode) ? domNode : document.forms[0], {
-            execute: "none",
-            render: props.id,
-            replaceElement: webui.@THEME@.widget.jsfx.table2RowGroup.scrollCallback,
-            xjson: {
-                first: props.first,
-                scroll: true
             }
         });
         return true;
@@ -117,45 +84,13 @@ webui.@THEME@.widget.jsfx.table2RowGroup = {
         widget.setProps(json);
 
         // Publish an event for custom AJAX implementations to listen for.
-        webui.@THEME@.widget.table2RowGroup.refresh.publishEndEvent(json);
-        return true;
-    },
-
-    /**
-     * This function is used to update widgets.
-     *
-     * @param id The client id.
-     * @param content The content returned by the AJAX response.
-     * @param closure The closure argument provided to DynaFaces.fireAjaxTransaction.
-     * @param xjson The xjson argument provided to DynaFaces.fireAjaxTransaction.
-     */
-    scrollCallback: function(id, content, closure, xjson) {
-        if (id == null || content == null) {
-            return false;
-        }
-
-        // Parse JSON text.
-        var json = JSON.parse(content);
-
-        // Reject duplicate AJAX requests.
-        var widget = dojo.widget.byId(id);
-        if (widget.first != xjson.first) {
-            return;
-        }
-
-        // Add rows.
-        widget.addRows(json.rows);
-
-        // Publish an event for custom AJAX implementations to listen for.
-        webui.@THEME@.widget.table2RowGroup.scroll.publishEndEvent(json);
+        webui.@THEME@.widget.button.refresh.publishEndEvent(json);
         return true;
     }
 }
 
 // Listen for Dojo Widget events.
-dojo.event.topic.subscribe(webui.@THEME@.widget.table2RowGroup.refresh.beginEventTopic,
-    webui.@THEME@.widget.jsfx.table2RowGroup, "processRefreshEvent");
-dojo.event.topic.subscribe(webui.@THEME@.widget.table2RowGroup.scroll.beginEventTopic,
-    webui.@THEME@.widget.jsfx.table2RowGroup, "processScrollEvent");
+dojo.event.topic.subscribe(webui.@THEME@.widget.button.refresh.beginEventTopic,
+    webui.@THEME@.widget.jsfx.button, "processRefreshEvent");
 
 //-->

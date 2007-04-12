@@ -75,18 +75,16 @@ webui.@THEME@.widget.label = function() {
  */
 webui.@THEME@.widget.label.getClassName = function() {
     // Set style for default label level.
-    var classNameLabel = webui.@THEME@.widget.props.label.levelTwoStyleClass;
+    var className = webui.@THEME@.widget.props.label.levelTwoStyleClass;
 
     if (this.valid == false) {
-        classNameLabel = webui.@THEME@.widget.props.label.errorStyleClass;
+        className = webui.@THEME@.widget.props.label.errorStyleClass;
     } else if (this.level == 1) {
-        classNameLabel = webui.@THEME@.widget.props.label.levelOneStyleClass;
+        className = webui.@THEME@.widget.props.label.levelOneStyleClass;
     } else if (this.level == 3) {
-        classNameLabel = webui.@THEME@.widget.props.label.levelThreeStyleClass;
+        className = webui.@THEME@.widget.props.label.levelThreeStyleClass;
     }
-    return (this.className)
-        ? classNameLabel + " " + this.className
-        : classNameLabel;
+    return className;
 }
 
 /**
@@ -163,10 +161,10 @@ webui.@THEME@.widget.label.setProps = function(props) {
     // Set flag indicating properties can be updated.
     this.updateProps = true;
 
-    // Set style class before calling setCoreProps.
-    props.className = this.getClassName();
+    // Set style class -- must be set before calling setCoreProps().
+    this.domNode.setAttribute("class", this.getClassName());
     
-    // Set attributes.
+    // Set DOM node properties.
     webui.@THEME@.widget.common.setCoreProps(this.domNode, props);
     webui.@THEME@.widget.common.setCommonProps(this.domNode, props);
     webui.@THEME@.widget.common.setJavaScriptProps(this.domNode, props);

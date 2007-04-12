@@ -23,9 +23,15 @@ package com.sun.webui.jsf.component;
 
 import com.sun.faces.annotation.Component;
 import com.sun.faces.annotation.Property;
+import com.sun.faces.extensions.avatar.lifecycle.AsyncResponse;
+
+import java.util.Map;
 
 import javax.el.ValueExpression;
 import javax.faces.context.FacesContext;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 /**
  * The Button component is used to display an input button.
@@ -33,11 +39,14 @@ import javax.faces.context.FacesContext;
 @Component(type="com.sun.webui.jsf.Button",
     family="com.sun.webui.jsf.Button",
     tagRendererType="com.sun.webui.jsf.Button",
-//    tagRendererType="com.sun.webui.jsf.widget.Button"
+//    tagRendererType="com.sun.webui.jsf.widget.Button",
     displayName="Button", tagName="button",
     helpKey="projrave_ui_elements_palette_wdstk-jsf1.2_button",
     propertiesHelpKey="projrave_ui_elements_palette_wdstk-jsf1.2_propsheets_button_props")
 public class Button extends WebuiCommand implements ComplexComponent {
+    /** The component id for button contents. */
+    public static final String CONTENTS_ID = "_contents"; //NOI18N
+
     /**
      * Default constructor.
      */
@@ -52,6 +61,23 @@ public class Button extends WebuiCommand implements ComplexComponent {
      */
     public String getFamily() {
         return "com.sun.webui.jsf.Button";
+    }
+
+    public String getRendererType() {
+        // Ensure this request is not for an AjaxZone.
+        if (AsyncResponse.isAjaxRequest()) {
+            try {
+                Map map = getFacesContext().getExternalContext().
+                    getRequestHeaderMap();
+                JSONObject xjson = new JSONObject((String)
+                    map.get(AsyncResponse.XJSON_HEADER));
+
+                if (xjson.has("refresh")) {
+                    return "com.sun.webui.jsf.ajax.Button";
+                }
+            } catch(JSONException e) {} // JSON property may be null.
+        }
+        return super.getRendererType();
     }
 
     /**
@@ -112,7 +138,42 @@ public class Button extends WebuiCommand implements ComplexComponent {
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     // Tag attribute methods
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    
+
+    /**
+     * Flag indicating to turn off default Ajax functionality. Set ajaxify to
+     * false when providing a different Ajax implementation.
+     */
+    @Property(name="ajaxify", displayName="Ajaxify", category="Javascript")
+    private boolean ajaxify = true; 
+    private boolean ajaxify_set = false; 
+ 
+    /**
+     * Test if default Ajax functionality should be turned off.
+     */
+    public boolean isAjaxify() { 
+        if (this.ajaxify_set) {
+            return this.ajaxify;
+        }
+        ValueExpression _vb = getValueExpression("ajaxify");
+        if (_vb != null) {
+            Object _result = _vb.getValue(getFacesContext().getELContext());
+            if (_result == null) {
+                return false;
+            } else {
+                return ((Boolean) _result).booleanValue();
+            }
+        }
+        return true;
+    } 
+
+    /**
+     * Set flag indicating to turn off default Ajax functionality.
+     */
+    public void setAjaxify(boolean ajaxify) {
+        this.ajaxify = ajaxify;
+        this.ajaxify_set = true;
+    }
+
     // Overwrite value annotation
     @Property(name="value", isHidden=true, isAttribute=false)
     public Object getValue() {
@@ -1151,14 +1212,15 @@ public class Button extends WebuiCommand implements ComplexComponent {
         this.toolTip = (String) _values[32];
         this.visible = ((Boolean) _values[33]).booleanValue();
         this.visible_set = ((Boolean) _values[34]).booleanValue();
-        this.htmlTemplate = (String) _values[35];
+        this.ajaxify = ((Boolean) _values[35]).booleanValue();
+        this.htmlTemplate = (String) _values[36];
     }
 
     /**
      * <p>Save the state of this component.</p>
      */
     public Object saveState(FacesContext _context) {
-        Object _values[] = new Object[36];
+        Object _values[] = new Object[37];
         _values[0] = super.saveState(_context);
         _values[1] = this.alt;
         _values[2] = this.disabled ? Boolean.TRUE : Boolean.FALSE;
@@ -1194,7 +1256,8 @@ public class Button extends WebuiCommand implements ComplexComponent {
         _values[32] = this.toolTip;
         _values[33] = this.visible ? Boolean.TRUE : Boolean.FALSE;
         _values[34] = this.visible_set ? Boolean.TRUE : Boolean.FALSE;
-        _values[35] = this.htmlTemplate;
+        _values[35] = this.ajaxify ? Boolean.TRUE : Boolean.FALSE;
+        _values[36] = this.htmlTemplate;
         return _values;
     }
 }

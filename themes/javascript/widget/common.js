@@ -267,6 +267,31 @@ webui.@THEME@.widget.common = {
     },
 
     /**
+     * Helper function to remove child nodes from given DOM node.
+     *
+     * Note: Child nodes can be cleared using the innerHTML property. However,
+     * IE fails when innerHTML is set via the widget's fillInTemplate function.
+     * In this scenario, child nodes will be removed via the standard Node APIs.
+     *
+     * @param domNode The DOM node to remove child nodes.
+     */
+    removeChildNodes: function(domNode) {
+        if (domNode == null || domNode.hasChildNodes() == false) {
+            return false;
+        }
+
+        try {
+            domNode.innerHTML = "";
+        } catch (error) {
+            var childNodes = domNode.childNodes;
+            for(var i = 0; i < childNodes.length; i++) {
+                domNode.removeChild(childNodes[i]);
+            }
+        }
+        return true;
+    },
+
+    /**
      * Helper function to obtain a module resource.
      *
      * @param module The module resource to retrieve.
@@ -327,6 +352,11 @@ webui.@THEME@.widget.common = {
      *  <li>visible</li>
      * </ul>
      *
+     * Note: The className is typically provided by a web app developer. If 
+     * the widget has a default className, it should be added to the DOM node
+     * prior to calling this function. For example, the "myCSS" className would
+     * be appended to the existing "Tblsun4" className (e.g., "Tbl_sun4 myCSS").
+     *
      * @param domNode The DOM node to assign properties to.
      * @param props Key-Value pairs of properties.
      */
@@ -334,7 +364,10 @@ webui.@THEME@.widget.common = {
         if (domNode == null || props == null) {
             return false;
         }
-        if (props.className) { domNode.setAttribute("class", props.className); }
+
+        // Append className.
+        webui.@THEME@.common.addStyleClass(domNode, props.className);
+
         if (props.id) { domNode.setAttribute("id", props.id); }
         if (props.style) { 
             domNode.style.cssText = props.style; // Required for IE?

@@ -132,6 +132,7 @@ public class Table2RowGroupRenderer extends RendererBase {
         setColumnProperties(context, group, json);
         setFooterProperties(context, group, json);
         setHeaderProperties(context, group, json);
+        setRowProperties(context, group, json);
 
         return json;
     }
@@ -210,6 +211,68 @@ public class Table2RowGroupRenderer extends RendererBase {
             // Add header text.
             json.put("headerText", component.getHeaderText());
         }
+    }
+
+    /**
+     * Helper method to render rows.
+     *
+     * @param context FacesContext for the current request.
+     * @param component UIComponent to be rendered.
+     */
+    protected void setRowProperties(FacesContext context, Table2RowGroup component,
+            JSONObject json) throws IOException, JSONException {
+        // Render empty data message.
+        if (component.getRowCount() == 0) {
+            return;
+        }
+
+        // To do: Need algorithm to retrieve n*2 rows?
+        int maxRows = component.getRows();
+        component.setRows(maxRows * 2);
+
+        // Get rendered row keys.
+        RowKey[] rowKeys = component.getSortedRowKeys();
+        if (rowKeys == null) {
+            return;
+        }
+
+        // Add rows.
+        JSONArray rows = new JSONArray();
+        json.put("rows", rows);
+
+        try {
+            // Iterate over the rendered RowKey objects.
+            for (int i = 0; i < rowKeys.length; i++) {
+                component.setRowKey(rowKeys[i]);
+                if (!component.isRowAvailable()) {
+                    break;
+                }
+
+                // Render Table2Column components.
+                JSONArray cols = new JSONArray();
+                Iterator kids = component.getTable2ColumnChildren();
+                while (kids.hasNext()) {
+                    Table2Column col = (Table2Column) kids.next();
+                    if (!col.isRendered()) {
+                        continue;
+                    }
+                    // Render Table2Column children.
+                    Iterator grandKids = col.getChildren().iterator();
+                    while (grandKids.hasNext()) {
+                        WidgetUtilities.addProperties(cols,
+                            WidgetUtilities.renderComponent(context, (UIComponent) 
+                                grandKids.next()));
+                    }
+                }
+                rows.put(cols);
+            }
+            component.setRowKey(null); // Clean up.
+        } catch(JSONException e) {
+            e.printStackTrace();
+        }
+
+        // To do: Need algorithm to retrieve n*2 rows?
+        component.setRows(maxRows);
     }
 
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~

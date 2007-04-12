@@ -25,6 +25,9 @@ package com.sun.webui.jsf.renderkit.widget;
 import com.sun.faces.annotation.Renderer;
 
 import com.sun.webui.jsf.component.Button;
+import com.sun.webui.jsf.component.Icon;
+import com.sun.webui.jsf.component.ImageComponent;
+import com.sun.webui.jsf.component.StaticText;
 import com.sun.webui.jsf.util.WidgetUtilities;
 import com.sun.webui.theme.Theme;
 import com.sun.webui.jsf.theme.ThemeStyles;
@@ -60,7 +63,8 @@ public class ButtonRenderer extends RendererBase {
      * The set of pass-through attributes to be rendered.
      */
     private static final String attributes[] = {
-        "alt",
+        "accessKey",
+        "alt", // not supported by button
         "align",
         "dir",
         "lang",
@@ -94,7 +98,6 @@ public class ButtonRenderer extends RendererBase {
      *  <code>component</code> is <code>null</code>
      */
     public void decode(FacesContext context, UIComponent component) {
-        // Enforce NPE requirements in the Javadocs
         if (context == null || component == null) {
             throw new NullPointerException();
         }
@@ -110,8 +113,7 @@ public class ButtonRenderer extends RendererBase {
         String clientId = button.getClientId(context);
         Map map = context.getExternalContext().getRequestParameterMap();
         
-        if (map.containsKey(clientId) || 
-                (map.containsKey(clientId + ".x") 
+        if (map.containsKey(clientId) || (map.containsKey(clientId + ".x") 
                 && map.containsKey(clientId + ".y"))) {
             button.queueEvent(new ActionEvent(button));
         }
@@ -129,8 +131,15 @@ public class ButtonRenderer extends RendererBase {
      */
     protected JSONArray getModules(FacesContext context, UIComponent component)
             throws JSONException {
+        Button button = (Button) component;
+
         JSONArray json = new JSONArray();
         json.put(JavaScriptUtilities.getModuleName("widget.button"));
+
+        if (button.isAjaxify()) {
+            json.put(JavaScriptUtilities.getModuleName(
+                "widget.jsfx.button"));
+        }
         return json;
     }
 
@@ -141,13 +150,15 @@ public class ButtonRenderer extends RendererBase {
      * @param component UIComponent to be rendered.
      */
     protected JSONObject getProperties(FacesContext context,
-            UIComponent component) throws JSONException {
+            UIComponent component) throws JSONException, IOException {
         Button button = (Button) component;
         String templatePath = button.getHtmlTemplate(); // Get HTML template.
 
         JSONObject json = new JSONObject();
         json.put("className", button.getStyleClass())
             .put("disabled", button.isDisabled())
+            .put("icon", (button.getImageURL() != null 
+                || button.getIcon() != null))
             .put("mini", button.isMini())
             .put("name", button.getClientId(context))
             .put("primary", button.isPrimary())
@@ -158,23 +169,9 @@ public class ButtonRenderer extends RendererBase {
             .put("type", button.isReset() ? "reset" : "submit")
             .put("visible", button.isVisible());
 
-        // Get the textual label of the button.
-        String text = ConversionUtilities.convertValueToString(button,
-            button.getText());
-
-        // Pad the text, if needed.
-        if (text != null && text.trim().length() > 0) {
-            // Note: This code appears in the UI guidelines, but it may have been
-            // for Netscape 4.x. We may be able to do this with styles instead.
-            if (!button.isNoTextPadding()) { 
-                if (text.trim().length() <= 3) {
-                    text = "  " + text + "  "; //NOI18N
-                } else if (text.trim().length() == 4) {
-                    text = " " + text + " "; //NOI18N
-                }
-            }
-            json.put("contents", text); // This is button label.
-        }
+        // Append contents property.
+        WidgetUtilities.addProperties(json, "contents",
+            WidgetUtilities.renderComponent(context, getContents(context, button)));
 
         // Add core and attribute properties.
         addAttributeProperties(attributes, component, json);
@@ -195,6 +192,67 @@ public class ButtonRenderer extends RendererBase {
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     // Private renderer methods
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+    /**
+     * Get the image associated with this component, if any.
+     * 
+     * Note: The imageURL property takes precedence over the icon property.
+     */
+    private UIComponent getContents(FacesContext context, Button component) {
+        String id = (component.getId() != null)
+            ? component.getId().concat(Button.CONTENTS_ID) : null;
+
+        // Get image.
+        String imageURL = component.getImageURL();
+        if (imageURL != null) {
+            ImageComponent image = new ImageComponent();
+
+            // Set properties.
+            image.setAlt(component.getAlt());
+            image.setBorder(0);
+            image.setId(id);
+            image.setParent(component);
+            image.setUrl(imageURL);
+            return image;
+        }
+
+        // Get icon.
+        String iconKey = component.getIcon();
+        if (iconKey != null) {
+            Icon icon = ThemeUtilities.getIcon(ThemeUtilities.getTheme(context),
+                iconKey);
+
+            // Set properties.
+            icon.setId(id);
+            icon.setBorder(0);
+            icon.setParent(component);
+            return icon;
+        }
+
+        // Get the textual label of the button.
+        String text = ConversionUtilities.convertValueToString(component,
+            component.getText());
+
+        // Pad the text per UI guidelines.
+        if (text != null && text.trim().length() > 0) {
+            if (!component.isNoTextPadding()) { 
+                if (text.trim().length() <= 3) {
+                    text = "  " + text + "  "; //NOI18N
+                } else if (text.trim().length() == 4) {
+                    text = " " + text + " "; //NOI18N
+                }
+            }
+        }
+
+        // Set properties.
+        StaticText staticText = new StaticText();
+        staticText.setEscape(component.isEscape());
+        staticText.setId(id);
+        staticText.setParent(component);
+        staticText.setText(text);
+        
+        return staticText;
+    }
 
     // Helper method to get Theme objects.
     private Theme getTheme() {

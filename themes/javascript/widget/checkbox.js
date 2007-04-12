@@ -73,13 +73,11 @@ webui.@THEME@.widget.checkbox = function() {
  */
 webui.@THEME@.widget.checkbox.getClassName = function() {
     // Set style for the outermost span element.
-    var spanStyleClass = webui.@THEME@.widget.props.checkbox.spanClassName; 
+    var className = webui.@THEME@.widget.props.checkbox.spanClassName; 
     if (this.disabled == true) {
-        spanStyleClass = webui.@THEME@.widget.props.checkbox.spanDisabledClassName;
+        className = webui.@THEME@.widget.props.checkbox.spanDisabledClassName;
     }
-    return (this.className) 
-        ? this.className + " " + spanStyleClass
-        : spanStyleClass;
+    return className;
 }
 
 /**
@@ -170,14 +168,12 @@ webui.@THEME@.widget.checkbox.setProps = function(props) {
     }
     // Set flag indicating properties can be updated.
     this.updateProps = true;
-      
-    // Set style class before calling setCoreProps.
-    props.className = this.getClassName();
 
-    // Set DOM node core attributes.    
+    // Set style class -- must be set before calling setCoreProps().
+    this.domNode.setAttribute("class", this.getClassName());
+
+    // Set DOM node properties.    
     webui.@THEME@.widget.common.setCoreProps(this.domNode, props);               
-            
-    // Set checkbox attributes.    
     webui.@THEME@.widget.common.setCommonProps(this.checkboxNode, props);
     webui.@THEME@.widget.common.setJavaScriptProps(this.checkboxNode, props); 
 

@@ -93,8 +93,15 @@ public class Table2Renderer extends RendererBase {
      */
     protected JSONArray getModules(FacesContext context, UIComponent component)
             throws JSONException {
+        Table2 table = (Table2) component;
+
         JSONArray json = new JSONArray();
         json.put(JavaScriptUtilities.getModuleName("widget.table2"));
+
+        if (table.isAjaxify()) {
+            json.put(JavaScriptUtilities.getModuleName(
+                "widget.jsfx.table2"));
+        }
         return json;
     }
 

@@ -29,12 +29,16 @@ import com.sun.webui.jsf.util.JavaScriptUtilities;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 
 import javax.el.ValueExpression;
 import javax.faces.component.NamingContainer;
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.el.ValueBinding;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 /**
  * Component that represents a group of table rows.
@@ -65,11 +69,20 @@ public class Table2RowGroup extends TableRowGroup implements NamingContainer {
     }
 
     public String getRendererType() {
+        // Ensure this request is not for an AjaxZone.
         if (AsyncResponse.isAjaxRequest()) {
-            return "com.sun.webui.jsf.ajax.Table2RowGroup";
-        } else {
-            return super.getRendererType();
+            try {
+                Map map = getFacesContext().getExternalContext().
+                    getRequestHeaderMap();
+                JSONObject xjson = new JSONObject((String)
+                    map.get(AsyncResponse.XJSON_HEADER));
+
+                if (xjson.has("refresh") || xjson.has("scroll")) {
+                    return "com.sun.webui.jsf.ajax.Table2RowGroup";
+                }
+            } catch(JSONException e) {} // XJSON header may be null.
         }
+        return super.getRendererType();
     }
 
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -189,8 +202,8 @@ public class Table2RowGroup extends TableRowGroup implements NamingContainer {
     public void restoreState(FacesContext _context,Object _state) {
         Object _values[] = (Object[]) _state;
         super.restoreState(_context, _values[0]);
-        this.htmlTemplate = (String) _values[1];
-        this.ajaxify = ((Boolean) _values[2]).booleanValue();
+        this.ajaxify = ((Boolean) _values[1]).booleanValue();
+        this.htmlTemplate = (String) _values[2];
     }
 
     /**
@@ -199,8 +212,8 @@ public class Table2RowGroup extends TableRowGroup implements NamingContainer {
     public Object saveState(FacesContext _context) {
         Object _values[] = new Object[3];
         _values[0] = super.saveState(_context);
-        _values[1] = this.htmlTemplate;
-        _values[2] = this.ajaxify ? Boolean.TRUE : Boolean.FALSE;
+        _values[1] = this.ajaxify ? Boolean.TRUE : Boolean.FALSE;
+        _values[2] = this.htmlTemplate;
         return _values;
     }
 }

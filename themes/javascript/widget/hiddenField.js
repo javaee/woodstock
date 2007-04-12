@@ -102,10 +102,10 @@ webui.@THEME@.widget.hiddenField.setProps = function(props) {
     }
     // Set flag indicating properties can be updated.
     this.updateProps = true;
-            
+
     // Set attributes.
     webui.@THEME@.widget.common.setCoreProps(this.domNode, props);
-                
+
     if (props.name) { this.domNode.setAttribute("name", props.name); }
     if (props.value) { this.domNode.setAttribute("value", props.value); }
     if (props.disabled != null) {

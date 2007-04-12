@@ -68,14 +68,16 @@ webui.@THEME@.widget.table2RowGroup = function() {
         }
 
         // Set public functions.
-        this.getProps = function() { return dojo.widget.byId(this.id).getProps(); }
-        this.setProps = function(props) { return dojo.widget.byId(this.id).setProps(props); }
+        this.domNode.getProps = function() { return dojo.widget.byId(this.id).getProps(); }
+        this.domNode.refresh = function(execute) { return dojo.widget.byId(this.id).refresh(execute); }
+        this.domNode.setProps = function(props) { return dojo.widget.byId(this.id).setProps(props); }
 
         // Set private functions.
-        this.addColumns = webui.@THEME@.widget.table2RowGroup.addColumns;
         this.addRows = webui.@THEME@.widget.table2RowGroup.addRows;
         this.getProps = webui.@THEME@.widget.table2RowGroup.getProps;
+        this.refresh = webui.@THEME@.widget.table2RowGroup.refresh.processEvent;
         this.resize = webui.@THEME@.widget.table2RowGroup.resize.processEvent;
+        this.setColumns = webui.@THEME@.widget.table2RowGroup.setColumns;
         this.setHeight = webui.@THEME@.widget.table2RowGroup.setHeight;
         this.setProps = webui.@THEME@.widget.table2RowGroup.setProps;
         this.setRowsText = webui.@THEME@.widget.table2RowGroup.setRowsText;
@@ -92,129 +94,42 @@ webui.@THEME@.widget.table2RowGroup = function() {
 
         // Set properties.
         this.setProps(this);
-
-        // Add initial rows.
-        webui.@THEME@.widget.table2RowGroup.scroll.processEvent({
-            currentTarget: this
-        });
         return true;
     }
 }
 
 /**
- * This function is used to add columns with the following Object
- * literals.
+ * This function is used to add rows using the gieven array. Each row contains
+ * an array of columns which holds table data.
  *
- * <ul>
- *  <li>columns</li>
- * </ul>
- *
- * @param props Key-Value pairs of properties.
+ * @param rows An array of rows.
  */
-webui.@THEME@.widget.table2RowGroup.addColumns = function(props) {
-    if (props == null || props.columns == null) {
+webui.@THEME@.widget.table2RowGroup.addRows = function(rows) {
+    if (rows == null) {
         return false;
-    }
-
-    // Containers are visible if at least one header/footer exists.
-    var headerVisible = false;
-    var footerVisible = false;
-
-    for (var i = 0; i < props.columns.length; i++) {
-        var col = props.columns[i];
-        var headerClone = this.colHeaderNode;
-        var footerClone = this.colFooterNode;
-
-        // Clone nodes.
-        if (i + 1 < props.columns.length) {
-            headerClone = headerClone.cloneNode(true);
-            footerClone = footerClone.cloneNode(true);
-
-            // Append nodes.
-            this.colHeaderContainer.insertBefore(headerClone, this.colHeaderNode);
-            this.colFooterContainer.insertBefore(footerClone, this.colFooterNode);
-        }
-
-        // Set properties.
-        headerClone.id = col.id + "_colHeader" + i;
-        footerClone.id = col.id + "_colFooter" + i;
-        if (col.width) { headerClone.style.width = footerClone.style.width = col.width; }
-
-        // Add text.
-        if (col.headerText) {
-            webui.@THEME@.widget.common.addFragment(headerClone, col.headerText);
-            headerVisible = true;
-        }
-        if (col.footerText) {
-            webui.@THEME@.widget.common.addFragment(footerClone, col.footerText);
-            footerVisible = true;
-        }
-    }
-
-    // Show containers.
-    webui.@THEME@.common.setVisibleElement(this.colHeaderContainer, headerVisible);
-    webui.@THEME@.common.setVisibleElement(this.colFooterContainer, footerVisible);
-}
-
-/**
- * This function is used to set rows with the following Object
- * literals.
- *
- * <ul>
- *  <li>first</li>
- *  <li>rows</li>
- * </ul>
- *
- * @param props Key-Value pairs of properties.
- */
-webui.@THEME@.widget.table2RowGroup.addRows = function(props) {
-    if (props == null || props.first == null || props.rows == null) {
-        return false;
-    }
-
-    // Reject duplicate AJAX requests.
-    if (this.first != props.first) {
-        return;
     }
 
     // For each row found, clone row container.
-    for (var i = 0; i < props.rows.length; i++) {
-        var cols = props.rows[i]; // Get next column.
-        var rowId = this.id + ":" + (this.first + i);
+    for (var i = 0; i < rows.length; i++) {
+        var cols = rows[i]; // Get columns.
+        var rowId = this.id + ":" + (this.first + i); // Get row id.
 
-        // Get row node.
-        var rowNode = document.getElementById(this.id + "_rowNode");
-        if (rowNode == null) {
-            continue;
-        }
-
-        // Clone row container.
-        rowNode.id = rowId + "_rowNode"; // Set id so we can locate row nodes in clone.
-        var rowContainerClone = this.rowContainer.cloneNode(true); // Clone with new row id.
-        this.tbodyContainer.appendChild(rowContainerClone); // Add row container clone.
+        // Clone row container without row node.
+        var rowContainerClone = this.rowContainer.cloneNode(false);
+        this.tbodyContainer.appendChild(rowContainerClone);
 
         // Set properties.
         rowContainerClone.id = rowId;
-        webui.@THEME@.common.setVisibleElement(rowContainerClone, true); // Set visible.
-
-        // Get row node from clone.
-        rowNode.id = this.id + "_rowNode"; // Restore id before retrieving new node.
-        rowNode = document.getElementById(rowId + "_rowNode");
-        if (rowNode == null) {
-            continue;
-        }
-
+        webui.@THEME@.common.setVisibleElement(rowContainerClone, true);
+        
         // For each column found, clone row node.
         for (var k = 0; k < cols.length; k++) {
-            var col = this.columns[k]; // Get default column props.
-            var colId = col.id.replace(this.id, rowId);
-            var rowNodeClone = rowNode;
+            var col = this.columns[k]; // Get current column.
+            var colId = col.id.replace(this.id, rowId); // Get col id.
 
             // Clone node.
-            if (k + 1 < cols.length) {
-                rowNodeClone = rowNode.cloneNode(true);
-                rowContainerClone.insertBefore(rowNodeClone, rowNode);
-            }
+            var rowNodeClone = this.rowNode.cloneNode(true);
+            rowContainerClone.appendChild(rowNodeClone);
 
             // Set properties.
             rowNodeClone.id = colId;
@@ -225,19 +140,11 @@ webui.@THEME@.widget.table2RowGroup.addRows = function(props) {
         }
     }
 
-    // Set rows text upon first display only.
-    if (this.first == 0) {
-        this.setHeight();
-        this.setRowsText();
-    }
-
-    // Set resize event -- hack for Moz/Firefox.
-    if (webui.@THEME@.common.browser.is_nav == true) {
-        this.resize();
-    }
-
     // Set first row value.
-    this.first += props.rows.length;
+    this.first += rows.length;
+
+    // Adjust layout.
+    setTimeout(webui.@THEME@.widget.table2RowGroup.resize.createCallback(this.id), 0);
 
     return true;
 }
@@ -264,6 +171,53 @@ webui.@THEME@.widget.table2RowGroup.getProps = function() {
     Object.extend(props, webui.@THEME@.widget.common.getJavaScriptProps(this));
 
     return props;
+}
+
+/**
+ * This closure is used to process refresh events.
+ */
+webui.@THEME@.widget.table2RowGroup.refresh = {
+    /**
+     * Event topics for custom AJAX implementations to listen for.
+     */
+    beginEventTopic: "webui_widget_table2RowGroup_refresh_begin",
+    endEventTopic: "webui_widget_table2RowGroup_refresh_end",
+ 
+    /**
+     * Process refresh event.
+     *
+     * @param execute Comma separated string containing a list of client ids 
+     * against which the execute portion of the request processing lifecycle
+     * must be run.
+     */
+    processEvent: function(_execute) {
+        // Publish event.
+        webui.@THEME@.widget.table2RowGroup.refresh.publishBeginEvent({
+            id: this.id,
+            execute: _execute
+        });
+        return true;
+    },
+
+    /**
+     * Publish an event for custom AJAX implementations to listen for.
+     *
+     * @param props Key-Value pairs of properties of the widget.
+     */
+    publishBeginEvent: function(props) {
+        dojo.event.topic.publish(webui.@THEME@.widget.table2RowGroup.refresh.beginEventTopic, props);
+        return true;
+    },
+
+    /**
+     * Publish an event for custom AJAX implementations to listen for.
+     *
+     * @param props Key-Value pairs of properties of the widget.
+     */
+    publishEndEvent: function(props) {
+        dojo.event.topic.publish(webui.@THEME@.widget.table2RowGroup.refresh.endEventTopic, props);
+        return true;
+    }
 }
 
 /**
@@ -295,7 +249,11 @@ webui.@THEME@.widget.table2RowGroup.resize = {
      * Process resize event.
      */
     processEvent: function() {
-        // Get row id.
+        // Set height and rows text.
+        this.setHeight();
+        this.setRowsText();
+
+        // Get row id of first row -- all cells must be same width.
         var rowId = this.id + ":0";
 
         // Get height offset of each visible column.
@@ -310,8 +268,8 @@ webui.@THEME@.widget.table2RowGroup.resize = {
             }
 
             // Get nodes.
-            var columnHeaderNode = document.getElementById(col.id + "_colHeader" + i);
-            var columnFooterNode = document.getElementById(col.id + "_colFooter" + i);
+            var columnHeaderNode = document.getElementById(col.id + "_colHeader");
+            var columnFooterNode = document.getElementById(col.id + "_colFooter");
 
             // Set column header/footer width.
             if (columnHeaderNode) {
@@ -326,8 +284,57 @@ webui.@THEME@.widget.table2RowGroup.resize = {
         this.groupHeaderNode.style.width = this.domNode.scrollWidth + "px";
         this.groupFooterNode.style.width = this.domNode.scrollWidth + "px";
 
+        // Set colspan -- only works for IE.
+        this.groupHeaderNode.colSpan = this.columns.length;
+        this.groupFooterNode.colSpan = this.columns.length;
+
         return true;
     }
+}
+
+/**
+ * This function is used to set column headers and footers.
+ */
+webui.@THEME@.widget.table2RowGroup.setColumns = function() {
+    // Clear column headers/footers.
+    webui.@THEME@.widget.common.removeChildNodes(this.colHeaderContainer);
+    webui.@THEME@.widget.common.removeChildNodes(this.colFooterContainer);
+
+    // Containers are visible if at least one header/footer exists.
+    var headerVisible = false;
+    var footerVisible = false;
+
+    for (var i = 0; i < this.columns.length; i++) {
+        var col = this.columns[i];
+        var headerClone = this.colHeaderNode.cloneNode(true);
+        var footerClone = this.colFooterNode.cloneNode(true);
+
+        // Set properties.
+        headerClone.id = col.id + "_colHeader";
+        footerClone.id = col.id + "_colFooter";
+        if (col.width) {
+            headerClone.style.width = col.width;
+            footerClone.style.width = col.width;
+        }
+
+        // Add text.
+        if (col.headerText) {
+            webui.@THEME@.widget.common.addFragment(headerClone, col.headerText);
+            headerVisible = true;
+        }
+        if (col.footerText) {
+            webui.@THEME@.widget.common.addFragment(footerClone, col.footerText);
+            footerVisible = true;
+        }
+
+        // Append nodes.
+        this.colHeaderContainer.appendChild(headerClone);
+        this.colFooterContainer.appendChild(footerClone);
+    }
+
+    // Show containers.
+    webui.@THEME@.common.setVisibleElement(this.colHeaderContainer, headerVisible);
+    webui.@THEME@.common.setVisibleElement(this.colFooterContainer, footerVisible);
 }
 
 /**
@@ -398,16 +405,21 @@ webui.@THEME@.widget.table2RowGroup.setProps = function(props) {
         webui.@THEME@.common.setVisibleElement(this.groupFooterContainer, true);
     }
 
-    // Add columns.
-    if (props.columns) {
-        // To do: Clear contents?
-        this.addColumns({
-            columns: props.columns
-        });
+    // Set columns.
+    if (props.columns && this.refreshCols != false) {
+        this.setColumns();
+    }
+    // To do: Cannot refresh column headers/footers due to poor CSS styles.
+    this.refreshCols = false;
 
-        // Set colspan -- only works for IE.
-        this.groupHeaderNode.colSpan = props.columns.length;
-        this.groupFooterNode.colSpan = props.columns.length;
+    // Add rows
+    if (props.rows) {
+        this.first = 0; // Reset index used to obtain rows.
+        this.currentRow = 0; // Reset current row in view.
+
+        // Clear rows.
+        webui.@THEME@.widget.common.removeChildNodes(this.tbodyContainer);
+        this.addRows(props.rows);
     }
 
     // To Do: Hack for A11Y testing.
@@ -457,14 +469,18 @@ webui.@THEME@.widget.table2RowGroup.scroll = {
         var widget;
         if (evt.currentTarget) {
             widget = dojo.widget.byId(evt.currentTarget.id);
-        } else {
+        }
+        if (widget == null) {
             return false;
         }
 
-        // Publish an event to retrieve rows.
+        // Publish event to retrieve data.
         if (widget.first < widget.totalRows 
                 && widget.currentRow % widget.maxRows == 0) {
-            webui.@THEME@.widget.table2RowGroup.scroll.publishBeginEvent(evt);
+            webui.@THEME@.widget.table2RowGroup.scroll.publishBeginEvent({
+                id: widget.id,
+                first: widget.first
+            });
         }
 
         // Set current row based on scroll position and row offset.
@@ -496,10 +512,10 @@ webui.@THEME@.widget.table2RowGroup.scroll = {
     /**
      * Publish an event for custom AJAX implementations to listen for.
      *
-     * @param evt Event generated by scroll bar.
+     * @param props Key-Value pairs of properties of the widget.
      */
-    publishBeginEvent: function(evt) {
-        dojo.event.topic.publish(webui.@THEME@.widget.table2RowGroup.scroll.beginEventTopic, evt);
+    publishBeginEvent: function(props) {
+        dojo.event.topic.publish(webui.@THEME@.widget.table2RowGroup.scroll.beginEventTopic, props);
         return true;
     },
 

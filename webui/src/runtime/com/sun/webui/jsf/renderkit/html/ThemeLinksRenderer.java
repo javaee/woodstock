@@ -23,12 +23,6 @@
 package com.sun.webui.jsf.renderkit.html;
 
 import com.sun.faces.annotation.Renderer;
-import java.io.IOException; 
-import javax.faces.FacesException;
-import javax.faces.application.FacesMessage;
-import javax.faces.component.UIComponent;
-import javax.faces.context.FacesContext;
-import javax.faces.context.ResponseWriter;
 import com.sun.webui.jsf.component.ThemeLinks;
 import com.sun.webui.theme.Theme;
 import com.sun.webui.jsf.util.MessageUtil;
@@ -36,6 +30,15 @@ import com.sun.webui.jsf.util.JavaScriptUtilities;
 import com.sun.webui.jsf.util.RenderingUtilities;
 import com.sun.webui.jsf.util.ThemeUtilities;
 import com.sun.webui.jsf.util.WidgetUtilities;
+
+import java.io.IOException; 
+import java.util.Map;
+
+import javax.faces.FacesException;
+import javax.faces.application.FacesMessage;
+import javax.faces.component.UIComponent;
+import javax.faces.context.FacesContext;
+import javax.faces.context.ResponseWriter;
 
 /**
  * <p>Renderer for a {@link Theme} component.</p>
@@ -77,9 +80,13 @@ public class ThemeLinksRenderer extends javax.faces.render.Renderer {
             return;
         }
 
+        // Get debug flag.
+        Map map = context.getExternalContext().getRequestParameterMap();
+        boolean isDebug = themeLinks.isDebug() || map.containsKey("debug");
+
         // Render Dojo config.
         JavaScriptUtilities.renderJavaScript(component, writer,
-            JavaScriptUtilities.getDojoConfig(themeLinks.isDebug(),
+            JavaScriptUtilities.getDojoConfig(isDebug,
                 themeLinks.isParseWidgets()));
 
         // Render Dojo include.
@@ -96,7 +103,7 @@ public class ThemeLinksRenderer extends javax.faces.render.Renderer {
         
         // Render module config after including dojo.
         JavaScriptUtilities.renderJavaScript(component, writer,
-            JavaScriptUtilities.getModuleConfig(themeLinks.isDebug()));
+            JavaScriptUtilities.getModuleConfig(isDebug));
 
         // Render global include.
         JavaScriptUtilities.renderGlobalInclude(component, writer);

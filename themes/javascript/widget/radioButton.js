@@ -73,13 +73,11 @@ webui.@THEME@.widget.radioButton = function() {
  */
 webui.@THEME@.widget.radioButton.getClassName = function() {
     // Set style class for the span element.
-    var spanStyleClass = webui.@THEME@.widget.props.radioButton.spanClassName;
+    var className = webui.@THEME@.widget.props.radioButton.spanClassName;
     if (this.disabled == true) {
-        spanStyleClass = webui.@THEME@.widget.props.radioButton.spanDisabledClassName;
+        className = webui.@THEME@.widget.props.radioButton.spanDisabledClassName;
     }
-    return (this.className) 
-        ? spanStyleClass + " " + this.className 
-        : spanStyleClass;
+    return className;
 }
 
 /**
@@ -97,15 +95,17 @@ webui.@THEME@.widget.radioButton.getClassName = function() {
  * properties.
  */
 webui.@THEME@.widget.radioButton.getProps = function() {
-    var props = {        
-        checked: this.checked,
-        disabled: this.disabled,
-        image: this.image,
-        label: this.label,
-        name: this.name,                
-        readOnly: this.readOnly,
-        value: this.value
-    };
+    var props = {};
+
+    // Set properties.  
+    if (this.align) { props.align = this.align; }
+    if (this.checked != null) { props.checked = this.checked; }
+    if (this.disabled != null) { props.disabled = this.disabled; }   
+    if (this.image) { props.image = this.image; }
+    if (this.label) { props.label = this.label; }
+    if (this.name) { props.name = this.name; }        
+    if (this.readOnly != null) { props.readOnly = this.readOnly; }
+    if (this.value) { props.value = this.value; }
 
     // Add DOM node properties.
     Object.extend(props, webui.@THEME@.widget.common.getCommonProps(this));
@@ -159,24 +159,21 @@ webui.@THEME@.widget.radioButton.setProps = function(props) {
         return false;
     }     
     
-   // After widget has been initialized, save properties for later updates.
+    // After widget has been initialized, save properties for later updates.
     if (this.updateProps == true) {
         webui.@THEME@.widget.common.extend(this, props);    
     }
     // Set flag indicating properties can be updated.
     this.updateProps = true;
-    
-    // Set style class before calling the setCoreProps.   
-    props.className = this.getClassName();
-    
-    // Set attributes for the outermost element i.e <span>
+
+    // Set style class -- must be set before calling setCoreProps().
+    this.domNode.setAttribute("class", this.getClassName());
+
+    // Set DOM node properties.
     webui.@THEME@.widget.common.setCoreProps(this.domNode, props);   
-    
-    // Set common properties for the <input> element
     webui.@THEME@.widget.common.setCommonProps(this.radioButtonNode, props);
     webui.@THEME@.widget.common.setJavaScriptProps(this.radioButtonNode, props);        
-    
-   
+
     if (props.name) { 
         this.radioButtonNode.setAttribute("name", props.name); 
     } else {

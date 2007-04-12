@@ -24,9 +24,11 @@ package com.sun.webui.jsf.component;
 import com.sun.faces.annotation.Component;
 import com.sun.faces.annotation.Property;
 import com.sun.faces.extensions.avatar.lifecycle.AsyncResponse;
-import com.sun.webui.theme.Theme;
 import com.sun.webui.jsf.theme.ThemeImages;
 import com.sun.webui.jsf.util.ThemeUtilities;
+import com.sun.webui.theme.Theme;
+
+import java.util.Map;
 
 import javax.el.ValueExpression;
 import javax.faces.component.NamingContainer;
@@ -34,6 +36,9 @@ import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.convert.Converter;
 import javax.faces.el.ValueBinding;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 /**
  * The ProgressBar component is used to create a progress indicator.
@@ -126,13 +131,22 @@ public class ProgressBar extends javax.faces.component.UIOutput
     public String getFamily() {
         return "com.sun.webui.jsf.ProgressBar";
     }
-    
+
     public String getRendererType() {
+        // Ensure this request is not for an AjaxZone.
         if (AsyncResponse.isAjaxRequest()) {
-            return "com.sun.webui.jsf.ajax.ProgressBar";
-        } else {
-            return super.getRendererType();
+            try {
+                Map map = getFacesContext().getExternalContext().
+                    getRequestHeaderMap();
+                JSONObject xjson = new JSONObject((String)
+                    map.get(AsyncResponse.XJSON_HEADER));
+
+                if (xjson.has("refresh") || xjson.has("progress")) {
+                    return "com.sun.webui.jsf.ajax.ProgressBar";
+                }
+            } catch(JSONException e) {} // XJSON header may be null.
         }
+        return super.getRendererType();
     }
 
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -954,13 +968,15 @@ public class ProgressBar extends javax.faces.component.UIOutput
         this.visible_set = ((Boolean) _values[22]).booleanValue();
         this.width = ((Integer) _values[23]).intValue();
         this.width_set = ((Boolean) _values[24]).booleanValue();
+        this.ajaxify = ((Boolean) _values[25]).booleanValue();
+        this.htmlTemplate = (String) _values[26];
     }
     
     /**
      * <p>Save the state of this component.</p>
      */
     public Object saveState(FacesContext _context) {
-        Object _values[] = new Object[25];
+        Object _values[] = new Object[27];
         _values[0] = super.saveState(_context);
         _values[1] = this.toolTip;
         _values[2] = this.description;
@@ -986,6 +1002,8 @@ public class ProgressBar extends javax.faces.component.UIOutput
         _values[22] = this.visible_set ? Boolean.TRUE : Boolean.FALSE;
         _values[23] = new Integer(this.width);
         _values[24] = this.width_set ? Boolean.TRUE : Boolean.FALSE;
+        _values[25] = this.ajaxify ? Boolean.TRUE : Boolean.FALSE;
+        _values[26] = this.htmlTemplate;
         return _values;
     }
 }

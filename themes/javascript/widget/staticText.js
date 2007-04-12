@@ -115,8 +115,8 @@ webui.@THEME@.widget.staticText.setProps = function(props) {
     }
     // Set flag indicating properties can be updated.
     this.updateProps = true;
-            
-    // Set attributes.
+
+    // Set DOM node properties.
     webui.@THEME@.widget.common.setCoreProps(this.domNode, props);
     webui.@THEME@.widget.common.setCommonProps(this.domNode, props);
     webui.@THEME@.widget.common.setJavaScriptProps(this.domNode, props);

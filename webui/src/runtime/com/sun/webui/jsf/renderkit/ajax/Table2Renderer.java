@@ -21,33 +21,27 @@
  */
 package com.sun.webui.jsf.renderkit.ajax;
 
-import com.sun.data.provider.RowKey;
 import com.sun.faces.annotation.Renderer;
 import com.sun.faces.extensions.avatar.lifecycle.AsyncResponse;
-import com.sun.webui.jsf.component.Table2Column;
-import com.sun.webui.jsf.component.Table2RowGroup;
-import com.sun.webui.jsf.util.WidgetUtilities;
 
 import java.io.IOException;
-import java.util.Iterator;
 import java.util.Map;
 
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.context.ResponseWriter;
 
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 /**
- * This class renders Table2RowGroup components.
+ * This class renders table2 components.
  */
 @Renderer(@Renderer.Renders(
-    rendererType="com.sun.webui.jsf.ajax.Table2RowGroup",
-    componentFamily="com.sun.webui.jsf.Table2RowGroup"))
-public class Table2RowGroupRenderer
-        extends com.sun.webui.jsf.renderkit.widget.Table2RowGroupRenderer{
+    rendererType="com.sun.webui.jsf.ajax.Table2",
+    componentFamily="com.sun.webui.jsf.Table2"))
+public class Table2Renderer 
+        extends com.sun.webui.jsf.renderkit.widget.Table2Renderer {
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     // Renderer methods
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -91,23 +85,7 @@ public class Table2RowGroupRenderer
             // Process refresh event.
             if (xjson.has("refresh")) {
                 super.encodeChildren(context, component);
-                return;
             }
-            // Process scroll event.
-            if (!xjson.has("scroll")) {
-                return;
-            }
-
-            // Set first row.
-            Table2RowGroup group = (Table2RowGroup) component;
-            group.setFirst(xjson.getInt("first")); // To do: move to decode method?
-
-            // Get properties.
-            JSONObject json = new JSONObject();
-            json.put("id", group.getClientId(context)); // For publishEndEvent.
-            setRowProperties(context, group, json);
-
-            json.write(context.getResponseWriter());
         } catch(JSONException e) {
             e.printStackTrace();
         }

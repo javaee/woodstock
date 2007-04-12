@@ -25,7 +25,9 @@ dojo.provide("webui.@THEME@.widget.jsfx.*");
 // For debugging only, obtain all module resources before invoking
 // dojo.hostenv.writeIncludes(). This will ensure that JavaScript
 // files are accessible to JavaScript debuggers.
+dojo.requireIf(djConfig.isDebug, "webui.@THEME@.widget.jsfx.button");
 dojo.requireIf(djConfig.isDebug, "webui.@THEME@.widget.jsfx.progressBar");
+dojo.requireIf(djConfig.isDebug, "webui.@THEME@.widget.jsfx.table2");
 dojo.requireIf(djConfig.isDebug, "webui.@THEME@.widget.jsfx.table2RowGroup");
 
 //-->
