@@ -46,6 +46,9 @@ import com.sun.webui.jsf.example.index.IndexBackingBean;
  */
 public class CheckboxRadiobuttonBackingBean implements Serializable {
     
+    // Outcome string used in the faces config.
+    public final static String SHOW_CBRB_INDEX = "showCbRbIndex";
+    
     // Default selection value for the "red" checkbox.
     private static final boolean RED_DEFAULT_SELECTED = false;
     
@@ -77,7 +80,7 @@ public class CheckboxRadiobuttonBackingBean implements Serializable {
     private boolean serverImageRBDisabled = false;
     private boolean volumeImageRBDisabled = false;
     private boolean poolImageRBDisabled = false;
-    private Option[] testCaseOptions = null;
+    private Option[] testCaseOptions = null;        
     
     /** Creates a new instance of CheckboxRadiobuttonBackingBean */
     public CheckboxRadiobuttonBackingBean() {
@@ -396,6 +399,12 @@ public class CheckboxRadiobuttonBackingBean implements Serializable {
     public String showExampleIndex() {
         reset();
         return IndexBackingBean.INDEX_ACTION;
+    }
+    
+    // Action handler when navigating to the checkbox and radio button example index.
+    public String showCbRbIndex() {
+        reset();
+        return SHOW_CBRB_INDEX;
     }
     
     /** Return the state result for the checkbox */

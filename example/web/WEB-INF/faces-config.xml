@@ -455,6 +455,18 @@
       
       <!-- Navigation Cases for Checkbox and RadioButton Example -->
       <navigation-case>
+        <from-outcome>showCbRbIndex</from-outcome>
+        <to-view-id>/cbrb/index.jsp</to-view-id>
+        <redirect/>
+      </navigation-case>            
+      
+      <navigation-case>
+        <from-outcome>showClinetSideCb</from-outcome>
+        <to-view-id>/cbrb/clientsideCheckbox.jsp</to-view-id>
+        <redirect/>
+      </navigation-case> 
+      
+      <navigation-case>
         <from-outcome>showCheckboxRadiobutton</from-outcome>
         <to-view-id>/cbrb/checkboxRadiobutton.jsp</to-view-id>
         <redirect/>

@@ -38,8 +38,10 @@ public class TableData {
                     "button/ButtonResults.jsp",
                     "button/ButtonBackingBean.java"}
         ),
-        new AppData("index_cbrbName","index_cbrbConcepts", "showCheckboxRadiobutton",
+        new AppData("index_cbrbName","index_cbrbConcepts", "showCbRbIndex",
                 new String[] {
+                    "cbrb/index.jsp",
+                    "cbrb/clientsideCheckbox.jsp",
                     "cbrb/checkboxRadiobutton.jsp",
                     "cbrb/checkboxRadiobuttonResults.jsp",
                     "cbrb/CheckboxRadiobuttonBackingBean.java"}

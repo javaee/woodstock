@@ -42,6 +42,9 @@
               <webuijsf:hyperlink actionExpression="#{CheckboxRadiobuttonBean.showExampleIndex}" text="#{msgs.exampleTitle}"
                 onMouseOver="javascript:window.status='#{msgs.index_breadcrumbMouseOver}'; return true;"
                 onMouseOut="javascript: window.status=''; return true" />
+              <webuijsf:hyperlink actionExpression="#{CheckboxRadiobuttonBean.showCbRbIndex}" text="#{msgs.cbrb_indexTitle}"
+                onMouseOver="javascript:window.status='#{msgs.index_breadcrumbMouseOver}'; return true;"
+                onMouseOut="javascript: window.status=''; return true" />
               <webuijsf:hyperlink actionExpression="showCheckboxRadiobutton" text="#{msgs.cbrb_title}"
                 onMouseOver="javascript:window.status='#{msgs.cbrb_breadcrumbMouseOver}'; return true;"
                 onMouseOut="javascript: window.status=''; return true" />
