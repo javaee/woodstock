@@ -25,6 +25,7 @@ import java.beans.PropertyEditorSupport;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
+import com.sun.rave.propertyeditors.util.JavaInitializer;
 
 
 /**
@@ -40,6 +41,24 @@ public class SelectedValuesPropertyEditor extends PropertyEditorSupport {
     
     public void setAsText(String text) throws IllegalArgumentException {
         // Read-only
+    }
+    
+    public String getJavaInitializationString() {
+        StringBuffer buffer = new StringBuffer();
+        Object value = this.getValue();
+        if (value instanceof Object[]) {
+            buffer.append("new Object[] {");
+            Object[] values = (Object[]) value;
+            for (int i = 0; i < values.length; i++) {
+                if (i > 0)
+                    buffer.append(", ");
+                buffer.append(JavaInitializer.toJavaInitializationString(values[i]));
+            }
+            buffer.append("}");
+        } else {
+            buffer.append(JavaInitializer.toJavaInitializationString(value));
+        }
+        return buffer.toString();
     }
 
     public String getAsText() {
