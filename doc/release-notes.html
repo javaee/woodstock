@@ -32,16 +32,37 @@
 <h2><u>4.1 Build 3</u> (04/20/2007)</h2>
 <h3>New Features</h3>
 <ul>
-	<li>Client-side rendering for RadioButton</li>
+    <li>Client-side rendering for CheckBox</li>
+    <li>Client-side rendering for DropDown</li>
+    <li>Client-side rendering for RadioButton</li>
 </ul>
-<p>&nbsp;</p>	
+<h3>Deprecated attributes</h3>
+<ul>
+    <li>The readonly attribute of DropDown component has been deprecated</li>
+</ul>
 <h3>Deprecated client side JavaScript functions</h3>
 <ul style="color: rgb(0, 0, 0);">
   <li>
-    <pre><font>webui.suntheme.checkbox.setChecked(elementId, checked)</font></pre>
+      <h4> CheckBox </h4>
+      <ul>
+          <li><pre><font>webui.suntheme.checkbox.setChecked(elementId, checked)</font></pre></li>
+      </ul>
   </li>
   <li>
-    <pre><font>webui.suntheme.radioButton.setChecked(elementId, checked)</font></pre>
+      <h4> DropDown: </h4>
+    <ul>
+        <li><pre><font>webui.suntheme.dropDown.getSelectElement(elementId)</font></pre></li>
+        <li><pre><font>webui.suntheme.dropDown.getSelectedValue(elementId)</font></pre></li>
+        <li><pre><font>webui.suntheme.dropDown.getSelectedLabel(elementId)</font></pre></li>
+        <li><pre><font>webui.suntheme.dropDown.setDisabled(elementId, disabled)</font></pre></li>
+        <li><pre><font>webui.suntheme.dropDown.changed(elementId)</font></pre></li>
+    </ul>
+  </li>
+  <li>
+      <h4> RadioButton: </h4>
+      <ul>
+          <li><pre><font>webui.suntheme.checkbox.setChecked(elementId, checked)</font></pre></li>
+      </ul>
   </li>
 </ul>
 <h2>&nbsp;</h2>
