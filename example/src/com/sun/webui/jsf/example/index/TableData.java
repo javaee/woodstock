@@ -223,7 +223,20 @@ public class TableData {
                     "wizard/index.jsp",
                     "wizard/simpleWizard.jsp",
                     "wizard/SimpleWizardBackingBean.java"}
-        )
+        ),
+        new AppData("index_tabsetName","index_tabsetConcepts", "showTabsetIndex",
+                new String[] {
+                    "tabset/index.jsp",
+                    "tabset/message.jsp",
+                    "tabset/navtab.jsp",
+                    "tabset/state.jsp",
+                    "tabset/stateResults.jsp",
+                    "tabset/NavtabBackingBean.java",
+                    "tabset/StateBackingBean.java",
+                    "tabset/StringValue.java",
+		    "util/ExampleUtilities.java",
+                    "common/UserData.java"}
+	)
     };    
     
     /** Default constructor */

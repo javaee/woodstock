@@ -247,6 +247,20 @@
         <managed-bean-class>com.sun.webui.jsf.example.wizard.SimpleWizardBackingBean</managed-bean-class>
         <managed-bean-scope>session</managed-bean-scope>
     </managed-bean>
+ 
+    <managed-bean>
+        <description>The backing bean for the Tabset states example</description>
+        <managed-bean-name>StateBean</managed-bean-name>
+        <managed-bean-class>com.sun.webui.jsf.example.tabset.StateBackingBean</managed-bean-class>
+        <managed-bean-scope>session</managed-bean-scope>
+    </managed-bean>
+ 
+    <managed-bean>
+        <description>The backing bean for the Tabset navigation example</description>
+        <managed-bean-name>NavtabBean</managed-bean-name>
+        <managed-bean-class>com.sun.webui.jsf.example.tabset.NavtabBackingBean</managed-bean-class>
+        <managed-bean-scope>session</managed-bean-scope>
+    </managed-bean>
 
     <navigation-rule>    
       <from-view-id>/*</from-view-id>      
@@ -496,6 +510,31 @@
         <to-view-id>/tree/navTree.jsp</to-view-id>
         <redirect/>
       </navigation-case>   
+
+      <!-- Navigation Cases for Tabset Example -->     
+      <navigation-case>
+        <from-outcome>showTabsetIndex</from-outcome>
+        <to-view-id>/tabset/index.jsp</to-view-id>
+        <redirect/>
+      </navigation-case>   
+            
+      <navigation-case>
+        <from-outcome>showTabsetStateTabs</from-outcome>
+        <to-view-id>/tabset/state.jsp</to-view-id>
+        <redirect/>
+      </navigation-case>   
+            
+      <navigation-case>
+        <from-outcome>showTabsetNavTabs</from-outcome>
+        <to-view-id>/tabset/navtab.jsp</to-view-id>
+        <redirect/>
+      </navigation-case>   
+      
+      <navigation-case>
+        <from-outcome>showTabsetStateResults</from-outcome>
+        <to-view-id>/tabset/stateResults.jsp</to-view-id>
+        <redirect/>
+      </navigation-case>
 
     </navigation-rule>
               
@@ -753,6 +792,15 @@
       <navigation-case>
         <from-outcome>showWizardIndex</from-outcome>
         <to-view-id>/wizard/index.jsp</to-view-id>
+        <redirect/>
+      </navigation-case>
+   </navigation-rule>
+ 
+   <!-- Navigation Cases for Tabset Examples -->
+    <navigation-rule>
+      <navigation-case>
+        <from-outcome>showTabsetIndex</from-outcome>
+        <to-view-id>/tabset/index.jsp</to-view-id>
         <redirect/>
       </navigation-case>
    </navigation-rule>
