@@ -58,4 +58,12 @@ public class TextFieldBeanInfo extends TextFieldBeanInfoBase {
         return categoryDescriptors;
     }
     
+    public BeanDescriptor getBeanDescriptor() {
+        BeanDescriptor beanDescriptor = super.getBeanDescriptor();
+        // Do not allow component to be resized.
+        beanDescriptor.setValue(Constants.BeanDescriptor.RESIZE_CONSTRAINTS,
+                new Integer(Constants.ResizeConstraints.NONE));
+        return beanDescriptor;
+    }
+    
 }
