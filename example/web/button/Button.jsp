@@ -238,7 +238,7 @@
                   -->
                   <webuijsf:dropDown id="TestCaseMenu" items="#{ButtonBean.testCaseOptions}"
                     actionExpression="#{ButtonBean.testCaseActionHandler}"
-                    onChange="var selected=webui.suntheme.dropDown.getSelectedValue(theForm + ':TestCaseMenu');
+                    onChange="var selected=document.getElementById(theForm + ':TestCaseMenu').getSelectedValue();
                         if (selected == 'button_testCase_disableAll') {
                             disableAll(true);
                         }

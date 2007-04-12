@@ -43,14 +43,14 @@ function disableActions() {
     document.getElementById("form1:table1:actionsTop:action2").setDisabled(disabled);
     document.getElementById("form1:table1:actionsTop:action3").setDisabled(disabled);
     document.getElementById("form1:table1:actionsTop:action4").setDisabled(disabled);
-    webui.suntheme.dropDown.setDisabled("form1:table1:actionsTop:moreActions", disabled);
+    document.getElementById("form1:table1:actionsTop:moreActions").setProps({disable:disabled});
 
     // Set disabled state for bottom actions.
     document.getElementById("form1:table1:actionsBottom:action1").setDisabled(disabled);
     document.getElementById("form1:table1:actionsBottom:action2").setDisabled(disabled);
     document.getElementById("form1:table1:actionsBottom:action3").setDisabled(disabled);
     document.getElementById("form1:table1:actionsBottom:action4").setDisabled(disabled);
-    webui.suntheme.dropDown.setDisabled("form1:table1:actionsBottom:moreActions", disabled);
+    document.getElementById("form1:table1:actionsBottom:moreActions").setProps({disable:disabled});
 }
 
 //
