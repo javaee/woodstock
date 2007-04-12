@@ -30,6 +30,11 @@ public class ThemeTemplates {
      * A template file that contains HTML for the Button component.
      */
     public static final String BUTTON = "button";
+    
+    /**
+     * A template file that contains HTML for the DropDown component.
+     */
+    public static final String DROPDOWN = "dropDown";
 
     /**
      * A template file that contains HTML for the Table2 component.

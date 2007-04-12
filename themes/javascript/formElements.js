@@ -609,6 +609,8 @@ webui.@THEME@.checkbox = {
 
 /**
  * Define webui.@THEME@.dropdown name space.
+ * 
+ * @deprecated
  */
 webui.@THEME@.dropDown = {
     /**
@@ -619,15 +621,15 @@ webui.@THEME@.dropDown = {
      * assigned to the span tag enclosing the HTML elements that make up
      * the dropDown).
      * @return a reference to the select element. 
+     *
+     * @deprecated Use document.getElementById(elementId).setSelectElement()
      */
     getSelectElement: function(elementId) { 
-        var element = document.getElementById(elementId); 
-        if(element != null) { 
-            if(element.tagName == "SELECT") { 
-                return element; 
-            } 
-        } 
-        return document.getElementById(elementId + "_list");
+        var domNode = document.getElementById(elementId);
+        if (domNode) {
+            return domNode.getSelectedElement();
+        }
+        return false;
     },
 
     /**
@@ -641,44 +643,19 @@ webui.@THEME@.dropDown = {
      * rendered in the div tag enclosing the HTML elements that make up
      * the list).
      * @return true if successful; otherwise, false
+     *
+     * @deprecated Use document.getElementById(elementId).change();
      */
     changed: function(elementId) {         
-        var listItem = webui.@THEME@.dropDown.getSelectElement(elementId).options;
-
-        //disabled items should not be selected (IE problem)
-        //So setting selectedIndex = -1 for disabled items.
-        
-        if (webui.@THEME@.common.browser.is_ie) { 
-          for(var i = 0;i < listItem.length;++i) {
-              if(listItem[i].disabled == true &&
-                           listItem[i].selected == true) {
-
-               listItem.selectedIndex = -1;
-              }
-          }  
-        }        
-  
-        for (var cntr=0; cntr < listItem.length; ++cntr) { 
-            if (listItem[cntr].className == webui.@THEME@.props.dropDown.optionSeparatorClassName
-                    || listItem[cntr].className == webui.@THEME@.props.dropDown.optionGroupClassName) {
-                continue;	
-            } else if (listItem[cntr].disabled) {
-                // Regardless if the option is currently selected or not,
-                // the disabled option style should be used when the option
-                // is disabled. So, check for the disabled item first.
-                // See CR 6317842.
-                listItem[cntr].className = webui.@THEME@.props.dropDown.optionDisabledClassName;
-            } else if (listItem[cntr].selected) {
-                listItem[cntr].className = webui.@THEME@.props.dropDown.optionSelectedClassName;
+        var widget = dojo.widget.byId(elementId);
+        if (widget) {
+            if (widget.submitForm == true) {
+                return widget.jumpDropDownChanged();
             } else {
-                // This does not work on Opera 7. There is a bug such that if 
-                // you touch the option at all (even if I explicitly set
-                // selected to false!), it goes back to the original
-                // selection. 
-                listItem[cntr].className = webui.@THEME@.props.dropDown.optionClassName;
+                return widget.dropDownChanged();
             }
         }
-        return true;
+        return false;
     },
 
     /**
@@ -693,17 +670,15 @@ webui.@THEME@.dropDown = {
      * the list).
      * @param disabled true or false
      * @return true if successful; otherwise, false
+     *
+     * @deprecated Use document.getElementById(elementId).setProps({disabled: boolean});
      */
     setDisabled: function(elementId, disabled) { 
-        var choice = webui.@THEME@.dropDown.getSelectElement(elementId); 
-        if(disabled) {
-            choice.disabled = true;
-            choice.className = webui.@THEME@.props.dropDown.disabledClassName;
-        } else { 
-            choice.disabled = false;
-            choice.className = webui.@THEME@.props.dropDown.className;
+        var domNode = document.getElementById(elementId);
+        if (domNode) {
+            return domNode.setProps({ disabled: disabled});
         }
-        return true;
+        return false;
     },
 
     /**
@@ -716,15 +691,15 @@ webui.@THEME@.dropDown = {
      * the list).
      * @return The value of the selected option, or null if none is
      * selected. 
+     *
+     * @deprecated Use document.getElementById(elementId).getSelectedValue();
      */
     getSelectedValue: function(elementId) { 
-        var dropDown = webui.@THEME@.dropDown.getSelectElement(elementId); 
-        var index = dropDown.selectedIndex; 
-        if(index == -1) { 
-            return null; 
-        } else { 
-            return dropDown.options[index].value; 
+        var domNode = document.getElementById(elementId);
+        if (domNode) {
+            return domNode.getSelectedValue();
         }
+        return false;
     },
 
     /**
@@ -737,15 +712,15 @@ webui.@THEME@.dropDown = {
      * the list).
      * @return The label of the selected option, or null if none is
      * selected. 
+     *
+     * * @deprecated Use document.getElementById(elementId).getSelectedLabel();
      */
     getSelectedLabel: function(elementId) { 
-        var dropDown = webui.@THEME@.dropDown.getSelectElement(elementId); 
-        var index = dropDown.selectedIndex; 
-        if(index == -1) { 
-            return null; 
-        } else { 
-            return dropDown.options[index].label; 
+        var domNode = document.getElementById(elementId);
+        if (domNode) {
+            return domNode.getSelectedLabel();
         }
+        return false;
     }
 }
 
@@ -929,6 +904,8 @@ webui.@THEME@.hyperlink = {
 
 /**
  * Define webui.@THEME@.jumpdropdown name space.
+ *
+ * @deprecated
  */
 webui.@THEME@.jumpDropDown = {
     /**
@@ -942,42 +919,19 @@ webui.@THEME@.jumpDropDown = {
      * rendered in the div tag enclosing the HTML elements that make up
      * the list).
      * @return true
+     *
+     * @deprecated Use document.getElementById(elementId).changed()
      */
     changed: function(elementId) {
-        var jumpDropdown = webui.@THEME@.dropDown.getSelectElement(elementId); 
-        var form = jumpDropdown; 
-        while(form != null) { 
-            form = form.parentNode; 
-            if(form.tagName == "FORM") { 
-                break;
+        var widget = dojo.widget.byId(elementId);
+        if (widget) {
+            if (widget.submitForm == true) {
+                return widget.jumpDropDownChanged();
+            } else {
+                return widget.dropDownChanged();
             }
         }
-        if(form != null) { 
-            var submitterFieldId = elementId + "_submitter"; 
-            document.getElementById(submitterFieldId).value = "true"; 
-
-            var listItem = jumpDropdown.options;
-            for (var cntr=0; cntr < listItem.length; ++cntr) { 
-                if (listItem[cntr].className ==
-                            webui.@THEME@.props.jumpDropDown.optionSeparatorClassName
-                        || listItem[cntr].className == 
-                            webui.@THEME@.props.jumpDropDown.optionGroupClassName) {
-                    continue;		
-                } else if (listItem[cntr].disabled) {
-                    // Regardless if the option is currently selected or not,
-                    // the disabled option style should be used when the option
-                    // is disabled. So, check for the disabled item first.
-                    // See CR 6317842.
-                    listItem[cntr].className = webui.@THEME@.props.jumpDropDown.optionDisabledClassName;
-                } else if (listItem[cntr].selected) {
-                    listItem[cntr].className = webui.@THEME@.props.jumpDropDown.optionSelectedClassName;
-                } else { 
-                    listItem[cntr].className = webui.@THEME@.props.jumpDropDown.optionClassName;
-                }
-            }
-            form.submit();
-        }
-        return true; 
+        return false;
     }
 }
 

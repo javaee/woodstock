@@ -3167,44 +3167,66 @@ The Common Tasks Section component. This encapsulates a number of common task gr
  specify a custom component for the label. This facet overrides the 
  <code>label</code> attribute.</p>
  <h3>Client-side JavaScript Functions</h3>
- <p>In the functions below, <code>&lt;id&gt;</code> should be the
- generated id of the HTML <code>&lt;select&gt;</code>
- element that is rendered by the dropDown component
+ <p>Invoke the following functions with document.getElementById(id).&lt;function&gt;
  <br>
  <table style="text-align: left; width: 100%;" border="1"
   cellpadding="2" cellspacing="2">
    <tbody>
      <tr>
-       <td><code>webui.suntheme.dropDown.setDisabled(&lt;id&gt;,
- &lt;disabled&gt;)</code></td>
-       <td>Use this function to enable/disable the drop-down
- menu. < Set <code>&lt;disabled&gt;</code>
- to true to disable the component, or false to enable it.</td>
-     </tr>
-     <tr>
-       <td style="vertical-align: top; text-align: left;"><code>webui.suntheme.dropDown.changed(&lt;id&gt;)</code></td>
-       <td>This function is
- automatically invoked by the drop-down menu's <code>onchange</code>
- handler.</td>
-     </tr>
-     <tr>
-       <td style="vertical-align: top; text-align: left;"><code>webui.suntheme.dropDown.getSelectElement(&lt;id&gt;)</code></td>
+       <td style="vertical-align: top; text-align: left;"><code>getSelectElement()</code></td>
        <td>Use this function to access the HTML <code>&lt;select&gt;</code>
  element that is rendered by the dropDown component.<br>
        </td>
      </tr>
      <tr>
-       <td><code>webui.suntheme.dropDown.getSelectedValue(&lt;id&gt;)</code></td>
+       <td><code>getSelectedValue()</code></td>
        <td>Use this&nbsp;function to get the value of the
  first&nbsp;selected option on the dropDown. If no option is
  selected, this&nbsp; function returns null. </td>
      </tr>
      <tr>
-       <td><code>webui.suntheme.dropDown.getSelectedLabel(&lt;id&gt;)</code></td>
+       <td><code>getSelectedLabel()</code></td>
        <td>Use this function to get the label of the
- first selected option on the
- dropDown. If no option is selected, this function returns
- null.</td>
+ first selected option on the dropDown. If no option is selected, this function returns null.</td>
+     </tr>
+     <tr>
+       <td><code>getProps()</code></td>
+       <td>Use this function to get widget properties. Please see setProps() function for a list of supported properties.
+       </td>
+     </tr>
+     <tr>
+       <td><code>setProps(props)</code></td>
+       <td>Use this function to change any of the following supported properties:
+       <ul>
+         <li>id</li>
+         <li>dir</li>
+         <li>disabled</li>
+         <li>label</li>
+         <li>labelOnTop</li>
+         <li>lang</li>
+         <li>multiple</li>
+         <li>onBlur</li>
+         <li>onChange</li>
+         <li>onClick</li>
+         <li>onDblClick</li>
+         <li>onFocus</li>
+         <li>onMouseDown</li>
+         <li>onMouseOut</li>
+         <li>onMouseOver</li>
+         <li>onMouseUp</li>
+         <li>onMouseMove</li>
+         <li>onKeyPress</li>
+         <li>onKeyUp</li>
+         <li>onSelect</li>
+         <li>options</li>
+         <li>size</li>
+         <li>submitForm</li>
+         <li>style</li>
+         <li>tabIndex</li>
+         <li>title</li>
+         <li>visible</li>
+       </ul>
+       </td>
      </tr>
    </tbody>
  </table>
@@ -3301,12 +3323,50 @@ The Common Tasks Section component. This encapsulates a number of common task gr
  </pre> 
  The DropDownBean defines the menu items as shown below.
  <pre>                             
-  public BackingFileDropDown3() {        pageOptions = new Option[4];
+  public BackingFileDropDown3() {        
+         pageOptions = new Option[4];
          pageOptions[0] = new OptionTitle("Select a Page" );             
          pageOptions[1] = new Option("indexPage", "Test App Index" );
          pageOptions[2] = new Option("hyperlinkPage", "HyperLink Test Page");  
          pageOptions[3] = new Option("tablePage", "Table Test Page");  
-     }       </pre>
+     }       
+ </pre>
+ <h4>Example 5: Update Drop Down via client-side JavaScript functions</h4>
+ <p>This example is the same as Example 1 except it also shows you how
+ to invoke the client-side JavaScript functions to update the drop down. </p>
+ <pre>
+     &lt;webuijsf:dropDown selected="#{flightSearch.leaveAirport}" 
+                  items="#{dataBean.airports}" 
+                  id="leaveAirport" 
+                  tooltip="#{msgs.chooseAirport}"
+                  label="#{msgs.chooseDepartureAirport}" 
+                  onChange="return getSelectedAirport();"/&gt;
+              
+     &lt;webuijsf:staticText id="selectedAirport" text="Selected airport: "/&gt;
+     &lt;webuijsf:button id="disableBtn" text="Disable" onClick="return disableDropDown(); return false;"/&gt;
+     &lt;webuijsf:button id="toggleBtn" text="Toggle LableOnTop" onClick="return toggleLabelOnTop(); return false;"/&gt;
+
+     function getSelectedAirport() {
+         var label = document.getElementById('form1:leaveAirport').getSelectedLabel();
+         var value = document.getElementById('form1:leaveAirport').getSelectedValue();
+         var selectedIndex = document.getElementById('menuform1:airport').getSelectElement().selectedIndex;
+         document.getElementById('menuform1:selectedAirport').setProps({value:'Selected airport #' 
+                                        + selectedIndex  + ": " + label + " -- " + value});
+         return true;
+     }     
+
+     function disableDropDown() {
+         var dropDown = document.getElementById("form1:leaveAirport");
+         dropDown.setProps( {disabled: true} );
+         return false;    
+     }
+     
+     function toggleLabelOnTop() {
+         var dropDown = document.getElementById('form1:leaveAirport');
+         dropDown.setProps({ labelOnTop:!dropDown.getProps().labelOnTop }); 
+         return false;
+     }
+ </pre>
 ]]></description>
     </tag>
 

@@ -32,6 +32,7 @@ dojo.kwCompoundRequire({
 // dojo.hostenv.writeIncludes(). This will ensure that JavaScript
 // files are accessible to JavaScript debuggers.
 dojo.requireIf(djConfig.isDebug, "webui.@THEME@.widget.button");
+dojo.requireIf(djConfig.isDebug, "webui.@THEME@.widget.dropDown");
 dojo.requireIf(djConfig.isDebug, "webui.@THEME@.widget.progressBar");
 dojo.requireIf(djConfig.isDebug, "webui.@THEME@.widget.table2");
 dojo.requireIf(djConfig.isDebug, "webui.@THEME@.widget.image");

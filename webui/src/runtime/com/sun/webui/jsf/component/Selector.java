@@ -1098,14 +1098,18 @@ public class Selector extends WebuiInput implements SelectorManager {
     /**
      * <p>If this attribute is set to true, the value of the component is
      * rendered as text, preceded by the label if one was defined.</p>
+     *
+     * @deprecated The attribute is deprected starting from version 4.1
      */
-    @Property(name="readOnly", displayName="Read-only", category="Behavior")
+    @Property(name="readOnly", isHidden=true, displayName="Read-only", category="Behavior")
     private boolean readOnly = false;
     private boolean readOnly_set = false;
 
     /**
      * <p>If this attribute is set to true, the value of the component is
      * rendered as text, preceded by the label if one was defined.</p>
+     *
+     * @deprecated The attribute is deprected starting from version 4.1
      */
     public boolean isReadOnly() {
         if (this.readOnly_set) {
@@ -1127,6 +1131,8 @@ public class Selector extends WebuiInput implements SelectorManager {
      * <p>If this attribute is set to true, the value of the component is
      * rendered as text, preceded by the label if one was defined.</p>
      * @see #isReadOnly()
+     *
+     * @deprecated The attribute is deprected starting from version 4.1
      */
     public void setReadOnly(boolean readOnly) {
         this.readOnly = readOnly;

@@ -55,6 +55,30 @@ webui.@THEME@.widget.props = {
         imageDisabledClassName: "CbImgDis@THEME_CSS@"
     },
 
+    // Drop Down properties.
+    dropDown: {
+        className: "MnuStd@THEME_CSS@",
+        disabledClassName: "MnuStdDis@THEME_CSS@",
+        optionClassName: "MnuStdOpt@THEME_CSS@",
+        optionDisabledClassName: "MnuStdOptDis@THEME_CSS@",
+        optionGroupClassName: "MnuStdOptGrp@THEME_CSS@",
+        optionSelectedClassName: "MnuStdOptSel@THEME_CSS@",
+        optionSeparatorClassName: "MnuStdOptSep@THEME_CSS@",
+        titleOptionAppender: " &#8212;",
+        titleOptionPreppender: "&#8212; "
+    },
+
+    // Jump drop down properties.
+    jumpDropDown: {
+        className: "MnuJmp@THEME_CSS@",
+        disabledClassName: "",
+        optionClassName: "MnuJmpOpt@THEME_CSS@",
+        optionDisabledClassName: "MnuJmpOptDis@THEME_CSS@",
+        optionGroupClassName: "MnuJmpOptGrp@THEME_CSS@",
+        optionSelectedClassName: "MnuJmpOptSel@THEME_CSS@",
+        optionSeparatorClassName: "MnuJmpOptSep@THEME_CSS@"
+    },
+
     // Progress bar properties.
     progressBar: {
         barContainerClassName: "barContainer@THEME_CSS@",

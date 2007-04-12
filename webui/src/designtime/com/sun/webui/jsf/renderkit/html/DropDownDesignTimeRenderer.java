@@ -28,7 +28,7 @@ package com.sun.webui.jsf.renderkit.html;
  */
 public class DropDownDesignTimeRenderer extends SelectorDesignTimeRenderer {
     
-    /** Creates a new instance of ListboxDesignTimeRenderer */
+    /** Creates a new instance of DropDownDesignTimeRenderer */
     public DropDownDesignTimeRenderer() {
         super(new DropDownRenderer());
     }

@@ -111,7 +111,7 @@
     
     <renderer>
       <component-family>com.sun.webui.jsf.DropDown</component-family>
-      <renderer-type>com.sun.webui.jsf.DropDownDesignTime</renderer-type>
+      <renderer-type>com.sun.webui.jsf.widget.DropDownDesignTime</renderer-type>
       <renderer-class>com.sun.webui.jsf.renderkit.html.DropDownDesignTimeRenderer</renderer-class>
     </renderer>
 
