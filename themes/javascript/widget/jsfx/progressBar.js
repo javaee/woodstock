@@ -87,7 +87,7 @@ webui.@THEME@.widget.jsfx.progressBar =  {
             (domNode) ? domNode : document.forms[0], {
             execute: (props.execute) ? props.execute : "none",
             render: props.id,
-            replaceElement: webui.@THEME@.widget.jsfx.table2RowGroup.refreshCallback,
+            replaceElement: webui.@THEME@.widget.jsfx.progressBar.refreshCallback,
             xjson: {
                 refresh: true
             }

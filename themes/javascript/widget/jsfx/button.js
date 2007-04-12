@@ -55,7 +55,7 @@ webui.@THEME@.widget.jsfx.button = {
             (domNode) ? domNode : document.forms[0], {
             execute: (props.execute) ? props.execute : "none",
             render: props.id,
-            replaceElement: webui.@THEME@.widget.jsfx.buttonRowGroup.refreshCallback,
+            replaceElement: webui.@THEME@.widget.jsfx.button.refreshCallback,
             xjson: {
                 refresh: true
             }
