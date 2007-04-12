@@ -177,7 +177,7 @@ webui.@THEME@.widget.label.setProps = function(props) {
     }
   
     // Set error image properties.
-    if (props.errorImage || props.valid != null) {
+    if (props.errorImage || props.valid != null && this.errorImage) {
         // Ensure property exists so we can call setProps just once.
         if (props.errorImage == null) {
             props.errorImage = {};
@@ -198,7 +198,7 @@ webui.@THEME@.widget.label.setProps = function(props) {
     }
 
     // Set required image properties.
-    if (props.requiredImage || props.required != null) {       
+    if (props.requiredImage || props.required != null && this.requiredImage) {       
         // Ensure property exists so we can call setProps just once.
         if (props.requiredImage == null) {
             props.requiredImage = {};
