@@ -198,8 +198,15 @@ public class CheckboxRenderer extends RbCbRendererBase {
      */
     protected JSONArray getModules(FacesContext context, UIComponent component)
     throws JSONException {
+        Checkbox checkbox = (Checkbox) component;
+        
         JSONArray json = new JSONArray();
         json.put(JavaScriptUtilities.getModuleName("widget.checkbox"));
+        
+        if (checkbox.isAjaxify()) {
+            json.put(JavaScriptUtilities.getModuleName(
+                "widget.jsfx.checkbox"));
+        }
         return json;
     }
     

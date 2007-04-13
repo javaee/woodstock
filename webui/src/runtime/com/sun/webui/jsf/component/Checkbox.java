@@ -23,12 +23,16 @@ package com.sun.webui.jsf.component;
 
 import com.sun.faces.annotation.Component;
 import com.sun.faces.annotation.Property;
-
+import com.sun.faces.extensions.avatar.lifecycle.AsyncResponse;
+ 
 import java.util.ArrayList;
 import java.util.Map;
 
 import javax.el.ValueExpression;
 import javax.faces.context.FacesContext;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 /**
  * The Checkbox component is used to display a checkbox input element.
@@ -232,6 +236,24 @@ public class Checkbox extends RbCbSelector implements ComplexComponent {
      */
     public String getFamily() {
         return "com.sun.webui.jsf.Checkbox";
+    }
+    
+    public String getRendererType() {
+        // Ensure this request is not for an AjaxZone.
+        if (AsyncResponse.isAjaxRequest()) {
+            try {
+                Map map = getFacesContext().getExternalContext().
+                    getRequestHeaderMap();
+                JSONObject xjson = new JSONObject((String)
+                    map.get(AsyncResponse.XJSON_HEADER));
+                
+                String id = (String) xjson.get("id");                                
+                if (getClientId(getFacesContext()).equals(id)) {
+                        return "com.sun.webui.jsf.ajax.Checkbox";                
+                }
+            } catch(JSONException e) {} // JSON property may be null.
+        }
+        return super.getRendererType();
     }
          
     /**
@@ -476,6 +498,41 @@ public class Checkbox extends RbCbSelector implements ComplexComponent {
     }
     
     /**
+     * Flag indicating to turn off default Ajax functionality. Set ajaxify to
+     * false when providing a different Ajax implementation.
+     */
+    @Property(name="ajaxify", displayName="Ajaxify", category="Javascript")
+    private boolean ajaxify = true; 
+    private boolean ajaxify_set = false; 
+ 
+    /**
+     * Test if default Ajax functionality should be turned off.
+     */
+    public boolean isAjaxify() { 
+        if (this.ajaxify_set) {
+            return this.ajaxify;
+        }
+        ValueExpression _vb = getValueExpression("ajaxify");
+        if (_vb != null) {
+            Object _result = _vb.getValue(getFacesContext().getELContext());
+            if (_result == null) {
+                return false;
+            } else {
+                return ((Boolean) _result).booleanValue();
+            }
+        }
+        return true;
+    } 
+
+    /**
+     * Set flag indicating to turn off default Ajax functionality.
+     */
+    public void setAjaxify(boolean ajaxify) {
+        this.ajaxify = ajaxify;
+        this.ajaxify_set = true;
+    }
+    
+    /**
      * <p>Restore the state of this component.</p>
      */
     public void restoreState(FacesContext _context,Object _state) {
@@ -484,17 +541,19 @@ public class Checkbox extends RbCbSelector implements ComplexComponent {
         this.labelLevel = ((Integer) _values[1]).intValue();
         this.labelLevel_set = ((Boolean) _values[2]).booleanValue();
         this.htmlTemplate = (String) _values[3];
+        this.ajaxify = ((Boolean) _values[4]).booleanValue();
     }
 
     /**
      * <p>Save the state of this component.</p>
      */
     public Object saveState(FacesContext _context) {
-        Object _values[] = new Object[4];
+        Object _values[] = new Object[5];
         _values[0] = super.saveState(_context);
         _values[1] = new Integer(this.labelLevel);
         _values[2] = this.labelLevel_set ? Boolean.TRUE : Boolean.FALSE;
-        _values[3] = this.htmlTemplate;        
+        _values[3] = this.htmlTemplate;
+        _values[4] = this.ajaxify ? Boolean.TRUE : Boolean.FALSE;
         return _values;
     }
 }

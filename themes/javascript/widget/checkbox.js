@@ -55,12 +55,14 @@ webui.@THEME@.widget.checkbox = function() {
         this.domNode.setProps = function(props) { return dojo.widget.byId(this.id).setProps(props); }
         this.domNode.getProps = function() { return dojo.widget.byId(this.id).getProps(); } 
         this.domNode.getInputElement = function() { return dojo.widget.byId(this.id).getInputElement(); }
+        this.domNode.refresh = function(execute) { return dojo.widget.byId(this.id).refresh(execute); }
 
         // Set private functions.
         this.getClassName = webui.@THEME@.widget.checkbox.getClassName;
         this.setProps = webui.@THEME@.widget.checkbox.setProps;
         this.getProps = webui.@THEME@.widget.checkbox.getProps;
-        this.getInputElement = webui.@THEME@.widget.checkbox.getInputElement;        
+        this.getInputElement = webui.@THEME@.widget.checkbox.getInputElement;
+        this.refresh = webui.@THEME@.widget.checkbox.refresh.processEvent;        
 
         // Set properties
         this.setProps();
@@ -115,6 +117,53 @@ webui.@THEME@.widget.checkbox.getProps = function() {
     Object.extend(props, webui.@THEME@.widget.common.getJavaScriptProps(this));
  
     return props;
+}
+
+/**
+ * This closure is used to process refresh events.
+ */
+webui.@THEME@.widget.checkbox.refresh = {
+    /**
+     * Event topics for custom AJAX implementations to listen for.
+     */
+    beginEventTopic: "webui_@THEME@_widget_checkbox_refresh_begin",
+    endEventTopic: "webui_@THEME@_widget_checkbox_refresh_end",
+ 
+    /**
+     * Process refresh event.
+     *
+     * @param execute Comma separated string containing a list of client ids 
+     * against which the execute portion of the request processing lifecycle
+     * must be run.
+     */
+    processEvent: function(_execute) {
+        // Publish event.
+        webui.@THEME@.widget.checkbox.refresh.publishBeginEvent({
+            id: this.id,
+            execute: _execute
+        });
+        return true;
+    },
+
+    /**
+     * Publish an event for custom AJAX implementations to listen for.
+     *
+     * @param props Key-Value pairs of properties of the widget.
+     */
+    publishBeginEvent: function(props) {
+        dojo.event.topic.publish(webui.@THEME@.widget.checkbox.refresh.beginEventTopic, props);
+        return true;
+    },
+
+    /**
+     * Publish an event for custom AJAX implementations to listen for.
+     *
+     * @param props Key-Value pairs of properties of the widget.
+     */
+    publishEndEvent: function(props) {
+        dojo.event.topic.publish(webui.@THEME@.widget.checkbox.refresh.endEventTopic, props);
+        return true;
+    }
 }
 
 /**
