@@ -319,8 +319,14 @@ public class ProgressBarDesignTimeRenderer extends AbstractDesignTimeRenderer {
         writer.endElement("div");
                 
     }
+    
+    public void encodeChildren(FacesContext context, UIComponent component) 
+        throws IOException {
+        // don't do anything
+    }
+    
     public void encodeEnd(FacesContext context, UIComponent component)
-    throws IOException {
-        //dont do anything.
+        throws IOException {
+        //don't do anything.
     }
 }
