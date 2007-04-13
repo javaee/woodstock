@@ -55,12 +55,14 @@ webui.@THEME@.widget.radioButton = function() {
         this.domNode.getProps = function() { return dojo.widget.byId(this.id).getProps(); }
         this.domNode.setProps = function(props) { return dojo.widget.byId(this.id).setProps(props); }
         this.domNode.getInputElement = function() { return dojo.widget.byId(this.id).getInputElement(); }
+        this.domNode.refresh = function(execute) { return dojo.widget.byId(this.id).refresh(execute); }
 
         // Set private functions 
         this.getClassName = webui.@THEME@.widget.radioButton.getClassName;      
         this.getProps = webui.@THEME@.widget.radioButton.getProps;
         this.setProps = webui.@THEME@.widget.radioButton.setProps;    
         this.getInputElement = webui.@THEME@.widget.radioButton.getInputElement;
+        this.refresh = webui.@THEME@.widget.radioButton.refresh.processEvent;
 
         // set properties
         this.setProps();
@@ -256,6 +258,53 @@ webui.@THEME@.widget.radioButton.setProps = function(props) {
     }
     return true;
 }
+
+/**
+  * This closure is used to process refresh events.
+  */
+ webui.@THEME@.widget.radioButton.refresh = {
+     /**
+      * Event topics for custom AJAX implementations to listen for.
+      */
+     beginEventTopic: "webui_@THEME@_widget_radioButton_refresh_begin",
+     endEventTopic: "webui_@THEME@_widget_radioButton_refresh_end",
+ 
+    /**
+     * Process refresh event.
+     *
+     * @param execute Comma separated string containing a list of client ids 
+      * against which the execute portion of the request processing lifecycle
+      * must be run.
+      */
+     processEvent: function(_execute) {
+         // Publish event.
+         webui.@THEME@.widget.radioButton.refresh.publishBeginEvent({
+             id: this.id,
+             execute: _execute
+         });
+         return true;
+     },
+ 
+     /**
+      * Publish an event for custom AJAX implementations to listen for.
+      *
+      * @param props Key-Value pairs of properties of the widget.
+      */
+     publishBeginEvent: function(props) {
+         dojo.event.topic.publish(webui.@THEME@.widget.radioButton.refresh.beginEventTopic, props);
+         return true;
+     },
+ 
+     /**
+      * Publish an event for custom AJAX implementations to listen for.
+      *
+      * @param props Key-Value pairs of properties of the widget.
+      */
+     publishEndEvent: function(props) {
+         dojo.event.topic.publish(webui.@THEME@.widget.radioButton.refresh.endEventTopic, props);
+         return true;
+     }
+ }
 
 dojo.inherits(webui.@THEME@.widget.radioButton, dojo.widget.HtmlWidget);
 

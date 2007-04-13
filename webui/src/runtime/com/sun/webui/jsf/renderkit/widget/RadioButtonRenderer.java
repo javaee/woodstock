@@ -196,9 +196,16 @@ rendererType="com.sun.webui.jsf.widget.RadioButton",
      * @param component UIComponent to be rendered.
      */
     protected JSONArray getModules(FacesContext context, UIComponent component)
-    throws JSONException {
+    throws JSONException {        
+     
+        RadioButton radioButton = (RadioButton)component;
         JSONArray json = new JSONArray();
         json.put(JavaScriptUtilities.getModuleName("widget.radioButton"));
+        
+        if (radioButton.isAjaxify()) {
+              json.put(JavaScriptUtilities.getModuleName(
+                      "widget.jsfx.radioButton"));
+        }
         return json;
     }
     

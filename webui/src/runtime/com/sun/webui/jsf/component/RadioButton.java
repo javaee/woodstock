@@ -3,12 +3,12 @@
  * of the Common Development and Distribution License
  * (the License).  You may not use this file except in
  * compliance with the License.
- * 
+ *
  * You can obtain a copy of the license at
  * https://woodstock.dev.java.net/public/CDDLv1.0.html.
  * See the License for the specific language governing
  * permissions and limitations under the License.
- * 
+ *
  * When distributing Covered Code, include this CDDL
  * Header Notice in each file and include the License file
  * at https://woodstock.dev.java.net/public/CDDLv1.0.html.
@@ -16,7 +16,7 @@
  * with the fields enclosed by brackets [] replaced by
  * you own identifying information:
  * "Portions Copyrighted [year] [name of copyright owner]"
- * 
+ *
  * Copyright 2007 Sun Microsystems, Inc. All rights reserved.
  */
 package com.sun.webui.jsf.component;
@@ -33,6 +33,9 @@ import javax.faces.convert.Converter; // for javadoc
 import javax.faces.convert.ConverterException;
 import javax.faces.render.Renderer;
 import com.sun.webui.jsf.util.ConversionUtilities;
+import com.sun.faces.extensions.avatar.lifecycle.AsyncResponse;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 /**
  * <p>A component that represents a radio button.</p>
@@ -55,7 +58,7 @@ import com.sun.webui.jsf.util.ConversionUtilities;
  * selected when the value of the <code>selected</code> property is equal
  * to the value of the <code>selectedValue</code> property. A radio button can
  * be initally selected by assigning the same value
- * to the <code>selectedValue</code> and the <code> selected</code> 
+ * to the <code>selectedValue</code> and the <code> selected</code>
  * properties. <code>isChecked</code> is called to determine
  * if this <code>RadioButton</code> is selected.
  * </p>
@@ -74,10 +77,10 @@ import com.sun.webui.jsf.util.ConversionUtilities;
  * </p>
  * <p>
  * When a radio button is part of a group, the selected radio
- * button is maintained as a request attribute in the 
+ * button is maintained as a request attribute in the
  * <code>RequestMap</code>. The name of the attribute is
  * the value of the radio button's <code>name</code> property.
- * The request attribute value is the 
+ * The request attribute value is the
  * value of the <code>selectedValue</code> property of the
  * selected radio button.
  * The <code>selected</code> property
@@ -124,7 +127,7 @@ import com.sun.webui.jsf.util.ConversionUtilities;
  * developer defined object, a <code>Converter</code> must be registered
  * to convert to and from a <code>String</code> value.<br>
  * In addition the object must support an
- * <code>equals</code> method that returns <code>true</code> when the 
+ * <code>equals</code> method that returns <code>true</code> when the
  * value of the <code>selectedValue</code> property is compared to
  * the <code>selected</code> property value in order to detect a
  * selected radio button.
@@ -147,7 +150,7 @@ import com.sun.webui.jsf.util.ConversionUtilities;
  * The following facets are supported:
  * </p>
  * <ul>
- *   <li><em>image</em> If the image facet exists, it replaces the 
+ *   <li><em>image</em> If the image facet exists, it replaces the
  *	{@link com.sun.webui.jsf.component.ImageComponent} subcompoent
  *	normally created for the image associated with the radio button,
  *	if the <code>imageURL</code> property is not null.</li>
@@ -214,27 +217,46 @@ import com.sun.webui.jsf.util.ConversionUtilities;
  * </p>
  */
 @Component(type="com.sun.webui.jsf.RadioButton", family="com.sun.webui.jsf.RadioButton", displayName="Radio Button", tagName="radioButton",
-    tagRendererType="com.sun.webui.jsf.widget.RadioButton", 
-    helpKey="projrave_ui_elements_palette_wdstk-jsf1.2_radiobutton",
-    propertiesHelpKey="projrave_ui_elements_palette_wdstk-jsf1.2_propsheets_radio_button_props")
-public class RadioButton extends RbCbSelector implements ComplexComponent {
+tagRendererType="com.sun.webui.jsf.widget.RadioButton",
+        helpKey="projrave_ui_elements_palette_wdstk-jsf1.2_radiobutton",
+        propertiesHelpKey="projrave_ui_elements_palette_wdstk-jsf1.2_propsheets_radio_button_props")
+        public class RadioButton extends RbCbSelector implements ComplexComponent {
     public static final String RB_ID = "_rb"; //NOI18N
     /**
      * Default constructor.
      */
     public RadioButton() {
-	super();
-	setMultiple(false);
+        super();
+        setMultiple(false);
         setRendererType("com.sun.webui.jsf.widget.RadioButton");
     }
-
+    
     /**
      * <p>Return the family for this component.</p>
      */
     public String getFamily() {
         return "com.sun.webui.jsf.RadioButton";
     }
-
+    
+    public String getRendererType() {
+        // Ensure this request is not for an AjaxZone.
+        if (AsyncResponse.isAjaxRequest()) {
+            try {
+                Map map = getFacesContext().getExternalContext().
+                        getRequestHeaderMap();
+                JSONObject xjson = new JSONObject((String)
+                map.get(AsyncResponse.XJSON_HEADER));
+                
+                String id = (String) xjson.get("id");
+                if (getClientId(getFacesContext()).equals(id)) {
+                    return "com.sun.webui.jsf.ajax.RadioButton";
+                }
+                
+            } catch(JSONException e) {} // JSON property may be null.
+        }
+        return super.getRendererType();
+    }
+    
     /**
      * Return the value of the <code>selectedValue</code> property
      * of the selected radio button in the group of radio buttons
@@ -243,22 +265,22 @@ public class RadioButton extends RbCbSelector implements ComplexComponent {
      * if more than on radio button has the same value for the
      * <code>name</code> property.<br/>
      * When one of the radio buttons among that group is selected,
-     * the value of its <code>selectedValue</code> property 
+     * the value of its <code>selectedValue</code> property
      * is maintained in a request attribute identified by the value
      * of its <code>name</code> property.
      *
      * @param name the value a RadioButton name property.
      */
     public static Object getSelected(String name) {
-
-	Map rm = FacesContext.getCurrentInstance().getExternalContext().
-		getRequestMap();
-
-	if (name != null) {
-	    return rm.get(name);
-	} else {
-	    return null;
-	}
+        
+        Map rm = FacesContext.getCurrentInstance().getExternalContext().
+                getRequestMap();
+        
+        if (name != null) {
+            return rm.get(name);
+        } else {
+            return null;
+        }
     }
     
     /**
@@ -291,11 +313,46 @@ public class RadioButton extends RbCbSelector implements ComplexComponent {
     }
     
     /**
-     * Implement this method so that it returns the DOM ID of the 
-     * HTML element which should receive focus when the component 
-     * receives focus, and to which a component label should apply. 
-     * Usually, this is the first element that accepts input. 
-     * 
+     * Flag indicating to turn off default Ajax functionality. Set ajaxify to
+     * false when providing a different Ajax implementation.
+     */
+    @Property(name="ajaxify", displayName="Ajaxify", category="Javascript")
+    private boolean ajaxify = true;
+    private boolean ajaxify_set = false;
+    
+    /**
+     * Test if default Ajax functionality should be turned off.
+     */
+    public boolean isAjaxify() {
+        if (this.ajaxify_set) {
+            return this.ajaxify;
+        }
+        ValueExpression _vb = getValueExpression("ajaxify");
+        if (_vb != null) {
+            Object _result = _vb.getValue(getFacesContext().getELContext());
+            if (_result == null) {
+                return false;
+            } else {
+                return ((Boolean) _result).booleanValue();
+            }
+        }
+        return true;
+    }
+    
+    /**
+     * Set flag indicating to turn off default Ajax functionality.
+     */
+    public void setAjaxify(boolean ajaxify) {
+        this.ajaxify = ajaxify;
+        this.ajaxify_set = true;
+    }
+    
+    /**
+     * Implement this method so that it returns the DOM ID of the
+     * HTML element which should receive focus when the component
+     * receives focus, and to which a component label should apply.
+     * Usually, this is the first element that accepts input.
+     *
      * @param context The FacesContext for the request
      * @return The client id, also the JavaScript element id
      *
@@ -304,17 +361,17 @@ public class RadioButton extends RbCbSelector implements ComplexComponent {
      * @see #getFocusElementId
      */
     public String getPrimaryElementID(FacesContext context) {
-       return getLabeledElementId(context);
+        return getLabeledElementId(context);
     }
     
     /**
      * Returns the absolute ID of an HTML element suitable for use as
      * the value of an HTML LABEL element's <code>for</code> attribute.
-     * If the <code>ComplexComponent</code> has sub-compoents, and one of 
+     * If the <code>ComplexComponent</code> has sub-compoents, and one of
      * the sub-components is the target of a label, if that sub-component
      * is a <code>ComplexComponent</code>, then
      * <code>getLabeledElementId</code> must called on the sub-component and
-     * the value returned. The value returned by this 
+     * the value returned. The value returned by this
      * method call may or may not resolve to a component instance.
      * <p>
      * If <code>isReadOnly</code> returns true, <code>null</code> is
@@ -328,16 +385,16 @@ public class RadioButton extends RbCbSelector implements ComplexComponent {
     public String getLabeledElementId(FacesContext context) {
         String clntId = this.getClientId(context);
         return clntId.concat(this.RB_ID);
-    }   
+    }
     
-        /**
+    /**
      * Returns the id of an HTML element suitable to
      * receive the focus.
-     * If the <code>ComplexComponent</code> has sub-compoents, and one of 
+     * If the <code>ComplexComponent</code> has sub-compoents, and one of
      * the sub-components is to reveive the focus, if that sub-component
      * is a <code>ComplexComponent</code>, then
      * <code>getFocusElementId</code> must called on the sub-component and
-     * the value returned. The value returned by this 
+     * the value returned. The value returned by this
      * method call may or may not resolve to a component instance.
      * <p>
      * This implementation returns the value <code>getLabeledElementId</code>
@@ -348,7 +405,7 @@ public class RadioButton extends RbCbSelector implements ComplexComponent {
     public String getFocusElementId(FacesContext context) {
         return getLabeledElementId(context);
     }
-
+    
     /**
      * <p>Update the request parameter that holds the value of the
      * <code>selectedValue</code> property of the selected radio button.
@@ -356,38 +413,38 @@ public class RadioButton extends RbCbSelector implements ComplexComponent {
      * If the <code>name</code> property has been set
      * a request attribute is created.
      * The value of the <code>name</code> property will
-     * be used for the request attribute name and the value of the request 
+     * be used for the request attribute name and the value of the request
      * attribute will be the value of the
      * <code>selectedValue</code> property.
      * <p>
      * The request attribute described above is available during
      * a <code>ValueChangeEvent</code>.
      * </p>
-     * 
+     *
      * @param context The context of this request.
      */
     public void validate(FacesContext context) {
-
-	super.validate(context);
-
-	if (!(isValid() && isChecked())) {
-	    return;
-	}
-
-	String groupName = getName();
-	if (groupName == null) {
-	    return;
-	}
-
-	addToRequestMap(context, groupName);
+        
+        super.validate(context);
+        
+        if (!(isValid() && isChecked())) {
+            return;
+        }
+        
+        String groupName = getName();
+        if (groupName == null) {
+            return;
+        }
+        
+        addToRequestMap(context, groupName);
     }
-
+    
     protected void addToRequestMap(FacesContext context, String groupName) {
-
-	Map requestMap = context.getExternalContext().getRequestMap();
-	requestMap.put(groupName, getValue());
+        
+        Map requestMap = context.getExternalContext().getRequestMap();
+        requestMap.put(groupName, getValue());
     }
-
+    
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     // Tag attribute methods
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -415,7 +472,7 @@ public class RadioButton extends RbCbSelector implements ComplexComponent {
     public String getOnSelect() {
         return super.getOnSelect();
     }
-
+    
     /**
      * <p>Sets the style level for the generated label, provided the
      * label attribute has been set. Valid values are 1 (largest), 2 and
@@ -424,7 +481,7 @@ public class RadioButton extends RbCbSelector implements ComplexComponent {
     @Property(name="labelLevel", displayName="Label Level", category="Appearance")
     private int labelLevel = Integer.MIN_VALUE;
     private boolean labelLevel_set = false;
-
+    
     /**
      * <p>Sets the style level for the generated label, provided the
      * label attribute has been set. Valid values are 1 (largest), 2 and
@@ -445,7 +502,7 @@ public class RadioButton extends RbCbSelector implements ComplexComponent {
         }
         return 3;
     }
-
+    
     /**
      * <p>Sets the style level for the generated label, provided the
      * label attribute has been set. Valid values are 1 (largest), 2 and
@@ -456,7 +513,7 @@ public class RadioButton extends RbCbSelector implements ComplexComponent {
         this.labelLevel = labelLevel;
         this.labelLevel_set = true;
     }
-
+    
     /**
      * <p>Restore the state of this component.</p>
      */
@@ -466,17 +523,19 @@ public class RadioButton extends RbCbSelector implements ComplexComponent {
         this.labelLevel = ((Integer) _values[1]).intValue();
         this.labelLevel_set = ((Boolean) _values[2]).booleanValue();
         this.htmlTemplate = (String) _values[3];
+        this.ajaxify = ((Boolean) _values[4]).booleanValue();
     }
-
+    
     /**
      * <p>Save the state of this component.</p>
      */
     public Object saveState(FacesContext _context) {
-        Object _values[] = new Object[4];
+        Object _values[] = new Object[5];
         _values[0] = super.saveState(_context);
         _values[1] = new Integer(this.labelLevel);
         _values[2] = this.labelLevel_set ? Boolean.TRUE : Boolean.FALSE;
         _values[3] = this.htmlTemplate;
+        _values[4] = this.ajaxify ? Boolean.TRUE : Boolean.FALSE;
         return _values;
     }
 }

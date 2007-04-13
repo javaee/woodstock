@@ -31,5 +31,6 @@ dojo.requireIf(djConfig.isDebug, "webui.@THEME@.widget.jsfx.checkbox");
 dojo.requireIf(djConfig.isDebug, "webui.@THEME@.widget.jsfx.progressBar");
 dojo.requireIf(djConfig.isDebug, "webui.@THEME@.widget.jsfx.table2");
 dojo.requireIf(djConfig.isDebug, "webui.@THEME@.widget.jsfx.table2RowGroup");
+dojo.requireIf(djConfig.isDebug, "webui.@THEME@.widget.jsfx.radioButton");
 
 //-->
