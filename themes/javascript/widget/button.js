@@ -272,8 +272,8 @@ webui.@THEME@.widget.button.refresh = {
     /**
      * Event topics for custom AJAX implementations to listen for.
      */
-    beginEventTopic: "webui_widget_button_refresh_begin",
-    endEventTopic: "webui_widget_button_refresh_end",
+    beginEventTopic: "webui_@THEME@_widget_button_refresh_begin",
+    endEventTopic: "webui_@THEME@_widget_button_refresh_end",
  
     /**
      * Process refresh event.

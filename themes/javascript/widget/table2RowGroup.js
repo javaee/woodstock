@@ -182,8 +182,8 @@ webui.@THEME@.widget.table2RowGroup.refresh = {
     /**
      * Event topics for custom AJAX implementations to listen for.
      */
-    beginEventTopic: "webui_widget_table2RowGroup_refresh_begin",
-    endEventTopic: "webui_widget_table2RowGroup_refresh_end",
+    beginEventTopic: "webui_@THEME@_widget_table2RowGroup_refresh_begin",
+    endEventTopic: "webui_@THEME@_widget_table2RowGroup_refresh_end",
  
     /**
      * Process refresh event.
@@ -452,8 +452,8 @@ webui.@THEME@.widget.table2RowGroup.scroll = {
     /**
      * Event topics for custom AJAX implementations to listen for.
      */
-    beginEventTopic: "webui_widget_table2RowGroup_scroll_begin",
-    endEventTopic: "webui_widget_table2RowGroup_scroll_end",
+    beginEventTopic: "webui_@THEME@_widget_table2RowGroup_scroll_begin",
+    endEventTopic: "webui_@THEME@_widget_table2RowGroup_scroll_end",
  
     /**
      * Process scroll event.

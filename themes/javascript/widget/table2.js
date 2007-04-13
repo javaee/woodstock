@@ -101,8 +101,8 @@ webui.@THEME@.widget.table2.refresh = {
     /**
      * Event topics for custom AJAX implementations to listen for.
      */
-    beginEventTopic: "webui_widget_table2_refresh_begin",
-    endEventTopic: "webui_widget_table2_refresh_end",
+    beginEventTopic: "webui_@THEME@_widget_table2_refresh_begin",
+    endEventTopic: "webui_@THEME@_widget_table2_refresh_end",
  
     /**
      * Process refresh event.

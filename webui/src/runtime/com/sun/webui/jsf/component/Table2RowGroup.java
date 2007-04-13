@@ -77,7 +77,8 @@ public class Table2RowGroup extends TableRowGroup implements NamingContainer {
                 JSONObject xjson = new JSONObject((String)
                     map.get(AsyncResponse.XJSON_HEADER));
 
-                if (xjson.has("refresh") || xjson.has("scroll")) {
+                String id = (String) xjson.get("id");
+                if (getClientId(getFacesContext()).equals(id)) {
                     return "com.sun.webui.jsf.ajax.Table2RowGroup";
                 }
             } catch(JSONException e) {} // XJSON header may be null.

@@ -141,7 +141,8 @@ public class ProgressBar extends javax.faces.component.UIOutput
                 JSONObject xjson = new JSONObject((String)
                     map.get(AsyncResponse.XJSON_HEADER));
 
-                if (xjson.has("refresh") || xjson.has("progress")) {
+                String id = (String) xjson.get("id");
+                if (getClientId(getFacesContext()).equals(id)) {
                     return "com.sun.webui.jsf.ajax.ProgressBar";
                 }
             } catch(JSONException e) {} // XJSON header may be null.

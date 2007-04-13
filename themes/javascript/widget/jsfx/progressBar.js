@@ -56,6 +56,7 @@ webui.@THEME@.widget.jsfx.progressBar =  {
             render: props.id,
             replaceElement: webui.@THEME@.widget.jsfx.progressBar.progressCallback,
             xjson: {
+                id: props.id,
                 progress: true
             }
         });

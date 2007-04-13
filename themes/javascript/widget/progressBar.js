@@ -160,9 +160,9 @@ webui.@THEME@.widget.progressBar.getProps = function() {
     if (this.log != null) { props.log = this.log; }
     if (this.logId) { props.logId = this.logId; }
     if (this.logMessage) { props.logMessage = this.logMessage; }
-    if (this.overlayAnimation) { props.overlayAnimation = this.overlayAnimation; }
+    if (this.overlayAnimation != null) { props.overlayAnimation = this.overlayAnimation; }
     if (this.percentChar) { props.percentChar = this.percentChar; }
-    if (this.progress) { props.progress = this.progress; }
+    if (this.progress != null) { props.progress = this.progress; }
     if (this.progressImageUrl) { props.progressImageUrl = this.progressImageUrl; }
     if (this.progressControlBottom != null) { props.progressControlBottom = this.progressControlBottom; }
     if (this.progressControlRight != null) { props.progressControlRight = this.progressControlRight; }
@@ -171,7 +171,6 @@ webui.@THEME@.widget.progressBar.getProps = function() {
     if (this.toolTip) { props.toolTip = this.toolTip; }
     if (this.topText) { props.topText = this.topText; }
     if (this.type) { props.type = this.type; }
-    if (this.visible) { props.visible = this.visible; }
 
     // Add DOM node properties.
     Object.extend(props, webui.@THEME@.widget.common.getCommonProps(this));
@@ -273,8 +272,8 @@ webui.@THEME@.widget.progressBar.progress = {
     /**
      * Event topics for custom AJAX implementations to listen for.
      */
-    beginEventTopic: "webui_widget_progressBar_progress_begin",
-    endEventTopic: "webui_widget_progressBar_progress_end",
+    beginEventTopic: "webui_@THEME@_widget_progressBar_progress_begin",
+    endEventTopic: "webui_@THEME@_widget_progressBar_progress_end",
 
     /**
      * Process progress event.
@@ -339,8 +338,8 @@ webui.@THEME@.widget.progressBar.refresh = {
     /**
      * Event topics for custom AJAX implementations to listen for.
      */
-    beginEventTopic: "webui_widget_progressBar_refresh_begin",
-    endEventTopic: "webui_widget_progressBar_refresh_end",
+    beginEventTopic: "webui_@THEME@_widget_progressBar_refresh_begin",
+    endEventTopic: "webui_@THEME@_widget_progressBar_refresh_end",
  
     /**
      * Process refresh event.

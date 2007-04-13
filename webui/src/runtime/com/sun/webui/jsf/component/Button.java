@@ -72,7 +72,8 @@ public class Button extends WebuiCommand implements ComplexComponent {
                 JSONObject xjson = new JSONObject((String)
                     map.get(AsyncResponse.XJSON_HEADER));
 
-                if (xjson.has("refresh")) {
+                String id = (String) xjson.get("id");
+                if (getClientId(getFacesContext()).equals(id)) {
                     return "com.sun.webui.jsf.ajax.Button";
                 }
             } catch(JSONException e) {} // JSON property may be null.

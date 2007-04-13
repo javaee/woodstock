@@ -57,6 +57,7 @@ webui.@THEME@.widget.jsfx.table2RowGroup = {
             render: props.id,
             replaceElement: webui.@THEME@.widget.jsfx.table2RowGroup.refreshCallback,
             xjson: {
+                id: props.id,
                 refresh: true
             }
         });
