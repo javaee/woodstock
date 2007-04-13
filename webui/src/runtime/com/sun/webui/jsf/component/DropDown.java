@@ -28,7 +28,6 @@ import com.sun.faces.annotation.Property;
 
 import com.sun.webui.jsf.el.DropDownMethodExpression;
 import com.sun.webui.jsf.event.MethodExprActionListener;
-import com.sun.webui.jsf.util.JavaScriptUtilities;
 
 import com.sun.webui.jsf.util.MethodBindingMethodExpressionAdapter;
 import com.sun.webui.jsf.util.MethodExpressionMethodBindingAdapter;
@@ -47,6 +46,9 @@ import javax.faces.event.FacesEvent;
 import javax.faces.event.PhaseId;
 import javax.faces.el.MethodBinding;
 import javax.el.MethodExpression;
+import com.sun.faces.extensions.avatar.lifecycle.AsyncResponse;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 /**
  * The DropDown component is used to display a drop down menu to allow
@@ -87,12 +89,29 @@ public class DropDown extends ListSelector implements ActionSource2 {
     
     public String getRendererType() {
         if (isReadOnly()) {
+            
             // The readonly attribute is not supported by the new "com.sun.webui.jsf.widget.DropDown"
             // Use the old html renderer to render the readonly drop down for backwards compatibility.
             return "com.sun.webui.jsf.DropDown";
-        } else {
-            return super.getRendererType();
+            
+        } else if (AsyncResponse.isAjaxRequest()) {
+            
+            try {
+                Map map = getFacesContext().getExternalContext().
+                        getRequestHeaderMap();
+                JSONObject xjson = new JSONObject((String)
+                map.get(AsyncResponse.XJSON_HEADER));
+                
+                String id = (String) xjson.get("id"); 
+                if (getClientId(getFacesContext()).equals(id)) { 
+                    return "com.sun.webui.jsf.ajax.DropDown";                
+                }
+            } catch(JSONException e) {} // JSON property may be null.
+            
         }
+        
+        return super.getRendererType();
+        
     }
 
     /**
@@ -123,6 +142,40 @@ public class DropDown extends ListSelector implements ActionSource2 {
         this.htmlTemplate = htmlTemplate;
     }
 
+    /**
+     * Flag indicating to turn off default Ajax functionality. Set ajaxify to
+     * false when providing a different Ajax implementation.
+     */
+    @Property(name="ajaxify", displayName="Ajaxify", category="Javascript")
+    private boolean ajaxify = true; 
+    private boolean ajaxify_set = false; 
+ 
+    /**
+     * Test if default Ajax functionality should be turned off.
+     */
+    public boolean isAjaxify() { 
+        if (this.ajaxify_set) {
+            return this.ajaxify;
+        }
+        ValueExpression _vb = getValueExpression("ajaxify");
+        if (_vb != null) {
+            Object _result = _vb.getValue(getFacesContext().getELContext());
+            if (_result == null) {
+                return false;
+            } else {
+                return ((Boolean) _result).booleanValue();
+            }
+        }
+        return true;
+    } 
+
+    /**
+     * Set flag indicating to turn off default Ajax functionality.
+     */
+    public void setAjaxify(boolean ajaxify) {
+        this.ajaxify = ajaxify;
+        this.ajaxify_set = true;
+    }
 
     /**
      * Getter for property Rows.
@@ -794,13 +847,14 @@ public class DropDown extends ListSelector implements ActionSource2 {
         this.submitForm_set = ((Boolean) _values[6]).booleanValue();
         this.toolTip = (String) _values[7];
         this.htmlTemplate = (String) _values[8];
+        this.ajaxify = ((Boolean) _values[9]).booleanValue();
     }
 
     /**
      * <p>Save the state of this component.</p>
      */
     private Object _saveState(FacesContext _context) {
-        Object _values[] = new Object[9];
+        Object _values[] = new Object[10];
         _values[0] = super.saveState(_context);
         _values[1] = this.forgetValue ? Boolean.TRUE : Boolean.FALSE;
         _values[2] = this.forgetValue_set ? Boolean.TRUE : Boolean.FALSE;
@@ -810,6 +864,7 @@ public class DropDown extends ListSelector implements ActionSource2 {
         _values[6] = this.submitForm_set ? Boolean.TRUE : Boolean.FALSE;
         _values[7] = this.toolTip;
         _values[8] = this.htmlTemplate;
+        _values[9] = this.ajaxify ? Boolean.TRUE : Boolean.FALSE;
         return _values;
     }
 }

@@ -59,6 +59,7 @@ webui.@THEME@.widget.dropDown = function() {
         this.domNode.getSelectedValue = function() { return dojo.widget.byId(this.id).getSelectedValue(); }
         this.domNode.getSelectedLabel = function() { return dojo.widget.byId(this.id).getSelectedLabel(); }
         this.domNode.getSelectElement = function() { return dojo.widget.byId(this.id).getSelectElement(); }
+        this.domNode.refresh = function(execute) { return dojo.widget.byId(this.id).refresh(execute); }
 
         // Set private functions.
         this.setProps = webui.@THEME@.widget.dropDown.setProps;
@@ -75,6 +76,7 @@ webui.@THEME@.widget.dropDown = function() {
         this.getSelectedLabel = webui.@THEME@.widget.dropDown.getSelectedLabel;
         this.initStyleClasses = webui.@THEME@.widget.dropDown.initStyleClasses;
         this.getSelectElement = webui.@THEME@.widget.dropDown.getSelectElement;
+        this.refresh = webui.@THEME@.widget.dropDown.refresh.processEvent;
 
         // Set events.
         dojo.event.connect(this.domNode, "onchange",
@@ -527,6 +529,53 @@ webui.@THEME@.widget.dropDown.getSelectedLabel = function() {
  */
 webui.@THEME@.widget.dropDown.getSelectElement = function() {
     return this.listContainer;
+}
+
+/**
+ * This closure is used to process refresh events.
+ */
+webui.@THEME@.widget.dropDown.refresh = {
+    /**
+     * Event topics for custom AJAX implementations to listen for.
+     */
+    beginEventTopic: "webui_@THEME@_widget_dropDown_refresh_begin",
+    endEventTopic: "webui_@THEME@_widget_dropDown_refresh_end",
+
+    /**
+     * Process refresh event.
+     *
+     * @param execute Comma separated string containing a list of client ids 
+     * against which the execute portion of the request processing lifecycle
+     * must be run.
+     */
+    processEvent: function(_execute) {
+        // Publish event.
+        webui.@THEME@.widget.dropDown.refresh.publishBeginEvent({
+            id: this.id,
+            execute: _execute
+        });
+        return true;
+    },
+
+    /**
+     * Publish an event for custom AJAX implementations to listen for.
+     *
+     * @param props Key-Value pairs of properties of the widget.
+     */
+    publishBeginEvent: function(props) {
+        dojo.event.topic.publish(webui.@THEME@.widget.dropDown.refresh.beginEventTopic, props);
+        return true;
+    },
+
+    /**
+     * Publish an event for custom AJAX implementations to listen for.
+     *
+     * @param props Key-Value pairs of properties of the widget.
+     */
+    publishEndEvent: function(props) {
+        dojo.event.topic.publish(webui.@THEME@.widget.dropDown.refresh.endEventTopic, props);
+        return true;
+    }
 }
 
 dojo.inherits(webui.@THEME@.widget.dropDown, dojo.widget.HtmlWidget);

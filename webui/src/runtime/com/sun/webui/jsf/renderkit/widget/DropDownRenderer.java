@@ -57,8 +57,17 @@ public class DropDownRenderer extends ListRendererBase {
      */
     protected JSONArray getModules(FacesContext context, UIComponent component)
             throws JSONException {
+        
+        DropDown dropDown = (DropDown)component;
+        
         JSONArray json = new JSONArray();
         json.put(JavaScriptUtilities.getModuleName("widget.dropDown"));
+        
+        if (dropDown.isAjaxify()) {
+            json.put(JavaScriptUtilities.getModuleName(
+                    "widget.jsfx.dropDown"));
+        }
+        
         return json;
     }
 
