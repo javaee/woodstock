@@ -137,13 +137,12 @@ webui.@THEME@.widget.common = {
      * @param props Key-Value pairs of properties.
      */
     createWidget: function(props) {
+        var newNode = null;
         if (props == null || props.id == null || props._widgetType == null) {
-            return false;
+            return newNode;
         }
         var oldNode = document.getElementById(props.id);
-        if (oldNode == null) {
-            return false;
-        } else {
+        if (oldNode != null) {
             // Retrieve required modules.
             if (props._modules) {
                 for (var i = 0; i < props._modules.length; i++) {
@@ -152,15 +151,13 @@ webui.@THEME@.widget.common = {
             }
 
             // Create widget.
-            var newNode = dojo.widget.createWidget(props._widgetType, props)
+            newNode = dojo.widget.createWidget(props._widgetType, props)
             if (newNode != null) {
                 // Replace existing child, if any.
                 oldNode.parentNode.replaceChild(newNode.domNode, oldNode);
-            } else {
-                return false;
             }
         }
-        return true;
+        return newNode; // Return widget object for calling widget.destroy().
     },
 
     /**
