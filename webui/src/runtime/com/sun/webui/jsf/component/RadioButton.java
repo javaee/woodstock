@@ -23,6 +23,7 @@ package com.sun.webui.jsf.component;
 
 import com.sun.faces.annotation.Component;
 import com.sun.faces.annotation.Property;
+import com.sun.webui.jsf.util.ComponentUtilities;
 import com.sun.webui.jsf.util.ConversionUtilities;
 
 import java.util.Map;
@@ -32,10 +33,6 @@ import javax.faces.context.FacesContext;
 import javax.faces.convert.Converter; // for javadoc
 import javax.faces.convert.ConverterException;
 import javax.faces.render.Renderer;
-import com.sun.webui.jsf.util.ConversionUtilities;
-import com.sun.faces.extensions.avatar.lifecycle.AsyncResponse;
-import org.json.JSONException;
-import org.json.JSONObject;
 
 /**
  * <p>A component that represents a radio button.</p>
@@ -239,20 +236,9 @@ tagRendererType="com.sun.webui.jsf.widget.RadioButton",
     }
     
     public String getRendererType() {
-        // Ensure this request is not for an AjaxZone.
-        if (AsyncResponse.isAjaxRequest()) {
-            try {
-                Map map = getFacesContext().getExternalContext().
-                        getRequestHeaderMap();
-                JSONObject xjson = new JSONObject((String)
-                map.get(AsyncResponse.XJSON_HEADER));
-                
-                String id = (String) xjson.get("id");
-                if (getClientId(getFacesContext()).equals(id)) {
-                    return "com.sun.webui.jsf.ajax.RadioButton";
-                }
-                
-            } catch(JSONException e) {} // JSON property may be null.
+        // Ensure we have a valid Ajax request.
+        if (ComponentUtilities.isAjaxRequest(getFacesContext(), this)) {
+            return "com.sun.webui.jsf.ajax.RadioButton";
         }
         return super.getRendererType();
     }

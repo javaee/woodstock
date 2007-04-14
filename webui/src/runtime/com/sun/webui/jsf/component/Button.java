@@ -23,15 +23,10 @@ package com.sun.webui.jsf.component;
 
 import com.sun.faces.annotation.Component;
 import com.sun.faces.annotation.Property;
-import com.sun.faces.extensions.avatar.lifecycle.AsyncResponse;
-
-import java.util.Map;
+import com.sun.webui.jsf.util.ComponentUtilities;
 
 import javax.el.ValueExpression;
 import javax.faces.context.FacesContext;
-
-import org.json.JSONException;
-import org.json.JSONObject;
 
 /**
  * The Button component is used to display an input button.
@@ -62,19 +57,9 @@ public class Button extends WebuiCommand implements ComplexComponent {
     }
 
     public String getRendererType() {
-        // Ensure this request is not for an AjaxZone.
-        if (AsyncResponse.isAjaxRequest()) {
-            try {
-                Map map = getFacesContext().getExternalContext().
-                    getRequestHeaderMap();
-                JSONObject xjson = new JSONObject((String)
-                    map.get(AsyncResponse.XJSON_HEADER));
-
-                String id = (String) xjson.get("id");
-                if (getClientId(getFacesContext()).equals(id)) {
-                    return "com.sun.webui.jsf.ajax.Button";
-                }
-            } catch(JSONException e) {} // JSON property may be null.
+        // Ensure we have a valid Ajax request.
+        if (ComponentUtilities.isAjaxRequest(getFacesContext(), this)) {
+            return "com.sun.webui.jsf.ajax.Button";
         }
         return super.getRendererType();
     }

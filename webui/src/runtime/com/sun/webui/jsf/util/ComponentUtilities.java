@@ -21,12 +21,20 @@
  */
 
 /*
- * $Id: ComponentUtilities.java,v 1.2 2007-04-09 20:57:46 pegah Exp $
+ * $Id: ComponentUtilities.java,v 1.3 2007-04-14 18:17:59 danl Exp $
  */
 
 package com.sun.webui.jsf.util;
 
+import com.sun.faces.extensions.avatar.lifecycle.AsyncResponse;
+
+import java.util.Map;
+
 import javax.faces.component.UIComponent;
+import javax.faces.context.FacesContext;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 /**
  * Methods for general component manipulation.
@@ -181,5 +189,30 @@ public class ComponentUtilities {
         } else {
             return (readonly.equals(Boolean.TRUE));
         }        
-    }   
+    }
+
+    /**
+     * Return <code>true</code> if the Ajax request is for the given component.
+     *
+     * @param context FacesContext for the current request.
+     * @param component UIComponent to be rendered.
+     */
+    public static boolean isAjaxRequest(FacesContext context,
+            UIComponent component) {
+        // Ensure this request is not for an AjaxZone.
+        if (AsyncResponse.isAjaxRequest()) {
+            try {
+                Map map = context.getExternalContext().getRequestHeaderMap();
+                JSONObject xjson = new JSONObject((String)
+                    map.get(AsyncResponse.XJSON_HEADER));
+
+                String id = (String) xjson.get("id");
+                if (component.getClientId(context).equals(id)) {
+                    return true;
+                }
+            } catch(JSONException e) {
+            } catch(NullPointerException e) {} // JSON property may be null.
+        }
+        return false;
+    }
 }

@@ -23,21 +23,17 @@ package com.sun.webui.jsf.component;
 
 import com.sun.faces.annotation.Component;
 import com.sun.faces.annotation.Property;
-import com.sun.faces.extensions.avatar.lifecycle.AsyncResponse;
+import com.sun.webui.jsf.util.ComponentUtilities;
 
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Map;
 
 import javax.el.ValueExpression;
 import javax.faces.component.NamingContainer;
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.el.ValueBinding;
-
-import org.json.JSONException;
-import org.json.JSONObject;
 
 /**
  * Component that represents a table.
@@ -74,19 +70,9 @@ public class Table2 extends Table implements NamingContainer {
     }
 
     public String getRendererType() {
-        // Ensure this request is not for an AjaxZone.
-        if (AsyncResponse.isAjaxRequest()) {
-            try {
-                Map map = getFacesContext().getExternalContext().
-                    getRequestHeaderMap();
-                JSONObject xjson = new JSONObject((String)
-                    map.get(AsyncResponse.XJSON_HEADER));
-
-                String id = (String) xjson.get("id");
-                if (getClientId(getFacesContext()).equals(id)) {
-                    return "com.sun.webui.jsf.ajax.Table2";
-                }
-            } catch(JSONException e) {} // JSON property may be null.
+        // Ensure we have a valid Ajax request.
+        if (ComponentUtilities.isAjaxRequest(getFacesContext(), this)) {
+            return "com.sun.webui.jsf.ajax.Table2";
         }
         return super.getRendererType();
     }

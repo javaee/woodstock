@@ -25,16 +25,16 @@ package com.sun.webui.jsf.component;
 
 import com.sun.faces.annotation.Component;
 import com.sun.faces.annotation.Property;
-
 import com.sun.webui.jsf.el.DropDownMethodExpression;
 import com.sun.webui.jsf.event.MethodExprActionListener;
-
+import com.sun.webui.jsf.util.ComponentUtilities;
 import com.sun.webui.jsf.util.MethodBindingMethodExpressionAdapter;
 import com.sun.webui.jsf.util.MethodExpressionMethodBindingAdapter;
 
 import java.util.Iterator;
 import java.util.Map;
 
+import javax.el.MethodExpression;
 import javax.el.ValueExpression;
 import javax.faces.component.ActionSource2;
 import javax.faces.component.UIComponent;
@@ -45,10 +45,6 @@ import javax.faces.event.ActionListener;
 import javax.faces.event.FacesEvent;
 import javax.faces.event.PhaseId;
 import javax.faces.el.MethodBinding;
-import javax.el.MethodExpression;
-import com.sun.faces.extensions.avatar.lifecycle.AsyncResponse;
-import org.json.JSONException;
-import org.json.JSONObject;
 
 /**
  * The DropDown component is used to display a drop down menu to allow
@@ -88,30 +84,16 @@ public class DropDown extends ListSelector implements ActionSource2 {
     
     
     public String getRendererType() {
-        if (isReadOnly()) {
-            
+        if (isReadOnly()) {    
             // The readonly attribute is not supported by the new "com.sun.webui.jsf.widget.DropDown"
             // Use the old html renderer to render the readonly drop down for backwards compatibility.
             return "com.sun.webui.jsf.DropDown";
-            
-        } else if (AsyncResponse.isAjaxRequest()) {
-            
-            try {
-                Map map = getFacesContext().getExternalContext().
-                        getRequestHeaderMap();
-                JSONObject xjson = new JSONObject((String)
-                map.get(AsyncResponse.XJSON_HEADER));
-                
-                String id = (String) xjson.get("id"); 
-                if (getClientId(getFacesContext()).equals(id)) { 
-                    return "com.sun.webui.jsf.ajax.DropDown";                
-                }
-            } catch(JSONException e) {} // JSON property may be null.
-            
+        } else if (ComponentUtilities.isAjaxRequest(getFacesContext(), this)) {
+            // Ensure we have a valid Ajax request.
+            return "com.sun.webui.jsf.ajax.DropDown";
+        } else {
+            return super.getRendererType();
         }
-        
-        return super.getRendererType();
-        
     }
 
     /**
