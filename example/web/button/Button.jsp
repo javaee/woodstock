@@ -42,11 +42,11 @@
               // not the fully-qualified ID.
               //
               function disableButton(buttonID, hiddenFieldID, disable) {
-                  (document.getElementById(theForm + ":" + buttonID)).setDisabled(disable);
+                  (document.getElementById(theForm + ":" + buttonID)).setProps({disabled: disable});
                   if (disable)
                       webui.suntheme.field.setValue(theForm + ":" + hiddenFieldID, 'true');
                   else
-                       webui.suntheme.field.setValue(theForm + ":" + hiddenFieldID, 'false');
+                      webui.suntheme.field.setValue(theForm + ":" + hiddenFieldID, 'false');
               }
                       
               // Utility for setting enable/disable state for all buttons.

@@ -36,21 +36,21 @@ function disableActions() {
     // Disable table actions by default.
     var table = document.getElementById("form1:table1");
     var selections = table.getAllSelectedRowsCount(); // Hidden & visible selections.
-    var disabled = (selections > 0) ? false : true;
+    var disable = (selections > 0) ? false : true;
 
     // Set disabled state for top actions.
-    document.getElementById("form1:table1:actionsTop:action1").setDisabled(disabled);
-    document.getElementById("form1:table1:actionsTop:action2").setDisabled(disabled);
-    document.getElementById("form1:table1:actionsTop:action3").setDisabled(disabled);
-    document.getElementById("form1:table1:actionsTop:action4").setDisabled(disabled);
-    document.getElementById("form1:table1:actionsTop:moreActions").setProps({disable:disabled});
+    document.getElementById("form1:table1:actionsTop:action1").setProps({disabled: disable});
+    document.getElementById("form1:table1:actionsTop:action2").setProps({disabled: disable});
+    document.getElementById("form1:table1:actionsTop:action3").setProps({disabled: disable});
+    document.getElementById("form1:table1:actionsTop:action4").setProps({disabled: disable});
+    document.getElementById("form1:table1:actionsTop:moreActions").setProps({disabled: disable});
 
     // Set disabled state for bottom actions.
-    document.getElementById("form1:table1:actionsBottom:action1").setDisabled(disabled);
-    document.getElementById("form1:table1:actionsBottom:action2").setDisabled(disabled);
-    document.getElementById("form1:table1:actionsBottom:action3").setDisabled(disabled);
-    document.getElementById("form1:table1:actionsBottom:action4").setDisabled(disabled);
-    document.getElementById("form1:table1:actionsBottom:moreActions").setProps({disable:disabled});
+    document.getElementById("form1:table1:actionsBottom:action1").setProps({disabled: disable});
+    document.getElementById("form1:table1:actionsBottom:action2").setProps({disabled: disable});
+    document.getElementById("form1:table1:actionsBottom:action3").setProps({disabled: disable});
+    document.getElementById("form1:table1:actionsBottom:action4").setProps({disabled: disable});
+    document.getElementById("form1:table1:actionsBottom:moreActions").setProps({disabled: disable});
 }
 
 //

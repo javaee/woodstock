@@ -30,6 +30,8 @@ dojo.require("webui.@THEME@.common");
 
 /**
  * Define webui.@THEME@.button name space.
+ *
+ * @deprecated See webui.@THEME@.widget.button
  */
 webui.@THEME@.button = {
     /**
@@ -37,16 +39,13 @@ webui.@THEME@.button = {
      * following Object literals.
      *
      * <ul>
-     *  <li>disabled</li>
-     *  <li>icon</li>
      *  <li>id</li>
-     *  <li>mini</li>
-     *  <li>secondary</li>
      * </ul>
      *
      * Note: This is considered a private API, do not use.
      *
      * @param props Key-Value pairs of properties.
+     * @deprecated See webui.@THEME@.widget.button
      */
     init: function(props) {
         if (props == null || props.id == null) {
@@ -54,48 +53,7 @@ webui.@THEME@.button = {
         }
         var domNode = document.getElementById(props.id);
         if (domNode == null) {
-                return false;
-        }
-
-        // Save given properties with the DOM node for later updates.
-        Object.extend(domNode, {
-            icon: new Boolean(props.icon).valueOf(),
-            id: props.id,
-            isOneOfOurButtons: true,
-            mini: new Boolean(props.mini).valueOf(),
-            mydisabled: new Boolean(props.disabled).valueOf(),
-            secondary: new Boolean(props.secondary).valueOf()
-        });
-
-        // Set style classes
-        if (domNode.icon == true) {
-            domNode.classNamePrimary = webui.@THEME@.props.button.imageClassName;
-            domNode.classNamePrimaryDisabled = webui.@THEME@.props.button.imageDisabledClassName;
-            domNode.classNamePrimaryHov = webui.@THEME@.props.button.imageHovClassName;
-
-            // Currently not used in theme.
-            domNode.classNamePrimaryMini = "";
-            domNode.classNamePrimaryMiniDisabled = "";
-            domNode.classNamePrimaryMiniHov = "";
-            domNode.classNameSecondary = "";
-            domNode.classNameSecondaryDisabled = "";
-            domNode.classNameSecondaryHov = "";
-            domNode.classNameSecondaryMini = "";
-            domNode.classNameSecondaryMiniDisabled = "";
-            domNode.classNameSecondaryMiniHov = "";
-        } else {
-            domNode.classNamePrimary = webui.@THEME@.props.button.primaryClassName;
-            domNode.classNamePrimaryDisabled = webui.@THEME@.props.button.primaryDisabledClassName;
-            domNode.classNamePrimaryHov = webui.@THEME@.props.button.primaryHovClassName;
-            domNode.classNamePrimaryMini = webui.@THEME@.props.button.primaryMiniClassName;
-            domNode.classNamePrimaryMiniDisabled = webui.@THEME@.props.button.primaryMiniDisabledClassName;
-            domNode.classNamePrimaryMiniHov = webui.@THEME@.props.button.primaryMiniHovClassName;
-            domNode.classNameSecondary = webui.@THEME@.props.button.secondaryClassName;
-            domNode.classNameSecondaryDisabled = webui.@THEME@.props.button.secondaryDisabledClassName;
-            domNode.classNameSecondaryHov = webui.@THEME@.props.button.secondaryHovClassName;
-            domNode.classNameSecondaryMini = webui.@THEME@.props.button.secondaryMiniClassName;
-            domNode.classNameSecondaryMiniDisabled = webui.@THEME@.props.button.secondaryMiniDisabledClassName;
-            domNode.classNameSecondaryMiniHov = webui.@THEME@.props.button.secondaryMiniHovClassName;
+            return false;
         }
 
         // Set functions
@@ -112,24 +70,16 @@ webui.@THEME@.button = {
         domNode.getText = webui.@THEME@.button.getText;
         domNode.setText = webui.@THEME@.button.setText;
         domNode.doClick = webui.@THEME@.button.click;
-        domNode.myonblur = webui.@THEME@.button.onblur;
-        domNode.myonfocus = webui.@THEME@.button.onfocus;
-        domNode.myonmouseover = webui.@THEME@.button.onmouseover;
-        domNode.myonmouseout = webui.@THEME@.button.onmouseout;
-
-        // Set button state.
-        domNode.setDisabled(domNode.mydisabled);
-        domNode.setSecondary(domNode.secondary);
-        domNode.setMini(domNode.mini);
     },
 
     /**
      * Simulate a mouse click in a button. 
      *
      * @return true if successful; otherwise, false
+     * @deprecated Use document.getElementById(id).click();
      */
     click: function() {
-        this.click()
+        this.click();
         return true;
     },
 
@@ -137,9 +87,14 @@ webui.@THEME@.button = {
      * Get the textual label of a button. 
      *
      * @return The element value or null
+     * @deprecated Use document.getElementById(id).getProps().contents;
      */
     getText: function() {
-        return this.value;
+        var widget = dojo.widget.byId(this.id);
+        if (widget == null) {
+            return false;
+        }
+        return widget.domNode.textContent;
     },
 
     /**
@@ -147,14 +102,17 @@ webui.@THEME@.button = {
      *
      * @param text The element value
      * @return true if successful; otherwise, false
+     * @deprecated Use document.getElementById(id).setProps({contents: "text"});
      */
     setText: function(text) {
         if (text == null) {
             return false;
         }
-
-        this.value = text;
-        return true;
+        var widget = dojo.widget.byId(this.id);
+        if (widget == null) {
+            return false;
+        }
+        return widget.setProps({contents: text});
     },
 
     /**
@@ -162,15 +120,17 @@ webui.@THEME@.button = {
      *
      * @param show true to show the element, false to hide the element
      * @return true if successful; otherwise, false
+     * @deprecated Use document.getElementById(id).setProps({visible: true});
      */
     setVisible: function(show) {
         if (show == null) {
             return false;
         }
-        // Get element.
-        webui.@THEME@.common.setVisibleElement(this, show);
-
-        return true;
+        var widget = dojo.widget.byId(this.id);
+        if (widget == null) {
+            return false;
+        }
+        return widget.setProps({visible: show});
     },
 
     /**
@@ -178,24 +138,28 @@ webui.@THEME@.button = {
      * spec.
      *
      * @return true if visible; otherwise, false
+     * @deprecated Use document.getElementById(id).getProps().visible;
      */
     getVisible: function() {
-         // Get element.
-        styles = webui.@THEME@.common.splitStyleClasses(this);
-        if (styles == null) {
-            return true;
+        var widget = dojo.widget.byId(this.id);
+        if (widget == null) {
+            return false;
         }
-        return !webui.@THEME@.common.checkStyleClasses(styles,
-            webui.@THEME@.props.hiddenClassName);
+        return widget.getProps().visible;
     },
 
     /**
      * Test if button is set as "primary".
      *
      * @return true if primary; otherwise, false for secondary
+     * @deprecated Use document.getElementById(id).getProps().primary;
      */
     isPrimary: function() {
-        return !this.isSecondary();
+        var widget = dojo.widget.byId(this.id);
+        if (widget == null) {
+            return false;
+        }
+        return widget.getProps().primary;
     },
 
     /**
@@ -203,18 +167,31 @@ webui.@THEME@.button = {
      *
      * @param primary true for primary, false for secondary
      * @return true if successful; otherwise, false
+     * @deprecated Use document.getElementById(id).setProps({primary: true});
      */
-    setPrimary: function(primary) {
-        return this.setSecondary(!primary);
+    setPrimary: function(_primary) {
+        if (_primary == null) {
+            return false;
+        }
+        var widget = dojo.widget.byId(this.id);
+        if (widget == null) {
+            return false;
+        }
+        return widget.setProps({primary: _primary});
     },
 
     /**
      * Test if button is set as "secondary".
      *
      * @return true if secondary; otherwise, false for primary
+     * @deprecated Use !(document.getElementById(id).getProps().primary);
      */
     isSecondary: function() {
-        return this.secondary;
+        var widget = dojo.widget.byId(this.id);
+        if (widget == null) {
+            return false;
+        }
+        return widget.secondary;
     },
 
     /**
@@ -222,57 +199,31 @@ webui.@THEME@.button = {
      *
      * @param secondary true for secondary, false for primary
      * @return true if successful; otherwise, false
+     * @deprecated Use document.getElementById(id).setProps({primary: false});
      */
     setSecondary: function(secondary) {
-        if (secondary == null || this.mydisabled) {
+        if (secondary == null) {
             return false;
         }
-        var stripType;
-        var stripTypeHov;
-        var newType;
-
-        if (this.secondary == false && secondary == true) {
-            //change from primary to secondary
-            if (this.mini) {
-                stripTypeHov = this.classNamePrimaryMiniHov;
-                stripType = this.classNamePrimaryMini;
-                newType = this.classNameSecondaryMini;
-            } else {
-                stripTypeHov = this.classNamePrimaryHov;
-                stripType = this.classNamePrimary;
-                hovType = this.classNameSecondaryHov;
-                newType = this.classNameSecondary;
-            }
-        } else if (this.secondary == true && secondary == false) {
-            //change from secondary to primary
-            if (this.mini) {
-                //this is currently a mini button
-                stripTypeHov = this.classNameSecondaryMiniHov;
-                stripType = this.classNameSecondaryMini;
-                newType = this.classNamePrimaryMini;
-            } else {
-                stripTypeHov = this.classNameSecondaryHov;
-                stripType = this.classNameSecondary;
-                newType = this.classNamePrimary;
-            }
-        } else {
-            // don't need to do anything
+        var widget = dojo.widget.byId(this.id);
+        if (widget == null) {
             return false;
         }
-        webui.@THEME@.common.stripStyleClass(this, stripTypeHov);
-        webui.@THEME@.common.stripStyleClass(this, stripType);
-        webui.@THEME@.common.addStyleClass(this, newType);
-        this.secondary=secondary;
-        return this.secondary;
+        return widget.setProps({primary: !secondary});
     },
 
     /**
      * Test if button is set as "mini".
      *
      * @return true if mini; otherwise, false
+     * @deprecated Use document.getElementById(id).getProps().mini;
      */
     isMini: function() {
-        return this.mini;
+        var widget = dojo.widget.byId(this.id);
+        if (widget == null) {
+            return false;
+        }
+        return widget.getProps().mini;
     },
 
     /**
@@ -280,55 +231,31 @@ webui.@THEME@.button = {
      *
      * @param mini true for mini, false for standard button
      * @return true if successful; otherwise, false
+     * @deprecated Use document.getElementById(id).setProps({mini: true});
      */
-    setMini: function(mini) {
-        if (mini == null || this.mydisabled) {
+    setMini: function(_mini) {
+        if (_mini == null) {
             return false;
         }
-        var stripType;
-        var stripTypeHov;
-        var newType;
-        if (this.mini == true && mini == false) {
-            //change from mini to nonmini
-            if (!this.secondary) {
-                //this is currently a primary button
-                stripTypeHov = this.classNamePrimaryMiniHov;
-                stripType = this.classNamePrimaryMini;
-                newType = this.classNamePrimary;
-            } else {
-                stripTypeHov = this.classNameSecondaryMiniHov;
-                stripType = this.classNameSecondaryMini;
-                newType = this.classNameSecondary;
-            }
-        } else if (this.mini == false && mini == true) {
-            if (!this.secondary) {
-                //this is currently a primary button
-                stripTypeHov = this.classNamePrimaryHov;
-                stripType = this.classNamePrimary;
-                newType = this.classNamePrimaryMini;
-            } else {
-                stripTypeHov = this.classNameSecondaryHov;
-                stripType = this.classNameSecondary;
-                newType = this.classNameSecondaryMini;
-            }
-        } else {
-            // don't need to do anything
+        var widget = dojo.widget.byId(this.id);
+        if (widget == null) {
             return false;
         }
-        webui.@THEME@.common.stripStyleClass(this, stripTypeHov);
-        webui.@THEME@.common.stripStyleClass(this, stripType);
-        webui.@THEME@.common.addStyleClass(this, newType);
-        this.mini = mini;
-        return this.mini;
+        return widget.setProps({mini: _mini});
     },
 
     /**
      * Test disabled state of button.
      *
      * @return true if disabled; otherwise, false
+     * @deprecated Use document.getElementById(id).getProps().disabled;
      */
     getDisabled: function() {
-        return this.mydisabled;
+        var widget = dojo.widget.byId(this.id);
+        if (widget == null) {
+            return false;
+        }
+        return widget.getProps().disabled;
     },
 
     /**
@@ -336,216 +263,17 @@ webui.@THEME@.button = {
      *
      * @param disabled true if disabled; otherwise, false
      * @return true if successful; otherwise, false
+     * @deprecated Use document.getElementById(id).setProps({disabled: true});
      */
-    setDisabled: function(disabled) {
-        if (disabled == null || this.mydisabled == disabled) {
+    setDisabled: function(_disabled) {
+        if (_disabled == null) {
             return false;
         }
-        var stripType;
-        var stripHovType;
-        var newType;
-        if (!this.secondary) {
-            //this is currently a primary button
-            if (this.mini) {
-                if (disabled == false) {
-                    stripType = this.classNamePrimaryMiniDisabled;
-                    stripHovType = this.classNamePrimaryMiniDisabled;
-                    newType = this.classNamePrimaryMini;
-                } else {
-                    stripType = this.classNamePrimaryMini;
-                    stripHovType = this.classNamePrimaryMiniHov;
-                    newType = this.classNamePrimaryMiniDisabled;
-                }
-            } else { // not mini
-                if (disabled == false) {
-                    stripType = this.classNamePrimaryDisabled;
-                    stripHovType = this.classNamePrimaryDisabled;
-                    newType = this.classNamePrimary;
-                } else {
-                    stripType = this.classNamePrimary;
-                    stripHovType = this.classNamePrimaryHov;
-                    newType = this.classNamePrimaryDisabled;
-                }
-            }
-        } else {
-            //this is currently a secondary button
-            if (this.mini) {
-                if (disabled == false) {
-                    stripType = this.classNameSecondaryMiniDisabled;
-                    stripHovType = this.classNameSecondaryMiniDisabled;
-                    newType = this.classNameSecondaryMini;
-                } else {
-                    stripType = this.classNameSecondaryMini;
-                    stripHovType = this.classNameSecondaryMiniHov;
-                    newType = this.classNameSecondaryMiniDisabled;
-                }
-            } else { // not mini
-                if (disabled == false) {
-                    stripType = this.classNameSecondaryDisabled;
-                    stripHovType = this.classNameSecondaryDisabled;
-                    newType = this.classNameSecondary;
-                } else {
-                    stripType = this.classNameSecondary;
-                    stripHovType = this.classNameSecondaryHov;
-                    newType = this.classNameSecondaryDisabled;
-                }
-            }
-        }
-        webui.@THEME@.common.stripStyleClass(this, stripHovType);
-        webui.@THEME@.common.stripStyleClass(this, stripType);
-        webui.@THEME@.common.addStyleClass(this, newType);
-        this.mydisabled = disabled;
-        this.disabled = disabled;
-        return true;
-    },
-
-    /**
-     * Set CSS styles for onblur event.
-     *
-     * @return true if successful; otherwise, false
-     */
-    onblur: function() {
-        if (this.mydisabled == true) {
-            return true;
-        }
-        var stripType;
-        var newType;
-        if (!this.secondary) {
-            if (this.mini) {
-                stripType = this.classNamePrimaryMiniHov;
-                newType = this.classNamePrimaryMini;        
-            } else {
-                stripType = this.classNamePrimaryHov;
-                newType = this.classNamePrimary;        
-            }
-        } else { //is secondary 
-            if (this.mini) {
-                stripType = this.classNameSecondaryMiniHov;
-                newType = this.classNameSecondaryMini;        
-            } else {
-                stripType = this.classNameSecondaryHov;
-                newType = this.classNameSecondary;        
-            }
-        }
-        // This code can generate a JavaScript error if the cursor quickly moves
-        // off the button while the page is being refreshed.
-        try {
-            webui.@THEME@.common.stripStyleClass(this, stripType);
-            webui.@THEME@.common.addStyleClass(this, newType);
-        } catch (e) {}
-        return true;
-    },
-
-    /**
-     * Set CSS styles for onmouseout event.
-     *
-     * @return true if successful; otherwise, false
-     */
-    onmouseout: function() {
-        if (this.mydisabled == true) {
-            return true;
-        }
-
-        var stripType;
-        var newType;
-        if (!this.secondary) {
-            if (this.mini) {
-                stripType = this.classNamePrimaryMiniHov;
-                newType = this.classNamePrimaryMini;        
-            } else {
-                stripType = this.classNamePrimaryHov;
-                newType = this.classNamePrimary;        
-            }
-        } else { //is secondary 
-            if (this.mini) {
-                stripType = this.classNameSecondaryMiniHov;
-                newType = this.classNameSecondaryMini;        
-            } else {
-                stripType = this.classNameSecondaryHov;
-                newType = this.classNameSecondary;        
-            }
-        }
-        // This code can generate a JavaScript error if the cursor quickly moves
-        // off the button while the page is being refreshed.
-        try {
-            webui.@THEME@.common.stripStyleClass(this, stripType);
-            webui.@THEME@.common.addStyleClass(this, newType);
-        } catch (e) {}
-        return true;
-    },
-
-    /**
-     * Set CSS styles for onfocus event.
-     *
-     * @return true if successful; otherwise, false
-     */
-    onfocus: function() {
-        if (this.mydisabled == true) {
-            return true;
-        }
-        var stripType;
-        var newType;
-        if (!this.secondary) {
-            if (this.mini) {
-                stripType = this.classNamePrimaryMini;
-                newType = this.classNamePrimaryMiniHov;        
-            } else {
-                stripType = this.classNamePrimary;
-                newType = this.classNamePrimaryHov;        
-            }
-        } else { //is secondary 
-            if (this.mini) {
-                stripType = this.classNameSecondaryMini;
-                newType = this.classNameSecondaryMiniHov;        
-            } else {
-                stripType = this.classNameSecondary;
-                newType = this.classNameSecondaryHov;        
-            }
-        }
-        // This code can generate a JavaScript error if the cursor quickly moves
-        // off the button while the page is being refreshed.
-        try {
-            webui.@THEME@.common.stripStyleClass(this, stripType);
-            webui.@THEME@.common.addStyleClass(this, newType);
-        } catch (e) {}
-        return true;
-    },
-
-    /**
-     * Set CSS styles for onmouseover event.
-     *
-     * @return true if successful; otherwise, false
-     */
-    onmouseover: function() {
-        if (this.mydisabled == true) {
+        var widget = dojo.widget.byId(this.id);
+        if (widget == null) {
             return false;
         }
-        var stripType;
-        var newType;
-        if (!this.secondary) {
-            if (this.mini) {
-                stripType = this.classNamePrimaryMini;
-                newType = this.classNamePrimaryMiniHov;        
-            } else {
-                stripType = this.classNamePrimary;
-                newType = this.classNamePrimaryHov;        
-            }
-        } else { //is secondary 
-            if (this.mini) {
-                stripType = this.classNameSecondaryMini;
-                newType = this.classNameSecondaryMiniHov;        
-            } else {
-                stripType = this.classNameSecondary;
-                newType = this.classNameSecondaryHov;        
-            }
-        }
-        // This code can generate a JavaScript error if the cursor quickly moves
-        // off the button while the page is being refreshed.
-        try {
-            webui.@THEME@.common.stripStyleClass(this, stripType);
-            webui.@THEME@.common.addStyleClass(this, newType);
-        } catch (e) {}
-        return true;
+        return widget.setProps({disabled: _disabled});
     }
 }
 

@@ -66,7 +66,7 @@
     
     <renderer>
       <component-family>com.sun.webui.jsf.Button</component-family>
-      <renderer-type>com.sun.webui.jsf.ButtonDesignTime</renderer-type>
+      <renderer-type>com.sun.webui.jsf.widget.ButtonDesignTime</renderer-type>
       <renderer-class>com.sun.webui.jsf.renderkit.html.ButtonDesignTimeRenderer</renderer-class>
     </renderer>
 

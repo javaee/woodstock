@@ -212,15 +212,15 @@ webui.@THEME@.widget.button.initClassNames = function() {
         this.primaryHovClassName = webui.@THEME@.props.button.imageHovClassName;
 
         // Currently not used in theme.
-        this.primaryMiniClassName = "";
-        this.primaryMiniDisabledClassName = "";
-        this.primaryMiniHovClassName = "";
-        this.secondaryClassName = "";
-        this.secondaryDisabledClassName = "";
-        this.secondaryHovClassName = "";
-        this.secondaryMiniClassName = "";
-        this.secondaryMiniDisabledClassName = "";
-        this.secondaryMiniHovClassName = "";
+        this.primaryMiniClassName = this.primaryClassName;
+        this.primaryMiniDisabledClassName = this.primaryDisabledClassName;
+        this.primaryMiniHovClassName = this.primaryHovClassName;
+        this.secondaryClassName = this.primaryClassName;
+        this.secondaryDisabledClassName = this.primaryDisabledClassName;
+        this.secondaryHovClassName = this.primaryHovClassName;
+        this.secondaryMiniClassName = this.primaryClassName;
+        this.secondaryMiniDisabledClassName = this.primaryDisabledClassName;
+        this.secondaryMiniHovClassName = this.primaryHovClassName;
     } else {
         this.primaryClassName = webui.@THEME@.props.button.primaryClassName;
         this.primaryDisabledClassName = webui.@THEME@.props.button.primaryDisabledClassName;
@@ -383,7 +383,10 @@ webui.@THEME@.widget.button.setProps = function(props) {
     // Set contents.
     if (props.contents) {
         this.domNode.innerHTML = ""; // Cannot be set null on IE.
-        webui.@THEME@.widget.common.addFragment(this.domNode, props.contents, "last");
+        for (var i = 0; i < props.contents.length; i++) {
+            webui.@THEME@.widget.common.addFragment(this.domNode, 
+                props.contents[i], "last");
+        }
     }
     return true;
 }

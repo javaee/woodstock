@@ -84,21 +84,23 @@
                                 function pause() {
                                     // Enable resume button.
                                     var resumeButton = document.getElementById('form1:progressBarContentPage:pb1:statusPanel:resumeButton');
-                                    resumeButton.setDisabled(false);
+                                    resumeButton.setProps({disabled: false});
                                     resumeButton.focus();
 
                                     // Disable pause button and pause progress.
-                                    document.getElementById('form1:progressBarContentPage:pb1:statusPanel:pauseButton').setDisabled(true);
+                                    var pauseButton = document.getElementById('form1:progressBarContentPage:pb1:statusPanel:pauseButton');
+                                    pauseButton.setProps({disabled: true});
                                     document.getElementById('form1:progressBarContentPage:pb1').pause();
                                 }
                                 function resume() {
                                     // Enable pause button.
                                     var pauseButton = document.getElementById('form1:progressBarContentPage:pb1:statusPanel:pauseButton');
-                                    pauseButton.setDisabled(false);
+                                    pauseButton.setProps({disabled: false});
                                     pauseButton.focus();
 
                                     // Disable resume button and resume progress.
-                                    document.getElementById('form1:progressBarContentPage:pb1:statusPanel:resumeButton').setDisabled(true);
+                                    var resumeButton = document.getElementById('form1:progressBarContentPage:pb1:statusPanel:resumeButton');
+                                    resumeButton.setProps({disabled: true});
                                     document.getElementById('form1:progressBarContentPage:pb1').resume();
                                 }
                                 function cancel() {

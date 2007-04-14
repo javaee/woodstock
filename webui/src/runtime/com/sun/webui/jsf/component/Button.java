@@ -38,8 +38,7 @@ import org.json.JSONObject;
  */
 @Component(type="com.sun.webui.jsf.Button",
     family="com.sun.webui.jsf.Button",
-    tagRendererType="com.sun.webui.jsf.Button",
-//    tagRendererType="com.sun.webui.jsf.widget.Button",
+    tagRendererType="com.sun.webui.jsf.widget.Button",
     displayName="Button", tagName="button",
     helpKey="projrave_ui_elements_palette_wdstk-jsf1.2_button",
     propertiesHelpKey="projrave_ui_elements_palette_wdstk-jsf1.2_propsheets_button_props")
@@ -52,8 +51,7 @@ public class Button extends WebuiCommand implements ComplexComponent {
      */
     public Button() {
         super();
-        setRendererType("com.sun.webui.jsf.Button");
-//        setRendererType("com.sun.webui.jsf.widget.Button");
+        setRendererType("com.sun.webui.jsf.widget.Button");
     }
 
     /**
