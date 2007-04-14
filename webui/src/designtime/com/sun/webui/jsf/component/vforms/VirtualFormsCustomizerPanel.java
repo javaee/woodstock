@@ -24,8 +24,6 @@ package com.sun.webui.jsf.component.vforms;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Graphics;
-import java.awt.event.FocusEvent;
-import java.awt.event.FocusListener;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.ResourceBundle;
@@ -50,7 +48,10 @@ import com.sun.rave.designtime.Result;
 import com.sun.webui.jsf.component.Form;
 import javax.swing.DefaultListCellRenderer;
 import javax.swing.JList;
-
+import com.sun.rave.designtime.ext.componentgroup.ComponentGroupHolder;
+import com.sun.rave.designtime.ext.componentgroup.impl.ColorWrapperImpl;
+import com.sun.rave.designtime.ext.componentgroup.util.ComponentGroupHelper;
+import com.sun.webui.jsf.component.FormDesignInfo;
 
 public class VirtualFormsCustomizerPanel extends JPanel {
     
@@ -76,11 +77,11 @@ public class VirtualFormsCustomizerPanel extends JPanel {
         // store off the form colors
         DesignContext context = customizer.getDesignBean().getDesignContext();
         for (int i = 0; vforms != null && i < vforms.length; i++) {
-            Color c = (Color)colorMap.get(vforms[i].getName());
+            String vfName = vforms[i].getName();
+            String key = getColorKey(vfName);
+            Color c = (Color)colorMap.get(key);
             if (c != null) {
-                context.setContextData(
-                        VirtualFormsHelper.VFORMS_COLOR_KEY_PREFIX + vforms[i].getName(),
-                        new VirtualFormsHelper.FormColor(c));
+                context.setContextData(key, new ColorWrapperImpl(c));
             }
         }
         
@@ -123,7 +124,9 @@ public class VirtualFormsCustomizerPanel extends JPanel {
             if (vform != null) {
                 switch (columnIndex) {
                     case 0: // color
-                        return VirtualFormsHelper.getFormColor(vform.getName(), colorMap);
+                        String vfName = vform.getName();
+                        String key = getColorKey(vfName);
+                        return ComponentGroupHelper.getMappedColor(key, colorMap);
                     case 1: // virtual form name
                         return vform.getName();
                 }
@@ -133,9 +136,12 @@ public class VirtualFormsCustomizerPanel extends JPanel {
         public void setValueAt(Object aValue, int rowIndex, int columnIndex) {
             Form.VirtualFormDescriptor vform = (Form.VirtualFormDescriptor)vformsList.get(rowIndex);
             if (vform != null) {
+                String vfName, colorKey;
                 switch (columnIndex) {
                     case 0: // color
-                        colorMap.put(vform.getName(), aValue);
+                        vfName = vform.getName();
+                        colorKey = getColorKey(vfName);
+                        colorMap.put(colorKey, aValue);
                         customizer.setModified(true);
                         return;
                     case 1: // virtual form name
@@ -143,11 +149,16 @@ public class VirtualFormsCustomizerPanel extends JPanel {
                         name = name.trim();
                         name = name.replaceAll("\\|", "_"); // NOI18N
                         name = name.replaceAll(",", "_"); // NOI18N
-                        if (name.length() < 1) name = VirtualFormsHelper.getNewVirtualFormName(vformsList);
-                        Color c = (Color)colorMap.get(vform.getName());
-                        colorMap.remove(vform.getName());
+                        if (name.length() < 1) {
+                            name = VirtualFormsHelper.getNewVirtualFormName(vformsList);
+                        }
+                        vfName = vform.getName();
+                        colorKey = getColorKey(vfName);
+                        Color c = (Color)colorMap.get(colorKey);
+                        colorMap.remove(colorKey);
                         vform.setName(name);
-                        colorMap.put(vform.getName(), c);
+                        colorKey = getColorKey(name);
+                        colorMap.put(colorKey, c);
                         customizer.setModified(true);
                         return;
                 }
@@ -157,7 +168,13 @@ public class VirtualFormsCustomizerPanel extends JPanel {
     
     private void readVFormInfo() {
         DesignBean formBean = customizer.getDesignBean();
-        VirtualFormsHelper.fillColorMap(formBean, colorMap);
+        DesignContext dcontext = formBean.getDesignContext();
+        ComponentGroupHolder[] holders = null;
+        Object dcontextData = dcontext.getContextData(ComponentGroupHolder.CONTEXT_DATA_KEY);
+        if (dcontextData instanceof ComponentGroupHolder[]) {        
+            holders = (ComponentGroupHolder[])dcontextData;
+        }
+        ComponentGroupHelper.populateColorMap(dcontext, holders, colorMap);
         Form form = (Form)formBean.getInstance();
         Form.VirtualFormDescriptor[] vforms = form.getVirtualForms();
         for (int i = 0; vforms != null && i < vforms.length; i++) {
@@ -180,6 +197,13 @@ public class VirtualFormsCustomizerPanel extends JPanel {
         // Have the first row selected by default
         if( vformsTableModel.getRowCount() > 0 ) 
             vformsTable.changeSelection( 0, 0, false, false );
+    }
+    
+    private String getColorKey(String vfName) {
+        DesignBean formBean = customizer.getDesignBean();
+        String formBeanId = formBean.getInstanceName();
+        String formIdDotVfName = formBeanId + "." + vfName;
+        return ComponentGroupHelper.getComponentGroupColorKey(FormDesignInfo.VIRTUAL_FORM_HOLDER_NAME, formIdDotVfName);   
     }
     
     class ColorCellRenderer extends DefaultTableCellRenderer {
@@ -255,8 +279,8 @@ public class VirtualFormsCustomizerPanel extends JPanel {
         public ColorComboBox() {
             super();
             DefaultComboBoxModel cbm = new DefaultComboBoxModel();
-            for (int i = 0; i < VirtualFormsHelper.VFORM_DEFAULT_COLOR_SET.length; i++) {
-                Color c = VirtualFormsHelper.VFORM_DEFAULT_COLOR_SET[i];
+            for (int i = 0; i < ComponentGroupHelper.DEFAULT_COLOR_SET.length; i++) {
+                Color c = ComponentGroupHelper.DEFAULT_COLOR_SET[i];
                 cbm.addElement(c);
             }
             setModel(cbm);

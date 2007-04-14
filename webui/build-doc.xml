@@ -76,6 +76,7 @@
   <property name="dataprovider-rowset.jar" value="dataprovider-rowset.jar"/>
   <property name="dataprovider.jar" value="dataprovider.jar"/>
   <property name="designtime.jar" value="designtime.jar"/>
+  <property name="designtimeext.jar" value="designtimeext.jar"/>
   <property name="propertyeditors.jar" value="com-sun-rave-propertyeditors.jar"/>
   <property name="portlet.jar" value="portlet.jar"/>
   <property name="jsfcl.jar" value="jsfcl.jar"/>
@@ -121,6 +122,7 @@
   </patternset>
   <patternset id="designtime-libs">
     <include name="${designtime.jar}"/>
+    <include name="${designtimeext.jar}"/>
     <include name="${propertyeditors.jar}"/>
     <include name="${jsfcl.jar}"/>
   </patternset>

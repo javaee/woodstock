@@ -112,19 +112,19 @@
         <java-data xmlns="http://www.netbeans.org/ns/freeform-project-java/1">
             <compilation-unit>
                 <package-root>gen/taglib</package-root>
-                <classpath mode="compile">lib/external/commons-beanutils.jar:lib/external/commons-collections.jar:lib/external/commons-digester.jar:lib/external/commons-logging.jar:lib/external/javaee.jar:lib/external/junit.jar:lib/external/portlet.jar:lib/external/rowset.jar:lib/creator/designtime.jar:lib/creator/propertyeditors.jar:gen/beaninfo:gen/taglib:lib/annotations/jsfa-lib.jar:src/runtime</classpath>
+                <classpath mode="compile">lib/external/commons-beanutils.jar:lib/external/commons-collections.jar:lib/external/commons-digester.jar:lib/external/commons-logging.jar:lib/external/javaee.jar:lib/external/junit.jar:lib/external/portlet.jar:lib/external/rowset.jar:lib/creator/designtime.jar:lib/creator/designtimeext.jar:lib/creator/propertyeditors.jar:gen/beaninfo:gen/taglib:lib/annotations/jsfa-lib.jar:src/runtime</classpath>
                 <built-to>netbeans/modules/autoload/ext/webui-jsf.jar</built-to>
                 <source-level>1.5</source-level>
             </compilation-unit>
             <compilation-unit>
                 <package-root>gen/beaninfo</package-root>
-                <classpath mode="compile">lib/external/commons-beanutils.jar:lib/external/commons-collections.jar:lib/external/commons-digester.jar:lib/external/commons-logging.jar:lib/external/jsf-api.jar:lib/external/jsf-impl.jar:lib/external/jsp-api.jar:lib/external/jstl.jar:lib/external/junit.jar:lib/external/portlet.jar:lib/external/rowset.jar:lib/external/servlet-api.jar:lib/creator/designtime.jar:lib/creator/propertyeditors.jar:gen/beaninfo:src/runtime:src/designtime</classpath>
+                <classpath mode="compile">lib/external/commons-beanutils.jar:lib/external/commons-collections.jar:lib/external/commons-digester.jar:lib/external/commons-logging.jar:lib/external/jsf-api.jar:lib/external/jsf-impl.jar:lib/external/jsp-api.jar:lib/external/jstl.jar:lib/external/junit.jar:lib/external/portlet.jar:lib/external/rowset.jar:lib/external/servlet-api.jar:lib/creator/designtime.jar:lib/creator/designtimeext.jar:lib/creator/propertyeditors.jar:gen/beaninfo:src/runtime:src/designtime</classpath>
                 <built-to>netbeans/modules/autoload/ext/webui-jsf-dt.jar</built-to>
                 <source-level>1.5</source-level>
             </compilation-unit>
             <compilation-unit>
                 <package-root>src/designtime</package-root>
-                <classpath mode="compile">lib/external/commons-beanutils.jar;lib/external/commons-collections.jar;lib/external/commons-digester.jar;lib/external/commons-logging.jar;lib/external/jsf-api.jar;lib/external/jsf-impl.jar;lib/external/jsp-api.jar;lib/external/jstl.jar;lib/external/junit.jar;lib/external/portlet.jar;lib/external/rowset.jar;lib/external/servlet-api.jar;lib/creator/designtime.jar;lib/creator/propertyeditors.jar;src/runtime;src/designtime</classpath>
+                <classpath mode="compile">lib/external/commons-beanutils.jar;lib/external/commons-collections.jar;lib/external/commons-digester.jar;lib/external/commons-logging.jar;lib/external/jsf-api.jar;lib/external/jsf-impl.jar;lib/external/jsp-api.jar;lib/external/jstl.jar;lib/external/junit.jar;lib/external/portlet.jar;lib/external/rowset.jar;lib/external/servlet-api.jar;lib/creator/designtime.jar;lib/creator/designtimeext.jar;lib/creator/propertyeditors.jar;src/runtime;src/designtime</classpath>
                 <built-to>netbeans/modules/autoload/ext/webui-jsf-dt.jar</built-to>
                 <source-level>1.5</source-level>
             </compilation-unit>

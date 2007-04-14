@@ -171,6 +171,7 @@
   
     <path id="designtime.jars">
         <pathelement location="${lib.creator}/designtime.jar"/>
+        <pathelement location="${lib.creator}/designtimeext.jar"/>
         <pathelement location="${lib.creator}/jsfcl.jar"/>
         <pathelement location="${lib.external}/rowset.jar"/>
     </path>
