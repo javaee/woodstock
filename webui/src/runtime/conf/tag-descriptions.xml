@@ -15196,7 +15196,7 @@ text=&quot;Three B&quot; /&gt;<br>
 
     <h3>Configuring the <code>webuijsf:textField</code> Tag</h3>
 
-<p>Use the <code>text</code> attribute to associate the component with
+<p>Use the <code>value</code> attribute to associate the component with
 a model object that represents the current value, by setting the
 attribute's value to an EL expression that corresponds to a property
 of a backing bean.</p>
@@ -15204,28 +15204,47 @@ of a backing bean.</p>
     <p>To optionally specify a label for the component, use the
     <code>label</code> attribute, or specify a label facet. </p>
 
+    <p>TextField supports the password mode in which all characters entered are echoed as asterisks.
+    To enable password mode, use <code>passwordMode = true</code> attribute. <br>
+    Note that while in the password mode, no password will be send back to the browser in order to avoid 
+    sniffing or viewing through the browser source code. Thus, textField in the passwordMode will always be empty on
+    submit or reload ( unless browser activates password auto-enter)</p>
     <h3>Facets</h3>
 
     <ul>
     <li><code>label</code>: use this facet to specify a custom 
     component for the label.</li>
-    <li><code>readOnly</code>: use this facet to specify a custom 
-    component for displaying the value of this component when it is
-    marked as readonly. The default is a <code>webuijsf:staticText</code>. </li>
     </ul>
 
 
     <h3>Client-side JavaScript functions</h3>
 
-    <p>In all the functions below, <code>&lt;id&gt;</code> should be
-    the generated id of the TextField component. </p>
+    <p>
+    Update widget properties via the setProps function. For example:<p>
+    <pre>
+    this.fillInTemplate = function() { 
+        // Set public functions. 
+        this.domNode.setProps = function(props) { dojo.widget.byId(this.id).setProps(props); }
+        // Set private functions.
+        this.setProps = webui.@THEME@.widget.textField.setProps;
+
+        // Set properties.
+        this.setProps(this);
+   	return true;	
+    }
+     </pre>   </p>
+
+    </p>
+    
+    <p>All of the direct access javascript functions below are deprecated and no longer supported.<br>
+    </p>
 
     <table cellpadding="2" cellspacing="2" border="1" 
            style="text-align: left; width: 100%;">
     <tbody>
     <tr>
     <td style="vertical-align">
-    <code>field_setDisabled(&lt;id&gt;, &lt;disabled&gt;)</code>
+    DEPRECATED <code>field_setDisabled(&lt;id&gt;, &lt;disabled&gt;)</code>
     </td>
     <td style="vertical-align: top">
     Enable/disable the field. Set <code>&lt;disabled&gt;</code>
@@ -15234,7 +15253,7 @@ of a backing bean.</p>
     </tr>
     <tr>
     <td style="vertical-align: top">
-    <code>field_setValue(&lt;id&gt;, &lt;newValue&gt;)</code>
+    DEPRECATED <code>field_setValue(&lt;id&gt;, &lt;newValue&gt;)</code>
     </td>
     <td style="vertical-align: top">
     Set the value of the field to <code>&lt;newValue&gt;</code>.
@@ -15242,13 +15261,13 @@ of a backing bean.</p>
     </tr>
     <tr>
       <td style="vertical-align: top">
-    <code>field_getValue(&lt;id&gt;)</code>
+    DEPRECATED <code>field_getValue(&lt;id&gt;)</code>
   </td>
     <td style="vertical-align: top">Get the value of the field.</td>
     </tr>
     <tr>
       <td style="vertical-align: top">
-    <code>field_getInputElement(&lt;id&gt;)</code></td>
+    DEPRECATED <code>field_getInputElement(&lt;id&gt;)</code></td>
     <td style="vertical-align: top">
     Get hold of a reference to the input element rendered by this
     component.
@@ -15256,7 +15275,7 @@ of a backing bean.</p>
     </tr>
     <tr>
       <td style="vertical-align: top">
-    <code>component_setVisible(&lt;id&gt;)</code>
+    DEPRECATED <code>component_setVisible(&lt;id&gt;)</code>
   </td>
       <td style="vertical-align: top">Hide or show this component.
       </td>

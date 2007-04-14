@@ -129,7 +129,7 @@ type="com.sun.webui.jsf.TextField", family="com.sun.webui.jsf.TextField",
 // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     
     /**
-     * Flag indicating to turn off default Ajax functionality. Set ajaxify to
+     * Attribute indicating to turn off default Ajax functionality. Set ajaxify to
      * false when providing a different Ajax implementation.
      * If false, default ajax javascript libraries will not be rendered to the client.
      */
@@ -140,7 +140,6 @@ type="com.sun.webui.jsf.TextField", family="com.sun.webui.jsf.TextField",
     
     /**
      * Test if default Ajax functionality should be turned off.
-     * @see setAjaxify
      */
     public boolean isAjaxify() {
         if (this.ajaxify_set) {
@@ -159,18 +158,17 @@ type="com.sun.webui.jsf.TextField", family="com.sun.webui.jsf.TextField",
     }
     
     /**
-     * Set flag indicating to turn off default Ajax functionality.
+     * Set attribute indicating to turn off default Ajax functionality.
      * <p>
-     * Ajaxify flag is used to optimize delivery of the component to the browser by
+     * Ajaxify attribute is used to optimize delivery of the component to the browser by
      * rendering or not rendering ajax based libraries.
-     * Ajaxify flag set true only means that ajax javascript modules will be rendered,
+     * Ajaxify attribute set true only means that ajax javascript modules will be rendered,
      * enabling ( but not activating) dynamic ajax features on the client side.
      * Once ajax-based modules are rendered, developer can use them directly for custom validation,
      * or use predesigned autoValidate feature that is part of this implementation.
      * <br>
-     * Note that autoValidate=true automatically turn ajaxify flag on.
+     * Note that autoValidate=true automatically turn ajaxify attribute on.
      * </p>
-     * @see setAutoValidate
      */
     public void setAjaxify(boolean ajaxify) {
         this.ajaxify = ajaxify;
@@ -182,18 +180,18 @@ type="com.sun.webui.jsf.TextField", family="com.sun.webui.jsf.TextField",
 // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     
     /**
-     * Flag indicating to turn on/off the autovalidate functionality of the TextField.
+     * Attribute indicating to turn on/off the autovalidate functionality of the TextField.
      * Autovalidate would trigger the AJAX request to the validator on the component.
      * Setting autoValidate neccessitates that component is ajaxified, and so it will
      * be accomplished automatically when autoValidate is set to <code>true</code>.
      * Thus, if autoValidate is set to true, it will trigger ajaxify= true. Setting
-     * autoValidate to false will NOT reset ajaxify flag. Further note that ajaxify flag by itself
+     * autoValidate to false will NOT reset ajaxify attribute. Further note that ajaxify attribute by itself
      * does not lead to autoValidate functionality being enabled - it only allows for an ajax related
      * scripts to be rendered to the client.
      * <br>
      * Autovalidate will submit the content of the text field for server side processing that
      * will be processed using JSFX partial lifecycle cycle. Validation of the data remains
-     * resopnsibility of the developer. For example, validatorExpression still needs to be set
+     * responsibility of the developer. For example, validatorExpression still needs to be set
      * <br>
      * By default autovalidate is off.
      *
@@ -206,7 +204,6 @@ type="com.sun.webui.jsf.TextField", family="com.sun.webui.jsf.TextField",
     
     /**
      * Test if default Ajax functionality should be turned off.
-     * @see setAutoValidate
      */
     public boolean isAutoValidate() {
         if (this.autoValidate_set) {
@@ -225,7 +222,7 @@ type="com.sun.webui.jsf.TextField", family="com.sun.webui.jsf.TextField",
     }
     
     /**
-     * Set flag indicating to turn on/off default Ajax functionality.
+     * Set attribute indicating to turn on/off default Ajax functionality.
      * When on, TextField's onBlur event will generate ajax-based validation request, where
      * content of the TextField's input will be validated  ( but not committed during the processUpdates stage).
      * Validation information is sent back to the browser for user information in form of success or
@@ -298,8 +295,6 @@ type="com.sun.webui.jsf.TextField", family="com.sun.webui.jsf.TextField",
      * The default textField template renders input element of type "text"
      * Use this attribute to render "password" style of the textfield that
      * echoes entered characters as "*"
-     *<p>
-     * @return true if input element is specified as password field
      */
     
     @Property(name="passwordMode", isHidden=true, displayName="Password Mode", category="Appearance")
@@ -308,7 +303,6 @@ type="com.sun.webui.jsf.TextField", family="com.sun.webui.jsf.TextField",
     
     /**
      * Test if passwordMode mode is be turned on.
-     * @see setPasswordMode
      */
     public boolean isPasswordMode() {
         if (this.passwordMode_set) {
@@ -327,7 +321,7 @@ type="com.sun.webui.jsf.TextField", family="com.sun.webui.jsf.TextField",
     }
     
     /**
-     * Set flag indicating to turn on passwordMode mode.
+     * Set attribute indicating to turn on passwordMode mode.
      */
     public void setPasswordMode(boolean passwordModeMode) {
         this.passwordMode = passwordModeMode;
