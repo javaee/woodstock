@@ -627,7 +627,7 @@ webui.@THEME@.dropDown = {
     getSelectElement: function(elementId) { 
         var domNode = document.getElementById(elementId);
         if (domNode) {
-            return domNode.getSelectedElement();
+            return domNode.getSelectElement();
         }
         return false;
     },
