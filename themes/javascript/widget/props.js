@@ -112,8 +112,14 @@ webui.@THEME@.widget.props = {
         errorStyleClass: "ConErrLblTxt@THEME_CSS@",
         levelOneStyleClass: "LblLev1Txt@THEME_CSS@",
         levelTwoStyleClass: "LblLev2Txt@THEME_CSS@",
-        levelThreeStyleClass: "LblLev3Txt@THEME_CSS@"
-
+        levelThreeStyleClass: "LblLev3Txt@THEME_CSS@"        
+    },
+    
+    
+    // TextField properties.
+    textField: {
+        enabledClassName: "TxtFld@THEME_CSS@",
+        disabledClassName: "TxtFldDis@THEME_CSS@"
     }
 }
 
