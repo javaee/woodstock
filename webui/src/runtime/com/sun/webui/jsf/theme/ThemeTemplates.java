@@ -72,6 +72,11 @@ public class ThemeTemplates {
     public static final String LABEL = "label";
 
     /**
+     * A template file that contains HTML for the TextField component.
+     */
+    public static final String TEXTFIELD= "textField";
+
+    /**
      * A template file that contains HTML for the staticText component.
      */
     public static final String STATICTEXT = "staticText";
