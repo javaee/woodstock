@@ -66,7 +66,7 @@ webui.@THEME@.widget.button = function() {
         // Note: Although we now have a setProps function to update properties,
         // these functions were previously added to the DOM node; thus, we must
         // continue to be backward compatible.
-        setTimeout(webui.@THEME@.widget.button.createInitCallback(this.id), 10);
+        webui.@THEME@.button.init({id: this.id});
 
         // Set events.
         dojo.event.connect(this.domNode, "onblur",
@@ -85,22 +85,6 @@ webui.@THEME@.widget.button = function() {
         this.setProps();
         return true;
     }
-}
-
-/**
- * Helper function to create callback to initialize deprecated functions.
- *
- * @param id The HTML element id used to invoke the callback.
- */
-webui.@THEME@.widget.button.createInitCallback = function(_id) {
-    if (_id == null) {
-        return null;
-    }
-    // New literals are created every time this function
-    // is called, and it's saved by closure magic.
-    return function(evt) { 
-        return webui.@THEME@.button.init({id: _id})
-    };
 }
 
 /**

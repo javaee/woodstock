@@ -409,7 +409,6 @@ public class FileChooserRenderer extends AbstractRenderer {
             writer.endElement("input");
             
             Button hiddenButton = (Button) chooser.getHiddenFCButton();
-            hiddenButton.setStyleClass(theme.getStyleClass(ThemeStyles.HIDDEN));
             RenderingUtilities.renderComponent(hiddenButton, context);
 
 	    // Render a hidden select to hold the currently selected

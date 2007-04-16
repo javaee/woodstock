@@ -98,6 +98,7 @@ webui.@THEME@.widget.label.getProps = function() {
     var props = {};
 
     // Set properties.
+    if (this.contents) { props.contents = this.contents; }
     if (this.errorImage) { props.errorImage = this.errorImage; }
     if (this.htmlFor) { props.htmlFor = this.htmlFor; }
     if (this.level != null) { props.level = this.level; }

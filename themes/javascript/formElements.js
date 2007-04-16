@@ -51,25 +51,25 @@ webui.@THEME@.button = {
         if (props == null || props.id == null) {
             return false;
         }
-        var domNode = document.getElementById(props.id);
-        if (domNode == null) {
+        var widget = dojo.widget.byId(props.id);
+        if (widget == null) {
             return false;
         }
 
         // Set functions
-        domNode.isSecondary = webui.@THEME@.button.isSecondary;
-        domNode.setSecondary = webui.@THEME@.button.setSecondary;
-        domNode.isPrimary = webui.@THEME@.button.isPrimary;
-        domNode.setPrimary = webui.@THEME@.button.setPrimary;
-        domNode.isMini = webui.@THEME@.button.isMini;
-        domNode.setMini = webui.@THEME@.button.setMini;
-        domNode.getDisabled = webui.@THEME@.button.getDisabled;
-        domNode.setDisabled = webui.@THEME@.button.setDisabled;
-        domNode.getVisible = webui.@THEME@.button.getVisible;
-        domNode.setVisible = webui.@THEME@.button.setVisible;
-        domNode.getText = webui.@THEME@.button.getText;
-        domNode.setText = webui.@THEME@.button.setText;
-        domNode.doClick = webui.@THEME@.button.click;
+        widget.domNode.isSecondary = webui.@THEME@.button.isSecondary;
+        widget.domNode.setSecondary = webui.@THEME@.button.setSecondary;
+        widget.domNode.isPrimary = webui.@THEME@.button.isPrimary;
+        widget.domNode.setPrimary = webui.@THEME@.button.setPrimary;
+        widget.domNode.isMini = webui.@THEME@.button.isMini;
+        widget.domNode.setMini = webui.@THEME@.button.setMini;
+        widget.domNode.getDisabled = webui.@THEME@.button.getDisabled;
+        widget.domNode.setDisabled = webui.@THEME@.button.setDisabled;
+        widget.domNode.getVisible = webui.@THEME@.button.getVisible;
+        widget.domNode.setVisible = webui.@THEME@.button.setVisible;
+        widget.domNode.getText = webui.@THEME@.button.getText;
+        widget.domNode.setText = webui.@THEME@.button.setText;
+        widget.domNode.doClick = webui.@THEME@.button.click;
     },
 
     /**

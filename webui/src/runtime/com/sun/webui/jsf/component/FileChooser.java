@@ -2484,15 +2484,16 @@ public class FileChooser extends WebuiInput implements NamingContainer {
 	Button child = (Button)
 	    ComponentUtilities.getPrivateFacet(this,
 		FILECHOOSER_HIDDEN_BUTTON_FACET, true);
+
 	if (child == null) {
             child = new Button();
             child.setId(ComponentUtilities.createPrivateFacetId(this,
 		FILECHOOSER_HIDDEN_BUTTON_FACET));
 
-            child.setPrimary(true);
 	    ComponentUtilities.putPrivateFacet(this,
 		FILECHOOSER_HIDDEN_BUTTON_FACET, child);
 	}
+        child.setVisible(false);
 	return child;
     }
 
