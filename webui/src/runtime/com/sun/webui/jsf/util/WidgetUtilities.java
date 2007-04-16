@@ -21,19 +21,19 @@
  */
 package com.sun.webui.jsf.util;
 
-import com.sun.webui.jsf.renderkit.widget.RendererBase;
+import com.sun.webui.jsf.component.ImageComponent;
+import com.sun.webui.jsf.model.Indicator;
+import com.sun.webui.jsf.theme.ThemeImages;
+import com.sun.webui.theme.Theme;
 
 import java.io.IOException;
 import java.io.Writer;
-import java.util.ArrayList;
 import java.util.Iterator;
 
 import javax.faces.component.UIComponent;
-import javax.faces.component.UIParameter;
 import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 import javax.faces.context.ResponseWriter;
-import javax.faces.render.Renderer;
 import javax.servlet.ServletRequest;
 
 import org.json.JSONArray;
@@ -192,6 +192,62 @@ public class WidgetUtilities {
         // Set new writer in context.
         context.setResponseWriter(newWriter);
         return strWriter;
+    } 
+    
+    
+    /**
+     * Helper method to obtain a list of indicators for Alert and Alarm components.
+     * 
+     * @param context FacesContext for the current request.
+     * @param Iterator<Indicators> for the indicators.
+     * @param String ignoreType for the indicators type.
+     * @param Theme theme for the indicators.
+     * @param UIComponent parent for the indicators.
+     *
+     * @returns JSONArray of Indicators.
+     */
+    public static JSONArray getIndicators( FacesContext context, Iterator<Indicator> indicators,  
+        String ignoreType, Theme theme, UIComponent parent) throws IOException, JSONException {
+        ImageComponent img = null;
+        if (indicators == null) {
+            return null;
+        }
+        JSONArray indicatorArray = new JSONArray();      
+        while (indicators.hasNext()) {
+
+            Indicator indicator = (Indicator)indicators.next();                 
+            String type = (String) indicator.getType();
+
+            // Don't do anything if we don't have to.
+            //
+            if (type.equals(ignoreType)) {
+                    continue;
+            }
+
+            JSONObject indjson = new JSONObject();
+            if (indicator.getImageComponent(theme) != null) {
+                    img = (ImageComponent) indicator.getImageComponent(theme);
+                         
+            } else {
+                    // Since the image may be theme based it is not a good idea
+                    // to throw exception at runtime. Using "dot" image to handle
+                    // this situation.
+                img = (ImageComponent) ThemeUtilities.getIcon(theme, ThemeImages.DOT); 
+            }
+                //set the id
+                if (img.getId() == null) {
+                    img.setId(type);
+                }
+                //set the parent
+                if (img.getParent() == null) {
+                    img.setParent(parent);
+                }
+                indjson.put("type", type);
+                WidgetUtilities.addProperties(indjson, "image",
+                       WidgetUtilities.renderComponent(context, img));
+                indicatorArray.put(indjson);
+            }
+            return indicatorArray;
     } 
 
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~

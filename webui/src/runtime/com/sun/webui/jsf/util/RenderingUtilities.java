@@ -25,11 +25,9 @@ package com.sun.webui.jsf.util;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.Writer;
-import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.Map;
-import java.util.HashMap;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletContext;
@@ -47,15 +45,12 @@ import javax.faces.context.ResponseWriter;
 
 import com.sun.webui.html.HTMLAttributes;
 import com.sun.webui.html.HTMLElements;
-
-import com.sun.webui.jsf.component.Body;
 import com.sun.webui.jsf.component.ComplexComponent;
 import com.sun.webui.jsf.component.Icon;
 import com.sun.webui.jsf.theme.ThemeImages;
 import com.sun.webui.jsf.theme.ThemeStyles;
-import com.sun.webui.jsf.util.FocusManager;
-import com.sun.webui.jsf.util.LogUtil;
 import com.sun.webui.theme.Theme;
+import java.text.MessageFormat;
 
 /**
  * This class provides common methods for renderers.
@@ -874,5 +869,41 @@ public class RenderingUtilities {
         } else {
             return ((Boolean) visible).booleanValue();
         }
+    }
+    
+    /**
+     * <p> Returns formatted message string. </p>
+     * @param	context   FacesContext
+     * @param	component   UIComponent
+     * @param	msg  String
+     * @return	formatted message string.
+     */
+    public static String formattedMessage(FacesContext context, UIComponent component, 
+            String msg) {
+        
+        java.util.ArrayList parameterList = new ArrayList();
+
+        // get UIParameter children...
+        java.util.Iterator kids = component.getChildren().iterator();
+        while (kids.hasNext()) {
+             UIComponent kid = (UIComponent) kids.next();
+             if (!(kid instanceof UIParameter)) {
+                    continue;
+                }
+             parameterList.add(((UIParameter) kid).getValue());
+        }
+
+        // If at least one substitution parameter was specified,
+        // use the string as a MessageFormat instance.
+        String message = null;
+        if (parameterList.size() > 0) {
+            message = MessageFormat.format
+                (msg, parameterList.toArray
+                               (new Object[parameterList.size()]));
+        } else {
+            message = msg;
+        }
+
+        return message;
     }
 }
