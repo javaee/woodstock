@@ -168,8 +168,12 @@
           // In order to submit values for the filechooser, an association must
           // be defined between the chooser and an element that submits the
           // page.  We use the Submit button in the contentPageTitle as that
-          // element.
-          document.getElementById("form:contentPageTitle:tabset:tabChooser:fileChooser").setChooseButton("form:contentPageTitle:pageButtonsGroupTop:submitButton");
+          // element, but only if the chooser actually exists - it will only
+          // when the chooser tab is the selected tab when the page renders.
+          var domNode = document.getElementById("form:contentPageTitle:tabset:tabChooser:fileChooser");
+          if (domNode != null) {
+              domNode.setChooseButton("form:contentPageTitle:pageButtonsGroupTop:submitButton");
+          }
         </script>
         </webuijsf:form>
       </webuijsf:body>
