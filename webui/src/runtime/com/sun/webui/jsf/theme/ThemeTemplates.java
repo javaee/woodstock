@@ -87,6 +87,11 @@ public class ThemeTemplates {
     public static final String HIDDENFIELD = "hiddenField";
 
     /**
+     * A template file that contains HTML for the alert component.
+     */
+    public static final String ALERT = "alert";
+
+    /**
      * This private constructor prevents this class from being instantiated
      * directly as its only purpose is to provide image constants.
      */

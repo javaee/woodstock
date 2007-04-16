@@ -48,7 +48,7 @@
     
     <renderer>
       <component-family>com.sun.webui.jsf.Alert</component-family>
-      <renderer-type>com.sun.webui.jsf.AlertDesignTime</renderer-type>
+      <renderer-type>com.sun.webui.jsf.widget.AlertDesignTime</renderer-type>
       <renderer-class>com.sun.webui.jsf.renderkit.html.AlertDesignTimeRenderer</renderer-class>
     </renderer>
     

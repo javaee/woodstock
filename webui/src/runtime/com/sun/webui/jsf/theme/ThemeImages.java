@@ -117,6 +117,35 @@ public class ThemeImages {
          "ALARM_MASTHEAD_MINOR_DIMMED_WIDTH";
 
     /**
+     * Alert Indicators
+     */
+    // error indicator
+    public static final String ERROR_ALERT_INDICATOR = "ERROR_ALERT_INDICATOR";
+    public static final String ERROR_ALERT_INDICATOR_HEIGHT =
+         "ERROR_ALERT_INDICATOR_HEIGHT";
+    public static final String ERROR_ALERT_INDICATOR_WIDTH = "ERROR_ALERT_INDICATOR_WIDTH";
+    public static final String ERROR_ALERT_INDICATOR_ALT = "ERROR_ALERT_INDICATOR_ALT";
+    // warning indicator
+    public static final String WARNING_ALERT_INDICATOR = "WARNING_ALERT_INDICATOR";
+    public static final String WARNING_ALERT_INDICATOR_HEIGHT =
+         "WARNING_ALERT_INDICATOR_HEIGHT";
+    public static final String WARNING_ALERT_INDICATOR_WIDTH = "WARNING_ALERT_INDICATOR_WIDTH";
+    public static final String WARNING_ALERT_INDICATOR_ALT = "WARNING_ALERT_INDICATOR_ALT";
+    // success indicator
+    public static final String SUCCESS_ALERT_INDICATOR = "SUCCESS_ALERT_INDICATOR";
+    public static final String SUCCESS_ALERT_INDICATOR_HEIGHT =
+         "SUCCESS_ALERT_INDICATOR_HEIGHT";
+    public static final String SUCCESS_ALERT_INDICATOR_WIDTH = "SUCCESS_ALERT_INDICATOR_WIDTH";
+    public static final String SUCCESS_ALERT_INDICATOR_ALT = "SUCCESS_ALERT_INDICATOR_ALT";
+    // information indicator
+    public static final String INFORMATION_ALERT_INDICATOR = "INFORMATION_ALERT_INDICATOR";
+    public static final String INFORMATION_ALERT_INDICATOR_HEIGHT =
+         "INFORMATION_ALERT_INDICATOR_HEIGHT";
+    public static final String INFORMATION_ALERT_INDICATOR_WIDTH = "INFORMATION_ALERT_INDICATOR_WIDTH";
+    public static final String INFORMATION_ALERT_INDICATOR_ALT = "INFORMATION_ALERT_INDICATOR_ALT";
+    
+    
+    /**
      * Alert images.
      */
     public static final String ALERT_DEGRADED_DIMMED = "ALERT_DEGRADED_DIMMED";

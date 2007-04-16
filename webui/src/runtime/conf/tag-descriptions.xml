@@ -792,8 +792,11 @@
  The alert 
  component includes an icon, a summary message, and an optional detail message. 
  The icon shown is determined by the type attribute, which must be set to 
- <code>information</code>, <code>success</code>, <code>warning</code>, or <code>error</code>. 
- A different icon is shown for each alert type. The icon is determined by the theme.</p>
+ <code>information</code>, <code>success</code>, <code>warning</code>, <code>error</code> or one of the developer define types.
+ Alert supports a set of Indicators which enables to define custom types and associated images in addition with
+ default types. Indicators also supports sorting attribute which enables sorting among Indicators depending on the
+ <code>sortValue</code> value.
+ A different icon is shown for each alert type. A different icon is shown for each alert type. The icon is determined by the theme or could be a ImageComponent.</p>
  <p>
  The component renders HTML <code>&lt;div&gt;</code> and <code>&lt;table&gt;</code> elements 
  for the alert box and text, 
@@ -829,7 +832,28 @@
  </ul>
  <h3>Client Side Javascript
  Functions</h3>
- None.<h3>Examples</h3><b>Example 1: An example showing
+ <table>
+ <tr>
+ <td><code>setProps(props)</code>
+ <br>Use this function to change any of the following supported properties:
+ <ul>
+   <li>dir</li>
+   <li>lang</li>
+   <li>detail</li>
+   <li>spacerImage</li>
+   <li>indicators</li>
+   <li>id</li>
+   <li>summary</li>
+   <li>type</li>
+   <li>moreInfo</li>
+   <li>visible</li>
+  </ul></td></tr>
+ <tr><td><code>getProps()</code><br> 
+ Use this function to get widget properties. 
+ Please see setProps() function for a list of supported properties.</td>
+ </tr>
+ </table>
+ <h3>Examples</h3><b>Example 1: An example showing
  an informational alert:</b><br><code>&lt;webuijsf:alert id="msg1"
  type="information" summary="Patch Installed Successfully" detail="Patch
  9997-01 was successfully installed on host alpha, beta and zed."
@@ -845,6 +869,49 @@
  zed."&gt;<br>&nbsp;&nbsp;&nbsp; &lt;f:facet name="alertImage"&gt;<br>&nbsp;&nbsp;&nbsp; &nbsp;&nbsp; &lt;webuijsf:image
  id="foo" </code><code>url="../images/foo.gif"
  /&gt;<br>&nbsp;&nbsp;&nbsp; &lt;/f:facet&gt;<br>&lt;/webuijsf:alert&gt;<br></code>
+ <b>Example
+ 4: An example showing the use of developer define types:</b><br>
+ <code>&lt;webuijsf:alert id="alert1" indicators="#{AlertBean.customIndicator}" type="myType" summary="Summary Text" /&gt;</code>
+ <br>  
+ <b>Backing Bean:</b><br> <pre>
+ AlertBackingBean {
+ ...
+ public List getCustomIndicator() {
+        
+        FacesContext context = FacesContext.getCurrentInstance();
+        UIComponent comp = context.getViewRoot().findComponent("form1:alert1");
+        Alert alert = (Alert) comp;
+               
+        Indicator indicator = new Indicator("ALARM_CRITICAL_SMALL", "myType", 600);
+        
+        List<Indicator> lst = Alert.getDefaultIndicators();
+        lst.add(indicator);
+                
+        return lst;
+    }  
+    ...
+ } 
+ </pre>
+ <br> Example above defines "myType" as a custom define type in addition to the default types.
+ An Indicator object can be constructed by calling any Indicator constructors.
+ <code> Indicator(String imageKey, String type, int sortValue) </code> or 
+ <code> Indicator(UIComponent imageComponent, String type,  int sortValue) </code> <br>
+ Third parameter of constructor enables sorting for Indicators.
+ <br> Adding Summary Message Clientside: <br>
+ <code>document.getElementById("form1:alert1").setProps()</code>
+ can be used to update alert's properties client side. <code>addSummaryText()</code> first checks for summary text using <code>getProps()</code>.
+ If summary text is present then do not update, if not then add summary text.<pre>
+ <webuijsf:script>
+        function addSummaryText() {
+            var alertComp = document.getElementById("form1:alert1");
+            if (!alertComp.getProps().summary) {
+                   alertComp.setProps({         
+                     summary: "new summary test"
+                });                        
+            }    
+        }
+    </webuijsf:script>    
+ </pre>
 ]]></description>
     </tag>
 

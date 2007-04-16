@@ -23,10 +23,15 @@ package com.sun.webui.jsf.component;
 
 import com.sun.faces.annotation.Component;
 import com.sun.faces.annotation.Property;
+import com.sun.webui.jsf.model.Indicator;
 import com.sun.webui.theme.Theme;
 import com.sun.webui.jsf.theme.ThemeImages;
 import com.sun.webui.jsf.util.ThemeUtilities;
 import com.sun.webui.jsf.util.ComponentUtilities;
+import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.Iterator;
+import java.util.List;
 
 import javax.el.MethodExpression;
 import javax.el.ValueExpression;
@@ -41,8 +46,9 @@ import javax.faces.convert.Converter;
  */
 @Component(type="com.sun.webui.jsf.Alert", family="com.sun.webui.jsf.Alert",
     helpKey="projrave_ui_elements_palette_wdstk-jsf1.2_alert",
+    tagRendererType="com.sun.webui.jsf.widget.Alert",    
     propertiesHelpKey="projrave_ui_elements_palette_wdstk-jsf1.2_propsheets_alert_props")
-public class Alert extends UIOutput implements NamingContainer {
+public class Alert extends UIOutput implements NamingContainer, Comparator {
     /**
      * Facet name for alert image
      */
@@ -51,13 +57,48 @@ public class Alert extends UIOutput implements NamingContainer {
      * Facet name for the alert link
      */
     public static final String ALERT_LINK_FACET = "alertLink"; //NOI18N
+    
+    /**
+     * The default "error" <code>Indicator</code>.
+     */
+    private static Indicator errorIndicator =
+	new Indicator(ThemeImages.ERROR_ALERT_INDICATOR, "error", 100);
+    /**
+     * The default "warning" <code>Indicator</code>.
+     */
+    private static Indicator warnIndicator =
+	new Indicator(ThemeImages.WARNING_ALERT_INDICATOR, "warning", 200);
+    /**
+     * The default "success" <code>Indicator</code>.
+     */
+    private static Indicator successIndicator =
+	new Indicator(ThemeImages.SUCCESS_ALERT_INDICATOR, "success", 300);
+    /**
+     * The default "information" <code>Indicator</code>.
+     */
+    private static Indicator infoIndicator =
+	new Indicator(ThemeImages.INFORMATION_ALERT_INDICATOR, "information", 400);
+    
+    /**
+     * The list of default <code>Indicator</code>'s.
+     */
+    protected static List<Indicator> indicatorList =
+	new ArrayList<Indicator>();
+
+    static {
+	indicatorList.add(errorIndicator);
+	indicatorList.add(warnIndicator);
+	indicatorList.add(successIndicator);
+	indicatorList.add(infoIndicator);
+    }
 
     /**
      * Default Constructor.
      */
     public Alert() {
         super();
-        setRendererType("com.sun.webui.jsf.Alert");
+        setRendererType("com.sun.webui.jsf.widget.Alert");
+        
     }
 
     /**
@@ -66,7 +107,64 @@ public class Alert extends UIOutput implements NamingContainer {
     public String getFamily() {
         return "com.sun.webui.jsf.Alert";
     }
+      
+    /**
+     * Returns a cloned list of the default indicators that can
+     * be modified without affecting the default list.
+     * <p>
+     * Typically this method is called by an application that
+     * wants to add a an application defined <code>Indicator</code>
+     * or replace a default <code>Indicator</code>. An application
+     * first call<br/>
+     * <code>List<Indicator> list = Alert.getDefaultIndicators();</code><br/>
+     * and them add and/or replace an <code>Indicator</code>.<br/>
+     * <code>list.add(appMostSevere); // Add an application indicator</code><br/>
+     * To replace an indicator it must removed first. An indicator
+     * is equal to another indicator if their "type" attributes are the
+     * equal. If <code>appOkIndicator</code> has type = "ok" this call will
+     * remove the default "ok" indicator.
+     * <code>list.remove(appOkIndicator);// remove default</code><br/>
+     * After the default indicator is removed add the replacement.
+     * <code>list.add(appOkIndicator); // add the replacement</code><br/>
+     * In order for the Alarm component to utilize the modified list
+     * the application can have a value expression for the 
+     * <code>indicators</code> property in which the application returns the
+     * modified list, or calls the <code>setIndicators(list)</code>
+     * method to assign the modified list.
+     */
+    public static List<Indicator> getDefaultIndicators() {
+	List<Indicator> list = new ArrayList<Indicator>();
+	list.addAll(indicatorList);
+	return list;
+    }
+    
+    /**
+     * Alternative HTML template to be used by this component.
+     */
+    @Property(name="htmlTemplate", displayName="HTML Template", category="Appearance")
+    private String htmlTemplate = null;
 
+    /**
+     * Get alternative HTML template to be used by this component.
+     */
+    public String getHtmlTemplate() {
+        if (this.htmlTemplate != null) {
+            return this.htmlTemplate;
+        }
+        ValueExpression _vb = getValueExpression("htmlTemplate");
+        if (_vb != null) {
+            return (String) _vb.getValue(getFacesContext().getELContext());
+        }
+        return null;
+    }
+
+    /**
+     * Set alternative HTML template to be used by this component.
+     */
+    public void setHtmlTemplate(String htmlTemplate) {
+        this.htmlTemplate = htmlTemplate;
+    }
+    
     /**
      * Return a component that implements an alert image.
      * If a facet named <code>alertImage</code> is found
@@ -200,7 +298,7 @@ public class Alert extends UIOutput implements NamingContainer {
         }
         return ThemeImages.ALERT_ERROR_LARGE;
     }
-
+    
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     // Tag attribute methods
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -708,6 +806,50 @@ public class Alert extends UIOutput implements NamingContainer {
     }
 
     /**
+     * <p>A developer define types of Alert. This can be set to an array Indicators
+     *  where Indicator holds
+     *  the custom defined type and associated image.</p>
+     */
+    @Property(name="indicators", displayName="Indicators", category="Behavior", editorClassName="com.sun.rave.propertyeditors.binding.ValueBindingPropertyEditor")
+    private List indicators;
+
+    /**
+     * Return a <code>List</code> of <code>Indicators</code> supported
+     * by this <code>Alert</code>. If <code>indicators</code> has not been
+     * set explicitly by the application and if there is no value
+     * expression, a list of default alert indicators obtained by
+     * calling <code>Alert.getDefaultIndicators()</code> is
+     * returned. If the application modifies this list, it must call
+     * <code>setIndicators</code> or add a value expression that resolves
+     * to the modified list in order to persist the change, otherwise
+     * this method will continue to return a list of default
+     * alert indicators.
+     */
+    public List<Indicator> getIndicators() {
+        if (this.indicators != null) {
+            return this.indicators;
+        }
+        ValueExpression _vb = getValueExpression("indicators");
+        if (_vb != null) {
+            return (List<Indicator>) _vb.getValue(getFacesContext().getELContext());
+        }
+	// If we get here we know that the developer has not
+	// assigned a list of indicators. Return the default
+	// alert indicators
+	//
+	return getDefaultIndicators();
+    }
+    /**
+     * Set the list of indicators supported by this alert. If this
+     * method is called, any value expression defined for this property
+     * are ignored. Call this method to persist changes to a 
+     * default list of alert indicators.
+     */
+    public void setIndicators(List<Indicator> indicators) {
+	this.indicators = indicators;
+    }
+    
+    /**
      * <p>Restore the state of this component.</p>
      */
     public void restoreState(FacesContext _context,Object _state) {
@@ -728,13 +870,15 @@ public class Alert extends UIOutput implements NamingContainer {
         this.type = (String) _values[13];
         this.visible = ((Boolean) _values[14]).booleanValue();
         this.visible_set = ((Boolean) _values[15]).booleanValue();
+        this.htmlTemplate = (String) _values[16];
+        this.indicators = (List) _values[17];
     }
 
     /**
      * <p>Save the state of this component.</p>
      */
     public Object saveState(FacesContext _context) {
-        Object _values[] = new Object[16];
+        Object _values[] = new Object[18];
         _values[0] = super.saveState(_context);
         _values[1] = this.alt;
         _values[2] = this.detail;
@@ -751,6 +895,65 @@ public class Alert extends UIOutput implements NamingContainer {
         _values[13] = this.type;
         _values[14] = this.visible ? Boolean.TRUE : Boolean.FALSE;
         _values[15] = this.visible_set ? Boolean.TRUE : Boolean.FALSE;
+        _values[16] = this.htmlTemplate;
+        _values[17] = this.indicators;
         return _values;
+    }
+    
+/**
+     * Return zero if the severity of <code>o1</code> equals <code>o2</code>,
+     * negative 1 if the severity <code>o1</code> is less than <code>o2</code>,
+     * positive 1 if the severity <code>o1</code> is greater than 
+     * <code>o2</code>.
+     */
+    public int compare(Object o1, Object o2) {
+	// Optimization. By definition if the severities or type's 
+	// are equal the Alerts are equal.
+	//
+	String type1 = ((Alert)o1).getType();
+	String type2 = ((Alert)o2).getType();
+	if (type1 != null && type1.equals(type2)) {
+	    return 0;
+	}
+
+	// Here we need to get the indicator from each object
+	// and based on the severity level, and then call the
+	// compareTo method. This method should have been from the
+	// Comparable interface and not the Comparator.
+	//
+	List<Indicator> indList = getIndicators();
+	Indicator ind1 = getIndicator(indList, type1);
+	
+	Indicator ind2 = getIndicator(indList, type2);
+
+	if (ind1 != null) {
+	    return ind1.compareTo(ind2);
+	}
+
+	if (ind2 != null) {
+	    return ind1.compareTo(ind1);
+	}
+
+	// both ind1 and ind2 are null
+	//
+	return 0;
+    }
+
+    private Indicator getIndicator(List<Indicator> indList, String type) {
+	Iterator<Indicator> iter1 = indList.iterator();
+	while (iter1.hasNext()) {
+	    Indicator ind = (Indicator)iter1.next();
+	    if (type.equals(ind.getType())) {
+		return ind;
+	    }
+	}
+	return null;
+    }
+
+    public boolean equals(Object o) {
+	if (!(o instanceof Alert)) {
+	    return false;
+	}
+	return compare(this, o) == 0 ? true : false;
     }
 }
