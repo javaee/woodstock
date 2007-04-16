@@ -345,10 +345,8 @@ public class Field extends HiddenField implements ComplexComponent,
         return super.isRequired();
     }
     
-    // Hide value    
-     @Property(name="value", displayName="Value", category="Appearance",
-        isHidden=true, isAttribute=false,
-        editorClassName="com.sun.rave.propertyeditors.StringPropertyEditor")
+    // Hide value
+    @Property(name="value", isHidden=true, isAttribute=false)
     public Object getValue() {
         return super.getValue();
     }
@@ -357,20 +355,20 @@ public class Field extends HiddenField implements ComplexComponent,
      * <p>Number of character columns used to render this
      * field. The default is 20.</p>
      */
-    @Property(name="size", displayName="Size", category="Appearance", editorClassName="com.sun.rave.propertyeditors.IntegerPropertyEditor")
-    private int size= Integer.MIN_VALUE;
-    private boolean size_set = false;
+    @Property(name="columns", displayName="Columns", category="Appearance", editorClassName="com.sun.rave.propertyeditors.IntegerPropertyEditor")
+    private int columns = Integer.MIN_VALUE;
+    private boolean columns_set = false;
 
     /**
      * <p>Number of character columns used to render this
      * field. The default is 20.</p>
      */
-    public int getSize() {
+    public int getColumns() {
         int cols = 20;
-        if (this.size_set) {
-            cols = this.size;
+        if (this.columns_set) {
+            cols = this.columns;
         } else {
-            ValueExpression _vb = getValueExpression("size");
+            ValueExpression _vb = getValueExpression("columns");
             if (_vb != null) {
                 Object _result = _vb.getValue(getFacesContext().getELContext());
                 if (_result == null) {
@@ -382,7 +380,7 @@ public class Field extends HiddenField implements ComplexComponent,
         }
         if(cols < 1) { 
             cols = 20; 
-            setSize(20); 
+            setColumns(20); 
         }
         return cols;
     }
@@ -390,11 +388,11 @@ public class Field extends HiddenField implements ComplexComponent,
     /**
      * <p>Number of character columns used to render this
      * field. The default is 20.</p>
-     * @see #getSize()
+     * @see #getColumns()
      */
-    public void setSize(int size) {
-        this.size= size;
-        this.size_set = true;
+    public void setColumns(int columns) {
+        this.columns = columns;
+        this.columns_set = true;
     }
 
     /**
@@ -1268,8 +1266,8 @@ public class Field extends HiddenField implements ComplexComponent,
     public void restoreState(FacesContext _context,Object _state) {
         Object _values[] = (Object[]) _state;
         super.restoreState(_context, _values[0]);
-        this.size = ((Integer) _values[1]).intValue();
-        this.size_set = ((Boolean) _values[2]).booleanValue();
+        this.columns = ((Integer) _values[1]).intValue();
+        this.columns_set = ((Boolean) _values[2]).booleanValue();
         this.disabled = ((Boolean) _values[3]).booleanValue();
         this.disabled_set = ((Boolean) _values[4]).booleanValue();
         this.label = (String) _values[5];
@@ -1310,8 +1308,8 @@ public class Field extends HiddenField implements ComplexComponent,
     public Object saveState(FacesContext _context) {
         Object _values[] = new Object[35];
         _values[0] = super.saveState(_context);
-        _values[1] = new Integer(this.size);
-        _values[2] = this.size_set ? Boolean.TRUE : Boolean.FALSE;
+        _values[1] = new Integer(this.columns);
+        _values[2] = this.columns_set ? Boolean.TRUE : Boolean.FALSE;
         _values[3] = this.disabled ? Boolean.TRUE : Boolean.FALSE;
         _values[4] = this.disabled_set ? Boolean.TRUE : Boolean.FALSE;
         _values[5] = this.label;
