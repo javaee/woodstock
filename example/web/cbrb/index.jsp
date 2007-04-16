@@ -58,15 +58,25 @@
                         text="#{msgs.cbrb_title}"                   
                         toolTip="#{msgs.cbrb_title}"		    
                         actionExpression="showCheckboxRadiobutton"/>              
-                </webuijsf:markup>               
+                </webuijsf:markup>                               
                 
                 <!-- Checkbox client-side update example link -->
-                <webuijsf:hyperlink id="clientSideCbLink"                    
+                 <webuijsf:markup tag="div" style="padding-bottom: 8px">      
+                     <webuijsf:hyperlink id="clientSideCbLink"                    
+                            immediate="true"  
+                            text="#{msgs.cbrb_clientsideCbTitle}"
+                            toolTip="#{msgs.cbrb_clientsideCbTitle}"
+                            actionExpression="showClinetSideCb" />
+                     </webuijsf:markup>     
+                     
+                    <!-- RadioButton client-side update example link -->
+                <webuijsf:hyperlink id="clientSideRbLink"                    
                     immediate="true"  
-                    text="#{msgs.cbrb_clientsideCbTitle}"
-                    toolTip="#{msgs.cbrb_clientsideCbTitle}"
-                    actionExpression="showClinetSideCb" />
-              </webuijsf:markup>                             
+                    text="#{msgs.cbrb_clientsideRbTitle}"
+                    toolTip="#{msgs.cbrb_clientsideRbTitle}"
+                    actionExpression="showClinetSideRb" />
+              
+              </webuijsf:markup>                 
            </webuijsf:form>                          
         </webuijsf:body> 
       </webuijsf:html>  
