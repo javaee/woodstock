@@ -32,157 +32,206 @@
 <h2><u>4.1 Build 3</u> (04/20/2007)</h2>
 <h3>New Features</h3>
 <ul>
-    <li>Client-side rendering for CheckBox</li>
-    <li>Client-side rendering for DropDown</li>
-    <li>Client-side rendering for RadioButton</li>
-    <li>Client-side rendering for Alert</li>
   <li>Alert supports a set of indicators which enables supporting
-      custom types and assosciated images including the default
-      types.Indicators also supports sortValue attribute which enables
-      sorting among multiple Indicators.<br>
-  </li>
+custom types and assosciated images including the default
+types.Indicators also supports sortValue attribute which enables
+sorting among multiple Indicators.</li>
+  <li>Client-side rendering for Alert</li>
+  <li>Client-side rendering for Button</li>
+  <li>Client-side rendering for CheckBox</li>
+  <li>Client-side rendering for DropDown</li>
+  <li>Client-side rendering for HiddenField</li>
+  <li>Client-side rendering for Image</li>
+  <li>Client-side rendering for Label</li>
+  <li>Client-side rendering for RadioButton</li>
+  <li>Client-side rendering for StaticText</li>
+  <li>Client-side rendering for TextField</li>
 </ul>
 <h3>Deprecated attributes</h3>
 <ul>
-    <li>The readonly attribute of DropDown component has been deprecated</li>
+  <li>The readonly attribute of DropDown component has been deprecated</li>
 </ul>
 <h3>Deprecated client side JavaScript functions</h3>
 <ul style="color: rgb(0, 0, 0);">
+  <li><span style="font-weight: bold;">Button</span></li>
+  <ul>
+    <li><code>webui.suntheme.button.isSecondary()</code></li>
+    <li><code>webui.suntheme.button.setSecondary(secondary)</code></li>
+    <li><code>webui.suntheme.button.isPrimary()</code></li>
+    <li><code>webui.suntheme.button.setPrimary(primary)</code></li>
+    <li><code>webui.suntheme.button.isMini()</code></li>
+    <li><code>webui.suntheme.button.setMini(mini)</code></li>
+    <li><code>webui.suntheme.button.getDisabled()</code></li>
+    <li><code>webui.suntheme.button.setDisabled(disabled)</code></li>
+    <li><code>webui.suntheme.button.getVisible()</code></li>
+    <li><code>webui.suntheme.button.setVisible(show)</code></li>
+    <li><code>webui.suntheme.button.getText()</code></li>
+    <li><code>webui.suntheme.button.setText(text)</code></li>
+    <li><code>webui.suntheme.button.click()</code><span
+ style="font-weight: bold;"><br>
+      </span></li>
+  </ul>
   <li>
-      <h4> CheckBox </h4>
-      <ul>
-          <li><pre><font>webui.suntheme.checkbox.setChecked(elementId, checked)</font></pre></li>
-      </ul>
-  </li>
-  <li>
-      <h4> DropDown: </h4>
+    <h4> CheckBox </h4>
     <ul>
-        <li><pre><font>webui.suntheme.dropDown.getSelectElement(elementId)</font></pre></li>
-        <li><pre><font>webui.suntheme.dropDown.getSelectedValue(elementId)</font></pre></li>
-        <li><pre><font>webui.suntheme.dropDown.getSelectedLabel(elementId)</font></pre></li>
-        <li><pre><font>webui.suntheme.dropDown.setDisabled(elementId, disabled)</font></pre></li>
-        <li><pre><font>webui.suntheme.dropDown.changed(elementId)</font></pre></li>
+      <li>
+        <pre><font>webui.suntheme.checkbox.setChecked(elementId, checked)</font></pre>
+      </li>
+      <li>
+        <pre><font>webui.suntheme.checkbox.setDisabled(elementId, disabled)</font></pre>
+      </li>
     </ul>
   </li>
   <li>
-      <h4> RadioButton: </h4>
-      <ul>
-          <li><pre><font>webui.suntheme.checkbox.setChecked(elementId, checked)</font></pre></li>
-      </ul>
+    <h4> DropDown: </h4>
+    <ul>
+      <li>
+        <pre><font>webui.suntheme.dropDown.getSelectElement(elementId)</font></pre>
+      </li>
+      <li>
+        <pre><font>webui.suntheme.dropDown.getSelectedValue(elementId)</font></pre>
+      </li>
+      <li>
+        <pre><font>webui.suntheme.dropDown.getSelectedLabel(elementId)</font></pre>
+      </li>
+      <li>
+        <pre><font>webui.suntheme.dropDown.setDisabled(elementId, disabled)</font></pre>
+      </li>
+      <li>
+        <pre><font>webui.suntheme.dropDown.changed(elementId)</font></pre>
+      </li>
+      <li><code><font>webui.suntheme.jumpDropDown.</font><font>changed(elementId)</font></code></li>
+    </ul>
+  </li>
+  <li>
+    <h4> RadioButton: </h4>
+    <ul>
+      <li>
+        <pre><font>webui.suntheme.rbcb.setChecked(elementId, checked)</font></pre>
+      </li>
+      <li>
+        <pre><font>webui.suntheme.rbcb.setDisabled(elementId, _disabled, type, enabledStyle, disabledStyle)</font></pre>
+      </li>
+      <li>
+        <pre><font>webui.suntheme.radiobutton.</font><font>setChecked(elementId, checked)</font></pre>
+      </li>
+      <li>
+        <pre><font>webui.suntheme.radiobutton.</font><font>setDisabled(elementId, disabled)</font></pre>
+      </li>
+    </ul>
   </li>
 </ul>
-<h2>&nbsp;</h2>
+<h3>Bug Fixes</h3>
+<ul>
+  <li><a href="https://woodstock.dev.java.net/issues/show_bug.cgi?id=96">Issue
+#96</a> - file upload example does not display file name &amp; location</li>
+</ul>
 <h2><u>4.1 Build 2</u> (04/06/2007)</h2>
 <h3>New Features</h3>
 <ul>
-	<li>Client-side rendering for HiddenField</li>
-	<li>Updated jsf-extensions jar files</li>
-	<li>Fixed the build for the visual-web-nbsuite module.&nbsp; Added a readme.</li>
-	<li>Updates to the client widget renderer base<br>
-&nbsp;At one time, each widget renderer output their own JavaScript include(s) 
-	in the page. However, it's important that all JavaScript include statements 
-	are added to the page before instantiating the widget. Omitting some 
-	details, this meant that all child components needed to be rendered before 
-	outputting JavaScript includes in the page. Thus, the encodeBegin and 
-	endcodeEnd methods were not used in RendererBase. Fortunately, we found a 
-	better approach and this functionality was removed some time ago. JavaScript 
-	includes are now defined via the abstract getModules() method. In short, a 
-	modules property is added to the JSON object representing the includes 
-	required for each component. This allows the modules (i.e., JavaScript 
-	includes) to be added client-side via Dojo. Thus, JavaScript includes are 
-	added exactly once when the widget is instantiated.&nbsp; That said, I've 
-	modified RendererBase to use the encodeBegin and encodeChildren methods, 
-	again. Now encodeBegin and encodeEnd simply output the JavaScript used to 
-	instantiate a widget. There is no <br>
-&nbsp;change to the widget renderers themselves.</li>
-	<li>
-	<pre wrap><font face="Times New Roman" size="3">Major Changes to Theme code</font>
+  <li>Client-side rendering for HiddenField</li>
+  <li>Updated jsf-extensions jar files</li>
+  <li>Fixed the build for the visual-web-nbsuite module.&nbsp; Added a
+readme.</li>
+  <li>Updates to the client widget renderer base<br>
+&nbsp;At one time, each widget renderer output their own JavaScript
+include(s) in the page. However, it's important that all JavaScript
+include statements are added to the page before instantiating the
+widget. Omitting some details, this meant that all child components
+needed to be rendered before outputting JavaScript includes in the
+page. Thus, the encodeBegin and endcodeEnd methods were not used in
+RendererBase. Fortunately, we found a better approach and this
+functionality was removed some time ago. JavaScript includes are now
+defined via the abstract getModules() method. In short, a modules
+property is added to the JSON object representing the includes required
+for each component. This allows the modules (i.e., JavaScript includes)
+to be added client-side via Dojo. Thus, JavaScript includes are added
+exactly once when the widget is instantiated.&nbsp; That said, I've
+modified RendererBase to use the encodeBegin and encodeChildren
+methods, again. Now encodeBegin and encodeEnd simply output the
+JavaScript used to instantiate a widget. There is no change to the
+widget renderers themselves.</li>
+  <li>
+    <pre wrap=""><font face="Times New Roman" size="3">Major Changes to Theme code</font>
   - The webui-jsf-theme.jar now depends on the existence of webui-jsf.jar.
    Every theme jar MUST now implement com.sun.webui.theme.ThemeService.
-   Since this class is compiled within &quot;themes&quot; and is delivered in 
+   Since this class is compiled within "themes" and is delivered in 
    webui-jsf-suntheme.jar, webui-jsf.jar MUST be built first.
-   The &quot;com.sun.webui.theme&quot; package can be extracted from &quot;webui-jsf.jar&quot;
-   and exist independently as &quot;webui-theme.jar&quot;. That change will come
+   The "com.sun.webui.theme" package can be extracted from "webui-jsf.jar"
+   and exist independently as "webui-theme.jar". That change will come
    once we decide that delivering another jar is appropriate.
    BUMPED ALL THEME VERSION REFERENCES TO 4.1
    (Other misc versions have also been bumped to 4.1)
- - Removed all references to ClassLoaderFinder from &quot;com.sun.webui.theme&quot;
-   package classes, and &quot;Jar&quot; theme classes.
+ - Removed all references to ClassLoaderFinder from "com.sun.webui.theme"
+   package classes, and "Jar" theme classes.
  - Added new ThemeFactory interface methods to JarThemeFactory, that
    accept theme name and theme version. However, JarThemeFactory does not
    rely on these values, its algorithm is still based solely on Manifest
    attributes.
- - ServletThemeContext defaults the &quot;THEME_SERVLET_CONTEXT&quot; param to
-   &quot;<i class="moz-txt-slash"><span class="moz-txt-tag">/</span>theme&quot;. This allows applications to use the &quot;common&quot; &quot;/theme<span class="moz-txt-tag">/</span></i>*&quot;
-   url-mapping without adding the extra &quot;THEME_SERVLET_CONTEXT&quot; param.
- - Lots of javadoc changes.
- - Added convenience ThemeLogger (not a javax.util.logging Logger but
-   uses javax.util.logging API's) just
-   to encapsulate commmon log entry fields. Used only by the 
-   com.sun.webui.theme package.
- - The default ThemeFactory class in ThemeContext is SPIThemeFactory.
-   While it does support the deprecated manifest attributes in a theme
-   jar, theme jars should now provide a ThemeService implementation 
-   to supply the appropriate information.
- - master/build.xml - changed dependencies such that webui must be built 
-   before themes.</pre>
-	</li>
+ - ServletThemeContext defaults the "THEME_SERVLET_CONTEXT" param to
+   "<i
+ class="moz-txt-slash"><span class="moz-txt-tag">/</span>theme". This allows applications to use the "common" "/theme<span
+ class="moz-txt-tag">/</span></i>*"<br>   url-mapping without adding the extra "THEME_SERVLET_CONTEXT" param.<br> - Lots of javadoc changes.<br> - Added convenience ThemeLogger (not a javax.util.logging Logger but<br>   uses javax.util.logging API's) just<br>   to encapsulate commmon log entry fields. Used only by the <br>   com.sun.webui.theme package.<br> - The default ThemeFactory class in ThemeContext is SPIThemeFactory.<br>   While it does support the deprecated manifest attributes in a theme<br>   jar, theme jars should now provide a ThemeService implementation <br>   to supply the appropriate information.<br> - master/build.xml - changed dependencies such that webui must be built <br>   before themes.</pre>
+  </li>
 </ul>
 <h3>Bug Fixes</h3>
 <ul>
-	<li><a href="https://woodstock.dev.java.net/issues/show_bug.cgi?id=15">Issue 
-	#15</a> - PropertySheet labels are no longer showing the required 
-	indicators. (partial fix)</li>
-	<li><a href="https://woodstock.dev.java.net/issues/show_bug.cgi?id=67">Issue 
-	#67</a> - Adding FileChooser to NB6 webform generates ClassNotFoundException</li>
+  <li><a href="https://woodstock.dev.java.net/issues/show_bug.cgi?id=15">Issue
+#15</a> - PropertySheet labels are no longer showing the required
+indicators. (partial fix)</li>
+  <li><a href="https://woodstock.dev.java.net/issues/show_bug.cgi?id=67">Issue
+#67</a> - Adding FileChooser to NB6 webform generates
+ClassNotFoundException</li>
 </ul>
 <h2>&nbsp;</h2>
 <h2><u>4.1 Build 1</u> (03/23/2007)</h2>
 <h3>New Features</h3>
 <ul>
-	<li>Client-side rendering for Image</li>
-	<li>Client-side rendering for StaticText</li>
-	<li>Client-side rendering for Label</li>
-	<li>NetBeans Visual Web Pack module to enable updating the components in 
-	NetBeans Visual Web Pack 5.5.x.</li>
+  <li>Client-side rendering for Image</li>
+  <li>Client-side rendering for StaticText</li>
+  <li>Client-side rendering for Label</li>
+  <li>NetBeans Visual Web Pack module to enable updating the components
+in NetBeans Visual Web Pack 5.5.x.</li>
 </ul>
 <h3>Bug Fixes</h3>
 <ul>
-	<li><a href="https://woodstock.dev.java.net/issues/show_bug.cgi?id=9">Issue 
-	#9</a> - onLoad/onUnLoad are broken </li>
-	<li>CR 6527268 - JavaScript namespace is incorrect </li>
-	<li><a href="https://woodstock.dev.java.net/issues/show_bug.cgi?id=6">Issue 
-	#6</a> - progressbar example fails - missing index.jsp </li>
-	<li><a href="http://www.netbeans.org/issues/show_bug.cgi?id=96990">NB Issue 
-	#96990</a>. <br>
-	During static initialization of the class AutoSubmitOnChangeAction, a call 
-	was made to JavaScriptUtilities.getMethodName(), which in turn tried to look 
-	up the theme. The theme however is not on the class path at this time, which 
-	is weird. As a work-around, I have moved the static initializer into a 
-	getter method, so that the invocation is done lazily. </li>
-	<li><a href="http://www.netbeans.org/issues/show_bug.cgi?id=97015">NB Issue 
-	# 97015</a>&nbsp; - CALENDAR: Renders poorly at runtime</li>
-	<li><a href="https://woodstock.dev.java.net/issues/show_bug.cgi?id=15">Issue 
-	#15 </a><br>
-	Due to recent changes that unconditionally render a span for a &nbsp; complex 
-	component that can have a &quot;built in&quot; label, resize functionality in Creator 
-	for these components broke.&nbsp; More information on this issue can be seen 
-	in CR 6519675. This &nbsp; CR resulted in the unconditional rendering of the 
-	&quot;span&quot; as the containing element for complex components with built in 
-	labels. Those changes are backed out.</li>
-	<li><a href="http://www.netbeans.org/issues/show_bug.cgi?id=97012">NB Issue 
-	#97012</a></li>
-	<li><a href="https://woodstock.dev.java.net/issues/show_bug.cgi?id=23">Issue 
-	#23 </a>- CTS: CommonTaskRenderer is missing tr and td tags</li>
-	<li><a href="https://woodstock.dev.java.net/issues/show_bug.cgi?id=24">Issue 
-	#24 </a>- CommonTaskRenderer &amp; CommonTasksSectionRenderer should use 
-	writer.writeText()</li>
-	<li><a href="https://woodstock.dev.java.net/issues/show_bug.cgi?id=25">Issue 
-	#25 </a>- CTS: CommonTaskRenderer does not use ImageComponent or Icon</li>
-	<li><a href="https://woodstock.dev.java.net/issues/show_bug.cgi?id=26">Issue 
-	#26</a> - Change the encoding of the url to client side.</li>
-	<li><a href="https://woodstock.dev.java.net/issues/show_bug.cgi?id=50">Issue 
-	#50</a> - Design time for client side components needs to be fixed.</li>
+  <li><a href="https://woodstock.dev.java.net/issues/show_bug.cgi?id=9">Issue
+#9</a> - onLoad/onUnLoad are broken </li>
+  <li>CR 6527268 - JavaScript namespace is incorrect </li>
+  <li><a href="https://woodstock.dev.java.net/issues/show_bug.cgi?id=6">Issue
+#6</a> - progressbar example fails - missing index.jsp </li>
+  <li><a href="http://www.netbeans.org/issues/show_bug.cgi?id=96990">NB
+Issue #96990</a>. <br>
+During static initialization of the class AutoSubmitOnChangeAction, a
+call was made to JavaScriptUtilities.getMethodName(), which in turn
+tried to look up the theme. The theme however is not on the class path
+at this time, which is weird. As a work-around, I have moved the static
+initializer into a getter method, so that the invocation is done
+lazily. </li>
+  <li><a href="http://www.netbeans.org/issues/show_bug.cgi?id=97015">NB
+Issue # 97015</a>&nbsp; - CALENDAR: Renders poorly at runtime</li>
+  <li><a href="https://woodstock.dev.java.net/issues/show_bug.cgi?id=15">Issue
+#15 </a><br>
+Due to recent changes that unconditionally render a span for a &nbsp;
+complex component that can have a "built in" label, resize
+functionality in Creator for these components broke.&nbsp; More
+information on this issue can be seen in CR 6519675. This &nbsp; CR
+resulted in the unconditional rendering of the "span" as the containing
+element for complex components with built in labels. Those changes are
+backed out.</li>
+  <li><a href="http://www.netbeans.org/issues/show_bug.cgi?id=97012">NB
+Issue #97012</a></li>
+  <li><a href="https://woodstock.dev.java.net/issues/show_bug.cgi?id=23">Issue
+#23 </a>- CTS: CommonTaskRenderer is missing tr and td tags</li>
+  <li><a href="https://woodstock.dev.java.net/issues/show_bug.cgi?id=24">Issue
+#24 </a>- CommonTaskRenderer &amp; CommonTasksSectionRenderer should
+use writer.writeText()</li>
+  <li><a href="https://woodstock.dev.java.net/issues/show_bug.cgi?id=25">Issue
+#25 </a>- CTS: CommonTaskRenderer does not use ImageComponent or Icon</li>
+  <li><a href="https://woodstock.dev.java.net/issues/show_bug.cgi?id=26">Issue
+#26</a> - Change the encoding of the url to client side.</li>
+  <li><a href="https://woodstock.dev.java.net/issues/show_bug.cgi?id=50">Issue
+#50</a> - Design time for client side components needs to be fixed.</li>
 </ul>
 <p>&nbsp;</p>
 <h2><u>4.0.1 GA </u>&nbsp;(02/15/2007)</h2>
