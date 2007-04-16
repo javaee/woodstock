@@ -187,7 +187,7 @@ public class TextFieldRenderer extends RendererBase {
             .put("valid", field.isValid())
             .put("className", className )  
             .put("templatePath", templatePath)
-            .put("size", field.getSize())
+            .put("size", field.getColumns())
             .put("visible", field.isVisible())
             .put("type", field.isPasswordMode() ? "password" : "text") //NOI18N
             .put("autoValidate", field.isAutoValidate());
