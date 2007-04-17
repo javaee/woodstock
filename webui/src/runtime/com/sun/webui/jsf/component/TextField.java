@@ -133,7 +133,7 @@ type="com.sun.webui.jsf.TextField", family="com.sun.webui.jsf.TextField",
      * false when providing a different Ajax implementation.
      * If false, default ajax javascript libraries will not be rendered to the client.
      */
-    @Property(name="ajaxify", displayName="Ajaxify", category="Behavior")
+    @Property(name="ajaxify", isHidden=true, isAttribute=true, displayName="Ajaxify", category="Javascript")
     private boolean ajaxify = false;
     private boolean ajaxify_set = false;
     
@@ -259,8 +259,8 @@ type="com.sun.webui.jsf.TextField", family="com.sun.webui.jsf.TextField",
     /**
      * Alternative HTML template to be used by this component.
      */
-// Hide value
-    @Property(name="htmlTemplate", isHidden=true, isAttribute=false, displayName="HTML Template", category="Appearance")
+    // Hide value
+    @Property(name="htmlTemplate", isHidden=true, isAttribute=true, displayName="HTML Template", category="Appearance")
     private String htmlTemplate = null;
     private boolean htmlTemplate_set = false;
     /**

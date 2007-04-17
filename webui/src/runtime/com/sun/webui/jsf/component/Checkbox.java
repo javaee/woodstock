@@ -460,7 +460,7 @@ public class Checkbox extends RbCbSelector implements ComplexComponent {
     /**
      * <p>Alternative HTML template to be used by this component.</p>
      */
-    @Property(name="htmlTemplate", displayName="HTML Template", category="Appearance")
+    @Property(name="htmlTemplate", isHidden=true, isAttribute=true, displayName="HTML Template", category="Appearance")
     private String htmlTemplate = null;
 
     /**
@@ -488,7 +488,7 @@ public class Checkbox extends RbCbSelector implements ComplexComponent {
      * Flag indicating to turn off default Ajax functionality. Set ajaxify to
      * false when providing a different Ajax implementation.
      */
-    @Property(name="ajaxify", displayName="Ajaxify", category="Javascript")
+    @Property(name="ajaxify", isHidden=true, isAttribute=true, displayName="Ajaxify", category="Javascript")
     private boolean ajaxify = true; 
     private boolean ajaxify_set = false; 
  

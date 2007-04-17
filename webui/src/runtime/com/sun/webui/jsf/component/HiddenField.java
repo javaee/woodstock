@@ -56,7 +56,7 @@ public class HiddenField extends WebuiInput {
     /**
      * Alternative HTML template to be used by this component.
      */
-    @Property(name="htmlTemplate", displayName="HTML Template", category="Appearance")
+    @Property(name="htmlTemplate", isHidden=true, isAttribute=true, displayName="HTML Template", category="Appearance")
     private String htmlTemplate = null;
 
     /**
