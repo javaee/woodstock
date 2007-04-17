@@ -479,6 +479,13 @@
         <to-view-id>/cbrb/clientsideCheckbox.jsp</to-view-id>
         <redirect/>
       </navigation-case> 
+	
+	<navigation-case>
+        <from-outcome>showClinetSideRb</from-outcome>
+        <to-view-id>/cbrb/clientsideRadioButton.jsp</to-view-id>
+        <redirect/>
+      </navigation-case> 
+
       
       <navigation-case>
         <from-outcome>showCheckboxRadiobutton</from-outcome>
