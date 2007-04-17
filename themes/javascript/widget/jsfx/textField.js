@@ -31,7 +31,6 @@ dojo.require("webui.@THEME@.widget.textField");
  * This function is used to obtain data asynchronously.
  */
 webui.@THEME@.widget.jsfx.textField = {
-  
     /**
      * This function is a validation event processor using props
      * instead of event.
@@ -48,7 +47,7 @@ webui.@THEME@.widget.jsfx.textField = {
         
         // Generate AJAX request using the JSF Extensions library.
         new DynaFaces.fireAjaxTransaction(
-        (domNode) ? domNode : document.forms[0], {
+            (domNode) ? domNode : document.forms[0], {
             execute: props.id,
             render: props.id,
             replaceElement: webui.@THEME@.widget.jsfx.textField.validationCallback,
@@ -59,7 +58,6 @@ webui.@THEME@.widget.jsfx.textField = {
         });
         return true;
     },
-    
     
     /**
      * This function is used to update widgets.
@@ -76,15 +74,10 @@ webui.@THEME@.widget.jsfx.textField = {
         
         // Parse JSON text.
         var json = JSON.parse(content);
-        
-        var widget  = dojo.widget.byId(elementId);
-        
-        // Update text field.       
-//        widget.setProps({
-//            valid: json.valid
-//        });
-        widget.setProps(json);
-        
+
+        // Update text field.
+        var widget = dojo.widget.byId(elementId);
+        widget.setProps(json);        
         
         // Publish an event for custom AJAX implementations to listen for. For
         // example, an alert component may need to be updated when ever a text
@@ -150,11 +143,10 @@ webui.@THEME@.widget.jsfx.textField = {
         webui.@THEME@.widget.textField.refresh.publishEndEvent(json);
         return true;
     }
-    
 }
 
 // Listen for Dojo Widget events.
 dojo.event.topic.subscribe(webui.@THEME@.widget.textField.validation.beginEventTopic,
-webui.@THEME@.widget.jsfx.textField, "processValidationEvent");
+    webui.@THEME@.widget.jsfx.textField, "processValidationEvent");
 
 //-->

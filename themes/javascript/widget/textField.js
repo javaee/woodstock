@@ -34,14 +34,12 @@ dojo.require("webui.@THEME@.widget.*");
  * Note: This is considered a private API, do not use.
  */
 webui.@THEME@.widget.textField = function() {
-    
     // Set defaults.
     this.disabled   = (this.disabled != null) ? this.disabled : false;
     this.required   = (this.required != null) ? this.required : false;
     this.size       = (this.size > 0) ? this.size : 20;
     this.valid      = (this.valid != null) ? this.valid : true;
     this.widgetType = "textField";
-    
     
     // Register widget.
     dojo.widget.Widget.call(this);
@@ -73,9 +71,9 @@ webui.@THEME@.widget.textField = function() {
             dojo.event.connect(this.textFieldNode, "onblur", 
             webui.@THEME@.widget.textField.validation.processEvent);
         }
+
         // Set properties.
         this.setProps();
-        
         return true;
     }
 }
@@ -84,34 +82,26 @@ webui.@THEME@.widget.textField = function() {
  * Helper function to obtain widget class names.
  */
 webui.@THEME@.widget.textField.getClassName = function() {
-  // Set default style.    
+    // Set default style.    
     var className = (this.disabled == true)
         ? webui.@THEME@.widget.props.textField.disabledClassName
         : webui.@THEME@.widget.props.textField.enabledClassName;
 
-    return (this.className)
-        ? className + " " + this.className
-        : className;
-    
+    return className;
 }
-
-
-
-
 
 /**
  * This function is used to set widget properties with the
  * following Object literals.
  *
  * <ul>
+ *  <li>accesskey</li>
  *  <li>className</li>
+ *  <li>dir</li>
  *  <li>disabled</li>
  *  <li>id</li>
  *  <li>label</li>
- *  <li>required</li>
- *  <li>size</li>
- *  <li>valid</li>
- *  <li>value</li>
+ *  <li>lang</li>
  *  <li>onClick</li>
  *  <li>onDblClick</li>
  *  <li>onFocus</li>
@@ -123,39 +113,31 @@ webui.@THEME@.widget.textField.getClassName = function() {
  *  <li>onMouseOver</li>
  *  <li>onMouseUp</li>
  *  <li>onMouseMove</li>
- *  <li>dir</li>
- *  <li>lang</li>
- *  <li>accesskey</li>
+ *  <li>required</li>
+ *  <li>size</li>
  *  <li>style</li>
- *  <li>title</li>
- *  <li>visible</li> 
  *  <li>tabIndex</li>
+ *  <li>title</li>
  *  <li>type</li>
+ *  <li>valid</li>
+ *  <li>value</li>
+ *  <li>visible</li> 
  * </ul>
  *
  * @param props Key-Value pairs of properties.
  */
-webui.@THEME@.widget.textField.setProps = function(props) {
-    
-//    if (props == null) {
-//        return false;
-//    }
-    
-   // Save properties for later updates.
-   if (props != null) {
-       webui.@THEME@.widget.common.extend(this, props);
-   } else {
-       props = this.getProps(); // Widget is being initialized.
-   } 
-    
+webui.@THEME@.widget.textField.setProps = function(props) {   
+    // Save properties for later updates.
+    if (props != null) {
+        webui.@THEME@.widget.common.extend(this, props);
+    } else {
+        props = this.getProps(); // Widget is being initialized.
+    }
     
     // Set attributes.  
     webui.@THEME@.widget.common.setCoreProps(this.domNode, props);
     webui.@THEME@.widget.common.setCommonProps(this.textFieldNode, props);
     webui.@THEME@.widget.common.setJavaScriptProps(this.textFieldNode, props);
-    
-    this.className = null; // Does not apply here.
-    
     
     // Set text field attributes.
     props.id = props.name; // Match JSF renderer decode method.
@@ -174,10 +156,9 @@ webui.@THEME@.widget.textField.setProps = function(props) {
             this.textFieldNode.removeAttribute("disabled");
         }
     }    
-    
-  
+
     // Set label properties.
-    if (props.label ||  (props.valid != null || props.required != null) && this.label) {
+    if (props.label || (props.valid != null || props.required != null) && this.label) {
         // Ensure property exists so we can call setProps just once.
         if (props.label == null) {
             props.label = {};
@@ -197,10 +178,8 @@ webui.@THEME@.widget.textField.setProps = function(props) {
             webui.@THEME@.widget.common.addFragment(this.labelContainer, props.label);
         }
     }
-    
     return true;
 }
-
 
 /**
  * This function is used to get widget properties. 
@@ -231,8 +210,6 @@ webui.@THEME@.widget.textField.getProps = function() {
     return props;
 }
 
-
-
 /**
  * This closure is used to publish validation events.
  */
@@ -262,12 +239,10 @@ webui.@THEME@.widget.textField.validation = {
 
         // Publish event to retrieve data.
         webui.@THEME@.widget.textField.validation.publishBeginEvent({
-            id: evt.currentTarget.parentNode.id,
+            id: evt.currentTarget.parentNode.id
         });
     },
 
-
-    
     /**
      * Publish an event for custom AJAX implementations to listen for.
      *

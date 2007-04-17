@@ -83,9 +83,9 @@ webui.@THEME@.widget.hiddenField.getProps = function() {
  * following Object literals.
  *
  * <ul>
+ *  <li>disabled</li>
  *  <li>id</li>
  *  <li>name</li>
- *  <li>disabled</li>
  *  <li>value</li>
  * </ul>
  *

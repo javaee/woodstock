@@ -307,6 +307,7 @@ webui.@THEME@.widget.button.refresh = {
  *  <li>contents</li>
  *  <li>dir</li>
  *  <li>disabled</li>
+ *  <li>icon</li>
  *  <li>id</li>
  *  <li>lang</li>
  *  <li>mini</li>
@@ -326,6 +327,7 @@ webui.@THEME@.widget.button.refresh = {
  *  <li>primary</li>
  *  <li>style</li>
  *  <li>title</li>
+ *  <li>tabIndex</li>
  *  <li>type</li>
  *  <li>value</li>
  *  <li>visible</li>
