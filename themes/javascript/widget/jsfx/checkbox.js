@@ -58,7 +58,7 @@ webui.@THEME@.widget.jsfx.checkbox = {
             replaceElement: webui.@THEME@.widget.jsfx.checkbox.refreshCallback,
             xjson: {
                 id: props.id,
-                refresh: true
+                event: "refresh"
             }
         });
         return true;

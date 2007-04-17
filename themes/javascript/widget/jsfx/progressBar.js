@@ -57,7 +57,7 @@ webui.@THEME@.widget.jsfx.progressBar =  {
             replaceElement: webui.@THEME@.widget.jsfx.progressBar.progressCallback,
             xjson: {
                 id: props.id,
-                progress: true
+                event: "progress"
             }
         });
 
@@ -90,7 +90,7 @@ webui.@THEME@.widget.jsfx.progressBar =  {
             render: props.id,
             replaceElement: webui.@THEME@.widget.jsfx.progressBar.refreshCallback,
             xjson: {
-                refresh: true
+                event: "refresh"
             }
         });
         return true;

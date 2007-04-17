@@ -21,19 +21,16 @@
  */
 package com.sun.webui.jsf.component;
 
-import com.sun.webui.jsf.util.ComponentUtilities;
-import java.util.Map;
-import javax.faces.context.FacesContext;
-
-import javax.el.ValueExpression;
 import com.sun.faces.annotation.Component;
 import com.sun.faces.annotation.Property;
-import com.sun.webui.jsf.util.JavaScriptUtilities;
-import javax.faces.component.UIComponent;
 import com.sun.faces.extensions.avatar.lifecycle.AsyncResponse;
+import com.sun.webui.jsf.util.ComponentUtilities;
 
-import org.json.JSONException;
-import org.json.JSONObject;
+import java.util.Map;
+
+import javax.el.ValueExpression;
+import javax.faces.component.UIComponent;
+import javax.faces.context.FacesContext;
 
 /**
  * The TextField component renders input HTML element.
@@ -82,46 +79,24 @@ type="com.sun.webui.jsf.TextField", family="com.sun.webui.jsf.TextField",
     
     /**
      * Returns the renderer type for the component.
-     * Depending on the type of the request, this method will return the default renderer type of "com.sun.webui.jsf.widget.TextField"
-     * in case of regular render request, or "com.sun.webui.jsf.ajax.TextField" in case of ajax request. Ajax request
-     * represents a special case of request, when partial data is rendered back to the client.
+     *
+     * Depending on the type of the request, this method will return the default
+     * renderer type of "com.sun.webui.jsf.widget.TextField" in case of regular
+     * render request, or "com.sun.webui.jsf.ajax.TextField" in case of ajax 
+     * request. Ajax request represents a special case of request, when partial 
+     * data is rendered back to the client.
      */
     public String getRendererType() {
-        
-        // Ensure this request is not for an AjaxZone.
-        if (AsyncResponse.isAjaxRequest()) {
-            try {
-                Map map = getFacesContext().getExternalContext().
-                        getRequestHeaderMap();
-                JSONObject xjson = new JSONObject((String)
-                map.get(AsyncResponse.XJSON_HEADER));
-                
-                if (xjson.has("refresh") || xjson.has("validate")) {
-                    
-                    String id = (String) xjson.get("id");
-                    if (getClientId(getFacesContext()).equals(id)) {
-                        return "com.sun.webui.jsf.ajax.TextField";
-                    }
-                }
-            } catch(JSONException e) {} // XJSON header may be null.
+        // Ensure we have a valid Ajax request.
+        if (ComponentUtilities.isAjaxRequest(getFacesContext(), this)) {
+            return "com.sun.webui.jsf.ajax.TextField";
         }
-        return super.getRendererType();
-        
+        return super.getRendererType();        
     }
-    
-    
-    /**
-     * Get the type of widget represented by this component.
-     *
-     * @return The type of widget represented by this component.
-     * public String getWidgetType() {
-     * return JavaScriptUtilities.getNamespace("textField");
-     * }
-     */
-    
-// ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-// Tag attribute methods
-// ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+    // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    // Tag attribute methods
+    // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     
     
 // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -436,25 +411,11 @@ type="com.sun.webui.jsf.TextField", family="com.sun.webui.jsf.TextField",
      */
     
     public void processUpdates(FacesContext context) {
-        
-        // Also skip processing for ajax based validation events
-        // Ensure this request is not for an AjaxZone first though
-        if (AsyncResponse.isAjaxRequest()) {
-            try {
-                Map map = getFacesContext().getExternalContext().
-                        getRequestHeaderMap();
-                JSONObject xjson = new JSONObject((String)
-                map.get(AsyncResponse.XJSON_HEADER));
-                
-                String id = (String) xjson.get("id");
-                if (xjson.has("validate") && getClientId(getFacesContext()).equals(id)) {
-                    return; //skip update
-                }
-            } catch(JSONException e) {} // XJSON header may be null.
-        }
-        
+        // Ensure we have a valid Ajax request.
+        if (ComponentUtilities.isAjaxRequest(getFacesContext(), this, "validate")) {
+            return; // Skip processing for ajax based validation events.
+        }        
         super.processUpdates(context);
-        
     }
     
     /**
@@ -471,11 +432,9 @@ type="com.sun.webui.jsf.TextField", family="com.sun.webui.jsf.TextField",
      * @param context FacesContext for the current request
      * @return A String value of the component
      */
-    public String getValueAsString(FacesContext context) {
-        
+    public String getValueAsString(FacesContext context) {   
         return isPasswordMode() ?
             new String() :
             super.getValueAsString(context);
     }
-    
 }

@@ -22,7 +22,7 @@
 package com.sun.webui.jsf.renderkit.ajax;
 
 import com.sun.faces.annotation.Renderer;
-import com.sun.faces.extensions.avatar.lifecycle.AsyncResponse;
+import com.sun.webui.jsf.util.ComponentUtilities;
 
 import java.io.IOException;
 import java.util.Map;
@@ -31,16 +31,13 @@ import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.context.ResponseWriter;
 
-import org.json.JSONException;
-import org.json.JSONObject;
-
 /**
  * This class renders radio button components.
  */
 @Renderer(@Renderer.Renders(
-rendererType="com.sun.webui.jsf.ajax.RadioButton",
-        componentFamily="com.sun.webui.jsf.RadioButton"))
-        public class RadioButtonRenderer
+    rendererType="com.sun.webui.jsf.ajax.RadioButton",
+    componentFamily="com.sun.webui.jsf.RadioButton"))
+public class RadioButtonRenderer
         extends com.sun.webui.jsf.renderkit.widget.RadioButtonRenderer {
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     // Renderer methods
@@ -71,23 +68,14 @@ rendererType="com.sun.webui.jsf.ajax.RadioButton",
      * @exception NullPointerException if context or component is null.
      */
     public void encodeChildren(FacesContext context, UIComponent component)
-    throws IOException {
+            throws IOException {
         if (context == null || component == null) {
             throw new NullPointerException();
         }
         
-        try {
-            // Get xjson parameters.
-            Map map = context.getExternalContext().getRequestHeaderMap();
-            JSONObject xjson = new JSONObject((String) map.get(
-                    AsyncResponse.XJSON_HEADER));
-            
-            // Process refresh event.
-            if (xjson.has("refresh")) {
-                super.encodeChildren(context, component);
-            }
-        } catch(JSONException e) {
-            e.printStackTrace();
+        // Output component properties if Ajax request and is refresh event.
+        if (ComponentUtilities.isAjaxRequest(context, component, "refresh")) {
+            super.encodeChildren(context, component);
         }
     }
     

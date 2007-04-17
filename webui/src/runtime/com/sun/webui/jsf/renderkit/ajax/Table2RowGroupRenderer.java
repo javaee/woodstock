@@ -26,6 +26,7 @@ import com.sun.faces.annotation.Renderer;
 import com.sun.faces.extensions.avatar.lifecycle.AsyncResponse;
 import com.sun.webui.jsf.component.Table2Column;
 import com.sun.webui.jsf.component.Table2RowGroup;
+import com.sun.webui.jsf.util.ComponentUtilities;
 import com.sun.webui.jsf.util.WidgetUtilities;
 
 import java.io.IOException;
@@ -36,7 +37,6 @@ import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.context.ResponseWriter;
 
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -82,21 +82,21 @@ public class Table2RowGroupRenderer
             throw new NullPointerException();
         }
 
-        try {
-            // Get xjson parameters.
-            Map map = context.getExternalContext().getRequestHeaderMap();
-            JSONObject xjson = new JSONObject((String) map.get(
-                AsyncResponse.XJSON_HEADER));
+        // Output component properties if Ajax request and is refresh event.
+        if (ComponentUtilities.isAjaxRequest(context, component, "refresh")) {
+            super.encodeChildren(context, component);
+        }
 
-            // Process refresh event.
-            if (xjson.has("refresh")) {
-                super.encodeChildren(context, component);
-                return;
-            }
-            // Process scroll event.
-            if (!xjson.has("scroll")) {
-                return;
-            }
+        // Return if Ajax request and is not scroll event.
+        if (!ComponentUtilities.isAjaxRequest(context, component, "scroll")) {
+            return;
+        }
+
+        try {
+            // Get XJSON header.
+            Map map = context.getExternalContext().getRequestHeaderMap();
+            JSONObject xjson = new JSONObject((String)
+                map.get(AsyncResponse.XJSON_HEADER));
 
             // Set first row.
             Table2RowGroup group = (Table2RowGroup) component;

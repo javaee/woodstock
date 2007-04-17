@@ -22,7 +22,7 @@
 package com.sun.webui.jsf.renderkit.ajax;
 
 import com.sun.faces.annotation.Renderer;
-import com.sun.faces.extensions.avatar.lifecycle.AsyncResponse;
+import com.sun.webui.jsf.util.ComponentUtilities;
 
 import java.io.IOException;
 import java.util.Map;
@@ -30,9 +30,6 @@ import java.util.Map;
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.context.ResponseWriter;
-
-import org.json.JSONException;
-import org.json.JSONObject;
 
 /**
  * This class renders button components.
@@ -76,18 +73,9 @@ public class ButtonRenderer
             throw new NullPointerException();
         }
 
-        try {
-            // Get xjson parameters.
-            Map map = context.getExternalContext().getRequestHeaderMap();
-            JSONObject xjson = new JSONObject((String) map.get(
-                AsyncResponse.XJSON_HEADER));
-
-            // Process refresh event.
-            if (xjson.has("refresh")) {
-                super.encodeChildren(context, component);
-            }
-        } catch(JSONException e) {
-            e.printStackTrace();
+        // Output component properties if Ajax request and is refresh event.
+        if (ComponentUtilities.isAjaxRequest(context, component, "refresh")) {
+            super.encodeChildren(context, component);
         }
     }
 

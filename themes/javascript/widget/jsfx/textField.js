@@ -53,7 +53,7 @@ webui.@THEME@.widget.jsfx.textField = {
             replaceElement: webui.@THEME@.widget.jsfx.textField.validationCallback,
             xjson: {
                 id : props.id,
-                validate: true
+                event: "validate"
             }
         });
         return true;
@@ -113,7 +113,7 @@ webui.@THEME@.widget.jsfx.textField = {
             replaceElement: webui.@THEME@.widget.jsfx.textField.refreshCallback,
             xjson: {
                 id: props.id,
-                refresh: true
+                event: "refresh"
             }
         });
         return true;

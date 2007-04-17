@@ -58,7 +58,7 @@ webui.@THEME@.widget.jsfx.dropDown = {
             replaceElement: webui.@THEME@.widget.jsfx.dropDown.refreshCallback,
             xjson: {
                 id: props.id,
-                refresh: true
+                event: "refresh"
             }
         });
         return true;

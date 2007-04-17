@@ -24,9 +24,12 @@ package com.sun.webui.jsf.renderkit.ajax;
 import com.sun.faces.annotation.Renderer;
 import com.sun.faces.extensions.avatar.lifecycle.AsyncResponse;
 import com.sun.webui.jsf.component.ProgressBar;
+import com.sun.webui.jsf.util.ComponentUtilities;
 
 import java.io.IOException;
+
 import java.util.Map;
+
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 
@@ -110,22 +113,17 @@ public class ProgressBarRenderer
             throw new NullPointerException();
         }
 
+        // Output component properties if Ajax request and is refresh event.
+        if (ComponentUtilities.isAjaxRequest(context, component, "refresh")) {
+            super.encodeChildren(context, component);
+        }
+
+        // Return if Ajax request and is not progress event.
+        if (!ComponentUtilities.isAjaxRequest(context, component, "progress")) {
+            return;
+        }
+
         try {
-            // Get xjson parameters.
-            Map map = context.getExternalContext().getRequestHeaderMap();
-            JSONObject xjson = new JSONObject((String) map.get(
-                AsyncResponse.XJSON_HEADER));
-
-            // Process refresh event.
-            if (xjson.has("refresh")) {
-                super.encodeChildren(context, component);
-                return;
-            }
-            // Process progress event.
-            if (!xjson.has("progress")) {
-                return;
-            }
-
             ProgressBar progressBar = (ProgressBar) component;       
             String status = progressBar.getStatus();
             String topText = progressBar.getDescription();

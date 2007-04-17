@@ -58,7 +58,7 @@ webui.@THEME@.widget.jsfx.table2 = {
             replaceElement: webui.@THEME@.widget.jsfx.table2.refreshCallback,
             xjson: {
                 id: props.id,
-                refresh: true
+                event: "refresh"
             }
         });
         return true;

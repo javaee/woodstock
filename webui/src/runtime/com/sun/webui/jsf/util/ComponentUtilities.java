@@ -21,7 +21,7 @@
  */
 
 /*
- * $Id: ComponentUtilities.java,v 1.3 2007-04-14 18:17:59 danl Exp $
+ * $Id: ComponentUtilities.java,v 1.4 2007-04-17 17:36:58 danl Exp $
  */
 
 package com.sun.webui.jsf.util;
@@ -199,6 +199,21 @@ public class ComponentUtilities {
      */
     public static boolean isAjaxRequest(FacesContext context,
             UIComponent component) {
+        return isAjaxRequest(context, component, null);
+    }
+
+    /**
+     * Return <code>true</code> if the Ajax request is for the given component
+     * and matches the given event name.
+     *
+     * @param context FacesContext for the current request.
+     * @param component UIComponent to be rendered.
+     * @param event The event name for this Ajax request (may be null).
+     */
+    public static boolean isAjaxRequest(FacesContext context,
+            UIComponent component, String event) {
+        boolean isAjaxRequest = false;
+
         // Ensure this request is not for an AjaxZone.
         if (AsyncResponse.isAjaxRequest()) {
             try {
@@ -208,11 +223,18 @@ public class ComponentUtilities {
 
                 String id = (String) xjson.get("id");
                 if (component.getClientId(context).equals(id)) {
-                    return true;
+                    if (event != null) {
+                        String evt = (String) xjson.get("event");
+                        if (event.equals(evt)) {
+                            isAjaxRequest = true;
+                        }
+                    } else {
+                        isAjaxRequest = true;
+                    }
                 }
             } catch(JSONException e) {
             } catch(NullPointerException e) {} // JSON property may be null.
         }
-        return false;
+        return isAjaxRequest;
     }
 }

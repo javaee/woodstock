@@ -58,7 +58,7 @@ webui.@THEME@.widget.jsfx.table2RowGroup = {
             replaceElement: webui.@THEME@.widget.jsfx.table2RowGroup.refreshCallback,
             xjson: {
                 id: props.id,
-                refresh: true
+                event: "refresh"
             }
         });
         return true;
@@ -91,7 +91,7 @@ webui.@THEME@.widget.jsfx.table2RowGroup = {
             replaceElement: webui.@THEME@.widget.jsfx.table2RowGroup.scrollCallback,
             xjson: {
                 first: props.first,
-                scroll: true
+                event: "scroll"
             }
         });
         return true;

@@ -58,7 +58,7 @@
              replaceElement: webui.@THEME@.widget.jsfx.radioButton.refreshCallback,
              xjson: {
                  id: props.id,
-                 refresh: true
+                 event: "refresh"
              }
          });
          return true;
