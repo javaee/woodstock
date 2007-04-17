@@ -255,7 +255,7 @@
     
     <renderer>
       <component-family>com.sun.webui.jsf.TextField</component-family>
-      <renderer-type>com.sun.webui.jsf.TextFieldDesignTime</renderer-type>
+      <renderer-type>com.sun.webui.jsf.widget.TextFieldDesignTime</renderer-type>
       <renderer-class>com.sun.webui.jsf.renderkit.html.TextFieldDesignTimeRenderer</renderer-class>
     </renderer>
     
