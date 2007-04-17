@@ -71,7 +71,7 @@ webui.@THEME@.widget.textField = function() {
             dojo.event.connect(this.textFieldNode, "onblur", 
             webui.@THEME@.widget.textField.validation.processEvent);
         }
-
+        
         // Set properties.
         this.setProps();
         return true;
@@ -84,9 +84,9 @@ webui.@THEME@.widget.textField = function() {
 webui.@THEME@.widget.textField.getClassName = function() {
     // Set default style.    
     var className = (this.disabled == true)
-        ? webui.@THEME@.widget.props.textField.disabledClassName
-        : webui.@THEME@.widget.props.textField.enabledClassName;
-
+    ? webui.@THEME@.widget.props.textField.disabledClassName
+    : webui.@THEME@.widget.props.textField.enabledClassName;
+    
     return className;
 }
 
@@ -118,7 +118,6 @@ webui.@THEME@.widget.textField.getClassName = function() {
  *  <li>style</li>
  *  <li>tabIndex</li>
  *  <li>title</li>
- *  <li>type</li>
  *  <li>valid</li>
  *  <li>value</li>
  *  <li>visible</li> 
@@ -142,7 +141,6 @@ webui.@THEME@.widget.textField.setProps = function(props) {
     // Set text field attributes.
     props.id = props.name; // Match JSF renderer decode method.
     
-    if (props.type) { this.textFieldNode.type = props.type; }    
     if (props.size) { this.textFieldNode.setAttribute("size", props.size); }
     if (props.value) { this.textFieldNode.setAttribute("value", props.value); }
     if (props.text) { this.textFieldNode.setAttribute("value", props.value); }
@@ -156,7 +154,7 @@ webui.@THEME@.widget.textField.setProps = function(props) {
             this.textFieldNode.removeAttribute("disabled");
         }
     }    
-
+    
     // Set label properties.
     if (props.label || (props.valid != null || props.required != null) && this.label) {
         // Ensure property exists so we can call setProps just once.
@@ -236,13 +234,13 @@ webui.@THEME@.widget.textField.validation = {
         if (evt == null) {
             return false;
         }
-
+        
         // Publish event to retrieve data.
         webui.@THEME@.widget.textField.validation.publishBeginEvent({
             id: evt.currentTarget.parentNode.id
         });
     },
-
+    
     /**
      * Publish an event for custom AJAX implementations to listen for.
      *
