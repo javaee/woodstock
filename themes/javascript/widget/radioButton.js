@@ -48,7 +48,10 @@ webui.@THEME@.widget.radioButton = function() {
         if (this.id) {              
             this.radioButtonNode.id = this.id + "_rb";
             this.imageContainer.id = this.id + "_imageContainer";
-            this.labelContainer.id = this.id + "_labelContainer";            
+            this.labelContainer.id = this.id + "_labelContainer";
+
+            // If null, use HTML input id.
+            if (this.name == null) { this.name = this.radioButtonNode.id; }
         } 
     
         // Set public functions
@@ -213,14 +216,10 @@ webui.@THEME@.widget.radioButton.setProps = function(props) {
     if (props.disabled != null) { 
         this.radioButtonNode.disabled = new Boolean(props.disabled).valueOf();
     }
-
-    // Set name -- If it's null, use HTML input element's id.
-    if (props.name) {
-        this.radioButtonNode.name = (props.name != null) 
-            ? props.name 
-            : this.radioButtonNode.id;
+    if (props.name) { 
+        this.checkboxNode.name = props.name;
     }
-    
+
     // Set image properties.
     if (props.image || props.disabled != null && this.image) {
         // Ensure property exists so we can call setProps just once.

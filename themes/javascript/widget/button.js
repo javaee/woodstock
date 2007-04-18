@@ -49,7 +49,8 @@ webui.@THEME@.widget.button = function() {
     this.fillInTemplate = function() {
         // Set ids.
         if (this.id) {
-            this.name = this.id;
+            // If null, use HTML button id.
+            if (this.name == null) { this.name = this.id; }
         }
 
         // Set public functions. 
@@ -82,7 +83,7 @@ webui.@THEME@.widget.button = function() {
         dojo.event.connect(this.domNode, "onmouseover",
             webui.@THEME@.widget.button.createOnFocusCallback(this.id));
 
-        // Initialize class names.
+        // Initialize CSS selectors.
         this.initClassNames();
 
         // Set properties.

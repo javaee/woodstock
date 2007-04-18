@@ -49,6 +49,9 @@ webui.@THEME@.widget.checkbox = function() {
             this.checkboxNode.id = this.id + "_cb";
             this.imageContainer.id = this.id + "_imageContainer";
             this.labelContainer.id = this.id + "_labelContainer";
+
+            // If null, use HTML input id.
+            if (this.name == null) { this.name = this.checkboxNode.id; }
         }
 
         // Set public functions.        
@@ -252,7 +255,7 @@ webui.@THEME@.widget.checkbox.setProps = function(props) {
     webui.@THEME@.widget.common.setJavaScriptProps(this.checkboxNode, props); 
 
     if (props.value) { 
-        this.checkboxNode.value, props.value;
+        this.checkboxNode.value = props.value;
     }
     if (props.readOnly != null) { 
         this.checkboxNode.readonly = new Boolean(props.readOnly).valueOf();
@@ -263,13 +266,9 @@ webui.@THEME@.widget.checkbox.setProps = function(props) {
     if (props.disabled != null) { 
         this.checkboxNode.disabled = new Boolean(props.disabled).valueOf();
     }
-
-    // Set name -- If it's null, use HTML input element's id.
-    if (props.name) {
-        this.checkboxNode.name = (props.name != null) 
-            ? props.name 
-            : this.checkboxNode.id;
-    }      	
+    if (props.name) { 
+        this.checkboxNode.name = props.name;
+    }	
     
     // Set image widget properties.
     if (props.image || props.disabled != null && this.image) {
