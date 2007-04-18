@@ -79,7 +79,6 @@ public class TextFieldRenderer extends RendererBase {
         "style",
         "title",
         "readOnly",
-        "size",
         "maxLength",
         "accesskey",
         "tabIndex",
@@ -118,7 +117,7 @@ public class TextFieldRenderer extends RendererBase {
         String value = null;
 
         if (valueObject == null && component instanceof Field) {
-            id = getInputContainerId(context, component);
+            id = ((Field)component).getLabeledElementId(context);
             valueObject = params.get(id);
         }
 
@@ -169,14 +168,17 @@ public class TextFieldRenderer extends RendererBase {
         
         // Set rendered value.
         if (field.getSubmittedValue() == null) {
-            ConversionUtilities.setRenderedValue(component, field.getValue());
+            ConversionUtilities.setRenderedValue(component, field.getText());
         }
         
         String templatePath = field.getHtmlTemplate(); // Get HTML template.
         // TODO is getTheme() always non-null ?
+     
         if (templatePath == null)
-            templatePath = getTheme().getPathToTemplate(ThemeTemplates.TEXTFIELD);
-        
+            templatePath =   field.isPasswordMode() ?
+                    getTheme().getPathToTemplate(ThemeTemplates.PASSWORDFIELD):
+                    getTheme().getPathToTemplate(ThemeTemplates.TEXTFIELD);
+
         String className = field.getStyleClass();
         
         JSONObject json = new JSONObject();
@@ -189,7 +191,6 @@ public class TextFieldRenderer extends RendererBase {
             .put("templatePath", templatePath)
             .put("size", field.getColumns())
             .put("visible", field.isVisible())
-            .put("type", field.isPasswordMode() ? "password" : "text") //NOI18N
             .put("autoValidate", field.isAutoValidate());
              
         // Append label properties.
@@ -209,12 +210,6 @@ public class TextFieldRenderer extends RendererBase {
     // Private renderer methods
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     
-    public static final String INPUT_CONTAINER_NAME = Field.INPUT_ID; //"_inputContainer";
-    private String getInputContainerId(FacesContext context, UIComponent component) {
-        TextField field = (TextField) component;
-        String id = field.getClientId(context);
-        return id.concat(INPUT_CONTAINER_NAME); 
-    }
     
     // Helper method to get Theme objects.
     private Theme getTheme() {

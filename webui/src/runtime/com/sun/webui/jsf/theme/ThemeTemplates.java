@@ -3,12 +3,12 @@
  * of the Common Development and Distribution License
  * (the License).  You may not use this file except in
  * compliance with the License.
- * 
+ *
  * You can obtain a copy of the license at
  * https://woodstock.dev.java.net/public/CDDLv1.0.html.
  * See the License for the specific language governing
  * permissions and limitations under the License.
- * 
+ *
  * When distributing Covered Code, include this CDDL
  * Header Notice in each file and include the License file
  * at https://woodstock.dev.java.net/public/CDDLv1.0.html.
@@ -16,7 +16,7 @@
  * with the fields enclosed by brackets [] replaced by
  * you own identifying information:
  * "Portions Copyrighted [year] [name of copyright owner]"
- * 
+ *
  * Copyright 2007 Sun Microsystems, Inc. All rights reserved.
  */
 
@@ -35,12 +35,12 @@ public class ThemeTemplates {
      * A template file that contains HTML for the DropDown component.
      */
     public static final String DROPDOWN = "dropDown";
-
+    
     /**
      * A template file that contains HTML for the Table2 component.
      */
     public static final String TABLE2 = "table2";
-
+    
     /**
      * A template file that contains HTML for the Table2RowGroup component.
      */
@@ -49,8 +49,8 @@ public class ThemeTemplates {
     /**
      * A template file that contains HTML for the radioButton component.
      */
-    public static final String RADIOBUTTON = "radioButton";    
-
+    public static final String RADIOBUTTON = "radioButton";
+    
     /**
      * A template file that contains HTML for the ProgressBar component.
      */
@@ -60,22 +60,26 @@ public class ThemeTemplates {
      * A template file that contains HTML for the Checkbox component.
      */
     public static final String CHECKBOX = "checkbox";
-
+    
     /**
      * A template file that contains HTML for the image component.
      */
     public static final String IMAGE = "image";
-
+    
     /**
      * A template file that contains HTML for the Label component.
      */
     public static final String LABEL = "label";
-
+    
     /**
      * A template file that contains HTML for the TextField component.
      */
     public static final String TEXTFIELD= "textField";
-
+    /**
+     * A template file that contains HTML for the PasswordField component.
+     */
+    public static final String PASSWORDFIELD= "passwordField";
+    
     /**
      * A template file that contains HTML for the staticText component.
      */
@@ -85,7 +89,7 @@ public class ThemeTemplates {
      * A template file that contains HTML for the hiddenField component.
      */
     public static final String HIDDENFIELD = "hiddenField";
-
+    
     /**
      * A template file that contains HTML for the alert component.
      */
@@ -96,7 +100,7 @@ public class ThemeTemplates {
      * directly as its only purpose is to provide image constants.
      */
     private ThemeTemplates() {
-	// do nothing
+        // do nothing
     }
 }
 

@@ -35,17 +35,18 @@ import javax.faces.context.FacesContext;
 /**
  * The TextField component renders input HTML element.
  * <br>
- * TextField Component is rendered by CSR com.sun.webui.jsf.renderkit.widget.TextFieldRenderer
- * As part of the dynamic behavior, TextField supports autovalidation, where entered
- * data is automatically validated through the ajax call to the server, in which case another
- * renderer - com.sun.webui.jsf.renderkit.ajax.TextFieldRenderer - is used to render back results
- * of the validation. When validating data through the ajax-based mechanism, the update stage
- * of the lifecycle is skipped ( see processUpdates).
+ * TextField Component class represents text input element.
  * <br>
- * TextField also supports password mode, when data entered will be masked with asterisks. Password Mode is enabled
- * through the attribute passwordMode. Note that when passwordMode is on, no TextField content data is sent back (rendered)
- * to the client, even though such data is available through getValue(). This is done to prevent password sniffing on the wire
- * or by viewing browser source.
+ * As part of the dynamic behavior, TextField supports auto-validation, where 
+ * entered data is automatically validated through the ajax call to the server.
+ * When validating data through the ajax-based mechanism, the UPDATE_MODEL_VALUES
+ * stage of the lifecycle is skipped ( see processUpdates).
+ * <br>
+ * TextField also supports password mode, where data entered will be masked with 
+ * asterisks. Password Mode is enabled through the attribute passwordMode. 
+ * Note that when passwordMode is on, no TextField content data is sent back (rendered)
+ * to the client, even though such data is available through getText(). 
+ * This is done to prevent password sniffing on the wire or by viewing browser source.
  * <br>
  * @see com.sun.webui.jsf.renderkit.ajax.TextFieldRenderer
  * @see com.sun.webui.jsf.renderkit.widget.TextFieldRenderer
@@ -135,12 +136,12 @@ type="com.sun.webui.jsf.TextField", family="com.sun.webui.jsf.TextField",
     /**
      * Set attribute indicating to turn off default Ajax functionality.
      * <p>
-     * Ajaxify attribute is used to optimize delivery of the component to the browser by
-     * rendering or not rendering ajax based libraries.
-     * Ajaxify attribute set true only means that ajax javascript modules will be rendered,
-     * enabling ( but not activating) dynamic ajax features on the client side.
-     * Once ajax-based modules are rendered, developer can use them directly for custom validation,
-     * or use predesigned autoValidate feature that is part of this implementation.
+     * Ajaxify attribute is used to optimize delivery of the component to the browser 
+     * by rendering or not rendering ajax based libraries.
+     * Ajaxify attribute set true only means that ajax javascript modules will be 
+     * rendered, enabling ( but not activating) dynamic ajax features on the client side.
+     * Once ajax-based modules are rendered, developer can use them directly for custom 
+     * validation, or use predesigned autoValidate feature that is part of this implementation.
      * <br>
      * Note that autoValidate=true automatically turn ajaxify attribute on.
      * </p>
@@ -198,12 +199,12 @@ type="com.sun.webui.jsf.TextField", family="com.sun.webui.jsf.TextField",
     
     /**
      * Set attribute indicating to turn on/off default Ajax functionality.
-     * When on, TextField's onBlur event will generate ajax-based validation request, where
-     * content of the TextField's input will be validated  ( but not committed during the processUpdates stage).
-     * Validation information is sent back to the browser for user information in form of success or
-     * standard FacesMesssages in case of failure.
-     * <br>
-     * autoValidate requires validator to be set ( via validatorExpression)
+     * When on, TextField's onBlur event will generate ajax-based validation request, 
+     * where content of the TextField's input will be validated  ( but not committed 
+     * during the processUpdates stage). Validation information is sent back to the 
+     * browser for user information in form of success or standard FacesMesssages in 
+     * case of failure. <br>
+     * AutoValidate requires validator to be set ( via validatorExpression)
      * <pre>
      *                    &lt; webuijsf:textField
      *                        id="textFieldA"
@@ -339,25 +340,7 @@ type="com.sun.webui.jsf.TextField", family="com.sun.webui.jsf.TextField",
         return _values;
     }
     
-    
-    
-// ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-// Utility methods - to be refactored:
-// ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    
-    
-    /**
-     * <p>Return the <code>ValueExpression</code> stored for the
-     * specified name (if any), respecting any property aliases.</p>
-     *
-     * @param name Name of value binding expression to retrieve
-     */
-    public ValueExpression getValueExpression(String name) {
-        if (name.equals("text")) {
-            return super.getValueExpression("value");
-        }
-        return super.getValueExpression(name);
-    }
+  
     
 // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 // Private methods
@@ -411,6 +394,8 @@ type="com.sun.webui.jsf.TextField", family="com.sun.webui.jsf.TextField",
      */
     
     public void processUpdates(FacesContext context) {
+        if (context == null)
+            return;
         // Ensure we have a valid Ajax request.
         if (ComponentUtilities.isAjaxRequest(getFacesContext(), this, "validate")) {
             return; // Skip processing for ajax based validation events.
@@ -433,8 +418,13 @@ type="com.sun.webui.jsf.TextField", family="com.sun.webui.jsf.TextField",
      * @return A String value of the component
      */
     public String getValueAsString(FacesContext context) {   
-        return isPasswordMode() ?
-            new String() :
-            super.getValueAsString(context);
+        if (isPasswordMode())
+            return new String();
+        
+        String submittedValue = (String)getSubmittedValue();
+        return (submittedValue == null)?
+            super.getValueAsString(context):
+            submittedValue;
+        
     }
 }
