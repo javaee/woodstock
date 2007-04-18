@@ -66,7 +66,6 @@ public class TableData {
         ),
         new AppData("index_textInputName", "index_textInputConcepts", "showTextInput", 
                 new String[] {
-                    "field/textField.jsp",
                     "field/TextInput.jsp",
                     "field/TextInputResults.jsp",
                     "field/TextInputBackingBean.java"}

@@ -33,39 +33,7 @@
           <supported-locale>fr</supported-locale>
           <supported-locale>zh_TW</supported-locale>
         </locale-config>
-    </application>
- 
-    
- <!-- BEGIN support for textField examples -->
-    
-    <converter> 
-        <converter-for-class>com.sun.webui.jsf.example.textfield.CreditCard</converter-for-class>
-        <converter-class>com.sun.webui.jsf.example.textfield.CreditCardConverter</converter-class> 
-    </converter>
-    
-    <converter> 
-        <converter-id>com.sun.webui.jsf.example.textfield.CreditCard</converter-id>
-        <converter-class>com.sun.webui.jsf.example.textfield.CreditCardConverter</converter-class> 
-    </converter>
-    
-    <validator> 
-        <validator-id>com.sun.webui.jsf.example.textfield.CreditCard</validator-id>
-        <validator-class>com.sun.webui.jsf.example.textfield.CreditCardValidator</validator-class> 
-    </validator>
-
-    <validator>
-        <validator-id>com.sun.webui.jsf.example.textfield.Regex</validator-id>
-        <validator-class>com.sun.webui.jsf.example.textfield.RegexValidator</validator-class>
-    </validator>
-
-    <managed-bean>
-        <description>The backing bean for the textfield example</description>
-        <managed-bean-name>Payment</managed-bean-name>
-        <managed-bean-class>com.sun.webui.jsf.example.textfield.PaymentBean</managed-bean-class>
-        <managed-bean-scope>request</managed-bean-scope>
-    </managed-bean>    
-    <!-- END support for textField examples -->
-    
+    </application>   
     
     <converter>
         <converter-id>com.sun.webui.jsf.example.statictext.Employee</converter-id>

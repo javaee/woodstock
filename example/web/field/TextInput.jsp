@@ -53,10 +53,6 @@
                         
                         <!-- Content Page Title -->
                         <webuijsf:contentPageTitle id="contentPageTitle" title="#{msgs.field_title}" /> 
-                        <p>
-                        <webuijsf:hyperlink url="./textField.jsp" 
-                                            text="#{msgs.field_dynamicTests}"/>     
-                        </p>
                         <webuijsf:markup tag="div" styleClass="#{themeStyles.CONTENT_MARGIN}">
                             <br />
                             <table border="0">                
