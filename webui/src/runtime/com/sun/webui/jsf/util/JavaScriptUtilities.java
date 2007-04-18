@@ -99,16 +99,16 @@ public class JavaScriptUtilities {
             .append(theme.getPathToJSFile(ThemeJavascript.MODULE_PATH))
             .append("\");\n")
             .append(getModule("*"))
+            .append("\n")
+            .append(getModule("widget.*"))
+            .append("\n")
+            .append(getModule("widget.jsfx.*"))
             .append("\n");
 
         // Output includes for debugging. This will ensure that JavaScript
         // files are accessible to JavaScript debuggers.
         if (writeIncludes) {
-            buff.append(getModule("widget.*"))
-                .append("\n")
-                .append(getModule("widget.jsfx.*"))
-                .append("\n")
-                .append("dojo.hostenv.writeIncludes();")
+            buff.append("dojo.hostenv.writeIncludes();")
                 .append("\n");
         }
         return buff.toString();

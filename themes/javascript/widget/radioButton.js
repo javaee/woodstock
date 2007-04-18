@@ -64,10 +64,37 @@ webui.@THEME@.widget.radioButton = function() {
         this.getInputElement = webui.@THEME@.widget.radioButton.getInputElement;
         this.refresh = webui.@THEME@.widget.radioButton.refresh.processEvent;
 
+        // Set events.
+        dojo.event.connect(this.domNode, "onclick",
+            webui.@THEME@.widget.radioButton.createOnChangeCallback(this.id));
+
         // set properties
         this.setProps();
         return true;    
     }    
+}
+
+/**
+ * Helper function to create callback for onClick event.
+ *
+ * @param id The HTML element id used to invoke the callback.
+ */
+webui.@THEME@.widget.radioButton.createOnChangeCallback = function(id) {
+    if (id == null) {
+        return null;
+    }
+    // New literals are created every time this function
+    // is called, and it's saved by closure magic.
+    return function(evt) { 
+        var widget = dojo.widget.byId(id);
+        if (widget == null) {
+            return false;
+        }
+
+        // Maintain checked state for getProps() function.
+        widget.checked = widget.radioButtonNode.checked;
+        return true;
+    };
 }
 
 /**
@@ -174,41 +201,24 @@ webui.@THEME@.widget.radioButton.setProps = function(props) {
     webui.@THEME@.widget.common.setCommonProps(this.radioButtonNode, props);
     webui.@THEME@.widget.common.setJavaScriptProps(this.radioButtonNode, props);        
 
-    if (props.name) { 
-        this.radioButtonNode.setAttribute("name", props.name); 
-    } else {
-        this.radioButtonNode.setAttribute("name", this.radioButtonNode.id);
-    }
     if (props.value) {
-        this.radioButtonNode.setAttribute("value", props.value); 
+        this.radioButtonNode.value = props.value;
     }
-    
-    // Set checked.
-    if (props.checked != null) {
-        if (props.checked == true) { 
-            this.radioButtonNode.setAttribute("checked", "checked"); 
-        } else {
-            this.radioButtonNode.removeAttribute("checked");
-        }
-    }    
-
-    // Set readOnly
     if (props.readOnly != null) {
-        if (props.readOnly == true) { 
-            this.radioButtonNode.setAttribute("readOnly", "readOnly"); 
-        } else {
-            this.radioButtonNode.removeAttribute("readOnly");
-        }
-    }    
-
-
-    // Set disabled.
+        this.radioButtonNode.readonly = new Boolean(props.readOnly).valueOf();
+    }
+    if (props.checked != null) { 
+        this.radioButtonNode.checked = new Boolean(props.checked).valueOf();
+    }
     if (props.disabled != null) { 
-        if (props.disabled == true) {            
-            this.radioButtonNode.setAttribute("disabled", "disabled"); 
-        } else {             
-            this.radioButtonNode.removeAttribute("disabled"); 
-        }
+        this.radioButtonNode.disabled = new Boolean(props.disabled).valueOf();
+    }
+
+    // Set name -- If it's null, use HTML input element's id.
+    if (props.name) {
+        this.radioButtonNode.name = (props.name != null) 
+            ? props.name 
+            : this.radioButtonNode.id;
     }
     
     // Set image properties.
@@ -276,11 +286,11 @@ webui.@THEME@.widget.radioButton.setProps = function(props) {
       * against which the execute portion of the request processing lifecycle
       * must be run.
       */
-     processEvent: function(_execute) {
+     processEvent: function(execute) {
          // Publish event.
          webui.@THEME@.widget.radioButton.refresh.publishBeginEvent({
              id: this.id,
-             execute: _execute
+             execute: execute
          });
          return true;
      },

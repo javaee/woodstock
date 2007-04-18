@@ -326,14 +326,21 @@ webui.@THEME@.widget.common = {
         if (domNode == null || props == null) {
             return false;
         }
-        if (props.accesskey) { domNode.setAttribute("accesskey", props.accesskey); }
-        if (props.dir) { domNode.setAttribute("dir", props.dir); }
-        if (props.lang) { domNode.setAttribute("lang", props.lang); }
-        if (props.tabIndex > -1 && props.tabIndex < 32767) {
-            domNode.setAttribute("tabindex", props.tabIndex);
+        if (props.accesskey) { 
+            domNode.accesskey = props.accesskey;
         }
-        if (props.title) { domNode.setAttribute("title", props.title); }
-
+        if (props.dir) {
+            domNode.dir = props.dir;
+        }
+        if (props.lang) {
+            domNode.lang = props.lang;
+        }
+        if (props.tabIndex > -1 && props.tabIndex < 32767) {
+            domNode.tabindex = props.tabIndex;
+        }
+        if (props.title) {
+            domNode.title = props.title;
+        }
         return true;
     },
 
@@ -362,14 +369,17 @@ webui.@THEME@.widget.common = {
             return false;
         }
         if (props.className) {
-            domNode.className = props.className; // Required for IE?
+            domNode.className = props.className;
         }
-        if (props.id) { domNode.setAttribute("id", props.id); }
+        if (props.id) { 
+            domNode.id = props.id;
+        }
         if (props.style) { 
-            domNode.style.cssText = props.style; // Required for IE?
+            domNode.style.cssText = props.style;
         }
         if (props.visible != null) {
-            webui.@THEME@.common.setVisibleElement(domNode, props.visible);
+            webui.@THEME@.common.setVisibleElement(domNode, 
+                new Boolean(props.visible).valueOf());
         }
         return true;
     },
@@ -380,6 +390,7 @@ webui.@THEME@.widget.common = {
      *
      * <ul>
      *  <li>onBlur</li>
+     *  <li>onChange</li>
      *  <li>onClick</li>
      *  <li>onDblClick</li>
      *  <li>onFocus</li>
@@ -391,6 +402,7 @@ webui.@THEME@.widget.common = {
      *  <li>onMouseOver</li>
      *  <li>onMouseUp</li>
      *  <li>onMouseMove</li>
+     *  <li>onSelect</li>
      * </ul>
      *
      * @param domNode The DOM node to assign properties to.
@@ -401,78 +413,77 @@ webui.@THEME@.widget.common = {
             return false;
         }
 
-        // Note: IE does not recognize JSON strings as JavaScript. In order
-        // for events to work properly, an anonymous function must be created.
-        var is_ie = webui.@THEME@.common.browser.is_ie;
+        // Note: JSON strings are not recognized as JavaScript. In order for
+        // events to work properly, an anonymous function must be created.
         if (props.onBlur) { 
-            domNode.setAttribute("onblur", (is_ie && typeof props.onBlur == 'string')
+            domNode.onblur = (typeof props.onBlur == 'string')
                 ? new Function("event", props.onBlur)
-                : props.onBlur);
+                : props.onBlur;
         }
         if (props.onClick) {
-            domNode.setAttribute("onclick", (is_ie && typeof props.onClick == 'string')
+            domNode.onclick = (typeof props.onClick == 'string')
                 ? new Function("event", props.onClick)
-                : props.onClick);
+                : props.onClick;
         }
         if (props.onChange) {
-            domNode.setAttribute("onchange", (is_ie && typeof props.onChange == 'string')
+            domNode.onchange = (typeof props.onChange == 'string')
                 ? new Function("event", props.onChange)
-                : props.onChange);
+                : props.onChange;
         }
         if (props.onDblClick) {
-            domNode.setAttribute("ondblclick", (is_ie && typeof props.onDblClick == 'string')
+            domNode.ondblclick = (typeof props.onDblClick == 'string')
                 ? new Function("event", props.onDblClick)
-                : props.onDblClick);
+                : props.onDblClick;
         }
         if (props.onFocus) {
-            domNode.setAttribute("onfocus", (is_ie && typeof props.onFocus == 'string')
+            domNode.onfocus = (typeof props.onFocus == 'string')
                 ? new Function("event", props.onFocus)
-                : props.onFocus);
+                : props.onFocus;
         }
         if (props.onKeyDown) {
-            domNode.setAttribute("onkeydown", (is_ie && typeof props.onKeyDown == 'string')
+            domNode.onkeydown = (typeof props.onKeyDown == 'string')
                 ? new Function("event", props.onKeyDown)
-                : props.onKeyDown);
+                : props.onKeyDown;
         }
         if (props.onKeyPress) {
-            domNode.setAttribute("onkeypress", (is_ie && typeof props.onKeyPress == 'string')
+            domNode.onkeypress = (typeof props.onKeyPress == 'string')
                 ? new Function("event", props.onKeyPress)
-                : props.onKeyPress);
+                : props.onKeyPress;
         }
         if (props.onKeyUp) {
-            domNode.setAttribute("onkeyup", (is_ie && typeof props.onKeyUp == 'string')
+            domNode.onkeyup = (typeof props.onKeyUp == 'string')
                 ? new Function("event", props.onKeyUp)
-                : props.onKeyUp);
+                : props.onKeyUp;
         }
         if (props.onMouseDown) {
-            domNode.setAttribute("onmousedown", (is_ie && typeof props.onMouseDown == 'string')
+            domNode.onmousedown = (typeof props.onMouseDown == 'string')
                 ? new Function("event", props.onMouseDown)
-                : props.onMouseDown);
+                : props.onMouseDown;
         }
         if (props.onMouseOut) {
-            domNode.setAttribute("onmouseout", (is_ie && typeof props.onMouseOut == 'string')
+            domNode.onmouseout = (typeof props.onMouseOut == 'string')
                 ? new Function("event", props.onMouseOut)
-                : props.onMouseOut);
+                : props.onMouseOut;
         }
         if (props.onMouseOver) {
-            domNode.setAttribute("onmouseover", (is_ie && typeof props.onMouseOver == 'string')
+            domNode.onmouseover = (typeof props.onMouseOver == 'string')
                 ? new Function("event", props.onMouseOver)
-                : props.onMouseOver);
+                : props.onMouseOver;
         }
         if (props.onMouseUp) {
-            domNode.setAttribute("onmouseup", (is_ie && typeof props.onMouseUp == 'string')
+            domNode.onmouseup = (typeof props.onMouseUp == 'string')
                 ? new Function("event", props.onMouseUp)
-                : props.onMouseUp);
+                : props.onMouseUp;
         }
         if (props.onMouseMove) {
-            domNode.setAttribute("onmousemove", (is_ie && typeof props.onMouseMove == 'string')
+            domNode.onmousemove = (typeof props.onMouseMove == 'string')
                 ? new Function("event", props.onMouseMove)
-                : props.onMouseMove);
+                : props.onMouseMove;
         }
         if (props.onSelect) {
-            domNode.setAttribute("onselect", (is_ie && typeof props.onSelect == 'string')
+            domNode.onselect = (typeof props.onSelect == 'string')
                 ? new Function("event", props.onSelect)
-                : props.onSelect);
+                : props.onSelect;
         }
         return true;
     }

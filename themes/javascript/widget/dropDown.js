@@ -34,7 +34,6 @@ dojo.require("webui.@THEME@.widget.*");
  * Note: This is considered a private API, do not use.
  */
 webui.@THEME@.widget.dropDown = function() {
-
     // Set defaults
     this.widgetType = "dropDown";
 
@@ -45,7 +44,6 @@ webui.@THEME@.widget.dropDown = function() {
      * This function is used to generate a template based widget.
      */
     this.fillInTemplate = function() {
-
         // Set ids.
         if (this.id) {
             this.labelContainer.id = this.id + "_label";
@@ -154,11 +152,10 @@ webui.@THEME@.widget.dropDown.setProps = function(props) {
         this.addOptions(props);
     }
 
+    // Add attributes to the hidden input for jump drop down
     if ( props.submitForm != null && props.submitForm == true) {
-
-        // Add attributes to the hidden input for jump drop down
-        this.submitterHiddenNode.setAttribute("name", this.submitterHiddenNode.id);
-        this.submitterHiddenNode.setAttribute("value", "false");
+        this.submitterHiddenNode.name = this.submitterHiddenNode.id;
+        this.submitterHiddenNode.value = "false";
     }
 
     // Set label if there is one
@@ -178,7 +175,6 @@ webui.@THEME@.widget.dropDown.setProps = function(props) {
     if (this.label && props.labelOnTop != null) { 
         webui.@THEME@.common.setVisibleElement(this.brNode, props.labelOnTop);
     }
-   
     return true;
 }
 
@@ -213,41 +209,27 @@ webui.@THEME@.widget.dropDown.getProps = function() {
  * @param selectNode The <select> DOM node  
  */
 webui.@THEME@.widget.dropDown.setSelectProps = function(selectNode, props) {
+    selectNode.name = selectNode.id;
 
     if (props.size) {
-        selectNode.setAttribute("size", (props.size < 1)? 12 : props.size);  
+        selectNode.size = (props.size < 1) ? 12 : props.size;  
     }
-    
     if (props.multiple != null) {
-        if (props.multiple == true ) {
-            selectNode.setAttribute("multiple", "multiple");  
-        } else {
-            selectNode.removeAttribute("multiple");
-        }
+        selectNode.multiple = new Boolean(props.multiple).valueOf();
     }
-
-    selectNode.setAttribute("name", selectNode.id); 
-
     if (props.disabled != null) {
-        if (props.disabled == true ) {
-            selectNode.setAttribute("disabled", "disabled");
-        } else {
-            selectNode.removeAttribute("disabled");
-        }
+        selectNode.disabled = new Boolean(props.disabled).valueOf();
     }
-
     if (props.disabled != null) {
         selectNode.className = this.getSelectClassName(props.disabled);
     }
-
-    return;
+    return true;
 }
 
 /**
  * Helper function to add <option> and <optgroup> elements to the <select> element
  */
 webui.@THEME@.widget.dropDown.addOptions = function(props) {
-
     var numChildNodes = this.listContainer.options.length;
 
     // Start with a clean slate.
@@ -265,9 +247,7 @@ webui.@THEME@.widget.dropDown.addOptions = function(props) {
 
     var thisNode;
     for (var i = 0; i < props.options.length; i++) {
-
         if (props.options[i].group == false) {
-
             thisNode = this.optionNode.cloneNode(true);
 
             // Set the properties on this <option> element
@@ -289,13 +269,13 @@ webui.@THEME@.widget.dropDown.addOptions = function(props) {
             // Add the <option> elements to this group
             var thisSubNode;
             for (var ix = 0; ix < props.options[i].options.length; ix++) {
-
                 thisSubNode = this.memberOptionNode.cloneNode(true);
                 this.setOptionProps(thisSubNode, props.options[i].options[ix]);
                 thisNode.appendChild(thisSubNode); 
             }
         }
     }
+    return true;
 }
 
 /**
@@ -305,26 +285,25 @@ webui.@THEME@.widget.dropDown.addOptions = function(props) {
  * @param option Key-Value pairs of properties for the <option> node
  */
 webui.@THEME@.widget.dropDown.setOptionProps = function(element, option) {
-
-    element.setAttribute("value", option.value);
+    element.value = option.value;
     element.className = this.getOptionClassName(option);
 
     if (option.isTitle == true) {
        // Prepend and append long dashes with the title label
        element.innerHTML = webui.@THEME@.widget.props.dropDown.titleOptionPreppender 
-                               + option.label 
-                               + webui.@THEME@.widget.props.dropDown.titleOptionAppender;
+            + option.label 
+            + webui.@THEME@.widget.props.dropDown.titleOptionAppender;
     } else {
        element.innerHTML = option.label;
     }
 
-    if (option.selected == true) {
-       element.setAttribute("selected", "selected" );
+    if (option.selected != null) {
+        element.selected = new Boolean(option.selected).valueOf();
     }
-
-    if (option.disabled == true) {
-       element.setAttribute("disabled", "disabled");
+    if (option.disabled != null) {
+        element.disabled = new Boolean(option.disabled).valueOf();
     }
+    return true;
 }
 
 /**
@@ -334,13 +313,13 @@ webui.@THEME@.widget.dropDown.setOptionProps = function(element, option) {
  * @param option Key-Value pairs of properties for the <optgroup> node
  */
 webui.@THEME@.widget.dropDown.setGroupOptionProps = function(element, option) {
-
     element.className = this.getOptionClassName(option);
-    element.setAttribute("label", option.label);
+    element.label = option.label;
   
-    if (option.disabled == true) {
-       element.setAttribute("disabled", "disabled");
+    if (option.disabled != null) {
+        element.disabled = new Boolean(option.disabled).valueOf();
     }
+    return true;
 }
 
 /**
@@ -348,12 +327,11 @@ webui.@THEME@.widget.dropDown.setGroupOptionProps = function(element, option) {
  * whether the drop is a jump drop down or not
  */
 webui.@THEME@.widget.dropDown.initStyleClasses = function(submitForm) {
-
-    if (submitForm == null )
+    if (submitForm == null) {
         return;
+    }
 
     if (submitForm == true) {
-
         this.selectClassName = webui.@THEME@.widget.props.jumpDropDown.className;
         this.selectDisabledClassName = webui.@THEME@.widget.props.jumpDropDown.disabledClassName;
         this.optionClassName = webui.@THEME@.widget.props.jumpDropDown.optionClassName;
@@ -361,9 +339,7 @@ webui.@THEME@.widget.dropDown.initStyleClasses = function(submitForm) {
         this.optionGroupClassName = webui.@THEME@.widget.props.jumpDropDown.optionGroupClassName;
         this.optionDisabledClassName = webui.@THEME@.widget.props.jumpDropDown.optionDisabledClassName;
         this.optionSelectedClassName = webui.@THEME@.widget.props.jumpDropDown.optionSelectedClassName;
-
     } else {
-
         this.selectClassName = webui.@THEME@.widget.props.dropDown.className;
         this.selectDisabledClassName = webui.@THEME@.widget.props.dropDown.disabledClassName;
         this.optionClassName = webui.@THEME@.widget.props.dropDown.optionClassName;
@@ -371,16 +347,17 @@ webui.@THEME@.widget.dropDown.initStyleClasses = function(submitForm) {
         this.optionGroupClassName = webui.@THEME@.widget.props.dropDown.optionGroupClassName;
         this.optionDisabledClassName = webui.@THEME@.widget.props.dropDown.optionDisabledClassName;
         this.optionSelectedClassName = webui.@THEME@.widget.props.dropDown.optionSelectedClassName;
-
-    }    
+    }
+    return true;
 }
 
 /**
  * Helper function to obtain class name for the <select> element
  */
 webui.@THEME@.widget.dropDown.getSelectClassName = function(disabled) {
-
-    return (disabled == true) ? this.selectDisabledClassName : this.selectClassName;
+    return (disabled == true)
+        ? this.selectDisabledClassName
+        : this.selectClassName;
 }
 
 /**
@@ -389,7 +366,6 @@ webui.@THEME@.widget.dropDown.getSelectClassName = function(disabled) {
  * @param option Key-Value pairs of properties.
  */
 webui.@THEME@.widget.dropDown.getOptionClassName = function(option) {
-
     if (option.separator && option.separator == true) {
         return this.optionSeparatorClassName;
     } else if (option.group && option.group == true) {
@@ -424,11 +400,11 @@ webui.@THEME@.widget.dropDown.createOnChangeCallback = function(id) {
         }
 
         // Call the proper changed function
-        if (widget.submitForm == true)
+        if (widget.submitForm == true) {
             widget.jumpDropDownChanged();
-        else
+        } else {
             widget.dropDownChanged();
-
+        }
         return true;
     };
 }
@@ -438,11 +414,9 @@ webui.@THEME@.widget.dropDown.createOnChangeCallback = function(id) {
  * selected, and disabled styles.
  */
 webui.@THEME@.widget.dropDown.dropDownChanged = function() { 
-
     var options = this.listContainer.options;
 
     if (webui.@THEME@.common.browser.is_ie) { 
-
         for (var i = 0;i < options.length;++i) {
             if (options[i].disabled == true && options[i].selected == true) {
                 widget.listContainer.selectedIndex = -1;
@@ -451,10 +425,8 @@ webui.@THEME@.widget.dropDown.dropDownChanged = function() {
     }        
 
     for (var i=0; i < options.length; ++i) { 
-   
         options[i].className = this.getOptionClassName(options[i]);
     }
-
     return true; 
 }
 
@@ -463,7 +435,6 @@ webui.@THEME@.widget.dropDown.dropDownChanged = function() {
  * set the form action and then submit the form.
  */
 webui.@THEME@.widget.dropDown.jumpDropDownChanged = function() {
-
     var jumpDropdown = this.listContainer; 
 
     // Find the <form> for this drop down
@@ -475,19 +446,15 @@ webui.@THEME@.widget.dropDown.jumpDropDownChanged = function() {
         }
     }
 
-    if(form != null) { 
-        
-        this.submitterHiddenNode.setAttribute("value", "true");
+    if (form != null) { 
+        this.submitterHiddenNode.value = "true";
 
         var options = jumpDropdown.options;
         for (var i=0; i < options.length; ++i) { 
-
             options[i].className = this.getOptionClassName(options[i]);
         }
-
         form.submit();
     }
-
     return true; 
 }
 
@@ -498,7 +465,6 @@ webui.@THEME@.widget.dropDown.jumpDropDownChanged = function() {
  * @return The value of the selected option, or null if none is selected. 
  */
 webui.@THEME@.widget.dropDown.getSelectedValue = function() { 
-
     var index = this.listContainer.selectedIndex; 
     if (index == -1) { 
         return null; 
@@ -514,7 +480,6 @@ webui.@THEME@.widget.dropDown.getSelectedValue = function() {
  * @return The label of the selected option, or null if none is selected. 
  */
 webui.@THEME@.widget.dropDown.getSelectedLabel = function() { 
-
     var index = this.listContainer.selectedIndex; 
 
     if (index == -1) { 
@@ -548,11 +513,11 @@ webui.@THEME@.widget.dropDown.refresh = {
      * against which the execute portion of the request processing lifecycle
      * must be run.
      */
-    processEvent: function(_execute) {
+    processEvent: function(execute) {
         // Publish event.
         webui.@THEME@.widget.dropDown.refresh.publishBeginEvent({
             id: this.id,
-            execute: _execute
+            execute: execute
         });
         return true;
     },

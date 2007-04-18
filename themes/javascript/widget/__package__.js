@@ -31,19 +31,19 @@ dojo.kwCompoundRequire({
 // For debugging only, obtain all module resources before invoking
 // dojo.hostenv.writeIncludes(). This will ensure that JavaScript
 // files are accessible to JavaScript debuggers.
-dojo.requireIf(djConfig.isDebug, "webui.@THEME@.widget.button");
-dojo.requireIf(djConfig.isDebug, "webui.@THEME@.widget.dropDown");
-dojo.requireIf(djConfig.isDebug, "webui.@THEME@.widget.progressBar");
-dojo.requireIf(djConfig.isDebug, "webui.@THEME@.widget.table2");
-dojo.requireIf(djConfig.isDebug, "webui.@THEME@.widget.image");
-dojo.requireIf(djConfig.isDebug, "webui.@THEME@.widget.table2RowGroup");
-dojo.requireIf(djConfig.isDebug, "webui.@THEME@.widget.label");
-dojo.requireIf(djConfig.isDebug, "webui.@THEME@.widget.staticText");
-dojo.requireIf(djConfig.isDebug, "webui.@THEME@.widget.checkbox");
-dojo.requireIf(djConfig.isDebug, "webui.@THEME@.widget.hiddenField");
-dojo.requireIf(djConfig.isDebug, "webui.@THEME@.widget.radioButton");
-dojo.requireIf(djConfig.isDebug, "webui.@THEME@.widget.textField");
 dojo.requireIf(djConfig.isDebug, "webui.@THEME@.widget.alert");
+dojo.requireIf(djConfig.isDebug, "webui.@THEME@.widget.button");
+dojo.requireIf(djConfig.isDebug, "webui.@THEME@.widget.checkbox");
+dojo.requireIf(djConfig.isDebug, "webui.@THEME@.widget.dropDown");
+dojo.requireIf(djConfig.isDebug, "webui.@THEME@.widget.hiddenField");
+dojo.requireIf(djConfig.isDebug, "webui.@THEME@.widget.image");
+dojo.requireIf(djConfig.isDebug, "webui.@THEME@.widget.label");
+dojo.requireIf(djConfig.isDebug, "webui.@THEME@.widget.progressBar");
+dojo.requireIf(djConfig.isDebug, "webui.@THEME@.widget.radioButton");
+dojo.requireIf(djConfig.isDebug, "webui.@THEME@.widget.staticText");
+dojo.requireIf(djConfig.isDebug, "webui.@THEME@.widget.table2");
+dojo.requireIf(djConfig.isDebug, "webui.@THEME@.widget.table2RowGroup");
+dojo.requireIf(djConfig.isDebug, "webui.@THEME@.widget.textField");
 
 dojo.require("dojo.ns");
 dojo.registerNamespace("webui.@THEME@", "webui.@THEME@.widget");

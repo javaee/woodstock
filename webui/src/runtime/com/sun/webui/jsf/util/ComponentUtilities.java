@@ -21,7 +21,7 @@
  */
 
 /*
- * $Id: ComponentUtilities.java,v 1.4 2007-04-17 17:36:58 danl Exp $
+ * $Id: ComponentUtilities.java,v 1.5 2007-04-18 04:22:18 danl Exp $
  */
 
 package com.sun.webui.jsf.util;
@@ -209,9 +209,14 @@ public class ComponentUtilities {
      * @param context FacesContext for the current request.
      * @param component UIComponent to be rendered.
      * @param event The event name for this Ajax request (may be null).
+     * @exception NullPointerException if <code>context</code> or
+     *  <code>component</code> is <code>null</code>
      */
     public static boolean isAjaxRequest(FacesContext context,
             UIComponent component, String event) {
+        if (context == null || component == null) {
+            throw new NullPointerException();
+        }
         boolean isAjaxRequest = false;
 
         // Ensure this request is not for an AjaxZone.

@@ -502,7 +502,7 @@ webui.@THEME@.table = {
             var select = document.getElementById(
                 this.groupIds[i] + this.SEPARATOR + rowIds[k] + 
                 this.SEPARATOR + selectId);
-            if (select != null && select.checked) {
+            if (select != null && select.getProps().checked) {
                 count++;
             }
         }
@@ -557,7 +557,7 @@ webui.@THEME@.table = {
             // Set row style class.
             var row = document.getElementById(this.groupIds[i] + 
                 this.SEPARATOR + rowIds[k]);
-            if (select.checked == true) {
+            if (select.getProps().checked == true) {
                 webui.@THEME@.common.addStyleClass(row, 
                     this.selectRowStyleClass);
                 selected = true;
@@ -572,7 +572,7 @@ webui.@THEME@.table = {
         var checkbox = document.getElementById(groupId + this.SEPARATOR + 
             this.selectMultipleToggleButtonId);
         if (checkbox != null) {
-            checkbox.checked = checked;
+            checkbox.setProps({"checked": checked});
             if (checked) {    
                 checkbox.title = this.selectMultipleToggleButtonToolTipSelected;
             } else {
@@ -1081,7 +1081,7 @@ webui.@THEME@.table = {
             if (select == null) {
                 continue;
             }
-            select.checked = new Boolean(selected).valueOf();
+            select.setProps({checked: new Boolean(selected).valueOf()});
         }
         return this.initGroupRows(groupId); // Set row highlighting.
     },

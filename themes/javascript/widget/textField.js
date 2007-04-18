@@ -52,7 +52,7 @@ webui.@THEME@.widget.textField = function() {
         if (this.id) {
             this.labelContainer.id = this.id + "_label";
             this.textFieldNode.id = this.id + "_field";
-            this.textFieldNode.setAttribute("name", this.id + "_field"); 
+            this.textFieldNode.name = this.id + "_field";
         }
         
         // Set public functions.
@@ -60,9 +60,9 @@ webui.@THEME@.widget.textField = function() {
         this.domNode.getProps = function() { return dojo.widget.byId(this.id).getProps(); }
         
         // Set private functions .
-        this.setProps       = webui.@THEME@.widget.textField.setProps;
-        this.getProps       = webui.@THEME@.widget.textField.getProps;
-        this.getClassName   = webui.@THEME@.widget.textField.getClassName;
+        this.setProps     = webui.@THEME@.widget.textField.setProps;
+        this.getProps     = webui.@THEME@.widget.textField.getProps;
+        this.getClassName = webui.@THEME@.widget.textField.getClassName;
         
         // Set events.
         
@@ -84,8 +84,8 @@ webui.@THEME@.widget.textField = function() {
 webui.@THEME@.widget.textField.getClassName = function() {
     // Set default style.    
     var className = (this.disabled == true)
-    ? webui.@THEME@.widget.props.textField.disabledClassName
-    : webui.@THEME@.widget.props.textField.enabledClassName;
+        ? webui.@THEME@.widget.props.textField.disabledClassName
+        : webui.@THEME@.widget.props.textField.enabledClassName;
     
     return className;
 }
@@ -141,20 +141,14 @@ webui.@THEME@.widget.textField.setProps = function(props) {
     // Set text field attributes.
     props.id = props.name; // Match JSF renderer decode method.
     
-    if (props.size) { this.textFieldNode.setAttribute("size", props.size); }
-    if (props.value) { this.textFieldNode.setAttribute("value", props.value); }
-    if (props.text) { this.textFieldNode.setAttribute("value", props.value); }
+    if (props.size) { this.textFieldNode.size = props.size; }
+    if (props.value) { this.textFieldNode.value = props.value; }
+    if (props.disabled != null) { 
+        this.textFieldNode.disabled = new Boolean(props.disabled).valueOf();
+    }
     
     this.textFieldNode.className = this.getClassName();
-    
-    if (props.disabled != null) { 
-        if (props.disabled == true) {
-            this.textFieldNode.setAttribute("disabled", "disabled");
-        } else {
-            this.textFieldNode.removeAttribute("disabled");
-        }
-    }    
-    
+
     // Set label properties.
     if (props.label || (props.valid != null || props.required != null) && this.label) {
         // Ensure property exists so we can call setProps just once.

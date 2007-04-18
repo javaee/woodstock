@@ -162,9 +162,11 @@ public class ButtonRenderer extends RendererBase {
             .put("primary", button.isPrimary())
             .put("templatePath", (templatePath != null)
                 ? templatePath 
-                : getTheme().getPathToTemplate(ThemeTemplates.BUTTON))
+                : button.isReset()
+                    ? getTheme().getPathToTemplate(ThemeTemplates.RESETBUTTON)
+                    : getTheme().getPathToTemplate(ThemeTemplates.SUBMITBUTTON))
             .put("title", button.getToolTip())
-            .put("type", button.isReset() ? "reset" : "submit")
+            .put("value", button.getClientId(context))
             .put("visible", button.isVisible());
 
         // Add core and attribute properties.

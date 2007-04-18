@@ -58,7 +58,7 @@ webui.@THEME@.widget.alert = function() {
         }
 
         // Set public functions.
-        this.domNode.getProps = function() { return dojo.widget.byId(this.id).getProps(); } 
+        this.domNode.getProps = function() { return dojo.widget.byId(this.id).getProps(); }
         this.domNode.setProps = function(props) { return dojo.widget.byId(this.id).setProps(props); }
         
         this.setProps = webui.@THEME@.widget.alert.setProps;
@@ -114,7 +114,6 @@ webui.@THEME@.widget.alert.getProps = function() {
  * @param props Key-Value pairs of properties.
  */
 webui.@THEME@.widget.alert.setProps = function(props) {
-    
     // After widget has been initialized, save properties for later updates.
     if (props != null) {
         webui.@THEME@.widget.common.extend(this, props);    
@@ -124,10 +123,11 @@ webui.@THEME@.widget.alert.setProps = function(props) {
 
     // Set attributes.
     webui.@THEME@.widget.common.setCoreProps(this.domNode, props);
-    // do not call setCommonProps as that will result in assigning tabIndex to outermost
-    // domNode. Assign tabIndex to alert images.
-    if (props.dir) { this.domNode.setAttribute("dir", props.dir); }
-    if (props.lang) { this.domNode.setAttribute("lang", props.lang); }    
+
+    // Do not call setCommonProps as that will result in assigning tabIndex to
+    // outermost domNode. Assign a11y properties to alert images.
+    if (props.dir) { this.domNode.dir = props.dir; }
+    if (props.lang) { this.domNode.lang = props.lang; }    
     
     // Set summary.
     if (props.summary) {
@@ -143,7 +143,6 @@ webui.@THEME@.widget.alert.setProps = function(props) {
     if (props.moreInfo) {
         webui.@THEME@.widget.common.addFragment(this.detailContainerLink, props.moreInfo);
     }
-    
 
     // Set spacer image.
     if (props.spacerImage) {
@@ -167,31 +166,30 @@ webui.@THEME@.widget.alert.setProps = function(props) {
         }
     }
 
-     // Set indicator properties.
-     if (props.indicators || props.type != null && this.indicators) {
-     
-         // Iterate over each indicator.
-         for (var i = 0; i < this.indicators.length; i++) {
-             // Ensure property exists so we can call setProps just once.
-             var indicator = this.indicators[i]; // get current indicator.
+    // Set indicator properties.
+    if (props.indicators || props.type != null && this.indicators) {
+        // Iterate over each indicator.
+        for (var i = 0; i < this.indicators.length; i++) {
+            // Ensure property exists so we can call setProps just once.
+            var indicator = this.indicators[i]; // get current indicator.
            
-             if (indicator == null) {
-               indicator = {};
-             }
+            if (indicator == null) {
+                indicator = {};
+            }
            
-             // Show indicator.
-             indicator.image.visible = (this.type != null && this.type == indicator.type) ? true : false;
-             indicator.image.tabIndex = this.tabIndex;
+            // Show indicator.
+            indicator.image.visible = (this.type != null && this.type == indicator.type) ? true : false;
+            indicator.image.tabIndex = this.tabIndex;
            
-             // Update widget/add fragment.
-             var indicatorWidget = dojo.widget.byId(indicator.image.id);
-             if (indicatorWidget) {
-               indicatorWidget.domNode.setProps(indicator.image);
-             } else {
+            // Update widget/add fragment.
+            var indicatorWidget = dojo.widget.byId(indicator.image.id);
+            if (indicatorWidget) {
+                indicatorWidget.setProps(indicator.image);
+            } else {
                 webui.@THEME@.widget.common.addFragment(this.imageContainer, indicator.image, "last");
-             }
-         }
-     } 
+            }
+        }
+    }
     return true;
 }
 

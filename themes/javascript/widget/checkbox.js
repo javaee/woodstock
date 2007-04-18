@@ -53,7 +53,7 @@ webui.@THEME@.widget.checkbox = function() {
 
         // Set public functions.        
         this.domNode.setProps = function(props) { return dojo.widget.byId(this.id).setProps(props); }
-        this.domNode.getProps = function() { return dojo.widget.byId(this.id).getProps(); } 
+        this.domNode.getProps = function() { return dojo.widget.byId(this.id).getProps(); }
         this.domNode.getInputElement = function() { return dojo.widget.byId(this.id).getInputElement(); }
         this.domNode.refresh = function(execute) { return dojo.widget.byId(this.id).refresh(execute); }
 
@@ -64,10 +64,37 @@ webui.@THEME@.widget.checkbox = function() {
         this.getInputElement = webui.@THEME@.widget.checkbox.getInputElement;
         this.refresh = webui.@THEME@.widget.checkbox.refresh.processEvent;        
 
+        // Set events.
+        dojo.event.connect(this.domNode, "onclick",
+            webui.@THEME@.widget.checkbox.createOnChangeCallback(this.id));
+
         // Set properties
         this.setProps();
         return true;
     }
+}
+
+/**
+ * Helper function to create callback for onClick event.
+ *
+ * @param id The HTML element id used to invoke the callback.
+ */
+webui.@THEME@.widget.checkbox.createOnChangeCallback = function(id) {
+    if (id == null) {
+        return null;
+    }
+    // New literals are created every time this function
+    // is called, and it's saved by closure magic.
+    return function(evt) { 
+        var widget = dojo.widget.byId(id);
+        if (widget == null) {
+            return false;
+        }
+
+        // Maintain checked state for getProps() function.
+        widget.checked = widget.checkboxNode.checked;
+        return true;
+    };
 }
 
 /**
@@ -136,11 +163,11 @@ webui.@THEME@.widget.checkbox.refresh = {
      * against which the execute portion of the request processing lifecycle
      * must be run.
      */
-    processEvent: function(_execute) {
+    processEvent: function(execute) {
         // Publish event.
         webui.@THEME@.widget.checkbox.refresh.publishBeginEvent({
             id: this.id,
-            execute: _execute
+            execute: execute
         });
         return true;
     },
@@ -224,34 +251,24 @@ webui.@THEME@.widget.checkbox.setProps = function(props) {
     webui.@THEME@.widget.common.setCommonProps(this.checkboxNode, props);
     webui.@THEME@.widget.common.setJavaScriptProps(this.checkboxNode, props); 
 
-    if (props.value) { this.checkboxNode.setAttribute("value", props.value); }
+    if (props.value) { 
+        this.checkboxNode.value, props.value;
+    }
     if (props.readOnly != null) { 
-        if (props.readOnly == true) { 
-            this.checkboxNode.setAttribute("readonly", "readonly");
-        } else {
-            this.checkboxNode.removeAttribute("readonly");
-        }
+        this.checkboxNode.readonly = new Boolean(props.readOnly).valueOf();
     }
     if (props.checked != null) { 
-        if (props.checked == true) {
-            this.checkboxNode.setAttribute("checked", "checked");
-        } else {
-            this.checkboxNode.removeAttribute("checked");
-        }
+        this.checkboxNode.checked = new Boolean(props.checked).valueOf();
     }
     if (props.disabled != null) { 
-        if (props.disabled == true) {
-            this.checkboxNode.setAttribute("disabled", "disabled");        
-        } else {
-            this.checkboxNode.removeAttribute("disabled");
-        }
+        this.checkboxNode.disabled = new Boolean(props.disabled).valueOf();
     }
 
     // Set name -- If it's null, use HTML input element's id.
     if (props.name) {
-        this.checkboxNode.setAttribute("name", (props.name != null) 
+        this.checkboxNode.name = (props.name != null) 
             ? props.name 
-            : this.checkboxNode.id);
+            : this.checkboxNode.id;
     }      	
     
     // Set image widget properties.

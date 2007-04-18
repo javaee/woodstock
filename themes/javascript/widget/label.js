@@ -168,8 +168,7 @@ webui.@THEME@.widget.label.setProps = function(props) {
     webui.@THEME@.widget.common.setCommonProps(this.domNode, props);
     webui.@THEME@.widget.common.setJavaScriptProps(this.domNode, props);
 
-    if (props.htmlFor) { this.domNode.setAttribute("for", props.htmlFor); }
-    if (props.value) { this.domNode.setAttribute("value", props.value); }
+    if (props.htmlFor) { this.domNode.htmlFor = props.htmlFor; }
 
     // Set label value.
     if (props.value) {
@@ -227,7 +226,6 @@ webui.@THEME@.widget.label.setProps = function(props) {
 		props.contents[i], "last");
         }
     }
-
     return true;
 }
 

@@ -102,14 +102,10 @@ webui.@THEME@.widget.hiddenField.setProps = function(props) {
     // Set attributes.
     webui.@THEME@.widget.common.setCoreProps(this.domNode, props);
 
-    if (props.name) { this.domNode.setAttribute("name", props.name); }
-    if (props.value) { this.domNode.setAttribute("value", props.value); }
-    if (props.disabled != null) {
-        if (props.disabled == true) { 
-            this.domNode.setAttribute("disabled", "disabled");
-        } else { 
-            this.domNode.removeAttribute('disabled');
-        }
+    if (props.name) { this.domNode.name = props.name; }
+    if (props.value) { this.domNode.value = props.value; }
+    if (props.disabled != null) { 
+        this.domNode.disabled = new Boolean(props.disabled).valueOf();
     }
     return true;
 }

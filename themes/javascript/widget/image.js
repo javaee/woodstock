@@ -136,19 +136,19 @@ webui.@THEME@.widget.image.setProps = function(props){
     webui.@THEME@.widget.common.setCommonProps(this.domNode, props);
     webui.@THEME@.widget.common.setJavaScriptProps(this.domNode, props);
 
-    if (props.alt) { this.domNode.setAttribute("alt", props.alt); }
-    if (props.align) { this.domNode.setAttribute("align", props.align); }
-    if (props.border != null) { this.domNode.setAttribute("border", props.border); }
-    if (props.height) { this.domNode.setAttribute("height", props.height); }
-    if (props.hspace) { this.domNode.setAttribute("hspace", props.hspace); }
-    if (props.longDesc) { this.domNode.setAttribute("longDesc", props.longDesc); }
-    if (props.src) { this.domNode.setAttribute("src", new dojo.uri.Uri(props.src).toString()); }
-    if (props.vspace) { this.domNode.setAttribute("vspace", props.vspace); }
-    if (props.width) { this.domNode.setAttribute("width", props.width); }
+    if (props.alt) { this.domNode.alt = props.alt; }
+    if (props.align) { this.domNode.align = props.align; }
+    if (props.border != null) { this.domNode.border = props.border; }
+    if (props.height) { this.domNode.height = props.height; }
+    if (props.hspace) { this.domNode.hspace = props.hspace; }
+    if (props.longDesc) { this.domNode.longDesc = props.longDesc; }
+    if (props.src) { this.domNode.src = new dojo.uri.Uri(props.src).toString(); }
+    if (props.vspace) { this.domNode.vspace = props.vspace; }
+    if (props.width) { this.domNode.width = props.width; }
 
     return true;            
-}
+};
         
 dojo.inherits(webui.@THEME@.widget.image, dojo.widget.HtmlWidget);
 
-
+//-->

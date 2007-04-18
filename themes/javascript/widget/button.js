@@ -38,7 +38,6 @@ webui.@THEME@.widget.button = function() {
     this.disabled = false;
     this.mini = false;
     this.primary = true;
-    this.type = "submit";
     this.widgetType = "button";
 
     // Register widget.
@@ -48,6 +47,11 @@ webui.@THEME@.widget.button = function() {
      * This function is used to generate a template based widget.
      */
     this.fillInTemplate = function() {
+        // Set ids.
+        if (this.id) {
+            this.name = this.id;
+        }
+
         // Set public functions. 
         this.domNode.getProps = function() { return dojo.widget.byId(this.id).getProps(); }
         this.domNode.refresh = function(execute) { return dojo.widget.byId(this.id).refresh(execute); }
@@ -191,9 +195,9 @@ webui.@THEME@.widget.button.getHoverClassName = function() {
 webui.@THEME@.widget.button.initClassNames = function() {
     // Set style classes
     if (this.icon == true) {
-        this.primaryClassName = webui.@THEME@.props.button.imageClassName;
-        this.primaryDisabledClassName = webui.@THEME@.props.button.imageDisabledClassName;
-        this.primaryHovClassName = webui.@THEME@.props.button.imageHovClassName;
+        this.primaryClassName = webui.@THEME@.widget.props.button.imageClassName;
+        this.primaryDisabledClassName = webui.@THEME@.widget.props.button.imageDisabledClassName;
+        this.primaryHovClassName = webui.@THEME@.widget.props.button.imageHovClassName;
 
         // Currently not used in theme.
         this.primaryMiniClassName = this.primaryClassName;
@@ -206,18 +210,18 @@ webui.@THEME@.widget.button.initClassNames = function() {
         this.secondaryMiniDisabledClassName = this.primaryDisabledClassName;
         this.secondaryMiniHovClassName = this.primaryHovClassName;
     } else {
-        this.primaryClassName = webui.@THEME@.props.button.primaryClassName;
-        this.primaryDisabledClassName = webui.@THEME@.props.button.primaryDisabledClassName;
-        this.primaryHovClassName = webui.@THEME@.props.button.primaryHovClassName;
-        this.primaryMiniClassName = webui.@THEME@.props.button.primaryMiniClassName;
-        this.primaryMiniDisabledClassName = webui.@THEME@.props.button.primaryMiniDisabledClassName;
-        this.primaryMiniHovClassName = webui.@THEME@.props.button.primaryMiniHovClassName;
-        this.secondaryClassName = webui.@THEME@.props.button.secondaryClassName;
-        this.secondaryDisabledClassName = webui.@THEME@.props.button.secondaryDisabledClassName;
-        this.secondaryHovClassName = webui.@THEME@.props.button.secondaryHovClassName;
-        this.secondaryMiniClassName = webui.@THEME@.props.button.secondaryMiniClassName;
-        this.secondaryMiniDisabledClassName = webui.@THEME@.props.button.secondaryMiniDisabledClassName;
-        this.secondaryMiniHovClassName = webui.@THEME@.props.button.secondaryMiniHovClassName;
+        this.primaryClassName = webui.@THEME@.widget.props.button.primaryClassName;
+        this.primaryDisabledClassName = webui.@THEME@.widget.props.button.primaryDisabledClassName;
+        this.primaryHovClassName = webui.@THEME@.widget.props.button.primaryHovClassName;
+        this.primaryMiniClassName = webui.@THEME@.widget.props.button.primaryMiniClassName;
+        this.primaryMiniDisabledClassName = webui.@THEME@.widget.props.button.primaryMiniDisabledClassName;
+        this.primaryMiniHovClassName = webui.@THEME@.widget.props.button.primaryMiniHovClassName;
+        this.secondaryClassName = webui.@THEME@.widget.props.button.secondaryClassName;
+        this.secondaryDisabledClassName = webui.@THEME@.widget.props.button.secondaryDisabledClassName;
+        this.secondaryHovClassName = webui.@THEME@.widget.props.button.secondaryHovClassName;
+        this.secondaryMiniClassName = webui.@THEME@.widget.props.button.secondaryMiniClassName;
+        this.secondaryMiniDisabledClassName = webui.@THEME@.widget.props.button.secondaryMiniDisabledClassName;
+        this.secondaryMiniHovClassName = webui.@THEME@.widget.props.button.secondaryMiniHovClassName;
     }
 }
 
@@ -237,7 +241,6 @@ webui.@THEME@.widget.button.getProps = function() {
     if (this.mini != null) { props.mini = this.mini; }
     if (this.name) { props.name = this.name; }
     if (this.primary != null) { props.primary = this.primary; }
-    if (this.type) { props.type = this.type; }
     if (this.value) { props.value = this.value; }
     if (this.title) { props.title = this.title; }
 
@@ -266,11 +269,11 @@ webui.@THEME@.widget.button.refresh = {
      * against which the execute portion of the request processing lifecycle
      * must be run.
      */
-    processEvent: function(_execute) {
+    processEvent: function(execute) {
         // Publish event.
         webui.@THEME@.widget.button.refresh.publishBeginEvent({
             id: this.id,
-            execute: _execute
+            execute: execute
         });
         return true;
     },
@@ -328,7 +331,6 @@ webui.@THEME@.widget.button.refresh = {
  *  <li>style</li>
  *  <li>title</li>
  *  <li>tabIndex</li>
- *  <li>type</li>
  *  <li>value</li>
  *  <li>visible</li>
  * </ul>
@@ -344,12 +346,8 @@ webui.@THEME@.widget.button.setProps = function(props) {
     }
 
     // Set disabled before className.
-    if (props.disabled != null) {
-        if (props.disabled == true) {
-            this.domNode.setAttribute("disabled", "disabled");
-        } else {
-            this.domNode.removeAttribute("disabled");
-        }
+    if (props.disabled != null) { 
+        this.domNode.disabled = new Boolean(props.disabled).valueOf();
     }
 
     // Set style class -- must be set before calling setCoreProps().
@@ -360,11 +358,10 @@ webui.@THEME@.widget.button.setProps = function(props) {
     webui.@THEME@.widget.common.setCommonProps(this.domNode, props);
     webui.@THEME@.widget.common.setJavaScriptProps(this.domNode, props);
 
-    if (props.alt) { this.domNode.setAttribute("alt", props.alt); }
-    if (props.align) { this.domNode.setAttribute("align", props.align); }
-    if (props.name) { this.domNode.setAttribute("name", props.name); }
-    if (props.value) { this.domNode.setAttribute("value", props.value); }
-    if (props.type) { this.domNode.setAttribute("type", props.type); }
+    if (props.alt) { this.domNode.alt = props.alt; }
+    if (props.align) { this.domNode.align = props.align; }
+    if (props.name) { this.domNode.name = props.name; }
+    if (props.value) { this.domNode.value = props.value; }
 
     // Set contents.
     if (props.contents) {

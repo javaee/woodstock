@@ -111,11 +111,11 @@ webui.@THEME@.widget.table2.refresh = {
      * against which the execute portion of the request processing lifecycle
      * must be run.
      */
-    processEvent: function(_execute) {
+    processEvent: function(execute) {
         // Publish event.
         webui.@THEME@.widget.table2.refresh.publishBeginEvent({
             id: this.id,
-            execute: _execute
+            execute: execute
         });
         return true;
     },

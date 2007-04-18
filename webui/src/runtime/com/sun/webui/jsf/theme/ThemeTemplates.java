@@ -27,73 +27,79 @@ package com.sun.webui.jsf.theme;
  */
 public class ThemeTemplates {
     /**
-     * A template file that contains HTML for the Button component.
+     * A template file that contains HTML for the alert component.
      */
-    public static final String BUTTON = "button";
-    
+    public static final String ALERT = "alert";
+
+    /**
+     * A template file that contains HTML for the Checkbox component.
+     */
+    public static final String CHECKBOX = "checkbox";
+
     /**
      * A template file that contains HTML for the DropDown component.
      */
     public static final String DROPDOWN = "dropDown";
     
     /**
-     * A template file that contains HTML for the Table2 component.
+     * A template file that contains HTML for the hiddenField component.
      */
-    public static final String TABLE2 = "table2";
-    
-    /**
-     * A template file that contains HTML for the Table2RowGroup component.
-     */
-    public static final String TABLE2ROWGROUP = "table2RowGroup";
-    
-    /**
-     * A template file that contains HTML for the radioButton component.
-     */
-    public static final String RADIOBUTTON = "radioButton";
-    
-    /**
-     * A template file that contains HTML for the ProgressBar component.
-     */
-    public static final String PROGRESSBAR = "progressBar";
-    
-    /**
-     * A template file that contains HTML for the Checkbox component.
-     */
-    public static final String CHECKBOX = "checkbox";
-    
+    public static final String HIDDENFIELD = "hiddenField";
+
     /**
      * A template file that contains HTML for the image component.
      */
     public static final String IMAGE = "image";
-    
+
     /**
      * A template file that contains HTML for the Label component.
      */
     public static final String LABEL = "label";
-    
-    /**
-     * A template file that contains HTML for the TextField component.
-     */
-    public static final String TEXTFIELD= "textField";
+
     /**
      * A template file that contains HTML for the PasswordField component.
      */
     public static final String PASSWORDFIELD= "passwordField";
-    
+
+    /**
+     * A template file that contains HTML for the ProgressBar component.
+     */
+    public static final String PROGRESSBAR = "progressBar";
+
+    /**
+     * A template file that contains HTML for the radioButton component.
+     */
+    public static final String RADIOBUTTON = "radioButton"; 
+
+    /**
+     * A template file that contains HTML for the reset button component.
+     */
+    public static final String RESETBUTTON = "resetButton";
+
     /**
      * A template file that contains HTML for the staticText component.
      */
     public static final String STATICTEXT = "staticText";
-    
+
     /**
-     * A template file that contains HTML for the hiddenField component.
+     * A template file that contains HTML for the submit button component.
      */
-    public static final String HIDDENFIELD = "hiddenField";
-    
+    public static final String SUBMITBUTTON = "submitButton";
+
     /**
-     * A template file that contains HTML for the alert component.
+     * A template file that contains HTML for the Table2 component.
      */
-    public static final String ALERT = "alert";
+    public static final String TABLE2 = "table2";
+
+    /**
+     * A template file that contains HTML for the Table2RowGroup component.
+     */
+    public static final String TABLE2ROWGROUP = "table2RowGroup";
+
+    /**
+     * A template file that contains HTML for the TextField component.
+     */
+    public static final String TEXTFIELD= "textField";
 
     /**
      * This private constructor prevents this class from being instantiated
