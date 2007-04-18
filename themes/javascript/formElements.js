@@ -467,6 +467,7 @@ webui.@THEME@.field = {
      * @param elementId The element ID of the field 
      * @return the input or text area element associated with the field
      * component 
+     * @deprecated for client side widget components
      */
     getInputElement: function(elementId) { 
         var element = document.getElementById(elementId); 
@@ -487,6 +488,7 @@ webui.@THEME@.field = {
      * @param elementId The element ID of the Field component
      * @return the value of the HTML element corresponding to the 
      * Field component 
+     * @deprecated for client side widget components
      */
     getValue: function(elementId) { 
         return webui.@THEME@.field.getInputElement(elementId).value; 
@@ -498,6 +500,7 @@ webui.@THEME@.field = {
      * @param elementId The element ID of the Field component
      * @param newStyle The new value to enter into the input element
      * Field component 
+     * @deprecated for client side widget components
      */
     setValue: function(elementId, newValue) { 
         webui.@THEME@.field.getInputElement(elementId).value = newValue;
@@ -508,6 +511,7 @@ webui.@THEME@.field = {
      * The style retrieved will be the style on the span tag that 
      * encloses the (optional) label element and the input element. 
      * @param elementId The element ID of the Field component
+     * @deprecated for client side widget components
      */
     getStyle: function(elementId) { 
         return webui.@THEME@.field.getInputElement(elementId).style; 
@@ -518,6 +522,7 @@ webui.@THEME@.field = {
      * The style will be set on the <span> tag that surrounds the field. 
      * @param elementId The element ID of the Field component
      * @param newStyle The new style to apply
+     * @deprecated for client side widget components
      */
     setStyle: function(elementId, newStyle) { 
         webui.@THEME@.field.getInputElement(elementId).style = newStyle; 
@@ -530,6 +535,7 @@ webui.@THEME@.field = {
      * @param elementId The element ID of the field 
      * @param show true to disable the field, false to enable the field
      * @return true if successful; otherwise, false
+     * @deprecated for client side widget components
      */
     setDisabled: function(elementId, disabled) {  
         if (elementId == null || disabled == null) {
