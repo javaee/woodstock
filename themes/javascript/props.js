@@ -29,7 +29,11 @@ webui.@THEME@.props = {
     // Common properties.
     hiddenClassName: "hidden@THEME_CSS@", // Use webui.@THEME@.common.setVisibleElement
 
-    // Button properties.
+    /**
+     * Button properties.
+     *
+     * @deprecated See webui.@THEME@.widget.props.button
+     */
     button: {
         imageClassName: "Btn3@THEME_CSS@",
         imageDisabledClassName: "Btn3Dis@THEME_CSS@",
@@ -48,7 +52,11 @@ webui.@THEME@.props = {
         secondaryMiniHovClassName: "Btn2MniHov@THEME_CSS@"
     },
 
-    // Drop Down properties.
+    /**
+     * Drop Down properties.
+     *
+     * @deprecated See webui.@THEME@.widget.props.dropDown
+     */
     dropDown: {
         className: "MnuStd@THEME_CSS@",
         disabledClassName: "MnuStdDis@THEME_CSS@",
@@ -59,7 +67,11 @@ webui.@THEME@.props = {
         optionSeparatorClassName: "MnuStdOptSep@THEME_CSS@"
     },
 
-    // Field properties.
+    /**
+     * Field properties.
+     *
+     * @deprecated See webui.@THEME@.widget.props.textField
+     */
     field: {
         areaClassName: "TxtAra@THEME_CSS@",
         areaDisabledClassName: "TxtAraDis@THEME_CSS@",
@@ -67,7 +79,11 @@ webui.@THEME@.props = {
         fieldDisabledClassName: "TxtFldDis@THEME_CSS@"
     },
 
-    // Jump drop down properties.
+    /**
+     * Jump drop down properties.
+     *
+     * @deprecated See webui.@THEME@.widget.props.jumpDropDown
+     */
     jumpDropDown: {
         className: "MnuJmp@THEME_CSS@",
         disabledClassName: "",
@@ -78,7 +94,11 @@ webui.@THEME@.props = {
         optionSeparatorClassName: "MnuJmpOptSep@THEME_CSS@"
     },
 
-    // Listbox properties.
+    /**
+     * Listbox properties.
+     *
+     * @deprecated See webui.@THEME@.widget.props.listbox
+     */
     listbox: {
         className: "Lst@THEME_CSS@",
         disabledClassName: "LstDis@THEME_CSS@",
