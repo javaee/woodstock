@@ -217,7 +217,7 @@ webui.@THEME@.widget.radioButton.setProps = function(props) {
         this.radioButtonNode.disabled = new Boolean(props.disabled).valueOf();
     }
     if (props.name) { 
-        this.checkboxNode.name = props.name;
+        this.radioButtonNode.name = props.name;
     }
 
     // Set image properties.
