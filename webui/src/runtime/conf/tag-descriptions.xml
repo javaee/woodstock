@@ -3288,8 +3288,8 @@ overrides the <code>label</code> attribute.</p>
 <p>When the component is rendered, a DOM object corresponding to the
 component is created. To manipulate the component on the client side,
 you may invoke functions on the DOM object. With reference to the DOM
-id, to disable the component, invoke <code>document.getElementById(id).setProps({labelOnTop:
-true})</code>.<br>
+id, to disable the component, invoke <code>document.getElementById(id).setProps({visible:
+false})</code>.<br>
 <br>
 <table style="text-align: left; width: 100%;" border="1" cellpadding="2"
  cellspacing="2">
@@ -3339,7 +3339,6 @@ properties:
         <li>dir</li>
         <li>disabled</li>
         <li>label</li>
-        <li>labelOnTop</li>
         <li>lang</li>
         <li>multiple</li>
         <li>onBlur</li>

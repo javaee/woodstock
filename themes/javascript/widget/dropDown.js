@@ -35,6 +35,7 @@ dojo.require("webui.@THEME@.widget.*");
  */
 webui.@THEME@.widget.dropDown = function() {
     // Set defaults
+    this.labelOnTop = false;
     this.widgetType = "dropDown";
 
     // Register widget
@@ -80,6 +81,12 @@ webui.@THEME@.widget.dropDown = function() {
         dojo.event.connect(this.domNode, "onchange",
             webui.@THEME@.widget.dropDown.createOnChangeCallback(this.id));
 
+        // Remove line break -- required for IE & cannot be updated.
+        if (this.label != null
+                && new Boolean(this.labelOnTop).valueOf() == true) {
+            webui.@THEME@.common.setVisibleElement(this.brContainer, true);
+        }
+
         // Set properties.
         this.setProps();
         return true;
@@ -95,7 +102,6 @@ webui.@THEME@.widget.dropDown = function() {
  *  <li>dir</li>
  *  <li>disabled</li>
  *  <li>label</li>
- *  <li>labelOnTop</li>
  *  <li>lang</li>
  *  <li>multiple</li>
  *  <li>onBlur</li>
@@ -170,11 +176,6 @@ webui.@THEME@.widget.dropDown.setProps = function(props) {
             webui.@THEME@.widget.common.addFragment(this.labelContainer, props.label);
          }
     }
-
-    // Have a <br/> if the labelOnTop is true
-    if (this.label && props.labelOnTop != null) { 
-        webui.@THEME@.common.setVisibleElement(this.brNode, props.labelOnTop);
-    }
     return true;
 }
 
@@ -192,7 +193,6 @@ webui.@THEME@.widget.dropDown.getProps = function() {
     if (this.disabled != null) { props.disabled = this.disabled; }
     if (this.submitForm != null) { props.submitForm = this.submitForm; }
     if (this.label ) { props.label = this.label; }
-    if (this.labelOnTop != null) { props.labelOnTop = this.labelOnTop; }
     if (this.options ) { props.options = this.options; }
 
     // Add DOM node properties.
