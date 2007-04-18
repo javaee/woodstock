@@ -95,7 +95,7 @@
 
     <!-- 3rd party resources -->
     <property name="dojo.jar"
-	value="${webui-lib-external}/dojo-0.4.1-ajax.jar"/>
+	value="${webui-lib-external}/dojo-0.4.2-ajax.jar"/>
     <property name="prototype.jar"
 	value="${webui-lib-external}/prototype-1.5.0.jar"/>
     <property name="jsf-ext-common.jar" 
