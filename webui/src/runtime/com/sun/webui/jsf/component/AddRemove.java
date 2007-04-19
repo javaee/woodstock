@@ -571,7 +571,8 @@ public class AddRemove extends ListSelector implements ListManager {
 		facetName, true);
 	if (button == null) {
 	    if (DEBUG) log("create Button");  //NOI18N
-	    button = new Button(); 
+	    button = new Button();
+            button.setEscape(false);
 	    button.setId(ComponentUtilities.createPrivateFacetId(this,
 		facetName));
 	    ComponentUtilities.putPrivateFacet(this, facetName, button);
