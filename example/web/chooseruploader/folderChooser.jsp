@@ -30,10 +30,11 @@
 		  <f:verbatim><![CDATA[
                     <script type="text/javascript">
                         // This function is used to display a javascript alert 
-                        // window when the Selected Folder field is empty.
-                        function checkSelectedFolder(msg) {
-                            var selectedFolder = document.getElementById("folderForm:folderContent:folderChooser:folderChooser_selectedField").value;
-                            if (selectedFolder.length == 0) {
+                        // window when the Selected Files field is empty.
+                        function checkSelectedFile(msg) {
+                            var domNode = document.getElementById("folderForm:folderContent:folderChooser:folderChooser_selectedField");
+                            var selectedFile = domNode.getProps().value;
+                            if (selectedFile == null || selectedFile.length == 0) {
                                 alert(msg);                                
                                 return false;
                             }

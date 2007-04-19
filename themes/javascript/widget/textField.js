@@ -56,7 +56,8 @@ webui.@THEME@.widget.textField = function() {
         }
         
         // Set public functions.
-        this.domNode.setProps = function(props) { return dojo.widget.byId(this.id).setProps(props); }        
+        this.domNode.setProps = function(props) { return dojo.widget.byId(this.id).setProps(props); }
+        this.domNode.getInputElement = function() { return dojo.widget.byId(this.id).getInputElement(); }
         this.domNode.getProps = function() { return dojo.widget.byId(this.id).getProps(); }
         
         // Set private functions .
@@ -65,13 +66,12 @@ webui.@THEME@.widget.textField = function() {
         this.getClassName = webui.@THEME@.widget.textField.getClassName;
         
         // Set events.
-        
-        //generate the following events ONLY when 'autoValidate'== true  
         if (this.autoValidate == true) {
+            // Generate the following event ONLY when 'autoValidate' == true.
             dojo.event.connect(this.textFieldNode, "onblur", 
-            webui.@THEME@.widget.textField.validation.processEvent);
+                webui.@THEME@.widget.textField.validation.processEvent);
         }
-        
+
         // Set properties.
         this.setProps();
         return true;
@@ -85,9 +85,50 @@ webui.@THEME@.widget.textField.getClassName = function() {
     // Set default style.    
     var className = (this.disabled == true)
         ? webui.@THEME@.widget.props.textField.disabledClassName
-        : webui.@THEME@.widget.props.textField.enabledClassName;
+        : webui.@THEME@.widget.props.textField.className;
     
     return className;
+}
+
+/**
+ * Returns the HTML input element that makes up the text field.
+ *
+ * @return a reference to the HTML input element. 
+ */
+webui.@THEME@.widget.textField.getInputElement = function() {
+    return this.textFieldNode;
+}
+
+/**
+ * This function is used to get widget properties. 
+ * @see webui.@THEME@.widget.textField.setProps for a list of supported
+ * properties.
+ */
+webui.@THEME@.widget.textField.getProps = function() {
+    var props = {};
+    
+    // Set properties.
+    if (this.alt) { props.alt = this.alt; }
+    if (this.disabled != null) { props.disabled = this.disabled; }
+    if (this.label) { props.label= this.label; }
+    if (this.text) { props.text = this.text; }
+    if (this.title) { props.title = this.title; }
+    if (this.type) { props.type= this.type; }
+    if (this.required != null) { props.required = this.required; }
+    if (this.size) { props.size = this.size; }
+    if (this.valid != null) { props.valid = this.valid; }
+    if (this.value || this.textFieldNode.value) {
+        // Return input element property, if available. 
+        props.value = (this.textFieldNode.value)
+            ? this.textFieldNode.value : this.value;
+    }
+
+    // Add DOM node properties.
+    Object.extend(props, webui.@THEME@.widget.common.getCommonProps(this));
+    Object.extend(props, webui.@THEME@.widget.common.getCoreProps(this));
+    Object.extend(props, webui.@THEME@.widget.common.getJavaScriptProps(this));
+    
+    return props;
 }
 
 /**
@@ -169,34 +210,6 @@ webui.@THEME@.widget.textField.setProps = function(props) {
         }
     }
     return true;
-}
-
-/**
- * This function is used to get widget properties. 
- * @see webui.@THEME@.widget.textField.setProps for a list of supported
- * properties.
- */
-webui.@THEME@.widget.textField.getProps = function() {
-    var props = {};
-    
-    // Set properties.
-    if (this.alt) { props.alt = this.alt; }
-    if (this.disabled != null) { props.disabled = this.disabled; }
-    if (this.value) { props.value = this.value; }
-    if (this.text) { props.text= this.text; }
-    if (this.title) { props.title = this.title; }
-    if (this.size) { props.size = this.size; }
-    if (this.required != null) { props.required = this.required; }
-    if (this.valid != null) { props.valid = this.valid; }
-    if (this.label) { props.label= this.label; }
-    if (this.type) { props.type= this.type; }
-    
-    // Add DOM node properties.
-    Object.extend(props, webui.@THEME@.widget.common.getCommonProps(this));
-    Object.extend(props, webui.@THEME@.widget.common.getCoreProps(this));
-    Object.extend(props, webui.@THEME@.widget.common.getJavaScriptProps(this));
-    
-    return props;
 }
 
 /**

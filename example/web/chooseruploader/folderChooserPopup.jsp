@@ -42,23 +42,27 @@
 		    // interface for this field if it is required
 		    // for applications.
 		    //
-                    var dirPath=document.getElementById("folderFormPopup:folderContent:folderChooser:folderChooser_lookinField_field").value;
-                    var selfield = document.getElementById("folderFormPopup:folderContent:folderChooser:folderChooser_selectedField_field").value;
-                        if (selfield.length > 0) {
+                    var lookInField = document.getElementById("folderFormPopup:folderContent:folderChooser:folderChooser_lookinField");
+                    var dirPath = lookInField.getProps().value;
+
+                    var selectedField = document.getElementById("folderFormPopup:folderContent:folderChooser:folderChooser_selectedField");
+                    var dirName = selectedField.getProps().value;
+                        if (dirName.length > 0) {
                             if (((dirPath.lastIndexOf('\\')) == (dirPath.length-1))){
-                                     dirPath = dirPath + selfield;   
+                                     dirPath = dirPath + dirName;   
 
                             } else if ((dirPath.indexOf('\\')) >= 0 ) {
-                                     dirPath = dirPath + "\\" + selfield;  
+                                     dirPath = dirPath + "\\" + dirName;  
                             }
                             if ( (dirPath.lastIndexOf('/')) == (dirPath.length-1)){
-                                     dirPath = dirPath + selfield;            
+                                     dirPath = dirPath + dirName;            
                             } else if ((dirPath.lastIndexOf('/')) >= 0) {
-                                     dirPath = dirPath + "/" + selfield;
+                                     dirPath = dirPath + "/" + dirName;
                             }
                         }
-                        window.opener.document.getElementById("uploaderFormPopup:dirPath_field").value = dirPath;
-                                window.close();    
+                        var dirField = window.opener.document.getElementById("uploaderFormPopup:dirPath");
+                        dirField.setProps({value: dirPath});
+                        window.close();
                     }
                
                  </script>

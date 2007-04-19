@@ -114,11 +114,10 @@ webui.@THEME@.widget.props = {
         levelTwoStyleClass: "LblLev2Txt@THEME_CSS@",
         levelThreeStyleClass: "LblLev3Txt@THEME_CSS@"        
     },
-    
-    
+
     // TextField properties.
     textField: {
-        enabledClassName: "TxtFld@THEME_CSS@",
+        className: "TxtFld@THEME_CSS@",
         disabledClassName: "TxtFldDis@THEME_CSS@"
     }
 }

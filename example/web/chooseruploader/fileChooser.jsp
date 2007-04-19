@@ -32,8 +32,9 @@
                         // This function is used to display a javascript alert 
                         // window when the Selected Files field is empty.
                         function checkSelectedFile(msg) {
-                            var selectedFile = document.getElementById("fileForm:chooserContentPage:fileChooser:fileChooser_selectedField").value;
-                            if (selectedFile.length == 0) {
+                            var domNode = document.getElementById("fileForm:chooserContentPage:fileChooser:fileChooser_selectedField");
+                            var selectedFile = domNode.getProps().value;
+                            if (selectedFile == null || selectedFile.length == 0) {
                                 alert(msg);                                
                                 return false;
                             }

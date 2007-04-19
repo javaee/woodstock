@@ -67,37 +67,10 @@ webui.@THEME@.widget.radioButton = function() {
         this.getInputElement = webui.@THEME@.widget.radioButton.getInputElement;
         this.refresh = webui.@THEME@.widget.radioButton.refresh.processEvent;
 
-        // Set events.
-        dojo.event.connect(this.domNode, "onclick",
-            webui.@THEME@.widget.radioButton.createOnChangeCallback(this.id));
-
         // set properties
         this.setProps();
         return true;    
     }    
-}
-
-/**
- * Helper function to create callback for onClick event.
- *
- * @param id The HTML element id used to invoke the callback.
- */
-webui.@THEME@.widget.radioButton.createOnChangeCallback = function(id) {
-    if (id == null) {
-        return null;
-    }
-    // New literals are created every time this function
-    // is called, and it's saved by closure magic.
-    return function(evt) { 
-        var widget = dojo.widget.byId(id);
-        if (widget == null) {
-            return false;
-        }
-
-        // Maintain checked state for getProps() function.
-        widget.checked = widget.radioButtonNode.checked;
-        return true;
-    };
 }
 
 /**
@@ -133,7 +106,11 @@ webui.@THEME@.widget.radioButton.getProps = function() {
 
     // Set properties.  
     if (this.align) { props.align = this.align; }
-    if (this.checked != null) { props.checked = this.checked; }
+    if (this.checked != null || this.radioButtonNode.checked != null) {
+        // Return input element property, if available. 
+        props.checked = (this.radioButtonNode.checked != null)
+            ? this.radioButtonNode.checked : this.checked;
+    }
     if (this.disabled != null) { props.disabled = this.disabled; }   
     if (this.image) { props.image = this.image; }
     if (this.label) { props.label = this.label; }

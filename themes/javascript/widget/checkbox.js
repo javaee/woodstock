@@ -67,37 +67,10 @@ webui.@THEME@.widget.checkbox = function() {
         this.getInputElement = webui.@THEME@.widget.checkbox.getInputElement;
         this.refresh = webui.@THEME@.widget.checkbox.refresh.processEvent;        
 
-        // Set events.
-        dojo.event.connect(this.domNode, "onclick",
-            webui.@THEME@.widget.checkbox.createOnChangeCallback(this.id));
-
         // Set properties
         this.setProps();
         return true;
     }
-}
-
-/**
- * Helper function to create callback for onClick event.
- *
- * @param id The HTML element id used to invoke the callback.
- */
-webui.@THEME@.widget.checkbox.createOnChangeCallback = function(id) {
-    if (id == null) {
-        return null;
-    }
-    // New literals are created every time this function
-    // is called, and it's saved by closure magic.
-    return function(evt) { 
-        var widget = dojo.widget.byId(id);
-        if (widget == null) {
-            return false;
-        }
-
-        // Maintain checked state for getProps() function.
-        widget.checked = widget.checkboxNode.checked;
-        return true;
-    };
 }
 
 /**
@@ -133,7 +106,11 @@ webui.@THEME@.widget.checkbox.getProps = function() {
 
     // Set properties.  
     if (this.align) { props.align = this.align; }
-    if (this.checked != null) { props.checked = this.checked; }
+    if (this.checked != null || this.checkboxNode.checked != null) {
+        // Return input element property, if available. 
+        props.checked = (this.checkboxNode.checked != null)
+            ? this.checkboxNode.checked : this.checked;
+    }
     if (this.disabled != null) { props.disabled = this.disabled; }   
     if (this.image) { props.image = this.image; }
     if (this.label) { props.label = this.label; }
