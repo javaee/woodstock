@@ -101,7 +101,10 @@ public class ButtonRenderer extends RendererBase {
         if (context == null || component == null) {
             throw new NullPointerException();
         }
-        
+	if (!(component instanceof Button)) {
+	    throw new IllegalArgumentException(
+                "ButtonRenderer can only decode Button components.");
+        }
         Button button = (Button) component;
 
         // Do not process disabled or reset components.
@@ -131,6 +134,10 @@ public class ButtonRenderer extends RendererBase {
      */
     protected JSONArray getModules(FacesContext context, UIComponent component)
             throws JSONException {
+	if (!(component instanceof Button)) {
+	    throw new IllegalArgumentException(
+                "ButtonRenderer can only render Button components.");
+        }
         Button button = (Button) component;
 
         JSONArray json = new JSONArray();
@@ -151,28 +158,47 @@ public class ButtonRenderer extends RendererBase {
      */
     protected JSONObject getProperties(FacesContext context,
             UIComponent component) throws JSONException, IOException {
+	if (!(component instanceof Button)) {
+	    throw new IllegalArgumentException(
+                "ButtonRenderer can only render Button components.");
+        }
         Button button = (Button) component;
-        String templatePath = button.getHtmlTemplate(); // Get HTML template.
+        String imageUrl = button.getImageURL();
+        String icon = button.getIcon();
 
+        // Get HTML template.
+        String templatePath = button.getHtmlTemplate();
+        if (templatePath == null) {
+            if (imageUrl != null || icon != null) {
+                templatePath = getTheme().getPathToTemplate(ThemeTemplates.IMAGEBUTTON);
+            } else if (button.isReset()) {
+                templatePath = getTheme().getPathToTemplate(ThemeTemplates.RESETBUTTON);
+            } else {
+                templatePath = getTheme().getPathToTemplate(ThemeTemplates.SUBMITBUTTON);
+            }
+        }
+
+        // Set properties.
         JSONObject json = new JSONObject();
         json.put("className", button.getStyleClass())
             .put("disabled", button.isDisabled())
             .put("mini", button.isMini())
-            .put("name", button.getClientId(context))
             .put("primary", button.isPrimary())
-            .put("templatePath", (templatePath != null)
-                ? templatePath 
-                : button.isReset()
-                    ? getTheme().getPathToTemplate(ThemeTemplates.RESETBUTTON)
-                    : getTheme().getPathToTemplate(ThemeTemplates.SUBMITBUTTON))
+            .put("templatePath", templatePath)
             .put("title", button.getToolTip())
-            .put("value", button.getClientId(context))
             .put("visible", button.isVisible());
+
+        if (imageUrl != null) {
+            setImageProperties(context, button, json);
+        } else if (icon != null){
+            setIconProperties(context, button, json);
+        } else {
+            setTextProperties(context, button, json);
+        }
 
         // Add core and attribute properties.
         addAttributeProperties(attributes, component, json);
         setCoreProperties(context, component, json);
-        setContents(context, component, json);
 
         return json;
     }
@@ -186,130 +212,72 @@ public class ButtonRenderer extends RendererBase {
         return JavaScriptUtilities.getNamespace("button");
     }
 
-    /** 
-     * Helper method to set button contents.
-     *
-     * @param context FacesContext for the current request.
-     * @param component Table2RowGroup to be rendered.
-     * @param json JSONObject to assign properties to.
-     */
-    protected void setContents(FacesContext context, UIComponent component,
-            JSONObject json) throws IOException, JSONException {
-        // An array is used because the widget accepts multiple children.
-        JSONArray jArray = new JSONArray();
-        json.put("contents", jArray);
-
-        Button button = (Button) component;
-        String imageURL = button.getImageURL();
-        String iconKey = button.getIcon();
-
-        // Set icon flag.
-        if (iconKey != null || imageURL != null) {
-            json.put("icon", true);
-        }
-
-        // Add contents.
-        if (imageURL != null) {
-            // Add image.
-            WidgetUtilities.addProperties(jArray,
-                WidgetUtilities.renderComponent(context,
-                    getImage(context, button, imageURL)));
-            return;
-        } else if (iconKey != null) {
-            // Add icon.
-            WidgetUtilities.addProperties(jArray,
-                WidgetUtilities.renderComponent(context,
-                    getIcon(context, button, iconKey)));
-            return;
-        }
-
-        // Get the textual label of the button.
-        String text = ConversionUtilities.convertValueToString(component,
-            button.getText());
-
-        // Pad the text per UI guidelines.
-        String padding = null;
-        if (text != null && text.trim().length() > 0) {
-            if (!button.isNoTextPadding()) { 
-                if (text.trim().length() <= 3) {
-                    padding = "&#160;&#160;";
-                } else if (text.trim().length() == 4) {
-                    padding = "&#160;";
-                }
-            }
-        }
-
-        // Add padding.
-        if (padding != null) {
-            WidgetUtilities.addProperties(jArray, padding);
-        }
-
-        // Add static text.
-        WidgetUtilities.addProperties(jArray,
-            WidgetUtilities.renderComponent(context,
-                getText(context, button, text)));
-        
-        // Add padding.
-        if (padding != null) {
-            WidgetUtilities.addProperties(jArray, padding);
-        }
-    }
-
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     // Private renderer methods
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
     /** 
-     * Helper method to get contents id.
+     * Helper method to obtain icon properties.
+     *
+     * @param context FacesContext for the current request.
+     * @param component Button to be rendered.
+     * @param json JSONObject to assign properties to.
      */
-    private String getContentsId(FacesContext context, Button component) {
-        return (component.getId() != null)
-            ? component.getId().concat(Button.CONTENTS_ID) : null;      
+    private void setIconProperties(FacesContext context, Button component,
+            JSONObject json) throws JSONException {
+        // Get themed icon.
+        Icon icon = ThemeUtilities.getIcon(getTheme(), component.getIcon());
+
+        // Set properties.
+        json.put("alt", icon.getAlt())
+            .put("src", icon.getUrl());
     }
 
     /** 
-     * Helper method to get icon.
+     * Helper method to obtain image properties.
+     *
+     * @param context FacesContext for the current request.
+     * @param component Button to be rendered.
+     * @param json JSONObject to assign properties to.
      */
-    private UIComponent getIcon(FacesContext context, Button component,
-            String iconKey) {
-        // Set properties.
-        Icon icon = ThemeUtilities.getIcon(ThemeUtilities.getTheme(context), iconKey);
-        icon.setId(getContentsId(context, component));
-        icon.setBorder(0);
-        icon.setParent(component);
+    private void setImageProperties(FacesContext context, Button component,
+            JSONObject json) throws JSONException {
+        // Append context path to relative URLs.
+        String url = context.getApplication().getViewHandler().
+            getResourceURL(context, component.getImageURL()); 
 
-        return icon;
+        // Set properties.
+        json.put("alt", component.getAlt())
+            .put("src", url);        
     }
 
     /** 
-     * Helper method to get image.
+     * Helper method to obtain text properties.
+     *
+     * @param context FacesContext for the current request.
+     * @param component Button to be rendered.
+     * @param json JSONObject to assign properties to.
      */
-    private UIComponent getImage(FacesContext context, Button component, 
-            String imageURL) {
+    private void setTextProperties(FacesContext context, Button component,
+            JSONObject json) throws JSONException {
+        // Get the textual label of the button.
+        String text = ConversionUtilities.convertValueToString(component,
+            component.getText());
+
+        // Pad the text per UI guidelines.
+        if (text != null && text.trim().length() > 0) {
+            if (!component.isNoTextPadding()) { 
+                if (text.trim().length() <= 3) {
+                    text = "  " + text + "  ";
+                } else if (text.trim().length() == 4) {
+                    text = " " + text + " ";
+                }
+            }
+        }
+
         // Set properties.
-        ImageComponent image = new ImageComponent();
-        image.setAlt(component.getAlt());
-        image.setBorder(0);
-        image.setId(getContentsId(context, component));
-        image.setParent(component);
-        image.setUrl(imageURL);
-
-        return image;
-    }
-
-    /** 
-     * Helper method to get text.
-     */
-    private UIComponent getText(FacesContext context, Button component,
-            String text) {
-        // Set properties.
-        StaticText staticText = new StaticText();
-        staticText.setEscape(component.isEscape());
-        staticText.setId(getContentsId(context, component));
-        staticText.setParent(component);
-        staticText.setText(text);
-
-        return staticText;
+        json.put("value", text)
+            .put("escape", component.isEscape());
     }
 
     // Helper method to get Theme objects.

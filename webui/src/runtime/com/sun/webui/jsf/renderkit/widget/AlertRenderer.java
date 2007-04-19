@@ -54,7 +54,6 @@ import org.json.JSONObject;
 rendererType="com.sun.webui.jsf.widget.Alert",
         componentFamily="com.sun.webui.jsf.Alert"))
 public class AlertRenderer extends RendererBase {
-    
     /**
      * The set of pass-through attributes to be rendered.
      */
@@ -95,7 +94,10 @@ public class AlertRenderer extends RendererBase {
      */
     protected JSONObject getProperties(FacesContext context,
             UIComponent component) throws IOException, JSONException {
-        
+	if (!(component instanceof Alert)) {
+	    throw new IllegalArgumentException(
+                "AlertRenderer can only render Alert components.");
+        }
         Alert alert = (Alert) component;
         
         String templatePath = alert.getHtmlTemplate(); // Get HTML template.

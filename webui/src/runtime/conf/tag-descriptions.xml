@@ -1295,16 +1295,13 @@ properties:<br>
         <li>accesskey</li>
         <li>align</li>
         <li>className</li>
-        <li>contents<br>
-        </li>
         <li>dir</li>
         <li>disabled</li>
+        <li>escape</li>
         <li>id</li>
         <li>icon</li>
         <li>lang</li>
-        <li>mini<br>
-        </li>
-        <li>name</li>
+        <li>mini</li>
         <li>onBlur</li>
         <li>onChange</li>
         <li>onClick</li>
@@ -1319,11 +1316,10 @@ properties:<br>
         <li>onMouseOver</li>
         <li>onMouseUp</li>
         <li>primary</li>
+        <li>src</li>
         <li>style</li>
         <li>tabIndex</li>
         <li>title</li>
-        <li>type<br>
-        </li>
         <li>value</li>
         <li>visible</li>
       </ul>

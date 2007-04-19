@@ -100,6 +100,10 @@ public class Table2ColumnRenderer extends RendererBase {
      */
     protected JSONObject getProperties(FacesContext context,
             UIComponent component) throws IOException, JSONException {
+	if (!(component instanceof Table2Column)) {
+	    throw new IllegalArgumentException(
+                "Table2ColumnRenderer can only render Table2Column components.");
+        }
         Table2Column col = (Table2Column) component;
         JSONObject json = new JSONObject();
 

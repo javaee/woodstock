@@ -35,10 +35,10 @@ dojo.require("webui.@THEME@.widget.*");
  */
 webui.@THEME@.widget.textField = function() {
     // Set defaults.
-    this.disabled   = (this.disabled != null) ? this.disabled : false;
-    this.required   = (this.required != null) ? this.required : false;
-    this.size       = (this.size > 0) ? this.size : 20;
-    this.valid      = (this.valid != null) ? this.valid : true;
+    this.disabled   = false;
+    this.required   = false;
+    this.size       = 20;
+    this.valid      = true;
     this.widgetType = "textField";
     
     // Register widget.
@@ -138,9 +138,7 @@ webui.@THEME@.widget.textField.setProps = function(props) {
     webui.@THEME@.widget.common.setCommonProps(this.textFieldNode, props);
     webui.@THEME@.widget.common.setJavaScriptProps(this.textFieldNode, props);
     
-    // Set text field attributes.
-    props.id = props.name; // Match JSF renderer decode method.
-    
+    // Set text field attributes.    
     if (props.size) { this.textFieldNode.size = props.size; }
     if (props.value) { this.textFieldNode.value = props.value; }
     if (props.disabled != null) { 
@@ -184,7 +182,6 @@ webui.@THEME@.widget.textField.getProps = function() {
     // Set properties.
     if (this.alt) { props.alt = this.alt; }
     if (this.disabled != null) { props.disabled = this.disabled; }
-    if (this.name) { props.name = this.name; }
     if (this.value) { props.value = this.value; }
     if (this.text) { props.text= this.text; }
     if (this.title) { props.title = this.title; }

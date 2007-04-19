@@ -107,6 +107,10 @@ public class ImageRenderer extends RendererBase {
      */    
     protected JSONObject getProperties(FacesContext context,     
             UIComponent component) throws JSONException, IOException {
+	if (!(component instanceof ImageComponent)) {
+	    throw new IllegalArgumentException(
+                "ImageRenderer can only render ImageComponent components.");
+        }
         ImageComponent image = (ImageComponent) component;
         String url = image.getUrl();
         String icon = image.getIcon();

@@ -93,6 +93,10 @@ public class Table2Renderer extends RendererBase {
      */
     protected JSONArray getModules(FacesContext context, UIComponent component)
             throws JSONException {
+	if (!(component instanceof Table2)) {
+	    throw new IllegalArgumentException(
+                "Table2Renderer can only render Table2 components.");
+        }
         Table2 table = (Table2) component;
 
         JSONArray json = new JSONArray();
@@ -113,6 +117,10 @@ public class Table2Renderer extends RendererBase {
      */
     protected JSONObject getProperties(FacesContext context,
             UIComponent component) throws IOException, JSONException {
+	if (!(component instanceof Table2)) {
+	    throw new IllegalArgumentException(
+                "Table2Renderer can only render Table2 components.");
+        }
         Table2 table = (Table2) component;
         String templatePath = table.getHtmlTemplate(); // Get HTML template.
 

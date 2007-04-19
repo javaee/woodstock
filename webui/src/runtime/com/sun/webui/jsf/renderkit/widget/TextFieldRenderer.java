@@ -52,8 +52,6 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-
-
 /**
  * TextFieldRenderer is basic CSR for TextField component.
  * It renders basic set of TextField properties in the form of json object
@@ -62,9 +60,8 @@ import org.json.JSONObject;
 @Renderer(@Renderer.Renders(            
     rendererType="com.sun.webui.jsf.widget.TextField",
     componentFamily="com.sun.webui.jsf.TextField"))
-
 public class TextFieldRenderer extends RendererBase {
-    
+
     /** Creates a new instance of TextFieldRenderer */
     public TextFieldRenderer() {
     }
@@ -110,6 +107,14 @@ public class TextFieldRenderer extends RendererBase {
         if (context == null || component == null) {
             throw new NullPointerException();
         }
+	if (!(component instanceof Field)) {
+	    throw new IllegalArgumentException(
+                "TextFieldRenderer can only decode Field components.");
+        }
+	if (!(component instanceof EditableValueHolder)) {
+	    throw new IllegalArgumentException(
+                "TextFieldRenderer can only decode EditableValueHolder components.");
+        }
 
         String id = component.getClientId(context);
         Map params = context.getExternalContext().getRequestParameterMap();
@@ -117,7 +122,7 @@ public class TextFieldRenderer extends RendererBase {
         String value = null;
 
         if (valueObject == null && component instanceof Field) {
-            id = ((Field)component).getLabeledElementId(context);
+            id = ((Field) component).getLabeledElementId(context);
             valueObject = params.get(id);
         }
 
@@ -130,7 +135,6 @@ public class TextFieldRenderer extends RendererBase {
         ((EditableValueHolder) component).setSubmittedValue(value);
     }
 
-    
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     // RendererBase methods
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -143,7 +147,10 @@ public class TextFieldRenderer extends RendererBase {
      */
     protected JSONArray getModules(FacesContext context, UIComponent component)
             throws JSONException {
-        
+	if (!(component instanceof TextField)) {
+	    throw new IllegalArgumentException(
+                "TextFieldRenderer can only render TextField components.");
+        }
         JSONArray json = new JSONArray();
         json.put(JavaScriptUtilities.getModuleName("widget.textField"));
         
@@ -163,6 +170,10 @@ public class TextFieldRenderer extends RendererBase {
      */
     protected JSONObject getProperties(FacesContext context,
             UIComponent component) throws IOException, JSONException {
+	if (!(component instanceof TextField)) {
+	    throw new IllegalArgumentException(
+                "TextFieldRenderer can only render TextField components.");
+        }
         TextField field = (TextField) component;
         Theme theme = ThemeUtilities.getTheme(context);
         
@@ -182,7 +193,6 @@ public class TextFieldRenderer extends RendererBase {
         String className = field.getStyleClass();
         
         JSONObject json = new JSONObject();
-               
         json.put("disabled", field.isDisabled())
             .put("value", field.getValueAsString(context))           
             .put("required", field.isRequired())            
@@ -203,18 +213,6 @@ public class TextFieldRenderer extends RendererBase {
                 
         return json;
     }
-    
- 
-    
-    // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    // Private renderer methods
-    // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    
-    
-    // Helper method to get Theme objects.
-    private Theme getTheme() {
-        return ThemeUtilities.getTheme(FacesContext.getCurrentInstance());
-    }
 
     /**
      * Returns the type of the widget to be used.
@@ -222,5 +220,13 @@ public class TextFieldRenderer extends RendererBase {
     protected String getWidgetType() {
          return JavaScriptUtilities.getNamespace("textField");
     }
- 
+
+    // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    // Private renderer methods
+    // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    
+    // Helper method to get Theme objects.
+    private Theme getTheme() {
+        return ThemeUtilities.getTheme(FacesContext.getCurrentInstance());
+    }
 }

@@ -57,8 +57,11 @@ public class DropDownRenderer extends ListRendererBase {
      */
     protected JSONArray getModules(FacesContext context, UIComponent component)
             throws JSONException {
-        
-        DropDown dropDown = (DropDown)component;
+	if (!(component instanceof DropDown)) {
+	    throw new IllegalArgumentException(
+                "DropDownRenderer can only render DropDown components.");
+        }
+        DropDown dropDown = (DropDown) component;
         
         JSONArray json = new JSONArray();
         json.put(JavaScriptUtilities.getModuleName("widget.dropDown"));
@@ -79,7 +82,10 @@ public class DropDownRenderer extends ListRendererBase {
      */
     protected JSONObject getProperties(FacesContext context,
             UIComponent component) throws JSONException, IOException{
-        
+	if (!(component instanceof DropDown)) {
+	    throw new IllegalArgumentException(
+                "DropDownRenderer can only render DropDown components.");
+        }
         DropDown dropDown = (DropDown) component;
         String templatePath = dropDown.getHtmlTemplate(); 
 

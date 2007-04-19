@@ -94,7 +94,7 @@ webui.@THEME@.button = {
         if (widget == null) {
             return false;
         }
-        return widget.domNode.textContent;
+        return widget.domNode.value;
     },
 
     /**

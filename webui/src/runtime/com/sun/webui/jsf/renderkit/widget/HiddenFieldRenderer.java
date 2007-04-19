@@ -60,7 +60,10 @@ public class HiddenFieldRenderer extends RendererBase {
      * @param context The FacesContext associated with this request
      */
     public void decode(FacesContext context, UIComponent component) {
-        
+	if (!(component instanceof EditableValueHolder)) {
+	    throw new IllegalArgumentException(
+                "HiddenFieldRenderer can only render EditableValueHolder components.");
+        }
         String id = component.getClientId(context); 
         Map params = context.getExternalContext().getRequestParameterMap();
         Object valueObject = params.get(id);
@@ -69,7 +72,7 @@ public class HiddenFieldRenderer extends RendererBase {
         if(valueObject != null) { 
             value = (String) valueObject;        
         }
-        ((EditableValueHolder)component).setSubmittedValue(value);
+        ((EditableValueHolder) component).setSubmittedValue(value);
     }
 
     /**
@@ -93,6 +96,10 @@ public class HiddenFieldRenderer extends RendererBase {
      */
     protected JSONObject getProperties(FacesContext context,
             UIComponent component) throws IOException, JSONException {
+	if (!(component instanceof HiddenField)) {
+	    throw new IllegalArgumentException(
+                "HiddenFieldRenderer can only render HiddenField components.");
+        }
         HiddenField hiddenField = (HiddenField) component;
         
         if(!(component instanceof HiddenField)) {

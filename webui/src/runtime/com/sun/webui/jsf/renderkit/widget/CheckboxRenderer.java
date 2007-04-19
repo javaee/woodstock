@@ -51,8 +51,6 @@ import org.json.JSONObject;
     rendererType="com.sun.webui.jsf.widget.Checkbox",
     componentFamily="com.sun.webui.jsf.Checkbox"))
 public class CheckboxRenderer extends RbCbRendererBase {
-    
-    
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     // Renderer Methods
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -64,6 +62,10 @@ public class CheckboxRenderer extends RbCbRendererBase {
      * @param component The <code>Checkbox</code> component to be decoded.
      */
     public void decode(FacesContext context, UIComponent component) {
+	if (!(component instanceof Checkbox)) {
+	    throw new IllegalArgumentException(
+                "CheckboxRenderer can only decode Checkbox components.");
+        }
         // We need to know if the last state of the component before decoding
 	// this checkbox. This disabled check is not to determine
 	// if the checkbox was disabled on the client.
@@ -88,7 +90,7 @@ public class CheckboxRenderer extends RbCbRendererBase {
         // the component's value to see if this is the selected component,
         // unless it is a group of Boolean checkboxes.
         //
-        Checkbox checkbox = (Checkbox)component;
+        Checkbox checkbox = (Checkbox) component;
         String name = checkbox.getName();
         boolean inGroup = name != null;
         
@@ -197,7 +199,11 @@ public class CheckboxRenderer extends RbCbRendererBase {
      * @param component UIComponent to be rendered.
      */
     protected JSONArray getModules(FacesContext context, UIComponent component)
-    throws JSONException {
+            throws JSONException {
+	if (!(component instanceof Checkbox)) {
+	    throw new IllegalArgumentException(
+                "CheckboxRenderer can only render Checkbox components.");
+        }
         Checkbox checkbox = (Checkbox) component;
         
         JSONArray json = new JSONArray();
@@ -217,7 +223,11 @@ public class CheckboxRenderer extends RbCbRendererBase {
      * @param component UIComponent to be rendered.
      */
     protected JSONObject getProperties(FacesContext context,
-            UIComponent component) throws IOException, JSONException {        
+            UIComponent component) throws IOException, JSONException {
+	if (!(component instanceof Checkbox)) {
+	    throw new IllegalArgumentException(
+                "CheckboxRenderer can only render Checkbox components.");
+        }
         Checkbox checkbox = (Checkbox)component;
         Theme theme = ThemeUtilities.getTheme(context);
         String templatePath = checkbox.getHtmlTemplate(); // Get HTML template.                  

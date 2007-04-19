@@ -134,13 +134,6 @@ a.BcmLnk@THEME_CSS@:hover {
 	cursor:pointer;
 }
 
-/* Icon buttons */
-.Btn3@THEME_CSS@, .Btn3Hov@THEME_CSS@, .Btn3Dis@THEME_CSS@ {
-        background:none;
-        border:none;
-        padding:0px 0px 0px 0px;
-}
-
 .MstDiv@THEME_CSS@ .Btn1@THEME_CSS@, .MstDiv@THEME_CSS@ .Btn1Mni@THEME_CSS@, .MstDiv@THEME_CSS@ .Btn2@THEME_CSS@, .MstDiv@THEME_CSS@ .Btn2Mni@THEME_CSS@, .MstDiv@THEME_CSS@ .Btn1Hov@THEME_CSS@, .MstDiv@THEME_CSS@ .Btn1MniHov@THEME_CSS@, .MstDiv@THEME_CSS@ .Btn2Hov@THEME_CSS@, .MstDiv@THEME_CSS@ .Btn2MniHov@THEME_CSS@,
 .mastheadButton_4@THEME_CSS@ a:link, .mastheadButton_4@THEME_CSS@ a:visited, .mastheadButton_4@THEME_CSS@ a:hover {
 	color:#FFF;

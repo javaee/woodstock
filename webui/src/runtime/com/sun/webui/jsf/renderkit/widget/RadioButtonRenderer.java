@@ -46,14 +46,10 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-
-
 @Renderer(@Renderer.Renders(
-rendererType="com.sun.webui.jsf.widget.RadioButton",
-        componentFamily="com.sun.webui.jsf.RadioButton"))
-        public class RadioButtonRenderer extends RbCbRendererBase {
-    
-    
+    rendererType="com.sun.webui.jsf.widget.RadioButton",
+    componentFamily="com.sun.webui.jsf.RadioButton"))
+public class RadioButtonRenderer extends RbCbRendererBase {
     /**
      * <p>Decode the <code>RadioButton</code> selection.</p>
      * <p>
@@ -91,7 +87,10 @@ rendererType="com.sun.webui.jsf.widget.RadioButton",
      * component to be decoded.
      */
     public void decode(FacesContext context, UIComponent component) {
-        
+	if (!(component instanceof RadioButton)) {
+	    throw new IllegalArgumentException(
+                "RadioButtonRenderer can only decode RadioButton components.");
+        }
         // We need to know the last state of the component before decoding
         // this radio button. This disabled check is not to determine
         // if the radio button was disabled on the client.
@@ -113,7 +112,7 @@ rendererType="com.sun.webui.jsf.widget.RadioButton",
         // selections. We need to match the value of the parameter to the
         // the component's value to see if this is the selected component.
         //
-        RadioButton radioButton = (RadioButton)component;
+        RadioButton radioButton = (RadioButton) component;
         String name = radioButton.getName();
         boolean inGroup = name != null;
         
@@ -184,11 +183,11 @@ rendererType="com.sun.webui.jsf.widget.RadioButton",
         }
         return;
     }
-    
-    
+
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     // RendererBase methods
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
     /**
      * Get the Dojo modules required to instantiate the widget.
      *
@@ -196,9 +195,13 @@ rendererType="com.sun.webui.jsf.widget.RadioButton",
      * @param component UIComponent to be rendered.
      */
     protected JSONArray getModules(FacesContext context, UIComponent component)
-    throws JSONException {        
-     
-        RadioButton radioButton = (RadioButton)component;
+            throws JSONException {        
+	if (!(component instanceof RadioButton)) {
+	    throw new IllegalArgumentException(
+                "RadioButtonRenderer can only render RadioButton components.");
+        }
+        RadioButton radioButton = (RadioButton) component;
+
         JSONArray json = new JSONArray();
         json.put(JavaScriptUtilities.getModuleName("widget.radioButton"));
         
@@ -208,10 +211,19 @@ rendererType="com.sun.webui.jsf.widget.RadioButton",
         }
         return json;
     }
-    
+
+    /**
+     * Helper method to obtain component properties.
+     *
+     * @param context FacesContext for the current request.
+     * @param component UIComponent to be rendered.
+     */
     protected JSONObject getProperties(FacesContext context,
             UIComponent component) throws IOException, JSONException {
-        
+	if (!(component instanceof RadioButton)) {
+	    throw new IllegalArgumentException(
+                "RadioButtonRenderer can only render RadioButton components.");
+        }
         RadioButton radioButton = (RadioButton)component;
         Theme theme = ThemeUtilities.getTheme(context);
         String templatePath = radioButton.getHtmlTemplate(); // Get HTML template.
@@ -224,13 +236,11 @@ rendererType="com.sun.webui.jsf.widget.RadioButton",
         return json;
     }
     
-    
-     /**
+    /**
      * Get the type of widget represented by this component.
      *
      * @return The type of widget represented by this component.
      */
-    
     public String getWidgetType() {
         return JavaScriptUtilities.getNamespace("radioButton");
     }

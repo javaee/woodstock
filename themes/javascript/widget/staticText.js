@@ -121,9 +121,9 @@ webui.@THEME@.widget.staticText.setProps = function(props) {
     if (props.value) {
         this.domNode.innerHTML = ""; // Cannot be set null on IE.
         webui.@THEME@.widget.common.addFragment(this.domNode,
-            (this.escape == false)
-                ? props.value
-                : dojo.string.escape("html", props.value), // Default.
+            (new Boolean(this.escape).valueOf() == true)
+                ? dojo.string.escape("html", props.value) // Default.
+                : props.value,
             "last");
     }
 

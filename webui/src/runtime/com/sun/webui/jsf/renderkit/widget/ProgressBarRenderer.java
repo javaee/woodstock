@@ -73,6 +73,10 @@ public class ProgressBarRenderer extends RendererBase {
      */
     protected JSONArray getModules(FacesContext context, UIComponent component)
             throws JSONException {
+	if (!(component instanceof ProgressBar)) {
+	    throw new IllegalArgumentException(
+                "ProgressBarRenderer can only render ProgressBar components.");
+        }
         ProgressBar progressBar = (ProgressBar) component;
 
         JSONArray json = new JSONArray();
@@ -93,6 +97,10 @@ public class ProgressBarRenderer extends RendererBase {
      */
     protected JSONObject getProperties(FacesContext context,
             UIComponent component) throws IOException, JSONException {
+	if (!(component instanceof ProgressBar)) {
+	    throw new IllegalArgumentException(
+                "ProgressBarRenderer can only render ProgressBar components.");
+        }
         ProgressBar progressBar = (ProgressBar) component;
         Theme theme = ThemeUtilities.getTheme(context);
         String templatePath = progressBar.getHtmlTemplate(); // Get HTML template.

@@ -52,6 +52,11 @@ public class ThemeTemplates {
     public static final String IMAGE = "image";
 
     /**
+     * A template file that contains HTML for the image button component.
+     */
+    public static final String IMAGEBUTTON = "imageButton";
+
+    /**
      * A template file that contains HTML for the Label component.
      */
     public static final String LABEL = "label";

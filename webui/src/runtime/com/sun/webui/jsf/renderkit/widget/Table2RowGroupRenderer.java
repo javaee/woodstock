@@ -95,6 +95,10 @@ public class Table2RowGroupRenderer extends RendererBase {
      */
     protected JSONArray getModules(FacesContext context, UIComponent component)
             throws JSONException {
+	if (!(component instanceof Table2RowGroup)) {
+	    throw new IllegalArgumentException(
+                "Table2RowGroupRenderer can only render Table2RowGroup components.");
+        }
         Table2RowGroup group = (Table2RowGroup) component;
 
         JSONArray json = new JSONArray();
@@ -115,6 +119,10 @@ public class Table2RowGroupRenderer extends RendererBase {
      */
     protected JSONObject getProperties(FacesContext context,
             UIComponent component) throws IOException, JSONException {
+	if (!(component instanceof Table2RowGroup)) {
+	    throw new IllegalArgumentException(
+                "Table2RowGroupRenderer can only render Table2RowGroup components.");
+        }
         Table2RowGroup group = (Table2RowGroup) component;
         String templatePath = group.getHtmlTemplate(); // Get HTML template.
 

@@ -23,6 +23,7 @@
 dojo.provide("webui.@THEME@.widget.button");
 
 dojo.require("dojo.widget.*");
+dojo.require("dojo.uri.Uri");
 dojo.require("webui.@THEME@.*");
 dojo.require("webui.@THEME@.widget.*");
 
@@ -36,6 +37,7 @@ dojo.require("webui.@THEME@.widget.*");
 webui.@THEME@.widget.button = function() {
     // Set defaults.
     this.disabled = false;
+    this.escape = true;
     this.mini = false;
     this.primary = true;
     this.widgetType = "button";
@@ -49,8 +51,7 @@ webui.@THEME@.widget.button = function() {
     this.fillInTemplate = function() {
         // Set ids.
         if (this.id) {
-            // If null, use HTML button id.
-            if (this.name == null) { this.name = this.id; }
+            this.domNode.name = this.id;
         }
 
         // Set public functions. 
@@ -195,7 +196,7 @@ webui.@THEME@.widget.button.getHoverClassName = function() {
  */
 webui.@THEME@.widget.button.initClassNames = function() {
     // Set style classes
-    if (this.icon == true) {
+    if (this.src != null) {
         this.primaryClassName = webui.@THEME@.widget.props.button.imageClassName;
         this.primaryDisabledClassName = webui.@THEME@.widget.props.button.imageDisabledClassName;
         this.primaryHovClassName = webui.@THEME@.widget.props.button.imageHovClassName;
@@ -237,13 +238,12 @@ webui.@THEME@.widget.button.getProps = function() {
     // Set properties.
     if (this.alt) { props.alt = this.alt; }
     if (this.align) { props.align = this.align; }
-    if (this.contents) { props.contents = this.contents; }
     if (this.disabled != null) { props.disabled = this.disabled; }
+    if (this.escape != null) { props.escape = this.escape; }
     if (this.mini != null) { props.mini = this.mini; }
-    if (this.name) { props.name = this.name; }
     if (this.primary != null) { props.primary = this.primary; }
+    if (this.src) { props.src = this.src; }
     if (this.value) { props.value = this.value; }
-    if (this.title) { props.title = this.title; }
 
     // Add DOM node properties.
     Object.extend(props, webui.@THEME@.widget.common.getCommonProps(this));
@@ -308,14 +308,12 @@ webui.@THEME@.widget.button.refresh = {
  *  <li>alt</li>
  *  <li>align</li>
  *  <li>className</li>
- *  <li>contents</li>
  *  <li>dir</li>
  *  <li>disabled</li>
- *  <li>icon</li>
+ *  <li>escape</li>
  *  <li>id</li>
  *  <li>lang</li>
  *  <li>mini</li>
- *  <li>name</li>
  *  <li>onBlur</li>
  *  <li>onClick</li>
  *  <li>onDblClick</li>
@@ -329,9 +327,10 @@ webui.@THEME@.widget.button.refresh = {
  *  <li>onMouseUp</li>
  *  <li>onMouseMove</li>
  *  <li>primary</li>
+ *  <li>src</li>
  *  <li>style</li>
- *  <li>title</li>
  *  <li>tabIndex</li>
+ *  <li>title</li>
  *  <li>value</li>
  *  <li>visible</li>
  * </ul>
@@ -361,16 +360,13 @@ webui.@THEME@.widget.button.setProps = function(props) {
 
     if (props.alt) { this.domNode.alt = props.alt; }
     if (props.align) { this.domNode.align = props.align; }
-    if (props.name) { this.domNode.name = props.name; }
-    if (props.value) { this.domNode.value = props.value; }
+    if (props.src) { this.domNode.src = new dojo.uri.Uri(props.src).toString(); }
 
-    // Set contents.
-    if (props.contents) {
-        this.domNode.innerHTML = ""; // Cannot be set null on IE.
-        for (var i = 0; i < props.contents.length; i++) {
-            webui.@THEME@.widget.common.addFragment(this.domNode, 
-                props.contents[i], "last");
-        }
+    // Set value (i.e., button text).
+    if (props.value) {
+        this.domNode.value = (new Boolean(this.escape).valueOf() == true)
+            ? dojo.string.escape("html", props.value) // Default.
+            : props.value;
     }
     return true;
 }

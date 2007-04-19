@@ -20,7 +20,7 @@
  * Copyright 2007 Sun Microsystems, Inc. All rights reserved.
  */
 /*
- * $Id: LabelRenderer.java,v 1.3 2007-04-10 19:43:39 rratta Exp $
+ * $Id: LabelRenderer.java,v 1.4 2007-04-19 03:39:27 danl Exp $
  */
 package com.sun.webui.jsf.renderkit.widget;
 
@@ -108,7 +108,10 @@ public class LabelRenderer extends RendererBase {
      */
     protected JSONObject getProperties(FacesContext context,
             UIComponent component) throws IOException, JSONException {
-
+	if (!(component instanceof Label)) {
+	    throw new IllegalArgumentException(
+                "LabelRenderer can only render Label components.");
+        }
         Label label = (Label) component;
 	Theme theme = ThemeUtilities.getTheme(context);
 

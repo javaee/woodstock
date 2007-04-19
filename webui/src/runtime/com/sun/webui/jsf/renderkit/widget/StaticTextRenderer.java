@@ -89,6 +89,10 @@ public class StaticTextRenderer extends RendererBase {
      */
     protected JSONObject getProperties(FacesContext context,
             UIComponent component) throws IOException, JSONException {
+	if (!(component instanceof StaticText)) {
+	    throw new IllegalArgumentException(
+                "StaticTextRenderer can only render StaticText components.");
+        }
         StaticText staticText = (StaticText) component;
                         
         String currentValue = ConversionUtilities.convertValueToString(
