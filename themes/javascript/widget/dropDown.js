@@ -36,6 +36,7 @@ dojo.require("webui.@THEME@.widget.*");
 webui.@THEME@.widget.dropDown = function() {
     // Set defaults
     this.labelOnTop = false;
+    this.submitForm = false;
     this.widgetType = "dropDown";
 
     // Register widget
@@ -135,18 +136,23 @@ webui.@THEME@.widget.dropDown.setProps = function(props) {
         props = this.getProps(); // Widget is being initialized.
     }
 
+    // A web app devleoper could return false in order to cancel the 
+    // auto-submit. Thus, we will handle this event via the onChange call back.
+    if (props.onChange) {
+        // Set private function scope on DOM node.
+        this.listContainer._onchange = (typeof props.onChange == 'string')
+            ? new Function(props.onChange) : props.onChange;
+
+        // Must be cleared before calling setJavaScriptProps() below.
+        props.onChange = null;
+    }
+
     // Initialize the proper style classes based on whether this is a jump drop down or not
     this.initStyleClasses(props.submitForm);
-        
-    // Set core properties on the <span> element. It takes care the following properties:
-    // className, id, style, visible
+
+    // Set DOM node properties.
     webui.@THEME@.widget.common.setCoreProps(this.domNode, props);
-
-    // Set the common properties, such as, accesskey, dir, lang, tabindex, title, on the <select> element
     webui.@THEME@.widget.common.setCommonProps(this.listContainer, props);
-
-    // Set JavaScript properties, such as, onBlur, onClick, onDblClick, onFocus, onKeyDown, onKeyPress, onKeyup
-    // onMouseDown, onMouseOut, onMouseOver, onMouseUp, onMouseMove, onChange, onSelect on the <select> element
     webui.@THEME@.widget.common.setJavaScriptProps(this.listContainer, props);
 
     // Set the properties specific to the <select> element
@@ -389,13 +395,20 @@ webui.@THEME@.widget.dropDown.createOnChangeCallback = function(id) {
     }
     // New literals are created every time this function
     // is called, and it's saved by closure magic.
-    return function(evt) { 
+    return function(event) { 
         var widget = dojo.widget.byId(id);
         if (widget == null) {
             return false;
         }
         if (widget.disabled == true) {
             return true;
+        }
+
+        // If function returns false, we must prevent the auto-submit.
+        var result = (widget.listContainer._onchange)
+            ? widget.listContainer._onchange() : true;
+        if (result == false) {
+            return false;
         }
 
         // Call the proper changed function

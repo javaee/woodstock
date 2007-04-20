@@ -103,7 +103,7 @@ webui.@THEME@.widget.button.createOnBlurCallback = function(id) {
     }
     // New literals are created every time this function
     // is called, and it's saved by closure magic.
-    return function(evt) { 
+    return function(event) { 
         var widget = dojo.widget.byId(id);
         if (widget == null) {
             return false;
@@ -129,7 +129,7 @@ webui.@THEME@.widget.button.createOnFocusCallback = function(id) {
     }
     // New literals are created every time this function
     // is called, and it's saved by closure magic.
-    return function(evt) { 
+    return function(event) { 
         var widget = dojo.widget.byId(id);
         if (widget == null) {
             return false;
