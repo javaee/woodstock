@@ -328,18 +328,34 @@ public class Head extends UIComponentBase {
         this.defaultBase_set = ((Boolean) _values[2]).booleanValue();
         this.profile = (String) _values[3];
         this.title = (String) _values[4];
+        this.debug = ((Boolean) _values[5]).booleanValue();
+        this.debug_set = ((Boolean) _values[6]).booleanValue();
+        this.javaScript = ((Boolean) _values[7]).booleanValue();
+        this.javaScript_set = ((Boolean) _values[8]).booleanValue();
+        this.meta = ((Boolean) _values[9]).booleanValue();
+        this.meta_set = ((Boolean) _values[10]).booleanValue();
+        this.parseWidgets = ((Boolean) _values[11]).booleanValue();
+        this.parseWidgets_set = ((Boolean) _values[12]).booleanValue();
     }
 
     /**
      * <p>Save the state of this component.</p>
      */
     public Object saveState(FacesContext _context) {
-        Object _values[] = new Object[5];
+        Object _values[] = new Object[13];
         _values[0] = super.saveState(_context);
         _values[1] = this.defaultBase ? Boolean.TRUE : Boolean.FALSE;
         _values[2] = this.defaultBase_set ? Boolean.TRUE : Boolean.FALSE;
         _values[3] = this.profile;
         _values[4] = this.title;
+        _values[5] = this.debug ? Boolean.TRUE : Boolean.FALSE;
+        _values[6] = this.debug_set ? Boolean.TRUE : Boolean.FALSE;
+        _values[7] = this.javaScript ? Boolean.TRUE : Boolean.FALSE;
+        _values[8] = this.javaScript_set ? Boolean.TRUE : Boolean.FALSE;
+        _values[9] = this.meta ? Boolean.TRUE : Boolean.FALSE;
+        _values[10] = this.meta_set ? Boolean.TRUE : Boolean.FALSE;
+        _values[11] = this.parseWidgets ? Boolean.TRUE : Boolean.FALSE;
+        _values[12] = this.parseWidgets_set ? Boolean.TRUE : Boolean.FALSE;
         return _values;
     }
 

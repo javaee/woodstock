@@ -106,17 +106,17 @@ webui.@THEME@.widget.radioButton.getProps = function() {
 
     // Set properties.  
     if (this.align) { props.align = this.align; }
-    if (this.checked != null || this.radioButtonNode.checked != null) {
-        // Return input element property, if available. 
-        props.checked = (this.radioButtonNode.checked != null)
-            ? this.radioButtonNode.checked : this.checked;
-    }
     if (this.disabled != null) { props.disabled = this.disabled; }   
     if (this.image) { props.image = this.image; }
     if (this.label) { props.label = this.label; }
     if (this.name) { props.name = this.name; }        
     if (this.readOnly != null) { props.readOnly = this.readOnly; }
     if (this.value) { props.value = this.value; }
+
+    // After widget has been initialized, get user's input.
+    props.checked = (document.getElementById(this.radioButtonNode.id))
+        ? this.radioButtonNode.checked
+        : this.checked;
 
     // Add DOM node properties.
     Object.extend(props, webui.@THEME@.widget.common.getCommonProps(this));

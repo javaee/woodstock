@@ -117,17 +117,17 @@ webui.@THEME@.widget.textField.getProps = function() {
     if (this.required != null) { props.required = this.required; }
     if (this.size) { props.size = this.size; }
     if (this.valid != null) { props.valid = this.valid; }
-    if (this.value || this.textFieldNode.value) {
-        // Return input element property, if available. 
-        props.value = (this.textFieldNode.value)
-            ? this.textFieldNode.value : this.value;
-    }
+
+    // After widget has been initialized, get user's input.
+    props.checked = (document.getElementById(this.textFieldNode.id))
+        ? this.textFieldNode.value
+        : this.value;
 
     // Add DOM node properties.
     Object.extend(props, webui.@THEME@.widget.common.getCommonProps(this));
     Object.extend(props, webui.@THEME@.widget.common.getCoreProps(this));
     Object.extend(props, webui.@THEME@.widget.common.getJavaScriptProps(this));
-    
+
     return props;
 }
 

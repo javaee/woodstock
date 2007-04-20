@@ -106,23 +106,23 @@ webui.@THEME@.widget.checkbox.getProps = function() {
 
     // Set properties.  
     if (this.align) { props.align = this.align; }
-    if (this.checked != null || this.checkboxNode.checked != null) {
-        // Return input element property, if available. 
-        props.checked = (this.checkboxNode.checked != null)
-            ? this.checkboxNode.checked : this.checked;
-    }
     if (this.disabled != null) { props.disabled = this.disabled; }   
     if (this.image) { props.image = this.image; }
     if (this.label) { props.label = this.label; }
     if (this.name) { props.name = this.name; }        
     if (this.readOnly != null) { props.readOnly = this.readOnly; }
     if (this.value) { props.value = this.value; }
-         
+
+    // After widget has been initialized, get user's input.
+    props.checked = (document.getElementById(this.checkboxNode.id))
+        ? this.checkboxNode.checked
+        : this.checked;
+
     // Add DOM node properties.
     Object.extend(props, webui.@THEME@.widget.common.getCommonProps(this));
     Object.extend(props, webui.@THEME@.widget.common.getCoreProps(this));
     Object.extend(props, webui.@THEME@.widget.common.getJavaScriptProps(this));
- 
+
     return props;
 }
 
@@ -240,7 +240,7 @@ webui.@THEME@.widget.checkbox.setProps = function(props) {
     if (props.checked != null) { 
         this.checkboxNode.checked = new Boolean(props.checked).valueOf();
     }
-    if (props.disabled != null) { 
+    if (props.disabled != null) {
         this.checkboxNode.disabled = new Boolean(props.disabled).valueOf();
     }
     if (props.name) { 
