@@ -194,13 +194,12 @@ public class TableRowGroupDesignState {
         
         if(!dataProviderReset){
             Map dpFields = new HashMap();
-            TableDataProvider tdp = (TableDataProvider) dataProviderBean.getInstance();
             try{
-                FieldKey[] columns = tdp.getFieldKeys();
+                FieldKey[] columns = tableDataProvider.getFieldKeys();
                 if((columns != null) && (columns.length > 0)){
                     for (int i=0; i< columns.length; i++){
                         //Skip FieldKey of type "Class" - 6309491
-                        if(tdp.getType(columns[i]).toString().indexOf("java.lang.Class") == -1){
+                        if(tableDataProvider.getType(columns[i]).toString().indexOf("java.lang.Class") == -1){
                             dpFields.put(columns[i].getDisplayName(), columns[i]);
                         }
                     }
@@ -228,7 +227,7 @@ public class TableRowGroupDesignState {
                     }*/
                     if(dpFields.keySet().contains(tblColDesignState.getName())){
                         FieldKey column =  (FieldKey) dpFields.get(tblColDesignState.getName());
-                        tblColDesignState.setColumnType(tdp.getType(column));
+                        tblColDesignState.setColumnType(tableDataProvider.getType(column));
                     }
                     selectedColumnsDesignStates.put(tblColDesignState.getName(), tblColDesignState);
                     selectedColumnNames.add(tblColDesignState.getName());
