@@ -78,7 +78,7 @@ webui.@THEME@.widget.dropDown = function() {
         this.refresh = webui.@THEME@.widget.dropDown.refresh.processEvent;
 
         // Set events.
-        dojo.event.connect(this.domNode, "onchange",
+        dojo.event.connect(this.listContainer, "onchange",
             webui.@THEME@.widget.dropDown.createOnChangeCallback(this.id));
 
         // Remove line break -- required for IE & cannot be updated.
