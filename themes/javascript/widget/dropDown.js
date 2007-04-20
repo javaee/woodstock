@@ -87,9 +87,8 @@ webui.@THEME@.widget.dropDown = function() {
             webui.@THEME@.common.setVisibleElement(this.brContainer, true);
         }
 
-        // Set properties.
-        this.setProps();
-        return true;
+        // Initialize properties.
+        return webui.@THEME@.widget.common.initProps(this);
     }
 }
 

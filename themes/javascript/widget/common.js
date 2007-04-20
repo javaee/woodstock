@@ -264,6 +264,45 @@ webui.@THEME@.widget.common = {
     },
 
     /**
+     * Helper function to initialize widget.
+     *
+     * Note: There is a timing issue on IE 6 regarding when DOM nodes can be 
+     * initialized. For example, even though a checkbox widget has set its 
+     * checked property to true, the browser will not display the checkbox as
+     * selected. If initialization is delayed slightly, the browser will display
+     * the HTML element with the correct state. Therefore, this function will
+     * call the setProps() function of the given widget using a timeout. When
+     * IE 6 is not detected, the setProps() function will be called directly.
+     * In both cases, an "initialized" flag is set. This can be used by the
+     * getProps() function in order to retrieve user input after the widget has
+     * been initialized -- see webui.@THEME@.widget.checkbox.getProps.
+     *
+     * @param widget The widget object to initialize.
+     */
+    initProps: function(widget) {
+        if (widget == null) {
+            return false;
+        }
+        if (webui.@THEME@.common.browser.is_ie6 == true) {
+            setTimeout(
+                // New literals are created every time this function
+                // is called, and it's saved by closure magic.
+                function() {
+                    var obj = dojo.widget.byId(widget.id);
+                    if (obj == null) {
+                        return false;
+                    }
+                    obj.setProps(); // No args during initialization.
+                    obj.initialized = true; // Set for getProps() function.
+                }, 0); // (n) milliseconds delay.
+        } else {
+            widget.setProps(); // No args during initialization.
+            widget.initialized = true; // Set for getProps() function.
+        }
+        return true;
+    },
+
+    /**
      * Helper function to remove child nodes from given DOM node.
      *
      * Note: Child nodes can be cleared using the innerHTML property. However,

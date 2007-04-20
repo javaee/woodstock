@@ -53,9 +53,8 @@ webui.@THEME@.widget.hiddenField = function() {
         this.getProps = webui.@THEME@.widget.hiddenField.getProps;
         this.setProps = webui.@THEME@.widget.hiddenField.setProps;
 
-        // Set properties.
-        this.setProps();
-        return true;
+        // Initialize properties.
+        return webui.@THEME@.widget.common.initProps(this);
     }
 }
 

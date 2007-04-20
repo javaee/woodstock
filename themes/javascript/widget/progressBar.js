@@ -119,8 +119,8 @@ webui.@THEME@.widget.progressBar = function() {
         this.setStatusTextVisible = webui.@THEME@.widget.progressBar.setStatusTextVisible;
         this.updateProgress = webui.@THEME@.widget.progressBar.progress.processEvent;
 
-        // Set properties.
-        this.setProps();
+        // Initialize properties.
+        webui.@THEME@.widget.common.initProps(this);
 
         // Obtain progress.
         this.updateProgress();

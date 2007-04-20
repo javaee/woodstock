@@ -92,9 +92,8 @@ webui.@THEME@.widget.table2RowGroup = function() {
                 webui.@THEME@.widget.table2RowGroup.resize.createCallback(this.id));
         }
 
-        // Set properties.
-        this.setProps();
-        return true;
+        // Initialize properties.
+        return webui.@THEME@.widget.common.initProps(this);
     }
 }
 

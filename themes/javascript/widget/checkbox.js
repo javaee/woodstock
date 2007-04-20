@@ -67,9 +67,8 @@ webui.@THEME@.widget.checkbox = function() {
         this.getInputElement = webui.@THEME@.widget.checkbox.getInputElement;
         this.refresh = webui.@THEME@.widget.checkbox.refresh.processEvent;        
 
-        // Set properties
-        this.setProps();
-        return true;
+        // Initialize properties.
+        return webui.@THEME@.widget.common.initProps(this);
     }
 }
 
@@ -114,9 +113,11 @@ webui.@THEME@.widget.checkbox.getProps = function() {
     if (this.value) { props.value = this.value; }
 
     // After widget has been initialized, get user's input.
-    props.checked = (document.getElementById(this.checkboxNode.id))
-        ? this.checkboxNode.checked
-        : this.checked;
+    if (this.initialized == true && this.checkboxNode.checked != null) {
+        props.checked = this.checkboxNode.checked;
+    } else if (this.checked != null) {
+        props.checked = this.checked;
+    }
 
     // Add DOM node properties.
     Object.extend(props, webui.@THEME@.widget.common.getCommonProps(this));

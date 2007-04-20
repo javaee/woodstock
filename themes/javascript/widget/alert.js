@@ -64,10 +64,8 @@ webui.@THEME@.widget.alert = function() {
         this.setProps = webui.@THEME@.widget.alert.setProps;
         this.getProps = webui.@THEME@.widget.alert.getProps;
 
-        // Set properties.
-        this.setProps();
-
-        return true;
+        // Initialize properties.
+        return webui.@THEME@.widget.common.initProps(this);
     }
 }
 

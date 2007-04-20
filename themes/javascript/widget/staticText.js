@@ -53,9 +53,8 @@ webui.@THEME@.widget.staticText = function() {
         this.setProps = webui.@THEME@.widget.staticText.setProps;
         this.getProps = webui.@THEME@.widget.staticText.getProps;
 
-        // Set properties.
-        this.setProps();
-        return true;
+        // Initialize properties.
+        return webui.@THEME@.widget.common.initProps(this);
     }
 }
 
