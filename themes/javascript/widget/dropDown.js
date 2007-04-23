@@ -406,7 +406,7 @@ webui.@THEME@.widget.dropDown.createOnChangeCallback = function(id) {
 
         // If function returns false, we must prevent the auto-submit.
         var result = (widget.listContainer._onchange)
-            ? widget.listContainer._onchange() : true;
+            ? widget.listContainer._onchange(event) : true;
         if (result == false) {
             return false;
         }
