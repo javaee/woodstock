@@ -113,6 +113,7 @@ webui.@THEME@.widget.textField.getProps = function() {
     if (this.text) { props.text = this.text; }
     if (this.title) { props.title = this.title; }
     if (this.type) { props.type= this.type; }
+    if (this.readOnly != null) { props.readOnly = this.readOnly; }
     if (this.required != null) { props.required = this.required; }
     if (this.size) { props.size = this.size; }
     if (this.valid != null) { props.valid = this.valid; }
@@ -155,6 +156,7 @@ webui.@THEME@.widget.textField.getProps = function() {
  *  <li>onMouseOver</li>
  *  <li>onMouseUp</li>
  *  <li>onMouseMove</li>
+ *  <li>readOnly</li>
  *  <li>required</li>
  *  <li>size</li>
  *  <li>style</li>
@@ -186,7 +188,10 @@ webui.@THEME@.widget.textField.setProps = function(props) {
     if (props.disabled != null) { 
         this.textFieldNode.disabled = new Boolean(props.disabled).valueOf();
     }
-    
+    if (props.readOnly != null) { 
+        this.textFieldNode.readOnly = new Boolean(props.readOnly).valueOf();
+    }
+
     this.textFieldNode.className = this.getClassName();
 
     // Set label properties.

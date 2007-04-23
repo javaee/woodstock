@@ -49,7 +49,7 @@ abstract class RbCbRendererBase extends RendererBase {
         "lang",
         "dir",
         "align",
-        "accesskey",
+        "accessKey",
         "style",
         "tabIndex",
         "onFocus",

@@ -15653,6 +15653,7 @@ properties:<br>
         <li>onMouseOut</li>
         <li>onMouseOver</li>
         <li>onMouseUp</li>
+        <li>readOnly</li>
         <li>required</li>
         <li>size</li>
         <li>style</li>

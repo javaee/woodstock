@@ -200,7 +200,7 @@ webui.@THEME@.widget.common = {
         }
 
         // Set properties.
-        if (obj.accesskey) { props.accesskey = obj.accesskey; }
+        if (obj.accessKey) { props.accessKey = obj.accessKey; }
         if (obj.dir) { props.dir = obj.dir; }
         if (obj.lang) { props.lang = obj.lang; }
         if (obj.tabIndex) { props.tabIndex = obj.tabIndex; }
@@ -351,7 +351,7 @@ webui.@THEME@.widget.common = {
      * with the following Object literals.
      *
      * <ul>
-     *  <li>accesskey</li>
+     *  <li>accessKey</li>
      *  <li>dir</li>
      *  <li>lang</li>
      *  <li>tabIndex</li>
@@ -365,8 +365,8 @@ webui.@THEME@.widget.common = {
         if (domNode == null || props == null) {
             return false;
         }
-        if (props.accesskey) { 
-            domNode.accesskey = props.accesskey;
+        if (props.accessKey) { 
+            domNode.accessKey = props.accessKey;
         }
         if (props.dir) {
             domNode.dir = props.dir;
@@ -375,7 +375,7 @@ webui.@THEME@.widget.common = {
             domNode.lang = props.lang;
         }
         if (props.tabIndex > -1 && props.tabIndex < 32767) {
-            domNode.tabindex = props.tabIndex;
+            domNode.tabIndex = props.tabIndex;
         }
         if (props.title) {
             domNode.title = props.title;

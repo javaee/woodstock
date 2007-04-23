@@ -236,7 +236,7 @@ webui.@THEME@.widget.checkbox.setProps = function(props) {
         this.checkboxNode.value = props.value;
     }
     if (props.readOnly != null) { 
-        this.checkboxNode.readonly = new Boolean(props.readOnly).valueOf();
+        this.checkboxNode.readOnly = new Boolean(props.readOnly).valueOf();
     }
     if (props.checked != null) { 
         this.checkboxNode.checked = new Boolean(props.checked).valueOf();

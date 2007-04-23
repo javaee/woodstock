@@ -68,7 +68,7 @@ webui.@THEME@.widget.radioButton = function() {
         this.refresh = webui.@THEME@.widget.radioButton.refresh.processEvent;
 
         // Initialize properties.
-        return webui.@THEME@.widget.common.initProps(this);   
+        return webui.@THEME@.widget.common.initProps(this);
     }    
 }
 
@@ -186,7 +186,7 @@ webui.@THEME@.widget.radioButton.setProps = function(props) {
         this.radioButtonNode.value = props.value;
     }
     if (props.readOnly != null) {
-        this.radioButtonNode.readonly = new Boolean(props.readOnly).valueOf();
+        this.radioButtonNode.readOnly = new Boolean(props.readOnly).valueOf();
     }
     if (props.checked != null) { 
         this.radioButtonNode.checked = new Boolean(props.checked).valueOf();
@@ -194,7 +194,17 @@ webui.@THEME@.widget.radioButton.setProps = function(props) {
     if (props.disabled != null) { 
         this.radioButtonNode.disabled = new Boolean(props.disabled).valueOf();
     }
-    if (props.name) { 
+    if (props.name) {
+        // Note: IE does not support the name attribute being added dynamically
+        // as documented at:
+        //
+        // http://msdn.microsoft.com/workshop/author/dhtml/reference/properties/name_2.asp
+        //
+        // In order to create an HTML element with a name attribute, the name
+        // and value must be included when using the innerHTML property or when 
+        // using the document.createElement() function. As a work around, we 
+        // shall include a dummy name="forIE" attribute via the HTML template
+        // and reset the value below.
         this.radioButtonNode.name = props.name;
     }
 
