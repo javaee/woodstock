@@ -50,7 +50,7 @@ webui.@THEME@.widget.radioButton = function() {
             this.imageContainer.id = this.id + "_imageContainer";
             this.labelContainer.id = this.id + "_labelContainer";
 
-            // If null, use HTML input id.
+            // If null, use HTML input id. Note: This has no affect on IE.
             if (this.name == null) { this.name = this.radioButtonNode.id; }
         } 
     
