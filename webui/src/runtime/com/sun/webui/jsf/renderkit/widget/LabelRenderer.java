@@ -20,7 +20,7 @@
  * Copyright 2007 Sun Microsystems, Inc. All rights reserved.
  */
 /*
- * $Id: LabelRenderer.java,v 1.5 2007-04-24 16:19:29 danl Exp $
+ * $Id: LabelRenderer.java,v 1.6 2007-04-24 20:21:46 danl Exp $
  */
 package com.sun.webui.jsf.renderkit.widget;
 
@@ -228,7 +228,8 @@ public class LabelRenderer extends RendererBase {
             .put("templatePath", (templatePath != null)
                 ? templatePath 
                 : theme.getPathToTemplate(ThemeTemplates.LABEL))
-            .put("className", label.getStyleClass());    
+            .put("className", label.getStyleClass())
+            .put("visible", label.isVisible());
             
         // Append required image properties.
         WidgetUtilities.addProperties(json, "requiredImage",

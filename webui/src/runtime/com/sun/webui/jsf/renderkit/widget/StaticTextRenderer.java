@@ -152,7 +152,8 @@ public class StaticTextRenderer extends RendererBase {
             .put("templatePath", (templatePath != null)
                 ? templatePath
                 : getTheme().getPathToTemplate(ThemeTemplates.STATICTEXT))
-            .put("className", staticText.getStyleClass());
+            .put("className", staticText.getStyleClass())
+            .put("visible", staticText.isVisible());
         
         // Add core and attribute properties.
         addAttributeProperties(attributes, component, json);
