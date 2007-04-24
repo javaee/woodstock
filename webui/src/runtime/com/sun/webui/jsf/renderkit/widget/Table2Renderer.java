@@ -90,6 +90,8 @@ public class Table2Renderer extends RendererBase {
      *
      * @param context FacesContext for the current request.
      * @param component UIComponent to be rendered.
+     *
+     * @exception JSONException if a key/value error occurs
      */
     protected JSONArray getModules(FacesContext context, UIComponent component)
             throws JSONException {
@@ -97,11 +99,10 @@ public class Table2Renderer extends RendererBase {
 	    throw new IllegalArgumentException(
                 "Table2Renderer can only render Table2 components.");
         }
-        Table2 table = (Table2) component;
-
         JSONArray json = new JSONArray();
         json.put(JavaScriptUtilities.getModuleName("widget.table2"));
 
+        Table2 table = (Table2) component;
         if (table.isAjaxify()) {
             json.put(JavaScriptUtilities.getModuleName(
                 "widget.jsfx.table2"));
@@ -114,6 +115,9 @@ public class Table2Renderer extends RendererBase {
      *
      * @param context FacesContext for the current request.
      * @param component UIComponent to be rendered.
+     *
+     * @exception IOException if an input/output error occurs
+     * @exception JSONException if a key/value error occurs
      */
     protected JSONObject getProperties(FacesContext context,
             UIComponent component) throws IOException, JSONException {
@@ -143,9 +147,10 @@ public class Table2Renderer extends RendererBase {
     /**
      * Get the type of widget represented by this component.
      *
-     * @return The type of widget represented by this component.
+     * @param context FacesContext for the current request.
+     * @param component UIComponent to be rendered.
      */
-    public String getWidgetType() {
+    protected String getWidgetType(FacesContext context, UIComponent component) {
         return JavaScriptUtilities.getNamespace("table2");
     }
 

@@ -193,6 +193,8 @@ public class RadioButtonRenderer extends RbCbRendererBase {
      *
      * @param context FacesContext for the current request.
      * @param component UIComponent to be rendered.
+     *
+     * @exception JSONException if a key/value error occurs
      */
     protected JSONArray getModules(FacesContext context, UIComponent component)
             throws JSONException {        
@@ -200,11 +202,10 @@ public class RadioButtonRenderer extends RbCbRendererBase {
 	    throw new IllegalArgumentException(
                 "RadioButtonRenderer can only render RadioButton components.");
         }
-        RadioButton radioButton = (RadioButton) component;
-
         JSONArray json = new JSONArray();
         json.put(JavaScriptUtilities.getModuleName("widget.radioButton"));
-        
+
+        RadioButton radioButton = (RadioButton) component;
         if (radioButton.isAjaxify()) {
               json.put(JavaScriptUtilities.getModuleName(
                       "widget.jsfx.radioButton"));
@@ -217,6 +218,9 @@ public class RadioButtonRenderer extends RbCbRendererBase {
      *
      * @param context FacesContext for the current request.
      * @param component UIComponent to be rendered.
+     *
+     * @exception IOException if an input/output error occurs
+     * @exception JSONException if a key/value error occurs
      */
     protected JSONObject getProperties(FacesContext context,
             UIComponent component) throws IOException, JSONException {
@@ -239,9 +243,10 @@ public class RadioButtonRenderer extends RbCbRendererBase {
     /**
      * Get the type of widget represented by this component.
      *
-     * @return The type of widget represented by this component.
+     * @param context FacesContext for the current request.
+     * @param component UIComponent to be rendered.
      */
-    public String getWidgetType() {
+    protected String getWidgetType(FacesContext context, UIComponent component) {
         return JavaScriptUtilities.getNamespace("radioButton");
     }
     

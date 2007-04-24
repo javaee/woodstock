@@ -131,6 +131,8 @@ public class ButtonRenderer extends RendererBase {
      *
      * @param context FacesContext for the current request.
      * @param component UIComponent to be rendered.
+     *
+     * @exception JSONException if a key/value error occurs
      */
     protected JSONArray getModules(FacesContext context, UIComponent component)
             throws JSONException {
@@ -138,11 +140,10 @@ public class ButtonRenderer extends RendererBase {
 	    throw new IllegalArgumentException(
                 "ButtonRenderer can only render Button components.");
         }
-        Button button = (Button) component;
-
         JSONArray json = new JSONArray();
         json.put(JavaScriptUtilities.getModuleName("widget.button"));
 
+        Button button = (Button) component;
         if (button.isAjaxify()) {
             json.put(JavaScriptUtilities.getModuleName(
                 "widget.jsfx.button"));
@@ -155,6 +156,9 @@ public class ButtonRenderer extends RendererBase {
      *
      * @param context FacesContext for the current request.
      * @param component UIComponent to be rendered.
+     *
+     * @exception IOException if an input/output error occurs
+     * @exception JSONException if a key/value error occurs
      */
     protected JSONObject getProperties(FacesContext context,
             UIComponent component) throws JSONException, IOException {
@@ -206,9 +210,10 @@ public class ButtonRenderer extends RendererBase {
     /**
      * Get the type of widget represented by this component.
      *
-     * @return The type of widget represented by this component.
+     * @param context FacesContext for the current request.
+     * @param component UIComponent to be rendered.
      */
-    public String getWidgetType() {
+    protected String getWidgetType(FacesContext context, UIComponent component) {
         return JavaScriptUtilities.getNamespace("button");
     }
 

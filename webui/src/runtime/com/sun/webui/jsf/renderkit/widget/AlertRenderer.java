@@ -78,6 +78,8 @@ public class AlertRenderer extends RendererBase {
      *
      * @param context FacesContext for the current request.
      * @param component UIComponent to be rendered.
+     *
+     * @exception JSONException if a key/value error occurs
      */
     protected JSONArray getModules(FacesContext context, UIComponent component)
             throws JSONException {
@@ -91,6 +93,9 @@ public class AlertRenderer extends RendererBase {
      *
      * @param context FacesContext for the current request.
      * @param component UIComponent to be rendered.
+     *
+     * @exception IOException if an input/output error occurs
+     * @exception JSONException if a key/value error occurs
      */
     protected JSONObject getProperties(FacesContext context,
             UIComponent component) throws IOException, JSONException {
@@ -169,11 +174,13 @@ public class AlertRenderer extends RendererBase {
     
     /**
      * Get the type of widget represented by this component.
-     * @return The type of widget represented by this component.
+     *
+     * @param context FacesContext for the current request.
+     * @param component UIComponent to be rendered.
      */
-     public String getWidgetType() {
-         return JavaScriptUtilities.getNamespace("alert");
-     }
+    protected String getWidgetType(FacesContext context, UIComponent component) {
+        return JavaScriptUtilities.getNamespace("alert");
+    }
     
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     // Private renderer methods

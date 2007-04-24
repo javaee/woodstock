@@ -80,11 +80,23 @@ public class HiddenFieldRenderer extends RendererBase {
      *
      * @param context FacesContext for the current request.
      * @param component UIComponent to be rendered.
+     * 
+     * @exception JSONException if a key/value error occurs
      */
     protected JSONArray getModules(FacesContext context, UIComponent component)
-        throws JSONException {
+            throws JSONException {
+	if (!(component instanceof HiddenField)) {
+	    throw new IllegalArgumentException(
+                "HiddenFieldRenderer can only render HiddenField components.");
+        }
         JSONArray json = new JSONArray();
         json.put(JavaScriptUtilities.getModuleName("widget.hiddenField"));
+
+        HiddenField hiddenField = (HiddenField) component;
+        if (hiddenField.isAjaxify()) {
+            json.put(JavaScriptUtilities.getModuleName(
+                "widget.jsfx.hiddenField"));
+        }
         return json;
     }
     
@@ -93,6 +105,9 @@ public class HiddenFieldRenderer extends RendererBase {
      *
      * @param context FacesContext for the current request.
      * @param component UIComponent to be rendered.
+     *
+     * @exception IOException if an input/output error occurs
+     * @exception JSONException if a key/value error occurs
      */
     protected JSONObject getProperties(FacesContext context,
             UIComponent component) throws IOException, JSONException {
@@ -154,9 +169,11 @@ public class HiddenFieldRenderer extends RendererBase {
 
     /**
      * Get the type of widget represented by this component.
-     * @return The type of widget represented by this component.
+     *
+     * @param context FacesContext for the current request.
+     * @param component UIComponent to be rendered.
      */
-    public String getWidgetType() {
+    protected String getWidgetType(FacesContext context, UIComponent component) {
         return JavaScriptUtilities.getNamespace("hiddenField");
     }
      

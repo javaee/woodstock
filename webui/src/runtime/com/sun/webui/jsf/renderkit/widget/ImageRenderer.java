@@ -91,11 +91,23 @@ public class ImageRenderer extends RendererBase {
      *
      * @param context FacesContext for the current request.
      * @param component UIComponent to be rendered.
+     *
+     * @exception JSONException if a key/value error occurs
      */
     protected JSONArray getModules(FacesContext context, UIComponent component)
             throws JSONException {
+	if (!(component instanceof ImageComponent)) {
+	    throw new IllegalArgumentException(
+                "ImageRenderer can only render ImageComponent components.");
+        }
         JSONArray json = new JSONArray();
         json.put(JavaScriptUtilities.getModuleName("widget.image"));
+
+        ImageComponent image = (ImageComponent) component;
+        if (image.isAjaxify()) {
+            json.put(JavaScriptUtilities.getModuleName(
+                "widget.jsfx.image"));
+        }
         return json;
     }
 
@@ -104,6 +116,9 @@ public class ImageRenderer extends RendererBase {
      *
      * @param context FacesContext for the current request.
      * @param component UIComponent to be rendered.
+     *
+     * @exception IOException if an input/output error occurs
+     * @exception JSONException if a key/value error occurs
      */    
     protected JSONObject getProperties(FacesContext context,     
             UIComponent component) throws JSONException, IOException {
@@ -180,9 +195,10 @@ public class ImageRenderer extends RendererBase {
     /**
      * Get the type of widget represented by this component.
      *
-     * @return The type of widget represented by this component.
+     * @param context FacesContext for the current request.
+     * @param component UIComponent to be rendered.
      */
-    public String getWidgetType() {
+    protected String getWidgetType(FacesContext context, UIComponent component) {
         return JavaScriptUtilities.getNamespace("image");
     }
 

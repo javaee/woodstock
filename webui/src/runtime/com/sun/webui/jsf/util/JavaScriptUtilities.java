@@ -71,7 +71,8 @@ public class JavaScriptUtilities {
                 .put("debugAtAllCosts", debug)
                 .put("parseWidgets", parseWidgets);
 
-            buff.append("djConfig=")
+            // Append djConfig properties.
+            buff.append("var djConfig = ")
                 .append(json.toString(INDENT_FACTOR))
                 .append(";\n");
         } catch (JSONException e) {

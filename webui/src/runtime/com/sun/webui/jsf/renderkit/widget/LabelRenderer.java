@@ -20,7 +20,7 @@
  * Copyright 2007 Sun Microsystems, Inc. All rights reserved.
  */
 /*
- * $Id: LabelRenderer.java,v 1.4 2007-04-19 03:39:27 danl Exp $
+ * $Id: LabelRenderer.java,v 1.5 2007-04-24 16:19:29 danl Exp $
  */
 package com.sun.webui.jsf.renderkit.widget;
 
@@ -80,7 +80,6 @@ public class LabelRenderer extends RendererBase {
         "lang",
         "title",
         "accesskey"
-        
     };
 
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -92,11 +91,23 @@ public class LabelRenderer extends RendererBase {
      *
      * @param context FacesContext for the current request.
      * @param component UIComponent to be rendered.
+     *
+     * @exception JSONException if a key/value error occurs
      */
     protected JSONArray getModules(FacesContext context, UIComponent component)
             throws JSONException {
+	if (!(component instanceof Label)) {
+	    throw new IllegalArgumentException(
+                "LabelRenderer can only render Label components.");
+        }
         JSONArray json = new JSONArray();
         json.put(JavaScriptUtilities.getModuleName("widget.label"));
+
+        Label label = (Label) component;
+        if (label.isAjaxify()) {
+            json.put(JavaScriptUtilities.getModuleName(
+                "widget.jsfx.label"));
+        }
         return json;
     }
 
@@ -105,6 +116,9 @@ public class LabelRenderer extends RendererBase {
      *
      * @param context FacesContext for the current request.
      * @param component UIComponent to be rendered.
+     *
+     * @exception IOException if an input/output error occurs
+     * @exception JSONException if a key/value error occurs
      */
     protected JSONObject getProperties(FacesContext context,
             UIComponent component) throws IOException, JSONException {
@@ -239,9 +253,10 @@ public class LabelRenderer extends RendererBase {
     /**
      * Get the type of widget represented by this component.
      *
-     * @return The type of widget represented by this component.
+     * @param context FacesContext for the current request.
+     * @param component UIComponent to be rendered.
      */
-    public String getWidgetType() {
+    protected String getWidgetType(FacesContext context, UIComponent component) {
         return JavaScriptUtilities.getNamespace("label");
     }
 

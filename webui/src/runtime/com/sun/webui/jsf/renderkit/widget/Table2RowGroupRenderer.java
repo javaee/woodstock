@@ -92,6 +92,8 @@ public class Table2RowGroupRenderer extends RendererBase {
      *
      * @param context FacesContext for the current request.
      * @param component UIComponent to be rendered.
+     *
+     * @exception JSONException if a key/value error occurs
      */
     protected JSONArray getModules(FacesContext context, UIComponent component)
             throws JSONException {
@@ -99,11 +101,10 @@ public class Table2RowGroupRenderer extends RendererBase {
 	    throw new IllegalArgumentException(
                 "Table2RowGroupRenderer can only render Table2RowGroup components.");
         }
-        Table2RowGroup group = (Table2RowGroup) component;
-
         JSONArray json = new JSONArray();
         json.put(JavaScriptUtilities.getModuleName("widget.table2RowGroup"));
 
+        Table2RowGroup group = (Table2RowGroup) component;
         if (group.isAjaxify()) {
             json.put(JavaScriptUtilities.getModuleName(
                 "widget.jsfx.table2RowGroup"));
@@ -116,6 +117,9 @@ public class Table2RowGroupRenderer extends RendererBase {
      *
      * @param context FacesContext for the current request.
      * @param component UIComponent to be rendered.
+     *
+     * @exception IOException if an input/output error occurs
+     * @exception JSONException if a key/value error occurs
      */
     protected JSONObject getProperties(FacesContext context,
             UIComponent component) throws IOException, JSONException {
@@ -148,9 +152,10 @@ public class Table2RowGroupRenderer extends RendererBase {
     /**
      * Get the type of widget represented by this component.
      *
-     * @return The type of widget represented by this component.
+     * @param context FacesContext for the current request.
+     * @param component UIComponent to be rendered.
      */
-    public String getWidgetType() {
+    protected String getWidgetType(FacesContext context, UIComponent component) {
         return JavaScriptUtilities.getNamespace("table2RowGroup");
     }
 

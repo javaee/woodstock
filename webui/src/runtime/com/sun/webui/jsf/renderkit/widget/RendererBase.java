@@ -94,7 +94,7 @@ abstract public class RendererBase extends Renderer {
         // Not all components need to render JavaScript and instantiate a
         // client-side widget. Therefore, if getWidgetType() returns null, only
         // JSON properties are output.
-        if (isWidgetChild || getWidgetType() == null) {
+        if (isWidgetChild || getWidgetType(context, component) == null) {
             return;
         }
 
@@ -185,7 +185,7 @@ abstract public class RendererBase extends Renderer {
         // Not all components need to render JavaScript and instantiate a
         // client-side widget. Therefore, if getWidgetType() returns null, only
         // JSON properties are output.
-        if (isWidgetChild || getWidgetType() == null) {
+        if (isWidgetChild || getWidgetType(context, component) == null) {
             return;
         }
 
@@ -217,6 +217,7 @@ abstract public class RendererBase extends Renderer {
      * @param json JSONObject to add name/value pairs to.
      *
      * @exception IOException if an input/output error occurs
+     * @exception JSONException if a key/value error occurs
      */
     protected void addAttributeProperties(String names[], UIComponent component,
             JSONObject json) throws JSONException {
@@ -240,15 +241,21 @@ abstract public class RendererBase extends Renderer {
      *
      * @param context FacesContext for the current request.
      * @param component UIComponent to be rendered.
+     *
+     * @exception IOException if an input/output error occurs
+     * @exception JSONException if a key/value error occurs
      */
     abstract protected JSONArray getModules(FacesContext context,
-        UIComponent component) throws JSONException;
+        UIComponent component) throws IOException, JSONException;
 
     /**
      * Helper method to obtain component properties.
      *
      * @param context FacesContext for the current request.
      * @param component UIComponent to be rendered.
+     *
+     * @exception IOException if an input/output error occurs
+     * @exception JSONException if a key/value error occurs
      */
     abstract protected JSONObject getProperties(FacesContext context,
         UIComponent component) throws IOException, JSONException;
@@ -256,9 +263,13 @@ abstract public class RendererBase extends Renderer {
     /**
      * Get the type of widget represented by this component.
      *
-     * @return The type of widget represented by this component.
+     * @param context FacesContext for the current request.
+     * @param component UIComponent to be rendered.
+     *
+     * @exception IOException if an input/output error occurs
      */
-    abstract protected String getWidgetType();
+    abstract protected String getWidgetType(FacesContext context,
+        UIComponent component) throws IOException;
 
     /**
      * This method may be used to set core name/value pairs for the given
@@ -269,12 +280,13 @@ abstract public class RendererBase extends Renderer {
      * @param json JSONObject to add name/value pairs to.
      *
      * @exception IOException if an input/output error occurs
+     * @exception JSONException if a key/value error occurs
      */
     protected void setCoreProperties(FacesContext context, UIComponent component, 
-            JSONObject json) throws JSONException {
+            JSONObject json) throws IOException, JSONException {
         json.put("id", component.getClientId(context))
             .put("_modules", getModules(context, component))
-            .put("_widgetType", getWidgetType());    
+            .put("_widgetType", getWidgetType(context, component));    
     }
 
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~

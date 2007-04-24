@@ -44,7 +44,6 @@ import org.json.JSONObject;
     rendererType="com.sun.webui.jsf.widget.DropDown",
     componentFamily="com.sun.webui.jsf.DropDown"))
 public class DropDownRenderer extends ListRendererBase {
-   
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     // RendererBase methods
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -54,6 +53,8 @@ public class DropDownRenderer extends ListRendererBase {
      *
      * @param context FacesContext for the current request.
      * @param component UIComponent to be rendered.
+     *
+     * @exception JSONException if a key/value error occurs
      */
     protected JSONArray getModules(FacesContext context, UIComponent component)
             throws JSONException {
@@ -61,11 +62,10 @@ public class DropDownRenderer extends ListRendererBase {
 	    throw new IllegalArgumentException(
                 "DropDownRenderer can only render DropDown components.");
         }
-        DropDown dropDown = (DropDown) component;
-        
         JSONArray json = new JSONArray();
         json.put(JavaScriptUtilities.getModuleName("widget.dropDown"));
-        
+
+        DropDown dropDown = (DropDown) component;
         if (dropDown.isAjaxify()) {
             json.put(JavaScriptUtilities.getModuleName(
                     "widget.jsfx.dropDown"));
@@ -79,6 +79,9 @@ public class DropDownRenderer extends ListRendererBase {
      *
      * @param context FacesContext for the current request.
      * @param component UIComponent to be rendered.
+     *
+     * @exception IOException if an input/output error occurs
+     * @exception JSONException if a key/value error occurs
      */
     protected JSONObject getProperties(FacesContext context,
             UIComponent component) throws JSONException, IOException{
@@ -114,9 +117,10 @@ public class DropDownRenderer extends ListRendererBase {
     /**
      * Get the type of widget represented by this component.
      *
-     * @return The type of widget represented by this component.
+     * @param context FacesContext for the current request.
+     * @param component UIComponent to be rendered.
      */
-    public String getWidgetType() {
+    protected String getWidgetType(FacesContext context, UIComponent component) {
         return JavaScriptUtilities.getNamespace("dropDown");
     }
 
