@@ -75,36 +75,14 @@ public class Label extends UIOutput implements NamingContainer {
     public String getFamily() {
         return "com.sun.webui.jsf.Label";
     }     
-     
-    /**
-     * Alternative HTML template to be used by this component.
-     */
-    @Property(name="htmlTemplate", isHidden=true, isAttribute=true, displayName="HTML Template", category="Appearance")
-    private String htmlTemplate = null;
 
-    /**
-     * Get alternative HTML template to be used by this component.
-     */
-
-    public String getHtmlTemplate() {
-        if (this.htmlTemplate != null) {
-            return this.htmlTemplate;
+    public String getRendererType() {
+        // Ensure we have a valid Ajax request.
+        if (ComponentUtilities.isAjaxRequest(getFacesContext(), this)) {
+            return "com.sun.webui.jsf.ajax.Label";
         }
-        ValueExpression _vb = getValueExpression("htmlTemplate");
-        if (_vb != null) {
-            return (String) _vb.getValue(getFacesContext().getELContext());
-        }
-        return null;
-    }
-
-    /**
-     * Set alternative HTML template to be used by this component.
-     */
-
-    public void setHtmlTemplate(String htmlTemplate) {
-        this.htmlTemplate = htmlTemplate;
-    }
-    
+        return super.getRendererType();
+    }  
 
     /**
      * Set the labeled component to <code>comp</code>.
@@ -616,6 +594,41 @@ public class Label extends UIOutput implements NamingContainer {
     }
     
     /**
+     * Flag indicating to turn off default Ajax functionality. Set ajaxify to
+     * false when providing a different Ajax implementation.
+     */
+    @Property(name="ajaxify", isHidden=true, isAttribute=true, displayName="Ajaxify", category="Javascript")
+    private boolean ajaxify = true; 
+    private boolean ajaxify_set = false; 
+ 
+    /**
+     * Test if default Ajax functionality should be turned off.
+     */
+    public boolean isAjaxify() { 
+        if (this.ajaxify_set) {
+            return this.ajaxify;
+        }
+        ValueExpression _vb = getValueExpression("ajaxify");
+        if (_vb != null) {
+            Object _result = _vb.getValue(getFacesContext().getELContext());
+            if (_result == null) {
+                return false;
+            } else {
+                return ((Boolean) _result).booleanValue();
+            }
+        }
+        return true;
+    } 
+
+    /**
+     * Set flag indicating to turn off default Ajax functionality.
+     */
+    public void setAjaxify(boolean ajaxify) {
+        this.ajaxify = ajaxify;
+        this.ajaxify_set = true;
+    }
+
+    /**
      * <p>Use this attribute to specify the labeled component. 
      * The value of the attribute is the absolute client id of the component or
      * the id of the component to be labeled. Relative ids are no longer supported.
@@ -713,6 +726,35 @@ public class Label extends UIOutput implements NamingContainer {
     public void setHideIndicators(boolean hideIndicators) {
         this.hideIndicators = hideIndicators;
         this.hideIndicators_set = true;
+    }
+
+    /**
+     * Alternative HTML template to be used by this component.
+     */
+    @Property(name="htmlTemplate", isHidden=true, isAttribute=true, displayName="HTML Template", category="Appearance")
+    private String htmlTemplate = null;
+
+    /**
+     * Get alternative HTML template to be used by this component.
+     */
+
+    public String getHtmlTemplate() {
+        if (this.htmlTemplate != null) {
+            return this.htmlTemplate;
+        }
+        ValueExpression _vb = getValueExpression("htmlTemplate");
+        if (_vb != null) {
+            return (String) _vb.getValue(getFacesContext().getELContext());
+        }
+        return null;
+    }
+
+    /**
+     * Set alternative HTML template to be used by this component.
+     */
+
+    public void setHtmlTemplate(String htmlTemplate) {
+        this.htmlTemplate = htmlTemplate;
     }
 
     /**
@@ -1187,14 +1229,16 @@ public class Label extends UIOutput implements NamingContainer {
         this.toolTip = (String) _values[16];
         this.visible = ((Boolean) _values[17]).booleanValue();
         this.visible_set = ((Boolean) _values[18]).booleanValue();
-        this.htmlTemplate = (String) _values[19];
+        this.ajaxify = ((Boolean) _values[19]).booleanValue();
+        this.ajaxify_set = ((Boolean) _values[20]).booleanValue();
+        this.htmlTemplate = (String) _values[21];
     }
 
     /**
      * <p>Save the state of this component.</p>
      */
     public Object saveState(FacesContext _context) {
-        Object _values[] = new Object[20];
+        Object _values[] = new Object[22];
         _values[0] = super.saveState(_context);
         _values[1] = this._for;
         _values[2] = this.hideIndicators ? Boolean.TRUE : Boolean.FALSE;
@@ -1214,7 +1258,9 @@ public class Label extends UIOutput implements NamingContainer {
         _values[16] = this.toolTip;
         _values[17] = this.visible ? Boolean.TRUE : Boolean.FALSE;
         _values[18] = this.visible_set ? Boolean.TRUE : Boolean.FALSE;
-        _values[19] = this.htmlTemplate;
+        _values[19] = this.ajaxify ? Boolean.TRUE : Boolean.FALSE;
+        _values[20] = this.ajaxify_set ? Boolean.TRUE : Boolean.FALSE;
+        _values[21] = this.htmlTemplate;
         return _values;
     }
 }

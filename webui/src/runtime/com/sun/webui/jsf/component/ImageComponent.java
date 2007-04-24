@@ -21,18 +21,18 @@
  */
 package com.sun.webui.jsf.component;
 
+import com.sun.faces.annotation.Component;
+import com.sun.faces.annotation.Property;
+import com.sun.webui.jsf.theme.ThemeStyles;
+import com.sun.webui.jsf.theme.ThemeImages;
+import com.sun.webui.jsf.util.ComponentUtilities;
 import com.sun.webui.jsf.util.ThemeUtilities;
+import com.sun.webui.theme.Theme;
+import com.sun.webui.theme.ThemeImage;
+
 import javax.el.ValueExpression;
 import javax.faces.component.UIGraphic;
 import javax.faces.context.FacesContext;
-
-import com.sun.faces.annotation.Component;
-import com.sun.faces.annotation.Property;
-
-import com.sun.webui.theme.Theme;
-import com.sun.webui.theme.ThemeImage;
-import com.sun.webui.jsf.theme.ThemeStyles;
-import com.sun.webui.jsf.theme.ThemeImages;
 
 /**
  * The ImageComponent is used to display in inline graphic image. 
@@ -60,6 +60,14 @@ public class ImageComponent extends UIGraphic {
      */
     public String getFamily() {
         return "com.sun.webui.jsf.Image";
+    }
+
+    public String getRendererType() {
+        // Ensure we have a valid Ajax request.
+        if (ComponentUtilities.isAjaxRequest(getFacesContext(), this)) {
+            return "com.sun.webui.jsf.ajax.Image";
+        }
+        return super.getRendererType();
     }
 
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -200,6 +208,41 @@ public class ImageComponent extends UIGraphic {
      */
     public void setAlt(String alt) {
         this.alt = alt;
+    }
+
+    /**
+     * Flag indicating to turn off default Ajax functionality. Set ajaxify to
+     * false when providing a different Ajax implementation.
+     */
+    @Property(name="ajaxify", isHidden=true, isAttribute=true, displayName="Ajaxify", category="Javascript")
+    private boolean ajaxify = true; 
+    private boolean ajaxify_set = false; 
+ 
+    /**
+     * Test if default Ajax functionality should be turned off.
+     */
+    public boolean isAjaxify() { 
+        if (this.ajaxify_set) {
+            return this.ajaxify;
+        }
+        ValueExpression _vb = getValueExpression("ajaxify");
+        if (_vb != null) {
+            Object _result = _vb.getValue(getFacesContext().getELContext());
+            if (_result == null) {
+                return false;
+            } else {
+                return ((Boolean) _result).booleanValue();
+            }
+        }
+        return true;
+    } 
+
+    /**
+     * Set flag indicating to turn off default Ajax functionality.
+     */
+    public void setAjaxify(boolean ajaxify) {
+        this.ajaxify = ajaxify;
+        this.ajaxify_set = true;
     }
 
     /**
@@ -943,14 +986,16 @@ public class ImageComponent extends UIGraphic {
         this.vspace_set = ((Boolean) _values[24]).booleanValue();
         this.width = ((Integer) _values[25]).intValue();
         this.width_set = ((Boolean) _values[26]).booleanValue();
-        this.htmlTemplate = (String) _values[27];
+        this.ajaxify = ((Boolean) _values[27]).booleanValue();
+        this.ajaxify_set = ((Boolean) _values[28]).booleanValue();
+        this.htmlTemplate = (String) _values[29];
     }
 
     /**
      * <p>Save the state of this component.</p>
      */
     public Object saveState(FacesContext _context) {
-        Object _values[] = new Object[28];
+        Object _values[] = new Object[30];
         _values[0] = super.saveState(_context);
         _values[1] = this.align;
         _values[2] = this.alt;
@@ -978,7 +1023,9 @@ public class ImageComponent extends UIGraphic {
         _values[24] = this.vspace_set ? Boolean.TRUE : Boolean.FALSE;
         _values[25] = new Integer(this.width);
         _values[26] = this.width_set ? Boolean.TRUE : Boolean.FALSE;
-        _values[27] = this.htmlTemplate;
+        _values[27] = this.ajaxify ? Boolean.TRUE : Boolean.FALSE;
+        _values[28] = this.ajaxify_set ? Boolean.TRUE : Boolean.FALSE;
+        _values[29] = this.htmlTemplate;
         return _values;
     }
     

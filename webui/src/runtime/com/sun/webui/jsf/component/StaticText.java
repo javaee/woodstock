@@ -21,13 +21,14 @@
  */
 package com.sun.webui.jsf.component;
 
+import com.sun.faces.annotation.Component;
+import com.sun.faces.annotation.Property;
+import com.sun.webui.jsf.util.ComponentUtilities;
+
 import javax.el.ValueExpression;
 import javax.faces.component.UIOutput;
 import javax.faces.context.FacesContext;
 import javax.faces.convert.Converter;
-
-import com.sun.faces.annotation.Component;
-import com.sun.faces.annotation.Property;
 
 /**
  * The StaticText component is used to display text that is not interactive in 
@@ -52,34 +53,13 @@ public class StaticText extends UIOutput {
     public String getFamily() {
         return "com.sun.webui.jsf.StaticText";
     }
-     
-    /**
-     * Alternative HTML template to be used by this component.
-     */
-    @Property(name="htmlTemplate", isHidden=true, isAttribute=true, displayName="HTML Template", category="Appearance")
-    private String htmlTemplate = null;
 
-    /**
-     * Get alternative HTML template to be used by this component.
-     */
-
-    public String getHtmlTemplate() {
-        if (this.htmlTemplate != null) {
-            return this.htmlTemplate;
+    public String getRendererType() {
+        // Ensure we have a valid Ajax request.
+        if (ComponentUtilities.isAjaxRequest(getFacesContext(), this)) {
+            return "com.sun.webui.jsf.ajax.StaticText";
         }
-        ValueExpression _vb = getValueExpression("htmlTemplate");
-        if (_vb != null) {
-            return (String) _vb.getValue(getFacesContext().getELContext());
-        }
-        return null;
-    }
-
-    /**
-     * Set alternative HTML template to be used by this component.
-     */
-
-    public void setHtmlTemplate(String htmlTemplate) {
-        this.htmlTemplate = htmlTemplate;
+        return super.getRendererType();
     }
 
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -159,6 +139,41 @@ public class StaticText extends UIOutput {
     }
 
     /**
+     * Flag indicating to turn off default Ajax functionality. Set ajaxify to
+     * false when providing a different Ajax implementation.
+     */
+    @Property(name="ajaxify", isHidden=true, isAttribute=true, displayName="Ajaxify", category="Javascript")
+    private boolean ajaxify = true; 
+    private boolean ajaxify_set = false; 
+ 
+    /**
+     * Test if default Ajax functionality should be turned off.
+     */
+    public boolean isAjaxify() { 
+        if (this.ajaxify_set) {
+            return this.ajaxify;
+        }
+        ValueExpression _vb = getValueExpression("ajaxify");
+        if (_vb != null) {
+            Object _result = _vb.getValue(getFacesContext().getELContext());
+            if (_result == null) {
+                return false;
+            } else {
+                return ((Boolean) _result).booleanValue();
+            }
+        }
+        return true;
+    } 
+
+    /**
+     * Set flag indicating to turn off default Ajax functionality.
+     */
+    public void setAjaxify(boolean ajaxify) {
+        this.ajaxify = ajaxify;
+        this.ajaxify_set = true;
+    }
+
+    /**
      * <p>Escape the html text so it won't be interpreted by the browser as HTML</p>
      */
     @Property(name="escape", displayName="Escape", category="Data")
@@ -199,6 +214,35 @@ public class StaticText extends UIOutput {
      */
     @Property(name="onClick", displayName="Click Script", category="Javascript", editorClassName="com.sun.rave.propertyeditors.JavaScriptPropertyEditor")
     private String onClick = null;
+
+    /**
+     * Alternative HTML template to be used by this component.
+     */
+    @Property(name="htmlTemplate", isHidden=true, isAttribute=true, displayName="HTML Template", category="Appearance")
+    private String htmlTemplate = null;
+
+    /**
+     * Get alternative HTML template to be used by this component.
+     */
+
+    public String getHtmlTemplate() {
+        if (this.htmlTemplate != null) {
+            return this.htmlTemplate;
+        }
+        ValueExpression _vb = getValueExpression("htmlTemplate");
+        if (_vb != null) {
+            return (String) _vb.getValue(getFacesContext().getELContext());
+        }
+        return null;
+    }
+
+    /**
+     * Set alternative HTML template to be used by this component.
+     */
+
+    public void setHtmlTemplate(String htmlTemplate) {
+        this.htmlTemplate = htmlTemplate;
+    }
 
     /**
      * <p>Scripting code executed when a mouse click
@@ -596,14 +640,16 @@ public class StaticText extends UIOutput {
         this.toolTip = (String) _values[12];
         this.visible = ((Boolean) _values[13]).booleanValue();
         this.visible_set = ((Boolean) _values[14]).booleanValue();
-        this.htmlTemplate = (String) _values[15];
+        this.ajaxify = ((Boolean) _values[15]).booleanValue();
+        this.ajaxify_set = ((Boolean) _values[16]).booleanValue();
+        this.htmlTemplate = (String) _values[17];
     }
 
     /**
      * <p>Save the state of this component.</p>
      */
     public Object saveState(FacesContext _context) {
-        Object _values[] = new Object[16];
+        Object _values[] = new Object[18];
         _values[0] = super.saveState(_context);
         _values[1] = this.escape ? Boolean.TRUE : Boolean.FALSE;
         _values[2] = this.escape_set ? Boolean.TRUE : Boolean.FALSE;
@@ -619,7 +665,9 @@ public class StaticText extends UIOutput {
         _values[12] = this.toolTip;
         _values[13] = this.visible ? Boolean.TRUE : Boolean.FALSE;
         _values[14] = this.visible_set ? Boolean.TRUE : Boolean.FALSE;
-        _values[15] = this.htmlTemplate;
+        _values[15] = this.ajaxify ? Boolean.TRUE : Boolean.FALSE;
+        _values[16] = this.ajaxify_set ? Boolean.TRUE : Boolean.FALSE;
+        _values[17] = this.htmlTemplate;
         return _values;
     }
 

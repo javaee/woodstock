@@ -47,10 +47,12 @@ webui.@THEME@.widget.staticText = function() {
     this.fillInTemplate = function() {
         // Set public functions. 
         this.domNode.getProps = function() { return dojo.widget.byId(this.id).getProps(); }
+        this.domNode.refresh = function(execute) { return dojo.widget.byId(this.id).refresh(execute); }
         this.domNode.setProps = function(props) { return dojo.widget.byId(this.id).setProps(props); }
 
         // Set private functions.
         this.setProps = webui.@THEME@.widget.staticText.setProps;
+        this.refresh = webui.@THEME@.widget.staticText.refresh.processEvent;
         this.getProps = webui.@THEME@.widget.staticText.getProps;
 
         // Initialize properties.
@@ -76,6 +78,53 @@ webui.@THEME@.widget.staticText.getProps = function() {
     Object.extend(props, webui.@THEME@.widget.common.getJavaScriptProps(this));
 
     return props;
+}
+
+/**
+ * This closure is used to process refresh events.
+ */
+webui.@THEME@.widget.staticText.refresh = {
+    /**
+     * Event topics for custom AJAX implementations to listen for.
+     */
+    beginEventTopic: "webui_@THEME@_widget_staticText_refresh_begin",
+    endEventTopic: "webui_@THEME@_widget_staticText_refresh_end",
+ 
+    /**
+     * Process refresh event.
+     *
+     * @param execute Comma separated string containing a list of client ids 
+     * against which the execute portion of the request processing lifecycle
+     * must be run.
+     */
+    processEvent: function(execute) {
+        // Publish event.
+        webui.@THEME@.widget.staticText.refresh.publishBeginEvent({
+            id: this.id,
+            execute: execute
+        });
+        return true;
+    },
+
+    /**
+     * Publish an event for custom AJAX implementations to listen for.
+     *
+     * @param props Key-Value pairs of properties of the widget.
+     */
+    publishBeginEvent: function(props) {
+        dojo.event.topic.publish(webui.@THEME@.widget.staticText.refresh.beginEventTopic, props);
+        return true;
+    },
+
+    /**
+     * Publish an event for custom AJAX implementations to listen for.
+     *
+     * @param props Key-Value pairs of properties of the widget.
+     */
+    publishEndEvent: function(props) {
+        dojo.event.topic.publish(webui.@THEME@.widget.staticText.refresh.endEventTopic, props);
+        return true;
+    }
 }
 
 /**

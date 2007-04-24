@@ -1197,14 +1197,15 @@ public class Button extends WebuiCommand implements ComplexComponent {
         this.visible = ((Boolean) _values[33]).booleanValue();
         this.visible_set = ((Boolean) _values[34]).booleanValue();
         this.ajaxify = ((Boolean) _values[35]).booleanValue();
-        this.htmlTemplate = (String) _values[36];
+        this.ajaxify_set = ((Boolean) _values[36]).booleanValue();
+        this.htmlTemplate = (String) _values[37];
     }
 
     /**
      * <p>Save the state of this component.</p>
      */
     public Object saveState(FacesContext _context) {
-        Object _values[] = new Object[37];
+        Object _values[] = new Object[38];
         _values[0] = super.saveState(_context);
         _values[1] = this.alt;
         _values[2] = this.disabled ? Boolean.TRUE : Boolean.FALSE;
@@ -1241,7 +1242,8 @@ public class Button extends WebuiCommand implements ComplexComponent {
         _values[33] = this.visible ? Boolean.TRUE : Boolean.FALSE;
         _values[34] = this.visible_set ? Boolean.TRUE : Boolean.FALSE;
         _values[35] = this.ajaxify ? Boolean.TRUE : Boolean.FALSE;
-        _values[36] = this.htmlTemplate;
+        _values[36] = this.ajaxify_set ? Boolean.TRUE : Boolean.FALSE;
+        _values[37] = this.htmlTemplate;
         return _values;
     }
 }

@@ -56,15 +56,17 @@ webui.@THEME@.widget.textField = function() {
         }
         
         // Set public functions.
-        this.domNode.setProps = function(props) { return dojo.widget.byId(this.id).setProps(props); }
         this.domNode.getInputElement = function() { return dojo.widget.byId(this.id).getInputElement(); }
         this.domNode.getProps = function() { return dojo.widget.byId(this.id).getProps(); }
+        this.domNode.refresh = function(execute) { return dojo.widget.byId(this.id).refresh(execute); }
+        this.domNode.setProps = function(props) { return dojo.widget.byId(this.id).setProps(props); }
         
-        // Set private functions .
-        this.setProps     = webui.@THEME@.widget.textField.setProps;
-        this.getProps     = webui.@THEME@.widget.textField.getProps;
+        // Set private functions.
         this.getClassName = webui.@THEME@.widget.textField.getClassName;
-        
+        this.getProps = webui.@THEME@.widget.textField.getProps;
+        this.refresh = webui.@THEME@.widget.textField.refresh.processEvent;
+        this.setProps = webui.@THEME@.widget.textField.setProps;
+
         // Set events.
         if (this.autoValidate == true) {
             // Generate the following event ONLY when 'autoValidate' == true.
@@ -131,6 +133,53 @@ webui.@THEME@.widget.textField.getProps = function() {
     Object.extend(props, webui.@THEME@.widget.common.getJavaScriptProps(this));
 
     return props;
+}
+
+/**
+ * This closure is used to process refresh events.
+ */
+webui.@THEME@.widget.textField.refresh = {
+    /**
+     * Event topics for custom AJAX implementations to listen for.
+     */
+    beginEventTopic: "webui_@THEME@_widget_textField_refresh_begin",
+    endEventTopic: "webui_@THEME@_widget_textField_refresh_end",
+ 
+    /**
+     * Process refresh event.
+     *
+     * @param execute Comma separated string containing a list of client ids 
+     * against which the execute portion of the request processing lifecycle
+     * must be run.
+     */
+    processEvent: function(execute) {
+        // Publish event.
+        webui.@THEME@.widget.textField.refresh.publishBeginEvent({
+            id: this.id,
+            execute: execute
+        });
+        return true;
+    },
+
+    /**
+     * Publish an event for custom AJAX implementations to listen for.
+     *
+     * @param props Key-Value pairs of properties of the widget.
+     */
+    publishBeginEvent: function(props) {
+        dojo.event.topic.publish(webui.@THEME@.widget.textField.refresh.beginEventTopic, props);
+        return true;
+    },
+
+    /**
+     * Publish an event for custom AJAX implementations to listen for.
+     *
+     * @param props Key-Value pairs of properties of the widget.
+     */
+    publishEndEvent: function(props) {
+        dojo.event.topic.publish(webui.@THEME@.widget.textField.refresh.endEventTopic, props);
+        return true;
+    }
 }
 
 /**

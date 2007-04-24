@@ -23,6 +23,7 @@ package com.sun.webui.jsf.component;
 
 import com.sun.faces.annotation.Component;
 import com.sun.faces.annotation.Property;
+import com.sun.webui.jsf.util.ComponentUtilities;
 import com.sun.webui.jsf.util.ConversionUtilities;
 import com.sun.webui.jsf.util.JavaScriptUtilities;
 
@@ -52,36 +53,15 @@ public class HiddenField extends WebuiInput {
     public String getFamily() {
         return "com.sun.webui.jsf.HiddenField";
     }
-         
-    /**
-     * Alternative HTML template to be used by this component.
-     */
-    @Property(name="htmlTemplate", isHidden=true, isAttribute=true, displayName="HTML Template", category="Appearance")
-    private String htmlTemplate = null;
 
-    /**
-     * Get alternative HTML template to be used by this component.
-     */
-
-    public String getHtmlTemplate() {
-        if (this.htmlTemplate != null) {
-            return this.htmlTemplate;
+    public String getRendererType() {
+        // Ensure we have a valid Ajax request.
+        if (ComponentUtilities.isAjaxRequest(getFacesContext(), this)) {
+            return "com.sun.webui.jsf.ajax.HiddenField";
         }
-        ValueExpression _vb = getValueExpression("htmlTemplate");
-        if (_vb != null) {
-            return (String) _vb.getValue(getFacesContext().getELContext());
-        }
-        return null;
+        return super.getRendererType();
     }
 
-    /**
-     * Set alternative HTML template to be used by this component.
-     */
-
-    public void setHtmlTemplate(String htmlTemplate) {
-        this.htmlTemplate = htmlTemplate;
-    }
-    
     /**
      * <p>Return the value to be rendered as a string when the
      * component is readOnly. The default behaviour is to
@@ -154,10 +134,6 @@ public class HiddenField extends WebuiInput {
         System.out.println(this.getClass().getName() + "::" + s); 
     }
 
-    // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    // Tag attribute methods
-    // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
     /**
      * <p>Return the <code>ValueExpression</code> stored for the
      * specified name (if any), respecting any property aliases.</p>
@@ -186,7 +162,75 @@ public class HiddenField extends WebuiInput {
         }
         super.setValueExpression(name, binding);
     }
-    
+
+    // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    // Tag attribute methods
+    // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+    /**
+     * Flag indicating to turn off default Ajax functionality. Set ajaxify to
+     * false when providing a different Ajax implementation.
+     */
+    @Property(name="ajaxify", isHidden=true, isAttribute=true, displayName="Ajaxify", category="Javascript")
+    private boolean ajaxify = true; 
+    private boolean ajaxify_set = false; 
+ 
+    /**
+     * Test if default Ajax functionality should be turned off.
+     */
+    public boolean isAjaxify() { 
+        if (this.ajaxify_set) {
+            return this.ajaxify;
+        }
+        ValueExpression _vb = getValueExpression("ajaxify");
+        if (_vb != null) {
+            Object _result = _vb.getValue(getFacesContext().getELContext());
+            if (_result == null) {
+                return false;
+            } else {
+                return ((Boolean) _result).booleanValue();
+            }
+        }
+        return true;
+    } 
+
+    /**
+     * Set flag indicating to turn off default Ajax functionality.
+     */
+    public void setAjaxify(boolean ajaxify) {
+        this.ajaxify = ajaxify;
+        this.ajaxify_set = true;
+    }
+
+    /**
+     * Alternative HTML template to be used by this component.
+     */
+    @Property(name="htmlTemplate", isHidden=true, isAttribute=true, displayName="HTML Template", category="Appearance")
+    private String htmlTemplate = null;
+
+    /**
+     * Get alternative HTML template to be used by this component.
+     */
+
+    public String getHtmlTemplate() {
+        if (this.htmlTemplate != null) {
+            return this.htmlTemplate;
+        }
+        ValueExpression _vb = getValueExpression("htmlTemplate");
+        if (_vb != null) {
+            return (String) _vb.getValue(getFacesContext().getELContext());
+        }
+        return null;
+    }
+
+    /**
+     * Set alternative HTML template to be used by this component.
+     */
+
+    public void setHtmlTemplate(String htmlTemplate) {
+        this.htmlTemplate = htmlTemplate;
+    }
+   
     // Hide required
     @Property(name="required", isHidden=true, isAttribute=false)
     public boolean isRequired() {
@@ -264,18 +308,22 @@ public class HiddenField extends WebuiInput {
         super.restoreState(_context, _values[0]);
         this.disabled = ((Boolean) _values[1]).booleanValue();
         this.disabled_set = ((Boolean) _values[2]).booleanValue();
-        this.htmlTemplate = (String) _values[3];
+        this.ajaxify = ((Boolean) _values[3]).booleanValue();
+        this.ajaxify_set = ((Boolean) _values[4]).booleanValue();
+        this.htmlTemplate = (String) _values[5];
     }
 
     /**
      * <p>Save the state of this component.</p>
      */
     public Object saveState(FacesContext _context) {
-        Object _values[] = new Object[4];
+        Object _values[] = new Object[6];
         _values[0] = super.saveState(_context);
         _values[1] = this.disabled ? Boolean.TRUE : Boolean.FALSE;
         _values[2] = this.disabled_set ? Boolean.TRUE : Boolean.FALSE;
-        _values[3] = this.htmlTemplate;
+        _values[3] = this.ajaxify ? Boolean.TRUE : Boolean.FALSE;
+        _values[4] = this.ajaxify_set ? Boolean.TRUE : Boolean.FALSE;
+        _values[5] = this.htmlTemplate;
         return _values;
     }
 }
