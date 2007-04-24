@@ -20,7 +20,7 @@
  * Copyright 2007 Sun Microsystems, Inc. All rights reserved.
  */
 /*
- * $Id: LabelRenderer.java,v 1.6 2007-04-24 20:21:46 danl Exp $
+ * $Id: LabelRenderer.java,v 1.7 2007-04-24 23:02:23 danl Exp $
  */
 package com.sun.webui.jsf.renderkit.widget;
 
@@ -79,7 +79,7 @@ public class LabelRenderer extends RendererBase {
         "dir",
         "lang",
         "title",
-        "accesskey"
+        "accessKey"
     };
 
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~

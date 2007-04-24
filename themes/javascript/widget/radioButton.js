@@ -195,16 +195,18 @@ webui.@THEME@.widget.radioButton.setProps = function(props) {
         this.radioButtonNode.disabled = new Boolean(props.disabled).valueOf();
     }
     if (props.name) {
-        // Note: IE does not support the name attribute being added dynamically
+        // Note: IE does not support the name attribute being set dynamically
         // as documented at:
         //
         // http://msdn.microsoft.com/workshop/author/dhtml/reference/properties/name_2.asp
         //
         // In order to create an HTML element with a name attribute, the name
-        // and value must be included when using the innerHTML property or when 
-        // using the document.createElement() function. As a work around, we 
-        // shall include a dummy name="forIE" attribute via the HTML template
-        // and reset the value below.
+        // and value must be provided when using the innerHTML property or the
+        // document.createElement() function. As a work around, we shall set the
+        // attribute via the HTML template using name="${this.name}". In order
+        // to obtain the correct value, the name property must be provided to 
+        // the widget. Although we're resetting the name below, as the default,
+        // this has no affect on IE. 
         this.radioButtonNode.name = props.name;
     }
 

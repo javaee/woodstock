@@ -53,6 +53,11 @@ webui.@THEME@.widget.common = {
         
         // Add fragment.
         if (typeof props == 'string') {
+            // Replace existing nodes, if position is null.
+            if (position == null || typeof position == "undefined") {
+                parentNode.innerHTML = ""; // Cannot be null for IE.
+            }
+
             // Strip script fragments, set innerHTML property, and
             // eval scripts using a timeout.
             //
@@ -96,30 +101,25 @@ webui.@THEME@.widget.common = {
             //
             // http://www.ruby-forum.com/topic/73990
             //
-            
-            // Append html if postion is given.
             var html = props.stripScripts();
               
-            /** Appending innerHTML with new data does not always work.
-             * If we are adding several elements in the row, 
-             * and under some other circumstances, we can get to 
-             * the situation when by this time parentNode.innerHTML does not yet 
-             * contain all the changes made to the parentNode DOM node. Thus code
-             if (position && parentNode.innerHTML) {
-                html = parentNode.innerHTML + html;
-             }
-             * would yield wrong results.
-             * We will create a holder span element for every added plain string
-             * and will add it as a child.
-             */
-            if (typeof position == "undefined" || position == null)
-                parentNode.innerHTML= "";
+            // Concatenating innerHTML with new data does not always work. If we
+            // are adding several elements in a row, and strings are involved,
+            // we can get into a situation where parentNode.innerHTML does not
+            // yet contain all the changes made to the previously added DOM 
+            // node. Thus, code such as:
+            //
+            // if (position && parentNode.innerHTML) {
+            //     html = parentNode.innerHTML + html;
+            // }
+            //
+            // may yield incorrect results. Instead, we shall create an HTML
+            // span element to contain the newly added string.
+            var span = document.createElement('span');            
+            span.innerHTML = html;
+            parentNode.appendChild(span);
 
-            //create new span for added element
-            var newSpan = document.createElement('span');            
-            newSpan.innerHTML = html;
-            parentNode.appendChild(newSpan);
-           
+            // Evaluate JavaScript.
             setTimeout(function() {props.evalScripts()}, 10);
         } else {
             if (props._widgetType == null) {
@@ -134,7 +134,7 @@ webui.@THEME@.widget.common = {
                 
                 // Create widget.
                 dojo.widget.createWidget(props._widgetType, props, parentNode,
-                (position) ? position : null); // Replace existing node, if null.
+                    (position) ? position : null); // Replace existing node, if null.
             }
         }
         return true;
@@ -282,13 +282,13 @@ webui.@THEME@.widget.common = {
     /**
      * Helper function to initialize widget.
      *
-     * Note: There is a timing issue on IE 6 regarding when DOM nodes can be 
+     * Note: There is a timing issue on IE regarding when DOM nodes can be 
      * initialized. For example, even though a checkbox widget has set its 
      * checked property to true, the browser will not display the checkbox as
      * selected. If initialization is delayed slightly, the browser will display
      * the HTML element with the correct state. Therefore, this function will
      * call the setProps() function of the given widget using a timeout. When
-     * IE 6 is not detected, the setProps() function will be called directly.
+     * IE is not detected, the setProps() function will be called directly.
      * In both cases, an "initialized" flag is set. This can be used by the
      * getProps() function in order to retrieve user input after the widget has
      * been initialized -- see webui.@THEME@.widget.checkbox.getProps.
@@ -299,7 +299,7 @@ webui.@THEME@.widget.common = {
         if (widget == null) {
             return false;
         }
-        if (webui.@THEME@.common.browser.is_ie6 == true) {
+        if (webui.@THEME@.common.browser.is_ie == true) {
             setTimeout(
             // New literals are created every time this function
             // is called, and it's saved by closure magic.
@@ -310,7 +310,7 @@ webui.@THEME@.widget.common = {
                 }
                 obj.setProps(); // No args during initialization.
                 obj.initialized = true; // Set for getProps() function.
-            }, 0); // (n) milliseconds delay.
+            }, 10); // (n) milliseconds delay.
         } else {
             widget.setProps(); // No args during initialization.
             widget.initialized = true; // Set for getProps() function.

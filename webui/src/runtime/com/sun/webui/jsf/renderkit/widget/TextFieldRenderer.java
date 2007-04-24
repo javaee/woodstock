@@ -77,7 +77,7 @@ public class TextFieldRenderer extends RendererBase {
         "title",
         "readOnly",
         "maxLength",
-        "accesskey",
+        "accessKey",
         "tabIndex",
         "onMouseDown",
         "onMouseOut",
