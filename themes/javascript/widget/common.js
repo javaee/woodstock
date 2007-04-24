@@ -50,7 +50,7 @@ webui.@THEME@.widget.common = {
         if (props == null || parentNode == null) {
             return false;
         }
-
+        
         // Add fragment.
         if (typeof props == 'string') {
             // Strip script fragments, set innerHTML property, and
@@ -96,14 +96,30 @@ webui.@THEME@.widget.common = {
             //
             // http://www.ruby-forum.com/topic/73990
             //
-
+            
             // Append html if postion is given.
             var html = props.stripScripts();
-            if (position && parentNode.innerHTML) {
+              
+            /** Appending innerHTML with new data does not always work.
+             * If we are adding several elements in the row, 
+             * and under some other circumstances, we can get to 
+             * the situation when by this time parentNode.innerHTML does not yet 
+             * contain all the changes made to the parentNode DOM node. Thus code
+             if (position && parentNode.innerHTML) {
                 html = parentNode.innerHTML + html;
-            }
+             }
+             * would yield wrong results.
+             * We will create a holder span element for every added plain string
+             * and will add it as a child.
+             */
+            if (typeof position == "undefined" || position == null)
+                parentNode.innerHTML= "";
 
-            parentNode.innerHTML = html;
+            //create new span for added element
+            var newSpan = document.createElement('span');            
+            newSpan.innerHTML = html;
+            parentNode.appendChild(newSpan);
+           
             setTimeout(function() {props.evalScripts()}, 10);
         } else {
             if (props._widgetType == null) {
@@ -115,15 +131,15 @@ webui.@THEME@.widget.common = {
                         webui.@THEME@.widget.common.require(props._modules[i]);
                     }
                 }
-
+                
                 // Create widget.
                 dojo.widget.createWidget(props._widgetType, props, parentNode,
-                    (position) ? position : null); // Replace existing node, if null.
+                (position) ? position : null); // Replace existing node, if null.
             }
         }
         return true;
     },
-
+    
     /**
      * Helper function to create a widget. This function assumes that
      * an HTML element is used as a place holder for the document
@@ -149,7 +165,7 @@ webui.@THEME@.widget.common = {
                     webui.@THEME@.widget.common.require(props._modules[i]);
                 }
             }
-
+            
             // Create widget.
             newNode = dojo.widget.createWidget(props._widgetType, props)
             if (newNode != null) {
@@ -159,7 +175,7 @@ webui.@THEME@.widget.common = {
         }
         return newNode; // Return widget object for calling widget.destroy().
     },
-
+    
     /**
      * This function is used to extend the given object with Key-Value pairs of
      * properties. If a property is an object containing Key-Value pairs itself,
@@ -185,7 +201,7 @@ webui.@THEME@.widget.common = {
         }
         return true;
     },
-
+    
     /**
      * This function is used to get common properties for the given obj. Please
      * see webui.@THEME@.widget.common.setCommonProps for a list of supported
@@ -198,17 +214,17 @@ webui.@THEME@.widget.common = {
         if (obj == null) {
             return props;
         }
-
+        
         // Set properties.
         if (obj.accessKey) { props.accessKey = obj.accessKey; }
         if (obj.dir) { props.dir = obj.dir; }
         if (obj.lang) { props.lang = obj.lang; }
         if (obj.tabIndex) { props.tabIndex = obj.tabIndex; }
         if (obj.title) { props.title = obj.title; }
-
+        
         return props;
     },
-
+    
     /**
      * This function is used to get core properties for the given obj. Please
      * see webui.@THEME@.widget.common.setCoreProps for a list of supported
@@ -221,16 +237,16 @@ webui.@THEME@.widget.common = {
         if (obj == null) {
             return props;
         }
-
+        
         // Set properties.
         if (obj.className) { props.className = obj.className; }
         if (obj.id) { props.id = obj.id; }
         if (obj.style) { props.style = obj.style; }
         if (obj.visible != null) { props.visible = obj.visible; }
-
+        
         return props;
     },
-
+    
     /**
      * This function is used to get JavaScript properties for the given obj.
      * Please see webui.@THEME@.widget.common.setJavaScriptProps for a list of
@@ -243,7 +259,7 @@ webui.@THEME@.widget.common = {
         if (obj == null) {
             return props;
         }
-
+        
         // Set properties.
         if (obj.onBlur) { props.onBlur = obj.onBlur; }
         if (obj.onChange) { props.onChange = obj.onChange; }
@@ -259,10 +275,10 @@ webui.@THEME@.widget.common = {
         if (obj.onMouseUp) { props.onMouseUp = obj.onMouseUp; }
         if (obj.onMouseMove) { props.onMouseMove = obj.onMouseMove; }
         if (obj.onSelect) { props.onSelect = obj.onSelect; }
-
+        
         return props;
     },
-
+    
     /**
      * Helper function to initialize widget.
      *
@@ -285,23 +301,23 @@ webui.@THEME@.widget.common = {
         }
         if (webui.@THEME@.common.browser.is_ie6 == true) {
             setTimeout(
-                // New literals are created every time this function
-                // is called, and it's saved by closure magic.
-                function() {
-                    var obj = dojo.widget.byId(widget.id);
-                    if (obj == null) {
-                        return false;
-                    }
-                    obj.setProps(); // No args during initialization.
-                    obj.initialized = true; // Set for getProps() function.
-                }, 0); // (n) milliseconds delay.
+            // New literals are created every time this function
+            // is called, and it's saved by closure magic.
+            function() {
+                var obj = dojo.widget.byId(widget.id);
+                if (obj == null) {
+                    return false;
+                }
+                obj.setProps(); // No args during initialization.
+                obj.initialized = true; // Set for getProps() function.
+            }, 0); // (n) milliseconds delay.
         } else {
             widget.setProps(); // No args during initialization.
             widget.initialized = true; // Set for getProps() function.
         }
         return true;
     },
-
+    
     /**
      * Helper function to remove child nodes from given DOM node.
      *
@@ -315,7 +331,7 @@ webui.@THEME@.widget.common = {
         if (domNode == null || domNode.hasChildNodes() == false) {
             return false;
         }
-
+        
         try {
             domNode.innerHTML = "";
         } catch (error) {
@@ -326,7 +342,7 @@ webui.@THEME@.widget.common = {
         }
         return true;
     },
-
+    
     /**
      * Helper function to obtain a module resource.
      *
@@ -336,7 +352,7 @@ webui.@THEME@.widget.common = {
         if (module == null) {
             return false;
         }
-
+        
         // Warning: Do not use dojo.require() here.
         //
         // Dojo appears to parse JavaScript for dojo.require()
@@ -345,7 +361,7 @@ webui.@THEME@.widget.common = {
         dojo.require.apply(dojo, [module]);
         return true;
     },
-
+    
     /**
      * This function is used to set common properties for the given DOM node
      * with the following Object literals.
@@ -382,7 +398,7 @@ webui.@THEME@.widget.common = {
         }
         return true;
     },
-
+    
     /**
      * This function is used to set core properties for the given DOM
      * node with the following Object literals. These properties are typically
@@ -418,11 +434,11 @@ webui.@THEME@.widget.common = {
         }
         if (props.visible != null) {
             webui.@THEME@.common.setVisibleElement(domNode, 
-                new Boolean(props.visible).valueOf());
+            new Boolean(props.visible).valueOf());
         }
         return true;
     },
-
+    
     /**
      * This function is used to set JavaScript properties for the given DOM
      * node with the following Object literals.
@@ -451,78 +467,78 @@ webui.@THEME@.widget.common = {
         if (domNode == null || props == null) {
             return false;
         }
-
+        
         // Note: JSON strings are not recognized as JavaScript. In order for
         // events to work properly, an anonymous function must be created.
         if (props.onBlur) { 
             domNode.onblur = (typeof props.onBlur == 'string')
-                ? new Function("event", props.onBlur)
-                : props.onBlur;
+            ? new Function("event", props.onBlur)
+            : props.onBlur;
         }
         if (props.onClick) {
             domNode.onclick = (typeof props.onClick == 'string')
-                ? new Function("event", props.onClick)
-                : props.onClick;
+            ? new Function("event", props.onClick)
+            : props.onClick;
         }
         if (props.onChange) {
             domNode.onchange = (typeof props.onChange == 'string')
-                ? new Function("event", props.onChange)
-                : props.onChange;
+            ? new Function("event", props.onChange)
+            : props.onChange;
         }
         if (props.onDblClick) {
             domNode.ondblclick = (typeof props.onDblClick == 'string')
-                ? new Function("event", props.onDblClick)
-                : props.onDblClick;
+            ? new Function("event", props.onDblClick)
+            : props.onDblClick;
         }
         if (props.onFocus) {
             domNode.onfocus = (typeof props.onFocus == 'string')
-                ? new Function("event", props.onFocus)
-                : props.onFocus;
+            ? new Function("event", props.onFocus)
+            : props.onFocus;
         }
         if (props.onKeyDown) {
             domNode.onkeydown = (typeof props.onKeyDown == 'string')
-                ? new Function("event", props.onKeyDown)
-                : props.onKeyDown;
+            ? new Function("event", props.onKeyDown)
+            : props.onKeyDown;
         }
         if (props.onKeyPress) {
             domNode.onkeypress = (typeof props.onKeyPress == 'string')
-                ? new Function("event", props.onKeyPress)
-                : props.onKeyPress;
+            ? new Function("event", props.onKeyPress)
+            : props.onKeyPress;
         }
         if (props.onKeyUp) {
             domNode.onkeyup = (typeof props.onKeyUp == 'string')
-                ? new Function("event", props.onKeyUp)
-                : props.onKeyUp;
+            ? new Function("event", props.onKeyUp)
+            : props.onKeyUp;
         }
         if (props.onMouseDown) {
             domNode.onmousedown = (typeof props.onMouseDown == 'string')
-                ? new Function("event", props.onMouseDown)
-                : props.onMouseDown;
+            ? new Function("event", props.onMouseDown)
+            : props.onMouseDown;
         }
         if (props.onMouseOut) {
             domNode.onmouseout = (typeof props.onMouseOut == 'string')
-                ? new Function("event", props.onMouseOut)
-                : props.onMouseOut;
+            ? new Function("event", props.onMouseOut)
+            : props.onMouseOut;
         }
         if (props.onMouseOver) {
             domNode.onmouseover = (typeof props.onMouseOver == 'string')
-                ? new Function("event", props.onMouseOver)
-                : props.onMouseOver;
+            ? new Function("event", props.onMouseOver)
+            : props.onMouseOver;
         }
         if (props.onMouseUp) {
             domNode.onmouseup = (typeof props.onMouseUp == 'string')
-                ? new Function("event", props.onMouseUp)
-                : props.onMouseUp;
+            ? new Function("event", props.onMouseUp)
+            : props.onMouseUp;
         }
         if (props.onMouseMove) {
             domNode.onmousemove = (typeof props.onMouseMove == 'string')
-                ? new Function("event", props.onMouseMove)
-                : props.onMouseMove;
+            ? new Function("event", props.onMouseMove)
+            : props.onMouseMove;
         }
         if (props.onSelect) {
             domNode.onselect = (typeof props.onSelect == 'string')
-                ? new Function("event", props.onSelect)
-                : props.onSelect;
+            ? new Function("event", props.onSelect)
+            : props.onSelect;
         }
         return true;
     }
