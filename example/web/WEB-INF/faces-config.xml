@@ -261,6 +261,13 @@
         <managed-bean-class>com.sun.webui.jsf.example.tabset.NavtabBackingBean</managed-bean-class>
         <managed-bean-scope>session</managed-bean-scope>
     </managed-bean>
+    
+    <managed-bean>
+        <description>The backing bean for the Calendar example</description>
+        <managed-bean-name>CalendarBean</managed-bean-name>
+        <managed-bean-class>com.sun.webui.jsf.example.calendar.CalendarBackingBean</managed-bean-class>
+        <managed-bean-scope>session</managed-bean-scope>
+    </managed-bean>    
 
     <navigation-rule>    
       <from-view-id>/*</from-view-id>      
@@ -543,6 +550,19 @@
         <redirect/>
       </navigation-case>
 
+       <!-- Navigation Cases for Calendar Examples -->
+      <navigation-case>
+        <from-outcome>showCalendar</from-outcome>
+        <to-view-id>/calendar/calendar.jsp</to-view-id>
+        <redirect/>
+      </navigation-case>
+
+      <navigation-case>
+        <from-outcome>showCalendarResults</from-outcome>
+        <to-view-id>/calendar/calendarResults.jsp</to-view-id>
+        <redirect/>
+      </navigation-case>
+
     </navigation-rule>
               
     <!-- Navigation cases for Table Example -->
@@ -712,6 +732,13 @@
       <navigation-case>
         <from-outcome>showStaticText</from-outcome>
         <to-view-id>/statictext/Statictext.jsp</to-view-id>
+        <redirect/>
+      </navigation-case>
+      
+      <!-- Navigation Cases for Calendar Example-->
+      <navigation-case>
+        <from-outcome>showCalendar</from-outcome>
+        <to-view-id>/calendar/calendar.jsp</to-view-id>
         <redirect/>
       </navigation-case>
    

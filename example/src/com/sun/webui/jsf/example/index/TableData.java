@@ -237,6 +237,12 @@ public class TableData {
                     "tabset/StringValue.java",
 		    "util/ExampleUtilities.java",
                     "common/UserData.java"}
+        ),         
+        new AppData("index_calendarName", "index_calendarConcepts", "showCalendar",
+                new String[] {
+                    "calendar/calendar.jsp",
+                    "calendar/calendarResults.jsp",
+                    "calendar/CalendarBackingBean.java"}
 	)
     };    
     
