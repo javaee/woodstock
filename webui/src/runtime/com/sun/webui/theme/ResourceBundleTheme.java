@@ -604,8 +604,24 @@ public class ResourceBundleTheme implements Theme {
 	    ((String)properties[UNITS_PROP]).trim().length() == 0 ? 
 		null : (String)properties[UNITS_PROP];
 
-	return new ThemeImage(ht, wt, units, (String)properties[ALT_PROP],
-	    (String)properties[TITLE_PROP], 
+	// The value of (String)properties[ALT_PROP] and
+	// (String)properties[TITLE_PROP] may be theme keys.
+	// If they are not null, call "getMessage". If getMessage
+	// returns null, set the values to (String)properties[ALT_PROP]
+	// and (String)properties[TITLE_PROP].
+	//
+	String alt = (String)properties[ALT_PROP];
+	if (alt != null) {
+	    alt = getMessage(alt);
+	}
+	String title = (String)properties[TITLE_PROP];
+	if (title != null) {
+	    title = getMessage(title);
+	}
+	    
+	return new ThemeImage(ht, wt, units,
+	    alt == null ? (String)properties[ALT_PROP] : alt,
+	    title == null ? (String)properties[TITLE_PROP] : title,
 	    fixUpPath((String)properties[KEY_PROP]));
     }
 
