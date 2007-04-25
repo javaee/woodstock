@@ -59,13 +59,16 @@ webui.@THEME@.widget.alert = function() {
 
         // Set public functions.
         this.domNode.getProps = function() { return dojo.widget.byId(this.id).getProps(); }
+        this.domNode.refresh = function(execute) { return dojo.widget.byId(this.id).refresh(execute); }
         this.domNode.setProps = function(props) { return dojo.widget.byId(this.id).setProps(props); }
         
         this.setProps = webui.@THEME@.widget.alert.setProps;
         this.getProps = webui.@THEME@.widget.alert.getProps;
+        this.refresh = webui.@THEME@.widget.alert.refresh.processEvent;
 
         // Initialize properties.
         return webui.@THEME@.widget.common.initProps(this);
+        
     }
 }
 
@@ -91,6 +94,55 @@ webui.@THEME@.widget.alert.getProps = function() {
     
     return props;
 }
+
+/**
+ * This closure is used to process refresh events.
+ */
+webui.@THEME@.widget.alert.refresh = { 
+    /**
+     * Event topics for custom AJAX implementations to listen for.
+     */
+    beginEventTopic: "webui_@THEME@_widget_alert_refresh_begin",
+    endEventTopic: "webui_@THEME@_widget_alert_refresh_end",
+ 
+    /**
+     * Process refresh event.
+     *
+     * @param execute Comma separated string containing a list of client ids 
+     * against which the execute portion of the request processing lifecycle
+     * must be run.
+     */
+    processEvent: function(execute) {
+        
+    // Publish event.
+        webui.@THEME@.widget.alert.refresh.publishBeginEvent({
+            id: this.id,
+            execute: execute
+        });
+        return true;
+    },
+
+    /**
+     * Publish an event for custom AJAX implementations to listen for.
+     *
+     * @param props Key-Value pairs of properties of the widget.
+     */
+    publishBeginEvent: function(props) {
+        dojo.event.topic.publish(webui.@THEME@.widget.alert.refresh.beginEventTopic, props);
+        return true;
+    },
+
+    /**
+     * Publish an event for custom AJAX implementations to listen for.
+     *
+     * @param props Key-Value pairs of properties of the widget.
+     */
+    publishEndEvent: function(props) { 
+        dojo.event.topic.publish(webui.@THEME@.widget.alert.refresh.endEventTopic, props);
+        return true;
+    }
+}
+
 
 /**
  * This function is used to set widget properties with the
@@ -160,7 +212,9 @@ webui.@THEME@.widget.alert.setProps = function(props) {
                 props.spacerImage.id = this.id + "_spacerImage" + i;
             }
             // Replace container with image.
-            webui.@THEME@.widget.common.addFragment(containers[i], props.spacerImage);
+            if (!dojo.widget.byId(props.spacerImage.id)) {
+                webui.@THEME@.widget.common.addFragment(containers[i], props.spacerImage);
+            }
         }
     }
 

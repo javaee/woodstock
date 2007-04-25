@@ -174,7 +174,7 @@ webui.@THEME@.widget.image.refresh = {
 webui.@THEME@.widget.image.setProps = function(props){
     // Save properties for later updates.
     if (props != null) {
-        webui.@THEME@.widget.common.extend(this, props);
+        Object.extend(this, props);
     } else {
         props = this.getProps(); // Widget is being initialized.
     }
