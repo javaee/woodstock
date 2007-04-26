@@ -970,9 +970,10 @@ webui.@THEME@.upload = {
      */
     getInputElement: function(elementId) { 
         var element = document.getElementById(elementId); 
-        if(element.tagName == "INPUT") { 
+        if (element && element.tagName == "INPUT") { 
             return element; 
-        } 
+        }
+        // Return an HTML input element of type "file".
         return document.getElementById(elementId + "_com.sun.webui.jsf.upload");
     },
 
