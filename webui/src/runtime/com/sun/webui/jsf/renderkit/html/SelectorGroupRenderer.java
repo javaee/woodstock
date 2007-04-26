@@ -228,18 +228,7 @@ abstract class SelectorGroupRenderer extends RowColumnRenderer {
     private void setSubmittedValues(FacesContext context,
 	    UIComponent component) {
 
-//	String clientId = component.getClientId(context);
-
-        // Note: The following block will no longer work with the HTML renderers.
-        // However, the decode must continuet to work with new client-side 
-        // widgets. That is, until a new rb/cb group widget is created.
-        String clientId;
-        if (component instanceof ComplexComponent) {
-            clientId = ((ComplexComponent) component).getLabeledElementId(context);
-        } else {
-            clientId = component.getClientId(context);
-        }
-
+	String clientId = component.getClientId(context);
 	Map requestParameterValuesMap = context.getExternalContext().
 	    getRequestParameterValuesMap();
 
