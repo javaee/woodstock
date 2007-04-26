@@ -67,9 +67,9 @@ webui.@THEME@.widget.radioButton = function() {
         this.getInputElement = webui.@THEME@.widget.radioButton.getInputElement;
         this.refresh = webui.@THEME@.widget.radioButton.refresh.processEvent;
 
-        // Initialize properties.
-        return webui.@THEME@.widget.common.initProps(this);
-    }    
+        // Set properties.
+        return this.setProps();
+    }
 }
 
 /**
@@ -113,7 +113,8 @@ webui.@THEME@.widget.radioButton.getProps = function() {
     if (this.value) { props.value = this.value; }
 
     // After widget has been initialized, get user's input.
-    if (this.initialized == true && this.radioButtonNode.checked != null) {
+    if (webui.@THEME@.widget.common.isWidgetInitialized(this) == true 
+            && this.radioButtonNode.checked != null) {
         props.checked = this.radioButtonNode.checked;
     } else if (this.checked != null) {
         props.checked = this.checked;
@@ -188,15 +189,12 @@ webui.@THEME@.widget.radioButton.setProps = function(props) {
     if (props.readOnly != null) {
         this.radioButtonNode.readOnly = new Boolean(props.readOnly).valueOf();
     }
-    if (props.checked != null) { 
-        this.radioButtonNode.checked = new Boolean(props.checked).valueOf();
-    }
-    if (props.disabled != null) { 
+    if (props.disabled != null) {
         this.radioButtonNode.disabled = new Boolean(props.disabled).valueOf();
     }
     if (props.name) {
-        // Note: IE does not support the name attribute being set dynamically
-        // as documented at:
+        // IE does not support the name attribute being set dynamically as 
+        // documented at:
         //
         // http://msdn.microsoft.com/workshop/author/dhtml/reference/properties/name_2.asp
         //
@@ -208,6 +206,26 @@ webui.@THEME@.widget.radioButton.setProps = function(props) {
         // the widget. Although we're resetting the name below, as the default,
         // this has no affect on IE. 
         this.radioButtonNode.name = props.name;
+    }
+    if (props.checked != null) {
+        var checked = new Boolean(props.checked).valueOf();
+
+        // Dynamically setting the checked attribute on IE 6 does not work until
+        // the HTML input element has been added to the DOM. As a work around, 
+        // we shall use a timeout to set the property during initialization.
+        if (webui.@THEME@.widget.common.isWidgetInitialized(this) != true
+                && webui.@THEME@.common.browser.is_ie == true) {
+            var _this = this;
+            setTimeout(
+                function() {
+                    // New literals are created every time this function
+                    // is called, and it's saved by closure magic.
+                    var widget = _this;
+                    widget.radioButtonNode.checked = checked;
+                }, 0); // (n) milliseconds delay.
+        } else {
+            this.radioButtonNode.checked = checked;
+        }
     }
 
     // Set image properties.

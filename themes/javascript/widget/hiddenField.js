@@ -55,8 +55,8 @@ webui.@THEME@.widget.hiddenField = function() {
         this.refresh = webui.@THEME@.widget.hiddenField.refresh.processEvent;
         this.setProps = webui.@THEME@.widget.hiddenField.setProps;
 
-        // Initialize properties.
-        return webui.@THEME@.widget.common.initProps(this);
+        // Set properties.
+        return this.setProps();
     }
 }
 

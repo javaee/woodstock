@@ -87,8 +87,8 @@ webui.@THEME@.widget.button = function() {
         // Initialize CSS selectors.
         this.initClassNames();
 
-        // Initialize properties.
-        return webui.@THEME@.widget.common.initProps(this);
+        // Set properties.
+        return this.setProps();
     }
 }
 

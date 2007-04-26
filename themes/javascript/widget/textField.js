@@ -74,8 +74,8 @@ webui.@THEME@.widget.textField = function() {
                 webui.@THEME@.widget.textField.validation.processEvent);
         }
 
-        // Initialize properties.
-        return webui.@THEME@.widget.common.initProps(this);
+        // Set properties.
+        return this.setProps();
     }
 }
 
@@ -121,7 +121,8 @@ webui.@THEME@.widget.textField.getProps = function() {
     if (this.valid != null) { props.valid = this.valid; }
 
     // After widget has been initialized, get user's input.
-    if (this.initialized == true && this.textFieldNode.value != null) {
+    if (webui.@THEME@.widget.common.isWidgetInitialized(this) == true 
+            && this.textFieldNode.value != null) {
         props.value = this.textFieldNode.value;
     } else if (this.value != null) {
         props.value = this.value;

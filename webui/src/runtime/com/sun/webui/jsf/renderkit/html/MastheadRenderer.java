@@ -234,6 +234,7 @@ public class MastheadRenderer extends AbstractRenderer {
 
 	    Icon icon = ThemeUtilities.getIcon(theme, 
 		ThemeImages.MASTHEAD_STATUS_ICON);
+            icon.setParent(masthead);
 	    icon.setId(masthead.getId() + "_jobStatusImage"); //NOI18N 
 	    icon.setAlt(
 		theme.getMessage("masthead.tasksRunningAltText")); //NOI18N
@@ -277,10 +278,9 @@ public class MastheadRenderer extends AbstractRenderer {
             RenderingUtilities.renderComponent(notificationFacet, context);
         } else {
 	    ImageComponent image = new ImageComponent();
-	    image.setId(masthead.getId() + "_notificationInfo");
 	    image.setParent(masthead);
+            image.setId(masthead.getId() + "_notificationInfo");
             image.setIcon(ThemeImages.MASTHEAD_STATUS_ICON); 
-                     
             image.setAlign("top"); //NOI18N
             image.setBorder(0);
             image.setAlt(theme.getMessage("Alert.infoImageAltText")); //NOI18N
@@ -745,7 +745,6 @@ public class MastheadRenderer extends AbstractRenderer {
         Icon dot = ThemeUtilities.getIcon(theme, ThemeImages.DOT);
 	dot.setParent(masthead);
 	dot.setId(id);
-	dot.setParent(masthead);
         dot.setWidth(wd);
         dot.setHeight(ht);
         dot.setBorder(0);
@@ -754,10 +753,11 @@ public class MastheadRenderer extends AbstractRenderer {
     }
     
     private void appendSeparator(ResponseWriter writer, FacesContext context,
-            String align) throws IOException {
+            Masthead masthead, String id, String align) throws IOException {
 
         ImageComponent separator = new ImageComponent();
-        separator.setId("searchSeparator"); //NOI18N           
+        separator.setParent(masthead);
+        separator.setId(masthead.getId() + id); //NOI18N           
         separator.setIcon(ThemeImages.MASTHEAD_SEPARATOR_STATUS);
         if (align!= null) {
             separator.setAlign(align);
@@ -1028,7 +1028,7 @@ public class MastheadRenderer extends AbstractRenderer {
 	    if (separatorFlag) {
 		writer.startElement(HTMLElements.TD, masthead);
 		writer.writeAttribute(HTMLAttributes.VALIGN, "middle", null);
-		appendSeparator(writer, context, "top"); //NOI18N
+		appendSeparator(writer, context, masthead, "_jobSep", "top"); //NOI18N
 		writer.endElement(HTMLElements.TD);
 		separatorFlag = false;
 	    }
@@ -1043,7 +1043,7 @@ public class MastheadRenderer extends AbstractRenderer {
 		writer.startElement(HTMLElements.TD, masthead);
 		writer.writeAttribute(HTMLAttributes.VALIGN, "middle",
 		    null);
-		appendSeparator(writer, context, "top"); //NOI8N
+		appendSeparator(writer, context, masthead, "_dateSep","top"); //NOI8N
 		writer.endElement(HTMLElements.TD);
 		separatorFlag = false;
 	    }
@@ -1057,7 +1057,7 @@ public class MastheadRenderer extends AbstractRenderer {
 	    if (separatorFlag) {
 		writer.startElement(HTMLElements.TD, masthead);
 		writer.writeAttribute(HTMLAttributes.VALIGN, "middle", null);
-		appendSeparator(writer, context, "top"); //NOI18N
+		appendSeparator(writer, context, masthead, "_alarmSep", "top"); //NOI18N
 		writer.endElement(HTMLElements.TD);
 	    }
 	    // current alarms info needs to be displayed

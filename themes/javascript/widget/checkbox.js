@@ -67,8 +67,8 @@ webui.@THEME@.widget.checkbox = function() {
         this.getInputElement = webui.@THEME@.widget.checkbox.getInputElement;
         this.refresh = webui.@THEME@.widget.checkbox.refresh.processEvent;        
 
-        // Initialize properties.
-        return webui.@THEME@.widget.common.initProps(this);
+        // Set properties.
+        return this.setProps();
     }
 }
 
@@ -113,7 +113,8 @@ webui.@THEME@.widget.checkbox.getProps = function() {
     if (this.value) { props.value = this.value; }
 
     // After widget has been initialized, get user's input.
-    if (this.initialized == true && this.checkboxNode.checked != null) {
+    if (webui.@THEME@.widget.common.isWidgetInitialized(this) == true 
+            && this.checkboxNode.checked != null) {
         props.checked = this.checkboxNode.checked;
     } else if (this.checked != null) {
         props.checked = this.checked;
@@ -238,16 +239,33 @@ webui.@THEME@.widget.checkbox.setProps = function(props) {
     if (props.readOnly != null) { 
         this.checkboxNode.readOnly = new Boolean(props.readOnly).valueOf();
     }
-    if (props.checked != null) { 
-        this.checkboxNode.checked = new Boolean(props.checked).valueOf();
-    }
     if (props.disabled != null) {
         this.checkboxNode.disabled = new Boolean(props.disabled).valueOf();
     }
     if (props.name) { 
         this.checkboxNode.name = props.name;
     }	
-    
+    if (props.checked != null) {
+        var checked = new Boolean(props.checked).valueOf();
+
+        // Dynamically setting the checked attribute on IE 6 does not work until
+        // the HTML input element has been added to the DOM. As a work around, 
+        // we shall use a timeout to set the property during initialization.
+        if (webui.@THEME@.widget.common.isWidgetInitialized(this) != true
+                && webui.@THEME@.common.browser.is_ie6 == true) {
+            var _this = this;
+            setTimeout(
+                function() {
+                    // New literals are created every time this function
+                    // is called, and it's saved by closure magic.
+                    var widget = _this;
+                    widget.checkboxNode.checked = checked;
+                }, 0); // (n) milliseconds delay.
+        } else {
+            this.checkboxNode.checked = checked;
+        }
+    }
+
     // Set image widget properties.
     if (props.image || props.disabled != null && this.image) {
         // Ensure property exists so we can call setProps just once.

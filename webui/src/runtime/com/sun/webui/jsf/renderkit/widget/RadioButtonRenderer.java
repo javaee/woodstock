@@ -157,7 +157,7 @@ public class RadioButtonRenderer extends RbCbRendererBase {
             String selectedValueAsString = null;
             
             if (inGroup && selectedValue instanceof Boolean) {
-                selectedValueAsString = component.getClientId(context);
+                selectedValueAsString = componentId;
                 // Use the toString value of selectedValue even if
                 // it is a Boolean control, in case the application
                 // wants "FALSE == FALSE" to mean checked.

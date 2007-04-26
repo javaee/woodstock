@@ -119,14 +119,13 @@ webui.@THEME@.widget.progressBar = function() {
         this.setStatusTextVisible = webui.@THEME@.widget.progressBar.setStatusTextVisible;
         this.updateProgress = webui.@THEME@.widget.progressBar.progress.processEvent;
 
-        // Initialize properties.
-        webui.@THEME@.widget.common.initProps(this);
+        // Set properties.
+        this.setProps();
 
         // Obtain progress.
         this.updateProgress();
         return true;
-   };
-
+   }
 }
 
 /**

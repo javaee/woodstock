@@ -38,9 +38,9 @@ webui.@THEME@.widget.common = {
      * widget. If props is a string, it will be added as the contents
      * of the given parent node.
      *
-     * Note: The position argument can be null for strings. However,
-     * if fragments must be added to the same DOM node, use "last", "first", 
-     * etc. -- arguments are passed though to Dojo's createWidget function.
+     * Note: This position only applies to widgets; thus, the parameter can be
+     * null.The position parameter is passed though to Dojo's createWidget 
+     * function. Valid values consist of "last", "first", etc. -- see Dojo docs.
      *
      * @param parentNode The parent node used to add widget.
      * @param props Key-Value pairs of properties.
@@ -54,7 +54,7 @@ webui.@THEME@.widget.common = {
         // Add fragment.
         if (typeof props == 'string') {
             // Replace existing nodes, if position is null.
-            if (position == null || typeof position == "undefined") {
+            if (position == null) {
                 parentNode.innerHTML = ""; // Cannot be null for IE.
             }
 
@@ -278,46 +278,25 @@ webui.@THEME@.widget.common = {
         
         return props;
     },
-    
+
     /**
-     * Helper function to initialize widget.
+     * Helper function to test if widget has been initialized. This function 
+     * assumes that an HTML element is used as a place holder for the document
+     * fragment (i.e., widget).
      *
-     * Note: There is a timing issue on IE regarding when DOM nodes can be 
-     * initialized. For example, even though a checkbox widget has set its 
-     * checked property to true, the browser will not display the checkbox as
-     * selected. If initialization is delayed slightly, the browser will display
-     * the HTML element with the correct state. Therefore, this function will
-     * call the setProps() function of the given widget using a timeout. When
-     * IE is not detected, the setProps() function will be called directly.
-     * In both cases, an "initialized" flag is set. This can be used by the
-     * getProps() function in order to retrieve user input after the widget has
-     * been initialized -- see webui.@THEME@.widget.checkbox.getProps.
-     *
-     * @param widget The widget object to initialize.
+     * @param widget The widget object to test.
      */
-    initProps: function(widget) {
+    isWidgetInitialized: function(widget) {
         if (widget == null) {
             return false;
         }
-        if (webui.@THEME@.common.browser.is_ie == true) {
-            setTimeout(
-            // New literals are created every time this function
-            // is called, and it's saved by closure magic.
-            function() {
-                var obj = dojo.widget.byId(widget.id);
-                if (obj == null) {
-                    return false;
-                }
-                obj.setProps(); // No args during initialization.
-                obj.initialized = true; // Set for getProps() function.
-            }, 10); // (n) milliseconds delay.
-        } else {
-            widget.setProps(); // No args during initialization.
-            widget.initialized = true; // Set for getProps() function.
+        var domNode = document.getElementById(widget.id);
+        if (domNode && domNode.getAttribute("dojoattachpoint")) {
+            return true;
         }
-        return true;
+        return false;
     },
-    
+
     /**
      * Helper function to remove child nodes from given DOM node.
      *
@@ -434,7 +413,7 @@ webui.@THEME@.widget.common = {
         }
         if (props.visible != null) {
             webui.@THEME@.common.setVisibleElement(domNode, 
-            new Boolean(props.visible).valueOf());
+                new Boolean(props.visible).valueOf());
         }
         return true;
     },
@@ -472,73 +451,73 @@ webui.@THEME@.widget.common = {
         // events to work properly, an anonymous function must be created.
         if (props.onBlur) { 
             domNode.onblur = (typeof props.onBlur == 'string')
-            ? new Function("event", props.onBlur)
-            : props.onBlur;
+                ? new Function("event", props.onBlur)
+                : props.onBlur;
         }
         if (props.onClick) {
             domNode.onclick = (typeof props.onClick == 'string')
-            ? new Function("event", props.onClick)
-            : props.onClick;
+                ? new Function("event", props.onClick)
+                : props.onClick;
         }
         if (props.onChange) {
             domNode.onchange = (typeof props.onChange == 'string')
-            ? new Function("event", props.onChange)
-            : props.onChange;
+                ? new Function("event", props.onChange)
+                : props.onChange;
         }
         if (props.onDblClick) {
             domNode.ondblclick = (typeof props.onDblClick == 'string')
-            ? new Function("event", props.onDblClick)
-            : props.onDblClick;
+                ? new Function("event", props.onDblClick)
+                : props.onDblClick;
         }
         if (props.onFocus) {
             domNode.onfocus = (typeof props.onFocus == 'string')
-            ? new Function("event", props.onFocus)
-            : props.onFocus;
+                ? new Function("event", props.onFocus)
+                : props.onFocus;
         }
         if (props.onKeyDown) {
             domNode.onkeydown = (typeof props.onKeyDown == 'string')
-            ? new Function("event", props.onKeyDown)
-            : props.onKeyDown;
+                ? new Function("event", props.onKeyDown)
+                : props.onKeyDown;
         }
         if (props.onKeyPress) {
             domNode.onkeypress = (typeof props.onKeyPress == 'string')
-            ? new Function("event", props.onKeyPress)
-            : props.onKeyPress;
+                ? new Function("event", props.onKeyPress)
+                : props.onKeyPress;
         }
         if (props.onKeyUp) {
             domNode.onkeyup = (typeof props.onKeyUp == 'string')
-            ? new Function("event", props.onKeyUp)
-            : props.onKeyUp;
+                ? new Function("event", props.onKeyUp)
+                : props.onKeyUp;
         }
         if (props.onMouseDown) {
             domNode.onmousedown = (typeof props.onMouseDown == 'string')
-            ? new Function("event", props.onMouseDown)
-            : props.onMouseDown;
+                ? new Function("event", props.onMouseDown)
+                : props.onMouseDown;
         }
         if (props.onMouseOut) {
             domNode.onmouseout = (typeof props.onMouseOut == 'string')
-            ? new Function("event", props.onMouseOut)
-            : props.onMouseOut;
+                ? new Function("event", props.onMouseOut)
+                : props.onMouseOut;
         }
         if (props.onMouseOver) {
             domNode.onmouseover = (typeof props.onMouseOver == 'string')
-            ? new Function("event", props.onMouseOver)
-            : props.onMouseOver;
+                ? new Function("event", props.onMouseOver)
+                : props.onMouseOver;
         }
         if (props.onMouseUp) {
             domNode.onmouseup = (typeof props.onMouseUp == 'string')
-            ? new Function("event", props.onMouseUp)
-            : props.onMouseUp;
+                ? new Function("event", props.onMouseUp)
+                : props.onMouseUp;
         }
         if (props.onMouseMove) {
             domNode.onmousemove = (typeof props.onMouseMove == 'string')
-            ? new Function("event", props.onMouseMove)
-            : props.onMouseMove;
+                ? new Function("event", props.onMouseMove)
+                : props.onMouseMove;
         }
         if (props.onSelect) {
             domNode.onselect = (typeof props.onSelect == 'string')
-            ? new Function("event", props.onSelect)
-            : props.onSelect;
+                ? new Function("event", props.onSelect)
+                : props.onSelect;
         }
         return true;
     }

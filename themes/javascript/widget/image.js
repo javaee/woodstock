@@ -56,8 +56,8 @@ webui.@THEME@.widget.image = function() {
         this.refresh = webui.@THEME@.widget.image.refresh.processEvent;
         this.setProps = webui.@THEME@.widget.image.setProps;
 
-        // Initialize properties.
-        return webui.@THEME@.widget.common.initProps(this);	
+        // Set properties.
+        return this.setProps();
     }
 }
 
@@ -195,7 +195,7 @@ webui.@THEME@.widget.image.setProps = function(props){
     if (props.width) { this.domNode.width = props.width; }
 
     return true;            
-};
+}
         
 dojo.inherits(webui.@THEME@.widget.image, dojo.widget.HtmlWidget);
 
