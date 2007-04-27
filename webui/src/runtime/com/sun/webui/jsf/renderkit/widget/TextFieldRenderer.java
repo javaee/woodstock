@@ -57,11 +57,11 @@ import org.json.JSONObject;
  * It renders basic set of TextField properties in the form of json object
  * @see TextField
  */
-@Renderer(@Renderer.Renders(            
-    rendererType="com.sun.webui.jsf.widget.TextField",
-    componentFamily="com.sun.webui.jsf.TextField"))
-public class TextFieldRenderer extends RendererBase {
-
+@Renderer(@Renderer.Renders(
+rendererType="com.sun.webui.jsf.widget.TextField",
+        componentFamily="com.sun.webui.jsf.TextField"))
+        public class TextFieldRenderer extends RendererBase {
+    
     /** Creates a new instance of TextFieldRenderer */
     public TextFieldRenderer() {
     }
@@ -96,7 +96,7 @@ public class TextFieldRenderer extends RendererBase {
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     // Renderer methods
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
+    
     /**
      * Decode the TextField component
      *
@@ -107,34 +107,42 @@ public class TextFieldRenderer extends RendererBase {
         if (context == null || component == null) {
             throw new NullPointerException();
         }
-	if (!(component instanceof Field)) {
-	    throw new IllegalArgumentException(
-                "TextFieldRenderer can only decode Field components.");
+        if (!(component instanceof Field)) {
+            throw new IllegalArgumentException(
+                    "TextFieldRenderer can only decode Field components.");
         }
-	if (!(component instanceof EditableValueHolder)) {
-	    throw new IllegalArgumentException(
-                "TextFieldRenderer can only decode EditableValueHolder components.");
+        if (!(component instanceof EditableValueHolder)) {
+            throw new IllegalArgumentException(
+                    "TextFieldRenderer can only decode EditableValueHolder components.");
         }
-
-        String id = component.getClientId(context);
+        Field field = (Field)component;
+        if (field.isDisabled() || field.isReadOnly()) {
+            return;
+        }
+                
+       String id = field.getClientId(context); 
+        if (field instanceof ComplexComponent) {
+            // This must be the id of the submitted element.
+            // For now it is the same as the labeled element
+            //
+            id = field.getLabeledElementId(context);
+        }
+        if (id == null)
+            return;
+       
+        String value = null;
         Map params = context.getExternalContext().getRequestParameterMap();
         Object valueObject = params.get(id);
-        String value = null;
-
-        if (valueObject == null && component instanceof Field) {
-            id = ((Field) component).getLabeledElementId(context);
-            valueObject = params.get(id);
-        }
-
-        if (valueObject != null) {
-            value = (String) valueObject;       
-            if(component instanceof Field && ((Field)component).isTrim()) {
+        if (valueObject != null) { 
+            value = (String)valueObject;
+            if (field.isTrim()) {
                 value = value.toString().trim();
             }
         }
-        ((EditableValueHolder) component).setSubmittedValue(value);
+        field.setSubmittedValue(value);
+    
     }
-
+    
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     // RendererBase methods
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -148,10 +156,10 @@ public class TextFieldRenderer extends RendererBase {
      * @exception JSONException if a key/value error occurs
      */
     protected JSONArray getModules(FacesContext context, UIComponent component)
-            throws JSONException {
-	if (!(component instanceof TextField)) {
-	    throw new IllegalArgumentException(
-                "TextFieldRenderer can only render TextField components.");
+    throws JSONException {
+        if (!(component instanceof TextField)) {
+            throw new IllegalArgumentException(
+                    "TextFieldRenderer can only render TextField components.");
         }
         JSONArray json = new JSONArray();
         json.put(JavaScriptUtilities.getModuleName("widget.textField"));
@@ -175,9 +183,9 @@ public class TextFieldRenderer extends RendererBase {
      */
     protected JSONObject getProperties(FacesContext context,
             UIComponent component) throws IOException, JSONException {
-	if (!(component instanceof TextField)) {
-	    throw new IllegalArgumentException(
-                "TextFieldRenderer can only render TextField components.");
+        if (!(component instanceof TextField)) {
+            throw new IllegalArgumentException(
+                    "TextFieldRenderer can only render TextField components.");
         }
         TextField field = (TextField) component;
         Theme theme = ThemeUtilities.getTheme(context);
@@ -189,36 +197,36 @@ public class TextFieldRenderer extends RendererBase {
         
         String templatePath = field.getHtmlTemplate(); // Get HTML template.
         // TODO is getTheme() always non-null ?
-     
+        
         if (templatePath == null)
             templatePath =   field.isPasswordMode() ?
-                    getTheme().getPathToTemplate(ThemeTemplates.PASSWORDFIELD):
-                    getTheme().getPathToTemplate(ThemeTemplates.TEXTFIELD);
-
+                getTheme().getPathToTemplate(ThemeTemplates.PASSWORDFIELD):
+                getTheme().getPathToTemplate(ThemeTemplates.TEXTFIELD);
+        
         String className = field.getStyleClass();
         
         JSONObject json = new JSONObject();
         json.put("disabled", field.isDisabled())
-            .put("value", field.getValueAsString(context))           
-            .put("required", field.isRequired())            
-            .put("valid", field.isValid())
-            .put("className", className )  
-            .put("templatePath", templatePath)
-            .put("size", field.getColumns())
-            .put("visible", field.isVisible())
-            .put("autoValidate", field.isAutoValidate());
-             
+        .put("value", field.getValueAsString(context))
+        .put("required", field.isRequired())
+        .put("valid", field.isValid())
+        .put("className", className )
+        .put("templatePath", templatePath)
+        .put("size", field.getColumns())
+        .put("visible", field.isVisible())
+        .put("autoValidate", field.isAutoValidate());
+        
         // Append label properties.
         WidgetUtilities.addProperties(json, "label",
-                WidgetUtilities.renderComponent(context, field.getLabelComponent(context, "")));
+                WidgetUtilities.renderComponent(context, field.getLabelComponent(context, null)));
         
         // Add core and attribute properties.
         addAttributeProperties(attributes, component, json);
         setCoreProperties(context, component, json);
-                
+        
         return json;
     }
-
+    
     /**
      * Get the type of widget represented by this component.
      *
@@ -226,9 +234,9 @@ public class TextFieldRenderer extends RendererBase {
      * @param component UIComponent to be rendered.
      */
     protected String getWidgetType(FacesContext context, UIComponent component) {
-         return JavaScriptUtilities.getNamespace("textField");
+        return JavaScriptUtilities.getNamespace("textField");
     }
-
+    
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     // Private renderer methods
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~

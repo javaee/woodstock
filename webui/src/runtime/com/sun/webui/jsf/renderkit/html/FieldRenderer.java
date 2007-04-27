@@ -21,7 +21,7 @@
  */
 
  /*
-  * $Id: FieldRenderer.java,v 1.3 2007-03-16 18:54:46 rratta Exp $
+  * $Id: FieldRenderer.java,v 1.4 2007-04-27 18:02:52 dkushner Exp $
   */
 
 package com.sun.webui.jsf.renderkit.html;
@@ -98,6 +98,8 @@ public class FieldRenderer extends javax.faces.render.Renderer {
             //
             id = field.getLabeledElementId(context);
         }
+        if (id == null)
+            return;
         
         String value = null;
         Map params = context.getExternalContext().getRequestParameterMap();
