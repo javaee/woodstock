@@ -3,12 +3,12 @@
  * of the Common Development and Distribution License
  * (the License).  You may not use this file except in
  * compliance with the License.
- * 
+ *
  * You can obtain a copy of the license at
  * https://woodstock.dev.java.net/public/CDDLv1.0.html.
  * See the License for the specific language governing
  * permissions and limitations under the License.
- * 
+ *
  * When distributing Covered Code, include this CDDL
  * Header Notice in each file and include the License file
  * at https://woodstock.dev.java.net/public/CDDLv1.0.html.
@@ -16,7 +16,7 @@
  * with the fields enclosed by brackets [] replaced by
  * you own identifying information:
  * "Portions Copyrighted [year] [name of copyright owner]"
- * 
+ *
  * Copyright 2007 Sun Microsystems, Inc. All rights reserved.
  */
 package com.sun.webui.jsf.component;
@@ -25,6 +25,7 @@ import com.sun.faces.annotation.Component;
 import com.sun.faces.annotation.Property;
 import com.sun.webui.jsf.util.ComponentUtilities;
 import com.sun.webui.jsf.util.ConversionUtilities;
+import com.sun.webui.jsf.util.ThemeUtilities;
 
 import javax.el.ValueExpression;
 import javax.faces.FacesException;
@@ -38,7 +39,7 @@ import javax.faces.context.FacesContext;
  */
 @Component(type="com.sun.webui.jsf.Field", family="com.sun.webui.jsf.Field", displayName="Field", isTag=false,
     helpKey="projrave_ui_elements_palette_wdstk-jsf1.2_field",
-    propertiesHelpKey="projrave_ui_elements_palette_wdstk-jsf1.2_propsheets_field_props")
+        propertiesHelpKey="projrave_ui_elements_palette_wdstk-jsf1.2_propsheets_field_props")
 public class Field extends HiddenField implements ComplexComponent,
         NamingContainer {
     public static final String READONLY_ID = "_readOnly"; //NOI18N
@@ -54,14 +55,14 @@ public class Field extends HiddenField implements ComplexComponent,
         super();
         setRendererType("com.sun.webui.jsf.Field");
     }
-
+    
     /**
      * <p>Return the family for this component.</p>
      */
     public String getFamily() {
         return "com.sun.webui.jsf.Field";
     }
-
+    
     /**
      * Return a component that implements a label for this <code>Field</code>.
      * If a facet named <code>label</code> is found
@@ -96,7 +97,7 @@ public class Field extends HiddenField implements ComplexComponent,
             }
             return labelComponent;
         }
-
+        
         // If the page author has not defined a label facet,
         // Create one every time.
         //
@@ -151,17 +152,17 @@ public class Field extends HiddenField implements ComplexComponent,
         
         if(DEBUG) log("createLabel()");
         
-        // If we find a label, define a component and add it as a 
+        // If we find a label, define a component and add it as a
         // private facet
-        // 
+        //
         
-	// We need to allow an empty string label since this  
-	// could mean that there is value binding and a   
-	// message bundle hasn't loaded yet, but there  
-	// is a value binding since the javax.el never returns  
-	// null for a String binding.  
-	//   
-	if(labelString == null /*|| labelString.length() < 1*/) { 
+        // We need to allow an empty string label since this
+        // could mean that there is value binding and a
+        // message bundle hasn't loaded yet, but there
+        // is a value binding since the javax.el never returns
+        // null for a String binding.
+        //
+        if(labelString == null /*|| labelString.length() < 1*/) {
             if(DEBUG) log("\tNo label");
             // Remove any previously created one.
             //
@@ -176,7 +177,7 @@ public class Field extends HiddenField implements ComplexComponent,
         if (label == null) {
             label = new Label();
             label.setId(
-                ComponentUtilities.createPrivateFacetId(this, LABEL_FACET));
+                    ComponentUtilities.createPrivateFacetId(this, LABEL_FACET));
             ComponentUtilities.putPrivateFacet(this, LABEL_FACET, label);
         }
         label.setLabelLevel(getLabelLevel());
@@ -185,7 +186,7 @@ public class Field extends HiddenField implements ComplexComponent,
         if (!isReadOnly()) {
             label.setFor(getClientId(context));
         }
-
+        
         return label;
     }
     
@@ -208,9 +209,9 @@ public class Field extends HiddenField implements ComplexComponent,
         StaticText text = new StaticText();
         text.setText(string);
         text.setId(
-            ComponentUtilities.createPrivateFacetId(this, READONLY_FACET));
+                ComponentUtilities.createPrivateFacetId(this, READONLY_FACET));
         text.setParent(this);
-
+        
         return text;
     }
     
@@ -220,15 +221,15 @@ public class Field extends HiddenField implements ComplexComponent,
     protected void log(String s) {
         System.out.println(this.getClass().getName() + "::" + s); //NOI18N
     }
-
+    
     /**
      * Returns the absolute ID of an HTML element suitable for use as
      * the value of an HTML LABEL element's <code>for</code> attribute.
-     * If the <code>ComplexComponent</code> has sub-compoents, and one of 
+     * If the <code>ComplexComponent</code> has sub-compoents, and one of
      * the sub-components is the target of a label, if that sub-component
      * is a <code>ComplexComponent</code>, then
      * <code>getLabeledElementId</code> must called on the sub-component and
-     * the value returned. The value returned by this 
+     * the value returned. The value returned by this
      * method call may or may not resolve to a component instance.
      * <p>
      * If <code>isReadOnly</code> returns true, <code>null</code> is
@@ -240,7 +241,7 @@ public class Field extends HiddenField implements ComplexComponent,
      * <code>for</code> attribute.
      */
     public String getLabeledElementId(FacesContext context) {
-
+        
         // If this component has a label either as a facet or
         // an attribute, return the id of the input element
         // that will have the "INPUT_ID" suffix. IF there is no
@@ -252,7 +253,7 @@ public class Field extends HiddenField implements ComplexComponent,
         if (isReadOnly()) {
             return null;
         }
-
+        
         // To ensure we get the right answer call getLabelComponent.
         // This checks for a developer facet or the private label facet.
         // It also checks the label attribute. This is better than
@@ -262,15 +263,15 @@ public class Field extends HiddenField implements ComplexComponent,
         String clntId = this.getClientId(context);
         return clntId.concat(this.INPUT_ID);
     }
-
+    
     /**
      * Returns the id of an HTML element suitable to
      * receive the focus.
-     * If the <code>ComplexComponent</code> has sub-compoents, and one of 
+     * If the <code>ComplexComponent</code> has sub-compoents, and one of
      * the sub-components is to reveive the focus, if that sub-component
      * is a <code>ComplexComponent</code>, then
      * <code>getFocusElementId</code> must called on the sub-component and
-     * the value returned. The value returned by this 
+     * the value returned. The value returned by this
      * method call may or may not resolve to a component instance.
      * <p>
      * This implementation returns the value <code>getLabeledElementId</code>
@@ -281,13 +282,13 @@ public class Field extends HiddenField implements ComplexComponent,
     public String getFocusElementId(FacesContext context) {
         return getLabeledElementId(context);
     }
-
+    
     /**
-     * Implement this method so that it returns the DOM ID of the 
-     * HTML element which should receive focus when the component 
-     * receives focus, and to which a component label should apply. 
-     * Usually, this is the first element that accepts input. 
-     * 
+     * Implement this method so that it returns the DOM ID of the
+     * HTML element which should receive focus when the component
+     * receives focus, and to which a component label should apply.
+     * Usually, this is the first element that accepts input.
+     *
      * @param context The FacesContext for the request
      * @return The client id, also the JavaScript element id
      *
@@ -302,11 +303,11 @@ public class Field extends HiddenField implements ComplexComponent,
         String clntId = this.getClientId(context);
         return clntId.concat(this.INPUT_ID);
     }
-
+    
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     // Tag attribute methods
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
+    
     /**
      * <p>Return the <code>ValueExpression</code> stored for the
      * specified name (if any), respecting any property aliases.</p>
@@ -319,7 +320,7 @@ public class Field extends HiddenField implements ComplexComponent,
         }
         return super.getValueExpression(name);
     }
-
+    
     /**
      * <p>Set the <code>ValueExpression</code> stored for the
      * specified name (if any), respecting any property
@@ -337,7 +338,7 @@ public class Field extends HiddenField implements ComplexComponent,
     }
     
     /**
-     * Flag indicating that an input value for this field is mandatory, and 
+     * Flag indicating that an input value for this field is mandatory, and
      * failure to provide one will trigger a validation error.
      */
     @Property(name="required", isHidden=false, isAttribute=true, category="Data")
@@ -350,7 +351,7 @@ public class Field extends HiddenField implements ComplexComponent,
     public Object getValue() {
         return super.getValue();
     }
-
+    
     /**
      * <p>Number of character columns used to render this
      * field. The default is 20.</p>
@@ -358,33 +359,43 @@ public class Field extends HiddenField implements ComplexComponent,
     @Property(name="columns", displayName="Columns", category="Appearance", editorClassName="com.sun.rave.propertyeditors.IntegerPropertyEditor")
     private int columns = Integer.MIN_VALUE;
     private boolean columns_set = false;
-
+    
     /**
      * <p>Number of character columns used to render this
-     * field. The default is 20.</p>
+     * field. The default value is based on resource string in
+     * theme/messages#textInput.defaultColumns <br> 
+     * If resource string  is not found there, the default columns are set to 20</p>
      */
     public int getColumns() {
-        int cols = 20;
         if (this.columns_set) {
-            cols = this.columns;
+            return this.columns;
         } else {
             ValueExpression _vb = getValueExpression("columns");
             if (_vb != null) {
                 Object _result = _vb.getValue(getFacesContext().getELContext());
-                if (_result == null) {
-                    cols = Integer.MIN_VALUE;
-                } else {
-                    cols = ((Integer) _result).intValue();
+                if (_result != null) {
+                    try {
+                        return ((Integer) _result).intValue();
+                    }   catch (Exception e) {} //do nothing
                 }
             }
         }
-        if(cols < 1) { 
-            cols = 20; 
-            setColumns(20); 
-        }
+        //we should get here only if getValueExpression and this.columns
+        //failed to produce a reasonable number
+        
+        // Return the default value.
+        int cols = 20;
+        try {
+            String defaultValue = ThemeUtilities.getTheme(FacesContext.getCurrentInstance())
+                .getMessage("textInput.defaultColumns"); //NOI18N
+            if (defaultValue != null || defaultValue.length() > 0) {
+                cols = new Integer(defaultValue).intValue();
+            }
+        } catch ( Exception e) {} //do nothing
+        
         return cols;
     }
-
+    
     /**
      * <p>Number of character columns used to render this
      * field. The default is 20.</p>
@@ -394,7 +405,7 @@ public class Field extends HiddenField implements ComplexComponent,
         this.columns = columns;
         this.columns_set = true;
     }
-
+    
     /**
      * <p>Flag indicating that the user is not permitted to activate this
      * component, and that the component's value will not be submitted with the
@@ -403,7 +414,7 @@ public class Field extends HiddenField implements ComplexComponent,
     @Property(name="disabled", displayName="Disabled", category="Behavior")
     private boolean disabled = false;
     private boolean disabled_set = false;
-
+    
     /**
      * <p>Flag indicating that the user is not permitted to activate this
      * component, and that the component's value will not be submitted with the
@@ -424,7 +435,7 @@ public class Field extends HiddenField implements ComplexComponent,
         }
         return false;
     }
-
+    
     /**
      * <p>Flag indicating that the user is not permitted to activate this
      * component, and that the component's value will not be submitted with the
@@ -435,14 +446,14 @@ public class Field extends HiddenField implements ComplexComponent,
         this.disabled = disabled;
         this.disabled_set = true;
     }
-
+    
     /**
      * <p>If set, a label is rendered adjacent to the component with the
      * value of this attribute as the label text.</p>
      */
     @Property(name="label", displayName="Label", category="Appearance")
     private String label = null;
-
+    
     /**
      * <p>If set, a label is rendered adjacent to the component with the
      * value of this attribute as the label text.</p>
@@ -457,7 +468,7 @@ public class Field extends HiddenField implements ComplexComponent,
         }
         return null;
     }
-
+    
     /**
      * <p>If set, a label is rendered adjacent to the component with the
      * value of this attribute as the label text.</p>
@@ -466,7 +477,7 @@ public class Field extends HiddenField implements ComplexComponent,
     public void setLabel(String label) {
         this.label = label;
     }
-
+    
     /**
      * <p>Sets the style level for the generated label, provided the
      * label attribute has been set. Valid values are 1 (largest), 2 and
@@ -475,7 +486,7 @@ public class Field extends HiddenField implements ComplexComponent,
     @Property(name="labelLevel", displayName="Label Level", category="Appearance")
     private int labelLevel = Integer.MIN_VALUE;
     private boolean labelLevel_set = false;
-
+    
     /**
      * <p>Sets the style level for the generated label, provided the
      * label attribute has been set. Valid values are 1 (largest), 2 and
@@ -496,7 +507,7 @@ public class Field extends HiddenField implements ComplexComponent,
         }
         return 2;
     }
-
+    
     /**
      * <p>Sets the style level for the generated label, provided the
      * label attribute has been set. Valid values are 1 (largest), 2 and
@@ -507,14 +518,14 @@ public class Field extends HiddenField implements ComplexComponent,
         this.labelLevel = labelLevel;
         this.labelLevel_set = true;
     }
-
+    
     /**
      * <p>The maximum number of characters that can be entered for this field.</p>
      */
     @Property(name="maxLength", displayName="Maximum Length", category="Behavior", editorClassName="com.sun.rave.propertyeditors.IntegerPropertyEditor")
     private int maxLength = Integer.MIN_VALUE;
     private boolean maxLength_set = false;
-
+    
     /**
      * <p>The maximum number of characters that can be entered for this field.</p>
      */
@@ -533,7 +544,7 @@ public class Field extends HiddenField implements ComplexComponent,
         }
         return Integer.MIN_VALUE;
     }
-
+    
     /**
      * <p>The maximum number of characters that can be entered for this field.</p>
      * @see #getMaxLength()
@@ -542,13 +553,13 @@ public class Field extends HiddenField implements ComplexComponent,
         this.maxLength = maxLength;
         this.maxLength_set = true;
     }
-
+    
     /**
      * <p>Scripting code executed when this element loses focus.</p>
      */
     @Property(name="onBlur", displayName="Blur Script", category="Javascript", editorClassName="com.sun.rave.propertyeditors.JavaScriptPropertyEditor")
     private String onBlur = null;
-
+    
     /**
      * <p>Scripting code executed when this element loses focus.</p>
      */
@@ -562,7 +573,7 @@ public class Field extends HiddenField implements ComplexComponent,
         }
         return null;
     }
-
+    
     /**
      * <p>Scripting code executed when this element loses focus.</p>
      * @see #getOnBlur()
@@ -570,14 +581,14 @@ public class Field extends HiddenField implements ComplexComponent,
     public void setOnBlur(String onBlur) {
         this.onBlur = onBlur;
     }
-
+    
     /**
      * <p>Scripting code executed when the element
      * value of this component is changed.</p>
      */
     @Property(name="onChange", displayName="Value Change Script", category="Javascript", editorClassName="com.sun.rave.propertyeditors.JavaScriptPropertyEditor")
     private String onChange = null;
-
+    
     /**
      * <p>Scripting code executed when the element
      * value of this component is changed.</p>
@@ -592,7 +603,7 @@ public class Field extends HiddenField implements ComplexComponent,
         }
         return null;
     }
-
+    
     /**
      * <p>Scripting code executed when the element
      * value of this component is changed.</p>
@@ -601,14 +612,14 @@ public class Field extends HiddenField implements ComplexComponent,
     public void setOnChange(String onChange) {
         this.onChange = onChange;
     }
-
+    
     /**
      * <p>Scripting code executed when a mouse click
      * occurs over this component.</p>
      */
     @Property(name="onClick", displayName="Click Script", category="Javascript", editorClassName="com.sun.rave.propertyeditors.JavaScriptPropertyEditor")
     private String onClick = null;
-
+    
     /**
      * <p>Scripting code executed when a mouse click
      * occurs over this component.</p>
@@ -623,7 +634,7 @@ public class Field extends HiddenField implements ComplexComponent,
         }
         return null;
     }
-
+    
     /**
      * <p>Scripting code executed when a mouse click
      * occurs over this component.</p>
@@ -632,14 +643,14 @@ public class Field extends HiddenField implements ComplexComponent,
     public void setOnClick(String onClick) {
         this.onClick = onClick;
     }
-
+    
     /**
      * <p>Scripting code executed when a mouse double click
      * occurs over this component.</p>
      */
     @Property(name="onDblClick", displayName="Double Click Script", category="Javascript", editorClassName="com.sun.rave.propertyeditors.JavaScriptPropertyEditor")
     private String onDblClick = null;
-
+    
     /**
      * <p>Scripting code executed when a mouse double click
      * occurs over this component.</p>
@@ -654,7 +665,7 @@ public class Field extends HiddenField implements ComplexComponent,
         }
         return null;
     }
-
+    
     /**
      * <p>Scripting code executed when a mouse double click
      * occurs over this component.</p>
@@ -663,7 +674,7 @@ public class Field extends HiddenField implements ComplexComponent,
     public void setOnDblClick(String onDblClick) {
         this.onDblClick = onDblClick;
     }
-
+    
     /**
      * <p>Scripting code executed when this component  receives focus. An
      * element receives focus when the user selects the element by pressing
@@ -671,7 +682,7 @@ public class Field extends HiddenField implements ComplexComponent,
      */
     @Property(name="onFocus", displayName="Focus Script", category="Javascript", editorClassName="com.sun.rave.propertyeditors.JavaScriptPropertyEditor")
     private String onFocus = null;
-
+    
     /**
      * <p>Scripting code executed when this component  receives focus. An
      * element receives focus when the user selects the element by pressing
@@ -687,7 +698,7 @@ public class Field extends HiddenField implements ComplexComponent,
         }
         return null;
     }
-
+    
     /**
      * <p>Scripting code executed when this component  receives focus. An
      * element receives focus when the user selects the element by pressing
@@ -697,14 +708,14 @@ public class Field extends HiddenField implements ComplexComponent,
     public void setOnFocus(String onFocus) {
         this.onFocus = onFocus;
     }
-
+    
     /**
      * <p>Scripting code executed when the user presses down on a key while the
      * component has focus.</p>
      */
     @Property(name="onKeyDown", displayName="Key Down Script", category="Javascript", editorClassName="com.sun.rave.propertyeditors.JavaScriptPropertyEditor")
     private String onKeyDown = null;
-
+    
     /**
      * <p>Scripting code executed when the user presses down on a key while the
      * component has focus.</p>
@@ -719,7 +730,7 @@ public class Field extends HiddenField implements ComplexComponent,
         }
         return null;
     }
-
+    
     /**
      * <p>Scripting code executed when the user presses down on a key while the
      * component has focus.</p>
@@ -728,14 +739,14 @@ public class Field extends HiddenField implements ComplexComponent,
     public void setOnKeyDown(String onKeyDown) {
         this.onKeyDown = onKeyDown;
     }
-
+    
     /**
      * <p>Scripting code executed when the user presses and releases a key while
      * the component has focus.</p>
      */
     @Property(name="onKeyPress", displayName="Key Press Script", category="Javascript", editorClassName="com.sun.rave.propertyeditors.JavaScriptPropertyEditor")
     private String onKeyPress = null;
-
+    
     /**
      * <p>Scripting code executed when the user presses and releases a key while
      * the component has focus.</p>
@@ -750,7 +761,7 @@ public class Field extends HiddenField implements ComplexComponent,
         }
         return null;
     }
-
+    
     /**
      * <p>Scripting code executed when the user presses and releases a key while
      * the component has focus.</p>
@@ -759,14 +770,14 @@ public class Field extends HiddenField implements ComplexComponent,
     public void setOnKeyPress(String onKeyPress) {
         this.onKeyPress = onKeyPress;
     }
-
+    
     /**
      * <p>Scripting code executed when the user releases a key while the
      * component has focus.</p>
      */
     @Property(name="onKeyUp", displayName="Key Up Script", category="Javascript", editorClassName="com.sun.rave.propertyeditors.JavaScriptPropertyEditor")
     private String onKeyUp = null;
-
+    
     /**
      * <p>Scripting code executed when the user releases a key while the
      * component has focus.</p>
@@ -781,7 +792,7 @@ public class Field extends HiddenField implements ComplexComponent,
         }
         return null;
     }
-
+    
     /**
      * <p>Scripting code executed when the user releases a key while the
      * component has focus.</p>
@@ -790,14 +801,14 @@ public class Field extends HiddenField implements ComplexComponent,
     public void setOnKeyUp(String onKeyUp) {
         this.onKeyUp = onKeyUp;
     }
-
+    
     /**
      * <p>Scripting code executed when the user presses a mouse button while the
      * mouse pointer is on the component.</p>
      */
     @Property(name="onMouseDown", displayName="Mouse Down Script", category="Javascript", editorClassName="com.sun.rave.propertyeditors.JavaScriptPropertyEditor")
     private String onMouseDown = null;
-
+    
     /**
      * <p>Scripting code executed when the user presses a mouse button while the
      * mouse pointer is on the component.</p>
@@ -812,7 +823,7 @@ public class Field extends HiddenField implements ComplexComponent,
         }
         return null;
     }
-
+    
     /**
      * <p>Scripting code executed when the user presses a mouse button while the
      * mouse pointer is on the component.</p>
@@ -821,14 +832,14 @@ public class Field extends HiddenField implements ComplexComponent,
     public void setOnMouseDown(String onMouseDown) {
         this.onMouseDown = onMouseDown;
     }
-
+    
     /**
      * <p>Scripting code executed when the user moves the mouse pointer while
      * over the component.</p>
      */
     @Property(name="onMouseMove", displayName="Mouse Move Script", category="Javascript", editorClassName="com.sun.rave.propertyeditors.JavaScriptPropertyEditor")
     private String onMouseMove = null;
-
+    
     /**
      * <p>Scripting code executed when the user moves the mouse pointer while
      * over the component.</p>
@@ -843,7 +854,7 @@ public class Field extends HiddenField implements ComplexComponent,
         }
         return null;
     }
-
+    
     /**
      * <p>Scripting code executed when the user moves the mouse pointer while
      * over the component.</p>
@@ -852,14 +863,14 @@ public class Field extends HiddenField implements ComplexComponent,
     public void setOnMouseMove(String onMouseMove) {
         this.onMouseMove = onMouseMove;
     }
-
+    
     /**
      * <p>Scripting code executed when a mouse out movement
      * occurs over this component.</p>
      */
     @Property(name="onMouseOut", displayName="Mouse Out Script", category="Javascript", editorClassName="com.sun.rave.propertyeditors.JavaScriptPropertyEditor")
     private String onMouseOut = null;
-
+    
     /**
      * <p>Scripting code executed when a mouse out movement
      * occurs over this component.</p>
@@ -874,7 +885,7 @@ public class Field extends HiddenField implements ComplexComponent,
         }
         return null;
     }
-
+    
     /**
      * <p>Scripting code executed when a mouse out movement
      * occurs over this component.</p>
@@ -883,14 +894,14 @@ public class Field extends HiddenField implements ComplexComponent,
     public void setOnMouseOut(String onMouseOut) {
         this.onMouseOut = onMouseOut;
     }
-
+    
     /**
      * <p>Scripting code executed when the user moves the  mouse pointer into
      * the boundary of this component.</p>
      */
     @Property(name="onMouseOver", displayName="Mouse In Script", category="Javascript", editorClassName="com.sun.rave.propertyeditors.JavaScriptPropertyEditor")
     private String onMouseOver = null;
-
+    
     /**
      * <p>Scripting code executed when the user moves the  mouse pointer into
      * the boundary of this component.</p>
@@ -905,7 +916,7 @@ public class Field extends HiddenField implements ComplexComponent,
         }
         return null;
     }
-
+    
     /**
      * <p>Scripting code executed when the user moves the  mouse pointer into
      * the boundary of this component.</p>
@@ -914,14 +925,14 @@ public class Field extends HiddenField implements ComplexComponent,
     public void setOnMouseOver(String onMouseOver) {
         this.onMouseOver = onMouseOver;
     }
-
+    
     /**
      * <p>Scripting code executed when the user releases a mouse button while
      * the mouse pointer is on the component.</p>
      */
     @Property(name="onMouseUp", displayName="Mouse Up Script", category="Javascript", editorClassName="com.sun.rave.propertyeditors.JavaScriptPropertyEditor")
     private String onMouseUp = null;
-
+    
     /**
      * <p>Scripting code executed when the user releases a mouse button while
      * the mouse pointer is on the component.</p>
@@ -936,7 +947,7 @@ public class Field extends HiddenField implements ComplexComponent,
         }
         return null;
     }
-
+    
     /**
      * <p>Scripting code executed when the user releases a mouse button while
      * the mouse pointer is on the component.</p>
@@ -945,14 +956,14 @@ public class Field extends HiddenField implements ComplexComponent,
     public void setOnMouseUp(String onMouseUp) {
         this.onMouseUp = onMouseUp;
     }
-
+    
     /**
      * <p>Scripting code executed when some text in this
      * component value is selected.</p>
      */
     @Property(name="onSelect", displayName="Text Selected Script", category="Javascript", editorClassName="com.sun.rave.propertyeditors.JavaScriptPropertyEditor")
     private String onSelect = null;
-
+    
     /**
      * <p>Scripting code executed when some text in this
      * component value is selected.</p>
@@ -967,7 +978,7 @@ public class Field extends HiddenField implements ComplexComponent,
         }
         return null;
     }
-
+    
     /**
      * <p>Scripting code executed when some text in this
      * component value is selected.</p>
@@ -976,7 +987,7 @@ public class Field extends HiddenField implements ComplexComponent,
     public void setOnSelect(String onSelect) {
         this.onSelect = onSelect;
     }
-
+    
     /**
      * <p>Flag indicating that modification of this component by the
      * user is not currently permitted, but that it will be
@@ -985,7 +996,7 @@ public class Field extends HiddenField implements ComplexComponent,
     @Property(name="readOnly", displayName="Read Only", category="Behavior")
     private boolean readOnly = false;
     private boolean readOnly_set = false;
-
+    
     /**
      * <p>Flag indicating that modification of this component by the
      * user is not currently permitted, but that it will be
@@ -1006,7 +1017,7 @@ public class Field extends HiddenField implements ComplexComponent,
         }
         return false;
     }
-
+    
     /**
      * <p>Flag indicating that modification of this component by the
      * user is not currently permitted, but that it will be
@@ -1017,14 +1028,14 @@ public class Field extends HiddenField implements ComplexComponent,
         this.readOnly = readOnly;
         this.readOnly_set = true;
     }
-
+    
     /**
      * <p>CSS style(s) to be applied to the outermost HTML element when this
      * component is rendered.</p>
      */
     @Property(name="style", displayName="CSS Style(s)", category="Appearance", editorClassName="com.sun.jsfcl.std.css.CssStylePropertyEditor")
     private String style = null;
-
+    
     /**
      * <p>CSS style(s) to be applied to the outermost HTML element when this
      * component is rendered.</p>
@@ -1039,23 +1050,23 @@ public class Field extends HiddenField implements ComplexComponent,
         }
         return null;
     }
-
+    
     /**
-     * <p>CSS style(s) to be applied to the outermost HTML element when this 
+     * <p>CSS style(s) to be applied to the outermost HTML element when this
      * component is rendered.</p>
      * @see #getStyle()
      */
     public void setStyle(String style) {
         this.style = style;
     }
-
+    
     /**
      * <p>CSS style class(es) to be applied to the outermost HTML element when this
      * component is rendered.</p>
      */
     @Property(name="styleClass", displayName="CSS Style Class(es)", category="Appearance", editorClassName="com.sun.rave.propertyeditors.StyleClassPropertyEditor")
     private String styleClass = null;
-
+    
     /**
      * <p>CSS style class(es) to be applied to the outermost HTML element when this
      * component is rendered.</p>
@@ -1070,16 +1081,16 @@ public class Field extends HiddenField implements ComplexComponent,
         }
         return null;
     }
-
+    
     /**
-     * <p>CSS style class(es) to be applied to the outermost HTML element when this 
+     * <p>CSS style class(es) to be applied to the outermost HTML element when this
      * component is rendered.</p>
      * @see #getStyleClass()
      */
     public void setStyleClass(String styleClass) {
         this.styleClass = styleClass;
     }
-
+    
     /**
      * <p>Position of this element in the tabbing order of the current document.
      * Tabbing order determines the sequence in which elements receive
@@ -1089,7 +1100,7 @@ public class Field extends HiddenField implements ComplexComponent,
     @Property(name="tabIndex", displayName="Tab Index", category="Accessibility", editorClassName="com.sun.rave.propertyeditors.IntegerPropertyEditor")
     private int tabIndex = Integer.MIN_VALUE;
     private boolean tabIndex_set = false;
-
+    
     /**
      * <p>Position of this element in the tabbing order of the current document.
      * Tabbing order determines the sequence in which elements receive
@@ -1111,11 +1122,11 @@ public class Field extends HiddenField implements ComplexComponent,
         }
         return Integer.MIN_VALUE;
     }
-
+    
     /**
-     * <p>Position of this element in the tabbing order of the current document. 
-     * Tabbing order determines the sequence in which elements receive 
-     * focus when the tab key is pressed. The value must be an integer 
+     * <p>Position of this element in the tabbing order of the current document.
+     * Tabbing order determines the sequence in which elements receive
+     * focus when the tab key is pressed. The value must be an integer
      * between 0 and 32767.</p>
      * @see #getTabIndex()
      */
@@ -1123,7 +1134,7 @@ public class Field extends HiddenField implements ComplexComponent,
         this.tabIndex = tabIndex;
         this.tabIndex_set = true;
     }
-
+    
     /**
      * <p>Literal value to be rendered in this input field.
      * If this property is specified by a value binding
@@ -1131,11 +1142,11 @@ public class Field extends HiddenField implements ComplexComponent,
      * if validation succeeds.</p>
      */
     @Property(name="text", displayName="Text", category="Appearance",
-        editorClassName="com.sun.rave.propertyeditors.StringPropertyEditor")
+    editorClassName="com.sun.rave.propertyeditors.StringPropertyEditor")
     public Object getText() {
         return getValue();
     }
-
+    
     /**
      * <p>Literal value to be rendered in this input field.
      * If this property is specified by a value binding
@@ -1146,7 +1157,7 @@ public class Field extends HiddenField implements ComplexComponent,
     public void setText(Object text) {
         setValue(text);
     }
-
+    
     /**
      * <p>Sets the value of the title attribute for the HTML element.
      * The specified text will display as a tooltip if the mouse cursor hovers
@@ -1154,7 +1165,7 @@ public class Field extends HiddenField implements ComplexComponent,
      */
     @Property(name="toolTip", displayName="Tool Tip", category="Behavior")
     private String toolTip = null;
-
+    
     /**
      * <p>Sets the value of the title attribute for the HTML element.
      * The specified text will display as a tooltip if the mouse cursor hovers
@@ -1170,17 +1181,17 @@ public class Field extends HiddenField implements ComplexComponent,
         }
         return null;
     }
-
+    
     /**
      * <p>Sets the value of the title attribute for the HTML element.
-     * The specified text will display as a tooltip if the mouse cursor hovers 
+     * The specified text will display as a tooltip if the mouse cursor hovers
      * over the HTML element.</p>
      * @see #getToolTip()
      */
     public void setToolTip(String toolTip) {
         this.toolTip = toolTip;
     }
-
+    
     /**
      * <p>Flag indicating that any leading and trailing blanks will be
      * trimmed prior to conversion to the destination data type.
@@ -1189,7 +1200,7 @@ public class Field extends HiddenField implements ComplexComponent,
     @Property(name="trim", displayName="Trim", category="Behavior")
     private boolean trim = false;
     private boolean trim_set = false;
-
+    
     /**
      * <p>Flag indicating that any leading and trailing blanks will be
      * trimmed prior to conversion to the destination data type.
@@ -1210,7 +1221,7 @@ public class Field extends HiddenField implements ComplexComponent,
         }
         return true;
     }
-
+    
     /**
      * <p>Flag indicating that any leading and trailing blanks will be
      * trimmed prior to conversion to the destination data type.
@@ -1221,7 +1232,7 @@ public class Field extends HiddenField implements ComplexComponent,
         this.trim = trim;
         this.trim_set = true;
     }
-
+    
     /**
      * <p>Use the visible attribute to indicate whether the component should be
      * viewable by the user in the rendered HTML page.</p>
@@ -1229,7 +1240,7 @@ public class Field extends HiddenField implements ComplexComponent,
     @Property(name="visible", displayName="Visible", category="Behavior")
     private boolean visible = false;
     private boolean visible_set = false;
-
+    
     /**
      * <p>Use the visible attribute to indicate whether the component should be
      * viewable by the user in the rendered HTML page.</p>
@@ -1249,9 +1260,9 @@ public class Field extends HiddenField implements ComplexComponent,
         }
         return true;
     }
-
+    
     /**
-     * <p>Use the visible attribute to indicate whether the component should be 
+     * <p>Use the visible attribute to indicate whether the component should be
      * viewable by the user in the rendered HTML page.</p>
      * @see #isVisible()
      */
@@ -1259,7 +1270,7 @@ public class Field extends HiddenField implements ComplexComponent,
         this.visible = visible;
         this.visible_set = true;
     }
-
+    
     /**
      * <p>Restore the state of this component.</p>
      */
@@ -1301,7 +1312,7 @@ public class Field extends HiddenField implements ComplexComponent,
         this.visible = ((Boolean) _values[33]).booleanValue();
         this.visible_set = ((Boolean) _values[34]).booleanValue();
     }
-
+    
     /**
      * <p>Save the state of this component.</p>
      */
