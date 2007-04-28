@@ -55,7 +55,7 @@ webui.@THEME@.widget.common = {
         if (typeof props == 'string') {
             // Replace existing nodes, if position is null.
             if (position == null) {
-                parentNode.innerHTML = ""; // Cannot be null for IE.
+                parentNode.innerHTML = ""; // Cannot be null on IE.
             }
 
             // Strip script fragments, set innerHTML property, and
@@ -103,21 +103,26 @@ webui.@THEME@.widget.common = {
             //
             var html = props.stripScripts();
               
-            // Concatenating innerHTML with new data does not always work. If we
-            // are adding several elements in a row, and strings are involved,
-            // we can get into a situation where parentNode.innerHTML does not
-            // yet contain all the changes made to the previously added DOM 
-            // node. Thus, code such as:
+            // Concatenating innerHTML with new strings does not always work. 
+            // When adding multiple HTML elements to parentNode, we can get
+            // into a situation where parentNode.innerHTML may not yet contain 
+            // all the changes made to the previously added DOM node. Thus, the
+            // following code may yield incorrect results. Instead, we shall 
+            // wrap new strings in an HTML span element so it may be added as a 
+            // child of parentNode.
             //
             // if (position && parentNode.innerHTML) {
             //     html = parentNode.innerHTML + html;
             // }
-            //
-            // may yield incorrect results. Instead, we shall create an HTML
-            // span element to contain the newly added string.
-            var span = document.createElement('span');            
-            span.innerHTML = html;
-            parentNode.appendChild(span);
+            if (parentNode.innerHTML == null
+                    || parentNode.innerHTML.length == 0) {
+                // Don't need span if innerHTML is empty.
+                parentNode.innerHTML = html;
+            } else {
+                var span = document.createElement('span');            
+                span.innerHTML = html;
+                parentNode.appendChild(span);
+            }
 
             // Evaluate JavaScript.
             setTimeout(function() {props.evalScripts()}, 10);
@@ -312,7 +317,7 @@ webui.@THEME@.widget.common = {
         }
         
         try {
-            domNode.innerHTML = "";
+            domNode.innerHTML = ""; // Cannot be null on IE.
         } catch (error) {
             var childNodes = domNode.childNodes;
             for(var i = 0; i < childNodes.length; i++) {

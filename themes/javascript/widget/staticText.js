@@ -167,14 +167,12 @@ webui.@THEME@.widget.staticText.setProps = function(props) {
         
     // Set text value.
     if (props.value) {
-        this.domNode.innerHTML = ""; // Cannot be set null on IE.
+        this.domNode.innerHTML = ""; // Cannot be null on IE.
         webui.@THEME@.widget.common.addFragment(this.domNode,
             (new Boolean(this.escape).valueOf() == true)
                 ? dojo.string.escape("html", props.value) // Default.
-                : props.value,
-            "last");
+                : props.value);
     }
-
     return true;
 }
 

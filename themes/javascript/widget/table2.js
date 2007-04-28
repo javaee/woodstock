@@ -187,7 +187,7 @@ webui.@THEME@.widget.table2.setProps = function(props) {
 
     // Add row groups.
     if (props.rowGroups) {
-        this.rowGroupsContainer.innerHTML = ""; // Cannot be null for IE.
+        this.rowGroupsContainer.innerHTML = ""; // Cannot be null on IE.
         for (var i = 0; i < props.rowGroups.length; i++) {
             // Each group must be added to separate containers for padding.
             var rowGroupsClone = this.rowGroupsContainer;

@@ -268,7 +268,7 @@ webui.@THEME@.widget.label.setProps = function(props) {
 
     // Set contents.
     if (props.contents) {
-	this.contentsContainer.innerHtml = "";
+	this.contentsContainer.innerHtml = ""; // Cannot be null on IE.
 	for (var i = 0; i < props.contents.length; i++) {
             webui.@THEME@.widget.common.addFragment(this.contentsContainer, 
 		props.contents[i], "last");
