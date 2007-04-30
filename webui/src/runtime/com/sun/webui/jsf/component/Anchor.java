@@ -22,6 +22,7 @@
 package com.sun.webui.jsf.component;
 
 import javax.faces.component.NamingContainer;
+import javax.faces.component.UIComponent;
 import javax.faces.component.UIComponentBase;
 import javax.faces.context.FacesContext;
 import javax.el.ValueExpression;
@@ -508,6 +509,25 @@ public class Anchor extends UIComponentBase implements ComplexComponent,
      */
     public String getLabeledElementId(FacesContext context) {
         return getClientId(context);
+    }
+
+    /**
+     * Return a component instance that can be referenced
+     * by a <code>Label</code> in order to evaluate the <code>required</code>
+     * and <code>valid</code> states of this component.
+     *
+     * <em>This implementation returns <code>null</code>.
+     * <code>Anchor</code>
+     * does not support the required or valid states</em>
+     *
+     * @param context The current <code>FacesContext</code> instance
+     * @param label The <code>Label</code> that labels this component.
+     * @return a <code>UIComponent</code> in order to evaluate the
+     * required and valid states.
+     */
+    public UIComponent getIndicatorComponent(FacesContext context,
+            Label label) {
+	return null;
     }
 
     /**

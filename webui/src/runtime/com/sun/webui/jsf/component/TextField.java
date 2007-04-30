@@ -364,6 +364,7 @@ type="com.sun.webui.jsf.TextField", family="com.sun.webui.jsf.TextField",
         label.setStyleClass(style);
         label.setText(labelString);
         label.setLabeledComponent(this);
+        label.setIndicatorComponent(this);
         
         ComponentUtilities.putPrivateFacet(this, LABEL_FACET, label);
         

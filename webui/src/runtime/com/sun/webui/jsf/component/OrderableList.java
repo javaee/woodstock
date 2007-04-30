@@ -483,36 +483,22 @@ public class OrderableList extends WebuiInput implements ListManager,
 	    label.setId(ComponentUtilities.createPrivateFacetId(this,
 		facetName));
 	}
-	initLabelFacet(label, text, forComponent.getClientId(getFacesContext()));
+        if(text == null || text.length() < 1) {
+            // TODO - maybe print a default?
+	    // A Theme default value.
+            text = new String();
+        }
+
+        label.setText(text);
+        label.setLabelLevel(getLabelLevel());
+	label.setLabeledComponent(this);
+	label.setIndicatorComponent(this);
 
 	ComponentUtilities.putPrivateFacet(this, facetName, label);
 
 	return label; 
     }
     
-    /**
-     * Initialize a label facet.
-     *
-     * @param label the Label instance
-     * @param labelString the label text.
-     * @param forComponent the component instance this label is for
-     */
-    private void initLabelFacet(Label label, String labelString,
-	    String forComponentId) {
-        
-        if(DEBUG) log("initLabelFacet()"); //NOI18N
-        
-        if(labelString == null || labelString.length() < 1) {
-            // TODO - maybe print a default?
-	    // A Theme default value.
-            labelString = new String();
-        }
-
-        label.setText(labelString);
-        label.setLabelLevel(getLabelLevel());
-	label.setFor(forComponentId);
-    }
-
     /**
      * Implement this method so that it returns the DOM ID of the 
      * HTML element which should receive focus when the component 
@@ -539,12 +525,36 @@ public class OrderableList extends WebuiInput implements ListManager,
      * <code>getLabeledElementId</code> must called on the sub-component and
      * the value returned. The value returned by this 
      * method call may or may not resolve to a component instance.
+     * <p>
+     * If <code>isReadOnly</code> returns true, then the 
+     * <code>getReadOnlyValueComponent</code> method is called. If the
+     * component instance returned is a <code>ComplexComponent</code>
+     * then <code>getLabeledElementId</code> is called on it and the
+     * value returned, else its client id is returned.
+     * </p>
      *
      * @param context The FacesContext used for the request
      * @return An abolute id suitable for the value of an HTML LABEL element's
      * <code>for</code> attribute.
      */
     public String getLabeledElementId(FacesContext context) {
+
+        // If this component has a label either as a facet or
+        // an attribute, return the id of the input element
+        // that will have the "LIST_ID" suffix. IF there is no
+        // label, then the input element id will be the component's
+        // client id.
+        //
+        if (isReadOnly()) {
+	    UIComponent readOnlyComponent = getReadOnlyValueComponent();
+	    if (readOnlyComponent instanceof ComplexComponent) {
+		return ((ComplexComponent)readOnlyComponent).
+			getLabeledElementId(context);
+	    } else {
+		return readOnlyComponent != null ?
+		    readOnlyComponent.getClientId(context) : null;
+	    }
+        }
         return getClientId(context).concat(ListSelector.LIST_ID);
     }
      
@@ -566,6 +576,21 @@ public class OrderableList extends WebuiInput implements ListManager,
 	// For now return the same as for the label.
 	//
 	return getLabeledElementId(context);
+    }
+
+    /**
+     * Return a component instance that can be referenced
+     * by a <code>Label</code> in order to evaluate the <code>required</code>
+     * and <code>valid</code> states of this component.
+     *
+     * @param context The current <code>FacesContext</code> instance
+     * @param label The <code>Label</code> that labels this component.
+     * @return a <code>UIComponent</code> in order to evaluate the
+     * required and valid states.
+     */
+    public UIComponent getIndicatorComponent(FacesContext context,
+            Label label) {
+	return this;
     }
 
     /**

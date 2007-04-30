@@ -21,7 +21,7 @@
  */
 
  /*
-  * $Id: LabelRenderer.java,v 1.2 2007-04-10 19:43:39 rratta Exp $
+  * $Id: LabelRenderer.java,v 1.3 2007-04-30 21:02:41 rratta Exp $
   */
 
 package com.sun.webui.jsf.renderkit.html;
@@ -37,6 +37,7 @@ import com.sun.webui.theme.Theme;
 import com.sun.webui.jsf.theme.ThemeImages;
 import com.sun.webui.jsf.theme.ThemeStyles;
 import com.sun.webui.jsf.util.ConversionUtilities;
+import com.sun.webui.jsf.util.FacesMessageUtils;
 import com.sun.webui.jsf.util.LogUtil;
 import com.sun.webui.jsf.util.MessageUtil;
 import com.sun.webui.jsf.util.RenderingUtilities;
@@ -116,55 +117,27 @@ public class LabelRenderer extends javax.faces.render.Renderer {
         writer.writeAttribute(HTMLAttributes.ID, label.getClientId(context), 
                 HTMLAttributes.ID);
 
-        // For now, since we don't have independent attributes for
-        // the required component and the validated component
-        // use the component identified by the for attribute or 
-        // use the same algorithm to find a component.
-        //
-        // Ideally this strategy would be the fall back case when the 
-        // developer or subcomponent owner has not set the
-        // requiredComponentId or validationComponentId explicitly.
-        // Don't abstract this now, so we don't run
-        // findComponent too many times.
-        //
-        // Since we are getting the component and not the id
-        // we need to manually check for ComplexComponent which
-        // would have been done in getLabeledElementId, to obtain
-        // the attribute for the HTML "for" attribute.
-        //
-        // If the component is a ComplexComponent then we still 
-        // may not have the component instance for the validation
-        // and required check. We get the labeled element id and
-        // then find that component instance.
-        //
-        // But that is not sufficient either since it is defined
-        // to be an HTML element and not a component id.
-        //
-        // We need the "IndicatorComponent".
-        //
-        String forId = label.getFor();
-        UIComponent labeledComponent = 
-                label.getLabeledComponent(context, forId);
-        if (labeledComponent instanceof ComplexComponent) {
-            forId = ((ComplexComponent)
-                labeledComponent).getLabeledElementId(context);
+	// To optimize implement the "fallback" to labeledComponent
+	// here. This prevents having to "find" the component twice.
+	// Get the labeledComponent instance and check for
+	// ComplexComponent here.
+	//
+	String forId = label.getFor();
+	UIComponent labeledComponent = label.getLabeledComponent(context);
+	UIComponent fallbackIndicatorComponent = labeledComponent;
+	if (labeledComponent != null) {
+	    if (labeledComponent instanceof ComplexComponent) {
+		forId = ((ComplexComponent)labeledComponent).
+		    getLabeledElementId(context);
+		// We don't want test instanceof later on
+		//
+		fallbackIndicatorComponent = ((ComplexComponent)
+		    labeledComponent).getIndicatorComponent(context, label);
+	    } else {
+		forId = labeledComponent.getClientId(context);
+	    }
+	}
 
-            // Since the value of "forId" is an HTML element id
-            // and therefore possibly not a component id we
-            // still need the component instance that is labeled.
-            // In all cases but the Property component, the ComplexComponent
-            // that was found, IS the labeled component instance.
-            // The Property has to find the instance according to 
-            // its rules. Unfortunately for Property this results
-            // in two calls to UIComponent.findComponent, but at this
-            // time it can't be helped.
-            //
-            if (labeledComponent instanceof Property) {
-                labeledComponent = 
-                    ((Property)labeledComponent).getIndicatorComponent(
-                        context, label);
-            }
-        }
         if (forId != null && forId.length() != 0) {
             writer.writeAttribute(HTMLAttributes.FOR, forId, 
                 HTMLAttributes.FOR);
@@ -185,6 +158,7 @@ public class LabelRenderer extends javax.faces.render.Renderer {
         writeEvents(label, writer);
 
         boolean errorFlag = false;
+	String errorMsg = null;
         boolean isHideIndicators = label.isHideIndicators();
 
         // isRequiredIndicator was defined in case the labeledComponent could
@@ -198,19 +172,55 @@ public class LabelRenderer extends javax.faces.render.Renderer {
         boolean requiredFlag = label.isRequiredIndicator() &&
                 !isHideIndicators;
 
-        // If hideIndicators is true and the labeled component is 
-        // readonly or null don't show any indicators 
-        //
-        if (!isHideIndicators && labeledComponent != null) {
-            if (isProperty(labeledComponent, "readOnly", false)) { //NOI18N
-                requiredFlag = false;
-            } else {
-                requiredFlag =
-                    isProperty(labeledComponent, "required", false);//NOI18N
-                errorFlag = 
-                    !isProperty(labeledComponent, "valid", true); //NOI18N
-           }
-        }
+	// If hideIndicators is true we don't care about an
+	// indicator component
+	//
+	// If hideIndicators is true, don't show any indicators.
+	// If hideIndicators is false and the indicator component is
+	// readonly or null don't show any indicators
+	//
+	if (!isHideIndicators) {
+
+	    // Now get the indicator component
+	    // Pass false because we want to optimize and not find the
+	    // component more than once, so pass false, and we'll
+	    // perfofm the fallback if necessary.
+	    //
+	    UIComponent indicatorComponent = 
+		label.getIndicatorComponent(context, false);
+
+	    // Fallback to the labeledComponent
+	    //
+	    if (indicatorComponent == null) {
+		indicatorComponent = fallbackIndicatorComponent;
+	    }
+	    if (indicatorComponent != null) {
+		// Use the attributes so that we don't have to test
+		// for EditableValueHolder.
+		//
+		if (isProperty(indicatorComponent, "readOnly", false)) {
+		    requiredFlag = false;
+		} else {
+		    requiredFlag =
+			isProperty(indicatorComponent, "required", false);
+		    // We want error flag to be true if the valid
+		    // attribute exists and is false.
+		    // Otherwise we want errorFlag to be false.
+		    //
+		    errorFlag = 
+			!isProperty(indicatorComponent, "valid", true);
+		    if (errorFlag) {
+			// See if the indicator component has any error
+			// messages in the queue
+			//
+			errorMsg = FacesMessageUtils.getDetailMessages(context,
+			    indicatorComponent.getClientId(context),
+				true, " ");
+		    }
+		}
+	    }
+	}
+
         // If the error indicator must be shown an error selector is returned
         // else a selector just based on label level.
         //
@@ -221,10 +231,9 @@ public class LabelRenderer extends javax.faces.render.Renderer {
         // This should be modifyable in a subclass but it is
         // not partitioned for that currently.
         //
-
         if (errorFlag) { 
-           RenderingUtilities.renderComponent
-                    (label.getErrorIcon(theme, context, false), context);
+	    UIComponent ei = label.getErrorIcon(theme, context, errorMsg);
+            RenderingUtilities.renderComponent(ei, context);
         }
 
         // Render the label text

@@ -311,8 +311,7 @@ public class Scheduler extends WebuiInput
 	// on the lifecycle phase, this may or may not be appropriate.
 	//
 	UIComponent comp = getDateComponent();
-        return getLabelFacet(DATE_LABEL_FACET, label,
-	    comp != null ? comp.getClientId(getFacesContext()) : null);
+        return getLabelFacet(DATE_LABEL_FACET, label, comp);
     }
         
     /**
@@ -398,8 +397,7 @@ public class Scheduler extends WebuiInput
 	// on the lifecycle phase, this may or may not be appropriate.
 	//
 	UIComponent comp = getStartTimeComponent();
-        return getLabelFacet(START_TIME_LABEL_FACET, label,
-	    comp != null ? comp.getClientId(getFacesContext()) : null);
+        return getLabelFacet(START_TIME_LABEL_FACET, label, comp);
     }
     
     /**
@@ -460,8 +458,7 @@ public class Scheduler extends WebuiInput
 	// on the lifecycle phase, this may or may not be appropriate.
 	//
 	UIComponent comp = getEndTimeComponent();
-        return getLabelFacet(END_TIME_LABEL_FACET, label,
-	    comp != null ? comp.getClientId(getFacesContext()) : null);
+        return getLabelFacet(END_TIME_LABEL_FACET, label, comp);
         
     }
     
@@ -521,8 +518,7 @@ public class Scheduler extends WebuiInput
 	// on the lifecycle phase, this may or may not be appropriate.
 	//
 	UIComponent comp = getRepeatIntervalComponent();
-        return getLabelFacet(REPEAT_INTERVAL_LABEL_FACET, label,
-	    comp != null ? comp.getClientId(getFacesContext()) : null);
+        return getLabelFacet(REPEAT_INTERVAL_LABEL_FACET, label, comp);
     }
     
     /**
@@ -605,8 +601,7 @@ public class Scheduler extends WebuiInput
 	// on the lifecycle phase, this may or may not be appropriate.
 	//
 	UIComponent comp = getRepeatingFieldComponent();
-        return getLabelFacet(REPEAT_LIMIT_LABEL_FACET, label,
-	    comp != null ? comp.getClientId(getFacesContext()) : null);
+        return getLabelFacet(REPEAT_LIMIT_LABEL_FACET, label, comp);
     }
     
     /**
@@ -904,6 +899,21 @@ public class Scheduler extends WebuiInput
 	// For return the labeled component
 	//
 	return getLabeledElementId(context);
+    }
+
+    /**
+     * Return a component instance that can be referenced
+     * by a <code>Label</code> in order to evaluate the <code>required</code>
+     * and <code>valid</code> states of this component.
+     *
+     * @param context The current <code>FacesContext</code> instance
+     * @param label The <code>Label</code> that labels this component.
+     * @return a <code>UIComponent</code> in order to evaluate the
+     * required and valid states.
+     */
+    public UIComponent getIndicatorComponent(FacesContext context,
+            Label label) {
+	return this;
     }
 
     /**
@@ -1228,7 +1238,7 @@ public class Scheduler extends WebuiInput
      * @return a label facet component
      */
     private UIComponent getLabelFacet(String facetName, String labelText,
-	String labeledComponentId) {
+	UIComponent labeledComponent) {
         
         if(DEBUG) log("getLabelFacet() " + facetName); //NOI18N
 
@@ -1268,7 +1278,8 @@ public class Scheduler extends WebuiInput
 	}
 
 	label.setText(labelText);
-	label.setFor(labeledComponentId);
+	label.setLabeledComponent(labeledComponent);
+	label.setIndicatorComponent(labeledComponent);
 
 	// FIXME: Should be part of Theme
 	//

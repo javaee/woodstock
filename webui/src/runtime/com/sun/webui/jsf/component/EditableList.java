@@ -441,7 +441,12 @@ public class EditableList extends WebuiInput implements ListManager,
         if(labelString == null || labelString.length() == 0) {
             labelString = getTheme().getMessage(LIST_LABEL_TEXT_KEY);
         }
-        return getLabelFacet(LIST_LABEL_FACET, labelString, this);
+	// We need to pass the "for" id here, because getLabeledElementId
+	// returns the id of the field component.
+	//
+        return getLabelFacet(LIST_LABEL_FACET, labelString, false,
+	    getClientId(FacesContext.getCurrentInstance()).
+		    concat(ListSelector.LIST_ID), null, this);
     }
     
     /**
@@ -470,8 +475,9 @@ public class EditableList extends WebuiInput implements ListManager,
         // getFieldLabelComponent()
         // getFieldComponent()
         //
-        return getLabelFacet(FIELD_LABEL_FACET, labelString,
-                getFieldComponent());    
+	UIComponent fc = getFieldComponent();
+        return getLabelFacet(FIELD_LABEL_FACET, labelString, false, 
+		null, fc, fc);
     }
     
     /**
@@ -484,15 +490,21 @@ public class EditableList extends WebuiInput implements ListManager,
      * If the facet is not defined then the returned <code>Label</code>
      * component is re-intialized every time this method is called.
      * </p>
+     * 
      *
      * @param facetName the name of the facet to return or create
      * @param text the label text
-     * @param forComponent the component instance this label is for
+     * @param hideIndicators if true hide the label's indicators.
+     * @param labeledComponent the component instance this label is for
+     * @param indicatorComponent the component instance to determine
+     * the label's indicator status
      *
      * @return a label facet component
      */
     private UIComponent getLabelFacet(String facetName, String text,
-                UIComponent forComponent) {
+		boolean hideIndicators, String forId,
+		UIComponent labeledComponent,
+		UIComponent indicatorComponent) {
 
         if (DEBUG) log("getLabelFacet() " + facetName);  //NOI18N
 
@@ -520,34 +532,20 @@ public class EditableList extends WebuiInput implements ListManager,
                 facetName));
             ComponentUtilities.putPrivateFacet(this, facetName, label);
         }
-        initLabelFacet(label, text, forComponent.getClientId(getFacesContext()));
-
-        return label; 
-    }
-    
-    /**
-     * Initialize a label facet.
-     *
-     * @param label the Label instance
-     * @param labelString the label text.
-     * @param forComponentId the client id of the component instance this label is for
-     */
-    private void initLabelFacet(Label label, String labelString,
-            String forComponentId) {
-        
-        if(DEBUG) log("initLabelFacet()"); //NOI18N
-        
-        if(labelString == null || labelString.length() < 1) {
+        if(text == null || text.length() < 1) {
             // TODO - maybe print a default?
             // A Theme default value.
-            labelString = new String();
+            text = new String();
         }
 
-        label.setText(labelString);
+        label.setText(text);
+	label.setFor(forId);
         label.setLabelLevel(getLabelLevel());
-        if (!isReadOnly()) {
-            label.setFor(forComponentId);
-        }
+	label.setHideIndicators(hideIndicators);
+	label.setLabeledComponent(labeledComponent);
+	label.setIndicatorComponent(indicatorComponent);
+
+        return label; 
     }
     
     // Other
@@ -808,7 +806,11 @@ public class EditableList extends WebuiInput implements ListManager,
      * the value returned. The value returned by this 
      * method call may or may not resolve to a component instance.
      * <p>
-     * If <code>isReadOnly</code> returns true, <code>null</code> is returned.
+     * If <code>isReadOnly</code> returns true, then the 
+     * <code>getReadOnlyValueComponent</code> method is called. If the
+     * component instance returned is a <code>ComplexComponent</code>
+     * then <code>getLabeledElementId</code> is called on it and the
+     * value returned, else its client id is returned.
      * </p>
      *
      * @param context The FacesContext used for the request
@@ -816,13 +818,32 @@ public class EditableList extends WebuiInput implements ListManager,
      * <code>for</code> attribute.
      */
     public String getLabeledElementId(FacesContext context) {
-	// If this component is marked read only then it is 
-	// not appropriate for a label's for attribute.
-	//
-	if (isReadOnly()) {
-	    return null;
-	} else {
-	    return getClientId(context).concat(ListSelector.LIST_ID);
+
+        // If this component has a label return the field component's
+	// id. Since that is where we want focus to go when clicking
+	// an overall label.
+        //
+        if (isReadOnly()) {
+	    UIComponent readOnlyComponent = getReadOnlyValueComponent();
+	    if (readOnlyComponent instanceof ComplexComponent) {
+		return ((ComplexComponent)readOnlyComponent).
+			getLabeledElementId(context);
+	    } else {
+		return readOnlyComponent != null ?
+		    readOnlyComponent.getClientId(context) : null;
+	    }
+        } else {
+	    // Return the field component id because if an overall label
+	    // is clicked, the focus should go to the text field.
+	    //
+	    //return getClientId(context).concat(ListSelector.LIST_ID);
+
+	    UIComponent fc = getFieldComponent();
+	    if (fc instanceof ComplexComponent) {
+		return ((ComplexComponent)fc).getLabeledElementId(context);
+	    } else {
+		return fc != null ? fc.getClientId(context) : null;
+	    }
 	}
     }
     
@@ -852,6 +873,21 @@ public class EditableList extends WebuiInput implements ListManager,
         // if I implement some extra bits on the label.
         // TODO
 	return getLabeledElementId(context);
+    }
+
+    /**
+     * Return a component instance that can be referenced
+     * by a <code>Label</code> in order to evaluate the <code>required</code>
+     * and <code>valid</code> states of this component.
+     *
+     * @param context The current <code>FacesContext</code> instance
+     * @param label The <code>Label</code> that labels this component.
+     * @return a <code>UIComponent</code> in order to evaluate the
+     * required and valid states.
+     */
+    public UIComponent getIndicatorComponent(FacesContext context,
+            Label label) {
+	return this;
     }
 
     /**

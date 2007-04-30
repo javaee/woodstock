@@ -1071,7 +1071,7 @@ public class TableActions extends UIComponentBase implements NamingContainer {
         if (table != null) {
 	    UIComponent tableFilterFacet = table.getFacet(Table.FILTER_FACET);
 	    if (tableFilterFacet != null) {
-		child.setFor(tableFilterFacet.getClientId(getFacesContext()));
+		child.setLabeledComponent(tableFilterFacet);
 	    }
         } else {
             log("getFilterLabel", "Labeled component not set, Table is null"); //NOI18N

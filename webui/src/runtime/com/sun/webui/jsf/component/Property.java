@@ -20,7 +20,7 @@
  * Copyright 2007 Sun Microsystems, Inc. All rights reserved.
  */
 /*
- * $Id: Property.java,v 1.4 2007-04-10 19:43:38 rratta Exp $
+ * $Id: Property.java,v 1.5 2007-04-30 21:02:41 rratta Exp $
  */
 package com.sun.webui.jsf.component;
 
@@ -369,9 +369,9 @@ public class Property extends UIComponentBase implements ComplexComponent,
      */
     public UIComponent getLabelComponent() {
 
-	UIComponent component = getFacet(LABEL_FACET);
-	if (component != null) {
-	    return component;
+	UIComponent facet = getFacet(LABEL_FACET);
+	if (facet != null) {
+	    return facet;
 	}
 
 	// If label is null, don't return any component.
@@ -382,13 +382,15 @@ public class Property extends UIComponentBase implements ComplexComponent,
 	if (label == null) {
 	    return null;
 	}
-	component = ComponentUtilities.getPrivateFacet(this,
+	// We know its a Label
+	//
+	Label component = (Label)ComponentUtilities.getPrivateFacet(this,
 		LABEL_FACET, true);
 	if (component == null) {
 	    // This really should be done using JSF application
 	    // create component, and component type.
 	    //
-	    component = (UIComponent)new Label();
+	    component = new Label();
 	    if (component == null) {
 		// Log severe problem
 		return null;
@@ -399,32 +401,26 @@ public class Property extends UIComponentBase implements ComplexComponent,
 		component);
 	}
 
-	((Label)component).setText(label);
+	component.setText(label);
 
 	// Theme should be queried for the label level if 
 	// there isn't an attribute, which there should be.
 	// The renderer verifies the value.
 	//
-	//((Label)component).setLabelLevel(getLabelLevel());
+	//component.setLabelLevel(getLabelLevel());
 
-	// We need to set the for attribute for this label.
-	// How do we choose which of the possibly several
-	// properties to set it on. Easy. The Property component
-	// should have a "for" attribute whose value is the
-	// component to associate the label to.
-	//
 	// Currently there are heuristics implemented to try 
-	// find the labelled component, continue using that
+	// and find the labeled component, continue using that
 	// for now.
 	//
-        // Need to set the "Property" as the for component.
+        // Need to set the "Property" as the labeled and indicator component.
         // It is a complex component. Otherwise we have
         // no way of finding the actual component or element
-        // as the target of the for attribute. The "content" facet
+        // as the target of the label's "for" attribute. The "content" facet
         // or child may not have been instantiated yet.
         //
-        String id = this.getClientId(getFacesContext());
-	((Label)component).setFor(id);
+	component.setLabeledComponent(this);
+	component.setIndicatorComponent(this);
 
 	return component;
     }

@@ -20,7 +20,7 @@
  * Copyright 2007 Sun Microsystems, Inc. All rights reserved.
  */
 /*
- * $Id: EditableListRenderer.java,v 1.1 2007-02-16 01:37:26 bob_yennaco Exp $
+ * $Id: EditableListRenderer.java,v 1.2 2007-04-30 21:02:41 rratta Exp $
  */
 /*
  * EditableListRenderer.java
@@ -37,7 +37,6 @@ import java.util.Map;
 import javax.faces.FacesException;
 import javax.faces.component.EditableValueHolder; 
 import javax.faces.component.UIComponent;
-import com.sun.webui.jsf.component.ComplexComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.context.ResponseWriter;
 import com.sun.webui.jsf.component.EditableList; 
@@ -116,12 +115,12 @@ public class EditableListRenderer extends ListRendererBase {
 	 // Do it every time, since we cannot know which action
 	 // has taken place, an add or a remove.
 	 //
-         String listID = null;
-         if (list instanceof ComplexComponent) {
-	     listID = list.getLabeledElementId(context);
-         } else {
-             listID = list.getClientId(context);
-         }
+	 // It is not appropriate to use the "LabeledElementId" here.
+	 // The LabeledElementId is the text entry field. This is because
+	 // If the editable list has an overall label and it is clicked
+	 // the focus should go to the text field.
+         String listID = 
+	     component.getClientId(context).concat(ListSelector.LIST_ID);
 	 String[] selections = null; 
 	 Object parameters = params.get(listID); 
 	 if (parameters == null) {

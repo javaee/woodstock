@@ -37,6 +37,7 @@ import java.util.TimeZone;
 
 import javax.el.ValueExpression;
 import javax.faces.application.FacesMessage;
+import javax.faces.component.UIComponent;
 import javax.faces.component.UIComponentBase;
 import javax.faces.component.EditableValueHolder;
 import javax.faces.component.NamingContainer;
@@ -54,7 +55,8 @@ import javax.faces.validator.Validator;
 @Component(type="com.sun.webui.jsf.Time", family="com.sun.webui.jsf.Time", displayName="Time", isTag=false,
     helpKey="projrave_ui_elements_palette_wdstk-jsf1.2_time",
     propertiesHelpKey="projrave_ui_elements_palette_wdstk-jsf1.2_propsheets_time_props")
-public class Time extends WebuiInput implements NamingContainer {
+public class Time extends WebuiInput implements NamingContainer,
+	ComplexComponent {
     /**
      * The hour menu facet name.
      */
@@ -622,6 +624,90 @@ public class Time extends WebuiInput implements NamingContainer {
         if (rendererType != null) {
             getRenderer(context).encodeEnd(context, this);
         }
+    }
+
+    /**
+     * Implement this method so that it returns the DOM ID of the 
+     * HTML element which should receive focus when the component 
+     * receives focus, and to which a component label should apply. 
+     * Usually, this is the first element that accepts input. 
+     * 
+     * @param context The FacesContext for the request
+     * @return The client id, also the JavaScript element id
+     *
+     * @deprecated
+     * @see #getLabeledElementId
+     * @see #getFocusElementId
+     */
+    public String getPrimaryElementID(FacesContext context) {
+	return getLabeledElementId(context);
+    }
+    
+    /**
+     * Returns the absolute ID of an HTML element suitable for use as
+     * the value of an HTML LABEL element's <code>for</code> attribute.
+     * If the <code>ComplexComponent</code> has sub-compoents, and one of 
+     * the sub-components is the target of a label, if that sub-component
+     * is a <code>ComplexComponent</code>, then
+     * <code>getLabeledElementId</code> must called on the sub-component and
+     * the value returned. The value returned by this 
+     * method call may or may not resolve to a component instance.
+     * <p>
+     * This implementation returns the id of the component returned by
+     * <code>getHourMenu</code>. If that method returns null
+     * <code>null</code> is returned.
+     * </p>
+     *
+     * @param context The FacesContext used for the request
+     * @return An abolute id suitable for the value of an HTML LABEL element's
+     * <code>for</code> attribute.
+     */
+    public String getLabeledElementId(FacesContext context) {
+        UIComponent comp = getHourMenu();
+	if (comp == null) {
+	    return null;
+	}
+        if (comp instanceof ComplexComponent) {
+            return ((ComplexComponent)comp).getLabeledElementId(context);
+        } else {
+            return comp.getClientId(context);
+        }        
+    }
+
+    /**
+     * Returns the id of an HTML element suitable to
+     * receive the focus.
+     * If the <code>ComplexComponent</code> has sub-compoents, and one of 
+     * the sub-components is to reveive the focus, if that sub-component
+     * is a <code>ComplexComponent</code>, then
+     * <code>getFocusElementId</code> must called on the sub-component and
+     * the value returned. The value returned by this 
+     * method call may or may not resolve to a component instance.
+     * <p>
+     * This implementation returns the value of
+     * <code>getLabeledElementId</code>.
+     *
+     * @param context The FacesContext used for the request
+     */
+    public String getFocusElementId(FacesContext context) {
+	// For return the labeled component
+	//
+	return getLabeledElementId(context);
+    }
+
+    /**
+     * Return a component instance that can be referenced
+     * by a <code>Label</code> in order to evaluate the <code>required</code>
+     * and <code>valid</code> states of this component.
+     *
+     * @param context The current <code>FacesContext</code> instance
+     * @param label The <code>Label</code> that labels this component.
+     * @return a <code>UIComponent</code> in order to evaluate the
+     * required and valid states.
+     */
+    public UIComponent getIndicatorComponent(FacesContext context,
+            Label label) {
+	return this;
     }
 
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~

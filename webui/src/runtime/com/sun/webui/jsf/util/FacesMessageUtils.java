@@ -22,6 +22,7 @@
 
 package com.sun.webui.jsf.util;
 
+import javax.faces.application.FacesMessage;
 import javax.faces.component.NamingContainer;
 import javax.faces.component.UIComponent;
 import javax.faces.component.UIViewRoot;
@@ -173,5 +174,47 @@ public class FacesMessageUtils {
                 break;
         }
         return forComponent;
+    }
+
+    /**
+     * Return the detail messages for <code>id</code>.
+     * If <code>all</code> is <code>true</code> return all messages
+     * for <code>id</code> in a single <code>String<code> separated
+     * by <code>separator</code>, else just the first message.
+     * If there are no messages, <code>null</code> is returned.
+     * If all is <code>true</code> and separator is <code>null</code>
+     * <code>" "</code> is used as the separator. If <code>id</code>
+     * is <code>null</code> return <code>null</code>.
+     */
+    public static String getDetailMessages(FacesContext context, 
+	    String id, boolean all, String separator) {
+
+	if (id == null) {
+	    return null;
+	}
+
+	Iterator messages = context.getMessages(id);
+	FacesMessage fm = null;
+	StringBuilder msgBuffer = new StringBuilder(200);
+
+	// Optimization if all is false.
+	// Get the first message.
+	//
+	if (messages.hasNext()) {
+	    fm = (FacesMessage)(messages.next());
+	    msgBuffer.append(fm.getDetail());
+	}
+	if (!all) {
+	    return msgBuffer.length() != 0 ? msgBuffer.toString() : null;
+	}
+	if (separator == null) {
+	    separator = " ";
+	}
+	while(messages.hasNext()) { 
+	    fm = (FacesMessage)(messages.next());
+	    msgBuffer.append(separator);
+	    msgBuffer.append(fm.getDetail());
+	}              
+	return msgBuffer.length() != 0 ? msgBuffer.toString() : null;
     }
 }

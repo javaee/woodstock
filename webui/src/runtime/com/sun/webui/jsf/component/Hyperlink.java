@@ -26,6 +26,7 @@ import com.sun.faces.annotation.Property;
 import com.sun.webui.jsf.util.JavaScriptUtilities;
 
 import javax.el.ValueExpression;
+import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 
 /**
@@ -133,6 +134,25 @@ public class Hyperlink extends WebuiCommand implements ComplexComponent {
 	// For now return the labeled component.
 	//
 	return getLabeledElementId(context);
+    }
+
+    /**
+     * Return a component instance that can be referenced
+     * by a <code>Label</code> in order to evaluate the <code>required</code>
+     * and <code>valid</code> states of this component.
+     *
+     * <em>This implementation returns <code>null</code>.
+     * <code>Hyperlink</code>
+     * does not support the required or valid states</em>
+     *
+     * @param context The current <code>FacesContext</code> instance
+     * @param label The <code>Label</code> that labels this component.
+     * @return a <code>UIComponent</code> in order to evaluate the
+     * required and valid states.
+     */
+    public UIComponent getIndicatorComponent(FacesContext context,
+            Label label) {
+	return null;
     }
 
     public String toString() {

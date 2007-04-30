@@ -230,10 +230,15 @@ public class Upload extends Field implements Serializable {
         // label, then the input element id will be the component's
         // client id.
         //
-        // If it is read only then return null
-        //
         if (isReadOnly()) {
-            return null;
+	    UIComponent readOnlyComponent = getReadOnlyComponent(context);
+	    if (readOnlyComponent instanceof ComplexComponent) {
+		return ((ComplexComponent)readOnlyComponent).
+			getLabeledElementId(context);
+	    } else {
+		return readOnlyComponent != null ?
+		    readOnlyComponent.getClientId(context) : null;
+	    }
         }
 
         // To ensure we get the right answer call getLabelComponent.

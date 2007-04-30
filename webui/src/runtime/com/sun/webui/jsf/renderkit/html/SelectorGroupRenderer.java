@@ -228,7 +228,12 @@ abstract class SelectorGroupRenderer extends RowColumnRenderer {
     private void setSubmittedValues(FacesContext context,
 	    UIComponent component) {
 
+	// This clientID was used for the "name" attribute of the
+	// radiobutton or checkbox components created by the
+	// RadioButtonGroup and CheckboxGroupRenderer.
+	//
 	String clientId = component.getClientId(context);
+
 	Map requestParameterValuesMap = context.getExternalContext().
 	    getRequestParameterValuesMap();
 
@@ -419,10 +424,12 @@ abstract class SelectorGroupRenderer extends RowColumnRenderer {
 
 	label.setText(attrvalue);
 
-	// Set the for attribute. This will eventually resolve to the
+	// Set the labeledComponent. This will eventually resolve to the 
 	// the first control.
+	// And the indicatorComponent.
 	//
-	label.setFor(component.getClientId(context));
+	label.setLabeledComponent(component); 
+	label.setIndicatorComponent(component); 
 
 	// Give the group's tooltip to the group label
 	//

@@ -20,7 +20,7 @@
  * Copyright 2007 Sun Microsystems, Inc. All rights reserved.
  */
 /*
- * $Id: LabelRenderer.java,v 1.7 2007-04-24 23:02:23 danl Exp $
+ * $Id: LabelRenderer.java,v 1.8 2007-04-30 21:02:42 rratta Exp $
  */
 package com.sun.webui.jsf.renderkit.widget;
 
@@ -32,6 +32,7 @@ import com.sun.webui.jsf.util.WidgetUtilities;
 import com.sun.webui.theme.Theme;
 import com.sun.webui.jsf.theme.ThemeTemplates;
 import com.sun.webui.jsf.util.ConversionUtilities;
+import com.sun.webui.jsf.util.FacesMessageUtils;
 import com.sun.webui.jsf.util.JavaScriptUtilities;
 import com.sun.webui.jsf.util.LogUtil;
 import com.sun.webui.jsf.util.RenderingUtilities;
@@ -92,22 +93,22 @@ public class LabelRenderer extends RendererBase {
      * @param context FacesContext for the current request.
      * @param component UIComponent to be rendered.
      *
-     * @exception JSONException if a key/value error occurs
+     * @exception JSONException if a key/value error occurs 
      */
     protected JSONArray getModules(FacesContext context, UIComponent component)
             throws JSONException {
-	if (!(component instanceof Label)) {
-	    throw new IllegalArgumentException(
-                "LabelRenderer can only render Label components.");
-        }
+	if (!(component instanceof Label)) { 
+	    throw new IllegalArgumentException( 
+		"LabelRenderer can only render Label components."); 
+	} 
         JSONArray json = new JSONArray();
         json.put(JavaScriptUtilities.getModuleName("widget.label"));
 
-        Label label = (Label) component;
-        if (label.isAjaxify()) {
-            json.put(JavaScriptUtilities.getModuleName(
-                "widget.jsfx.label"));
-        }
+	Label label = (Label) component; 
+	if (label.isAjaxify()) { 
+	    json.put(JavaScriptUtilities.getModuleName(
+		"widget.jsfx.label")); 
+	} 
         return json;
     }
 
@@ -116,72 +117,45 @@ public class LabelRenderer extends RendererBase {
      *
      * @param context FacesContext for the current request.
      * @param component UIComponent to be rendered.
-     *
-     * @exception IOException if an input/output error occurs
-     * @exception JSONException if a key/value error occurs
+     * 
+     * @exception IOException if an input/output error occurs 
+     * @exception JSONException if a key/value error occurs 
      */
     protected JSONObject getProperties(FacesContext context,
             UIComponent component) throws IOException, JSONException {
-	if (!(component instanceof Label)) {
-	    throw new IllegalArgumentException(
-                "LabelRenderer can only render Label components.");
-        }
+
+	if (!(component instanceof Label)) { 
+	    throw new IllegalArgumentException( 
+		"LabelRenderer can only render Label components."); 
+	} 
+
         Label label = (Label) component;
 	Theme theme = ThemeUtilities.getTheme(context);
 
 	// Get HTML template.
         String templatePath = label.getHtmlTemplate();
         
-        // For now, since we don't have independent attributes for
-        // the required component and the validated component
-        // use the component identified by the for attribute or 
-        // use the same algorithm to find a component.
-        //
-        // Ideally this strategy would be the fall back case when the 
-        // developer or subcomponent owner has not set the
-        // requiredComponentId or validationComponentId explicitly.
-        // Don't abstract this now, so we don't run
-        // findComponent too many times.
-        //
-        // Since we are getting the component and not the id
-        // we need to manually check for ComplexComponent which
-        // would have been done in getLabeledElementId, to obtain
-        // the attribute for the HTML "for" attribute.
-        //
-        // If the component is a ComplexComponent then we still 
-        // may not have the component instance for the validation
-        // and required check. We get the labeled element id and
-        // then find that component instance.
-        //
-        // But that is not sufficient either since it is defined
-        // to be an HTML element and not a component id.
-        //
-        // We need the "IndicatorComponent".
-        //
-        String forId = label.getFor();
-        UIComponent labeledComponent = 
-                label.getLabeledComponent(context, forId);
-        if (labeledComponent instanceof ComplexComponent) {
-            forId = ((ComplexComponent)
-                labeledComponent).getLabeledElementId(context);
+	// To optimize, implement the "fallback" to labeledComponent
+	// here. This prevents having to "find" the component twice.
+	// Get the labeledComponent instance and check for
+	// ComplexComponent here.
+	//
+	String forId = label.getFor();
+	UIComponent labeledComponent = label.getLabeledComponent(context);
+	UIComponent fallbackIndicatorComponent = labeledComponent;
+	if (labeledComponent != null) {
+	    if (labeledComponent instanceof ComplexComponent) {
+		forId = ((ComplexComponent)labeledComponent).
+		    getLabeledElementId(context);
+		// We don't want test instanceof later on
+		//
+		fallbackIndicatorComponent = ((ComplexComponent)
+		    labeledComponent).getIndicatorComponent(context, label);
 
-            // Since the value of "forId" is an HTML element id
-            // and therefore possibly not a component id we
-            // still need the component instance that is labeled.
-            // In all cases but the Property component, the ComplexComponent
-            // that was found, IS the labeled component instance.
-            // The Property has to find the instance according to 
-            // its rules. Unfortunately for Property this results
-            // in two calls to UIComponent.findComponent, but at this
-            // time it can't be helped.
-            //
-            if (labeledComponent instanceof Property) {
-                labeledComponent = 
-                    ((Property)labeledComponent).getIndicatorComponent(
-                        context, label);
-            }
-        }
-
+	    } else {
+		forId = labeledComponent.getClientId(context);
+	    }
+	}
 
         // isRequiredIndicator was defined in case the labeledComponent could
         // not be determined, as was the case when the labeled component
@@ -194,30 +168,56 @@ public class LabelRenderer extends RendererBase {
         boolean isHideIndicators = label.isHideIndicators();
         boolean requiredFlag = label.isRequiredIndicator() &&
                 !isHideIndicators;
-
         boolean errorFlag = false;
+	String errorMsg = null;
 
-	// Use the attributes so that we don't have to test
-	// for EditableValueHolder.
+	// If hideIndicators is true we don't care about an 
+	// indicator component
 	//
-	// If hideIndicators is true, don't shoul any indicators.
-        // If hideIndicators is false and the labeled component is 
-        // readonly or null don't show any required indicator 
-        //
-        if (!isHideIndicators && labeledComponent != null) {
-            if (isProperty(labeledComponent, "readOnly", false)) { //NOI18N
-                requiredFlag = false;
-            } else {
-                requiredFlag =
-                    isProperty(labeledComponent, "required", false);//NOI18N
-		// We want error flag to be true if the valid 
-		// attribute exists and is false.
-		// Otherwise we want errorFlag to be false.
+	// If hideIndicators is true, don't show any indicators.
+	// If hideIndicators is false and the indicator component is 
+	// readonly or null don't show any indicators
+	//
+	if (!isHideIndicators) {
+
+	    // Now get the indicator component
+	    // Pass false because we want to optimize and not find the
+	    // component more than once, so pass false, and we'll
+	    // perfofm the fallback if necessary.
+	    //
+	    UIComponent indicatorComponent = 
+		label.getIndicatorComponent(context, false);
+
+	    // Fallback to the labeledComponent
+	    //
+	    if (indicatorComponent == null) {
+		indicatorComponent = fallbackIndicatorComponent;
+	    }
+	    if (indicatorComponent != null) {
+		// Use the attributes so that we don't have to test
+		// for EditableValueHolder.
 		//
-                errorFlag = 
-                    !isProperty(labeledComponent, "valid", true); //NOI18N
-           }
-        }
+		if (isProperty(indicatorComponent, "readOnly", false)) {
+		    requiredFlag = false;
+		} else {
+		    requiredFlag =
+			isProperty(indicatorComponent, "required", false);
+		    // We want error flag to be true if the valid 
+		    // attribute exists and is false.
+		    // Otherwise we want errorFlag to be false.
+		    //
+		    errorFlag = 
+			!isProperty(indicatorComponent, "valid", true);
+		}
+		if (errorFlag) {
+		    // See if the indicator component has any error
+		    // messages in the queue
+		    //
+		    errorMsg = FacesMessageUtils.getDetailMessages(context,
+			indicatorComponent.getClientId(context), true, " ");
+		}
+	    }
+	}
         
         JSONObject json = new JSONObject();
         json.put("level", label.getLabelLevel())
@@ -228,8 +228,8 @@ public class LabelRenderer extends RendererBase {
             .put("templatePath", (templatePath != null)
                 ? templatePath 
                 : theme.getPathToTemplate(ThemeTemplates.LABEL))
-            .put("className", label.getStyleClass())
-            .put("visible", label.isVisible());
+	    .put("className", label.getStyleClass())
+	    .put("visible", label.isVisible());
             
         // Append required image properties.
         WidgetUtilities.addProperties(json, "requiredImage",
@@ -241,7 +241,7 @@ public class LabelRenderer extends RendererBase {
 	// (irrespective of valid attribute value). 
         WidgetUtilities.addProperties(json, "errorImage",
             WidgetUtilities.renderComponent(context, 
-		label.getErrorIcon(theme, context,false)));
+		label.getErrorIcon(theme, context, errorMsg)));
 
         // Add core and attribute properties.
         addAttributeProperties(attributes, component, json);
@@ -254,11 +254,11 @@ public class LabelRenderer extends RendererBase {
     /**
      * Get the type of widget represented by this component.
      *
-     * @param context FacesContext for the current request.
-     * @param component UIComponent to be rendered.
+     * @param context FacesContext for the current request. 
+     * @param component UIComponent to be rendered. 
      */
-    protected String getWidgetType(FacesContext context, UIComponent component) {
-        return JavaScriptUtilities.getNamespace("label");
+    protected String getWidgetType(FacesContext context, UIComponent component) { 
+	return JavaScriptUtilities.getNamespace("label");
     }
 
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~

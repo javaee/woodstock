@@ -26,6 +26,7 @@ import com.sun.faces.annotation.Property;
 import com.sun.webui.jsf.util.ComponentUtilities;
 
 import javax.el.ValueExpression;
+import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 
 /**
@@ -100,6 +101,24 @@ public class Button extends WebuiCommand implements ComplexComponent {
      */
     public String getFocusElementId(FacesContext context) {
 	return getLabeledElementId(context);
+    }
+
+    /**
+     * Return a component instance that can be referenced
+     * by a <code>Label</code> in order to evaluate the <code>required</code>
+     * and <code>valid</code> states of this component.
+     *
+     * <em>This implementation returns <code>null</code>. <code>Button</code>
+     * does not support the required or valid states</em>
+     *
+     * @param context The current <code>FacesContext</code> instance
+     * @param label The <code>Label</code> that labels this component.
+     * @return a <code>UIComponent</code> in order to evaluate the
+     * required and valid states.
+     */
+    public UIComponent getIndicatorComponent(FacesContext context,
+	    Label label) {
+	return null;
     }
 
     /**
@@ -1197,7 +1216,7 @@ public class Button extends WebuiCommand implements ComplexComponent {
         this.visible = ((Boolean) _values[33]).booleanValue();
         this.visible_set = ((Boolean) _values[34]).booleanValue();
         this.ajaxify = ((Boolean) _values[35]).booleanValue();
-        this.ajaxify_set = ((Boolean) _values[36]).booleanValue();
+	this.ajaxify_set = ((Boolean) _values[36]).booleanValue();
         this.htmlTemplate = (String) _values[37];
     }
 
@@ -1242,7 +1261,7 @@ public class Button extends WebuiCommand implements ComplexComponent {
         _values[33] = this.visible ? Boolean.TRUE : Boolean.FALSE;
         _values[34] = this.visible_set ? Boolean.TRUE : Boolean.FALSE;
         _values[35] = this.ajaxify ? Boolean.TRUE : Boolean.FALSE;
-        _values[36] = this.ajaxify_set ? Boolean.TRUE : Boolean.FALSE;
+	_values[36] = this.ajaxify_set ? Boolean.TRUE : Boolean.FALSE;
         _values[37] = this.htmlTemplate;
         return _values;
     }

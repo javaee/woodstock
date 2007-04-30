@@ -571,8 +571,8 @@ public class AddRemove extends ListSelector implements ListManager {
 		facetName, true);
 	if (button == null) {
 	    if (DEBUG) log("create Button");  //NOI18N
-	    button = new Button();
-            button.setEscape(false);
+	    button = new Button(); 
+	    button.setEscape(false);
 	    button.setId(ComponentUtilities.createPrivateFacetId(this,
 		facetName));
 	    ComponentUtilities.putPrivateFacet(this, facetName, button);
@@ -631,37 +631,21 @@ public class AddRemove extends ListSelector implements ListManager {
 
 	if(DEBUG) log("getAvailableLabelComponent()"); //NOI18N
 
-	// Prepare to call getLabelFacet so that it can be
-	// re-initialized if it exists or created if it doesn't.
-	// Preparing this information before we know if there
-	// is a developer defined facet, is a hit, but there 
-	// is less likelyhood of a developer defined facet, so
-	// optimize for the majority case.
-
-	// This extensibility should be accomplished by the
-	// developer providing
-	// an AVAILABLE_LABEL_FACET. So that "getAvailableItemsLabel"
-	// would not have to be expressed as an AddRemove attribute.
-	// But in general it is more work for the developer.
-	//
-	// Alternatively, there could have been a way to 
-	// allow the developer to override the default 
-	// message key "AddRemove.available" with the text
-	// that they desired, like an "messageBundle" attribute.
-	// We could have used "param" tags for this, for example.
-	//
 	String labelString = getAvailableItemsLabel(); 
 	if(labelString == null || labelString.length() == 0) { 
-	    labelString = 
-		getTheme().getMessage(AVAILABLE_TEXT_KEY);
+	    labelString = getTheme().getMessage(AVAILABLE_TEXT_KEY);
 	}
 
 	String styleClass =
 	        getTheme().getStyleClass(ThemeStyles.ADDREMOVE_LABEL2); 
-	String forId = getLabelFacetForId(AVAILABLE_ID);
 
+	// pass this for labeledComponent and true for hideIndicators.
+	// This will defeat the fallback to determine the status of
+	// indicators using the labeled component, which is "this"
+	// for optimization reasons.
+	//
 	return getLabelFacet(AVAILABLE_LABEL_FACET, labelString,
-	    styleClass, forId);
+	    styleClass, null, true, this, null);
     } 
 
     /**
@@ -679,47 +663,24 @@ public class AddRemove extends ListSelector implements ListManager {
      */
     public UIComponent getSelectedLabelComponent() { 
 
-	if(DEBUG) log("getSelectedLabelComponent()"); //NOI18N
 
-	// Prepare to call getLabelFacet so that it can be
-	// re-initialized if it exists or created if it doesn't.
-	// Preparing this information before we know if there
-	// is a developer defined facet, is a hit, but there 
-	// is less likelyhood of a developer defined facet, so
-	// optimize for the majority case.
-
-	// This extensibility should be accomplished by the
-	// developer providing
-	// an AVAILABLE_LABEL_FACET. So that "getAvailableItemsLabel"
-	// would not have to be expressed as an AddRemove attribute.
-	// But in general it is more work for the developer.
-	//
-	// Alternatively, there could have been a way to 
-	// allow the developer to override the default 
-	// message key "AddRemove.selected" with the text
-	// that they desired, like an "messageBundle" attribute.
-	// We could have used "param" tags for this, for example.
-	//
 	String labelString = getSelectedItemsLabel(); 
 	if(labelString == null || labelString.length() == 0) { 
-	    labelString = 
-		getTheme().getMessage(SELECTED_TEXT_KEY);
+	    labelString = getTheme().getMessage(SELECTED_TEXT_KEY);
 	}
 
 	String styleClass = 
 		getTheme().getStyleClass(ThemeStyles.ADDREMOVE_LABEL2); 
 
-	// The problem here is that the indicators will work 
-	// properly and render in the appropriate place, but the
-	// Label for attribut of the label will point to the
-	// available list. The selected list really needs to be
-	// a component and not renderer as a select in 
-	// AddRemoveRenderer.
+	// "forId" MUST be the id that the renderer will use for the
+	// select element that represents the selected list.
+	// pass null for labeledComponent, since there isn't one,
+	// and this for the indicator component.
 	//
-	String forId = getClientId(FacesContext.getCurrentInstance());
-
 	return getLabelFacet(SELECTED_LABEL_FACET, labelString,
-	    styleClass, forId);
+	    styleClass, 
+	    getClientId(FacesContext.getCurrentInstance()).concat(SELECTED_ID),
+	    false, null, this);
     } 
 
     /**
@@ -765,10 +726,10 @@ public class AddRemove extends ListSelector implements ListManager {
 	}
 
 	String styleClass = 
-		getTheme().getStyleClass(ThemeStyles.ADDREMOVE_LABEL2_READONLY); 
-	
+	    getTheme().getStyleClass(ThemeStyles.ADDREMOVE_LABEL2_READONLY); 
+
 	return getLabelFacet(READ_ONLY_LABEL_FACET, labelString,
-	    styleClass, null);
+	    styleClass, null, true, getReadOnlyValueComponent(), null);
     } 
 
     /**
@@ -791,11 +752,13 @@ public class AddRemove extends ListSelector implements ListManager {
 	String labelString = getLabel(); 
 	String styleClass = 
 		getTheme().getStyleClass(ThemeStyles.ADDREMOVE_LABEL); 
-        String forId = getClientId(
-		FacesContext.getCurrentInstance()).concat(AVAILABLE_ID);
-        
+
+	// Pass null for "forId" and "this" for labeledComponent.
+	// This will result in calling getLabeledElementId which
+	// will be AVAILABLE_ID. Pass this for the indicatorComponent.
+	//
 	return getLabelFacet(HEADER_FACET, labelString,
-	    styleClass, forId);
+	    styleClass, null, true, this, this);
     } 
     
     /**
@@ -808,26 +771,33 @@ public class AddRemove extends ListSelector implements ListManager {
      * If the facet is not defined then the returned <code>Label</code>
      * component is re-intialized every time this method is called.
      * </p>
+     * <p>
+     * If both <code>forId</code> and <code>labeledComponent</code> are
+     * specified, <code>forId</code> is ignored.
+     * </p>
      *
      * @param facetName the name of the facet to return or create
      * @param labelText the text for the label
      * @param styleClass the label styleClass
-     * @param forId the component id that this facet labels
+     * @param forId the value of the HTML Label element's "for" attribute.
+     * @param labeledComponent a component instance that the Label will use
+     * as the value of the HTML Label element's "for" attribute.
+     * @param indicatorComponent a component instance that the Label will use
+     * to ascertain the state of the Label indicators.
      *
      * @return a label facet component
      */
     private UIComponent getLabelFacet(String facetName,
-	    String labelText, String styleClass, String forId) { 
+	    String labelText, String styleClass, String forId,
+	    boolean hideIndicators,
+	    UIComponent labeledComponent,
+	    UIComponent indicatorComponent) { 
 
-	if(DEBUG) log("getLabelFacet() for " + facetName); //NOI18N
 
 	// Check if the page author has defined a label facet
 	//
 	UIComponent labelComponent = getFacet(facetName); 
 	if (labelComponent != null) {
-	    if(DEBUG) { 
-		log("\tFound facet."); //NOI18N
-	    } 
 	    return labelComponent;
 	}
 
@@ -855,7 +825,8 @@ public class AddRemove extends ListSelector implements ListManager {
 		facetName));
 	    ComponentUtilities.putPrivateFacet(this, facetName, label);
 	}
-	initLabelFacet(label, facetName, labelText,  styleClass, forId);
+	initLabelFacet(label, facetName, labelText,  styleClass, forId,
+		hideIndicators, labeledComponent, indicatorComponent);
 
 	return label; 
     } 
@@ -865,6 +836,8 @@ public class AddRemove extends ListSelector implements ListManager {
      * <code>facetName</code>.
      * If forId is null, <code>setLabeledComponent</code> is called
      * with <code>this</code> as the parameter.</br>
+     *
+     * @deprecated
      *
      * @param label the Button instance
      * @param facetName the name of the facet to return or create
@@ -876,7 +849,32 @@ public class AddRemove extends ListSelector implements ListManager {
 		String labelText, String styleClass, 
 	        String forId) {
 
-	if (DEBUG) log("initLabelFacet()"); //NOI18N
+	initLabelFacet(label, facetName, labelText, styleClass, forId,
+	    false, null, null);
+
+    }
+
+    /**
+     * Initialize a <code>Label</code> component for the role of
+     * <code>facetName</code>.
+     * <p>
+     * If <code>forId</code> and <code>labeledComponent</code> are
+     * specified, <code>forId</code> is ignored.
+     *
+     * @param label the Button instance
+     * @param facetName the name of the facet to return or create
+     * @param labelText the text for the label
+     * @param styleClass the label styleClass
+     * @param forId the component id that this facet labels
+     * @param labeledComponent a component instance that the Label will use
+     * as the value of the HTML Label element's "for" attribute.
+     * @param indicatorComponent a component instance that the Label will use
+     * to ascertain the state of the Label indicators.
+     */
+    private void initLabelFacet(Label label, String facetName,
+	    String labelText, String styleClass, String forId,
+	    boolean hideIndicators,
+	    UIComponent labeledComponent, UIComponent indicatorComponent) {
 
 	if (label == null) {
 	    return;
@@ -892,42 +890,31 @@ public class AddRemove extends ListSelector implements ListManager {
 	// By default, the Label component sets the label level to a default
 	// value. Since we don't want any level to be set, we need to set the
 	// label level to a value outside of the valid range.
+	//
+	// We should move away from LabelLevel and move to a design that
+	// defines a label style for each specific label that can be
+	// used specifically for the HTML "class" attribute.
+	//
         label.setLabelLevel(Integer.parseInt(getTheme().getMessage(
 		ADDREMOVE_LABEL_LEVEL)));
 	label.setText(labelText); 
 	label.setStyleClass(styleClass); 
+	label.setHideIndicators(hideIndicators);
 
-	// This policy is based on the original behavior.
-	// For the available and selected facets, forId is set
-	// For the header facet, setLabeledComponent is called.
-	// Not sure how valid that is in the general case.
+	// We need to always set these values even if they are null
+	// since null could mean to "clear" the previous value.`
+	// And we don't want "for" set if labeledComponent is set.
 	//
-	if(forId != null) { 
+	label.setLabeledComponent(labeledComponent);
+	if (labeledComponent == null) {
 	    label.setFor(forId);
-	} 
+	} else {
+	    label.setFor(null);
+	}
+
+	label.setIndicatorComponent(indicatorComponent);
+
 	return;
-    }
-
-    /**
-     * Return an id for a label facet.
-     * The format of the id is
-     * </br>
-     * getClientId() + idSuffix</br>
-     */
-    private String getLabelFacetForId(String idSuffix) {
-
-	// Note that the id returned here does not have the form
-	// of an AddRemove child element id but the form
-	// of a form element child id.
-	//
-	// "form1:addremoveid_idsuffix"
-	//
-	// The renderer MUST render the HTML element referred to by idSuffix
-	// in the same manner.
-	//
-	// TODO - what should we show here? 
-	return getClientId(
-		FacesContext.getCurrentInstance()).concat(idSuffix); 
     }
 
     /**
@@ -960,8 +947,11 @@ public class AddRemove extends ListSelector implements ListManager {
      * the value returned. The value returned by this 
      * method call may or may not resolve to a component instance.
      * <p>
-     * If <code>isReadOnly</code> returns <code>true</code>
-     * <code>null</code> is returned.
+     * If <code>isReadOnly</code> returns true, then the 
+     * <code>getReadOnlyValueComponent</code> method is called. If the
+     * component instance returned is a <code>ComplexComponent</code>
+     * then <code>getLabeledElementId</code> is called on it and the
+     * value returned, else its client id is returned.
      * </p>
      *
      * @param context The FacesContext used for the request
@@ -970,7 +960,14 @@ public class AddRemove extends ListSelector implements ListManager {
      */
     public String getLabeledElementId(FacesContext context) {
 	if (isReadOnly()) {
-	    return null;
+	    UIComponent readOnlyComponent = getReadOnlyValueComponent();
+	    if (readOnlyComponent instanceof ComplexComponent) {
+	        return ((ComplexComponent)readOnlyComponent).
+			getLabeledElementId(context);
+	    } else {
+		return readOnlyComponent != null ?
+			readOnlyComponent.getClientId(context) : null;
+	    }
 	} else {
 	    return this.getClientId(context).concat(AVAILABLE_ID); 
 	}

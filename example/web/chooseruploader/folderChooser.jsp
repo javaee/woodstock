@@ -31,7 +31,7 @@
                     <script type="text/javascript">
                         // This function is used to display a javascript alert 
                         // window when the Selected Files field is empty.
-                        function checkSelectedFile(msg) {
+                        function checkSelectedFolder(msg) {
                             var domNode = document.getElementById("folderForm:folderContent:folderChooser:folderChooser_selectedField");
                             var selectedFile = domNode.getProps().value;
                             if (selectedFile == null || selectedFile.length == 0) {

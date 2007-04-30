@@ -21,6 +21,7 @@
  */
 package com.sun.webui.jsf.component;
 import javax.faces.context.FacesContext; 
+import javax.faces.component.UIComponent; 
 
 /**
  * <p>Most components whose renderers write more than one HTML 
@@ -74,4 +75,17 @@ public interface ComplexComponent {
      * @param context The FacesContext used for the request
      */
     public String getFocusElementId(FacesContext context);
+
+    /**
+     * Return a component instance that can be referenced
+     * by a <code>Label</code> in order to evaluate the <code>required</code>
+     * and <code>valid</code> states of this component.
+     *
+     * @param context The current <code>FacesContext</code> instance
+     * @param label The <code>Label</code> that labels this component.
+     * @return a <code>UIComponent</code> in order to evaluate the
+     * required and valid states.
+     */
+    public UIComponent getIndicatorComponent(FacesContext context,
+            Label label);
 }

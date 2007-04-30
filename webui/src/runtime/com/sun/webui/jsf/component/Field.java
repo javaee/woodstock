@@ -183,9 +183,13 @@ public class Field extends HiddenField implements ComplexComponent,
         label.setLabelLevel(getLabelLevel());
         label.setStyleClass(style);
         label.setText(labelString);
-        if (!isReadOnly()) {
-            label.setFor(getClientId(context));
-        }
+
+        // Need to verify what the new meaning of "readOnly"
+        // means for the textfield. If the HTML element is
+        // read only can a label element's for attribute reference it ?
+        //
+        label.setIndicatorComponent(this);
+        label.setLabeledComponent(this);
         
         return label;
     }
@@ -225,15 +229,18 @@ public class Field extends HiddenField implements ComplexComponent,
     /**
      * Returns the absolute ID of an HTML element suitable for use as
      * the value of an HTML LABEL element's <code>for</code> attribute.
-     * If the <code>ComplexComponent</code> has sub-compoents, and one of
+     * If the <code>ComplexComponent</code> has sub-compoents, and one of 
      * the sub-components is the target of a label, if that sub-component
      * is a <code>ComplexComponent</code>, then
      * <code>getLabeledElementId</code> must called on the sub-component and
-     * the value returned. The value returned by this
+     * the value returned. The value returned by this 
      * method call may or may not resolve to a component instance.
      * <p>
-     * If <code>isReadOnly</code> returns true, <code>null</code> is
-     * returned.
+     * If <code>isReadOnly</code> returns true, then the 
+     * <code>getReadOnlyComponent</code> method is called. If the
+     * component instance returned is a <code>ComplexComponent</code>
+     * then <code>getLabeledElementId</code> is called on it and the
+     * value returned, else its client id is returned.
      * </p>
      *
      * @param context The FacesContext used for the request
@@ -241,19 +248,24 @@ public class Field extends HiddenField implements ComplexComponent,
      * <code>for</code> attribute.
      */
     public String getLabeledElementId(FacesContext context) {
-        
+
         // If this component has a label either as a facet or
         // an attribute, return the id of the input element
         // that will have the "INPUT_ID" suffix. IF there is no
         // label, then the input element id will be the component's
         // client id.
         //
-        // If it is read only then return null
-        //
         if (isReadOnly()) {
-            return null;
+	    UIComponent readOnlyComponent = getReadOnlyComponent(context);
+	    if (readOnlyComponent instanceof ComplexComponent) {
+		return ((ComplexComponent)readOnlyComponent).
+			getLabeledElementId(context);
+	    } else {
+		return readOnlyComponent != null ?
+		    readOnlyComponent.getClientId(context) : null;
+	    }
         }
-        
+
         // To ensure we get the right answer call getLabelComponent.
         // This checks for a developer facet or the private label facet.
         // It also checks the label attribute. This is better than
@@ -263,7 +275,7 @@ public class Field extends HiddenField implements ComplexComponent,
         String clntId = this.getClientId(context);
         return clntId.concat(this.INPUT_ID);
     }
-    
+
     /**
      * Returns the id of an HTML element suitable to
      * receive the focus.
@@ -283,6 +295,21 @@ public class Field extends HiddenField implements ComplexComponent,
         return getLabeledElementId(context);
     }
     
+    /**
+     * Return a component instance that can be referenced
+     * by a <code>Label</code> in order to evaluate the <code>required</code>
+     * and <code>valid</code> states of this component.
+     *
+     * @param context The current <code>FacesContext</code> instance
+     * @param label The <code>Label</code> that labels this component.
+     * @return a <code>UIComponent</code> in order to evaluate the
+     * required and valid states.
+     */
+    public UIComponent getIndicatorComponent(FacesContext context,
+            Label label) {
+	return this;
+    }
+
     /**
      * Implement this method so that it returns the DOM ID of the
      * HTML element which should receive focus when the component

@@ -521,25 +521,7 @@ public class ListSelector extends Selector implements ListManager,
             label.setId(ComponentUtilities.createPrivateFacetId(this,
                 LABEL_FACET));
         }
-        initLabelFacet(label, labelString, this.getClientId(getFacesContext()));
 
-        ComponentUtilities.putPrivateFacet(this, LABEL_FACET, label);
-
-        return label; 
-    }
-    
-    /**
-     * Initialize a label facet.
-     *
-     * @param label the Label instance
-     * @param labelString the label text.
-     * @param forComponent the component instance this label is for
-     */
-    private void initLabelFacet(Label label, String labelString,
-            String forComponentId) {
-        
-        if(DEBUG) log("initLabelFacet()"); //NOI18N
-        
         if(labelString == null || labelString.length() < 1) {
             // TODO - maybe print a default?
             // A Theme default value.
@@ -548,11 +530,14 @@ public class ListSelector extends Selector implements ListManager,
 
         label.setText(labelString);
         label.setLabelLevel(getLabelLevel());
-        if (!isReadOnly()) {
-            label.setFor(forComponentId);
-        }
-    }
+	label.setLabeledComponent(this);
+	label.setIndicatorComponent(this);
 
+        ComponentUtilities.putPrivateFacet(this, LABEL_FACET, label);
+
+        return label; 
+    }
+    
     /**
      * Return a component that implements the read only value of this 
      * ListSelector.
@@ -686,6 +671,13 @@ public class ListSelector extends Selector implements ListManager,
      * <code>getLabeledElementId</code> must called on the sub-component and
      * the value returned. The value returned by this 
      * method call may or may not resolve to a component instance.
+     * <p>
+     * If <code>isReadOnly</code> returns true, then the 
+     * <code>getReadOnlyValueComponent</code> method is called. If the
+     * component instance returned is a <code>ComplexComponent</code>
+     * then <code>getLabeledElementId</code> is called on it and the
+     * value returned, else its client id is returned.
+     * </p>
      *
      * @param context The FacesContext used for the request
      * @return An abolute id suitable for the value of an HTML LABEL element's
@@ -699,8 +691,16 @@ public class ListSelector extends Selector implements ListManager,
         // label, then the select list id will be the component's
         // client id.
         //
-	// Not sure if we need to return null here if the component 
-	// is readonly. This seems to be handled by some subclasses. 
+        if (isReadOnly()) {
+	    UIComponent readOnlyComponent = getReadOnlyValueComponent();
+	    if (readOnlyComponent instanceof ComplexComponent) {
+		return ((ComplexComponent)readOnlyComponent).
+			getLabeledElementId(context);
+	    } else {
+		return readOnlyComponent != null ?
+		    readOnlyComponent.getClientId(context) : null;
+	    }
+        }
 
         // To ensure we get the right answer call getLabelComponent.
         // This checks for a developer facet or the private label facet.
@@ -732,6 +732,21 @@ public class ListSelector extends Selector implements ListManager,
         // For now just return the same id that is used for label.
         //
         return getLabeledElementId(context);
+    }
+
+    /**
+     * Return a component instance that can be referenced
+     * by a <code>Label</code> in order to evaluate the <code>required</code>
+     * and <code>valid</code> states of this component.
+     *
+     * @param context The current <code>FacesContext</code> instance
+     * @param label The <code>Label</code> that labels this component.
+     * @return a <code>UIComponent</code> in order to evaluate the
+     * required and valid states.
+     */
+    public UIComponent getIndicatorComponent(FacesContext context,
+            Label label) {
+	return this;
     }
 
     /**

@@ -209,10 +209,10 @@ import javax.faces.context.FacesContext;
     tagRendererType="com.sun.webui.jsf.widget.Checkbox",
     helpKey="projrave_ui_elements_palette_wdstk-jsf1.2_checkbox",
     propertiesHelpKey="projrave_ui_elements_palette_wdstk-jsf1.2_propsheets_checkbox_props")
-public class Checkbox extends RbCbSelector implements ComplexComponent {
+public class Checkbox extends RbCbSelector {
     
     // The suffix used for the HTML input element's id.
-    private static final String CB_ID = "_cb";
+    public static final String CB_ID = "_cb";
     
     /**
      * Constructor for a <code>Checkbox</code>.
@@ -355,45 +355,6 @@ public class Checkbox extends RbCbSelector implements ComplexComponent {
         return this.getClientId(context).concat(CB_ID);        
     }
 
-    /**
-     * Implement this method so that it returns the DOM ID of the 
-     * HTML element which should receive focus when the component 
-     * receives focus, and to which a component label should apply. 
-     * Usually, this is the first element that accepts input. 
-     * 
-     * @param context The FacesContext for the request
-     * @return The client id, also the JavaScript element id
-     *
-     * @deprecated
-     * @see #getLabeledElementId
-     * @see #getFocusElementId
-     */
-    public String getPrimaryElementID(FacesContext context)  {
-        return getLabeledElementId(context);
-    }
-    
-    /**
-     * Returns the id of an HTML element suitable to
-     * receive the focus.
-     * If the <code>ComplexComponent</code> has sub-compoents, and one of 
-     * the sub-components is to reveive the focus, if that sub-component
-     * is a <code>ComplexComponent</code>, then
-     * <code>getFocusElementId</code> must called on the sub-component and
-     * the value returned. The value returned by this 
-     * method call may or may not resolve to a component instance.
-     * <p>
-     * This implementations returns the value of 
-     * <code>getLabeledElementId</code>.
-     * </p>
-     *
-     * @param context The FacesContext used for the request
-     */
-    public String getFocusElementId(FacesContext context) {
-        // For now just return the same id that is used for label.
-        //
-        return getLabeledElementId(context);
-    }
-    
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     // Tag attribute methods
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -460,7 +421,7 @@ public class Checkbox extends RbCbSelector implements ComplexComponent {
     /**
      * <p>Alternative HTML template to be used by this component.</p>
      */
-    @Property(name="htmlTemplate", isHidden=true, isAttribute=true, displayName="HTML Template", category="Appearance")
+    @Property(name="htmlTemplate", isHidden=true, isAttribute=true, displayName="HTML Template", category="Appearance") 
     private String htmlTemplate = null;
 
     /**

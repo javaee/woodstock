@@ -26,6 +26,7 @@ import com.sun.faces.annotation.Property;
 
 import javax.el.ValueExpression;
 import javax.faces.component.NamingContainer;
+import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 
 import com.sun.webui.jsf.component.ComplexComponent;
@@ -116,11 +117,33 @@ public class RadioButtonGroup extends Selector implements NamingContainer,
 	 return getFirstRbId(context);
     }
 
+    /**
+     * Return a component instance that can be referenced
+     * by a <code>Label</code> in order to evaluate the <code>required</code>
+     * and <code>valid</code> states of this component.
+     *
+     * @param context The current <code>FacesContext</code> instance
+     * @param label The <code>Label</code> that labels this component.
+     * @return a <code>UIComponent</code> in order to evaluate the
+     * required and valid states.
+     */
+    public UIComponent getIndicatorComponent(FacesContext context,
+            Label label) {
+	return this;
+    }
+
+    // Unfortunately we have to sneak and know that the new
+    // widget rb renderer fixes a problem with rendering rb's.
+    // First it makes the containing element have the component's
+    // id, and then appends "RadioButton.RB_ID" to the component's
+    // id. Since we don't have the RB's in the component tree
+    // we can't call getLabeledElementId on the radio button.
+    // So we hard code appending the "RB_ID" here.
+    //
     private String getFirstRbId(FacesContext context) {
 	StringBuilder sb = new StringBuilder(getClientId(context))
 	    .append(String.valueOf(NamingContainer.SEPARATOR_CHAR))
-	    .append(getId())
-	    .append("_0"); //NOI18N
+	    .append(getId()).append("_0").append(RadioButton.RB_ID);
 	return sb.toString();
     }
 

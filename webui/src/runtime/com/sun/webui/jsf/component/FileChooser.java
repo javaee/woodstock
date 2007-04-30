@@ -1933,7 +1933,13 @@ public class FileChooser extends WebuiInput implements NamingContainer {
 
 	Theme theme = getTheme();
 	child.setText(theme.getMessage("filechooser.lookin")); //NOI18N
-        child.setFor(getLookInTextField().getClientId(getFacesContext()));
+
+	// We could have issues here if the returned component
+	// is a developer defined facet and it has its own label
+	//
+	UIComponent licomp = getLookInTextField();
+        child.setLabeledComponent(licomp);
+        child.setIndicatorComponent(licomp);
 
         return child;
     }
@@ -2033,7 +2039,12 @@ public class FileChooser extends WebuiInput implements NamingContainer {
 		theme.getMessage("filechooser.fileFilter")); //NOI18N
         }
 	
-	child.setFor(getFilterTextField().getClientId(getFacesContext()));
+	// We could have issues here if the returned component
+	// is a developer defined facet and it has its own label
+	//
+	UIComponent fcomp = getFilterTextField();
+	child.setLabeledComponent(fcomp);
+	child.setIndicatorComponent(fcomp);
 
         return child;
     }
@@ -2145,7 +2156,13 @@ public class FileChooser extends WebuiInput implements NamingContainer {
 	}
 
 	Theme theme = getTheme();
-        child.setFor(getSelectedTextField().getClientId(getFacesContext()));
+
+	// We could have issues here if the returned component
+	// is a developer defined facet and it has its own label
+	//
+	UIComponent selcomp = getSelectedTextField();
+	child.setLabeledComponent(selcomp);
+	child.setIndicatorComponent(selcomp);
 
 	boolean ismultiple = isMultiple();
         String labelKey = null;
@@ -2302,7 +2319,13 @@ public class FileChooser extends WebuiInput implements NamingContainer {
 	Theme theme = getTheme();
         child.setText(
 	    theme.getMessage("filechooser.sortBy")); //NOI18N
-        child.setFor(getSortComponent().getClientId(getFacesContext()));
+
+	// We could have issues here if the returned component
+	// is a developer defined facet and it has its own label
+	//
+	UIComponent sortcomp = getSortComponent();
+	child.setLabeledComponent(sortcomp);
+	child.setIndicatorComponent(sortcomp);
 
         return child;
     }
@@ -2484,7 +2507,6 @@ public class FileChooser extends WebuiInput implements NamingContainer {
 	Button child = (Button)
 	    ComponentUtilities.getPrivateFacet(this,
 		FILECHOOSER_HIDDEN_BUTTON_FACET, true);
-
 	if (child == null) {
             child = new Button();
             child.setId(ComponentUtilities.createPrivateFacetId(this,
@@ -2493,7 +2515,7 @@ public class FileChooser extends WebuiInput implements NamingContainer {
 	    ComponentUtilities.putPrivateFacet(this,
 		FILECHOOSER_HIDDEN_BUTTON_FACET, child);
 	}
-        child.setVisible(false);
+	child.setVisible(false);
 	return child;
     }
 

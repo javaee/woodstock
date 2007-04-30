@@ -386,60 +386,6 @@ public class RenderingUtilities {
     }   
 
     /**
-     * Returns an id suitable for the HTML label element's "for" attribute.
-     * The returned id is obtained as follows.
-     * <p>
-     * <ul>
-     * <li>The value of "id" is expected to be an absolute id and not a
-     *    relative id and will be prepended with NamingContainer.SEPARATOR_CHAR
-     *    and resolved to a component instance from the ViewRoot.
-     * </li>
-     * <li>If the id cannot be resolved, return the id argument.
-     * </li>
-     * <li>If the id can be resolved to a component instance, and it is an
-     * instance of ComplexComponent, then the instance method
-     * <code>getLebeledElementId</code> is called and the value returned,
-     * else the value of <code>getClientId</code> is returned.
-     * </li>
-     * </ul>
-     * </p>
-     *
-     * @param context The faces context
-     * @param id The absolute client id of the component to be labeled.
-     * @return An id suitable for an HTML LABEL element's "for" attribute.
-     */     
-    public static String getLabeledElementId(FacesContext context, String id) {
-        
-        if (id == null || context == null) {
-            return null;
-        }
-        
-        String _id = id;
-        
-        if (id.charAt(0) != NamingContainer.SEPARATOR_CHAR) {
-            _id = String.valueOf(NamingContainer.SEPARATOR_CHAR).concat(id);
-        }
-        
-        UIComponent component = null;
-        try {
-           component = context.getViewRoot().findComponent(_id);
-        } catch (Exception e) {
-            if (LogUtil.fineEnabled()) {
-                LogUtil.fine("Component with that particular id " + //NOI18N
-			"cannot be found");  //NOI18N
-            }
-        }
-        if (component == null) {
-            return id;
-        }
-        
-        if (component instanceof ComplexComponent) {
-            return ((ComplexComponent)component).getLabeledElementId(context);
-        }
-        return component.getClientId(context);
-    }
-
-    /**
      * Helper function to render theme stylesheet link(s)
      *
      *

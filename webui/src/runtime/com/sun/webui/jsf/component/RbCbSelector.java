@@ -39,7 +39,8 @@ import javax.faces.render.Renderer;
  * A renderer of this name does exist as the super class of the
  * RadioButton and Checkbox renderers.
  */
-public class RbCbSelector extends Selector implements NamingContainer {
+public class RbCbSelector extends Selector implements NamingContainer,
+	ComplexComponent {
     /**
      * Image facet name.
      */
@@ -503,7 +504,8 @@ public class RbCbSelector extends Selector implements NamingContainer {
         flabel.setId(
 	    ComponentUtilities.createPrivateFacetId(this, LABEL_FACET));
 
-	flabel.setFor(getClientId(getFacesContext()));
+	flabel.setLabeledComponent(this);
+	flabel.setIndicatorComponent(this);
 	flabel.setText(label);
 	flabel.setLabelLevel(getLabelLevel());
 	flabel.setToolTip(getToolTip());
@@ -551,6 +553,82 @@ public class RbCbSelector extends Selector implements NamingContainer {
 	image.setParent(this);
 
 	return image;
+    }
+
+    // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    // ComplexComponent methods
+    // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+    /**
+     * Returns the absolute ID of an HTML element suitable for use as
+     * the value of an HTML LABEL element's <code>for</code> attribute.
+     * If the <code>ComplexComponent</code> has sub-compoents, and one of 
+     * the sub-components is the target of a label, if that sub-component
+     * is a <code>ComplexComponent</code>, then
+     * <code>getLabeledElementId</code> must called on the sub-component and
+     * the value returned. The value returned by this 
+     * method call may or may not resolve to a component instance.
+     *
+     * @param context The FacesContext used for the request
+     * @return An absolute id suitable for the value of an HTML LABEL element's
+     * <code>for</code> attribute.
+     */
+    public String getLabeledElementId(FacesContext context) {       
+        return this.getClientId(context);
+    }
+
+    /**
+     * Implement this method so that it returns the DOM ID of the 
+     * HTML element which should receive focus when the component 
+     * receives focus, and to which a component label should apply. 
+     * Usually, this is the first element that accepts input. 
+     * 
+     * @param context The FacesContext for the request
+     * @return The client id, also the JavaScript element id
+     *
+     * @deprecated
+     * @see #getLabeledElementId
+     * @see #getFocusElementId
+     */
+    public String getPrimaryElementID(FacesContext context)  {
+        return getLabeledElementId(context);
+    }
+    
+    /**
+     * Returns the id of an HTML element suitable to
+     * receive the focus.
+     * If the <code>ComplexComponent</code> has sub-compoents, and one of 
+     * the sub-components is to reveive the focus, if that sub-component
+     * is a <code>ComplexComponent</code>, then
+     * <code>getFocusElementId</code> must called on the sub-component and
+     * the value returned. The value returned by this 
+     * method call may or may not resolve to a component instance.
+     * <p>
+     * This implementations returns the value of 
+     * <code>getLabeledElementId</code>.
+     * </p>
+     *
+     * @param context The FacesContext used for the request
+     */
+    public String getFocusElementId(FacesContext context) {
+        // For now just return the same id that is used for label.
+        //
+        return getLabeledElementId(context);
+    }
+    
+    /**
+     * Return a component instance that can be referenced
+     * by a <code>Label</code> in order to evaluate the <code>required</code>
+     * and <code>valid</code> states of this component.
+     *
+     * @param context The current <code>FacesContext</code> instance
+     * @param label The <code>Label</code> that labels this component.
+     * @return a <code>UIComponent</code> in order to evaluate the
+     * required and valid states.
+     */
+    public UIComponent getIndicatorComponent(FacesContext context,
+            Label label) {
+	return this;
     }
 
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~

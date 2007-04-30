@@ -20,7 +20,7 @@
  * Copyright 2007 Sun Microsystems, Inc. All rights reserved.
  */
 /*
- * $Id: ListRendererBase.java,v 1.3 2007-03-16 18:54:46 rratta Exp $
+ * $Id: ListRendererBase.java,v 1.4 2007-04-30 21:02:41 rratta Exp $
  */
 package com.sun.webui.jsf.renderkit.html;
 
@@ -649,9 +649,7 @@ abstract public class ListRendererBase extends Renderer {
         
         if(DEBUG) log("decode()");
 
-        // The other decode implementation does this too
-        // but we don't want to get there because 
-        // getLabeledElementId returns null if a component is readOnly.
+        // The other decode implementation does this too.
         // We should probably return if disabled too.
         // It's too late to refactor this code.
         //
@@ -660,8 +658,11 @@ abstract public class ListRendererBase extends Renderer {
         }
         
         // The submitted select element will always have the value
-        // of getLabeledElementId. Leaving the following comment 
-        // for historical reasons.
+        // of getLabeledElementId. This is not true for EditableList,
+	// but it implements its own decode but class the one below
+	// passing an appropriate id.
+	//
+	// Leaving the following comment for historical reasons.
 
         // **** No Longer True ****
         // We used to depend on getLabelComponent() returning non-null
