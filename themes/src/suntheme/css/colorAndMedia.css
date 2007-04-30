@@ -22,17 +22,28 @@
 /* CSS Document */
 
 body {
-	color:#000;}
-
-a:link, a:visited {
-	color:#003399;
-	text-decoration:none;
+	color:#000;
 }
-a:hover {
+
+a.Hyp@THEME_CSS@:link, a.Hyp@THEME_CSS@:visited, a.Anc@THEME_CSS@:link, a.Anc@THEME_CSS@:visited {
+	color:#003399;
+        text-decoration:none;
+}
+a.Hyp@THEME_CSS@:hover, a.Anc@THEME_CSS@:hover {
 	color:#003399;
 	text-decoration:underline;
 }
 
+a.HypDis@THEME_CSS@:link, a.HypDis@THEME_CSS@:visited, a.AncDis@THEME_CSS@:link,a.AncDis@THEME_CSS@:visited {
+    color:#000000;
+    text-decoration:none;
+    cursor:default;
+}
+
+a.HypDis@THEME_CSS@:hover, a.AncDis@THEME_CSS@:hover {
+   color:#000000;
+   text-decoration:none;
+}
 /* SKIP NAVIGATION LINK */
 .SkpWht@THEME_CSS@ {
 	background-color:#FFFFFF;
