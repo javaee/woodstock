@@ -54,7 +54,7 @@
     
     <renderer>
       <component-family>com.sun.webui.jsf.Anchor</component-family>
-      <renderer-type>com.sun.webui.jsf.AnchorDesignTime</renderer-type>
+      <renderer-type>com.sun.webui.jsf.widget.AnchorDesignTime</renderer-type>
       <renderer-class>com.sun.webui.jsf.renderkit.html.AnchorDesignTimeRenderer</renderer-class>
     </renderer>
     
@@ -129,7 +129,7 @@
     
     <renderer>
       <component-family>com.sun.webui.jsf.Hyperlink</component-family>
-      <renderer-type>com.sun.webui.jsf.HyperlinkDesignTime</renderer-type>
+      <renderer-type>com.sun.webui.jsf.widget.HyperlinkDesignTime</renderer-type>
       <renderer-class>com.sun.webui.jsf.renderkit.html.HyperlinkDesignTimeRenderer</renderer-class>
     </renderer>
         
@@ -141,7 +141,7 @@
         
     <renderer>
       <component-family>com.sun.webui.jsf.ImageHyperlink</component-family>
-      <renderer-type>com.sun.webui.jsf.ImageHyperlinkDesignTime</renderer-type>
+      <renderer-type>com.sun.webui.jsf.widget.ImageHyperlinkDesignTime</renderer-type>
       <renderer-class>com.sun.webui.jsf.renderkit.html.ImageHyperlinkDesignTimeRenderer</renderer-class>
     </renderer>
     

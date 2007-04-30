@@ -30,7 +30,10 @@ import javax.faces.context.FacesContext;
  * The Icon component is used to display a clickable icon image from the current
  * theme in the rendered HTML page.
  */
-@Component(type="com.sun.webui.jsf.IconHyperlink", family="com.sun.webui.jsf.IconHyperlink", displayName="Hyperlink", isTag=false,
+@Component(type="com.sun.webui.jsf.IconHyperlink",
+    family="com.sun.webui.jsf.ImageHyperlink", 
+    displayName="ImageHyperlink", isTag=false,
+    tagRendererType="com.sun.webui.jsf.widget.ImageHyperlink",    
     helpKey="projrave_ui_elements_palette_wdstk-jsf1.2_icon_hyperlink",
     propertiesHelpKey="projrave_ui_elements_palette_wdstk-jsf1.2_propsheets_icon_hyperlink_props")
 public class IconHyperlink extends ImageHyperlink {
@@ -40,14 +43,14 @@ public class IconHyperlink extends ImageHyperlink {
      */
     public IconHyperlink() {
         super();
-        setRendererType("com.sun.webui.jsf.IconHyperlink");
+        setRendererType("com.sun.webui.jsf.widget.ImageHyperlink");
     }
 
     /**
      * <p>Return the family for this component.</p>
      */
     public String getFamily() {
-        return "com.sun.webui.jsf.IconHyperlink";
+        return "com.sun.webui.jsf.ImageHyperlink";
     }
 
     /**

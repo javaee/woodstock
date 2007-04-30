@@ -23,15 +23,45 @@ package com.sun.webui.jsf.component;
 
 import com.sun.faces.annotation.Component;
 import com.sun.faces.annotation.Property;
+import com.sun.webui.jsf.util.JavaScriptUtilities;
 
 import javax.el.ValueExpression;
 import javax.faces.context.FacesContext;
 
 /**
- * The Hyperlink component is used to create a link. 
+ *  <p>
+ * Use the <code>webuijsf:hyperlink</code> tag to display a HTML hyperlink to a URL, or a
+ * link that submits a form.  
+ *
+ * <ul>
+ * <li> If the url attribute is specified, an anchor widget is created on the client side.
+ *      Clicking on this anchor will take the user to the url specified.</li>
+ * <li> If the actionExpression attribute is specified and the url attribute is not specified,
+ *      an hyperlink widget will be created on the client side which will submit the form when it is clicked.</li>
+ * <li> If both the url and actionExpression attributes are specified, the url attribute takes
+ *      preference.</li>
+ * <li> If none of the attributes are specified, an hyperlink widget will be created on the
+ *      client side and the form will be submitted when the hyperlink is clicked.</li>
+ *  <br />
+ *  
+ *<p> If UIParameter components are specified as children to the hyperlink component and an url attribute
+ *    exists, then the behavior of the url here is similar to the one observed with the anchor component. The
+ *    name, value pairs of the UIParameter components are added as request parameters to the url attribute.
+ *    If no url is specified for the hyperlink, then this will be passed on to the hyperlink widget as a JSON array
+ *    where these name/value pairs will be appended as request parameters when the hyperlink is clicked and the
+ *    form is submitted. </p>
+ *
+ *<p> If the disabled attribute of the hyperlink is set to true, clicking the hyperlink on the browser will not
+ *    generate a request and hence the form will not be submitted or the page will not navigate to the specified url
+ *    depending on whether the url has been specified or not. </p>
+ *  
+ * <p> If you intend to use the hyperlink for navigating to a different page by using the url attribute,
+ *  consider using the <code>webuijsf:anchor</code> component instead of the hyperlink component. </p>
+ *
  */
 @Component(type="com.sun.webui.jsf.Hyperlink", family="com.sun.webui.jsf.Hyperlink", displayName="Hyperlink", tagName="hyperlink",
     helpKey="projrave_ui_elements_palette_wdstk-jsf1.2_hyperlink",
+     tagRendererType="com.sun.webui.jsf.widget.Hyperlink",
     propertiesHelpKey="projrave_ui_elements_palette_wdstk-jsf1.2_propsheets_hyperlink_props")
 public class Hyperlink extends WebuiCommand implements ComplexComponent {
     /**
@@ -39,7 +69,7 @@ public class Hyperlink extends WebuiCommand implements ComplexComponent {
      */
     public Hyperlink() {
         super();
-        setRendererType("com.sun.webui.jsf.Hyperlink");
+        setRendererType("com.sun.webui.jsf.widget.Hyperlink");
     }
 
     /**
@@ -146,26 +176,14 @@ public class Hyperlink extends WebuiCommand implements ComplexComponent {
         super.setValueExpression(name, binding);
     }
     
-    /**
-     * <p>Flag indicating that activation of this component by the user is not
-     * currently permitted. In this component library, the disabled attribute
-     * also causes the hyperlink to be renderered as formatted text in an 
-     * HTML <span> tag. The hyperlink cannot be enabled from the client 
-     * because this is a server side only feature. You cannot 
-     * disable an anchor.</p>
-     */
     @Property(isHidden=true, isAttribute=false)
     public Object getValue() {
         return super.getValue();
     }
 
     /**
-     * <p>Flag indicating that activation of this component by the user is not
-     * currently permitted. In this component library, the disabled attribute
-     * also causes the hyperlink to be renderered as formatted text in an 
-     * HTML <span> tag. The hyperlink cannot be enabled from the client 
-     * because this is a server side only feature. You cannot 
-     * disable an anchor.</p>
+     * <p>Flag indicating that clicking of this component by the user is not
+     * currently permitted. </p>
      */
     @Property(name="disabled", displayName="Disabled", category="Behavior")
     private boolean disabled = false;
@@ -173,11 +191,7 @@ public class Hyperlink extends WebuiCommand implements ComplexComponent {
 
     /**
      * <p>Flag indicating that activation of this component by the user is not
-     * currently permitted. In this component library, the disabled attribute
-     * also causes the hyperlink to be renderered as formatted text in an 
-     * HTML <span> tag. The hyperlink cannot be enabled from the client 
-     * because this is a server side only feature. You cannot 
-     * disable an anchor.</p>
+     * currently permitted.</p>
      */
     public boolean isDisabled() {
         if (this.disabled_set) {
@@ -197,11 +211,7 @@ public class Hyperlink extends WebuiCommand implements ComplexComponent {
 
     /**
      * <p>Flag indicating that activation of this component by the user is not
-     * currently permitted. In this component library, the disabled attribute
-     * also causes the hyperlink to be renderered as formatted text in an 
-     * HTML <span> tag. The hyperlink cannot be enabled from the client 
-     * because this is a server side only feature. You cannot 
-     * disable an anchor.</p>
+     * currently permitted.</p>
      * @see #isDisabled()
      */
     public void setDisabled(boolean disabled) {
@@ -976,6 +986,34 @@ public class Hyperlink extends WebuiCommand implements ComplexComponent {
         this.visible = visible;
         this.visible_set = true;
     }
+    
+    /**
+     * Alternative HTML template to be used by this component.
+     */
+    @Property(name="htmlTemplate", isHidden=true, isAttribute=true, displayName="HTML Template", category="Appearance")
+    private String htmlTemplate = null;
+
+    /**
+     * Get alternative HTML template to be used by this component.
+     */
+    public String getHtmlTemplate() {
+        if (this.htmlTemplate != null) {
+            return this.htmlTemplate;
+        }
+        ValueExpression _vb = getValueExpression("htmlTemplate");
+        if (_vb != null) {
+            return (String) _vb.getValue(getFacesContext().getELContext());
+        }
+        return null;
+    }
+    
+    /**
+     * Set alternative HTML template to be used by this component.
+     */
+    
+    public void setHtmlTemplate(String htmlTemplate) {
+        this.htmlTemplate = htmlTemplate;
+    }    
 
     /**
      * <p>Restore the state of this component.</p>
@@ -1009,13 +1047,14 @@ public class Hyperlink extends WebuiCommand implements ComplexComponent {
         this.urlLang = (String) _values[24];
         this.visible = ((Boolean) _values[25]).booleanValue();
         this.visible_set = ((Boolean) _values[26]).booleanValue();
+        this.htmlTemplate = (String) _values[27];        
     }
 
     /**
      * <p>Save the state of this component.</p>
      */
     public Object saveState(FacesContext _context) {
-        Object _values[] = new Object[27];
+        Object _values[] = new Object[28];
         _values[0] = super.saveState(_context);
         _values[1] = this.disabled ? Boolean.TRUE : Boolean.FALSE;
         _values[2] = this.disabled_set ? Boolean.TRUE : Boolean.FALSE;
@@ -1043,6 +1082,7 @@ public class Hyperlink extends WebuiCommand implements ComplexComponent {
         _values[24] = this.urlLang;
         _values[25] = this.visible ? Boolean.TRUE : Boolean.FALSE;
         _values[26] = this.visible_set ? Boolean.TRUE : Boolean.FALSE;
+        _values[27] = this.htmlTemplate;        
         return _values;
     }
 }

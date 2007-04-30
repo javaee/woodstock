@@ -26,6 +26,12 @@ package com.sun.webui.jsf.theme;
  * <p> This class contains HTML template related theme constants.</p>
  */
 public class ThemeTemplates {
+
+    /**
+     * A template file that contains HTML for the anchor component.
+     */
+    public static final String ANCHOR = "anchor";    
+    
     /**
      * A template file that contains HTML for the alert component.
      */

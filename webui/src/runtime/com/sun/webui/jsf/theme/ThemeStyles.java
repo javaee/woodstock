@@ -697,6 +697,17 @@ public class ThemeStyles {
     public static final String PROGRESSBAR_FAILED = "PROGRESSBAR_FAILED";
     public static final String PROGRESSBAR_FAILEDLABEL = "PROGRESSBAR_FAILEDLABEL";
     public static final String PROGRESSBAR_INDETERMINATE_PAUSED = "PROGRESSBAR_INDETERMINATE_PAUSED";
+    /**
+     * Anchor Styles
+     */
+    public static final String ANCHOR = "ANCHOR";
+    public static final String ANCHOR_DISABLED = "ANCHOR_DISABLED";    
+    
+    /**
+     * Hyperlink styles
+     */
+    public static final String HYPERLINK = "HYPERLINK";
+    public static final String HYPERLINK_DISABLED = "HYPERLINK_DISABLED";
 
     /**
      * This private constructor prevents this class from being instantiated

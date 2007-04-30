@@ -29,13 +29,16 @@ import java.util.List;
 
 import javax.el.ValueExpression;
 import javax.faces.component.NamingContainer;
+import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 
 /**
  * The ImageHyperlink component is used to display a hyperlinked image.
  */
-@Component(type="com.sun.webui.jsf.ImageHyperlink", family="com.sun.webui.jsf.ImageHyperlink", displayName="Image Hyperlink", tagName="imageHyperlink",
+@Component(type="com.sun.webui.jsf.ImageHyperlink", family="com.sun.webui.jsf.ImageHyperlink", 
+    displayName="Image Hyperlink", tagName="imageHyperlink",
     helpKey="projrave_ui_elements_palette_wdstk-jsf1.2_image_hyperlink",
+     tagRendererType="com.sun.webui.jsf.widget.ImageHyperlink",        
     propertiesHelpKey="projrave_ui_elements_palette_wdstk-jsf1.2_propsheets_image_hyperlink_props")
 public class ImageHyperlink extends Hyperlink implements NamingContainer {
     private static final String IMAGE_FACET = "image"; //NOI18N
@@ -46,13 +49,12 @@ public class ImageHyperlink extends Hyperlink implements NamingContainer {
      * This is used as a suffix combined with the id of the component.
      */
     final protected String IMAGE_FACET_SUFFIX = "_" + IMAGE_FACET; //NOI18N
-
     /**
      * Default constructor.
      */
     public ImageHyperlink() {
         super();
-        setRendererType("com.sun.webui.jsf.ImageHyperlink");
+        setRendererType("com.sun.webui.jsf.widget.ImageHyperlink");
     }
 
     /**
@@ -101,13 +103,6 @@ public class ImageHyperlink extends Hyperlink implements NamingContainer {
 
         String imageURL = getImageURL();
         String icon = getIcon();
-        
-        if (imageURL == null && icon == null) {
-	    ComponentUtilities.removePrivateFacet(this,
-		IMAGE_FACET);
-	    return null;
-	}
-
         ImageComponent image = null;
         
 	// ImageURL takes precedence
@@ -591,6 +586,7 @@ public class ImageHyperlink extends Hyperlink implements NamingContainer {
         this.width = width;
         this.width_set = true;
     }
+    
 
     /**
      * <p>Restore the state of this component.</p>

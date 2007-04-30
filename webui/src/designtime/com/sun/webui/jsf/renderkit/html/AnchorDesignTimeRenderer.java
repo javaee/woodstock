@@ -22,6 +22,7 @@
 package com.sun.webui.jsf.renderkit.html;
 
 import com.sun.webui.jsf.component.Anchor;
+import com.sun.webui.jsf.component.ImageComponent;
 import com.sun.webui.jsf.component.PropertySheetSection;
 import com.sun.webui.jsf.component.SkipHyperlink;
 import com.sun.webui.jsf.util.RenderingUtilities;
@@ -56,6 +57,10 @@ public class AnchorDesignTimeRenderer extends AbstractDesignTimeRenderer {
                 && !PropertySheetSection.class.isAssignableFrom(parent.getClass())) { 
             Anchor anchor = (Anchor) component; 
             ResponseWriter writer = context.getResponseWriter();
+
+            // No need to display a placeholder image if some other stuff already exists for anchor            
+            if (component.getChildCount() == 0 &&
+                    (anchor.getText() == null)) {            
             writer.startElement("a", anchor); //NOI18N
             String id = anchor.getId();
             writer.writeAttribute("id", id, "id"); //NOI18N
@@ -71,13 +76,21 @@ public class AnchorDesignTimeRenderer extends AbstractDesignTimeRenderer {
             writer.writeURIAttribute("src", url, null); //NOI18N
             writer.endElement("img"); // NOI18N
             writer.endElement("a"); //NOI18N
+            } else {
+                super.encodeBegin(context, component);
+            }            
         }
     }
-
-    public void encodeEnd(FacesContext context, UIComponent component) throws IOException {
-    }
-
-    public void encodeChildren(FacesContext context, UIComponent component) {
-    }
     
+    public void encodeEnd(FacesContext context, UIComponent component) throws IOException{
+                    Anchor anchor = (Anchor) component; 
+    // No need to display a placeholder image if some other stuff already exists for anchor                                
+        if (component.getChildCount() == 0 &&
+        (anchor.getText() == null)) {  
+            return;
+        } else {
+            super.encodeEnd(context, component);
+        }
+
+    }
 }

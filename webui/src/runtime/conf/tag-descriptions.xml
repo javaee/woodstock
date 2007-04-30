@@ -976,41 +976,97 @@ submitting field value<br>
         <name>anchor</name>
 
         <description><![CDATA[
- <p>
- Use the <code>webuijsf:anchor</code> tag
- to create HTML anchors in the rendered HTML page. You can then use <code>webuijsf:hyperlink</code>
- tags that jump to the locations of the anchors in the page.</span><br>
- <h3 >HTML Elements and Layout</h3>
- The <code>webuijsf:anchor</code> tag
- creates an <code>&lt;a&gt;</code> element in the rendered HTML page.
- The name and id attributes of the <code>&lt;a&gt;</code> element are
- both set to the value of the id attribute specified with the <code>webuijsf:anchor</code>
- tag. The name attibute is included to maintain compatibility with older
- browsers.</span><br >
- <h3 >Client Side Javascript Functions</h3>
- <span >None.&nbsp; </span><br>
+<p>  Use the <code>webuijsf:anchor</code> tag to 
+    <ul>
+      <li> Create an anchor that traverses to the specified url.</li>
+      <li> Anchor a position in the page so that you can jump to it.</li>
+     </ul> 
+      
+  <p>If you use the anchor component to anchor a position in the page, make sure that
+  the name attribute has a value set. When the anchor widget is created on the client
+  side, if the name attribute is specified, this value will be assigned as the id
+  of the anchor widget.</p>
+  
+ <h3 >Client Side Javascript Functions</h3><br>
+ When the component is rendered, a DOM object corresponding to the
+component is created. To manipulate the component on the client side,
+you may invoke functions on the DOM object. With reference to the DOM
+id, to disable the component, invoke <code>document.getElementById(id).setProps({disabled:
+true})</code>.<br>
+<br>
+<table style="text-align: left; width: 100%;" border="1" cellpadding="2"
+ cellspacing="2">
+  <tbody>
+    <tr>
+      <td><code>getProps()</code></td>
+      <td>Use this function to get widget properties. Please see <code>setProps()</code>
+function for a list of supported properties.</td>
+    </tr>
+    <tr>
+      <td><code>setProps(props)</code></td>
+      <td>Use this function to change any of the following supported
+properties:
+
+  <ul>
+  <li>accessKey</li>  
+  <li>charset</li>  
+  <li>className</li>
+  <li>coords</li>
+  <li>dir</li>
+  <li>disabled</li>  
+  <li>href</li>
+  <li>hrefLang</li>
+  <li>id</li>  
+  <li>lang</li>
+  <li>name</li>
+  <li>onFocus</li>
+  <li>onBlur</li>
+  <li>onClick</li>
+  <li>onDblClick</li>
+  <li>onKeyDown</li>
+  <li>onKeyPress</li>
+  <li>onKeyUp</li>
+  <li>onMouseDown</li>
+  <li>onMouseOut</li>
+  <li>onMouseOver</li>
+  <li>onMouseUp</li>
+  <li>onMouseMove</li>
+  <li>rev</li>
+  <li>rel</li>
+  <li>shape</li>
+  <li>style</li>
+  <li>tabIndex</li>
+  <li>title</li>
+  <li>visible</li>
+    </li>
+      </td>
+    </tr>
+  </tbody>
+</table>
+
  <h3 >Examples</h3>
- <h4 >Example 1: Create an anchor</h4>
- <code >&lt;webuijsf:anchor id="anchor1" /&gt;
+ <h4 >Example 1: Create an anchor that points to an url</h4>
+ <code >&lt;webuijsf:anchor id="anchor1" url="http://www.sun.com"/&gt;
+ </code>
  <br>
- <br>
- </code><span >This generates an anchor,
- with id and name set to the same
- value. </span><br >
+ <h4> Example 2:Create an anchor that anchors a particular position on the page.</h4>
+
  <span >&nbsp;&nbsp; </span><br>
- <code >&lt;a id="anchor1" name="anchor1"
+ <code >&lt;a id="foo" name="anchor1"
  /&gt;
  </code><br>
- <h4 >Example 2: Create a hyperlink to
+ Note: To access this on the client side, use
+ <code>document.getElementById("anchor1");
+ <h4 >Example 3: Create a hyperlink to
  that will go to the anchor above<br>
  </h4>
- <code >&lt;webuijsf:hyperlink id="gotoAnchor1"
- url="#anchor1" /&gt;<br>
+ <code >&lt;webuijsf:hyperlink id="link1"url="#anchor1" &gt; Go to Anchor
+ &lt;/webuijsf:hyperlink &gt;<br>
  </code>
- <h4 >Example 3: Create a relative hyperlink to
+ <h4 >Example 4: Create a relative anchor to
  go to the anchor
  in Example 1</h4>
- <code >&lt;webuijsf:hyperlink id="gotoAnchor1"
+ <code >&lt;webuijsf:anchor id="gotoAnchor1"
  url="/faces/hyperlink.jsp#anchor1" /&gt;<br>
  </code><br>
  Note:&nbsp; In the <code>url</code>
@@ -1018,6 +1074,22 @@ submitting field value<br>
  However, you do not need the context. In this example, the <code
  /faces</code> part of the path maps to the servlet
  through the JSF FacesServlet as defined in the web.xml.
+ <h4 >Example 5:Updating the anchor on the client side </h4>
+  <code>
+ <code >&lt;webuijsf:anchor id="anchor1" name="anchor1" &gt; This is an anchor
+ &lt;/webuijsf:anchor &gt;<br>  
+  &lt;webuijsf:button id="button1" text="Hide Anchor" onClick="hideAnchor()"/&gt;<br>
+   &lt script type="text/javascript"&gt <br>
+    function hideAnchor() {<br>
+      var domNode = document.getElementById("anchor1");<br> 
+      var props = domNode.getProps();<br>
+      if (domNode != null) {<br>          
+	  domNode.setProps({"visible":!props.visible});<br>
+      }<br>
+    }<br>
+   &lt/script&gt<br>
+  </code> 
+
 ]]></description>
     </tag>
 
@@ -4961,29 +5033,88 @@ submitting radio button value<br>
         <description><![CDATA[
  <p>
  Use the <code>webuijsf:hyperlink</code> tag to display a HTML hyperlink to a URL, or a
- link that submits a form.  If the url attribute is used, the link is a normal hyperlink
- that sends the browser to a new location.If the <code>actionExpression</code> attribute is used,
- the form is submitted. The hyperlink component's onClick event handler  executes the
-<code> webui.suntheme.hyperlink.submit</code> javascript function to
-submit the form when the link is clicked. The clicked hyperlink's client id is
-passed on as a (name,value) pair in the request parameter, represented as
-(<hyperlink_client_id>_submittedField, <hyperlink_client_id>)
-to enable the server to identify which hyperlink was clicked. </p>
+ link that submits a form.  
+ 
+ <ul>
+   <li> If the url attribute is specified, an anchor widget is created on the client side.
+        Clicking on this anchor will take the user to the url specified.</li>
+   <li> If the actionExpression attribute is specified and the url attribute is not specified,
+        an hyperlink widget will be created on the client side which will submit the form when it is clicked.</li>
+   <li> If both the url and actionExpression attributes are specified, the url attribute takes
+        preference.</li>
+   <li> If none of the attributes are specified, an hyperlink widget will be created on the
+        client side and the form will be submitted when the hyperlink is clicked.</li>
+    <br />
+    
+   <p> If you intend to use the hyperlink for navigating to a different page by using the url attribute,
+    consider using the <code>webuijsf:anchor</code> component instead of the hyperlink component. </p>
 
-<p>If the 'onClick' attribute is specified, then that javascript is executed
-first before the <code>webui.suntheme.hyperlink.submit</code> function gets executed.
-.</p> 
-
- <p>The <code>webuijsf:imageHyperlink</code> component can be also be used to submit forms.</p>
+ <p> If UIParameter components are specified as children to the hyperlink component and an url attribute
+     exists, then the behavior of the url here is similar to the one observed with the anchor component. The
+     name, value pairs of the UIParameter components are added as request parameters to the url attribute.
+     If no url is specified for the hyperlink, then this will be passed on to the hyperlink widget as a JSON array
+     where these name/value pairs will be appended as request parameters when the hyperlink is clicked and the
+     form is submitted. </p>
+  <p> If the disabled attribute of the hyperlink is set to true, clicking the hyperlink on the browser will not
+     generate a request and hence the form will not be submitted or the page will not navigate to the specified url
+     depending on whether the url has been specified or not. </p>
  <h3>HTML Elements and Layout</h3>
  <p>
  The rendered HTML page displays an XHTML &lt;a&gt; element. If the link submits the 
  form the onclick will have some additional behavior that the user
  should be aware of. See the onClick attribute below.
  </p>
- <h3>Client-Side Javascript Functions</h3>
- <p>None.
- </p>
+ <h3 >Client Side Javascript Functions</h3>
+ When the component is rendered, a DOM object corresponding to the
+component is created. To manipulate the component on the client side,
+you may invoke functions on the DOM object. With reference to the DOM
+id, to disable the component, invoke <code>document.getElementById(id).setProps({disabled:
+true})</code>.<br>
+<br>
+<table style="text-align: left; width: 100%;" border="1" cellpadding="2"
+ cellspacing="2">
+  <tbody>
+    <tr>
+      <td><code>getProps()</code></td>
+      <td>Use this function to get widget properties. Please see <code>setProps()</code>
+function for a list of supported properties.</td>
+    </tr>
+    <tr>
+      <td><code>setProps(props)</code></td>
+      <td>Use this function to change any of the following supported
+properties:
+
+  <ul>
+  <li>id</li>
+  <li>className</li>
+  <li>dir</li>
+  <li>disabled</li>
+  <li>href</li>
+  <li>hrefLang</li>
+  <li>lang</li>
+  <li>onFocus</li>
+  <li>onBlur</li>
+  <li>onClick</li>
+  <li>onDblClick</li>
+  <li>onKeyDown</li>
+  <li>onKeyPress</li>
+  <li>onKeyUp</li>
+  <li>onMouseDown</li>
+  <li>onMouseOut</li>
+  <li>onMouseOver</li>
+  <li>onMouseUp</li>
+  <li>onMouseMove</li>
+  <li>style</li>
+  <li>tabIndex</li>
+  <li>title</li>
+  <li>visible</li>
+    </li>
+   </ul>
+      </td>
+    </tr>
+  </tbody>
+</table>
+
  <h3><a name="Examples">Examples</a></h3>
  <h4>Example 1: Create a hyperlink that submits the form</h4>
  <code>&lt;webuijsf:hyperlink
@@ -5027,6 +5158,25 @@ first before the <code>webui.suntheme.hyperlink.submit</code> function gets exec
  &lt;/webuijsf:hyperlink&gt;<br>
  <br>
  </code>
+ <h5> Example 5: Updating the value of the hyperlink on the client side using setProps and getProps</h5>
+  <code>&lt;webuijsf:hyperlink
+ id="form1:hyperlink1"
+ text="#{HyperlinkBean.text}" actionExpression="#{hyperlinkBean.action}" /&gt;
+ Click here
+ &lt;/webuijsf:hyperlink&gt;<br>
+ &lt;webuijsf:button id="button1" text="Hide hyperlink" onClick="hideHyperlink()"/&gt;<br>
+ </code>
+  <code>
+   &lt script type="text/javascript"&gt <br>
+   function hideHyperlink {<br>
+      var domNode = document.getElementById("form1:hyperlink1");<br>
+      var props = domNode.getProps();
+      if (domNode != null) {<br>
+	  domNode.setProps({"disabled":true,"visible":!props.visible});<br>
+      }<br>
+   }<br>   
+   &lt/script&gt<br>
+  </code>   
 ]]></description>
     </tag>
 

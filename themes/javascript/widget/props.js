@@ -112,7 +112,15 @@ webui.@THEME@.widget.props = {
         errorStyleClass: "ConErrLblTxt@THEME_CSS@",
         levelOneStyleClass: "LblLev1Txt@THEME_CSS@",
         levelTwoStyleClass: "LblLev2Txt@THEME_CSS@",
-        levelThreeStyleClass: "LblLev3Txt@THEME_CSS@"        
+        levelThreeStyleClass: "LblLev3Txt@THEME_CSS@"
+    },
+    anchor: {
+        className:"Anc@THEME_CSS@",
+        disabledClassName:"AncDis@THEME_CSS@"
+    },
+    hyperlink: {
+        className:"Hyp@THEME_CSS@",
+        disabledClassName:"HypDis@THEME_CSS@"
     },
 
     // TextField properties.
