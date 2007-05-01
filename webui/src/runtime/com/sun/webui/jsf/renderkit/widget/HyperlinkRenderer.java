@@ -59,7 +59,6 @@ import com.sun.faces.annotation.Renderer;
     rendererType="com.sun.webui.jsf.widget.Hyperlink", 
     componentFamily="com.sun.webui.jsf.Hyperlink"))
 public class HyperlinkRenderer extends AnchorRenderer{
-
     /**
      * <p>Decode will determine if this component was the one that submitted the form.
      * It determines this by looking for the hidden field with the link's name 
@@ -89,7 +88,6 @@ public class HyperlinkRenderer extends AnchorRenderer{
         //this should automatically take care of actionlisteners and actions
         component.queueEvent(new ActionEvent(component));
     }   
-      
       
     /**
      * Get the Dojo modules required to instantiate the widget.
@@ -127,6 +125,7 @@ public class HyperlinkRenderer extends AnchorRenderer{
             JSONArray jarray = new JSONArray();
             JSONObject param;
             json.put("params", jarray);
+
             Iterator kids = component.getChildren().iterator();
             while (kids.hasNext()) {
                 UIComponent kid = (UIComponent) kids.next();
@@ -144,8 +143,7 @@ public class HyperlinkRenderer extends AnchorRenderer{
         }
         super.setAttributes(context, component, json);     
     }
-     
-    
+
     /**
      * Returns the identifier for the parameter that corresponds to the hidden field
      * used to pass the value of the component that submitted the page.

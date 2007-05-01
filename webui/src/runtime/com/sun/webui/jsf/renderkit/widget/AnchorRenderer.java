@@ -52,7 +52,6 @@ import com.sun.webui.jsf.util.WidgetUtilities;
 import com.sun.webui.jsf.util.ThemeUtilities;
 import com.sun.faces.annotation.Renderer;
 
-
 /**
  * This class renders the Anchor component
  */
@@ -60,19 +59,36 @@ import com.sun.faces.annotation.Renderer;
     rendererType="com.sun.webui.jsf.widget.Anchor", 
     componentFamily="com.sun.webui.jsf.Anchor"))
 public class AnchorRenderer extends RendererBase{
-    
     /**
-     * <p>The set of String pass-through attributes to be rendered.</p>
+     * The set of pass-through attributes to be rendered.
      */
-    private static final String stringAttributes[] =
-    {"onClick", "onDblClick", "onKeyDown", "onKeyPress", "onMouseUp", //NOI18N
-      "onKeyUp", "onMouseDown", "onMouseMove", "onMouseOut", "onMouseOver", //NOI18N
-      "onFocus", "onBlur", "shape", "coords", "rel", "rev", "target", "type", //NOI18N
-      "style", "charset", "accessKey"}; //NOI18N
+    private static final String attributes[] = {
+        "accessKey",
+        "charset",
+        "coords",
+        "onBlur",
+        "onClick",
+        "onDblClick",
+        "onFocus",
+        "onKeyDown",
+        "onKeyPress",
+        "onKeyUp",
+        "onMouseDown",
+        "onMouseOut",
+        "onMouseOver",
+        "onMouseUp",
+        "onMouseMove",
+        "rel",
+        "rev",
+        "shape",
+        "style",
+        "target",
+        "type"
+    };
     
-    /*
-     *<p> Id of the transparent image to be rendered for IE browsers
-     */    
+     /**
+      * Id of the transparent image to be rendered for IE browsers
+      */    
      private static String ANCHOR_IMAGE = "_img";   //NOI18N    
         
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -98,13 +114,12 @@ public class AnchorRenderer extends RendererBase{
      * @param context FacesContext for the current request.
      * @param component UIComponent to be rendered.
      */    
-    protected JSONObject getProperties(FacesContext context,     
+    protected JSONObject getProperties(FacesContext context, 
             UIComponent component) throws JSONException, IOException {
-         JSONObject json = new JSONObject();
-        Map attributes = component.getAttributes(); 
+        JSONObject json = new JSONObject();
         setAttributes(context, component, json);
-        setHTMLTemplate (context, component, json);
-        addContents(json, component, context);
+        setHTMLTemplate(context, component, json);
+        setContents(context, component, json);
         return json;
     }
     
@@ -115,12 +130,12 @@ public class AnchorRenderer extends RendererBase{
      * @param component UIComponent to be rendered.
      * @param json The JSON object
      */
-    protected void setHTMLTemplate (FacesContext context,
-            UIComponent component, JSONObject json) throws JSONException,
-            IOException {
+    protected void setHTMLTemplate (FacesContext context, UIComponent component,
+            JSONObject json) throws JSONException, IOException {
         Theme theme = ThemeUtilities.getTheme(context);        
-        String templatePath = (String)component.getAttributes().get("templatePath");
-        json.put("templatePath", (templatePath != null && templatePath.length() > 0)
+        String templatePath = (String) component.getAttributes().get("templatePath");
+        json.put("templatePath",
+            (templatePath != null && templatePath.length() > 0)
                 ? templatePath 
                 : theme.getPathToTemplate(ThemeTemplates.ANCHOR));        
     }
@@ -133,42 +148,46 @@ public class AnchorRenderer extends RendererBase{
      * @param component UIComponent to be rendered.
      * @param json The JSON object
      */
-    protected void setAttributes(FacesContext context, 
-            UIComponent component, JSONObject json) throws JSONException, 
-            IOException {
-        Map attributes = component.getAttributes();        
-               // Add core and attribute properties.
-        addAttributeProperties(stringAttributes, component, json);        
-        setCoreProperties(context, component, json); 
+    protected void setAttributes(FacesContext context, UIComponent component, 
+            JSONObject json) throws JSONException, IOException {
+        Map attrsMap = component.getAttributes();
+
+        // Add core and attribute properties.
+        addAttributeProperties(attributes, component, json);
+        setCoreProperties(context, component, json);
+
         String tmp = null;
-        tmp = (String)attributes.get("style");
+        tmp = (String) attrsMap.get("style");
         if (tmp != null && tmp.length() > 0) {
             json.put("style", tmp);
         }         
-        tmp = (String)attributes.get("styleClass");
+        tmp = (String) attrsMap.get("styleClass");
         if (tmp != null && tmp.length() > 0) {
             json.put("className", tmp);
         }
-        tmp = (String)attributes.get("toolTip");
-         if (tmp != null && tmp.length() > 0) {
-             json.put("title", tmp);
-         }
-        tmp = (String)attributes.get("urlLang");
-         if (tmp != null && tmp.length() > 0) {
-             json.put("hrefLang", tmp);
-         }
-        tmp = (String)attributes.get("name");
+        tmp = (String) attrsMap.get("toolTip");
+        if (tmp != null && tmp.length() > 0) {
+            json.put("title", tmp);
+        }
+        tmp = (String) attrsMap.get("urlLang");
+        if (tmp != null && tmp.length() > 0) {
+            json.put("hrefLang", tmp);
+        }
+        tmp = (String) attrsMap.get("name");
         if (tmp != null && tmp.length() > 0) { 
-             json.put("name", tmp);
-         } 
-         json.put("disabled",((Boolean)attributes.get("disabled")).booleanValue());        
-         json.put("visible", ((Boolean)attributes.get("visible")).booleanValue());
-         String url = (String)attributes.get("url");
-         setURL (component, context, json, url);
-         int tabIndex = ((Integer)attributes.get("tabIndex")).intValue();  
-         if (!(tabIndex == Integer.MIN_VALUE)) {
+            json.put("name", tmp);
+        }
+
+        json.put("disabled",((Boolean) attrsMap.get("disabled")).booleanValue());        
+        json.put("visible", ((Boolean) attrsMap.get("visible")).booleanValue());
+
+        String url = (String) attrsMap.get("url");
+        setURL(context, component, json, url);
+
+        int tabIndex = ((Integer) attrsMap.get("tabIndex")).intValue();  
+        if (!(tabIndex == Integer.MIN_VALUE)) {
             json.put("tabIndex", tabIndex);
-         }         
+        }         
     }
     
     /**
@@ -189,12 +208,12 @@ public class AnchorRenderer extends RendererBase{
      * @param json The JSON object
      * @param url The url string to be output.
      */
-    protected void setURL (UIComponent component, FacesContext context, 
+    protected void setURL(FacesContext context, UIComponent component,
             JSONObject json, String url) throws JSONException {
         if (url != null && url.length() > 0) {
             if (!(url.startsWith("#"))) { //NOI18N
-                url = context.getApplication().getViewHandler().
-                        getResourceURL(context, url);
+                url = context.getApplication().getViewHandler().getResourceURL(
+                    context, url);
                 url = WidgetUtilities.translateURL(context, component, url); //NOI18N                      
             }
             json.put("href", url);
@@ -202,40 +221,41 @@ public class AnchorRenderer extends RendererBase{
     }
     
     /**
-      * Traverse through the children and facet components and add them to 
-      * the json array as children. Note that in this case, the text
-      * property of the component is also added to the contents property of
-      * the widget.The UIParameters are not added as contents over here.
-      * Instead they are used while generating the url attribute. The name
-      * value pairs found in the UIParameter component are appended as request
-      * parameters in the url attribute.
-      * This also renders a spacer image if there are no children or
-      * text provided for the anchor. This is a work around for IE browsers
-      * which does not locate the anchor if nothing is specified in the body
-      * of the anchor.      
-      * @param json The json object
-      * @param component The ImageHyperlink component
-      * @param context The FacesContext
-      */
-    protected void addContents(JSONObject json, UIComponent component,
-         FacesContext context)throws JSONException, IOException{
+     * Traverse through the children and facet components and add them to 
+     * the json array as children. Note that in this case, the text
+     * property of the component is also added to the contents property of
+     * the widget.The UIParameters are not added as contents over here.
+     * Instead they are used while generating the url attribute. The name
+     * value pairs found in the UIParameter component are appended as request
+     * parameters in the url attribute.
+     * This also renders a spacer image if there are no children or
+     * text provided for the anchor. This is a work around for IE browsers
+     * which does not locate the anchor if nothing is specified in the body
+     * of the anchor.      
+     * @param json The json object
+     * @param component The ImageHyperlink component
+     * @param context The FacesContext
+     */
+    protected void setContents(FacesContext context, UIComponent component, 
+            JSONObject json)throws JSONException, IOException{
         JSONArray children = new JSONArray();
         json.put("contents", children);
+
         String text = (String)component.getAttributes().get("text");
-        UIComponent child; 
         if (text != null && text.length() > 0) {
-            text = ConversionUtilities.convertValueToString(component,
-               text);
+            text = ConversionUtilities.convertValueToString(component, text);
         }
+
         WidgetUtilities.addProperties(children, text);
         Iterator it = component.getChildren().iterator();
-         while (it.hasNext()) {
-            child = (UIComponent)it.next();
+        while (it.hasNext()) {
+            UIComponent child = (UIComponent) it.next();
             if (!(child instanceof UIParameter)) {
                 WidgetUtilities.addProperties(children,
                     WidgetUtilities.renderComponent(context, child));   
             }
-         }
+        }
+
         // Fix for IE. If no text or image is specified, render a placeholder image
         // so that the browser can identify the anchor element.
         if (component.getChildCount() == 0 || 
@@ -245,7 +265,7 @@ public class AnchorRenderer extends RendererBase{
                 Icon icon = new Icon();
                 icon.setParent(component);
                 icon.setIcon(ThemeImages.DOT);    
-                icon.setId(component.getId()+ANCHOR_IMAGE);
+                icon.setId(component.getId() + ANCHOR_IMAGE);
                 WidgetUtilities.addProperties(children,
                     WidgetUtilities.renderComponent(context, icon));   
             }

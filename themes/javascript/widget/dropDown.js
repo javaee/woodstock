@@ -397,11 +397,8 @@ webui.@THEME@.widget.dropDown.createOnChangeCallback = function(id) {
     // is called, and it's saved by closure magic.
     return function(event) { 
         var widget = dojo.widget.byId(id);
-        if (widget == null) {
+        if (widget == null || widget.disabled == true) {
             return false;
-        }
-        if (widget.disabled == true) {
-            return true;
         }
 
         // If function returns false, we must prevent the auto-submit.

@@ -36,52 +36,101 @@ dojo.require("webui.@THEME@.widget.anchor");
  * Note: This is considered a private API, do not use.
  */
 webui.@THEME@.widget.hyperlink = function() {
-
     // Set defaults.
-    this.widgetType = "hyperlink";   
     this.href = "#";
+    this.widgetType = "hyperlink"; 
+
     // Register widget.
     dojo.widget.Widget.call(this);
+
     /**
      * This function is used to generate a template based widget.
      */
     this.fillInTemplate = function() {
-
-        // Set public functions. 
-        this.domNode.setProps = function(props) {
-            return dojo.widget.byId(this.id).setProps(props); 
-        }
-        this.domNode.getProps = function() { 
-            return dojo.widget.byId(this.id).getProps(); 
-        } 
+        // Set public functions.
+        this.domNode.getProps = function() { return dojo.widget.byId(this.id).getProps(); }
+//        this.domNode.refresh = function(execute) { return dojo.widget.byId(this.id).refresh(execute); }
+        this.domNode.setProps = function(props) { return dojo.widget.byId(this.id).setProps(props); }
 
         // Set private functions.
-        this.setProps = webui.@THEME@.widget.hyperlink.setProps;
-        this.setAnchorProps = webui.@THEME@.widget.anchor.setAnchorProps;
-        this.getProps = webui.@THEME@.widget.anchor.getProps;
         this.addChildren = webui.@THEME@.widget.anchor.addChildren;
+        this.getClassName = webui.@THEME@.widget.hyperlink.getClassName;
         this.getProps = webui.@THEME@.widget.anchor.getProps;
-        this.submit = webui.@THEME@.widget.hyperlink.submit; 
-        this.getClassName = webui.@THEME@.widget.hyperlink.getClassName; 
-        // Create loop back function for onClick event.
+//        this.refresh = webui.@THEME@.widget.anchor.refresh.processEvent;
+        this.setAnchorProps = webui.@THEME@.widget.anchor.setAnchorProps;
+        this.setProps = webui.@THEME@.widget.hyperlink.setProps;
+        this.submit = webui.@THEME@.widget.hyperlink.submit;
+
+        // Create callback function for onClick event.
         dojo.event.connect(this.domNode, "onclick",
-        webui.@THEME@.widget.hyperlink.createOnClickCallback(this.id, 
-        this.formId, this.params));
-	//Initialize properties
+            webui.@THEME@.widget.hyperlink.createOnClickCallback(this.id, 
+                this.formId, this.params));
+
+	// Set properties
 	return this.setProps();
     }
 }
 
 /**
+ * Helper function to create callback for onClick event.
+ *
+ * @param id The HTML element id used to invoke the callback.
+ * @param linkId The id of the html anchor element
+ * @param formId The id of the form element
+ * @param params The parameters to be passed on when the hyperlink is clicked
+ */
+webui.@THEME@.widget.hyperlink.createOnClickCallback = function(id, formId, 
+        params) {
+    if (id == null) {
+        return null;
+    }
+    // New literals are created every time this function
+    // is called, and it's saved by closure magic.
+    return function(event) { 
+        var widget = dojo.widget.byId(id);
+        if (widget == null || widget.disabled == true) {
+            event.preventDefault();
+            return false;
+        }
+
+        // If function returns false, we must prevent the submit.
+        var result = (widget.domNode._onclick)
+            ? widget.domNode._onclick(event) : true;
+        if (result == false) {
+            event.preventDefault();
+            return false;
+        }
+        return widget.submit(formId, params);
+    };
+}
+
+/**
+ * Helper function to obtain widget class names.
+ */
+webui.@THEME@.widget.hyperlink.getClassName = function() {
+    var className = null;
+    if (this.disabled == true) {
+        className = webui.@THEME@.widget.props.hyperlink.disabledClassName;
+    } else {
+        className = webui.@THEME@.widget.props.hyperlink.className;
+    }
+    return (this.className)
+        ? className + " " + this.className
+        : className;
+}
+
+/**
  * This function is used to update widget properties with the
- * following Object literals. Not all properties are required.
+ * following Object literals.
+ *
  * <ul>
- * <li>id</li>
  * <li>className</li>
+ * <li>contents</li>
  * <li>dir</li>
  * <li>disabled</li>
  * <li>href</li>
  * <li>hrefLang</li>
+ * <li>id</li>
  * <li>lang</li>
  * <li>onFocus</li>
  * <li>onBlur</li>
@@ -99,100 +148,70 @@ webui.@THEME@.widget.hyperlink = function() {
  * <li>tabIndex</li>
  * <li>title</li>
  * <li>visible</li>
- *
- * This function first calls the setAnchorProps present in
- * anchor widget to set all the properties common to the anchor
- * widget.
  */
 webui.@THEME@.widget.hyperlink.setProps = function(props){
     // Save properties for later updates.
     if (props != null) {
+        // Replace contents -- do not extend.
+        if (props.contents) {
+            this.contents = null;
+        }
         webui.@THEME@.widget.common.extend(this, props);
     } else {
         props = this.getProps(); // Widget is being initialized.
     }
+
     // Set style class -- must be set before calling setCoreProps().
     props.className = this.getClassName();
+
     // Set properties that are common to the anchor element.
     this.setAnchorProps(props); 
     this.addChildren(props);
 }
 
- /**
-  * Helper function to create callback for onClick event.
-  *
-  * @param id The HTML element id used to invoke the callback.
-  * @param linkId The id of the html anchor element
-  * @param formId The id of the form element
-  * @param params The parameters to be passed on when the hyperlink is clicked
-  *
-  */
- webui.@THEME@.widget.hyperlink.createOnClickCallback = 
-      function(id, formId, params) {
-     if (id != null) {
-         // New literals are created every time this function
-         // is called, and it's saved by closure magic.
-         return function(event) { 
-          // Cannot use this.id over here as when the 
-          // hyperlink is clicked, the "this" will point
-          // to the window and not the widget.
-            var widget = dojo.widget.byId(id); 
-            if (!widget.disabled) {
-                widget.submit(formId, params);
-            }
-            event.preventDefault();
-            return false;
-         };
-     }
- }
-
-
-// This function submits the hyperlink if the hyperlink is enabled
- webui.@THEME@.widget.hyperlink.submit = function (formId, arr) {
-     var theForm = document.getElementById(formId);
-     var oldTarget = theForm.target;
-     var oldAction = theForm.action;
-     var link = this.domNode;
-     theForm.action += "?" + this.id + "_submittedLink="+this.id;               
-     if (link.target && link.target.length > 0) {// The default value is ""
-         theForm.target = link.target;   
-     } else {
-         theForm.target = "_self";
-     }
-     if (arr != null) {
-         var x;
-         for (var i = 0; i < arr.length; i++) {
-              x = arr[i];
-          theForm.action +="&" + arr[i] + "=" + arr[i+1]; 
-             i++;
-         }
-     }
-     theForm.submit(); 
-
-     if (link.target != null) {
-         theForm.target = oldTarget;
-         theForm.action = oldAction;
-     }
-     return false;        
- }
-
-
 /**
- * Helper function to obtain widget class names.
+ * This function submits the hyperlink if the hyperlink is enabled.
+ *
+ * @param formId The id of the form element
+ * @param params The parameters to be passed on when the hyperlink is clicked
  */
-webui.@THEME@.widget.hyperlink.getClassName = function() {
-    var className = null;
-    if (this.disabled == true) {
-            className = webui.@THEME@.widget.props.hyperlink.disabledClassName;
-    } else {
-            className = webui.@THEME@.widget.props.hyperlink.className;
-    }
-    return (this.className)
-        ? className + " " + this.className
-        : className;
+webui.@THEME@.widget.hyperlink.submit = function (formId, params) {
+    var theForm = document.getElementById(formId);
+    var oldTarget = theForm.target;
+    var oldAction = theForm.action;
+    var link = this.domNode;
 
+    // Set new action URL.
+    theForm.action += "?" + this.id + "_submittedLink=" + this.id;               
+
+    // Set new target.
+    if (link.target && link.target.length > 0) {
+        theForm.target = link.target;
+    } else {
+        theForm.target = "_self";
+    }
+
+    // Append query params to new action URL.
+    if (params != null) {
+        var x;
+        for (var i = 0; i < params.length; i++) {
+            x = params[i];
+            theForm.action += "&" + params[i] + "=" + params[i + 1]; 
+            i++;
+        }
+    }
+
+    // Submit form.
+    theForm.submit(); 
+
+    // Restore target and action URL.
+    if (link.target != null) {
+        theForm.target = oldTarget;
+        theForm.action = oldAction;
+    }
+    return false;        
 }
+
 dojo.inherits(webui.@THEME@.widget.hyperlink, dojo.widget.HtmlWidget);
 
 //-->
-

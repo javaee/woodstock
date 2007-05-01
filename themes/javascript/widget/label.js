@@ -203,6 +203,10 @@ webui.@THEME@.widget.label.refresh = {
 webui.@THEME@.widget.label.setProps = function(props) {
     // Save properties for later updates.
     if (props != null) {
+        // Replace contents -- do not extend.
+        if (props.contents) {
+            this.contents = null;
+        }
         webui.@THEME@.widget.common.extend(this, props);
     } else {
         props = this.getProps(); // Widget is being initialized.
