@@ -15890,6 +15890,49 @@ submitting radio button value<br>
 &lt;/webuijsf:script&gt;<br>
 </code>
 
+
+<h4>Example 7: Auto-Validation:</h4>
+This example shows how to enable auto-validation on the field using server side validator. Attribute <em>autoValidate </em> specifies that validation will be triggered on <em>onBlur</em> event, initiating Ajax call to the server to validate data. <br>
+<pre><CODE>&lt;webuijsf:textField 
+   id=&quot;textFieldA&quot; 
+   text=&quot;4111 1111 1111 1111&quot; 
+   label=&quot;Enter Credit Card Number&quot; 
+   columns=&quot;20&quot;
+   required=&quot;true&quot; 
+   autoValidate=&quot;true&quot;
+   validatorExpression=&quot;#{Payment.cardValidator}&quot;
+ /&gt;</CODE><CODE></CODE></pre>
+<p>Validator Payment will be invoked, and when result comes back, the validation message is available to the developer. One can get hold of returned validation message by subscribing to the following event and providing a call back closure ( in this case closure called <em>processEvents</em> with <em>update </em>function) :</p>
+<pre> 
+&lt;webuijsf:script&gt;
+//  --- Subscribe to validation event. ---
+ dojo.event.topic.subscribe(
+ webui.suntheme.widget.textField.validation.endEventTopic, processEvents, &quot;update&quot;);</pre>
+<pre>// --- this closure is used for validation callback ---  
+ var processEvents = {<br>
+ update: function(props) {
+   var domNode = document.getElementById(&quot;form1:textFieldA&quot;);
+   
+	//the following data reflecting validation results is available in props:
+	// props.valid ( true | false )
+	// props.summary
+	// props.detail
+
+  //the default autovalidation will ONLY invalidate ( make it red) the label
+  //on the text field.
+  //As an example, we will change the prefix before the label on the text field
+  //to display detail message of the error, or successful validation upon success
+   var date = (new Date()).toLocaleString();
+   document.getElementById('messageId').innerHTML = 
+      ((props.valid == true)? 
+			'[validated OK]': 
+			'['+props.detail+']' ) +
+			' on ' + date; 
+  }
+}</pre>
+<pre>&lt;/webuijsf:script&gt;  
+      </pre>
+
 ]]></description>
     </tag>
 
