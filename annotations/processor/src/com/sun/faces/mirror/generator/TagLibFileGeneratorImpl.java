@@ -71,6 +71,7 @@ class TagLibFileGeneratorImpl extends TagLibFileGenerator {
             String namespacePrefix = this.getNamespacePrefix();
             PrintWriter printWriter = this.getPrintWriter();
             VelocityContext velocityContext = new VelocityContext();
+            velocityContext.put("escaper", this.getEscaper());
             velocityContext.put("date", DateFormat.getDateInstance(DateFormat.MEDIUM).format(new Date()));
             velocityContext.put("componentInfoSet", componentInfoSet);
             velocityContext.put("namespace", namespace == null ? "" : namespace);

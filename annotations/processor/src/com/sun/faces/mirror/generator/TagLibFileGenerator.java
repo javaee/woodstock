@@ -81,4 +81,9 @@ abstract public class TagLibFileGenerator extends FileGenerator {
         this.namespacePrefix = namespacePrefix;
     }
     
+    @Override
+    protected Escaper getEscaper() {
+      return new XmlEscaper();
+    }
+        
 }

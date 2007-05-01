@@ -60,4 +60,12 @@ abstract public class Generator {
         this.printWriter = printWriter;
     }
     
+    /**
+     * Returns an escaper appropriate for the format of the output file. The default
+     * return value is null, indicating that no escaping is necessary.
+     */
+    protected Escaper getEscaper() {
+      return null;
+    }
+    
 }

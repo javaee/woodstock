@@ -78,7 +78,7 @@
 #end
 #else
             <deferred-value>
-                <type>${propertyInfo.type}</type>
+                <type>${escaper.escape($propertyInfo.type)}</type>
             </deferred-value>
 #end##if ($propertyInfo.type == 'javax.el.MethodExpression')
 #if ($propertyInfo.attributeInfo.description)
