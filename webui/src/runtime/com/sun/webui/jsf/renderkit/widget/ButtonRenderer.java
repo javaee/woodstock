@@ -64,7 +64,7 @@ public class ButtonRenderer extends RendererBase {
      */
     private static final String attributes[] = {
         "accessKey",
-        "alt", // not supported by button
+        "alt",
         "align",
         "dir",
         "lang",
