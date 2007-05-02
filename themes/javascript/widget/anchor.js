@@ -47,7 +47,7 @@ webui.@THEME@.widget.anchor = function() {
     this.fillInTemplate = function() {
         // Since the id and name must be the same on IE, we cannot obtain the
         // widget using the DOM node ID via the public functions below.
-        _this = this; // Available in public functions via closure magic.
+        var _this = this; // Available in public functions via closure magic.
 
         // Set public functions.
         this.domNode.getProps = function() { return dojo.widget.byId(_this.id).getProps(); }
