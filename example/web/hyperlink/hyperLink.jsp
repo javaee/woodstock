@@ -27,6 +27,86 @@
                 <f:loadBundle basename="com.sun.webui.jsf.example.resources.Resources" var="msgs" />
                 <webuijsf:head title="#{msgs.hyperlink_title}">
 		  <webuijsf:link rel="shortcut icon" url="/images/favicon.ico" type="image/x-icon" />
+                  <webuijsf:script type="text/javascript">
+                   function toggleVisible() {
+                      var domNode = document.getElementById("hyperlinkForm:clientSideLink");
+                      var props;
+                      if (domNode != null) {
+                          props = domNode.getProps();
+                          if (props != null) {
+                              domNode.setProps({visible:!props.visible});
+                          }
+                      }
+                   }
+                     
+                   
+                   function toggleDisable() {
+                      var domNode = document.getElementById("hyperlinkForm:clientSideLink");
+                      var props;
+                      if (domNode != null) {
+                          props = domNode.getProps();
+                          if (props != null) {
+                              domNode.setProps({disabled:!props.disabled});
+                          }
+                      }
+                   }                   
+                   
+                   function toggleImageDisable() {
+                       var alarmEnabled = '<h:outputText value="#{themeImages.ALARM_MAJOR_MEDIUM}"/>';
+                       var alarmDisabled = '<h:outputText value="#{themeImages.ALARM_MASTHEAD_MAJOR_DIMMED}"/>';                   
+                       var domNode = document.getElementById("hyperlinkForm:clientSideImageLink");
+                       var props;
+                       if (domNode != null) {
+                          props = domNode.getProps();
+                          if (props != null) {
+                              if (props.disabled == true) {
+                              domNode.setProps({disabled: false,                              
+                                "contents": [{
+                                    "templatePath": "/testapp/theme/com/sun/webui/jsf/suntheme/templates/image.html",
+                                    "_widgetType": "webui.suntheme:image",
+                                    "visible": true,
+                                    "src": alarmEnabled,
+                                    "border": 0,
+                                    "alt": "google",
+                                    "_modules": [
+                                        "webui.suntheme.widget.image",
+                                        "webui.suntheme.widget.jsfx.image"
+                                    ],
+                                    "id": "hyperlinkForm:clientSideImageLink:clientSideImageLink_image"
+                                }]                              
+                                });
+                           } else {
+                              domNode.setProps({disabled: true,
+                                "contents": [{
+                                    "templatePath": "/testapp/theme/com/sun/webui/jsf/suntheme/templates/image.html",
+                                    "_widgetType": "webui.suntheme:image",
+                                    "visible": true,
+                                    "src": alarmDisabled,
+                                    "border": 0,
+                                    "alt": "google",
+                                    "_modules": [
+                                        "webui.suntheme.widget.image",
+                                        "webui.suntheme.widget.jsfx.image"
+                                    ],
+                                    "id": "hyperlinkForm:clientSideImageLink:clientSideImageLink_image"
+                                }]
+                                  });                         
+                           }
+                          }
+                       }
+                   }
+                   
+                   function toggleAnchorDisable() {
+                       var domNode = document.getElementById("anchor3");
+                       var props;
+                       if (domNode != null) {
+                           props = domNode.getProps();
+                           if (props != null) {
+                               domNode.setProps({disabled:!props.disabled});
+                           }
+                       }                   
+                   }
+                  </webuijsf:script>
                 </webuijsf:head>
                 <webuijsf:body>
                     <webuijsf:form id="hyperlinkForm">
@@ -57,8 +137,22 @@
                        <webuijsf:contentPageTitle title="#{msgs.hyperlink_title}" id="linkContentPage1"/>
                           <webuijsf:markup tag="div" styleClass="#{themeStyles.CONTENT_MARGIN}">
                           <br/>
-                          <webuijsf:anchor id="top" />
 
+                          <!-- Anchor test-->
+                          <webuijsf:label labelLevel="1" text="#{msgs.hyperlink_anchorTextHeading}" id="anchorPagelabel"/>          
+                            <webuijsf:helpInline id="anchorPageHelp" text="#{msgs.hyperlink_anchorTestHelp}" />                          
+                          <webuijsf:anchor id="anchor1" name="anchor1" text="#{msgs.hyperlink_anchorText}"/>
+                          <br/>  <br/>                          
+                          <webuijsf:label labelLevel="1" text="#{msgs.hyperlink_anchorUrlHeading}" id="anchorUrlLabel"/>          
+                            <webuijsf:helpInline id="anchorUrlHelp" text="#{msgs.hyperlink_anchorUrlHelp}" />                          
+                          <webuijsf:anchor id="anchor2" name="anchor2" text="#{msgs.hyperlink_anchorUrlText}" url="http://www.sun.com"/>
+                          <br/>                                                    
+                          <br/>  <br/>                          
+                          <webuijsf:label labelLevel="1" text="#{msgs.hyperlink_clientAnchorHeading}" id="clientAnchorLabel"/>          
+                            <webuijsf:helpInline id="clientAnchorHelp" text="#{msgs.hyperlink_clientAnchorHelp}" />                          
+                          <webuijsf:anchor id="anchor3" name="anchor3" text="#{msgs.hyperlink_clientAnchorText}" url="http://www.sun.com"/>  
+                          <webuijsf:button id="buttonClientAnchor" text="#{msgs.hyperlink_clientAnchorDisable}" onClick ="toggleAnchorDisable(); return false;"/>
+                          <br/>                                                                              
                           <!-- Hyperlink List -->
                             
                           <!-- using image and text as hyperlink -->
@@ -128,6 +222,30 @@
                                            toolTip="#{msgs.hyperlink_linkImmediatetoolTip}" >
                             </webuijsf:hyperlink>
                           
+                          <!--Client side hyperlink update -->
+                          <br/><br/><br/>
+                           <webuijsf:label labelLevel="1" text="#{msgs.hyperlink_clientSideLabel}" id="clientSideLabel"/>
+                            <webuijsf:helpInline id="clientSideHelp" text="#{msgs.hyperlink_clientSideHelp}" />
+                             <br/>
+                            <webuijsf:hyperlink id="clientSideLink" text="#{msgs.hyperlink_clientLinkText}"                                           
+                                          toolTip="#{msgs.hyperlink_paramlinktooltip}"
+                                          disabled="#{HyperlinkBean.linkOnoff}"
+                                          actionExpression="#{HyperlinkBean.nextPage}" />             
+                            <webuijsf:button id="buttonClientSide1" text="#{msgs.hyperlink_clientLinkVisible}" onClick="toggleVisible();return false;"/>
+                            <webuijsf:button id="buttonClientSide2" text="#{msgs.hyperlink_clientLinkDisable}" onClick ="toggleDisable(); return false;"/>
+                            <br/>
+                            
+                          <!--Client side image hyperlink update -->
+                          <br/><br/><br/>
+                           <webuijsf:label labelLevel="1" text="#{msgs.hyperlink_imgHyperlinkclientSideLabel}" id="clientSideLabel2"/>
+                            <webuijsf:helpInline id="clientSideHelp2" text="#{msgs.hyperlink_imgHyperlinkClientSideHelp}" />
+                             <br/>
+                            <webuijsf:imageHyperlink id="clientSideImageLink" icon="ALARM_MAJOR_MEDIUM"                                           
+                                          toolTip="#{msgs.hyperlink_paramlinktooltip}"
+                                          disabled="#{HyperlinkBean.linkOnoff}"
+                                          actionExpression="#{HyperlinkBean.nextPage}" />             
+                            <webuijsf:button id="buttonClientSideImag4" text="#{msgs.hyperlink_imgHyperlinkClientLinkDisable}" onClick ="toggleImageDisable(); return false;"/>
+                            <br/>                            
                           <!-- hyperlink using f:param -->
                             <br/><br/><br/>
                             <webuijsf:label labelLevel="1" text="#{msgs.hyperlink_paramHeading}" id="fparam"/>
@@ -143,10 +261,10 @@
                             <!-- Anchor tag -->
                             <br/><br/><br/>
                             <webuijsf:label labelLevel="1" text="#{msgs.hyperlink_anchorHeading}" id="anchorlabel"/>
-                            <webuijsf:helpInline id="anchorHelp" text="#{msgs.hyperlink_anchortext}" />
+                            <webuijsf:helpInline id="anchorHelp" text="#{msgs.hyperlink_anchorPageText}" />
                             <br/>
-                            <webuijsf:hyperlink id="anchorlink" disabled="#{HyperlinkBean.linkOnoff}"  
-                                          text="#{msgs.hyperlink_anchorlinktext}" url="#top" 
+                            <webuijsf:anchor id="anchorlink" disabled="#{HyperlinkBean.linkOnoff}"  
+                                          text="#{msgs.hyperlink_anchorlinktext}" url="#anchor1" 
                                           toolTip="#{msgs.hyperlink_anchortoolTip}" />
                                           
                           <!-- Disabling enabling hyperlinks -->

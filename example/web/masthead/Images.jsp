@@ -32,7 +32,39 @@
   <webuijsf:page id="page6" >
     <webuijsf:html id="html6" >
       <f:loadBundle basename="com.sun.webui.jsf.example.resources.Resources" var="msgs" />
-        <webuijsf:head id="head6" title="#{msgs.masthead_title}"/>
+          <webuijsf:head id="head6" title="#{msgs.masthead_title}" debug="true">
+            <webuijsf:script type="text/javascript">
+              function toggleVisible() {
+                 var domNode = document.getElementById("form6:image5");
+                      if (domNode != null) {
+                          var props = domNode.getProps();
+                          if (props != null) {
+                              domNode.setProps({visible:!props.visible});
+                          }
+                      }
+                  }
+              
+              function refreshImage() {
+                // Get image to refresh.
+                  var domNode = document.getElementById("form6:image6");
+                  domNode.refresh("form6:textField1"); // Update text field value and refresh.
+              }              
+              
+              function toggleBorder() {
+                 var domNode = document.getElementById("form6:image5");
+                      if (domNode != null) {
+                          var props = domNode.getProps();
+                          if (props != null) {
+                              if (props.border == 1) {
+                                  domNode.setProps({border:0});
+                              } else {
+                                  domNode.setProps({border:1});                              
+                              }
+                          }
+                      }    
+              }
+            </webuijsf:script>
+          </webuijsf:head>
           <webuijsf:body id="body6" >
             <webuijsf:form id="form6">
             
@@ -91,8 +123,24 @@
 	      imageURL="/images/version_product_name.png"
                                  url="http://www.sun.com" toolTip="#{msgs.masthead_imagehyperlinkToolTip}"
                                  hspace="5" vspace="5" immediate="true" />
-              </ul>
-            
+              <!-- Client side image examples -->                                               
+              <li/>
+              <webuijsf:label id="label4" for="image2" text="#{msgs.masthead_label4}"/>
+              <br/>              
+              <webuijsf:image id="image5" url="/images/version_product_name.png" alt="#{msgs.masthead_imageAltText}" 
+                        toolTip="#{msgs.masthead_imageToolTip}"/>
+              <br/>                        
+              <webuijsf:button id="buttonClientSide1" text="#{msgs.masthead_clientImageVisible}" onClick="toggleVisible();return false;"/>
+              <webuijsf:button id="buttonClientSide2" text="#{msgs.masthead_clientImageBorder}" onClick="toggleBorder();return false;"/>
+             <li/> 
+              <webuijsf:label labelLevel="2" id="label5" for="form6:textField1" text="#{msgs.masthead_label5}"/>               
+              <br/>              
+              <webuijsf:image id="image6" url="#{ImageBean.imageUrl}" alt="#{msgs.masthead_imageAltText}" 
+                        toolTip="#{msgs.masthead_imageToolTip}"/>              
+              <br/>                           
+              <webuijsf:textField id="textField1" onKeyUp="refreshImage();" text="#{ImageBean.imageUrl}"
+                label="#{msgs.masthead_textField1}"/><br/>
+              </ul>            
             </webuijsf:form>
           </webuijsf:body>
     </webuijsf:html>

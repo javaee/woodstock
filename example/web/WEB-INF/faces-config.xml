@@ -268,6 +268,13 @@
         <managed-bean-class>com.sun.webui.jsf.example.calendar.CalendarBackingBean</managed-bean-class>
         <managed-bean-scope>session</managed-bean-scope>
     </managed-bean>    
+    
+    <managed-bean>
+        <description>The backing bean for the Image example</description>
+        <managed-bean-name>ImageBean</managed-bean-name>
+        <managed-bean-class>com.sun.webui.jsf.example.image.ImageBean</managed-bean-class>
+        <managed-bean-scope>session</managed-bean-scope>
+    </managed-bean>     
 
     <navigation-rule>    
       <from-view-id>/*</from-view-id>      
