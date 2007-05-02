@@ -46,8 +46,8 @@ public class ImageHyperlinkRenderer extends HyperlinkRenderer{
      * @param component The ImageHyperlink component
      * @param context The FacesContext
      */
-    protected void addContents(JSONObject json, UIComponent component,
-         FacesContext context)throws JSONException, IOException{
+    protected void setContents(FacesContext context, UIComponent component, 
+            JSONObject json)throws JSONException, IOException{
          ImageHyperlink ilink = (ImageHyperlink) component;    
           Object text = ilink.getText();
           // Store any children that are added as children to the imageHyperlink
