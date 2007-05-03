@@ -51,14 +51,14 @@ webui.@THEME@.widget.anchor = function() {
 
         // Set public functions.
         this.domNode.getProps = function() { return dojo.widget.byId(_this.id).getProps(); }
-        this.domNode.refresh = function(execute) { return dojo.widget.byId(_this.id).refresh(execute); }
+       // this.domNode.refresh = function(execute) { return dojo.widget.byId(_this.id).refresh(execute); }
         this.domNode.setProps = function(props) { return dojo.widget.byId(_this.id).setProps(props); }
        
         // Set private functions.
         this.addChildren = webui.@THEME@.widget.anchor.addChildren;
         this.getClassName = webui.@THEME@.widget.anchor.getClassName;
         this.getProps = webui.@THEME@.widget.anchor.getProps;
-        this.refresh = webui.@THEME@.widget.anchor.refresh.processEvent;
+        //this.refresh = webui.@THEME@.widget.anchor.refresh.processEvent;
         this.setAnchorProps = webui.@THEME@.widget.anchor.setAnchorProps;
         this.setProps = webui.@THEME@.widget.anchor.setProps;
 
