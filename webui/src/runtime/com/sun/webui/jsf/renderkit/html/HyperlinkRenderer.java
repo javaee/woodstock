@@ -143,7 +143,7 @@ public class HyperlinkRenderer extends AbstractRenderer {
        * used to pass the value of the component that submitted the page.
        */
       protected String getSubmittedParameterId(FacesContext context, UIComponent component) {
-          return component.getClientId(context) + "_submittedField";
+          return component.getClientId(context) + "_submittedLink";
       }
       
       

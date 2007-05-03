@@ -98,11 +98,18 @@ public class HyperlinkRenderer extends AnchorRenderer{
     protected JSONArray getModules(FacesContext context, UIComponent component)
             throws JSONException {
         JSONArray json = new JSONArray();
-        String url = (String)component.getAttributes().get("url");        
+        String url = (String)component.getAttributes().get("url");  
+        boolean ajaxify = ((Boolean)
+            component.getAttributes().get("ajaxify")).booleanValue();        
+
         if (url == null || url.length() == 0) {
             json.put(JavaScriptUtilities.getModuleName("widget.hyperlink"));   
+            if (ajaxify == true) {
+                json.put(JavaScriptUtilities.getModuleName(
+                    "widget.jsfx.hyperlink"));
+            }            
         } else {
-            json.put(JavaScriptUtilities.getModuleName("widget.anchor"));        
+            json = super.getModules(context, component);
         }
         return json;
     }      

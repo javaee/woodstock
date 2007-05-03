@@ -375,7 +375,6 @@ public class CommonTaskRenderer extends AbstractRenderer {
         ihk.setIcon(themeIcon);
         ihk.setParent(component); 
         ihk.setToolTip(theme.getMessage(INFO_IMAGE_TOOLTIP));
-        ihk.setUrl("#");
         RenderingUtilities.renderComponent(ihk, context);
         writer.endElement(HTMLElements.TD);                        
     }
@@ -415,7 +414,6 @@ public class CommonTaskRenderer extends AbstractRenderer {
         close.setParent(task);
         close.setId(CLOSE_IMAGE);                     // NOI18N
         close.setToolTip(theme.getMessage(CLOSE_IMAGE_TOOLTIP));
-        close.setUrl("#");
         if (close.getParent() == null) {
             close.setParent(task); 
         }
@@ -735,7 +733,7 @@ public class CommonTaskRenderer extends AbstractRenderer {
         String clientId = component.getClientId(context);
         paramId.append(clientId)
                .append(COMMONTASK_LINK)
-               .append("_submittedField");
+               .append("_submittedLink");
 
         String value = (String) 
             context.getExternalContext().getRequestParameterMap().

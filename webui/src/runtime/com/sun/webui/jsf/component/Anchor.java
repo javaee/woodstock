@@ -1218,6 +1218,41 @@ public class Anchor extends UIComponentBase implements ComplexComponent,
     }
     
     /**
+     * Flag indicating to turn off default Ajax functionality. Set ajaxify to
+     * false when providing a different Ajax implementation.
+     */
+    @Property(name="ajaxify", isHidden=true, isAttribute=true, displayName="Ajaxify", category="Javascript")
+    private boolean ajaxify = true; 
+    private boolean ajaxify_set = false; 
+ 
+    /**
+     * Test if default Ajax functionality should be turned off.
+     */
+    public boolean isAjaxify() { 
+        if (this.ajaxify_set) {
+            return this.ajaxify;
+        }
+        ValueExpression _vb = getValueExpression("ajaxify");
+        if (_vb != null) {
+            Object _result = _vb.getValue(getFacesContext().getELContext());
+            if (_result == null) {
+                return false;
+            } else {
+                return ((Boolean) _result).booleanValue();
+            }
+        }
+        return true;
+    } 
+
+    /**
+     * Set flag indicating to turn off default Ajax functionality.
+     */
+    public void setAjaxify(boolean ajaxify) {
+        this.ajaxify = ajaxify;
+        this.ajaxify_set = true;
+    }    
+    
+    /**
      * <p>Restore the state of this component.</p>
      */
     public void restoreState(FacesContext _context,Object _state) {
@@ -1257,13 +1292,15 @@ public class Anchor extends UIComponentBase implements ComplexComponent,
         this.htmlTemplate = (String)_values[32];
         this.disabled = ((Boolean)_values[33]).booleanValue();
         this.disabled_set = ((Boolean)_values[34]).booleanValue();
+        this.ajaxify = ((Boolean) _values[35]).booleanValue();
+        this.ajaxify_set = ((Boolean) _values[36]).booleanValue();        
     }   
 
     /**
      * <p>Save the state of this component.</p>
      */
     public Object saveState(FacesContext _context) {
-        Object _values[] = new Object[35];
+        Object _values[] = new Object[37];
         _values[0] = super.saveState(_context);
         _values[1] = new Integer(this.tabIndex);
         _values[2] = this.tabIndex_set ? Boolean.TRUE : Boolean.FALSE;
@@ -1299,6 +1336,8 @@ public class Anchor extends UIComponentBase implements ComplexComponent,
         _values[32] = this.htmlTemplate;
         _values[33] = this.disabled ? Boolean.TRUE : Boolean.FALSE;
         _values[34] = this.disabled_set ? Boolean.TRUE : Boolean.FALSE;
+        _values[35] = this.ajaxify ? Boolean.TRUE : Boolean.FALSE;
+        _values[36] = this.ajaxify_set ? Boolean.TRUE : Boolean.FALSE;        
         return _values;
     }    
 }

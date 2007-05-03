@@ -587,11 +587,12 @@ webui.@THEME@.hyperlink = {
     submit: function(hyperlink, formId, params) {
         //params are name value pairs but all one big string array
         //so params[0] and params[1] form the name and value of the first param
-	var widget = dojo.widget.byId(hyperlink);
+	var widget = dojo.widget.byId(hyperlink.id);
 	if (widget) {
-	    return widget.submit(formId, params);
+	    return hyperlink.submit(formId, params);
 	}
-	    return false;
+        return webui.@THEME@.widget.hyperlink.submit(formId, params,hyperlink.id);
+
     },
 	
     

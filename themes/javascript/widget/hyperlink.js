@@ -42,21 +42,20 @@ webui.@THEME@.widget.hyperlink = function() {
 
     // Register widget.
     dojo.widget.Widget.call(this);
-
     /**
      * This function is used to generate a template based widget.
      */
     this.fillInTemplate = function() {
         // Set public functions.
         this.domNode.getProps = function() { return dojo.widget.byId(this.id).getProps(); }
-//        this.domNode.refresh = function(execute) { return dojo.widget.byId(this.id).refresh(execute); }
+        this.domNode.refresh = function(execute) { return dojo.widget.byId(this.id).refresh(execute); }
         this.domNode.setProps = function(props) { return dojo.widget.byId(this.id).setProps(props); }
 
         // Set private functions.
         this.addChildren = webui.@THEME@.widget.anchor.addChildren;
         this.getClassName = webui.@THEME@.widget.hyperlink.getClassName;
         this.getProps = webui.@THEME@.widget.anchor.getProps;
-//        this.refresh = webui.@THEME@.widget.anchor.refresh.processEvent;
+        this.refresh = webui.@THEME@.widget.anchor.refresh.processEvent;
         this.setAnchorProps = webui.@THEME@.widget.anchor.setAnchorProps;
         this.setProps = webui.@THEME@.widget.hyperlink.setProps;
         this.submit = webui.@THEME@.widget.hyperlink.submit;
@@ -100,7 +99,9 @@ webui.@THEME@.widget.hyperlink.createOnClickCallback = function(id, formId,
             event.preventDefault();
             return false;
         }
-        return widget.submit(formId, params);
+        event.preventDefault();
+        widget.submit(formId, params);
+        return false;
     };
 }
 
@@ -117,6 +118,53 @@ webui.@THEME@.widget.hyperlink.getClassName = function() {
     return (this.className)
         ? className + " " + this.className
         : className;
+}
+
+/**
+ * This closure is used to process refresh events.
+ */
+webui.@THEME@.widget.hyperlink.refresh = {
+    /**
+     * Event topics for custom AJAX implementations to listen for.
+     */
+    beginEventTopic: "webui_@THEME@_widget_hyperlink_refresh_begin",
+    endEventTopic: "webui_@THEME@_widget_hyperlink_refresh_end",
+ 
+    /**
+     * Process refresh event.
+     *
+     * @param execute Comma separated string containing a list of client ids 
+     * against which the execute portion of the request processing lifecycle
+     * must be run.
+     */
+    processEvent: function(execute) {
+        // Publish event.
+        webui.@THEME@.widget.hyperlink.refresh.publishBeginEvent({
+            id: this.id,
+            execute: execute
+        });
+        return true;
+    },
+
+    /**
+     * Publish an event for custom AJAX implementations to listen for.
+     *
+     * @param props Key-Value pairs of properties of the widget.
+     */
+    publishBeginEvent: function(props) {
+        dojo.event.topic.publish(webui.@THEME@.widget.hyperlink.refresh.beginEventTopic, props);
+        return true;
+    },
+
+    /**
+     * Publish an event for custom AJAX implementations to listen for.
+     *
+     * @param props Key-Value pairs of properties of the widget.
+     */
+    publishEndEvent: function(props) {
+        dojo.event.topic.publish(webui.@THEME@.widget.hyperlink.refresh.endEventTopic, props);
+        return true;
+    }
 }
 
 /**
@@ -175,14 +223,19 @@ webui.@THEME@.widget.hyperlink.setProps = function(props){
  * @param formId The id of the form element
  * @param params The parameters to be passed on when the hyperlink is clicked
  */
-webui.@THEME@.widget.hyperlink.submit = function (formId, params) {
+webui.@THEME@.widget.hyperlink.submit = function (formId, params, id) {
     var theForm = document.getElementById(formId);
     var oldTarget = theForm.target;
     var oldAction = theForm.action;
-    var link = this.domNode;
+    var link = null;
+    if (id) {
+        link = document.getElementById(id);
+    } else {
+        link = this.domNode;
+    }
 
     // Set new action URL.
-    theForm.action += "?" + this.id + "_submittedLink=" + this.id;               
+    theForm.action += "?" + link.id + "_submittedLink=" + link.id;               
 
     // Set new target.
     if (link.target && link.target.length > 0) {

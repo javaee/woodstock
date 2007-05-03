@@ -51,14 +51,14 @@ webui.@THEME@.widget.anchor = function() {
 
         // Set public functions.
         this.domNode.getProps = function() { return dojo.widget.byId(_this.id).getProps(); }
-//        this.domNode.refresh = function(execute) { return dojo.widget.byId(_this.id).refresh(execute); }
+        this.domNode.refresh = function(execute) { return dojo.widget.byId(_this.id).refresh(execute); }
         this.domNode.setProps = function(props) { return dojo.widget.byId(_this.id).setProps(props); }
        
         // Set private functions.
         this.addChildren = webui.@THEME@.widget.anchor.addChildren;
         this.getClassName = webui.@THEME@.widget.anchor.getClassName;
         this.getProps = webui.@THEME@.widget.anchor.getProps;
-//        this.refresh = webui.@THEME@.widget.anchor.refresh.processEvent;
+        this.refresh = webui.@THEME@.widget.anchor.refresh.processEvent;
         this.setAnchorProps = webui.@THEME@.widget.anchor.setAnchorProps;
         this.setProps = webui.@THEME@.widget.anchor.setProps;
 
@@ -196,6 +196,53 @@ webui.@THEME@.widget.anchor.setAnchorProps = function(props) {
     if (props.type) { this.domNode.type = props.type; }
 
     return true;
+}
+
+/**
+ * This closure is used to process refresh events.
+ */
+webui.@THEME@.widget.anchor.refresh = {
+    /**
+     * Event topics for custom AJAX implementations to listen for.
+     */
+    beginEventTopic: "webui_@THEME@_widget_anchor_refresh_begin",
+    endEventTopic: "webui_@THEME@_widget_anchor_refresh_end",
+ 
+    /**
+     * Process refresh event.
+     *
+     * @param execute Comma separated string containing a list of client ids 
+     * against which the execute portion of the request processing lifecycle
+     * must be run.
+     */
+    processEvent: function(execute) {
+        // Publish event.
+        webui.@THEME@.widget.anchor.refresh.publishBeginEvent({
+            id: this.id,
+            execute: execute
+        });
+        return true;
+    },
+
+    /**
+     * Publish an event for custom AJAX implementations to listen for.
+     *
+     * @param props Key-Value pairs of properties of the widget.
+     */
+    publishBeginEvent: function(props) {
+        dojo.event.topic.publish(webui.@THEME@.widget.anchor.refresh.beginEventTopic, props);
+        return true;
+    },
+
+    /**
+     * Publish an event for custom AJAX implementations to listen for.
+     *
+     * @param props Key-Value pairs of properties of the widget.
+     */
+    publishEndEvent: function(props) {
+        dojo.event.topic.publish(webui.@THEME@.widget.anchor.refresh.endEventTopic, props);
+        return true;
+    }
 }
 
 /**

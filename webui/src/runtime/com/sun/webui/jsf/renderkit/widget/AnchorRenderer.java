@@ -105,6 +105,12 @@ public class AnchorRenderer extends RendererBase{
             throws JSONException {
         JSONArray json = new JSONArray();
         json.put(JavaScriptUtilities.getModuleName("widget.anchor"));
+        boolean ajaxify = ((Boolean)
+            component.getAttributes().get("ajaxify")).booleanValue();        
+        if (ajaxify == true) {
+            json.put(JavaScriptUtilities.getModuleName(
+                "widget.jsfx.anchor"));
+        }
         return json;
     }
     
@@ -176,6 +182,8 @@ public class AnchorRenderer extends RendererBase{
         tmp = (String) attrsMap.get("name");
         if (tmp != null && tmp.length() > 0) { 
             json.put("name", tmp);
+        } else {
+          json.put("name", component.getId());
         }
 
         json.put("disabled",((Boolean) attrsMap.get("disabled")).booleanValue());        
