@@ -222,6 +222,7 @@ webui.@THEME@.widget.hyperlink.setProps = function(props){
  *
  * @param formId The id of the form element
  * @param params The parameters to be passed on when the hyperlink is clicked
+ * @param id The id of the hyperlink component.
  */
 webui.@THEME@.widget.hyperlink.submit = function (formId, params, id) {
     var theForm = document.getElementById(formId);
