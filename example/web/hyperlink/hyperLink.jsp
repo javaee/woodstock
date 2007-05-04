@@ -141,16 +141,16 @@
                           <!-- Anchor test-->
                           <webuijsf:label labelLevel="1" text="#{msgs.hyperlink_anchorTextHeading}" id="anchorPagelabel"/>          
                             <webuijsf:helpInline id="anchorPageHelp" text="#{msgs.hyperlink_anchorTestHelp}" />                          
-                          <webuijsf:anchor id="anchor1" name="anchor1" text="#{msgs.hyperlink_anchorText}"/>
+                          <webuijsf:anchor id="anchor1" text="#{msgs.hyperlink_anchorText}"/>
                           <br/>  <br/>                          
                           <webuijsf:label labelLevel="1" text="#{msgs.hyperlink_anchorUrlHeading}" id="anchorUrlLabel"/>          
                             <webuijsf:helpInline id="anchorUrlHelp" text="#{msgs.hyperlink_anchorUrlHelp}" />                          
-                          <webuijsf:anchor id="anchor2" name="anchor2" text="#{msgs.hyperlink_anchorUrlText}" url="http://www.sun.com"/>
+                          <webuijsf:anchor id="anchor2" text="#{msgs.hyperlink_anchorUrlText}" url="http://www.sun.com"/>
                           <br/>                                                    
                           <br/>  <br/>                          
                           <webuijsf:label labelLevel="1" text="#{msgs.hyperlink_clientAnchorHeading}" id="clientAnchorLabel"/>          
                             <webuijsf:helpInline id="clientAnchorHelp" text="#{msgs.hyperlink_clientAnchorHelp}" />                          
-                          <webuijsf:anchor id="anchor3" name="anchor3" text="#{msgs.hyperlink_clientAnchorText}" url="http://www.sun.com"/>  
+                          <webuijsf:anchor id="anchor3" text="#{msgs.hyperlink_clientAnchorText}" url="http://www.sun.com"/>  
                           <webuijsf:button id="buttonClientAnchor" text="#{msgs.hyperlink_clientAnchorDisable}" onClick ="toggleAnchorDisable(); return false;"/>
                           <br/>                                                                              
                           <!-- Hyperlink List -->
