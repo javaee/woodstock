@@ -58,7 +58,7 @@ import com.sun.faces.annotation.Renderer;
 @Renderer(@Renderer.Renders(
     rendererType="com.sun.webui.jsf.widget.Hyperlink", 
     componentFamily="com.sun.webui.jsf.Hyperlink"))
-public class HyperlinkRenderer extends AnchorRenderer{
+public class HyperlinkRenderer extends AnchorRendererBase{
     /**
      * <p>Decode will determine if this component was the one that submitted the form.
      * It determines this by looking for the hidden field with the link's name 
@@ -172,4 +172,5 @@ public class HyperlinkRenderer extends AnchorRenderer{
         }
         return super.getWidgetType(context, component);
     }           
+
 }

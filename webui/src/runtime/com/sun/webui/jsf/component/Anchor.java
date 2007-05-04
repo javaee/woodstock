@@ -21,6 +21,7 @@
  */
 package com.sun.webui.jsf.component;
 
+import com.sun.webui.jsf.util.ComponentUtilities;
 import javax.faces.component.NamingContainer;
 import javax.faces.component.UIComponent;
 import javax.faces.component.UIComponentBase;
@@ -37,10 +38,11 @@ import com.sun.faces.annotation.Property;
  *     <li> Create an anchor that traverses to the specified url.</li>
  *     <li> Anchor a position in the page so that you can jump to it.</li>
  *  </ul>     
- * <p>If you use the anchor component to anchor a position in the page, make sure that
- * the name attribute has a value set. When the anchor widget is created on the client
- * side, if the name attribute is specified, this value will be assigned as the id
- * of the anchor widget.</p>
+ * <p>The value of the id attribute of the rendered anchor element will be the component id,
+ * not the component's client id. In order to obtain the DOM node of the anchor
+ * element, on the client, the component id must be used and not the component's client id.
+ * This means that the component id must be unique in the page and not just
+ * unique within the closest NamingContainer. </p>
  *<p>
  * The anchor component has an attribute called disabled which when set to true will
  * prevent the anchor from being generating a request when it is clicked.
@@ -72,6 +74,14 @@ public class Anchor extends UIComponentBase implements ComplexComponent,
      */
     public String getFamily() {
         return "com.sun.webui.jsf.Anchor";
+    }
+    
+    public String getRendererType() {
+        // Ensure we have a valid Ajax request.
+        if (ComponentUtilities.isAjaxRequest(getFacesContext(), this)) {
+            return "com.sun.webui.jsf.ajax.Anchor";
+        }
+        return super.getRendererType();
     }
     
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -1015,59 +1025,6 @@ public class Anchor extends UIComponentBase implements ComplexComponent,
         this.accessKey = accessKey;
     }
 
-    /**
-     *<p>This attribute assigns the name property to the anchor element.
-     *  If this attribute is specified, the value
-     *  of this attribute is assigned as the id of the anchor widget. 
-     *  This attribute should have a value assigned to it
-     *  when you are using this component to anchor a position on the page.  
-     *  When accessing the anchor widget through javascript, the name attribute
-     *  must be given as the parameter to <code>document.getElementById()</code>
-     *  The value of this name attribute must be unique for a given page.
-     *  Also, do not change the value of the name attribute on the client side
-     *  as the anchor is identified by this value on the client side. </p>
-     */        
-    @Property(name="name", displayName="Name", category="Advanced")    
-    private String name = null;
-
-    /**
-     *<p>This attribute assigns the name property to the anchor element.
-     *  If this attribute is specified, the value
-     *  of this attribute is assigned as the id of the anchor widget. 
-     *  This attribute should have a value assigned to it
-     *  when you are using this component to anchor a position on the page.  
-     *  When accessing the anchor widget through javascript, the name attribute
-     *  must be given as the parameter to <code>document.getElementById()</code>
-     *  The value of this name attribute must be unique for a given page.
-     *  Also, do not change the value of the name attribute on the client side
-     *  as the anchor is identified by this value on the client side. </p>
-     */        
-    public String getName() {
-        if (this.name != null) {
-            return this.name;
-        }
-        ValueExpression _vb = getValueExpression("name");
-        if (_vb != null) {
-            return (String) _vb.getValue(getFacesContext().getELContext());
-        }
-        return null;        
-    }
-
-    /**
-     *<p>This attribute assigns the name property to the anchor element.
-     *  If this attribute is specified, the value
-     *  of this attribute is assigned as the id of the anchor widget. 
-     *  This attribute should have a value assigned to it
-     *  when you are using this component to anchor a position on the page.  
-     *  When accessing the anchor widget through javascript, the name attribute
-     *  must be given as the parameter to <code>document.getElementById()</code>
-     *  The value of this name attribute must be unique for a given page.
-     *  Also, do not change the value of the name attribute on the client side
-     *  as the anchor is identified by this value on the client side. </p>
-     */        
-    public void setName (String name) {
-        this.name = name;
-    }
 
     /**
      * The component identifier for this component. This value must be unique 
@@ -1286,21 +1243,20 @@ public class Anchor extends UIComponentBase implements ComplexComponent,
         this.onMouseUp = (String)_values[26];
         this.charset = (String)_values[27];
         this.accessKey = (String)_values[28];
-        this.name = (String)_values[29];
-        this.style = (String)_values[30];
-        this.styleClass = (String)_values[31];
-        this.htmlTemplate = (String)_values[32];
-        this.disabled = ((Boolean)_values[33]).booleanValue();
-        this.disabled_set = ((Boolean)_values[34]).booleanValue();
-        this.ajaxify = ((Boolean) _values[35]).booleanValue();
-        this.ajaxify_set = ((Boolean) _values[36]).booleanValue();        
+        this.style = (String)_values[29];
+        this.styleClass = (String)_values[30];
+        this.htmlTemplate = (String)_values[31];
+        this.disabled = ((Boolean)_values[32]).booleanValue();
+        this.disabled_set = ((Boolean)_values[33]).booleanValue();
+        this.ajaxify = ((Boolean) _values[34]).booleanValue();
+        this.ajaxify_set = ((Boolean) _values[35]).booleanValue();        
     }   
 
     /**
      * <p>Save the state of this component.</p>
      */
     public Object saveState(FacesContext _context) {
-        Object _values[] = new Object[37];
+        Object _values[] = new Object[36];
         _values[0] = super.saveState(_context);
         _values[1] = new Integer(this.tabIndex);
         _values[2] = this.tabIndex_set ? Boolean.TRUE : Boolean.FALSE;
@@ -1330,14 +1286,13 @@ public class Anchor extends UIComponentBase implements ComplexComponent,
         _values[26] = this.onMouseUp ;
         _values[27] = this.charset;
         _values[28] = this.accessKey;
-        _values[29] = this.name;
-        _values[30] = this.style;
-        _values[31] = this.styleClass;
-        _values[32] = this.htmlTemplate;
-        _values[33] = this.disabled ? Boolean.TRUE : Boolean.FALSE;
-        _values[34] = this.disabled_set ? Boolean.TRUE : Boolean.FALSE;
-        _values[35] = this.ajaxify ? Boolean.TRUE : Boolean.FALSE;
-        _values[36] = this.ajaxify_set ? Boolean.TRUE : Boolean.FALSE;        
+        _values[29] = this.style;
+        _values[30] = this.styleClass;
+        _values[31] = this.htmlTemplate;
+        _values[32] = this.disabled ? Boolean.TRUE : Boolean.FALSE;
+        _values[33] = this.disabled_set ? Boolean.TRUE : Boolean.FALSE;
+        _values[34] = this.ajaxify ? Boolean.TRUE : Boolean.FALSE;
+        _values[35] = this.ajaxify_set ? Boolean.TRUE : Boolean.FALSE;        
         return _values;
     }    
 }

@@ -982,11 +982,12 @@ submitting field value<br>
       <li> Anchor a position in the page so that you can jump to it.</li>
      </ul> 
       
-  <p>If you use the anchor component to anchor a position in the page, make sure that
-  the name attribute has a value set. When the anchor widget is created on the client
-  side, if the name attribute is specified, this value will be assigned as the id
-  of the anchor widget.</p>
-  
+ <p>The value of the id attribute of the rendered anchor element will be the component id,
+not the component's client id. In order to obtain the DOM node of the anchor
+element, on the client, the component id must be used and not the component's client id.
+This means that the component id must be unique in the page and not just
+unique within the closest NamingContainer. 
+ <p>  
  <h3 >Client Side Javascript Functions</h3><br>
  When the component is rendered, a DOM object corresponding to the
 component is created. To manipulate the component on the client side,
@@ -1018,7 +1019,6 @@ properties:
   <li>hrefLang</li>
   <li>id</li>  
   <li>lang</li>
-  <li>name</li>
   <li>onFocus</li>
   <li>onBlur</li>
   <li>onClick</li>
@@ -1052,8 +1052,7 @@ properties:
  <h4> Example 2:Create an anchor that anchors a particular position on the page.</h4>
 
  <span >&nbsp;&nbsp; </span><br>
- <code >&lt;a id="foo" name="anchor1"
- /&gt;
+ <code >&lt;a id="foo" /&gt;
  </code><br>
  Note: To access this on the client side, use
  <code>document.getElementById("anchor1");
@@ -1076,7 +1075,7 @@ properties:
  through the JSF FacesServlet as defined in the web.xml.
  <h4 >Example 5:Updating the anchor on the client side </h4>
   <code>
- <code >&lt;webuijsf:anchor id="anchor1" name="anchor1" &gt; This is an anchor
+ <code >&lt;webuijsf:anchor id="anchor1" &gt; This is an anchor
  &lt;/webuijsf:anchor &gt;<br>  
   &lt;webuijsf:button id="button1" text="Hide Anchor" onClick="hideAnchor()"/&gt;<br>
    &lt script type="text/javascript"&gt <br>
