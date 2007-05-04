@@ -32,7 +32,7 @@
   <webuijsf:page id="page6" >
     <webuijsf:html id="html6" >
       <f:loadBundle basename="com.sun.webui.jsf.example.resources.Resources" var="msgs" />
-          <webuijsf:head id="head6" title="#{msgs.masthead_title}" debug="true">
+          <webuijsf:head id="head6" title="#{msgs.masthead_title}">
             <webuijsf:script type="text/javascript">
               function toggleVisible() {
                  var domNode = document.getElementById("form6:image5");
