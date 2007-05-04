@@ -108,9 +108,11 @@ public class ImageHyperlink extends Hyperlink implements NamingContainer {
 	// ImageURL takes precedence
 	if (imageURL != null) {
 	    image = new ImageComponent();
-	} else {
+	} else if (icon != null) {
 	    image = new Icon();
-	}
+	} else {
+            return null;
+        }
 
 	image.setIcon(icon);
 	image.setUrl(imageURL);
