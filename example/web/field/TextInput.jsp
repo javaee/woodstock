@@ -25,7 +25,7 @@
         <webuijsf:page>
             <f:loadBundle basename="com.sun.webui.jsf.example.resources.Resources" var="msgs" />
             <webuijsf:html id="html">  
-                <webuijsf:head id="head" title="#{msgs.field_title}">                
+                <webuijsf:head id="head" title="#{msgs.field_basicTitle}">                
                     <webuijsf:link rel="shortcut icon" url="/images/favicon.ico" type="image/x-icon" />
                 </webuijsf:head>
                 <webuijsf:body id="body">
@@ -48,11 +48,17 @@
                                                 actionExpression="#{TextInputBean.showExampleIndex}" 
                                                 onMouseOver="javascript:window.status='#{msgs.index_breadcrumbMouseOver}'; return true;"
                                                 onMouseOut="javascript: window.status=''; return true" />
-                            <webuijsf:hyperlink id="exampleLink" text="#{msgs.field_title}"/>
+                            <webuijsf:hyperlink id="tabsetIndexLink"
+                              text="#{msgs.field_indexTitle}"
+                              toolTip="#{msgs.field_indexTitle}"
+                              actionExpression="#{TextInputBean.showTextInputIndex}"
+                              onMouseOver="javascript:window.status='#{msgs.field_breadcrumbMouseOver}'; return true;"
+                              onMouseOut="javascript: window.status=''; return true" />
+                            <webuijsf:hyperlink id="exampleLink" text="#{msgs.field_basicTitle}"/>
                         </webuijsf:breadcrumbs>
                         
                         <!-- Content Page Title -->
-                        <webuijsf:contentPageTitle id="contentPageTitle" title="#{msgs.field_title}" /> 
+                        <webuijsf:contentPageTitle id="contentPageTitle" title="#{msgs.field_basicTitle}" /> 
                         <webuijsf:markup tag="div" styleClass="#{themeStyles.CONTENT_MARGIN}">
                             <br />
                             <table border="0">                

@@ -47,6 +47,8 @@ import java.io.Serializable;
  * used with a distributed system.
  */
 public class TextInputBackingBean implements Serializable {
+
+    public static final String SHOW_TEXTINPUT_INDEX = "showTextInputIndex";
     
     // Text input default value.
     private static final String TEXTINPUT_DEFAULT_VALUE =
@@ -210,6 +212,17 @@ public class TextInputBackingBean implements Serializable {
         disable(false);
         
         return IndexBackingBean.INDEX_ACTION;
+    }
+         
+    /** Action handler when navigating to the text input example index. */
+    public String showTextInputIndex() {
+        // Reset when leaving the example.
+        textFieldValue = TEXTINPUT_DEFAULT_VALUE;
+        passwordValue = "";
+        textAreaValue = TEXTAREA_DEFAULT_VALUE;
+        disable(false);
+
+        return SHOW_TEXTINPUT_INDEX;
     }
     
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~

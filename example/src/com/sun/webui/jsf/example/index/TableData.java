@@ -64,11 +64,15 @@ public class TableData {
                     "alert/InlineAlertBackingBean.java",        
                     "alert/PageAlertBackingBean.java"}
         ),
-        new AppData("index_textInputName", "index_textInputConcepts", "showTextInput", 
+        new AppData("index_textInputName", "index_textInputConcepts", "showTextInputIndex", 
                 new String[] {
+                    "field/index.jsp",
                     "field/TextInput.jsp",
+                    "field/Payment.jsp",
+                    "field/PaymentResults.jsp",
                     "field/TextInputResults.jsp",
-                    "field/TextInputBackingBean.java"}
+                    "field/TextInputBackingBean.java",
+                    "field/PaymentBacking.java"}
         ),
         new AppData("index_tableName", "index_tableConcepts", "showTableIndex", 
                 new String[] {

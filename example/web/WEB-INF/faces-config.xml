@@ -95,11 +95,19 @@
     </managed-bean>       
 
     <managed-bean>    
-        <description>The backing bean for the text input example</description>
+        <description>The backing bean for the basic text input example</description>
         <managed-bean-name>TextInputBean</managed-bean-name>
         <managed-bean-class>com.sun.webui.jsf.example.field.TextInputBackingBean</managed-bean-class>
         <managed-bean-scope>session</managed-bean-scope>        
     </managed-bean>
+
+    <managed-bean>    
+        <description>The backing bean for the text input auto-validate example</description>
+        <managed-bean-name>PaymentBean</managed-bean-name>
+        <managed-bean-class>com.sun.webui.jsf.example.field.PaymentBackingBean</managed-bean-class>
+        <managed-bean-scope>session</managed-bean-scope>        
+    </managed-bean>
+    
     
     <managed-bean>    
         <description>The backing bean for the add remove example</description>
@@ -321,14 +329,32 @@
       
       <!-- Navigation Cases for Text Input Example-->
       <navigation-case>
+        <from-outcome>showTextInputIndex</from-outcome>
+        <to-view-id>/field/index.jsp</to-view-id>
+        <redirect/>
+      </navigation-case>
+
+      <navigation-case>
         <from-outcome>showTextInput</from-outcome>
         <to-view-id>/field/TextInput.jsp</to-view-id>
+        <redirect/>
+      </navigation-case>
+
+      <navigation-case>
+        <from-outcome>showTextInputAutoValidate</from-outcome>
+        <to-view-id>/field/Payment.jsp</to-view-id>
         <redirect/>
       </navigation-case>
       
       <navigation-case>
         <from-outcome>showTextInputResults</from-outcome>
         <to-view-id>/field/TextInputResults.jsp</to-view-id>
+        <redirect/>
+      </navigation-case>
+      
+      <navigation-case>
+        <from-outcome>showTextInputAutoValidateResults</from-outcome>
+        <to-view-id>/field/PaymentResults.jsp</to-view-id>
         <redirect/>
       </navigation-case>
       

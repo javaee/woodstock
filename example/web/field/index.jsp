@@ -1,6 +1,6 @@
 <jsp:root version="2.0" xmlns:f="http://java.sun.com/jsf/core" xmlns:h="http://java.sun.com/jsf/html" xmlns:jsp="http://java.sun.com/JSP/Page" xmlns:webuijsf="http://www.sun.com/webui/webuijsf">
- <jsp:directive.page contentType="text/html" />
- <f:view>    
+<jsp:directive.page contentType="text/html"/>
+<f:view>    
     <!--
       The contents of this file are subject to the terms
       of the Common Development and Distribution License
@@ -25,9 +25,9 @@
   <webuijsf:page>
     <f:loadBundle basename="com.sun.webui.jsf.example.resources.Resources" var="msgs" />
     <webuijsf:html id="html">  
-      <webuijsf:head id="head" title="#{msgs.field_resultsPageTitle}">                        
-        <webuijsf:link rel="shortcut icon" url="/images/favicon.ico" type="image/x-icon" />
-      </webuijsf:head> 
+      <webuijsf:head id="head" title="#{msgs.field_indexTitle}">
+	<webuijsf:link rel="shortcut icon" url="/images/favicon.ico" type="image/x-icon" />
+      </webuijsf:head>
       <webuijsf:body id="body">
         <webuijsf:form id="form">                             
             
@@ -42,47 +42,47 @@
           
           <!-- Breadcrumbs -->   
           <webuijsf:breadcrumbs id="breadcrumbs">
-            <webuijsf:hyperlink id="indexPageLink" 
+            <webuijsf:hyperlink id="indexPageLink"
                 text="#{msgs.index_title}"
                 toolTip="#{msgs.index_title}"
                 actionExpression="#{TextInputBean.showExampleIndex}"
                 onMouseOver="javascript:window.status='#{msgs.index_breadcrumbMouseOver}'; return true;"
                 onMouseOut="javascript: window.status=''; return true" />
-            <webuijsf:hyperlink id="examplePageLink"
-                text="#{msgs.field_basicTitle}"
-                toolTip="#{msgs.field_basicTitle}"
-                actionExpression="showTextInput"
-                onMouseOver="javascript:window.status='#{msgs.field_breadcrumbMouseOver}'; return true;"
-                onMouseOut="javascript: window.status=''; return true" />
-            <webuijsf:hyperlink id="resultsPageLink" text="#{msgs.field_resultsPageTitle}"/>
+            <webuijsf:hyperlink id="fieldsLink" text="#{msgs.field_indexTitle}" />
           </webuijsf:breadcrumbs>
-          
-          <!-- Content Page Title -->
-          <webuijsf:contentPageTitle id="contentPageTitle"              
-              title="#{msgs.field_resultsPageTitle}"
-              helpText="#{msgs.field_resultsPageHelpText}" >
 
-            <!-- Back Button -->
-            <f:facet name="pageButtonsTop">                
-              <webuijsf:button id="backButton"
-                  text="#{msgs.field_backButton}"   
-                  immediate="true"
-                  actionExpression="showTextInput" />               
-            </f:facet>            
-          </webuijsf:contentPageTitle> 
-                    
-          <webuijsf:markup tag="div" styleClass="#{themeStyles.CONTENT_MARGIN}">
-              <br />              
-              <webuijsf:staticText id="textFieldState" text="#{TextInputBean.textFieldResult}" />             
-              <br />                                      
-              <webuijsf:staticText id="passwordState" text="#{TextInputBean.passwordResult}" />                                           
-              <br />                           
-              <webuijsf:staticText id="textAreaState" text="#{TextInputBean.textAreaResult}" />                        
-          </webuijsf:markup>
-                  
+          <!-- Content Page Title -->
+          <webuijsf:contentPageTitle id="contentPageTitle" title="#{msgs.field_indexTitle}">
+              
+            <webuijsf:markup tag="div" styleClass="#{themeStyles.CONTENT_MARGIN}">              
+              <webuijsf:markup tag="br" singleton="true" />
+                
+              <webuijsf:markup tag="div" style="padding-bottom: 8px">              
+                <!-- Basic Text Input Fields Link -->
+                <webuijsf:hyperlink id="basicLink"
+                    immediate="true"
+                    text="#{msgs.field_basicTitle}"
+                    toolTip="#{msgs.field_basicTitle}"
+                    actionExpression="showTextInput"/>
+
+                <br/><br/>
+
+                <!-- Auto-validate text field -->
+                <webuijsf:hyperlink id="autoValidateLink" 
+                    immediate="true"                    
+                    text="#{msgs.field_autoValidateTitle}"                   
+                    toolTip="#{msgs.field_autoValidateTitle}"		    
+                    actionExpression="showTextInputAutoValidate"/>
+
+              </webuijsf:markup>               
+
+            </webuijsf:markup>          
+          </webuijsf:contentPageTitle>           
+
         </webuijsf:form>
       </webuijsf:body>
-    </webuijsf:html>  
+    </webuijsf:html>
   </webuijsf:page>
- </f:view>
+</f:view>
+
 </jsp:root>
