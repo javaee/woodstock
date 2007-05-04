@@ -585,6 +585,7 @@ webui.@THEME@.hyperlink = {
      * @deprecated  See webui.@THEME@.widget.hyperlink    
      */
     submit: function(hyperlink, formId, params) {
+        dojo.require("webui.@THEME@.widget.hyperlink");
         //params are name value pairs but all one big string array
         //so params[0] and params[1] form the name and value of the first param
 	var widget = dojo.widget.byId(hyperlink.id);
