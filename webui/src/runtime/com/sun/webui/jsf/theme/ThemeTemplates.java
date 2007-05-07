@@ -113,6 +113,12 @@ public class ThemeTemplates {
     public static final String TEXTFIELD= "textField";
 
     /**
+     * A template file that contains HTML for the TextArea component.
+     */
+    public static final String TEXTAREA= "textArea";
+
+
+    /**
      * This private constructor prevents this class from being instantiated
      * directly as its only purpose is to provide image constants.
      */

@@ -467,19 +467,14 @@ webui.@THEME@.field = {
      * @param elementId The element ID of the field 
      * @return the input or text area element associated with the field
      * component 
-     * @deprecated for client side widget components
+     * @deprecated Use document.getElementById(elementId).getInputElement()
      */
     getInputElement: function(elementId) { 
-        var element = document.getElementById(elementId); 
-        if(element != null) { 
-            if(element.tagName == "INPUT") { 
-                return element; 
-            }
-            if(element.tagName == "TEXTAREA") { 
-                return element; 
-            } 
+        var widget = dojo.widget.byId(elementId);
+        if (widget == null) {
+            return false;
         } 
-        return document.getElementById(elementId + "_field");
+        return widget.getInputElement();       
     },
 
     /**
@@ -488,10 +483,14 @@ webui.@THEME@.field = {
      * @param elementId The element ID of the Field component
      * @return the value of the HTML element corresponding to the 
      * Field component 
-     * @deprecated for client side widget components
+     * @deprecated Use document.getElementById(id).getProps().value;
      */
     getValue: function(elementId) { 
-        return webui.@THEME@.field.getInputElement(elementId).value; 
+        var widget = dojo.widget.byId(elementId);
+        if (widget == null) {
+            return false;
+        }
+        return widget.getProps().value;
     },
 
     /**
@@ -500,10 +499,17 @@ webui.@THEME@.field = {
      * @param elementId The element ID of the Field component
      * @param newStyle The new value to enter into the input element
      * Field component 
-     * @deprecated for client side widget components
+     * @deprecated Use document.getElementById(id).setProps({value: "text"});
      */
     setValue: function(elementId, newValue) { 
-        webui.@THEME@.field.getInputElement(elementId).value = newValue;
+        if (newValue == null) {
+            return false;
+        }
+        var widget = dojo.widget.byId(elementId);
+        if (widget == null) {
+            return false;
+        }
+        return widget.setProps({value: newValue});        
     },
 
     /** 
@@ -511,10 +517,14 @@ webui.@THEME@.field = {
      * The style retrieved will be the style on the span tag that 
      * encloses the (optional) label element and the input element. 
      * @param elementId The element ID of the Field component
-     * @deprecated for client side widget components
+     * @deprecated Use document.getElementById(id).getProps().style;
      */
     getStyle: function(elementId) { 
-        return webui.@THEME@.field.getInputElement(elementId).style; 
+        var widget = dojo.widget.byId(elementId);
+        if (widget == null) {
+            return false;
+        }
+        return widget.getProps().style;
     },
 
     /**
@@ -522,10 +532,17 @@ webui.@THEME@.field = {
      * The style will be set on the <span> tag that surrounds the field. 
      * @param elementId The element ID of the Field component
      * @param newStyle The new style to apply
-     * @deprecated for client side widget components
+     * @deprecated Use document.getElementById(id).setProps({style: newStyle});
      */
     setStyle: function(elementId, newStyle) { 
-        webui.@THEME@.field.getInputElement(elementId).style = newStyle; 
+        if (newStyle == null) {
+            return false;
+        }
+        var widget = dojo.widget.byId(elementId);
+        if (widget == null) {
+            return false;
+        }
+        return widget.setProps({style: newStyle});
     },
 
     /**
@@ -535,35 +552,18 @@ webui.@THEME@.field = {
      * @param elementId The element ID of the field 
      * @param show true to disable the field, false to enable the field
      * @return true if successful; otherwise, false
-     * @deprecated for client side widget components
+     * @deprecated Use document.getElementById(id).setProps({disabled: true|false});
      */
-    setDisabled: function(elementId, disabled) {  
-        if (elementId == null || disabled == null) {
-            // must supply an elementId && state
+    setDisabled: function(elementId, newDisabled) {  
+        if (newDisabled == null) {
             return false;
         }
-        var textfield = webui.@THEME@.field.getInputElement(elementId); 
-        if (textfield == null) {
+        var widget = dojo.widget.byId(elementId);
+        if (widget == null) {
             return false;
         }
-        var newState = new Boolean(disabled).valueOf();    
-        var isTextArea = textfield.className.indexOf(
-            webui.@THEME@.props.field.textAreaClassName) > -1;
-        if (newState) { 
-            if(isTextArea) {
-                textfield.className = webui.@THEME@.props.field.areaDisabledClassName;
-            } else {
-                textfield.className = webui.@THEME@.props.field.fieldDisabledClassName;
-            }
-        } else {
-            if(isTextArea) {
-                textfield.className = webui.@THEME@.props.field.areaClassName;
-            } else {
-                textfield.className = webui.@THEME@.props.field.fieldClassName;
-            }
-        }
-        textfield.disabled = newState;
-        return true;
+        return widget.setProps({disabled: newDisabled});
+
     }
 }
 

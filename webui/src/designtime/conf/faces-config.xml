@@ -249,7 +249,7 @@
     
     <renderer>
       <component-family>com.sun.webui.jsf.TextArea</component-family>
-      <renderer-type>com.sun.webui.jsf.TextAreaDesignTime</renderer-type>
+      <renderer-type>com.sun.webui.jsf.widget.TextAreaDesignTime</renderer-type>
       <renderer-class>com.sun.webui.jsf.renderkit.html.TextAreaDesignTimeRenderer</renderer-class>
     </renderer>
     

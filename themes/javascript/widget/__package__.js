@@ -46,6 +46,7 @@ dojo.requireIf(djConfig.isDebug, "webui.@THEME@.widget.staticText");
 dojo.requireIf(djConfig.isDebug, "webui.@THEME@.widget.table2");
 dojo.requireIf(djConfig.isDebug, "webui.@THEME@.widget.table2RowGroup");
 dojo.requireIf(djConfig.isDebug, "webui.@THEME@.widget.textField");
+dojo.requireIf(djConfig.isDebug, "webui.@THEME@.widget.textArea");
 
 dojo.require("dojo.ns");
 dojo.registerNamespace("webui.@THEME@", "webui.@THEME@.widget");

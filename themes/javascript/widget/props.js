@@ -127,7 +127,13 @@ webui.@THEME@.widget.props = {
     textField: {
         className: "TxtFld@THEME_CSS@",
         disabledClassName: "TxtFldDis@THEME_CSS@"
-    }
+    },
+    
+    // TextArea properties.
+    textArea: {
+        className: "TxtAra@THEME_CSS@",
+        disabledClassName: "TxtAraDis@THEME_CSS@"
+    }    
 }
 
 //-->
