@@ -59,12 +59,15 @@ webui.@THEME@.widget.textField = function() {
         this.domNode.getInputElement = function() { return dojo.widget.byId(this.id).getInputElement(); }
         this.domNode.getProps = function() { return dojo.widget.byId(this.id).getProps(); }
         this.domNode.refresh = function(execute) { return dojo.widget.byId(this.id).refresh(execute); }
+        this.domNode.submit = function(execute) { return dojo.widget.byId(this.id).submit(execute); }
         this.domNode.setProps = function(props) { return dojo.widget.byId(this.id).setProps(props); }
         
         // Set private functions.
+        this.getInputElement = webui.@THEME@.widget.textField.getInputElement;
         this.getClassName = webui.@THEME@.widget.textField.getClassName;
         this.getProps = webui.@THEME@.widget.textField.getProps;
         this.refresh = webui.@THEME@.widget.textField.refresh.processEvent;
+        this.submit = webui.@THEME@.widget.textField.submit.processEvent;
         this.setProps = webui.@THEME@.widget.textField.setProps;
 
         // Set events.
@@ -119,6 +122,8 @@ webui.@THEME@.widget.textField.getProps = function() {
     if (this.required != null) { props.required = this.required; }
     if (this.size) { props.size = this.size; }
     if (this.valid != null) { props.valid = this.valid; }
+    if (this.autoValidate != null) { props.autoValidate = this.autoValidate; }
+    if (this.style != null) { props.style = this.style; }
 
     // After widget has been initialized, get user's input.
     if (webui.@THEME@.widget.common.isWidgetInitialized(this) == true 
@@ -235,6 +240,7 @@ webui.@THEME@.widget.textField.setProps = function(props) {
     // Set text field attributes.    
     if (props.size) { this.textFieldNode.size = props.size; }
     if (props.value) { this.textFieldNode.value = props.value; }
+    if (props.title) { this.textFieldNode.title = props.title; }   
     if (props.disabled != null) { 
         this.textFieldNode.disabled = new Boolean(props.disabled).valueOf();
     }
@@ -243,7 +249,7 @@ webui.@THEME@.widget.textField.setProps = function(props) {
     }
 
     this.textFieldNode.className = this.getClassName();
-
+    
     // Set label properties.
     if (props.label || (props.valid != null || props.required != null) && this.label) {
         // Ensure property exists so we can call setProps just once.
@@ -267,6 +273,7 @@ webui.@THEME@.widget.textField.setProps = function(props) {
     }
     return true;
 }
+
 
 /**
  * This closure is used to publish validation events.
@@ -323,6 +330,55 @@ webui.@THEME@.widget.textField.validation = {
         return true;
     }
 }
+
+
+/**
+ * This closure is used to process submit events.
+ */
+webui.@THEME@.widget.textField.submit = {
+    /**
+     * Event topics for custom AJAX implementations to listen for.
+     */
+    beginEventTopic: "webui_@THEME@_widget_textField_submit_begin",
+    endEventTopic: "webui_@THEME@_widget_textField_submit_end",
+    
+    /**
+     * Process submit event.
+     *
+     * @param execute Comma separated string containing a list of client ids 
+     * against which the execute portion of the request processing lifecycle
+     * must be run.
+     */
+    processEvent: function(execute) {
+        // Publish event.
+        webui.@THEME@.widget.textField.submit.publishBeginEvent({
+            id: this.id,
+            execute: execute
+        });
+        return true;
+    },
+    
+    /**
+     * Publish an event for custom AJAX implementations to listen for.
+     *
+     * @param props Key-Value pairs of properties of the widget.
+     */
+    publishBeginEvent: function(props) {
+        dojo.event.topic.publish(webui.@THEME@.widget.textField.submit.beginEventTopic, props);
+        return true;
+    },
+    
+    /**
+     * Publish an event for custom AJAX implementations to listen for.
+     *
+     * @param props Key-Value pairs of properties of the widget.
+     */
+    publishEndEvent: function(props) {
+        dojo.event.topic.publish(webui.@THEME@.widget.textField.submit.endEventTopic, props);
+        return true;
+    }
+}
+
 
 dojo.inherits(webui.@THEME@.widget.textField, dojo.widget.HtmlWidget);
 

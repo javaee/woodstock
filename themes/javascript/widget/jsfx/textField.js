@@ -65,6 +65,39 @@ webui.@THEME@.widget.jsfx.textField = {
     },
 
     /**
+     * This function is used to process submit events with the following Object
+     * literals.
+     *
+     * <ul>
+     *  <li>id</li>
+     *  <li>execute</li>
+     * </ul>
+     *
+     * @param props Key-Value pairs of properties.
+     */
+    processSubmitEvent: function(props) {
+        if (props == null) {
+            return false;
+        }
+
+        // Dynamic Faces requires a DOM node as the source property.
+        var domNode = document.getElementById(props.id);
+
+        // Generate AJAX request using the JSF Extensions library.
+        new DynaFaces.fireAjaxTransaction(
+            (domNode) ? domNode : document.forms[0], {
+            execute: (props.execute) ? props.execute : "none",
+            render: props.id,
+            replaceElement: webui.@THEME@.widget.jsfx.textField.submitCallback,
+            xjson: {
+                id: props.id,
+                event: "submit"
+            }
+        });
+        return true;
+    },
+    
+    /**
      * This function is a validation event processor using props
      * instead of event.
      *
@@ -117,6 +150,32 @@ webui.@THEME@.widget.jsfx.textField = {
         return true;
     },
 
+
+    /**
+     * This function is a callback to respond to the end of submit request.
+     * It will only publish submit end event without updating the widget itself.
+     * While component data is available, it is NOT used to update the widget 
+     *
+     * @param id The client id.
+     * @param content The content returned by the AJAX response.
+     * @param closure The closure argument provided to DynaFaces.fireAjaxTransaction.
+     * @param xjson The xjson argument provided to DynaFaces.fireAjaxTransaction.
+     */
+    submitCallback: function(id, content, closure, xjson) {
+        if (id == null || content == null) {
+            return false;
+        }
+
+        // Parse JSON text.
+        var json = JSON.parse(content);
+
+        // do NOT modify widget
+
+        // Publish an event for custom AJAX implementations to listen for.
+        webui.@THEME@.widget.textField.submit.publishEndEvent(json);
+        return true;
+    },
+    
     /**
      * This function is used to update widgets.
      *
@@ -148,6 +207,8 @@ webui.@THEME@.widget.jsfx.textField = {
 // Listen for Dojo Widget events.
 dojo.event.topic.subscribe(webui.@THEME@.widget.textField.refresh.beginEventTopic,
     webui.@THEME@.widget.jsfx.textField, "processRefreshEvent");
+dojo.event.topic.subscribe(webui.@THEME@.widget.textField.submit.beginEventTopic,
+    webui.@THEME@.widget.jsfx.textField, "processSubmitEvent");
 dojo.event.topic.subscribe(webui.@THEME@.widget.textField.validation.beginEventTopic,
     webui.@THEME@.widget.jsfx.textField, "processValidationEvent");
 
