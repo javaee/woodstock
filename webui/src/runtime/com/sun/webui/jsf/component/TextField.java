@@ -43,8 +43,8 @@ import javax.faces.context.FacesContext;
  * stage of the lifecycle is skipped ( see processUpdates).
  * <br>
  * TextField also supports password mode, where data entered will be masked with 
- * asterisks. Password Mode is enabled through the attribute passwordMode. 
- * Note that when passwordMode is on, no TextField content data is sent back (rendered)
+ * asterisks. Password Mode is enabled through the attribute password. 
+ * Note that when password is on, no TextField content data is sent back (rendered)
  * to the client, even though such data is available through getText(). 
  * This is done to prevent password sniffing on the wire or by viewing browser source.
  * <br>
@@ -273,18 +273,18 @@ type="com.sun.webui.jsf.TextField", family="com.sun.webui.jsf.TextField",
      * echoes entered characters as "*"
      */
     
-    @Property(name="passwordMode", isHidden=true, displayName="Password Mode", category="Appearance")
-    private boolean passwordMode = false;
-    private boolean passwordMode_set = false;
+    @Property(name="password", isHidden=true, displayName="Password Mode", category="Appearance")
+    private boolean password = false;
+    private boolean password_set = false;
     
     /**
-     * Test if passwordMode mode is be turned on.
+     * Test if password mode is be turned on.
      */
-    public boolean isPasswordMode() {
-        if (this.passwordMode_set) {
-            return this.passwordMode;
+    public boolean isPassword() {
+        if (this.password_set) {
+            return this.password;
         }
-        ValueExpression _vb = getValueExpression("passwordMode");
+        ValueExpression _vb = getValueExpression("password");
         if (_vb != null) {
             Object _result = _vb.getValue(getFacesContext().getELContext());
             if (_result == null) {
@@ -297,11 +297,11 @@ type="com.sun.webui.jsf.TextField", family="com.sun.webui.jsf.TextField",
     }
     
     /**
-     * Set attribute indicating to turn on passwordMode mode.
+     * Set attribute indicating to turn on password mode.
      */
-    public void setPasswordMode(boolean passwordModeMode) {
-        this.passwordMode = passwordModeMode;
-        this.passwordMode_set = true;
+    public void setPassword(boolean passwordMode) {
+        this.password = passwordMode;
+        this.password_set = true;
     }
     
     
@@ -320,8 +320,8 @@ type="com.sun.webui.jsf.TextField", family="com.sun.webui.jsf.TextField",
         this.ajaxify_set  =     ((Boolean) _values[3]).booleanValue();
         this.autoValidate =     ((Boolean) _values[4]).booleanValue();
         this.autoValidate_set = ((Boolean) _values[5]).booleanValue();
-        this.passwordMode =     ((Boolean) _values[6]).booleanValue();
-        this.passwordMode_set = ((Boolean) _values[7]).booleanValue();
+        this.password =     ((Boolean) _values[6]).booleanValue();
+        this.password_set = ((Boolean) _values[7]).booleanValue();
     }
     
     /**
@@ -335,8 +335,8 @@ type="com.sun.webui.jsf.TextField", family="com.sun.webui.jsf.TextField",
         _values[3] = this.ajaxify_set ? Boolean.TRUE : Boolean.FALSE;
         _values[4] = this.autoValidate ? Boolean.TRUE : Boolean.FALSE;
         _values[5] = this.autoValidate_set ? Boolean.TRUE : Boolean.FALSE;
-        _values[6] = this.passwordMode ? Boolean.TRUE : Boolean.FALSE;
-        _values[7] = this.passwordMode_set ? Boolean.TRUE : Boolean.FALSE;
+        _values[6] = this.password ? Boolean.TRUE : Boolean.FALSE;
+        _values[7] = this.password_set ? Boolean.TRUE : Boolean.FALSE;
         return _values;
     }
     
@@ -419,7 +419,7 @@ type="com.sun.webui.jsf.TextField", family="com.sun.webui.jsf.TextField",
      * @return A String value of the component
      */
     public String getValueAsString(FacesContext context) {   
-        if (isPasswordMode())
+        if (isPassword())
             return new String();
         
         String submittedValue = (String)getSubmittedValue();

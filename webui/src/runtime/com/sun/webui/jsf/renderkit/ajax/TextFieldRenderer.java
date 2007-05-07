@@ -79,8 +79,9 @@ public class TextFieldRenderer
             throw new NullPointerException();
         }
 
-        // Output component properties if Ajax request and is refresh event.
-        if (ComponentUtilities.isAjaxRequest(context, component, "refresh")) {
+        // Output component properties if Ajax request and is refresh or submit event.
+        if (ComponentUtilities.isAjaxRequest(context, component, "refresh") ||
+            ComponentUtilities.isAjaxRequest(context, component, "submit")) {
             super.encodeChildren(context, component);
         }
 

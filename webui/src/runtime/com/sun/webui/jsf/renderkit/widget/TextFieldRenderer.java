@@ -74,7 +74,6 @@ rendererType="com.sun.webui.jsf.widget.TextField",
         "dir",
         "lang",
         "style",
-        "title",
         "readOnly",
         "maxLength",
         "accessKey",
@@ -196,12 +195,11 @@ rendererType="com.sun.webui.jsf.widget.TextField",
         }
         
         String templatePath = field.getHtmlTemplate(); // Get HTML template.
-        // TODO is getTheme() always non-null ?
         
         if (templatePath == null)
-            templatePath =   field.isPasswordMode() ?
-                getTheme().getPathToTemplate(ThemeTemplates.PASSWORDFIELD):
-                getTheme().getPathToTemplate(ThemeTemplates.TEXTFIELD);
+            templatePath =   field.isPassword() ?
+                theme.getPathToTemplate(ThemeTemplates.PASSWORDFIELD):
+                theme.getPathToTemplate(ThemeTemplates.TEXTFIELD);
         
         String className = field.getStyleClass();
         
@@ -214,6 +212,7 @@ rendererType="com.sun.webui.jsf.widget.TextField",
         .put("templatePath", templatePath)
         .put("size", field.getColumns())
         .put("visible", field.isVisible())
+        .put("title", field.getToolTip())
         .put("autoValidate", field.isAutoValidate());
         
         // Append label properties.
