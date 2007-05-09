@@ -579,11 +579,12 @@
 ]]></description>
     </tag>
 
-    <tag>
+     <tag>
         <name>alarmStatus</name>
 
         <description><![CDATA[ 
 <p>
+ 
  Use the <code>webuijsf:alarmStatus</code>
  tag to display alarm information as hyperlinks. This
  tag is typically specified as part of the <a href="masthead.html"><code>webuijsf:masthead</code></a>
@@ -606,7 +607,11 @@
  you use the <code>webuijsf:alarmStatus</code>, <code>webuijsf:jobStatus</code>, <code>webuijsf:timeStamp</code>,
  and <code>webuijsf:notificationPhrase</code> tags in the <code>statusArea</code> facet,
  you may have to add code to handle the spacing between the components,
- as demonstrated in the example below. </p>
+ as demonstrated in the example below. 
+ </p>
+ <br>
+ <p> Note that the <code>AlarmStatus</code> component is deprecated. Please look at the examples to see
+ how the equivalent of <code>webuijsf:alarmStatus</code> can be created in the masthead.
  <h3>HTML Elements and Layout</h3>
  <p>
  The rendered HTML page includes a <code>&lt;span&gt;</code> element
@@ -775,6 +780,46 @@
       &lt;/f:facet&gt;
  &lt;/webuijsf:masthead&gt;
  </code></pre>
+ <h4> Example 2: Create an equivalent of <code>webuijsf:alarmStatus</code> tag</h4>
+ <pre><code>
+ &lt;f:facet name="currentAlarmsInfo"&gt;  
+  &lt;webuijsf:panelGroup id="alarmStatus"&gt;
+
+      &lt;webuijsf:staticText id="labelstatus" text="Current Info :" styleClass="#{themeStyles.MASTHEAD_TEXT}"/&gt;
+      &lt;webuijsf:panelGroup id="downAlarmsPanel"&gt;
+        &lt;webuijsf:imageHyperlink id="downAlarmsLink" 
+                           icon="ALARM_MASTHEAD_DOWN_DIMMED" text="0" disabled="true" &gt;                        
+          &lt;f:param name="severity" value="down" /&gt;
+          &lt;/webuijsf:imageHyperlink&gt;
+        &lt;f:verbatimk&gt;&amp;nbsp;&amp;nbsp;&lt;/f:verbatim&gt;
+      &lt;/webuijsf:panelGroup&gt;
+
+      &lt;webuijsf:panelGroup id="criticalAlarmsPanel"&gt;
+        &lt;webuijsf:imageHyperlink id="criticalAlarmsLink" styleClass="#{themeStyles.MASTHEAD_ALARM_LINK}" 
+                           icon="ALARM_MASTHEAD_CRITICAL_MEDIUM" text="1"  actionExpression="#{MastheadBean.alarmClicked}"&gt;
+          &lt;f:param name="severity" value="critical"/&gt;
+        &lt;/webuijsf:imageHyperlink&gt;
+     &lt;f:verbatim&gt;&amp;nbsp;&amp;nbsp;&lt;/f:verbatim&gt;
+      &lt;/webuijsf:panelGroup&gt;                        
+
+      &lt;webuijsf:panelGroup id="majorAlarmsPanel"&gt;
+        &lt;webuijsf:imageHyperlink id="majorAlarmsLink" styleClass="#{themeStyles.MASTHEAD_ALARM_LINK}" 
+                           icon="ALARM_MASTHEAD_MAJOR_MEDIUM" text="2" actionExpression="#{MastheadBean.alarmClicked}"&gt;
+          &lt;f:param name="severity" value="major"/&gt;
+        &lt;/webuijsf:imageHyperlink&gt;
+      &lt;f:verbatim&gt;&amp;nbsp;&amp;nbsp;&lt;/f:verbatim&gt;
+      &lt;/webuijsf:panelGroup&gt;
+
+      &lt;webuijsf:panelGroup id="minorAlarmsPanel"&gt;
+        &lt;webuijsf:imageHyperlink id="minorAlarmsLink" styleClass="#{themeStyles.MASTHEAD_ALARM_LINK}" 
+                           icon="ALARM_MASTHEAD_MINOR_MEDIUM" text="3" actionExpression="#{MastheadBean.alarmClicked}"&gt;
+          &lt;f:param name="severity" value="minor"/&gt;
+        &lt;/webuijsf:imageHyperlink&gt;
+        &lt;f:verbatim&gt;&amp;nbsp;&amp;nbsp;&lt;/f:verbatim&gt;
+      &lt;/webuijsf:panelGroup&gt;
+  &lt;/webuijsf:panelGroup&gt;
+&lt;/f:facet&gt;              
+               </pre></code>
 ]]></description>
     </tag>
 
@@ -5525,9 +5570,11 @@ submitting field value<br>
  <code>webuijsf:jobStatus</code>, <code>webuijsf:timeStamp</code>, and <code>
   webuijsf:notificationPhrase</code> tags in the <code>statusArea</code> facet, you may 
  have to add code to handle the
- spacing between the components, as demonstrated in the example below.
+ spacing between the components, as demonstrated in the example below.</p>
+ <p> Note: The jobStatus component has been deprecated. Take a look at the examples section
+ to see how to create an equivalent of the <code>webuijsf:jobStatus</code>
  <h3>HTML Elements and Layout</h3>
- The rendered HTML page includes an <code>&lt;img&gt;</code> element for 
+ <p>The rendered HTML page includes an <code>&lt;img&gt;</code> element for 
  the status icon, adjacent to an 
  <code>&lt;a&gt;</code>
  hyperlink containing the job status text label, and number of jobs
@@ -5576,6 +5623,19 @@ submitting field value<br>
      &lt;/f:facet&gt;
  &lt;/webuijsf:masthead&gt;
  </code></pre>
+ <h4>Example 2:Create an equivalent of <code>webuijsf:jobStatus</code></h4>
+ <pre><code>
+    &lt;f:facet name="jobsInfo"&gt;
+    &lt;webuijsf:panelGroup id="jobStatusInfo"&gt;                              
+         &lt;webuijsf:image id="jobStatusimage" icon="MASTHEAD_STATUS_ICON" height="17" width="17"/&gt;
+         &lt;f:verbatim&gt;;&amp;nbsp &lt;/f:verbatim&gt;
+         &lt;webuijsf:hyperlink id="link2" url="#"  styleClass="#{themeStyles.MASTHEAD_PROGRESS_LINK}" &gt;
+         &lt;webuijsf:staticText id="text2" styleClass="#{themeStyles.MASTHEAD_TEXT}"
+         text="#{MastheadBean.jobStatus}"/&gt;
+         &lt;/webuijsf:hyperlink&gt;
+     &lt;/webuijsf:panelGroup&gt;           
+    &lt;/f:facet&gt;
+</pre></code>
 ]]></description>
     </tag>
 
@@ -7036,6 +7096,8 @@ changed to value " + menu.getValue();<br>
  and <code>webuijsf:notificationPhrase</code> tags in the <code>statusArea</code> facet,
  you may have to add code to handle the spacing between the components,
  as demonstrated in the example below. </p>
+ <p> Note that the <code>notificationPhrase</code> component is deprecated. Take a look at the examples section
+ to see how to create an equivalent of the <code>webuijsf:notificationPhrase</code>.
  <h3>HTML Elements and Layout</h3>
  <p>
  The rendered HTML page includes an <code>&lt;img&gt;</code>
@@ -7085,6 +7147,19 @@ changed to value " + menu.getValue();<br>
      &lt;/f:facet&gt;
  &lt;/webuijsf:masthead&gt;
  </code></pre>
+<h4> Example 2: Create an equivalent of <code>webuijsf:alarmStatus</code> tag</h4>
+<pre><code>
+&lt;f:facet name="notificationInfo"&gt;
+      &lt;webuijsf:panelGroup id="notificationInfo"&gt;                             
+          &lt;webuijsf:image id="notificationImage" icon="ALERT_INFO_MEDIUM" align="middle"/&gt;
+          &lt;f:verbatim>&amp;nbsp; &lt;/f:verbatim&gt;
+          &lt;webuijsf:hyperlink id="link1" url="#" styleClass="#{themeStyles.MASTHEAD_PROGRESS_LINK}"&gt;
+          &lt;webuijsf:staticText id="text1" styleClass="#{themeStyles.MASTHEAD_TEXT}"
+         text="#{msgs.masthead_notificationText}"/&gt;
+          &lt;/webuijsf:hyperlink&gt;
+      &lt;/webuijsf:panelGroup&gt;
+  &lt;/f:facet&gt;
+</pre></code>
 ]]></description>
     </tag>
 

@@ -42,6 +42,7 @@ import com.sun.webui.jsf.util.ThemeUtilities;
  * <p>Render an instance of the AlarmStatus component.</p>
  *
  * @author Sean Comerford
+ * @deprecated
  */
 @Renderer(@Renderer.Renders(componentFamily="com.sun.webui.jsf.AlarmStatus"))
 public class AlarmStatusRenderer extends HyperlinkRenderer {

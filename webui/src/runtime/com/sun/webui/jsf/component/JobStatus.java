@@ -33,6 +33,8 @@ import javax.faces.context.FacesContext;
 
 /**
  * The JobStatus component is used to show the number of jobs currently running.
+ * @deprecated
+ * @see tld docs for more information on how to create a jobStatus without using the jobStatus component
  */
 @Component(type="com.sun.webui.jsf.JobStatus", family="com.sun.webui.jsf.JobStatus", displayName="Job Status", tagName="jobStatus",
     helpKey="projrave_ui_elements_palette_wdstk-jsf1.2_job_status",

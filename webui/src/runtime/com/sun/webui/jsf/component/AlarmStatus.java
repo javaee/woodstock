@@ -30,6 +30,8 @@ import javax.faces.context.FacesContext;
 /**
  * The AlarmStatus component is used to display alarm information in the 
  * Masthead component.
+ * @deprecated
+ * @see tld documentation for more information on how to create alarmStatus without using the alarmStatus component
  */
 @Component(type="com.sun.webui.jsf.AlarmStatus", family="com.sun.webui.jsf.AlarmStatus", displayName="Alarm Status",
     helpKey="projrave_ui_elements_palette_wdstk-jsf1.2_alarm_status",

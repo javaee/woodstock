@@ -46,14 +46,15 @@ public class MastheadBackingBean implements Serializable {
     
     // Holds the severity of Alarms clicked.
     private String severity = null;
-    
+    // Contains the value of number of jobs that are running.
+    private String jobsRunning = "Jobs Running: 2";
     // The outcome strings used in the faces config file
     private static final String MASTHEAD_INDEX = "showMasthead";
     private static final String MASTHEAD1 = "showMasthead1";
     private static final String MASTHEAD2 = "showMasthead2";
     private static final String MASTHEAD3 = "showMasthead3";
     private static final String RESULT_MASTHEAD = "showResultMasthead";
-    private static final String RESULT_MASTHEAD_FACETS = "showResultMastheadFacets";    
+    private static final String RESULT_MASTHEAD_FACETS = "showResultMastheadFacets"; 
     
     // Initial value for renedering the alert boxes.
     private boolean isRendered1 = false;
@@ -347,6 +348,21 @@ public class MastheadBackingBean implements Serializable {
         return new String(MASTHEAD3);       
     }
     
+    /**
+     * Message to be displayed for the job status facet in masthead
+     * Ideally this value should be got from some back end which 
+     * contains the value of number of jobs that are running.
+     **/
+    public String getJobStatus() {
+        return this.jobsRunning;
+    }
+    /**
+     * Set the value of the message to be shown in the job status facet
+     */
+    public void setJobStatus(String jobsRunning) {
+        this.jobsRunning = jobsRunning;
+    }
+   
     /** ValueChangelistener for checkbox that shows Notification Info. */
     public void listener1 (ValueChangeEvent event) {        
          cb1Selected = ((Boolean) event.getNewValue()).booleanValue();         

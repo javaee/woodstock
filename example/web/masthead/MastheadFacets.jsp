@@ -42,69 +42,72 @@
                            productImageURL="/images/example_primary_masthead.png" productImageDescription="#{msgs.mastheadAltText}" >                    
                 
                  <!-- Status Area Facets -->
-                      <f:facet name="notificationInfo">
-                          <webuijsf:notificationPhrase id="notify" 
-                                                       text="#{msgs.masthead_notificationmsg}" 
-                                                       actionExpression="#{MastheadBean.notificationClicked}" 
-                                                       rendered="#{MastheadBean.cb1Selected}" />
-                      </f:facet>
-                      <f:facet name="jobsInfo">                       
-                      <webuijsf:jobStatus id="job" numJobs="1" 
-                          rendered="#{MastheadBean.cb2Selected}" 
-                          actionExpression="#{MastheadBean.jobstatusClicked}"/>
-                      </f:facet>             
+                  <f:facet name="notificationInfo">
+                         <webuijsf:panelGroup id="notificationInfo" rendered="#{MastheadBean.cb1Selected}" >                              
+                             <webuijsf:image id="notificationImage" icon="ALERT_INFO_MEDIUM" align="middle"/>
+                             <f:verbatim><![CDATA[ &nbsp; ]]></f:verbatim>
+                             <webuijsf:hyperlink id="link1" styleClass="#{themeStyles.MASTHEAD_PROGRESS_LINK}" 
+                             actionExpression="#{MastheadBean.notificationClicked}" >
+                             <webuijsf:staticText id="text1" styleClass="#{themeStyles.MASTHEAD_TEXT}"
+                             text="#{msgs.masthead_notificationmsg}"/>
+                             </webuijsf:hyperlink>
+                         </webuijsf:panelGroup>
+                     </f:facet>
+                     <f:facet name="jobsInfo">
+
+                        <webuijsf:panelGroup id="jobStatusInfo" rendered="#{MastheadBean.cb2Selected}">                              
+                             <webuijsf:image id="jobStatusimage" icon="MASTHEAD_STATUS_ICON" height="17" width="17"/>
+                             <f:verbatim><![CDATA[ &nbsp; ]]></f:verbatim>
+                             <webuijsf:hyperlink id="link2" styleClass="#{themeStyles.MASTHEAD_PROGRESS_LINK}" 
+                             actionExpression="#{MastheadBean.jobstatusClicked}">
+                             <webuijsf:staticText id="text2" styleClass="#{themeStyles.MASTHEAD_TEXT}"
+                             text="#{MastheadBean.jobStatus}"/>
+                             </webuijsf:hyperlink>
+                         </webuijsf:panelGroup>           
+                     </f:facet>
+                     
                       <f:facet name="dateTimeInfo">       
                          <webuijsf:timeStamp id="time" rendered="#{MastheadBean.cb3Selected}" />
                       </f:facet>
+                      
                       <f:facet name="currentAlarmsInfo">  
-                          <webuijsf:alarmStatus id="alarm" immediate="true" 
-                              rendered="#{MastheadBean.cb4Selected}"
-                              actionExpression="#{MastheadBean.alarmClicked}">
+                      <webuijsf:panelGroup id="alarmStatus" rendered="#{MastheadBean.cb4Selected}">
                                          
-                        <!-- Alarm Status Facets -->
-                        <f:facet name="downAlarms">
+                          <webuijsf:staticText id="labelstatus" text="Current Info :" styleClass="#{themeStyles.MASTHEAD_TEXT}"/>
                           <webuijsf:panelGroup id="downAlarmsPanel">
-                            <webuijsf:imageHyperlink id="downAlarmsLink" styleClass="#{themeStyles.MASTHEAD_ALARM_LINK}" style="text-decoration:none"
+                            <webuijsf:imageHyperlink id="downAlarmsLink" 
                                                icon="ALARM_MASTHEAD_DOWN_DIMMED" text="0" disabled="true" >                         
                               <f:param name="severity" value="down" />
                               </webuijsf:imageHyperlink>
-                            <f:verbatim><![CDATA[&nbsp;&nbsp;&nbsp;]]></f:verbatim>
+                            <f:verbatim><![CDATA[ &nbsp;&nbsp; ]]></f:verbatim>
                           </webuijsf:panelGroup>
-                        </f:facet>
-                        
-                        <f:facet name="criticalAlarms">
+                       
                           <webuijsf:panelGroup id="criticalAlarmsPanel">
-                            <webuijsf:imageHyperlink id="criticalAlarmsLink" styleClass="#{themeStyles.MASTHEAD_ALARM_LINK}" style="text-decoration:none"
+                            <webuijsf:imageHyperlink id="criticalAlarmsLink" styleClass="#{themeStyles.MASTHEAD_ALARM_LINK}" 
                                                icon="ALARM_MASTHEAD_CRITICAL_MEDIUM" text="1"  actionExpression="#{MastheadBean.alarmClicked}" >
                               <f:param name="severity" value="critical"/>
                             </webuijsf:imageHyperlink>
-                         <f:verbatim><![CDATA[&nbsp;&nbsp;&nbsp;]]></f:verbatim>
-                          </webuijsf:panelGroup>
-                        </f:facet>
-                        
-                        <f:facet name="majorAlarms">
+                         <f:verbatim><![CDATA[ &nbsp;&nbsp; ]]></f:verbatim>
+                          </webuijsf:panelGroup>                        
+
                           <webuijsf:panelGroup id="majorAlarmsPanel">
-                            <webuijsf:imageHyperlink id="majorAlarmsLink" styleClass="#{themeStyles.MASTHEAD_ALARM_LINK}" style="text-decoration:none"
+                            <webuijsf:imageHyperlink id="majorAlarmsLink" styleClass="#{themeStyles.MASTHEAD_ALARM_LINK}" 
                                                icon="ALARM_MASTHEAD_MAJOR_MEDIUM" text="2" actionExpression="#{MastheadBean.alarmClicked}" >
                               <f:param name="severity" value="major"/>
                             </webuijsf:imageHyperlink>
-                          <f:verbatim><![CDATA[&nbsp;&nbsp;&nbsp;]]></f:verbatim>
+                          <f:verbatim><![CDATA[ &nbsp;&nbsp; ]]></f:verbatim>
                           </webuijsf:panelGroup>
-                        </f:facet>
-                        
-                        <f:facet name="minorAlarms">
+                          
                           <webuijsf:panelGroup id="minorAlarmsPanel">
-                            <webuijsf:imageHyperlink id="minorAlarmsLink" styleClass="#{themeStyles.MASTHEAD_ALARM_LINK}" style="text-decoration:none"
+                            <webuijsf:imageHyperlink id="minorAlarmsLink" styleClass="#{themeStyles.MASTHEAD_ALARM_LINK}" 
                                                icon="ALARM_MASTHEAD_MINOR_MEDIUM" text="3" actionExpression="#{MastheadBean.alarmClicked}" >
                               <f:param name="severity" value="minor"/>
                             </webuijsf:imageHyperlink>
-                            <f:verbatim><![CDATA[&nbsp;&nbsp;&nbsp;]]></f:verbatim>
+                            <f:verbatim><![CDATA[ &nbsp;&nbsp; ]]></f:verbatim>
                           </webuijsf:panelGroup>
-                        </f:facet>
-                        
-                      </webuijsf:alarmStatus>
-                     <webuijsf:alarmStatus numDownAlarms="0" numCriticalAlarms="1" numMajorAlarms="2" numMinorAlarms="3" />
-               </f:facet>
+                      </webuijsf:panelGroup>
+
+               </f:facet>              
                 
                  <!-- Utility Bar Facets -->                
                 <f:facet name="consoleLink" >
@@ -137,7 +140,7 @@
                               onMouseOut="javascript:window.status=''; return true"/>
                 <webuijsf:hyperlink id="hyp3" text="#{msgs.masthead_masthead2Title}"/>
               </webuijsf:breadcrumbs>
-              
+             
               <!-- Alert -->
               <webuijsf:alert id="message" type="information" summary="#{MastheadBean.message}" 
                         rendered="#{MastheadBean.isRendered2}" />

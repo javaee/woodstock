@@ -43,6 +43,7 @@ import com.sun.webui.jsf.util.ThemeUtilities;
  * <p>Renders an instance of the NotificationPhrase component.</p>
  *
  * @author Sean Comerford
+ * @deprecated
  */
 @Renderer(@Renderer.Renders(componentFamily="com.sun.webui.jsf.NotificationPhrase"))
 public class NotificationPhraseRenderer extends HyperlinkRenderer {

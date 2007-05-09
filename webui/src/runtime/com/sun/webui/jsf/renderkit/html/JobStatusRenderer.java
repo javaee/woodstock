@@ -42,6 +42,7 @@ import com.sun.webui.jsf.util.ThemeUtilities;
  * <p>Renders an instance of the JobStatus component.</p>
  *
  * @author Sean Comerford
+ * @ deprecated
  */
 @Renderer(@Renderer.Renders(componentFamily="com.sun.webui.jsf.JobStatus"))
 public class JobStatusRenderer extends HyperlinkRenderer {
