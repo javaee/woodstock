@@ -67,9 +67,7 @@ webui.@THEME@.commonTasksSection = {
         domNode.count = 0;
 
         // Hide panels on resize.
-        window.onresize = function() {
-            domNode.windowResize();
-        }
+        dojo.event.connect(window, 'onresize', domNode, domNode.windowResize);
     },
 
     // Hide all task sections.
