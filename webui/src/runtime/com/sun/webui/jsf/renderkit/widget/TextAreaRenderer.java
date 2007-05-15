@@ -60,7 +60,7 @@ import org.json.JSONObject;
 @Renderer(@Renderer.Renders(
 rendererType="com.sun.webui.jsf.widget.TextArea",
         componentFamily="com.sun.webui.jsf.TextArea"))
-        public class TextAreaRenderer extends RendererBase {
+        public class TextAreaRenderer extends FieldRendererBase {
     
     /** Creates a new instance of TextAreaRenderer */
     public TextAreaRenderer() {
@@ -92,55 +92,7 @@ rendererType="com.sun.webui.jsf.widget.TextArea",
         "onKeyUp"
     };
     
-    // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    // Renderer methods
-    // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    
-    /**
-     * Decode the TextArea component
-     *
-     * @param context The FacesContext associated with this request
-     * @param component The TextArea2 component to decode
-     */
-    public void decode(FacesContext context, UIComponent component) {
-        if (context == null || component == null) {
-            throw new NullPointerException();
-        }
-        if (!(component instanceof Field)) {
-            throw new IllegalArgumentException(
-                    "TextAreaRenderer can only decode Field components.");
-        }
-        if (!(component instanceof EditableValueHolder)) {
-            throw new IllegalArgumentException(
-                    "TextAreaRenderer can only decode EditableValueHolder components.");
-        }
-        Field field = (Field)component;
-        if (field.isDisabled() || field.isReadOnly()) {
-            return;
-        }
-                
-       String id = field.getClientId(context); 
-        if (field instanceof ComplexComponent) {
-            // This must be the id of the submitted element.
-            // For now it is the same as the labeled element
-            //
-            id = field.getLabeledElementId(context);
-        }
-        if (id == null)
-            return;
-       
-        String value = null;
-        Map params = context.getExternalContext().getRequestParameterMap();
-        Object valueObject = params.get(id);
-        if (valueObject != null) { 
-            value = (String)valueObject;
-            if (field.isTrim()) {
-                value = value.toString().trim();
-            }
-        }
-        field.setSubmittedValue(value);
-    
-    }
+  
     
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     // RendererBase methods
@@ -208,16 +160,16 @@ rendererType="com.sun.webui.jsf.widget.TextArea",
         
         JSONObject json = new JSONObject();
         json.put("disabled", field.isDisabled())
-        .put("value", field.getValueAsString(context))
-        .put("required", field.isRequired())
-        .put("valid", field.isValid())
-        .put("className", className )
-        .put("templatePath", templatePath)
-        .put("cols", field.getColumns())
-        .put("visible", field.isVisible())
-        .put("rows", field.getRows())
-        .put("title", field.getToolTip())        
-        .put("autoSave", autoSave);
+            .put("value", field.getValueAsString(context))
+            .put("required", field.isRequired())
+            .put("valid", field.isValid())
+            .put("className", className )
+            .put("templatePath", templatePath)
+            .put("cols", field.getColumns())
+            .put("visible", field.isVisible())
+            .put("rows", field.getRows())
+            .put("title", field.getToolTip())        
+            .put("autoSave", autoSave);
         
         // Append label properties.
         WidgetUtilities.addProperties(json, "label",
@@ -240,12 +192,5 @@ rendererType="com.sun.webui.jsf.widget.TextArea",
         return JavaScriptUtilities.getNamespace("textArea");
     }
     
-    // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    // Private renderer methods
-    // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    
-    // Helper method to get Theme objects.
-    private Theme getTheme() {
-        return ThemeUtilities.getTheme(FacesContext.getCurrentInstance());
-    }
+ 
 }
