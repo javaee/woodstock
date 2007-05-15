@@ -116,6 +116,42 @@ public class ThemeImages {
     public static final String ALARM_MASTHEAD_MINOR_DIMMED_WIDTH =
          "ALARM_MASTHEAD_MINOR_DIMMED_WIDTH";
 
+   /**
+    * Alarm Indicators
+    */
+
+    // down indicator
+    public static final String DOWN_ALARM_INDICATOR = "DOWN_ALARM_INDICATOR";
+    public static final String DOWN_ALARM_INDICATOR_HEIGHT =
+         "DOWN_ALARM_INDICATOR_HEIGHT";
+    public static final String DOWN_ALARM_INDICATOR_WIDTH = "DOWN_ALARM_INDICATOR_WIDTH";
+    public static final String DOWN_ALARM_INDICATOR_ALT = "DOWN_ALARM_INDICATOR_ALT";
+    // critical indicator
+    public static final String CRITICAL_ALARM_INDICATOR = "CRITICAL_ALARM_INDICATOR";
+    public static final String CRITICAL_ALARM_INDICATOR_HEIGHT =
+         "CRITICAL_ALARM_INDICATOR_HEIGHT";
+    public static final String CRITICAL_ALARM_INDICATOR_WIDTH = "CRITICAL_ALARM_INDICATOR_WIDTH";
+    public static final String CRITICAL_ALARM_INDICATOR_ALT = "CRITICAL_ALARM_INDICATOR_ALT";
+    // major indicator
+    public static final String MAJOR_ALARM_INDICATOR = "MAJOR_ALARM_INDICATOR";
+    public static final String MAJOR_ALARM_INDICATOR_HEIGHT =
+         "MAJOR_ALARM_INDICATOR_HEIGHT";
+    public static final String MAJOR_ALARM_INDICATOR_WIDTH = "MAJOR_ALARM_INDICATOR_WIDTH";
+    public static final String MAJOR_ALARM_INDICATOR_ALT = "MAJOR_ALARM_INDICATOR_ALT";
+    // minor indicator
+    public static final String MINOR_ALARM_INDICATOR = "MINOR_ALARM_INDICATOR";
+    public static final String MINOR_ALARM_INDICATOR_HEIGHT =
+         "MINOR_ALARM_INDICATOR_HEIGHT";
+    public static final String MINOR_ALARM_INDICATOR_WIDTH = "MINOR_ALARM_INDICATOR_WIDTH";
+    public static final String MINOR_ALARM_INDICATOR_ALT = "IMINOR_ALARM_INDICATOR_ALT";
+
+    // ok indicator
+    public static final String OK_ALARM_INDICATOR = "OK_ALARM_INDICATOR";
+    public static final String OK_ALARM_INDICATOR_HEIGHT =
+         "OK_ALARM_INDICATOR_HEIGHT";
+    public static final String OK_ALARM_INDICATOR_WIDTH = "OK_ALARM_INDICATOR_WIDTH";
+    public static final String OK_ALARM_INDICATOR_ALT = "OK_ALARM_INDICATOR_ALT";   
+
     /**
      * Alert Indicators
      */

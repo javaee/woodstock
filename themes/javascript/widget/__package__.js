@@ -31,6 +31,7 @@ dojo.kwCompoundRequire({
 // For debugging only, obtain all module resources before invoking
 // dojo.hostenv.writeIncludes(). This will ensure that JavaScript
 // files are accessible to JavaScript debuggers.
+dojo.requireIf(djConfig.isDebug, "webui.@THEME@.widget.alarm");
 dojo.requireIf(djConfig.isDebug, "webui.@THEME@.widget.anchor");
 dojo.requireIf(djConfig.isDebug, "webui.@THEME@.widget.alert");
 dojo.requireIf(djConfig.isDebug, "webui.@THEME@.widget.button");

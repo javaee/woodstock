@@ -518,7 +518,10 @@
  tag attributes.</p>
  <h3>Configuring the <code>webuijsf:alarm</code> tag</h3>
  <p>Use the <code>severity</code> attribute to specify the alarm
- severity, which determines the theme-specific alarm icon to render. 
+ severity, which determines the theme-specific alarm icon to render. Alarm supports a set of Indicators which enables to
+define custom types and associated images in addition with default
+types. Indicators also supports sorting attribute which enables sorting
+among Indicators depending on the <code>sortValue</code> value. 
  <p>The <code>text</code> attribute is used to specify text to display next to the
  alarm icon, and the <code>textPosition</code> attribute specifies whether the text
  should be displayed to the left or right of the icon.
@@ -526,8 +529,7 @@
  the theme-specific alarm icon. The image that you specify with the 
  <code>url</code> attribute is always rendered, even if a severity is not
  specified. If you specify a theme key with the <code>icon</code> attribute, you must also 
- specify a standard severity. If you do not specify a severity, or if you specify a 
- custom severity, no image is rendered when you use the <code>icon</code> attribute. 
+ specify a standard severity. If you do not specify a severity component will assume default severity.
  The icon is coupled 
  with the severity, while the url is not. 
  If you specify an <code>icon</code> attribute as well as a 
@@ -541,6 +543,10 @@
  <p>The Theme provides the
  following alarm icon identifiers. </p>
  <pre wrap="">
+ DOWN_ALARM_INDICATOR
+ CRITICAL_ALARM_INDICATOR
+ MAJOR_ALARM_INDICATOR
+ OK_ALARM_INDICATOR
  ALARM_CRITICAL_SMALL
  ALARM_CRITICAL_MEDIUM 
  ALARM_MAJOR_SMALL
@@ -554,9 +560,66 @@
  ALARM_MASTHEAD_MAJOR_MEDIUM
  ALARM_MASTHEAD_MINOR_MEDIUM</pre>
  <h3>Client Side Javascript Functions</h3>
- None.
- <br>
- <h3>Examples</h3>
+ 
+ When the component is rendered, a DOM object corresponding to the
+component is created. To manipulate the component on the client side,
+you may invoke functions on the DOM object. With reference to the DOM
+id, to disable the component, invoke <code>document.getElementById(id).setProps({text:
+"New Alarm Text"})</code>.<br>
+<br>
+<table style="text-align: left; width: 100%;" border="1" cellpadding="2"
+ cellspacing="2">
+  <tbody>
+    <tr>
+      <td><code>getProps()</code></td>
+      <td>Use this function to get widget properties. Please see <code>setProps()</code>
+function for a list of supported properties.</td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top;"><code>refresh(execute)</code><br>
+      </td>
+      <td style="vertical-align: top;">Use this function to
+asynchronously refresh the component.<br>
+      <br>
+      <ul>
+        <li>execute: Comma separated string containing a list of client
+ids against which the <code>execute</code> portion of the request
+processing lifecycle must be run.</li>
+      </ul>
+      </td>
+    </tr>
+    <tr>
+      <td><code>setProps(props)</code></td>
+      <td>Use this function to change any of the following supported
+properties:<br>
+ <ul>
+   <li>className</li>    
+   <li>dir</li>
+   <li>indicators</li>
+   <li>id</li>
+   <li>lang</li>
+   <li>onClick</li>
+   <li>onDblClick</li>
+   <li>onKeyDown</li>
+   <li>onKeyPress</li>
+   <li>onKeyUp</li>
+   <li>onMouseDown</li>
+   <li>onMouseOut</li>
+   <li>onMouseOver</li>
+   <li>onMouseUp</li>
+   <li>onMouseMove</li>
+   <li>style</li>
+   <li>text</li>
+   <li>textPosition</li>
+   <li>title</li>
+   <li>type</li>
+   <li>visible</li>
+  </ul>
+      </td>
+    </tr>
+  </tbody>
+</table>
+<br><br>
  <h4>Example 1: Create an alarm with critical severity.</h4>
  <code>&lt;webuijsf:alarm id="alarm1" severity="critical" /&gt;
  <br>
@@ -576,6 +639,74 @@
  <p>See the Examples section in the documentation for the 
  <a href="tableColumn.html#Alarms"><code>webuijsf:tableColumn</code></a> component. 
  </p>
+ <b>Example 4: An example showing the use of developer define
+types:</b><br>
+<code><br>
+&lt;webuijsf:alarm id="alarm1"
+indicators="#{AlarmBean.customIndicator}" severity="mySeverity"
+text="Custom severity" /&gt;</code> <br>
+<b><br>
+Backing Bean:</b><br>
+<pre><br> AlarmBackingBean {<br> ...<br> public List getCustomIndicator() {<br>        <br>        FacesContext context = FacesContext.getCurrentInstance();<br>        UIComponent comp = context.getViewRoot().findComponent("form1:alarm1");<br>        Alarm alarm = (Alarm) comp;<br>               <br>        Indicator indicator = new Indicator("ALARM_CRITICAL_SMALL", "mySeverity", 600);<br>        <br>        List<indicator> lst = Alarm.getDefaultIndicators();<br>        lst.add(indicator);<br>                <br>        return lst;<br>    }  <br>    ...<br> } <br> </indicator></pre>
+The example above defines "mySeverity" as a custom define severity in addition
+to the default severities. An Indicator object can be constructed by calling
+any Indicator constructors. <code><br>
+<br>
+Indicator(String imageKey, String type, int sortValue) </code> or <code>
+Indicator(UIComponent imageComponent, String type, int sortValue) </code>
+<br>
+<br>
+The third parameter of constructor enables sorting for Indicators.<br>
+<h4>Example 5: Update client-side alarm properties using setProps
+function:</h4>
+This example shows how to hide an alarm client
+side using setProps function. When the user clicks the radio button,
+the alarm text is set.<code></code>
+<pre>&lt;webuijsf:radioButton id="rb1" name="rb1" label="Update Alarm" onClick="addText()"/&gt;<br><code>&lt;webuijsf:alarm id="alarm1" severity="</code><code>down</code><code>" text="#{MyBean.text}"</code><code> /&gt;</code><code></code><br><code><br></code>&lt;webuijsf:script&gt;<br>    // Add text.<br>    function addText() {<br>        var domNode = document.getElementById("form1:alarm1"); // Get alarm<br>        return domNode.setProps({text: "New Text"}); // Set text<br>    }<br>&lt;/webuijsf:script&gt;</pre>
+<code></code>
+<h4>Example 6: Update client-side alarm properties using getProps
+function:</h4>
+This example shows how to toggle the visible state of an alarm client
+side using getProps function. When the user clicks the radio button,
+the button is either shown or hidden.<code>
+</code>
+<pre>&lt;webuijsf:radioButton id="rb1" name="rb1" label="Toggle Alarm Visible" onClick="toggleVisible()"/&gt;<br><code>&lt;webuijsf:alarm id="alarm1" severity="</code><code>major</code><code>" text="#{MyBean.text}"</code><code> /&gt;</code><code></code><br><code><br></code>&lt;webuijsf:script&gt;<br>    // Toggle alarm visible.<br>    function toggleVisible() {<br>        var domNode = document.getElementById("form1:<code>alarm1</code>"); // Get alarm<br>        return domNode.setProps({visible: !domNode.getProps().visible}); // Toggle visible state<br>    }<br>&lt;/webuijsf:script&gt;</pre>
+<code></code>
+<h4>Example 7: Asynchronously update alarm using refresh function:</h4>
+This example shows how to asynchronously update an alarm using
+the refresh function. When the user clicks on the radio button, the
+alarm
+is asynchronously updated with new data.<br>
+<pre>&lt;webuijsf:radioButton id="rb1" name="rb1" label="Refresh Alarm" onClick="refreshAlarm()"/&gt;<br><code>&lt;webuijsf:alarm id="alarm1" severity="</code><code>major</code><code>" text="#{MyBean.text}"</code><code> /&gt;</code><br></pre>
+<code>&lt;webuijsf:script&gt;<br>
+&nbsp;&nbsp;&nbsp; // Refresh alarm.<br>
+&nbsp;&nbsp;&nbsp; function refreshAlarm() {<br>
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; var domNode =
+document.getElementById("form1:alarm1"); // Get alarm<br>
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; return domNode.refresh(); //
+Asynchronously refresh alarm<br>
+&nbsp;&nbsp;&nbsp; }<br>
+&lt;/webuijsf:script&gt;</code>
+<h4>Example 8: Asynchronously update alarm using refresh function:</h4>
+This example shows how to asynchronously update a alarm using
+the refresh function. The execute property of the refresh function is
+used
+to define the client id which is to be submitted and updated
+server-side. As the user types in the text field, the input value is
+updated server-side and the alarm text is updated client-side -- all
+without a page refresh.<br>
+<pre><code>&lt;webuijsf:alarm id="alarm1" severity="</code><code>major</code><code>" text="#{MyBean.text}"</code><code> /&gt;</code><br>&lt;webuijsf:textField id="field1" text="<code>#{MyBean.text}</code>" label="Change Text"<br>          onKeyUp="refreshAlarm()"/&gt; // Field used to asynchronously update text.<br></pre>
+<code>&lt;webuijsf:script&gt;<br>
+&nbsp;&nbsp;&nbsp; // Refresh alarm.<br>
+&nbsp;&nbsp;&nbsp; function </code><code>refreshAlarm</code><code>() {<br>
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; var domNode =
+document.getElementById("form1:alarm1"); // Get alarm<br>
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; return
+domNode.refresh("form1:field1"); // Asynchronously refresh while
+submitting field value<br>
+&nbsp;&nbsp;&nbsp; }<br>
+&lt;/webuijsf:script&gt;
+
 ]]></description>
     </tag>
 

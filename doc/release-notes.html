@@ -31,7 +31,13 @@
 <p>&nbsp;</p>
 <h2><u>4.1 Build 5</u></h2>
 <ul>
- <li> AlarmStatus, JobStatus and NotificationPhrase components have been deprecated</li>
+  <li> AlarmStatus, JobStatus and NotificationPhrase components have
+been deprecated</li>
+  <li>Client-side rendering for Alarm</li>
+  <li>Alarm supports a set of indicators which enables supporting
+custom severities and assosciated images including the default
+severities. Indicators also supports sortValue attribute which enables
+sorting among multiple Indicators.</li>
 </ul>
 <p>&nbsp;</p>
 <h2><u>4.1 Build 4 </u>&nbsp;(05/06/2007)</h2>
@@ -39,30 +45,41 @@
 <ul>
   <li>Client-side rendering for Anchor, Hyperlink and ImageHyperlink</li>
   <li>Anchor has all the features of an html anchor element</li>
-  <li>Anchor also supports a disabled attribute which prevents an anchor from traversing to the specified url when clicked</li>
-  <li>Name attribute must be provided for the anchor component to behave as an anchor on the page.</li>
+  <li>Anchor also supports a disabled attribute which prevents an
+anchor from traversing to the specified url when clicked</li>
+  <li>Name attribute must be provided for the anchor component to
+behave as an anchor on the page.</li>
 </ul>
 <h3>Bugs Resolved/Fixed</h3>
 <ul>
-  <li><a href="https://woodstock.dev.java.net/issues/show_bug.cgi?id=154">Issue
+  <li><a
+ href="https://woodstock.dev.java.net/issues/show_bug.cgi?id=154">Issue
 #154</a> - setVisible does not work</li>
-	<li><a href="https://woodstock.dev.java.net/issues/show_bug.cgi?id=143">Issue
-	#143</a> - Runtime: Null Pointer Exception on submit</li>
-	<li><a href="https://woodstock.dev.java.net/issues/show_bug.cgi?id=81">Issue
-	#81</a> - annotations doesn't support &quot;List&lt;&gt; obj&quot; syntax, throwing 
-	com.sun.tlddoc.GeneratorException for &quot;private List&lt;Indicator&gt; indicators&quot;</li>
-	<li><a href="https://woodstock.dev.java.net/issues/show_bug.cgi?id=178">Issue
-	#178</a> - app index issues</li>
-	<li><a href="https://woodstock.dev.java.net/issues/show_bug.cgi?id=180">Issue
-	#180</a> - Regression: not able to switch from one tab to another</li>
-	<li><a href="https://woodstock.dev.java.net/issues/show_bug.cgi?id=181">Issue
-	#181</a> - Regression: jump to links do not work (now a widget)</li>
-	<li><a href="https://woodstock.dev.java.net/issues/show_bug.cgi?id=183">Issue
-	#183</a> - common tasks &quot;i&quot; icon does not work properly.</li>
-	<li><a href="https://woodstock.dev.java.net/issues/show_bug.cgi?id=184">Issue
-	#184</a> - tree turners not rendered therefore node cannot be expanded</li>
-	<li><a href="https://woodstock.dev.java.net/issues/show_bug.cgi?id=186">Issue
-	#186</a> - can't switch back and forth from step and help tab in wizard</li>
+  <li><a
+ href="https://woodstock.dev.java.net/issues/show_bug.cgi?id=143">Issue
+#143</a> - Runtime: Null Pointer Exception on submit</li>
+  <li><a href="https://woodstock.dev.java.net/issues/show_bug.cgi?id=81">Issue
+#81</a> - annotations doesn't support "List&lt;&gt; obj" syntax,
+throwing com.sun.tlddoc.GeneratorException for "private
+List&lt;Indicator&gt; indicators"</li>
+  <li><a
+ href="https://woodstock.dev.java.net/issues/show_bug.cgi?id=178">Issue
+#178</a> - app index issues</li>
+  <li><a
+ href="https://woodstock.dev.java.net/issues/show_bug.cgi?id=180">Issue
+#180</a> - Regression: not able to switch from one tab to another</li>
+  <li><a
+ href="https://woodstock.dev.java.net/issues/show_bug.cgi?id=181">Issue
+#181</a> - Regression: jump to links do not work (now a widget)</li>
+  <li><a
+ href="https://woodstock.dev.java.net/issues/show_bug.cgi?id=183">Issue
+#183</a> - common tasks "i" icon does not work properly.</li>
+  <li><a
+ href="https://woodstock.dev.java.net/issues/show_bug.cgi?id=184">Issue
+#184</a> - tree turners not rendered therefore node cannot be expanded</li>
+  <li><a
+ href="https://woodstock.dev.java.net/issues/show_bug.cgi?id=186">Issue
+#186</a> - can't switch back and forth from step and help tab in wizard</li>
 </ul>
 <p>&nbsp;</p>
 <h2><u>4.1 Build 3</u> (04/20/2007)</h2>
@@ -161,88 +178,117 @@ sorting among multiple Indicators.</li>
 <ul>
   <li><a href="https://woodstock.dev.java.net/issues/show_bug.cgi?id=96">Issue
 #96</a> - file upload example does not display file name &amp; location</li>
-	<li><a href="https://woodstock.dev.java.net/issues/show_bug.cgi?id=68">Issue
-	#68</a> - <span class="summary">CSS files will be included although 
-	styleClass set to false</span></li>
-	<li><a href="https://woodstock.dev.java.net/issues/show_bug.cgi?id=71">Issue
-	#71</a> - <span class="summary">Progress Bar does not render at designtime</span></li>
-	<li><a href="https://woodstock.dev.java.net/issues/show_bug.cgi?id=79">Issue
-	#79</a> - <span class="summary">throws java.lang.RuntimeException</span></li>
-	<li><a href="https://woodstock.dev.java.net/issues/show_bug.cgi?id=104">Issue
-	#104</a> - <span class="summary">Radio Button client-side update jsp missing 
-	from bld</span></li>
-	<li><a href="https://woodstock.dev.java.net/issues/show_bug.cgi?id=94">Issue
-	#94</a> - <span class="summary">cannot double click to open folder</span></li>
-	<li><a href="https://woodstock.dev.java.net/issues/show_bug.cgi?id=89">Issue
-	#89</a> - <span class="summary">Nothing shown on page after adding script 
-	component</span></li>
-	<li><a href="https://woodstock.dev.java.net/issues/show_bug.cgi?id=109">Issue
-	#109</a> - <span class="summary">modify month/year submits calendar in error</span></li>
-	<li><a href="https://woodstock.dev.java.net/issues/show_bug.cgi?id=111">Issue
-	#111</a> - <span class="summary">Dropdown selections for month &amp; year 
-	trigger calendar submit</span></li>
-	<li><a href="https://woodstock.dev.java.net/issues/show_bug.cgi?id=97">Issue
-	#97</a> - <span class="summary">checkbox to reposition list (in example app) 
-	has not affect</span></li>
-	<li><a href="https://woodstock.dev.java.net/issues/show_bug.cgi?id=41">Issue
-	#41</a> - <span class="summary">Update trunk version to 4.1</span></li>
-	<li><a href="https://woodstock.dev.java.net/issues/show_bug.cgi?id=110">Issue
-	#110</a> - 4.1 build.xml needs to be updated to account for new ver of dojo</li>
-	<li><a href="https://woodstock.dev.java.net/issues/show_bug.cgi?id=120">Issue
-	#120</a> - Regression: contents of password field not displayed properly</li>
-	<li><a href="https://woodstock.dev.java.net/issues/show_bug.cgi?id=125">Issue
-	#125</a> - <span class="summary">Regression: selected file/folder message 
-	not displayed</span></li>
-	<li><a href="https://woodstock.dev.java.net/issues/show_bug.cgi?id=126">Issue
-	#126</a> - <span class="summary">Regression: file upload path and filename 
-	is not longer displayed</span></li>
-	<li><a href="https://woodstock.dev.java.net/issues/show_bug.cgi?id=115">Issue
-	#115</a> - incorrect navigation when muliple hyperlinks used with target 
-	_blank prop set</li>
-	<li><a href="https://woodstock.dev.java.net/issues/show_bug.cgi?id=101">Issue
-	#101</a> - <span class="summary">IE7 only: regression with test case drop 
-	down - Example App</span></li>
-	<li><a href="https://woodstock.dev.java.net/issues/show_bug.cgi?id=105">Issue
-	#105</a> - <span class="summary">IE7 only: table actions wrap versus span 
-	table</span></li>
-	<li><a href="https://woodstock.dev.java.net/issues/show_bug.cgi?id=106">Issue
-	#106</a> - <span class="summary">IE7 only: cannot submit Text Input page</span></li>
-	<li><a href="https://woodstock.dev.java.net/issues/show_bug.cgi?id=107">Issue
-	#107</a> - <span class="summary">IE7 only: cannot submit pages of example 
-	app</span></li>
-	<li><a href="https://woodstock.dev.java.net/issues/show_bug.cgi?id=108">Issue
-	#108</a> - <span class="summary">submit page with tabset crashes on IE</span></li>
-	<li><a href="https://woodstock.dev.java.net/issues/show_bug.cgi?id=119">Issue
-	#119</a> - <span class="summary">Regression: button image &gt;&gt; renders as &amp;gt</span></li>
-	<li><a href="https://woodstock.dev.java.net/issues/show_bug.cgi?id=121">Issue
-	#121</a> - <span class="summary">regression: text input example drop down 
-	menu does not fire</span></li>
-	<li><a href="https://woodstock.dev.java.net/issues/show_bug.cgi?id=122">Issue
-	#122</a> - <span class="summary">Regression: sort menu does not work</span></li>
-	<li><a href="https://woodstock.dev.java.net/issues/show_bug.cgi?id=124">Issue
-	#124</a> - <span class="summary">Regression: test case menu has not affect 
-	on tree</span></li>
-	<li><a href="https://woodstock.dev.java.net/issues/show_bug.cgi?id=128">Issue
-	#128</a> - <span class="summary">Regression: action menus have no affect on 
-	table</span></li>
-	<li><a href="https://woodstock.dev.java.net/issues/show_bug.cgi?id=80">Issue
-	#80</a> - <span class="summary">Checkbox example throws 
-	IllegalArgumentException</span></li>
+  <li><a href="https://woodstock.dev.java.net/issues/show_bug.cgi?id=68">Issue
+#68</a> - <span class="summary">CSS files will be included although
+styleClass set to false</span></li>
+  <li><a href="https://woodstock.dev.java.net/issues/show_bug.cgi?id=71">Issue
+#71</a> - <span class="summary">Progress Bar does not render at
+designtime</span></li>
+  <li><a href="https://woodstock.dev.java.net/issues/show_bug.cgi?id=79">Issue
+#79</a> - <span class="summary">throws java.lang.RuntimeException</span></li>
+  <li><a
+ href="https://woodstock.dev.java.net/issues/show_bug.cgi?id=104">Issue
+#104</a> - <span class="summary">Radio Button client-side update jsp
+missing from bld</span></li>
+  <li><a href="https://woodstock.dev.java.net/issues/show_bug.cgi?id=94">Issue
+#94</a> - <span class="summary">cannot double click to open folder</span></li>
+  <li><a href="https://woodstock.dev.java.net/issues/show_bug.cgi?id=89">Issue
+#89</a> - <span class="summary">Nothing shown on page after adding
+script component</span></li>
+  <li><a
+ href="https://woodstock.dev.java.net/issues/show_bug.cgi?id=109">Issue
+#109</a> - <span class="summary">modify month/year submits calendar in
+error</span></li>
+  <li><a
+ href="https://woodstock.dev.java.net/issues/show_bug.cgi?id=111">Issue
+#111</a> - <span class="summary">Dropdown selections for month &amp;
+year trigger calendar submit</span></li>
+  <li><a href="https://woodstock.dev.java.net/issues/show_bug.cgi?id=97">Issue
+#97</a> - <span class="summary">checkbox to reposition list (in
+example app) has not affect</span></li>
+  <li><a href="https://woodstock.dev.java.net/issues/show_bug.cgi?id=41">Issue
+#41</a> - <span class="summary">Update trunk version to 4.1</span></li>
+  <li><a
+ href="https://woodstock.dev.java.net/issues/show_bug.cgi?id=110">Issue
+#110</a> - 4.1 build.xml needs to be updated to account for new ver of
+dojo</li>
+  <li><a
+ href="https://woodstock.dev.java.net/issues/show_bug.cgi?id=120">Issue
+#120</a> - Regression: contents of password field not displayed properly</li>
+  <li><a
+ href="https://woodstock.dev.java.net/issues/show_bug.cgi?id=125">Issue
+#125</a> - <span class="summary">Regression: selected file/folder
+message not displayed</span></li>
+  <li><a
+ href="https://woodstock.dev.java.net/issues/show_bug.cgi?id=126">Issue
+#126</a> - <span class="summary">Regression: file upload path and
+filename is not longer displayed</span></li>
+  <li><a
+ href="https://woodstock.dev.java.net/issues/show_bug.cgi?id=115">Issue
+#115</a> - incorrect navigation when muliple hyperlinks used with
+target _blank prop set</li>
+  <li><a
+ href="https://woodstock.dev.java.net/issues/show_bug.cgi?id=101">Issue
+#101</a> - <span class="summary">IE7 only: regression with test case
+drop down - Example App</span></li>
+  <li><a
+ href="https://woodstock.dev.java.net/issues/show_bug.cgi?id=105">Issue
+#105</a> - <span class="summary">IE7 only: table actions wrap versus
+span table</span></li>
+  <li><a
+ href="https://woodstock.dev.java.net/issues/show_bug.cgi?id=106">Issue
+#106</a> - <span class="summary">IE7 only: cannot submit Text Input
+page</span></li>
+  <li><a
+ href="https://woodstock.dev.java.net/issues/show_bug.cgi?id=107">Issue
+#107</a> - <span class="summary">IE7 only: cannot submit pages of
+example app</span></li>
+  <li><a
+ href="https://woodstock.dev.java.net/issues/show_bug.cgi?id=108">Issue
+#108</a> - <span class="summary">submit page with tabset crashes on IE</span></li>
+  <li><a
+ href="https://woodstock.dev.java.net/issues/show_bug.cgi?id=119">Issue
+#119</a> - <span class="summary">Regression: button image &gt;&gt;
+renders as &amp;gt</span></li>
+  <li><a
+ href="https://woodstock.dev.java.net/issues/show_bug.cgi?id=121">Issue
+#121</a> - <span class="summary">regression: text input example drop
+down menu does not fire</span></li>
+  <li><a
+ href="https://woodstock.dev.java.net/issues/show_bug.cgi?id=122">Issue
+#122</a> - <span class="summary">Regression: sort menu does not work</span></li>
+  <li><a
+ href="https://woodstock.dev.java.net/issues/show_bug.cgi?id=124">Issue
+#124</a> - <span class="summary">Regression: test case menu has not
+affect on tree</span></li>
+  <li><a
+ href="https://woodstock.dev.java.net/issues/show_bug.cgi?id=128">Issue
+#128</a> - <span class="summary">Regression: action menus have no
+affect on table</span></li>
+  <li><a href="https://woodstock.dev.java.net/issues/show_bug.cgi?id=80">Issue
+#80</a> - <span class="summary">Checkbox example throws
+IllegalArgumentException</span></li>
 </ul>
 <h3>Anchor component issue</h3>
 <ul>
-  <li><a href="https://woodstock.dev.java.net/issues/show_bug.cgi?id=76">Issue 
-	#76</a> - Clicking hyperlink does not redirect to the anchor location. This 
-	issue is seen on Internet Explorer 6 browser during runtime if the anchor 
-	component is used with the Visual Web Pack
+  <li><a href="https://woodstock.dev.java.net/issues/show_bug.cgi?id=76">Issue
+#76</a> - Clicking hyperlink does not redirect to the anchor location.
+This issue is seen on Internet Explorer 6 browser during runtime if the
+anchor component is used with the Visual Web Pack
+  </li>
 </ul>
 <h3>RadioButton component issue/regression</h3>
 <ul>
-  <li><a href="https://woodstock.dev.java.net/issues/show_bug.cgi?id=103">Issue 
-	#103</a> - On IE7 only - when you load the checkbox and radio button 
-	examples there is no default selection (volume should be selected for both 
-	Radio Button and Radio <br>
-	Button Image).&nbsp; Also, you are not able to select any option available.<p>&nbsp;</ul>
+  <li><a
+ href="https://woodstock.dev.java.net/issues/show_bug.cgi?id=103">Issue
+#103</a> - On IE7 only - when you load the checkbox and radio button
+examples there is no default selection (volume should be selected for
+both Radio Button and Radio <br>
+Button Image).&nbsp; Also, you are not able to select any option
+available.
+    <p>&nbsp;</p>
+  </li>
+</ul>
 <h2><u>4.1 Build 2</u> (04/06/2007)</h2>
 <h3>New Features</h3>
 <ul>
