@@ -15836,87 +15836,127 @@ text=&quot;Three B&quot; /&gt;<br>
     <tag>
         <name>textArea</name>
 
-        <description><![CDATA[ <p>Use the <code>webuijsf:textArea</code> tag to create a multiple-line
-     input field for text.</p>    
- <h3>HTML Elements and Layout</h3>
- <p>The textArea component renders an HTML &lt;textarea&gt; element.</p> 
-     <h3>Configuring the <code>webuijsf:textArea</code> Tag</h3>
- <p>Use the <code>text</code> attribute to associate
- the component with a model object that represents the current value,
- by setting the attribute's value to a JavaServer Faces EL expression
-     that evaluates to a backing bean or a backing bean property.</p>
-     <p>To optionally specify a label for the component, use the
-     <code>label</code> attribute, or specify a label facet.</p>
-     <h3>Facets</h3>
-     <ul>
-     <li><code>label</code>: use this facet to specify a custom 
-     component for the label.</li>
-     <li><code>readOnly</code>: use this facet to specify a custom 
-     component for displaying the readOnly value of this component.</li>
-     </ul>
-     <h3>Theme Identifiers</h3> 
-     <p>The input element has a style class "TxtAra", or "TxtAraDis"
-     when the field is disabled. If a label attribute is specified, the
-     label element's class attribute is set to "LstAln" followed by
-     "LblLvl1Txt", "LblLvl2Txt" or "LblLvl3Txt" depending on the label
-     level.</p>  
-     <h3>Client-side JavaScript functions</h3>
-     <p>In all the functions below, <code>&lt;id&gt;</code> should be
-     the generated id of the TextArea component. 
-     <table cellpadding="2" cellspacing="2" border="1" 
-            style="text-align: left; width: 100%;">
-     <tbody>
-     <tr>
-     <td style="vertical-align">
-     <code>field_setDisabled(&lt;id&gt;, &lt;disabled&gt;)</code>
-     </td>
-     <td style="vertical-align: top">
-     Enable/disable the field. Set <code>&lt;disabled&gt;</code>
-     to true to disable the component, or false to enable it.
-     </td>
-     </tr>
-     <tr>
-     <td style="vertical-align: top">
-     <code>field_setValue(&lt;id&gt;, &lt;newValue&gt;)</code>
-     </td>
-     <td style="vertical-align: top">
-     Set the value of the field to <code>&lt;newValue&gt;</code>.
-     </td>
-     </tr>
-     <tr>
-       <td style="vertical-align: top">
-     <code>field_getValue(&lt;id&gt;)</code>
-   </td>
-     <td style="vertical-align: top">Get the value of the field.</td>
-     </tr>
-     <tr>
-       <td style="vertical-align: top">
-     <code>field_getInputElement(&lt;id&gt;)</code></td>
-     <td style="vertical-align: top">
-     Get hold of a reference to the textArea element rendered by this
-     component.
-     </td>
-     </tr>
-     <tr>
-       <td style="vertical-align: top">
-     <code>component_setVisible(&lt;id&gt;)</code>
-   </td>
-       <td style="vertical-align: top">Hide or show this component.
-       </td>
-     </tr>
-   </tbody>
- </table>
-     <h3>Examples</h3>
- <p> This example uses a backing bean <code>FieldTest</code> with a property
-     string. The tag generates a textarea with a label "Comment:". The
-     rows and columns attributes have been set, to ensure that the
-     component has the same size on all browsers. </p> 
- <pre>
-      &lt;webuijsf:textArea id="textarea" type="textarea"
-                label="Comment:" 
-                text="#{FieldTest.string}"
-                rows="5" columns="50"/&gt;
- </pre>
+        <description><![CDATA[ 
+
+<p>Use the <code>webuijsf:textArea</code> tag to create a multiple-line input field for text.</p>
+<h3>HTML Elements and Layout</h3>
+<p>The textArea component renders an HTML &lt;textarea&gt; element.</p>
+<h3>Configuring the <code>webuijsf:textArea</code> Tag</h3>
+<p>Use the <code>text</code> attribute to associate the component with a model object that represents the current value, by setting the attribute's value to a JavaServer Faces EL expression that evaluates to a backing bean or a backing bean property.</p>
+<p>To optionally specify a label for the component, use the <code>label</code> attribute, or specify a label facet.</p>
+<h3>Facets</h3>
+<ul>
+  <li><code>label</code>: use this facet to specify a custom component for the label.</li>
+</ul>
+<h3>Theme Identifiers</h3>
+<p>The input element has a style class "TxtAra", or "TxtAraDis" when the field is disabled. If a label attribute is specified, the label element's class attribute is set to "LstAln" followed by "LblLvl1Txt", "LblLvl2Txt" or "LblLvl3Txt" depending on the label level.</p>
+<h3>Client Side Javascript Functions</h3>
+When the component is rendered, a DOM object corresponding to the component is created. To manipulate the component on the client side, you may invoke functions on the DOM object. With reference to the DOM id, to disable the component, invoke <code>document.getElementById(id).setProps({disabled: true})</code>.<br>
+<br>
+<table style="text-align: left; width: 100%;" border="1" cellpadding="2"
+ cellspacing="2">
+  <tbody>
+    <tr>
+      <td style="vertical-align: top;"><code>getInputElement()</code></td>
+      <td style="vertical-align: top;">Use this function to access the HTML <code>&lt;input&gt;</code> element that is rendered by the component.</td>
+    </tr>
+    <tr>
+      <td><code>getProps()</code></td>
+      <td>Use this function to get widget properties. Please see <code>setProps()</code> function for a list of supported properties.</td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top;"><code>refresh(execute)</code><br>
+      </td>
+      <td style="vertical-align: top;">Use this function to asynchronously refresh the component.<br>
+        <br>
+        <ul>
+          <li>[optional] execute: Comma separated string containing a list of client ids against which the <code>execute</code> portion of the request processing lifecycle must be run. If omitted, no other components are executed.. </li>
+        </ul></td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top;"><code>submit(execute)</code><br>
+      </td>
+      <td style="vertical-align: top;">Use this function to asynchronously submit the component.<br>
+        <ul>
+          <li>[optional] execute: Comma separated string containing a list of client ids against which the <code>execute</code> portion of the request processing lifecycle must be run. If omitted, the component on which the function has been invoked, is submitted. </li>
+        </ul></td>
+    </tr>
+    <tr>
+      <td><code>setProps(props)</code></td>
+      <td>Use this function to change any of the following supported properties:<br>
+        <ul>
+          <li>accesskey</li>
+          <li>className</li>
+          <li>dir</li>
+          <li>disabled</li>
+          <li>id</li>
+          <li>label</li>
+          <li>lang</li>
+          <li>onClick</li>
+          <li>onDblClick</li>
+          <li>onFocus</li>
+          <li>onKeyDown</li>
+          <li>onKeyPress</li>
+          <li>onKeyUp</li>
+          <li>onMouseDown</li>
+          <li>onMouseMove</li>
+          <li>onMouseOut</li>
+          <li>onMouseOver</li>
+          <li>onMouseUp</li>
+          <li>readOnly</li>
+          <li>required</li>
+          <li>size</li>
+          <li>style</li>
+          <li>tabIndex</li>
+          <li>title</li>
+          <li>valid</li>
+          <li>value</li>
+          <li>visible</li>
+        </ul></td>
+    </tr>
+  </tbody>
+</table>
+<code></code><br>
+<h3>Examples</h3>
+<h4>Example 1: Text area with label and required icon</h4>
+<p>This example uses a backing bean <code>FieldTest</code> with a property <code>string</code>. The tag generates a label followed by text input field. The required attribute is set to true, which causes an icon to be rendered next to the label to indicate that the application user must enter a value in the text field. The icon, label and input elements are enclosed by a span.</p>
+<pre>     &lt;webuijsf:textArea id="textArea" label="Enter a value:" <br>               text="#{FieldTest.string}" <br>               required="true"/&gt;<br>
+</pre>
+<h4>Example 2: Update client-side textArea properties using setProps function:</h4>
+This example shows how to hide a text area client side using setProps function. When the user clicks the radio button, the text area is hidden.<code></code>
+<pre>&lt;webuijsf:radioButton id="rb1" name="rb1" label="Hide Field" onClick="hideField()"/&gt;<br>&lt;webuijsf:textArea id="field1" text="My Text Field" /&gt;<br><br>&lt;webuijsf:script&gt;<br>    // Hide text area.<br>    function hideField() {<br>        var domNode = document.getElementById("form1:field1"); // Get button<br>        return domNode.setProps({visible: false}); // Set visible<br>    }<br>&lt;/webuijsf:script&gt;</pre>
+<code></code>
+<h4>Example 3: Update client-side textArea properties using getProps function:</h4>
+This example shows how to toggle the disabled state of a text field client side using getProps function. When the user clicks the radio button, the text area is either disabled or enabled.<code></code><code> </code>
+<pre>&lt;webuijsf:radioButton id="rb1" name="rb1" label="Toggle Field Disabled" onClick="toggleDisabled()"/&gt;<br>&lt;webuijsf:textArea id="field1" text="My Text Field" /&gt;<br><code><br></code>&lt;webuijsf:script&gt;<br>    // Toggle text area disabled.<br>    function toggleDisabled() {<br>        var domNode = document.getElementById("form1:field<code>1</code>"); // Get field<br>        return domNode.setProps({disabled: !domNode.getProps().disabled}); // Toggle disabled state<br>    }<br>&lt;/webuijsf:script&gt;</pre>
+<code></code>
+<h4>Example 4: Asynchronously update textArea using refresh function:</h4>
+This example shows how to asynchronously update a text area using the refresh function. When the user clicks on the radio button, the text field is asynchronously updated with new data.<br>
+<pre>&lt;webuijsf:radioButton id="rb1" name="rb1" label="Refresh Text Field" onClick="refreshField()"/&gt;<br>&lt;webuijsf:textArea id="field1" text="#{MyBean.text}<code>" /&gt;</code><br>
+</pre>
+<code>&lt;webuijsf:script&gt;<br>
+&nbsp;&nbsp;&nbsp; // Refresh text area.<br>
+&nbsp;&nbsp;&nbsp; function refreshField() {<br>
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; var domNode = document.getElementById("form1:field1"); // Get field<br>
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; return domNode.refresh(); // Asynchronously refresh field<br>
+&nbsp;&nbsp;&nbsp; }<br>
+&lt;/webuijsf:script&gt;</code>
+<h4>&nbsp;</h4>
+<h4>Example 5: Asynchronously submit textArea using <em>submit </em>function:</h4>
+This example shows how to asynchronously submit a text area using the <em>submit </em>function. When the user clicks on the radio button, the input value is updated server-side<br>
+<pre>&lt;webuijsf:radioButton id="rb1" name="rb1" label="submit Text Field" onClick="submitField()"/&gt;<code></code><code></code><br>&lt;webuijsf:textArea id="field1" text="#{MyBean.text}" /&gt; // Field used to asynchronously update text.<br>
+</pre>
+<p><code>&lt;webuijsf:script&gt;<br>
+&nbsp;&nbsp;&nbsp; // submit field.<br>
+&nbsp;&nbsp;&nbsp; function </code><code>submitField</code><code>() {<br>
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; var domNode = document.getElementById("form1:field1"); // Get field<br>
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; return domNode.submit();<br>
+&nbsp;&nbsp;&nbsp; }<br>
+&lt;/webuijsf:script&gt;<br>
+  </code></p>
+<p>Note that <em>submit </em>function by default executes ( puts through all JSF lifecycle phases) the element on which it is called. Function can optionally take a list of elements to execute. Thus, a comma-separated list of ids can be provided as parameter to submit: <em> submit(&quot;form1:id1,form2:id2,...&quot;)</em></p>
+        
+        
 ]]></description>
     </tag>
 
@@ -15977,7 +16017,20 @@ function for a list of supported properties.</td>
 asynchronously refresh the component.<br>
       <br>
       <ul>
-        <li>execute: Comma separated string containing a list of client
+        <li>[optional] execute: Comma separated string containing a list of client
+ids against which the <code>execute</code> portion of the request
+processing lifecycle must be run.</li>
+      </ul>
+      </td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top;"><code>submit(execute)</code><br>
+      </td>
+      <td style="vertical-align: top;">Use this function to
+asynchronously submit the component.<br>
+      <br>
+      <ul>
+        <li>[optional] execute: Comma separated string containing a list of client
 ids against which the <code>execute</code> portion of the request
 processing lifecycle must be run.</li>
       </ul>
@@ -16138,6 +16191,26 @@ This example shows how to enable auto-validation on the field using server side 
 <pre>&lt;/webuijsf:script&gt;  
       </pre>
 
+<h4>Example 8: Asynchronously submit textField using <em>submit </em>function:</h4>
+This example shows how to asynchronously submit a text field using
+the <em>submit </em>function. When the user clicks on the radio button, the input value
+is
+updated server-side<br>
+<pre>&lt;webuijsf:radioButton id="rb1" name="rb1" label="submit Text Field" onClick="submitField()"/&gt;<code></code><code></code><br>&lt;webuijsf:textField id="field1" text="#{MyBean.text}" /&gt; // Field used to asynchronously update text.<br></pre>
+<p><code>&lt;webuijsf:script&gt;<br>
+&nbsp;&nbsp;&nbsp; // submit field.<br>
+&nbsp;&nbsp;&nbsp; function </code><code>submitField</code><code>() {<br>
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; var domNode =
+  document.getElementById("form1:field1"); // Get field<br>
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; return
+  domNode.submit();<br>
+&nbsp;&nbsp;&nbsp; }<br>
+&lt;/webuijsf:script&gt;<br>
+</code></p>
+<p>Note that <em>submit </em>function by default executes ( puts through all of JSF lifecyle stages) the element on which it is called. 
+Function can optionally take a list of elements to execute. Thus, a comma-separated list of ids can be provided as parameter to submit: <em> submit(&quot;form1:id1,form2:id2,...&quot;)</em></p>
+      
+      
 ]]></description>
     </tag>
 
