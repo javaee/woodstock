@@ -139,7 +139,7 @@ webui.@THEME@.widget.props = {
     textArea: {
         className: "TxtAra@THEME_CSS@",
         disabledClassName: "TxtAraDis@THEME_CSS@",
-        labelTopAlignStyle: "labelTopAlign@THEME_CSS@" 
+        labelTopAlignStyle: "TxtAraLabel@THEME_CSS@" 
     }    
 }
 
