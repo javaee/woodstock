@@ -85,6 +85,14 @@ public class AlertRenderer extends RendererBase {
             throws JSONException {
         JSONArray json = new JSONArray();
         json.put(JavaScriptUtilities.getModuleName("widget.alert"));
+        
+        boolean ajaxify = ((Boolean)
+            component.getAttributes().get("ajaxify")).booleanValue();        
+        if (ajaxify == true) {
+            json.put(JavaScriptUtilities.getModuleName(
+                "widget.jsfx.alert"));
+        }
+        
         return json;
     }
     
@@ -104,7 +112,7 @@ public class AlertRenderer extends RendererBase {
                 "AlertRenderer can only render Alert components.");
         }
         Alert alert = (Alert) component;
-        
+        String type = alert.getType();
         String templatePath = alert.getHtmlTemplate(); // Get HTML template.
         JSONObject json = new JSONObject();
         json.put("summary", RenderingUtilities
@@ -112,13 +120,13 @@ public class AlertRenderer extends RendererBase {
             .put("detail", RenderingUtilities
                 .formattedMessage(context, alert, alert.getDetail()))
             .put("visible", alert.isVisible())
-            .put("type", alert.getType())
+            .put("type", type)
             .put("templatePath", (templatePath != null)
                 ? templatePath 
                 : getTheme().getPathToTemplate(ThemeTemplates.ALERT))
             .put("className", alert.getStyleClass());    
                        
-        List<Indicator> indicators = (List) alert.getIndicators();
+        List<Indicator> indicators = (List<Indicator>) alert.getIndicators();
         
         Iterator<Indicator> iter1 = indicators.iterator();
 	Theme theme = getTheme();
@@ -126,11 +134,11 @@ public class AlertRenderer extends RendererBase {
         UIComponent facetImage = alert.getFacet(ALERT_IMAGE_FACET);
         String ignoreType = null;
         if (facetImage != null) {
-            ignoreType = alert.getType();
+            ignoreType = type;
         }
         ImageComponent img = null;   
         JSONArray indicatorArray = WidgetUtilities.getIndicators(context, 
-                iter1, ignoreType, theme, alert);
+                iter1, ignoreType, theme, alert, type);
                 
         // if ignoreType is not null then add facet image
         JSONObject facetjson = new JSONObject();

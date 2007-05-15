@@ -108,6 +108,14 @@ public class Alert extends UIOutput implements NamingContainer, Comparator {
         return "com.sun.webui.jsf.Alert";
     }
       
+    public String getRendererType() {
+        // Ensure we have a valid Ajax request.
+        if (ComponentUtilities.isAjaxRequest(getFacesContext(), this)) {
+            return "com.sun.webui.jsf.ajax.Alert";
+        }
+        return super.getRendererType();
+    }
+    
     /**
      * Returns a cloned list of the default indicators that can
      * be modified without affecting the default list.
@@ -280,6 +288,9 @@ public class Alert extends UIOutput implements NamingContainer, Comparator {
         return h;
     }
 
+    /**
+     * Returns IconIdentifier based on type attribute.
+     */ 
     private String getIconIdentifier() {
         
         String type = getType();
@@ -728,7 +739,8 @@ public class Alert extends UIOutput implements NamingContainer, Comparator {
 
     /**
      * <p>The type or category of alert. This type can be set to
-     * "information", "success", "warning" or "error". The type specified determines
+     * "information", "success", "warning", "error" or any custom defined type specified for Indicator.
+     * The type specified determines
      * which icon is rendered for the alert.</p>
      */
     public String getType() {
@@ -739,12 +751,13 @@ public class Alert extends UIOutput implements NamingContainer, Comparator {
         if (_vb != null) {
             return (String) _vb.getValue(getFacesContext().getELContext());
         }
-        return null;
+        return "error";
     }
 
     /**
      * <p>The type or category of alert. This type can be set to  
-     * "information", "success", "warning" or "error". The type specified determines
+     * "information", "success", "warning", "error" or any custom defined type specified for Indicator.
+     * The type specified determines
      * which icon is rendered for the alert.</p>
      * @see #getType()
      */
@@ -811,6 +824,8 @@ public class Alert extends UIOutput implements NamingContainer, Comparator {
      *  the custom defined type and associated image.</p>
      */
     @Property(name="indicators", displayName="Indicators", category="Behavior", editorClassName="com.sun.rave.propertyeditors.binding.ValueBindingPropertyEditor")
+    // jasper compiler does not recognize generics which causes error. So, generics is not used 
+    // here for indicators. 
     private List indicators;
 
     /**
@@ -850,6 +865,42 @@ public class Alert extends UIOutput implements NamingContainer, Comparator {
     }
     
     /**
+     * Flag indicating to turn off default Ajax functionality. Set ajaxify to
+     * false when providing a different Ajax implementation.
+     */
+    @Property(name="ajaxify", isHidden=true, isAttribute=true, displayName="Ajaxify", category="Javascript")
+    private boolean ajaxify = true; 
+    private boolean ajaxify_set = false; 
+ 
+    /**
+     * Return 'true' if Ajax functionality is enabled  and 'false' if it is disabled.
+     */
+    public boolean isAjaxify() { 
+        if (this.ajaxify_set) {
+            return this.ajaxify;
+        }
+        ValueExpression _vb = getValueExpression("ajaxify");
+        if (_vb != null) {
+            Object _result = _vb.getValue(getFacesContext().getELContext());
+            if (_result == null) {
+                return false;
+            } else {
+                return ((Boolean) _result).booleanValue();
+            }
+        }
+        return true;
+    } 
+
+    /**
+     * If 'ajaxify' is 'true' Ajax functionality is enabled, if 'false' it is disabled.
+     */
+    public void setAjaxify(boolean ajaxify) {
+        this.ajaxify = ajaxify;
+        this.ajaxify_set = true;
+    }    
+    
+    
+    /**
      * <p>Restore the state of this component.</p>
      */
     public void restoreState(FacesContext _context,Object _state) {
@@ -872,13 +923,15 @@ public class Alert extends UIOutput implements NamingContainer, Comparator {
         this.visible_set = ((Boolean) _values[15]).booleanValue();
         this.htmlTemplate = (String) _values[16];
         this.indicators = (List) _values[17];
+        this.ajaxify = ((Boolean) _values[18]).booleanValue();
+        this.ajaxify_set = ((Boolean) _values[19]).booleanValue(); 
     }
 
     /**
      * <p>Save the state of this component.</p>
      */
     public Object saveState(FacesContext _context) {
-        Object _values[] = new Object[18];
+        Object _values[] = new Object[20];
         _values[0] = super.saveState(_context);
         _values[1] = this.alt;
         _values[2] = this.detail;
@@ -897,6 +950,8 @@ public class Alert extends UIOutput implements NamingContainer, Comparator {
         _values[15] = this.visible_set ? Boolean.TRUE : Boolean.FALSE;
         _values[16] = this.htmlTemplate;
         _values[17] = this.indicators;
+        _values[18] = this.ajaxify ? Boolean.TRUE : Boolean.FALSE;
+        _values[19] = this.ajaxify_set ? Boolean.TRUE : Boolean.FALSE;       
         return _values;
     }
     
@@ -926,30 +981,44 @@ public class Alert extends UIOutput implements NamingContainer, Comparator {
 	
 	Indicator ind2 = getIndicator(indList, type2);
 
-	if (ind1 != null) {
+	if (ind1 != null && ind2 != null) {
 	    return ind1.compareTo(ind2);
 	}
 
-	if (ind2 != null) {
-	    return ind1.compareTo(ind1);
+	if (ind1 == null && ind2 != null) {
+	    return -1;
 	}
+        
+        if (ind1 != null && ind2 == null) {
+            return 1;
+        }
 
-	// both ind1 and ind2 are null
+	//ind1 and ind2 are null
 	//
 	return 0;
     }
 
+    /**
+     * Returns Indicator for the specified type.
+     * If type is null return null.
+     */
     private Indicator getIndicator(List<Indicator> indList, String type) {
 	Iterator<Indicator> iter1 = indList.iterator();
-	while (iter1.hasNext()) {
-	    Indicator ind = (Indicator)iter1.next();
-	    if (type.equals(ind.getType())) {
-		return ind;
-	    }
-	}
+	if (type != null) {
+            while (iter1.hasNext()) {
+                Indicator ind = (Indicator)iter1.next();
+                if (type.equals(ind.getType())) {
+                    return ind;
+                }
+            }
+        }
 	return null;
     }
 
+    /**
+     * Override equals()
+     * returns false if object is not an instance of Alarm.
+     */
     public boolean equals(Object o) {
 	if (!(o instanceof Alert)) {
 	    return false;
