@@ -115,12 +115,12 @@ webui.@THEME@.widget.textField.getProps = function() {
     if (this.alt) { props.alt = this.alt; }
     if (this.disabled != null) { props.disabled = this.disabled; }
     if (this.label) { props.label= this.label; }
-    if (this.text) { props.text = this.text; }
-    if (this.title) { props.title = this.title; }
+    if (this.text != null) { props.text = this.text; }
+    if (this.title != null) { props.title = this.title; }
     if (this.type) { props.type= this.type; }
     if (this.readOnly != null) { props.readOnly = this.readOnly; }
     if (this.required != null) { props.required = this.required; }
-    if (this.size) { props.size = this.size; }
+    if (this.size > 0) { props.size = this.size; }
     if (this.valid != null) { props.valid = this.valid; }
     if (this.autoValidate != null) { props.autoValidate = this.autoValidate; }
     if (this.style != null) { props.style = this.style; }
@@ -238,9 +238,9 @@ webui.@THEME@.widget.textField.setProps = function(props) {
     webui.@THEME@.widget.common.setJavaScriptProps(this.textFieldNode, props);
     
     // Set text field attributes.    
-    if (props.size) { this.textFieldNode.size = props.size; }
-    if (props.value) { this.textFieldNode.value = props.value; }
-    if (props.title) { this.textFieldNode.title = props.title; }   
+    if (props.size > 0) { this.textFieldNode.size = props.size; }
+    if (props.value != null) { this.textFieldNode.value = props.value; }
+    if (props.title != null) { this.textFieldNode.title = props.title; }   
     if (props.disabled != null) { 
         this.textFieldNode.disabled = new Boolean(props.disabled).valueOf();
     }
@@ -271,7 +271,7 @@ webui.@THEME@.widget.textField.setProps = function(props) {
             webui.@THEME@.widget.common.addFragment(this.labelContainer, props.label);
         }
     }
-    return true;
+    return props;
 }
 
 
