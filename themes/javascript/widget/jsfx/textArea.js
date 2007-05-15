@@ -46,13 +46,13 @@ webui.@THEME@.widget.jsfx.textArea = {
         if (props == null) {
             return false;
         }
-
+        
         // Dynamic Faces requires a DOM node as the source property.
         var domNode = document.getElementById(props.id);
-
+        
         // Generate AJAX request using the JSF Extensions library.
         new DynaFaces.fireAjaxTransaction(
-            (domNode) ? domNode : document.forms[0], {
+        (domNode) ? domNode : document.forms[0], {
             execute: (props.execute) ? props.execute : "none",
             render: props.id,
             replaceElement: webui.@THEME@.widget.jsfx.textArea.refreshCallback,
@@ -63,7 +63,7 @@ webui.@THEME@.widget.jsfx.textArea = {
         });
         return true;
     },
-
+    
     
     /**
      * This function is used to process submit events with the following Object
@@ -80,14 +80,14 @@ webui.@THEME@.widget.jsfx.textArea = {
         if (props == null) {
             return false;
         }
-
+        
         // Dynamic Faces requires a DOM node as the source property.
         var domNode = document.getElementById(props.id);
-
+        
         // Generate AJAX request using the JSF Extensions library.
         new DynaFaces.fireAjaxTransaction(
-            (domNode) ? domNode : document.forms[0], {
-            execute: (props.execute) ? props.execute : "none",
+        (domNode) ? domNode : document.forms[0], {
+            execute: (props.execute) ? props.execute : props.id,
             render: props.id,
             replaceElement: webui.@THEME@.widget.jsfx.textArea.submitCallback,
             xjson: {
@@ -97,8 +97,8 @@ webui.@THEME@.widget.jsfx.textArea = {
         });
         return true;
     },
-
-
+    
+    
     
     /**
      * This function is used to refresh widgets.
@@ -112,14 +112,14 @@ webui.@THEME@.widget.jsfx.textArea = {
         if (id == null || content == null) {
             return false;
         }
-
+        
         // Parse JSON text.
         var json = JSON.parse(content);
-
+        
         // Add rows.
         var widget = dojo.widget.byId(id);
         widget.setProps(json);
-
+        
         // Publish an event for custom AJAX implementations to listen for.
         webui.@THEME@.widget.textArea.refresh.publishEndEvent(json);
         return true;
@@ -141,7 +141,9 @@ webui.@THEME@.widget.jsfx.textArea = {
      * @param xjson The xjson argument provided to DynaFaces.fireAjaxTransaction.
      */
     submitCallback: function(id, content, closure, xjson) {
-        
+        if (id == null || content == null) {
+            return false;
+        }        
         // Parse JSON text.
         var json = JSON.parse(content);
         
@@ -149,14 +151,14 @@ webui.@THEME@.widget.jsfx.textArea = {
         webui.@THEME@.widget.textArea.submit.publishEndEvent(json);
         return true;
     }
-
+    
     
 }
 
 // Listen for Dojo Widget events.
 dojo.event.topic.subscribe(webui.@THEME@.widget.textArea.refresh.beginEventTopic,
-    webui.@THEME@.widget.jsfx.textArea, "processRefreshEvent");
+webui.@THEME@.widget.jsfx.textArea, "processRefreshEvent");
 dojo.event.topic.subscribe(webui.@THEME@.widget.textArea.submit.beginEventTopic,
-    webui.@THEME@.widget.jsfx.textArea, "processSubmitEvent");
+webui.@THEME@.widget.jsfx.textArea, "processSubmitEvent");
 
 //-->
