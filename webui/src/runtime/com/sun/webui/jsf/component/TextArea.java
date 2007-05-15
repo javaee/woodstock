@@ -198,7 +198,36 @@ import javax.faces.context.FacesContext;
             setAjaxify(true);       
     }
     
+// ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+// Lifecycle management
+// ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     
+    
+    /**
+     *	<p> Perform the component tree processing required by the <em>Update
+     *	    Model Values</em> phase of the request processing lifecycle for
+     *	    the input area of the text field ( the component itself), as follows.</p>
+     *
+     *	    <ul>
+     *          <li>If call happens to be part of async request ( ajax validation)
+     *		    , do not update the model and skip further processing.</li>
+     *		<li>Proceed with the normal course of  <code>processUpdates()</code> method of all
+     *		    facets and children of this component</li>
+     *      </ul>
+     *
+     *	@param	context	<code>FacesContext</code> for this request
+     */
+    
+    public void processUpdates(FacesContext context) {
+        if (context == null)
+            return;
+        // Skip model update in case of "refresh" ajax request
+        if (ComponentUtilities.isAjaxRequest(getFacesContext(), this, "refresh")) {
+            return; // Skip processing for ajax based validation events.
+        }        
+        super.processUpdates(context);
+    }
+        
 // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 // save/restore state
 // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
