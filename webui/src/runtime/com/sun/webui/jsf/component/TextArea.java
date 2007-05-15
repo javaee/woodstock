@@ -33,28 +33,28 @@ import javax.faces.context.FacesContext;
  * text.
  * As part of the dynamic behavior, TextArea supports autoSave: when enabled,
  * the content of the TextArea will be saved / submitted via ajax call to the server
- * every number of autoSave milliseconds. Note that only the text value of the 
+ * every number of autoSave milliseconds. Note that only the text value of the
  * TextArea component will be saved, and other properties that could have been
  * changed on the client side only (i.e. client modified columns, rows, label) will
  * not be submitted to the server for autosave. Thus client side properties will
  * only affect the client state ( unless explicitly commited by the developer).
  * <br> As all ajaxified client-side rendered components, autoSave would trigger
- * an event on the client side that can be intercepted by the developer in order to 
- * implement her own save/commit procedure. When autoSave is enabled through the 
- * "autoSave" JSP-tag attribute, it automatically turns on the ajaxify attribute, and 
+ * an event on the client side that can be intercepted by the developer in order to
+ * implement her own save/commit procedure. When autoSave is enabled through the
+ * "autoSave" JSP-tag attribute, it automatically turns on the ajaxify attribute, and
  * round-trip client-server autoSave will be performed.
  */
 @Component(
-    type="com.sun.webui.jsf.TextArea", 
-    family="com.sun.webui.jsf.TextArea", 
-    displayName="Text Area", 
-    instanceName="textArea", 
-    tagName="textArea",
-    tagRendererType="com.sun.webui.jsf.widget.TextArea",        
-    helpKey="projrave_ui_elements_palette_wdstk-jsf1.2_text_area",
-    propertiesHelpKey="projrave_ui_elements_palette_wdstk-jsf1.2_propsheets_text_area_props")
-
-    public class TextArea extends Field {
+type="com.sun.webui.jsf.TextArea",
+        family="com.sun.webui.jsf.TextArea",
+        displayName="Text Area",
+        instanceName="textArea",
+        tagName="textArea",
+        tagRendererType="com.sun.webui.jsf.widget.TextArea",
+        helpKey="projrave_ui_elements_palette_wdstk-jsf1.2_text_area",
+        propertiesHelpKey="projrave_ui_elements_palette_wdstk-jsf1.2_propsheets_text_area_props")
+        
+        public class TextArea extends Field {
     /**
      * Default constructor.
      */
@@ -69,13 +69,13 @@ import javax.faces.context.FacesContext;
     public String getFamily() {
         return "com.sun.webui.jsf.TextArea";
     }
-     /**
+    /**
      * Returns the renderer type for the component.
      *
      * Depending on the type of the request, this method will return the default
      * renderer type of "com.sun.webui.jsf.widget.TextArea" in case of full
-     * render request, or "com.sun.webui.jsf.ajax.TextArea" in case of ajax 
-     * request. Ajax request represents a special case of request, when partial 
+     * render request, or "com.sun.webui.jsf.ajax.TextArea" in case of ajax
+     * request. Ajax request represents a special case of request, when partial
      * data is rendered back to the client.
      */
     public String getRendererType() {
@@ -83,9 +83,9 @@ import javax.faces.context.FacesContext;
         if (ComponentUtilities.isAjaxRequest(getFacesContext(), this)) {
             return "com.sun.webui.jsf.ajax.TextArea";
         }
-        return super.getRendererType();        
+        return super.getRendererType();
     }
-
+    
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     // Tag attribute methods
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -147,12 +147,16 @@ import javax.faces.context.FacesContext;
 // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     
     /**
-     * Attribute indicating to turn on/off the Auto-save  functionality of the TextArea.     
+     * Attribute indicating to turn on/off the Auto-save  functionality of the TextArea.
      * <br>
-     * Auto-save will submit the content of the textArea for server side processing that
-     * will be processed using JSFX partial lifecycle cycle. 
+     * Auto-save will submit the content of the modified textArea for server side 
+     * processing that will be processed using JSFX partial lifecycle cycle. 
+     * Only modified data will be submitted, that is textArea data will be 
+     * submitted every autoSave milliseconds only if it has been modified within
+     * last interval.
+     *
      * <br>
-     * AutoSave is specified in milliseconds. Value of 0 or less is interpreted 
+     * AutoSave is specified in milliseconds. Value of 0 or less is interpreted
      * as no auto-save.
      * <br>
      * By default auto-save = 0, meaning no auto-save will be activated.
@@ -184,7 +188,7 @@ import javax.faces.context.FacesContext;
     }
     
     /**
-     * Set auto-save period. 
+     * Set auto-save period.
      * Values of 0 or less mean no auto-save.
      * <br>
      * When set to >0 value, will also force ajaxify attribute setting to true.
@@ -195,26 +199,56 @@ import javax.faces.context.FacesContext;
         this.autoSave = autoSave;
         this.autoSave_set = true;
         if (autoSave >0)
-            setAjaxify(true);       
+            setAjaxify(true);
     }
     
 // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 // Lifecycle management
 // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     
-    
     /**
-     *	<p> Perform the component tree processing required by the <em>Update
-     *	    Model Values</em> phase of the request processing lifecycle for
-     *	    the input area of the text field ( the component itself), as follows.</p>
+     * <p>Specialized validation behavior on top of that provided by the
+     * superclass.
+     *  <ul>
+     *  <li>This method will skip validation for "refresh" type of Ajax request
+     *  </ul>
      *
-     *	    <ul>
-     *          <li>If call happens to be part of async request ( ajax validation)
-     *		    , do not update the model and skip further processing.</li>
-     *		<li>Proceed with the normal course of  <code>processUpdates()</code> method of all
-     *		    facets and children of this component</li>
-     *      </ul>
+     *	@param	context	<code>FacesContext</code> for this request
+     */
+    public void processValidators(FacesContext context) {
+        if (context == null)
+            return;
+        // Skip procesing in case of "refresh" ajax request
+        if (ComponentUtilities.isAjaxRequest(getFacesContext(), this, "refresh")) {
+            return; // Skip processing for ajax based validation events.
+        }
+        super.processValidators(context);
+    }
+    /**
+     * <p>Specialized decode behavior on top of that provided by the
+     * superclass.
+     *  <ul>
+     *  <li>This method will skip decoding for "refresh" type of Ajax request
+     *  </ul>
      *
+     *	@param	context	<code>FacesContext</code> for this request
+     */
+    public void processDecodes(FacesContext context) {
+        if (context == null)
+            return;
+        // Skip processing in case of "refresh" ajax request
+        if (ComponentUtilities.isAjaxRequest(getFacesContext(), this, "refresh")) {
+            return;
+        }
+        super.processDecodes(context);
+    }
+
+    /**
+     * <p>Specialized model update behavior on top of that provided by the
+     * superclass.
+     *  <ul>
+     *  <li>This method will skip decoding for "refresh" type of Ajax request
+     *  </ul>
      *	@param	context	<code>FacesContext</code> for this request
      */
     
@@ -224,10 +258,10 @@ import javax.faces.context.FacesContext;
         // Skip model update in case of "refresh" ajax request
         if (ComponentUtilities.isAjaxRequest(getFacesContext(), this, "refresh")) {
             return; // Skip processing for ajax based validation events.
-        }        
+        }
         super.processUpdates(context);
     }
-        
+    
 // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 // save/restore state
 // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~

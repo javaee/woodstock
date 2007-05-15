@@ -37,15 +37,15 @@ import javax.faces.context.FacesContext;
  * <br>
  * TextField Component class represents text input element.
  * <br>
- * As part of the dynamic behavior, TextField supports auto-validation, where 
+ * As part of the dynamic behavior, TextField supports auto-validation, where
  * entered data is automatically validated through the ajax call to the server.
  * When validating data through the ajax-based mechanism, the UPDATE_MODEL_VALUES
  * stage of the lifecycle is skipped ( see processUpdates).
  * <br>
- * TextField also supports password mode, where data entered will be masked with 
- * asterisks. Password Mode is enabled through the attribute password. 
+ * TextField also supports password mode, where data entered will be masked with
+ * asterisks. Password Mode is enabled through the attribute password.
  * Note that when password is on, no TextField content data is sent back (rendered)
- * to the client, even though such data is available through getText(). 
+ * to the client, even though such data is available through getText().
  * This is done to prevent password sniffing on the wire or by viewing browser source.
  * <br>
  * @see com.sun.webui.jsf.renderkit.ajax.TextFieldRenderer
@@ -83,8 +83,8 @@ type="com.sun.webui.jsf.TextField", family="com.sun.webui.jsf.TextField",
      *
      * Depending on the type of the request, this method will return the default
      * renderer type of "com.sun.webui.jsf.widget.TextField" in case of regular
-     * render request, or "com.sun.webui.jsf.ajax.TextField" in case of ajax 
-     * request. Ajax request represents a special case of request, when partial 
+     * render request, or "com.sun.webui.jsf.ajax.TextField" in case of ajax
+     * request. Ajax request represents a special case of request, when partial
      * data is rendered back to the client.
      */
     public String getRendererType() {
@@ -92,9 +92,9 @@ type="com.sun.webui.jsf.TextField", family="com.sun.webui.jsf.TextField",
         if (ComponentUtilities.isAjaxRequest(getFacesContext(), this)) {
             return "com.sun.webui.jsf.ajax.TextField";
         }
-        return super.getRendererType();        
+        return super.getRendererType();
     }
-
+    
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     // Tag attribute methods
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -136,11 +136,11 @@ type="com.sun.webui.jsf.TextField", family="com.sun.webui.jsf.TextField",
     /**
      * Set attribute indicating to turn off default Ajax functionality.
      * <p>
-     * Ajaxify attribute is used to optimize delivery of the component to the browser 
+     * Ajaxify attribute is used to optimize delivery of the component to the browser
      * by rendering or not rendering ajax based libraries.
-     * Ajaxify attribute set true only means that ajax javascript modules will be 
+     * Ajaxify attribute set true only means that ajax javascript modules will be
      * rendered, enabling ( but not activating) dynamic ajax features on the client side.
-     * Once ajax-based modules are rendered, developer can use them directly for custom 
+     * Once ajax-based modules are rendered, developer can use them directly for custom
      * validation, or use predesigned autoValidate feature that is part of this implementation.
      * <br>
      * Note that autoValidate=true automatically turn ajaxify attribute on.
@@ -199,10 +199,10 @@ type="com.sun.webui.jsf.TextField", family="com.sun.webui.jsf.TextField",
     
     /**
      * Set attribute indicating to turn on/off default Ajax functionality.
-     * When on, TextField's onBlur event will generate ajax-based validation request, 
-     * where content of the TextField's input will be validated  ( but not committed 
-     * during the processUpdates stage). Validation information is sent back to the 
-     * browser for user information in form of success or standard FacesMesssages in 
+     * When on, TextField's onBlur event will generate ajax-based validation request,
+     * where content of the TextField's input will be validated  ( but not committed
+     * during the processUpdates stage). Validation information is sent back to the
+     * browser for user information in form of success or standard FacesMesssages in
      * case of failure. <br>
      * AutoValidate requires validator to be set ( via validatorExpression)
      * <pre>
@@ -340,7 +340,7 @@ type="com.sun.webui.jsf.TextField", family="com.sun.webui.jsf.TextField",
         return _values;
     }
     
-  
+    
     
 // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 // Private methods
@@ -375,32 +375,61 @@ type="com.sun.webui.jsf.TextField", family="com.sun.webui.jsf.TextField",
 // Lifecycle management
 // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     
+    /**
+     * <p>Specialized validation behavior on top of that provided by the
+     * superclass.
+     *  <ul>
+     *  <li>This method will skip validation for "refresh" type of Ajax request
+     *  </ul>
+     */
+    public void processValidators(FacesContext context) {
+        if (context == null)
+            return;
+        // Skip procesing in case of "refresh" ajax request
+        if (ComponentUtilities.isAjaxRequest(getFacesContext(), this, "refresh")) {
+            return; // Skip processing for ajax based validation events.
+        }
+        super.processValidators(context);
+    }
+    /**
+     * <p>Specialized decode behavior on top of that provided by the
+     * superclass.
+     *  <ul>
+     *  <li>This method will skip decoding for "refresh" type of Ajax request
+     *  </ul>
+     */
+    public void processDecodes(FacesContext context) {
+        if (context == null)
+            return;
+        // Skip processing in case of "refresh" ajax request
+        if (ComponentUtilities.isAjaxRequest(getFacesContext(), this, "refresh")) {
+            return;
+        }
+        super.processDecodes(context);
+    }
     
     /**
-     *	<p> Perform the component tree processing required by the <em>Update
-     *	    Model Values</em> phase of the request processing lifecycle for
-     *	    the input area of the text field ( the component itself), as follows.</p>
-     *
-     *	    <ul>
-     *          <li>If the <code>isValid()</code> property of this
-     *		    <code>UIComponent</code> is <code>false</code>, skip
-     *		    further processing.</li>
-     *          <li>If call happens to be part of async request ( ajax validation)
-     *		    , do not update the model and skip further processing.</li>
-     *		<li>Proceed with the normal course of  <code>processUpdates()</code> method of all
-     *		    facets and children of this {@link UIComponent}</li>
-     *      </ul>
+     * <p>Specialized model update behavior on top of that provided by the
+     * superclass.
+     *  <ul>
+     *  <li>This method will skip decoding for "refresh" and "validate" type of Ajax request
+     *  </ul>
      *
      *	@param	context	<code>FacesContext</code> for this request
      */
     
+    
     public void processUpdates(FacesContext context) {
         if (context == null)
             return;
-        // Ensure we have a valid Ajax request.
+        // Skip processing in case of "validate" ajax request
         if (ComponentUtilities.isAjaxRequest(getFacesContext(), this, "validate")) {
-            return; // Skip processing for ajax based validation events.
-        }        
+            return; 
+        }
+        // Skip processing in case of "refresh" ajax request
+        if (ComponentUtilities.isAjaxRequest(getFacesContext(), this, "refresh")) {
+            return;
+        }
         super.processUpdates(context);
     }
     
@@ -418,7 +447,7 @@ type="com.sun.webui.jsf.TextField", family="com.sun.webui.jsf.TextField",
      * @param context FacesContext for the current request
      * @return A String value of the component
      */
-    public String getValueAsString(FacesContext context) {   
+    public String getValueAsString(FacesContext context) {
         if (isPassword())
             return new String();
         
