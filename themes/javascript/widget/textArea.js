@@ -41,6 +41,8 @@ webui.@THEME@.widget.textArea = function() {
     this.rows       = 3;
     this.valid      = true;
     this.widgetType = "textArea";
+    this.autoSave   = 0;
+    this.lastSaved  = null;
     
     // Register widget.
     dojo.widget.Widget.call(this);
@@ -61,6 +63,7 @@ webui.@THEME@.widget.textArea = function() {
         this.domNode.getProps = function() { return dojo.widget.byId(this.id).getProps(); }
         this.domNode.refresh = function(execute) { return dojo.widget.byId(this.id).refresh(execute); }
         this.domNode.setProps = function(props) { return dojo.widget.byId(this.id).setProps(props); }
+        this.domNode.submit = function(execute) { return dojo.widget.byId(this.id).submit(execute); }
         
         // Set private functions.
         this.getInputElement = webui.@THEME@.widget.textArea.getInputElement;
@@ -68,13 +71,11 @@ webui.@THEME@.widget.textArea = function() {
         this.getProps = webui.@THEME@.widget.textArea.getProps;
         this.refresh = webui.@THEME@.widget.textArea.refresh.processEvent;
         this.setProps = webui.@THEME@.widget.textArea.setProps;
+        this.submit = webui.@THEME@.widget.textArea.submit.processEvent;
         
-        // Set events.        
+        // Set events.                
         if (this.autoSave > 0) {
-            //the function name will be evaluated as string. Include id into it
-            var funcName = "webui.@THEME@.widget.textArea.submit.processEventXXX";
-            funcName = funcName.replace(/XXX/,"('"+ this.id +"')");           
-            this.autoSaveTimerId = setInterval(funcName, this.autoSave);
+            this.autoSaveTimerId = setInterval(webui.@THEME@.widget.textArea.createTimerCallback(this.id), this.autoSave);  
         }
         
         // Initialize properties.
@@ -123,10 +124,10 @@ webui.@THEME@.widget.textArea.getProps = function() {
     if (this.type) { props.type= this.type; }
     if (this.readOnly != null) { props.readOnly = this.readOnly; }
     if (this.required != null) { props.required = this.required; }
-    if (this.cols) { props.cols = this.cols; }
-    if (this.rows) { props.rows = this.rows; }
+    if (this.cols > 0 ) { props.cols = this.cols; }
+    if (this.rows > 0) { props.rows = this.rows; }
     if (this.valid != null) { props.valid = this.valid; }
-    if (this.autoSave != null) { props.autoSave = this.autoSave; }
+    if (this.autoSave > 0 ) { props.autoSave = this.autoSave; }
     if (this.style != null) { props.style = this.style; }
     
     // After widget has been initialized, get user's input.
@@ -197,7 +198,9 @@ webui.@THEME@.widget.textArea.refresh = {
  *
  * <ul>
  *  <li>accesskey</li>
+ *  <li>autoSave</li>
  *  <li>className</li>
+ *  <li>cols</li>
  *  <li>dir</li>
  *  <li>disabled</li>
  *  <li>id</li>
@@ -216,14 +219,12 @@ webui.@THEME@.widget.textArea.refresh = {
  *  <li>onMouseMove</li>
  *  <li>readOnly</li>
  *  <li>required</li>
- *  <li>cols</li>
  *  <li>style</li>
  *  <li>tabIndex</li>
  *  <li>title</li>
  *  <li>valid</li>
  *  <li>value</li>
  *  <li>visible</li> 
- *  <li>autoSave</li>
  * </ul>
  *
  * @param props Key-Value pairs of properties.
@@ -242,10 +243,10 @@ webui.@THEME@.widget.textArea.setProps = function(props) {
     webui.@THEME@.widget.common.setJavaScriptProps(this.textAreaNode, props);
     
     // Set text field attributes.    
-    if (props.cols) { this.textAreaNode.cols = props.cols; }
-    if (props.rows) { this.textAreaNode.rows = props.rows; }
-    if (props.value) { this.textAreaNode.value = props.value; }
-    if (props.title) { this.textAreaNode.title = props.title; }
+    if (props.cols > 0 ) { this.textAreaNode.cols = props.cols; }
+    if (props.rows > 0) { this.textAreaNode.rows = props.rows; }
+    if (props.value != null) { this.textAreaNode.value = props.value; }
+    if (props.title != null) { this.textAreaNode.title = props.title; }
     if (props.disabled != null) { 
         this.textAreaNode.disabled = new Boolean(props.disabled).valueOf();
     }
@@ -260,7 +261,7 @@ webui.@THEME@.widget.textArea.setProps = function(props) {
         clearTimeout(this.autoSaveTimerId);
         this.autoSaveTimerId = null;
     }
-        
+    
     
     // Set label properties.
     if (props.label || (props.valid != null || props.required != null) && this.label) {
@@ -282,6 +283,17 @@ webui.@THEME@.widget.textArea.setProps = function(props) {
         } else {
             webui.@THEME@.widget.common.addFragment(this.labelContainer, props.label);
         }
+        //label overwrites the span from the template and there is no way to set
+        //alignment there.
+        //we will push vertical alignment style onto label domNode
+        labelWidget = dojo.widget.byId(this.label.id);
+        if (labelWidget && labelWidget.domNode) {
+            var currentClass = (labelWidget.domNode.className) ? 
+                labelWidget.domNode.className + " "
+                : "";
+            labelWidget.domNode.className = currentClass + webui.@THEME@.widget.props.textArea.labelTopAlignStyle;
+        }
+        
     }
     return true;
 }
@@ -303,18 +315,14 @@ webui.@THEME@.widget.textArea.submit = {
      * against which the execute portion of the request processing lifecycle
      * must be run.
      */
-    processEvent: function(widgetId, execute) {
-        //var widget= dojo.widget.byId(widgetId);
+    processEvent: function(execute) {
         
         // Publish event.
         webui.@THEME@.widget.textArea.submit.publishBeginEvent({
-            id: widgetId,
+            id: this.id,
             execute: execute
         });
-               
         
-        //TEMP provide visual feedback
-        //this.value = new Date();
         return true;
     },
     
@@ -340,7 +348,30 @@ webui.@THEME@.widget.textArea.submit = {
 }
 
 
-
+/**
+ * Helper function to create callback for timer event.
+ *
+ * @param id The HTML element id used to invoke the callback.
+ */
+webui.@THEME@.widget.textArea.createTimerCallback = function(id) {
+    if (id == null) {
+        return null;
+    }
+    // New literals are created every time this function
+    // is called, and it's saved by closure magic.
+    return function(event) { 
+        var widget = dojo.widget.byId(id);
+        if (widget == null) {
+            return false;
+        }
+        //Create a submit request only if field has been modified
+        if (widget.lastSaved != widget.textAreaNode.value) {
+            widget.lastSaved = widget.textAreaNode.value;
+            widget.submit();
+        }
+        return true;
+    };
+}
 
 dojo.inherits(webui.@THEME@.widget.textArea, dojo.widget.HtmlWidget);
 
