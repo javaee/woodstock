@@ -75,7 +75,7 @@ webui.@THEME@.widget.textArea = function() {
         
         // Set events.                
         if (this.autoSave > 0) {
-            this.autoSaveTimerId = setInterval(webui.@THEME@.widget.textArea.createTimerCallback(this.id), this.autoSave);  
+            this.autoSaveTimerId = setInterval(webui.@THEME@.widget.textArea.createSubmitCallback(this.id), this.autoSave);  
         }
         
         // Initialize properties.
@@ -353,7 +353,7 @@ webui.@THEME@.widget.textArea.submit = {
  *
  * @param id The HTML element id used to invoke the callback.
  */
-webui.@THEME@.widget.textArea.createTimerCallback = function(id) {
+webui.@THEME@.widget.textArea.createSubmitCallback = function(id) {
     if (id == null) {
         return null;
     }
