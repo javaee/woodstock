@@ -41,9 +41,9 @@ import org.json.JSONObject;
  * This class responds to Ajax requests made to ProgressBar components.
  */
 @Renderer(@Renderer.Renders(
-    rendererType="com.sun.webui.jsf.ajax.TextArea",
-    componentFamily="com.sun.webui.jsf.TextArea"))
-public class TextAreaRenderer
+rendererType="com.sun.webui.jsf.ajax.TextArea",
+        componentFamily="com.sun.webui.jsf.TextArea"))
+        public class TextAreaRenderer
         extends com.sun.webui.jsf.renderkit.widget.TextAreaRenderer  {
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     // Renderer methods
@@ -62,8 +62,8 @@ public class TextAreaRenderer
     public void encodeBegin(FacesContext context, UIComponent component) {
         // Do nothing...
     }
-
-  /**
+    
+    /**
      * Render the children of the specified UIComponent to the output stream or
      * writer associated with the response we are creating.
      *
@@ -74,18 +74,29 @@ public class TextAreaRenderer
      * @exception NullPointerException if context or component is null.
      */
     public void encodeChildren(FacesContext context, UIComponent component)
-            throws IOException {
+    throws IOException {
         if (context == null || component == null) {
             throw new NullPointerException();
         }
-
+        
         // Output component properties if Ajax request and is refresh or submit event.
-        if (ComponentUtilities.isAjaxRequest(context, component, "refresh") ||
-            ComponentUtilities.isAjaxRequest(context, component, "submit")) {
+        if (ComponentUtilities.isAjaxRequest(context, component, "refresh") ) {
             super.encodeChildren(context, component);
         }
         
-    }       
+        // "submit" request
+        if (ComponentUtilities.isAjaxRequest(context, component, "submit")) {
+            try {
+                JSONObject json = new JSONObject();
+                json.put("id", component.getClientId(context));                
+                json.write(context.getResponseWriter());
+            } catch(JSONException e) {
+                e.printStackTrace();
+            }
+            return;
+        }
+        
+    }
     
     /**
      * Render the ending of the specified UIComponent to the output stream or
