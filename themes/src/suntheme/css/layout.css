@@ -800,7 +800,32 @@ a.DatOthBldLnk@THEME_CSS@:link, a.DatOthBldLnk@THEME_CSS@:visited {
 .TxtAra@THEME_CSS@, .TxtAraDis@THEME_CSS@ {
 	padding-left:2px;
 }
+
+.labelTopAlign@THEME_CSS@  { vertical-align: top; }
 /*---*/
+
+/* EDITABLE FIELDS */
+.EditableFld_Edit@THEME_CSS@ {
+	border: none;
+	border-width:0px;
+	padding:1px 0 0 2px;
+        background-color: #CCCCEE;        
+}
+.EditableFldDis@THEME_CSS@ {
+	border: none;
+	border-width:0px;
+	padding:1px 0 0 2px;
+        background-color: #CCCCEE;        
+}
+.EditableFld_ReadOnly@THEME_CSS@ {
+	border: none;
+	border-width:0px;
+	padding:1px 0 0 2px;
+        background-color: #DDDDDD;        
+}
+
+/*---*/
+
 
 /* MENUS */
 .MnuJmpOpt@THEME_CSS@:hover {text-decoration:underline;}

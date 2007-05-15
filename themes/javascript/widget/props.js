@@ -128,11 +128,18 @@ webui.@THEME@.widget.props = {
         className: "TxtFld@THEME_CSS@",
         disabledClassName: "TxtFldDis@THEME_CSS@"
     },
+    // EditableField properties.
+    editableField: {
+        className: "EditableFld_ReadOnly@THEME_CSS@",
+        editableClassName: "EditableFld_Edit@THEME_CSS@",
+        disabledClassName: "EditableFldDis@THEME_CSS@"
+    },
     
     // TextArea properties.
     textArea: {
         className: "TxtAra@THEME_CSS@",
-        disabledClassName: "TxtAraDis@THEME_CSS@"
+        disabledClassName: "TxtAraDis@THEME_CSS@",
+        labelTopAlignStyle: "labelTopAlign@THEME_CSS@" 
     }    
 }
 
