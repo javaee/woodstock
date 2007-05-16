@@ -35,15 +35,17 @@ import com.sun.webui.jsf.util.JavaScriptUtilities;
 import com.sun.webui.jsf.util.LogUtil;
 import com.sun.webui.jsf.util.RenderingUtilities;
 import com.sun.webui.jsf.util.ThemeUtilities;
+
 import java.io.IOException;
 import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.StringTokenizer;
+
 import javax.faces.component.EditableValueHolder;
 import javax.faces.component.NamingContainer;
-
 import javax.faces.component.UIComponent;
 import javax.faces.component.UIParameter;
 import javax.faces.context.FacesContext;
@@ -58,14 +60,9 @@ import org.json.JSONObject;
  * @see TextField
  */
 @Renderer(@Renderer.Renders(
-rendererType="com.sun.webui.jsf.widget.TextField",
-        componentFamily="com.sun.webui.jsf.TextField"))
-        public class TextFieldRenderer extends FieldRendererBase {
-    
-    /** Creates a new instance of TextFieldRenderer */
-    public TextFieldRenderer() {
-    }
-    
+    rendererType="com.sun.webui.jsf.widget.TextField",
+    componentFamily="com.sun.webui.jsf.TextField"))
+public class TextFieldRenderer extends FieldRendererBase {
     /**
      * The set of pass-through attributes to be rendered.
      */
@@ -93,10 +90,6 @@ rendererType="com.sun.webui.jsf.widget.TextField",
     };
     
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    // Renderer methods
-    // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    
-    // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     // RendererBase methods
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     
@@ -109,10 +102,10 @@ rendererType="com.sun.webui.jsf.widget.TextField",
      * @exception JSONException if a key/value error occurs
      */
     protected JSONArray getModules(FacesContext context, UIComponent component)
-    throws JSONException {
+            throws JSONException {
         if (!(component instanceof TextField)) {
             throw new IllegalArgumentException(
-                    "TextFieldRenderer can only render TextField components.");
+                "TextFieldRenderer can only render TextField components.");
         }
         JSONArray json = new JSONArray();
         json.put(JavaScriptUtilities.getModuleName("widget.textField"));
@@ -138,7 +131,7 @@ rendererType="com.sun.webui.jsf.widget.TextField",
             UIComponent component) throws IOException, JSONException {
         if (!(component instanceof TextField)) {
             throw new IllegalArgumentException(
-                    "TextFieldRenderer can only render TextField components.");
+                "TextFieldRenderer can only render TextField components.");
         }
         TextField field = (TextField) component;
         Theme theme = ThemeUtilities.getTheme(context);
@@ -151,9 +144,9 @@ rendererType="com.sun.webui.jsf.widget.TextField",
         String templatePath = field.getHtmlTemplate(); // Get HTML template.
         
         if (templatePath == null)
-            templatePath =   field.isPassword() ?
-                theme.getPathToTemplate(ThemeTemplates.PASSWORDFIELD):
-                theme.getPathToTemplate(ThemeTemplates.TEXTFIELD);
+            templatePath = field.isPassword()
+                ? theme.getPathToTemplate(ThemeTemplates.PASSWORDFIELD)
+                : theme.getPathToTemplate(ThemeTemplates.TEXTFIELD);
         
         String className = field.getStyleClass();
         
@@ -171,11 +164,13 @@ rendererType="com.sun.webui.jsf.widget.TextField",
         
         // Append label properties.
         WidgetUtilities.addProperties(json, "label",
-                WidgetUtilities.renderComponent(context, field.getLabelComponent(context, null)));
+            WidgetUtilities.renderComponent(context, field.getLabelComponent(
+                context, null)));
         
         // Add core and attribute properties.
         addAttributeProperties(attributes, component, json);
         setCoreProperties(context, component, json);
+        setNotifyProperties(context, component, json);
         
         return json;
     }
@@ -189,11 +184,32 @@ rendererType="com.sun.webui.jsf.widget.TextField",
     protected String getWidgetType(FacesContext context, UIComponent component) {
         return JavaScriptUtilities.getNamespace("textField");
     }
-    
+
+    /**  
+     * Helper method to obtain client IDs to update during text field events.
+     *
+     * @param context FacesContext for the current request.
+     * @param component Table2RowGroup to be rendered.
+     * @param json JSONObject to assign properties to.
+     */
+    protected void setNotifyProperties(FacesContext context, UIComponent component, 
+            JSONObject json) throws IOException, JSONException {
+        TextField field = (TextField) component;
+        String notify = field.getNotify();
+        if (notify == null) {
+            return;
+        }
+
+        JSONArray jArray = new JSONArray();
+        json.put("notify", jArray);
+
+        StringTokenizer st = new StringTokenizer(notify, ",");
+        while (st.hasMoreTokens()) {
+            jArray.put(st.nextToken());
+        }
+    }
+
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     // Private renderer methods
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    
-    // Helper method to get Theme objects.
-
 }

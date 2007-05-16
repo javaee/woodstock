@@ -65,6 +65,7 @@ webui.@THEME@.widget.label = function() {
 	this.getProps = webui.@THEME@.widget.label.getProps;
         this.refresh = webui.@THEME@.widget.label.refresh.processEvent;
         this.setProps = webui.@THEME@.widget.label.setProps;
+        this.validate = webui.@THEME@.widget.label.validation.processEvent;
 
         // Set properties.
         return this.setProps();
@@ -165,8 +166,7 @@ webui.@THEME@.widget.label.refresh = {
 
 /**
  * This function is used to set widget properties with the
- * following Object literals. In addition the "contents" 
- * property is an array of children of the label.
+ * following Object literals.
  *
  * <ul>
  *  <li>accesskey</li>
@@ -279,6 +279,34 @@ webui.@THEME@.widget.label.setProps = function(props) {
         }
     }
     return true;
+}
+
+/**
+ * This closure is used to process validation events.
+ */
+webui.@THEME@.widget.label.validation = {
+    /**
+     * This function is used to process validation events with the following
+     * Object literals.
+     *
+     * <ul>
+     *  <li>detail</li>
+     *  <li>valid</li>
+     * </ul>
+     *
+     * @param props Key-Value pairs of properties.
+     */
+    processEvent: function(props) {
+        if (props == null) {
+            return false;
+        }
+        return this.setProps({
+            valid: props.valid,
+            errorImage: {
+                title: props.detail
+            }
+        });
+    }
 }
 
 dojo.inherits(webui.@THEME@.widget.label, dojo.widget.HtmlWidget);

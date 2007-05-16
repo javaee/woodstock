@@ -235,16 +235,14 @@ type="com.sun.webui.jsf.TextField", family="com.sun.webui.jsf.TextField",
     /**
      * Alternative HTML template to be used by this component.
      */
-    // Hide value
     @Property(name="htmlTemplate", isHidden=true, isAttribute=true, displayName="HTML Template", category="Appearance")
     private String htmlTemplate = null;
-    private boolean htmlTemplate_set = false;
+
     /**
      * Get alternative HTML template to be used by this component.
      */
-    
     public String getHtmlTemplate() {
-        if (htmlTemplate_set && this.htmlTemplate != null) {
+        if (this.htmlTemplate != null) {
             return this.htmlTemplate;
         }
         ValueExpression _vb = getValueExpression("htmlTemplate");
@@ -253,11 +251,10 @@ type="com.sun.webui.jsf.TextField", family="com.sun.webui.jsf.TextField",
         }
         return null;
     }
-    
+
     /**
      * Set alternative HTML template to be used by this component.
      */
-    
     public void setHtmlTemplate(String htmlTemplate) {
         this.htmlTemplate = htmlTemplate;
     }
@@ -304,7 +301,47 @@ type="com.sun.webui.jsf.TextField", family="com.sun.webui.jsf.TextField",
         this.password_set = true;
     }
     
-    
+    /**
+     * The comma separated list of absolute client IDs to notify during
+     * text field events.
+     * <p>
+     * Currently, this feature is only supported by label and alert components. 
+     * For example, when the label attribute of the textField tag is not used. 
+     * Or, when an alert is used in the page to display validation messages.
+     * </p><p>
+     * During auto-validation, the text field will notify the label and alert 
+     * associated with the given client IDs. If the user's input is found to be 
+     * invalid, the label will change text color and display an error indicator.
+     * Likewise, if there are any messages associated with the event, the alert
+     * will display the assocaited summary, detail, and error indicator.
+     * </p>
+     */
+    @Property(name="notify", isHidden=true, isAttribute=true, displayName="Components", category="Javascript")
+    private String notify = null;
+
+    /**
+     * Get the comma separated list of absolute client IDs to notify during
+     * text field events.
+     */
+    public String getNotify() {
+        if (this.notify != null) {
+            return this.notify;
+        }
+        ValueExpression _vb = getValueExpression("notify");
+        if (_vb != null) {
+            return (String) _vb.getValue(getFacesContext().getELContext());
+        }
+        return null;
+    }
+
+    /**
+     * Set the comma separated list of absolute client IDs to notify during
+     * text field events.
+     */
+    public void setNotify(String notify) {
+        this.notify = notify;
+    }
+
 // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 // State methods
 // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -322,13 +359,14 @@ type="com.sun.webui.jsf.TextField", family="com.sun.webui.jsf.TextField",
         this.autoValidate_set = ((Boolean) _values[5]).booleanValue();
         this.password =     ((Boolean) _values[6]).booleanValue();
         this.password_set = ((Boolean) _values[7]).booleanValue();
+        this.notify = (String) _values[8];
     }
-    
+
     /**
      * Save the state of this component.
      */
     public Object saveState(FacesContext _context) {
-        Object _values[] = new Object[8];
+        Object _values[] = new Object[9];
         _values[0] = super.saveState(_context);
         _values[1] = this.htmlTemplate;
         _values[2] = this.ajaxify ? Boolean.TRUE : Boolean.FALSE;
@@ -337,14 +375,13 @@ type="com.sun.webui.jsf.TextField", family="com.sun.webui.jsf.TextField",
         _values[5] = this.autoValidate_set ? Boolean.TRUE : Boolean.FALSE;
         _values[6] = this.password ? Boolean.TRUE : Boolean.FALSE;
         _values[7] = this.password_set ? Boolean.TRUE : Boolean.FALSE;
+        _values[8] = this.notify;
         return _values;
     }
-    
-    
-    
-// ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-// Private methods
-// ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+    // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    // Private methods
+    // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     
     /**
      * Create a Label component every time unless labelString is null

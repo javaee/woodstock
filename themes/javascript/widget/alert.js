@@ -34,7 +34,10 @@ dojo.require("webui.@THEME@.widget.*");
  * Note: This is considered a private API, do not use.
  */
 webui.@THEME@.widget.alert = function() {
+    // Set defaults.
     this.widgetType = "alert";
+
+    // Register widget.
     dojo.widget.Widget.call(this);
 
     /**
@@ -62,9 +65,11 @@ webui.@THEME@.widget.alert = function() {
         this.domNode.refresh = function(execute) { return dojo.widget.byId(this.id).refresh(execute); }
         this.domNode.setProps = function(props) { return dojo.widget.byId(this.id).setProps(props); }
         
+        // Set private functions.
         this.setProps = webui.@THEME@.widget.alert.setProps;
         this.getProps = webui.@THEME@.widget.alert.getProps;
         this.refresh = webui.@THEME@.widget.alert.refresh.processEvent;
+        this.validate = webui.@THEME@.widget.alert.validation.processEvent;
 
         // Set properties.
         return this.setProps();
@@ -112,8 +117,7 @@ webui.@THEME@.widget.alert.refresh = {
      * must be run.
      */
     processEvent: function(execute) {
-        
-    // Publish event.
+        // Publish event.
         webui.@THEME@.widget.alert.refresh.publishBeginEvent({
             id: this.id,
             execute: execute
@@ -141,7 +145,6 @@ webui.@THEME@.widget.alert.refresh = {
         return true;
     }
 }
-
 
 /**
  * This function is used to set widget properties with the
@@ -242,6 +245,35 @@ webui.@THEME@.widget.alert.setProps = function(props) {
         }
     }
     return true;
+}
+
+/**
+ * This closure is used to process validation events.
+ */
+webui.@THEME@.widget.alert.validation = {
+    /**
+     * This function is used to process validation events with the following
+     * Object literals.
+     *
+     * <ul>
+     *  <li>detail</li>
+     *  <li>summary</li>
+     *  <li>valid</li>
+     * </ul>
+     *
+     * @param props Key-Value pairs of properties.
+     */
+    processEvent: function(props) {
+        if (props == null) {
+            return false;
+        }
+        return this.setProps({
+            summary: props.summary,
+            detail: props.detail,
+            type: "error",
+            visible: !props.valid
+        });
+    }
 }
 
 dojo.inherits(webui.@THEME@.widget.alert, dojo.widget.HtmlWidget);

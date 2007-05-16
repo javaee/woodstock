@@ -139,14 +139,14 @@ webui.@THEME@.widget.jsfx.textField = {
         }
 
         // Parse JSON text.
-        var json = JSON.parse(content);
+        var props = JSON.parse(content);
 
         // Add rows.
         var widget = dojo.widget.byId(id);
-        widget.setProps(json);
+        widget.setProps(props);
 
         // Publish an event for custom AJAX implementations to listen for.
-        webui.@THEME@.widget.textField.refresh.publishEndEvent(json);
+        webui.@THEME@.widget.textField.refresh.publishEndEvent(props);
         return true;
     },
 
@@ -182,7 +182,7 @@ webui.@THEME@.widget.jsfx.textField = {
      * @param elementId The HTML element Id.
      * @param content The content returned by the AJAX response.
      * @param closure The closure argument provided to DynaFaces.fireAjaxTransaction.
-     * @param xjson The zjson argument provided to DynaFaces.fireAjaxTransaction.
+     * @param xjson The xjson argument provided to DynaFaces.fireAjaxTransaction.
      */
     validationCallback: function(elementId, content, closure, xjson) {
         if (elementId == null || content == null) {
@@ -190,16 +190,35 @@ webui.@THEME@.widget.jsfx.textField = {
         }
         
         // Parse JSON text.
-        var json = JSON.parse(content);
+        var props = JSON.parse(content);
 
         // Update text field.
         var widget = dojo.widget.byId(elementId);
-        widget.setProps(json);        
-        
+        widget.setProps({
+            valid: props.valid,
+            errorImage: {
+                title: props.detail
+            }
+        });
+
+        // Notify widgets.
+        if (widget.notify) {
+            // Update each given client ID.
+            for (var i = 0; i < widget.notify.length; i++) {
+                // Get widget associated with client ID.
+                var curWidget = dojo.widget.byId(widget.notify[i]);
+                if (curWidget == null 
+                        || typeof curWidget.validate != "function") {
+                    continue;
+                }
+                curWidget.validate(props);
+            }
+        }
+
         // Publish an event for custom AJAX implementations to listen for. For
         // example, an alert component may need to be updated when ever a text
         // field value is found to be invalid.
-        webui.@THEME@.widget.textField.validation.publishEndEvent(json);
+        webui.@THEME@.widget.textField.validation.publishEndEvent(props);
         return true;
     }
 }
