@@ -32,7 +32,10 @@ import com.sun.data.provider.TableDataProvider;
 import com.sun.data.provider.impl.ObjectArrayDataProvider;
 import com.sun.data.provider.impl.ObjectListDataProvider;
 import com.sun.rave.designtime.DesignBean;
+import com.sun.rave.designtime.ext.DesignBeanExt;
 import com.sun.webui.jsf.component.Checkbox;
+import java.lang.reflect.Type;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -67,8 +70,18 @@ public class TableDataProviderDesignState {
         
         if(modelBean.getInstance()  instanceof TableDataProvider){
             tableDataProvider =  (TableDataProvider) modelBean.getInstance();
-        }else if(modelBean.getInstance()  instanceof List){
-            tableDataProvider = new ObjectListDataProvider((List)modelBean.getInstance());
+        }else if(List.class.isAssignableFrom(modelBean.getBeanInfo().getBeanDescriptor().getBeanClass())){ 
+            List listObject = (List)modelBean.getInstance();
+            if(listObject == null){
+                listObject = new ArrayList();
+            }
+            tableDataProvider =  new ObjectListDataProvider(listObject);
+            if(modelBean instanceof DesignBeanExt){
+                Type[] parameterTypes =  ((DesignBeanExt) modelBean).getTypeParameters();
+                if (parameterTypes != null){
+                    ((ObjectListDataProvider)tableDataProvider).setObjectType((Class)parameterTypes[0]);
+                }
+            }
         }else if(modelBean.getInstance()  instanceof Object[]){
             tableDataProvider = new ObjectArrayDataProvider((Object[])modelBean.getInstance());
         }else{

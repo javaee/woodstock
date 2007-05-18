@@ -3,12 +3,12 @@
  * of the Common Development and Distribution License
  * (the License).  You may not use this file except in
  * compliance with the License.
- * 
+ *
  * You can obtain a copy of the license at
  * https://woodstock.dev.java.net/public/CDDLv1.0.html.
  * See the License for the specific language governing
  * permissions and limitations under the License.
- * 
+ *
  * When distributing Covered Code, include this CDDL
  * Header Notice in each file and include the License file
  * at https://woodstock.dev.java.net/public/CDDLv1.0.html.
@@ -16,7 +16,7 @@
  * with the fields enclosed by brackets [] replaced by
  * you own identifying information:
  * "Portions Copyrighted [year] [name of copyright owner]"
- * 
+ *
  * Copyright 2007 Sun Microsystems, Inc. All rights reserved.
  */
 
@@ -93,7 +93,7 @@ public class TableCustomizerMainPanel extends javax.swing.JPanel implements Desi
     
     private DesignContext[] designContexts;
     
-    private ResourceBundle bundle = 
+    private ResourceBundle bundle =
             ResourceBundle.getBundle(TableCustomizerMainPanel.class.getPackage().getName() + ".Bundle");
     
     DesignBean currentModelBean;
@@ -204,17 +204,17 @@ public class TableCustomizerMainPanel extends javax.swing.JPanel implements Desi
         
         cbxVertAlign.setModel(new DefaultComboBoxModel(new String[] {
             java.util.ResourceBundle.getBundle("com/sun/webui/jsf/component/table/Bundle").getString("ALIGN_NOT_SET"),
-                    java.util.ResourceBundle.getBundle("com/sun/webui/jsf/component/table/Bundle").getString("VALIGN_TOP"),
-                    java.util.ResourceBundle.getBundle("com/sun/webui/jsf/component/table/Bundle").getString("VALIGN_MIDDLE"),
-                    java.util.ResourceBundle.getBundle("com/sun/webui/jsf/component/table/Bundle").getString("VALIGN_BOTTOM")
+            java.util.ResourceBundle.getBundle("com/sun/webui/jsf/component/table/Bundle").getString("VALIGN_TOP"),
+            java.util.ResourceBundle.getBundle("com/sun/webui/jsf/component/table/Bundle").getString("VALIGN_MIDDLE"),
+            java.util.ResourceBundle.getBundle("com/sun/webui/jsf/component/table/Bundle").getString("VALIGN_BOTTOM")
         }));
         cbxHorzAlign.setModel(new DefaultComboBoxModel(new String[] {
             java.util.ResourceBundle.getBundle("com/sun/webui/jsf/component/table/Bundle").getString("ALIGN_NOT_SET"),
-                    java.util.ResourceBundle.getBundle("com/sun/webui/jsf/component/table/Bundle").getString("HALIGN_LEFT"),
-                    java.util.ResourceBundle.getBundle("com/sun/webui/jsf/component/table/Bundle").getString("HALIGN_CENTER"),
-                    java.util.ResourceBundle.getBundle("com/sun/webui/jsf/component/table/Bundle").getString("VALIGN_RIGHT"),
-                    java.util.ResourceBundle.getBundle("com/sun/webui/jsf/component/table/Bundle").getString("VALIGN_JUSTIFY")
-                    
+            java.util.ResourceBundle.getBundle("com/sun/webui/jsf/component/table/Bundle").getString("HALIGN_LEFT"),
+            java.util.ResourceBundle.getBundle("com/sun/webui/jsf/component/table/Bundle").getString("HALIGN_CENTER"),
+            java.util.ResourceBundle.getBundle("com/sun/webui/jsf/component/table/Bundle").getString("VALIGN_RIGHT"),
+            java.util.ResourceBundle.getBundle("com/sun/webui/jsf/component/table/Bundle").getString("VALIGN_JUSTIFY")
+            
         }));
         
         // Get the design beans of type  TableDataProvider and populate the
@@ -245,34 +245,30 @@ public class TableCustomizerMainPanel extends javax.swing.JPanel implements Desi
                     DesignBean[] objectListBeans = designContexts[i].getBeansOfType(List.class);
                     for (int j = 0; j < objectListBeans.length; j++) {
                         DesignBean objectList = objectListBeans[j];
-                        if(objectList.getInstance() instanceof List){
-                            TableDataProviderDesignState tableDataProviderDesignState = new TableDataProviderDesignState(objectList);
-                            if(currentModelBean == objectList){
-                                currentTableDataProviderDesignState = tableDataProviderDesignState;
-                                tableDataProviderDesignState.setColumnDesignStates(tableRowGroupDesignState.getColumnDesignStates());
-                                tableDataProviderDesignState.setSelectedColumnNames(tableRowGroupDesignState.getSelectedColumnNames());
-                            }
-                            tableDataProviderDesignState.initialize();
-                            dataProviderList.put(objectList, tableDataProviderDesignState);
-                            dataProviderComboBoxModel.addElement(objectList);
+                        TableDataProviderDesignState tableDataProviderDesignState = new TableDataProviderDesignState(objectList);
+                        if(currentModelBean == objectList){
+                            currentTableDataProviderDesignState = tableDataProviderDesignState;
+                            tableDataProviderDesignState.setColumnDesignStates(tableRowGroupDesignState.getColumnDesignStates());
+                            tableDataProviderDesignState.setSelectedColumnNames(tableRowGroupDesignState.getSelectedColumnNames());
                         }
+                        tableDataProviderDesignState.initialize();
+                        dataProviderList.put(objectList, tableDataProviderDesignState);
+                        dataProviderComboBoxModel.addElement(objectList);
                     }
                     
                     // Allow to Object Array as Data to the table
-                    DesignBean[] objectArrayBeans = designContexts[i].getBeans();
+                    DesignBean[] objectArrayBeans = designContexts[i].getBeansOfType(Object[].class);
                     for (int j = 0; j < objectArrayBeans.length; j++) {
                         DesignBean objectArray = objectArrayBeans[j];
-                        if(objectArray.getInstance() instanceof Object[]){
-                            TableDataProviderDesignState tableDataProviderDesignState = new TableDataProviderDesignState(objectArray);
-                            if(currentModelBean == objectArray){
-                                currentTableDataProviderDesignState = tableDataProviderDesignState;
-                                tableDataProviderDesignState.setColumnDesignStates(tableRowGroupDesignState.getColumnDesignStates());
-                                tableDataProviderDesignState.setSelectedColumnNames(tableRowGroupDesignState.getSelectedColumnNames());
-                            }
-                            tableDataProviderDesignState.initialize();
-                            dataProviderList.put(objectArray, tableDataProviderDesignState);
-                            dataProviderComboBoxModel.addElement(objectArray);
+                        TableDataProviderDesignState tableDataProviderDesignState = new TableDataProviderDesignState(objectArray);
+                        if(currentModelBean == objectArray){
+                            currentTableDataProviderDesignState = tableDataProviderDesignState;
+                            tableDataProviderDesignState.setColumnDesignStates(tableRowGroupDesignState.getColumnDesignStates());
+                            tableDataProviderDesignState.setSelectedColumnNames(tableRowGroupDesignState.getSelectedColumnNames());
                         }
+                        tableDataProviderDesignState.initialize();
+                        dataProviderList.put(objectArray, tableDataProviderDesignState);
+                        dataProviderComboBoxModel.addElement(objectArray);
                     }
                 }
                 SwingUtilities.invokeLater(new Runnable() {
@@ -412,7 +408,7 @@ public class TableCustomizerMainPanel extends javax.swing.JPanel implements Desi
                 }
             }
             cbxVertAlign.setSelectedIndex(vAlignIndex);
-      
+            
             widthField.setText(currentTableColumnDesignState.getWidth());
             
             if(currentTableColumnDesignState.isSortAllowed()){

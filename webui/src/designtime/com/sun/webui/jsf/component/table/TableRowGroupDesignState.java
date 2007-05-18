@@ -33,6 +33,7 @@ import com.sun.data.provider.TableDataProvider;
 import com.sun.data.provider.impl.ObjectArrayDataProvider;
 import com.sun.data.provider.impl.ObjectListDataProvider;
 import com.sun.rave.designtime.DesignBean;
+import com.sun.rave.designtime.ext.DesignBeanExt;
 import com.sun.rave.designtime.DesignContext;
 import com.sun.rave.designtime.DesignProject;
 import com.sun.rave.designtime.DesignProperty;
@@ -41,6 +42,7 @@ import com.sun.rave.designtime.faces.FacesDesignContext;
 import com.sun.rave.designtime.faces.FacesDesignProject;
 import com.sun.webui.jsf.component.Checkbox;
 import com.sun.webui.jsf.component.TableColumn;
+import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -293,7 +295,18 @@ public class TableRowGroupDesignState {
                     String modelBindingExpr = ((FacesDesignContext)contexts[i]).getBindingExpr(listModelBeans[j]);
                     if(sourceDataStr.startsWith(modelBindingExpr)){
                         dataProviderBean = listModelBeans[j];
-                        tableDataProvider =  new ObjectListDataProvider((List)dataProviderBean.getInstance());
+                        List listObject = (List)dataProviderBean.getInstance();
+                        if(listObject == null){
+                            listObject = new ArrayList();
+                        } 
+                        tableDataProvider =  new ObjectListDataProvider(listObject);
+                        if(dataProviderBean instanceof DesignBeanExt){
+                            Type[] parameterTypes =  ((DesignBeanExt) dataProviderBean).getTypeParameters();
+                            if (parameterTypes != null){
+                                ((ObjectListDataProvider)tableDataProvider).setObjectType((Class)parameterTypes[0]);
+                            }    
+                        }
+                         
                         break;
                     }
                 }
