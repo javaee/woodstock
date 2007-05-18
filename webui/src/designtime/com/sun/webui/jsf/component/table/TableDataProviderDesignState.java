@@ -37,7 +37,6 @@ import com.sun.webui.jsf.component.Checkbox;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.ResourceBundle;
@@ -77,15 +76,19 @@ public class TableDataProviderDesignState {
             }
             tableDataProvider =  new ObjectListDataProvider(listObject);
             if(modelBean instanceof DesignBeanExt){
-                Type[] parameterTypes =  ((DesignBeanExt) modelBean).getTypeParameters();
-                if (parameterTypes != null){
-                    ((ObjectListDataProvider)tableDataProvider).setObjectType((Class)parameterTypes[0]);
+                try {
+                    java.lang.reflect.Type[] parameterTypes = ((com.sun.rave.designtime.ext.DesignBeanExt) modelBean).getTypeParameters();
+                    if (parameterTypes != null && (parameterTypes.length > 0)) {
+                        ((com.sun.data.provider.impl.ObjectListDataProvider) tableDataProvider).setObjectType((java.lang.Class) parameterTypes[0]);
+                    }
+                } catch (ClassNotFoundException exc) {
+                    exc.printStackTrace();
                 }
             }
         }else if(modelBean.getInstance()  instanceof Object[]){
             tableDataProvider = new ObjectArrayDataProvider((Object[])modelBean.getInstance());
         }else{
-            throw new IllegalArgumentException(dataProviderBean.getInstanceName() + bundle.getString("NOT_DATA_PROVIDER"));
+            throw new IllegalArgumentException(modelBean.getInstanceName() + " " + bundle.getString("NOT_DATA_PROVIDER"));
         }
         
         dataProviderBean = modelBean;

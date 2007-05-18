@@ -161,11 +161,11 @@ public class TableRowGroupDesignState {
      * Set the Data model DesignBeean to this design state
      * Force the selected columns names with all columns from the Data model
      */
-    public void setDataProviderBean(DesignBean modelBean, boolean resetColumns){ 
+    public void setDataProviderBean(DesignBean modelBean, boolean resetColumns){
         if(modelBean != dataProviderBean){
             if(modelBean.getInstance()  instanceof TableDataProvider){
                 tableDataProvider =  (TableDataProvider) modelBean.getInstance();
-            }else if(modelBean.getInstance()  instanceof List){
+            }else if(List.class.isAssignableFrom(modelBean.getBeanInfo().getBeanDescriptor().getBeanClass())){
                 tableDataProvider = new ObjectListDataProvider((List)modelBean.getInstance());
             }else if(modelBean.getInstance()  instanceof Object[]){
                 tableDataProvider = new ObjectArrayDataProvider((Object[])modelBean.getInstance());
@@ -298,15 +298,19 @@ public class TableRowGroupDesignState {
                         List listObject = (List)dataProviderBean.getInstance();
                         if(listObject == null){
                             listObject = new ArrayList();
-                        } 
+                        }
                         tableDataProvider =  new ObjectListDataProvider(listObject);
                         if(dataProviderBean instanceof DesignBeanExt){
-                            Type[] parameterTypes =  ((DesignBeanExt) dataProviderBean).getTypeParameters();
-                            if (parameterTypes != null){
-                                ((ObjectListDataProvider)tableDataProvider).setObjectType((Class)parameterTypes[0]);
-                            }    
+                            try {
+                                java.lang.reflect.Type[] parameterTypes = ((com.sun.rave.designtime.ext.DesignBeanExt) dataProviderBean).getTypeParameters();
+                                if (parameterTypes != null && (parameterTypes.length > 0)) {
+                                    ((com.sun.data.provider.impl.ObjectListDataProvider) tableDataProvider).setObjectType((java.lang.Class) parameterTypes[0]);
+                                }
+                            } catch (ClassNotFoundException exc) {
+                                exc.printStackTrace();
+                            }
                         }
-                         
+                        
                         break;
                     }
                 }

@@ -147,17 +147,15 @@ public class TableBindToDataPanel extends javax.swing.JPanel implements DesignCo
             DesignBean[] objectListBeans = designContexts[i].getBeansOfType(List.class);
             for (int j = 0; j < objectListBeans.length; j++) {
                 DesignBean objectList = objectListBeans[j];
-                if(objectList.getInstance() instanceof List){
-                    TableDataProviderDesignState tableDataProviderDesignState = new TableDataProviderDesignState(objectList);
-                    if(currentModelBean == objectList){
-                        currentTableDataProviderDesignState = tableDataProviderDesignState;
-                        tableDataProviderDesignState.setColumnDesignStates(tableRowGroupDesignState.getColumnDesignStates());
-                        tableDataProviderDesignState.setSelectedColumnNames(tableRowGroupDesignState.getSelectedColumnNames());
-                    }
-                    tableDataProviderDesignState.initialize();
-                    dataProviderList.put(objectList, tableDataProviderDesignState);
-                    dataProviderComboBoxModel.addElement(objectList);
+                TableDataProviderDesignState tableDataProviderDesignState = new TableDataProviderDesignState(objectList);
+                if(currentModelBean == objectList){
+                    currentTableDataProviderDesignState = tableDataProviderDesignState;
+                    tableDataProviderDesignState.setColumnDesignStates(tableRowGroupDesignState.getColumnDesignStates());
+                    tableDataProviderDesignState.setSelectedColumnNames(tableRowGroupDesignState.getSelectedColumnNames());
                 }
+                tableDataProviderDesignState.initialize();
+                dataProviderList.put(objectList, tableDataProviderDesignState);
+                dataProviderComboBoxModel.addElement(objectList);
             }
             
             // Allow to Object Array as Data to the table
@@ -165,17 +163,15 @@ public class TableBindToDataPanel extends javax.swing.JPanel implements DesignCo
             DesignBean[] objectArrayBeans = designContexts[i].getBeansOfType(Object[].class);
             for (int j = 0; j < objectArrayBeans.length; j++) {
                 DesignBean objectArray = objectArrayBeans[j];
-                if(objectArray.getInstance() instanceof Object[]){
-                    TableDataProviderDesignState tableDataProviderDesignState = new TableDataProviderDesignState(objectArray);
-                    if(currentModelBean == objectArray){
-                        currentTableDataProviderDesignState = tableDataProviderDesignState;
-                        tableDataProviderDesignState.setColumnDesignStates(tableRowGroupDesignState.getColumnDesignStates());
-                        tableDataProviderDesignState.setSelectedColumnNames(tableRowGroupDesignState.getSelectedColumnNames());
-                    }
-                    tableDataProviderDesignState.initialize();
-                    dataProviderList.put(objectArray, tableDataProviderDesignState);
-                    dataProviderComboBoxModel.addElement(objectArray);
+                TableDataProviderDesignState tableDataProviderDesignState = new TableDataProviderDesignState(objectArray);
+                if(currentModelBean == objectArray){
+                    currentTableDataProviderDesignState = tableDataProviderDesignState;
+                    tableDataProviderDesignState.setColumnDesignStates(tableRowGroupDesignState.getColumnDesignStates());
+                    tableDataProviderDesignState.setSelectedColumnNames(tableRowGroupDesignState.getSelectedColumnNames());
                 }
+                tableDataProviderDesignState.initialize();
+                dataProviderList.put(objectArray, tableDataProviderDesignState);
+                dataProviderComboBoxModel.addElement(objectArray);
             }
         }
         cbxTableDataprovider.setRenderer(new DPComboRenderer());
@@ -523,8 +519,8 @@ public class TableBindToDataPanel extends javax.swing.JPanel implements DesignCo
     }//GEN-LAST:event_cbxTableDataproviderItemStateChanged
     
     private void addDataProviderButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addDataProviderButtonActionPerformed
-//        AddDataProviderDialog addDataProviderDialog = new AddDataProviderDialog();
-//        addDataProviderDialog.showDialog();
+        //        AddDataProviderDialog addDataProviderDialog = new AddDataProviderDialog();
+        //        addDataProviderDialog.showDialog();
     }//GEN-LAST:event_addDataProviderButtonActionPerformed
     
     private void selectedColumnsValueChanged(javax.swing.event.ListSelectionEvent evt) {//GEN-FIRST:event_selectedColumnsValueChanged
