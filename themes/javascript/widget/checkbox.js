@@ -61,15 +61,43 @@ webui.@THEME@.widget.checkbox = function() {
         this.domNode.refresh = function(execute) { return dojo.widget.byId(this.id).refresh(execute); }
 
         // Set private functions.
+        this.destroy = webui.@THEME@.widget.checkbox.destroy;
         this.getClassName = webui.@THEME@.widget.checkbox.getClassName;
         this.setProps = webui.@THEME@.widget.checkbox.setProps;
         this.getProps = webui.@THEME@.widget.checkbox.getProps;
         this.getInputElement = webui.@THEME@.widget.checkbox.getInputElement;
-        this.refresh = webui.@THEME@.widget.checkbox.refresh.processEvent;        
+        this.refresh = webui.@THEME@.widget.checkbox.refresh.processEvent;            
 
         // Set properties.
         return this.setProps();
     }
+}
+
+/**
+ * Helper function to remove all the existing widgets.
+ *
+ */
+webui.@THEME@.widget.checkbox.destroy = function() {
+      // Remove label widget.
+    if (this.label != null) {
+        var labelWidget = dojo.widget.byId(this.label.id);
+        if (labelWidget) {
+            labelWidget.destroy();            
+        }
+    }
+    
+    // Remove image widget.
+    if (this.image != null) {
+        var imageWidget = dojo.widget.byId(this.image.id);
+        if (imageWidget) {
+            imageWidget.destroy();                        
+        }
+    }
+
+    // Remove this widget.
+    dojo.widget.removeWidgetById(this.id);
+   
+    return true; 
 }
 
 /**

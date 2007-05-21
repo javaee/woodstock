@@ -58,18 +58,46 @@ webui.@THEME@.widget.radioButton = function() {
         this.domNode.getProps = function() { return dojo.widget.byId(this.id).getProps(); }
         this.domNode.setProps = function(props) { return dojo.widget.byId(this.id).setProps(props); }
         this.domNode.getInputElement = function() { return dojo.widget.byId(this.id).getInputElement(); }
-        this.domNode.refresh = function(execute) { return dojo.widget.byId(this.id).refresh(execute); }
+        this.domNode.refresh = function(execute) { return dojo.widget.byId(this.id).refresh(execute); }     
 
         // Set private functions 
+        this.destroy = webui.@THEME@.widget.radioButton.destroy;        
         this.getClassName = webui.@THEME@.widget.radioButton.getClassName;      
         this.getProps = webui.@THEME@.widget.radioButton.getProps;
         this.setProps = webui.@THEME@.widget.radioButton.setProps;    
         this.getInputElement = webui.@THEME@.widget.radioButton.getInputElement;
         this.refresh = webui.@THEME@.widget.radioButton.refresh.processEvent;
-
+        
+        
         // Set properties.
         return this.setProps();
     }
+}
+
+
+/**
+ * Helper function to remove all the existing widgets.
+ *
+ */
+webui.@THEME@.widget.radioButton.destroy = function() {
+    // Remove label widget.
+    if (this.label != null) {
+        var labelWidget = dojo.widget.byId(this.label.id);
+        if (labelWidget) {                        
+            labelWidget.destroy();
+        }
+    }
+    
+    // Remove image widget.
+    if (this.image != null) {
+        var imageWidget = dojo.widget.byId(this.image.id);
+        if (imageWidget) {                  
+            imageWidget.destroy();           
+        }
+    } 
+
+    // Remove this widget.
+    dojo.widget.removeWidgetById(this.id);  
 }
 
 /**

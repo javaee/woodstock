@@ -52,13 +52,25 @@ webui.@THEME@.widget.image = function() {
         this.domNode.setProps = function(props) { return dojo.widget.byId(this.id).setProps(props); }
 
         // Set private functions.
+        this.destroy = webui.@THEME@.widget.image.destroy;
         this.getProps = webui.@THEME@.widget.image.getProps;
-        this.refresh = webui.@THEME@.widget.image.refresh.processEvent;
+        this.refresh = webui.@THEME@.widget.image.refresh.processEvent;        
         this.setProps = webui.@THEME@.widget.image.setProps;
 
         // Set properties.
         return this.setProps();
     }
+}
+
+/**
+ * Helper function to remove the existing widget.
+ *
+ */
+webui.@THEME@.widget.image.destroy = function() {    
+    // Remove this widget.     
+    dojo.widget.removeWidgetById(this.id);
+   
+    return true;   
 }
 
 /**

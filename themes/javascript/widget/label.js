@@ -61,15 +61,49 @@ webui.@THEME@.widget.label = function() {
         this.domNode.setProps = function(props) { return dojo.widget.byId(this.id).setProps(props); }
 
         // Set private functions.
+        this.destroy = webui.@THEME@.widget.label.destroy;
         this.getClassName = webui.@THEME@.widget.label.getClassName;
 	this.getProps = webui.@THEME@.widget.label.getProps;
-        this.refresh = webui.@THEME@.widget.label.refresh.processEvent;
+        this.refresh = webui.@THEME@.widget.label.refresh.processEvent;      
         this.setProps = webui.@THEME@.widget.label.setProps;
         this.validate = webui.@THEME@.widget.label.validation.processEvent;
 
         // Set properties.
         return this.setProps();
     }
+}
+
+/**
+ * Helper function to remove all the existing widgets.
+ *
+ */
+webui.@THEME@.widget.label.destroy = function() {    
+    // Remove error image widget.
+    if (this.errorImage != null) {
+        var errorImageWidget = dojo.widget.byId(this.errorImage.id); 
+        if (errorImageWidget) {
+            errorImageWidget.destroy();                        
+        }        
+    }
+    
+    // Remove required image widget.     
+    if (this.requiredImage != null) {
+       var requiredImageWidget = dojo.widget.byId(this.requiredImage.id);
+       if (requiredImageWidget) {
+            requiredImageWidget.destroy();                  
+       }
+    }
+
+    // Remove contents.
+    if (this.contents != null) {	
+	for (var i = 0; i < this.contents.length; i++) {
+            var contentWidget = dojo.widget.byId(this.contents[i].id);
+            contentWidget.destroy();
+        }
+    }
+    
+    // Remove this widget.
+    dojo.widget.removeWidgetById(this.id);
 }
 
 /**
