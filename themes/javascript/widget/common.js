@@ -130,6 +130,12 @@ webui.@THEME@.widget.common = {
             if (props._widgetType == null) {
                 return false;
             } else {
+                // Destroy previously created widget.
+                var widget = dojo.widget.byId(props.id);
+                if (widget && typeof widget.destroy == "function") {
+                    widget.destroy(); // Remove widgets, events, etc.
+                }
+                
                 // Retrieve required modules.
                 if (props._modules) {
                     for (var i = 0; i < props._modules.length; i++) {
@@ -179,8 +185,8 @@ webui.@THEME@.widget.common = {
             }
         }
         return newNode; // Return widget object for calling widget.destroy().
-    },
-    
+    },  
+  
     /**
      * This function is used to extend the given object with Key-Value pairs of
      * properties. If a property is an object containing Key-Value pairs itself,
