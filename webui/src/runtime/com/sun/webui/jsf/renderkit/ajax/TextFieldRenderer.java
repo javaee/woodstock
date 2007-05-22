@@ -83,23 +83,12 @@ rendererType="com.sun.webui.jsf.ajax.TextField",
         if (ComponentUtilities.isAjaxRequest(context, component, "refresh") ) {
             super.encodeChildren(context, component);
         }
-        
-        // "submit" request
-        if (ComponentUtilities.isAjaxRequest(context, component, "submit")) {
-            try {
-                JSONObject json = new JSONObject();
-                json.put("id", component.getClientId(context));
-                json.write(context.getResponseWriter());
-            } catch(JSONException e) {
-                e.printStackTrace();
-            }
-            return;
-        }
-        
+                
         // Return if Ajax request and is not validate event.
         // "submit" request would return here
-        if (ComponentUtilities.isAjaxRequest(context, component, "validate")) {
-            
+        if (ComponentUtilities.isAjaxRequest(context, component, "validate") ||
+            ComponentUtilities.isAjaxRequest(context, component, "submit")                
+                ) {            
             try {
                 boolean valid = ((TextField) component).isValid();
                 JSONObject json = new JSONObject();

@@ -87,8 +87,20 @@ rendererType="com.sun.webui.jsf.ajax.TextArea",
         // "submit" request
         if (ComponentUtilities.isAjaxRequest(context, component, "submit")) {
             try {
+                boolean valid = ((Field) component).isValid();
                 JSONObject json = new JSONObject();
-                json.put("id", component.getClientId(context));                
+                json.put("valid", valid);
+                json.put("id", component.getClientId(context));
+                
+                if (!valid) {
+                    Iterator msgs = context.getMessages(component.getClientId(context));
+                    if (msgs.hasNext()) {
+                        FacesMessage msg = (FacesMessage) msgs.next();
+                        json.put("detail", msg.getDetail());
+                        json.put("summary", msg.getSummary());
+                        json.put("severity", msg.getSeverity());
+                    }
+                }
                 json.write(context.getResponseWriter());
             } catch(JSONException e) {
                 e.printStackTrace();
