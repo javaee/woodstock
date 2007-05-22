@@ -145,6 +145,29 @@ body {
 .CbGrp@THEME_CSS@ label, .RbGrp@THEME_CSS@ label {
 	vertical-align: 6px;
 }
+
+/* CHECKBOX GROUP AND RADIO BUTTON GROUP */
+.RbCb@THEME_CSS@ {
+    padding:0;
+}
+.RbCbUl@THEME_CSS@ ul {
+    clear:left;
+    float:left;
+    list-style:none;
+    margin:0;
+    padding:0;
+    text-align:right;
+}
+/*
+.RbCbUlLi@THEME_CSS@ ul li {
+    float:left;
+    margin:0 10px 0 0;
+}
+*/
+.RbCbClear@THEME_CSS@ {
+    clear:both;
+}
+
 /*---*/
 
 /* EDITABLE LIST */

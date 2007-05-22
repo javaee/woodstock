@@ -86,6 +86,11 @@ public class ThemeTemplates {
      * A template file that contains HTML for the radioButton component.
      */
     public static final String RADIOBUTTON = "radioButton"; 
+    
+    /**
+     * A template file that contains HTML for the radioButton and checkbox groups components.
+     */
+    public static final String RBCBGroup = "rbcbGroup"; 
 
     /**
      * A template file that contains HTML for the reset button component.

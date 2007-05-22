@@ -2345,12 +2345,8 @@ submitting field value<br>
       See <a href="checkbox.html" target="tagFrame">webuijsf:checkbox</a> for
       details on how the id properties of the components that make up the 
       checkbox are defined.
- </p>
-      <h3>Client Side Javascript Functions</h3>
- <p>
-      None.
- </p>
-      <h3>Example</h3>
+ </p>    
+       <h3>Example</h3>
       <b>Example 1: Create a checkbox group</b>
  <p>
       <code>
@@ -2372,7 +2368,158 @@ submitting field value<br>
       other attributes such as <code>selected</code> to receive the
       value of the selected checkboxes in the group.
  </p>
-      <h3>Theme Identifiers</h3>
+
+ 
+ <p>
+     <h3>Client Side Javascript Functions</h3>
+      When the component is rendered, a DOM object corresponding to the
+      component is created. To manipulate the component on the client side,
+      you may invoke functions on the DOM object. With reference to the DOM
+      id, to disable the component, invoke <code>document.getElementById(id).setProps({disabled:
+      true})</code>.<br>
+    <br>
+    <table style="text-align: left; width: 100%;" border="1" cellpadding="2"
+    cellspacing="2">
+  <tbody>    
+    <tr>
+      <td><code>getProps()</code></td>
+      <td>Use this function to get widget properties. Please see <code>setProps()</code>
+function for a list of supported properties.</td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top;"><code>refresh(execute)</code></td>
+      <td style="vertical-align: top;">Use this function to
+asynchronously refresh the component.<br>
+      <br>
+      <ul>
+        <li>execute: Comma separated string containing a list of client
+ids against which the <code>execute</code> portion of the request
+processing lifecycle must be run.</li>
+      </ul>
+      </td>
+    </tr>
+    <tr>
+      <td><code>setProps(props)</code></td>
+      <td>Use this function to change any of the following supported
+properties:
+      <ul>
+          <li>align</li> 
+          <li>className</li>
+          <li>contents</li>
+          <li>dir</li>
+          <li>disabled</li>
+          <li>id</li>
+          <li>label</li>
+          <li>lang</li>
+          <li>name</li>
+          <li>readOnly</li>    
+          <li>style</li>
+          <li>tabIndex</li>
+          <li>title</li>
+          <li>visible</li> 
+      </ul>
+      </td>
+    </tr>
+  </tbody>
+</table>
+<p></p>
+<p> 
+</p>
+ <h3>Client Side Javascript Events</h3>
+ When the component is manipulated client side, some functions may
+  publish event topics for custom AJAX implementations to listen
+  for. Using the Dojo event system, listen for the refresh event
+  topic using: <br>
+ <code>
+  dojo.event.topic.subscribe(
+    webui.@THEME@.widget.rbcbGroup.refresh.endEventTopic,
+    myObject, "myFunctionName");
+</code>.<br>
+<br>
+For example myObject can be webui.@THEME@.widget.jsfx.rbcbGroup <br>
+and myFunctionName is "procesRefreshEvent"
+    <br>   
+    <br>
+ <table style="text-align: left; width: 100%;" border="1" cellpadding="2"
+    cellspacing="2">
+    <tr>
+      <td>
+        webui.@THEME@.widget.rbcbGroup.refresh.beginEventTopic
+      </td>
+      <td>
+        Event topic published before asynchronously refreshing
+        the component. Supported properties include:
+
+        <ul>
+        <li>id</li>
+        <li>execute</li>
+        </ul>
+
+      </td>
+    </tr>
+    <tr>
+      <td>
+        webui.@THEME@.widget.rbcbGroup.refresh.endEventTopic
+      </td>
+      <td>
+        Event topic published after asynchronously refreshing
+        the component. Supported properties include:
+
+        See setProps() function.
+      </td>
+    </tr>
+  </table>
+
+<h4> Example 2: Update checkboxGroup client side using setProps function. </h4>
+<p>This example shows how to disable a checkboxGorup client
+side using setProps function. When the user clicks the button,
+the checkboxGroup is disabled.<code></code>
+</p>
+<pre>&lt;webuijsf:checkboxGroup id="cb1" name="cb1" items="#{rbcbGrp.selections}" selected="#{rbcbGrp.cbvalue}" label="#{rbcbGrp.cbGrpLabel}"/&gt;<br><code>&lt;webuijsf:button id="button1" text="Hide CheckboxGroup" </code>onClick="hideGroup()"<code>/&gt;</code></pre>
+<p> </p>
+<code></code>
+<pre>&lt;webuijsf:script&gt;         <br>   function hideGroup() { <br>        var domNode = document.getElementById("form1:cb1"); <br>        domNode.setProps({visible: false}); <br>    }        <br>&lt;/webuijsf:script&gt;          <br></pre>
+<h4> Example 3: Update checkboxGroup client side using getProps function. </h4>
+<p>This example shows how to toggle the disabled state of a checkboxGroup
+client side using getProps function. </p>
+<code></code>
+<pre>&lt;webuijsf:checkboxGroup id="cb1" name="cb1" items="#{rbcbGrp.selections}" selected="#{rbcbGrp.cbvalue}" label="#{rbcbGrp.cbGrpLabel}"/&gt;<br>&lt;webuijsf:button id="button1" text="Toggle CheckboxGroup Disabled" onClick="toggleDisabled(); return false"/&gt;<br><br>&lt;webuijsf:script&gt;         <br>   function toggleDisabled() { <br>        var domNode = document.getElementById("form1:cb1"); <br>        domNode.setProps({ disabled: !domNode.getProps().disabled });<br>    }        <br>&lt;/webuijsf:script&gt;<br></pre>
+<h4>Example 4: Asynchronously update checkboxGroup using refresh function:</h4>
+This example shows how to asynchronously update a checkboxGroup using
+the refresh function. When the user clicks on the button, the checkboxGroup
+is asynchronously updated with new data.<br>
+<pre>&lt;webuijsf:checkboxGroup id="cb1" name="cb1" items="#{rbcbGrp.selections}" selected="#{rbcbGrp.cbvalue}" label="#{rbcbGrp.cbGrpLabel}"/&gt;<br>&lt;webuijsf:button id="button1" text="Refresh CheckboxGroup" onClick="refreshGroup(); return false;"/&gt;<br></pre>
+<code>&lt;webuijsf:script&gt;<br>
+&nbsp;&nbsp;&nbsp; // Refresh checkboxGroup.<br>
+&nbsp;&nbsp;&nbsp; function refreshGroup() {<br>
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; var domNode =
+document.getElementById("form1:cb1"); // Get checkboxGroup<br>
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; return domNode.refresh(); //
+Asynchronously refresh checkboxGroup<br>
+&nbsp;&nbsp;&nbsp; }<br>
+&lt;/webuijsf:script&gt;</code>
+<h4>Example 5: Asynchronously update checkboxGroup using refresh function:</h4>
+This example shows how to asynchronously update a checkboxGroup using
+the refresh function. The execute property of the refresh function is
+used to define the client id which is to be submitted and updated
+server-side. As the user types in the text field, the input value is
+updated server-side and the checkboxGroup label is updated client-side
+-- all without a page refresh.
+<pre>&lt;webuijsf:checkboxGroup id="cb1" name="cb1" items="#{rbcbGrp.selections}" selected="#{rbcbGrp.cbvalue}" label="#{rbcbGrp.cbGrpLabel}"/&gt;<br>&lt;webuijsf:textField id="field1" text="#{rbcbGrp.cbGrpLabel}" label="Change CheckboxGroup Label" <br>          onKeyUp="refreshCheckboxGroup()"/&gt; // Field used to asynchronously update label.<br></pre>
+<code>&lt;webuijsf:script&gt;<br>
+&nbsp;&nbsp;&nbsp; // Refresh button.<br>
+&nbsp;&nbsp;&nbsp; function </code><code>refreshCheckboxGroup</code><code>()
+{<br>
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; var domNode =
+document.getElementById("form1:cb1"); // Get checkboxGroup<br>
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; return
+domNode.refresh("form1:field1"); // Asynchronously refresh while
+submitting field value<br>
+&nbsp;&nbsp;&nbsp; }<br>
+&lt;/webuijsf:script&gt;</code>
+<p></p>
+</p>
+ <h3>Theme Identifiers</h3>
  <p>
       <ul>
       <li>CbGrp for the TABLE element.</li>
@@ -5399,6 +5546,7 @@ properties:
         <name>image</name>
 
         <description><![CDATA[
+
 <p> Use the <code>webuijsf:image</code> tag to display an inline image
 in the rendered HTML page. The <code>url</code> attribute is used to
 specify the URL to the image file that is to be displayed. </p>
@@ -9433,11 +9581,7 @@ submitting field value<br>
  	details on how the id properties of the components that make up the 
  	radio button are defined.
  </p>
-         <h3>Client Side Javascript Functions</h3>
- <p>
- 	none.
- </p>
- 	<h3>Example</h3>
+ <h3>Example</h3>
  	<b>Example 1: Create a radio button group</b>
  	<p>
  	<code>
@@ -9460,6 +9604,154 @@ submitting field value<br>
  	other attributes such as <code>selected</code> to receive the
  	value of the selected radio button in the group.
  	</p>
+ 	
+         <h3>Client Side Javascript Functions</h3>
+ <p>
+     
+      When the component is rendered, a DOM object corresponding to the
+      component is created. To manipulate the component on the client side,
+      you may invoke functions on the DOM object. With reference to the DOM
+      id, to disable the component, invoke <code>document.getElementById(id).setProps({disabled:
+      true})</code>.<br>
+    <br>
+    <table style="text-align: left; width: 100%;" border="1" cellpadding="2"
+    cellspacing="2">
+  <tbody>    
+    <tr>
+      <td><code>getProps()</code></td>
+      <td>Use this function to get widget properties. Please see <code>setProps()</code>
+function for a list of supported properties.</td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top;"><code>refresh(execute)</code></td>
+      <td style="vertical-align: top;">Use this function to
+asynchronously refresh the component.<br>
+      <br>
+      <ul>
+        <li>execute: Comma separated string containing a list of client
+ids against which the <code>execute</code> portion of the request
+processing lifecycle must be run.</li>
+      </ul>
+      </td>
+    </tr>
+    <tr>
+      <td><code>setProps(props)</code></td>
+      <td>Use this function to change any of the following supported
+properties:
+      <ul>
+          <li>align</li> 
+          <li>className</li>
+          <li>contents</li>
+          <li>dir</li>
+          <li>disabled</li>
+          <li>id</li>
+          <li>label</li>
+          <li>lang</li>
+          <li>name</li>
+          <li>readOnly</li>    
+          <li>style</li>
+          <li>tabIndex</li>
+          <li>title</li>
+          <li>visible</li> 
+      </ul>
+      </td>
+    </tr>
+  </tbody>
+</table>
+<p></p>
+<h3>Client Side Javascript Events</h3>
+ When the component is manipulated client side, some functions may
+  publish event topics for custom AJAX implementations to listen
+  for. Using the Dojo event system, listen for the refresh event
+  topic using: <br>
+ <code>
+  dojo.event.topic.subscribe(
+    webui.@THEME@.widget.rbcbGroup.refresh.endEventTopic,
+    myObject, "myFunctionName");
+</code>.<br>
+<br>
+For example myObject can be webui.@THEME@.widget.jsfx.rbcbGroup <br>
+and myFunctionName is "procesRefreshEvent"
+    <br>   
+    <br>
+  <table style="text-align: left; width: 100%;" border="1" cellpadding="2"
+    cellspacing="2">
+    <tr>
+      <td>
+        webui.@THEME@.widget.rbcbGroup.refresh.beginEventTopic
+      </td>
+      <td>
+        Event topic published before asynchronously refreshing
+        the component. Supported properties include:
+
+        <ul>
+        <li>id</li>
+        <li>execute</li>
+        </ul>
+
+      </td>
+    </tr>
+    <tr>
+      <td>
+        webui.@THEME@.widget.rbcbGroup.refresh.endEventTopic
+      </td>
+      <td>
+        Event topic published after asynchronously refreshing
+        the component. Supported properties include:
+
+        See setProps() function.
+      </td>
+    </tr>
+  </table>
+<h4> Example 2: Update radioButtonGroup client side using setProps function. </h4>
+<p>This example shows how to hide a radioButtonGroup client
+side using setProps function. When the user clicks the button,
+the radioButtonGroup is hidden.<code></code>
+</p>
+<pre>&lt;webuijsf:radioButtonGroup id="rb1" name="rb1" items="#{rbcbGrp.selections}" selected="#{rbcbGrp.cbvalue}" label="#{rbcbGrp.cbGrpLabel}"/&gt;<br><code>&lt;webuijsf:button id="button1" text="Hide radioButtonGroup" </code>onClick="hideGroup()"<code>/&gt;</code></pre>
+<p> </p>
+<code></code>
+<pre>&lt;webuijsf:script&gt;         <br>   function hideGroup() { <br>        var domNode = document.getElementById("form1:rb1"); <br>        domNode.setProps({visible: false}); <br>    }        <br>&lt;/webuijsf:script&gt;          <br></pre>
+<h4> Example 3: Update radioButtonGroup client side using getProps function. </h4>
+<p>This example shows how to toggle the disabled state of a radioButtonGroup
+client side using getProps function. </p>
+<code></code>
+<pre>&lt;webuijsf:radioButtonGroup id="rb1" name="rb1" items="#{rbcbGrp.selections}" selected="#{rbcbGrp.cbvalue}" label="#{rbcbGrp.cbGrpLabel}"/&gt;<br>&lt;webuijsf:button id="button1" text="Toggle radioButtonGroup Disabled" onClick="toggleDisabled(); return false"/&gt;<br><br>&lt;webuijsf:script&gt;         <br>   function toggleDisabled() { <br>        var domNode = document.getElementById("form1:rb1"); <br>        domNode.setProps({ disabled: !domNode.getProps().disabled });<br>    }        <br>&lt;/webuijsf:script&gt;<br></pre>
+<h4>Example 4: Asynchronously update radioButtonGroup using refresh function:</h4>
+This example shows how to asynchronously update a radioButtonGroup using
+the refresh function. When the user clicks on the button, the radioButtonGroup
+is asynchronously updated with new data.<br>
+<pre>&lt;webuijsf:radioButtonGroup id="rb1" name="rb1" items="#{rbcbGrp.selections}" selected="#{rbcbGrp.cbvalue}" label="#{rbcbGrp.cbGrpLabel}"/&gt;<br>&lt;webuijsf:button id="button1" text="Refresh radioButtonGroup" onClick="refreshGroup(); return false;"/&gt;<br></pre>
+<code>&lt;webuijsf:script&gt;<br>
+&nbsp;&nbsp;&nbsp; // Refresh radioButtonGroup.<br>
+&nbsp;&nbsp;&nbsp; function refreshGroup() {<br>
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; var domNode =
+document.getElementById("form1:cb1"); // Get radioButtonGroup<br>
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; return domNode.refresh(); //
+Asynchronously refresh radioButtonGroup<br>
+&nbsp;&nbsp;&nbsp; }<br>
+&lt;/webuijsf:script&gt;</code>
+<h4>Example 5: Asynchronously update radioButtonGroup using refresh function:</h4>
+This example shows how to asynchronously update a radioButtonGroup using
+the refresh function. The execute property of the refresh function is
+used to define the client id which is to be submitted and updated
+server-side. As the user types in the text field, the input value is
+updated server-side and the radioButtonGroup label is updated client-side
+-- all without a page refresh.
+<pre>&lt;webuijsf:radioButtonGroup id="rb1" name="rb1" items="#{rbcbGrp.selections}" selected="#{rbcbGrp.cbvalue}" label="#{rbcbGrp.cbGrpLabel}"/&gt;<br>&lt;webuijsf:textField id="field1" text="#{rbcbGrp.cbGrpLabel}" label="Change radioButtonGroup Label" <br>          onKeyUp="refreshRadioButtonGroup()"/&gt; // Field used to asynchronously update label.<br></pre>
+<code>&lt;webuijsf:script&gt;<br>
+&nbsp;&nbsp;&nbsp; // Refresh button.<br>
+&nbsp;&nbsp;&nbsp; function </code><code>refreshRadioButtonGroup</code><code>()
+{<br>
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; var domNode =
+document.getElementById("form1:cb1"); // Get radioButtonGroup<br>
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; return
+domNode.refresh("form1:field1"); // Asynchronously refresh while
+submitting field value<br>
+&nbsp;&nbsp;&nbsp; }<br>
+&lt;/webuijsf:script&gt;</code>
+<p></p> 
+</p>
  	<h3>CSS style selectors</h3>
  <p>
  	<ul>

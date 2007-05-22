@@ -310,6 +310,7 @@ webui.@THEME@.checkbox = {
      * @param controlName The checkbox group control name
      * @param disabled true or false
      * @return true if successful; otherwise, false
+     * @deprecated Use document.getElementById(id).setProps({ disabled: boolean });
      */
     setGroupDisabled: function(controlName, disabled) {    
         return webui.@THEME@.rbcb.setGroupDisabled(controlName,
@@ -845,50 +846,16 @@ webui.@THEME@.rbcb = {
      * @param elementId The element Id
      * @param formName The name of the form containing the element
      * @param disabled true or false
-     * @return true if successful; otherwise, false     
+     * @return true if successful; otherwise, false    
+     * @deprecated Use document.getElementById(id).setProps({ disabled: boolean });
      */
     setGroupDisabled: function(controlName, disabled, type, enabledStyle,
             disabledStyle) {
-        // Validate params.
-        if (controlName == null) {
-            return false;
+        var domNode = document.getElementById(controlName);
+        if(domNode) {
+            return domNode.setProps({ disabled: disabled });
         }
-        if (disabled == null) {
-            return false;
-        }
-        if (type == null) {
-            return false;
-        }
-
-        // Get radiobutton group elements.
-        var x = document.getElementsByName(controlName)
- 
-        // Set disabled state.
-        for (var i = 0; i < x.length; i++) {
-            // Get element.
-            var element = x[i];
-            if (element == null || element.name != controlName) {
-                continue;
-            }
-            // Validate element type.
-            if (element.type.toLowerCase() != type) {
-                return false;
-            }
-            // Set disabled state.
-            element.disabled = new Boolean(disabled).valueOf();
-
-            // Set class attribute.
-            if (element.disabled) {
-                if (disabledStyle != null) {
-                    element.className = disabledStyle;
-                }
-            } else {
-                if (enabledStyle != null) {
-                    element.className = enabledStyle;
-                }
-            }
-        }
-        return true;
+        return false;
     }
 }
 
@@ -922,6 +889,7 @@ webui.@THEME@.radiobutton = {
      * @param controlName The radio button group control name
      * @param disabled true or false
      * @return true if successful; otherwise, false
+     * @deprecated Use document.getElementById(id).setProps({ disabled: boolean });
      */
     setGroupDisabled: function(controlName, disabled) {    
         return webui.@THEME@.rbcb.setGroupDisabled(controlName, 

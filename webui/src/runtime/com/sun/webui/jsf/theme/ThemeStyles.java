@@ -314,6 +314,14 @@ public class ThemeStyles {
     public static final String RADIOBUTTON_GROUP_ROW_ODD 	= "RADIOBUTTON_GROUP_ROW_ODD";
     public static final String RADIOBUTTON_GROUP_CELL_EVEN 	= "RADIOBUTTON_GROUP_CELL_EVEN";
     public static final String RADIOBUTTON_GROUP_CELL_ODD 	= "RADIOBUTTON_GROUP_CELL_ODD";
+    
+    /**
+     * Radio Button Group and Checkbox Group Widget Styles
+     */
+    public static final String RBCB="RBCB";
+    public static final String RBCB_UL="RBCB_UL";
+    //public static final String RBCB_UL_LI="RBCB_UL_LI";
+    public static final String RBCB_CLEARBOTH="RBCB_CLEARBOTH";
 
     /** 
      * Inline Alert Styles. 

@@ -78,7 +78,7 @@
         
     <renderer>
       <component-family>com.sun.webui.jsf.CheckboxGroup</component-family>
-      <renderer-type>com.sun.webui.jsf.CheckboxGroupDesignTime</renderer-type>
+      <renderer-type>com.sun.webui.jsf.widget.CheckboxGroupDesignTime</renderer-type>
       <renderer-class>com.sun.webui.jsf.renderkit.html.CheckboxGroupDesignTimeRenderer</renderer-class>
     </renderer>
     
@@ -213,7 +213,7 @@
     
     <renderer>
       <component-family>com.sun.webui.jsf.RadioButtonGroup</component-family>
-      <renderer-type>com.sun.webui.jsf.RadioButtonGroupDesignTime</renderer-type>
+      <renderer-type>com.sun.webui.jsf.widget.RadioButtonGroupDesignTime</renderer-type>
       <renderer-class>com.sun.webui.jsf.renderkit.html.RadioButtonGroupDesignTimeRenderer</renderer-class>
     </renderer>
     
