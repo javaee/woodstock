@@ -244,7 +244,7 @@ public class Table2RowGroupRenderer extends RendererBase {
         component.setRows(maxRows * 2);
 
         // Get rendered row keys.
-        RowKey[] rowKeys = component.getSortedRowKeys();
+        RowKey[] rowKeys = component.getRenderedRowKeys();
         if (rowKeys == null) {
             return;
         }
