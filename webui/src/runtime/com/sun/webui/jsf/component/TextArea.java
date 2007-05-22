@@ -54,7 +54,7 @@ type="com.sun.webui.jsf.TextArea",
         helpKey="projrave_ui_elements_palette_wdstk-jsf1.2_text_area",
         propertiesHelpKey="projrave_ui_elements_palette_wdstk-jsf1.2_propsheets_text_area_props")
         
-        public class TextArea extends Field {
+        public class TextArea extends TextField {
     /**
      * Default constructor.
      */
@@ -202,65 +202,6 @@ type="com.sun.webui.jsf.TextArea",
             setAjaxify(true);
     }
     
-// ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-// Lifecycle management
-// ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    
-    /**
-     * <p>Specialized validation behavior on top of that provided by the
-     * superclass.
-     *  <ul>
-     *  <li>This method will skip validation for "refresh" type of Ajax request
-     *  </ul>
-     *
-     *	@param	context	<code>FacesContext</code> for this request
-     */
-    public void processValidators(FacesContext context) {
-        if (context == null)
-            return;
-        // Skip procesing in case of "refresh" ajax request
-        if (ComponentUtilities.isAjaxRequest(getFacesContext(), this, "refresh")) {
-            return; // Skip processing for ajax based validation events.
-        }
-        super.processValidators(context);
-    }
-    /**
-     * <p>Specialized decode behavior on top of that provided by the
-     * superclass.
-     *  <ul>
-     *  <li>This method will skip decoding for "refresh" type of Ajax request
-     *  </ul>
-     *
-     *	@param	context	<code>FacesContext</code> for this request
-     */
-    public void processDecodes(FacesContext context) {
-        if (context == null)
-            return;
-        // Skip processing in case of "refresh" ajax request
-        if (ComponentUtilities.isAjaxRequest(getFacesContext(), this, "refresh")) {
-            return;
-        }
-        super.processDecodes(context);
-    }
-
-    /**
-     * <p>Specialized model update behavior on top of that provided by the
-     * superclass.
-     *  <ul>
-     *  <li>This method will skip decoding for "refresh" type of Ajax request
-     *  </ul>
-     *	@param	context	<code>FacesContext</code> for this request
-     */
-    
-    public void processUpdates(FacesContext context) {
-        if (context == null)
-            return;
-        // Skip model update in case of "refresh" ajax request
-        if (ComponentUtilities.isAjaxRequest(getFacesContext(), this, "refresh")) {
-            return; // Skip processing for ajax based validation events.
-        }
-        super.processUpdates(context);
-    }
     
 // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 // save/restore state
