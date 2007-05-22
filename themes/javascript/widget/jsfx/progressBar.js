@@ -90,6 +90,7 @@ webui.@THEME@.widget.jsfx.progressBar =  {
             render: props.id,
             replaceElement: webui.@THEME@.widget.jsfx.progressBar.refreshCallback,
             xjson: {
+                id: props.id,
                 event: "refresh"
             }
         });

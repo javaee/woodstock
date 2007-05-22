@@ -21,7 +21,7 @@
  */
 
 /*
- * $Id: ComponentUtilities.java,v 1.6 2007-05-21 19:33:15 dkushner Exp $
+ * $Id: ComponentUtilities.java,v 1.7 2007-05-22 21:05:05 danl Exp $
  */
 
 package com.sun.webui.jsf.util;
@@ -217,8 +217,9 @@ public class ComponentUtilities {
      */
     public static boolean isAjaxRequest(FacesContext context,
             UIComponent component, String event) {
-        if (context == null || component == null) 
+        if (context == null || component == null) {
             return false;
+        }
         boolean isAjaxRequest = false;
         
         // Ensure this request is not for an AjaxZone.
@@ -226,7 +227,7 @@ public class ComponentUtilities {
             try {
                 Map map = context.getExternalContext().getRequestHeaderMap();
                 JSONObject xjson = new JSONObject((String)
-                map.get(AsyncResponse.XJSON_HEADER));
+                    map.get(AsyncResponse.XJSON_HEADER));
                 
                 String id = (String) xjson.get("id");
                 if (component.getClientId(context).equals(id)) {
@@ -261,23 +262,26 @@ public class ComponentUtilities {
      */
     public static boolean isAjaxExecuteRequest(FacesContext context,
             UIComponent component) {
-        if (context == null || component == null) 
+        if (context == null || component == null) {
             return false;
+        }
         
         // Ensure this request is not for an AjaxZone.
         if (AsyncResponse.isAjaxRequest()) {
             Map<String,String> map = context.getExternalContext().getRequestHeaderMap();
             String listToExecute = map.get(AsyncResponse.EXECUTE_HEADER);
-            if (listToExecute == null || listToExecute.equals("none"))
+            if (listToExecute == null || listToExecute.equals("none")) {
                 return false;
+            }
             
             String compId = component.getClientId(context);
             //fireAjaxTransaction syntax calls for comma-separted list of ids
             //thereby we tokenize by " " and ","
             StringTokenizer st = new StringTokenizer(listToExecute, ", ");
             while (st.hasMoreTokens()) {
-                if (st.nextToken().equals(compId))
+                if (st.nextToken().equals(compId)) {
                     return true;
+                }
             }            
         }
         return false;

@@ -43,7 +43,6 @@
       * @param props Key-Value pairs of properties.
       */
      processRefreshEvent: function(props) {
-         
          if (props == null) {
              return false;
          }

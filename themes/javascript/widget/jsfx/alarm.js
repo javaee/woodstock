@@ -43,7 +43,6 @@
       * @param props Key-Value pairs of properties.
       */
      processRefreshEvent: function(props) {
-         
          if (props == null) {
              return false;
          }
@@ -85,7 +84,7 @@
          var widget = dojo.widget.byId(id);
          widget.setProps(json);
  
-        // Publish an event for custom AJAX implementations to listen for.
+         // Publish an event for custom AJAX implementations to listen for.
          webui.@THEME@.widget.alarm.refresh.publishEndEvent(json);
          return true;
     }

@@ -90,8 +90,9 @@ webui.@THEME@.widget.jsfx.table2RowGroup = {
             render: props.id,
             replaceElement: webui.@THEME@.widget.jsfx.table2RowGroup.scrollCallback,
             xjson: {
-                first: props.first,
-                event: "scroll"
+                id: props.id,
+                event: "scroll",
+                first: props.first
             }
         });
         return true;
