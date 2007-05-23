@@ -258,6 +258,12 @@
       <renderer-type>com.sun.webui.jsf.widget.TextFieldDesignTime</renderer-type>
       <renderer-class>com.sun.webui.jsf.renderkit.html.TextFieldDesignTimeRenderer</renderer-class>
     </renderer>
+
+    <renderer>
+      <component-family>com.sun.webui.jsf.EditableField</component-family>
+      <renderer-type>com.sun.webui.jsf.widget.EditableFieldDesignTime</renderer-type>
+      <renderer-class>com.sun.webui.jsf.renderkit.html.EditableFieldDesignTimeRenderer</renderer-class>
+    </renderer>
     
     <renderer>
       <component-family>com.sun.webui.jsf.TreeNode</component-family>

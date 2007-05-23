@@ -16506,6 +16506,140 @@ Function can optionally take a list of elements to execute. Thus, a comma-separa
 ]]></description>
     </tag>
 
+
+
+    <tag>
+        <name>editableField</name>
+        <description><![CDATA[ 
+      
+        <p> Use the <code>webuijsf:editableField</code> tag to create an input field for a single line of text.</p>
+<h3>HTML Elements and Layout</h3>
+<p>The editableField component renders borderless readonly XHTML <code>&lt;input type="text"&gt;</code>element that 
+can be edited inline. Initial ( read-only ) state resembles regular static text, and it can be edited upon 
+onDblClick event or &lt;SPACE&gt; key pressed. Once field looses focus ( onBlur event), it enters the read-only state again.</p>
+If editableField is modified and if autoSave is set to true (default value), the updated data will be automatically submitted to the server
+via Ajax request.
+<p>EditableField inherits most of the functionality and attributes from TextField. See <code>webuijsf:textField</code> component description for details and examples. </p>
+<h3>Configuring the <code>webuijsf:editableField</code> Tag</h3>
+<p>See <code>webuijsf:textField</code> component description for details and examples. With the exception for autoValidate, all of the usage and attribute examples for textField can be used with editField by replacing tag into <code>webuijsf:editableField</code> .
+<h3>Client Side Javascript Functions</h3>
+When the component is rendered, a DOM object corresponding to the component is created. To manipulate the component on the client side, you may invoke functions on the DOM object. With reference to the DOM id, to disable the component, invoke <code>document.getElementById(id).setProps({disabled: true})</code>.<br>
+<br>
+<table style="text-align: left; width: 100%;" border="1" cellpadding="2"
+ cellspacing="2">
+  <tbody>
+    <tr>
+      <td style="vertical-align: top;"><code>getInputElement()</code></td>
+      <td style="vertical-align: top;">Use this function to access the HTML <code>&lt;input&gt;</code> element that is rendered by the component.</td>
+    </tr>
+    <tr>
+      <td><code>getProps()</code></td>
+      <td>Use this function to get widget properties. Please see <code>setProps()</code> function for a list of supported properties.</td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top;"><code>refresh(execute)</code><br>
+      </td>
+      <td style="vertical-align: top;">Use this function to asynchronously refresh the component.<br>
+        <br>
+        <ul>
+          <li>[optional] execute: Comma separated string containing a list of client ids against which the <code>execute</code> portion of the request processing lifecycle must be run.</li>
+        </ul></td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top;"><code>submit(execute)</code><br>
+      </td>
+      <td style="vertical-align: top;">Use this function to asynchronously submit the component.<br>
+        <br>
+        <ul>
+          <li>[optional] execute: Comma separated string containing a list of client ids against which the <code>execute</code> portion of the request processing lifecycle must be run.</li>
+        </ul></td>
+    </tr>
+    <tr>
+      <td><code>setProps(props)</code></td>
+      <td>Use this function to change any of the following supported properties:<br>
+        <ul>
+          <li>accesskey</li>
+          <li>autoSave</li>
+          <li>className</li>
+          <li>dir</li>
+          <li>disabled</li>
+          <li>id</li>
+          <li>label</li>
+          <li>lang<br>
+          </li>
+          <li>onClick</li>
+          <li>onDblClick</li>
+          <li>onFocus</li>
+          <li>onKeyDown</li>
+          <li>onKeyPress</li>
+          <li>onKeyUp</li>
+          <li>onMouseDown</li>
+          <li>onMouseMove</li>
+          <li>onMouseOut</li>
+          <li>onMouseOver</li>
+          <li>onMouseUp</li>
+          <li>readOnly</li>
+          <li>required</li>
+          <li>size</li>
+          <li>style</li>
+          <li>tabIndex</li>
+          <li>title</li>
+          <li>valid</li>
+          <li>value</li>
+          <li>visible</li>
+        </ul></td>
+    </tr>
+  </tbody>
+</table>
+
+  <h3>Client Side JavaScript Events</h3>
+  <p> When the component is manipulated client side, some functions may
+  publish event topics for custom AJAX implementations to listen
+  for. Using the Dojo event system, listen for the refresh event topic
+  using:</p>
+  <pre> dojo.event.topic.subscribe(     <br>		webui.@THEME@.widget.editableField.&lt;eventname&gt;.endEventTopic,
+	    myObject, "myFunctionName"); </pre>
+  <p>The following events are provided by the EditableField</p>
+  <table border="1">
+    <tr>
+      <td>webui_@THEME@_widget_editableField_refresh_begin</td>
+      <td>
+        Event topic published before asynchronously refreshing
+        the component. Supported properties include:<ul><li>execute - list of the components to be executed before component is refreshed </li>
+        </ul>
+
+      </td>
+    </tr>
+    <tr>
+      <td>
+        webui_@THEME@_widget_editableField_refresh_end</td>
+      <td>
+        <p>Event topic published after asynchronously refreshing
+        the component. Supported properties include:</p>
+        <ul>
+          <li>            json - object containing properties of the component. See setProps() function for details on properties and their usage </li>
+        </ul></td>
+    </tr>
+    <tr>
+      <td>webui_@THEME@_widget_editableField_submit_begin</td>
+      <td>Event topic published before asynchronously submitting the component. Supported properties include:
+        <ul>
+          <li>execute - list of the components to be executed along with this component </li>
+      </ul></td>
+    </tr>
+    <tr>
+      <td>webui_@THEME@_widget_editableField_submit_end</td>
+      <td><p>Event topic published after asynchronously submitting the component. Supported properties include:</p>
+        <ul>
+          <li> json - object containing messages (if any) raised by the server.In particular, valdiation messages will be present here if validation failed. </li>
+      </ul></td>
+    </tr>
+</table>
+
+        
+        ]]></description>
+    </tag>    
+    
     <tag>
         <name>timeStamp</name>
 

@@ -828,19 +828,19 @@ a.DatOthBldLnk@THEME_CSS@:link, a.DatOthBldLnk@THEME_CSS@:visited {
 /*---*/
 
 /* EDITABLE FIELDS */
-.EditableFld_Edit@THEME_CSS@ {
+.EdtFld_Edt@THEME_CSS@ {
 	border: none;
 	border-width:0px;
 	padding:1px 0 0 2px;
         background-color: #CCCCEE;        
 }
-.EditableFldDis@THEME_CSS@ {
+.EdtFldDis@THEME_CSS@ {
 	border: none;
 	border-width:0px;
 	padding:1px 0 0 2px;
         background-color: #CCCCEE;        
 }
-.EditableFld_ReadOnly@THEME_CSS@ {
+.EdtFld_ReadOnly@THEME_CSS@ {
 	border: none;
 	border-width:0px;
 	padding:1px 0 0 2px;

@@ -26,6 +26,7 @@ dojo.require("dojo.widget.*");
 dojo.require("webui.@THEME@.*");
 dojo.require("webui.@THEME@.widget.*");
 dojo.require("webui.@THEME@.widget.textField");
+
 /**
  * This function will be invoked when creating a Dojo widget. Please see
  * webui.@THEME@.widget.editableField.setProps for a list of supported
@@ -67,14 +68,13 @@ webui.@THEME@.widget.editableField = function() {
         this.getClassName = webui.@THEME@.widget.editableField.getClassName;
         this.getProps = webui.@THEME@.widget.editableField.getProps;
         this.setProps = webui.@THEME@.widget.editableField.setProps;
-        this.enableEdit = webui.@THEME@.widget.editableField.enableEdit;
-        this.disableEdit = webui.@THEME@.widget.editableField.disableEdit;
+        this.enableEdit = webui.@THEME@.widget.editableField.edit.enableEdit;
+        this.disableEdit = webui.@THEME@.widget.editableField.edit.disableEdit;
+        this.refresh = webui.@THEME@.widget.editableField.refresh.processEvent;
+        this.submit = webui.@THEME@.widget.editableField.submit.processEvent;
         
         // use the textField implementations for these functions
-        this.getInputElement = webui.@THEME@.widget.textField.getInputElement;
-        this.refresh = webui.@THEME@.widget.textField.refresh.processEvent;
-        this.submit = webui.@THEME@.widget.textField.submit.processEvent;
-        
+        this.getInputElement = webui.@THEME@.widget.textField.getInputElement;        
         this.getSuperProps = webui.@THEME@.widget.textField.getProps;
         this.setSuperProps = webui.@THEME@.widget.textField.setProps;
         
@@ -82,14 +82,9 @@ webui.@THEME@.widget.editableField = function() {
         // Set events.
         
         //the following events are used for enabling or disabling edit mode
-        dojo.event.connect(this.textFieldNode, "ondblclick", webui.@THEME@.widget.editableField.processEvent);
-        dojo.event.connect(this.textFieldNode, "onblur", webui.@THEME@.widget.editableField.processEvent);
-        dojo.event.connect(this.textFieldNode, "onkeyup", webui.@THEME@.widget.editableField.processEvent);
-        
-        if (this.autoValidate == true) {
-            // Generate the following event ONLY when 'autoValidate' == true.
-            dojo.event.connect(this.textFieldNode, "onblur", webui.@THEME@.widget.textField.validation.processEvent);
-        }
+        dojo.event.connect(this.textFieldNode, "ondblclick", webui.@THEME@.widget.editableField.edit.processEvent);
+        dojo.event.connect(this.textFieldNode, "onblur", webui.@THEME@.widget.editableField.edit.processEvent);
+        dojo.event.connect(this.textFieldNode, "onkeyup", webui.@THEME@.widget.editableField.edit.processEvent);
         
         
         // Set properties.
@@ -107,14 +102,20 @@ webui.@THEME@.widget.editableField.getProps = function() {
     var props = this.getSuperProps();   
     
     // add own properties, if any
-    
+    if (this.autoSave!= null) { props.autoSave = this.autoSave; }
     return props;
 }
 
 
 /**
  * This function is used to set widget properties with the
- * following Object literals.
+ * following Object literals. 
+ * Most of the properties are set by 'superclass' textField
+ *
+ * This method in addition handles the following properties:
+ * <ul>
+ *  <li>autoSave</li>
+ * </ul>
  * @see webui.@THEME@.widget.textField.setProps for details
  *
  * @param props Key-Value pairs of properties.
@@ -123,13 +124,8 @@ webui.@THEME@.widget.editableField.setProps = function(props) {
     props = this.setSuperProps(props);
     
     //set own properties, if any
-    
-    if (props.edit == true) this.enableEdit();
-    else if (props.edit == false) 
-        this.disableEdit(false); 
-    else
-        this.disableEdit(); // if props.edit is undefined, do not request data rollback
-    
+    if (this.autoSave != null) { props.autoSave = this.autoSave; }
+      
     return true;
 }
 
@@ -144,101 +140,207 @@ webui.@THEME@.widget.editableField.getClassName = function() {
         className = webui.@THEME@.widget.props.editableField.disabledClassName;
     
     className = (this.edit == true)
-    ? webui.@THEME@.widget.props.editableField.editableClassName
-    : webui.@THEME@.widget.props.editableField.className;
-    
+        ? webui.@THEME@.widget.props.editableField.editableClassName
+        : webui.@THEME@.widget.props.editableField.className;
+
     return className;    
 }
 
-
-/**
- * Helper function to enable edit mode.
+/** 
+ *  This closure is used to handle edit state and transitions to/from it.
+ *  
  */
-webui.@THEME@.widget.editableField.enableEdit = function() {
-    if (this == null) 
-        return;
-    //save the current value
-    this.savedValue = this.textFieldNode.value;
+webui.@THEME@.widget.editableField.edit = {
     
-    this.edit = true;
-    this.textFieldNode.className = this.getClassName();   
-    this.textFieldNode.readOnly = false;
-    this.textFieldNode.focus(); //in case function has been called programmatically, not by event
-    this.textFieldNode.select();
-}
-/**
- * Private helper function to disable edit mode.
- * This function will commit or rollback the changes made in the field, and
- * setup appropriate style on the field.
- *
- * @param acceptChanges - optional parameter 
- *      if true, the entered data ( textFieldNode value) will be commited through the
- *          Ajax submit() request; 
- *      if false, the entered data ( textFieldNode value) will be rolled back to 
- *          previos state (value is saved before field enters editable state);
- *      if not specified, no changes to the field value will made, and 
- *          only styles will be modified
- */
-webui.@THEME@.widget.editableField.disableEdit = function(acceptChanges) {
-    //do not go through disable cycle if field is readOnly already
-    if (this == null || this.edit == false) 
-        return;
-    if (acceptChanges == true) {
-        // if savedValue does not exist, we have not edited the field yet
-        if (this.savedValue && this.savedValue != this.textFieldNode.value) {
-            this.submit();
-        }
-    } else if (acceptChanges == false) {
-        if (this.savedValue && this.savedValue != null)   {
-            this.textFieldNode.value = this.savedValue;
-        }
-    }
-    this.savedValue = null;
-    this.edit = false;
-    this.textFieldNode.className = this.getClassName();   
-    this.textFieldNode.readOnly = true;
-    return true;
-}
-/**
- * Helper function to process user gesture events on the field,
- * such as dblclick, onblur, onfocus, etc.
- * HTML events are connected to this function in fillInTemplate
- */
-webui.@THEME@.widget.editableField.processEvent = function(event) {
-    
-    if (event == null) {
-        return false;
-    }
-    var widgetId = event.currentTarget.parentNode.id;
-    var widget = dojo.widget.byId(widgetId);
-    if (widget == null) {
-        return false;
-    }
-    if (event.type =="dblclick") {
-        widget.enableEdit();
-        return true;
-    }
-    if (event.type =="blur") {
-        widget.disableEdit(true);
-        return true;
-    }
-    if (event.type =="keyup") {
-        if (widget.edit == false) {
-            // currently in readOnly state
-            //allow  <SPACE> key
-            if (event.keyCode == 32) {
-                widget.enableEdit();
-            }
-        } else {
-            // currently in edit state
-            if (event.keyCode ==27) widget.disableEdit(false);//ESC
-        }              
+    /**
+     * Helper function to enable edit mode.
+     */
+    enableEdit : function() {
+        if (this == null) 
+            return;
+        //save the current value
+        this.savedValue = this.textFieldNode.value;
         
-        //otherwise do not do anything
+        this.edit = true;
+        this.textFieldNode.className = this.getClassName();   
+        this.textFieldNode.readOnly = false;
+        this.textFieldNode.focus(); //in case function has been called programmatically, not by event
+        this.textFieldNode.select();
+    },
+    
+    /**
+     * Private helper function to disable edit mode.
+     * This function will commit or rollback the changes made in the field, and
+     * setup appropriate style on the field.
+     *
+     * @param acceptChanges - optional parameter 
+     *      if true, the entered data ( textFieldNode value) will be commited through the
+     *          Ajax submit() request; 
+     *      if false, the entered data ( textFieldNode value) will be rolled back to 
+     *          previos state (value is saved before field enters editable state);
+     *      if not specified, no changes to the field value will made, and 
+     *          only styles will be modified
+     */
+    disableEdit : function(acceptChanges) {
+        //do not go through disable cycle if field is readOnly already
+        if (this == null || this.edit == false) 
+            return;
+        if (acceptChanges == true) {
+            // if savedValue does not exist, we have not edited the field yet
+            if (this.autoSave == true && this.savedValue && this.savedValue != this.textFieldNode.value) {
+                this.submit();
+            }
+        } else if (acceptChanges == false) {
+            if (this.savedValue && this.savedValue != null)   {
+                this.textFieldNode.value = this.savedValue;
+            }
+        }
+        this.savedValue = null;
+        this.edit = false;
+        this.textFieldNode.className = this.getClassName();   
+        this.textFieldNode.readOnly = true;
+        return true;
+    }, 
+    
+    /**
+     * Helper function to process user gesture events on the field,
+     * such as dblclick, onblur, onfocus, etc.
+     * HTML events are connected to this function in fillInTemplate
+     */
+    processEvent : function(event) {
+        
+        if (event == null) {
+            return false;
+        }
+        var widgetId = event.currentTarget.parentNode.id;
+        var widget = dojo.widget.byId(widgetId);
+        if (widget == null) {
+            return false;
+        }
+        if (event.type =="dblclick") {
+            widget.enableEdit();
+            return true;
+        }
+        if (event.type =="blur") {
+            widget.disableEdit(true);
+            return true;
+        }
+        if (event.type =="keyup") {
+            if (widget.edit == false) {
+                // currently in readOnly state
+                //allow  <SPACE> key
+                if (event.keyCode == 32) {
+                    widget.enableEdit();
+                }
+            } else {
+                // currently in edit state
+                if (event.keyCode ==27) widget.disableEdit(false);//ESC
+            }              
+            
+            //otherwise do not do anything
+            return true;
+        }
+        
+        return true;    
+    }
+} //end of edit closure
+
+
+/** 
+ *  This closure is used to handle refresh events
+ *  
+ */
+webui.@THEME@.widget.editableField.refresh = {
+    /**
+     * Event topics for custom AJAX implementations to listen for.
+     */
+    beginEventTopic: "webui_@THEME@_widget_editableField_refresh_begin",
+    endEventTopic: "webui_@THEME@_widget_editableField_refresh_end",
+ 
+    /**
+     * Process refresh event.
+     *
+     * @param execute Comma separated string containing a list of client ids 
+     * against which the execute portion of the request processing lifecycle
+     * must be run.
+     */
+    processEvent: function(execute) {
+        // Publish event.
+        webui.@THEME@.widget.editableField.refresh.publishBeginEvent({
+            id: this.id,
+            execute: execute
+        });
+        return true;
+    },
+
+    /**
+     * Publish an event for custom AJAX implementations to listen for.
+     *
+     * @param props Key-Value pairs of properties of the widget.
+     */
+    publishBeginEvent: function(props) {
+        dojo.event.topic.publish(webui.@THEME@.widget.editableField.refresh.beginEventTopic, props);
+        return true;
+    },
+
+    /**
+     * Publish an event for custom AJAX implementations to listen for.
+     *
+     * @param props Key-Value pairs of properties of the widget.
+     */
+    publishEndEvent: function(props) {
+        dojo.event.topic.publish(webui.@THEME@.widget.editableField.refresh.endEventTopic, props);
         return true;
     }
+}
+
+
+/** 
+ *  This closure is used to handle submit events
+ *  
+ */
+webui.@THEME@.widget.editableField.submit = {
+    /**
+     * Event topics for custom AJAX implementations to listen for.
+     */
+    beginEventTopic: "webui_@THEME@_widget_editableField_submit_begin",
+    endEventTopic: "webui_@THEME@_widget_editableField_submit_end",
     
-    return true;    
+    /**
+     * Process submit event.
+     *
+     * @param execute Comma separated string containing a list of client ids 
+     * against which the execute portion of the request processing lifecycle
+     * must be run.
+     */
+    processEvent: function(execute) {
+        // Publish event.
+        webui.@THEME@.widget.editableField.submit.publishBeginEvent({
+            id: this.id,
+            execute: execute
+        });
+        return true;
+    },
+    
+    /**
+     * Publish an event for custom AJAX implementations to listen for.
+     *
+     * @param props Key-Value pairs of properties of the widget.
+     */
+    publishBeginEvent: function(props) {
+        dojo.event.topic.publish(webui.@THEME@.widget.editableField.submit.beginEventTopic, props);
+        return true;
+    },
+    
+    /**
+     * Publish an event for custom AJAX implementations to listen for.
+     *
+     * @param props Key-Value pairs of properties of the widget.
+     */
+    publishEndEvent: function(props) {
+        dojo.event.topic.publish(webui.@THEME@.widget.editableField.submit.endEventTopic, props);
+        return true;
+    }
 }
 
 

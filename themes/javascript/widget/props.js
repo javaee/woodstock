@@ -130,9 +130,9 @@ webui.@THEME@.widget.props = {
     },
     // EditableField properties.
     editableField: {
-        className: "EditableFld_ReadOnly@THEME_CSS@",
-        editableClassName: "EditableFld_Edit@THEME_CSS@",
-        disabledClassName: "EditableFldDis@THEME_CSS@"
+        className: "EdtFld_ReadOnly@THEME_CSS@",
+        editableClassName: "EdtFld_Edt@THEME_CSS@",
+        disabledClassName: "EdtFldDis@THEME_CSS@"
     },
     
     // TextArea properties.
