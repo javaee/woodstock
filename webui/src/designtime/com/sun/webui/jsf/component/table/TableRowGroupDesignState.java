@@ -166,7 +166,21 @@ public class TableRowGroupDesignState {
             if(modelBean.getInstance()  instanceof TableDataProvider){
                 tableDataProvider =  (TableDataProvider) modelBean.getInstance();
             }else if(List.class.isAssignableFrom(modelBean.getBeanInfo().getBeanDescriptor().getBeanClass())){
-                tableDataProvider = new ObjectListDataProvider((List)modelBean.getInstance());
+                List listObject = (List)modelBean.getInstance();
+                if(listObject == null){
+                    listObject = new ArrayList();
+                }
+                tableDataProvider =  new ObjectListDataProvider(listObject);
+                if(modelBean instanceof DesignBeanExt){
+                    try {
+                        java.lang.reflect.Type[] parameterTypes = ((com.sun.rave.designtime.ext.DesignBeanExt) modelBean).getTypeParameters();
+                        if (parameterTypes != null && (parameterTypes.length > 0)) {
+                            ((com.sun.data.provider.impl.ObjectListDataProvider) tableDataProvider).setObjectType((java.lang.Class) parameterTypes[0]);
+                        }
+                    } catch (ClassNotFoundException exc) {
+                        exc.printStackTrace();
+                    }
+                }
             }else if(modelBean.getInstance()  instanceof Object[]){
                 tableDataProvider = new ObjectArrayDataProvider((Object[])modelBean.getInstance());
             }else{
