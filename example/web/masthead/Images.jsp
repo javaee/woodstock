@@ -138,7 +138,7 @@
               <webuijsf:image id="image6" url="#{ImageBean.imageUrl}" alt="#{msgs.masthead_imageAltText}" 
                         toolTip="#{msgs.masthead_imageToolTip}"/>              
               <br/>                           
-              <webuijsf:textField id="textField1" onKeyUp="refreshImage();" text="#{ImageBean.imageUrl}"
+              <webuijsf:textField id="textField1" onKeyPress="setTimeout('refreshImage();', 0);" text="#{ImageBean.imageUrl}"
                 label="#{msgs.masthead_textField1}"/><br/>
               </ul>            
             </webuijsf:form>

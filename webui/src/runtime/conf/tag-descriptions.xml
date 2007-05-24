@@ -695,7 +695,7 @@ to define the client id which is to be submitted and updated
 server-side. As the user types in the text field, the input value is
 updated server-side and the alarm text is updated client-side -- all
 without a page refresh.<br>
-<pre><code>&lt;webuijsf:alarm id="alarm1" severity="</code><code>major</code><code>" text="#{MyBean.text}"</code><code> /&gt;</code><br>&lt;webuijsf:textField id="field1" text="<code>#{MyBean.text}</code>" label="Change Text"<br>          onKeyUp="refreshAlarm()"/&gt; // Field used to asynchronously update text.<br></pre>
+<pre><code>&lt;webuijsf:alarm id="alarm1" severity="</code><code>major</code><code>" text="#{MyBean.text}"</code><code> /&gt;</code><br>&lt;webuijsf:textField id="field1" text="<code>#{MyBean.text}</code>" label="Change Text"<br>          onKeyPress="setTimeout('refreshAlarm();', 0);"/&gt; // Field used to asynchronously update text.<br></pre>
 <code>&lt;webuijsf:script&gt;<br>
 &nbsp;&nbsp;&nbsp; // Refresh alarm.<br>
 &nbsp;&nbsp;&nbsp; function </code><code>refreshAlarm</code><code>() {<br>
@@ -1133,7 +1133,7 @@ to define the client id which is to be submitted and updated
 server-side. As the user types in the text field, the input value is
 updated server-side and the button text is updated client-side -- all
 without a page refresh.<br>
-<pre><code>&lt;webuijsf:alert id="alert1" type="</code><code>information</code><code>" summary="#{MyBean.summary}"</code><code> /&gt;</code><br>&lt;webuijsf:textField id="field1" text="<code>#{MyBean.summary}</code>" label="Change Summary Text"<br>          onKeyUp="refreshAlert()"/&gt; // Field used to asynchronously update summary.<br></pre>
+<pre><code>&lt;webuijsf:alert id="alert1" type="</code><code>information</code><code>" summary="#{MyBean.summary}"</code><code> /&gt;</code><br>&lt;webuijsf:textField id="field1" text="<code>#{MyBean.summary}</code>" label="Change Summary Text"<br>          onKeyPress="setTimeout('refreshAlert();', 0);"/&gt; // Field used to asynchronously update summary.<br></pre>
 <code>&lt;webuijsf:script&gt;<br>
 &nbsp;&nbsp;&nbsp; // Refresh alert.<br>
 &nbsp;&nbsp;&nbsp; function </code><code>refreshAlert</code><code>() {<br>
@@ -1631,7 +1631,7 @@ to define the client id which is to be submitted and updated
 server-side. As the user types in the text field, the input value is
 updated server-side and the button text is updated client-side -- all
 without a page refresh.<br>
-<pre>&lt;webuijsf:button id="<code>button1</code>" text="#{MyBean.text}"/&gt;<br>&lt;webuijsf:textField id="field1" text="#{MyBean.text}" label="Change Button Text"<br>          onKeyUp="refreshButton()"/&gt; // Field used to asynchronously update text.<br></pre>
+<pre>&lt;webuijsf:button id="<code>button1</code>" text="#{MyBean.text}"/&gt;<br>&lt;webuijsf:textField id="field1" text="#{MyBean.text}" label="Change Button Text"<br>          onKeyPress="setTimeout('refreshButton();', 0);"/&gt; // Field used to asynchronously update text.<br></pre>
 <code>&lt;webuijsf:script&gt;<br>
 &nbsp;&nbsp;&nbsp; // Refresh button.<br>
 &nbsp;&nbsp;&nbsp; function </code><code>refreshButton</code><code>() {<br>
@@ -2236,7 +2236,7 @@ used to define the client id which is to be submitted and updated
 server-side. As the user types in the text field, the input value is
 updated server-side and the checkbox label is updated client-side
 -- all without a page refresh.
-<pre>&lt;webuijsf:checkbox id="cb1" name="cb1" label="#{MyBean.label}"/&gt;<br>&lt;webuijsf:textField id="field1" text="#{MyBean.label}" label="Change Radio Button Label" <br>          onKeyUp="refreshCheckbox()"/&gt; // Field used to asynchronously update label.<br></pre>
+<pre>&lt;webuijsf:checkbox id="cb1" name="cb1" label="#{MyBean.label}"/&gt;<br>&lt;webuijsf:textField id="field1" text="#{MyBean.label}" label="Change Radio Button Label" <br>          onKeyPress="setTimeout('refreshCheckbox();', 0);"/&gt; // Field used to asynchronously update label.<br></pre>
 <code>&lt;webuijsf:script&gt;<br>
 &nbsp;&nbsp;&nbsp; // Refresh button.<br>
 &nbsp;&nbsp;&nbsp; function </code><code>refreshcheckbox</code><code>()
@@ -2505,7 +2505,7 @@ used to define the client id which is to be submitted and updated
 server-side. As the user types in the text field, the input value is
 updated server-side and the checkboxGroup label is updated client-side
 -- all without a page refresh.
-<pre>&lt;webuijsf:checkboxGroup id="cb1" name="cb1" items="#{rbcbGrp.selections}" selected="#{rbcbGrp.cbvalue}" label="#{rbcbGrp.cbGrpLabel}"/&gt;<br>&lt;webuijsf:textField id="field1" text="#{rbcbGrp.cbGrpLabel}" label="Change CheckboxGroup Label" <br>          onKeyUp="refreshCheckboxGroup()"/&gt; // Field used to asynchronously update label.<br></pre>
+<pre>&lt;webuijsf:checkboxGroup id="cb1" name="cb1" items="#{rbcbGrp.selections}" selected="#{rbcbGrp.cbvalue}" label="#{rbcbGrp.cbGrpLabel}"/&gt;<br>&lt;webuijsf:textField id="field1" text="#{rbcbGrp.cbGrpLabel}" label="Change CheckboxGroup Label" <br>          onKeyPress="setTimeout('refreshCheckboxGroup();', 0);"/&gt; // Field used to asynchronously update label.<br></pre>
 <code>&lt;webuijsf:script&gt;<br>
 &nbsp;&nbsp;&nbsp; // Refresh button.<br>
 &nbsp;&nbsp;&nbsp; function </code><code>refreshCheckboxGroup</code><code>()
@@ -3899,7 +3899,7 @@ without a page refresh.<br>
 </code><code>&lt;webuijsf:textField id="field1"<br>
 &nbsp;&nbsp;&nbsp; text="#{MyBean.label}" <br>
 &nbsp;&nbsp;&nbsp; label="Change Menu Label"<br>
-&nbsp;&nbsp;&nbsp; onKeyUp="refreshMenu()"/&gt; // Field used to
+&nbsp;&nbsp;&nbsp; onKeyPress="setTimeout('refreshMenu();', 0);"/&gt; // Field used to
 asynchronously update label.<br>
 </code><code><br>
 &lt;webuijsf:script&gt;<br>
@@ -6067,7 +6067,7 @@ to define the client id which is to be submitted and updated
 server-side. As the user types in the text field, the input value is
 updated server-side and the label is updated client-side -- all without
 a page refresh.<br>
-<pre>&lt;webuijsf:label id="<code>label1</code>" text="#{MyBean.text}"/&gt;<br>&lt;webuijsf:textField id="field1" text="#{MyBean.text}" label="Change Label"<br>          onKeyUp="refreshLabel()"/&gt; // Field used to asynchronously update label.<br></pre>
+<pre>&lt;webuijsf:label id="<code>label1</code>" text="#{MyBean.text}"/&gt;<br>&lt;webuijsf:textField id="field1" text="#{MyBean.text}" label="Change Label"<br>          onKeyPress="setTimeout('refreshLabel();', 0);"/&gt; // Field used to asynchronously update label.<br></pre>
 <code>&lt;webuijsf:script&gt;<br>
 &nbsp;&nbsp;&nbsp; // Refresh label.<br>
 &nbsp;&nbsp;&nbsp; function </code><code>refreshLabel</code><code>() {<br>
@@ -9472,7 +9472,7 @@ used to define the client id which is to be submitted and updated
 server-side. As the user types in the text field, the input value is
 updated server-side and the radio button label is updated client-side
 -- all without a page refresh.
-<pre>&lt;webuijsf:radioButton id="rb1" name="rb1" label="#{MyBean.label}"/&gt;<br>&lt;webuijsf:textField id="field1" text="#{MyBean.label}" label="Change Radio Button Label"<br>          onKeyUp="refreshRadioButton()"/&gt; // Field used to asynchronously update label.<br></pre>
+<pre>&lt;webuijsf:radioButton id="rb1" name="rb1" label="#{MyBean.label}"/&gt;<br>&lt;webuijsf:textField id="field1" text="#{MyBean.label}" label="Change Radio Button Label"<br>          onKeyPress="setTimeout('refreshRadioButton();', 0);"/&gt; // Field used to asynchronously update label.<br></pre>
 <code>&lt;webuijsf:script&gt;<br>
 &nbsp;&nbsp;&nbsp; // Refresh button.<br>
 &nbsp;&nbsp;&nbsp; function </code><code>refreshRadioButton</code><code>()
@@ -9738,7 +9738,7 @@ used to define the client id which is to be submitted and updated
 server-side. As the user types in the text field, the input value is
 updated server-side and the radioButtonGroup label is updated client-side
 -- all without a page refresh.
-<pre>&lt;webuijsf:radioButtonGroup id="rb1" name="rb1" items="#{rbcbGrp.selections}" selected="#{rbcbGrp.cbvalue}" label="#{rbcbGrp.cbGrpLabel}"/&gt;<br>&lt;webuijsf:textField id="field1" text="#{rbcbGrp.cbGrpLabel}" label="Change radioButtonGroup Label" <br>          onKeyUp="refreshRadioButtonGroup()"/&gt; // Field used to asynchronously update label.<br></pre>
+<pre>&lt;webuijsf:radioButtonGroup id="rb1" name="rb1" items="#{rbcbGrp.selections}" selected="#{rbcbGrp.cbvalue}" label="#{rbcbGrp.cbGrpLabel}"/&gt;<br>&lt;webuijsf:textField id="field1" text="#{rbcbGrp.cbGrpLabel}" label="Change radioButtonGroup Label" <br>          onKeyPress="setTimeout('refreshRadioButtonGroup();', 0);"/&gt; // Field used to asynchronously update label.<br></pre>
 <code>&lt;webuijsf:script&gt;<br>
 &nbsp;&nbsp;&nbsp; // Refresh button.<br>
 &nbsp;&nbsp;&nbsp; function </code><code>refreshRadioButtonGroup</code><code>()
@@ -10581,7 +10581,7 @@ to define the client id which is to be submitted and updated
 server-side. As the user types in the text field, the input value is
 updated server-side and the text is updated client-side -- all without
 a page refresh.<br>
-<pre>&lt;webuijsf:staticText id="text<code>1</code>" text="#{MyBean.text}"/&gt;<br>&lt;webuijsf:textField id="field1" text="#{MyBean.text}" label="Change Text"<br>          onKeyUp="refreshText()"/&gt; // Field used to asynchronously update text.<br></pre>
+<pre>&lt;webuijsf:staticText id="text<code>1</code>" text="#{MyBean.text}"/&gt;<br>&lt;webuijsf:textField id="field1" text="#{MyBean.text}" label="Change Text"<br>          onKeyPress="setTimeout('refreshText();', 0);"/&gt; // Field used to asynchronously update text.<br></pre>
 <code>&lt;webuijsf:script&gt;<br>
 &nbsp;&nbsp;&nbsp; // Refresh text.<br>
 &nbsp;&nbsp;&nbsp; function </code><code>refreshText</code><code>() {<br>
