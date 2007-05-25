@@ -6507,24 +6507,88 @@ submitting field value<br>
  <h3>Theme Identifiers</h3>
  TBA
  <h3>Client-side JavaScript Functions</h3>
- <p>The listbox component provides the following facets:</p>
- <ul>
-   <li>
-     <p><code>webui.suntheme.listbox.setDisabled(&lt;id&gt;,
- &lt;disabled&gt;)</code>:
- Use this function to enable and disable the listbox. <code>&lt;id&gt;</code>
- must be the generated id of the component. Set <code>&lt;disabled&gt;</code>
- to true to disable the component, or false to enable it. </p>
-   </li>
- </ul>
- <ul>
-   <li>
-     <p><code>webui.suntheme.listbox.changed(&lt;id&gt;)</code>:
- This function is
- automatically invoked by the listbox's <code>onchange</code>
- handler. <code>&lt;id&gt;</code> must be the generated id of the component.</p>
-   </li>
- </ul>
+<p>When the component is rendered, a DOM object corresponding to the
+component is created. To manipulate the component on the client side,
+you may invoke functions on the DOM object. With reference to the DOM
+id, to disable the component, invoke <code>document.getElementById(id).setProps({visible:
+false})</code>.<br>
+<br>
+<table style="text-align: left; width: 100%;" border="1" cellpadding="2"
+ cellspacing="2">
+  <tbody>
+    <tr>
+      <td style="vertical-align: top;"><code>getProps()</code></td>
+      <td style="vertical-align: top;">Use this function to get widget
+properties. Please see <code>setProps()</code> function for a list of
+supported properties.</td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top; text-align: left;"><code>getSelectElement()</code></td>
+      <td>Use this function to access the HTML <code>&lt;select&gt;</code>
+element that is rendered by the component.<br>
+      </td>
+    </tr>
+    <tr>
+      <td><code>getSelectedLabel()</code></td>
+      <td>Use this function to get the label of the first selected
+option on the dropDown. If no option is selected, this function returns
+null.</td>
+    </tr>
+    <tr>
+      <td><code>getSelectedValue()</code></td>
+      <td> Use this&nbsp;function to get the value of the
+first&nbsp;selected option on the dropDown. If no option is selected,
+this&nbsp; function returns null.</td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top;"><code>refresh(execute)</code> </td>
+      <td style="vertical-align: top;">Use this function to
+asynchronously refresh the component.<br>
+      <br>
+      <ul>
+        <li>execute: Comma separated string containing a list of client
+ids against which the <code>execute</code> portion of the request
+processing lifecycle must be run.</li>
+      </ul>
+      </td>
+    </tr>
+    <tr>
+      <td><code>setProps(props)</code></td>
+      <td>Use this function to change any of the following supported
+properties:
+      <ul>
+        <li>id</li>
+        <li>dir</li>
+        <li>disabled</li>
+        <li>label</li>
+        <li>lang</li>
+        <li>multiple</li>
+        <li>monospace</li>
+        <li>onBlur</li>
+        <li>onChange</li>
+        <li>onClick</li>
+        <li>onDblClick</li>
+        <li>onFocus</li>
+        <li>onMouseDown</li>
+        <li>onMouseOut</li>
+        <li>onMouseOver</li>
+        <li>onMouseUp</li>
+        <li>onMouseMove</li>
+        <li>onKeyPress</li>
+        <li>onKeyUp</li>
+        <li>onSelect</li>
+        <li>options</li>
+        <li>size</li>
+        <li>style</li>
+        <li>tabIndex</li>
+        <li>title</li>
+        <li>visible</li>
+      </ul>
+      </td>
+    </tr>
+  </tbody>
+</table>
+</p>
      <h3>Examples</h3>
      <h4>Example 1: Listbox with single selection</h4>
  <pre>
@@ -6549,6 +6613,127 @@ submitting field value<br>
          &lt;/f:facet&gt;
      &lt;/webuijsf:listbox&gt;
  </pre>
+
+<h4>Example 3: Update client-side listbox properties using setProps
+function:</h4>
+This example shows how to hide a listbox client
+side using setProps function. When the user clicks the radio button,
+the listbox is hidden.<code></code><br>
+<br>
+<code>&lt;webuijsf:radioButton id="rb1" name="rb1" label="Hide Menu"
+onClick="hideMenu()"/&gt;<br>
+&lt;webuijsf:listbox </code><code>id="menu1"</code><code><span
+ style="font-family: monospace;"><br>
+</span>&nbsp;&nbsp;&nbsp; items="#{dataBean.airports}"<span
+ style="font-family: monospace;"></span><span
+ style="font-family: monospace;"><br>
+</span>&nbsp;&nbsp;&nbsp; label="#{msgs.chooseDepartureAirport}"<br>
+</code><code>&nbsp;&nbsp;&nbsp; selected="#{flightSearch.leaveAirport}"<br>
+</code><code>&nbsp;&nbsp;&nbsp; tooltip="#{msgs.chooseAirport}"</code><code>/&gt;</code><code><br>
+<br>
+&lt;webuijsf:script&gt;<br>
+&nbsp;&nbsp;&nbsp; // Hide menu.<br>
+&nbsp;&nbsp;&nbsp; function hideMenu() {<br>
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; var domNode =
+document.getElementById("form1:</code><code>menu1</code><code>"); //
+Get menu<br>
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; return domNode.setProps({visible:
+false}); // Set visible<br>
+&nbsp;&nbsp;&nbsp; }<br>
+&lt;/webuijsf:script&gt;</code>
+<code></code>
+<h4>Example 4: Update client-side listbox properties using getProps
+function:</h4>
+This example shows how to toggle the disabled state of a listbox
+client
+side using getProps function. When the user clicks the radio button,
+the listbox is either disabled or enabled.<code></code><code><br>
+<br>
+</code><code>&lt;webuijsf:radioButton id="rb1" name="rb1" label="Hide
+Menu" onClick="hideMenu()"/&gt;<br>
+&lt;webuijsf:listbox </code><code>id="menu1"</code><code><span
+ style="font-family: monospace;"><br>
+</span>&nbsp;&nbsp;&nbsp; items="#{dataBean.airports}"<span
+ style="font-family: monospace;"></span><span
+ style="font-family: monospace;"><br>
+</span>&nbsp;&nbsp;&nbsp; label="#{msgs.chooseDepartureAirport}"<br>
+</code><code>&nbsp;&nbsp;&nbsp; selected="#{flightSearch.leaveAirport}"<br>
+</code><code>&nbsp;&nbsp;&nbsp; tooltip="#{msgs.chooseAirport}"</code><code>/&gt;</code><code><br>
+<br>
+&lt;webuijsf:script&gt;<br>
+&nbsp;&nbsp;&nbsp; // Toggle menu disabled.<br>
+&nbsp;&nbsp;&nbsp; function toggleDisabled() {<br>
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; var domNode =
+document.getElementById("form1:</code><code>menu1"); // Get menu<br>
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; return
+domNode.setProps({disabled: !domNode.getProps().disabled}); // Toggle
+disabled state<br>
+&nbsp;&nbsp;&nbsp; }<br>
+&lt;/webuijsf:script&gt;</code>
+<code></code>
+<h4>Example 5: Asynchronously update button using refresh function:</h4>
+This example shows how to asynchronously update a listbox using
+the refresh function. When the user clicks on the radio button, the
+listbox
+is asynchronously updated with new data.<br>
+<br>
+<code>&lt;webuijsf:radioButton id="rb1" name="rb1" label="Refresh Menu"
+onClick="refreshMenu()"/&gt;<br>
+</code><code>&lt;webuijsf:listbox </code><code>id="menu1"</code><code><span
+ style="font-family: monospace;"><br>
+</span>&nbsp;&nbsp;&nbsp; items="#{dataBean.airports}"<span
+ style="font-family: monospace;"></span><span
+ style="font-family: monospace;"><br>
+</span>&nbsp;&nbsp;&nbsp; label="#{msgs.chooseDepartureAirport}"<br>
+</code><code>&nbsp;&nbsp;&nbsp; selected="#{flightSearch.leaveAirport}"<br>
+</code><code>&nbsp;&nbsp;&nbsp; tooltip="#{msgs.chooseAirport}"</code><code>/&gt;</code><code><br>
+</code><code><br>
+&lt;webuijsf:script&gt;<br>
+&nbsp;&nbsp;&nbsp; // Refresh menu.<br>
+&nbsp;&nbsp;&nbsp; function refreshMenu() {<br>
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; var domNode =
+document.getElementById("form1:menu1"); // Get menu<br>
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; return domNode.refresh(); //
+Asynchronously refresh menu<br>
+&nbsp;&nbsp;&nbsp; }<br>
+&lt;/webuijsf:script&gt;</code>
+<h4>Example 6: Asynchronously update button using refresh function:</h4>
+This example shows how to asynchronously update a listbox using
+the refresh function. The execute property of the refresh function is
+used
+to define the client id which is to be submitted and updated
+server-side. As the user types in the text field, the input value is
+updated server-side and the listbox label is updated client-side --
+all
+without a page refresh.<br>
+<br>
+<code></code><code>&lt;webuijsf:listbox </code><code>id="menu1"</code><code><span
+ style="font-family: monospace;"><br>
+</span>&nbsp;&nbsp;&nbsp; items="#{dataBean.airports}"<span
+ style="font-family: monospace;"></span><span
+ style="font-family: monospace;"><br>
+</span>&nbsp;&nbsp;&nbsp; label="</code><code>#{MyBean.label}</code><code>"<br>
+</code><code>&nbsp;&nbsp;&nbsp; selected="#{flightSearch.leaveAirport}"<br>
+</code><code>&nbsp;&nbsp;&nbsp; tooltip="#{msgs.chooseAirport}"</code><code>/&gt;<br>
+</code><code>&lt;webuijsf:textField id="field1"<br>
+&nbsp;&nbsp;&nbsp; text="#{MyBean.label}" <br>
+&nbsp;&nbsp;&nbsp; label="Change Menu Label"<br>
+&nbsp;&nbsp;&nbsp; onKeyUp="refreshMenu()"/&gt; // Field used to
+asynchronously update label.<br>
+</code><code><br>
+&lt;webuijsf:script&gt;<br>
+&nbsp;&nbsp;&nbsp; // Refresh menu.<br>
+&nbsp;&nbsp;&nbsp; function </code><code>refreshMenu</code><code>() {<br>
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; var domNode =
+document.getElementById("form1:menu1"); // Get menu<br>
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; return
+domNode.refresh("form1:field1"); // Asynchronously refresh while
+submitting field value<br>
+&nbsp;&nbsp;&nbsp; }<br>
+&lt;/webuijsf:script&gt;
+<br>
+<br>
+</code>
 ]]></description>
     </tag>
 

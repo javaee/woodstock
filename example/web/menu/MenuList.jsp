@@ -25,7 +25,7 @@
         <webuijsf:page>
             <f:loadBundle basename="com.sun.webui.jsf.example.resources.Resources" var="msgs" />
             <webuijsf:html id="html">  
-                <webuijsf:head id="head" title="#{msgs.menu_title}" >
+                <webuijsf:head id="head" title="#{msgs.menu_title}">
                     <webuijsf:link rel="shortcut icon" url="/images/favicon.ico" type="image/x-icon" />
                 </webuijsf:head>
                 <webuijsf:body id="body">
@@ -68,6 +68,11 @@
                                 
                                 function updateDropDown(props) {
                                     var dropDown = document.getElementById('form:standardMenu');
+                                    dropDown.setProps( props );
+                                    return false;
+                                }
+                                function updateListbox(props) {
+                                    var dropDown = document.getElementById('form:scrollList');
                                     dropDown.setProps( props );
                                     return false;
                                 }
@@ -154,7 +159,7 @@
                                                           disabled="#{MenuListBean.listboxDisabled}"   
                                                           items="#{MenuListBean.listboxOptions}"
                                                           onChange="javascript:
-                                                          var value = webui.suntheme.listbox.getSelectedValue('form:scrollList');                                
+                                                          var value = document.getElementById('form:scrollList').getSelectedValue();                                
                                                           if (value == 'option_0_value') {
                                                           (document.getElementById('form:text')).innerHTML='#{msgs.menu_noOption}'; 
                                                           } else {
@@ -163,6 +168,17 @@
                                                           return true;" />                                      
                                     </td>
                                 </tr>
+                                <tr>
+                                    <td><f:verbatim><![CDATA[ &nbsp; ]]></f:verbatim></td>                
+                                    <td align="left">                                                       
+                                        <!-- Buttons to disable/enable the listbox. -->                    
+                                        <webuijsf:label text="Enable: "/>
+                                        <webuijsf:button primary="true" text="Yes" 
+                                             onClick="return updateListbox({disabled:false}); return false;" />  
+                                         <webuijsf:button primary="true" text="No" 
+                                             onClick="return updateListbox({disabled:true}); return false;" />                                         
+                                    </td>
+                                </tr>    
                                 <tr>
                                     <td colspan="2"><f:verbatim><![CDATA[ &nbsp; ]]></f:verbatim></td>
                                 </tr>

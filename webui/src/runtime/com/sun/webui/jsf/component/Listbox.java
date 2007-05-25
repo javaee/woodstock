@@ -23,6 +23,7 @@ package com.sun.webui.jsf.component;
 
 import com.sun.faces.annotation.Component;
 import com.sun.faces.annotation.Property;
+import com.sun.webui.jsf.util.ComponentUtilities;
 
 import javax.el.ValueExpression;
 import javax.faces.context.FacesContext;
@@ -31,6 +32,7 @@ import javax.faces.context.FacesContext;
  * The Listbox component allows users to select one or more items from a list.
  */
 @Component(type="com.sun.webui.jsf.Listbox", family="com.sun.webui.jsf.Listbox", displayName="Listbox", tagName="listbox",
+    tagRendererType="com.sun.webui.jsf.widget.Listbox",
     helpKey="projrave_ui_elements_palette_wdstk-jsf1.2_listbox",
     propertiesHelpKey="projrave_ui_elements_palette_wdstk-jsf1.2_propsheets_listbox_props")
 public class Listbox extends ListSelector {
@@ -39,7 +41,7 @@ public class Listbox extends ListSelector {
      */
     public Listbox() {
         super();
-        setRendererType("com.sun.webui.jsf.Listbox");
+        setRendererType("com.sun.webui.jsf.widget.Listbox");
     }
 
     /**
@@ -50,6 +52,82 @@ public class Listbox extends ListSelector {
      */
     public String getFamily() {
         return "com.sun.webui.jsf.Listbox";
+    }
+
+    public String getRendererType() {
+        if (isReadOnly()) {    
+            // The readonly attribute is not supported by the new "com.sun.webui.jsf.widget.Listbox"
+            // Use the old html renderer to render the readonly drop down for backwards compatibility.
+            return "com.sun.webui.jsf.Listbox";
+        } else if (ComponentUtilities.isAjaxRequest(getFacesContext(), this)) {
+            // Ensure we have a valid Ajax request.
+            return "com.sun.webui.jsf.ajax.Listbox";
+        } else {
+            return super.getRendererType();
+        }
+    }
+
+    /**
+     * Alternative HTML template to be used by this component.
+     */
+    @Property(name="htmlTemplate", isHidden=true, isAttribute=true, displayName="HTML Template", category="Appearance")
+    private String htmlTemplate = null;
+
+    /**
+     * Get alternative HTML template to be used by this component.
+     */
+    public String getHtmlTemplate() {
+        if (this.htmlTemplate != null) {
+            return this.htmlTemplate;
+        }
+        ValueExpression _vb = getValueExpression("htmlTemplate");
+        if (_vb != null) {
+            return (String) _vb.getValue(getFacesContext().getELContext());
+        }
+        return null;
+    }
+
+    /**
+     * Set alternative HTML template to be used by this component.
+     */
+
+    public void setHtmlTemplate(String htmlTemplate) {
+        this.htmlTemplate = htmlTemplate;
+    }
+
+    /**
+     * Flag indicating to turn off default Ajax functionality. Set ajaxify to
+     * false when providing a different Ajax implementation.
+     */
+    @Property(name="ajaxify", isHidden=true, isAttribute=true, displayName="Ajaxify", category="Javascript")
+    private boolean ajaxify = true; 
+    private boolean ajaxify_set = false; 
+ 
+    /**
+     * Test if default Ajax functionality should be turned off.
+     */
+    public boolean isAjaxify() { 
+        if (this.ajaxify_set) {
+            return this.ajaxify;
+        }
+        ValueExpression _vb = getValueExpression("ajaxify");
+        if (_vb != null) {
+            Object _result = _vb.getValue(getFacesContext().getELContext());
+            if (_result == null) {
+                return false;
+            } else {
+                return ((Boolean) _result).booleanValue();
+            }
+        }
+        return true;
+    } 
+
+    /**
+     * Set flag indicating to turn off default Ajax functionality.
+     */
+    public void setAjaxify(boolean ajaxify) {
+        this.ajaxify = ajaxify;
+        this.ajaxify_set = true;
     }
 
     public int getRows() {
@@ -176,6 +254,54 @@ public class Listbox extends ListSelector {
     }
 
     /**
+     * <p>Override to skip processing if this is a "refresh" Ajax request 
+     * for which we will not execute over any server-side nodes.</p>
+     */
+    public void processDecodes(FacesContext context) {
+        if (context == null) {
+            return;
+        }
+        // Skip processing in case of "refresh" ajax request
+        if (ComponentUtilities.isAjaxRequest(getFacesContext(), this, "refresh") &&
+            !ComponentUtilities.isAjaxExecuteRequest(getFacesContext(), this)) {
+            return;
+        }
+        super.processDecodes(context);
+    }
+
+    /**
+     * <p>Override to skip processing if this is a "refresh" Ajax request 
+     * for which we will not execute over any server-side nodes.</p>
+     */
+    public void processValidators(FacesContext context) {
+        if (context == null) {
+            return;
+        }
+        // Skip processing in case of "refresh" ajax request
+        if (ComponentUtilities.isAjaxRequest(getFacesContext(), this, "refresh") &&
+            !ComponentUtilities.isAjaxExecuteRequest(getFacesContext(), this)) {
+            return;
+        }
+        super.processValidators(context);
+    }
+
+    /**
+     * <p>Override to skip processing if this is a "refresh" Ajax request 
+     * for which we will not execute over any server-side nodes.</p>
+     */
+    public void processUpdates(FacesContext context) {
+        if (context == null) {
+            return;
+        }
+        // Skip processing in case of "refresh" ajax request
+        if (ComponentUtilities.isAjaxRequest(getFacesContext(), this, "refresh") &&
+            !ComponentUtilities.isAjaxExecuteRequest(getFacesContext(), this)) {
+            return;
+        }
+        super.processUpdates(context);
+    }
+
+    /**
      * <p>Restore the state of this component.</p>
      */
     public void restoreState(FacesContext _context,Object _state) {
@@ -186,19 +312,23 @@ public class Listbox extends ListSelector {
         this.multiple = ((Boolean) _values[3]).booleanValue();
         this.multiple_set = ((Boolean) _values[4]).booleanValue();
         this.toolTip = (String) _values[5];
+        this.htmlTemplate = (String) _values[6];
+        this.ajaxify = ((Boolean) _values[7]).booleanValue();
     }
 
     /**
      * <p>Save the state of this component.</p>
      */
     public Object saveState(FacesContext _context) {
-        Object _values[] = new Object[6];
+        Object _values[] = new Object[8];
         _values[0] = super.saveState(_context);
         _values[1] = this.monospace ? Boolean.TRUE : Boolean.FALSE;
         _values[2] = this.monospace_set ? Boolean.TRUE : Boolean.FALSE;
         _values[3] = this.multiple ? Boolean.TRUE : Boolean.FALSE;
         _values[4] = this.multiple_set ? Boolean.TRUE : Boolean.FALSE;
         _values[5] = this.toolTip;
+        _values[6] = this.htmlTemplate;
+        _values[7] = this.ajaxify ? Boolean.TRUE : Boolean.FALSE;
         return _values;
     }
 }

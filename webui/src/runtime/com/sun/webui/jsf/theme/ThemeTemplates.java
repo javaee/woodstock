@@ -76,6 +76,11 @@ public class ThemeTemplates {
      * A template file that contains HTML for the Label component.
      */
     public static final String LABEL = "label";
+    
+    /**
+     * A template file that contains HTML for the Listbox component.
+     */
+    public static final String LISTBOX = "listbox";
 
     /**
      * A template file that contains HTML for the PasswordField component.

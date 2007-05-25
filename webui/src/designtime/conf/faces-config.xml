@@ -153,7 +153,7 @@
     
     <renderer>
       <component-family>com.sun.webui.jsf.Listbox</component-family>
-      <renderer-type>com.sun.webui.jsf.ListboxDesignTime</renderer-type>
+      <renderer-type>com.sun.webui.jsf.widget.ListboxDesignTime</renderer-type>
       <renderer-class>com.sun.webui.jsf.renderkit.html.ListboxDesignTimeRenderer</renderer-class>
     </renderer>
     

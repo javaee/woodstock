@@ -79,6 +79,21 @@ webui.@THEME@.widget.props = {
         optionSeparatorClassName: "MnuJmpOptSep@THEME_CSS@"
     },
 
+    // Listbox properties.
+    listbox: {
+        className: "Lst@THEME_CSS@",
+        disabledClassName: "LstDis@THEME_CSS@",
+        monospaceClassName: "LstMno@THEME_CSS@",
+        monospaceDisabledClassName: "LstMnoDis@THEME_CSS@",
+        optionClassName: "LstOpt@THEME_CSS@",
+        optionDisabledClassName: "LstOptDis@THEME_CSS@",
+        optionGroupClassName: "LstOptGrp@THEME_CSS@",
+        optionSelectedClassName: "LstOptSel@THEME_CSS@",
+        optionSeparatorClassName: "LstOptSep@THEME_CSS@",
+        titleOptionAppender: " &#8212;",
+        titleOptionPreppender: "&#8212; "
+    },
+
     // Progress bar properties.
     progressBar: {
         barContainerClassName: "barContainer@THEME_CSS@",

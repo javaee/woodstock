@@ -42,6 +42,7 @@ dojo.requireIf(djConfig.isDebug, "webui.@THEME@.widget.hyperlink");
 dojo.requireIf(djConfig.isDebug, "webui.@THEME@.widget.imageHyperlink");
 dojo.requireIf(djConfig.isDebug, "webui.@THEME@.widget.image");
 dojo.requireIf(djConfig.isDebug, "webui.@THEME@.widget.label");
+dojo.requireIf(djConfig.isDebug, "webui.@THEME@.widget.listbox");
 dojo.requireIf(djConfig.isDebug, "webui.@THEME@.widget.progressBar");
 dojo.requireIf(djConfig.isDebug, "webui.@THEME@.widget.radioButton");
 dojo.requireIf(djConfig.isDebug, "webui.@THEME@.widget.rbcbGroup");

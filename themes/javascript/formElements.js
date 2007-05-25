@@ -670,6 +670,8 @@ webui.@THEME@.jumpDropDown = {
 
 /**
  * Define webui.@THEME@.listbox name space.
+ * 
+ * @deprecated
  */
 webui.@THEME@.listbox = {
     /**
@@ -680,15 +682,14 @@ webui.@THEME@.listbox = {
      * assigned to the span tag enclosing the HTML elements that make up
      * the list).
      * @return a reference to the select element. 
+     * @deprecated Use document.getElementById(elementId).getSelectElement()
      */
     getSelectElement: function(elementId) { 
-        var element = document.getElementById(elementId); 
-        if(element != null) { 
-            if(element.tagName == "SELECT") { 
-                return element; 
-            }
+        var domNode = document.getElementById(elementId);
+        if (domNode) {
+            return domNode.getSelectElement();
         }
-        return document.getElementById(elementId + "_list");
+        return false;
     },
 
     /**
@@ -702,39 +703,14 @@ webui.@THEME@.listbox = {
      * rendered in the div tag enclosing the HTML elements that make up
      * the list).
      * @return true if successful; otherwise, false
+     * @deprecated Use document.getElementById(elementId).listboxChanged();
      */
-    changed: function(elementId) { 
-        var cntr = 0; 
-        var listItem = webui.@THEME@.listbox.getSelectElement(elementId).options;
-
-        //disabled items should not be selected (IE problem)
-        //So setting selectedIndex = -1 for disabled selected items.
-    
-        if(webui.@THEME@.common.browser.is_ie) {
-            for(var i = 0;i < listItem.length;++i) {
-               if(listItem[i].disabled == true && 
-                            listItem[i].selected == true ) {
-                
-                  listItem.selectedIndex = -1;
-            
-               }
-            }
-        }    
-        while(cntr < listItem.length) { 
-            if(listItem[cntr].selected) {
-                listItem[cntr].className = webui.@THEME@.props.listbox.optionSelectedClassName;
-            } else if(listItem[cntr].disabled) {
-                listItem[cntr].className = webui.@THEME@.props.listbox.optionDisabledClassName;
-            } else {
-                // This does not work on Opera 7. There is a bug such that if 
-                // you touch the option at all (even if I explicitly set
-                // selected to false!), it goes back to the original
-                // selection. 
-                listItem[cntr].className = webui.@THEME@.props.listbox.optionClassName;
-            }
-            ++ cntr;
+    changed: function(elementId) {         
+        var widget = dojo.widget.byId(elementId);
+        if (widget) {
+            return widget.listboxChanged();
         }
-        return true;
+        return false;
     },
 
     /**
@@ -750,24 +726,15 @@ webui.@THEME@.listbox = {
      * the list).
      * @param disabled true or false
      * @return true if successful; otherwise, false
+     *
+     * @deprecated Use document.getElementById(elementId).setProps({disabled: boolean});
      */
-    setDisabled: function(elementId, disabled) {
-        var listbox = webui.@THEME@.listbox.getSelectElement(elementId); 
-        var regular = webui.@THEME@.props.listbox.className;
-        var _disabled = webui.@THEME@.props.listbox.disabledClassName;
-
-        if(listbox.className.indexOf(webui.@THEME@.props.listbox.monospaceClassName) > 1) {
-            regular = webui.@THEME@.props.listbox.monospaceClassName;
-            _disabled = webui.@THEME@.props.listbox.monospaceDisabledClassName;
+    setDisabled: function(elementId, disabled) { 
+        var domNode = document.getElementById(elementId);
+        if (domNode) {
+            return domNode.setProps({ disabled: disabled});
         }
-        if(disabled) {
-            listbox.disabled = true;
-            listbox.className = _disabled;
-        } else {
-            listbox.disabled = false;
-            listbox.className = regular;
-        }
-        return true;
+        return false;
     },
 
     /**
@@ -780,15 +747,14 @@ webui.@THEME@.listbox = {
      * the list).
      * @return The value of the selected option, or null if none is
      * selected. 
+     * @deprecated Use document.getElementById(elementId).getSelectedValue();
      */
     getSelectedValue: function(elementId) { 
-        var listbox = webui.@THEME@.listbox.getSelectElement(elementId); 
-        var index = listbox.selectedIndex; 
-        if(index == -1) { 
-            return null; 
-        } else { 
-            return listbox.options[index].value; 
+        var domNode = document.getElementById(elementId);
+        if (domNode) {
+            return domNode.getSelectedValue();
         }
+        return false;
     },
 
     /**
@@ -800,15 +766,14 @@ webui.@THEME@.listbox = {
      * rendered in the div tag enclosing the HTML elements that make up
      * the list).
      * @return The label of the selected option, or null if none is selected. 
+     * @deprecated Use document.getElementById(elementId).getSelectedLabel();
      */
-    getSelectedLabel: function(elementId) {
-        var listbox = webui.@THEME@.listbox.getSelectElement(elementId); 
-        var index = listbox.selectedIndex; 
-        if(index == -1) { 
-            return null; 
-        } else { 
-            return listbox.options[index].label; 
+    getSelectedLabel: function(elementId) { 
+        var domNode = document.getElementById(elementId);
+        if (domNode) {
+            return domNode.getSelectedLabel();
         }
+        return false;
     }
 }
 
