@@ -42,7 +42,8 @@ webui.@THEME@.widget.editableField = function() {
     this.valid      = true;
     this.widgetType = "editableField";
     this.edit   = false;
-    
+    this.savedValue = null;
+            
     // Register widget.
     dojo.widget.Widget.call(this);
     
@@ -77,7 +78,7 @@ webui.@THEME@.widget.editableField = function() {
         this.getInputElement = webui.@THEME@.widget.textField.getInputElement;        
         this.getSuperProps = webui.@THEME@.widget.textField.getProps;
         this.setSuperProps = webui.@THEME@.widget.textField.setProps;
-        
+                    
         
         // Set events.
         
@@ -85,8 +86,10 @@ webui.@THEME@.widget.editableField = function() {
         dojo.event.connect(this.textFieldNode, "ondblclick", webui.@THEME@.widget.editableField.edit.processEvent);
         dojo.event.connect(this.textFieldNode, "onblur", webui.@THEME@.widget.editableField.edit.processEvent);
         dojo.event.connect(this.textFieldNode, "onkeyup", webui.@THEME@.widget.editableField.edit.processEvent);
-        
-        
+                
+        // set Initial readOnly state
+        this.textFieldNode.readOnly = true;
+
         // Set properties.
         return this.setProps();
     }
@@ -121,10 +124,14 @@ webui.@THEME@.widget.editableField.getProps = function() {
  * @param props Key-Value pairs of properties.
  */
 webui.@THEME@.widget.editableField.setProps = function(props) {   
+    var currentReadOnly =     this.textFieldNode.readOnly;
     props = this.setSuperProps(props);
     
     //set own properties, if any
     if (this.autoSave != null) { props.autoSave = this.autoSave; }
+
+    // explicitely provided readOnly property must be ignored. 
+    this.textFieldNode.readOnly = currentReadOnly;
       
     return true;
 }
@@ -182,8 +189,7 @@ webui.@THEME@.widget.editableField.edit = {
      *          only styles will be modified
      */
     disableEdit : function(acceptChanges) {
-        //do not go through disable cycle if field is readOnly already
-        if (this == null || this.edit == false) 
+        if (this == null) 
             return;
         if (acceptChanges == true) {
             // if savedValue does not exist, we have not edited the field yet
