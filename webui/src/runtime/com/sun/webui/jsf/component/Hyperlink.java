@@ -23,6 +23,7 @@ package com.sun.webui.jsf.component;
 
 import com.sun.faces.annotation.Component;
 import com.sun.faces.annotation.Property;
+import com.sun.webui.jsf.util.ComponentUtilities;
 import com.sun.webui.jsf.util.JavaScriptUtilities;
 
 import javax.el.ValueExpression;
@@ -79,7 +80,15 @@ public class Hyperlink extends WebuiCommand implements ComplexComponent {
     public String getFamily() {
         return "com.sun.webui.jsf.Hyperlink";
     }
-    
+
+    public String getRendererType() {
+        // Ensure we have a valid Ajax request.
+        if (ComponentUtilities.isAjaxRequest(getFacesContext(), this)) {
+            return "com.sun.webui.jsf.ajax.Hyperlink";
+        }
+        return super.getRendererType();
+    }
+
     /**
      * Implement this method so that it returns the DOM ID of the 
      * HTML element which should receive focus when the component 

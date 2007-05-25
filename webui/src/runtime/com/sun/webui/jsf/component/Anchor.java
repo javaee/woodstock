@@ -21,15 +21,16 @@
  */
 package com.sun.webui.jsf.component;
 
+import com.sun.faces.annotation.Component;
+import com.sun.faces.annotation.Property;
 import com.sun.webui.jsf.util.ComponentUtilities;
+
+import javax.el.ValueExpression;
 import javax.faces.component.NamingContainer;
 import javax.faces.component.UIComponent;
 import javax.faces.component.UIComponentBase;
 import javax.faces.context.FacesContext;
-import javax.el.ValueExpression;
 
-import com.sun.faces.annotation.Component;
-import com.sun.faces.annotation.Property;
 
 /**
  * The Anchor component is used to create an XHTML &lt;a&gt; anchor element.
