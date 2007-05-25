@@ -145,7 +145,7 @@
                                        url="http://www.sun.com"
                                        alt="#{msgs.masthead_imageAltText}" 
                                        icon="ALARM_MAJOR_MEDIUM" 
-                                       text="{msgs.masthead_imageHyperlinkText}"
+                                       text="#{msgs.masthead_imageHyperlinkText}"
                                        textPosition="left">
                    <f:facet name="disabledImage">
                         <webuijsf:image id="disabledImage" icon="ALARM_MASTHEAD_MAJOR_DIMMED"/>
