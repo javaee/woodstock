@@ -77,18 +77,21 @@ public class Hyperlink extends WebuiCommand implements ComplexComponent {
     /**
      * <p>Return the family for this component.</p>
      */
-    public String getFamily() {
+    public String getFamily() {        
         return "com.sun.webui.jsf.Hyperlink";
     }
 
+    /**
+     * <p>Return the renderer type for this component.</p>
+     */    
     public String getRendererType() {
         // Ensure we have a valid Ajax request.
-        if (ComponentUtilities.isAjaxRequest(getFacesContext(), this)) {
-            return "com.sun.webui.jsf.ajax.Hyperlink";
-        }
-        return super.getRendererType();
+    if (ComponentUtilities.isAjaxRequest(getFacesContext(), this)) {
+        return "com.sun.webui.jsf.ajax.Hyperlink";
     }
-
+        return "com.sun.webui.jsf.widget.Hyperlink";
+    }    
+    
     /**
      * Implement this method so that it returns the DOM ID of the 
      * HTML element which should receive focus when the component 
@@ -1078,6 +1081,23 @@ public class Hyperlink extends WebuiCommand implements ComplexComponent {
         this.ajaxify = ajaxify;
         this.ajaxify_set = true;
     }   
+    
+    /**
+     * <p>Specialized decode behavior on top of that provided by the
+     * superclass. This method will skip decoding for "refresh" type of Ajax 
+     * request
+     * 
+     */
+    public void processDecodes(FacesContext context) {
+        if (context == null)
+            return;
+        // Skip processing in case of "refresh" ajax request
+        if (ComponentUtilities.isAjaxRequest(getFacesContext(), this, "refresh") &&
+            !ComponentUtilities.isAjaxExecuteRequest(getFacesContext(), this)) {
+            return;
+        }
+        super.processDecodes(context);
+    }    
     
     /**
      * <p>Restore the state of this component.</p>

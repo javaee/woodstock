@@ -37,7 +37,6 @@ dojo.require("webui.@THEME@.widget.anchor");
  */
 webui.@THEME@.widget.hyperlink = function() {
     // Set defaults.
-    this.href = "#";
     this.widgetType = "hyperlink"; 
 
     // Register widget.
@@ -52,11 +51,11 @@ webui.@THEME@.widget.hyperlink = function() {
         this.domNode.setProps = function(props) { return dojo.widget.byId(this.id).setProps(props); }
 
         // Set private functions.
-        this.addChildren = webui.@THEME@.widget.anchor.addChildren;
+        this.addContents = webui.@THEME@.widget.anchor.addContents;
         this.getClassName = webui.@THEME@.widget.hyperlink.getClassName;
         this.getProps = webui.@THEME@.widget.anchor.getProps;
-        this.refresh = webui.@THEME@.widget.anchor.refresh.processEvent;
-        this.setAnchorProps = webui.@THEME@.widget.anchor.setAnchorProps;
+        this.refresh = webui.@THEME@.widget.hyperlink.refresh.processEvent;
+        this.setSuperProps = webui.@THEME@.widget.anchor.setAnchorProps;
         this.setProps = webui.@THEME@.widget.hyperlink.setProps;
         this.submit = webui.@THEME@.widget.hyperlink.submit;
 
@@ -64,6 +63,10 @@ webui.@THEME@.widget.hyperlink = function() {
         dojo.event.connect(this.domNode, "onclick",
             webui.@THEME@.widget.hyperlink.createOnClickCallback(this.id, 
                 this.formId, this.params));
+                
+        // If the href attribute does not exist, make "#" value as
+        // the default value of the href attribute in the dom node.
+        this.domNode.href = "#";
 
 	// Set properties
 	return this.setProps();
@@ -91,6 +94,9 @@ webui.@THEME@.widget.hyperlink.createOnClickCallback = function(id, formId,
             event.preventDefault();
             return false;
         }
+        if (widget.href) {
+            return false;
+        }
 
         // If function returns false, we must prevent the submit.
         var result = (widget.domNode._onclick)
@@ -99,6 +105,7 @@ webui.@THEME@.widget.hyperlink.createOnClickCallback = function(id, formId,
             event.preventDefault();
             return false;
         }
+
         event.preventDefault();
         widget.submit(formId, params);
         return false;
@@ -196,6 +203,7 @@ webui.@THEME@.widget.hyperlink.refresh = {
  * <li>tabIndex</li>
  * <li>title</li>
  * <li>visible</li>
+ * </ul>
  */
 webui.@THEME@.widget.hyperlink.setProps = function(props){
     // Save properties for later updates.
@@ -213,8 +221,8 @@ webui.@THEME@.widget.hyperlink.setProps = function(props){
     props.className = this.getClassName();
 
     // Set properties that are common to the anchor element.
-    this.setAnchorProps(props); 
-    this.addChildren(props);
+    this.setSuperProps(props); 
+    this.addContents(props);
 }
 
 /**

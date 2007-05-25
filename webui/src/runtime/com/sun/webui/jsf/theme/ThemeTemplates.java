@@ -68,6 +68,11 @@ public class ThemeTemplates {
     public static final String IMAGEBUTTON = "imageButton";
 
     /**
+     * A template file that contains HTML for the ImageHyperlink component.
+     */
+    public static final String IMAGEHYPERLINK= "imageHyperlink";
+    
+    /**
      * A template file that contains HTML for the Label component.
      */
     public static final String LABEL = "label";
@@ -121,7 +126,7 @@ public class ThemeTemplates {
      * A template file that contains HTML for the TextField component.
      */
     public static final String TEXTFIELD= "textField";
-
+    
     /**
      * A template file that contains HTML for the TextArea component.
      */

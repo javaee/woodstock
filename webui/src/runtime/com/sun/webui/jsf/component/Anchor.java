@@ -77,6 +77,9 @@ public class Anchor extends UIComponentBase implements ComplexComponent,
         return "com.sun.webui.jsf.Anchor";
     }
     
+    /**
+     * <p>Return the renderer type for this component.</p>
+     */    
     public String getRendererType() {
         // Ensure we have a valid Ajax request.
         if (ComponentUtilities.isAjaxRequest(getFacesContext(), this)) {

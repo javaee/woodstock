@@ -51,14 +51,14 @@ webui.@THEME@.widget.anchor = function() {
 
         // Set public functions.
         this.domNode.getProps = function() { return dojo.widget.byId(_this.id).getProps(); }
-       // this.domNode.refresh = function(execute) { return dojo.widget.byId(_this.id).refresh(execute); }
+        this.domNode.refresh = function(execute) { return dojo.widget.byId(_this.id).refresh(execute); }
         this.domNode.setProps = function(props) { return dojo.widget.byId(_this.id).setProps(props); }
        
         // Set private functions.
-        this.addChildren = webui.@THEME@.widget.anchor.addChildren;
+        this.addContents = webui.@THEME@.widget.anchor.addContents;
         this.getClassName = webui.@THEME@.widget.anchor.getClassName;
         this.getProps = webui.@THEME@.widget.anchor.getProps;
-        //this.refresh = webui.@THEME@.widget.anchor.refresh.processEvent;
+        this.refresh = webui.@THEME@.widget.anchor.refresh.processEvent;
         this.setAnchorProps = webui.@THEME@.widget.anchor.setAnchorProps;
         this.setProps = webui.@THEME@.widget.anchor.setProps;
 
@@ -71,7 +71,7 @@ webui.@THEME@.widget.anchor = function() {
     }
 }
 
-webui.@THEME@.widget.anchor.addChildren = function(props) {
+webui.@THEME@.widget.anchor.addContents = function(props) {
     if (props.contents == null) {
         return false;
     }
@@ -115,6 +115,7 @@ webui.@THEME@.widget.anchor.createOnClickCallback = function(id) {
     };
 }
 
+
 /**
  * Helper function to obtain widget class names.
  */
@@ -149,7 +150,7 @@ webui.@THEME@.widget.anchor.getProps = function() {
     if (this.charset) { props.charset = this.charset; }
     if (this.accessKey) { props.accesskey = this.accessKey; }
     if (this.href) { props.href = this.href; }
-    if (this.name) { props.name = this.name; }
+    if (this.name) { props.name = this.name; } 
     if (this.contents) { props.contents = this.contents; }
     if (this.disabled != null) { props.disabled = this.disabled; }
  
@@ -207,7 +208,6 @@ webui.@THEME@.widget.anchor.refresh = {
      */
     beginEventTopic: "webui_@THEME@_widget_anchor_refresh_begin",
     endEventTopic: "webui_@THEME@_widget_anchor_refresh_end",
- 
     /**
      * Process refresh event.
      *
@@ -219,7 +219,8 @@ webui.@THEME@.widget.anchor.refresh = {
         // Publish event.
         webui.@THEME@.widget.anchor.refresh.publishBeginEvent({
             id: this.id,
-            execute: execute
+            execute: execute,
+            name: this.name
         });
         return true;
     },
@@ -304,7 +305,7 @@ webui.@THEME@.widget.anchor.setProps = function(props){
 
     // Set properties.
     this.setAnchorProps(props);
-    this.addChildren(props);
+    this.addContents(props);
 }
 
 dojo.inherits(webui.@THEME@.widget.anchor, dojo.widget.HtmlWidget);

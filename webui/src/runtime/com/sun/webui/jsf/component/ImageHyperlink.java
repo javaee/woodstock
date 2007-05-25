@@ -33,7 +33,24 @@ import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 
 /**
- * The ImageHyperlink component is used to display a hyperlinked image.
+ * <p>Use the <code>webuijsf:imageHyperlink</code> tag to display a clickable 
+ * image in the rendered HTML page. The image is surrounded by an HTML anchor, 
+ * allowing the image to function as a hyperlink.&nbsp; 
+ * This tag is based on a <code>webuijsf:hyperlink</code> tag and functions the same way.&nbsp; 
+ * The main difference is this tag will format an image with a surrounding hyperlink.&nbsp; See
+ * the <code>webuijsf:hyperlink</code>
+ * tag for more examples on using a hyperlink.</span></span><br>
+ * <br>
+ * The <code>webuijsf:imageHyperlink</code> component can be also be used to submit forms. 
+ * If the actionExpression attribute is used, the form is submitted. If the
+ * url attribute is used, the link is a normal hyperlink that sends the browser to a new location.<br> 
+ * The <code>webuijsf:imageHyperlink</code> can display a clickable icon image from the current theme 
+ * in the rendered HTML page using the "icon" attribute. Take a look at the <code> webuijsf:image</code> 
+ * tag to see how the icon attribute is to be used. The image that is specified as a part of the 
+ * imageUrl or the icon attribute is shown for the enabled state of the imageHyperlink. 
+ * If a <code>disabledImage</code> facet is specified, then that image will be shown when the 
+ * imageHyperlink changes to the disabled state. If not, the image specified for the enabled state 
+ * will be shown.<br>
  */
 @Component(type="com.sun.webui.jsf.ImageHyperlink", family="com.sun.webui.jsf.ImageHyperlink", 
     displayName="Image Hyperlink", tagName="imageHyperlink",
@@ -63,6 +80,17 @@ public class ImageHyperlink extends Hyperlink implements NamingContainer {
     public String getFamily() {
         return "com.sun.webui.jsf.ImageHyperlink";
     }
+    
+    /**
+     * <p> Return the renderer type to be used for the component.</p>
+     */
+    public String getRendererType() {
+        // Ensure we have a valid Ajax request.
+        if (ComponentUtilities.isAjaxRequest(getFacesContext(), this)) {
+            return "com.sun.webui.jsf.ajax.ImageHyperlink";
+        }
+        return "com.sun.webui.jsf.widget.ImageHyperlink";
+    } 
 
     // This facet is not meant to be overridden 
     // by others, but is only used as a storage bin for keeping the image

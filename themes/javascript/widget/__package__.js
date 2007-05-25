@@ -39,6 +39,7 @@ dojo.requireIf(djConfig.isDebug, "webui.@THEME@.widget.checkbox");
 dojo.requireIf(djConfig.isDebug, "webui.@THEME@.widget.dropDown");
 dojo.requireIf(djConfig.isDebug, "webui.@THEME@.widget.hiddenField");
 dojo.requireIf(djConfig.isDebug, "webui.@THEME@.widget.hyperlink");
+dojo.requireIf(djConfig.isDebug, "webui.@THEME@.widget.imageHyperlink");
 dojo.requireIf(djConfig.isDebug, "webui.@THEME@.widget.image");
 dojo.requireIf(djConfig.isDebug, "webui.@THEME@.widget.label");
 dojo.requireIf(djConfig.isDebug, "webui.@THEME@.widget.progressBar");

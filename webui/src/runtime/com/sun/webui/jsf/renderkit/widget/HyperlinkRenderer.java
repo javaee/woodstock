@@ -53,7 +53,24 @@ import com.sun.webui.jsf.util.WidgetUtilities;
 import com.sun.webui.jsf.util.ThemeUtilities;
 import com.sun.faces.annotation.Renderer;
 /**
- * This class renders the Hyperlink component
+ * This class renders an instance of the hyperlink component.
+ * It outputs all the necessary properties necessary to instantiate an hyperlink widget
+ * as JSON properties. 
+ * 
+ * All the children of the hyperlink component that are not 
+ * specified as UIParameter, are added to the "contents" JSON array. The widget renderer
+ * will parse through this array and render the children. For the children of the hyperlink
+ * which are instances of the UIParameter component, their name value pairs are appended
+ * a query parameters to the given url. These values of the UIParameter component are
+ * also sent to the widget through a "params" JSON object. If the hyperlink widget
+ * submits the form, it will append these values as request parameters to the url 
+ * and submit the page.
+ *
+ * The decode method of the HyperlinkRenderer looks for a particular name value pair match
+ * in the request parameter map. If it is present, then the method determines that it 
+ * was this particular instance of the hyperlink that was submitted and it queues an
+ * ActionEvent.
+ *
  */
 @Renderer(@Renderer.Renders(
     rendererType="com.sun.webui.jsf.widget.Hyperlink", 
@@ -90,8 +107,10 @@ public class HyperlinkRenderer extends AnchorRendererBase{
     }   
       
     /**
-     * Get the Dojo modules required to instantiate the widget.
-     *
+     * Get the Dojo modules required to instantiate the hyperlink widget.
+     * If the ajaxify attribute of the component is set to true, then the 
+     * module necessary for the ajax feature of the hyperlink component is also
+     * added as a part of the returned JSONArray object.
      * @param context FacesContext for the current request.
      * @param component UIComponent to be rendered.
      */
@@ -101,16 +120,12 @@ public class HyperlinkRenderer extends AnchorRendererBase{
         String url = (String)component.getAttributes().get("url");  
         boolean ajaxify = ((Boolean)
             component.getAttributes().get("ajaxify")).booleanValue();        
+        json.put(JavaScriptUtilities.getModuleName("widget.hyperlink"));   
+        if (ajaxify == true) {
+            json.put(JavaScriptUtilities.getModuleName(
+                "widget.jsfx.hyperlink"));
+        }            
 
-        if (url == null || url.length() == 0) {
-            json.put(JavaScriptUtilities.getModuleName("widget.hyperlink"));   
-            if (ajaxify == true) {
-                json.put(JavaScriptUtilities.getModuleName(
-                    "widget.jsfx.hyperlink"));
-            }            
-        } else {
-            json = super.getModules(context, component);
-        }
         return json;
     }      
     
@@ -118,36 +133,39 @@ public class HyperlinkRenderer extends AnchorRendererBase{
      * Set the attributes of the hyperlink element.
      * Override this method if custom properties need to be set for the 
      * component.
+     * This method overrides the setAttributes method present in the AnchorRendererBase
+     * class.It outputs the form id and the values of the UIParameter component 
+     * so that they can be used by the hyperlink widget while submitting the page.
+     *
      * @param context FacesContext for the current request.
      * @param component UIComponent to be rendered.
      * @param json The JSON object
      */    
     protected void setAttributes(FacesContext context, UIComponent component,
             JSONObject json) throws IOException, JSONException {
-        String url = (String)component.getAttributes().get("url");
-        if (url == null || url.length() == 0) {
-            UIComponent form = Util.getForm(context, component);
-            String formClientId = form.getClientId(context);
-            json.put("formId", formClientId);     
-            JSONArray jarray = new JSONArray();
-            JSONObject param;
-            json.put("params", jarray);
+      
+        UIComponent form = Util.getForm(context, component);
+        String formClientId = form.getClientId(context);
+        json.put("formId", formClientId);     
+        JSONArray jarray = new JSONArray();
+        JSONObject param;
+        json.put("params", jarray);
 
-            Iterator kids = component.getChildren().iterator();
-            while (kids.hasNext()) {
-                UIComponent kid = (UIComponent) kids.next();
+        Iterator kids = component.getChildren().iterator();
+        while (kids.hasNext()) {
+            UIComponent kid = (UIComponent) kids.next();
 
-                if (kid instanceof UIParameter) {
-                    String name = (String) kid.getAttributes().get("name"); //NOI18N
-                    String value = (String) kid.getAttributes().get("value"); //NOI18N
-                    if (name == null || value == null) {                           
-                        continue;
-                    }
-                    jarray.put(name);
-                    jarray.put(value);
+            if (kid instanceof UIParameter) {
+                String name = (String) kid.getAttributes().get("name"); //NOI18N
+                String value = (String) kid.getAttributes().get("value"); //NOI18N
+                if (name == null || value == null) {                           
+                    continue;
                 }
+                jarray.put(name);
+                jarray.put(value);
             }
-        }
+
+        }        
         super.setAttributes(context, component, json);     
     }
 
@@ -160,17 +178,13 @@ public class HyperlinkRenderer extends AnchorRendererBase{
     }
           
     /**
-     * Get the type of widget represented by this component.
-     *
+     * Returns the type of widget represented by this component.
+     * This method returns "hyperlink" as the widget type.
      * @param context FacesContext for the current request.
      * @param component UIComponent to be rendered.
      */
     protected String getWidgetType(FacesContext context, UIComponent component) {
-        String url = (String)component.getAttributes().get("url");
-        if (url == null || url.length() == 0) {
-            return JavaScriptUtilities.getNamespace("hyperlink");            
-        }
-        return super.getWidgetType(context, component);
-    }           
+            return JavaScriptUtilities.getNamespace("hyperlink");          
+    }          
 
 }

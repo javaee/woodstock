@@ -1219,7 +1219,50 @@ properties:
     </tr>
   </tbody>
 </table>
+<h3>Client Side Javascript Events</h3>
+ When the component is manipulated client side, some functions may
+  publish event topics for custom AJAX implementations to listen
+  for. Using the Dojo event system, listen for the refresh event
+  topic using: <br>
+ <code>
+  dojo.event.topic.subscribe(
+    webui.@THEME@.widget.anchor.refresh.endEventTopic,
+    myObject, "myFunctionName");
+</code>.<br>
+<br>
+For example myObject can be webui.@THEME@.widget.jsfx.anchor <br>
+and myFunctionName is "procesRefreshEvent"
+    <br>   
+    <br>
+  <table style="text-align: left; width: 100%;" border="1" cellpadding="2"
+    cellspacing="2">
+    <tr>
+      <td>
+        webui.@THEME@.widget.anchor.refresh.beginEventTopic
+      </td>
+      <td>
+        Event topic published before asynchronously refreshing
+        the component. Supported properties include:
 
+        <ul>
+        <li>id</li>
+        <li>execute</li>
+        </ul>
+
+      </td>
+    </tr>54
+    <tr>
+      <td>
+        webui.@THEME@.widget.anchor.refresh.endEventTopic
+      </td>
+      <td>
+        Event topic published after asynchronously refreshing
+        the component. Supported properties include:
+
+        See setProps() function.
+      </td>
+    </tr>
+  </table>
  <h3 >Examples</h3>
  <h4 >Example 1: Create an anchor that points to an url</h4>
  <code >&lt;webuijsf:anchor id="anchor1" url="http://www.sun.com"/&gt;
@@ -5436,7 +5479,50 @@ properties:
     </tr>
   </tbody>
 </table>
+<h3>Client Side Javascript Events</h3>
+ When the component is manipulated client side, some functions may
+  publish event topics for custom AJAX implementations to listen
+  for. Using the Dojo event system, listen for the refresh event
+  topic using: <br>
+ <code>
+  dojo.event.topic.subscribe(
+    webui.@THEME@.widget.hyperlink.refresh.endEventTopic,
+    myObject, "myFunctionName");
+</code>.<br>
+<br>
+For example myObject can be webui.@THEME@.widget.jsfx.hyperlink <br>
+and myFunctionName is "procesRefreshEvent"
+    <br>   
+    <br>
+  <table style="text-align: left; width: 100%;" border="1" cellpadding="2"
+    cellspacing="2">
+    <tr>
+      <td>
+        webui.@THEME@.widget.hyperlink.refresh.beginEventTopic
+      </td>
+      <td>
+        Event topic published before asynchronously refreshing
+        the component. Supported properties include:
 
+        <ul>
+        <li>id</li>
+        <li>execute</li>
+        </ul>
+
+      </td>
+    </tr>
+    <tr>
+      <td>
+        webui.@THEME@.widget.hyperlink.refresh.endEventTopic
+      </td>
+      <td>
+        Event topic published after asynchronously refreshing
+        the component. Supported properties include:
+
+        See setProps() function.
+      </td>
+    </tr>
+  </table>
  <h3><a name="Examples">Examples</a></h3>
  <h4>Example 1: Create a hyperlink that submits the form</h4>
  <code>&lt;webuijsf:hyperlink
@@ -5737,7 +5823,7 @@ submitting field value<br>
   style="color: rgb(0, 0, 0);">webuijsf:imageHyperlink</code><span
   style="color: rgb(0, 0, 0);"></span></span>
  component
- can be also be used to submit forms. If the action attribute is used,
+ can be also be used to submit forms. If the actionExpression attribute is used,
  the form is submitted. If the
  url attribute is used, the link is a normal hyperlink that sends the
  browser to a new location.<br>
@@ -5745,24 +5831,12 @@ submitting field value<br>
  <span style="color: rgb(0, 0, 0);">The
  <code>webuijsf:imageHyperlink</code>
  can display a clickable icon image from the current theme in the
- rendered HTML page using the "icon" attribute. The <code></code>tag
- allows you to use an
- icon (a small image) from the current theme. Currently the list of
- icons that you can use is not publicly supported, but the icon names
- are specified in the <code>/com/sun/webui/jsf/suntheme/SunTheme.properties</code>
- file. The names are listed as resource keys of the format <code>image.ICON_NAME.</code>
- Use only the part of the key that follows <code>image.
- </code>For
- example, if the key is <code>image.ALARM_CRITICAL_SMALL</code>,
- you
- should use <code>ALARM_CRITICAL_SMALL
- </code>as the specified
- icon name in the <code>webuijsf:</code></span><span
-  style="color: rgb(0, 0, 0);"><code>imageHyperlink</code>
- </span><span
-  style="color: rgb(0, 0, 0);"><code></code>tag.
- In the near future a
- supported list will be published.&nbsp; </span><br>
+ rendered HTML page using the "icon" attribute. Take a look at the <code>
+ webuijsf:image</code> tag to see how the icon attribute is to be used.
+ The image that is specified as a part of the imageUrl or the icon attribute is 
+ shown for the enabled state of the imageHyperlink. If a <code>disabledImage</code>
+ facet is specified, then that image will be shown when the imageHyperlink changes
+ to the disabled state. If not, the image specified for the enabled state will be shown.<br>
  <span style="color: rgb(0, 0, 0);">
  <h3 style="color: rgb(0, 0, 0);">HTML
  Elements and Layout</h3>
@@ -5782,12 +5856,131 @@ submitting field value<br>
  <h3 style="color: rgb(0, 0, 0);">Theme
  Identifiers</h3>
  <span style="color: rgb(0, 0, 0);">None</span><br>
- <h3>Client Side Javascript
- Functions<span
-  style="color: rgb(255, 153, 0);"></span><br>
- </h3>
- <p>None. <span
-  style="color: rgb(255, 153, 0);"></span></p>
+ <h3 >Client Side Javascript Functions</h3>
+ When the component is rendered, a DOM object corresponding to the
+component is created. To manipulate the component on the client side,
+you may invoke functions on the DOM object. With reference to the DOM
+id, to disable the component, invoke <code>document.getElementById(id).setProps({disabled:
+true})</code>.<br>
+<br>
+<table style="text-align: left; width: 100%;" border="1" cellpadding="2"
+ cellspacing="2">
+  <tbody>
+    <tr>
+      <td><code>getProps()</code></td>
+      <td>Use this function to get widget properties. Please see <code>setProps()</code>
+function for a list of supported properties.</td>
+    </tr>
+    <tr>
+    <tr>
+      <td style="vertical-align: top;"><code>refresh(execute)</code></td>
+      <td style="vertical-align: top;">Use this function to
+asynchronously refresh the component.<br>
+      <br>
+      <ul>
+        <li>execute: Comma separated string containing a list of client
+ids against which the <code>execute</code> portion of the request
+processing lifecycle must be run.</li>
+      </ul>
+      </td>
+    </tr>
+    <tr>
+      <td><code>setProps(props)</code></td>
+      <td>Use this function to change any of the following supported
+properties:
+
+  <ul>
+  <li>id</li>
+  <li>className</li>
+  <li>dir</li>
+  <li>disabled</li>
+  <li>disabledImage</li>
+  <li>enabledImage</li>
+  <li>href</li>
+  <li>hrefLang</li>
+  <li>imagePosition</li>
+  <li>lang</li>
+  <li>onFocus</li>
+  <li>onBlur</li>
+  <li>onClick</li>
+  <li>onDblClick</li>
+  <li>onKeyDown</li>
+  <li>onKeyPress</li>
+  <li>onKeyUp</li>
+  <li>onMouseDown</li>
+  <li>onMouseOut</li>
+  <li>onMouseOver</li>
+  <li>onMouseUp</li>
+  <li>onMouseMove</li>
+  <li>style</li>
+  <li>tabIndex</li>
+  <li>visible</li>
+    </li>
+   </ul>
+      </td>
+    </tr>
+  </tbody>
+</table>
+<h3>Client Side Javascript Events</h3>
+ When the component is manipulated client side, some functions may
+  publish event topics for custom AJAX implementations to listen
+  for. Using the Dojo event system, listen for the refresh event
+  topic using: <br>
+ <code>
+  dojo.event.topic.subscribe(
+    webui.@THEME@.widget.imageHyperlink.refresh.endEventTopic,
+    myObject, "myFunctionName");
+</code>.<br>
+<br>
+For example myObject can be webui.@THEME@.widget.jsfx.imageHyperlink <br>
+and myFunctionName is "procesRefreshEvent"
+    <br>   
+    <br>
+  <table style="text-align: left; width: 100%;" border="1" cellpadding="2"
+    cellspacing="2">
+    <tr>
+      <td>
+        webui.@THEME@.widget.imageHyperlink.refresh.beginEventTopic
+      </td>
+      <td>
+        Event topic published before asynchronously refreshing
+        the component. Supported properties include:
+
+        <ul>
+        <li>id</li>
+        <li>execute</li>
+        </ul>
+
+      </td>
+    </tr>
+    <tr>
+      <td>
+        webui.@THEME@.widget.imageHyperlink.refresh.endEventTopic
+      </td>
+      <td>
+        Event topic published after asynchronously refreshing
+        the component. Supported properties include:
+
+        See setProps() function.
+      </td>
+    </tr>
+  </table>
+<h3>Facets</h3>
+The imageHyperlink supports the following facets <br>
+     <table style="text-align: left; color: rgb(0, 0, 0); width: 100%;"
+  border="1" cellpadding="2" cellspacing="2">
+   <tbody>
+     <tr>
+       <td style="vertical-align: top;"><code>disabledImage<br>
+       </code><br>
+       </td>
+       <td style="vertical-align: top;">Specify the image to be shown
+        when the imageHyperlink is disabled.
+        </td>
+     </tr>
+     </tbody>
+    </table>
+
  <h3>Examples&nbsp;<span
   style="color: rgb(255, 153, 0);"></span></h3>
  <span style="color: rgb(255, 153, 0);"></span>
@@ -5797,7 +5990,7 @@ submitting field value<br>
  with yahoo gif<br>
  </h4>
  <span style="color: rgb(255, 153, 0);"></span><code>&lt;webuijsf:imageHyperlink
- id="imagehyperlinktest1" imageURL="./myyahoo.gif"
+ id="imagehyperlinktest1" imageURL="../myyahoo.gif"
  action="#{HyperlinkBean.getRequiredHelp}" /&gt;</code></span><span
   style="color: rgb(0, 0, 0);"><br>
  </span>
@@ -5817,9 +6010,33 @@ submitting field value<br>
  </code><span
   style="color: rgb(0, 0, 0);"><br>
  </span>
- <p>Auto-generated component class.
- Do <strong>NOT</strong> modify; all changes
- <strong>will</strong> be lost!</p>
+ <h4>Example 3: Using disabledImage facet.</h4>
+ <code>
+ &lt;webuijsf:imageHyperlink id="iconhyperlink"  url="/faces/calendar/index.jsp" 
+ &nbsp;&nbsp;alt="Go to Calendar tests"  icon="ALARM_MAJOR_MEDIUM"  text="Calendar Test"&gt; <br>
+     &lt;f:facet name="disabledImage"&gt;<br>
+ &nbsp;&nbsp;&nbsp;&nbsp;&lt;webuijsf:image id="disabledImage" icon="ALARM_MASTHEAD_MAJOR_DIMMED"/&gt;
+     &lt;/f:facet&gt;
+  &lt;/webuijsf:imageHyperlink&gt;
+  </code>
+  <h4> Example4: Updating the imageHyperlink on the client side using setProps and getProps</h4>
+  <code>
+  &lt;webuijsf:imageHyperlink
+ id="imagehyperlinktest1" imageURL="./myyahoo.gif"
+action="#{HyperlinkBean.getRequiredHelp}" /&gt;<br>
+ &lt;webuijsf:button id="button1" text="Hide imageHyperlink" onClick="hideImageHyperlink();return false;"/&gt;<br>
+   &lt script type="text/javascript"&gt <br>
+    function hideImageHyperlink() {<br>
+      var domNode = document.getElementById("form1:imagehyperlinktest1");<br> 
+      var props = domNode.getProps();<br>
+      if (domNode != null) {<br>          
+	  domNode.setProps({visible:!props.visible});<br>
+      }<br>
+    }<br>
+   &lt/script&gt<br>
+ </code>
+ 
+ <h4>
 ]]></description>
     </tag>
 
@@ -5917,7 +6134,6 @@ submitting field value<br>
 </pre></code>
 ]]></description>
     </tag>
-
     <tag>
         <name>label</name>
 

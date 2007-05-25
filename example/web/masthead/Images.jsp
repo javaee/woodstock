@@ -51,17 +51,22 @@
               }              
               
               function toggleBorder() {
-                 var domNode = document.getElementById("form6:image5");
-                      if (domNode != null) {
-                          var props = domNode.getProps();
-                          if (props != null) {
-                              if (props.border == 1) {
-                                  domNode.setProps({border:0});
-                              } else {
-                                  domNode.setProps({border:1});                              
-                              }
-                          }
-                      }    
+                  var domNode = document.getElementById("form6:image5");
+                  if (domNode != null) {
+                      var props = domNode.getProps();
+                      if (props != null) {
+                          if (props.border == 1) {
+                              domNode.setProps({border:0});
+                          } else {
+                              domNode.setProps({border:1});                                                                                            
+                          }    
+                      }
+                  }
+              }
+              
+              function toggleImageHyperlink() {
+                  var props = document.getElementById("form6:iconhyperlink").getProps();
+                  document.getElementById("form6:iconhyperlink").setProps({disabled:!props.disabled});              
               }
             </webuijsf:script>
           </webuijsf:head>
@@ -132,9 +137,25 @@
               <br/>                        
               <webuijsf:button id="buttonClientSide1" text="#{msgs.masthead_clientImageVisible}" onClick="toggleVisible();return false;"/>
               <webuijsf:button id="buttonClientSide2" text="#{msgs.masthead_clientImageBorder}" onClick="toggleBorder();return false;"/>
-             <li/> 
+              <br/><br/>
+              <li/>
+              <webuijsf:label id="label6" text="#{msgs.masthead_label6}"/>
+               <br/>
+              <webuijsf:imageHyperlink id="iconhyperlink" 
+                                       url="http://www.sun.com"
+                                       alt="#{msgs.masthead_imageAltText}" 
+                                       icon="ALARM_MAJOR_MEDIUM" 
+                                       text="{msgs.masthead_imageHyperlinkText}"
+                                       textPosition="left">
+                   <f:facet name="disabledImage">
+                        <webuijsf:image id="disabledImage" icon="ALARM_MASTHEAD_MAJOR_DIMMED"/>
+                   </f:facet>
+              </webuijsf:imageHyperlink>
+              <webuijsf:button id="buttonClientSide3" text="#{msgs.masthead_toggleImageHyperlink}" onClick="toggleImageHyperlink();return false"/>                            
+              <br/><br/>  
+              <li/>
               <webuijsf:label labelLevel="2" id="label5" for="form6:textField1" text="#{msgs.masthead_label5}"/>               
-              <br/>              
+              <br/>                
               <webuijsf:image id="image6" url="#{ImageBean.imageUrl}" alt="#{msgs.masthead_imageAltText}" 
                         toolTip="#{msgs.masthead_imageToolTip}"/>              
               <br/>                           

@@ -605,8 +605,14 @@ webui.@THEME@.hyperlink = {
      * @param elementId The component id of the JSF component (this id is
      * assigned to the outter most tag enclosing the HTML img element).
      * @return a reference to the img element. 
+     * @deprecated See webui.@THEME@.widget.imageHyperlink
      */
     getImgElement: function(elementId) {
+        dojo.require("webui.@THEME@.widget.imageHyperlink");
+        var widget = dojo.widget.byId(elementId);
+        if (widget != null) {
+            return widget.getProps().enabledImage;
+        }
         // Image hyperlink is now a naming container and the img element id 
         // includes the ImageHyperlink parent id.
         if (elementId != null) {
