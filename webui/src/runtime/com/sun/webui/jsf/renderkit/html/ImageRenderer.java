@@ -256,33 +256,39 @@ public class ImageRenderer extends AbstractRenderer {
         writer.endElement("img"); //NOI18N
     }
     
+    
+    // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    // Private renderer methods
+    // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    
+    /**
+     * Helper method to check whether the image specified is of type "png"
+     * This menthod will return true only if the image is of type "png" and
+     * the browser version is lesser than IE 7.x. These browsers seem to have
+     * a problem with displaying png images.
+     * @param context The FacesContext instance.
+     * @param url The path to the specified image instance.
+     *
+     * @return A boolean value which indicates the image is of "png" type or not.
+     */
     private boolean isPngAndIE(FacesContext context, String url) {
-
         ClientSniffer cs = ClientSniffer.getInstance(context);
-        
-        //Some time encodeResourceURL(url) adds the sessiod to the
+        if (!cs.isIe() || cs.isIe7up()) {
+                     return false;
+        }         
+        //Sometimes encodeResourceURL(url) adds the session id to the
         // image URL, make sure to take that in to account
         //
         if (url.indexOf("sessionid") != -1){ //NOI18N
             if (url.substring(0,url.indexOf(';')).
-		    endsWith(".png")&& cs.isIe6up()) { //NOI18N
-                return false;
-            } else if (url.substring(0,url.indexOf(';')).
-		    endsWith(".png")&& cs.isIe5up()) { //NOI18N
+		    endsWith(".png")) { //NOI18N
                 return true;
             }
         } else{ //</RAVE>
-            // IE 6 SP 2 and above seems to have fixed the problem with .png images
-            // But not SP1. For things to work on IE6 one needs to upgrade to SP2.
             if (url.endsWith(".png")) {
-                if (cs.isIe6up()) {
-                    return false;
-                } else if (cs.isIe5up()) {
                     return true;
-                }
             }
-        }
-        
+        }        
         return false;
     }
 }
