@@ -197,25 +197,31 @@ public class WidgetUtilities {
     
     
     /**
-     * Helper method to obtain a list of indicators for Alert and Alarm components.
+     * Helper method to return a <code>JSONArray</code> of 
+     * <code>Indicators</code>. If <code>ignoreType</code> matches
+     * an indicator's type, that indicator is not returned in the array.
+     * Each <code>UIComponent</code> returned by
+     * <code>Indicator.getImageComponent</code> has its parent set to 
+     * <code>parent</code> and its id set to the indicator's type, only
+     * component's parent or id are null.
      * 
      * @param context FacesContext for the current request.
-     * @param Iterator<Indicators> for the indicators.
-     * @param String ignoreType for the indicators type.
-     * @param Theme theme for the indicators.
-     * @param UIComponent parent for the indicators.
+     * @param iterator<Indicators> for the indicators.
+     * @param ignoreType do not return an indicator if it matches this type.
+     * @param theme used to obtain an indicator's image component.
+     * @param parent for the indicator image components.
      *
      * @returns JSONArray of Indicators.
      */
-    public static JSONArray getIndicators( FacesContext context, Iterator<Indicator> indicators,  
-        String ignoreType, Theme theme, UIComponent parent, String currentType) throws IOException, JSONException {
-        
-        ImageComponent img = null;
-        UIComponent comp = null;
+    public static JSONArray getIndicators(FacesContext context, 
+	    Iterator<Indicator> indicators, String ignoreType, Theme theme,
+	    UIComponent parent) throws IOException, JSONException {
+
+
         if (indicators == null) {
             return null;
         }
-                
+	
         JSONArray indicatorArray = new JSONArray();      
         while (indicators.hasNext()) {
 
@@ -228,143 +234,30 @@ public class WidgetUtilities {
                     continue;
             }
 
+	    UIComponent img = indicator.getImageComponent(theme);
             JSONObject indjson = new JSONObject();
-            comp = indicator.getImageComponent(theme);
-            if (comp != null) {
-                
-                if (comp instanceof ImageComponent) {
-                    img = (ImageComponent) comp;
-                }
-                
-                if (img != null) {
-                    String url = null;
-                    int height = 0;
-                    int width = 0;
-                    int border = 0;
-                    String alt = null;
-                    String align = null;
-                    int hspace = 0;
-                    int vspace = 0;
-                    String toolTip = null;
-                    String longDesc = null;
-                    Object obj = parent.getAttributes().get("url");
-                    if (obj != null) {
-                        url = (String) obj;
-                    }
-                    obj = parent.getAttributes().get("height");
-                    if (obj != null) {
-                        height = (Integer) obj;
-                    }
-                    obj = parent.getAttributes().get("width");
-                    if (obj != null) {
-                        width = (Integer) obj;
-                    }
-                    obj = parent.getAttributes().get("align");
-                    if (obj != null) {
-                        align = (String) obj;
-                    }
-                    obj = parent.getAttributes().get("alt");
-                    if (obj != null) {
-                        alt = (String) obj;
-                    }
-                    obj = parent.getAttributes().get("hspace");
-                    if (obj != null) {
-                        hspace = (Integer) obj;
-                    }
-                    obj = parent.getAttributes().get("longDesc");
-                    if (obj != null) {
-                        longDesc = (String) obj;
-                    }
-                    obj = parent.getAttributes().get("toolTip");
-                    if (obj != null) {
-                        toolTip = (String) obj;
-                    }
-                    obj = parent.getAttributes().get("vspace");
-                    if (obj != null) {
-                        vspace = (Integer) obj;
-                    }
-                    obj = parent.getAttributes().get("border");
-                    if (obj != null) {
-                        border = (Integer) obj;
-                    }
-                    ImageComponent urlImg = null;
-                    if (url != null && url.length() > 0) {
-                        // create a new image component if url is present.
-                        urlImg = new ImageComponent();
-                        urlImg.setUrl(url);
-                        img = urlImg;
-                    }
-
-                    if (height > 0) {
-                        img.setHeight(height);
-                    }
-
-                    if (width > 0) {
-                        img.setWidth(width);
-                    }
-                    // Set other than height and width attributes for current type only.
-                    if (currentType != null && type.equals(currentType)) {
-                        if (hspace > 0) {
-                            img.setHspace(hspace);
-                        }
-
-                        if (vspace > 0) {
-                            img.setVspace(vspace);
-                        }
-
-                        if (align != null && align.length() > 0) {
-                            img.setAlign(align);
-                        }
-
-                        if (alt != null && alt.length() > 0) {
-                            img.setAlt(alt);
-                        }
-
-                        if (longDesc != null && longDesc.length() > 0) {
-                            img.setLongDesc(longDesc);
-                        }
-
-                        if (toolTip != null && toolTip.length() > 0) {
-                            img.setToolTip(toolTip);
-                        }
-
-                        if (border >= 0) {
-                            img.setBorder(border);
-                        }
-                    }
-
-                }
-                         
-            } else {
-                    // Since the image may be theme based it is not a good idea
-                    // to throw exception at runtime. Using "dot" image to handle
-                    // this situation.
-                img = (ImageComponent) ThemeUtilities.getIcon(theme, ThemeImages.DOT); 
+            if (img == null) {
+		// Why are we doing this ?
+		// Since the image may be theme based it is not a good idea
+		// to throw exception at runtime. Using "dot" image to handle
+		// this situation.
+                img = (UIComponent)ThemeUtilities.getIcon(theme, 
+			ThemeImages.DOT); 
             }
-                
-            if (img != null) {
-                comp = img;
-            }
-            
-            
-            //set the parent
-            if (comp.getAttributes().get("parent") == null) {
-                comp.getAttributes().put("parent", parent);
-            }
-
-            //set the id
-            if (comp.getAttributes().get("id") == null) {
-                comp.getAttributes().put("id", type);
-            }
-            
-            indjson.put("type", type);
-                               
-            WidgetUtilities.addProperties(indjson, "image",
-                       WidgetUtilities.renderComponent(context, comp));    
-               
-            indicatorArray.put(indjson);
-        }
-        return indicatorArray;
+	    //set the id
+	    if (img.getId() == null) {
+		img.setId(type);
+	    }
+	    //set the parent
+	    if (img.getParent() == null) {
+		img.setParent(parent);
+	    }
+	    indjson.put("type", type);
+	    WidgetUtilities.addProperties(indjson, "image",
+                       WidgetUtilities.renderComponent(context, img));
+	    indicatorArray.put(indjson);
+	}
+	return indicatorArray;
     } 
 
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~

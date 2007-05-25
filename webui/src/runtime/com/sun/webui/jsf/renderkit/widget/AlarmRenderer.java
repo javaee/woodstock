@@ -29,13 +29,13 @@ import com.sun.webui.jsf.model.Indicator;
 import com.sun.webui.jsf.theme.ThemeImages;
 import com.sun.webui.jsf.theme.ThemeTemplates;
 import com.sun.webui.jsf.util.JavaScriptUtilities;
-import com.sun.webui.jsf.util.RenderingUtilities;
 import com.sun.webui.jsf.util.ThemeUtilities;
 import com.sun.webui.jsf.util.WidgetUtilities;
 import com.sun.webui.theme.Theme;
 import java.io.IOException;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
@@ -132,31 +132,62 @@ public class AlarmRenderer extends RendererBase {
                 : theme.getPathToTemplate(ThemeTemplates.ALARM))
             .put("className", alarm.getStyleClass());    
                        
-        List<Indicator> indicators = (List<Indicator>) alarm.getIndicators();
-        
-        Iterator<Indicator> iter1 = indicators.iterator();
-	
+        // Get all the attributes that might need to be changed
+	// in an icon or url image or indicator.
+	//
+	int height = alarm.getHeight();
+	int width = alarm.getWidth();
+	int border = alarm.getBorder();
+	int hspace = alarm.getHspace();
+	int vspace = alarm.getVspace();
+	String align = alarm.getAlign();
+	String alt = alarm.getAlt();
+	String longDesc = alarm.getLongDesc();
+	String toolTip = alarm.getToolTip();
+
         // Check for the icon
         // If an icon is defined then set the ignoreType to severity
         // and render it separately with icon image. indicatorArray will
-        // not have the indicator for the severity for which icon is present.
+        // not have the indicator for the severity if an icon or
+	// url is present.
+	//
+
         String icon = alarm.getIcon();
         String ignoreType = null;
-        ImageComponent iconImg = null;
+        ImageComponent alarmImage = null;
         if (icon != null && url == null) {
             ignoreType = severity;
-            iconImg = (ImageComponent) ThemeUtilities.getIcon(theme, icon); 
-        }
+            alarmImage = (ImageComponent)ThemeUtilities.getIcon(theme, icon); 
+	    initAlarmImage(alarm, severity, null, icon, height, width, hspace,
+		vspace, align, alt, longDesc, toolTip, border, alarmImage);
+        } else 
+	if (url != null && url.length() > 0) {
+            ignoreType = severity;
+	    alarmImage = new ImageComponent();
+	    initAlarmImage(alarm, severity, url, null, height, width, 
+		hspace, vspace, align, alt, longDesc, toolTip, border,
+		alarmImage);
+	}
+	    
+        List<Indicator> indicators = (List<Indicator>) alarm.getIndicators();
+        Iterator<Indicator> iterator = indicators.iterator();
         
-        JSONArray indicatorArray = WidgetUtilities.getIndicators(context, 
-                iter1, ignoreType, theme, alarm, severity);
+	// Use an different method than WidgetUtilities.getIndicators
+	// to optimize a little. This method may only be useful for
+	// alarms so it is private to this class.
+	//
+	JSONArray indicatorArray = getAndEditIndicators(
+		context, iterator, ignoreType, theme, alarm, severity,
+		height, width, hspace, vspace, border, 
+		toolTip, longDesc, alt, align);
+
                 
         JSONObject iconjson = new JSONObject();
         
-        if (ignoreType != null) {
-            iconjson.put("type", ignoreType);
+        if (alarmImage != null) {
+            iconjson.put("type", severity);
                 WidgetUtilities.addProperties(iconjson, "image",
-                       WidgetUtilities.renderComponent(context, iconImg));
+                       WidgetUtilities.renderComponent(context, alarmImage));
                 indicatorArray.put(iconjson);
         }
         
@@ -188,4 +219,179 @@ public class AlarmRenderer extends RendererBase {
         return ThemeUtilities.getTheme(FacesContext.getCurrentInstance());
     }   
     
+    /**
+     * Helper method to obtain a list of indicators for an Alarm
+     * and edit the Indicators based on properties set on the Alarm.
+     * If an Indicator's type matches ignoreType, do not return
+     * that indicator.<br/>
+     * If editTextType matches an Indicator's type then edit that indicator's
+     * text properties as well as the dimensional properties.<br/>
+     * 
+     * @param context FacesContext for the current request.
+     * @param iterator<Indicators> for the indicators.
+     * @param string ignoreType do not return an Indicator of this type.
+     * @param theme for obtaining indicator components.
+     * @param parent for the indicator components.
+     *
+     * @returns JSONArray of Indicators.
+     */
+    private JSONArray getAndEditIndicators(FacesContext context, 
+	    Iterator<Indicator> indicators,  String ignoreType,
+	    Theme theme, Alarm parent, String editTextType, 
+	    int height, int width, int hspace, int vspace, int border, 
+	    String toolTip, String longDesc, String alt, String align) 
+            throws IOException, JSONException {
+
+        ImageComponent img = null;
+        if (indicators == null) {
+            return null;
+        }
+
+        JSONArray indicatorArray = new JSONArray();      
+        while (indicators.hasNext()) {
+
+            Indicator indicator = (Indicator)indicators.next();                 
+            String type = (String)indicator.getType();
+
+            // Don't do anything if we don't have to.
+            //
+            if (type.equals(ignoreType)) {
+                    continue;
+            }
+
+            JSONObject indjson = new JSONObject();
+
+	    // Get the image as a UIComponent
+	    //
+	    UIComponent comp = indicator.getImageComponent(theme);
+	    // If getImageKey returns null, then the getImageComponent
+	    // was set by the developer and there is no way to safely
+	    // edit it. If it is not null, then the ImageComponent will
+	    // come newly created from the theme.
+	    // Note that this is only safe if the Indicator component
+	    // has not been drastically subclassed or the theme
+	    // image components cached.
+	    //
+	    if (indicator.getImageKey() != null && comp != null) {
+		// We only edit the text properties if the 
+		// Alarm severity is the same as the Indicator type.
+		//
+		editImage(comp, type.equals(editTextType),
+		    height, width, hspace, vspace, border, 
+		    toolTip, longDesc, alt, align);
+	    }
+                         
+	    // Why do we need to do this ?
+	    //
+	    if (comp == null) {
+		// Since the image may be theme based it is not a good idea
+                // to throw exception at runtime. Using "dot" image to handle
+                // this situation.
+                comp = (UIComponent)ThemeUtilities.getIcon(theme, 
+			ThemeImages.DOT); 
+                continue;
+            }
+
+	    // In case comp is a developer defined component we don't
+	    // want to overwrite their values
+	    //
+	    if (comp.getId() == null) {
+		comp.setId(type);
+	    }
+	    if (comp.getParent() == null) {
+		comp.setParent(parent);
+	    }
+
+	    indjson.put("type", type);
+	    WidgetUtilities.addProperties(indjson, "image",
+		   WidgetUtilities.renderComponent(context, comp));
+	    indicatorArray.put(indjson);
+	}
+	return indicatorArray;
+    }
+    
+    /**
+     * Helper method to edit the attributes of an Indicator image.
+     * If editText is true, edit the text properties as well. Sometimes
+     * this is not appropriate.
+     */
+    private void editImage(UIComponent alarmImage, boolean editText,
+	    int height, int width, int hspace, int vspace, int border, 
+	    String toolTip, String longDesc, String alt, String align) {
+
+	Map attributes = alarmImage.getAttributes();
+	if (height >= 0) {
+	    attributes.put("height", height);
+	}
+	if (width >= 0) {
+	    attributes.put("width", width);
+	}
+	if (hspace >= 0) {
+	    attributes.put("hspace", hspace);
+	}
+	if (vspace >= 0) {
+	    attributes.put("vspace", vspace);
+	}
+	if (border >= 0) {
+	    attributes.put("border", border);
+	}
+	if (align != null && align.length() != 0) {
+	    attributes.put("align", align);
+	}
+	if (editText) {
+	    if (toolTip != null && toolTip.length() != 0) {
+		attributes.put("toolTip", toolTip);
+	    }
+	    if (alt != null && alt.length() != 0) {
+		attributes.put("alt", alt);
+	    }
+	    if (longDesc != null && longDesc.length() != 0) {
+		attributes.put("longDesc", longDesc);
+	    }
+	}
+    }
+
+    /**
+     * Helper to initialize an ImageComponent
+     * This should be an ImageComponent constructor.
+     */
+    private void initAlarmImage(Alarm alarm,
+	String id, String url, String icon, int height, int width,
+	int hspace, int vspace, String align, String alt, String longDesc,
+	String toolTip, int border, ImageComponent alarmImage) {
+
+	if (height >= 0) {
+	    alarmImage.setHeight(height);
+	}
+	if (width >= 0) {
+	    alarmImage.setWidth(width);
+	}
+	if (hspace >= 0) {
+	    alarmImage.setHspace(hspace);
+	}
+	if (vspace >= 0) {
+	    alarmImage.setVspace(vspace);
+	}
+	if (border >= 0) {
+	    alarmImage.setBorder(border);
+	}
+	if (align != null && align.length() != 0) {
+	    alarmImage.setAlign(align);
+	}
+	if (toolTip != null && toolTip.length() != 0) {
+	    alarmImage.setToolTip(toolTip);
+	}
+	if (alt != null && alt.length() != 0) {
+	    alarmImage.setAlt(alt);
+	}
+	if (longDesc != null && longDesc.length() != 0) {
+	    alarmImage.setLongDesc(longDesc);
+	}
+	if (url != null && url.length() != 0) {
+	    alarmImage.setUrl(url);
+	}
+	if (icon != null && icon.length() != 0) {
+	    alarmImage.setIcon(icon);
+	}
+    }
 }

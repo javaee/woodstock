@@ -138,7 +138,7 @@ public class AlertRenderer extends RendererBase {
         }
         ImageComponent img = null;   
         JSONArray indicatorArray = WidgetUtilities.getIndicators(context, 
-                iter1, ignoreType, theme, alert, type);
+                iter1, ignoreType, theme, alert);
                 
         // if ignoreType is not null then add facet image
         JSONObject facetjson = new JSONObject();

@@ -116,6 +116,8 @@ public class Indicator implements Comparable<Indicator>, StateHolder {
     
     /**
      * Return a <code>UIComponent</code> for this <code>Indicator</code>.
+     * A null value will be return if a theme image is not available for
+     * specified image key. 
      * If a <code>imageComponent</code> instance has been set, return it.
      * If no <code>imageComponent</code> instance has been set on this Indicator
      * then <code>imageKey</code> must have been set. Use <code>theme</code>
@@ -127,8 +129,11 @@ public class Indicator implements Comparable<Indicator>, StateHolder {
 	    return imageComponent;
 	}
 	if (imageKey != null) {
-	    return ThemeUtilities.getIcon(theme, imageKey);
-	}
+               ThemeImage themeImage = theme.getImage(imageKey);
+           if (themeImage != null) {
+               return ThemeUtilities.getIcon(theme, imageKey);
+           }
+        } 
 	return null;
     }
 
