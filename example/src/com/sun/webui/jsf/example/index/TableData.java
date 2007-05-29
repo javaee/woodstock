@@ -44,6 +44,7 @@ public class TableData {
                     "cbrb/clientsideCheckbox.jsp",
                     "cbrb/checkboxRadiobutton.jsp",
                     "cbrb/clientsideRadioButton.jsp",
+                    "cbrb/clientsideCbRbGroup.jsp",
                     "cbrb/checkboxRadiobuttonResults.jsp",
                     "cbrb/CheckboxRadiobuttonBackingBean.java"}
         ),

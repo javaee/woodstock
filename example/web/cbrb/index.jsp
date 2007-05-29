@@ -70,11 +70,20 @@
                      </webuijsf:markup>     
                      
                     <!-- RadioButton client-side update example link -->
-                <webuijsf:hyperlink id="clientSideRbLink"                    
+                <webuijsf:markup tag="div" style="padding-bottom: 8px">     
+                    <webuijsf:hyperlink id="clientSideRbLink"                    
+                        immediate="true"  
+                        text="#{msgs.cbrb_clientsideRbTitle}"
+                        toolTip="#{msgs.cbrb_clientsideRbTitle}"
+                        actionExpression="showClinetSideRb" />
+               </webuijsf:markup>
+   
+                   <!-- Checkbox and RadioButton group client-side update example link -->
+                <webuijsf:hyperlink id="clientSideCRbGroupLink"                    
                     immediate="true"  
-                    text="#{msgs.cbrb_clientsideRbTitle}"
-                    toolTip="#{msgs.cbrb_clientsideRbTitle}"
-                    actionExpression="showClinetSideRb" />
+                    text="#{msgs.cbrb_clientsideCbRbTitle}"
+                    toolTip="#{msgs.cbrb_clientsideCbRbTitle}"
+                    actionExpression="showClinetSideCbRb" />
               
               </webuijsf:markup>                 
            </webuijsf:form>                          
