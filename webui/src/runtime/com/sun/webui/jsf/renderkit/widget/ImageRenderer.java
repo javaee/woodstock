@@ -180,7 +180,8 @@ public class ImageRenderer extends RendererBase {
         // If an icon attribute is set and the url attribute is null,
         // render the image represented by the icon attribute.
         // Else render an image represented by the url attribute.
-        if ((icon != null && icon.length() > 0) && (url == null || url.length() == 0)) {
+        if ((icon != null && icon.length() > 0) &&
+                (url == null || url.length() == 0)) {
 	    // We just want some defaults if not specified by
 	    // the component, call Theme.getImage directly instead
 	    // of creating another component.
@@ -251,6 +252,10 @@ public class ImageRenderer extends RendererBase {
             json.put("height", height);
         }
 
+        String styleclass = image.getStyleClass();
+        if (styleclass != null && styleclass.length() > 0) {
+            json.put("className", styleclass);
+        }
         // Add core and attribute properties.
         addAttributeProperties(attributes, component, json);
         setCoreProperties(context, component, json);
