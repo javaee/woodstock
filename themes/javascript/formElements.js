@@ -586,21 +586,28 @@ webui.@THEME@.hyperlink = {
      * @deprecated  See webui.@THEME@.widget.hyperlink    
      */
     submit: function(hyperlink, formId, params) {
-        dojo.require("webui.@THEME@.widget.hyperlink");
-        //params are name value pairs but all one big string array
-        //so params[0] and params[1] form the name and value of the first param
+        // Obtain hyperlink widget for tab and common task.
+        //
+        // Warning: Do not use dojo.require() here. The webui.@THEME@.widget
+        // namespace must be defined prior to retrieving the hyperlink module.
+        //
+        // Dojo appears to parse for dojo.require() statments when
+        // djConfig.debugAtAllCosts is true. At this time, "modules" is 
+        // undefined and an exception is thrown.
+        dojo.require.apply(dojo, "webui.@THEME@.widget.hyperlink");
+
+        // Params are name value pairs but all one big string array so params[0]
+        // and params[1] form the name and value of the first param.
 	var widget = dojo.widget.byId(hyperlink.id);
 	if (widget) {
 	    return hyperlink.submit(formId, params);
 	}
         return webui.@THEME@.widget.hyperlink.submit(formId, params,hyperlink.id);
-
     },
-	
-    
-   /**
+
+    /**
      * Use this function to access the HTML img element that makes up
-     * the icon hyperlink. 
+     * the icon hyperlink.
      *
      * @param elementId The component id of the JSF component (this id is
      * assigned to the outter most tag enclosing the HTML img element).
@@ -608,7 +615,7 @@ webui.@THEME@.hyperlink = {
      * @deprecated See webui.@THEME@.widget.imageHyperlink
      */
     getImgElement: function(elementId) {
-        dojo.require("webui.@THEME@.widget.imageHyperlink");
+        // Note: Requires webui.@THEME@.widget.imageHyperlink and used by table.
         var widget = dojo.widget.byId(elementId);
         if (widget != null) {
             return widget.getProps().enabledImage;
