@@ -150,7 +150,7 @@ body {
 .RbCb@THEME_CSS@ {
     padding:0;
 }
-.RbCbUl@THEME_CSS@ ul {
+.RbCb@THEME_CSS@ ul {
     clear:left;
     float:left;
     list-style:none;
@@ -159,11 +159,11 @@ body {
     text-align:right;
 }
 /*
-.RbCbUlLi@THEME_CSS@ ul li {
+.RbCb@THEME_CSS@ ul li {
     float:left;
     margin:0 10px 0 0;
-}
-*/
+}*/
+
 .RbCbClear@THEME_CSS@ {
     clear:both;
 }
