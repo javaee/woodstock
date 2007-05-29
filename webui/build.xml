@@ -74,7 +74,8 @@
     <property name="designtime-javadoc" value="${javadoc}/designtime"/>
     <property name="webui-dt-src.zip" value="webui-jsf-dt-src.zip"/>
     <property name="webui-dt-doc.zip" value="webui-jsf-dt-doc.zip"/>
-
+    <property name="webui-tld.zip" value="webui-jsf-tld.zip"/>
+    
     <property name="webui.jar" value="webui-jsf.jar"/>
     <property name="webui-dt.jar" value="webui-jsf-dt.jar"/>
     <property name="webui.tld" value="webui-jsf.tld"/>
@@ -373,8 +374,6 @@
 
     <target name="source" depends="jars,javadoc">
 
-        <mkdir dir="${dist}"/>
-
         <!-- Runtime Source files for file completion -->
         <zip destfile="${dist}/${webui-src.zip}">
             <fileset dir="${runtime}">
@@ -424,6 +423,15 @@
     <target name="tlddoc" if="build-tlddoc" depends="jars"
         description="Generate tag library documentation">
         <ant antfile="build-doc.xml" target="build-tlddoc" inheritAll="false"/>
+
+        <!-- Create the dist directory -->
+        <mkdir dir="${dist}"/>
+
+         <!-- Runtime Source files for file completion -->
+        <zip destfile="${dist}/${webui-tld.zip}">
+            <fileset dir="${basedir}/tlddocs"></fileset>
+        </zip>
+        
     </target>
 
     <target name="clean" description="Clean build products.">
