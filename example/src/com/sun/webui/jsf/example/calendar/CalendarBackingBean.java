@@ -205,9 +205,38 @@ public class CalendarBackingBean implements Serializable {
         return IndexBackingBean.INDEX_ACTION;
     }
 
+    /** Action listener handler for the reset button. */
+    public void resetActionListener(ActionEvent e) {
+        // Since the action is immediate, the components won't
+        // go through the Update Model phase. However, its submitted value
+        // gets set in the Apply Request Value phase and this value is retained
+        // when the page is redisplayed. 
+        //
+        // So, we need to explicitly erase the submitted values and then update
+        // the model object with initial values.
+
+	// First get a handle to the calendar object.
+        FacesContext context = FacesContext.getCurrentInstance();        
+	Calendar calendar = (Calendar) context.getViewRoot().findComponent(
+		"form:contentPageTitle:calendar");
+
+	// Murphy's Law!
+	if (calendar == null)
+	    return;
+
+	calendar.setSubmittedValue(null);
+
+	int n = 0;
+	dateFormatPattern = DATE_PATTERNS[n];
+	dateFormatPatternHelp = MessageUtil.getMessage(
+		PATTERN_HELP_KEY_PREFIX + (n+1));
+	calendar.setDateFormatPattern(dateFormatPattern);
+
+	_reset();
+    }
+
     /** Action handler for the Reset button */
     public String reset() {
-	_reset();
 	return null;
     }
 

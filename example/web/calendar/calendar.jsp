@@ -75,9 +75,12 @@
                   actionExpression="showCalendarResults" />                            
                 <!-- Reset Button -->            
                 <webuijsf:button id="resetButton"
+                  immediate="true"
                   text="#{msgs.calendar_resetButton}"
                   toolTip="#{msgs.calendar_resetToolTip}"
-                  actionExpression="#{CalendarBean.reset}" />                            
+                  actionExpression="#{CalendarBean.reset}"
+                  actionListenerExpression="#{CalendarBean.resetActionListener}" />
+
                 <!-- Date Patterns Menu -->                     
                 <webuijsf:dropDown id="testCaseMenu"  
                   immediate="true"
