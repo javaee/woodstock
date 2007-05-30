@@ -83,13 +83,13 @@ public class Hyperlink extends WebuiCommand implements ComplexComponent {
 
     /**
      * <p>Return the renderer type for this component.</p>
-     */    
+     */     
     public String getRendererType() {
         // Ensure we have a valid Ajax request.
-    if (ComponentUtilities.isAjaxRequest(getFacesContext(), this)) {
-        return "com.sun.webui.jsf.ajax.Hyperlink";
-    }
-        return "com.sun.webui.jsf.widget.Hyperlink";
+        if (ComponentUtilities.isAjaxRequest(getFacesContext(), this)) {
+            return "com.sun.webui.jsf.ajax.Hyperlink";
+        }
+        return super.getRendererType();
     }    
     
     /**

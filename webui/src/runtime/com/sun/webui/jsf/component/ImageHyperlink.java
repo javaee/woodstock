@@ -89,7 +89,7 @@ public class ImageHyperlink extends Hyperlink implements NamingContainer {
         if (ComponentUtilities.isAjaxRequest(getFacesContext(), this)) {
             return "com.sun.webui.jsf.ajax.ImageHyperlink";
         }
-        return "com.sun.webui.jsf.widget.ImageHyperlink";
+        return super.getRendererType();
     } 
 
     // This facet is not meant to be overridden 
