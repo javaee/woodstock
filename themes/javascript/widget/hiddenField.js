@@ -27,37 +27,29 @@ dojo.require("webui.@THEME@.*");
 dojo.require("webui.@THEME@.widget.*");
 
 /**
- * This function will be invoked when creating a Dojo widget. Please see
- * webui.@THEME@.widget.hiddenField.setProps for a list of supported
- * properties.
+ * This function is used to generate a template based widget.
  *
  * Note: This is considered a private API, do not use.
  */
 webui.@THEME@.widget.hiddenField = function() {
-    // Set defaults.
-    this.disabled = false;
-    this.widgetType = "hiddenField";
-
     // Register widget.
-    dojo.widget.Widget.call(this);
-    
-    /**
-     * This function is used to generate a template based widget.
-     */
-    this.fillInTemplate = function() {
-        // Set public functions. 
-        this.domNode.getProps = function() { return dojo.widget.byId(this.id).getProps(); }
-        this.domNode.refresh = function(execute) { return dojo.widget.byId(this.id).refresh(execute); }
-        this.domNode.setProps = function(props) { return dojo.widget.byId(this.id).setProps(props); }
+    dojo.widget.HtmlWidget.call(this);
+}
 
-        // Set private functions.
-        this.getProps = webui.@THEME@.widget.hiddenField.getProps;
-        this.refresh = webui.@THEME@.widget.hiddenField.refresh.processEvent;
-        this.setProps = webui.@THEME@.widget.hiddenField.setProps;
+/**
+ * This function is used to fill a template with widget properties.
+ *
+ * Note: Anything to be set only once should be added here; otherwise, the
+ * setProps() function should be used to set properties.
+ */
+webui.@THEME@.widget.hiddenField.fillInTemplate = function() {
+    // Set public functions. 
+    this.domNode.getProps = function() { return dojo.widget.byId(this.id).getProps(); }
+    this.domNode.refresh = function(execute) { return dojo.widget.byId(this.id).refresh(execute); }
+    this.domNode.setProps = function(props) { return dojo.widget.byId(this.id).setProps(props); }
 
-        // Set properties.
-        return this.setProps();
-    }
+    // Set properties.
+    return this.setProps();
 }
 
 /**
@@ -74,7 +66,7 @@ webui.@THEME@.widget.hiddenField.getProps = function() {
     if (this.value) { props.value = this.value; }
 
     // Add DOM node properties.
-    Object.extend(props, webui.@THEME@.widget.common.getCoreProps(this));
+    Object.extend(props, this.getCoreProps());
 
     return props;
 }
@@ -92,36 +84,17 @@ webui.@THEME@.widget.hiddenField.refresh = {
     /**
      * Process refresh event.
      *
-     * @param execute Comma separated string containing a list of client ids 
+     * @param execute The string containing a comma separated list of client ids 
      * against which the execute portion of the request processing lifecycle
      * must be run.
      */
     processEvent: function(execute) {
-        // Publish event.
-        webui.@THEME@.widget.hiddenField.refresh.publishBeginEvent({
-            id: this.id,
-            execute: execute
-        });
-        return true;
-    },
-
-    /**
-     * Publish an event for custom AJAX implementations to listen for.
-     *
-     * @param props Key-Value pairs of properties of the widget.
-     */
-    publishBeginEvent: function(props) {
-        dojo.event.topic.publish(webui.@THEME@.widget.hiddenField.refresh.beginEventTopic, props);
-        return true;
-    },
-
-    /**
-     * Publish an event for custom AJAX implementations to listen for.
-     *
-     * @param props Key-Value pairs of properties of the widget.
-     */
-    publishEndEvent: function(props) {
-        dojo.event.topic.publish(webui.@THEME@.widget.hiddenField.refresh.endEventTopic, props);
+        // Publish an event for custom AJAX implementations to listen for.
+        dojo.event.topic.publish(
+            webui.@THEME@.widget.hiddenField.refresh.beginEventTopic, {
+                id: this.id,
+                execute: execute
+            });
         return true;
     }
 }
@@ -142,22 +115,36 @@ webui.@THEME@.widget.hiddenField.refresh = {
 webui.@THEME@.widget.hiddenField.setProps = function(props) {
     // Save properties for later updates.
     if (props != null) {
-        webui.@THEME@.widget.common.extend(this, props);
+        this.extend(this, props);
     } else {
         props = this.getProps(); // Widget is being initialized.
     }
 
     // Set attributes.
-    webui.@THEME@.widget.common.setCoreProps(this.domNode, props);
+    this.setCoreProps(this.domNode, props);
 
     if (props.name) { this.domNode.name = props.name; }
     if (props.value) { this.domNode.value = props.value; }
     if (props.disabled != null) { 
         this.domNode.disabled = new Boolean(props.disabled).valueOf();
     }
-    return true;
+    return props; // Return props for subclasses.
 }
 
-dojo.inherits(webui.@THEME@.widget.hiddenField, dojo.widget.HtmlWidget);
+// Inherit base widget properties.
+dojo.inherits(webui.@THEME@.widget.hiddenField, webui.@THEME@.widget.widgetBase);
+
+// Override base widget by assigning properties to class prototype.
+dojo.lang.extend(webui.@THEME@.widget.hiddenField, {
+    // Set private functions.
+    fillInTemplate: webui.@THEME@.widget.hiddenField.fillInTemplate,
+    getProps: webui.@THEME@.widget.hiddenField.getProps,
+    refresh: webui.@THEME@.widget.hiddenField.refresh.processEvent,
+    setProps: webui.@THEME@.widget.hiddenField.setProps,
+
+    // Set defaults.
+    disabled: false,
+    widgetType: "hiddenField"
+});
 
 //-->

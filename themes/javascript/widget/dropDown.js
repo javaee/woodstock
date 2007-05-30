@@ -25,72 +25,139 @@ dojo.provide("webui.@THEME@.widget.dropDown");
 dojo.require("dojo.widget.*");
 dojo.require("webui.@THEME@.*");
 dojo.require("webui.@THEME@.widget.*");
+dojo.require("webui.@THEME@.widget.listbox");
 
 /**
- * This function will be invoked when creating a Dojo widget. Please see
- * webui.@THEME@.widget.dropDown.setProps for a list of supported
- * properties.
+ * This function is used to generate a template based widget.
  *
  * Note: This is considered a private API, do not use.
  */
 webui.@THEME@.widget.dropDown = function() {
-    // Set defaults
-    this.labelOnTop = false;
-    this.submitForm = false;
-    this.widgetType = "dropDown";
+    // Register widget.
+    dojo.widget.HtmlWidget.call(this);
+}
 
-    // Register widget
-    dojo.widget.Widget.call(this);
+/**
+ * This function is used to fill a template with widget properties.
+ *
+ * Note: Anything to be set only once should be added here; otherwise, the
+ * setProps() function should be used to set properties.
+ */
+webui.@THEME@.widget.dropDown.fillInTemplate = function() {
+    // Set ids.
+    if (this.id) {
+        this.submitterHiddenNode.id = this.id + "_submitter";
+    }
+
+    // Set properties.
+    return webui.@THEME@.widget.dropDown.superclass.fillInTemplate.call(this);
+}
+
+/**
+ * This function is used to get widget properties. Please see
+ * webui.@THEME@.widget.dropDown.setProps for a list of supported
+ * properties.
+ */
+webui.@THEME@.widget.dropDown.getProps = function() {
+    var props = webui.@THEME@.widget.dropDown.superclass.getProps.call(this);
+
+    // Get properties.
+    if (this.submitForm != null) { props.submitForm = this.submitForm; }
+
+    return props;
+}
+
+/**
+ * Helper function to initialize the proper style classes.
+ *
+ * @param props Key-Value pairs of properties.
+ */
+webui.@THEME@.widget.dropDown.initClassNames = function(props) {
+    if (props.submitForm == null) {
+        return;
+    }
+
+    if (props.submitForm == true) {
+        this.selectClassName = webui.@THEME@.widget.props.jumpDropDown.className;
+        this.selectDisabledClassName = webui.@THEME@.widget.props.jumpDropDown.disabledClassName;
+        this.optionClassName = webui.@THEME@.widget.props.jumpDropDown.optionClassName;
+        this.optionSeparatorClassName = webui.@THEME@.widget.props.jumpDropDown.optionSeparatorClassName;
+        this.optionGroupClassName = webui.@THEME@.widget.props.jumpDropDown.optionGroupClassName;
+        this.optionDisabledClassName = webui.@THEME@.widget.props.jumpDropDown.optionDisabledClassName;
+        this.optionSelectedClassName = webui.@THEME@.widget.props.jumpDropDown.optionSelectedClassName;
+    } else {
+        this.selectClassName = webui.@THEME@.widget.props.dropDown.className;
+        this.selectDisabledClassName = webui.@THEME@.widget.props.dropDown.disabledClassName;
+        this.optionClassName = webui.@THEME@.widget.props.dropDown.optionClassName;
+        this.optionSeparatorClassName = webui.@THEME@.widget.props.dropDown.optionSeparatorClassName;
+        this.optionGroupClassName = webui.@THEME@.widget.props.dropDown.optionGroupClassName;
+        this.optionDisabledClassName = webui.@THEME@.widget.props.dropDown.optionDisabledClassName;
+        this.optionSelectedClassName = webui.@THEME@.widget.props.dropDown.optionSelectedClassName;
+    }
+    return true;
+}
+
+/**
+ * This closure is used to process refresh events.
+ */
+webui.@THEME@.widget.dropDown.refresh = {
+    /**
+     * Event topics for custom AJAX implementations to listen for.
+     */
+    beginEventTopic: "webui_@THEME@_widget_dropDown_refresh_begin",
+    endEventTopic: "webui_@THEME@_widget_dropDown_refresh_end",
 
     /**
-     * This function is used to generate a template based widget.
+     * Process refresh event.
+     *
+     * @param execute The string containing a comma separated list of client ids 
+     * against which the execute portion of the request processing lifecycle
+     * must be run.
      */
-    this.fillInTemplate = function() {
-        // Set ids.
-        if (this.id) {
-            this.labelContainer.id = this.id + "_label";
-            this.listContainer.id = this.id + "_list"; 
-            this.submitterHiddenNode.id = this.id + "_submitter";
-        }
-
-        // Set public functions.
-        this.domNode.setProps = function(props) { return dojo.widget.byId(this.id).setProps(props); }
-        this.domNode.getProps = function() { return dojo.widget.byId(this.id).getProps(); }
-        this.domNode.getSelectedValue = function() { return dojo.widget.byId(this.id).getSelectedValue(); }
-        this.domNode.getSelectedLabel = function() { return dojo.widget.byId(this.id).getSelectedLabel(); }
-        this.domNode.getSelectElement = function() { return dojo.widget.byId(this.id).getSelectElement(); }
-        this.domNode.refresh = function(execute) { return dojo.widget.byId(this.id).refresh(execute); }
-
-        // Set private functions.
-        this.setProps = webui.@THEME@.widget.dropDown.setProps;
-        this.getProps = webui.@THEME@.widget.dropDown.getProps;
-        this.getSelectClassName = webui.@THEME@.widget.dropDown.getSelectClassName;
-        this.setSelectProps = webui.@THEME@.widget.dropDown.setSelectProps;
-        this.addOptions = webui.@THEME@.widget.dropDown.addOptions;
-        this.getOptionClassName = webui.@THEME@.widget.dropDown.getOptionClassName; 
-        this.setOptionProps = webui.@THEME@.widget.dropDown.setOptionProps;
-        this.setGroupOptionProps = webui.@THEME@.widget.dropDown.setGroupOptionProps;
-        this.dropDownChanged = webui.@THEME@.widget.dropDown.dropDownChanged;
-        this.jumpDropDownChanged = webui.@THEME@.widget.dropDown.jumpDropDownChanged;
-        this.getSelectedValue = webui.@THEME@.widget.dropDown.getSelectedValue;
-        this.getSelectedLabel = webui.@THEME@.widget.dropDown.getSelectedLabel;
-        this.initStyleClasses = webui.@THEME@.widget.dropDown.initStyleClasses;
-        this.getSelectElement = webui.@THEME@.widget.dropDown.getSelectElement;
-        this.refresh = webui.@THEME@.widget.dropDown.refresh.processEvent;
-
-        // Set events.
-        dojo.event.connect(this.listContainer, "onchange",
-            webui.@THEME@.widget.dropDown.createOnChangeCallback(this.id));
-
-        // Remove line break -- required for IE & cannot be updated.
-        if (this.label != null
-                && new Boolean(this.labelOnTop).valueOf() == true) {
-            webui.@THEME@.common.setVisibleElement(this.brContainer, true);
-        }
-
-        // Set properties.
-        return this.setProps();
+    processEvent: function(execute) {
+        // Publish an event for custom AJAX implementations to listen for.
+        dojo.event.topic.publish(
+            webui.@THEME@.widget.dropDown.refresh.beginEventTopic, {
+                id: this.id,
+                execute: execute
+            });
+        return true;
     }
+}
+
+/**
+ * Helper function called by onChange event to set the proper
+ * selected, and disabled styles.
+ */
+webui.@THEME@.widget.dropDown.changed = function() {
+    if (this.submitForm != true) {
+        // Drop down changed.
+        return webui.@THEME@.widget.dropDown.superclass.changed.call(this);
+    } else {
+        // Jump drop down changed.
+        var jumpDropdown = this.listContainer; 
+
+        // Find the <form> for this drop down
+        var form = jumpDropdown; 
+        while (form != null) { 
+            form = form.parentNode; 
+            if (form.tagName == "FORM") { 
+                break;
+            }
+        }
+
+        if (form != null) { 
+            this.submitterHiddenNode.value = "true";
+
+            // Set style classes.
+            var options = jumpDropdown.options;
+            for (var i = 0; i < options.length; i++) { 
+                options[i].className = this.getOptionClassName(options[i]);
+            }
+            form.submit();
+        }
+    }
+    return true; 
 }
 
 /**
@@ -119,8 +186,8 @@ webui.@THEME@.widget.dropDown = function() {
  *  <li>onSelect</li>
  *  <li>options</li>
  *  <li>size</li>
- *  <li>submitForm</li>
  *  <li>style</li>
+ *  <li>submitForm</li>
  *  <li>tabIndex</li>
  *  <li>title</li>
  *  <li>visible</li>
@@ -129,429 +196,34 @@ webui.@THEME@.widget.dropDown = function() {
  * @param props Key-Value pairs of properties.
  */
 webui.@THEME@.widget.dropDown.setProps = function(props) {
-    // Save properties for later updates.
-    if (props != null) {
-        webui.@THEME@.widget.common.extend(this, props);
-    } else {
-        props = this.getProps(); // Widget is being initialized.
-    }
+    // Call super class function.
+    var props = webui.@THEME@.widget.dropDown.superclass.setProps.call(
+        this, props);
 
-    // A web app devleoper could return false in order to cancel the 
-    // auto-submit. Thus, we will handle this event via the onChange call back.
-    if (props.onChange) {
-        // Set private function scope on DOM node.
-        this.listContainer._onchange = (typeof props.onChange == 'string')
-            ? new Function(props.onChange) : props.onChange;
-
-        // Must be cleared before calling setJavaScriptProps() below.
-        props.onChange = null;
-    }
-
-    // Initialize the proper style classes based on whether this is a jump drop down or not
-    this.initStyleClasses(props.submitForm);
-
-    // Set DOM node properties.
-    webui.@THEME@.widget.common.setCoreProps(this.domNode, props);
-    webui.@THEME@.widget.common.setCommonProps(this.listContainer, props);
-    webui.@THEME@.widget.common.setJavaScriptProps(this.listContainer, props);
-
-    // Set the properties specific to the <select> element
-    this.setSelectProps(this.listContainer, props);
-
-    // Add <option> and <optgroup> elements in the <select> element
-    if (props.options) {
-        this.addOptions(props);
-    }
-
-    // Add attributes to the hidden input for jump drop down
-    if ( props.submitForm != null && props.submitForm == true) {
+    // Add attributes to the hidden input for jump drop down.
+    if (props.submitForm != null && props.submitForm == true) {
         this.submitterHiddenNode.name = this.submitterHiddenNode.id;
         this.submitterHiddenNode.value = "false";
     }
-
-    // Set label if there is one
-    if (props.label) {
-        var labelWidget = dojo.widget.byId(this.label.id);
-        
-        if (labelWidget) {
-            // Update the existing one
-            labelWidget.setProps(props.label);
-         } else {
-            // Create a new one
-            webui.@THEME@.widget.common.addFragment(this.labelContainer, props.label);
-         }
-    }
-    return true;
+    return props; // Return props for subclasses.
 }
 
-/**
- * This function is used to get widget properties. Please see
- * webui.@THEME@.widget.dropDown.setProps for a list of supported
- * properties.
- */
-webui.@THEME@.widget.dropDown.getProps = function() {
-    var props = {};
+// Inherit base widget properties.
+dojo.inherits(webui.@THEME@.widget.dropDown, webui.@THEME@.widget.listbox);
 
-    // Get properties.
-    if (this.size) { props.size = this.size; }
-    if (this.multiple) { props.multiple = this.multipe; }
-    if (this.disabled != null) { props.disabled = this.disabled; }
-    if (this.submitForm != null) { props.submitForm = this.submitForm; }
-    if (this.label ) { props.label = this.label; }
-    if (this.options ) { props.options = this.options; }
+// Override base widget by assigning properties to class prototype.
+dojo.lang.extend(webui.@THEME@.widget.dropDown, {
+    // Set private functions.
+    changed: webui.@THEME@.widget.dropDown.changed,
+    fillInTemplate: webui.@THEME@.widget.dropDown.fillInTemplate,
+    getProps: webui.@THEME@.widget.dropDown.getProps,
+    initClassNames: webui.@THEME@.widget.dropDown.initClassNames,
+    refresh: webui.@THEME@.widget.dropDown.refresh.processEvent,
+    setProps: webui.@THEME@.widget.dropDown.setProps,
 
-    // Add DOM node properties.
-    Object.extend(props, webui.@THEME@.widget.common.getCommonProps(this));
-    Object.extend(props, webui.@THEME@.widget.common.getCoreProps(this));
-    Object.extend(props, webui.@THEME@.widget.common.getJavaScriptProps(this));
-
-    return props;
-}
-
-/**
- * Helper function to set properties specific to the <select> element
- *
- * @param selectNode The <select> DOM node  
- */
-webui.@THEME@.widget.dropDown.setSelectProps = function(selectNode, props) {
-    selectNode.name = selectNode.id;
-
-    if (props.size) {
-        selectNode.size = (props.size < 1) ? 12 : props.size;  
-    }
-    if (props.multiple != null) {
-        selectNode.multiple = new Boolean(props.multiple).valueOf();
-    }
-    if (props.disabled != null) {
-        selectNode.disabled = new Boolean(props.disabled).valueOf();
-    }
-    if (props.disabled != null) {
-        selectNode.className = this.getSelectClassName(props.disabled);
-    }
-    return true;
-}
-
-/**
- * Helper function to add <option> and <optgroup> elements to the <select> element
- */
-webui.@THEME@.widget.dropDown.addOptions = function(props) {
-    var numChildNodes = this.listContainer.options.length;
-
-    // Start with a clean slate.
-    // Note: this has to be done. Otherwise, you'll get blank entries in the drop down for the 
-    // original empty dojo attach point nodes.
-    if( !this.alreadyRemoved ) {
-        this.listContainer.removeChild(this.optionNode); 
-        this.optionGroupContainer.removeChild(this.memberOptionNode);
-        this.listContainer.removeChild(this.optionGroupContainer);
-        this.alreadyRemoved = true;
-    }
-
-    // Cleaning up the old options
-    this.listContainer.options.length = 0;
-
-    var thisNode;
-    for (var i = 0; i < props.options.length; i++) {
-        if (props.options[i].group == false) {
-            thisNode = this.optionNode.cloneNode(true);
-
-            // Set the properties on this <option> element
-            this.setOptionProps(thisNode, props.options[i]);
-
-            // Append this <option> node to the <select>
-            this.listContainer.appendChild(thisNode); 
-
-        } else { // group option <optgroup>
-
-            thisNode = this.optionGroupContainer.cloneNode(true);
-
-            // Set the properties on this <optgroup> element
-            this.setGroupOptionProps(thisNode, props.options[i]);
-
-            // Append this <optgroup> node to the <select>
-            this.listContainer.appendChild(thisNode);
-
-            // Add the <option> elements to this group
-            var thisSubNode;
-            for (var ix = 0; ix < props.options[i].options.length; ix++) {
-                thisSubNode = this.memberOptionNode.cloneNode(true);
-                this.setOptionProps(thisSubNode, props.options[i].options[ix]);
-                thisNode.appendChild(thisSubNode); 
-            }
-        }
-    }
-    return true;
-}
-
-/**
- * Helpper function to set properties on the <option> element
- *
- * @param element The <option> DOM node
- * @param option Key-Value pairs of properties for the <option> node
- */
-webui.@THEME@.widget.dropDown.setOptionProps = function(element, option) {
-    element.value = option.value;
-    element.className = this.getOptionClassName(option);
-
-    if (option.isTitle == true) {
-       // Prepend and append long dashes with the title label
-       element.innerHTML = webui.@THEME@.widget.props.dropDown.titleOptionPreppender 
-            + option.label 
-            + webui.@THEME@.widget.props.dropDown.titleOptionAppender;
-    } else {
-       element.innerHTML = option.label;
-    }
-
-    if (option.selected != null) {
-        element.selected = new Boolean(option.selected).valueOf();
-    }
-    if (option.disabled != null) {
-        element.disabled = new Boolean(option.disabled).valueOf();
-    }
-    return true;
-}
-
-/**
- * Helper function to set properties on <optgroup> element
- *
- * @param element The <optgroup> DOM node
- * @param option Key-Value pairs of properties for the <optgroup> node
- */
-webui.@THEME@.widget.dropDown.setGroupOptionProps = function(element, option) {
-    element.className = this.getOptionClassName(option);
-    element.label = option.label;
-  
-    if (option.disabled != null) {
-        element.disabled = new Boolean(option.disabled).valueOf();
-    }
-    return true;
-}
-
-/**
- * Helper function to initialize the proper style classes based on 
- * whether the drop is a jump drop down or not
- */
-webui.@THEME@.widget.dropDown.initStyleClasses = function(submitForm) {
-    if (submitForm == null) {
-        return;
-    }
-
-    if (submitForm == true) {
-        this.selectClassName = webui.@THEME@.widget.props.jumpDropDown.className;
-        this.selectDisabledClassName = webui.@THEME@.widget.props.jumpDropDown.disabledClassName;
-        this.optionClassName = webui.@THEME@.widget.props.jumpDropDown.optionClassName;
-        this.optionSeparatorClassName = webui.@THEME@.widget.props.jumpDropDown.optionSeparatorClassName;
-        this.optionGroupClassName = webui.@THEME@.widget.props.jumpDropDown.optionGroupClassName;
-        this.optionDisabledClassName = webui.@THEME@.widget.props.jumpDropDown.optionDisabledClassName;
-        this.optionSelectedClassName = webui.@THEME@.widget.props.jumpDropDown.optionSelectedClassName;
-    } else {
-        this.selectClassName = webui.@THEME@.widget.props.dropDown.className;
-        this.selectDisabledClassName = webui.@THEME@.widget.props.dropDown.disabledClassName;
-        this.optionClassName = webui.@THEME@.widget.props.dropDown.optionClassName;
-        this.optionSeparatorClassName = webui.@THEME@.widget.props.dropDown.optionSeparatorClassName;
-        this.optionGroupClassName = webui.@THEME@.widget.props.dropDown.optionGroupClassName;
-        this.optionDisabledClassName = webui.@THEME@.widget.props.dropDown.optionDisabledClassName;
-        this.optionSelectedClassName = webui.@THEME@.widget.props.dropDown.optionSelectedClassName;
-    }
-    return true;
-}
-
-/**
- * Helper function to obtain class name for the <select> element
- */
-webui.@THEME@.widget.dropDown.getSelectClassName = function(disabled) {
-    return (disabled == true)
-        ? this.selectDisabledClassName
-        : this.selectClassName;
-}
-
-/**
- * Helper function to obtain class name for the <option> element
- *
- * @param option Key-Value pairs of properties.
- */
-webui.@THEME@.widget.dropDown.getOptionClassName = function(option) {
-    if (option.separator && option.separator == true) {
-        return this.optionSeparatorClassName;
-    } else if (option.group && option.group == true) {
-        return this.optionGroupClassName;
-    } else if (option.disabled && option.disabled == true) {
-        return this.optionDisabledClassName;
-    } else if (option.selected && option.selected == true) {
-        return this.optionSelectedClassName;
-    } else {
-        return this.optionClassName;
-    }
-}
-
-/**
- * Helper function to create callback for onChange event.
- *
- * @param id The HTML element id used to invoke the callback.
- */
-webui.@THEME@.widget.dropDown.createOnChangeCallback = function(id) {
-    if (id == null) {
-        return null;
-    }
-    // New literals are created every time this function
-    // is called, and it's saved by closure magic.
-    return function(event) { 
-        var widget = dojo.widget.byId(id);
-        if (widget == null || widget.disabled == true) {
-            return false;
-        }
-
-        // If function returns false, we must prevent the auto-submit.
-        var result = (widget.listContainer._onchange)
-            ? widget.listContainer._onchange(event) : true;
-        if (result == false) {
-            return false;
-        }
-
-        // Call the proper changed function
-        if (widget.submitForm == true) {
-            widget.jumpDropDownChanged();
-        } else {
-            widget.dropDownChanged();
-        }
-        return true;
-    };
-}
-
-/**
- * Helper function called by onchange event to set the proper
- * selected, and disabled styles.
- */
-webui.@THEME@.widget.dropDown.dropDownChanged = function() { 
-    var options = this.listContainer.options;
-
-    if (webui.@THEME@.common.browser.is_ie) { 
-        for (var i = 0;i < options.length;++i) {
-            if (options[i].disabled == true && options[i].selected == true) {
-                widget.listContainer.selectedIndex = -1;
-            }
-        }  
-    }        
-
-    for (var i=0; i < options.length; ++i) { 
-        options[i].className = this.getOptionClassName(options[i]);
-    }
-    return true; 
-}
-
-/**
- * Helper function called by jump drop down onchange event to 
- * set the form action and then submit the form.
- */
-webui.@THEME@.widget.dropDown.jumpDropDownChanged = function() {
-    var jumpDropdown = this.listContainer; 
-
-    // Find the <form> for this drop down
-    var form = jumpDropdown; 
-    while (form != null) { 
-        form = form.parentNode; 
-        if (form.tagName == "FORM") { 
-            break;
-        }
-    }
-
-    if (form != null) { 
-        this.submitterHiddenNode.value = "true";
-
-        var options = jumpDropdown.options;
-        for (var i=0; i < options.length; ++i) { 
-            options[i].className = this.getOptionClassName(options[i]);
-        }
-        form.submit();
-    }
-    return true; 
-}
-
-/**
- * To get the value of the first selected option on the dropDown. 
- * If no option is selected, this function returns null. 
- *
- * @return The value of the selected option, or null if none is selected. 
- */
-webui.@THEME@.widget.dropDown.getSelectedValue = function() { 
-    var index = this.listContainer.selectedIndex; 
-    if (index == -1) { 
-        return null; 
-    } else { 
-        return this.listContainer.options[index].value; 
-    }
-}
-
-/**
- * To get the label of the first selected option on the dropDown. 
- * If no option is selected, this function returns null.
- * 
- * @return The label of the selected option, or null if none is selected. 
- */
-webui.@THEME@.widget.dropDown.getSelectedLabel = function() { 
-    var index = this.listContainer.selectedIndex; 
-
-    if (index == -1) { 
-        return null; 
-    } else { 
-        return this.options[index].label;
-    }
-}
-
-/**
- * Returns the HTML select element that makes up the dropDown.
- */
-webui.@THEME@.widget.dropDown.getSelectElement = function() {
-    return this.listContainer;
-}
-
-/**
- * This closure is used to process refresh events.
- */
-webui.@THEME@.widget.dropDown.refresh = {
-    /**
-     * Event topics for custom AJAX implementations to listen for.
-     */
-    beginEventTopic: "webui_@THEME@_widget_dropDown_refresh_begin",
-    endEventTopic: "webui_@THEME@_widget_dropDown_refresh_end",
-
-    /**
-     * Process refresh event.
-     *
-     * @param execute Comma separated string containing a list of client ids 
-     * against which the execute portion of the request processing lifecycle
-     * must be run.
-     */
-    processEvent: function(execute) {
-        // Publish event.
-        webui.@THEME@.widget.dropDown.refresh.publishBeginEvent({
-            id: this.id,
-            execute: execute
-        });
-        return true;
-    },
-
-    /**
-     * Publish an event for custom AJAX implementations to listen for.
-     *
-     * @param props Key-Value pairs of properties of the widget.
-     */
-    publishBeginEvent: function(props) {
-        dojo.event.topic.publish(webui.@THEME@.widget.dropDown.refresh.beginEventTopic, props);
-        return true;
-    },
-
-    /**
-     * Publish an event for custom AJAX implementations to listen for.
-     *
-     * @param props Key-Value pairs of properties of the widget.
-     */
-    publishEndEvent: function(props) {
-        dojo.event.topic.publish(webui.@THEME@.widget.dropDown.refresh.endEventTopic, props);
-        return true;
-    }
-}
-
-dojo.inherits(webui.@THEME@.widget.dropDown, dojo.widget.HtmlWidget);
+    // Set defaults
+    submitForm: false,
+    widgetType: "dropDown"
+});
 
 //-->

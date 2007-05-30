@@ -78,14 +78,15 @@ webui.@THEME@.widget.jsfx.hyperlink = {
         }
 
         // Parse JSON text.
-        var json = JSON.parse(content);
+        var props = JSON.parse(content);
 
         // Add rows.
         var widget = dojo.widget.byId(id);
-        widget.setProps(json);
+        widget.setProps(props);
 
         // Publish an event for custom AJAX implementations to listen for.
-        webui.@THEME@.widget.hyperlink.refresh.publishEndEvent(json);
+        dojo.event.topic.publish(
+            webui.@THEME@.widget.hyperlink.refresh.endEventTopic, props);
         return true;
     }
 }

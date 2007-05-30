@@ -27,37 +27,29 @@ dojo.require("webui.@THEME@.*");
 dojo.require("webui.@THEME@.widget.*");
 
 /**
- * This function will be invoked when creating a Dojo widget. Please see
- * webui.@THEME@.widget.staticText.setProps for a list of supported
- * properties.
+ * This function is used to generate a template based widget.
  *
  * Note: This is considered a private API, do not use.
  */
 webui.@THEME@.widget.staticText = function() {
-    // Set defaults.
-    this.escape = true;
-    this.widgetType = "staticText";
-
     // Register widget.
-    dojo.widget.Widget.call(this);
+    dojo.widget.HtmlWidget.call(this);
+}
 
-    /**
-     * This function is used to generate a template based widget.
-     */
-    this.fillInTemplate = function() {
-        // Set public functions. 
-        this.domNode.getProps = function() { return dojo.widget.byId(this.id).getProps(); }
-        this.domNode.refresh = function(execute) { return dojo.widget.byId(this.id).refresh(execute); }
-        this.domNode.setProps = function(props) { return dojo.widget.byId(this.id).setProps(props); }
+/**
+ * This function is used to fill a template with widget properties.
+ *
+ * Note: Anything to be set only once should be added here; otherwise, the
+ * setProps() function should be used to set properties.
+ */
+webui.@THEME@.widget.staticText.fillInTemplate = function() {
+    // Set public functions. 
+    this.domNode.getProps = function() { return dojo.widget.byId(this.id).getProps(); }
+    this.domNode.refresh = function(execute) { return dojo.widget.byId(this.id).refresh(execute); }
+    this.domNode.setProps = function(props) { return dojo.widget.byId(this.id).setProps(props); }
 
-        // Set private functions.
-        this.setProps = webui.@THEME@.widget.staticText.setProps;
-        this.refresh = webui.@THEME@.widget.staticText.refresh.processEvent;
-        this.getProps = webui.@THEME@.widget.staticText.getProps;
-
-        // Set properties.
-        return this.setProps();
-    }
+    // Set properties.
+    return this.setProps();
 }
 
 /**
@@ -73,9 +65,9 @@ webui.@THEME@.widget.staticText.getProps = function() {
     if (this.value) { props.value = this.value; }
 
     // Add DOM node properties.
-    Object.extend(props, webui.@THEME@.widget.common.getCommonProps(this));
-    Object.extend(props, webui.@THEME@.widget.common.getCoreProps(this));
-    Object.extend(props, webui.@THEME@.widget.common.getJavaScriptProps(this));
+    Object.extend(props, this.getCommonProps());
+    Object.extend(props, this.getCoreProps());
+    Object.extend(props, this.getJavaScriptProps());
 
     return props;
 }
@@ -93,36 +85,17 @@ webui.@THEME@.widget.staticText.refresh = {
     /**
      * Process refresh event.
      *
-     * @param execute Comma separated string containing a list of client ids 
+     * @param execute The string containing a comma separated list of client ids 
      * against which the execute portion of the request processing lifecycle
      * must be run.
      */
     processEvent: function(execute) {
-        // Publish event.
-        webui.@THEME@.widget.staticText.refresh.publishBeginEvent({
-            id: this.id,
-            execute: execute
-        });
-        return true;
-    },
-
-    /**
-     * Publish an event for custom AJAX implementations to listen for.
-     *
-     * @param props Key-Value pairs of properties of the widget.
-     */
-    publishBeginEvent: function(props) {
-        dojo.event.topic.publish(webui.@THEME@.widget.staticText.refresh.beginEventTopic, props);
-        return true;
-    },
-
-    /**
-     * Publish an event for custom AJAX implementations to listen for.
-     *
-     * @param props Key-Value pairs of properties of the widget.
-     */
-    publishEndEvent: function(props) {
-        dojo.event.topic.publish(webui.@THEME@.widget.staticText.refresh.endEventTopic, props);
+        // Publish an event for custom AJAX implementations to listen for.
+        dojo.event.topic.publish(
+            webui.@THEME@.widget.staticText.refresh.beginEventTopic, {
+                id: this.id,
+                execute: execute
+            });
         return true;
     }
 }
@@ -155,27 +128,39 @@ webui.@THEME@.widget.staticText.refresh = {
 webui.@THEME@.widget.staticText.setProps = function(props) {
     // Save properties for later updates.
     if (props != null) {
-        webui.@THEME@.widget.common.extend(this, props);
+        this.extend(this, props);
     } else {
         props = this.getProps(); // Widget is being initialized.
     }
 
     // Set DOM node properties.
-    webui.@THEME@.widget.common.setCoreProps(this.domNode, props);
-    webui.@THEME@.widget.common.setCommonProps(this.domNode, props);
-    webui.@THEME@.widget.common.setJavaScriptProps(this.domNode, props);
+    this.setCoreProps(this.domNode, props);
+    this.setCommonProps(this.domNode, props);
+    this.setJavaScriptProps(this.domNode, props);
         
     // Set text value.
     if (props.value) {
-        this.domNode.innerHTML = ""; // Cannot be null on IE.
-        webui.@THEME@.widget.common.addFragment(this.domNode,
-            (new Boolean(this.escape).valueOf() == true)
-                ? dojo.string.escape("html", props.value) // Default.
-                : props.value);
+        this.domNode.innerHTML = (new Boolean(this.escape).valueOf() == true)
+            ? dojo.string.escape("html", props.value) // Default.
+            : props.value;
     }
-    return true;
+    return props; // Return props for subclasses.
 }
 
-dojo.inherits(webui.@THEME@.widget.staticText, dojo.widget.HtmlWidget);
+// Inherit base widget properties.
+dojo.inherits(webui.@THEME@.widget.staticText, webui.@THEME@.widget.widgetBase);
+
+// Override base widget by assigning properties to class prototype.
+dojo.lang.extend(webui.@THEME@.widget.staticText, {
+    // Set private functions.
+    fillInTemplate: webui.@THEME@.widget.staticText.fillInTemplate,
+    setProps: webui.@THEME@.widget.staticText.setProps,
+    refresh: webui.@THEME@.widget.staticText.refresh.processEvent,
+    getProps: webui.@THEME@.widget.staticText.getProps,
+
+    // Set defaults.
+    escape: true,
+    widgetType: "staticText"
+});
 
 //-->

@@ -23,54 +23,18 @@
 dojo.provide("webui.@THEME@.widget.hyperlink");
 
 dojo.require("dojo.widget.*");
-dojo.require("dojo.uri.Uri");
 dojo.require("webui.@THEME@.*");
 dojo.require("webui.@THEME@.widget.*");
 dojo.require("webui.@THEME@.widget.anchor");
 
 /**
- * This function will be invoked when creating a Dojo widget. Please see
- * webui.@THEME@.widget.hyperlink.setProps for a list of supported
- * properties.
+ * This function is used to generate a template based widget.
  *
  * Note: This is considered a private API, do not use.
  */
 webui.@THEME@.widget.hyperlink = function() {
-    // Set defaults.
-    this.widgetType = "hyperlink"; 
-
     // Register widget.
-    dojo.widget.Widget.call(this);
-    /**
-     * This function is used to generate a template based widget.
-     */
-    this.fillInTemplate = function() {
-        // Set public functions.
-        this.domNode.getProps = function() { return dojo.widget.byId(this.id).getProps(); }
-        this.domNode.refresh = function(execute) { return dojo.widget.byId(this.id).refresh(execute); }
-        this.domNode.setProps = function(props) { return dojo.widget.byId(this.id).setProps(props); }
-
-        // Set private functions.
-        this.addContents = webui.@THEME@.widget.anchor.addContents;
-        this.getClassName = webui.@THEME@.widget.hyperlink.getClassName;
-        this.getProps = webui.@THEME@.widget.anchor.getProps;
-        this.refresh = webui.@THEME@.widget.hyperlink.refresh.processEvent;
-        this.setSuperProps = webui.@THEME@.widget.anchor.setAnchorProps;
-        this.setProps = webui.@THEME@.widget.hyperlink.setProps;
-        this.submit = webui.@THEME@.widget.hyperlink.submit;
-
-        // Create callback function for onClick event.
-        dojo.event.connect(this.domNode, "onclick",
-            webui.@THEME@.widget.hyperlink.createOnClickCallback(this.id, 
-                this.formId, this.params));
-                
-        // If the href attribute does not exist, make "#" value as
-        // the default value of the href attribute in the dom node.
-        this.domNode.href = "#";
-
-	// Set properties
-	return this.setProps();
-    }
+    dojo.widget.HtmlWidget.call(this);
 }
 
 /**
@@ -113,6 +77,31 @@ webui.@THEME@.widget.hyperlink.createOnClickCallback = function(id, formId,
 }
 
 /**
+ * This function is used to fill a template with widget properties.
+ *
+ * Note: Anything to be set only once should be added here; otherwise, the
+ * setProps() function should be used to set properties.
+ */
+webui.@THEME@.widget.hyperlink.fillInTemplate = function() {
+    // Set public functions.
+    this.domNode.getProps = function() { return dojo.widget.byId(this.id).getProps(); }
+    this.domNode.refresh = function(execute) { return dojo.widget.byId(this.id).refresh(execute); }
+    this.domNode.setProps = function(props) { return dojo.widget.byId(this.id).setProps(props); }
+
+    // Create callback function for onClick event.
+    dojo.event.connect(this.domNode, "onclick",
+        webui.@THEME@.widget.hyperlink.createOnClickCallback(this.id, 
+            this.formId, this.params));
+
+    // If the href attribute does not exist, set "#" as the default value of the
+    // DOM node.
+    this.domNode.href = "#";
+
+    // Set properties.
+    return this.setProps();
+}
+
+/**
  * Helper function to obtain widget class names.
  */
 webui.@THEME@.widget.hyperlink.getClassName = function() {
@@ -140,89 +129,19 @@ webui.@THEME@.widget.hyperlink.refresh = {
     /**
      * Process refresh event.
      *
-     * @param execute Comma separated string containing a list of client ids 
+     * @param execute The string containing a comma separated list of client ids 
      * against which the execute portion of the request processing lifecycle
      * must be run.
      */
     processEvent: function(execute) {
-        // Publish event.
-        webui.@THEME@.widget.hyperlink.refresh.publishBeginEvent({
-            id: this.id,
-            execute: execute
-        });
-        return true;
-    },
-
-    /**
-     * Publish an event for custom AJAX implementations to listen for.
-     *
-     * @param props Key-Value pairs of properties of the widget.
-     */
-    publishBeginEvent: function(props) {
-        dojo.event.topic.publish(webui.@THEME@.widget.hyperlink.refresh.beginEventTopic, props);
-        return true;
-    },
-
-    /**
-     * Publish an event for custom AJAX implementations to listen for.
-     *
-     * @param props Key-Value pairs of properties of the widget.
-     */
-    publishEndEvent: function(props) {
-        dojo.event.topic.publish(webui.@THEME@.widget.hyperlink.refresh.endEventTopic, props);
+        // Publish an event for custom AJAX implementations to listen for.
+        dojo.event.topic.publish(
+            webui.@THEME@.widget.hyperlink.refresh.beginEventTopic, {
+                id: this.id,
+                execute: execute
+            });
         return true;
     }
-}
-
-/**
- * This function is used to update widget properties with the
- * following Object literals.
- *
- * <ul>
- * <li>className</li>
- * <li>contents</li>
- * <li>dir</li>
- * <li>disabled</li>
- * <li>href</li>
- * <li>hrefLang</li>
- * <li>id</li>
- * <li>lang</li>
- * <li>onFocus</li>
- * <li>onBlur</li>
- * <li>onClick</li>
- * <li>onDblClick</li>
- * <li>onKeyDown</li>
- * <li>onKeyPress</li>
- * <li>onKeyUp</li>
- * <li>onMouseDown</li>
- * <li>onMouseOut</li>
- * <li>onMouseOver</li>
- * <li>onMouseUp</li>
- * <li>onMouseMove</li>
- * <li>style</li>
- * <li>tabIndex</li>
- * <li>title</li>
- * <li>visible</li>
- * </ul>
- */
-webui.@THEME@.widget.hyperlink.setProps = function(props){
-    // Save properties for later updates.
-    if (props != null) {
-        // Replace contents -- do not extend.
-        if (props.contents) {
-            this.contents = null;
-        }
-        webui.@THEME@.widget.common.extend(this, props);
-    } else {
-        props = this.getProps(); // Widget is being initialized.
-    }
-
-    // Set style class -- must be set before calling setCoreProps().
-    props.className = this.getClassName();
-
-    // Set properties that are common to the anchor element.
-    this.setSuperProps(props); 
-    this.addContents(props);
 }
 
 /**
@@ -274,6 +193,19 @@ webui.@THEME@.widget.hyperlink.submit = function (formId, params, id) {
     return false;        
 }
 
-dojo.inherits(webui.@THEME@.widget.hyperlink, dojo.widget.HtmlWidget);
+// Inherit base widget properties.
+dojo.inherits(webui.@THEME@.widget.hyperlink, webui.@THEME@.widget.anchor);
+
+// Override base widget by assigning properties to class prototype.
+dojo.lang.extend(webui.@THEME@.widget.hyperlink, {
+    // Set private functions.
+    fillInTemplate: webui.@THEME@.widget.hyperlink.fillInTemplate,
+    getClassName: webui.@THEME@.widget.hyperlink.getClassName,
+    refresh: webui.@THEME@.widget.hyperlink.refresh.processEvent,
+    submit: webui.@THEME@.widget.hyperlink.submit,
+
+    // Set defaults.
+    widgetType: "hyperlink"
+});
 
 //-->

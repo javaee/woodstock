@@ -78,14 +78,15 @@ webui.@THEME@.widget.jsfx.checkbox = {
         }
 
         // Parse JSON text.
-        var json = JSON.parse(content);
+        var props = JSON.parse(content);
 
         // Add rows.
         var widget = dojo.widget.byId(id);
-        widget.setProps(json);
+        widget.setProps(props);
 
         // Publish an event for custom AJAX implementations to listen for.
-        webui.@THEME@.widget.checkbox.refresh.publishEndEvent(json);
+        dojo.event.topic.publish(
+            webui.@THEME@.widget.checkbox.refresh.endEventTopic, props);
         return true;
     }
 }

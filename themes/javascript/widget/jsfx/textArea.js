@@ -64,7 +64,6 @@ webui.@THEME@.widget.jsfx.textArea = {
         return true;
     },
     
-    
     /**
      * This function is used to process submit events with the following Object
      * literals.
@@ -97,9 +96,7 @@ webui.@THEME@.widget.jsfx.textArea = {
         });
         return true;
     },
-    
-    
-    
+
     /**
      * This function is used to refresh widgets.
      *
@@ -114,14 +111,15 @@ webui.@THEME@.widget.jsfx.textArea = {
         }
         
         // Parse JSON text.
-        var json = JSON.parse(content);
+        var props = JSON.parse(content);
         
         // Add rows.
         var widget = dojo.widget.byId(id);
-        widget.setProps(json);
+        widget.setProps(props);
         
         // Publish an event for custom AJAX implementations to listen for.
-        webui.@THEME@.widget.textArea.refresh.publishEndEvent(json);
+        dojo.event.topic.publish(
+            webui.@THEME@.widget.textArea.refresh.endEventTopic, props);
         return true;
     },
     
@@ -132,7 +130,7 @@ webui.@THEME@.widget.jsfx.textArea = {
      * independetly of the state ( client changes do not get commited to the 
      * server), so refereshing of the client side upon every autoSubmit would
      * potentially alter client rendered component.
-     
+     *
      * The default implementation does nothing but publishes the end submit event.
      *
      * @param id The client id.
@@ -145,20 +143,19 @@ webui.@THEME@.widget.jsfx.textArea = {
             return false;
         }        
         // Parse JSON text.
-        var json = JSON.parse(content);
+        var props = JSON.parse(content);
         
         // Publish an event for custom AJAX implementations to listen for.
-        webui.@THEME@.widget.textArea.submit.publishEndEvent(json);
+        dojo.event.topic.publish(
+            webui.@THEME@.widget.textArea.submit.endEventTopic, props);
         return true;
     }
-    
-    
 }
 
 // Listen for Dojo Widget events.
 dojo.event.topic.subscribe(webui.@THEME@.widget.textArea.refresh.beginEventTopic,
-webui.@THEME@.widget.jsfx.textArea, "processRefreshEvent");
+    webui.@THEME@.widget.jsfx.textArea, "processRefreshEvent");
 dojo.event.topic.subscribe(webui.@THEME@.widget.textArea.submit.beginEventTopic,
-webui.@THEME@.widget.jsfx.textArea, "processSubmitEvent");
+    webui.@THEME@.widget.jsfx.textArea, "processSubmitEvent");
 
 //-->

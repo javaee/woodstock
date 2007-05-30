@@ -25,79 +25,16 @@ dojo.provide("webui.@THEME@.widget.radioButton");
 dojo.require("dojo.widget.*");
 dojo.require("webui.@THEME@.*");
 dojo.require("webui.@THEME@.widget.*");
+dojo.require("webui.@THEME@.widget.checkbox");
 
 /**
- * This function will be invoked when creating a Dojo widget. Please see
- * webui.@THEME@.widget.radioButton.setProps for a list of supported
- * properties.
+ * This function is used to generate a template based widget.
  *
  * Note: This is considered a private API, do not use.
  */
 webui.@THEME@.widget.radioButton = function() {    
-    // Set defaults
-    this.widgetType = "radioButton";    
-    
-    // Register widget
-    dojo.widget.Widget.call(this);
-
-    /**
-     * This function is used to generate a template based widget.
-     */
-    this.fillInTemplate = function() {
-        // Set ids
-        if (this.id) {              
-            this.radioButtonNode.id = this.id + "_rb";
-            this.imageContainer.id = this.id + "_imageContainer";
-            this.labelContainer.id = this.id + "_labelContainer";
-
-            // If null, use HTML input id. Note: This has no affect on IE.
-            if (this.name == null) { this.name = this.radioButtonNode.id; }
-        } 
-    
-        // Set public functions
-        this.domNode.getProps = function() { return dojo.widget.byId(this.id).getProps(); }
-        this.domNode.setProps = function(props) { return dojo.widget.byId(this.id).setProps(props); }
-        this.domNode.getInputElement = function() { return dojo.widget.byId(this.id).getInputElement(); }
-        this.domNode.refresh = function(execute) { return dojo.widget.byId(this.id).refresh(execute); }     
-
-        // Set private functions 
-        this.destroy = webui.@THEME@.widget.radioButton.destroy;        
-        this.getClassName = webui.@THEME@.widget.radioButton.getClassName;      
-        this.getProps = webui.@THEME@.widget.radioButton.getProps;
-        this.setProps = webui.@THEME@.widget.radioButton.setProps;    
-        this.getInputElement = webui.@THEME@.widget.radioButton.getInputElement;
-        this.refresh = webui.@THEME@.widget.radioButton.refresh.processEvent;
-        
-        
-        // Set properties.
-        return this.setProps();
-    }
-}
-
-
-/**
- * Helper function to remove all the existing widgets.
- *
- */
-webui.@THEME@.widget.radioButton.destroy = function() {
-    // Remove label widget.
-    if (this.label != null) {
-        var labelWidget = dojo.widget.byId(this.label.id);
-        if (labelWidget) {                        
-            labelWidget.destroy();
-        }
-    }
-    
-    // Remove image widget.
-    if (this.image != null) {
-        var imageWidget = dojo.widget.byId(this.image.id);
-        if (imageWidget) {                  
-            imageWidget.destroy();           
-        }
-    } 
-
-    // Remove this widget.
-    dojo.widget.removeWidgetById(this.id);  
+    // Register widget.
+    dojo.widget.HtmlWidget.call(this);
 }
 
 /**
@@ -105,9 +42,9 @@ webui.@THEME@.widget.radioButton.destroy = function() {
  */
 webui.@THEME@.widget.radioButton.getClassName = function() {
     // Set style class for the span element.
-    var className = webui.@THEME@.widget.props.radioButton.spanClassName;
+    var className = webui.@THEME@.widget.props.radioButton.className;
     if (this.disabled == true) {
-        className = webui.@THEME@.widget.props.radioButton.spanDisabledClassName;
+        className = webui.@THEME@.widget.props.radioButton.disabledClassName;
     }
     return (this.className)
         ? className + " " + this.className
@@ -115,45 +52,49 @@ webui.@THEME@.widget.radioButton.getClassName = function() {
 }
 
 /**
-  * To get the HTML Input element.   
-  *
-  * @return HTML Input element. 
-  */
- webui.@THEME@.widget.radioButton.getInputElement = function() {
-     return this.radioButtonNode;
- }
+ * Helper function to obtain image class names.
+ */
+webui.@THEME@.widget.radioButton.getImageClassName = function() {
+    return (this.disabled == true)
+        ? webui.@THEME@.widget.props.radioButton.imageDisabledClassName
+        : webui.@THEME@.widget.props.radioButton.imageClassName;  
+}
 
 /**
- * This function is used to get widget properties. Please see
- * webui.@THEME@.widget.radioButton.setProps for a list of supported
- * properties.
+ * Helper function to obtain label class names.
  */
-webui.@THEME@.widget.radioButton.getProps = function() {
-    var props = {};
+webui.@THEME@.widget.radioButton.getLabelClassName = function() {
+    return (this.disabled == true)
+        ? webui.@THEME@.widget.props.radioButton.labelDisabledClassName
+        : webui.@THEME@.widget.props.radioButton.labelClassName;  
+}
 
-    // Set properties.  
-    if (this.align) { props.align = this.align; }
-    if (this.disabled != null) { props.disabled = this.disabled; }   
-    if (this.image) { props.image = this.image; }
-    if (this.label) { props.label = this.label; }
-    if (this.name) { props.name = this.name; }        
-    if (this.readOnly != null) { props.readOnly = this.readOnly; }
-    if (this.value) { props.value = this.value; }
-
-    // After widget has been initialized, get user's input.
-    if (webui.@THEME@.widget.common.isWidgetInitialized(this) == true 
-            && this.radioButtonNode.checked != null) {
-        props.checked = this.radioButtonNode.checked;
-    } else if (this.checked != null) {
-        props.checked = this.checked;
+/**
+ * This closure is used to process refresh events.
+ */
+webui.@THEME@.widget.radioButton.refresh = {
+    /**
+     * Event topics for custom AJAX implementations to listen for.
+     */
+    beginEventTopic: "webui_@THEME@_widget_radioButton_refresh_begin",
+    endEventTopic: "webui_@THEME@_widget_radioButton_refresh_end",
+ 
+    /**
+     * Process refresh event.
+     *
+     * @param execute The string containing a comma separated list of client ids 
+     * against which the execute portion of the request processing lifecycle
+     * must be run.
+     */
+    processEvent: function(execute) {
+        // Publish an event for custom AJAX implementations to listen for.
+        dojo.event.topic.publish(
+            webui.@THEME@.widget.radioButton.refresh.beginEventTopic, {
+                id: this.id,
+                execute: execute
+            });
+        return true;
     }
-
-    // Add DOM node properties.
-    Object.extend(props, webui.@THEME@.widget.common.getCommonProps(this));
-    Object.extend(props, webui.@THEME@.widget.common.getCoreProps(this));
-    Object.extend(props, webui.@THEME@.widget.common.getJavaScriptProps(this));
-
-    return props;
 }
 
 /**
@@ -196,30 +137,10 @@ webui.@THEME@.widget.radioButton.getProps = function() {
  * @param props Key-Value pairs of properties.
  */
 webui.@THEME@.widget.radioButton.setProps = function(props) {
-    // Save properties for later updates.
-    if (props != null) {
-        webui.@THEME@.widget.common.extend(this, props);
-    } else {
-        props = this.getProps(); // Widget is being initialized.
-    }
+    // Call super class function.
+    var props = webui.@THEME@.widget.radioButton.superclass.setProps.call(
+        this, props);
 
-    // Set style class -- must be set before calling setCoreProps().
-    props.className = this.getClassName();
-
-    // Set DOM node properties.
-    webui.@THEME@.widget.common.setCoreProps(this.domNode, props);   
-    webui.@THEME@.widget.common.setCommonProps(this.radioButtonNode, props);
-    webui.@THEME@.widget.common.setJavaScriptProps(this.radioButtonNode, props);        
-
-    if (props.value) {
-        this.radioButtonNode.value = props.value;
-    }
-    if (props.readOnly != null) {
-        this.radioButtonNode.readOnly = new Boolean(props.readOnly).valueOf();
-    }
-    if (props.disabled != null) {
-        this.radioButtonNode.disabled = new Boolean(props.disabled).valueOf();
-    }
     if (props.name) {
         // IE does not support the name attribute being set dynamically as 
         // documented at:
@@ -233,124 +154,26 @@ webui.@THEME@.widget.radioButton.setProps = function(props) {
         // to obtain the correct value, the name property must be provided to 
         // the widget. Although we're resetting the name below, as the default,
         // this has no affect on IE. 
-        this.radioButtonNode.name = props.name;
+        this.inputNode.name = props.name;
     }
-    if (props.checked != null) {
-        var checked = new Boolean(props.checked).valueOf();
-
-        // Dynamically setting the checked attribute on IE 6 does not work until
-        // the HTML input element has been added to the DOM. As a work around, 
-        // we shall use a timeout to set the property during initialization.
-        if (webui.@THEME@.widget.common.isWidgetInitialized(this) != true
-                && webui.@THEME@.common.browser.is_ie == true) {
-            var _this = this;
-            setTimeout(
-                function() {
-                    // New literals are created every time this function
-                    // is called, and it's saved by closure magic.
-                    var widget = _this;
-                    widget.radioButtonNode.checked = checked;
-                }, 0); // (n) milliseconds delay.
-        } else {
-            this.radioButtonNode.checked = checked;
-        }
-    }
-
-    // Set image properties.
-    if (props.image || props.disabled != null && this.image) {
-        // Ensure property exists so we can call setProps just once.
-        if (props.image == null) {
-            props.image = {};
-        }
-        
-        // Setting style class.
-        if (props.disabled == true) {
-            props.image.className = webui.@THEME@.widget.props.radioButton.imageDisabledClassName;
-        } else {
-            props.image.className = webui.@THEME@.widget.props.radioButton.imageClassName; 
-        }
-        
-        // Update widget/add fragment.
-        var imageWidget = dojo.widget.byId(this.image.id);        
-        if (imageWidget) {
-            imageWidget.setProps(props.image);        
-        } else {        
-            webui.@THEME@.widget.common.addFragment(this.imageContainer, props.image);
-        }
-    }  
-  
-    // Set label propertiess.        
-    if (props.label || props.disabled != null && this.label) {     
-        // Ensure property exists so we can call setProps just once.
-        if (props.label == null) {
-            props.label = {};
-        }
-        
-        // Setting style class.
-        if (props.disabled == true) {            
-            props.label.className = webui.@THEME@.widget.props.radioButton.labelDisabledClassName; 
-        } else {
-            props.label.className = webui.@THEME@.widget.props.radioButton.labelClassName;
-        }
-
-        // update widget/add fragment.
-        var labelWidget = dojo.widget.byId(this.label.id);
-        if (labelWidget) {
-            labelWidget.setProps(props.label);            
-        } else {            
-            webui.@THEME@.widget.common.addFragment(this.labelContainer, props.label);
-        }        
-    }
-    return true;
+    return props; // Return props for subclasses.
 }
 
-/**
-  * This closure is used to process refresh events.
-  */
- webui.@THEME@.widget.radioButton.refresh = {
-     /**
-      * Event topics for custom AJAX implementations to listen for.
-      */
-     beginEventTopic: "webui_@THEME@_widget_radioButton_refresh_begin",
-     endEventTopic: "webui_@THEME@_widget_radioButton_refresh_end",
- 
-    /**
-     * Process refresh event.
-     *
-     * @param execute Comma separated string containing a list of client ids 
-      * against which the execute portion of the request processing lifecycle
-      * must be run.
-      */
-     processEvent: function(execute) {
-         // Publish event.
-         webui.@THEME@.widget.radioButton.refresh.publishBeginEvent({
-             id: this.id,
-             execute: execute
-         });
-         return true;
-     },
- 
-     /**
-      * Publish an event for custom AJAX implementations to listen for.
-      *
-      * @param props Key-Value pairs of properties of the widget.
-      */
-     publishBeginEvent: function(props) {
-         dojo.event.topic.publish(webui.@THEME@.widget.radioButton.refresh.beginEventTopic, props);
-         return true;
-     },
- 
-     /**
-      * Publish an event for custom AJAX implementations to listen for.
-      *
-      * @param props Key-Value pairs of properties of the widget.
-      */
-     publishEndEvent: function(props) {
-         dojo.event.topic.publish(webui.@THEME@.widget.radioButton.refresh.endEventTopic, props);
-         return true;
-     }
- }
+// Inherit base widget properties.
+dojo.inherits(webui.@THEME@.widget.radioButton, webui.@THEME@.widget.checkbox);
 
-dojo.inherits(webui.@THEME@.widget.radioButton, dojo.widget.HtmlWidget);
+// Override base widget by assigning properties to class prototype.
+dojo.lang.extend(webui.@THEME@.widget.radioButton, {
+    // Set private functions
+    getClassName: webui.@THEME@.widget.radioButton.getClassName,
+    getImageClassName: webui.@THEME@.widget.radioButton.getImageClassName,
+    getLabelClassName: webui.@THEME@.widget.radioButton.getLabelClassName,
+    refresh: webui.@THEME@.widget.radioButton.refresh.processEvent,
+    setProps: webui.@THEME@.widget.radioButton.setProps,
+
+    // Set defaults
+    idSuffix: "_rb",
+    widgetType: "radioButton"
+});
 
 //-->

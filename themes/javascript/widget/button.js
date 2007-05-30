@@ -28,68 +28,13 @@ dojo.require("webui.@THEME@.*");
 dojo.require("webui.@THEME@.widget.*");
 
 /**
- * This function will be invoked when creating a Dojo widget. Please see
- * webui.@THEME@.widget.button.setProps for a list of supported
- * properties.
+ * This function is used to generate a template based widget.
  *
  * Note: This is considered a private API, do not use.
  */
 webui.@THEME@.widget.button = function() {
-    // Set defaults.
-    this.disabled = false;
-    this.escape = true;
-    this.mini = false;
-    this.primary = true;
-    this.widgetType = "button";
-
     // Register widget.
-    dojo.widget.Widget.call(this);
-
-    /**
-     * This function is used to generate a template based widget.
-     */
-    this.fillInTemplate = function() {
-        // Set ids.
-        if (this.id) {
-            this.domNode.name = this.id;
-        }
-
-        // Set public functions. 
-        this.domNode.getProps = function() { return dojo.widget.byId(this.id).getProps(); }
-        this.domNode.refresh = function(execute) { return dojo.widget.byId(this.id).refresh(execute); }
-        this.domNode.setProps = function(props) { return dojo.widget.byId(this.id).setProps(props); }
-
-        // Set private functions.
-        this.getClassName = webui.@THEME@.widget.button.getClassName;
-        this.getHoverClassName = webui.@THEME@.widget.button.getHoverClassName;
-        this.getProps = webui.@THEME@.widget.button.getProps;
-        this.initClassNames = webui.@THEME@.widget.button.initClassNames;
-        this.refresh = webui.@THEME@.widget.button.refresh.processEvent;
-        this.setProps = webui.@THEME@.widget.button.setProps;
-
-        // Initialize the deprecated functions in formElements.js. 
-        // 
-        // Note: Although we now have a setProps function to update properties,
-        // these functions were previously added to the DOM node; thus, we must
-        // continue to be backward compatible.
-        webui.@THEME@.button.init({id: this.id});
-
-        // Set events.
-        dojo.event.connect(this.domNode, "onblur",
-            webui.@THEME@.widget.button.createOnBlurCallback(this.id));
-        dojo.event.connect(this.domNode, "onfocus",
-            webui.@THEME@.widget.button.createOnFocusCallback(this.id));
-        dojo.event.connect(this.domNode, "onmouseout",
-            webui.@THEME@.widget.button.createOnBlurCallback(this.id));
-        dojo.event.connect(this.domNode, "onmouseover",
-            webui.@THEME@.widget.button.createOnFocusCallback(this.id));
-
-        // Initialize CSS selectors.
-        this.initClassNames();
-
-        // Set properties.
-        return this.setProps();
-    }
+    dojo.widget.HtmlWidget.call(this);
 }
 
 /**
@@ -142,6 +87,47 @@ webui.@THEME@.widget.button.createOnFocusCallback = function(id) {
         widget.domNode.className = widget.getHoverClassName();
         return true;
     };
+}
+
+/**
+ * This function is used to fill a template with widget properties.
+ *
+ * Note: Anything to be set only once should be added here; otherwise, the
+ * setProps() function should be used to set properties.
+ */
+webui.@THEME@.widget.button.fillInTemplate = function() {
+    // Set ids.
+    if (this.id) {
+        this.domNode.name = this.id;
+    }
+
+    // Set public functions. 
+    this.domNode.getProps = function() { return dojo.widget.byId(this.id).getProps(); }
+    this.domNode.refresh = function(execute) { return dojo.widget.byId(this.id).refresh(execute); }
+    this.domNode.setProps = function(props) { return dojo.widget.byId(this.id).setProps(props); }
+
+    // Initialize the deprecated functions in formElements.js. 
+    // 
+    // Note: Although we now have a setProps function to update properties,
+    // these functions were previously added to the DOM node; thus, we must
+    // continue to be backward compatible.
+    webui.@THEME@.button.init({id: this.id});
+
+    // Set events.
+    dojo.event.connect(this.domNode, "onblur",
+        webui.@THEME@.widget.button.createOnBlurCallback(this.id));
+    dojo.event.connect(this.domNode, "onfocus",
+        webui.@THEME@.widget.button.createOnFocusCallback(this.id));
+    dojo.event.connect(this.domNode, "onmouseout",
+        webui.@THEME@.widget.button.createOnBlurCallback(this.id));
+    dojo.event.connect(this.domNode, "onmouseover",
+        webui.@THEME@.widget.button.createOnFocusCallback(this.id));
+
+    // Initialize CSS selectors.
+    this.initClassNames();
+
+    // Set properties.
+    return this.setProps();
 }
 
 /**
@@ -245,9 +231,9 @@ webui.@THEME@.widget.button.getProps = function() {
     if (this.value) { props.value = this.value; }
 
     // Add DOM node properties.
-    Object.extend(props, webui.@THEME@.widget.common.getCommonProps(this));
-    Object.extend(props, webui.@THEME@.widget.common.getCoreProps(this));
-    Object.extend(props, webui.@THEME@.widget.common.getJavaScriptProps(this));
+    Object.extend(props, this.getCommonProps());
+    Object.extend(props, this.getCoreProps());
+    Object.extend(props, this.getJavaScriptProps());
 
     return props;
 }
@@ -265,36 +251,17 @@ webui.@THEME@.widget.button.refresh = {
     /**
      * Process refresh event.
      *
-     * @param execute Comma separated string containing a list of client ids 
+     * @param execute The string containing a comma separated list of client ids 
      * against which the execute portion of the request processing lifecycle
      * must be run.
      */
     processEvent: function(execute) {
-        // Publish event.
-        webui.@THEME@.widget.button.refresh.publishBeginEvent({
-            id: this.id,
-            execute: execute
-        });
-        return true;
-    },
-
-    /**
-     * Publish an event for custom AJAX implementations to listen for.
-     *
-     * @param props Key-Value pairs of properties of the widget.
-     */
-    publishBeginEvent: function(props) {
-        dojo.event.topic.publish(webui.@THEME@.widget.button.refresh.beginEventTopic, props);
-        return true;
-    },
-
-    /**
-     * Publish an event for custom AJAX implementations to listen for.
-     *
-     * @param props Key-Value pairs of properties of the widget.
-     */
-    publishEndEvent: function(props) {
-        dojo.event.topic.publish(webui.@THEME@.widget.button.refresh.endEventTopic, props);
+        // Publish an event for custom AJAX implementations to listen for.
+        dojo.event.topic.publish(
+            webui.@THEME@.widget.button.refresh.beginEventTopic, {
+                id: this.id,
+                execute: execute
+            });
         return true;
     }
 }
@@ -339,7 +306,7 @@ webui.@THEME@.widget.button.refresh = {
 webui.@THEME@.widget.button.setProps = function(props) {
     // Save properties for later updates.
     if (props != null) {
-        webui.@THEME@.widget.common.extend(this, props);
+        this.extend(this, props);
     } else {
         props = this.getProps(); // Widget is being initialized.
     }
@@ -353,9 +320,9 @@ webui.@THEME@.widget.button.setProps = function(props) {
     props.className = this.getClassName();
 
     // Set DOM node properties.
-    webui.@THEME@.widget.common.setCoreProps(this.domNode, props);
-    webui.@THEME@.widget.common.setCommonProps(this.domNode, props);
-    webui.@THEME@.widget.common.setJavaScriptProps(this.domNode, props);
+    this.setCoreProps(this.domNode, props);
+    this.setCommonProps(this.domNode, props);
+    this.setJavaScriptProps(this.domNode, props);
 
     if (props.alt) { this.domNode.alt = props.alt; }
     if (props.align) { this.domNode.align = props.align; }
@@ -367,9 +334,29 @@ webui.@THEME@.widget.button.setProps = function(props) {
             ? dojo.string.escape("html", props.value) // Default.
             : props.value;
     }
-    return true;
+    return props; // Return props for subclasses.
 }
 
-dojo.inherits(webui.@THEME@.widget.button, dojo.widget.HtmlWidget);
+// Inherit base widget properties.
+dojo.inherits(webui.@THEME@.widget.button, webui.@THEME@.widget.widgetBase);
+
+// Override base widget by assigning properties to class prototype.
+dojo.lang.extend(webui.@THEME@.widget.button, {
+    // Set private functions.
+    fillInTemplate: webui.@THEME@.widget.button.fillInTemplate,
+    getClassName: webui.@THEME@.widget.button.getClassName,
+    getHoverClassName: webui.@THEME@.widget.button.getHoverClassName,
+    getProps: webui.@THEME@.widget.button.getProps,
+    initClassNames: webui.@THEME@.widget.button.initClassNames,
+    refresh: webui.@THEME@.widget.button.refresh.processEvent,
+    setProps: webui.@THEME@.widget.button.setProps,
+
+    // Set defaults.
+    disabled: false,
+    escape: true,
+    mini: false,
+    primary: true,
+    widgetType: "button"
+});
 
 //-->

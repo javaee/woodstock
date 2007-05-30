@@ -27,40 +27,36 @@ dojo.require("webui.@THEME@.*");
 dojo.require("webui.@THEME@.widget.*");
 
 /**
- * This function will be invoked when creating a Dojo widget. Please see
- * webui.@THEME@.widget.alarm.setProps for a list of supported
- * properties.
+ * This function is used to generate a template based widget.
  *
  * Note: This is considered a private API, do not use.
  */
 webui.@THEME@.widget.alarm = function() {
-    this.widgetType = "alarm";
-    dojo.widget.Widget.call(this);
+    // Register widget.
+    dojo.widget.HtmlWidget.call(this);
+}
 
-    /**
-     * This function is used to generate a template based widget.
-     */
-    this.fillInTemplate = function() {
-        // Set ids.
-        if (this.id) {
-            this.rightText.id = this.id + "_rightText";
-            this.leftText.id = this.id + "_leftText";
-            this.imageContainer.id = this.id + "_imageContainer";
-            
-        }
-
-        // Set public functions.
-        this.domNode.getProps = function() { return dojo.widget.byId(this.id).getProps(); }
-        this.domNode.refresh = function(execute) { return dojo.widget.byId(this.id).refresh(execute); }
-        this.domNode.setProps = function(props) { return dojo.widget.byId(this.id).setProps(props); }
-                
-        this.getProps = webui.@THEME@.widget.alarm.getProps;
-        this.refresh = webui.@THEME@.widget.alarm.refresh.processEvent;
-        this.setProps = webui.@THEME@.widget.alarm.setProps;
-
-        // Set properties.
-        return this.setProps();
+/**
+ * This function is used to fill a template with widget properties.
+ *
+ * Note: Anything to be set only once should be added here; otherwise, the
+ * setProps() function should be used to set properties.
+ */
+webui.@THEME@.widget.alarm.fillInTemplate = function() {
+    // Set ids.
+    if (this.id) {
+        this.rightText.id = this.id + "_rightText";
+        this.leftText.id = this.id + "_leftText";
+        this.imageContainer.id = this.id + "_imageContainer";        
     }
+
+    // Set public functions.
+    this.domNode.getProps = function() { return dojo.widget.byId(this.id).getProps(); }
+    this.domNode.refresh = function(execute) { return dojo.widget.byId(this.id).refresh(execute); }
+    this.domNode.setProps = function(props) { return dojo.widget.byId(this.id).setProps(props); }
+
+    // Set properties.
+    return this.setProps();
 }
 
 /**
@@ -78,9 +74,9 @@ webui.@THEME@.widget.alarm.getProps = function() {
     if (this.type != null) { props.type = this.type; }
             
     // Add DOM node properties.
-    Object.extend(props, webui.@THEME@.widget.common.getCommonProps(this));
-    Object.extend(props, webui.@THEME@.widget.common.getCoreProps(this));
-    Object.extend(props, webui.@THEME@.widget.common.getJavaScriptProps(this));
+    Object.extend(props, this.getCommonProps());
+    Object.extend(props, this.getCoreProps());
+    Object.extend(props, this.getJavaScriptProps());
     
     return props;
 }
@@ -98,41 +94,20 @@ webui.@THEME@.widget.alarm.refresh = {
     /**
      * Process refresh event.
      *
-     * @param execute Comma separated string containing a list of client ids 
+     * @param execute The string containing a comma separated list of client ids 
      * against which the execute portion of the request processing lifecycle
      * must be run.
      */
     processEvent: function(execute) {
-        
-    // Publish event.
-        webui.@THEME@.widget.alarm.refresh.publishBeginEvent({
-            id: this.id,
-            execute: execute
-        });
-        return true;
-    },
-
-    /**
-     * Publish an event for custom AJAX implementations to listen for.
-     *
-     * @param props Key-Value pairs of properties of the widget.
-     */
-    publishBeginEvent: function(props) {
-        dojo.event.topic.publish(webui.@THEME@.widget.alarm.refresh.beginEventTopic, props);
-        return true;
-    },
-
-    /**
-     * Publish an event for custom AJAX implementations to listen for.
-     *
-     * @param props Key-Value pairs of properties of the widget.
-     */
-    publishEndEvent: function(props) { 
-        dojo.event.topic.publish(webui.@THEME@.widget.alarm.refresh.endEventTopic, props);
+        // Publish an event for custom AJAX implementations to listen for.
+        dojo.event.topic.publish(
+            webui.@THEME@.widget.alarm.refresh.beginEventTopic, {
+                id: this.id,
+                execute: execute
+            });
         return true;
     }
 }
-
 
 /**
  * This function is used to set widget properties with the
@@ -167,14 +142,14 @@ webui.@THEME@.widget.alarm.refresh = {
 webui.@THEME@.widget.alarm.setProps = function(props) {
     // After widget has been initialized, save properties for later updates.
     if (props != null) {
-        webui.@THEME@.widget.common.extend(this, props);    
+        this.extend(this, props);    
     } else {
         props = this.getProps(); // Widget is being initialized.
     }
 
     // Set attributes.
-    webui.@THEME@.widget.common.setCoreProps(this.domNode, props);
-    webui.@THEME@.widget.common.setJavaScriptProps(this.domNode, props); 
+    this.setCoreProps(this.domNode, props);
+    this.setJavaScriptProps(this.domNode, props); 
 
     // Do not call setCommonProps as that will result in assigning all image specific properties to
     // outermost domNode. Assign a11y properties to alarm images.
@@ -184,13 +159,13 @@ webui.@THEME@.widget.alarm.setProps = function(props) {
     // Set right text.
     if (props.textPosition == "right" || props.textPosition == null && props.text != null) {
         webui.@THEME@.common.setVisibleElement(this.leftText, false);
-        webui.@THEME@.widget.common.addFragment(this.rightText, props.text);
+        this.addFragment(this.rightText, props.text);
     }
 
     // Set left text.
     if (props.textPosition == "left" && props.text != null) {
         webui.@THEME@.common.setVisibleElement(this.rightText, false);
-        webui.@THEME@.widget.common.addFragment(this.leftText, props.text);
+        this.addFragment(this.leftText, props.text);
     }    
     
     // Set indicator properties.
@@ -199,28 +174,39 @@ webui.@THEME@.widget.alarm.setProps = function(props) {
         for (var i = 0; i < this.indicators.length; i++) {
             // Ensure property exists so we can call setProps just once.
             var indicator = this.indicators[i]; // get current indicator.
-           
             if (indicator == null) {
                 indicator = {};
             }
            
             // Show indicator.
-            indicator.image.visible = (this.type != null && this.type == indicator.type) ?   
-                                      true: false;
+            indicator.image.visible = (this.type != null && this.type == indicator.type)
+                ? true: false;
                                
             // Update widget/add fragment.
             var indicatorWidget = dojo.widget.byId(indicator.image.id);
-            
             if (indicatorWidget) {
                 indicatorWidget.setProps(indicator.image);
             } else { 
-                webui.@THEME@.widget.common.addFragment(this.imageContainer, indicator.image, "last");
+                this.addFragment(this.imageContainer, indicator.image, "last");
             }
         }
     }
-    return true;
+    return props; // Return props for subclasses.
 }
 
-dojo.inherits(webui.@THEME@.widget.alarm, dojo.widget.HtmlWidget);
+// Inherit base widget properties.
+dojo.inherits(webui.@THEME@.widget.alarm, webui.@THEME@.widget.widgetBase);
+
+// Override base widget by assigning properties to class prototype.
+dojo.lang.extend(webui.@THEME@.widget.alarm, {
+    // Set private functions.
+    fillInTemplate: webui.@THEME@.widget.alarm.fillInTemplate,
+    getProps: webui.@THEME@.widget.alarm.getProps,
+    refresh: webui.@THEME@.widget.alarm.refresh.processEvent,
+    setProps: webui.@THEME@.widget.alarm.setProps,
+
+    // Set defaults.
+    widgetType: "alarm"
+});
 
 //-->

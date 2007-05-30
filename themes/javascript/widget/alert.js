@@ -27,53 +27,45 @@ dojo.require("webui.@THEME@.*");
 dojo.require("webui.@THEME@.widget.*");
 
 /**
- * This function will be invoked when creating a Dojo widget. Please see
- * webui.@THEME@.widget.alert.setProps for a list of supported
- * properties.
+ * This function is used to generate a template based widget.
  *
  * Note: This is considered a private API, do not use.
  */
 webui.@THEME@.widget.alert = function() {
-    // Set defaults.
-    this.widgetType = "alert";
-
     // Register widget.
-    dojo.widget.Widget.call(this);
+    dojo.widget.HtmlWidget.call(this);
+}
 
-    /**
-     * This function is used to generate a template based widget.
-     */
-    this.fillInTemplate = function() {
-        // Set ids.
-        if (this.id) {
-            this.bottomLeftContainer.id = this.id + "_bottomLeftContainer";
-            this.bottomMiddleContainer.id = this.id + "_bottomMiddleContainer";
-            this.bottomRightContainer.id = this.id + "_bottomRightContainer";
-            this.detailContainer.id = this.id + "_detailContainer";
-            this.imageContainer.id = this.id + "_imageContainer";
-            this.leftMiddleContainer.id = this.id + "_leftMiddleContainer";
-            this.rightMiddleContainer.id = this.id + "_rightMiddleContainer";
-            this.summaryContainer.id = this.id + "_summaryContainer";
-            this.topLeftContainer.id = this.id + "_topLeftContainer";
-            this.topMiddleContainer.id = this.id + "_topMiddleContainer";
-            this.topRightContainer.id = this.id + "_topRightContainer";
-            this.detailContainerLink.id = this.id + "_detailContainerLink";
-        }
-
-        // Set public functions.
-        this.domNode.getProps = function() { return dojo.widget.byId(this.id).getProps(); }
-        this.domNode.refresh = function(execute) { return dojo.widget.byId(this.id).refresh(execute); }
-        this.domNode.setProps = function(props) { return dojo.widget.byId(this.id).setProps(props); }
-        
-        // Set private functions.
-        this.setProps = webui.@THEME@.widget.alert.setProps;
-        this.getProps = webui.@THEME@.widget.alert.getProps;
-        this.refresh = webui.@THEME@.widget.alert.refresh.processEvent;
-        this.validate = webui.@THEME@.widget.alert.validation.processEvent;
-
-        // Set properties.
-        return this.setProps();
+/**
+ * This function is used to fill a template with widget properties.
+ *
+ * Note: Anything to be set only once should be added here; otherwise, the
+ * setProps() function should be used to set properties.
+ */
+webui.@THEME@.widget.alert.fillInTemplate = function() {
+    // Set ids.
+    if (this.id) {
+        this.bottomLeftContainer.id = this.id + "_bottomLeftContainer";
+        this.bottomMiddleContainer.id = this.id + "_bottomMiddleContainer";
+        this.bottomRightContainer.id = this.id + "_bottomRightContainer";
+        this.detailContainer.id = this.id + "_detailContainer";
+        this.imageContainer.id = this.id + "_imageContainer";
+        this.leftMiddleContainer.id = this.id + "_leftMiddleContainer";
+        this.rightMiddleContainer.id = this.id + "_rightMiddleContainer";
+        this.summaryContainer.id = this.id + "_summaryContainer";
+        this.topLeftContainer.id = this.id + "_topLeftContainer";
+        this.topMiddleContainer.id = this.id + "_topMiddleContainer";
+        this.topRightContainer.id = this.id + "_topRightContainer";
+        this.detailContainerLink.id = this.id + "_detailContainerLink";
     }
+
+    // Set public functions.
+    this.domNode.getProps = function() { return dojo.widget.byId(this.id).getProps(); }
+    this.domNode.refresh = function(execute) { return dojo.widget.byId(this.id).refresh(execute); }
+    this.domNode.setProps = function(props) { return dojo.widget.byId(this.id).setProps(props); }
+
+    // Set properties.
+    return this.setProps();
 }
 
 /**
@@ -93,8 +85,8 @@ webui.@THEME@.widget.alert.getProps = function() {
     if (this.spacerImage != null) { props.spacerImage = this.spacerImage; }
         
     // Add DOM node properties.
-    Object.extend(props, webui.@THEME@.widget.common.getCommonProps(this));
-    Object.extend(props, webui.@THEME@.widget.common.getCoreProps(this));
+    Object.extend(props, this.getCommonProps());
+    Object.extend(props, this.getCoreProps());
     
     return props;
 }
@@ -112,36 +104,17 @@ webui.@THEME@.widget.alert.refresh = {
     /**
      * Process refresh event.
      *
-     * @param execute Comma separated string containing a list of client ids 
+     * @param execute The string containing a comma separated list of client ids 
      * against which the execute portion of the request processing lifecycle
      * must be run.
      */
     processEvent: function(execute) {
-        // Publish event.
-        webui.@THEME@.widget.alert.refresh.publishBeginEvent({
-            id: this.id,
-            execute: execute
-        });
-        return true;
-    },
-
-    /**
-     * Publish an event for custom AJAX implementations to listen for.
-     *
-     * @param props Key-Value pairs of properties of the widget.
-     */
-    publishBeginEvent: function(props) {
-        dojo.event.topic.publish(webui.@THEME@.widget.alert.refresh.beginEventTopic, props);
-        return true;
-    },
-
-    /**
-     * Publish an event for custom AJAX implementations to listen for.
-     *
-     * @param props Key-Value pairs of properties of the widget.
-     */
-    publishEndEvent: function(props) { 
-        dojo.event.topic.publish(webui.@THEME@.widget.alert.refresh.endEventTopic, props);
+        // Publish an event for custom AJAX implementations to listen for.
+        dojo.event.topic.publish(
+            webui.@THEME@.widget.alert.refresh.beginEventTopic, {
+                id: this.id,
+                execute: execute
+            });
         return true;
     }
 }
@@ -168,13 +141,13 @@ webui.@THEME@.widget.alert.refresh = {
 webui.@THEME@.widget.alert.setProps = function(props) {
     // After widget has been initialized, save properties for later updates.
     if (props != null) {
-        webui.@THEME@.widget.common.extend(this, props);    
+        this.extend(this, props);    
     } else {
         props = this.getProps(); // Widget is being initialized.
     }
 
     // Set attributes.
-    webui.@THEME@.widget.common.setCoreProps(this.domNode, props);
+    this.setCoreProps(this.domNode, props);
 
     // Do not call setCommonProps as that will result in assigning tabIndex to
     // outermost domNode. Assign a11y properties to alert images.
@@ -183,17 +156,17 @@ webui.@THEME@.widget.alert.setProps = function(props) {
     
     // Set summary.
     if (props.summary) {
-        webui.@THEME@.widget.common.addFragment(this.summaryContainer, props.summary);
+        this.addFragment(this.summaryContainer, props.summary);
     }
 
     // Set detail.
     if (props.detail) {
-        webui.@THEME@.widget.common.addFragment(this.detailContainer, props.detail);
+        this.addFragment(this.detailContainer, props.detail);
     }
 
     // Set moreInfo.
     if (props.moreInfo) {
-        webui.@THEME@.widget.common.addFragment(this.detailContainerLink, props.moreInfo);
+        this.addFragment(this.detailContainerLink, props.moreInfo);
     }
 
     // Set spacer image.
@@ -215,7 +188,7 @@ webui.@THEME@.widget.alert.setProps = function(props) {
             }
             // Replace container with image.
             if (!dojo.widget.byId(props.spacerImage.id)) {
-                webui.@THEME@.widget.common.addFragment(containers[i], props.spacerImage);
+                this.addFragment(containers[i], props.spacerImage);
             }
         }
     }
@@ -240,11 +213,11 @@ webui.@THEME@.widget.alert.setProps = function(props) {
             if (indicatorWidget) {
                 indicatorWidget.setProps(indicator.image);
             } else {
-                webui.@THEME@.widget.common.addFragment(this.imageContainer, indicator.image, "last");
+                this.addFragment(this.imageContainer, indicator.image, "last");
             }
         }
     }
-    return true;
+    return props; // Return props for subclasses.
 }
 
 /**
@@ -276,6 +249,20 @@ webui.@THEME@.widget.alert.validation = {
     }
 }
 
-dojo.inherits(webui.@THEME@.widget.alert, dojo.widget.HtmlWidget);
+// Inherit base widget properties.
+dojo.inherits(webui.@THEME@.widget.alert, webui.@THEME@.widget.widgetBase);
+
+// Override base widget by assigning properties to class prototype.
+dojo.lang.extend(webui.@THEME@.widget.alert, {
+    // Set private functions.
+    fillInTemplate: webui.@THEME@.widget.alert.fillInTemplate,
+    getProps: webui.@THEME@.widget.alert.getProps,
+    refresh: webui.@THEME@.widget.alert.refresh.processEvent,
+    setProps: webui.@THEME@.widget.alert.setProps,
+    validate: webui.@THEME@.widget.alert.validation.processEvent,
+
+    // Set defaults.
+    widgetType: "alert"
+});
 
 //-->

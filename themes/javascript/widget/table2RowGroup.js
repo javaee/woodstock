@@ -27,74 +27,13 @@ dojo.require("webui.@THEME@.*");
 dojo.require("webui.@THEME@.widget.*");
 
 /**
- * This function will be invoked when creating a Dojo widget. Please see
- * webui.@THEME@.widget.table2RowGroup.setProps for a list of supported
- * properties.
+ * This function is used to generate a template based widget.
  *
  * Note: This is considered a private API, do not use.
  */
 webui.@THEME@.widget.table2RowGroup = function() {
-    // Set defaults.
-    this.first = 0; // Index used to obtain rows.
-    this.currentRow = 0; // Current row in view.
-    this.widgetType = "table2RowGroup";
-
     // Register widget.
-    dojo.widget.Widget.call(this);
-
-    /**
-     * This function is used to generate a template based widget.
-     */
-    this.fillInTemplate = function() {
-        // Set ids.
-        if (this.id) {
-            this.colFooterContainer.id = this.id + "_colFooterContainer";
-            this.colFooterNode.id = this.id + "_colFooterNode";
-            this.colHeaderContainer.id = this.id + "_colHeaderContainer";
-            this.colHeaderNode.id = this.id + "_colHeaderNode";
-            this.domNode.id = this.id;
-            this.groupFooterContainer.id = this.id + "_groupFooterContainer";
-            this.groupFooterNode.id = this.id + "_groupFooter";
-            this.groupHeaderContainer.id = this.id + "_groupHeaderContainer";
-            this.groupHeaderNode.id = this.id + "_groupHeader";
-            this.groupHeaderTextNode.id = this.id + "_groupHeaderText";
-            this.groupHeaderRowsTextNode.id = this.id + "_groupHeaderRowsTextNode";
-            this.rowContainer.id = this.id + "_rowContainer";
-            this.rowNode.id = this.id + "_rowNode";
-            this.tableContainer.id = this.id + "_tableContainer";
-            this.tbodyContainer.id = this.id + "_tbodyContainer";
-            this.tfootContainer.id = this.id + "_tfootContainer";
-            this.theadContainer.id = this.id + "_theadContainer";
-        }
-
-        // Set public functions.
-        this.domNode.getProps = function() { return dojo.widget.byId(this.id).getProps(); }
-        this.domNode.refresh = function(execute) { return dojo.widget.byId(this.id).refresh(execute); }
-        this.domNode.setProps = function(props) { return dojo.widget.byId(this.id).setProps(props); }
-
-        // Set private functions.
-        this.addRows = webui.@THEME@.widget.table2RowGroup.addRows;
-        this.getProps = webui.@THEME@.widget.table2RowGroup.getProps;
-        this.refresh = webui.@THEME@.widget.table2RowGroup.refresh.processEvent;
-        this.resize = webui.@THEME@.widget.table2RowGroup.resize.processEvent;
-        this.setColumns = webui.@THEME@.widget.table2RowGroup.setColumns;
-        this.setHeight = webui.@THEME@.widget.table2RowGroup.setHeight;
-        this.setProps = webui.@THEME@.widget.table2RowGroup.setProps;
-        this.setRowsText = webui.@THEME@.widget.table2RowGroup.setRowsText;
-
-        // Set events.
-        dojo.event.connect(this.domNode, "onscroll", 
-            webui.@THEME@.widget.table2RowGroup.scroll.processEvent);
-
-        // Resize hack for Moz/Firefox.
-        if (webui.@THEME@.common.browser.is_nav == true) {
-            dojo.event.connect(window, "onresize",
-                webui.@THEME@.widget.table2RowGroup.resize.createCallback(this.id));
-        }
-
-        // Set properties.
-        return this.setProps();
-    }
+    dojo.widget.HtmlWidget.call(this);
 }
 
 /**
@@ -135,7 +74,12 @@ webui.@THEME@.widget.table2RowGroup.addRows = function(rows) {
             if (col.width) { rowNodeClone.style.width = col.width; }
 
             // Add cell data.
-            webui.@THEME@.widget.common.addFragment(rowNodeClone, cols[k], "last");
+            this.addFragment(rowNodeClone, cols[k], "last");
+        }
+
+        // Save row for destroy() function.
+        if (this.first > 0) {
+            this.rows[this.rows.length] = rows[i];
         }
     }
 
@@ -146,6 +90,53 @@ webui.@THEME@.widget.table2RowGroup.addRows = function(rows) {
     setTimeout(webui.@THEME@.widget.table2RowGroup.resize.createCallback(this.id), 0);
 
     return true;
+}
+
+/**
+ * This function is used to fill a template with widget properties.
+ *
+ * Note: Anything to be set only once should be added here; otherwise, the
+ * setProps() function should be used to set properties.
+ */
+webui.@THEME@.widget.table2RowGroup.fillInTemplate = function() {
+    // Set ids.
+    if (this.id) {
+        this.colFooterContainer.id = this.id + "_colFooterContainer";
+        this.colFooterNode.id = this.id + "_colFooterNode";
+        this.colHeaderContainer.id = this.id + "_colHeaderContainer";
+        this.colHeaderNode.id = this.id + "_colHeaderNode";
+        this.domNode.id = this.id;
+        this.groupFooterContainer.id = this.id + "_groupFooterContainer";
+        this.groupFooterNode.id = this.id + "_groupFooter";
+        this.groupHeaderContainer.id = this.id + "_groupHeaderContainer";
+        this.groupHeaderNode.id = this.id + "_groupHeader";
+        this.groupHeaderTextNode.id = this.id + "_groupHeaderText";
+        this.groupHeaderRowsTextNode.id = this.id + "_groupHeaderRowsTextNode";
+        this.rowContainer.id = this.id + "_rowContainer";
+        this.rowNode.id = this.id + "_rowNode";
+        this.tableContainer.id = this.id + "_tableContainer";
+        this.tbodyContainer.id = this.id + "_tbodyContainer";
+        this.tfootContainer.id = this.id + "_tfootContainer";
+        this.theadContainer.id = this.id + "_theadContainer";
+    }
+
+    // Set public functions.
+    this.domNode.getProps = function() { return dojo.widget.byId(this.id).getProps(); }
+    this.domNode.refresh = function(execute) { return dojo.widget.byId(this.id).refresh(execute); }
+    this.domNode.setProps = function(props) { return dojo.widget.byId(this.id).setProps(props); }
+
+    // Set events.
+    dojo.event.connect(this.domNode, "onscroll", 
+        webui.@THEME@.widget.table2RowGroup.scroll.processEvent);
+
+    // Resize hack for Moz/Firefox.
+    if (webui.@THEME@.common.browser.is_nav == true) {
+        dojo.event.connect(window, "onresize",
+            webui.@THEME@.widget.table2RowGroup.resize.createCallback(this.id));
+    }
+
+    // Set properties.
+    return this.setProps();
 }
 
 /**
@@ -167,9 +158,9 @@ webui.@THEME@.widget.table2RowGroup.getProps = function() {
     if (this.totalRows) { props.totalRows = this.totalRows; }
 
     // Add DOM node properties.
-    Object.extend(props, webui.@THEME@.widget.common.getCommonProps(this));
-    Object.extend(props, webui.@THEME@.widget.common.getCoreProps(this));
-    Object.extend(props, webui.@THEME@.widget.common.getJavaScriptProps(this));
+    Object.extend(props, this.getCommonProps());
+    Object.extend(props, this.getCoreProps());
+    Object.extend(props, this.getJavaScriptProps());
 
     return props;
 }
@@ -187,36 +178,17 @@ webui.@THEME@.widget.table2RowGroup.refresh = {
     /**
      * Process refresh event.
      *
-     * @param execute Comma separated string containing a list of client ids 
+     * @param execute The string containing a comma separated list of client ids 
      * against which the execute portion of the request processing lifecycle
      * must be run.
      */
     processEvent: function(execute) {
-        // Publish event.
-        webui.@THEME@.widget.table2RowGroup.refresh.publishBeginEvent({
-            id: this.id,
-            execute: execute
-        });
-        return true;
-    },
-
-    /**
-     * Publish an event for custom AJAX implementations to listen for.
-     *
-     * @param props Key-Value pairs of properties of the widget.
-     */
-    publishBeginEvent: function(props) {
-        dojo.event.topic.publish(webui.@THEME@.widget.table2RowGroup.refresh.beginEventTopic, props);
-        return true;
-    },
-
-    /**
-     * Publish an event for custom AJAX implementations to listen for.
-     *
-     * @param props Key-Value pairs of properties of the widget.
-     */
-    publishEndEvent: function(props) {
-        dojo.event.topic.publish(webui.@THEME@.widget.table2RowGroup.refresh.endEventTopic, props);
+        // Publish an event for custom AJAX implementations to listen for.
+        dojo.event.topic.publish(
+            webui.@THEME@.widget.table2RowGroup.refresh.beginEventTopic, {
+                id: this.id,
+                execute: execute
+            });
         return true;
     }
 }
@@ -237,9 +209,7 @@ webui.@THEME@.widget.table2RowGroup.resize = {
             return function(event) {
                 // Note: The event param is not required here.
                 var widget = dojo.widget.byId(id);
-                if (widget == null) {
-                    return null;
-                } else {
+                if (widget) {
                     widget.resize();
                 }
             };
@@ -298,8 +268,8 @@ webui.@THEME@.widget.table2RowGroup.resize = {
  */
 webui.@THEME@.widget.table2RowGroup.setColumns = function() {
     // Clear column headers/footers.
-    webui.@THEME@.widget.common.removeChildNodes(this.colHeaderContainer);
-    webui.@THEME@.widget.common.removeChildNodes(this.colFooterContainer);
+    this.removeChildNodes(this.colHeaderContainer);
+    this.removeChildNodes(this.colFooterContainer);
 
     // Containers are visible if at least one header/footer exists.
     var headerVisible = false;
@@ -320,11 +290,11 @@ webui.@THEME@.widget.table2RowGroup.setColumns = function() {
 
         // Add text.
         if (col.headerText) {
-            webui.@THEME@.widget.common.addFragment(headerClone, col.headerText);
+            this.addFragment(headerClone, col.headerText);
             headerVisible = true;
         }
         if (col.footerText) {
-            webui.@THEME@.widget.common.addFragment(footerClone, col.footerText);
+            this.addFragment(footerClone, col.footerText);
             footerVisible = true;
         }
 
@@ -382,25 +352,29 @@ webui.@THEME@.widget.table2RowGroup.setHeight = function() {
 webui.@THEME@.widget.table2RowGroup.setProps = function(props) {
     // Save properties for later updates.
     if (props != null) {
-        webui.@THEME@.widget.common.extend(this, props);
+        // Replace rows -- do not extend.
+        if (props.rows) {
+            this.rows = null;
+        }
+        this.extend(this, props);
     } else {
         props = this.getProps(); // Widget is being initialized.
     }
 
     // Set DOM node properties.
-    webui.@THEME@.widget.common.setCoreProps(this.domNode, props);
-    webui.@THEME@.widget.common.setCommonProps(this.domNode, props);
-    webui.@THEME@.widget.common.setJavaScriptProps(this.domNode, props);
+    this.setCoreProps(this.domNode, props);
+    this.setCommonProps(this.domNode, props);
+    this.setJavaScriptProps(this.domNode, props);
 
     // Add header.
     if (props.headerText) { 
-        webui.@THEME@.widget.common.addFragment(this.groupHeaderTextNode, props.headerText);
+        this.addFragment(this.groupHeaderTextNode, props.headerText);
         webui.@THEME@.common.setVisibleElement(this.groupHeaderContainer, true);
     }
 
     // Add footer.
     if (props.footerText) {
-        webui.@THEME@.widget.common.addFragment(this.groupFooterNode, props.footerText);
+        this.addFragment(this.groupFooterNode, props.footerText);
         webui.@THEME@.common.setVisibleElement(this.groupFooterContainer, true);
     }
 
@@ -417,14 +391,14 @@ webui.@THEME@.widget.table2RowGroup.setProps = function(props) {
         this.currentRow = 0; // Reset current row in view.
 
         // Clear rows.
-        webui.@THEME@.widget.common.removeChildNodes(this.tbodyContainer);
+        this.removeChildNodes(this.tbodyContainer);
         this.addRows(props.rows);
     }
 
     // To Do: Hack for A11Y testing.
     this.tableContainer.summary = "This is a row group";
 
-    return true;
+    return props; // Return props for subclasses.
 }
 
 /**
@@ -476,10 +450,12 @@ webui.@THEME@.widget.table2RowGroup.scroll = {
         // Publish event to retrieve data.
         if (widget.first < widget.totalRows 
                 && widget.currentRow % widget.maxRows == 0) {
-            webui.@THEME@.widget.table2RowGroup.scroll.publishBeginEvent({
-                id: widget.id,
-                first: widget.first
-            });
+            // Publish an event for custom AJAX implementations to listen for.
+            dojo.event.topic.publish(
+                webui.@THEME@.widget.table2RowGroup.scroll.beginEventTopic, {
+                    id: widget.id,
+                    first: widget.first
+                });
         }
 
         // Set current row based on scroll position and row offset.
@@ -506,29 +482,29 @@ webui.@THEME@.widget.table2RowGroup.scroll = {
         widget.setRowsText();
 
         return true;
-    },
-
-    /**
-     * Publish an event for custom AJAX implementations to listen for.
-     *
-     * @param props Key-Value pairs of properties of the widget.
-     */
-    publishBeginEvent: function(props) {
-        dojo.event.topic.publish(webui.@THEME@.widget.table2RowGroup.scroll.beginEventTopic, props);
-        return true;
-    },
-
-    /**
-     * Publish an event for custom AJAX implementations to listen for.
-     *
-     * @param props Key-Value pairs of properties of the widget.
-     */
-    publishEndEvent: function(props) {
-        dojo.event.topic.publish(webui.@THEME@.widget.table2RowGroup.scroll.endEventTopic, props);
-        return true;
     }
 }
 
-dojo.inherits(webui.@THEME@.widget.table2RowGroup, dojo.widget.HtmlWidget);
+// Inherit base widget properties.
+dojo.inherits(webui.@THEME@.widget.table2RowGroup, webui.@THEME@.widget.widgetBase);
+
+// Override base widget by assigning properties to class prototype.
+dojo.lang.extend(webui.@THEME@.widget.table2RowGroup, {
+    // Set private functions.
+    addRows: webui.@THEME@.widget.table2RowGroup.addRows,
+    fillInTemplate: webui.@THEME@.widget.table2RowGroup.fillInTemplate,
+    getProps: webui.@THEME@.widget.table2RowGroup.getProps,
+    refresh: webui.@THEME@.widget.table2RowGroup.refresh.processEvent,
+    resize: webui.@THEME@.widget.table2RowGroup.resize.processEvent,
+    setColumns: webui.@THEME@.widget.table2RowGroup.setColumns,
+    setHeight: webui.@THEME@.widget.table2RowGroup.setHeight,
+    setProps: webui.@THEME@.widget.table2RowGroup.setProps,
+    setRowsText: webui.@THEME@.widget.table2RowGroup.setRowsText,
+
+    // Set defaults.
+    first: 0, // Index used to obtain rows.
+    currentRow: 0, // Current row in view.
+    widgetType: "table2RowGroup"
+});
 
 //-->

@@ -112,7 +112,7 @@ abstract public class RendererBase extends Renderer {
 
         // Render JavaScript to instantiate Dojo widget.
         writer.write(JavaScriptUtilities.getModuleName(
-            "widget.common.createWidget"));
+            "widget.common.replaceFragment"));
         writer.write("(");
     }
 

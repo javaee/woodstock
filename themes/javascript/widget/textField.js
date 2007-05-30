@@ -27,59 +27,45 @@ dojo.require("webui.@THEME@.*");
 dojo.require("webui.@THEME@.widget.*");
 
 /**
- * This function will be invoked when creating a Dojo widget. Please see
- * webui.@THEME@.widget.textField.setProps for a list of supported
- * properties.
+ * This function is used to generate a template based widget.
  *
  * Note: This is considered a private API, do not use.
  */
 webui.@THEME@.widget.textField = function() {
-    // Set defaults.
-    this.disabled   = false;
-    this.required   = false;
-    this.size       = 20;
-    this.valid      = true;
-    this.widgetType = "textField";
-    
     // Register widget.
-    dojo.widget.Widget.call(this);
-    
-    /**
-     * This function is used to generate a template based widget.
-     */
-    this.fillInTemplate = function() {
-        // Set ids.
-        if (this.id) {
-            this.labelContainer.id = this.id + "_label";
-            this.textFieldNode.id = this.id + "_field";
-            this.textFieldNode.name = this.id + "_field";
-        }
-        
-        // Set public functions.
-        this.domNode.getInputElement = function() { return dojo.widget.byId(this.id).getInputElement(); }
-        this.domNode.getProps = function() { return dojo.widget.byId(this.id).getProps(); }
-        this.domNode.refresh = function(execute) { return dojo.widget.byId(this.id).refresh(execute); }
-        this.domNode.submit = function(execute) { return dojo.widget.byId(this.id).submit(execute); }
-        this.domNode.setProps = function(props) { return dojo.widget.byId(this.id).setProps(props); }
-        
-        // Set private functions.
-        this.getInputElement = webui.@THEME@.widget.textField.getInputElement;
-        this.getClassName = webui.@THEME@.widget.textField.getClassName;
-        this.getProps = webui.@THEME@.widget.textField.getProps;
-        this.refresh = webui.@THEME@.widget.textField.refresh.processEvent;
-        this.submit = webui.@THEME@.widget.textField.submit.processEvent;
-        this.setProps = webui.@THEME@.widget.textField.setProps;
+    dojo.widget.HtmlWidget.call(this);
+}
 
-        // Set events.
-        if (this.autoValidate == true) {
-            // Generate the following event ONLY when 'autoValidate' == true.
-            dojo.event.connect(this.textFieldNode, "onblur", 
-                webui.@THEME@.widget.textField.validation.processEvent);
-        }
-
-        // Set properties.
-        return this.setProps();
+/**
+ * This function is used to fill a template with widget properties.
+ *
+ * Note: Anything to be set only once should be added here; otherwise, the
+ * setProps() function should be used to set properties.
+ */
+webui.@THEME@.widget.textField.fillInTemplate = function() {
+    // Set ids.
+    if (this.id) {
+        this.labelContainer.id = this.id + "_label";
+        this.textFieldNode.id = this.id + "_field";
+        this.textFieldNode.name = this.id + "_field";
     }
+        
+    // Set public functions.
+    this.domNode.getInputElement = function() { return dojo.widget.byId(this.id).getInputElement(); }
+    this.domNode.getProps = function() { return dojo.widget.byId(this.id).getProps(); }
+    this.domNode.refresh = function(execute) { return dojo.widget.byId(this.id).refresh(execute); }
+    this.domNode.submit = function(execute) { return dojo.widget.byId(this.id).submit(execute); }
+    this.domNode.setProps = function(props) { return dojo.widget.byId(this.id).setProps(props); }
+
+    // Set events.
+    if (this.autoValidate == true) {
+        // Generate the following event ONLY when 'autoValidate' == true.
+        dojo.event.connect(this.textFieldNode, "onblur", 
+            webui.@THEME@.widget.textField.validation.processEvent);
+    }
+
+    // Set properties.
+    return this.setProps();
 }
 
 /**
@@ -127,17 +113,16 @@ webui.@THEME@.widget.textField.getProps = function() {
     if (this.style != null) { props.style = this.style; }
 
     // After widget has been initialized, get user's input.
-    if (webui.@THEME@.widget.common.isWidgetInitialized(this) == true 
-            && this.textFieldNode.value != null) {
+    if (this.isInitialized() == true && this.textFieldNode.value != null) {
         props.value = this.textFieldNode.value;
     } else if (this.value != null) {
         props.value = this.value;
     }
 
     // Add DOM node properties.
-    Object.extend(props, webui.@THEME@.widget.common.getCommonProps(this));
-    Object.extend(props, webui.@THEME@.widget.common.getCoreProps(this));
-    Object.extend(props, webui.@THEME@.widget.common.getJavaScriptProps(this));
+    Object.extend(props, this.getCommonProps());
+    Object.extend(props, this.getCoreProps());
+    Object.extend(props, this.getJavaScriptProps());
 
     return props;
 }
@@ -155,36 +140,17 @@ webui.@THEME@.widget.textField.refresh = {
     /**
      * Process refresh event.
      *
-     * @param execute Comma separated string containing a list of client ids 
+     * @param execute The string containing a comma separated list of client ids 
      * against which the execute portion of the request processing lifecycle
      * must be run.
      */
     processEvent: function(execute) {
-        // Publish event.
-        webui.@THEME@.widget.textField.refresh.publishBeginEvent({
-            id: this.id,
-            execute: execute
-        });
-        return true;
-    },
-
-    /**
-     * Publish an event for custom AJAX implementations to listen for.
-     *
-     * @param props Key-Value pairs of properties of the widget.
-     */
-    publishBeginEvent: function(props) {
-        dojo.event.topic.publish(webui.@THEME@.widget.textField.refresh.beginEventTopic, props);
-        return true;
-    },
-
-    /**
-     * Publish an event for custom AJAX implementations to listen for.
-     *
-     * @param props Key-Value pairs of properties of the widget.
-     */
-    publishEndEvent: function(props) {
-        dojo.event.topic.publish(webui.@THEME@.widget.textField.refresh.endEventTopic, props);
+        // Publish an event for custom AJAX implementations to listen for.
+        dojo.event.topic.publish(
+            webui.@THEME@.widget.textField.refresh.beginEventTopic, {
+                id: this.id,
+                execute: execute
+            });
         return true;
     }
 }
@@ -229,15 +195,15 @@ webui.@THEME@.widget.textField.refresh = {
 webui.@THEME@.widget.textField.setProps = function(props) {   
     // Save properties for later updates.
     if (props != null) {
-        webui.@THEME@.widget.common.extend(this, props);
+        this.extend(this, props);
     } else {
         props = this.getProps(); // Widget is being initialized.
     }
     
     // Set attributes.  
-    webui.@THEME@.widget.common.setCoreProps(this.domNode, props);
-    webui.@THEME@.widget.common.setCommonProps(this.textFieldNode, props);
-    webui.@THEME@.widget.common.setJavaScriptProps(this.textFieldNode, props);
+    this.setCoreProps(this.domNode, props);
+    this.setCommonProps(this.textFieldNode, props);
+    this.setJavaScriptProps(this.textFieldNode, props);
     
     // Set text field attributes.    
     if (props.size > 0) { this.textFieldNode.size = props.size; }
@@ -270,12 +236,39 @@ webui.@THEME@.widget.textField.setProps = function(props) {
         if (labelWidget) {
             labelWidget.setProps(props.label);
         } else {
-            webui.@THEME@.widget.common.addFragment(this.labelContainer, props.label);
+            this.addFragment(this.labelContainer, props.label);
         }
     }
-    return props;
+    return props; // Return props for subclasses.
 }
 
+/**
+ * This closure is used to process submit events.
+ */
+webui.@THEME@.widget.textField.submit = {
+    /**
+     * Event topics for custom AJAX implementations to listen for.
+     */
+    beginEventTopic: "webui_@THEME@_widget_textField_submit_begin",
+    endEventTopic: "webui_@THEME@_widget_textField_submit_end",
+    
+    /**
+     * Process submit event.
+     *
+     * @param execute Comma separated string containing a list of client ids 
+     * against which the execute portion of the request processing lifecycle
+     * must be run.
+     */
+    processEvent: function(execute) {
+        // Publish an event for custom AJAX implementations to listen for.
+        dojo.event.topic.publish(
+            webui.@THEME@.widget.textField.submit.beginEventTopic, {
+                id: this.id,
+                execute: execute
+            });
+        return true;
+    }
+}
 
 /**
  * This closure is used to process validation events.
@@ -301,84 +294,35 @@ webui.@THEME@.widget.textField.validation = {
         if (event == null) {
             return false;
         }
-        // Publish event to retrieve data.
-        webui.@THEME@.widget.textField.validation.publishBeginEvent({
-            id: event.currentTarget.parentNode.id
-        });
-    },
-    
-    /**
-     * Publish an event for custom AJAX implementations to listen for.
-     *
-     * @param event Event generated by the widget.
-     */
-    publishBeginEvent: function(props) {
-        dojo.event.topic.publish(webui.@THEME@.widget.textField.validation.beginEventTopic, props);
-        return true;
-    },
-    
-    /**
-     * Publish an event for custom AJAX implementations to listen for. For
-     * example, an alert component may need to be updated when ever a text
-     * field value is found to be invalid.
-     *
-     * @param props Key-Value pairs of properties of the widget.
-     */
-    publishEndEvent: function(props) {
-        dojo.event.topic.publish(webui.@THEME@.widget.textField.validation.endEventTopic, props);
-        return true;
+
+        // Publish an event for custom AJAX implementations to listen for.
+        dojo.event.topic.publish(
+            webui.@THEME@.widget.textField.validation.beginEventTopic, {
+                id: event.currentTarget.parentNode.id
+            });
     }
 }
 
+// Inherit base widget properties.
+dojo.inherits(webui.@THEME@.widget.textField, webui.@THEME@.widget.widgetBase);
 
-/**
- * This closure is used to process submit events.
- */
-webui.@THEME@.widget.textField.submit = {
-    /**
-     * Event topics for custom AJAX implementations to listen for.
-     */
-    beginEventTopic: "webui_@THEME@_widget_textField_submit_begin",
-    endEventTopic: "webui_@THEME@_widget_textField_submit_end",
-    
-    /**
-     * Process submit event.
-     *
-     * @param execute Comma separated string containing a list of client ids 
-     * against which the execute portion of the request processing lifecycle
-     * must be run.
-     */
-    processEvent: function(execute) {
-        // Publish event.
-        webui.@THEME@.widget.textField.submit.publishBeginEvent({
-            id: this.id,
-            execute: execute
-        });
-        return true;
-    },
-    
-    /**
-     * Publish an event for custom AJAX implementations to listen for.
-     *
-     * @param props Key-Value pairs of properties of the widget.
-     */
-    publishBeginEvent: function(props) {
-        dojo.event.topic.publish(webui.@THEME@.widget.textField.submit.beginEventTopic, props);
-        return true;
-    },
-    
-    /**
-     * Publish an event for custom AJAX implementations to listen for.
-     *
-     * @param props Key-Value pairs of properties of the widget.
-     */
-    publishEndEvent: function(props) {
-        dojo.event.topic.publish(webui.@THEME@.widget.textField.submit.endEventTopic, props);
-        return true;
-    }
-}
+// Override base widget by assigning properties to class prototype.
+dojo.lang.extend(webui.@THEME@.widget.textField, {
+    // Set private functions.
+    fillInTemplate: webui.@THEME@.widget.textField.fillInTemplate,
+    getClassName: webui.@THEME@.widget.textField.getClassName,
+    getInputElement: webui.@THEME@.widget.textField.getInputElement,
+    getProps: webui.@THEME@.widget.textField.getProps,
+    refresh: webui.@THEME@.widget.textField.refresh.processEvent,
+    submit: webui.@THEME@.widget.textField.submit.processEvent,
+    setProps: webui.@THEME@.widget.textField.setProps,
 
-
-dojo.inherits(webui.@THEME@.widget.textField, dojo.widget.HtmlWidget);
+    // Set defaults.
+    disabled: false,
+    required: false,
+    size: 20,
+    valid: true,
+    widgetType: "textField"
+});
 
 //-->

@@ -70,67 +70,50 @@ webui.@THEME@.button = {
         widget.domNode.getText = webui.@THEME@.button.getText;
         widget.domNode.setText = webui.@THEME@.button.setText;
         widget.domNode.doClick = webui.@THEME@.button.click;
+
+        return true;
     },
 
     /**
      * Simulate a mouse click in a button. 
      *
-     * @return true if successful; otherwise, false
      * @deprecated Use document.getElementById(id).click();
      */
     click: function() {
-        this.click();
-        return true;
+        return this.click();
     },
 
     /**
      * Get the textual label of a button. 
      *
-     * @return The element value or null
-     * @deprecated Use document.getElementById(id).getProps().contents;
+     * @return The element value.
+     * @deprecated Use document.getElementById(id).getProps().value;
      */
     getText: function() {
-        var widget = dojo.widget.byId(this.id);
-        if (widget == null) {
-            return false;
-        }
-        return widget.domNode.value;
+        return this.getProps().value;
     },
 
     /**
      * Set the textual label of a button. 
      *
      * @param text The element value
-     * @return true if successful; otherwise, false
-     * @deprecated Use document.getElementById(id).setProps({contents: "text"});
+     * @deprecated Use document.getElementById(id).setProps({value: "text"});
      */
     setText: function(text) {
-        if (text == null) {
-            return false;
-        }
-        var widget = dojo.widget.byId(this.id);
-        if (widget == null) {
-            return false;
-        }
-        return widget.setProps({contents: text});
+        return this.setProps({value: text});
     },
 
     /**
      * Use this function to show or hide a button. 
      *
      * @param show true to show the element, false to hide the element
-     * @return true if successful; otherwise, false
-     * @deprecated Use document.getElementById(id).setProps({visible: true});
+     * @deprecated Use document.getElementById(id).setProps({visible: boolean});
      */
     setVisible: function(show) {
         if (show == null) {
-            return false;
+            return null;
         }
-        var widget = dojo.widget.byId(this.id);
-        if (widget == null) {
-            return false;
-        }
-        return widget.setProps({visible: show});
+        return this.setProps({visible: show});
     },
 
     /**
@@ -141,11 +124,7 @@ webui.@THEME@.button = {
      * @deprecated Use document.getElementById(id).getProps().visible;
      */
     getVisible: function() {
-        var widget = dojo.widget.byId(this.id);
-        if (widget == null) {
-            return false;
-        }
-        return widget.getProps().visible;
+        return this.getProps().visible;
     },
 
     /**
@@ -155,29 +134,20 @@ webui.@THEME@.button = {
      * @deprecated Use document.getElementById(id).getProps().primary;
      */
     isPrimary: function() {
-        var widget = dojo.widget.byId(this.id);
-        if (widget == null) {
-            return false;
-        }
-        return widget.getProps().primary;
+        return this.getProps().primary;
     },
 
     /**
      * Set button as "primary".
      *
      * @param primary true for primary, false for secondary
-     * @return true if successful; otherwise, false
-     * @deprecated Use document.getElementById(id).setProps({primary: true});
+     * @deprecated Use document.getElementById(id).setProps({primary: boolean});
      */
-    setPrimary: function(_primary) {
-        if (_primary == null) {
-            return false;
+    setPrimary: function(primary) {
+        if (primary == null) {
+            return null;
         }
-        var widget = dojo.widget.byId(this.id);
-        if (widget == null) {
-            return false;
-        }
-        return widget.setProps({primary: _primary});
+        return this.setProps({primary: primary});
     },
 
     /**
@@ -187,29 +157,20 @@ webui.@THEME@.button = {
      * @deprecated Use !(document.getElementById(id).getProps().primary);
      */
     isSecondary: function() {
-        var widget = dojo.widget.byId(this.id);
-        if (widget == null) {
-            return false;
-        }
-        return widget.secondary;
+        return !(this.getProps().primary);
     },
 
     /**
      * Set button as "secondary".
      *
      * @param secondary true for secondary, false for primary
-     * @return true if successful; otherwise, false
      * @deprecated Use document.getElementById(id).setProps({primary: false});
      */
     setSecondary: function(secondary) {
         if (secondary == null) {
-            return false;
+            return null;
         }
-        var widget = dojo.widget.byId(this.id);
-        if (widget == null) {
-            return false;
-        }
-        return widget.setProps({primary: !secondary});
+        return this.setProps({primary: !secondary});
     },
 
     /**
@@ -219,29 +180,20 @@ webui.@THEME@.button = {
      * @deprecated Use document.getElementById(id).getProps().mini;
      */
     isMini: function() {
-        var widget = dojo.widget.byId(this.id);
-        if (widget == null) {
-            return false;
-        }
-        return widget.getProps().mini;
+        return this.getProps().mini;
     },
 
     /**
      * Set button as "mini".
      *
      * @param mini true for mini, false for standard button
-     * @return true if successful; otherwise, false
-     * @deprecated Use document.getElementById(id).setProps({mini: true});
+     * @deprecated Use document.getElementById(id).setProps({mini: boolean});
      */
-    setMini: function(_mini) {
-        if (_mini == null) {
-            return false;
+    setMini: function(mini) {
+        if (mini == null) {
+            return null;
         }
-        var widget = dojo.widget.byId(this.id);
-        if (widget == null) {
-            return false;
-        }
-        return widget.setProps({mini: _mini});
+        return this.setProps({mini: mini});
     },
 
     /**
@@ -251,29 +203,20 @@ webui.@THEME@.button = {
      * @deprecated Use document.getElementById(id).getProps().disabled;
      */
     getDisabled: function() {
-        var widget = dojo.widget.byId(this.id);
-        if (widget == null) {
-            return false;
-        }
-        return widget.getProps().disabled;
+        return this.getProps().disabled;
     },
 
     /**
      * Test disabled state of button.
      *
      * @param disabled true if disabled; otherwise, false
-     * @return true if successful; otherwise, false
-     * @deprecated Use document.getElementById(id).setProps({disabled: true});
+     * @deprecated Use document.getElementById(id).setProps({disabled: boolean});
      */
-    setDisabled: function(_disabled) {
-        if (_disabled == null) {
-            return false;
+    setDisabled: function(disabled) {
+        if (disabled == null) {
+            return null;
         }
-        var widget = dojo.widget.byId(this.id);
-        if (widget == null) {
-            return false;
-        }
-        return widget.setProps({disabled: _disabled});
+        return this.setProps({disabled: disabled});
     }
 }
 
@@ -284,7 +227,7 @@ webui.@THEME@.button = {
 /**
  * Define webui.@THEME@.checkbox name space.
  * 
- * @deprecated
+ * @deprecated See webui.@THEME@.widget.checkbox
  */
 webui.@THEME@.checkbox = {
     /**
@@ -293,9 +236,8 @@ webui.@THEME@.checkbox = {
      *
      * @param elementId The element Id
      * @param disabled true or false
-     * @return true if successful; otherwise, false
      *
-     * @deprecated Use document.getElementById(id).setProps({ disabled: boolean });     
+     * @deprecated Use document.getElementById(id).setProps({disabled: boolean});
      */
     setDisabled: function(elementId, disabled) {
         return webui.@THEME@.rbcb.setDisabled(elementId, disabled,
@@ -309,8 +251,8 @@ webui.@THEME@.checkbox = {
      *
      * @param controlName The checkbox group control name
      * @param disabled true or false
-     * @return true if successful; otherwise, false
-     * @deprecated Use document.getElementById(id).setProps({ disabled: boolean });
+     *
+     * @deprecated Use document.getElementById(id).setProps({disabled: boolean});
      */
     setGroupDisabled: function(controlName, disabled) {    
         return webui.@THEME@.rbcb.setGroupDisabled(controlName,
@@ -322,9 +264,8 @@ webui.@THEME@.checkbox = {
      *
      * @param elementId The element Id
      * @param checked true or false
-     * @return true if successful; otherwise, false
-     * 
-     * @deprecated Use document.getElementById(id).setProps({ checked: boolean });     
+     *
+     * @deprecated Use document.getElementById(id).setProps({checked: boolean});
      */
     setChecked: function(elementId, checked) {
         return webui.@THEME@.rbcb.setChecked(elementId, checked,
@@ -339,7 +280,7 @@ webui.@THEME@.checkbox = {
 /**
  * Define webui.@THEME@.dropdown name space.
  * 
- * @deprecated
+ * @deprecated See webui.@THEME@.widget.dropDown
  */
 webui.@THEME@.dropDown = {
     /**
@@ -358,7 +299,7 @@ webui.@THEME@.dropDown = {
         if (domNode) {
             return domNode.getSelectElement();
         }
-        return false;
+        return null;
     },
 
     /**
@@ -371,18 +312,13 @@ webui.@THEME@.dropDown = {
      * @param elementId The component id of the JSF component (this id is
      * rendered in the div tag enclosing the HTML elements that make up
      * the list).
-     * @return true if successful; otherwise, false
      *
-     * @deprecated Use document.getElementById(elementId).change();
+     * @deprecated Use document.getElementById(elementId).changed();
      */
     changed: function(elementId) {         
         var widget = dojo.widget.byId(elementId);
         if (widget) {
-            if (widget.submitForm == true) {
-                return widget.jumpDropDownChanged();
-            } else {
-                return widget.dropDownChanged();
-            }
+            return widget.changed();
         }
         return false;
     },
@@ -398,7 +334,6 @@ webui.@THEME@.dropDown = {
      * rendered in the div tag enclosing the HTML elements that make up
      * the list).
      * @param disabled true or false
-     * @return true if successful; otherwise, false
      *
      * @deprecated Use document.getElementById(elementId).setProps({disabled: boolean});
      */
@@ -407,7 +342,7 @@ webui.@THEME@.dropDown = {
         if (domNode) {
             return domNode.setProps({ disabled: disabled});
         }
-        return false;
+        return null;
     },
 
     /**
@@ -428,7 +363,7 @@ webui.@THEME@.dropDown = {
         if (domNode) {
             return domNode.getSelectedValue();
         }
-        return false;
+        return null;
     },
 
     /**
@@ -442,14 +377,14 @@ webui.@THEME@.dropDown = {
      * @return The label of the selected option, or null if none is
      * selected. 
      *
-     * * @deprecated Use document.getElementById(elementId).getSelectedLabel();
+     * @deprecated Use document.getElementById(elementId).getSelectedLabel();
      */
     getSelectedLabel: function(elementId) { 
         var domNode = document.getElementById(elementId);
         if (domNode) {
             return domNode.getSelectedLabel();
         }
-        return false;
+        return null;
     }
 }
 
@@ -459,91 +394,94 @@ webui.@THEME@.dropDown = {
 
 /**
  * Define webui.@THEME@.field name space.
+ *
+ * @deprecated See webui.@THEME@.widget.field
  */
 webui.@THEME@.field = {
     /**
      * Use this function to get the HTML input or textarea element
      * associated with a TextField, PasswordField, HiddenField or TextArea
-     * component. 
+     * component.
+     *
      * @param elementId The element ID of the field 
-     * @return the input or text area element associated with the field
-     * component 
+     * @return the input or text area element associated with the field component
+     *
      * @deprecated Use document.getElementById(elementId).getInputElement()
      */
-    getInputElement: function(elementId) { 
-        var widget = dojo.widget.byId(elementId);
-        if (widget == null) {
-            return false;
-        } 
-        return widget.getInputElement();       
+    getInputElement: function(elementId) {
+        var domNode = document.getElementById(elementId);
+        if (domNode) {
+            return domNode.getInputElement();
+        }
+        return null;
     },
 
     /**
      * Use this function to get the value of the HTML element 
-     * corresponding to the Field component
+     * corresponding to the Field component.
+     *
      * @param elementId The element ID of the Field component
-     * @return the value of the HTML element corresponding to the 
-     * Field component 
+     * @return the value of the HTML element corresponding to the Field component 
+     *
      * @deprecated Use document.getElementById(id).getProps().value;
      */
-    getValue: function(elementId) { 
-        var widget = dojo.widget.byId(elementId);
-        if (widget == null) {
-            return false;
+    getValue: function(elementId) {
+        var domNode = document.getElementById(elementId);
+        if (domNode) {
+            return domNode.getProps().value;
         }
-        return widget.getProps().value;
+        return null;
     },
 
     /**
      * Use this function to set the value of the HTML element 
      * corresponding to the Field component
+     *
      * @param elementId The element ID of the Field component
-     * @param newStyle The new value to enter into the input element
-     * Field component 
+     * @param newValue The new value to enter into the input element Field component 
+     *
      * @deprecated Use document.getElementById(id).setProps({value: "text"});
      */
-    setValue: function(elementId, newValue) { 
-        if (newValue == null) {
-            return false;
+    setValue: function(elementId, newValue) {
+        var domNode = document.getElementById(elementId);
+        if (domNode) {
+            return domNode.setProps({value: newValue});
         }
-        var widget = dojo.widget.byId(elementId);
-        if (widget == null) {
-            return false;
-        }
-        return widget.setProps({value: newValue});        
+        return null;
     },
 
     /** 
      * Use this function to get the style attribute for the field. 
      * The style retrieved will be the style on the span tag that 
-     * encloses the (optional) label element and the input element. 
+     * encloses the (optional) label element and the input element.
+     *
      * @param elementId The element ID of the Field component
+     *
      * @deprecated Use document.getElementById(id).getProps().style;
      */
-    getStyle: function(elementId) { 
-        var widget = dojo.widget.byId(elementId);
-        if (widget == null) {
-            return false;
+    getStyle: function(elementId) {
+        var domNode = document.getElementById(elementId);
+        if (domNode) {
+            return domNode.getProps().style;
         }
-        return widget.getProps().style;
+        return null;
     },
 
     /**
      * Use this function to set the style attribute for the field. 
-     * The style will be set on the <span> tag that surrounds the field. 
+     * The style will be set on the <span> tag that surrounds the field.
+     *
      * @param elementId The element ID of the Field component
      * @param newStyle The new style to apply
+     *
      * @deprecated Use document.getElementById(id).setProps({style: newStyle});
      */
     setStyle: function(elementId, newStyle) { 
-        if (newStyle == null) {
-            return false;
+        var domNode = document.getElementById(elementId);
+        if (domNode) {
+            return domNode.setProps({style: newStyle});
         }
-        var widget = dojo.widget.byId(elementId);
-        if (widget == null) {
-            return false;
-        }
-        return widget.setProps({style: newStyle});
+        return null;
     },
 
     /**
@@ -551,20 +489,19 @@ webui.@THEME@.field = {
      * changes the style used to render the field. 
      *
      * @param elementId The element ID of the field 
-     * @param show true to disable the field, false to enable the field
-     * @return true if successful; otherwise, false
-     * @deprecated Use document.getElementById(id).setProps({disabled: true|false});
+     * @param newDisabled true to disable the field, false to enable the field
+     *
+     * @deprecated Use document.getElementById(id).setProps({disabled: boolean});
      */
     setDisabled: function(elementId, newDisabled) {  
         if (newDisabled == null) {
-            return false;
+            return null;
         }
-        var widget = dojo.widget.byId(elementId);
-        if (widget == null) {
-            return false;
+        var domNode = document.getElementById(elementId);
+        if (domNode) {
+            return domNode.setProps({disabled: newDisabled});
         }
-        return widget.setProps({disabled: newDisabled});
-
+        return null;
     }
 }
 
@@ -574,7 +511,8 @@ webui.@THEME@.field = {
 
 /**
  * Define webui.@THEME@.hyperlink name space.
- * @deprecated.
+ *
+ * @deprecated See webui.@THEME@.widget.hyperlink
  */
 webui.@THEME@.hyperlink = {
     /**
@@ -583,10 +521,12 @@ webui.@THEME@.hyperlink = {
      * @params hyperlink The hyperlink element
      * @params formId The form id
      * @params params Name value pairs
+     *
      * @deprecated  See webui.@THEME@.widget.hyperlink    
      */
     submit: function(hyperlink, formId, params) {
-        // Obtain hyperlink widget for tab and common task.
+        // Obtain hyperlink JavaScript for tab and common task. If a widget does
+        // not exist, we shall call the submit function directly.
         //
         // Warning: Do not use dojo.require() here. The webui.@THEME@.widget
         // namespace must be defined prior to retrieving the hyperlink module.
@@ -600,9 +540,9 @@ webui.@THEME@.hyperlink = {
         // and params[1] form the name and value of the first param.
 	var widget = dojo.widget.byId(hyperlink.id);
 	if (widget) {
-	    return hyperlink.submit(formId, params);
+	    return widget.submit(formId, params);
 	}
-        return webui.@THEME@.widget.hyperlink.submit(formId, params,hyperlink.id);
+        return webui.@THEME@.widget.hyperlink.submit(formId, params, hyperlink.id);
     },
 
     /**
@@ -611,15 +551,16 @@ webui.@THEME@.hyperlink = {
      *
      * @param elementId The component id of the JSF component (this id is
      * assigned to the outter most tag enclosing the HTML img element).
-     * @return a reference to the img element. 
-     * @deprecated See webui.@THEME@.widget.imageHyperlink
+     * @return a reference to the img element.
+     *
+     * @deprecated Use document.getElementById(elementId).getProps().enabledImage;
      */
     getImgElement: function(elementId) {
-        // Note: Requires webui.@THEME@.widget.imageHyperlink and used by table.
-        var widget = dojo.widget.byId(elementId);
-        if (widget != null) {
-            return widget.getProps().enabledImage;
+        var domNode = document.getElementById(elementId);
+        if (domNode) {
+            return domNode.getProps().enabledImage;
         }
+
         // Image hyperlink is now a naming container and the img element id 
         // includes the ImageHyperlink parent id.
         if (elementId != null) {
@@ -641,7 +582,7 @@ webui.@THEME@.hyperlink = {
 /**
  * Define webui.@THEME@.jumpdropdown name space.
  *
- * @deprecated
+ * @deprecated See webui.@THEME@.widget.dropDown
  */
 webui.@THEME@.jumpDropDown = {
     /**
@@ -654,18 +595,13 @@ webui.@THEME@.jumpDropDown = {
      * @param elementId The component id of the JSF component (this id is
      * rendered in the div tag enclosing the HTML elements that make up
      * the list).
-     * @return true
      *
      * @deprecated Use document.getElementById(elementId).changed()
      */
     changed: function(elementId) {
         var widget = dojo.widget.byId(elementId);
         if (widget) {
-            if (widget.submitForm == true) {
-                return widget.jumpDropDownChanged();
-            } else {
-                return widget.dropDownChanged();
-            }
+            return widget.changed();
         }
         return false;
     }
@@ -678,7 +614,7 @@ webui.@THEME@.jumpDropDown = {
 /**
  * Define webui.@THEME@.listbox name space.
  * 
- * @deprecated
+ * @deprecated See webui.@THEME@.widget.listbox
  */
 webui.@THEME@.listbox = {
     /**
@@ -688,7 +624,8 @@ webui.@THEME@.listbox = {
      * @param elementId The component id of the JSF component (this id is
      * assigned to the span tag enclosing the HTML elements that make up
      * the list).
-     * @return a reference to the select element. 
+     * @return a reference to the select element.
+     *
      * @deprecated Use document.getElementById(elementId).getSelectElement()
      */
     getSelectElement: function(elementId) { 
@@ -696,7 +633,7 @@ webui.@THEME@.listbox = {
         if (domNode) {
             return domNode.getSelectElement();
         }
-        return false;
+        return null;
     },
 
     /**
@@ -709,13 +646,13 @@ webui.@THEME@.listbox = {
      * @param elementId The component id of the JSF component (this id is
      * rendered in the div tag enclosing the HTML elements that make up
      * the list).
-     * @return true if successful; otherwise, false
-     * @deprecated Use document.getElementById(elementId).listboxChanged();
+     *
+     * @deprecated Use document.getElementById(elementId).changed();
      */
     changed: function(elementId) {         
         var widget = dojo.widget.byId(elementId);
         if (widget) {
-            return widget.listboxChanged();
+            return widget.changed();
         }
         return false;
     },
@@ -732,16 +669,15 @@ webui.@THEME@.listbox = {
      * rendered in the div tag enclosing the HTML elements that make up
      * the list).
      * @param disabled true or false
-     * @return true if successful; otherwise, false
      *
      * @deprecated Use document.getElementById(elementId).setProps({disabled: boolean});
      */
     setDisabled: function(elementId, disabled) { 
         var domNode = document.getElementById(elementId);
         if (domNode) {
-            return domNode.setProps({ disabled: disabled});
+            return domNode.setProps({disabled: disabled});
         }
-        return false;
+        return null;
     },
 
     /**
@@ -753,7 +689,8 @@ webui.@THEME@.listbox = {
      * rendered in the div tag enclosing the HTML elements that make up
      * the list).
      * @return The value of the selected option, or null if none is
-     * selected. 
+     * selected.
+     *
      * @deprecated Use document.getElementById(elementId).getSelectedValue();
      */
     getSelectedValue: function(elementId) { 
@@ -761,7 +698,7 @@ webui.@THEME@.listbox = {
         if (domNode) {
             return domNode.getSelectedValue();
         }
-        return false;
+        return null;
     },
 
     /**
@@ -772,7 +709,8 @@ webui.@THEME@.listbox = {
      * @param elementId The component id of the JSF component (this id is
      * rendered in the div tag enclosing the HTML elements that make up
      * the list).
-     * @return The label of the selected option, or null if none is selected. 
+     * @return The label of the selected option, or null if none is selected.
+     *
      * @deprecated Use document.getElementById(elementId).getSelectedLabel();
      */
     getSelectedLabel: function(elementId) { 
@@ -780,7 +718,7 @@ webui.@THEME@.listbox = {
         if (domNode) {
             return domNode.getSelectedLabel();
         }
-        return false;
+        return null;
     }
 }
 
@@ -791,30 +729,30 @@ webui.@THEME@.listbox = {
 /**
  * Define webui.@THEME@.rbcb name space.
  *
- * @deprecated
+ * @deprecated See webui.@THEME@.widget.rbcbGroup
  */
 webui.@THEME@.rbcb = {
     /**
-     * @deprecated Use document.getElementById(id).setProps({ checked: boolean }); 
+     * @deprecated Use document.getElementById(id).setProps({checked: boolean});
      */ 
-    setChecked: function(elementId, _checked, type) {
+    setChecked: function(elementId, checked, type) {
         var domNode = document.getElementById(elementId);
         if (domNode) {
-            return domNode.setProps({ checked: _checked });
+            return domNode.setProps({ checked: checked });
         }
-        return false; 
+        return null; 
     },
 
     /**
-     * @deprecated Use document.getElementById(id).setProps({ disabled: boolean }); 
+     * @deprecated Use document.getElementById(id).setProps({disabled: boolean}); 
      */ 
-    setDisabled: function(elementId, _disabled, type, enabledStyle,
+    setDisabled: function(elementId, disabled, type, enabledStyle,
             disabledStyle) {
         var domNode = document.getElementById(elementId);
         if (domNode) {
-            return domNode.setProps({ disabled: _disabled });
+            return domNode.setProps({ disabled: disabled });
         }
-        return false; 
+        return null; 
     },
 
     /** 
@@ -824,16 +762,16 @@ webui.@THEME@.rbcb = {
      * @param elementId The element Id
      * @param formName The name of the form containing the element
      * @param disabled true or false
-     * @return true if successful; otherwise, false    
-     * @deprecated Use document.getElementById(id).setProps({ disabled: boolean });
+     *
+     * @deprecated Use document.getElementById(id).setProps({disabled: boolean});
      */
     setGroupDisabled: function(controlName, disabled, type, enabledStyle,
             disabledStyle) {
         var domNode = document.getElementById(controlName);
-        if(domNode) {
+        if (domNode) {
             return domNode.setProps({ disabled: disabled });
         }
-        return false;
+        return null;
     }
 }
 
@@ -843,6 +781,8 @@ webui.@THEME@.rbcb = {
 
 /**
  * Define webui.@THEME@.radiobutton name space.
+ *
+ * @deprecated See webui.@THEME@.widget.radioButton
  */
 webui.@THEME@.radiobutton = {
     /**
@@ -851,11 +791,11 @@ webui.@THEME@.radiobutton = {
      *
      * @param elementId The element Id
      * @param disabled true or false
-     * @return true if successful; otherwise, false
-     * @deprecated Use document.getElementById(id).setProps({ disabled: boolean });  
+     *
+     * @deprecated Use document.getElementById(id).setProps({disabled: boolean});  
      */
     setDisabled: function(elementId, disabled) {    
-        return webui.@THEME@.rbcb.setDisabled(elementId, disabled,
+        return webui.@THEME@.rbcb.setDisabled(elementId, disabled, 
             "radio", "Rb", "RbDis");
     },
 
@@ -866,12 +806,12 @@ webui.@THEME@.radiobutton = {
      *
      * @param controlName The radio button group control name
      * @param disabled true or false
-     * @return true if successful; otherwise, false
-     * @deprecated Use document.getElementById(id).setProps({ disabled: boolean });
+     *
+     * @deprecated Use document.getElementById(id).setProps({disabled: boolean});
      */
     setGroupDisabled: function(controlName, disabled) {    
-        return webui.@THEME@.rbcb.setGroupDisabled(controlName, 
-            disabled, "radio", "Rb", "RbDis");
+        return webui.@THEME@.rbcb.setGroupDisabled(controlName, disabled, 
+            "radio", "Rb", "RbDis");
     },
 
     /**
@@ -879,12 +819,11 @@ webui.@THEME@.radiobutton = {
      *
      * @param elementId The element Id
      * @param checked true or false
-     * @return true if successful; otherwise, false
-     * @deprecated Use document.getElementById(id).setProps({ checked: boolean });  
+     *
+     * @deprecated Use document.getElementById(id).setProps({checked: boolean});  
      */
     setChecked: function(elementId, checked) {
-        return webui.@THEME@.rbcb.setChecked(elementId, checked,
-            "radio");
+        return webui.@THEME@.rbcb.setChecked(elementId, checked, "radio");
     }
 }
 
@@ -917,7 +856,6 @@ webui.@THEME@.upload = {
      *
      * @param elementId The element ID of the upload 
      * @param show true to disable the upload, false to enable the upload
-     * @return true if successful; otherwise, false
      */
     setDisabled: function(elementId, disabled) {  
         if (elementId == null || disabled == null) {

@@ -112,14 +112,15 @@ webui.@THEME@.widget.jsfx.table2RowGroup = {
         }
 
         // Parse JSON text.
-        var json = JSON.parse(content);
+        var props = JSON.parse(content);
 
         // Add rows.
         var widget = dojo.widget.byId(id);
-        widget.setProps(json);
+        widget.setProps(props);
 
         // Publish an event for custom AJAX implementations to listen for.
-        webui.@THEME@.widget.table2RowGroup.refresh.publishEndEvent(json);
+        dojo.event.topic.publish(
+            webui.@THEME@.widget.table2RowGroup.refresh.endEventTopic, props);
         return true;
     },
 
@@ -137,7 +138,7 @@ webui.@THEME@.widget.jsfx.table2RowGroup = {
         }
 
         // Parse JSON text.
-        var json = JSON.parse(content);
+        var props = JSON.parse(content);
 
         // Reject duplicate AJAX requests.
         var widget = dojo.widget.byId(id);
@@ -146,10 +147,11 @@ webui.@THEME@.widget.jsfx.table2RowGroup = {
         }
 
         // Add rows.
-        widget.addRows(json.rows);
+        widget.addRows(props.rows);
 
         // Publish an event for custom AJAX implementations to listen for.
-        webui.@THEME@.widget.table2RowGroup.scroll.publishEndEvent(json);
+        dojo.event.topic.publish(
+            webui.@THEME@.widget.table2RowGroup.scroll.endEventTopic, props);
         return true;
     }
 }

@@ -26,6 +26,12 @@ dojo.provide("webui.@THEME@.widget.props");
  * This closure is used to provide theme properties.
  */
 webui.@THEME@.widget.props = {
+    // Anchor properties.
+    anchor: {
+        className:"Anc@THEME_CSS@",
+        disabledClassName:"AncDis@THEME_CSS@"
+    },
+
     // Button properties.
     button: {
         imageClassName: "Btn3@THEME_CSS@",
@@ -47,8 +53,8 @@ webui.@THEME@.widget.props = {
 
     // Checkbox properties.
     checkbox: {
-        spanClassName: "CbSpn@THEME_CSS@",
-        spanDisabledClassName: "CbSpnDis@THEME_CSS@",
+        className: "CbSpn@THEME_CSS@",
+        disabledClassName: "CbSpnDis@THEME_CSS@",
         labelClassName: "CbLbl@THEME_CSS@",
         labelDisabledClassName: "CbLblDis@THEME_CSS@",
         imageClassName: "CbImg@THEME_CSS@",
@@ -68,6 +74,19 @@ webui.@THEME@.widget.props = {
         titleOptionPreppender: "&#8212; "
     },
 
+    // EditableField properties.
+    editableField: {
+        className: "EdtFld_ReadOnly@THEME_CSS@",
+        editableClassName: "EdtFld_Edt@THEME_CSS@",
+        disabledClassName: "EdtFldDis@THEME_CSS@"
+    },
+
+    // Hyperlink properties.
+    hyperlink: {
+        className:"Hyp@THEME_CSS@",
+        disabledClassName:"HypDis@THEME_CSS@"
+    },
+
     // Jump drop down properties.
     jumpDropDown: {
         className: "MnuJmp@THEME_CSS@",
@@ -77,6 +96,14 @@ webui.@THEME@.widget.props = {
         optionGroupClassName: "MnuJmpOptGrp@THEME_CSS@",
         optionSelectedClassName: "MnuJmpOptSel@THEME_CSS@",
         optionSeparatorClassName: "MnuJmpOptSep@THEME_CSS@"
+    },
+
+    // Label properties.
+    label: {
+        errorStyleClass: "ConErrLblTxt@THEME_CSS@",
+        levelOneStyleClass: "LblLev1Txt@THEME_CSS@",
+        levelTwoStyleClass: "LblLev2Txt@THEME_CSS@",
+        levelThreeStyleClass: "LblLev3Txt@THEME_CSS@"
     },
 
     // Listbox properties.
@@ -113,49 +140,27 @@ webui.@THEME@.widget.props = {
     },
 
     // RadioButton properties.
-     radioButton: {
-        spanClassName: "RbSpn@THEME_CSS@",
-        spanDisabledClassName: "RbSpnDis@THEME_CSS@",
+    radioButton: {
+        className: "RbSpn@THEME_CSS@",
+        disabledClassName: "RbSpnDis@THEME_CSS@",
         labelClassName: "RbLbl@THEME_CSS@",
         labelDisabledClassName: "RbLblDis@THEME_CSS@",
         imageClassName: "RbImg@THEME_CSS@",
         imageDisabledClassName: "RbImgDis@THEME_CSS@"
-     },
+    },
 
-    // Label properties.
-    label: {
-        errorStyleClass: "ConErrLblTxt@THEME_CSS@",
-        levelOneStyleClass: "LblLev1Txt@THEME_CSS@",
-        levelTwoStyleClass: "LblLev2Txt@THEME_CSS@",
-        levelThreeStyleClass: "LblLev3Txt@THEME_CSS@"
-    },
-    anchor: {
-        className:"Anc@THEME_CSS@",
-        disabledClassName:"AncDis@THEME_CSS@"
-    },
-    hyperlink: {
-        className:"Hyp@THEME_CSS@",
-        disabledClassName:"HypDis@THEME_CSS@"
+    // TextArea properties.
+    textArea: {
+        className: "TxtAra@THEME_CSS@",
+        disabledClassName: "TxtAraDis@THEME_CSS@",
+        labelTopAlignStyle: "TxtAraLabel@THEME_CSS@" 
     },
 
     // TextField properties.
     textField: {
         className: "TxtFld@THEME_CSS@",
         disabledClassName: "TxtFldDis@THEME_CSS@"
-    },
-    // EditableField properties.
-    editableField: {
-        className: "EdtFld_ReadOnly@THEME_CSS@",
-        editableClassName: "EdtFld_Edt@THEME_CSS@",
-        disabledClassName: "EdtFldDis@THEME_CSS@"
-    },
-    
-    // TextArea properties.
-    textArea: {
-        className: "TxtAra@THEME_CSS@",
-        disabledClassName: "TxtAraDis@THEME_CSS@",
-        labelTopAlignStyle: "TxtAraLabel@THEME_CSS@" 
-    }    
+    }
 }
 
 //-->

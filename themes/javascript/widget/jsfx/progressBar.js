@@ -111,21 +111,22 @@ webui.@THEME@.widget.jsfx.progressBar =  {
         }
 
         // Parse JSON text.
-        var json = JSON.parse(content);
+        var props = JSON.parse(content);
 
         // Set progress.
         var widget = dojo.widget.byId(id);
         widget.setProgress({
-            failedStateText : json.failedStateText,
-            logMessage : json.logMessage,
-            progress : json.progress,
-            status: json.status,
-            taskState : json.taskState,
-            topText : json.topText
+            failedStateText : props.failedStateText,
+            logMessage : props.logMessage,
+            progress : props.progress,
+            status: props.status,
+            taskState : props.taskState,
+            topText : props.topText
         });
 
         // Publish an event for custom AJAX implementations to listen for.
-        webui.@THEME@.widget.progressBar.progress.publishEndEvent(json);
+        dojo.event.topic.publish(
+            webui.@THEME@.widget.progressBar.progress.endEventTopic, props);
         return true;
     },
 
@@ -143,14 +144,15 @@ webui.@THEME@.widget.jsfx.progressBar =  {
         }
 
         // Parse JSON text.
-        var json = JSON.parse(content);
+        var props = JSON.parse(content);
 
         // Add rows.
         var widget = dojo.widget.byId(id);
-        widget.setProps(json);
+        widget.setProps(props);
 
         // Publish an event for custom AJAX implementations to listen for.
-        webui.@THEME@.widget.progressBar.refresh.publishEndEvent(json);
+        dojo.event.topic.publish(
+            webui.@THEME@.widget.progressBar.refresh.endEventTopic, props);
         return true;
     }
 }

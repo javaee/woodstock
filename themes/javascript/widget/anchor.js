@@ -22,66 +22,37 @@
 
 dojo.provide("webui.@THEME@.widget.anchor");
 
-dojo.require("dojo.widget.*");
 dojo.require("dojo.uri.Uri");
+dojo.require("dojo.widget.*");
 dojo.require("webui.@THEME@.*");
 dojo.require("webui.@THEME@.widget.*");
 
 /**
- * This function will be invoked when creating a Dojo widget. Please see
- * webui.@THEME@.widget.anchor.setProps for a list of supported
- * properties.
+ * This function is used to generate a template based widget.
  *
  * Note: This is considered a private API, do not use.
  */
 webui.@THEME@.widget.anchor = function() {
-    // Set defaults.
-    this.widgetType = "anchor";
-
     // Register widget.
-    dojo.widget.Widget.call(this);
-
-    /**
-     * This function is used to generate a template based widget.
-     */
-    this.fillInTemplate = function() {
-        // Since the id and name must be the same on IE, we cannot obtain the
-        // widget using the DOM node ID via the public functions below.
-        var _this = this; // Available in public functions via closure magic.
-
-        // Set public functions.
-        this.domNode.getProps = function() { return dojo.widget.byId(_this.id).getProps(); }
-        this.domNode.refresh = function(execute) { return dojo.widget.byId(_this.id).refresh(execute); }
-        this.domNode.setProps = function(props) { return dojo.widget.byId(_this.id).setProps(props); }
-       
-        // Set private functions.
-        this.addContents = webui.@THEME@.widget.anchor.addContents;
-        this.getClassName = webui.@THEME@.widget.anchor.getClassName;
-        this.getProps = webui.@THEME@.widget.anchor.getProps;
-        this.refresh = webui.@THEME@.widget.anchor.refresh.processEvent;
-        this.setAnchorProps = webui.@THEME@.widget.anchor.setAnchorProps;
-        this.setProps = webui.@THEME@.widget.anchor.setProps;
-
-	// Create callback function for onclick event.
-        dojo.event.connect(this.domNode, "onclick",
-            webui.@THEME@.widget.anchor.createOnClickCallback(this.id));
-
-	// Set properties
-	return this.setProps();
-    }
+    dojo.widget.HtmlWidget.call(this);
 }
 
+/**
+ * Helper function to add children.
+ *
+ * @param props Key-Value pairs of properties.
+ */
 webui.@THEME@.widget.anchor.addContents = function(props) {
     if (props.contents == null) {
         return false;
     }
-    // Clear contents.
-    this.domNode.innerHTML = ""; // Cannot be null on IE.
+
+    // Remove child nodes.
+    this.removeChildNodes(this.domNode);
 
     // Add contents.
-    for(i = 0; i <props.contents.length; i++) {
-        webui.@THEME@.widget.common.addFragment(this.domNode, props.contents[i],
-            "last");
+    for (i = 0; i < props.contents.length; i++) {
+        this.addFragment(this.domNode, props.contents[i], "last");
     }
     return true;
 }
@@ -90,7 +61,6 @@ webui.@THEME@.widget.anchor.addContents = function(props) {
  * Helper function to create callback for onClick event.
  *
  * @param id The HTML element id used to invoke the callback.
- *
  */
 webui.@THEME@.widget.anchor.createOnClickCallback = function(id) {
     if (id == null) {
@@ -115,6 +85,29 @@ webui.@THEME@.widget.anchor.createOnClickCallback = function(id) {
     };
 }
 
+/**
+ * This function is used to fill a template with widget properties.
+ *
+ * Note: Anything to be set only once should be added here; otherwise, the
+ * setProps() function should be used to set properties.
+ */
+webui.@THEME@.widget.anchor.fillInTemplate = function() {
+    // Since the id and name must be the same on IE, we cannot obtain the
+    // widget using the DOM node ID via the public functions below.
+    var _this = this; // Available in public functions via closure magic.
+
+    // Set public functions.
+    this.domNode.getProps = function() { return dojo.widget.byId(_this.id).getProps(); }
+    this.domNode.refresh = function(execute) { return dojo.widget.byId(_this.id).refresh(execute); }
+    this.domNode.setProps = function(props) { return dojo.widget.byId(_this.id).setProps(props); }
+
+    // Create callback function for onclick event.
+    dojo.event.connect(this.domNode, "onclick",
+        webui.@THEME@.widget.anchor.createOnClickCallback(this.id));
+
+    // Set properties
+    return this.setProps();
+}
 
 /**
  * Helper function to obtain widget class names.
@@ -155,48 +148,11 @@ webui.@THEME@.widget.anchor.getProps = function() {
     if (this.disabled != null) { props.disabled = this.disabled; }
  
     // Add DOM node properties.
-    Object.extend(props, webui.@THEME@.widget.common.getCommonProps(this));
-    Object.extend(props, webui.@THEME@.widget.common.getCoreProps(this));
-    Object.extend(props, webui.@THEME@.widget.common.getJavaScriptProps(this));
+    Object.extend(props, this.getCommonProps());
+    Object.extend(props, this.getCoreProps());
+    Object.extend(props, this.getJavaScriptProps());
 
     return props;
-}
-
-/**
- * Set the properties for the anchor widget. 
- * This has been made a separate function so that
- * the hyperlink javascript can use this.
- */
-webui.@THEME@.widget.anchor.setAnchorProps = function(props) {
-    // A web app devleoper could return false in order to cancel the 
-    // submit. Thus, we will handle this event via the onClick call back.
-    if (props.onClick) {
-        // Set private function scope on DOM node.
-        this.domNode._onclick = (typeof props.onClick == 'string')
-            ? new Function(props.onClick) : props.onClick;
-
-        // Must be cleared before calling setJavaScriptProps() below.
-        props.onClick = null;
-    }
-
-    // Set DOM node properties.
-    webui.@THEME@.widget.common.setCoreProps(this.domNode, props);
-    webui.@THEME@.widget.common.setCommonProps(this.domNode, props);
-    webui.@THEME@.widget.common.setJavaScriptProps(this.domNode, props);
-
-    if (props.accessKey) { this.domNode.accesskey = props.accessKey; }
-    if (props.charset) { this.domNode.charset = props.charset; }
-    if (props.coords) { this.domNode.coords = props.coords; }
-    if (props.href) { this.domNode.href = new dojo.uri.Uri(this.href).toString(); }
-    if (props.hrefLang) { this.domNode.hrefLang =  props.hrefLang; }
-    if (props.name) { this.domNode.name = props.name; }
-    if (props.rev) { this.domNode.rev = props.rev; }
-    if (props.rel) { this.domNode.rel = props.rel; }
-    if (props.shape) { this.domNode.shape = props.shape; }
-    if (props.target) { this.domNode.target = props.target; }
-    if (props.type) { this.domNode.type = props.type; }
-
-    return true;
 }
 
 /**
@@ -208,40 +164,21 @@ webui.@THEME@.widget.anchor.refresh = {
      */
     beginEventTopic: "webui_@THEME@_widget_anchor_refresh_begin",
     endEventTopic: "webui_@THEME@_widget_anchor_refresh_end",
+
     /**
      * Process refresh event.
      *
-     * @param execute Comma separated string containing a list of client ids 
+     * @param execute The string containing a comma separated list of client ids 
      * against which the execute portion of the request processing lifecycle
      * must be run.
      */
     processEvent: function(execute) {
-        // Publish event.
-        webui.@THEME@.widget.anchor.refresh.publishBeginEvent({
-            id: this.id,
-            execute: execute,
-            name: this.name
-        });
-        return true;
-    },
-
-    /**
-     * Publish an event for custom AJAX implementations to listen for.
-     *
-     * @param props Key-Value pairs of properties of the widget.
-     */
-    publishBeginEvent: function(props) {
-        dojo.event.topic.publish(webui.@THEME@.widget.anchor.refresh.beginEventTopic, props);
-        return true;
-    },
-
-    /**
-     * Publish an event for custom AJAX implementations to listen for.
-     *
-     * @param props Key-Value pairs of properties of the widget.
-     */
-    publishEndEvent: function(props) {
-        dojo.event.topic.publish(webui.@THEME@.widget.anchor.refresh.endEventTopic, props);
+        // Publish an event for custom AJAX implementations to listen for.
+        dojo.event.topic.publish(
+            webui.@THEME@.widget.anchor.refresh.beginEventTopic, {
+                id: this.id,
+                execute: execute
+            });
         return true;
     }
 }
@@ -282,6 +219,8 @@ webui.@THEME@.widget.anchor.refresh = {
  * <li>tabIndex</li>
  * <li>title</li>
  * <li>visible</li>
+ *
+ * @param props Key-Value pairs of properties.
  */
 webui.@THEME@.widget.anchor.setProps = function(props){
     // Save properties for later updates.
@@ -290,24 +229,68 @@ webui.@THEME@.widget.anchor.setProps = function(props){
         if (props.contents) {
             this.contents = null;
         }
-        webui.@THEME@.widget.common.extend(this, props);
+        this.extend(this, props);
     } else {
         props = this.getProps(); // Widget is being initialized.
     }
 
-    // Set id.
-    if (this.name) {
-        props.id = this.name; // Anchors must have the same id and name on IE.
+    // Set id -- anchors must have the same id and name on IE.
+    if (props.name) {
+        props.id = props.name;
     }
 
     // Set style class -- must be set before calling setCoreProps().
     props.className = this.getClassName();
 
-    // Set properties.
-    this.setAnchorProps(props);
+    // A web app devleoper could return false in order to cancel the 
+    // submit. Thus, we will handle this event via the onClick call back.
+    if (props.onClick) {
+        // Set private function scope on DOM node.
+        this.domNode._onclick = (typeof props.onClick == 'string')
+            ? new Function(props.onClick) : props.onClick;
+
+        // Must be cleared before calling setJavaScriptProps() below.
+        props.onClick = null;
+    }
+
+    // Set DOM node properties.
+    this.setCoreProps(this.domNode, props);
+    this.setCommonProps(this.domNode, props);
+    this.setJavaScriptProps(this.domNode, props);
+
+    if (props.accessKey) { this.domNode.accesskey = props.accessKey; }
+    if (props.charset) { this.domNode.charset = props.charset; }
+    if (props.coords) { this.domNode.coords = props.coords; }
+    if (props.href) { this.domNode.href = new dojo.uri.Uri(this.href).toString(); }
+    if (props.hrefLang) { this.domNode.hrefLang =  props.hrefLang; }
+    if (props.name) { this.domNode.name = props.name; }
+    if (props.rev) { this.domNode.rev = props.rev; }
+    if (props.rel) { this.domNode.rel = props.rel; }
+    if (props.shape) { this.domNode.shape = props.shape; }
+    if (props.target) { this.domNode.target = props.target; }
+    if (props.type) { this.domNode.type = props.type; }
+
+    // Add contents.
     this.addContents(props);
+
+    return props; // Return props for subclasses.
 }
 
-dojo.inherits(webui.@THEME@.widget.anchor, dojo.widget.HtmlWidget);
+// Inherit base widget properties.
+dojo.inherits(webui.@THEME@.widget.anchor, webui.@THEME@.widget.widgetBase);
+
+// Override base widget by assigning properties to class prototype.
+dojo.lang.extend(webui.@THEME@.widget.anchor, {
+    // Set private functions.
+    addContents: webui.@THEME@.widget.anchor.addContents,
+    fillInTemplate: webui.@THEME@.widget.anchor.fillInTemplate,
+    getClassName: webui.@THEME@.widget.anchor.getClassName,
+    getProps: webui.@THEME@.widget.anchor.getProps,
+    refresh: webui.@THEME@.widget.anchor.refresh.processEvent,
+    setProps: webui.@THEME@.widget.anchor.setProps,
+
+    // Set defaults.
+    widgetType: "anchor"
+});
 
 //-->

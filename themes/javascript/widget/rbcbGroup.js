@@ -27,128 +27,92 @@ dojo.require("webui.@THEME@.*");
 dojo.require("webui.@THEME@.widget.*");
 
 /**
- * This function will be invoked when creating a Dojo widget. Please see
- * webui.@THEME@.widget.rbcbGroup.setProps for a list of supported
- * properties.
+ * This function is used to generate a template based widget.
  *
  * Note: This is considered a private API, do not use.
  */
 webui.@THEME@.widget.rbcbGroup = function() {    
-    // Set defaults
-    this.widgetType = "rbcbGroup";    
-    
-    // Register widget
-    dojo.widget.Widget.call(this);
-
-    /**
-     * This function is used to generate a template based widget.
-     */
-    this.fillInTemplate = function() {
-        // Set ids
-        if (this.id) {                    
-            this.divContainer.id = this.id + "_divContainer";
-            this.labelContainer.id = this.id + "_labelContainer";                    
-            this.liNode.id = this.id + "_liNode";
-            this.ulContainer.id = this.id + "_ulContainer";         
-        } 
-    
-        // Set public functions
-        this.domNode.getProps = function() { return dojo.widget.byId(this.id).getProps(); }
-        this.domNode.refresh = function(execute) { return dojo.widget.byId(this.id).refresh(execute); }
-        this.domNode.setProps = function(props) { return dojo.widget.byId(this.id).setProps(props); }   
-        
-
-        // Set private functions 
-        this.addContents = webui.@THEME@.widget.rbcbGroup.addContents;      
-        this.destroy = webui.@THEME@.widget.rbcbGroup.destroy;
-        this.getProps = webui.@THEME@.widget.rbcbGroup.getProps;                
-        this.refresh = webui.@THEME@.widget.rbcbGroup.refresh.processEvent;                 
-        this.setProps = webui.@THEME@.widget.rbcbGroup.setProps;       
-
-        // Initialize properties.
-        return this.setProps();
-    }    
+    // Register widget.
+    dojo.widget.HtmlWidget.call(this);
 }
 
 /**
  * Helper function to add elements
  *
+ * @param props Key-Value pairs of properties.
  */
-
 webui.@THEME@.widget.rbcbGroup.addContents = function(props) {   
     if (props == null) {
         return false;
     }
-    
-    if (props.contents) {  
-      
-            // Remove all the child nodes of <ul> node before adding. 
-        webui.@THEME@.widget.common.removeChildNodes(this.ulContainer);  
-   
+
+    if (props.contents) {
+        // Remove all the child nodes of <ul> node before adding.
+        this.removeChildNodes(this.ulContainer);
+
         this.alreadyAdded = false;
-        
-        for (var i = 0; i < props.contents.length; i++) {                                                   
-            
-              // Clone <li> node.           
-           var liNodeClone = this.liNode.cloneNode(false);        
+
+        for (var i = 0; i < props.contents.length; i++) { 
+           // Clone <li> node.
+           var liNodeClone = this.liNode.cloneNode(false);
 
            // Append the child element to <ul>
-           this.ulContainer.appendChild(liNodeClone);     
-           
-           // Add label to the group only once. 
-           if (props.label) {            
-                if (!this.alreadyAdded) {                    
+           this.ulContainer.appendChild(liNodeClone);
+
+           // Add label to the group only once.
+           if (props.label) {
+                if (!this.alreadyAdded) {
                     var labelContainerClone = this.labelContainer.cloneNode(false);
                     liNodeClone.appendChild(labelContainerClone);
-                    webui.@THEME@.widget.common.addFragment(labelContainerClone, props.label, "last");
+                    this.addFragment(labelContainerClone, props.label, "last");
                     this.alreadyAdded = true;
-                } 
+                }
            } 
-           
+
            // Set disabled.
            if (props.disabled != null) {
                 props.contents[i].disabled = props.disabled;
            }
-           
-           // Add child to the group.                              
-           webui.@THEME@.widget.common.addFragment(liNodeClone, props.contents[i], "last");              
-          
+
+           // Add child to the group.
+           this.addFragment(liNodeClone, props.contents[i], "last");
         }
     } else {
         // Update the disabled property client side
         if (props.disabled != null && this.contents) {
             for (var i = 0; i < this.contents.length; i++) {
                 var contentWidget = dojo.widget.byId(this.contents[i].id);
-                if (contentWidget) {                                  
-                    contentWidget.setProps({disabled: props.disabled});                               
-                } 
+                if (contentWidget) {
+                    contentWidget.setProps({disabled: props.disabled});
+                }
             }
-        }        
-    }    
-    
+        }
+    }
     return true;
 }  
 
 /**
- * Helper function to remove all the existing widgets.
+ * This function is used to fill a template with widget properties.
  *
+ * Note: Anything to be set only once should be added here; otherwise, the
+ * setProps() function should be used to set properties.
  */
-webui.@THEME@.widget.rbcbGroup.destroy = function() {
-    // Remove label widget.
-    if (this.label != null) {
-        var labelWidget = dojo.widget.byId(this.label.id);
-        if (labelWidget) {
-            labelWidget.destroy();
-        }
-    }
+webui.@THEME@.widget.rbcbGroup.fillInTemplate = function() {
+    // Set ids.
+    if (this.id) {                    
+        this.divContainer.id = this.id + "_divContainer";
+        this.labelContainer.id = this.id + "_labelContainer";                    
+        this.liNode.id = this.id + "_liNode";
+        this.ulContainer.id = this.id + "_ulContainer";         
+    } 
     
-    // Remove content widgets.
-    if (this.contents != null) {
-        for (var i = 0; i < this.contents.length; i++) {
-            var contentWidget = dojo.widget.byId(this.contents[i].id);
-            contentWidget.destroy();
-        }
-    }
+    // Set public functions
+    this.domNode.getProps = function() { return dojo.widget.byId(this.id).getProps(); }
+    this.domNode.refresh = function(execute) { return dojo.widget.byId(this.id).refresh(execute); }
+    this.domNode.setProps = function(props) { return dojo.widget.byId(this.id).setProps(props); }
+
+    // Set properties.
+    return this.setProps();
 }
 
 /**
@@ -168,11 +132,38 @@ webui.@THEME@.widget.rbcbGroup.getProps = function() {
     if (this.readOnly != null) { props.readOnly = this.readOnly; }  
 
     // Add DOM node properties.
-    Object.extend(props, webui.@THEME@.widget.common.getCommonProps(this));
-    Object.extend(props, webui.@THEME@.widget.common.getCoreProps(this));
-    
+    Object.extend(props, this.getCommonProps());
+    Object.extend(props, this.getCoreProps());
 
     return props;
+}
+
+/**
+ * This closure is used to process refresh events.
+ */
+webui.@THEME@.widget.rbcbGroup.refresh = {
+    /**
+     * Event topics for custom AJAX implementations to listen for.
+     */
+    beginEventTopic: "webui_@THEME@_widget_rbcbGroup_refresh_begin",
+    endEventTopic: "webui_@THEME@_widget_rbcbGroup_refresh_end",
+ 
+    /**
+     * Process refresh event.
+     *
+     * @param execute The string containing a comma separated list of client ids 
+     * against which the execute portion of the request processing lifecycle
+     * must be run.
+     */
+    processEvent: function(execute) {
+        // Publish an event for custom AJAX implementations to listen for.
+        dojo.event.topic.publish(
+            webui.@THEME@.widget.rbcbGroup.refresh.beginEventTopic, {
+                id: this.id,
+                execute: execute
+            });
+        return true;
+    }
 }
 
 /**
@@ -201,13 +192,13 @@ webui.@THEME@.widget.rbcbGroup.getProps = function() {
 webui.@THEME@.widget.rbcbGroup.setProps = function(props) {
     // Save properties for later updates.
     if (props != null) {
-        webui.@THEME@.widget.common.extend(this, props);
+        this.extend(this, props);
     } else {
         props = this.getProps(); // Widget is being initialized.
     }  
 
     // Set DOM node properties.
-    webui.@THEME@.widget.common.setCoreProps(this.domNode, props);   
+    this.setCoreProps(this.domNode, props);   
    
      // Update label properties.
      if (props.label || props.disabled != null && this.label) {
@@ -226,56 +217,23 @@ webui.@THEME@.widget.rbcbGroup.setProps = function(props) {
         this.addContents(props);   
      }
     
-    return true;
+    return props; // Return props for subclasses.
 }
 
-/**
-  * This closure is used to process refresh events.
-  */
- webui.@THEME@.widget.rbcbGroup.refresh = {
-     /**
-      * Event topics for custom AJAX implementations to listen for.
-      */
-     beginEventTopic: "webui_@THEME@_widget_rbcbGroup_refresh_begin",
-     endEventTopic: "webui_@THEME@_widget_rbcbGroup_refresh_end",
- 
-    /**
-     * Process refresh event.
-     *
-     * @param execute Comma separated string containing a list of client ids 
-      * against which the execute portion of the request processing lifecycle
-      * must be run.
-      */
-     processEvent: function(execute) {
-         // Publish event.
-         webui.@THEME@.widget.rbcbGroup.refresh.publishBeginEvent({
-             id: this.id,
-             execute: execute
-         });
-         return true;
-     },
- 
-     /**
-      * Publish an event for custom AJAX implementations to listen for.
-      *
-      * @param props Key-Value pairs of properties of the widget.
-      */
-     publishBeginEvent: function(props) {
-         dojo.event.topic.publish(webui.@THEME@.widget.rbcbGroup.refresh.beginEventTopic, props);
-         return true;
-     },
- 
-     /**
-      * Publish an event for custom AJAX implementations to listen for.
-      *
-      * @param props Key-Value pairs of properties of the widget.
-      */
-     publishEndEvent: function(props) {
-         dojo.event.topic.publish(webui.@THEME@.widget.rbcbGroup.refresh.endEventTopic, props);
-         return true;
-     }
- }
+// Inherit base widget properties.
+dojo.inherits(webui.@THEME@.widget.rbcbGroup, webui.@THEME@.widget.widgetBase);
 
-dojo.inherits(webui.@THEME@.widget.rbcbGroup, dojo.widget.HtmlWidget);
+// Override base widget by assigning properties to class prototype.
+dojo.lang.extend(webui.@THEME@.widget.rbcbGroup, {
+    // Set private functions.
+    addContents: webui.@THEME@.widget.rbcbGroup.addContents,      
+    fillInTemplate: webui.@THEME@.widget.rbcbGroup.fillInTemplate,
+    getProps: webui.@THEME@.widget.rbcbGroup.getProps,                
+    refresh: webui.@THEME@.widget.rbcbGroup.refresh.processEvent,                 
+    setProps: webui.@THEME@.widget.rbcbGroup.setProps,
+
+    // Set defaults
+    widgetType: "rbcbGroup"
+});
 
 //-->

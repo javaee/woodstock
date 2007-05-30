@@ -31,9 +31,6 @@ dojo.require("webui.@THEME@.widget.editableField");
  * This function is used to obtain data asynchronously.
  */
 webui.@THEME@.widget.jsfx.editableField = {
-
-    
-/** ----------------------- REFRESH ---------------------------------- **/    
     /**
      * This function is used to process refresh events with the following Object
      * literals.
@@ -67,32 +64,6 @@ webui.@THEME@.widget.jsfx.editableField = {
         return true;
     },
 
-/**
-     * This function is used to refresh widgets.
-     *
-     * @param id The client id.
-     * @param content The content returned by the AJAX response.
-     * @param closure The closure argument provided to DynaFaces.fireAjaxTransaction.
-     * @param xjson The xjson argument provided to DynaFaces.fireAjaxTransaction.
-     */
-    refreshCallback: function(id, content, closure, xjson) {
-        if (id == null || content == null) {
-            return false;
-        }
-
-        // Parse JSON text.
-        var json = JSON.parse(content);
-
-        // Add rows.
-        var widget = dojo.widget.byId(id);
-        widget.setProps(json);
-
-        // Publish an event for custom AJAX implementations to listen for.
-        webui.@THEME@.widget.editableField.refresh.publishEndEvent(json);
-        return true;
-    },
-    
-/** ----------------------- SUBMIT---------------------------------- **/        
     /**
      * This function is used to process submit events with the following Object
      * literals.
@@ -125,8 +96,32 @@ webui.@THEME@.widget.jsfx.editableField = {
         });
         return true;
     },
-    
-    
+
+    /**
+     * This function is used to refresh widgets.
+     *
+     * @param id The client id.
+     * @param content The content returned by the AJAX response.
+     * @param closure The closure argument provided to DynaFaces.fireAjaxTransaction.
+     * @param xjson The xjson argument provided to DynaFaces.fireAjaxTransaction.
+     */
+    refreshCallback: function(id, content, closure, xjson) {
+        if (id == null || content == null) {
+            return false;
+        }
+
+        // Parse JSON text.
+        var props = JSON.parse(content);
+
+        // Add rows.
+        var widget = dojo.widget.byId(id);
+        widget.setProps(props);
+
+        // Publish an event for custom AJAX implementations to listen for.
+        dojo.event.topic.publish(
+            webui.@THEME@.widget.editableField.refresh.endEventTopic, props);
+        return true;
+    },
 
     /**
      * This function is a callback to respond to the end of submit request.
@@ -144,15 +139,15 @@ webui.@THEME@.widget.jsfx.editableField = {
         }
 
         // Parse JSON text.
-        var json = JSON.parse(content);
+        var props = JSON.parse(content);
 
-        // do NOT modify widget
+        // Do not modify widget.
             
         // Publish an event for custom AJAX implementations to listen for.
-        webui.@THEME@.widget.editableField.submit.publishEndEvent(json);
+        dojo.event.topic.publish(
+            webui.@THEME@.widget.editableField.submit.endEventTopic, props);
         return true;
     }
-
 }
 
 // Listen for Dojo Widget events.

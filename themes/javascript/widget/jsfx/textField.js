@@ -146,10 +146,10 @@ webui.@THEME@.widget.jsfx.textField = {
         widget.setProps(props);
 
         // Publish an event for custom AJAX implementations to listen for.
-        webui.@THEME@.widget.textField.refresh.publishEndEvent(props);
+        dojo.event.topic.publish(
+            webui.@THEME@.widget.textField.refresh.endEventTopic, props);
         return true;
     },
-
 
     /**
      * This function is a callback to respond to the end of submit request.
@@ -167,12 +167,13 @@ webui.@THEME@.widget.jsfx.textField = {
         }
 
         // Parse JSON text.
-        var json = JSON.parse(content);
+        var props = JSON.parse(content);
 
         // do NOT modify widget
             
         // Publish an event for custom AJAX implementations to listen for.
-        webui.@THEME@.widget.textField.submit.publishEndEvent(json);
+        dojo.event.topic.publish(
+            webui.@THEME@.widget.textField.submit.endEventTopic, props);
         return true;
     },
     
@@ -215,10 +216,9 @@ webui.@THEME@.widget.jsfx.textField = {
             }
         }
 
-        // Publish an event for custom AJAX implementations to listen for. For
-        // example, an alert component may need to be updated when ever a text
-        // field value is found to be invalid.
-        webui.@THEME@.widget.textField.validation.publishEndEvent(props);
+        // Publish an event for custom AJAX implementations to listen for.
+        dojo.event.topic.publish(
+            webui.@THEME@.widget.textField.validation.endEventTopic, props);
         return true;
     }
 }

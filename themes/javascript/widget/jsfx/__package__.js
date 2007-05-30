@@ -31,9 +31,11 @@ dojo.requireIf(djConfig.isDebug, "webui.@THEME@.widget.jsfx.alert");
 dojo.requireIf(djConfig.isDebug, "webui.@THEME@.widget.jsfx.button");
 dojo.requireIf(djConfig.isDebug, "webui.@THEME@.widget.jsfx.checkbox");
 dojo.requireIf(djConfig.isDebug, "webui.@THEME@.widget.jsfx.dropDown");
+dojo.requireIf(djConfig.isDebug, "webui.@THEME@.widget.jsfx.editableField");
 dojo.requireIf(djConfig.isDebug, "webui.@THEME@.widget.jsfx.hiddenField");
 dojo.requireIf(djConfig.isDebug, "webui.@THEME@.widget.jsfx.hyperlink");
 dojo.requireIf(djConfig.isDebug, "webui.@THEME@.widget.jsfx.image");
+dojo.requireIf(djConfig.isDebug, "webui.@THEME@.widget.jsfx.imageHyperlink");
 dojo.requireIf(djConfig.isDebug, "webui.@THEME@.widget.jsfx.label");
 dojo.requireIf(djConfig.isDebug, "webui.@THEME@.widget.jsfx.listbox");
 dojo.requireIf(djConfig.isDebug, "webui.@THEME@.widget.jsfx.progressBar");
@@ -42,8 +44,7 @@ dojo.requireIf(djConfig.isDebug, "webui.@THEME@.widget.jsfx.rbcbGroup");
 dojo.requireIf(djConfig.isDebug, "webui.@THEME@.widget.jsfx.staticText");
 dojo.requireIf(djConfig.isDebug, "webui.@THEME@.widget.jsfx.table2");
 dojo.requireIf(djConfig.isDebug, "webui.@THEME@.widget.jsfx.table2RowGroup");
-dojo.requireIf(djConfig.isDebug, "webui.@THEME@.widget.jsfx.textField");
 dojo.requireIf(djConfig.isDebug, "webui.@THEME@.widget.jsfx.textArea");
-dojo.requireIf(djConfig.isDebug, "webui.@THEME@.widget.jsfx.editableField");
+dojo.requireIf(djConfig.isDebug, "webui.@THEME@.widget.jsfx.textField");
 
 //-->

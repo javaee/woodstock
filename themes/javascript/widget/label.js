@@ -27,83 +27,37 @@ dojo.require("webui.@THEME@.*");
 dojo.require("webui.@THEME@.widget.*");
 
 /**
- * This function will be invoked when creating a Dojo widget. Please see
- * webui.@THEME@.widget.label.setProps for a list of supported
- * properties.
+ * This function is used to generate a template based widget.
  *
  * Note: This is considered a private API, do not use.
  */
 webui.@THEME@.widget.label = function() {
-    // Set defaults.
-    this.level = 2;
-    this.required = false;
-    this.valid = true;
-    this.widgetType = "label";
-
     // Register widget.
-    dojo.widget.Widget.call(this);
-
-    /**
-     * This function is used to generate a template based widget.
-     */
-    this.fillInTemplate = function() {
-        // Set ids.
-        if (this.id) {
-            this.requiredImageContainer.id = this.id + "_requiredImageContainer";
-            this.errorImageContainer.id = this.id + "_errorImageContainer";
-            this.valueContainer.id = this.id + "_valueContainer";
-            this.contentsContainer.id = this.id + "_contentsContainer";
-        }
-
-        // Set public functions. 
-	this.domNode.getProps = function() { return dojo.widget.byId(this.id).getProps(); }
-        this.domNode.refresh = function(execute) { return dojo.widget.byId(this.id).refresh(execute); }
-        this.domNode.setProps = function(props) { return dojo.widget.byId(this.id).setProps(props); }
-
-        // Set private functions.
-        this.destroy = webui.@THEME@.widget.label.destroy;
-        this.getClassName = webui.@THEME@.widget.label.getClassName;
-	this.getProps = webui.@THEME@.widget.label.getProps;
-        this.refresh = webui.@THEME@.widget.label.refresh.processEvent;      
-        this.setProps = webui.@THEME@.widget.label.setProps;
-        this.validate = webui.@THEME@.widget.label.validation.processEvent;
-
-        // Set properties.
-        return this.setProps();
-    }
+    dojo.widget.HtmlWidget.call(this);
 }
 
 /**
- * Helper function to remove all the existing widgets.
+ * This function is used to fill a template with widget properties.
  *
+ * Note: Anything to be set only once should be added here; otherwise, the
+ * setProps() function should be used to set properties.
  */
-webui.@THEME@.widget.label.destroy = function() {    
-    // Remove error image widget.
-    if (this.errorImage != null) {
-        var errorImageWidget = dojo.widget.byId(this.errorImage.id); 
-        if (errorImageWidget) {
-            errorImageWidget.destroy();                        
-        }        
-    }
-    
-    // Remove required image widget.     
-    if (this.requiredImage != null) {
-       var requiredImageWidget = dojo.widget.byId(this.requiredImage.id);
-       if (requiredImageWidget) {
-            requiredImageWidget.destroy();                  
-       }
+webui.@THEME@.widget.label.fillInTemplate = function() {
+    // Set ids.
+    if (this.id) {
+        this.requiredImageContainer.id = this.id + "_requiredImageContainer";
+        this.errorImageContainer.id = this.id + "_errorImageContainer";
+        this.valueContainer.id = this.id + "_valueContainer";
+        this.contentsContainer.id = this.id + "_contentsContainer";
     }
 
-    // Remove contents.
-    if (this.contents != null) {	
-	for (var i = 0; i < this.contents.length; i++) {
-            var contentWidget = dojo.widget.byId(this.contents[i].id);
-            contentWidget.destroy();
-        }
-    }
-    
-    // Remove this widget.
-    dojo.widget.removeWidgetById(this.id);
+    // Set public functions. 
+    this.domNode.getProps = function() { return dojo.widget.byId(this.id).getProps(); }
+    this.domNode.refresh = function(execute) { return dojo.widget.byId(this.id).refresh(execute); }
+    this.domNode.setProps = function(props) { return dojo.widget.byId(this.id).setProps(props); }
+
+    // Set properties.
+    return this.setProps();
 }
 
 /**
@@ -144,9 +98,9 @@ webui.@THEME@.widget.label.getProps = function() {
     if (this.value) { props.value = this.value; }
 
     // Add DOM node properties.
-    Object.extend(props, webui.@THEME@.widget.common.getCommonProps(this));
-    Object.extend(props, webui.@THEME@.widget.common.getCoreProps(this));
-    Object.extend(props, webui.@THEME@.widget.common.getJavaScriptProps(this));
+    Object.extend(props, this.getCommonProps());
+    Object.extend(props, this.getCoreProps());
+    Object.extend(props, this.getJavaScriptProps());
 
     return props;
 }
@@ -164,36 +118,17 @@ webui.@THEME@.widget.label.refresh = {
     /**
      * Process refresh event.
      *
-     * @param execute Comma separated string containing a list of client ids 
+     * @param execute The string containing a comma separated list of client ids 
      * against which the execute portion of the request processing lifecycle
      * must be run.
      */
     processEvent: function(execute) {
-        // Publish event.
-        webui.@THEME@.widget.label.refresh.publishBeginEvent({
-            id: this.id,
-            execute: execute
-        });
-        return true;
-    },
-
-    /**
-     * Publish an event for custom AJAX implementations to listen for.
-     *
-     * @param props Key-Value pairs of properties of the widget.
-     */
-    publishBeginEvent: function(props) {
-        dojo.event.topic.publish(webui.@THEME@.widget.label.refresh.beginEventTopic, props);
-        return true;
-    },
-
-    /**
-     * Publish an event for custom AJAX implementations to listen for.
-     *
-     * @param props Key-Value pairs of properties of the widget.
-     */
-    publishEndEvent: function(props) {
-        dojo.event.topic.publish(webui.@THEME@.widget.label.refresh.endEventTopic, props);
+        // Publish an event for custom AJAX implementations to listen for.
+        dojo.event.topic.publish(
+            webui.@THEME@.widget.label.refresh.beginEventTopic, {
+                id: this.id,
+                execute: execute
+            });
         return true;
     }
 }
@@ -241,7 +176,7 @@ webui.@THEME@.widget.label.setProps = function(props) {
         if (props.contents) {
             this.contents = null;
         }
-        webui.@THEME@.widget.common.extend(this, props);
+        this.extend(this, props);
     } else {
         props = this.getProps(); // Widget is being initialized.
     }
@@ -250,15 +185,15 @@ webui.@THEME@.widget.label.setProps = function(props) {
     props.className = this.getClassName();
     
     // Set DOM node properties.
-    webui.@THEME@.widget.common.setCoreProps(this.domNode, props);
-    webui.@THEME@.widget.common.setCommonProps(this.domNode, props);
-    webui.@THEME@.widget.common.setJavaScriptProps(this.domNode, props);
+    this.setCoreProps(this.domNode, props);
+    this.setCommonProps(this.domNode, props);
+    this.setJavaScriptProps(this.domNode, props);
 
     if (props.htmlFor) { this.domNode.htmlFor = props.htmlFor; }
 
     // Set label value.
     if (props.value) {
-        webui.@THEME@.widget.common.addFragment(this.valueContainer,
+        this.addFragment(this.valueContainer,
             dojo.string.escape("html", props.value)); 
     }
   
@@ -278,8 +213,7 @@ webui.@THEME@.widget.label.setProps = function(props) {
         if (errorImageWidget) {
             errorImageWidget.setProps(props.errorImage);
         } else {
-            webui.@THEME@.widget.common.addFragment(this.errorImageContainer,
-                props.errorImage);
+            this.addFragment(this.errorImageContainer, props.errorImage);
         }
     }
 
@@ -299,20 +233,20 @@ webui.@THEME@.widget.label.setProps = function(props) {
         if (requiredImageWidget) {
             requiredImageWidget.setProps(props.requiredImage);
         } else {
-            webui.@THEME@.widget.common.addFragment(this.requiredImageContainer,
-                props.requiredImage);
+            this.addFragment(this.requiredImageContainer, props.requiredImage);
         }
     }
 
     // Set contents.
     if (props.contents) {
-	this.contentsContainer.innerHtml = ""; // Cannot be null on IE.
+        // Remove child nodes.
+        this.removeChildNodes(this.contentsContainer);
+
 	for (var i = 0; i < props.contents.length; i++) {
-            webui.@THEME@.widget.common.addFragment(this.contentsContainer, 
-		props.contents[i], "last");
+            this.addFragment(this.contentsContainer, props.contents[i], "last");
         }
     }
-    return true;
+    return props; // Return props for subclasses.
 }
 
 /**
@@ -343,6 +277,24 @@ webui.@THEME@.widget.label.validation = {
     }
 }
 
-dojo.inherits(webui.@THEME@.widget.label, dojo.widget.HtmlWidget);
+// Inherit base widget properties.
+dojo.inherits(webui.@THEME@.widget.label, webui.@THEME@.widget.widgetBase);
+
+// Override base widget by assigning properties to class prototype.
+dojo.lang.extend(webui.@THEME@.widget.label, {
+    // Set private functions.
+    fillInTemplate: webui.@THEME@.widget.label.fillInTemplate,
+    getClassName: webui.@THEME@.widget.label.getClassName,
+    getProps: webui.@THEME@.widget.label.getProps,
+    refresh: webui.@THEME@.widget.label.refresh.processEvent,      
+    setProps: webui.@THEME@.widget.label.setProps,
+    validate: webui.@THEME@.widget.label.validation.processEvent,
+
+    // Set defaults.
+    level: 2,
+    required: false,
+    valid: true,
+    widgetType: "label"
+});
 
 //-->
