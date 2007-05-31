@@ -518,6 +518,9 @@ webui.@THEME@.hyperlink = {
     /**
      * This function is used to submit a hyperlink.
      *
+     * Note: Params are name value pairs but all one big string array so 
+     * params[0] and params[1] form the name and value of the first param.
+     *
      * @params hyperlink The hyperlink element
      * @params formId The form id
      * @params params Name value pairs
@@ -525,8 +528,15 @@ webui.@THEME@.hyperlink = {
      * @deprecated  See webui.@THEME@.widget.hyperlink    
      */
     submit: function(hyperlink, formId, params) {
-        // Obtain hyperlink JavaScript for tab and common task. If a widget does
-        // not exist, we shall call the submit function directly.
+        // Need to test widget for tab and common task. If a widget does not
+        // exist, fall back to the old code.
+	var widget = dojo.widget.byId(hyperlink.id);
+	if (widget) {
+	    return widget.submit(formId, params);
+	}
+
+        // If a widget does not exist, we shall call the submit function 
+        // directly.
         //
         // Warning: Do not use dojo.require() here. The webui.@THEME@.widget
         // namespace must be defined prior to retrieving the hyperlink module.
@@ -534,14 +544,8 @@ webui.@THEME@.hyperlink = {
         // Dojo appears to parse for dojo.require() statments when
         // djConfig.debugAtAllCosts is true. At this time, "modules" is 
         // undefined and an exception is thrown.
-        dojo.require.apply(dojo, "webui.@THEME@.widget.hyperlink");
+        dojo.require.apply(dojo, ["webui.@THEME@.widget.hyperlink"]);
 
-        // Params are name value pairs but all one big string array so params[0]
-        // and params[1] form the name and value of the first param.
-	var widget = dojo.widget.byId(hyperlink.id);
-	if (widget) {
-	    return widget.submit(formId, params);
-	}
         return webui.@THEME@.widget.hyperlink.submit(formId, params, hyperlink.id);
     },
 
@@ -556,9 +560,11 @@ webui.@THEME@.hyperlink = {
      * @deprecated Use document.getElementById(elementId).getProps().enabledImage;
      */
     getImgElement: function(elementId) {
-        var domNode = document.getElementById(elementId);
-        if (domNode) {
-            return domNode.getProps().enabledImage;
+        // Need to test widget for alarmStatus, jobstatus and notification phrase
+        // components. If a widget does not exist, fall back to the old code.
+        var widget = dojo.widget.byId(elementId);
+        if (widget) {
+            return widget.getProps().enabledImage;
         }
 
         // Image hyperlink is now a naming container and the img element id 
