@@ -143,12 +143,15 @@ public class HyperlinkRenderer extends AnchorRendererBase{
      */    
     protected void setAttributes(FacesContext context, UIComponent component,
             JSONObject json) throws IOException, JSONException {
-      
+        // Avoid NPE exception when parent is not set.
         UIComponent form = Util.getForm(context, component);
-        String formClientId = form.getClientId(context);
-        json.put("formId", formClientId);     
+        if (form != null) {
+            String formClientId = form.getClientId(context);
+            json.put("formId", formClientId);
+        }
+
+        // Append query parameters.
         JSONArray jarray = new JSONArray();
-        JSONObject param;
         json.put("params", jarray);
 
         Iterator kids = component.getChildren().iterator();
