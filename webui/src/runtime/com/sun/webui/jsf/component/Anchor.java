@@ -28,9 +28,7 @@ import com.sun.webui.jsf.util.ComponentUtilities;
 import javax.el.ValueExpression;
 import javax.faces.component.NamingContainer;
 import javax.faces.component.UIComponent;
-import javax.faces.component.UIComponentBase;
 import javax.faces.context.FacesContext;
-
 
 /**
  * The Anchor component is used to create an XHTML &lt;a&gt; anchor element.
@@ -60,12 +58,12 @@ import javax.faces.context.FacesContext;
     displayName="Anchor", tagName="anchor",instanceName="anchor",        
     helpKey="projrave_ui_elements_palette_wdstk-jsf1.2_anchor",
     propertiesHelpKey="projrave_ui_elements_palette_wdstk-jsf1.2_propsheets_anchor_props")
-public class Anchor extends UIComponentBase implements ComplexComponent, 
+public class Anchor extends WebuiComponent implements ComplexComponent, 
         NamingContainer {
     /**
      * Default constructor.
      */
-        public Anchor() {
+    public Anchor() {
         super();
         setRendererType("com.sun.webui.jsf.widget.Anchor");
     }
@@ -1029,28 +1027,6 @@ public class Anchor extends UIComponentBase implements ComplexComponent,
         this.accessKey = accessKey;
     }
 
-
-    /**
-     * The component identifier for this component. This value must be unique 
-     * within the closest parent component that is a naming container.
-     */
-    @Property(name="id") 
-    public void setId(String id) {
-        super.setId(id);
-    }
-
-    /**
-     * Use the rendered attribute to indicate whether the HTML code for the
-     * component should be included in the rendered HTML page. If set to false,
-     * the rendered HTML page does not include the HTML for the component. If
-     * the component is not rendered, it is also not processed on any subsequent
-     * form submission.
-     */
-    @Property(name="rendered") 
-    public void setRendered(boolean rendered) {
-        super.setRendered(rendered);
-    }
-
     /**
      * <p>CSS style(s) to be applied to the outermost HTML element when this 
      * component is rendered.</p>
@@ -1212,6 +1188,10 @@ public class Anchor extends UIComponentBase implements ComplexComponent,
         this.ajaxify = ajaxify;
         this.ajaxify_set = true;
     }    
+
+    // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    // State methods
+    // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     
     /**
      * <p>Restore the state of this component.</p>

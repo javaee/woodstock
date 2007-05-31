@@ -22,9 +22,11 @@
 
 package com.sun.webui.jsf.component;
 
+import com.sun.faces.annotation.Property;
+import com.sun.webui.jsf.util.ComponentUtilities;
+
 import javax.el.MethodExpression;
 import javax.faces.component.UICommand;
-import com.sun.faces.annotation.Property;
 import javax.faces.context.FacesContext;
 import javax.faces.el.MethodBinding;
 import javax.faces.event.AbortProcessingException;
@@ -32,10 +34,8 @@ import javax.faces.event.ActionEvent;
 import javax.faces.event.FacesEvent;
 
 /**
- *
- * @author mbohm
+ * Base class for components which need to extend UICommand.
  */
-
 public class WebuiCommand extends UICommand {
     /**
      * The component identifier for this component. This value must be unique 
@@ -159,7 +159,81 @@ public class WebuiCommand extends UICommand {
         
         super.broadcast(event);
     }
-    
+
+    // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    // Lifecycle methods
+    // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+    /**
+     * <p>Specialized decode behavior on top of that provided by the
+     * superclass.
+     *
+     * <ul>
+     *  <li>This method will skip decoding for Ajax requests of type "refresh".</li>
+     * </ul>
+     *
+     * @param context <code>FacesContext</code> for this request.
+     */
+    public void processDecodes(FacesContext context) {
+        if (context == null) {
+            return;
+        }
+        // Skip processing in case of "refresh" ajax request.
+        if (ComponentUtilities.isAjaxRequest(getFacesContext(), this, "refresh")
+                && !ComponentUtilities.isAjaxExecuteRequest(getFacesContext(), this)) {
+            return;
+        }
+        super.processDecodes(context);
+    }
+
+    /**
+     * <p>Specialized validation behavior on top of that provided by the
+     * superclass.
+     *
+     * <ul>
+     *  <li>This method will skip decoding for Ajax requests of type "refresh".</li>
+     * </ul>
+     *
+     * @param context <code>FacesContext</code> for this request.
+     */
+    public void processValidators(FacesContext context) {
+        if (context == null) {
+            return;
+        }
+        // Skip procesing in case of "refresh" ajax request.
+        if (ComponentUtilities.isAjaxRequest(getFacesContext(), this, "refresh")
+                && !ComponentUtilities.isAjaxExecuteRequest(getFacesContext(), this)) {
+            return; // Skip processing for ajax based validation events.
+        }
+        super.processValidators(context);
+    }
+   
+    /**
+     * <p>Specialized model update behavior on top of that provided by the
+     * superclass.
+     *
+     * <ul>
+     *  <li>This method will skip decoding for Ajax requests of type "refresh".</li>
+     * </ul>
+     *
+     * @param context <code>FacesContext</code> for this request.
+     */
+    public void processUpdates(FacesContext context) {
+        if (context == null) {
+            return;
+        }
+        // Skip processing in case of "refresh" ajax request.
+        if (ComponentUtilities.isAjaxRequest(getFacesContext(), this, "refresh")
+                && !ComponentUtilities.isAjaxExecuteRequest(getFacesContext(), this)) {
+            return;
+        }
+        super.processUpdates(context);
+    }
+
+    // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    // State methods
+    // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
     /**
      * {@inheritDoc}
      **/

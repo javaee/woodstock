@@ -23,7 +23,6 @@ package com.sun.webui.jsf.component;
 
 import com.sun.faces.annotation.Component;
 import com.sun.faces.annotation.Property;
-import com.sun.faces.extensions.avatar.lifecycle.AsyncResponse;
 import com.sun.webui.jsf.util.ComponentUtilities;
 
 import java.util.Map;
@@ -51,18 +50,13 @@ import javax.faces.context.FacesContext;
  * @see com.sun.webui.jsf.renderkit.ajax.TextFieldRenderer
  * @see com.sun.webui.jsf.renderkit.widget.TextFieldRenderer
  */
-// TODO use constants in annotations?
-
-@Component(
-type="com.sun.webui.jsf.TextField", family="com.sun.webui.jsf.TextField",
-        displayName="Text Field",
-        instanceName="textField", tagName="textField",
-        tagRendererType="com.sun.webui.jsf.widget.TextField",
-        helpKey="projrave_ui_elements_palette_wdstk-jsf1.2_text_field",
-        propertiesHelpKey="projrave_ui_elements_palette_wdstk-jsf1.2_propsheets_text_field_props")
-        
-        public class TextField extends Field {
-    
+@Component(type="com.sun.webui.jsf.TextField", 
+    family="com.sun.webui.jsf.TextField", displayName="Text Field",
+    instanceName="textField", tagName="textField",
+    tagRendererType="com.sun.webui.jsf.widget.TextField",
+    helpKey="projrave_ui_elements_palette_wdstk-jsf1.2_text_field",
+    propertiesHelpKey="projrave_ui_elements_palette_wdstk-jsf1.2_propsheets_text_field_props")
+public class TextField extends Field {    
     /**
      * <p>Construct a new <code>TextField</code>.</p>
      */
@@ -94,15 +88,35 @@ type="com.sun.webui.jsf.TextField", family="com.sun.webui.jsf.TextField",
         }
         return super.getRendererType();
     }
-    
+
+    /**
+     * <p>Return the value to be rendered, as a String (converted
+     * if necessary), or <code>null</code> if the value is null.</p>
+     * <p>If password mode has been activated for this textfield,
+     * the empty string will be returned instead. This is done in order to avoid
+     * sending secret password back to the client where it can be sniffed by viewing the
+     * source code of the page. Sending masked string
+     * such as set of asterisks would have confused the issue further as it could create an impression that
+     * password is saved on the client in the field in some meaningful state, which in reality it will be not.
+     * Thus, the password field will be rendered after each page submit,
+     * prompting user ( or browser if such functionality is enabled ) to reenter password</p>
+     * @param context FacesContext for the current request
+     * @return A String value of the component
+     */
+    public String getValueAsString(FacesContext context) {
+        if (isPassword())
+            return new String();
+        
+        String submittedValue = (String)getSubmittedValue();
+        return (submittedValue == null)?
+            super.getValueAsString(context):
+            submittedValue;
+        
+    }
+
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     // Tag attribute methods
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    
-        
-// ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-// autoValidate attribute definition
-// ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     
     /**
      * Attribute indicating to turn on/off the autovalidate functionality of the TextField.
@@ -175,10 +189,6 @@ type="com.sun.webui.jsf.TextField", family="com.sun.webui.jsf.TextField",
             setAjaxify(true);
         
     }
-    
-// ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-// password attribute definition
-// ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     
     /**
      * The default textField template renders input element of type "text"
@@ -258,10 +268,35 @@ type="com.sun.webui.jsf.TextField", family="com.sun.webui.jsf.TextField",
         this.notify = notify;
     }
 
-    
-// ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-// State methods
-// ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    // Lifecycle methods
+    // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+    /**
+     * <p>Specialized model update behavior on top of that provided by the
+     * superclass.
+     *
+     * <ul>
+     *  <li>This method will skip decoding for Ajax requests of type "refresh"
+     * and "validate.</li>
+     * </ul>
+     *
+     * @param context <code>FacesContext</code> for this request.
+     */
+    public void processUpdates(FacesContext context) {
+        if (context == null) {
+            return;
+        }
+        // Skip processing in case of "validate" ajax request.
+        if (ComponentUtilities.isAjaxRequest(getFacesContext(), this, "validate")) {
+            return; 
+        }
+        super.processUpdates(context);
+    }
+
+    // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    // State methods
+    // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     
     /**
      * Restore the state of this component.
@@ -317,95 +352,5 @@ type="com.sun.webui.jsf.TextField", family="com.sun.webui.jsf.TextField",
         ComponentUtilities.putPrivateFacet(this, LABEL_FACET, label);
         
         return label;
-    }
-    
-// ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-// Lifecycle management
-// ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    
-    /**
-     * <p>Specialized validation behavior on top of that provided by the
-     * superclass.
-     *  <ul>
-     *  <li>This method will skip validation for "refresh" type of Ajax request
-     *  </ul>
-     */
-    public void processValidators(FacesContext context) {
-        if (context == null)
-            return;
-        // Skip procesing in case of "refresh" ajax request
-        if (ComponentUtilities.isAjaxRequest(getFacesContext(), this, "refresh") &&
-            !ComponentUtilities.isAjaxExecuteRequest(getFacesContext(), this)) {
-            return; // Skip processing for ajax based validation events.
-        }
-        super.processValidators(context);
-    }
-    /**
-     * <p>Specialized decode behavior on top of that provided by the
-     * superclass.
-     *  <ul>
-     *  <li>This method will skip decoding for "refresh" type of Ajax request
-     *  </ul>
-     */
-    public void processDecodes(FacesContext context) {
-        if (context == null)
-            return;
-        // Skip processing in case of "refresh" ajax request
-        if (ComponentUtilities.isAjaxRequest(getFacesContext(), this, "refresh") &&
-            !ComponentUtilities.isAjaxExecuteRequest(getFacesContext(), this)) {
-            return;
-        }
-        super.processDecodes(context);
-    }
-    
-    /**
-     * <p>Specialized model update behavior on top of that provided by the
-     * superclass.
-     *  <ul>
-     *  <li>This method will skip decoding for "refresh" and "validate" type of Ajax request
-     *  </ul>
-     *
-     *	@param	context	<code>FacesContext</code> for this request
-     */
-    
-    
-    public void processUpdates(FacesContext context) {
-        if (context == null)
-            return;
-        // Skip processing in case of "validate" ajax request
-        if (ComponentUtilities.isAjaxRequest(getFacesContext(), this, "validate")) {
-            return; 
-        }
-        // Skip processing in case of "refresh" ajax request
-     if (ComponentUtilities.isAjaxRequest(getFacesContext(), this, "refresh") &&
-         !ComponentUtilities.isAjaxExecuteRequest(getFacesContext(), this)) {
-            return;
-        }
-        super.processUpdates(context);
-    }
-    
-    /**
-     * <p>Return the value to be rendered, as a String (converted
-     * if necessary), or <code>null</code> if the value is null.</p>
-     * <p>If password mode has been activated for this textfield,
-     * the empty string will be returned instead. This is done in order to avoid
-     * sending secret password back to the client where it can be sniffed by viewing the
-     * source code of the page. Sending masked string
-     * such as set of asterisks would have confused the issue further as it could create an impression that
-     * password is saved on the client in the field in some meaningful state, which in reality it will be not.
-     * Thus, the password field will be rendered after each page submit,
-     * prompting user ( or browser if such functionality is enabled ) to reenter password</p>
-     * @param context FacesContext for the current request
-     * @return A String value of the component
-     */
-    public String getValueAsString(FacesContext context) {
-        if (isPassword())
-            return new String();
-        
-        String submittedValue = (String)getSubmittedValue();
-        return (submittedValue == null)?
-            super.getValueAsString(context):
-            submittedValue;
-        
     }
 }

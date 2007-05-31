@@ -61,9 +61,10 @@ import javax.faces.context.FacesContext;
  *  consider using the <code>webuijsf:anchor</code> component instead of the hyperlink component. </p>
  *
  */
-@Component(type="com.sun.webui.jsf.Hyperlink", family="com.sun.webui.jsf.Hyperlink", displayName="Hyperlink", tagName="hyperlink",
+@Component(type="com.sun.webui.jsf.Hyperlink", 
+    family="com.sun.webui.jsf.Hyperlink", displayName="Hyperlink", tagName="hyperlink",
     helpKey="projrave_ui_elements_palette_wdstk-jsf1.2_hyperlink",
-     tagRendererType="com.sun.webui.jsf.widget.Hyperlink",
+    tagRendererType="com.sun.webui.jsf.widget.Hyperlink",
     propertiesHelpKey="projrave_ui_elements_palette_wdstk-jsf1.2_propsheets_hyperlink_props")
 public class Hyperlink extends WebuiCommand implements ComplexComponent {
     /**
@@ -1080,24 +1081,7 @@ public class Hyperlink extends WebuiCommand implements ComplexComponent {
     public void setAjaxify(boolean ajaxify) {
         this.ajaxify = ajaxify;
         this.ajaxify_set = true;
-    }   
-    
-    /**
-     * <p>Specialized decode behavior on top of that provided by the
-     * superclass. This method will skip decoding for "refresh" type of Ajax 
-     * request
-     * 
-     */
-    public void processDecodes(FacesContext context) {
-        if (context == null)
-            return;
-        // Skip processing in case of "refresh" ajax request
-        if (ComponentUtilities.isAjaxRequest(getFacesContext(), this, "refresh") &&
-            !ComponentUtilities.isAjaxExecuteRequest(getFacesContext(), this)) {
-            return;
-        }
-        super.processDecodes(context);
-    }    
+    }  
     
     /**
      * <p>Restore the state of this component.</p>

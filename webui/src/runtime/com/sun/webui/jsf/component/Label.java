@@ -38,7 +38,6 @@ import javax.el.ValueExpression;
 import javax.faces.component.EditableValueHolder;
 import javax.faces.component.NamingContainer; 
 import javax.faces.component.UIComponent;
-import javax.faces.component.UIOutput;
 import javax.faces.context.FacesContext;
 import javax.faces.convert.Converter;
 
@@ -142,7 +141,7 @@ import javax.faces.convert.Converter;
     tagRendererType="com.sun.webui.jsf.widget.Label",
     helpKey="projrave_ui_elements_palette_wdstk-jsf1.2_label",
     propertiesHelpKey="projrave_ui_elements_palette_wdstk-jsf1.2_propsheets_label_props")
-public class Label extends UIOutput implements NamingContainer {
+public class Label extends WebuiOutput implements NamingContainer {
     
     /**
      * The id suffix used for the required image.
@@ -661,44 +660,6 @@ public class Label extends UIOutput implements NamingContainer {
             setLabelLevel(level); 
         }
         return level;
-    }
-
-    /**
-     * The converter attribute is used to specify a method to translate native
-     * property values to String and back for this component. The converter 
-     * attribute value must be one of the following:
-     * <ul>
-     * <li>A JavaServer Faces EL expression that resolves to a backing bean or
-     * bean property that implements the 
-     * <code>javax.faces.converter.Converter</code> interface; or
-     * </li><li>the ID of a registered converter (a String).</li>
-     * </ul>
-     */
-    @Property(name="converter") 
-    public void setConverter(Converter converter) {
-        super.setConverter(converter);
-    }
-
-    /**
-     * The component identifier for this component. This value must be unique 
-     * within the closest parent component that is a naming container.
-     */
-    @Property(name="id") 
-    public void setId(String id) {
-        super.setId(id);
-    }
-
-    /**
-     * Use the rendered attribute to indicate whether the HTML code for the
-     * component should be included in the rendered HTML page. If set to false,
-     * the rendered HTML page does not include the HTML for the component. If
-     * the component is not rendered, it is also not processed on any 
-     * subsequent
-     * form submission.
-     */
-    @Property(name="rendered") 
-    public void setRendered(boolean rendered) {
-        super.setRendered(rendered);
     }
 
     /**
@@ -1431,6 +1392,10 @@ public class Label extends UIOutput implements NamingContainer {
     public void setIndicatorComponent(UIComponent component) {
 	indicatorComponent = component;
     }
+
+    // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    // State methods
+    // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
     /**
      * <p>Restore the state of this component.</p>

@@ -37,9 +37,10 @@ import javax.faces.context.FacesContext;
  * Represents an input field whose content will be included when the surrounding
  * form is submitted.
  */
-@Component(type="com.sun.webui.jsf.Field", family="com.sun.webui.jsf.Field", displayName="Field", isTag=false,
+@Component(type="com.sun.webui.jsf.Field", 
+    family="com.sun.webui.jsf.Field", displayName="Field", isTag=false,
     helpKey="projrave_ui_elements_palette_wdstk-jsf1.2_field",
-        propertiesHelpKey="projrave_ui_elements_palette_wdstk-jsf1.2_propsheets_field_props")
+    propertiesHelpKey="projrave_ui_elements_palette_wdstk-jsf1.2_propsheets_field_props")
 public class Field extends HiddenField implements ComplexComponent,
         NamingContainer {
     public static final String READONLY_ID = "_readOnly"; //NOI18N

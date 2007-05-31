@@ -51,12 +51,12 @@ import javax.faces.el.MethodBinding;
  * users to select one or more items from a list.
  */
 @Component(type="com.sun.webui.jsf.DropDown",
-           family="com.sun.webui.jsf.DropDown",
-           displayName="Drop Down List",
-           tagName="dropDown",
-           tagRendererType="com.sun.webui.jsf.widget.DropDown",
-           helpKey="projrave_ui_elements_palette_wdstk-jsf1.2_dropdown_list",
-           propertiesHelpKey="projrave_ui_elements_palette_wdstk-jsf1.2_propsheets_drop_down_props")
+    family="com.sun.webui.jsf.DropDown",
+    displayName="Drop Down List",
+    tagName="dropDown",
+    tagRendererType="com.sun.webui.jsf.widget.DropDown",
+    helpKey="projrave_ui_elements_palette_wdstk-jsf1.2_dropdown_list",
+    propertiesHelpKey="projrave_ui_elements_palette_wdstk-jsf1.2_propsheets_drop_down_props")
 public class DropDown extends ListSelector implements ActionSource2 {
 
     public final static String SUBMIT = "_submitter";
@@ -240,13 +240,24 @@ public class DropDown extends ListSelector implements ActionSource2 {
      * decode the component w.r.t. the value first, and
      * validate it if the component is immediate. Then we
      * fire an action event.</p>
+     *
+     * <ul>
+     *  <li>This method will skip decoding for Ajax requests of type "refresh".</li>
+     * </ul>
+     *
      * @exception NullPointerException
      */
     public void processDecodes(FacesContext context) {
+        if (DEBUG) log("processDecodes()");
 
-        if(DEBUG) log("processDecodes()");
+        // Skip processing in case of "refresh" ajax request.
+        if (ComponentUtilities.isAjaxRequest(getFacesContext(), this, "refresh")
+                && !ComponentUtilities.isAjaxExecuteRequest(getFacesContext(), this)) {
+            return;
+        }
+
         // Skip processing if our rendered flag is false
-        if(!isRendered()) {
+        if (!isRendered()) {
             return;
         }
 
@@ -323,7 +334,7 @@ public class DropDown extends ListSelector implements ActionSource2 {
         }
 
         // Next, if the component is immediate, we validate the component
-        if(isImmediate()) {
+        if (isImmediate()) {
             try {
                 validate(context);
             } catch(RuntimeException e) {

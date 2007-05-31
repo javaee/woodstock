@@ -180,6 +180,79 @@ public class Table2RowGroup extends TableRowGroup implements NamingContainer {
     }
 
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    // Lifecycle methods
+    // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    
+    /**
+     * <p>Specialized decode behavior on top of that provided by the
+     * superclass.
+     *
+     * <ul>
+     *  <li>Since this component may have children, this method will skip 
+     * decoding for Ajax requests of type "refresh".</li>
+     * </ul>
+     *
+     * @param context <code>FacesContext</code> for this request.
+     */
+    public void processDecodes(FacesContext context) {
+        if (context == null) {
+            return;
+        }
+        // Skip processing in case of "refresh" ajax request.
+        if (ComponentUtilities.isAjaxRequest(getFacesContext(), this, "refresh")
+                && !ComponentUtilities.isAjaxExecuteRequest(getFacesContext(), this)) {
+            return;
+        }
+        super.processDecodes(context);
+    }
+
+    /**
+     * <p>Specialized validation behavior on top of that provided by the
+     * superclass.
+     *
+     * <ul>
+     *  <li>Since this component may have children, this method will skip 
+     * decoding for Ajax requests of type "refresh".</li>
+     * </ul>
+     *
+     * @param context <code>FacesContext</code> for this request.
+     */
+    public void processValidators(FacesContext context) {
+        if (context == null) {
+            return;
+        }
+        // Skip procesing in case of "refresh" ajax request.
+        if (ComponentUtilities.isAjaxRequest(getFacesContext(), this, "refresh")
+                && !ComponentUtilities.isAjaxExecuteRequest(getFacesContext(), this)) {
+            return; // Skip processing for ajax based validation events.
+        }
+        super.processValidators(context);
+    }
+   
+    /**
+     * <p>Specialized model update behavior on top of that provided by the
+     * superclass.
+     *
+     * <ul>
+     *  <li>Since this component may have children, this method will skip 
+     * decoding for Ajax requests of type "refresh".</li>
+     * </ul>
+     *
+     * @param context <code>FacesContext</code> for this request.
+     */
+    public void processUpdates(FacesContext context) {
+        if (context == null) {
+            return;
+        }
+        // Skip processing in case of "refresh" ajax request.
+        if (ComponentUtilities.isAjaxRequest(getFacesContext(), this, "refresh")
+                && !ComponentUtilities.isAjaxExecuteRequest(getFacesContext(), this)) {
+            return;
+        }
+        super.processUpdates(context);
+    }
+
+    // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     // State methods
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 

@@ -45,7 +45,6 @@ import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 import javax.faces.component.NamingContainer;
 import javax.faces.component.UIComponent;
-import javax.faces.component.UIComponentBase;
 
 /**
  * Component that represents a table.
@@ -72,7 +71,7 @@ import javax.faces.component.UIComponentBase;
 @Component(type="com.sun.webui.jsf.Table", family="com.sun.webui.jsf.Table",
     displayName="Table", tagName="table",
     helpKey="projrave_ui_elements_palette_wdstk-jsf1.2_table")
-public class Table extends UIComponentBase implements NamingContainer {
+public class Table extends WebuiComponent implements NamingContainer {
     /** The facet name for the bottom actions area. */
     public static final String ACTIONS_BOTTOM_FACET = "actionsBottom"; //NOI18N
 
@@ -1283,27 +1282,6 @@ public class Table extends UIComponentBase implements NamingContainer {
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     // Tag attribute methods
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-    /**
-     * The component identifier for this component. This value must be unique 
-     * within the closest parent component that is a naming container.
-     */
-    @Property(name="id") 
-    public void setId(String id) {
-        super.setId(id);
-    }
-
-    /**
-     * Use the rendered attribute to indicate whether the HTML code for the
-     * component should be included in the rendered HTML page. If set to false,
-     * the rendered HTML page does not include the HTML for the component. If
-     * the component is not rendered, it is also not processed on any subsequent
-     * form submission.
-     */
-    @Property(name="rendered") 
-    public void setRendered(boolean rendered) {
-        super.setRendered(rendered);
-    }
 
     /**
      * <p>The deprecated ALIGN attribute suggests the horizontal alignment of

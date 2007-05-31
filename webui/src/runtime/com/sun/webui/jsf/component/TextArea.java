@@ -44,17 +44,13 @@ import javax.faces.context.FacesContext;
  * "autoSave" JSP-tag attribute, it automatically turns on the ajaxify attribute, and
  * round-trip client-server autoSave will be performed.
  */
-@Component(
-type="com.sun.webui.jsf.TextArea",
-        family="com.sun.webui.jsf.TextArea",
-        displayName="Text Area",
-        instanceName="textArea",
-        tagName="textArea",
-        tagRendererType="com.sun.webui.jsf.widget.TextArea",
-        helpKey="projrave_ui_elements_palette_wdstk-jsf1.2_text_area",
-        propertiesHelpKey="projrave_ui_elements_palette_wdstk-jsf1.2_propsheets_text_area_props")
-        
-        public class TextArea extends TextField {
+@Component(type="com.sun.webui.jsf.TextArea",
+    family="com.sun.webui.jsf.TextArea",
+    displayName="Text Area", instanceName="textArea", tagName="textArea",
+    tagRendererType="com.sun.webui.jsf.widget.TextArea",
+    helpKey="projrave_ui_elements_palette_wdstk-jsf1.2_text_area",
+    propertiesHelpKey="projrave_ui_elements_palette_wdstk-jsf1.2_propsheets_text_area_props")
+public class TextArea extends TextField {
     /**
      * Default constructor.
      */
@@ -69,6 +65,7 @@ type="com.sun.webui.jsf.TextArea",
     public String getFamily() {
         return "com.sun.webui.jsf.TextArea";
     }
+
     /**
      * Returns the renderer type for the component.
      *
@@ -142,10 +139,6 @@ type="com.sun.webui.jsf.TextArea",
         this.rows_set = true;
     }
     
-// ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-// autoSave attribute definition
-// ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    
     /**
      * Attribute indicating to turn on/off the Auto-save  functionality of the TextArea.
      * <br>
@@ -202,12 +195,9 @@ type="com.sun.webui.jsf.TextArea",
             setAjaxify(true);
     }
     
-    
-// ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-// save/restore state
-// ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    
-    
+    // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    // State methods
+    // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     
     /**
      * <p>Restore the state of this component.</p>
@@ -217,7 +207,7 @@ type="com.sun.webui.jsf.TextArea",
         super.restoreState(_context, _values[0]);
         this.rows = ((Integer) _values[1]).intValue();
         this.rows_set = ((Boolean) _values[2]).booleanValue();
-        this.autoSave =     ((Long) _values[3]).longValue();
+        this.autoSave = ((Long) _values[3]).longValue();
         this.autoSave_set = ((Boolean) _values[4]).booleanValue();
     }
     

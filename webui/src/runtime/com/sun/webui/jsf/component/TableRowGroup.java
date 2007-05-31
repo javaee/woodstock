@@ -57,7 +57,6 @@ import javax.faces.context.FacesContext;
 import javax.faces.component.EditableValueHolder;
 import javax.faces.component.NamingContainer;
 import javax.faces.component.UIComponent;
-import javax.faces.component.UIComponentBase;
 import javax.faces.event.AbortProcessingException;
 import javax.faces.event.FacesEvent;
 import javax.faces.event.FacesListener;
@@ -98,7 +97,7 @@ import javax.faces.event.PhaseId;
 @Component(type="com.sun.webui.jsf.TableRowGroup",
     family="com.sun.webui.jsf.TableRowGroup", displayName="Row Group", tagName="tableRowGroup",
     helpKey="projrave_ui_elements_palette_wdstk-jsf1.2_row_group")
-public class TableRowGroup extends UIComponentBase implements NamingContainer {
+public class TableRowGroup extends WebuiComponent implements NamingContainer {
     /** The id for the column footer bar. */
     public static final String COLUMN_FOOTER_BAR_ID = "_columnFooterBar"; //NOI18N
 
@@ -2190,27 +2189,6 @@ public class TableRowGroup extends UIComponentBase implements NamingContainer {
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     // Tag attribute methods
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-    /**
-     * The component identifier for this component. This value must be unique 
-     * within the closest parent component that is a naming container.
-     */
-    @Property(name="id") 
-    public void setId(String id) {
-        super.setId(id);
-    }
-
-    /**
-     * Use the rendered attribute to indicate whether the HTML code for the
-     * component should be included in the rendered HTML page. If set to false,
-     * the rendered HTML page does not include the HTML for the component. If
-     * the component is not rendered, it is also not processed on any subsequent
-     * form submission.
-     */
-    @Property(name="rendered") 
-    public void setRendered(boolean rendered) {
-        super.setRendered(rendered);
-    }
 
     /**
      * Set the <code>aboveColumnFooter</code> attribute to true to display the group 

@@ -31,7 +31,8 @@ import javax.faces.context.FacesContext;
 /**
  * The Listbox component allows users to select one or more items from a list.
  */
-@Component(type="com.sun.webui.jsf.Listbox", family="com.sun.webui.jsf.Listbox", displayName="Listbox", tagName="listbox",
+@Component(type="com.sun.webui.jsf.Listbox", 
+    family="com.sun.webui.jsf.Listbox", displayName="Listbox", tagName="listbox",
     tagRendererType="com.sun.webui.jsf.widget.Listbox",
     helpKey="projrave_ui_elements_palette_wdstk-jsf1.2_listbox",
     propertiesHelpKey="projrave_ui_elements_palette_wdstk-jsf1.2_propsheets_listbox_props")
@@ -251,54 +252,6 @@ public class Listbox extends ListSelector {
      */
     public void setToolTip(String toolTip) {
         this.toolTip = toolTip;
-    }
-
-    /**
-     * <p>Override to skip processing if this is a "refresh" Ajax request 
-     * for which we will not execute over any server-side nodes.</p>
-     */
-    public void processDecodes(FacesContext context) {
-        if (context == null) {
-            return;
-        }
-        // Skip processing in case of "refresh" ajax request
-        if (ComponentUtilities.isAjaxRequest(getFacesContext(), this, "refresh") &&
-            !ComponentUtilities.isAjaxExecuteRequest(getFacesContext(), this)) {
-            return;
-        }
-        super.processDecodes(context);
-    }
-
-    /**
-     * <p>Override to skip processing if this is a "refresh" Ajax request 
-     * for which we will not execute over any server-side nodes.</p>
-     */
-    public void processValidators(FacesContext context) {
-        if (context == null) {
-            return;
-        }
-        // Skip processing in case of "refresh" ajax request
-        if (ComponentUtilities.isAjaxRequest(getFacesContext(), this, "refresh") &&
-            !ComponentUtilities.isAjaxExecuteRequest(getFacesContext(), this)) {
-            return;
-        }
-        super.processValidators(context);
-    }
-
-    /**
-     * <p>Override to skip processing if this is a "refresh" Ajax request 
-     * for which we will not execute over any server-side nodes.</p>
-     */
-    public void processUpdates(FacesContext context) {
-        if (context == null) {
-            return;
-        }
-        // Skip processing in case of "refresh" ajax request
-        if (ComponentUtilities.isAjaxRequest(getFacesContext(), this, "refresh") &&
-            !ComponentUtilities.isAjaxExecuteRequest(getFacesContext(), this)) {
-            return;
-        }
-        super.processUpdates(context);
     }
 
     /**

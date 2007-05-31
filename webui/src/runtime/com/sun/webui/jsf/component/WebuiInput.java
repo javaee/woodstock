@@ -22,26 +22,28 @@
 
 package com.sun.webui.jsf.component;
 
-import com.sun.webui.jsf.event.MethodExprValueChangeListener;
-import javax.el.MethodExpression;
-import javax.faces.component.UIInput;
-import javax.faces.convert.Converter;
-import javax.faces.event.ValueChangeListener;
 import com.sun.faces.annotation.Property;
+import com.sun.webui.jsf.event.MethodExprValueChangeListener;
+import com.sun.webui.jsf.util.ComponentUtilities;
 import com.sun.webui.jsf.validator.MethodExprValidator;
+
 import java.util.List;
+
+import javax.el.MethodExpression;
 import javax.faces.application.FacesMessage;
+import javax.faces.component.UIInput;
 import javax.faces.context.FacesContext;
+import javax.faces.convert.Converter;
 import javax.faces.el.MethodBinding;
 import javax.faces.event.AbortProcessingException;
 import javax.faces.event.FacesEvent;
 import javax.faces.event.ValueChangeEvent;
+import javax.faces.event.ValueChangeListener;
 import javax.faces.validator.Validator;
 import javax.faces.validator.ValidatorException;
 
 /**
- *
- * @author mbohm
+ * Base class for components which need to extend UIInput.
  */
 public class WebuiInput extends UIInput {
     /**
@@ -273,7 +275,81 @@ public class WebuiInput extends UIInput {
 	}
 	return (false);
     }
+
+    // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    // Lifecycle methods
+    // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     
+    /**
+     * <p>Specialized decode behavior on top of that provided by the
+     * superclass.
+     *
+     * <ul>
+     *  <li>This method will skip decoding for Ajax requests of type "refresh".</li>
+     * </ul>
+     *
+     * @param context <code>FacesContext</code> for this request.
+     */
+    public void processDecodes(FacesContext context) {
+        if (context == null) {
+            return;
+        }
+        // Skip processing in case of "refresh" ajax request.
+        if (ComponentUtilities.isAjaxRequest(getFacesContext(), this, "refresh")
+                && !ComponentUtilities.isAjaxExecuteRequest(getFacesContext(), this)) {
+            return;
+        }
+        super.processDecodes(context);
+    }
+
+    /**
+     * <p>Specialized validation behavior on top of that provided by the
+     * superclass.
+     *
+     * <ul>
+     *  <li>This method will skip decoding for Ajax requests of type "refresh".</li>
+     * </ul>
+     *
+     * @param context <code>FacesContext</code> for this request.
+     */
+    public void processValidators(FacesContext context) {
+        if (context == null) {
+            return;
+        }
+        // Skip procesing in case of "refresh" ajax request.
+        if (ComponentUtilities.isAjaxRequest(getFacesContext(), this, "refresh")
+                && !ComponentUtilities.isAjaxExecuteRequest(getFacesContext(), this)) {
+            return; // Skip processing for ajax based validation events.
+        }
+        super.processValidators(context);
+    }
+    
+    /**
+     * <p>Specialized model update behavior on top of that provided by the
+     * superclass.
+     *
+     * <ul>
+     *  <li>This method will skip decoding for Ajax requests of type "refresh".</li>
+     * </ul>
+     *
+     * @param context <code>FacesContext</code> for this request.
+     */
+    public void processUpdates(FacesContext context) {
+        if (context == null) {
+            return;
+        }
+        // Skip processing in case of "refresh" ajax request.
+        if (ComponentUtilities.isAjaxRequest(getFacesContext(), this, "refresh")
+                && !ComponentUtilities.isAjaxExecuteRequest(getFacesContext(), this)) {
+            return;
+        }
+        super.processUpdates(context);
+    }
+
+    // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    // State methods
+    // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
     /**
      * {@inheritDoc}
      **/
@@ -297,5 +373,4 @@ public class WebuiInput extends UIInput {
         
         return values;
     }
-    
 }
