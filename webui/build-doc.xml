@@ -43,7 +43,6 @@
   <property name="runtime" value="src/runtime"/>
   <property name="webui-bean" value="${runtime}"/>
   <property name="webui-component" value="${runtime}"/>
-  <property name="webui-renderkit" value="${runtime}"/>
   <property name="webui-util" value="${runtime}"/>    
   <property name="webui-theme" value="${runtime}"/>    
   <property name="webui-event" value="${runtime}"/>    
@@ -130,16 +129,8 @@
     <include name="${openide.jar}"/>
   </patternset>
 
-  <patternset id="webui-renderkit">
-    <include name="${pkg-path-prefix}/renderkit/html/**"/>
-    <include name="${pkg-path-prefix}/renderkit/ajax/**"/>
-    <include name="${pkg-path-prefix}/renderkit/widget/**"/>
-    <exclude name="${pkg-path-prefix}/renderkit/html/Bundle.properties"/>
-  </patternset>
-
   <patternset id="webui-component">
     <include name="${pkg-path-prefix}/component/**"/>
-    <exclude name="${pkg-path-prefix}/component/*Base.**"/>
     <exclude name="${pkg-path-prefix}/component/util/**"/>
     <exclude name="${pkg-path-prefix}/component/CalendarMonth.java"/>
     <exclude name="${pkg-path-prefix}/component/ComplexComponent.java"/>
@@ -148,7 +139,6 @@
     <exclude name="${pkg-path-prefix}/component/SelectorManager.java"/>
     <exclude name="${pkg-path-prefix}/component/Bundle.properties"/>
     <exclude name="${pkg-path-prefix}/component/Table2*.java"/>
-    <exclude name="${pkg-path-prefix}/component/Widget.java"/>
   </patternset>
 
   <patternset id="webui-util">
@@ -271,9 +261,6 @@
       <!-- component directory -->
       <fileset dir="${webui-component}">
         <patternset refid="webui-component"/>
-      </fileset>
-      <fileset dir="${webui-renderkit}">
-        <patternset refid="webui-renderkit"/>
       </fileset>
       <!-- util directory -->
       <fileset dir="${webui-util}">
