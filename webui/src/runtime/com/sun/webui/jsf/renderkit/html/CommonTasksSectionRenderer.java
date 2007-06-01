@@ -180,7 +180,8 @@ public class CommonTasksSectionRenderer extends AbstractRenderer {
         writer.startElement(HTMLElements.TD, cts);        
         writer.writeAttribute(HTMLAttributes.HEIGHT,"503",
                 HTMLAttributes.HEIGHT);
-        renderSpacerImage(cts,503, 1, theme, context);        
+        // This image id must be unqiue.
+        renderSpacerImage(cts, 503, 1, theme, context, SPACER_IMAGE);        
         writer.endElement(HTMLElements.TD);
         writer.endElement(HTMLElements.TR);
         writer.endElement(HTMLElements.TABLE);
@@ -302,9 +303,9 @@ public class CommonTasksSectionRenderer extends AbstractRenderer {
             _sepWidth = _sepWidth/(numColumns-1);
             _initWidth = _initWidth/(numColumns-1);
         }
-        String spacerWidth =""+_spacerWidth+"%"; 
-        String sepWidth = ""+_sepWidth+"%";
-        String initWidth = ""+_initWidth+"%";
+        String spacerWidth = _spacerWidth + "%"; 
+        String sepWidth = _sepWidth + "%";
+        String initWidth = _initWidth + "%";
         
         writer.startElement(HTMLElements.TR, cts);
         // This is for tasks
@@ -312,12 +313,14 @@ public class CommonTasksSectionRenderer extends AbstractRenderer {
         if (numColumns == 1) {
             numColumns = 2; // Fix the case when only one column exists.
         }
-        for (int i=0; i<numColumns; i++) {
+        for (int i = 0; i < numColumns; i++) {
             // Set the spacing for each commontask element
             writer.startElement(HTMLElements.TD, cts);
             writer.writeAttribute(HTMLAttributes.WIDTH,spacerWidth, 
-                    HTMLAttributes.WIDTH);         // NOI18N
-            renderSpacerImage(cts,1, columnWidth, theme, context);
+                HTMLAttributes.WIDTH);         // NOI18N
+
+            // Note: Each image must have a unique id.
+            renderSpacerImage(cts, 1, columnWidth, theme, context, SPACER_IMAGE + i);
             writer.endElement(HTMLElements.TD);
 
             //set the spacing between two columns
@@ -350,11 +353,11 @@ public class CommonTasksSectionRenderer extends AbstractRenderer {
      */
        
     protected void renderSpacerImage(UIComponent component, int height,
-	    int width, Theme theme, FacesContext context)
+	    int width, Theme theme, FacesContext context, String id)
             throws IOException {
         Icon img = ThemeUtilities.getIcon(theme, ThemeImages.CTS_SPACER_IMAGE);
         img.setParent(component);
-        img.setId(SPACER_IMAGE);
+        img.setId(id); // Each image must have a unique id.
         RenderingUtilities.renderComponent(img, context);
     }
     
