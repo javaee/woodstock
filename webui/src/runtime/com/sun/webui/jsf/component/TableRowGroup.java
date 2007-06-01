@@ -25,8 +25,8 @@ import com.sun.faces.annotation.Component;
 import com.sun.faces.annotation.Property;
 
 import com.sun.data.provider.FieldKey;
+import com.sun.data.provider.FilterCriteria;
 import com.sun.data.provider.RowKey;
-import com.sun.data.provider.FilterCriteria;     
 import com.sun.data.provider.SortCriteria;
 import com.sun.data.provider.TableDataFilter;
 import com.sun.data.provider.TableDataProvider;
@@ -54,6 +54,7 @@ import java.util.Map;
 import javax.el.ValueExpression;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
+import javax.faces.component.ContextCallback;
 import javax.faces.component.EditableValueHolder;
 import javax.faces.component.NamingContainer;
 import javax.faces.component.UIComponent;
@@ -61,6 +62,7 @@ import javax.faces.event.AbortProcessingException;
 import javax.faces.event.FacesEvent;
 import javax.faces.event.FacesListener;
 import javax.faces.event.PhaseId;
+import javax.faces.FacesException;
 
 /**
  * Component that represents a group of table rows.
@@ -1920,6 +1922,67 @@ public class TableRowGroup extends WebuiComponent implements NamingContainer {
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     // UIComponent methods
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+    /**
+     * Override behavior from {@link UIComponentBase#invokeOnComponent} to 
+     * provide special care for positioning the data properly before finding the
+     * component and invoking the callback on it. If the argument
+     * <code>clientId</code> is equal to <code>this.getClientId()</code>
+     * simply invoke the <code>contextCallback</code>, passing the
+     * <code>context</code> argument and <b>this</b> as arguments, and return
+     * <code>true.</code> Otherwise, attempt to extract a rowId from the
+     * <code>clientId</code>. For example, if the argument <code>clientId</code>
+     * was <code>form:data:3:customerHeader</code> the rowIndex would be
+     * <code>3</code>. Let this value be called <code>newRowId</code>.
+     * The current rowId of this instance must be saved aside and restored
+     * before returning in all cases, regardless of the outcome of the search
+     * or if any exceptions are thrown in the process.
+     *
+     * <p>The implementation of this method must never return
+     * <code>true</code> if setting the rowId of this instance to be
+     * equal to <code>newRowId</code> causes this instance to return
+     * <code>false</code> from {@link #isRowAvailable}.</p>
+     *
+     * @throws NullPointerException {@inheritDoc}
+     * @throws FacesException {@inheritDoc}  Also throws
+     * <code>FacesException</code> if any exception is thrown when deriving
+     * the rowd from the argument <code>clientId</code>.
+     */
+    public boolean invokeOnComponent(FacesContext context, String clientId, 
+            ContextCallback callback) throws FacesException {
+        if (null == context || null == clientId) {
+            throw new NullPointerException();
+        }
+
+        String baseClientId = super.getClientId(context);
+        if (clientId.equals(baseClientId)) {
+            return super.invokeOnComponent(context, clientId, callback);
+        }
+
+        // The baseClientId should be something like form1:table1:rowGroup1. The
+        // clientId will be something like form1:table1:rowGroup1:3:col1:input.
+        boolean found = false;
+        if (clientId.startsWith(baseClientId)) {
+            // Save row key.
+            RowKey oldRowKey = getRowKey();
+            try {
+                // Get row id.
+                int first = clientId.indexOf(NamingContainer.SEPARATOR_CHAR, baseClientId.length());
+                int last = clientId.indexOf(NamingContainer.SEPARATOR_CHAR, ++first + 1);
+            
+                // Set row key.
+                String rowId = clientId.substring(first, last);
+                setRowKey(com.sun.data.provider.impl.IndexRowKey.create(rowId));
+                if (isRowAvailable()) {
+                    found = super.invokeOnComponent(context, clientId, callback);
+                }
+            } catch (IndexOutOfBoundsException e) {
+                // Do nothing.
+            }
+            setRowKey(oldRowKey);
+        }
+        return found;
+    }
 
     /**
      * Set the ValueExpression used to calculate the value for the specified
