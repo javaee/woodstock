@@ -298,14 +298,15 @@ public class CommonTasksSectionRenderer extends AbstractRenderer {
         int _initWidth = 5;
 
         if (numColumns > 1) {
-            _spacerWidth = _spacerWidth/(numColumns-1);
-            columnWidth = columnWidth/(numColumns-1);
-            _sepWidth = _sepWidth/(numColumns-1);
-            _initWidth = _initWidth/(numColumns-1);
+            _spacerWidth = _spacerWidth / (numColumns - 1);
+            columnWidth = columnWidth / (numColumns - 1);
+            _sepWidth = _sepWidth / (numColumns - 1);
+            _initWidth = _initWidth / (numColumns - 1);
         }
-        String spacerWidth = _spacerWidth + "%"; 
-        String sepWidth = _sepWidth + "%";
-        String initWidth = _initWidth + "%";
+        String percent = "%";
+        String spacerWidth = _spacerWidth + percent;
+        String sepWidth = _sepWidth + percent;
+        String initWidth = _initWidth + percent;
         
         writer.startElement(HTMLElements.TR, cts);
         // This is for tasks
