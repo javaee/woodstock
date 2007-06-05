@@ -253,7 +253,7 @@
       version="true"
       use="true"
       breakiterator="no"
-      windowtitle="Web UI Components 4.0">
+      windowtitle="Project Woodstock 4.1 Components">
       <!-- bean directory -->
       <fileset dir="${webui-bean}">
         <patternset refid="webui-bean"/>
@@ -395,6 +395,7 @@
     <java jar="${tlddoc.jar}" fork="true">
       <arg line="-d tlddocs"/>
       <arg line="${webui-tld}"/>
+      <arg line="-windowtitle &quot;Project Woodstock 4.1 Tag Library&quot;"/>
       <classpath>
 	<path refid="tlddoc.jar"/>
       </classpath>
