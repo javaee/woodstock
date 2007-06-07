@@ -22,29 +22,28 @@
 -->
 
 <project name="themes" default="all" basedir=".">
-
+    
     <tstamp>
-      <format property="buildnumber" pattern="yyyyMMddHHmm"/>
+        <format property="buildnumber" pattern="yyyyMMddHHmm"/>
     </tstamp>
-
+    
     <property file="../build.properties"/>
     <property file="build.properties"/>
-
+    
     <property name="dist" value="./dist"/>
     <property name="build" value="./build"/>    
-
+    
     <property name="suntheme" value="suntheme"/>
     <property name="suntheme.build" value="build/suntheme"/>
-    <property name="suntheme.path"  value="/com/sun/webui/jsf/suntheme"/>
+    <property name="suntheme.path"  value="com/sun/webui/jsf/suntheme"/>
+    <property name="suntheme.package"  value="com.sun.webui.jsf.suntheme"/>
     <property name="suntheme.jar" value="webui-jsf-suntheme.jar"/>
     <property name="suntheme.css" value="_sun4"/>
-    <property name="suntheme-service-properties"
-	    value="com/sun/webui/jsf/suntheme/suntheme.properties"/>
-
-    <property name="suntheme-service-class"
-	value="com/sun/webui/jsf/suntheme/SunthemeThemeService.class"/>
-
-
+    <property name="suntheme-service-properties" value="suntheme"/>
+    
+    <property name="suntheme-service-class" value="SunthemeThemeService"/>
+    
+    
     <!-- Building a theme now depends on webui-jsf.jar 
          In the future it will depend on just the theme implementation
 	 jar, but for now the SPI ThemeService 
@@ -53,31 +52,32 @@
 	 webui-jsf.jar -->
 
     <property name="webui.jar"
-	 value="${components.home}/lib/webui-jsf.jar"/>
-
+              value="${components.home}/lib/webui-jsf.jar"/>
+    
     <!-- ========== all ========== -->
     <!-- This creates the theme jars for component distribution. -->
     <target name="all" depends="buildSunTheme" />
-
+    
     <target name="buildSunTheme">
-
-	<echo message="Build Sun Theme" /> 
-	<antcall target="buildTheme">
-	    <param name="_build-dir_" value="${suntheme.build}"/>
-	    <param name="_theme-dir_" value="src/suntheme"/>
-	    <param name="_theme-name_" value="${suntheme}"/>
-	    <param name="_theme-name-css_" value="${suntheme.css}"/>
-	    <param name="_theme-path_" value="${suntheme.path}"/>
-	    <param name="_theme-jar_" value="${suntheme.jar}"/>
-	    <param name="_theme-service-properties_" 
-		value="${suntheme-service-properties}"/>
-	    <param name="_theme-service-class_"
-		value="${suntheme.build}/${suntheme-service-class}"/>
-	    <param name="_theme-service-src_" value="src/suntheme"/>
-	    <param name="_theme-service-uptodate_"
-		value="suntheme-service-uptodate"/>
-	</antcall>
-
+        
+        <echo message="Build Sun Theme" /> 
+        <antcall target="buildTheme">
+            <param name="_build-dir_" value="${suntheme.build}"/>
+            <param name="_theme-dir_" value="src/suntheme"/>
+            <param name="_theme-name_" value="${suntheme}"/>
+            <param name="_theme-name-css_" value="${suntheme.css}"/>
+            <param name="_theme-package_" value="${suntheme.package}"/>
+            <param name="_theme-path_" value="${suntheme.path}"/>
+            <param name="_theme-jar_" value="${suntheme.jar}"/>
+            <param name="_theme-service-properties_" 
+                   value="${suntheme-service-properties}"/>
+            <param name="_theme-service-class_"
+                   value="${suntheme-service-class}"/>
+            <param name="_theme-service-src_" value="src/suntheme"/>
+            <param name="_theme-service-uptodate_"
+                   value="suntheme-service-uptodate"/>
+        </antcall>
+        
     </target> 
     
     <!-- Accept params
@@ -93,132 +93,148 @@
     -->
 
     <target name="buildTheme">
-
-	<property name="_dest-path_" value="${_build-dir_}${_theme-path_}"/>
-
+        
+        <property name="_dest-path_" value="${_build-dir_}/${_theme-path_}"/>
+        
         <mkdir dir="${_build-dir_}" />
-
+        
         <mkdir dir="${_dest-path_}" />
-
+        
         <copy todir="${_dest-path_}/javascript">
             <fileset dir="javascript">
-	        <exclude name="**/CVS/**" />
-	    </fileset>
+                <exclude name="**/CVS/**" />
+            </fileset>
             <filterset>
                 <filter token="THEME" value="${_theme-name_}"/> 
                 <filter token="THEME_CSS" value="${_theme-name-css_}"/> 
             </filterset>
         </copy>
-	<copy todir="${_dest-path_}/images">
+        <copy todir="${_dest-path_}/images">
             <fileset dir="${_theme-dir_}/images">
                 <exclude name="**/CVS/**" /> 
-	    </fileset>
+            </fileset>
         </copy>
         <copy todir="${_dest-path_}/css">
             <fileset dir="${_theme-dir_}/css">
                 <exclude name="**/CVS/**" /> 
-	    </fileset>
+            </fileset>
             <filterset>
-              <filter token="THEME_CSS" value="${_theme-name-css_}"/>
+                <filter token="THEME_CSS" value="${_theme-name-css_}"/>
             </filterset>
         </copy>
         <copy todir="${_dest-path_}/messages">
             <fileset dir="messages">
                 <exclude name="**/CVS/**" /> 
-	    </fileset>
+            </fileset>
         </copy>
         <copy todir="${_dest-path_}/templates">
             <fileset dir="templates">
-	        <exclude name="**/CVS/**" /> 
-	    </fileset>
+                <exclude name="**/CVS/**" /> 
+            </fileset>
             <filterset>
-              <filter token="THEME_CSS" value="${_theme-name-css_}"/>
+                <filter token="THEME_CSS" value="${_theme-name-css_}"/>
             </filterset>
         </copy>
-
-	<!-- copy messages.properties to messages_en.properties JSF hack -->
-	<copy file="${_dest-path_}/messages/messages.properties"
-	     tofile="${_dest-path_}/messages/messages_en.properties"/>
-
-	<!-- copy the SPI theme properties files -->
-	<copy file="${_theme-dir_}/${_theme-service-properties_}"
-	    tofile="${_build-dir_}/${_theme-service-properties_}"/>
-
+        
+        <!-- copy messages.properties to messages_en.properties JSF hack -->
+        <copy file="${_dest-path_}/messages/messages.properties"
+              tofile="${_dest-path_}/messages/messages_en.properties"/>
+        
         <copy todir="${_dest-path_}/properties">
             <fileset dir="${_theme-dir_}/props">
                 <include name="images.properties" />
                 <include name="javascript.properties" />
                 <include name="stylesheets.properties" />
                 <include name="templates.properties" />
-	    </fileset>
+            </fileset>
             <filterset>
-              <filter token="THEME" value="${_theme-name_}"/>
+                <filter token="THEME" value="${_theme-name_}"/>
+                <filter token="THEME_PATH" value="/${_theme-path_}"/>
             </filterset>
         </copy>
-
+        
         <!-- copy styles.properties using shorter theme name -->
         <copy todir="${_dest-path_}/properties">
             <fileset dir="${_theme-dir_}/props">
                 <include name="styles.properties" /> 
-	    </fileset>
+            </fileset>
             <filterset>
-              <filter token="THEME_CSS" value="${_theme-name-css_}"/>
+                <filter token="THEME_CSS" value="${_theme-name-css_}"/>
             </filterset>
         </copy>
         <copy todir="${_build-dir_}/META-INF">
             <fileset dir="META-INF">
                 <include name="manifest.mf" /> 
                 <include name="services/com.sun.webui.theme.ThemeService" /> 
-	    </fileset>
+            </fileset>
             <filterset>
-              <filter token="DATESTAMP" value="${buildnumber}"/>
-              <filter token="THEME" value="${_theme-name_}"/>
-              <filter token="FULL_VERSION" value="${FullVersion}"/>
-              <filter token="VERSION" value="${Version}"/>
+                <filter token="DATESTAMP" value="${buildnumber}"/>
+                <filter token="THEME" value="${_theme-name_}"/>
+                <filter token="FULL_VERSION" value="${FullVersion}"/>
+                <filter token="VERSION" value="${Version}"/>
+                <filter token="THEME_PACKAGE" value="${_theme-package_}"/>
+                <filter token="THEME_SERVICE_CLASS" value="${_theme-service-class_}"/>
             </filterset>
         </copy>
-
-	<uptodate property="${_theme-service-uptodate_}"
-		targetfile="${_theme-service-class_}">
-	    <srcfiles dir="${_theme-service-src_}"
-		includes="**/*.java"/>
-	</uptodate>
-
-	<antcall target="compile-theme-service">
-	    <param name="_java-src_" value="${_theme-service-src_}"/>
-	    <param name="_dest-dir_" value="${_build-dir_}"/>
-	    <param name="_uptodate-property_"
-		value="${_theme-service-uptodate_}"/>
-	</antcall>
-
+        
+        <uptodate property="${_theme-service-uptodate_}"
+                  targetfile="${suntheme.build}/${_theme-path_}/${_theme-service-class_}.class">
+            <srcfiles dir="${_theme-service-src_}"
+                      includes="**/*.java"/>
+        </uptodate>
+        
+        <!-- create the SPI theme properties files from template-->
+        <copy file="${_theme-dir_}/${suntheme.path}/${_theme-service-properties_}.properties"
+              tofile="${_build-dir_}/${suntheme.path}/${_theme-service-properties_}.properties">
+        </copy>
+        
+        <mkdir dir="${_build-dir_}/src"/>
+        
+        <!-- Create the SPI Theme Service class at the temporarry directory from template-->
+        <copy file="${_theme-dir_}/${suntheme.path}/${_theme-service-class_}.java"
+              tofile="${_build-dir_}/src/${suntheme.path}/${_theme-service-class_}.java">
+        </copy> 
+         
+        <!-- Compile the Theme Service class-->
+        <antcall target="compile-theme-service">
+            <param name="_java-src_" value="${_build-dir_}/src"/>
+            <param name="_dest-dir_" value="${_build-dir_}"/>
+            <param name="_uptodate-property_"
+                   value="${_theme-service-uptodate_}"/>
+        </antcall>
+        
+        <!-- Delete the temporary directory --> 
+        <delete dir="${_build-dir_}/src"/>
+        
+        <!-- Create the theme jar -->
         <mkdir dir="dist" />
-	<jar destfile="dist/${_theme-jar_}"
-	     basedir="${_build-dir_}"
-	     manifest="${_build-dir_}/META-INF/manifest.mf">
+        <jar destfile="dist/${_theme-jar_}"
+             basedir="${_build-dir_}"
+             manifest="${_build-dir_}/META-INF/manifest.mf">
         </jar>
     </target> 
-
-
+    
+    
     <target name="compile-theme-service"
-	    unless="${_uptodate-property_}">
-
+            unless="${_uptodate-property_}">
+        
         <javac srcdir="${_java-src_}" 
-		destdir="${_dest-dir_}" deprecation="false"
-		debug="${debug}"
-		optimize="false"
-		source="1.5" target="1.5">
-	    <compilerarg line="-Xmaxwarns 1000"/>
+               destdir="${_dest-dir_}" deprecation="false"
+               debug="${debug}"
+               optimize="false"
+               source="1.5" target="1.5">
+            <compilerarg line="-Xmaxwarns 1000"/>
             <classpath>
                 <pathelement path="${webui.jar}"/>
             </classpath>
         </javac>
-
+        
     </target>
-
+    
     <target name="clean">
-      <delete dir="${build}" />
-      <delete dir="${dist}" />
-      <delete dir="temp" />
+        <delete dir="${build}" />
+        <delete dir="${dist}" />
+        <delete dir="temp" />
     </target>
-
+    
 </project>

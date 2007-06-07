@@ -12,9 +12,9 @@ X-SJWUIC-Theme-Version: 4.0
 X-SJWUIC-Theme-Timestamp: @DATESTAMP@
 X-SJWUIC-Theme-Name: @THEME@
 X-SJWUIC-Theme-Prefix: /theme
-X-SJWUIC-Theme-Messages: com.sun.webui.jsf.@THEME@.messages.messages
-X-SJWUIC-Theme-Images: com.sun.webui.jsf.@THEME@.properties.images
-X-SJWUIC-Theme-JavaScript: com.sun.webui.jsf.@THEME@.properties.javascript
-X-SJWUIC-Theme-ClassMapper: com.sun.webui.jsf.@THEME@.properties.styles
-X-SJWUIC-Theme-Stylesheets: com.sun.webui.jsf.@THEME@.properties.stylesheets
-X-SJWUIC-Theme-Templates: com.sun.webui.jsf.@THEME@.properties.templates
+X-SJWUIC-Theme-Messages: @THEME_PACKAGE@.messages.messages
+X-SJWUIC-Theme-Images: @THEME_PACKAGE@.properties.images
+X-SJWUIC-Theme-JavaScript: @THEME_PACKAGE@.properties.javascript
+X-SJWUIC-Theme-ClassMapper: @THEME_PACKAGE@.properties.styles
+X-SJWUIC-Theme-Stylesheets: @THEME_PACKAGE@.properties.stylesheets
+X-SJWUIC-Theme-Templates: @THEME_PACKAGE@.properties.templates

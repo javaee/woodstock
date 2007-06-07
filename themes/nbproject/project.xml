@@ -20,7 +20,6 @@
 
  Copyright 2007 Sun Microsystems, Inc. All rights reserved.
 -->
-
 <project xmlns="http://www.netbeans.org/ns/project/1">
     <type>org.netbeans.modules.ant.freeform</type>
     <configuration>
@@ -35,13 +34,9 @@
                     <location>src</location>
                 </source-folder>
                 <source-folder>
-                    <label>Source Packages</label>
+                    <label>META-INF</label>
                     <type>java</type>
-                    <location>.</location>
-                </source-folder>
-                <source-folder>
-                    <label>Source Packages</label>
-                    <location>.</location>
+                    <location>META-INF</location>
                 </source-folder>
             </folders>
             <ide-actions>
@@ -63,8 +58,8 @@
                         <location>src</location>
                     </source-folder>
                     <source-folder style="packages">
-                        <label>Source Packages</label>
-                        <location>.</location>
+                        <label>META-INF</label>
+                        <location>META-INF</location>
                     </source-folder>
                     <source-file>
                         <location>build.xml</location>
@@ -76,6 +71,7 @@
                     <ide-action name="rebuild"/>
                 </context-menu>
             </view>
+            <subprojects/>
         </general-data>
         <java-data xmlns="http://www.netbeans.org/ns/freeform-project-java/1">
             <compilation-unit>
@@ -83,7 +79,7 @@
                 <source-level>1.5</source-level>
             </compilation-unit>
             <compilation-unit>
-                <package-root>.</package-root>
+                <package-root>META-INF</package-root>
                 <source-level>1.5</source-level>
             </compilation-unit>
         </java-data>

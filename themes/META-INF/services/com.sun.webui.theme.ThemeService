@@ -1,1 +1,1 @@
-com.sun.webui.jsf.suntheme.SunthemeThemeService
+@THEME_PACKAGE@.@THEME_SERVICE_CLASS@
