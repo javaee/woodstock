@@ -52,7 +52,7 @@ webui.@THEME@.widget.jsfx.anchor = {
             domNode = document.getElementById(props.name);
         }
         // Generate AJAX request using the JSF Extensions library.
-        new DynaFaces.fireAjaxTransaction(
+        DynaFaces.fireAjaxTransaction(
             (domNode) ? domNode : document.forms[0], {
             execute: (props.execute) ? props.execute : "none",
             render: props.id,

@@ -50,7 +50,7 @@ webui.@THEME@.widget.jsfx.progressBar =  {
         var domNode = document.getElementById(props.id);
 
         // Generate AJAX request using the JSF Extensions library.
-        new DynaFaces.fireAjaxTransaction(
+        DynaFaces.fireAjaxTransaction(
             (domNode) ? domNode : document.forms[0], {
             execute: props.id, // Need to decode hidden field.
             render: props.id,
@@ -84,7 +84,7 @@ webui.@THEME@.widget.jsfx.progressBar =  {
         var domNode = document.getElementById(props.id);
 
         // Generate AJAX request using the JSF Extensions library.
-        new DynaFaces.fireAjaxTransaction(
+        DynaFaces.fireAjaxTransaction(
             (domNode) ? domNode : document.forms[0], {
             execute: (props.execute) ? props.execute : "none",
             render: props.id,

@@ -51,7 +51,7 @@ webui.@THEME@.widget.jsfx.rbcbGroup = {
         var domNode = document.getElementById(props.id);
 
         // Generate AJAX request using the JSF Extensions library.
-        new DynaFaces.fireAjaxTransaction(
+        DynaFaces.fireAjaxTransaction(
             (domNode) ? domNode : document.forms[0], {
             execute: (props.execute) ? props.execute : "none",
             render: props.id,
