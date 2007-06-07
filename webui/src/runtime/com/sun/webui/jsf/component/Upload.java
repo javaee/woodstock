@@ -26,6 +26,7 @@ import com.sun.faces.annotation.Property;
 import com.sun.webui.jsf.model.UploadedFile;
 import com.sun.webui.jsf.util.ComponentUtilities;
 import com.sun.webui.jsf.util.ThemeUtilities;
+import com.sun.webui.jsf.util.UploadFilterFileItem;
 
 import java.io.File;
 import java.io.InputStream;
@@ -44,28 +45,136 @@ import javax.faces.FacesException;
 import org.apache.commons.fileupload.FileItem;
 
 /**
- * The Upload component is used to create an input tag with its <code>type</code> 
- * field set to "file".
+ * The <code>Upload</code> component relies on the 
+ * {@link com.sun.webui.jsf.util.UploadFilter} and other
+ * upload filter classes to upload the file from the client to the
+ * server.
+ * <p>
+ * The file is uploaded in the request by the presence of an 
+ * HTML <code>input</code> element, rendered by the
+ * <code>UploadRenderer</code>.
+ * </p>
+ * <p>
+ * There is a problem processing errors. If there
+ * are serious errors where the form-data cannot be parsed from
+ * the multipart request, the JSF view state is also lost
+ * and only the RENDER phase executes. This leaves only
+ * the encode methods to catch and report any unexpected
+ * errors.
+ * </p>
+ * The <code>UploadFilter</code> places attributes in the requst map
+ * to indicate multipart/form-data request parsing failures.
+ * The following request attributes will exist if there are fatal 
+ * parsing errors.
+ * </p>
+ * <ul>
+ * <li><code>Upload.UPLOAD_ERROR_KEY</code>. When there is a request 
+ * attribute with this name, the value is an <code>Exception</code> that
+ * was thrown while parsing the multipart request. It typically results in the
+ * form-data as well as the file data being lost. This means that the
+ * JSF view state field is also lost and the request will be interpreted as
+ * a first time visit to the page, i.e. only the RENDER phase will execute.
+ * </li>
+ * <li><code>Upload.UPLOAD_NO_DATA_KEY</code>. When there is a request
+ * attribute with this name, the value is the same as the name. It indicates
+ * that no form or file data was parsed from the multipart document. Typically
+ * this attribute will exist only when <code>Upload.UPLOAD_ERROR_KEY</code>
+ * also exists, but may, in extremely unusual circumstances
+ * like a malformed request, exist by itself.
+ * </li>
+ * </ul>
+ * </p>
+ * <p>
+ * If any of these errors are seen FacesMessages are queued and any
+ * information available is logged.
+ * </p>
+ * <p>
+ * If an exception occurred while processing the file uploaded in the
+ * request, like the maximum file size was exceeded or space for the
+ * temporary file could not be obtained, the <code>UploadFilterFileItem</code>
+ * instance mapped to the component id in the request map, will have
+ * the exceptions in its <code>errorLog</code>. Any exceptions 
+ * found will be logged and a <code>FacesMessage</code> queued.
+ * </p>
+ * <p>
+ * If a file is uploaded, there will always be a value change event
+ * for a successful upload. No attempt is made to determine if the 
+ * previously uploaded file is the same as the current uploaded file.
+ * </p>
  */
 @Component(type="com.sun.webui.jsf.Upload", family="com.sun.webui.jsf.Upload", displayName="File Upload",
     instanceName="fileUpload", tagName="upload", isContainer=false,
     helpKey="projrave_ui_elements_palette_wdstk-jsf1.2_file_upload",
     propertiesHelpKey="projrave_ui_elements_palette_wdstk-jsf1.2_propsheets_upload_props")
 public class Upload extends Field implements Serializable {
+
     /**
-     * A string concatenated with the component ID to form the ID and
-     * name of the HTML input element. 
+     * A suffix applied to the component id to form the id of the 
+     * HTML input element. 
      */
-    public static final String INPUT_ID = "_com.sun.webui.jsf.upload"; //NOI18N
-    public static final String INPUT_PARAM_ID = "_com.sun.webui.jsf.uploadParam"; //NOI18N
+    public static final String INPUT_ID = "_com.sun.webui.jsf.upload";
+
+    /**
+     * A suffix applied to the component id and used to identigy
+     * a hidden HTML input to preserve the full path entered by the user.
+     */
+    public static final String PRESERVE_PATH_ID = "_preserve_path";
+
+    /**
+     * A suffix applied to the component id to form the id of a hidden
+     * HTML input element used to store the component's client id. 
+     * This is needed when the label attribute has no value.
+     * @deprecated
+     */
+    // The hidded field is no longer needed or rendered
+    public static final String INPUT_PARAM_ID = 
+	"_com.sun.webui.jsf.uploadParam";
+
+    /**
+     * @deprecated
+     */
     public static final String SCRIPT_ID="_script"; 
+    /**
+     * @deprecated
+     */
     public static final String SCRIPT_FACET="script"; 
+    /**
+     * @deprecated
+     */
     public static final String TEXT_ID="_text"; 
+
+    /**
+     * @deprecated
+     */
     public static final String LENGTH_EXCEEDED="length_exceeded";
-    public static final String UPLOAD_ERROR_KEY="upload_error_key";
-    public static final String FILE_SIZE_KEY="file_size_key";
-            
-    private static final boolean DEBUG = false;
+    /**
+     * @deprecated
+     */
+    public static final String FILE_SIZE_KEY = "file_size_key";
+
+    /**
+     * An attribute with this name is placed in the request map, with a value
+     * that is the same as the attribute name, when the
+     * <code>org.apache.commons.fileupload</code> package cannot parse 
+     * the multipart/form-data request and an empty <code>FileItem</code>
+     * list is returned.
+     */
+    public static final String UPLOAD_NO_DATA_KEY = "upload_nodata_key";
+
+    /**
+     * An attribute with this name is placed in the request map with a value
+     * of an <code>Exception</code> instance that was thrown by the
+     * <code>org.apache.commons.fileupload</code> package when 
+     * the multipart/form-data request cannot be parsed.
+     */
+    public static final String UPLOAD_ERROR_KEY = "upload_error_key";
+
+    /**
+     * @deprecated
+     */
+    protected void log(String s) {
+        System.out.println(this.getClass().getName() + "::" + s); //NOI18N
+    }
 
     /**
      * Default constructor.
@@ -83,13 +192,6 @@ public class Upload extends Field implements Serializable {
     }
 
     /**
-     * Log an error - only used during development time.
-     */
-    protected void log(String s) {
-        System.out.println(this.getClass().getName() + "::" + s); //NOI18N
-    }
-    
-    /**
      * <p>Converts the submitted value. Returns an object of type 
      * UploadedFile.</p>
      * @param context The FacesContext
@@ -100,27 +202,26 @@ public class Upload extends Field implements Serializable {
      */
     public Object getConvertedValue(FacesContext context, Object value) { 
 
-        if(DEBUG) log("getConvertedValue"); 
         UploadedFileImpl uf = new UploadedFileImpl(value, context);   
-        if(DEBUG) { 
-            log("\tSize is " + String.valueOf(uf.getSize())); 
-            log("\tName is " + uf.getOriginalName()); 
-            log("\tValue is required " + String.valueOf(isRequired())); 
-        }
-        if(isRequired() && uf.getSize() == 0) { 
+        if (isRequired() && uf.getSize() == 0) { 
             String name = uf.getOriginalName(); 
             if(name == null || name.trim().length() == 0) { 
-                if(DEBUG) log("No file specified");
                 setValue("");
-                if(DEBUG) log("Set value to empty string");
                 return "";
-                //FacesMessage msg = new FacesMessage("Enter a file to upload");
-                //throw new ConverterException(msg);
             }          
         }      
         return uf;   
     } 
 
+    // This method could do at least what getReadOnlyValueString
+    // does. It could event return the file contents as String.
+    // Although this may not be suitable for binary files.
+    // Should this just be deprecated ?
+    // The problem is that it is here because this component extends
+    // Field, which was a mistake. Actually methods like
+    // "getValueAsString" and "getReadOnlyValueString" should not have
+    // been defined on Field, but on "Text" components.
+    //
     /**
      * <p>Return the value to be rendered when the component is 
      * rendered as a String. For the FileUpload, we never
@@ -169,6 +270,11 @@ public class Upload extends Field implements Serializable {
         return "file";
     }
 
+    // Most of these methods should not even be necessary since this
+    // component should not extend from Field and Field should not have
+    // implemented these methods either. Only the "Text" subclasses
+    // of Fields should have implemented the "text" methods.
+    //
     /**
      * This method overrides getText() in Field. It always returns null. 
      */
@@ -183,11 +289,17 @@ public class Upload extends Field implements Serializable {
         // do nothing
     }
     
+    // This should be Theme based.
+    //
+    /**
+     * Return the character width of the field.
+     * The default width is 40. If the assigned value
+     * is less than 1, 40 is returned.
+     */
     public int getColumns() {
         int columns = _getColumns();
         if(columns < 1) { 
             columns = 40; 
-            setColumns(40); 
         }
         return columns;
     }
@@ -261,6 +373,7 @@ public class Upload extends Field implements Serializable {
         return getLabeledElementId(context);
     }
 
+
     // Obtain the FileItem in the constructor, based on the
     // arguments. The original code attemtped to get the 
     // object repeatedly from the request parameters. But the
@@ -285,16 +398,16 @@ public class Upload extends Field implements Serializable {
     // receive an instance of this class when there is no file
     // when previously an exception would have been thrown.
     //
-    class UploadedFileImpl  implements UploadedFile {
+    class UploadedFileImpl implements UploadedFile {
         
-        transient FileItem fileItemObject = null; 
+        transient UploadFilterFileItem fileItemObject = null; 
         
         /** Creates a new instance of UploadedFileImpl */
         UploadedFileImpl(Object attribute, FacesContext context) {         
             // Allow null
             //
             try {
-                this.fileItemObject = (FileItem)
+                this.fileItemObject = (UploadFilterFileItem)
                     context.getExternalContext().getRequestMap().get(attribute);
             } catch (Exception e) {
                 String message = 
@@ -338,11 +451,13 @@ public class Upload extends Field implements Serializable {
         }
         
         /**
-         * Use this method to retrieve the name that the file has on the web
-         * application user's local system.
-         * If the fileItemObject is null, return null;
+	 * Not all browsers submit the literal value of the file upload
+	 * input element. Some only submit the file portion and not
+	 * the directory portion. This method returns the value 
+	 * that was submitted by the browser. 
+	 * @see #getClientFilePath
          *
-         * @return the name of the file on the web app user's system
+         * @return the upload input element's submitted value.
          */
         public String getOriginalName() {
             if (fileItemObject != null) {
@@ -352,6 +467,26 @@ public class Upload extends Field implements Serializable {
             }
         }
         
+        /**
+	 * Return the literal value of the upload input element, else null.
+	 * If the <code>Upload</code> property <code>preservePath</code>
+	 * is <code>true</code> the literal path value as entered by
+	 * the user is submitted in the request. Some browsers
+	 * only submit the file portion of the path and not the
+	 * directory portion. This method returns the literal value
+	 * of the upload input element if <code>Upload.isPreservePath()</code>
+	 * returns true, else null.
+         *
+         * @return the upload input element's literal value
+         */
+        public String getClientFilePath() {
+            if (fileItemObject != null) {
+                return fileItemObject.getClientFilePath();
+            } else {
+                return null;
+            }
+        }
+
         /**
          * Returns a {@link java.io.InputStream InputStream} for
          * reading the file.
@@ -575,6 +710,102 @@ public class Upload extends Field implements Serializable {
     }
 
     /**
+     * If <code>preservePath</code> is <code>true</code> the upload 
+     * component will preserve the literal value of the file input element 
+     * as set by the user on the client.
+     * <p>
+     * Different browsers handle the value of an HTML input element 
+     * of type "file" differently. Some browsers submit the literal value
+     * of the input element in the multipart/form-data file portion
+     * of the request, others only submit the file name portion and not
+     * the directory portion. If this property is set to true, the 
+     * literal value (typically the full path name either entered explicitly
+     * by the user, or from a file selection dialogue) will be stored and
+     * submitted in a hidden field. The UploadRenderer will
+     * preserve the full file path in the corresponding 
+     * <code>UploadFilterFileItem</code> instance, encapsulated by
+     * the <code>UploadedFile</code> instance.
+     * @see com.sun.webui.jsf.model.UploadedFile#getClientFilePath
+     * <br/>
+     * <em>It is not clear if it is a security risk to transmit the
+     * full file path in clear text to the server</em>.<br/>
+     * The default value is <code>false</code>.
+     * </p>
+     */
+    @Property(name="preservePath", displayName="Preserve Path",
+	isHidden=false, isAttribute=true, category="Advanced")
+    private boolean preservePath = false;
+    private boolean preservePath_set = false;
+
+    /**
+     * Return <code>true</code> if the upload component has been configured
+     * to preserve the literal file path as entered on the client, else false,
+     * meaning that the upload component will not preserve the
+     * the full path as entered by the user on the client.
+     * <p>
+     * Different browsers handle the value of an HTML input element 
+     * of type "file" differently. Some browsers submit the literal value
+     * of the input element in the multipart/form-data file portion
+     * of the request, others only submit the file name portion and not
+     * the directory portion. If this property is set to true, the 
+     * literal value (typically the full path name either entered explicitly
+     * by the user, or from a file selection dialogue) will be stored and
+     * submitted in a hidden field. The UploadRenderer will
+     * preserve the full file path in the corresponding 
+     * <code>UploadFilterFileItem</code> instance, encapsulated by
+     * the <code>UploadedFile</code> instance.
+     * @see com.sun.webui.jsf.model.UploadedFile#getClientFilePath
+     * <br/>
+     * <em>It is not clear if it is a security risk to transmit the
+     * full file path in clear text to the server</em>.<br/>
+     * The default value is <code>false</code>.
+     * </p>
+     */
+    public boolean isPreservePath() {
+        if (this.preservePath) {
+            return this.preservePath;
+        }
+        ValueExpression _vb = getValueExpression("preservePath");
+        if (_vb != null) {
+            Object _result = _vb.getValue(getFacesContext().getELContext());
+            if (_result == null) {
+                return false;
+            } else {
+                return ((Boolean) _result).booleanValue();
+            }
+        }
+        return false;
+    }
+
+    /**
+     * If <code>preservePath</code> is <code>true</code> the upload
+     * component will save the file input element value
+     * in a hidden field and submit it in the request, else if
+     * <code>false</code> the value will not be preserved.
+     * <p>
+     * Different browsers handle the value of an HTML input element 
+     * of type "file" differently. Some browsers submit the literal value
+     * of the input element in the multipart/form-data file portion
+     * of the request, others only submit the file name portion and not
+     * the directory portion. If this property is set to true, the 
+     * literal value (typically the full path name either entered explicitly
+     * by the user, or from a file selection dialogue) will be stored and
+     * submitted in a hidden field. The UploadRenderer will
+     * preserve the full file path in the corresponding 
+     * <code>UploadFilterFileItem</code> instance, encapsulated by
+     * the <code>UploadedFile</code> instance.
+     * @see com.sun.webui.jsf.model.UploadedFile#getClientFilePath
+     * <br/>
+     * <em>It is not clear if it is a security risk to transmit the
+     * full file path in clear text to the server</em>.<br/>
+     * </p>
+     */
+    public void setPreservePath(boolean preservePath) {
+        this.preservePath = preservePath;
+        this.preservePath_set = true;
+    }
+
+    /**
      * <p>Restore the state of this component.</p>
      */
     public void restoreState(FacesContext _context,Object _state) {
@@ -582,16 +813,22 @@ public class Upload extends Field implements Serializable {
         super.restoreState(_context, _values[0]);
         this.columns = ((Integer) _values[1]).intValue();
         this.columns_set = ((Boolean) _values[2]).booleanValue();
+	this.preservePath = ((Boolean) _values[3]).booleanValue();
+	this.preservePath_set = ((Boolean) _values[4]).booleanValue();
+
     }
 
     /**
      * <p>Save the state of this component.</p>
      */
     public Object saveState(FacesContext _context) {
-        Object _values[] = new Object[3];
+        Object _values[] = new Object[5];
         _values[0] = super.saveState(_context);
         _values[1] = new Integer(this.columns);
         _values[2] = this.columns_set ? Boolean.TRUE : Boolean.FALSE;
+	_values[3] = new Boolean(this.preservePath);
+	_values[4] = this.preservePath_set ? Boolean.TRUE : Boolean.FALSE;
+
         return _values;
     }
 }

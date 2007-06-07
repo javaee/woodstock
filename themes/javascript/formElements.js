@@ -840,31 +840,50 @@ webui.@THEME@.radiobutton = {
 /**
  * Define webui.@THEME@.upload name space.
  */
+
 webui.@THEME@.upload = {
+
     /**
      * Use this function to get the HTML input element associated with the
      * Upload component.  
-     * @param elementId The element ID of the Upload
-     * @return the input element associated with the Upload component 
+     * @param elementId The client id of the Upload component
+     * @return the input element associated with the Upload component else
+     * null if elementId is null or "".
      */
     getInputElement: function(elementId) { 
-        var element = document.getElementById(elementId); 
+
+        if (elementId == null || elementId == "") {
+	    return null;
+	}
+
+	// The upload component MUST always render the input element
+	// with the following suffix on the id 
+	// "_com.sun.webui.jsf.upload".
+	// This "binds" this version of the component to this theme
+	// version.
+	// This will change when "field" becomes a widget.
+	//
+        var element = document.getElementById(elementId + 
+		"_com.sun.webui.jsf.upload");
         if (element && element.tagName == "INPUT") { 
             return element; 
-        }
-        // Return an HTML input element of type "file".
-        return document.getElementById(elementId + "_com.sun.webui.jsf.upload");
+        } else {
+	    return null;
+	}
     },
 
     /**
      * Use this function to disable or enable a upload. As a side effect
      * changes the style used to render the upload. 
      *
-     * @param elementId The element ID of the upload 
+     * @param elementId The client id of the upload  component
      * @param show true to disable the upload, false to enable the upload
+     * @return true if successful; otherwise, false
      */
     setDisabled: function(elementId, disabled) {  
-        if (elementId == null || disabled == null) {
+
+        if (elementId == null || elementId == "" || 
+		disabled == null || disabled == "") {
             // must supply an elementId && state
             return false;
         }
@@ -873,38 +892,101 @@ webui.@THEME@.upload = {
             // specified elementId not found
             return false;
         }
-        // Disable field using setDisabled function -- do not hard code styles here.
-        return webui.@THEME@.field.setDisabled(input.id, disabled);
+        input.disabled = disabled;
+	return true;
     },
 
+    /**
+     * Set the encoding type of the form to "multipart/form-data".
+     * @return true if encoding type can be set, else false.
+     */
     setEncodingType: function(elementId) { 
+
+	if (elementId == null || elementId == "") {
+	    return false;
+	}
+
         var upload = webui.@THEME@.upload.getInputElement(elementId); 
-        var form = upload; 
-        while(form != null) { 
-            form = form.parentNode; 
-            if(form.tagName == "FORM") { 
-                break; 
-            } 
-        }
-        if(form != null) {
+        var form = upload != null ? upload.form : null;
+	if (form != null) {
+
             // form.enctype does not work for IE, but works Safari
-            // form.encoding works on both IE and Firefox, but does not work for Safari
-            // form.enctype = "multipart/form-data";
-
-            // convert all characters to lowercase to simplify testing
-            var agent = navigator.userAgent.toLowerCase();
-       
-            if( agent.indexOf('safari') != -1) {
-                // form.enctype works for Safari
-                // form.encoding does not work for Safari
-                form.enctype = "multipart/form-data"
+            // form.encoding works on both IE and Firefox
+	    //
+            if (webui.@THEME@.browser.is_safari) {
+                form.enctype = "multipart/form-data";
             } else {
-                // form.encoding works for IE, FireFox
-                form.encoding = "multipart/form-data"
+                form.encoding = "multipart/form-data";
             }
+	    return true;
         }
-        return false;
-    }
-}
+	return false;
+    },
 
+    /**
+     * Create a hidden field with id "preservePathId" and add a listener
+     * to the upload's input element, "uploadId". The listener is
+     * is added for the onchange event of the upload's input field,
+     * see preservePathListener.
+     * @return true if the hidden element is created and a listener is
+     * added, else false.
+     */
+    preservePath: function(uploadId, preservePathId) {
+
+	if (uploadId == null || uploadId == "" ||
+		preservePathId == null || preservePathId == "") {
+	    return false;
+	}
+
+	// If there is no upload component, don't do anything.
+	// I'm not sure if there is a timing issue here.
+	//
+	var uploadElement = webui.@THEME@.upload.getInputElement(uploadId);
+	if (uploadElement == null) {
+	    return false;
+	}
+	var theForm = uploadElement.form;
+
+	// Create the change listener.
+	// The event target/srcElement is the upload input element
+	// its value is the changed value, save it in the 
+	// preservePath hidden field.
+	//
+	var onChangeListener = function(evt) {
+
+	    // Is IE
+	    if (document.attachEvent) {
+		node = evt.srcElement;
+	    } else {
+		node = evt.target;
+	    }
+	    // node is the upload input element
+	    //
+	    var preservePath = null;
+	    try {
+		preservePath = theForm.elements[preservePathId];
+	    } catch (e) {
+	    }
+
+	    // If the hidden field isn't there create it and assign
+	    // the node's value
+	    //
+	    if (preservePath != null) {
+		preservePath.value = node.value;
+	    } else {
+		webui.@THEME@.common.insertHiddenField(preservePathId, 
+			node.value, theForm);
+	    }
+	    return true;
+	};
+
+	if (uploadElement.addEventListener) {
+	    uploadElement.addEventListener('change', onChangeListener, true);
+	} else {
+	    uploadElement.attachEvent('onchange', onChangeListener);
+	}
+	return true;
+    }
+
+}
 //-->

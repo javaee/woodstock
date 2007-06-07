@@ -35,6 +35,10 @@ webui.@THEME@.browser = function() {
     // Convert all characters to lowercase to simplify testing.
     this.agent = navigator.userAgent.toLowerCase();
 
+    // simple check for safari
+    //
+    this.is_safari = this.agent.indexOf('safari') != -1;
+
     // Note: On IE5, these return 4, so use is_ie5up to detect IE5.
     this.is_major = parseInt(navigator.appVersion);
     this.is_minor = parseFloat(navigator.appVersion);

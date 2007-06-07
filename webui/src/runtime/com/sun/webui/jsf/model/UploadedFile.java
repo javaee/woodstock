@@ -60,13 +60,26 @@ public interface UploadedFile extends Serializable {
 
 
     /**
-     * Use this method to retrieve the name that the file has on the web 
-     * application user's local system. 
+     * Use this method to retrieve the value that was submitted as the
+     * value of the upload input element.
+     * Some browsers only submit the file portion of the path and not the
+     * directory portion. This method returns the value submitted by the
+     * browser for the upload element's form-data value.
      *
-     * @return the name of the file on the web app user's system
+     * @return the upload input element's form-data value.
      */
     public String getOriginalName();
 
+    /**
+     * Return the literal value of the upload input element, else null.
+     * Some browsers only submit the file portion of the path and not the
+     * directory portion. This method returns the literal value
+     * of the upload input element. 
+     * @see com.sun.webui.jsf.component.Upload#isPreservePath
+     *
+     * @return the upload input element's literal value
+     */
+    public String getClientFilePath();
 
     // ------------------------------------------------------- FileItem methods
 

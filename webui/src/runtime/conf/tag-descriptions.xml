@@ -18393,13 +18393,13 @@ Configure the filter by declaring a filter element in the web application's
     &lt;servlet-name&gt;FacesServlet&lt;/servlet-name&gt;
   &lt;/filter-mapping&gt;
  </pre> 
-<p>The UploadFilter uses the Apache commons fileupload package. You
-    can optionally configure the parameters of the DiskFileUpload
-    class by specifying init parameters on the UploadFilter. The
-    following parameters are available: 
+<p>The UploadFilter uses the Apache commons fileupload package and
+    woodstock implemented subclasses. The UploadFilterDiskFileUpload
+    class can be configured, as needed, by specifying UploadFilter
+    init parameters.  The following parameters are available: 
 <ul> 
 <li><code>maxSize</code> The maximum allowed upload size in bytes. 
-If negative, there is no maximum. The default value is 1,000,000.</li> 
+If negative, there is no maximum. The default value is 1MB</li> 
 
 <li><code>sizeThreshold</code>The implementation of the uploading 
  functionality uses temporary storage of the file contents before the 
