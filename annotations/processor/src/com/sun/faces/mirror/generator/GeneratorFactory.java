@@ -50,6 +50,10 @@ public class GeneratorFactory {
     
     public FacesConfigFileGenerator getFacesConfigFileGenerator() {
         return new FacesConfigFileGeneratorImpl(this.velocityEngine);
+    }     
+    
+    public FaceletsConfigFileGenerator getFaceletsConfigFileGenerator() {
+        return new FaceletsConfigFileGeneratorImpl(this.velocityEngine);
     }
     
     public BeanInfoSourceGenerator getBeanInfoSourceGenerator() {
