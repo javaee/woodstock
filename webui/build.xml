@@ -335,6 +335,9 @@
         
         <!-- Copy the generated JSF faces config to the runtime directory -->
         <copy file="${gen}/META-INF/faces-config.xml" tofile="${classes}/runtime/META-INF/faces-config.xml"/>
+       
+        <!-- Copy the generated JSF facelets config to the runtime directory -->
+        <copy file="${gen}/META-INF/facelets.taglib.xml" tofile="${classes}/runtime/META-INF/woodstock.taglib.xml"/>
 
         <!-- Create the runtime JAR -->
         <jar jarfile="${netbeans}/modules/autoload/ext/${webui.jar}"
