@@ -39,7 +39,6 @@ import com.sun.faces.annotation.Property;
  *
  * @author Joe Nuxoll
  */
-@Component(isTag=false)
 public class ValueExpressionSortCriteria extends SortCriteria {
 
     /**
@@ -182,10 +181,8 @@ public class ValueExpressionSortCriteria extends SortCriteria {
         return value;
     }
 
-    @Property(displayName="Value Expression")
     private String valueExpression;
     
-    @Property(displayName="Request Map Key")
     private String requestMapKey = "currentRow"; // NOI18N
     
     private transient TableRowDataProvider rowProvider;

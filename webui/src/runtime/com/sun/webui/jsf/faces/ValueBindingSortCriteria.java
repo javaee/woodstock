@@ -45,7 +45,6 @@ import com.sun.faces.annotation.Property;
 
 // TODO: rename the class not to have ValueBinding???
 
-@Component(isTag=false)
 public class ValueBindingSortCriteria extends SortCriteria {
 
     /**
@@ -181,10 +180,8 @@ public class ValueBindingSortCriteria extends SortCriteria {
         return value;
     }
 
-    @Property(displayName="Value Binding",isAttribute=false)
     private transient ValueExpression valueExpression;
     
-    @Property(displayName="Request Map Key")
     private String requestMapKey = "currentRow";
     
     private transient TableRowDataProvider rowProvider;

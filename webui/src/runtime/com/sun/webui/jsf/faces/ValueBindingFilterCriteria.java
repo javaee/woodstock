@@ -53,7 +53,6 @@ import com.sun.faces.annotation.Property;
  *
  * @author Joe Nuxoll
  */
-@Component(isTag=false)
 public class ValueBindingFilterCriteria extends FilterCriteria {
 
     public ValueBindingFilterCriteria() {}
@@ -336,13 +335,10 @@ public class ValueBindingFilterCriteria extends FilterCriteria {
         return false; // This should never be reached
     }
 
-    @Property(displayName="Value Binding",isAttribute=false)
     private transient ValueExpression valueExpression;
     
-    @Property(displayName="Compare Value")
     private Object compareValue;
     
-    @Property(displayName="Request Map Key")
     private String requestMapKey = "currentRow"; // NOI18N
     
     private transient TableRowDataProvider rowProvider;

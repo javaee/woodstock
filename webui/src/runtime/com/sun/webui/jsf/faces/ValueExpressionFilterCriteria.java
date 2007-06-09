@@ -48,7 +48,6 @@ import com.sun.faces.annotation.Property;
  *
  * @author Joe Nuxoll
  */
-@Component(isTag=false)
 public class ValueExpressionFilterCriteria extends FilterCriteria {
 
     /**
@@ -340,13 +339,10 @@ public class ValueExpressionFilterCriteria extends FilterCriteria {
         return false; // This should never be reached
     }
 
-    @Property(displayName="Value Expression")
     private String valueExpression;
     
-    @Property(displayName="Compare Value")
     private Object compareValue;
     
-    @Property(displayName="Request Map Key")
     private String requestMapKey = "currentRow";
     
     private transient TableRowDataProvider rowProvider;
