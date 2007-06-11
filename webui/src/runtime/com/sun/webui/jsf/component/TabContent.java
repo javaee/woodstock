@@ -37,7 +37,6 @@ import javax.faces.event.AbortProcessingException;
 import javax.faces.event.ActionEvent;
 import javax.faces.event.ActionListener;
 import javax.faces.event.FacesEvent;
-import com.sun.webui.jsf.event.TabChangeEvent;
 import com.sun.webui.jsf.util.ComponentUtilities;
 import com.sun.webui.jsf.util.LogUtil;
 
