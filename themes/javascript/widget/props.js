@@ -26,6 +26,21 @@ dojo.provide("webui.@THEME@.widget.props");
  * This closure is used to provide theme properties.
  */
 webui.@THEME@.widget.props = {
+
+    // Accordion and tabContent properties.
+    accordionTab: {
+        accordionTabExpanded: "AccdTabExpanded@THEME_CSS@",
+        accordionTabCollapsed: "AccdTabCollapsed@THEME_CSS@",
+        accordionTabMouseOver: "AccdTabMouseOver@THEME_CSS@",
+        accordionHdr: "AccdHeader@THEME_CSS@",
+        accordionHdrRefresh: "AccdRefreshBtn@THEME_CSS@",
+        accordionHdrOpenAll: "AccdOpenAllBtn@THEME_CSS@", 
+        accordionHdrCloseApp: "AccdCloseAllBtn@THEME_CSS@",
+        accordionHdrDivider: "AccdDivider@THEME_CSS@",
+        accordionDownTurner: "AccdDownTurner@THEME_CSS@", 
+        accordionRightTurner: "AccdRightTurner@THEME_CSS@"
+    },
+
     // Anchor properties.
     anchor: {
         className:"Anc@THEME_CSS@",
@@ -156,11 +171,19 @@ webui.@THEME@.widget.props = {
         labelTopAlignStyle: "TxtAraLabel@THEME_CSS@" 
     },
 
+    // TextArea properties.
+    textArea: {
+        className: "TxtAra@THEME_CSS@",
+        disabledClassName: "TxtAraDis@THEME_CSS@",
+        labelTopAlignStyle: "TxtAraLabel@THEME_CSS@" 
+    },    
+
     // TextField properties.
     textField: {
         className: "TxtFld@THEME_CSS@",
         disabledClassName: "TxtFldDis@THEME_CSS@"
     }
+
 }
 
 //-->

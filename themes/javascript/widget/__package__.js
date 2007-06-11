@@ -32,6 +32,8 @@ dojo.kwCompoundRequire({
 // For debugging only, obtain all module resources before invoking
 // dojo.hostenv.writeIncludes(). This will ensure that JavaScript
 // files are accessible to JavaScript debuggers.
+dojo.requireIf(djConfig.isDebug, "webui.@THEME@.widget.accordion");
+dojo.requireIf(djConfig.isDebug, "webui.@THEME@.widget.accordionTab");
 dojo.requireIf(djConfig.isDebug, "webui.@THEME@.widget.alarm");
 dojo.requireIf(djConfig.isDebug, "webui.@THEME@.widget.anchor");
 dojo.requireIf(djConfig.isDebug, "webui.@THEME@.widget.alert");
@@ -53,6 +55,7 @@ dojo.requireIf(djConfig.isDebug, "webui.@THEME@.widget.table2");
 dojo.requireIf(djConfig.isDebug, "webui.@THEME@.widget.table2RowGroup");
 dojo.requireIf(djConfig.isDebug, "webui.@THEME@.widget.textArea");
 dojo.requireIf(djConfig.isDebug, "webui.@THEME@.widget.textField");
+
 
 dojo.require("dojo.ns");
 dojo.registerNamespace("webui.@THEME@", "webui.@THEME@.widget");

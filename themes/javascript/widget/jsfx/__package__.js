@@ -25,6 +25,8 @@ dojo.provide("webui.@THEME@.widget.jsfx.*");
 // For debugging only, obtain all module resources before invoking
 // dojo.hostenv.writeIncludes(). This will ensure that JavaScript
 // files are accessible to JavaScript debuggers.
+dojo.requireIf(djConfig.isDebug, "webui.@THEME@.widget.jsfx.accordion");
+dojo.requireIf(djConfig.isDebug, "webui.@THEME@.widget.jsfx.accordionTab");
 dojo.requireIf(djConfig.isDebug, "webui.@THEME@.widget.jsfx.alarm");
 dojo.requireIf(djConfig.isDebug, "webui.@THEME@.widget.jsfx.anchor");
 dojo.requireIf(djConfig.isDebug, "webui.@THEME@.widget.jsfx.alert");
