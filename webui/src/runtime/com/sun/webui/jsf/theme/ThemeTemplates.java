@@ -137,7 +137,16 @@ public class ThemeTemplates {
      */
     public static final String TEXTAREA= "textArea";
 
+    /**
+     * A template file that contains HTML for the accordion component.
+     */
+    public static final String ACCORDION = "accordion";
 
+    /**
+     * A template file that contains HTML for the accordion tab component.
+     */
+    public static final String ACCORDIONTAB = "accordionTab";
+    
     /**
      * This private constructor prevents this class from being instantiated
      * directly as its only purpose is to provide image constants.

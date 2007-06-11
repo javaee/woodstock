@@ -1160,6 +1160,39 @@ public class ThemeImages {
     public static final String PROGRESS_BUSY_ALT =
          "PROGRESS_BUSY_ALT";
     
+    /**
+     * Accordion Images.
+     */
+    public static final String ACCORDION_COLLAPSED = "ACCORDION_COLLAPSED";
+    public static final String ACCORDION_COLLAPSED_WIDTH = "ACCORDION_COLLAPSED_WIDTH"; 
+    public static final String ACCORDION_COLLAPSED_HEIGHT = "ACCORDION_COLLAPSED_HEIGHT";
+    public static final String ACCORDION_COLLAPSED_ALT = "ACCORDION_COLLAPSED_ALT";
+
+    public static final String ACCORDION_EXPANDED = "ACCORDION_EXPANDED";
+    public static final String ACCORDION_EXPANDED_WIDTH = "ACCORDION_EXPANDED_WIDTH";
+    public static final String ACCORDION_EXPANDED_HEIGHT = "ACCORDION_EXPANDED_HEIGHT";
+    public static final String ACCORDION_EXPANDED_ALT = "ACCORDION_EXPANDED_ALT";
+
+    public static final String ACCORDION_REFRESH = "ACCORDION_REFRESH";
+    public static final String ACCORDION_REFRESH_WIDTH = "ACCORDION_REFRESH_WIDTH";
+    public static final String ACCORDION_REFRESH_HEIGHT = "ACCORDION_REFRESH_HEIGHT";
+    public static final String ACCORDION_REFRESH_ALT = "ACCORDION_REFRESH_HEIGHT";
+
+    public static final String ACCORDION_COLLAPSE_ALL = "ACCORDION_COLLAPSE_ALL";
+    public static final String ACCORDION_COLLAPSE_ALL_WIDTH = "ACCORDION_COLLAPSE_ALL_WIDTH";
+    public static final String ACCORDION_COLLAPSE_ALL_HEIGHT = "ACCORDION_COLLAPSE_ALL_HEIGHT";
+    public static final String ACCORDION_COLLAPSE_ALL_ALT = "ACCORDION_COLLAPSE_ALL_ALT";
+
+    public static final String ACCORDION_EXPAND_ALL = "ACCORDION_EXPAND_ALL";
+    public static final String ACCORDION_EXPAND_ALL_WIDTH = "ACCORDION_EXPAND_ALL_WIDTH";
+    public static final String ACCORDION_EXPAND_ALL_HEIGHT = "ACCORDION_EXPAND_ALL_HEIGHT";
+    public static final String ACCORDION_EXPAND_ALL_ALT = "ACCORDION_EXPAND_ALL_ALT";
+
+    public static final String ACCORDION_TAB_MENU_ICON = "ACCORDION_TAB_MENU_ICON";
+    public static final String ACCORDION_TAB_MENU_ICON_WIDTH = "ACCORDION_TAB_MENU_ICON_WIDTH";
+    public static final String ACCORDION_TAB_MENU_ICON_HEIGHT = "ACCORDION_TAB_MENU_ICON_HEIGHT";
+    public static final String ACCORDION_TAB_MENU_ICON_ALT = "ACCORDION_TAB_MENU_ICON_ALT";
+            
      /**
      * This private constructor prevents this class from being instantiated
      * directly as its only purpose is to provide image constants.
