@@ -44,7 +44,7 @@ import javax.faces.context.ResponseWriter;
     rendererType="com.sun.webui.jsf.ajax.ImageHyperlink",
     componentFamily="com.sun.webui.jsf.ImageHyperlink"))
 public class ImageHyperlinkRenderer 
-        extends com.sun.webui.jsf.renderkit.widget.HyperlinkRenderer {
+        extends com.sun.webui.jsf.renderkit.widget.ImageHyperlinkRenderer {
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     // Renderer methods
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
