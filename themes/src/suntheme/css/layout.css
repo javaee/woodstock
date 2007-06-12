@@ -146,26 +146,27 @@ body {
 	vertical-align: 6px;
 }
 
-/* CHECKBOX GROUP AND RADIO BUTTON GROUP */
-.RbCb@THEME_CSS@ {
+/* HORIZONTAL AND VERTICAL CHECKBOX GROUP AND RADIO BUTTON GROUP */
+.RBGRPVert@THEME_CSS@, .RBGRPHoriz@THEME_CSS@, .CBGRPVert@THEME_CSS@, .CBGRPHoriz@THEME_CSS@ {
     padding:0;
 }
-.RbCb@THEME_CSS@ ul {
+.RBGRPVert@THEME_CSS@ ul, .RBGRPHoriz@THEME_CSS@ ul, .CBGRPVert@THEME_CSS@ ul, .CBGRPHoriz@THEME_CSS@ ul {
     clear:left;
     float:left;
     list-style:none;
     margin:0;
     padding:0;
-    text-align:right;
+    text-align:left;
 }
-/*
-.RbCb@THEME_CSS@ ul li {
+.RBGRPClear@THEME_CSS@, .CBGRPClear@THEME_CSS@  {
+    clear:both;
+}
+.RBGRPCaption@THEME_CSS@, .CBGRPCaption@THEME_CSS@ {
+    vertical-align:top;
+}
+.RBGRPHoriz@THEME_CSS@ ul li, .CBGRPHoriz@THEME_CSS@ ul li {
     float:left;
     margin:0 10px 0 0;
-}*/
-
-.RbCbClear@THEME_CSS@ {
-    clear:both;
 }
 
 /*---*/

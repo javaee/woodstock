@@ -75,6 +75,12 @@ webui.@THEME@.widget.props = {
         imageClassName: "CbImg@THEME_CSS@",
         imageDisabledClassName: "CbImgDis@THEME_CSS@"
     },
+        
+    // Checkbox Group
+    checkboxGroup: {
+        vertClassName: "CBGRPVert@THEME_CSS@",
+        horizClassName: "CBGRPHoriz@THEME_CSS@"       
+    },
 
     // Drop Down properties.
     dropDown: {
@@ -162,6 +168,12 @@ webui.@THEME@.widget.props = {
         labelDisabledClassName: "RbLblDis@THEME_CSS@",
         imageClassName: "RbImg@THEME_CSS@",
         imageDisabledClassName: "RbImgDis@THEME_CSS@"
+    },
+    
+    // RadioButton Group
+    radioButtonGroup: {
+        vertClassName: "RBGRPVert@THEME_CSS@",
+        horizClassName: "RBGRPHoriz@THEME_CSS@"       
     },
 
     // TextArea properties.

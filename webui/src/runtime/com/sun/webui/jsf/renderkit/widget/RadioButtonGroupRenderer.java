@@ -59,11 +59,11 @@ public class RadioButtonGroupRenderer extends SelectorGroupRenderer {
         }
         RadioButtonGroup rbGroup = (RadioButtonGroup) component;
         JSONArray json = new JSONArray();
-        json.put(JavaScriptUtilities.getModuleName("widget.rbcbGroup"));
+        json.put(JavaScriptUtilities.getModuleName("widget.radioButtonGroup"));
         
         if (rbGroup.isAjaxify()) {
             json.put(JavaScriptUtilities.getModuleName(
-                    "widget.jsfx.rbcbGroup"));
+                    "widget.jsfx.radioButtonGroup"));
         }
         return json;
     }
@@ -89,7 +89,8 @@ public class RadioButtonGroupRenderer extends SelectorGroupRenderer {
         JSONObject json = super.getProperties(context, (Selector)rbGroup);       
         json.put("templatePath", (templatePath != null)
                 ? templatePath
-                : theme.getPathToTemplate(ThemeTemplates.RBCBGroup));
+                : theme.getPathToTemplate(ThemeTemplates.RADIOBUTTONGROUP));
+        json.put("columns", rbGroup.getColumns());
         return json;
                 
     }
@@ -100,7 +101,7 @@ public class RadioButtonGroupRenderer extends SelectorGroupRenderer {
      * @return The type of widget represented by this component.
      */
     public String getWidgetType(FacesContext context, UIComponent component) {
-        return JavaScriptUtilities.getNamespace("rbcbGroup");
+        return JavaScriptUtilities.getNamespace("radioButtonGroup");
     }
     
     

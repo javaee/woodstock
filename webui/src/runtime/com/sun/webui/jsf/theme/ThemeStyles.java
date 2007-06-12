@@ -318,10 +318,31 @@ public class ThemeStyles {
     /**
      * Radio Button Group and Checkbox Group Widget Styles
      */
-    public static final String RBCB="RBCB";
-    public static final String RBCB_UL="RBCB_UL";
-    public static final String RBCB_UL_LI="RBCB_UL_LI";
-    public static final String RBCB_CLEARBOTH="RBCB_CLEARBOTH";
+    
+    public static final String CBGRP_VERT="CBGRP_VERT";
+    public static final String CBGRP_VERT_CAPTION="CBGRP_VERT_CAPTION";
+    public static final String CBGRP_VERT_UL="CBGRP_VERT_UL";
+    public static final String CBGRP_VERT_UL_LI="CBGRP_VERT_UL_LI";
+    public static final String CBGRP_VERT_CLEARBOTH="CBGRP_VERT_CLEARBOTH";
+    
+    public static final String RBGRP_VERT="RBGRP_VERT";
+    public static final String RBGRP_VERT_CAPTION="RBGRP_VERT_CAPTION";
+    public static final String RBGRP_VERT_UL="RBGRP_VERT_UL";
+    public static final String RBGRP_VERT_UL_LI="RBGRP_VERT_UL_LI";
+    public static final String RBGRP_VERT_CLEARBOTH="RBGRP_VERT_CLEARBOTH";
+
+    public static final String CBGRP_HORIZ="CBGRP_HORIZ";
+    public static final String CBGRP_HORIZ_CAPTION="CBGRP_HORIZ_CAPTION";
+    public static final String CBGRP_HORIZ_UL="CBGRP_HORIZ_UL";
+    public static final String CBGRP_HORIZ_UL_LI="CBGRP_HORIZ_LI";
+    public static final String CBGRP_HORIZ_CLEARBOTH="CBGRP_HORIZ_CLEARBOTH";
+    
+    public static final String RBGRP_HORIZ="RBGRP_HORIZ";
+    public static final String RBGRP_HORIZ_CAPTION="RBGRP_HORIZ_CAPTION";
+    public static final String RBGRP_HORIZ_UL="RBGRP_HORIZ_UL";
+    public static final String RBGRP_HORIZ_UL_LI="RBGRP_HORIZ_LI";
+    public static final String RBGRP_HORIZ_CLEARBOTH="RBGRP_HORIZ_CLEARBOTH";
+
 
     /** 
      * Inline Alert Styles. 

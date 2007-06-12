@@ -46,6 +46,11 @@ public class ThemeTemplates {
      * A template file that contains HTML for the Checkbox component.
      */
     public static final String CHECKBOX = "checkbox";
+    
+    /**
+     * A template file that contains HTML for the checkbox group components.
+     */
+    public static final String CHECKBOXGROUP = "checkboxGroup"; 
 
     /**
      * A template file that contains HTML for the DropDown component.
@@ -98,9 +103,9 @@ public class ThemeTemplates {
     public static final String RADIOBUTTON = "radioButton"; 
     
     /**
-     * A template file that contains HTML for the radioButton and checkbox groups components.
+     * A template file that contains HTML for the radioButton group components.
      */
-    public static final String RBCBGroup = "rbcbGroup"; 
+    public static final String RADIOBUTTONGROUP = "radioButtonGroup"; 
 
     /**
      * A template file that contains HTML for the reset button component.

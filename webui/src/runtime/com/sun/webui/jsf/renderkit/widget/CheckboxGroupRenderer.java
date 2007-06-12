@@ -64,11 +64,11 @@ public class CheckboxGroupRenderer extends SelectorGroupRenderer {
         } 
         CheckboxGroup cbGroup = (CheckboxGroup) component;
         JSONArray json = new JSONArray();
-        json.put(JavaScriptUtilities.getModuleName("widget.rbcbGroup"));
+        json.put(JavaScriptUtilities.getModuleName("widget.checkboxGroup"));
         
         if (cbGroup.isAjaxify()) {
               json.put(JavaScriptUtilities.getModuleName(
-                      "widget.jsfx.rbcbGroup"));
+                      "widget.jsfx.checkboxGroup"));
         }        
         return json;
     }
@@ -93,7 +93,8 @@ public class CheckboxGroupRenderer extends SelectorGroupRenderer {
         JSONObject json = super.getProperties(context, (Selector)cbGroup);
         json.put("templatePath", (templatePath != null)
                 ? templatePath
-                : theme.getPathToTemplate(ThemeTemplates.RBCBGroup));
+                : theme.getPathToTemplate(ThemeTemplates.CHECKBOXGROUP));
+        json.put("columns", cbGroup.getColumns());
         return json;
         
     }
@@ -104,7 +105,7 @@ public class CheckboxGroupRenderer extends SelectorGroupRenderer {
      * @return The type of widget represented by this component.
      */
     public String getWidgetType(FacesContext context, UIComponent component) {
-        return JavaScriptUtilities.getNamespace("rbcbGroup");
+        return JavaScriptUtilities.getNamespace("checkboxGroup");
     }
     
     
