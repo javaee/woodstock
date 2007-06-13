@@ -115,6 +115,9 @@ webui.@THEME@.widget.dropDown.refresh = {
      * must be run.
      */
     processEvent: function(execute) {
+        // Include default AJAX implementation.
+        this.ajaxify("webui.@THEME@.widget.jsfx.dropDown");
+
         // Publish an event for custom AJAX implementations to listen for.
         dojo.event.topic.publish(
             webui.@THEME@.widget.dropDown.refresh.beginEventTopic, {

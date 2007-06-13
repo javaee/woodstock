@@ -29,6 +29,7 @@ import com.sun.webui.jsf.util.ConversionUtilities;
 import com.sun.webui.jsf.util.JavaScriptUtilities;
 import com.sun.webui.jsf.util.ThemeUtilities;
 import com.sun.webui.theme.Theme;
+
 import java.io.IOException;
 import java.text.MessageFormat;
 import java.util.ArrayList;
@@ -69,30 +70,15 @@ public class StaticTextRenderer extends RendererBase {
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     
     /**
-     * Get the Dojo modules required to instantiate the widget.
+     * Get the Dojo module required to instantiate the widget.
      *
      * @param context FacesContext for the current request.
      * @param component UIComponent to be rendered.
-     *
-     * @exception JSONException if a key/value error occurs
      */
-    protected JSONArray getModules(FacesContext context, UIComponent component)
-            throws JSONException {
-	if (!(component instanceof StaticText)) {
-	    throw new IllegalArgumentException(
-                "StaticTextRenderer can only render StaticText components.");
-        }
-        JSONArray json = new JSONArray();
-        json.put(JavaScriptUtilities.getModuleName("widget.staticText"));
-
-        StaticText staticText = (StaticText) component;
-        if (staticText.isAjaxify()) {
-            json.put(JavaScriptUtilities.getModuleName(
-                "widget.jsfx.staticText"));
-        }
-        return json;
+    protected String getModule(FacesContext context, UIComponent component) {
+        return JavaScriptUtilities.getModuleName("widget.staticText");
     }
-    
+
     /**
      * Helper method to obtain component properties.
      *

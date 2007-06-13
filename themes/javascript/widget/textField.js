@@ -145,6 +145,9 @@ webui.@THEME@.widget.textField.refresh = {
      * must be run.
      */
     processEvent: function(execute) {
+        // Include default AJAX implementation.
+        this.ajaxify("webui.@THEME@.widget.jsfx.textField");
+
         // Publish an event for custom AJAX implementations to listen for.
         dojo.event.topic.publish(
             webui.@THEME@.widget.textField.refresh.beginEventTopic, {
@@ -260,6 +263,9 @@ webui.@THEME@.widget.textField.submit = {
      * must be run.
      */
     processEvent: function(execute) {
+        // Include default AJAX implementation.
+        this.ajaxify("webui.@THEME@.widget.jsfx.textField");
+
         // Publish an event for custom AJAX implementations to listen for.
         dojo.event.topic.publish(
             webui.@THEME@.widget.textField.submit.beginEventTopic, {
@@ -293,6 +299,12 @@ webui.@THEME@.widget.textField.validation = {
     processEvent: function(event) {
         if (event == null) {
             return false;
+        }
+
+        var widget = dojo.widget.byId(event.currentTarget.parentNode.id);
+        if (widget) {
+            // Include default AJAX implementation.
+            widget.ajaxify("webui.@THEME@.widget.jsfx.textField");
         }
 
         // Publish an event for custom AJAX implementations to listen for.

@@ -191,32 +191,17 @@ public class CheckboxRenderer extends RbCbRendererBase {
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     // RendererBase methods
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    
+
     /**
-     * Get the Dojo modules required to instantiate the widget.
+     * Get the Dojo module required to instantiate the widget.
      *
      * @param context FacesContext for the current request.
      * @param component UIComponent to be rendered.
-     *
-     * @exception JSONException if a key/value error occurs
      */
-    protected JSONArray getModules(FacesContext context, UIComponent component)
-            throws JSONException {
-	if (!(component instanceof Checkbox)) {
-	    throw new IllegalArgumentException(
-                "CheckboxRenderer can only render Checkbox components.");
-        }
-        JSONArray json = new JSONArray();
-        json.put(JavaScriptUtilities.getModuleName("widget.checkbox"));
-
-        Checkbox checkbox = (Checkbox) component;
-        if (checkbox.isAjaxify()) {
-            json.put(JavaScriptUtilities.getModuleName(
-                "widget.jsfx.checkbox"));
-        }
-        return json;
+    protected String getModule(FacesContext context, UIComponent component) {
+        return JavaScriptUtilities.getModuleName("widget.checkbox");
     }
-    
+
     /** 
      * Helper method to obtain component properties.
      *

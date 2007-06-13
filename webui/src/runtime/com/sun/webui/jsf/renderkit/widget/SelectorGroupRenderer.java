@@ -23,21 +23,20 @@
 package com.sun.webui.jsf.renderkit.widget;
 
 import com.sun.webui.jsf.component.ComplexComponent;
-import com.sun.webui.jsf.component.RbCbSelector;
-import com.sun.webui.jsf.util.ComponentUtilities;
-import com.sun.webui.jsf.util.WidgetUtilities;
-import java.io.IOException;
-import java.util.Map;
-import java.util.Collection;
-import javax.faces.component.UIInput;
-import javax.faces.component.UIComponent;
-import javax.faces.context.FacesContext;
-
 import com.sun.webui.jsf.component.Label;
 import com.sun.webui.jsf.component.Selector;
 import com.sun.webui.jsf.model.Option;
+import com.sun.webui.jsf.util.ComponentUtilities;
 import com.sun.webui.jsf.util.ConversionUtilities;
-import com.sun.webui.jsf.util.JavaScriptUtilities;
+import com.sun.webui.jsf.util.WidgetUtilities;
+
+import java.io.IOException;
+import java.util.Map;
+import java.util.Collection;
+
+import javax.faces.component.UIInput;
+import javax.faces.component.UIComponent;
+import javax.faces.context.FacesContext;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -48,13 +47,9 @@ import org.json.JSONObject;
  * radio button group and checkbox group renderers.  
  *
  */
-
-
 abstract class SelectorGroupRenderer extends RendererBase {
-    
     /**
-     * The set of pass-through attributes to be rendered for
-     * radiobuttongroup and checkboxgroup components
+     * The set of pass-through attributes to be rendered.
      */
     private static final String attributes[] = {
         "lang",
@@ -63,10 +58,11 @@ abstract class SelectorGroupRenderer extends RendererBase {
     
     protected abstract UIComponent getSelectorComponent(FacesContext context,
             UIComponent component, String id, Option option);
-    
-    
-    
-    
+
+    // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    // Renderer methods
+    // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
     /**
      * Decode the <code>RadioButtonGroup</code> or
      * <code>CheckboxGroup</code> selection.
@@ -100,49 +96,24 @@ abstract class SelectorGroupRenderer extends RendererBase {
         
         setSubmittedValues(context, component);
     }
-    
-    private void setSubmittedValues(FacesContext context,
-            UIComponent component) {
-        
-        String clientId = component.getClientId(context);
-        if (component instanceof ComplexComponent) {
-            clientId = (((ComplexComponent)component).getLabeledElementId(context));
-        }
-        
-        Map requestParameterValuesMap = context.getExternalContext().
-                getRequestParameterValuesMap();
-        
-        // If the clientId is found some controls are checked
-        //
-        if (requestParameterValuesMap.containsKey(clientId)) {
-            String[] newValues = (String[])
-            requestParameterValuesMap.get(clientId);
-            
-            ((UIInput) component).setSubmittedValue(newValues);
-            return;
-        }
-        // Return if there are no disabledCheckedValues and there
-        // were no controls checked
-        //
-        ((UIInput) component).setSubmittedValue(new String[0]);
-        return;
-    } 
-    
+
+    // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    // RendererBase methods
+    // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
     /**
      * Helper method to obtain component properties
      * @param context FacesContext for the current request.
      * @param component UIComponent to be rendered.
      *
      */
-    
     protected JSONObject getProperties(FacesContext context,
             Selector component) throws IOException, JSONException {
-        
         JSONObject json = new JSONObject();
         
         // Append label properties. 
         WidgetUtilities.addProperties( json, "label",
-                WidgetUtilities.renderComponent(context, getLabelComponent(context, component)));
+            WidgetUtilities.renderComponent(context, getLabelComponent(context, component)));
         
         // Set StyleClass
         json.put("className", component.getStyleClass());
@@ -150,10 +121,7 @@ abstract class SelectorGroupRenderer extends RendererBase {
         json.put("multiple", component.isMultiple());
         json.put("visible", component.isVisible());
         
-        
-        
-        Selector selector = (Selector)component;        
-        
+        Selector selector = (Selector)component;
         Object selected = selector.getSelected();
         
         // If the submittedValue is null record the rendered value
@@ -167,8 +135,6 @@ abstract class SelectorGroupRenderer extends RendererBase {
             ConversionUtilities.setRenderedValue(component, selected);
         }
         
-        
-        
         // Add core and attribute properties.
         addAttributeProperties(attributes, component, json);
         setCoreProperties(context, component, json);
@@ -176,7 +142,77 @@ abstract class SelectorGroupRenderer extends RendererBase {
         
         return json;
     }
-    
+
+    // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    // Property methods
+    // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+    /**
+     * Helper method to obtain group children.
+     * @param context FacesContext for the current request.
+     * @param component RadioButtonGroup/CheckboxGroup to be rendered.
+     * @param json JSONObject to assign properties to.
+     *
+     */
+    protected void addContents(FacesContext context, UIComponent component,
+            JSONObject json)
+            throws IOException, JSONException {
+        
+        JSONArray children = new JSONArray();
+        json.put("contents", children);
+        
+        Option[] items = getItems((Selector)component);
+        int length = items.length;                
+        
+        int itemN = 0;
+        for (int i = 0; i <= length; i++) {
+            UIComponent child = getChildComponent(context, component, itemN);
+            WidgetUtilities.addProperties(children, WidgetUtilities.renderComponent(context, child));
+            ++itemN;            
+        }          
+    }
+
+    // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    // Private methods
+    // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+    private UIComponent getChildComponent(FacesContext context,
+            UIComponent component,
+            int itemN) throws IOException {
+        Option[] items = getItems((Selector)component);
+        if (itemN >= items.length) {
+            return null;
+        }
+        
+        String id = component.getId().concat("_") + itemN; //NOI18N
+        UIComponent child = getSelectorComponent(context, component,
+                id, items[itemN]);
+        return child;
+    }
+
+    // Should be in component
+    //
+    private Option[] getItems(Selector selector) {
+        Object items = selector.getItems();
+        if (items == null) {
+            return null;
+        } else
+            if (items instanceof Option[]) {
+            return (Option[])items;
+            } else
+                if (items instanceof Map) {
+            int size = ((Map)items).size();
+            return (Option[])((Map)items).values().toArray(new Option[size]);
+                } else
+                    if (items instanceof Collection) {
+            int size = ((Collection)items).size();
+            return (Option[])((Collection)items).toArray(new Option[size]);
+                    } else {
+            throw new IllegalArgumentException(
+                    "Selector.items is not Option[], Map, or Collection");
+                    }
+    }
+
     private UIComponent getLabelComponent(FacesContext context,
             UIComponent component) throws IOException {
         
@@ -217,7 +253,7 @@ abstract class SelectorGroupRenderer extends RendererBase {
         
         label.setText(attrvalue);
         
-       // Set the labeledComponent. This will eventually resolve to the 
+        // Set the labeledComponent. This will eventually resolve to the 
 	// the first control.
 	// And the indicatorComponent.
 	//
@@ -245,68 +281,31 @@ abstract class SelectorGroupRenderer extends RendererBase {
         
         return label;
     }
-    
-    // Should be in component
-    //
-    protected Option[] getItems(Selector selector) {
-        Object items = selector.getItems();
-        if (items == null) {
-            return null;
-        } else
-            if (items instanceof Option[]) {
-            return (Option[])items;
-            } else
-                if (items instanceof Map) {
-            int size = ((Map)items).size();
-            return (Option[])((Map)items).values().toArray(new Option[size]);
-                } else
-                    if (items instanceof Collection) {
-            int size = ((Collection)items).size();
-            return (Option[])((Collection)items).toArray(new Option[size]);
-                    } else {
-            throw new IllegalArgumentException(
-                    "Selector.items is not Option[], Map, or Collection");
-                    }
-    }
-    
-    private UIComponent getChildComponent(FacesContext context,
-            UIComponent component,
-            int itemN) throws IOException {
-        Option[] items = getItems((Selector)component);
-        if (itemN >= items.length) {
-            return null;
+
+    private void setSubmittedValues(FacesContext context,
+            UIComponent component) {
+        
+        String clientId = component.getClientId(context);
+        if (component instanceof ComplexComponent) {
+            clientId = (((ComplexComponent)component).getLabeledElementId(context));
         }
         
-        String id = component.getId().concat("_") + itemN; //NOI18N
-        UIComponent child = getSelectorComponent(context, component,
-                id, items[itemN]);
-        return child;
-    }    
-  
-    
-    /**
-     * Helper method to obtain group children.
-     * @param context FacesContext for the current request.
-     * @param component RadioButtonGroup/CheckboxGroup to be rendered.
-     * @param json JSONObject to assign properties to.
-     *
-     */
-    
-    protected void addContents(FacesContext context, UIComponent component,
-            JSONObject json)
-            throws IOException, JSONException {
+        Map requestParameterValuesMap = context.getExternalContext().
+                getRequestParameterValuesMap();
         
-        JSONArray children = new JSONArray();
-        json.put("contents", children);
-        
-        Option[] items = getItems((Selector)component);
-        int length = items.length;                
-        
-        int itemN = 0;
-        for (int i = 0; i <= length; i++) {
-            UIComponent child = getChildComponent(context, component, itemN);
-            WidgetUtilities.addProperties(children, WidgetUtilities.renderComponent(context, child));
-            ++itemN;            
-        }          
+        // If the clientId is found some controls are checked
+        //
+        if (requestParameterValuesMap.containsKey(clientId)) {
+            String[] newValues = (String[])
+            requestParameterValuesMap.get(clientId);
+            
+            ((UIInput) component).setSubmittedValue(newValues);
+            return;
+        }
+        // Return if there are no disabledCheckedValues and there
+        // were no controls checked
+        //
+        ((UIInput) component).setSubmittedValue(new String[0]);
+        return;
     }
 }

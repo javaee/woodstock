@@ -155,6 +155,9 @@ webui.@THEME@.widget.checkbox.refresh = {
      * must be run.
      */
     processEvent: function(execute) {
+        // Include default AJAX implementation.
+        this.ajaxify("webui.@THEME@.widget.jsfx.checkbox");
+
         // Publish an event for custom AJAX implementations to listen for.
         dojo.event.topic.publish(
             webui.@THEME@.widget.checkbox.refresh.beginEventTopic, {

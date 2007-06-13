@@ -211,41 +211,6 @@ public class ProgressBar extends javax.faces.component.UIOutput
     }
 
     /**
-     * Flag indicating to turn off default Ajax functionality. Set ajaxify to
-     * false when providing a different Ajax implementation.
-     */
-    @Property(name="ajaxify", isHidden=true, isAttribute=true, displayName="Ajaxify", category="Javascript")
-    private boolean ajaxify = true; 
-    private boolean ajaxify_set = false; 
- 
-    /**
-     * Test if default Ajax functionality should be turned off.
-     */
-    public boolean isAjaxify() { 
-        if (this.ajaxify_set) {
-            return this.ajaxify;
-        }
-        ValueExpression _vb = getValueExpression("ajaxify");
-        if (_vb != null) {
-            Object _result = _vb.getValue(getFacesContext().getELContext());
-            if (_result == null) {
-                return false;
-            } else {
-                return ((Boolean) _result).booleanValue();
-            }
-        }
-        return true;
-    } 
-
-    /**
-     * Set flag indicating to turn off default Ajax functionality.
-     */
-    public void setAjaxify(boolean ajaxify) {
-        this.ajaxify = ajaxify;
-        this.ajaxify_set = true;
-    }
-
-    /**
      * Alternative HTML template to be used by this component.
      */
     @Property(name="htmlTemplate", isHidden=true, isAttribute=true, displayName="HTML Template", category="Appearance")
@@ -954,15 +919,14 @@ public class ProgressBar extends javax.faces.component.UIOutput
         this.visible_set = ((Boolean) _values[22]).booleanValue();
         this.width = ((Integer) _values[23]).intValue();
         this.width_set = ((Boolean) _values[24]).booleanValue();
-        this.ajaxify = ((Boolean) _values[25]).booleanValue();
-        this.htmlTemplate = (String) _values[26];
+        this.htmlTemplate = (String) _values[25];
     }
     
     /**
      * <p>Save the state of this component.</p>
      */
     public Object saveState(FacesContext _context) {
-        Object _values[] = new Object[27];
+        Object _values[] = new Object[26];
         _values[0] = super.saveState(_context);
         _values[1] = this.toolTip;
         _values[2] = this.description;
@@ -988,8 +952,7 @@ public class ProgressBar extends javax.faces.component.UIOutput
         _values[22] = this.visible_set ? Boolean.TRUE : Boolean.FALSE;
         _values[23] = new Integer(this.width);
         _values[24] = this.width_set ? Boolean.TRUE : Boolean.FALSE;
-        _values[25] = this.ajaxify ? Boolean.TRUE : Boolean.FALSE;
-        _values[26] = this.htmlTemplate;
+        _values[25] = this.htmlTemplate;
         return _values;
     }
 }

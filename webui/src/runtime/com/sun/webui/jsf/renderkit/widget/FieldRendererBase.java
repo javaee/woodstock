@@ -26,22 +26,17 @@ import com.sun.webui.jsf.component.ComplexComponent;
 import com.sun.webui.jsf.component.Field;
 import com.sun.webui.jsf.util.ThemeUtilities;
 import com.sun.webui.theme.Theme;
+
 import java.util.Map;
 import javax.faces.component.EditableValueHolder;
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 
-/** FieldRendererBase provides common functionality for field renderers,
+/** 
+ * FieldRendererBase provides common functionality for field renderers,
  * such as TextFieldRenderer or TextAreaRenderer.
- *
  */
 public abstract class FieldRendererBase extends RendererBase {
-
-    /** Creates a new instance of FieldRendererBase */
-    public FieldRendererBase() {
-    }
-
-    
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     // Renderer methods
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -89,7 +84,6 @@ public abstract class FieldRendererBase extends RendererBase {
         field.setSubmittedValue(value);
     
     }
-
     
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     // Private renderer methods

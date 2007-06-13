@@ -23,8 +23,6 @@
 package com.sun.webui.jsf.renderkit.widget;
 
 import com.sun.faces.annotation.Renderer;
-import com.sun.webui.jsf.component.ComplexComponent;
-import com.sun.webui.jsf.component.Field;
 import com.sun.webui.jsf.component.HiddenField;
 import com.sun.webui.jsf.theme.ThemeTemplates;
 import com.sun.webui.jsf.util.ConversionUtilities;
@@ -32,11 +30,12 @@ import com.sun.webui.jsf.util.JavaScriptUtilities;
 import com.sun.webui.jsf.util.MessageUtil;
 import com.sun.webui.jsf.util.ThemeUtilities;
 import com.sun.webui.theme.Theme;
+
 import java.io.IOException;
 import java.util.Map;
+
 import javax.faces.FacesException;
 import javax.faces.component.EditableValueHolder;
-
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 
@@ -48,11 +47,11 @@ import org.json.JSONObject;
  * This class renders HiddenField component.
  */
 @Renderer(@Renderer.Renders(
-rendererType="com.sun.webui.jsf.widget.HiddenField",
-        componentFamily="com.sun.webui.jsf.HiddenField"))
+    rendererType="com.sun.webui.jsf.widget.HiddenField",
+    componentFamily="com.sun.webui.jsf.HiddenField"))
 public class HiddenFieldRenderer extends RendererBase {   
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    // RendererBase methods
+    // Renderer Methods
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
     /**
@@ -75,31 +74,20 @@ public class HiddenFieldRenderer extends RendererBase {
         ((EditableValueHolder) component).setSubmittedValue(value);
     }
 
+    // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    // RendererBase methods
+    // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
     /**
-     * Get the Dojo modules required to instantiate the widget.
+     * Get the Dojo module required to instantiate the widget.
      *
      * @param context FacesContext for the current request.
      * @param component UIComponent to be rendered.
-     * 
-     * @exception JSONException if a key/value error occurs
      */
-    protected JSONArray getModules(FacesContext context, UIComponent component)
-            throws JSONException {
-	if (!(component instanceof HiddenField)) {
-	    throw new IllegalArgumentException(
-                "HiddenFieldRenderer can only render HiddenField components.");
-        }
-        JSONArray json = new JSONArray();
-        json.put(JavaScriptUtilities.getModuleName("widget.hiddenField"));
-
-        HiddenField hiddenField = (HiddenField) component;
-        if (hiddenField.isAjaxify()) {
-            json.put(JavaScriptUtilities.getModuleName(
-                "widget.jsfx.hiddenField"));
-        }
-        return json;
+    protected String getModule(FacesContext context, UIComponent component) {
+        return JavaScriptUtilities.getModuleName("widget.hiddenField");
     }
-    
+
     /**
      * Helper method to obtain component properties.
      *

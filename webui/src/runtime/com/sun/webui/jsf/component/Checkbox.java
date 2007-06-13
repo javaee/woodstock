@@ -446,41 +446,6 @@ public class Checkbox extends RbCbSelector {
     }
     
     /**
-     * Flag indicating to turn off default Ajax functionality. Set ajaxify to
-     * false when providing a different Ajax implementation.
-     */
-    @Property(name="ajaxify", isHidden=true, isAttribute=true, displayName="Ajaxify", category="Javascript")
-    private boolean ajaxify = true; 
-    private boolean ajaxify_set = false; 
- 
-    /**
-     * Test if default Ajax functionality should be turned off.
-     */
-    public boolean isAjaxify() { 
-        if (this.ajaxify_set) {
-            return this.ajaxify;
-        }
-        ValueExpression _vb = getValueExpression("ajaxify");
-        if (_vb != null) {
-            Object _result = _vb.getValue(getFacesContext().getELContext());
-            if (_result == null) {
-                return false;
-            } else {
-                return ((Boolean) _result).booleanValue();
-            }
-        }
-        return true;
-    } 
-
-    /**
-     * Set flag indicating to turn off default Ajax functionality.
-     */
-    public void setAjaxify(boolean ajaxify) {
-        this.ajaxify = ajaxify;
-        this.ajaxify_set = true;
-    }
-    
-    /**
      * <p>Restore the state of this component.</p>
      */
     public void restoreState(FacesContext _context,Object _state) {
@@ -489,19 +454,17 @@ public class Checkbox extends RbCbSelector {
         this.labelLevel = ((Integer) _values[1]).intValue();
         this.labelLevel_set = ((Boolean) _values[2]).booleanValue();
         this.htmlTemplate = (String) _values[3];
-        this.ajaxify = ((Boolean) _values[4]).booleanValue();
     }
 
     /**
      * <p>Save the state of this component.</p>
      */
     public Object saveState(FacesContext _context) {
-        Object _values[] = new Object[5];
+        Object _values[] = new Object[4];
         _values[0] = super.saveState(_context);
         _values[1] = new Integer(this.labelLevel);
         _values[2] = this.labelLevel_set ? Boolean.TRUE : Boolean.FALSE;
         _values[3] = this.htmlTemplate;
-        _values[4] = this.ajaxify ? Boolean.TRUE : Boolean.FALSE;
         return _values;
     }
 }

@@ -28,49 +28,38 @@ import com.sun.webui.jsf.component.CheckboxGroup;
 import com.sun.webui.jsf.component.ComplexComponent;
 import com.sun.webui.jsf.component.Selector;
 import com.sun.webui.jsf.model.Option;
-import java.util.Collection;
-import java.util.Map;
-import javax.faces.component.UIComponent;
-import javax.faces.context.FacesContext;
-import com.sun.webui.jsf.component.RadioButton;
-import com.sun.webui.jsf.component.RadioButtonGroup;
 import com.sun.webui.jsf.theme.ThemeTemplates;
 import com.sun.webui.jsf.util.JavaScriptUtilities;
 import com.sun.webui.jsf.util.ThemeUtilities;
 import com.sun.webui.jsf.util.ConversionUtilities;
 import com.sun.webui.theme.Theme;
-import java.io.IOException;
 
+import java.io.IOException;
+import java.util.Collection;
+import java.util.Map;
+import javax.faces.component.UIComponent;
+import javax.faces.context.FacesContext;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-
 @Renderer(@Renderer.Renders(
     rendererType ="com.sun.webui.jsf.widget.CheckboxGroup",
     componentFamily="com.sun.webui.jsf.CheckboxGroup"))
 public class CheckboxGroupRenderer extends SelectorGroupRenderer {
-    
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     // RendererBase methods
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    
-    protected JSONArray getModules(FacesContext context, UIComponent component)
-             throws JSONException {   
-        if (!(component instanceof CheckboxGroup)) { 
-            throw new IllegalArgumentException(
-                    "CheckboxGroupRenderer can only render CheckboxGroup components.");
-        } 
-        CheckboxGroup cbGroup = (CheckboxGroup) component;
-        JSONArray json = new JSONArray();
-        json.put(JavaScriptUtilities.getModuleName("widget.checkboxGroup"));
-        
-        if (cbGroup.isAjaxify()) {
-              json.put(JavaScriptUtilities.getModuleName(
-                      "widget.jsfx.checkboxGroup"));
-        }        
-        return json;
+
+    /**
+     * Get the Dojo module required to instantiate the widget.
+     *
+     * @param context FacesContext for the current request.
+     * @param component UIComponent to be rendered.
+     */
+    protected String getModule(FacesContext context, UIComponent component) {
+        return JavaScriptUtilities.getModuleName("widget.checkboxGroup");
     }
     
     /**
@@ -107,10 +96,11 @@ public class CheckboxGroupRenderer extends SelectorGroupRenderer {
     public String getWidgetType(FacesContext context, UIComponent component) {
         return JavaScriptUtilities.getNamespace("checkboxGroup");
     }
-    
-    
-    
-    
+
+    // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    // Property methods
+    // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
     /**
      * Return a Checkbox component to render.
      *
@@ -204,6 +194,5 @@ public class CheckboxGroupRenderer extends SelectorGroupRenderer {
                 }
         return false;
         
-    }
-    
+    }  
 }

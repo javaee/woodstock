@@ -34,7 +34,7 @@ webui.@THEME@.widget.common = {
      *
      * Note: The props argument must be a JSON object containing a _widgetType
      * value so the correct widget may be created. If props also contains a 
-     * _modules property, the specified resources shall be retrieved before 
+     * _module property, the specified resources shall be retrieved before 
      * creating the widget.
      *
      * Note: The position argument is passed though to Dojo's createWidget
@@ -53,11 +53,9 @@ webui.@THEME@.widget.common = {
         // Destroy previously created widgets, events, etc.
         webui.@THEME@.widget.common.destroyWidget(props.id);
 
-        // Retrieve required modules.
-        if (props._modules) {
-            for (var i = 0; i < props._modules.length; i++) {
-                webui.@THEME@.widget.common.require(props._modules[i]);
-            }
+        // Retrieve required module.
+        if (props._module) {
+            webui.@THEME@.widget.common.require(props._module);
         }
 
         // Create widget.
@@ -127,7 +125,7 @@ webui.@THEME@.widget.common = {
      *
      * Note: The props argument must be a JSON object containing a _widgetType
      * value so the correct widget may be created. If props also contains a 
-     * _modules property, the specified resources shall be retrieved before 
+     * _module property, the specified resources shall be retrieved before 
      * creating the widget.
      *
      * @param props Key-Value pairs of properties.

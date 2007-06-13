@@ -89,6 +89,9 @@ webui.@THEME@.widget.hiddenField.refresh = {
      * must be run.
      */
     processEvent: function(execute) {
+        // Include default AJAX implementation.
+        this.ajaxify("webui.@THEME@.widget.jsfx.hiddenField");
+
         // Publish an event for custom AJAX implementations to listen for.
         dojo.event.topic.publish(
             webui.@THEME@.widget.hiddenField.refresh.beginEventTopic, {

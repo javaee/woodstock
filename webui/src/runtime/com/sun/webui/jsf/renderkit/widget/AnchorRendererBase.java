@@ -22,35 +22,25 @@
 
 package com.sun.webui.jsf.renderkit.widget;
 
-import com.sun.webui.jsf.component.Anchor;
-import com.sun.webui.jsf.component.Icon;
-import com.sun.webui.jsf.util.ClientSniffer;
 import java.io.IOException;
-import java.net.URL;
 import java.util.Iterator;
 import java.util.Map;
 
 import javax.faces.component.UIComponent;
 import javax.faces.component.UIParameter;
 import javax.faces.context.FacesContext;
-import javax.faces.context.ResponseWriter;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import com.sun.webui.theme.Theme;
-import com.sun.webui.jsf.theme.ThemeJavascript;
-import com.sun.webui.jsf.theme.ThemeStyles;
-import com.sun.webui.jsf.theme.ThemeImages;
 import com.sun.webui.jsf.theme.ThemeTemplates;
 
 import com.sun.webui.jsf.util.ConversionUtilities;
 import com.sun.webui.jsf.util.JavaScriptUtilities;
-import com.sun.webui.jsf.util.RenderingUtilities;
 import com.sun.webui.jsf.util.WidgetUtilities;
 import com.sun.webui.jsf.util.ThemeUtilities;
-import com.sun.faces.annotation.Renderer;
 
 /**
  * This class is used as a base class for renderers that render an html
@@ -91,22 +81,13 @@ public abstract class AnchorRendererBase extends RendererBase{
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
     /**
-     * Get the Dojo modules required to instantiate the widget.
+     * Get the Dojo module required to instantiate the widget.
      *
      * @param context FacesContext for the current request.
      * @param component UIComponent to be rendered.
      */
-    protected JSONArray getModules(FacesContext context, UIComponent component)
-            throws JSONException {
-        JSONArray json = new JSONArray();
-        json.put(JavaScriptUtilities.getModuleName("widget.anchor"));
-        boolean ajaxify = ((Boolean)
-            component.getAttributes().get("ajaxify")).booleanValue();        
-        if (ajaxify == true) {
-            json.put(JavaScriptUtilities.getModuleName(
-                "widget.jsfx.anchor"));
-        }
-        return json;
+    protected String getModule(FacesContext context, UIComponent component) {
+        return JavaScriptUtilities.getModuleName("widget.anchor");
     }
       
     /**
@@ -140,7 +121,11 @@ public abstract class AnchorRendererBase extends RendererBase{
         setContents(context, component, json);
         return json;
     } 
-    
+
+    // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    // Property methods
+    // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
     /**
      * Set the attributes of the widget element.
      * Override this method if custom properties need to be set for the 
@@ -248,4 +233,3 @@ public abstract class AnchorRendererBase extends RendererBase{
         return JavaScriptUtilities.getNamespace("anchor");    
     }        
 }
-    

@@ -23,15 +23,9 @@ package com.sun.webui.jsf.renderkit.widget;
 
 import com.sun.webui.theme.Theme;
 import com.sun.webui.jsf.util.JavaScriptUtilities;
-import com.sun.webui.jsf.util.RenderingUtilities;
 import com.sun.webui.jsf.util.ThemeUtilities;
-import com.sun.webui.jsf.util.WidgetUtilities;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
 import java.util.Map;
 
 import javax.faces.component.UIComponent;
@@ -243,10 +237,9 @@ abstract public class RendererBase extends Renderer {
      * @param component UIComponent to be rendered.
      *
      * @exception IOException if an input/output error occurs
-     * @exception JSONException if a key/value error occurs
      */
-    abstract protected JSONArray getModules(FacesContext context,
-        UIComponent component) throws IOException, JSONException;
+    abstract protected String getModule(FacesContext context,
+        UIComponent component) throws IOException;
 
     /**
      * Helper method to obtain component properties.
@@ -285,7 +278,7 @@ abstract public class RendererBase extends Renderer {
     protected void setCoreProperties(FacesContext context, UIComponent component, 
             JSONObject json) throws IOException, JSONException {
         json.put("id", component.getClientId(context))
-            .put("_modules", getModules(context, component))
+            .put("_module", getModule(context, component))
             .put("_widgetType", getWidgetType(context, component));    
     }
 

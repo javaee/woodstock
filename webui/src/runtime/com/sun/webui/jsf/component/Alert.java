@@ -843,42 +843,6 @@ public class Alert extends WebuiOutput implements NamingContainer, Comparator {
     }
     
     /**
-     * Flag indicating to turn off default Ajax functionality. Set ajaxify to
-     * false when providing a different Ajax implementation.
-     */
-    @Property(name="ajaxify", isHidden=true, isAttribute=true, displayName="Ajaxify", category="Javascript")
-    private boolean ajaxify = true; 
-    private boolean ajaxify_set = false; 
- 
-    /**
-     * Return 'true' if Ajax functionality is enabled  and 'false' if it is disabled.
-     */
-    public boolean isAjaxify() { 
-        if (this.ajaxify_set) {
-            return this.ajaxify;
-        }
-        ValueExpression _vb = getValueExpression("ajaxify");
-        if (_vb != null) {
-            Object _result = _vb.getValue(getFacesContext().getELContext());
-            if (_result == null) {
-                return false;
-            } else {
-                return ((Boolean) _result).booleanValue();
-            }
-        }
-        return true;
-    } 
-
-    /**
-     * If 'ajaxify' is 'true' Ajax functionality is enabled, if 'false' it is disabled.
-     */
-    public void setAjaxify(boolean ajaxify) {
-        this.ajaxify = ajaxify;
-        this.ajaxify_set = true;
-    }    
-    
-    
-    /**
      * <p>Restore the state of this component.</p>
      */
     public void restoreState(FacesContext _context,Object _state) {
@@ -901,15 +865,13 @@ public class Alert extends WebuiOutput implements NamingContainer, Comparator {
         this.visible_set = ((Boolean) _values[15]).booleanValue();
         this.htmlTemplate = (String) _values[16];
         this.indicators = (List) _values[17];
-        this.ajaxify = ((Boolean) _values[18]).booleanValue();
-        this.ajaxify_set = ((Boolean) _values[19]).booleanValue(); 
     }
 
     /**
      * <p>Save the state of this component.</p>
      */
     public Object saveState(FacesContext _context) {
-        Object _values[] = new Object[20];
+        Object _values[] = new Object[18];
         _values[0] = super.saveState(_context);
         _values[1] = this.alt;
         _values[2] = this.detail;
@@ -927,9 +889,7 @@ public class Alert extends WebuiOutput implements NamingContainer, Comparator {
         _values[14] = this.visible ? Boolean.TRUE : Boolean.FALSE;
         _values[15] = this.visible_set ? Boolean.TRUE : Boolean.FALSE;
         _values[16] = this.htmlTemplate;
-        _values[17] = this.indicators;
-        _values[18] = this.ajaxify ? Boolean.TRUE : Boolean.FALSE;
-        _values[19] = this.ajaxify_set ? Boolean.TRUE : Boolean.FALSE;       
+        _values[17] = this.indicators;    
         return _values;
     }
     

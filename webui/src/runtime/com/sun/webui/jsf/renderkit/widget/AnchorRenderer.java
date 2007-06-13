@@ -22,35 +22,19 @@
 
 package com.sun.webui.jsf.renderkit.widget;
 
-import com.sun.webui.jsf.component.Anchor;
+import com.sun.faces.annotation.Renderer;
 import com.sun.webui.jsf.component.Icon;
+import com.sun.webui.jsf.theme.ThemeImages;
 import com.sun.webui.jsf.util.ClientSniffer;
-import java.io.IOException;
-import java.net.URL;
-import java.util.Iterator;
-import java.util.Map;
+import com.sun.webui.jsf.util.WidgetUtilities;
 
+import java.io.IOException;
 import javax.faces.component.UIComponent;
-import javax.faces.component.UIParameter;
 import javax.faces.context.FacesContext;
-import javax.faces.context.ResponseWriter;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-
-import com.sun.webui.theme.Theme;
-import com.sun.webui.jsf.theme.ThemeJavascript;
-import com.sun.webui.jsf.theme.ThemeStyles;
-import com.sun.webui.jsf.theme.ThemeImages;
-import com.sun.webui.jsf.theme.ThemeTemplates;
-
-import com.sun.webui.jsf.util.ConversionUtilities;
-import com.sun.webui.jsf.util.JavaScriptUtilities;
-import com.sun.webui.jsf.util.RenderingUtilities;
-import com.sun.webui.jsf.util.WidgetUtilities;
-import com.sun.webui.jsf.util.ThemeUtilities;
-import com.sun.faces.annotation.Renderer;
 
 /**
  * This class renders the Anchor component
@@ -58,14 +42,11 @@ import com.sun.faces.annotation.Renderer;
 @Renderer(@Renderer.Renders(
     rendererType="com.sun.webui.jsf.widget.Anchor", 
     componentFamily="com.sun.webui.jsf.Anchor"))
-public class AnchorRenderer extends AnchorRendererBase{
-    
+public class AnchorRenderer extends AnchorRendererBase {
      /**
       * Id of the transparent image to be rendered for IE browsers
       */    
-     private static String ANCHOR_IMAGE = "_img";   //NOI18N    
-        
-
+     private static String ANCHOR_IMAGE = "_img";
         
     /**
      * This  renders a spacer image if there are no children or
@@ -95,7 +76,6 @@ public class AnchorRenderer extends AnchorRendererBase{
             }
         }        
      }
-    
 
     /**
      * Add the component id to the json attribute list.

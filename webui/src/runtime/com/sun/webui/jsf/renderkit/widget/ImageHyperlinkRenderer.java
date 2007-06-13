@@ -21,31 +21,28 @@
  */
 
 package com.sun.webui.jsf.renderkit.widget;
+
 import com.sun.faces.annotation.Renderer;
+import com.sun.webui.jsf.component.ImageComponent;
+import com.sun.webui.jsf.component.ImageHyperlink;
+import com.sun.webui.jsf.theme.ThemeTemplates;
+import com.sun.webui.jsf.util.ConversionUtilities;
+import com.sun.webui.jsf.util.WidgetUtilities;
+import com.sun.webui.jsf.util.JavaScriptUtilities;
+import com.sun.webui.jsf.util.ThemeUtilities;
+import com.sun.webui.theme.Theme;
 
 import java.util.Iterator;
 import java.io.IOException;
-
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
 
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.component.UIParameter;
 
-import com.sun.webui.jsf.component.ImageComponent;
-import com.sun.webui.jsf.component.ImageHyperlink;
-import com.sun.webui.jsf.component.Link;
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
-import com.sun.webui.jsf.theme.ThemeTemplates;
-import com.sun.webui.theme.Theme;
-import com.sun.webui.jsf.theme.ThemeJavascript;
-
-import com.sun.webui.jsf.util.ConversionUtilities;
-import com.sun.webui.jsf.util.WidgetUtilities;
-import com.sun.webui.jsf.util.JavaScriptUtilities;
-import com.sun.webui.jsf.util.ThemeUtilities;
 /**
  * This class renders an instance of the ImageHyperlink component.
  * This renderer specializes on the functionality offered by the 
@@ -63,34 +60,40 @@ import com.sun.webui.jsf.util.ThemeUtilities;
     rendererType="com.sun.webui.jsf.widget.ImageHyperlink", 
     componentFamily="com.sun.webui.jsf.ImageHyperlink"))
 public class ImageHyperlinkRenderer extends HyperlinkRenderer{
-
     // Used in positioning of the text.
-   private static final String LABEL_LEFT="left"; //NOI8N
-   // Disabled image facet
-   private static final String DISABLED_IMAGE="disabledImage";//NOI18N
+    private static final String LABEL_LEFT="left";
+
+    // Disabled image facet
+    private static final String DISABLED_IMAGE="disabledImage";
+
+    // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    // RendererBase methods
+    // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    
     /**
-     * Get the Dojo modules required to instantiate the widget.
-     * If the ajaxify attribute of the component is set to true, then the 
-     * module necessary for the ajax feature of the imageHyperlink component is also
-     * added as a part of the returned JSONArray object.
+     * Get the Dojo module required to instantiate the widget.
+     *
      * @param context FacesContext for the current request.
      * @param component UIComponent to be rendered.
      */
-    protected JSONArray getModules(FacesContext context, UIComponent component)
-            throws JSONException {
-        JSONArray json = new JSONArray();
-        String url = (String)component.getAttributes().get("url");  
-        boolean ajaxify = ((Boolean)
-            component.getAttributes().get("ajaxify")).booleanValue();        
+    protected String getModule(FacesContext context, UIComponent component) {
+        return JavaScriptUtilities.getModuleName("widget.imageHyperlink");
+    }    
 
-        json.put(JavaScriptUtilities.getModuleName("widget.imageHyperlink"));   
-        if (ajaxify == true) {
-            json.put(JavaScriptUtilities.getModuleName(
-                "widget.jsfx.imageHyperlink"));
-        }            
-        return json;
-    }      
-    
+    /**
+     * Get the type of widget represented by this component.
+     * This method returns "imageHyperlink" as the widget type.
+     * @param context FacesContext for the current request.
+     * @param component UIComponent to be rendered.
+     */
+    protected String getWidgetType(FacesContext context, UIComponent component) {
+            return JavaScriptUtilities.getNamespace("imageHyperlink");            
+    }
+
+    // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    // Property methods
+    // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
     /**
      * Set the html template to be used by the widget renderer. Override 
      * this method if different templates are to be used.
@@ -106,16 +109,6 @@ public class ImageHyperlinkRenderer extends HyperlinkRenderer{
             (templatePath != null && templatePath.length() > 0)
                 ? templatePath 
                 : theme.getPathToTemplate(ThemeTemplates.IMAGEHYPERLINK));        
-    }
-    
-    /**
-     * Get the type of widget represented by this component.
-     * This method returns "imageHyperlink" as the widget type.
-     * @param context FacesContext for the current request.
-     * @param component UIComponent to be rendered.
-     */
-    protected String getWidgetType(FacesContext context, UIComponent component) {
-            return JavaScriptUtilities.getNamespace("imageHyperlink");            
     }
     
     /**

@@ -22,36 +22,29 @@
 
 package com.sun.webui.jsf.renderkit.widget;
 
-import java.text.MessageFormat;
-import java.io.IOException;
-import java.beans.Beans;
-
-import javax.faces.context.FacesContext;
-import javax.faces.context.ResponseWriter;
-import javax.faces.component.UIComponent;
-
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
 import com.sun.faces.annotation.Renderer;
 import com.sun.webui.jsf.component.ImageComponent;
 import com.sun.webui.jsf.component.Icon;
 
 import com.sun.webui.theme.Theme;
 import com.sun.webui.theme.ThemeImage;
-import com.sun.webui.jsf.theme.ThemeJavascript;
-import com.sun.webui.jsf.theme.ThemeStyles;
 import com.sun.webui.jsf.theme.ThemeImages;
 import com.sun.webui.jsf.theme.ThemeTemplates;
 
-import com.sun.webui.jsf.util.ConversionUtilities;
 import com.sun.webui.jsf.util.LogUtil;
 import com.sun.webui.jsf.util.JavaScriptUtilities;
-import com.sun.webui.jsf.util.RenderingUtilities;
 import com.sun.webui.jsf.util.WidgetUtilities;
 import com.sun.webui.jsf.util.ThemeUtilities;
 import com.sun.webui.jsf.util.ClientSniffer;
+
+import java.io.IOException;
+
+import javax.faces.context.FacesContext;
+import javax.faces.component.UIComponent;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 /** 
  * This class renders an instance of the ImageComponent or the Icon component.
@@ -104,31 +97,13 @@ public class ImageRenderer extends RendererBase {
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
     /**
-     * Get the Dojo modules required to instantiate the widget.
-     * If the ajaxify attribute of the component is set to true, then the 
-     * module necessary for the ajax feature of the image component is also
-     * added as a part of the returned JSONArray object.
+     * Get the Dojo module required to instantiate the widget.
      *
      * @param context FacesContext for the current request.
      * @param component UIComponent to be rendered.
-     *
-     * @exception JSONException if a key/value error occurs
      */
-    protected JSONArray getModules(FacesContext context, UIComponent component)
-            throws JSONException {
-	if (!(component instanceof ImageComponent)) {
-	    throw new IllegalArgumentException(
-                "ImageRenderer can only render ImageComponent components.");
-        }
-        JSONArray json = new JSONArray();
-        json.put(JavaScriptUtilities.getModuleName("widget.image"));
-
-        ImageComponent image = (ImageComponent) component;
-        if (image.isAjaxify()) {
-            json.put(JavaScriptUtilities.getModuleName(
-                "widget.jsfx.image"));
-        }
-        return json;
+    protected String getModule(FacesContext context, UIComponent component) {
+        return JavaScriptUtilities.getModuleName("widget.image");
     }
 
     /** 
@@ -274,6 +249,9 @@ public class ImageRenderer extends RendererBase {
         return JavaScriptUtilities.getNamespace("image");
     }
 
+    // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    // Property methods
+    // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
     /**
      * This method adds a style quirk for IE browsers if the image type is "png".

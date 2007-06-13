@@ -78,10 +78,45 @@ public class Head extends UIComponentBase {
     }
 
     /**
+     * Flag indicating to turn off default Ajax functionality. Set ajaxify to
+     * false when providing a different Ajax implementation.
+     */
+    @Property(name="ajaxify", displayName="Ajaxify", category="Javascript")
+    private boolean ajaxify = true; 
+    private boolean ajaxify_set = false; 
+ 
+    /**
+     * Test if default Ajax functionality should be turned off.
+     */
+    public boolean isAjaxify() { 
+        if (this.ajaxify_set) {
+            return this.ajaxify;
+        }
+        ValueExpression _vb = getValueExpression("ajaxify");
+        if (_vb != null) {
+            Object _result = _vb.getValue(getFacesContext().getELContext());
+            if (_result == null) {
+                return false;
+            } else {
+                return ((Boolean) _result).booleanValue();
+            }
+        }
+        return this.ajaxify;
+    } 
+
+    /**
+     * Set flag indicating to turn off default Ajax functionality.
+     */
+    public void setAjaxify(boolean ajaxify) {
+        this.ajaxify = ajaxify;
+        this.ajaxify_set = true;
+    }
+
+    /**
      * Flag (true or false) indicating that Dojo debugging is enabled. The 
      * default value is false.
      */
-    @Property(name="debug", displayName="Enable Dojo Debugging", category="Advanced")
+    @Property(name="debug", displayName="Enable Dojo Debugging", category="Javascript")
     private boolean debug = false;
     private boolean debug_set = false;
 
@@ -101,7 +136,7 @@ public class Head extends UIComponentBase {
                 return ((Boolean) _result).booleanValue();
             }
         }
-        return false;
+        return this.debug;
     }
     
     /**
@@ -116,7 +151,7 @@ public class Head extends UIComponentBase {
      * Flag (true or false) indicating that component JavaScript should be 
      * output in page. The default value is true.
      */
-    @Property(name="javaScript", displayName="Include Component JavaScript", category="Advanced")
+    @Property(name="javaScript", displayName="Include Component JavaScript", category="Javascript")
     private boolean javaScript = true;
     private boolean javaScript_set = false;
 
@@ -136,7 +171,7 @@ public class Head extends UIComponentBase {
                 return ((Boolean) _result).booleanValue();
             }
         }
-        return true;
+        return this.javaScript;
     }
 
     /**
@@ -152,7 +187,7 @@ public class Head extends UIComponentBase {
      * widget tags. Page load time is proportional to the number of nodes on the
      * page. The default value is false.
      */
-    @Property(name="parseWidgets", displayName="Parse Dojo Widgets", category="Advanced")
+    @Property(name="parseWidgets", displayName="Parse Dojo Widgets", category="Javascript")
     private boolean parseWidgets = false;
     private boolean parseWidgets_set = false;
 
@@ -172,7 +207,7 @@ public class Head extends UIComponentBase {
                 return ((Boolean) _result).booleanValue();
             }
         }
-        return false;
+        return this.parseWidgets;
     }
 
     /**
@@ -328,35 +363,38 @@ public class Head extends UIComponentBase {
         this.defaultBase_set = ((Boolean) _values[2]).booleanValue();
         this.profile = (String) _values[3];
         this.title = (String) _values[4];
-        this.debug = ((Boolean) _values[5]).booleanValue();
-        this.debug_set = ((Boolean) _values[6]).booleanValue();
-        this.javaScript = ((Boolean) _values[7]).booleanValue();
-        this.javaScript_set = ((Boolean) _values[8]).booleanValue();
-        this.meta = ((Boolean) _values[9]).booleanValue();
-        this.meta_set = ((Boolean) _values[10]).booleanValue();
-        this.parseWidgets = ((Boolean) _values[11]).booleanValue();
-        this.parseWidgets_set = ((Boolean) _values[12]).booleanValue();
+        this.ajaxify = ((Boolean) _values[5]).booleanValue();
+        this.ajaxify_set = ((Boolean) _values[6]).booleanValue();
+        this.debug = ((Boolean) _values[7]).booleanValue();
+        this.debug_set = ((Boolean) _values[8]).booleanValue();
+        this.javaScript = ((Boolean) _values[9]).booleanValue();
+        this.javaScript_set = ((Boolean) _values[10]).booleanValue();
+        this.meta = ((Boolean) _values[11]).booleanValue();
+        this.meta_set = ((Boolean) _values[12]).booleanValue();
+        this.parseWidgets = ((Boolean) _values[13]).booleanValue();
+        this.parseWidgets_set = ((Boolean) _values[14]).booleanValue();
     }
 
     /**
      * <p>Save the state of this component.</p>
      */
     public Object saveState(FacesContext _context) {
-        Object _values[] = new Object[13];
+        Object _values[] = new Object[15];
         _values[0] = super.saveState(_context);
         _values[1] = this.defaultBase ? Boolean.TRUE : Boolean.FALSE;
         _values[2] = this.defaultBase_set ? Boolean.TRUE : Boolean.FALSE;
         _values[3] = this.profile;
         _values[4] = this.title;
-        _values[5] = this.debug ? Boolean.TRUE : Boolean.FALSE;
-        _values[6] = this.debug_set ? Boolean.TRUE : Boolean.FALSE;
-        _values[7] = this.javaScript ? Boolean.TRUE : Boolean.FALSE;
-        _values[8] = this.javaScript_set ? Boolean.TRUE : Boolean.FALSE;
-        _values[9] = this.meta ? Boolean.TRUE : Boolean.FALSE;
-        _values[10] = this.meta_set ? Boolean.TRUE : Boolean.FALSE;
-        _values[11] = this.parseWidgets ? Boolean.TRUE : Boolean.FALSE;
-        _values[12] = this.parseWidgets_set ? Boolean.TRUE : Boolean.FALSE;
+        _values[5] = this.ajaxify ? Boolean.TRUE : Boolean.FALSE;
+        _values[6] = this.ajaxify_set ? Boolean.TRUE : Boolean.FALSE;
+        _values[7] = this.debug ? Boolean.TRUE : Boolean.FALSE;
+        _values[8] = this.debug_set ? Boolean.TRUE : Boolean.FALSE;
+        _values[9] = this.javaScript ? Boolean.TRUE : Boolean.FALSE;
+        _values[10] = this.javaScript_set ? Boolean.TRUE : Boolean.FALSE;
+        _values[11] = this.meta ? Boolean.TRUE : Boolean.FALSE;
+        _values[12] = this.meta_set ? Boolean.TRUE : Boolean.FALSE;
+        _values[13] = this.parseWidgets ? Boolean.TRUE : Boolean.FALSE;
+        _values[14] = this.parseWidgets_set ? Boolean.TRUE : Boolean.FALSE;
         return _values;
     }
-
 }

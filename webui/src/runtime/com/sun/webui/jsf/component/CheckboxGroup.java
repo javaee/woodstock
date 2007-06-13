@@ -314,41 +314,6 @@ public class CheckboxGroup extends Selector implements NamingContainer,
     public void setHtmlTemplate(String htmlTemplate) {
         this.htmlTemplate = htmlTemplate;
     }
-    
-    /**
-     * Flag indicating to turn off default Ajax functionality. Set ajaxify to
-     * false when providing a different Ajax implementation.
-     */
-    @Property(name="ajaxify", isHidden=true, isAttribute=true, displayName="Ajaxify", category="Javascript")
-    private boolean ajaxify = true; 
-    private boolean ajaxify_set = false; 
- 
-    /**
-     * Test if default Ajax functionality should be turned off.
-     */
-    public boolean isAjaxify() { 
-        if (this.ajaxify_set) {
-            return this.ajaxify;
-        }
-        ValueExpression _vb = getValueExpression("ajaxify");
-        if (_vb != null) {
-            Object _result = _vb.getValue(getFacesContext().getELContext());
-            if (_result == null) {
-                return false;
-            } else {
-                return ((Boolean) _result).booleanValue();
-            }
-        }
-        return true;
-    } 
-
-    /**
-     * Set flag indicating to turn off default Ajax functionality.
-     */
-    public void setAjaxify(boolean ajaxify) {
-        this.ajaxify = ajaxify;
-        this.ajaxify_set = true;
-    }
 
     /**
      * <p>Restore the state of this component.</p>
@@ -361,23 +326,19 @@ public class CheckboxGroup extends Selector implements NamingContainer,
         this.visible = ((Boolean) _values[3]).booleanValue();
         this.visible_set = ((Boolean) _values[4]).booleanValue();
         this.htmlTemplate = (String) _values[5];
-        this.ajaxify = ((Boolean) _values[6]).booleanValue();
-        this.ajaxify_set = ((Boolean) _values[7]).booleanValue();
     }
 
     /**
      * <p>Save the state of this component.</p>
      */
     public Object saveState(FacesContext _context) {
-        Object _values[] = new Object[8];
+        Object _values[] = new Object[6];
         _values[0] = super.saveState(_context);
         _values[1] = new Integer(this.columns);
         _values[2] = this.columns_set ? Boolean.TRUE : Boolean.FALSE;
         _values[3] = this.visible ? Boolean.TRUE : Boolean.FALSE;
         _values[4] = this.visible_set ? Boolean.TRUE : Boolean.FALSE;
         _values[5] = this.htmlTemplate;
-        _values[6] = this.ajaxify ? Boolean.TRUE : Boolean.FALSE;
-        _values[7] = this.ajaxify_set ? Boolean.TRUE : Boolean.FALSE;
         return _values;
     }
 }

@@ -26,13 +26,11 @@ import com.sun.faces.annotation.Renderer;
 import com.sun.webui.jsf.component.Head;
 import com.sun.webui.jsf.component.util.Util;
 import com.sun.webui.theme.Theme;
-import com.sun.webui.jsf.theme.ThemeStyles;
 import com.sun.webui.jsf.util.JavaScriptUtilities;
 import com.sun.webui.jsf.util.RenderingUtilities;
 import com.sun.webui.jsf.util.ThemeUtilities;
 
 import java.io.IOException;
-import java.net.URL;
 import java.util.Map;
 
 import javax.faces.component.UIComponent;
@@ -147,7 +145,7 @@ public class HeadRenderer extends AbstractRenderer {
         
             // Render module config after including dojo.
             JavaScriptUtilities.renderJavaScript(component, writer,
-                JavaScriptUtilities.getModuleConfig(isDebug));
+                JavaScriptUtilities.getModuleConfig(isDebug, head.isAjaxify()));
 
             // Render global include.
             JavaScriptUtilities.renderGlobalInclude(component, writer);

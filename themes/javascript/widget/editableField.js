@@ -220,6 +220,9 @@ webui.@THEME@.widget.editableField.refresh = {
      * must be run.
      */
     processEvent: function(execute) {
+        // Include default AJAX implementation.
+        this.ajaxify("webui.@THEME@.widget.jsfx.editableField");
+
         // Publish an event for custom AJAX implementations to listen for.
         dojo.event.topic.publish(
             webui.@THEME@.widget.editableField.refresh.beginEventTopic, {
@@ -277,6 +280,9 @@ webui.@THEME@.widget.editableField.submit = {
      * must be run.
      */
     processEvent: function(execute) {
+        // Include default AJAX implementation.
+        this.ajaxify("webui.@THEME@.widget.jsfx.editableField");
+
         // Publish an event for custom AJAX implementations to listen for.
         dojo.event.topic.publish(
             webui.@THEME@.widget.editableField.submit.beginEventTopic, {

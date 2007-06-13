@@ -98,10 +98,45 @@ public class ThemeLinks extends UIComponentBase {
     }
 
     /**
+     * Flag indicating to turn off default Ajax functionality. Set ajaxify to
+     * false when providing a different Ajax implementation.
+     */
+    @Property(name="ajaxify", displayName="Ajaxify", category="Javascript")
+    private boolean ajaxify = true; 
+    private boolean ajaxify_set = false; 
+ 
+    /**
+     * Test if default Ajax functionality should be turned off.
+     */
+    public boolean isAjaxify() { 
+        if (this.ajaxify_set) {
+            return this.ajaxify;
+        }
+        ValueExpression _vb = getValueExpression("ajaxify");
+        if (_vb != null) {
+            Object _result = _vb.getValue(getFacesContext().getELContext());
+            if (_result == null) {
+                return false;
+            } else {
+                return ((Boolean) _result).booleanValue();
+            }
+        }
+        return this.ajaxify;
+    } 
+
+    /**
+     * Set flag indicating to turn off default Ajax functionality.
+     */
+    public void setAjaxify(boolean ajaxify) {
+        this.ajaxify = ajaxify;
+        this.ajaxify_set = true;
+    }
+
+    /**
      * Flag (true or false) indicating that Dojo debugging is enabled. The 
      * default value is false.
      */
-    @Property(name="debug", displayName="Enable Dojo Debugging", category="Advanced")
+    @Property(name="debug", displayName="Enable Dojo Debugging", category="Javascript")
     private boolean debug = false;
     private boolean debug_set = false;
 
@@ -121,7 +156,7 @@ public class ThemeLinks extends UIComponentBase {
                 return ((Boolean) _result).booleanValue();
             }
         }
-        return false;
+        return this.debug;
     }
     
     /**
@@ -136,7 +171,7 @@ public class ThemeLinks extends UIComponentBase {
      * Flag (true or false) indicating that component JavaScript should be 
      * output in page. The default value is true.
      */
-    @Property(name="javaScript", displayName="Include Component JavaScript", category="Advanced")
+    @Property(name="javaScript", displayName="Include Component JavaScript", category="Javascript")
     private boolean javaScript = true;
     private boolean javaScript_set = false;
 
@@ -156,7 +191,7 @@ public class ThemeLinks extends UIComponentBase {
                 return ((Boolean) _result).booleanValue();
             }
         }
-        return true;
+        return this.javaScript;
     }
 
     /**
@@ -172,7 +207,7 @@ public class ThemeLinks extends UIComponentBase {
      * widget tags. Page load time is proportional to the number of nodes on the
      * page. The default value is false.
      */
-    @Property(name="parseWidgets", displayName="Parse Dojo Widgets", category="Advanced")
+    @Property(name="parseWidgets", displayName="Parse Dojo Widgets", category="Javascript")
     private boolean parseWidgets = false;
     private boolean parseWidgets_set = false;
 
@@ -192,7 +227,7 @@ public class ThemeLinks extends UIComponentBase {
                 return ((Boolean) _result).booleanValue();
             }
         }
-        return false;
+        return this.parseWidgets;
     }
 
     /**

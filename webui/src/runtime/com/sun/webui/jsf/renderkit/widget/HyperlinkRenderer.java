@@ -23,35 +23,22 @@
 package com.sun.webui.jsf.renderkit.widget;
 
 import com.sun.webui.jsf.component.util.Util;
-import com.sun.webui.jsf.util.LogUtil;
+
 import java.io.IOException;
-import java.net.URL;
 import java.util.Iterator;
-import java.util.Map;
 
 import javax.faces.component.UIComponent;
 import javax.faces.component.UIParameter;
 import javax.faces.context.FacesContext;
-import javax.faces.context.ResponseWriter;
 import javax.faces.event.ActionEvent;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import com.sun.webui.jsf.component.Hyperlink;
-import com.sun.webui.theme.Theme;
-import com.sun.webui.jsf.theme.ThemeJavascript;
-import com.sun.webui.jsf.theme.ThemeStyles;
-import com.sun.webui.jsf.theme.ThemeImages;
-import com.sun.webui.jsf.theme.ThemeTemplates;
-
-import com.sun.webui.jsf.util.ConversionUtilities;
 import com.sun.webui.jsf.util.JavaScriptUtilities;
-import com.sun.webui.jsf.util.RenderingUtilities;
-import com.sun.webui.jsf.util.WidgetUtilities;
-import com.sun.webui.jsf.util.ThemeUtilities;
 import com.sun.faces.annotation.Renderer;
+
 /**
  * This class renders an instance of the hyperlink component.
  * It outputs all the necessary properties necessary to instantiate an hyperlink widget
@@ -76,6 +63,10 @@ import com.sun.faces.annotation.Renderer;
     rendererType="com.sun.webui.jsf.widget.Hyperlink", 
     componentFamily="com.sun.webui.jsf.Hyperlink"))
 public class HyperlinkRenderer extends AnchorRendererBase{
+    // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    // Renderer methods
+    // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
     /**
      * <p>Decode will determine if this component was the one that submitted the form.
      * It determines this by looking for the hidden field with the link's name 
@@ -104,31 +95,36 @@ public class HyperlinkRenderer extends AnchorRendererBase{
         //add the event to the queue so we know that a command happened.
         //this should automatically take care of actionlisteners and actions
         component.queueEvent(new ActionEvent(component));
-    }   
-      
+    }
+
+    // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    // RendererBase methods
+    // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    
     /**
-     * Get the Dojo modules required to instantiate the hyperlink widget.
-     * If the ajaxify attribute of the component is set to true, then the 
-     * module necessary for the ajax feature of the hyperlink component is also
-     * added as a part of the returned JSONArray object.
+     * Get the Dojo module required to instantiate the widget.
+     *
      * @param context FacesContext for the current request.
      * @param component UIComponent to be rendered.
      */
-    protected JSONArray getModules(FacesContext context, UIComponent component)
-            throws JSONException {
-        JSONArray json = new JSONArray();
-        String url = (String)component.getAttributes().get("url");  
-        boolean ajaxify = ((Boolean)
-            component.getAttributes().get("ajaxify")).booleanValue();        
-        json.put(JavaScriptUtilities.getModuleName("widget.hyperlink"));   
-        if (ajaxify == true) {
-            json.put(JavaScriptUtilities.getModuleName(
-                "widget.jsfx.hyperlink"));
-        }            
+    protected String getModule(FacesContext context, UIComponent component) {
+        return JavaScriptUtilities.getModuleName("widget.hyperlink");
+    }
 
-        return json;
-    }      
-    
+    /**
+     * Returns the type of widget represented by this component.
+     * This method returns "hyperlink" as the widget type.
+     * @param context FacesContext for the current request.
+     * @param component UIComponent to be rendered.
+     */
+    protected String getWidgetType(FacesContext context, UIComponent component) {
+            return JavaScriptUtilities.getNamespace("hyperlink");          
+    }
+
+    // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    // Property methods
+    // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
     /**
      * Set the attributes of the hyperlink element.
      * Override this method if custom properties need to be set for the 
@@ -179,15 +175,4 @@ public class HyperlinkRenderer extends AnchorRendererBase{
     protected String getSubmittedParameterId(FacesContext context, UIComponent component) {
         return component.getClientId(context) + "_submittedLink";
     }
-          
-    /**
-     * Returns the type of widget represented by this component.
-     * This method returns "hyperlink" as the widget type.
-     * @param context FacesContext for the current request.
-     * @param component UIComponent to be rendered.
-     */
-    protected String getWidgetType(FacesContext context, UIComponent component) {
-            return JavaScriptUtilities.getNamespace("hyperlink");          
-    }          
-
 }

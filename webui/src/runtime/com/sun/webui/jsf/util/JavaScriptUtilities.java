@@ -87,9 +87,10 @@ public class JavaScriptUtilities {
      * Note: Must be rendered before including widget.js in page, but after
      * formElements.js.
      *
-     * @param writeIncludes Write includes for JavaScript debugging.
+     * @param debug Flag indicating debugging is turned on.
+     * @param ajaxify Flag indicating to include default Ajax implementation.
      */
-    public static String getModuleConfig(boolean writeIncludes) {
+    public static String getModuleConfig(boolean debug, boolean ajaxify) {
         Theme theme = getTheme();
         StringBuffer buff = new StringBuffer(256);
 
@@ -102,13 +103,17 @@ public class JavaScriptUtilities {
             .append(getModule("*"))
             .append("\n")
             .append(getModule("widget.*"))
-            .append("\n")
-            .append(getModule("widget.jsfx.*"))
             .append("\n");
+
+        // Include default Ajax implementation.
+        if (ajaxify) {
+            buff.append(getModule("widget.jsfx.*"))
+            .append("\n");
+        }
 
         // Output includes for debugging. This will ensure that JavaScript
         // files are accessible to JavaScript debuggers.
-        if (writeIncludes) {
+        if (debug) {
             buff.append("dojo.hostenv.writeIncludes();")
                 .append("\n");
         }

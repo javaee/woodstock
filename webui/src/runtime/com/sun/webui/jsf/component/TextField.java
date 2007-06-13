@@ -123,19 +123,12 @@ public class TextField extends Field {
      * Autovalidate would trigger the AJAX request to the validator on the component.
      * Setting autoValidate neccessitates that component is ajaxified, and so it will
      * be accomplished automatically when autoValidate is set to <code>true</code>.
-     * Thus, if autoValidate is set to true, it will trigger ajaxify= true. Setting
-     * autoValidate to false will NOT reset ajaxify attribute. Further note that ajaxify attribute by itself
-     * does not lead to autoValidate functionality being enabled - it only allows for an ajax related
-     * scripts to be rendered to the client.
      * <br>
      * Autovalidate will submit the content of the text field for server side processing that
      * will be processed using JSFX partial lifecycle cycle. Validation of the data remains
      * responsibility of the developer. For example, validatorExpression still needs to be set
      * <br>
      * By default autovalidate is off.
-     *
-     *
-     *
      */
     @Property(name="autoValidate", displayName="AutoValidate", category="Behavior")
     private boolean autoValidate = false;
@@ -179,15 +172,10 @@ public class TextField extends Field {
      *                        validatorExpression="#{Payment.cardValidator}"
      *                    / &gt;
      * </pre>
-     * <br>
-     * When set to true, will also force ajaxify attribute setting to true.
      */
     public void setAutoValidate(boolean autoValidate) {
         this.autoValidate = autoValidate;
-        this.autoValidate_set = true;
-        if (autoValidate)
-            setAjaxify(true);
-        
+        this.autoValidate_set = true;        
     }
     
     /**
@@ -195,7 +183,6 @@ public class TextField extends Field {
      * Use this attribute to render "password" style of the textfield that
      * echoes entered characters as "*"
      */
-    
     @Property(name="password", isHidden=true, displayName="Password Mode", category="Appearance")
     private boolean password = false;
     private boolean password_set = false;

@@ -96,41 +96,6 @@ public class Listbox extends ListSelector {
         this.htmlTemplate = htmlTemplate;
     }
 
-    /**
-     * Flag indicating to turn off default Ajax functionality. Set ajaxify to
-     * false when providing a different Ajax implementation.
-     */
-    @Property(name="ajaxify", isHidden=true, isAttribute=true, displayName="Ajaxify", category="Javascript")
-    private boolean ajaxify = true; 
-    private boolean ajaxify_set = false; 
- 
-    /**
-     * Test if default Ajax functionality should be turned off.
-     */
-    public boolean isAjaxify() { 
-        if (this.ajaxify_set) {
-            return this.ajaxify;
-        }
-        ValueExpression _vb = getValueExpression("ajaxify");
-        if (_vb != null) {
-            Object _result = _vb.getValue(getFacesContext().getELContext());
-            if (_result == null) {
-                return false;
-            } else {
-                return ((Boolean) _result).booleanValue();
-            }
-        }
-        return true;
-    } 
-
-    /**
-     * Set flag indicating to turn off default Ajax functionality.
-     */
-    public void setAjaxify(boolean ajaxify) {
-        this.ajaxify = ajaxify;
-        this.ajaxify_set = true;
-    }
-
     public int getRows() {
 
         int rows = super.getRows();
@@ -266,14 +231,13 @@ public class Listbox extends ListSelector {
         this.multiple_set = ((Boolean) _values[4]).booleanValue();
         this.toolTip = (String) _values[5];
         this.htmlTemplate = (String) _values[6];
-        this.ajaxify = ((Boolean) _values[7]).booleanValue();
     }
 
     /**
      * <p>Save the state of this component.</p>
      */
     public Object saveState(FacesContext _context) {
-        Object _values[] = new Object[8];
+        Object _values[] = new Object[7];
         _values[0] = super.saveState(_context);
         _values[1] = this.monospace ? Boolean.TRUE : Boolean.FALSE;
         _values[2] = this.monospace_set ? Boolean.TRUE : Boolean.FALSE;
@@ -281,7 +245,6 @@ public class Listbox extends ListSelector {
         _values[4] = this.multiple_set ? Boolean.TRUE : Boolean.FALSE;
         _values[5] = this.toolTip;
         _values[6] = this.htmlTemplate;
-        _values[7] = this.ajaxify ? Boolean.TRUE : Boolean.FALSE;
         return _values;
     }
 }

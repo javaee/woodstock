@@ -25,26 +25,16 @@ package com.sun.webui.jsf.renderkit.widget;
 import com.sun.faces.annotation.Renderer;
 
 import com.sun.webui.jsf.component.Accordion;
-import com.sun.webui.jsf.component.TabContent;
 import com.sun.webui.jsf.util.WidgetUtilities;
 import com.sun.webui.theme.Theme;
-import com.sun.webui.jsf.theme.ThemeStyles;
 import com.sun.webui.jsf.theme.ThemeTemplates;
-import com.sun.webui.jsf.util.ConversionUtilities;
 import com.sun.webui.jsf.util.JavaScriptUtilities;
-import com.sun.webui.jsf.util.RenderingUtilities;
 import com.sun.webui.jsf.util.ThemeUtilities;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
 
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
-import javax.faces.context.ResponseWriter;
-import javax.faces.event.ActionEvent;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -58,43 +48,28 @@ import org.json.JSONObject;
  * to be rendered. In essence, the markup is generated on the client side and 
  * not pushed across from the server.
  */
-
 @Renderer(@Renderer.Renders(
     rendererType="com.sun.webui.jsf.widget.Accordion", 
     componentFamily="com.sun.webui.jsf.Accordion"))
 public class AccordionRenderer extends RendererBase {
-    
+    /**
+     * The set of pass-through attributes to be rendered.
+     */
     private static final String attributes[] = {
         "style"};
-
-    // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    // Renderer Methods
-    // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
 
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     // RendererBase methods
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-     
     /**
      * Get the Dojo modules required to instantiate the widget.
      *
      * @param context FacesContext for the current request.
      * @param component UIComponent to be rendered.
      */
-    protected JSONArray getModules(FacesContext context, UIComponent component)
-            throws JSONException {
-        Accordion container = (Accordion) component;
-        
-        
-        JSONArray json = new JSONArray();
-        json.put(JavaScriptUtilities.getModuleName("widget.accordion"));
-        if (container.isAjaxify()) {
-            json.put(JavaScriptUtilities.getModuleName(
-                "widget.jsfx.accordion"));
-        }
-        return json;
+    protected String getModule(FacesContext context, UIComponent component) {
+        return JavaScriptUtilities.getModuleName("widget.accordion");
     }
     
     /** 
@@ -127,9 +102,7 @@ public class AccordionRenderer extends RendererBase {
         }
         
         if (container.getChildCount() > 0) {
-            JSONArray accordionTabs = new JSONArray();
-            appendChildProps(container, context, accordionTabs);
-            json.put("accordionTabs", accordionTabs);
+            setContents(context, container, json);
             
             if (container.isToggleControls() && container.isMultipleSelect()) {
                 
@@ -143,11 +116,7 @@ public class AccordionRenderer extends RendererBase {
                     container.getCollapseAllIcon(theme, context)));
                 
             }
-        } // else {
-            // should add some error handling here if possible to let the
-            // client know that the accordion is empty.
-            // json.put("accordionTabs", "Container has no Children");
-        // }
+        }
         
         // Add core and attribute properties.
         // this is commented out for now. we may support a onChange
@@ -165,7 +134,31 @@ public class AccordionRenderer extends RendererBase {
     protected String getWidgetType(FacesContext context, UIComponent component) {
         return JavaScriptUtilities.getNamespace("accordion");
     }
-   
+
+    // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    // Property methods
+    // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+    /** 
+     * Helper method to obtain tab children.
+     *
+     * @param context FacesContext for the current request.
+     * @param component UIComponent to be rendered.
+     * @param json JSONObject to assign properties to.
+     */
+    protected void setContents(FacesContext context,
+        UIComponent component, JSONObject json) 
+	    throws IOException, JSONException {
+
+        JSONArray jArray = new JSONArray();
+        json.put("accordionTabs", jArray);
+
+        for (UIComponent kid : component.getChildren()) {
+            WidgetUtilities.addProperties(jArray,
+                WidgetUtilities.renderComponent(context, kid));
+        }
+    }
+
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     // Private renderer methods
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -173,18 +166,5 @@ public class AccordionRenderer extends RendererBase {
     // Helper method to get Theme objects.
     private Theme getTheme() {
         return ThemeUtilities.getTheme(FacesContext.getCurrentInstance());
-    }
-    
-
-    // The assumption is that accordions will only have accordion tabs as
-    // children.
-    private void appendChildProps(UIComponent component, FacesContext context,
-        JSONArray accordionTabs) throws IOException, JSONException {
-    
-        for (UIComponent kid : component.getChildren()) {
-            WidgetUtilities.addProperties(accordionTabs,
-                WidgetUtilities.renderComponent(context, kid));
-        }
-        
     }
 }

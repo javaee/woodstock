@@ -267,6 +267,9 @@ webui.@THEME@.widget.progressBar.progress = {
     processEvent: function() {
         // Publish event.
         if (this.refreshRate > 0) {
+            // Include default AJAX implementation.
+            this.ajaxify("webui.@THEME@.widget.jsfx.progressBar");
+
             // Publish an event for custom AJAX implementations to listen for.
             dojo.event.topic.publish(
                 webui.@THEME@.widget.progressBar.progress.beginEventTopic, {
@@ -299,6 +302,9 @@ webui.@THEME@.widget.progressBar.refresh = {
      * must be run.
      */
     processEvent: function(execute) {
+        // Include default AJAX implementation.
+        this.ajaxify("webui.@THEME@.widget.jsfx.progressBar");
+
         // Publish an event for custom AJAX implementations to listen for.
         dojo.event.topic.publish(
             webui.@THEME@.widget.progressBar.refresh.beginEventTopic, {

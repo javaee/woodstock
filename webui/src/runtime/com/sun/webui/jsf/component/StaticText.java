@@ -139,41 +139,6 @@ public class StaticText extends UIOutput {
     }
 
     /**
-     * Flag indicating to turn off default Ajax functionality. Set ajaxify to
-     * false when providing a different Ajax implementation.
-     */
-    @Property(name="ajaxify", isHidden=true, isAttribute=true, displayName="Ajaxify", category="Javascript")
-    private boolean ajaxify = true; 
-    private boolean ajaxify_set = false; 
- 
-    /**
-     * Test if default Ajax functionality should be turned off.
-     */
-    public boolean isAjaxify() { 
-        if (this.ajaxify_set) {
-            return this.ajaxify;
-        }
-        ValueExpression _vb = getValueExpression("ajaxify");
-        if (_vb != null) {
-            Object _result = _vb.getValue(getFacesContext().getELContext());
-            if (_result == null) {
-                return false;
-            } else {
-                return ((Boolean) _result).booleanValue();
-            }
-        }
-        return true;
-    } 
-
-    /**
-     * Set flag indicating to turn off default Ajax functionality.
-     */
-    public void setAjaxify(boolean ajaxify) {
-        this.ajaxify = ajaxify;
-        this.ajaxify_set = true;
-    }
-
-    /**
      * <p>Escape the html text so it won't be interpreted by the browser as HTML</p>
      */
     @Property(name="escape", displayName="Escape", category="Data")
@@ -640,16 +605,14 @@ public class StaticText extends UIOutput {
         this.toolTip = (String) _values[12];
         this.visible = ((Boolean) _values[13]).booleanValue();
         this.visible_set = ((Boolean) _values[14]).booleanValue();
-        this.ajaxify = ((Boolean) _values[15]).booleanValue();
-        this.ajaxify_set = ((Boolean) _values[16]).booleanValue();
-        this.htmlTemplate = (String) _values[17];
+        this.htmlTemplate = (String) _values[15];
     }
 
     /**
      * <p>Save the state of this component.</p>
      */
     public Object saveState(FacesContext _context) {
-        Object _values[] = new Object[18];
+        Object _values[] = new Object[16];
         _values[0] = super.saveState(_context);
         _values[1] = this.escape ? Boolean.TRUE : Boolean.FALSE;
         _values[2] = this.escape_set ? Boolean.TRUE : Boolean.FALSE;
@@ -665,9 +628,7 @@ public class StaticText extends UIOutput {
         _values[12] = this.toolTip;
         _values[13] = this.visible ? Boolean.TRUE : Boolean.FALSE;
         _values[14] = this.visible_set ? Boolean.TRUE : Boolean.FALSE;
-        _values[15] = this.ajaxify ? Boolean.TRUE : Boolean.FALSE;
-        _values[16] = this.ajaxify_set ? Boolean.TRUE : Boolean.FALSE;
-        _values[17] = this.htmlTemplate;
+        _values[15] = this.htmlTemplate;
         return _values;
     }
 

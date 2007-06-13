@@ -40,9 +40,7 @@ import javax.faces.context.FacesContext;
  * only affect the client state ( unless explicitly commited by the developer).
  * <br> As all ajaxified client-side rendered components, autoSave would trigger
  * an event on the client side that can be intercepted by the developer in order to
- * implement her own save/commit procedure. When autoSave is enabled through the
- * "autoSave" JSP-tag attribute, it automatically turns on the ajaxify attribute, and
- * round-trip client-server autoSave will be performed.
+ * implement her own save/commit procedure.
  */
 @Component(type="com.sun.webui.jsf.TextArea",
     family="com.sun.webui.jsf.TextArea",
@@ -153,9 +151,6 @@ public class TextArea extends TextField {
      * as no auto-save.
      * <br>
      * By default auto-save = 0, meaning no auto-save will be activated.
-     *
-     *
-     *
      */
     @Property(name="autoSave", displayName="AutoSave", category="Behavior")
     private long autoSave = 0;
@@ -183,16 +178,12 @@ public class TextArea extends TextField {
     /**
      * Set auto-save period.
      * Values of 0 or less mean no auto-save.
-     * <br>
-     * When set to >0 value, will also force ajaxify attribute setting to true.
      *
      * @param autoSave - time period in millisec, or 0 if no autosave required
      */
     public void setAutoSave(long autoSave) {
         this.autoSave = autoSave;
         this.autoSave_set = true;
-        if (autoSave >0)
-            setAjaxify(true);
     }
     
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~

@@ -40,7 +40,7 @@ webui.@THEME@.widget.widgetBase = function() {
  *
  * Note: If props is a JSON object, it must contain a _widgetType value so the 
  * correct widget may be created. The newly created widget is added as a child
- * of the given parentNode. If props also contains a _modules property, the 
+ * of the given parentNode. If props also contains a _module property, the 
  * specified resources shall be retrieved before creating the widget. If props 
  * is a string, it will be added to the given parentNode, but position does not
  * apply.
@@ -141,6 +141,19 @@ webui.@THEME@.widget.addFragment = function(parentNode, props, position) {
     }
 }
 
+/**
+ * This function is used to include default Ajax functionality. Before the given
+ * module is included in the page, a test is performed to ensure that the 
+ * default Ajax implementation is being used.
+ *
+ * @param module The module to include in the page.
+ */
+webui.@THEME@.widget.ajaxify = function(module) {
+    if (webui.@THEME@.widget.jsfx && module) {
+        webui.@THEME@.widget.common.require(module);
+    }
+}
+    
 /**
  * This function is used to extend the given object with Key-Value pairs of
  * properties. If a property is an object containing Key-Value pairs itself,
@@ -457,6 +470,7 @@ dojo.inherits(webui.@THEME@.widget.widgetBase, dojo.widget.HtmlWidget);
 dojo.lang.extend(webui.@THEME@.widget.widgetBase, {
     // Set private functions.
     addFragment: webui.@THEME@.widget.addFragment,
+    ajaxify: webui.@THEME@.widget.ajaxify,
     event: webui.@THEME@.widget.event,
     extend: webui.@THEME@.widget.extend,
     getCommonProps: webui.@THEME@.widget.getCommonProps,

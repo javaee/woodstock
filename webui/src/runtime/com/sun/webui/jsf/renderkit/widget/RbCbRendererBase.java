@@ -26,7 +26,9 @@ import com.sun.webui.jsf.component.ComplexComponent;
 import com.sun.webui.jsf.component.RbCbSelector;
 import com.sun.webui.jsf.util.ConversionUtilities;
 import com.sun.webui.jsf.util.WidgetUtilities;
+
 import java.io.IOException;
+
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.convert.ConverterException;
@@ -35,12 +37,10 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-
 /**
  * Base class for rendering RadioButton and Checkbox components.
  */
 abstract class RbCbRendererBase extends RendererBase {  
-    
     /**
      * The set of pass-through attributes to be rendered for this component.
      */
@@ -67,21 +67,11 @@ abstract class RbCbRendererBase extends RendererBase {
         "onKeyUp",
         "onSelect"
     };
-    
+
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    // Renderer Methods
+    // Renderer methods
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    
-    /**
-     * Implemented in the subclass to determine if the <code>item</code>
-     * is the currently selected control.
-     *
-     * @param Object selectedValue contol value.
-     * @param currentValue the value of the currently selected control.
-     */
-    protected abstract boolean isSelected(FacesContext context,
-	UIComponent component);
-    
+
     /**
      * <p>
      * Attempt to convert previously stored state information into an
@@ -102,9 +92,8 @@ abstract class RbCbRendererBase extends RendererBase {
      *  or <code>component</code> is <code>null</code>
      */
     public Object getConvertedValue(FacesContext context,
-				    UIComponent  component,
-				    Object submittedValue) 
-	    throws ConverterException {
+        UIComponent  component, Object submittedValue) 
+            throws ConverterException {
 
 	// I know this looks odd but it gives an opportunity
 	// for an alternative renderer for Checkbox and RadioButton
@@ -113,7 +102,7 @@ abstract class RbCbRendererBase extends RendererBase {
 	return ((RbCbSelector)component).getConvertedValue(context,
 		(RbCbSelector)component, submittedValue);
     }
-    
+
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     // RendererBase methods
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -215,5 +204,18 @@ abstract class RbCbRendererBase extends RendererBase {
         
         return json;
     }
+
+    // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    // Property Methods
+    // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     
+    /**
+     * Implemented in the subclass to determine if the <code>item</code>
+     * is the currently selected control.
+     *
+     * @param Object selectedValue contol value.
+     * @param currentValue the value of the currently selected control.
+     */
+    protected abstract boolean isSelected(FacesContext context,
+	UIComponent component);
 }

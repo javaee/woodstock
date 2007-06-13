@@ -23,13 +23,9 @@ package com.sun.webui.jsf.component;
 
 import com.sun.faces.annotation.Component;
 import com.sun.faces.annotation.Property;
-import com.sun.faces.extensions.avatar.lifecycle.AsyncResponse;
 import com.sun.webui.jsf.util.ComponentUtilities;
 
-import java.util.Map;
-
 import javax.el.ValueExpression;
-import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 
 /**
@@ -45,18 +41,14 @@ import javax.faces.context.FacesContext;
  * @see com.sun.webui.jsf.renderkit.widget.EditableFieldRenderer
  * @see com.sun.webui.jsf.renderkit.ajax.TextFieldRenderer
  */
-// TODO use constants in annotations?
-
-@Component(
-type="com.sun.webui.jsf.EditableField", family="com.sun.webui.jsf.EditableField",
-        displayName="Editable Field",
-        instanceName="editableField", tagName="editableField",
-        tagRendererType="com.sun.webui.jsf.widget.EditableField",
-        helpKey="projrave_ui_elements_palette_wdstk-jsf1.2_text_field",
-        propertiesHelpKey="projrave_ui_elements_palette_wdstk-jsf1.2_propsheets_text_field_props")
-        
-        public class EditableField extends TextField {
-    
+@Component(type="com.sun.webui.jsf.EditableField",
+    family="com.sun.webui.jsf.EditableField",
+    displayName="Editable Field",
+    instanceName="editableField", tagName="editableField",
+    tagRendererType="com.sun.webui.jsf.widget.EditableField",
+    helpKey="projrave_ui_elements_palette_wdstk-jsf1.2_text_field",
+    propertiesHelpKey="projrave_ui_elements_palette_wdstk-jsf1.2_propsheets_text_field_props")
+public class EditableField extends TextField {    
     /**
      * <p>Construct a new <code>EditableField</code>.</p>
      */
@@ -100,8 +92,7 @@ type="com.sun.webui.jsf.EditableField", family="com.sun.webui.jsf.EditableField"
     
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     // Tag attribute methods
-    // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    
+    // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~    
     
     /**
      * Hide autoValidate.
@@ -112,90 +103,75 @@ type="com.sun.webui.jsf.EditableField", family="com.sun.webui.jsf.EditableField"
     @Property(name="autoValidate",  isHidden=true, isAttribute=false)
     private boolean autoValidate = false;
     private boolean autoValidate_set = true;
-   
 
+    /**
+     * Attribute indicating to turn on/off the autoSave functionality of the EditableField.
+     * When on, an Ajax submit event will be generated every time component looses 
+     * focus with modified data. If data is not modified, no Ajax request will be 
+     * submitted.
+     *
+     * <br>
+     * AutoSave will submit the content of the text field for server side processing that
+     * will be processed using JSFX partial lifecycle cycle. Component on the client
+     * will not be updated as per results of the submit. If validation fails, for example,
+     * the server state of the component will not be updated ( UPDATE_MODEL phase is not invoked),
+     * while client side component will still reflect the user modified invalid data.
+     * <br>
+     * By default autoSave is on.
+     */
+    @Property(name="autoSave", displayName="autoSave", category="Behavior")
+    private boolean autoSave = true;
+    private boolean autoSave_set = false;
 
-// ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-// autoSave attribute definition
-// ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-/**
- * Attribute indicating to turn on/off the autoSave functionality of the EditableField.
- * When on, an Ajax  submit event will be generated every time component looses 
- * focus with modified data. If data is not modified, no Ajax request will be 
- * submitted. When submit event is generated, and ajaxify attribute is set to true,
- * such event will be automatically translated into Ajax call to the server. By 
- * setting ajaxify=false, and providing own event listeners on the client side, 
- * developers may substitute default Ajax implementation into their own.
- *
- * <br>
- * AutoSave will submit the content of the text field for server side processing that
- * will be processed using JSFX partial lifecycle cycle. Component on the client
- * will not be updated as per results of the submit. If validation fails, for example,
- * the server state of the component will not be updated ( UPDATE_MODEL phase is not invoked),
- * while client side component will still reflect the user modified invalid data.
- * <br>
- * By default autoSave is on.
- *
- *
- *
- */
-@Property(name="autoSave", displayName="autoSave", category="Behavior")
-private boolean autoSave = true;
-private boolean autoSave_set = false;
-
-/**
- * Test if default Ajax functionality autoSave should is on or off.
- */
-public boolean isAutoSave() {
-    if (this.autoSave_set) {
+    /**
+     * Test if default Ajax functionality autoSave should is on or off.
+     */
+    public boolean isAutoSave() {
+        if (this.autoSave_set) {
+            return this.autoSave;
+        }
+        ValueExpression _vb = getValueExpression("autoSave");
+        if (_vb != null) {
+            Object _result = _vb.getValue(getFacesContext().getELContext());
+            if (_result == null) {
+                return this.autoSave;
+            } else {
+                return ((Boolean) _result).booleanValue();
+            }
+        }
         return this.autoSave;
     }
-    ValueExpression _vb = getValueExpression("autoSave");
-    if (_vb != null) {
-        Object _result = _vb.getValue(getFacesContext().getELContext());
-        if (_result == null) {
-            return this.autoSave;
-        } else {
-            return ((Boolean) _result).booleanValue();
-        }
+
+    /**
+     * Set attribute indicating to turn on/off default autoSave functionality.
+     */
+    public void setAutoSave(boolean autoSave) {
+        this.autoSave = autoSave;
+        this.autoSave_set = true;
     }
-    return this.autoSave;
-}
 
-/**
- * Set attribute indicating to turn on/off default autoSave functionality.
- * <br>
- */
-public void setAutoSave(boolean autoSave) {
-    this.autoSave = autoSave;
-    this.autoSave_set = true;  
-    
-}
+    // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    // State methods
+    // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-// ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-// State methods
-// ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    /**
+     * Restore the state of this component.
+     */
+    public void restoreState(FacesContext _context, Object _state) {
+        Object _values[] = (Object[]) _state;
+        super.restoreState(_context, _values[0]);
+        this.autoSave =     ((Boolean) _values[1]).booleanValue();
+        this.autoSave_set = ((Boolean) _values[2]).booleanValue();
+    }
 
-/**
- * Restore the state of this component.
- */
-public void restoreState(FacesContext _context, Object _state) {
-    Object _values[] = (Object[]) _state;
-    super.restoreState(_context, _values[0]);
-    this.autoSave =     ((Boolean) _values[1]).booleanValue();
-    this.autoSave_set = ((Boolean) _values[2]).booleanValue();
-}
-
-/**
- * Save the state of this component.
- */
-public Object saveState(FacesContext _context) {
-    Object _values[] = new Object[3];
-    _values[0] = super.saveState(_context);
-    _values[1] = this.autoSave ? Boolean.TRUE : Boolean.FALSE;
-    _values[2] = this.autoSave_set ? Boolean.TRUE : Boolean.FALSE;
-    return _values;
-}
-
+    /**
+     * Save the state of this component.
+     */
+    public Object saveState(FacesContext _context) {
+        Object _values[] = new Object[3];
+        _values[0] = super.saveState(_context);
+        _values[1] = this.autoSave ? Boolean.TRUE : Boolean.FALSE;
+        _values[2] = this.autoSave_set ? Boolean.TRUE : Boolean.FALSE;
+        return _values;
+    }
 }

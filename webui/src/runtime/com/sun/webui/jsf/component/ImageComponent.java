@@ -211,41 +211,6 @@ public class ImageComponent extends UIGraphic {
     }
 
     /**
-     * Flag indicating to turn off default Ajax functionality. Set ajaxify to
-     * false when providing a different Ajax implementation.
-     */
-    @Property(name="ajaxify", isHidden=true, isAttribute=true, displayName="Ajaxify", category="Javascript")
-    private boolean ajaxify = true; 
-    private boolean ajaxify_set = false; 
- 
-    /**
-     * Test if default Ajax functionality should be turned off.
-     */
-    public boolean isAjaxify() { 
-        if (this.ajaxify_set) {
-            return this.ajaxify;
-        }
-        ValueExpression _vb = getValueExpression("ajaxify");
-        if (_vb != null) {
-            Object _result = _vb.getValue(getFacesContext().getELContext());
-            if (_result == null) {
-                return false;
-            } else {
-                return ((Boolean) _result).booleanValue();
-            }
-        }
-        return true;
-    } 
-
-    /**
-     * Set flag indicating to turn off default Ajax functionality.
-     */
-    public void setAjaxify(boolean ajaxify) {
-        this.ajaxify = ajaxify;
-        this.ajaxify_set = true;
-    }
-
-    /**
      * <p>Specifies the width of the img border in pixels.
      * The default value for this attribute depends on the web browser.</p>
      */
@@ -986,16 +951,14 @@ public class ImageComponent extends UIGraphic {
         this.vspace_set = ((Boolean) _values[24]).booleanValue();
         this.width = ((Integer) _values[25]).intValue();
         this.width_set = ((Boolean) _values[26]).booleanValue();
-        this.ajaxify = ((Boolean) _values[27]).booleanValue();
-        this.ajaxify_set = ((Boolean) _values[28]).booleanValue();
-        this.htmlTemplate = (String) _values[29];
+        this.htmlTemplate = (String) _values[27];
     }
 
     /**
      * <p>Save the state of this component.</p>
      */
     public Object saveState(FacesContext _context) {
-        Object _values[] = new Object[30];
+        Object _values[] = new Object[28];
         _values[0] = super.saveState(_context);
         _values[1] = this.align;
         _values[2] = this.alt;
@@ -1023,9 +986,7 @@ public class ImageComponent extends UIGraphic {
         _values[24] = this.vspace_set ? Boolean.TRUE : Boolean.FALSE;
         _values[25] = new Integer(this.width);
         _values[26] = this.width_set ? Boolean.TRUE : Boolean.FALSE;
-        _values[27] = this.ajaxify ? Boolean.TRUE : Boolean.FALSE;
-        _values[28] = this.ajaxify_set ? Boolean.TRUE : Boolean.FALSE;
-        _values[29] = this.htmlTemplate;
+        _values[27] = this.htmlTemplate;
         return _values;
     }
     

@@ -23,29 +23,17 @@
 package com.sun.webui.jsf.renderkit.widget;
 
 import com.sun.faces.annotation.Renderer;
-import com.sun.webui.jsf.component.ComplexComponent;
-import com.sun.webui.jsf.component.Field;
 import com.sun.webui.jsf.component.TextArea;
-import com.sun.webui.jsf.theme.ThemeStyles;
 import com.sun.webui.jsf.util.WidgetUtilities;
 import com.sun.webui.theme.Theme;
 import com.sun.webui.jsf.theme.ThemeTemplates;
 import com.sun.webui.jsf.util.ConversionUtilities;
 import com.sun.webui.jsf.util.JavaScriptUtilities;
-import com.sun.webui.jsf.util.LogUtil;
-import com.sun.webui.jsf.util.RenderingUtilities;
 import com.sun.webui.jsf.util.ThemeUtilities;
+
 import java.io.IOException;
-import java.text.MessageFormat;
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
-import javax.faces.component.EditableValueHolder;
-import javax.faces.component.NamingContainer;
 
 import javax.faces.component.UIComponent;
-import javax.faces.component.UIParameter;
 import javax.faces.context.FacesContext;
 
 import org.json.JSONArray;
@@ -58,14 +46,9 @@ import org.json.JSONObject;
  * @see TextArea
  */
 @Renderer(@Renderer.Renders(
-rendererType="com.sun.webui.jsf.widget.TextArea",
-        componentFamily="com.sun.webui.jsf.TextArea"))
-        public class TextAreaRenderer extends FieldRendererBase {
-    
-    /** Creates a new instance of TextAreaRenderer */
-    public TextAreaRenderer() {
-    }
-    
+    rendererType="com.sun.webui.jsf.widget.TextArea",
+    componentFamily="com.sun.webui.jsf.TextArea"))
+public class TextAreaRenderer extends FieldRendererBase {   
     /**
      * The set of pass-through attributes to be rendered.
      */
@@ -91,38 +74,21 @@ rendererType="com.sun.webui.jsf.widget.TextArea",
         "onKeyPress",
         "onKeyUp"
     };
-    
-  
-    
+
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     // RendererBase methods
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    
+
     /**
-     * Get the Dojo modules required to instantiate the widget.
+     * Get the Dojo module required to instantiate the widget.
      *
      * @param context FacesContext for the current request.
      * @param component UIComponent to be rendered.
-     *
-     * @exception JSONException if a key/value error occurs
      */
-    protected JSONArray getModules(FacesContext context, UIComponent component)
-    throws JSONException {
-        if (!(component instanceof TextArea)) {
-            throw new IllegalArgumentException(
-                    "TextAreaRenderer can only render TextArea components.");
-        }
-        JSONArray json = new JSONArray();
-        json.put(JavaScriptUtilities.getModuleName("widget.textArea"));
-        
-        TextArea field = (TextArea) component;
-        if (field.isAjaxify()) {
-            json.put(JavaScriptUtilities.getModuleName(
-                    "widget.jsfx.textArea"));
-        }
-        return json;
+    protected String getModule(FacesContext context, UIComponent component) {
+        return JavaScriptUtilities.getModuleName("widget.textArea");
     }
-    
+
     /**
      * Helper method to obtain component properties.
      *
@@ -191,6 +157,4 @@ rendererType="com.sun.webui.jsf.widget.TextArea",
     protected String getWidgetType(FacesContext context, UIComponent component) {
         return JavaScriptUtilities.getNamespace("textArea");
     }
-    
- 
 }

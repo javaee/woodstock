@@ -26,8 +26,6 @@ import com.sun.faces.annotation.Renderer;
 import com.sun.webui.jsf.component.ComplexComponent;
 import com.sun.webui.jsf.component.Selector;
 import com.sun.webui.jsf.model.Option;
-import javax.faces.component.UIComponent;
-import javax.faces.context.FacesContext;
 import com.sun.webui.jsf.component.RadioButton;
 import com.sun.webui.jsf.component.RadioButtonGroup;
 import com.sun.webui.jsf.theme.ThemeTemplates;
@@ -35,8 +33,11 @@ import com.sun.webui.jsf.util.JavaScriptUtilities;
 import com.sun.webui.jsf.util.ThemeUtilities;
 import com.sun.webui.jsf.util.ConversionUtilities;
 import com.sun.webui.theme.Theme;
+
 import java.io.IOException;
 
+import javax.faces.component.UIComponent;
+import javax.faces.context.FacesContext;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -45,29 +46,20 @@ import org.json.JSONObject;
 @Renderer(@Renderer.Renders(
     rendererType="com.sun.webui.jsf.widget.RadioButtonGroup",
     componentFamily="com.sun.webui.jsf.RadioButtonGroup"))
-public class RadioButtonGroupRenderer extends SelectorGroupRenderer {    
-    
+public class RadioButtonGroupRenderer extends SelectorGroupRenderer {   
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     // RendererBase methods
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~     
     
-     protected JSONArray getModules(FacesContext context, UIComponent component)
-            throws JSONException {
-        if (!(component instanceof RadioButtonGroup)) { 
-            throw new IllegalArgumentException(
-                    "RadioButtonGroupRenderer can only render RadioButtonGroup components.");
-        }
-        RadioButtonGroup rbGroup = (RadioButtonGroup) component;
-        JSONArray json = new JSONArray();
-        json.put(JavaScriptUtilities.getModuleName("widget.radioButtonGroup"));
-        
-        if (rbGroup.isAjaxify()) {
-            json.put(JavaScriptUtilities.getModuleName(
-                    "widget.jsfx.radioButtonGroup"));
-        }
-        return json;
+    /**
+     * Get the Dojo module required to instantiate the widget.
+     *
+     * @param context FacesContext for the current request.
+     * @param component UIComponent to be rendered.
+     */
+    protected String getModule(FacesContext context, UIComponent component) {
+        return JavaScriptUtilities.getModuleName("widget.radioButtonGroup");
     }
-    
 
     /**
      * Helper method to obtain component properties.
@@ -104,7 +96,9 @@ public class RadioButtonGroupRenderer extends SelectorGroupRenderer {
         return JavaScriptUtilities.getNamespace("radioButtonGroup");
     }
     
-    
+    // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    // Property methods
+    // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~       
 
     /**
      * Return a RadioButton component to render.
@@ -173,6 +167,5 @@ public class RadioButtonGroupRenderer extends SelectorGroupRenderer {
     private boolean isSelected(Option item, Object currentValue) {
 	return currentValue != null && item.getValue() != null &&
 		item.getValue().equals(currentValue);
-    }    
-    
+    }
 }

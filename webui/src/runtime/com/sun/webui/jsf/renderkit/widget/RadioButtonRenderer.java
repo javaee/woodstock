@@ -25,14 +25,12 @@ package com.sun.webui.jsf.renderkit.widget;
 import com.sun.faces.annotation.Renderer;
 import com.sun.webui.jsf.component.ComplexComponent;
 import com.sun.webui.jsf.component.RadioButton;
-import com.sun.webui.jsf.theme.ThemeStyles;
 import com.sun.webui.jsf.theme.ThemeTemplates;
 import com.sun.webui.jsf.util.ComponentUtilities;
 import com.sun.webui.jsf.util.ConversionUtilities;
 
 import com.sun.webui.jsf.util.JavaScriptUtilities;
 import com.sun.webui.jsf.util.ThemeUtilities;
-import com.sun.webui.jsf.util.WidgetUtilities;
 import com.sun.webui.theme.Theme;
 
 import java.io.IOException;
@@ -50,6 +48,10 @@ import org.json.JSONObject;
     rendererType="com.sun.webui.jsf.widget.RadioButton",
     componentFamily="com.sun.webui.jsf.RadioButton"))
 public class RadioButtonRenderer extends RbCbRendererBase {
+    // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    // Renderer Methods
+    // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
     /**
      * <p>Decode the <code>RadioButton</code> selection.</p>
      * <p>
@@ -189,28 +191,13 @@ public class RadioButtonRenderer extends RbCbRendererBase {
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
     /**
-     * Get the Dojo modules required to instantiate the widget.
+     * Get the Dojo module required to instantiate the widget.
      *
      * @param context FacesContext for the current request.
      * @param component UIComponent to be rendered.
-     *
-     * @exception JSONException if a key/value error occurs
      */
-    protected JSONArray getModules(FacesContext context, UIComponent component)
-            throws JSONException {        
-	if (!(component instanceof RadioButton)) {
-	    throw new IllegalArgumentException(
-                "RadioButtonRenderer can only render RadioButton components.");
-        }
-        JSONArray json = new JSONArray();
-        json.put(JavaScriptUtilities.getModuleName("widget.radioButton"));
-
-        RadioButton radioButton = (RadioButton) component;
-        if (radioButton.isAjaxify()) {
-              json.put(JavaScriptUtilities.getModuleName(
-                      "widget.jsfx.radioButton"));
-        }
-        return json;
+    protected String getModule(FacesContext context, UIComponent component) {
+        return JavaScriptUtilities.getModuleName("widget.radioButton");
     }
 
     /**
@@ -249,7 +236,11 @@ public class RadioButtonRenderer extends RbCbRendererBase {
     protected String getWidgetType(FacesContext context, UIComponent component) {
         return JavaScriptUtilities.getNamespace("radioButton");
     }
-    
+
+    // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    // Property Methods
+    // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
     /**
      * Return true if the <code>component</code> is selected, false
      * otherwise.

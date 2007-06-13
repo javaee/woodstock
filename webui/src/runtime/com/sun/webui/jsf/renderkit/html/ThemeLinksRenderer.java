@@ -29,13 +29,11 @@ import com.sun.webui.jsf.util.MessageUtil;
 import com.sun.webui.jsf.util.JavaScriptUtilities;
 import com.sun.webui.jsf.util.RenderingUtilities;
 import com.sun.webui.jsf.util.ThemeUtilities;
-import com.sun.webui.jsf.util.WidgetUtilities;
 
 import java.io.IOException; 
 import java.util.Map;
 
 import javax.faces.FacesException;
-import javax.faces.application.FacesMessage;
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.context.ResponseWriter;
@@ -103,7 +101,7 @@ public class ThemeLinksRenderer extends javax.faces.render.Renderer {
         
         // Render module config after including dojo.
         JavaScriptUtilities.renderJavaScript(component, writer,
-            JavaScriptUtilities.getModuleConfig(isDebug));
+            JavaScriptUtilities.getModuleConfig(isDebug, themeLinks.isAjaxify()));
 
         // Render global include.
         JavaScriptUtilities.renderGlobalInclude(component, writer);

@@ -63,6 +63,9 @@ webui.@THEME@.widget.accordion.refresh = {
      * must be run.
      */
     processEvent: function(execute) {
+        // Include default AJAX implementation.
+        this.ajaxify("webui.@THEME@.widget.jsfx.accordion");
+
         // Publish event.
         dojo.event.topic.publish(
             webui.@THEME@.widget.accordion.refresh.beginEventTopic, {

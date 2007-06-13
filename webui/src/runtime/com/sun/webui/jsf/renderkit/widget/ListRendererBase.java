@@ -1,10 +1,23 @@
 /*
- * ListRendererBase.java
- *
- * Created on March 11, 2007, 6:16 PM
- *
- * To change this template, choose Tools | Template Manager
- * and open the template in the editor.
+ * The contents of this file are subject to the terms
+ * of the Common Development and Distribution License
+ * (the License).  You may not use this file except in
+ * compliance with the License.
+ * 
+ * You can obtain a copy of the license at
+ * https://woodstock.dev.java.net/public/CDDLv1.0.html.
+ * See the License for the specific language governing
+ * permissions and limitations under the License.
+ * 
+ * When distributing Covered Code, include this CDDL
+ * Header Notice in each file and include the License file
+ * at https://woodstock.dev.java.net/public/CDDLv1.0.html.
+ * If applicable, add the following below the CDDL Header,
+ * with the fields enclosed by brackets [] replaced by
+ * you own identifying information:
+ * "Portions Copyrighted [year] [name of copyright owner]"
+ * 
+ * Copyright 2007 Sun Microsystems, Inc. All rights reserved.
  */
 
 package com.sun.webui.jsf.renderkit.widget;
@@ -19,10 +32,12 @@ import com.sun.webui.jsf.model.list.ListItem;
 import com.sun.webui.jsf.model.list.StartGroup;
 import com.sun.webui.jsf.util.ConversionUtilities;
 import com.sun.webui.jsf.util.WidgetUtilities;
+
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.Map;
+
 import javax.faces.component.EditableValueHolder;
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
@@ -40,7 +55,6 @@ import org.json.JSONObject;
  * @author dongmeic
  */
 abstract public class ListRendererBase extends RendererBase {
-    
     /**
      * The set of pass-through attributes to be rendered.
      */
@@ -64,7 +78,11 @@ abstract public class ListRendererBase extends RendererBase {
         "lang", 
         "accessKey"
     };
-    
+
+    // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    // Renderer Methods
+    // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
     /**
      * Retrieve user input from the UI.
      * @param context The FacesContext of this request
@@ -149,7 +167,11 @@ abstract public class ListRendererBase extends RendererBase {
         }
       
     }
-    
+
+    // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    // RendererBase methods
+    // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
     /**
      * Obtain the properties of the List component
      *
@@ -179,7 +201,11 @@ abstract public class ListRendererBase extends RendererBase {
         
         return json;
     }
-    
+
+    // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    // Property methods
+    // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
     /**
      * Obtains the properties for the select element
      *
@@ -356,7 +382,6 @@ abstract public class ListRendererBase extends RendererBase {
         
         return;
     }
-    
     
     /**
      * This must be called where the value is about to be rendered

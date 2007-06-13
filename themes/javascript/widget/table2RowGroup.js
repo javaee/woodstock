@@ -183,6 +183,9 @@ webui.@THEME@.widget.table2RowGroup.refresh = {
      * must be run.
      */
     processEvent: function(execute) {
+        // Include default AJAX implementation.
+        this.ajaxify("webui.@THEME@.widget.jsfx.table2RowGroup");
+
         // Publish an event for custom AJAX implementations to listen for.
         dojo.event.topic.publish(
             webui.@THEME@.widget.table2RowGroup.refresh.beginEventTopic, {
@@ -450,6 +453,9 @@ webui.@THEME@.widget.table2RowGroup.scroll = {
         // Publish event to retrieve data.
         if (widget.first < widget.totalRows 
                 && widget.currentRow % widget.maxRows == 0) {
+            // Include default AJAX implementation.
+            widget.ajaxify("webui.@THEME@.widget.jsfx.table2RowGroup");
+
             // Publish an event for custom AJAX implementations to listen for.
             dojo.event.topic.publish(
                 webui.@THEME@.widget.table2RowGroup.scroll.beginEventTopic, {

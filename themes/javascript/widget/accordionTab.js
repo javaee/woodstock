@@ -57,6 +57,9 @@ webui.@THEME@.widget.accordionTab.refresh = {
      * must be run.
      */
     processEvent: function(execute) {
+        // Include default AJAX implementation.
+        this.ajaxify("webui.@THEME@.widget.jsfx.accordionTab");
+
         // Publish event.
         dojo.event.topic.publish(webui.@THEME@.widget.accordionTab.refresh.beginEventTopic, {
             id: this.id,
@@ -84,6 +87,9 @@ webui.@THEME@.widget.accordionTab.tabAction = {
      * must be run.
      */
     processEvent: function(execute) {
+        // Include default AJAX implementation.
+        this.ajaxify("webui.@THEME@.widget.jsfx.accordionTab");
+
         // Publish event.
         dojo.event.topic.publish(webui.@THEME@.widget.accordionTab.tabAction.beginEventTopic,{
             id: this.id,
@@ -111,6 +117,9 @@ webui.@THEME@.widget.accordionTab.loadContent = {
      * must be run.
      */
     processEvent: function(execute) {
+        // Include default AJAX implementation.
+        this.ajaxify("webui.@THEME@.widget.jsfx.accordionTab");
+
         // Publish event.
         dojo.event.topic.publish(webui.@THEME@.widget.accordionTab.loadContent.beginEventTopic, {
             id: this.id,

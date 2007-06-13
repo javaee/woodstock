@@ -32,6 +32,7 @@ import com.sun.webui.jsf.util.JavaScriptUtilities;
 import com.sun.webui.jsf.util.ThemeUtilities;
 import com.sun.webui.jsf.util.WidgetUtilities;
 import com.sun.webui.theme.Theme;
+
 import java.io.IOException;
 import java.util.Iterator;
 import java.util.List;
@@ -51,8 +52,8 @@ import org.json.JSONObject;
  * the sortValue property of Indicator object is used to sort alarms.
  */
 @Renderer(@Renderer.Renders(
-rendererType="com.sun.webui.jsf.widget.Alarm",
-        componentFamily="com.sun.webui.jsf.Alarm"))
+    rendererType="com.sun.webui.jsf.widget.Alarm",
+    componentFamily="com.sun.webui.jsf.Alarm"))
 public class AlarmRenderer extends RendererBase {
     /**
      * The set of pass-through attributes to be rendered.
@@ -81,25 +82,13 @@ public class AlarmRenderer extends RendererBase {
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
     /**
-     * Get the Dojo modules required to instantiate the widget.
+     * Get the Dojo module required to instantiate the widget.
      *
      * @param context FacesContext for the current request.
      * @param component UIComponent to be rendered.
-     *
-     * @exception JSONException if a key/value error occurs
      */
-    protected JSONArray getModules(FacesContext context, UIComponent component)
-            throws JSONException {
-        JSONArray json = new JSONArray();
-        json.put(JavaScriptUtilities.getModuleName("widget.alarm"));
-        
-        boolean ajaxify = ((Boolean)
-            component.getAttributes().get("ajaxify")).booleanValue();        
-        if (ajaxify == true) {
-            json.put(JavaScriptUtilities.getModuleName(
-                "widget.jsfx.alarm"));
-        }
-        return json;
+    protected String getModule(FacesContext context, UIComponent component) {
+        return JavaScriptUtilities.getModuleName("widget.alarm");
     }
     
     /** 

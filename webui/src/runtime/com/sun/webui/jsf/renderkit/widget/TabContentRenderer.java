@@ -24,27 +24,16 @@ package com.sun.webui.jsf.renderkit.widget;
 
 import com.sun.faces.annotation.Renderer;
 
-import com.sun.webui.jsf.component.TabContainer;
 import com.sun.webui.jsf.component.TabContent;
 import com.sun.webui.jsf.util.WidgetUtilities;
-import com.sun.webui.theme.Theme;
-import com.sun.webui.jsf.theme.ThemeStyles;
 import com.sun.webui.jsf.theme.ThemeTemplates;
-import com.sun.webui.jsf.util.ConversionUtilities;
 import com.sun.webui.jsf.util.JavaScriptUtilities;
-import com.sun.webui.jsf.util.RenderingUtilities;
 import com.sun.webui.jsf.util.ThemeUtilities;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
 
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
-import javax.faces.context.ResponseWriter;
-import javax.faces.event.ActionEvent;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -62,32 +51,20 @@ import org.json.JSONObject;
     rendererType="com.sun.webui.jsf.widget.TabContent", 
     componentFamily="com.sun.webui.jsf.TabContent"))
 public class TabContentRenderer extends RendererBase {
-   
-
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     // RendererBase methods
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-    
     /**
-     * Get the Dojo modules required to instantiate the widget.
+     * Get the Dojo module required to instantiate the widget.
      *
      * @param context FacesContext for the current request.
      * @param component UIComponent to be rendered.
      */
-    protected JSONArray getModules(FacesContext context, UIComponent component)
-            throws JSONException {
-        TabContent content = (TabContent) component;
-
-        JSONArray json = new JSONArray();
-        json.put(JavaScriptUtilities.getModuleName("widget.accordionTab"));
-        if (content.isAjaxify()) {
-            json.put(JavaScriptUtilities.getModuleName(
-                "widget.jsfx.accordionTab"));
-        }
-        return json;
+    protected String getModule(FacesContext context, UIComponent component) {
+        return JavaScriptUtilities.getModuleName("widget.accordionTab");
     }
-    
+
     /** 
      * Helper method to obtain component properties.
      *
@@ -143,8 +120,7 @@ public class TabContentRenderer extends RendererBase {
             for (UIComponent kid : component.getChildren()) {
                 WidgetUtilities.addProperties(content,
                     WidgetUtilities.renderComponent(context, kid));
-            }
-                    
+            } 
         } else {
             for (UIComponent kid : component.getChildren()) {
                 if (kid instanceof TabContent) {
