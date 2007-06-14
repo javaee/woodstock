@@ -25,147 +25,150 @@
         <name>accordion</name>
 
         <description><![CDATA[
- <p>Use the <code>webuijsf:accordion</code> tag to display an accordion 
- component in the rendered 
- HTML page. An accordion can be
- thought of as a vertical tab set. It can contain one of more tabs
- each of which can contain virtually any HTML markup. In general accordions
- are used for navigational purposes - each tab contains links which when 
- clicked takes the user to different sections (tasks) of the application.
- In general only one accorion tab can be open at any given time. This
- accordion, however, allows muliple tabs to be open simultaneously. In 
- such situations the accordion also supports "expandAll" and "collapseAll"
- icons which have their usual meaning. An accordion can be refreshed if the 
- application using it so desires. Each attribute of the accordion is 
- described in detail in the TLD doccument. It is adviseable to use 
- an alternate navigational component if the number of tabs in the accordion 
- are exceeding ten.</p>
- <p>
- Unless otherwise specified the accordion will nto display the "expand all",
- "collapse all" and "refresh" icons. One has to set the respective attributes, 
- displayRefresh, expandCollapse to true.
- </p>
- <p> </p>
- 
- <h3><a name="facets"></a>Facets</h3>
- <p>The <code>webuijsf:accordion</code> tag supports the facets in the following table. 
- These facets enable you to specify icons for.</p>
- <table style="width: 100%;" border="1" cellpadding="2"
-  cellspacing="2">
-    <tbody>
-     <tr>
-       <td style="vertical-align: top;"><code>accdRefresh</code></td>
-       <td style="vertical-align: top;">Use the <code>accdRefresh</code> facet 
-       to replace the standard refreshIcon with your own icon. Note that the 
-       dimensions of the icon should be close to what the default icon is
-       (17 X 19 pixels).</td>
-     </tr>
-     <tr>
-       <td style="vertical-align: top;"><code>accdCollpsAll</code></td>
-       <td style="vertical-align: top;">Use the <code>accdCollpsAll</code> facet 
-       to replace the standard "Collapse All" with your own icon. Note that the 
-       dimensions of the icon should be close to what the default icon is
-       (17 X 19 pixels).</td>
-     </tr>
-     <tr>
-       <td style="vertical-align: top;"><code>accdExpandAll</code></td>
-       <td style="vertical-align: top;">Use the <code>accdExpandAll</code> facet 
-       to replace the standard "Expand All" with your own icon. Note that the 
-       dimensions of the icon should be close to what the default icon is
-       (17 X 19 pixels).</td>
-     </tr>
-   </tbody>
- </table>
- <h3>Theme Identifiers</h3>
- <p>None.</p>
- <h3><a name="JS"></a>Client-side JavaScript Functions</h3>
- <p>When the component is rendered, a DOM object corresponding to the
- component is created. To manipulate the component on the client side,
- you may invoke functions on the DOM object. With reference to the DOM
- id, to add all elements on the available list that the user has
- selected, invoke <code>document.getElementById(id).setProps({multipleSelect: true})</code>.
- The other option is to get a handle to the accordion widget and invoke the same
- functions on the widget:
-    <code> var acc = dojo.widget.byId("accordionID"); acc.setProps({multipleSelect: true})</code>.
- </p> 
-    <table style="text-align: left; width: 100%;" border="1"
-  cellpadding="2" cellspacing="2">
-   <tbody>
-     <tr>
-       <td style="vertical-align: top;"><code>setProps()</code></td>
-       <td style="vertical-align: top;">Set individual properties of
-       the accordion.</td>
-     </tr>
-     <tr>
-       <td style="vertical-align: top;"><code>getProps()</code></td>
-       <td style="vertical-align: top;">Get all the properties of 
-       the accordion.</td>
-     </tr>
-     <tr>
-       <td style="vertical-align: top;"><code>refresh()</code></td>
-       <td style="vertical-align: top;">Asynchronously refresh the 
-       accordion.</td>
-     </tr>
-     <tr>
-       <td style="vertical-align: top;"><code>selectChild(widget)</code></td>
-       <td style="vertical-align: top;">Select a tab from among the 
-       child tabs of the accordion. The widget selected should be passed
-       as an argument to the function.</td>
-     </tr>
-   </tbody>
- </table>
- <h3>Examples</h3>
- <h4>Example 1: Accordion as a navigational Element.</h4>    
- <p>In this example, the component is used for navigational purposes.</p>
- <pre>
-       &lt;webuijsf:accordion id="acc1" style="width:70%"&gt;
-        
-                &lt;webuijsf:tabContent id="tab1" label="Buttons and links" &gt;
-                    &lt;webuijsf:hyperlink id="hyper1" text="Button Examples" 
-                    url="/faces/button/index.jsp"
-                    target="rightFrame"/&gt;
-                    &lt;br/&gt;
-                    &lt;webuijsf:hyperlink id="hyper2" text="Link Examples" 
-                    url="/faces/hyperlink/index.jsp"
-                    target="rightFrame"/&gt;
-                    &lt;br/&gt;
-                    &lt;webuijsf:hyperlink id="hyper3" text="Image Link Examples" 
-                    url="/faces/imagehyperlink/index.jsp"
-                    target="rightFrame"/&gt;
-                &lt;/webuijsf:tabContent&gt;
-                
-                &lt;webuijsf:tabContent id="tab2" label="Input Elements" &gt;
-                    &lt;webuijsf:hyperlink id="hyper1" text="CheckBoxes" 
-                        url="/faces/clientsideCheckbox/checkbox.jsp"
-                    target="rightFrame"/&gt;
-                    &lt;br/&gt;
-                    &lt;webuijsf:hyperlink id="hyper2" text="CheckBox group" 
-                    url="/faces/clientsideCheckbox/index.jsp"
-                    target="rightFrame"/&gt;
-                    &lt;br/&gt;
-                    &lt;webuijsf:hyperlink id="hyper3" text="Radio Button Group" 
-                    url="/faces/clientsiderbcbGroup/index.jsp"
-                    target="rightFrame"/&gt;
-                &lt;/webuijsf:tabContent&gt;
-                
-                &lt;webuijsf:tabContent id="tab3" label="label1" &gt;
-                    &lt;webuijsf:hyperlink id="hyper1" text="Calendar" 
-                        url="/faces/calendar/index.jsp"
-                    target="rightFrame"/&gt;
-                &lt;/webuijsf:tabContent&gt;
-                
-          &lt;/webuijsf:accordion&gt; 
- </pre>
- <h4>Example 2: TBD</h4>
- <h4>Example 3: Accordion Using Facets</h4>
- <p>TBD</p>
- 
- <h4><a name="AccordionBean"></a>Example Backing Bean Content</h4>       
- The following code is from the Accordion used in the examples.
- <pre>
- public class AccordionBean {
- }
-  </pre>
+<p>Use the <code>webuijsf:accordion</code> tag to display an accordion
+component in the rendered HTML page. An accordion can be thought of as
+a vertical tab set. It can contain one of more tabs each of which can
+contain virtually any HTML markup. In general accordions are used for
+navigational purposes - each tab contains links which when clicked
+takes the user to different sections (tasks) of the application. In
+general only one accorion tab can be open at any given time. This
+accordion, however, allows muliple tabs to be open simultaneously. In
+such situations the accordion also supports "expandAll" and
+"collapseAll" icons which have their usual meaning. An accordion can be
+refreshed if the application using it so desires. Each attribute of the
+accordion is described in detail in the TLD doccument. It is adviseable
+to use an alternate navigational component if the number of tabs in the
+accordion are exceeding ten.</p>
+<p> Unless otherwise specified the accordion will nto display the
+"expand all", "collapse all" and "refresh" icons. One has to set the
+respective attributes, displayRefresh, expandCollapse to true. </p>
+<p> </p>
+<h3><a name="facets"></a>Facets</h3>
+None.<br>
+<h3>Theme Identifiers</h3>
+<p>None.</p>
+<h3>Client Side Javascript Functions</h3>
+When the component is rendered, a DOM object corresponding to the
+component is created. To manipulate the component on the client side,
+you may invoke functions on the DOM object. With reference to the DOM
+id, to disable the component, invoke <code>document.getElementById(id).setProps({</code><code>multipleSelect</code><code>:
+true})</code>.<br>
+<br>
+<table style="text-align: left; width: 100%;" border="1" cellpadding="2"
+ cellspacing="2">
+  <tbody>
+    <tr>
+      <td><code>getProps()</code></td>
+      <td>Use this function to get widget properties. Please see <code>setProps()</code>
+function for a list of supported properties.</td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top;"><code>refresh(execute)</code><br>
+      </td>
+      <td style="vertical-align: top;">Use this function to
+asynchronously refresh the component.<br>
+      <ul>
+        <li>[optional] execute: Comma separated string containing a
+list of client
+ids against which the <code>execute</code> portion of the request
+processing lifecycle must be run.</li>
+      </ul>
+      </td>
+    </tr>
+    <tr>
+      <td><code>setProps(props)</code></td>
+      <td>Use this function to change any of the following supported
+properties:<br>
+      <ul>
+        <li>collapseAllImage</li>
+        <li>expandAllImage<br>
+        </li>
+        <li>loadOnSelect</li>
+        <li>multipleSelect</li>
+        <li>refreshImage</li>
+        <li>tabs</li>
+        <li>toggleControls</li>
+        <li>type<br>
+        </li>
+        <li>style</li>
+        <li>styleClass</li>
+        <li>visible</li>
+      </ul>
+      <br>
+      </td>
+    </tr>
+  </tbody>
+</table>
+<code></code>
+<h3>Client Side JavaScript Events</h3>
+<p>
+When the component is manipulated client side, some functions may
+publish event topics for custom AJAX implementations to listen for.
+Using the Dojo event system, listen for the refresh event topic using:<br>
+<br>
+<code>
+&lt;webuijsf:script&gt;<br>
+&nbsp;&nbsp;&nbsp; var processEvents =
+{&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; update: function(props) {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; //
+Do something...<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; }<br>
+&nbsp;&nbsp;&nbsp; }<br>
+<br>
+&nbsp;&nbsp;&nbsp; // Subscribe to refresh event.<br>
+&nbsp;&nbsp;&nbsp;
+dojo.event.topic.subscribe(webui.suntheme.widget.accordion.&lt;eventname&gt;.endEventTopic,
+processEvents, "update");</code><code><br>
+<br>
+</code><code>
+&lt;/webuijsf:script&gt;<br>
+</code></p>
+<p>The following events are supported.<br>
+</p>
+<table style="text-align: left; width: 100%;" border="1" cellpadding="2"
+ cellspacing="2">
+  <tbody>
+    <tr>
+      <td style="vertical-align: middle;">
+webui.suntheme.widget.accordion.refresh.beginEventTopic </td>
+      <td> Event topic published before asynchronously refreshing the
+component. Supported properties include: <br>
+      <ul>
+        <li>[optional] execute - list of the components to be executed
+along with
+this component</li>
+        <li>id - The client id to process the event for</li>
+      </ul>
+      </td>
+    </tr>
+    <tr>
+      <td style="vertical-align: middle;"> webui.suntheme.widget.accordion.refresh.endEventTopic
+      </td>
+      <td> Event topic published after asynchronously refreshing the
+component. Supported properties include: See setProps() function.<br>
+      <ul>
+        <li>props - JSON object containing properties of the component.
+See
+setProps()
+function for details on properties and their usage</li>
+      </ul>
+      </td>
+    </tr>
+  </tbody>
+</table>
+<br>
+<h3>Examples</h3>
+<h4>Example 1: Accordion as a navigational Element.</h4>
+<p>In this example, the component is used for navigational purposes.</p>
+<pre>       &lt;webuijsf:accordion id="acc1" style="width:70%"&gt;<br>        <br>                &lt;webuijsf:tabContent id="tab1" label="Buttons and links" &gt;<br>                    &lt;webuijsf:hyperlink id="hyper1" text="Button Examples" <br>                    url="/faces/button/index.jsp"<br>                    target="rightFrame"/&gt;<br>                    &lt;br/&gt;<br>                    &lt;webuijsf:hyperlink id="hyper2" text="Link Examples" <br>                    url="/faces/hyperlink/index.jsp"<br>                    target="rightFrame"/&gt;<br>                    &lt;br/&gt;<br>                    &lt;webuijsf:hyperlink id="hyper3" text="Image Link Examples" <br>                    url="/faces/imagehyperlink/index.jsp"<br>                    target="rightFrame"/&gt;<br>                &lt;/webuijsf:tabContent&gt;<br>                <br>                &lt;webuijsf:tabContent id="tab2" label="Input Elements" &gt;<br>                    &lt;webuijsf:hyperlink id="hyper1" text="CheckBoxes" <br>                        url="/faces/clientsideCheckbox/checkbox.jsp"<br>                    target="rightFrame"/&gt;<br>                    &lt;br/&gt;<br>                    &lt;webuijsf:hyperlink id="hyper2" text="CheckBox group" <br>                    url="/faces/clientsideCheckbox/index.jsp"<br>                    target="rightFrame"/&gt;<br>                    &lt;br/&gt;<br>                    &lt;webuijsf:hyperlink id="hyper3" text="Radio Button Group" <br>                    url="/faces/clientsiderbcbGroup/index.jsp"<br>                    target="rightFrame"/&gt;<br>                &lt;/webuijsf:tabContent&gt;<br>                <br>                &lt;webuijsf:tabContent id="tab3" label="label1" &gt;<br>                    &lt;webuijsf:hyperlink id="hyper1" text="Calendar" <br>                        url="/faces/calendar/index.jsp"<br>                    target="rightFrame"/&gt;<br>                &lt;/webuijsf:tabContent&gt;<br>                <br>          &lt;/webuijsf:accordion&gt; <br> </pre>
+<h4>Example 2: TBD</h4>
+<h4>Example 3: Accordion Using Facets</h4>
+<p>TBD</p>
+<h4><a name="AccordionBean"></a>Example Backing Bean Content</h4>
+The following code is from the Accordion used in the examples.
+<pre> public class AccordionBean {<br> }<br>  </pre>
 ]]></description>
     </tag>
     
@@ -711,9 +714,9 @@ function for a list of supported properties.</td>
 asynchronously refresh the component.<br>
       <ul>
         <li>[optional] execute: Comma separated string containing a
-list of client
-ids against which the <code>execute</code> portion of the request
-processing lifecycle must be run.</li>
+list of client ids against which the <code>execute</code> portion of
+the request processing lifecycle must be run. If omitted, no other
+components are executed.</li>
       </ul>
       </td>
     </tr>
@@ -1219,9 +1222,9 @@ function for a list of supported properties.</td>
 asynchronously refresh the component.<br>
       <ul>
         <li>[optional] execute: Comma separated string containing a
-list of client
-ids against which the <code>execute</code> portion of the request
-processing lifecycle must be run.</li>
+list of client ids against which the <code>execute</code> portion of
+the request processing lifecycle must be run. If omitted, no other
+components are executed.</li>
       </ul>
       </td>
     </tr>
@@ -1452,9 +1455,9 @@ function for a list of supported properties.</td>
 asynchronously refresh the component.<br>
       <ul>
         <li>[optional] execute: Comma separated string containing a
-list of client
-ids against which the <code>execute</code> portion of the request
-processing lifecycle must be run.</li>
+list of client ids against which the <code>execute</code> portion of
+the request processing lifecycle must be run. If omitted, no other
+components are executed.</li>
       </ul>
       </td>
     </tr>
@@ -1912,9 +1915,9 @@ function for a list of supported properties.</td>
 asynchronously refresh the component.<br>
       <ul>
         <li>[optional] execute: Comma separated string containing a
-list of client
-ids against which the <code>execute</code> portion of the request
-processing lifecycle must be run.</li>
+list of client ids against which the <code>execute</code> portion of
+the request processing lifecycle must be run. If omitted, no other
+components are executed.</li>
       </ul>
       </td>
     </tr>
@@ -2436,9 +2439,9 @@ function for a list of supported properties.</td>
 asynchronously refresh the component.<br>
       <ul>
         <li>[optional] execute: Comma separated string containing a
-list of client
-ids against which the <code>execute</code> portion of the request
-processing lifecycle must be run.</li>
+list of client ids against which the <code>execute</code> portion of
+the request processing lifecycle must be run. If omitted, no other
+components are executed.</li>
       </ul>
       </td>
     </tr>
@@ -2477,6 +2480,19 @@ properties:
         <li>title</li>
         <li>value</li>
         <li>visible</li>
+      </ul>
+      </td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top;"><code>submit(execute)</code><br>
+      </td>
+      <td style="vertical-align: top;">Use this function to
+asynchronously submit the component.<br>
+      <ul>
+        <li>[optional] execute: Comma separated string containing a
+list of client ids against which the <code>execute</code> portion of
+the request processing lifecycle must be run. If omitted, the component
+on which the function has been invoked, is submitted. </li>
       </ul>
       </td>
     </tr>
@@ -2534,6 +2550,31 @@ component. Supported properties include: See setProps() function.<br>
 See
 setProps()
 function for details on properties and their usage</li>
+      </ul>
+      </td>
+    </tr>
+    <tr>
+      <td> webui.suntheme.widget.checkbox.submit.beginEventTopic</td>
+      <td>Event topic published before asynchronously submitting the
+component. Supported properties include:
+      <ul>
+        <li>[optional] execute - list of the components to be executed
+along with
+this component</li>
+        <li>id - The client id to process the event for</li>
+      </ul>
+      </td>
+    </tr>
+    <tr>
+      <td> webui.suntheme.widget.checkbox.submit.endEventTopic</td>
+      <td>
+      <p>Event topic published after asynchronously submitting the
+component. Supported properties include:</p>
+      <ul>
+        <li> props - JSON object containing messages (if any) raised by
+the
+server.In particular, valdiation messages will be present here if
+validation failed </li>
       </ul>
       </td>
     </tr>
@@ -2841,9 +2882,9 @@ function for a list of supported properties.</td>
 asynchronously refresh the component.<br>
       <ul>
         <li>[optional] execute: Comma separated string containing a
-list of client
-ids against which the <code>execute</code> portion of the request
-processing lifecycle must be run.</li>
+list of client ids against which the <code>execute</code> portion of
+the request processing lifecycle must be run. If omitted, no other
+components are executed.</li>
       </ul>
       </td>
     </tr>
@@ -4207,9 +4248,9 @@ this&nbsp; function returns null.</td>
 asynchronously refresh the component.<br>
       <ul>
         <li>[optional] execute: Comma separated string containing a
-list of client
-ids against which the <code>execute</code> portion of the request
-processing lifecycle must be run.</li>
+list of client ids against which the <code>execute</code> portion of
+the request processing lifecycle must be run. If omitted, no other
+components are executed.</li>
       </ul>
       </td>
     </tr>
@@ -4244,6 +4285,19 @@ properties:
         <li>tabIndex</li>
         <li>title</li>
         <li>visible</li>
+      </ul>
+      </td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top;"><code>submit(execute)</code><br>
+      </td>
+      <td style="vertical-align: top;">Use this function to
+asynchronously submit the component.<br>
+      <ul>
+        <li>[optional] execute: Comma separated string containing a
+list of client ids against which the <code>execute</code> portion of
+the request processing lifecycle must be run. If omitted, the component
+on which the function has been invoked, is submitted. </li>
       </ul>
       </td>
     </tr>
@@ -4303,6 +4357,31 @@ component. Supported properties include: See setProps() function.<br>
 See
 setProps()
 function for details on properties and their usage</li>
+      </ul>
+      </td>
+    </tr>
+    <tr>
+      <td> webui.suntheme.widget.dropDown.submit.beginEventTopic</td>
+      <td>Event topic published before asynchronously submitting the
+component. Supported properties include:
+      <ul>
+        <li>[optional] execute - list of the components to be executed
+along with
+this component</li>
+        <li>id - The client id to process the event for</li>
+      </ul>
+      </td>
+    </tr>
+    <tr>
+      <td> webui.suntheme.widget.dropDown.submit.endEventTopic</td>
+      <td>
+      <p>Event topic published after asynchronously submitting the
+component. Supported properties include:</p>
+      <ul>
+        <li> props - JSON object containing messages (if any) raised by
+the
+server.In particular, valdiation messages will be present here if
+validation failed </li>
       </ul>
       </td>
     </tr>
@@ -4509,19 +4588,8 @@ asynchronously refresh the component.<br>
       <ul>
         <li>[optional] execute: Comma separated string containing a
 list of client ids against which the <code>execute</code> portion of
-the request processing lifecycle must be run.</li>
-      </ul>
-      </td>
-    </tr>
-    <tr>
-      <td style="vertical-align: top;"><code>submit(execute)</code><br>
-      </td>
-      <td style="vertical-align: top;">Use this function to
-asynchronously submit the component.<br>
-      <ul>
-        <li>[optional] execute: Comma separated string containing a
-list of client ids against which the <code>execute</code> portion of
-the request processing lifecycle must be run.</li>
+the request processing lifecycle must be run. If omitted, no other
+components are executed.</li>
       </ul>
       </td>
     </tr>
@@ -4537,8 +4605,7 @@ properties:<br>
         <li>disabled</li>
         <li>id</li>
         <li>label</li>
-        <li>lang<br>
-        </li>
+        <li>lang</li>
         <li>onClick</li>
         <li>onDblClick</li>
         <li>onFocus</li>
@@ -4559,6 +4626,19 @@ properties:<br>
         <li>valid</li>
         <li>value</li>
         <li>visible</li>
+      </ul>
+      </td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top;"><code>submit(execute)</code><br>
+      </td>
+      <td style="vertical-align: top;">Use this function to
+asynchronously submit the component.<br>
+      <ul>
+        <li>[optional] execute: Comma separated string containing a
+list of client ids against which the <code>execute</code> portion of
+the request processing lifecycle must be run. If omitted, the component
+on which the function has been invoked, is submitted. </li>
       </ul>
       </td>
     </tr>
@@ -6009,9 +6089,9 @@ function for a list of supported properties.</td>
 asynchronously refresh the component.<br>
       <ul>
         <li>[optional] execute: Comma separated string containing a
-list of client
-ids against which the <code>execute</code> portion of the request
-processing lifecycle must be run.</li>
+list of client ids against which the <code>execute</code> portion of
+the request processing lifecycle must be run. If omitted, no other
+components are executed.</li>
       </ul>
       </td>
     </tr>
@@ -6022,9 +6102,21 @@ properties:<br>
       <ul>
         <li>disabled</li>
         <li>id</li>
-        <li>name<br>
-        </li>
+        <li>name</li>
         <li>value</li>
+      </ul>
+      </td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top;"><code>submit(execute)</code><br>
+      </td>
+      <td style="vertical-align: top;">Use this function to
+asynchronously submit the component.<br>
+      <ul>
+        <li>[optional] execute: Comma separated string containing a
+list of client ids against which the <code>execute</code> portion of
+the request processing lifecycle must be run. If omitted, the component
+on which the function has been invoked, is submitted. </li>
       </ul>
       </td>
     </tr>
@@ -6082,6 +6174,31 @@ component. Supported properties include: See setProps() function.<br>
 See
 setProps()
 function for details on properties and their usage</li>
+      </ul>
+      </td>
+    </tr>
+    <tr>
+      <td> webui.suntheme.widget.hiddenField.submit.beginEventTopic</td>
+      <td>Event topic published before asynchronously submitting the
+component. Supported properties include:
+      <ul>
+        <li>[optional] execute - list of the components to be executed
+along with
+this component</li>
+        <li>id - The client id to process the event for</li>
+      </ul>
+      </td>
+    </tr>
+    <tr>
+      <td> webui.suntheme.widget.hiddenField.submit.endEventTopic</td>
+      <td>
+      <p>Event topic published after asynchronously submitting the
+component. Supported properties include:</p>
+      <ul>
+        <li> props - JSON object containing messages (if any) raised by
+the
+server.In particular, valdiation messages will be present here if
+validation failed </li>
       </ul>
       </td>
     </tr>
@@ -6265,12 +6382,9 @@ function for a list of supported properties.</td>
 asynchronously refresh the component.<br>
       <ul>
         <li>[optional] execute: Comma separated string containing a
-list of
-client
-ids against which the <code>execute</code> portion of the request
-processing lifecycle must be run.</li>
-      </ul>
-      <ul>
+list of client ids against which the <code>execute</code> portion of
+the request processing lifecycle must be run. If omitted, no other
+components are executed.</li>
       </ul>
       </td>
     </tr>
@@ -6579,9 +6693,9 @@ function for a list of supported properties.</td>
 asynchronously refresh the component.<br>
       <ul>
         <li>[optional] execute: Comma separated string containing a
-list of client
-ids against which the <code>execute</code> portion of the request
-processing lifecycle must be run.</li>
+list of client ids against which the <code>execute</code> portion of
+the request processing lifecycle must be run. If omitted, no other
+components are executed.</li>
       </ul>
       </td>
     </tr>
@@ -6592,17 +6706,14 @@ properties:<br>
       <ul>
         <li>alt</li>
         <li>align</li>
-        <li>border<br>
-        </li>
+        <li>border</li>
         <li>className</li>
         <li>dir</li>
         <li>height</li>
-        <li>hspace<br>
-        </li>
+        <li>hspace</li>
         <li>id</li>
         <li>lang</li>
-        <li>longDesc<br>
-        </li>
+        <li>longDesc</li>
         <li>onClick</li>
         <li>onDblClick</li>
         <li>onKeyDown</li>
@@ -6619,8 +6730,7 @@ properties:<br>
         <li>title</li>
         <li>visible</li>
         <li>vspace</li>
-        <li>width<br>
-        </li>
+        <li>width</li>
       </ul>
       </td>
     </tr>
@@ -6841,9 +6951,9 @@ function for a list of supported properties.</td>
 asynchronously refresh the component.<br>
       <ul>
         <li>[optional] execute: Comma separated string containing a
-list of client
-ids against which the <code>execute</code> portion of the request
-processing lifecycle must be run.</li>
+list of client ids against which the <code>execute</code> portion of
+the request processing lifecycle must be run. If omitted, no other
+components are executed.</li>
       </ul>
       </td>
     </tr>
@@ -7210,9 +7320,9 @@ function for a list of supported properties.</td>
 asynchronously refresh the component.<br>
       <ul>
         <li>[optional] execute: Comma separated string containing a
-list of client
-ids against which the <code>execute</code> portion of the request
-processing lifecycle must be run.</li>
+list of client ids against which the <code>execute</code> portion of
+the request processing lifecycle must be run. If omitted, no other
+components are executed.</li>
       </ul>
       </td>
     </tr>
@@ -7223,16 +7333,13 @@ properties:<br>
       <ul>
         <li>accesskey</li>
         <li>className</li>
-        <li>contents<br>
-        </li>
+        <li>contents</li>
         <li>dir</li>
         <li>errorImage</li>
-        <li>htmlFor<br>
-        </li>
+        <li>htmlFor</li>
         <li>id</li>
         <li>lang</li>
-        <li>level<br>
-        </li>
+        <li>level</li>
         <li>onClick</li>
         <li>onDblClick</li>
         <li>onFocus</li>
@@ -7247,8 +7354,7 @@ properties:<br>
         <li>required</li>
         <li>style</li>
         <li>title</li>
-        <li>valid<br>
-        </li>
+        <li>valid</li>
         <li>value</li>
         <li>visible</li>
       </ul>
@@ -7592,9 +7698,9 @@ this&nbsp; function returns null.</td>
 asynchronously refresh the component.<br>
       <ul>
         <li>[optional] execute: Comma separated string containing a
-list of client
-ids against which the <code>execute</code> portion of the request
-processing lifecycle must be run.</li>
+list of client ids against which the <code>execute</code> portion of
+the request processing lifecycle must be run. If omitted, no other
+components are executed.</li>
       </ul>
       </td>
     </tr>
@@ -7629,6 +7735,19 @@ properties:
         <li>tabIndex</li>
         <li>title</li>
         <li>visible</li>
+      </ul>
+      </td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top;"><code>submit(execute)</code><br>
+      </td>
+      <td style="vertical-align: top;">Use this function to
+asynchronously submit the component.<br>
+      <ul>
+        <li>[optional] execute: Comma separated string containing a
+list of client ids against which the <code>execute</code> portion of
+the request processing lifecycle must be run. If omitted, the component
+on which the function has been invoked, is submitted. </li>
       </ul>
       </td>
     </tr>
@@ -7686,6 +7805,31 @@ component. Supported properties include: See setProps() function.<br>
 See
 setProps()
 function for details on properties and their usage</li>
+      </ul>
+      </td>
+    </tr>
+    <tr>
+      <td> webui.suntheme.widget.listbox.submit.beginEventTopic</td>
+      <td>Event topic published before asynchronously submitting the
+component. Supported properties include:
+      <ul>
+        <li>[optional] execute - list of the components to be executed
+along with
+this component</li>
+        <li>id - The client id to process the event for</li>
+      </ul>
+      </td>
+    </tr>
+    <tr>
+      <td> webui.suntheme.widget.listbox.submit.endEventTopic</td>
+      <td>
+      <p>Event topic published after asynchronously submitting the
+component. Supported properties include:</p>
+      <ul>
+        <li> props - JSON object containing messages (if any) raised by
+the
+server.In particular, valdiation messages will be present here if
+validation failed </li>
       </ul>
       </td>
     </tr>
@@ -9804,9 +9948,9 @@ area, if it was hidden.</td>
 asynchronously refresh the component.<br>
       <ul>
         <li>[optional] execute: Comma separated string containing a
-list of client
-ids against which the <code>execute</code> portion of the request
-processing lifecycle must be run.</li>
+list of client ids against which the <code>execute</code> portion of
+the request processing lifecycle must be run. If omitted, no other
+components are executed.</li>
       </ul>
       </td>
     </tr>
@@ -10788,9 +10932,9 @@ function for a list of supported properties.</td>
 asynchronously refresh the component.<br>
       <ul>
         <li>[optional] execute: Comma separated string containing a
-list of client
-ids against which the <code>execute</code> portion of the request
-processing lifecycle must be run.</li>
+list of client ids against which the <code>execute</code> portion of
+the request processing lifecycle must be run. If omitted, no other
+components are executed.</li>
       </ul>
       </td>
     </tr>
@@ -10829,6 +10973,19 @@ properties:
         <li>title</li>
         <li>value</li>
         <li>visible</li>
+      </ul>
+      </td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top;"><code>submit(execute)</code><br>
+      </td>
+      <td style="vertical-align: top;">Use this function to
+asynchronously submit the component.<br>
+      <ul>
+        <li>[optional] execute: Comma separated string containing a
+list of client ids against which the <code>execute</code> portion of
+the request processing lifecycle must be run. If omitted, the component
+on which the function has been invoked, is submitted. </li>
       </ul>
       </td>
     </tr>
@@ -10885,6 +11042,31 @@ component. Supported properties include: See setProps() function.<br>
 See
 setProps()
 function for details on properties and their usage</li>
+      </ul>
+      </td>
+    </tr>
+    <tr>
+      <td> webui.suntheme.widget.radioButton.submit.beginEventTopic</td>
+      <td>Event topic published before asynchronously submitting the
+component. Supported properties include:
+      <ul>
+        <li>[optional] execute - list of the components to be executed
+along with
+this component</li>
+        <li>id - The client id to process the event for</li>
+      </ul>
+      </td>
+    </tr>
+    <tr>
+      <td> webui.suntheme.widget.radioButton.submit.endEventTopic</td>
+      <td>
+      <p>Event topic published after asynchronously submitting the
+component. Supported properties include:</p>
+      <ul>
+        <li> props - JSON object containing messages (if any) raised by
+the
+server.In particular, valdiation messages will be present here if
+validation failed </li>
       </ul>
       </td>
     </tr>
@@ -11234,9 +11416,9 @@ function for a list of supported properties.</td>
 asynchronously refresh the component.<br>
       <ul>
         <li>[optional] execute: Comma separated string containing a
-list of client
-ids against which the <code>execute</code> portion of the request
-processing lifecycle must be run.</li>
+list of client ids against which the <code>execute</code> portion of
+the request processing lifecycle must be run. If omitted, no other
+components are executed.</li>
       </ul>
       </td>
     </tr>
@@ -12107,9 +12289,9 @@ function for a list of supported properties.</td>
 asynchronously refresh the component.<br>
       <ul>
         <li>[optional] execute: Comma separated string containing a
-list of client
-ids against which the <code>execute</code> portion of the request
-processing lifecycle must be run.</li>
+list of client ids against which the <code>execute</code> portion of
+the request processing lifecycle must be run. If omitted, no other
+components are executed.</li>
       </ul>
       </td>
     </tr>
@@ -12333,103 +12515,164 @@ text="Tab 3" action="#{TabSetBean.tab3Clicked}" /&gt;<br>
 
         <description><![CDATA[
 <p>
-Use the <code>webuijsf:tabContent</code> within the <code><a href="accordion.html">webuijsf:accordion</a></code> 
-tag to create an accordion tab within a set of tabs in the rendered HTML page. The <code>webuijsf:tabContent</code> tag 
-represents a container within which an arbitrary number of components can be placed.
-These components will render within the content area of the given tab inside the accordion. </p>
-
+Use the <code>webuijsf:tabContent</code> within the <code><a
+ href="accordion.html">webuijsf:accordion</a></code> tag to create an
+accordion tab within a set of tabs in the rendered HTML page. The <code>webuijsf:tabContent</code>
+tag represents a container within which an arbitrary number of
+components can be placed.
+These components will render within the content area of the given tab
+inside the accordion. </p>
 <h3>HTML Elements and Layout</h3>
 <p>
-The tabContent component renders an XHTML <code>&lt;div&gt;</code> tag. 
-</p>
+The tabContent component renders an XHTML <code>&lt;div&gt;</code>
+tag. </p>
 <h3>Configuring the webuijsf:tabContent Tag</h3>
-<p>The <code>webuijsf:tabContent</code> tag should be configured to have a label
-that will show up in the accordion body even when the tab is not selected. The height
-of the content area can also be specified. Tabs with larger content can have a more
+<p>The <code>webuijsf:tabContent</code> tag should be configured to
+have a label
+that will show up in the accordion body even when the tab is not
+selected. The height
+of the content area can also be specified. Tabs with larger content can
+have a more
 height.
 </p>
-
 <h3>Facets</h3>
 None.
- <h3><a name="JS"></a>Client-side JavaScript Functions</h3>
- <p>When the component is rendered, a DOM object corresponding to the
- component is created. To manipulate the component on the client side,
- you may invoke functions on the DOM object. With reference to the DOM
- id, to add all elements on the available list that the user has
- selected, invoke <code>document.getElementById(id).setProps({selected: true})</code>.
- The other option is to get a handle to the tabContent widget and invoke the same
- functions on the widget:
-    <code> var tc = dojo.widget.byId("tabContentID"); tc.setProps({selected: true})</code>.
- </p> 
-    <table style="text-align: left; width: 100%;" border="1"
-  cellpadding="2" cellspacing="2">
-   <tbody>
-     <tr>
-       <td style="vertical-align: top;"><code>setProps()</code></td>
-       <td style="vertical-align: top;">Set individual properties of
-       the tabContent</td>
-     </tr>
-     <tr>
-       <td style="vertical-align: top;"><code>getProps()</code></td>
-       <td style="vertical-align: top;">Get all the properties of 
-       the tabContent.</td>
-     </tr>
-     <tr>
-       <td style="vertical-align: top;"><code>refresh()</code></td>
-       <td style="vertical-align: top;">Asynchronously refresh the 
-       tabContent.</td>
-     </tr>
-     <tr>
-       <td style="vertical-align: top;"><code>setSelected(selected)</code></td>
-       <td style="vertical-align: top;">Select or unselect the tabContent 
-       by passing true or false as the corresponding argument</td>
-     </tr>
-   </tbody>
- </table>
- <h3>Examples</h3>
- <h4>Example 1: Using the tabContent in an accordion.</h4>    
- <p>In this example, the tabContent component is populated with 
- hyperlink components that act as navigational elements.</p>
- <pre>
-       &lt;webuijsf:accordion id="acc1" style="width:70%"&gt;
-        
-                &lt;webuijsf:tabContent id="tab1" label="Buttons and links" &gt;
-                    &lt;webuijsf:hyperlink id="hyper1" text="Button Examples" 
-                    url="/faces/button/index.jsp"
-                    target="rightFrame"/&gt;
-                    &lt;br/&gt;
-                    &lt;webuijsf:hyperlink id="hyper2" text="Link Examples" 
-                    url="/faces/hyperlink/index.jsp"
-                    target="rightFrame"/&gt;
-                    &lt;br/&gt;
-                    &lt;webuijsf:hyperlink id="hyper3" text="Image Link Examples" 
-                    url="/faces/imagehyperlink/index.jsp"
-                    target="rightFrame"/&gt;
-                &lt;/webuijsf:tabContent&gt;
-                
-                &lt;webuijsf:tabContent id="tab2" label="Input Elements" &gt;
-                    &lt;webuijsf:hyperlink id="hyper1" text="CheckBoxes" 
-                        url="/faces/clientsideCheckbox/checkbox.jsp"
-                    target="rightFrame"/&gt;
-                    &lt;br/&gt;
-                    &lt;webuijsf:hyperlink id="hyper2" text="CheckBox group" 
-                    url="/faces/clientsideCheckbox/index.jsp"
-                    target="rightFrame"/&gt;
-                    &lt;br/&gt;
-                    &lt;webuijsf:hyperlink id="hyper3" text="Radio Button Group" 
-                    url="/faces/clientsiderbcbGroup/index.jsp"
-                    target="rightFrame"/&gt;
-                &lt;/webuijsf:tabContent&gt;
-                
-                &lt;webuijsf:tabContent id="tab3" label="label1" &gt;
-                    &lt;webuijsf:hyperlink id="hyper1" text="Calendar" 
-                        url="/faces/calendar/index.jsp"
-                    target="rightFrame"/&gt;
-                &lt;/webuijsf:tabContent&gt;
-                
-          &lt;/webuijsf:accordion&gt; 
- </pre>
- 
+<h3>Client Side Javascript Functions</h3>
+When the component is rendered, a DOM object corresponding to the
+component is created. To manipulate the component on the client side,
+you may invoke functions on the DOM object. With reference to the DOM
+id, to disable the component, invoke <code>document.getElementById(id).setProps({</code><code>multipleSelect</code><code>:
+true})</code>.<br>
+<br>
+<table style="text-align: left; width: 100%;" border="1" cellpadding="2"
+ cellspacing="2">
+  <tbody>
+    <tr>
+      <td><code>getProps()</code></td>
+      <td>Use this function to get widget properties. Please see <code>setProps()</code>
+function for a list of supported properties.</td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top;"><code>refresh(execute)</code><br>
+      </td>
+      <td style="vertical-align: top;">Use this function to
+asynchronously refresh the component.<br>
+      <ul>
+        <li>[optional] execute: Comma separated string containing a
+list of client
+ids against which the <code>execute</code> portion of the request
+processing lifecycle must be run.</li>
+      </ul>
+      </td>
+    </tr>
+    <tr>
+      <td><code>setProps(props)</code></td>
+      <td>Use this function to change any of the following supported
+properties:<br>
+      <ul>
+        <li>contentClass</li>
+        <li>contentHeight</li>
+        <li>contentStyle</li>
+        <li>label</li>
+        <li>labelClass</li>
+        <li>labelStyle</li>
+        <li>tabContent</li>
+        <li>visible</li>
+      </ul>
+      </td>
+    </tr>
+  </tbody>
+</table>
+<code></code>
+<h3>Client Side JavaScript Events</h3>
+<p>
+When the component is manipulated client side, some functions may
+publish event topics for custom AJAX implementations to listen for.
+Using the Dojo event system, listen for the refresh event topic using:<br>
+<br>
+<code>
+&lt;webuijsf:script&gt;<br>
+&nbsp;&nbsp;&nbsp; var processEvents =
+{&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; update: function(props) {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; //
+Do something...<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; }<br>
+&nbsp;&nbsp;&nbsp; }<br>
+<br>
+&nbsp;&nbsp;&nbsp; // Subscribe to refresh event.<br>
+&nbsp;&nbsp;&nbsp;
+dojo.event.topic.subscribe(webui.suntheme.widget.accordionTab.&lt;eventname&gt;.endEventTopic,
+processEvents, "update");</code><code><br>
+<br>
+</code><code>
+&lt;/webuijsf:script&gt;<br>
+</code></p>
+<p>The following events are supported.<br>
+</p>
+<table style="text-align: left; width: 100%;" border="1" cellpadding="2"
+ cellspacing="2">
+  <tbody>
+    <tr>
+      <td style="vertical-align: middle;">
+webui.suntheme.widget.accordionTab.refresh.beginEventTopic </td>
+      <td> Event topic published before asynchronously refreshing the
+component. Supported properties include: <br>
+      <ul>
+        <li>[optional] execute - list of the components to be executed
+along with
+this component</li>
+        <li>id - The client id to process the event for</li>
+      </ul>
+      </td>
+    </tr>
+    <tr>
+      <td style="vertical-align: middle;">
+webui.suntheme.widget.accordionTab.refresh.endEventTopic </td>
+      <td> Event topic published after asynchronously refreshing the
+component. Supported properties include: See setProps() function.<br>
+      <ul>
+        <li>props - JSON object containing properties of the component.
+See
+setProps()
+function for details on properties and their usage</li>
+      </ul>
+      </td>
+    </tr>
+    <tr>
+      <td style="vertical-align: middle;">webui.suntheme.widget.accordion.tabAction.beginEventTopic</td>
+      <td style="vertical-align: top;"> Event topic published before
+asynchronously processing tab actions. Supported properties include: <br>
+      <ul>
+        <li>[optional] execute - list of the components to be executed
+along with
+this component</li>
+        <li>id - The client id to process the event for</li>
+      </ul>
+      </td>
+    </tr>
+    <tr>
+      <td style="vertical-align: middle;">webui.suntheme.widget.accordion.tabAction.endEventTopic</td>
+      <td style="vertical-align: top;"> Event topic published after
+asynchronously processing tab actions. Supported properties include:
+See setProps() function.<br>
+      <ul>
+        <li>props - JSON object containing properties of the component.
+See
+setProps()
+function for details on properties and their usage</li>
+      </ul>
+      </td>
+    </tr>
+  </tbody>
+</table>
+<br>
+<h3>Examples</h3>
+<h4>Example 1: Using the tabContent in an accordion.</h4>
+<p>In this example, the tabContent component is populated with
+hyperlink components that act as navigational elements.</p>
+<pre>       &lt;webuijsf:accordion id="acc1" style="width:70%"&gt;<br>        <br>                &lt;webuijsf:tabContent id="tab1" label="Buttons and links" &gt;<br>                    &lt;webuijsf:hyperlink id="hyper1" text="Button Examples" <br>                    url="/faces/button/index.jsp"<br>                    target="rightFrame"/&gt;<br>                    &lt;br/&gt;<br>                    &lt;webuijsf:hyperlink id="hyper2" text="Link Examples" <br>                    url="/faces/hyperlink/index.jsp"<br>                    target="rightFrame"/&gt;<br>                    &lt;br/&gt;<br>                    &lt;webuijsf:hyperlink id="hyper3" text="Image Link Examples" <br>                    url="/faces/imagehyperlink/index.jsp"<br>                    target="rightFrame"/&gt;<br>                &lt;/webuijsf:tabContent&gt;<br>                <br>                &lt;webuijsf:tabContent id="tab2" label="Input Elements" &gt;<br>                    &lt;webuijsf:hyperlink id="hyper1" text="CheckBoxes" <br>                        url="/faces/clientsideCheckbox/checkbox.jsp"<br>                    target="rightFrame"/&gt;<br>                    &lt;br/&gt;<br>                    &lt;webuijsf:hyperlink id="hyper2" text="CheckBox group" <br>                    url="/faces/clientsideCheckbox/index.jsp"<br>                    target="rightFrame"/&gt;<br>                    &lt;br/&gt;<br>                    &lt;webuijsf:hyperlink id="hyper3" text="Radio Button Group" <br>                    url="/faces/clientsiderbcbGroup/index.jsp"<br>                    target="rightFrame"/&gt;<br>                &lt;/webuijsf:tabContent&gt;<br>                <br>                &lt;webuijsf:tabContent id="tab3" label="label1" &gt;<br>                    &lt;webuijsf:hyperlink id="hyper1" text="Calendar" <br>                        url="/faces/calendar/index.jsp"<br>                    target="rightFrame"/&gt;<br>                &lt;/webuijsf:tabContent&gt;<br>                <br>          &lt;/webuijsf:accordion&gt; <br> </pre>
 ]]></description>
     </tag>
 
@@ -17967,20 +18210,7 @@ asynchronously refresh the component.<br>
         <li>[optional] execute: Comma separated string containing a
 list of client ids against which the <code>execute</code> portion of
 the request processing lifecycle must be run. If omitted, no other
-components are executed.. </li>
-      </ul>
-      </td>
-    </tr>
-    <tr>
-      <td style="vertical-align: top;"><code>submit(execute)</code><br>
-      </td>
-      <td style="vertical-align: top;">Use this function to
-asynchronously submit the component.<br>
-      <ul>
-        <li>[optional] execute: Comma separated string containing a
-list of client ids against which the <code>execute</code> portion of
-the request processing lifecycle must be run. If omitted, the component
-on which the function has been invoked, is submitted. </li>
+components are executed.</li>
       </ul>
       </td>
     </tr>
@@ -18016,6 +18246,19 @@ properties:<br>
         <li>valid</li>
         <li>value</li>
         <li>visible</li>
+      </ul>
+      </td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top;"><code>submit(execute)</code><br>
+      </td>
+      <td style="vertical-align: top;">Use this function to
+asynchronously submit the component.<br>
+      <ul>
+        <li>[optional] execute: Comma separated string containing a
+list of client ids against which the <code>execute</code> portion of
+the request processing lifecycle must be run. If omitted, the component
+on which the function has been invoked, is submitted. </li>
       </ul>
       </td>
     </tr>
@@ -18224,22 +18467,9 @@ function for a list of supported properties.</td>
 asynchronously refresh the component.<br>
       <ul>
         <li>[optional] execute: Comma separated string containing a
-list of client
-ids against which the <code>execute</code> portion of the request
-processing lifecycle must be run.</li>
-      </ul>
-      </td>
-    </tr>
-    <tr>
-      <td style="vertical-align: top;"><code>submit(execute)</code><br>
-      </td>
-      <td style="vertical-align: top;">Use this function to
-asynchronously submit the component.<br>
-      <ul>
-        <li>[optional] execute: Comma separated string containing a
-list of client
-ids against which the <code>execute</code> portion of the request
-processing lifecycle must be run.</li>
+list of client ids against which the <code>execute</code> portion of
+the request processing lifecycle must be run. If omitted, no other
+components are executed.</li>
       </ul>
       </td>
     </tr>
@@ -18250,13 +18480,11 @@ properties:<br>
       <ul>
         <li>accesskey</li>
         <li>className</li>
-        <li>dir<br>
-        </li>
+        <li>dir</li>
         <li>disabled</li>
         <li>id</li>
         <li>label</li>
-        <li>lang<br>
-        </li>
+        <li>lang</li>
         <li>onClick</li>
         <li>onDblClick</li>
         <li>onFocus</li>
@@ -18274,10 +18502,22 @@ properties:<br>
         <li>style</li>
         <li>tabIndex</li>
         <li>title</li>
-        <li>valid<br>
-        </li>
+        <li>valid</li>
         <li>value</li>
         <li>visible</li>
+      </ul>
+      </td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top;"><code>submit(execute)</code><br>
+      </td>
+      <td style="vertical-align: top;">Use this function to
+asynchronously submit the component.<br>
+      <ul>
+        <li>[optional] execute: Comma separated string containing a
+list of client ids against which the <code>execute</code> portion of
+the request processing lifecycle must be run. If omitted, the component
+on which the function has been invoked, is submitted. </li>
       </ul>
       </td>
     </tr>
