@@ -30,9 +30,11 @@ import com.sun.webui.jsf.model.Separator;
 import com.sun.webui.jsf.model.list.EndGroup;
 import com.sun.webui.jsf.model.list.ListItem;
 import com.sun.webui.jsf.model.list.StartGroup;
+import com.sun.webui.jsf.theme.ThemeStyles;
 import com.sun.webui.jsf.util.ConversionUtilities;
+import com.sun.webui.jsf.util.ThemeUtilities;
 import com.sun.webui.jsf.util.WidgetUtilities;
-
+import com.sun.webui.theme.Theme;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -182,16 +184,31 @@ abstract public class ListRendererBase extends RendererBase {
     protected JSONObject getProperties(FacesContext context, 
         ListSelector component)throws JSONException, IOException {
         
-     
         JSONObject json = new JSONObject();
+        
+        UIComponent label = component.getLabelComponent();
+        
+        boolean labelOnTop = component.isLabelOnTop();
+        
+        if(label != null && !labelOnTop && component.getRows() > 1) {
+            Theme theme = ThemeUtilities.getTheme(context);
+            String listAlign = theme.getStyleClass(ThemeStyles.LIST_ALIGN);
+            Map attributes = label.getAttributes();
+            Object styleClass = attributes.get("styleClass");
+            if(styleClass == null) {
+                attributes.put("styleClass", listAlign);
+            } else if(styleClass.toString().indexOf(listAlign) == -1) {
+                attributes.put("styleClass", styleClass + " " + listAlign);
+            }
+        }
         
         // Append label properties. null label will be checked in the WidgetUtilities.renderComponent()
         WidgetUtilities.addProperties( json, "label",
-            WidgetUtilities.renderComponent(context, ((ListSelector)component).getLabelComponent()) );
+            WidgetUtilities.renderComponent(context, label) );
         
         // StyleClass, labelOnTop
         json.put( "className", component.getStyleClass() );
-        json.put( "labelOnTop", component.isLabelOnTop() );
+        json.put( "labelOnTop", labelOnTop );
         
         // This needs to be called for supporting DB NULL values.
         recordRenderedValue(component);
@@ -263,23 +280,26 @@ abstract public class ListRendererBase extends RendererBase {
             option = optionsIterator.next();
             
             if (option instanceof Separator) {
-                
-                // Create a JSONObject for the separator
-                JSONObject separatorJson = new JSONObject();
-                getSeparatorProperties( separatorJson, component );
-                
-                if( groupOptionsJsonArray != null )
-                    // That means this is for the optgroup we're working on
-                    groupOptionsJsonArray.put( separatorJson );
-                else
-                    // This is just an option for the list component
-                    optionsJsonArray.put( separatorJson );
+                if (canGetSeparatorProperties(component)) {
+                    // Create a JSONObject for the separator
+                    JSONObject separatorJson = new JSONObject();
+                    getSeparatorProperties( separatorJson, component );
+
+                    if( groupOptionsJsonArray != null ) {
+                        // That means this is for the optgroup we're working on
+                        groupOptionsJsonArray.put( separatorJson );
+                    }
+                    else {
+                        // This is just an option for the list component
+                        optionsJsonArray.put( separatorJson );
+                    }
+                }
             }
             else if (option instanceof StartGroup ) {
                 
                 StartGroup group = (StartGroup)option;
                 
-                if(!noSeparator) {
+                if(!noSeparator && canGetSeparatorProperties(component)) {
                     JSONObject separatorJson = new JSONObject();
                     getSeparatorProperties(separatorJson, component);
                     optionsJsonArray.put( separatorJson );
@@ -303,7 +323,7 @@ abstract public class ListRendererBase extends RendererBase {
                 groupOptionJson.put( "options", groupOptionsJsonArray );
                 groupOptionsJsonArray = null;
                 
-                if(optionsIterator.hasNext()) {
+                if(optionsIterator.hasNext() && canGetSeparatorProperties(component)) {
                     JSONObject separatorJson = new JSONObject();
                     getSeparatorProperties(separatorJson, component);
                     optionsJsonArray.put( separatorJson );
@@ -341,14 +361,11 @@ abstract public class ListRendererBase extends RendererBase {
      */
     private void getSeparatorProperties(JSONObject json, UIComponent component) throws JSONException {
         
-        if(!(component instanceof ListSelector)) {
+        if (!canGetSeparatorProperties(component)) {
             return;
         }
         
         ListSelector selector = (ListSelector)component;
-        if(!selector.isSeparators()) {
-            return;
-        }
         
         // Indicates this is a separator
         json.put( "separator", true );
@@ -362,6 +379,18 @@ abstract public class ListRendererBase extends RendererBase {
             labelBuffer.append("-");                        
         }
         json.put( "label", labelBuffer.toString() );
+    }
+    
+    private boolean canGetSeparatorProperties(UIComponent component) {
+        if(!(component instanceof ListSelector)) {
+            return false;
+        }
+        
+        ListSelector selector = (ListSelector)component;
+        if(!selector.isSeparators()) {
+            return false;
+        }
+        return true;
     }
     
     /**

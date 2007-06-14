@@ -57,30 +57,31 @@ webui.@THEME@.widget.listbox.addOptions = function(props) {
 
     var thisNode;
     for (var i = 0; i < props.options.length; i++) {
-        if (props.options[i].group == false) {
+        var pOption = props.options[i];
+        if (pOption.group == false) {
             thisNode = this.optionNode.cloneNode(true);
-
+            
             // Set the properties on this <option> element
-            this.setOptionProps(thisNode, props.options[i]);
-
+            this.setOptionProps(thisNode, pOption);
+            
             // Append this <option> node to the <select>
             this.listContainer.appendChild(thisNode); 
 
         } else { // group option <optgroup>
 
             thisNode = this.optionGroupContainer.cloneNode(true);
-
+            
             // Set the properties on this <optgroup> element
-            this.setGroupOptionProps(thisNode, props.options[i]);
-
+            this.setGroupOptionProps(thisNode, pOption);
+            
             // Append this <optgroup> node to the <select>
             this.listContainer.appendChild(thisNode);
 
             // Add the <option> elements to this group
             var thisSubNode;
-            for (var ix = 0; ix < props.options[i].options.length; ix++) {
+            for (var ix = 0; ix < pOption.options.length; ix++) {
                 thisSubNode = this.memberOptionNode.cloneNode(true);
-                this.setOptionProps(thisSubNode, props.options[i].options[ix]);
+                this.setOptionProps(thisSubNode, pOption.options[ix]);
                 thisNode.appendChild(thisSubNode); 
             }
         }
@@ -98,7 +99,12 @@ webui.@THEME@.widget.listbox.changed = function() {
     if (webui.@THEME@.common.browser.is_ie) { 
         for (var i = 0;i < options.length;++i) {
             if (options[i].disabled == true && options[i].selected == true) {
-                widget.listContainer.selectedIndex = -1;
+                if (this.listContainer.multiple == true) {
+                    options[i].selected = false;
+                }
+                else {
+                    this.listContainer.selectedIndex = -1;
+                }
             }
         }  
     }        
@@ -160,6 +166,7 @@ webui.@THEME@.widget.listbox.fillInTemplate = function() {
     this.domNode.getSelectedLabel = function() { return dojo.widget.byId(this.id).getSelectedLabel(); }
     this.domNode.getSelectElement = function() { return dojo.widget.byId(this.id).getSelectElement(); }
     this.domNode.refresh = function(execute) { return dojo.widget.byId(this.id).refresh(execute); }
+    this.domNode.submit = function(execute) { return dojo.widget.byId(this.id).submit(execute); }
 
     // Set events.
     dojo.event.connect(this.listContainer, "onchange",
@@ -323,6 +330,35 @@ webui.@THEME@.widget.listbox.refresh = {
 }
 
 /**
+ * This closure is used to process submit events.
+ */
+webui.@THEME@.widget.listbox.submit = {
+    /**
+     * Event topics for custom AJAX implementations to listen for.
+     */
+    beginEventTopic: "webui_@THEME@_widget_listbox_submit_begin",
+    endEventTopic: "webui_@THEME@_widget_listbox_submit_end",
+    
+    /**
+     * Process submit event.
+     *
+     * @param execute Comma separated string containing a list of client ids 
+     * against which the execute portion of the request processing lifecycle
+     * must be run.
+     */
+    processEvent: function(execute) {
+        // Publish an event for custom AJAX implementations to listen for.
+        dojo.event.topic.publish(
+            webui.@THEME@.widget.listbox.submit.beginEventTopic, {
+                id: this.id,
+                execute: execute
+            });
+        return true;
+    }
+}
+
+
+/**
  * Helper function to set properties on <optgroup> element
  *
  * @param element The <optgroup> DOM node
@@ -407,6 +443,9 @@ webui.@THEME@.widget.listbox.setProps = function(props) {
         this.extend(this, props);
     } else {
         props = this.getProps(); // Widget is being initialized.
+        if (props.multiple != true) {
+            props.multiple = false;
+        }
     }
 
     // A web app devleoper could return false in order to cancel the 
@@ -491,6 +530,7 @@ dojo.lang.extend(webui.@THEME@.widget.listbox, {
     getSelectedValue: webui.@THEME@.widget.listbox.getSelectedValue,
     initClassNames: webui.@THEME@.widget.listbox.initClassNames,
     refresh: webui.@THEME@.widget.listbox.refresh.processEvent,
+    submit: webui.@THEME@.widget.listbox.submit.processEvent,
     setGroupOptionProps: webui.@THEME@.widget.listbox.setGroupOptionProps,
     setOptionProps: webui.@THEME@.widget.listbox.setOptionProps,
     setProps: webui.@THEME@.widget.listbox.setProps,
