@@ -23,12 +23,9 @@ package com.sun.webui.jsf.renderkit.ajax;
 
 import com.sun.faces.annotation.Renderer;
 import com.sun.faces.extensions.avatar.lifecycle.AsyncResponse;
-import com.sun.webui.jsf.component.Accordion;
 import com.sun.webui.jsf.util.ComponentUtilities;
 
 import java.io.IOException;
-
-import java.util.Map;
 
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
@@ -47,7 +44,6 @@ public class AccordionRenderer
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     // Renderer methods
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
     
     /**
      * Render the beginning of the specified UIComponent to the output stream or
@@ -84,7 +80,6 @@ public class AccordionRenderer
         if (ComponentUtilities.isAjaxRequest(context, component, "refresh")) {
             super.encodeChildren(context, component);
         }
-
     }
 
     /**

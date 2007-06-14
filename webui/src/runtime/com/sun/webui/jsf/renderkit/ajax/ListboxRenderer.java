@@ -26,13 +26,13 @@ import com.sun.webui.jsf.component.Listbox;
 import com.sun.webui.jsf.util.ComponentUtilities;
 
 import java.io.IOException;
+
 import java.util.Iterator;
-import java.util.Map;
 import javax.faces.application.FacesMessage;
 
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
-import javax.faces.context.ResponseWriter;
+
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -83,10 +83,8 @@ public class ListboxRenderer
             super.encodeChildren(context, component);
         }
         
-        // Return if Ajax request and is not validate event.
-        // "submit" request would return here
-        if (ComponentUtilities.isAjaxRequest(context, component, "submit")                
-                ) {            
+        // Process submit event.
+        if (ComponentUtilities.isAjaxRequest(context, component, "submit")) {            
             try {
                 boolean valid = ((Listbox) component).isValid();
                 JSONObject json = new JSONObject();

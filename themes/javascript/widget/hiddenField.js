@@ -47,6 +47,7 @@ webui.@THEME@.widget.hiddenField.fillInTemplate = function() {
     this.domNode.getProps = function() { return dojo.widget.byId(this.id).getProps(); }
     this.domNode.refresh = function(execute) { return dojo.widget.byId(this.id).refresh(execute); }
     this.domNode.setProps = function(props) { return dojo.widget.byId(this.id).setProps(props); }
+    this.domNode.submit = function(execute) { return dojo.widget.byId(this.id).submit(execute); }
 
     // Set properties.
     return this.setProps();
@@ -134,6 +135,37 @@ webui.@THEME@.widget.hiddenField.setProps = function(props) {
     return props; // Return props for subclasses.
 }
 
+/**
+ * This closure is used to process submit events.
+ */
+webui.@THEME@.widget.hiddenField.submit = {
+    /**
+     * Event topics for custom AJAX implementations to listen for.
+     */
+    beginEventTopic: "webui_@THEME@_widget_hiddenField_submit_begin",
+    endEventTopic: "webui_@THEME@_widget_hiddenField_submit_end",
+    
+    /**
+     * Process submit event.
+     *
+     * @param execute Comma separated string containing a list of client ids 
+     * against which the execute portion of the request processing lifecycle
+     * must be run.
+     */
+    processEvent: function(execute) {
+        // Include default AJAX implementation.
+        this.ajaxify("webui.@THEME@.widget.jsfx.hiddenField");
+
+        // Publish an event for custom AJAX implementations to listen for.
+        dojo.event.topic.publish(
+            webui.@THEME@.widget.hiddenField.submit.beginEventTopic, {
+                id: this.id,
+                execute: execute
+            });
+        return true;
+    }
+}
+
 // Inherit base widget properties.
 dojo.inherits(webui.@THEME@.widget.hiddenField, webui.@THEME@.widget.widgetBase);
 
@@ -144,6 +176,7 @@ dojo.lang.extend(webui.@THEME@.widget.hiddenField, {
     getProps: webui.@THEME@.widget.hiddenField.getProps,
     refresh: webui.@THEME@.widget.hiddenField.refresh.processEvent,
     setProps: webui.@THEME@.widget.hiddenField.setProps,
+    submit: webui.@THEME@.widget.hiddenField.submit.processEvent,
 
     // Set defaults.
     disabled: false,

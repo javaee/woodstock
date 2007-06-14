@@ -25,11 +25,9 @@ import com.sun.faces.annotation.Renderer;
 import com.sun.webui.jsf.util.ComponentUtilities;
 
 import java.io.IOException;
-import java.util.Map;
 
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
-import javax.faces.context.ResponseWriter;
 
 /**
  * This class renders checkbox group components.

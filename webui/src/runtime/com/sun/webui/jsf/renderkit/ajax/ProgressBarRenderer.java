@@ -22,7 +22,6 @@
 package com.sun.webui.jsf.renderkit.ajax;
 
 import com.sun.faces.annotation.Renderer;
-import com.sun.faces.extensions.avatar.lifecycle.AsyncResponse;
 import com.sun.webui.jsf.component.ProgressBar;
 import com.sun.webui.jsf.util.ComponentUtilities;
 

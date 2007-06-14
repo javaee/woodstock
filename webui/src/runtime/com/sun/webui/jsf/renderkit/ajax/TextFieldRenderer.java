@@ -27,12 +27,10 @@ import com.sun.webui.jsf.util.ComponentUtilities;
 
 import java.io.IOException;
 import java.util.Iterator;
-import java.util.Map;
 
 import javax.faces.application.FacesMessage;
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
-import javax.faces.context.ResponseWriter;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -41,9 +39,9 @@ import org.json.JSONObject;
  * This class responds to Ajax requests made to ProgressBar components.
  */
 @Renderer(@Renderer.Renders(
-rendererType="com.sun.webui.jsf.ajax.TextField",
-        componentFamily="com.sun.webui.jsf.TextField"))
-        public class TextFieldRenderer
+    rendererType="com.sun.webui.jsf.ajax.TextField",
+    componentFamily="com.sun.webui.jsf.TextField"))
+public class TextFieldRenderer
         extends com.sun.webui.jsf.renderkit.widget.TextFieldRenderer  {
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     // Renderer methods
@@ -74,21 +72,19 @@ rendererType="com.sun.webui.jsf.ajax.TextField",
      * @exception NullPointerException if context or component is null.
      */
     public void encodeChildren(FacesContext context, UIComponent component)
-    throws IOException {
+            throws IOException {
         if (context == null || component == null) {
             throw new NullPointerException();
         }
         
-        // Output component properties if Ajax request and is refresh or submit event.
-        if (ComponentUtilities.isAjaxRequest(context, component, "refresh") ) {
+        // Output component properties if Ajax request and is refresh event.
+        if (ComponentUtilities.isAjaxRequest(context, component, "refresh")) {
             super.encodeChildren(context, component);
         }
                 
-        // Return if Ajax request and is not validate event.
-        // "submit" request would return here
-        if (ComponentUtilities.isAjaxRequest(context, component, "validate") ||
-            ComponentUtilities.isAjaxRequest(context, component, "submit")                
-                ) {            
+        // Process validate and submit events.
+        if (ComponentUtilities.isAjaxRequest(context, component, "validate")
+                || ComponentUtilities.isAjaxRequest(context, component, "submit")) {            
             try {
                 boolean valid = ((TextField) component).isValid();
                 JSONObject json = new JSONObject();
@@ -110,7 +106,6 @@ rendererType="com.sun.webui.jsf.ajax.TextField",
             }
             return;
         }
-        
     }
     
     /**

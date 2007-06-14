@@ -129,34 +129,6 @@ webui.@THEME@.widget.dropDown.refresh = {
 }
 
 /**
- * This closure is used to process submit events.
- */
-webui.@THEME@.widget.dropDown.submit = {
-    /**
-     * Event topics for custom AJAX implementations to listen for.
-     */
-    beginEventTopic: "webui_@THEME@_widget_dropDown_submit_begin",
-    endEventTopic: "webui_@THEME@_widget_dropDown_submit_end",
-
-    /**
-     * Process submit event.
-     *
-     * @param execute The string containing a comma separated list of client ids 
-     * against which the execute portion of the request processing lifecycle
-     * must be run.
-     */
-    processEvent: function(execute) {
-        // Publish an event for custom AJAX implementations to listen for.
-        dojo.event.topic.publish(
-            webui.@THEME@.widget.dropDown.submit.beginEventTopic, {
-                id: this.id,
-                execute: execute
-            });
-        return true;
-    }
-}
-
-/**
  * Helper function called by onChange event to set the proper
  * selected, and disabled styles.
  */
@@ -239,6 +211,37 @@ webui.@THEME@.widget.dropDown.setProps = function(props) {
     return props; // Return props for subclasses.
 }
 
+/**
+ * This closure is used to process submit events.
+ */
+webui.@THEME@.widget.dropDown.submit = {
+    /**
+     * Event topics for custom AJAX implementations to listen for.
+     */
+    beginEventTopic: "webui_@THEME@_widget_dropDown_submit_begin",
+    endEventTopic: "webui_@THEME@_widget_dropDown_submit_end",
+
+    /**
+     * Process submit event.
+     *
+     * @param execute The string containing a comma separated list of client ids 
+     * against which the execute portion of the request processing lifecycle
+     * must be run.
+     */
+    processEvent: function(execute) {
+        // Include default AJAX implementation.
+        this.ajaxify("webui.@THEME@.widget.jsfx.dropDown");
+
+        // Publish an event for custom AJAX implementations to listen for.
+        dojo.event.topic.publish(
+            webui.@THEME@.widget.dropDown.submit.beginEventTopic, {
+                id: this.id,
+                execute: execute
+            });
+        return true;
+    }
+}
+
 // Inherit base widget properties.
 dojo.inherits(webui.@THEME@.widget.dropDown, webui.@THEME@.widget.listbox);
 
@@ -250,8 +253,8 @@ dojo.lang.extend(webui.@THEME@.widget.dropDown, {
     getProps: webui.@THEME@.widget.dropDown.getProps,
     initClassNames: webui.@THEME@.widget.dropDown.initClassNames,
     refresh: webui.@THEME@.widget.dropDown.refresh.processEvent,
-    submit: webui.@THEME@.widget.dropDown.submit.processEvent,
     setProps: webui.@THEME@.widget.dropDown.setProps,
+    submit: webui.@THEME@.widget.dropDown.submit.processEvent,
 
     // Set defaults
     submitForm: false,

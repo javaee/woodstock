@@ -25,18 +25,16 @@ import com.sun.faces.annotation.Renderer;
 import com.sun.webui.jsf.util.ComponentUtilities;
 
 import java.io.IOException;
-import java.util.Map;
 
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
-import javax.faces.context.ResponseWriter;
 
 /**
  * This class renders radiobutton group components.
  */
 @Renderer(@Renderer.Renders(
-rendererType="com.sun.webui.jsf.ajax.RadioButtonGroup",
-        componentFamily="com.sun.webui.jsf.RadioButtonGroup"))
+    rendererType="com.sun.webui.jsf.ajax.RadioButtonGroup",
+    componentFamily="com.sun.webui.jsf.RadioButtonGroup"))
 public class RadioButtonGroupRenderer
         extends com.sun.webui.jsf.renderkit.widget.RadioButtonGroupRenderer {
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -68,7 +66,7 @@ public class RadioButtonGroupRenderer
      * @exception NullPointerException if context or component is null.
      */
     public void encodeChildren(FacesContext context, UIComponent component)
-    throws IOException {
+            throws IOException {
         if (context == null || component == null) {
             throw new NullPointerException();
         }

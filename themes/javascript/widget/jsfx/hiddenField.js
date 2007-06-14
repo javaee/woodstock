@@ -65,6 +65,39 @@ webui.@THEME@.widget.jsfx.hiddenField = {
     },
 
     /**
+     * This function is used to process submit events with the following Object
+     * literals.
+     *
+     * <ul>
+     *  <li>id</li>
+     *  <li>execute</li>
+     * </ul>
+     *
+     * @param props Key-Value pairs of properties.
+     */
+    processSubmitEvent: function(props) {
+        if (props == null) {
+            return false;
+        }
+
+        // Dynamic Faces requires a DOM node as the source property.
+        var domNode = document.getElementById(props.id);
+
+        // Generate AJAX request using the JSF Extensions library.
+        DynaFaces.fireAjaxTransaction(
+            (domNode) ? domNode : document.forms[0], {
+            execute: (props.execute) ? props.execute : props.id,
+            render: props.id,
+            replaceElement: webui.@THEME@.widget.jsfx.hiddenField.submitCallback,
+            xjson: {
+                id: props.id,
+                event: "submit"
+            }
+        });
+        return true;
+    },
+
+    /**
      * This function is used to refresh widgets.
      *
      * @param id The client id.
@@ -88,11 +121,37 @@ webui.@THEME@.widget.jsfx.hiddenField = {
         dojo.event.topic.publish(
             webui.@THEME@.widget.hiddenField.refresh.endEventTopic, props);
         return true;
+    },
+
+    /**
+     * This function is a callback to respond to the end of submit request.
+     * It will only publish submit end event without updating the widget itself.
+     * While component data is available, it is NOT used to update the widget 
+     *
+     * @param id The client id.
+     * @param content The content returned by the AJAX response.
+     * @param closure The closure argument provided to DynaFaces.fireAjaxTransaction.
+     * @param xjson The xjson argument provided to DynaFaces.fireAjaxTransaction.
+     */
+    submitCallback: function(id, content, closure, xjson) {
+        if (id == null || content == null) {
+            return false;
+        }
+
+        // Parse JSON text.
+        var props = JSON.parse(content);
+            
+        // Publish an event for custom AJAX implementations to listen for.
+        dojo.event.topic.publish(
+            webui.@THEME@.widget.hiddenField.submit.endEventTopic, props);
+        return true;
     }
 }
 
 // Listen for Dojo Widget events.
 dojo.event.topic.subscribe(webui.@THEME@.widget.hiddenField.refresh.beginEventTopic,
     webui.@THEME@.widget.jsfx.hiddenField, "processRefreshEvent");
+dojo.event.topic.subscribe(webui.@THEME@.widget.hiddenField.submit.beginEventTopic,
+    webui.@THEME@.widget.jsfx.hiddenField, "processSubmitEvent");
 
 //-->

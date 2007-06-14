@@ -54,8 +54,8 @@ webui.@THEME@.widget.textField.fillInTemplate = function() {
     this.domNode.getInputElement = function() { return dojo.widget.byId(this.id).getInputElement(); }
     this.domNode.getProps = function() { return dojo.widget.byId(this.id).getProps(); }
     this.domNode.refresh = function(execute) { return dojo.widget.byId(this.id).refresh(execute); }
-    this.domNode.submit = function(execute) { return dojo.widget.byId(this.id).submit(execute); }
     this.domNode.setProps = function(props) { return dojo.widget.byId(this.id).setProps(props); }
+    this.domNode.submit = function(execute) { return dojo.widget.byId(this.id).submit(execute); }
 
     // Set events.
     if (this.autoValidate == true) {
@@ -326,8 +326,8 @@ dojo.lang.extend(webui.@THEME@.widget.textField, {
     getInputElement: webui.@THEME@.widget.textField.getInputElement,
     getProps: webui.@THEME@.widget.textField.getProps,
     refresh: webui.@THEME@.widget.textField.refresh.processEvent,
-    submit: webui.@THEME@.widget.textField.submit.processEvent,
     setProps: webui.@THEME@.widget.textField.setProps,
+    submit: webui.@THEME@.widget.textField.submit.processEvent,
 
     // Set defaults.
     disabled: false,

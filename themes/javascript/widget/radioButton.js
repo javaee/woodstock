@@ -162,6 +162,37 @@ webui.@THEME@.widget.radioButton.setProps = function(props) {
     return props; // Return props for subclasses.
 }
 
+/**
+ * This closure is used to process submit events.
+ */
+webui.@THEME@.widget.radioButton.submit = {
+    /**
+     * Event topics for custom AJAX implementations to listen for.
+     */
+    beginEventTopic: "webui_@THEME@_widget_radioButton_submit_begin",
+    endEventTopic: "webui_@THEME@_widget_radioButton_submit_end",
+    
+    /**
+     * Process submit event.
+     *
+     * @param execute Comma separated string containing a list of client ids 
+     * against which the execute portion of the request processing lifecycle
+     * must be run.
+     */
+    processEvent: function(execute) {
+        // Include default AJAX implementation.
+        this.ajaxify("webui.@THEME@.widget.jsfx.radioButton");
+
+        // Publish an event for custom AJAX implementations to listen for.
+        dojo.event.topic.publish(
+            webui.@THEME@.widget.radioButton.submit.beginEventTopic, {
+                id: this.id,
+                execute: execute
+            });
+        return true;
+    }
+}
+
 // Inherit base widget properties.
 dojo.inherits(webui.@THEME@.widget.radioButton, webui.@THEME@.widget.checkbox);
 
@@ -173,6 +204,7 @@ dojo.lang.extend(webui.@THEME@.widget.radioButton, {
     getLabelClassName: webui.@THEME@.widget.radioButton.getLabelClassName,
     refresh: webui.@THEME@.widget.radioButton.refresh.processEvent,
     setProps: webui.@THEME@.widget.radioButton.setProps,
+    submit: webui.@THEME@.widget.radioButton.submit.processEvent,
 
     // Set defaults
     idSuffix: "_rb",

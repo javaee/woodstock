@@ -22,13 +22,10 @@
 package com.sun.webui.jsf.renderkit.ajax;
 
 import com.sun.faces.annotation.Renderer;
-import com.sun.faces.extensions.avatar.lifecycle.AsyncResponse;
-import com.sun.webui.jsf.component.TabContent;
 import com.sun.webui.jsf.util.ComponentUtilities;
 
 import java.io.IOException;
 
-import java.util.Map;
 
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
@@ -64,9 +61,7 @@ public class TabContentRenderer
     public void decode(FacesContext context, UIComponent component) {
         if (context == null || component == null) {
             throw new NullPointerException();
-        }
-        
-                
+        } 
     }
 
     /**

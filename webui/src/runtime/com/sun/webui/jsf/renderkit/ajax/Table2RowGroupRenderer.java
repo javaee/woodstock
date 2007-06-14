@@ -21,21 +21,16 @@
  */
 package com.sun.webui.jsf.renderkit.ajax;
 
-import com.sun.data.provider.RowKey;
 import com.sun.faces.annotation.Renderer;
 import com.sun.faces.extensions.avatar.lifecycle.AsyncResponse;
-import com.sun.webui.jsf.component.Table2Column;
 import com.sun.webui.jsf.component.Table2RowGroup;
 import com.sun.webui.jsf.util.ComponentUtilities;
-import com.sun.webui.jsf.util.WidgetUtilities;
 
 import java.io.IOException;
-import java.util.Iterator;
 import java.util.Map;
 
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
-import javax.faces.context.ResponseWriter;
 
 import org.json.JSONException;
 import org.json.JSONObject;

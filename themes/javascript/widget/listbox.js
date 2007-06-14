@@ -330,35 +330,6 @@ webui.@THEME@.widget.listbox.refresh = {
 }
 
 /**
- * This closure is used to process submit events.
- */
-webui.@THEME@.widget.listbox.submit = {
-    /**
-     * Event topics for custom AJAX implementations to listen for.
-     */
-    beginEventTopic: "webui_@THEME@_widget_listbox_submit_begin",
-    endEventTopic: "webui_@THEME@_widget_listbox_submit_end",
-    
-    /**
-     * Process submit event.
-     *
-     * @param execute Comma separated string containing a list of client ids 
-     * against which the execute portion of the request processing lifecycle
-     * must be run.
-     */
-    processEvent: function(execute) {
-        // Publish an event for custom AJAX implementations to listen for.
-        dojo.event.topic.publish(
-            webui.@THEME@.widget.listbox.submit.beginEventTopic, {
-                id: this.id,
-                execute: execute
-            });
-        return true;
-    }
-}
-
-
-/**
  * Helper function to set properties on <optgroup> element
  *
  * @param element The <optgroup> DOM node
@@ -513,6 +484,37 @@ webui.@THEME@.widget.listbox.setSelectProps = function(selectNode, props) {
     return true;
 }
 
+/**
+ * This closure is used to process submit events.
+ */
+webui.@THEME@.widget.listbox.submit = {
+    /**
+     * Event topics for custom AJAX implementations to listen for.
+     */
+    beginEventTopic: "webui_@THEME@_widget_listbox_submit_begin",
+    endEventTopic: "webui_@THEME@_widget_listbox_submit_end",
+    
+    /**
+     * Process submit event.
+     *
+     * @param execute Comma separated string containing a list of client ids 
+     * against which the execute portion of the request processing lifecycle
+     * must be run.
+     */
+    processEvent: function(execute) {
+        // Include default AJAX implementation.
+        this.ajaxify("webui.@THEME@.widget.jsfx.listbox");
+
+        // Publish an event for custom AJAX implementations to listen for.
+        dojo.event.topic.publish(
+            webui.@THEME@.widget.listbox.submit.beginEventTopic, {
+                id: this.id,
+                execute: execute
+            });
+        return true;
+    }
+}
+
 // Inherit base widget properties.
 dojo.inherits(webui.@THEME@.widget.listbox, webui.@THEME@.widget.widgetBase);
 
@@ -530,11 +532,11 @@ dojo.lang.extend(webui.@THEME@.widget.listbox, {
     getSelectedValue: webui.@THEME@.widget.listbox.getSelectedValue,
     initClassNames: webui.@THEME@.widget.listbox.initClassNames,
     refresh: webui.@THEME@.widget.listbox.refresh.processEvent,
-    submit: webui.@THEME@.widget.listbox.submit.processEvent,
     setGroupOptionProps: webui.@THEME@.widget.listbox.setGroupOptionProps,
     setOptionProps: webui.@THEME@.widget.listbox.setOptionProps,
     setProps: webui.@THEME@.widget.listbox.setProps,
     setSelectProps: webui.@THEME@.widget.listbox.setSelectProps,
+    submit: webui.@THEME@.widget.listbox.submit.processEvent,
 
     // Set defaults
     labelOnTop: false,
