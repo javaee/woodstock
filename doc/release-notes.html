@@ -29,57 +29,72 @@
 <body>
 <h1><u>Woodstock 4.1 JSF Components Release Notes</u></h1>
 <p>&nbsp;</p>
-<h2><u>4.1 Build 6 </u></h2>
+<h2><u>4.1 Build 7</u> (06/15/2007)</h2>
+<h3>New Features</h3>
+<ul>
+  <li>Moved ajaxify property from components to head, themeLinks, and
+portalTheme tags.<br>
+  </li>
+  <li>Added Ajax submit features to checkbox, radio button, hidden
+field, listbox, and drop down.<br>
+  </li>
+</ul>
+<h2><u>4.1 Build 6</u> (06/01/2007)</h2>
 <h3>New Features</h3>
 <ul>
   <li>Client-side rendering for CheckboxGroup</li>
   <li>Client-side rendering for RadioButtonGroup</li>
   <li> New widget for ImageHyperlink component</li>
-  <li>
-<li>UPLOAD: Many exceptions in the commons.fileupload package
-are now caught and handled differently, and the following differences in 
-behavior will be seen.
-<p>
-<ul>
-<li>
+  <li>UPLOAD: Many exceptions in the commons.fileupload package
+are now caught and handled differently, and the following differences
+in behavior will be seen.
+    <p></p>
+    <ul>
+      <li>
 The UploadFilter's web.xml "maxSize" init-param will be
 compared against each file in the upload. This includes files uploaded
-from a rendered Upload component as well as explicit input HTML elements
+from a rendered Upload component as well as explicit input HTML
+elements
 of type "file" that were literally placed in an application's web page.
-</li>
-<li>
+      </li>
+      <li>
 If any errors occur while processing a multipart/form-data
-request (a request with an input HTML element of type "file") the request
+request (a request with an input HTML element of type "file") the
+request
 will still be parsed. This behavior is different from earlier versions
 in that if an error occurred in the commons.fileupload package, all
-the form data in the request would be lost and either an exception would 
-be thrown by the FacesServelet or the page might have just been redisplayed 
-with no perceivable error, in other words, it would proceed directly to the 
-RENDER phase, similar to an inital request for a page. In 3.0.3, only in 
-extreme cases like a malformed request may request parameters be lost and
+the form data in the request would be lost and either an exception
+would be thrown by the FacesServelet or the page might have just been
+redisplayed with no perceivable error, in other words, it would proceed
+directly to the RENDER phase, similar to an inital request for a page.
+In 3.0.3, only in extreme cases like a malformed request may request
+parameters be lost and
 proceed to RENDER phase. If this happens the UploadRenderer will queue
-a FacesMessage for the upload component. Unfortunately only components that
+a FacesMessage for the upload component. Unfortunately only components
+that
 are rendered after the upload component will see the FacesMessage. No
-FacesException will thrown.  In cases of 
-an upload file exceeding the default or application defined maximum,
+FacesException will thrown. In cases of an upload file exceeding the
+default or application defined maximum,
 a FacesMessage will be queued well before the RENDER phase in order
 for the application to detect that an error had occurred. Messages will
 also be logged.
-</li>
-<li>
+      </li>
+      <li>
 If an application defined upload filter init param value is invalid,
 a default value will be used a warning message will be logged.
-</li>
-<li>
-The Upload component has a new boolean property called "preservePath". If this
-property is true, the literal value of the file upload input element will
+      </li>
+      <li>
+The Upload component has a new boolean property called "preservePath".
+If this
+property is true, the literal value of the file upload input element
+will
 be communicated to the server. The application can obtain the value
-from the UploadedFile instance, the value of the Upload component by calling
+from the UploadedFile instance, the value of the Upload component by
+calling
 "getClientFilePath".
-</li>
-</ul>
-</p>
-</ul>
+      </li>
+    </ul>
+    <p></p>
   </li>
 </ul>
 <h3>Bugs Resolved/Fixed</h3>
@@ -92,15 +107,15 @@ appears when doing table layout</li>
   <li><a
  href="https://woodstock.dev.java.net/issues/show_bug.cgi?id=194">Issue
 #194</a> - Reset button is not functioning properly</li>
-<li>CR6357806 - UPLOAD: Upload.getColumns should not set the default value, just return it
-</li>
-<li>CR6436927 - FILE UPLOAD: field value should be retianed when page submit
+  <li>CR6357806 - UPLOAD: Upload.getColumns should not set the default
+value, just return it
+  </li>
+  <li>CR6436927 - FILE UPLOAD: field value should be retianed when page
+submit
 results in error
-</li>
-<li>CR6453366 - FileUpload: Need way to control MAX_FILE_SIZE
-</li>
+  </li>
+  <li>CR6453366 - FileUpload: Need way to control MAX_FILE_SIZE&nbsp;</li>
 </ul>
-<p>&nbsp;</p>
 <h2><u>4.1 Build 5</u> (05/18/2007)</h2>
 <h3>New Features</h3>
 <ul>
