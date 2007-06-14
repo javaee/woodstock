@@ -36,20 +36,16 @@
 portalTheme tags.<br>
   </li>
   <li>Added Ajax submit features to checkbox, radio button, hidden
-field, listbox, and drop down.<br>
-  </li>
-</ul>
-<h2><u>4.1 Build 6</u> (06/01/2007)</h2>
-<h3>New Features</h3>
-<ul>
-  <li>Client-side rendering for CheckboxGroup</li>
-  <li>Client-side rendering for RadioButtonGroup</li>
-  <li> New widget for ImageHyperlink component</li>
-  <li>UPLOAD: Many exceptions in the commons.fileupload package
+field, listbox, and drop down.</li>
+	<li>New Accordion component added.&nbsp; (Note - this is an initial 
+	prototype.&nbsp; Changes will be coming in Build 8)</li>
+	<li>Support for Facelets (Issue #3).&nbsp; Additions were made to the 
+	annotations library processor to output facelets tag library.&nbsp; This has 
+	not been thoroughly tested yet.</li>
+	<li>UPLOAD: Many exceptions in the commons.fileupload package
 are now caught and handled differently, and the following differences
 in behavior will be seen.
-    <p></p>
-    <ul>
+        <ul>
       <li>
 The UploadFilter's web.xml "maxSize" init-param will be
 compared against each file in the upload. This includes files uploaded
@@ -94,9 +90,37 @@ calling
 "getClientFilePath".
       </li>
     </ul>
+    </ul>
     <p></p>
-  </li>
+<h3>Bugs Resolved/Fixed</h3>
+<ul>
+		<li>
+		<a href="https://woodstock.dev.java.net/issues/show_bug.cgi?id=250">Issue
+#250</a> - imageHyperlink and refresh(): changing imageURL with setImageURL did 
+		not update image.</li>
+		<li>
+		<a href="https://woodstock.dev.java.net/issues/show_bug.cgi?id=3">Issue
+#3</a>&nbsp;&nbsp;&nbsp;&nbsp; - Add Facelets Support</li>
+		<li>
+		<a href="https://woodstock.dev.java.net/issues/show_bug.cgi?id=241">Issue
+#241</a> - Designtime: Editable generates with textField id</li>
+		<li>CR6357806 - UPLOAD: Upload.getColumns should not set the default
+value, just return it </li>
+		<li>CR6436927 - FILE UPLOAD: field value should be retianed when page
+submit
+results in error </li>
+		<li>CR6453366 - FileUpload: Need way to control MAX_FILE_SIZE&nbsp;</li>
+	</ul>
+	<p>&nbsp;</li>
 </ul>
+<h2><u>4.1 Build 6</u> (06/01/2007)</h2>
+<h3>New Features</h3>
+<ul>
+  <li>Client-side rendering for CheckboxGroup</li>
+  <li>Client-side rendering for RadioButtonGroup</li>
+  <li> New widget for ImageHyperlink component</li>
+</ul>
+<p></p>
 <h3>Bugs Resolved/Fixed</h3>
 <ul>
   <li>Issue #104767 - (NetBeans issue) ArrayIndexOutOfBoundsException
