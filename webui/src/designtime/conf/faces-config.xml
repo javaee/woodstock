@@ -71,6 +71,18 @@
     </renderer>
 
     <renderer>
+      <component-family>com.sun.webui.jsf.Calendar</component-family>
+      <renderer-type>com.sun.webui.jsf.widget.CalendarDesignTime</renderer-type>
+      <renderer-class>com.sun.webui.jsf.renderkit.html.CalendarRenderer</renderer-class>
+    </renderer>
+
+    <renderer>
+      <component-family>com.sun.webui.jsf.CalendarMonth</component-family>
+      <renderer-type>com.sun.webui.jsf.widget.CalendarMonthDesignTime</renderer-type>
+      <renderer-class>com.sun.webui.jsf.renderkit.html.CalendarMonthRenderer</renderer-class>
+    </renderer>
+
+    <renderer>
       <component-family>com.sun.webui.jsf.Checkbox</component-family>
       <renderer-type>com.sun.webui.jsf.widget.CheckboxDesignTime</renderer-type>
       <renderer-class>com.sun.webui.jsf.renderkit.html.CheckboxRenderer</renderer-class>

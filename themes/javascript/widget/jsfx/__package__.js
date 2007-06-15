@@ -31,6 +31,7 @@ dojo.requireIf(djConfig.isDebug, "webui.@THEME@.widget.jsfx.alarm");
 dojo.requireIf(djConfig.isDebug, "webui.@THEME@.widget.jsfx.anchor");
 dojo.requireIf(djConfig.isDebug, "webui.@THEME@.widget.jsfx.alert");
 dojo.requireIf(djConfig.isDebug, "webui.@THEME@.widget.jsfx.button");
+dojo.requireIf(djConfig.isDebug, "webui.@THEME@.widget.jsfx.calendar");
 dojo.requireIf(djConfig.isDebug, "webui.@THEME@.widget.jsfx.checkbox");
 dojo.requireIf(djConfig.isDebug, "webui.@THEME@.widget.jsfx.checkboxGroup");
 dojo.requireIf(djConfig.isDebug, "webui.@THEME@.widget.jsfx.dropDown");

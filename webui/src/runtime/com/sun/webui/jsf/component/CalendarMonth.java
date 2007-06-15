@@ -27,6 +27,7 @@ import com.sun.webui.theme.Theme;
 import com.sun.webui.jsf.theme.ThemeImages;
 import com.sun.webui.jsf.model.Option;
 import com.sun.webui.jsf.model.ScheduledEvent;
+import com.sun.webui.jsf.theme.ThemeStyles;
 import com.sun.webui.jsf.util.ThemeUtilities;
 
 import java.beans.Beans;
@@ -69,6 +70,7 @@ public class CalendarMonth extends UIOutput implements NamingContainer {
     public static final String DATE_FORMAT_PATTERN_ATTR =
         "dateFormatPatternAttr"; //NOI18N
     private static final String TIME_ZONE_ATTR = "timeZoneAttr"; //NOI18N
+    private static final String CLOSE_BUTTON_LINK_ID = "closeButtonLink"; //NOI18N
         
     /**
      * <p>The java.util.Calendar object to use for this CalendarMonth component.</p>
@@ -82,7 +84,7 @@ public class CalendarMonth extends UIOutput implements NamingContainer {
      */
     public CalendarMonth() {
         super();
-        setRendererType("com.sun.webui.jsf.CalendarMonth");
+        setRendererType("com.sun.webui.jsf.widget.CalendarMonth");        
     }
 
     /**
@@ -91,7 +93,7 @@ public class CalendarMonth extends UIOutput implements NamingContainer {
     public String getFamily() {
         return "com.sun.webui.jsf.CalendarMonth";
     }
-
+  
     public boolean isDateSelected(java.util.Calendar current, 
                                   java.util.Calendar endDate) {
         
@@ -358,6 +360,7 @@ public class CalendarMonth extends UIOutput implements NamingContainer {
             link.setId(PREVIOUS_MONTH_LINK_ID);
             link.setIcon(ThemeImages.SCHEDULER_BACKWARD);
             link.setBorder(0);
+            link.setToolTip(getTheme().getMessage("CalendarMonth.goBack"));
             
             // The link is controlled by JavaScript when
             // this component is shown in popup mode. When used
@@ -391,6 +394,7 @@ public class CalendarMonth extends UIOutput implements NamingContainer {
             
             link.setIcon(ThemeImages.SCHEDULER_FORWARD);
             link.setBorder(0);
+            link.setToolTip(getTheme().getMessage("CalendarMonth.goForward"));
             
             // The link is controlled by JavaScript when
             // this component is shown in popup mode. When used
@@ -407,7 +411,31 @@ public class CalendarMonth extends UIOutput implements NamingContainer {
         return link;
     }
     
-
+    /**
+     * This method returns the ImageHyperlink that serves as the
+     * button to hide the calendar date picker display.
+     * 
+     * @return The ImageHyperlink to hide the calendar date picker.
+     */
+    public ImageHyperlink getCloseButtonLink() {
+        ImageHyperlink link = (ImageHyperlink) getFacets().get(CLOSE_BUTTON_LINK_ID);
+        if (link == null) {
+            link = new ImageHyperlink();
+            link.setId(CLOSE_BUTTON_LINK_ID);
+            link.setIcon(ThemeImages.CALENDAR_CLOSE_BUTTON);
+            link.setToolTip(getTheme().getMessage("CalendarMonth.close"));
+            link.setStyleClass(getTheme().getStyleClass(ThemeStyles.CALENDAR_CLOSE_BUTTON));
+                        
+            StringBuffer js = new StringBuffer(128);
+            js.append(getJavaScriptObjectName())                
+                .append(".toggle(); return false;");  
+            link.setOnClick(js.toString());
+            
+            getFacets().put(CLOSE_BUTTON_LINK_ID, link);
+        }
+        return link;
+    }
+            
     /** <p>Convience function to get the current Theme.</p> */
     protected Theme getTheme() {
         return ThemeUtilities.getTheme(FacesContext.getCurrentInstance());

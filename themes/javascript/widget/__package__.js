@@ -38,6 +38,8 @@ dojo.requireIf(djConfig.isDebug, "webui.@THEME@.widget.alarm");
 dojo.requireIf(djConfig.isDebug, "webui.@THEME@.widget.anchor");
 dojo.requireIf(djConfig.isDebug, "webui.@THEME@.widget.alert");
 dojo.requireIf(djConfig.isDebug, "webui.@THEME@.widget.button");
+dojo.requireIf(djConfig.isDebug, "webui.@THEME@.widget.calendar");
+dojo.requireIf(djConfig.isDebug, "webui.@THEME@.widget.calendarMonth");
 dojo.requireIf(djConfig.isDebug, "webui.@THEME@.widget.checkbox");
 dojo.requireIf(djConfig.isDebug, "webui.@THEME@.widget.checkboxGroup");
 dojo.requireIf(djConfig.isDebug, "webui.@THEME@.widget.dropDown");

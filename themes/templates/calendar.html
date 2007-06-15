@@ -1,0 +1,33 @@
+<table dojoAttachPoint="domNode" border="0" cellpadding="0" cellspacing="0">
+  <tr>
+    <!-- Table cell for the label -->  
+    <td dojoAttachPoint="labelColumn" valign="top" class="hidden@THEME_CSS@">
+      <span class="CalPopFldLbl@THEME_CSS@">
+        <span dojoAttachPoint="labelNode"></span>
+      </span>
+    </td>      
+    <!-- Table cell for the text field and the date format pattern help string -->
+    <td valign="top">
+      <span>
+        <span dojoAttachPoint="fieldNode"></span>
+	<div dojoAttachPoint="inlineHelpNode" class="inlineFieldHelp@THEME_CSS@"></div>
+      </span>
+    </td>      
+    <!-- Table cell for the calendar button link and the date picker -->
+    <td dojoAttachPoint="linkContainer" valign="top">
+      <div style="position: relative;">                   
+	<span class="CalPopFldImg@THEME_CSS@">
+          <!-- Place holder for calendar icon -->  
+	  <span dojoAttachPoint="linkNode"></span>
+        </span>  
+        <div dojoAttachPoint="datePickerContainer" class="CalPopShdDiv@THEME_CSS@"> 
+          <div class="CalPopShd2Div@THEME_CSS@">
+            <!-- Place holder for calendar month -->
+            <span dojoAttachPoint="datePickerNode"></span>
+          </div>
+        </div>
+      </div>
+    </td>    
+  </tr>
+</table>
+

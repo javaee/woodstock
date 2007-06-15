@@ -43,6 +43,16 @@ public class ThemeTemplates {
     public static final String ALERT = "alert";
 
     /**
+     * A template file that contains HTML for the Calendar component.
+     */
+    public static final String CALENDAR = "calendar";
+    
+    /**
+     * A template file that contains HTML for the CalendarMonth component.
+     */
+    public static final String CALENDARMONTH = "calendarMonth";
+    
+    /**
      * A template file that contains HTML for the Checkbox component.
      */
     public static final String CHECKBOX = "checkbox";

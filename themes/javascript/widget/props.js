@@ -19,7 +19,7 @@
 // 
 // Copyright 2007 Sun Microsystems, Inc. All rights reserved.
 //
-
+    
 dojo.provide("webui.@THEME@.widget.props");
 
 /**
@@ -65,7 +65,16 @@ webui.@THEME@.widget.props = {
         secondaryMiniDisabledClassName: "Btn2MniDis@THEME_CSS@",
         secondaryMiniHovClassName: "Btn2MniHov@THEME_CSS@"
     },
-
+    
+    // Calendar properties.
+    calendar: {
+        className: "CalRootTbl@THEME_CSS@",          
+        edgeDateClass: "DatOthLnk@THEME_CSS@",            
+        dateClass: "DatLnk@THEME_CSS@",
+        selectedClass: "DatBldLnk@THEME_CSS@",       
+        todayClass: "DatCurLnk@THEME_CSS@"
+    },
+    
     // Checkbox properties.
     checkbox: {
         className: "CbSpn@THEME_CSS@",

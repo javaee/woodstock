@@ -26,13 +26,10 @@ import com.sun.faces.annotation.Property;
 import com.sun.webui.jsf.converter.DateConverter;
 import com.sun.webui.jsf.validator.DateInRangeValidator;
 import com.sun.webui.jsf.util.JavaScriptUtilities;
-import com.sun.webui.jsf.util.RenderingUtilities;
-
-import java.io.Serializable;
+import com.sun.webui.jsf.util.ComponentUtilities;
 
 import java.text.DateFormat;
 import java.util.Date;
-import java.util.Locale;
 import java.util.TimeZone;
 
 import javax.el.ValueExpression;
@@ -45,23 +42,26 @@ import javax.faces.validator.Validator;
 /**
  * The Calendar component is used to allow a user to select a date.
  */
-@Component(type="com.sun.webui.jsf.Calendar", family="com.sun.webui.jsf.Calendar", displayName="Calendar", tagName="calendar",
+@Component(type="com.sun.webui.jsf.Calendar", family="com.sun.webui.jsf.Calendar",
+    displayName="Calendar", tagName="calendar",
+    tagRendererType="com.sun.webui.jsf.widget.Calendar",
     helpKey="projrave_ui_elements_palette_wdstk-jsf1.2_calendar",
     propertiesHelpKey="projrave_ui_elements_palette_wdstk-jsf1.2_propsheets_calendar_props")
 public class Calendar extends Field implements DateManager, NamingContainer {
 
     private static final String DATE_PICKER_LINK_FACET = "datePickerLink";//NOI18N
     private static final String DATE_PICKER_LINK_ID = "_datePickerLink";//NOI18N
-    private static final String DATE_PICKER_FACET = "datePicker";//NOI18N
+    private static final String DATE_PICKER_FACET = "datePicker";//NOI18N    
     private static final String DATE_PICKER_ID = "_datePicker";//NOI18N
-    public static final String PATTERN_ID = "_pattern"; //NOI18N
+    public static final String PATTERN_ID = "_pattern"; //NOI18N      
+    public static final String TEXT_FIELD_FACET = "textField"; //NOI18N
     
     private DateConverter dateConverter = null; 
     
     /** Creates a new instance of Calendar */
     public Calendar() {
         super();
-        setRendererType("com.sun.webui.jsf.Calendar");
+        setRendererType("com.sun.webui.jsf.widget.Calendar");        
     }
 
     /**
@@ -70,6 +70,63 @@ public class Calendar extends Field implements DateManager, NamingContainer {
     public String getFamily() {
         return "com.sun.webui.jsf.Calendar";
     }
+        
+    public String getRendererType() {
+        // If this is an ajax request, use the ajax renderer.
+        if (ComponentUtilities.isAjaxRequest(getFacesContext(), this)) {
+            return "com.sun.webui.jsf.ajax.Calendar";
+        }
+        return super.getRendererType();
+    }    
+    
+    /**
+     * Return a component that implements a text field for this <code>Calendar</code>.    
+     * 
+     * @param context The current FacesContext.  
+     * @return a <code>TextField</code> component.
+     */
+    public TextField getFieldComponent(FacesContext context) {        
+        TextField field = (TextField)
+            ComponentUtilities.getPrivateFacet(this, TEXT_FIELD_FACET, true);
+        
+	if (field == null) {
+            field = new TextField();  
+            field.setId(ComponentUtilities.createPrivateFacetId(this, TEXT_FIELD_FACET));            
+            ComponentUtilities.putPrivateFacet(this, TEXT_FIELD_FACET, field);            
+            field.setParent(this);     
+            populateField(field, context);
+        } 
+        
+        return field;
+    } 
+    
+    /**
+     * Populate the text field with the propertites that apply to a field.
+     */
+    public void populateField(TextField field, FacesContext context) {
+        // Set text field related properties.
+        field.setTabIndex(getTabIndex());
+        field.setColumns(getColumns());
+        field.setToolTip(getToolTip());
+        field.setMaxLength(getMaxLength());
+        field.setDisabled(isDisabled());        
+        field.setOnMouseDown(getOnMouseDown());
+        field.setOnMouseOut(getOnMouseOut());
+        field.setOnMouseMove(getOnMouseMove());
+        field.setOnMouseOver(getOnMouseOver());
+        field.setOnMouseUp(getOnMouseUp());    
+        field.setOnChange(getOnChange());               
+        field.setOnClick(getOnClick());
+        field.setOnFocus(getOnFocus());    
+        field.setOnBlur(getOnBlur());    
+        field.setOnDblClick(getOnDblClick());
+        field.setOnKeyDown(getOnKeyDown());
+        field.setOnKeyPress(getOnKeyPress());
+        field.setOnKeyUp(getOnKeyUp());    
+        field.setOnSelect(getOnSelect());
+        field.setText(getValueAsString(context));                        
+    }
+    
     /**
      * This method returns the ImageHyperlink that serves as the "button" to
      * show or hide the calendar date picker display.
@@ -90,21 +147,21 @@ public class Calendar extends Field implements DateManager, NamingContainer {
         }
         
         datePickerLink.setId(DATE_PICKER_LINK_ID);            
-        datePickerLink.setAlign("middle");  //NOI18N
+        datePickerLink.setAlign("middle");  //NOI18N        
 
         // render the image hyperlink to show/hide the calendar
         StringBuffer js = new StringBuffer(200);
-        js.append("javascript: ")
+        js.append("javascript: ")           
             .append(getJavaScriptObjectName(context))
             .append(".toggle(); return false;");  //NOI18N
 
         // Don't set Javascript as the URL -- bugtraq #6306848.
         datePickerLink.setOnClick(js.toString());
-
-
-        // We should do this, but unfortunately the component can't be enabled
-        // from the client-side yet. 
-        //component.getAttributes().put("disabled", new Boolean(isDisabled()));  //NOI18N
+        
+        
+        // We should do this, but unfortunately the component can't be enabled 
+        // from the client-side yet.  
+        //component.getAttributes().put("disabled", new Boolean(isDisabled()));  //NOI18N 
         
         return datePickerLink;
     }

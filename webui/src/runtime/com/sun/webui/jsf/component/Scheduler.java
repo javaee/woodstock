@@ -267,6 +267,8 @@ public class Scheduler extends WebuiInput
 	    ComponentUtilities.getPrivateFacet(this, DATE_PICKER_FACET, true);
         if (dp == null) {
             dp = new CalendarMonth();
+            // Scheduler should continue using the HTML renderer.
+            dp.setRendererType("com.sun.webui.jsf.CalendarMonth");        
             dp.setPopup(false);
             dp.setId(ComponentUtilities.createPrivateFacetId(this,
 			DATE_PICKER_FACET));

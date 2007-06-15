@@ -1,0 +1,53 @@
+<div dojoAttachPoint="domNode" class="CalPopDiv@THEME_CSS@">              
+   <!-- Table layout for the top border of the calendar header -->   
+   <table border="0" cellpadding="0" cellspacing="0" width="100%">
+     <tr>
+       <td width="6">
+          <span dojoAttachPoint="topLeftImageContainer"></span>
+       </td>
+       <td width="100%" class="DatSelTopMiddle@THEME_CSS@">
+          <span dojoAttachPoint="spacerImageContainer"></span>
+       </td>
+       <td width="6">
+          <span dojoAttachPoint="topRightImageContainer"></span>
+       </td>
+     </tr>
+   </table>      
+   <!-- Calenar header - today's date and close button -->
+   <div class="DatSelContent@THEME_CSS@">
+       <div dojoAttachPoint="todayDateContainer" class="DatSelDate@THEME_CSS@"></div>       
+       <span dojoAttachPoint="closeButtonContainer"></span>        
+   </div>      
+   <div class="DatCalDiv@THEME_CSS@">
+       <!-- Calendar controls -->
+       <div class="DatSelDiv@THEME_CSS@">          
+         <div class="DatCalLeft@THEME_CSS@">
+            <span dojoAttachPoint="previousLinkContainer"></span>
+            <span dojoAttachPoint="monthMenuContainer"></span>
+            <span dojoAttachPoint="nextLinkContainer"></span>
+         </div>	    	  
+	 <div class="DatCalRight@THEME_CSS@">
+            <span dojoAttachPoint="yearMenuContainer"></span>
+         </div>             
+       </div>
+       <div class="SkpMedGry1@THEME_CSS@"></div>
+       <div class="DatCalDiv@THEME_CSS@">
+         <table border="0" cellpadding="0" cellspacing="1" width="100%">
+           <tbody dojoAttachPoint="tbodyContainer" class="DatCalTbl@THEME_CSS@">
+              <!-- Place holder for week days header -->    
+              <tr dojoAttachPoint="weekDayRow">                
+                <th dojoAttachPoint="weekDayColumn" scope="col" align="center">
+	            <span dojoAttachPoint="weekDayContainer" class="DatDayHdrTxt@THEME_CSS@"></span>
+                </th>
+              </tr>                           
+              <!-- Place holder for days in the month  -->  
+	      <tr dojoAttachPoint="weekRowContainer">
+	        <td dojoAttachPoint="dayColumnContainer" align="center">
+		    <a dojoAttachPoint="dayLinkContainer"></a>
+		</td>
+	      </tr>
+           </tbody>
+         </table>
+       </div>
+   </div>        
+</div>
