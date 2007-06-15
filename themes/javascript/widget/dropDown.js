@@ -122,7 +122,8 @@ webui.@THEME@.widget.dropDown.refresh = {
         dojo.event.topic.publish(
             webui.@THEME@.widget.dropDown.refresh.beginEventTopic, {
                 id: this.id,
-                execute: execute
+                execute: execute,
+                endEventTopic: webui.@THEME@.widget.dropDown.refresh.endEventTopic
             });
         return true;
     }
@@ -236,7 +237,8 @@ webui.@THEME@.widget.dropDown.submit = {
         dojo.event.topic.publish(
             webui.@THEME@.widget.dropDown.submit.beginEventTopic, {
                 id: this.id,
-                execute: execute
+                execute: execute,
+                endEventTopic: webui.@THEME@.widget.dropDown.submit.endEventTopic
             });
         return true;
     }

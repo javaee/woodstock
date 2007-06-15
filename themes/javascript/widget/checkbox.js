@@ -163,7 +163,8 @@ webui.@THEME@.widget.checkbox.refresh = {
         dojo.event.topic.publish(
             webui.@THEME@.widget.checkbox.refresh.beginEventTopic, {
                 id: this.id,
-                execute: execute
+                execute: execute,
+                endEventTopic: webui.@THEME@.widget.checkbox.refresh.endEventTopic
             });
         return true;
     }
@@ -325,7 +326,8 @@ webui.@THEME@.widget.checkbox.submit = {
         dojo.event.topic.publish(
             webui.@THEME@.widget.checkbox.submit.beginEventTopic, {
                 id: this.id,
-                execute: execute
+                execute: execute,
+                endEventTopic: webui.@THEME@.widget.checkbox.submit.endEventTopic
             });
         return true;
     }

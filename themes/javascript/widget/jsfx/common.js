@@ -19,63 +19,29 @@
 // 
 // Copyright 2007 Sun Microsystems, Inc. All rights reserved.
 //
-// This Javascript file should be included in any page that uses the associated
-// component, where JSF Extensions is used as the underlying transfer protocol.
-//
 
-dojo.provide("webui.@THEME@.widget.jsfx.accordionTab");
+dojo.provide("webui.@THEME@.widget.jsfx.common");
 
-dojo.require("webui.@THEME@.widget.jsfx.*");
-dojo.require("webui.@THEME@.widget.accordionTab");
+dojo.require("dojo.widget.*");
 
 /**
- * This function is used to obtain data asynchronously.
+ * This closure contains common functions of the webui.@THEME@.widget.jsfx
+ * module.
  */
-webui.@THEME@.widget.jsfx.accordionTab = {
+webui.@THEME@.widget.jsfx.common = {
     /**
-     * This function is used to process menu actions associated with a given 
-     * tabContent.
-     * <ul>
-     *  <li>old tab id</li>
-     *  <li>new tab id</li>
-     * </ul>
-     *
-     * @param props Key-Value pairs of properties.
-     */
-    processTabActionEvent: function(props) {
-        if (props == null) {
-            return false;
-        }
-
-        // Dynamic Faces requires a DOM node as the source property.
-        var domNode = document.getElementById(props.id);
-
-        // Generate AJAX request using the JSF Extensions library.
-        new DynaFaces.fireAjaxTransaction(
-            (domNode) ? domNode : document.forms[0], {
-            execute: props.id, // Need to decode hidden field.
-            render: props.id,
-            replaceElement: webui.@THEME@.widget.jsfx.accordionTab.tabActionCallback,
-            xjson: {
-                id : props.id,
-                action: props.actionName,
-                event: "tabAction"
-            }
-        });
-
-        return true;
-    },
-
-    /**
-     * This function is used to load a tabContent asynchronously.
+     * This function is used to process refresh events with the following Object
+     * literals.
      *
      * <ul>
      *  <li>id</li>
+     *  <li>endEventTopic</li>
+     *  <li>execute</li>
      * </ul>
      *
      * @param props Key-Value pairs of properties.
      */
-    processLoadContentEvent: function(props) {
+    processRefreshEvent: function(props) {
         if (props == null) {
             return false;
         }
@@ -84,78 +50,106 @@ webui.@THEME@.widget.jsfx.accordionTab = {
         var domNode = document.getElementById(props.id);
 
         // Generate AJAX request using the JSF Extensions library.
-        new DynaFaces.fireAjaxTransaction(
+        DynaFaces.fireAjaxTransaction(
             (domNode) ? domNode : document.forms[0], {
-            execute: props.id, // Need to decode hidden field.
+            execute: (props.execute) ? props.execute : "none",
             render: props.id,
-            replaceElement: webui.@THEME@.widget.jsfx.progressBar.loadContentCallback,
+            replaceElement: webui.@THEME@.widget.jsfx.common.refreshCallback,
             xjson: {
                 id: props.id,
-                event: "loadContent"
+                endEventTopic: props.endEventTopic,
+                event: "refresh"
             }
         });
-
         return true;
     },
 
     /**
-     * This function is used to update tab with the loaded content.
+     * This function is used to process submit events with the following Object
+     * literals.
      *
-     * @param id The client id.
-     * @param content The content returned by the AJAX response.
-     * @param closure The closure argument provided to DynaFaces.fireAjaxTransaction.
-     * @param xjson The zjson argument provided to DynaFaces.fireAjaxTransaction.
+     * <ul>
+     *  <li>id</li>
+     *  <li>endEventTopic</li>
+     *  <li>execute</li>
+     * </ul>
+     *
+     * @param props Key-Value pairs of properties.
      */
-    loadContentCallback: function(id, content, closure, xjson) {
-        if (id == null || content == null) {
+    processSubmitEvent: function(props) {
+        if (props == null) {
             return false;
         }
 
-        // Parse JSON text.
-        var json = JSON.parse(content);
+        // Dynamic Faces requires a DOM node as the source property.
+        var domNode = document.getElementById(props.id);
 
-        // Set progress.
-        var widget = dojo.widget.byId(id);
-        widget.setProps(json);
-
-        // Publish an event for custom AJAX implementations to listen for.
-        dojo.event.topic.publish(webui.@THEME@.widget.accordionTab.loadContent.endEventTopic, json);
+        // Generate AJAX request using the JSF Extensions library.
+        DynaFaces.fireAjaxTransaction(
+            (domNode) ? domNode : document.forms[0], {
+            execute: (props.execute) ? props.execute : props.id,
+            render: props.id,
+            replaceElement: webui.@THEME@.widget.jsfx.common.submitCallback,
+            xjson: {
+                id: props.id,
+                endEventTopic: props.endEventTopic,
+                event: "submit"
+            }
+        });
         return true;
-    },
-
+    }, 
+   
     /**
-     * This function is used to handle menu items changes in a tabContent widget.
+     * This function is used to refresh widgets.
      *
      * @param id The client id.
      * @param content The content returned by the AJAX response.
      * @param closure The closure argument provided to DynaFaces.fireAjaxTransaction.
      * @param xjson The xjson argument provided to DynaFaces.fireAjaxTransaction.
      */
-    tabActionCallback: function(id, content, closure, xjson) {
+    refreshCallback: function(id, content, closure, xjson) {
         if (id == null || content == null) {
             return false;
         }
 
         // Parse JSON text.
-        var json = JSON.parse(content);
+        var props = JSON.parse(content);
 
         // Add rows.
         var widget = dojo.widget.byId(id);
-        widget.setProps(json);
+        widget.setProps(props);
 
         // Publish an event for custom AJAX implementations to listen for.
-        dojo.event.topic.publish(webui.@THEME@.widget.accordionTab.tabAction.endEventTopic, json);
+        if (xjson.endEventTopic) {
+            dojo.event.topic.publish(xjson.endEventTopic, props);
+        }
+        return true;
+    },
+
+    /**
+     * This function is a callback to respond to the end of submit request.
+     * It will only publish submit end event without updating the widget itself.
+     * While component data is available, it is NOT used to update the widget 
+     *
+     * @param id The client id.
+     * @param content The content returned by the AJAX response.
+     * @param closure The closure argument provided to DynaFaces.fireAjaxTransaction.
+     * @param xjson The xjson argument provided to DynaFaces.fireAjaxTransaction.
+     */
+    submitCallback: function(id, content, closure, xjson) {
+        if (id == null || content == null) {
+            return false;
+        }
+
+        // Parse JSON text.
+        var props = JSON.parse(content);
+            
+        // Publish an event for custom AJAX implementations to listen for.
+        if (xjson.endEventTopic) {
+            dojo.event.topic.publish(xjson.endEventTopic, props);
+        }
         return true;
     }
 }
 
-// Listen for Dojo Widget event signalling the tabContent's need to refresh, process
-// menu actions or load tab contents.
-dojo.event.topic.subscribe(webui.@THEME@.widget.accordionTab.loadContent.beginEventTopic,
-    webui.@THEME@.widget.jsfx.accordionTab, "processLoadContentEvent");
-dojo.event.topic.subscribe(webui.@THEME@.widget.accordionTab.refresh.beginEventTopic,
-    webui.@THEME@.widget.jsfx.common, "processRefreshEvent");
-dojo.event.topic.subscribe(webui.@THEME@.widget.accordionTab.tabAction.beginEventTopic,
-    webui.@THEME@.widget.jsfx.accordionTab, "processTabActionEvent");
-    
 //-->

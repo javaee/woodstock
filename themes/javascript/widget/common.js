@@ -26,7 +26,7 @@ dojo.require("dojo.widget.*");
 dojo.require("webui.@THEME@.*");
 
 /**
- * Define webui.@THEME@.widget.common name space.
+ * This closure contains common functions of the webui.@THEME@.widget module.
  */
 webui.@THEME@.widget.common = {
     /**

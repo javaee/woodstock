@@ -111,7 +111,8 @@ webui.@THEME@.widget.table2.refresh = {
         dojo.event.topic.publish(
             webui.@THEME@.widget.table.refresh.beginEventTopic, {
                 id: this.id,
-                execute: execute
+                execute: execute,
+                endEventTopic: webui.@THEME@.widget.table.refresh.endEventTopic
             });
         return true;
     }

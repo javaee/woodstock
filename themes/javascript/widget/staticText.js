@@ -97,7 +97,8 @@ webui.@THEME@.widget.staticText.refresh = {
         dojo.event.topic.publish(
             webui.@THEME@.widget.staticText.refresh.beginEventTopic, {
                 id: this.id,
-                execute: execute
+                execute: execute,
+                endEventTopic: webui.@THEME@.widget.staticText.refresh.endEventTopic
             });
         return true;
     }

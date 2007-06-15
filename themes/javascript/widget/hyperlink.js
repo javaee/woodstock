@@ -141,7 +141,8 @@ webui.@THEME@.widget.hyperlink.refresh = {
         dojo.event.topic.publish(
             webui.@THEME@.widget.hyperlink.refresh.beginEventTopic, {
                 id: this.id,
-                execute: execute
+                execute: execute,
+                endEventTopic: webui.@THEME@.widget.hyperlink.refresh.endEventTopic
             });
         return true;
     }

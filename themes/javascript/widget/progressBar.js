@@ -309,7 +309,8 @@ webui.@THEME@.widget.progressBar.refresh = {
         dojo.event.topic.publish(
             webui.@THEME@.widget.progressBar.refresh.beginEventTopic, {
                 id: this.id,
-                execute: execute
+                execute: execute,
+                endEventTopic: webui.@THEME@.widget.progressBar.refresh.endEventTopic
             });
         return true;
     }

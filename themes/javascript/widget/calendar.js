@@ -93,7 +93,8 @@ webui.@THEME@.widget.calendar.refresh = {
         dojo.event.topic.publish(
             webui.@THEME@.widget.calendar.refresh.beginEventTopic, {
                 id: this.id,
-                execute: execute
+                execute: execute,
+                endEventTopic: webui.@THEME@.widget.calendar.refresh.endEventTopic
             });
         return true;
     }

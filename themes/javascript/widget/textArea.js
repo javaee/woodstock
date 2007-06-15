@@ -176,7 +176,8 @@ webui.@THEME@.widget.textArea.refresh = {
         dojo.event.topic.publish(
             webui.@THEME@.widget.textArea.refresh.beginEventTopic, {
                 id: this.id,
-                execute: execute
+                execute: execute,
+                endEventTopic: webui.@THEME@.widget.textArea.refresh.endEventTopic
             });
         return true;
     }
@@ -312,7 +313,8 @@ webui.@THEME@.widget.textArea.submit = {
         dojo.event.topic.publish(
             webui.@THEME@.widget.textArea.submit.beginEventTopic, {
                 id: this.id,
-                execute: execute
+                execute: execute,
+                endEventTopic: webui.@THEME@.widget.textArea.submit.endEventTopic
             });
         return true;
     }

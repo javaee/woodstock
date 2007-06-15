@@ -116,7 +116,8 @@ webui.@THEME@.widget.alert.refresh = {
         dojo.event.topic.publish(
             webui.@THEME@.widget.alert.refresh.beginEventTopic, {
                 id: this.id,
-                execute: execute
+                execute: execute,
+                endEventTopic: webui.@THEME@.widget.alert.refresh.endEventTopic
             });
         return true;
     }

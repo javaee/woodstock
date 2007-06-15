@@ -70,7 +70,8 @@ webui.@THEME@.widget.accordion.refresh = {
         dojo.event.topic.publish(
             webui.@THEME@.widget.accordion.refresh.beginEventTopic, {
                 id: this.id,
-                execute: execute
+                execute: execute,
+                endEventTopic: webui.@THEME@.widget.accordion.refresh.endEventTopic
         });
         return true;
     }
@@ -375,6 +376,4 @@ dojo.lang.extend(webui.@THEME@.widget.accordion, {
 
 });
 
-
-
-
+//-->

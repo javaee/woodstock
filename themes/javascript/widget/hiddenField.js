@@ -97,7 +97,8 @@ webui.@THEME@.widget.hiddenField.refresh = {
         dojo.event.topic.publish(
             webui.@THEME@.widget.hiddenField.refresh.beginEventTopic, {
                 id: this.id,
-                execute: execute
+                execute: execute,
+                endEventTopic: webui.@THEME@.widget.hiddenField.refresh.endEventTopic
             });
         return true;
     }

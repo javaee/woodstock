@@ -94,7 +94,8 @@ webui.@THEME@.widget.radioButton.refresh = {
         dojo.event.topic.publish(
             webui.@THEME@.widget.radioButton.refresh.beginEventTopic, {
                 id: this.id,
-                execute: execute
+                execute: execute,
+                endEventTopic: webui.@THEME@.widget.radioButton.refresh.endEventTopic
             });
         return true;
     }
@@ -187,7 +188,8 @@ webui.@THEME@.widget.radioButton.submit = {
         dojo.event.topic.publish(
             webui.@THEME@.widget.radioButton.submit.beginEventTopic, {
                 id: this.id,
-                execute: execute
+                execute: execute,
+                endEventTopic: webui.@THEME@.widget.radioButton.submit.endEventTopic
             });
         return true;
     }

@@ -25,6 +25,7 @@
 
 dojo.provide("webui.@THEME@.widget.jsfx.progressBar");
 
+dojo.require("webui.@THEME@.widget.jsfx.*");
 dojo.require("webui.@THEME@.widget.progressBar");
 
 /**
@@ -65,39 +66,6 @@ webui.@THEME@.widget.jsfx.progressBar =  {
     },
 
     /**
-     * This function is used to process refresh events with the following Object
-     * literals.
-     *
-     * <ul>
-     *  <li>id</li>
-     *  <li>execute</li>
-     * </ul>
-     *
-     * @param props Key-Value pairs of properties.
-     */
-    processRefreshEvent: function(props) {
-        if (props == null) {
-            return false;
-        }
-
-        // Dynamic Faces requires a DOM node as the source property.
-        var domNode = document.getElementById(props.id);
-
-        // Generate AJAX request using the JSF Extensions library.
-        DynaFaces.fireAjaxTransaction(
-            (domNode) ? domNode : document.forms[0], {
-            execute: (props.execute) ? props.execute : "none",
-            render: props.id,
-            replaceElement: webui.@THEME@.widget.jsfx.progressBar.refreshCallback,
-            xjson: {
-                id: props.id,
-                event: "refresh"
-            }
-        });
-        return true;
-    },
-
-    /**
      * This function is used to update progress.
      *
      * @param id The client id.
@@ -128,32 +96,6 @@ webui.@THEME@.widget.jsfx.progressBar =  {
         dojo.event.topic.publish(
             webui.@THEME@.widget.progressBar.progress.endEventTopic, props);
         return true;
-    },
-
-    /**
-     * This function is used to refresh widgets.
-     *
-     * @param id The client id.
-     * @param content The content returned by the AJAX response.
-     * @param closure The closure argument provided to DynaFaces.fireAjaxTransaction.
-     * @param xjson The xjson argument provided to DynaFaces.fireAjaxTransaction.
-     */
-    refreshCallback: function(id, content, closure, xjson) {
-        if (id == null || content == null) {
-            return false;
-        }
-
-        // Parse JSON text.
-        var props = JSON.parse(content);
-
-        // Add rows.
-        var widget = dojo.widget.byId(id);
-        widget.setProps(props);
-
-        // Publish an event for custom AJAX implementations to listen for.
-        dojo.event.topic.publish(
-            webui.@THEME@.widget.progressBar.refresh.endEventTopic, props);
-        return true;
     }
 }
 
@@ -161,6 +103,6 @@ webui.@THEME@.widget.jsfx.progressBar =  {
 dojo.event.topic.subscribe(webui.@THEME@.widget.progressBar.progress.beginEventTopic,
     webui.@THEME@.widget.jsfx.progressBar, "processProgressEvent");
 dojo.event.topic.subscribe(webui.@THEME@.widget.progressBar.refresh.beginEventTopic,
-    webui.@THEME@.widget.jsfx.progressBar, "processRefreshEvent");
+    webui.@THEME@.widget.jsfx.common, "processRefreshEvent");
 
 //-->

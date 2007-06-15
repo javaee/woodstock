@@ -22,6 +22,11 @@
 
 dojo.provide("webui.@THEME@.widget.jsfx.*");
 
+dojo.kwCompoundRequire({
+    common: [
+        "webui.@THEME@.widget.jsfx.common"]
+});
+
 // For debugging only, obtain all module resources before invoking
 // dojo.hostenv.writeIncludes(). This will ensure that JavaScript
 // files are accessible to JavaScript debuggers.

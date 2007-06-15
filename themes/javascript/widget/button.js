@@ -263,7 +263,8 @@ webui.@THEME@.widget.button.refresh = {
         dojo.event.topic.publish(
             webui.@THEME@.widget.button.refresh.beginEventTopic, {
                 id: this.id,
-                execute: execute
+                execute: execute,
+                endEventTopic: webui.@THEME@.widget.button.refresh.endEventTopic
             });
         return true;
     }

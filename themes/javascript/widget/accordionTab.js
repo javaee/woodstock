@@ -63,7 +63,8 @@ webui.@THEME@.widget.accordionTab.refresh = {
         // Publish event.
         dojo.event.topic.publish(webui.@THEME@.widget.accordionTab.refresh.beginEventTopic, {
             id: this.id,
-            execute: execute
+            execute: execute,
+            endEventTopic: webui.@THEME@.widget.accordionTab.refresh.endEventTopic
         });
         return true;
     }
@@ -376,17 +377,7 @@ dojo.lang.extend(webui.@THEME@.widget.accordionTab, {
             this.containerNode.style.display = "none";
             
         }
-        /*var child = this.children[0];
-        if (child) {
-                if (this.selected) {
-                        if (!child.isShowing()) {
-                                child.show();
-                        } else {
-                                child.onShow();
-                        }
-                } else {
-                        child.onHide();
-                }
-        }*/
     }
 });
+
+//-->
