@@ -78,7 +78,9 @@ public class SelectedValuesPropertyEditor extends PropertyEditorSupport {
             buffer.append(item.toString());
             buffer.append(", ");
         }
-        buffer.setLength(buffer.length() - 2);
+        if (buffer.length() > 1) {
+            buffer.setLength(buffer.length() - 2);
+        }
         return buffer.toString();
     }
     
