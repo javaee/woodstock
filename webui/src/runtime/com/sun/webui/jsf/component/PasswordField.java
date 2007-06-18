@@ -130,7 +130,7 @@ public class PasswordField extends Field {
      * expression, the corresponding value will be updated
      * if validation succeeds.</p>
      */
-    @Property(name="password", displayName="Password", category="Appearance")
+    @Property(name="password", displayName="Password", category="Appearance", editorClassName="com.sun.rave.propertyeditors.StringPropertyEditor")
     public Object getPassword() {
         return getValue();
     }
