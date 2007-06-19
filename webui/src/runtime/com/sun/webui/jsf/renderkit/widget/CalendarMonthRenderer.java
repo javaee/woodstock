@@ -104,15 +104,12 @@ public class CalendarMonthRenderer extends RendererBase {
                 "CalendarMonthRenderer can only render CalendarMonth components.");
         }             
         
-        CalendarMonth calendarMonth = (CalendarMonth)component;  
+        CalendarMonth calendarMonth = (CalendarMonth)component; 
         
         // Get a calendar instance with the correct timezone and locale 
         // from the CalendarMonth component. This calendar is initialized
         // with today's date.
-        java.util.Calendar calendar = calendarMonth.getCalendar();
-        
-        initializeChildren(calendarMonth, context, calendar);
-        
+        java.util.Calendar calendar = calendarMonth.getCalendar();               
         Theme theme = getTheme();        
         DateFormat df = SimpleDateFormat.getDateInstance(DateFormat.MEDIUM,
                 context.getViewRoot().getLocale());
@@ -125,6 +122,11 @@ public class CalendarMonthRenderer extends RendererBase {
         
         // Get first day of week, Sunday = 1, Monday = 2,...
         int firstDayOfWeek = calendar.getFirstDayOfWeek();
+        
+        // Initialize children -- must be called after "today" and
+        // "firstDayOfWeek" variables are set since "calendar"
+        // is modified in initializeChildren().
+        initializeChildren(calendarMonth, context, calendar);
         
         JSONObject json = new JSONObject();           
         json.put("todayDateMsg", todayDateMsg)  
@@ -232,6 +234,13 @@ public class CalendarMonthRenderer extends RendererBase {
         return icon;
     }
     
+    /**
+     * Initialize children (month and year menus).
+     * 
+     * Note that the "calendar" instance that is passed to this method gets modified.
+     * If you are working with the same instance of "calendar" be cautious as to when
+     * initializeChildren() should be called.
+     */ 
     private void initializeChildren(CalendarMonth cm, FacesContext context, java.util.Calendar calendar) {
         SimpleDateFormat dateFormat =
 		(SimpleDateFormat)cm.getDateFormat();
@@ -239,7 +248,7 @@ public class CalendarMonthRenderer extends RendererBase {
         // This variable is used to track whether the calendar 
         // controls have to be updated based on the calculations
         // performed in this method.
-        boolean updateCalendarControls = false; 
+        boolean updateCalendarControls = false;                 
         
         // The displayDate reflects the month that will be displayed 
         // (we only use the year and month component of the date).
