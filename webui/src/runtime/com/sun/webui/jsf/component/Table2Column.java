@@ -23,20 +23,24 @@ package com.sun.webui.jsf.component;
 
 import com.sun.faces.annotation.Component;
 
-import java.util.Iterator;
-
-import javax.faces.component.UIComponent;
-import javax.faces.component.NamingContainer;
 import javax.faces.context.FacesContext;
 
 /**
  * Component that represents a table column.
+ * <p>
+ * The Table2Column component provides a layout mechanism for displaying columns 
+ * of data. UI guidelines describe specific behavior that can applied to the 
+ * rows and columns of data such as sorting, filtering, pagination, selection, 
+ * and custom user actions. In addition, UI guidelines also define sections of 
+ * the table that can be used for titles, row group headers, and placement of 
+ * pre-defined and user defined actions.
+ * </p>
  */
-@Component(type="com.sun.webui.jsf.table2Column",
-    family="com.sun.webui.jsf.table2Column",
+@Component(type="com.sun.webui.jsf.Table2Column",
+    family="com.sun.webui.jsf.Table2Column",
     tagRendererType="com.sun.webui.jsf.widget.Table2Column",
     displayName="Table2Column", tagName="table2Column")
-public class Table2Column extends TableColumn implements NamingContainer {
+public class Table2Column extends TableColumnBase {
     public Table2Column() {
         super();
         setRendererType("com.sun.webui.jsf.widget.Table2Column");
@@ -50,10 +54,9 @@ public class Table2Column extends TableColumn implements NamingContainer {
         return "com.sun.webui.jsf.Table2Column";
     }
 
-    /**
-     * Get alternative HTML template to be used by this component.
-     */
-    public String getHtmlTemplate() {
-        return null; // Not implemented
-    }
+    // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    // Child methods
+    // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+    // TBD...
 }

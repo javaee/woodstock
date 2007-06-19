@@ -24,29 +24,36 @@ package com.sun.webui.jsf.component;
 import com.sun.faces.annotation.Component;
 import com.sun.faces.annotation.Property;
 import com.sun.webui.jsf.util.ComponentUtilities;
-import com.sun.webui.jsf.util.JavaScriptUtilities;
-
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
 
 import javax.el.ValueExpression;
-import javax.faces.component.NamingContainer;
-import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
-import javax.faces.el.ValueBinding;
 
 /**
  * Component that represents a group of table rows.
+ * <p>
+ * The Table2RowGroup component provides a layout mechanism for displaying rows 
+ * of data. UI guidelines describe specific behavior that can applied to the 
+ * rows and columns of data such as sorting, filtering, pagination, selection, 
+ * and custom user actions. In addition, UI guidelines also define sections of 
+ * the table that can be used for titles, row group headers, and placement of 
+ * pre-defined and user defined actions.
+ * </p><p>
+ * The Table2RowGroup component supports a data binding to a collection of data 
+ * objects represented by a TableDataProvider instance, which is the 
+ * current value of this component itself. During iterative processing over the
+ * rows of data in the data provider, the TableDataProvider for the current row 
+ * is exposed as a request attribute under the key specified by the 
+ * var property.
+ * </p><p>
+ * Only children of type Table2Column should be processed by renderers associated
+ * with this component.
+ * </p>
  */
 @Component(type="com.sun.webui.jsf.Table2RowGroup",
     family="com.sun.webui.jsf.Table2RowGroup",
     tagRendererType="com.sun.webui.jsf.widget.Table2RowGroup",
     displayName="Table2RowGroup", tagName="table2RowGroup")
-public class Table2RowGroup extends TableRowGroup implements NamingContainer {
-    // A List containing Table2Column children. 
-    private List table2ColumnChildren = null;
-
+public class Table2RowGroup extends TableRowGroupBase {
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     // Base methods
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -76,42 +83,7 @@ public class Table2RowGroup extends TableRowGroup implements NamingContainer {
     // Child methods
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-    /**
-     * Get an Iterator over the Table2Column children found for
-     * this component.
-     *
-     * @return An Iterator over the Table2Column children.
-     */
-    public Iterator getTable2ColumnChildren() {
-        // Get TableColumn children.
-        if (table2ColumnChildren == null) {
-            table2ColumnChildren = new ArrayList();
-            Iterator kids = getChildren().iterator();
-            while (kids.hasNext()) {
-                UIComponent kid = (UIComponent) kids.next();
-                if ((kid instanceof Table2Column)) {
-                    table2ColumnChildren.add(kid);
-                }
-            }
-        }
-        return table2ColumnChildren.iterator();
-    }
-
-    // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    // Pagination methods
-    // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-    /**
-     * Get the number of rows to be displayed for a paginated table.
-     * <p>
-     * Note: UI guidelines recommend a default value of 25 rows per page.
-     * </p>
-     * @return The number of rows to be displayed for a paginated table.
-     */
-    public int getRows() {
-        setPaginated(true);
-        return Math.max(1, super.getRows());
-    }
+    // TBD...
 
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     // Tag attribute methods

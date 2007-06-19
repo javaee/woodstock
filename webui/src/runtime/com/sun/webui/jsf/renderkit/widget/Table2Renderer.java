@@ -168,7 +168,7 @@ public class Table2Renderer extends RendererBase {
         json.put("rowGroups", jArray);
 
         // Add properties for each Table2RowGroup child.
-        Iterator kids = component.getTable2RowGroupChildren();
+        Iterator kids = component.getTableRowGroupChildren();
         while (kids.hasNext()) {           
             Table2RowGroup group = (Table2RowGroup) kids.next();
             if (group.isRendered()) {
@@ -187,14 +187,6 @@ public class Table2Renderer extends RendererBase {
      */
     protected void setTitleProperties(FacesContext context, Table2 component, 
             JSONObject json) throws IOException, JSONException {
-        // Get facet.
-        UIComponent facet = component.getFacet(Table2.TITLE_FACET);
-        if (facet != null) {
-            WidgetUtilities.addProperties(json, "title",
-                WidgetUtilities.renderComponent(context, facet));
-            return;
-        }
-
         // Get filter augment. 
         String filterText = (component.getFilterText() != null) 
             ? getTheme().getMessage("table.title.filterApplied",

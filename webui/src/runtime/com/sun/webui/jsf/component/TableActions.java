@@ -32,7 +32,6 @@ import com.sun.webui.jsf.theme.ThemeImages;
 import com.sun.webui.jsf.theme.ThemeStyles;
 import com.sun.webui.jsf.util.ClientSniffer;
 import com.sun.webui.jsf.util.LogUtil;
-import com.sun.webui.jsf.util.RenderingUtilities;
 import com.sun.webui.jsf.util.ThemeUtilities;
 import com.sun.webui.theme.Theme;
 
@@ -176,283 +175,6 @@ public class TableActions extends UIComponentBase implements NamingContainer {
 
     // The Table ancestor enclosing this component.
     private Table table = null;
-
-    // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    // Tag attributes
-    // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-    /**
-     * ABBR gives an abbreviated version of the cell's content. This allows
-     * visual browsers to use the short form if space is limited, and
-     * non-visual browsers can give a cell's header information in an
-     * abbreviated form before rendering each cell.
-     */
-    @Property(name="abbr", displayName="Abbreviation for Header Cell")
-    private String abbr = null;
-
-    /**
-     * Flag indicating this component should render actions at the bottom of 
-     * the table. The default renders action for the top of the table.
-     */
-    @Property(name="actionsBottom", displayName="Is Actions Bottom", isAttribute=false)
-    private boolean actionsBottom = false;
-    private boolean actionsBottom_set = false;
-
-    /**
-     * Use the <code>align</code> attribute to specify the horizontal alignment for 
-     * the content of each cell in the column. Valid values are <code>left</code>, 
-     * <code>center</code>, <code>right</code>, <code>justify</code>, and 
-     * <code>char</code>. The default alignment is <code>left</code>. Setting the 
-     * <code>align</code> attribute to <code>char</code> causes the cell's contents 
-     * to be aligned on the character that you specify with the <code>char</code> 
-     * attribute. For example, to align cell contents on colons, set 
-     * <code>align="char"</code> and <code>char=":" </code>Some browsers do not 
-     * support aligning on the character.
-     */
-    @Property(name="align", displayName="Horizontal Alignment")
-    private String align = null;
-
-    /**
-     * The AXIS attribute provides a method of categorizing cells. The
-     * attribute's value is a comma-separated list of category names. See the
-     * HTML 4.0 Recommendation's section on categorizing cells for an
-     * application of AXIS.
-     */
-    @Property(name="axis", displayName="Category of Header Cell")
-    private String axis = null;
-
-    /**
-     * The BGCOLOR attribute suggests a background color for the cell. The
-     * combination of this attribute with <FONT COLOR=...> can leave
-     * invisible or unreadable text on Netscape Navigator 2.x, which does not
-     * support BGCOLOR on table elements. BGCOLOR is dangerous even on
-     * supporting browsers, since most fail to override it when overriding
-     * other author-specified colors. Style sheets provide a safer, more
-     * flexible method of specifying a table's background color. This
-     * attribute is deprecated (in HTML 4.0) in favor of style sheets.
-     */
-    @Property(name="bgColor", displayName="Cell Background Color")
-    private String bgColor = null;
-
-    /**
-     * Use the <code>char </code>attribute to specify a character to use for 
-     * horizontal alignment in each cell in the row. You must also set the 
-     * <code>align</code> attribute to <code>char</code> to enable character alignment 
-     * to be used. The default value for the <code>char</code> attribute is the 
-     * decimal point of the current language, such as a period in English. The 
-     * <code>char</code> HTML property is not supported by all browsers.
-     */
-    @Property(name="char", displayName="Alignment Character")
-    private String _char = null;
-
-    /**
-     * Use the <code>charOff </code>attribute to specify the offset of the first 
-     * occurrence of the alignment character that is specified with the 
-     * <code>char</code> attribute. The offset is the distance from the left cell 
-     * border, in locales that read from left to right. The <code>charOff</code> 
-     * attribute's value can be a number of pixels or a percentage of the cell's 
-     * width. For example, <code>charOff="50%"</code> centers the alignment character 
-     * horizontally in a cell. If <code>charOff="25%"</code>, the first instance 
-     * of the alignment character is placed at one fourth of the width of the cell.
-     */
-    @Property(name="charOff", displayName="Alignment Character Offset")
-    private String charOff = null;
-
-    /**
-     * The COLSPAN attribute of TD specifies the number of columns that are
-     * spanned by the cell. The default value is 1. The special value 0
-     * indicates that the cell spans all columns to the end of the table. The
-     * value 0 is ignored by most browsers, so authors may wish to calculate
-     * the exact number of rows or columns spanned and use that value.
-     */
-    @Property(name="colSpan", displayName="Columns Spanned By the Cell")
-    private int colSpan = Integer.MIN_VALUE;
-    private boolean colSpan_set = false;
-
-    /**
-     * Extra HTML to be appended to the tag output by this renderer.
-     */
-    @Property(name="extraHtml", displayName="Extra HTML")
-    private String extraHtml = null;
-
-    /**
-     * The HEADERS attribute specifies the header cells that apply to the
-     * TD. The value is a space-separated list of the header cells' ID
-     * attribute values. The HEADERS attribute allows non-visual browsers to
-     * render the header information for a given cell.
-     */
-    @Property(name="headers", displayName="List of Header Cells for Current Cell")
-    private String headers = null;
-
-    /**
-     * The number of pixels for the cell's height. Styles should be used to specify 
-     * cell height when possible because the height attribute is deprecated in HTML 4.0.
-     */
-    @Property(name="height", displayName="Height")
-    private String height = null;
-
-    /**
-     * Use the <code>noWrap</code> attribute to disable word wrapping of this column's 
-     * cells in visual browsers. Word wrap can cause unnecessary horizontal scrolling 
-     * when the browser window is small in relation to the font size. Styles 
-     * should be used to disable word wrap when possible because the nowrap attribute 
-     * is deprecated in HTML 4.0.
-     */
-    @Property(name="noWrap", displayName="Suppress Word Wrap")
-    private boolean noWrap = false;
-    private boolean noWrap_set = false;
-
-    /**
-     * Scripting code executed when a mouse click
-     * occurs over this component.
-     */
-    @Property(name="onClick", displayName="Click Script")
-    private String onClick = null;
-
-    /**
-     * Scripting code executed when a mouse double click
-     * occurs over this component.
-     */
-    @Property(name="onDblClick", displayName="Double Click Script")
-    private String onDblClick = null;
-
-    /**
-     * Scripting code executed when the user presses down on a key while the
-     * component has focus.
-     */
-    @Property(name="onKeyDown", displayName="Key Down Script")
-    private String onKeyDown = null;
-
-    /**
-     * Scripting code executed when the user presses and releases a key while
-     * the component has focus.
-     */
-    @Property(name="onKeyPress", displayName="Key Press Script")
-    private String onKeyPress = null;
-
-    /**
-     * Scripting code executed when the user releases a key while the
-     * component has focus.
-     */
-    @Property(name="onKeyUp", displayName="Key Up Script")
-    private String onKeyUp = null;
-
-    /**
-     * Scripting code executed when the user presses a mouse button while the
-     * mouse pointer is on the component.
-     */
-    @Property(name="onMouseDown", displayName="Mouse Down Script")
-    private String onMouseDown = null;
-
-    /**
-     * Scripting code executed when the user moves the mouse pointer while
-     * over the component.
-     */
-    @Property(name="onMouseMove", displayName="Mouse Move Script")
-    private String onMouseMove = null;
-
-    /**
-     * Scripting code executed when a mouse out movement
-     * occurs over this component.
-     */
-    @Property(name="onMouseOut", displayName="Mouse Out Script")
-    private String onMouseOut = null;
-
-    /**
-     * Scripting code executed when the user moves the  mouse pointer into
-     * the boundary of this component.
-     */
-    @Property(name="onMouseOver", displayName="Mouse In Script")
-    private String onMouseOver = null;
-
-    /**
-     * Scripting code executed when the user releases a mouse button while
-     * the mouse pointer is on the component.
-     */
-    @Property(name="onMouseUp", displayName="Mouse Up Script")
-    private String onMouseUp = null;
-
-    /**
-     * The ROWSPAN attribute of TD specifies the number of rows that are
-     * spanned by the cell. The default value is 1. The special value 0
-     * indicates that the cell spans all rows to the end of the table. The
-     * value 0 is ignored by most browsers, so authors may wish to calculate
-     * the exact number of rows or columns spanned and use that value.
-     */
-    @Property(name="rowSpan", displayName="Rows Spanned By the Cell")
-    private int rowSpan = Integer.MIN_VALUE;
-    private boolean rowSpan_set = false;
-
-    /**
-     * Use the <code>scope</code> attribute to specify that the data cells of the 
-     * column are also acting as headers for rows or other columns of the table. 
-     * This attribute supports assistive technologies by enabling them to determine 
-     * the order in which to read the cells. Valid values include:
-     * <ul>
-     * <li><code>row</code>, when the cells provide header information for the row</li>
-     * <li><code>col</code>, when the cells provide header information for the column</li>
-     * <li><code>rowgroup</code>, when the cells provide header information for the row group</li>
-     * <li><code>colgroup</code>, when the cells provide header information for the column group</li>
-     * </ul>
-     */
-    @Property(name="scope", displayName="Cells Covered By Header Cell")
-    private String scope = null;
-
-    /**
-     * CSS style(s) to be applied to the outermost HTML element when this 
-     * component is rendered.
-     */
-    @Property(name="style", displayName="CSS Style(s)")
-    private String style = null;
-
-    /**
-     * CSS style class(es) to be applied to the outermost HTML element when this 
-     * component is rendered.
-     */
-    @Property(name="styleClass", displayName="CSS Style Class(es)")
-    private String styleClass = null;
-
-    /**
-     * Sets the value of the title attribute for the HTML element.
-     * The specified text will display as a tooltip if the mouse cursor hovers 
-     * over the HTML element.
-     */
-    @Property(name="toolTip", displayName="Tool Tip")
-    private String toolTip = null;
-
-    /**
-     * Use the <code>valign</code> attribute to specify the vertical alignment for the 
-     * content of each cell in the column. Valid values are <code>top</code>, 
-     * <code>middle</code>, <code>bottom</code>, and <code>baseline</code>. The 
-     * default vertical alignment is <code>middle</code>. Setting the 
-     * <code>valign</code> attribute to <code>baseline </code>causes the first line of 
-     * each cell's content to be aligned on the text baseline, the invisible line on 
-     * which text characters rest.
-     */
-    @Property(name="valign", displayName="Vertical Position")
-    private String valign = null;
-
-    /**
-     * Use the visible attribute to indicate whether the component should be
-     * viewable by the user in the rendered HTML page. If set to false, the
-     * HTML code for the component is present in the page, but the component
-     * is hidden with style attributes. By default, visible is set to true, so
-     * HTML for the component HTML is included and visible to the user. If the
-     * component is not visible, it can still be processed on subsequent form
-     * submissions because the HTML is present.
-     */
-    @Property(name="visible", displayName="Visible")
-    private boolean visible = false;
-    private boolean visible_set = false;
-
-    /**
-     * Use the <code>width</code> attribute to specify the width of the cells of the 
-     * column. The width can be specified as the number of pixels or the percentage of 
-     * the table width, and is especially useful for spacer columns. This attribute is 
-     * deprecated in HTML 4.0 in favor of style sheets.
-     */
-    @Property(name="width", displayName="Width")
-    private String width = null;
 
     /** Default constructor */
     public TableActions() {
@@ -1200,6 +922,15 @@ public class TableActions extends UIComponentBase implements NamingContainer {
      * non-visual browsers can give a cell's header information in an
      * abbreviated form before rendering each cell.
      */
+    @Property(name="abbr", displayName="Abbreviation for Header Cell")
+    private String abbr = null;
+
+    /**
+     * ABBR gives an abbreviated version of the cell's content. This allows
+     * visual browsers to use the short form if space is limited, and
+     * non-visual browsers can give a cell's header information in an
+     * abbreviated form before rendering each cell.
+     */
     public String getAbbr() {
         if (this.abbr != null) {
             return this.abbr;
@@ -1220,6 +951,14 @@ public class TableActions extends UIComponentBase implements NamingContainer {
     public void setAbbr(String abbr) {
         this.abbr = abbr;
     }
+
+    /**
+     * Flag indicating this component should render actions at the bottom of 
+     * the table. The default renders action for the top of the table.
+     */
+    @Property(name="actionsBottom", displayName="Is Actions Bottom", isAttribute=false)
+    private boolean actionsBottom = false;
+    private boolean actionsBottom_set = false;
 
     /**
      * Flag indicating this component should render actions at the bottom of 
@@ -1249,6 +988,21 @@ public class TableActions extends UIComponentBase implements NamingContainer {
         this.actionsBottom = actionsBottom;
         this.actionsBottom_set = true;
     }
+
+
+    /**
+     * Use the <code>align</code> attribute to specify the horizontal alignment for 
+     * the content of each cell in the column. Valid values are <code>left</code>, 
+     * <code>center</code>, <code>right</code>, <code>justify</code>, and 
+     * <code>char</code>. The default alignment is <code>left</code>. Setting the 
+     * <code>align</code> attribute to <code>char</code> causes the cell's contents 
+     * to be aligned on the character that you specify with the <code>char</code> 
+     * attribute. For example, to align cell contents on colons, set 
+     * <code>align="char"</code> and <code>char=":" </code>Some browsers do not 
+     * support aligning on the character.
+     */
+    @Property(name="align", displayName="Horizontal Alignment")
+    private String align = null;
 
     /**
      * Use the <code>align</code> attribute to specify the horizontal alignment for 
@@ -1293,6 +1047,15 @@ public class TableActions extends UIComponentBase implements NamingContainer {
      * HTML 4.0 Recommendation's section on categorizing cells for an
      * application of AXIS.
      */
+    @Property(name="axis", displayName="Category of Header Cell")
+    private String axis = null;
+
+    /**
+     * The AXIS attribute provides a method of categorizing cells. The
+     * attribute's value is a comma-separated list of category names. See the
+     * HTML 4.0 Recommendation's section on categorizing cells for an
+     * application of AXIS.
+     */
     public String getAxis() {
         if (this.axis != null) {
             return this.axis;
@@ -1313,6 +1076,19 @@ public class TableActions extends UIComponentBase implements NamingContainer {
     public void setAxis(String axis) {
         this.axis = axis;
     }
+
+    /**
+     * The BGCOLOR attribute suggests a background color for the cell. The
+     * combination of this attribute with <FONT COLOR=...> can leave
+     * invisible or unreadable text on Netscape Navigator 2.x, which does not
+     * support BGCOLOR on table elements. BGCOLOR is dangerous even on
+     * supporting browsers, since most fail to override it when overriding
+     * other author-specified colors. Style sheets provide a safer, more
+     * flexible method of specifying a table's background color. This
+     * attribute is deprecated (in HTML 4.0) in favor of style sheets.
+     */
+    @Property(name="bgColor", displayName="Cell Background Color")
+    private String bgColor = null;
 
     /**
      * The BGCOLOR attribute suggests a background color for the cell. The
@@ -1357,6 +1133,17 @@ public class TableActions extends UIComponentBase implements NamingContainer {
      * decimal point of the current language, such as a period in English. The 
      * <code>char</code> HTML property is not supported by all browsers.
      */
+    @Property(name="char", displayName="Alignment Character")
+    private String _char = null;
+
+    /**
+     * Use the <code>char </code>attribute to specify a character to use for 
+     * horizontal alignment in each cell in the row. You must also set the 
+     * <code>align</code> attribute to <code>char</code> to enable character alignment 
+     * to be used. The default value for the <code>char</code> attribute is the 
+     * decimal point of the current language, such as a period in English. The 
+     * <code>char</code> HTML property is not supported by all browsers.
+     */
     public String getChar() {
         if (this._char != null) {
             return this._char;
@@ -1379,6 +1166,19 @@ public class TableActions extends UIComponentBase implements NamingContainer {
     public void setChar(String _char) {
         this._char = _char;
     }
+
+    /**
+     * Use the <code>charOff </code>attribute to specify the offset of the first 
+     * occurrence of the alignment character that is specified with the 
+     * <code>char</code> attribute. The offset is the distance from the left cell 
+     * border, in locales that read from left to right. The <code>charOff</code> 
+     * attribute's value can be a number of pixels or a percentage of the cell's 
+     * width. For example, <code>charOff="50%"</code> centers the alignment character 
+     * horizontally in a cell. If <code>charOff="25%"</code>, the first instance 
+     * of the alignment character is placed at one fourth of the width of the cell.
+     */
+    @Property(name="charOff", displayName="Alignment Character Offset")
+    private String charOff = null;
 
     /**
      * Use the <code>charOff </code>attribute to specify the offset of the first 
@@ -1422,6 +1222,17 @@ public class TableActions extends UIComponentBase implements NamingContainer {
      * value 0 is ignored by most browsers, so authors may wish to calculate
      * the exact number of rows or columns spanned and use that value.
      */
+    @Property(name="colSpan", displayName="Columns Spanned By the Cell")
+    private int colSpan = Integer.MIN_VALUE;
+    private boolean colSpan_set = false;
+
+    /**
+     * The COLSPAN attribute of TD specifies the number of columns that are
+     * spanned by the cell. The default value is 1. The special value 0
+     * indicates that the cell spans all columns to the end of the table. The
+     * value 0 is ignored by most browsers, so authors may wish to calculate
+     * the exact number of rows or columns spanned and use that value.
+     */
     public int getColSpan() {
         if (this.colSpan_set) {
             return this.colSpan;
@@ -1453,6 +1264,12 @@ public class TableActions extends UIComponentBase implements NamingContainer {
     /**
      * Extra HTML to be appended to the tag output by this renderer.
      */
+    @Property(name="extraHtml", displayName="Extra HTML")
+    private String extraHtml = null;
+
+    /**
+     * Extra HTML to be appended to the tag output by this renderer.
+     */
     public String getExtraHtml() {
         if (this.extraHtml != null) {
             return this.extraHtml;
@@ -1470,6 +1287,15 @@ public class TableActions extends UIComponentBase implements NamingContainer {
     public void setExtraHtml(String extraHtml) {
         this.extraHtml = extraHtml;
     }
+
+    /**
+     * The HEADERS attribute specifies the header cells that apply to the
+     * TD. The value is a space-separated list of the header cells' ID
+     * attribute values. The HEADERS attribute allows non-visual browsers to
+     * render the header information for a given cell.
+     */
+    @Property(name="headers", displayName="List of Header Cells for Current Cell")
+    private String headers = null;
 
     /**
      * The HEADERS attribute specifies the header cells that apply to the
@@ -1502,6 +1328,13 @@ public class TableActions extends UIComponentBase implements NamingContainer {
      * The number of pixels for the cell's height. Styles should be used to specify 
      * cell height when possible because the height attribute is deprecated in HTML 4.0.
      */
+    @Property(name="height", displayName="Height")
+    private String height = null;
+
+    /**
+     * The number of pixels for the cell's height. Styles should be used to specify 
+     * cell height when possible because the height attribute is deprecated in HTML 4.0.
+     */
     public String getHeight() {
         if (this.height != null) {
             return this.height;
@@ -1520,6 +1353,17 @@ public class TableActions extends UIComponentBase implements NamingContainer {
     public void setHeight(String height) {
         this.height = height;
     }
+
+    /**
+     * Use the <code>noWrap</code> attribute to disable word wrapping of this column's 
+     * cells in visual browsers. Word wrap can cause unnecessary horizontal scrolling 
+     * when the browser window is small in relation to the font size. Styles 
+     * should be used to disable word wrap when possible because the nowrap attribute 
+     * is deprecated in HTML 4.0.
+     */
+    @Property(name="noWrap", displayName="Suppress Word Wrap")
+    private boolean noWrap = false;
+    private boolean noWrap_set = false;
 
     /**
      * Use the <code>noWrap</code> attribute to disable word wrapping of this column's 
@@ -1560,6 +1404,13 @@ public class TableActions extends UIComponentBase implements NamingContainer {
      * Scripting code executed when a mouse click
      * occurs over this component.
      */
+    @Property(name="onClick", displayName="Click Script")
+    private String onClick = null;
+
+    /**
+     * Scripting code executed when a mouse click
+     * occurs over this component.
+     */
     public String getOnClick() {
         if (this.onClick != null) {
             return this.onClick;
@@ -1578,6 +1429,13 @@ public class TableActions extends UIComponentBase implements NamingContainer {
     public void setOnClick(String onClick) {
         this.onClick = onClick;
     }
+
+    /**
+     * Scripting code executed when a mouse double click
+     * occurs over this component.
+     */
+    @Property(name="onDblClick", displayName="Double Click Script")
+    private String onDblClick = null;
 
     /**
      * Scripting code executed when a mouse double click
@@ -1606,6 +1464,13 @@ public class TableActions extends UIComponentBase implements NamingContainer {
      * Scripting code executed when the user presses down on a key while the
      * component has focus.
      */
+    @Property(name="onKeyDown", displayName="Key Down Script")
+    private String onKeyDown = null;
+
+    /**
+     * Scripting code executed when the user presses down on a key while the
+     * component has focus.
+     */
     public String getOnKeyDown() {
         if (this.onKeyDown != null) {
             return this.onKeyDown;
@@ -1624,6 +1489,13 @@ public class TableActions extends UIComponentBase implements NamingContainer {
     public void setOnKeyDown(String onKeyDown) {
         this.onKeyDown = onKeyDown;
     }
+
+    /**
+     * Scripting code executed when the user presses and releases a key while
+     * the component has focus.
+     */
+    @Property(name="onKeyPress", displayName="Key Press Script")
+    private String onKeyPress = null;
 
     /**
      * Scripting code executed when the user presses and releases a key while
@@ -1652,6 +1524,13 @@ public class TableActions extends UIComponentBase implements NamingContainer {
      * Scripting code executed when the user releases a key while the
      * component has focus.
      */
+    @Property(name="onKeyUp", displayName="Key Up Script")
+    private String onKeyUp = null;
+
+    /**
+     * Scripting code executed when the user releases a key while the
+     * component has focus.
+     */
     public String getOnKeyUp() {
         if (this.onKeyUp != null) {
             return this.onKeyUp;
@@ -1670,6 +1549,13 @@ public class TableActions extends UIComponentBase implements NamingContainer {
     public void setOnKeyUp(String onKeyUp) {
         this.onKeyUp = onKeyUp;
     }
+
+    /**
+     * Scripting code executed when the user presses a mouse button while the
+     * mouse pointer is on the component.
+     */
+    @Property(name="onMouseDown", displayName="Mouse Down Script")
+    private String onMouseDown = null;
 
     /**
      * Scripting code executed when the user presses a mouse button while the
@@ -1698,6 +1584,13 @@ public class TableActions extends UIComponentBase implements NamingContainer {
      * Scripting code executed when the user moves the mouse pointer while
      * over the component.
      */
+    @Property(name="onMouseMove", displayName="Mouse Move Script")
+    private String onMouseMove = null;
+
+    /**
+     * Scripting code executed when the user moves the mouse pointer while
+     * over the component.
+     */
     public String getOnMouseMove() {
         if (this.onMouseMove != null) {
             return this.onMouseMove;
@@ -1716,6 +1609,13 @@ public class TableActions extends UIComponentBase implements NamingContainer {
     public void setOnMouseMove(String onMouseMove) {
         this.onMouseMove = onMouseMove;
     }
+
+    /**
+     * Scripting code executed when a mouse out movement
+     * occurs over this component.
+     */
+    @Property(name="onMouseOut", displayName="Mouse Out Script")
+    private String onMouseOut = null;
 
     /**
      * Scripting code executed when a mouse out movement
@@ -1744,6 +1644,13 @@ public class TableActions extends UIComponentBase implements NamingContainer {
      * Scripting code executed when the user moves the  mouse pointer into
      * the boundary of this component.
      */
+    @Property(name="onMouseOver", displayName="Mouse In Script")
+    private String onMouseOver = null;
+
+    /**
+     * Scripting code executed when the user moves the  mouse pointer into
+     * the boundary of this component.
+     */
     public String getOnMouseOver() {
         if (this.onMouseOver != null) {
             return this.onMouseOver;
@@ -1767,6 +1674,13 @@ public class TableActions extends UIComponentBase implements NamingContainer {
      * Scripting code executed when the user releases a mouse button while
      * the mouse pointer is on the component.
      */
+    @Property(name="onMouseUp", displayName="Mouse Up Script")
+    private String onMouseUp = null;
+
+    /**
+     * Scripting code executed when the user releases a mouse button while
+     * the mouse pointer is on the component.
+     */
     public String getOnMouseUp() {
         if (this.onMouseUp != null) {
             return this.onMouseUp;
@@ -1785,6 +1699,17 @@ public class TableActions extends UIComponentBase implements NamingContainer {
     public void setOnMouseUp(String onMouseUp) {
         this.onMouseUp = onMouseUp;
     }
+
+    /**
+     * The ROWSPAN attribute of TD specifies the number of rows that are
+     * spanned by the cell. The default value is 1. The special value 0
+     * indicates that the cell spans all rows to the end of the table. The
+     * value 0 is ignored by most browsers, so authors may wish to calculate
+     * the exact number of rows or columns spanned and use that value.
+     */
+    @Property(name="rowSpan", displayName="Rows Spanned By the Cell")
+    private int rowSpan = Integer.MIN_VALUE;
+    private boolean rowSpan_set = false;
 
     /**
      * The ROWSPAN attribute of TD specifies the number of rows that are
@@ -1833,6 +1758,21 @@ public class TableActions extends UIComponentBase implements NamingContainer {
      * <li><code>colgroup</code>, when the cells provide header information for the column group</li>
      * </ul>
      */
+    @Property(name="scope", displayName="Cells Covered By Header Cell")
+    private String scope = null;
+
+    /**
+     * Use the <code>scope</code> attribute to specify that the data cells of the 
+     * column are also acting as headers for rows or other columns of the table. 
+     * This attribute supports assistive technologies by enabling them to determine 
+     * the order in which to read the cells. Valid values include:
+     * <ul>
+     * <li><code>row</code>, when the cells provide header information for the row</li>
+     * <li><code>col</code>, when the cells provide header information for the column</li>
+     * <li><code>rowgroup</code>, when the cells provide header information for the row group</li>
+     * <li><code>colgroup</code>, when the cells provide header information for the column group</li>
+     * </ul>
+     */
     public String getScope() {
         if (this.scope != null) {
             return this.scope;
@@ -1864,6 +1804,13 @@ public class TableActions extends UIComponentBase implements NamingContainer {
      * CSS style(s) to be applied to the outermost HTML element when this 
      * component is rendered.
      */
+    @Property(name="style", displayName="CSS Style(s)")
+    private String style = null;
+
+    /**
+     * CSS style(s) to be applied to the outermost HTML element when this 
+     * component is rendered.
+     */
     public String getStyle() {
         if (this.style != null) {
             return this.style;
@@ -1882,6 +1829,13 @@ public class TableActions extends UIComponentBase implements NamingContainer {
     public void setStyle(String style) {
         this.style = style;
     }
+
+    /**
+     * CSS style class(es) to be applied to the outermost HTML element when this 
+     * component is rendered.
+     */
+    @Property(name="styleClass", displayName="CSS Style Class(es)")
+    private String styleClass = null;
 
     /**
      * CSS style class(es) to be applied to the outermost HTML element when this 
@@ -1911,6 +1865,14 @@ public class TableActions extends UIComponentBase implements NamingContainer {
      * The specified text will display as a tooltip if the mouse cursor hovers 
      * over the HTML element.
      */
+    @Property(name="toolTip", displayName="Tool Tip")
+    private String toolTip = null;
+
+    /**
+     * Sets the value of the title attribute for the HTML element.
+     * The specified text will display as a tooltip if the mouse cursor hovers 
+     * over the HTML element.
+     */
     public String getToolTip() {
         if (this.toolTip != null) {
             return this.toolTip;
@@ -1930,6 +1892,18 @@ public class TableActions extends UIComponentBase implements NamingContainer {
     public void setToolTip(String toolTip) {
         this.toolTip = toolTip;
     }
+
+    /**
+     * Use the <code>valign</code> attribute to specify the vertical alignment for the 
+     * content of each cell in the column. Valid values are <code>top</code>, 
+     * <code>middle</code>, <code>bottom</code>, and <code>baseline</code>. The 
+     * default vertical alignment is <code>middle</code>. Setting the 
+     * <code>valign</code> attribute to <code>baseline </code>causes the first line of 
+     * each cell's content to be aligned on the text baseline, the invisible line on 
+     * which text characters rest.
+     */
+    @Property(name="valign", displayName="Vertical Position")
+    private String valign = null;
 
     /**
      * Use the <code>valign</code> attribute to specify the vertical alignment for the 
@@ -1973,6 +1947,19 @@ public class TableActions extends UIComponentBase implements NamingContainer {
      * component is not visible, it can still be processed on subsequent form
      * submissions because the HTML is present.
      */
+    @Property(name="visible", displayName="Visible")
+    private boolean visible = false;
+    private boolean visible_set = false;
+
+    /**
+     * Use the visible attribute to indicate whether the component should be
+     * viewable by the user in the rendered HTML page. If set to false, the
+     * HTML code for the component is present in the page, but the component
+     * is hidden with style attributes. By default, visible is set to true, so
+     * HTML for the component HTML is included and visible to the user. If the
+     * component is not visible, it can still be processed on subsequent form
+     * submissions because the HTML is present.
+     */
     public boolean isVisible() {
         if (this.visible_set) {
             return this.visible;
@@ -2002,6 +1989,15 @@ public class TableActions extends UIComponentBase implements NamingContainer {
         this.visible = visible;
         this.visible_set = true;
     }
+
+    /**
+     * Use the <code>width</code> attribute to specify the width of the cells of the 
+     * column. The width can be specified as the number of pixels or the percentage of 
+     * the table width, and is especially useful for spacer columns. This attribute is 
+     * deprecated in HTML 4.0 in favor of style sheets.
+     */
+    @Property(name="width", displayName="Width")
+    private String width = null;
 
     /**
      * Use the <code>width</code> attribute to specify the width of the cells of the 

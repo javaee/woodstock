@@ -19,817 +19,71 @@
  * 
  * Copyright 2007 Sun Microsystems, Inc. All rights reserved.
  */
- 
-
 package com.sun.webui.jsf.component;
 
-import com.sun.faces.annotation.Component;
 import com.sun.faces.annotation.Property;
 
-import com.sun.data.provider.RowKey;
-import com.sun.webui.jsf.component.IconHyperlink;
-import com.sun.webui.jsf.event.TableSortActionListener;
-import com.sun.webui.jsf.theme.ThemeImages;
-import com.sun.webui.jsf.theme.ThemeStyles;
-import com.sun.webui.jsf.util.LogUtil;
-import com.sun.webui.jsf.util.ThemeUtilities;
-import com.sun.webui.theme.Theme;
-
-import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
 
 import javax.el.ValueExpression;
 import javax.faces.component.NamingContainer;
 import javax.faces.component.UIComponent;
-import javax.faces.component.UIComponentBase;
 import javax.faces.context.FacesContext;
 
 /**
- * Component that represents various table headers, including sortable, 
- * selection, and group headers.
- * <p>
- * Note: Column headers and footers are rendered by TableRowGroupRenderer. Table
- * column footers are rendered by TableRenderer.
- * </p><p>
- * Note: To see the messages logged by this class, set the following global
- * defaults in your JDK's "jre/lib/logging.properties" file.
- * </p><p><pre>
- * java.util.logging.ConsoleHandler.level = FINE
- * com.sun.webui.jsf.component.TableHeader.level = FINE
- * </pre></p>
+ * Base class for table column components.
  */
-@Component(type="com.sun.webui.jsf.TableHeader",
-    family="com.sun.webui.jsf.TableHeader", displayName="Header", isTag=false)
-public class TableHeader extends UIComponentBase implements NamingContainer {
-    /** The component id for the add sort button. */
-    public static final String ADD_SORT_BUTTON_ID = "_addSortButton"; //NOI18N
-
-    /** The facet name for the add sort button. */
-    public static final String ADD_SORT_BUTTON_FACET = "addSortButton"; //NOI18N
-
-    /** The component id for the collapsed hidden field. */
-    public static final String COLLAPSED_HIDDEN_FIELD_ID = "_collapsedHiddenField"; //NOI18N
-
-    /** The facet name for the collapsed hidden field. */
-    public static final String COLLAPSED_HIDDEN_FIELD_FACET = "collapsedHiddenField"; //NOI18N
-
-    /** The component id for the table row group toggle button. */
-    public static final String GROUP_PANEL_TOGGLE_BUTTON_ID = "_groupPanelToggleButton"; //NOI18N
-
-    /** The facet name for the table row group toggle button. */
-    public static final String GROUP_PANEL_TOGGLE_BUTTON_FACET = "groupPanelToggleButton"; //NOI18N
-
-    /** The component id for the primary sort button. */
-    public static final String PRIMARY_SORT_BUTTON_ID = "_primarySortButton"; //NOI18N
-
-    /** The facet name for the primary sort button. */
-    public static final String PRIMARY_SORT_BUTTON_FACET = "primarySortButton"; //NOI18N
-
-    /** The component id for the primary sort link. */
-    public static final String PRIMARY_SORT_LINK_ID = "_primarySortLink"; //NOI18N
-
-    /** The facet name for the primary sort link. */
-    public static final String PRIMARY_SORT_LINK_FACET = "primarySortLink"; //NOI18N
-
-    /** The component id for the select multiple toggle button. */
-    public static final String SELECT_MULTIPLE_TOGGLE_BUTTON_ID = "_selectMultipleToggleButton"; //NOI18N
-
-    /** The facet name for the select multiple toggle button. */
-    public static final String SELECT_MULTIPLE_TOGGLE_BUTTON_FACET = "selectMultipleToggleButton"; //NOI18N
-
-    /** The component id for the selection column sort button. */
-    public static final String SELECT_SORT_BUTTON_ID = "_selectSortButton"; //NOI18N
-
-    /** The facet name for the selection column sort button. */
-    public static final String SELECT_SORT_BUTTON_FACET = "selectSortButton"; //NOI18N
-
-    /** The component id for the sort level text. */
-    public static final String SORT_LEVEL_TEXT_ID = "_sortLevelText"; //NOI18N
-
-    /** The facet name for the sort level text. */
-    public static final String SORT_LEVEL_TEXT_FACET = "sortLevelText"; //NOI18N
-
-    /** The component id for the toggle sort button. */
-    public static final String TOGGLE_SORT_BUTTON_ID = "_toggleSortButton"; //NOI18N
-
-    /** The facet name for the toggle sort button. */
-    public static final String TOGGLE_SORT_BUTTON_FACET = "toggleSortButton"; //NOI18N
-
-    /** The component id for the warning icon. */
-    public static final String WARNING_ICON_ID = "_warningIcon"; //NOI18N
-
-    /** The facet name for the warning icon. */
-    public static final String WARNING_ICON_FACET = "warningIcon"; //NOI18N
-
-    // The Table ancestor enclosing this component.
-    private Table table = null;
-
-    // The TableColumn ancestor enclosing this component.
-    private TableColumn tableColumn = null;
-
-    // The TableRowGroup ancestor enclosing this component.
-    private TableRowGroup tableRowGroup = null;
-
-    // Flag indicating that the next sort order is descending.
-    private boolean descending = false;
-    private boolean descending_set = false;
-
-    // The total number of selected rows.
-    private int selectedRowsCount = -1;
-
-    // The total number of sorts applied.
-    private int sortCount = -1;
-
-    // Sort level for this component.
-    private int sortLevel = -1;
-
-    /** Default constructor */
-    public TableHeader() {
-        super();
-        setRendererType("com.sun.webui.jsf.TableHeader");
-    }
-
-    /**
-     * Return the family for this component.
-     */
-    public String getFamily() {
-        return "com.sun.webui.jsf.TableHeader";
-    }
+public abstract class TableColumnBase extends WebuiComponent
+        implements NamingContainer {
+    // A List of TableColumn children found for this component.
+    private List tableColumnChildren = null;
 
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     // Child methods
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
     /**
-     * Helper method to get the total number of sorts applied.
-     *
-     * @return The sort count.
+     * Clear cached properties.
+     * <p>
+     * Note: Properties may have been cached via the apply request values,
+     * validate, and update phases and must be re-evaluated during the render
+     * response phase (e.g., the underlying DataProvider may have changed). This
+     * cannot always be done via encodeBegin because the component's parent may
+     * need to obtain updated properties before this component is rendered.
+     * </p>
      */
-    public int getSortCount() {
-        if (sortCount == -1) {
-            TableRowGroup group = getTableRowGroupAncestor();
-            sortCount = (group != null) ? group.getSortCount() : 0;
+    public void clear() {
+        tableColumnChildren = null;
+
+        // Clear properties of nested TableColumn children.
+        Iterator kids = getTableColumnChildren();
+        while (kids.hasNext()) {
+            TableColumnBase kid = (TableColumnBase) kids.next();
+            kid.clear(); // Clear cached properties.
         }
-        return sortCount;
     }
 
     /**
-     * Helper method to get sort level for this component.
+     * Get an Iterator over the TableColumn children found for
+     * this component.
      *
-     * @return The sort level or 0 if sort does not apply.
+     * @return An Iterator over the TableColumn children.
      */
-    public int getSortLevel() {
-        if (sortLevel == -1) {
-            TableColumn col = getTableColumnAncestor();
-            TableRowGroup group = getTableRowGroupAncestor();
-            if (col != null && group != null) {
-                sortLevel = group.getSortLevel(col.getSortCriteria());
-            } else {
-                log("getSortLevel", //NOI18N
-                    "Cannot obtain sort level, TableColumn or TableRowGroup is null"); //NOI18N
-            }
-        }
-        return sortLevel;
-    }
-
-    /**
-     * Get the closest Table ancestor that encloses this component.
-     *
-     * @return The Table ancestor.
-     */
-    public Table getTableAncestor() {
-        if (table == null) {
-            UIComponent component = this;
-            while (component != null) {
-                component = component.getParent();
-                if (component instanceof Table) {
-                    table = (Table) component;
-                    break;
+    public Iterator getTableColumnChildren() {
+        // Get TableColumn children.
+        if (tableColumnChildren == null) {
+            tableColumnChildren = new ArrayList();
+            Iterator kids = getChildren().iterator();
+            while (kids.hasNext()) {
+                UIComponent kid = (UIComponent) kids.next();
+                if ((kid instanceof TableColumn)) {
+                    tableColumnChildren.add(kid);
                 }
             }
         }
-        return table;
-    }
-
-    /**
-     * Get the closest TableColumn ancestor that encloses this component.
-     *
-     * @return The TableColumn ancestor.
-     */
-    public TableColumn getTableColumnAncestor() {
-        if (tableColumn == null) {
-            UIComponent component = this;
-            while (component != null) {
-                component = component.getParent();
-                if (component instanceof TableColumn) {
-                    tableColumn = (TableColumn) component;
-                    break;
-                }
-            }
-        }
-        return tableColumn;
-    }
-
-    /**
-     * Get the closest TableRowGroup ancestor that encloses this component.
-     *
-     * @return The TableRowGroup ancestor.
-     */
-    public TableRowGroup getTableRowGroupAncestor() {
-        if (tableRowGroup == null) {
-            UIComponent component = this;
-            while (component != null) {
-                component = component.getParent();
-                if (component instanceof TableRowGroup) {
-                    tableRowGroup = (TableRowGroup) component;
-                    break;
-                }
-            }
-        }
-        return tableRowGroup;
-    }
-
-    // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    // Group methods
-    // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-     
-    /**
-     * Get select multiple toggle button.
-     *
-     * @return The select multiple toggle button.
-     */
-    public UIComponent getCollapsedHiddenField() {
-        UIComponent facet = getFacet(COLLAPSED_HIDDEN_FIELD_FACET);
-        if (facet != null) {
-            return facet;
-        }
-
-        // Get child.
-        HiddenField child = new HiddenField();
-	child.setId(COLLAPSED_HIDDEN_FIELD_ID);
-
-        // Set value.
-        TableRowGroup group = getTableRowGroupAncestor();
-        if (group != null) {
-            child.setText(new Boolean(group.isCollapsed()));
-        } else {
-            log("getCollapsedHiddenField", //NOI18N
-                "Cannot set collapsed hidden field value, TableRowGroup is null"); //NOI18N
-        }
-
-        // Save facet and return child.
-        getFacets().put(child.getId(), child);
-        return child;
-    }
-
-    /**
-     * Get group panel toggle button.
-     *
-     * @return The group panel toggle button.
-     */
-    public UIComponent getGroupPanelToggleButton() {
-        UIComponent facet = getFacet(GROUP_PANEL_TOGGLE_BUTTON_FACET);
-        if (facet != null) {
-            return facet;
-        }
-
-        Theme theme = getTheme();
-        Table table = getTableAncestor();
-        TableRowGroup group = getTableRowGroupAncestor();
-
-        // Get child.        
-        IconHyperlink child = new IconHyperlink();
-	child.setId(GROUP_PANEL_TOGGLE_BUTTON_ID);
-        child.setIcon((group != null && group.isCollapsed())
-            ? ThemeImages.TABLE_GROUP_PANEL
-            : ThemeImages.TABLE_GROUP_PANEL_FLIP);
-        child.setBorder(0);
-
-        // Set JS to display table preferences panel.        
-        StringBuffer buff = new StringBuffer(128);
-        if (table != null && group != null) {
-            buff.append("document.getElementById('") //NOI18N
-                .append(table.getClientId(getFacesContext()))
-                .append("').toggleGroupPanel('") //NOI18N
-                .append(group.getClientId(getFacesContext()))
-                .append("'); return false"); //NOI18N
-            child.setOnClick(buff.toString());
-        } else {
-            log("getGroupPanelToggleButton", //NOI18N
-                "onClick not set, Table or TableRowGroup is null"); //NOI18N
-        }
-
-        // Set tool tip.
-        String toolTip = (group != null && group.isCollapsed())
-            ? theme.getMessage("table.group.expand") //NOI18N
-            : theme.getMessage("table.group.collapse"); //NOI18N
-        child.setAlt(toolTip);
-        child.setToolTip(toolTip);
-
-        // Set tab index.
-        if (table != null) {
-            child.setTabIndex(table.getTabIndex());
-        } else {
-            log("getGroupPanelToggleButton", "Tab index not set, Table is null"); //NOI18N
-        }
-
-        // Save facet and return child.
-        getFacets().put(child.getId(), child);
-        return child;
-    }
-
-    /**
-     * Get select multiple toggle button.
-     *
-     * @return The select multiple toggle button.
-     */
-    public UIComponent getSelectMultipleToggleButton() {
-        UIComponent facet = getFacet(SELECT_MULTIPLE_TOGGLE_BUTTON_FACET);
-        if (facet != null) {
-            return facet;
-        }
-
-        Table table = getTableAncestor();
-        TableRowGroup group = getTableRowGroupAncestor();
-
-        // Get child.
-        Checkbox child = new Checkbox();
-	child.setId(SELECT_MULTIPLE_TOGGLE_BUTTON_ID);
-        child.setSelectedValue(Boolean.TRUE);
-
-        // Set JS to display table preferences panel.
-        StringBuffer buff = new StringBuffer(128);
-        if (table != null && group != null) {
-            buff.append("document.getElementById('") //NOI18N
-                .append(table.getClientId(getFacesContext()))
-                .append("').selectGroupRows('") //NOI18N
-                .append(group.getClientId(getFacesContext()))
-                .append("', this.checked)"); //NOI18N
-            child.setOnClick(buff.toString());
-        } else {
-            log("getSelectMultipleToggleButton", //NOI18N
-                "onClick not set, Table or TableRowgroup is null"); //NOI18N
-        }
-
-        // Set selected property.
-        if (group != null) {
-            // Checkbox is checked only if all rendered rows are selected.
-            RowKey[] rowKeys = group.getRenderedRowKeys();
-            if (rowKeys != null && rowKeys.length > 0 
-                    && rowKeys.length == getSelectedRowsCount()) {
-                child.setSelected(Boolean.TRUE);
-                child.setToolTip(getTheme().getMessage(
-                    "table.group.deselectMultiple")); //NOI18N
-            } else {
-                child.setToolTip(getTheme().getMessage(
-                    "table.group.selectMultiple")); //NOI18N
-            }
-        } else {
-            log("getSelectMultipleToggleButton", //NOI18N
-                "Tool tip & selected not set, TableRowGroup is null"); //NOI18N
-        }
-
-        // Set tab index.
-        if (table != null) {
-            child.setTabIndex(table.getTabIndex());
-        } else {
-            log("getSelectMultipleToggleButton", //NOI18N
-                "Tab index not set, Table is null"); //NOI18N
-        }
-
-        // Save facet and return child.
-        getFacets().put(child.getId(), child);
-        return child;
-    }
-
-    /**
-     * Get warning icon.
-     *
-     * @return The warning icon.
-     */
-    public UIComponent getWarningIcon() {
-        UIComponent facet = getFacet(WARNING_ICON_FACET);
-        if (facet != null) {
-            return facet;
-        }
-
-        Theme theme = getTheme();
-        TableRowGroup group = getTableRowGroupAncestor();
-
-        // Get child.
-        Icon child = ThemeUtilities.getIcon(theme,
-		ThemeImages.ALERT_WARNING_SMALL);
-
-        // Warning icon is only rendered if at least one row is selected and the
-        // select multiple toggle is not checked.
-        RowKey[] rowKeys = group.getRenderedRowKeys();
-        int rows = getSelectedRowsCount();
-        if (group != null && !group.isCollapsed() || rows == 0
-                || rowKeys != null && rowKeys.length > 0 
-                && rowKeys.length == rows) {
-            // Replace default icon with place holder.
-            Icon placeHolder = ThemeUtilities.getIcon(theme, ThemeImages.DOT);
-            placeHolder.setHeight(child.getHeight());
-            placeHolder.setWidth(child.getWidth());
-            child = placeHolder;
-        } else {
-            log("getWarningIcon", //NOI18N
-                "Height & width not set, TableRowGroup is null"); //NOI18N
-        }
-        child.setId(WARNING_ICON_ID);
-        child.setBorder(0);
-
-        // Set tool tip.
-        String toolTip = (group != null && group.isCollapsed())
-            ? theme.getMessage("table.group.warning") : null; //NOI18N        
-        child.setAlt(toolTip);
-        child.setToolTip(toolTip);
-
-        // Save facet and return child.
-        getFacets().put(child.getId(), child); 
-        return child;
-    }
-
-    // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    // Sort methods
-    // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-    /**
-     * Get add sort button.
-     *
-     * @return The add sort button.
-     */
-    public UIComponent getAddSortButton() {
-        UIComponent facet = getFacet(ADD_SORT_BUTTON_FACET);
-        if (facet != null) {
-            return facet;
-        }
-
-        Theme theme = getTheme();
-        Table table = getTableAncestor();
-        TableColumn col = getTableColumnAncestor();
-
-        // Get child.
-        IconHyperlink child = new IconHyperlink();
-	child.setId(ADD_SORT_BUTTON_ID);
-        child.setIcon(ThemeImages.TABLE_SORT_ADD);
-        child.setBorder(0);
-        child.setAlign("top"); //NOI18N
-        child.setStyleClass(
-            theme.getStyleClass(ThemeStyles.TABLE_HEADER_LINK_IMG));
-        child.addActionListener(new TableSortActionListener());
-
-        // Set tool tip.       
-        String toolTip = getTheme().getMessage("table.sort.button.add", //NOI18N
-            new String[] {getNextSortToolTipAugment()});
-        child.setToolTip(toolTip);
-
-        // Set alt.
-        if (isSelectHeader()) {
-            child.setAlt(theme.getMessage("table.sort.alt.add", //NOI18N
-                new String[] {theme.getMessage("table.select.selectionColumn")})); //NOI18N
-        } else {
-            String header = (col != null && col.getHeaderText() != null)
-                ? col.getHeaderText() : ""; //NOI18N
-            // Select column does not have header text.
-            child.setAlt(theme.getMessage("table.sort.alt.add", //NOI18N
-                new String[] {header}));
-        }
-
-        // Set tab index.
-        if (table != null) {
-            child.setTabIndex(table.getTabIndex());
-        } else {
-            log("getAddSortButton", "Tab index not set, Table is null"); //NOI18N
-        }
-
-        // Add sort level text child.
-        if (getSortCount() > 0 && getSortLevel() > 0) {
-            // Span must appear within hyperlink for style to render properly.
-            child.getChildren().add(getSortLevelText());
-        }
-
-        // Save facet and return child.
-        getFacets().put(child.getId(), child);
-
-        return child;
-    }
-
-    /**
-     * Get primary sort button.
-     *
-     * @return The primary sort button.
-     */
-    public UIComponent getPrimarySortButton() {
-        UIComponent facet = getFacet(PRIMARY_SORT_BUTTON_FACET);
-        if (facet != null) {
-            return facet;
-        }
-
-        Theme theme = getTheme();
-        Table table = getTableAncestor();
-        TableColumn col = getTableColumnAncestor();
-
-        // Get child.
-        IconHyperlink child = new IconHyperlink();
-	child.setId(PRIMARY_SORT_BUTTON_ID);
-        child.setIcon(ThemeImages.TABLE_SORT_PRIMARY);
-        child.setBorder(0);
-        child.setAlign("top"); //NOI18N
-        child.setStyleClass(
-            theme.getStyleClass(ThemeStyles.TABLE_HEADER_LINK_IMG));
-        child.addActionListener(new TableSortActionListener());
-
-        // Set tool tip.        
-        String toolTip = theme.getMessage("table.sort.button.primary", //NOI18N
-            new String[] {getNextSortToolTipAugment()});
-        child.setToolTip(toolTip);
-
-        // Set alt.        
-        if (col != null) {
-            String header = (col.getHeaderText() != null)
-                ? col.getHeaderText() : ""; //NOI18N
-            child.setAlt(theme.getMessage("table.sort.alt.primary", //NOI18N
-                new String[] {header}));
-        } else {
-            log("getPrimarySortButton", "Alt text not set, TableColumn is null"); //NOI18N
-        }
-
-        // Set tab index.
-        if (table != null) {
-            child.setTabIndex(table.getTabIndex());
-        } else {
-            log("getPrimarySortButton", "Tab index not set, Table is null"); //NOI18N
-        }
-
-        // Save facet and return child.
-        getFacets().put(child.getId(), child);
-
-        return child;
-    }
-
-    /**
-     * Get primary sort link.
-     *
-     * @return The primary sort link.
-     */
-    public UIComponent getPrimarySortLink() {        
-        UIComponent facet = getFacet(PRIMARY_SORT_LINK_FACET);
-        if (facet != null) {
-            return facet;
-        }
-
-	Theme theme = getTheme();
-        Table table = getTableAncestor();
-        TableColumn col = getTableColumnAncestor();
-
-        // Get child.
-        IconHyperlink child = new IconHyperlink();
-	child.setId(PRIMARY_SORT_LINK_ID);
-        child.setStyleClass(theme.getStyleClass(ThemeStyles.TABLE_HEADER_LINK));
-        child.addActionListener(new TableSortActionListener());
-        
-        // Get tool tip.
-        String toolTip = "table.sort.link.other"; //NOI18N
-        if (getSortLevel() == 1 && getSortCount() == 1) {
-            // Primary sort column, only sort applied.
-            toolTip = "table.sort.link.primary"; //NOI18N
-        } else if (getSortCount() == 0) {
-            // No sorts applied.
-            toolTip = "table.sort.link.none"; //NOI18N
-        }
-
-        // Set column properties.
-        if (col != null) {
-            child.setIcon(col.getSortIcon());
-            child.setText(col.getHeaderText());
-            child.setImageURL(col.getSortImageURL());            
-            child.setToolTip(getTheme().getMessage(toolTip,
-                new String[] {col.getSortToolTipAugment(col.isDescending())}));
-        } else {
-            log("getPrimarySortLink", //NOI18N
-                "Tool tip, icon, text, & image URL not set, TableColumn is null"); //NOI18N
-        }
-
-        // Set tab index.
-        if (table != null) {
-            child.setTabIndex(table.getTabIndex());
-        } else {
-            log("getPrimarySortLink", "Tab index not set, Table is null"); //NOI18N
-        }
-
-        // Save facet and return child.
-        getFacets().put(child.getId(), child);
-        return child;
-    }
-
-    /**
-     * Get select sort button.
-     *
-     * @return The title sort button.
-     */
-    public UIComponent getSelectSortButton() {
-        UIComponent facet = getFacet(SELECT_SORT_BUTTON_FACET);
-        if (facet != null) {
-            return facet;
-        }
-
-        Theme theme = getTheme();
-        Table table = getTableAncestor();
-
-        // Get child.
-        IconHyperlink child = new IconHyperlink();
-	child.setId(SELECT_SORT_BUTTON_ID);
-        child.setIcon(ThemeImages.TABLE_SORT_SELECT);
-        child.setBorder(0);
-        child.setAlign("top"); //NOI18N
-        child.setStyleClass(
-            theme.getStyleClass(ThemeStyles.TABLE_HEADER_LINK));
-        child.addActionListener(new TableSortActionListener());
-
-        // Get tool tip. Note: Use same tooltip as link -- bugtraq #6339188.
-        String toolTip = "table.sort.link.other"; //NOI18N
-        if (getSortLevel() == 1 && getSortCount() == 1) {
-            // Primary sort column, only sort applied.
-            toolTip = "table.sort.link.primary"; //NOI18N
-        } else if (getSortCount() == 0) {
-            // No sorts applied.
-            toolTip = "table.sort.link.none"; //NOI18N
-        }
-
-        // Set tool tip.
-        child.setToolTip(theme.getMessage(toolTip, //NOI18N
-            new String[] {getNextSortToolTipAugment()}));
-
-        // Set alt.
-        String alt = theme.getMessage("table.sort.alt.primary", //NOI18N
-            new String[] {theme.getMessage("table.select.selectionColumn")}); //NOI18N
-        child.setAlt(alt);
-
-        // Set tab index.
-        if (table != null) {
-            child.setTabIndex(table.getTabIndex());
-        } else {
-            log("getSelectSortButton", "Tab index not set, Table is null"); //NOI18N
-        }
-
-        // Save facet and return child.
-        getFacets().put(child.getId(), child);
-        return child;
-    }
-
-    /**
-     * Get sort level static text.
-     *
-     * @return The sort level static text.
-     */
-    public UIComponent getSortLevelText() {
-        UIComponent facet = getFacet(SORT_LEVEL_TEXT_FACET);
-        if (facet != null) {
-            return facet;
-        }
-       
-        // Get child.
-        StaticText child = new StaticText();
-        child.setId(SORT_LEVEL_TEXT_ID);
-        child.setText(Integer.toString(getSortLevel()));
-        child.setStyleClass(getTheme().getStyleClass(
-            ThemeStyles.TABLE_HEADER_SORTNUM));
-
-        // Save facet and return child.
-        getFacets().put(child.getId(), child);
-        return child;
-    }
-
-    /**
-     * Get toggle sort button.
-     *
-     * @return The toggle sort button.
-     */
-    public UIComponent getToggleSortButton() {
-        UIComponent facet = getFacet(TOGGLE_SORT_BUTTON_FACET);
-        if (facet != null) {
-            return facet;
-        }
-
-        Theme theme = getTheme();
-        Table table = getTableAncestor();
-        TableColumn col = getTableColumnAncestor();
-        TableRowGroup group = getTableRowGroupAncestor();
-
-        // Get child.
-        IconHyperlink child = new IconHyperlink();
-	child.setId(TOGGLE_SORT_BUTTON_ID);
-        child.setBorder(0);
-        child.setAlign("top"); //NOI18N
-        child.addActionListener(new TableSortActionListener());
-
-        // Disable descending sort so selections don't move off page.
-        if (table != null && col != null) {
-            if (!isDescending() && group.isPaginated()
-                    && col.getSelectId() != null
-                    && !table.isHiddenSelectedRows()) {
-                child.setDisabled(true);
-            }
-        } else {
-            log("getToggleSortButton", //NOI18N
-                "Disabled state not set, Table or TableColumn is null"); //NOI18N
-        }
-
-        // Set alt and tool tip for the next sort applied.        
-        if (col != null) {
-            // Get tool tip.
-            child.setToolTip(theme.getMessage("table.sort.button.toggle", //NOI18N
-                new String[] {col.getSortToolTipAugment(!isDescending())}));
-
-            // Get alt.
-            if (isSelectHeader()) {
-                // Select column does not have header text.
-                child.setAlt(theme.getMessage("table.sort.alt.primary", //NOI18N
-                    new String[] {theme.getMessage("table.select.selectionColumn"), //NOI18N
-                        col.getSortToolTipAugment(isDescending()),
-                        Integer.toString(getSortLevel())}));
-            } else {
-                String header = (col.getHeaderText() != null)
-                    ? col.getHeaderText() : ""; //NOI18N
-                child.setAlt(theme.getMessage("table.sort.alt.toggle", //NOI18N
-                    new String[] {header,
-                        col.getSortToolTipAugment(isDescending()), 
-                        Integer.toString(getSortLevel())}));
-            }
-        } else {
-            log("getToggleSortButton", "Alt text not set, TableColumn is null"); //NOI18N
-        }
-
-        // Set icon for the next sort applied.
-        if (child.isDisabled()) {
-            child.setIcon(ThemeImages.TABLE_SORT_DESCENDING_DISABLED);
-        } else if (!isDescending()) {
-            child.setIcon(ThemeImages.TABLE_SORT_DESCENDING);
-        } else {
-            child.setIcon(ThemeImages.TABLE_SORT_ASCENDING);
-        }
-
-        // Set styleClass.
-        if (child.isDisabled()) {
-            if (getSortLevel() == 1) {
-                child.setStyleClass(
-		    theme.getStyleClass(ThemeStyles.TABLE_HEADER_SORT_DISABLED));
-            } else {
-                child.setStyleClass(
-                    theme.getStyleClass(ThemeStyles.TABLE_HEADER_SELECTCOL_DISABLED));
-            }
-        } else {
-            child.setStyleClass(
-                theme.getStyleClass(ThemeStyles.TABLE_HEADER_LINK_IMG));
-        }
-
-        // Add sort level text.
-        if (getSortLevel() > 0 && getSortCount() > 0) {
-            // Span must appear within hyperlink for style to render properly.
-            child.getChildren().add(getSortLevelText());
-        }
-
-        // Set tab index.
-        if (table != null) {
-            child.setTabIndex(table.getTabIndex());
-        } else {
-            log("getToggleSortButton", "Tab index not set, Table is null"); //NOI18N
-        }
-
-        // Save facet and return child.
-        getFacets().put(child.getId(), child);
-
-        return child;
-    }
-
-    // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    // UIComponent methods
-    // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-    /**
-     * If the rendered property is true, render the begining of the current
-     * state of this UIComponent to the response contained in the specified
-     * FacesContext.
-     *
-     * If a Renderer is associated with this UIComponent, the actual encoding 
-     * will be delegated to Renderer.encodeBegin(FacesContext, UIComponent).
-     *
-     * @param context FacesContext for the current request.
-     *
-     * @exception IOException if an input/output error occurs while rendering.
-     * @exception NullPointerException if FacesContext is null.
-     */
-    public void encodeBegin(FacesContext context) throws IOException {
-        // Clear cached variables -- bugtraq #6300020.
-        table = null;
-        tableColumn = null;
-        tableRowGroup = null;
-        descending = false;
-        descending_set = false;
-        selectedRowsCount = -1;
-        sortCount = -1;
-        sortLevel = -1;
-        super.encodeBegin(context);
+        return tableColumnChildren.iterator();
     }
 
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -842,7 +96,7 @@ public class TableHeader extends UIComponentBase implements NamingContainer {
      * non-visual browsers can give a cell's header information in an
      * abbreviated form before rendering each cell.
      */
-    @Property(name="abbr", displayName="Abbreviation for Header Cell")
+    @Property(name="abbr", displayName="Abbreviation for Header Cell", isHidden=true, isAttribute=false)
     private String abbr = null;
 
     /**
@@ -883,7 +137,7 @@ public class TableHeader extends UIComponentBase implements NamingContainer {
      * <code>align="char"</code> and <code>char=":" </code>Some browsers do not 
      * support aligning on the character.
      */
-    @Property(name="align", displayName="Horizontal Alignment")
+    @Property(name="align", displayName="Horizontal Alignment", category="Appearance")
     private String align = null;
 
     /**
@@ -924,12 +178,64 @@ public class TableHeader extends UIComponentBase implements NamingContainer {
     }
 
     /**
+     * Use the <code>alignKey</code> attribute to specify the FieldKey id or FieldKey 
+     * to be used as an identifier for a specific data element on which to align the 
+     * table cell data in the column. If <code>alignKey</code> specifies a 
+     * FieldKey, the FieldKey is used as is; otherwise, a FieldKey is created using 
+     * the <code>alignKey</code> value that you specify. Alignment is based on 
+     * the object type of the data element. For example, Date and Number objects are 
+     * aligned "right", Character and String objects are aligned "left", and Boolean 
+     * objects are aligned "center". All columns, including select columns, are 
+     * aligned "left" by default. Note that the align property overrides this value.
+     */
+    @Property(name="alignKey", displayName="Horizontal Alignment Key", category="Appearance",
+        editorClassName="com.sun.rave.propertyeditors.StringPropertyEditor")
+    private Object alignKey = null;
+
+    /**
+     * Use the <code>alignKey</code> attribute to specify the FieldKey id or FieldKey 
+     * to be used as an identifier for a specific data element on which to align the 
+     * table cell data in the column. If <code>alignKey</code> specifies a 
+     * FieldKey, the FieldKey is used as is; otherwise, a FieldKey is created using 
+     * the <code>alignKey</code> value that you specify. Alignment is based on 
+     * the object type of the data element. For example, Date and Number objects are 
+     * aligned "right", Character and String objects are aligned "left", and Boolean 
+     * objects are aligned "center". All columns, including select columns, are 
+     * aligned "left" by default. Note that the align property overrides this value.
+     */
+    public Object getAlignKey() {
+        if (this.alignKey != null) {
+            return this.alignKey;
+        }
+        ValueExpression _vb = getValueExpression("alignKey");
+        if (_vb != null) {
+            return (Object) _vb.getValue(getFacesContext().getELContext());
+        }
+        return null;
+    }
+
+    /**
+     * Use the <code>alignKey</code> attribute to specify the FieldKey id or FieldKey 
+     * to be used as an identifier for a specific data element on which to align the 
+     * table cell data in the column. If <code>alignKey</code> specifies a 
+     * FieldKey, the FieldKey is used as is; otherwise, a FieldKey is created using 
+     * the <code>alignKey</code> value that you specify. Alignment is based on 
+     * the object type of the data element. For example, Date and Number objects are 
+     * aligned "right", Character and String objects are aligned "left", and Boolean 
+     * objects are aligned "center". All columns, including select columns, are 
+     * aligned "left" by default. Note that the align property overrides this value.
+     */
+    public void setAlignKey(Object alignKey) {
+        this.alignKey = alignKey;
+    }
+
+    /**
      * The AXIS attribute provides a method of categorizing cells. The
      * attribute's value is a comma-separated list of category names. See the
      * HTML 4.0 Recommendation's section on categorizing cells for an
      * application of AXIS.
      */
-    @Property(name="axis", displayName="Category of Header Cell")
+    @Property(name="axis", displayName="Category of Header Cell", category="Advanced", isHidden=true, isAttribute=false)
     private String axis = null;
 
     /**
@@ -969,7 +275,7 @@ public class TableHeader extends UIComponentBase implements NamingContainer {
      * flexible method of specifying a table's background color. This
      * attribute is deprecated (in HTML 4.0) in favor of style sheets.
      */
-    @Property(name="bgColor", displayName="Cell Background Color")
+    @Property(name="bgColor", displayName="Cell Background Color", isHidden=true, isAttribute=false)
     private String bgColor = null;
 
     /**
@@ -1015,7 +321,7 @@ public class TableHeader extends UIComponentBase implements NamingContainer {
      * decimal point of the current language, such as a period in English. The 
      * <code>char</code> HTML property is not supported by all browsers.
      */
-    @Property(name="char", displayName="Alignment Character")
+    @Property(name="char", displayName="Alignment Character", isHidden=true, isAttribute=false)
     private String _char = null;
 
     /**
@@ -1059,7 +365,7 @@ public class TableHeader extends UIComponentBase implements NamingContainer {
      * horizontally in a cell. If <code>charOff="25%"</code>, the first instance 
      * of the alignment character is placed at one fourth of the width of the cell.
      */
-    @Property(name="charOff", displayName="Alignment Character Offset")
+    @Property(name="charOff", displayName="Alignment Character Offset", isHidden=true, isAttribute=false)
     private String charOff = null;
 
     /**
@@ -1098,18 +404,18 @@ public class TableHeader extends UIComponentBase implements NamingContainer {
     }
 
     /**
-     * The COLSPAN attribute of TH specifies the number of columns that are
+     * The COLSPAN attribute of TD specifies the number of columns that are
      * spanned by the cell. The default value is 1. The special value 0
      * indicates that the cell spans all columns to the end of the table. The
      * value 0 is ignored by most browsers, so authors may wish to calculate
      * the exact number of rows or columns spanned and use that value.
      */
-    @Property(name="colSpan", displayName="Columns Spanned By the Cell")
+    @Property(name="colSpan", displayName="Columns Spanned By the Cell", category="Layout", editorClassName="com.sun.rave.propertyeditors.IntegerPropertyEditor", isAttribute=false)
     private int colSpan = Integer.MIN_VALUE;
     private boolean colSpan_set = false;
 
     /**
-     * The COLSPAN attribute of TH specifies the number of columns that are
+     * The COLSPAN attribute of TD specifies the number of columns that are
      * spanned by the cell. The default value is 1. The special value 0
      * indicates that the cell spans all columns to the end of the table. The
      * value 0 is ignored by most browsers, so authors may wish to calculate
@@ -1132,7 +438,7 @@ public class TableHeader extends UIComponentBase implements NamingContainer {
     }
 
     /**
-     * The COLSPAN attribute of TH specifies the number of columns that are
+     * The COLSPAN attribute of TD specifies the number of columns that are
      * spanned by the cell. The default value is 1. The special value 0
      * indicates that the cell spans all columns to the end of the table. The
      * value 0 is ignored by most browsers, so authors may wish to calculate
@@ -1144,49 +450,16 @@ public class TableHeader extends UIComponentBase implements NamingContainer {
     }
 
     /**
-     * Extra HTML to be appended to the tag output by this renderer.
+     * Use the <code>descending</code> attribute to specify that the first 
+     * user-applied sort is descending. By default, the first time a user clicks a 
+     * column's sort button or column header, the sort is ascending. Note that this 
+     * not an initial sort. The data is initially displayed unsorted.
      */
-    @Property(name="extraHtml", displayName="Extra HTML")
-    private String extraHtml = null;
-
-    /**
-     * Extra HTML to be appended to the tag output by this renderer.
-     */
-    public String getExtraHtml() {
-        if (this.extraHtml != null) {
-            return this.extraHtml;
+    public boolean isDescending() {
+        if (this.descending_set) {
+            return this.descending;
         }
-        ValueExpression _vb = getValueExpression("extraHtml");
-        if (_vb != null) {
-            return (String) _vb.getValue(getFacesContext().getELContext());
-        }
-        return null;
-    }
-
-    /**
-     * Extra HTML to be appended to the tag output by this renderer.
-     */
-    public void setExtraHtml(String extraHtml) {
-        this.extraHtml = extraHtml;
-    }
-
-    /**
-     * Flag indicating this component should render a group header. The default renders
-     * a column header. This should not be used if selectHeader or sortHeader are used.
-     */
-    @Property(name="groupHeader", displayName="Is Group Header", isAttribute=false)
-    private boolean groupHeader = false;
-    private boolean groupHeader_set = false;
-
-    /**
-     * Flag indicating this component should render a group header. The default renders
-     * a column header. This should not be used if selectHeader or sortHeader are used.
-     */
-    public boolean isGroupHeader() {
-        if (this.groupHeader_set) {
-            return this.groupHeader;
-        }
-        ValueExpression _vb = getValueExpression("groupHeader");
+        ValueExpression _vb = getValueExpression("descending");
         if (_vb != null) {
             Object _result = _vb.getValue(getFacesContext().getELContext());
             if (_result == null) {
@@ -1199,26 +472,187 @@ public class TableHeader extends UIComponentBase implements NamingContainer {
     }
 
     /**
-     * Flag indicating this component should render a group header. The default renders
-     * a column header. This should not be used if selectHeader or sortHeader are used.
+     * Use the <code>descending</code> attribute to specify that the first 
+     * user-applied sort is descending. By default, the first time a user clicks a 
+     * column's sort button or column header, the sort is ascending. Note that this 
+     * not an initial sort. The data is initially displayed unsorted.
      */
-    public void setGroupHeader(boolean groupHeader) {
-        this.groupHeader = groupHeader;
-        this.groupHeader_set = true;
+    @Property(name="descending", displayName="Is Descending", category="Data")
+    private boolean descending = false;
+    private boolean descending_set = false;
+
+    /**
+     * Use the <code>descending</code> attribute to specify that the first 
+     * user-applied sort is descending. By default, the first time a user clicks a 
+     * column's sort button or column header, the sort is ascending. Note that this 
+     * not an initial sort. The data is initially displayed unsorted.
+     */
+    public void setDescending(boolean descending) {
+        this.descending = descending;
+        this.descending_set = true;
+    }
+
+    /**
+     * Set the <code>embeddedActions</code> attribute to true when the column includes 
+     * more than one embedded action. This attribute causes a separator image to be 
+     * displayed between the action links. This attribute is overridden by the 
+     * <code>emptyCell</code> attribute.
+     */
+    @Property(name="embeddedActions", displayName="Is Embedded Actions", category="Advanced")
+    private boolean embeddedActions = false;
+    private boolean embeddedActions_set = false;
+
+    /**
+     * Set the <code>embeddedActions</code> attribute to true when the column includes 
+     * more than one embedded action. This attribute causes a separator image to be 
+     * displayed between the action links. This attribute is overridden by the 
+     * <code>emptyCell</code> attribute.
+     */
+    public boolean isEmbeddedActions() {
+        if (this.embeddedActions_set) {
+            return this.embeddedActions;
+        }
+        ValueExpression _vb = getValueExpression("embeddedActions");
+        if (_vb != null) {
+            Object _result = _vb.getValue(getFacesContext().getELContext());
+            if (_result == null) {
+                return false;
+            } else {
+                return ((Boolean) _result).booleanValue();
+            }
+        }
+        return false;
+    }
+
+    /**
+     * Set the <code>embeddedActions</code> attribute to true when the column includes 
+     * more than one embedded action. This attribute causes a separator image to be 
+     * displayed between the action links. This attribute is overridden by the 
+     * <code>emptyCell</code> attribute.
+     */
+    public void setEmbeddedActions(boolean embeddedActions) {
+        this.embeddedActions = embeddedActions;
+        this.embeddedActions_set = true;
+    }
+
+    /**
+     * Use the <code>emptyCell</code> attribute to cause a theme-specific image to be 
+     * displayed when the content of a table cell is not applicable or is unexpectedly 
+     * empty. You should not use this attribute for a value that is truly null, such 
+     * as an empty alarm cell or a comment field that is blank. In addition, the image 
+     * should not be used for cells that contain user interface elements such as 
+     * checkboxes or drop-down lists when these elements are not applicable. Instead, 
+     * the elements should simply not be displayed so the cell is left empty.
+     */
+    @Property(name="emptyCell", displayName="Empty Cell", category="Appearance")
+    private boolean emptyCell = false;
+    private boolean emptyCell_set = false;
+
+    /**
+     * Use the <code>emptyCell</code> attribute to cause a theme-specific image to be 
+     * displayed when the content of a table cell is not applicable or is unexpectedly 
+     * empty. You should not use this attribute for a value that is truly null, such 
+     * as an empty alarm cell or a comment field that is blank. In addition, the image 
+     * should not be used for cells that contain user interface elements such as 
+     * checkboxes or drop-down lists when these elements are not applicable. Instead, 
+     * the elements should simply not be displayed so the cell is left empty.
+     */
+    public boolean isEmptyCell() {
+        if (this.emptyCell_set) {
+            return this.emptyCell;
+        }
+        ValueExpression _vb = getValueExpression("emptyCell");
+        if (_vb != null) {
+            Object _result = _vb.getValue(getFacesContext().getELContext());
+            if (_result == null) {
+                return false;
+            } else {
+                return ((Boolean) _result).booleanValue();
+            }
+        }
+        return false;
+    }
+
+    /**
+     * Use the <code>emptyCell</code> attribute to cause a theme-specific image to be 
+     * displayed when the content of a table cell is not applicable or is unexpectedly 
+     * empty. You should not use this attribute for a value that is truly null, such 
+     * as an empty alarm cell or a comment field that is blank. In addition, the image 
+     * should not be used for cells that contain user interface elements such as 
+     * checkboxes or drop-down lists when these elements are not applicable. Instead, 
+     * the elements should simply not be displayed so the cell is left empty.
+     */
+    public void setEmptyCell(boolean emptyCell) {
+        this.emptyCell = emptyCell;
+        this.emptyCell_set = true;
+    }
+
+    /**
+     * The text to be displayed in the column footer.
+     */
+    @Property(name="footerText", displayName="Footer Text", category="Appearance")
+    private String footerText = null;
+
+    /**
+     * The text to be displayed in the column footer.
+     */
+    public String getFooterText() {
+        if (this.footerText != null) {
+            return this.footerText;
+        }
+        ValueExpression _vb = getValueExpression("footerText");
+        if (_vb != null) {
+            return (String) _vb.getValue(getFacesContext().getELContext());
+        }
+        return null;
+    }
+
+    /**
+     * The text to be displayed in the column footer.
+     */
+    public void setFooterText(String footerText) {
+        this.footerText = footerText;
+    }
+
+    /**
+     * The text to be displayed in the column header.
+     */
+    @Property(name="headerText", displayName="header Text", category="Appearance")
+    private String headerText = null;
+
+    /**
+     * The text to be displayed in the column header.
+     */
+    public String getHeaderText() {
+        if (this.headerText != null) {
+            return this.headerText;
+        }
+        ValueExpression _vb = getValueExpression("headerText");
+        if (_vb != null) {
+            return (String) _vb.getValue(getFacesContext().getELContext());
+        }
+        return null;
+    }
+
+    /**
+     * The text to be displayed in the column header.
+     */
+    public void setHeaderText(String headerText) {
+        this.headerText = headerText;
     }
 
     /**
      * The HEADERS attribute specifies the header cells that apply to the
-     * TH. The value is a space-separated list of the header cells' ID
+     * TD. The value is a space-separated list of the header cells' ID
      * attribute values. The HEADERS attribute allows non-visual browsers to
      * render the header information for a given cell.
      */
-    @Property(name="headers", displayName="List of Header Cells for Current Cell")
+    @Property(name="headers", displayName="List of Header Cells for Current Cell", category="Advanced", isHidden=true, isAttribute=false)
     private String headers = null;
 
     /**
      * The HEADERS attribute specifies the header cells that apply to the
-     * TH. The value is a space-separated list of the header cells' ID
+     * TD. The value is a space-separated list of the header cells' ID
      * attribute values. The HEADERS attribute allows non-visual browsers to
      * render the header information for a given cell.
      */
@@ -1235,7 +669,7 @@ public class TableHeader extends UIComponentBase implements NamingContainer {
 
     /**
      * The HEADERS attribute specifies the header cells that apply to the
-     * TH. The value is a space-separated list of the header cells' ID
+     * TD. The value is a space-separated list of the header cells' ID
      * attribute values. The HEADERS attribute allows non-visual browsers to
      * render the header information for a given cell.
      */
@@ -1247,7 +681,7 @@ public class TableHeader extends UIComponentBase implements NamingContainer {
      * The number of pixels for the cell's height. Styles should be used to specify 
      * cell height when possible because the height attribute is deprecated in HTML 4.0.
      */
-    @Property(name="height", displayName="Height")
+    @Property(name="height", displayName="Height", category="Layout")
     private String height = null;
 
     /**
@@ -1280,7 +714,7 @@ public class TableHeader extends UIComponentBase implements NamingContainer {
      * should be used to disable word wrap when possible because the nowrap attribute 
      * is deprecated in HTML 4.0.
      */
-    @Property(name="noWrap", displayName="Suppress Word Wrap")
+    @Property(name="noWrap", displayName="Suppress Word Wrap", category="Appearance")
     private boolean noWrap = false;
     private boolean noWrap_set = false;
 
@@ -1323,7 +757,7 @@ public class TableHeader extends UIComponentBase implements NamingContainer {
      * Scripting code executed when a mouse click
      * occurs over this component.
      */
-    @Property(name="onClick", displayName="Click Script")
+    @Property(name="onClick", displayName="Click Script", category="Javascript", editorClassName="com.sun.rave.propertyeditors.JavaScriptPropertyEditor")
     private String onClick = null;
 
     /**
@@ -1353,7 +787,7 @@ public class TableHeader extends UIComponentBase implements NamingContainer {
      * Scripting code executed when a mouse double click
      * occurs over this component.
      */
-    @Property(name="onDblClick", displayName="Double Click Script")
+    @Property(name="onDblClick", displayName="Double Click Script", category="Javascript", editorClassName="com.sun.rave.propertyeditors.JavaScriptPropertyEditor")
     private String onDblClick = null;
 
     /**
@@ -1383,7 +817,7 @@ public class TableHeader extends UIComponentBase implements NamingContainer {
      * Scripting code executed when the user presses down on a key while the
      * component has focus.
      */
-    @Property(name="onKeyDown", displayName="Key Down Script")
+    @Property(name="onKeyDown", displayName="Key Down Script", category="Javascript", editorClassName="com.sun.rave.propertyeditors.JavaScriptPropertyEditor")
     private String onKeyDown = null;
 
     /**
@@ -1413,7 +847,7 @@ public class TableHeader extends UIComponentBase implements NamingContainer {
      * Scripting code executed when the user presses and releases a key while
      * the component has focus.
      */
-    @Property(name="onKeyPress", displayName="Key Press Script")
+    @Property(name="onKeyPress", displayName="Key Press Script", category="Javascript", editorClassName="com.sun.rave.propertyeditors.JavaScriptPropertyEditor")
     private String onKeyPress = null;
 
     /**
@@ -1443,7 +877,7 @@ public class TableHeader extends UIComponentBase implements NamingContainer {
      * Scripting code executed when the user releases a key while the
      * component has focus.
      */
-    @Property(name="onKeyUp", displayName="Key Up Script")
+    @Property(name="onKeyUp", displayName="Key Up Script", category="Javascript", editorClassName="com.sun.rave.propertyeditors.JavaScriptPropertyEditor")
     private String onKeyUp = null;
 
     /**
@@ -1473,7 +907,7 @@ public class TableHeader extends UIComponentBase implements NamingContainer {
      * Scripting code executed when the user presses a mouse button while the
      * mouse pointer is on the component.
      */
-    @Property(name="onMouseDown", displayName="Mouse Down Script")
+    @Property(name="onMouseDown", displayName="Mouse Down Script", category="Javascript", editorClassName="com.sun.rave.propertyeditors.JavaScriptPropertyEditor")
     private String onMouseDown = null;
 
     /**
@@ -1503,7 +937,7 @@ public class TableHeader extends UIComponentBase implements NamingContainer {
      * Scripting code executed when the user moves the mouse pointer while
      * over the component.
      */
-    @Property(name="onMouseMove", displayName="Mouse Move Script")
+    @Property(name="onMouseMove", displayName="Mouse Move Script", category="Javascript", editorClassName="com.sun.rave.propertyeditors.JavaScriptPropertyEditor")
     private String onMouseMove = null;
 
     /**
@@ -1533,7 +967,7 @@ public class TableHeader extends UIComponentBase implements NamingContainer {
      * Scripting code executed when a mouse out movement
      * occurs over this component.
      */
-    @Property(name="onMouseOut", displayName="Mouse Out Script")
+    @Property(name="onMouseOut", displayName="Mouse Out Script", category="Javascript", editorClassName="com.sun.rave.propertyeditors.JavaScriptPropertyEditor")
     private String onMouseOut = null;
 
     /**
@@ -1563,7 +997,7 @@ public class TableHeader extends UIComponentBase implements NamingContainer {
      * Scripting code executed when the user moves the  mouse pointer into
      * the boundary of this component.
      */
-    @Property(name="onMouseOver", displayName="Mouse In Script")
+    @Property(name="onMouseOver", displayName="Mouse In Script", category="Javascript", editorClassName="com.sun.rave.propertyeditors.JavaScriptPropertyEditor")
     private String onMouseOver = null;
 
     /**
@@ -1593,7 +1027,7 @@ public class TableHeader extends UIComponentBase implements NamingContainer {
      * Scripting code executed when the user releases a mouse button while
      * the mouse pointer is on the component.
      */
-    @Property(name="onMouseUp", displayName="Mouse Up Script")
+    @Property(name="onMouseUp", displayName="Mouse Up Script", category="Javascript", editorClassName="com.sun.rave.propertyeditors.JavaScriptPropertyEditor")
     private String onMouseUp = null;
 
     /**
@@ -1620,18 +1054,109 @@ public class TableHeader extends UIComponentBase implements NamingContainer {
     }
 
     /**
-     * The ROWSPAN attribute of TH specifies the number of rows that are
+     * <p>Use the <code>rowHeader</code> attribute to specify that the cells of the 
+     * column are acting as row headers. Row headers are cells that "label" the row. 
+     * For example, consider a table where the first column contains checkboxes, and 
+     * the second column contains user names. The third and subsequent columns contain 
+     * attributes of those users. The content of the cells in the user name column are 
+     * acting as row headers. The <code>webuijsf:tableColumn</code> tag for the user name 
+     * column should set the <code>rowHeader</code> attribute to true. If a table 
+     * contains, for example, a system log with time stamp and log entry columns, 
+     * neither column is acting as a row header, so the <code>rowHeader</code> 
+     * attribute should not be set. 
+     * </p><p>
+     * By default, most column cells are rendered by the table component with HTML 
+     * <code>&lt;td scope="col"&gt;</code> elements. The exceptions are columns that 
+     * contain checkboxes or radio buttons and spacer columns, all of which are 
+     * rendered as <code>&lt;td&gt;</code> elements without a scope property. 
+     * </p><p>
+     * When you set the <code>rowHeader</code> attribute, the column cells are 
+     * rendered as <code>&lt;th scope="row"&gt;</code> elements, which enables 
+     * adaptive technologies such as screen readers to properly read the table to 
+     * indicate that the contents of these cells are headers for the rows.</p>
+     */
+    @Property(name="rowHeader", displayName="Row Header", category="Advanced")
+    private boolean rowHeader = false;
+    private boolean rowHeader_set = false;
+
+    /**
+     * <p>Use the <code>rowHeader</code> attribute to specify that the cells of the 
+     * column are acting as row headers. Row headers are cells that "label" the row. 
+     * For example, consider a table where the first column contains checkboxes, and 
+     * the second column contains user names. The third and subsequent columns contain 
+     * attributes of those users. The content of the cells in the user name column are 
+     * acting as row headers. The <code>webuijsf:tableColumn</code> tag for the user name 
+     * column should set the <code>rowHeader</code> attribute to true. If a table 
+     * contains, for example, a system log with time stamp and log entry columns, 
+     * neither column is acting as a row header, so the <code>rowHeader</code> 
+     * attribute should not be set. 
+     * </p><p>
+     * By default, most column cells are rendered by the table component with HTML 
+     * <code>&lt;td scope="col"&gt;</code> elements. The exceptions are columns that 
+     * contain checkboxes or radio buttons and spacer columns, all of which are 
+     * rendered as <code>&lt;td&gt;</code> elements without a scope property. 
+     * </p><p>
+     * When you set the <code>rowHeader</code> attribute, the column cells are 
+     * rendered as <code>&lt;th scope="row"&gt;</code> elements, which enables 
+     * adaptive technologies such as screen readers to properly read the table to 
+     * indicate that the contents of these cells are headers for the rows.</p>
+     */
+    public boolean isRowHeader() {
+        if (this.rowHeader_set) {
+            return this.rowHeader;
+        }
+        ValueExpression _vb = getValueExpression("rowHeader");
+        if (_vb != null) {
+            Object _result = _vb.getValue(getFacesContext().getELContext());
+            if (_result == null) {
+                return false;
+            } else {
+                return ((Boolean) _result).booleanValue();
+            }
+        }
+        return false;
+    }
+
+    /**
+     * <p>Use the <code>rowHeader</code> attribute to specify that the cells of the 
+     * column are acting as row headers. Row headers are cells that "label" the row. 
+     * For example, consider a table where the first column contains checkboxes, and 
+     * the second column contains user names. The third and subsequent columns contain 
+     * attributes of those users. The content of the cells in the user name column are 
+     * acting as row headers. The <code>webuijsf:tableColumn</code> tag for the user name 
+     * column should set the <code>rowHeader</code> attribute to true. If a table 
+     * contains, for example, a system log with time stamp and log entry columns, 
+     * neither column is acting as a row header, so the <code>rowHeader</code> 
+     * attribute should not be set. 
+     * </p><p>
+     * By default, most column cells are rendered by the table component with HTML 
+     * <code>&lt;td scope="col"&gt;</code> elements. The exceptions are columns that 
+     * contain checkboxes or radio buttons and spacer columns, all of which are 
+     * rendered as <code>&lt;td&gt;</code> elements without a scope property. 
+     * </p><p>
+     * When you set the <code>rowHeader</code> attribute, the column cells are 
+     * rendered as <code>&lt;th scope="row"&gt;</code> elements, which enables 
+     * adaptive technologies such as screen readers to properly read the table to 
+     * indicate that the contents of these cells are headers for the rows.</p>
+     */
+    public void setRowHeader(boolean rowHeader) {
+        this.rowHeader = rowHeader;
+        this.rowHeader_set = true;
+    }
+
+    /**
+     * The ROWSPAN attribute of TD specifies the number of rows that are
      * spanned by the cell. The default value is 1. The special value 0
      * indicates that the cell spans all rows to the end of the table. The
      * value 0 is ignored by most browsers, so authors may wish to calculate
      * the exact number of rows or columns spanned and use that value.
      */
-    @Property(name="rowSpan", displayName="Rows Spanned By the Cell")
+    @Property(name="rowSpan", displayName="Rows Spanned By the Cell", category="Layout", editorClassName="com.sun.rave.propertyeditors.IntegerPropertyEditor", isAttribute=false)
     private int rowSpan = Integer.MIN_VALUE;
     private boolean rowSpan_set = false;
 
     /**
-     * The ROWSPAN attribute of TH specifies the number of rows that are
+     * The ROWSPAN attribute of TD specifies the number of rows that are
      * spanned by the cell. The default value is 1. The special value 0
      * indicates that the cell spans all rows to the end of the table. The
      * value 0 is ignored by most browsers, so authors may wish to calculate
@@ -1654,7 +1179,7 @@ public class TableHeader extends UIComponentBase implements NamingContainer {
     }
 
     /**
-     * The ROWSPAN attribute of TH specifies the number of rows that are
+     * The ROWSPAN attribute of TD specifies the number of rows that are
      * spanned by the cell. The default value is 1. The special value 0
      * indicates that the cell spans all rows to the end of the table. The
      * value 0 is ignored by most browsers, so authors may wish to calculate
@@ -1677,7 +1202,7 @@ public class TableHeader extends UIComponentBase implements NamingContainer {
      * <li><code>colgroup</code>, when the cells provide header information for the column group</li>
      * </ul>
      */
-    @Property(name="scope", displayName="Cells Covered By Header Cell")
+    @Property(name="scope", displayName="Cells Covered By Header Cell", category="Advanced")
     private String scope = null;
 
     /**
@@ -1720,24 +1245,258 @@ public class TableHeader extends UIComponentBase implements NamingContainer {
     }
 
     /**
-     * Flag indicating this component should render a selection column header. The 
-     * default renders a column header. This should not be used if groupHeader or 
-     * sortHeader are used.
+     * Use the <code>selectId</code> attribute in select columns, which contain 
+     * checkboxes or radio buttons for selecting table rows. The value of 
+     * <code>selectId</code> must match the <code>id</code> attribute of the checkbox 
+     * or radioButton component that is a child of the tableColumn component. A fully 
+     * qualified ID based on the tableColumn component ID and the 
+     * <code>selectId</code> for the current row will be dynamically created for the 
+     * <code>&lt;input&gt;</code> element that is rendered for the checkbox or radio 
+     * button. The <code>selectId</code> is required for functionality that supports 
+     * the toggle buttons for selecting rows. The <code>selectId</code> also 
+     * identifies the column as a select column, for which the table component 
+     * uses different CSS styles.
      */
-    @Property(name="selectHeader", displayName="Is Select Header", isAttribute=false)
-    private boolean selectHeader = false;
-    private boolean selectHeader_set = false;
+    @Property(name="selectId", displayName="Select Component Id", category="Data")
+    private String selectId = null;
 
     /**
-     * Flag indicating this component should render a selection column header. The 
-     * default renders a column header. This should not be used if groupHeader or 
-     * sortHeader are used.
+     * Use the <code>selectId</code> attribute in select columns, which contain 
+     * checkboxes or radio buttons for selecting table rows. The value of 
+     * <code>selectId</code> must match the <code>id</code> attribute of the checkbox 
+     * or radioButton component that is a child of the tableColumn component. A fully 
+     * qualified ID based on the tableColumn component ID and the 
+     * <code>selectId</code> for the current row will be dynamically created for the 
+     * <code>&lt;input&gt;</code> element that is rendered for the checkbox or radio 
+     * button. The <code>selectId</code> is required for functionality that supports 
+     * the toggle buttons for selecting rows. The <code>selectId</code> also 
+     * identifies the column as a select column, for which the table component 
+     * uses different CSS styles.
      */
-    public boolean isSelectHeader() {
-        if (this.selectHeader_set) {
-            return this.selectHeader;
+    public String getSelectId() {
+        if (this.selectId != null) {
+            return this.selectId;
         }
-        ValueExpression _vb = getValueExpression("selectHeader");
+        ValueExpression _vb = getValueExpression("selectId");
+        if (_vb != null) {
+            return (String) _vb.getValue(getFacesContext().getELContext());
+        }
+        return null;
+    }
+
+    /**
+     * Use the <code>selectId</code> attribute in select columns, which contain 
+     * checkboxes or radio buttons for selecting table rows. The value of 
+     * <code>selectId</code> must match the <code>id</code> attribute of the checkbox 
+     * or radioButton component that is a child of the tableColumn component. A fully 
+     * qualified ID based on the tableColumn component ID and the 
+     * <code>selectId</code> for the current row will be dynamically created for the 
+     * <code>&lt;input&gt;</code> element that is rendered for the checkbox or radio 
+     * button. The <code>selectId</code> is required for functionality that supports 
+     * the toggle buttons for selecting rows. The <code>selectId</code> also 
+     * identifies the column as a select column, for which the table component 
+     * uses different CSS styles.
+     */
+    public void setSelectId(String selectId) {
+        this.selectId = selectId;
+    }
+
+    /**
+     * Use the <code>severity</code> attribute when including the <code>webuijsf:alarm</code> 
+     * component in a column, to match the severity of the alarm. Valid values are 
+     * described in the <code>webuijsf:alarm</code> documentation. When the 
+     * <code>severity</code> attribute is set in the tableColumn, the table 
+     * component renders sort tool tips to indicate that the column will be sorted 
+     * least/most severe first, and the table cell appears hightlighted according to 
+     * the level of severity. This functionality is overridden by the 
+     * <code>emptyCell</code> attribute.
+     */
+    @Property(name="severity", displayName="Severity", category="Appearance")
+    private String severity = null;
+
+    /**
+     * Use the <code>severity</code> attribute when including the <code>webuijsf:alarm</code> 
+     * component in a column, to match the severity of the alarm. Valid values are 
+     * described in the <code>webuijsf:alarm</code> documentation. When the 
+     * <code>severity</code> attribute is set in the tableColumn, the table 
+     * component renders sort tool tips to indicate that the column will be sorted 
+     * least/most severe first, and the table cell appears hightlighted according to 
+     * the level of severity. This functionality is overridden by the 
+     * <code>emptyCell</code> attribute.
+     */
+    public String getSeverity() {
+        if (this.severity != null) {
+            return this.severity;
+        }
+        ValueExpression _vb = getValueExpression("severity");
+        if (_vb != null) {
+            return (String) _vb.getValue(getFacesContext().getELContext());
+        }
+        return null;
+    }
+
+    /**
+     * Use the <code>severity</code> attribute when including the <code>webuijsf:alarm</code> 
+     * component in a column, to match the severity of the alarm. Valid values are 
+     * described in the <code>webuijsf:alarm</code> documentation. When the 
+     * <code>severity</code> attribute is set in the tableColumn, the table 
+     * component renders sort tool tips to indicate that the column will be sorted 
+     * least/most severe first, and the table cell appears hightlighted according to 
+     * the level of severity. This functionality is overridden by the 
+     * <code>emptyCell</code> attribute.
+     */
+    public void setSeverity(String severity) {
+        this.severity = severity;
+    }
+
+    /**
+     * Use the <code>sort</code> attribute to specify a FieldKey id or SortCriteria 
+     * that defines the criteria to use for sorting the contents of a 
+     * TableDataProvider. If SortCriteria is provided, the object is used for sorting 
+     * as is. If an id is provided, a FieldIdSortCriteria is created for sorting. In 
+     * addition, a value binding can also be used to sort on an object that is 
+     * external to TableDataProvider, such as the selected state of a checkbox or 
+     * radiobutton. When a value binding is used, a ValueBindingSortCriteria object 
+     * is created for sorting. All sorting is based on the object type associated with 
+     * the data element (for example, Boolean, Character, Comparator, Date, Number, 
+     * and String). If the object type cannot be determined, the object is compared as 
+     * a String. The <code>sort</code> attribute is required for a column to be shown 
+     * as sortable.
+     */
+    @Property(name="sort", displayName="Sort Key", category="Data", 
+        editorClassName="com.sun.rave.propertyeditors.StringPropertyEditor")
+    private Object sort = null;
+
+    /**
+     * Use the <code>sort</code> attribute to specify a FieldKey id or SortCriteria 
+     * that defines the criteria to use for sorting the contents of a 
+     * TableDataProvider. If SortCriteria is provided, the object is used for sorting 
+     * as is. If an id is provided, a FieldIdSortCriteria is created for sorting. In 
+     * addition, a value binding can also be used to sort on an object that is 
+     * external to TableDataProvider, such as the selected state of a checkbox or 
+     * radiobutton. When a value binding is used, a ValueBindingSortCriteria object 
+     * is created for sorting. All sorting is based on the object type associated with 
+     * the data element (for example, Boolean, Character, Comparator, Date, Number, 
+     * and String). If the object type cannot be determined, the object is compared as 
+     * a String. The <code>sort</code> attribute is required for a column to be shown 
+     * as sortable.
+     */
+    public Object getSort() {
+        if (this.sort != null) {
+            return this.sort;
+        }
+        ValueExpression _vb = getValueExpression("sort");
+        if (_vb != null) {
+            return (Object) _vb.getValue(getFacesContext().getELContext());
+        }
+        return null;
+    }
+
+    /**
+     * Use the <code>sort</code> attribute to specify a FieldKey id or SortCriteria 
+     * that defines the criteria to use for sorting the contents of a 
+     * TableDataProvider. If SortCriteria is provided, the object is used for sorting 
+     * as is. If an id is provided, a FieldIdSortCriteria is created for sorting. In 
+     * addition, a value binding can also be used to sort on an object that is 
+     * external to TableDataProvider, such as the selected state of a checkbox or 
+     * radiobutton. When a value binding is used, a ValueBindingSortCriteria object 
+     * is created for sorting. All sorting is based on the object type associated with 
+     * the data element (for example, Boolean, Character, Comparator, Date, Number, 
+     * and String). If the object type cannot be determined, the object is compared as 
+     * a String. The <code>sort</code> attribute is required for a column to be shown 
+     * as sortable.
+     */
+    public void setSort(Object sort) {
+        this.sort = sort;
+    }
+
+    /**
+     * The theme identifier to use for the sort button that is displayed in the column 
+     * header. Use this attribute to override the default image.
+     */
+    @Property(name="sortIcon", displayName="Sort Icon", category="Appearance")
+    private String sortIcon = null;
+
+    /**
+     * The theme identifier to use for the sort button that is displayed in the column 
+     * header. Use this attribute to override the default image.
+     */
+    public String getSortIcon() {
+        if (this.sortIcon != null) {
+            return this.sortIcon;
+        }
+        ValueExpression _vb = getValueExpression("sortIcon");
+        if (_vb != null) {
+            return (String) _vb.getValue(getFacesContext().getELContext());
+        }
+        return null;
+    }
+
+    /**
+     * The theme identifier to use for the sort button that is displayed in the column 
+     * header. Use this attribute to override the default image.
+     */
+    public void setSortIcon(String sortIcon) {
+        this.sortIcon = sortIcon;
+    }
+
+    /**
+     * Absolute or relative URL to the image used for the sort button that is 
+     * displayed in the column header.
+     */
+    @Property(name="sortImageURL", displayName="Sort Image URL", category="Appearance", editorClassName="com.sun.rave.propertyeditors.ImageUrlPropertyEditor")
+    private String sortImageURL = null;
+
+    /**
+     * Absolute or relative URL to the image used for the sort button that is 
+     * displayed in the column header.
+     */
+    public String getSortImageURL() {
+        if (this.sortImageURL != null) {
+            return this.sortImageURL;
+        }
+        ValueExpression _vb = getValueExpression("sortImageURL");
+        if (_vb != null) {
+            return (String) _vb.getValue(getFacesContext().getELContext());
+        }
+        return null;
+    }
+
+    /**
+     * Absolute or relative URL to the image used for the sort button that is 
+     * displayed in the column header.
+     */
+    public void setSortImageURL(String sortImageURL) {
+        this.sortImageURL = sortImageURL;
+    }
+
+    /**
+     * Use the <code>spacerColumn</code> attribute to use the column as a blank column 
+     * to enhance spacing in two or three column tables. When the 
+     * <code>spacerColumn</code> attribute is true, the CSS styles applied to the 
+     * column make it appear as if the columns are justified. If a column header and 
+     * footer are required, provide an empty string for the <code>headerText</code> 
+     * and <code>footerText</code> attributes. Set the <code>width</code> attribute to 
+     * justify columns accordingly.
+     */
+    @Property(name="spacerColumn", displayName="Spacer Column", category="Layout")
+    private boolean spacerColumn = false;
+    private boolean spacerColumn_set = false;
+
+    /**
+     * Use the <code>spacerColumn</code> attribute to use the column as a blank column 
+     * to enhance spacing in two or three column tables. When the 
+     * <code>spacerColumn</code> attribute is true, the CSS styles applied to the 
+     * column make it appear as if the columns are justified. If a column header and 
+     * footer are required, provide an empty string for the <code>headerText</code> 
+     * and <code>footerText</code> attributes. Set the <code>width</code> attribute to 
+     * justify columns accordingly.
+     */
+    public boolean isSpacerColumn() {
+        if (this.spacerColumn_set) {
+            return this.spacerColumn;
+        }
+        ValueExpression _vb = getValueExpression("spacerColumn");
         if (_vb != null) {
             Object _result = _vb.getValue(getFacesContext().getELContext());
             if (_result == null) {
@@ -1750,60 +1509,24 @@ public class TableHeader extends UIComponentBase implements NamingContainer {
     }
 
     /**
-     * Flag indicating this component should render a selection column header. The 
-     * default renders a column header. This should not be used if groupHeader or 
-     * sortHeader are used.
+     * Use the <code>spacerColumn</code> attribute to use the column as a blank column 
+     * to enhance spacing in two or three column tables. When the 
+     * <code>spacerColumn</code> attribute is true, the CSS styles applied to the 
+     * column make it appear as if the columns are justified. If a column header and 
+     * footer are required, provide an empty string for the <code>headerText</code> 
+     * and <code>footerText</code> attributes. Set the <code>width</code> attribute to 
+     * justify columns accordingly.
      */
-    public void setSelectHeader(boolean selectHeader) {
-        this.selectHeader = selectHeader;
-        this.selectHeader_set = true;
-    }
-
-    /**
-     * Flag indicating this component should render a sortable column header. The 
-     * default renders a column header. This should not be used if groupHeader or 
-     * selectHeader are used.
-     */
-    @Property(name="sortHeader", displayName="Is Sort Header", isAttribute=false)
-    private boolean sortHeader = false;
-    private boolean sortHeader_set = false;
-
-    /**
-     * Flag indicating this component should render a sortable column header. The 
-     * default renders a column header. This should not be used if groupHeader or 
-     * selectHeader are used.
-     */
-    public boolean isSortHeader() {
-        if (this.sortHeader_set) {
-            return this.sortHeader;
-        }
-        ValueExpression _vb = getValueExpression("sortHeader");
-        if (_vb != null) {
-            Object _result = _vb.getValue(getFacesContext().getELContext());
-            if (_result == null) {
-                return false;
-            } else {
-                return ((Boolean) _result).booleanValue();
-            }
-        }
-        return false;
-    }
-
-    /**
-     * Flag indicating this component should render a sortable column header. The 
-     * default renders a column header. This should not be used if groupHeader or 
-     * selectHeader are used.
-     */
-    public void setSortHeader(boolean sortHeader) {
-        this.sortHeader = sortHeader;
-        this.sortHeader_set = true;
+    public void setSpacerColumn(boolean spacerColumn) {
+        this.spacerColumn = spacerColumn;
+        this.spacerColumn_set = true;
     }
 
     /**
      * CSS style(s) to be applied to the outermost HTML element when this 
      * component is rendered.
      */
-    @Property(name="style", displayName="CSS Style(s)")
+    @Property(name="style", displayName="CSS Style(s)", category="Appearance", editorClassName="com.sun.jsfcl.std.css.CssStylePropertyEditor")
     private String style = null;
 
     /**
@@ -1833,7 +1556,7 @@ public class TableHeader extends UIComponentBase implements NamingContainer {
      * CSS style class(es) to be applied to the outermost HTML element when this 
      * component is rendered.
      */
-    @Property(name="styleClass", displayName="CSS Style Class(es)")
+    @Property(name="styleClass", displayName="CSS Style Class(es)", category="Appearance", editorClassName="com.sun.rave.propertyeditors.StyleClassPropertyEditor")
     private String styleClass = null;
 
     /**
@@ -1857,6 +1580,39 @@ public class TableHeader extends UIComponentBase implements NamingContainer {
      */
     public void setStyleClass(String styleClass) {
         this.styleClass = styleClass;
+    }
+
+    /**
+     * The text to be displayed in the table column footer. The table column footer is 
+     * displayed once per table, and is especially useful in tables with multiple 
+     * groups of rows.
+     */
+    @Property(name="tableFooterText", displayName="Table Footer Text", category="Appearance")
+    private String tableFooterText = null;
+
+    /**
+     * The text to be displayed in the table column footer. The table column footer is 
+     * displayed once per table, and is especially useful in tables with multiple 
+     * groups of rows.
+     */
+    public String getTableFooterText() {
+        if (this.tableFooterText != null) {
+            return this.tableFooterText;
+        }
+        ValueExpression _vb = getValueExpression("tableFooterText");
+        if (_vb != null) {
+            return (String) _vb.getValue(getFacesContext().getELContext());
+        }
+        return null;
+    }
+
+    /**
+     * The text to be displayed in the table column footer. The table column footer is 
+     * displayed once per table, and is especially useful in tables with multiple 
+     * groups of rows.
+     */
+    public void setTableFooterText(String tableFooterText) {
+        this.tableFooterText = tableFooterText;
     }
 
     /**
@@ -1901,7 +1657,7 @@ public class TableHeader extends UIComponentBase implements NamingContainer {
      * each cell's content to be aligned on the text baseline, the invisible line on 
      * which text characters rest.
      */
-    @Property(name="valign", displayName="Vertical Position")
+    @Property(name="valign", displayName="Vertical Position", category="Appearance")
     private String valign = null;
 
     /**
@@ -1946,7 +1702,7 @@ public class TableHeader extends UIComponentBase implements NamingContainer {
      * component is not visible, it can still be processed on subsequent form
      * submissions because the HTML is present.
      */
-    @Property(name="visible", displayName="Visible")
+    @Property(name="visible", displayName="Visible", category="Behavior")
     private boolean visible = false;
     private boolean visible_set = false;
 
@@ -1995,7 +1751,7 @@ public class TableHeader extends UIComponentBase implements NamingContainer {
      * the table width, and is especially useful for spacer columns. This attribute is 
      * deprecated in HTML 4.0 in favor of style sheets.
      */
-    @Property(name="width", displayName="Width")
+    @Property(name="width", displayName="Width", category="Layout")
     private String width = null;
 
     /**
@@ -2025,171 +1781,126 @@ public class TableHeader extends UIComponentBase implements NamingContainer {
         this.width = width;
     }
 
+    // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    // State methods
+    // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
     /**
      * Restore the state of this component.
      */
-    public void restoreState(FacesContext _context,Object _state) {
+    public void restoreState(FacesContext _context, Object _state) {
         Object _values[] = (Object[]) _state;
         super.restoreState(_context, _values[0]);
         this.abbr = (String) _values[1];
         this.align = (String) _values[2];
-        this.axis = (String) _values[3];
-        this.bgColor = (String) _values[4];
-        this._char = (String) _values[5];
-        this.charOff = (String) _values[6];
-        this.colSpan = ((Integer) _values[7]).intValue();
-        this.colSpan_set = ((Boolean) _values[8]).booleanValue();
-        this.extraHtml = (String) _values[9];
-        this.groupHeader = ((Boolean) _values[10]).booleanValue();
-        this.groupHeader_set = ((Boolean) _values[11]).booleanValue();
-        this.headers = (String) _values[12];
-        this.height = (String) _values[13];
-        this.noWrap = ((Boolean) _values[14]).booleanValue();
-        this.noWrap_set = ((Boolean) _values[15]).booleanValue();
-        this.onClick = (String) _values[16];
-        this.onDblClick = (String) _values[17];
-        this.onKeyDown = (String) _values[18];
-        this.onKeyPress = (String) _values[19];
-        this.onKeyUp = (String) _values[20];
-        this.onMouseDown = (String) _values[21];
-        this.onMouseMove = (String) _values[22];
-        this.onMouseOut = (String) _values[23];
-        this.onMouseOver = (String) _values[24];
-        this.onMouseUp = (String) _values[25];
-        this.rowSpan = ((Integer) _values[26]).intValue();
-        this.rowSpan_set = ((Boolean) _values[27]).booleanValue();
-        this.scope = (String) _values[28];
-        this.selectHeader = ((Boolean) _values[29]).booleanValue();
-        this.selectHeader_set = ((Boolean) _values[30]).booleanValue();
-        this.sortHeader = ((Boolean) _values[31]).booleanValue();
-        this.sortHeader_set = ((Boolean) _values[32]).booleanValue();
-        this.style = (String) _values[33];
-        this.styleClass = (String) _values[34];
-        this.toolTip = (String) _values[35];
-        this.valign = (String) _values[36];
-        this.visible = ((Boolean) _values[37]).booleanValue();
-        this.visible_set = ((Boolean) _values[38]).booleanValue();
-        this.width = (String) _values[39];
+        this.alignKey = (Object) _values[3];
+        this.axis = (String) _values[4];
+        this.bgColor = (String) _values[5];
+        this._char = (String) _values[6];
+        this.charOff = (String) _values[7];
+        this.colSpan = ((Integer) _values[8]).intValue();
+        this.colSpan_set = ((Boolean) _values[9]).booleanValue();
+        this.descending = ((Boolean) _values[10]).booleanValue();
+        this.descending_set = ((Boolean) _values[11]).booleanValue();
+        this.embeddedActions = ((Boolean) _values[12]).booleanValue();
+        this.embeddedActions_set = ((Boolean) _values[13]).booleanValue();
+        this.emptyCell = ((Boolean) _values[14]).booleanValue();
+        this.emptyCell_set = ((Boolean) _values[15]).booleanValue();
+        this.footerText = (String) _values[16];
+        this.headerText = (String) _values[17];
+        this.headers = (String) _values[18];
+        this.height = (String) _values[19];
+        this.noWrap = ((Boolean) _values[20]).booleanValue();
+        this.noWrap_set = ((Boolean) _values[21]).booleanValue();
+        this.onClick = (String) _values[22];
+        this.onDblClick = (String) _values[23];
+        this.onKeyDown = (String) _values[24];
+        this.onKeyPress = (String) _values[25];
+        this.onKeyUp = (String) _values[26];
+        this.onMouseDown = (String) _values[27];
+        this.onMouseMove = (String) _values[28];
+        this.onMouseOut = (String) _values[29];
+        this.onMouseOver = (String) _values[30];
+        this.onMouseUp = (String) _values[31];
+        this.rowHeader = ((Boolean) _values[32]).booleanValue();
+        this.rowHeader_set = ((Boolean) _values[33]).booleanValue();
+        this.rowSpan = ((Integer) _values[34]).intValue();
+        this.rowSpan_set = ((Boolean) _values[35]).booleanValue();
+        this.scope = (String) _values[36];
+        this.selectId = (String) _values[37];
+        this.severity = (String) _values[38];
+        this.sort = (Object) _values[39];
+        this.sortIcon = (String) _values[40];
+        this.sortImageURL = (String) _values[41];
+        this.spacerColumn = ((Boolean) _values[42]).booleanValue();
+        this.spacerColumn_set = ((Boolean) _values[43]).booleanValue();
+        this.style = (String) _values[44];
+        this.styleClass = (String) _values[45];
+        this.tableFooterText = (String) _values[46];
+        this.toolTip = (String) _values[47];
+        this.valign = (String) _values[48];
+        this.visible = ((Boolean) _values[49]).booleanValue();
+        this.visible_set = ((Boolean) _values[50]).booleanValue();
+        this.width = (String) _values[51];
     }
 
     /**
      * Save the state of this component.
      */
     public Object saveState(FacesContext _context) {
-        Object _values[] = new Object[40];
+        Object _values[] = new Object[52];
         _values[0] = super.saveState(_context);
         _values[1] = this.abbr;
         _values[2] = this.align;
-        _values[3] = this.axis;
-        _values[4] = this.bgColor;
-        _values[5] = this._char;
-        _values[6] = this.charOff;
-        _values[7] = new Integer(this.colSpan);
-        _values[8] = this.colSpan_set ? Boolean.TRUE : Boolean.FALSE;
-        _values[9] = this.extraHtml;
-        _values[10] = this.groupHeader ? Boolean.TRUE : Boolean.FALSE;
-        _values[11] = this.groupHeader_set ? Boolean.TRUE : Boolean.FALSE;
-        _values[12] = this.headers;
-        _values[13] = this.height;
-        _values[14] = this.noWrap ? Boolean.TRUE : Boolean.FALSE;
-        _values[15] = this.noWrap_set ? Boolean.TRUE : Boolean.FALSE;
-        _values[16] = this.onClick;
-        _values[17] = this.onDblClick;
-        _values[18] = this.onKeyDown;
-        _values[19] = this.onKeyPress;
-        _values[20] = this.onKeyUp;
-        _values[21] = this.onMouseDown;
-        _values[22] = this.onMouseMove;
-        _values[23] = this.onMouseOut;
-        _values[24] = this.onMouseOver;
-        _values[25] = this.onMouseUp;
-        _values[26] = new Integer(this.rowSpan);
-        _values[27] = this.rowSpan_set ? Boolean.TRUE : Boolean.FALSE;
-        _values[28] = this.scope;
-        _values[29] = this.selectHeader ? Boolean.TRUE : Boolean.FALSE;
-        _values[30] = this.selectHeader_set ? Boolean.TRUE : Boolean.FALSE;
-        _values[31] = this.sortHeader ? Boolean.TRUE : Boolean.FALSE;
-        _values[32] = this.sortHeader_set ? Boolean.TRUE : Boolean.FALSE;
-        _values[33] = this.style;
-        _values[34] = this.styleClass;
-        _values[35] = this.toolTip;
-        _values[36] = this.valign;
-        _values[37] = this.visible ? Boolean.TRUE : Boolean.FALSE;
-        _values[38] = this.visible_set ? Boolean.TRUE : Boolean.FALSE;
-        _values[39] = this.width;
+        _values[3] = this.alignKey;
+        _values[4] = this.axis;
+        _values[5] = this.bgColor;
+        _values[6] = this._char;
+        _values[7] = this.charOff;
+        _values[8] = new Integer(this.colSpan);
+        _values[9] = this.colSpan_set ? Boolean.TRUE : Boolean.FALSE;
+        _values[10] = this.descending ? Boolean.TRUE : Boolean.FALSE;
+        _values[11] = this.descending_set ? Boolean.TRUE : Boolean.FALSE;
+        _values[12] = this.embeddedActions ? Boolean.TRUE : Boolean.FALSE;
+        _values[13] = this.embeddedActions_set ? Boolean.TRUE : Boolean.FALSE;
+        _values[14] = this.emptyCell ? Boolean.TRUE : Boolean.FALSE;
+        _values[15] = this.emptyCell_set ? Boolean.TRUE : Boolean.FALSE;
+        _values[16] = this.footerText;
+        _values[17] = this.headerText;
+        _values[18] = this.headers;
+        _values[19] = this.height;
+        _values[20] = this.noWrap ? Boolean.TRUE : Boolean.FALSE;
+        _values[21] = this.noWrap_set ? Boolean.TRUE : Boolean.FALSE;
+        _values[22] = this.onClick;
+        _values[23] = this.onDblClick;
+        _values[24] = this.onKeyDown;
+        _values[25] = this.onKeyPress;
+        _values[26] = this.onKeyUp;
+        _values[27] = this.onMouseDown;
+        _values[28] = this.onMouseMove;
+        _values[29] = this.onMouseOut;
+        _values[30] = this.onMouseOver;
+        _values[31] = this.onMouseUp;
+        _values[32] = this.rowHeader ? Boolean.TRUE : Boolean.FALSE;
+        _values[33] = this.rowHeader_set ? Boolean.TRUE : Boolean.FALSE;
+        _values[34] = new Integer(this.rowSpan);
+        _values[35] = this.rowSpan_set ? Boolean.TRUE : Boolean.FALSE;
+        _values[36] = this.scope;
+        _values[37] = this.selectId;
+        _values[38] = this.severity;
+        _values[39] = this.sort;
+        _values[40] = this.sortIcon;
+        _values[41] = this.sortImageURL;
+        _values[42] = this.spacerColumn ? Boolean.TRUE : Boolean.FALSE;
+        _values[43] = this.spacerColumn_set ? Boolean.TRUE : Boolean.FALSE;
+        _values[44] = this.style;
+        _values[45] = this.styleClass;
+        _values[46] = this.tableFooterText;
+        _values[47] = this.toolTip;
+        _values[48] = this.valign;
+        _values[49] = this.visible ? Boolean.TRUE : Boolean.FALSE;
+        _values[50] = this.visible_set ? Boolean.TRUE : Boolean.FALSE;
+        _values[51] = this.width;
         return _values;
-    }
-
-    // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    // Private methods
-    // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-    /**
-     * Helper method to get next sort tool tip augment based on the value for
-     * the align property of TableColumn.
-     *
-     * @param descending Flag indicating descending sort.
-     * @return The sort tool tip augment.
-     */
-    private String getNextSortToolTipAugment() {
-        TableColumn col = getTableColumnAncestor();
-        return (col != null) ? col.getSortToolTipAugment(isDescending()) : ""; //NOI18N
-    }
-
-    /**
-     * Helper method to get the total number of selected rows.
-     *
-     * @return The number of selected rows.
-     */
-    private int getSelectedRowsCount() {
-        if (selectedRowsCount == -1) {
-            TableRowGroup group = getTableRowGroupAncestor();
-            if (group != null) {
-                selectedRowsCount = group.getRenderedSelectedRowsCount();
-            }
-        }
-        return selectedRowsCount;
-    }
-
-    /**
-     * Helper method to get Theme objects.
-     *
-     * @return The current theme.
-     */
-    private Theme getTheme() {
-	return ThemeUtilities.getTheme(getFacesContext());
-    }
-
-    /**
-     * Helper method to test if the next sort order is descending.
-     *
-     * @return true if descending, else false.
-     */
-    private boolean isDescending() {
-        if (!descending_set) {
-            TableColumn col = getTableColumnAncestor();
-            TableRowGroup group = getTableRowGroupAncestor();
-       
-            // Get next sort order.
-            if (col != null && group != null) {
-                descending = (getSortLevel() > 0)
-                    ? group.isDescendingSort(col.getSortCriteria())
-                    : col.isDescending();
-                descending_set = true;
-            }
-        }
-        return descending;
-    }
-
-    /**
-     * Log fine messages.
-     */
-    private void log(String method, String message) {
-        // Get class.
-        Class clazz = this.getClass();
-	if (LogUtil.fineEnabled(clazz)) {
-            // Log method name and message.
-            LogUtil.fine(clazz, clazz.getName() + "." + method + ": " + message); //NOI18N
-        }
     }
 }

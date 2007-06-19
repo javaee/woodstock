@@ -156,7 +156,7 @@ public class Table2RowGroupRenderer extends RendererBase {
         json.put("columns", jArray);
 
         // Add properties for each Table2Column child.
-        Iterator kids = component.getTable2ColumnChildren();
+        Iterator kids = component.getTableColumnChildren();
         while (kids.hasNext()) {
             Table2Column col = (Table2Column) kids.next();
             if (col.isRendered()) {
@@ -175,15 +175,8 @@ public class Table2RowGroupRenderer extends RendererBase {
      */
     protected void setFooterProperties(FacesContext context, Table2RowGroup component,
             JSONObject json) throws IOException, JSONException {
-        // Get footer facet.
-        UIComponent facet = component.getFacet(Table2RowGroup.FOOTER_FACET);
-        if (facet != null && facet.isRendered()) {
-            WidgetUtilities.addProperties(json, "footerText", 
-                WidgetUtilities.renderComponent(context, facet));
-        } else {
-            // Add footer text.
-            json.put("footerText", component.getFooterText());
-        }
+        // Add footer text.
+        json.put("footerText", component.getFooterText());
     }
 
     /** 
@@ -195,15 +188,8 @@ public class Table2RowGroupRenderer extends RendererBase {
      */
     protected void setHeaderProperties(FacesContext context, Table2RowGroup component,
             JSONObject json) throws IOException, JSONException {
-        // Get header facet.
-        UIComponent facet = component.getFacet(Table2RowGroup.HEADER_FACET);
-        if (facet != null && facet.isRendered()) {
-            WidgetUtilities.addProperties(json, "headerText", 
-                WidgetUtilities.renderComponent(context, facet));
-        } else {
-            // Add header text.
-            json.put("headerText", component.getHeaderText());
-        }
+        // Add header text.
+        json.put("headerText", component.getHeaderText());
     }
 
     /**
@@ -243,7 +229,7 @@ public class Table2RowGroupRenderer extends RendererBase {
 
                 // Render Table2Column components.
                 JSONArray cols = new JSONArray();
-                Iterator kids = component.getTable2ColumnChildren();
+                Iterator kids = component.getTableColumnChildren();
                 while (kids.hasNext()) {
                     Table2Column col = (Table2Column) kids.next();
                     if (!col.isRendered()) {

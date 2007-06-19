@@ -139,15 +139,8 @@ public class Table2ColumnRenderer extends RendererBase {
      */
     protected void setFooterProperties(FacesContext context, Table2Column component,
             JSONObject json) throws IOException, JSONException {
-        // Get footer facet.
-        UIComponent facet = component.getFacet(Table2Column.FOOTER_FACET);
-        if (facet != null && facet.isRendered()) {
-            WidgetUtilities.addProperties(json, "footerText", 
-                WidgetUtilities.renderComponent(context, facet));
-        } else {
-            // Add footer text.
-            json.put("footerText", component.getFooterText());
-        }
+        // Add footer text.
+        json.put("footerText", component.getFooterText());
     }
 
     /** 
@@ -159,14 +152,7 @@ public class Table2ColumnRenderer extends RendererBase {
      */
     protected void setHeaderProperties(FacesContext context, Table2Column component,
             JSONObject json) throws IOException, JSONException {
-        // Get header facet.
-        UIComponent facet = component.getFacet(Table2Column.HEADER_FACET);
-        if (facet != null && facet.isRendered()) {
-            WidgetUtilities.addProperties(json, "headerText", 
-                WidgetUtilities.renderComponent(context, facet));
-        } else {
-            // Add header text.
-            json.put("headerText", component.getHeaderText());
-        }
+        // Add header text.
+        json.put("headerText", component.getHeaderText());
     }
 }
