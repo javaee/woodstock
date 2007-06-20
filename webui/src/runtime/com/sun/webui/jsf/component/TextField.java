@@ -41,12 +41,6 @@ import javax.faces.context.FacesContext;
  * When validating data through the ajax-based mechanism, the UPDATE_MODEL_VALUES
  * stage of the lifecycle is skipped ( see processUpdates).
  * <br>
- * TextField also supports password mode, where data entered will be masked with
- * asterisks. Password Mode is enabled through the attribute password.
- * Note that when password is on, no TextField content data is sent back (rendered)
- * to the client, even though such data is available through getText().
- * This is done to prevent password sniffing on the wire or by viewing browser source.
- * <br>
  * @see com.sun.webui.jsf.renderkit.ajax.TextFieldRenderer
  * @see com.sun.webui.jsf.renderkit.widget.TextFieldRenderer
  */
@@ -92,21 +86,11 @@ public class TextField extends Field {
     /**
      * <p>Return the value to be rendered, as a String (converted
      * if necessary), or <code>null</code> if the value is null.</p>
-     * <p>If password mode has been activated for this textfield,
-     * the empty string will be returned instead. This is done in order to avoid
-     * sending secret password back to the client where it can be sniffed by viewing the
-     * source code of the page. Sending masked string
-     * such as set of asterisks would have confused the issue further as it could create an impression that
-     * password is saved on the client in the field in some meaningful state, which in reality it will be not.
-     * Thus, the password field will be rendered after each page submit,
-     * prompting user ( or browser if such functionality is enabled ) to reenter password</p>
      * @param context FacesContext for the current request
      * @return A String value of the component
      */
     public String getValueAsString(FacesContext context) {
-        if (isPassword())
-            return new String();
-        
+       
         String submittedValue = (String)getSubmittedValue();
         return (submittedValue == null)?
             super.getValueAsString(context):
@@ -178,41 +162,6 @@ public class TextField extends Field {
         this.autoValidate_set = true;        
     }
     
-    /**
-     * The default textField template renders input element of type "text"
-     * Use this attribute to render "password" style of the textfield that
-     * echoes entered characters as "*"
-     */
-    @Property(name="password", isHidden=true, displayName="Password Mode", category="Appearance")
-    private boolean password = false;
-    private boolean password_set = false;
-    
-    /**
-     * Test if password mode is be turned on.
-     */
-    public boolean isPassword() {
-        if (this.password_set) {
-            return this.password;
-        }
-        ValueExpression _vb = getValueExpression("password");
-        if (_vb != null) {
-            Object _result = _vb.getValue(getFacesContext().getELContext());
-            if (_result == null) {
-                return false;
-            } else {
-                return ((Boolean) _result).booleanValue();
-            }
-        }
-        return false;
-    }
-    
-    /**
-     * Set attribute indicating to turn on password mode.
-     */
-    public void setPassword(boolean passwordMode) {
-        this.password = passwordMode;
-        this.password_set = true;
-    }
     
     /**
      * The comma separated list of absolute client IDs to notify during
@@ -293,22 +242,18 @@ public class TextField extends Field {
         super.restoreState(_context, _values[0]);
         this.autoValidate =     ((Boolean) _values[1]).booleanValue();
         this.autoValidate_set = ((Boolean) _values[2]).booleanValue();
-        this.password =     ((Boolean) _values[3]).booleanValue();
-        this.password_set = ((Boolean) _values[4]).booleanValue();
-        this.notify = (String) _values[5];
+        this.notify = (String) _values[3];
     }
 
     /**
      * Save the state of this component.
      */
     public Object saveState(FacesContext _context) {
-        Object _values[] = new Object[6];
+        Object _values[] = new Object[4];
         _values[0] = super.saveState(_context);
         _values[1] = this.autoValidate ? Boolean.TRUE : Boolean.FALSE;
         _values[2] = this.autoValidate_set ? Boolean.TRUE : Boolean.FALSE;
-        _values[3] = this.password ? Boolean.TRUE : Boolean.FALSE;
-        _values[4] = this.password_set ? Boolean.TRUE : Boolean.FALSE;
-        _values[5] = this.notify;
+        _values[3] = this.notify;
         return _values;
     }
 

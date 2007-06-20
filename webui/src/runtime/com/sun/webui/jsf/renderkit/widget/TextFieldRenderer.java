@@ -116,9 +116,7 @@ public class TextFieldRenderer extends FieldRendererBase {
         String templatePath = field.getHtmlTemplate(); // Get HTML template.
         
         if (templatePath == null)
-            templatePath = field.isPassword()
-                ? theme.getPathToTemplate(ThemeTemplates.PASSWORDFIELD)
-                : theme.getPathToTemplate(ThemeTemplates.TEXTFIELD);
+            templatePath  = theme.getPathToTemplate(ThemeTemplates.TEXTFIELD);
         
         String className = field.getStyleClass();
         
