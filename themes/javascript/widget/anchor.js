@@ -251,7 +251,7 @@ webui.@THEME@.widget.anchor.setProps = function(props){
     if (props.onClick) {
         // Set private function scope on DOM node.
         this.domNode._onclick = (typeof props.onClick == 'string')
-            ? new Function(props.onClick) : props.onClick;
+            ? new Function("event", props.onClick) : props.onClick;
 
         // Must be cleared before calling setJavaScriptProps() below.
         props.onClick = null;
