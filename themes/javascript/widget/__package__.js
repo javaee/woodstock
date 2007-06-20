@@ -44,6 +44,7 @@ dojo.requireIf(djConfig.isDebug, "webui.@THEME@.widget.checkbox");
 dojo.requireIf(djConfig.isDebug, "webui.@THEME@.widget.checkboxGroup");
 dojo.requireIf(djConfig.isDebug, "webui.@THEME@.widget.dropDown");
 dojo.requireIf(djConfig.isDebug, "webui.@THEME@.widget.editableField");
+dojo.requireIf(djConfig.isDebug, "webui.@THEME@.widget.field");
 dojo.requireIf(djConfig.isDebug, "webui.@THEME@.widget.hiddenField");
 dojo.requireIf(djConfig.isDebug, "webui.@THEME@.widget.hyperlink");
 dojo.requireIf(djConfig.isDebug, "webui.@THEME@.widget.image");
@@ -58,6 +59,7 @@ dojo.requireIf(djConfig.isDebug, "webui.@THEME@.widget.table2");
 dojo.requireIf(djConfig.isDebug, "webui.@THEME@.widget.table2RowGroup");
 dojo.requireIf(djConfig.isDebug, "webui.@THEME@.widget.textArea");
 dojo.requireIf(djConfig.isDebug, "webui.@THEME@.widget.textField");
+dojo.requireIf(djConfig.isDebug, "webui.@THEME@.widget.passwordField");
 
 dojo.require("dojo.ns");
 dojo.registerNamespace("webui.@THEME@", "webui.@THEME@.widget");

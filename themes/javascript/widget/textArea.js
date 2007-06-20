@@ -25,6 +25,7 @@ dojo.provide("webui.@THEME@.widget.textArea");
 dojo.require("dojo.widget.*");
 dojo.require("webui.@THEME@.*");
 dojo.require("webui.@THEME@.widget.*");
+dojo.require("webui.@THEME@.widget.textField");
 
 /**
  * This function is used to generate a template based widget.
@@ -53,8 +54,8 @@ webui.@THEME@.widget.textArea.createSubmitCallback = function(id) {
             return false;
         }
         //Create a submit request only if field has been modified
-        if (widget.lastSaved != widget.textAreaNode.value) {
-            widget.lastSaved = widget.textAreaNode.value;
+        if (widget.lastSaved != widget.fieldNode.value) {
+            widget.lastSaved = widget.fieldNode.value;
             widget.submit();
         }
         return true;
@@ -68,19 +69,8 @@ webui.@THEME@.widget.textArea.createSubmitCallback = function(id) {
  * setProps() function should be used to set properties.
  */
 webui.@THEME@.widget.textArea.fillInTemplate = function() {
-    // Set ids.
-    if (this.id) {
-        this.labelContainer.id = this.id + "_label";
-        this.textAreaNode.id = this.id + "_field";
-        this.textAreaNode.name = this.id + "_field";
-    }
-        
-    // Set public functions.
-    this.domNode.getInputElement = function() { return dojo.widget.byId(this.id).getInputElement(); }
-    this.domNode.getProps = function() { return dojo.widget.byId(this.id).getProps(); }
-    this.domNode.refresh = function(execute) { return dojo.widget.byId(this.id).refresh(execute); }
-    this.domNode.setProps = function(props) { return dojo.widget.byId(this.id).setProps(props); }
-    this.domNode.submit = function(execute) { return dojo.widget.byId(this.id).submit(execute); }
+    var props = webui.@THEME@.widget.textArea.superclass.fillInTemplate.call(this);    
+
 
     // Set events.                
     if (this.autoSave > 0) {
@@ -89,7 +79,7 @@ webui.@THEME@.widget.textArea.fillInTemplate = function() {
     }
 
     // Set properties.
-    return this.setProps();
+    return this.props;
 }
 
 /**
@@ -104,14 +94,6 @@ webui.@THEME@.widget.textArea.getClassName = function() {
     return className;
 }
 
-/**
- * Returns the HTML input element that makes up the text field.
- *
- * @return a reference to the HTML input element. 
- */
-webui.@THEME@.widget.textArea.getInputElement = function() {
-    return this.textAreaNode;
-}
 
 /**
  * This function is used to get widget properties. 
@@ -119,69 +101,16 @@ webui.@THEME@.widget.textArea.getInputElement = function() {
  * properties.
  */
 webui.@THEME@.widget.textArea.getProps = function() {
-    var props = {};
+    var props = webui.@THEME@.widget.textArea.superclass.getProps.call(this);
     
     // Set properties.
-    if (this.alt) { props.alt = this.alt; }
-    if (this.disabled != null) { props.disabled = this.disabled; }
-    if (this.label) { props.label= this.label; }
-    if (this.text) { props.text = this.text; }
-    if (this.title) { props.title = this.title; }
-    if (this.type) { props.type= this.type; }
-    if (this.readOnly != null) { props.readOnly = this.readOnly; }
-    if (this.required != null) { props.required = this.required; }
     if (this.cols > 0 ) { props.cols = this.cols; }
     if (this.rows > 0) { props.rows = this.rows; }
-    if (this.valid != null) { props.valid = this.valid; }
     if (this.autoSave > 0 ) { props.autoSave = this.autoSave; }
-    if (this.style != null) { props.style = this.style; }
-    
-    // After widget has been initialized, get user's input.
-    if (this.initialized == true && this.textAreaNode.value != null) {
-        props.value = this.textAreaNode.value;
-    } else if (this.value != null) {
-        props.value = this.value;
-    }
-    
-    // Add DOM node properties.
-    Object.extend(props, this.getCommonProps());
-    Object.extend(props, this.getCoreProps());
-    Object.extend(props, this.getJavaScriptProps());
     
     return props;
 }
 
-/**
- * This closure is used to process refresh events.
- */
-webui.@THEME@.widget.textArea.refresh = {
-    /**
-     * Event topics for custom AJAX implementations to listen for.
-     */
-    beginEventTopic: "webui_@THEME@_widget_textArea_refresh_begin",
-    endEventTopic: "webui_@THEME@_widget_textArea_refresh_end",
-    
-    /**
-     * Process refresh event.
-     *
-     * @param execute The string containing a comma separated list of client ids 
-     * against which the execute portion of the request processing lifecycle
-     * must be run.
-     */
-    processEvent: function(execute) {
-        // Include default AJAX implementation.
-        this.ajaxify("webui.@THEME@.widget.jsfx.textArea");
-
-        // Publish an event for custom AJAX implementations to listen for.
-        dojo.event.topic.publish(
-            webui.@THEME@.widget.textArea.refresh.beginEventTopic, {
-                id: this.id,
-                execute: execute,
-                endEventTopic: webui.@THEME@.widget.textArea.refresh.endEventTopic
-            });
-        return true;
-    }
-}
 
 /**
  * This function is used to set widget properties with the
@@ -221,71 +150,65 @@ webui.@THEME@.widget.textArea.refresh = {
  * @param props Key-Value pairs of properties.
  */
 webui.@THEME@.widget.textArea.setProps = function(props) {   
-    // Save properties for later updates.
-    if (props != null) {
-        this.extend(this, props);
-    } else {
-        props = this.getProps(); // Widget is being initialized.
-    }
-    
-    // Set attributes.  
-    this.setCoreProps(this.domNode, props);
-    this.setCommonProps(this.textAreaNode, props);
-    this.setJavaScriptProps(this.textAreaNode, props);
-    
+
+    var props = webui.@THEME@.widget.textArea.superclass.setProps.call( this, props);
+     
     // Set text field attributes.    
-    if (props.cols > 0 ) { this.textAreaNode.cols = props.cols; }
-    if (props.rows > 0) { this.textAreaNode.rows = props.rows; }
-    if (props.value != null) { this.textAreaNode.value = props.value; }
-    if (props.title != null) { this.textAreaNode.title = props.title; }
-    if (props.disabled != null) { 
-        this.textAreaNode.disabled = new Boolean(props.disabled).valueOf();
-    }
-    if (props.readOnly != null) { 
-        this.textAreaNode.readOnly = new Boolean(props.readOnly).valueOf();
-    }
-    
-    this.textAreaNode.className = this.getClassName();
-    
+    if (props.cols > 0 ) { this.fieldNode.cols = props.cols; }
+    if (props.rows > 0) { this.fieldNode.rows = props.rows; }
+   
     //cancel autosave if it has been changed to <=0
     if (props.autoSave <= 0 && this.autoSaveTimerId && this.autoSaveTimerId != null ) {
         clearTimeout(this.autoSaveTimerId);
         this.autoSaveTimerId = null;
     }
-    
-    // Set label properties.
-    if (props.label || (props.valid != null || props.required != null) && this.label) {
-        // Ensure property exists so we can call setProps just once.
-        if (props.label == null) {
-            props.label = {};
-        }
-        
-        // Set valid.
-        if (props.valid != null) { props.label.valid = props.valid; }
-        
-        // Set required.
-        if (props.required != null) { props.label.required = props.required; }
-        
-        // Update widget/add fragment.                
-        var labelWidget = dojo.widget.byId(this.label.id);
-        if (labelWidget) {
-            labelWidget.setProps(props.label);
-        } else {
-            this.addFragment(this.labelContainer, props.label);
-        }
-        //label overwrites the span from the template and there is no way to set
-        //alignment there.
-        //we will push vertical alignment style onto label domNode
-        labelWidget = dojo.widget.byId(this.label.id);
-        if (labelWidget && labelWidget.domNode) {
-            var currentClass = (labelWidget.domNode.className) 
-                ? labelWidget.domNode.className + " "
-                : "";
-            labelWidget.domNode.className = currentClass + 
-                webui.@THEME@.widget.props.textArea.labelTopAlignStyle;
-        }
-    }
+
+    //label overwrites the span from the template and there is no way to set
+    //alignment there.
+    //we will push vertical alignment style onto label domNode
+    labelWidget = dojo.widget.byId(this.label.id);
+    if (labelWidget && labelWidget.domNode) {
+        var currentClass = (labelWidget.domNode.className) 
+            ? labelWidget.domNode.className + " "
+            : "";
+        labelWidget.domNode.className = currentClass + 
+            webui.@THEME@.widget.props.textArea.labelTopAlignStyle;
+    }    
     return props; // Return props for subclasses.
+}
+
+
+
+/**
+ * This closure is used to process refresh events.
+ */
+webui.@THEME@.widget.textArea.refresh = {
+    /**
+     * Event topics for custom AJAX implementations to listen for.
+     */
+    beginEventTopic: "webui_@THEME@_widget_textArea_refresh_begin",
+    endEventTopic: "webui_@THEME@_widget_textArea_refresh_end",
+    
+    /**
+     * Process refresh event.
+     *
+     * @param execute The string containing a comma separated list of client ids 
+     * against which the execute portion of the request processing lifecycle
+     * must be run.
+     */
+    processEvent: function(execute) {
+        // Include default AJAX implementation.
+        this.ajaxify("webui.@THEME@.widget.jsfx.textArea");
+
+        // Publish an event for custom AJAX implementations to listen for.
+        dojo.event.topic.publish(
+            webui.@THEME@.widget.textArea.refresh.beginEventTopic, {
+                id: this.id,
+                execute: execute,
+                endEventTopic: webui.@THEME@.widget.textArea.refresh.endEventTopic
+            });
+        return true;
+    }
 }
 
 /**
@@ -321,14 +244,13 @@ webui.@THEME@.widget.textArea.submit = {
 }
 
 // Inherit base widget properties.
-dojo.inherits(webui.@THEME@.widget.textArea, webui.@THEME@.widget.widgetBase);
+dojo.inherits(webui.@THEME@.widget.textArea, webui.@THEME@.widget.textField);
 
 // Override base widget by assigning properties to class prototype.
 dojo.lang.extend(webui.@THEME@.widget.textArea, {
     // Set private functions.
     fillInTemplate: webui.@THEME@.widget.textArea.fillInTemplate,
     getClassName: webui.@THEME@.widget.textArea.getClassName,
-    getInputElement: webui.@THEME@.widget.textArea.getInputElement,
     getProps: webui.@THEME@.widget.textArea.getProps,
     refresh: webui.@THEME@.widget.textArea.refresh.processEvent,
     setProps: webui.@THEME@.widget.textArea.setProps,

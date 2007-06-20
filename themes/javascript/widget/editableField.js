@@ -50,13 +50,13 @@ webui.@THEME@.widget.editableField.edit = {
         }
 
         // Save the current value.
-        this.savedValue = this.textFieldNode.value;
+        this.savedValue = this.fieldNode.value;
         
         this.edit = true;
-        this.textFieldNode.className = this.getClassName();   
-        this.textFieldNode.readOnly = false;
-        this.textFieldNode.focus(); // In case function has been called programmatically, not by event.
-        this.textFieldNode.select();
+        this.fieldNode.className = this.getClassName();   
+        this.fieldNode.readOnly = false;
+        this.fieldNode.focus(); // In case function has been called programmatically, not by event.
+        this.fieldNode.select();
     },
     
     /**
@@ -65,9 +65,9 @@ webui.@THEME@.widget.editableField.edit = {
      * setup appropriate style on the field.
      *
      * @param acceptChanges - optional parameter 
-     *      if true, the entered data ( textFieldNode value) will be commited through the
+     *      if true, the entered data ( fieldNode value) will be commited through the
      *          Ajax submit() request; 
-     *      if false, the entered data ( textFieldNode value) will be rolled back to 
+     *      if false, the entered data ( fieldNode value) will be rolled back to 
      *          previos state (value is saved before field enters editable state);
      *      if not specified, no changes to the field value will made, and 
      *          only styles will be modified
@@ -80,18 +80,18 @@ webui.@THEME@.widget.editableField.edit = {
         if (acceptChanges == true) {
             // if savedValue does not exist, we have not edited the field yet
             if (this.autoSave == true && this.savedValue 
-                    && this.savedValue != this.textFieldNode.value) {
+                    && this.savedValue != this.fieldNode.value) {
                 this.submit();
             }
         } else if (acceptChanges == false) {
             if (this.savedValue && this.savedValue != null)   {
-                this.textFieldNode.value = this.savedValue;
+                this.fieldNode.value = this.savedValue;
             }
         }
         this.savedValue = null;
         this.edit = false;
-        this.textFieldNode.className = this.getClassName();   
-        this.textFieldNode.readOnly = true;
+        this.fieldNode.className = this.getClassName();   
+        this.fieldNode.readOnly = true;
         return true;
     }, 
     
@@ -143,32 +143,21 @@ webui.@THEME@.widget.editableField.edit = {
  * setProps() function should be used to set properties.
  */
 webui.@THEME@.widget.editableField.fillInTemplate = function() {
-    // Set ids.
-    if (this.id) {
-        this.labelContainer.id = this.id + "_label";
-        this.textFieldNode.id = this.id + "_field";
-        this.textFieldNode.name = this.id + "_field";
-    }
-        
-    // Set public functions.
-    this.domNode.getInputElement = function() { return dojo.widget.byId(this.id).getInputElement(); }
-    this.domNode.getProps = function() { return dojo.widget.byId(this.id).getProps(); }
-    this.domNode.refresh = function(execute) { return dojo.widget.byId(this.id).refresh(execute); }
-    this.domNode.submit = function(execute) { return dojo.widget.byId(this.id).submit(execute); }
-    this.domNode.setProps = function(props) { return dojo.widget.byId(this.id).setProps(props); }
+    // Super class fillInTemplate.
+    var props = webui.@THEME@.widget.editableField.superclass.fillInTemplate.call(this);    
 
     // Set events.
     //
     // Note: The following events are used for enabling or disabling edit mode.
-    dojo.event.connect(this.textFieldNode, "ondblclick", webui.@THEME@.widget.editableField.edit.processEvent);
-    dojo.event.connect(this.textFieldNode, "onblur", webui.@THEME@.widget.editableField.edit.processEvent);
-    dojo.event.connect(this.textFieldNode, "onkeyup", webui.@THEME@.widget.editableField.edit.processEvent);
+    dojo.event.connect(this.fieldNode, "ondblclick", webui.@THEME@.widget.editableField.edit.processEvent);
+    dojo.event.connect(this.fieldNode, "onblur", webui.@THEME@.widget.editableField.edit.processEvent);
+    dojo.event.connect(this.fieldNode, "onkeyup", webui.@THEME@.widget.editableField.edit.processEvent);
 
     // Set Initial readOnly state.
-    this.textFieldNode.readOnly = true;
+    this.fieldNode.readOnly = true;
 
     // Set properties.
-    return this.setProps();
+    return props;
 }
 
 /**
@@ -202,6 +191,37 @@ webui.@THEME@.widget.editableField.getProps = function() {
     return props;
 }
 
+/**
+ * This function is used to set widget properties with the
+ * following Object literals. 
+ * Most of the properties are set by 'superclass' textField
+ *
+ * This method in addition handles the following properties:
+ * <ul>
+ *  <li>autoSave</li>
+ * </ul>
+ * @see webui.@THEME@.widget.textField.setProps for details
+ *
+ * @param props Key-Value pairs of properties.
+ */
+webui.@THEME@.widget.editableField.setProps = function(props) {
+    var currentReadOnly = this.fieldNode.readOnly;
+
+    // Call super class function.
+    var props = webui.@THEME@.widget.editableField.superclass.setProps.call(
+        this, props);
+    
+    // Set properties.
+    if (this.autoSave != null) { props.autoSave = this.autoSave; }
+
+    // Explicitly provided readOnly property must be ignored.
+    this.fieldNode.readOnly = currentReadOnly;
+
+    return props; // Return props for subclasses.
+}
+
+
+
 /** 
  * This closure is used to handle refresh events.
  */
@@ -234,34 +254,6 @@ webui.@THEME@.widget.editableField.refresh = {
     }
 }
 
-/**
- * This function is used to set widget properties with the
- * following Object literals. 
- * Most of the properties are set by 'superclass' textField
- *
- * This method in addition handles the following properties:
- * <ul>
- *  <li>autoSave</li>
- * </ul>
- * @see webui.@THEME@.widget.textField.setProps for details
- *
- * @param props Key-Value pairs of properties.
- */
-webui.@THEME@.widget.editableField.setProps = function(props) {
-    var currentReadOnly = this.textFieldNode.readOnly;
-
-    // Call super class function.
-    var props = webui.@THEME@.widget.editableField.superclass.setProps.call(
-        this, props);
-    
-    // Set properties.
-    if (this.autoSave != null) { props.autoSave = this.autoSave; }
-
-    // Explicitly provided readOnly property must be ignored.
-    this.textFieldNode.readOnly = currentReadOnly;
-
-    return props; // Return props for subclasses.
-}
 
 /** 
  *  This closure is used to handle submit events.

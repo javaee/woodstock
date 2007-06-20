@@ -25,7 +25,7 @@ dojo.provide("webui.@THEME@.widget.textField");
 dojo.require("dojo.widget.*");
 dojo.require("webui.@THEME@.*");
 dojo.require("webui.@THEME@.widget.*");
-
+dojo.require("webui.@THEME@.widget.field");
 /**
  * This function is used to generate a template based widget.
  *
@@ -43,50 +43,21 @@ webui.@THEME@.widget.textField = function() {
  * setProps() function should be used to set properties.
  */
 webui.@THEME@.widget.textField.fillInTemplate = function() {
-    // Set ids.
-    if (this.id) {
-        this.labelContainer.id = this.id + "_label";
-        this.textFieldNode.id = this.id + "_field";
-        this.textFieldNode.name = this.id + "_field";
-    }
-        
-    // Set public functions.
-    this.domNode.getInputElement = function() { return dojo.widget.byId(this.id).getInputElement(); }
-    this.domNode.getProps = function() { return dojo.widget.byId(this.id).getProps(); }
-    this.domNode.refresh = function(execute) { return dojo.widget.byId(this.id).refresh(execute); }
-    this.domNode.setProps = function(props) { return dojo.widget.byId(this.id).setProps(props); }
-    this.domNode.submit = function(execute) { return dojo.widget.byId(this.id).submit(execute); }
+    // Super class fillInTemplate.
+    var props = webui.@THEME@.widget.textField.superclass.fillInTemplate.call(this);
 
+    // Set public functions.
+    this.domNode.refresh = function(execute) { return dojo.widget.byId(this.id).refresh(execute); }
+    this.domNode.submit = function(execute) { return dojo.widget.byId(this.id).submit(execute); }
+    
     // Set events.
     if (this.autoValidate == true) {
         // Generate the following event ONLY when 'autoValidate' == true.
-        dojo.event.connect(this.textFieldNode, "onblur", 
+        dojo.event.connect(this.fieldNode, "onblur", 
             webui.@THEME@.widget.textField.validation.processEvent);
     }
 
-    // Set properties.
-    return this.setProps();
-}
-
-/**
- * Helper function to obtain widget class names.
- */
-webui.@THEME@.widget.textField.getClassName = function() {
-    // Set default style.    
-    var className = (this.disabled == true)
-        ? webui.@THEME@.widget.props.textField.disabledClassName
-        : webui.@THEME@.widget.props.textField.className;
-    
-    return className;
-}
-
-/**
- * Returns the HTML input element that makes up the text field.
- *
- * @return a reference to the HTML input element. 
- */
-webui.@THEME@.widget.textField.getInputElement = function() {
-    return this.textFieldNode;
+    return props;
 }
 
 /**
@@ -95,37 +66,16 @@ webui.@THEME@.widget.textField.getInputElement = function() {
  * properties.
  */
 webui.@THEME@.widget.textField.getProps = function() {
-    var props = {};
     
-    // Set properties.
-    if (this.alt) { props.alt = this.alt; }
-    if (this.disabled != null) { props.disabled = this.disabled; }
-    if (this.label) { props.label= this.label; }
-    if (this.notify) { props.notify = this.notify; }
-    if (this.text != null) { props.text = this.text; }
-    if (this.title != null) { props.title = this.title; }
-    if (this.type) { props.type= this.type; }
-    if (this.readOnly != null) { props.readOnly = this.readOnly; }
-    if (this.required != null) { props.required = this.required; }
-    if (this.size > 0) { props.size = this.size; }
-    if (this.valid != null) { props.valid = this.valid; }
+     var props = webui.@THEME@.widget.textField.superclass.getProps.call(this);
+
+     // Set properties.
     if (this.autoValidate != null) { props.autoValidate = this.autoValidate; }
-    if (this.style != null) { props.style = this.style; }
-
-    // After widget has been initialized, get user's input.
-    if (this.isInitialized() == true && this.textFieldNode.value != null) {
-        props.value = this.textFieldNode.value;
-    } else if (this.value != null) {
-        props.value = this.value;
-    }
-
-    // Add DOM node properties.
-    Object.extend(props, this.getCommonProps());
-    Object.extend(props, this.getCoreProps());
-    Object.extend(props, this.getJavaScriptProps());
-
+    
     return props;
 }
+
+
 
 /**
  * This closure is used to process refresh events.
@@ -159,92 +109,8 @@ webui.@THEME@.widget.textField.refresh = {
     }
 }
 
-/**
- * This function is used to set widget properties with the
- * following Object literals.
- *
- * <ul>
- *  <li>accesskey</li>
- *  <li>className</li>
- *  <li>dir</li>
- *  <li>disabled</li>
- *  <li>id</li>
- *  <li>label</li>
- *  <li>lang</li>
- *  <li>notify</li>
- *  <li>onClick</li>
- *  <li>onDblClick</li>
- *  <li>onFocus</li>
- *  <li>onKeyDown</li>
- *  <li>onKeyPress</li>
- *  <li>onKeyUp</li>
- *  <li>onMouseDown</li>
- *  <li>onMouseOut</li>
- *  <li>onMouseOver</li>
- *  <li>onMouseUp</li>
- *  <li>onMouseMove</li>
- *  <li>readOnly</li>
- *  <li>required</li>
- *  <li>size</li>
- *  <li>style</li>
- *  <li>tabIndex</li>
- *  <li>title</li>
- *  <li>valid</li>
- *  <li>value</li>
- *  <li>visible</li> 
- * </ul>
- *
- * @param props Key-Value pairs of properties.
- */
-webui.@THEME@.widget.textField.setProps = function(props) {   
-    // Save properties for later updates.
-    if (props != null) {
-        this.extend(this, props);
-    } else {
-        props = this.getProps(); // Widget is being initialized.
-    }
-    
-    // Set attributes.  
-    this.setCoreProps(this.domNode, props);
-    this.setCommonProps(this.textFieldNode, props);
-    this.setJavaScriptProps(this.textFieldNode, props);
-    
-    // Set text field attributes.    
-    if (props.size > 0) { this.textFieldNode.size = props.size; }
-    if (props.value != null) { this.textFieldNode.value = props.value; }
-    if (props.title != null) { this.textFieldNode.title = props.title; }   
-    if (props.disabled != null) { 
-        this.textFieldNode.disabled = new Boolean(props.disabled).valueOf();
-    }
-    if (props.readOnly != null) { 
-        this.textFieldNode.readOnly = new Boolean(props.readOnly).valueOf();
-    }
 
-    this.textFieldNode.className = this.getClassName();
-    
-    // Set label properties.
-    if (props.label || (props.valid != null || props.required != null) && this.label) {
-        // Ensure property exists so we can call setProps just once.
-        if (props.label == null) {
-            props.label = {};
-        }
-        
-        // Set valid.
-        if (props.valid != null) { props.label.valid = props.valid; }
-        
-        // Set required.
-        if (props.required != null) { props.label.required = props.required; }
-        
-        // Update widget/add fragment.                
-        var labelWidget = dojo.widget.byId(this.label.id);
-        if (labelWidget) {
-            labelWidget.setProps(props.label);
-        } else {
-            this.addFragment(this.labelContainer, props.label);
-        }
-    }
-    return props; // Return props for subclasses.
-}
+
 
 /**
  * This closure is used to process submit events.
@@ -277,6 +143,9 @@ webui.@THEME@.widget.textField.submit = {
         return true;
     }
 }
+
+
+
 
 /**
  * This closure is used to process validation events.
@@ -318,24 +187,18 @@ webui.@THEME@.widget.textField.validation = {
 }
 
 // Inherit base widget properties.
-dojo.inherits(webui.@THEME@.widget.textField, webui.@THEME@.widget.widgetBase);
+dojo.inherits(webui.@THEME@.widget.textField, webui.@THEME@.widget.field);
 
 // Override base widget by assigning properties to class prototype.
 dojo.lang.extend(webui.@THEME@.widget.textField, {
     // Set private functions.
     fillInTemplate: webui.@THEME@.widget.textField.fillInTemplate,
-    getClassName: webui.@THEME@.widget.textField.getClassName,
-    getInputElement: webui.@THEME@.widget.textField.getInputElement,
     getProps: webui.@THEME@.widget.textField.getProps,
     refresh: webui.@THEME@.widget.textField.refresh.processEvent,
-    setProps: webui.@THEME@.widget.textField.setProps,
     submit: webui.@THEME@.widget.textField.submit.processEvent,
+   
 
     // Set defaults.
-    disabled: false,
-    required: false,
-    size: 20,
-    valid: true,
     widgetType: "textField"
 });
 

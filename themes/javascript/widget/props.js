@@ -151,6 +151,12 @@ webui.@THEME@.widget.props = {
         titleOptionPreppender: "&#8212; "
     },
 
+    // PasswordField properties.
+    passwordField: {
+        className: "TxtFld@THEME_CSS@",
+        disabledClassName: "TxtFldDis@THEME_CSS@"
+    },
+
     // Progress bar properties.
     progressBar: {
         barContainerClassName: "barContainer@THEME_CSS@",
@@ -183,13 +189,6 @@ webui.@THEME@.widget.props = {
     radioButtonGroup: {
         vertClassName: "RBGRPVert@THEME_CSS@",
         horizClassName: "RBGRPHoriz@THEME_CSS@"       
-    },
-
-    // TextArea properties.
-    textArea: {
-        className: "TxtAra@THEME_CSS@",
-        disabledClassName: "TxtAraDis@THEME_CSS@",
-        labelTopAlignStyle: "TxtAraLabel@THEME_CSS@" 
     },
 
     // TextArea properties.
