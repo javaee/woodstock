@@ -4629,6 +4629,7 @@ update components server-side: refresh("form1:id1,form2:id2,...")<br>
     <tag>
         <name>editableField</name>
         <description><![CDATA[ 
+
 <p> Use the <code>webuijsf:editableField</code> tag to create an input
 field for a single line of text.</p>
 <h3>HTML Elements and Layout</h3>
@@ -4641,10 +4642,10 @@ If editableField is modified and if autoSave is set to true (default
 value), the updated data will be automatically submitted to the server
 via Ajax request.
 <p>EditableField inherits most of the functionality and attributes from
-TextField. See <code>webuijsf:textField</code> component description
+TextField. See <code>webuijsf:editableField</code> component description
 for details and examples. </p>
 <h3>Configuring the <code>webuijsf:editableField</code> Tag</h3>
-<p>See <code>webuijsf:textField</code> component description for
+<p>See <code>webuijsf:editableField</code> component description for
 details and examples. With the exception for autoValidate, all of the
 usage and attribute examples for textField can be used with editField
 by replacing tag into <code>webuijsf:editableField</code> .
@@ -4818,7 +4819,7 @@ validation failed. </li>
 <br>
 <h3>Examples</h3>
 <code></code>
-<h4>Example 1: Update client-side textField properties using the
+<h4>Example 1: Update client-side editableField properties using the
 getProps
 and setProps functions</h4>
 This example shows how to toggle the disabled state of a editable field
@@ -4827,14 +4828,14 @@ side using the getProps and setProps functions. When the user clicks
 the radio button,
 the text field is either disabled or enabled.<code></code><code>
 </code>
-<pre>&lt;webuijsf:radioButton id="rb1" name="rb1" label="Toggle Field Disabled" onClick="toggleDisabled()"/&gt;<br><code>&lt;webuijsf:textField id="field1" text="My Text Field" /&gt;</code><br><code><br></code>&lt;webuijsf:script&gt;<br>    function toggleDisabled() {<br>        var domNode = document.getElementById("form1:field<code>1</code>"); // Get field<br>        return domNode.setProps({disabled: !domNode.getProps().disabled}); // Toggle disabled state<br>    }<br>&lt;/webuijsf:script&gt;</pre>
+<pre>&lt;webuijsf:radioButton id="rb1" name="rb1" label="Toggle Field Disabled" onClick="toggleDisabled()"/&gt;<br><code>&lt;webuijsf:editableField id="field1" text="My Text Field" /&gt;</code><br><code><br></code>&lt;webuijsf:script&gt;<br>    function toggleDisabled() {<br>        var domNode = document.getElementById("form1:field<code>1</code>"); // Get field<br>        return domNode.setProps({disabled: !domNode.getProps().disabled}); // Toggle disabled state<br>    }<br>&lt;/webuijsf:script&gt;</pre>
 <code></code>
-<h4>Example 2: Asynchronously update textField using refresh function</h4>
+<h4>Example 2: Asynchronously update editableField using refresh function</h4>
 This example shows how to asynchronously update a editable field using
 the refresh function. When the user clicks on the radio button, the
 text field
 is asynchronously updated with new data.<br>
-<pre>&lt;webuijsf:radioButton id="rb1" name="rb1" label="Refresh Text Field" onClick="refreshField()"/&gt;<br><code>&lt;webuijsf:textField id="field1" text="</code>#{MyBean.text}<code>" /&gt;</code><br></pre>
+<pre>&lt;webuijsf:radioButton id="rb1" name="rb1" label="Refresh Text Field" onClick="refreshField()"/&gt;<br><code>&lt;webuijsf:editableField id="field1" text="</code>#{MyBean.text}<code>" /&gt;</code><br></pre>
 <code>&lt;webuijsf:script&gt;<br>
 &nbsp;&nbsp;&nbsp; function refreshField() {<br>
 &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; var domNode =
@@ -4851,7 +4852,7 @@ update components server-side: refresh("form1:id1,form2:id2,..."). When
 no parameter is given, the refresh function acts as a reset.
 That is, the component will be redrawn using values set
 server-side, but not updated.<br>
-<h4>Example 3: Asynchronously update textField using refresh function</h4>
+<h4>Example 3: Asynchronously update editableField using refresh function</h4>
 This example shows how to asynchronously update a editable field using
 the refresh function. The execute property of the refresh function is
 used
@@ -4860,7 +4861,7 @@ server-side. When the user clicks on the radio button, the input value
 is
 updated server-side and the text field is updated client-side -- all
 without a page refresh.<br>
-<pre>&lt;webuijsf:radioButton id="rb1" name="rb1" label="Refresh Text Field" onClick="refreshField()"/&gt;<code></code><code></code><br>&lt;webuijsf:textField id="field1" text="#{MyBean.text}" /&gt; // Field used to asynchronously update text.<br></pre>
+<pre>&lt;webuijsf:radioButton id="rb1" name="rb1" label="Refresh Text Field" onClick="refreshField()"/&gt;<code></code><code></code><br>&lt;webuijsf:editableField id="field1" text="#{MyBean.text}" /&gt; // Field used to asynchronously update text.<br></pre>
 <code>&lt;webuijsf:script&gt;<br>
 &nbsp;&nbsp;&nbsp; function </code><code>refreshField</code><code>() {<br>
 &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; var domNode =
@@ -4877,6 +4878,7 @@ elements
 to execute. Thus, a comma-separated list of ids can be provided to
 update components server-side: refresh("form1:id1,form2:id2,...")<br>
 <br>
+
 
 ]]></description>
     </tag>
@@ -9643,107 +9645,95 @@ changed to value " + menu.getValue();<br>
         <name>passwordField</name>
 
         <description><![CDATA[
+
 <p> Use the <code>webuijsf:passwordField</code>  tag to create an input
     field where the characters entered are echoed back with a
-    replacement character, so as to mask the input. </p> 
+    replacement character, so as to mask the input. PasswordField can be bound to the server side expressions, but for the security purposes it will never render server-side data as part of the field but will display empty field instead. </p> 
 
-    <h3>HTML Elements and Layout</h3>
-
-<p>The textField component renders an XHTML <code>&lt;input
-    type="password"&gt;</code> element.</p>  
-
-    <h3>Configuring the <code>webuijsf:passwordField</code> Tag</h3>
-
-<p>Use the <code>password</code> attribute to associate
-the component with a model object that represents the current value,
-by setting the attribute's value to an EL expression that corresponds
-    to a property of a managed bean.</p>
-
-    <p>To optionally specify a label for the component, use the
-    <code>label</code> attribute, or specify a label facet. </p>
-
-    <h3>Facets</h3>
-
-    <ul>
-    <li><code>label</code>: use this facet to specify a custom 
-    component for the label.</li>
-    <li><code>readOnly</code>: use this facet to specify a custom 
-    component for displaying the value of this component when it is
-    marked as readonly. The default is a <code>webuijsf:staticText</code>. </li>
-
-    </ul>
-
-    <h3>Theme Identifiers</h3> 
-
-    <p>The input element has a style class "TxtFld", or "TxtFldDis"
-    when the field is disabled. If a label attribute is specified, the
-    label element's class attribute is set to "LblLvl1Txt", "LblLvl2Txt" or
-    "LblLvl3Txt" depending on the label level.</p> 
-
-
-    <h3>Client-side JavaScript functions</h3>
-
-    <p>In all the functions below, <code>&lt;id&gt;</code> should be
-    the generated id of the PasswordField component. </p>
-
-    <table cellpadding="2" cellspacing="2" border="1" 
-           style="text-align: left; width: 100%;">
-    <tbody>
+ <h3>HTML Elements and Layout</h3>
+<p>PasswordField inherits most of the functionality(with the exception of refresh, submit and autoValidate) and attributes from
+TextField. See <code>webuijsf:textField</code> component description
+for details and examples. </p>
+<h3>Configuring the <code>webuijsf:passwordField</code> Tag</h3>
+<p>See <code>webuijsf:textField</code> component description for additional
+details and examples. With the exception for refresh, submit and autoValidate, all of the
+usage and attribute examples for textField can be used with editField
+by replacing tag into <code>webuijsf:textField</code> .
+</p>
+<h3>Client Side Javascript Functions</h3>
+When the component is rendered, a DOM object corresponding to the
+component is created. To manipulate the component on the client side,
+you may invoke functions on the DOM object. With reference to the DOM
+id, to disable the component, invoke <code>document.getElementById(id).setProps({disabled:
+true})</code>.<br>
+<br>
+<table style="text-align: left; width: 100%;" border="1" cellpadding="2"
+ cellspacing="2">
+  <tbody>
     <tr>
-    <td style="vertical-align">
-    <code>field_setDisabled(&lt;id&gt;, &lt;disabled&gt;)</code>
-    </td>
-    <td style="vertical-align: top">
-    Enable/disable the field. Set <code>&lt;disabled&gt;</code>
-    to true to disable the component, or false to enable it.
-    </td>
+      <td style="vertical-align: top;"><code>getInputElement()</code></td>
+      <td style="vertical-align: top;">Use this function to access the
+HTML <code>&lt;input&gt;</code> element that is rendered by the
+component.</td>
     </tr>
     <tr>
-    <td style="vertical-align: top">
-    <code>field_setValue(&lt;id&gt;, &lt;newValue&gt;)</code>
-    </td>
-    <td style="vertical-align: top">
-    Set the value of the field to <code>&lt;newValue&gt;</code>.
-    </td>
+      <td><code>getProps()</code></td>
+      <td>Use this function to get widget properties. Please see <code>setProps()</code>
+function for a list of supported properties.</td>
     </tr>
     <tr>
-      <td style="vertical-align: top">
-    <code>field_getValue(&lt;id&gt;)</code>
-  </td>
-    <td style="vertical-align: top">Get the value of the field.</td>
-    </tr>
-    <tr>
-      <td style="vertical-align: top">
-    <code>field_getInputElement(&lt;id&gt;)</code></td>
-    <td style="vertical-align: top">
-    Get hold of a reference to the input element rendered by this
-    component.
-    </td>
-    </tr>
-    <tr>
-      <td style="vertical-align: top">
-    <code>component_setVisible(&lt;id&gt;)</code>
-  </td>
-      <td style="vertical-align: top">Hide or show this component.
+      <td><code>setProps(props)</code></td>
+      <td>Use this function to change any of the following supported
+properties:<br>
+      <ul>
+        <li>accesskey</li>
+        <li>autoSave</li>
+        <li>className</li>
+        <li>dir</li>
+        <li>disabled</li>
+        <li>id</li>
+        <li>label</li>
+        <li>lang</li>
+        <li>onClick</li>
+        <li>onDblClick</li>
+        <li>onFocus</li>
+        <li>onKeyDown</li>
+        <li>onKeyPress</li>
+        <li>onKeyUp</li>
+        <li>onMouseDown</li>
+        <li>onMouseMove</li>
+        <li>onMouseOut</li>
+        <li>onMouseOver</li>
+        <li>onMouseUp</li>
+        <li>readOnly</li>
+        <li>required</li>
+        <li>size</li>
+        <li>style</li>
+        <li>tabIndex</li>
+        <li>title</li>
+        <li>valid</li>
+        <li>value</li>
+        <li>visible</li>
+      </ul>
       </td>
     </tr>
   </tbody>
 </table>
-
-    <h3>Example</h3>
-
-<p>This example uses a backing bean <code>User</code> with a
-property <code>password</code>. The tag generates a label followed by
-text input field. The required attribute is set to true, which causes
-an icon to be rendered next to the label to indicate that the
-application user must enter a value in the text field. The icon, label
-  and input elements are enclosed by a span.</p>
-<pre>
-     &lt;webuijsf:passwordField id="password" 
-                       password="#{User.password}" 
-                       label="Password:" 
-                       required="true"/&gt;
-</pre>
+<h3><br>
+</h3>
+<h3>Examples</h3>
+<code></code>
+<h4>Example 1: Update client-side editableField properties using the
+getProps
+and setProps functions</h4>
+This example shows how to toggle the disabled state of a editable field
+client
+side using the getProps and setProps functions. When the user clicks
+the radio button,
+the text field is either disabled or enabled.<code></code><code>
+</code>
+<pre>&lt;webuijsf:radioButton id="rb1" name="rb1" label="Toggle Field Disabled" onClick="toggleDisabled()"/&gt;<br><code>&lt;webuijsf:passwordField id="field1" text="My Text Field" /&gt;</code><br><code><br></code>&lt;webuijsf:script&gt;<br>    function toggleDisabled() {<br>        var domNode = document.getElementById("form1:field<code>1</code>"); // Get field<br>        return domNode.setProps({disabled: !domNode.getProps().disabled}); // Toggle disabled state<br>    }<br>&lt;/webuijsf:script&gt;</pre>
+<code></code>
 ]]></description>
     </tag>
 
@@ -18504,6 +18494,7 @@ update components server-side: submit("form1:id1,form2:id2,...")</p>
         <name>textField</name>
 
         <description><![CDATA[
+
 <p> Use the <code>webuijsf:textField</code> tag to create an input
 field for a single line of text.</p>
 <h3>HTML Elements and Layout</h3>
@@ -18517,13 +18508,7 @@ attribute's value to an EL expression that corresponds to a property
 of a backing bean.</p>
 <p>To optionally specify a label for the component, use the <code>label</code>
 attribute, or specify a label facet. </p>
-<p>TextField supports the password mode in which all characters entered
-are echoed as asterisks. To enable password mode, use <code>passwordMode
-= true</code> attribute. <br>
-Note that while in the password mode, no password will be send back to
-the browser in order to avoid sniffing or viewing through the browser
-source code. Thus, textField in the passwordMode will always be empty
-on submit or reload ( unless browser activates password auto-enter)</p>
+
 <h3>Facets</h3>
 <ul>
   <li><code>label</code>: use this facet to specify a custom component
@@ -18839,6 +18824,7 @@ to execute. Thus, a comma-separated list of ids can be provided to
 update components server-side: submit("form1:id1,form2:id2,...")<br>
 <br>
 </p>
+
       
 ]]></description>
     </tag>

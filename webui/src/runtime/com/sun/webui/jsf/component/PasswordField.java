@@ -31,16 +31,21 @@ import javax.faces.context.FacesContext;
 /**
  * The PasswordField component is used to create a password textfield.
  */
-@Component(type="com.sun.webui.jsf.PasswordField", family="com.sun.webui.jsf.PasswordField", displayName="Password Field", instanceName="passwordField", tagName="passwordField",
+@Component(
+    type="com.sun.webui.jsf.PasswordField", 
+    family="com.sun.webui.jsf.PasswordField", displayName="Password Field", 
+    instanceName="passwordField", tagName="passwordField",
+    tagRendererType="com.sun.webui.jsf.widget.PasswordField",
     helpKey="projrave_ui_elements_palette_wdstk-jsf1.2_password_field",
     propertiesHelpKey="projrave_ui_elements_palette_wdstk-jsf1.2_propsheets_password_field_props")
+    
 public class PasswordField extends Field {
     /**
      * Default constructor.
      */
     public PasswordField() {
         super();
-        setRendererType("com.sun.webui.jsf.PasswordField");
+        setRendererType("com.sun.webui.jsf.widget.PasswordField");
     }
 
     /**
@@ -74,14 +79,6 @@ public class PasswordField extends Field {
     // Tag attribute methods
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-    /**
-     * Flag indicating that an input value for this field is mandatory, and 
-     * failure to provide one will trigger a validation error.
-     */
-    @Property(name="required") 
-    public void setRequired(boolean required) {
-        super.setRequired(required);
-    }
 
     /**
      * <p>Return the <code>ValueExpression</code> stored for the
@@ -125,12 +122,13 @@ public class PasswordField extends Field {
     }
 
     /**
-     * <p>Literal value to be rendered in this input field.
-     * If this property is specified by a value binding
+     * <p>Value binding. While no password data will be rendered on the client 
+     * side, if this property is specified by a value binding
      * expression, the corresponding value will be updated
      * if validation succeeds.</p>
      */
-    @Property(name="password", displayName="Password", category="Appearance", editorClassName="com.sun.rave.propertyeditors.StringPropertyEditor")
+    @Property(name="password", displayName="Password", category="Appearance",
+    editorClassName="com.sun.rave.propertyeditors.StringPropertyEditor") 
     public Object getPassword() {
         return getValue();
     }
@@ -146,20 +144,23 @@ public class PasswordField extends Field {
         setValue(password);
     }
 
-    /**
-     * <p>Restore the state of this component.</p>
-     */
-    public void restoreState(FacesContext _context,Object _state) {
-        Object _values[] = (Object[]) _state;
-        super.restoreState(_context, _values[0]);
-    }
+ // --------------------------
 
     /**
-     * <p>Save the state of this component.</p>
+     * <p>Return the empty Srting to be rendered
+     * This is done in order to avoid
+     * sending secret password back to the client where it can be sniffed by viewing the
+     * source code of the page. 
+     * <br>Sending masked string
+     * such as set of asterisks would have confused the issue further as it could create an impression that
+     * password is saved on the client in the field in some meaningful state, which in reality it will be not.
+     * Thus, the password field will be rendered empty after each page submit,
+     * prompting user ( or browser if such functionality is enabled ) to reenter password</p>
+     * @param context FacesContext for the current request
+     * @return A String value of the component
      */
-    public Object saveState(FacesContext _context) {
-        Object _values[] = new Object[1];
-        _values[0] = super.saveState(_context);
-        return _values;
+    public String getValueAsString(FacesContext context) {
+            return new String();       
     }
+    
 }
