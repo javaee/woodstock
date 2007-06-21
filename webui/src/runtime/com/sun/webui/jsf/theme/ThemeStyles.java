@@ -143,6 +143,7 @@ public class ThemeStyles {
     public static final String CALENDAR_CLOSE_LINK = "CALENDAR_CLOSE_LINK";
     public static final String CALENDAR_ROOT_TABLE = "CALENDAR_ROOT_TABLE";
     public static final String CALENDAR_CLOSE_BUTTON = "CALENDAR_CLOSE_BUTTON";
+    public static final String CALENDAR_BUTTON_DIV = "CALENDAR_BUTTON_DIV";
 
     /** Column footers */
     public static final String TABLE_GROUP_COL_FOOTER      = "TABLE_GROUP_COL_FOOTER";

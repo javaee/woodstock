@@ -80,54 +80,6 @@ public class Calendar extends Field implements DateManager, NamingContainer {
     }    
     
     /**
-     * Return a component that implements a text field for this <code>Calendar</code>.    
-     * 
-     * @param context The current FacesContext.  
-     * @return a <code>TextField</code> component.
-     */
-    public TextField getFieldComponent(FacesContext context) {        
-        TextField field = (TextField)
-            ComponentUtilities.getPrivateFacet(this, TEXT_FIELD_FACET, true);
-        
-	if (field == null) {
-            field = new TextField();  
-            field.setId(ComponentUtilities.createPrivateFacetId(this, TEXT_FIELD_FACET));            
-            ComponentUtilities.putPrivateFacet(this, TEXT_FIELD_FACET, field);            
-            field.setParent(this);     
-            populateField(field, context);
-        } 
-        
-        return field;
-    } 
-    
-    /**
-     * Populate the text field with the propertites that apply to a field.
-     */
-    public void populateField(TextField field, FacesContext context) {
-        // Set text field related properties.
-        field.setTabIndex(getTabIndex());
-        field.setColumns(getColumns());
-        field.setToolTip(getToolTip());
-        field.setMaxLength(getMaxLength());
-        field.setDisabled(isDisabled());        
-        field.setOnMouseDown(getOnMouseDown());
-        field.setOnMouseOut(getOnMouseOut());
-        field.setOnMouseMove(getOnMouseMove());
-        field.setOnMouseOver(getOnMouseOver());
-        field.setOnMouseUp(getOnMouseUp());    
-        field.setOnChange(getOnChange());               
-        field.setOnClick(getOnClick());
-        field.setOnFocus(getOnFocus());    
-        field.setOnBlur(getOnBlur());    
-        field.setOnDblClick(getOnDblClick());
-        field.setOnKeyDown(getOnKeyDown());
-        field.setOnKeyPress(getOnKeyPress());
-        field.setOnKeyUp(getOnKeyUp());    
-        field.setOnSelect(getOnSelect());
-        field.setText(getValueAsString(context));                        
-    }
-    
-    /**
      * This method returns the ImageHyperlink that serves as the "button" to
      * show or hide the calendar date picker display.
      *
@@ -153,7 +105,7 @@ public class Calendar extends Field implements DateManager, NamingContainer {
         StringBuffer js = new StringBuffer(200);
         js.append("javascript: ")           
             .append(getJavaScriptObjectName(context))
-            .append(".toggle(); return false;");  //NOI18N
+            .append(".toggleCalendarMonth(); return false;");  //NOI18N
 
         // Don't set Javascript as the URL -- bugtraq #6306848.
         datePickerLink.setOnClick(js.toString());
@@ -181,8 +133,12 @@ public class Calendar extends Field implements DateManager, NamingContainer {
         return (CalendarMonth)comp;
     }
     
+    /*
+     * Returns JavaScript to obtain the widget associated with the 
+     * component (ie, dojo.widget.byId('form1:calendar1');).
+     */ 
     public String getJavaScriptObjectName(FacesContext context) {
-        return JavaScriptUtilities.getDomNode(getFacesContext(), this);
+       return JavaScriptUtilities.getWidget(getFacesContext(), this);      
     }  
     
     public Converter getConverter() {     

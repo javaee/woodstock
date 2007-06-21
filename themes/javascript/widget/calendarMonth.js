@@ -56,7 +56,7 @@ webui.@THEME@.widget.calendarMonth = function() {
      // Set public functions.        
      this.domNode.setProps = function(props) { return dojo.widget.byId(this.id).setProps(props); }
      this.domNode.getProps = function() { return dojo.widget.byId(this.id).getProps(); }                
-     this.domNode.redrawDatepicker = function() { return dojo.widget.byId(this.id).redrawDatepicker(); }                
+     this.domNode.updateMonth = function() { return dojo.widget.byId(this.id).updateMonth(); }                
      
      // Set properties.
      return this.setProps();        
@@ -76,6 +76,7 @@ webui.@THEME@.widget.calendarMonth = function() {
  *  <li>monthMenu</li>
  *  <li>style</li>
  *  <li>todayDateMsg</li>
+ *  <li>visible</li>
  *  <li>yearMenu</li> 
  * </ul>
  *
@@ -128,7 +129,7 @@ webui.@THEME@.widget.calendarMonth.setProps = function(props) {
         if (decreaseLinkWidget) {
             decreaseLinkWidget.setProps(props.decreaseLink);          
         } else {  
-            this.addFragment(this.previousLinkContainer, props.decreaseLink);
+            this.addFragment(this.previousLinkContainer, props.decreaseLink);                     
         }
     }
     
@@ -194,9 +195,15 @@ webui.@THEME@.widget.calendarMonth.getProps = function() {
 }
 
 /**
- * This function is used to redraw the date picker part of the calendar.
+ * This function is used to update the calendar month.
+ * It is called when the calendar is opened, the next or previous
+ * links are clicked, or the month or year menus are changed.
+ *
+ * @param currentValue The current value of the text field.
+ * @param initialize Flag indicating to initialze the year and month menus
+ * with the current value. The value is true only when the calendar is opened. 
  */
-webui.@THEME@.widget.calendarMonth.redrawDatepicker = function(currentValue, initialize) {
+webui.@THEME@.widget.calendarMonth.updateMonth = function(currentValue, initialize) {
     // Remove all the nodes of <tbody> before cloning its children.
     this.removeChildNodes(this.tbodyContainer);    
     // Add week days
@@ -237,17 +244,30 @@ webui.@THEME@.widget.calendarMonth.addWeekDays = function() {
 
 /**
  * Helper function to add days in the month -- week data rows.
+ *
+ * @param currentValue The current value of the text field.
+ * @param initialize Flag indicating to initialze the year and month menus
+ * with the current value. The value is true only when the calendar is opened. 
  */
 webui.@THEME@.widget.calendarMonth.addDaysInMonth = function(currentValue, initialize) {
-    var day;
-    var linkId;
-    var column = 0;    
-    var rowNum = 0;
-    var linkNum = 0; 
+    // Date representing a day in a month.
+    var day;    
+    // Number of columns in a row.
+    var column = 0;
+    // Row number.    
+    var rowNum = 0;    
+    // Today's day.
     var today = 0;
-    var selected = 0;       
-    var oneDayInMs = 86400000; // 1000 * 60 * 60 * 24
+    // Selected date.
+    var selected = 0;     
+    // Day link number
+    var linkNum = 0; 
+    // Prefix used for a day link id.
     var id = this.id + "_link:";
+    // Day link id. ie, id + linkNum.
+    var linkId;
+    // One day in milliseconds -- 1000 * 60 * 60 * 24    
+    var oneDayInMs = 86400000;     
 
     var todayDate = new Date();
     var todayYear = todayDate.getFullYear();
@@ -266,8 +286,12 @@ webui.@THEME@.widget.calendarMonth.addDaysInMonth = function(currentValue, initi
         selectedDay = currentValue.getDate();
     }
     
+    // Get month and year menu widgets.
     var monthMenuWidget = dojo.widget.byId(this.monthMenu.id);        
     var yearMenuWidget = dojo.widget.byId(this.yearMenu.id);
+    if (monthMenuWidget == null || yearMenuWidget == null) {
+        return;
+    }
                
     if (initialize) {
          // Set showMonth as selected in the month menu
@@ -467,7 +491,7 @@ dojo.lang.extend(webui.@THEME@.widget.calendarMonth, {
     addDaysInMonth: webui.@THEME@.widget.calendarMonth.addDaysInMonth,
     addDayLink: webui.@THEME@.widget.calendarMonth.addDayLink,
     formatDate: webui.@THEME@.widget.calendarMonth.formatDate,
-    redrawDatepicker: webui.@THEME@.widget.calendarMonth.redrawDatepicker,
+    updateMonth: webui.@THEME@.widget.calendarMonth.updateMonth,
     setLimitedSelectedValue: webui.@THEME@.widget.calendarMonth.setLimitedSelectedValue,
     setSelectedValue: webui.@THEME@.widget.calendarMonth.setSelectedValue,        
         

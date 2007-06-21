@@ -724,6 +724,8 @@ a.DatOthBldLnk@THEME_CSS@:link, a.DatOthBldLnk@THEME_CSS@:visited {
 	z-index:1000;
 	margin:-9px 0 0 -22px;
 	width:20em;
+        left:5px;
+        top:24px;
 }
 .CalPopShd2Div@THEME_CSS@ {
 }
@@ -812,6 +814,9 @@ a.DatOthBldLnk@THEME_CSS@:link, a.DatOthBldLnk@THEME_CSS@:visited {
 .CalRootTbl@THEME_CSS@ {
 	width: auto;
  }
+.CalPopBtnDiv@THEME_CSS@ {
+        position: relative;
+}
 /*---*/
 
 

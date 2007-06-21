@@ -417,22 +417,19 @@ public class CalendarMonth extends UIOutput implements NamingContainer {
      * 
      * @return The ImageHyperlink to hide the calendar date picker.
      */
-    public ImageHyperlink getCloseButtonLink() {
-        ImageHyperlink link = (ImageHyperlink) getFacets().get(CLOSE_BUTTON_LINK_ID);
-        if (link == null) {
-            link = new ImageHyperlink();
-            link.setId(CLOSE_BUTTON_LINK_ID);
-            link.setIcon(ThemeImages.CALENDAR_CLOSE_BUTTON);
-            link.setToolTip(getTheme().getMessage("CalendarMonth.close"));
-            link.setStyleClass(getTheme().getStyleClass(ThemeStyles.CALENDAR_CLOSE_BUTTON));
+    public ImageHyperlink getCloseButtonLink() {        
+        ImageHyperlink link = new ImageHyperlink();
+        link.setId(CLOSE_BUTTON_LINK_ID);
+        link.setParent(this);
+        link.setIcon(ThemeImages.CALENDAR_CLOSE_BUTTON);
+        link.setToolTip(getTheme().getMessage("CalendarMonth.close"));
+        link.setStyleClass(getTheme().getStyleClass(ThemeStyles.CALENDAR_CLOSE_BUTTON));
                         
-            StringBuffer js = new StringBuffer(128);
-            js.append(getJavaScriptObjectName())                
-                .append(".toggle(); return false;");  
-            link.setOnClick(js.toString());
-            
-            getFacets().put(CLOSE_BUTTON_LINK_ID, link);
-        }
+        StringBuffer js = new StringBuffer(128);
+        js.append(getJavaScriptObjectName())                
+            .append(".toggleCalendarMonth(); return false;");  
+        link.setOnClick(js.toString());
+        
         return link;
     }
             
@@ -461,10 +458,10 @@ public class CalendarMonth extends UIOutput implements NamingContainer {
         // Don't set Javascript as the URL -- bugtraq #6306848.
         link = getNextMonthLink();
         link.setIcon(ThemeImages.CALENDAR_FORWARD);
-        link.setOnClick(js.toString());
+        link.setOnClick(js.toString());      
         
-        getMonthMenu().setOnChange(jsName.concat(".redrawCalendar(false); return false;"));//NOI18N
-        getYearMenu().setOnChange(jsName.concat(".redrawCalendar(false); return false;"));//NOI18N
+        getMonthMenu().setOnChange(jsName.concat(".updateCalendarMonth(); return false;"));//NOI18N                
+        getYearMenu().setOnChange(jsName.concat(".updateCalendarMonth(); return false;"));//NOI18N
     }
 
     public void showNextMonth() {

@@ -240,6 +240,23 @@ public class JavaScriptUtilities {
     }
 
     /**
+     * Returns JavaScript to obtain the widget associated with the 
+     * component. Providing a component, with a client id of "form1:btn1",
+     * will return "dojo.widget.byId('form1:btn1');".
+     *       
+     * @param context The current FacesContext.
+     * @param component The current component being rendered.
+     */ 
+    public static String getWidget(FacesContext context,
+            UIComponent component) {
+        StringBuffer buff = new StringBuffer(128);
+        buff.append("dojo.widget.byId('")
+            .append(component.getClientId(context))
+            .append("')");
+        return buff.toString();        
+    }  
+    
+    /**
      * Returns JavaScript used to require a Dojo module. For example, a value of
      * For example, a value of "widget.*" will return
      * "dojo.require('webui.suntheme.widget.*')" for a theme, named 

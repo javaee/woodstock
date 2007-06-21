@@ -2335,6 +2335,36 @@ function for details on properties and their usage</li>
          minDate="#{TravelBean.tomorrowsDate}"
          maxDate="#{TravelBean.sixMonthsFromNow}" /&gt;
  </pre>
+<h4> Example 3: Update calendar client side using the getProps and
+setProps functions </h4>
+<p>This example shows how to toggle the disabled state of a calendar
+client side using the getProps and setProps functions. </p>
+<code></code>
+<pre>&lt;webuijsf:calendar id="calendar1" label="Start Date:"/&gt;<br>&lt;webuijsf:button id="button1" text="Toggle Calendar Disabled" onClick="toggleDisabled(); return false"/&gt;<br><br>&lt;webuijsf:script&gt;         <br>   function toggleDisabled() { <br>        var domNode = document.getElementById("form1:calendar1"); <br>        domNode.setProps({ disabled: !domNode.getProps().disabled });<br>    }        <br>&lt;/webuijsf:script&gt;<br></pre>
+<h4>Example 4: Asynchronously update calendar using refresh function</h4>
+This example shows how to asynchronously update a calendar using
+the refresh function. The execute property of the refresh function is
+used to define the client id which is to be submitted and updated
+server-side. As the user types in the text field, the input value is
+updated server-side and the calendar label is updated client-side
+-- all without a page refresh.
+<pre>&lt;webuijsf:calendar id="calendar1" label="#{MyBean.label}"/&gt;<br>&lt;webuijsf:textField id="field1" text="#{MyBean.label}" label="Change Calendar Label" <br>          onKeyPress="setTimeout('refreshCalendar();', 0);"/&gt; // Field used to asynchronously update label.<br></pre>
+<code>&lt;webuijsf:script&gt;<br>
+&nbsp;&nbsp;&nbsp; function </code><code>refreshCalendar</code><code>()
+{<br>
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; var domNode =
+document.getElementById("form1:calendar1"); // Get calendar<br>
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; return
+domNode.refresh("form1:field1"); // Asynchronously refresh while
+submitting field value<br>
+&nbsp;&nbsp;&nbsp; }<br>
+&lt;/webuijsf:script&gt;<br>
+<br>
+</code>Note that the refresh function can optionally take a list of
+elements
+to execute. Thus, a comma-separated list of ids can be provided to
+update components server-side: refresh("form1:id1,form2:id2,...")<br>
+<br>
 ]]></description>
     </tag>
 
