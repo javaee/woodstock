@@ -222,7 +222,7 @@ dojo.lang.extend(webui.@THEME@.widget.field, {
     disabled: false,
     required: false,
     size: 20,
-    valid: true,
+    valid: true
 });
 
 //-->
