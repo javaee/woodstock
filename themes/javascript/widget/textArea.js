@@ -70,14 +70,14 @@ webui.@THEME@.widget.textArea.createSubmitCallback = function(id) {
  */
 webui.@THEME@.widget.textArea.fillInTemplate = function() {
     var props = webui.@THEME@.widget.textArea.superclass.fillInTemplate.call(this);    
-
-
+    
+    
     // Set events.                
     if (this.autoSave > 0) {
         this.autoSaveTimerId = setInterval(
-            webui.@THEME@.widget.textArea.createSubmitCallback(this.id), this.autoSave);  
+        webui.@THEME@.widget.textArea.createSubmitCallback(this.id), this.autoSave);  
     }
-
+    
     // Set properties.
     return this.props;
 }
@@ -88,8 +88,8 @@ webui.@THEME@.widget.textArea.fillInTemplate = function() {
 webui.@THEME@.widget.textArea.getClassName = function() {
     // Set default style.    
     var className = (this.disabled == true)
-        ? webui.@THEME@.widget.props.textArea.disabledClassName
-        : webui.@THEME@.widget.props.textArea.className;
+    ? webui.@THEME@.widget.props.textArea.disabledClassName
+    : webui.@THEME@.widget.props.textArea.className;
     
     return className;
 }
@@ -150,30 +150,32 @@ webui.@THEME@.widget.textArea.getProps = function() {
  * @param props Key-Value pairs of properties.
  */
 webui.@THEME@.widget.textArea.setProps = function(props) {   
-
+    
     var props = webui.@THEME@.widget.textArea.superclass.setProps.call( this, props);
-     
+    
     // Set text field attributes.    
     if (props.cols > 0 ) { this.fieldNode.cols = props.cols; }
     if (props.rows > 0) { this.fieldNode.rows = props.rows; }
-   
+    
     //cancel autosave if it has been changed to <=0
     if (props.autoSave <= 0 && this.autoSaveTimerId && this.autoSaveTimerId != null ) {
         clearTimeout(this.autoSaveTimerId);
         this.autoSaveTimerId = null;
     }
-
+    
     //label overwrites the span from the template and there is no way to set
     //alignment there.
     //we will push vertical alignment style onto label domNode
-    labelWidget = dojo.widget.byId(this.label.id);
-    if (labelWidget && labelWidget.domNode) {
-        var currentClass = (labelWidget.domNode.className) 
+    if (this.label && this.label.id) {
+        labelWidget = dojo.widget.byId(this.label.id);
+        if (labelWidget && labelWidget.domNode) {
+            var currentClass = (labelWidget.domNode.className) 
             ? labelWidget.domNode.className + " "
             : "";
-        labelWidget.domNode.className = currentClass + 
+            labelWidget.domNode.className = currentClass + 
             webui.@THEME@.widget.props.textArea.labelTopAlignStyle;
-    }    
+        }    
+    }
     return props; // Return props for subclasses.
 }
 
@@ -199,14 +201,14 @@ webui.@THEME@.widget.textArea.refresh = {
     processEvent: function(execute) {
         // Include default AJAX implementation.
         this.ajaxify("webui.@THEME@.widget.jsfx.textArea");
-
+        
         // Publish an event for custom AJAX implementations to listen for.
         dojo.event.topic.publish(
-            webui.@THEME@.widget.textArea.refresh.beginEventTopic, {
-                id: this.id,
-                execute: execute,
-                endEventTopic: webui.@THEME@.widget.textArea.refresh.endEventTopic
-            });
+        webui.@THEME@.widget.textArea.refresh.beginEventTopic, {
+            id: this.id,
+            execute: execute,
+            endEventTopic: webui.@THEME@.widget.textArea.refresh.endEventTopic
+        });
         return true;
     }
 }
@@ -231,14 +233,14 @@ webui.@THEME@.widget.textArea.submit = {
     processEvent: function(execute) {
         // Include default AJAX implementation.
         this.ajaxify("webui.@THEME@.widget.jsfx.textArea");
-
+        
         // Publish an event for custom AJAX implementations to listen for.
         dojo.event.topic.publish(
-            webui.@THEME@.widget.textArea.submit.beginEventTopic, {
-                id: this.id,
-                execute: execute,
-                endEventTopic: webui.@THEME@.widget.textArea.submit.endEventTopic
-            });
+        webui.@THEME@.widget.textArea.submit.beginEventTopic, {
+            id: this.id,
+            execute: execute,
+            endEventTopic: webui.@THEME@.widget.textArea.submit.endEventTopic
+        });
         return true;
     }
 }
@@ -255,7 +257,7 @@ dojo.lang.extend(webui.@THEME@.widget.textArea, {
     refresh: webui.@THEME@.widget.textArea.refresh.processEvent,
     setProps: webui.@THEME@.widget.textArea.setProps,
     submit: webui.@THEME@.widget.textArea.submit.processEvent,
-
+    
     // Set defaults.
     autoSave: 0,
     cols: 20,
