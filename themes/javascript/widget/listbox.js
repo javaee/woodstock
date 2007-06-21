@@ -53,19 +53,35 @@ webui.@THEME@.widget.listbox.addOptions = function(props) {
     }
 
     // Cleaning up the old options
-    this.listContainer.options.length = 0;
+    while (this.listContainer.firstChild) {
+        this.listContainer.removeChild(this.listContainer.firstChild);
+    }
 
     var thisNode;
     for (var i = 0; i < props.options.length; i++) {
         var pOption = props.options[i];
         if (pOption.group == false) {
-            thisNode = this.optionNode.cloneNode(true);
+            
+            //for some reason, ie is prone to painting problems (esp. after a style change)
+            //when using the DOM to populate options, but apparently not when the options are in a group
+            
+            if (webui.@THEME@.common.browser.is_ie) {
+                thisNode = new Option();
+            }
+            else {
+                thisNode = this.optionNode.cloneNode(true);
+            }
             
             // Set the properties on this <option> element
             this.setOptionProps(thisNode, pOption);
             
             // Append this <option> node to the <select>
-            this.listContainer.appendChild(thisNode); 
+            if (webui.@THEME@.common.browser.is_ie) {
+                this.listContainer.options[this.listContainer.options.length] = thisNode;
+            }
+            else {
+                this.listContainer.appendChild(thisNode);
+            }
 
         } else { // group option <optgroup>
 
@@ -86,6 +102,7 @@ webui.@THEME@.widget.listbox.addOptions = function(props) {
             }
         }
     }
+    
     return true;
 }
 
@@ -358,11 +375,11 @@ webui.@THEME@.widget.listbox.setOptionProps = function(element, option) {
 
     if (option.isTitle == true) {
        // Prepend and append long dashes with the title label
-       element.innerHTML = webui.@THEME@.widget.props.listbox.titleOptionPreppender 
+       element.text = webui.@THEME@.widget.props.listbox.titleOptionPreppender 
             + option.label 
             + webui.@THEME@.widget.props.listbox.titleOptionAppender;
     } else {
-       element.innerHTML = option.label;
+       element.text = option.label;
     }
 
     if (option.selected != null) {
