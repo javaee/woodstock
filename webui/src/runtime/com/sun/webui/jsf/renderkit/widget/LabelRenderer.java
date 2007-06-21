@@ -73,7 +73,6 @@ public class LabelRenderer extends RendererBase {
         "onKeyUp",
         "dir",
         "lang",
-        "title",
         "accessKey"
     };
 
@@ -208,6 +207,7 @@ public class LabelRenderer extends RendererBase {
                 ? templatePath 
                 : theme.getPathToTemplate(ThemeTemplates.LABEL))
 	    .put("className", label.getStyleClass())
+            .put("title", label.getToolTip())
 	    .put("visible", label.isVisible());
             
         // Append required image properties.
