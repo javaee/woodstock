@@ -424,8 +424,8 @@ webui.@THEME@.widget.listbox.setProps = function(props) {
     // auto-submit. Thus, we will handle this event via the onChange call back.
     if (props.onChange) {
         // Set private function scope on DOM node.
-        this.listContainer._onchange = (typeof props.onChange == 'string')
-            ? new Function("event", props.onClick) : props.onChange;
+        this.listContainer._onchange = (typeof props.onChange == 'string')            
+            ? new Function("event", props.onChange) : props.onChange;
 
         // Must be cleared before calling setJavaScriptProps() below.
         props.onChange = null;
