@@ -32,7 +32,16 @@
 <h2><u>4.1 Build 8 </u>&nbsp;(06/29/2007)</h2>
 <h3>New Features</h3>
 <ul>
-  <li>Client-side rendering for PasswordField ( password mode for TextField removed)</li>
+  <li>Client-side rendering for PasswordField ( password mode for TextField removed). <br>
+  Note: Previous implementation of the PasswordField had a security flaw where server side
+values ( such as obtained with the value expression) were rendered to the browser. 
+Such approuch would send clear text password to the browser AND make it available 
+in clear text with "view source" command. New version of PasswordField fixed that by 
+not rendering password back to client. Thus while the user typed password will be echoed 
+with asterisks, password field will always be rendered empty - whether on initial render
+or upon submission and re-render of the page. 
+
+  </li>
   <li>Client-side rendering for Calendar</li>
 </ul>
 <h3>Bugs Resolved/Fixed</h3>
