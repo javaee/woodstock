@@ -518,8 +518,7 @@ public class TableColumnDesignState {
     }
     
     public boolean isSortAllowed(){
-        sortable = isSortAllowed(valueExpression, columnName);
-        return sortable;
+        return isSortAllowed(valueExpression, columnName);
     }
     
     private boolean isSortAllowed(String valueExpression, String colName){

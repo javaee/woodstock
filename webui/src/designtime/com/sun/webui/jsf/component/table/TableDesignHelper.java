@@ -182,6 +182,8 @@ public final class TableDesignHelper {
     }
     
     public static void adjustTableWidth(DesignBean tableBean, int oldColumnWidth, int newColumnWidth){
+        DesignBean tableRowGroupBean = getTableRowGroupBean(tableBean);
+        if (tableRowGroupBean == null) return;
         // Adjust the width of the table in its style property
         int tableWidth = -1;
    
@@ -194,7 +196,6 @@ public final class TableDesignHelper {
             tableWidth = -1;
         }
         
-        DesignBean tableRowGroupBean = getTableRowGroupBean(tableBean);
         int childCount = tableRowGroupBean.getChildBeanCount();
         
         if (tableWidth == -1){
