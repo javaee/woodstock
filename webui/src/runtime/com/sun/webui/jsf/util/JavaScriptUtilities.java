@@ -98,7 +98,9 @@ public class JavaScriptUtilities {
         buff.append("dojo.hostenv.setModulePrefix(\"")
             .append(getTheme().getJSString(ThemeJavascript.MODULE_PREFIX))
             .append("\", \"")
-            .append(theme.getPathToJSFile(ThemeJavascript.MODULE_PATH))
+            .append(theme.getPathToJSFile((debug)
+                ? ThemeJavascript.UNCOMPRESSED_MODULE_PATH
+                : ThemeJavascript.MODULE_PATH))
             .append("\");\n")
             .append(getModule("*"))
             .append("\n")

@@ -31,7 +31,8 @@
     <property file="build.properties"/>
     
     <property name="dist" value="./dist"/>
-    <property name="build" value="./build"/>    
+    <property name="build" value="./build"/>
+    <property name="tools" value="./tools"/>
     
     <property name="suntheme" value="suntheme"/>
     <property name="suntheme.build" value="build/suntheme"/>
@@ -39,10 +40,8 @@
     <property name="suntheme.package"  value="com.sun.webui.jsf.suntheme"/>
     <property name="suntheme.jar" value="webui-jsf-suntheme.jar"/>
     <property name="suntheme.css" value="_sun4"/>
-    <property name="suntheme-service-properties" value="suntheme"/>
-    
+    <property name="suntheme-service-properties" value="suntheme"/>    
     <property name="suntheme-service-class" value="SunthemeThemeService"/>
-    
     
     <!-- Building a theme now depends on webui-jsf.jar 
          In the future it will depend on just the theme implementation
@@ -53,7 +52,13 @@
 
     <property name="webui.jar"
               value="${components.home}/lib/webui-jsf.jar"/>
-    
+
+    <!-- tools -->
+    <property name="compress.jar"
+              value="${tools}/javascript/compress.jar"/>
+    <property name="rhino.jar"
+              value="${tools}/javascript/custom_rhino.jar"/>
+
     <!-- ========== all ========== -->
     <!-- This creates the theme jars for component distribution. -->
     <target name="all" depends="buildSunTheme" />
@@ -100,7 +105,7 @@
         
         <mkdir dir="${_dest-path_}" />
         
-        <copy todir="${_dest-path_}/javascript">
+        <copy todir="${_dest-path_}/javascript_uncompressed">
             <fileset dir="javascript">
                 <exclude name="**/CVS/**" />
             </fileset>
@@ -109,6 +114,19 @@
                 <filter token="THEME_CSS" value="${_theme-name-css_}"/> 
             </filterset>
         </copy>
+
+        <!-- Compress javascript -->
+        <copy todir="${_dest-path_}/javascript">
+            <fileset dir="${_dest-path_}/javascript_uncompressed"/>
+        </copy>
+        <java jar="${compress.jar}" failonerror="true" fork="true">
+          <arg value="-rhinoJar"/>
+          <arg value="${rhino.jar}"/>
+          <arg value="-pathName"/>
+          <arg value="${_dest-path_}/javascript"/>
+          <arg value="-verbose"/>
+        </java>
+
         <copy todir="${_dest-path_}/images">
             <fileset dir="${_theme-dir_}/images">
                 <exclude name="**/CVS/**" /> 

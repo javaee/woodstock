@@ -65,6 +65,11 @@ public class ThemeJavascript {
      */
     public static final String PROTOTYPE = "prototype";
 
+    /**
+     * The path to compressed module resources.
+     */
+    public static final String UNCOMPRESSED_MODULE_PATH = "uncompressedModulePath";
+
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     // Deprecations
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
