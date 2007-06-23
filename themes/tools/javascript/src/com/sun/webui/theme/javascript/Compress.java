@@ -58,6 +58,7 @@ public class Compress {
         streamOut.close();
 
         // Rename file.
+        file.delete();
         tmpFile.renameTo(file);
     }
 
