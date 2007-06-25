@@ -25,7 +25,6 @@ package com.sun.webui.jsf.renderkit.widget;
 import com.sun.faces.annotation.Renderer;
 
 import com.sun.webui.jsf.component.Table2Column;
-import com.sun.webui.jsf.util.WidgetUtilities;
 
 import java.io.IOException;
 

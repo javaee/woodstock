@@ -20,43 +20,34 @@
  * Copyright 2007 Sun Microsystems, Inc. All rights reserved.
  */
 package com.sun.webui.jsf.renderkit.html;
-
-
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
+ 
+import com.sun.faces.annotation.Renderer;
+import com.sun.webui.html.HTMLAttributes;
+import com.sun.webui.html.HTMLElements;
+import com.sun.webui.jsf.component.CommonTasksGroup;
+import com.sun.webui.jsf.component.CommonTasksSection;
+import com.sun.webui.jsf.component.HelpInline;
+import com.sun.webui.jsf.component.Icon;
+import com.sun.webui.jsf.theme.ThemeImages;
+import com.sun.webui.jsf.theme.ThemeStyles;
+import com.sun.webui.jsf.util.LogUtil;
+import com.sun.webui.jsf.util.JSONUtilities;
+import com.sun.webui.jsf.util.JavaScriptUtilities;
+import com.sun.webui.jsf.util.RenderingUtilities;
+import com.sun.webui.jsf.util.ThemeUtilities;
+import com.sun.webui.theme.Theme;
 
 import java.io.IOException;
 import java.util.Iterator;
 import java.util.List;
 
-import java.beans.Beans;
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
-import javax.faces.context.ResponseWriter;  
-import com.sun.faces.annotation.Renderer;
+import javax.faces.context.ResponseWriter; 
 
-import com.sun.webui.html.HTMLAttributes;
-import com.sun.webui.html.HTMLElements;
-
-import com.sun.webui.theme.Theme;
-import com.sun.webui.jsf.theme.ThemeImages;
-import com.sun.webui.jsf.theme.ThemeStyles;
-import com.sun.webui.jsf.util.LogUtil;
-import com.sun.webui.jsf.util.JavaScriptUtilities;
-import com.sun.webui.jsf.util.RenderingUtilities;
-import com.sun.webui.jsf.util.ThemeUtilities;
-
-import com.sun.webui.jsf.component.Button;
-import com.sun.webui.jsf.component.CommonTasksGroup;
-import com.sun.webui.jsf.component.CommonTasksSection;
-import com.sun.webui.jsf.component.HelpInline;
-import com.sun.webui.jsf.component.Hyperlink;
-import com.sun.webui.jsf.component.Icon;
-import com.sun.webui.jsf.component.ImageComponent;
-import com.sun.webui.jsf.component.ImageHyperlink;
-import com.sun.webui.jsf.component.StaticText;
-
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 /**
  * <p>Renderer for a {@link com.sun.webui.jsf.component.CommonTasksSection} component.</p>
@@ -212,7 +203,7 @@ public class CommonTasksSectionRenderer extends AbstractRenderer {
             buff.append(JavaScriptUtilities.getModule("commonTasksSection"))
                 .append(JavaScriptUtilities.getModuleName(
                     "commonTasksSection.init(")) // NOI18N
-                .append(json.toString(JavaScriptUtilities.INDENT_FACTOR))
+                .append(JSONUtilities.getString(json))
                 .append(");\n"); //NOI18N
 
             // Render JavaScript.

@@ -23,12 +23,27 @@
 
 package com.sun.webui.jsf.renderkit.html;
 
+import com.sun.faces.annotation.Renderer;
 
-import org.json.JSONException;
-import org.json.JSONObject;
+import com.sun.webui.html.HTMLAttributes;
+import com.sun.webui.html.HTMLElements;
+import com.sun.webui.jsf.component.CommonTask;
+import com.sun.webui.jsf.component.CommonTasksGroup;
+import com.sun.webui.jsf.component.CommonTasksSection;
+import com.sun.webui.jsf.component.ImageHyperlink;
+import com.sun.webui.jsf.component.ImageComponent;
+import com.sun.webui.jsf.component.Icon;
+import com.sun.webui.jsf.component.util.Util;
+import com.sun.webui.jsf.util.ConversionUtilities;
+import com.sun.webui.jsf.util.ThemeUtilities;
+import com.sun.webui.jsf.util.JSONUtilities;
+import com.sun.webui.jsf.util.JavaScriptUtilities;
+import com.sun.webui.jsf.util.RenderingUtilities;
+import com.sun.webui.jsf.theme.ThemeImages;
+import com.sun.webui.jsf.theme.ThemeStyles;
+import com.sun.webui.theme.Theme;
 
 import java.io.IOException;
-import java.util.List;
 import java.util.Iterator;
 import java.beans.Beans;
 
@@ -38,30 +53,8 @@ import javax.faces.context.ResponseWriter;
 import javax.faces.component.UIParameter;
 import javax.faces.event.ActionEvent;
 
-import com.sun.faces.annotation.Renderer;
-import com.sun.webui.jsf.component.Form;
-import com.sun.webui.jsf.component.util.Util;
-import com.sun.webui.jsf.util.ConversionUtilities;
-
-import com.sun.webui.jsf.util.ThemeUtilities;
-import com.sun.webui.jsf.util.JavaScriptUtilities;
-import com.sun.webui.jsf.util.RenderingUtilities;
-import com.sun.webui.theme.Theme;
-import com.sun.webui.jsf.theme.ThemeImages;
-import com.sun.webui.jsf.theme.ThemeStyles;
-
-import com.sun.webui.html.HTMLAttributes;
-import com.sun.webui.html.HTMLElements;
-
-import com.sun.webui.jsf.component.CommonTask;
-import com.sun.webui.jsf.component.CommonTasksGroup;
-import com.sun.webui.jsf.component.CommonTasksSection;
-import com.sun.webui.jsf.component.StaticText;
-import com.sun.webui.jsf.component.Hyperlink;
-import com.sun.webui.jsf.component.ImageHyperlink;
-import com.sun.webui.jsf.component.ImageComponent;
-import com.sun.webui.jsf.component.Icon;
-
+import org.json.JSONException;
+import org.json.JSONObject;
 
 /**
  * <p>Renderer for a {@link com.sun.webui.jsf.component.CommonTask} component.</p>
@@ -473,7 +466,7 @@ public class CommonTaskRenderer extends AbstractRenderer {
 
             sb.append(JavaScriptUtilities.getDomNode(context, section))
               .append(".addCommonTask(")
-              .append(json.toString(JavaScriptUtilities.INDENT_FACTOR))
+              .append(JSONUtilities.getString(json))
               .append(");\n"); //NOI18N
             JavaScriptUtilities.renderJavaScript(task, writer, sb.toString());
         }catch(JSONException e) {

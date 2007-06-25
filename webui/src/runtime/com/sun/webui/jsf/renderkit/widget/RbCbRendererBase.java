@@ -25,6 +25,7 @@ package com.sun.webui.jsf.renderkit.widget;
 import com.sun.webui.jsf.component.ComplexComponent;
 import com.sun.webui.jsf.component.RbCbSelector;
 import com.sun.webui.jsf.util.ConversionUtilities;
+import com.sun.webui.jsf.util.JSONUtilities;
 import com.sun.webui.jsf.util.WidgetUtilities;
 
 import java.io.IOException;
@@ -191,11 +192,11 @@ abstract class RbCbRendererBase extends RendererBase {
         json.put("value", value);                       
         
         // Append image properties.
-        WidgetUtilities.addProperties(json, "image",
+        JSONUtilities.addProperties(json, "image",
             WidgetUtilities.renderComponent(context, rbcbSelector.getImageComponent()));
         
         // Append label properties.
-        WidgetUtilities.addProperties(json, "label",
+        JSONUtilities.addProperties(json, "label",
             WidgetUtilities.renderComponent(context, rbcbSelector.getLabelComponent()));
         
         // Add core and attribute properties.

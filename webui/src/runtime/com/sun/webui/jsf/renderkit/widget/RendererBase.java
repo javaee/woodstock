@@ -22,6 +22,7 @@
 package com.sun.webui.jsf.renderkit.widget;
 
 import com.sun.webui.theme.Theme;
+import com.sun.webui.jsf.util.JSONUtilities;
 import com.sun.webui.jsf.util.JavaScriptUtilities;
 import com.sun.webui.jsf.util.ThemeUtilities;
 
@@ -134,8 +135,8 @@ abstract public class RendererBase extends Renderer {
             ResponseWriter writer = context.getResponseWriter();
 
             // Component and child properties are always output together.
-            writer.write(getProperties(context, component).toString(
-                JavaScriptUtilities.INDENT_FACTOR));
+            writer.write(JSONUtilities.getString(
+                getProperties(context, component)));
         } catch (JSONException e) {
             e.printStackTrace();
         }

@@ -31,7 +31,6 @@ import com.sun.webui.jsf.util.RenderingUtilities;
 import com.sun.webui.jsf.util.ThemeUtilities;
 
 import java.io.IOException;
-import java.util.Map;
 
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
@@ -118,18 +117,19 @@ public class HeadRenderer extends AbstractRenderer {
             Theme theme = ThemeUtilities.getTheme(context);
             RenderingUtilities.renderStyleSheetLink(head, theme, context, writer);
 
+            // Get global flags.
+            JavaScriptUtilities.setDebug(head.isDebug());
+            JavaScriptUtilities.setAjaxify(head.isAjaxify());
+            JavaScriptUtilities.setParseWidgets(head.isParseWidgets());
+
             // Do not render any JavaScript.
             if (!head.isJavaScript()) {
                 return;
             }
 
-            // Get debug flag.
-            Map map = context.getExternalContext().getRequestParameterMap();
-            boolean isDebug = head.isDebug() || map.containsKey("debug");
-
             // Render Dojo config.
             JavaScriptUtilities.renderJavaScript(component, writer,
-                JavaScriptUtilities.getDojoConfig(isDebug, head.isParseWidgets()));
+                JavaScriptUtilities.getDojoConfig());
 
             // Render Dojo include.
             JavaScriptUtilities.renderDojoInclude(component, writer);
@@ -145,7 +145,7 @@ public class HeadRenderer extends AbstractRenderer {
         
             // Render module config after including dojo.
             JavaScriptUtilities.renderJavaScript(component, writer,
-                JavaScriptUtilities.getModuleConfig(isDebug, head.isAjaxify()));
+                JavaScriptUtilities.getModuleConfig());
 
             // Render global include.
             JavaScriptUtilities.renderGlobalInclude(component, writer);

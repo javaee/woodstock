@@ -23,6 +23,18 @@
 package com.sun.webui.jsf.renderkit.html;
 
 import com.sun.faces.annotation.Renderer;
+import com.sun.webui.jsf.component.Icon;
+import com.sun.webui.jsf.component.Wizard;
+import com.sun.webui.jsf.component.WizardStep;
+import com.sun.webui.jsf.model.WizardStepListItem;
+import com.sun.webui.jsf.theme.ThemeStyles;
+import com.sun.webui.jsf.theme.ThemeImages;
+import com.sun.webui.jsf.util.JSONUtilities;
+import com.sun.webui.jsf.util.JavaScriptUtilities;
+import com.sun.webui.jsf.util.RenderingUtilities;
+import com.sun.webui.jsf.util.ThemeUtilities;
+import com.sun.webui.theme.Theme;
+
 import java.io.IOException;
 import java.util.Iterator;
 import java.text.MessageFormat;
@@ -30,21 +42,6 @@ import java.text.MessageFormat;
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.context.ResponseWriter;
-
-import com.sun.webui.jsf.component.util.Util;
-import com.sun.webui.jsf.component.Icon;
-import com.sun.webui.jsf.component.Wizard;
-import com.sun.webui.jsf.component.WizardStep;
-
-import com.sun.webui.jsf.model.WizardStepListItem;
-
-import com.sun.webui.theme.Theme;
-import com.sun.webui.jsf.theme.ThemeStyles;
-import com.sun.webui.jsf.theme.ThemeImages;
-
-import com.sun.webui.jsf.util.JavaScriptUtilities;
-import com.sun.webui.jsf.util.RenderingUtilities;
-import com.sun.webui.jsf.util.ThemeUtilities;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -427,7 +424,7 @@ public class WizardRenderer extends AbstractRenderer {
                 .append("\n") // NOI18N
                 .append(JavaScriptUtilities.getModuleName("wizard.init")) // NOI18N
                 .append("(") //NOI18N
-                .append(json.toString(JavaScriptUtilities.INDENT_FACTOR))
+                .append(JSONUtilities.getString(json))
                 .append(");"); //NOI18N
 
             // Render JavaScript to close wizard after init function is called.

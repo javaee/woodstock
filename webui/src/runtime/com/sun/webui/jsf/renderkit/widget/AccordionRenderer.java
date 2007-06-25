@@ -25,6 +25,7 @@ package com.sun.webui.jsf.renderkit.widget;
 import com.sun.faces.annotation.Renderer;
 
 import com.sun.webui.jsf.component.Accordion;
+import com.sun.webui.jsf.util.JSONUtilities;
 import com.sun.webui.jsf.util.WidgetUtilities;
 import com.sun.webui.theme.Theme;
 import com.sun.webui.jsf.theme.ThemeTemplates;
@@ -96,7 +97,7 @@ public class AccordionRenderer extends RendererBase {
                 : theme.getPathToTemplate(ThemeTemplates.ACCORDION));
             
         if (container.isRefreshButton()) {
-            WidgetUtilities.addProperties(json, "refreshImage",
+            JSONUtilities.addProperties(json, "refreshImage",
                 WidgetUtilities.renderComponent(context,
                 container.getRefreshIcon(theme, context)));
         }
@@ -107,11 +108,11 @@ public class AccordionRenderer extends RendererBase {
             if (container.isToggleControls() && container.isMultipleSelect()) {
                 
                 // Append expand/collapse image properties.
-                WidgetUtilities.addProperties(json, "expandAllImage",
+                JSONUtilities.addProperties(json, "expandAllImage",
                     WidgetUtilities.renderComponent(context,
                     container.getExpandAllIcon(theme, context)));
                 
-                WidgetUtilities.addProperties(json, "collapseAllImage",
+                JSONUtilities.addProperties(json, "collapseAllImage",
                     WidgetUtilities.renderComponent(context,
                     container.getCollapseAllIcon(theme, context)));
                 
@@ -154,7 +155,7 @@ public class AccordionRenderer extends RendererBase {
         json.put("accordionTabs", jArray);
 
         for (UIComponent kid : component.getChildren()) {
-            WidgetUtilities.addProperties(jArray,
+            JSONUtilities.addProperties(jArray,
                 WidgetUtilities.renderComponent(context, kid));
         }
     }

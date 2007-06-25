@@ -29,6 +29,7 @@ import com.sun.webui.jsf.component.TextField;
 import com.sun.webui.jsf.component.Field;
 import com.sun.webui.jsf.theme.ThemeImages;
 import com.sun.webui.jsf.theme.ThemeTemplates;
+import com.sun.webui.jsf.util.JSONUtilities;
 import com.sun.webui.jsf.util.JavaScriptUtilities;
 import com.sun.webui.jsf.util.ThemeUtilities;
 import com.sun.webui.jsf.util.WidgetUtilities;
@@ -157,7 +158,7 @@ public class CalendarRenderer extends RendererBase {
                 : theme.getPathToTemplate(ThemeTemplates.CALENDAR));
         
         // Append label properties.
-        WidgetUtilities.addProperties(json, "label",
+        JSONUtilities.addProperties(json, "label",
             WidgetUtilities.renderComponent(context, calendar.getLabelComponent(context, null)));
      
         // Append text field properties.
@@ -168,7 +169,7 @@ public class CalendarRenderer extends RendererBase {
         ImageHyperlink link = calendar.getDatePickerLink(context);        
         link.setIcon(ThemeImages.CALENDAR_BUTTON);	
         link.setToolTip(theme.getMessage("calendar.popupImageAlt"));
-        WidgetUtilities.addProperties(json, "link",
+        JSONUtilities.addProperties(json, "link",
                 WidgetUtilities.renderComponent(context, link));
         
         // Append date picker properties.        
@@ -187,7 +188,7 @@ public class CalendarRenderer extends RendererBase {
         }                  
         calendarMonth.initCalendarControls(calendar.getJavaScriptObjectName(context));
         
-        WidgetUtilities.addProperties(json, "calendarMonth", 
+        JSONUtilities.addProperties(json, "calendarMonth", 
             WidgetUtilities.renderComponent(context, calendarMonth));        
         
         // Add core and attribute properties.
@@ -225,7 +226,7 @@ public class CalendarRenderer extends RendererBase {
             Calendar calendar) throws IOException, JSONException {
         TextField textField = getTextField(calendar);
         populateTextField(textField, context, calendar);        
-        WidgetUtilities.addProperties(json, "field",
+        JSONUtilities.addProperties(json, "field",
             WidgetUtilities.renderComponent(context, textField));
     }
     

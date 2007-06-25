@@ -21,16 +21,12 @@
  */
 package com.sun.webui.jsf.util;
 
+import com.sun.faces.extensions.avatar.components.ScriptsComponent;
 import com.sun.webui.theme.Theme;
-import com.sun.webui.jsf.component.ProgressBar;
-import com.sun.webui.jsf.theme.ThemeImages;
 import com.sun.webui.jsf.theme.ThemeJavascript;
-import com.sun.webui.jsf.theme.ThemeStyles;
-import com.sun.webui.jsf.theme.ThemeTemplates;
 
 import java.io.IOException;
 import java.util.Map;
-import java.util.HashMap;
 
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
@@ -39,15 +35,81 @@ import javax.faces.context.ResponseWriter;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import com.sun.faces.extensions.avatar.components.ScriptsComponent;
-
 /**
  * This class provides common methods for rendering JavaScript includes, default
  * properties, etc.
  */
 public class JavaScriptUtilities {
-    // The number of spaces to add to each level of indentation.
-    public static final int INDENT_FACTOR = 4;
+    // The key used to enable default Ajax implementation.
+    private static final String AJAXIFY_KEY = "com_sun_webui_jsf_util_ajaxify";
+
+    // The key used to enable JavaScript debugging.
+    private static final String DEBUG_KEY = "com_sun_webui_jsf_util_debug";
+
+    // parseWidgets Enable searching of dojoType widget tags.
+    private static final String PARSEWIDGETS_KEY = "com_sun_webui_jsf_util_parseWidgets";
+
+    // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    // Global methods
+    // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+    /**
+     * Test flag to enable default Ajax implementation.
+     * 
+     * @return true if enabled.
+     */
+    public static boolean isAjaxify() {
+        return getRequestMap().containsKey(AJAXIFY_KEY) ;
+    }
+
+    /**
+     * Set flag to enable default Ajax implementation.
+     *
+     * @param enable Enable default Ajax implementation.
+     */
+    public static void setAjaxify(boolean enable) {
+        getRequestMap().put(AJAXIFY_KEY, (enable) ? Boolean.TRUE : null);
+    }
+
+    /**
+     * Test flag to enable JavaScript debugging.
+     * 
+     * @return true if enabled.
+     */
+    public static boolean isDebug() {
+        // Debugging is typically enabled via the head or themeLinks tags.
+        // However, "debug" may also be appended URLs as a query param. This
+        // allows quick testing when the JSP page cannot be edited directly.
+        return (getRequestMap().containsKey(DEBUG_KEY) 
+            || getRequestParameterMap().containsKey("debug"));
+    }
+
+    /**
+     * Set flag to enable JavaScript debugging.
+     *
+     * @param enable Enable JavaScript debugging.
+     */
+    public static void setDebug(boolean enable) {
+        getRequestMap().put(DEBUG_KEY, (enable) ? Boolean.TRUE : null);
+    }
+
+    /**
+     * Test flag to enable searching of dojoType widget tags.
+     * 
+     * @return true if enabled.
+     */
+    public static boolean isParseWidgets() {
+        return getRequestMap().containsKey(PARSEWIDGETS_KEY);
+    }
+
+    /**
+     * Set flag to enable searching of dojoType widget tags.
+     *
+     * @param enable Enable searching of dojoType widget tags.
+     */
+    public static void setParseWidgets(boolean enable) {
+        getRequestMap().put(PARSEWIDGETS_KEY, (enable) ? Boolean.TRUE : null);
+    }
 
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     // JavaScript config methods
@@ -57,23 +119,19 @@ public class JavaScriptUtilities {
      * Get JavaScript used to configure Dojo.
      *
      * Note: Must be rendered before including dojo.js in page.
-     *
-     * @param debug Enable JavaScript debugging.
-     * @param parseWidgets Enable searching of dojoType widget tags.
      */
-    public static String getDojoConfig(boolean debug, boolean parseWidgets) {
-        Theme theme = getTheme();
+    public static String getDojoConfig() {
         StringBuffer buff = new StringBuffer(256);
 
         try {
             JSONObject json = new JSONObject();
-            json.put("isDebug", debug)
-                .put("debugAtAllCosts", debug)
-                .put("parseWidgets", parseWidgets);
+            json.put("isDebug", isDebug())
+                .put("debugAtAllCosts", isDebug())
+                .put("parseWidgets", isParseWidgets());
 
             // Append djConfig properties.
             buff.append("var djConfig = ")
-                .append(json.toString(INDENT_FACTOR))
+                .append(JSONUtilities.getString(json))
                 .append(";\n");
         } catch (JSONException e) {
             e.printStackTrace();
@@ -86,20 +144,16 @@ public class JavaScriptUtilities {
      *
      * Note: Must be rendered before including widget.js in page, but after
      * formElements.js.
-     *
-     * @param debug Flag indicating debugging is turned on.
-     * @param ajaxify Flag indicating to include default Ajax implementation.
      */
-    public static String getModuleConfig(boolean debug, boolean ajaxify) {
-        Theme theme = getTheme();
+    public static String getModuleConfig() {
         StringBuffer buff = new StringBuffer(256);
 
         // Append JavaScript.
         buff.append("dojo.hostenv.setModulePrefix(\"")
             .append(getTheme().getJSString(ThemeJavascript.MODULE_PREFIX))
             .append("\", \"")
-            .append(theme.getPathToJSFile((debug)
-                ? ThemeJavascript.UNCOMPRESSED_MODULE_PATH
+            .append(getTheme().getPathToJSFile((isDebug())
+                ? ThemeJavascript.MODULE_PATH_UNCOMPRESSED
                 : ThemeJavascript.MODULE_PATH))
             .append("\");\n")
             .append(getModule("*"))
@@ -108,14 +162,14 @@ public class JavaScriptUtilities {
             .append("\n");
 
         // Include default Ajax implementation.
-        if (ajaxify) {
+        if (isAjaxify()) {
             buff.append(getModule("widget.jsfx.*"))
             .append("\n");
         }
 
         // Output includes for debugging. This will ensure that JavaScript
         // files are accessible to JavaScript debuggers.
-        if (debug) {
+        if (isDebug()) {
             buff.append("dojo.hostenv.writeIncludes();")
                 .append("\n");
         }
@@ -136,7 +190,9 @@ public class JavaScriptUtilities {
      */
     public static void renderDojoInclude(UIComponent component,
             ResponseWriter writer) throws IOException {
-        renderJavaScriptInclude(component, writer, ThemeJavascript.DOJO);
+        renderJavaScriptInclude(component, writer, (isDebug())
+            ? ThemeJavascript.DOJO_UNCOMPRESSED
+            : ThemeJavascript.DOJO);
     }
 
     /**
@@ -174,7 +230,7 @@ public class JavaScriptUtilities {
      */
     public static void renderJsfxInclude(UIComponent component,
             ResponseWriter writer) throws IOException {
-        Map requestMap = FacesContext.getCurrentInstance().getExternalContext().getRequestMap();
+        Map requestMap = getRequestMap();
         if (!requestMap.containsKey(ScriptsComponent.AJAX_JS_LINKED)) {
             renderJavaScriptInclude(component, writer, ThemeJavascript.JSFX);
             requestMap.put(ScriptsComponent.AJAX_JS_LINKED, Boolean.TRUE);
@@ -204,10 +260,10 @@ public class JavaScriptUtilities {
      */
     public static void renderPrototypeInclude(UIComponent component,
             ResponseWriter writer) throws IOException {
-        Map requestMap = FacesContext.getCurrentInstance().getExternalContext().getRequestMap();
-        if (!requestMap.containsKey(ScriptsComponent.PROTOTYPE_JS_LINKED)) {
+        Map map = getRequestMap();
+        if (!map.containsKey(ScriptsComponent.PROTOTYPE_JS_LINKED)) {
             renderJavaScriptInclude(component, writer, ThemeJavascript.PROTOTYPE);
-            requestMap.put(ScriptsComponent.PROTOTYPE_JS_LINKED, Boolean.TRUE);
+            map.put(ScriptsComponent.PROTOTYPE_JS_LINKED, Boolean.TRUE);
         }
     }
 
@@ -241,23 +297,6 @@ public class JavaScriptUtilities {
         return buff.toString();
     }
 
-    /**
-     * Returns JavaScript to obtain the widget associated with the 
-     * component. Providing a component, with a client id of "form1:btn1",
-     * will return "dojo.widget.byId('form1:btn1');".
-     *       
-     * @param context The current FacesContext.
-     * @param component The current component being rendered.
-     */ 
-    public static String getWidget(FacesContext context,
-            UIComponent component) {
-        StringBuffer buff = new StringBuffer(128);
-        buff.append("dojo.widget.byId('")
-            .append(component.getClientId(context))
-            .append("')");
-        return buff.toString();        
-    }  
-    
     /**
      * Returns JavaScript used to require a Dojo module. For example, a value of
      * For example, a value of "widget.*" will return
@@ -305,6 +344,23 @@ public class JavaScriptUtilities {
     }
 
     /**
+     * Returns JavaScript to obtain the widget associated with the 
+     * component. Providing a component, with a client id of "form1:btn1",
+     * will return "dojo.widget.byId('form1:btn1');".
+     *       
+     * @param context The current FacesContext.
+     * @param component The current component being rendered.
+     */ 
+    public static String getWidget(FacesContext context,
+            UIComponent component) {
+        StringBuffer buff = new StringBuffer(128);
+        buff.append("dojo.widget.byId('")
+            .append(component.getClientId(context))
+            .append("')");
+        return buff.toString();        
+    }
+
+    /**
      * Render JavaScript in the page, including enclosing script tags.
      *
      * @param component UIComponent to be rendered.
@@ -333,6 +389,18 @@ public class JavaScriptUtilities {
     // Helper method to get Theme objects.
     private static Theme getTheme() {
         return ThemeUtilities.getTheme(FacesContext.getCurrentInstance());
+    }
+
+    // Helper method to get request map.
+    private static Map getRequestMap() {
+        return FacesContext.getCurrentInstance().getExternalContext().
+            getRequestMap();
+    }
+
+    // Helper method to get request parameter map.
+    private static Map getRequestParameterMap() {
+        return FacesContext.getCurrentInstance().getExternalContext().
+            getRequestParameterMap();
     }
 
     /**
@@ -364,7 +432,6 @@ public class JavaScriptUtilities {
 	if (jsFile == null) {
 	    return;
 	}
-
         writer.startElement("script", component);
         writer.writeAttribute("type", "text/javascript", null);
         writer.writeURIAttribute("src", jsFile, null);

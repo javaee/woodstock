@@ -20,34 +20,26 @@
  * Copyright 2007 Sun Microsystems, Inc. All rights reserved.
  */
 
- /*
-  * $Id: AddRemoveRenderer.java,v 1.1 2007-02-16 01:35:17 bob_yennaco Exp $
-  */
-
 package com.sun.webui.jsf.renderkit.html;
 
 import com.sun.faces.annotation.Renderer;
+import com.sun.webui.html.HTMLAttributes;
+import com.sun.webui.html.HTMLElements;
 import com.sun.webui.jsf.component.ComplexComponent;
-import java.io.IOException;
-import java.util.Iterator;
-import java.util.Map;
-import javax.faces.FacesException;
-import javax.faces.component.NamingContainer;
-import javax.faces.component.UIComponent;
-import javax.faces.context.FacesContext;
-import javax.faces.context.ResponseWriter;
 import com.sun.webui.jsf.component.AddRemove;
-import com.sun.webui.jsf.component.Label;
 import com.sun.webui.jsf.component.ListSelector;
-import com.sun.webui.jsf.component.StaticText;
-import com.sun.webui.theme.Theme;
 import com.sun.webui.jsf.theme.ThemeStyles;
+import com.sun.webui.jsf.util.JSONUtilities;
 import com.sun.webui.jsf.util.JavaScriptUtilities;
 import com.sun.webui.jsf.util.RenderingUtilities;
 import com.sun.webui.jsf.util.ThemeUtilities;
+import com.sun.webui.theme.Theme;
 
-import com.sun.webui.html.HTMLAttributes;
-import com.sun.webui.html.HTMLElements;
+import java.io.IOException;
+import javax.faces.FacesException;
+import javax.faces.component.UIComponent;
+import javax.faces.context.FacesContext;
+import javax.faces.context.ResponseWriter;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -170,7 +162,7 @@ public class AddRemoveRenderer extends ListRendererBase {
                 .append("\n") // NOI18N
                 .append(JavaScriptUtilities.getModuleName("addRemove.init")) // NOI18N
                 .append("(") //NOI18N
-                .append(json.toString(JavaScriptUtilities.INDENT_FACTOR))
+                .append(JSONUtilities.getString(json))
                 .append(");\n") //NOI18N
                 .append(jsObject)
                 .append(AddRemove.UPDATEBUTTONS_FUNCTION);

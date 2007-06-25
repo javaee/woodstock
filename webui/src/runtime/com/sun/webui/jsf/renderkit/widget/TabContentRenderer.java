@@ -27,6 +27,7 @@ import com.sun.faces.annotation.Renderer;
 import com.sun.webui.jsf.component.TabContent;
 import com.sun.webui.jsf.util.WidgetUtilities;
 import com.sun.webui.jsf.theme.ThemeTemplates;
+import com.sun.webui.jsf.util.JSONUtilities;
 import com.sun.webui.jsf.util.JavaScriptUtilities;
 import com.sun.webui.jsf.util.ThemeUtilities;
 
@@ -118,7 +119,7 @@ public class TabContentRenderer extends RendererBase {
     
         if (component.getTabChildCount() == 0) {
             for (UIComponent kid : component.getChildren()) {
-                WidgetUtilities.addProperties(content,
+                JSONUtilities.addProperties(content,
                     WidgetUtilities.renderComponent(context, kid));
             } 
         } else {

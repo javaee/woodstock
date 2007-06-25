@@ -35,6 +35,11 @@ public class ThemeJavascript {
     public static final String DOJO = "dojo";
 
     /**
+     * A Javascript file that contains uncompressed Dojo functions.
+     */
+    public static final String DOJO_UNCOMPRESSED = "dojoUncompressed";
+
+    /**
      * A properties file key whose value is a space separated list of
      * keys identifying javascript files that are included in every page.
      */
@@ -56,6 +61,11 @@ public class ThemeJavascript {
     public static final String MODULE_PATH = "modulePath";
 
     /**
+     * The path to uncompressed module resources.
+     */
+    public static final String MODULE_PATH_UNCOMPRESSED = "modulePathUncompressed";
+
+    /**
      * The module to prefix to all resources.
      */
     public static final String MODULE_PREFIX = "modulePrefix";
@@ -64,11 +74,6 @@ public class ThemeJavascript {
      * A Javascript file that contains Prototype functions.
      */
     public static final String PROTOTYPE = "prototype";
-
-    /**
-     * The path to compressed module resources.
-     */
-    public static final String UNCOMPRESSED_MODULE_PATH = "uncompressedModulePath";
 
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     // Deprecations

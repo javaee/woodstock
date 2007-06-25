@@ -23,31 +23,18 @@
 package com.sun.webui.jsf.renderkit.widget;
 
 import com.sun.faces.annotation.Renderer;
-import com.sun.webui.jsf.component.ComplexComponent;
-import com.sun.webui.jsf.component.Field;
 import com.sun.webui.jsf.component.PasswordField;
-import com.sun.webui.jsf.theme.ThemeStyles;
 import com.sun.webui.jsf.util.WidgetUtilities;
 import com.sun.webui.theme.Theme;
 import com.sun.webui.jsf.theme.ThemeTemplates;
 import com.sun.webui.jsf.util.ConversionUtilities;
+import com.sun.webui.jsf.util.JSONUtilities;
 import com.sun.webui.jsf.util.JavaScriptUtilities;
-import com.sun.webui.jsf.util.LogUtil;
-import com.sun.webui.jsf.util.RenderingUtilities;
 import com.sun.webui.jsf.util.ThemeUtilities;
 
 import java.io.IOException;
-import java.text.MessageFormat;
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
-import java.util.StringTokenizer;
 
-import javax.faces.component.EditableValueHolder;
-import javax.faces.component.NamingContainer;
 import javax.faces.component.UIComponent;
-import javax.faces.component.UIParameter;
 import javax.faces.context.FacesContext;
 
 import org.json.JSONArray;
@@ -138,7 +125,7 @@ public class PasswordFieldRenderer extends FieldRendererBase {
         ;
         
         // Append label properties.
-        WidgetUtilities.addProperties(json, "label",
+        JSONUtilities.addProperties(json, "label",
             WidgetUtilities.renderComponent(context, field.getLabelComponent(
                 context, null)));
         

@@ -21,10 +21,9 @@
  */
 package com.sun.webui.jsf.util;
 
-import com.sun.webui.jsf.component.Alarm;
-import com.sun.webui.jsf.component.ImageComponent;
 import com.sun.webui.jsf.model.Indicator;
 import com.sun.webui.jsf.theme.ThemeImages;
+import com.sun.webui.jsf.util.JSONUtilities;
 import com.sun.webui.theme.Theme;
 
 import java.io.IOException;
@@ -45,47 +44,66 @@ import org.json.JSONObject;
  * This class provides common methods for widget renderers.
  */
 public class WidgetUtilities {
-    // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    // JSON methods
-    // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
     /**
-     * Helper method to add component properties.
+     * Helper method to return a <code>JSONArray</code> of 
+     * <code>Indicators</code>. If <code>ignoreType</code> matches
+     * an indicator's type, that indicator is not returned in the array.
+     * Each <code>UIComponent</code> returned by
+     * <code>Indicator.getImageComponent</code> has its parent set to 
+     * <code>parent</code> and its id set to the indicator's type, only
+     * component's parent or id are null.
+     * 
+     * @param context FacesContext for the current request.
+     * @param iterator<Indicators> for the indicators.
+     * @param ignoreType do not return an indicator if it matches this type.
+     * @param theme used to obtain an indicator's image component.
+     * @param parent for the indicator image components.
      *
-     * @param json The JSONArray to append value to.
-     * @param value A string containing JSON or HTML text.
+     * @returns JSONArray of Indicators.
      */
-    public static void addProperties(JSONArray json, String value) 
-            throws JSONException {
-        if (value != null) {
-            try {
-                // If JSON text is given, append a new JSONObject.
-                json.put(new JSONObject(value));
-            } catch (JSONException e) {
-                // Append HTML string.
-                json.put(value);
-            }
+    public static JSONArray getIndicators(FacesContext context, 
+	    Iterator<Indicator> indicators, String ignoreType, Theme theme,
+	    UIComponent parent) throws IOException, JSONException {
+        if (indicators == null) {
+            return null;
         }
-    }
+	
+        JSONArray indicatorArray = new JSONArray();      
+        while (indicators.hasNext()) {
 
-    /**
-     * Helper method to add component properties.
-     *
-     * @param json The JSONObject to append value to.
-     * @param key A key string.
-     * @param value A string containing JSON or HTML text.
-     */
-    public static void addProperties(JSONObject json, String key,
-            String value) throws JSONException {
-        if (value != null) {
-            try {
-                // If JSON text is given, append a new JSONObject.
-                json.put(key, new JSONObject(value));
-            } catch (JSONException e) {
-                // Append HTML string.
-                json.put(key, value);
+            Indicator indicator = (Indicator)indicators.next();                 
+            String type = (String) indicator.getType();
+
+            // Don't do anything if we don't have to.
+            //
+            if (type.equals(ignoreType)) {
+                    continue;
             }
-        }
+
+	    UIComponent img = indicator.getImageComponent(theme);
+            JSONObject indjson = new JSONObject();
+            if (img == null) {
+		// Why are we doing this ?
+		// Since the image may be theme based it is not a good idea
+		// to throw exception at runtime. Using "dot" image to handle
+		// this situation.
+                img = (UIComponent)ThemeUtilities.getIcon(theme, 
+			ThemeImages.DOT); 
+            }
+	    //set the id
+	    if (img.getId() == null) {
+		img.setId(type);
+	    }
+	    //set the parent
+	    if (img.getParent() == null) {
+		img.setParent(parent);
+	    }
+	    indjson.put("type", type);
+	    JSONUtilities.addProperties(indjson, "image",
+                WidgetUtilities.renderComponent(context, img));
+	    indicatorArray.put(indjson);
+	}
+	return indicatorArray;
     }
 
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -193,75 +211,5 @@ public class WidgetUtilities {
         // Set new writer in context.
         context.setResponseWriter(newWriter);
         return strWriter;
-    } 
-    
-    
-    /**
-     * Helper method to return a <code>JSONArray</code> of 
-     * <code>Indicators</code>. If <code>ignoreType</code> matches
-     * an indicator's type, that indicator is not returned in the array.
-     * Each <code>UIComponent</code> returned by
-     * <code>Indicator.getImageComponent</code> has its parent set to 
-     * <code>parent</code> and its id set to the indicator's type, only
-     * component's parent or id are null.
-     * 
-     * @param context FacesContext for the current request.
-     * @param iterator<Indicators> for the indicators.
-     * @param ignoreType do not return an indicator if it matches this type.
-     * @param theme used to obtain an indicator's image component.
-     * @param parent for the indicator image components.
-     *
-     * @returns JSONArray of Indicators.
-     */
-    public static JSONArray getIndicators(FacesContext context, 
-	    Iterator<Indicator> indicators, String ignoreType, Theme theme,
-	    UIComponent parent) throws IOException, JSONException {
-
-
-        if (indicators == null) {
-            return null;
-        }
-	
-        JSONArray indicatorArray = new JSONArray();      
-        while (indicators.hasNext()) {
-
-            Indicator indicator = (Indicator)indicators.next();                 
-            String type = (String) indicator.getType();
-
-            // Don't do anything if we don't have to.
-            //
-            if (type.equals(ignoreType)) {
-                    continue;
-            }
-
-	    UIComponent img = indicator.getImageComponent(theme);
-            JSONObject indjson = new JSONObject();
-            if (img == null) {
-		// Why are we doing this ?
-		// Since the image may be theme based it is not a good idea
-		// to throw exception at runtime. Using "dot" image to handle
-		// this situation.
-                img = (UIComponent)ThemeUtilities.getIcon(theme, 
-			ThemeImages.DOT); 
-            }
-	    //set the id
-	    if (img.getId() == null) {
-		img.setId(type);
-	    }
-	    //set the parent
-	    if (img.getParent() == null) {
-		img.setParent(parent);
-	    }
-	    indjson.put("type", type);
-	    WidgetUtilities.addProperties(indjson, "image",
-                       WidgetUtilities.renderComponent(context, img));
-	    indicatorArray.put(indjson);
-	}
-	return indicatorArray;
-    } 
-
-    // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    // Private methods
-    // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    }
 }
-

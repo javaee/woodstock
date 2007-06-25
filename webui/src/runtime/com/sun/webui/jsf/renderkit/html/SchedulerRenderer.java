@@ -20,51 +20,30 @@
  * Copyright 2007 Sun Microsystems, Inc. All rights reserved.
  */
 
-/*
- * SchedulerRenderer.java
- *
- * Created on February 9, 2005, 3:44 PM
- */
-
 package com.sun.webui.jsf.renderkit.html;
 
 import com.sun.faces.annotation.Renderer;
-import java.util.Calendar;
-import java.util.Map;
+import com.sun.webui.jsf.component.DropDown;
+import com.sun.webui.jsf.component.Icon;
+import com.sun.webui.jsf.component.Scheduler;
+import com.sun.webui.jsf.component.Time;
+import com.sun.webui.jsf.theme.ThemeImages;
+import com.sun.webui.jsf.theme.ThemeStyles;
+import com.sun.webui.jsf.util.MessageUtil;
+import com.sun.webui.jsf.util.JSONUtilities;
+import com.sun.webui.jsf.util.JavaScriptUtilities;
+import com.sun.webui.jsf.util.RenderingUtilities;
+import com.sun.webui.jsf.util.ThemeUtilities;
+import com.sun.webui.theme.Theme;
+
 import java.util.MissingResourceException;
-import java.util.Date;
-import java.util.Iterator;
-import java.util.TimeZone;
 import java.io.IOException;
-import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 
 import javax.faces.FacesException;
 import javax.faces.context.FacesContext;
 import javax.faces.context.ResponseWriter;
-import javax.faces.component.EditableValueHolder;
 import javax.faces.component.UIComponent;
-
-import com.sun.webui.jsf.component.CalendarMonth;
-import com.sun.webui.jsf.component.DropDown;
-import com.sun.webui.jsf.component.Icon;
-import com.sun.webui.jsf.component.Label;
-import com.sun.webui.jsf.component.Button;
-import com.sun.webui.jsf.component.Scheduler;
-import com.sun.webui.jsf.component.Time;
-import com.sun.webui.jsf.model.ClockTime;
-import com.sun.webui.jsf.model.Option;
-import com.sun.webui.jsf.model.ScheduledEvent;
-import com.sun.webui.jsf.model.scheduler.RepeatInterval;
-import com.sun.webui.jsf.model.scheduler.RepeatUnit;
-import com.sun.webui.theme.Theme;
-import com.sun.webui.jsf.theme.ThemeImages;
-import com.sun.webui.jsf.theme.ThemeStyles;
-import com.sun.webui.jsf.util.ConversionUtilities;
-import com.sun.webui.jsf.util.MessageUtil;
-import com.sun.webui.jsf.util.JavaScriptUtilities;
-import com.sun.webui.jsf.util.RenderingUtilities;
-import com.sun.webui.jsf.util.ThemeUtilities;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -668,7 +647,7 @@ public class SchedulerRenderer extends javax.faces.render.Renderer {
                 .append("\n") // NOI18N
                 .append(JavaScriptUtilities.getModuleName("scheduler.init")) // NOI18N
                 .append("(") //NOI18N
-                .append(json.toString(JavaScriptUtilities.INDENT_FACTOR))
+                .append(JSONUtilities.getString(json))
                 .append(");"); //NOI18N
             
             // Render JavaScript.

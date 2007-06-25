@@ -19,15 +19,15 @@
  * 
  * Copyright 2007 Sun Microsystems, Inc. All rights reserved.
  */
- 
 
 package com.sun.webui.jsf.renderkit.html;
+
 import com.sun.faces.annotation.Renderer;
 import com.sun.webui.jsf.component.Button;
-import com.sun.webui.jsf.component.Icon;
 import com.sun.webui.theme.Theme;
 import com.sun.webui.jsf.theme.ThemeStyles;
 import com.sun.webui.jsf.util.ConversionUtilities;
+import com.sun.webui.jsf.util.JSONUtilities;
 import com.sun.webui.jsf.util.JavaScriptUtilities;
 import com.sun.webui.jsf.util.RenderingUtilities;
 import com.sun.webui.jsf.util.ThemeUtilities; 
@@ -44,7 +44,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 /**
- * <p>Renderer for a {@link Button} component.</p>
+ * <p>Renderer for a {@link com.sun.webui.jsf.component.Button} component.</p>
  */
 @Renderer(@Renderer.Renders(componentFamily="com.sun.webui.jsf.Button"))
 public class ButtonRenderer extends AbstractRenderer {   
@@ -250,7 +250,7 @@ public class ButtonRenderer extends AbstractRenderer {
             // Append JavaScript.
             buff.append(JavaScriptUtilities.getModuleName("button.init"))
                 .append("(")
-                .append(json.toString(JavaScriptUtilities.INDENT_FACTOR))
+                .append(JSONUtilities.getString(json))
                 .append(");");
 
             // Render JavaScript.

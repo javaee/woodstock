@@ -22,6 +22,14 @@
 
 package com.sun.webui.jsf.renderkit.widget;
 
+import com.sun.webui.jsf.theme.ThemeTemplates;
+import com.sun.webui.jsf.util.ConversionUtilities;
+import com.sun.webui.jsf.util.JSONUtilities;
+import com.sun.webui.jsf.util.JavaScriptUtilities;
+import com.sun.webui.jsf.util.WidgetUtilities;
+import com.sun.webui.jsf.util.ThemeUtilities;
+import com.sun.webui.theme.Theme;
+
 import java.io.IOException;
 import java.util.Iterator;
 import java.util.Map;
@@ -33,14 +41,6 @@ import javax.faces.context.FacesContext;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-
-import com.sun.webui.theme.Theme;
-import com.sun.webui.jsf.theme.ThemeTemplates;
-
-import com.sun.webui.jsf.util.ConversionUtilities;
-import com.sun.webui.jsf.util.JavaScriptUtilities;
-import com.sun.webui.jsf.util.WidgetUtilities;
-import com.sun.webui.jsf.util.ThemeUtilities;
 
 /**
  * This class is used as a base class for renderers that render an html
@@ -212,12 +212,12 @@ public abstract class AnchorRendererBase extends RendererBase{
         if (text != null && text.length() > 0) {
             text = ConversionUtilities.convertValueToString(component, text);
         }
-        WidgetUtilities.addProperties(children, text);
+        JSONUtilities.addProperties(children, text);
         Iterator it = component.getChildren().iterator();
         while (it.hasNext()) {
             UIComponent child = (UIComponent) it.next();
             if (!(child instanceof UIParameter)) {
-                WidgetUtilities.addProperties(children,
+                JSONUtilities.addProperties(children,
                     WidgetUtilities.renderComponent(context, child));   
             }
         }    

@@ -27,6 +27,7 @@ import com.sun.faces.annotation.Renderer;
 import com.sun.data.provider.RowKey;
 import com.sun.webui.jsf.component.Table2Column;
 import com.sun.webui.jsf.component.Table2RowGroup;
+import com.sun.webui.jsf.util.JSONUtilities;
 import com.sun.webui.jsf.util.WidgetUtilities;
 import com.sun.webui.theme.Theme;
 import com.sun.webui.jsf.theme.ThemeTemplates;
@@ -160,7 +161,7 @@ public class Table2RowGroupRenderer extends RendererBase {
         while (kids.hasNext()) {
             Table2Column col = (Table2Column) kids.next();
             if (col.isRendered()) {
-                WidgetUtilities.addProperties(jArray,
+                JSONUtilities.addProperties(jArray,
                     WidgetUtilities.renderComponent(context, col));
             }
         }
@@ -238,7 +239,7 @@ public class Table2RowGroupRenderer extends RendererBase {
                     // Render Table2Column children.
                     Iterator grandKids = col.getChildren().iterator();
                     while (grandKids.hasNext()) {
-                        WidgetUtilities.addProperties(cols,
+                        JSONUtilities.addProperties(cols,
                             WidgetUtilities.renderComponent(context, (UIComponent) 
                                 grandKids.next()));
                     }

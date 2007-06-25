@@ -28,6 +28,7 @@ import com.sun.webui.jsf.component.Selector;
 import com.sun.webui.jsf.model.Option;
 import com.sun.webui.jsf.util.ComponentUtilities;
 import com.sun.webui.jsf.util.ConversionUtilities;
+import com.sun.webui.jsf.util.JSONUtilities;
 import com.sun.webui.jsf.util.WidgetUtilities;
 
 import java.io.IOException;
@@ -112,7 +113,7 @@ abstract class SelectorGroupRenderer extends RendererBase {
         JSONObject json = new JSONObject();
         
         // Append label properties. 
-        WidgetUtilities.addProperties( json, "label",
+        JSONUtilities.addProperties( json, "label",
             WidgetUtilities.renderComponent(context, getLabelComponent(context, component)));
         
         // Set StyleClass
@@ -167,7 +168,7 @@ abstract class SelectorGroupRenderer extends RendererBase {
         int itemN = 0;
         for (int i = 0; i <= length; i++) {
             UIComponent child = getChildComponent(context, component, itemN);
-            WidgetUtilities.addProperties(children, WidgetUtilities.renderComponent(context, child));
+            JSONUtilities.addProperties(children, WidgetUtilities.renderComponent(context, child));
             ++itemN;            
         }          
     }

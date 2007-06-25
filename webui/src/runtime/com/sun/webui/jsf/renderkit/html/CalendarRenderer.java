@@ -21,28 +21,29 @@
  */
 
 package com.sun.webui.jsf.renderkit.html;
+
 import com.sun.faces.annotation.Renderer;
-import java.text.DateFormat;
+import com.sun.webui.jsf.component.Calendar;
+import com.sun.webui.jsf.component.CalendarMonth;
+import com.sun.webui.jsf.component.ImageHyperlink;
+import com.sun.webui.jsf.theme.ThemeImages;
+import com.sun.webui.jsf.theme.ThemeStyles;
+import com.sun.webui.jsf.util.MessageUtil;
+import com.sun.webui.jsf.util.ConversionUtilities;
+import com.sun.webui.jsf.util.JSONUtilities;
+import com.sun.webui.jsf.util.JavaScriptUtilities;
+import com.sun.webui.jsf.util.RenderingUtilities;
+import com.sun.webui.jsf.util.ThemeUtilities;
+import com.sun.webui.theme.Theme;
+
 import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.util.MissingResourceException;
 
 import javax.faces.FacesException;
 import javax.faces.context.FacesContext;
 import javax.faces.context.ResponseWriter;
 import javax.faces.component.UIComponent;
-
-import com.sun.webui.jsf.component.Calendar;
-import com.sun.webui.jsf.component.CalendarMonth;
-import com.sun.webui.jsf.component.ImageHyperlink;
-import com.sun.webui.theme.Theme;
-import com.sun.webui.jsf.theme.ThemeImages;
-import com.sun.webui.jsf.theme.ThemeStyles;
-import com.sun.webui.jsf.util.MessageUtil;
-import com.sun.webui.jsf.util.ConversionUtilities;
-import com.sun.webui.jsf.util.JavaScriptUtilities;
-import com.sun.webui.jsf.util.RenderingUtilities;
-import com.sun.webui.jsf.util.ThemeUtilities;
-import java.text.SimpleDateFormat;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -340,7 +341,7 @@ public class CalendarRenderer extends FieldRenderer {
                 .append("\n") // NOI18N
                 .append(JavaScriptUtilities.getModuleName("calendar.init")) // NOI18N
                 .append("(") //NOI18N
-                .append(json.toString(JavaScriptUtilities.INDENT_FACTOR))
+                .append(JSONUtilities.getString(json))
                 .append(");"); //NOI18N
             
             // Render JavaScript.

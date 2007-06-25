@@ -29,6 +29,7 @@ import com.sun.webui.jsf.component.Table2RowGroup;
 import com.sun.webui.jsf.util.WidgetUtilities;
 import com.sun.webui.theme.Theme;
 import com.sun.webui.jsf.theme.ThemeTemplates;
+import com.sun.webui.jsf.util.JSONUtilities;
 import com.sun.webui.jsf.util.JavaScriptUtilities;
 import com.sun.webui.jsf.util.ThemeUtilities;
 
@@ -150,7 +151,7 @@ public class Table2Renderer extends RendererBase {
         // Get actions facet.
         UIComponent facet = component.getFacet(Table2.ACTIONS_TOP_FACET);
         if (facet != null && facet.isRendered()) {
-            WidgetUtilities.addProperties(json, "actions",
+            JSONUtilities.addProperties(json, "actions",
                 WidgetUtilities.renderComponent(context, facet));
         }
     }
@@ -172,7 +173,7 @@ public class Table2Renderer extends RendererBase {
         while (kids.hasNext()) {           
             Table2RowGroup group = (Table2RowGroup) kids.next();
             if (group.isRendered()) {
-                WidgetUtilities.addProperties(jArray,
+                JSONUtilities.addProperties(jArray,
                     WidgetUtilities.renderComponent(context, group));
             }
         }

@@ -20,27 +20,9 @@
  * Copyright 2007 Sun Microsystems, Inc. All rights reserved.
  */
 
-
-/*
- * FileChooserRenderer.java
- *
- * Created on Jan 11, 2005, 3:40 PM
- */
-
 package com.sun.webui.jsf.renderkit.html;
 
 import com.sun.faces.annotation.Renderer;
-import java.io.IOException;
-import java.util.Map;
-
-import javax.faces.FacesException;
-import javax.faces.context.FacesContext;
-import javax.faces.context.ResponseWriter;
-import javax.faces.component.NamingContainer;
-import javax.faces.component.UIComponent;
-import javax.faces.component.UIOutput;
-import javax.faces.convert.ConverterException;
-
 import com.sun.webui.jsf.component.Button;
 import com.sun.webui.jsf.component.FileChooser;
 import com.sun.webui.jsf.component.Icon;
@@ -49,14 +31,25 @@ import com.sun.webui.jsf.component.Label;
 import com.sun.webui.jsf.component.StaticText;
 import com.sun.webui.jsf.component.TextField;
 import com.sun.webui.jsf.component.HelpInline;
-import com.sun.webui.theme.Theme;
 import com.sun.webui.jsf.theme.ThemeImages;
 import com.sun.webui.jsf.theme.ThemeStyles;
 import com.sun.webui.jsf.util.ThemeUtilities;
+import com.sun.webui.jsf.util.JSONUtilities;
 import com.sun.webui.jsf.util.JavaScriptUtilities;
 import com.sun.webui.jsf.util.RenderingUtilities;
 import com.sun.webui.jsf.util.ClientSniffer;
 import com.sun.webui.jsf.util.LogUtil;
+import com.sun.webui.theme.Theme;
+
+import java.io.IOException;
+import java.util.Map;
+
+import javax.faces.FacesException;
+import javax.faces.context.FacesContext;
+import javax.faces.context.ResponseWriter;
+import javax.faces.component.UIComponent;
+import javax.faces.component.UIOutput;
+import javax.faces.convert.ConverterException;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -969,7 +962,7 @@ public class FileChooserRenderer extends AbstractRenderer {
                 .append("\n") // NOI18N
                 .append(JavaScriptUtilities.getModuleName("fileChooser.init")) // NOI18N
                 .append("(") //NOI18N
-                .append(json.toString(JavaScriptUtilities.INDENT_FACTOR))
+                .append(JSONUtilities.getString(json))
                 .append(");"); //NOI18N
             
             // Render JavaScript.

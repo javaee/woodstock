@@ -27,9 +27,10 @@ import com.sun.webui.jsf.component.ImageComponent;
 import com.sun.webui.jsf.component.ImageHyperlink;
 import com.sun.webui.jsf.theme.ThemeTemplates;
 import com.sun.webui.jsf.util.ConversionUtilities;
-import com.sun.webui.jsf.util.WidgetUtilities;
+import com.sun.webui.jsf.util.JSONUtilities;
 import com.sun.webui.jsf.util.JavaScriptUtilities;
 import com.sun.webui.jsf.util.ThemeUtilities;
+import com.sun.webui.jsf.util.WidgetUtilities;
 import com.sun.webui.theme.Theme;
 
 import java.util.Iterator;
@@ -146,18 +147,18 @@ public class ImageHyperlinkRenderer extends HyperlinkRenderer{
         ImageComponent ic = ilink.getImageFacet(); 
                             
         if (label != null) {
-            WidgetUtilities.addProperties(children, label);
-            WidgetUtilities.addProperties(children, "&nbsp;");            
+            JSONUtilities.addProperties(children, label);
+            JSONUtilities.addProperties(children, "&nbsp;");            
         }
           
         if (ic != null) {
-            WidgetUtilities.addProperties(json, "enabledImage",            
+            JSONUtilities.addProperties(json, "enabledImage",            
                 WidgetUtilities.renderComponent(context, ic));
         }
           
         UIComponent disabledImage = component.getFacets().get(DISABLED_IMAGE);
         if (disabledImage != null) {
-            WidgetUtilities.addProperties(json, "disabledImage",            
+            JSONUtilities.addProperties(json, "disabledImage",            
                 WidgetUtilities.renderComponent(context, disabledImage));
         }
 
@@ -166,7 +167,7 @@ public class ImageHyperlinkRenderer extends HyperlinkRenderer{
         while (it.hasNext()) {
             child = (UIComponent)it.next();
             if (!(child instanceof UIParameter)) {
-                WidgetUtilities.addProperties(children,
+                JSONUtilities.addProperties(children,
                     WidgetUtilities.renderComponent(context, child));                            
             }        
         }         

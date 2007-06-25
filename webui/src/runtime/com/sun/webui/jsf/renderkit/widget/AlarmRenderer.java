@@ -28,6 +28,7 @@ import com.sun.webui.jsf.component.ImageComponent;
 import com.sun.webui.jsf.model.Indicator;
 import com.sun.webui.jsf.theme.ThemeImages;
 import com.sun.webui.jsf.theme.ThemeTemplates;
+import com.sun.webui.jsf.util.JSONUtilities;
 import com.sun.webui.jsf.util.JavaScriptUtilities;
 import com.sun.webui.jsf.util.ThemeUtilities;
 import com.sun.webui.jsf.util.WidgetUtilities;
@@ -175,7 +176,7 @@ public class AlarmRenderer extends RendererBase {
         
         if (alarmImage != null) {
             iconjson.put("type", severity);
-                WidgetUtilities.addProperties(iconjson, "image",
+                JSONUtilities.addProperties(iconjson, "image",
                        WidgetUtilities.renderComponent(context, alarmImage));
                 indicatorArray.put(iconjson);
         }
@@ -292,7 +293,7 @@ public class AlarmRenderer extends RendererBase {
 	    }
 
 	    indjson.put("type", type);
-	    WidgetUtilities.addProperties(indjson, "image",
+	    JSONUtilities.addProperties(indjson, "image",
 		   WidgetUtilities.renderComponent(context, comp));
 	    indicatorArray.put(indjson);
 	}

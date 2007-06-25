@@ -28,6 +28,7 @@ import com.sun.webui.jsf.util.WidgetUtilities;
 import com.sun.webui.theme.Theme;
 import com.sun.webui.jsf.theme.ThemeTemplates;
 import com.sun.webui.jsf.util.ConversionUtilities;
+import com.sun.webui.jsf.util.JSONUtilities;
 import com.sun.webui.jsf.util.JavaScriptUtilities;
 import com.sun.webui.jsf.util.ThemeUtilities;
 
@@ -138,8 +139,8 @@ public class TextAreaRenderer extends FieldRendererBase {
             .put("autoSave", autoSave);
         
         // Append label properties.
-        WidgetUtilities.addProperties(json, "label",
-                WidgetUtilities.renderComponent(context, field.getLabelComponent(context, null)));
+        JSONUtilities.addProperties(json, "label",
+            WidgetUtilities.renderComponent(context, field.getLabelComponent(context, null)));
         
         // Add core and attribute properties.
         addAttributeProperties(attributes, component, json);

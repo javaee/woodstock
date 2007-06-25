@@ -20,44 +20,32 @@
  * Copyright 2007 Sun Microsystems, Inc. All rights reserved.
  */
 
-
 package com.sun.webui.jsf.renderkit.html;
 
-
-
-import org.json.JSONException;
-import org.json.JSONObject;
+import com.sun.faces.annotation.Renderer;
+import com.sun.webui.html.HTMLAttributes;
+import com.sun.webui.html.HTMLElements;
+import com.sun.webui.jsf.component.CommonTasksGroup;
+import com.sun.webui.jsf.component.CommonTasksSection;
+import com.sun.webui.jsf.component.StaticText;
+import com.sun.webui.jsf.util.JSONUtilities;
+import com.sun.webui.jsf.util.JavaScriptUtilities;
+import com.sun.webui.jsf.util.RenderingUtilities;
+import com.sun.webui.jsf.util.ThemeUtilities;
+import com.sun.webui.jsf.util.LogUtil;
+import com.sun.webui.jsf.theme.ThemeImages;
+import com.sun.webui.jsf.theme.ThemeStyles;
+import com.sun.webui.theme.Theme;
 
 import java.io.IOException;
 import java.util.*;
-import java.beans.Beans;
 
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.context.ResponseWriter;
 
-import com.sun.faces.annotation.Renderer;
-
-import com.sun.webui.jsf.util.JavaScriptUtilities;
-import com.sun.webui.jsf.util.RenderingUtilities;
-import com.sun.webui.jsf.util.ThemeUtilities;
-import com.sun.webui.jsf.util.LogUtil;
-import com.sun.webui.theme.Theme;
-import com.sun.webui.jsf.theme.ThemeImages;
-import com.sun.webui.jsf.theme.ThemeStyles;
-
-import com.sun.webui.html.HTMLAttributes;
-import com.sun.webui.html.HTMLElements;
-
-import com.sun.webui.jsf.component.CommonTask;
-import com.sun.webui.jsf.component.CommonTasksGroup;
-import com.sun.webui.jsf.component.CommonTasksSection;
-import com.sun.webui.jsf.component.SkipHyperlink;
-import com.sun.webui.jsf.component.StaticText;
-
-
-
-
+import org.json.JSONException;
+import org.json.JSONObject;
 
 /**
  * <p>Renderer for a {@link com.sun.webui.jsf.component.CommonTasksGroup} component.</p>
@@ -173,7 +161,7 @@ public class CommonTasksGroupRenderer extends AbstractRenderer {
             buff.append(JavaScriptUtilities.getModule("commonTasksSection"))
                 .append(JavaScriptUtilities.getModuleName(
                     "commonTasksSection.init(")) // NOI18N
-                .append(json.toString(JavaScriptUtilities.INDENT_FACTOR))
+                .append(JSONUtilities.getString(json))
                 .append(");\n"); //NOI18N
 
             // Render JavaScript.

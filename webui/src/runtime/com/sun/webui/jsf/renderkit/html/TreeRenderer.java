@@ -23,51 +23,34 @@
 package com.sun.webui.jsf.renderkit.html;
 
 import com.sun.faces.annotation.Renderer;
+import com.sun.webui.html.HTMLAttributes;
+import com.sun.webui.html.HTMLElements;
+import com.sun.webui.jsf.component.Tree;
+import com.sun.webui.jsf.component.TreeNode;
+import com.sun.webui.jsf.component.TreeNode;
+import com.sun.webui.jsf.theme.ThemeStyles;
+import com.sun.webui.jsf.util.JSONUtilities;
+import com.sun.webui.jsf.util.JavaScriptUtilities;
+import com.sun.webui.jsf.util.RenderingUtilities;
+import com.sun.webui.jsf.util.ThemeUtilities;
+import com.sun.webui.jsf.util.LogUtil;
+import com.sun.webui.theme.Theme;
 
-import java.beans.Beans;
 import java.io.IOException;
-import java.util.List;
 import java.util.Iterator;
 
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.context.ResponseWriter;
-import javax.faces.FacesException;
-
-import com.sun.webui.jsf.component.Tree;
-import com.sun.webui.jsf.component.TreeNode;
-import com.sun.webui.jsf.component.ImageComponent;
-import com.sun.webui.jsf.component.Hyperlink;
-import com.sun.webui.jsf.component.SkipHyperlink;
-import com.sun.webui.jsf.component.TreeNode;
-import com.sun.webui.theme.Theme;
-import com.sun.webui.jsf.theme.ThemeStyles;
-import com.sun.webui.jsf.util.JavaScriptUtilities;
-import com.sun.webui.jsf.util.RenderingUtilities;
-import com.sun.webui.jsf.util.ThemeUtilities;
-import com.sun.webui.jsf.util.LogUtil;
-import com.sun.webui.jsf.component.util.Util;
-
-import java.io.IOException;
-import java.util.Map;
-
-import javax.faces.component.UIComponent;
-import javax.faces.context.FacesContext;
-import javax.faces.context.ResponseWriter;
-import javax.faces.event.ActionEvent;
 import javax.faces.application.FacesMessage;
-
-import com.sun.webui.html.HTMLAttributes;
-import com.sun.webui.html.HTMLElements;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
 /**
- * <p>Renderer for a {@link Tree} component.</p>
+ * <p>Renderer for a {@link com.sun.webui.jsf.component.Tree} component.</p>
  */
-@com.sun.faces.annotation.Renderer(
-        @com.sun.faces.annotation.Renderer.Renders(componentFamily="com.sun.webui.jsf.Tree"))
+@Renderer(@Renderer.Renders(componentFamily="com.sun.webui.jsf.Tree"))
 public class TreeRenderer extends TreeNodeRenderer {
 
     private static final String SKIPTREE_LINK = "skipTreeLink";
@@ -247,7 +230,7 @@ public class TreeRenderer extends TreeNodeRenderer {
                 .append("\n") // NOI18N
                 .append(JavaScriptUtilities.getModuleName("tree.init")) // NOI18N
                 .append("(") //NOI18N
-                .append(json.toString(JavaScriptUtilities.INDENT_FACTOR))
+                .append(JSONUtilities.getString(json))
                 .append(");\n"); //NOI18N
                 
             if (nodeID != null) {

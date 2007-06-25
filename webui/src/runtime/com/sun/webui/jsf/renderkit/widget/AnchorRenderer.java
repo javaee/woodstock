@@ -26,6 +26,7 @@ import com.sun.faces.annotation.Renderer;
 import com.sun.webui.jsf.component.Icon;
 import com.sun.webui.jsf.theme.ThemeImages;
 import com.sun.webui.jsf.util.ClientSniffer;
+import com.sun.webui.jsf.util.JSONUtilities;
 import com.sun.webui.jsf.util.WidgetUtilities;
 
 import java.io.IOException;
@@ -71,7 +72,7 @@ public class AnchorRenderer extends AnchorRendererBase {
                 icon.setParent(component);
                 icon.setIcon(ThemeImages.DOT);    
                 icon.setId(component.getId() + ANCHOR_IMAGE);
-                WidgetUtilities.addProperties(children,
+                JSONUtilities.addProperties(children,
                     WidgetUtilities.renderComponent(context, icon));   
             }
         }        

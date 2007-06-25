@@ -28,6 +28,7 @@ import com.sun.webui.jsf.component.ImageComponent;
 import com.sun.webui.jsf.model.Indicator;
 import com.sun.webui.jsf.theme.ThemeImages;
 import com.sun.webui.jsf.theme.ThemeTemplates;
+import com.sun.webui.jsf.util.JSONUtilities;
 import com.sun.webui.jsf.util.JavaScriptUtilities;
 import com.sun.webui.jsf.util.RenderingUtilities;
 import com.sun.webui.jsf.util.ThemeUtilities;
@@ -133,7 +134,7 @@ public class AlertRenderer extends RendererBase {
         
         if (ignoreType != null) {
             facetjson.put("type", ignoreType);
-                WidgetUtilities.addProperties(facetjson, "image",
+                JSONUtilities.addProperties(facetjson, "image",
                        WidgetUtilities.renderComponent(context, facetImage));
                 indicatorArray.put(facetjson);
         }
@@ -142,7 +143,7 @@ public class AlertRenderer extends RendererBase {
                 
         // Append moreInfo image properties.
         // Adding it separately as it is not the part of indicator.
-        WidgetUtilities.addProperties(json, "moreInfo",
+        JSONUtilities.addProperties(json, "moreInfo",
             WidgetUtilities.renderComponent(context, 
                 alert.getAlertLink()));
         
@@ -158,7 +159,7 @@ public class AlertRenderer extends RendererBase {
         }
             
         // Append spacerImage image properties.        
-        WidgetUtilities.addProperties(json, "spacerImage",
+        JSONUtilities.addProperties(json, "spacerImage",
             WidgetUtilities.renderComponent(context, dotImg));
         
         // Add core and attribute properties.

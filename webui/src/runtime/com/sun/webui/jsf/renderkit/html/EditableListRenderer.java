@@ -19,33 +19,26 @@
  * 
  * Copyright 2007 Sun Microsystems, Inc. All rights reserved.
  */
-/*
- * $Id: EditableListRenderer.java,v 1.2 2007-04-30 21:02:41 rratta Exp $
- */
-/*
- * EditableListRenderer.java
- *
- * Created on December 23, 2004, 11:11 AM
- */
 
 package com.sun.webui.jsf.renderkit.html;
 
 import com.sun.faces.annotation.Renderer;
+import com.sun.webui.jsf.component.EditableList; 
+import com.sun.webui.jsf.component.ListSelector;
+import com.sun.webui.jsf.theme.ThemeStyles;
+import com.sun.webui.jsf.util.JSONUtilities;
+import com.sun.webui.jsf.util.JavaScriptUtilities;
+import com.sun.webui.jsf.util.RenderingUtilities;
+import com.sun.webui.jsf.util.ThemeUtilities;
+import com.sun.webui.theme.Theme;
+
 import java.io.IOException;
 import java.util.Map; 
 
 import javax.faces.FacesException;
-import javax.faces.component.EditableValueHolder; 
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.context.ResponseWriter;
-import com.sun.webui.jsf.component.EditableList; 
-import com.sun.webui.jsf.component.ListSelector;
-import com.sun.webui.theme.Theme;
-import com.sun.webui.jsf.theme.ThemeStyles;
-import com.sun.webui.jsf.util.JavaScriptUtilities;
-import com.sun.webui.jsf.util.RenderingUtilities;
-import com.sun.webui.jsf.util.ThemeUtilities;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -453,7 +446,7 @@ public class EditableListRenderer extends ListRendererBase {
                 .append("\n") // NOI18N
                 .append(JavaScriptUtilities.getModuleName("editableList.init")) // NOI18N
                 .append("(") //NOI18N
-                .append(json.toString(JavaScriptUtilities.INDENT_FACTOR))
+                .append(JSONUtilities.getString(json))
                 .append(");\n") //NOI18N
                 .append(JavaScriptUtilities.getDomNode(context, component))
                 .append(EditableList.UPDATE_BUTTONS_FUNCTION);

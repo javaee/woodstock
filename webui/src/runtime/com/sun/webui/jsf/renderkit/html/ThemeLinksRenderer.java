@@ -30,8 +30,7 @@ import com.sun.webui.jsf.util.JavaScriptUtilities;
 import com.sun.webui.jsf.util.RenderingUtilities;
 import com.sun.webui.jsf.util.ThemeUtilities;
 
-import java.io.IOException; 
-import java.util.Map;
+import java.io.IOException;
 
 import javax.faces.FacesException;
 import javax.faces.component.UIComponent;
@@ -73,19 +72,19 @@ public class ThemeLinksRenderer extends javax.faces.render.Renderer {
 	    }
 	}
 
+        // Get global flags.
+        JavaScriptUtilities.setDebug(themeLinks.isDebug());
+        JavaScriptUtilities.setAjaxify(themeLinks.isAjaxify());
+        JavaScriptUtilities.setParseWidgets(themeLinks.isParseWidgets());
+
         // Do not render any JavaScript.
         if (!themeLinks.isJavaScript()) {
             return;
         }
 
-        // Get debug flag.
-        Map map = context.getExternalContext().getRequestParameterMap();
-        boolean isDebug = themeLinks.isDebug() || map.containsKey("debug");
-
         // Render Dojo config.
         JavaScriptUtilities.renderJavaScript(component, writer,
-            JavaScriptUtilities.getDojoConfig(isDebug,
-                themeLinks.isParseWidgets()));
+            JavaScriptUtilities.getDojoConfig());
 
         // Render Dojo include.
         JavaScriptUtilities.renderDojoInclude(component, writer);
@@ -101,7 +100,7 @@ public class ThemeLinksRenderer extends javax.faces.render.Renderer {
         
         // Render module config after including dojo.
         JavaScriptUtilities.renderJavaScript(component, writer,
-            JavaScriptUtilities.getModuleConfig(isDebug, themeLinks.isAjaxify()));
+            JavaScriptUtilities.getModuleConfig());
 
         // Render global include.
         JavaScriptUtilities.renderGlobalInclude(component, writer);

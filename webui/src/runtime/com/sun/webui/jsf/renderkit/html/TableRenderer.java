@@ -25,28 +25,23 @@ package com.sun.webui.jsf.renderkit.html;
 import com.sun.faces.annotation.Renderer;
 import com.sun.data.provider.RowKey;
 import com.sun.data.provider.SortCriteria;
-import com.sun.webui.jsf.component.DropDown;
-import com.sun.webui.jsf.component.Label;
 import com.sun.webui.jsf.component.Table;
 import com.sun.webui.jsf.component.TableActions;
 import com.sun.webui.jsf.component.TableColumn;
 import com.sun.webui.jsf.component.TableHeader;
 import com.sun.webui.jsf.component.TablePanels;
 import com.sun.webui.jsf.component.TableRowGroup;
-import com.sun.webui.jsf.component.util.Util;
-import com.sun.webui.jsf.model.Option;
 import com.sun.webui.theme.Theme;
 import com.sun.webui.jsf.theme.ThemeStyles;
 import com.sun.webui.jsf.util.LogUtil;
+import com.sun.webui.jsf.util.JSONUtilities;
 import com.sun.webui.jsf.util.JavaScriptUtilities;
 import com.sun.webui.jsf.util.RenderingUtilities;
 import com.sun.webui.jsf.util.ThemeUtilities;
 import com.sun.webui.jsf.theme.ThemeImages;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.Iterator;
-import java.util.List;
 
 import javax.faces.component.NamingContainer;
 import javax.faces.component.UIComponent;
@@ -906,7 +901,7 @@ public class TableRenderer extends javax.faces.render.Renderer {
                 .append("\n") // NOI18N
                 .append(JavaScriptUtilities.getModuleName("table.init")) // NOI18N
                 .append("(") //NOI18N
-                .append(json.toString(JavaScriptUtilities.INDENT_FACTOR))
+                .append(JSONUtilities.getString(json))
                 .append(");"); //NOI18N
 
             // Render JavaScript.
