@@ -73,27 +73,36 @@ public class CheckboxGroupRenderer extends SelectorGroupRenderer {
             UIComponent component) throws JSONException, IOException {
         if (!(component instanceof CheckboxGroup)) { 
             throw new IllegalArgumentException(
-                    "CheckboxGroupRenderer can only render CheckboxGroup components.");
+                "CheckboxGroupRenderer can only render CheckboxGroup components.");
         } 
         CheckboxGroup cbGroup = (CheckboxGroup) component;
-        String templatePath = cbGroup.getHtmlTemplate();
-        Theme theme = ThemeUtilities.getTheme(context);
-        
-        JSONObject json = super.getProperties(context, (Selector)cbGroup);
-        json.put("templatePath", (templatePath != null)
-                ? templatePath
-                : theme.getPathToTemplate(ThemeTemplates.CHECKBOXGROUP));
+
+        JSONObject json = super.getProperties(context, (Selector) cbGroup);
         json.put("columns", cbGroup.getColumns());
         return json;
         
     }
     
     /**
-     * Get the type of widget represented by this component.
+     * Get the template path for this component.
      *
-     * @return The type of widget represented by this component.
+     * @param context FacesContext for the current request.
+     * @param component UIComponent to be rendered.
      */
-    public String getWidgetType(FacesContext context, UIComponent component) {
+    protected String getTemplatePath(FacesContext context, UIComponent component) {
+        String templatePath = (String) component.getAttributes().get("templatePath");
+        return (templatePath != null)
+            ? templatePath
+            : getTheme().getPathToTemplate(ThemeTemplates.CHECKBOXGROUP);
+    }
+
+    /**
+     * Get the name of widget represented by this component.
+     *
+     * @param context FacesContext for the current request.
+     * @param component UIComponent to be rendered.
+     */
+    protected String getWidgetName(FacesContext context, UIComponent component) {
         return JavaScriptUtilities.getNamespace("checkboxGroup");
     }
 
@@ -193,6 +202,9 @@ public class CheckboxGroupRenderer extends SelectorGroupRenderer {
             }
                 }
         return false;
-        
-    }  
+    }
+    
+    // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    // Private methods
+    // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 }

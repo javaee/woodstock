@@ -43,6 +43,11 @@ public class ThemeTemplates {
     public static final String ALERT = "alert";
 
     /**
+     * A template file that contains HTML for the button component.
+     */
+    public static final String BUTTON = "button";
+
+    /**
      * A template file that contains HTML for the Calendar component.
      */
     public static final String CALENDAR = "calendar";
@@ -126,11 +131,6 @@ public class ThemeTemplates {
      * A template file that contains HTML for the staticText component.
      */
     public static final String STATICTEXT = "staticText";
-
-    /**
-     * A template file that contains HTML for the submit button component.
-     */
-    public static final String SUBMITBUTTON = "submitButton";
 
     /**
      * A template file that contains HTML for the Table2 component.

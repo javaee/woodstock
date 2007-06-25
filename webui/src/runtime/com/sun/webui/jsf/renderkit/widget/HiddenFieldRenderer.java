@@ -139,15 +139,11 @@ public class HiddenFieldRenderer extends RendererBase {
 	    ConversionUtilities.setRenderedValue(component,
 		((HiddenField) component).getText());
 	}
-        
-        String templatePath = hiddenField.getHtmlTemplate(); // Get HTML template.
+
         JSONObject json = new JSONObject();
         json.put("value", hiddenField.getValueAsString(context))
             .put("name", hiddenField.getClientId(context))
-            .put("disabled", hiddenField.isDisabled())
-            .put("templatePath", (templatePath != null)
-                ? templatePath
-                : getTheme().getPathToTemplate(ThemeTemplates.HIDDENFIELD));
+            .put("disabled", hiddenField.isDisabled());
                     
         // Add core and attribute properties.
         setCoreProperties(context, component, json);
@@ -156,21 +152,29 @@ public class HiddenFieldRenderer extends RendererBase {
     }
 
     /**
-     * Get the type of widget represented by this component.
+     * Get the template path for this component.
      *
      * @param context FacesContext for the current request.
      * @param component UIComponent to be rendered.
      */
-    protected String getWidgetType(FacesContext context, UIComponent component) {
+    protected String getTemplatePath(FacesContext context, UIComponent component) {
+        String templatePath = (String) component.getAttributes().get("templatePath");
+        return (templatePath != null)
+            ? templatePath
+            : getTheme().getPathToTemplate(ThemeTemplates.HIDDENFIELD);
+    }
+
+    /**
+     * Get the name of widget represented by this component.
+     *
+     * @param context FacesContext for the current request.
+     * @param component UIComponent to be rendered.
+     */
+    protected String getWidgetName(FacesContext context, UIComponent component) {
         return JavaScriptUtilities.getNamespace("hiddenField");
     }
-     
+    
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    // Private renderer methods
+    // Private methods
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-    // Helper method to get Theme objects.
-    private Theme getTheme() {
-        return ThemeUtilities.getTheme(FacesContext.getCurrentInstance());
-    }
 }

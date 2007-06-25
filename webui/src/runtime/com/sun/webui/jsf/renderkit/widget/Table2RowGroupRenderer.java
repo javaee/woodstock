@@ -114,13 +114,10 @@ public class Table2RowGroupRenderer extends RendererBase {
         JSONObject json = new JSONObject();
         json.put("first", group.getFirst())
             .put("maxRows", group.getRows())
-            .put("totalRows", group.getRowCount())
-            .put("templatePath", (templatePath != null)
-                ? templatePath 
-                : getTheme().getPathToTemplate(ThemeTemplates.TABLE2ROWGROUP));
+            .put("totalRows", group.getRowCount());
 
         // Add properties.
-        addAttributeProperties(attributes, group, json);
+        JSONUtilities.addAttributes(attributes, group, json);
         setCoreProperties(context, group, json);
         setColumnProperties(context, group, json);
         setFooterProperties(context, group, json);
@@ -131,12 +128,25 @@ public class Table2RowGroupRenderer extends RendererBase {
     }
 
     /**
-     * Get the type of widget represented by this component.
+     * Get the template path for this component.
      *
      * @param context FacesContext for the current request.
      * @param component UIComponent to be rendered.
      */
-    protected String getWidgetType(FacesContext context, UIComponent component) {
+    protected String getTemplatePath(FacesContext context, UIComponent component) {
+        String templatePath = (String) component.getAttributes().get("templatePath");
+        return (templatePath != null)
+            ? templatePath
+            : getTheme().getPathToTemplate(ThemeTemplates.TABLE2ROWGROUP);
+    }
+
+    /**
+     * Get the name of widget represented by this component.
+     *
+     * @param context FacesContext for the current request.
+     * @param component UIComponent to be rendered.
+     */
+    protected String getWidgetName(FacesContext context, UIComponent component) {
         return JavaScriptUtilities.getNamespace("table2RowGroup");
     }
 
@@ -161,7 +171,7 @@ public class Table2RowGroupRenderer extends RendererBase {
         while (kids.hasNext()) {
             Table2Column col = (Table2Column) kids.next();
             if (col.isRendered()) {
-                JSONUtilities.addProperties(jArray,
+                JSONUtilities.addProperty(jArray,
                     WidgetUtilities.renderComponent(context, col));
             }
         }
@@ -239,7 +249,7 @@ public class Table2RowGroupRenderer extends RendererBase {
                     // Render Table2Column children.
                     Iterator grandKids = col.getChildren().iterator();
                     while (grandKids.hasNext()) {
-                        JSONUtilities.addProperties(cols,
+                        JSONUtilities.addProperty(cols,
                             WidgetUtilities.renderComponent(context, (UIComponent) 
                                 grandKids.next()));
                     }
@@ -258,9 +268,4 @@ public class Table2RowGroupRenderer extends RendererBase {
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     // Private methods
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-    // Helper method to get Theme objects.
-    private Theme getTheme() {
-        return ThemeUtilities.getTheme(FacesContext.getCurrentInstance());
-    }
 }

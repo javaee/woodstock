@@ -102,30 +102,27 @@ public class AlertRenderer extends RendererBase {
         }
         Alert alert = (Alert) component;
         String type = alert.getType();
-        String templatePath = alert.getHtmlTemplate(); // Get HTML template.
+        Theme theme = getTheme();
+
         JSONObject json = new JSONObject();
-        json.put("summary", RenderingUtilities
-                .formattedMessage(context, alert, alert.getSummary()))
-            .put("detail", RenderingUtilities
-                .formattedMessage(context, alert, alert.getDetail()))
+        json.put("summary", RenderingUtilities.formattedMessage(context, alert, 
+                alert.getSummary()))
+            .put("detail", RenderingUtilities.formattedMessage(context, alert, 
+                alert.getDetail()))
             .put("visible", alert.isVisible())
             .put("type", type)
-            .put("templatePath", (templatePath != null)
-                ? templatePath 
-                : getTheme().getPathToTemplate(ThemeTemplates.ALERT))
             .put("className", alert.getStyleClass());    
                        
-        List<Indicator> indicators = (List<Indicator>) alert.getIndicators();
-        
+        List<Indicator> indicators = (List<Indicator>) alert.getIndicators();        
         Iterator<Indicator> iter1 = indicators.iterator();
-	Theme theme = getTheme();
+
         //Check for the facet
         UIComponent facetImage = alert.getFacet(ALERT_IMAGE_FACET);
         String ignoreType = null;
         if (facetImage != null) {
             ignoreType = type;
         }
-        ImageComponent img = null;   
+       
         JSONArray indicatorArray = WidgetUtilities.getIndicators(context, 
                 iter1, ignoreType, theme, alert);
                 
@@ -134,7 +131,7 @@ public class AlertRenderer extends RendererBase {
         
         if (ignoreType != null) {
             facetjson.put("type", ignoreType);
-                JSONUtilities.addProperties(facetjson, "image",
+                JSONUtilities.addProperty(facetjson, "image",
                        WidgetUtilities.renderComponent(context, facetImage));
                 indicatorArray.put(facetjson);
         }
@@ -143,49 +140,58 @@ public class AlertRenderer extends RendererBase {
                 
         // Append moreInfo image properties.
         // Adding it separately as it is not the part of indicator.
-        JSONUtilities.addProperties(json, "moreInfo",
+        JSONUtilities.addProperty(json, "moreInfo",
             WidgetUtilities.renderComponent(context, 
                 alert.getAlertLink()));
         
         ImageComponent dotImg = null;
-        dotImg = (ImageComponent) ThemeUtilities.getIcon(theme, ThemeImages.DOT); 
+        dotImg = (ImageComponent) ThemeUtilities.getIcon(theme, ThemeImages.DOT);
+
         //set Id for dot image
         if (dotImg.getId() == null) {
             dotImg.setId("DOT");
         }
+
         //set parent for dot image
         if (dotImg.getParent() == null) {
             dotImg.setParent(alert);
         }
             
         // Append spacerImage image properties.        
-        JSONUtilities.addProperties(json, "spacerImage",
+        JSONUtilities.addProperty(json, "spacerImage",
             WidgetUtilities.renderComponent(context, dotImg));
         
         // Add core and attribute properties.
-        addAttributeProperties(attributes, component, json);
+        JSONUtilities.addAttributes(attributes, component, json);
         setCoreProperties(context, component, json);
 
         return json;
     }
     
     /**
-     * Get the type of widget represented by this component.
+     * Get the template path for this component.
      *
      * @param context FacesContext for the current request.
      * @param component UIComponent to be rendered.
      */
-    protected String getWidgetType(FacesContext context, UIComponent component) {
+    protected String getTemplatePath(FacesContext context, UIComponent component) {
+        String templatePath = (String) component.getAttributes().get("templatePath");
+        return (templatePath != null)
+            ? templatePath 
+            : getTheme().getPathToTemplate(ThemeTemplates.ALERT);
+    }
+
+    /**
+     * Get the name of widget represented by this component.
+     *
+     * @param context FacesContext for the current request.
+     * @param component UIComponent to be rendered.
+     */
+    protected String getWidgetName(FacesContext context, UIComponent component) {
         return JavaScriptUtilities.getNamespace("alert");
     }
     
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    // Private renderer methods
+    // Private methods
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-    // Helper method to get Theme objects.
-    private Theme getTheme() {
-        return ThemeUtilities.getTheme(FacesContext.getCurrentInstance());
-    }
-           
 }

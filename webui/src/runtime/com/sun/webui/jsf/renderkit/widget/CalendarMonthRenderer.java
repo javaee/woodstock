@@ -66,8 +66,7 @@ import org.json.JSONObject;
 @Renderer(@Renderer.Renders(
     rendererType="com.sun.webui.jsf.widget.CalendarMonth",
     componentFamily="com.sun.webui.jsf.CalendarMonth"))
-public class CalendarMonthRenderer extends RendererBase {    
-     
+public class CalendarMonthRenderer extends RendererBase {
     /**
      * The set of pass-through attributes to be rendered.
      */
@@ -132,23 +131,22 @@ public class CalendarMonthRenderer extends RendererBase {
         JSONObject json = new JSONObject();           
         json.put("todayDateMsg", todayDateMsg)  
             .put("dateFormat", calendarMonth.getDateFormatPattern()) 
-            .put("firstDayOfWeek", firstDayOfWeek)
-            .put("templatePath", theme.getPathToTemplate(ThemeTemplates.CALENDARMONTH));
+            .put("firstDayOfWeek", firstDayOfWeek);
         
         Icon icon = null;
         icon = getIcon(theme, "DOT", calendarMonth, ThemeImages.DOT);
-        JSONUtilities.addProperties(json, "spacerImage",
+        JSONUtilities.addProperty(json, "spacerImage",
             WidgetUtilities.renderComponent(context, icon));
         
         icon = getIcon(theme, "topLeft", calendarMonth, ThemeImages.SCHEDULER_TOP_LEFT);
-        JSONUtilities.addProperties(json, "topLeftImage",
+        JSONUtilities.addProperty(json, "topLeftImage",
             WidgetUtilities.renderComponent(context, icon));
         
         icon = getIcon(theme, "topRight", calendarMonth, ThemeImages.SCHEDULER_TOP_RIGHT);
-        JSONUtilities.addProperties(json, "topRightImage",
+        JSONUtilities.addProperty(json, "topRightImage",
             WidgetUtilities.renderComponent(context, icon));
                 
-        JSONUtilities.addProperties(json, "closeButtonLink",
+        JSONUtilities.addProperty(json, "closeButtonLink",
             WidgetUtilities.renderComponent(context, calendarMonth.getCloseButtonLink()));
         
         String[] weekDays = new String[8];
@@ -170,19 +168,32 @@ public class CalendarMonthRenderer extends RendererBase {
         setControlsProperties(context, calendarMonth, json, theme);
             
         // Add core and attribute properties.
-        addAttributeProperties(attributes, component, json);
+        JSONUtilities.addAttributes(attributes, component, json);
         setCoreProperties(context, component, json);
         
         return json;
     }
     
     /**
-     * Get the type of widget represented by this component.
+     * Get the template path for this component.
      *
      * @param context FacesContext for the current request.
      * @param component UIComponent to be rendered.
      */
-    protected String getWidgetType(FacesContext context, UIComponent component) {
+    protected String getTemplatePath(FacesContext context, UIComponent component) {
+        String templatePath = (String) component.getAttributes().get("templatePath");
+        return (templatePath != null)
+            ? templatePath 
+            : getTheme().getPathToTemplate(ThemeTemplates.CALENDARMONTH);
+    }
+
+    /**
+     * Get the name of widget represented by this component.
+     *
+     * @param context FacesContext for the current request.
+     * @param component UIComponent to be rendered.
+     */
+    protected String getWidgetName(FacesContext context, UIComponent component) {
         return JavaScriptUtilities.getNamespace("calendarMonth");
     }
     
@@ -204,27 +215,22 @@ public class CalendarMonthRenderer extends RendererBase {
     private void setControlsProperties(FacesContext context, CalendarMonth calendarMonth,
             JSONObject json, Theme theme) throws IOException, JSONException {
         
-        JSONUtilities.addProperties(json, "decreaseLink",
+        JSONUtilities.addProperty(json, "decreaseLink",
             WidgetUtilities.renderComponent(context, calendarMonth.getPreviousMonthLink()));
         
-        JSONUtilities.addProperties(json, "increaseLink",
+        JSONUtilities.addProperty(json, "increaseLink",
             WidgetUtilities.renderComponent(context, calendarMonth.getNextMonthLink()));
         
         DropDown monthMenu = calendarMonth.getMonthMenu();
         monthMenu.setToolTip(theme.getMessage("CalendarMonth.selectMonth"));
-        JSONUtilities.addProperties(json, "monthMenu",
+        JSONUtilities.addProperty(json, "monthMenu",
             WidgetUtilities.renderComponent(context, monthMenu));
         
         DropDown yearMenu = calendarMonth.getYearMenu();
         yearMenu.setToolTip(theme.getMessage("CalendarMonth.selectYear"));
-        JSONUtilities.addProperties(json, "yearMenu",
+        JSONUtilities.addProperty(json, "yearMenu",
             WidgetUtilities.renderComponent(context, yearMenu));        
-    }    
-    
-    // Helper method to get Theme objects.
-    private Theme getTheme() {
-        return ThemeUtilities.getTheme(FacesContext.getCurrentInstance());
-    }        
+    }      
     
     // Helper method to get themed icon.
     private Icon getIcon(Theme theme, String id, CalendarMonth parent, String key) {                
@@ -340,5 +346,4 @@ public class CalendarMonthRenderer extends RendererBase {
         }        
         monthMenu.setItems(months);                
     }
-       
 }

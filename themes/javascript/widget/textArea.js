@@ -94,7 +94,6 @@ webui.@THEME@.widget.textArea.getClassName = function() {
     return className;
 }
 
-
 /**
  * This function is used to get widget properties. 
  * @see webui.@THEME@.widget.textArea.setProps for a list of supported
@@ -110,7 +109,6 @@ webui.@THEME@.widget.textArea.getProps = function() {
     
     return props;
 }
-
 
 /**
  * This function is used to set widget properties with the
@@ -178,8 +176,6 @@ webui.@THEME@.widget.textArea.setProps = function(props) {
     }
     return props; // Return props for subclasses.
 }
-
-
 
 /**
  * This closure is used to process refresh events.

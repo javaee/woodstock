@@ -100,8 +100,8 @@ abstract class RbCbRendererBase extends RendererBase {
 	// for an alternative renderer for Checkbox and RadioButton
 	// to provide a converter.
 	//
-	return ((RbCbSelector)component).getConvertedValue(context,
-		(RbCbSelector)component, submittedValue);
+	return ((RbCbSelector) component).getConvertedValue(context,
+		(RbCbSelector) component, submittedValue);
     }
 
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -146,7 +146,7 @@ abstract class RbCbRendererBase extends RendererBase {
 	//
 	Object selectedValue = rbcbSelector.getSelectedValue();
 	String value = ConversionUtilities.convertValueToString(component,
-		    selectedValue);
+            selectedValue);
 
 	// Need to check immediate conditions
 	// submittedValue will be non null if immediate is true on
@@ -192,15 +192,15 @@ abstract class RbCbRendererBase extends RendererBase {
         json.put("value", value);                       
         
         // Append image properties.
-        JSONUtilities.addProperties(json, "image",
+        JSONUtilities.addProperty(json, "image",
             WidgetUtilities.renderComponent(context, rbcbSelector.getImageComponent()));
         
         // Append label properties.
-        JSONUtilities.addProperties(json, "label",
+        JSONUtilities.addProperty(json, "label",
             WidgetUtilities.renderComponent(context, rbcbSelector.getLabelComponent()));
         
         // Add core and attribute properties.
-        addAttributeProperties(attributes, component, json);
+        JSONUtilities.addAttributes(attributes, component, json);
         setCoreProperties(context, component, json);
         
         return json;
@@ -219,4 +219,8 @@ abstract class RbCbRendererBase extends RendererBase {
      */
     protected abstract boolean isSelected(FacesContext context,
 	UIComponent component);
+    
+    // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    // Private methods
+    // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 }

@@ -21,6 +21,10 @@
  */
 package com.sun.webui.jsf.util;
 
+import javax.faces.component.UIComponent;
+
+import java.util.Map;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -37,12 +41,40 @@ public class JSONUtilities {
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
     /**
+     * This method may be used to add attribute name/value pairs to the given
+     * JSONObject.
+     *
+     * @param names Array of attribute names to be passed through.
+     * @param component UIComponent to be rendered.
+     * @param json JSONObject to add name/value pairs to.
+     *
+     * @exception IOException if an input/output error occurs
+     * @exception JSONException if a key/value error occurs
+     */
+    public static void addAttributes(String names[], UIComponent component,
+            JSONObject json) throws JSONException {
+        if (names == null) {
+            return;
+        }
+        Map attributes = component.getAttributes();
+        for (int i = 0; i < names.length; i++) {
+            Object value = attributes.get(names[i]);
+            if (value != null && value instanceof Integer) {
+                if (((Integer) value).intValue() == Integer.MIN_VALUE) {
+                    continue;
+                }
+            }
+            json.put(names[i], value);
+        }
+    }
+
+    /**
      * Helper method to add component properties.
      *
      * @param json The JSONArray to append value to.
      * @param value A string containing JSON or HTML text.
      */
-    public static void addProperties(JSONArray json, String value) 
+    public static void addProperty(JSONArray json, String value) 
             throws JSONException {
         if (value != null) {
             try {
@@ -62,7 +94,7 @@ public class JSONUtilities {
      * @param key A key string.
      * @param value A string containing JSON or HTML text.
      */
-    public static void addProperties(JSONObject json, String key,
+    public static void addProperty(JSONObject json, String key,
             String value) throws JSONException {
         if (value != null) {
             try {

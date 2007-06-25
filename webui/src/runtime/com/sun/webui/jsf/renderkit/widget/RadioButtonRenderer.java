@@ -199,41 +199,27 @@ public class RadioButtonRenderer extends RbCbRendererBase {
     protected String getModule(FacesContext context, UIComponent component) {
         return JavaScriptUtilities.getModuleName("widget.radioButton");
     }
-
-    /**
-     * Helper method to obtain component properties.
-     *
-     * @param context FacesContext for the current request.
-     * @param component UIComponent to be rendered.
-     *
-     * @exception IOException if an input/output error occurs
-     * @exception JSONException if a key/value error occurs
-     */
-    protected JSONObject getProperties(FacesContext context,
-            UIComponent component) throws IOException, JSONException {
-	if (!(component instanceof RadioButton)) {
-	    throw new IllegalArgumentException(
-                "RadioButtonRenderer can only render RadioButton components.");
-        }
-        RadioButton radioButton = (RadioButton)component;
-        Theme theme = ThemeUtilities.getTheme(context);
-        String templatePath = radioButton.getHtmlTemplate(); // Get HTML template.
-        
-        JSONObject json = super.getProperties(context, component);
-        json.put("templatePath", (templatePath != null)
-                ? templatePath
-                : getTheme().getPathToTemplate(ThemeTemplates.RADIOBUTTON));    
-
-        return json;
-    }
     
     /**
-     * Get the type of widget represented by this component.
+     * Get the template path for this component.
      *
      * @param context FacesContext for the current request.
      * @param component UIComponent to be rendered.
      */
-    protected String getWidgetType(FacesContext context, UIComponent component) {
+    protected String getTemplatePath(FacesContext context, UIComponent component) {
+        String templatePath = (String) component.getAttributes().get("templatePath");
+        return (templatePath != null)
+            ? templatePath
+            : getTheme().getPathToTemplate(ThemeTemplates.RADIOBUTTON);
+    }
+
+    /**
+     * Get the name of widget represented by this component.
+     *
+     * @param context FacesContext for the current request.
+     * @param component UIComponent to be rendered.
+     */
+    protected String getWidgetName(FacesContext context, UIComponent component) {
         return JavaScriptUtilities.getNamespace("radioButton");
     }
 
@@ -253,12 +239,6 @@ public class RadioButtonRenderer extends RbCbRendererBase {
     }
     
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    // Private renderer methods
-    // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-    // Helper method to get Theme objects.
-    private Theme getTheme() {
-        return ThemeUtilities.getTheme(FacesContext.getCurrentInstance());
-    }
-    
+    // Private methods
+    // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~    
 }

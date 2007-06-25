@@ -200,42 +200,28 @@ public class CheckboxRenderer extends RbCbRendererBase {
      */
     protected String getModule(FacesContext context, UIComponent component) {
         return JavaScriptUtilities.getModuleName("widget.checkbox");
-    }
-
-    /** 
-     * Helper method to obtain component properties.
-     *
-     * @param context FacesContext for the current request.
-     * @param component UIComponent to be rendered.
-     *
-     * @exception IOException if an input/output error occurs
-     * @exception JSONException if a key/value error occurs
-     */
-    protected JSONObject getProperties(FacesContext context,
-            UIComponent component) throws IOException, JSONException {
-	if (!(component instanceof Checkbox)) {
-	    throw new IllegalArgumentException(
-                "CheckboxRenderer can only render Checkbox components.");
-        }
-        Checkbox checkbox = (Checkbox)component;
-        Theme theme = ThemeUtilities.getTheme(context);
-        String templatePath = checkbox.getHtmlTemplate(); // Get HTML template.                  
-        
-        JSONObject json = super.getProperties(context, component);
-        json.put("templatePath", (templatePath != null)
-                ? templatePath 
-                : theme.getPathToTemplate(ThemeTemplates.CHECKBOX));                
-        
-        return json;
-    }    
+    }  
     
     /**
-     * Get the type of widget represented by this component.
+     * Get the template path for this component.
      *
      * @param context FacesContext for the current request.
      * @param component UIComponent to be rendered.
      */
-    protected String getWidgetType(FacesContext context, UIComponent component) {
+    protected String getTemplatePath(FacesContext context, UIComponent component) {
+        String templatePath = (String) component.getAttributes().get("templatePath");
+        return (templatePath != null)
+            ? templatePath
+            : getTheme().getPathToTemplate(ThemeTemplates.CHECKBOX);
+    }
+
+    /**
+     * Get the name of widget represented by this component.
+     *
+     * @param context FacesContext for the current request.
+     * @param component UIComponent to be rendered.
+     */
+    protected String getWidgetName(FacesContext context, UIComponent component) {
         return JavaScriptUtilities.getNamespace("checkbox");
     }
     
@@ -252,5 +238,9 @@ public class CheckboxRenderer extends RbCbRendererBase {
      */
     protected boolean isSelected(FacesContext context, UIComponent component) {
         return ((Checkbox)component).isChecked();
-    }     
+    }
+    
+    // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    // Private methods
+    // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 }

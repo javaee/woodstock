@@ -109,10 +109,7 @@ public class LabelRenderer extends RendererBase {
 	} 
 
         Label label = (Label) component;
-	Theme theme = ThemeUtilities.getTheme(context);
-
-	// Get HTML template.
-        String templatePath = label.getHtmlTemplate();
+	Theme theme = getTheme();
         
 	// To optimize, implement the "fallback" to labeledComponent
 	// here. This prevents having to "find" the component twice.
@@ -145,8 +142,7 @@ public class LabelRenderer extends RendererBase {
         // then the required indicator is shown.
         //
         boolean isHideIndicators = label.isHideIndicators();
-        boolean requiredFlag = label.isRequiredIndicator() &&
-                !isHideIndicators;
+        boolean requiredFlag = label.isRequiredIndicator() && !isHideIndicators;
         boolean errorFlag = false;
 	String errorMsg = null;
 
@@ -204,27 +200,24 @@ public class LabelRenderer extends RendererBase {
             .put("htmlFor", forId)
             .put("required", requiredFlag)
             .put("valid", !errorFlag)
-            .put("templatePath", (templatePath != null)
-                ? templatePath 
-                : theme.getPathToTemplate(ThemeTemplates.LABEL))
 	    .put("className", label.getStyleClass())
             .put("title", label.getToolTip())
 	    .put("visible", label.isVisible());
             
         // Append required image properties.
-        JSONUtilities.addProperties(json, "requiredImage",
+        JSONUtilities.addProperty(json, "requiredImage",
             WidgetUtilities.renderComponent(context,
 		label.getRequiredIcon(theme, context)));
 
         // Append error image properties.
         // passing valid=false so that it can output error icon 
 	// (irrespective of valid attribute value). 
-        JSONUtilities.addProperties(json, "errorImage",
+        JSONUtilities.addProperty(json, "errorImage",
             WidgetUtilities.renderComponent(context, 
 		label.getErrorIcon(theme, context, errorMsg)));
 
         // Add core and attribute properties.
-        addAttributeProperties(attributes, component, json);
+        JSONUtilities.addAttributes(attributes, component, json);
         setCoreProperties(context, component, json);
 	setContents(context, component, json);
 
@@ -232,12 +225,25 @@ public class LabelRenderer extends RendererBase {
     }
 
     /**
-     * Get the type of widget represented by this component.
+     * Get the template path for this component.
      *
-     * @param context FacesContext for the current request. 
-     * @param component UIComponent to be rendered. 
+     * @param context FacesContext for the current request.
+     * @param component UIComponent to be rendered.
      */
-    protected String getWidgetType(FacesContext context, UIComponent component) { 
+    protected String getTemplatePath(FacesContext context, UIComponent component) {
+        String templatePath = (String) component.getAttributes().get("templatePath");
+        return (templatePath != null)
+            ? templatePath
+            : getTheme().getPathToTemplate(ThemeTemplates.LABEL);
+    }
+
+    /**
+     * Get the name of widget represented by this component.
+     *
+     * @param context FacesContext for the current request.
+     * @param component UIComponent to be rendered.
+     */
+    protected String getWidgetName(FacesContext context, UIComponent component) {
 	return JavaScriptUtilities.getNamespace("label");
     }
 
@@ -298,14 +304,14 @@ public class LabelRenderer extends RendererBase {
         while (kids.hasNext()) {
             UIComponent child = (UIComponent) kids.next();
             if (child.isRendered()) {
-                JSONUtilities.addProperties(jArray,
+                JSONUtilities.addProperty(jArray,
                     WidgetUtilities.renderComponent(context, child));
             }
         }
     }
 
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    // Private renderer methods
+    // Private methods
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
     /**

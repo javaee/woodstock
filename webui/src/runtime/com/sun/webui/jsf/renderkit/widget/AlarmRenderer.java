@@ -110,16 +110,13 @@ public class AlarmRenderer extends RendererBase {
         Alarm alarm = (Alarm) component;
         Theme theme = getTheme();
         String  severity = alarm.getSeverity();
-        String url = alarm.getUrl();        
-        String templatePath = alarm.getHtmlTemplate(); // Get HTML template.
+        String url = alarm.getUrl();
+
         JSONObject json = new JSONObject();
         json.put("text", alarm.getText() )
             .put("textPosition", alarm.getTextPosition())
             .put("visible", alarm.isVisible())
             .put("type", severity)
-            .put("templatePath", (templatePath != null)
-                ? templatePath 
-                : theme.getPathToTemplate(ThemeTemplates.ALARM))
             .put("className", alarm.getStyleClass());    
                        
         // Get all the attributes that might need to be changed
@@ -170,13 +167,12 @@ public class AlarmRenderer extends RendererBase {
 		context, iterator, ignoreType, theme, alarm, severity,
 		height, width, hspace, vspace, border, 
 		toolTip, longDesc, alt, align);
-
                 
         JSONObject iconjson = new JSONObject();
         
         if (alarmImage != null) {
             iconjson.put("type", severity);
-                JSONUtilities.addProperties(iconjson, "image",
+                JSONUtilities.addProperty(iconjson, "image",
                        WidgetUtilities.renderComponent(context, alarmImage));
                 indicatorArray.put(iconjson);
         }
@@ -184,30 +180,38 @@ public class AlarmRenderer extends RendererBase {
         json.put("indicators", indicatorArray);
                        
         // Add core and attribute properties.
-        addAttributeProperties(attributes, component, json);
+        JSONUtilities.addAttributes(attributes, component, json);
         setCoreProperties(context, component, json);
 
         return json;
     }
     
     /**
-     * Get the type of widget represented by this component.
+     * Get the template path for this component.
      *
      * @param context FacesContext for the current request.
      * @param component UIComponent to be rendered.
      */
-    protected String getWidgetType(FacesContext context, UIComponent component) {
+    protected String getTemplatePath(FacesContext context, UIComponent component) {
+        String templatePath = (String) component.getAttributes().get("templatePath");
+        return (templatePath != null)
+            ? templatePath 
+            : getTheme().getPathToTemplate(ThemeTemplates.ALARM);
+    }
+
+    /**
+     * Get the name of widget represented by this component.
+     *
+     * @param context FacesContext for the current request.
+     * @param component UIComponent to be rendered.
+     */
+    protected String getWidgetName(FacesContext context, UIComponent component) {
         return JavaScriptUtilities.getNamespace("alarm");
     }
     
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    // Private renderer methods
-    // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-    // Helper method to get Theme objects.
-    private Theme getTheme() {
-        return ThemeUtilities.getTheme(FacesContext.getCurrentInstance());
-    }   
+    // Private methods
+    // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ 
     
     /**
      * Helper method to obtain a list of indicators for an Alarm
@@ -293,7 +297,7 @@ public class AlarmRenderer extends RendererBase {
 	    }
 
 	    indjson.put("type", type);
-	    JSONUtilities.addProperties(indjson, "image",
+	    JSONUtilities.addProperty(indjson, "image",
 		   WidgetUtilities.renderComponent(context, comp));
 	    indicatorArray.put(indjson);
 	}

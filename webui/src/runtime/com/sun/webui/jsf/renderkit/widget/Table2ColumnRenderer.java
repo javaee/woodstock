@@ -23,8 +23,8 @@
 package com.sun.webui.jsf.renderkit.widget;
 
 import com.sun.faces.annotation.Renderer;
-
 import com.sun.webui.jsf.component.Table2Column;
+import com.sun.webui.jsf.util.JSONUtilities;
 
 import java.io.IOException;
 
@@ -107,7 +107,7 @@ public class Table2ColumnRenderer extends RendererBase {
         JSONObject json = new JSONObject();
 
         // Add properties.
-        addAttributeProperties(attributes, col, json);
+        JSONUtilities.addAttributes(attributes, col, json);
         setCoreProperties(context, col, json);
         setFooterProperties(context, col, json);
         setHeaderProperties(context, col, json);
@@ -116,12 +116,22 @@ public class Table2ColumnRenderer extends RendererBase {
     }
 
     /**
-     * Get the type of widget represented by this component.
+     * Get the template path for this component.
      *
      * @param context FacesContext for the current request.
      * @param component UIComponent to be rendered.
      */
-    protected String getWidgetType(FacesContext context, UIComponent component) {
+    protected String getTemplatePath(FacesContext context, UIComponent component) {
+        return null; // Not implemented.
+    }
+
+    /**
+     * Get the name of widget represented by this component.
+     *
+     * @param context FacesContext for the current request.
+     * @param component UIComponent to be rendered.
+     */
+    protected String getWidgetName(FacesContext context, UIComponent component) {
         return null; // Not implemented
     }
 
@@ -154,4 +164,8 @@ public class Table2ColumnRenderer extends RendererBase {
         // Add header text.
         json.put("headerText", component.getHeaderText());
     }
+    
+    // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    // Private methods
+    // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 }

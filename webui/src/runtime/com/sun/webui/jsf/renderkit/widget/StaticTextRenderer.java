@@ -26,9 +26,8 @@ import com.sun.faces.annotation.Renderer;
 import com.sun.webui.jsf.component.StaticText;
 import com.sun.webui.jsf.theme.ThemeTemplates;
 import com.sun.webui.jsf.util.ConversionUtilities;
+import com.sun.webui.jsf.util.JSONUtilities;
 import com.sun.webui.jsf.util.JavaScriptUtilities;
-import com.sun.webui.jsf.util.ThemeUtilities;
-import com.sun.webui.theme.Theme;
 
 import java.io.IOException;
 import java.text.MessageFormat;
@@ -95,10 +94,10 @@ public class StaticTextRenderer extends RendererBase {
                 "StaticTextRenderer can only render StaticText components.");
         }
         StaticText staticText = (StaticText) component;
-                        
+        String message = null;                        
         String currentValue = ConversionUtilities.convertValueToString(
             component, staticText.getText());
-        String message = null;        
+      
         if (currentValue != null) {
             java.util.ArrayList parameterList = new ArrayList();
             
@@ -107,13 +106,9 @@ public class StaticTextRenderer extends RendererBase {
             java.util.Iterator kids = component.getChildren().iterator();
             while (kids.hasNext()) {
                 UIComponent kid = (UIComponent) kids.next();
-                
-                //PENDING(rogerk) ignore if child is not UIParameter?
-                
                 if (!(kid instanceof UIParameter)) {
                     continue;
                 }
-                
                 parameterList.add(((UIParameter) kid).getValue());
             }
             
@@ -121,13 +116,11 @@ public class StaticTextRenderer extends RendererBase {
             // use the string as a MessageFormat instance.
             
             if (parameterList.size() > 0) {
-                message = MessageFormat.format
-                        (currentValue, parameterList.toArray
-                        (new Object[parameterList.size()]));
+                message = MessageFormat.format(currentValue, 
+                    parameterList.toArray(new Object[parameterList.size()]));
             } else {
                 message = currentValue;
             }
-                        
         }
         
         String templatePath = staticText.getHtmlTemplate(); // Get HTML template.
@@ -135,35 +128,40 @@ public class StaticTextRenderer extends RendererBase {
         json.put("value", message)
             .put("title", staticText.getToolTip())
             .put("escape", staticText.isEscape())
-            .put("templatePath", (templatePath != null)
-                ? templatePath
-                : getTheme().getPathToTemplate(ThemeTemplates.STATICTEXT))
             .put("className", staticText.getStyleClass())
             .put("visible", staticText.isVisible());
         
         // Add core and attribute properties.
-        addAttributeProperties(attributes, component, json);
+        JSONUtilities.addAttributes(attributes, component, json);
         setCoreProperties(context, component, json);
         
         return json;
     }
 
     /**
-     * Get the type of widget represented by this component.
+     * Get the template path for this component.
      *
      * @param context FacesContext for the current request.
      * @param component UIComponent to be rendered.
      */
-    protected String getWidgetType(FacesContext context, UIComponent component) {
+    protected String getTemplatePath(FacesContext context, UIComponent component) {
+        String templatePath = (String) component.getAttributes().get("templatePath");
+        return (templatePath != null)
+            ? templatePath
+            : getTheme().getPathToTemplate(ThemeTemplates.STATICTEXT);
+    }
+
+    /**
+     * Get the name of widget represented by this component.
+     *
+     * @param context FacesContext for the current request.
+     * @param component UIComponent to be rendered.
+     */
+    protected String getWidgetName(FacesContext context, UIComponent component) {
         return JavaScriptUtilities.getNamespace("staticText");
     }
 
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     // Private renderer methods
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-    // Helper method to get Theme objects.
-    private Theme getTheme() {
-        return ThemeUtilities.getTheme(FacesContext.getCurrentInstance());
-    }
 }

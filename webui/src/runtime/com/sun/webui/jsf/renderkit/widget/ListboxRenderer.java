@@ -26,9 +26,8 @@ import com.sun.faces.annotation.Renderer;
 import com.sun.webui.jsf.component.Listbox;
 import com.sun.webui.jsf.component.ListSelector;
 import com.sun.webui.jsf.theme.ThemeTemplates;
+import com.sun.webui.jsf.util.JSONUtilities;
 import com.sun.webui.jsf.util.JavaScriptUtilities;
-import com.sun.webui.jsf.util.ThemeUtilities;
-import com.sun.webui.theme.Theme;
 
 import java.io.IOException;
 import javax.faces.component.UIComponent;
@@ -75,32 +74,43 @@ public class ListboxRenderer extends ListRendererBase {
                 "ListboxRenderer can only render Listbox components.");
         }
         Listbox listbox = (Listbox) component;
-        String templatePath = listbox.getHtmlTemplate(); 
 
         // Get the properties from the super class ListRendererBase
         JSONObject json = super.getProperties(context, (ListSelector) listbox);
-        
-        // Render the element and attributes for this component
-        json.put("templatePath", (templatePath != null)
-            ? templatePath
-            : ThemeUtilities.getTheme(FacesContext.getCurrentInstance()).getPathToTemplate(ThemeTemplates.LISTBOX));
-        json.put("visible", listbox.isVisible());
-        json.put("monospace", listbox.isMonospace() );
+        json.put("visible", listbox.isVisible())
+            .put("monospace", listbox.isMonospace() );
 
         // Add core and pass-through attribute properties.
-        addAttributeProperties(attributes, component, json);
+        JSONUtilities.addAttributes(attributes, component, json);
         setCoreProperties(context, component, json);
 
         return json;
     }
     
     /**
-     * Get the type of widget represented by this component.
+     * Get the template path for this component.
      *
      * @param context FacesContext for the current request.
      * @param component UIComponent to be rendered.
      */
-    protected String getWidgetType(FacesContext context, UIComponent component) {
+    protected String getTemplatePath(FacesContext context, UIComponent component) {
+        String templatePath = (String) component.getAttributes().get("templatePath");
+        return (templatePath != null)
+            ? templatePath
+            : getTheme().getPathToTemplate(ThemeTemplates.LISTBOX);
+    }
+
+    /**
+     * Get the name of widget represented by this component.
+     *
+     * @param context FacesContext for the current request.
+     * @param component UIComponent to be rendered.
+     */
+    protected String getWidgetName(FacesContext context, UIComponent component) {
         return JavaScriptUtilities.getNamespace("listbox");
     }
+    
+    // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    // Private methods
+    // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 }

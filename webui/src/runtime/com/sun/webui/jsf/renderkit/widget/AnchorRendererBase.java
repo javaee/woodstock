@@ -27,8 +27,6 @@ import com.sun.webui.jsf.util.ConversionUtilities;
 import com.sun.webui.jsf.util.JSONUtilities;
 import com.sun.webui.jsf.util.JavaScriptUtilities;
 import com.sun.webui.jsf.util.WidgetUtilities;
-import com.sun.webui.jsf.util.ThemeUtilities;
-import com.sun.webui.theme.Theme;
 
 import java.io.IOException;
 import java.util.Iterator;
@@ -89,24 +87,7 @@ public abstract class AnchorRendererBase extends RendererBase{
     protected String getModule(FacesContext context, UIComponent component) {
         return JavaScriptUtilities.getModuleName("widget.anchor");
     }
-      
-    /**
-     * Set the html template to be used by the widget renderer. Override 
-     * this method if different templates are to be used.
-     * @param context FacesContext for the current request.
-     * @param component UIComponent to be rendered.
-     * @param json The JSON object
-     */
-    protected void setHTMLTemplate (FacesContext context, UIComponent component,
-            JSONObject json) throws JSONException, IOException {
-        Theme theme = ThemeUtilities.getTheme(context);        
-        String templatePath = (String) component.getAttributes().get("templatePath");
-        json.put("templatePath",
-            (templatePath != null && templatePath.length() > 0)
-                ? templatePath 
-                : theme.getPathToTemplate(ThemeTemplates.ANCHOR));        
-    }
-    
+   
     /** 
      * Helper method to obtain component properties.
      *
@@ -117,10 +98,32 @@ public abstract class AnchorRendererBase extends RendererBase{
             UIComponent component) throws JSONException, IOException {
         JSONObject json = new JSONObject();
         setAttributes(context, component, json);
-        setHTMLTemplate(context, component, json);
         setContents(context, component, json);
         return json;
     } 
+
+    /**
+     * Get the template path for this component.
+     *
+     * @param context FacesContext for the current request.
+     * @param component UIComponent to be rendered.
+     */
+    protected String getTemplatePath(FacesContext context, UIComponent component) {       
+        String templatePath = (String) component.getAttributes().get("templatePath");
+        return (templatePath != null)
+            ? templatePath
+            : getTheme().getPathToTemplate(ThemeTemplates.ANCHOR);
+    }
+
+    /**
+     * Get the name of widget represented by this component.
+     *
+     * @param context FacesContext for the current request.
+     * @param component UIComponent to be rendered.
+     */
+    protected String getWidgetName(FacesContext context, UIComponent component) {
+        return JavaScriptUtilities.getNamespace("anchor");    
+    }
 
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     // Property methods
@@ -139,7 +142,7 @@ public abstract class AnchorRendererBase extends RendererBase{
         Map attrsMap = component.getAttributes();
 
         // Add core and attribute properties.
-        addAttributeProperties(attributes, component, json);
+        JSONUtilities.addAttributes(attributes, component, json);
         setCoreProperties(context, component, json);
 
         String tmp = null;
@@ -171,25 +174,6 @@ public abstract class AnchorRendererBase extends RendererBase{
             json.put("tabIndex", tabIndex);
         }         
     }
-    /**
-     * Assign the url property.
-     * Override this method if the url is to be set in a different way.
-     * @param context FacesContext for the current request.
-     * @param component UIComponent to be rendered.
-     * @param json The JSON object
-     * @param url The url string to be output.
-     */
-    protected void setURL(FacesContext context, UIComponent component,
-            JSONObject json, String url) throws JSONException {
-        if (url != null && url.length() > 0) {
-            if (!(url.startsWith("#"))) { //NOI18N
-                url = context.getApplication().getViewHandler().getResourceURL(
-                    context, url);
-                url = WidgetUtilities.translateURL(context, component, url); //NOI18N                      
-            }
-            json.put("href", url);
-        } 
-    }
 
     /**
      * Traverse through the children and facet components and add them to 
@@ -212,24 +196,38 @@ public abstract class AnchorRendererBase extends RendererBase{
         if (text != null && text.length() > 0) {
             text = ConversionUtilities.convertValueToString(component, text);
         }
-        JSONUtilities.addProperties(children, text);
+        JSONUtilities.addProperty(children, text);
         Iterator it = component.getChildren().iterator();
         while (it.hasNext()) {
             UIComponent child = (UIComponent) it.next();
             if (!(child instanceof UIParameter)) {
-                JSONUtilities.addProperties(children,
+                JSONUtilities.addProperty(children,
                     WidgetUtilities.renderComponent(context, child));   
             }
         }    
     }
-    
+
     /**
-     * Get the type of widget ro be represented by this component.
-     *
+     * Assign the url property.
+     * Override this method if the url is to be set in a different way.
      * @param context FacesContext for the current request.
      * @param component UIComponent to be rendered.
+     * @param json The JSON object
+     * @param url The url string to be output.
      */
-    protected String getWidgetType(FacesContext context, UIComponent component) {
-        return JavaScriptUtilities.getNamespace("anchor");    
-    }        
+    protected void setURL(FacesContext context, UIComponent component,
+            JSONObject json, String url) throws JSONException {
+        if (url != null && url.length() > 0) {
+            if (!(url.startsWith("#"))) { //NOI18N
+                url = context.getApplication().getViewHandler().getResourceURL(
+                    context, url);
+                url = WidgetUtilities.translateURL(context, component, url); //NOI18N                      
+            }
+            json.put("href", url);
+        } 
+    }
+    
+    // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    // Private methods
+    // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 }

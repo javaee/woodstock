@@ -61,7 +61,6 @@ import org.json.JSONObject;
     rendererType="com.sun.webui.jsf.widget.Calendar",
     componentFamily="com.sun.webui.jsf.Calendar"))
 public class CalendarRenderer extends RendererBase {
-    
     /**
      * The set of pass-through attributes to be rendered.
      */
@@ -74,7 +73,11 @@ public class CalendarRenderer extends RendererBase {
         "style",        
         "tabIndex"           
     };      
-    
+
+    // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    // Renderer Methods
+    // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
     /**
       * Decode the component.
       * 
@@ -132,8 +135,7 @@ public class CalendarRenderer extends RendererBase {
         }             
         
         Calendar calendar = (Calendar) component;
-        Theme theme = ThemeUtilities.getTheme(context);
-        String templatePath = calendar.getHtmlTemplate(); // Get HTML template.      
+        Theme theme = getTheme();
         
         // Get date format pattern help.
         String patternHelp = calendar.getDateFormatPatternHelp();
@@ -152,13 +154,10 @@ public class CalendarRenderer extends RendererBase {
             .put("visible", calendar.isVisible())           
             .put("disabled", calendar.isDisabled())
             .put("patternHelp", patternHelp)
-            .put("dateFormat", dateFormat)               
-            .put("templatePath", (templatePath != null)
-                ? templatePath 
-                : theme.getPathToTemplate(ThemeTemplates.CALENDAR));
+            .put("dateFormat", dateFormat);
         
         // Append label properties.
-        JSONUtilities.addProperties(json, "label",
+        JSONUtilities.addProperty(json, "label",
             WidgetUtilities.renderComponent(context, calendar.getLabelComponent(context, null)));
      
         // Append text field properties.
@@ -169,7 +168,7 @@ public class CalendarRenderer extends RendererBase {
         ImageHyperlink link = calendar.getDatePickerLink(context);        
         link.setIcon(ThemeImages.CALENDAR_BUTTON);	
         link.setToolTip(theme.getMessage("calendar.popupImageAlt"));
-        JSONUtilities.addProperties(json, "link",
+        JSONUtilities.addProperty(json, "link",
                 WidgetUtilities.renderComponent(context, link));
         
         // Append date picker properties.        
@@ -188,23 +187,36 @@ public class CalendarRenderer extends RendererBase {
         }                  
         calendarMonth.initCalendarControls(calendar.getJavaScriptObjectName(context));
         
-        JSONUtilities.addProperties(json, "calendarMonth", 
+        JSONUtilities.addProperty(json, "calendarMonth", 
             WidgetUtilities.renderComponent(context, calendarMonth));        
         
         // Add core and attribute properties.
-        addAttributeProperties(attributes, component, json);
+        JSONUtilities.addAttributes(attributes, component, json);
         setCoreProperties(context, component, json);
         
         return json;
     }    
     
     /**
-     * Get the type of widget represented by this component.
+     * Get the template path for this component.
      *
      * @param context FacesContext for the current request.
      * @param component UIComponent to be rendered.
      */
-    protected String getWidgetType(FacesContext context, UIComponent component) {
+    protected String getTemplatePath(FacesContext context, UIComponent component) {
+        String templatePath = (String) component.getAttributes().get("templatePath");
+        return (templatePath != null)
+            ? templatePath 
+            : getTheme().getPathToTemplate(ThemeTemplates.CALENDAR);
+    }
+
+    /**
+     * Get the name of widget represented by this component.
+     *
+     * @param context FacesContext for the current request.
+     * @param component UIComponent to be rendered.
+     */
+    protected String getWidgetName(FacesContext context, UIComponent component) {
         return JavaScriptUtilities.getNamespace("calendar");
     }
         
@@ -226,7 +238,7 @@ public class CalendarRenderer extends RendererBase {
             Calendar calendar) throws IOException, JSONException {
         TextField textField = getTextField(calendar);
         populateTextField(textField, context, calendar);        
-        JSONUtilities.addProperties(json, "field",
+        JSONUtilities.addProperty(json, "field",
             WidgetUtilities.renderComponent(context, textField));
     }
     

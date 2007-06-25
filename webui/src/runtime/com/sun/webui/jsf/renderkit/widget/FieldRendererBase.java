@@ -69,8 +69,9 @@ public abstract class FieldRendererBase extends RendererBase {
             //
             id = field.getLabeledElementId(context);
         }
-        if (id == null)
+        if (id == null) {
             return;
+        }
        
         String value = null;
         Map params = context.getExternalContext().getRequestParameterMap();
@@ -82,16 +83,9 @@ public abstract class FieldRendererBase extends RendererBase {
             }
         }
         field.setSubmittedValue(value);
-    
     }
     
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    // Private renderer methods
+    // Private methods
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    
-    // Helper method to get Theme objects.
-    protected Theme getTheme() {
-        return ThemeUtilities.getTheme(FacesContext.getCurrentInstance());
-    }
-    
 }

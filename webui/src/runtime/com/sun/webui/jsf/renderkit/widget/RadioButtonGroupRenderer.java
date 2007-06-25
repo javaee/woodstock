@@ -30,9 +30,7 @@ import com.sun.webui.jsf.component.RadioButton;
 import com.sun.webui.jsf.component.RadioButtonGroup;
 import com.sun.webui.jsf.theme.ThemeTemplates;
 import com.sun.webui.jsf.util.JavaScriptUtilities;
-import com.sun.webui.jsf.util.ThemeUtilities;
 import com.sun.webui.jsf.util.ConversionUtilities;
-import com.sun.webui.theme.Theme;
 
 import java.io.IOException;
 
@@ -66,33 +64,40 @@ public class RadioButtonGroupRenderer extends SelectorGroupRenderer {
      *
      * @param context FacesContext for the current request.
      * @param component UIComponent to be rendered.
-     *
      */
     protected JSONObject getProperties(FacesContext context,
             UIComponent component) throws JSONException, IOException {
         if (!(component instanceof RadioButtonGroup)) { 
             throw new IllegalArgumentException(
-                    "RadioButtonGroupRenderer can only render RadioButtonGroup components.");
+                "RadioButtonGroupRenderer can only render RadioButtonGroup components.");
         }
-        RadioButtonGroup rbGroup = (RadioButtonGroup) component;
-        String templatePath = rbGroup.getHtmlTemplate();
-        Theme theme = ThemeUtilities.getTheme(context);        
+        RadioButtonGroup rbGroup = (RadioButtonGroup) component;      
         
         JSONObject json = super.getProperties(context, (Selector)rbGroup);       
-        json.put("templatePath", (templatePath != null)
-                ? templatePath
-                : theme.getPathToTemplate(ThemeTemplates.RADIOBUTTONGROUP));
         json.put("columns", rbGroup.getColumns());
-        return json;
-                
+        return json;     
     }
     
     /**
-     * Get the type of widget represented by this component.
+     * Get the template path for this component.
      *
-     * @return The type of widget represented by this component.
+     * @param context FacesContext for the current request.
+     * @param component UIComponent to be rendered.
      */
-    public String getWidgetType(FacesContext context, UIComponent component) {
+    protected String getTemplatePath(FacesContext context, UIComponent component) {
+        String templatePath = (String) component.getAttributes().get("templatePath");
+        return (templatePath != null)
+            ? templatePath
+            : getTheme().getPathToTemplate(ThemeTemplates.RADIOBUTTONGROUP);
+    }
+
+    /**
+     * Get the name of widget represented by this component.
+     *
+     * @param context FacesContext for the current request.
+     * @param component UIComponent to be rendered.
+     */
+    protected String getWidgetName(FacesContext context, UIComponent component) {
         return JavaScriptUtilities.getNamespace("radioButtonGroup");
     }
     
@@ -154,6 +159,10 @@ public class RadioButtonGroupRenderer extends SelectorGroupRenderer {
 
 	return rb;
     }
+    
+    // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    // Private methods
+    // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
     /**
      * Return true if the <code>item</item> argument is the currently

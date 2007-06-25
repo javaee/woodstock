@@ -81,9 +81,12 @@ public class AccordionRenderer extends RendererBase {
      */
     protected JSONObject getProperties(FacesContext context,
             UIComponent component) throws IOException, JSONException {
+	if (!(component instanceof Accordion)) {
+	    throw new IllegalArgumentException(
+                "AccordionRenderer can only render Accordion components.");
+        }
         Accordion container = (Accordion) component;
-        Theme theme = ThemeUtilities.getTheme(context);
-        String templatePath = container.getHtmlTemplate(); // Get HTML template.
+        Theme theme = getTheme();
 
         JSONObject json = new JSONObject();
         json.put("className", container.getStyleClass())
@@ -91,48 +94,56 @@ public class AccordionRenderer extends RendererBase {
             .put("multipleSelect", container.isMultipleSelect())
             .put("loadOnSelect", container.isLoadOnSelect())
             .put("toggleControls", container.isToggleControls())
-            .put("visible", container.isVisible())
-            .put("templatePath", (templatePath != null)
-                ? templatePath 
-                : theme.getPathToTemplate(ThemeTemplates.ACCORDION));
+            .put("visible", container.isVisible());
             
         if (container.isRefreshButton()) {
-            JSONUtilities.addProperties(json, "refreshImage",
+            JSONUtilities.addProperty(json, "refreshImage",
                 WidgetUtilities.renderComponent(context,
                 container.getRefreshIcon(theme, context)));
         }
         
         if (container.getChildCount() > 0) {
             setContents(context, container, json);
-            
+
             if (container.isToggleControls() && container.isMultipleSelect()) {
-                
                 // Append expand/collapse image properties.
-                JSONUtilities.addProperties(json, "expandAllImage",
+                JSONUtilities.addProperty(json, "expandAllImage",
                     WidgetUtilities.renderComponent(context,
-                    container.getExpandAllIcon(theme, context)));
-                
-                JSONUtilities.addProperties(json, "collapseAllImage",
+                        container.getExpandAllIcon(theme, context)));
+                JSONUtilities.addProperty(json, "collapseAllImage",
                     WidgetUtilities.renderComponent(context,
-                    container.getCollapseAllIcon(theme, context)));
-                
+                        container.getCollapseAllIcon(theme, context)));                
             }
         }
         
         // Add core and attribute properties.
         // this is commented out for now. we may support a onChange
-        addAttributeProperties(attributes, container, json);
+        JSONUtilities.addAttributes(attributes, container, json);
         setCoreProperties(context, container, json);
 
         return json;
     }
 
     /**
-     * Get the type of widget represented by this component.
+     * Get the template path for this component.
      *
-     * @return The type of widget represented by this component.
+     * @param context FacesContext for the current request.
+     * @param component UIComponent to be rendered.
      */
-    protected String getWidgetType(FacesContext context, UIComponent component) {
+    protected String getTemplatePath(FacesContext context, UIComponent component) {
+        String templatePath = (String) component.getAttributes().get("templatePath");
+        return (templatePath != null)
+            ? templatePath 
+            : getTheme().getPathToTemplate(ThemeTemplates.ACCORDION);
+    }
+
+    /**
+     * Get the name of widget represented by this component.
+     *
+     * @param context FacesContext for the current request.
+     * @param component UIComponent to be rendered.
+     */
+    protected String getWidgetName(FacesContext context, UIComponent component) {
         return JavaScriptUtilities.getNamespace("accordion");
     }
 
@@ -155,17 +166,12 @@ public class AccordionRenderer extends RendererBase {
         json.put("accordionTabs", jArray);
 
         for (UIComponent kid : component.getChildren()) {
-            JSONUtilities.addProperties(jArray,
+            JSONUtilities.addProperty(jArray,
                 WidgetUtilities.renderComponent(context, kid));
         }
     }
-
+    
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    // Private renderer methods
+    // Private methods
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-    // Helper method to get Theme objects.
-    private Theme getTheme() {
-        return ThemeUtilities.getTheme(FacesContext.getCurrentInstance());
-    }
 }

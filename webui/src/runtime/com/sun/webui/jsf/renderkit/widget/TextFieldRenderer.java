@@ -107,18 +107,12 @@ public class TextFieldRenderer extends FieldRendererBase {
                 "TextFieldRenderer can only render TextField components.");
         }
         TextField field = (TextField) component;
-        Theme theme = ThemeUtilities.getTheme(context);
         
         // Set rendered value.
         if (field.getSubmittedValue() == null) {
             ConversionUtilities.setRenderedValue(component, field.getText());
         }
-        
-        String templatePath = field.getHtmlTemplate(); // Get HTML template.
-        
-        if (templatePath == null)
-            templatePath  = theme.getPathToTemplate(ThemeTemplates.TEXTFIELD);
-        
+
         String className = field.getStyleClass();
         
         JSONObject json = new JSONObject();
@@ -127,19 +121,18 @@ public class TextFieldRenderer extends FieldRendererBase {
         .put("required", field.isRequired())
         .put("valid", field.isValid())
         .put("className", className )
-        .put("templatePath", templatePath)
         .put("size", field.getColumns())
         .put("visible", field.isVisible())
         .put("title", field.getToolTip())
         .put("autoValidate", field.isAutoValidate());
         
         // Append label properties.
-        JSONUtilities.addProperties(json, "label",
+        JSONUtilities.addProperty(json, "label",
             WidgetUtilities.renderComponent(context, field.getLabelComponent(
                 context, null)));
         
         // Add core and attribute properties.
-        addAttributeProperties(attributes, component, json);
+        JSONUtilities.addAttributes(attributes, component, json);
         setCoreProperties(context, component, json);
         setNotifyProperties(context, component, json);
         
@@ -147,12 +140,25 @@ public class TextFieldRenderer extends FieldRendererBase {
     }
     
     /**
-     * Get the type of widget represented by this component.
+     * Get the template path for this component.
      *
      * @param context FacesContext for the current request.
      * @param component UIComponent to be rendered.
      */
-    protected String getWidgetType(FacesContext context, UIComponent component) {
+    protected String getTemplatePath(FacesContext context, UIComponent component) {
+        String templatePath = (String) component.getAttributes().get("templatePath");
+        return (templatePath != null)
+            ? templatePath
+            : getTheme().getPathToTemplate(ThemeTemplates.TEXTFIELD);
+    }
+
+    /**
+     * Get the name of widget represented by this component.
+     *
+     * @param context FacesContext for the current request.
+     * @param component UIComponent to be rendered.
+     */
+    protected String getWidgetName(FacesContext context, UIComponent component) {
         return JavaScriptUtilities.getNamespace("textField");
     }
 
@@ -183,4 +189,8 @@ public class TextFieldRenderer extends FieldRendererBase {
             jArray.put(st.nextToken());
         }
     }
+    
+    // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    // Private methods
+    // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 }

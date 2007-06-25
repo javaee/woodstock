@@ -74,19 +74,23 @@ public class EditableFieldRenderer extends TextFieldRenderer {
                     "EditableFieldRenderer can only render EditableField components.");
         }
         EditableField field = (EditableField) component;
+
         JSONObject json = super.getProperties(context, component);
-        
         json.put("autoSave", field.isAutoSave());
         return json;
     }
 
     /**
-     * Get the type of widget represented by this component.
+     * Get the name of widget represented by this component.
      *
      * @param context FacesContext for the current request.
      * @param component UIComponent to be rendered.
      */
-    protected String getWidgetType(FacesContext context, UIComponent component) {
+    protected String getWidgetName(FacesContext context, UIComponent component) {
         return JavaScriptUtilities.getNamespace("editableField");
     }
+    
+    // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    // Private methods
+    // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 }

@@ -25,6 +25,7 @@ package com.sun.webui.jsf.renderkit.widget;
 import com.sun.faces.annotation.Renderer;
 import com.sun.webui.jsf.component.Icon;
 import com.sun.webui.jsf.theme.ThemeImages;
+import com.sun.webui.jsf.theme.ThemeTemplates;
 import com.sun.webui.jsf.util.ClientSniffer;
 import com.sun.webui.jsf.util.JSONUtilities;
 import com.sun.webui.jsf.util.WidgetUtilities;
@@ -48,35 +49,10 @@ public class AnchorRenderer extends AnchorRendererBase {
       * Id of the transparent image to be rendered for IE browsers
       */    
      private static String ANCHOR_IMAGE = "_img";
-        
-    /**
-     * This  renders a spacer image if there are no children or
-     * text provided for the anchor. This is a work around for IE browsers
-     * which does not locate the anchor if nothing is specified in the body
-     * of the anchor.      
-     * @param json The json object
-     * @param component The ImageHyperlink component
-     * @param context The FacesContext
-     */
-    protected void setContents(FacesContext context, UIComponent component, 
-            JSONObject json)throws JSONException, IOException{
-        super.setContents(context, component, json);
-        JSONArray children = (JSONArray)json.get("contents");
-        // Fix for IE. If no text or image is specified, render a placeholder image
-        // so that the browser can identify the anchor element.
-        if (component.getChildCount() == 0 || 
-            component.getAttributes().get("text") == null) {        
-            ClientSniffer sniffer = ClientSniffer.getInstance(context);
-            if (sniffer.isIe6up() || sniffer.isIe7() || sniffer.isIe7up()) {                      
-                Icon icon = new Icon();
-                icon.setParent(component);
-                icon.setIcon(ThemeImages.DOT);    
-                icon.setId(component.getId() + ANCHOR_IMAGE);
-                JSONUtilities.addProperties(children,
-                    WidgetUtilities.renderComponent(context, icon));   
-            }
-        }        
-     }
+
+    // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    // Property methods
+    // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
     /**
      * Add the component id to the json attribute list.
@@ -92,4 +68,38 @@ public class AnchorRenderer extends AnchorRendererBase {
         String name = component.getId();
         json.put("name", name);
     }
+
+    /**
+     * This  renders a spacer image if there are no children or
+     * text provided for the anchor. This is a work around for IE browsers
+     * which does not locate the anchor if nothing is specified in the body
+     * of the anchor.      
+     * @param json The json object
+     * @param component The ImageHyperlink component
+     * @param context The FacesContext
+     */
+    protected void setContents(FacesContext context, UIComponent component, 
+            JSONObject json)throws JSONException, IOException{
+        super.setContents(context, component, json);
+        JSONArray children = (JSONArray)json.get("contents");
+
+        // Fix for IE. If no text or image is specified, render a placeholder image
+        // so that the browser can identify the anchor element.
+        if (component.getChildCount() == 0 || 
+            component.getAttributes().get("text") == null) {        
+            ClientSniffer sniffer = ClientSniffer.getInstance(context);
+            if (sniffer.isIe6up() || sniffer.isIe7() || sniffer.isIe7up()) {                      
+                Icon icon = new Icon();
+                icon.setParent(component);
+                icon.setIcon(ThemeImages.DOT);    
+                icon.setId(component.getId() + ANCHOR_IMAGE);
+                JSONUtilities.addProperty(children,
+                    WidgetUtilities.renderComponent(context, icon));   
+            }
+        }        
+     }
+    
+    // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    // Private methods
+    // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 }

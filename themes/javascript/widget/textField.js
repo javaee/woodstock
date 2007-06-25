@@ -26,6 +26,7 @@ dojo.require("dojo.widget.*");
 dojo.require("webui.@THEME@.*");
 dojo.require("webui.@THEME@.widget.*");
 dojo.require("webui.@THEME@.widget.field");
+
 /**
  * This function is used to generate a template based widget.
  *
@@ -75,8 +76,6 @@ webui.@THEME@.widget.textField.getProps = function() {
     return props;
 }
 
-
-
 /**
  * This closure is used to process refresh events.
  */
@@ -109,9 +108,6 @@ webui.@THEME@.widget.textField.refresh = {
     }
 }
 
-
-
-
 /**
  * This closure is used to process submit events.
  */
@@ -143,9 +139,6 @@ webui.@THEME@.widget.textField.submit = {
         return true;
     }
 }
-
-
-
 
 /**
  * This closure is used to process validation events.
@@ -196,7 +189,6 @@ dojo.lang.extend(webui.@THEME@.widget.textField, {
     getProps: webui.@THEME@.widget.textField.getProps,
     refresh: webui.@THEME@.widget.textField.refresh.processEvent,
     submit: webui.@THEME@.widget.textField.submit.processEvent,
-   
 
     // Set defaults.
     widgetType: "textField"

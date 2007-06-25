@@ -254,7 +254,6 @@ webui.@THEME@.widget.editableField.refresh = {
     }
 }
 
-
 /** 
  *  This closure is used to handle submit events.
  */

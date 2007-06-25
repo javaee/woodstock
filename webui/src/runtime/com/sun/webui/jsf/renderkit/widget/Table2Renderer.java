@@ -110,13 +110,10 @@ public class Table2Renderer extends RendererBase {
         String templatePath = table.getHtmlTemplate(); // Get HTML template.
 
         JSONObject json = new JSONObject();
-        json.put("templatePath", (templatePath != null)
-                ? templatePath 
-                : getTheme().getPathToTemplate(ThemeTemplates.TABLE2))
-            .put("width", table.getWidth());
+        json.put("width", table.getWidth());
 
         // Add properties.
-        addAttributeProperties(attributes, table, json);
+        JSONUtilities.addAttributes(attributes, table, json);
         setCoreProperties(context, table, json);
         setRowGroupProperties(context, table, json);
         setActionsProperties(context, table, json);
@@ -126,12 +123,25 @@ public class Table2Renderer extends RendererBase {
     }
 
     /**
-     * Get the type of widget represented by this component.
+     * Get the template path for this component.
      *
      * @param context FacesContext for the current request.
      * @param component UIComponent to be rendered.
      */
-    protected String getWidgetType(FacesContext context, UIComponent component) {
+    protected String getTemplatePath(FacesContext context, UIComponent component) {
+        String templatePath = (String) component.getAttributes().get("templatePath");
+        return (templatePath != null)
+            ? templatePath
+            : getTheme().getPathToTemplate(ThemeTemplates.TABLE2);
+    }
+
+    /**
+     * Get the name of widget represented by this component.
+     *
+     * @param context FacesContext for the current request.
+     * @param component UIComponent to be rendered.
+     */
+    protected String getWidgetName(FacesContext context, UIComponent component) {
         return JavaScriptUtilities.getNamespace("table2");
     }
 
@@ -151,7 +161,7 @@ public class Table2Renderer extends RendererBase {
         // Get actions facet.
         UIComponent facet = component.getFacet(Table2.ACTIONS_TOP_FACET);
         if (facet != null && facet.isRendered()) {
-            JSONUtilities.addProperties(json, "actions",
+            JSONUtilities.addProperty(json, "actions",
                 WidgetUtilities.renderComponent(context, facet));
         }
     }
@@ -173,7 +183,7 @@ public class Table2Renderer extends RendererBase {
         while (kids.hasNext()) {           
             Table2RowGroup group = (Table2RowGroup) kids.next();
             if (group.isRendered()) {
-                JSONUtilities.addProperties(jArray,
+                JSONUtilities.addProperty(jArray,
                     WidgetUtilities.renderComponent(context, group));
             }
         }
@@ -202,9 +212,4 @@ public class Table2Renderer extends RendererBase {
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     // Private renderer methods
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-    // Helper method to get Theme objects.
-    private Theme getTheme() {
-        return ThemeUtilities.getTheme(FacesContext.getCurrentInstance());
-    }
 }

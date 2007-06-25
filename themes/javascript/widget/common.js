@@ -32,9 +32,9 @@ webui.@THEME@.widget.common = {
     /**
      * This function is used to create a widget.
      *
-     * Note: The props argument must be a JSON object containing a _widgetType
+     * Note: The props argument must be a JSON object containing a widgetName
      * value so the correct widget may be created. If props also contains a 
-     * _module property, the specified resources shall be retrieved before 
+     * module property, the specified resources shall be retrieved before 
      * creating the widget.
      *
      * Note: The position argument is passed though to Dojo's createWidget
@@ -54,12 +54,12 @@ webui.@THEME@.widget.common = {
         webui.@THEME@.widget.common.destroyWidget(props.id);
 
         // Retrieve required module.
-        if (props._module) {
-            webui.@THEME@.widget.common.require(props._module);
+        if (props.module) {
+            webui.@THEME@.widget.common.require(props.module);
         }
 
         // Create widget.
-        var widget = dojo.widget.createWidget(props._widgetType, props,
+        var widget = dojo.widget.createWidget(props.widgetName, props,
             parentNode, position);
 
         // Register widget so that it may be destroyed properly.
@@ -123,9 +123,9 @@ webui.@THEME@.widget.common = {
      * may be added to the document in the proper location. It is assumed that
      * the HTML element (i.e., document fragment) has the same id as the widget.
      *
-     * Note: The props argument must be a JSON object containing a _widgetType
+     * Note: The props argument must be a JSON object containing a widgetName
      * value so the correct widget may be created. If props also contains a 
-     * _module property, the specified resources shall be retrieved before 
+     * module property, the specified resources shall be retrieved before 
      * creating the widget.
      *
      * @param props Key-Value pairs of properties.

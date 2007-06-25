@@ -54,8 +54,8 @@
               value="${components.home}/lib/webui-jsf.jar"/>
 
     <!-- tools -->
-    <property name="compress.jar"
-              value="${tools}/javascript/compress.jar"/>
+    <property name="tools.jar"
+              value="${tools}/javascript/tools.jar"/>
     <property name="rhino.jar"
               value="${tools}/javascript/custom_rhino.jar"/>
 
@@ -119,10 +119,11 @@
         <copy todir="${_dest-path_}/javascript">
             <fileset dir="${_dest-path_}/javascript_uncompressed"/>
         </copy>
-        <java jar="${compress.jar}" failonerror="true" fork="true">
+        <java jar="${tools.jar}" failonerror="true" fork="true">
+          <arg value="-compressJS"/>
           <arg value="-rhinoJar"/>
           <arg value="${rhino.jar}"/>
-          <arg value="-pathName"/>
+          <arg value="-sourcePath"/>
           <arg value="${_dest-path_}/javascript"/>
           <arg value="-verbose"/>
         </java>

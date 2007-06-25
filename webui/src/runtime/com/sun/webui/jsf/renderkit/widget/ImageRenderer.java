@@ -32,9 +32,9 @@ import com.sun.webui.jsf.theme.ThemeImages;
 import com.sun.webui.jsf.theme.ThemeTemplates;
 
 import com.sun.webui.jsf.util.LogUtil;
+import com.sun.webui.jsf.util.JSONUtilities;
 import com.sun.webui.jsf.util.JavaScriptUtilities;
 import com.sun.webui.jsf.util.WidgetUtilities;
-import com.sun.webui.jsf.util.ThemeUtilities;
 import com.sun.webui.jsf.util.ClientSniffer;
 
 import java.io.IOException;
@@ -202,13 +202,9 @@ public class ImageRenderer extends RendererBase {
             ? context.getExternalContext().encodeResourceURL(url) : "";
         url = WidgetUtilities.translateURL(context, image, url);
 
-        JSONObject json = new JSONObject();
-        String style = image.getStyle();                     
-        String templatePath = image.getHtmlTemplate(); // Get HTML template.                        
-        json.put("templatePath", (templatePath != null)
-                ? templatePath 
-                : getTheme().getPathToTemplate(ThemeTemplates.IMAGE))        
-            .put("visible", image.isVisible())
+        String style = image.getStyle();
+        JSONObject json = new JSONObject();                       
+        json.put("visible", image.isVisible())
             .put("alt", alt)
             .put("title", image.getToolTip());        
 
@@ -218,11 +214,9 @@ public class ImageRenderer extends RendererBase {
             json.put("src", url)
                 .put("style", style);
         }
-
         if (width > 0) {
             json.put("width", width);
         }
-        
         if (height > 0) {
             json.put("height", height);
         }
@@ -231,21 +225,34 @@ public class ImageRenderer extends RendererBase {
         if (styleclass != null && styleclass.length() > 0) {
             json.put("className", styleclass);
         }
+
         // Add core and attribute properties.
-        addAttributeProperties(attributes, component, json);
+        JSONUtilities.addAttributes(attributes, component, json);
         setCoreProperties(context, component, json);
 
         return json;
     }
 
     /**
-     * Get the type of widget represented by this component.
-     * This method returns "image" as the widget type.
+     * Get the template path for this component.
      *
      * @param context FacesContext for the current request.
      * @param component UIComponent to be rendered.
      */
-    protected String getWidgetType(FacesContext context, UIComponent component) {
+    protected String getTemplatePath(FacesContext context, UIComponent component) {
+        String templatePath = (String) component.getAttributes().get("templatePath");
+        return (templatePath != null)
+            ? templatePath
+            : getTheme().getPathToTemplate(ThemeTemplates.IMAGE);
+    }
+
+    /**
+     * Get the name of widget represented by this component.
+     *
+     * @param context FacesContext for the current request.
+     * @param component UIComponent to be rendered.
+     */
+    protected String getWidgetName(FacesContext context, UIComponent component) {
         return JavaScriptUtilities.getNamespace("image");
     }
 
@@ -302,25 +309,17 @@ public class ImageRenderer extends RendererBase {
     }
     
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    // Private renderer methods
+    // Private methods
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-    /**
-     * Helper method to return the theme to be used.
-     * @return The theme to be used.
-     */
-    private Theme getTheme() {
-        return ThemeUtilities.getTheme(FacesContext.getCurrentInstance());
-    }
 
     /**
      * Helper method to check whether the image specified is of type "png"
      * This menthod will return true only if the image is of type "png" and
      * the browser version is lesser than IE 7.x. These browsers seem to have
      * a problem with displaying png images.
+     * 
      * @param context The FacesContext instance.
      * @param url The path to the specified image instance.
-     *
      * @return A boolean value which indicates the image is of "png" type or not.
      */
     private boolean isPngAndIE(FacesContext context, String url) {

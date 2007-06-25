@@ -58,7 +58,7 @@ abstract class SelectorGroupRenderer extends RendererBase {
     };
     
     protected abstract UIComponent getSelectorComponent(FacesContext context,
-            UIComponent component, String id, Option option);
+        UIComponent component, String id, Option option);
 
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     // Renderer methods
@@ -86,15 +86,12 @@ abstract class SelectorGroupRenderer extends RendererBase {
      * @param component The RadioButtonGroup component to be decoded.
      */
     public void decode(FacesContext context, UIComponent component) {
-        
         if (context == null || component == null) {
             throw new NullPointerException();
         }
-        
         if (ComponentUtilities.isDisabled(component)|| ComponentUtilities.isReadOnly(component)) {
             return;
         }
-        
         setSubmittedValues(context, component);
     }
 
@@ -104,17 +101,18 @@ abstract class SelectorGroupRenderer extends RendererBase {
 
     /**
      * Helper method to obtain component properties
+     * 
      * @param context FacesContext for the current request.
      * @param component UIComponent to be rendered.
-     *
      */
     protected JSONObject getProperties(FacesContext context,
             Selector component) throws IOException, JSONException {
         JSONObject json = new JSONObject();
         
         // Append label properties. 
-        JSONUtilities.addProperties( json, "label",
-            WidgetUtilities.renderComponent(context, getLabelComponent(context, component)));
+        JSONUtilities.addProperty( json, "label",
+            WidgetUtilities.renderComponent(context, 
+                getLabelComponent(context, component)));
         
         // Set StyleClass
         json.put("className", component.getStyleClass());
@@ -137,9 +135,9 @@ abstract class SelectorGroupRenderer extends RendererBase {
         }
         
         // Add core and attribute properties.
-        addAttributeProperties(attributes, component, json);
+        JSONUtilities.addAttributes(attributes, component, json);
         setCoreProperties(context, component, json);
-        addContents(context, component, json);
+        setContents(context, component, json);
         
         return json;
     }
@@ -150,25 +148,24 @@ abstract class SelectorGroupRenderer extends RendererBase {
 
     /**
      * Helper method to obtain group children.
+     * 
      * @param context FacesContext for the current request.
      * @param component RadioButtonGroup/CheckboxGroup to be rendered.
      * @param json JSONObject to assign properties to.
-     *
      */
-    protected void addContents(FacesContext context, UIComponent component,
-            JSONObject json)
-            throws IOException, JSONException {
+    protected void setContents(FacesContext context, UIComponent component,
+            JSONObject json) throws IOException, JSONException {
         
         JSONArray children = new JSONArray();
         json.put("contents", children);
         
-        Option[] items = getItems((Selector)component);
-        int length = items.length;                
-        
+        Option[] items = getItems((Selector) component);
+        int length = items.length;
         int itemN = 0;
+
         for (int i = 0; i <= length; i++) {
             UIComponent child = getChildComponent(context, component, itemN);
-            JSONUtilities.addProperties(children, WidgetUtilities.renderComponent(context, child));
+            JSONUtilities.addProperty(children, WidgetUtilities.renderComponent(context, child));
             ++itemN;            
         }          
     }

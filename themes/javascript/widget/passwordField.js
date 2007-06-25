@@ -37,7 +37,6 @@ webui.@THEME@.widget.passwordField = function() {
     dojo.widget.HtmlWidget.call(this);
 }
 
-
 /**
  * Helper function to obtain widget class names.
  */
@@ -45,12 +44,9 @@ webui.@THEME@.widget.passwordField.getClassName = function() {
     // Set default style.    
     var className = (this.disabled == true)
         ? webui.@THEME@.widget.props.passwordField.disabledClassName
-        : webui.@THEME@.widget.props.passwordField.className;
-    
+        : webui.@THEME@.widget.props.passwordField.className;   
     return className;
 }
-
-
 
 // Inherit base widget properties.
 dojo.inherits(webui.@THEME@.widget.passwordField, webui.@THEME@.widget.field);

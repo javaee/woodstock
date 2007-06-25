@@ -27,7 +27,6 @@ import com.sun.webui.jsf.util.JavaScriptUtilities;
 import com.sun.webui.jsf.util.ThemeUtilities;
 
 import java.io.IOException;
-import java.util.Map;
 
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
@@ -87,9 +86,9 @@ abstract public class RendererBase extends Renderer {
         boolean isWidgetChild = isWidgetChild(context, component);
 
         // Not all components need to render JavaScript and instantiate a
-        // client-side widget. Therefore, if getWidgetType() returns null, only
+        // client-side widget. Therefore, if getWidgetName() returns null, only
         // JSON properties are output.
-        if (isWidgetChild || getWidgetType(context, component) == null) {
+        if (isWidgetChild || getWidgetName(context, component) == null) {
             return;
         }
 
@@ -178,9 +177,9 @@ abstract public class RendererBase extends Renderer {
         boolean isWidgetChild = isWidgetChild(context, component);
 
         // Not all components need to render JavaScript and instantiate a
-        // client-side widget. Therefore, if getWidgetType() returns null, only
+        // client-side widget. Therefore, if getWidgetName() returns null, only
         // JSON properties are output.
-        if (isWidgetChild || getWidgetType(context, component) == null) {
+        if (isWidgetChild || getWidgetName(context, component) == null) {
             return;
         }
 
@@ -200,36 +199,8 @@ abstract public class RendererBase extends Renderer {
     }
 
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    // Property methods
+    // Abstract methods
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-    /**
-     * This method may be used to add attribute name/value pairs to the given
-     * JSONObject.
-     *
-     * @param names Array of attribute names to be passed through.
-     * @param component UIComponent to be rendered.
-     * @param json JSONObject to add name/value pairs to.
-     *
-     * @exception IOException if an input/output error occurs
-     * @exception JSONException if a key/value error occurs
-     */
-    protected void addAttributeProperties(String names[], UIComponent component,
-            JSONObject json) throws JSONException {
-        if (names == null) {
-            return;
-        }
-        Map attributes = component.getAttributes();
-        for (int i = 0; i < names.length; i++) {
-            Object value = attributes.get(names[i]);
-            if (value != null && value instanceof Integer) {
-                if (((Integer) value).intValue() == Integer.MIN_VALUE) {
-                    continue;
-                }
-            }
-            json.put(names[i], value);
-        }
-    }
 
     /**
      * Get the Dojo modules required to instantiate the widget.
@@ -255,15 +226,30 @@ abstract public class RendererBase extends Renderer {
         UIComponent component) throws IOException, JSONException;
 
     /**
-     * Get the type of widget represented by this component.
+     * Get the template path for this component.
      *
      * @param context FacesContext for the current request.
      * @param component UIComponent to be rendered.
      *
      * @exception IOException if an input/output error occurs
      */
-    abstract protected String getWidgetType(FacesContext context,
+    abstract protected String getTemplatePath(FacesContext context,
         UIComponent component) throws IOException;
+
+    /**
+     * Get the name of widget represented by this component.
+     *
+     * @param context FacesContext for the current request.
+     * @param component UIComponent to be rendered.
+     *
+     * @exception IOException if an input/output error occurs
+     */
+    abstract protected String getWidgetName(FacesContext context,
+        UIComponent component) throws IOException;
+
+    // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    // Property methods
+    // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
     /**
      * This method may be used to set core name/value pairs for the given
@@ -278,19 +264,29 @@ abstract public class RendererBase extends Renderer {
      */
     protected void setCoreProperties(FacesContext context, UIComponent component, 
             JSONObject json) throws IOException, JSONException {
+        // Get template.
+        String templatePath = getTemplatePath(context, component);
+
+        // Set properties.
         json.put("id", component.getClientId(context))
-            .put("_module", getModule(context, component))
-            .put("_widgetType", getWidgetType(context, component));    
+            .put("module", getModule(context, component))
+            .put("widgetName", getWidgetName(context, component))
+            .put("templatePath", templatePath);
+
+        // The templateString property takes precedence and must be cleared.
+        if (templatePath != null && templatePath.length() > 0) {
+            json.put("templateString", "");
+        }
+    }
+
+    // Helper method to get Theme objects.
+    protected Theme getTheme() {
+        return ThemeUtilities.getTheme(FacesContext.getCurrentInstance());
     }
 
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     // Private methods
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-    // Helper method to get Theme objects.
-    private Theme getTheme() {
-        return ThemeUtilities.getTheme(FacesContext.getCurrentInstance());
-    }
 
     /**
      * Helper method to test if the given component is a widget child. If the

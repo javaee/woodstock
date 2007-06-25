@@ -99,7 +99,7 @@ public class WidgetUtilities {
 		img.setParent(parent);
 	    }
 	    indjson.put("type", type);
-	    JSONUtilities.addProperties(indjson, "image",
+	    JSONUtilities.addProperty(indjson, "image",
                 WidgetUtilities.renderComponent(context, img));
 	    indicatorArray.put(indjson);
 	}

@@ -38,9 +38,9 @@ webui.@THEME@.widget.widgetBase = function() {
  * This function is used to add a widget or HTML string to the given parent 
  * node.
  *
- * Note: If props is a JSON object, it must contain a _widgetType value so the 
+ * Note: If props is a JSON object, it must contain a widgetName value so the 
  * correct widget may be created. The newly created widget is added as a child
- * of the given parentNode. If props also contains a _module property, the 
+ * of the given parentNode. If props also contains a module property, the 
  * specified resources shall be retrieved before creating the widget. If props 
  * is a string, it will be added to the given parentNode, but position does not
  * apply.
@@ -135,7 +135,7 @@ webui.@THEME@.widget.addFragment = function(parentNode, props, position) {
 
         // Evaluate JavaScript.
         setTimeout(function() {props.evalScripts()}, 10);
-    } else if (props._widgetType) {
+    } else if (props.widgetName) {
         // Create widget.
         webui.@THEME@.widget.common.createWidget(props, parentNode, position);
     }

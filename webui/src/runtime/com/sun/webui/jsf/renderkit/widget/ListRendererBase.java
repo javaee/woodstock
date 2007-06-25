@@ -192,7 +192,7 @@ abstract public class ListRendererBase extends RendererBase {
         boolean labelOnTop = component.isLabelOnTop();
         
         if(label != null && !labelOnTop && component.getRows() > 1) {
-            Theme theme = ThemeUtilities.getTheme(context);
+            Theme theme = getTheme();
             String listAlign = theme.getStyleClass(ThemeStyles.LIST_ALIGN);
             Map attributes = label.getAttributes();
             Object styleClass = attributes.get("styleClass");
@@ -204,7 +204,7 @@ abstract public class ListRendererBase extends RendererBase {
         }
         
         // Append label properties. null label will be checked in the WidgetUtilities.renderComponent()
-        JSONUtilities.addProperties( json, "label",
+        JSONUtilities.addProperty( json, "label",
             WidgetUtilities.renderComponent(context, label) );
         
         // StyleClass, labelOnTop
@@ -221,7 +221,7 @@ abstract public class ListRendererBase extends RendererBase {
     }
 
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    // Property methods
+    // Private methods
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
     /**
@@ -241,7 +241,8 @@ abstract public class ListRendererBase extends RendererBase {
         json.put( "title", listManager.getToolTip() );
        
         // Get the properties for all the option elements
-        getListOptionsProperties(json,(UIComponent)listManager, listManager.getListItems(context, true));
+        getListOptionsProperties(json,(UIComponent)listManager, 
+            listManager.getListItems(context, true));
     }
     
     /**
@@ -270,6 +271,7 @@ abstract public class ListRendererBase extends RendererBase {
 
         // Specific for the optgroup
         JSONObject groupOptionJson = null;
+
         // Options for the current optgroup
         JSONArray groupOptionsJsonArray = null;
         
@@ -295,8 +297,7 @@ abstract public class ListRendererBase extends RendererBase {
                         optionsJsonArray.put( separatorJson );
                     }
                 }
-            }
-            else if (option instanceof StartGroup ) {
+            } else if (option instanceof StartGroup ) {
                 
                 StartGroup group = (StartGroup)option;
                 
@@ -317,8 +318,7 @@ abstract public class ListRendererBase extends RendererBase {
                 groupOptionsJsonArray = new JSONArray();
                 
                 noSeparator = true;
-            } 
-            else if(option instanceof EndGroup ) {
+            } else if(option instanceof EndGroup ) {
                 
                 // Done with this group.
                 groupOptionJson.put( "options", groupOptionsJsonArray );
@@ -329,7 +329,6 @@ abstract public class ListRendererBase extends RendererBase {
                     getSeparatorProperties(separatorJson, component);
                     optionsJsonArray.put( separatorJson );
                 }
-                
                 noSeparator = true;
             } else { 
                 
@@ -337,12 +336,12 @@ abstract public class ListRendererBase extends RendererBase {
                 JSONObject optionJson = new JSONObject();
                 getListOptionProperties(optionJson, (ListItem)option);
                 
-                if( groupOptionsJsonArray != null )
+                if( groupOptionsJsonArray != null ) {
                     // This means this option belongs to the optgroup we're working on
                     groupOptionsJsonArray.put( optionJson );
-                else
+                } else {
                     optionsJsonArray.put( optionJson );
-                
+                }
                 noSeparator = false;
             }
             
@@ -350,8 +349,6 @@ abstract public class ListRendererBase extends RendererBase {
         
         // Add all the options to the json object
         json.put( "options", optionsJsonArray );
-        
-        // DONE!
     }
     
     /**
@@ -360,8 +357,8 @@ abstract public class ListRendererBase extends RendererBase {
      * @param json The JSONObject for adding the properties
      * @param component The List component
      */
-    private void getSeparatorProperties(JSONObject json, UIComponent component) throws JSONException {
-        
+    private void getSeparatorProperties(JSONObject json, UIComponent component) 
+            throws JSONException {
         if (!canGetSeparatorProperties(component)) {
             return;
         }
@@ -400,8 +397,8 @@ abstract public class ListRendererBase extends RendererBase {
      * @param json The JSONObject for adding the properties
      * @param listItem The list item for the option
      */
-    private void getListOptionProperties(JSONObject json, ListItem listItem) throws JSONException {
-        
+    private void getListOptionProperties(JSONObject json, ListItem listItem) 
+            throws JSONException {
         json.put( "group", false ); // Not a group
         json.put( "separator", false );  // Not a separator
         json.put( "disabled", listItem.isDisabled() );
@@ -409,7 +406,6 @@ abstract public class ListRendererBase extends RendererBase {
         json.put( "value", listItem.getValue() );
         json.put( "isTitle", listItem.isTitle() );  // A title option
         json.put( "label", listItem.getLabel() );
-        
         return;
     }
     
@@ -417,12 +413,11 @@ abstract public class ListRendererBase extends RendererBase {
      * This must be called where the value is about to be rendered
      * for DB Null value support
      */
-    private void recordRenderedValue(UIComponent component){
-	
-	if (component instanceof EditableValueHolder &&
-		((EditableValueHolder)component).getSubmittedValue() == null) {
+    private void recordRenderedValue(UIComponent component) {
+	if (component instanceof EditableValueHolder 
+                && ((EditableValueHolder)component).getSubmittedValue() == null) {
 	    ConversionUtilities.setRenderedValue(component, 
-		    ((EditableValueHolder)component).getValue());
+		((EditableValueHolder)component).getValue());
 	}
     }
 }

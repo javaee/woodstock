@@ -60,7 +60,7 @@ import org.json.JSONObject;
 @Renderer(@Renderer.Renders(
     rendererType="com.sun.webui.jsf.widget.ImageHyperlink", 
     componentFamily="com.sun.webui.jsf.ImageHyperlink"))
-public class ImageHyperlinkRenderer extends HyperlinkRenderer{
+public class ImageHyperlinkRenderer extends HyperlinkRenderer {
     // Used in positioning of the text.
     private static final String LABEL_LEFT="left";
 
@@ -82,35 +82,31 @@ public class ImageHyperlinkRenderer extends HyperlinkRenderer{
     }    
 
     /**
-     * Get the type of widget represented by this component.
-     * This method returns "imageHyperlink" as the widget type.
+     * Get the template path for this component.
+     *
      * @param context FacesContext for the current request.
      * @param component UIComponent to be rendered.
      */
-    protected String getWidgetType(FacesContext context, UIComponent component) {
+    protected String getTemplatePath(FacesContext context, UIComponent component) {
+        String templatePath = (String) component.getAttributes().get("templatePath");
+        return (templatePath != null)
+            ? templatePath
+            : getTheme().getPathToTemplate(ThemeTemplates.IMAGEHYPERLINK);
+    }
+
+    /**
+     * Get the name of widget represented by this component.
+     *
+     * @param context FacesContext for the current request.
+     * @param component UIComponent to be rendered.
+     */
+    protected String getWidgetName(FacesContext context, UIComponent component) {
             return JavaScriptUtilities.getNamespace("imageHyperlink");            
     }
 
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     // Property methods
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-    /**
-     * Set the html template to be used by the widget renderer. Override 
-     * this method if different templates are to be used.
-     * @param context FacesContext for the current request.
-     * @param component UIComponent to be rendered.
-     * @param json The JSON object
-     */
-    protected void setHTMLTemplate (FacesContext context, UIComponent component,
-            JSONObject json) throws JSONException, IOException {
-        Theme theme = ThemeUtilities.getTheme(context);        
-        String templatePath = (String) component.getAttributes().get("templatePath");
-        json.put("templatePath",
-            (templatePath != null && templatePath.length() > 0)
-                ? templatePath 
-                : theme.getPathToTemplate(ThemeTemplates.IMAGEHYPERLINK));        
-    }
     
     /**
      * The imageHyperlink renderer adds the text attribute as a part of the contents
@@ -147,18 +143,18 @@ public class ImageHyperlinkRenderer extends HyperlinkRenderer{
         ImageComponent ic = ilink.getImageFacet(); 
                             
         if (label != null) {
-            JSONUtilities.addProperties(children, label);
-            JSONUtilities.addProperties(children, "&nbsp;");            
+            JSONUtilities.addProperty(children, label);
+            JSONUtilities.addProperty(children, "&nbsp;");            
         }
           
         if (ic != null) {
-            JSONUtilities.addProperties(json, "enabledImage",            
+            JSONUtilities.addProperty(json, "enabledImage",            
                 WidgetUtilities.renderComponent(context, ic));
         }
           
         UIComponent disabledImage = component.getFacets().get(DISABLED_IMAGE);
         if (disabledImage != null) {
-            JSONUtilities.addProperties(json, "disabledImage",            
+            JSONUtilities.addProperty(json, "disabledImage",            
                 WidgetUtilities.renderComponent(context, disabledImage));
         }
 
@@ -167,9 +163,13 @@ public class ImageHyperlinkRenderer extends HyperlinkRenderer{
         while (it.hasNext()) {
             child = (UIComponent)it.next();
             if (!(child instanceof UIParameter)) {
-                JSONUtilities.addProperties(children,
+                JSONUtilities.addProperty(children,
                     WidgetUtilities.renderComponent(context, child));                            
             }        
         }         
-    }   
+    }
+    
+    // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    // Private methods
+    // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 }

@@ -112,12 +112,12 @@ public class HyperlinkRenderer extends AnchorRendererBase{
     }
 
     /**
-     * Returns the type of widget represented by this component.
-     * This method returns "hyperlink" as the widget type.
+     * Get the name of widget represented by this component.
+     *
      * @param context FacesContext for the current request.
      * @param component UIComponent to be rendered.
      */
-    protected String getWidgetType(FacesContext context, UIComponent component) {
+    protected String getWidgetName(FacesContext context, UIComponent component) {
             return JavaScriptUtilities.getNamespace("hyperlink");          
     }
 
@@ -163,7 +163,6 @@ public class HyperlinkRenderer extends AnchorRendererBase{
                 jarray.put(name);
                 jarray.put(value);
             }
-
         }        
         super.setAttributes(context, component, json);     
     }
@@ -175,4 +174,8 @@ public class HyperlinkRenderer extends AnchorRendererBase{
     protected String getSubmittedParameterId(FacesContext context, UIComponent component) {
         return component.getClientId(context) + "_submittedLink";
     }
+    
+    // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    // Private methods
+    // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 }

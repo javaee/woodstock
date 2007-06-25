@@ -106,32 +106,22 @@ public class TextAreaRenderer extends FieldRendererBase {
                     "TextAreaRenderer can only render TextArea components.");
         }
         TextArea field = (TextArea) component;
-        Theme theme = ThemeUtilities.getTheme(context);
         
         // Set rendered value.
         if (field.getSubmittedValue() == null) {
             ConversionUtilities.setRenderedValue(component, field.getText());
         }
         
-        String templatePath = field.getHtmlTemplate(); // Get HTML template.
-        
-        if (templatePath == null)
-                templatePath = theme.getPathToTemplate(ThemeTemplates.TEXTAREA);
-        
         long as = field.getAutoSave();
-        String autoSave = (as > 0) ?
-            Long.toString(as) : 
-            "0";
-        
+        String autoSave = (as > 0) ? Long.toString(as) : "0";
         String className = field.getStyleClass();
-        
+
         JSONObject json = new JSONObject();
         json.put("disabled", field.isDisabled())
             .put("value", field.getValueAsString(context))
             .put("required", field.isRequired())
             .put("valid", field.isValid())
             .put("className", className )
-            .put("templatePath", templatePath)
             .put("cols", field.getColumns())
             .put("visible", field.isVisible())
             .put("rows", field.getRows())
@@ -139,23 +129,40 @@ public class TextAreaRenderer extends FieldRendererBase {
             .put("autoSave", autoSave);
         
         // Append label properties.
-        JSONUtilities.addProperties(json, "label",
+        JSONUtilities.addProperty(json, "label",
             WidgetUtilities.renderComponent(context, field.getLabelComponent(context, null)));
         
         // Add core and attribute properties.
-        addAttributeProperties(attributes, component, json);
+        JSONUtilities.addAttributes(attributes, component, json);
         setCoreProperties(context, component, json);
         
         return json;
     }
     
     /**
-     * Get the type of widget represented by this component.
+     * Get the template path for this component.
      *
      * @param context FacesContext for the current request.
      * @param component UIComponent to be rendered.
      */
-    protected String getWidgetType(FacesContext context, UIComponent component) {
+    protected String getTemplatePath(FacesContext context, UIComponent component) {
+        String templatePath = (String) component.getAttributes().get("templatePath");
+        return (templatePath != null)
+            ? templatePath
+            : getTheme().getPathToTemplate(ThemeTemplates.TEXTAREA);
+    }
+
+    /**
+     * Get the name of widget represented by this component.
+     *
+     * @param context FacesContext for the current request.
+     * @param component UIComponent to be rendered.
+     */
+    protected String getWidgetName(FacesContext context, UIComponent component) {
         return JavaScriptUtilities.getNamespace("textArea");
     }
+    
+    // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    // Private methods
+    // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 }

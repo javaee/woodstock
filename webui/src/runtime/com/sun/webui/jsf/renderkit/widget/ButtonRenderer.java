@@ -29,6 +29,7 @@ import com.sun.webui.jsf.component.Icon;
 import com.sun.webui.theme.Theme;
 import com.sun.webui.jsf.theme.ThemeTemplates;
 import com.sun.webui.jsf.util.ConversionUtilities;
+import com.sun.webui.jsf.util.JSONUtilities;
 import com.sun.webui.jsf.util.JavaScriptUtilities;
 import com.sun.webui.jsf.util.ThemeUtilities;
 
@@ -146,25 +147,12 @@ public class ButtonRenderer extends RendererBase {
         String imageUrl = button.getImageURL();
         String icon = button.getIcon();
 
-        // Get HTML template.
-        String templatePath = button.getHtmlTemplate();
-        if (templatePath == null) {
-            if (imageUrl != null || icon != null) {
-                templatePath = getTheme().getPathToTemplate(ThemeTemplates.IMAGEBUTTON);
-            } else if (button.isReset()) {
-                templatePath = getTheme().getPathToTemplate(ThemeTemplates.RESETBUTTON);
-            } else {
-                templatePath = getTheme().getPathToTemplate(ThemeTemplates.SUBMITBUTTON);
-            }
-        }
-
         // Set properties.
         JSONObject json = new JSONObject();
         json.put("className", button.getStyleClass())
             .put("disabled", button.isDisabled())
             .put("mini", button.isMini())
             .put("primary", button.isPrimary())
-            .put("templatePath", templatePath)
             .put("title", button.getToolTip())
             .put("visible", button.isVisible());
 
@@ -177,24 +165,54 @@ public class ButtonRenderer extends RendererBase {
         }
 
         // Add core and attribute properties.
-        addAttributeProperties(attributes, component, json);
+        JSONUtilities.addAttributes(attributes, component, json);
         setCoreProperties(context, component, json);
 
         return json;
     }
 
     /**
-     * Get the type of widget represented by this component.
+     * Get the template path for this component.
      *
      * @param context FacesContext for the current request.
      * @param component UIComponent to be rendered.
      */
-    protected String getWidgetType(FacesContext context, UIComponent component) {
+    protected String getTemplatePath(FacesContext context, UIComponent component) {
+	if (!(component instanceof Button)) {
+	    throw new IllegalArgumentException(
+                "ButtonRenderer can only render Button components.");
+        }
+        Button button = (Button) component;
+        String imageUrl = button.getImageURL();
+        String icon = button.getIcon();
+        Theme theme = getTheme();
+        
+        // Get template.
+        String templatePath = button.getHtmlTemplate();
+        if (templatePath == null) {
+            if (imageUrl != null || icon != null) {
+                templatePath = theme.getPathToTemplate(ThemeTemplates.IMAGEBUTTON);
+            } else if (button.isReset()) {
+                templatePath = theme.getPathToTemplate(ThemeTemplates.RESETBUTTON);
+            } else {
+                templatePath = theme.getPathToTemplate(ThemeTemplates.BUTTON);
+            }
+        }
+        return templatePath;
+    }
+
+    /**
+     * Get the name of widget represented by this component.
+     *
+     * @param context FacesContext for the current request.
+     * @param component UIComponent to be rendered.
+     */
+    protected String getWidgetName(FacesContext context, UIComponent component) {
         return JavaScriptUtilities.getNamespace("button");
     }
 
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    // Private renderer methods
+    // Private methods
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
     /** 
@@ -259,10 +277,5 @@ public class ButtonRenderer extends RendererBase {
         // Set properties.
         json.put("value", text)
             .put("escape", component.isEscape());
-    }
-
-    // Helper method to get Theme objects.
-    private Theme getTheme() {
-        return ThemeUtilities.getTheme(FacesContext.getCurrentInstance());
     }
 }

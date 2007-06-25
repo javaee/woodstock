@@ -29,7 +29,6 @@ import com.sun.webui.jsf.util.WidgetUtilities;
 import com.sun.webui.jsf.theme.ThemeTemplates;
 import com.sun.webui.jsf.util.JSONUtilities;
 import com.sun.webui.jsf.util.JavaScriptUtilities;
-import com.sun.webui.jsf.util.ThemeUtilities;
 
 import java.io.IOException;
 
@@ -74,8 +73,11 @@ public class TabContentRenderer extends RendererBase {
      */
     protected JSONObject getProperties(FacesContext context,
             UIComponent component) throws IOException, JSONException {
+	if (!(component instanceof TabContent)) {
+	    throw new IllegalArgumentException(
+                "TabContentRenderer can only render TabContent components.");
+        }
         TabContent content = (TabContent) component;
-        String templatePath = content.getHtmlTemplate(); // Get HTML template.
 
         JSONObject json = new JSONObject();
         json.put("labelClass", content.getLabelClass())
@@ -83,43 +85,60 @@ public class TabContentRenderer extends RendererBase {
             .put("contentClass", content.getContentClass())
             .put("contentStyle", content.getContentStyle())
             .put("selected", content.isSelected())
-            .put("templatePath", (templatePath != null)
-                ? templatePath 
-                : ThemeUtilities.getTheme(context).getPathToTemplate(ThemeTemplates.ACCORDIONTAB))
             .put("visible", content.isVisible())
             .put("label", content.getLabel())
-            .put("contentHeight", content.getContentHeight());
+            .put("contentHeight", content.getContentHeight()); 
 
-        JSONArray tabContent = new JSONArray();
-        appendChildProps(content, context, tabContent);
-        json.put("tabContent", tabContent);        
-        
+        JSONArray jArray = new JSONArray();
+        json.put("tabContent", jArray);        
+        appendChildProps(content, context, jArray);
+
         // Add core and attribute properties.
-        // addAttributeProperties(attributes, component, json);
         setCoreProperties(context, content, json);
 
         return json;
     }
 
     /**
-     * Get the type of widget represented by this component.
+     * Get the template path for this component.
      *
-     * @return The type of widget represented by this component.
+     * @param context FacesContext for the current request.
+     * @param component UIComponent to be rendered.
      */
-    protected String getWidgetType(FacesContext context, UIComponent component) {
-        return JavaScriptUtilities.getNamespace("accordionTab");
+    protected String getTemplatePath(FacesContext context, UIComponent component) {
+        String templatePath = (String) component.getAttributes().get("templatePath");
+        return (templatePath != null)
+            ? templatePath
+            : getTheme().getPathToTemplate(ThemeTemplates.ACCORDIONTAB);
     }
 
-    // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    // Private renderer methods
-    // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    /**
+     * Get the name of widget represented by this component.
+     *
+     * @param context FacesContext for the current request.
+     * @param component UIComponent to be rendered.
+     */
+    protected String getWidgetName(FacesContext context, UIComponent component) {
+        return JavaScriptUtilities.getNamespace("accordionTab");
+    }
     
+    // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    // Private methods
+    // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+    /** 
+     * Helper method to obtain tab children.
+     *
+     * @param context FacesContext for the current request.
+     * @param component UIComponent to be rendered.
+     * @param json JSONArray to assign properties to.
+     */
     private void appendChildProps(TabContent component, FacesContext context,
         JSONArray content) throws IOException, JSONException{
     
         if (component.getTabChildCount() == 0) {
             for (UIComponent kid : component.getChildren()) {
-                JSONUtilities.addProperties(content,
+                JSONUtilities.addProperty(content,
                     WidgetUtilities.renderComponent(context, kid));
             } 
         } else {

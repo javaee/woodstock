@@ -9,7 +9,7 @@ SCRIPT_DIR=`cd $SCRIPT_DIR; pwd`
 #
 CLASSES_DIR=$SCRIPT_DIR/classes
 MANIFEST_FILE=$SCRIPT_DIR/MANIFEST.tmp
-COMPRESS_JAR=$SCRIPT_DIR/compress.jar
+TOOLS_JAR=$SCRIPT_DIR/tools.jar
 RHINO_JAR=$SCRIPT_DIR/custom_rhino.jar
 
 #
@@ -23,20 +23,24 @@ javac -d $CLASSES_DIR `find src -name \*.java`
 # Create manifest.
 #
 cat > $MANIFEST_FILE <<- EEOOFF 
-Main-Class: com.sun.webui.theme.javascript.Compress
+Main-Class: com.sun.webui.tools.Main
 EEOOFF
 
 #
 # Create jar.
 #
-JUNK=`rm $COMPRESS_JAR`
+JUNK=`rm $TOOLS_JAR`
 cd $CLASSES_DIR
-jar cvfm $COMPRESS_JAR $MANIFEST_FILE *
+jar cvfm $TOOLS_JAR $MANIFEST_FILE *
 rm $MANIFEST_FILE
 
 #
 # Test jar on given JavaScript directory or file.
 #
-if [ "$?" -eq 0 -a -n "$1" ]; then
-    java -jar $COMPRESS_JAR -rhinoJar $RHINO_JAR -pathName $1 -verbose
+if [ "$?" -eq 0 ]; then
+    if [ "$1" = "-compressJS" ]; then
+        java -jar $TOOLS_JAR -compressJS -rhinoJar $RHINO_JAR -sourcePath $2 -verbose
+    elif [ "$1" = "-embedTemplates" ]; then
+        java -jar $TOOLS_JAR -embedTemplates -destPath $2 -sourcePath $3 -verbose
+    fi
 fi
