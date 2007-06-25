@@ -22,7 +22,10 @@
 package com.sun.webui.jsf.component;
 
 import com.sun.webui.jsf.design.AbstractDesignInfo;
-
+import com.sun.rave.designtime.DesignBean;
+import com.sun.rave.designtime.DesignProperty;
+import com.sun.rave.designtime.Result;
+import com.sun.webui.jsf.component.util.DesignUtil;
 
 /**
  * DesignInfo for the Wizard component.
@@ -35,6 +38,25 @@ public class WizardDesignInfo extends AbstractDesignInfo {
         
         super(Wizard.class);
     }
- 
     
+    public Result beanCreatedSetup(DesignBean bean) {
+                
+        DesignProperty styleProperty = bean.getProperty("style");
+        String styleValue = (String) styleProperty.getValue();
+        
+        
+        if (styleValue == null || styleValue.length() == 0) {
+            styleValue = "width: 200px; height: 200px;";
+        } else {
+            //append default width
+            styleValue = DesignUtil.parseStyle(styleValue,"width","width: 200px;");
+            
+            //append default height
+            styleValue = DesignUtil.parseStyle(styleValue,"height","height: 200px;");
+        }
+        
+        styleProperty.setValue(styleValue);
+        return Result.SUCCESS;
+    }
+        
 }

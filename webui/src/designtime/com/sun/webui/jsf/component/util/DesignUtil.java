@@ -178,4 +178,34 @@ public class DesignUtil {
             throw new RuntimeException(e);
         }
     }
+    
+    /**
+     * Utility method that returns a updated style value.
+     * This method is only useful for properties that may be the last hypen separated 
+     * substring of some other property, for example height and width.    
+     * This method is used to append default attribute to style if already not
+     * present in style.
+     * This method always at least returns styleValue even if there are no replacements.
+     * This also doesn't work if "attribute" is literally in the styleValue more than once.
+     *
+     */
+    public static String parseStyle(String styleValue, String attribute, String defaultValue) {
+        if (styleValue == null || attribute == null || defaultValue == null) {
+            return null;
+        }
+        String temp = styleValue.trim().toLowerCase();
+  
+        temp = temp.replaceAll("-"+attribute, "!!!!!!!"); 
+              
+        if (temp.indexOf(attribute) == -1) {
+            StringBuilder sb = new StringBuilder(); 
+            if (styleValue.charAt(styleValue.length() - 1) == ';') 
+                temp = (sb.append(styleValue).append(" ").append(defaultValue)).toString();
+            else
+                temp = (sb.append(styleValue).append("; ").append(defaultValue)).toString();
+            return temp;
+        }    
+          
+        return styleValue;
+    }
 }
