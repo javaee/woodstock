@@ -179,9 +179,8 @@ public class AlarmRenderer extends RendererBase {
         
         json.put("indicators", indicatorArray);
                        
-        // Add core and attribute properties.
+        // Add attributes.
         JSONUtilities.addAttributes(attributes, component, json);
-        setCoreProperties(context, component, json);
 
         return json;
     }

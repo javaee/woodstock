@@ -141,9 +141,8 @@ public abstract class AnchorRendererBase extends RendererBase{
             JSONObject json) throws JSONException, IOException {
         Map attrsMap = component.getAttributes();
 
-        // Add core and attribute properties.
+        // Add attributes.
         JSONUtilities.addAttributes(attributes, component, json);
-        setCoreProperties(context, component, json);
 
         String tmp = null;
         tmp = (String) attrsMap.get("style");

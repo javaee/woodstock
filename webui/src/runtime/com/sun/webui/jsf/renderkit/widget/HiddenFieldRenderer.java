@@ -105,14 +105,16 @@ public class HiddenFieldRenderer extends RendererBase {
         }
         HiddenField hiddenField = (HiddenField) component;
         
-        if(!(component instanceof HiddenField)) {
-            Object[] params = { component.toString(),
-                    this.getClass().getName(),
-                    HiddenField.class.getName() };
-                    String message = MessageUtil.getMessage
-                            ("com.sun.webui.jsf.resources.LogMessages", //NOI18N
-                            "Renderer.component", params);              //NOI18N
-                    throw new FacesException(message);
+        if (!(component instanceof HiddenField)) {
+            Object[] params = { 
+                component.toString(),
+                this.getClass().getName(),
+                HiddenField.class.getName()
+            };
+            String message = MessageUtil.getMessage(
+                "com.sun.webui.jsf.resources.LogMessages",
+                "Renderer.component", params);
+            throw new FacesException(message);
         }
         
         // Record the value that is rendered.
@@ -144,9 +146,6 @@ public class HiddenFieldRenderer extends RendererBase {
         json.put("value", hiddenField.getValueAsString(context))
             .put("name", hiddenField.getClientId(context))
             .put("disabled", hiddenField.isDisabled());
-                    
-        // Add core and attribute properties.
-        setCoreProperties(context, component, json);
         
         return json;
     }

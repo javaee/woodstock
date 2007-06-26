@@ -134,11 +134,10 @@ abstract class SelectorGroupRenderer extends RendererBase {
             ConversionUtilities.setRenderedValue(component, selected);
         }
         
-        // Add core and attribute properties.
+        // Add attributes.
         JSONUtilities.addAttributes(attributes, component, json);
-        setCoreProperties(context, component, json);
         setContents(context, component, json);
-        
+
         return json;
     }
 

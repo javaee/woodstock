@@ -93,9 +93,6 @@ public class TabContentRenderer extends RendererBase {
         json.put("tabContent", jArray);        
         appendChildProps(content, context, jArray);
 
-        // Add core and attribute properties.
-        setCoreProperties(context, content, json);
-
         return json;
     }
 

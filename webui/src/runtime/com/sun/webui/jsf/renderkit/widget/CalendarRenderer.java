@@ -190,9 +190,8 @@ public class CalendarRenderer extends RendererBase {
         JSONUtilities.addProperty(json, "calendarMonth", 
             WidgetUtilities.renderComponent(context, calendarMonth));        
         
-        // Add core and attribute properties.
+        // Add attributes.
         JSONUtilities.addAttributes(attributes, component, json);
-        setCoreProperties(context, component, json);
         
         return json;
     }    

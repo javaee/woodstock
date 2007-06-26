@@ -106,9 +106,8 @@ public class ProgressBarRenderer extends RendererBase {
         JSONUtilities.addProperty(json, "busyImage",
             WidgetUtilities.renderComponent(context, progressBar.getBusyIcon()));
 
-        // Append properties.
+        // Add attributes.
         JSONUtilities.addAttributes(attributes, component, json);
-        setCoreProperties(context, component, json);
         setFacetProperties(context, progressBar, json);
 
         return json;

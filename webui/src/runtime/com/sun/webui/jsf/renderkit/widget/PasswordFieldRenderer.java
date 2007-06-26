@@ -129,9 +129,8 @@ public class PasswordFieldRenderer extends FieldRendererBase {
             WidgetUtilities.renderComponent(context, field.getLabelComponent(
                 context, null)));
         
-        // Add core and attribute properties.
+        // Add attributes.
         JSONUtilities.addAttributes(attributes, component, json);
-        setCoreProperties(context, component, json);        
         
         return json;
     }

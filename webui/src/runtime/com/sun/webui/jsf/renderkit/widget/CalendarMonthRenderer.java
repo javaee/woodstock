@@ -167,9 +167,8 @@ public class CalendarMonthRenderer extends RendererBase {
         // Add calendar controls properties.
         setControlsProperties(context, calendarMonth, json, theme);
             
-        // Add core and attribute properties.
+        // Add attributes.
         JSONUtilities.addAttributes(attributes, component, json);
-        setCoreProperties(context, component, json);
         
         return json;
     }

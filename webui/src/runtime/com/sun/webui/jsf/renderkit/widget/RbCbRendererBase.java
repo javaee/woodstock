@@ -92,16 +92,15 @@ abstract class RbCbRendererBase extends RendererBase {
      * @exception NullPointerException if <code>context</code>
      *  or <code>component</code> is <code>null</code>
      */
-    public Object getConvertedValue(FacesContext context,
-        UIComponent  component, Object submittedValue) 
-            throws ConverterException {
+    public Object getConvertedValue(FacesContext context, UIComponent component,
+            Object submittedValue) throws ConverterException {
 
 	// I know this looks odd but it gives an opportunity
 	// for an alternative renderer for Checkbox and RadioButton
 	// to provide a converter.
 	//
 	return ((RbCbSelector) component).getConvertedValue(context,
-		(RbCbSelector) component, submittedValue);
+            (RbCbSelector) component, submittedValue);
     }
 
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -116,12 +115,12 @@ abstract class RbCbRendererBase extends RendererBase {
      */
     protected JSONObject getProperties(FacesContext context,
             UIComponent component) throws IOException, JSONException {        
-        RbCbSelector rbcbSelector = (RbCbSelector)component;        
+        RbCbSelector rbcbSelector = (RbCbSelector) component;        
         String componentId;      
         
         // Get HTML input element id.
         if (component instanceof ComplexComponent) {
-            componentId = ((ComplexComponent)component).getLabeledElementId(context);
+            componentId = ((ComplexComponent) component).getLabeledElementId(context);
         } else {
             componentId = component.getClientId(context);
         }
@@ -152,7 +151,7 @@ abstract class RbCbRendererBase extends RendererBase {
 	// submittedValue will be non null if immediate is true on
 	// some action component or a component on the page was invalid
 	//
-	String[] subValue = (String[])rbcbSelector.getSubmittedValue();
+	String[] subValue = (String[]) rbcbSelector.getSubmittedValue();
         if (subValue == null) {
             Object selected = rbcbSelector.getSelected();
             if (isSelected(context, component)) {
@@ -163,12 +162,10 @@ abstract class RbCbRendererBase extends RendererBase {
             // Remember that the rendered value was null.
             //
             ConversionUtilities.setRenderedValue(component, selected);
-        } else
-        //
-        // if the submittedValue is a 0 length array or the
-        // first element is "" then the control is unchecked.
-        //
-        if (subValue.length != 0 && subValue[0].length() != 0) {
+        } else if (subValue.length != 0 && subValue[0].length() != 0) {
+            // if the submittedValue is a 0 length array or the
+            // first element is "" then the control is unchecked.
+            //
             // The submitted value has the String value of the
             // selectedValue property. Just compare the submittedValue
             // to it to determine if it is checked.
@@ -199,9 +196,8 @@ abstract class RbCbRendererBase extends RendererBase {
         JSONUtilities.addProperty(json, "label",
             WidgetUtilities.renderComponent(context, rbcbSelector.getLabelComponent()));
         
-        // Add core and attribute properties.
+        // Add attributes.
         JSONUtilities.addAttributes(attributes, component, json);
-        setCoreProperties(context, component, json);
         
         return json;
     }

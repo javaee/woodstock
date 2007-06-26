@@ -112,9 +112,8 @@ public class Table2Renderer extends RendererBase {
         JSONObject json = new JSONObject();
         json.put("width", table.getWidth());
 
-        // Add properties.
+        // Add attributes.
         JSONUtilities.addAttributes(attributes, table, json);
-        setCoreProperties(context, table, json);
         setRowGroupProperties(context, table, json);
         setActionsProperties(context, table, json);
         setTitleProperties(context, table, json);

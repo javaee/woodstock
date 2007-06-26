@@ -73,7 +73,7 @@ public class RadioButtonGroupRenderer extends SelectorGroupRenderer {
         }
         RadioButtonGroup rbGroup = (RadioButtonGroup) component;      
         
-        JSONObject json = super.getProperties(context, (Selector)rbGroup);       
+        JSONObject json = super.getProperties(context, (Selector) rbGroup);       
         json.put("columns", rbGroup.getColumns());
         return json;     
     }
@@ -118,7 +118,7 @@ public class RadioButtonGroupRenderer extends SelectorGroupRenderer {
 	RadioButtonGroup rbgrp = (RadioButtonGroup)component;        
         String componentId = rbgrp.getClientId(context);
         if (rbgrp instanceof ComplexComponent) {
-            componentId = ((ComplexComponent)rbgrp).getLabeledElementId(context);
+            componentId = ((ComplexComponent) rbgrp).getLabeledElementId(context);
         }
         
 	RadioButton rb = new RadioButton();
@@ -140,23 +140,21 @@ public class RadioButtonGroupRenderer extends SelectorGroupRenderer {
 
 	// Need to check the submittedValue for immediate condition
 	// 
-	String[] subValue = (String[])rbgrp.getSubmittedValue();
+	String[] subValue = (String[]) rbgrp.getSubmittedValue();
 	if (subValue == null) {
 	    if (isSelected(option, rbgrp.getSelected())) {
 		rb.setSelected(rb.getSelectedValue());
 	    }
-	} else
-	if (subValue.length != 0) {
+	} else if (subValue.length != 0) {
 	    Object selectedValue = rb.getSelectedValue();
 	    String selectedValueAsString =
 		ConversionUtilities.convertValueToString(component,
-			selectedValue);
-	    if (subValue[0] != null && 
-			subValue[0].equals(selectedValueAsString)) {
+                    selectedValue);
+	    if (subValue[0] != null 
+                    && subValue[0].equals(selectedValueAsString)) {
 		rb.setSelected(rb.getSelectedValue());
 	    }
 	}
-
 	return rb;
     }
     
@@ -175,6 +173,6 @@ public class RadioButtonGroupRenderer extends SelectorGroupRenderer {
      */
     private boolean isSelected(Option item, Object currentValue) {
 	return currentValue != null && item.getValue() != null &&
-		item.getValue().equals(currentValue);
+            item.getValue().equals(currentValue);
     }
 }

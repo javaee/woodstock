@@ -116,10 +116,8 @@ public class AccordionRenderer extends RendererBase {
             }
         }
         
-        // Add core and attribute properties.
-        // this is commented out for now. we may support a onChange
+        // Add attributes.
         JSONUtilities.addAttributes(attributes, container, json);
-        setCoreProperties(context, container, json);
 
         return json;
     }

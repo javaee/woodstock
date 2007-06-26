@@ -161,9 +161,8 @@ public class AlertRenderer extends RendererBase {
         JSONUtilities.addProperty(json, "spacerImage",
             WidgetUtilities.renderComponent(context, dotImg));
         
-        // Add core and attribute properties.
+        // Add attributes.
         JSONUtilities.addAttributes(attributes, component, json);
-        setCoreProperties(context, component, json);
 
         return json;
     }

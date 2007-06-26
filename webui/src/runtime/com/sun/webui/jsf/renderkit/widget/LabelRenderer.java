@@ -216,9 +216,8 @@ public class LabelRenderer extends RendererBase {
             WidgetUtilities.renderComponent(context, 
 		label.getErrorIcon(theme, context, errorMsg)));
 
-        // Add core and attribute properties.
+        // Add attributes.
         JSONUtilities.addAttributes(attributes, component, json);
-        setCoreProperties(context, component, json);
 	setContents(context, component, json);
 
         return json;

@@ -130,12 +130,13 @@ abstract public class RendererBase extends Renderer {
         }
 
         try {
-            // Get writer.
+            // Get properties.
+            JSONObject json = getProperties(context, component);
+            setCoreProperties(context, component, json);
+                        
+            // Note: Component and child properties are always output together.
             ResponseWriter writer = context.getResponseWriter();
-
-            // Component and child properties are always output together.
-            writer.write(JSONUtilities.getString(
-                getProperties(context, component)));
+            writer.write(JSONUtilities.getString(json));
         } catch (JSONException e) {
             e.printStackTrace();
         }

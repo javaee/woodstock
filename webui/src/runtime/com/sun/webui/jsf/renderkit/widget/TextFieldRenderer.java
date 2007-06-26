@@ -133,9 +133,8 @@ public class TextFieldRenderer extends FieldRendererBase {
             WidgetUtilities.renderComponent(context, field.getLabelComponent(
                 context, null)));
         
-        // Add core and attribute properties.
+        // Add attributes.
         JSONUtilities.addAttributes(attributes, component, json);
-        setCoreProperties(context, component, json);
         setNotifyProperties(context, component, json);
         
         return json;

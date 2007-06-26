@@ -116,9 +116,8 @@ public class Table2RowGroupRenderer extends RendererBase {
             .put("maxRows", group.getRows())
             .put("totalRows", group.getRowCount());
 
-        // Add properties.
+        // Add attributes.
         JSONUtilities.addAttributes(attributes, group, json);
-        setCoreProperties(context, group, json);
         setColumnProperties(context, group, json);
         setFooterProperties(context, group, json);
         setHeaderProperties(context, group, json);

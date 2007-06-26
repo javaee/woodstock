@@ -87,9 +87,8 @@ public class DropDownRenderer extends ListRendererBase {
         json.put("visible", dropDown.isVisible())
             .put("submitForm", dropDown.isSubmitForm() );
 
-        // Add core and pass-through attribute properties.
+        // Add attributes.
         JSONUtilities.addAttributes(attributes, component, json);
-        setCoreProperties(context, component, json);
 
         return json;
     }

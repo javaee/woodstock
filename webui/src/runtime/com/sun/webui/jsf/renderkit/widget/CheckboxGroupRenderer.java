@@ -151,21 +151,19 @@ public class CheckboxGroupRenderer extends SelectorGroupRenderer {
             if (isSelected(option, cbgrp.getSelected())) {
                 cb.setSelected(cb.getSelectedValue());
             }
-        } else
-            if (subValue.length != 0) {
+        } else if (subValue.length != 0) {
             Object selectedValue = cb.getSelectedValue();
             String selectedValueAsString =
-                    ConversionUtilities.convertValueToString(component,
+                ConversionUtilities.convertValueToString(component,
                     selectedValue);
             for (int i = 0; i < subValue.length; ++i) {
-                if (subValue[i] != null &&
-                        subValue[i].equals(selectedValueAsString)) {
+                if (subValue[i] != null
+                        && subValue[i].equals(selectedValueAsString)) {
                     cb.setSelected(cb.getSelectedValue());
                     break;
                 }
             }
-            }
-        
+        }
         return cb;
     }
     
