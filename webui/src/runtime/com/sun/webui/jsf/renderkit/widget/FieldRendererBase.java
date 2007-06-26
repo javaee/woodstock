@@ -58,6 +58,9 @@ public abstract class FieldRendererBase extends RendererBase {
             throw new IllegalArgumentException("TextFieldRenderer can only decode EditableValueHolder components.");
         }
         Field field = (Field)component;    
+        if (field.isDisabled() || field.isReadOnly()) {
+            return;
+        }
                  
         String id = field.getClientId(context); 
         if (field instanceof ComplexComponent) {
