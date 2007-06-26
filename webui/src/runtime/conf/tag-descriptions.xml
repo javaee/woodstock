@@ -162,7 +162,7 @@ function for details on properties and their usage</li>
 <h3>Examples</h3>
 <h4>Example 1: Accordion as a navigational Element.</h4>
 <p>In this example, the component is used for navigational purposes.</p>
-<pre>       &lt;webuijsf:accordion id="acc1" style="width:70%"&gt;<br>        <br>                &lt;webuijsf:tabContent id="tab1" label="Buttons and links" &gt;<br>                    &lt;webuijsf:hyperlink id="hyper1" text="Button Examples" <br>                    url="/faces/button/index.jsp"<br>                    target="rightFrame"/&gt;<br>                    &lt;br/&gt;<br>                    &lt;webuijsf:hyperlink id="hyper2" text="Link Examples" <br>                    url="/faces/hyperlink/index.jsp"<br>                    target="rightFrame"/&gt;<br>                    &lt;br/&gt;<br>                    &lt;webuijsf:hyperlink id="hyper3" text="Image Link Examples" <br>                    url="/faces/imagehyperlink/index.jsp"<br>                    target="rightFrame"/&gt;<br>                &lt;/webuijsf:tabContent&gt;<br>                <br>                &lt;webuijsf:tabContent id="tab2" label="Input Elements" &gt;<br>                    &lt;webuijsf:hyperlink id="hyper1" text="CheckBoxes" <br>                        url="/faces/clientsideCheckbox/checkbox.jsp"<br>                    target="rightFrame"/&gt;<br>                    &lt;br/&gt;<br>                    &lt;webuijsf:hyperlink id="hyper2" text="CheckBox group" <br>                    url="/faces/clientsideCheckbox/index.jsp"<br>                    target="rightFrame"/&gt;<br>                    &lt;br/&gt;<br>                    &lt;webuijsf:hyperlink id="hyper3" text="Radio Button Group" <br>                    url="/faces/clientsiderbcbGroup/index.jsp"<br>                    target="rightFrame"/&gt;<br>                &lt;/webuijsf:tabContent&gt;<br>                <br>                &lt;webuijsf:tabContent id="tab3" label="label1" &gt;<br>                    &lt;webuijsf:hyperlink id="hyper1" text="Calendar" <br>                        url="/faces/calendar/index.jsp"<br>                    target="rightFrame"/&gt;<br>                &lt;/webuijsf:tabContent&gt;<br>                <br>          &lt;/webuijsf:accordion&gt; <br> </pre>
+<pre>       &lt;webuijsf:accordion id="acc1" style="width:70%"&gt;<br>        <br>                &lt;webuijsf:accordionTab id="tab1" label="Buttons and links" &gt;<br>                    &lt;webuijsf:hyperlink id="hyper1" text="Button Examples" <br>                    url="/faces/button/index.jsp"<br>                    target="rightFrame"/&gt;<br>                    &lt;br/&gt;<br>                    &lt;webuijsf:hyperlink id="hyper2" text="Link Examples" <br>                    url="/faces/hyperlink/index.jsp"<br>                    target="rightFrame"/&gt;<br>                    &lt;br/&gt;<br>                    &lt;webuijsf:hyperlink id="hyper3" text="Image Link Examples" <br>                    url="/faces/imagehyperlink/index.jsp"<br>                    target="rightFrame"/&gt;<br>                &lt;/webuijsf:accordionTab&gt;<br>                <br>                &lt;webuijsf:accordionTab id="tab2" label="Input Elements" &gt;<br>                    &lt;webuijsf:hyperlink id="hyper1" text="CheckBoxes" <br>                        url="/faces/clientsideCheckbox/checkbox.jsp"<br>                    target="rightFrame"/&gt;<br>                    &lt;br/&gt;<br>                    &lt;webuijsf:hyperlink id="hyper2" text="CheckBox group" <br>                    url="/faces/clientsideCheckbox/index.jsp"<br>                    target="rightFrame"/&gt;<br>                    &lt;br/&gt;<br>                    &lt;webuijsf:hyperlink id="hyper3" text="Radio Button Group" <br>                    url="/faces/clientsiderbcbGroup/index.jsp"<br>                    target="rightFrame"/&gt;<br>                &lt;/webuijsf:accordionTab&gt;<br>                <br>                &lt;webuijsf:accordionTab id="tab3" label="label1" &gt;<br>                    &lt;webuijsf:hyperlink id="hyper1" text="Calendar" <br>                        url="/faces/calendar/index.jsp"<br>                    target="rightFrame"/&gt;<br>                &lt;/webuijsf:accordionTab&gt;<br>                <br>          &lt;/webuijsf:accordion&gt; <br> </pre>
 <h4>Example 2: TBD</h4>
 <h4>Example 3: Accordion Using Facets</h4>
 <p>TBD</p>
@@ -11068,6 +11068,7 @@ properties:
         <li>onChange</li>
         <li>onClick</li>
         <li>onFocus</li>
+
         <li>onKeyDown</li>
         <li>onKeyPress</li>
         <li>onKeyUp</li>
@@ -12621,23 +12622,23 @@ text="Tab 3" action="#{TabSetBean.tab3Clicked}" /&gt;<br>
     </tag>
 
     <tag>
-        <name>tabContent</name>
+        <name>accordionTab</name>
 
         <description><![CDATA[
 <p>
-Use the <code>webuijsf:tabContent</code> within the <code><a
+Use the <code>webuijsf:accordionTab</code> within the <code><a
  href="accordion.html">webuijsf:accordion</a></code> tag to create an
-accordion tab within a set of tabs in the rendered HTML page. The <code>webuijsf:tabContent</code>
+accordion tab within an accordion in the rendered HTML page. The <code>webuijsf:accordionTab</code>
 tag represents a container within which an arbitrary number of
 components can be placed.
 These components will render within the content area of the given tab
 inside the accordion. </p>
 <h3>HTML Elements and Layout</h3>
 <p>
-The tabContent component renders an XHTML <code>&lt;div&gt;</code>
+The accordionTab component renders an XHTML <code>&lt;div&gt;</code>
 tag. </p>
-<h3>Configuring the webuijsf:tabContent Tag</h3>
-<p>The <code>webuijsf:tabContent</code> tag should be configured to
+<h3>Configuring the webuijsf:accordionTab Tag</h3>
+<p>The <code>webuijsf:accordionTab</code> tag should be configured to
 have a label
 that will show up in the accordion body even when the tab is not
 selected. The height
@@ -12686,7 +12687,7 @@ properties:<br>
         <li>label</li>
         <li>labelClass</li>
         <li>labelStyle</li>
-        <li>tabContent</li>
+        <li>accordionTab</li>
         <li>visible</li>
       </ul>
       </td>
@@ -12779,10 +12780,10 @@ function for details on properties and their usage</li>
 </table>
 <br>
 <h3>Examples</h3>
-<h4>Example 1: Using the tabContent in an accordion.</h4>
-<p>In this example, the tabContent component is populated with
+<h4>Example 1: Using the accordionTab in an accordion.</h4>
+<p>In this example, the accordionTab component is populated with
 hyperlink components that act as navigational elements.</p>
-<pre>       &lt;webuijsf:accordion id="acc1" style="width:70%"&gt;<br>        <br>                &lt;webuijsf:tabContent id="tab1" label="Buttons and links" &gt;<br>                    &lt;webuijsf:hyperlink id="hyper1" text="Button Examples" <br>                    url="/faces/button/index.jsp"<br>                    target="rightFrame"/&gt;<br>                    &lt;br/&gt;<br>                    &lt;webuijsf:hyperlink id="hyper2" text="Link Examples" <br>                    url="/faces/hyperlink/index.jsp"<br>                    target="rightFrame"/&gt;<br>                    &lt;br/&gt;<br>                    &lt;webuijsf:hyperlink id="hyper3" text="Image Link Examples" <br>                    url="/faces/imagehyperlink/index.jsp"<br>                    target="rightFrame"/&gt;<br>                &lt;/webuijsf:tabContent&gt;<br>                <br>                &lt;webuijsf:tabContent id="tab2" label="Input Elements" &gt;<br>                    &lt;webuijsf:hyperlink id="hyper1" text="CheckBoxes" <br>                        url="/faces/clientsideCheckbox/checkbox.jsp"<br>                    target="rightFrame"/&gt;<br>                    &lt;br/&gt;<br>                    &lt;webuijsf:hyperlink id="hyper2" text="CheckBox group" <br>                    url="/faces/clientsideCheckbox/index.jsp"<br>                    target="rightFrame"/&gt;<br>                    &lt;br/&gt;<br>                    &lt;webuijsf:hyperlink id="hyper3" text="Radio Button Group" <br>                    url="/faces/clientsiderbcbGroup/index.jsp"<br>                    target="rightFrame"/&gt;<br>                &lt;/webuijsf:tabContent&gt;<br>                <br>                &lt;webuijsf:tabContent id="tab3" label="label1" &gt;<br>                    &lt;webuijsf:hyperlink id="hyper1" text="Calendar" <br>                        url="/faces/calendar/index.jsp"<br>                    target="rightFrame"/&gt;<br>                &lt;/webuijsf:tabContent&gt;<br>                <br>          &lt;/webuijsf:accordion&gt; <br> </pre>
+<pre>       &lt;webuijsf:accordion id="acc1" style="width:70%"&gt;<br>        <br>                &lt;webuijsf:accordionTab id="tab1" label="Buttons and links" &gt;<br>                    &lt;webuijsf:hyperlink id="hyper1" text="Button Examples" <br>                    url="/faces/button/index.jsp"<br>                    target="rightFrame"/&gt;<br>                    &lt;br/&gt;<br>                    &lt;webuijsf:hyperlink id="hyper2" text="Link Examples" <br>                    url="/faces/hyperlink/index.jsp"<br>                    target="rightFrame"/&gt;<br>                    &lt;br/&gt;<br>                    &lt;webuijsf:hyperlink id="hyper3" text="Image Link Examples" <br>                    url="/faces/imagehyperlink/index.jsp"<br>                    target="rightFrame"/&gt;<br>                &lt;/webuijsf:accordionTab&gt;<br>                <br>                &lt;webuijsf:accordionTab id="tab2" label="Input Elements" &gt;<br>                    &lt;webuijsf:hyperlink id="hyper1" text="CheckBoxes" <br>                        url="/faces/clientsideCheckbox/checkbox.jsp"<br>                    target="rightFrame"/&gt;<br>                    &lt;br/&gt;<br>                    &lt;webuijsf:hyperlink id="hyper2" text="CheckBox group" <br>                    url="/faces/clientsideCheckbox/index.jsp"<br>                    target="rightFrame"/&gt;<br>                    &lt;br/&gt;<br>                    &lt;webuijsf:hyperlink id="hyper3" text="Radio Button Group" <br>                    url="/faces/clientsiderbcbGroup/index.jsp"<br>                    target="rightFrame"/&gt;<br>                &lt;/webuijsf:accordionTab&gt;<br>                <br>                &lt;webuijsf:accordionTab id="tab3" label="label1" &gt;<br>                    &lt;webuijsf:hyperlink id="hyper1" text="Calendar" <br>                        url="/faces/calendar/index.jsp"<br>                    target="rightFrame"/&gt;<br>                &lt;/webuijsf:accordionTab&gt;<br>                <br>          &lt;/webuijsf:accordion&gt; <br> </pre>
 ]]></description>
     </tag>
 
@@ -14137,6 +14138,7 @@ text=&quot;Three B&quot; /&gt;<br>
  <code></code></div>
  <h4 style="color: rgb(0, 0, 0);"><span style="font-weight: bold;">Method
  Bindings</span></h4>
+
  <span style="color: rgb(0, 0, 0);">A JavaServer Faces issue prevents
  method bindings from
  working in a DataProvider. To work around the issue, you can bind to a
