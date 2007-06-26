@@ -21,48 +21,36 @@
  */
 package com.sun.webui.jsf.renderkit.ajax;
 
-import com.sun.faces.annotation.Renderer;
-import com.sun.webui.jsf.util.ComponentUtilities;
-
 import java.io.IOException;
-
+import java.util.Map;
 
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
-
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import com.sun.faces.annotation.Renderer;
+import com.sun.webui.jsf.util.ComponentUtilities;
+import com.sun.webui.jsf.component.AccordionTab;
+
 /**
- * This class responds to asynchronous requests made to Tab components. 
+ * This class responds to asynchronous requests made to AccordionTab components. 
  * These requests could be to:
- * a) Refresh the tab in which case the tab goes thru its JSF lifecycle and
- *    and re renders itself.
+ * a) Refresh the tab in which case the tab goes through its JSF lifecycle and
+ *    and renders itself again.
  * b) Perform a certain action on the tab or show a different view of the tab
  *    based on the action selected from the tab's menu.
  * c) Load the contents of the tab when the tab is selected by the user on
  *    the client side. In this case the tab simply gets rendered.
  */
 @Renderer(@Renderer.Renders(
-    rendererType="com.sun.webui.jsf.ajax.TabContent",
-    componentFamily="com.sun.webui.jsf.TabContent"))
-public class TabContentRenderer
-        extends com.sun.webui.jsf.renderkit.widget.TabContentRenderer {
+    rendererType="com.sun.webui.jsf.ajax.AccordionTab",
+    componentFamily="com.sun.webui.jsf.AccordionTab"))
+public class AccordionTabRenderer
+        extends com.sun.webui.jsf.renderkit.widget.AccordionTabRenderer {
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     // Renderer methods
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-    /**
-     * Decode the Tab component
-     *
-     * @param context The FacesContext associated with this request
-     * @param component The Tab component to decode
-     */
-    public void decode(FacesContext context, UIComponent component) {
-        if (context == null || component == null) {
-            throw new NullPointerException();
-        } 
-    }
 
     /**
      * Render the beginning of the specified UIComponent to the output stream or
@@ -81,12 +69,10 @@ public class TabContentRenderer
     
     /**
      * This method asynchronously renders the children of the tab component
-     * in one of the following casesL
-     * a) Refresh the tab in which case the tab goes thru its JSF lifecycle and
+     * in one of the following cases.
+     * a) Refresh the tab in which case the tab goes through its JSF lifecycle and
      *    and re renders itself.
-     * b) Perform a certain action on the tab or show a different view of the tab
-     *    based on the action selected from the tab's menu.
-     * c) Load the contents of the tab when the tab is selected by the user on
+     * b) Load the contents of the tab when the tab is selected by the user on
      *    the client side. In this case the tab simply gets rendered.
      *
      * @param context FacesContext for the current request.
