@@ -58,50 +58,26 @@ import com.sun.webui.theme.Theme;
 /**
  * An accordion container. It extends the TabContainer and adds some 
  * functionality that is specific to the Accordion. An accordion can be
- * thought of as a vertical tab set. It can contain one of more tabs
+ * thought of as a vertical tab set. It can contain one of more accordion tabs
  * each of which can contain virtually any HTML markup. In general accordions
  * are used for navigational purposes - each tab contains links which when 
  * clicked takes the user to different sections (tasks) of the application.
- * In general only one accorion tab can be open at any given time. This
- * accordion, however, allows muliple tabs to be open simultaneously. In 
- * such situations the accordion also supports "expandAll" and "collapseAll"
- * icons which have their usual meaning. An accordion can be refreshed if the 
- * application using it so desires. Each attribute of the accordion is 
- * described in detail in the TLD doccument. It is adviseable to use 
- * an alternate navigational component if the number of tabs in the accordion 
- * are exceeding ten.
+ * The Accordian allows one or more tabs to be open at any given time. When the
+ * accordion is configured to allow multiple tabs to be open at any given time 
+ * it supports "expandAll" and "collapseAll" icons. The expandAll icon when clicked
+ * will expand all tabs, and colapseAll, will collapse all open tabs. 
+ * An accordion can be refreshed. 
+ * Refreshing the accordion will cause it to render itself and all its children
+ * again. The Accordion can also be refreshed to go through all the steps of 
+ * the JSF lifecycle as opposed to just the render response phase.
+ * It is adviseable to use an alternate navigational component if the number of
+ * tabs in the accordion are exceeding ten.
  */
 
 @Component(type="com.sun.webui.jsf.Accordion", 
 family="com.sun.webui.jsf.Accordion", displayName="Accordion", 
 tagName="accordion", tagRendererType="com.sun.webui.jsf.widget.Accordion")
 public class Accordion extends TabContainer {
-    
-    /**
-     * Developer defined refresh facet for the accordion container. This facet
-     * can be used to supply an alternate refresh icon for the accordion. 
-     * Refreshing the accordion will asynchronoulsy refresh each tab within
-     * the accordion component.
-     */
-    public static final String ACCORDION_REFRESH_FACET = "accdRefresh";
-    
-    /**
-     * Developer defined "collapse all" icon facet for the accordion container. 
-     * This facet is used to supply an alternate "collapse all" icon. Both 
-     * "collapse all" and "expand all" facets appy only in the case of 
-     * accordions that support multipleSelect.
-     */
-    public static final String ACCORDION_COLLAPSEALL_FACET = "accdCollpseAll";
-    
-    /**
-     * Developer defined "expand all" icon facet for the accordion container. 
-     * This facet is used to supply an alternate "expand all" icon. Both 
-     * "collapse all" and "expand all" facets appy only in the case of 
-     * accordions that support multipleSelect.
-     */
-    public static final String ACCORDION_EXPANDALL_FACET = "accdExpandAll";
-    
-   
     
     /**
      * Create a new Accordion.
@@ -111,11 +87,16 @@ public class Accordion extends TabContainer {
         setRendererType("com.sun.webui.jsf.widget.Accordion");
     }
     
-    @Override
+    /**
+     * <p>Return the family for this component.</p>
+     */
     public String getFamily() {
         return "com.sun.webui.jsf.Accordion";
     }
 
+    /**
+     * <p>Return the renderer type associated with this component.</p>
+     */
     public String getRendererType() {
         
         if (ComponentUtilities.isAjaxRequest(getFacesContext(), this)) {
@@ -245,58 +226,24 @@ public class Accordion extends TabContainer {
         this.refreshButton_set = true;
     }
     
-    /**
-     * The id of the selected tab. This only makes sense in the case of 
-     * accordions where only a single tab can be selected at any given time.
-     */
-    @Property(name="selectedTabID", displayName="Selected child tab ID", category="Advanced")
-    private String selectedTabID = null;
     
-    /**
-     * Get the selected child.
-     * 
-     */
-    public String getSelectedTabID() {
-        if (this.selectedTabID != null) {
-            return this.selectedTabID;
-        }
-        ValueExpression _vb = getValueExpression("selectedTabID");
-        if (_vb != null) {
-            return (String) _vb.getValue(getFacesContext().getELContext());
-        }
-        return null;
-    }
-    
-    /**
-     * set the newly selected child
-     */
-    public void setSelectedTabID(String selectedTabID) {
-        this.selectedTabID = selectedTabID;
-    }
     
     /**
      * Return a component that implements a refresh icon.
-     * If a facet named <code>accdRefresh</code> is found
-     * that component is returned.</br>
-     * If a facet is not found an <code>Icon</code>
-     * component instance is returned with the id</br>
-     * <code>getId() + "_accdRefresh"</code>.
-     * <p>
-     * If a facet is not defined then the returned <code>Icon</code>
-     * component is created every time this method is called.
-     * </p>
-     * @return - required facet or an Icon instance
+     * @return - the refresh Icon instance
      */
     public UIComponent getRefreshIcon(Theme theme, FacesContext context) { 
         
-        UIComponent comp = getFacet(ACCORDION_REFRESH_FACET);
-        if(comp != null) {
-	    return comp;
+        Icon icon = (Icon)
+	    ComponentUtilities.getPrivateFacet(this,
+		"refresh", true);
+        if(icon != null) {
+	    return icon;
 	}
-        Icon icon = ThemeUtilities.getIcon(theme,
+        icon = ThemeUtilities.getIcon(theme,
 	    ThemeImages.ACCORDION_REFRESH);
 	icon.setId(
-	    ComponentUtilities.createPrivateFacetId(this, ACCORDION_REFRESH_FACET));
+	    ComponentUtilities.createPrivateFacetId(this, "refresh"));
 	icon.setParent(this);
         icon.setToolTip(theme.getMessage("Accordion.refresh"));
 	icon.setBorder(0);            
@@ -305,28 +252,21 @@ public class Accordion extends TabContainer {
         
     /**
      * Return a component that implements a expandAll icon.
-     * If a facet named <code>accdExpndall</code> is found
-     * that component is returned.</br>
-     * If a facet is not found an <code>Icon</code>
-     * component instance is returned with the id</br>
-     * <code>getId() + "_accdExpndall"</code>.
-     * <p>
-     * If a facet is not defined then the returned <code>Icon</code>
-     * component is created every time this method is called.
-     * </p>
-     * @return - required facet or an Icon instance
+     * @return - the expandAll Icon instance
      */
     public UIComponent getExpandAllIcon(Theme theme, FacesContext context) { 
         
-        UIComponent comp = getFacet(ACCORDION_EXPANDALL_FACET);
-        if(comp != null) {
-	    return comp;
+        Icon icon = (Icon)
+	    ComponentUtilities.getPrivateFacet(this,
+		"expandAll", true);
+        if(icon != null) {
+	    return icon;
 	}
-
-	Icon icon = ThemeUtilities.getIcon(theme,
+        
+	icon = ThemeUtilities.getIcon(theme,
 	    ThemeImages.ACCORDION_EXPAND_ALL);
 	icon.setId(
-	    ComponentUtilities.createPrivateFacetId(this, ACCORDION_EXPANDALL_FACET));
+	    ComponentUtilities.createPrivateFacetId(this, "expandAll"));
 	icon.setParent(this);
         icon.setToolTip(theme.getMessage("Accordion.expandAll"));
         
@@ -336,28 +276,21 @@ public class Accordion extends TabContainer {
     
     /**
      * Return a component that implements a collapseAll icon.
-     * If a facet named <code>accdCollpsall</code> is found
-     * that component is returned.</br>
-     * If a facet is not found an <code>Icon</code>
-     * component instance is returned with the id</br>
-     * <code>getId() + "_accdCollpsall"</code>.
-     * <p>
-     * If a facet is not defined then the returned <code>Icon</code>
-     * component is created every time this method is called.
-     * </p>
-     * @return - required facet or an Icon instance
+     * @return - the collapseAll Icon instance
      */
     public UIComponent getCollapseAllIcon(Theme theme, FacesContext context) { 
         
-        UIComponent comp = getFacet(ACCORDION_COLLAPSEALL_FACET);
-        if(comp != null) {
-	    return comp;
+        Icon icon = (Icon)
+	    ComponentUtilities.getPrivateFacet(this,
+		"collapseAll", true);
+        if(icon != null) {
+	    return icon;
 	}
 
-	Icon icon = ThemeUtilities.getIcon(theme,
+	icon = ThemeUtilities.getIcon(theme,
 	    ThemeImages.ACCORDION_COLLAPSE_ALL);
 	icon.setId(
-	    ComponentUtilities.createPrivateFacetId(this, ACCORDION_COLLAPSEALL_FACET));
+	    ComponentUtilities.createPrivateFacetId(this, "collapseAll"));
 	icon.setParent(this);
         icon.setToolTip(theme.getMessage("Accordion.collapseAll"));
 	icon.setBorder(0);            
@@ -373,11 +306,10 @@ public class Accordion extends TabContainer {
         super.restoreState(_context, _values[0]);
         this.multipleSelect = ((Boolean) _values[1]).booleanValue();
         this.multipleSelect_set = ((Boolean) _values[2]).booleanValue();
-        this.selectedTabID = (String) _values[3];
-        this.toggleControls = ((Boolean) _values[4]).booleanValue();
-        this.toggleControls_set = ((Boolean) _values[5]).booleanValue();
-        this.refreshButton = ((Boolean) _values[6]).booleanValue();
-        this.refreshButton_set = ((Boolean) _values[7]).booleanValue();
+        this.toggleControls = ((Boolean) _values[3]).booleanValue();
+        this.toggleControls_set = ((Boolean) _values[4]).booleanValue();
+        this.refreshButton = ((Boolean) _values[5]).booleanValue();
+        this.refreshButton_set = ((Boolean) _values[6]).booleanValue();
     }
     
     /**
@@ -385,15 +317,14 @@ public class Accordion extends TabContainer {
      */
     @Override
     public Object saveState(FacesContext _context) {
-        Object _values[] = new Object[8];
+        Object _values[] = new Object[7];
         _values[0] = super.saveState(_context);
         _values[1] = this.multipleSelect ? Boolean.TRUE : Boolean.FALSE;
         _values[2] = this.multipleSelect_set ? Boolean.TRUE : Boolean.FALSE;
-        _values[3] = this.selectedTabID;
-        _values[4] = this.toggleControls ? Boolean.TRUE : Boolean.FALSE;
-        _values[5] = this.toggleControls_set ? Boolean.TRUE : Boolean.FALSE;
-        _values[6] = this.refreshButton ? Boolean.TRUE : Boolean.FALSE;
-        _values[7] = this.refreshButton_set ? Boolean.TRUE : Boolean.FALSE;
+        _values[3] = this.toggleControls ? Boolean.TRUE : Boolean.FALSE;
+        _values[4] = this.toggleControls_set ? Boolean.TRUE : Boolean.FALSE;
+        _values[5] = this.refreshButton ? Boolean.TRUE : Boolean.FALSE;
+        _values[6] = this.refreshButton_set ? Boolean.TRUE : Boolean.FALSE;
         return _values;
     }
    

@@ -34,7 +34,7 @@ package com.sun.webui.jsf.component;
 import com.sun.faces.annotation.Property;
 import com.sun.faces.annotation.Component;
 
-import java.util.Stack;
+import java.util.Vector;
 import javax.faces.component.NamingContainer;
 import javax.faces.event.FacesEvent;
 import javax.faces.event.AbortProcessingException;
@@ -62,23 +62,17 @@ import com.sun.webui.theme.Theme;
  * action listener may be registered with the containing TabContainer, 
  * in which case it is notified of all tab selection actions. Each tab in
  * the container can have arbitrary HTML elements or components or a combination
- * of both. Typically a single tab or the entire container would go thru the
+ * of both. Typically a single tab or the entire container would go through the
  * JSF lifecycle during an XHR request. However, in cases where a form with
  * a contianer component is submitted the container and all its child components
- * will go thru the JSF lifecycle as usual. It is upto the application to 
+ * will go through the JSF lifecycle as usual. It is up to the application to 
  * decide what should be done in this scenario.
  */
-/*
-@Component(type="com.sun.webui.jsf.TabContainer", 
-family="com.sun.webui.jsf.TabContainer", displayName="Tab Container", 
-tagName="tabContainer", helpKey="projrave_ui_elements_palette_wdstk-jsf1.2_tab_container",
-propertiesHelpKey="projrave_ui_elements_palette_wdstk-jsf1.2_propsheets_tab_container_props")
-public class TabContainer extends UIComponentBase implements NamingContainer {
-*/    
+
 @Component(type="com.sun.webui.jsf.TabContainer", 
 family="com.sun.webui.jsf.TabContainer", displayName="Tab Container", 
 isTag=false)
-public class TabContainer extends UIComponentBase implements NamingContainer {
+public class TabContainer extends WebuiComponent implements NamingContainer {
     
     /**
      * Create a new instance of the TabContainer.
@@ -87,7 +81,10 @@ public class TabContainer extends UIComponentBase implements NamingContainer {
         super();
         
     }
-        
+     
+    /**
+     * <p>Return the family for this component.</p>
+     */
     public String getFamily() {
         return "com.sun.webui.jsf.TabContainer";
     }
@@ -157,34 +154,6 @@ public class TabContainer extends UIComponentBase implements NamingContainer {
     }
     
     /**
-     * The selected tab child.
-     */
-    @Property(name="selectedTabID", displayName="Selected child tab ID", category="Advanced")
-    private String selectedTabID = null;
-    
-    /**
-     * Get the selected child.
-     * 
-     */
-    public String getSelectedTabID() {
-        if (this.selectedTabID != null) {
-            return this.selectedTabID;
-        }
-        ValueExpression _vb = getValueExpression("selectedTabID");
-        if (_vb != null) {
-            return (String) _vb.getValue(getFacesContext().getELContext());
-        }
-        return null;
-    }
-    
-    /**
-     * set the newly selected child
-     */
-    public void setSelectedTabID(String selectedTabID) {
-        this.selectedTabID = selectedTabID;
-    }
-    
-   /**
      * CSS style(s) to be applied to the outermost HTML element when this
      * component is rendered.
      */
@@ -302,23 +271,64 @@ public class TabContainer extends UIComponentBase implements NamingContainer {
         this.visible_set = true;
     }
     
+    
     /**
-     * Returns the tab with the id specified that is a child of this tabSet. If
-     * no such descendant tab exists, returns null. If this tabSet contains more
-     * than one tab with the same id, the tab returned will be the first encountered
-     * in document order.
+     * An array of selected tabs. In some cases only a single tab can be selected
+     * in which case the array would contain just one tab.
      */
-    public TabContent findChildTab(String tabId) {
-        if (tabId == null) {
-            return null;
+    @Property(name="selectedTabs", displayName="Array of Selected Tabs", category="Advanced")
+    private TabContent[] selectedTabs = null;
+    
+    /**
+     * Return an array of selected tab content. If no tabs are selected an 
+     * empty array would be returned as opposed to null.
+     * 
+     */
+    public TabContent[] getSelectedTabs() {
+        if (this.selectedTabs != null) {
+            return this.selectedTabs;
         }
+        ValueExpression _vb = getValueExpression("selectedTabs");
+        if (_vb != null) {
+            return (TabContent[]) _vb.getValue(getFacesContext().getELContext());
+        } else {
+            Vector tabVector = new Vector();
+            TabContent[] tabContents;
+            for (UIComponent kid : this.getChildren()) {
+                if (kid instanceof TabContent) {
+                    TabContent tc = (TabContent)kid;
+                    if (tc.isSelected()) {
+                        tabVector.add(tc);
+                    }
+                }
+            }
+            return (TabContent []) tabVector.toArray();
+        }
+    }
+    
+    /**
+     * Set the array of selected tabs. 
+     */
+    public void setSelectedTabs(TabContent[] selectedTabs) {
+        this.selectedTabs = selectedTabs;
+    }
+    
+    
+    /**
+     * Set the selected flag on the tab that is currently selected
+     * and unselect the previously selected tab. This is being
+     * done to maintain the same selected state on the client and
+     * server side. This method should only be called in the case
+     * of tab containers configured for single selection.
+     */
+    public void setSelectedTab(TabContent selectedTab) {
         for (UIComponent child : this.getChildren()) {
-            TabContent tab = TabContainer.findChildTab((TabContent) child, tabId);
-            if (tab != null) {
-                return tab;
+            if (child instanceof TabContent) {
+                if (child.getId() != selectedTab.getId()) {
+                    ((TabContent)child).setSelected(false);
+                }
             }
         }
-        return null;
     }
     
     /**
@@ -331,14 +341,37 @@ public class TabContainer extends UIComponentBase implements NamingContainer {
         if (tab == null || tabId == null) {
             return null;
         }
-        if (tabId.equals(tab.getId())) {
-            return tab;
-        }
+        
         if (tab.getTabChildCount() == 0) {
             return null;
         }
+        
         for (TabContent child : tab.getTabChildren()) {
-            TabContent foundTab = TabContainer.findChildTab(child, tabId);
+            TabContent foundTab = TabContainer.findTab(child, tabId);
+            if (foundTab != null) {
+                return foundTab;
+            }
+        }
+        
+        if (tabId.equals(tab.getId())) {
+            return tab;
+        }
+        
+        return null;
+    }
+    
+    private static TabContent findTab(TabContent tab, String tabId) {
+        
+        if (tabId.equals(tab.getId())) {
+            return tab;
+        }
+        
+        if (tab.getTabChildCount() == 0) {
+            return null;
+        }
+        
+        for (TabContent child : tab.getTabChildren()) {
+            TabContent foundTab = TabContainer.findTab(child, tabId);
             if (foundTab != null) {
                 return foundTab;
             }
@@ -353,7 +386,7 @@ public class TabContainer extends UIComponentBase implements NamingContainer {
     public void restoreState(FacesContext _context,Object _state) {
         Object _values[] = (Object[]) _state;
         super.restoreState(_context, _values[0]);
-        this.selectedTabID = (String) _values[1];
+        this.selectedTabs = (TabContent[]) _values[1];
         this.htmlTemplate = (String) _values[2];
         this.style = (String) _values[3];
         this.styleClass = (String) _values[4];
@@ -370,7 +403,7 @@ public class TabContainer extends UIComponentBase implements NamingContainer {
     public Object saveState(FacesContext _context) {
         Object _values[] = new Object[9];
         _values[0] = super.saveState(_context);
-        _values[1] = this.selectedTabID;
+        _values[1] = this.selectedTabs;
         _values[2] = this.htmlTemplate;
         _values[3] = this.style;
         _values[4] = this.styleClass;
@@ -380,12 +413,5 @@ public class TabContainer extends UIComponentBase implements NamingContainer {
         _values[8] = this.visible_set ? Boolean.TRUE : Boolean.FALSE;
         return _values;
     }
-   
-    /**
-     * Returns true if the tab id passed is that of the selected tab.
-     */
-    public boolean isSelected(String tabId) {
-        return getSelectedTabID().equals(tabId);
-    }
-    
+      
 }

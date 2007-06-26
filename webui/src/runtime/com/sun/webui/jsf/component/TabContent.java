@@ -39,38 +39,25 @@ import javax.faces.event.ActionListener;
 import javax.faces.event.FacesEvent;
 import com.sun.webui.jsf.util.ComponentUtilities;
 import com.sun.webui.jsf.util.LogUtil;
+import com.sun.webui.jsf.component.util.Util;
 
 /**
- * The TabContent component represents one tab in a tab container. 
- * TabContent must be children of a TabContainer, or of another TabContent.
- * Each TabContent has a label and some content. The content can be an aribitrary
- * set of components or some XHTML markup or both. The component would go thru 
- * the usual JSF lifecycle when the container is refreshed, the component itself
+ * The TabContent component represents one tab in a TabContainer. 
+ * TabContent must be a child of a TabContainer, or of another TabContent.
+ * Each TabContent has a title and content. The content can be an aribitrary
+ * set of components or some HTML markup or both. The component traverses 
+ * the JSF lifecycle when the container is refreshed, the component itself
  * is refreshed or the page containing the cotainer (hence, the component) is 
  * submitted.
  *
- * <p> The tabcomponent supports the following facet: </p>
- * 
- * menuFacet : this facet can be used to supply a menu as part of each tab. The menu is meant
- * to be used by the application to show different views of the same accordion content. Examples
- * would include features that edit the tab content. The menu if supplied would cause the 
- * tab to have an icon which when clicked to display the menu without disturbing the rest of
- * the container.
  */
-@Component(type="com.sun.webui.jsf.TabContent", family="com.sun.webui.jsf.TabContent", 
-        displayName="TabContent", tagName="tabContent",
-        tagRendererType="com.sun.webui.jsf.widget.TabContent")
-public class TabContent extends UIComponentBase implements NamingContainer {
+@Component(type="com.sun.webui.jsf.TabContent", 
+family="com.sun.webui.jsf.TabContent", displayName="Tab Content", 
+isTag=false)
+public class TabContent extends WebuiComponent  implements NamingContainer {
     
+           
     /**
-     * Developer defined menun facet for the accordion container. 
-     * This facet is used to supply a menu for the tab. This feature
-     * is still not complete.
-     */
-    public static final String ACCORDION_TAB_MENU_FACET = "menuFacet";
-    
-        
-     /**
      * The set of pass-through attributes to be rendered.
      */
     private static final String attributes[] = {
@@ -89,15 +76,21 @@ public class TabContent extends UIComponentBase implements NamingContainer {
      * Create a new instance of TabContent with the text property set to the value
      * specified.
      */
-    public TabContent(String label) {
+    public TabContent(String title) {
         this();
-        setLabel(label);
+        setTitle(title);
     }
     
+    /**
+     * <p>Return the family for this component.</p>
+     */
     public String getFamily() {
         return "com.sun.webui.jsf.TabContent";
     }
 
+    /**
+     * <p>Return the renderer type associated with this component.</p>
+     */
     public String getRendererType() {
         if (ComponentUtilities.isAjaxRequest(getFacesContext(), this)) {
             return "com.sun.webui.jsf.ajax.TabContent";
@@ -106,20 +99,20 @@ public class TabContent extends UIComponentBase implements NamingContainer {
     }
         
     /**
-     * The label of this tab.
+     * The title of this tab.
      */
-    @Property(name="label", displayName="Tab Label", category="Appearance", 
+    @Property(name="title", displayName="Tab Title", category="Appearance", 
         editorClassName="com.sun.rave.propertyeditors.StringPropertyEditor")
-    private String label = null;
+    private String title = null;
     
     /**
-     * Return the label for this tab.
+     * Return the title for this tab.
      */
-    public String getLabel() {
-        if (this.label != null) {
-            return this.label;
+    public String getTitle() {
+        if (this.title != null) {
+            return this.title;
         }
-        ValueExpression _vb = getValueExpression("label");
+        ValueExpression _vb = getValueExpression("title");
         if (_vb != null) {
             return (String) _vb.getValue(getFacesContext().getELContext());
         }
@@ -127,40 +120,11 @@ public class TabContent extends UIComponentBase implements NamingContainer {
     }
     
     /**
-     * Set the label for this tab.
+     * Set the title for this tab.
      */
-    public void setLabel(String label) {
-        this.label = label;
+    public void setTitle(String title) {
+        this.title = title;
     }
-    
-    /**
-     * Height of each tab content in pixels. By default the ht is set to 100 pixels.
-     */
-    @Property(name="contentHeight", displayName="Tab Content Height", category="Appearance", 
-        editorClassName="com.sun.rave.propertyeditors.StringPropertyEditor")
-    private String contentHeight = null;
-    
-    /**
-     * Return the content height for this tab.
-     */
-    public String getContentHeight() {
-        if (this.contentHeight != null) {
-            return this.contentHeight;
-        }
-        ValueExpression _vb = getValueExpression("contentHeight");
-        if (_vb != null) {
-            return (String) _vb.getValue(getFacesContext().getELContext());
-        }
-        return null;
-    }
-    
-    /**
-     * Set the content height for this tab.
-     */
-    public void setContentHeight(String contentHeight) {
-        this.contentHeight = contentHeight;
-    }
-    
     
     /**
      * Returns true if this tab is selected. False otherwise. Set to false by
@@ -185,7 +149,7 @@ public class TabContent extends UIComponentBase implements NamingContainer {
             } else {
                 return ((Boolean) _result).booleanValue();
             }
-        }
+        } 
         return false;
     }
     
@@ -224,48 +188,36 @@ public class TabContent extends UIComponentBase implements NamingContainer {
     }
     
     /**
-     * Customized implementation that allows child components to decode possible
-     * submitted input only if the component is part of the currently selected
-     * tab. Some input components cannot distinguish between a null submitted value
-     * that is the result of the user unselecting the value (e.g. in the case of
-     * a checkbox or listbox) from the case that is the result of the component
-     * being hidden in an unselected tab.
+     * Set the selected flag on the tab that is currently selected
+     * and unselect the previously selected tab. This is being
+     * done to maintain the same selected state on the client and
+     * server side. This method should only be called in the case
+     * of tab containers configured for single selection.
      */
-    @Override
-    public void processDecodes(FacesContext context) {
-        if (!this.isRendered())
-            return;
-        if (this.isSelected()) {
-            // If this tab was the selected tab in the submitted page, invoke process
-            // decodes on all children components
-            for (UIComponent child : this.getChildren())
-                child.processDecodes(context);
-        } 
-        try {
-            decode(context);
-        } catch (RuntimeException e) {
-            context.renderResponse();
-            LogUtil.warning("Exception while decoding component with ID" 
-			+ this.getId());
-	}
+    public void setSelectedTab(TabContent selectedTab) {
+        for (TabContent child : this.getTabChildren()) {
+            if (child.getId() != selectedTab.getId()) {
+                child.setSelected(false);
+            }
+        }
     }
-
+    
     /**
      * CSS style(s) to be applied to the outermost HTML element when this
      * component is rendered.
      */
-    @Property(name="labelStyle", displayName="CSS Style(s) of the Tab label", 
+    @Property(name="style", displayName="CSS Style(s) of the tabContent", 
     category="Appearance", editorClassName="com.sun.jsfcl.std.css.CssStylePropertyEditor")
-    private String labelStyle = null;
+    private String style = null;
     
     /**
-     * CSS style(s) to be applied to the outermost div tag of the Tab's label.
+     * CSS style(s) to be applied to the outermost div tag of the Tab's title.
      */
-    public String getLabelStyle() {
-        if (this.labelStyle != null) {
-            return this.labelStyle;
+    public String getStyle() {
+        if (this.style != null) {
+            return this.style;
         }
-        ValueExpression _vb = getValueExpression("labelStyle");
+        ValueExpression _vb = getValueExpression("style");
         if (_vb != null) {
             return (String) _vb.getValue(getFacesContext().getELContext());
         }
@@ -273,30 +225,30 @@ public class TabContent extends UIComponentBase implements NamingContainer {
     }
     
     /**
-     * CSS style(s) to be applied to the outermost div tag of the Tab label
-     * @see #getLabelStyle()
+     * CSS style(s) to be applied to the outermost div tag of the Tab title
+     * @see #getTitleStyle()
      */
-    public void setLabelStyle(String labelStyle) {
-        this.labelStyle = labelStyle;
+    public void setStyle(String titstyleleStyle) {
+        this.style = style;
     }
     
     /**
-     * CSS style class(es) to be applied to the outermost HTML element of the Tab
-     * label.
+     * CSS style class(es) to be applied to the outermost HTML element of the 
+     * TabContent.
      */
-    @Property(name="labelClass", displayName="CSS Style Class(es)", category="Appearance", 
+    @Property(name="styleClass", displayName="CSS Style Class(es)", category="Appearance", 
         editorClassName="com.sun.rave.propertyeditors.StyleClassPropertyEditor")
-    private String labelClass = null;
+    private String styleClass = null;
     
     /**
      * Returns the CSS style class(es) that have been applied to the outermost 
-     * HTML element of the Tab label.
+     * HTML element of the Tab title.
      */
-    public String getLabelClass() {
-        if (this.labelClass != null) {
-            return this.labelClass;
+    public String getStyleClass() {
+        if (this.styleClass != null) {
+            return this.styleClass;
         }
-        ValueExpression _vb = getValueExpression("labelClass");
+        ValueExpression _vb = getValueExpression("styleClass");
         if (_vb != null) {
             return (String) _vb.getValue(getFacesContext().getELContext());
         }
@@ -304,75 +256,12 @@ public class TabContent extends UIComponentBase implements NamingContainer {
     }
     
     /**
-     * CSS style class(es) to be applied to the outermost HTML element of the Tab
-     * label.
-     * @see #getLabelClass()
+     * CSS style class(es) to be applied to the outermost HTML element of the 
+     * TabContent.
+     * @see #getStyleClass()
      */
-    public void setLabelClass(String labelClass) {
-        this.labelClass = labelClass;
-    }
-    
-    
-    /**
-     * CSS style(s) to be applied to the outermost HTML element of the Tab's 
-     * content.
-     */
-    @Property(name="contentStyle", displayName="CSS Style(s) of the Tab Content", 
-    category="Appearance", editorClassName="com.sun.jsfcl.std.css.CssStylePropertyEditor")
-    private String contentStyle = null;
-    
-    /**
-     * CSS style(s) to be applied to the outermost div tag of the Tab content
-     */
-    public String getContentStyle() {
-        if (this.contentStyle != null) {
-            return this.contentStyle;
-        }
-        ValueExpression _vb = getValueExpression("contentStyle");
-        if (_vb != null) {
-            return (String) _vb.getValue(getFacesContext().getELContext());
-        }
-        return null;
-    }
-    
-    /**
-     * CSS style(s) to be applied to the outermost div tag of the Tab content
-     * @see #getContentStyle()
-     */
-    public void setContentStyle(String contentStyle) {
-        this.contentStyle = contentStyle;
-    }
-    
-    /**
-     * CSS style class(es) to be applied to the outermost HTML element of the Tab's
-     * content.
-     */
-    @Property(name="contentClass", displayName="CSS Style Class(es) for tab content",
-    category="Appearance", editorClassName="com.sun.rave.propertyeditors.StyleClassPropertyEditor")
-    private String contentClass = null;
-    
-    /**
-     * Returns the CSS style class(es) that have been applied to the outermost 
-     * HTML element of the Tab content.
-     */
-    public String getContentClass() {
-        if (this.contentClass != null) {
-            return this.contentClass;
-        }
-        ValueExpression _vb = getValueExpression("contentClass");
-        if (_vb != null) {
-            return (String) _vb.getValue(getFacesContext().getELContext());
-        }
-        return null;
-    }
-    
-    /**
-     * CSS style class(es) to be applied to the outermost HTML element of the Tab
-     * content.
-     * @see #getContentClass()
-     */
-    public void setContentClass(String contentClass) {
-        this.contentClass = contentClass;
+    public void setStyleClass(String styleClass) {
+        this.styleClass = styleClass;
     }
     
     /**
@@ -464,15 +353,12 @@ public class TabContent extends UIComponentBase implements NamingContainer {
         super.restoreState(_context, _values[0]);
         this.selected = ((Boolean) _values[1]).booleanValue();
         this.selected_set = ((Boolean) _values[2]).booleanValue();
-        this.labelStyle = (String) _values[3];
-        this.labelClass = (String) _values[4];
-        this.contentStyle = (String) _values[5];
-        this.contentClass = (String) _values[6];
-        this.htmlTemplate = (String) _values[7];
-        this.contentHeight = (String) _values[8];
-        this.label = (String) _values[9];
-        this.visible = ((Boolean) _values[10]).booleanValue();
-        this.visible_set = ((Boolean) _values[11]).booleanValue();
+        this.style = (String) _values[3];
+        this.styleClass = (String) _values[4];
+        this.htmlTemplate = (String) _values[5];
+        this.title = (String) _values[6];
+        this.visible = ((Boolean) _values[7]).booleanValue();
+        this.visible_set = ((Boolean) _values[8]).booleanValue();
     }
     
     /**
@@ -480,19 +366,16 @@ public class TabContent extends UIComponentBase implements NamingContainer {
      */
     @Override
     public Object saveState(FacesContext _context) {
-        Object _values[] = new Object[12];
+        Object _values[] = new Object[9];
         _values[0] = super.saveState(_context);
         _values[1] = this.selected ? Boolean.TRUE : Boolean.FALSE;
         _values[2] = this.selected_set ? Boolean.TRUE : Boolean.FALSE;
-        _values[3] = this.labelStyle;
-        _values[4] = this.labelClass;
-        _values[5] = this.contentStyle;
-        _values[6] = this.contentClass;
-        _values[7] = this.htmlTemplate;
-        _values[8] = this.contentHeight;
-        _values[9] = this.label;
-        _values[10] = this.visible ? Boolean.TRUE : Boolean.FALSE;
-        _values[11] = this.visible_set ? Boolean.TRUE : Boolean.FALSE;
+        _values[3] = this.style;
+        _values[4] = this.styleClass;
+        _values[5] = this.htmlTemplate;
+        _values[6] = this.title;
+        _values[7] = this.visible ? Boolean.TRUE : Boolean.FALSE;
+        _values[8] = this.visible_set ? Boolean.TRUE : Boolean.FALSE;
         return _values;
     }
     
@@ -500,7 +383,7 @@ public class TabContent extends UIComponentBase implements NamingContainer {
      * Utility method that returns the tabContainer instance that contains 
      * the tab specified.
      */
-    public static TabContainer getTabContainer(TabContent tab) {
+    public TabContainer getTabContainer(TabContent tab) {
         TabContainer tabC = null;
         UIComponent parent = tab.getParent();
         while (tabC == null && parent != null) {

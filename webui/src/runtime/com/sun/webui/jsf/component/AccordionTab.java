@@ -1,0 +1,191 @@
+/*
+ * The contents of this file are subject to the terms
+ * of the Common Development and Distribution License
+ * (the License).  You may not use this file except in
+ * compliance with the License.
+ * 
+ * You can obtain a copy of the license at
+ * https://woodstock.dev.java.net/public/CDDLv1.0.html.
+ * See the License for the specific language governing
+ * permissions and limitations under the License.
+ * 
+ * When distributing Covered Code, include this CDDL
+ * Header Notice in each file and include the License file
+ * at https://woodstock.dev.java.net/public/CDDLv1.0.html.
+ * If applicable, add the following below the CDDL Header,
+ * with the fields enclosed by brackets [] replaced by
+ * you own identifying information:
+ * "Portions Copyrighted [year] [name of copyright owner]"
+ * 
+ * Copyright 2007 Sun Microsystems, Inc. All rights reserved.
+ */
+
+/*
+ * AccordionTab.java
+ *
+ * Created on June 15, 2007, 3:37 PM
+ *
+ * To change this template, choose Tools | Template Manager
+ * and open the template in the editor.
+ */
+
+package com.sun.webui.jsf.component;
+
+import com.sun.faces.annotation.Property;
+import com.sun.faces.annotation.Component;
+import javax.el.ValueExpression;
+import javax.faces.context.FacesContext;
+import com.sun.faces.extensions.avatar.lifecycle.AsyncResponse;
+import com.sun.webui.jsf.util.ComponentUtilities;
+import com.sun.webui.jsf.util.ThemeUtilities;
+
+/**
+ * An accordion tab component. It extends the generic tabContent 
+ * The AccordionTab component represents one tab in the accordion. 
+ * AccordionTab components must be children of Accordion components.
+ * Each AccordionTab has a title and some content. The content can be an aribitrary
+ * set of components or some XHTML markup or both. The component would go through 
+ * the usual JSF lifecycle when the Accordion is refreshed, the component itself
+ * is refreshed or the page containing the Accordion (hence, the component) is 
+ * submitted.
+ *
+ */
+
+@Component(type="com.sun.webui.jsf.AccordionTab", 
+family="com.sun.webui.jsf.AccordionTab", displayName="AccordionTab", 
+tagName="accordionTab", tagRendererType="com.sun.webui.jsf.widget.AccordionTab")
+public class AccordionTab extends TabContent {
+    
+    /**
+     * Create a new AccordionTab.
+     */
+    public AccordionTab() {
+        super();
+        setRendererType("com.sun.webui.jsf.widget.AccordionTab");
+    }
+    
+    /**
+     * <p>Return the family for this component.</p>
+     */
+    public String getFamily() {
+        return "com.sun.webui.jsf.AccordionTab";
+    }
+
+    /**
+     * <p>Return the renderer type associated with this component.</p>
+     */
+    public String getRendererType() {
+        
+        if (ComponentUtilities.isAjaxRequest(getFacesContext(), this)) {
+            return "com.sun.webui.jsf.ajax.AccordionTab";
+        }
+        return super.getRendererType();
+        
+    }
+    
+    /**
+     * Height of each tab content. This height is applied to the style of
+     * the content section of AccordionTab. It can be either in pixels, em
+     * or en. By default the height is set to 100 pixels.
+     */
+    @Property(name="contentHeight", displayName="Tab Content Height", category="Appearance", 
+        editorClassName="com.sun.rave.propertyeditors.StringPropertyEditor")
+    private String contentHeight = null;
+    
+    /**
+     * Return the content height for this tab.
+     */
+    public String getContentHeight() {
+        if (this.contentHeight != null) {
+            return this.contentHeight;
+        }
+        ValueExpression _vb = getValueExpression("contentHeight");
+        if (_vb != null) {
+            return (String) _vb.getValue(getFacesContext().getELContext());
+        }
+        
+        // we should get here only if getValueExpression and this.contentHeight
+        // failed to produce a reasonable content height
+        
+        // Return the themed value. By default this is set to "100px".
+        String defaultValue = "100px";
+        try {
+            defaultValue = ThemeUtilities.getTheme(FacesContext.getCurrentInstance())
+                .getMessage("AccordionTab.contentHeight"); //NOI18N
+        } catch ( Exception e) {} //do nothing
+        return defaultValue;
+    }
+    
+    /**
+     * Set the content height for this tab.
+     */
+    public void setContentHeight(String contentHeight) {
+        this.contentHeight = contentHeight;
+    }
+        
+    /**
+     * This attribute is to handle the case where the AccordionTab is itself
+     * a container of AccordionTabs.
+     * Returns true if multiple tabs can be selected at the same time.
+     * By default this is set to false and only one accordion tab can be
+     * selected at any given time. Note that when only a single tab is
+     * selected the accordion will not supply expand/collapse icons even if 
+     * the application developer provides facets for these.
+     */
+    @Property(name="multipleSelect", displayName="Multiple tab selected", isHidden=true)
+    private boolean multipleSelect = false;
+    private boolean multipleSelect_set = false;
+    
+    /**
+     * Returns true if multiple tabs can be selected, false otherwise.
+     * This value is false by default.
+     */
+    public boolean isMultipleSelect() {
+        if (this.multipleSelect_set) {
+            return this.multipleSelect;
+        }
+        ValueExpression _vb = getValueExpression("multipleSelect");
+        if (_vb != null) {
+            Object _result = _vb.getValue(getFacesContext().getELContext());
+            if (_result == null) {
+                return false;
+            } else {
+                return ((Boolean) _result).booleanValue();
+            }
+        }
+        return false;
+    }
+    
+    /**
+     * Set to true if multiple tabs can be selected. 
+     */
+    public void setMultipleSelect(boolean multipleSelect) {
+        this.multipleSelect = multipleSelect;
+        this.multipleSelect_set = true;
+    }
+    
+    /**
+     * Restore the state of this component.
+     */
+    @Override
+    public void restoreState(FacesContext _context,Object _state) {
+        Object _values[] = (Object[]) _state;
+        super.restoreState(_context, _values[0]);
+        this.contentHeight = (String) _values[1];
+        this.multipleSelect = ((Boolean) _values[2]).booleanValue();
+        this.multipleSelect_set = ((Boolean) _values[3]).booleanValue();
+    }
+    
+    /**
+     * Save the state of this component.
+     */
+    @Override
+    public Object saveState(FacesContext _context) {
+        Object _values[] = new Object[4];
+        _values[0] = super.saveState(_context);
+        _values[1] = this.contentHeight;
+        _values[2] = this.multipleSelect ? Boolean.TRUE : Boolean.FALSE;
+        _values[3] = this.multipleSelect_set ? Boolean.TRUE : Boolean.FALSE;
+        return _values;
+    }
+}
