@@ -69,6 +69,8 @@ public class TextFieldRenderer extends FieldRendererBase {
         "onMouseUp",
         "onMouseMove",
         "onClick",
+        "onChange",
+        "onSelect",
         "onFocus",
         "onBlur",
         "onDblClick",
