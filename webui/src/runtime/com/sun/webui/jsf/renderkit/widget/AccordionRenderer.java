@@ -88,10 +88,11 @@ public class AccordionRenderer extends RendererBase {
         Accordion container = (Accordion) component;
         Theme theme = getTheme();
 
+        boolean isMultipleSelect = container.isMultipleSelect();
         JSONObject json = new JSONObject();
         json.put("className", container.getStyleClass())
             .put("style", container.getStyle())
-            .put("multipleSelect", container.isMultipleSelect())
+            .put("multipleSelect", isMultipleSelect)
             .put("loadOnSelect", container.isLoadOnSelect())
             .put("toggleControls", container.isToggleControls())
             .put("visible", container.isVisible());
@@ -104,8 +105,7 @@ public class AccordionRenderer extends RendererBase {
         
         if (container.getChildCount() > 0) {
             setContents(context, container, json);
-
-            if (container.isToggleControls() && container.isMultipleSelect()) {
+            if (container.isToggleControls() && isMultipleSelect) {
                 // Append expand/collapse image properties.
                 JSONUtilities.addProperty(json, "expandAllImage",
                     WidgetUtilities.renderComponent(context,
@@ -140,6 +140,9 @@ public class AccordionRenderer extends RendererBase {
      *
      * @param context FacesContext for the current request.
      * @param component UIComponent to be rendered.
+     *
+     * @return The type of widget represented by this component. The
+     *   "accordion" in this case.
      */
     protected String getWidgetName(FacesContext context, UIComponent component) {
         return JavaScriptUtilities.getNamespace("accordion");
@@ -161,15 +164,12 @@ public class AccordionRenderer extends RendererBase {
 	    throws IOException, JSONException {
 
         JSONArray jArray = new JSONArray();
-        json.put("accordionTabs", jArray);
+        json.put("tabs", jArray);
 
         for (UIComponent kid : component.getChildren()) {
             JSONUtilities.addProperty(jArray,
                 WidgetUtilities.renderComponent(context, kid));
         }
     }
-    
-    // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    // Private methods
-    // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 }
+
