@@ -33,7 +33,6 @@ import com.sun.webui.jsf.util.WidgetUtilities;
 import com.sun.webui.jsf.util.JSONUtilities;
 import com.sun.webui.jsf.theme.ThemeTemplates;
 import com.sun.webui.jsf.util.JavaScriptUtilities;
-import com.sun.webui.jsf.util.ThemeUtilities;
 
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
@@ -124,15 +123,11 @@ public class AccordionTabRenderer extends RendererBase {
     protected JSONObject getProperties(FacesContext context,
             UIComponent component) throws IOException, JSONException {
         AccordionTab content = (AccordionTab) component;
-        String templatePath = content.getHtmlTemplate(); // Get HTML template.
 
         JSONObject json = new JSONObject();
         json.put("styleClass", content.getStyleClass())
             .put("style", content.getStyle())
             .put("selected", content.isSelected())
-            /*.put("templatePath", (templatePath != null)
-                ? templatePath 
-                : ThemeUtilities.getTheme(context).getPathToTemplate(ThemeTemplates.ACCORDIONTAB)) */
             .put("visible", content.isVisible())
             .put("title", content.getTitle())
             .put("contentHeight", content.getContentHeight());
@@ -140,9 +135,6 @@ public class AccordionTabRenderer extends RendererBase {
         JSONArray tabContent = new JSONArray();
         appendChildProps(content, context, tabContent);
         json.put("tabContent", tabContent);
-        
-        // Add core and attribute properties.
-        // setCoreProperties(context, content, json);
 
         return json;
     }
@@ -163,7 +155,7 @@ public class AccordionTabRenderer extends RendererBase {
     /**
      * Get the name of the widget represented by this component.
      *
-     * @return The name of widget represented by this component.The
+     * @return The name of widget represented by this component. The
      * "accordionTab" in this case.
      */
     protected String getWidgetName(FacesContext context, UIComponent component) {
@@ -183,7 +175,7 @@ public class AccordionTabRenderer extends RendererBase {
      * The JSON object for this hiddenField is not rendered here. 
      */
     private void appendChildProps(AccordionTab component, FacesContext context,
-        JSONArray content) throws IOException, JSONException{
+            JSONArray content) throws IOException, JSONException{
     
         if (component.getTabChildCount() == 0) {
             // exclude the hiddenField used to maintain the selected state

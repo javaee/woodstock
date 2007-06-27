@@ -1,4 +1,4 @@
-//<!--
+//
 // The contents of this file are subject to the terms
 // of the Common Development and Distribution License
 // (the License).  You may not use this file except in
@@ -32,72 +32,71 @@ dojo.require("dojo.widget.ContentPane");
 dojo.require("webui.@THEME@.*");
 dojo.require("webui.@THEME@.widget.*");
 
+/**
+ * This function is used to generate a template based widget.
+ *
+ * Note: This is considered a private API, do not use.
+ */
 webui.@THEME@.widget.accordionTab = function() {
     // Register the widget.
     dojo.widget.HtmlWidget.call(this);
 }
 
-dojo.inherits(webui.@THEME@.widget.accordionTab, webui.@THEME@.widget.widgetBase);
-
 /**
- * This closure is used to process refresh events.
+ * This function is used to generate a template based widget.
  */
-webui.@THEME@.widget.accordionTab.refresh = {
-    /**
-     * Event topics for custom AJAX implementations to listen for.
-     */
-    beginEventTopic: "webui_@THEME@_widget_accordionTab_refresh_begin",
-    endEventTopic: "webui_@THEME@_widget_accordionTab_refresh_end",
-
-    /**
-     * Process refresh event.
-     *
-     * @param execute Comma separated string containing a list of client ids 
-     * against which the execute portion of the request processing lifecycle
-     * must be run.
-     */
-    processEvent: function(execute) {
-        // Include default AJAX implementation.
-        this.ajaxify("webui.@THEME@.widget.jsfx.accordionTab");
-
-        // Publish event.
-        dojo.event.topic.publish(webui.@THEME@.widget.accordionTab.refresh.beginEventTopic, {
-            id: this.id,
-            execute: execute,
-            endEventTopic: webui.@THEME@.widget.accordionTab.refresh.endEventTopic
-        });
-        return true;
+webui.@THEME@.widget.accordionTab.fillInTemplate = function() {
+    // Set ids.
+    if (this.id) {
+        this.domNode.id = this.id;
+        this.titleNode.id = this.id + "_tabTitle";
+        this.turnerContainer.id = this.id + "_tabTitleTurner";
+        this.menuContainer.id = this.id + "_tabMenu";
+        this.hiddenFieldNode.id = this.id + ":selectedState";
+        this.hiddenFieldNode.name = this.hiddenFieldNode.id;
     }
+
+    // Set public functions.
+    this.domNode.refresh = function(execute) { return dojo.widget.byId(this.id).refresh(execute); }
+    this.domNode.processAction = function(execute) { return dojo.widget.byId(this.id).processAction(execute); }
+    this.domNode.setProps = function(props) { return dojo.widget.byId(this.id).setProps(props); }
+
+    // Set properties.
+    return this.setProps();
 }
 
 /**
- * This closure is used to process tabChange events.
+ * This function is used to get widget properties. Please see
+ * setProps() for a list of supported properties.
  */
-webui.@THEME@.widget.accordionTab.tabAction = {
-    /**
-     * Event topics for custom AJAX implementations to listen for.
-     */
-    beginEventTopic: "webui_@THEME@_widget_accordionTab_tabAction_begin",
-    endEventTopic: "webui_@THEME@_widget_accordionTab_tabAction_end",
+webui.@THEME@.widget.accordionTab.getProps = function() {
+    var props = {};
 
-    /**
-     * TabChange being refresh event.
-     *
-     * @param execute Comma separated string containing a list of client ids 
-     * against which the execute portion of the request processing lifecycle
-     * must be run.
-     */
-    processEvent: function(execute) {
-        // Include default AJAX implementation.
-        this.ajaxify("webui.@THEME@.widget.jsfx.accordionTab");
+    // Set properties.
+    if (this.selected) { props.selected = this.selected; }
+    if (this.title) { props.title = this.title; }
+    if (this.tabContent) { props.tabContent = this.tabContent; }
+    if (this.visible != null) { props.visible = this.visible; }
+    if (this.actions != null) { props.actions = this.actions; }
+    if (this.styleClass != null) { props.styleClass = this.styleClass; }
+    if (this.style != null) { props.style = this.style; }
+    if (this.contentHeight != null) { props.contentHeight = this.contentHeight; }
+    if (this.id) { props.id = this.id; }
+    if (this.type) { props.type = this.type; }
 
-        // Publish event.
-        dojo.event.topic.publish(webui.@THEME@.widget.accordionTab.tabAction.beginEventTopic,{
-            id: this.id,
-            execute: "menuAction"
-        });
-        return true;
-    }
+    // Add DOM node properties.
+    Object.extend(props, this.getCommonProps());
+    Object.extend(props, this.getCoreProps());
+    Object.extend(props, this.getJavaScriptProps());
+
+    return props;
+}
+
+/**
+ * Get title height.
+ */
+webui.@THEME@.widget.accordionTab.getTitleHeight = function () {
+    return dojo.html.getMarginBox(this.titleContainer).height;
 }
 
 /**
@@ -131,53 +130,81 @@ webui.@THEME@.widget.accordionTab.loadContent = {
 }
 
 /**
- * This function is used to generate a template based widget.
+ * Handle menu onClick event.
  */
-webui.@THEME@.widget.accordionTab.fillInTemplate = function() {
-    // dojo.debug("inside fillinTemplate for accordion Tab");
-
-    if (this.id) {
-        this.domNode.id = this.id;
-        this.titleNode.id = this.id + "_tabTitle";
-        this.turnerContainer.id = this.id + "_tabTitleTurner";
-        this.menuContainer.id = this.id + "_tabMenu";
-        this.hiddenFieldNode.id = this.id + ":selectedState";
-        this.hiddenFieldNode.name = this.hiddenFieldNode.id;
-    }
-
-    this.domNode.refresh = function(execute) { return dojo.widget.byId(this.id).refresh(execute); }
-    this.domNode.processAction = function(execute) { return dojo.widget.byId(this.id).processAction(execute); }
-    this.domNode.setProps = function(props) { return dojo.widget.byId(this.id).setProps(props); }
-
-    this.setProps();
-
+webui.@THEME@.widget.accordionTab.onMenuClick = function(e) {
+    // this feature will be augmented on the coming days. The API may change
+    // somewhat.
+    dojo.event.browser.stopEvent(e);
 }
 
 /**
- * This function is used to get widget properties. Please see
- * setProps() for a list of supported properties.
+ * Handle title onClick event.
  */
-webui.@THEME@.widget.accordionTab.getProps = function() {
-    var props = {};
+webui.@THEME@.widget.accordionTab.onTitleClick = function () {
+    this.parent.selectChild(this);
+}
 
-    // Set properties.
-    if (this.selected) { props.selected = this.selected; }
-    if (this.title) { props.title = this.title; }
-    if (this.tabContent) { props.tabContent = this.tabContent; }
-    if (this.visible != null) { props.visible = this.visible; }
-    if (this.actions != null) { props.actions = this.actions; }
-    if (this.styleClass != null) { props.styleClass = this.styleClass; }
-    if (this.style != null) { props.style = this.style; }
-    if (this.contentHeight != null) { props.contentHeight = this.contentHeight; }
-    if (this.id) { props.id = this.id; }
-    if (this.type) { props.type = this.type; }
+/**
+ * Handle title onMouseOut event.
+ */
+webui.@THEME@.widget.accordionTab.onTitleMouseOut = function() {
+    if (this.selected) {
+        this.titleContainer.className = 
+            webui.@THEME@.widget.props.accordionTab.accordionTabExpanded;
+        this.turnerContainer.className = 
+            webui.@THEME@.widget.props.accordionTab.accordionDownTurner;
+        return false;
+    }
 
-    // Add DOM node properties.
-    Object.extend(props, this.getCommonProps());
-    Object.extend(props, this.getCoreProps());
-    Object.extend(props, this.getJavaScriptProps());
+    this.titleContainer.className = 
+        webui.@THEME@.widget.props.accordionTab.accordionTabCollapsed;
+    this.turnerContainer.className = 
+        webui.@THEME@.widget.props.accordionTab.accordionRightTurner;
+}
 
-    return props;
+/**
+ * Handle title onMouseOver event.
+ */
+webui.@THEME@.widget.accordionTab.onTitleMouseOver = function() {
+    if (this.selected) {
+        this.turnerContainer.className = 
+            webui.@THEME@.widget.props.accordionTab.accordionDownTurner;
+    } else {
+        this.turnerContainer.className = 
+            webui.@THEME@.widget.props.accordionTab.accordionRightTurner;
+    }
+}
+
+/**
+ * This closure is used to process refresh events.
+ */
+webui.@THEME@.widget.accordionTab.refresh = {
+    /**
+     * Event topics for custom AJAX implementations to listen for.
+     */
+    beginEventTopic: "webui_@THEME@_widget_accordionTab_refresh_begin",
+    endEventTopic: "webui_@THEME@_widget_accordionTab_refresh_end",
+
+    /**
+     * Process refresh event.
+     *
+     * @param execute Comma separated string containing a list of client ids 
+     * against which the execute portion of the request processing lifecycle
+     * must be run.
+     */
+    processEvent: function(execute) {
+        // Include default AJAX implementation.
+        this.ajaxify("webui.@THEME@.widget.jsfx.accordionTab");
+
+        // Publish event.
+        dojo.event.topic.publish(webui.@THEME@.widget.accordionTab.refresh.beginEventTopic, {
+            id: this.id,
+            execute: execute,
+            endEventTopic: webui.@THEME@.widget.accordionTab.refresh.endEventTopic
+        });
+        return true;
+    }
 }
 
 /**
@@ -197,7 +224,7 @@ webui.@THEME@.widget.accordionTab.getProps = function() {
  * @param props Key-Value pairs of properties.
  */
 webui.@THEME@.widget.accordionTab.setProps = function(props) {
-
+    // Save properties for later updates.
     if (props != null) {
         if (props.tabContent) {
             this.tabContent = null;
@@ -216,12 +243,9 @@ webui.@THEME@.widget.accordionTab.setProps = function(props) {
         dojo.event.connect(this.menuContainer, "onmouseout", this, "onTitleMouseOut");
     }
 
-    if (props.hiddenField) {
-    }
     if (props.contentHeight) {
         this.contentNode.style.height = props.contentHeight;
     }
-
     if (props.title) {
         this.setTitle(props.title);
     }
@@ -246,88 +270,20 @@ webui.@THEME@.widget.accordionTab.setProps = function(props) {
 
     }
 
-
     // Set DOM node properties.
     this.setCoreProps(this.domNode, props);
     this.setCommonProps(this.domNode, props);
     this.setJavaScriptProps(this.domNode, props);
 
+    return props; // Return props for subclasses.
 }
 
 /**
- * Set the title associated with the accordion tab.
+ * Set tab selected.
  *
- *  @param title Title property associated with the tab.
+ * @param isSelected true if selected.
  */
-webui.@THEME@.widget.accordionTab.setTitle = function (title) {
-
-    if (title) {
-        var titleHref = dojo.widget.byId(this.titleHref.id); 
-        if (titleHref) {
-                titleHref.setProps(title);
-        } else {
-            this.addFragment(this.titleHref, title);
-        }
-    }
-}
-
-/**
- * Set the contents of the accordion tab.
- *
- *  @param content Contents associated with the tab.
- */
-webui.@THEME@.widget.accordionTab.setTabContent = function(content) {
-    if (content) {
-        for (var i = 0; i < content.length; i++) {
-            this.addFragment(this.contentNode, 
-                    content[i], "last");
-        }
-    }
-}
-
-// this feature will be augmented on the coming days. The API may change
-// somewhat.
-webui.@THEME@.widget.accordionTab.onMenuClick = function(e) {
-    // dojo.debug("menu clicked...");
-    dojo.event.browser.stopEvent(e);
-}
-
-webui.@THEME@.widget.accordionTab.getTitleHeight = function () {
-    return dojo.html.getMarginBox(this.titleContainer).height;
-}
-
-webui.@THEME@.widget.accordionTab.onTitleClick = function () {
-    this.parent.selectChild(this);
-}
-
-webui.@THEME@.widget.accordionTab.onTitleMouseOver = function() {
-
-    if (this.selected) {
-        this.turnerContainer.className = 
-            webui.@THEME@.widget.props.accordionTab.accordionDownTurner;
-    } else {
-        this.turnerContainer.className = 
-            webui.@THEME@.widget.props.accordionTab.accordionRightTurner;
-    }
-}
-
-webui.@THEME@.widget.accordionTab.onTitleMouseOut = function() {
-    if (this.selected) {
-        this.titleContainer.className = 
-            webui.@THEME@.widget.props.accordionTab.accordionTabExpanded;
-        this.turnerContainer.className = 
-            webui.@THEME@.widget.props.accordionTab.accordionDownTurner;
-        return false;
-    }
-
-    this.titleContainer.className = 
-        webui.@THEME@.widget.props.accordionTab.accordionTabCollapsed;
-    this.turnerContainer.className = 
-        webui.@THEME@.widget.props.accordionTab.accordionRightTurner;
-}
-
 webui.@THEME@.widget.accordionTab.setSelected = function (isSelected) {
-
     if (this.selected) {
         this.selected = false;
     } else {
@@ -356,32 +312,95 @@ webui.@THEME@.widget.accordionTab.setSelected = function (isSelected) {
         this.turnerContainer.className = 
             webui.@THEME@.widget.props.accordionTab.accordionRightTurner;
         this.contentNode.style.display = "none";
-
     }
 }
 
+/**
+ * Set the contents of the accordion tab.
+ *
+ * @param content Contents associated with the tab.
+ */
+webui.@THEME@.widget.accordionTab.setTabContent = function(content) {
+    if (content) {
+        for (var i = 0; i < content.length; i++) {
+            this.addFragment(this.contentNode, 
+                    content[i], "last");
+        }
+    }
+}
+
+/**
+ * Set the title associated with the accordion tab.
+ *
+ * @param title Title property associated with the tab.
+ */
+webui.@THEME@.widget.accordionTab.setTitle = function (title) {
+
+    if (title) {
+        var titleHref = dojo.widget.byId(this.titleHref.id); 
+        if (titleHref) {
+                titleHref.setProps(title);
+        } else {
+            this.addFragment(this.titleHref, title);
+        }
+    }
+}
+
+/**
+ * This closure is used to process tabChange events.
+ */
+webui.@THEME@.widget.accordionTab.tabAction = {
+    /**
+     * Event topics for custom AJAX implementations to listen for.
+     */
+    beginEventTopic: "webui_@THEME@_widget_accordionTab_tabAction_begin",
+    endEventTopic: "webui_@THEME@_widget_accordionTab_tabAction_end",
+
+    /**
+     * TabChange being refresh event.
+     *
+     * @param execute Comma separated string containing a list of client ids 
+     * against which the execute portion of the request processing lifecycle
+     * must be run.
+     */
+    processEvent: function(execute) {
+        // Include default AJAX implementation.
+        this.ajaxify("webui.@THEME@.widget.jsfx.accordionTab");
+
+        // Publish event.
+        dojo.event.topic.publish(webui.@THEME@.widget.accordionTab.tabAction.beginEventTopic,{
+            id: this.id,
+            execute: "menuAction"
+        });
+        return true;
+    }
+}
+
+// Inherit base widget properties.
+dojo.inherits(webui.@THEME@.widget.accordionTab, webui.@THEME@.widget.widgetBase);
+
+// Override base widget by assigning properties to class prototype.
 dojo.lang.extend(webui.@THEME@.widget.accordionTab, {
-
-    widgetType: "accordionTab",
-    isContainer: true,
-    selected: false,
-    open: false,
-    loadOnSelect: false,
-    submitOnChange: false,
-
     fillInTemplate: webui.@THEME@.widget.accordionTab.fillInTemplate,
-    refresh: webui.@THEME@.widget.accordionTab.refresh.processEvent,
-    processAction: webui.@THEME@.widget.accordionTab.tabAction.processEvent,
-    processLoad: webui.@THEME@.widget.accordionTab.loadContent.processEvent,
     getProps: webui.@THEME@.widget.accordionTab.getProps,
-    setProps: webui.@THEME@.widget.accordionTab.setProps,
-    setTitle: webui.@THEME@.widget.accordionTab.setTitle,
-    setTabContent: webui.@THEME@.widget.accordionTab.setTabContent,
-    onMenuClick: webui.@THEME@.widget.accordionTab.onMenuClick,
     getTitleHeight: webui.@THEME@.widget.accordionTab.getTitleHeight,
+    onMenuClick: webui.@THEME@.widget.accordionTab.onMenuClick,
     onTitleClick: webui.@THEME@.widget.accordionTab.onTitleClick,
     onTitleMouseOver: webui.@THEME@.widget.accordionTab.onTitleMouseOver,
     onTitleMouseOut: webui.@THEME@.widget.accordionTab.onTitleMouseOut,
-    setSelected: webui.@THEME@.widget.accordionTab.setSelected 
+    processAction: webui.@THEME@.widget.accordionTab.tabAction.processEvent,
+    processLoad: webui.@THEME@.widget.accordionTab.loadContent.processEvent,
+    refresh: webui.@THEME@.widget.accordionTab.refresh.processEvent,
+    setProps: webui.@THEME@.widget.accordionTab.setProps,
+    setSelected: webui.@THEME@.widget.accordionTab.setSelected,    
+    setTabContent: webui.@THEME@.widget.accordionTab.setTabContent,
+    setTitle: webui.@THEME@.widget.accordionTab.setTitle,
+
+    isContainer: true,
+    loadOnSelect: false,
+    open: false,
+    selected: false,
+    submitOnChange: false,
+    templateString: webui.@THEME@.theme.getTemplateString("accordionTab"),
+    widgetType: "accordionTab"
 });
-//-->

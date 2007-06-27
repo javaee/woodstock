@@ -1,4 +1,4 @@
-//<!--
+//
 // The contents of this file are subject to the terms
 // of the Common Development and Distribution License
 // (the License).  You may not use this file except in
@@ -22,6 +22,7 @@
 
 dojo.provide("webui.@THEME@.*");
 
+// Ordered according to dependencies.
 dojo.kwCompoundRequire({
     common: [
         "webui.@THEME@.props",
@@ -29,7 +30,8 @@ dojo.kwCompoundRequire({
         "webui.@THEME@.browser",
         "webui.@THEME@.body",
         "webui.@THEME@.common",
-        "webui.@THEME@.formElements"]
+        "webui.@THEME@.formElements",
+        "webui.@THEME@.theme"]
 });
 
 // For debugging only, obtain all module resources before invoking
@@ -45,5 +47,3 @@ dojo.requireIf(djConfig.isDebug, "webui.@THEME@.scheduler");
 dojo.requireIf(djConfig.isDebug, "webui.@THEME@.table");
 dojo.requireIf(djConfig.isDebug, "webui.@THEME@.tree");
 dojo.requireIf(djConfig.isDebug, "webui.@THEME@.wizard");
-
-//-->

@@ -1,4 +1,4 @@
-//<!--
+//
 // The contents of this file are subject to the terms
 // of the Common Development and Distribution License
 // (the License).  You may not use this file except in
@@ -496,7 +496,6 @@ dojo.lang.extend(webui.@THEME@.widget.calendarMonth, {
     setSelectedValue: webui.@THEME@.widget.calendarMonth.setSelectedValue,        
         
     // Set defaults.
+    templateString: webui.@THEME@.theme.getTemplateString("calendarMonth"),
     widgetType: "calendarMonth"
 });
-
-//-->

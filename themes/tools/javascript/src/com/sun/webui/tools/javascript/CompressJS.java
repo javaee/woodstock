@@ -23,20 +23,7 @@ public class CompressJS {
      * @param sourcePath Path to JavaScript directory or file.
      */
     public void compress(String sourcePath) throws IOException {
-        File file = new File(sourcePath);
-        if (file.isDirectory()) {
-            String[] fileNames = file.list();
-            for (int i = 0; i < fileNames.length; i++) {
-                String fileName = file.getAbsolutePath() + 
-                    file.separator + fileNames[i];
-                compress(fileName);
-            }
-        } else {
-            if (verbose) {
-                System.out.println("Compressing: " + sourcePath);
-            }
-            compressFile(file);
-        }
+        iterate(sourcePath);
     }
 
     /**
@@ -65,12 +52,12 @@ public class CompressJS {
             file.getAbsolutePath()
         });
 
-        // Create file to save output.
+        // Temp file to save output.
         File tmpFile = new File(file.getAbsolutePath() + ".tmp");
+        FileOutputStream streamOut = new FileOutputStream(tmpFile);
 
         // Write output to file.
         InputStream streamIn = p.getInputStream();
-        FileOutputStream streamOut = new FileOutputStream(tmpFile);
 
         int c;
         while ((c = streamIn.read()) != -1) {
@@ -83,5 +70,27 @@ public class CompressJS {
         // Rename file.
         file.delete();
         tmpFile.renameTo(file);
+    }
+
+    /**
+     * Iterate over JavaScript directory or file.
+     *
+     * @param sourcePath Path to JavaScript directory or file.
+     */
+    private void iterate(String sourcePath) throws IOException {
+        File file = new File(sourcePath);
+        if (file.isDirectory()) {
+            String[] fileNames = file.list();
+            for (int i = 0; i < fileNames.length; i++) {
+                String fileName = file.getAbsolutePath() + 
+                    file.separator + fileNames[i];
+                iterate(fileName);
+            }
+        } else {
+            if (verbose) {
+                System.out.println("Compressing: " + sourcePath);
+            }
+            compressFile(file);
+        }
     }
 }

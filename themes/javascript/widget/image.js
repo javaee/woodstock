@@ -1,4 +1,4 @@
-//<!--
+//
 // The contents of this file are subject to the terms
 // of the Common Development and Distribution License
 // (the License).  You may not use this file except in
@@ -187,7 +187,6 @@ dojo.lang.extend(webui.@THEME@.widget.image, {
 
     // Set defaults.
     border: 0,
+    templateString: webui.@THEME@.theme.getTemplateString("image"),
     widgetType: "image"
 });
-
-//-->

@@ -1,4 +1,4 @@
-//<!--
+//
 // The contents of this file are subject to the terms
 // of the Common Development and Distribution License
 // (the License).  You may not use this file except in
@@ -148,7 +148,6 @@ webui.@THEME@.widget.textArea.getProps = function() {
  * @param props Key-Value pairs of properties.
  */
 webui.@THEME@.widget.textArea.setProps = function(props) {   
-    
     var props = webui.@THEME@.widget.textArea.superclass.setProps.call( this, props);
     
     // Set text field attributes.    
@@ -168,8 +167,7 @@ webui.@THEME@.widget.textArea.setProps = function(props) {
         labelWidget = dojo.widget.byId(this.label.id);
         if (labelWidget && labelWidget.domNode) {
             var currentClass = (labelWidget.domNode.className) 
-            ? labelWidget.domNode.className + " "
-            : "";
+                ? labelWidget.domNode.className + " " : "";
             labelWidget.domNode.className = currentClass + 
             webui.@THEME@.widget.props.textArea.labelTopAlignStyle;
         }    
@@ -261,8 +259,7 @@ dojo.lang.extend(webui.@THEME@.widget.textArea, {
     lastSaved: null,
     required: false,
     rows: 3,
+    templateString: webui.@THEME@.theme.getTemplateString("textArea"),
     valid: true,
     widgetType: "textArea"
 });
-
-//-->

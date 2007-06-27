@@ -100,11 +100,21 @@
     <target name="buildTheme">
         
         <property name="_dest-path_" value="${_build-dir_}/${_theme-path_}"/>
-        
+
         <mkdir dir="${_build-dir_}" />
-        
         <mkdir dir="${_dest-path_}" />
-        
+
+        <!-- Create templates -->
+        <copy todir="${_dest-path_}/templates">
+            <fileset dir="templates">
+                <exclude name="**/CVS/**" /> 
+            </fileset>
+            <filterset>
+                <filter token="THEME_CSS" value="${_theme-name-css_}"/>
+            </filterset>
+        </copy>
+
+        <!-- Create uncompressed javascript -->
         <copy todir="${_dest-path_}/javascript_uncompressed">
             <fileset dir="javascript">
                 <exclude name="**/CVS/**" />
@@ -115,16 +125,28 @@
             </filterset>
         </copy>
 
+        <!-- Embed templates -->
+        <java jar="${tools.jar}" failonerror="true" fork="true">
+          <arg value="-templateJS"/>
+          <arg value="-sourcePath"/>
+          <arg value="${_dest-path_}/templates"/>
+          <arg value="-destPath"/>
+          <arg value="${_dest-path_}/javascript_uncompressed/theme.js"/>
+          <arg value="-nameSpace"/>
+          <arg value="webui.${_theme-name_}.theme.templateStrings"/>
+          <arg value="-verbose"/>
+        </java>
+
         <!-- Compress javascript -->
         <copy todir="${_dest-path_}/javascript">
             <fileset dir="${_dest-path_}/javascript_uncompressed"/>
         </copy>
         <java jar="${tools.jar}" failonerror="true" fork="true">
           <arg value="-compressJS"/>
-          <arg value="-rhinoJar"/>
-          <arg value="${rhino.jar}"/>
           <arg value="-sourcePath"/>
           <arg value="${_dest-path_}/javascript"/>
+          <arg value="-rhinoJar"/>
+          <arg value="${rhino.jar}"/>
           <arg value="-verbose"/>
         </java>
 
@@ -145,14 +167,6 @@
             <fileset dir="messages">
                 <exclude name="**/CVS/**" /> 
             </fileset>
-        </copy>
-        <copy todir="${_dest-path_}/templates">
-            <fileset dir="templates">
-                <exclude name="**/CVS/**" /> 
-            </fileset>
-            <filterset>
-                <filter token="THEME_CSS" value="${_theme-name-css_}"/>
-            </filterset>
         </copy>
         
         <!-- copy messages.properties to messages_en.properties JSF hack -->

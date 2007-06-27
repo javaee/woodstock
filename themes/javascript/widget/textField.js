@@ -1,4 +1,4 @@
-//<!--
+//
 // The contents of this file are subject to the terms
 // of the Common Development and Distribution License
 // (the License).  You may not use this file except in
@@ -57,7 +57,7 @@ webui.@THEME@.widget.textField.fillInTemplate = function() {
         dojo.event.connect(this.fieldNode, "onblur", 
             webui.@THEME@.widget.textField.validation.processEvent);
     }
-
+    // Set properties.
     return props;
 }
 
@@ -67,8 +67,7 @@ webui.@THEME@.widget.textField.fillInTemplate = function() {
  * properties.
  */
 webui.@THEME@.widget.textField.getProps = function() {
-    
-     var props = webui.@THEME@.widget.textField.superclass.getProps.call(this);
+    var props = webui.@THEME@.widget.textField.superclass.getProps.call(this);
 
      // Set properties.
     if (this.autoValidate != null) { props.autoValidate = this.autoValidate; }
@@ -191,7 +190,6 @@ dojo.lang.extend(webui.@THEME@.widget.textField, {
     submit: webui.@THEME@.widget.textField.submit.processEvent,
 
     // Set defaults.
+    templateString: webui.@THEME@.theme.getTemplateString("textField"),
     widgetType: "textField"
 });
-
-//-->

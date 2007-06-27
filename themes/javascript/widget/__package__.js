@@ -1,4 +1,4 @@
-//<!--
+//
 // The contents of this file are subject to the terms
 // of the Common Development and Distribution License
 // (the License).  You may not use this file except in
@@ -48,12 +48,14 @@ dojo.requireIf(djConfig.isDebug, "webui.@THEME@.widget.field");
 dojo.requireIf(djConfig.isDebug, "webui.@THEME@.widget.hiddenField");
 dojo.requireIf(djConfig.isDebug, "webui.@THEME@.widget.hyperlink");
 dojo.requireIf(djConfig.isDebug, "webui.@THEME@.widget.image");
+dojo.requireIf(djConfig.isDebug, "webui.@THEME@.widget.imageButton");
 dojo.requireIf(djConfig.isDebug, "webui.@THEME@.widget.imageHyperlink");
 dojo.requireIf(djConfig.isDebug, "webui.@THEME@.widget.label");
 dojo.requireIf(djConfig.isDebug, "webui.@THEME@.widget.listbox");
 dojo.requireIf(djConfig.isDebug, "webui.@THEME@.widget.progressBar");
 dojo.requireIf(djConfig.isDebug, "webui.@THEME@.widget.radioButton");
 dojo.requireIf(djConfig.isDebug, "webui.@THEME@.widget.radioButtonGroup");
+dojo.requireIf(djConfig.isDebug, "webui.@THEME@.widget.resetButton");
 dojo.requireIf(djConfig.isDebug, "webui.@THEME@.widget.staticText");
 dojo.requireIf(djConfig.isDebug, "webui.@THEME@.widget.table2");
 dojo.requireIf(djConfig.isDebug, "webui.@THEME@.widget.table2RowGroup");
@@ -64,5 +66,3 @@ dojo.requireIf(djConfig.isDebug, "webui.@THEME@.widget.passwordField");
 dojo.require("dojo.ns");
 dojo.registerNamespace("webui.@THEME@", "webui.@THEME@.widget");
 dojo.widget.manager.registerWidgetPackage("webui.@THEME@.widget");
-
-//-->

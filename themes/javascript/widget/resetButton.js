@@ -20,47 +20,32 @@
 // Copyright 2007 Sun Microsystems, Inc. All rights reserved.
 //
 
-dojo.provide("webui.@THEME@.widget.passwordField");
+dojo.provide("webui.@THEME@.widget.resetButton");
 
 dojo.require("dojo.widget.*");
+dojo.require("dojo.uri.Uri");
 dojo.require("webui.@THEME@.*");
 dojo.require("webui.@THEME@.widget.*");
-dojo.require("webui.@THEME@.widget.field");
+dojo.require("webui.@THEME@.widget.button");
 
 /**
  * This function is used to generate a template based widget.
  *
  * Note: This is considered a private API, do not use.
  */
-webui.@THEME@.widget.passwordField = function() {
+webui.@THEME@.widget.resetButton = function() {
     // Register widget.
     dojo.widget.HtmlWidget.call(this);
 }
 
-/**
- * Helper function to obtain widget class names.
- */
-webui.@THEME@.widget.passwordField.getClassName = function() {
-    // Set default style.    
-    var className = (this.disabled == true)
-        ? webui.@THEME@.widget.props.passwordField.disabledClassName
-        : webui.@THEME@.widget.props.passwordField.className;   
-    return className;
-}
-
 // Inherit base widget properties.
-dojo.inherits(webui.@THEME@.widget.passwordField, webui.@THEME@.widget.field);
+dojo.inherits(webui.@THEME@.widget.resetButton, webui.@THEME@.widget.button);
 
 // Override base widget by assigning properties to class prototype.
-dojo.lang.extend(webui.@THEME@.widget.passwordField, {
-    // Set private functions.
-    getClassName: webui.@THEME@.widget.passwordField.getClassName,
-
-    // Set defaults.
-    disabled: false,
-    required: false,
-    size: 20,
-    templateString: webui.@THEME@.theme.getTemplateString("passwordField"),
-    valid: true,
-    widgetType: "passwordField"
+dojo.lang.extend(webui.@THEME@.widget.resetButton, {
+    // NOTE: Having a separate widget for each template allows the 
+    // templateString property to be cached. Otherwise, this would have to be 
+    // cleared for each new instance of button.
+    templateString: webui.@THEME@.theme.getTemplateString("resetButton"),
+    widgetType: "resetButton"
 });

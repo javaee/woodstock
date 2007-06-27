@@ -1,4 +1,4 @@
-//<!--
+//
 // The contents of this file are subject to the terms
 // of the Common Development and Distribution License
 // (the License).  You may not use this file except in
@@ -39,9 +39,7 @@ webui.@THEME@.widget.radioButtonGroup = function() {
 
 /**
  * Helper function to obtain widget class names.
- *
  */
-
 webui.@THEME@.widget.radioButtonGroup.getClassName = function() {    
     var className = webui.@THEME@.widget.props.radioButtonGroup.vertClassName;
     if (this.columns > 1) {
@@ -85,7 +83,6 @@ webui.@THEME@.widget.radioButtonGroup.refresh = {
     }
 }
 
-
 // Inherit base widget properties.
 dojo.inherits(webui.@THEME@.widget.radioButtonGroup, webui.@THEME@.widget.checkboxGroup);
 
@@ -95,8 +92,7 @@ dojo.lang.extend(webui.@THEME@.widget.radioButtonGroup, {
     getClassName: webui.@THEME@.widget.radioButtonGroup.getClassName,    
     refresh: webui.@THEME@.widget.radioButtonGroup.refresh.processEvent,                     
 
-    // Set defaults   
+    // Set defaults 
+    templateString: webui.@THEME@.theme.getTemplateString("radioButtonGroup"),
     widgetType: "radioButtonGroup"
 });
-
-//-->

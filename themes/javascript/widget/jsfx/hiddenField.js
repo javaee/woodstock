@@ -1,4 +1,4 @@
-//<!--
+//
 // The contents of this file are subject to the terms
 // of the Common Development and Distribution License
 // (the License).  You may not use this file except in
@@ -33,5 +33,3 @@ dojo.event.topic.subscribe(webui.@THEME@.widget.hiddenField.refresh.beginEventTo
     webui.@THEME@.widget.jsfx.common, "processRefreshEvent");
 dojo.event.topic.subscribe(webui.@THEME@.widget.hiddenField.submit.beginEventTopic,
     webui.@THEME@.widget.jsfx.common, "processSubmitEvent");
-
-//-->

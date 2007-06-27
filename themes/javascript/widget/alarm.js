@@ -1,4 +1,4 @@
-//<!--
+//
 // The contents of this file are subject to the terms
 // of the Common Development and Distribution License
 // (the License).  You may not use this file except in
@@ -210,7 +210,6 @@ dojo.lang.extend(webui.@THEME@.widget.alarm, {
     setProps: webui.@THEME@.widget.alarm.setProps,
 
     // Set defaults.
+    templateString: webui.@THEME@.theme.getTemplateString("alarm"),
     widgetType: "alarm"
 });
-
-//-->

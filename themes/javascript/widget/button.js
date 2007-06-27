@@ -1,4 +1,4 @@
-//<!--
+//
 // The contents of this file are subject to the terms
 // of the Common Development and Distribution License
 // (the License).  You may not use this file except in
@@ -346,7 +346,7 @@ dojo.inherits(webui.@THEME@.widget.button, webui.@THEME@.widget.widgetBase);
 
 // Override base widget by assigning properties to class prototype.
 dojo.lang.extend(webui.@THEME@.widget.button, {
-    // Set private functions.
+    // Set private functions
     fillInTemplate: webui.@THEME@.widget.button.fillInTemplate,
     getClassName: webui.@THEME@.widget.button.getClassName,
     getHoverClassName: webui.@THEME@.widget.button.getHoverClassName,
@@ -360,7 +360,6 @@ dojo.lang.extend(webui.@THEME@.widget.button, {
     escape: true,
     mini: false,
     primary: true,
+    templateString: webui.@THEME@.theme.getTemplateString("button"),
     widgetType: "button"
 });
-
-//-->

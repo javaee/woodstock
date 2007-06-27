@@ -1,4 +1,4 @@
-//<!--
+//
 // The contents of this file are subject to the terms
 // of the Common Development and Distribution License
 // (the License).  You may not use this file except in
@@ -59,7 +59,6 @@ webui.@THEME@.widget.field.fillInTemplate = function() {
     return this.setProps();
 }
 
-
 /**
  * Helper function to obtain widget class names.
  * Implementation within this field.js returns null,
@@ -67,6 +66,15 @@ webui.@THEME@.widget.field.fillInTemplate = function() {
  */
 webui.@THEME@.widget.field.getClassName = function() {   
     return null;
+}
+
+/**
+ * Returns the HTML input element that makes up the text field.
+ *
+ * @return a reference to the HTML input element. 
+ */
+webui.@THEME@.widget.field.getInputElement = function() {
+    return this.fieldNode;
 }
 
 /**
@@ -105,7 +113,6 @@ webui.@THEME@.widget.field.getProps = function() {
     
     return props;
 }
-
 
 /**
  * This function is used to set widget properties with the
@@ -194,18 +201,6 @@ webui.@THEME@.widget.field.setProps = function(props) {
     return props; // Return props for subclasses.
 }
 
-
-/**
- * Returns the HTML input element that makes up the text field.
- *
- * @return a reference to the HTML input element. 
- */
-webui.@THEME@.widget.field.getInputElement = function() {
-    return this.fieldNode;
-}
-
-
-
 // Inherit base widget properties.
 dojo.inherits(webui.@THEME@.widget.field, webui.@THEME@.widget.widgetBase);
 
@@ -224,5 +219,3 @@ dojo.lang.extend(webui.@THEME@.widget.field, {
     size: 20,
     valid: true
 });
-
-//-->

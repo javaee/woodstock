@@ -1,4 +1,4 @@
-//<!--
+//
 // The contents of this file are subject to the terms
 // of the Common Development and Distribution License
 // (the License).  You may not use this file except in
@@ -111,9 +111,7 @@ webui.@THEME@.widget.checkboxGroup.fillInTemplate = function() {
 
 /**
  * Helper function to obtain widget class names.
- *
  */
-
 webui.@THEME@.widget.checkboxGroup.getClassName = function() {    
     var className = webui.@THEME@.widget.props.checkboxGroup.vertClassName;
     if (this.columns > 1) {
@@ -255,7 +253,6 @@ dojo.lang.extend(webui.@THEME@.widget.checkboxGroup, {
     setProps: webui.@THEME@.widget.checkboxGroup.setProps,
 
     // Set defaults
+    templateString: webui.@THEME@.theme.getTemplateString("checkboxGroup"),
     widgetType: "checkboxGroup"
 });
-
-//-->

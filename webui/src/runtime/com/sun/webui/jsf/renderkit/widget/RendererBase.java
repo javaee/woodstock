@@ -265,19 +265,11 @@ abstract public class RendererBase extends Renderer {
      */
     protected void setCoreProperties(FacesContext context, UIComponent component, 
             JSONObject json) throws IOException, JSONException {
-        // Get template.
-        String templatePath = getTemplatePath(context, component);
-
         // Set properties.
         json.put("id", component.getClientId(context))
             .put("module", getModule(context, component))
             .put("widgetName", getWidgetName(context, component))
-            .put("templatePath", templatePath);
-
-        // The templateString property takes precedence and must be cleared.
-        if (templatePath != null && templatePath.length() > 0) {
-            json.put("templateString", "");
-        }
+            .put("templatePath", getTemplatePath(context, component));
     }
 
     // Helper method to get Theme objects.

@@ -19,15 +19,22 @@
 // 
 // Copyright 2007 Sun Microsystems, Inc. All rights reserved.
 //
-// This Javascript file should be included in any page that uses the associated
-// component, where JSF Extensions is used as the underlying transfer protocol.
+
+dojo.provide("webui.@THEME@.theme");
+
+dojo.require("dojo.widget.*");
+
+webui.@THEME@.theme = {
+    /**
+     * This function is used to obtain a template string.
+     *
+     * @param key The key associated with the theme string property.
+     */
+    getTemplateString: function(key) {
+        return webui.@THEME@.theme.templateStrings[key];
+    }
+}
+
 //
-
-dojo.provide("webui.@THEME@.widget.jsfx.table2");
-
-dojo.require("webui.@THEME@.widget.jsfx.*");
-dojo.require("webui.@THEME@.widget.table2");
-
-// Listen for Dojo Widget events.
-dojo.event.topic.subscribe(webui.@THEME@.widget.table2.refresh.beginEventTopic,
-    webui.@THEME@.widget.jsfx.common, "processRefreshEvent");
+// Note: The contents below are generated at build-time -- DO NOT EDIT!
+//

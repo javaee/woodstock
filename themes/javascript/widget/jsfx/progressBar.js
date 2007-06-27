@@ -1,4 +1,4 @@
-//<!--
+//
 // The contents of this file are subject to the terms
 // of the Common Development and Distribution License
 // (the License).  You may not use this file except in
@@ -104,5 +104,3 @@ dojo.event.topic.subscribe(webui.@THEME@.widget.progressBar.progress.beginEventT
     webui.@THEME@.widget.jsfx.progressBar, "processProgressEvent");
 dojo.event.topic.subscribe(webui.@THEME@.widget.progressBar.refresh.beginEventTopic,
     webui.@THEME@.widget.jsfx.common, "processRefreshEvent");
-
-//-->

@@ -1,7 +1,7 @@
 package com.sun.webui.tools;
 
 import com.sun.webui.tools.javascript.CompressJS;
-import com.sun.webui.tools.javascript.EmbedTemplates;
+import com.sun.webui.tools.javascript.TemplateJS;
 
 import java.io.*;
 
@@ -41,12 +41,37 @@ public class Main {
     }
 
     /**
-     * Helper function to invoke embed tool.
+     * Helper function to invoke template tool.
      *
      * @param args 
      */
-    public static void embedTemplates(String[] args) {
-        usage();
+    public static void templateJS(String[] args) throws IOException {
+        String destPath = null;
+        String nameSpace = null;
+        String sourcePath = null;
+        boolean verbose = false;
+
+        // Parse arguments.
+        for (int i = 1; i < args.length; i++) {
+            if (args[i].equals("-verbose")) {
+                verbose = true;
+            } else if (i + 1 < args.length) {
+                if (args[i].equals("-destPath")) {
+                    destPath = args[++i];
+                } else if (args[i].equals("-nameSpace")) {
+                    nameSpace = args[++i];
+                } else if (args[i].equals("-sourcePath")) {
+                    sourcePath = args[++i];
+                }
+            }
+	}
+
+        if (destPath != null && sourcePath != null) {
+            TemplateJS tjs = new TemplateJS(verbose);
+            tjs.embed(sourcePath, destPath, nameSpace);
+        } else {
+            usage();
+        }
     }
 
     /**
@@ -66,9 +91,10 @@ public class Main {
         System.out.println("-sourcePath\tJavaScript directory or file to compress.");
         System.out.println("-verbose\tEnable verbose output.");
 
-        System.out.println("\nOptions for -embedTemplates include:");
-        System.out.println("-sourcePath\tPath to HTML template directory or file.");
+        System.out.println("\nOptions for -templateJS include:");
         System.out.println("-destPath\tPath to JavaScript directory or file.");
+        System.out.println("-nameSpace\tName space to hold JSON properties.");
+        System.out.println("-sourcePath\tPath to HTML template directory or file.");
         System.out.println("-verbose\tEnable verbose output.");
     }
 
@@ -81,8 +107,8 @@ public class Main {
         if (args.length > 0) {
             if (args[0].equals("-compressJS")) {
                 compressJS(args);
-            } else if (args[0].equals("-embedTemplates")) { 
-                embedTemplates(args);
+            } else if (args[0].equals("-templateJS")) { 
+                templateJS(args);
             } else {
                 usage();
             }

@@ -1,4 +1,4 @@
-//<!--
+//
 // The contents of this file are subject to the terms
 // of the Common Development and Distribution License
 // (the License).  You may not use this file except in
@@ -23,7 +23,6 @@
 dojo.provide("webui.@THEME@.widget.common");
 
 dojo.require("dojo.widget.*");
-dojo.require("webui.@THEME@.*");
 
 /**
  * This closure contains common functions of the webui.@THEME@.widget module.
@@ -159,5 +158,3 @@ webui.@THEME@.widget.common = {
         return true;
     }
 }
-
-//-->

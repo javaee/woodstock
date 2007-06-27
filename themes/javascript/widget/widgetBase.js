@@ -1,4 +1,4 @@
-//<!--
+//
 // The contents of this file are subject to the terms
 // of the Common Development and Distribution License
 // (the License).  You may not use this file except in
@@ -54,7 +54,7 @@ webui.@THEME@.widget.widgetBase = function() {
  * @param props Key-Value pairs of properties.
  * @param position The position (e.g., "first", "last", etc.) to add widget.
  */
-webui.@THEME@.widget.addFragment = function(parentNode, props, position) {
+webui.@THEME@.widget.widgetBase.addFragment = function(parentNode, props, position) {
     if (parentNode == null || props == null) {
         return false;
     }
@@ -148,12 +148,25 @@ webui.@THEME@.widget.addFragment = function(parentNode, props, position) {
  *
  * @param module The module to include in the page.
  */
-webui.@THEME@.widget.ajaxify = function(module) {
+webui.@THEME@.widget.widgetBase.ajaxify = function(module) {
     if (webui.@THEME@.widget.jsfx && module) {
         webui.@THEME@.widget.common.require(module);
     }
 }
-    
+
+/**
+ * Override base widget so templatePath property takes precedence over the
+ * default templateString.
+ */
+webui.@THEME@.widget.widgetBase.buildRendering = function (args, frag, parent) {
+    // In order for templatePath to be used, templateString must be cleared.
+    if (this.templatePath) {
+        this.templateString = null;
+    }
+    // Super class buildRendering.
+    webui.@THEME@.widget.widgetBase.superclass.buildRendering.call(this, args, frag, parent);
+}
+
 /**
  * This function is used to extend the given object with Key-Value pairs of
  * properties. If a property is an object containing Key-Value pairs itself,
@@ -166,7 +179,7 @@ webui.@THEME@.widget.ajaxify = function(module) {
  * @param obj The object to extend.
  * @param props Key-Value pairs of properties.
  */
-webui.@THEME@.widget.extend = function(obj, props) {
+webui.@THEME@.widget.widgetBase.extend = function(obj, props) {
     if (obj == null || props == null) {
         return false;
     }
@@ -184,7 +197,7 @@ webui.@THEME@.widget.extend = function(obj, props) {
  * This function is used to get common properties for the widget. Please see the
  * setCommonProps() function for a list of supported properties.
  */
-webui.@THEME@.widget.getCommonProps = function() {
+webui.@THEME@.widget.widgetBase.getCommonProps = function() {
     var props = {};
 
     // Set properties.
@@ -201,7 +214,7 @@ webui.@THEME@.widget.getCommonProps = function() {
  * This function is used to get core properties for the widget. Please see the
  * setCoreProps() function for a list of supported properties.
  */
-webui.@THEME@.widget.getCoreProps = function() {
+webui.@THEME@.widget.widgetBase.getCoreProps = function() {
     var props = {};
 
     // Set properties.
@@ -217,7 +230,7 @@ webui.@THEME@.widget.getCoreProps = function() {
  * This function is used to get JavaScript properties for the widget. Please see
  * the setJavaScriptProps() function for a list of supported properties.
  */
-webui.@THEME@.widget.getJavaScriptProps = function() {
+webui.@THEME@.widget.widgetBase.getJavaScriptProps = function() {
     var props = {};
 
     // Set properties.
@@ -245,7 +258,7 @@ webui.@THEME@.widget.getJavaScriptProps = function() {
  * Note: It is assumed that an HTML element is used as a place holder for the
  * document fragment.
  */
-webui.@THEME@.widget.isInitialized = function() {
+webui.@THEME@.widget.widgetBase.isInitialized = function() {
     var domNode = document.getElementById(this.id);
     if (domNode && domNode.getAttribute("dojoattachpoint")) {
         return true;
@@ -262,7 +275,7 @@ webui.@THEME@.widget.isInitialized = function() {
  *
  * @param domNode The DOM node to remove child nodes.
  */
-webui.@THEME@.widget.removeChildNodes = function(domNode) {
+webui.@THEME@.widget.widgetBase.removeChildNodes = function(domNode) {
     if (domNode == null) {
         return false;
     }
@@ -297,7 +310,7 @@ webui.@THEME@.widget.removeChildNodes = function(domNode) {
  * @param domNode The DOM node to assign properties to.
  * @param props Key-Value pairs of properties.
  */
-webui.@THEME@.widget.setCommonProps = function(domNode, props) {
+webui.@THEME@.widget.widgetBase.setCommonProps = function(domNode, props) {
     if (domNode == null || props == null) {
         return false;
     }
@@ -339,7 +352,7 @@ webui.@THEME@.widget.setCommonProps = function(domNode, props) {
  * @param domNode The DOM node to assign properties to.
  * @param props Key-Value pairs of properties.
  */
-webui.@THEME@.widget.setCoreProps = function(domNode, props) {
+webui.@THEME@.widget.widgetBase.setCoreProps = function(domNode, props) {
     if (domNode == null || props == null) {
         return false;
     }
@@ -383,7 +396,7 @@ webui.@THEME@.widget.setCoreProps = function(domNode, props) {
  * @param domNode The DOM node to assign properties to.
  * @param props Key-Value pairs of properties.
  */
-webui.@THEME@.widget.setJavaScriptProps = function(domNode, props) {
+webui.@THEME@.widget.widgetBase.setJavaScriptProps = function(domNode, props) {
     if (domNode == null || props == null) {
         return false;
     }
@@ -469,18 +482,17 @@ dojo.inherits(webui.@THEME@.widget.widgetBase, dojo.widget.HtmlWidget);
 // Override base widget by assigning properties to class prototype.
 dojo.lang.extend(webui.@THEME@.widget.widgetBase, {
     // Set private functions.
-    addFragment: webui.@THEME@.widget.addFragment,
-    ajaxify: webui.@THEME@.widget.ajaxify,
-    event: webui.@THEME@.widget.event,
-    extend: webui.@THEME@.widget.extend,
-    getCommonProps: webui.@THEME@.widget.getCommonProps,
-    getCoreProps: webui.@THEME@.widget.getCoreProps,
-    getJavaScriptProps: webui.@THEME@.widget.getJavaScriptProps,
-    isInitialized: webui.@THEME@.widget.isInitialized,
-    removeChildNodes: webui.@THEME@.widget.removeChildNodes,
-    setCommonProps: webui.@THEME@.widget.setCommonProps,
-    setCoreProps: webui.@THEME@.widget.setCoreProps,
-    setJavaScriptProps: webui.@THEME@.widget.setJavaScriptProps
+    addFragment: webui.@THEME@.widget.widgetBase.addFragment,
+    ajaxify: webui.@THEME@.widget.widgetBase.ajaxify,
+    buildRendering: webui.@THEME@.widget.widgetBase.buildRendering,
+    event: webui.@THEME@.widget.widgetBase.event,
+    extend: webui.@THEME@.widget.widgetBase.extend,
+    getCommonProps: webui.@THEME@.widget.widgetBase.getCommonProps,
+    getCoreProps: webui.@THEME@.widget.widgetBase.getCoreProps,
+    getJavaScriptProps: webui.@THEME@.widget.widgetBase.getJavaScriptProps,
+    isInitialized: webui.@THEME@.widget.widgetBase.isInitialized,
+    removeChildNodes: webui.@THEME@.widget.widgetBase.removeChildNodes,
+    setCommonProps: webui.@THEME@.widget.widgetBase.setCommonProps,
+    setCoreProps: webui.@THEME@.widget.widgetBase.setCoreProps,
+    setJavaScriptProps: webui.@THEME@.widget.widgetBase.setJavaScriptProps
 });
-
-//-->

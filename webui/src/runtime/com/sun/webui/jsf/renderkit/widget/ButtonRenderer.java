@@ -26,7 +26,6 @@ import com.sun.faces.annotation.Renderer;
 
 import com.sun.webui.jsf.component.Button;
 import com.sun.webui.jsf.component.Icon;
-import com.sun.webui.theme.Theme;
 import com.sun.webui.jsf.theme.ThemeTemplates;
 import com.sun.webui.jsf.util.ConversionUtilities;
 import com.sun.webui.jsf.util.JSONUtilities;
@@ -51,6 +50,11 @@ import org.json.JSONObject;
     rendererType="com.sun.webui.jsf.widget.Button", 
     componentFamily="com.sun.webui.jsf.Button"))
 public class ButtonRenderer extends RendererBase {
+    private static final String TYPE_ICON = "icon";
+    private static final String TYPE_IMAGE = "image";
+    private static final String TYPE_RESET = "reset";
+    private static final String TYPE_SUBMIT = "submit";
+    
     /**
      * The set of pass-through attributes to be rendered.
      */
@@ -125,7 +129,19 @@ public class ButtonRenderer extends RendererBase {
      * @param component UIComponent to be rendered.
      */
     protected String getModule(FacesContext context, UIComponent component) {
-        return JavaScriptUtilities.getModuleName("widget.button");
+	if (!(component instanceof Button)) {
+	    throw new IllegalArgumentException(
+                "ButtonRenderer can only render Button components.");
+        }
+        // Get type.
+        String type = getType((Button) component);
+        if (type.equals(TYPE_ICON) || type.equals(TYPE_IMAGE)) {
+            return JavaScriptUtilities.getModuleName("widget.imageButton");
+        } else if (type.equals(TYPE_RESET)) {
+            return JavaScriptUtilities.getModuleName("widget.resetButton");
+        } else {
+            return JavaScriptUtilities.getModuleName("widget.button");
+        }
     }
 
     /** 
@@ -144,8 +160,6 @@ public class ButtonRenderer extends RendererBase {
                 "ButtonRenderer can only render Button components.");
         }
         Button button = (Button) component;
-        String imageUrl = button.getImageURL();
-        String icon = button.getIcon();
 
         // Set properties.
         JSONObject json = new JSONObject();
@@ -156,12 +170,14 @@ public class ButtonRenderer extends RendererBase {
             .put("title", button.getToolTip())
             .put("visible", button.isVisible());
 
-        if (imageUrl != null) {
-            setImageProperties(context, button, json);
-        } else if (icon != null){
-            setIconProperties(context, button, json);
+        // Get type.
+        String type = getType(button);
+        if (type.equals(TYPE_ICON)) {
+            setIconProperties(button, json);
+        } else if (type.equals(TYPE_IMAGE)) {
+            setImageProperties(context, button, json);        
         } else {
-            setTextProperties(context, button, json);
+            setTextProperties(button, json);
         }
 
         // Add attributes.
@@ -181,23 +197,16 @@ public class ButtonRenderer extends RendererBase {
 	    throw new IllegalArgumentException(
                 "ButtonRenderer can only render Button components.");
         }
-        Button button = (Button) component;
-        String imageUrl = button.getImageURL();
-        String icon = button.getIcon();
-        Theme theme = getTheme();
-        
-        // Get template.
-        String templatePath = button.getHtmlTemplate();
-        if (templatePath == null) {
-            if (imageUrl != null || icon != null) {
-                templatePath = theme.getPathToTemplate(ThemeTemplates.IMAGEBUTTON);
-            } else if (button.isReset()) {
-                templatePath = theme.getPathToTemplate(ThemeTemplates.RESETBUTTON);
-            } else {
-                templatePath = theme.getPathToTemplate(ThemeTemplates.BUTTON);
-            }
+
+        // Get type.
+        String type = getType((Button) component);
+        if (type.equals(TYPE_ICON) || type.equals(TYPE_IMAGE)) {
+            return getTheme().getPathToTemplate(ThemeTemplates.IMAGEBUTTON);
+        } else if (type.equals(TYPE_RESET)) {
+            return getTheme().getPathToTemplate(ThemeTemplates.RESETBUTTON);
+        } else {
+            return getTheme().getPathToTemplate(ThemeTemplates.BUTTON);
         }
-        return templatePath;
     }
 
     /**
@@ -207,22 +216,52 @@ public class ButtonRenderer extends RendererBase {
      * @param component UIComponent to be rendered.
      */
     protected String getWidgetName(FacesContext context, UIComponent component) {
-        return JavaScriptUtilities.getNamespace("button");
+	if (!(component instanceof Button)) {
+	    throw new IllegalArgumentException(
+                "ButtonRenderer can only render Button components.");
+        }
+
+        // Get type.
+        String type = getType((Button) component);
+        if (type.equals(TYPE_ICON) || type.equals(TYPE_IMAGE)) {
+            return JavaScriptUtilities.getNamespace("imageButton");
+        } else if (type.equals(TYPE_RESET)) {
+            return JavaScriptUtilities.getNamespace("resetButton");
+        } else {
+            return JavaScriptUtilities.getNamespace("button");
+        }
     }
 
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     // Private methods
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
+    /**
+     * Helper method to get button type.
+     *
+     * @param context FacesContext for the current request.
+     * @param component UIComponent to be rendered.
+     */
+    private String getType(Button component) {
+        if (component.getIcon() != null) {
+            return TYPE_ICON;
+        } else if (component.getImageURL() != null) {
+            return TYPE_IMAGE;
+        } else if (component.isReset()){
+            return TYPE_RESET;
+        } else {
+            return TYPE_SUBMIT;
+        }
+    }
+
     /** 
      * Helper method to obtain icon properties.
      *
-     * @param context FacesContext for the current request.
      * @param component Button to be rendered.
      * @param json JSONObject to assign properties to.
      */
-    private void setIconProperties(FacesContext context, Button component,
-            JSONObject json) throws JSONException {
+    private void setIconProperties(Button component, JSONObject json) 
+            throws JSONException {
         // Get themed icon.
         Icon icon = ThemeUtilities.getIcon(getTheme(), component.getIcon());
 
@@ -246,18 +285,17 @@ public class ButtonRenderer extends RendererBase {
 
         // Set properties.
         json.put("alt", component.getAlt())
-            .put("src", url);        
+            .put("src", url);
     }
 
     /** 
      * Helper method to obtain text properties.
      *
-     * @param context FacesContext for the current request.
      * @param component Button to be rendered.
      * @param json JSONObject to assign properties to.
      */
-    private void setTextProperties(FacesContext context, Button component,
-            JSONObject json) throws JSONException {
+    private void setTextProperties(Button component, JSONObject json) 
+            throws JSONException {
         // Get the textual label of the button.
         String text = ConversionUtilities.convertValueToString(component,
             component.getText());

@@ -1,4 +1,4 @@
-//<!--
+//
 // The contents of this file are subject to the terms
 // of the Common Development and Distribution License
 // (the License).  You may not use this file except in
@@ -511,7 +511,6 @@ dojo.lang.extend(webui.@THEME@.widget.table2RowGroup, {
     // Set defaults.
     first: 0, // Index used to obtain rows.
     currentRow: 0, // Current row in view.
+    templateString: webui.@THEME@.theme.getTemplateString("table2RowGroup"),
     widgetType: "table2RowGroup"
 });
-
-//-->
