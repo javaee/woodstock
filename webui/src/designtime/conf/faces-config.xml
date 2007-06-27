@@ -45,7 +45,8 @@
       <renderer-type>com.sun.webui.jsf.AddRemoveDesignTime</renderer-type>
       <renderer-class>com.sun.webui.jsf.renderkit.html.AddRemoveDesignTimeRenderer</renderer-class>
     </renderer>
-    
+   
+
     <renderer>
       <component-family>com.sun.webui.jsf.Alert</component-family>
       <renderer-type>com.sun.webui.jsf.widget.AlertDesignTime</renderer-type>
@@ -163,6 +164,13 @@
       <renderer-class>com.sun.webui.jsf.renderkit.html.LabelDesignTimeRenderer</renderer-class>
     </renderer>
     
+        
+    <renderer>
+      <component-family>com.sun.webui.jsf.Legend</component-family>
+      <renderer-type>com.sun.webui.jsf.LegendDesignTime</renderer-type>
+      <renderer-class>com.sun.webui.jsf.renderkit.html.LegendRenderer</renderer-class>
+    </renderer> 
+        
     <renderer>
       <component-family>com.sun.webui.jsf.Listbox</component-family>
       <renderer-type>com.sun.webui.jsf.widget.ListboxDesignTime</renderer-type>
