@@ -147,7 +147,7 @@ public class Legend extends UIOutput implements NamingContainer {
     /**
      * <p>Specifies the position of the legend. Valid values are: "right" (the default) and "left".</p>
      */
-    @Property(name="position", displayName="Legend Position")
+    @Property(name="position", displayName="Legend Position", category="Appearance")
     private String position = null;
 
     /**
@@ -176,7 +176,8 @@ public class Legend extends UIOutput implements NamingContainer {
      * <p>CSS style(s) to be applied to the outermost HTML element when this 
      * component is rendered.</p>
      */
-    @Property(name="style", displayName="CSS Style(s)")
+    @Property(name="style", displayName="CSS Style(s)", category="Appearance",
+    editorClassName="com.sun.jsfcl.std.css.CssStylePropertyEditor")
     private String style = null;
 
     /**
@@ -207,7 +208,9 @@ public class Legend extends UIOutput implements NamingContainer {
      * <p>CSS style class(es) to be applied to the outermost HTML element when this 
      * component is rendered.</p>
      */
-    @Property(name="styleClass", displayName="CSS Style Class(es)")
+    @Property(name="styleClass", displayName="CSS Style Class(es)", 
+            category="Appearance", 
+            editorClassName="com.sun.rave.propertyeditors.StyleClassPropertyEditor")
     private String styleClass = null;
 
     /**
@@ -238,7 +241,8 @@ public class Legend extends UIOutput implements NamingContainer {
      * <p>The explanatory text that is displayed in the legend. If not specified, the 
      * required field legend text is displayed.</p>
      */
-    @Property(name="text", displayName="Legend Text")
+    @Property(name="text", displayName="Legend Text", category="Appearance", isDefault=true,
+        editorClassName="com.sun.rave.propertyeditors.StringPropertyEditor")
     private String text = null;
 
     /**
@@ -273,7 +277,7 @@ public class Legend extends UIOutput implements NamingContainer {
      * component is not visible, it can still be processed on subsequent form
      * submissions because the HTML is present.</p>
      */
-    @Property(name="visible", displayName="Visible")
+    @Property(name="visible", displayName="Visible", category="Behavior")
     private boolean visible = false;
     private boolean visible_set = false;
 
