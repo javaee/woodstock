@@ -133,7 +133,7 @@
           <arg value="-destPath"/>
           <arg value="${_dest-path_}/javascript_uncompressed/theme.js"/>
           <arg value="-nameSpace"/>
-          <arg value="webui.${_theme-name_}.theme.templateStrings"/>
+          <arg value="webui.${_theme-name_}.theme.templates"/>
           <arg value="-verbose"/>
         </java>
 

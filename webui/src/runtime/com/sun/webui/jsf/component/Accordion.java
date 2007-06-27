@@ -20,40 +20,19 @@
  * Copyright 2007 Sun Microsystems, Inc. All rights reserved.
  */
 
-/*
- * Accordion.java
- *
- * Created on May 30, 2007, 3:37 PM
- *
- * To change this template, choose Tools | Template Manager
- * and open the template in the editor.
- */
-
 package com.sun.webui.jsf.component;
 
 import com.sun.faces.annotation.Property;
 import com.sun.faces.annotation.Component;
-import com.sun.faces.extensions.avatar.lifecycle.AsyncResponse;
-
-import java.util.Stack;
-import javax.faces.component.NamingContainer;
-import javax.faces.event.FacesEvent;
-import javax.faces.event.AbortProcessingException;
-import javax.el.MethodExpression;
-import javax.el.ValueExpression;
-import javax.el.ValueExpression;
-import javax.faces.component.EditableValueHolder;
-import javax.faces.component.UIComponent;
-import javax.faces.component.UIComponentBase;
-import javax.faces.context.FacesContext;
-import javax.faces.convert.Converter;
-import javax.faces.event.ValueChangeEvent;
 import com.sun.webui.jsf.theme.ThemeImages;
 import com.sun.webui.jsf.util.ComponentUtilities;
-import com.sun.webui.jsf.util.FacesMessageUtils;
-import com.sun.webui.jsf.util.LogUtil;
 import com.sun.webui.jsf.util.ThemeUtilities;
 import com.sun.webui.theme.Theme; 
+
+import javax.el.ValueExpression;
+import javax.el.ValueExpression;
+import javax.faces.component.UIComponent;
+import javax.faces.context.FacesContext;
 
 /**
  * An accordion container. It extends the TabContainer and adds some 
@@ -73,10 +52,9 @@ import com.sun.webui.theme.Theme;
  * It is adviseable to use an alternate navigational component if the number of
  * tabs in the accordion are exceeding ten.
  */
-
 @Component(type="com.sun.webui.jsf.Accordion", 
-family="com.sun.webui.jsf.Accordion", displayName="Accordion", 
-tagName="accordion", tagRendererType="com.sun.webui.jsf.widget.Accordion")
+    family="com.sun.webui.jsf.Accordion", displayName="Accordion", 
+    tagName="accordion", tagRendererType="com.sun.webui.jsf.widget.Accordion")
 public class Accordion extends TabContainer {
     
     /**
@@ -98,12 +76,10 @@ public class Accordion extends TabContainer {
      * <p>Return the renderer type associated with this component.</p>
      */
     public String getRendererType() {
-        
         if (ComponentUtilities.isAjaxRequest(getFacesContext(), this)) {
             return "com.sun.webui.jsf.ajax.Accordion";
         }
         return super.getRendererType();
-        
     }
       
     /**

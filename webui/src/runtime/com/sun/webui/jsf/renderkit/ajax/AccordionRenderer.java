@@ -21,14 +21,14 @@
  */
 package com.sun.webui.jsf.renderkit.ajax;
 
+import com.sun.faces.annotation.Renderer;
+import com.sun.faces.extensions.avatar.lifecycle.AsyncResponse;
+import com.sun.webui.jsf.util.ComponentUtilities;
+
 import java.io.IOException;
 
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
-
-import com.sun.faces.annotation.Renderer;
-import com.sun.faces.extensions.avatar.lifecycle.AsyncResponse;
-import com.sun.webui.jsf.util.ComponentUtilities;
 
 /**
  * This class responds to Ajax requests made to Accordion components.

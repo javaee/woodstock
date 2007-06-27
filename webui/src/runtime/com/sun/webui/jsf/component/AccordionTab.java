@@ -20,24 +20,15 @@
  * Copyright 2007 Sun Microsystems, Inc. All rights reserved.
  */
 
-/*
- * AccordionTab.java
- *
- * Created on June 15, 2007, 3:37 PM
- *
- * To change this template, choose Tools | Template Manager
- * and open the template in the editor.
- */
-
 package com.sun.webui.jsf.component;
 
 import com.sun.faces.annotation.Property;
 import com.sun.faces.annotation.Component;
-import javax.el.ValueExpression;
-import javax.faces.context.FacesContext;
-import com.sun.faces.extensions.avatar.lifecycle.AsyncResponse;
 import com.sun.webui.jsf.util.ComponentUtilities;
 import com.sun.webui.jsf.util.ThemeUtilities;
+
+import javax.el.ValueExpression;
+import javax.faces.context.FacesContext;
 
 /**
  * An accordion tab component. It extends the generic tabContent 
@@ -48,12 +39,10 @@ import com.sun.webui.jsf.util.ThemeUtilities;
  * the usual JSF lifecycle when the Accordion is refreshed, the component itself
  * is refreshed or the page containing the Accordion (hence, the component) is 
  * submitted.
- *
  */
-
 @Component(type="com.sun.webui.jsf.AccordionTab", 
-family="com.sun.webui.jsf.AccordionTab", displayName="AccordionTab", 
-tagName="accordionTab", tagRendererType="com.sun.webui.jsf.widget.AccordionTab")
+    family="com.sun.webui.jsf.AccordionTab", displayName="AccordionTab", 
+    tagName="accordionTab", tagRendererType="com.sun.webui.jsf.widget.AccordionTab")
 public class AccordionTab extends TabContent {
     
     /**
@@ -75,12 +64,10 @@ public class AccordionTab extends TabContent {
      * <p>Return the renderer type associated with this component.</p>
      */
     public String getRendererType() {
-        
         if (ComponentUtilities.isAjaxRequest(getFacesContext(), this)) {
             return "com.sun.webui.jsf.ajax.AccordionTab";
         }
         return super.getRendererType();
-        
     }
     
     /**

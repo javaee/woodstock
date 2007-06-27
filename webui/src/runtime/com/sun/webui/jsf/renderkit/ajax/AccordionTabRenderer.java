@@ -21,17 +21,16 @@
  */
 package com.sun.webui.jsf.renderkit.ajax;
 
+import com.sun.faces.annotation.Renderer;
+import com.sun.webui.jsf.util.ComponentUtilities;
+
 import java.io.IOException;
-import java.util.Map;
 
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
+
 import org.json.JSONException;
 import org.json.JSONObject;
-
-import com.sun.faces.annotation.Renderer;
-import com.sun.webui.jsf.util.ComponentUtilities;
-import com.sun.webui.jsf.component.AccordionTab;
 
 /**
  * This class responds to asynchronous requests made to AccordionTab components. 

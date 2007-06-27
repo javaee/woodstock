@@ -26,12 +26,27 @@ dojo.require("dojo.widget.*");
 
 webui.@THEME@.theme = {
     /**
+     * This function is used to obtain a template path.
+     *
+     * @param key The key associated with the theme property.
+     */
+    getTemplatePath: function(key) {
+        var template = webui.@THEME@.theme.templates[key];
+        
+        // Typically, template paths begin with a forward slash, http, etc.
+        return (template.indexOf("<") != 0) ? template : null;
+    },
+
+    /**
      * This function is used to obtain a template string.
      *
-     * @param key The key associated with the theme string property.
+     * @param key The key associated with the theme property.
      */
     getTemplateString: function(key) {
-        return webui.@THEME@.theme.templateStrings[key];
+        var template = webui.@THEME@.theme.templates[key];
+
+        // Typically, template strings begin with a root tag.
+        return (template.indexOf("<") == 0) ? template : null;
     }
 }
 
