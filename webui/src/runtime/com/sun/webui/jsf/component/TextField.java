@@ -40,9 +40,6 @@ import javax.faces.context.FacesContext;
  * entered data is automatically validated through the ajax call to the server.
  * When validating data through the ajax-based mechanism, the UPDATE_MODEL_VALUES
  * stage of the lifecycle is skipped ( see processUpdates).
- * <br>
- * @see com.sun.webui.jsf.renderkit.ajax.TextFieldRenderer
- * @see com.sun.webui.jsf.renderkit.widget.TextFieldRenderer
  */
 @Component(type="com.sun.webui.jsf.TextField", 
     family="com.sun.webui.jsf.TextField", displayName="Text Field",

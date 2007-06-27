@@ -35,10 +35,13 @@ import javax.faces.context.FacesContext;
 /**
  * The NotificationPhrase component is used to display a message in the 
  * masthead.
- * @deprecated
- * @see tld docs for more information on how to create a notificationPhrase without using the notificationPhrase component.
+ * 
+ * @deprecated See tld docs for more information on how to create a 
+ * notificationPhrase without using the notificationPhrase component.
  */
-@Component(type="com.sun.webui.jsf.NotificationPhrase", family="com.sun.webui.jsf.NotificationPhrase", displayName="Notification Phrase", tagName="notificationPhrase",
+@Component(type="com.sun.webui.jsf.NotificationPhrase", 
+    family="com.sun.webui.jsf.NotificationPhrase", 
+    displayName="Notification Phrase", tagName="notificationPhrase",
     helpKey="projrave_ui_elements_palette_wdstk-jsf1.2_notification_phrase",
     propertiesHelpKey="projrave_ui_elements_palette_wdstk-jsf1.2_propsheets_notification_phrase_props")
 public class NotificationPhrase extends ImageHyperlink {

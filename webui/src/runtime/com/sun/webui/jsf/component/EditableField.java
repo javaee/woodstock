@@ -35,11 +35,6 @@ import javax.faces.context.FacesContext;
  * <br>
  * EditableField Component class represents text input element, and it reuses
  * much of the TextField component functionality, as well as its renderers.
- *
- * <br>
- * @see com.sun.webui.jsf.component.TextField
- * @see com.sun.webui.jsf.renderkit.widget.EditableFieldRenderer
- * @see com.sun.webui.jsf.renderkit.ajax.TextFieldRenderer
  */
 @Component(type="com.sun.webui.jsf.EditableField",
     family="com.sun.webui.jsf.EditableField",

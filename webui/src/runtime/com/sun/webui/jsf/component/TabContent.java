@@ -226,9 +226,8 @@ public class TabContent extends WebuiComponent  implements NamingContainer {
     
     /**
      * CSS style(s) to be applied to the outermost div tag of the Tab title
-     * @see #getTitleStyle()
      */
-    public void setStyle(String titstyleleStyle) {
+    public void setStyle(String style) {
         this.style = style;
     }
     
