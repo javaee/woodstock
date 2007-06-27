@@ -742,7 +742,7 @@ public abstract class TableRowGroupBase extends WebuiComponent
      */
     public void setSourceData(Object sourceData) {
         _setSourceData(sourceData);
-        setPage(1); // Reset to first page.
+        this.first_set = false; // Reset first row.
         clear(); // Clear cached properties.
     }
 
@@ -1316,7 +1316,7 @@ public abstract class TableRowGroupBase extends WebuiComponent
      */
     public void setValueExpression(String name, ValueExpression valueExpression) {
         if ("sourceData".equals(name)) { //NOI18N
-            setPage(1); // Reset to first page.
+            this.first_set = false; // Reset first row.
             clear(); // Clear cached properties.
         } else if ("sourceVar".equals(name) && !valueExpression.isLiteralText() ) { //NOI18N
             log("setValueExpression", "sourceVar cannot equal given name"); //NOI18N
