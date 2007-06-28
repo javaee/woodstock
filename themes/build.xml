@@ -114,6 +114,10 @@
             </filterset>
         </copy>
 
+        <!-- Clear javascript directories -->
+        <delete dir="${_dest-path_}/javascript"/>
+        <delete dir="${_dest-path_}/javascript_uncompressed"/>
+
         <!-- Create uncompressed javascript -->
         <copy todir="${_dest-path_}/javascript_uncompressed">
             <fileset dir="javascript">
