@@ -32,28 +32,57 @@
 <h2><u>4.1 Build 8 </u>&nbsp;(06/29/2007)</h2>
 <h3>New Features</h3>
 <ul>
-  <li>Client-side rendering for PasswordField ( password mode for TextField removed). <br>
-  Note: Previous implementation of the PasswordField had a security flaw where server side
-values ( such as obtained with the value expression) were rendered to the browser. 
-Such approuch would send clear text password to the browser AND make it available 
-in clear text with "view source" command. New version of PasswordField fixed that by 
-not rendering password back to client. Thus while the user typed password will be echoed 
-with asterisks, password field will always be rendered empty - whether on initial render
-or upon submission and re-render of the page. 
-
-  </li>
+  <li>To help increase performance, the following changes have been
+implemented.</li>
+  <ul>
+    <li>Removed "pretty print" JSON text from rendered HTML pages. This
+decreases the overall page size by removing indentation and line
+breaks. This is now enabled only while in debug mode.<br>
+    </li>
+    <li>HTML template files have been replaced with template strings,
+embedded in the JavaScript. This decreases the number of requests made
+for resources. In order for the template strings to be used, the keys
+of the theme templates.properties file have been commented out.
+However, these keys can be enabled for a custom theme or debugging.
+Tags supporting the templatePath attribute continue to allow web app
+developers to provide custom HTML.</li>
+    <li>The default Ajax implementation is now lazily downloaded. If
+Ajax features go unused, this can potentially cut the number of
+JavaScript requests in half. Minimally, this will decrease page loading
+time because resources will not be obtained until an Ajax feature is
+actually used.</li>
+    <li>JavaScript is now compressed, which cuts the overall size of
+each requested file in half. The uncompressed JavaScript is used only
+while in debug mode.</li>
+    <li>Debug mode now uses the uncompressed version of Dojo.</li>
+    <li>Debug mode is enabled using the debug tag attribute of the
+head, themeLinks, and portalTheme tags. Alternatively, the debug word
+can be appended to a URL as a query parameter (e.g., if the JSP cannot
+be edited directly).<br>
+    </li>
+  </ul>
+  <li>Client-side rendering for PasswordField ( password mode for
+TextField removed). <br>
+Note: Previous implementation of the PasswordField had a security flaw
+where server side
+values ( such as obtained with the value expression) were rendered to
+the browser. Such approuch would send clear text password to the
+browser AND make it available in clear text with "view source" command.
+New version of PasswordField fixed that by not rendering password back
+to client. Thus while the user typed password will be echoed with
+asterisks, password field will always be rendered empty - whether on
+initial render
+or upon submission and re-render of the page. </li>
   <li>Client-side rendering for Calendar</li>
   <li>Ajax enabled Accordion added to the component set.</li>
 </ul>
 <h3>Bugs Resolved/Fixed</h3>
 <ul>
-		<li>
-		</li>
-	</ul>
-	<p>&nbsp;</p>
+  <li> <br>
+  </li>
+</ul>
+<p>&nbsp;</p>
 <p></p>
-
-
 <h2><u>4.1 Build 7</u> (06/15/2007)</h2>
 <h3>New Features</h3>
 <ul>
@@ -62,24 +91,22 @@ portalTheme tags.<br>
   </li>
   <li>Added Ajax submit features to checkbox, radio button, hidden
 field, listbox, and drop down.</li>
-	<li>New Accordion component added.&nbsp; (Note - this is an initial 
-	prototype.&nbsp; Changes will be coming in Build 8)</li>
-	<li>Support for Facelets (Issue #3).&nbsp; Additions were made to the 
-	annotations library processor to output facelets tag library.&nbsp; This has 
-	not been thoroughly tested yet.</li>
-	<li>UPLOAD: Many exceptions in the commons.fileupload package
+  <li>New Accordion component added.&nbsp; (Note - this is an initial
+prototype.&nbsp; Changes will be coming in Build 8)</li>
+  <li>Support for Facelets (Issue #3).&nbsp; Additions were made to the
+annotations library processor to output facelets tag library.&nbsp;
+This has not been thoroughly tested yet.</li>
+  <li>UPLOAD: Many exceptions in the commons.fileupload package
 are now caught and handled differently, and the following differences
 in behavior will be seen.
-        <ul>
-      <li>
-The UploadFilter's web.xml "maxSize" init-param will be
+    <ul>
+      <li>The UploadFilter's web.xml "maxSize" init-param will be
 compared against each file in the upload. This includes files uploaded
 from a rendered Upload component as well as explicit input HTML
 elements
 of type "file" that were literally placed in an application's web page.
       </li>
-      <li>
-If any errors occur while processing a multipart/form-data
+      <li>If any errors occur while processing a multipart/form-data
 request (a request with an input HTML element of type "file") the
 request
 will still be parsed. This behavior is different from earlier versions
@@ -98,46 +125,44 @@ FacesException will thrown. In cases of an upload file exceeding the
 default or application defined maximum,
 a FacesMessage will be queued well before the RENDER phase in order
 for the application to detect that an error had occurred. Messages will
-also be logged.
-      </li>
-      <li>
-If an application defined upload filter init param value is invalid,
-a default value will be used a warning message will be logged.
-      </li>
-      <li>
-The Upload component has a new boolean property called "preservePath".
+also be logged. </li>
+      <li>If an application defined upload filter init param value is
+invalid,
+a default value will be used a warning message will be logged. </li>
+      <li>The Upload component has a new boolean property called
+"preservePath".
 If this
 property is true, the literal value of the file upload input element
 will
 be communicated to the server. The application can obtain the value
 from the UploadedFile instance, the value of the Upload component by
 calling
-"getClientFilePath".
-      </li>
+"getClientFilePath". </li>
     </ul>
-    </ul>
-    <p></p>
+  </li>
+</ul>
+<p></p>
 <h3>Bugs Resolved/Fixed</h3>
 <ul>
-		<li>
-		<a href="https://woodstock.dev.java.net/issues/show_bug.cgi?id=250">Issue
-#250</a> - imageHyperlink and refresh(): changing imageURL with setImageURL did 
-		not update image.</li>
-		<li>
-		<a href="https://woodstock.dev.java.net/issues/show_bug.cgi?id=3">Issue
+  <li> <a
+ href="https://woodstock.dev.java.net/issues/show_bug.cgi?id=250">Issue
+#250</a> - imageHyperlink and refresh(): changing imageURL with
+setImageURL did not update image.</li>
+  <li> <a
+ href="https://woodstock.dev.java.net/issues/show_bug.cgi?id=3">Issue
 #3</a>&nbsp;&nbsp;&nbsp;&nbsp; - Add Facelets Support</li>
-		<li>
-		<a href="https://woodstock.dev.java.net/issues/show_bug.cgi?id=241">Issue
+  <li> <a
+ href="https://woodstock.dev.java.net/issues/show_bug.cgi?id=241">Issue
 #241</a> - Designtime: Editable generates with textField id</li>
-		<li>CR6357806 - UPLOAD: Upload.getColumns should not set the default
+  <li>CR6357806 - UPLOAD: Upload.getColumns should not set the default
 value, just return it </li>
-		<li>CR6436927 - FILE UPLOAD: field value should be retianed when page
+  <li>CR6436927 - FILE UPLOAD: field value should be retianed when page
 submit
 results in error </li>
-		<li>CR6453366 - FileUpload: Need way to control MAX_FILE_SIZE&nbsp;</li>
-	</ul>
-	<p>&nbsp;</li>
+  <li>CR6453366 - FileUpload: Need way to control MAX_FILE_SIZE&nbsp;</li>
 </ul>
+<p>&nbsp;
+</p>
 <h2><u>4.1 Build 6</u> (06/01/2007)</h2>
 <h3>New Features</h3>
 <ul>
@@ -157,12 +182,10 @@ appears when doing table layout</li>
  href="https://woodstock.dev.java.net/issues/show_bug.cgi?id=194">Issue
 #194</a> - Reset button is not functioning properly</li>
   <li>CR6357806 - UPLOAD: Upload.getColumns should not set the default
-value, just return it
-  </li>
+value, just return it </li>
   <li>CR6436927 - FILE UPLOAD: field value should be retianed when page
 submit
-results in error
-  </li>
+results in error </li>
   <li>CR6453366 - FileUpload: Need way to control MAX_FILE_SIZE&nbsp;</li>
 </ul>
 <h2><u>4.1 Build 5</u> (05/18/2007)</h2>
