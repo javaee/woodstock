@@ -23,18 +23,16 @@
 package com.sun.webui.jsf.component;
 
 
-import com.sun.webui.jsf.component.propertyeditors.ThemeIconsDomain;
+import com.sun.rave.designtime.CategoryDescriptor;
 import com.sun.webui.jsf.component.util.DesignUtil;
+import com.sun.webui.jsf.design.CategoryDescriptors;
 import java.beans.PropertyDescriptor;
-
-import javax.faces.component.UIComponent;
-import javax.faces.context.FacesContext;
-import javax.faces.event.ValueChangeEvent;
-import javax.faces.event.ValueChangeListener;
-import javax.faces.validator.Validator;
+import java.beans.EventSetDescriptor;
+import com.sun.rave.designtime.Constants;
+import com.sun.webui.jsf.component.propertyeditors.ThemeIconsDomain;
 
 /**
- * BeanInfo for the {@link com.sun.webui.jsf.component.CommonTasksGroup} component.
+ * BeanInfo for the {@link com.sun.webui.jsf.component.CommonTask} component.
  */
 public class CommonTaskBeanInfo extends CommonTaskBeanInfoBase{
     
@@ -49,5 +47,31 @@ public class CommonTaskBeanInfo extends CommonTaskBeanInfoBase{
                 descriptors[i].setHidden(true);
         }
     }
+    
+    protected EventSetDescriptor[] eventSetDescriptors;
+    
+    public EventSetDescriptor[] getEventSetDescriptors() {
+        if (eventSetDescriptors == null) {
+            eventSetDescriptors = DesignUtil.generateCommandEventSetDescriptors(this);
+        }
+        return eventSetDescriptors;
+    }
+
+    protected CategoryDescriptor[] categoryDescriptors;
+    
+    protected CategoryDescriptor[] getCategoryDescriptors() {
+        // A hack to add the category descriptor for events. Since events are not
+        // properties, they cannot be annotated with category information.
+        if (categoryDescriptors == null) {
+            CategoryDescriptor[] superCategoryDescriptors = super.getCategoryDescriptors();
+            categoryDescriptors = new CategoryDescriptor[superCategoryDescriptors.length + 1];
+            for (int i = 0, j = 0; i < superCategoryDescriptors.length; i++, j++) {
+                categoryDescriptors[j] = superCategoryDescriptors[i];
+                if (categoryDescriptors[j] == CategoryDescriptors.APPEARANCE)
+                    categoryDescriptors[++j] = CategoryDescriptors.EVENTS;
+            }
+        }
+        return categoryDescriptors;
+    }    
     
 }
