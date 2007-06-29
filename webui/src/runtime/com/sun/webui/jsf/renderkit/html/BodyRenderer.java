@@ -56,7 +56,7 @@ public class BodyRenderer extends AbstractRenderer {
     private static final String stringAttributes[] =
     { "onClick", "onDblClick", "onMouseDown", "onMouseUp", //NOI18N
       "onMouseOver", "onMouseMove", "onMouseOut", "onKeyPress", //NOI18N
-      "onKeyDown", "onKeyUp", "onFocus", "onBlur"}; //NOI18N
+      "onKeyDown", "onKeyUp", "onFocus", "onBlur", "onLoad", "onUnload"}; //NOI18N
       
     /**
      * <p>The set of integer pass-through attributes to be rendered.</p>
@@ -149,15 +149,6 @@ public class BodyRenderer extends AbstractRenderer {
         addCoreAttributes(context, component, writer, null);
         addStringAttributes(context, component, writer, stringAttributes);
         
-        // onload is a special case;
-        String onload = body.getOnLoad();
-                
-        StringBuffer sb = new StringBuffer(256);
-        if (onload != null) {
-            sb.append(onload);
-            sb.append("; "); //NOI18N
-        }
-        writer.writeAttribute("onload", sb.toString(), null); //NOI18N
 
 	// Apply a background image
  	String imageUrl = body.getImageURL();
@@ -167,14 +158,6 @@ public class BodyRenderer extends AbstractRenderer {
 	    writer.writeAttribute("background", resourceUrl, null); //NOI18N
 	}
 
-        // unload is a special case;
-        String onUnload = body.getOnUnload();
-        sb = new StringBuffer(256);
-        if (onUnload != null) {
-            sb.append(onUnload);
-            sb.append("; "); //NOI18N
-        }
-        writer.writeAttribute("onunload", sb.toString(), null); //NOI18N
 
         addIntegerAttributes(context, component, writer, integerAttributes);
         writer.write("\n"); //NOI18N

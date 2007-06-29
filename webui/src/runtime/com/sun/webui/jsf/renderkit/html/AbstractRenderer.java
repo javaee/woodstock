@@ -20,7 +20,7 @@
  * Copyright 2007 Sun Microsystems, Inc. All rights reserved.
  */
  /*
-  * $Id: AbstractRenderer.java,v 1.1 2007-02-16 01:35:10 bob_yennaco Exp $
+  * $Id: AbstractRenderer.java,v 1.2 2007-06-29 14:21:45 venkatesh045 Exp $
   */
 
 package com.sun.webui.jsf.renderkit.html;
@@ -418,15 +418,18 @@ public abstract class AbstractRenderer extends Renderer {
         }
         Map attributes = component.getAttributes();
         Object value;
+        String tmp;
         for (int i = 0; i < names.length; i++) {
             value = attributes.get(names[i]);
             if (value != null) {
                 if (value instanceof String) {
-                    writer.writeAttribute(names[i].toLowerCase(),
-                            (String) value, names[i]);
+                    tmp = ((String)value);
                 } else {
+                    tmp = value.toString();
+                }
+                if (tmp.length() > 0) {
                     writer.writeAttribute(names[i].toLowerCase(),
-                            value.toString(), names[i]);
+                            tmp, names[i]);
                 }
             }
         }
