@@ -50,7 +50,7 @@ import com.sun.webui.jsf.util.ThemeUtilities;
 public class AutoSubmitOnChangeAction extends BasicDisplayAction implements
         CheckedDisplayAction {
     
-    private static Pattern submitPattern;
+    private static Pattern submitPattern, legacyPattern;
     
     private static Pattern getSubmitPattern() {
         if (submitPattern == null) {
@@ -58,6 +58,14 @@ public class AutoSubmitOnChangeAction extends BasicDisplayAction implements
                     "\\s*\\(\\s*this\\s*\\.\\s*form\\s*,\\s*'\\S+'\\s*\\)\\s*;?"); //NOI18N
         }
         return submitPattern;
+    }
+    
+    private static Pattern getLegacyPattern() {
+        if (legacyPattern == null) {
+            legacyPattern = Pattern.compile(
+                    "webuijsf\\.\\w+\\.common\\.timeoutSubmitForm\\s*\\(\\s*this\\s*\\.\\s*form\\s*,\\s*'\\S+'\\s*\\)\\s*;?"); //NOI18N
+        }
+        return legacyPattern;
     }
     
     protected DesignBean bean;
@@ -78,12 +86,22 @@ public class AutoSubmitOnChangeAction extends BasicDisplayAction implements
     
     public boolean isAutoSubmit() {
         DesignProperty property = getSubmitProperty();
-        if (property == null)
+        if (property == null) {
             return false;
+        }
         String value = (String) property.getValue();
-        if(value == null)
+        if(value == null) {
             return false;
-        return getSubmitPattern().matcher(value).find();
+        }
+        boolean valueMatchesSubmitPattern = getSubmitPattern().matcher(value).find();
+        if (valueMatchesSubmitPattern) {
+            return true;
+        }
+        else {
+            // no match against submit pattern.
+            // return true if matches legacy pattern, false otherwise.
+            return getLegacyPattern().matcher(value).find();
+        }
     }
     
     public Result toggleAutoSubmit() {
@@ -97,7 +115,10 @@ public class AutoSubmitOnChangeAction extends BasicDisplayAction implements
         } else {
             if (isAutoSubmit()) {
                 // If property value contains the onSubmit script, remove it
-                property.setValue(getSubmitPattern().matcher(value).replaceFirst("")); //NOI18N
+                String newValue = getSubmitPattern().matcher(value).replaceFirst(""); //NOI18N
+                // also remove the legacy pattern
+                newValue = getLegacyPattern().matcher(newValue).replaceFirst(""); //NOI18N
+                property.setValue(newValue);
             } else {
                 // Otherwise, append the onSubmit script
                 property.setValue(getSubmitScript(value));
