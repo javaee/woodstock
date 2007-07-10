@@ -58,15 +58,15 @@ webui.@THEME@.widget.hyperlink.createOnClickCallback = function(id, formId,
             event.preventDefault();
             return false;
         }
-        if (widget.href) {
-            return false;
-        }
 
         // If function returns false, we must prevent the submit.
         var result = (widget.domNode._onclick)
             ? widget.domNode._onclick(event) : true;
         if (result == false) {
             event.preventDefault();
+            return false;
+        }
+        if (widget.href) {
             return false;
         }
 
