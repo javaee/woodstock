@@ -307,5 +307,8 @@ dojo.lang.extend(webui.@THEME@.widget.accordion, {
     isContainer: true,
     multipleSelect: false,
     templateString: webui.@THEME@.theme.getTemplateString("accordion"),
-    widgetType: "accordion",
+    widgetType: "accordion"
 });
+
+
+
