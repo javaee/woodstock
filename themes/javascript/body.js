@@ -296,8 +296,12 @@ webui.@THEME@.body = function(viewId, path, defaultFocusElementId,
 	// # char found, anchor being used. forego scrolling.
 	// CR 6342635. 
 	//
-        if (window.location.href.indexOf('#') != -1) {
+        if (window.location.href.indexOf('#') == -1) {
 	    this.scrollCookie.restore(); 
+	} else {
+	    // destroy the recent scroll data
+	    //
+	    this.scrollCookie.reset();
 	}
     };
 
