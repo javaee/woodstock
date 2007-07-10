@@ -402,9 +402,10 @@ public class TableRenderer extends javax.faces.render.Renderer {
 
         // Get filter augment.
         Theme theme = getTheme();
-        String filter = (component.getFilterText() != null)
+        String filterText = component.getFilterText();
+        filterText = (filterText != null && filterText.length() > 0)
             ? theme.getMessage("table.title.filterApplied", //NOI18N
-                new String[] {component.getFilterText()})
+                new String[] {filterText})
             : ""; //NOI18N
 
         // Get TableRowGroup component.
@@ -432,21 +433,21 @@ public class TableRenderer extends javax.faces.render.Renderer {
                 if (component.getItemsText() != null) {
                     title = theme.getMessage("table.title.paginatedItems", //NOI18N
                         new String[] {component.getTitle(), first, last,
-                            Integer.toString(totalRows), component.getItemsText(), filter});
+                            Integer.toString(totalRows), component.getItemsText(), filterText});
                 } else {
                     title = theme.getMessage("table.title.paginated", //NOI18N
                         new String[] {component.getTitle(), first, last,
-                            Integer.toString(totalRows), filter});
+                            Integer.toString(totalRows), filterText});
                 }
             } else {
                 if (component.getItemsText() != null) {
                     title = theme.getMessage("table.title.scrollItems", //NOI18N
                         new String[] {component.getTitle(), Integer.toString(totalRows),
-                            component.getItemsText(), filter});
+                            component.getItemsText(), filterText});
                 } else {
                     title = theme.getMessage("table.title.scroll", //NOI18N
                         new String[] {component.getTitle(), Integer.toString(totalRows),
-                            filter});
+                            filterText});
                 }
             }
         } else {
