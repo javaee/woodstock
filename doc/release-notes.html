@@ -29,6 +29,18 @@
 <body>
 <h1><u>Woodstock 4.1 JSF Components Release Notes</u></h1>
 <p>&nbsp;</p>
+<h2><u>4.1 Build 9</u>
+<h3>Bugs fixed</h3>
+<ul>
+  <li><a href="http://woodstock.dev.java.net/issues/show_bug.cgi?id=347">Issue 347</a>  FRAMESET: Outputs wrong value for frameBorder attribute.
+  	- This fix ensures that only a value of "0" or "1" will be output for the value of the html frameBorder attribute as opposed to rendering a
+	  value of "frameBorder" whenever the frameBorder attribute was set to true and none if the frameBorder was set to false for the compnent.
+          Since the earlier functionality  had caused the border to appear always even when frameBorder attribute was set to false for the frameSet 
+	  component,developers would see a change in the functionality and the border would cease to appear for the frame set if the frameBorder 
+	  attribute has been specified to false.
+	</li>
+  </ul>
+  
 <h2><u>4.1 Build 8 </u>&nbsp;(06/29/2007)</h2>
 <h3>New Features</h3>
 <ul>

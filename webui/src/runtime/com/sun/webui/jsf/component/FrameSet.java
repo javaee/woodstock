@@ -191,10 +191,11 @@ public class FrameSet extends UIComponentBase {
      * frameBorder is true, decorative borders are drawn. If frameBorder is  
      * false, a space between frames shows up as the background color of the
      * page.  To show no border or space between frames, you should set 
-     * frameBorder to false, and set frameSpacing and border to 0.</p>
+     * frameBorder to false, and set frameSpacing and border to 0.
+     * The default value is true.</p>
      */
     @Property(name="frameBorder", displayName="Frame Border", category="Appearance")
-    private boolean frameBorder = false;
+    private boolean frameBorder = true;
     private boolean frameBorder_set = false;
 
     /**
@@ -217,7 +218,7 @@ public class FrameSet extends UIComponentBase {
                 return ((Boolean) _result).booleanValue();
             }
         }
-        return false;
+        return this.frameBorder;
     }
 
     /**

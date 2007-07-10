@@ -21,7 +21,7 @@
  */
 
  /*
-  * $Id: FrameSetRenderer.java,v 1.1 2007-02-16 01:38:07 bob_yennaco Exp $
+  * $Id: FrameSetRenderer.java,v 1.2 2007-07-10 06:52:25 venkatesh045 Exp $
   */
 
 package com.sun.webui.jsf.renderkit.html;
@@ -51,8 +51,7 @@ public class FrameSetRenderer extends AbstractRenderer {
     { "rows", "cols", "borderColor"}; //NOI18N
     private static final String integerAttributes[] =
     { "border", "frameSpacing"}; //NOI18N
-    private static final String booleanAttributes[] =
-    { "frameBorder" }; //NOI18N
+
     
     // -------------------------------------------------------- Renderer Methods
     
@@ -124,8 +123,12 @@ public class FrameSetRenderer extends AbstractRenderer {
             }
             //write out the rest of the attributes
             addStringAttributes(context, component, writer, stringAttributes);
-            addBooleanAttributes(context, component, writer, booleanAttributes);
             addIntegerAttributes(context, component, writer, integerAttributes);
+            if (frameset.isFrameBorder()) {
+                writer.writeAttribute("frameBorder","1", "frameBorder");//NOI18N
+            } else {
+                writer.writeAttribute("frameBorder","0", "frameBorder");//NOI18N
+            }
             writer.write("\n"); //NOI18N
          }
         
