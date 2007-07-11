@@ -2753,7 +2753,7 @@ public abstract class TableRowGroupBase extends WebuiComponent
      * to this attribute should be cached so that the object is not created more
      * often than needed.
      */
-    @Property(name="sourceData", displayName="Source Data", category="Data")
+    @Property(name="sourceData", displayName="Source Data", category="Data", editorClassName="com.sun.rave.propertyeditors.StringPropertyEditor")
     private Object sourceData = null;
 
     /**
