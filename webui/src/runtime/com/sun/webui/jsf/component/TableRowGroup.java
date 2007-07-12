@@ -71,7 +71,8 @@ import javax.faces.component.UIComponent;
 @Component(type="com.sun.webui.jsf.TableRowGroup",
     family="com.sun.webui.jsf.TableRowGroup",
     displayName="Row Group", tagName="tableRowGroup",
-    helpKey="projrave_ui_elements_palette_wdstk-jsf1.2_row_group")
+    helpKey="projrave_ui_elements_palette_wdstk-jsf1.2_row_group",
+    propertiesHelpKey="projrave_ui_elements_palette_wdstk-jsf1.2_propsheets_row_group_props")
 public class TableRowGroup extends TableRowGroupBase {
     /** The id for the column footer bar. */
     public static final String COLUMN_FOOTER_BAR_ID = "_columnFooterBar"; //NOI18N

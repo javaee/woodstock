@@ -64,7 +64,8 @@ import javax.faces.context.FacesContext;
 @Component(type="com.sun.webui.jsf.TableColumn",
     family="com.sun.webui.jsf.TableColumn",
     displayName="Column", tagName="tableColumn",
-    helpKey="projrave_ui_elements_palette_wdstk-jsf1.2_column")
+    helpKey="projrave_ui_elements_palette_wdstk-jsf1.2_column",
+    propertiesHelpKey="projrave_ui_elements_palette_wdstk-jsf1.2_propsheets_column_props")
 public class TableColumn extends TableColumnBase {
     /** The component id for the column footer. */
     public static final String COLUMN_FOOTER_ID = "_columnFooter"; //NOI18N

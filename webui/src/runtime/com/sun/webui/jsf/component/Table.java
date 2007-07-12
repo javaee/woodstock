@@ -67,7 +67,8 @@ import javax.faces.component.UIComponent;
 @Component(type="com.sun.webui.jsf.Table",
     family="com.sun.webui.jsf.Table",
     displayName="Table", tagName="table",
-    helpKey="projrave_ui_elements_palette_wdstk-jsf1.2_table")
+    helpKey="projrave_ui_elements_palette_wdstk-jsf1.2_table",
+    propertiesHelpKey="projrave_ui_elements_palette_wdstk-jsf1.2_propsheets_table_props")
 public class Table extends TableBase {
     /** The facet name for the bottom actions area. */
     public static final String ACTIONS_BOTTOM_FACET = "actionsBottom"; //NOI18N
