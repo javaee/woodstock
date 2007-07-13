@@ -39,7 +39,7 @@ import com.sun.webui.jsf.component.ComplexComponent;
 @Component(type="com.sun.webui.jsf.RadioButtonGroup", family="com.sun.webui.jsf.RadioButtonGroup", displayName="Radio Button Group", tagName="radioButtonGroup",
     helpKey="projrave_ui_elements_palette_wdstk-jsf1.2_radiobutton_group",
     tagRendererType="com.sun.webui.jsf.widget.RadioButtonGroup",
-    propertiesHelpKey="projrave_ui_elements_palette_wdstk-jsf1.2_propsheets_radio_button_group_props")
+    propertiesHelpKey="projrave_ui_elements_palette_wdstk-jsf1.2_propsheets_radiobutton_group_props")
 public class RadioButtonGroup extends Selector implements NamingContainer,
 	ComplexComponent {
     /**

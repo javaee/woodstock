@@ -216,7 +216,7 @@ import javax.faces.render.Renderer;
 @Component(type="com.sun.webui.jsf.RadioButton", family="com.sun.webui.jsf.RadioButton", displayName="Radio Button", tagName="radioButton",
 tagRendererType="com.sun.webui.jsf.widget.RadioButton",
         helpKey="projrave_ui_elements_palette_wdstk-jsf1.2_radiobutton",
-        propertiesHelpKey="projrave_ui_elements_palette_wdstk-jsf1.2_propsheets_radio_button_props")
+        propertiesHelpKey="projrave_ui_elements_palette_wdstk-jsf1.2_propsheets_radiobutton_props")
         public class RadioButton extends RbCbSelector {
     public static final String RB_ID = "_rb"; //NOI18N
     /**
