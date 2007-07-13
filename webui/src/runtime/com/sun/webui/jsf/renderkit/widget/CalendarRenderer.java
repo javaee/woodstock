@@ -41,6 +41,8 @@ import com.sun.webui.jsf.util.ConversionUtilities;
 
 import java.io.IOException;
 import java.text.SimpleDateFormat;
+import java.util.Iterator;
+import java.util.Map;
 import java.util.MissingResourceException;
 
 import javax.faces.component.UIComponent;
@@ -60,50 +62,7 @@ import org.json.JSONObject;
 @Renderer(@Renderer.Renders(
     rendererType="com.sun.webui.jsf.widget.Calendar",
     componentFamily="com.sun.webui.jsf.Calendar"))
-public class CalendarRenderer extends RendererBase {
-    /**
-     * The set of pass-through attributes to be rendered.
-     */
-    private static final String attributes[] = {
-        "accessKey",
-        "align",
-        "dir",
-        "lang",
-        "readOnly",
-        "style",        
-        "tabIndex"           
-    };      
-
-    // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    // Renderer Methods
-    // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-    /**
-      * Decode the component.
-      * 
-      * @param context The FacesContext of this request
-      * @param component The component associated with the renderer
-      */
-     public void decode(FacesContext context, UIComponent component) {        
-         if (context == null || component == null) {
-             throw new NullPointerException();
-         }
-         if (!(component instanceof Calendar)) {
-             return;
-         }
-         if (!(component instanceof Field)) {
-             return;
-         }
-                  
-         // Get the child text field.              
-         TextField textField = getTextField((Calendar) component);
-         
-         Field field = (Field) component;
-         // Since the child text field has already been decoded,
-         // use its submitted value.
-         field.setSubmittedValue(textField.getSubmittedValue());           
-     }
-    
+public class CalendarRenderer extends TextFieldRenderer {
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     // RendererBase methods
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -115,7 +74,7 @@ public class CalendarRenderer extends RendererBase {
      * @param component UIComponent to be rendered.
      */
     protected String getModule(FacesContext context, UIComponent component) {
-        return JavaScriptUtilities.getModuleName("widget.calendar");
+        return JavaScriptUtilities.getModuleName("widget.calendarField");
     }
     
     /** 
@@ -149,27 +108,14 @@ public class CalendarRenderer extends RendererBase {
             }
         }                     
         
-        JSONObject json = new JSONObject();        
-        json.put("className", calendar.getStyleClass())
-            .put("visible", calendar.isVisible())           
-            .put("disabled", calendar.isDisabled())
-            .put("patternHelp", patternHelp)
-            .put("dateFormat", dateFormat);
-        
-        // Append label properties.
-        JSONUtilities.addProperty(json, "label",
-            WidgetUtilities.renderComponent(context, calendar.getLabelComponent(context, null)));
-     
-        // Append text field properties.
-        setTextFieldProperties(json, context, calendar);        
+        JSONObject json = super.getProperties(context, component);
+        json.put("patternHelp", patternHelp);
         
         // Append image hyperlink properties that serves as 
         // the button to show or hide the calendar date picker.
         ImageHyperlink link = calendar.getDatePickerLink(context);        
         link.setIcon(ThemeImages.CALENDAR_BUTTON);	
         link.setToolTip(theme.getMessage("calendar.popupImageAlt"));
-        JSONUtilities.addProperty(json, "link",
-                WidgetUtilities.renderComponent(context, link));
         
         // Append date picker properties.        
         CalendarMonth calendarMonth = calendar.getDatePicker();
@@ -187,11 +133,11 @@ public class CalendarRenderer extends RendererBase {
         }                  
         calendarMonth.initCalendarControls(calendar.getJavaScriptObjectName(context));
         
-        JSONUtilities.addProperty(json, "calendarMonth", 
+        JSONUtilities.addProperty(json, "calendar", 
             WidgetUtilities.renderComponent(context, calendarMonth));        
-        
-        // Add attributes.
-        JSONUtilities.addAttributes(attributes, component, json);
+        JSONObject cal = json.getJSONObject("calendar");
+        JSONUtilities.addProperty(cal, "toggleLink",
+                WidgetUtilities.renderComponent(context, link));
         
         return json;
     }    
@@ -216,78 +162,6 @@ public class CalendarRenderer extends RendererBase {
      * @param component UIComponent to be rendered.
      */
     protected String getWidgetName(FacesContext context, UIComponent component) {
-        return JavaScriptUtilities.getNamespace("calendar");
-    }
-        
-    // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    // Private methods
-    // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    
-    /**
-     * Helper method to obtain text field's properties.
-     * 
-     * @param json JSONObject to add name/value pairs to.
-     * @param context FacesContext for the current request.
-     * @param calendar The Calendar component to be rendered.
-     * 
-     * @exception IOException if an input/output error occurs
-     * @exception JSONException if a key/value error occurs
-     */ 
-    private void setTextFieldProperties(JSONObject json, FacesContext context,
-            Calendar calendar) throws IOException, JSONException {
-        TextField textField = getTextField(calendar);
-        populateTextField(textField, context, calendar);        
-        JSONUtilities.addProperty(json, "field",
-            WidgetUtilities.renderComponent(context, textField));
-    }
-    
-    /**
-     * Helper method to get the child text field.
-     * 
-     * @param calendar The parent component.
-     * @return Child text field.
-     */ 
-    private TextField getTextField(Calendar calendar) {
-        TextField textField = (TextField)
-            ComponentUtilities.getPrivateFacet(calendar, "textField", true);
-        if (textField == null) {
-            textField = new TextField();
-            textField.setId(ComponentUtilities.createPrivateFacetId(calendar, "textField"));            
-            ComponentUtilities.putPrivateFacet(calendar, "textField", textField);
-            textField.setParent(calendar);
-        }
-        return textField;
-    }    
-    
-    /*
-     * Helper method to set the child text field properties. Get the value of each
-     * property from the calendar component and set it on the child text field.
-     * 
-     * @param textField The child text field component.
-     * @param context FacesContext for the current request
-     * @param calendar The parent component.
-     */ 
-    private void populateTextField(TextField textField, FacesContext context,
-            Calendar calendar) {        
-        textField.setTabIndex(calendar.getTabIndex());
-        textField.setColumns(calendar.getColumns());
-        textField.setToolTip(calendar.getToolTip());
-        textField.setMaxLength(calendar.getMaxLength());
-        textField.setDisabled(calendar.isDisabled());        
-        textField.setOnMouseDown(calendar.getOnMouseDown());
-        textField.setOnMouseOut(calendar.getOnMouseOut());
-        textField.setOnMouseMove(calendar.getOnMouseMove());
-        textField.setOnMouseOver(calendar.getOnMouseOver());
-        textField.setOnMouseUp(calendar.getOnMouseUp());    
-        textField.setOnChange(calendar.getOnChange());               
-        textField.setOnClick(calendar.getOnClick());
-        textField.setOnFocus(calendar.getOnFocus());    
-        textField.setOnBlur(calendar.getOnBlur());    
-        textField.setOnDblClick(calendar.getOnDblClick());
-        textField.setOnKeyDown(calendar.getOnKeyDown());
-        textField.setOnKeyPress(calendar.getOnKeyPress());
-        textField.setOnKeyUp(calendar.getOnKeyUp());    
-        textField.setOnSelect(calendar.getOnSelect());
-        textField.setText(calendar.getValueAsString(context));                        
-    }
+        return JavaScriptUtilities.getNamespace("calendarField");
+    }             
 }

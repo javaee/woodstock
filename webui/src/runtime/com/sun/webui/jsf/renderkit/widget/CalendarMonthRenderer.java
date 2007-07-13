@@ -85,7 +85,7 @@ public class CalendarMonthRenderer extends RendererBase {
      * @param component UIComponent to be rendered.
      */
     protected String getModule(FacesContext context, UIComponent component) {
-        return JavaScriptUtilities.getModuleName("widget.calendarMonth");
+        return JavaScriptUtilities.getModuleName("widget.calendar");
     }
     
     /** 
@@ -193,7 +193,7 @@ public class CalendarMonthRenderer extends RendererBase {
      * @param component UIComponent to be rendered.
      */
     protected String getWidgetName(FacesContext context, UIComponent component) {
-        return JavaScriptUtilities.getNamespace("calendarMonth");
+        return JavaScriptUtilities.getNamespace("calendar");
     }
     
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~

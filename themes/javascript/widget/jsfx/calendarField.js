@@ -23,11 +23,11 @@
 // component, where JSF Extensions is used as the underlying transfer protocol.
 //
 
-dojo.provide("webui.@THEME@.widget.jsfx.calendar");
+dojo.provide("webui.@THEME@.widget.jsfx.calendarField");
 
 dojo.require("webui.@THEME@.widget.jsfx.*");
-dojo.require("webui.@THEME@.widget.calendar");
+dojo.require("webui.@THEME@.widget.calendarField");
 
 // Listen for Dojo Widget events.
-dojo.event.topic.subscribe(webui.@THEME@.widget.calendar.refresh.beginEventTopic,
+dojo.event.topic.subscribe(webui.@THEME@.widget.calendarField.refresh.beginEventTopic,
     webui.@THEME@.widget.jsfx.common, "processRefreshEvent");

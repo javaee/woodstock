@@ -2172,20 +2172,36 @@ processing lifecycle must be run.</li>
       <td>Use this function to change any of the following supported
 properties:
       <ul>
-        <li>accesskey</li>
-        <li>className</li>
-        <li>datePicker</li>
-        <li>dir</li>
-        <li>disabled</li>
-        <li>field</li>
-        <li>id</li>
-        <li>label</li>
-        <li>lang</li>
-        <li>link</li>
-        <li>style</li>
-        <li>tabIndex</li>
-        <li>title</li>
-        <li>visible</li>
+       <li>accesskey</li>
+       <li>align</li>
+       <li>calendar</li>
+       <li>className</li>
+       <li>dir</li>
+       <li>disabled</li>
+       <li>id</li> 
+       <li>label</li>
+       <li>lang</li>
+       <li>notify</li>
+       <li>onClick</li>
+       <li>onDblClick</li>
+       <li>onFocus</li>
+       <li>onKeyDown</li>
+       <li>onKeyPress</li>
+       <li>onKeyUp</li>
+       <li>onMouseDown</li>
+       <li>onMouseOut</li>
+       <li>onMouseOver</li>
+       <li>onMouseUp</li>
+       <li>onMouseMove</li>
+       <li>patternHelp</li>
+       <li>readOnly</li>
+       <li>required</li>
+       <li>style</li>
+       <li>tabIndex</li>
+       <li>title</li>
+       <li>valid</li>
+       <li>value</li>
+       <li>visible</li> 
       </ul>
       </td>
     </tr>

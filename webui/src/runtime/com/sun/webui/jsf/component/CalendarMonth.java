@@ -423,13 +423,7 @@ public class CalendarMonth extends UIOutput implements NamingContainer {
         link.setParent(this);
         link.setIcon(ThemeImages.CALENDAR_CLOSE_BUTTON);
         link.setToolTip(getTheme().getMessage("CalendarMonth.close"));
-        link.setStyleClass(getTheme().getStyleClass(ThemeStyles.CALENDAR_CLOSE_BUTTON));
-                        
-        StringBuffer js = new StringBuffer(128);
-        js.append(getJavaScriptObjectName())                
-            .append(".toggleCalendarMonth(); return false;");  
-        link.setOnClick(js.toString());
-        
+        link.setStyleClass(getTheme().getStyleClass(ThemeStyles.CALENDAR_CLOSE_BUTTON));                                
         return link;
     }
             
@@ -437,31 +431,16 @@ public class CalendarMonth extends UIOutput implements NamingContainer {
     protected Theme getTheme() {
         return ThemeUtilities.getTheme(FacesContext.getCurrentInstance());
     }
-    
+
     public void initCalendarControls(String jsName) {
         
         if(DEBUG) log("initCalendarControls()"); //NOI18N
         
-        StringBuffer js = new StringBuffer() //NOI18N
-            .append(jsName)
-            .append(".decreaseMonth(); return false;"); //NOI18N
-
-        // Don't set Javascript as the URL -- bugtraq #6306848.
         ImageHyperlink link = getPreviousMonthLink();
         link.setIcon(ThemeImages.CALENDAR_BACKWARD);
-        link.setOnClick(js.toString());
-        
-        js = new StringBuffer()//NOI18N
-            .append(jsName)
-            .append(".increaseMonth(); return false;");//NOI18N
 
-        // Don't set Javascript as the URL -- bugtraq #6306848.
         link = getNextMonthLink();
         link.setIcon(ThemeImages.CALENDAR_FORWARD);
-        link.setOnClick(js.toString());      
-        
-        getMonthMenu().setOnChange(jsName.concat(".updateCalendarMonth(); return false;"));//NOI18N                
-        getYearMenu().setOnChange(jsName.concat(".updateCalendarMonth(); return false;"));//NOI18N
     }
 
     public void showNextMonth() {
@@ -577,18 +556,18 @@ public class CalendarMonth extends UIOutput implements NamingContainer {
     /**
      * Getter for property javaScriptObject.
      * @return Value of property javaScriptObject.
+     * @deprecated
      */
     public String getJavaScriptObjectName() {
-
         return this.javaScriptObjectName;
     }
 
     /**
      * Setter for property javaScriptObject.
      * @param javaScriptObject New value of property javaScriptObject.
+     * @deprecated
      */
     public void setJavaScriptObjectName(String javaScriptObjectName) {
-
         this.javaScriptObjectName = javaScriptObjectName;
     }
     

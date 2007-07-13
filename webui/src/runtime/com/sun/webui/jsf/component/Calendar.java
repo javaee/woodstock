@@ -47,7 +47,7 @@ import javax.faces.validator.Validator;
     tagRendererType="com.sun.webui.jsf.widget.Calendar",
     helpKey="projrave_ui_elements_palette_wdstk-jsf1.2_calendar",
     propertiesHelpKey="projrave_ui_elements_palette_wdstk-jsf1.2_propsheets_calendar_props")
-public class Calendar extends Field implements DateManager, NamingContainer {
+public class Calendar extends TextField implements DateManager, NamingContainer {
 
     private static final String DATE_PICKER_LINK_FACET = "datePickerLink";//NOI18N
     private static final String DATE_PICKER_LINK_ID = "_datePickerLink";//NOI18N
@@ -55,7 +55,6 @@ public class Calendar extends Field implements DateManager, NamingContainer {
     private static final String DATE_PICKER_ID = "_datePicker";//NOI18N
     public static final String PATTERN_ID = "_pattern"; //NOI18N      
     public static final String TEXT_FIELD_FACET = "textField"; //NOI18N
-    
     private DateConverter dateConverter = null; 
     
     /** Creates a new instance of Calendar */
@@ -78,6 +77,7 @@ public class Calendar extends Field implements DateManager, NamingContainer {
         }
         return super.getRendererType();
     }    
+       
     
     /**
      * This method returns the ImageHyperlink that serves as the "button" to
@@ -99,17 +99,7 @@ public class Calendar extends Field implements DateManager, NamingContainer {
         }
         
         datePickerLink.setId(DATE_PICKER_LINK_ID);            
-        datePickerLink.setAlign("middle");  //NOI18N        
-
-        // render the image hyperlink to show/hide the calendar
-        StringBuffer js = new StringBuffer(200);
-        js.append("javascript: ")           
-            .append(getJavaScriptObjectName(context))
-            .append(".toggleCalendarMonth(); return false;");  //NOI18N
-
-        // Don't set Javascript as the URL -- bugtraq #6306848.
-        datePickerLink.setOnClick(js.toString());
-        
+        datePickerLink.setAlign("middle");  //NOI18N                
         
         // We should do this, but unfortunately the component can't be enabled 
         // from the client-side yet.  
@@ -128,14 +118,13 @@ public class Calendar extends Field implements DateManager, NamingContainer {
             getFacets().put(DATE_PICKER_FACET, datePicker);
             comp = datePicker;
         }
-        ((CalendarMonth)comp).setJavaScriptObjectName
-                (getJavaScriptObjectName(FacesContext.getCurrentInstance()));
         return (CalendarMonth)comp;
     }
     
     /*
      * Returns JavaScript to obtain the widget associated with the 
      * component (ie, dojo.widget.byId('form1:calendar1');).
+     * @deprecated
      */ 
     public String getJavaScriptObjectName(FacesContext context) {
        return JavaScriptUtilities.getWidget(getFacesContext(), this);      
@@ -213,23 +202,6 @@ public class Calendar extends Field implements DateManager, NamingContainer {
     }
 
     /**
-     * Implement this method so that it returns the DOM ID of the 
-     * HTML element which should receive focus when the component 
-     * receives focus, and to which a component label should apply. 
-     * Usually, this is the first element that accepts input. 
-     * 
-     * @param context The FacesContext for the request
-     * @return The client id, also the JavaScript element id
-     *
-     * @deprecated
-     * @see #getLabeledElementId
-     * @see #getFocusElementId
-     */
-    public String getPrimaryElementID(FacesContext context) {
-	return getLabeledElementId(context);
-    }
-
-    /**
      * Returns the absolute ID of an HTML element suitable for use as
      * the value of an HTML LABEL element's <code>for</code> attribute.
      * If the <code>ComplexComponent</code> has sub-compoents, and one of 
@@ -260,27 +232,7 @@ public class Calendar extends Field implements DateManager, NamingContainer {
         //
         return this.getClientId(context).concat(INPUT_ID);        
     }
-
-    /**
-     * Returns the id of an HTML element suitable to
-     * receive the focus.
-     * If the <code>ComplexComponent</code> has sub-compoents, and one of 
-     * the sub-components is to reveive the focus, if that sub-component
-     * is a <code>ComplexComponent</code>, then
-     * <code>getFocusElementId</code> must called on the sub-component and
-     * the value returned. The value returned by this 
-     * method call may or may not resolve to a component instance.
-     * <p>
-     * This implementation returns the value of
-     * <code>getLabeledElementId</code>.
-     * </p>
-     *
-     * @param context The FacesContext used for the request
-     */
-    public String getFocusElementId(FacesContext context) {
-	return getLabeledElementId(context);
-    }
-            
+    
     /**
      * Update the datePicker with an explicitly set date format pattern.
      */
