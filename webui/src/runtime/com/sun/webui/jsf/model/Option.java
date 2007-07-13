@@ -76,7 +76,13 @@ public class Option extends SelectItem {
 	    super(value, label, description, disabled);
 	}
         
-      
+         /**
+	 * Create an instance of Selection.
+	 */
+	public Option(Object value, String label, String description, boolean disabled, boolean escape) {
+	    super(value, label, description, disabled, escape);
+	}
+        
 	/**
 	 * Get the image resource path.
 	 */

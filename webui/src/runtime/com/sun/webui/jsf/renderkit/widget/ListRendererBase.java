@@ -406,6 +406,7 @@ abstract public class ListRendererBase extends RendererBase {
         json.put( "value", listItem.getValue() );
         json.put( "isTitle", listItem.isTitle() );  // A title option
         json.put( "label", listItem.getLabel() );
+        json.put( "escape", listItem.isEscape() );
         return;
     }
     

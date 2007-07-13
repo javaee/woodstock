@@ -41,6 +41,7 @@ public class ListItem {
     boolean selected = false;
     boolean disabled = false;
     boolean title = false; 
+    boolean escape = true;
     
     public ListItem(String label) {
         this.label = label;
@@ -63,6 +64,14 @@ public class ListItem {
         this.valueObject = realValue;
         this.description = description;
         this.disabled = disabled;
+    }
+    public ListItem(Object realValue, String label, String description,
+            boolean disabled, boolean escape) {
+        this.label = label;
+        this.valueObject = realValue;
+        this.description = description;
+        this.disabled = disabled;
+        this.escape = escape;
     }
     
     public String getLabel() {
@@ -108,5 +117,26 @@ public class ListItem {
     public boolean isTitle() {
         return title;
     }
-   
+    
+    /**
+     * Get whether the label must be escaped. When true, 
+     * all characters in the label are displayed literally. When false, 
+     * markup in the label is stripped and escape sequences, such as 
+     * <code>&amp;nbsp;</code> and <code>&amp;amp;</code>, are displayed as
+     * evaluated.
+     */
+    public boolean isEscape() {
+        return escape;
+    }
+
+    /**
+     * Set whether the label must be escaped. When true, 
+     * all characters in the label are displayed literally. When false, 
+     * markup in the label is stripped and escape sequences, such as 
+     * <code>&amp;nbsp;</code> and <code>&amp;amp;</code>, are displayed as
+     * evaluated.
+     */
+    public void setEscape(boolean escape) {
+        this.escape = escape;
+    }
 }

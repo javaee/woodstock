@@ -147,8 +147,8 @@ webui.@THEME@.widget.props = {
         optionGroupClassName: "LstOptGrp@THEME_CSS@",
         optionSelectedClassName: "LstOptSel@THEME_CSS@",
         optionSeparatorClassName: "LstOptSep@THEME_CSS@",
-        titleOptionAppender: " &#8212;",
-        titleOptionPreppender: "&#8212; "
+        titleOptionAppender: " &#8212;".unescapeHTML(), //scriptaculous method
+        titleOptionPreppender: "&#8212; ".unescapeHTML()
     },
 
     // PasswordField properties.

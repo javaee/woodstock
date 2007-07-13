@@ -460,7 +460,7 @@ public class ListSelector extends Selector implements ListManager,
         } 
 
         ListItem listItem = new ListItem(si.getValue(), label, si.getDescription(), 
-                                   si.isDisabled());
+                                   si.isDisabled(), si.isEscape());
 
         listItem.setValue(valueString); 
         if(si instanceof OptionTitle) { 

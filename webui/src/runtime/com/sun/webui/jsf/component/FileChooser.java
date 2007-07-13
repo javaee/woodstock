@@ -1616,6 +1616,7 @@ public class FileChooser extends WebuiInput implements NamingContainer {
 		optList[i] = new Option(items[i].getItemKey(),
 		    items[i].getItemLabel());
 		optList[i].setDisabled(items[i].isItemDisabled());
+                optList[i].setEscape(false);
 	    }
 	    fileList.setItems(optList);
         } else {
@@ -1650,6 +1651,7 @@ public class FileChooser extends WebuiInput implements NamingContainer {
 	Option [] fileEntries = new Option[1];
 	fileEntries[0] = new Option(value, label);
 	fileEntries[0].setDisabled(true);
+        fileEntries[0].setEscape(false);
 	fileList.setItems(fileEntries);
     }
 

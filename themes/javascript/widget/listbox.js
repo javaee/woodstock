@@ -373,14 +373,26 @@ webui.@THEME@.widget.listbox.setOptionProps = function(element, option) {
     element.value = option.value;
     element.className = this.getOptionClassName(option);
 
+    var textToUse = null;
     if (option.isTitle == true) {
        // Prepend and append long dashes with the title label
-       element.text = webui.@THEME@.widget.props.listbox.titleOptionPreppender 
+       textToUse = webui.@THEME@.widget.props.listbox.titleOptionPreppender 
             + option.label 
             + webui.@THEME@.widget.props.listbox.titleOptionAppender;
     } else {
-       element.text = option.label;
+       textToUse = option.label;
     }
+    
+    //if option.escape is true, we want the option text to be displayed literally.
+    //to get this, do nothing.
+    //if option.escape is false, we want any special sequences in the option text, "&nbsp;" for instance, to be displayed as evaluated (unescaped).
+    if (option.escape == false) {
+        element.text = textToUse.unescapeHTML();    //scriptaculous method
+    }
+    else {
+        element.text = textToUse;
+    }
+    
 
     if (option.selected != null) {
         element.selected = new Boolean(option.selected).valueOf();
