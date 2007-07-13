@@ -156,5 +156,22 @@ webui.@THEME@.widget.common = {
         // undefined and an exception is thrown.
         dojo.require.apply(dojo, [module]);
         return true;
+    },
+
+    /**
+     * This function sleeps for specified milli seconds.
+     * 
+     * @param delay 
+     */
+    sleep:  function(delay) {
+        var start = new Date();
+        var exitTime = start.getTime() + delay;
+
+        while(true) {
+            start = new Date();
+            if (start.getTime() > exitTime) {
+                return;
+            }
+        }
     }
 }

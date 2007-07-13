@@ -41,6 +41,11 @@ public class ThemeTemplates {
      * A template file that contains HTML for the alert component.
      */
     public static final String ALERT = "alert";
+    
+    /**
+     * A template file that contains HTML for the Bubble Help component.
+     */
+    public static final String BUBBLE = "bubble";
 
     /**
      * A template file that contains HTML for the button component.

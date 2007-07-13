@@ -253,4 +253,10 @@ table.Tbl@THEME_CSS@ td.TblFtrRow@THEME_CSS@ {padding:5px 5px 5px 10px}
 .ChoSortByDiv@THEME_CSS@ {
 	margin-bottom: 10px;
 }
+/* Bubble */
+.BubbleHeader@THEME_CSS@ {
+    height:1.0em;
+    margin-right: 0px;
+    overflow: visible;
+}
 /*---*/

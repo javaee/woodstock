@@ -37,6 +37,7 @@ dojo.requireIf(djConfig.isDebug, "webui.@THEME@.widget.accordionTab");
 dojo.requireIf(djConfig.isDebug, "webui.@THEME@.widget.alarm");
 dojo.requireIf(djConfig.isDebug, "webui.@THEME@.widget.anchor");
 dojo.requireIf(djConfig.isDebug, "webui.@THEME@.widget.alert");
+dojo.requireIf(djConfig.isDebug, "webui.@THEME@.widget.bubble");
 dojo.requireIf(djConfig.isDebug, "webui.@THEME@.widget.button");
 dojo.requireIf(djConfig.isDebug, "webui.@THEME@.widget.calendar");
 dojo.requireIf(djConfig.isDebug, "webui.@THEME@.widget.calendarField");
