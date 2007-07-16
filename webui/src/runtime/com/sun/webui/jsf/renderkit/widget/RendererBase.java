@@ -98,8 +98,9 @@ abstract public class RendererBase extends Renderer {
         writer.writeAttribute("id", component.getClientId(context), null);
         writer.endElement("span");
 
+        // Note: Leading \n char causes grief with CSS float.
+
         // Render enclosing tag -- must be located after div.
-        writer.write("\n");
         writer.startElement("script", component);
         writer.writeAttribute("type", "text/javascript", null);
         writer.write("\n");
@@ -187,7 +188,8 @@ abstract public class RendererBase extends Renderer {
         // Render enclosing tag.
         writer.write(");\n");
         writer.endElement("script");
-        writer.write("\n");
+
+        // Note: Trailing \n char causes grief with CSS float.
     }
 
     /**
