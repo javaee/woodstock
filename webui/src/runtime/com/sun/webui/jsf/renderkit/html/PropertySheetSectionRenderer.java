@@ -128,6 +128,13 @@ public class PropertySheetSectionRenderer extends Renderer {
 		theme.getStyleClass(ThemeStyles.CONTENT_FIELDSET));
 	writer.writeAttribute(HTMLAttributes.CLASS, propValue, null);
 
+	// Render the style attribute
+	propValue = propertySheetSection.getStyle();
+	if (propValue != null && propValue.length() != 0) {
+	    writer.writeAttribute(HTMLAttributes.STYLE, propValue, 
+		HTMLAttributes.STYLE);
+	}
+
 	// There was a distinction made between ie and other browsers.
 	// If the browser was ie, fieldsets were used, and if not
 	// divs were used. Why ? Just use divs here.
