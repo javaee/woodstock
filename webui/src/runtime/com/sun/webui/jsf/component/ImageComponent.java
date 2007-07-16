@@ -41,7 +41,7 @@ import javax.faces.context.FacesContext;
     family="com.sun.webui.jsf.Image",
     tagRendererType="com.sun.webui.jsf.widget.Image", 
     displayName="Image", tagName="image",instanceName="image",
-    helpKey="projrave_ui_elements_palette_wdstk-jsf1.2_image_component",
+    helpKey="projrave_ui_elements_palette_wdstk-jsf1.2_image",
     propertiesHelpKey="projrave_ui_elements_palette_wdstk-jsf1.2_propsheets_image_component_props")
 public class ImageComponent extends UIGraphic {
     
