@@ -31,10 +31,14 @@
     <param-value>server</param-value>
   </context-param>
   
+  <!-- The specification of a default theme is not required. The
+       first suitable theme jar found on the application's class
+       path will be used.
   <context-param>
-    <param-name>com.sun.webui.jsf.DEFAULT_THEME</param-name>
+    <param-name>com.sun.webui.theme.DEFAULT_THEME</param-name>
     <param-value>suntheme</param-value>
   </context-param>
+  -->
   
   <!-- Upload Filter -->
   <filter>
