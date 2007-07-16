@@ -52,48 +52,14 @@
                    }                   
                    
                    function toggleImageDisable() {
-                       var alarmEnabled = '<h:outputText value="#{themeImages.ALARM_MAJOR_MEDIUM}"/>';
-                       var alarmDisabled = '<h:outputText value="#{themeImages.ALARM_MASTHEAD_MAJOR_DIMMED}"/>';                   
                        var domNode = document.getElementById("hyperlinkForm:clientSideImageLink");
                        var props;
                        if (domNode != null) {
                           props = domNode.getProps();
                           if (props != null) {
-                              if (props.disabled == true) {
-                              domNode.setProps({disabled: false,                              
-                                "contents": [{
-                                    "templatePath": "/testapp/theme/com/sun/webui/jsf/suntheme/templates/image.html",
-                                    "_widgetType": "webui.suntheme:image",
-                                    "visible": true,
-                                    "src": alarmEnabled,
-                                    "border": 0,
-                                    "alt": "google",
-                                    "_modules": [
-                                        "webui.suntheme.widget.image",
-                                        "webui.suntheme.widget.jsfx.image"
-                                    ],
-                                    "id": "hyperlinkForm:clientSideImageLink:clientSideImageLink_image"
-                                }]                              
-                                });
-                           } else {
-                              domNode.setProps({disabled: true,
-                                "contents": [{
-                                    "templatePath": "/testapp/theme/com/sun/webui/jsf/suntheme/templates/image.html",
-                                    "_widgetType": "webui.suntheme:image",
-                                    "visible": true,
-                                    "src": alarmDisabled,
-                                    "border": 0,
-                                    "alt": "google",
-                                    "_modules": [
-                                        "webui.suntheme.widget.image",
-                                        "webui.suntheme.widget.jsfx.image"
-                                    ],
-                                    "id": "hyperlinkForm:clientSideImageLink:clientSideImageLink_image"
-                                }]
-                                  });                         
-                           }
+                                domNode.setProps({disabled:!props.disabled});
                           }
-                       }
+                      }
                    }
                    
                    function toggleAnchorDisable() {
@@ -240,10 +206,14 @@
                            <webuijsf:label labelLevel="1" text="#{msgs.hyperlink_imgHyperlinkclientSideLabel}" id="clientSideLabel2"/>
                             <webuijsf:helpInline id="clientSideHelp2" text="#{msgs.hyperlink_imgHyperlinkClientSideHelp}" />
                              <br/>
-                            <webuijsf:imageHyperlink id="clientSideImageLink" icon="ALARM_MAJOR_MEDIUM"                                           
-                                          toolTip="#{msgs.hyperlink_paramlinktooltip}"
-                                          disabled="#{HyperlinkBean.linkOnoff}"
-                                          actionExpression="#{HyperlinkBean.nextPage}" />             
+                             <webuijsf:imageHyperlink id="clientSideImageLink" icon="ALARM_MAJOR_MEDIUM"                                           
+                                                      toolTip="#{msgs.hyperlink_paramlinktooltip}"
+                                                      disabled="#{HyperlinkBean.linkOnoff}"
+                                                      actionExpression="#{HyperlinkBean.nextPage}">  
+                                                          <f:facet name="disabledImage">
+                                                              <webuijsf:image id="disabledImage" icon="ALARM_MASTHEAD_MAJOR_DIMMED"/>
+                                                          </f:facet>                  
+                             </webuijsf:imageHyperlink>
                             <webuijsf:button id="buttonClientSideImag4" text="#{msgs.hyperlink_imgHyperlinkClientLinkDisable}" onClick ="toggleImageDisable(); return false;"/>
                             <br/>                            
                           <!-- hyperlink using f:param -->
