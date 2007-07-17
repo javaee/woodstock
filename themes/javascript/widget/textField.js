@@ -61,6 +61,24 @@ webui.@THEME@.widget.textField.fillInTemplate = function() {
     return props;
 }
 
+
+/**
+ * Helper function to obtain widget class names.
+ */
+webui.@THEME@.widget.textField.getClassName = function() {
+   // default implementation of super.getClassName provides user class name
+    var superClassName = webui.suntheme.widget.textField.superclass.getClassName();
+   
+    // Set default style.    
+    var className = (this.disabled == true)
+        ? webui.@THEME@.widget.props.textField.disabledClassName
+        : webui.@THEME@.widget.props.textField.className;
+    
+    return (superClassName == null) 
+        ? className 
+        : className + " " + superClassName;    
+}
+
 /**
  * This function is used to get widget properties. 
  * @see webui.@THEME@.widget.textField.setProps for a list of supported
@@ -185,6 +203,7 @@ dojo.inherits(webui.@THEME@.widget.textField, webui.@THEME@.widget.field);
 dojo.lang.extend(webui.@THEME@.widget.textField, {
     // Set private functions.
     fillInTemplate: webui.@THEME@.widget.textField.fillInTemplate,
+    getClassName: webui.@THEME@.widget.textField.getClassName,
     getProps: webui.@THEME@.widget.textField.getProps,
     refresh: webui.@THEME@.widget.textField.refresh.processEvent,
     submit: webui.@THEME@.widget.textField.submit.processEvent,

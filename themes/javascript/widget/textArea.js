@@ -86,12 +86,17 @@ webui.@THEME@.widget.textArea.fillInTemplate = function() {
  * Helper function to obtain widget class names.
  */
 webui.@THEME@.widget.textArea.getClassName = function() {
+    // default implementation of super.getClassName provides user class name
+    var superClassName = webui.suntheme.widget.textArea.superclass.getClassName();
+    
     // Set default style.    
     var className = (this.disabled == true)
-    ? webui.@THEME@.widget.props.textArea.disabledClassName
-    : webui.@THEME@.widget.props.textArea.className;
+        ? webui.@THEME@.widget.props.textArea.disabledClassName
+        : webui.@THEME@.widget.props.textArea.className;
     
-    return className;
+    return (superClassName == null) 
+        ? className 
+        : className + " " + superClassName;    
 }
 
 /**
@@ -167,7 +172,7 @@ webui.@THEME@.widget.textArea.setProps = function(props) {
         labelWidget = dojo.widget.byId(this.label.id);
         if (labelWidget && labelWidget.domNode) {
             var currentClass = (labelWidget.domNode.className) 
-                ? labelWidget.domNode.className + " " : "";
+            ? labelWidget.domNode.className + " " : "";
             labelWidget.domNode.className = currentClass + 
             webui.@THEME@.widget.props.textArea.labelTopAlignStyle;
         }    
