@@ -197,8 +197,7 @@ webui.@THEME@.widget.label.setProps = function(props) {
 
     // Set label value.
     if (props.value) {
-        this.addFragment(this.valueContainer,
-            dojo.string.escape("html", props.value)); 
+        this.addFragment(this.valueContainer, props.value);
     }
   
     // Set error image properties.

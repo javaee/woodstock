@@ -27,9 +27,7 @@ import com.sun.webui.jsf.component.Bubble;
 import com.sun.webui.jsf.theme.ThemeTemplates;
 import com.sun.webui.jsf.util.JSONUtilities;
 import com.sun.webui.jsf.util.JavaScriptUtilities;
-import com.sun.webui.jsf.util.ThemeUtilities;
 import com.sun.webui.jsf.util.WidgetUtilities;
-import com.sun.webui.theme.Theme;
 import java.io.IOException;
 import java.util.Iterator;
 
@@ -100,13 +98,12 @@ public class BubbleRenderer extends RendererBase {
         while (kids.hasNext()) {
             UIComponent kid = (UIComponent) kids.next();
             if (kid.isRendered()) {
-                JSONUtilities.addProperty(jArray,
-                        WidgetUtilities.renderComponent(context, kid));
+                jArray.put(WidgetUtilities.renderComponent(context, kid));
             }
         }
                     
        // Add attributes.
-        JSONUtilities.addAttributes(attributes, component, json);
+        JSONUtilities.addProperties(attributes, component, json);
         
         return json;
     }

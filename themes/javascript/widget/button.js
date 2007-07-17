@@ -334,8 +334,13 @@ webui.@THEME@.widget.button.setProps = function(props) {
 
     // Set value (i.e., button text).
     if (props.value) {
-        this.domNode.value = (new Boolean(this.escape).valueOf() == true)
-            ? dojo.string.escape("html", props.value) // Default.
+        // If escape is true, we want the text to be displayed literally. To 
+        // achieve this behavior, do nothing.
+        //
+        // If escape is false, we want any special sequences in the text 
+        // (e.g., "&nbsp;") to be displayed as evaluated (i.e., unescaped).
+        this.domNode.value = (new Boolean(this.escape).valueOf() == false)
+            ? props.value.unescapeHTML() // Prototype method.
             : props.value;
     }
     return props; // Return props for subclasses.

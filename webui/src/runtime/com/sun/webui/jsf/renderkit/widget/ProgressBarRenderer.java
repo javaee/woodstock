@@ -26,11 +26,9 @@ import com.sun.faces.annotation.Renderer;
 import com.sun.webui.jsf.component.ProgressBar;
 import com.sun.webui.jsf.component.TextArea;
 import com.sun.webui.jsf.util.WidgetUtilities;
-import com.sun.webui.theme.Theme;
 import com.sun.webui.jsf.theme.ThemeTemplates;
 import com.sun.webui.jsf.util.JSONUtilities;
 import com.sun.webui.jsf.util.JavaScriptUtilities;
-import com.sun.webui.jsf.util.ThemeUtilities;
 
 import java.io.IOException;
 
@@ -103,11 +101,11 @@ public class ProgressBarRenderer extends RendererBase {
             .put("visible", progressBar.isVisible());
 
         // Add busy icon.
-        JSONUtilities.addProperty(json, "busyImage",
-            WidgetUtilities.renderComponent(context, progressBar.getBusyIcon()));
+        json.put("busyImage", WidgetUtilities.renderComponent(context, 
+            progressBar.getBusyIcon()));
 
         // Add attributes.
-        JSONUtilities.addAttributes(attributes, component, json);
+        JSONUtilities.addProperties(attributes, component, json);
         setFacetProperties(context, progressBar, json);
 
         return json;
@@ -156,12 +154,12 @@ public class ProgressBarRenderer extends RendererBase {
             ProgressBar.BOTTOMTASK_CONTROL_FACET);
 
         if (rightButtonCon != null) {
-            JSONUtilities.addProperty(json, "progressControlRight",
-                WidgetUtilities.renderComponent(context, rightButtonCon));
+            json.put("progressControlRight", WidgetUtilities.renderComponent(
+                context, rightButtonCon));
         }
         if (bottomButtonCon != null) {
-            JSONUtilities.addProperty(json, "progressControlBottom",
-                WidgetUtilities.renderComponent(context, bottomButtonCon));
+            json.put("progressControlBottom", WidgetUtilities.renderComponent(
+                context, bottomButtonCon));
         }
                 
         ProgressBar pb = (ProgressBar) component;
@@ -169,8 +167,7 @@ public class ProgressBarRenderer extends RendererBase {
             // TextArea for running log
             UIComponent textArea = (TextArea) pb.getLogMsgComponent(component);
             
-            JSONUtilities.addProperty(json, "log",
-                WidgetUtilities.renderComponent(context, textArea)); 
+            json.put("log", WidgetUtilities.renderComponent(context, textArea)); 
             json.put("logId", textArea.getClientId(context));
         }
 
@@ -178,8 +175,8 @@ public class ProgressBarRenderer extends RendererBase {
         UIComponent bottomTextFacet = component.getFacet(
             ProgressBar.BOTTOMTEXT_FACET);
         if (bottomTextFacet != null) {            
-            JSONUtilities.addProperty(json, "bottomText",
-                    WidgetUtilities.renderComponent(context, bottomTextFacet));
+            json.put("bottomText", WidgetUtilities.renderComponent(context, 
+                bottomTextFacet));
         } else {
             json.put("bottomText", pb.getStatus());
         }
@@ -187,8 +184,8 @@ public class ProgressBarRenderer extends RendererBase {
         // Top Text facet.
         UIComponent topTextFacet = component.getFacet(ProgressBar.TOPTEXT_FACET);
         if (topTextFacet != null) {
-            JSONUtilities.addProperty(json, "topText",
-                WidgetUtilities.renderComponent(context, topTextFacet));
+            json.put("topText", WidgetUtilities.renderComponent(context, 
+                topTextFacet));
         } else {
             json.put("topText", pb.getDescription());
         }

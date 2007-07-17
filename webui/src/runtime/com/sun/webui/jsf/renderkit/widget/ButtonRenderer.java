@@ -181,7 +181,7 @@ public class ButtonRenderer extends RendererBase {
         }
 
         // Add attributes.
-        JSONUtilities.addAttributes(attributes, component, json);
+        JSONUtilities.addProperties(attributes, component, json);
 
         return json;
     }

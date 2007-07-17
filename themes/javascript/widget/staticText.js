@@ -144,9 +144,8 @@ webui.@THEME@.widget.staticText.setProps = function(props) {
         
     // Set text value.
     if (props.value) {
-        this.domNode.innerHTML = (new Boolean(this.escape).valueOf() == true)
-            ? dojo.string.escape("html", props.value) // Default.
-            : props.value;
+        // NOTE: If you set this value manually, text must be HTML escaped.
+        this.addFragment(this.domNode, props.value, null, this.escape);
     }
     return props; // Return props for subclasses.
 }

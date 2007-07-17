@@ -134,7 +134,7 @@ public class AlarmRenderer extends RendererBase {
 
         // Check for the icon
         // If an icon is defined then set the ignoreType to severity
-        // and render it separately with icon image. indicatorArray will
+        // and render it separately with icon image. jArray will
         // not have the indicator for the severity if an icon or
 	// url is present.
 	//
@@ -163,24 +163,23 @@ public class AlarmRenderer extends RendererBase {
 	// to optimize a little. This method may only be useful for
 	// alarms so it is private to this class.
 	//
-	JSONArray indicatorArray = getAndEditIndicators(
-		context, iterator, ignoreType, theme, alarm, severity,
-		height, width, hspace, vspace, border, 
-		toolTip, longDesc, alt, align);
+	JSONArray jArray = getAndEditIndicators(context, iterator, ignoreType, 
+            theme, alarm, severity, height, width, hspace, vspace, border, 
+            toolTip, longDesc, alt, align);
                 
-        JSONObject iconjson = new JSONObject();
+        JSONObject jsonIcon = new JSONObject();
         
         if (alarmImage != null) {
-            iconjson.put("type", severity);
-                JSONUtilities.addProperty(iconjson, "image",
-                       WidgetUtilities.renderComponent(context, alarmImage));
-                indicatorArray.put(iconjson);
+            jsonIcon.put("type", severity);
+            jsonIcon.put("image", WidgetUtilities.renderComponent(context, 
+                alarmImage));
+            jArray.put(jsonIcon);
         }
         
-        json.put("indicators", indicatorArray);
+        json.put("indicators", jArray);
                        
         // Add attributes.
-        JSONUtilities.addAttributes(attributes, component, json);
+        JSONUtilities.addProperties(attributes, component, json);
 
         return json;
     }
@@ -240,19 +239,16 @@ public class AlarmRenderer extends RendererBase {
             return null;
         }
 
-        JSONArray indicatorArray = new JSONArray();      
+        JSONArray jArray = new JSONArray();      
         while (indicators.hasNext()) {
-
-            Indicator indicator = (Indicator)indicators.next();                 
-            String type = (String)indicator.getType();
+            Indicator indicator = (Indicator) indicators.next();                 
+            String type = (String) indicator.getType();
 
             // Don't do anything if we don't have to.
             //
             if (type.equals(ignoreType)) {
                     continue;
             }
-
-            JSONObject indjson = new JSONObject();
 
 	    // Get the image as a UIComponent
 	    //
@@ -281,7 +277,7 @@ public class AlarmRenderer extends RendererBase {
                 // to throw exception at runtime. Using "dot" image to handle
                 // this situation.
                 comp = (UIComponent)ThemeUtilities.getIcon(theme, 
-			ThemeImages.DOT); 
+                    ThemeImages.DOT); 
                 continue;
             }
 
@@ -295,12 +291,13 @@ public class AlarmRenderer extends RendererBase {
 		comp.setParent(parent);
 	    }
 
-	    indjson.put("type", type);
-	    JSONUtilities.addProperty(indjson, "image",
-		   WidgetUtilities.renderComponent(context, comp));
-	    indicatorArray.put(indjson);
+            JSONObject jsonIcon = new JSONObject();
+	    jsonIcon.put("type", type);
+	    jsonIcon.put("image", WidgetUtilities.renderComponent(context,
+                comp));
+	    jArray.put(jsonIcon);
 	}
-	return indicatorArray;
+	return jArray;
     }
     
     /**

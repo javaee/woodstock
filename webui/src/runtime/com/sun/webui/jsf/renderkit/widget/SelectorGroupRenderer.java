@@ -110,9 +110,8 @@ abstract class SelectorGroupRenderer extends RendererBase {
         JSONObject json = new JSONObject();
         
         // Append label properties. 
-        JSONUtilities.addProperty( json, "label",
-            WidgetUtilities.renderComponent(context, 
-                getLabelComponent(context, component)));
+        json.put("label", WidgetUtilities.renderComponent(context, 
+            getLabelComponent(context, component)));
         
         // Set StyleClass
         json.put("className", component.getStyleClass());
@@ -135,7 +134,7 @@ abstract class SelectorGroupRenderer extends RendererBase {
         }
         
         // Add attributes.
-        JSONUtilities.addAttributes(attributes, component, json);
+        JSONUtilities.addProperties(attributes, component, json);
         setContents(context, component, json);
 
         return json;
@@ -155,8 +154,8 @@ abstract class SelectorGroupRenderer extends RendererBase {
     protected void setContents(FacesContext context, UIComponent component,
             JSONObject json) throws IOException, JSONException {
         
-        JSONArray children = new JSONArray();
-        json.put("contents", children);
+        JSONArray jArray = new JSONArray();
+        json.put("contents", jArray);
         
         Option[] items = getItems((Selector) component);
         int length = items.length;
@@ -164,7 +163,7 @@ abstract class SelectorGroupRenderer extends RendererBase {
 
         for (int i = 0; i <= length; i++) {
             UIComponent child = getChildComponent(context, component, itemN);
-            JSONUtilities.addProperty(children, WidgetUtilities.renderComponent(context, child));
+            jArray.put(WidgetUtilities.renderComponent(context, child));
             ++itemN;            
         }          
     }

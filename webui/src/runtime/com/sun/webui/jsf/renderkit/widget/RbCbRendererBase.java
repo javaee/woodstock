@@ -189,15 +189,15 @@ abstract class RbCbRendererBase extends RendererBase {
         json.put("value", value);                       
         
         // Append image properties.
-        JSONUtilities.addProperty(json, "image",
-            WidgetUtilities.renderComponent(context, rbcbSelector.getImageComponent()));
+        json.put("image", WidgetUtilities.renderComponent(context, 
+            rbcbSelector.getImageComponent()));
         
         // Append label properties.
-        JSONUtilities.addProperty(json, "label",
-            WidgetUtilities.renderComponent(context, rbcbSelector.getLabelComponent()));
+        json.put("label", WidgetUtilities.renderComponent(context, 
+            rbcbSelector.getLabelComponent()));
         
         // Add attributes.
-        JSONUtilities.addAttributes(attributes, component, json);
+        JSONUtilities.addProperties(attributes, component, json);
         
         return json;
     }

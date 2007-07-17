@@ -476,7 +476,8 @@ webui.@THEME@.widget.progressBar.setProgress = function(props) {
 
         // Add overlay text.
         if (this.overlayAnimation == true) {
-            this.innerBarOverlayContainer.innerHTML = props.progress + "%";
+            // NOTE: If you set this value manually, text must be HTML escaped.
+            this.addFragment(this.innerBarOverlayContainer, props.progress + "%");
         }
     } 
 
@@ -490,8 +491,9 @@ webui.@THEME@.widget.progressBar.setProgress = function(props) {
         this.setLogMsgVisible(false);
 
         if (props.failedStateText != null) {
-            this.failedLabelContainer.innerHTML = props.failedStateText + " " + 
-                props.progress + this.percentChar;
+            // NOTE: If you set this value manually, text must be HTML escaped.
+            this.addFragment(this.failedLabelContainer,
+                props.failedStateText + " " + props.progress + this.percentChar);
 
             webui.@THEME@.common.setVisibleElement(this.failedLabelContainer, true);
             webui.@THEME@.common.setVisibleElement(this.failedStateContainer, true);
@@ -693,7 +695,8 @@ webui.@THEME@.widget.progressBar.setProps = function(props) {
 
         // Add overlay.
         if (props.overlayAnimation == true) {
-            this.innerBarOverlayContainer.innerHTML = this.progress + "%";
+            // NOTE: If you set this value manually, text must be HTML escaped.
+            this.addFragment(this.innerBarOverlayContainer, this.progress + "%");
             webui.@THEME@.common.setVisibleElement(this.innerBarOverlayContainer, true);
         }
 

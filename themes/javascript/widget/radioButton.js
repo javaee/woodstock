@@ -152,7 +152,7 @@ webui.@THEME@.widget.radioButton.setProps = function(props) {
         // http://msdn.microsoft.com/workshop/author/dhtml/reference/properties/name_2.asp
         //
         // In order to create an HTML element with a name attribute, the name
-        // and value must be provided when using the innerHTML property or the
+        // and value must be provided when using the inner HTML property or the
         // document.createElement() function. As a work around, we shall set the
         // attribute via the HTML template using name="${this.name}". In order
         // to obtain the correct value, the name property must be provided to 

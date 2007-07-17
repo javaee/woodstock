@@ -25,9 +25,7 @@ package com.sun.webui.jsf.renderkit.widget;
 import com.sun.faces.annotation.Renderer;
 import com.sun.webui.jsf.component.Icon;
 import com.sun.webui.jsf.theme.ThemeImages;
-import com.sun.webui.jsf.theme.ThemeTemplates;
 import com.sun.webui.jsf.util.ClientSniffer;
-import com.sun.webui.jsf.util.JSONUtilities;
 import com.sun.webui.jsf.util.WidgetUtilities;
 
 import java.io.IOException;
@@ -81,7 +79,7 @@ public class AnchorRenderer extends AnchorRendererBase {
     protected void setContents(FacesContext context, UIComponent component, 
             JSONObject json)throws JSONException, IOException{
         super.setContents(context, component, json);
-        JSONArray children = (JSONArray)json.get("contents");
+        JSONArray jArray = (JSONArray) json.get("contents");
 
         // Fix for IE. If no text or image is specified, render a placeholder image
         // so that the browser can identify the anchor element.
@@ -93,8 +91,7 @@ public class AnchorRenderer extends AnchorRendererBase {
                 icon.setParent(component);
                 icon.setIcon(ThemeImages.DOT);    
                 icon.setId(component.getId() + ANCHOR_IMAGE);
-                JSONUtilities.addProperty(children,
-                    WidgetUtilities.renderComponent(context, icon));   
+                jArray.put(WidgetUtilities.renderComponent(context, icon));   
             }
         }        
      }

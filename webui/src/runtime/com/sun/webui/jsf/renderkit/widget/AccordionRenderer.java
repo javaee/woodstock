@@ -30,7 +30,6 @@ import com.sun.webui.jsf.util.WidgetUtilities;
 import com.sun.webui.theme.Theme;
 import com.sun.webui.jsf.theme.ThemeTemplates;
 import com.sun.webui.jsf.util.JavaScriptUtilities;
-import com.sun.webui.jsf.util.ThemeUtilities;
 
 import java.io.IOException;
 
@@ -98,8 +97,7 @@ public class AccordionRenderer extends RendererBase {
             .put("visible", container.isVisible());
             
         if (container.isRefreshButton()) {
-            JSONUtilities.addProperty(json, "refreshImage",
-                WidgetUtilities.renderComponent(context,
+            json.put("refreshImage", WidgetUtilities.renderComponent(context,
                 container.getRefreshIcon(theme, context)));
         }
         
@@ -107,17 +105,17 @@ public class AccordionRenderer extends RendererBase {
             setContents(context, container, json);
             if (container.isToggleControls() && isMultipleSelect) {
                 // Append expand/collapse image properties.
-                JSONUtilities.addProperty(json, "expandAllImage",
-                    WidgetUtilities.renderComponent(context,
+                json.put("expandAllImage", 
+                    WidgetUtilities.renderComponent(context, 
                         container.getExpandAllIcon(theme, context)));
-                JSONUtilities.addProperty(json, "collapseAllImage",
+                json.put("collapseAllImage",
                     WidgetUtilities.renderComponent(context,
                         container.getCollapseAllIcon(theme, context)));                
             }
         }
         
         // Add attributes.
-        JSONUtilities.addAttributes(attributes, container, json);
+        JSONUtilities.addProperties(attributes, container, json);
 
         return json;
     }
@@ -167,8 +165,7 @@ public class AccordionRenderer extends RendererBase {
         json.put("tabs", jArray);
 
         for (UIComponent kid : component.getChildren()) {
-            JSONUtilities.addProperty(jArray,
-                WidgetUtilities.renderComponent(context, kid));
+            jArray.put(WidgetUtilities.renderComponent(context, kid));
         }
     }
 }

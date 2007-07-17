@@ -25,12 +25,10 @@ package com.sun.webui.jsf.renderkit.widget;
 import com.sun.faces.annotation.Renderer;
 import com.sun.webui.jsf.component.TextArea;
 import com.sun.webui.jsf.util.WidgetUtilities;
-import com.sun.webui.theme.Theme;
 import com.sun.webui.jsf.theme.ThemeTemplates;
 import com.sun.webui.jsf.util.ConversionUtilities;
 import com.sun.webui.jsf.util.JSONUtilities;
 import com.sun.webui.jsf.util.JavaScriptUtilities;
-import com.sun.webui.jsf.util.ThemeUtilities;
 
 import java.io.IOException;
 
@@ -129,11 +127,11 @@ public class TextAreaRenderer extends FieldRendererBase {
             .put("autoSave", autoSave);
         
         // Append label properties.
-        JSONUtilities.addProperty(json, "label",
-            WidgetUtilities.renderComponent(context, field.getLabelComponent(context, null)));
+        json.put("label", WidgetUtilities.renderComponent(context, 
+            field.getLabelComponent(context, null)));
         
         // Add attributes.
-        JSONUtilities.addAttributes(attributes, component, json);
+        JSONUtilities.addProperties(attributes, component, json);
         
         return json;
     }

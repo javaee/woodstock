@@ -107,7 +107,7 @@ public class Table2ColumnRenderer extends RendererBase {
         JSONObject json = new JSONObject();
 
         // Add attributes.
-        JSONUtilities.addAttributes(attributes, col, json);
+        JSONUtilities.addProperties(attributes, col, json);
         setFooterProperties(context, col, json);
         setHeaderProperties(context, col, json);
 

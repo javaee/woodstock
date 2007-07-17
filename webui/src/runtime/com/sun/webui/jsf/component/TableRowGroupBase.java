@@ -284,9 +284,13 @@ public abstract class TableRowGroupBase extends WebuiComponent
      * when overriding pagination. As a convenience, the setPage(int) method is 
      * provided.
      * </p><p>
-     * Note: When ever a new DataProvider is used, UI Guiedlines recommend that
+     * Note: When ever a new DataProvider is used, UI Guidelines recommend that
      * pagination should be reset (e.g., remaining on the 4th page of a new set
      * of data makes no sense).
+     * </p><p>
+     * Warning: When the end user is navigating the web application, use the 
+     * saveState and restoreState() methods to maintain state. There is much
+     * more to state than just the first row (e.g., sorting, filtering, etc.).
      * </p>
      * @param first The first row number.
      * @exception IllegalArgumentException for negative values.

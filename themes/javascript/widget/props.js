@@ -147,7 +147,7 @@ webui.@THEME@.widget.props = {
         optionGroupClassName: "LstOptGrp@THEME_CSS@",
         optionSelectedClassName: "LstOptSel@THEME_CSS@",
         optionSeparatorClassName: "LstOptSep@THEME_CSS@",
-        titleOptionAppender: " &#8212;".unescapeHTML(), //scriptaculous method
+        titleOptionAppender: " &#8212;".unescapeHTML(), // Prototype method
         titleOptionPreppender: "&#8212; ".unescapeHTML()
     },
 

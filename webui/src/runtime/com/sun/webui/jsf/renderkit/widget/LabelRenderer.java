@@ -32,7 +32,6 @@ import com.sun.webui.jsf.util.ConversionUtilities;
 import com.sun.webui.jsf.util.FacesMessageUtils;
 import com.sun.webui.jsf.util.JSONUtilities;
 import com.sun.webui.jsf.util.JavaScriptUtilities;
-import com.sun.webui.jsf.util.ThemeUtilities;
 
 import java.io.IOException;
 import java.text.MessageFormat;
@@ -205,19 +204,17 @@ public class LabelRenderer extends RendererBase {
 	    .put("visible", label.isVisible());
             
         // Append required image properties.
-        JSONUtilities.addProperty(json, "requiredImage",
-            WidgetUtilities.renderComponent(context,
-		label.getRequiredIcon(theme, context)));
+        json.put("requiredImage", WidgetUtilities.renderComponent(context,
+            label.getRequiredIcon(theme, context)));
 
         // Append error image properties.
         // passing valid=false so that it can output error icon 
 	// (irrespective of valid attribute value). 
-        JSONUtilities.addProperty(json, "errorImage",
-            WidgetUtilities.renderComponent(context, 
-		label.getErrorIcon(theme, context, errorMsg)));
+        json.put("errorImage", WidgetUtilities.renderComponent(context, 
+            label.getErrorIcon(theme, context, errorMsg)));
 
         // Add attributes.
-        JSONUtilities.addAttributes(attributes, component, json);
+        JSONUtilities.addProperties(attributes, component, json);
 	setContents(context, component, json);
 
         return json;
@@ -303,8 +300,7 @@ public class LabelRenderer extends RendererBase {
         while (kids.hasNext()) {
             UIComponent child = (UIComponent) kids.next();
             if (child.isRendered()) {
-                JSONUtilities.addProperty(jArray,
-                    WidgetUtilities.renderComponent(context, child));
+                jArray.put(WidgetUtilities.renderComponent(context, child));
             }
         }
     }

@@ -24,8 +24,6 @@ package com.sun.webui.jsf.renderkit.widget;
 
 import com.sun.webui.jsf.component.ComplexComponent;
 import com.sun.webui.jsf.component.Field;
-import com.sun.webui.jsf.util.ThemeUtilities;
-import com.sun.webui.theme.Theme;
 
 import java.util.Map;
 import javax.faces.component.EditableValueHolder;

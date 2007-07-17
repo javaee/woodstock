@@ -29,10 +29,8 @@ import com.sun.webui.jsf.component.Table2Column;
 import com.sun.webui.jsf.component.Table2RowGroup;
 import com.sun.webui.jsf.util.JSONUtilities;
 import com.sun.webui.jsf.util.WidgetUtilities;
-import com.sun.webui.theme.Theme;
 import com.sun.webui.jsf.theme.ThemeTemplates;
 import com.sun.webui.jsf.util.JavaScriptUtilities;
-import com.sun.webui.jsf.util.ThemeUtilities;
 
 import java.io.IOException;
 import java.util.Iterator;
@@ -117,7 +115,7 @@ public class Table2RowGroupRenderer extends RendererBase {
             .put("totalRows", group.getRowCount());
 
         // Add attributes.
-        JSONUtilities.addAttributes(attributes, group, json);
+        JSONUtilities.addProperties(attributes, group, json);
         setColumnProperties(context, group, json);
         setFooterProperties(context, group, json);
         setHeaderProperties(context, group, json);
@@ -170,8 +168,7 @@ public class Table2RowGroupRenderer extends RendererBase {
         while (kids.hasNext()) {
             Table2Column col = (Table2Column) kids.next();
             if (col.isRendered()) {
-                JSONUtilities.addProperty(jArray,
-                    WidgetUtilities.renderComponent(context, col));
+                jArray.put(WidgetUtilities.renderComponent(context, col));
             }
         }
     }
@@ -226,8 +223,8 @@ public class Table2RowGroupRenderer extends RendererBase {
         }
 
         // Add rows.
-        JSONArray rows = new JSONArray();
-        json.put("rows", rows);
+        JSONArray jsonRows = new JSONArray();
+        json.put("rows", jsonRows);
 
         try {
             // Iterate over the rendered RowKey objects.
@@ -238,7 +235,7 @@ public class Table2RowGroupRenderer extends RendererBase {
                 }
 
                 // Render Table2Column components.
-                JSONArray cols = new JSONArray();
+                JSONArray jsonCols = new JSONArray();
                 Iterator kids = component.getTableColumnChildren();
                 while (kids.hasNext()) {
                     Table2Column col = (Table2Column) kids.next();
@@ -248,12 +245,11 @@ public class Table2RowGroupRenderer extends RendererBase {
                     // Render Table2Column children.
                     Iterator grandKids = col.getChildren().iterator();
                     while (grandKids.hasNext()) {
-                        JSONUtilities.addProperty(cols,
-                            WidgetUtilities.renderComponent(context, (UIComponent) 
-                                grandKids.next()));
+                        jsonCols.put(WidgetUtilities.renderComponent(context, 
+                            (UIComponent) grandKids.next()));
                     }
                 }
-                rows.put(cols);
+                jsonRows.put(jsonCols);
             }
             component.setRowKey(null); // Clean up.
         } catch(JSONException e) {

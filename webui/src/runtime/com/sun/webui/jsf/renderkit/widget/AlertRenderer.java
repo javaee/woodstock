@@ -117,32 +117,31 @@ public class AlertRenderer extends RendererBase {
         Iterator<Indicator> iter1 = indicators.iterator();
 
         //Check for the facet
-        UIComponent facetImage = alert.getFacet(ALERT_IMAGE_FACET);
+        UIComponent imageFacet = alert.getFacet(ALERT_IMAGE_FACET);
         String ignoreType = null;
-        if (facetImage != null) {
+        if (imageFacet != null) {
             ignoreType = type;
         }
        
-        JSONArray indicatorArray = WidgetUtilities.getIndicators(context, 
+        JSONArray jArray = WidgetUtilities.getIndicators(context, 
                 iter1, ignoreType, theme, alert);
                 
         // if ignoreType is not null then add facet image
-        JSONObject facetjson = new JSONObject();
+        JSONObject jsonFacet = new JSONObject();
         
         if (ignoreType != null) {
-            facetjson.put("type", ignoreType);
-                JSONUtilities.addProperty(facetjson, "image",
-                       WidgetUtilities.renderComponent(context, facetImage));
-                indicatorArray.put(facetjson);
+            jsonFacet.put("type", ignoreType);
+            jsonFacet.put("image", WidgetUtilities.renderComponent(context, 
+                imageFacet));
+            jArray.put(jsonFacet);
         }
         
-        json.put("indicators", indicatorArray);
+        json.put("indicators", jArray);
                 
         // Append moreInfo image properties.
         // Adding it separately as it is not the part of indicator.
-        JSONUtilities.addProperty(json, "moreInfo",
-            WidgetUtilities.renderComponent(context, 
-                alert.getAlertLink()));
+        json.put("moreInfo", WidgetUtilities.renderComponent(context, 
+            alert.getAlertLink()));
         
         ImageComponent dotImg = null;
         dotImg = (ImageComponent) ThemeUtilities.getIcon(theme, ThemeImages.DOT);
@@ -158,11 +157,10 @@ public class AlertRenderer extends RendererBase {
         }
             
         // Append spacerImage image properties.        
-        JSONUtilities.addProperty(json, "spacerImage",
-            WidgetUtilities.renderComponent(context, dotImg));
+        json.put("spacerImage", WidgetUtilities.renderComponent(context, dotImg));
         
         // Add attributes.
-        JSONUtilities.addAttributes(attributes, component, json);
+        JSONUtilities.addProperties(attributes, component, json);
 
         return json;
     }

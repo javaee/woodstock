@@ -32,10 +32,9 @@ import com.sun.webui.jsf.model.list.ListItem;
 import com.sun.webui.jsf.model.list.StartGroup;
 import com.sun.webui.jsf.theme.ThemeStyles;
 import com.sun.webui.jsf.util.ConversionUtilities;
-import com.sun.webui.jsf.util.JSONUtilities;
-import com.sun.webui.jsf.util.ThemeUtilities;
 import com.sun.webui.jsf.util.WidgetUtilities;
 import com.sun.webui.theme.Theme;
+
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -203,9 +202,8 @@ abstract public class ListRendererBase extends RendererBase {
             }
         }
         
-        // Append label properties. null label will be checked in the WidgetUtilities.renderComponent()
-        JSONUtilities.addProperty( json, "label",
-            WidgetUtilities.renderComponent(context, label) );
+        // Append label properties.
+        json.put("label", WidgetUtilities.renderComponent(context, label));
         
         // StyleClass, labelOnTop
         json.put( "className", component.getStyleClass() );

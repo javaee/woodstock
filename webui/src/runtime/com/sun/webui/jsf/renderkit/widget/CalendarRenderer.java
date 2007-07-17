@@ -25,24 +25,17 @@ package com.sun.webui.jsf.renderkit.widget;
 import com.sun.webui.jsf.component.Calendar;
 import com.sun.webui.jsf.component.CalendarMonth;
 import com.sun.webui.jsf.component.ImageHyperlink;
-import com.sun.webui.jsf.component.TextField;
-import com.sun.webui.jsf.component.Field;
 import com.sun.webui.jsf.theme.ThemeImages;
 import com.sun.webui.jsf.theme.ThemeTemplates;
-import com.sun.webui.jsf.util.JSONUtilities;
 import com.sun.webui.jsf.util.JavaScriptUtilities;
-import com.sun.webui.jsf.util.ThemeUtilities;
 import com.sun.webui.jsf.util.WidgetUtilities;
 import com.sun.webui.theme.Theme;
 
 import com.sun.faces.annotation.Renderer;
-import com.sun.webui.jsf.util.ComponentUtilities;
 import com.sun.webui.jsf.util.ConversionUtilities;
 
 import java.io.IOException;
 import java.text.SimpleDateFormat;
-import java.util.Iterator;
-import java.util.Map;
 import java.util.MissingResourceException;
 
 import javax.faces.component.UIComponent;
@@ -132,12 +125,11 @@ public class CalendarRenderer extends TextFieldRenderer {
             calendarMonth.setValue(calendar.getValue());
         }                  
         calendarMonth.initCalendarControls(calendar.getJavaScriptObjectName(context));
-        
-        JSONUtilities.addProperty(json, "calendar", 
-            WidgetUtilities.renderComponent(context, calendarMonth));        
-        JSONObject cal = json.getJSONObject("calendar");
-        JSONUtilities.addProperty(cal, "toggleLink",
-                WidgetUtilities.renderComponent(context, link));
+ 
+        JSONObject jsonCal = (JSONObject) WidgetUtilities.renderComponent(
+            context, calendarMonth);
+        jsonCal.put("toggleLink", WidgetUtilities.renderComponent(context, link));
+        json.put("calendar", jsonCal);
         
         return json;
     }    

@@ -30,7 +30,6 @@ import com.sun.faces.annotation.Renderer;
 import com.sun.webui.jsf.component.AccordionTab;
 import com.sun.webui.jsf.component.Accordion;
 import com.sun.webui.jsf.util.WidgetUtilities;
-import com.sun.webui.jsf.util.JSONUtilities;
 import com.sun.webui.jsf.theme.ThemeTemplates;
 import com.sun.webui.jsf.util.JavaScriptUtilities;
 
@@ -175,7 +174,7 @@ public class AccordionTabRenderer extends RendererBase {
      * The JSON object for this hiddenField is not rendered here. 
      */
     private void appendChildProps(AccordionTab component, FacesContext context,
-            JSONArray content) throws IOException, JSONException{
+            JSONArray jArray) throws IOException, JSONException{
     
         if (component.getTabChildCount() == 0) {
             // exclude the hiddenField used to maintain the selected state
@@ -184,14 +183,13 @@ public class AccordionTabRenderer extends RendererBase {
             // payload.
             for (UIComponent kid : component.getChildren()) {
                 if (!kid.getId().equals("selectedState")) {
-                    JSONUtilities.addProperty(content,
-                        WidgetUtilities.renderComponent(context, kid));
+                    jArray.put(WidgetUtilities.renderComponent(context, kid));
                 }
             } 
         } else {
             for (UIComponent kid : component.getChildren()) {
                 if (kid instanceof AccordionTab) {
-                    appendChildProps((AccordionTab)kid, context, content);
+                    appendChildProps((AccordionTab) kid, context, jArray);
                 }
             }
         }

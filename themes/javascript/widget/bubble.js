@@ -1,4 +1,4 @@
-//<!--
+//
 // The contents of this file are subject to the terms
 // of the Common Development and Distribution License
 // (the License).  You may not use this file except inf
@@ -26,7 +26,6 @@ dojo.require("dojo.widget.*");
 dojo.require("webui.@THEME@.*");
 dojo.require("webui.@THEME@.widget.*");
 
-
 /**
  * This function is used to generate a template based widget.
  *
@@ -34,79 +33,21 @@ dojo.require("webui.@THEME@.widget.*");
  */
 webui.@THEME@.widget.bubble = function() {
     // Register widget.
-    dojo.widget.HtmlWidget.call(this);    
-    
+    dojo.widget.HtmlWidget.call(this);
 }
 
 /**
- * This function is used to fill a template with widget properties.
- *
- * Note: Anything to be set only once should be added here; otherwise, the
- * setProps() function should be used to set properties.
+ * This function is used to close buuble help.
  */
-webui.@THEME@.widget.bubble.fillInTemplate = function() {
-    
-        if (this.id) {
-            this.bottomLeftArrow.id = this.id + "_bottomLeftArrow";
-            this.bottomRightArrow.id = this.id + "_bottomRightArrow";
-            this.topLeftArrow.id = this.id + "_topLeftArrow";
-            this.topRightArrow.id = this.id + "_topRightArrow";
-        }   
-        this.timerId = null;
-        this.left = null;
-        this.top = null; 
-        // Set public functions.
-        this.domNode.getProps = function() { return dojo.widget.byId(this.id).getProps(); }
-        this.domNode.refresh = function(execute) { return dojo.widget.byId(this.id).refresh(execute); }
-        this.domNode.setProps = function(props) { return dojo.widget.byId(this.id).setProps(props); }
-        
-        this.domNode.open = function(event) { return dojo.widget.byId(this.id).open
-                                                                (event); }
-        this.domNode.close = function() { return dojo.widget.byId(this.id).close(); }
-        // onclick on window should close bubble.        
-        dojo.event.connect(window, "onclick", 
-                           webui.@THEME@.widget.bubble.createCloseCallback(this.id));
-        // escape key should also close bubble.
-        dojo.event.connect(window, "onkeydown", 
-                           webui.@THEME@.widget.bubble.createCloseCallback(this.id));
-
-        //close the popup if close button is clicked
-        //this function captures the onClick event for component body and closes the
-        //bubble only when close button is clicked.  
-        this.onClick = function(event) { 
-           event = (event) ? event : ((window.event) ? window.event : null);
-           var target = (event.target) ? event.target : ((event.srcElement) ? event.srcElement : null);
-           if (webui.@THEME@.common.browser.is_ie5up) {
-              if (window.event != null) 
-              window.event.cancelBubble = true;
-           } else {
-               event.stopPropagation();
-           }
-           if (this.closeBtn == target) {
-              clearTimeout(this.timerId);
-              this.setProps({visible:false});
-           }
-        }
-
-        //do not close the popup if mouseover on bubble
-        //if mouseover on bubble component then clear the timer and do
-        //not close bubble.
-        this.onMouseOver = function(evt) { 
-
-            clearTimeout(this.timerId);
-        }
-
-        //close the popup if mouseout and autoClose is true
-        //if onmouseout and autoClose is true then close the bubble.
-        this.onMouseOut = function(evt) { 
-            if (this.autoClose == true) {
-                clearTimeout(this.timerId);            
-                this.close();            
-            }
-        }
-                
-        return this.setProps();
-        
+webui.@THEME@.widget.bubble.close = function() {
+     if (this.getProps().visible == false) {
+         return;
+     }
+     
+     var _this = this; // Closure magic.
+     this.timerId = setTimeout(function() {
+            dojo.widget.byId(_this.id).setProps({visible: false});
+        }, this.defaultTime);  
 }
 
 /**
@@ -136,6 +77,132 @@ webui.@THEME@.widget.bubble.createCloseCallback = function(id) {
 }
 
 /**
+ * This function is used to fill a template with widget properties.
+ *
+ * Note: Anything to be set only once should be added here; otherwise, the
+ * setProps() function should be used to set properties.
+ */
+webui.@THEME@.widget.bubble.fillInTemplate = function() {
+    // Set ids.
+    if (this.id) {
+        this.bottomLeftArrow.id = this.id + "_bottomLeftArrow";
+        this.bottomRightArrow.id = this.id + "_bottomRightArrow";
+        this.topLeftArrow.id = this.id + "_topLeftArrow";
+        this.topRightArrow.id = this.id + "_topRightArrow";
+    }   
+    this.timerId = null;
+    this.left = null;
+    this.top = null;
+
+    // Set public functions.
+    this.domNode.getProps = function() { return dojo.widget.byId(this.id).getProps(); }
+    this.domNode.refresh = function(execute) { return dojo.widget.byId(this.id).refresh(execute); }
+    this.domNode.setProps = function(props) { return dojo.widget.byId(this.id).setProps(props); }       
+    this.domNode.open = function(event) { return dojo.widget.byId(this.id).open(event); }
+    this.domNode.close = function() { return dojo.widget.byId(this.id).close(); }
+
+    // Set events.
+
+    // onclick on window should close bubble.
+    dojo.event.connect(window, "onclick", 
+        webui.@THEME@.widget.bubble.createCloseCallback(this.id));
+    // escape key should also close bubble.
+    dojo.event.connect(window, "onkeydown", 
+        webui.@THEME@.widget.bubble.createCloseCallback(this.id));
+
+    // Close the popup if close button is clicked. Tthis function captures
+    // the onClick event for component body and closes the bubble only when
+    // close button is clicked.  
+    this.onClick = function(event) { 
+        event = (event) 
+            ? event : ((window.event) 
+                ? window.event : null);
+
+        var target = (event.target)
+            ? event.target 
+            : ((event.srcElement) 
+                ? event.srcElement : null);
+
+        if (webui.@THEME@.common.browser.is_ie5up) {
+            if (window.event != null) {
+                window.event.cancelBubble = true;
+            }
+        } else {
+            event.stopPropagation();
+        }
+        if (this.closeBtn == target) {
+            clearTimeout(this.timerId);
+            this.setProps({visible:false});
+        }
+    }
+
+    // Do not close the popup if mouseover on bubble if mouseover on bubble 
+    // component then clear the timer and do not close bubble.
+    this.onMouseOver = function(evt) { 
+        clearTimeout(this.timerId);
+    }
+
+    // Close the popup if mouseout and autoClose is true if onmouseout and 
+    // autoClose is true then close the bubble.
+    this.onMouseOut = function(evt) { 
+        if (this.autoClose == true) {
+            clearTimeout(this.timerId);            
+            this.close();            
+        }
+    }
+    // Set properties.
+    return this.setProps();        
+}
+
+/**
+ * Find absolute position of an object relative to the browser window.
+ *
+ * @param obj   object to compute absolute position for
+ * @return      an array containing the absolute position
+ */
+webui.@THEME@.widget.bubble.findPos = function(obj) {
+    var curleft = curtop = 0;
+    if (obj.offsetParent) {
+        curleft = obj.offsetLeft;
+	curtop = obj.offsetTop;
+	while (obj = obj.offsetParent) {
+            curleft += obj.offsetLeft;
+            curtop += obj.offsetTop;
+	}
+    }
+    return [curleft, curtop];
+}
+
+/**
+ * This function is used to return the page height, handling standard noise
+ * to mitigate browser differences.
+ */
+webui.@THEME@.widget.bubble.getPageHeight = function() {
+    if (window.innerHeight) {
+        return window.innerHeight;
+    }
+    if (document.body.clientHeight) {
+        return document.body.clientHeight;
+    }
+    return (null);
+}
+
+/**
+ * This function is used to return the page width, handling standard noise
+ * to mitigate browser differences.
+ */
+webui.@THEME@.widget.bubble.getPageWidth = function() {
+    if (window.innerWidth) {
+        return window.innerWidth;
+    }
+
+    if (document.body.clientWidth) {
+        return document.body.clientWidth;
+    }
+    return (null);
+}
+
+/**
  * This function is used to get widget properties. Please see
  * webui.@THEME@.widget.bubble.setProps for a list of supported
  * properties.
@@ -156,6 +223,31 @@ webui.@THEME@.widget.bubble.getProps = function() {
     Object.extend(props, this.getCoreProps(this));
     
     return props;
+}
+
+/**
+ * This function is use to invoke buuble help.
+ * 
+ * @param event 
+ */
+webui.@THEME@.widget.bubble.open = function(event) {
+    if (this.timerId != null) {
+        clearTimeout(this.timerId);
+        this.timerId = null;
+    }
+
+    // There should be 1 sec delay before opening the bubble.  
+    webui.@THEME@.widget.common.sleep(1000);
+    
+    this.setProps({visible: true}); 
+    this.setPosition(event);
+    
+    var duration = this.getProps().duration;
+
+    if (duration >= 0) {
+        this.defaultTime = duration;
+    } 
+    return true;
 }
 
 /**
@@ -188,204 +280,52 @@ webui.@THEME@.widget.bubble.refresh = {
             });
         return true;
     }
-    
 }
 
 /**
- * This function is used to set widget properties with the
- * following Object literals.
+ * This function is used to position the bubble.
  *
- * <ul>
- *  <li>autoClose</li>
- *  <li>contents</li>
- *  <li>duration</li>
- *  <li>id</li>
- *  <li>helpTitle</li>
- *  <li>width</li>
- *  <li>visible</li>
- * </ul>
- *
- * @param props Key-Value pairs of properties.
- */
-webui.@THEME@.widget.bubble.setProps = function(props) {
-    // After widget has been initialized, save properties for later updates.
-    if (props != null) {
-        // Replace contents -- do not extend.
-        if (props.contents) {
-            this.contents = null;
-        }
-        this.extend(this, props);
-         
-    } else {
-        props = this.getProps(); // Widget is being initialized.
-        
-    }
-
-    // Set attributes.
-    this.setCoreProps(this.domNode, props);
-        
-    // Set help Title.
-    if (props.title) {
-        this.addFragment(this.titleNode, props.title);
-    }
-
-        
-    if (props.width > 0) {                    
-        this.domNode.style.width = props.width;        
-    }
-
-
-    // Set contents.
-    if (props.contents) {
-
-        // Remove child nodes.
-        this.removeChildNodes(this.childNode);
-
-        for (var i = 0; i < props.contents.length; i++) {
-               
-            this.addFragment(this.childNode, props.contents[i], "last");
-        }
-    }
-     
-    return true;
-}
-
-/**
- * This function is use to invoke buuble help.
- * 
- * @param event 
- */
-
-webui.@THEME@.widget.bubble.open = function(event) {
-    
-    if (this.timerId != null) {
-        clearTimeout(this.timerId);
-        this.timerId = null;
-    }
-    //there should be 1 sec delay before opening the bubble.  
-    webui.@THEME@.widget.common.sleep(1000);
-    
-    this.setProps({visible: true}); 
-    this.setPosition(event);
-    
-    var duration = this.getProps().duration;
-
-    if (duration >= 0) {
-      this.defaultTime = duration;
-    } 
-    
-    return true;
-}
-
-/**
- * This function is used to close buuble help.
- *  
- */
-webui.@THEME@.widget.bubble.close = function() {
-   
-     if (this.getProps().visible == false)  
-         return;
-     
-     var _this = this; // Closure magic.
-     this.timerId = setTimeout(function() {
-            dojo.widget.byId(_this.id).setProps({visible: false});
-        }, this.defaultTime);         
-              
-}
-
-/**
- * Find absolute position of an object relative to the browser window.
- *
- * @param obj   object to compute absolute position for
- * @return      an array containing the absolute position
- */
-webui.@THEME@.widget.bubble.findPos = function(obj) {
-    var curleft = curtop = 0;
-    if (obj.offsetParent) {
-	    curleft = obj.offsetLeft;
-	    curtop = obj.offsetTop;
-	    while (obj = obj.offsetParent) {
-		    curleft += obj.offsetLeft;
-		    curtop += obj.offsetTop;
-	    }
-    }
-    return [curleft,curtop];
-} // findPos
-
-/**
- * function to return the page height, handling standard noise
- * to mitigate browser differences.
- *
- * @return  the page height
- */
-webui.@THEME@.widget.bubble.getPageHeight = function() {
-    if (window.innerHeight) {
-        return window.innerHeight;
-    }
-
-    if (document.body.clientHeight) {
-        return document.body.clientHeight;
-    }
-
-    return (null);
-} // pageHeight
-
-/**
- * function to return the page width, handling standard noise
- * to mitigate browser differences.
- *
- * @return  the page width
- */
-webui.@THEME@.widget.bubble.getPageWidth = function() {
-    if (window.innerWidth) {
-        return window.innerWidth;
-    }
-
-    if (document.body.clientWidth) {
-        return document.body.clientWidth;
-    }
-
-    return (null);
-} // pageWidth
-
-/**
- * Position bubble
+ * @param event The JavaScript event generated by end user.
  */
 webui.@THEME@.widget.bubble.setPosition = function(evt) {
-
     // Get DOM bubble object associated with this Bubble instance.
     var bubble = this.domNode;
     
-    // if this.style is not null that means developer has specified positioning
-    // for component.
-     
+    // If this.style is not null that means developer has specified positioning
+    // for component. 
     if (this.domNode != null && this.style != null) {
-                 
-           if (bubble.style.length != null) {
-                for (var i = 0; i < bubble.style.length; i++) {
-                    if (bubble.style[i] == "top")
-                        this.top = bubble.style.top;
-                    if (bubble.style[i] == "left")
-                        this.left = bubble.style.left;
-                        
+        if (bubble.style.length != null) {
+            for (var i = 0; i < bubble.style.length; i++) {
+                if (bubble.style[i] == "top") {
+                    this.top = bubble.style.top;
                 }
-            } else {
-                // For IE, simply query the style attributes.
-                if (bubble.style.top != "")
-                    this.top = bubble.style.top;                
-                if (bubble.style.left != "")
+                if (bubble.style[i] == "left") {
                     this.left = bubble.style.left;
+                }
             }
-         }
-    if ((this.top != null) && (this.left != null)) {
+        } else {
+            // For IE, simply query the style attributes.
+            if (bubble.style.top != "") {
+                this.top = bubble.style.top;
+            }
+            if (bubble.style.left != "") {
+                this.left = bubble.style.left;
+            }
+        }
+    }
 
-            bubble.style.left = this.left;
-            bubble.style.top = this.top;
-            
+    if ((this.top != null) && (this.left != null)) {
+        bubble.style.left = this.left;
+        bubble.style.top = this.top;    
     } else {
         // Get the absolute position of the target.
-        evt = (evt) ? evt : ((window.event) ? window.event : null);
-        var target = (evt.target) ? evt.target : ((evt.srcElement) ? evt.srcElement : null);
+        evt = (evt) 
+            ? evt : ((window.event) 
+                ? window.event : null);
+
+        var target = (evt.target) 
+            ? evt.target : ((evt.srcElement) 
+                ? evt.srcElement : null);
 
         var absPos = this.findPos(target);
         var targetLeft = absPos[0];
@@ -444,9 +384,9 @@ webui.@THEME@.widget.bubble.setPosition = function(evt) {
         // Set new bubble position.
         bubble.style.left = bubbleLeft + "px";
         bubble.style.top = bubbleTop + "px";
+
         // If rendering a callout arrow, set it's position relative to the bubble.
         if (this.arrow != null) {
-
            webui.@THEME@.common.setVisible(bottomLeftArrow, false);
            webui.@THEME@.common.setVisible(bottomRightArrow, false);
            webui.@THEME@.common.setVisible(topLeftArrow, false);
@@ -467,33 +407,81 @@ webui.@THEME@.widget.bubble.setPosition = function(evt) {
            if (this.arrow == topRightArrow) {
                this.arrow.style.top = -(bubble.offsetHeight - 2) + "px";               
            }
-
         }
     }
     return true;
-} 
+}
+
+/**
+ * This function is used to set widget properties with the
+ * following Object literals.
+ *
+ * <ul>
+ *  <li>autoClose</li>
+ *  <li>contents</li>
+ *  <li>duration</li>
+ *  <li>id</li>
+ *  <li>helpTitle</li>
+ *  <li>width</li>
+ *  <li>visible</li>
+ * </ul>
+ *
+ * @param props Key-Value pairs of properties.
+ */
+webui.@THEME@.widget.bubble.setProps = function(props) {
+    // After widget has been initialized, save properties for later updates.
+    if (props != null) {
+        // Replace contents -- do not extend.
+        if (props.contents) {
+            this.contents = null;
+        }
+        this.extend(this, props);
+    } else {
+        props = this.getProps(); // Widget is being initialized.
+    }
+
+    // Set attributes.
+    this.setCoreProps(this.domNode, props);
+        
+    // Set help Title.
+    if (props.title) {
+        this.addFragment(this.titleNode, props.title);
+    }
+        
+    if (props.width > 0) {                    
+        this.domNode.style.width = props.width;        
+    }
+
+    // Set contents.
+    if (props.contents) {
+        // Remove child nodes.
+        this.removeChildNodes(this.childNode);
+
+        for (var i = 0; i < props.contents.length; i++) {
+            this.addFragment(this.childNode, props.contents[i], "last");
+        }
+    }
+    return props; // Return props for subclasses.
+}
 
 dojo.inherits(webui.@THEME@.widget.bubble, webui.@THEME@.widget.widgetBase);
 
 // Override base widget by assigning properties to class prototype.
 dojo.lang.extend(webui.@THEME@.widget.bubble, {
-    
     // Set private functions.
-    fillInTemplate: webui.@THEME@.widget.bubble.fillInTemplate,
-    getProps: webui.@THEME@.widget.bubble.getProps,
-    refresh: webui.@THEME@.widget.bubble.refresh.processEvent,
-    setProps: webui.@THEME@.widget.bubble.setProps,
-    open: webui.@THEME@.widget.bubble.open,
     close: webui.@THEME@.widget.bubble.close,
-    setPosition: webui.@THEME@.widget.bubble.setPosition,
-    getPageHeight: webui.@THEME@.widget.bubble.getPageHeight,
+    fillInTemplate: webui.@THEME@.widget.bubble.fillInTemplate,
     findPos: webui.@THEME@.widget.bubble.findPos,
+    getPageHeight: webui.@THEME@.widget.bubble.getPageHeight,
     getPageWidth: webui.@THEME@.widget.bubble.getPageWidth,
-    defaultTime: 2000,
+    getProps: webui.@THEME@.widget.bubble.getProps,
+    open: webui.@THEME@.widget.bubble.open,
+    refresh: webui.@THEME@.widget.bubble.refresh.processEvent,
+    setPosition: webui.@THEME@.widget.bubble.setPosition,
+    setProps: webui.@THEME@.widget.bubble.setProps,
     
     // Set defaults.
+    defaultTime: 2000,
     templateString: webui.@THEME@.theme.getTemplateString("bubble"),
     widgetType: "bubble"
 });
-
-//-->

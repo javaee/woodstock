@@ -382,17 +382,17 @@ webui.@THEME@.widget.listbox.setOptionProps = function(element, option) {
     } else {
        textToUse = option.label;
     }
-    
-    //if option.escape is true, we want the option text to be displayed literally.
-    //to get this, do nothing.
-    //if option.escape is false, we want any special sequences in the option text, "&nbsp;" for instance, to be displayed as evaluated (unescaped).
-    if (option.escape == false) {
-        element.text = textToUse.unescapeHTML();    //scriptaculous method
-    }
-    else {
+
+    // If option.escape is true, we want the text to be displayed literally. To 
+    // achieve this behavior, do nothing.
+    //
+    // If option.escape is false, we want any special sequences in the text 
+    // (e.g., "&nbsp;") to be displayed as evaluated (i.e., unescaped).
+    if (new Boolean(option.escape).valueOf() == false) {
+        element.text = textToUse.unescapeHTML(); // Prototype method.
+    } else {
         element.text = textToUse;
     }
-    
 
     if (option.selected != null) {
         element.selected = new Boolean(option.selected).valueOf();

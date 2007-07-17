@@ -23,7 +23,6 @@ package com.sun.webui.jsf.util;
 
 import com.sun.webui.jsf.model.Indicator;
 import com.sun.webui.jsf.theme.ThemeImages;
-import com.sun.webui.jsf.util.JSONUtilities;
 import com.sun.webui.theme.Theme;
 
 import java.io.IOException;
@@ -68,7 +67,7 @@ public class WidgetUtilities {
             return null;
         }
 	
-        JSONArray indicatorArray = new JSONArray();      
+        JSONArray jArray = new JSONArray();      
         while (indicators.hasNext()) {
 
             Indicator indicator = (Indicator)indicators.next();                 
@@ -80,8 +79,8 @@ public class WidgetUtilities {
                     continue;
             }
 
+            JSONObject json = new JSONObject();
 	    UIComponent img = indicator.getImageComponent(theme);
-            JSONObject indjson = new JSONObject();
             if (img == null) {
 		// Why are we doing this ?
 		// Since the image may be theme based it is not a good idea
@@ -98,58 +97,26 @@ public class WidgetUtilities {
 	    if (img.getParent() == null) {
 		img.setParent(parent);
 	    }
-	    indjson.put("type", type);
-	    JSONUtilities.addProperty(indjson, "image",
-                WidgetUtilities.renderComponent(context, img));
-	    indicatorArray.put(indjson);
+	    json.put("type", type);
+	    json.put("image", WidgetUtilities.renderComponent(context, img));
+	    jArray.put(json);
 	}
-	return indicatorArray;
+	return jArray;
     }
-
-    // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    // Renderer methods
-    // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
     /**
-     * Helper method to capture rendered component properties for client-side
-     * rendering. Based on the component renderer, either JSON or HTML text may 
-     * be returned.
+     * Helper method to translate a typical URL. It takes a given url and 
+     * appends parameters if the component has any and returns back the string
+     * after calling <code>ExternalContext.encodeResourceURL()</code>.
+     * <p>
+     * Note: Path must be a valid absolute URL or full path URI.
+     * </p>
      *
-     * @param context FacesContext for the current request.
-     * @param component UIComponent to be rendered.
-     *
-     * @returns An HTML or JSON string.
-     */
-    public static String renderComponent(FacesContext context,
-            UIComponent component) throws IOException, JSONException {
-        if (component == null || !component.isRendered()) {
-            return null;
-        }
-
-        // Initialize Writer to buffer rendered output.
-        ResponseWriter oldWriter = context.getResponseWriter();
-        Writer strWriter = initStringWriter(context);
-
-        // Render component and restore writer.
-        RenderingUtilities.renderComponent(component, context);
-        context.setResponseWriter(oldWriter);
-
-        return strWriter.toString(); // Return buffered output.
-    }
-
-   /**
-    * Helper method to translate a typical URL. It takes a given url and 
-    * appends parameters if the component has any and returns back the string
-    * after calling <code>ExternalContext.encodeResourceURL()</code>.
-    * <p>
-    * Note: Path must be a valid absolute URL or full path URI.
-    * </p>
-    *
-    * @param context The faces context    
-    * @param component The component that may contain parameters to be appended
-    * along with the url.
-    * @param url The value passed in by the developer for the url
-    */      
+     * @param context The faces context    
+     * @param component The component that may contain parameters to be appended
+     * along with the url.
+     * @param url The value passed in by the developer for the url
+     */      
     public static String translateURL(FacesContext context, 
             UIComponent component, String url) {
         String name = null;
@@ -173,10 +140,61 @@ public class WidgetUtilities {
             sb.append(paramList[i].getValue());            
         }
         return context.getExternalContext().encodeResourceURL(sb.toString());
-    } 
+    }
 
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    // Writer methods
+    // Renderer methods
+    // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+    /**
+     * Helper method to capture rendered component properties for client-side
+     * rendering.
+     * 
+     * If the component is a widget, the rendered output should be a string 
+     * beginning with { and ending with }. In this case, the string shall be 
+     * used to create a JSONObject contain properties such as widgetName, 
+     * module, etc. Otherwise, the rendered HTML string is assigned to the 
+     * JSONObject via a markup property.
+     *
+     * In either case, it is important to use a JavaScript object to distinguish
+     * between widgets, markup, and static strings so HTML escaping can be
+     * applied properly.
+     * 
+     * @param context FacesContext for the current request.
+     * @param component UIComponent to be rendered.
+     *
+     * @returns JSONObject containing component properties or markup.
+     */
+    public static JSONObject renderComponent(FacesContext context,
+            UIComponent component) throws IOException, JSONException {
+        JSONObject json = null;
+        if (component == null || !component.isRendered()) {
+            return json;
+        }
+
+        // Initialize Writer to buffer rendered output.
+        ResponseWriter oldWriter = context.getResponseWriter();
+        Writer strWriter = initStringWriter(context);
+
+        // Render component and restore writer.
+        RenderingUtilities.renderComponent(component, context);
+        context.setResponseWriter(oldWriter);
+
+        // Get buffered output.
+        String s = strWriter.toString();
+
+        try {
+             // String beginning with { and ending with }.
+            json = new JSONObject(s);
+        } catch (JSONException e) {
+            json = new JSONObject();
+            json.put("markup", s); 
+        }
+        return json;
+    }
+
+    // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    // Private methods
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
     /**
@@ -189,7 +207,7 @@ public class WidgetUtilities {
      *
      * @returns The Writer used to buffer rendered output.
      */
-    protected static Writer initStringWriter(FacesContext context) {
+    private static Writer initStringWriter(FacesContext context) {
         if (context == null) {
             return null;
         }

@@ -35,15 +35,21 @@ webui.@THEME@.widget.widgetBase = function() {
 }
 
 /**
- * This function is used to add a widget or HTML string to the given parent 
- * node.
+ * This function is used to add a widget, markup, or static string to the given
+ * parent node.
  *
- * Note: If props is a JSON object, it must contain a widgetName value so the 
- * correct widget may be created. The newly created widget is added as a child
- * of the given parentNode. If props also contains a module property, the 
- * specified resources shall be retrieved before creating the widget. If props 
- * is a string, it will be added to the given parentNode, but position does not
- * apply.
+ * If props is a JSON object, containing a widgetName property, a widget shall
+ * be created. The newly created widget shall be added as a child of the given
+ * parentNode. If props also contains a module property, the specified resource
+ * shall be retrieved before creating the widget.
+ *
+ * If props is a JSON object, containing a markup property instead of
+ * widgetName, it shall be added as the innerHTML of the given parentNode. This
+ * property shall not be HTML escaped and position does not apply here.
+ *
+ * If props is a string, it shall be added as the innerHTML of the given 
+ * parentNode. However, the property is treated as a static string and HTML
+ * escaped by default. The position argument does not apply here.
  *
  * Note: The position argument is passed though to Dojo's createWidget function.
  * Valid values consist of "last", "first", etc. -- see Dojo docs). However, if
@@ -53,10 +59,17 @@ webui.@THEME@.widget.widgetBase = function() {
  * @param parentNode The parent node used to add widget.
  * @param props Key-Value pairs of properties.
  * @param position The position (e.g., "first", "last", etc.) to add widget.
+ * @param escape HTML escape static strings -- default is true.
  */
-webui.@THEME@.widget.widgetBase.addFragment = function(parentNode, props, position) {
+webui.@THEME@.widget.widgetBase.addFragment = function(parentNode, props, 
+        position, escape) {
     if (parentNode == null || props == null) {
         return false;
+    }
+
+    // HTML escape static strings by default.
+    if (escape == null) {
+        escape = true;
     }
 
     // If position is null, remove existing nodes. The contents shall be
@@ -68,6 +81,20 @@ webui.@THEME@.widget.widgetBase.addFragment = function(parentNode, props, positi
 
     // Add fragment.
     if (typeof props == 'string') {
+        // Static strings must be HTML escaped by default.
+        var html = (new Boolean(escape).valueOf() == true)
+            ? dojo.string.escape("html", props)
+            : props;
+
+        if (parentNode.innerHTML != null && parentNode.innerHTML.length > 0) {
+            parentNode.innerHTML += html;
+        } else {
+            parentNode.innerHTML = html;
+        }
+    } else if (props.widgetName) {
+        // Create widget.
+        webui.@THEME@.widget.common.createWidget(props, parentNode, position);
+    } else if (props.markup) {
         // Strip script fragments, set innerHTML property, and
         // eval scripts using a timeout.
         //
@@ -111,7 +138,7 @@ webui.@THEME@.widget.widgetBase.addFragment = function(parentNode, props, positi
         //
         // http://www.ruby-forum.com/topic/73990
         //
-        var html = props.stripScripts();
+        var html = props.markup.stripScripts();
 
         // Concatenating innerHTML with new strings does not always work. 
         // When adding multiple HTML elements to parentNode, we can get
@@ -134,10 +161,7 @@ webui.@THEME@.widget.widgetBase.addFragment = function(parentNode, props, positi
         }
 
         // Evaluate JavaScript.
-        setTimeout(function() {props.evalScripts()}, 10);
-    } else if (props.widgetName) {
-        // Create widget.
-        webui.@THEME@.widget.common.createWidget(props, parentNode, position);
+        setTimeout(function() {props.markup.evalScripts()}, 10);
     }
 }
 

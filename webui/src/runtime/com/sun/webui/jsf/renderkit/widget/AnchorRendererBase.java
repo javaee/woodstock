@@ -142,7 +142,7 @@ public abstract class AnchorRendererBase extends RendererBase{
         Map attrsMap = component.getAttributes();
 
         // Add attributes.
-        JSONUtilities.addAttributes(attributes, component, json);
+        JSONUtilities.addProperties(attributes, component, json);
 
         String tmp = null;
         tmp = (String) attrsMap.get("style");
@@ -188,20 +188,19 @@ public abstract class AnchorRendererBase extends RendererBase{
      */
     protected void setContents(FacesContext context, UIComponent component, 
             JSONObject json)throws JSONException, IOException{
-        JSONArray children = new JSONArray();
-        json.put("contents", children);
+        JSONArray jArray = new JSONArray();
+        json.put("contents", jArray);
 
-        String text = (String)component.getAttributes().get("text");
+        String text = (String) component.getAttributes().get("text");
         if (text != null && text.length() > 0) {
             text = ConversionUtilities.convertValueToString(component, text);
         }
-        JSONUtilities.addProperty(children, text);
+        jArray.put(text);
         Iterator it = component.getChildren().iterator();
         while (it.hasNext()) {
             UIComponent child = (UIComponent) it.next();
             if (!(child instanceof UIParameter)) {
-                JSONUtilities.addProperty(children,
-                    WidgetUtilities.renderComponent(context, child));   
+                jArray.put(WidgetUtilities.renderComponent(context, child));   
             }
         }    
     }

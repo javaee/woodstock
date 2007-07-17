@@ -293,6 +293,7 @@ dojo.inherits(webui.@THEME@.widget.accordion, webui.@THEME@.widget.widgetBase);
 
 // Override base widget by assigning properties to class prototype.
 dojo.lang.extend(webui.@THEME@.widget.accordion, {
+    // Set private functions.
     addControls: webui.@THEME@.widget.accordion.addControls,
     collapseAllTabs: webui.@THEME@.widget.accordion.collapseAllTabs,
     expandAllTabs: webui.@THEME@.widget.accordion.expandAllTabs,
@@ -302,6 +303,7 @@ dojo.lang.extend(webui.@THEME@.widget.accordion, {
     selectChild: webui.@THEME@.widget.accordion.selectChild,
     setProps: webui.@THEME@.widget.accordion.setProps,
 
+    // Set defaults.
     disabled: false,
     duration: 250,
     isContainer: true,

@@ -416,8 +416,10 @@ webui.@THEME@.widget.table2RowGroup.setRowsText = function() {
     var firstRow = this.currentRow + 1;
     var lastRow = Math.min(this.totalRows,
         this.currentRow + this.maxRows);
-    this.groupHeaderRowsTextNode.innerHTML = "Items: " + firstRow + " - " + 
-        lastRow + " of " + this.totalRows;
+
+    // NOTE: If you set this value manually, text must be HTML escaped.
+    this.addFragment(this.groupHeaderRowsTextNode, 
+        "Items: " + firstRow + " - " + lastRow + " of " + this.totalRows);
 
     return true;
 }

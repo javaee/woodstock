@@ -27,11 +27,9 @@ import com.sun.faces.annotation.Renderer;
 import com.sun.webui.jsf.component.Table2;
 import com.sun.webui.jsf.component.Table2RowGroup;
 import com.sun.webui.jsf.util.WidgetUtilities;
-import com.sun.webui.theme.Theme;
 import com.sun.webui.jsf.theme.ThemeTemplates;
 import com.sun.webui.jsf.util.JSONUtilities;
 import com.sun.webui.jsf.util.JavaScriptUtilities;
-import com.sun.webui.jsf.util.ThemeUtilities;
 
 import java.io.IOException;
 import java.util.Iterator;
@@ -113,7 +111,7 @@ public class Table2Renderer extends RendererBase {
         json.put("width", table.getWidth());
 
         // Add attributes.
-        JSONUtilities.addAttributes(attributes, table, json);
+        JSONUtilities.addProperties(attributes, table, json);
         setRowGroupProperties(context, table, json);
         setActionsProperties(context, table, json);
         setTitleProperties(context, table, json);
@@ -160,8 +158,7 @@ public class Table2Renderer extends RendererBase {
         // Get actions facet.
         UIComponent facet = component.getFacet(Table2.ACTIONS_TOP_FACET);
         if (facet != null && facet.isRendered()) {
-            JSONUtilities.addProperty(json, "actions",
-                WidgetUtilities.renderComponent(context, facet));
+            json.put("actions", WidgetUtilities.renderComponent(context, facet));
         }
     }
 
@@ -182,8 +179,7 @@ public class Table2Renderer extends RendererBase {
         while (kids.hasNext()) {           
             Table2RowGroup group = (Table2RowGroup) kids.next();
             if (group.isRendered()) {
-                JSONUtilities.addProperty(jArray,
-                    WidgetUtilities.renderComponent(context, group));
+                jArray.put(WidgetUtilities.renderComponent(context, group));
             }
         }
     }

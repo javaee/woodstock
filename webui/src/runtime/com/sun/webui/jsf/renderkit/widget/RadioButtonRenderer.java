@@ -30,10 +30,7 @@ import com.sun.webui.jsf.util.ComponentUtilities;
 import com.sun.webui.jsf.util.ConversionUtilities;
 
 import com.sun.webui.jsf.util.JavaScriptUtilities;
-import com.sun.webui.jsf.util.ThemeUtilities;
-import com.sun.webui.theme.Theme;
 
-import java.io.IOException;
 import java.util.Map;
 
 import javax.faces.component.UIComponent;

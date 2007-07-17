@@ -125,12 +125,11 @@ public class PasswordFieldRenderer extends FieldRendererBase {
         .put("title", field.getToolTip());
         
         // Append label properties.
-        JSONUtilities.addProperty(json, "label",
-            WidgetUtilities.renderComponent(context, field.getLabelComponent(
-                context, null)));
+        json.put("label", WidgetUtilities.renderComponent(context, 
+            field.getLabelComponent(context, null)));
         
         // Add attributes.
-        JSONUtilities.addAttributes(attributes, component, json);
+        JSONUtilities.addProperties(attributes, component, json);
         
         return json;
     }

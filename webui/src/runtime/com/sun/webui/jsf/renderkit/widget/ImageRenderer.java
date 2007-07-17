@@ -227,7 +227,7 @@ public class ImageRenderer extends RendererBase {
         }
 
         // Add attributes.
-        JSONUtilities.addAttributes(attributes, component, json);
+        JSONUtilities.addProperties(attributes, component, json);
 
         return json;
     }

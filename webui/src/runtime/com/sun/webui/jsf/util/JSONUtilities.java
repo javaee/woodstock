@@ -51,7 +51,7 @@ public class JSONUtilities {
      * @exception IOException if an input/output error occurs
      * @exception JSONException if a key/value error occurs
      */
-    public static void addAttributes(String names[], UIComponent component,
+    public static void addProperties(String names[], UIComponent component,
             JSONObject json) throws JSONException {
         if (names == null) {
             return;
@@ -68,48 +68,30 @@ public class JSONUtilities {
         }
     }
 
-    /**
-     * Helper method to add component properties.
-     *
-     * @param json The JSONArray to append value to.
-     * @param value A string containing JSON or HTML text.
-     */
-    public static void addProperty(JSONArray json, String value) 
-            throws JSONException {
-        if (value != null) {
-            try {
-                // If JSON text is given, append a new JSONObject.
-                json.put(new JSONObject(value));
-            } catch (JSONException e) {
-                // Append HTML string.
-                json.put(value);
-            }
-        }
-    }
-
-    /**
-     * Helper method to add component properties.
-     *
-     * @param json The JSONObject to append value to.
-     * @param key A key string.
-     * @param value A string containing JSON or HTML text.
-     */
-    public static void addProperty(JSONObject json, String key,
-            String value) throws JSONException {
-        if (value != null) {
-            try {
-                // If JSON text is given, append a new JSONObject.
-                json.put(key, new JSONObject(value));
-            } catch (JSONException e) {
-                // Append HTML string.
-                json.put(key, value);
-            }
-        }
-    }
-
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     // Writer methods
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+    /**
+     * Helper method to get pretty printed JSON text.
+     * 
+     * Note: If debug mode is set, text will be indented for readability.
+     *
+     * @param json The JSONArray to print.
+     */
+    public static String getString(JSONArray json) throws JSONException {
+        String result = null;
+        if (json == null) {
+            return result;
+        }
+        // Add indent factor only while dubugging.
+        if (JavaScriptUtilities.isDebug()) {
+            result = json.toString(INDENT_FACTOR);
+        } else {
+            result = json.toString();
+        }
+        return result;
+    }
 
     /**
      * Helper method to get pretty printed JSON text.

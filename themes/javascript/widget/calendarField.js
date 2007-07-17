@@ -27,6 +27,7 @@ dojo.require("webui.@THEME@.*");
 dojo.require("webui.@THEME@.widget.*");
 dojo.require("webui.@THEME@.widget.calendar");
 dojo.require("webui.@THEME@.widget.textField");
+
 /**
  * This function is used to generate a template based widget.
  *
@@ -35,6 +36,29 @@ dojo.require("webui.@THEME@.widget.textField");
 webui.@THEME@.widget.calendarField = function() {
     // Register widget.
     dojo.widget.HtmlWidget.call(this);    
+}
+
+/**
+ * This function is called when a day link is selected from the calendar 
+ * It updates the field with the value of the clicked date.
+ *
+ * The following Object literals are supported.
+ *
+ * <ul>
+ *  <li>id</li>
+ *  <li>date</li>
+ * </ul>
+ *
+ * @param props Key-Value pairs of properties.
+ */
+webui.@THEME@.widget.calendarField.dayClicked = function(props) {
+    // Check whether the calendar associated with this particular calendarField
+    // broadcasted the event.
+    if (props.date != null && props.id == this.calendar.id) {
+        // Set the selected date on the field.
+        this.domNode.setProps({value: props.date});
+    }
+    return false;
 }
 
 /**
@@ -47,21 +71,51 @@ webui.@THEME@.widget.calendarField = function() {
     // Super class fillInTemplate.
     var props = webui.@THEME@.widget.calendarField.superclass.fillInTemplate.call(this);
 
-     // Set ids.
-     if (this.id) {
-         this.inlineHelpNode.id = this.id + "_pattern";
-         this.linkContainer.id = this.id + "_linkContainer";
-         this.calendarContainer.id = this.id + "_calendarContainer";
-     }     
-       
-     // Subscribe to the "dayClicked" event present in the calendar widget.
+    // Set ids.
+    if (this.id) {
+        this.inlineHelpNode.id = this.id + "_pattern";
+        this.linkContainer.id = this.id + "_linkContainer";
+        this.calendarContainer.id = this.id + "_calendarContainer";
+    }     
+
+    // Set events.
+
+    // Subscribe to the "dayClicked" event present in the calendar widget.
     dojo.event.topic.subscribe(webui.@THEME@.widget.calendar.day.dayPickedEvent,
-       this, "dayClicked");
+        this, "dayClicked");
     // Subscribe to the "toggle" event that occurs whenever the calendar is opened.
     dojo.event.topic.subscribe(webui.@THEME@.widget.calendar.toggleCalendar.calendarOpenTopic,
         this, "toggleCalendar");
 
-     return props;
+    // Set properties.
+    return props;
+}
+
+/**
+ * Helper function to obtain widget class names.
+ */
+webui.@THEME@.widget.calendarField.getClassName = function() {
+    // Set style for the outermost table element.
+    var className = webui.@THEME@.widget.props.calendar.className;   
+    return (this.className)
+        ? className + " " + this.className
+        : className;
+}
+
+/**
+ * This function is used to get widget properties. Please see
+ * webui.@THEME@.widget.calendarField.setProps for a list of supported
+ * properties.
+ */
+webui.@THEME@.widget.calendarField.getProps = function() {
+    var props = webui.@THEME@.widget.textField.superclass.getProps.call(this);
+
+    // Set properties.  
+    if (this.align) { props.align = this.align; }
+    if (this.calendar) { props.calendar = this.calendar; }  
+    if (this.patternHelp) { props.patternHelp = this.patternHelp; }   
+
+    return props;
 }
 
 /**
@@ -161,88 +215,46 @@ webui.@THEME@.widget.calendarField.setProps = function(props) {
     
     // Set date format pattern help.
     if (props.patternHelp) {
-        this.inlineHelpNode.innerHTML = props.patternHelp;        
-    }    
-
+        // NOTE: If you set this value manually, text must be HTML escaped.
+        this.addFragment(this.inlineHelpNode, props.patternHelp);
+    }
     return props; // Return props for subclasses.    
-}
-
-/**
- * This function is used to get widget properties. Please see
- * webui.@THEME@.widget.calendarField.setProps for a list of supported
- * properties.
- */
-webui.@THEME@.widget.calendarField.getProps = function() {
-    var props = webui.@THEME@.widget.textField.superclass.getProps.call(this);
-
-    // Set properties.  
-    if (this.align) { props.align = this.align; }
-    if (this.calendar) { props.calendar = this.calendar; }  
-    if (this.patternHelp) { props.patternHelp = this.patternHelp; }   
-
-    return props;
-}
-
-/**
- * Helper function to obtain widget class names.
- */
-webui.@THEME@.widget.calendarField.getClassName = function() {
-    // Set style for the outermost table element.
-    var className = webui.@THEME@.widget.props.calendar.className;   
-    return (this.className)
-        ? className + " " + this.className
-        : className;
 }
 
 /**
  * This function subscribes to the toggleCalendar function of the calendar widget.
  * Whenever the calendar is opened, it updates the value of the calendar with
  * the value present in the field.
- * The following key-value pairs are supported
+ * 
+ * The following Object literals are supported.
+ *
  * <ul>
- * <li>id</li>
+ *  <li>id</li>
  * </ul>
+ *
+ * @param props Key-Value pairs of properties.
  */
 webui.@THEME@.widget.calendarField.toggleCalendar = function(props) {   
     if (props.id != null && props.id == this.calendar.id) {
         var widget = dojo.widget.byId(props.id);
-        widget.setProps({date:this.getProps().value});
+        widget.setProps({date: this.getProps().value});
     }
     return true;
 }
 
-/**
- * This function is called when a day link is selected from the calendar 
- * It updates the field with the value of the clicked date.
- * The following key-value pairs are supported
- * <ul>
- * <li>id</li>
- * <li>date</li>
- * </ul>
- */
-webui.@THEME@.widget.calendarField.dayClicked = function(props) {
-    // Check whether the calendar associated with this particular calendarField
-    // broadcasted the event.
-    if (props.date != null && props.id == this.calendar.id) {
-        // Set the selected date on the field.
-        this.domNode.setProps({value:props.date});
-    }
-    return false;
-}
-    
 // Inherit base widget properties.
 dojo.inherits(webui.@THEME@.widget.calendarField, webui.@THEME@.widget.textField);
 
 // Override base widget by assigning properties to class prototype.
 dojo.lang.extend(webui.@THEME@.widget.calendarField, {
     // Set private functions.    
+    dayClicked: webui.@THEME@.widget.calendarField.dayClicked,
     fillInTemplate: webui.@THEME@.widget.calendarField.fillInTemplate,
     getClassName: webui.@THEME@.widget.calendarField.getClassName,
     getProps: webui.@THEME@.widget.calendarField.getProps,    
-    setProps: webui.@THEME@.widget.calendarField.setProps,
     refresh: webui.@THEME@.widget.calendarField.refresh.processEvent,
+    setProps: webui.@THEME@.widget.calendarField.setProps,
     toggleCalendar: webui.@THEME@.widget.calendarField.toggleCalendar,
-    dayClicked: webui.@THEME@.widget.calendarField.dayClicked,
 
     // Set defaults.
     templateString: webui.@THEME@.theme.getTemplateString("calendarField"),

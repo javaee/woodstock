@@ -27,11 +27,8 @@ import com.sun.webui.jsf.component.ImageComponent;
 import com.sun.webui.jsf.component.ImageHyperlink;
 import com.sun.webui.jsf.theme.ThemeTemplates;
 import com.sun.webui.jsf.util.ConversionUtilities;
-import com.sun.webui.jsf.util.JSONUtilities;
 import com.sun.webui.jsf.util.JavaScriptUtilities;
-import com.sun.webui.jsf.util.ThemeUtilities;
 import com.sun.webui.jsf.util.WidgetUtilities;
-import com.sun.webui.theme.Theme;
 
 import java.util.Iterator;
 import java.io.IOException;
@@ -130,8 +127,8 @@ public class ImageHyperlinkRenderer extends HyperlinkRenderer {
         ImageHyperlink ilink = (ImageHyperlink) component;    
         Object text = ilink.getText();
         // Store any children that are added as children to the imageHyperlink
-        JSONArray children = new JSONArray();
-        json.put("contents", children);
+        JSONArray jArray = new JSONArray();
+        json.put("contents", jArray);
         String label = (text == null) ? null : 
               ConversionUtilities.convertValueToString(component, text);
         String textPosition = ilink.getTextPosition();          
@@ -143,19 +140,18 @@ public class ImageHyperlinkRenderer extends HyperlinkRenderer {
         ImageComponent ic = ilink.getImageFacet(); 
                             
         if (label != null) {
-            JSONUtilities.addProperty(children, label);
-            JSONUtilities.addProperty(children, "&nbsp;");            
+            jArray.put(label);
+            jArray.put("&nbsp;");            
         }
           
         if (ic != null) {
-            JSONUtilities.addProperty(json, "enabledImage",            
-                WidgetUtilities.renderComponent(context, ic));
+            json.put("enabledImage", WidgetUtilities.renderComponent(context, ic));
         }
           
         UIComponent disabledImage = component.getFacets().get(DISABLED_IMAGE);
         if (disabledImage != null) {
-            JSONUtilities.addProperty(json, "disabledImage",            
-                WidgetUtilities.renderComponent(context, disabledImage));
+            json.put("disabledImage", WidgetUtilities.renderComponent(context, 
+                disabledImage));
         }
 
         UIComponent child;    
@@ -163,8 +159,7 @@ public class ImageHyperlinkRenderer extends HyperlinkRenderer {
         while (it.hasNext()) {
             child = (UIComponent)it.next();
             if (!(child instanceof UIParameter)) {
-                JSONUtilities.addProperty(children,
-                    WidgetUtilities.renderComponent(context, child));                            
+                jArray.put(WidgetUtilities.renderComponent(context, child));                            
             }        
         }         
     }

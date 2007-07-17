@@ -132,7 +132,7 @@ public class StaticTextRenderer extends RendererBase {
             .put("visible", staticText.isVisible());
         
         // Add attributes.
-        JSONUtilities.addAttributes(attributes, component, json);
+        JSONUtilities.addProperties(attributes, component, json);
         
         return json;
     }
