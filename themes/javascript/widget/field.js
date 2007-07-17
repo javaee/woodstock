@@ -65,7 +65,10 @@ webui.@THEME@.widget.field.fillInTemplate = function() {
  * and it is expected that subclasses override this function.
  */
 webui.@THEME@.widget.field.getClassName = function() {   
-    return null;
+    // Return user's className property if any.
+    return (this.className)
+        ? this.className
+        : null;
 }
 
 /**
@@ -89,6 +92,7 @@ webui.@THEME@.widget.field.getProps = function() {
     if (this.alt) { props.alt = this.alt; }
     if (this.disabled != null) { props.disabled = this.disabled; }
     if (this.label) { props.label= this.label; }
+    if (this.maxLength > 0) { props.maxLength = this.maxLength; }    
     if (this.notify) { props.notify = this.notify; }
     if (this.text != null) { props.text = this.text; }
     if (this.title != null) { props.title = this.title; }
@@ -96,8 +100,8 @@ webui.@THEME@.widget.field.getProps = function() {
     if (this.readOnly != null) { props.readOnly = this.readOnly; }
     if (this.required != null) { props.required = this.required; }
     if (this.size > 0) { props.size = this.size; }
-    if (this.valid != null) { props.valid = this.valid; }
     if (this.style != null) { props.style = this.style; }
+    if (this.valid != null) { props.valid = this.valid; }
     
     // After widget has been initialized, get user's input.
     if (this.isInitialized() == true && this.fieldNode.value != null) {
@@ -126,6 +130,7 @@ webui.@THEME@.widget.field.getProps = function() {
  *  <li>id</li>
  *  <li>label</li>
  *  <li>lang</li>
+ *  <li>maxLength</li>
  *  <li>notify</li>
  *  <li>onClick</li>
  *  <li>onDblClick</li>
@@ -165,6 +170,7 @@ webui.@THEME@.widget.field.setProps = function(props) {
     this.setJavaScriptProps(this.fieldNode, props);
     
     // Set text field attributes.    
+    if (props.maxLength > 0) { this.fieldNode.maxLength = props.maxLength; }
     if (props.size > 0) { this.fieldNode.size = props.size; }
     if (props.value != null) { this.fieldNode.value = props.value; }
     if (props.title != null) { this.fieldNode.title = props.title; }   
@@ -212,7 +218,7 @@ dojo.lang.extend(webui.@THEME@.widget.field, {
     getInputElement: webui.@THEME@.widget.field.getInputElement,
     getProps: webui.@THEME@.widget.field.getProps,
     setProps: webui.@THEME@.widget.field.setProps,
-   
+    
     // Set defaults.
     disabled: false,
     required: false,
