@@ -176,8 +176,8 @@
 	<include name="lib/dataprovider.jar"/>
 	<include name="lib/${suntheme.jar}"/>
 	<include name="lib/json.jar"/>
-	<include name="lib/dojo-0.4.3-ajax.jar"/>
-	<include name="lib/prototype-1.5.0.jar"/>
+	<include name="lib/dojo*.jar"/>
+	<include name="lib/prototype*.jar"/>
     </patternset>
 
     <patternset id="com-sun-webui-jsf">
