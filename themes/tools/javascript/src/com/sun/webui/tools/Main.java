@@ -12,7 +12,7 @@ public class Main {
     /**
      * Helper function to invoke compression tool.
      *
-     * @param args 
+     * @param args Command line arguments.
      */
     public static void compressJS(String[] args) throws IOException {
         String sourcePath = null;
@@ -43,7 +43,7 @@ public class Main {
     /**
      * Helper function to invoke template tool.
      *
-     * @param args 
+     * @param args Command line arguments.
      */
     public static void templateJS(String[] args) throws IOException {
         String destPath = null;
@@ -77,7 +77,7 @@ public class Main {
     /**
      * Helper function to show usage.
      *
-     * @param args 
+     * @param args Command line arguments.
      */
     public static void usage() {
         System.out.println("java -jar jarFile <args...>");
@@ -101,7 +101,7 @@ public class Main {
     /**
      * Parse arguments and invoke tools.
      *
-     * @param args 
+     * @param args Command line arguments.
      */
     public static void main(String[] args) throws IOException {
         if (args.length > 0) {

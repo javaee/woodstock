@@ -30,14 +30,26 @@ public class CompressJS {
      * Compress JavaScript file.
      *
      * Note: Calling org.mozilla.javascript.tools.shell.Main.main
-     * directly does not work well for large file sets. After only a
-     * few files, Java runs out of memory. Therefore, we need to run
-     * the Rhino program on individual files.
+     * directly does not work well with large file sets. After only a few files, 
+     * Java runs out of memory when redirecting stdout to a file. And when the
+     * -o option is used in this scenario, Rhino compresses the same files. For
+     * example:
+     * 
+     * Compressed file stored in 'scheduler.js'
+     * Compressed file stored in 'image.js'
+     * Compressed file stored in 'image.js'
+     * Compressed file stored in 'textArea.js'
+     * Compressed file stored in 'textArea.js'
+     * Compressed file stored in 'textArea.js'
+     * ...
+     * 
+     * Therefore, we need to run the Rhino program in a separate JVM and 
+     * compress individual files.
      *
      * @param file The JavaScript file to compress.
      */
     private void compressFile(File file) throws IOException {
-        // The command line equivelant of the exec command is:
+        // The command line equivalent of the exec command is:
         //
         // java -jar custom_rhino.jar -c infile.js > outfile.js
         //
@@ -48,28 +60,22 @@ public class CompressJS {
             "-strict",
             "-opt",
             "-1",
+            "-o",
+            file.getAbsolutePath(), // -o must be defined before -c option.
             "-c",
             file.getAbsolutePath()
         });
 
-        // Temp file to save output.
-        File tmpFile = new File(file.getAbsolutePath() + ".tmp");
-        FileOutputStream streamOut = new FileOutputStream(tmpFile);
+        // Write stream to stdout.
+        if (verbose) {
+            InputStream streamIn = p.getInputStream();
 
-        // Write output to file.
-        InputStream streamIn = p.getInputStream();
-
-        int c;
-        while ((c = streamIn.read()) != -1) {
-           streamOut.write(c);
+            int c;
+            while ((c = streamIn.read()) != -1) {
+                System.out.write(c);
+            }
+            streamIn.close();
         }
-
-        streamIn.close();
-        streamOut.close();
-
-        // Rename file.
-        file.delete();
-        tmpFile.renameTo(file);
     }
 
     /**
@@ -87,9 +93,6 @@ public class CompressJS {
                 iterate(fileName);
             }
         } else {
-            if (verbose) {
-                System.out.println("Compressing: " + sourcePath);
-            }
             compressFile(file);
         }
     }
