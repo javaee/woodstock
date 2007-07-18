@@ -80,13 +80,26 @@ public class BreadcrumbsDesignInfo extends AbstractDesignInfo {
         }
         return Result.SUCCESS;
     }
-    
-    public boolean acceptChild(DesignBean parentBean, DesignBean childBean, Class childClass) {
-        Class parentClass = parentBean.getInstance().getClass();
-        if(Hyperlink.class.equals(childClass) || ImageHyperlink.class.equals(childClass))
+
+    /**
+     * Check if child component can be a child of the Breadcrumbs component.
+     * Any instance of Hyperlink or its subclasses is acceptible.
+     *
+     * @param parentBean Bean info for parent component
+     * @param childBean  Bean info for child component
+     * @param childClass Class instance for child component
+     *
+     * @return true if the child component can be a child of this component
+     */
+    public boolean acceptChild(DesignBean parentBean, DesignBean childBean,
+	Class childClass) {
+
+        if ((Hyperlink.class).isAssignableFrom(childClass)) {
             return true;
-        return super.acceptChild(parentBean, childBean, childClass);
-    }
+	}
+        return false;
+
+    } // acceptChild
     
     protected DesignProperty getDefaultBindingProperty(DesignBean targetBean) {
         return targetBean.getProperty("pages"); //NOI18N
