@@ -1101,7 +1101,7 @@ public class Selector extends WebuiInput implements SelectorManager {
      *
      * @deprecated The attribute is deprected starting from version 4.1
      */
-    @Property(name="readOnly", isHidden=true, displayName="Read-only", category="Behavior")
+    @Property(name="readOnly", displayName="Read-only", category="Behavior")
     private boolean readOnly = false;
     private boolean readOnly_set = false;
 

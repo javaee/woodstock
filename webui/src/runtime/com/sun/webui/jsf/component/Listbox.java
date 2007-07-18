@@ -189,6 +189,24 @@ public class Listbox extends ListSelector {
         this.multiple = multiple;
         this.multiple_set = true;
     }
+    
+    /**
+     * <p>If this attribute is set to true, the value of the component is
+     * rendered as text, preceded by the label if one was defined.</p>
+     *
+     * @deprecated The attribute is deprected starting from version 4.1
+     */
+    @Property(name="readOnly", isHidden=true, displayName="Read-only", category="Behavior")
+    
+    /**
+     * <p>If this attribute is set to true, the value of the component is
+     * rendered as text, preceded by the label if one was defined.</p>
+     *
+     * @deprecated The attribute is deprected starting from version 4.1
+     */
+    public boolean isReadOnly() {
+        return super.isReadOnly();
+    }
 
     /**
      * <p>Sets the value of the title attribute for the HTML element.
