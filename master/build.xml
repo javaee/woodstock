@@ -193,7 +193,6 @@
     </patternset>
 
     <patternset id="core-release-notes">
-	<include name="readme.html"/>
 	<include name="release-notes.html"/>
 	<include name="tld-changes.txt"/>
 	<include name="namingcontainer.txt"/>
