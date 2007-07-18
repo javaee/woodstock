@@ -35,137 +35,6 @@ webui.@THEME@.widget.widgetBase = function() {
 }
 
 /**
- * This function is used to add a widget, markup, or static string to the given
- * parent node.
- *
- * If props is a JSON object, containing a widgetName property, a widget shall
- * be created. The newly created widget shall be added as a child of the given
- * parentNode. If props also contains a module property, the specified resource
- * shall be retrieved before creating the widget.
- *
- * If props is a JSON object, containing a markup property instead of
- * widgetName, it shall be added as the innerHTML of the given parentNode. This
- * property shall not be HTML escaped and position does not apply here.
- *
- * If props is a string, it shall be added as the innerHTML of the given 
- * parentNode. However, the property is treated as a static string and HTML
- * escaped by default. The position argument does not apply here.
- *
- * Note: The position argument is passed though to Dojo's createWidget function.
- * Valid values consist of "last", "first", etc. -- see Dojo docs). However, if
- * the position is null, existing child nodes are replaced by the new widget.
- * The parentNode is not removed because it may be used as a place holder.
- *
- * @param parentNode The parent node used to add widget.
- * @param props Key-Value pairs of properties.
- * @param position The position (e.g., "first", "last", etc.) to add widget.
- * @param escape HTML escape static strings -- default is true.
- */
-webui.@THEME@.widget.widgetBase.addFragment = function(parentNode, props, 
-        position, escape) {
-    if (parentNode == null || props == null) {
-        return false;
-    }
-
-    // HTML escape static strings by default.
-    if (escape == null) {
-        escape = true;
-    }
-
-    // If position is null, remove existing nodes. The contents shall be
-    // replaced by the newly created widget.
-    if (position == null) {
-        position = "last"; // Default.
-        this.removeChildNodes(parentNode);
-    }
-
-    // Add fragment.
-    if (typeof props == 'string') {
-        // Static strings must be HTML escaped by default.
-        var html = (new Boolean(escape).valueOf() == true)
-            ? dojo.string.escape("html", props)
-            : props;
-
-        if (parentNode.innerHTML != null && parentNode.innerHTML.length > 0) {
-            parentNode.innerHTML += html;
-        } else {
-            parentNode.innerHTML = html;
-        }
-    } else if (props.widgetName) {
-        // Create widget.
-        webui.@THEME@.widget.common.createWidget(props, parentNode, position);
-    } else if (props.markup) {
-        // Strip script fragments, set innerHTML property, and
-        // eval scripts using a timeout.
-        //
-        // Note that using Dojo's ContentPane widget would have
-        // been more preferable than creating a new dependency
-        // based on Prototype. However, as of version .4.1, Dojo
-        // still does not use a timeout to eval JavaScript; thus,
-        // IE generates errors with innerHTML. For example: 
-        //
-        // var pane = dojo.widget.createWidget("ContentPane", { 
-        //     executeScripts: true,
-        //     scriptSeparation: false
-        // }, parentNode, position);
-        // pane.setContent(props);
-        //
-        // "The problem has to do with the browser's poor
-        // threading model. Basically, once some JavaScript code
-        // is running, all other threads of execution are on hold
-        // until the running thread is finished with it's
-        // task. This includes whatever thread of execution that
-        // updates the DOM model when new content is inserted via
-        // innerHTML. For example if you do:
-        //
-        // foo.innerHTML = '<span id="bar">Bar</span>';
-        // var bar = document.getElementById('bar');
-        //
-        // This code will sometimes fail because although you
-        // added the content via innerHTML the DOM may not have
-        // been updated and therefore the "bar" element does not
-        // exist in the DOM yet. To work around this you can do:
-        //
-        // foo.innerHTML = '<span id="bar">Bar</span>';
-        // setTimeout(function() {var bar = document.getElementById('bar');},10);
-        //
-        // This will work because in 10 milliseconds whatever
-        // event handler is running will have finished, the DOM
-        // will update, then the callback will execute and have no
-        // problem accessing the DOM element."
-        //
-        // The full discussion on this topic can be found at:
-        //
-        // http://www.ruby-forum.com/topic/73990
-        //
-        var html = props.markup.stripScripts();
-
-        // Concatenating innerHTML with new strings does not always work. 
-        // When adding multiple HTML elements to parentNode, we can get
-        // into a situation where parentNode.innerHTML may not yet contain 
-        // all the changes made to the previously added DOM node. Thus, the
-        // following code may yield incorrect results. Instead, we shall 
-        // wrap new strings in an HTML span element so it may be added as a 
-        // child of parentNode.
-        //
-        // if (position && parentNode.innerHTML) {
-        //     html = parentNode.innerHTML + html;
-        // }
-        if (parentNode.innerHTML != null && parentNode.innerHTML.length > 0) {
-            var span = document.createElement('span');            
-            span.innerHTML = html;
-            parentNode.appendChild(span);
-        } else {
-            // Don't need span when innerHTML is empty.
-            parentNode.innerHTML = html;
-        }
-
-        // Evaluate JavaScript.
-        setTimeout(function() {props.markup.evalScripts()}, 10);
-    }
-}
-
-/**
  * This function is used to include default Ajax functionality. Before the given
  * module is included in the page, a test is performed to ensure that the 
  * default Ajax implementation is being used.
@@ -189,32 +58,6 @@ webui.@THEME@.widget.widgetBase.buildRendering = function (args, frag, parent) {
     }
     // Super class buildRendering.
     webui.@THEME@.widget.widgetBase.superclass.buildRendering.call(this, args, frag, parent);
-}
-
-/**
- * This function is used to extend the given object with Key-Value pairs of
- * properties. If a property is an object containing Key-Value pairs itself,
- * this function is called recursively to preserve data which is not
- * explicitly extended.
- *
- * Note: If all top level properties must be replaced, use Prototype's 
- * Object.extend function.
- *
- * @param obj The object to extend.
- * @param props Key-Value pairs of properties.
- */
-webui.@THEME@.widget.widgetBase.extend = function(obj, props) {
-    if (obj == null || props == null) {
-        return false;
-    }
-    for (var property in props) {
-        if (obj[property] && typeof obj[property] == "object") {
-            this.extend(obj[property], props[property]);
-        } else {
-            obj[property] = props[property];
-        }
-    }
-    return true;
 }
 
 /**
@@ -288,35 +131,6 @@ webui.@THEME@.widget.widgetBase.isInitialized = function() {
         return true;
     }
     return false;
-}
-
-/**
- * This function is used to remove child nodes from given DOM node.
- *
- * Note: Child nodes may be cleared using the innerHTML property. However, IE
- * fails when this property is set via the widget's fillInTemplate function. In
- * this case, DOM nodes shall be removed manually using the Node APIs.
- *
- * @param domNode The DOM node to remove child nodes.
- */
-webui.@THEME@.widget.widgetBase.removeChildNodes = function(domNode) {
-    if (domNode == null) {
-        return false;
-    }
-
-    // To do: Should we destroy widgets here? Unless new widgets use the same
-    // id, the old widgets may never be removed.
-
-    try {
-        domNode.innerHTML = ""; // Cannot be null on IE.
-    } catch (e) {
-        // Iterate over child nodes.
-        while (domNode.hasChildNodes()) {
-            var node = domNode.childNodes[0];
-            domNode.removeChild(node);
-        }
-    }
-    return true;
 }
 
 /**
@@ -506,16 +320,15 @@ dojo.inherits(webui.@THEME@.widget.widgetBase, dojo.widget.HtmlWidget);
 // Override base widget by assigning properties to class prototype.
 dojo.lang.extend(webui.@THEME@.widget.widgetBase, {
     // Set private functions.
-    addFragment: webui.@THEME@.widget.widgetBase.addFragment,
+    addFragment: webui.@THEME@.widget.common.addFragment,
     ajaxify: webui.@THEME@.widget.widgetBase.ajaxify,
     buildRendering: webui.@THEME@.widget.widgetBase.buildRendering,
-    event: webui.@THEME@.widget.widgetBase.event,
-    extend: webui.@THEME@.widget.widgetBase.extend,
+    extend: webui.@THEME@.widget.common.extend,
     getCommonProps: webui.@THEME@.widget.widgetBase.getCommonProps,
     getCoreProps: webui.@THEME@.widget.widgetBase.getCoreProps,
     getJavaScriptProps: webui.@THEME@.widget.widgetBase.getJavaScriptProps,
     isInitialized: webui.@THEME@.widget.widgetBase.isInitialized,
-    removeChildNodes: webui.@THEME@.widget.widgetBase.removeChildNodes,
+    removeChildNodes: webui.@THEME@.widget.common.removeChildNodes,
     setCommonProps: webui.@THEME@.widget.widgetBase.setCommonProps,
     setCoreProps: webui.@THEME@.widget.widgetBase.setCoreProps,
     setJavaScriptProps: webui.@THEME@.widget.widgetBase.setJavaScriptProps
