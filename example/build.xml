@@ -93,17 +93,6 @@
     <property name="jsf-impl.jar" value="${components.home}/lib/jsf-impl.jar"/>
     <property name="json.jar" value="${webui-lib-external}/json.jar"/>
 
-    <!-- 3rd party resources -->
-    <property name="dojo.jar"
-	value="${webui-lib-external}/dojo-0.4.3-ajax.jar"/>
-    <property name="prototype.jar"
-	value="${webui-lib-external}/prototype-1.5.0.jar"/>
-    <property name="jsf-ext-common.jar" 
-	value="${webui-lib-external}/jsf-extensions-common-0.1.jar"/>
-    <property name="jsf-ext-dynafaces.jar"
-	value="${webui-lib-external}/jsf-extensions-dynamic-faces-0.1.jar"/>
-
-
     <!-- For Netbeans compatibility -->
     <property name="copyfiles.classpath" value="${copyfiles.jar}"/>    
 
@@ -201,14 +190,18 @@
         <copy file="${commons-fileupload.jar}" todir="${build.dir}/web/WEB-INF/lib"/>
         <copy file="${commons-logging.jar}" todir="${build.dir}/web/WEB-INF/lib"/>
         <copy file="${dataprovider.jar}" todir="${build.dir}/web/WEB-INF/lib"/>
-        <copy file="${dojo.jar}" todir="${build.dir}/web/WEB-INF/lib"/>
         <copy file="${jhall.jar}" todir="${build.dir}/web/WEB-INF/lib"/>
-	<copy file="${jsf-ext-common.jar}" todir="${build.dir}/web/WEB-INF/lib"/>
-	<copy file="${jsf-ext-dynafaces.jar}" todir="${build.dir}/web/WEB-INF/lib"/>
         <copy file="${json.jar}" todir="${build.dir}/web/WEB-INF/lib"/>
-        <copy file="${prototype.jar}" todir="${build.dir}/web/WEB-INF/lib"/>
         <copy file="${suntheme.jar}" todir="${build.dir}/web/WEB-INF/lib"/>
         <copy file="${webui.jar}" todir="${build.dir}/web/WEB-INF/lib"/>
+
+		<copy todir="${build.dir}/web/WEB-INF/lib">
+			<fileset dir="${webui-lib-external}">
+				<include name="dojo*.jar"/>
+				<include name="prototype*.jar"/>
+				<include name="jsf-extensions*.jar"/>
+			</fileset>
+		</copy>
 
         <echo message="Copying source code from the example source tree..."/> 
         <copy todir="${build.classes.dir}" includeemptydirs="false">
