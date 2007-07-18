@@ -65,18 +65,15 @@ webui.@THEME@.widget.textField.fillInTemplate = function() {
 /**
  * Helper function to obtain widget class names.
  */
-webui.@THEME@.widget.textField.getClassName = function() {
-   // default implementation of super.getClassName provides user class name
-    var superClassName = webui.suntheme.widget.textField.superclass.getClassName();
-   
+webui.@THEME@.widget.textField.getClassName = function() {   
     // Set default style.    
     var className = (this.disabled == true)
         ? webui.@THEME@.widget.props.textField.disabledClassName
         : webui.@THEME@.widget.props.textField.className;
     
-    return (superClassName == null) 
-        ? className 
-        : className + " " + superClassName;    
+   return (this.className)
+        ? className + " " + this.className
+        : className;
 }
 
 /**

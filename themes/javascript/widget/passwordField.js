@@ -41,17 +41,14 @@ webui.@THEME@.widget.passwordField = function() {
  * Helper function to obtain widget class names.
  */
 webui.@THEME@.widget.passwordField.getClassName = function() {
-    // default implementation of super.getClassName provides user class name
-    var superClassName = webui.suntheme.widget.passwordField.superclass.getClassName();
- 
     // Set default style.    
     var className = (this.disabled == true)
         ? webui.@THEME@.widget.props.passwordField.disabledClassName
         : webui.@THEME@.widget.props.passwordField.className;   
     
-    return (superClassName == null) 
-        ? className 
-        : className + " " + superClassName; 
+   return (this.className)
+        ? className + " " + this.className
+        : className;
 }
 
 // Inherit base widget properties.

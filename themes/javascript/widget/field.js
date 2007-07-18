@@ -65,10 +65,7 @@ webui.@THEME@.widget.field.fillInTemplate = function() {
  * and it is expected that subclasses override this function.
  */
 webui.@THEME@.widget.field.getClassName = function() {   
-    // Return user's className property if any.
-    return (this.className)
-        ? this.className
-        : null;
+    return null;
 }
 
 /**

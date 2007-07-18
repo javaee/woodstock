@@ -86,17 +86,14 @@ webui.@THEME@.widget.textArea.fillInTemplate = function() {
  * Helper function to obtain widget class names.
  */
 webui.@THEME@.widget.textArea.getClassName = function() {
-    // default implementation of super.getClassName provides user class name
-    var superClassName = webui.suntheme.widget.textArea.superclass.getClassName();
-    
     // Set default style.    
     var className = (this.disabled == true)
         ? webui.@THEME@.widget.props.textArea.disabledClassName
         : webui.@THEME@.widget.props.textArea.className;
     
-    return (superClassName == null) 
-        ? className 
-        : className + " " + superClassName;    
+    return (this.className)
+        ? className + " " + this.className
+        : className;    
 }
 
 /**
