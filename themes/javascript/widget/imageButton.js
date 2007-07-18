@@ -46,6 +46,7 @@ dojo.lang.extend(webui.@THEME@.widget.imageButton, {
     // NOTE: Having a separate widget for each template allows the 
     // templateString property to be cached. Otherwise, this would have to be 
     // cleared for each new instance of button.
+    templatePath: webui.@THEME@.theme.getTemplatePath("imageButton"),
     templateString: webui.@THEME@.theme.getTemplateString("imageButton"),
     widgetType: "imageButton"
 });

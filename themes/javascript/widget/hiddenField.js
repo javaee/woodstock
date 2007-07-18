@@ -181,6 +181,7 @@ dojo.lang.extend(webui.@THEME@.widget.hiddenField, {
 
     // Set defaults.
     disabled: false,
+    templatePath: webui.@THEME@.theme.getTemplatePath("hiddenField"),
     templateString: webui.@THEME@.theme.getTemplateString("hiddenField"),
     widgetType: "hiddenField"
 });

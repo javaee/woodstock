@@ -210,6 +210,7 @@ dojo.lang.extend(webui.@THEME@.widget.radioButton, {
 
     // Set defaults
     idSuffix: "_rb",
+    templatePath: webui.@THEME@.theme.getTemplatePath("radioButton"),
     templateString: webui.@THEME@.theme.getTemplateString("radioButton"),
     widgetType: "radioButton"
 });

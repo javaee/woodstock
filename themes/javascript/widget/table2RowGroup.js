@@ -513,6 +513,7 @@ dojo.lang.extend(webui.@THEME@.widget.table2RowGroup, {
     // Set defaults.
     first: 0, // Index used to obtain rows.
     currentRow: 0, // Current row in view.
+    templatePath: webui.@THEME@.theme.getTemplatePath("table2RowGroup"),
     templateString: webui.@THEME@.theme.getTemplateString("table2RowGroup"),
     widgetType: "table2RowGroup"
 });

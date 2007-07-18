@@ -66,6 +66,7 @@ dojo.lang.extend(webui.@THEME@.widget.passwordField, {
     disabled: false,
     required: false,
     size: 20,
+    templatePath: webui.@THEME@.theme.getTemplatePath("passwordField"),
     templateString: webui.@THEME@.theme.getTemplateString("passwordField"),
     valid: true,
     widgetType: "passwordField"

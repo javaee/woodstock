@@ -92,7 +92,8 @@ dojo.lang.extend(webui.@THEME@.widget.radioButtonGroup, {
     getClassName: webui.@THEME@.widget.radioButtonGroup.getClassName,    
     refresh: webui.@THEME@.widget.radioButtonGroup.refresh.processEvent,                     
 
-    // Set defaults 
+    // Set defaults
+    templatePath: webui.@THEME@.theme.getTemplatePath("radioButtonGroup"),
     templateString: webui.@THEME@.theme.getTemplateString("radioButtonGroup"),
     widgetType: "radioButtonGroup"
 });

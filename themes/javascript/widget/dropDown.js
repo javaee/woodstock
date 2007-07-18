@@ -260,6 +260,7 @@ dojo.lang.extend(webui.@THEME@.widget.dropDown, {
 
     // Set defaults
     submitForm: false,
+    templatePath: webui.@THEME@.theme.getTemplatePath("dropDown"),
     templateString: webui.@THEME@.theme.getTemplateString("dropDown"),
     widgetType: "dropDown"
 });

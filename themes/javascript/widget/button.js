@@ -365,6 +365,7 @@ dojo.lang.extend(webui.@THEME@.widget.button, {
     escape: true,
     mini: false,
     primary: true,
+    templatePath: webui.@THEME@.theme.getTemplatePath("button"),
     templateString: webui.@THEME@.theme.getTemplateString("button"),
     widgetType: "button"
 });

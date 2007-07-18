@@ -351,6 +351,7 @@ dojo.lang.extend(webui.@THEME@.widget.checkbox, {
 
     // Set defaults.
     idSuffix: "_cb",
+    templatePath: webui.@THEME@.theme.getTemplatePath("checkbox"),
     templateString: webui.@THEME@.theme.getTemplateString("checkbox"),
     widgetType: "checkbox"
 });

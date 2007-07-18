@@ -209,6 +209,7 @@ dojo.lang.extend(webui.@THEME@.widget.textField, {
     submit: webui.@THEME@.widget.textField.submit.processEvent,
 
     // Set defaults.
+    templatePath: webui.@THEME@.theme.getTemplatePath("textField"),
     templateString: webui.@THEME@.theme.getTemplateString("textField"),
     widgetType: "textField"
 });

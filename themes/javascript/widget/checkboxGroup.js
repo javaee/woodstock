@@ -253,6 +253,7 @@ dojo.lang.extend(webui.@THEME@.widget.checkboxGroup, {
     setProps: webui.@THEME@.widget.checkboxGroup.setProps,
 
     // Set defaults
+    templatePath: webui.@THEME@.theme.getTemplatePath("checkboxGroup"),
     templateString: webui.@THEME@.theme.getTemplateString("checkboxGroup"),
     widgetType: "checkboxGroup"
 });

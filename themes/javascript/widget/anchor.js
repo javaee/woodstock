@@ -294,6 +294,7 @@ dojo.lang.extend(webui.@THEME@.widget.anchor, {
     setProps: webui.@THEME@.widget.anchor.setProps,
 
     // Set defaults.
+    templatePath: webui.@THEME@.theme.getTemplatePath("anchor"),
     templateString: webui.@THEME@.theme.getTemplateString("anchor"),
     widgetType: "anchor"
 });

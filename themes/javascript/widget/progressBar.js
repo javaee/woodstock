@@ -831,6 +831,7 @@ dojo.lang.extend(webui.@THEME@.widget.progressBar, {
     // Set defaults.
     percentChar: "%",
     progress: 0,
+    templatePath: webui.@THEME@.theme.getTemplatePath("progressBar"),
     templateString: webui.@THEME@.theme.getTemplateString("progressBar"),
     type: webui.@THEME@.widget.props.progressBar.determinate,
     widgetType: "progressBar"

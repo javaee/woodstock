@@ -193,6 +193,7 @@ dojo.lang.extend(webui.@THEME@.widget.table2, {
     getProps: webui.@THEME@.widget.table2.getProps,
 
     // Set defaults.
+    templatePath: webui.@THEME@.theme.getTemplatePath("table2"),
     templateString: webui.@THEME@.theme.getTemplateString("table2"),
     widgetType: "table2"
 });

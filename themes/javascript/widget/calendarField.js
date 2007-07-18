@@ -257,6 +257,7 @@ dojo.lang.extend(webui.@THEME@.widget.calendarField, {
     toggleCalendar: webui.@THEME@.widget.calendarField.toggleCalendar,
 
     // Set defaults.
+    templatePath: webui.@THEME@.theme.getTemplatePath("calendarField"),
     templateString: webui.@THEME@.theme.getTemplateString("calendarField"),
     widgetType: "calendarField"
 });

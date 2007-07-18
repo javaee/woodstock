@@ -203,5 +203,4 @@ webui.@THEME@.widget.props = {
         className: "TxtFld@THEME_CSS@",
         disabledClassName: "TxtFldDis@THEME_CSS@"
     }
-
 }

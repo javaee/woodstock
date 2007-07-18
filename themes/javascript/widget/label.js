@@ -296,6 +296,7 @@ dojo.lang.extend(webui.@THEME@.widget.label, {
     // Set defaults.
     level: 2,
     required: false,
+    templatePath: webui.@THEME@.theme.getTemplatePath("label"),
     templateString: webui.@THEME@.theme.getTemplateString("label"),
     valid: true,
     widgetType: "label"
