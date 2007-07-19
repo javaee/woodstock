@@ -719,7 +719,7 @@ public class DropDown extends ListSelector implements ActionSource2 {
      * <p>If this attribute is set to true, the value of the component is
      * rendered as text, preceded by the label if one was defined.</p>
      *
-     * @deprecated The attribute is deprected starting from version 4.1
+     * <i>Deprecated: The attribute is deprecated starting from version 4.1</i>
      */
     @Property(name="readOnly", isHidden=true, displayName="Read-only", category="Behavior")
     
