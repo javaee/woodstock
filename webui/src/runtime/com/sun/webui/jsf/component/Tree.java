@@ -346,8 +346,8 @@ helpKey="projrave_ui_elements_palette_wdstk-jsf1.2_tree",
     /**
      * <p>Flag indicating that the user must select a value for this tree.
      *    Default value is false.</p>
-     * <i>deprecated: This property is being deprecated and should not be used as it does not make much 
-     * sense in the context of the tree. </i>
+     * @deprecated: This attribute is deprecated from 4.1 and should not be used as it does not make much 
+     * sense in the context of the tree.
      */
     @Property(isHidden=true ) 
     private boolean required = false;
