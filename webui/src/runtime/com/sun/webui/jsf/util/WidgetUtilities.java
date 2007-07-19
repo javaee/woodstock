@@ -185,7 +185,7 @@ public class WidgetUtilities {
         String s = strWriter.toString();
 
         try {
-             // String beginning with { and ending with }.
+            // String beginning with { and ending with }.
             json = new JSONObject(s);
         } catch (JSONException e) {
             json = new JSONObject();

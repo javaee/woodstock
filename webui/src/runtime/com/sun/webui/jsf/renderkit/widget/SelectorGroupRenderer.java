@@ -161,7 +161,7 @@ abstract class SelectorGroupRenderer extends RendererBase {
         int length = items.length;
         int itemN = 0;
 
-        for (int i = 0; i <= length; i++) {
+        for (int i = 0; i < length; i++) {
             UIComponent child = getChildComponent(context, component, itemN);
             jArray.put(WidgetUtilities.renderComponent(context, child));
             ++itemN;            
