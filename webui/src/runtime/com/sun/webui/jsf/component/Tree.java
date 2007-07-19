@@ -346,14 +346,19 @@ helpKey="projrave_ui_elements_palette_wdstk-jsf1.2_tree",
     /**
      * <p>Flag indicating that the user must select a value for this tree.
      *    Default value is false.</p>
+     * <i>deprecated: This property is being deprecated and should not be used as it does not make much 
+     * sense in the context of the tree. </i>
      */
-    @Property(name="required", displayName="Required", category="Behavior")
+    @Property(isHidden=true ) 
     private boolean required = false;
     private boolean required_set = false;
     
     /**
      * <p>Flag indicating that the user must select a value for this tree.
-     *         Default value is false.</p>
+     *         Default value is false. This attribute should be hidden from 
+     * the application developer as it does not make sense in the context
+     * of the tree. The isRequired()/setRequired() methods have to be 
+     * maintained as Tree implements EditableValueHolder.</p>
      */
     public boolean isRequired() {
         if (this.required_set) {
