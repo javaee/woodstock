@@ -21,7 +21,7 @@
  */
 
 /*
- * $Id: UploadFilter.java,v 1.2 2007-06-07 21:53:44 rratta Exp $
+ * $Id: UploadFilter.java,v 1.3 2007-07-20 20:46:51 rratta Exp $
  */
 
 package com.sun.webui.jsf.util;
@@ -29,6 +29,7 @@ package com.sun.webui.jsf.util;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Enumeration;
 import java.util.Hashtable;
 import java.util.Iterator;
@@ -477,7 +478,22 @@ public class UploadFilter implements Filter {
      */
     class UploadRequest extends HttpServletRequestWrapper {
         
+	/**
+	 * Set to true when the original request objects parameters
+	 * (query params) are merged with the multipart/form-data 
+	 * parameters
+	 */
+	private boolean merged = false;
+	/**
+	 * This hashtable will have all the parameters once
+	 * if "merged" is true;
+	 */
         private Hashtable parameters;
+	/**
+	 * A "Collections.unmodifiableMap", created once
+	 * "getParametersMap" is called.
+	 */
+	private Map unmodifiableParametersMap;
         
         public UploadRequest(HttpServletRequest request, Hashtable parameters) {
             super(request);
@@ -485,17 +501,30 @@ public class UploadFilter implements Filter {
         }
         
         public String getParameter(String name) {
-            //Thread.currentThread().dumpStack();
+
             Object param = parameters.get(name);
+
+	    // Delegate to the wrapped original request.
+	    // The only parameters in that request map
+	    // should be the query parameters.
+	    //
+	    if (param == null) {
+		return merged ? null : super.getParameter(name);
+	    }
             
-            if(param instanceof String) {
+            if (param instanceof String) {
                 return (String)param;
             }
-            if(param instanceof String[]) {
+            if (param instanceof String[]) {
                 String[] params = (String[])param;
-                return params[0];
+		// Just in case there is an empty array.
+		//
+                return params.length == 0 ? null : params[0];
             }
-            return (param == null ? null : param.toString());
+	    // Just in case a non string got into the map.
+	    // but shouldn't happen.
+	    //
+            return param.toString();
         }
         
 	// From the servlet spec
@@ -515,27 +544,72 @@ public class UploadFilter implements Filter {
 
 	    Object value = parameters.get(name);
 
-	    // If name does not exist return null.
+	    // Delegate to the wrapped original request.
+	    // The only parameters in that request map
+	    // should be the query parameters.
 	    //
 	    if (value == null) {
-		return null;
+		return merged ? null : super.getParameterValues(name);
 	    }
-	    // If a String array return it
+
+	    // All values are stored as String[]
+	    // to satisfy getParameterMap interface.
 	    //
-	    if (value instanceof String[]) {
-		return (String[])value;
-	    } else { // Must be one big String
-		return new String[] { value.toString() };
-	    }
+	    return (String[])value;
         }
         
+	/**
+	 * Return all the parameter names. This will include all the
+	 * names in the original request object's parameter map.
+	 * Those parameters should only be from
+	 * the query string.
+	 */
         public Enumeration getParameterNames() {
-            return parameters.keys();
+	    // Get all the names from the original request as well.
+	    //
+	    mergeParameters();
+	    return parameters.keys();
         }
         
+	/**
+	 * Return a map containing all parameters including those
+	 * in the original request object's parameter map.
+	 * Those parameters should only be from
+	 * the query string.
+	 */
         public Map getParameterMap() {
-            return parameters;
+	    mergeParameters();
+	    return unmodifiableParametersMap;
         }
+
+	/**
+	 * Return a Hashtable including any parameters in the
+	 * original request.
+	 */
+	private void mergeParameters() {
+	    // We only need to do this once.
+	    //
+	    if (merged) {
+		return;
+	    }
+	    // Merge the original request's parameters 
+	    // Note that if a form-data parameter matches a
+	    // query string parameter, the form data parameter will
+	    // take precedence. It's not clear which should actually
+	    // take precedence, or if query parameters should be respected
+	    // in a "POST".
+	    //
+	    Hashtable mergedmap = new Hashtable(super.getParameterMap());
+	    mergedmap.putAll(parameters);
+	    parameters = mergedmap;
+
+	    // Now create the unmodifiable map.
+	    //
+	    unmodifiableParametersMap =
+		Collections.unmodifiableMap(parameters);
+
+	    merged = true;
+	}
     }
 
     /**
@@ -601,7 +675,11 @@ public class UploadFilter implements Filter {
 	    String svalue = fileItem.getString();
 	    Object value = formDataMap.get(fieldName);
 	    if (value == null) {
-		formDataMap.put(fieldName, svalue);
+		// Since getParameterMap must return a Map containing
+		// String arrays, even if there is only one element
+		// in the array save the value as String[]
+		//
+		formDataMap.put(fieldName, new String[]{svalue});
 	    } else 
 	    if (value instanceof ArrayList) {
 		((ArrayList)value).add(svalue);
@@ -615,7 +693,9 @@ public class UploadFilter implements Filter {
 		// value field reference in formDataMap.
 		//
 		ArrayList valueList = new ArrayList();
-		valueList.add(value);
+		// Value should be a String[] 
+		//
+		valueList.add(((String[])value)[0]);
 		valueList.add(svalue);
 		formDataMap.put(fieldName, valueList);
 	    }
@@ -668,6 +748,8 @@ public class UploadFilter implements Filter {
 	    Object value = me.getValue();
             
 	    // If its an ArrayList it should have more than one value
+	    // All other values should be String[]
+	    // to satisfy "getParameterMap" interface.
 	    //
 	    if (value instanceof ArrayList) {
                 requestParameters.put(key, ((ArrayList)value).toArray(
