@@ -4403,6 +4403,7 @@ should use the <code>actionListener</code> attribute to bind to a
 method to handle the action.</p>
 <p>The <code>immediate</code> attribute is useful in a jump menu when
 you do not want to submit any data entered into the form when a
+
 selection is made in the jump menu.</p>
 <h4>Using a Title in the Drop Down Menu</h4>
 <p>You can display a non-selectable title as the first item in a drop
@@ -9222,7 +9223,7 @@ changed to value " + menu.getValue();<br>
 
         <description><![CDATA[ <span style="text-decoration: line-through;"></span><span
   style="color: rgb(0, 0, 0);">Use the </span><code
-  style="color: rgb(0, 0, 0);">ui:meta</code><span
+  style="color: rgb(0, 0, 0);">webuijsf:meta</code><span
   style="color: rgb(0, 0, 0);"> tag to create an
  HTML </span><code
   style="color: rgb(0, 0, 0);">&lt;meta&gt;</code><span
@@ -9234,12 +9235,12 @@ changed to value " + menu.getValue();<br>
  element
  provides meta-information about your page, such as descriptions and
  keywords for search engines and refresh rates.&nbsp; The </span><code
-  style="color: rgb(0, 0, 0);">ui:meta</code><span
+  style="color: rgb(0, 0, 0);">webuijsf:meta</code><span
   style="color: rgb(0, 0, 0);">
  tag must
  be inside a </span><code
   style="color: rgb(0, 0, 0);"><a
-  href="head.html">ui:head</a></code><span
+  href="head.html">webuijsf:head</a></code><span
   style="color: rgb(0, 0, 0);">
  tag.</span><br
   style="color: rgb(0, 0, 0);"><span style="color: rgb(0, 0, 0);">&nbsp;</span><br
@@ -9255,8 +9256,8 @@ changed to value " + menu.getValue();<br>
  associated attributes.</span><h3 style="color: rgb(0, 0, 0);">Theme
  Identifiers</h3><span style="color: rgb(0, 0, 0);">None.</span><br><h3>Client Side Javascript
  Functions</h3>
- None. <span style="color: rgb(255, 153, 0);"></span><h3>Example</h3><b>Example 1: Create a Meta tag<br><br><span style="color: rgb(255, 153, 0);"></span></b><div style="margin-left: 40px;"><code>....<br>&lt;ui:head title="meta example" &gt;<br></code><code>&nbsp;&nbsp;&nbsp;&lt;ui:meta httpEquiv="refresh"
- content="5" /&gt;<br>&lt;/ui:head&gt;<br>
+ None. <span style="color: rgb(255, 153, 0);"></span><h3>Example</h3><b>Example 1: Create a Meta tag<br><br><span style="color: rgb(255, 153, 0);"></span></b><div style="margin-left: 40px;"><code>....<br>&lt;webuijsf:head title="meta example" &gt;<br></code><code>&nbsp;&nbsp;&nbsp;&lt;webuijsf:meta httpEquiv="refresh"
+ content="5" /&gt;<br>&lt;/webuijsf:head&gt;<br>
  ....</code><br></div>
 
 ]]></description>
@@ -9271,7 +9272,9 @@ changed to value " + menu.getValue();<br>
  <code>statusArea</code> facet. The <code>webuijsf:notificationPhrase</code> tag produces
  notification information identical to the <code>webuijsf:masthead</code> tag's <code>
  notificationMsg</code> attribute. See the <a href="masthead.html"><code>webuijsf:masthead</code>
- documentation</a> for more information about the <code>statusArea</code> facet.</p>
+ documentation</a> for more information about the <code>statusArea</code> facet. This
+ component should be marked as "immediate=true" so that it does not interfere with the 
+ masthead or any other component's JSF lifecycle.</p>
  <p>
  The <code>statusArea</code> facet overrides the masthead's status area attributes. 
  The <code>webuijsf:notificationPhrase</code> tag enables you to include notification messages
@@ -11252,6 +11255,7 @@ properties:
         <li>onClick</li>
         <li>onFocus</li>
 
+
         <li>onKeyDown</li>
         <li>onKeyPress</li>
         <li>onKeyUp</li>
@@ -12469,20 +12473,20 @@ update components server-side: refresh("form1:id1,form2:id2,...")<br>
 
         <description><![CDATA[ <span style="text-decoration: line-through;"></span><span
   style="color: rgb(0, 0, 0);">Use the </span><code
-  style="color: rgb(0, 0, 0);">ui:script</code><span
+  style="color: rgb(0, 0, 0);">webuijsf:script</code><span
   style="color: rgb(0, 0, 0);"> tag to create a </span><code
   style="color: rgb(0, 0, 0);">&lt;script&gt;</code><span
   style="color: rgb(0, 0, 0);"> element in the rendered
  HTML page.
  The </span><code
-  style="color: rgb(0, 0, 0);">ui:script</code><span
+  style="color: rgb(0, 0, 0);">webuijsf:script</code><span
   style="color: rgb(0, 0, 0);"> tag must be used within
  the </span><code
-  style="color: rgb(0, 0, 0);">ui:head</code><span
+  style="color: rgb(0, 0, 0);">webuijsf:head</code><span
   style="color: rgb(0, 0, 0);"> tag, or within the </span><code
-  style="color: rgb(0, 0, 0);">ui:body</code><span
+  style="color: rgb(0, 0, 0);">webuijsf:body</code><span
   style="color: rgb(0, 0, 0);"> tag.&nbsp; The </span><code
-  style="color: rgb(0, 0, 0);">ui:script</code><span
+  style="color: rgb(0, 0, 0);">webuijsf:script</code><span
   style="color: rgb(0, 0, 0);"> tag can be used to
  refer to a
  Javascript file, by using the url attribute. The tag can also be used
@@ -12495,17 +12499,17 @@ update components server-side: refresh("form1:id1,form2:id2,...")<br>
   style="color: rgb(0, 0, 0);">The rendered HTML page
  contains a <code>&lt;script&gt;</code>
  element with any attributes
- specified through the <code>ui:script</code>
+ specified through the <code>webuijsf:script</code>
  tag attributes.&nbsp; <br><br></span><h3 style="color: rgb(0, 0, 0);">Theme
  Identifiers</h3><span style="color: rgb(0, 0, 0);">None.<br></span><h3 style="color: rgb(0, 0, 0);">Client
  Side Javascript Functions</h3><span style="color: rgb(0, 0, 0);">None.</span><br
   style="color: rgb(0, 0, 0);"><h3 style="color: rgb(0, 0, 0);">Example</h3><b style="color: rgb(0, 0, 0);">Example
  1: Create a script tag to a file</b><br
-  style="color: rgb(0, 0, 0);"><br style="color: rgb(0, 0, 0);"><code style="color: rgb(0, 0, 0);">&lt;ui:script url="/pathtomyjs/myjavascript.js" /&gt;</code><i
+  style="color: rgb(0, 0, 0);"><br style="color: rgb(0, 0, 0);"><code style="color: rgb(0, 0, 0);">&lt;webuijsf:script url="/pathtomyjs/myjavascript.js" /&gt;</code><i
   style="color: rgb(0, 0, 0);"><br></i><br
   style="color: rgb(0, 0, 0);"><b style="color: rgb(0, 0, 0);">Example
  2: Create a script tag with embedded script (Not Recommended)</b><br
-  style="color: rgb(0, 0, 0);"><br style="color: rgb(0, 0, 0);"><code style="color: rgb(0, 0, 0);">&lt;ui:script&gt;<br>&nbsp; function foo(text) {<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; alert(text);<br>&nbsp; }<br>&lt;/ui:script&gt;</code>
+  style="color: rgb(0, 0, 0);"><br style="color: rgb(0, 0, 0);"><code style="color: rgb(0, 0, 0);">&lt;webuijsf:script&gt;<br>&nbsp; function foo(text) {<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; alert(text);<br>&nbsp; }<br>&lt;/webuijsf:script&gt;</code>
 
 ]]></description>
     </tag>
@@ -12513,7 +12517,7 @@ update components server-side: refresh("form1:id1,form2:id2,...")<br>
     <tag>
         <name>skipHyperlink</name>
 
-        <description><![CDATA[ Use the <code>ui:skipLink</code>
+        <description><![CDATA[ Use the <code>webuijsf:skipLink</code>
  tag to render a single-pixel transparent image (not visible within the
  browser page) which is hyperlinked to an anchor beyond the section to skip.
  This tag is used to achieve 508-compliance (paragraph o). It is designed to
@@ -12523,10 +12527,10 @@ update components server-side: refresh("form1:id1,form2:id2,...")<br>
  the end of the region to skip.</p><h3>Theme Identifiers</h3>
  None.<h3>Client-side JavaScript functions</h3>
  None.<h3>Examples</h3><b>Example 1: An example showing how to skip over the masthead:</b>
- <br><code>&lt;ui:skipHyperlink id="skip1234" description="skip over the masthead" &gt;
- &lt;ui:masthead id=masthead1" productImageURL="../images/webconsole.png"
+ <br><code>&lt;webuijsf:skipHyperlink id="skip1234" description="skip over the masthead" &gt;
+ &lt;webuijsf:masthead id=masthead1" productImageURL="../images/webconsole.png"
  productImageDescription="Java Web Console" userInfo="test_user" serverInfo="test_server" /&gt;
- &lt;/ui: skipHyperlink&gt;</code>
+ &lt;/webuijsf: skipHyperlink&gt;</code>
 
 ]]></description>
     </tag>
@@ -12535,7 +12539,7 @@ update components server-side: refresh("form1:id1,form2:id2,...")<br>
         <name>staticText</name>
 
         <description><![CDATA[
-<p>Use the<code style="color: rgb(0, 0, 0);"> ui:staticText</code><span
+<p>Use the<code style="color: rgb(0, 0, 0);"> webuijsf:staticText</code><span
  style="color: rgb(0, 0, 0);"> tag to display text that is not
 interactive in the rendered HTML page.&nbsp; The text can be plain
 static text, or be formatted using parameters to insert variable text
@@ -12559,7 +12563,7 @@ unmodified.</p>
 text.&nbsp; In the </span><code style="color: rgb(0, 0, 0);">&lt;span&gt;</code><span
  style="color: rgb(0, 0, 0);"> element, the class and style attribute
 values are set to the values specified with the </span><code
- style="color: rgb(0, 0, 0);">ui:staticText</code><span
+ style="color: rgb(0, 0, 0);">webuijsf:staticText</code><span
  style="color: rgb(0, 0, 0);"> tag's styleclass and style attributes.</span>
 <h3>Client Side Javascript Functions</h3>
 When the component is rendered, a DOM object corresponding to the
@@ -12659,6 +12663,7 @@ this component</li>
     </tr>
     <tr>
       <td> webui.suntheme.widget.staticText.refresh.endEventTopic </td>
+
       <td> Event topic published after asynchronously refreshing the
 component. Supported properties include: See setProps() function.<br>
       <ul>
@@ -12675,14 +12680,14 @@ function for details on properties and their usage</li>
 <code></code>
 <h4>Example 1: Render plain old text<br>
 </h4>
-<div style="margin-left: 40px;"><code>&lt;ui:staticText
+<div style="margin-left: 40px;"><code>&lt;webuijsf:staticText
 id="statictext1" text="#{bean.someText}" /&gt; </code><br>
-<code></code><code>&lt;ui:staticText id="statictext1" text="some text
+<code></code><code>&lt;webuijsf:staticText id="statictext1" text="some text
 to display" /&gt;</code><code></code><br>
 <code></code></div>
 <h4>Example 2: Use Params to format a whole line<br>
 </h4>
-<code>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &lt;ui:staticText id="blah"
+<code>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &lt;webuijsf:staticText id="blah"
 text="At {1,time} on {1,date}, there was {2} on planet
 {0,number,integer}."&gt;<br>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &lt;f:param
@@ -12692,7 +12697,7 @@ id="b2" value="#{HyperlinkBean.date}"/&gt;<br>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &lt;f:param
 id="b3" value="2
 fools"/&gt;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &lt;/ui:staticText&gt;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &lt;/webuijsf:staticText&gt;<br>
 <br>
 </code>The above will render:&nbsp; <span id="form1:blah">"At 8:36:18
 AM on Dec 13, 2004, there was 2 fools on planet 7."</span><code></code>
@@ -14321,6 +14326,7 @@ text=&quot;Three B&quot; /&gt;<br>
  <code></code></div>
  <h4 style="color: rgb(0, 0, 0);"><span style="font-weight: bold;">Method
  Bindings</span></h4>
+
 
  <span style="color: rgb(0, 0, 0);">A JavaServer Faces issue prevents
  method bindings from
@@ -19090,7 +19096,7 @@ update components server-side: submit("form1:id1,form2:id2,...")<br>
  an action when the user clicks the text hyperlink. You can use the <code>actionListener</code> 
  attributes to perform an action when the user clicks the handle image hyperlink.
  <h3>Facets</h3>
- <p> The Tree component supports the following facets: </p>
+ <p> The TreeNode component supports the following facets: </p>
  <table style="text-align: left;" border="1" cellpadding="2" cellspacing="2">
  <tbody>
  <tr>
@@ -19105,6 +19111,14 @@ update components server-side: submit("form1:id1,form2:id2,...")<br>
  with the node. The <code>image</code> facet overrides the <code>imageURL</code>
  attribute.</td>
  </tr>
+ <tr>
+<td colspan="2" style="vertical-align: top;">Note that using either of these facets causes
+some deviation from the normal behavior. If the content or the image is supplied as an 
+attribute of the treeNode tag clicking on the text or icon of a branch always
+opens that branch as well as displays appropriate content in the right pane.  But
+when facets are used, this behavior is lost. The developer has to explicitly add this
+behavior to the facets.</td>
+</tr>
  </tbody>
  </table>
  <h3>Theme Identifiers</h3>
@@ -19137,6 +19151,864 @@ update components server-side: submit("form1:id1,form2:id2,...")<br>
 ]]></description>
     </tag>
 
+    <tag>
+        <name>tree</name>
+
+        <description><![CDATA[ <p>Use the <code>webuijsf:tree</code> tag to display a tree structure in the
+	rendered HTML page. The nodes of the tree are defined with 
+        <a href="treeNode.html"><code>webuijsf:treeNode</code></a> tags.
+        Trees are often used for navigating in a web application.</p>
+
+    <h3>HTML Elements and Layout</h3>
+
+    <p>	The Tree component defines and renders a tree structure. A tree
+	structure is commonly used for navigation through data, as in file
+	system navigators.  The base, or root, of the tree is shown at the top,
+	with the branches going downward. The <code>webuijsf:tree</code> tag defines 
+        the root of the tree.</p>
+
+    <p>	The tree is rendered with <code>&lt;div&gt;</code> XHTML elements which
+	define rows as well as nesting within the tree.</p>
+
+    <p> The <code>webuijsf:tree</code> tag is the root of the tree, and is also a 
+	container for the <a href="treeNode.html"><code>webuijsf:treeNode</code></a> tags. The
+	<code>webuijsf:treeNode</code> tags add branches, or nodes, to the tree. The 
+        <code>webuijsf:tree</code> tag is also a special type of <code>webuijsf:treeNode</code>
+        that has the ability to create a title bar for the root. The root of the tree 
+        is only visible when it includes a title bar. </p>
+    <p> In the rendered web page, a node can be 
+        expanded and collapsed when you click on the small icon next to the node,
+        or when you click the node's hyperlink text. 
+        In addition, the node is
+	highlighted when you click on the node's hyperlink to indicate the node
+	has focus. 
+        <p>When the root of the tree is visible, it does not have handle icons, and cannot be
+        expanded and collapsed.</p>
+ <h3>Configuring the webuijsf:tree Tag</h3>
+
+    <p> The <code>webuijsf:tree</code> tag creates the topmost tree node and can 
+        optionally render a title bar. If the title bar is not rendered,
+        the tree component is not visible in the rendered HTML page. See 
+        <a href="#DefineTitleBar">Defining a Title Bar</a>
+        for more information.</p> 
+
+    <p>	The <code>webuijsf:tree</code> tag provides the ability to render the tree
+	root in any of the following ways:</p>
+
+    <ul><li><p>As a single root, with a title bar to make the root visible. 
+            You must specify attributes or facets in the
+	    <code>webuijsf:tree</code> tag to allow the title bar to be rendered. 
+            See <a href="#DefineTitleBar">Defining a Title Bar</a>
+            for more information.</p></li>
+        <li><p>As a single root, without a title bar. The root is invisible, 
+            and a treeNode component is used as a single "root". 
+            This treeNode is like any other container node in the tree, and
+            includes handle icons for expanding and collapsing.  
+            You must omit attributes and
+	    facets in the <code>webuijsf:tree</code> tag, and specify a single
+	    <code>webuijsf:treeNode</code> as the root node, with other
+	    <code>webuijsf:treeNode</code> tags contained within the first
+	    <code>webuijsf:treeNode</code>.</p></li>
+	<li><p>As a multi-root tree, without a title bar. There is no single top
+	    node, but two or more at the same level. You must omit attributes
+	    and facets in the <code>webuijsf:tree</code> tag and include multiple
+	    <code>webuijsf:treeNode</code> tags. See 
+            <a href="#DefineMultiRoot">Defining a Tree with Multiple Roots</a> 
+            for more information.</p></li></ul>
+    <h4><a name="DefineTitleBar"></a>Defining a Title Bar</h4>
+
+    <p>	The title bar consists of the following elements:</p>
+
+    <ul><li>A shaded background color determined by the theme.</li>
+	<li>An optional graphic to the left of the title bar's text.</li>
+	<li>Text or a hyperlink for the content of the title bar.</li></ul>
+
+    <p>	The title bar can be defined with either <code>webuijsf:tree</code> tag
+	attributes or facets. The title bar is rendered if the
+	tree component includes <code>imageURL</code> property for the graphic,
+	the <code>text</code> property for the title text, the
+	<code>content</code> facet, or the <code>image</code> facet.</p>
+
+    <p> The title bar can be defined with either <code>webuijsf:tree</code> tag
+attributes or facets. The title bar is rendered if the tree component
+includes any of the following: the <code>imageURL</code> attribute for
+the graphic, the <code>text</code> attribute for the title text, 
+the <code>content</code> facet, or the <code>image</code> facet.</p>
+
+    <h4><a name="DefineMultiRoot"></a>Defining a Tree with Multiple Roots</h4>
+
+    <p>	To define a tree that has multiple roots rather than a single top root,
+	you must use the <code>webuijsf:tree</code> tag only as a container. You
+	should not specify attributes for the graphic or title text, or use
+	facets in the <code>webuijsf:tree</code> tag.</p>
+
+    <p>	You can use <code>webuijsf:treeNode</code> tags as containers for other
+	<code>webuijsf:treeNode</code> tags, but should not use one to contain all
+	the others to avoid the appearance of a single root.</p>
+
+          <h4>Client-side and Server-side Trees</h4>
+    <p>The <code>webuijsf:tree</code> tag can be used to create a client-side tree or server-side tree.  
+     By default the rendered tree is a server-side tree, and a request will be made 
+     to the server each time the tree is expanded or collapsed. Set the <code>clientSide</code>
+     attribute to true to create a tree that handles expanding and collapsing in the
+     browser. Client-side trees are most useful for navigating through the application.</p>
+     <p>If your tree needs to maintain its state across requests, you should 
+     use the server side tree. The server side tree also provides the ability to fire
+     events when the node handles are clicked.</p>
+         <h4>Dynamically Adding and Removing Tree Nodes</h4>
+    <p>The <code>webuijsf:tree</code> and <code>webuijsf:treeNode</code> tags can be used to 
+    dynamically populate tree structures, by using the binding attribute to 
+    create Tree and TreeNode component instances programmatically through
+    a backing bean.  This approach is useful when tree data is not static,  
+    but must be calculated when the page is rendered. Another reason
+    to dynamically populate a tree is to decrease the time needed to
+    initially render a tree by waiting until a user opens a folder before
+    adding the folder's child nodes.   
+    See the <a href="#Examples">Examples</a> section for sample code
+    that implements dynamic nodes.</p>
+    <h3>Facets</h3>
+    <p> The Tree component supports the following facets: </p>
+<table style="text-align: left; width: 849px; height: 60px;" border="1"
+cellpadding="2" cellspacing="2">
+<tbody>
+<tr>
+<td style="vertical-align: top;"><code>content</code></td>
+<td style="vertical-align: top;">Replaces the default title bar with a custom component. 
+When the <code>content</code> facet is used, the <code>action</code>, <code>target</code>, 
+<code>text</code>, 
+<code>url</code>, and <code>toolTip</code> attributes are ignored.</td>
+</tr>
+<tr>
+<td style="vertical-align: top;"><code>image</code></td>
+<td style="vertical-align: top;">Specifies the image area. When the <code>image</code> 
+facet is used, the <code>imageURL</code>, <code>action</code>, <code>target</code>, 
+<code>url</code>, and <code>toolTip</code> attributes are ignored.</td>
+</tr>
+</tbody>
+</table>
+<h3>Theme Identifiers</h3>
+<p>The following image keys might be useful for including theme images in tree nodes.
+To use these keys, use the <code>image</code> facet with a child component that supports
+the <code>icon</code> attribute, such as <code>webuijsf:image</code> and <code>webuijsf:imageHyperlink</code>.</p> 
+<pre>
+TREE_BLANK
+TREE_DOCUMENT
+TREE_FOLDER
+TREE_FOLDER_ALARM_MINOR
+TREE_FOLDER_ALARM_MAJOR
+TREE_FOLDER_ALARM_DOWN
+TREE_FOLDER_ALARM_CRITICAL
+TREE_SERVER
+TREE_SERVER_CRITICAL
+TREE_SERVER_DOWN
+TREE_SERVER_MAJOR
+TREE_SERVER_MINOR
+TREE_STORAGE
+TREE_STORAGE_MAJOR</pre>
+
+<!--
+    <h3>Theme Identifiers</h3>
+
+    <p>	The following identifiers are written as class values in the html.
+	The locations are described below.</p>
+
+    <ul><li><code>Tree</code> for the outer <code>&lt;div&gt;</code> around the
+	    tree component.</li>
+	<li><code>TreeContent</code> for the <code>&lt;div&gt;</code> around the
+	    content area of the tree (or tree node) component.  This is the same
+	    area that may be replaced by the <code>content</code> facet.</li>
+--	<li><code>TreeParentLink</code> </li> --
+--	<li><code>TreeLink</code> </li> --
+--	<li><code>TreeLinkSpace</code> </li> --
+--	<li><code>TreeImg</code> </li> --
+	<li><code>TreeImgHeight</code> ensures each tree row is the correct
+	    height.</li>
+	<li><code>TreeRootRow</code> for the <code>&lt;div&gt;</code> around
+	    the title bar.</li>
+	<li><code>TreeRootRowHeader</code> for the <code>&lt;div&gt;</code>
+	    above the title bar.  This may be used to make the title bar
+	    taller.</li>
+	<li><code>TreeRow</code> for the <code>&lt;div&gt;</code> around each
+	    tree node component.  This includes the tree node and all its child
+	    tree nodes.</li>
+--	<li><code>TreeSelLink</code> </li> --
+--	<li><code>TreeSelRow</code> </li> --
+--	<li><code>TreeSelText</code> </li> --
+	</ul>
+-->
+
+
+    <h3>Client Side Javascript Functions</h3>
+
+    <p>	The JavaScript functions listed in the following table are defined in a
+	file that is referenced automatically by the Tree component.  The
+	functions are called automatically in the rendered HTML.  You can also
+	call these functions independently; you may choose to do this to select
+	or expand/collapse a TreeNode on the client.</p>
+
+    <table style="width: 100%; text-align: left;" border="1" cellpadding="2"
+cellspacing="2">
+<tbody>
+<tr>
+<td style="vertical-align: top;"><code>clearHighlight(treeNode)</code></td>
+<td style="vertical-align: top;">This function clears the
+highlighting for a particular TreeNode. The <code>treeNode</code>
+passed in is the id of the <code>&lt;div&gt;</code> element that
+surrounds the HTML code for the TreeNode.
+This id can be obtained by calling <code>getElementById("&lt;TreeNode.getClidentId()&gt;")</code>.</td>
+</tr>
+<tr>
+<td style="vertical-align: top;"><code>expandCollapse(treeNode,
+event)</code></td>
+<td style="vertical-align: top;">This function expands or
+collapses the given tree node. The function expects the source of the
+given event object to be a tree handle image. The function swaps images
+that depict the node as expanded or collapsed. The handle image points
+right when the node is collapsed, and points down when the node is
+expanded.&nbsp; This implementation requires the file names of the
+images to include the strings "tree_handleright" and "tree_handledown"
+to enable the images to be accurately displayed by swapping "right" and
+"down" in the name of the image file that is rendered.<br>
+</td>
+</tr>
+<tr>
+<td style="vertical-align: top;"><code>getParentTreeNode(treeNode)</code></td>
+<td style="vertical-align: top;">This function returns the
+parent TreeNode of the given TreeNode.</td>
+</tr>
+<tr>
+<td style="vertical-align: top;"><code>getSelectedTreeNode(treeId)</code></td>
+<td style="vertical-align: top;">This function returns the
+selected TreeNode given the treeId of the Tree.</td>
+</tr>
+<tr>
+<td style="vertical-align: top;"><code>getTree(treeNode)</code></td>
+<td style="vertical-align: top;">This function provides access
+to the Tree object containing the given TreeNode.</td>
+</tr>
+<tr>
+<td style="vertical-align: top;"><code>highlight(treeNode)</code></td>
+<td style="vertical-align: top;">This function highlights the
+given TreeNode.The <code>treeNode</code>
+passed in is the id of the <code>&lt;div&gt;</code> element that
+surrounds the HTML code for the TreeNode.
+This id can be obtained by calling <code>getElementById("&lt;TreeNode.getClidentId()&gt;")</code>.</td>
+</tr>
+<tr>
+<td style="vertical-align: top;"><code>highlightParent(treeNode)</code></td>
+<td style="vertical-align: top;">This function highlights the
+parent TreeNode of the given TreeNode, only if the given
+TreeNode is <b>not</b> visible. The parent is considered the first
+visible parent of this TreeNode. The <code>treeNode</code>
+passed in is the id of the <code>&lt;div&gt;</code> element that
+surrounds the HTML code for the child TreeNode.
+This id can be obtained by calling <code>getElementById("&lt;TreeNode.getClidentId()&gt;")</code>.</td>
+</tr>
+<tr>
+<td style="vertical-align: top;"><code>isAnHref(event)</code></td>
+<td style="vertical-align: top;">This function checks to see if
+the event target is an href, or if any of the parent nodes which
+contain it is an href. To be considered an href, the target or parent
+node must be an <code>&lt;a&gt;</code> element with an <code>href="..."&nbsp;</code>
+attribute that contains at least four characters. (Note:
+Browsers will add on the protocol if you supply a relative URL such as
+one starting with a '#', '/', or filename).</td>
+</tr>
+<tr>
+<td style="vertical-align: top;"><code>isTreeHandle(event)</code></td>
+<td style="vertical-align: top;">This function determines if the
+event source is a tree handle image. This implementation depends on
+the tree handle image file name containing "tree_handle". No other
+images can contain this string. <br>
+</td>
+</tr>
+<tr>
+<td style="vertical-align: top;"><code>onTreeNodeClick(treeNode, event)</code></td>
+<td style="vertical-align: top;">This function handles TreeNode
+onClick events. The <code>treeNode</code>
+passed in is the id of the <code>&lt;div&gt;</code> element that
+surrounds the TreeNode that was clicked, in order to process the
+highlighting changes that are necessary. This id can be obtained by
+calling <code>getElementById("&lt;TreeNode.getClidentId()&gt;")</code>.
+If this function is invoked from the TreeNode <code>&lt;div&gt;</code>
+object itself (as is the case when this method is implicitly called),
+the TreeNode
+object is simply the <code>this</code> variable.</td>
+</tr>
+<tr>
+<td style="vertical-align: top;"><code>selectTreeNode(treeNode)</code></td>
+<td style="vertical-align: top;">This function may be used to
+select the given TreeNode. The function clears the previous TreeNode
+and
+selects the given one.</td>
+</tr>
+<tr>
+<td style="vertical-align: top;"><code>treeNodeIsExpanded(treeNode)</code></td>
+<td style="vertical-align: top;">This function determines if the
+given TreeNode is expanded. The function returns <code>true</code> if
+the node is expanded, or <code>false</code>
+if collapsed. <br>
+</td>
+</tr>
+<tr>
+<td style="vertical-align: top;"><code>unhighlightParent(treeNode)</code></td>
+<td style="vertical-align: top;">This function removes parent
+highlighting from the parent TreeNode of the given TreeNode, only if
+the given TreeNode is <b>not</b> visible. The parent is
+considered the first visible parent of this TreeNode. The <code>treeNode</code>
+passed in is the id of the <code>&lt;div&gt;</code> element that
+surrounds the HTML code for the child TreeNode. This id can be obtained
+by calling <code>getElementById("&lt;TreeNode.getClidentId()&gt;")</code>.</td>
+</tr>
+<tr>
+<td style="vertical-align: top;"><code>updateHightlight(id)</code></td>
+<td style="vertical-align: top;">This function updates the
+highlighting for the given Tree client id. This function provides a way
+to restore the highlighting when a Tree is reloaded in a window
+(necessary for each page load).</td>
+</tr>
+</tbody>
+</table>
+
+<h3><a name="Examples"></a>Examples</h3>
+
+<p>The following examples are included:</p>
+<ul>
+<li><a href="#MultiRootTree">Example 1: Multi-Root Tree</a></li>
+<li><a href="#ClientSideTree">Example 2: Client-Side Tree with <code>image</code> Facet</a></li>
+<li><a href="#ServerSideTree">Example 3: Server-Side Tree with <code>content</code> Facet</a></li>
+<li><a href="#DynamicTree">Example 4: Dynamic Tree</a></li>
+<li><a href="#TestTreeBean">TestTreeBean.java Backing Bean</a></li>
+</ul>
+
+
+<h4><a name="MultiRootTree"></a>Example 1: Multi-Root Tree</h4>
+<p>This example shows a simple multiple root tree.</p>
+<code>&lt;webuijsf:tree id="TreeExample1" &gt;<br>
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&lt;webuijsf:treeNode id="node0"
+expanded="false" text="Accessibility" url="#"&gt;<br>
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;
+&lt;webuijsf:treeNode id="node0_1" text="Access Key" url="#"&gt;<br>
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;
+&lt;/webuijsf:treeNode&gt;<br>
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&lt;/webuijsf:treeNode&gt;<br>
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&lt;webuijsf:treeNode id="node1"
+expanded="false" text="Getting Started with Solaris" url="#"&gt;<br>
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;
+&lt;webuijsf:treeNode id="node1_1" text="Registering with Sun Microsystems,
+Inc." url="#"&gt;<br>
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;
+&lt;/webuijsf:treeNode&gt;<br>
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&lt;/webuijsf:treeNode&gt;<br>
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&lt;webuijsf:treeNode id="node2"
+expanded="true" text="Storage Management" url="#"&gt;<br>
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;
+&lt;webuijsf:treeNode id="node2_1" text="Getting Started with Storage"
+url="#"&gt;<br>
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+&nbsp;&lt;webuijsf:treeNode id="node2_1_1" text="Checking Volume Status"
+url="#"&gt;<br>
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+&nbsp;&lt;/webuijsf:treeNode&gt;<br>
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;
+&lt;/webuijsf:treeNode&gt;<br>
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;
+&lt;webuijsf:treeNode id="node2_2" text="Storage Hardware" url="#"&gt;<br>
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;
+&lt;/webuijsf:treeNode&gt;<br>
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;
+&lt;webuijsf:treeNode id="node2_3" text="RAID Levels" url="#"&gt;<br>
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;
+&lt;/webuijsf:treeNode&gt;<br>
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;
+&lt;webuijsf:treeNode id="node2_4" text="Choosing Storage" url="#"&gt;<br>
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;
+&lt;/webuijsf:treeNode&gt;<br>
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;
+&lt;webuijsf:treeNode id="node2_5" text="Random I/O" url="#"&gt;<br>
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;
+&lt;/webuijsf:treeNode&gt;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &lt;/webuijsf:treeNode&gt;<br>
+<br>
+&lt;/webuijsf:tree&gt;</code>
+<h4><a name="ClientSideTree"></a>Example 2: Client-side Tree</h4>
+<p>This example shows a client-side tree with nodes that use actions, urls, or static
+text. The example also uses the image facet to use a theme icon in the tree title bar.</p>
+<code>
+&nbsp;&lt;webuijsf:tree id="TreeExample1" text="Client-side Tree"
+url="#" clientSide="true"&gt;<br>
+&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&lt;f:facet name="image"&gt;<br>
+&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp; &lt;webuijsf:image
+id="image" icon="TREE_FOLDER_ALARM_CRITICAL" /&gt;<br>
+&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&lt;/f:facet&gt;<br>
+&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&lt;webuijsf:treeNode id="node0" expanded="true" <br>
+&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp; &nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp; text="Node with action set to navigation rule" action="hyperlinkPage"&gt;<br>
+&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp; &lt;f:facet
+name="image"&gt;<br>
+&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&lt;webuijsf:image
+id="image" icon="TREE_FOLDER_ALARM_CRITICAL" /&gt;<br>
+&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;
+&lt;/f:facet&gt;<br>
+&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;
+&lt;webuijsf:treeNode id="node1" expanded="true" <br>
+&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;
+&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp; text="Node with action set to managed bean method" <br>
+&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;action="#{HyperlinkBean.success}"&gt;<br>
+&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&lt;f:facet
+name="image"&gt;<br>
+&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp; &lt;webuijsf:image id="image"
+icon="TREE_FOLDER_ALARM_CRITICAL" /&gt;<br>
+&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+&nbsp;&lt;/f:facet&gt;<br>
+&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+&nbsp;&lt;webuijsf:treeNode id="node1_1" text="Node with static text"&gt;<br>
+&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp; &lt;f:facet name="image"&gt;<br>
+&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+&nbsp;&lt;webuijsf:image id="image" icon="TREE_SERVER" /&gt;<br>
+&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp; &lt;/f:facet&gt;<br>
+&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+&nbsp;&lt;/webuijsf:treeNode&gt;<br>
+&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+&nbsp;&lt;webuijsf:treeNode id="node1_2" text="Node with a URL"
+url="http://www.google.com/"&gt;<br>
+&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp; &lt;f:facet name="image"&gt;<br>
+&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+&nbsp;&lt;webuijsf:image id="image" icon="TREE_SERVER_CRITICAL" /&gt;<br>
+&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp; &lt;/f:facet&gt;<br>
+&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+&nbsp;&lt;/webuijsf:treeNode&gt;<br>
+&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;
+&lt;/webuijsf:treeNode&gt;<br>
+&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;
+&lt;webuijsf:treeNode id="node2" text="Building 10" url="#"&gt;<br>
+&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&lt;f:facet
+name="image"&gt;<br>
+&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp; &lt;webuijsf:image id="image" icon="TREE_FOLDER"
+/&gt;<br>
+&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+&nbsp;&lt;/f:facet&gt;<br>
+&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+&nbsp;&lt;webuijsf:treeNode id="node1_2" text="Skippy" url="#"&gt;<br>
+&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp; &lt;f:facet name="image"&gt;<br>
+&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+&nbsp;&lt;webuijsf:image id="image" icon="TREE_SERVER" /&gt;<br>
+&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp; &lt;/f:facet&gt;<br>
+&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+&nbsp;&lt;/webuijsf:treeNode&gt;<br>
+&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;
+&lt;/webuijsf:treeNode&gt;<br>
+&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&lt;/webuijsf:treeNode&gt;<br>
+&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&lt;webuijsf:treeNode id="node3"
+expanded="true" text="Building 2" url="#"&gt;<br>
+&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp; &lt;f:facet
+name="image"&gt;<br>
+&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&lt;webuijsf:image
+id="image" icon="TREE_FOLDER" /&gt;<br>
+&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;
+&lt;/f:facet&gt;<br>
+&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;
+&lt;webuijsf:treeNode id="node3_1" text="Arizona" url="#"&gt;<br>
+&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&lt;f:facet
+name="image"&gt;<br>
+&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp; &lt;webuijsf:image id="image" icon="TREE_SERVER"
+/&gt;<br>
+&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+&nbsp;&lt;/f:facet&gt;<br>
+&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;
+&lt;/webuijsf:treeNode&gt;<br>
+&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&lt;/webuijsf:treeNode&gt;<br>
+&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp; &lt;/webuijsf:tree&gt;
+</code>  
+
+<h4><a name="ServerSideTree"></a>Example 3: Server-Side Tree with <code>content</code> Facet</h4>
+<p>This example shows a server-side tree that uses a <code>webuijsf:dropDown</code> tag
+to create the content area in the title bar of the tree.  </p>
+<code>
+&nbsp;&lt;webuijsf:tree id="TreeExample3" url="#"&gt;<br>
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &lt;f:facet name="content"&gt;<br>
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+&lt;webuijsf:dropDown id="airport" submitForm="true" items="#{BackingFileChoice.airports}" /&gt;<br>
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &lt;/f:facet&gt;<br>
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &lt;webuijsf:treeNode id="node0"
+expanded="true" text="Paducah" url="#"&gt;<br>
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &lt;f:facet
+name="image"&gt;<br>
+&nbsp; &nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+&lt;webuijsf:image id="image" icon="TREE_FOLDER_ALARM_MINOR" /&gt;<br>
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+&lt;/f:facet&gt;<br>
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+&lt;webuijsf:treeNode id="node1" expanded="true" text="Building 1" url="#"&gt;<br>
+&nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+&lt;f:facet name="image"&gt;<br>
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp; &lt;webuijsf:image id="image"
+icon="TREE_FOLDER_ALARM_MINOR" /&gt;<br>
+&nbsp;&nbsp;&nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp;&nbsp;
+&lt;/f:facet&gt;<br>
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+&lt;webuijsf:treeNode id="node1_1" text="Kenga"&gt;<br>
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+&lt;f:facet name="image"&gt;<br>
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp; &lt;webuijsf:image id="image" icon="TREE_SERVER" /&gt;<br>
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+&lt;/f:facet&gt;<br>
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+&lt;/webuijsf:treeNode&gt;<br>
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+&lt;webuijsf:treeNode id="node1_2" text="Crocker" url="#"&gt;<br>
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+&lt;f:facet name="image"&gt;<br>
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp; &lt;webuijsf:image id="image" icon="TREE_SERVER_MINOR"
+/&gt;<br>
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+&lt;/f:facet&gt;<br>
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp; &nbsp; &nbsp;&nbsp; &lt;/webuijsf:treeNode&gt;<br>
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &lt;/webuijsf:treeNode&gt;<br>
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; <br>
+&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &lt;webuijsf:treeNode id="node5"
+expanded="true" text="Building 4" url="#"&gt;<br>
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &lt;f:facet
+name="image"&gt;<br>
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+&lt;webuijsf:image id="image" icon="TREE_FOLDER_ALARM_MAJOR" /&gt;<br>
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+&lt;/f:facet&gt;<br>
+&nbsp;&nbsp;&nbsp; &nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &lt;webuijsf:treeNode
+id="node5_1" text="Neptune" url="#"&gt;<br>
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;
+&lt;f:facet name="image"&gt;<br>
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp; &lt;webuijsf:image id="image" icon="TREE_STORAGE_MAJOR"
+/&gt;<br>
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp; &nbsp; &nbsp;
+&lt;/f:facet&gt;<br>
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+&lt;/webuijsf:treeNode&gt;<br>
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+&lt;webuijsf:treeNode id="node5_2" text="Zeus" url="#"&gt;<br>
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &lt;f:facet
+name="image"&gt;<br>
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp; &lt;webuijsf:image id="image" icon="TREE_STORAGE" /&gt;<br>
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+&lt;/f:facet&gt;<br>
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+&lt;/webuijsf:treeNode&gt;<br>
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp; &lt;/webuijsf:treeNode&gt;<br>
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &lt;/webuijsf:treeNode&gt; &nbsp;&nbsp;
+<br>
+&nbsp;&lt;/webuijsf:tree&gt;
+</code>  
+
+<h4><a name="DynamicTree"></a>Example 4: Dynamic Tree</h4>
+<p>This example shows how to dynamically add or remove nodes from the tree. It also shows
+one way to dynamically add nodes to a folder when that folder is expanded. Each time a user 
+expands Folder 3, three new nodes are added to it. The backing bean used in this example
+is included after the example.</p>
+<p>Note that you cannot delete nodes that are declared in the JSP. In this example, you cannot
+delete the root node (defined by <code>webuijsf:tree</code>) and the first three child nodes, folder1,
+folder2, and folder3 (defined by <code>webuijsf:treeNode</code> tags).
+</p>
+<code>
+&lt;webuijsf:tree id="dynamicTree" binding="#{TestTreeBean.dynamicTree}"&gt;
+<br>
+&nbsp; &lt;webuijsf:treeNode id="folder1" binding="#{TestTreeBean.folder1}"
+/&gt;&nbsp;&nbsp;&nbsp; <br>
+&nbsp; &lt;webuijsf:treeNode id="folder2" binding="#{TestTreeBean.folder2}"
+/&gt;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <br>
+&nbsp; &lt;webuijsf:treeNode id="folder3" text="Folder3" url="#"
+actionListener="#{TestTreeBean.nodeExpanded}" &gt;
+<br>
+&nbsp;&nbsp;&nbsp; &lt;webuijsf:treeNode id="folder3Child1" text="Folder 3
+Child 1" url="#" /&gt;
+<br>
+&nbsp; &lt;/webuijsf:treeNode&gt;
+<br>
+&lt;/webuijsf:tree&gt;
+<br>
+<br>
+&lt;webuijsf:button id="addButton" text="Add Child to Selected Node"
+action="#{TestTreeBean.addNode}" /&gt;
+<br>
+&lt;webuijsf:button id="deleteButton" text="Delete Selected Node"
+action="#{TestTreeBean.deleteNode}" /&gt;<br>
+</code>
+
+
+
+
+
+
+<h4><a name="TestTreeBean"></a>TestTreeBean.java Backing Bean</h4>
+<p>The following backing bean is used by the Dynamic Tree example.</p>
+
+<code>
+public class TestTreeBean {
+<br>
+<br>
+&nbsp;&nbsp;&nbsp; ... other code removed for readability ....
+<br>
+<br>
+&nbsp;&nbsp;&nbsp; private Tree dynamicTree = null;
+<br>
+<br>
+&nbsp;&nbsp;&nbsp; public Tree getDynamicTree() {
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; if (dynamicTree == null) {
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+dynamicTree = new Tree();
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+dynamicTree.setText("Dynamic Tree Behavior Test");
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; }
+<br>
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; return dynamicTree;
+<br>
+&nbsp;&nbsp;&nbsp; }
+<br>
+<br>
+&nbsp;&nbsp;&nbsp; public void setDynamicTree(Tree t) {
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; dynamicTree = t;
+<br>
+&nbsp;&nbsp;&nbsp; }
+<br>
+<br>
+&nbsp;&nbsp;&nbsp; private TreeNode folder1 = null;
+<br>
+<br>
+&nbsp;&nbsp;&nbsp; public TreeNode getFolder1() {
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; if (folder1 == null) {
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+folder1 = new TreeNode();
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+folder1.setUrl("#");
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+folder1.setText("Folder 1");
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+folder1.setExpanded(true);
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; }
+<br>
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; return folder1;
+<br>
+&nbsp;&nbsp;&nbsp; }
+<br>
+<br>
+&nbsp;&nbsp;&nbsp; public void setFolder1(TreeNode n) {
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; folder1 = n;
+<br>
+&nbsp;&nbsp;&nbsp; }
+<br>
+<br>
+&nbsp;&nbsp;&nbsp; private TreeNode folder2 = null;
+<br>
+<br>
+&nbsp;&nbsp;&nbsp; public TreeNode getFolder2() {
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; if (folder2 == null) {
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+folder2 = new TreeNode();
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+folder2.setUrl("#");
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+folder2.setText("Folder 2");
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+folder2.setExpanded(true);
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; }
+<br>
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; return folder2;
+<br>
+&nbsp;&nbsp;&nbsp; }
+<br>
+<br>
+&nbsp;&nbsp;&nbsp; public void setFolder2(TreeNode n) {
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; folder2 = n;
+<br>
+&nbsp;&nbsp;&nbsp; }
+<br>
+<br>
+&nbsp;&nbsp;&nbsp; // int counter to name new nodes with
+<br>
+&nbsp;&nbsp;&nbsp; int i = 0;
+<br>
+<br>
+&nbsp;&nbsp;&nbsp; &frasl;**
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp; * This action listener method will be called
+when Folder 3's
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp; * turner IconHyperlink is clicked.
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp; *&frasl;
+<br>
+&nbsp;&nbsp;&nbsp; public void nodeExpanded(ActionEvent event) {
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; TreeNode node = (TreeNode)
+event.getComponent();
+<br>
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; if (!node.isExpanded()) {
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; for
+(int j = 0; j &lt; 3; j++) {
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+TreeNode newNode = createNode(i++);
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+node.getChildren().add(newNode);
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; }
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; }
+<br>
+&nbsp;&nbsp;&nbsp; }
+<br>
+<br>
+&nbsp;&nbsp;&nbsp; private TreeNode createNode(int id) {
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; TreeNode node = new
+TreeNode();
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; node.setId("node" + i);
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; node.setText("Node " + i);
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; node.setUrl("#");
+<br>
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; return node;
+<br>
+&nbsp;&nbsp;&nbsp; }
+<br>
+<br>
+&nbsp;&nbsp;&nbsp; &frasl;**
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp; * This action method is called when the "Add
+Child to Selected
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp; * Node" button is pressed.
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp; *&frasl;
+<br>
+&nbsp;&nbsp;&nbsp; public String addNode() {
+<br>
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; String nodeId =
+getDynamicTree().getSelected();
+<br>
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; if (nodeId == null) {
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+return "";
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; }
+<br>
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; UIComponent node =
+getDynamicTree().findComponent(":" + nodeId);
+<br>
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; if (node != null) {
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+TreeNode newNode = createNode(i++);
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+node.getChildren().add(newNode);
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; }
+<br>
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; return "";
+<br>
+&nbsp;&nbsp;&nbsp; }
+<br>
+<br>
+&nbsp;&nbsp;&nbsp; &frasl;**
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp; * This action method is called when the
+"Delete Selected Node"
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp; * button is pressed.
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp; *&frasl;
+<br>
+&nbsp;&nbsp;&nbsp; public String deleteNode() {
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; String nodeId = (String)
+getDynamicTree().getSelected();
+<br>
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; if (nodeId == null) {
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+return "";
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; }
+<br>
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; UIComponent node =
+getDynamicTree().findComponent(":" + nodeId);
+<br>
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; if (node != null) {
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+UIComponent parent = node.getParent();
+<br>
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; List
+kids = parent.getChildren();
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+kids.remove((Object) node);
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; }
+<br>
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; return "";
+<br>
+&nbsp;&nbsp;&nbsp; }</code>
+    <br>
+<p></p>
+
+
+]]></description>
+    </tag>
+    
     <tag>
         <name>upload</name>
 
@@ -19786,7 +20658,7 @@ components are used in the page.</p>
      <tr>
        <td style="vertical-align: top;"><code>wizOnLoad()</code></td>
        <td>This method must be assigned to the onload handler of the onLoad 
-           attribute of the ui:body tag if the wizard is to operate properly
+           attribute of the webuijsf:body tag if the wizard is to operate properly
            on IE.
      </td>
      </tr>
