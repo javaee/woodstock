@@ -141,7 +141,6 @@ webui.@THEME@.widget.checkboxGroup.getProps = function() {
     if (this.readOnly != null) { props.readOnly = this.readOnly; }  
 
     // Add DOM node properties.
-    Object.extend(props, this.getCommonProps());
     Object.extend(props, this.getCoreProps());
 
     return props;
@@ -215,7 +214,7 @@ webui.@THEME@.widget.checkboxGroup.setProps = function(props) {
     props.className = this.getClassName();
 
     // Set DOM node properties.
-    this.setCoreProps(this.domNode, props);   
+    this.setCoreProps(this.domNode, props);
    
      // Update label properties.
      if (props.label || props.disabled != null && this.label) {

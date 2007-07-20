@@ -24,6 +24,8 @@ package com.sun.webui.jsf.renderkit.widget;
 
 import com.sun.webui.jsf.component.ComplexComponent;
 import com.sun.webui.jsf.component.Label;
+import com.sun.webui.jsf.component.RadioButton;
+import com.sun.webui.jsf.component.RbCbSelector;
 import com.sun.webui.jsf.component.Selector;
 import com.sun.webui.jsf.model.Option;
 import com.sun.webui.jsf.util.ComponentUtilities;
@@ -53,12 +55,123 @@ abstract class SelectorGroupRenderer extends RendererBase {
      * The set of pass-through attributes to be rendered.
      */
     private static final String attributes[] = {
+        //not style!
+
+        //alt
+        //align
+        
+        "accessKey",
+        "dir",
         "lang",
-        "dir"
+        "tabIndex",
+        "title",
+        "onBlur",
+        "onClick",
+        "onChange",
+        "onDblClick",
+        "onFocus",
+        "onKeyDown",
+        "onKeyPress",
+        "onKeyUp",
+        "onMouseDown",
+        "onMouseOut",
+        "onMouseOver",
+        "onMouseUp",
+        "onMouseMove",
+        "onSelect"
     };
     
-    protected abstract UIComponent getSelectorComponent(FacesContext context,
-        UIComponent component, String id, Option option);
+    /**
+     * Return a RadioButton or Checkbox component to render.
+     *
+     * @param context <code>FacesContext</code> for the current request
+     * @param component <code>RadioButtonGroup</code> or 
+     * <code>CheckboxGroup</code> component rendered     
+     * @param option the <code>Option</code> being rendered.
+     */
+    protected UIComponent getSelectorComponent(FacesContext context,
+	UIComponent component, String id, Option option) {
+
+	Selector rbcbGrp = (Selector)component;        
+        String componentId = rbcbGrp.getClientId(context);
+        if (rbcbGrp instanceof ComplexComponent) {
+            componentId = ((ComplexComponent) rbcbGrp).getLabeledElementId(context);
+        }
+        
+	RbCbSelector rbcb = createSelectorComponent();
+	rbcb.setId(id);
+	rbcb.setParent(component);
+
+	rbcb.setName(componentId);        
+	rbcb.setToolTip(option.getTooltip());
+	rbcb.setImageURL(option.getImage());
+	rbcb.setSelectedValue(option.getValue());
+	rbcb.setLabel(option.getLabel());
+	rbcb.setDisabled(rbcbGrp.isDisabled());
+	rbcb.setReadOnly(rbcbGrp.isReadOnly());
+        
+        String[] names = SelectorGroupRenderer.attributes;
+        
+        Map attributes = component.getAttributes();
+        Map rbAttributes = rbcb.getAttributes();
+        for (int i = 0; i < names.length; i++) {
+            Object value = attributes.get(names[i]);
+            if (value == null) {
+                continue;
+            }
+            else if (value instanceof Integer) {
+                if (((Integer) value).intValue() == Integer.MIN_VALUE) {
+                    continue;
+                }
+            }
+            rbAttributes.put(names[i], value);
+        }
+        
+        // Default to not selected
+        //
+        rbcb.setSelected(null);
+        
+        // Need to check the submittedValue for immediate condition
+        //
+        String[] subValue = (String[])rbcbGrp.getSubmittedValue();
+        if (subValue == null) {
+            if (isSelected(option, rbcbGrp.getSelected())) {
+                rbcb.setSelected(rbcb.getSelectedValue());
+            }
+        } else if (subValue.length != 0) {
+            Object selectedValue = rbcb.getSelectedValue();
+            String selectedValueAsString =
+                ConversionUtilities.convertValueToString(component,
+                    selectedValue);
+            for (int i = 0; i < subValue.length; ++i) {
+                if (subValue[i] != null
+                        && subValue[i].equals(selectedValueAsString)) {
+                    rbcb.setSelected(selectedValue);
+                    break;
+                }
+            }
+        }
+        return rbcb;
+    }
+    
+    /**
+     * Instantiate and return a <code>RadioButton</code> or 
+     * <code>Checkbox</code> component.
+     */
+    protected abstract RbCbSelector createSelectorComponent();
+    
+    /**
+     * Return true if the <code>item</item> argument is the currently
+     * selected radio button/checkbox. Equality is determined by the 
+     * <code>equals</code> method of the object instance stored as the 
+     * <code>value</code> of <code>item</code>. Return false otherwise.
+     *
+     * @param item the current radio button/checkbox being rendered.
+     * @param currentValue the value of the current selected 
+     * radio button/checkbox.
+     */
+    protected abstract boolean isSelected(Option item, Object currentValue);
+        
 
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     // Renderer methods
@@ -118,6 +231,7 @@ abstract class SelectorGroupRenderer extends RendererBase {
         json.put("disabled", component.isDisabled());
         json.put("multiple", component.isMultiple());
         json.put("visible", component.isVisible());
+        json.put("style", component.getStyle());
         
         Selector selector = (Selector)component;
         Object selected = selector.getSelected();
@@ -133,8 +247,8 @@ abstract class SelectorGroupRenderer extends RendererBase {
             ConversionUtilities.setRenderedValue(component, selected);
         }
         
-        // Add attributes.
-        JSONUtilities.addProperties(attributes, component, json);
+        // No other attributes to add, so no need to call JSONUtilities.addProperties
+
         setContents(context, component, json);
 
         return json;

@@ -26,6 +26,7 @@ import com.sun.faces.annotation.Renderer;
 import com.sun.webui.jsf.component.Checkbox;
 import com.sun.webui.jsf.component.CheckboxGroup;
 import com.sun.webui.jsf.component.ComplexComponent;
+import com.sun.webui.jsf.component.RbCbSelector;
 import com.sun.webui.jsf.component.Selector;
 import com.sun.webui.jsf.model.Option;
 import com.sun.webui.jsf.theme.ThemeTemplates;
@@ -38,7 +39,6 @@ import java.util.Map;
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -109,60 +109,10 @@ public class CheckboxGroupRenderer extends SelectorGroupRenderer {
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
     /**
-     * Return a Checkbox component to render.
-     *
-     * @param context <code>FacesContext</code> for the current request
-     * @param component <code>CheckboxGroup</code> component rendered
-     * @param theme <code>Theme</code> for the component
-     * @param option the <code>Option</code> being rendered.
+     * Instantiate and return a <code>Checkbox</code> component.
      */
-    protected UIComponent getSelectorComponent(FacesContext context,
-            UIComponent component, String id, Option option) {
-        
-        CheckboxGroup cbgrp = (CheckboxGroup)component;
-        String componentId = cbgrp.getClientId(context);
-        if (cbgrp instanceof ComplexComponent) {
-            componentId = ((ComplexComponent)cbgrp).getLabeledElementId(context);
-        }
-        
-        Checkbox cb = new Checkbox();
-        cb.setId(id);
-        cb.setParent(cbgrp);
-        
-        cb.setName(componentId);
-        cb.setToolTip(option.getTooltip());
-        cb.setImageURL(option.getImage());
-        cb.setSelectedValue(option.getValue());
-        cb.setLabel(option.getLabel());
-        cb.setDisabled(cbgrp.isDisabled());
-        cb.setReadOnly(cbgrp.isReadOnly());
-        cb.setTabIndex(cbgrp.getTabIndex());     
-        
-        // Default to not selected
-        //
-        cb.setSelected(null);
-        
-        // Need to check the submittedValue for immediate condition
-        //
-        String[] subValue = (String[])cbgrp.getSubmittedValue();
-        if (subValue == null) {
-            if (isSelected(option, cbgrp.getSelected())) {
-                cb.setSelected(cb.getSelectedValue());
-            }
-        } else if (subValue.length != 0) {
-            Object selectedValue = cb.getSelectedValue();
-            String selectedValueAsString =
-                ConversionUtilities.convertValueToString(component,
-                    selectedValue);
-            for (int i = 0; i < subValue.length; ++i) {
-                if (subValue[i] != null
-                        && subValue[i].equals(selectedValueAsString)) {
-                    cb.setSelected(cb.getSelectedValue());
-                    break;
-                }
-            }
-        }
-        return cb;
+    protected RbCbSelector createSelectorComponent() {
+        return new Checkbox();
     }
     
     /**
@@ -174,7 +124,7 @@ public class CheckboxGroupRenderer extends SelectorGroupRenderer {
      * @param item the current checkbox being rendered.
      * @param currentValue the value of the current selected checkbox.
      */
-    private boolean isSelected(Option item, Object currentValue) {
+    protected boolean isSelected(Option item, Object currentValue) {
         // How is the selected value determined ?
         // Is it the Selection value on CheckboxGroup or
         // the boolean value on the current Selection being processed ?

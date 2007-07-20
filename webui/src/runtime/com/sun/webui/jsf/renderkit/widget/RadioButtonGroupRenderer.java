@@ -28,16 +28,17 @@ import com.sun.webui.jsf.component.Selector;
 import com.sun.webui.jsf.model.Option;
 import com.sun.webui.jsf.component.RadioButton;
 import com.sun.webui.jsf.component.RadioButtonGroup;
+import com.sun.webui.jsf.component.RbCbSelector;
 import com.sun.webui.jsf.theme.ThemeTemplates;
 import com.sun.webui.jsf.util.JavaScriptUtilities;
 import com.sun.webui.jsf.util.ConversionUtilities;
 
 import java.io.IOException;
+import java.util.Map;
 
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -106,56 +107,10 @@ public class RadioButtonGroupRenderer extends SelectorGroupRenderer {
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~       
 
     /**
-     * Return a RadioButton component to render.
-     *
-     * @param context <code>FacesContext</code> for the current request
-     * @param component <code>RadioButtonGroup</code> component rendered     
-     * @param option the <code>Option</code> being rendered.
+     * Instantiate and return a <code>RadioButton</code> component.
      */
-    protected UIComponent getSelectorComponent(FacesContext context,
-	UIComponent component, String id, Option option) {
-
-	RadioButtonGroup rbgrp = (RadioButtonGroup)component;        
-        String componentId = rbgrp.getClientId(context);
-        if (rbgrp instanceof ComplexComponent) {
-            componentId = ((ComplexComponent) rbgrp).getLabeledElementId(context);
-        }
-        
-	RadioButton rb = new RadioButton();
-	rb.setId(id);
-	rb.setParent(component);
-
-	rb.setName(componentId);        
-	rb.setToolTip(option.getTooltip());
-	rb.setImageURL(option.getImage());
-	rb.setSelectedValue(option.getValue());
-	rb.setLabel(option.getLabel());
-	rb.setDisabled(rbgrp.isDisabled());
-	rb.setReadOnly(rbgrp.isReadOnly());
-	rb.setTabIndex(rbgrp.getTabIndex());
-        
-	// Default to not selected
-	//
-	rb.setSelected(null);
-
-	// Need to check the submittedValue for immediate condition
-	// 
-	String[] subValue = (String[]) rbgrp.getSubmittedValue();
-	if (subValue == null) {
-	    if (isSelected(option, rbgrp.getSelected())) {
-		rb.setSelected(rb.getSelectedValue());
-	    }
-	} else if (subValue.length != 0) {
-	    Object selectedValue = rb.getSelectedValue();
-	    String selectedValueAsString =
-		ConversionUtilities.convertValueToString(component,
-                    selectedValue);
-	    if (subValue[0] != null 
-                    && subValue[0].equals(selectedValueAsString)) {
-		rb.setSelected(rb.getSelectedValue());
-	    }
-	}
-	return rb;
+    protected RbCbSelector createSelectorComponent() {
+        return new RadioButton();
     }
     
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -171,7 +126,7 @@ public class RadioButtonGroupRenderer extends SelectorGroupRenderer {
      * @param item the current radio button being rendered.
      * @param currentValue the value of the current selected radio button.
      */
-    private boolean isSelected(Option item, Object currentValue) {
+    protected boolean isSelected(Option item, Object currentValue) {
 	return currentValue != null && item.getValue() != null &&
             item.getValue().equals(currentValue);
     }
