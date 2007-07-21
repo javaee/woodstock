@@ -56,7 +56,7 @@ import javax.faces.el.MethodBinding;
     tagName="dropDown",
     tagRendererType="com.sun.webui.jsf.widget.DropDown",
     helpKey="projrave_ui_elements_palette_wdstk-jsf1.2_dropdown_list",
-    propertiesHelpKey="projrave_ui_elements_palette_wdstk-jsf1.2_propsheets_drop_down_props")
+    propertiesHelpKey="projrave_ui_elements_palette_wdstk-jsf1.2_propsheets_dropdown_list_props")
 public class DropDown extends ListSelector implements ActionSource2 {
 
     public final static String SUBMIT = "_submitter";
