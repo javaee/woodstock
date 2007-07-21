@@ -84,7 +84,7 @@ webui.@THEME@.widget.imageHyperlink.fillInTemplate = function() {
     this.domNode.href = "#";
 
     // Set properties.
-    return this.setProps();
+    return this.setProps(this.getProps());
 }
 
 /**
@@ -170,9 +170,9 @@ webui.@THEME@.widget.imageHyperlink.refresh = {
  * </ul>
  */
 webui.@THEME@.widget.imageHyperlink.setProps = function(props) {
-    // Call super class function.
-    var props = webui.@THEME@.widget.imageHyperlink.superclass.setProps.call(
-        this, props);
+    if (props == null) {
+        return null;
+    }
 
     // Show en/disabled images.
     if (props.disabled != null) {
@@ -195,14 +195,18 @@ webui.@THEME@.widget.imageHyperlink.setProps = function(props) {
         this.addFragment(this.disabledImageContainer, props.disabledImage);
     }
 
-    // Add contents.
-    this.addContents(props);
+    // Set image position.
     if (props.imagePosition) {
         var left = (props.imagePosition == "left") 
         webui.@THEME@.common.setVisibleElement(this.leftContentsContainer, !left);
         webui.@THEME@.common.setVisibleElement(this.rightContentsContainer, left);    
     }
-    return props; // Return props for subclasses.
+
+    // Add contents.
+    this.addContents(props);
+
+    // Return props for subclasses.
+    return webui.@THEME@.widget.imageHyperlink.superclass.setProps.call(this, props);
 }
 
 // Inherit base widget properties.

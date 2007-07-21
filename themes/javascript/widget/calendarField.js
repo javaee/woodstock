@@ -68,9 +68,6 @@ webui.@THEME@.widget.calendarField.dayClicked = function(props) {
  * setProps() function should be used to set properties.
  */
  webui.@THEME@.widget.calendarField.fillInTemplate = function() {
-    // Super class fillInTemplate.
-    var props = webui.@THEME@.widget.calendarField.superclass.fillInTemplate.call(this);
-
     // Set ids.
     if (this.id) {
         this.inlineHelpNode.id = this.id + "_pattern";
@@ -88,7 +85,7 @@ webui.@THEME@.widget.calendarField.dayClicked = function(props) {
         this, "toggleCalendar");
 
     // Set properties.
-    return props;
+    return webui.@THEME@.widget.calendarField.superclass.fillInTemplate.call(this);
 }
 
 /**
@@ -190,10 +187,10 @@ webui.@THEME@.widget.calendarField.refresh = {
  * @param props Key-Value pairs of properties.
  */
 webui.@THEME@.widget.calendarField.setProps = function(props) {
-    // Call super class function.
-    var props = webui.@THEME@.widget.calendarField.superclass.setProps.call(
-        this, props);
-    
+    if (props == null) {
+        return null;
+    }
+
     // Set date picker properties.    
     if (props.calendar) {            
         // Update widget/add fragment.                
@@ -218,7 +215,9 @@ webui.@THEME@.widget.calendarField.setProps = function(props) {
         // NOTE: If you set this value manually, text must be HTML escaped.
         this.addFragment(this.inlineHelpNode, props.patternHelp);
     }
-    return props; // Return props for subclasses.    
+
+    // Return props for subclasses.
+    return webui.@THEME@.widget.calendarField.superclass.setProps.call(this, props);
 }
 
 /**

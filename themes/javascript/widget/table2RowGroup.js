@@ -136,7 +136,7 @@ webui.@THEME@.widget.table2RowGroup.fillInTemplate = function() {
     }
 
     // Set properties.
-    return this.setProps();
+    return this.setProps(this.getProps());
 }
 
 /**
@@ -354,15 +354,17 @@ webui.@THEME@.widget.table2RowGroup.setHeight = function() {
  * @param props Key-Value pairs of properties.
  */
 webui.@THEME@.widget.table2RowGroup.setProps = function(props) {
+    if (props == null) {
+        return null;
+    }
+
     // Save properties for later updates.
-    if (props != null) {
+    if (this.isInitialized() == true) {
         // Replace rows -- do not extend.
         if (props.rows) {
             this.rows = null;
         }
         this.extend(this, props);
-    } else {
-        props = this.getProps(); // Widget is being initialized.
     }
 
     // Set DOM node properties.

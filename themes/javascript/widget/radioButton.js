@@ -141,9 +141,9 @@ webui.@THEME@.widget.radioButton.refresh = {
  * @param props Key-Value pairs of properties.
  */
 webui.@THEME@.widget.radioButton.setProps = function(props) {
-    // Call super class function.
-    var props = webui.@THEME@.widget.radioButton.superclass.setProps.call(
-        this, props);
+    if (props == null) {
+        return null;
+    }
 
     if (props.name) {
         // IE does not support the name attribute being set dynamically as 
@@ -160,7 +160,9 @@ webui.@THEME@.widget.radioButton.setProps = function(props) {
         // this has no affect on IE. 
         this.inputNode.name = props.name;
     }
-    return props; // Return props for subclasses.
+
+    // Return props for subclasses.
+    return webui.@THEME@.widget.radioButton.superclass.setProps.call(this, props);
 }
 
 /**

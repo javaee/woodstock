@@ -61,8 +61,19 @@ webui.@THEME@.widget.accordionTab.fillInTemplate = function() {
     this.domNode.processAction = function(execute) { return dojo.widget.byId(this.id).processAction(execute); }
     this.domNode.setProps = function(props) { return dojo.widget.byId(this.id).setProps(props); }
 
+    // Set events.
+    dojo.event.connect(this.titleContainer, "onclick", this, "onTitleClick");
+    dojo.event.connect(this.titleContainer, "onmouseover", this, "onTitleMouseOver");
+    dojo.event.connect(this.turnerContainer, "onmouseover", this, "onTitleMouseOver");
+    dojo.event.connect(this.turnerContainer, "onclick", this, "onTitleClick");
+    dojo.event.connect(this.menuContainer, "onmouseover", this, "onTitleMouseOver");
+    dojo.event.connect(this.menuContainer, "onclick", this, "onMenuClick");
+    dojo.event.connect(this.titleContainer, "onmouseout", this, "onTitleMouseOut");
+    dojo.event.connect(this.turnerContainer, "onmouseout", this, "onTitleMouseOut");
+    dojo.event.connect(this.menuContainer, "onmouseout", this, "onTitleMouseOut");
+
     // Set properties.
-    return this.setProps();
+    return this.setProps(this.getProps());
 }
 
 /**
@@ -224,28 +235,28 @@ webui.@THEME@.widget.accordionTab.refresh = {
  * @param props Key-Value pairs of properties.
  */
 webui.@THEME@.widget.accordionTab.setProps = function(props) {
+    if (props == null) {
+        return null;
+    }
+
     // Save properties for later updates.
-    if (props != null) {
+    if (this.isInitialized() == true) {
+        // Replace contents -- do not extend.
         if (props.tabContent) {
             this.tabContent = null;
         }
         this.extend(this, props);
-    } else {
-        props = this.getProps(); // Widget is being initialized.
-        dojo.event.connect(this.titleContainer, "onclick", this, "onTitleClick");
-        dojo.event.connect(this.titleContainer, "onmouseover", this, "onTitleMouseOver");
-        dojo.event.connect(this.turnerContainer, "onmouseover", this, "onTitleMouseOver");
-        dojo.event.connect(this.turnerContainer, "onclick", this, "onTitleClick");
-        dojo.event.connect(this.menuContainer, "onmouseover", this, "onTitleMouseOver");
-        dojo.event.connect(this.menuContainer, "onclick", this, "onMenuClick");
-        dojo.event.connect(this.titleContainer, "onmouseout", this, "onTitleMouseOut");
-        dojo.event.connect(this.turnerContainer, "onmouseout", this, "onTitleMouseOut");
-        dojo.event.connect(this.menuContainer, "onmouseout", this, "onTitleMouseOut");
     }
+
+    // Set DOM node properties.
+    this.setCoreProps(this.domNode, props);
+    this.setCommonProps(this.domNode, props);
+    this.setJavaScriptProps(this.domNode, props);
 
     if (props.contentHeight) {
         this.contentNode.style.height = props.contentHeight;
     }
+
     if (props.title) {
         this.setTitle(props.title);
     }
@@ -267,14 +278,7 @@ webui.@THEME@.widget.accordionTab.setProps = function(props) {
                 webui.@THEME@.widget.props.accordionTab.accordionRightTurner;
             this.contentNode.style.display = "none";
         }
-
     }
-
-    // Set DOM node properties.
-    this.setCoreProps(this.domNode, props);
-    this.setCommonProps(this.domNode, props);
-    this.setJavaScriptProps(this.domNode, props);
-
     return props; // Return props for subclasses.
 }
 
@@ -323,8 +327,7 @@ webui.@THEME@.widget.accordionTab.setSelected = function (isSelected) {
 webui.@THEME@.widget.accordionTab.setTabContent = function(content) {
     if (content) {
         for (var i = 0; i < content.length; i++) {
-            this.addFragment(this.contentNode, 
-                    content[i], "last");
+            this.addFragment(this.contentNode, content[i], "last");
         }
     }
 }
@@ -335,7 +338,6 @@ webui.@THEME@.widget.accordionTab.setTabContent = function(content) {
  * @param title Title property associated with the tab.
  */
 webui.@THEME@.widget.accordionTab.setTitle = function (title) {
-
     if (title) {
         var titleHref = dojo.widget.byId(this.titleHref.id); 
         if (titleHref) {

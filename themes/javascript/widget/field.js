@@ -45,9 +45,9 @@ webui.@THEME@.widget.field = function() {
 webui.@THEME@.widget.field.fillInTemplate = function() {
     // Set ids.
     if (this.id) {
-        this.labelContainer.id = this.id + "_label";
         this.fieldNode.id = this.id + "_field";
         this.fieldNode.name = this.id + "_field";
+        this.labelContainer.id = this.id + "_label";
     }
     
     // Set public functions.
@@ -56,7 +56,7 @@ webui.@THEME@.widget.field.fillInTemplate = function() {
     this.domNode.setProps = function(props) { return dojo.widget.byId(this.id).setProps(props); }
     
     // Set properties.
-    return this.setProps();
+    return this.setProps(this.getProps());
 }
 
 /**
@@ -153,12 +153,14 @@ webui.@THEME@.widget.field.getProps = function() {
  *
  * @param props Key-Value pairs of properties.
  */
-webui.@THEME@.widget.field.setProps = function(props) {   
+webui.@THEME@.widget.field.setProps = function(props) {
+    if (props == null) {
+        return null;
+    }
+
     // Save properties for later updates.
-    if (props != null) {
+    if (this.isInitialized() == true) {
         this.extend(this, props);
-    } else {
-        props = this.getProps(); // Widget is being initialized.
     }
     
     // Set attributes.  
@@ -179,7 +181,7 @@ webui.@THEME@.widget.field.setProps = function(props) {
     }
     
     this.fieldNode.className = this.getClassName();
-    
+
     // Set label properties.
     if (props.label || (props.valid != null || props.required != null) && this.label) {
         // Ensure property exists so we can call setProps just once.

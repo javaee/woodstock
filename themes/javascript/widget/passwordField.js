@@ -46,7 +46,7 @@ webui.@THEME@.widget.passwordField.getClassName = function() {
         ? webui.@THEME@.widget.props.passwordField.disabledClassName
         : webui.@THEME@.widget.props.passwordField.className;   
     
-   return (this.className)
+    return (this.className)
         ? className + " " + this.className
         : className;
 }

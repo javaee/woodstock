@@ -148,7 +148,7 @@ webui.@THEME@.widget.accordion.fillInTemplate = function() {
     this.domNode.setProps = function(props) { return dojo.widget.byId(this.id).setProps(props); }
 
     // Set properties.
-    return this.setProps();
+    return this.setProps(this.getProps());
 }
 
 /**
@@ -257,14 +257,17 @@ webui.@THEME@.widget.accordion.selectChild = function(widget) {
  * @param props Key-Value pairs of properties.
  */
 webui.@THEME@.widget.accordion.setProps = function(props) {
+    if (props == null) {
+        return null;
+    }
+
     // Save properties for later updates.
-    if (props != null) {
+    if (this.isInitialized() == true) {
+        // Replace tabs -- do not extend.
         if (props.tabs) {
             this.tabs = null;
         }
         this.extend(this, props);
-    } else {
-        props = this.getProps(); // Widget is being initialized.
     }
 
     // Set DOM node properties.

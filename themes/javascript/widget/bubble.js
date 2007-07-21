@@ -89,7 +89,8 @@ webui.@THEME@.widget.bubble.fillInTemplate = function() {
         this.bottomRightArrow.id = this.id + "_bottomRightArrow";
         this.topLeftArrow.id = this.id + "_topLeftArrow";
         this.topRightArrow.id = this.id + "_topRightArrow";
-    }   
+    }
+
     this.timerId = null;
     this.left = null;
     this.top = null;
@@ -150,8 +151,9 @@ webui.@THEME@.widget.bubble.fillInTemplate = function() {
             this.close();            
         }
     }
+
     // Set properties.
-    return this.setProps();        
+    return this.setProps(this.getProps());       
 }
 
 /**
@@ -429,15 +431,17 @@ webui.@THEME@.widget.bubble.setPosition = function(evt) {
  * @param props Key-Value pairs of properties.
  */
 webui.@THEME@.widget.bubble.setProps = function(props) {
-    // After widget has been initialized, save properties for later updates.
-    if (props != null) {
+    if (props == null) {
+        return null;
+    }
+
+    // Save properties for later updates.
+    if (this.isInitialized() == true) {
         // Replace contents -- do not extend.
         if (props.contents) {
             this.contents = null;
         }
         this.extend(this, props);
-    } else {
-        props = this.getProps(); // Widget is being initialized.
     }
 
     // Set attributes.

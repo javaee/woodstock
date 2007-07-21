@@ -127,7 +127,7 @@ webui.@THEME@.widget.button.fillInTemplate = function() {
     this.initClassNames();
 
     // Set properties.
-    return this.setProps();
+    return this.setProps(this.getProps());
 }
 
 /**
@@ -180,7 +180,7 @@ webui.@THEME@.widget.button.getHoverClassName = function() {
  * Helper function to obtain widget (mouse hover) class names.
  */
 webui.@THEME@.widget.button.initClassNames = function() {
-    // Set style classes
+    // Set style classes.
     if (this.src != null) {
         this.primaryClassName = webui.@THEME@.widget.props.button.imageClassName;
         this.primaryDisabledClassName = webui.@THEME@.widget.props.button.imageDisabledClassName;
@@ -308,11 +308,13 @@ webui.@THEME@.widget.button.refresh = {
  * @param props Key-Value pairs of properties.
  */
 webui.@THEME@.widget.button.setProps = function(props) {
+    if (props == null) {
+        return null;
+    }
+
     // Save properties for later updates.
-    if (props != null) {
+    if (this.isInitialized() == true) {
         this.extend(this, props);
-    } else {
-        props = this.getProps(); // Widget is being initialized.
     }
 
     // Set disabled before className.

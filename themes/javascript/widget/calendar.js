@@ -322,24 +322,24 @@ webui.@THEME@.widget.calendar.decreaseMonth = function() {
  * setProps() function should be used to set properties.
  */
  webui.@THEME@.widget.calendar.fillInTemplate = function() {
-     // Set ids.
-     if (this.id) {
-         this.calendarMenuContainer.id = this.id + "_calendarMenuContainer";
-         this.linkNode.id = this.id + "_linkNodeContainer";
-         this.todayDateContainer.id = this.id + "_todayDateContainer";
-         this.closeButtonContainer.id = this.id + "_closeButtonContainer";
-         this.previousLinkContainer.id = this.id + "_previousLinkContainer";
-         this.monthMenuContainer.id = this.id + "_monthMenuContainer";
-         this.nextLinkContainer.id = this.id + "_nextLinkContainer";
-         this.yearMenuContainer.id = this.id + "_yearMenuContainer";
-     }
+    // Set ids.
+    if (this.id) {
+        this.calendarMenuContainer.id = this.id + "_calendarMenuContainer";
+        this.linkNode.id = this.id + "_linkNodeContainer";
+        this.todayDateContainer.id = this.id + "_todayDateContainer";
+        this.closeButtonContainer.id = this.id + "_closeButtonContainer";
+        this.previousLinkContainer.id = this.id + "_previousLinkContainer";
+        this.monthMenuContainer.id = this.id + "_monthMenuContainer";
+        this.nextLinkContainer.id = this.id + "_nextLinkContainer";
+        this.yearMenuContainer.id = this.id + "_yearMenuContainer";
+    }
 
-     // Set public functions.        
-     this.domNode.setProps = function(props) { return dojo.widget.byId(this.id).setProps(props); }
-     this.domNode.getProps = function() { return dojo.widget.byId(this.id).getProps(); }                
+    // Set public functions.        
+    this.domNode.setProps = function(props) { return dojo.widget.byId(this.id).setProps(props); }
+    this.domNode.getProps = function() { return dojo.widget.byId(this.id).getProps(); }                
 
-     // Set properties.
-     return this.setProps();        
+    // Set properties.
+    return this.setProps(this.getProps());  
 }
 
 /**
@@ -432,7 +432,6 @@ webui.@THEME@.widget.calendar.increaseMonth = function() {
  * This function is used to set the current value by parsing the field value.
  */
 webui.@THEME@.widget.calendar.setCurrentValue = function(curDate) {   
-
     if (curDate == "") {
         this.currentValue = null;
         return;
@@ -539,7 +538,7 @@ webui.@THEME@.widget.calendar.setInitialFocus = function() {
     //    var yearMenu = document.getElementById(this.calendarMonth.yearMenu.id).getSelectElement();
     //    yearMenu.focus();                 
     // } else {
-       var monthMenu = dojo.widget.byId(this.monthMenu.id).getSelectElement();          
+        var monthMenu = dojo.widget.byId(this.monthMenu.id).getSelectElement();          
         monthMenu.focus();
     // }
 }
@@ -586,11 +585,13 @@ webui.@THEME@.widget.calendar.setLimitedSelectedValue = function(select, value) 
  * @param props Key-Value pairs of properties.
  */
 webui.@THEME@.widget.calendar.setProps = function(props) {
+    if (props == null) {
+        return null;
+    }
+
     // Save properties for later updates.
-    if (props != null) {
+    if (this.isInitialized() == true) {
         this.extend(this, props);
-    } else {
-        props = this.getProps(); // Widget is being initialized.
     }
        
     // Set DOM node properties. 
@@ -601,21 +602,24 @@ webui.@THEME@.widget.calendar.setProps = function(props) {
         // NOTE: If you set this value manually, text must be HTML escaped.
         this.addFragment(this.todayDateContainer, props.todayDateMsg);
     }
+
     if (props.spacerImage) {
         if (!dojo.widget.byId(this.spacerImage.id)) {
             this.addFragment(this.spacerImageContainer, props.spacerImage);
         }
     }
+
     if (props.topLeftImage) {
          if (!dojo.widget.byId(this.topLeftImage.id)) {
             this.addFragment(this.topLeftImageContainer, props.topLeftImage);
         }
     }
+
     if (props.topRightImage) {
         if (!dojo.widget.byId(this.topRightImage.id)) {
             this.addFragment(this.topRightImageContainer, props.topRightImage);
         }
-    }   
+    }
 
     if (props.date) {
         this.setCurrentValue(props.date);

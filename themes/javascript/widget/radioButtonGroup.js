@@ -48,7 +48,6 @@ webui.@THEME@.widget.radioButtonGroup.getClassName = function() {
     return (this.className)
         ? className + " " + this.className
         : className;
-    
 }
 
 /**

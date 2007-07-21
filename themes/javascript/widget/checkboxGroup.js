@@ -106,7 +106,7 @@ webui.@THEME@.widget.checkboxGroup.fillInTemplate = function() {
     }
 
     // Set properties.
-    return this.setProps();
+    return this.setProps(this.getProps());
 }
 
 /**
@@ -120,7 +120,6 @@ webui.@THEME@.widget.checkboxGroup.getClassName = function() {
     return (this.className)
         ? className + " " + this.className
         : className;
-    
 }
 
 /**
@@ -203,12 +202,14 @@ webui.@THEME@.widget.checkboxGroup.refresh = {
  * @param props Key-Value pairs of properties.
  */
 webui.@THEME@.widget.checkboxGroup.setProps = function(props) {
+    if (props == null) {
+        return null;
+    }
+
     // Save properties for later updates.
-    if (props != null) {
+    if (this.isInitialized() == true) {
         this.extend(this, props);
-    } else {
-        props = this.getProps(); // Widget is being initialized.
-    }  
+    } 
     
     // Set style class -- must be set before calling setCoreProps().
     props.className = this.getClassName();
@@ -216,8 +217,8 @@ webui.@THEME@.widget.checkboxGroup.setProps = function(props) {
     // Set DOM node properties.
     this.setCoreProps(this.domNode, props);
    
-     // Update label properties.
-     if (props.label || props.disabled != null && this.label) {
+    // Update label properties.
+    if (props.label || props.disabled != null && this.label) {
         if (props.label == null) {
             props.label = {};
         }
@@ -228,13 +229,12 @@ webui.@THEME@.widget.checkboxGroup.setProps = function(props) {
         } else {
             this.addFragment(this.labelContainer, props.label);
         }         
-     }       
+    }       
 
-     // Set contents.    
-     if (props.contents || props.disabled !=null) {              
+    // Set contents.    
+    if (props.contents || props.disabled !=null) {              
         this.addContents(props);   
-     }
-    
+    }
     return props; // Return props for subclasses.
 }
 

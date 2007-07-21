@@ -44,9 +44,6 @@ webui.@THEME@.widget.textField = function() {
  * setProps() function should be used to set properties.
  */
 webui.@THEME@.widget.textField.fillInTemplate = function() {
-    // Super class fillInTemplate.
-    var props = webui.@THEME@.widget.textField.superclass.fillInTemplate.call(this);
-
     // Set public functions.
     this.domNode.refresh = function(execute) { return dojo.widget.byId(this.id).refresh(execute); }
     this.domNode.submit = function(execute) { return dojo.widget.byId(this.id).submit(execute); }
@@ -57,8 +54,9 @@ webui.@THEME@.widget.textField.fillInTemplate = function() {
         dojo.event.connect(this.fieldNode, "onblur", 
             webui.@THEME@.widget.textField.validation.processEvent);
     }
+
     // Set properties.
-    return props;
+    return webui.@THEME@.widget.textField.superclass.fillInTemplate.call(this);
 }
 
 
@@ -71,7 +69,7 @@ webui.@THEME@.widget.textField.getClassName = function() {
         ? webui.@THEME@.widget.props.textField.disabledClassName
         : webui.@THEME@.widget.props.textField.className;
     
-   return (this.className)
+    return (this.className)
         ? className + " " + this.className
         : className;
 }
@@ -84,7 +82,7 @@ webui.@THEME@.widget.textField.getClassName = function() {
 webui.@THEME@.widget.textField.getProps = function() {
     var props = webui.@THEME@.widget.textField.superclass.getProps.call(this);
 
-     // Set properties.
+    // Set properties.
     if (this.autoValidate != null) { props.autoValidate = this.autoValidate; }
     
     return props;

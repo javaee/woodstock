@@ -101,11 +101,11 @@ webui.@THEME@.widget.progressBar.fillInTemplate = function() {
     this.domNode.setStatusTextVisible = function(show) { return dojo.widget.byId(this.id).setStatusTextVisible(show); }
 
     // Set properties.
-    this.setProps();
+    var props = this.setProps(this.getProps());
 
     // Obtain progress.
     this.updateProgress();
-    return true;
+    return props;
 }
 
 /**
@@ -627,11 +627,13 @@ webui.@THEME@.widget.progressBar.setProgressBarVisible = function(show) {
  * @param props Key-Value pairs of properties.
  */
 webui.@THEME@.widget.progressBar.setProps = function(props) {
+    if (props == null) {
+        return null;
+    }
+
     // Save properties for later updates.
-    if (props != null) {
+    if (this.isInitialized() == true) {
         this.extend(this, props);
-    } else {
-        props = this.getProps(); // Widget is being initialized.
     }
 
     // Set DOM node properties.

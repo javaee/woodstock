@@ -50,7 +50,7 @@ webui.@THEME@.widget.hiddenField.fillInTemplate = function() {
     this.domNode.submit = function(execute) { return dojo.widget.byId(this.id).submit(execute); }
 
     // Set properties.
-    return this.setProps();
+    return this.setProps(this.getProps());
 }
 
 /**
@@ -118,11 +118,13 @@ webui.@THEME@.widget.hiddenField.refresh = {
  * @param props Key-Value pairs of properties.
  */
 webui.@THEME@.widget.hiddenField.setProps = function(props) {
+    if (props == null) {
+        return null;
+    }
+
     // Save properties for later updates.
-    if (props != null) {
+    if (this.isInitialized() == true) {
         this.extend(this, props);
-    } else {
-        props = this.getProps(); // Widget is being initialized.
     }
 
     // Set attributes.

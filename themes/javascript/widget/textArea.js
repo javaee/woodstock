@@ -68,18 +68,16 @@ webui.@THEME@.widget.textArea.createSubmitCallback = function(id) {
  * Note: Anything to be set only once should be added here; otherwise, the
  * setProps() function should be used to set properties.
  */
-webui.@THEME@.widget.textArea.fillInTemplate = function() {
-    var props = webui.@THEME@.widget.textArea.superclass.fillInTemplate.call(this);    
-    
-    
+webui.@THEME@.widget.textArea.fillInTemplate = function() {   
     // Set events.                
     if (this.autoSave > 0) {
         this.autoSaveTimerId = setInterval(
-        webui.@THEME@.widget.textArea.createSubmitCallback(this.id), this.autoSave);  
+            webui.@THEME@.widget.textArea.createSubmitCallback(this.id), 
+                this.autoSave);  
     }
     
     // Set properties.
-    return this.props;
+    return webui.@THEME@.widget.textArea.superclass.fillInTemplate.call(this);
 }
 
 /**
@@ -108,7 +106,7 @@ webui.@THEME@.widget.textArea.getProps = function() {
     if (this.cols > 0 ) { props.cols = this.cols; }
     if (this.rows > 0) { props.rows = this.rows; }
     if (this.autoSave > 0 ) { props.autoSave = this.autoSave; }
-    
+   
     return props;
 }
 
@@ -149,32 +147,30 @@ webui.@THEME@.widget.textArea.getProps = function() {
  *
  * @param props Key-Value pairs of properties.
  */
-webui.@THEME@.widget.textArea.setProps = function(props) {   
-    var props = webui.@THEME@.widget.textArea.superclass.setProps.call( this, props);
+webui.@THEME@.widget.textArea.setProps = function(props) {
+    if (props == null) {
+        return null;
+    }
+
+    // Set label className -- must be set before calling superclass.
+    if (props.label) {
+        props.label.className = (props.label.className)
+            ? webui.@THEME@.widget.props.textArea.labelTopAlignStyle + " " + props.label.className
+            : webui.@THEME@.widget.props.textArea.labelTopAlignStyle;
+    }
     
     // Set text field attributes.    
-    if (props.cols > 0 ) { this.fieldNode.cols = props.cols; }
+    if (props.cols > 0) { this.fieldNode.cols = props.cols; }
     if (props.rows > 0) { this.fieldNode.rows = props.rows; }
     
-    //cancel autosave if it has been changed to <=0
+    // Cancel autosave if it has been changed to <=0
     if (props.autoSave <= 0 && this.autoSaveTimerId && this.autoSaveTimerId != null ) {
         clearTimeout(this.autoSaveTimerId);
         this.autoSaveTimerId = null;
     }
-    
-    //label overwrites the span from the template and there is no way to set
-    //alignment there.
-    //we will push vertical alignment style onto label domNode
-    if (this.label && this.label.id) {
-        labelWidget = dojo.widget.byId(this.label.id);
-        if (labelWidget && labelWidget.domNode) {
-            var currentClass = (labelWidget.domNode.className) 
-            ? labelWidget.domNode.className + " " : "";
-            labelWidget.domNode.className = currentClass + 
-            webui.@THEME@.widget.props.textArea.labelTopAlignStyle;
-        }    
-    }
-    return props; // Return props for subclasses.
+
+    // Return props for subclasses.
+    return webui.@THEME@.widget.textArea.superclass.setProps.call(this, props);
 }
 
 /**

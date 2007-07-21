@@ -105,8 +105,8 @@ webui.@THEME@.widget.anchor.fillInTemplate = function() {
     dojo.event.connect(this.domNode, "onclick",
         webui.@THEME@.widget.anchor.createOnClickCallback(this.id));
 
-    // Set properties
-    return this.setProps();
+    // Set properties.
+    return this.setProps(this.getProps());
 }
 
 /**
@@ -226,16 +226,18 @@ webui.@THEME@.widget.anchor.refresh = {
  *
  * @param props Key-Value pairs of properties.
  */
-webui.@THEME@.widget.anchor.setProps = function(props){
+webui.@THEME@.widget.anchor.setProps = function(props) {
+    if (props == null) {
+        return null;
+    }
+
     // Save properties for later updates.
-    if (props != null) {
+    if (this.isInitialized() == true) {
         // Replace contents -- do not extend.
         if (props.contents) {
             this.contents = null;
         }
         this.extend(this, props);
-    } else {
-        props = this.getProps(); // Widget is being initialized.
     }
 
     // Set id -- anchors must have the same id and name on IE.

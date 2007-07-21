@@ -56,7 +56,7 @@ webui.@THEME@.widget.alarm.fillInTemplate = function() {
     this.domNode.setProps = function(props) { return dojo.widget.byId(this.id).setProps(props); }
 
     // Set properties.
-    return this.setProps();
+    return this.setProps(this.getProps());
 }
 
 /**
@@ -144,19 +144,23 @@ webui.@THEME@.widget.alarm.refresh = {
  * @param props Key-Value pairs of properties.
  */
 webui.@THEME@.widget.alarm.setProps = function(props) {
-    // After widget has been initialized, save properties for later updates.
-    if (props != null) {
-        this.extend(this, props);    
-    } else {
-        props = this.getProps(); // Widget is being initialized.
+    if (props == null) {
+        return null;
+    }
+
+    // Save properties for later updates.
+    if (this.isInitialized() == true) {
+        this.extend(this, props);
     }
 
     // Set attributes.
     this.setCoreProps(this.domNode, props);
     this.setJavaScriptProps(this.domNode, props); 
 
-    // Do not call setCommonProps as that will result in assigning all image specific properties to
-    // outermost domNode. Assign a11y properties to alarm images.
+    // Do not call setCommonProps as that will result in assigning all image 
+    // specific properties to outermost domNode. 
+
+    // Assign a11y properties to alarm images.
     if (props.dir) { this.domNode.dir = props.dir; }
     if (props.lang) { this.domNode.lang = props.lang; }    
     

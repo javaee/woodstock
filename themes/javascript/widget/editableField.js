@@ -143,12 +143,7 @@ webui.@THEME@.widget.editableField.edit = {
  * setProps() function should be used to set properties.
  */
 webui.@THEME@.widget.editableField.fillInTemplate = function() {
-    // Super class fillInTemplate.
-    var props = webui.@THEME@.widget.editableField.superclass.fillInTemplate.call(this);    
-
     // Set events.
-    //
-    // Note: The following events are used for enabling or disabling edit mode.
     dojo.event.connect(this.fieldNode, "ondblclick", webui.@THEME@.widget.editableField.edit.processEvent);
     dojo.event.connect(this.fieldNode, "onblur", webui.@THEME@.widget.editableField.edit.processEvent);
     dojo.event.connect(this.fieldNode, "onkeyup", webui.@THEME@.widget.editableField.edit.processEvent);
@@ -157,7 +152,7 @@ webui.@THEME@.widget.editableField.fillInTemplate = function() {
     this.fieldNode.readOnly = true;
 
     // Set properties.
-    return props;
+    return webui.@THEME@.widget.editableField.superclass.fillInTemplate.call(this);
 }
 
 /**
@@ -193,34 +188,56 @@ webui.@THEME@.widget.editableField.getProps = function() {
 
 /**
  * This function is used to set widget properties with the
- * following Object literals. 
- * Most of the properties are set by 'superclass' textField
+ * following Object literals.
  *
- * This method in addition handles the following properties:
  * <ul>
+ *  <li>accesskey</li>
  *  <li>autoSave</li>
+ *  <li>className</li>
+ *  <li>dir</li>
+ *  <li>disabled</li>
+ *  <li>id</li>
+ *  <li>label</li>
+ *  <li>lang</li>
+ *  <li>maxLength</li>
+ *  <li>notify</li>
+ *  <li>onClick</li>
+ *  <li>onDblClick</li>
+ *  <li>onFocus</li>
+ *  <li>onKeyDown</li>
+ *  <li>onKeyPress</li>
+ *  <li>onKeyUp</li>
+ *  <li>onMouseDown</li>
+ *  <li>onMouseOut</li>
+ *  <li>onMouseOver</li>
+ *  <li>onMouseUp</li>
+ *  <li>onMouseMove</li>
+ *  <li>required</li>
+ *  <li>size</li>
+ *  <li>style</li>
+ *  <li>tabIndex</li>
+ *  <li>title</li>
+ *  <li>valid</li>
+ *  <li>value</li>
+ *  <li>visible</li> 
  * </ul>
- * @see webui.@THEME@.widget.textField.setProps for details
  *
  * @param props Key-Value pairs of properties.
  */
 webui.@THEME@.widget.editableField.setProps = function(props) {
-    var currentReadOnly = this.fieldNode.readOnly;
-
-    // Call super class function.
-    var props = webui.@THEME@.widget.editableField.superclass.setProps.call(
-        this, props);
+    if (props == null) {
+        return null;
+    }
     
     // Set properties.
-    if (this.autoSave != null) { props.autoSave = this.autoSave; }
+    if (props.autoSave != null) { this.autoSave = props.autoSave; }
 
     // Explicitly provided readOnly property must be ignored.
-    this.fieldNode.readOnly = currentReadOnly;
+    props.readOnly = null;
 
-    return props; // Return props for subclasses.
+    // Return props for subclasses.
+    return webui.@THEME@.widget.editableField.superclass.setProps.call(this, props);
 }
-
-
 
 /** 
  * This closure is used to handle refresh events.

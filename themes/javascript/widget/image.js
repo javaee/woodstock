@@ -50,7 +50,7 @@ webui.@THEME@.widget.image.fillInTemplate = function() {
     this.domNode.setProps = function(props) { return dojo.widget.byId(this.id).setProps(props); }
 
     // Set properties.
-    return this.setProps();
+    return this.setProps(this.getProps());
 }
 
 /**
@@ -148,12 +148,14 @@ webui.@THEME@.widget.image.refresh = {
  *
  * @param props Key-Value pairs of properties.
  */
-webui.@THEME@.widget.image.setProps = function(props){
+webui.@THEME@.widget.image.setProps = function(props) {
+    if (props == null) {
+        return null;
+    }
+
     // Save properties for later updates.
-    if (props != null) {
+    if (this.isInitialized() == true) {
         Object.extend(this, props);
-    } else {
-        props = this.getProps(); // Widget is being initialized.
     }
 
     // Set DOM node properties.

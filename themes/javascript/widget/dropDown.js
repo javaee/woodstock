@@ -73,11 +73,12 @@ webui.@THEME@.widget.dropDown.getProps = function() {
  * @param props Key-Value pairs of properties.
  */
 webui.@THEME@.widget.dropDown.initClassNames = function(props) {
-    if (props.submitForm == null) {
+    // Set style classes
+    if (this.submitForm == null) {
         return;
     }
 
-    if (props.submitForm == true) {
+    if (new Boolean(this.submitForm).valueOf() == true) {
         this.selectClassName = webui.@THEME@.widget.props.jumpDropDown.className;
         this.selectDisabledClassName = webui.@THEME@.widget.props.jumpDropDown.disabledClassName;
         this.optionClassName = webui.@THEME@.widget.props.jumpDropDown.optionClassName;
@@ -200,16 +201,18 @@ webui.@THEME@.widget.dropDown.changed = function() {
  * @param props Key-Value pairs of properties.
  */
 webui.@THEME@.widget.dropDown.setProps = function(props) {
-    // Call super class function.
-    var props = webui.@THEME@.widget.dropDown.superclass.setProps.call(
-        this, props);
+    if (props == null) {
+        return null;
+    }
 
     // Add attributes to the hidden input for jump drop down.
     if (props.submitForm != null && props.submitForm == true) {
         this.submitterHiddenNode.name = this.submitterHiddenNode.id;
         this.submitterHiddenNode.value = "false";
     }
-    return props; // Return props for subclasses.
+
+    // Return props for subclasses.
+    return webui.@THEME@.widget.dropDown.superclass.setProps.call(this, props);
 }
 
 /**

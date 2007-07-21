@@ -177,12 +177,12 @@ webui.@THEME@.widget.listbox.fillInTemplate = function() {
     }
 
     // Set public functions.
-    this.domNode.setProps = function(props) { return dojo.widget.byId(this.id).setProps(props); }
     this.domNode.getProps = function() { return dojo.widget.byId(this.id).getProps(); }
     this.domNode.getSelectedValue = function() { return dojo.widget.byId(this.id).getSelectedValue(); }
     this.domNode.getSelectedLabel = function() { return dojo.widget.byId(this.id).getSelectedLabel(); }
     this.domNode.getSelectElement = function() { return dojo.widget.byId(this.id).getSelectElement(); }
     this.domNode.refresh = function(execute) { return dojo.widget.byId(this.id).refresh(execute); }
+    this.domNode.setProps = function(props) { return dojo.widget.byId(this.id).setProps(props); }
     this.domNode.submit = function(execute) { return dojo.widget.byId(this.id).submit(execute); }
 
     // Set events.
@@ -195,8 +195,11 @@ webui.@THEME@.widget.listbox.fillInTemplate = function() {
         webui.@THEME@.common.setVisibleElement(this.brContainer, true);
     }
 
+    // Initialize style classes.
+    this.initClassNames();
+
     // Set properties.
-    return this.setProps();
+    return this.setProps(this.getProps());
 }
 
 /**
@@ -300,8 +303,7 @@ webui.@THEME@.widget.listbox.getSelectedValue = function() {
  * @param props Key-Value pairs of properties.
  */
 webui.@THEME@.widget.listbox.initClassNames = function(props) {
-    // Note: The props argument is used by subclasses.
-
+    // Set style classes.
     this.selectClassName = webui.@THEME@.widget.props.listbox.className;
     this.selectDisabledClassName = webui.@THEME@.widget.props.listbox.disabledClassName;
     this.selectMonospaceClassName = webui.@THEME@.widget.props.listbox.monospaceClassName;
@@ -439,14 +441,13 @@ webui.@THEME@.widget.listbox.setOptionProps = function(element, option) {
  * @param props Key-Value pairs of properties.
  */
 webui.@THEME@.widget.listbox.setProps = function(props) {
+    if (props == null) {
+        return null;
+    }
+
     // Save properties for later updates.
-    if (props != null) {
+    if (this.isInitialized() == true) {
         this.extend(this, props);
-    } else {
-        props = this.getProps(); // Widget is being initialized.
-        if (props.multiple != true) {
-            props.multiple = false;
-        }
     }
 
     // A web app devleoper could return false in order to cancel the 
@@ -459,9 +460,6 @@ webui.@THEME@.widget.listbox.setProps = function(props) {
         // Must be cleared before calling setJavaScriptProps() below.
         props.onChange = null;
     }
-
-    // Initialize style classes.
-    this.initClassNames(props);
 
     // Set DOM node properties.
     this.setCoreProps(this.domNode, props);
@@ -572,6 +570,7 @@ dojo.lang.extend(webui.@THEME@.widget.listbox, {
     // Set defaults
     labelOnTop: false,
     monospace: false,
+    multiple: false,
     templatePath: webui.@THEME@.theme.getTemplatePath("listbox"),
     templateString: webui.@THEME@.theme.getTemplateString("listbox"),
     widgetType: "listbox"
