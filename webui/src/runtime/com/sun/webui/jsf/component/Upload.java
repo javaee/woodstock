@@ -105,7 +105,7 @@ import org.apache.commons.fileupload.FileItem;
 @Component(type="com.sun.webui.jsf.Upload", family="com.sun.webui.jsf.Upload", displayName="File Upload",
     instanceName="fileUpload", tagName="upload", isContainer=false,
     helpKey="projrave_ui_elements_palette_wdstk-jsf1.2_file_upload",
-    propertiesHelpKey="projrave_ui_elements_palette_wdstk-jsf1.2_propsheets_upload_props")
+    propertiesHelpKey="projrave_ui_elements_palette_wdstk-jsf1.2_propsheets_file_upload_props")
 public class Upload extends Field implements Serializable {
 
     /**
