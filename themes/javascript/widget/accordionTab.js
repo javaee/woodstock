@@ -72,7 +72,7 @@ webui.@THEME@.widget.accordionTab.fillInTemplate = function() {
     dojo.event.connect(this.turnerContainer, "onmouseout", this, "onTitleMouseOut");
     dojo.event.connect(this.menuContainer, "onmouseout", this, "onTitleMouseOut");
 
-    // Set properties.
+    // Initialize template.
     return this.setProps(this.getProps());
 }
 

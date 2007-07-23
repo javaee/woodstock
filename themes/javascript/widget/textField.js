@@ -55,7 +55,7 @@ webui.@THEME@.widget.textField.fillInTemplate = function() {
             webui.@THEME@.widget.textField.validation.processEvent);
     }
 
-    // Set properties.
+    // Initialize template.
     return webui.@THEME@.widget.textField.superclass.fillInTemplate.call(this);
 }
 

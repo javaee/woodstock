@@ -55,7 +55,7 @@ webui.@THEME@.widget.field.fillInTemplate = function() {
     this.domNode.getProps = function() { return dojo.widget.byId(this.id).getProps(); }
     this.domNode.setProps = function(props) { return dojo.widget.byId(this.id).setProps(props); }
     
-    // Set properties.
+    // Initialize template.
     return this.setProps(this.getProps());
 }
 

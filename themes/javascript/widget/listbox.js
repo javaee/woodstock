@@ -198,7 +198,7 @@ webui.@THEME@.widget.listbox.fillInTemplate = function() {
     // Initialize style classes.
     this.initClassNames();
 
-    // Set properties.
+    // Initialize template.
     return this.setProps(this.getProps());
 }
 

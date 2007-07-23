@@ -135,7 +135,7 @@ webui.@THEME@.widget.table2RowGroup.fillInTemplate = function() {
             webui.@THEME@.widget.table2RowGroup.resize.createCallback(this.id));
     }
 
-    // Set properties.
+    // Initialize template.
     return this.setProps(this.getProps());
 }
 

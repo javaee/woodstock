@@ -84,7 +84,7 @@ webui.@THEME@.widget.calendarField.dayClicked = function(props) {
     dojo.event.topic.subscribe(webui.@THEME@.widget.calendar.toggleCalendar.calendarOpenTopic,
         this, "toggleCalendar");
 
-    // Set properties.
+    // Initialize template.
     return webui.@THEME@.widget.calendarField.superclass.fillInTemplate.call(this);
 }
 

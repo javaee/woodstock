@@ -49,7 +49,7 @@ webui.@THEME@.widget.dropDown.fillInTemplate = function() {
         this.submitterHiddenNode.id = this.id + "_submitter";
     }
 
-    // Set properties.
+    // Initialize template.
     return webui.@THEME@.widget.dropDown.superclass.fillInTemplate.call(this);
 }
 

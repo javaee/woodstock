@@ -49,7 +49,7 @@ webui.@THEME@.widget.hiddenField.fillInTemplate = function() {
     this.domNode.setProps = function(props) { return dojo.widget.byId(this.id).setProps(props); }
     this.domNode.submit = function(execute) { return dojo.widget.byId(this.id).submit(execute); }
 
-    // Set properties.
+    // Initialize template.
     return this.setProps(this.getProps());
 }
 

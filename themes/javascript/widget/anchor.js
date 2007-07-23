@@ -105,7 +105,7 @@ webui.@THEME@.widget.anchor.fillInTemplate = function() {
     dojo.event.connect(this.domNode, "onclick",
         webui.@THEME@.widget.anchor.createOnClickCallback(this.id));
 
-    // Set properties.
+    // Initialize template.
     return this.setProps(this.getProps());
 }
 

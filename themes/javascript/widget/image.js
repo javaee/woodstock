@@ -49,7 +49,7 @@ webui.@THEME@.widget.image.fillInTemplate = function() {
     this.domNode.refresh = function(execute) { return dojo.widget.byId(this.id).refresh(execute); }
     this.domNode.setProps = function(props) { return dojo.widget.byId(this.id).setProps(props); }
 
-    // Set properties.
+    // Initialize template.
     return this.setProps(this.getProps());
 }
 

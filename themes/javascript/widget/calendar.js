@@ -338,7 +338,7 @@ webui.@THEME@.widget.calendar.decreaseMonth = function() {
     this.domNode.setProps = function(props) { return dojo.widget.byId(this.id).setProps(props); }
     this.domNode.getProps = function() { return dojo.widget.byId(this.id).getProps(); }                
 
-    // Set properties.
+    // Initialize template.
     return this.setProps(this.getProps());  
 }
 

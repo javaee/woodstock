@@ -105,7 +105,7 @@ webui.@THEME@.widget.checkboxGroup.fillInTemplate = function() {
         webui.@THEME@.common.setVisibleElement(this.rowNode, false);
     }
 
-    // Set properties.
+    // Initialize template.
     return this.setProps(this.getProps());
 }
 

@@ -76,7 +76,7 @@ webui.@THEME@.widget.textArea.fillInTemplate = function() {
                 this.autoSave);  
     }
     
-    // Set properties.
+    // Initialize template.
     return webui.@THEME@.widget.textArea.superclass.fillInTemplate.call(this);
 }
 

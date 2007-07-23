@@ -152,7 +152,7 @@ webui.@THEME@.widget.bubble.fillInTemplate = function() {
         }
     }
 
-    // Set properties.
+    // Initialize template.
     return this.setProps(this.getProps());       
 }
 

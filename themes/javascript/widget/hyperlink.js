@@ -97,7 +97,7 @@ webui.@THEME@.widget.hyperlink.fillInTemplate = function() {
     // DOM node.
     this.domNode.href = "#";
 
-    // Set properties.
+    // Initialize template.
     return this.setProps(this.getProps());
 }
 

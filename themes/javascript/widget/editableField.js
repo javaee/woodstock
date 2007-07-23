@@ -151,7 +151,7 @@ webui.@THEME@.widget.editableField.fillInTemplate = function() {
     // Set Initial readOnly state.
     this.fieldNode.readOnly = true;
 
-    // Set properties.
+    // Initialize template.
     return webui.@THEME@.widget.editableField.superclass.fillInTemplate.call(this);
 }
 

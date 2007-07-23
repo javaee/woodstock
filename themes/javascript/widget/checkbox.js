@@ -62,7 +62,7 @@ webui.@THEME@.widget.checkbox.fillInTemplate = function() {
     this.domNode.refresh = function(execute) { return dojo.widget.byId(this.id).refresh(execute); }
     this.domNode.submit = function(execute) { return dojo.widget.byId(this.id).submit(execute); }
 
-    // Set properties.
+    // Initialize template.
     return this.setProps(this.getProps());
 }
 

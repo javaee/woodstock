@@ -126,7 +126,7 @@ webui.@THEME@.widget.button.fillInTemplate = function() {
     // Initialize CSS selectors.
     this.initClassNames();
 
-    // Set properties.
+    // Initialize template.
     return this.setProps(this.getProps());
 }
 

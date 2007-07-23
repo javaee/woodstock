@@ -100,7 +100,7 @@ webui.@THEME@.widget.progressBar.fillInTemplate = function() {
     this.domNode.setRightControlVisible = function(show) { return dojo.widget.byId(this.id).setRightControlVisible(show); }
     this.domNode.setStatusTextVisible = function(show) { return dojo.widget.byId(this.id).setStatusTextVisible(show); }
 
-    // Set properties.
+    // Initialize template.
     var props = this.setProps(this.getProps());
 
     // Obtain progress.
