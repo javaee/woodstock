@@ -406,7 +406,9 @@ public class ListSelector extends Selector implements ListManager,
                         log("\tSelected object type: " +   //NOI18N 
                             o.getClass().getName());
                     }
-                    if (option.getValueObject().equals(o)) { 
+                    Object optionValueObject = option.getValueObject();
+                    if (o.equals(optionValueObject) || 
+                            ("".equals(o) && optionValueObject == null)) {  //NOI18N 
                         if(DEBUG) { 
                             log("\tFound a match: " +  //NOI18N
                                 String.valueOf(o)); 
