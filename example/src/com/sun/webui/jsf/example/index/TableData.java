@@ -248,7 +248,18 @@ public class TableData {
                     "calendar/calendar.jsp",
                     "calendar/calendarResults.jsp",
                     "calendar/CalendarBackingBean.java"}
-	)
+	),
+        new AppData("index_accordionName","index_accordionConcepts", "showAccordionIndex",
+                new String[] {
+                    "accordion/index.jsp",
+                    "accordion/example1.jsp",
+                    "accordion/example2.jsp",
+                    "accordion/example2top.jsp",
+                    "accordion/example2left.jsp",
+                    "accordion/example2right.jsp",
+                    "accordion/example3.jsp",
+                    "accordion/AccordionBackingBean.java"}
+        )         
     };    
     
     /** Default constructor */
