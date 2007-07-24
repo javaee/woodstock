@@ -25,7 +25,9 @@ package com.sun.webui.jsf.component;
 import com.sun.webui.jsf.design.AbstractDesignInfo;
 import com.sun.rave.designtime.DesignBean;
 import com.sun.rave.designtime.faces.FacesDesignContext;
-
+import com.sun.rave.designtime.DesignProperty;
+import com.sun.rave.designtime.Result;
+import com.sun.webui.jsf.component.util.DesignUtil;
 
 
 /**
@@ -53,4 +55,23 @@ public class VersionPageDesignInfo extends AbstractDesignInfo {
         return false;
     }
     
+    public Result beanCreatedSetup(DesignBean bean) {
+                
+        DesignProperty styleProperty = bean.getProperty("style");
+        String styleValue = (String) styleProperty.getValue();
+        
+        
+        if (styleValue == null || styleValue.length() == 0) {
+            styleValue = "width: 100%; height: 100%;";
+        } else {
+            //append default width
+            styleValue = DesignUtil.parseStyle(styleValue,"width","width: 100%;");
+            
+            //append default height
+            styleValue = DesignUtil.parseStyle(styleValue,"height","height: 100%;");
+        }
+        
+        styleProperty.setValue(styleValue);
+        return Result.SUCCESS;
+    }
 }
