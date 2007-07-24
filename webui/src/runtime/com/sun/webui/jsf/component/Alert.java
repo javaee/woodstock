@@ -801,7 +801,7 @@ public class Alert extends WebuiOutput implements NamingContainer, Comparator {
      *  where Indicator holds
      *  the custom defined type and associated image.</p>
      */
-    @Property(name="indicators", displayName="Indicators", category="Behavior", editorClassName="com.sun.rave.propertyeditors.binding.ValueBindingPropertyEditor")
+    @Property(name="indicators", isHidden=true, displayName="Indicators", category="Behavior", editorClassName="com.sun.rave.propertyeditors.binding.ValueBindingPropertyEditor")
     // jasper compiler does not recognize generics which causes error. So, generics is not used 
     // here for indicators. 
     private List indicators;
