@@ -59,6 +59,13 @@
         <managed-bean-scope>session</managed-bean-scope>        
     </managed-bean>
     
+    <managed-bean>
+        <description>The backing bean for the Accordion example</description>
+        <managed-bean-name>AccordionBean</managed-bean-name>
+        <managed-bean-class>com.sun.webui.jsf.example.accordion.AccordionBackingBean</managed-bean-class>
+        <managed-bean-scope>session</managed-bean-scope>
+    </managed-bean>
+    
     <managed-bean>    
         <description>The backing bean for the button example</description>
         <managed-bean-name>ButtonBean</managed-bean-name>
@@ -885,4 +892,13 @@
       </navigation-case>
    </navigation-rule>
 
+   <!-- Navigation Cases for Accordion Example -->     
+   <navigation-rule>
+      <navigation-case>
+        <from-outcome>showAccordionIndex</from-outcome>
+        <to-view-id>/accordion/index.jsp</to-view-id>
+        <redirect/>
+      </navigation-case>   
+   </navigation-rule>         
+   
 </faces-config>
