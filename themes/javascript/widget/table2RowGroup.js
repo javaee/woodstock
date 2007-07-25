@@ -93,12 +93,15 @@ webui.@THEME@.widget.table2RowGroup.addRows = function(rows) {
 }
 
 /**
- * This function is used to fill a template with widget properties.
+ * This function is used to fill in template properties.
  *
- * Note: Anything to be set only once should be added here; otherwise, the
- * setProps() function should be used to set properties.
+ * Note: This is called after the buildRendering() function. Anything to be set 
+ * only once should be added here; otherwise, use the setWidgetProps() function.
+ *
+ * @param props Key-Value pairs of properties.
+ * @param frag HTML fragment.
  */
-webui.@THEME@.widget.table2RowGroup.fillInTemplate = function() {
+webui.@THEME@.widget.table2RowGroup.fillInTemplate = function(props, frag) {
     // Set ids.
     if (this.id) {
         this.colFooterContainer.id = this.id + "_colFooterContainer";
@@ -120,11 +123,6 @@ webui.@THEME@.widget.table2RowGroup.fillInTemplate = function() {
         this.theadContainer.id = this.id + "_theadContainer";
     }
 
-    // Set public functions.
-    this.domNode.getProps = function() { return dojo.widget.byId(this.id).getProps(); }
-    this.domNode.refresh = function(execute) { return dojo.widget.byId(this.id).refresh(execute); }
-    this.domNode.setProps = function(props) { return dojo.widget.byId(this.id).setProps(props); }
-
     // Set events.
     dojo.event.connect(this.domNode, "onscroll", 
         webui.@THEME@.widget.table2RowGroup.scroll.processEvent);
@@ -135,17 +133,16 @@ webui.@THEME@.widget.table2RowGroup.fillInTemplate = function() {
             webui.@THEME@.widget.table2RowGroup.resize.createCallback(this.id));
     }
 
-    // Initialize template.
-    return this.setProps(this.getProps());
+    // Set common functions.
+    return webui.@THEME@.widget.table2RowGroup.superclass.fillInTemplate.call(this, props, frag);
 }
 
 /**
- * This function is used to get widget properties. Please see
- * webui.@THEME@.widget.table2RowGroup.setProps for a list of supported
- * properties.
+ * This function is used to get widget properties. Please see the 
+ * setWidgetProps() function for a list of supported properties.
  */
 webui.@THEME@.widget.table2RowGroup.getProps = function() {
-    var props = {};
+    var props = webui.@THEME@.widget.table2RowGroup.superclass.getProps.call(this);
 
     // Set properties.
     if (this.columns) { props.columns = this.columns; }
@@ -156,11 +153,6 @@ webui.@THEME@.widget.table2RowGroup.getProps = function() {
     if (this.maxRows) { props.maxRows = this.maxRows; }
     if (this.rows) { props.rows = this.rows; }
     if (this.totalRows) { props.totalRows = this.totalRows; }
-
-    // Add DOM node properties.
-    Object.extend(props, this.getCommonProps());
-    Object.extend(props, this.getCoreProps());
-    Object.extend(props, this.getJavaScriptProps());
 
     return props;
 }
@@ -336,75 +328,31 @@ webui.@THEME@.widget.table2RowGroup.setHeight = function() {
 }
 
 /**
- * This function is used to set widget properties with the
- * following Object literals.
+ * This function is used to set widget properties. Please see the 
+ * setWidgetProps() function for a list of supported properties.
  *
- * <ul>
- *  <li>columns</li>
- *  <li>first</li>
- *  <li>footerText</li>
- *  <li>headerText</li>
- *  <li>height</li>
- *  <li>id</li>
- *  <li>maxRows</li>
- *  <li>rows</li>
- *  <li>totalRows</li>
- * </ul>
+ * Note: This function updates the widget object for later updates. Further, the
+ * widget shall be updated only for the given key-value pairs.
  *
  * @param props Key-Value pairs of properties.
  */
 webui.@THEME@.widget.table2RowGroup.setProps = function(props) {
     if (props == null) {
-        return null;
+        return false;
     }
 
-    // Save properties for later updates.
-    if (this.isInitialized() == true) {
-        // Replace rows -- do not extend.
-        if (props.rows) {
-            this.rows = null;
-        }
-        this.extend(this, props);
+    // Replace columns -- do not extend.
+    if (props.columns) {
+        this.columns = null;
     }
 
-    // Set DOM node properties.
-    this.setCoreProps(this.domNode, props);
-    this.setCommonProps(this.domNode, props);
-    this.setJavaScriptProps(this.domNode, props);
-
-    // Add header.
-    if (props.headerText) { 
-        this.addFragment(this.groupHeaderTextNode, props.headerText);
-        webui.@THEME@.common.setVisibleElement(this.groupHeaderContainer, true);
-    }
-
-    // Add footer.
-    if (props.footerText) {
-        this.addFragment(this.groupFooterNode, props.footerText);
-        webui.@THEME@.common.setVisibleElement(this.groupFooterContainer, true);
-    }
-
-    // Set columns.
-    if (props.columns && this.refreshCols != false) {
-        this.setColumns();
-    }
-    // To do: Cannot refresh column headers/footers due to poor CSS styles.
-    this.refreshCols = false;
-
-    // Add rows
+    // Replace rows -- do not extend.
     if (props.rows) {
-        this.first = 0; // Reset index used to obtain rows.
-        this.currentRow = 0; // Reset current row in view.
-
-        // Clear rows.
-        this.removeChildNodes(this.tbodyContainer);
-        this.addRows(props.rows);
+        this.rows = null;
     }
 
-    // To Do: Hack for A11Y testing.
-    this.tableContainer.summary = "This is a row group";
-
-    return props; // Return props for subclasses.
+    // Extend widget object for later updates.
+    return webui.@THEME@.widget.table2RowGroup.superclass.setProps.call(this, props);
 }
 
 /**
@@ -424,6 +372,73 @@ webui.@THEME@.widget.table2RowGroup.setRowsText = function() {
         "Items: " + firstRow + " - " + lastRow + " of " + this.totalRows);
 
     return true;
+}
+
+/**
+ * This function is used to set widget properties with the following 
+ * Object literals.
+ *
+ * <ul>
+ *  <li>columns</li>
+ *  <li>first</li>
+ *  <li>footerText</li>
+ *  <li>headerText</li>
+ *  <li>height</li>
+ *  <li>id</li>
+ *  <li>maxRows</li>
+ *  <li>rows</li>
+ *  <li>totalRows</li>
+ * </ul>
+ *
+ * Note: This function should only be invoked through setProps(). Further, the
+ * widget shall be updated only for the given key-value pairs.
+ *
+ * @param props Key-Value pairs of properties.
+ */
+webui.@THEME@.widget.table2RowGroup.setWidgetProps = function(props) {
+    if (props == null) {
+        return false;
+    }
+
+    // To Do: Hack for A11Y testing.
+    this.tableContainer.summary = "This is a row group";
+
+    // Add header.
+    if (props.headerText) { 
+        this.addFragment(this.groupHeaderTextNode, props.headerText);
+        webui.@THEME@.common.setVisibleElement(this.groupHeaderContainer, true);
+    }
+
+    // Add footer.
+    if (props.footerText) {
+        this.addFragment(this.groupFooterNode, props.footerText);
+        webui.@THEME@.common.setVisibleElement(this.groupFooterContainer, true);
+    }
+
+    // Set columns.
+    if (props.columns && this.refreshCols != false) {
+        this.setColumns();
+
+        // To Do: Cannot refresh column headers/footers due to poor CSS styles.
+        this.refreshCols = false;
+    }
+
+    // Add rows.
+    if (props.rows) {
+        this.first = 0; // Reset index used to obtain rows.
+        this.currentRow = 0; // Reset current row in view.
+
+        // Clear rows.
+        this.removeChildNodes(this.tbodyContainer);
+        this.addRows(props.rows);
+    }
+
+    // Set more properties..
+    this.setCommonProps(this.domNode, props);
+    this.setJavaScriptProps(this.domNode, props);
+
+    // Set core props.
+    return webui.@THEME@.widget.table2RowGroup.superclass.setWidgetProps.call(this, props);
 }
 
 /**
@@ -511,6 +526,7 @@ dojo.lang.extend(webui.@THEME@.widget.table2RowGroup, {
     setHeight: webui.@THEME@.widget.table2RowGroup.setHeight,
     setProps: webui.@THEME@.widget.table2RowGroup.setProps,
     setRowsText: webui.@THEME@.widget.table2RowGroup.setRowsText,
+    setWidgetProps: webui.@THEME@.widget.table2RowGroup.setWidgetProps,
 
     // Set defaults.
     first: 0, // Index used to obtain rows.

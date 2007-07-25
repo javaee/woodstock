@@ -38,7 +38,7 @@ webui.@THEME@.widget.radioButtonGroup = function() {
 }
 
 /**
- * Helper function to obtain widget class names.
+ * This function is used to obtain the outermost HTML element class name.
  */
 webui.@THEME@.widget.radioButtonGroup.getClassName = function() {    
     var className = webui.@THEME@.widget.props.radioButtonGroup.vertClassName;

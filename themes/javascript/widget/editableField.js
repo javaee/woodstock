@@ -53,7 +53,7 @@ webui.@THEME@.widget.editableField.edit = {
         this.savedValue = this.fieldNode.value;
         
         this.edit = true;
-        this.fieldNode.className = this.getClassName();   
+        this.fieldNode.className = this.getInputClassName();   
         this.fieldNode.readOnly = false;
         this.fieldNode.focus(); // In case function has been called programmatically, not by event.
         this.fieldNode.select();
@@ -90,7 +90,7 @@ webui.@THEME@.widget.editableField.edit = {
         }
         this.savedValue = null;
         this.edit = false;
-        this.fieldNode.className = this.getClassName();   
+        this.fieldNode.className = this.getInputClassName();   
         this.fieldNode.readOnly = true;
         return true;
     }, 
@@ -137,45 +137,46 @@ webui.@THEME@.widget.editableField.edit = {
 }
 
 /**
- * This function is used to fill a template with widget properties.
+ * This function is used to fill in template properties.
  *
- * Note: Anything to be set only once should be added here; otherwise, the
- * setProps() function should be used to set properties.
+ * Note: This is called after the buildRendering() function. Anything to be set 
+ * only once should be added here; otherwise, use the setWidgetProps() function.
+ *
+ * @param props Key-Value pairs of properties.
+ * @param frag HTML fragment.
  */
-webui.@THEME@.widget.editableField.fillInTemplate = function() {
+webui.@THEME@.widget.editableField.fillInTemplate = function(props, frag) {
+    // Set Initial readOnly state.
+    this.fieldNode.readOnly = true;
+
     // Set events.
     dojo.event.connect(this.fieldNode, "ondblclick", webui.@THEME@.widget.editableField.edit.processEvent);
     dojo.event.connect(this.fieldNode, "onblur", webui.@THEME@.widget.editableField.edit.processEvent);
     dojo.event.connect(this.fieldNode, "onkeyup", webui.@THEME@.widget.editableField.edit.processEvent);
 
-    // Set Initial readOnly state.
-    this.fieldNode.readOnly = true;
-
-    // Initialize template.
-    return webui.@THEME@.widget.editableField.superclass.fillInTemplate.call(this);
+    // Set common functions.
+    return webui.@THEME@.widget.editableField.superclass.fillInTemplate.call(this, props, frag);
 }
 
 /**
- * Helper function to obtain widget class names.
+ * Helper function to obtain HTML input element class names.
  */
-webui.@THEME@.widget.editableField.getClassName = function() {
-    // Set default style.    
+webui.@THEME@.widget.editableField.getInputClassName = function() {    
     var className;
+
+    // Set default style.
     if (this.disabled == true) {
         className = webui.@THEME@.widget.props.editableField.disabledClassName;
     }
 
-    className = (this.edit == true)
+    return (this.edit == true)
         ? webui.@THEME@.widget.props.editableField.editableClassName
         : webui.@THEME@.widget.props.editableField.className;
-
-    return className;    
 }
 
 /**
- * This function is used to get widget properties. 
- * @see webui.@THEME@.widget.editableField.setProps for a list of supported
- * properties.
+ * This function is used to get widget properties. Please see the 
+ * setWidgetProps() function for a list of supported properties.
  */
 webui.@THEME@.widget.editableField.getProps = function() {
     var props = webui.@THEME@.widget.editableField.superclass.getProps.call(this);
@@ -186,9 +187,41 @@ webui.@THEME@.widget.editableField.getProps = function() {
     return props;
 }
 
+/** 
+ * This closure is used to handle refresh events.
+ */
+webui.@THEME@.widget.editableField.refresh = {
+    /**
+     * Event topics for custom AJAX implementations to listen for.
+     */
+    beginEventTopic: "webui_@THEME@_widget_editableField_refresh_begin",
+    endEventTopic: "webui_@THEME@_widget_editableField_refresh_end",
+ 
+    /**
+     * Process refresh event.
+     *
+     * @param execute The string containing a comma separated list of client ids 
+     * against which the execute portion of the request processing lifecycle
+     * must be run.
+     */
+    processEvent: function(execute) {
+        // Include default AJAX implementation.
+        this.ajaxify("webui.@THEME@.widget.jsfx.editableField");
+
+        // Publish an event for custom AJAX implementations to listen for.
+        dojo.event.topic.publish(
+            webui.@THEME@.widget.editableField.refresh.beginEventTopic, {
+                id: this.id,
+                execute: execute,
+                endEventTopic: webui.@THEME@.widget.editableField.refresh.endEventTopic
+            });
+        return true;
+    }
+}
+
 /**
- * This function is used to set widget properties with the
- * following Object literals.
+ * This function is used to set widget properties with the following 
+ * Object literals.
  *
  * <ul>
  *  <li>accesskey</li>
@@ -222,53 +255,24 @@ webui.@THEME@.widget.editableField.getProps = function() {
  *  <li>visible</li> 
  * </ul>
  *
+ * Note: This function should only be invoked through setProps(). Further, the
+ * widget shall be updated only for the given key-value pairs.
+ *
  * @param props Key-Value pairs of properties.
  */
-webui.@THEME@.widget.editableField.setProps = function(props) {
+webui.@THEME@.widget.editableField.setWidgetProps = function(props) {
     if (props == null) {
-        return null;
+        return false;
     }
-    
-    // Set properties.
-    if (props.autoSave != null) { this.autoSave = props.autoSave; }
 
     // Explicitly provided readOnly property must be ignored.
     props.readOnly = null;
 
-    // Return props for subclasses.
-    return webui.@THEME@.widget.editableField.superclass.setProps.call(this, props);
-}
+    // Set properties.
+    if (props.autoSave != null) { this.autoSave = props.autoSave; }
 
-/** 
- * This closure is used to handle refresh events.
- */
-webui.@THEME@.widget.editableField.refresh = {
-    /**
-     * Event topics for custom AJAX implementations to listen for.
-     */
-    beginEventTopic: "webui_@THEME@_widget_editableField_refresh_begin",
-    endEventTopic: "webui_@THEME@_widget_editableField_refresh_end",
- 
-    /**
-     * Process refresh event.
-     *
-     * @param execute The string containing a comma separated list of client ids 
-     * against which the execute portion of the request processing lifecycle
-     * must be run.
-     */
-    processEvent: function(execute) {
-        // Include default AJAX implementation.
-        this.ajaxify("webui.@THEME@.widget.jsfx.editableField");
-
-        // Publish an event for custom AJAX implementations to listen for.
-        dojo.event.topic.publish(
-            webui.@THEME@.widget.editableField.refresh.beginEventTopic, {
-                id: this.id,
-                execute: execute,
-                endEventTopic: webui.@THEME@.widget.editableField.refresh.endEventTopic
-            });
-        return true;
-    }
+    // Set core props.
+    return webui.@THEME@.widget.editableField.superclass.setWidgetProps.call(this, props);
 }
 
 /** 
@@ -308,13 +312,13 @@ dojo.inherits(webui.@THEME@.widget.editableField, webui.@THEME@.widget.textField
 // Override base widget by assigning properties to class prototype.
 dojo.lang.extend(webui.@THEME@.widget.editableField, {
     // Set private functions.
-    fillInTemplate: webui.@THEME@.widget.editableField.fillInTemplate,
-    getClassName: webui.@THEME@.widget.editableField.getClassName,
-    getProps: webui.@THEME@.widget.editableField.getProps,
-    setProps: webui.@THEME@.widget.editableField.setProps,
-    enableEdit: webui.@THEME@.widget.editableField.edit.enable,
     disableEdit: webui.@THEME@.widget.editableField.edit.disable,
+    enableEdit: webui.@THEME@.widget.editableField.edit.enable,
+    fillInTemplate: webui.@THEME@.widget.editableField.fillInTemplate,
+    getInputClassName: webui.@THEME@.widget.editableField.getInputClassName,
+    getProps: webui.@THEME@.widget.editableField.getProps,
     refresh: webui.@THEME@.widget.editableField.refresh.processEvent,
+    setWidgetProps: webui.@THEME@.widget.editableField.setWidgetProps,
     submit: webui.@THEME@.widget.editableField.submit.processEvent,
 
     // Set defaults.

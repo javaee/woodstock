@@ -86,31 +86,25 @@ webui.@THEME@.widget.anchor.createOnClickCallback = function(id) {
 }
 
 /**
- * This function is used to fill a template with widget properties.
+ * This function is used to fill in template properties.
  *
- * Note: Anything to be set only once should be added here; otherwise, the
- * setProps() function should be used to set properties.
+ * Note: This is called after the buildRendering() function. Anything to be set 
+ * only once should be added here; otherwise, use the setWidgetProps() function.
+ *
+ * @param props Key-Value pairs of properties.
+ * @param frag HTML fragment.
  */
-webui.@THEME@.widget.anchor.fillInTemplate = function() {
-    // Since the id and name must be the same on IE, we cannot obtain the
-    // widget using the DOM node ID via the public functions below.
-    var _this = this; // Available in public functions via closure magic.
-
-    // Set public functions.
-    this.domNode.getProps = function() { return dojo.widget.byId(_this.id).getProps(); }
-    this.domNode.refresh = function(execute) { return dojo.widget.byId(_this.id).refresh(execute); }
-    this.domNode.setProps = function(props) { return dojo.widget.byId(_this.id).setProps(props); }
-
+webui.@THEME@.widget.anchor.fillInTemplate = function(props, frag) {
     // Create callback function for onclick event.
     dojo.event.connect(this.domNode, "onclick",
         webui.@THEME@.widget.anchor.createOnClickCallback(this.id));
 
-    // Initialize template.
-    return this.setProps(this.getProps());
+    // Set common functions.
+    return webui.@THEME@.widget.anchor.superclass.fillInTemplate.call(this, props, frag);
 }
 
 /**
- * Helper function to obtain widget class names.
+ * This function is used to obtain the outermost HTML element class name.
  */
 webui.@THEME@.widget.anchor.getClassName = function() {
     var className = null;
@@ -125,12 +119,11 @@ webui.@THEME@.widget.anchor.getClassName = function() {
 }
 
 /**
- * This function is used to get widget properties. Please see
- * webui.@THEME@.widget.anchor.setProps for a list of supported
- * properties.
+ * This function is used to get widget properties. Please see the 
+ * setWidgetProps() function for a list of supported properties.
  */
 webui.@THEME@.widget.anchor.getProps = function() {
-    var props = {}; 
+    var props = webui.@THEME@.widget.anchor.superclass.getProps.call(this);
 
     // Set properties.
     if (this.hrefLang) { props.hrefLang = this.hrefLang; }
@@ -146,11 +139,6 @@ webui.@THEME@.widget.anchor.getProps = function() {
     if (this.name) { props.name = this.name; } 
     if (this.contents) { props.contents = this.contents; }
     if (this.disabled != null) { props.disabled = this.disabled; }
- 
-    // Add DOM node properties.
-    Object.extend(props, this.getCommonProps());
-    Object.extend(props, this.getCoreProps());
-    Object.extend(props, this.getJavaScriptProps());
 
     return props;
 }
@@ -188,82 +176,80 @@ webui.@THEME@.widget.anchor.refresh = {
 }
 
 /**
- * This function is used to update widget properties with the
- * following Object literals.
+ * This function is used to set widget properties. Please see the 
+ * setWidgetProps() function for a list of supported properties.
  *
- * <ul>
- * <li>accessKey</li>
- * <li>charset</li>
- * <li>className</li>
- * <li>contents</li>
- * <li>coords</li>
- * <li>dir</li>
- * <li>disabled</li>
- * <li>href</li>
- * <li>hrefLang</li>
- * <li>id</li>
- * <li>lang</li>
- * <li>name</li>
- * <li>onBlur</li>
- * <li>onClick</li>
- * <li>onDblClick</li>
- * <li>onFocus</li>
- * <li>onKeyDown</li>
- * <li>onKeyPress</li>
- * <li>onKeyUp</li>
- * <li>onMouseDown</li>
- * <li>onMouseOut</li>
- * <li>onMouseOver</li>
- * <li>onMouseUp</li>
- * <li>onMouseMove</li>
- * <li>rel</li>
- * <li>rev</li>
- * <li>shape</li>
- * <li>style</li>
- * <li>tabIndex</li>
- * <li>title</li>
- * <li>visible</li>
+ * Note: This function updates the widget object for later updates. Further, the
+ * widget shall be updated only for the given key-value pairs.
  *
  * @param props Key-Value pairs of properties.
  */
 webui.@THEME@.widget.anchor.setProps = function(props) {
     if (props == null) {
-        return null;
+        return false;
     }
 
-    // Save properties for later updates.
-    if (this.isInitialized() == true) {
-        // Replace contents -- do not extend.
-        if (props.contents) {
-            this.contents = null;
-        }
-        this.extend(this, props);
+    // Replace contents -- do not extend.
+    if (props.contents) {
+        this.contents = null;
     }
 
-    // Set id -- anchors must have the same id and name on IE.
-    if (props.name) {
-        props.id = props.name;
+    // Extend widget object for later updates.
+    return webui.@THEME@.widget.anchor.superclass.setProps.call(this, props);
+}
+
+/**
+ * This function is used to set widget properties with the following 
+ * Object literals.
+ *
+ * <ul>
+ *  <li>accessKey</li>
+ *  <li>charset</li>
+ *  <li>className</li>
+ *  <li>contents</li>
+ *  <li>coords</li>
+ *  <li>dir</li>
+ *  <li>disabled</li>
+ *  <li>href</li>
+ *  <li>hrefLang</li>
+ *  <li>id</li>
+ *  <li>lang</li>
+ *  <li>name</li>
+ *  <li>onBlur</li>
+ *  <li>onClick</li>
+ *  <li>onDblClick</li>
+ *  <li>onFocus</li>
+ *  <li>onKeyDown</li>
+ *  <li>onKeyPress</li>
+ *  <li>onKeyUp</li>
+ *  <li>onMouseDown</li>
+ *  <li>onMouseOut</li>
+ *  <li>onMouseOver</li>
+ *  <li>onMouseUp</li>
+ *  <li>onMouseMove</li>
+ *  <li>rel</li>
+ *  <li>rev</li>
+ *  <li>shape</li>
+ *  <li>style</li>
+ *  <li>tabIndex</li>
+ *  <li>title</li>
+ *  <li>visible</li>
+ * </ul>
+ *
+ * Note: This function should only be invoked through setProps(). Further, the
+ * widget shall be updated only for the given key-value pairs.
+ *
+ * @param props Key-Value pairs of properties.
+ */
+webui.@THEME@.widget.anchor.setWidgetProps = function(props) {
+    if (props == null) {
+        return false;
     }
 
-    // Set style class -- must be set before calling setCoreProps().
-    props.className = this.getClassName();
+    // Add contents.
+    this.addContents(props);
 
-    // A web app devleoper could return false in order to cancel the 
-    // submit. Thus, we will handle this event via the onClick call back.
-    if (props.onClick) {
-        // Set private function scope on DOM node.
-        this.domNode._onclick = (typeof props.onClick == 'string')
-            ? new Function("event", props.onClick) : props.onClick;
-
-        // Must be cleared before calling setJavaScriptProps() below.
-        props.onClick = null;
-    }
-
-    // Set DOM node properties.
-    this.setCoreProps(this.domNode, props);
-    this.setCommonProps(this.domNode, props);
-    this.setJavaScriptProps(this.domNode, props);
-
+    // Set properties.
     if (props.accessKey) { this.domNode.accesskey = props.accessKey; }
     if (props.charset) { this.domNode.charset = props.charset; }
     if (props.coords) { this.domNode.coords = props.coords; }
@@ -276,10 +262,28 @@ webui.@THEME@.widget.anchor.setProps = function(props) {
     if (props.target) { this.domNode.target = props.target; }
     if (props.type) { this.domNode.type = props.type; }
 
-    // Add contents.
-    this.addContents(props);
+    // Set id -- anchors must have the same id and name on IE.
+    if (props.name) {
+        props.id = props.name;
+    }
 
-    return props; // Return props for subclasses.
+    // A web app devleoper could return false in order to cancel the 
+    // submit. Thus, we will handle this event via the onClick call back.
+    if (props.onClick) {
+        // Set private function scope on DOM node.
+        this.domNode._onclick = (typeof props.onClick == 'string')
+            ? new Function("event", props.onClick) : props.onClick;
+
+        // Must be cleared before calling setJavaScriptProps() below.
+        props.onClick = null;
+    }
+
+    // Set more properties.
+    this.setCommonProps(this.domNode, props);
+    this.setJavaScriptProps(this.domNode, props);
+
+    // Set core props.
+    return webui.@THEME@.widget.anchor.superclass.setWidgetProps.call(this, props);
 }
 
 // Inherit base widget properties.
@@ -294,6 +298,7 @@ dojo.lang.extend(webui.@THEME@.widget.anchor, {
     getProps: webui.@THEME@.widget.anchor.getProps,
     refresh: webui.@THEME@.widget.anchor.refresh.processEvent,
     setProps: webui.@THEME@.widget.anchor.setProps,
+    setWidgetProps: webui.@THEME@.widget.anchor.setWidgetProps,
 
     // Set defaults.
     templatePath: webui.@THEME@.theme.getTemplatePath("anchor"),

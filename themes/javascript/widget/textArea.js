@@ -63,41 +63,39 @@ webui.@THEME@.widget.textArea.createSubmitCallback = function(id) {
 }
 
 /**
- * This function is used to fill a template with widget properties.
+ * This function is used to fill in template properties.
  *
- * Note: Anything to be set only once should be added here; otherwise, the
- * setProps() function should be used to set properties.
+ * Note: This is called after the buildRendering() function. Anything to be set 
+ * only once should be added here; otherwise, use the setWidgetProps() function.
+ *
+ * @param props Key-Value pairs of properties.
+ * @param frag HTML fragment.
  */
-webui.@THEME@.widget.textArea.fillInTemplate = function() {   
+webui.@THEME@.widget.textArea.fillInTemplate = function(props, frag) {
     // Set events.                
     if (this.autoSave > 0) {
         this.autoSaveTimerId = setInterval(
             webui.@THEME@.widget.textArea.createSubmitCallback(this.id), 
                 this.autoSave);  
     }
-    
-    // Initialize template.
-    return webui.@THEME@.widget.textArea.superclass.fillInTemplate.call(this);
+
+    // Set common functions.
+    return webui.@THEME@.widget.textArea.superclass.fillInTemplate.call(this, props, frag);
 }
 
 /**
- * Helper function to obtain widget class names.
+ * Helper function to obtain HTML input element class names.
  */
-webui.@THEME@.widget.textArea.getClassName = function() {
+webui.@THEME@.widget.textArea.getInputClassName = function() {
     // Set default style.    
-    var className = (this.disabled == true)
+    return (this.disabled == true)
         ? webui.@THEME@.widget.props.textArea.disabledClassName
         : webui.@THEME@.widget.props.textArea.className;
-    
-    return (this.className)
-        ? className + " " + this.className
-        : className;    
 }
 
 /**
- * This function is used to get widget properties. 
- * @see webui.@THEME@.widget.textArea.setProps for a list of supported
- * properties.
+ * This function is used to get widget properties. Please see the 
+ * setWidgetProps() function for a list of supported properties.
  */
 webui.@THEME@.widget.textArea.getProps = function() {
     var props = webui.@THEME@.widget.textArea.superclass.getProps.call(this);
@@ -108,69 +106,6 @@ webui.@THEME@.widget.textArea.getProps = function() {
     if (this.autoSave > 0 ) { props.autoSave = this.autoSave; }
    
     return props;
-}
-
-/**
- * This function is used to set widget properties with the
- * following Object literals.
- *
- * <ul>
- *  <li>accesskey</li>
- *  <li>autoSave</li>
- *  <li>className</li>
- *  <li>cols</li>
- *  <li>dir</li>
- *  <li>disabled</li>
- *  <li>id</li>
- *  <li>label</li>
- *  <li>lang</li>
- *  <li>onClick</li>
- *  <li>onDblClick</li>
- *  <li>onFocus</li>
- *  <li>onKeyDown</li>
- *  <li>onKeyPress</li>
- *  <li>onKeyUp</li>
- *  <li>onMouseDown</li>
- *  <li>onMouseOut</li>
- *  <li>onMouseOver</li>
- *  <li>onMouseUp</li>
- *  <li>onMouseMove</li>
- *  <li>readOnly</li>
- *  <li>required</li>
- *  <li>style</li>
- *  <li>tabIndex</li>
- *  <li>title</li>
- *  <li>valid</li>
- *  <li>value</li>
- *  <li>visible</li> 
- * </ul>
- *
- * @param props Key-Value pairs of properties.
- */
-webui.@THEME@.widget.textArea.setProps = function(props) {
-    if (props == null) {
-        return null;
-    }
-
-    // Set label className -- must be set before calling superclass.
-    if (props.label) {
-        props.label.className = (props.label.className)
-            ? webui.@THEME@.widget.props.textArea.labelTopAlignStyle + " " + props.label.className
-            : webui.@THEME@.widget.props.textArea.labelTopAlignStyle;
-    }
-    
-    // Set text field attributes.    
-    if (props.cols > 0) { this.fieldNode.cols = props.cols; }
-    if (props.rows > 0) { this.fieldNode.rows = props.rows; }
-    
-    // Cancel autosave if it has been changed to <=0
-    if (props.autoSave <= 0 && this.autoSaveTimerId && this.autoSaveTimerId != null ) {
-        clearTimeout(this.autoSaveTimerId);
-        this.autoSaveTimerId = null;
-    }
-
-    // Return props for subclasses.
-    return webui.@THEME@.widget.textArea.superclass.setProps.call(this, props);
 }
 
 /**
@@ -203,6 +138,72 @@ webui.@THEME@.widget.textArea.refresh = {
         });
         return true;
     }
+}
+
+/**
+ * This function is used to set widget properties with the following 
+ * Object literals.
+ *
+ * <ul>
+ *  <li>accesskey</li>
+ *  <li>autoSave</li>
+ *  <li>className</li>
+ *  <li>cols</li>
+ *  <li>dir</li>
+ *  <li>disabled</li>
+ *  <li>id</li>
+ *  <li>label</li>
+ *  <li>lang</li>
+ *  <li>onClick</li>
+ *  <li>onDblClick</li>
+ *  <li>onFocus</li>
+ *  <li>onKeyDown</li>
+ *  <li>onKeyPress</li>
+ *  <li>onKeyUp</li>
+ *  <li>onMouseDown</li>
+ *  <li>onMouseOut</li>
+ *  <li>onMouseOver</li>
+ *  <li>onMouseUp</li>
+ *  <li>onMouseMove</li>
+ *  <li>readOnly</li>
+ *  <li>required</li>
+ *  <li>style</li>
+ *  <li>tabIndex</li>
+ *  <li>title</li>
+ *  <li>valid</li>
+ *  <li>value</li>
+ *  <li>visible</li> 
+ * </ul>
+ *
+ * Note: This function should only be invoked through setProps(). Further, the
+ * widget shall be updated only for the given key-value pairs.
+ *
+ * @param props Key-Value pairs of properties.
+ */
+webui.@THEME@.widget.textArea.setWidgetProps = function(props) {
+    if (props == null) {
+        return false;
+    }
+
+    // Set properties.   
+    if (props.cols > 0) { this.fieldNode.cols = props.cols; }
+    if (props.rows > 0) { this.fieldNode.rows = props.rows; }
+    
+    // Cancel autosave if it has been changed to <=0
+    if (props.autoSave <= 0 && this.autoSaveTimerId && this.autoSaveTimerId != null ) {
+        clearTimeout(this.autoSaveTimerId);
+        this.autoSaveTimerId = null;
+    }
+
+    // Set label className -- must be set before calling superclass.
+    if (props.label) {
+        props.label.className = (props.label.className)
+            ? webui.@THEME@.widget.props.textArea.labelTopAlignStyle + " " + props.label.className
+            : webui.@THEME@.widget.props.textArea.labelTopAlignStyle;
+    }
+
+    // Set core props.
+    return webui.@THEME@.widget.textArea.superclass.setWidgetProps.call(this, props);
 }
 
 /**
@@ -244,10 +245,10 @@ dojo.inherits(webui.@THEME@.widget.textArea, webui.@THEME@.widget.textField);
 dojo.lang.extend(webui.@THEME@.widget.textArea, {
     // Set private functions.
     fillInTemplate: webui.@THEME@.widget.textArea.fillInTemplate,
-    getClassName: webui.@THEME@.widget.textArea.getClassName,
+    getInputClassName: webui.@THEME@.widget.textArea.getInputClassName,
     getProps: webui.@THEME@.widget.textArea.getProps,
     refresh: webui.@THEME@.widget.textArea.refresh.processEvent,
-    setProps: webui.@THEME@.widget.textArea.setProps,
+    setWidgetProps: webui.@THEME@.widget.textArea.setWidgetProps,
     submit: webui.@THEME@.widget.textArea.submit.processEvent,
     
     // Set defaults.

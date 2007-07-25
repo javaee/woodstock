@@ -37,12 +37,15 @@ webui.@THEME@.widget.table2 = function() {
 }
 
 /**
- * This function is used to fill a template with widget properties.
+ * This function is used to fill in template properties.
  *
- * Note: Anything to be set only once should be added here; otherwise, the
- * setProps() function should be used to set properties.
+ * Note: This is called after the buildRendering() function. Anything to be set 
+ * only once should be added here; otherwise, use the setWidgetProps() function.
+ *
+ * @param props Key-Value pairs of properties.
+ * @param frag HTML fragment.
  */
-webui.@THEME@.widget.table2.fillInTemplate = function() {
+webui.@THEME@.widget.table2.fillInTemplate = function(props, frag) {
     // Set ids.
     if (this.id) {
         this.actionsContainer.id = this.id + "_actionsContainer";
@@ -55,33 +58,22 @@ webui.@THEME@.widget.table2.fillInTemplate = function() {
         this.tableFooterContainer.id = this.id + "_tableFooterContainer";
     }
 
-    // Set public functions.
-    this.domNode.getProps = function() { return dojo.widget.byId(this.id).getProps(); }
-    this.domNode.refresh = function(execute) { return dojo.widget.byId(this.id).refresh(execute); }
-    this.domNode.setProps = function(props) { return dojo.widget.byId(this.id).setProps(props); }
-
-    // Initialize template.
-    return this.setProps(this.getProps());
+    // Set common functions.
+    return webui.@THEME@.widget.table2.superclass.fillInTemplate.call(this, props, frag);
 }
 
 /**
- * This function is used to get widget properties. Please see
- * webui.@THEME@.widget.table2.setProps for a list of supported
- * properties.
+ * This function is used to get widget properties. Please see the 
+ * setWidgetProps() function for a list of supported properties.
  */
 webui.@THEME@.widget.table2.getProps = function() {
-    var props = {};
+    var props = webui.@THEME@.widget.table2.superclass.getProps.call(this);
 
     // Set properties.
     if (this.actions) { props.actions = this.actions; }
     if (this.filterText) { props.filterText = this.filterText; }
     if (this.rowGroups) { props.rowGroups = this.rowGroups; }
     if (this.width) { props.width = this.width; }
-
-    // Add DOM node properties.
-    Object.extend(props, this.getCommonProps());
-    Object.extend(props, this.getCoreProps());
-    Object.extend(props, this.getJavaScriptProps());
 
     return props;
 }
@@ -119,8 +111,36 @@ webui.@THEME@.widget.table2.refresh = {
 }
 
 /**
- * This function is used to set widget properties with the
- * following Object literals.
+ * This function is used to set widget properties. Please see the 
+ * setWidgetProps() function for a list of supported properties.
+ *
+ * Note: This function updates the widget object for later updates. Further, the
+ * widget shall be updated only for the given key-value pairs.
+ *
+ * @param props Key-Value pairs of properties.
+ */
+webui.@THEME@.widget.table2.setProps = function(props) {
+    if (props == null) {
+        return false;
+    }
+
+    // Replace actions -- do not extend.
+    if (props.actions) {
+        this.actions = null;
+    }
+
+    // Replace rows -- do not extend.
+    if (props.rowGroups) {
+        this.rowGroups = null;
+    }
+
+    // Extend widget object for later updates.
+    return webui.@THEME@.widget.table2.superclass.setProps.call(this, props);
+}
+
+/**
+ * This function is used to set widget properties with the following 
+ * Object literals.
  *
  * <ul>
  *  <li>actions</li>
@@ -131,22 +151,15 @@ webui.@THEME@.widget.table2.refresh = {
  *  <li>width</li>
  * </ul>
  *
+ * Note: This function should only be invoked through setProps(). Further, the
+ * widget shall be updated only for the given key-value pairs.
+ *
  * @param props Key-Value pairs of properties.
  */
-webui.@THEME@.widget.table2.setProps = function(props) {
+webui.@THEME@.widget.table2.setWidgetProps = function(props) {
     if (props == null) {
-        return null;
+        return false;
     }
-
-    // Save properties for later updates.
-    if (this.isInitialized() == true) {
-        this.extend(this, props);
-    }
-
-    // Set DOM node properties.
-    this.setCoreProps(this.domNode, props);
-    this.setCommonProps(this.domNode, props);
-    this.setJavaScriptProps(this.domNode, props);
 
     // Set container width.
     if (props.width) {
@@ -180,7 +193,13 @@ webui.@THEME@.widget.table2.setProps = function(props) {
             this.addFragment(rowGroupsNodeClone, props.rowGroups[i], "last");
         }
     }
-    return props; // Return props for subclasses.
+
+    // Set more properties..
+    this.setCommonProps(this.domNode, props);
+    this.setJavaScriptProps(this.domNode, props);
+
+    // Set core props.
+    return webui.@THEME@.widget.table2.superclass.setWidgetProps.call(this, props);
 }
 
 // Inherit base widget properties.
@@ -190,9 +209,10 @@ dojo.inherits(webui.@THEME@.widget.table2, webui.@THEME@.widget.widgetBase);
 dojo.lang.extend(webui.@THEME@.widget.table2, {
     // Set private functions.
     fillInTemplate: webui.@THEME@.widget.table2.fillInTemplate,
-    setProps: webui.@THEME@.widget.table2.setProps,
-    refresh: webui.@THEME@.widget.table2.refresh.processEvent,
     getProps: webui.@THEME@.widget.table2.getProps,
+    refresh: webui.@THEME@.widget.table2.refresh.processEvent,
+    setProps: webui.@THEME@.widget.table2.setProps,
+    setWidgetProps: webui.@THEME@.widget.table2.setWidgetProps,
 
     // Set defaults.
     templatePath: webui.@THEME@.theme.getTemplatePath("table2"),

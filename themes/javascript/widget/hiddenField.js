@@ -37,37 +37,33 @@ webui.@THEME@.widget.hiddenField = function() {
 }
 
 /**
- * This function is used to fill a template with widget properties.
+ * This function is used to fill in template properties.
  *
- * Note: Anything to be set only once should be added here; otherwise, the
- * setProps() function should be used to set properties.
+ * Note: This is called after the buildRendering() function. Anything to be set 
+ * only once should be added here; otherwise, use the setWidgetProps() function.
+ *
+ * @param props Key-Value pairs of properties.
+ * @param frag HTML fragment.
  */
-webui.@THEME@.widget.hiddenField.fillInTemplate = function() {
+webui.@THEME@.widget.hiddenField.fillInTemplate = function(props, frag) {
     // Set public functions. 
-    this.domNode.getProps = function() { return dojo.widget.byId(this.id).getProps(); }
-    this.domNode.refresh = function(execute) { return dojo.widget.byId(this.id).refresh(execute); }
-    this.domNode.setProps = function(props) { return dojo.widget.byId(this.id).setProps(props); }
     this.domNode.submit = function(execute) { return dojo.widget.byId(this.id).submit(execute); }
 
-    // Initialize template.
-    return this.setProps(this.getProps());
+    // Set common functions.
+    return webui.@THEME@.widget.hiddenField.superclass.fillInTemplate.call(this, props, frag);
 }
 
 /**
- * This function is used to get widget properties. Please see
- * webui.@THEME@.widget.hiddenField.setProps for a list of supported
- * properties.
+ * This function is used to get widget properties. Please see the 
+ * setWidgetProps() function for a list of supported properties.
  */
 webui.@THEME@.widget.hiddenField.getProps = function() {
-    var props = {};
+    var props = webui.@THEME@.widget.hiddenField.superclass.getProps.call(this);
 
     // Set properties.
     if (this.disabled != null) { props.disabled = this.disabled; }
     if (this.name) { props.name = this.name; }
     if (this.value) { props.value = this.value; }
-
-    // Add DOM node properties.
-    Object.extend(props, this.getCoreProps());
 
     return props;
 }
@@ -105,8 +101,8 @@ webui.@THEME@.widget.hiddenField.refresh = {
 }
 
 /**
- * This function is used to set widget properties with the
- * following Object literals.
+ * This function is used to set widget properties with the following 
+ * Object literals.
  *
  * <ul>
  *  <li>disabled</li>
@@ -115,27 +111,25 @@ webui.@THEME@.widget.hiddenField.refresh = {
  *  <li>value</li>
  * </ul>
  *
+ * Note: This function should only be invoked through setProps(). Further, the
+ * widget shall be updated only for the given key-value pairs.
+ *
  * @param props Key-Value pairs of properties.
  */
-webui.@THEME@.widget.hiddenField.setProps = function(props) {
+webui.@THEME@.widget.hiddenField.setWidgetProps = function(props) {
     if (props == null) {
-        return null;
+        return false;
     }
 
-    // Save properties for later updates.
-    if (this.isInitialized() == true) {
-        this.extend(this, props);
-    }
-
-    // Set attributes.
-    this.setCoreProps(this.domNode, props);
-
+    // Set properties.
     if (props.name) { this.domNode.name = props.name; }
     if (props.value) { this.domNode.value = props.value; }
     if (props.disabled != null) { 
         this.domNode.disabled = new Boolean(props.disabled).valueOf();
     }
-    return props; // Return props for subclasses.
+
+    // Set core props.
+    return webui.@THEME@.widget.hiddenField.superclass.setWidgetProps.call(this, props);
 }
 
 /**
@@ -178,7 +172,7 @@ dojo.lang.extend(webui.@THEME@.widget.hiddenField, {
     fillInTemplate: webui.@THEME@.widget.hiddenField.fillInTemplate,
     getProps: webui.@THEME@.widget.hiddenField.getProps,
     refresh: webui.@THEME@.widget.hiddenField.refresh.processEvent,
-    setProps: webui.@THEME@.widget.hiddenField.setProps,
+    setWidgetProps: webui.@THEME@.widget.hiddenField.setWidgetProps,
     submit: webui.@THEME@.widget.hiddenField.submit.processEvent,
 
     // Set defaults.

@@ -43,9 +43,15 @@ webui.@THEME@.widget.accordionTab = function() {
 }
 
 /**
- * This function is used to generate a template based widget.
+ * This function is used to fill in template properties.
+ *
+ * Note: This is called after the buildRendering() function. Anything to be set 
+ * only once should be added here; otherwise, use the setWidgetProps() function.
+ *
+ * @param props Key-Value pairs of properties.
+ * @param frag HTML fragment.
  */
-webui.@THEME@.widget.accordionTab.fillInTemplate = function() {
+webui.@THEME@.widget.accordionTab.fillInTemplate = function(props, frag) {
     // Set ids.
     if (this.id) {
         this.domNode.id = this.id;
@@ -57,9 +63,7 @@ webui.@THEME@.widget.accordionTab.fillInTemplate = function() {
     }
 
     // Set public functions.
-    this.domNode.refresh = function(execute) { return dojo.widget.byId(this.id).refresh(execute); }
     this.domNode.processAction = function(execute) { return dojo.widget.byId(this.id).processAction(execute); }
-    this.domNode.setProps = function(props) { return dojo.widget.byId(this.id).setProps(props); }
 
     // Set events.
     dojo.event.connect(this.titleContainer, "onclick", this, "onTitleClick");
@@ -72,16 +76,16 @@ webui.@THEME@.widget.accordionTab.fillInTemplate = function() {
     dojo.event.connect(this.turnerContainer, "onmouseout", this, "onTitleMouseOut");
     dojo.event.connect(this.menuContainer, "onmouseout", this, "onTitleMouseOut");
 
-    // Initialize template.
-    return this.setProps(this.getProps());
+    // Set common functions.
+    return webui.@THEME@.widget.accordionTab.superclass.fillInTemplate.call(this, props, frag);
 }
 
 /**
- * This function is used to get widget properties. Please see
- * setProps() for a list of supported properties.
+ * This function is used to get widget properties. Please see the 
+ * setWidgetProps() function for a list of supported properties.
  */
 webui.@THEME@.widget.accordionTab.getProps = function() {
-    var props = {};
+    var props = webui.@THEME@.widget.accordionTab.superclass.getProps.call(this);
 
     // Set properties.
     if (this.selected) { props.selected = this.selected; }
@@ -94,11 +98,6 @@ webui.@THEME@.widget.accordionTab.getProps = function() {
     if (this.contentHeight != null) { props.contentHeight = this.contentHeight; }
     if (this.id) { props.id = this.id; }
     if (this.type) { props.type = this.type; }
-
-    // Add DOM node properties.
-    Object.extend(props, this.getCommonProps());
-    Object.extend(props, this.getCoreProps());
-    Object.extend(props, this.getJavaScriptProps());
 
     return props;
 }
@@ -219,67 +218,26 @@ webui.@THEME@.widget.accordionTab.refresh = {
 }
 
 /**
- * This function is used to set widget properties with the
- * following Object literals.
+ * This function is used to set widget properties. Please see the 
+ * setWidgetProps() function for a list of supported properties.
  *
- * <ul>
- *  <li>contentHeight</li>
- *  <li>Style</li>
- *  <li>styleClass</li>
- *  <li>title</li>
- *  <li>tabContent</li>
- *  <li>visible</li>
- *  <li>hiddenField</li>
- * </ul>
+ * Note: This function updates the widget object for later updates. Further, the
+ * widget shall be updated only for the given key-value pairs.
  *
  * @param props Key-Value pairs of properties.
  */
 webui.@THEME@.widget.accordionTab.setProps = function(props) {
     if (props == null) {
-        return null;
+        return false;
     }
 
-    // Save properties for later updates.
-    if (this.isInitialized() == true) {
-        // Replace contents -- do not extend.
-        if (props.tabContent) {
-            this.tabContent = null;
-        }
-        this.extend(this, props);
-    }
-
-    // Set DOM node properties.
-    this.setCoreProps(this.domNode, props);
-    this.setCommonProps(this.domNode, props);
-    this.setJavaScriptProps(this.domNode, props);
-
-    if (props.contentHeight) {
-        this.contentNode.style.height = props.contentHeight;
-    }
-
-    if (props.title) {
-        this.setTitle(props.title);
-    }
-
+    // Replace contents -- do not extend.
     if (props.tabContent) {
-        this.setTabContent(props.tabContent);
-        if (this.selected) {
-            this.hiddenFieldNode.value = "true";
-            this.titleContainer.className = 
-                webui.@THEME@.widget.props.accordionTab.accordionTabExpanded;
-            this.turnerContainer.className = 
-                webui.@THEME@.widget.props.accordionTab.accordionDownTurner;
-            this.contentNode.style.display = "block";
-        } else {
-            this.hiddenFieldNode.value = "false";
-            this.titleContainer.className = 
-                webui.@THEME@.widget.props.accordionTab.accordionTabCollapsed;
-            this.turnerContainer.className = 
-                webui.@THEME@.widget.props.accordionTab.accordionRightTurner;
-            this.contentNode.style.display = "none";
-        }
+        this.tabContent = null;
     }
-    return props; // Return props for subclasses.
+
+    // Extend widget object for later updates.
+    return webui.@THEME@.widget.accordionTab.superclass.setProps.call(this, props);
 }
 
 /**
@@ -349,6 +307,66 @@ webui.@THEME@.widget.accordionTab.setTitle = function (title) {
 }
 
 /**
+ * This function is used to set widget properties with the following 
+ * Object literals.
+ *
+ * <ul>
+ *  <li>contentHeight</li>
+ *  <li>Style</li>
+ *  <li>styleClass</li>
+ *  <li>title</li>
+ *  <li>tabContent</li>
+ *  <li>visible</li>
+ *  <li>hiddenField</li>
+ * </ul>
+ *
+ * Note: This function should only be invoked through setProps(). Further, the
+ * widget shall be updated only for the given key-value pairs.
+ *
+ * @param props Key-Value pairs of properties.
+ */
+webui.@THEME@.widget.accordionTab.setWidgetProps = function(props) {
+    if (props == null) {
+        return false;
+    }
+
+    // Set properties.
+    if (props.contentHeight) {
+        this.contentNode.style.height = props.contentHeight;
+    }
+
+    if (props.title) {
+        this.setTitle(props.title);
+    }
+
+    if (props.tabContent) {
+        this.setTabContent(props.tabContent);
+        if (this.selected) {
+            this.hiddenFieldNode.value = "true";
+            this.titleContainer.className = 
+                webui.@THEME@.widget.props.accordionTab.accordionTabExpanded;
+            this.turnerContainer.className = 
+                webui.@THEME@.widget.props.accordionTab.accordionDownTurner;
+            this.contentNode.style.display = "block";
+        } else {
+            this.hiddenFieldNode.value = "false";
+            this.titleContainer.className = 
+                webui.@THEME@.widget.props.accordionTab.accordionTabCollapsed;
+            this.turnerContainer.className = 
+                webui.@THEME@.widget.props.accordionTab.accordionRightTurner;
+            this.contentNode.style.display = "none";
+        }
+    }
+
+    // Set more properties..
+    this.setCommonProps(this.domNode, props);
+    this.setJavaScriptProps(this.domNode, props);
+
+    // Set core props.
+    return webui.@THEME@.widget.accordionTab.superclass.setWidgetProps.call(this, props);
+}
+
+/**
  * This closure is used to process tabChange events.
  */
 webui.@THEME@.widget.accordionTab.tabAction = {
@@ -398,6 +416,7 @@ dojo.lang.extend(webui.@THEME@.widget.accordionTab, {
     setSelected: webui.@THEME@.widget.accordionTab.setSelected,    
     setTabContent: webui.@THEME@.widget.accordionTab.setTabContent,
     setTitle: webui.@THEME@.widget.accordionTab.setTitle,
+    setWidgetProps: webui.@THEME@.widget.accordionTab.setWidgetProps,
 
     // Set defaults.
     isContainer: true,

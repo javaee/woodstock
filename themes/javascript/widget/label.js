@@ -37,31 +37,29 @@ webui.@THEME@.widget.label = function() {
 }
 
 /**
- * This function is used to fill a template with widget properties.
+ * This function is used to fill in template properties.
  *
- * Note: Anything to be set only once should be added here; otherwise, the
- * setProps() function should be used to set properties.
+ * Note: This is called after the buildRendering() function. Anything to be set 
+ * only once should be added here; otherwise, use the setWidgetProps() function.
+ *
+ * @param props Key-Value pairs of properties.
+ * @param frag HTML fragment.
  */
-webui.@THEME@.widget.label.fillInTemplate = function() {
+webui.@THEME@.widget.label.fillInTemplate = function(props, frag) {
     // Set ids.
     if (this.id) {
-        this.requiredImageContainer.id = this.id + "_requiredImageContainer";
-        this.errorImageContainer.id = this.id + "_errorImageContainer";
-        this.valueContainer.id = this.id + "_valueContainer";
         this.contentsContainer.id = this.id + "_contentsContainer";
+        this.errorImageContainer.id = this.id + "_errorImageContainer";
+        this.requiredImageContainer.id = this.id + "_requiredImageContainer";
+        this.valueContainer.id = this.id + "_valueContainer";
     }
 
-    // Set public functions. 
-    this.domNode.getProps = function() { return dojo.widget.byId(this.id).getProps(); }
-    this.domNode.refresh = function(execute) { return dojo.widget.byId(this.id).refresh(execute); }
-    this.domNode.setProps = function(props) { return dojo.widget.byId(this.id).setProps(props); }
-
-    // Initialize template.
-    return this.setProps(this.getProps());
+    // Set common functions.
+    return webui.@THEME@.widget.label.superclass.fillInTemplate.call(this, props, frag);
 }
 
 /**
- * Helper function to obtain widget class names.
+ * This function is used to obtain the outermost HTML element class name.
  */
 webui.@THEME@.widget.label.getClassName = function() {
     // Set style for default label level.
@@ -80,12 +78,11 @@ webui.@THEME@.widget.label.getClassName = function() {
 }
 
 /**
- * This function is used to get widget properties. Please see
- * webui.@THEME@.widget.label.setProps for a list of supported
- * properties.
+ * This function is used to get widget properties. Please see the 
+ * setWidgetProps() function for a list of supported properties.
  */
 webui.@THEME@.widget.label.getProps = function() {
-    var props = {};
+    var props = webui.@THEME@.widget.label.superclass.getProps.call(this);
 
     // Set properties.
     if (this.contents) { props.contents = this.contents; }
@@ -96,11 +93,6 @@ webui.@THEME@.widget.label.getProps = function() {
     if (this.requiredImage) { props.requiredImage = this.requiredImage; }
     if (this.valid != null) { props.valid = this.valid; }
     if (this.value) { props.value = this.value; }
-
-    // Add DOM node properties.
-    Object.extend(props, this.getCommonProps());
-    Object.extend(props, this.getCoreProps());
-    Object.extend(props, this.getJavaScriptProps());
 
     return props;
 }
@@ -138,8 +130,31 @@ webui.@THEME@.widget.label.refresh = {
 }
 
 /**
- * This function is used to set widget properties with the
- * following Object literals.
+ * This function is used to set widget properties. Please see the 
+ * setWidgetProps() function for a list of supported properties.
+ *
+ * Note: This function updates the widget object for later updates. Further, the
+ * widget shall be updated only for the given key-value pairs.
+ *
+ * @param props Key-Value pairs of properties.
+ */
+webui.@THEME@.widget.label.setProps = function(props) {
+    if (props == null) {
+        return false;
+    }
+
+    // Replace contents -- do not extend.
+    if (props.contents) {
+        this.contents = null;
+    }
+
+    // Extend widget object for later updates.
+    return webui.@THEME@.widget.label.superclass.setProps.call(this, props);
+}
+
+/**
+ * This function is used to set widget properties with the following 
+ * Object literals.
  *
  * <ul>
  *  <li>accesskey</li>
@@ -171,30 +186,17 @@ webui.@THEME@.widget.label.refresh = {
  *  <li>visible</li>
  * </ul>
  *
+ * Note: This function should only be invoked through setProps(). Further, the
+ * widget shall be updated only for the given key-value pairs.
+ *
  * @param props Key-Value pairs of properties.
  */
-webui.@THEME@.widget.label.setProps = function(props) {
+webui.@THEME@.widget.label.setWidgetProps = function(props) {
     if (props == null) {
-        return null;
+        return false;
     }
 
-    // Save properties for later updates.
-    if (this.isInitialized() == true) {
-        // Replace contents -- do not extend.
-        if (props.contents) {
-            this.contents = null;
-        }
-        this.extend(this, props);
-    }
-
-    // Set style class -- must be set before calling setCoreProps().
-    props.className = this.getClassName();
-    
-    // Set DOM node properties.
-    this.setCoreProps(this.domNode, props);
-    this.setCommonProps(this.domNode, props);
-    this.setJavaScriptProps(this.domNode, props);
-
+    // Set properties.
     if (props.htmlFor) { this.domNode.htmlFor = props.htmlFor; }
 
     // Set label value.
@@ -251,7 +253,13 @@ webui.@THEME@.widget.label.setProps = function(props) {
             this.addFragment(this.contentsContainer, props.contents[i], "last");
         }
     }
-    return props; // Return props for subclasses.
+
+    // Set more properties.
+    this.setCommonProps(this.domNode, props);
+    this.setJavaScriptProps(this.domNode, props);
+
+    // Set core props.
+    return webui.@THEME@.widget.label.superclass.setWidgetProps.call(this, props);
 }
 
 /**
@@ -293,6 +301,7 @@ dojo.lang.extend(webui.@THEME@.widget.label, {
     getProps: webui.@THEME@.widget.label.getProps,
     refresh: webui.@THEME@.widget.label.refresh.processEvent,      
     setProps: webui.@THEME@.widget.label.setProps,
+    setWidgetProps: webui.@THEME@.widget.label.setWidgetProps,
     validate: webui.@THEME@.widget.label.validation.processEvent,
 
     // Set defaults.

@@ -38,28 +38,11 @@ webui.@THEME@.widget.image = function() {
 }
 
 /**
- * This function is used to fill a template with widget properties.
- *
- * Note: Anything to be set only once should be added here; otherwise, the
- * setProps() function should be used to set properties.
- */
-webui.@THEME@.widget.image.fillInTemplate = function() {
-    // Set public functions. 
-    this.domNode.getProps = function() { return dojo.widget.byId(this.id).getProps(); }
-    this.domNode.refresh = function(execute) { return dojo.widget.byId(this.id).refresh(execute); }
-    this.domNode.setProps = function(props) { return dojo.widget.byId(this.id).setProps(props); }
-
-    // Initialize template.
-    return this.setProps(this.getProps());
-}
-
-/**
- * This function is used to get widget properties. Please see
- * webui.@THEME@.widget.image.setProps for a list of supported
- * properties.
+ * This function is used to get widget properties. Please see the 
+ * setWidgetProps() function for a list of supported properties.
  */
 webui.@THEME@.widget.image.getProps = function() {
-    var props = {};
+    var props = webui.@THEME@.widget.image.superclass.getProps.call(this);
 
     // Set properties.
     if (this.alt) { props.alt = this.alt; }
@@ -71,11 +54,6 @@ webui.@THEME@.widget.image.getProps = function() {
     if (this.src) { props.src = this.src; }
     if (this.vspace) { props.vspace = this.vspace; }
     if (this.width) { props.width = this.width; }
-
-    // Add DOM node properties.
-    Object.extend(props, this.getCommonProps());
-    Object.extend(props, this.getCoreProps());
-    Object.extend(props, this.getJavaScriptProps());
 
     return props;
 }
@@ -113,8 +91,32 @@ webui.@THEME@.widget.image.refresh = {
 }
 
 /**
- * This function is used to update widget properties with the
- * following Object literals. Not all properties are required.
+ * This function is used to set widget properties. Please see the 
+ * setWidgetProps() function for a list of supported properties.
+ *
+ * Note: This function updates the widget object for later updates. Further, the
+ * widget shall be updated only for the given key-value pairs.
+ *
+ * @param props Key-Value pairs of properties.
+ */
+webui.@THEME@.widget.image.setProps = function(props) {
+    if (props == null) {
+        return false;
+    }
+
+    // Note: This widget has trouble using this.extend(), possibly due to how
+    // alarm and alert provide image properties to setProps().
+
+    // Extend widget object for later updates.
+    Object.extend(this, props);
+
+    // Set properties.
+    return this.setWidgetProps(props);
+}
+
+/**
+ * This function is used to set widget properties with the following 
+ * Object literals.
  *
  * <ul>
  *  <li>alt</li>
@@ -146,23 +148,17 @@ webui.@THEME@.widget.image.refresh = {
  *  <li>width</li>
  * </ul>
  *
+ * Note: This function should only be invoked through setProps(). Further, the
+ * widget shall be updated only for the given key-value pairs.
+ *
  * @param props Key-Value pairs of properties.
  */
-webui.@THEME@.widget.image.setProps = function(props) {
+webui.@THEME@.widget.image.setWidgetProps = function(props) {
     if (props == null) {
-        return null;
+        return false;
     }
 
-    // Save properties for later updates.
-    if (this.isInitialized() == true) {
-        Object.extend(this, props);
-    }
-
-    // Set DOM node properties.
-    this.setCoreProps(this.domNode, props);
-    this.setCommonProps(this.domNode, props);
-    this.setJavaScriptProps(this.domNode, props);
-
+    // Set properties.
     if (props.alt) { this.domNode.alt = props.alt; }
     if (props.align) { this.domNode.align = props.align; }
     if (props.border != null) { this.domNode.border = props.border; }
@@ -173,19 +169,24 @@ webui.@THEME@.widget.image.setProps = function(props) {
     if (props.vspace) { this.domNode.vspace = props.vspace; }
     if (props.width) { this.domNode.width = props.width; }
 
-    return props; // Return props for subclasses.
+    // Set more properties.
+    this.setCommonProps(this.domNode, props);
+    this.setJavaScriptProps(this.domNode, props);
+
+    // Set core props.
+    return webui.@THEME@.widget.image.superclass.setWidgetProps.call(this, props);
 }
-        
+
 // Inherit base widget properties.
 dojo.inherits(webui.@THEME@.widget.image, webui.@THEME@.widget.widgetBase);
 
 // Override base widget by assigning properties to class prototype.
 dojo.lang.extend(webui.@THEME@.widget.image, {
     // Set private functions.
-    fillInTemplate: webui.@THEME@.widget.image.fillInTemplate,
     getProps: webui.@THEME@.widget.image.getProps,
-    refresh: webui.@THEME@.widget.image.refresh.processEvent,        
+    refresh: webui.@THEME@.widget.image.refresh.processEvent,
     setProps: webui.@THEME@.widget.image.setProps,
+    setWidgetProps: webui.@THEME@.widget.image.setWidgetProps,
 
     // Set defaults.
     border: 0,

@@ -164,12 +164,15 @@ webui.@THEME@.widget.listbox.createOnChangeCallback = function(id) {
 }
 
 /**
- * This function is used to fill a template with widget properties.
+ * This function is used to fill in template properties.
  *
- * Note: Anything to be set only once should be added here; otherwise, the
- * setProps() function should be used to set properties.
+ * Note: This is called after the buildRendering() function. Anything to be set 
+ * only once should be added here; otherwise, use the setWidgetProps() function.
+ *
+ * @param props Key-Value pairs of properties.
+ * @param frag HTML fragment.
  */
-webui.@THEME@.widget.listbox.fillInTemplate = function() {
+webui.@THEME@.widget.listbox.fillInTemplate = function(props, frag) {
     // Set ids.
     if (this.id) {
         this.labelContainer.id = this.id + "_label";
@@ -177,12 +180,9 @@ webui.@THEME@.widget.listbox.fillInTemplate = function() {
     }
 
     // Set public functions.
-    this.domNode.getProps = function() { return dojo.widget.byId(this.id).getProps(); }
     this.domNode.getSelectedValue = function() { return dojo.widget.byId(this.id).getSelectedValue(); }
     this.domNode.getSelectedLabel = function() { return dojo.widget.byId(this.id).getSelectedLabel(); }
     this.domNode.getSelectElement = function() { return dojo.widget.byId(this.id).getSelectElement(); }
-    this.domNode.refresh = function(execute) { return dojo.widget.byId(this.id).refresh(execute); }
-    this.domNode.setProps = function(props) { return dojo.widget.byId(this.id).setProps(props); }
     this.domNode.submit = function(execute) { return dojo.widget.byId(this.id).submit(execute); }
 
     // Set events.
@@ -195,11 +195,8 @@ webui.@THEME@.widget.listbox.fillInTemplate = function() {
         webui.@THEME@.common.setVisibleElement(this.brContainer, true);
     }
 
-    // Initialize style classes.
-    this.initClassNames();
-
-    // Initialize template.
-    return this.setProps(this.getProps());
+    // Set common functions.
+    return webui.@THEME@.widget.listbox.superclass.fillInTemplate.call(this, props, frag);
 }
 
 /**
@@ -208,6 +205,7 @@ webui.@THEME@.widget.listbox.fillInTemplate = function() {
  * @param option Key-Value pairs of properties.
  */
 webui.@THEME@.widget.listbox.getOptionClassName = function(option) {
+    // Set default style.
     if (option.separator && option.separator == true) {
         return this.optionSeparatorClassName;
     } else if (option.group && option.group == true) {
@@ -222,12 +220,11 @@ webui.@THEME@.widget.listbox.getOptionClassName = function(option) {
 }
 
 /**
- * This function is used to get widget properties. Please see
- * webui.@THEME@.widget.listbox.setProps for a list of supported
- * properties.
+ * This function is used to get widget properties. Please see the 
+ * setWidgetProps() function for a list of supported properties.
  */
 webui.@THEME@.widget.listbox.getProps = function() {
-    var props = {};
+    var props = webui.@THEME@.widget.listbox.superclass.getProps.call(this);
 
     // Get properties.
     if (this.size) { props.size = this.size; }
@@ -237,18 +234,14 @@ webui.@THEME@.widget.listbox.getProps = function() {
     if (this.label ) { props.label = this.label; }
     if (this.options ) { props.options = this.options; }
 
-    // Add DOM node properties.
-    Object.extend(props, this.getCommonProps(this));
-    Object.extend(props, this.getCoreProps(this));
-    Object.extend(props, this.getJavaScriptProps(this));
-
     return props;
 }
 
 /**
  * Helper function to obtain class name for the <select> element
  */
-webui.@THEME@.widget.listbox.getSelectClassName = function(disabled, monospace) {
+webui.@THEME@.widget.listbox.getSelectClassName = function(disabled, monospace) {    
+    // Set default style.
     if (monospace == true) {
         return (disabled == true)
             ? this.selectMonospaceDisabledClassName
@@ -298,11 +291,15 @@ webui.@THEME@.widget.listbox.getSelectedValue = function() {
 }
 
 /**
- * Helper function to initialize the proper style classes.
+ * This function is used to initialize the widget.
+ *
+ * Note: This is called after the fillInTemplate() function.
  *
  * @param props Key-Value pairs of properties.
+ * @param frag HTML fragment.
+ * @param parent The parent of this widget.
  */
-webui.@THEME@.widget.listbox.initClassNames = function(props) {
+webui.@THEME@.widget.listbox.initialize = function (props, frag, parent) {
     // Set style classes.
     this.selectClassName = webui.@THEME@.widget.props.listbox.className;
     this.selectDisabledClassName = webui.@THEME@.widget.props.listbox.disabledClassName;
@@ -314,7 +311,8 @@ webui.@THEME@.widget.listbox.initClassNames = function(props) {
     this.optionDisabledClassName = webui.@THEME@.widget.props.listbox.optionDisabledClassName;
     this.optionSelectedClassName = webui.@THEME@.widget.props.listbox.optionSelectedClassName;
 
-    return true;
+    return webui.@THEME@.widget.listbox.superclass.initialize.call(this, 
+        props, frag, parent);
 }
 
 /**
@@ -406,8 +404,31 @@ webui.@THEME@.widget.listbox.setOptionProps = function(element, option) {
 }
 
 /**
- * This function is used to set widget properties with the
- * following Object literals.
+ * Helper function to set properties specific to the <select> element
+ *
+ * @param selectNode The <select> DOM node  
+ */
+webui.@THEME@.widget.listbox.setSelectProps = function(selectNode, props) {
+    selectNode.name = selectNode.id;
+
+    if (props.size) {
+        selectNode.size = (props.size < 1) ? 12 : props.size;  
+    }
+    if (props.multiple != null) {
+        selectNode.multiple = new Boolean(props.multiple).valueOf();
+    }
+    if (props.disabled != null) {
+        selectNode.disabled = new Boolean(props.disabled).valueOf();
+    }
+    if (props.disabled != null) {
+        selectNode.className = this.getSelectClassName(props.disabled, props.monospace);
+    }
+    return true;
+}
+
+/**
+ * This function is used to set widget properties with the following 
+ * Object literals.
  *
  * <ul>
  *  <li>id</li>
@@ -438,16 +459,14 @@ webui.@THEME@.widget.listbox.setOptionProps = function(element, option) {
  *  <li>visible</li>
  * </ul>
  *
+ * Note: This function should only be invoked through setProps(). Further, the
+ * widget shall be updated only for the given key-value pairs.
+ *
  * @param props Key-Value pairs of properties.
  */
-webui.@THEME@.widget.listbox.setProps = function(props) {
+webui.@THEME@.widget.listbox.setWidgetProps = function(props) {
     if (props == null) {
-        return null;
-    }
-
-    // Save properties for later updates.
-    if (this.isInitialized() == true) {
-        this.extend(this, props);
+        return false;
     }
 
     // A web app devleoper could return false in order to cancel the 
@@ -460,11 +479,6 @@ webui.@THEME@.widget.listbox.setProps = function(props) {
         // Must be cleared before calling setJavaScriptProps() below.
         props.onChange = null;
     }
-
-    // Set DOM node properties.
-    this.setCoreProps(this.domNode, props);
-    this.setCommonProps(this.listContainer, props);
-    this.setJavaScriptProps(this.listContainer, props);
 
     // Set the properties specific to the <select> element
     this.setSelectProps(this.listContainer, props);
@@ -486,30 +500,13 @@ webui.@THEME@.widget.listbox.setProps = function(props) {
             this.addFragment(this.labelContainer, props.label);
          }
     }
-    return props; // Return props for subclasses.
-}
 
-/**
- * Helper function to set properties specific to the <select> element
- *
- * @param selectNode The <select> DOM node  
- */
-webui.@THEME@.widget.listbox.setSelectProps = function(selectNode, props) {
-    selectNode.name = selectNode.id;
+    // Set more properties.
+    this.setCommonProps(this.listContainer, props);
+    this.setJavaScriptProps(this.listContainer, props);
 
-    if (props.size) {
-        selectNode.size = (props.size < 1) ? 12 : props.size;  
-    }
-    if (props.multiple != null) {
-        selectNode.multiple = new Boolean(props.multiple).valueOf();
-    }
-    if (props.disabled != null) {
-        selectNode.disabled = new Boolean(props.disabled).valueOf();
-    }
-    if (props.disabled != null) {
-        selectNode.className = this.getSelectClassName(props.disabled, props.monospace);
-    }
-    return true;
+    // Set core props.
+    return webui.@THEME@.widget.listbox.superclass.setWidgetProps.call(this, props);
 }
 
 /**
@@ -559,12 +556,12 @@ dojo.lang.extend(webui.@THEME@.widget.listbox, {
     getSelectElement: webui.@THEME@.widget.listbox.getSelectElement,
     getSelectedLabel: webui.@THEME@.widget.listbox.getSelectedLabel,
     getSelectedValue: webui.@THEME@.widget.listbox.getSelectedValue,
-    initClassNames: webui.@THEME@.widget.listbox.initClassNames,
+    initialize: webui.@THEME@.widget.listbox.initialize,
     refresh: webui.@THEME@.widget.listbox.refresh.processEvent,
     setGroupOptionProps: webui.@THEME@.widget.listbox.setGroupOptionProps,
     setOptionProps: webui.@THEME@.widget.listbox.setOptionProps,
-    setProps: webui.@THEME@.widget.listbox.setProps,
     setSelectProps: webui.@THEME@.widget.listbox.setSelectProps,
+    setWidgetProps: webui.@THEME@.widget.listbox.setWidgetProps,
     submit: webui.@THEME@.widget.listbox.submit.processEvent,
 
     // Set defaults

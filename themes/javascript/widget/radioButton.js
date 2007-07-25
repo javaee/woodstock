@@ -38,7 +38,7 @@ webui.@THEME@.widget.radioButton = function() {
 }
 
 /**
- * Helper function to obtain widget class names.
+ * This function is used to obtain the outermost HTML element class name.
  */
 webui.@THEME@.widget.radioButton.getClassName = function() {
     // Set style class for the span element.
@@ -102,8 +102,8 @@ webui.@THEME@.widget.radioButton.refresh = {
 }
 
 /**
- * This function is used to set widget properties with the
- * following Object literals.
+ * This function is used to set widget properties with the following 
+ * Object literals.
  *
  * <ul>
  *  <li>accesskey</li> 
@@ -138,11 +138,14 @@ webui.@THEME@.widget.radioButton.refresh = {
  *  <li>visible</li>  
  * </ul>
  *
+ * Note: This function should only be invoked through setProps(). Further, the
+ * widget shall be updated only for the given key-value pairs.
+ *
  * @param props Key-Value pairs of properties.
  */
-webui.@THEME@.widget.radioButton.setProps = function(props) {
+webui.@THEME@.widget.radioButton.setWidgetProps = function(props) {
     if (props == null) {
-        return null;
+        return false;
     }
 
     if (props.name) {
@@ -161,8 +164,8 @@ webui.@THEME@.widget.radioButton.setProps = function(props) {
         this.inputNode.name = props.name;
     }
 
-    // Return props for subclasses.
-    return webui.@THEME@.widget.radioButton.superclass.setProps.call(this, props);
+    // Set core props.
+    return webui.@THEME@.widget.radioButton.superclass.setWidgetProps.call(this, props);
 }
 
 /**
@@ -207,7 +210,7 @@ dojo.lang.extend(webui.@THEME@.widget.radioButton, {
     getImageClassName: webui.@THEME@.widget.radioButton.getImageClassName,
     getLabelClassName: webui.@THEME@.widget.radioButton.getLabelClassName,
     refresh: webui.@THEME@.widget.radioButton.refresh.processEvent,
-    setProps: webui.@THEME@.widget.radioButton.setProps,
+    setWidgetProps: webui.@THEME@.widget.radioButton.setWidgetProps,
     submit: webui.@THEME@.widget.radioButton.submit.processEvent,
 
     // Set defaults

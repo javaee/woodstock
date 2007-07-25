@@ -48,16 +48,56 @@ webui.@THEME@.widget.widgetBase.ajaxify = function(module) {
 }
 
 /**
- * Override base widget so templatePath property takes precedence over the
- * default templateString.
+ * This function is used to render the widget from a template.
+ *
+ * @param props Key-Value pairs of properties.
+ * @param frag HTML fragment.
+ * @param parent The parent of this widget.
  */
-webui.@THEME@.widget.widgetBase.buildRendering = function (args, frag, parent) {
+webui.@THEME@.widget.widgetBase.buildRendering = function (props, frag, parent) {
     // In order for templatePath to be used, templateString must be cleared.
+    // Note that templatePath should have precedence.
     if (this.templatePath) {
         this.templateString = null;
     }
-    // Super class buildRendering.
-    webui.@THEME@.widget.widgetBase.superclass.buildRendering.call(this, args, frag, parent);
+    return webui.@THEME@.widget.widgetBase.superclass.buildRendering.call(this, 
+        props, frag, parent);
+}
+
+/**
+ * This function is used to fill in template properties.
+ *
+ * Note: This is called after the buildRendering() function. Anything to be set 
+ * only once should be added here; otherwise, use the setWidgetProps() function.
+ *
+ * @param props Key-Value pairs of properties.
+ * @param frag HTML fragment.
+ */
+webui.@THEME@.widget.widgetBase.fillInTemplate = function(props, frag) {
+    if (props == null) {
+        return false;
+    }
+
+    // Not: Since the anchor id and name must be the same on IE, we cannot 
+    // obtain the widget using the DOM node ID via the public functions below.
+
+    // Set widget id via closure magic.
+    var id = this.id;
+
+    // Set public functions.
+    this.domNode.getProps = function() { return dojo.widget.byId(id).getProps(); }
+    this.domNode.refresh = function(execute) { return dojo.widget.byId(id).refresh(execute); }
+    this.domNode.setProps = function(props) { return dojo.widget.byId(id).setProps(props); }
+
+    return webui.@THEME@.widget.widgetBase.superclass.fillInTemplate.call(this, 
+        props, frag, parent);
+}
+
+/**
+ * This function is used to obtain the outermost HTML element class name.
+ */
+webui.@THEME@.widget.widgetBase.getClassName = function() {
+    return this.className; // Overridden by subclasses.
 }
 
 /**
@@ -94,6 +134,22 @@ webui.@THEME@.widget.widgetBase.getCoreProps = function() {
 }
 
 /**
+ * This function is used to get widget properties. Please see the
+ * setCommonProps(), setCoreProps(), and setJavaScriptProps() functions for a
+ * list of supported properties.
+ */
+webui.@THEME@.widget.widgetBase.getProps = function() {
+    var props = {};
+
+    // Set properties.
+    Object.extend(props, this.getCommonProps());
+    Object.extend(props, this.getCoreProps());
+    Object.extend(props, this.getJavaScriptProps());
+
+    return props;
+}
+
+/**
  * This function is used to get JavaScript properties for the widget. Please see
  * the setJavaScriptProps() function for a list of supported properties.
  */
@@ -120,6 +176,20 @@ webui.@THEME@.widget.widgetBase.getJavaScriptProps = function() {
 }
 
 /**
+ * This function is used to initialize the widget.
+ *
+ * Note: This is called after the fillInTemplate() function.
+ *
+ * @param props Key-Value pairs of properties.
+ * @param frag HTML fragment.
+ * @param parent The parent of this widget.
+ */
+webui.@THEME@.widget.widgetBase.initialize = function (props, frag, parent) {
+    return webui.@THEME@.widget.widgetBase.superclass.initialize.call(this, 
+        props, frag, parent);
+}
+
+/**
  * This function is used to test if widget has been initialized.
  *
  * Note: It is assumed that an HTML element is used as a place holder for the
@@ -131,6 +201,37 @@ webui.@THEME@.widget.widgetBase.isInitialized = function() {
         return true;
     }
     return false;
+}
+
+/**
+ * This function is used after the widget has been initialized.
+ *
+ * Note: This is called after the initialize() function.
+ *
+ * @param props Key-Value pairs of properties.
+ * @param frag HTML fragment.
+ * @param parent The parent of this widget.
+ */
+webui.@THEME@.widget.widgetBase.postInitialize = function (props, frag, parent) {
+    // Set properties.
+    this.setWidgetProps(props);
+
+    return webui.@THEME@.widget.widgetBase.superclass.postInitialize.call(this, 
+        props, frag, parent);
+}
+
+/**
+ * This function is used after the widget has been initialized and rendered.
+ *
+ * Note: This is called after the postInitialize() function.
+ *
+ * @param props Key-Value pairs of properties.
+ * @param frag HTML fragment.
+ * @param parent The parent of this widget.
+ */
+webui.@THEME@.widget.widgetBase.postCreate = function (props, frag, parent) {
+    return webui.@THEME@.widget.widgetBase.superclass.postCreate.call(this, 
+        props, frag, parent);
 }
 
 /**
@@ -314,6 +415,55 @@ webui.@THEME@.widget.widgetBase.setJavaScriptProps = function(domNode, props) {
     return true;
 }
 
+/**
+ * This function is used to set widget properties. Please see the 
+ * setWidgetProps() function for a list of supported properties.
+ *
+ * Note: This function updates the widget object for later updates. Further, the
+ * widget shall be updated only for the given key-value pairs.
+ *
+ * @param props Key-Value pairs of properties.
+ */
+webui.@THEME@.widget.widgetBase.setProps = function(props) {
+    if (props == null) {
+        return false;
+    }
+
+    // Extend widget object for later updates.
+    this.extend(this, props);
+
+    // Set properties.
+    return this.setWidgetProps(props);
+}
+
+/**
+ * This function is used to set widget properties with the following 
+ * Object literals.
+ *
+ * <ul>
+ *  <li>className</li>
+ *  <li>id</li>
+ *  <li>style</li>
+ *  <li>visible</li>
+ * </ul>
+ *
+ * Note: This function should only be invoked through setProps(). Further, the
+ * widget shall be updated only for the given key-value pairs.
+ *
+ * @param props Key-Value pairs of properties.
+ */
+webui.@THEME@.widget.widgetBase.setWidgetProps = function(props) {
+    if (props == null) {
+        return false;
+    }
+
+    // Set style class -- must be set before calling setCoreProps().
+    props.className = this.getClassName();
+
+    // Set more properties.
+    return this.setCoreProps(this.domNode, props);
+}
+
 // Inherit base widget properties.
 dojo.inherits(webui.@THEME@.widget.widgetBase, dojo.widget.HtmlWidget);
 
@@ -324,12 +474,20 @@ dojo.lang.extend(webui.@THEME@.widget.widgetBase, {
     ajaxify: webui.@THEME@.widget.widgetBase.ajaxify,
     buildRendering: webui.@THEME@.widget.widgetBase.buildRendering,
     extend: webui.@THEME@.widget.common.extend,
+    fillInTemplate: webui.@THEME@.widget.widgetBase.fillInTemplate,
+    getClassName: webui.@THEME@.widget.widgetBase.getClassName,
     getCommonProps: webui.@THEME@.widget.widgetBase.getCommonProps,
     getCoreProps: webui.@THEME@.widget.widgetBase.getCoreProps,
     getJavaScriptProps: webui.@THEME@.widget.widgetBase.getJavaScriptProps,
+    getProps: webui.@THEME@.widget.widgetBase.getProps,
+    initialize: webui.@THEME@.widget.widgetBase.initialize,
     isInitialized: webui.@THEME@.widget.widgetBase.isInitialized,
+    postInitialize: webui.@THEME@.widget.widgetBase.postInitialize,
+    postCreate: webui.@THEME@.widget.widgetBase.postCreate,
     removeChildNodes: webui.@THEME@.widget.common.removeChildNodes,
     setCommonProps: webui.@THEME@.widget.widgetBase.setCommonProps,
     setCoreProps: webui.@THEME@.widget.widgetBase.setCoreProps,
-    setJavaScriptProps: webui.@THEME@.widget.widgetBase.setJavaScriptProps
+    setJavaScriptProps: webui.@THEME@.widget.widgetBase.setJavaScriptProps,
+    setProps: webui.@THEME@.widget.widgetBase.setProps,
+    setWidgetProps: webui.@THEME@.widget.widgetBase.setWidgetProps
 });

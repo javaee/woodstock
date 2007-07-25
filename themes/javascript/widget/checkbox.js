@@ -37,12 +37,15 @@ webui.@THEME@.widget.checkbox = function() {
 }
 
 /**
- * This function is used to fill a template with widget properties.
+ * This function is used to fill in template properties.
  *
- * Note: Anything to be set only once should be added here; otherwise, the
- * setProps() function should be used to set properties.
+ * Note: This is called after the buildRendering() function. Anything to be set 
+ * only once should be added here; otherwise, use the setWidgetProps() function.
+ *
+ * @param props Key-Value pairs of properties.
+ * @param frag HTML fragment.
  */
-webui.@THEME@.widget.checkbox.fillInTemplate = function() {
+webui.@THEME@.widget.checkbox.fillInTemplate = function(props, frag) {
     // Set ids.
     if (this.id) {
         this.inputNode.id = this.id + this.idSuffix;
@@ -56,18 +59,15 @@ webui.@THEME@.widget.checkbox.fillInTemplate = function() {
     }
 
     // Set public functions.        
-    this.domNode.setProps = function(props) { return dojo.widget.byId(this.id).setProps(props); }
-    this.domNode.getProps = function() { return dojo.widget.byId(this.id).getProps(); }
     this.domNode.getInputElement = function() { return dojo.widget.byId(this.id).getInputElement(); }
-    this.domNode.refresh = function(execute) { return dojo.widget.byId(this.id).refresh(execute); }
     this.domNode.submit = function(execute) { return dojo.widget.byId(this.id).submit(execute); }
 
-    // Initialize template.
-    return this.setProps(this.getProps());
+    // Set common functions.
+    return webui.@THEME@.widget.checkbox.superclass.fillInTemplate.call(this, props, frag);
 }
 
 /**
- * Helper function to obtain widget class names.
+ * This function is used to obtain the outermost HTML element class name.
  */
 webui.@THEME@.widget.checkbox.getClassName = function() {
     var className = webui.@THEME@.widget.props.checkbox.className; 
@@ -107,12 +107,11 @@ webui.@THEME@.widget.checkbox.getLabelClassName = function() {
 }
 
 /**
- * This function is used to get widget properties. Please see
- * webui.@THEME@.widget.checkbox.setProps for a list of supported
- * properties.
+ * This function is used to get widget properties. Please see the 
+ * setWidgetProps() function for a list of supported properties.
  */
 webui.@THEME@.widget.checkbox.getProps = function() {
-    var props = {};
+    var props = webui.@THEME@.widget.checkbox.superclass.getProps.call(this);
 
     // Set properties.  
     if (this.align) { props.align = this.align; }
@@ -129,12 +128,6 @@ webui.@THEME@.widget.checkbox.getProps = function() {
     } else if (this.checked != null) {
         props.checked = this.checked;
     }
-
-    // Add DOM node properties.
-    Object.extend(props, this.getCommonProps());
-    Object.extend(props, this.getCoreProps());
-    Object.extend(props, this.getJavaScriptProps());
-
     return props;
 }
 
@@ -171,8 +164,8 @@ webui.@THEME@.widget.checkbox.refresh = {
 }
 
 /**
- * This function is used to set widget properties with the
- * following Object literals.
+ * This function is used to set widget properties with the following 
+ * Object literals.
  *
  * <ul>
  *  <li>accesskey</li>
@@ -210,26 +203,17 @@ webui.@THEME@.widget.checkbox.refresh = {
  *  <li>visible</li>
  * </ul>
  *
+ * Note: This function should only be invoked through setProps(). Further, the
+ * widget shall be updated only for the given key-value pairs.
+ *
  * @param props Key-Value pairs of properties.
  */
-webui.@THEME@.widget.checkbox.setProps = function(props) {
+webui.@THEME@.widget.checkbox.setWidgetProps = function(props) {
     if (props == null) {
-        return null;
+        return false;
     }
 
-    // Save properties for later updates.
-    if (this.isInitialized() == true) {
-        this.extend(this, props);
-    }
-
-    // Set style class -- must be set before calling setCoreProps().
-    props.className = this.getClassName();
-
-    // Set DOM node properties.    
-    this.setCoreProps(this.domNode, props);               
-    this.setCommonProps(this.inputNode, props);
-    this.setJavaScriptProps(this.inputNode, props); 
-
+    // Set properties.
     if (props.value) { 
         this.inputNode.value = props.value;
     }
@@ -300,7 +284,13 @@ webui.@THEME@.widget.checkbox.setProps = function(props) {
             this.addFragment(this.labelContainer, props.label);
         }
     }
-    return props; // Return props for subclasses.
+
+    // Set more properties.
+    this.setCommonProps(this.inputNode, props);
+    this.setJavaScriptProps(this.inputNode, props);
+
+    // Set core props.
+    return webui.@THEME@.widget.checkbox.superclass.setWidgetProps.call(this, props);
 }
 
 /**
@@ -348,7 +338,7 @@ dojo.lang.extend(webui.@THEME@.widget.checkbox, {
     getLabelClassName: webui.@THEME@.widget.checkbox.getLabelClassName,
     getProps: webui.@THEME@.widget.checkbox.getProps,
     refresh: webui.@THEME@.widget.checkbox.refresh.processEvent,
-    setProps: webui.@THEME@.widget.checkbox.setProps,
+    setWidgetProps: webui.@THEME@.widget.checkbox.setWidgetProps,
     submit: webui.@THEME@.widget.checkbox.submit.processEvent,
 
     // Set defaults.

@@ -55,12 +55,15 @@ webui.@THEME@.widget.imageHyperlink.addContents = function(props) {
 }
 
 /**
- * This function is used to fill a template with widget properties.
+ * This function is used to fill in template properties.
  *
- * Note: Anything to be set only once should be added here; otherwise, the
- * setProps() function should be used to set properties.
+ * Note: This is called after the buildRendering() function. Anything to be set 
+ * only once should be added here; otherwise, use the setWidgetProps() function.
+ *
+ * @param props Key-Value pairs of properties.
+ * @param frag HTML fragment.
  */
-webui.@THEME@.widget.imageHyperlink.fillInTemplate = function() {
+webui.@THEME@.widget.imageHyperlink.fillInTemplate = function(props, frag) {
     // Set ids.
     if (this.id) {
         this.enabledImageContainer.id = this.id + "_enabled";
@@ -69,28 +72,22 @@ webui.@THEME@.widget.imageHyperlink.fillInTemplate = function() {
         this.rightContentsContainer.id = this.id + "_rightContents";
     }
 
-    // Set public functions.
-    this.domNode.setProps = function(props) { return dojo.widget.byId(this.id).setProps(props); }
-    this.domNode.refresh = function(execute) { return dojo.widget.byId(this.id).refresh(execute); }
-    this.domNode.getProps = function() { return dojo.widget.byId(this.id).getProps(); }
+    // If the href attribute does not exist, set "#" as the default value of the
+    // DOM node.
+    this.domNode.href = "#";
 
     // Create callback function for onClick event.
     dojo.event.connect(this.domNode, "onclick",
         webui.@THEME@.widget.hyperlink.createOnClickCallback(this.id, 
             this.formId, this.params));
 
-    // If the href attribute does not exist, set "#" as the default value of the
-    // DOM node.
-    this.domNode.href = "#";
-
-    // Initialize template.
-    return this.setProps(this.getProps());
+    // Set common functions.
+    return webui.@THEME@.widget.imageHyperlink.superclass.fillInTemplate.call(this, props, frag);
 }
 
 /**
- * This function is used to get widget properties. Please see
- * webui.@THEME@.widget.hyperlink.setProps for a list of supported
- * properties.
+ * This function is used to get widget properties. Please see the 
+ * setWidgetProps() function for a list of supported properties.
  */
 webui.@THEME@.widget.imageHyperlink.getProps = function() {
     var props = webui.@THEME@.widget.imageHyperlink.superclass.getProps.call(this);
@@ -136,42 +133,47 @@ webui.@THEME@.widget.imageHyperlink.refresh = {
 }
 
 /**
- * This function is used to update widget properties with the
- * following Object literals.
+ * This function is used to set widget properties with the following 
+ * Object literals.
  *
  * <ul>
- * <li>className</li>
- * <li>contents</li>
- * <li>dir</li>
- * <li>disabled</li>
- * <li>disabledImage</li>
- * <li>enabledImage</li>
- * <li>href</li>
- * <li>hrefLang</li>
- * <li>id</li>
- * <li>lang</li>
- * <li>onFocus</li>
- * <li>onBlur</li>
- * <li>onClick</li>
- * <li>onDblClick</li>
- * <li>onKeyDown</li>
- * <li>onKeyPress</li>
- * <li>onKeyUp</li>
- * <li>onMouseDown</li>
- * <li>onMouseOut</li>
- * <li>onMouseOver</li>
- * <li>onMouseUp</li>
- * <li>onMouseMove</li>
- * <li>style</li>
- * <li>imagePosition</li>
- * <li>tabIndex</li>
- * <li>title</li>
- * <li>visible</li>
+ *  <li>className</li>
+ *  <li>contents</li>
+ *  <li>dir</li>
+ *  <li>disabled</li>
+ *  <li>disabledImage</li>
+ *  <li>enabledImage</li>
+ *  <li>href</li>
+ *  <li>hrefLang</li>
+ *  <li>id</li>
+ *  <li>lang</li>
+ *  <li>onFocus</li>
+ *  <li>onBlur</li>
+ *  <li>onClick</li>
+ *  <li>onDblClick</li>
+ *  <li>onKeyDown</li>
+ *  <li>onKeyPress</li>
+ *  <li>onKeyUp</li>
+ *  <li>onMouseDown</li>
+ *  <li>onMouseOut</li>
+ *  <li>onMouseOver</li>
+ *  <li>onMouseUp</li>
+ *  <li>onMouseMove</li>
+ *  <li>style</li>
+ *  <li>imagePosition</li>
+ *  <li>tabIndex</li>
+ *  <li>title</li>
+ *  <li>visible</li>
  * </ul>
+ *
+ * Note: This function should only be invoked through setProps(). Further, the
+ * widget shall be updated only for the given key-value pairs.
+ *
+ * @param props Key-Value pairs of properties.
  */
-webui.@THEME@.widget.imageHyperlink.setProps = function(props) {
+webui.@THEME@.widget.imageHyperlink.setWidgetProps = function(props) {
     if (props == null) {
-        return null;
+        return false;
     }
 
     // Show en/disabled images.
@@ -205,8 +207,8 @@ webui.@THEME@.widget.imageHyperlink.setProps = function(props) {
     // Add contents.
     this.addContents(props);
 
-    // Return props for subclasses.
-    return webui.@THEME@.widget.imageHyperlink.superclass.setProps.call(this, props);
+    // Set core props.
+    return webui.@THEME@.widget.imageHyperlink.superclass.setWidgetProps.call(this, props);
 }
 
 // Inherit base widget properties.
@@ -217,9 +219,9 @@ dojo.lang.extend(webui.@THEME@.widget.imageHyperlink, {
     // Set private functions.
     addContents: webui.@THEME@.widget.imageHyperlink.addContents,
     fillInTemplate: webui.@THEME@.widget.imageHyperlink.fillInTemplate,
-    getProps: webui.@THEME@.widget.imageHyperlink.getProps, 
+    getProps: webui.@THEME@.widget.imageHyperlink.getProps,
     refresh: webui.@THEME@.widget.imageHyperlink.refresh.processEvent,
-    setProps: webui.@THEME@.widget.imageHyperlink.setProps,
+    setWidgetProps: webui.@THEME@.widget.imageHyperlink.setWidgetProps,
 
     // Set defaults.
     templatePath: webui.@THEME@.theme.getTemplatePath("imageHyperlink"),

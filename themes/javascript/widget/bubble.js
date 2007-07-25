@@ -77,12 +77,15 @@ webui.@THEME@.widget.bubble.createCloseCallback = function(id) {
 }
 
 /**
- * This function is used to fill a template with widget properties.
+ * This function is used to fill in template properties.
  *
- * Note: Anything to be set only once should be added here; otherwise, the
- * setProps() function should be used to set properties.
+ * Note: This is called after the buildRendering() function. Anything to be set 
+ * only once should be added here; otherwise, use the setWidgetProps() function.
+ *
+ * @param props Key-Value pairs of properties.
+ * @param frag HTML fragment.
  */
-webui.@THEME@.widget.bubble.fillInTemplate = function() {
+webui.@THEME@.widget.bubble.fillInTemplate = function(props, frag) {
     // Set ids.
     if (this.id) {
         this.bottomLeftArrow.id = this.id + "_bottomLeftArrow";
@@ -95,10 +98,7 @@ webui.@THEME@.widget.bubble.fillInTemplate = function() {
     this.left = null;
     this.top = null;
 
-    // Set public functions.
-    this.domNode.getProps = function() { return dojo.widget.byId(this.id).getProps(); }
-    this.domNode.refresh = function(execute) { return dojo.widget.byId(this.id).refresh(execute); }
-    this.domNode.setProps = function(props) { return dojo.widget.byId(this.id).setProps(props); }       
+    // Set public functions.     
     this.domNode.open = function(event) { return dojo.widget.byId(this.id).open(event); }
     this.domNode.close = function() { return dojo.widget.byId(this.id).close(); }
 
@@ -152,8 +152,8 @@ webui.@THEME@.widget.bubble.fillInTemplate = function() {
         }
     }
 
-    // Initialize template.
-    return this.setProps(this.getProps());       
+    // Set common functions.
+    return webui.@THEME@.widget.bubble.superclass.fillInTemplate.call(this, props, frag);
 }
 
 /**
@@ -205,12 +205,11 @@ webui.@THEME@.widget.bubble.getPageWidth = function() {
 }
 
 /**
- * This function is used to get widget properties. Please see
- * webui.@THEME@.widget.bubble.setProps for a list of supported
- * properties.
+ * This function is used to get widget properties. Please see the 
+ * setWidgetProps() function for a list of supported properties.
  */
 webui.@THEME@.widget.bubble.getProps = function() {
-    var props = {};
+    var props = webui.@THEME@.widget.bubble.superclass.getProps.call(this);
 
     // Set properties.
     if (this.title != null) { props.title = this.title; }
@@ -219,10 +218,6 @@ webui.@THEME@.widget.bubble.getProps = function() {
     if (this.width != null) { props.width = this.width; }
     if (this.autoClose != null) { props.autoClose = this.autoClose; }
     if (this.duration != null) { props.duration = this.duration; }
-            
-    // Add DOM node properties.
-    Object.extend(props, this.getCommonProps(this));
-    Object.extend(props, this.getCoreProps(this));
     
     return props;
 }
@@ -415,8 +410,31 @@ webui.@THEME@.widget.bubble.setPosition = function(evt) {
 }
 
 /**
- * This function is used to set widget properties with the
- * following Object literals.
+ * This function is used to set widget properties. Please see the 
+ * setWidgetProps() function for a list of supported properties.
+ *
+ * Note: This function updates the widget object for later updates. Further, the
+ * widget shall be updated only for the given key-value pairs.
+ *
+ * @param props Key-Value pairs of properties.
+ */
+webui.@THEME@.widget.bubble.setProps = function(props) {
+    if (props == null) {
+        return false;
+    }
+
+    // Replace contents -- do not extend.
+    if (props.contents) {
+        this.contents = null;
+    }
+
+    // Extend widget object for later updates.
+    return webui.@THEME@.widget.bubble.superclass.setProps.call(this, props);
+}
+
+/**
+ * This function is used to set widget properties with the following 
+ * Object literals.
  *
  * <ul>
  *  <li>autoClose</li>
@@ -428,30 +446,22 @@ webui.@THEME@.widget.bubble.setPosition = function(evt) {
  *  <li>visible</li>
  * </ul>
  *
+ * Note: This function should only be invoked through setProps(). Further, the
+ * widget shall be updated only for the given key-value pairs.
+ *
  * @param props Key-Value pairs of properties.
  */
-webui.@THEME@.widget.bubble.setProps = function(props) {
+webui.@THEME@.widget.bubble.setWidgetProps = function(props) {
     if (props == null) {
-        return null;
+        return false;
     }
-
-    // Save properties for later updates.
-    if (this.isInitialized() == true) {
-        // Replace contents -- do not extend.
-        if (props.contents) {
-            this.contents = null;
-        }
-        this.extend(this, props);
-    }
-
-    // Set attributes.
-    this.setCoreProps(this.domNode, props);
         
-    // Set help Title.
+    // Set title.
     if (props.title) {
         this.addFragment(this.titleNode, props.title);
     }
-        
+
+    // Set width.
     if (props.width > 0) {                    
         this.domNode.style.width = props.width;        
     }
@@ -465,7 +475,9 @@ webui.@THEME@.widget.bubble.setProps = function(props) {
             this.addFragment(this.childNode, props.contents[i], "last");
         }
     }
-    return props; // Return props for subclasses.
+
+    // Set core props.
+    return webui.@THEME@.widget.bubble.superclass.setWidgetProps.call(this, props);
 }
 
 dojo.inherits(webui.@THEME@.widget.bubble, webui.@THEME@.widget.widgetBase);
@@ -483,6 +495,7 @@ dojo.lang.extend(webui.@THEME@.widget.bubble, {
     refresh: webui.@THEME@.widget.bubble.refresh.processEvent,
     setPosition: webui.@THEME@.widget.bubble.setPosition,
     setProps: webui.@THEME@.widget.bubble.setProps,
+    setWidgetProps: webui.@THEME@.widget.bubble.setWidgetProps,
     
     // Set defaults.
     defaultTime: 2000,

@@ -37,12 +37,15 @@ webui.@THEME@.widget.field = function() {
 }
 
 /**
- * This function is used to fill a template with widget properties.
+ * This function is used to fill in template properties.
  *
- * Note: Anything to be set only once should be added here; otherwise, the
- * setProps() function should be used to set properties.
+ * Note: This is called after the buildRendering() function. Anything to be set 
+ * only once should be added here; otherwise, use the setWidgetProps() function.
+ *
+ * @param props Key-Value pairs of properties.
+ * @param frag HTML fragment.
  */
-webui.@THEME@.widget.field.fillInTemplate = function() {
+webui.@THEME@.widget.field.fillInTemplate = function(props, frag) {
     // Set ids.
     if (this.id) {
         this.fieldNode.id = this.id + "_field";
@@ -52,19 +55,15 @@ webui.@THEME@.widget.field.fillInTemplate = function() {
     
     // Set public functions.
     this.domNode.getInputElement = function() { return dojo.widget.byId(this.id).getInputElement(); }
-    this.domNode.getProps = function() { return dojo.widget.byId(this.id).getProps(); }
-    this.domNode.setProps = function(props) { return dojo.widget.byId(this.id).setProps(props); }
-    
-    // Initialize template.
-    return this.setProps(this.getProps());
+
+    // Set common functions.
+    return webui.@THEME@.widget.field.superclass.fillInTemplate.call(this, props, frag);
 }
 
 /**
- * Helper function to obtain widget class names.
- * Implementation within this field.js returns null,
- * and it is expected that subclasses override this function.
+ * Helper function to obtain HTML input element class names.
  */
-webui.@THEME@.widget.field.getClassName = function() {   
+webui.@THEME@.widget.field.getInputClassName = function() {   
     return null;
 }
 
@@ -78,12 +77,11 @@ webui.@THEME@.widget.field.getInputElement = function() {
 }
 
 /**
- * This function is used to get widget properties. 
- * @see webui.@THEME@.widget.field.setProps for a list of supported
- * properties.
+ * This function is used to get widget properties. Please see the 
+ * setWidgetProps() function for a list of supported properties.
  */
 webui.@THEME@.widget.field.getProps = function() {
-    var props = {};
+    var props = webui.@THEME@.widget.field.superclass.getProps.call(this);
     
     // Set properties.
     if (this.alt) { props.alt = this.alt; }
@@ -106,18 +104,12 @@ webui.@THEME@.widget.field.getProps = function() {
     } else if (this.value != null) {
         props.value = this.value;
     }
-    
-    // Add DOM node properties.
-    Object.extend(props, this.getCommonProps());
-    Object.extend(props, this.getCoreProps());
-    Object.extend(props, this.getJavaScriptProps());
-    
     return props;
 }
 
 /**
- * This function is used to set widget properties with the
- * following Object literals.
+ * This function is used to set widget properties with the following 
+ * Object literals.
  *
  * <ul>
  *  <li>accesskey</li>
@@ -151,24 +143,17 @@ webui.@THEME@.widget.field.getProps = function() {
  *  <li>visible</li> 
  * </ul>
  *
+ * Note: This function should only be invoked through setProps(). Further, the
+ * widget shall be updated only for the given key-value pairs.
+ *
  * @param props Key-Value pairs of properties.
  */
-webui.@THEME@.widget.field.setProps = function(props) {
+webui.@THEME@.widget.field.setWidgetProps = function(props) {
     if (props == null) {
-        return null;
+        return false;
     }
 
-    // Save properties for later updates.
-    if (this.isInitialized() == true) {
-        this.extend(this, props);
-    }
-    
-    // Set attributes.  
-    this.setCoreProps(this.domNode, props);
-    this.setCommonProps(this.fieldNode, props);
-    this.setJavaScriptProps(this.fieldNode, props);
-    
-    // Set text field attributes.    
+    // Set properties.
     if (props.maxLength > 0) { this.fieldNode.maxLength = props.maxLength; }
     if (props.size > 0) { this.fieldNode.size = props.size; }
     if (props.value != null) { this.fieldNode.value = props.value; }
@@ -179,8 +164,6 @@ webui.@THEME@.widget.field.setProps = function(props) {
     if (props.readOnly != null) { 
         this.fieldNode.readOnly = new Boolean(props.readOnly).valueOf();
     }
-    
-    this.fieldNode.className = this.getClassName();
 
     // Set label properties.
     if (props.label || (props.valid != null || props.required != null) && this.label) {
@@ -203,7 +186,16 @@ webui.@THEME@.widget.field.setProps = function(props) {
             this.addFragment(this.labelContainer, props.label);
         }
     }
-    return props; // Return props for subclasses.
+
+    // Set HTML input element class name.
+    this.fieldNode.className = this.getInputClassName();
+
+    // Set more properties..
+    this.setCommonProps(this.fieldNode, props);
+    this.setJavaScriptProps(this.fieldNode, props);
+
+    // Set core props.
+    return webui.@THEME@.widget.field.superclass.setWidgetProps.call(this, props);
 }
 
 // Inherit base widget properties.
@@ -213,10 +205,10 @@ dojo.inherits(webui.@THEME@.widget.field, webui.@THEME@.widget.widgetBase);
 dojo.lang.extend(webui.@THEME@.widget.field, {
     // Set private functions.
     fillInTemplate: webui.@THEME@.widget.field.fillInTemplate,
-    getClassName: webui.@THEME@.widget.field.getClassName,
+    getInputClassName: webui.@THEME@.widget.field.getInputClassName,
     getInputElement: webui.@THEME@.widget.field.getInputElement,
     getProps: webui.@THEME@.widget.field.getProps,
-    setProps: webui.@THEME@.widget.field.setProps,
+    setWidgetProps: webui.@THEME@.widget.field.setWidgetProps,
     
     // Set defaults.
     disabled: false,

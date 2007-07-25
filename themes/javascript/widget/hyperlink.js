@@ -77,32 +77,30 @@ webui.@THEME@.widget.hyperlink.createOnClickCallback = function(id, formId,
 }
 
 /**
- * This function is used to fill a template with widget properties.
+ * This function is used to fill in template properties.
  *
- * Note: Anything to be set only once should be added here; otherwise, the
- * setProps() function should be used to set properties.
+ * Note: This is called after the buildRendering() function. Anything to be set 
+ * only once should be added here; otherwise, use the setWidgetProps() function.
+ *
+ * @param props Key-Value pairs of properties.
+ * @param frag HTML fragment.
  */
-webui.@THEME@.widget.hyperlink.fillInTemplate = function() {
-    // Set public functions.
-    this.domNode.getProps = function() { return dojo.widget.byId(this.id).getProps(); }
-    this.domNode.refresh = function(execute) { return dojo.widget.byId(this.id).refresh(execute); }
-    this.domNode.setProps = function(props) { return dojo.widget.byId(this.id).setProps(props); }
+webui.@THEME@.widget.hyperlink.fillInTemplate = function(props, frag) {
+    // If the href attribute does not exist, set "#" as the default value of the
+    // DOM node.
+    this.domNode.href = "#";
 
     // Create callback function for onClick event.
     dojo.event.connect(this.domNode, "onclick",
         webui.@THEME@.widget.hyperlink.createOnClickCallback(this.id, 
             this.formId, this.params));
 
-    // If the href attribute does not exist, set "#" as the default value of the
-    // DOM node.
-    this.domNode.href = "#";
-
-    // Initialize template.
-    return this.setProps(this.getProps());
+    // Set common functions.
+    return webui.@THEME@.widget.hyperlink.superclass.fillInTemplate.call(this, props, frag);
 }
 
 /**
- * Helper function to obtain widget class names.
+ * This function is used to obtain the outermost HTML element class name.
  */
 webui.@THEME@.widget.hyperlink.getClassName = function() {
     var className = null;

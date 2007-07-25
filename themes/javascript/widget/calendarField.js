@@ -62,12 +62,15 @@ webui.@THEME@.widget.calendarField.dayClicked = function(props) {
 }
 
 /**
- * This function is used to fill a template with widget properties.
+ * This function is used to fill in template properties.
  *
- * Note: Anything to be set only once should be added here; otherwise, the
- * setProps() function should be used to set properties.
+ * Note: This is called after the buildRendering() function. Anything to be set 
+ * only once should be added here; otherwise, use the setWidgetProps() function.
+ *
+ * @param props Key-Value pairs of properties.
+ * @param frag HTML fragment.
  */
- webui.@THEME@.widget.calendarField.fillInTemplate = function() {
+webui.@THEME@.widget.calendarField.fillInTemplate = function(props, frag) {
     // Set ids.
     if (this.id) {
         this.inlineHelpNode.id = this.id + "_pattern";
@@ -84,12 +87,12 @@ webui.@THEME@.widget.calendarField.dayClicked = function(props) {
     dojo.event.topic.subscribe(webui.@THEME@.widget.calendar.toggleCalendar.calendarOpenTopic,
         this, "toggleCalendar");
 
-    // Initialize template.
-    return webui.@THEME@.widget.calendarField.superclass.fillInTemplate.call(this);
+    // Set common functions.
+    return webui.@THEME@.widget.calendarField.superclass.fillInTemplate.call(this, props, frag);
 }
 
 /**
- * Helper function to obtain widget class names.
+ * This function is used to obtain the outermost HTML element class name.
  */
 webui.@THEME@.widget.calendarField.getClassName = function() {
     // Set style for the outermost table element.
@@ -100,12 +103,11 @@ webui.@THEME@.widget.calendarField.getClassName = function() {
 }
 
 /**
- * This function is used to get widget properties. Please see
- * webui.@THEME@.widget.calendarField.setProps for a list of supported
- * properties.
+ * This function is used to get widget properties. Please see the 
+ * setWidgetProps() function for a list of supported properties.
  */
 webui.@THEME@.widget.calendarField.getProps = function() {
-    var props = webui.@THEME@.widget.textField.superclass.getProps.call(this);
+    var props = webui.@THEME@.widget.calendarField.superclass.getProps.call(this);
 
     // Set properties.  
     if (this.align) { props.align = this.align; }
@@ -148,8 +150,8 @@ webui.@THEME@.widget.calendarField.refresh = {
 }
 
 /**
- * This function is used to set widget properties with the
- * following Object literals.
+ * This function is used to set widget properties with the following 
+ * Object literals.
  *
  * <ul>
  *  <li>accesskey</li>
@@ -184,14 +186,17 @@ webui.@THEME@.widget.calendarField.refresh = {
  *  <li>visible</li> 
  * </ul>
  *
+ * Note: This function should only be invoked through setProps(). Further, the
+ * widget shall be updated only for the given key-value pairs.
+ *
  * @param props Key-Value pairs of properties.
  */
-webui.@THEME@.widget.calendarField.setProps = function(props) {
+webui.@THEME@.widget.calendarField.setWidgetProps = function(props) {
     if (props == null) {
-        return null;
+        return false;
     }
 
-    // Set date picker properties.    
+    // Set calendar properties.
     if (props.calendar) {            
         // Update widget/add fragment.                
         var calendarWidget = dojo.widget.byId(this.calendar.id);
@@ -216,8 +221,8 @@ webui.@THEME@.widget.calendarField.setProps = function(props) {
         this.addFragment(this.inlineHelpNode, props.patternHelp);
     }
 
-    // Return props for subclasses.
-    return webui.@THEME@.widget.calendarField.superclass.setProps.call(this, props);
+    // Set core props.
+    return webui.@THEME@.widget.calendarField.superclass.setWidgetProps.call(this, props);
 }
 
 /**
@@ -250,9 +255,9 @@ dojo.lang.extend(webui.@THEME@.widget.calendarField, {
     dayClicked: webui.@THEME@.widget.calendarField.dayClicked,
     fillInTemplate: webui.@THEME@.widget.calendarField.fillInTemplate,
     getClassName: webui.@THEME@.widget.calendarField.getClassName,
-    getProps: webui.@THEME@.widget.calendarField.getProps,    
+    getProps: webui.@THEME@.widget.calendarField.getProps,
     refresh: webui.@THEME@.widget.calendarField.refresh.processEvent,
-    setProps: webui.@THEME@.widget.calendarField.setProps,
+    setWidgetProps: webui.@THEME@.widget.calendarField.setWidgetProps,
     toggleCalendar: webui.@THEME@.widget.calendarField.toggleCalendar,
 
     // Set defaults.

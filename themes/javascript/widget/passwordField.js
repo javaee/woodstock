@@ -38,17 +38,32 @@ webui.@THEME@.widget.passwordField = function() {
 }
 
 /**
- * Helper function to obtain widget class names.
+ * This function is used to fill in template properties.
+ *
+ * Note: This is called after the buildRendering() function. Anything to be set 
+ * only once should be added here; otherwise, use the setWidgetProps() function.
+ *
+ * @param props Key-Value pairs of properties.
+ * @param frag HTML fragment.
  */
-webui.@THEME@.widget.passwordField.getClassName = function() {
-    // Set default style.    
-    var className = (this.disabled == true)
-        ? webui.@THEME@.widget.props.passwordField.disabledClassName
-        : webui.@THEME@.widget.props.passwordField.className;   
+webui.@THEME@.widget.passwordField.fillInTemplate = function(props, frag) {
+    // Set common functions.
+    webui.@THEME@.widget.passwordField.superclass.fillInTemplate.call(this, props, frag);
+
+    // Set public functions.
+    this.domNode.refresh = null; // Not supported.
     
-    return (this.className)
-        ? className + " " + this.className
-        : className;
+    return true;
+}
+
+/**
+ * Helper function to obtain HTML input element class names.
+ */
+webui.@THEME@.widget.passwordField.getInputClassName = function() {
+    // Set default style.    
+    return (this.disabled == true)
+        ? webui.@THEME@.widget.props.passwordField.disabledClassName
+        : webui.@THEME@.widget.props.passwordField.className;
 }
 
 // Inherit base widget properties.
@@ -57,7 +72,8 @@ dojo.inherits(webui.@THEME@.widget.passwordField, webui.@THEME@.widget.field);
 // Override base widget by assigning properties to class prototype.
 dojo.lang.extend(webui.@THEME@.widget.passwordField, {
     // Set private functions.
-    getClassName: webui.@THEME@.widget.passwordField.getClassName,
+    fillInTemplate: webui.@THEME@.widget.passwordField.fillInTemplate,
+    getInputClassName: webui.@THEME@.widget.passwordField.getInputClassName,
 
     // Set defaults.
     disabled: false,

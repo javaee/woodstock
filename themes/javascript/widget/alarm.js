@@ -37,12 +37,15 @@ webui.@THEME@.widget.alarm = function() {
 }
 
 /**
- * This function is used to fill a template with widget properties.
+ * This function is used to fill in template properties.
  *
- * Note: Anything to be set only once should be added here; otherwise, the
- * setProps() function should be used to set properties.
+ * Note: This is called after the buildRendering() function. Anything to be set 
+ * only once should be added here; otherwise, use the setWidgetProps() function.
+ *
+ * @param props Key-Value pairs of properties.
+ * @param frag HTML fragment.
  */
-webui.@THEME@.widget.alarm.fillInTemplate = function() {
+webui.@THEME@.widget.alarm.fillInTemplate = function(props, frag) {
     // Set ids.
     if (this.id) {
         this.rightText.id = this.id + "_rightText";
@@ -50,33 +53,22 @@ webui.@THEME@.widget.alarm.fillInTemplate = function() {
         this.imageContainer.id = this.id + "_imageContainer";        
     }
 
-    // Set public functions.
-    this.domNode.getProps = function() { return dojo.widget.byId(this.id).getProps(); }
-    this.domNode.refresh = function(execute) { return dojo.widget.byId(this.id).refresh(execute); }
-    this.domNode.setProps = function(props) { return dojo.widget.byId(this.id).setProps(props); }
-
-    // Initialize template.
-    return this.setProps(this.getProps());
+    // Set common functions.
+    return webui.@THEME@.widget.alarm.superclass.fillInTemplate.call(this, props, frag);
 }
 
 /**
- * This function is used to get widget properties. Please see
- * webui.@THEME@.widget.alarm.setProps for a list of supported
- * properties.
+ * This function is used to get widget properties. Please see the 
+ * setWidgetProps() function for a list of supported properties.
  */
 webui.@THEME@.widget.alarm.getProps = function() {
-    var props = {};
+    var props = webui.@THEME@.widget.alarm.superclass.getProps.call(this);
 
     // Set properties.
     if (this.text != null) { props.text = this.text; }
     if (this.indicators != null) { props.indicators = this.indicators; }
     if (this.textPosition != null) { props.textPosition = this.textPosition; }
     if (this.type != null) { props.type = this.type; }
-            
-    // Add DOM node properties.
-    Object.extend(props, this.getCommonProps());
-    Object.extend(props, this.getCoreProps());
-    Object.extend(props, this.getJavaScriptProps());
     
     return props;
 }
@@ -114,8 +106,8 @@ webui.@THEME@.widget.alarm.refresh = {
 }
 
 /**
- * This function is used to set widget properties with the
- * following Object literals.
+ * This function is used to set widget properties with the following 
+ * Object literals.
  *
  * <ul>
  *  <li>className</li>    
@@ -141,26 +133,17 @@ webui.@THEME@.widget.alarm.refresh = {
  *  <li>visible</li>
  * </ul>
  *
+ * Note: This function should only be invoked through setProps(). Further, the
+ * widget shall be updated only for the given key-value pairs.
+ *
  * @param props Key-Value pairs of properties.
  */
-webui.@THEME@.widget.alarm.setProps = function(props) {
+webui.@THEME@.widget.alarm.setWidgetProps = function(props) {
     if (props == null) {
-        return null;
+        return false;
     }
 
-    // Save properties for later updates.
-    if (this.isInitialized() == true) {
-        this.extend(this, props);
-    }
-
-    // Set attributes.
-    this.setCoreProps(this.domNode, props);
-    this.setJavaScriptProps(this.domNode, props); 
-
-    // Do not call setCommonProps as that will result in assigning all image 
-    // specific properties to outermost domNode. 
-
-    // Assign a11y properties to alarm images.
+    // Set properties.
     if (props.dir) { this.domNode.dir = props.dir; }
     if (props.lang) { this.domNode.lang = props.lang; }    
     
@@ -199,7 +182,15 @@ webui.@THEME@.widget.alarm.setProps = function(props) {
             }
         }
     }
-    return props; // Return props for subclasses.
+
+    // Do not call setCommonProps() as that will result in assigning image 
+    // specific properties to outermost domNode. 
+
+    // Set more properties.
+    this.setJavaScriptProps(this.domNode, props);
+
+    // Set core props.
+    return webui.@THEME@.widget.alarm.superclass.setWidgetProps.call(this, props);
 }
 
 // Inherit base widget properties.
@@ -211,7 +202,7 @@ dojo.lang.extend(webui.@THEME@.widget.alarm, {
     fillInTemplate: webui.@THEME@.widget.alarm.fillInTemplate,
     getProps: webui.@THEME@.widget.alarm.getProps,
     refresh: webui.@THEME@.widget.alarm.refresh.processEvent,
-    setProps: webui.@THEME@.widget.alarm.setProps,
+    setWidgetProps: webui.@THEME@.widget.alarm.setWidgetProps,
 
     // Set defaults.
     templatePath: webui.@THEME@.theme.getTemplatePath("alarm"),

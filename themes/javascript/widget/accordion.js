@@ -121,9 +121,15 @@ webui.@THEME@.widget.accordion.expandAllTabs = function() {
 }
 
 /**
- * This function is used to generate a template based widget.
+ * This function is used to fill in template properties.
+ *
+ * Note: This is called after the buildRendering() function. Anything to be set 
+ * only once should be added here; otherwise, use the setWidgetProps() function.
+ *
+ * @param props Key-Value pairs of properties.
+ * @param frag HTML fragment.
  */
-webui.@THEME@.widget.accordion.fillInTemplate = function() {
+webui.@THEME@.widget.accordion.fillInTemplate = function(props, frag) {
     with (this.domNode.style) {
         if (position != "absolute") {
             position = "relative";
@@ -143,20 +149,16 @@ webui.@THEME@.widget.accordion.fillInTemplate = function() {
         this.refreshNodeContainer.id = this.id + "_refreshNode";
     }
 
-    // Set public functions.
-    this.domNode.refresh = function(execute) { return dojo.widget.byId(this.id).refresh(execute); }
-    this.domNode.setProps = function(props) { return dojo.widget.byId(this.id).setProps(props); }
-
-    // Initialize template.
-    return this.setProps(this.getProps());
+    // Set common functions.
+    return webui.@THEME@.widget.accordion.superclass.fillInTemplate.call(this, props, frag);
 }
 
 /**
- * This function is used to get widget properties. Please see
- * setProps() for a list of supported properties.
+ * This function is used to get widget properties. Please see the 
+ * setWidgetProps() function for a list of supported properties.
  */
 webui.@THEME@.widget.accordion.getProps = function() {
-    var props = {};
+    var props = webui.@THEME@.widget.accordion.superclass.getProps.call(this);
 
     // Set properties.
     if (this.loadOnSelect) { props.loadOnSelect = this.loadOnSelect; }
@@ -170,11 +172,6 @@ webui.@THEME@.widget.accordion.getProps = function() {
     if (this.tabs != null) { props.tabs = this.tabs; }
     if (this.id) { props.id = this.id; }
     if (this.type) { props.type = this.type; }
-
-    // Add DOM node properties.
-    Object.extend(props, this.getCommonProps());
-    Object.extend(props, this.getCoreProps());
-    Object.extend(props, this.getJavaScriptProps());
 
     return props;
 }
@@ -237,8 +234,31 @@ webui.@THEME@.widget.accordion.selectChild = function(widget) {
 }
 
 /**
- * This function is used to set widget properties with the
- * following Object literals.
+ * This function is used to set widget properties. Please see the 
+ * setWidgetProps() function for a list of supported properties.
+ *
+ * Note: This function updates the widget object for later updates. Further, the
+ * widget shall be updated only for the given key-value pairs.
+ *
+ * @param props Key-Value pairs of properties.
+ */
+webui.@THEME@.widget.accordion.setProps = function(props) {
+    if (props == null) {
+        return false;
+    }
+
+    // Replace tabs -- do not extend.
+    if (props.tabs) {
+        this.tabs = null;
+    }
+
+    // Extend widget object for later updates.
+    return webui.@THEME@.widget.accordion.superclass.setProps.call(this, props);
+}
+
+/**
+ * This function is used to set widget properties with the following 
+ * Object literals.
  *
  * <ul>
  *  <li>id</li>
@@ -254,28 +274,17 @@ webui.@THEME@.widget.accordion.selectChild = function(widget) {
  *  <li>type</li>
  * </ul>
  *
+ * Note: This function should only be invoked through setProps(). Further, the
+ * widget shall be updated only for the given key-value pairs.
+ *
  * @param props Key-Value pairs of properties.
  */
-webui.@THEME@.widget.accordion.setProps = function(props) {
+webui.@THEME@.widget.accordion.setWidgetProps = function(props) {
     if (props == null) {
-        return null;
+        return false;
     }
 
-    // Save properties for later updates.
-    if (this.isInitialized() == true) {
-        // Replace tabs -- do not extend.
-        if (props.tabs) {
-            this.tabs = null;
-        }
-        this.extend(this, props);
-    }
-
-    // Set DOM node properties.
-    this.setCoreProps(this.domNode, props);
-    this.setCommonProps(this.domNode, props);
-    this.setJavaScriptProps(this.domNode, props);
-
-    // add control icons - refresh, expandall, collapseall
+    // add control icons - refresh, expandall, collapseall.
     this.addControls(props); 
 
     // If we are coming here for
@@ -288,7 +297,13 @@ webui.@THEME@.widget.accordion.setProps = function(props) {
             this.addFragment(this.domNode, props.tabs[i], "last");
         }
     }
-    return props; // Return props for subclasses.
+
+    // Set more properties..
+    this.setCommonProps(this.domNode, props);
+    this.setJavaScriptProps(this.domNode, props);
+
+    // Set core props.
+    return webui.@THEME@.widget.accordion.superclass.setWidgetProps.call(this, props);
 }
 
 // Inherit base widget properties.
@@ -305,6 +320,7 @@ dojo.lang.extend(webui.@THEME@.widget.accordion, {
     refresh: webui.@THEME@.widget.accordion.refresh.processEvent,
     selectChild: webui.@THEME@.widget.accordion.selectChild,
     setProps: webui.@THEME@.widget.accordion.setProps,
+    setWidgetProps: webui.@THEME@.widget.accordion.setWidgetProps,
 
     // Set defaults.
     disabled: false,

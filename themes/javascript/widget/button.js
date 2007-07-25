@@ -90,21 +90,19 @@ webui.@THEME@.widget.button.createOnFocusCallback = function(id) {
 }
 
 /**
- * This function is used to fill a template with widget properties.
+ * This function is used to fill in template properties.
  *
- * Note: Anything to be set only once should be added here; otherwise, the
- * setProps() function should be used to set properties.
+ * Note: This is called after the buildRendering() function. Anything to be set 
+ * only once should be added here; otherwise, use the setWidgetProps() function.
+ *
+ * @param props Key-Value pairs of properties.
+ * @param frag HTML fragment.
  */
-webui.@THEME@.widget.button.fillInTemplate = function() {
+webui.@THEME@.widget.button.fillInTemplate = function(props, frag) {
     // Set ids.
     if (this.id) {
         this.domNode.name = this.id;
     }
-
-    // Set public functions. 
-    this.domNode.getProps = function() { return dojo.widget.byId(this.id).getProps(); }
-    this.domNode.refresh = function(execute) { return dojo.widget.byId(this.id).refresh(execute); }
-    this.domNode.setProps = function(props) { return dojo.widget.byId(this.id).setProps(props); }
 
     // Initialize the deprecated functions in formElements.js. 
     // 
@@ -123,18 +121,17 @@ webui.@THEME@.widget.button.fillInTemplate = function() {
     dojo.event.connect(this.domNode, "onmouseover",
         webui.@THEME@.widget.button.createOnFocusCallback(this.id));
 
-    // Initialize CSS selectors.
-    this.initClassNames();
-
-    // Initialize template.
-    return this.setProps(this.getProps());
+    // Set common functions.
+    return webui.@THEME@.widget.button.superclass.fillInTemplate.call(this, props, frag);
 }
 
 /**
- * Helper function to obtain widget class names.
+ * This function is used to obtain the outermost HTML element class name.
  */
 webui.@THEME@.widget.button.getClassName = function() {
     var className = null;
+
+    // Set default style.
     if (this.mini == true && this.primary == true) {
         className = (this.disabled == true)
             ? this.primaryMiniDisabledClassName
@@ -162,6 +159,8 @@ webui.@THEME@.widget.button.getClassName = function() {
  */
 webui.@THEME@.widget.button.getHoverClassName = function() {
     var className = null;
+
+    // Set default style.
     if (this.mini == true && this.primary == true) {
         className = this.primaryMiniHovClassName;
     } else if (this.mini == true) {
@@ -177,10 +176,16 @@ webui.@THEME@.widget.button.getHoverClassName = function() {
 }
 
 /**
- * Helper function to obtain widget (mouse hover) class names.
+ * This function is used to initialize the widget.
+ *
+ * Note: This is called after the fillInTemplate() function.
+ *
+ * @param props Key-Value pairs of properties.
+ * @param frag HTML fragment.
+ * @param parent The parent of this widget.
  */
-webui.@THEME@.widget.button.initClassNames = function() {
-    // Set style classes.
+webui.@THEME@.widget.button.initialize = function (props, frag, parent) {
+    // Initialize class names.
     if (this.src != null) {
         this.primaryClassName = webui.@THEME@.widget.props.button.imageClassName;
         this.primaryDisabledClassName = webui.@THEME@.widget.props.button.imageDisabledClassName;
@@ -210,15 +215,16 @@ webui.@THEME@.widget.button.initClassNames = function() {
         this.secondaryMiniDisabledClassName = webui.@THEME@.widget.props.button.secondaryMiniDisabledClassName;
         this.secondaryMiniHovClassName = webui.@THEME@.widget.props.button.secondaryMiniHovClassName;
     }
+    return webui.@THEME@.widget.button.superclass.initialize.call(this, 
+        props, frag, parent);
 }
-
+    
 /**
- * This function is used to get widget properties. Please see
- * webui.@THEME@.widget.button.setProps for a list of supported
- * properties.
+ * This function is used to get widget properties. Please see the 
+ * setWidgetProps() function for a list of supported properties.
  */
 webui.@THEME@.widget.button.getProps = function() {
-    var props = {};
+    var props = webui.@THEME@.widget.button.superclass.getProps.call(this);
 
     // Set properties.
     if (this.alt) { props.alt = this.alt; }
@@ -229,11 +235,6 @@ webui.@THEME@.widget.button.getProps = function() {
     if (this.primary != null) { props.primary = this.primary; }
     if (this.src) { props.src = this.src; }
     if (this.value) { props.value = this.value; }
-
-    // Add DOM node properties.
-    Object.extend(props, this.getCommonProps());
-    Object.extend(props, this.getCoreProps());
-    Object.extend(props, this.getJavaScriptProps());
 
     return props;
 }
@@ -271,8 +272,8 @@ webui.@THEME@.widget.button.refresh = {
 }
 
 /**
- * This function is used to set widget properties with the
- * following Object literals.
+ * This function is used to set widget properties with the following 
+ * Object literals.
  *
  * <ul>
  *  <li>alt</li>
@@ -305,34 +306,25 @@ webui.@THEME@.widget.button.refresh = {
  *  <li>visible</li>
  * </ul>
  *
+ * Note: This function should only be invoked through setProps(). Further, the
+ * widget shall be updated only for the given key-value pairs.
+ *
  * @param props Key-Value pairs of properties.
  */
-webui.@THEME@.widget.button.setProps = function(props) {
+webui.@THEME@.widget.button.setWidgetProps = function(props) {
     if (props == null) {
-        return null;
+        return false;
     }
 
-    // Save properties for later updates.
-    if (this.isInitialized() == true) {
-        this.extend(this, props);
-    }
-
-    // Set disabled before className.
-    if (props.disabled != null) { 
-        this.domNode.disabled = new Boolean(props.disabled).valueOf();
-    }
-
-    // Set style class -- must be set before calling setCoreProps().
-    props.className = this.getClassName();
-
-    // Set DOM node properties.
-    this.setCoreProps(this.domNode, props);
-    this.setCommonProps(this.domNode, props);
-    this.setJavaScriptProps(this.domNode, props);
-
+    // Set properties.
     if (props.alt) { this.domNode.alt = props.alt; }
     if (props.align) { this.domNode.align = props.align; }
     if (props.src) { this.domNode.src = new dojo.uri.Uri(props.src).toString(); }
+
+    // Set disabled.
+    if (props.disabled != null) { 
+        this.domNode.disabled = new Boolean(props.disabled).valueOf();
+    }
 
     // Set value (i.e., button text).
     if (props.value) {
@@ -345,7 +337,13 @@ webui.@THEME@.widget.button.setProps = function(props) {
             ? props.value.unescapeHTML() // Prototype method.
             : props.value;
     }
-    return props; // Return props for subclasses.
+
+    // Set more properties.
+    this.setCommonProps(this.domNode, props);
+    this.setJavaScriptProps(this.domNode, props);
+
+    // Set core props.
+    return webui.@THEME@.widget.button.superclass.setWidgetProps.call(this, props);
 }
 
 // Inherit base widget properties.
@@ -358,9 +356,9 @@ dojo.lang.extend(webui.@THEME@.widget.button, {
     getClassName: webui.@THEME@.widget.button.getClassName,
     getHoverClassName: webui.@THEME@.widget.button.getHoverClassName,
     getProps: webui.@THEME@.widget.button.getProps,
-    initClassNames: webui.@THEME@.widget.button.initClassNames,
+    initialize: webui.@THEME@.widget.button.initialize,
     refresh: webui.@THEME@.widget.button.refresh.processEvent,
-    setProps: webui.@THEME@.widget.button.setProps,
+    setWidgetProps: webui.@THEME@.widget.button.setWidgetProps,
 
     // Set defaults.
     disabled: false,

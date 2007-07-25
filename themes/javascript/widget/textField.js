@@ -38,14 +38,16 @@ webui.@THEME@.widget.textField = function() {
 }
 
 /**
- * This function is used to fill a template with widget properties.
+ * This function is used to fill in template properties.
  *
- * Note: Anything to be set only once should be added here; otherwise, the
- * setProps() function should be used to set properties.
+ * Note: This is called after the buildRendering() function. Anything to be set 
+ * only once should be added here; otherwise, use the setWidgetProps() function.
+ *
+ * @param props Key-Value pairs of properties.
+ * @param frag HTML fragment.
  */
-webui.@THEME@.widget.textField.fillInTemplate = function() {
+webui.@THEME@.widget.textField.fillInTemplate = function(props, frag) {
     // Set public functions.
-    this.domNode.refresh = function(execute) { return dojo.widget.byId(this.id).refresh(execute); }
     this.domNode.submit = function(execute) { return dojo.widget.byId(this.id).submit(execute); }
     
     // Set events.
@@ -55,29 +57,23 @@ webui.@THEME@.widget.textField.fillInTemplate = function() {
             webui.@THEME@.widget.textField.validation.processEvent);
     }
 
-    // Initialize template.
-    return webui.@THEME@.widget.textField.superclass.fillInTemplate.call(this);
+    // Set common functions.
+    return webui.@THEME@.widget.textField.superclass.fillInTemplate.call(this, props, frag);
 }
 
-
 /**
- * Helper function to obtain widget class names.
+ * Helper function to obtain HTML input element class names.
  */
-webui.@THEME@.widget.textField.getClassName = function() {   
+webui.@THEME@.widget.textField.getInputClassName = function() {   
     // Set default style.    
-    var className = (this.disabled == true)
+    return (this.disabled == true)
         ? webui.@THEME@.widget.props.textField.disabledClassName
         : webui.@THEME@.widget.props.textField.className;
-    
-    return (this.className)
-        ? className + " " + this.className
-        : className;
 }
 
 /**
- * This function is used to get widget properties. 
- * @see webui.@THEME@.widget.textField.setProps for a list of supported
- * properties.
+ * This function is used to get widget properties. Please see the 
+ * setWidgetProps() function for a list of supported properties.
  */
 webui.@THEME@.widget.textField.getProps = function() {
     var props = webui.@THEME@.widget.textField.superclass.getProps.call(this);
@@ -198,7 +194,7 @@ dojo.inherits(webui.@THEME@.widget.textField, webui.@THEME@.widget.field);
 dojo.lang.extend(webui.@THEME@.widget.textField, {
     // Set private functions.
     fillInTemplate: webui.@THEME@.widget.textField.fillInTemplate,
-    getClassName: webui.@THEME@.widget.textField.getClassName,
+    getInputClassName: webui.@THEME@.widget.textField.getInputClassName,
     getProps: webui.@THEME@.widget.textField.getProps,
     refresh: webui.@THEME@.widget.textField.refresh.processEvent,
     submit: webui.@THEME@.widget.textField.submit.processEvent,

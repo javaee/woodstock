@@ -50,12 +50,15 @@ webui.@THEME@.widget.progressBar.cancel = function() {
 }
 
 /**
- * This function is used to fill a template with widget properties.
+ * This function is used to fill in template properties.
  *
- * Note: Anything to be set only once should be added here; otherwise, the
- * setProps() function should be used to set properties.
+ * Note: This is called after the buildRendering() function. Anything to be set 
+ * only once should be added here; otherwise, use the setWidgetProps() function.
+ *
+ * @param props Key-Value pairs of properties.
+ * @param frag HTML fragment.
  */
-webui.@THEME@.widget.progressBar.fillInTemplate = function() {
+webui.@THEME@.widget.progressBar.fillInTemplate = function(props, frag) {
     // Set ids.
     if (this.id) {
         this.barContainer.id = this.id + "_barContainer";
@@ -74,7 +77,6 @@ webui.@THEME@.widget.progressBar.fillInTemplate = function() {
 
     // Set public functions
     this.domNode.cancel = function() { return dojo.widget.byId(this.id).cancel(); }
-    this.domNode.getProps = function() { return dojo.widget.byId(this.id).getProps(); }
     this.domNode.isBottomControlVisible = function() { return dojo.widget.byId(this.id).isBottomControlVisible(); }
     this.domNode.isFailedStateMessageVisible = function() { return dojo.widget.byId(this.id).isFailedStateMessageVisible(); }
     this.domNode.isLogMsgVisible = function() { return dojo.widget.byId(this.id).isLogMsgVisible(); }
@@ -84,7 +86,6 @@ webui.@THEME@.widget.progressBar.fillInTemplate = function() {
     this.domNode.isRightControlVisible = function() { return dojo.widget.byId(this.id).isRightControlVisible(); }
     this.domNode.isStatusTextVisible = function() { return dojo.widget.byId(this.id).isStatusTextVisible(); }
     this.domNode.pause = function() { return dojo.widget.byId(this.id).pause(); }
-    this.domNode.refresh = function(execute) { return dojo.widget.byId(this.id).refresh(execute); }
     this.domNode.resume = function() { return dojo.widget.byId(this.id).resume(); }
     this.domNode.stop = function() { return dojo.widget.byId(this.id).stop(); }
     this.domNode.setOnCancel = function(func) { return dojo.widget.byId(this.id).setOnCancel(func); }
@@ -96,25 +97,19 @@ webui.@THEME@.widget.progressBar.fillInTemplate = function() {
     this.domNode.setOperationTextVisible = function(show) { return dojo.widget.byId(this.id).setOperationTextVisible(show); }
     this.domNode.setProgressBarContainerVisible = function(show) { return dojo.widget.byId(this.id).setProgressBarContainerVisible(show); }
     this.domNode.setProgressBarVisible = function(show) { return dojo.widget.byId(this.id).setProgressBarVisible(show); }
-    this.domNode.setProps = function(props) { return dojo.widget.byId(this.id).setProps(props); }
     this.domNode.setRightControlVisible = function(show) { return dojo.widget.byId(this.id).setRightControlVisible(show); }
     this.domNode.setStatusTextVisible = function(show) { return dojo.widget.byId(this.id).setStatusTextVisible(show); }
 
-    // Initialize template.
-    var props = this.setProps(this.getProps());
-
-    // Obtain progress.
-    this.updateProgress();
-    return props;
+    // Set common functions.
+    return webui.@THEME@.widget.progressBar.superclass.fillInTemplate.call(this, props, frag);
 }
 
 /**
- * This function is used to get widget properties. Please see
- * webui.@THEME@.widget.progressBar.setProps for a list of supported
- * properties.
+ * This function is used to get widget properties. Please see the 
+ * setWidgetProps() function for a list of supported properties.
  */
 webui.@THEME@.widget.progressBar.getProps = function() {
-    var props = {};
+    var props = webui.@THEME@.widget.progressBar.superclass.getProps.call(this);
 
     // Set properties.
     if (this.barHeight) { props.barHeight = this.barHeight; }
@@ -137,10 +132,6 @@ webui.@THEME@.widget.progressBar.getProps = function() {
     if (this.toolTip) { props.toolTip = this.toolTip; }
     if (this.topText) { props.topText = this.topText; }
     if (this.type) { props.type = this.type; }
-
-    // Add DOM node properties.
-    Object.extend(props, this.getCommonProps());
-    Object.extend(props, this.getCoreProps());
 
     return props;
 }
@@ -229,6 +220,23 @@ webui.@THEME@.widget.progressBar.pause = function() {
             webui.@THEME@.widget.props.progressBar.indeterminatePausedClassName;
     }
     this.updateProgress();
+}
+
+/**
+ * This function is used after the widget has been initialized and rendered.
+ *
+ * Note: This is called after the postInitialize() function.
+ *
+ * @param props Key-Value pairs of properties.
+ * @param frag HTML fragment.
+ * @param parent The parent of this widget.
+ */
+webui.@THEME@.widget.progressBar.postCreate = function (props, frag, parent) {
+    // Start timer to periodically publish progress events.
+    this.updateProgress();
+
+    return webui.@THEME@.widget.progressBar.superclass.postCreate.call(this, 
+        props, frag, parent);
 }
 
 /**
@@ -597,8 +605,36 @@ webui.@THEME@.widget.progressBar.setProgressBarVisible = function(show) {
 }
 
 /**
- * This function is used to set widget properties with the
- * following Object literals.
+ * This method hides the Right Control.
+ *
+ * @param show true to show the element, false to hide the element.
+ * @return true if successful; otherwise, false.
+ */
+webui.@THEME@.widget.progressBar.setRightControlVisible = function(show) {
+    if (show == null) {
+        return false;
+    }
+    webui.@THEME@.common.setVisibleElement(this.rightControlsContainer, show);
+    return true;
+}
+
+/**
+ * This method hides the status text.
+ *
+ * @param show true to show the element, false to hide the element.
+ * @return true if successful; otherwise, false.
+ */
+webui.@THEME@.widget.progressBar.setStatusTextVisible = function(show) {
+    if (show == null) {
+        return false;
+    }
+    webui.@THEME@.common.setVisibleElement(this.bottomTextContainer, show);
+    return true;
+}
+
+/**
+ * This function is used to set widget properties with the following 
+ * Object literals.
  *
  * <ul>
  *  <li>barHeight</li>
@@ -624,21 +660,15 @@ webui.@THEME@.widget.progressBar.setProgressBarVisible = function(show) {
  *  <li>visible</li>
  * </ul>
  *
+ * Note: This function should only be invoked through setProps(). Further, the
+ * widget shall be updated only for the given key-value pairs.
+ *
  * @param props Key-Value pairs of properties.
  */
-webui.@THEME@.widget.progressBar.setProps = function(props) {
+webui.@THEME@.widget.progressBar.setWidgetProps = function(props) {
     if (props == null) {
-        return null;
+        return false;
     }
-
-    // Save properties for later updates.
-    if (this.isInitialized() == true) {
-        this.extend(this, props);
-    }
-
-    // Set DOM node properties.
-    this.setCoreProps(this.domNode, props);
-    this.setCommonProps(this.domNode, props);
 
     // Set tool tip.
     if (props.toolTip) {
@@ -733,35 +763,12 @@ webui.@THEME@.widget.progressBar.setProps = function(props) {
                 "http://www.w3.org/2005/07/aaa", "valuenow", this.progress);
         }
     }
-    return props; // Return props for subclasses.
-}
 
-/**
- * This method hides the Right Control.
- *
- * @param show true to show the element, false to hide the element.
- * @return true if successful; otherwise, false.
- */
-webui.@THEME@.widget.progressBar.setRightControlVisible = function(show) {
-    if (show == null) {
-        return false;
-    }
-    webui.@THEME@.common.setVisibleElement(this.rightControlsContainer, show);
-    return true;
-}
+    // Set more properties..
+    this.setCommonProps(this.domNode, props);
 
-/**
- * This method hides the status text.
- *
- * @param show true to show the element, false to hide the element.
- * @return true if successful; otherwise, false.
- */
-webui.@THEME@.widget.progressBar.setStatusTextVisible = function(show) {
-    if (show == null) {
-        return false;
-    }
-    webui.@THEME@.common.setVisibleElement(this.bottomTextContainer, show);
-    return true;
+    // Set core props.
+    return webui.@THEME@.widget.progressBar.superclass.setWidgetProps.call(this, props);
 }
 
 /**
@@ -811,6 +818,7 @@ dojo.lang.extend(webui.@THEME@.widget.progressBar, {
     isRightControlVisible: webui.@THEME@.widget.progressBar.isRightControlVisible,
     isStatusTextVisible: webui.@THEME@.widget.progressBar.isStatusTextVisible,
     pause: webui.@THEME@.widget.progressBar.pause,
+    postCreate: webui.@THEME@.widget.progressBar.postCreate,
     refresh: webui.@THEME@.widget.progressBar.refresh.processEvent,
     resume: webui.@THEME@.widget.progressBar.resume,
     stop: webui.@THEME@.widget.progressBar.stop,
@@ -824,7 +832,7 @@ dojo.lang.extend(webui.@THEME@.widget.progressBar, {
     setProgress: webui.@THEME@.widget.progressBar.setProgress,
     setProgressBarContainerVisible: webui.@THEME@.widget.progressBar.setProgressBarContainerVisible,
     setProgressBarVisible: webui.@THEME@.widget.progressBar.setProgressBarVisible,
-    setProps:  webui.@THEME@.widget.progressBar.setProps,
+    setWidgetProps: webui.@THEME@.widget.progressBar.setWidgetProps,
     sleep: webui.@THEME@.widget.progressBar.sleep,
     setRightControlVisible: webui.@THEME@.widget.progressBar.setRightControlVisible,
     setStatusTextVisible: webui.@THEME@.widget.progressBar.setStatusTextVisible,
