@@ -57,7 +57,9 @@ import javax.el.ValueExpression;
         family="com.sun.webui.jsf.CommonTask",
         displayName="Common Task",
         instanceName="commonTask",
-        tagName="commonTask")
+        tagName="commonTask",
+        helpKey="projrave_ui_elements_palette_wdstk-jsf1_2_common_task",
+        propertiesHelpKey="projrave_ui_elements_palette_wdstk-jsf1_2_propsheets_common_task_props")
 public class CommonTask extends com.sun.webui.jsf.component.WebuiCommand 
         implements NamingContainer{
     /**

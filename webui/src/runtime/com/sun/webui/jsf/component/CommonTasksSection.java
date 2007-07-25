@@ -50,7 +50,9 @@ import javax.el.ValueExpression;
         family="com.sun.webui.jsf.CommonTasksSection",
         displayName="Common Tasks Section",
         instanceName="commonTasksSection",
-        tagName="commonTasksSection")
+        tagName="commonTasksSection",
+        helpKey="projrave_ui_elements_palette_wdstk-jsf1_2_common_tasks_section",
+        propertiesHelpKey="projrave_ui_elements_palette_wdstk-jsf1_2_propsheets_common_tasks_section_props")
 public class CommonTasksSection extends javax.faces.component.UIComponentBase implements 
         NamingContainer{
     

@@ -38,7 +38,9 @@ import javax.el.ValueExpression;
         family="com.sun.webui.jsf.CommonTasksGroup",
         displayName="Common Tasks Group",
         instanceName="commonTasksGroup",
-        tagName="commonTasksGroup")
+        tagName="commonTasksGroup",
+        helpKey="projrave_ui_elements_palette_wdstk-jsf1_2_common_tasks_group",
+        propertiesHelpKey="projrave_ui_elements_palette_wdstk-jsf1_2_propsheets_common_tasks_group_props")
         
 public class CommonTasksGroup  extends javax.faces.component.UIComponentBase  implements 
         NamingContainer{
