@@ -101,7 +101,7 @@ public class ThemeLinks extends UIComponentBase {
      * Flag indicating to turn off default Ajax functionality. Set ajaxify to
      * false when providing a different Ajax implementation.
      */
-    @Property(name="ajaxify", displayName="Ajaxify", category="Javascript")
+    @Property(name="ajaxify", displayName="Ajaxify", category="Javascript", isHidden=true)
     private boolean ajaxify = true; 
     private boolean ajaxify_set = false; 
  
