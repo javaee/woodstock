@@ -20,7 +20,7 @@
 // Copyright 2007 Sun Microsystems, Inc. All rights reserved.
 //
 
-dojo.provide("webui.@THEME@.widget.field");
+dojo.provide("webui.@THEME@.widget.fieldBase");
 
 dojo.require("dojo.widget.*");
 dojo.require("webui.@THEME@.*");
@@ -31,7 +31,7 @@ dojo.require("webui.@THEME@.widget.*");
  *
  * Note: This is considered a private API, do not use.
  */
-webui.@THEME@.widget.field = function() {
+webui.@THEME@.widget.fieldBase = function() {
     // Register widget.
     dojo.widget.HtmlWidget.call(this);
 }
@@ -45,7 +45,7 @@ webui.@THEME@.widget.field = function() {
  * @param props Key-Value pairs of properties.
  * @param frag HTML fragment.
  */
-webui.@THEME@.widget.field.fillInTemplate = function(props, frag) {
+webui.@THEME@.widget.fieldBase.fillInTemplate = function(props, frag) {
     // Set ids.
     if (this.id) {
         this.fieldNode.id = this.id + "_field";
@@ -57,13 +57,13 @@ webui.@THEME@.widget.field.fillInTemplate = function(props, frag) {
     this.domNode.getInputElement = function() { return dojo.widget.byId(this.id).getInputElement(); }
 
     // Set common functions.
-    return webui.@THEME@.widget.field.superclass.fillInTemplate.call(this, props, frag);
+    return webui.@THEME@.widget.fieldBase.superclass.fillInTemplate.call(this, props, frag);
 }
 
 /**
  * Helper function to obtain HTML input element class names.
  */
-webui.@THEME@.widget.field.getInputClassName = function() {   
+webui.@THEME@.widget.fieldBase.getInputClassName = function() {   
     return null;
 }
 
@@ -72,7 +72,7 @@ webui.@THEME@.widget.field.getInputClassName = function() {
  *
  * @return a reference to the HTML input element. 
  */
-webui.@THEME@.widget.field.getInputElement = function() {
+webui.@THEME@.widget.fieldBase.getInputElement = function() {
     return this.fieldNode;
 }
 
@@ -80,8 +80,8 @@ webui.@THEME@.widget.field.getInputElement = function() {
  * This function is used to get widget properties. Please see the 
  * setWidgetProps() function for a list of supported properties.
  */
-webui.@THEME@.widget.field.getProps = function() {
-    var props = webui.@THEME@.widget.field.superclass.getProps.call(this);
+webui.@THEME@.widget.fieldBase.getProps = function() {
+    var props = webui.@THEME@.widget.fieldBase.superclass.getProps.call(this);
     
     // Set properties.
     if (this.alt) { props.alt = this.alt; }
@@ -148,7 +148,7 @@ webui.@THEME@.widget.field.getProps = function() {
  *
  * @param props Key-Value pairs of properties.
  */
-webui.@THEME@.widget.field.setWidgetProps = function(props) {
+webui.@THEME@.widget.fieldBase.setWidgetProps = function(props) {
     if (props == null) {
         return false;
     }
@@ -195,20 +195,20 @@ webui.@THEME@.widget.field.setWidgetProps = function(props) {
     this.setJavaScriptProps(this.fieldNode, props);
 
     // Set core props.
-    return webui.@THEME@.widget.field.superclass.setWidgetProps.call(this, props);
+    return webui.@THEME@.widget.fieldBase.superclass.setWidgetProps.call(this, props);
 }
 
 // Inherit base widget properties.
-dojo.inherits(webui.@THEME@.widget.field, webui.@THEME@.widget.widgetBase);
+dojo.inherits(webui.@THEME@.widget.fieldBase, webui.@THEME@.widget.widgetBase);
 
 // Override base widget by assigning properties to class prototype.
-dojo.lang.extend(webui.@THEME@.widget.field, {
+dojo.lang.extend(webui.@THEME@.widget.fieldBase, {
     // Set private functions.
-    fillInTemplate: webui.@THEME@.widget.field.fillInTemplate,
-    getInputClassName: webui.@THEME@.widget.field.getInputClassName,
-    getInputElement: webui.@THEME@.widget.field.getInputElement,
-    getProps: webui.@THEME@.widget.field.getProps,
-    setWidgetProps: webui.@THEME@.widget.field.setWidgetProps,
+    fillInTemplate: webui.@THEME@.widget.fieldBase.fillInTemplate,
+    getInputClassName: webui.@THEME@.widget.fieldBase.getInputClassName,
+    getInputElement: webui.@THEME@.widget.fieldBase.getInputElement,
+    getProps: webui.@THEME@.widget.fieldBase.getProps,
+    setWidgetProps: webui.@THEME@.widget.fieldBase.setWidgetProps,
     
     // Set defaults.
     disabled: false,

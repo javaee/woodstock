@@ -115,15 +115,21 @@ webui.@THEME@.widget.checkboxGroup.fillInTemplate = function(props, frag) {
 
 /**
  * This function is used to obtain the outermost HTML element class name.
+ *
+ * @param classNames Optional array of selectors to concatinate with user's 
+ * (this.className) property. Items are output in reverse order for precedence.
  */
-webui.@THEME@.widget.checkboxGroup.getClassName = function() {    
-    var className = webui.@THEME@.widget.props.checkboxGroup.vertClassName;
-    if (this.columns > 1) {
-        className = webui.@THEME@.widget.props.checkboxGroup.horizClassName;    
-    }    
-    return (this.className)
-        ? className + " " + this.className
-        : className;
+webui.@THEME@.widget.checkboxGroup.getClassName = function(classNames) {
+    if (!(classNames instanceof Array)) {
+        classNames = new Array();
+    }
+
+    // Set default style.
+    classNames[classNames.length] = (this.columns > 1)
+        ? webui.@THEME@.widget.props.checkboxGroup.horizClassName
+        : webui.@THEME@.widget.props.checkboxGroup.vertClassName;
+
+    return webui.@THEME@.widget.checkboxGroup.superclass.getClassName.call(this, classNames);
 }
 
 /**
@@ -269,8 +275,6 @@ dojo.lang.extend(webui.@THEME@.widget.checkboxGroup, {
     setProps: webui.@THEME@.widget.checkboxGroup.setProps,
     setWidgetProps: webui.@THEME@.widget.checkboxGroup.setWidgetProps,
 
-    // Set defaults
-    templatePath: webui.@THEME@.theme.getTemplatePath("checkboxGroup"),
-    templateString: webui.@THEME@.theme.getTemplateString("checkboxGroup"),
+    // Set defaults.
     widgetType: "checkboxGroup"
 });

@@ -260,7 +260,5 @@ dojo.lang.extend(webui.@THEME@.widget.alert, {
     validate: webui.@THEME@.widget.alert.validation.processEvent,
 
     // Set defaults.
-    templatePath: webui.@THEME@.theme.getTemplatePath("alert"),
-    templateString: webui.@THEME@.theme.getTemplateString("alert"),
     widgetType: "alert"
 });

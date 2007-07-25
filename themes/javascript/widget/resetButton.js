@@ -28,6 +28,10 @@ dojo.require("webui.@THEME@.*");
 dojo.require("webui.@THEME@.widget.*");
 dojo.require("webui.@THEME@.widget.button");
 
+// NOTE: Having a separate widget for each template allows the templateString
+// property to be cached. Otherwise, this would have to be cleared for each new
+// widget instance.
+
 /**
  * This function is used to generate a template based widget.
  *
@@ -43,10 +47,8 @@ dojo.inherits(webui.@THEME@.widget.resetButton, webui.@THEME@.widget.button);
 
 // Override base widget by assigning properties to class prototype.
 dojo.lang.extend(webui.@THEME@.widget.resetButton, {
-    // NOTE: Having a separate widget for each template allows the 
-    // templateString property to be cached. Otherwise, this would have to be 
-    // cleared for each new instance of button.
-    templatePath: webui.@THEME@.theme.getTemplatePath("resetButton"),
-    templateString: webui.@THEME@.theme.getTemplateString("resetButton"),
+    // Set private functions.
+
+    // Set defaults.
     widgetType: "resetButton"
 });

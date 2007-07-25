@@ -258,8 +258,6 @@ dojo.lang.extend(webui.@THEME@.widget.textArea, {
     lastSaved: null,
     required: false,
     rows: 3,
-    templatePath: webui.@THEME@.theme.getTemplatePath("textArea"),
-    templateString: webui.@THEME@.theme.getTemplateString("textArea"),
     valid: true,
     widgetType: "textArea"
 });

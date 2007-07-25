@@ -424,7 +424,5 @@ dojo.lang.extend(webui.@THEME@.widget.accordionTab, {
     open: false,
     selected: false,
     submitOnChange: false,
-    templatePath: webui.@THEME@.theme.getTemplatePath("accordionTab"),
-    templateString: webui.@THEME@.theme.getTemplateString("accordionTab"),
     widgetType: "accordionTab"
 });

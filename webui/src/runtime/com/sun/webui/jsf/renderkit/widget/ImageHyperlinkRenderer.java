@@ -141,7 +141,7 @@ public class ImageHyperlinkRenderer extends HyperlinkRenderer {
                             
         if (label != null) {
             jArray.put(label);
-            jArray.put("&nbsp;");            
+            jArray.put(" "); // Strings are escaped so &nbsp; displays literally.
         }
           
         if (ic != null) {

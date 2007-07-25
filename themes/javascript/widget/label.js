@@ -60,21 +60,26 @@ webui.@THEME@.widget.label.fillInTemplate = function(props, frag) {
 
 /**
  * This function is used to obtain the outermost HTML element class name.
+ *
+ * @param classNames Optional array of selectors to concatinate with user's 
+ * (this.className) property. Items are output in reverse order for precedence.
  */
-webui.@THEME@.widget.label.getClassName = function() {
-    // Set style for default label level.
-    var className = webui.@THEME@.widget.props.label.levelTwoStyleClass;
-
-    if (this.valid == false) {
-        className = webui.@THEME@.widget.props.label.errorStyleClass;
-    } else if (this.level == 1) {
-        className = webui.@THEME@.widget.props.label.levelOneStyleClass;
-    } else if (this.level == 3) {
-        className = webui.@THEME@.widget.props.label.levelThreeStyleClass;
+webui.@THEME@.widget.label.getClassName = function(classNames) {
+    if (!(classNames instanceof Array)) {
+        classNames = new Array();
     }
-    return (this.className)
-        ? className + " " + this.className
-        : className;
+
+    // Set default style.
+    if (this.valid == false) {
+        classNames[classNames.length] = webui.@THEME@.widget.props.label.errorStyleClass;
+    } else if (this.level == 1) {
+        classNames[classNames.length] = webui.@THEME@.widget.props.label.levelOneStyleClass;
+    } else if (this.level == 3) {
+        classNames[classNames.length] = webui.@THEME@.widget.props.label.levelThreeStyleClass;
+    } else {
+        classNames[classNames.length] = webui.@THEME@.widget.props.label.levelTwoStyleClass;
+    }
+    return webui.@THEME@.widget.label.superclass.getClassName.call(this, classNames);
 }
 
 /**
@@ -307,8 +312,6 @@ dojo.lang.extend(webui.@THEME@.widget.label, {
     // Set defaults.
     level: 2,
     required: false,
-    templatePath: webui.@THEME@.theme.getTemplatePath("label"),
-    templateString: webui.@THEME@.theme.getTemplateString("label"),
     valid: true,
     widgetType: "label"
 });

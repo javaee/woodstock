@@ -499,7 +499,5 @@ dojo.lang.extend(webui.@THEME@.widget.bubble, {
     
     // Set defaults.
     defaultTime: 2000,
-    templatePath: webui.@THEME@.theme.getTemplatePath("bubble"),
-    templateString: webui.@THEME@.theme.getTemplateString("bubble"),
     widgetType: "bubble"
 });

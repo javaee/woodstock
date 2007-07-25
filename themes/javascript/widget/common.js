@@ -117,7 +117,7 @@ webui.@THEME@.widget.common = {
             //
             // http://www.ruby-forum.com/topic/73990
             //
-            if (escape && new Boolean(escape).valueOf() == false) {
+            if (escape != null && new Boolean(escape).valueOf() == false) {
                 webui.@THEME@.widget.common.appendHTML(domNode, 
                     props.stripScripts());
 

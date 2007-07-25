@@ -39,16 +39,22 @@ webui.@THEME@.widget.radioButton = function() {
 
 /**
  * This function is used to obtain the outermost HTML element class name.
+ *
+ * @param classNames Optional array of selectors to concatinate with user's 
+ * (this.className) property. Items are output in reverse order for precedence.
  */
-webui.@THEME@.widget.radioButton.getClassName = function() {
-    // Set style class for the span element.
-    var className = webui.@THEME@.widget.props.radioButton.className;
-    if (this.disabled == true) {
-        className = webui.@THEME@.widget.props.radioButton.disabledClassName;
+webui.@THEME@.widget.radioButton.getClassName = function(classNames) {
+    if (!(classNames instanceof Array)) {
+        classNames = new Array();
     }
-    return (this.className)
-        ? className + " " + this.className
-        : className;
+
+    // Set default style.
+    if (this.disabled == true) {
+        classNames[classNames.length] = webui.@THEME@.widget.props.radioButton.disabledClassName;
+    } else {
+        classNames[classNames.length] = webui.@THEME@.widget.props.radioButton.className;
+    }
+    return webui.@THEME@.widget.radioButton.superclass.getClassName.call(this, classNames);
 }
 
 /**
@@ -205,7 +211,7 @@ dojo.inherits(webui.@THEME@.widget.radioButton, webui.@THEME@.widget.checkbox);
 
 // Override base widget by assigning properties to class prototype.
 dojo.lang.extend(webui.@THEME@.widget.radioButton, {
-    // Set private functions
+    // Set private functions.
     getClassName: webui.@THEME@.widget.radioButton.getClassName,
     getImageClassName: webui.@THEME@.widget.radioButton.getImageClassName,
     getLabelClassName: webui.@THEME@.widget.radioButton.getLabelClassName,
@@ -213,9 +219,7 @@ dojo.lang.extend(webui.@THEME@.widget.radioButton, {
     setWidgetProps: webui.@THEME@.widget.radioButton.setWidgetProps,
     submit: webui.@THEME@.widget.radioButton.submit.processEvent,
 
-    // Set defaults
+    // Set defaults.
     idSuffix: "_rb",
-    templatePath: webui.@THEME@.theme.getTemplatePath("radioButton"),
-    templateString: webui.@THEME@.theme.getTemplateString("radioButton"),
     widgetType: "radioButton"
 });

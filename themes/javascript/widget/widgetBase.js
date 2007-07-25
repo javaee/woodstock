@@ -23,6 +23,7 @@
 dojo.provide("webui.@THEME@.widget.widgetBase");
 
 dojo.require("dojo.widget.*");
+//dojo.require("webui.@THEME@.theme.*"); // To do: Uncomment for client-side theme.
 
 /**
  * This function is used as a base object when creating a Dojo widget. In
@@ -55,9 +56,15 @@ webui.@THEME@.widget.widgetBase.ajaxify = function(module) {
  * @param parent The parent of this widget.
  */
 webui.@THEME@.widget.widgetBase.buildRendering = function (props, frag, parent) {
-    // In order for templatePath to be used, templateString must be cleared.
-    // Note that templatePath should have precedence.
-    if (this.templatePath) {
+    // Get default templates.
+    if (this.templatePath == null && this.templateString == null) {
+        this.templatePath = webui.@THEME@.theme.getTemplatePath(this.widgetType);
+        this.templateString = webui.@THEME@.theme.getTemplateString(this.widgetType);
+    }
+
+    // The templatePath should have precedence. Therefore, in order for the 
+    // templatePath to be used, templateString must be null.
+    if (this.templatePath != null) {
         this.templateString = null;
     }
     return webui.@THEME@.widget.widgetBase.superclass.buildRendering.call(this, 
@@ -74,10 +81,6 @@ webui.@THEME@.widget.widgetBase.buildRendering = function (props, frag, parent) 
  * @param frag HTML fragment.
  */
 webui.@THEME@.widget.widgetBase.fillInTemplate = function(props, frag) {
-    if (props == null) {
-        return false;
-    }
-
     // Not: Since the anchor id and name must be the same on IE, we cannot 
     // obtain the widget using the DOM node ID via the public functions below.
 
@@ -86,8 +89,8 @@ webui.@THEME@.widget.widgetBase.fillInTemplate = function(props, frag) {
 
     // Set public functions.
     this.domNode.getProps = function() { return dojo.widget.byId(id).getProps(); }
-    this.domNode.refresh = function(execute) { return dojo.widget.byId(id).refresh(execute); }
-    this.domNode.setProps = function(props) { return dojo.widget.byId(id).setProps(props); }
+    this.domNode.refresh = function(_execute) { return dojo.widget.byId(id).refresh(_execute); }
+    this.domNode.setProps = function(_props) { return dojo.widget.byId(id).setProps(_props); }
 
     return webui.@THEME@.widget.widgetBase.superclass.fillInTemplate.call(this, 
         props, frag, parent);
@@ -95,9 +98,24 @@ webui.@THEME@.widget.widgetBase.fillInTemplate = function(props, frag) {
 
 /**
  * This function is used to obtain the outermost HTML element class name.
+ *
+ * @param classNames Optional array of selectors to concatinate with user's 
+ * (this.className) property. Items are output in reverse order for precedence.
  */
-webui.@THEME@.widget.widgetBase.getClassName = function() {
-    return this.className; // Overridden by subclasses.
+webui.@THEME@.widget.widgetBase.getClassName = function(classNames) {
+    var newClassName = this.className;
+
+    // Ensure user's (i.e., this.className) property is appended last.
+    if (classNames instanceof Array) {
+        for (var i = 0; i < classNames.length; i++) {
+            if (newClassName) {
+                newClassName = classNames[i] + " " + newClassName;
+            } else {
+                newClassName = classNames[i];
+            }
+        }
+    }
+    return newClassName;
 }
 
 /**

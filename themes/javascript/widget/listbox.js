@@ -564,11 +564,9 @@ dojo.lang.extend(webui.@THEME@.widget.listbox, {
     setWidgetProps: webui.@THEME@.widget.listbox.setWidgetProps,
     submit: webui.@THEME@.widget.listbox.submit.processEvent,
 
-    // Set defaults
+    // Set defaults.
     labelOnTop: false,
     monospace: false,
     multiple: false,
-    templatePath: webui.@THEME@.theme.getTemplatePath("listbox"),
-    templateString: webui.@THEME@.theme.getTemplateString("listbox"),
     widgetType: "listbox"
 });

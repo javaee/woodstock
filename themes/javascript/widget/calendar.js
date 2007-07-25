@@ -785,7 +785,5 @@ dojo.lang.extend(webui.@THEME@.widget.calendar, {
     updateMonth: webui.@THEME@.widget.calendar.updateMonth,
        
     // Set defaults.
-    templatePath: webui.@THEME@.theme.getTemplatePath("calendar"),
-    templateString: webui.@THEME@.theme.getTemplateString("calendar"),
     widgetType: "calendar"
 });

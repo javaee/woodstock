@@ -93,13 +93,19 @@ webui.@THEME@.widget.calendarField.fillInTemplate = function(props, frag) {
 
 /**
  * This function is used to obtain the outermost HTML element class name.
+ *
+ * @param classNames Optional array of selectors to concatinate with user's 
+ * (this.className) property. Items are output in reverse order for precedence.
  */
-webui.@THEME@.widget.calendarField.getClassName = function() {
-    // Set style for the outermost table element.
-    var className = webui.@THEME@.widget.props.calendar.className;   
-    return (this.className)
-        ? className + " " + this.className
-        : className;
+webui.@THEME@.widget.calendarField.getClassName = function(classNames) {
+    if (!(classNames instanceof Array)) {
+        classNames = new Array();
+    }
+
+    // Set default style.
+    classNames[classNames.length] = webui.@THEME@.widget.props.calendar.className;
+
+    return webui.@THEME@.widget.calendarField.superclass.getClassName.call(this, classNames);
 }
 
 /**
@@ -261,7 +267,5 @@ dojo.lang.extend(webui.@THEME@.widget.calendarField, {
     toggleCalendar: webui.@THEME@.widget.calendarField.toggleCalendar,
 
     // Set defaults.
-    templatePath: webui.@THEME@.theme.getTemplatePath("calendarField"),
-    templateString: webui.@THEME@.theme.getTemplateString("calendarField"),
     widgetType: "calendarField"
 });

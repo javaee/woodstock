@@ -190,7 +190,5 @@ dojo.lang.extend(webui.@THEME@.widget.image, {
 
     // Set defaults.
     border: 0,
-    templatePath: webui.@THEME@.theme.getTemplatePath("image"),
-    templateString: webui.@THEME@.theme.getTemplateString("image"),
     widgetType: "image"
 });

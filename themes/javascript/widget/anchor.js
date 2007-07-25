@@ -105,17 +105,21 @@ webui.@THEME@.widget.anchor.fillInTemplate = function(props, frag) {
 
 /**
  * This function is used to obtain the outermost HTML element class name.
+ *
+ * @param classNames Optional array of selectors to concatinate with user's 
+ * (this.className) property. Items are output in reverse order for precedence.
  */
-webui.@THEME@.widget.anchor.getClassName = function() {
-    var className = null;
-    if (this.href && this.disabled == false) {
-        className = webui.@THEME@.widget.props.anchor.className;
-    } else {
-        className = webui.@THEME@.widget.props.anchor.disabledClassName;
+webui.@THEME@.widget.anchor.getClassName = function(classNames) {
+    if (!(classNames instanceof Array)) {
+        classNames = new Array();
     }
-    return (this.className)
-        ? className + " " + this.className
-        : className;
+
+    // Set default style.
+    classNames[classNames.length] = (this.href && this.disabled == false)
+        ? webui.@THEME@.widget.props.anchor.className
+        : webui.@THEME@.widget.props.anchor.disabledClassName;
+
+    return webui.@THEME@.widget.anchor.superclass.getClassName.call(this, classNames);
 }
 
 /**
@@ -301,7 +305,5 @@ dojo.lang.extend(webui.@THEME@.widget.anchor, {
     setWidgetProps: webui.@THEME@.widget.anchor.setWidgetProps,
 
     // Set defaults.
-    templatePath: webui.@THEME@.theme.getTemplatePath("anchor"),
-    templateString: webui.@THEME@.theme.getTemplateString("anchor"),
     widgetType: "anchor"
 });

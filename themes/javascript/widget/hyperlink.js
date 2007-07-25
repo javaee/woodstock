@@ -101,17 +101,21 @@ webui.@THEME@.widget.hyperlink.fillInTemplate = function(props, frag) {
 
 /**
  * This function is used to obtain the outermost HTML element class name.
+ *
+ * @param classNames Optional array of selectors to concatinate with user's 
+ * (this.className) property. Items are output in reverse order for precedence.
  */
-webui.@THEME@.widget.hyperlink.getClassName = function() {
-    var className = null;
-    if (this.disabled == true) {
-        className = webui.@THEME@.widget.props.hyperlink.disabledClassName;
-    } else {
-        className = webui.@THEME@.widget.props.hyperlink.className;
+webui.@THEME@.widget.hyperlink.getClassName = function(classNames) {
+    if (!(classNames instanceof Array)) {
+        classNames = new Array();
     }
-    return (this.className)
-        ? className + " " + this.className
-        : className;
+
+    // Set default style.
+    classNames[classNames.length] = (this.disabled == true)
+        ? webui.@THEME@.widget.props.hyperlink.disabledClassName
+        : webui.@THEME@.widget.props.hyperlink.className;
+
+    return webui.@THEME@.widget.hyperlink.superclass.getClassName.call(this, classNames);
 }
 
 /**

@@ -224,7 +224,5 @@ dojo.lang.extend(webui.@THEME@.widget.imageHyperlink, {
     setWidgetProps: webui.@THEME@.widget.imageHyperlink.setWidgetProps,
 
     // Set defaults.
-    templatePath: webui.@THEME@.theme.getTemplatePath("imageHyperlink"),
-    templateString: webui.@THEME@.theme.getTemplateString("imageHyperlink"),
     widgetType: "imageHyperlink"
 });

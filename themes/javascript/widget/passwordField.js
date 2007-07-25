@@ -25,7 +25,7 @@ dojo.provide("webui.@THEME@.widget.passwordField");
 dojo.require("dojo.widget.*");
 dojo.require("webui.@THEME@.*");
 dojo.require("webui.@THEME@.widget.*");
-dojo.require("webui.@THEME@.widget.field");
+dojo.require("webui.@THEME@.widget.fieldBase");
 
 /**
  * This function is used to generate a template based widget.
@@ -67,7 +67,7 @@ webui.@THEME@.widget.passwordField.getInputClassName = function() {
 }
 
 // Inherit base widget properties.
-dojo.inherits(webui.@THEME@.widget.passwordField, webui.@THEME@.widget.field);
+dojo.inherits(webui.@THEME@.widget.passwordField, webui.@THEME@.widget.fieldBase);
 
 // Override base widget by assigning properties to class prototype.
 dojo.lang.extend(webui.@THEME@.widget.passwordField, {
@@ -79,8 +79,6 @@ dojo.lang.extend(webui.@THEME@.widget.passwordField, {
     disabled: false,
     required: false,
     size: 20,
-    templatePath: webui.@THEME@.theme.getTemplatePath("passwordField"),
-    templateString: webui.@THEME@.theme.getTemplateString("passwordField"),
     valid: true,
     widgetType: "passwordField"
 });

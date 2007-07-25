@@ -34,7 +34,11 @@ webui.@THEME@.theme = {
         var template = webui.@THEME@.theme.templates[key];
         
         // Typically, template paths begin with a forward slash, http, etc.
-        return (template.indexOf("<") != 0) ? template : null;
+        if (template) {
+            return (template.indexOf("<") != 0) ? template : null;
+        } else {
+            return null;
+        }
     },
 
     /**
@@ -46,7 +50,11 @@ webui.@THEME@.theme = {
         var template = webui.@THEME@.theme.templates[key];
 
         // Typically, template strings begin with a root tag.
-        return (template.indexOf("<") == 0) ? template : null;
+        if (template) {
+            return (template.indexOf("<") == 0) ? template : null;
+        } else {
+            return null;
+        }
     }
 }
 

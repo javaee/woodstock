@@ -141,7 +141,5 @@ dojo.lang.extend(webui.@THEME@.widget.staticText, {
 
     // Set defaults.
     escape: true,
-    templatePath: webui.@THEME@.theme.getTemplatePath("staticText"),
-    templateString: webui.@THEME@.theme.getTemplateString("staticText"),
     widgetType: "staticText"
 });

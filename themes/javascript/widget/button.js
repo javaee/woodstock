@@ -127,52 +127,58 @@ webui.@THEME@.widget.button.fillInTemplate = function(props, frag) {
 
 /**
  * This function is used to obtain the outermost HTML element class name.
+ *
+ * @param classNames Optional array of selectors to concatinate with user's 
+ * (this.className) property. Items are output in reverse order for precedence.
  */
-webui.@THEME@.widget.button.getClassName = function() {
-    var className = null;
+webui.@THEME@.widget.button.getClassName = function(classNames) {
+    if (!(classNames instanceof Array)) {
+        classNames = new Array();
+    }
 
     // Set default style.
     if (this.mini == true && this.primary == true) {
-        className = (this.disabled == true)
+        classNames[classNames.length] = (this.disabled == true)
             ? this.primaryMiniDisabledClassName
             : this.primaryMiniClassName;
     } else if (this.mini == true) {
-        className = (this.disabled == true)
+        classNames[classNames.length] = (this.disabled == true)
             ? this.secondaryMiniDisabledClassName
             : this.secondaryMiniClassName;
     } else if (this.primary == true) {
-        className = (this.disabled == true)
+        classNames[classNames.length] = (this.disabled == true)
             ? this.primaryDisabledClassName
             : this.primaryClassName;
     } else {
-        className = (this.disabled == true)
+        classNames[classNames.length] = (this.disabled == true)
             ? this.secondaryDisabledClassName
             : this.secondaryClassName;
     }
-    return (this.className)
-        ? className + " " + this.className
-        : className;
+    return webui.@THEME@.widget.button.superclass.getClassName.call(this, classNames);
 }
 
 /**
- * Helper function to obtain widget (mouse hover) class names.
+ * This function is used to obtain the outermost HTML element class name.
+ *
+ * @param classNames Optional array of selectors to concatinate with user's 
+ * (this.className) property. Items are output in reverse order for precedence.
  */
-webui.@THEME@.widget.button.getHoverClassName = function() {
-    var className = null;
+webui.@THEME@.widget.button.getHoverClassName = function(classNames) {
+    if (!(classNames instanceof Array)) {
+        classNames = new Array();
+    }
 
     // Set default style.
     if (this.mini == true && this.primary == true) {
-        className = this.primaryMiniHovClassName;
+        classNames[classNames.length] = this.primaryMiniHovClassName;
     } else if (this.mini == true) {
-        className = this.secondaryMiniHovClassName;
+        classNames[classNames.length] = this.secondaryMiniHovClassName;
     } else if (this.primary == true) {
-        className = this.primaryHovClassName;
+        classNames[classNames.length] = this.primaryHovClassName;
     } else {
-        className = this.secondaryHovClassName;
+        classNames[classNames.length] = this.secondaryHovClassName;
     }
-    return (this.className)
-        ? className + " " + this.className
-        : className;
+    return webui.@THEME@.widget.button.superclass.getClassName.call(this, classNames);
 }
 
 /**
@@ -351,7 +357,7 @@ dojo.inherits(webui.@THEME@.widget.button, webui.@THEME@.widget.widgetBase);
 
 // Override base widget by assigning properties to class prototype.
 dojo.lang.extend(webui.@THEME@.widget.button, {
-    // Set private functions
+    // Set private functions.
     fillInTemplate: webui.@THEME@.widget.button.fillInTemplate,
     getClassName: webui.@THEME@.widget.button.getClassName,
     getHoverClassName: webui.@THEME@.widget.button.getHoverClassName,
@@ -365,7 +371,5 @@ dojo.lang.extend(webui.@THEME@.widget.button, {
     escape: true,
     mini: false,
     primary: true,
-    templatePath: webui.@THEME@.theme.getTemplatePath("button"),
-    templateString: webui.@THEME@.theme.getTemplateString("button"),
     widgetType: "button"
 });

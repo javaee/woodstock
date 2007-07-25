@@ -205,7 +205,5 @@ dojo.lang.extend(webui.@THEME@.widget.alarm, {
     setWidgetProps: webui.@THEME@.widget.alarm.setWidgetProps,
 
     // Set defaults.
-    templatePath: webui.@THEME@.theme.getTemplatePath("alarm"),
-    templateString: webui.@THEME@.theme.getTemplateString("alarm"),
     widgetType: "alarm"
 });

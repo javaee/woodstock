@@ -25,7 +25,7 @@ dojo.provide("webui.@THEME@.widget.textField");
 dojo.require("dojo.widget.*");
 dojo.require("webui.@THEME@.*");
 dojo.require("webui.@THEME@.widget.*");
-dojo.require("webui.@THEME@.widget.field");
+dojo.require("webui.@THEME@.widget.fieldBase");
 
 /**
  * This function is used to generate a template based widget.
@@ -188,7 +188,7 @@ webui.@THEME@.widget.textField.validation = {
 }
 
 // Inherit base widget properties.
-dojo.inherits(webui.@THEME@.widget.textField, webui.@THEME@.widget.field);
+dojo.inherits(webui.@THEME@.widget.textField, webui.@THEME@.widget.fieldBase);
 
 // Override base widget by assigning properties to class prototype.
 dojo.lang.extend(webui.@THEME@.widget.textField, {
@@ -200,7 +200,5 @@ dojo.lang.extend(webui.@THEME@.widget.textField, {
     submit: webui.@THEME@.widget.textField.submit.processEvent,
 
     // Set defaults.
-    templatePath: webui.@THEME@.theme.getTemplatePath("textField"),
-    templateString: webui.@THEME@.theme.getTemplateString("textField"),
     widgetType: "textField"
 });

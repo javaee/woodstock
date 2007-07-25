@@ -39,15 +39,22 @@ webui.@THEME@.widget.radioButtonGroup = function() {
 
 /**
  * This function is used to obtain the outermost HTML element class name.
+ *
+ * @param classNames Optional array of selectors to concatinate with user's 
+ * (this.className) property. Items are output in reverse order for precedence.
  */
-webui.@THEME@.widget.radioButtonGroup.getClassName = function() {    
-    var className = webui.@THEME@.widget.props.radioButtonGroup.vertClassName;
+webui.@THEME@.widget.radioButtonGroup.getClassName = function(classNames) {
+    if (!(classNames instanceof Array)) {
+        classNames = new Array();
+    }
+
+    // Set default style.
     if (this.columns > 1) {
-        className = webui.@THEME@.widget.props.radioButtonGroup.horizClassName;    
-    }    
-    return (this.className)
-        ? className + " " + this.className
-        : className;
+        classNames[classNames.length] = webui.@THEME@.widget.props.radioButtonGroup.horizClassName;    
+    } else {
+        classNames[classNames.length] = webui.@THEME@.widget.props.radioButtonGroup.vertClassName;
+    }
+    return webui.@THEME@.widget.radioButtonGroup.superclass.getClassName.call(this, classNames);
 }
 
 /**
@@ -91,8 +98,6 @@ dojo.lang.extend(webui.@THEME@.widget.radioButtonGroup, {
     getClassName: webui.@THEME@.widget.radioButtonGroup.getClassName,    
     refresh: webui.@THEME@.widget.radioButtonGroup.refresh.processEvent,                     
 
-    // Set defaults
-    templatePath: webui.@THEME@.theme.getTemplatePath("radioButtonGroup"),
-    templateString: webui.@THEME@.theme.getTemplateString("radioButtonGroup"),
+    // Set defaults.
     widgetType: "radioButtonGroup"
 });
