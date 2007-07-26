@@ -20,29 +20,14 @@
 // Copyright 2007 Sun Microsystems, Inc. All rights reserved.
 //
 
-dojo.provide("webui.@THEME@.*");
+dojo.provide("webui.@THEME@.theme.*");
 
 // Ordered according to dependencies.
 dojo.kwCompoundRequire({
     common: [
-        "webui.@THEME@.props",
-        "webui.@THEME@.cookie",
-        "webui.@THEME@.browser",
-        "webui.@THEME@.body",
-        "webui.@THEME@.common",
-        "webui.@THEME@.formElements"]
+        "webui.@THEME@.theme.common"]
 });
 
 // For debugging only, obtain all module resources before invoking
 // dojo.hostenv.writeIncludes(). This will ensure that JavaScript
 // files are accessible to JavaScript debuggers.
-dojo.requireIf(djConfig.isDebug, "webui.@THEME@.addRemove");
-dojo.requireIf(djConfig.isDebug, "webui.@THEME@.calendar");
-dojo.requireIf(djConfig.isDebug, "webui.@THEME@.commonTasksSection");
-dojo.requireIf(djConfig.isDebug, "webui.@THEME@.editableList");
-dojo.requireIf(djConfig.isDebug, "webui.@THEME@.fileChooser");
-dojo.requireIf(djConfig.isDebug, "webui.@THEME@.orderableList");
-dojo.requireIf(djConfig.isDebug, "webui.@THEME@.scheduler");
-dojo.requireIf(djConfig.isDebug, "webui.@THEME@.table");
-dojo.requireIf(djConfig.isDebug, "webui.@THEME@.tree");
-dojo.requireIf(djConfig.isDebug, "webui.@THEME@.wizard");

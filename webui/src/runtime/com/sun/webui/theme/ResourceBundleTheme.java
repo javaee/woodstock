@@ -973,6 +973,626 @@ public class ResourceBundleTheme implements Theme {
 	}
 	return properties;
     }
+
+    interface JavaScriptTransform {
+	public char DOT = '.';
+	public char USCORE = '_';
+	public String OPENBRACERE = "{";
+	public String OPENPARAMSUB = "%{";
+	public String DQ = "\"";
+	public String SQ = "'";
+	public String SQRE = "''";
+	public String processKey(String key);
+	public String processValue(String key, String value);
+    }
+
+    /**
+     * Generate Javascript files from all the theme properties
+     * Need to watch out for properties that are Javascript keywords.
+     * Currently there is on one hit "default" in the stylesheets.properties
+     * file.
+     */
+    public static final void main(String[] args) {
+
+	String UNKNOWN_OPTION = 
+	    "Unknown argument: {0}\n{1}";
+	String CANT_GET_THEME_FACTORY_CLASS =
+	    "Exception obtaining Class instance for {0}.";
+	String CANT_GET_THEME =
+	    "Exception obtaining Theme instance ''{0}''.";
+	String CANT_CREATE_FILE =
+	    "Exception creating file {0}{1}{2}.";
+	String CANT_WRITE_COPYRIGHT =
+	    "Exception writing copyright to {0}{1}{2}.";
+	String UNKNOWN_THEME_BUNDLE =
+	    "Unrecognized ThemeBundle ''{0}''.";
+	String CANT_CONVER_BUNDLE_TO_JS =
+	    "themeBundleToJavaScript failed to convert bundle ''{0}''.";
+	String CANT_WRITE_BUNDLE =
+	    "Exception writing bundle converted ''{0}''.";
+	String CANT_CLOSE_FILE = 
+	    "Exception closing file {0}{1}{2}.";
+	String CANT_JSON_PUT =
+	    "JSONException in 'put' of bundle ''{0}''.";
+
+	String usage =
+"Usage: java com.sun.webui.jsf.theme.ResourceBundleTheme \n" +
+"[-bundle messages|stylesheets|templates|properties|javascript|images|" +
+"styles]\n" +
+"[-factory <ThemeFactory implementation class name>]\n" +
+"[-dir destination-directory]\n" +
+"[-theme <theme name>]\n" +
+"[-version <theme version>]\n" +
+"[-locale <lang>[_<country>[_<variant>]]]\n" +
+"[-l10nJar \"jar:file:<fullpath>/<jarname>_<lang>[_<country>[_<variant>]].jar!/\"\n" +
+"[-prettyprint <indent>]\n" +
+"\n" +
+"[-help]\n" +
+"'-bundle' - the properties file to process. If not specified, all " +
+"properties\n" +
+"    bundles are processed. If 'bundle' is specifed the file name is\n" +
+"    '<bundle>.js'.\n" +
+"'-factory' - the ThemeFactory implementation to use, to obtain a Theme\n" +
+"    instance. If not specified the 'com.sun.webui.theme.SPIThemeFactory'\n" +
+"    implementation is used.\n" +
+"'-dir' - the destination directory for the theme javascript file. The file\n" +
+"    created is named from the 'ThemeJavascript.THEME_BUNDLE' theme " +
+"property \n" +
+"    with an extension of '.js' If not specified the file is created in the\n" +
+"    current directory.\n" +
+"\n" +
+"-l10nJar - the URI includling the full path to l10n jar file. This value\n" +
+"    is used to create a URLClassLoader restricting the class path to this jar.\n" +
+"If '-theme' is not specified 'suntheme' is used. This theme is used as the\n" +
+"    source of the properties files.\n" +
+"If '-version' is not specified then '4.1' is used.\n" +
+"\n" +
+"The webui-jsf.jar and webui-jsf-suntheme.jar or equivalent theme jar\n" +
+"    must appear in the classpath.\n" +
+"\n" +
+"Note that if the '-bundle' option is specified,\n" +
+"    javascript must be written to load that file. The default 'Head' " +
+"component\n" +
+"    behavior loads theme files based on the " +
+"'ThemeJavascript.THEME_BUNDLE',\n" +
+"    'ThemeJavascript.THEME_MODULE', and " +
+"'ThemeJavascript.THEME_MODULE_PATH'\n" +
+"    (or 'ThemeJavascript.THEME_MODULE_PATH_UNCOMPRESSED') theme " +
+"properties.\n";
+
+	String copyright = "//\n" +
+	    "// The contents of this file are subject to the terms\n" +
+	    "// of the Common Development and Distribution License\n" +
+	    "// (the License).  You may not use this file except in\n" +
+	    "// compliance with the License.\n" +
+	    "//\n" +
+	    "// You can obtain a copy of the license at\n" +
+	    "// https://woodstock.dev.java.net/public/CDDLv1.0.html.\n" +
+	    "// See the License for the specific language governing\n" +
+	    "// permissions and limitations under the License.\n" +
+	    "//\n" +
+	    "// When distributing Covered Code, include this CDDL\n" +
+	    "// Header Notice in each file and include the License file\n" +
+	    "// at https://woodstock.dev.java.net/public/CDDLv1.0.html.\n" +
+	    "// If applicable, add the following below the CDDL Header,\n" +
+	    "// with the fields enclosed by brackets [] replaced by\n" +
+	    "// you own identifying information:\n" +
+	    "// \"Portions Copyrighted [year] [name of copyright owner]\"\n" +
+	    "//\n" +
+	    "// Copyright 2007 Sun Microsystems, Inc. All rights reserved.\n" +
+	    "//\n";
+
+	// This list came from
+	// http://developer.mozilla.org/en/docs/Core_JavaScript_1.5_Reference:Reserved_Words
+
+	String DOT = ".";
+	String EXT = ".js";
+	String FILE_SEPARATOR = System.getProperty("file.separator");
+
+	String properties = null;
+	String outfile = null;
+	String dir = ".";
+	String factoryClass = null;
+	String themeName = "suntheme";
+	String version = "4.1";
+	String locale = null;
+	String l10nJar = null;
+	int indent = 0;
+
+	// Set to -1 on error
+	//
+	int retval = 0;
+
+	boolean debug = false;
+	for (int i = 0; i < args.length; ++i) {
+	    if (args[i].equals("-bundle")) {
+		properties = args[++i];
+	    } else 
+	    if (args[i].equals("-factory")) {
+		factoryClass = args[++i];
+	    } else
+	    if (args[i].equals("-dir")) {
+		dir = args[++i];
+	    } else 
+	    if (args[i].equals("-theme")) {
+		themeName = args[++i];
+	    } else
+	    if (args[i].equals("-version")) {
+		version = args[++i];
+	    } else
+	    if (args[i].equals("-debug")) {
+		debug = true;
+	    } else
+	    if (args[i].equals("-locale")) {
+		locale = args[++i];
+	    } else 
+	    if (args[i].equals("-l10nJar")) {
+		l10nJar = args[++i];
+	    } else
+	    if (args[i].equals("-prettyprint")) {
+		indent = Integer.parseInt(args[++i]);
+	    } else
+	    if (args[i].equals("-help")) {
+		System.out.println(usage);
+		System.exit(0);
+	    } else {
+		System.err.println(java.text.MessageFormat.format(
+		    UNKNOWN_OPTION, args[i], usage));
+		System.exit(-1);
+	    }
+	}
+	while (debug);
+	// Both must be set.
+	//
+	if (!(locale == null ^ l10nJar == null)) {
+	    ;
+	} else {
+	    System.err.println(usage);
+	    System.exit(-1);
+	}
+
+	ThemeFactory factory = null;
+	if (factoryClass == null) {
+	    factory = new SPIThemeFactory();
+	} else {
+	    try {
+		factory = (ThemeFactory)
+		    Class.forName(factoryClass).newInstance();
+	    } catch (Exception e) {
+		System.err.println(
+		    java.text.MessageFormat.format(CANT_GET_THEME_FACTORY_CLASS,
+			factoryClass) + "\n" + e.getMessage());
+		System.exit(-1);
+	    }
+	}
+
+	// Use the existing theme jar that must exist on the class path
+	// There must be only one, for a given theme.
+	//
+	class DefaultThemeContext extends ThemeContext {
+	    DefaultThemeContext() {
+		super();
+	    }
+	}
+	ThemeContext themeContext = new DefaultThemeContext();
+	Theme theme = null;
+	try {
+	    theme = factory.getTheme(themeName, version, null, themeContext);
+	} catch (Exception te) {
+	    System.err.println(
+		java.text.MessageFormat.format(CANT_GET_THEME, themeName,
+		    version) + "\n" + te.getMessage());
+	    System.exit(-1);
+	}
+
+	// Generating a single bundle.
+	//
+	if (properties != null && properties.length() != 0) {
+	    outfile = properties;
+	}
+
+	// We assume that the directories for the locales
+	// have already been created.
+	//
+	if (outfile == null) {
+	    outfile = theme.getJSString(
+		com.sun.webui.jsf.theme.ThemeJavascript.THEME_BUNDLE);
+	    if (outfile == null || outfile.length() == 0) {
+		outfile = "suntheme";
+	    }
+	}
+	outfile = outfile.concat(EXT);
+
+	java.io.BufferedWriter out = null;
+	try {
+	    out = new java.io.BufferedWriter(
+		new java.io.FileWriter(dir + FILE_SEPARATOR + outfile));
+	} catch (java.io.IOException ex) {
+	    System.err.println(
+		java.text.MessageFormat.format(CANT_CREATE_FILE, dir,
+		    FILE_SEPARATOR, outfile)
+		+ "\n" + ex.getMessage());
+	    System.exit(-1);
+	}
+
+	StringBuilder sb = new StringBuilder(10240);
+
+	// Add the copyright and disclaimer
+	//
+	sb.append(copyright)
+	    .append("//This is a generated file. Do not edit.\n\n");
+
+	try {
+	    out.write(sb.toString());
+	} catch (java.io.IOException ex) {
+	    System.err.println(
+		java.text.MessageFormat.format(CANT_WRITE_COPYRIGHT, dir,
+		    FILE_SEPARATOR, outfile)
+		+ "\n" + ex.getMessage());
+	    try { out.close(); } catch(Exception ec) {}
+	    System.exit(-1);
+	}
+	sb.setLength(0);
+
+	// Define the Transforms
+	//
+	JavaScriptTransform noop = new JavaScriptTransform() {
+	    public String processKey(String key) { return key.trim(); }
+	    public String processValue(String key, String value) {
+		return value.trim();
+	    }
+	};
+
+	JavaScriptTransform messageTransform = new JavaScriptTransform() {
+
+	    public String processKey(String key) {
+		return key.trim();
+	    }
+	    public String processValue(String key, String value) {
+		// Fix quotes. 
+		// Change " to ' (JSON handles this)
+		// Change '' to '
+		//
+		value = value.replace(SQRE, SQ);
+		// Fix parameter substitution syntax.
+		// {0} to %{0}
+		//
+		value = value.replace(OPENBRACERE, OPENPARAMSUB);
+		return value.trim();
+	    }
+	};
+
+	JavaScriptTransform templateTransform = new JavaScriptTransform() {
+
+	    String CANT_GET_RESOURCE = 
+		"templateTransform: Can''t ''getResource'' key = {0}, " +
+		    "value =  {1}";
+	    String CANT_READ_TEMPLATE_FILE = 
+		"Exception reading template file {0}.";
+	    String CANT_CLOSE_READER =
+		"Exception closing file {0}.";
+
+	    public String processKey(String key) { return key.trim(); }
+
+	    public String processValue(String key, String value) {
+
+		String path = value.charAt(0) == '/' ? 
+		    value.substring(1) : value;
+		URL templateFile = 
+		    this.getClass().getClassLoader().getResource(path);
+		if (templateFile == null) {
+		    // This should probably throw and/or exit.
+		    //
+		    System.err.println(
+			java.text.MessageFormat.format(
+			    CANT_GET_RESOURCE, key, value));
+		    return value.trim();
+		}
+		java.io.InputStream streamIn = null;
+		java.io.InputStreamReader inreader = null;
+		java.io.BufferedReader reader = null;
+		try {
+		    StringBuilder sb = new StringBuilder(512);
+		    streamIn = templateFile.openStream();
+		    inreader = new java.io.InputStreamReader(streamIn);
+		    reader = new java.io.BufferedReader(inreader);
+
+		    String s = null;
+		    while ((s = reader.readLine()) != null) {
+			// Remove whitespace.
+			//
+			String sr = s.replaceAll("[ \t]*<[ \t]*", "<").
+			    replaceAll("[ \t]*>[ \t]*", ">");
+		       sb.append(sr);
+		    }
+		    value = sb.toString();
+		} catch(Exception e) {
+		    System.err.println(
+			java.text.MessageFormat.format(CANT_READ_TEMPLATE_FILE,
+			    path) + "\n" + e.getMessage());
+		} finally {
+		    try {
+			// Don't know if I need to close each or
+			// if a close on the outer reader is sufficient.
+			//
+			streamIn.close();
+			inreader.close();
+			reader.close();
+		    } catch (Exception et) {
+			System.err.println(
+			    java.text.MessageFormat.format(CANT_CLOSE_READER,
+				path) + "\n" + et.getMessage());
+		    }
+		}
+		return value.trim();
+	    }
+	};
+
+	JavaScriptTransform transform = noop;
+
+	// These are actual "Theme" implementation specific since the
+	// enums are defined in ResourceBundleTheme and not Theme.
+	//
+	ThemeResourceBundle.ThemeBundle[] bundles =
+	    ThemeResourceBundle.ThemeBundle.values();
+
+	// We don't want to change the previously created
+	// themeContext, since it is stored in the theme instance
+	// and is for the "base" theme. Create another ThemeContext
+	// to pass to ResourceBundle.getBundle specific to the
+	// locale specific resources
+	//
+	ThemeContext bundleContext = themeContext;
+
+	// Set up the themeContext for locale variants
+	//
+	if (locale != null) {
+	    bundleContext = new DefaultThemeContext();
+	    try {
+		// Split up the locale
+		String[] localesegments = locale.split("_");
+		Locale localeInstance = null;
+		if (localesegments.length == 1) {
+		    localeInstance = new Locale(localesegments[0]);
+		} else
+		if (localesegments.length == 2) {
+		    localeInstance = new Locale(localesegments[0],
+			localesegments[1]);
+		} else 
+		if (localesegments.length == 3) {
+		    localeInstance = new Locale(localesegments[0],
+			localesegments[1], localesegments[2]);
+		}
+		ClassLoader cl = new java.net.URLClassLoader(
+		    new java.net.URL[] { new java.net.URL(l10nJar) }, null);
+		bundleContext.setDefaultClassLoader(cl);
+		bundleContext.setDefaultLocale(localeInstance);
+	    } catch (Exception e) {
+		System.err.println(e.getMessage());
+		System.exit(-1);
+	    }
+	}
+	org.json.JSONObject jsonBundles = new org.json.JSONObject();
+
+	for (int i = 0; i < bundles.length; ++i) {
+
+	    ThemeResourceBundle.ThemeBundle tb = bundles[i];
+
+	    // For all known bundles
+	    // Get the "well known" bundle name. Locale variants
+	    // have the same package basename with the locale variant
+	    // suffix. The themeContext contains the appropriate
+	    // locale and the classloader is restricted to only
+	    // the l10n jar or directory.
+	    //
+	    String basename = (String)
+		((ResourceBundleTheme)theme).getProperty(tb.getKey(), tb);
+	    if (basename == null) {
+		continue;
+	    }
+
+	    // Assumes only one of these bundles is ever declared.
+	    // There could be an array of basenames.
+	    // TODO
+	    //
+	    ResourceBundle rb = null;
+	    try {
+		rb = ResourceBundle.getBundle(basename, 
+		    bundleContext.getDefaultLocale(),
+		    bundleContext.getDefaultClassLoader());
+	    } catch(Exception e) {
+		// If we are processing a locale, it may not
+		// have any specializations
+		//
+		if (locale != null) {
+		    continue;
+		}
+		e.printStackTrace();
+		retval = -1;
+		break;
+	    }
+
+	    // If null, they are just "theme" properties.
+	    // Shouldn't happen here. We will need to get all
+	    // the properties in the "Root" bundle and these
+	    // will be theme properties.
+	    //
+	    String themeCategory = null;
+	    switch(tb) {
+	    case MESSAGES:
+		themeCategory = "messages";
+		transform = messageTransform;
+	    break;
+	    case STYLESHEET:
+		themeCategory = "stylesheets";
+		transform = noop;
+	    break;
+	    case TEMPLATE:
+		themeCategory = "templates";
+		transform = templateTransform;
+	    break;
+	    case PROPERTIES:
+		themeCategory = "properties";
+		transform = noop;
+	    break;
+	    case JAVASCRIPT:
+		themeCategory = "javascript";
+		transform = noop;
+	    break;
+	    case IMAGES:
+		themeCategory = "images";
+		transform = noop;;
+	    break;
+	    case CLASSMAPPER:
+		themeCategory = "styles";
+		transform = noop;
+	    break;
+	    }
+
+	    // No category means just properties
+	    // TODO
+	    //
+	    if (themeCategory == null) {
+		System.err.println(
+		    java.text.MessageFormat.format(UNKNOWN_THEME_BUNDLE, tb));
+		continue;
+	    }
+
+	    // Dump only "properties"
+	    // 
+	    if (properties != null && !properties.equals(themeCategory)) {
+		continue;
+	    }
+
+	    org.json.JSONObject jsonBundleProps = 
+		((ResourceBundleTheme)theme).
+		    themeBundleToJavaScript(transform, rb, themeCategory);
+	    if (jsonBundleProps == null) {
+		System.err.println(
+		    java.text.MessageFormat.format(CANT_CONVER_BUNDLE_TO_JS, 
+			themeCategory));
+		retval = -1;
+		break;
+	    }
+
+	    try {
+		jsonBundles.put(themeCategory, jsonBundleProps);
+	    } catch (Exception je) {
+		System.err.println(
+		    java.text.MessageFormat.format(CANT_JSON_PUT, 
+			themeCategory)
+		    + "\n" + je.getMessage());
+		retval = -1;
+		break;
+	    }
+	}
+
+	try {
+	    // Need to change all "\\" to "\" that json escapes.
+	    //
+	    String outString = null;
+	    if (indent != 0) {
+		outString = jsonBundles.toString(indent).
+			replaceAll("\\\\u", "\\u") + "\n";
+	    } else {
+		outString = jsonBundles.toString().
+			replaceAll("\\\\u", "\\u") + "\n";
+	    }
+	    out.write(outString);
+	    out.close();
+	} catch (Exception ex) {
+	    System.err.println(
+		java.text.MessageFormat.format(CANT_CLOSE_FILE,
+		    dir, FILE_SEPARATOR, outfile)
+		+ "\n" + ex.getMessage());
+	    retval = -1;
+	}
+	System.exit(retval);
+    }
+
+    org.json.JSONObject themeBundleToJavaScript(JavaScriptTransform transform,
+	    ResourceBundle rb, String bundle) {
+
+	String CANT_JSON_PUT =
+	    "JSONException in 'put' for key ''{0}'' from ''{1}''.";
+	String CANT_JSON_TOSTRING =
+	    "Exception JSONObject.toString() for key ''{0}'' from " +
+	    "bundle ''{1}''.";
+	org.json.JSONObject json = new org.json.JSONObject();
+
+	java.util.Enumeration keys = rb.getKeys();
+	while (keys.hasMoreElements()) {
+
+	    String key = (String)keys.nextElement();
+	    String value = rb.getString(key);
+
+	    key = transform.processKey(key);
+	    key = saveConvert(key);
+	    value = transform.processValue(key, value);
+	    value = saveConvert(value);
+
+	    try {
+		json.put(key, value);
+	    } catch (org.json.JSONException je) {
+		System.err.println(
+		    java.text.MessageFormat.format(CANT_JSON_PUT, key,
+			bundle)
+		    + "\n" + je.getMessage());
+		return null;
+	    }
+	}
+
+	return json;
+    }
+
+    // Taken from the Properties source
+    //
+    /**
+     * Converts unicodes to encoded &#92;uxxxx and escapes
+     * special characters with a preceding slash
+     */
+    private String saveConvert(String theString) {
+        int len = theString.length();
+        int bufLen = len * 2;
+        StringBuffer outBuffer = new StringBuffer(bufLen);
+
+        for(int x=0; x<len; x++) {
+            char aChar = theString.charAt(x);
+            // Handle common case first, selecting largest block that
+            // avoids the specials below
+
+	    /* Only want the UTF conversion
+	     *
+	     * Convert control characters to fool JSON
+	     */
+	    if ((aChar < 0x0020) || (aChar > 0x007e)) {
+		outBuffer.append('\\');
+		outBuffer.append('u');
+		outBuffer.append(toHex((aChar >> 12) & 0xF));
+		outBuffer.append(toHex((aChar >>  8) & 0xF));
+		outBuffer.append(toHex((aChar >>  4) & 0xF));
+		outBuffer.append(toHex( aChar        & 0xF));
+	    } else {
+		outBuffer.append(aChar);
+	    }
+        }
+        return outBuffer.toString();
+    }
+
+    /**
+     * Convert a nibble to a hex character
+     * @param   nibble  the nibble to convert.
+     */
+    private static char toHex(int nibble) {
+        return hexDigit[(nibble & 0xF)];
+    }
+
+    /** A table of hex digits */
+    private static final char[] hexDigit = {
+        '0','1','2','3','4','5','6','7','8','9','A','B','C','D','E','F'
+    };
+
+
 }
 
 /**
@@ -2045,3 +2665,4 @@ class ThemeReference {
 	return classLoader;
     }
 }
+

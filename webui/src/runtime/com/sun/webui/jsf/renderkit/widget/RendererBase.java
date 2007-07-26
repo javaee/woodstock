@@ -236,8 +236,10 @@ abstract public class RendererBase extends Renderer {
      *
      * @exception IOException if an input/output error occurs
      */
-    abstract protected String getTemplatePath(FacesContext context,
-        UIComponent component) throws IOException;
+    protected String getTemplatePath(FacesContext context,
+	    UIComponent component) throws IOException {
+	return (String)component.getAttributes().get("templatePath");
+    }
 
     /**
      * Get the name of widget represented by this component.

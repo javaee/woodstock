@@ -114,15 +114,6 @@ public class Table2ColumnRenderer extends RendererBase {
         return json;
     }
 
-    /**
-     * Get the template path for this component.
-     *
-     * @param context FacesContext for the current request.
-     * @param component UIComponent to be rendered.
-     */
-    protected String getTemplatePath(FacesContext context, UIComponent component) {
-        return null; // Not implemented.
-    }
 
     /**
      * Get the name of widget represented by this component.

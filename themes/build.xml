@@ -42,6 +42,7 @@
     <property name="suntheme.css" value="_sun4"/>
     <property name="suntheme-service-properties" value="suntheme"/>    
     <property name="suntheme-service-class" value="SunthemeThemeService"/>
+    <property name="l10n.dir" value="l10n"/>
     
     <!-- Building a theme now depends on webui-jsf.jar 
          In the future it will depend on just the theme implementation
@@ -52,6 +53,8 @@
 
     <property name="webui.jar"
               value="${components.home}/lib/webui-jsf.jar"/>
+    <property name="json.jar"
+              value="${components.home}/lib/json.jar"/>
 
     <!-- tools -->
     <property name="tools.jar"
@@ -59,9 +62,212 @@
     <property name="rhino.jar"
               value="${tools}/javascript/custom_rhino.jar"/>
 
+    <!-- This build script also depends on the webui-jsf-suntheme.jar
+	being built first. It uses that jar and the webui-jsf.jar
+	to construct the javascript theme. It them updates the
+	webui-jsf-suntheme.jar with the javascript theme files. -->
+
+    <!-- Javascript theme properties 
+	The javascript theme uses dojo to load localizations
+	using the "requireLocalization" method. This requires that a
+	defined module path "com/sun/webui/jsf/suntheme/javascript/theme"
+	exists and under this path the following "nls" structure.
+
+	     "nls/suntheme.js"
+	     "nls/<lang>/suntheme.js"
+	     "nls/<lang>-<country>/suntheme.js"
+	     "nls/<lang>-<country>-<variant>/suntheme.js"
+
+	"suntheme" would be the localized bundle. The 
+	"nls/suntheme.js" file would be the fallback bundle containing
+	definitions suitable for any locale. -->
+
+    <property name="suntheme.javascript-theme.path"
+	    value="${suntheme.path}/javascript/theme/nls/"/>
+    <property name="suntheme.javascript_uncompressed-theme.path"
+	    value="${suntheme.path}/javascript_uncompressed/theme/nls/"/>
+    <property name="suntheme.javascript-theme.file"
+	    value="${suntheme.javascript-theme.path}${suntheme}.js"/>
+    <property name="suntheme.javascript_uncompressed-theme.file"
+	value="${suntheme.javascript_uncompressed-theme.path}${suntheme}.js"/>
+
+    <target name="checkDependencies">
+       <mkdir dir="${suntheme.build}${suntheme.path}"/>
+       <uptodate property="theme-jar-uptodate"
+	    srcfile="${dist}/${suntheme.jar}"/>
+       <uptodate property="webui-jar-uptodate"
+	    srcfile="${dist}/${webui.jar}"/>
+       <condition property="theme-js-uptodate">
+	    <and>
+	       <isset property="theme-jar-uptodate"/>
+	       <isset property="webui-jar-uptodate"/>
+	    </and>
+       </condition>
+    </target>
+
+    <!-- Note for the theme builder transformation, the javascript
+	widget namespace is assumed to be same, this is the
+	same assumption as when transforming the theme proper.
+	The default "version" is the hardcoded default
+	version as defined by the components.  -->
+
+    <target name="buildJsTheme">
+
+       <mkdir dir="${suntheme.build}/${suntheme.javascript-theme.path}"/>
+       <mkdir dir="${suntheme.build}/${suntheme.javascript_uncompressed-theme.path}"/>
+
+	<!-- The uncompressed version is the JSON pretty printed version -->
+	<java classname="com.sun.webui.theme.ResourceBundleTheme"
+		failonerror="true" fork="true">
+	    <arg value="-dir"/>
+<arg value="${suntheme.build}/${suntheme.javascript_uncompressed-theme.path}"/>
+	    <arg value="-theme"/>
+	    <arg value="${suntheme}"/>
+	    <arg value="-prettyprint"/>
+	    <arg value="4"/>
+	     <classpath>
+		 <pathelement path="${json.jar}"/>
+		 <pathelement path="${webui.jar}"/>
+		 <pathelement path="${dist}/${suntheme.jar}"/>
+	     </classpath>
+	</java>
+
+	<java classname="com.sun.webui.theme.ResourceBundleTheme"
+		failonerror="true" fork="true">
+	    <arg value="-dir"/>
+<arg value="${suntheme.build}/${suntheme.javascript-theme.path}"/>
+	    <arg value="-theme"/>
+	    <arg value="${suntheme}"/>
+	     <classpath>
+		 <pathelement path="${json.jar}"/>
+		 <pathelement path="${webui.jar}"/>
+		 <pathelement path="${dist}/${suntheme.jar}"/>
+	     </classpath>
+	</java>
+
+	<!-- supported locales the contents of the l10n directory
+	webui-jsf-suntheme_de.jar
+	webui-jsf-suntheme_es.jar
+	webui-jsf-suntheme_fr.jar
+	webui-jsf-suntheme_it.jar
+	webui-jsf-suntheme_ja.jar
+	webui-jsf-suntheme_ko.jar
+	webui-jsf-suntheme_pt_BR.jar
+	webui-jsf-suntheme_sv.jar
+	webui-jsf-suntheme_zh_CN.jar
+	webui-jsf-suntheme_zh_HK.jar
+	webui-jsf-suntheme_zh_TW.jar
+	-->
+
+	<!-- Don't create localized theme until l10n jars are fixed
+	<antcall target="localizeJSTheme">
+	    <param name="_locale_" value="de"/>
+	    <param name="_dojo-locale_" value="de"/>
+	</antcall>
+	<antcall target="localizeJSTheme">
+	    <param name="_locale_" value="es"/>
+	    <param name="_dojo-locale_" value="es"/>
+	</antcall>
+	<antcall target="localizeJSTheme">
+	    <param name="_locale_" value="fr"/>
+	    <param name="_dojo-locale_" value="fr"/>
+	</antcall>
+	<antcall target="localizeJSTheme">
+	    <param name="_locale_" value="it"/>
+	    <param name="_dojo-locale_" value="it"/>
+	</antcall>
+	<antcall target="localizeJSTheme">
+	    <param name="_locale_" value="ja"/>
+	    <param name="_dojo-locale_" value="ja"/>
+	</antcall>
+	<antcall target="localizeJSTheme">
+	    <param name="_locale_" value="ko"/>
+	    <param name="_dojo-locale_" value="ko"/>
+	</antcall>
+	<antcall target="localizeJSTheme">
+	    <param name="_locale_" value="pt_BR"/>
+	    <param name="_dojo-locale_" value="pt-br"/>
+	</antcall>
+	<antcall target="localizeJSTheme">
+	    <param name="_locale_" value="sv"/>
+	    <param name="_dojo-locale_" value="sv"/>
+	</antcall>
+	<antcall target="localizeJSTheme">
+	    <param name="_locale_" value="zh_CN"/>
+	    <param name="_dojo-locale_" value="zh-cn"/>
+	</antcall>
+	<antcall target="localizeJSTheme">
+	    <param name="_locale_" value="zh_HK"/>
+	    <param name="_dojo-locale_" value="zh-hk"/>
+	</antcall>
+	<antcall target="localizeJSTheme">
+	    <param name="_locale_" value="zh_TW"/>
+	    <param name="_dojo-locale_" value="zh-tw"/>
+	</antcall>
+       -->
+
+       <!-- Add the javascript theme to the theme jar -->
+       <jar destfile="${dist}/${suntheme.jar}"
+	     update="true"
+	     basedir="${suntheme.build}"
+	     includes="${suntheme.javascript-theme.path}/**/*.js,${suntheme.javascript_uncompressed-theme.path}/**/*.js">
+	</jar>
+
+    </target>
+
+    <!-- Create a JavaScript theme file for each localization -->
+    <target name="localizeJSTheme">
+
+       <property name="nlsdir" 
+       value="${suntheme.build}/${suntheme.javascript-theme.path}/${_dojo-locale_}"/>
+       <mkdir dir="${nlsdir}"/>
+
+	<!-- Create the localized JS themes -->
+	<java classname="com.sun.webui.theme.ResourceBundleTheme"
+		failonerror="true" fork="true">
+	    <arg value="-dir"/>
+	    <arg value="${nlsdir}"/>
+	    <arg value="-theme"/>
+	    <arg value="${suntheme}"/>
+	    <arg value="-locale"/>
+	    <arg value="${_locale_}"/>
+	    <arg value="-l10nJar"/>
+	    <arg value="jar:file:${l10n.dir}/webui-jsf-suntheme_${_locale_}.jar!/"/>
+	     <classpath>
+		 <pathelement path="${json.jar}"/>
+		 <pathelement path="${webui.jar}"/>
+		 <pathelement path="${dist}/${suntheme.jar}"/>
+	     </classpath>
+	</java>
+
+       <property name="nlsdir-uncompressed" 
+       value="${suntheme.build}/${suntheme.javascript_uncompressed-theme.path}/${_dojo-locale_}"/>
+       <mkdir dir="${nlsdir-uncompressed}"/>
+
+	<!-- Create the localized JS themes -->
+	<java classname="com.sun.webui.theme.ResourceBundleTheme"
+		failonerror="true" fork="true">
+	    <arg value="-dir"/>
+	    <arg value="${nlsdir-uncompressed}"/>
+	    <arg value="-theme"/>
+	    <arg value="${suntheme}"/>
+	    <arg value="-locale"/>
+	    <arg value="${_locale_}"/>
+	    <arg value="-prettyprint"/>
+	    <arg value="4"/>
+	    <arg value="-l10nJar"/>
+	    <arg value="jar:file:${l10n.dir}/webui-jsf-suntheme_${_locale_}.jar!/"/>
+	     <classpath>
+		 <pathelement path="${json.jar}"/>
+		 <pathelement path="${webui.jar}"/>
+		 <pathelement path="${dist}/${suntheme.jar}"/>
+	     </classpath>
+	</java>
+    </target>
+
     <!-- ========== all ========== -->
     <!-- This creates the theme jars for component distribution. -->
-    <target name="all" depends="buildSunTheme" />
+    <target name="all" depends="buildSunTheme,buildJsTheme" />
     
     <target name="buildSunTheme">
         
@@ -114,11 +320,11 @@
             </filterset>
         </copy>
 
-        <!-- Clear javascript directories -->
-        <delete dir="${_dest-path_}/javascript"/>
-        <delete dir="${_dest-path_}/javascript_uncompressed"/>
+	<delete dir="${_dest-path_}/javascript"/>
+	<delete dir="${_dest-path_}/javascript_uncompressed"/>
 
-        <!-- Create uncompressed javascript -->
+        <!-- Create uncompressed javascript 
+	     Only copies out of date files -->
         <copy todir="${_dest-path_}/javascript_uncompressed">
             <fileset dir="javascript">
                 <exclude name="**/CVS/**" />
@@ -129,30 +335,18 @@
             </filterset>
         </copy>
 
-        <!-- Embed templates -->
-        <java jar="${tools.jar}" failonerror="true" fork="true">
-          <arg value="-templateJS"/>
-          <arg value="-sourcePath"/>
-          <arg value="${_dest-path_}/templates"/>
-          <arg value="-destPath"/>
-          <arg value="${_dest-path_}/javascript_uncompressed/theme.js"/>
-          <arg value="-nameSpace"/>
-          <arg value="webui.${_theme-name_}.theme.templates"/>
-          <arg value="-verbose"/>
-        </java>
+	<copy todir="${_dest-path_}/javascript">
+	    <fileset dir="${_dest-path_}/javascript_uncompressed"/>
+	</copy>
 
-        <!-- Compress javascript -->
-        <copy todir="${_dest-path_}/javascript">
-            <fileset dir="${_dest-path_}/javascript_uncompressed"/>
-        </copy>
-        <java jar="${tools.jar}" failonerror="true" fork="true">
-          <arg value="-compressJS"/>
-          <arg value="-sourcePath"/>
-          <arg value="${_dest-path_}/javascript"/>
-          <arg value="-rhinoJar"/>
-          <arg value="${rhino.jar}"/>
-          <arg value="-verbose"/>
-        </java>
+	<java jar="${tools.jar}" failonerror="true" fork="true">
+	  <arg value="-compressJS"/>
+	  <arg value="-sourcePath"/>
+	  <arg value="${_dest-path_}/javascript"/>
+	  <arg value="-rhinoJar"/>
+	  <arg value="${rhino.jar}"/>
+	  <arg value="-verbose"/>
+	</java>
 
         <copy todir="${_dest-path_}/images">
             <fileset dir="${_theme-dir_}/images">
@@ -239,6 +433,7 @@
             <param name="_uptodate-property_"
                    value="${_theme-service-uptodate_}"/>
         </antcall>
+
         
         <!-- Delete the temporary directory --> 
         <delete dir="${_build-dir_}/src"/>
@@ -267,11 +462,11 @@
         </javac>
         
     </target>
-    
+
     <target name="clean">
         <delete dir="${build}" />
         <delete dir="${dist}" />
-        <delete dir="temp" />
     </target>
-    
+
+
 </project>

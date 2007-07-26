@@ -186,28 +186,6 @@ public class ButtonRenderer extends RendererBase {
         return json;
     }
 
-    /**
-     * Get the template path for this component.
-     *
-     * @param context FacesContext for the current request.
-     * @param component UIComponent to be rendered.
-     */
-    protected String getTemplatePath(FacesContext context, UIComponent component) {
-	if (!(component instanceof Button)) {
-	    throw new IllegalArgumentException(
-                "ButtonRenderer can only render Button components.");
-        }
-
-        // Get type.
-        String type = getType((Button) component);
-        if (type.equals(TYPE_ICON) || type.equals(TYPE_IMAGE)) {
-            return getTheme().getPathToTemplate(ThemeTemplates.IMAGEBUTTON);
-        } else if (type.equals(TYPE_RESET)) {
-            return getTheme().getPathToTemplate(ThemeTemplates.RESETBUTTON);
-        } else {
-            return getTheme().getPathToTemplate(ThemeTemplates.BUTTON);
-        }
-    }
 
     /**
      * Get the name of widget represented by this component.

@@ -75,6 +75,28 @@ public class ThemeJavascript {
      */
     public static final String PROTOTYPE = "prototype";
 
+    /**
+     * A key that defines the theme javascript namespace.
+     */
+    public static final String THEME_MODULE = "themeModule";
+
+    /**
+     * A key that defines the javascript theme bundle. This is 
+     * the basenae of the file found in the nls directories.
+     */
+    public static final String THEME_BUNDLE = "themeBundle";
+
+    /**
+     * A key that defines the prefix path for the theme module.
+     */
+    public static final String THEME_MODULE_PATH = "themeModulePath";
+
+    /**
+     * A key that defines the prefix path for the uncompressed theme module.
+     */
+    public static final String THEME_MODULE_PATH_UNCOMPRESSED = 
+	"themeModulePathUncompressed";
+
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     // Deprecations
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~

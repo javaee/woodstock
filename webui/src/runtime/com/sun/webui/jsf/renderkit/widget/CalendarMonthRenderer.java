@@ -170,18 +170,6 @@ public class CalendarMonthRenderer extends RendererBase {
         return json;
     }
     
-    /**
-     * Get the template path for this component.
-     *
-     * @param context FacesContext for the current request.
-     * @param component UIComponent to be rendered.
-     */
-    protected String getTemplatePath(FacesContext context, UIComponent component) {
-        String templatePath = (String) component.getAttributes().get("templatePath");
-        return (templatePath != null)
-            ? templatePath 
-            : getTheme().getPathToTemplate(ThemeTemplates.CALENDARMONTH);
-    }
 
     /**
      * Get the name of widget represented by this component.

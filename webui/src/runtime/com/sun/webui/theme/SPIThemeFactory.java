@@ -280,16 +280,17 @@ public class SPIThemeFactory implements ThemeFactory {
 	String[] keys = new String[4];
 	// We always look for these references.
 	//
-	sb.append(DEFAULT_THEME_KEY).append("_").append(DEFAULT_THEME_KEY);
+	String USCORE = "_";
+	sb.append(DEFAULT_THEME_KEY).append(USCORE).append(DEFAULT_THEME_KEY);
 	keys[i++] = sb.toString();
 	sb.setLength(0);
 	if (themeName != null) {
-	    sb.append(themeName).append("_").append(DEFAULT_THEME_KEY);
+	    sb.append(themeName).append(USCORE).append(DEFAULT_THEME_KEY);
 	    keys[i++] = sb.toString();
 	    sb.setLength(0);
 	}
 	if (version != null) {
-	    sb.append(DEFAULT_THEME_KEY).append("_").append(version);
+	    sb.append(DEFAULT_THEME_KEY).append(USCORE).append(version);
 	    keys[i++] = sb.toString();
 	    sb.setLength(0);
 	}
@@ -297,7 +298,7 @@ public class SPIThemeFactory implements ThemeFactory {
 	// Most specific
 	//
 	if (themeName != null && version != null) {
-	    sb.append(themeName).append("_").append(version);
+	    sb.append(themeName).append(USCORE).append(version);
 	    keys[i++] = sb.toString();
 	    sb.setLength(0);
 	} else // next specific, only theme name.
@@ -599,7 +600,13 @@ public class SPIThemeFactory implements ThemeFactory {
 	    throw e;
 	}
 
-	Iterator iterator = Service.providers(themeService);
+	Iterator iterator = null;
+	try {
+	    iterator = Service.providers(themeService);
+	} catch (Exception e) {
+	    ThemeLogger.log(Level.SEVERE, e.getMessage(), null, e);
+	    throw e;
+	}
 	while (iterator.hasNext()) {
 	    ThemeService spi = (ThemeService)iterator.next();
 	    // get all available themes from all services
@@ -762,6 +769,9 @@ public class SPIThemeFactory implements ThemeFactory {
         
         InputStream in = null;
 	StringBuilder sb = new StringBuilder(32);
+
+	String SLASH = "/";
+	String USCORE = "_";
         
         while (manifests.hasMoreElements()) {
             
@@ -800,8 +810,8 @@ public class SPIThemeFactory implements ThemeFactory {
 		if (themeContext.getThemeServletContext() == null) {
 		    String prefix = readAttribute(themeAttributes, PREFIX);
 		    if (prefix != null) {
-			if (!prefix.startsWith("/")) { //NOI18N
-			    prefix = sb.append("/") //NOI18N
+			if (!prefix.startsWith(SLASH)) {
+			    prefix = sb.append(SLASH)
 				.append(prefix).toString();
 			    sb.setLength(0);
 			}
@@ -809,7 +819,7 @@ public class SPIThemeFactory implements ThemeFactory {
 		    }
 		}
 
-		sb.append(themeName).append("_").append(version);
+		sb.append(themeName).append(USCORE).append(version);
 		// See if we already have resources for this 
 		// themeName and version
 		//

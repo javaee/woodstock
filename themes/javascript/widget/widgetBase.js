@@ -104,8 +104,8 @@ webui.@THEME@.widget.widgetBase.ajaxify = function(module) {
 webui.@THEME@.widget.widgetBase.buildRendering = function (props, frag, parent) {
     // Get default templates.
     if (this.templatePath == null && this.templateString == null) {
-        this.templatePath = webui.@THEME@.theme.getTemplatePath(this.widgetType);
-        this.templateString = webui.@THEME@.theme.getTemplateString(this.widgetType);
+        this.templatePath = webui.@THEME@.theme.common.getTemplatePath(this.widgetType);
+        this.templateString = webui.@THEME@.theme.common.getTemplateString(this.widgetType);
     }
 
     // The templatePath should have precedence. Therefore, in order for the 

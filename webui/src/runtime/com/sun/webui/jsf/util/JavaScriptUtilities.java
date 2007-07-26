@@ -23,6 +23,8 @@ package com.sun.webui.jsf.util;
 
 import com.sun.faces.extensions.avatar.components.ScriptsComponent;
 import com.sun.webui.theme.Theme;
+import com.sun.webui.theme.ThemeContext;
+import com.sun.webui.jsf.theme.JSFThemeContext;
 import com.sun.webui.jsf.theme.ThemeJavascript;
 
 import java.io.IOException;
@@ -34,6 +36,7 @@ import javax.faces.context.ResponseWriter;
 
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.json.JSONArray;
 
 /**
  * This class provides common methods for rendering JavaScript includes, default
@@ -127,7 +130,9 @@ public class JavaScriptUtilities {
             JSONObject json = new JSONObject();
             json.put("isDebug", isDebug())
                 .put("debugAtAllCosts", isDebug())
-                .put("parseWidgets", isParseWidgets());
+                .put("parseWidgets", isParseWidgets())
+                .put(getModuleName("theme"), getThemeJavaScript(
+                    FacesContext.getCurrentInstance()));
 
             // Append djConfig properties.
             buff.append("var djConfig = ")
@@ -158,6 +163,8 @@ public class JavaScriptUtilities {
             .append("\");\n")
             .append(getModule("*"))
             .append("\n")
+            .append(getModule("theme.*"))
+            .append("\n")	
             .append(getModule("widget.*"))
             .append("\n");
 
@@ -286,7 +293,6 @@ public class JavaScriptUtilities {
      *
      * @param context The current FacesContext.
      * @param component The current component being rendered.
-     * @param name The JavaScript object name to append.
      */
     public static String getDomNode(FacesContext context,
             UIComponent component) {
@@ -437,5 +443,94 @@ public class JavaScriptUtilities {
         writer.writeURIAttribute("src", jsFile, null);
         writer.endElement("script");
         writer.write("\n");
+    }
+
+    /**
+     * Return JSONObject containing the following properties in order
+     * to initialize the JavaScript theme.
+     * <ul>
+     * <li>prefix - the application contex plust the theme servlet prefix</li>
+     * <li>module - the value of ThemeJavascript.THEME_MODULE</li>
+     * <li>modulePath - the value of ThemeJavascript.THEME_MODULE_PATH or
+     * ThemeJavascript.THEME_MODULE_PATH_UNCOMPRESSED if in debug mode.</li>
+     * <li>bundle - the value of ThemeJavascript.THEME_BUNDLE</li>
+     * <li>custom - a JSONArray of the application's theme javascript
+     * bundles. @see com.sun.webui.theme.ThemeContext#THEME_RESOURCES </li>
+     * </ul>
+     */
+    private static JSONObject getThemeJavaScript(FacesContext context) 
+            throws JSONException {
+
+	// This is the namespace for the js theme.
+	// It is webui.@THEME@.theme. It is the "module" parameter for
+	// dojo.requireLocalization and dojo.i18n.getLocalization
+	//
+	String themeModule =
+	    getTheme().getJSString(ThemeJavascript.THEME_MODULE);
+
+	// The theme module path prefix.
+	//
+	String themeModulePath = isDebug() ?
+	    getTheme().getJSString(
+		ThemeJavascript.THEME_MODULE_PATH_UNCOMPRESSED) :
+	    getTheme().getJSString(ThemeJavascript.THEME_MODULE_PATH);
+
+	// The "bundle" parameter for 
+	// dojo.requireLocalization and dojo.i18n.getLocalization.
+	// It is the base name for the theme properties js file in the 
+	// nls directories, @THEME@.js
+	//
+	String themeBundle =
+	    getTheme().getJSString(ThemeJavascript.THEME_BUNDLE);
+
+
+	// While "toString" is not supposed to be guaranteed, the javadoc
+	// says it returns the complete lang, country and variant
+	// separated by "underbars".
+	//
+	// It's not clear if we want to be explicit in terms of 
+	// loading an explicit locale. It may be sufficient to 
+	// just allow dojo to load its notion of the "current"
+	// locale.
+	//
+	String dojoLocale = 
+	    context.getViewRoot().getLocale().toString().replaceAll("_", "-");
+
+	// Get the ThemeContext for the application's theme resources
+	// and the appcontext and the theme servlet context combined
+	// in the "getResourcePath" call.
+	//
+	ThemeContext themeContext = JSFThemeContext.getInstance(context);
+
+	// Fool getResourcePath into returning the prefix.
+	// by passing "", since we don't have path, we just want the
+	// prefix. This will have a trailing "/", so get rid of it.
+	//
+	String themePrefix = themeContext.getResourcePath("");
+	int lastSlash = themePrefix.lastIndexOf("/");
+	if (lastSlash > 0) {
+	    themePrefix = themePrefix.substring(0, lastSlash);
+	}
+
+	// Get the application's custom theme package(s).
+	//
+	JSONArray appthemes = null;
+	String appThemeResources[] = themeContext.getThemeResources();
+	if (appThemeResources != null) {
+	    // Format this as a javascript array
+	    //
+	    appthemes = new JSONArray();
+	    for (int i = 0; i < appThemeResources.length; ++i) {
+		appthemes.put(i, appThemeResources[i]);
+	    }
+	}
+        JSONObject json = new JSONObject();
+        json.put("prefix", themePrefix)
+            .put("module", themeModule)
+            .put("modulePath", themeModulePath)
+            .put("bundle", themeBundle)
+            .put("locale", dojoLocale)
+            .put("custom", appthemes);
+        return json;
     }
 }
