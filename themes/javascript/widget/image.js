@@ -22,9 +22,8 @@
 
 dojo.provide("webui.@THEME@.widget.image");
 
-dojo.require("dojo.widget.*");
 dojo.require("dojo.uri.Uri");
-dojo.require("webui.@THEME@.*");
+dojo.require("dojo.widget.*");
 dojo.require("webui.@THEME@.widget.*");
 
 /**

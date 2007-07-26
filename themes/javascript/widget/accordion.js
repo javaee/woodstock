@@ -23,12 +23,6 @@
 dojo.provide("webui.@THEME@.widget.accordion");
 
 dojo.require("dojo.widget.*");
-dojo.require("dojo.html.*");
-dojo.require("dojo.lfx.html");
-dojo.require("dojo.html.selection");
-dojo.require("dojo.widget.html.layout");
-dojo.require("dojo.widget.PageContainer");
-dojo.require("webui.@THEME@.*");
 dojo.require("webui.@THEME@.widget.*");
 
 /**

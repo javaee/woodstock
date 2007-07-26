@@ -23,7 +23,6 @@
 dojo.provide("webui.@THEME@.widget.passwordField");
 
 dojo.require("dojo.widget.*");
-dojo.require("webui.@THEME@.*");
 dojo.require("webui.@THEME@.widget.*");
 dojo.require("webui.@THEME@.widget.fieldBase");
 

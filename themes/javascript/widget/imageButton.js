@@ -23,8 +23,6 @@
 dojo.provide("webui.@THEME@.widget.imageButton");
 
 dojo.require("dojo.widget.*");
-dojo.require("dojo.uri.Uri");
-dojo.require("webui.@THEME@.*");
 dojo.require("webui.@THEME@.widget.*");
 dojo.require("webui.@THEME@.widget.button");
 

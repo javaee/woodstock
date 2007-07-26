@@ -22,8 +22,8 @@
 
 dojo.provide("webui.@THEME@.widget.button");
 
-dojo.require("dojo.widget.*");
 dojo.require("dojo.uri.Uri");
+dojo.require("dojo.widget.*");
 dojo.require("webui.@THEME@.*");
 dojo.require("webui.@THEME@.widget.*");
 

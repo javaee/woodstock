@@ -23,7 +23,7 @@
 dojo.provide("webui.@THEME@.widget.widgetBase");
 
 dojo.require("dojo.widget.*");
-//dojo.require("webui.@THEME@.theme.*"); // To do: Uncomment for client-side theme.
+dojo.require("webui.@THEME@.theme.*");
 
 /**
  * The widgetBase object is used for base functionality in all widgets. It 
