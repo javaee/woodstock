@@ -77,7 +77,12 @@ webui.@THEME@.widget.listbox.addOptions = function(props) {
             
             // Append this <option> node to the <select>
             if (webui.@THEME@.common.browser.is_ie) {
-                this.listContainer.options[this.listContainer.options.length] = thisNode;
+                var idx = this.listContainer.options.length;
+                var isSelected = thisNode.selected;
+                this.listContainer.options[idx] = thisNode;
+                //explicitly set the selected property again!
+                //this is necessary to work around a defect in some versions of IE6
+                this.listContainer.options[idx].selected = isSelected;
             }
             else {
                 this.listContainer.appendChild(thisNode);
