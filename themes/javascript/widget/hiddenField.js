@@ -40,7 +40,7 @@ webui.@THEME@.widget.hiddenField = function() {
  * This function is used to fill in template properties.
  *
  * Note: This is called after the buildRendering() function. Anything to be set 
- * only once should be added here; otherwise, use the setWidgetProps() function.
+ * only once should be added here; otherwise, use the _setProps() function.
  *
  * @param props Key-Value pairs of properties.
  * @param frag HTML fragment.
@@ -55,7 +55,7 @@ webui.@THEME@.widget.hiddenField.fillInTemplate = function(props, frag) {
 
 /**
  * This function is used to get widget properties. Please see the 
- * setWidgetProps() function for a list of supported properties.
+ * _setProps() function for a list of supported properties.
  */
 webui.@THEME@.widget.hiddenField.getProps = function() {
     var props = webui.@THEME@.widget.hiddenField.superclass.getProps.call(this);
@@ -116,7 +116,7 @@ webui.@THEME@.widget.hiddenField.refresh = {
  *
  * @param props Key-Value pairs of properties.
  */
-webui.@THEME@.widget.hiddenField.setWidgetProps = function(props) {
+webui.@THEME@.widget.hiddenField._setProps = function(props) {
     if (props == null) {
         return false;
     }
@@ -128,8 +128,8 @@ webui.@THEME@.widget.hiddenField.setWidgetProps = function(props) {
         this.domNode.disabled = new Boolean(props.disabled).valueOf();
     }
 
-    // Set core props.
-    return webui.@THEME@.widget.hiddenField.superclass.setWidgetProps.call(this, props);
+    // Set remaining properties.
+    return webui.@THEME@.widget.hiddenField.superclass._setProps.call(this, props);
 }
 
 /**
@@ -172,7 +172,7 @@ dojo.lang.extend(webui.@THEME@.widget.hiddenField, {
     fillInTemplate: webui.@THEME@.widget.hiddenField.fillInTemplate,
     getProps: webui.@THEME@.widget.hiddenField.getProps,
     refresh: webui.@THEME@.widget.hiddenField.refresh.processEvent,
-    setWidgetProps: webui.@THEME@.widget.hiddenField.setWidgetProps,
+    _setProps: webui.@THEME@.widget.hiddenField._setProps,
     submit: webui.@THEME@.widget.hiddenField.submit.processEvent,
 
     // Set defaults.

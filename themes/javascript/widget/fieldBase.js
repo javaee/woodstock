@@ -40,7 +40,7 @@ webui.@THEME@.widget.fieldBase = function() {
  * This function is used to fill in template properties.
  *
  * Note: This is called after the buildRendering() function. Anything to be set 
- * only once should be added here; otherwise, use the setWidgetProps() function.
+ * only once should be added here; otherwise, use the _setProps() function.
  *
  * @param props Key-Value pairs of properties.
  * @param frag HTML fragment.
@@ -78,7 +78,7 @@ webui.@THEME@.widget.fieldBase.getInputElement = function() {
 
 /**
  * This function is used to get widget properties. Please see the 
- * setWidgetProps() function for a list of supported properties.
+ * _setProps() function for a list of supported properties.
  */
 webui.@THEME@.widget.fieldBase.getProps = function() {
     var props = webui.@THEME@.widget.fieldBase.superclass.getProps.call(this);
@@ -148,7 +148,7 @@ webui.@THEME@.widget.fieldBase.getProps = function() {
  *
  * @param props Key-Value pairs of properties.
  */
-webui.@THEME@.widget.fieldBase.setWidgetProps = function(props) {
+webui.@THEME@.widget.fieldBase._setProps = function(props) {
     if (props == null) {
         return false;
     }
@@ -192,10 +192,10 @@ webui.@THEME@.widget.fieldBase.setWidgetProps = function(props) {
 
     // Set more properties..
     this.setCommonProps(this.fieldNode, props);
-    this.setJavaScriptProps(this.fieldNode, props);
+    this.setEventProps(this.fieldNode, props);
 
-    // Set core props.
-    return webui.@THEME@.widget.fieldBase.superclass.setWidgetProps.call(this, props);
+    // Set remaining properties.
+    return webui.@THEME@.widget.fieldBase.superclass._setProps.call(this, props);
 }
 
 // Inherit base widget properties.
@@ -208,7 +208,7 @@ dojo.lang.extend(webui.@THEME@.widget.fieldBase, {
     getInputClassName: webui.@THEME@.widget.fieldBase.getInputClassName,
     getInputElement: webui.@THEME@.widget.fieldBase.getInputElement,
     getProps: webui.@THEME@.widget.fieldBase.getProps,
-    setWidgetProps: webui.@THEME@.widget.fieldBase.setWidgetProps,
+    _setProps: webui.@THEME@.widget.fieldBase._setProps,
     
     // Set defaults.
     disabled: false,

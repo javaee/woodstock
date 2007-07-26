@@ -40,7 +40,7 @@ webui.@THEME@.widget.alert = function() {
  * This function is used to fill in template properties.
  *
  * Note: This is called after the buildRendering() function. Anything to be set 
- * only once should be added here; otherwise, use the setWidgetProps() function.
+ * only once should be added here; otherwise, use the _setProps() function.
  *
  * @param props Key-Value pairs of properties.
  * @param frag HTML fragment.
@@ -68,7 +68,7 @@ webui.@THEME@.widget.alert.fillInTemplate = function(props, frag) {
 
 /**
  * This function is used to get widget properties. Please see the 
- * setWidgetProps() function for a list of supported properties.
+ * _setProps() function for a list of supported properties.
  */
 webui.@THEME@.widget.alert.getProps = function() {
     var props = webui.@THEME@.widget.alert.superclass.getProps.call(this);
@@ -138,7 +138,7 @@ webui.@THEME@.widget.alert.refresh = {
  *
  * @param props Key-Value pairs of properties.
  */
-webui.@THEME@.widget.alert.setWidgetProps = function(props) {
+webui.@THEME@.widget.alert._setProps = function(props) {
     if (props == null) {
         return false;
     }
@@ -214,8 +214,8 @@ webui.@THEME@.widget.alert.setWidgetProps = function(props) {
     // Do not call setCommonProps() as that will result in assigning image 
     // specific properties to outermost domNode. 
 
-    // Set core props.
-    return webui.@THEME@.widget.alert.superclass.setWidgetProps.call(this, props);
+    // Set remaining properties.
+    return webui.@THEME@.widget.alert.superclass._setProps.call(this, props);
 }
 
 /**
@@ -256,7 +256,7 @@ dojo.lang.extend(webui.@THEME@.widget.alert, {
     fillInTemplate: webui.@THEME@.widget.alert.fillInTemplate,
     getProps: webui.@THEME@.widget.alert.getProps,
     refresh: webui.@THEME@.widget.alert.refresh.processEvent,
-    setWidgetProps: webui.@THEME@.widget.alert.setWidgetProps,
+    _setProps: webui.@THEME@.widget.alert._setProps,
     validate: webui.@THEME@.widget.alert.validation.processEvent,
 
     // Set defaults.

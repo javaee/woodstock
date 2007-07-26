@@ -140,7 +140,7 @@ webui.@THEME@.widget.editableField.edit = {
  * This function is used to fill in template properties.
  *
  * Note: This is called after the buildRendering() function. Anything to be set 
- * only once should be added here; otherwise, use the setWidgetProps() function.
+ * only once should be added here; otherwise, use the _setProps() function.
  *
  * @param props Key-Value pairs of properties.
  * @param frag HTML fragment.
@@ -176,7 +176,7 @@ webui.@THEME@.widget.editableField.getInputClassName = function() {
 
 /**
  * This function is used to get widget properties. Please see the 
- * setWidgetProps() function for a list of supported properties.
+ * _setProps() function for a list of supported properties.
  */
 webui.@THEME@.widget.editableField.getProps = function() {
     var props = webui.@THEME@.widget.editableField.superclass.getProps.call(this);
@@ -260,7 +260,7 @@ webui.@THEME@.widget.editableField.refresh = {
  *
  * @param props Key-Value pairs of properties.
  */
-webui.@THEME@.widget.editableField.setWidgetProps = function(props) {
+webui.@THEME@.widget.editableField._setProps = function(props) {
     if (props == null) {
         return false;
     }
@@ -271,8 +271,8 @@ webui.@THEME@.widget.editableField.setWidgetProps = function(props) {
     // Set properties.
     if (props.autoSave != null) { this.autoSave = props.autoSave; }
 
-    // Set core props.
-    return webui.@THEME@.widget.editableField.superclass.setWidgetProps.call(this, props);
+    // Set remaining properties.
+    return webui.@THEME@.widget.editableField.superclass._setProps.call(this, props);
 }
 
 /** 
@@ -318,7 +318,7 @@ dojo.lang.extend(webui.@THEME@.widget.editableField, {
     getInputClassName: webui.@THEME@.widget.editableField.getInputClassName,
     getProps: webui.@THEME@.widget.editableField.getProps,
     refresh: webui.@THEME@.widget.editableField.refresh.processEvent,
-    setWidgetProps: webui.@THEME@.widget.editableField.setWidgetProps,
+    _setProps: webui.@THEME@.widget.editableField._setProps,
     submit: webui.@THEME@.widget.editableField.submit.processEvent,
 
     // Set defaults.

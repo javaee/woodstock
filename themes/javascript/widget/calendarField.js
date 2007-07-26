@@ -65,7 +65,7 @@ webui.@THEME@.widget.calendarField.dayClicked = function(props) {
  * This function is used to fill in template properties.
  *
  * Note: This is called after the buildRendering() function. Anything to be set 
- * only once should be added here; otherwise, use the setWidgetProps() function.
+ * only once should be added here; otherwise, use the _setProps() function.
  *
  * @param props Key-Value pairs of properties.
  * @param frag HTML fragment.
@@ -110,7 +110,7 @@ webui.@THEME@.widget.calendarField.getClassName = function(classNames) {
 
 /**
  * This function is used to get widget properties. Please see the 
- * setWidgetProps() function for a list of supported properties.
+ * _setProps() function for a list of supported properties.
  */
 webui.@THEME@.widget.calendarField.getProps = function() {
     var props = webui.@THEME@.widget.calendarField.superclass.getProps.call(this);
@@ -197,7 +197,7 @@ webui.@THEME@.widget.calendarField.refresh = {
  *
  * @param props Key-Value pairs of properties.
  */
-webui.@THEME@.widget.calendarField.setWidgetProps = function(props) {
+webui.@THEME@.widget.calendarField._setProps = function(props) {
     if (props == null) {
         return false;
     }
@@ -227,8 +227,8 @@ webui.@THEME@.widget.calendarField.setWidgetProps = function(props) {
         this.addFragment(this.inlineHelpNode, props.patternHelp);
     }
 
-    // Set core props.
-    return webui.@THEME@.widget.calendarField.superclass.setWidgetProps.call(this, props);
+    // Set remaining properties.
+    return webui.@THEME@.widget.calendarField.superclass._setProps.call(this, props);
 }
 
 /**
@@ -263,7 +263,7 @@ dojo.lang.extend(webui.@THEME@.widget.calendarField, {
     getClassName: webui.@THEME@.widget.calendarField.getClassName,
     getProps: webui.@THEME@.widget.calendarField.getProps,
     refresh: webui.@THEME@.widget.calendarField.refresh.processEvent,
-    setWidgetProps: webui.@THEME@.widget.calendarField.setWidgetProps,
+    _setProps: webui.@THEME@.widget.calendarField._setProps,
     toggleCalendar: webui.@THEME@.widget.calendarField.toggleCalendar,
 
     // Set defaults.

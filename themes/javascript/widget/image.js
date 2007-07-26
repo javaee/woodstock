@@ -39,7 +39,7 @@ webui.@THEME@.widget.image = function() {
 
 /**
  * This function is used to get widget properties. Please see the 
- * setWidgetProps() function for a list of supported properties.
+ * _setProps() function for a list of supported properties.
  */
 webui.@THEME@.widget.image.getProps = function() {
     var props = webui.@THEME@.widget.image.superclass.getProps.call(this);
@@ -92,7 +92,7 @@ webui.@THEME@.widget.image.refresh = {
 
 /**
  * This function is used to set widget properties. Please see the 
- * setWidgetProps() function for a list of supported properties.
+ * _setProps() function for a list of supported properties.
  *
  * Note: This function updates the widget object for later updates. Further, the
  * widget shall be updated only for the given key-value pairs.
@@ -111,7 +111,7 @@ webui.@THEME@.widget.image.setProps = function(props) {
     Object.extend(this, props);
 
     // Set properties.
-    return this.setWidgetProps(props);
+    return this._setProps(props);
 }
 
 /**
@@ -153,7 +153,7 @@ webui.@THEME@.widget.image.setProps = function(props) {
  *
  * @param props Key-Value pairs of properties.
  */
-webui.@THEME@.widget.image.setWidgetProps = function(props) {
+webui.@THEME@.widget.image._setProps = function(props) {
     if (props == null) {
         return false;
     }
@@ -171,10 +171,10 @@ webui.@THEME@.widget.image.setWidgetProps = function(props) {
 
     // Set more properties.
     this.setCommonProps(this.domNode, props);
-    this.setJavaScriptProps(this.domNode, props);
+    this.setEventProps(this.domNode, props);
 
-    // Set core props.
-    return webui.@THEME@.widget.image.superclass.setWidgetProps.call(this, props);
+    // Set remaining properties.
+    return webui.@THEME@.widget.image.superclass._setProps.call(this, props);
 }
 
 // Inherit base widget properties.
@@ -186,7 +186,7 @@ dojo.lang.extend(webui.@THEME@.widget.image, {
     getProps: webui.@THEME@.widget.image.getProps,
     refresh: webui.@THEME@.widget.image.refresh.processEvent,
     setProps: webui.@THEME@.widget.image.setProps,
-    setWidgetProps: webui.@THEME@.widget.image.setWidgetProps,
+    _setProps: webui.@THEME@.widget.image._setProps,
 
     // Set defaults.
     border: 0,

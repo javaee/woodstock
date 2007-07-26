@@ -96,7 +96,7 @@ webui.@THEME@.widget.table2RowGroup.addRows = function(rows) {
  * This function is used to fill in template properties.
  *
  * Note: This is called after the buildRendering() function. Anything to be set 
- * only once should be added here; otherwise, use the setWidgetProps() function.
+ * only once should be added here; otherwise, use the _setProps() function.
  *
  * @param props Key-Value pairs of properties.
  * @param frag HTML fragment.
@@ -139,7 +139,7 @@ webui.@THEME@.widget.table2RowGroup.fillInTemplate = function(props, frag) {
 
 /**
  * This function is used to get widget properties. Please see the 
- * setWidgetProps() function for a list of supported properties.
+ * _setProps() function for a list of supported properties.
  */
 webui.@THEME@.widget.table2RowGroup.getProps = function() {
     var props = webui.@THEME@.widget.table2RowGroup.superclass.getProps.call(this);
@@ -329,7 +329,7 @@ webui.@THEME@.widget.table2RowGroup.setHeight = function() {
 
 /**
  * This function is used to set widget properties. Please see the 
- * setWidgetProps() function for a list of supported properties.
+ * _setProps() function for a list of supported properties.
  *
  * Note: This function updates the widget object for later updates. Further, the
  * widget shall be updated only for the given key-value pairs.
@@ -356,25 +356,6 @@ webui.@THEME@.widget.table2RowGroup.setProps = function(props) {
 }
 
 /**
- * This function is used to set rows text (e.g., "1 - 5 of 20").
- */
-webui.@THEME@.widget.table2RowGroup.setRowsText = function() {
-
-    // To do: Localize & add filter text.
-
-    // Add title augment.
-    var firstRow = this.currentRow + 1;
-    var lastRow = Math.min(this.totalRows,
-        this.currentRow + this.maxRows);
-
-    // NOTE: If you set this value manually, text must be HTML escaped.
-    this.addFragment(this.groupHeaderRowsTextNode, 
-        "Items: " + firstRow + " - " + lastRow + " of " + this.totalRows);
-
-    return true;
-}
-
-/**
  * This function is used to set widget properties with the following 
  * Object literals.
  *
@@ -395,7 +376,7 @@ webui.@THEME@.widget.table2RowGroup.setRowsText = function() {
  *
  * @param props Key-Value pairs of properties.
  */
-webui.@THEME@.widget.table2RowGroup.setWidgetProps = function(props) {
+webui.@THEME@.widget.table2RowGroup._setProps = function(props) {
     if (props == null) {
         return false;
     }
@@ -435,10 +416,29 @@ webui.@THEME@.widget.table2RowGroup.setWidgetProps = function(props) {
 
     // Set more properties..
     this.setCommonProps(this.domNode, props);
-    this.setJavaScriptProps(this.domNode, props);
+    this.setEventProps(this.domNode, props);
 
-    // Set core props.
-    return webui.@THEME@.widget.table2RowGroup.superclass.setWidgetProps.call(this, props);
+    // Set remaining properties.
+    return webui.@THEME@.widget.table2RowGroup.superclass._setProps.call(this, props);
+}
+
+/**
+ * This function is used to set rows text (e.g., "1 - 5 of 20").
+ */
+webui.@THEME@.widget.table2RowGroup.setRowsText = function() {
+
+    // To do: Localize & add filter text.
+
+    // Add title augment.
+    var firstRow = this.currentRow + 1;
+    var lastRow = Math.min(this.totalRows,
+        this.currentRow + this.maxRows);
+
+    // NOTE: If you set this value manually, text must be HTML escaped.
+    this.addFragment(this.groupHeaderRowsTextNode, 
+        "Items: " + firstRow + " - " + lastRow + " of " + this.totalRows);
+
+    return true;
 }
 
 /**
@@ -525,8 +525,8 @@ dojo.lang.extend(webui.@THEME@.widget.table2RowGroup, {
     setColumns: webui.@THEME@.widget.table2RowGroup.setColumns,
     setHeight: webui.@THEME@.widget.table2RowGroup.setHeight,
     setProps: webui.@THEME@.widget.table2RowGroup.setProps,
+    _setProps: webui.@THEME@.widget.table2RowGroup._setProps,
     setRowsText: webui.@THEME@.widget.table2RowGroup.setRowsText,
-    setWidgetProps: webui.@THEME@.widget.table2RowGroup.setWidgetProps,
 
     // Set defaults.
     first: 0, // Index used to obtain rows.

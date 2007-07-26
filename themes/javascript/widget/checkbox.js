@@ -40,7 +40,7 @@ webui.@THEME@.widget.checkbox = function() {
  * This function is used to fill in template properties.
  *
  * Note: This is called after the buildRendering() function. Anything to be set 
- * only once should be added here; otherwise, use the setWidgetProps() function.
+ * only once should be added here; otherwise, use the _setProps() function.
  *
  * @param props Key-Value pairs of properties.
  * @param frag HTML fragment.
@@ -114,7 +114,7 @@ webui.@THEME@.widget.checkbox.getLabelClassName = function() {
 
 /**
  * This function is used to get widget properties. Please see the 
- * setWidgetProps() function for a list of supported properties.
+ * _setProps() function for a list of supported properties.
  */
 webui.@THEME@.widget.checkbox.getProps = function() {
     var props = webui.@THEME@.widget.checkbox.superclass.getProps.call(this);
@@ -214,7 +214,7 @@ webui.@THEME@.widget.checkbox.refresh = {
  *
  * @param props Key-Value pairs of properties.
  */
-webui.@THEME@.widget.checkbox.setWidgetProps = function(props) {
+webui.@THEME@.widget.checkbox._setProps = function(props) {
     if (props == null) {
         return false;
     }
@@ -293,10 +293,10 @@ webui.@THEME@.widget.checkbox.setWidgetProps = function(props) {
 
     // Set more properties.
     this.setCommonProps(this.inputNode, props);
-    this.setJavaScriptProps(this.inputNode, props);
+    this.setEventProps(this.inputNode, props);
 
-    // Set core props.
-    return webui.@THEME@.widget.checkbox.superclass.setWidgetProps.call(this, props);
+    // Set remaining properties.
+    return webui.@THEME@.widget.checkbox.superclass._setProps.call(this, props);
 }
 
 /**
@@ -344,7 +344,7 @@ dojo.lang.extend(webui.@THEME@.widget.checkbox, {
     getLabelClassName: webui.@THEME@.widget.checkbox.getLabelClassName,
     getProps: webui.@THEME@.widget.checkbox.getProps,
     refresh: webui.@THEME@.widget.checkbox.refresh.processEvent,
-    setWidgetProps: webui.@THEME@.widget.checkbox.setWidgetProps,
+    _setProps: webui.@THEME@.widget.checkbox._setProps,
     submit: webui.@THEME@.widget.checkbox.submit.processEvent,
 
     // Set defaults.

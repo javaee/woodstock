@@ -41,7 +41,7 @@ webui.@THEME@.widget.textField = function() {
  * This function is used to fill in template properties.
  *
  * Note: This is called after the buildRendering() function. Anything to be set 
- * only once should be added here; otherwise, use the setWidgetProps() function.
+ * only once should be added here; otherwise, use the _setProps() function.
  *
  * @param props Key-Value pairs of properties.
  * @param frag HTML fragment.
@@ -73,7 +73,7 @@ webui.@THEME@.widget.textField.getInputClassName = function() {
 
 /**
  * This function is used to get widget properties. Please see the 
- * setWidgetProps() function for a list of supported properties.
+ * _setProps() function for a list of supported properties.
  */
 webui.@THEME@.widget.textField.getProps = function() {
     var props = webui.@THEME@.widget.textField.superclass.getProps.call(this);

@@ -40,7 +40,7 @@ webui.@THEME@.widget.table2 = function() {
  * This function is used to fill in template properties.
  *
  * Note: This is called after the buildRendering() function. Anything to be set 
- * only once should be added here; otherwise, use the setWidgetProps() function.
+ * only once should be added here; otherwise, use the _setProps() function.
  *
  * @param props Key-Value pairs of properties.
  * @param frag HTML fragment.
@@ -64,7 +64,7 @@ webui.@THEME@.widget.table2.fillInTemplate = function(props, frag) {
 
 /**
  * This function is used to get widget properties. Please see the 
- * setWidgetProps() function for a list of supported properties.
+ * _setProps() function for a list of supported properties.
  */
 webui.@THEME@.widget.table2.getProps = function() {
     var props = webui.@THEME@.widget.table2.superclass.getProps.call(this);
@@ -112,7 +112,7 @@ webui.@THEME@.widget.table2.refresh = {
 
 /**
  * This function is used to set widget properties. Please see the 
- * setWidgetProps() function for a list of supported properties.
+ * _setProps() function for a list of supported properties.
  *
  * Note: This function updates the widget object for later updates. Further, the
  * widget shall be updated only for the given key-value pairs.
@@ -156,7 +156,7 @@ webui.@THEME@.widget.table2.setProps = function(props) {
  *
  * @param props Key-Value pairs of properties.
  */
-webui.@THEME@.widget.table2.setWidgetProps = function(props) {
+webui.@THEME@.widget.table2._setProps = function(props) {
     if (props == null) {
         return false;
     }
@@ -196,10 +196,10 @@ webui.@THEME@.widget.table2.setWidgetProps = function(props) {
 
     // Set more properties..
     this.setCommonProps(this.domNode, props);
-    this.setJavaScriptProps(this.domNode, props);
+    this.setEventProps(this.domNode, props);
 
-    // Set core props.
-    return webui.@THEME@.widget.table2.superclass.setWidgetProps.call(this, props);
+    // Set remaining properties.
+    return webui.@THEME@.widget.table2.superclass._setProps.call(this, props);
 }
 
 // Inherit base widget properties.
@@ -212,7 +212,7 @@ dojo.lang.extend(webui.@THEME@.widget.table2, {
     getProps: webui.@THEME@.widget.table2.getProps,
     refresh: webui.@THEME@.widget.table2.refresh.processEvent,
     setProps: webui.@THEME@.widget.table2.setProps,
-    setWidgetProps: webui.@THEME@.widget.table2.setWidgetProps,
+    _setProps: webui.@THEME@.widget.table2._setProps,
 
     // Set defaults.
     widgetType: "table2"

@@ -80,7 +80,7 @@ webui.@THEME@.widget.bubble.createCloseCallback = function(id) {
  * This function is used to fill in template properties.
  *
  * Note: This is called after the buildRendering() function. Anything to be set 
- * only once should be added here; otherwise, use the setWidgetProps() function.
+ * only once should be added here; otherwise, use the _setProps() function.
  *
  * @param props Key-Value pairs of properties.
  * @param frag HTML fragment.
@@ -206,7 +206,7 @@ webui.@THEME@.widget.bubble.getPageWidth = function() {
 
 /**
  * This function is used to get widget properties. Please see the 
- * setWidgetProps() function for a list of supported properties.
+ * _setProps() function for a list of supported properties.
  */
 webui.@THEME@.widget.bubble.getProps = function() {
     var props = webui.@THEME@.widget.bubble.superclass.getProps.call(this);
@@ -411,7 +411,7 @@ webui.@THEME@.widget.bubble.setPosition = function(evt) {
 
 /**
  * This function is used to set widget properties. Please see the 
- * setWidgetProps() function for a list of supported properties.
+ * _setProps() function for a list of supported properties.
  *
  * Note: This function updates the widget object for later updates. Further, the
  * widget shall be updated only for the given key-value pairs.
@@ -451,7 +451,7 @@ webui.@THEME@.widget.bubble.setProps = function(props) {
  *
  * @param props Key-Value pairs of properties.
  */
-webui.@THEME@.widget.bubble.setWidgetProps = function(props) {
+webui.@THEME@.widget.bubble._setProps = function(props) {
     if (props == null) {
         return false;
     }
@@ -476,8 +476,8 @@ webui.@THEME@.widget.bubble.setWidgetProps = function(props) {
         }
     }
 
-    // Set core props.
-    return webui.@THEME@.widget.bubble.superclass.setWidgetProps.call(this, props);
+    // Set remaining properties.
+    return webui.@THEME@.widget.bubble.superclass._setProps.call(this, props);
 }
 
 dojo.inherits(webui.@THEME@.widget.bubble, webui.@THEME@.widget.widgetBase);
@@ -495,7 +495,7 @@ dojo.lang.extend(webui.@THEME@.widget.bubble, {
     refresh: webui.@THEME@.widget.bubble.refresh.processEvent,
     setPosition: webui.@THEME@.widget.bubble.setPosition,
     setProps: webui.@THEME@.widget.bubble.setProps,
-    setWidgetProps: webui.@THEME@.widget.bubble.setWidgetProps,
+    _setProps: webui.@THEME@.widget.bubble._setProps,
     
     // Set defaults.
     defaultTime: 2000,

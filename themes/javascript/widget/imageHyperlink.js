@@ -58,7 +58,7 @@ webui.@THEME@.widget.imageHyperlink.addContents = function(props) {
  * This function is used to fill in template properties.
  *
  * Note: This is called after the buildRendering() function. Anything to be set 
- * only once should be added here; otherwise, use the setWidgetProps() function.
+ * only once should be added here; otherwise, use the _setProps() function.
  *
  * @param props Key-Value pairs of properties.
  * @param frag HTML fragment.
@@ -87,7 +87,7 @@ webui.@THEME@.widget.imageHyperlink.fillInTemplate = function(props, frag) {
 
 /**
  * This function is used to get widget properties. Please see the 
- * setWidgetProps() function for a list of supported properties.
+ * _setProps() function for a list of supported properties.
  */
 webui.@THEME@.widget.imageHyperlink.getProps = function() {
     var props = webui.@THEME@.widget.imageHyperlink.superclass.getProps.call(this);
@@ -171,7 +171,7 @@ webui.@THEME@.widget.imageHyperlink.refresh = {
  *
  * @param props Key-Value pairs of properties.
  */
-webui.@THEME@.widget.imageHyperlink.setWidgetProps = function(props) {
+webui.@THEME@.widget.imageHyperlink._setProps = function(props) {
     if (props == null) {
         return false;
     }
@@ -207,8 +207,8 @@ webui.@THEME@.widget.imageHyperlink.setWidgetProps = function(props) {
     // Add contents.
     this.addContents(props);
 
-    // Set core props.
-    return webui.@THEME@.widget.imageHyperlink.superclass.setWidgetProps.call(this, props);
+    // Set remaining properties.
+    return webui.@THEME@.widget.imageHyperlink.superclass._setProps.call(this, props);
 }
 
 // Inherit base widget properties.
@@ -221,7 +221,7 @@ dojo.lang.extend(webui.@THEME@.widget.imageHyperlink, {
     fillInTemplate: webui.@THEME@.widget.imageHyperlink.fillInTemplate,
     getProps: webui.@THEME@.widget.imageHyperlink.getProps,
     refresh: webui.@THEME@.widget.imageHyperlink.refresh.processEvent,
-    setWidgetProps: webui.@THEME@.widget.imageHyperlink.setWidgetProps,
+    _setProps: webui.@THEME@.widget.imageHyperlink._setProps,
 
     // Set defaults.
     widgetType: "imageHyperlink"

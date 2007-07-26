@@ -319,7 +319,7 @@ webui.@THEME@.widget.calendar.decreaseMonth = function() {
  * This function is used to fill in template properties.
  *
  * Note: This is called after the buildRendering() function. Anything to be set 
- * only once should be added here; otherwise, use the setWidgetProps() function.
+ * only once should be added here; otherwise, use the _setProps() function.
  *
  * @param props Key-Value pairs of properties.
  * @param frag HTML fragment.
@@ -362,7 +362,7 @@ webui.@THEME@.widget.calendar.formatDate = function(month, day, year) {
 
 /**
  * This function is used to get widget properties. Please see the 
- * setWidgetProps() function for a list of supported properties.
+ * _setProps() function for a list of supported properties.
  */
 webui.@THEME@.widget.calendar.getProps = function() {
     var props = webui.@THEME@.widget.calendar.superclass.getProps.call(this);
@@ -557,22 +557,6 @@ webui.@THEME@.widget.calendar.setLimitedSelectedValue = function(select, value) 
 }
 
 /**
- * This function is used to set the value of a select element.
- *
- * @param select The HTML select element.
- * @param value The selected value.
- */
-webui.@THEME@.widget.calendar.setSelectedValue = function(select, value) {
-    for (var i = 0; i < select.length; i++) {
-        if (select.options[i].value == value) {
-            select.selectedIndex = i;
-            return;
-        }
-    }
-    select.selectedIndex = -1;
-}
-
-/**
  * This function is used to set widget properties with the following 
  * Object literals.
  *
@@ -597,7 +581,7 @@ webui.@THEME@.widget.calendar.setSelectedValue = function(select, value) {
  *
  * @param props Key-Value pairs of properties.
  */
-webui.@THEME@.widget.calendar.setWidgetProps = function(props) {
+webui.@THEME@.widget.calendar._setProps = function(props) {
     if (props == null) {
         return false;
     }
@@ -703,8 +687,24 @@ webui.@THEME@.widget.calendar.setWidgetProps = function(props) {
     // Set more properties.
     this.setCommonProps(this.domNode, props);
 
-    // Set core props.
-    return webui.@THEME@.widget.calendar.superclass.setWidgetProps.call(this, props);
+    // Set remaining properties.
+    return webui.@THEME@.widget.calendar.superclass._setProps.call(this, props);
+}
+
+/**
+ * This function is used to set the value of a select element.
+ *
+ * @param select The HTML select element.
+ * @param value The selected value.
+ */
+webui.@THEME@.widget.calendar.setSelectedValue = function(select, value) {
+    for (var i = 0; i < select.length; i++) {
+        if (select.options[i].value == value) {
+            select.selectedIndex = i;
+            return;
+        }
+    }
+    select.selectedIndex = -1;
 }
 
 /**
@@ -776,11 +776,11 @@ dojo.lang.extend(webui.@THEME@.widget.calendar, {
     formatDate: webui.@THEME@.widget.calendar.formatDate,
     getProps: webui.@THEME@.widget.calendar.getProps,
     increaseMonth: webui.@THEME@.widget.calendar.increaseMonth,
-    setCurrentValue: webui.@THEME@.widget.calendar.setCurrentValue,    
-    setInitialFocus:webui.@THEME@.widget.calendar.setInitialFocus, 
+    setCurrentValue: webui.@THEME@.widget.calendar.setCurrentValue,
+    setInitialFocus:webui.@THEME@.widget.calendar.setInitialFocus,
     setLimitedSelectedValue: webui.@THEME@.widget.calendar.setLimitedSelectedValue,
+    _setProps: webui.@THEME@.widget.calendar._setProps,
     setSelectedValue: webui.@THEME@.widget.calendar.setSelectedValue,
-    setWidgetProps: webui.@THEME@.widget.calendar.setWidgetProps,
     toggleCalendar: webui.@THEME@.widget.calendar.toggleCalendar.processEvent,
     updateMonth: webui.@THEME@.widget.calendar.updateMonth,
        

@@ -66,7 +66,7 @@ webui.@THEME@.widget.textArea.createSubmitCallback = function(id) {
  * This function is used to fill in template properties.
  *
  * Note: This is called after the buildRendering() function. Anything to be set 
- * only once should be added here; otherwise, use the setWidgetProps() function.
+ * only once should be added here; otherwise, use the _setProps() function.
  *
  * @param props Key-Value pairs of properties.
  * @param frag HTML fragment.
@@ -95,7 +95,7 @@ webui.@THEME@.widget.textArea.getInputClassName = function() {
 
 /**
  * This function is used to get widget properties. Please see the 
- * setWidgetProps() function for a list of supported properties.
+ * _setProps() function for a list of supported properties.
  */
 webui.@THEME@.widget.textArea.getProps = function() {
     var props = webui.@THEME@.widget.textArea.superclass.getProps.call(this);
@@ -180,7 +180,7 @@ webui.@THEME@.widget.textArea.refresh = {
  *
  * @param props Key-Value pairs of properties.
  */
-webui.@THEME@.widget.textArea.setWidgetProps = function(props) {
+webui.@THEME@.widget.textArea._setProps = function(props) {
     if (props == null) {
         return false;
     }
@@ -202,8 +202,8 @@ webui.@THEME@.widget.textArea.setWidgetProps = function(props) {
             : webui.@THEME@.widget.props.textArea.labelTopAlignStyle;
     }
 
-    // Set core props.
-    return webui.@THEME@.widget.textArea.superclass.setWidgetProps.call(this, props);
+    // Set remaining properties.
+    return webui.@THEME@.widget.textArea.superclass._setProps.call(this, props);
 }
 
 /**
@@ -248,7 +248,7 @@ dojo.lang.extend(webui.@THEME@.widget.textArea, {
     getInputClassName: webui.@THEME@.widget.textArea.getInputClassName,
     getProps: webui.@THEME@.widget.textArea.getProps,
     refresh: webui.@THEME@.widget.textArea.refresh.processEvent,
-    setWidgetProps: webui.@THEME@.widget.textArea.setWidgetProps,
+    _setProps: webui.@THEME@.widget.textArea._setProps,
     submit: webui.@THEME@.widget.textArea.submit.processEvent,
     
     // Set defaults.

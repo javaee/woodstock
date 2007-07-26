@@ -149,7 +149,7 @@ webui.@THEME@.widget.radioButton.refresh = {
  *
  * @param props Key-Value pairs of properties.
  */
-webui.@THEME@.widget.radioButton.setWidgetProps = function(props) {
+webui.@THEME@.widget.radioButton._setProps = function(props) {
     if (props == null) {
         return false;
     }
@@ -170,8 +170,8 @@ webui.@THEME@.widget.radioButton.setWidgetProps = function(props) {
         this.inputNode.name = props.name;
     }
 
-    // Set core props.
-    return webui.@THEME@.widget.radioButton.superclass.setWidgetProps.call(this, props);
+    // Set remaining properties.
+    return webui.@THEME@.widget.radioButton.superclass._setProps.call(this, props);
 }
 
 /**
@@ -216,7 +216,7 @@ dojo.lang.extend(webui.@THEME@.widget.radioButton, {
     getImageClassName: webui.@THEME@.widget.radioButton.getImageClassName,
     getLabelClassName: webui.@THEME@.widget.radioButton.getLabelClassName,
     refresh: webui.@THEME@.widget.radioButton.refresh.processEvent,
-    setWidgetProps: webui.@THEME@.widget.radioButton.setWidgetProps,
+    _setProps: webui.@THEME@.widget.radioButton._setProps,
     submit: webui.@THEME@.widget.radioButton.submit.processEvent,
 
     // Set defaults.

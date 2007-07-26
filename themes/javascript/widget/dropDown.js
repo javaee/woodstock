@@ -41,7 +41,7 @@ webui.@THEME@.widget.dropDown = function() {
  * This function is used to fill in template properties.
  *
  * Note: This is called after the buildRendering() function. Anything to be set 
- * only once should be added here; otherwise, use the setWidgetProps() function.
+ * only once should be added here; otherwise, use the _setProps() function.
  *
  * @param props Key-Value pairs of properties.
  * @param frag HTML fragment.
@@ -58,7 +58,7 @@ webui.@THEME@.widget.dropDown.fillInTemplate = function(props, frag) {
 
 /**
  * This function is used to get widget properties. Please see the 
- * setWidgetProps() function for a list of supported properties.
+ * _setProps() function for a list of supported properties.
  */
 webui.@THEME@.widget.dropDown.getProps = function() {
     var props = webui.@THEME@.widget.dropDown.superclass.getProps.call(this);
@@ -208,7 +208,7 @@ webui.@THEME@.widget.dropDown.changed = function() {
  *
  * @param props Key-Value pairs of properties.
  */
-webui.@THEME@.widget.dropDown.setWidgetProps = function(props) {
+webui.@THEME@.widget.dropDown._setProps = function(props) {
     if (props == null) {
         return false;
     }
@@ -219,8 +219,8 @@ webui.@THEME@.widget.dropDown.setWidgetProps = function(props) {
         this.submitterHiddenNode.value = "false";
     }
 
-    // Set core props.
-    return webui.@THEME@.widget.dropDown.superclass.setWidgetProps.call(this, props);
+    // Set remaining properties.
+    return webui.@THEME@.widget.dropDown.superclass._setProps.call(this, props);
 }
 
 /**
@@ -266,7 +266,7 @@ dojo.lang.extend(webui.@THEME@.widget.dropDown, {
     getProps: webui.@THEME@.widget.dropDown.getProps,
     initialize: webui.@THEME@.widget.dropDown.initialize,
     refresh: webui.@THEME@.widget.dropDown.refresh.processEvent,
-    setWidgetProps: webui.@THEME@.widget.dropDown.setWidgetProps,
+    _setProps: webui.@THEME@.widget.dropDown._setProps,
     submit: webui.@THEME@.widget.dropDown.submit.processEvent,
 
     // Set defaults.

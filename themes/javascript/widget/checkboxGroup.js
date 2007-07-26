@@ -86,7 +86,7 @@ webui.@THEME@.widget.checkboxGroup.addContents = function(props) {
  * This function is used to fill in template properties.
  *
  * Note: This is called after the buildRendering() function. Anything to be set 
- * only once should be added here; otherwise, use the setWidgetProps() function.
+ * only once should be added here; otherwise, use the _setProps() function.
  *
  * @param props Key-Value pairs of properties.
  * @param frag HTML fragment.
@@ -134,7 +134,7 @@ webui.@THEME@.widget.checkboxGroup.getClassName = function(classNames) {
 
 /**
  * This function is used to get widget properties. Please see the 
- * setWidgetProps() function for a list of supported properties.
+ * _setProps() function for a list of supported properties.
  */
 webui.@THEME@.widget.checkboxGroup.getProps = function() {
     var props = webui.@THEME@.widget.checkboxGroup.superclass.getProps.call(this);
@@ -185,7 +185,7 @@ webui.@THEME@.widget.checkboxGroup.refresh = {
 
 /**
  * This function is used to set widget properties. Please see the 
- * setWidgetProps() function for a list of supported properties.
+ * _setProps() function for a list of supported properties.
  *
  * Note: This function updates the widget object for later updates. Further, the
  * widget shall be updated only for the given key-value pairs.
@@ -233,7 +233,7 @@ webui.@THEME@.widget.checkboxGroup.setProps = function(props) {
  *
  * @param props Key-Value pairs of properties.
  */
-webui.@THEME@.widget.checkboxGroup.setWidgetProps = function(props) {
+webui.@THEME@.widget.checkboxGroup._setProps = function(props) {
     if (props == null) {
         return false;
     }
@@ -257,8 +257,8 @@ webui.@THEME@.widget.checkboxGroup.setWidgetProps = function(props) {
         this.addContents(props);   
     }
 
-    // Set core props.
-    return webui.@THEME@.widget.checkboxGroup.superclass.setWidgetProps.call(this, props);
+    // Set remaining properties.
+    return webui.@THEME@.widget.checkboxGroup.superclass._setProps.call(this, props);
 }
 
 // Inherit base widget properties.
@@ -273,7 +273,7 @@ dojo.lang.extend(webui.@THEME@.widget.checkboxGroup, {
     getProps: webui.@THEME@.widget.checkboxGroup.getProps,
     refresh: webui.@THEME@.widget.checkboxGroup.refresh.processEvent,
     setProps: webui.@THEME@.widget.checkboxGroup.setProps,
-    setWidgetProps: webui.@THEME@.widget.checkboxGroup.setWidgetProps,
+    _setProps: webui.@THEME@.widget.checkboxGroup._setProps,
 
     // Set defaults.
     widgetType: "checkboxGroup"

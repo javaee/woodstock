@@ -167,7 +167,7 @@ webui.@THEME@.widget.listbox.createOnChangeCallback = function(id) {
  * This function is used to fill in template properties.
  *
  * Note: This is called after the buildRendering() function. Anything to be set 
- * only once should be added here; otherwise, use the setWidgetProps() function.
+ * only once should be added here; otherwise, use the _setProps() function.
  *
  * @param props Key-Value pairs of properties.
  * @param frag HTML fragment.
@@ -221,7 +221,7 @@ webui.@THEME@.widget.listbox.getOptionClassName = function(option) {
 
 /**
  * This function is used to get widget properties. Please see the 
- * setWidgetProps() function for a list of supported properties.
+ * _setProps() function for a list of supported properties.
  */
 webui.@THEME@.widget.listbox.getProps = function() {
     var props = webui.@THEME@.widget.listbox.superclass.getProps.call(this);
@@ -364,6 +364,89 @@ webui.@THEME@.widget.listbox.setGroupOptionProps = function(element, option) {
 }
 
 /**
+ * This function is used to set widget properties with the following 
+ * Object literals.
+ *
+ * <ul>
+ *  <li>id</li>
+ *  <li>dir</li>
+ *  <li>disabled</li>
+ *  <li>label</li>
+ *  <li>lang</li>
+ *  <li>multiple</li>
+ *  <li>monospace</li>
+ *  <li>onBlur</li>
+ *  <li>onChange</li>
+ *  <li>onClick</li>
+ *  <li>onDblClick</li>
+ *  <li>onFocus</li>
+ *  <li>onMouseDown</li>
+ *  <li>onMouseOut</li>
+ *  <li>onMouseOver</li>
+ *  <li>onMouseUp</li>
+ *  <li>onMouseMove</li>
+ *  <li>onKeyPress</li>
+ *  <li>onKeyUp</li>
+ *  <li>onSelect</li>
+ *  <li>options</li>
+ *  <li>size</li>
+ *  <li>style</li>
+ *  <li>tabIndex</li>
+ *  <li>title</li>
+ *  <li>visible</li>
+ * </ul>
+ *
+ * Note: This function should only be invoked through setProps(). Further, the
+ * widget shall be updated only for the given key-value pairs.
+ *
+ * @param props Key-Value pairs of properties.
+ */
+webui.@THEME@.widget.listbox._setProps = function(props) {
+    if (props == null) {
+        return false;
+    }
+
+    // A web app devleoper could return false in order to cancel the 
+    // auto-submit. Thus, we will handle this event via the onChange call back.
+    if (props.onChange) {
+        // Set private function scope on DOM node.
+        this.listContainer._onchange = (typeof props.onChange == 'string')            
+            ? new Function("event", props.onChange) : props.onChange;
+
+        // Must be cleared before calling setEventProps() below.
+        props.onChange = null;
+    }
+
+    // Set the properties specific to the <select> element
+    this.setSelectProps(this.listContainer, props);
+
+    // Add <option> and <optgroup> elements in the <select> element
+    if (props.options) {
+        this.addOptions(props);
+    }
+
+    // Set label if there is one
+    if (props.label) {
+        var labelWidget = dojo.widget.byId(this.label.id);
+        
+        if (labelWidget) {
+            // Update the existing one
+            labelWidget.setProps(props.label);
+         } else {
+            // Create a new one
+            this.addFragment(this.labelContainer, props.label);
+         }
+    }
+
+    // Set more properties.
+    this.setCommonProps(this.listContainer, props);
+    this.setEventProps(this.listContainer, props);
+
+    // Set remaining properties.
+    return webui.@THEME@.widget.listbox.superclass._setProps.call(this, props);
+}
+
+/**
  * Helpper function to set properties on the <option> element
  *
  * @param element The <option> DOM node
@@ -427,89 +510,6 @@ webui.@THEME@.widget.listbox.setSelectProps = function(selectNode, props) {
 }
 
 /**
- * This function is used to set widget properties with the following 
- * Object literals.
- *
- * <ul>
- *  <li>id</li>
- *  <li>dir</li>
- *  <li>disabled</li>
- *  <li>label</li>
- *  <li>lang</li>
- *  <li>multiple</li>
- *  <li>monospace</li>
- *  <li>onBlur</li>
- *  <li>onChange</li>
- *  <li>onClick</li>
- *  <li>onDblClick</li>
- *  <li>onFocus</li>
- *  <li>onMouseDown</li>
- *  <li>onMouseOut</li>
- *  <li>onMouseOver</li>
- *  <li>onMouseUp</li>
- *  <li>onMouseMove</li>
- *  <li>onKeyPress</li>
- *  <li>onKeyUp</li>
- *  <li>onSelect</li>
- *  <li>options</li>
- *  <li>size</li>
- *  <li>style</li>
- *  <li>tabIndex</li>
- *  <li>title</li>
- *  <li>visible</li>
- * </ul>
- *
- * Note: This function should only be invoked through setProps(). Further, the
- * widget shall be updated only for the given key-value pairs.
- *
- * @param props Key-Value pairs of properties.
- */
-webui.@THEME@.widget.listbox.setWidgetProps = function(props) {
-    if (props == null) {
-        return false;
-    }
-
-    // A web app devleoper could return false in order to cancel the 
-    // auto-submit. Thus, we will handle this event via the onChange call back.
-    if (props.onChange) {
-        // Set private function scope on DOM node.
-        this.listContainer._onchange = (typeof props.onChange == 'string')            
-            ? new Function("event", props.onChange) : props.onChange;
-
-        // Must be cleared before calling setJavaScriptProps() below.
-        props.onChange = null;
-    }
-
-    // Set the properties specific to the <select> element
-    this.setSelectProps(this.listContainer, props);
-
-    // Add <option> and <optgroup> elements in the <select> element
-    if (props.options) {
-        this.addOptions(props);
-    }
-
-    // Set label if there is one
-    if (props.label) {
-        var labelWidget = dojo.widget.byId(this.label.id);
-        
-        if (labelWidget) {
-            // Update the existing one
-            labelWidget.setProps(props.label);
-         } else {
-            // Create a new one
-            this.addFragment(this.labelContainer, props.label);
-         }
-    }
-
-    // Set more properties.
-    this.setCommonProps(this.listContainer, props);
-    this.setJavaScriptProps(this.listContainer, props);
-
-    // Set core props.
-    return webui.@THEME@.widget.listbox.superclass.setWidgetProps.call(this, props);
-}
-
-/**
  * This closure is used to process submit events.
  */
 webui.@THEME@.widget.listbox.submit = {
@@ -560,8 +560,8 @@ dojo.lang.extend(webui.@THEME@.widget.listbox, {
     refresh: webui.@THEME@.widget.listbox.refresh.processEvent,
     setGroupOptionProps: webui.@THEME@.widget.listbox.setGroupOptionProps,
     setOptionProps: webui.@THEME@.widget.listbox.setOptionProps,
+    _setProps: webui.@THEME@.widget.listbox._setProps,
     setSelectProps: webui.@THEME@.widget.listbox.setSelectProps,
-    setWidgetProps: webui.@THEME@.widget.listbox.setWidgetProps,
     submit: webui.@THEME@.widget.listbox.submit.processEvent,
 
     // Set defaults.

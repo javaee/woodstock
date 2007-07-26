@@ -53,7 +53,7 @@ webui.@THEME@.widget.progressBar.cancel = function() {
  * This function is used to fill in template properties.
  *
  * Note: This is called after the buildRendering() function. Anything to be set 
- * only once should be added here; otherwise, use the setWidgetProps() function.
+ * only once should be added here; otherwise, use the _setProps() function.
  *
  * @param props Key-Value pairs of properties.
  * @param frag HTML fragment.
@@ -106,7 +106,7 @@ webui.@THEME@.widget.progressBar.fillInTemplate = function(props, frag) {
 
 /**
  * This function is used to get widget properties. Please see the 
- * setWidgetProps() function for a list of supported properties.
+ * _setProps() function for a list of supported properties.
  */
 webui.@THEME@.widget.progressBar.getProps = function() {
     var props = webui.@THEME@.widget.progressBar.superclass.getProps.call(this);
@@ -232,7 +232,7 @@ webui.@THEME@.widget.progressBar.pause = function() {
  * @param parent The parent of this widget.
  */
 webui.@THEME@.widget.progressBar.postCreate = function (props, frag, parent) {
-    // Start timer to periodically publish progress events.
+    // Start a timer used to periodically publish progress events.
     this.updateProgress();
 
     return webui.@THEME@.widget.progressBar.superclass.postCreate.call(this, 
@@ -605,34 +605,6 @@ webui.@THEME@.widget.progressBar.setProgressBarVisible = function(show) {
 }
 
 /**
- * This method hides the Right Control.
- *
- * @param show true to show the element, false to hide the element.
- * @return true if successful; otherwise, false.
- */
-webui.@THEME@.widget.progressBar.setRightControlVisible = function(show) {
-    if (show == null) {
-        return false;
-    }
-    webui.@THEME@.common.setVisibleElement(this.rightControlsContainer, show);
-    return true;
-}
-
-/**
- * This method hides the status text.
- *
- * @param show true to show the element, false to hide the element.
- * @return true if successful; otherwise, false.
- */
-webui.@THEME@.widget.progressBar.setStatusTextVisible = function(show) {
-    if (show == null) {
-        return false;
-    }
-    webui.@THEME@.common.setVisibleElement(this.bottomTextContainer, show);
-    return true;
-}
-
-/**
  * This function is used to set widget properties with the following 
  * Object literals.
  *
@@ -665,7 +637,7 @@ webui.@THEME@.widget.progressBar.setStatusTextVisible = function(show) {
  *
  * @param props Key-Value pairs of properties.
  */
-webui.@THEME@.widget.progressBar.setWidgetProps = function(props) {
+webui.@THEME@.widget.progressBar._setProps = function(props) {
     if (props == null) {
         return false;
     }
@@ -767,8 +739,36 @@ webui.@THEME@.widget.progressBar.setWidgetProps = function(props) {
     // Set more properties..
     this.setCommonProps(this.domNode, props);
 
-    // Set core props.
-    return webui.@THEME@.widget.progressBar.superclass.setWidgetProps.call(this, props);
+    // Set remaining properties.
+    return webui.@THEME@.widget.progressBar.superclass._setProps.call(this, props);
+}
+
+/**
+ * This method hides the Right Control.
+ *
+ * @param show true to show the element, false to hide the element.
+ * @return true if successful; otherwise, false.
+ */
+webui.@THEME@.widget.progressBar.setRightControlVisible = function(show) {
+    if (show == null) {
+        return false;
+    }
+    webui.@THEME@.common.setVisibleElement(this.rightControlsContainer, show);
+    return true;
+}
+
+/**
+ * This method hides the status text.
+ *
+ * @param show true to show the element, false to hide the element.
+ * @return true if successful; otherwise, false.
+ */
+webui.@THEME@.widget.progressBar.setStatusTextVisible = function(show) {
+    if (show == null) {
+        return false;
+    }
+    webui.@THEME@.common.setVisibleElement(this.bottomTextContainer, show);
+    return true;
 }
 
 /**
@@ -822,17 +822,17 @@ dojo.lang.extend(webui.@THEME@.widget.progressBar, {
     refresh: webui.@THEME@.widget.progressBar.refresh.processEvent,
     resume: webui.@THEME@.widget.progressBar.resume,
     stop: webui.@THEME@.widget.progressBar.stop,
-    setOnCancel: webui.@THEME@.widget.progressBar.setOnCancel,
-    setOnComplete: webui.@THEME@.widget.progressBar.setOnComplete,
-    setOnFail: webui.@THEME@.widget.progressBar.setOnFail,
     setBottomControlVisible: webui.@THEME@.widget.progressBar.setBottomControlVisible,
     setFailedStateMessageVisible: webui.@THEME@.widget.progressBar.setFailedStateMessageVisible,
     setLogMsgVisible: webui.@THEME@.widget.progressBar.setLogMsgVisible,
+    setOnCancel: webui.@THEME@.widget.progressBar.setOnCancel,
+    setOnComplete: webui.@THEME@.widget.progressBar.setOnComplete,
+    setOnFail: webui.@THEME@.widget.progressBar.setOnFail,
     setOperationTextVisible: webui.@THEME@.widget.progressBar.setOperationTextVisible,
     setProgress: webui.@THEME@.widget.progressBar.setProgress,
     setProgressBarContainerVisible: webui.@THEME@.widget.progressBar.setProgressBarContainerVisible,
     setProgressBarVisible: webui.@THEME@.widget.progressBar.setProgressBarVisible,
-    setWidgetProps: webui.@THEME@.widget.progressBar.setWidgetProps,
+    _setProps: webui.@THEME@.widget.progressBar._setProps,
     sleep: webui.@THEME@.widget.progressBar.sleep,
     setRightControlVisible: webui.@THEME@.widget.progressBar.setRightControlVisible,
     setStatusTextVisible: webui.@THEME@.widget.progressBar.setStatusTextVisible,

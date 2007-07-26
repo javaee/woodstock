@@ -26,9 +26,32 @@ dojo.require("dojo.widget.*");
 //dojo.require("webui.@THEME@.theme.*"); // To do: Uncomment for client-side theme.
 
 /**
- * This function is used as a base object when creating a Dojo widget. In
- * addition to providing commonly used functions, dojo.widget.HtmlWidget shall
- * be extended.
+ * The widgetBase object is used as the base for all widgets. It inherits from 
+ * Dojo's HtmlWidget object which, in turn, inherits from DomWidget and Widget. 
+ * The Widget object is responsible for calling the buildRendering(), 
+ * initialize(), postInitialize(), and postCreate() functions in that order.
+ *
+ * The DomWidget is actually responsible for calling fillInTemplate() from 
+ * within buildRendering(). The fillInTemplate() function is used to fill in 
+ * template properties during initialization. Anything to be set only once 
+ * should be added here (e.g., setting public functions on a DOM node). Public
+ * functions such as getProps(), setProps(), and refresh() are set on the DOM 
+ * via the "superclass" function of widgetBase.
+ *
+ * The initialization() function is responsible for initializing widget 
+ * properties. For example, we use this function to initialize class names use 
+ * by the button, dropDown, and listbox widgets.
+ *
+ * The postInitialization() function of widgetBase calls the private _setProps()
+ * function. The private _setProps() function is used to set/update all widget 
+ * properties. The core properties (e.g., id, class, style, etc.) are set on the
+ * DOM via the "superclass" function of widgetBase. Further, the public 
+ * setProps() function calls _setProps() after extending the widget object for
+ * later updates.
+ *
+ * The postCreate() function is typically used to invoke JavaScript after the 
+ * widget has been rendered completely. For example, the progressBar uses this
+ * to start a timer used to periodically publish progress events.
  */
 webui.@THEME@.widget.widgetBase = function() {
     // Register widget.
@@ -75,7 +98,7 @@ webui.@THEME@.widget.widgetBase.buildRendering = function (props, frag, parent) 
  * This function is used to fill in template properties.
  *
  * Note: This is called after the buildRendering() function. Anything to be set 
- * only once should be added here; otherwise, use the setWidgetProps() function.
+ * only once should be added here; otherwise, use the _setProps() function.
  *
  * @param props Key-Value pairs of properties.
  * @param frag HTML fragment.
@@ -119,8 +142,8 @@ webui.@THEME@.widget.widgetBase.getClassName = function(classNames) {
 }
 
 /**
- * This function is used to get common properties for the widget. Please see the
- * setCommonProps() function for a list of supported properties.
+ * This function is used to get common properties from the widget. Please see
+ * the setCommonProps() function for a list of supported properties.
  */
 webui.@THEME@.widget.widgetBase.getCommonProps = function() {
     var props = {};
@@ -136,8 +159,8 @@ webui.@THEME@.widget.widgetBase.getCommonProps = function() {
 }
 
 /**
- * This function is used to get core properties for the widget. Please see the
- * setCoreProps() function for a list of supported properties.
+ * This function is used to get core properties from the widget. Please see
+ * the setCoreProps() function for a list of supported properties.
  */
 webui.@THEME@.widget.widgetBase.getCoreProps = function() {
     var props = {};
@@ -152,26 +175,10 @@ webui.@THEME@.widget.widgetBase.getCoreProps = function() {
 }
 
 /**
- * This function is used to get widget properties. Please see the
- * setCommonProps(), setCoreProps(), and setJavaScriptProps() functions for a
- * list of supported properties.
+ * This function is used to get event properties from the widget. Please
+ * see the setEventProps() function for a list of supported properties.
  */
-webui.@THEME@.widget.widgetBase.getProps = function() {
-    var props = {};
-
-    // Set properties.
-    Object.extend(props, this.getCommonProps());
-    Object.extend(props, this.getCoreProps());
-    Object.extend(props, this.getJavaScriptProps());
-
-    return props;
-}
-
-/**
- * This function is used to get JavaScript properties for the widget. Please see
- * the setJavaScriptProps() function for a list of supported properties.
- */
-webui.@THEME@.widget.widgetBase.getJavaScriptProps = function() {
+webui.@THEME@.widget.widgetBase.getEventProps = function() {
     var props = {};
 
     // Set properties.
@@ -189,6 +196,21 @@ webui.@THEME@.widget.widgetBase.getJavaScriptProps = function() {
     if (this.onMouseUp) { props.onMouseUp = this.onMouseUp; }
     if (this.onMouseMove) { props.onMouseMove = this.onMouseMove; }
     if (this.onSelect) { props.onSelect = this.onSelect; }
+
+    return props;
+}
+
+/**
+ * This function is used to get widget properties. Please see the 
+ * _setProps() function for a list of supported properties.
+ */
+webui.@THEME@.widget.widgetBase.getProps = function() {
+    var props = {};
+
+    // Set properties.
+    Object.extend(props, this.getCommonProps());
+    Object.extend(props, this.getCoreProps());
+    Object.extend(props, this.getEventProps());
 
     return props;
 }
@@ -232,7 +254,7 @@ webui.@THEME@.widget.widgetBase.isInitialized = function() {
  */
 webui.@THEME@.widget.widgetBase.postInitialize = function (props, frag, parent) {
     // Set properties.
-    this.setWidgetProps(props);
+    this._setProps(props);
 
     return webui.@THEME@.widget.widgetBase.superclass.postInitialize.call(this, 
         props, frag, parent);
@@ -253,7 +275,7 @@ webui.@THEME@.widget.widgetBase.postCreate = function (props, frag, parent) {
 }
 
 /**
- * This function is used to set common properties for the given DOM node
+ * This function is used to set common properties for the given domNode
  * with the following Object literals.
  *
  * <ul>
@@ -290,8 +312,8 @@ webui.@THEME@.widget.widgetBase.setCommonProps = function(domNode, props) {
 }
 
 /**
- * This function is used to set core properties for the given DOM
- * node with the following Object literals. These properties are typically
+ * This function is used to set core properties for the given domNode
+ * with the following Object literals. These properties are typically
  * set on the outermost element.
  *
  * <ul>
@@ -330,8 +352,8 @@ webui.@THEME@.widget.widgetBase.setCoreProps = function(domNode, props) {
 }
 
 /**
- * This function is used to set JavaScript properties for the given DOM
- * node with the following Object literals.
+ * This function is used to set event properties for the given domNode
+ * with the following Object literals.
  *
  * <ul>
  *  <li>onBlur</li>
@@ -353,7 +375,7 @@ webui.@THEME@.widget.widgetBase.setCoreProps = function(domNode, props) {
  * @param domNode The DOM node to assign properties to.
  * @param props Key-Value pairs of properties.
  */
-webui.@THEME@.widget.widgetBase.setJavaScriptProps = function(domNode, props) {
+webui.@THEME@.widget.widgetBase.setEventProps = function(domNode, props) {
     if (domNode == null || props == null) {
         return false;
     }
@@ -435,7 +457,7 @@ webui.@THEME@.widget.widgetBase.setJavaScriptProps = function(domNode, props) {
 
 /**
  * This function is used to set widget properties. Please see the 
- * setWidgetProps() function for a list of supported properties.
+ * _setProps() function for a list of supported properties.
  *
  * Note: This function updates the widget object for later updates. Further, the
  * widget shall be updated only for the given key-value pairs.
@@ -451,7 +473,7 @@ webui.@THEME@.widget.widgetBase.setProps = function(props) {
     this.extend(this, props);
 
     // Set properties.
-    return this.setWidgetProps(props);
+    return this._setProps(props);
 }
 
 /**
@@ -470,7 +492,7 @@ webui.@THEME@.widget.widgetBase.setProps = function(props) {
  *
  * @param props Key-Value pairs of properties.
  */
-webui.@THEME@.widget.widgetBase.setWidgetProps = function(props) {
+webui.@THEME@.widget.widgetBase._setProps = function(props) {
     if (props == null) {
         return false;
     }
@@ -496,7 +518,7 @@ dojo.lang.extend(webui.@THEME@.widget.widgetBase, {
     getClassName: webui.@THEME@.widget.widgetBase.getClassName,
     getCommonProps: webui.@THEME@.widget.widgetBase.getCommonProps,
     getCoreProps: webui.@THEME@.widget.widgetBase.getCoreProps,
-    getJavaScriptProps: webui.@THEME@.widget.widgetBase.getJavaScriptProps,
+    getEventProps: webui.@THEME@.widget.widgetBase.getEventProps,
     getProps: webui.@THEME@.widget.widgetBase.getProps,
     initialize: webui.@THEME@.widget.widgetBase.initialize,
     isInitialized: webui.@THEME@.widget.widgetBase.isInitialized,
@@ -505,7 +527,7 @@ dojo.lang.extend(webui.@THEME@.widget.widgetBase, {
     removeChildNodes: webui.@THEME@.widget.common.removeChildNodes,
     setCommonProps: webui.@THEME@.widget.widgetBase.setCommonProps,
     setCoreProps: webui.@THEME@.widget.widgetBase.setCoreProps,
-    setJavaScriptProps: webui.@THEME@.widget.widgetBase.setJavaScriptProps,
+    setEventProps: webui.@THEME@.widget.widgetBase.setEventProps,
     setProps: webui.@THEME@.widget.widgetBase.setProps,
-    setWidgetProps: webui.@THEME@.widget.widgetBase.setWidgetProps
+    _setProps: webui.@THEME@.widget.widgetBase._setProps
 });
