@@ -128,57 +128,57 @@ webui.@THEME@.widget.button.fillInTemplate = function(props, frag) {
 /**
  * This function is used to obtain the outermost HTML element class name.
  *
- * @param classNames Optional array of selectors to concatinate with user's 
- * (this.className) property. Items are output in reverse order for precedence.
+ * Note: Selectors should be concatinated in order of precedence (e.g., the 
+ * user's className property is always appended last).
  */
-webui.@THEME@.widget.button.getClassName = function(classNames) {
-    if (!(classNames instanceof Array)) {
-        classNames = new Array();
-    }
+webui.@THEME@.widget.button.getClassName = function() {
+    var className = null;
 
     // Set default style.
     if (this.mini == true && this.primary == true) {
-        classNames[classNames.length] = (this.disabled == true)
+        className = (this.disabled == true)
             ? this.primaryMiniDisabledClassName
             : this.primaryMiniClassName;
     } else if (this.mini == true) {
-        classNames[classNames.length] = (this.disabled == true)
+        className = (this.disabled == true)
             ? this.secondaryMiniDisabledClassName
             : this.secondaryMiniClassName;
     } else if (this.primary == true) {
-        classNames[classNames.length] = (this.disabled == true)
+        className = (this.disabled == true)
             ? this.primaryDisabledClassName
             : this.primaryClassName;
     } else {
-        classNames[classNames.length] = (this.disabled == true)
+        className = (this.disabled == true)
             ? this.secondaryDisabledClassName
             : this.secondaryClassName;
     }
-    return webui.@THEME@.widget.button.superclass.getClassName.call(this, classNames);
+    return (this.className)
+        ? className + " " + this.className
+        : className;
 }
 
 /**
  * This function is used to obtain the outermost HTML element class name.
  *
- * @param classNames Optional array of selectors to concatinate with user's 
- * (this.className) property. Items are output in reverse order for precedence.
+ * Note: Selectors should be concatinated in order of precedence (e.g., the 
+ * user's className property is always appended last).
  */
-webui.@THEME@.widget.button.getHoverClassName = function(classNames) {
-    if (!(classNames instanceof Array)) {
-        classNames = new Array();
-    }
+webui.@THEME@.widget.button.getHoverClassName = function() {
+    var className = null;
 
     // Set default style.
     if (this.mini == true && this.primary == true) {
-        classNames[classNames.length] = this.primaryMiniHovClassName;
+        className = this.primaryMiniHovClassName;
     } else if (this.mini == true) {
-        classNames[classNames.length] = this.secondaryMiniHovClassName;
+        className = this.secondaryMiniHovClassName;
     } else if (this.primary == true) {
-        classNames[classNames.length] = this.primaryHovClassName;
+        className = this.primaryHovClassName;
     } else {
-        classNames[classNames.length] = this.secondaryHovClassName;
+        className = this.secondaryHovClassName;
     }
-    return webui.@THEME@.widget.button.superclass.getClassName.call(this, classNames);
+    return (this.className)
+        ? className + " " + this.className
+        : className;
 }
 
 /**

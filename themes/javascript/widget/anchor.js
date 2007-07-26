@@ -106,20 +106,18 @@ webui.@THEME@.widget.anchor.fillInTemplate = function(props, frag) {
 /**
  * This function is used to obtain the outermost HTML element class name.
  *
- * @param classNames Optional array of selectors to concatinate with user's 
- * (this.className) property. Items are output in reverse order for precedence.
+ * Note: Selectors should be concatinated in order of precedence (e.g., the 
+ * user's className property is always appended last).
  */
-webui.@THEME@.widget.anchor.getClassName = function(classNames) {
-    if (!(classNames instanceof Array)) {
-        classNames = new Array();
-    }
-
+webui.@THEME@.widget.anchor.getClassName = function() {
     // Set default style.
-    classNames[classNames.length] = (this.href && this.disabled == false)
+    var className = (this.href && this.disabled == false)
         ? webui.@THEME@.widget.props.anchor.className
         : webui.@THEME@.widget.props.anchor.disabledClassName;
 
-    return webui.@THEME@.widget.anchor.superclass.getClassName.call(this, classNames);
+    return (this.className)
+        ? className + " " + this.className
+        : className;
 }
 
 /**

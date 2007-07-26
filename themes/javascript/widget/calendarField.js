@@ -94,18 +94,16 @@ webui.@THEME@.widget.calendarField.fillInTemplate = function(props, frag) {
 /**
  * This function is used to obtain the outermost HTML element class name.
  *
- * @param classNames Optional array of selectors to concatinate with user's 
- * (this.className) property. Items are output in reverse order for precedence.
+ * Note: Selectors should be concatinated in order of precedence (e.g., the 
+ * user's className property is always appended last).
  */
-webui.@THEME@.widget.calendarField.getClassName = function(classNames) {
-    if (!(classNames instanceof Array)) {
-        classNames = new Array();
-    }
-
+webui.@THEME@.widget.calendarField.getClassName = function() {
     // Set default style.
-    classNames[classNames.length] = webui.@THEME@.widget.props.calendar.className;
+    var className = webui.@THEME@.widget.props.calendar.className;
 
-    return webui.@THEME@.widget.calendarField.superclass.getClassName.call(this, classNames);
+    return (this.className)
+        ? className + " " + this.className
+        : className;
 }
 
 /**

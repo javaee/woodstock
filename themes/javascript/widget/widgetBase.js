@@ -59,9 +59,10 @@ dojo.require("dojo.widget.*");
  * The getClassName() function is responsible for obtaining the selector that
  * will be set on the outermost DOM node. The private _setProps() function 
  * of widgetBase ensures that the getClassName() function is called prior to 
- * invoking setCoreProps(). Further, selectors are assembled in order of 
- * precedence (e.g., the user's className property is always appended last, 
- * regardless of how many slectors are applied).
+ * invoking setCoreProps(). In most cases, this function will be overridded in
+ * order to apply widget specific selectors. However, selectors should be 
+ * concatinated in order of precedence (e.g., the user's className property is 
+ * always appended last).
  *
  * The public setProps() function is responsible for extending the widget object
  * with properties so they can be used during later updates. After extending the
@@ -126,25 +127,19 @@ webui.@THEME@.widget.widgetBase.buildRendering = function (props, frag, parent) 
  * @param frag HTML fragment.
  */
 webui.@THEME@.widget.widgetBase.fillInTemplate = function(props, frag) {
-    if (props == null) {
-        return false;
-    }
-
-    // In order to register widgets properly, the DOM node id must be set prior
-    // to creating widget children. Otherwise, widgets may not be destroyed.
-    if (props.id) {
-        this.domNode.id = props.id;
-    }
-
     // Since the anchor id and name must be the same on IE, we cannot obtain the
     // widget using the DOM node ID via the public functions below. Therefore, 
     // we need to set the widget id via closure magic.
-    var id = props.id;
+    var id = this.id;
 
     // Set public functions.
     this.domNode.getProps = function() { return dojo.widget.byId(id).getProps(); }
     this.domNode.refresh = function(_execute) { return dojo.widget.byId(id).refresh(_execute); }
     this.domNode.setProps = function(_props) { return dojo.widget.byId(id).setProps(_props); }
+
+    // In order to register widgets properly, the DOM node id must be set prior 
+    // to creating any widget children. Otherwise, widgets may not be destroyed.
+    this.domNode.id = id;
 
     return webui.@THEME@.widget.widgetBase.superclass.fillInTemplate.call(this, 
         props, frag, parent);
@@ -153,23 +148,11 @@ webui.@THEME@.widget.widgetBase.fillInTemplate = function(props, frag) {
 /**
  * This function is used to obtain the outermost HTML element class name.
  *
- * @param classNames Optional array of selectors to concatinate with user's 
- * (this.className) property. Items are output in reverse order for precedence.
+ * Note: Selectors should be concatinated in order of precedence (e.g., the 
+ * user's className property is always appended last).
  */
-webui.@THEME@.widget.widgetBase.getClassName = function(classNames) {
-    var newClassName = this.className;
-
-    // Ensure user's (i.e., this.className) property is appended last.
-    if (classNames instanceof Array) {
-        for (var i = 0; i < classNames.length; i++) {
-            if (newClassName) {
-                newClassName = classNames[i] + " " + newClassName;
-            } else {
-                newClassName = classNames[i];
-            }
-        }
-    }
-    return newClassName;
+webui.@THEME@.widget.widgetBase.getClassName = function() {
+    return this.className;
 }
 
 /**

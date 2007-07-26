@@ -40,21 +40,18 @@ webui.@THEME@.widget.radioButtonGroup = function() {
 /**
  * This function is used to obtain the outermost HTML element class name.
  *
- * @param classNames Optional array of selectors to concatinate with user's 
- * (this.className) property. Items are output in reverse order for precedence.
+ * Note: Selectors should be concatinated in order of precedence (e.g., the 
+ * user's className property is always appended last).
  */
-webui.@THEME@.widget.radioButtonGroup.getClassName = function(classNames) {
-    if (!(classNames instanceof Array)) {
-        classNames = new Array();
-    }
-
+webui.@THEME@.widget.radioButtonGroup.getClassName = function() {
     // Set default style.
-    if (this.columns > 1) {
-        classNames[classNames.length] = webui.@THEME@.widget.props.radioButtonGroup.horizClassName;    
-    } else {
-        classNames[classNames.length] = webui.@THEME@.widget.props.radioButtonGroup.vertClassName;
-    }
-    return webui.@THEME@.widget.radioButtonGroup.superclass.getClassName.call(this, classNames);
+    var className = (this.columns > 1)
+        ? webui.@THEME@.widget.props.radioButtonGroup.horizClassName
+        : webui.@THEME@.widget.props.radioButtonGroup.vertClassName;
+
+    return (this.className)
+        ? className + " " + this.className
+        : className;
 }
 
 /**

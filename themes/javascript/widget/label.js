@@ -61,25 +61,25 @@ webui.@THEME@.widget.label.fillInTemplate = function(props, frag) {
 /**
  * This function is used to obtain the outermost HTML element class name.
  *
- * @param classNames Optional array of selectors to concatinate with user's 
- * (this.className) property. Items are output in reverse order for precedence.
+ * Note: Selectors should be concatinated in order of precedence (e.g., the 
+ * user's className property is always appended last).
  */
-webui.@THEME@.widget.label.getClassName = function(classNames) {
-    if (!(classNames instanceof Array)) {
-        classNames = new Array();
-    }
+webui.@THEME@.widget.label.getClassName = function() {
+    var className = null;
 
     // Set default style.
     if (this.valid == false) {
-        classNames[classNames.length] = webui.@THEME@.widget.props.label.errorStyleClass;
+        className = webui.@THEME@.widget.props.label.errorStyleClass;
     } else if (this.level == 1) {
-        classNames[classNames.length] = webui.@THEME@.widget.props.label.levelOneStyleClass;
+        className = webui.@THEME@.widget.props.label.levelOneStyleClass;
     } else if (this.level == 3) {
-        classNames[classNames.length] = webui.@THEME@.widget.props.label.levelThreeStyleClass;
+        className = webui.@THEME@.widget.props.label.levelThreeStyleClass;
     } else {
-        classNames[classNames.length] = webui.@THEME@.widget.props.label.levelTwoStyleClass;
+        className = webui.@THEME@.widget.props.label.levelTwoStyleClass;
     }
-    return webui.@THEME@.widget.label.superclass.getClassName.call(this, classNames);
+    return (this.className)
+        ? className + " " + this.className
+        : className;
 }
 
 /**

@@ -69,20 +69,18 @@ webui.@THEME@.widget.checkbox.fillInTemplate = function(props, frag) {
 /**
  * This function is used to obtain the outermost HTML element class name.
  *
- * @param classNames Optional array of selectors to concatinate with user's 
- * (this.className) property. Items are output in reverse order for precedence.
+ * Note: Selectors should be concatinated in order of precedence (e.g., the 
+ * user's className property is always appended last).
  */
-webui.@THEME@.widget.checkbox.getClassName = function(classNames) {
-    if (!(classNames instanceof Array)) {
-        classNames = new Array();
-    }
-
+webui.@THEME@.widget.checkbox.getClassName = function() {
     // Set default style.
-    classNames[classNames.length] = (this.disabled == true)
+    var className = (this.disabled == true)
         ? webui.@THEME@.widget.props.checkbox.disabledClassName
         : webui.@THEME@.widget.props.checkbox.className; 
 
-    return webui.@THEME@.widget.checkbox.superclass.getClassName.call(this, classNames);
+    return (this.className)
+        ? className + " " + this.className
+        : className;
 }
 
 /**

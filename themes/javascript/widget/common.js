@@ -162,6 +162,7 @@ webui.@THEME@.widget.common = {
             // Don't need span when innerHTML is empty.
             domNode.innerHTML = html;
         }
+        return true;
     },
 
     /**
@@ -260,21 +261,26 @@ webui.@THEME@.widget.common = {
      */
     registerWidget: function(widget) {
         if (widget == null) {
-            return null;
+            return false;
         }
-
-        // Search the DOM tree until a parent widget is found.
+        
+        // Search the DOM tree for an ancestor widget. We need to perform this 
+        // search for widgets created via HTML fragments. When using strings, 
+        // JavsScript is evaluated and the widget parent is not known.
+        //
+        // Note: In order to find an ancestor, the DOM node id must be set prior
+        // to creating widget children (e.g., via the fillInTemplate() functon).
         var curNode = widget.domNode.parentNode;
         while (curNode != null) {
             var parentWidget = dojo.widget.byId(curNode.id);
             if (parentWidget) {
                 // Register with ancestor widget.
                 parentWidget.registerChild(widget, parentWidget.children.length);
-                break;
+                return true;
             }
             curNode = curNode.parentNode;
         }
-        return null;
+        return false;
     },
 
     /**
@@ -363,8 +369,9 @@ webui.@THEME@.widget.common = {
         while(true) {
             start = new Date();
             if (start.getTime() > exitTime) {
-                return;
+                return true;
             }
         }
+        return false;
     }
 }
