@@ -26,32 +26,54 @@ dojo.require("dojo.widget.*");
 //dojo.require("webui.@THEME@.theme.*"); // To do: Uncomment for client-side theme.
 
 /**
- * The widgetBase object is used as the base for all widgets. It inherits from 
- * Dojo's HtmlWidget object which, in turn, inherits from DomWidget and Widget. 
- * The Widget object is responsible for calling the buildRendering(), 
- * initialize(), postInitialize(), and postCreate() functions in that order.
+ * The widgetBase object is used for base functionality in all widgets. It 
+ * inherits from the dojo.widget.HtmlWidget module which, in turn, inherits 
+ * from dojo.widget.DomWidget and dojo.widget.Widget. The dojo.widget.Widget
+ * module is responsible for calling the buildRendering(), initialize(), 
+ * postInitialize(), and postCreate() functions in that order.
  *
- * The DomWidget is actually responsible for calling fillInTemplate() from 
- * within buildRendering(). The fillInTemplate() function is used to fill in 
- * template properties during initialization. Anything to be set only once 
+ * The dojo.widget.DomWidget module is responsible for calling fillInTemplate() 
+ * from within buildRendering(). The fillInTemplate() function is used to fill 
+ * in template properties during initialization. Anything to be set only once 
  * should be added here (e.g., setting public functions on a DOM node). Public
  * functions such as getProps(), setProps(), and refresh() are set on the DOM 
  * via the "superclass" function of widgetBase.
  *
- * The initialization() function is responsible for initializing widget 
- * properties. For example, we use this function to initialize class names use 
- * by the button, dropDown, and listbox widgets.
+ * The initialization() function is responsible for initializing widget object. 
+ * For example, we use this function to initialize CSS selectors use by the 
+ * button, dropDown, and listbox widgets.
  *
- * The postInitialization() function of widgetBase calls the private _setProps()
- * function. The private _setProps() function is used to set/update all widget 
- * properties. The core properties (e.g., id, class, style, etc.) are set on the
- * DOM via the "superclass" function of widgetBase. Further, the public 
- * setProps() function calls _setProps() after extending the widget object for
- * later updates.
+ * The postInitialization() function is responsible for invoking the private
+ * _setProps() function. The _setProps() function is used to set widget 
+ * properties that can be updated by a web app developer. Properties should be
+ * set if and only if a key-value pair has been given. The function is also used
+ * during initialization since it does not extend the widget with known 
+ * properties.
  *
- * The postCreate() function is typically used to invoke JavaScript after the 
- * widget has been rendered completely. For example, the progressBar uses this
- * to start a timer used to periodically publish progress events.
+ * The private _setProps() function is responsible for invoking setCommonProps()
+ * and setEventProps(). These properties may or may not be set on the outermost
+ * DOM node; however, core (i.e., id, class, style, etc.) properties are. Core 
+ * properties are set on the DOM via the "superclass" function of widgetBase 
+ * which invokes the setCoreProps() function.
+ *
+ * The getClassName() function is responsible for obtaining the selector that
+ * will be set on the outermost DOM node. The private _setProps() function 
+ * of widgetBase ensures that the getClassName() function is called prior to 
+ * invoking setCoreProps(). Further, selectors are assembled in order of 
+ * precedence (e.g., the user's className property is always appended last, 
+ * regardless of how many slectors are applied).
+ *
+ * The public setProps() function is responsible for extending the widget object
+ * with properties so they can be used during later updates. After extending the
+ * widget, the private _setProps() function is called. In some cases, the public
+ * setProps() function may be overridden. For example, the label clears the
+ * contents property from the widget because that is something we do not want to
+ * extend.
+ *
+ * The postCreate() function is typically used after the widget has been 
+ * rendered completely. For example, the progressBar calls a timeout used to
+ * periodically publish progress events. At this point, newly created DOM nodes
+ * still have not been added to the document.
  */
 webui.@THEME@.widget.widgetBase = function() {
     // Register widget.
@@ -104,11 +126,20 @@ webui.@THEME@.widget.widgetBase.buildRendering = function (props, frag, parent) 
  * @param frag HTML fragment.
  */
 webui.@THEME@.widget.widgetBase.fillInTemplate = function(props, frag) {
-    // Not: Since the anchor id and name must be the same on IE, we cannot 
-    // obtain the widget using the DOM node ID via the public functions below.
+    if (props == null) {
+        return false;
+    }
 
-    // Set widget id via closure magic.
-    var id = this.id;
+    // In order to register widgets properly, the DOM node id must be set prior
+    // to creating widget children. Otherwise, widgets may not be destroyed.
+    if (props.id) {
+        this.domNode.id = props.id;
+    }
+
+    // Since the anchor id and name must be the same on IE, we cannot obtain the
+    // widget using the DOM node ID via the public functions below. Therefore, 
+    // we need to set the widget id via closure magic.
+    var id = props.id;
 
     // Set public functions.
     this.domNode.getProps = function() { return dojo.widget.byId(id).getProps(); }
