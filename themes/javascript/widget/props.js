@@ -202,5 +202,12 @@ webui.@THEME@.widget.props = {
     textField: {
         className: "TxtFld@THEME_CSS@",
         disabledClassName: "TxtFldDis@THEME_CSS@"
+    },
+    
+    // Bubble properties    
+    bubble: {
+        closeButtonClass: "BubbleCloseBtn@THEME_CSS@",
+        bubbleLeftConst: 5,
+        topConst: 2            
     }
 }

@@ -86,6 +86,8 @@ public class BubbleRenderer extends RendererBase {
         json.put("title", bubble.getTitle())
             .put("visible", false) //bubble help should not be visible initially.
             .put("autoClose", bubble.isAutoClose())
+            .put("closeButton", bubble.isCloseButton())
+            .put("openDelay", bubble.getOpenDelay())
             .put("duration", bubble.getDuration())
             .put("width", bubble.getWidth())
             .put("className", bubble.getStyleClass());

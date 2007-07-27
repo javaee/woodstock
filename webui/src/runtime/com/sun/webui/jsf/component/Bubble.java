@@ -240,6 +240,77 @@ public class Bubble extends WebuiOutput {
         this.autoClose = autoClose;
         this.autoClose_set = true;
     }
+    
+    /**
+     * <p>Use the closeButton attribute to display close button for bubble. </p>
+     */
+    @Property(name="closeButton", displayName="Close Button", category="Behavior")
+    private boolean closeButton = false;
+    private boolean closeButton_set = false;
+
+    /**
+     * <p>Use the closeButton attribute to display close button for bubble. </p>
+     */
+    public boolean isCloseButton() {
+        if (this.closeButton_set) {
+            return this.closeButton;
+        }
+        ValueExpression _vb = getValueExpression("closeButton");
+        if (_vb != null) {
+            Object _result = _vb.getValue(getFacesContext().getELContext());
+            if (_result == null) {
+                return false;
+            } else {
+                return ((Boolean) _result).booleanValue();
+            }
+        }
+        return true;
+    }
+
+    /**
+     * <p>Use the closeButton attribute to display close button for bubble. </p>
+     * @see #isVisible()
+     */
+    public void setCloseButton(boolean closeButton) {
+        this.closeButton = closeButton;
+        this.closeButton_set = true;
+    }
+    
+    /**
+     * <p>Use the openDelay attribute to put a delay in ms before opening the bubble.</p>
+     */
+    @Property(name="openDelay", displayName="Open Delay", category="Appearance", 
+              editorClassName="com.sun.rave.propertyeditors.IntegerPropertyEditor")
+    private int openDelay = Integer.MIN_VALUE;;
+    private boolean openDelay_set = false;
+
+    /**
+     * <p>Use the openDelay attribute to put a delay in ms before opening the bubble.</p>
+     */
+    public int getOpenDelay() {
+        if (this.openDelay_set) {
+            return this.openDelay;
+        }
+        ValueBinding _vb = getValueBinding("openDelay");
+        if (_vb != null) {
+            Object _result = _vb.getValue(getFacesContext());
+            if (_result == null) {
+                return Integer.MIN_VALUE;
+            } else {
+                return ((Integer) _result).intValue();
+            }
+        }
+        return Integer.MIN_VALUE;
+    }
+
+    /**
+     * <p>Use the openDelay attribute to put a delay in ms before opening the bubble. </p>
+     * 
+     */
+    public void setOpenDelay(int openDelay) {
+        this.openDelay = openDelay;
+        this.openDelay_set = true;
+    }
       
     /**
      * <p>Number of pixels for the width of the bubble help window. The default
@@ -365,6 +436,10 @@ public class Bubble extends WebuiOutput {
         this.duration = ((Integer) _values[10]).intValue();
         this.duration_set = ((Boolean) _values[11]).booleanValue();
         this.htmlTemplate = (String) _values[12];
+        this.closeButton = ((Boolean) _values[13]).booleanValue();
+        this.closeButton_set = ((Boolean) _values[14]).booleanValue();
+        this.openDelay = ((Integer) _values[15]).intValue();
+        this.openDelay_set = ((Boolean) _values[16]).booleanValue();
                
     }
     
@@ -372,7 +447,7 @@ public class Bubble extends WebuiOutput {
      * <p>Save the state of this component.</p>
      */
     public Object saveState(FacesContext _context) {
-        Object _values[] = new Object[13];
+        Object _values[] = new Object[17];
         _values[0] = super.saveState(_context);        
         _values[1] = this.title;                
         _values[2] = this.style;
@@ -386,6 +461,10 @@ public class Bubble extends WebuiOutput {
         _values[10] = new Integer(this.duration);
         _values[11] = this.duration_set ? Boolean.TRUE : Boolean.FALSE;        
         _values[12] = this.htmlTemplate;
+        _values[13] = this.closeButton ? Boolean.TRUE : Boolean.FALSE;
+        _values[14] = this.closeButton_set ? Boolean.TRUE : Boolean.FALSE;
+        _values[15] = new Integer(this.openDelay);
+        _values[16] = this.openDelay_set ? Boolean.TRUE : Boolean.FALSE;
                 
         return _values;
     }
