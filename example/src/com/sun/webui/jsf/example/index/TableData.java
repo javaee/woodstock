@@ -259,7 +259,11 @@ public class TableData {
                     "accordion/example2right.jsp",
                     "accordion/example3.jsp",
                     "accordion/AccordionBackingBean.java"}
-        )         
+        ),
+        new AppData("index_bubbleName","index_bubbleConcepts", "showBubble",
+                new String[] {
+                    "bubble/bubble.jsp"}
+        )
     };    
     
     /** Default constructor */

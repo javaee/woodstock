@@ -891,6 +891,15 @@
         <redirect/>
       </navigation-case>
    </navigation-rule>
+   
+   <!-- Navigation Cases for Bubble Examples -->
+    <navigation-rule>
+      <navigation-case>
+        <from-outcome>showBubble</from-outcome>
+        <to-view-id>/bubble/bubble.jsp</to-view-id>
+        <redirect/>
+      </navigation-case>
+   </navigation-rule>
 
    <!-- Navigation Cases for Accordion Example -->     
    <navigation-rule>
