@@ -42,7 +42,7 @@ import javax.faces.context.FacesContext;
     tagRendererType="com.sun.webui.jsf.widget.Image", 
     displayName="Image", tagName="image",instanceName="image",
     helpKey="projrave_ui_elements_palette_wdstk-jsf1.2_image",
-    propertiesHelpKey="projrave_ui_elements_palette_wdstk-jsf1.2_propsheets_image_component_props")
+    propertiesHelpKey="projrave_ui_elements_palette_wdstk-jsf1.2_propsheets_image_props")
 public class ImageComponent extends UIGraphic {
     
     private ThemeImage themeImage = null;
