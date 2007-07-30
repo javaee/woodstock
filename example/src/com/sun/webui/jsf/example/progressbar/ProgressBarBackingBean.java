@@ -49,27 +49,35 @@ public class ProgressBarBackingBean {
     }
     
     /** This method generates the progress value. */
-    public int getProgressRate() {
+    public int getProgressRate() {        
+        
+        return progressRate;
+    }
+    
+    /** Get the status string for ProgressBar */    
+    public String getStatus() {
         
         String task = "";
         if (getComponentInstance() != null)
             task = getComponentInstance().getTaskState();
         
+        progressRate = progressRate + 3;
+        
         if (task != null) {
             if (task.equals(ProgressBar.TASK_PAUSED)) {
                 status = MessageUtil.
                             getMessage("progressbar_pausedText");
-                return progressRate;
-                
+                progressRate = progressRate - 3;
+                return status;
             }
             if (task.equals(ProgressBar.TASK_CANCELED)) {
                 status = MessageUtil.
                             getMessage("progressbar_canceledText");
-                return progressRate;
+                progressRate = progressRate - 3;
+                return status;
             }
         }
-        
-        progressRate = progressRate + 3;
+                
         status = progressRate + MessageUtil.
                             getMessage("progressbar_percentText");
         
@@ -83,13 +91,6 @@ public class ProgressBarBackingBean {
             status = MessageUtil.
                             getMessage("progressbar_completedText");
         }
-        
-        return progressRate;
-    }
-    
-    /** Get the status string for ProgressBar */    
-    public String getStatus() {
-        
         return status;
     }
     
