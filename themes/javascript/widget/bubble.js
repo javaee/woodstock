@@ -252,15 +252,7 @@ webui.@THEME@.widget.bubble.open = function(event) {
         clearTimeout(this.timerId);
         this.timerId = null;
     }
-    // Store the active bubble id to form element.
-    // Check for the id if its available then close the pending bubble.
-    if (document.forms[0].activeBubbleId && document.forms[0].activeBubbleId != this.id) {                
-        clearTimeout(dojo.widget.byId(document.forms[0].activeBubbleId).timerId);
-        dojo.widget.byId(document.forms[0].activeBubbleId).setProps({visible:false});
-        document.forms[0].activeBubbleId = null;                
-    }     
-    document.forms[0].activeBubbleId = this.id;    
-
+    
     if (this.openDelay >= 0) {
         this.openDelayTime = this.openDelay;
     }
@@ -269,7 +261,16 @@ webui.@THEME@.widget.bubble.open = function(event) {
     // If openDelay is less than zero then there will be dafault 0.5 sec delay.  
     if (this.openDelay) {
         var _this = this; // Closure magic.
-        this.openTimerId = setTimeout(function() {            
+        this.openTimerId = setTimeout(function() {
+        // Store the active bubble id to form element.
+        // Check for the id if its available then close the pending bubble.
+        if (document.forms[0].activeBubbleId && document.forms[0].activeBubbleId != _this.id) {                
+            clearTimeout(dojo.widget.byId(document.forms[0].activeBubbleId).timerId);
+            dojo.widget.byId(document.forms[0].activeBubbleId).setProps({visible:false});
+            document.forms[0].activeBubbleId = null;                
+        }     
+        document.forms[0].activeBubbleId = _this.id;    
+            
             dojo.widget.byId(_this.id).setProps({visible: true});
             dojo.widget.byId(_this.id).setPosition();
            }, this.openDelayTime);      
@@ -356,6 +357,16 @@ webui.@THEME@.widget.bubble.setPosition = function() {
         var topRightArrow = document.getElementById(this.topRightArrow.id);
         var bottomLeftArrow = document.getElementById(this.bottomLeftArrow.id);
         var bottomRightArrow = document.getElementById(this.bottomRightArrow.id);
+        // hide all callout arrows.
+        webui.@THEME@.common.setVisible(bottomLeftArrow, false);
+        webui.@THEME@.common.setVisible(bottomRightArrow, false);
+        webui.@THEME@.common.setVisible(topLeftArrow, false);
+        webui.@THEME@.common.setVisible(topRightArrow, false);
+
+        bottomLeftArrow.style.display = "none";
+        bottomRightArrow.style.display = "none";
+        topLeftArrow.style.display = "none";
+        topRightArrow.style.display = "none";
 
         var slidLeft = false;
 
@@ -408,16 +419,7 @@ webui.@THEME@.widget.bubble.setPosition = function() {
 
         // If rendering a callout arrow, set it's position relative to the bubble.
         if (this.arrow != null) {
-           webui.@THEME@.common.setVisible(bottomLeftArrow, false);
-           webui.@THEME@.common.setVisible(bottomRightArrow, false);
-           webui.@THEME@.common.setVisible(topLeftArrow, false);
-           webui.@THEME@.common.setVisible(topRightArrow, false);
-
-           bottomLeftArrow.style.display = "none";
-           bottomRightArrow.style.display = "none";
-           topLeftArrow.style.display = "none";
-           topRightArrow.style.display = "none";
-
+           
            this.arrow.style.display = "block";
            webui.@THEME@.common.setVisible(this.arrow, true);
 
@@ -428,6 +430,7 @@ webui.@THEME@.widget.bubble.setPosition = function() {
            if (this.arrow == topRightArrow) {
                this.arrow.style.top = -(bubble.offsetHeight - webui.@THEME@.widget.props.bubble.topConst) + "px";               
            }
+           
         }
     }
     return true;
