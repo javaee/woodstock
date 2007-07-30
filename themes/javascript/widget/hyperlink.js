@@ -94,8 +94,11 @@ webui.@THEME@.widget.hyperlink.fillInTemplate = function(props, frag) {
         webui.@THEME@.widget.hyperlink.createOnClickCallback(this.id, 
             this.formId, this.params));
 
+    // Note: Skip anchor's fillInTemplate() function to avoid setting unique
+    // onClick event.
+
     // Set common functions.
-    return webui.@THEME@.widget.hyperlink.superclass.fillInTemplate.call(this, props, frag);
+    return webui.@THEME@.widget.anchor.superclass.fillInTemplate.call(this, props, frag);
 }
 
 /**

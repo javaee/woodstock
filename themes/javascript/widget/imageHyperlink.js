@@ -72,15 +72,6 @@ webui.@THEME@.widget.imageHyperlink.fillInTemplate = function(props, frag) {
         this.rightContentsContainer.id = this.id + "_rightContents";
     }
 
-    // If the href attribute does not exist, set "#" as the default value of the
-    // DOM node.
-    this.domNode.href = "#";
-
-    // Create callback function for onClick event.
-    dojo.event.connect(this.domNode, "onclick",
-        webui.@THEME@.widget.hyperlink.createOnClickCallback(this.id, 
-            this.formId, this.params));
-
     // Set common functions.
     return webui.@THEME@.widget.imageHyperlink.superclass.fillInTemplate.call(this, props, frag);
 }
