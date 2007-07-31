@@ -806,7 +806,7 @@ public class ProgressBar extends javax.faces.component.UIOutput
      * component is not visible, it can still be processed on subsequent form
      * submissions because the HTML is present.</p>
      */
-    @Property(name="visible", displayName="Visible")
+    @Property(name="visible", displayName="Visible", category="Behavior")
     private boolean visible = false;
     private boolean visible_set = false;
     
