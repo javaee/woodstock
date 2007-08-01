@@ -1,6 +1,7 @@
 package com.sun.webui.tools.javascript;
 
 import java.io.*;
+import com.sun.webui.tools.ExecProcess;
 
 public class CompressJS {
     private String rhinoJar = null;
@@ -51,31 +52,20 @@ public class CompressJS {
     private void compressFile(File file) throws IOException {
         // The command line equivalent of the exec command is:
         //
-        // java -jar custom_rhino.jar -c infile.js > outfile.js
-        //
-	Process p = Runtime.getRuntime().exec(new String[] {
-            "java",
-            "-jar",
-            rhinoJar,
-            "-strict",
-            "-opt",
-            "-1",
-            "-o",
-            file.getAbsolutePath(), // -o must be defined before -c option.
-            "-c",
-            file.getAbsolutePath()
-        });
-
-        // Write stream to stdout.
-        if (verbose) {
-            InputStream streamIn = p.getInputStream();
-
-            int c;
-            while ((c = streamIn.read()) != -1) {
-                System.out.write(c);
-            }
-            streamIn.close();
-        }
+	// java -jar <rhinoJar> -strict -opt -1 -o <outputfile>
+	// 	-c <filetocompress> 
+	//
+	String cmd = 
+            "java -jar " +  rhinoJar + 
+	    " -strict -opt -1 -o " +
+            file.getAbsolutePath() +
+            " -c " +
+            file.getAbsolutePath();
+	ExecProcess ep = new ExecProcess(cmd);
+	int returnVal = ep.exec();
+	if (returnVal != 0) {
+	    System.exit(returnVal);
+	}
     }
 
     /**

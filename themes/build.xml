@@ -118,6 +118,7 @@
 
 	<!-- The uncompressed version is the JSON pretty printed version -->
 	<java classname="com.sun.webui.theme.ResourceBundleTheme"
+		logError="yes"
 		failonerror="true" fork="true">
 	    <arg value="-dir"/>
 <arg value="${suntheme.build}/${suntheme.javascript_uncompressed-theme.path}"/>
@@ -320,8 +321,11 @@
             </filterset>
         </copy>
 
-	<delete dir="${_dest-path_}/javascript"/>
-	<delete dir="${_dest-path_}/javascript_uncompressed"/>
+        <antcall target="compressJavascript">
+            <param name="_theme-name_" value="${suntheme}"/>
+            <param name="_theme-name-css_" value="${suntheme.css}"/>
+            <param name="_dest-path_" value="${_dest-path_}"/>
+	</antcall>
 
         <!-- Create uncompressed javascript 
 	     Only copies out of date files -->
@@ -334,19 +338,6 @@
                 <filter token="THEME_CSS" value="${_theme-name-css_}"/> 
             </filterset>
         </copy>
-
-	<copy todir="${_dest-path_}/javascript">
-	    <fileset dir="${_dest-path_}/javascript_uncompressed"/>
-	</copy>
-
-	<java jar="${tools.jar}" failonerror="true" fork="true">
-	  <arg value="-compressJS"/>
-	  <arg value="-sourcePath"/>
-	  <arg value="${_dest-path_}/javascript"/>
-	  <arg value="-rhinoJar"/>
-	  <arg value="${rhino.jar}"/>
-	  <arg value="-verbose"/>
-	</java>
 
         <copy todir="${_dest-path_}/images">
             <fileset dir="${_theme-dir_}/images">
@@ -409,7 +400,7 @@
         </copy>
         
         <uptodate property="${_theme-service-uptodate_}"
-                  targetfile="${suntheme.build}/${_theme-path_}/${_theme-service-class_}.class">
+	      targetfile="${suntheme.build}/${_theme-path_}/${_theme-service-class_}.class">
             <srcfiles dir="${_theme-service-src_}"
                       includes="**/*.java"/>
         </uptodate>
@@ -421,9 +412,12 @@
         
         <mkdir dir="${_build-dir_}/src"/>
         
-        <!-- Create the SPI Theme Service class at the temporarry directory from template-->
-        <copy file="${_theme-dir_}/${suntheme.path}/${_theme-service-class_}.java"
-              tofile="${_build-dir_}/src/${suntheme.path}/${_theme-service-class_}.java">
+        <!-- Create the SPI Theme Service class at the temporarry
+	    directory from template-->
+        <copy
+	    file="${_theme-dir_}/${suntheme.path}/${_theme-service-class_}.java"
+            tofile=
+	    "${_build-dir_}/src/${suntheme.path}/${_theme-service-class_}.java">
         </copy> 
          
         <!-- Compile the Theme Service class-->
@@ -446,6 +440,48 @@
         </jar>
     </target> 
     
+
+    <target name="compressedJsUpToDate">
+	<uptodate property="compressedJsUpToDate">
+	    <srcfiles dir="." includes="javascript/**/*.js"/>
+	    <mapper type="regexp" from="^(.*)$$"
+		to="${_dest-path_}/\1"/>
+	</uptodate>
+    </target>
+
+    <target name="compressJavascript" depends="compressedJsUpToDate"
+	    unless="compressedJsUpToDate">
+
+	<!-- Do this before copying to java_script uncompress -->
+	<delete dir="${build}/javascript_toCompress"/>
+	<mkdir dir="${build}/javascript_toCompress"/>
+
+	<!-- Get the out of date files into the "toCompress" dir -->
+	<copy todir="${build}/javascript_toCompress">
+	    <fileset dir="javascript">
+		<exclude name="**/CVS/**" />
+		<depend targetDir="${_dest-path_}/javascript_uncompressed"/>
+	    </fileset>
+            <filterset>
+                <filter token="THEME" value="${_theme-name_}"/> 
+                <filter token="THEME_CSS" value="${_theme-name-css_}"/> 
+            </filterset>
+	</copy>
+
+	<java jar="${tools.jar}" failonerror="true" fork="true">
+	  <arg value="-compressJS"/>
+	  <arg value="-sourcePath"/>
+	  <arg value="${build}/javascript_toCompress"/>
+	  <arg value="-rhinoJar"/>
+	  <arg value="${rhino.jar}"/>
+	  <arg value="-verbose"/>
+	</java>
+
+	<!-- move the compressed files to the javascript directory -->
+	<copy todir="${_dest-path_}/javascript">
+	    <fileset dir="${build}/javascript_toCompress"/>
+	</copy>
+    </target>
     
     <target name="compile-theme-service"
             unless="${_uptodate-property_}">
