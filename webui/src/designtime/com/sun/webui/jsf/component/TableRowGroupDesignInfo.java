@@ -25,15 +25,23 @@ package com.sun.webui.jsf.component;
 import com.sun.data.provider.TableDataProvider;
 import com.sun.data.provider.impl.CachedRowSetDataProvider;
 import com.sun.rave.designtime.DesignBean;
+import com.sun.rave.designtime.DesignContext;
 import com.sun.rave.designtime.DesignProperty;
 import com.sun.rave.designtime.DisplayAction;
 import com.sun.rave.designtime.Result;
+import com.sun.rave.designtime.event.DesignBeanListener;
 import com.sun.rave.designtime.faces.FacesDesignContext;
 import com.sun.webui.jsf.component.customizers.TableBindToDataAction;
 import com.sun.webui.jsf.component.customizers.TableCustomizerAction;
 import com.sun.webui.jsf.component.table.TableDesignHelper;
 import com.sun.webui.jsf.design.AbstractDesignInfo;
 import com.sun.webui.jsf.component.table.TableRowGroupDesignState;
+import com.sun.webui.jsf.component.TableRowGroup;
+import javax.faces.el.ValueBinding;
+import javax.faces.context.FacesContext;
+import com.sun.data.provider.DataAdapter;
+import com.sun.data.provider.DataListener;
+import com.sun.data.provider.DataProvider;
 
 /**
  * DesignInfo for the <code>TableRowGroup</code> component. The following behavior is
@@ -142,6 +150,16 @@ public class TableRowGroupDesignInfo extends AbstractDesignInfo {
     /** {@inheritDoc} */
     public Result beanDeletedCleanup(DesignBean bean) {
         TableDesignHelper.deleteDefaultDataProvider(bean);
+        
+        //remove provider listeners from attached tdp if appropriate
+        DesignProperty sourceDataProperty = bean.getProperty(SOURCE_DATA_PROPERTY);
+        Object propertyValue = sourceDataProperty.getValue();
+        if (propertyValue instanceof TableDataProvider) {
+            TableDataProvider tdpInstance = (TableDataProvider)propertyValue;
+            //remove any instances of ProviderListener from tdpInstance
+            removeProviderListeners(tdpInstance, bean);
+        }
+        
         return Result.SUCCESS;
     }
     
@@ -154,15 +172,83 @@ public class TableRowGroupDesignInfo extends AbstractDesignInfo {
      *  previous value is not known
      */
     public void propertyChanged(DesignProperty property, Object oldValue) {
+
         String propertyName = property.getPropertyDescriptor().getName();
         if(propertyName.equals(SOURCE_DATA_PROPERTY)){
+            
+            DesignBean tableRowGroupBean = property.getDesignBean();
+            DesignContext dcontext = tableRowGroupBean.getDesignContext();
+            
+            //see if we need to hook up a new default data provider
             if((oldValue != null) && (!property.isModified())) {
-                DesignBean tableRowGroupBean = property.getDesignBean();
                 TableRowGroupDesignState tblRowGroupDesignState = new TableRowGroupDesignState(tableRowGroupBean);
-                tblRowGroupDesignState.setDataProviderBean(TableDesignHelper.createDefaultDataProvider(tableRowGroupBean.getBeanParent()),true);
+                DesignBean dataProviderBean = TableDesignHelper.createDefaultDataProvider(tableRowGroupBean.getBeanParent());
+                tblRowGroupDesignState.setDataProviderBean(dataProviderBean,true);
                 tblRowGroupDesignState.saveState();
+            }
+            
+            //stop listening to old tdp
+            TableDataProvider oldTdpInstance = null;
+            if (oldValue instanceof ValueBinding && dcontext instanceof FacesDesignContext) {
+                FacesContext fcontext = ((FacesDesignContext)dcontext).getFacesContext();
+                Object oldValueObject = ((ValueBinding)oldValue).getValue(fcontext);
+                if (oldValueObject instanceof TableDataProvider) {
+                    oldTdpInstance = (TableDataProvider)oldValueObject;
+                }
+            }
+            else if (oldValue instanceof TableDataProvider) {
+                oldTdpInstance = (TableDataProvider)oldValue;
+            }
+            if (oldTdpInstance != null) {
+                //remove appropriate instances of ProviderListener from oldTdpInstance
+                removeProviderListeners(oldTdpInstance, tableRowGroupBean);
+            }
+            
+            //start listening to new tdp
+            Object propertyValue = property.getValue();
+            if (propertyValue instanceof TableDataProvider) {
+                TableDataProvider tdpInstance = (TableDataProvider)propertyValue;
+                //remove appropriate instances of ProviderListener from tdpInstance (just defensive)
+                removeProviderListeners(tdpInstance, tableRowGroupBean);
+                //add a new ProviderListener to tdpInstance
+                ProviderListener providerListener = new ProviderListener(tableRowGroupBean);
+                tdpInstance.addDataListener(providerListener);
             }
         }
     }
     
+    private void removeProviderListeners(TableDataProvider tdp, DesignBean tableRowGroupBeanOfListenersToRemove) {
+        DataListener[] dls = tdp.getDataListeners();
+        if (dls != null && dls.length > 0) {
+            for (int i = 0; i < dls.length; i++) {
+                if (dls[i] instanceof ProviderListener) {
+                    ProviderListener pl = (ProviderListener)dls[i];
+                    DesignBean tableRowGroupBean = pl.getTableRowGroupBean();
+                    //only remove listeners whose tableRowGroupBean is the one specified
+                    if (tableRowGroupBean == tableRowGroupBeanOfListenersToRemove) {
+                        tdp.removeDataListener(pl);
+                    }
+                }
+            }
+        }
+    }
+    
+    private static class ProviderListener extends DataAdapter {
+        private DesignBean tableRowGroupBean;
+        public ProviderListener(DesignBean tableRowGroupBean) {
+            this.tableRowGroupBean = tableRowGroupBean;
+        }
+        public DesignBean getTableRowGroupBean() {
+            return tableRowGroupBean;
+        }
+        public void providerChanged(DataProvider provider) {
+            DesignContext dcontext = tableRowGroupBean.getDesignContext();
+            DesignBean dataProviderBean = dcontext.getBeanForInstance(provider);
+            if (dataProviderBean != null) {
+                TableRowGroupDesignState tblRowGroupDesignState = new TableRowGroupDesignState(tableRowGroupBean);
+                tblRowGroupDesignState.setDataProviderBean(dataProviderBean,true);
+                tblRowGroupDesignState.saveState();
+            }
+        }
+    }
 }

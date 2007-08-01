@@ -354,6 +354,9 @@ public class TableRowGroupDesignState {
         FieldKey[] columns = tableDataProvider.getFieldKeys();
         if((columns != null) && (columns.length > 0)){
             for (int i=0; i< columns.length; i++){
+                if (tableDataProvider.getType(columns[i]).toString().indexOf("java.lang.Class") != -1) {
+                    continue;
+                }
                 selectedColumnNames.add(columns[i].getDisplayName());
                 TableColumnDesignState tblColDesignState = new TableColumnDesignState(columns[i].getDisplayName());
                 tblColDesignState.setColumnType(tableDataProvider.getType(columns[i]));
