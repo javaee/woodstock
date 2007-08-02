@@ -1151,9 +1151,7 @@ a.WizStpLnk@THEME_CSS@:hover {
 }
 
 .AccdHeader@THEME_CSS@ {
-    border-style: none solid solid solid;
     border-color: #81939b;
-    border-width: 1px;
     background-image: url(../images/accordion/tab_collapsed_gradient.png);
     background-repeat: repeat-x;
     background-color: #F8F8F9;
@@ -1169,9 +1167,7 @@ a.WizStpLnk@THEME_CSS@:hover {
 }
 
 .AccdTabExpanded@THEME_CSS@, .AccdTabCollapsed@THEME_CSS@ {
-    border-style: none solid solid solid;
     border-color: #81939b;
-    border-width: 1px;
     cursor: pointer;
 }
 
@@ -1234,8 +1230,36 @@ a.WizStpLnk@THEME_CSS@:hover {
 
 .AccdTabContent@THEME_CSS@ {
     background-color: #FFFFFF;
-    border-style: solid solid solid solid;
     border-color: #81939b;
-    border-width: 1px;
  }
+/*---*/
+
+/* PROGRESS BAR */
+.progressBar_4@THEME_CSS@ {
+	border-color:#F1F1F1;
+}
+.progressBar_4@THEME_CSS@ .barContainer@THEME_CSS@ {
+	background-color:#F2F3F4;
+	border-color:#666664;
+}
+.progressBar_4@THEME_CSS@ .barIndeterminatePaused@THEME_CSS@ {
+	background: #A0CCE7 url(../images/progressBar/still-indeterminate.gif) repeat-x top;
+}
+.progressBar_4@THEME_CSS@ .barIndeterminate@THEME_CSS@ {
+	background: #A0CCE7 url(../images/progressBar/indeterminate.gif) repeat-x top;
+}
+.progressBar_4@THEME_CSS@ .barDeterminate@THEME_CSS@ {
+	background: #A0CCE7 url(../images/progressBar/reg-slice.gif) repeat-x top;
+}
+.progressBar_4@THEME_CSS@ .failure@THEME_CSS@ {
+	background-image:url(../images/alerts/failed_small.gif);
+	background-position:top left;
+	background-repeat:no-repeat;
+}
+.progressBar_4@THEME_CSS@ .failureLabel@THEME_CSS@ {
+	color:#CC0000;
+}
+.progressBar_4@THEME_CSS@ .checkboxContainer@THEME_CSS@ label {
+	cursor:pointer;
+}
 /*---*/

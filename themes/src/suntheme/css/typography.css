@@ -384,3 +384,12 @@ a.TreeSelLink@THEME_CSS@:hover {
     font-weight: bold;
 }
 /*---*/
+
+/* PROGRESS BAR */
+.progressBar_4@THEME_CSS@ {
+	font-size:1.0em;
+}
+.progressBar_4@THEME_CSS@ .operationLabel@THEME_CSS@, .progressBar_4@THEME_CSS@ .failureLabel@THEME_CSS@ {
+	font-weight:bold;
+}
+/*---*/

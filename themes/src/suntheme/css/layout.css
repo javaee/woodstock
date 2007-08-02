@@ -1694,6 +1694,8 @@ table.TblLt@THEME_CSS@ td.TblPnlTd@THEME_CSS@ {padding-left:10px;border-top:none
 }
 
 .AccdHeader@THEME_CSS@ {
+    border-style: none solid solid solid;
+    border-width: 1px;
     overflow: hidden;
     height: 19px;
 }
@@ -1706,6 +1708,11 @@ table.TblLt@THEME_CSS@ td.TblPnlTd@THEME_CSS@ {padding-left:10px;border-top:none
 .AccdDivider@THEME_CSS@ {
     height:15px;
     width:1px;
+}
+
+.AccdTabExpanded@THEME_CSS@, .AccdTabCollapsed@THEME_CSS@ {
+    border-style: none solid solid solid;
+    border-width: 1px;
 }
 
 .AccdTabExpanded@THEME_CSS@ a, .AccdTabCollapsed@THEME_CSS@ a {
@@ -1732,8 +1739,78 @@ table.TblLt@THEME_CSS@ td.TblPnlTd@THEME_CSS@ {padding-left:10px;border-top:none
 }
 
 .AccdTabContent@THEME_CSS@ {
+    border-style: solid solid solid solid;
+    border-width: 1px;
     padding: 5px;
     overflow: auto;
     height: 100px;   /* default height, but can be overridden */
  }
+/*---*/
+
+/* PROGRESS BAR */
+.progressBar_4@THEME_CSS@ {
+	margin:12px 11px;
+}
+.progressBar_4@THEME_CSS@ .operationLabel@THEME_CSS@ {
+	margin:0 0 9px 1px;
+	line-height:1.0;
+}
+.progressBar_4@THEME_CSS@ .barContainer@THEME_CSS@ {
+	display:block;
+	float:left;
+	position:relative;
+	margin-bottom:6px;
+	padding:.09em;
+	border-style:solid;
+	border-width:1px;
+	width:16.9em;
+}
+.progressBar_4@THEME_CSS@ .barDeterminate@THEME_CSS@, .progressBar_4@THEME_CSS@ .barIndeterminate@THEME_CSS@, .progressBar_4@THEME_CSS@ .barIndeterminatePaused@THEME_CSS@ {
+	width:48%;
+	height:.8em;
+}
+.progressBar_4@THEME_CSS@ .failure@THEME_CSS@{
+	
+	float:left;
+	margin-bottom:7px;
+	padding:1px;
+	width:17.1em;
+}
+.progressBar_4@THEME_CSS@ .failureLabel@THEME_CSS@ {
+	padding:0 0 0 1.3em;
+	line-height:1.0;
+}
+.progressBar_4@THEME_CSS@ .barIndeterminate@THEME_CSS@, .progressBar_4@THEME_CSS@ .barIndeterminatePaused@THEME_CSS@{
+	width:100%
+}
+.progressBar_4@THEME_CSS@ .barLabel@THEME_CSS@ {
+	position:absolute;
+	line-height:.9;
+	top:.09em;
+	left:0;
+	width:16.9em;
+	height:.9em;
+	text-align:right;
+}
+.progressBar_4@THEME_CSS@ .statusLabel@THEME_CSS@ {
+	padding:0 0 0 1px ;
+	line-height:1.0;
+	width:16.9em;
+	margin-bottom:20px;
+}
+.progressBar_4@THEME_CSS@ .buttonsBottom@THEME_CSS@ {
+	margin: 11px 0 20px -1px;
+}
+.progressBar_4@THEME_CSS@ .buttonsRight@THEME_CSS@ {
+	float:left;
+	clear:right;
+	margin: -2px 0 0 0;
+	padding-left:.9em;
+}
+.progressBar_4@THEME_CSS@ .log@THEME_CSS@ {
+	margin:20px 0;
+}
+.progressBar_4@THEME_CSS@ .busy@THEME_CSS@ {
+	margin:10px;
+}
 /*---*/
