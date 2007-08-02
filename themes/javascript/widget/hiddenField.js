@@ -36,6 +36,44 @@ webui.@THEME@.widget.hiddenField = function() {
 }
 
 /**
+ * This closure is used to process widget events.
+ */
+webui.@THEME@.widget.hiddenField.event = {
+    /**
+     * This closure is used to process refresh events.
+     */
+    refresh: {
+        /**
+         * Event topics for custom AJAX implementations to listen for.
+         */
+        beginTopic: "webui_@THEME@_widget_hiddenField_event_refresh_begin",
+        endTopic: "webui_@THEME@_widget_hiddenField_event_refresh_end"
+    },
+
+    /**
+     * This closure is used to process state change events.
+     */
+    state: {
+        /**
+         * Event topics for custom AJAX implementations to listen for.
+         */
+        beginTopic: "webui_@THEME@_widget_hiddenField_event_state_begin",
+        endTopic: "webui_@THEME@_widget_hiddenField_event_state_end"
+    },
+
+    /**
+     * This closure is used to process submit events.
+     */
+    submit: {
+        /**
+         * Event topics for custom AJAX implementations to listen for.
+         */
+        beginTopic: "webui_@THEME@_widget_hiddenField_event_submit_begin",
+        endTopic: "webui_@THEME@_widget_hiddenField_event_submit_end"
+    }
+}
+
+/**
  * This function is used to fill in template properties.
  *
  * Note: This is called after the buildRendering() function. Anything to be set 
@@ -45,11 +83,12 @@ webui.@THEME@.widget.hiddenField = function() {
  * @param frag HTML fragment.
  */
 webui.@THEME@.widget.hiddenField.fillInTemplate = function(props, frag) {
+    webui.@THEME@.widget.hiddenField.superclass.fillInTemplate.call(this, props, frag);
+
     // Set public functions. 
     this.domNode.submit = function(execute) { return dojo.widget.byId(this.id).submit(execute); }
 
-    // Set common functions.
-    return webui.@THEME@.widget.hiddenField.superclass.fillInTemplate.call(this, props, frag);
+    return true;
 }
 
 /**
@@ -68,38 +107,6 @@ webui.@THEME@.widget.hiddenField.getProps = function() {
 }
 
 /**
- * This closure is used to process refresh events.
- */
-webui.@THEME@.widget.hiddenField.refresh = {
-    /**
-     * Event topics for custom AJAX implementations to listen for.
-     */
-    beginEventTopic: "webui_@THEME@_widget_hiddenField_refresh_begin",
-    endEventTopic: "webui_@THEME@_widget_hiddenField_refresh_end",
- 
-    /**
-     * Process refresh event.
-     *
-     * @param execute The string containing a comma separated list of client ids 
-     * against which the execute portion of the request processing lifecycle
-     * must be run.
-     */
-    processEvent: function(execute) {
-        // Include default AJAX implementation.
-        this.ajaxify("webui.@THEME@.widget.jsfx.hiddenField");
-
-        // Publish an event for custom AJAX implementations to listen for.
-        dojo.event.topic.publish(
-            webui.@THEME@.widget.hiddenField.refresh.beginEventTopic, {
-                id: this.id,
-                execute: execute,
-                endEventTopic: webui.@THEME@.widget.hiddenField.refresh.endEventTopic
-            });
-        return true;
-    }
-}
-
-/**
  * This function is used to set widget properties with the following 
  * Object literals.
  *
@@ -110,8 +117,9 @@ webui.@THEME@.widget.hiddenField.refresh = {
  *  <li>value</li>
  * </ul>
  *
- * Note: This function should only be invoked through setProps(). Further, the
- * widget shall be updated only for the given key-value pairs.
+ * Note: This is considered a private API, do not use. This function should only
+ * be invoked through postInitialize() and setProps(). Further, the widget shall
+ * be updated only for the given key-value pairs.
  *
  * @param props Key-Value pairs of properties.
  */
@@ -131,37 +139,6 @@ webui.@THEME@.widget.hiddenField._setProps = function(props) {
     return webui.@THEME@.widget.hiddenField.superclass._setProps.call(this, props);
 }
 
-/**
- * This closure is used to process submit events.
- */
-webui.@THEME@.widget.hiddenField.submit = {
-    /**
-     * Event topics for custom AJAX implementations to listen for.
-     */
-    beginEventTopic: "webui_@THEME@_widget_hiddenField_submit_begin",
-    endEventTopic: "webui_@THEME@_widget_hiddenField_submit_end",
-    
-    /**
-     * Process submit event.
-     *
-     * @param execute Comma separated string containing a list of client ids 
-     * against which the execute portion of the request processing lifecycle
-     * must be run.
-     */
-    processEvent: function(execute) {
-        // Include default AJAX implementation.
-        this.ajaxify("webui.@THEME@.widget.jsfx.hiddenField");
-
-        // Publish an event for custom AJAX implementations to listen for.
-        dojo.event.topic.publish(
-            webui.@THEME@.widget.hiddenField.submit.beginEventTopic, {
-                id: this.id,
-                execute: execute
-            });
-        return true;
-    }
-}
-
 // Inherit base widget properties.
 dojo.inherits(webui.@THEME@.widget.hiddenField, webui.@THEME@.widget.widgetBase);
 
@@ -170,11 +147,11 @@ dojo.lang.extend(webui.@THEME@.widget.hiddenField, {
     // Set private functions.
     fillInTemplate: webui.@THEME@.widget.hiddenField.fillInTemplate,
     getProps: webui.@THEME@.widget.hiddenField.getProps,
-    refresh: webui.@THEME@.widget.hiddenField.refresh.processEvent,
     _setProps: webui.@THEME@.widget.hiddenField._setProps,
-    submit: webui.@THEME@.widget.hiddenField.submit.processEvent,
+    submit: webui.@THEME@.widget.widgetBase.event.submit.processEvent,
 
     // Set defaults.
     disabled: false,
+    event: webui.@THEME@.widget.hiddenField.event,
     widgetType: "hiddenField"
 });

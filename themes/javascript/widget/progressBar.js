@@ -50,6 +50,86 @@ webui.@THEME@.widget.progressBar.cancel = function() {
 }
 
 /**
+ * This closure is used to process widget events.
+ */
+webui.@THEME@.widget.progressBar.event = {
+    /**
+     * This closure is used to publish progress events.
+     */
+    progress: {
+        /**
+         * Event topics for custom AJAX implementations to listen for.
+         */
+        beginTopic: "webui_@THEME@_widget_progressBar_event_progress_begin",
+        endTopic: "webui_@THEME@_widget_progressBar_event_progress_end",
+
+        /**
+         * Helper function to to periodically obtain progress.
+         *
+         * @param id The client id used to invoke the callback.
+         */
+        createCallback: function(id) {
+            if (id != null) {
+                // New literals are created every time this function
+                // is called, and it's saved by closure magic.
+                return function() {
+                    var widget = dojo.widget.byId(id);
+                    if (widget == null) {
+                        return null;
+                    } else {
+                        widget.updateProgress();
+                    }
+                };
+            }
+        },
+
+        /**
+         * Process progress event.
+         */
+        processEvent: function() {
+            // Publish event.
+            if (this.refreshRate > 0) {
+                // Include default AJAX implementation.
+                this.ajaxify();
+
+                // Publish an event for custom AJAX implementations to listen for.
+                dojo.event.topic.publish(
+                    webui.@THEME@.widget.progressBar.event.progress.beginTopic, {
+                        id: this.id
+                    });
+            }
+
+            // Create a call back function to periodically publish progress events.
+            this.timeoutId = setTimeout(
+                webui.@THEME@.widget.progressBar.event.progress.createCallback(this.id),
+                this.refreshRate);
+        }
+    },
+
+    /**
+     * This closure is used to process refresh events.
+     */
+    refresh: {
+        /**
+         * Event topics for custom AJAX implementations to listen for.
+         */
+        beginTopic: "webui_@THEME@_widget_progressBar_event_refresh_begin",
+        endTopic: "webui_@THEME@_widget_progressBar_event_refresh_end"
+    },
+
+    /**
+     * This closure is used to process state change events.
+     */
+    state: {
+        /**
+         * Event topics for custom AJAX implementations to listen for.
+         */
+        beginTopic: "webui_@THEME@_widget_progressBar_event_state_begin",
+        endTopic: "webui_@THEME@_widget_progressBar_event_state_end"
+    }
+}
+
+/**
  * This function is used to fill in template properties.
  *
  * Note: This is called after the buildRendering() function. Anything to be set 
@@ -59,6 +139,8 @@ webui.@THEME@.widget.progressBar.cancel = function() {
  * @param frag HTML fragment.
  */
 webui.@THEME@.widget.progressBar.fillInTemplate = function(props, frag) {
+    webui.@THEME@.widget.progressBar.superclass.fillInTemplate.call(this, props, frag);
+
     // Set ids.
     if (this.id) {
         this.barContainer.id = this.id + "_barContainer";
@@ -100,8 +182,7 @@ webui.@THEME@.widget.progressBar.fillInTemplate = function(props, frag) {
     this.domNode.setRightControlVisible = function(show) { return dojo.widget.byId(this.id).setRightControlVisible(show); }
     this.domNode.setStatusTextVisible = function(show) { return dojo.widget.byId(this.id).setStatusTextVisible(show); }
 
-    // Set common functions.
-    return webui.@THEME@.widget.progressBar.superclass.fillInTemplate.call(this, props, frag);
+    return true;
 }
 
 /**
@@ -237,91 +318,6 @@ webui.@THEME@.widget.progressBar.postCreate = function (props, frag, parent) {
 
     return webui.@THEME@.widget.progressBar.superclass.postCreate.call(this, 
         props, frag, parent);
-}
-
-/**
- * This closure is used to publish progress events.
- */
-webui.@THEME@.widget.progressBar.progress = {
-    /**
-     * Event topics for custom AJAX implementations to listen for.
-     */
-    beginEventTopic: "webui_@THEME@_widget_progressBar_progress_begin",
-    endEventTopic: "webui_@THEME@_widget_progressBar_progress_end",
-
-    /**
-     * Helper function to to periodically obtain progress.
-     *
-     * @param id The client id used to invoke the callback.
-     */
-    createCallback: function(id) {
-        if (id != null) {
-            // New literals are created every time this function
-            // is called, and it's saved by closure magic.
-            return function() {
-                var widget = dojo.widget.byId(id);
-                if (widget == null) {
-                    return null;
-                } else {
-                    widget.updateProgress();
-                }
-            };
-        }
-    },
-
-    /**
-     * Process progress event.
-     */
-    processEvent: function() {
-        // Publish event.
-        if (this.refreshRate > 0) {
-            // Include default AJAX implementation.
-            this.ajaxify("webui.@THEME@.widget.jsfx.progressBar");
-
-            // Publish an event for custom AJAX implementations to listen for.
-            dojo.event.topic.publish(
-                webui.@THEME@.widget.progressBar.progress.beginEventTopic, {
-                    id: this.id
-                });
-        }
-
-        // Create a call back function to periodically publish progress events.
-        this.timeoutId = setTimeout(
-            webui.@THEME@.widget.progressBar.progress.createCallback(this.id),
-            this.refreshRate);
-    }
-}
-
-/**
- * This closure is used to process refresh events.
- */
-webui.@THEME@.widget.progressBar.refresh = {
-    /**
-     * Event topics for custom AJAX implementations to listen for.
-     */
-    beginEventTopic: "webui_@THEME@_widget_progressBar_refresh_begin",
-    endEventTopic: "webui_@THEME@_widget_progressBar_refresh_end",
- 
-    /**
-     * Process refresh event.
-     *
-     * @param execute The string containing a comma separated list of client ids 
-     * against which the execute portion of the request processing lifecycle
-     * must be run.
-     */
-    processEvent: function(execute) {
-        // Include default AJAX implementation.
-        this.ajaxify("webui.@THEME@.widget.jsfx.progressBar");
-
-        // Publish an event for custom AJAX implementations to listen for.
-        dojo.event.topic.publish(
-            webui.@THEME@.widget.progressBar.refresh.beginEventTopic, {
-                id: this.id,
-                execute: execute,
-                endEventTopic: webui.@THEME@.widget.progressBar.refresh.endEventTopic
-            });
-        return true;
-    }
 }
 
 /**
@@ -632,8 +628,9 @@ webui.@THEME@.widget.progressBar.setProgressBarVisible = function(show) {
  *  <li>visible</li>
  * </ul>
  *
- * Note: This function should only be invoked through setProps(). Further, the
- * widget shall be updated only for the given key-value pairs.
+ * Note: This is considered a private API, do not use. This function should only
+ * be invoked through postInitialize() and setProps(). Further, the widget shall
+ * be updated only for the given key-value pairs.
  *
  * @param props Key-Value pairs of properties.
  */
@@ -819,7 +816,6 @@ dojo.lang.extend(webui.@THEME@.widget.progressBar, {
     isStatusTextVisible: webui.@THEME@.widget.progressBar.isStatusTextVisible,
     pause: webui.@THEME@.widget.progressBar.pause,
     postCreate: webui.@THEME@.widget.progressBar.postCreate,
-    refresh: webui.@THEME@.widget.progressBar.refresh.processEvent,
     resume: webui.@THEME@.widget.progressBar.resume,
     stop: webui.@THEME@.widget.progressBar.stop,
     setBottomControlVisible: webui.@THEME@.widget.progressBar.setBottomControlVisible,
@@ -836,9 +832,10 @@ dojo.lang.extend(webui.@THEME@.widget.progressBar, {
     sleep: webui.@THEME@.widget.progressBar.sleep,
     setRightControlVisible: webui.@THEME@.widget.progressBar.setRightControlVisible,
     setStatusTextVisible: webui.@THEME@.widget.progressBar.setStatusTextVisible,
-    updateProgress: webui.@THEME@.widget.progressBar.progress.processEvent,
+    updateProgress: webui.@THEME@.widget.progressBar.event.progress.processEvent,
 
     // Set defaults.
+    event: webui.@THEME@.widget.progressBar.event,
     percentChar: "%",
     progress: 0,
     type: webui.@THEME@.widget.props.progressBar.determinate,

@@ -29,7 +29,7 @@
  dojo.require("webui.@THEME@.widget.bubble");
   
  // Listen for Dojo Widget events.
-dojo.event.topic.subscribe(webui.@THEME@.widget.bubble.refresh.beginEventTopic,
+dojo.event.topic.subscribe(webui.@THEME@.widget.bubble.event.refresh.beginTopic,
     webui.@THEME@.widget.jsfx.common, "processRefreshEvent");
  
  //-->

@@ -62,6 +62,44 @@ webui.@THEME@.widget.textArea.createSubmitCallback = function(id) {
 }
 
 /**
+ * This closure is used to process widget events.
+ */
+webui.@THEME@.widget.textArea.event = {
+    /**
+     * This closure is used to process refresh events.
+     */
+    refresh: {
+        /**
+         * Event topics for custom AJAX implementations to listen for.
+         */
+        beginTopic: "webui_@THEME@_widget_textArea_event_refresh_begin",
+        endTopic: "webui_@THEME@_widget_textArea_event_refresh_end"
+    },
+
+    /**
+     * This closure is used to process state change events.
+     */
+    state: {
+        /**
+         * Event topics for custom AJAX implementations to listen for.
+         */
+        beginTopic: "webui_@THEME@_widget_textArea_event_state_begin",
+        endTopic: "webui_@THEME@_widget_textArea_event_state_end"
+    },
+
+    /**
+     * This closure is used to process submit events.
+     */
+    submit: {
+        /**
+         * Event topics for custom AJAX implementations to listen for.
+         */
+        beginTopic: "webui_@THEME@_widget_textArea_event_submit_begin",
+        endTopic: "webui_@THEME@_widget_textArea_event_submit_end"
+    }
+}
+
+/**
  * This function is used to fill in template properties.
  *
  * Note: This is called after the buildRendering() function. Anything to be set 
@@ -71,15 +109,15 @@ webui.@THEME@.widget.textArea.createSubmitCallback = function(id) {
  * @param frag HTML fragment.
  */
 webui.@THEME@.widget.textArea.fillInTemplate = function(props, frag) {
+    webui.@THEME@.widget.textArea.superclass.fillInTemplate.call(this, props, frag);
+
     // Set events.                
     if (this.autoSave > 0) {
         this.autoSaveTimerId = setInterval(
             webui.@THEME@.widget.textArea.createSubmitCallback(this.id), 
                 this.autoSave);  
     }
-
-    // Set common functions.
-    return webui.@THEME@.widget.textArea.superclass.fillInTemplate.call(this, props, frag);
+    return true;
 }
 
 /**
@@ -105,38 +143,6 @@ webui.@THEME@.widget.textArea.getProps = function() {
     if (this.autoSave > 0 ) { props.autoSave = this.autoSave; }
    
     return props;
-}
-
-/**
- * This closure is used to process refresh events.
- */
-webui.@THEME@.widget.textArea.refresh = {
-    /**
-     * Event topics for custom AJAX implementations to listen for.
-     */
-    beginEventTopic: "webui_@THEME@_widget_textArea_refresh_begin",
-    endEventTopic: "webui_@THEME@_widget_textArea_refresh_end",
-    
-    /**
-     * Process refresh event.
-     *
-     * @param execute The string containing a comma separated list of client ids 
-     * against which the execute portion of the request processing lifecycle
-     * must be run.
-     */
-    processEvent: function(execute) {
-        // Include default AJAX implementation.
-        this.ajaxify("webui.@THEME@.widget.jsfx.textArea");
-        
-        // Publish an event for custom AJAX implementations to listen for.
-        dojo.event.topic.publish(
-        webui.@THEME@.widget.textArea.refresh.beginEventTopic, {
-            id: this.id,
-            execute: execute,
-            endEventTopic: webui.@THEME@.widget.textArea.refresh.endEventTopic
-        });
-        return true;
-    }
 }
 
 /**
@@ -166,6 +172,7 @@ webui.@THEME@.widget.textArea.refresh = {
  *  <li>onMouseMove</li>
  *  <li>readOnly</li>
  *  <li>required</li>
+ *  <li>rows</li>
  *  <li>style</li>
  *  <li>tabIndex</li>
  *  <li>title</li>
@@ -174,8 +181,9 @@ webui.@THEME@.widget.textArea.refresh = {
  *  <li>visible</li> 
  * </ul>
  *
- * Note: This function should only be invoked through setProps(). Further, the
- * widget shall be updated only for the given key-value pairs.
+ * Note: This is considered a private API, do not use. This function should only
+ * be invoked through postInitialize() and setProps(). Further, the widget shall
+ * be updated only for the given key-value pairs.
  *
  * @param props Key-Value pairs of properties.
  */
@@ -205,38 +213,6 @@ webui.@THEME@.widget.textArea._setProps = function(props) {
     return webui.@THEME@.widget.textArea.superclass._setProps.call(this, props);
 }
 
-/**
- * This closure is used to process submit events.
- */
-webui.@THEME@.widget.textArea.submit = {
-    /**
-     * Event topics for custom AJAX implementations to listen for.
-     */
-    beginEventTopic: "webui_@THEME@_widget_textArea_submit_begin",
-    endEventTopic: "webui_@THEME@_widget_textArea_submit_end",
-    
-    /**
-     * Process submit event.
-     *
-     * @param execute Comma separated string containing a list of client ids 
-     * against which the execute portion of the request processing lifecycle
-     * must be run.
-     */
-    processEvent: function(execute) {
-        // Include default AJAX implementation.
-        this.ajaxify("webui.@THEME@.widget.jsfx.textArea");
-        
-        // Publish an event for custom AJAX implementations to listen for.
-        dojo.event.topic.publish(
-        webui.@THEME@.widget.textArea.submit.beginEventTopic, {
-            id: this.id,
-            execute: execute,
-            endEventTopic: webui.@THEME@.widget.textArea.submit.endEventTopic
-        });
-        return true;
-    }
-}
-
 // Inherit base widget properties.
 dojo.inherits(webui.@THEME@.widget.textArea, webui.@THEME@.widget.textField);
 
@@ -246,17 +222,13 @@ dojo.lang.extend(webui.@THEME@.widget.textArea, {
     fillInTemplate: webui.@THEME@.widget.textArea.fillInTemplate,
     getInputClassName: webui.@THEME@.widget.textArea.getInputClassName,
     getProps: webui.@THEME@.widget.textArea.getProps,
-    refresh: webui.@THEME@.widget.textArea.refresh.processEvent,
     _setProps: webui.@THEME@.widget.textArea._setProps,
-    submit: webui.@THEME@.widget.textArea.submit.processEvent,
+    submit: webui.@THEME@.widget.widgetBase.event.submit.processEvent,
     
     // Set defaults.
     autoSave: 0,
     cols: 20,
-    disabled: false,
-    lastSaved: null,
-    required: false,
+    event: webui.@THEME@.widget.textArea.event,
     rows: 3,
-    valid: true,
     widgetType: "textArea"
 });

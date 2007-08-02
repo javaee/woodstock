@@ -73,11 +73,11 @@ webui.@THEME@.widget.accordion.addControls = function(props) {
         if (refreshImgWidget) {
             refreshImgWidget.setProps(props.refreshImage);
         } else {
-            this.addFragment(this.refreshImgContainer,
-                props.refreshImage);
-            var _this = this;
+            this.addFragment(this.refreshImgContainer, props.refreshImage);
+            var id = this.id;
             dojo.event.connect(this.refreshNodeContainer, "onclick", function() {
-                _this.refresh(_this.id);
+                var widget = dojo.widget.byId(id);
+                widget.refresh(id);
             });
         }
     }
@@ -97,6 +97,33 @@ webui.@THEME@.widget.accordion.collapseAllTabs = function() {
         }
     }
     return true;
+}
+
+/**
+ * This closure is used to process widget events.
+ */
+webui.@THEME@.widget.accordion.event = {
+    /**
+     * This closure is used to process refresh events.
+     */
+    refresh: {
+        /**
+         * Event topics for custom AJAX implementations to listen for.
+         */
+        beginTopic: "webui_@THEME@_widget_accordion_event_refresh_begin",
+        endTopic: "webui_@THEME@_widget_accordion_event_refresh_end"
+    },
+
+    /**
+     * This closure is used to process state change events.
+     */
+    state: {
+        /**
+         * Event topics for custom AJAX implementations to listen for.
+         */
+        beginTopic: "webui_@THEME@_widget_accordion_event_state_begin",
+        endTopic: "webui_@THEME@_widget_accordion_event_state_end"
+    }
 }
 
 /**
@@ -124,6 +151,8 @@ webui.@THEME@.widget.accordion.expandAllTabs = function() {
  * @param frag HTML fragment.
  */
 webui.@THEME@.widget.accordion.fillInTemplate = function(props, frag) {
+    webui.@THEME@.widget.accordion.superclass.fillInTemplate.call(this, props, frag);
+
     with (this.domNode.style) {
         if (position != "absolute") {
             position = "relative";
@@ -142,9 +171,7 @@ webui.@THEME@.widget.accordion.fillInTemplate = function(props, frag) {
         this.dividerNodeContainer.id = this.id + "_dividerNode";
         this.refreshNodeContainer.id = this.id + "_refreshNode";
     }
-
-    // Set common functions.
-    return webui.@THEME@.widget.accordion.superclass.fillInTemplate.call(this, props, frag);
+    return true;
 }
 
 /**
@@ -168,45 +195,6 @@ webui.@THEME@.widget.accordion.getProps = function() {
     if (this.type) { props.type = this.type; }
 
     return props;
-}
-
-/**
- * This closure is used to process accordion refresh events. If ajaxify
- * is set to true the default jafx based handler will kick in to 
- * asynchronously refresh the accordion. Else the applicatiobn developer
- * has to supply custom javascript functionality that listenes to 
- * webui.@THEME@.widget.accordion.refresh.beginEventTopic and initiates
- * a refresh. At the end of the refresh process process the 
- * webui.@THEME@.widget.accordion.refresh.beginEventTopic should be
- * published.
- */
-webui.@THEME@.widget.accordion.refresh = {
-    /**
-     * Event topics for custom AJAX implementations to listen for.
-     */
-    beginEventTopic: "webui_@THEME@_widget_accordion_refresh_begin",
-    endEventTopic: "webui_@THEME@_widget_accordion_refresh_end",
-
-    /**
-     * Process refresh event.
-     *
-     * @param execute Comma separated string containing a list of client ids 
-     * against which the execute portion of the request processing lifecycle
-     * must be run.
-     */
-    processEvent: function(execute) {
-        // Include default AJAX implementation.
-        this.ajaxify("webui.@THEME@.widget.jsfx.accordion");
-
-        // Publish event.
-        dojo.event.topic.publish(
-            webui.@THEME@.widget.accordion.refresh.beginEventTopic, {
-                id: this.id,
-                execute: execute,
-                endEventTopic: webui.@THEME@.widget.accordion.refresh.endEventTopic
-        });
-        return true;
-    }
 }
 
 /**
@@ -234,9 +222,14 @@ webui.@THEME@.widget.accordion.selectChild = function(widget) {
  * Note: This function updates the widget object for later updates. Further, the
  * widget shall be updated only for the given key-value pairs.
  *
+ * Note: If the notify param is true, the widget's state change event shall be
+ * published. This is typically used to keep client-side state in sync with the
+ * server.
+ *
  * @param props Key-Value pairs of properties.
+ * @param notify Publish an event for custom AJAX implementations to listen for.
  */
-webui.@THEME@.widget.accordion.setProps = function(props) {
+webui.@THEME@.widget.accordion.setProps = function(props, notify) {
     if (props == null) {
         return false;
     }
@@ -247,7 +240,7 @@ webui.@THEME@.widget.accordion.setProps = function(props) {
     }
 
     // Extend widget object for later updates.
-    return webui.@THEME@.widget.accordion.superclass.setProps.call(this, props);
+    return webui.@THEME@.widget.accordion.superclass.setProps.call(this, props, notify);
 }
 
 /**
@@ -268,8 +261,9 @@ webui.@THEME@.widget.accordion.setProps = function(props) {
  *  <li>type</li>
  * </ul>
  *
- * Note: This function should only be invoked through setProps(). Further, the
- * widget shall be updated only for the given key-value pairs.
+ * Note: This is considered a private API, do not use. This function should only
+ * be invoked through postInitialize() and setProps(). Further, the widget shall
+ * be updated only for the given key-value pairs.
  *
  * @param props Key-Value pairs of properties.
  */
@@ -286,8 +280,14 @@ webui.@THEME@.widget.accordion._setProps = function(props) {
     // the accordion is being rerendered because of a refresh in which 
     // we want to use the latest set of children. addFragment is supposed
     // to do that.
-    if (this.tabs) {
-        for (var i=0; i < this.tabs.length; i++) {
+    if (props.tabs) {
+        // To Do: Before adding new children, previously created nodes should be
+        // removed via the removeChildNodes(domNode) function -- see label. 
+        //
+        // Adding children to a specific container (other than this.domNode) 
+        // would help isolate what needs to be removed. The following code works
+        // because widgets of the same id are destroyed before creating new objects.
+        for (var i=0; i < props.tabs.length; i++) {
             this.addFragment(this.domNode, props.tabs[i], "last");
         }
     }
@@ -311,15 +311,15 @@ dojo.lang.extend(webui.@THEME@.widget.accordion, {
     expandAllTabs: webui.@THEME@.widget.accordion.expandAllTabs,
     fillInTemplate: webui.@THEME@.widget.accordion.fillInTemplate,
     getProps: webui.@THEME@.widget.accordion.getProps,
-    refresh: webui.@THEME@.widget.accordion.refresh.processEvent,
     selectChild: webui.@THEME@.widget.accordion.selectChild,
     setProps: webui.@THEME@.widget.accordion.setProps,
     _setProps: webui.@THEME@.widget.accordion._setProps,
 
     // Set defaults.
-    disabled: false,
     duration: 250,
+    event: webui.@THEME@.widget.accordion.event,
     isContainer: true,
+    loadOnSelect: false,
     multipleSelect: false,
     widgetType: "accordion"
 });

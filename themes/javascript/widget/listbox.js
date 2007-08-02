@@ -107,7 +107,6 @@ webui.@THEME@.widget.listbox.addOptions = function(props) {
             }
         }
     }
-    
     return true;
 }
 
@@ -169,6 +168,44 @@ webui.@THEME@.widget.listbox.createOnChangeCallback = function(id) {
 }
 
 /**
+ * This closure is used to process widget events.
+ */
+webui.@THEME@.widget.listbox.event = {
+    /**
+     * This closure is used to process refresh events.
+     */
+    refresh: {
+        /**
+         * Event topics for custom AJAX implementations to listen for.
+         */
+        beginTopic: "webui_@THEME@_widget_listbox_event_refresh_begin",
+        endTopic: "webui_@THEME@_widget_listbox_event_refresh_end"
+    },
+
+    /**
+     * This closure is used to process state change events.
+     */
+    state: {
+        /**
+         * Event topics for custom AJAX implementations to listen for.
+         */
+        beginTopic: "webui_@THEME@_widget_listbox_event_state_begin",
+        endTopic: "webui_@THEME@_widget_listbox_event_state_end"
+    },
+
+    /**
+     * This closure is used to process submit events.
+     */
+    submit: {
+        /**
+         * Event topics for custom AJAX implementations to listen for.
+         */
+        beginTopic: "webui_@THEME@_widget_listbox_event_submit_begin",
+        endTopic: "webui_@THEME@_widget_listbox_event_submit_end"
+    }
+}
+
+/**
  * This function is used to fill in template properties.
  *
  * Note: This is called after the buildRendering() function. Anything to be set 
@@ -178,6 +215,8 @@ webui.@THEME@.widget.listbox.createOnChangeCallback = function(id) {
  * @param frag HTML fragment.
  */
 webui.@THEME@.widget.listbox.fillInTemplate = function(props, frag) {
+    webui.@THEME@.widget.listbox.superclass.fillInTemplate.call(this, props, frag);
+
     // Set ids.
     if (this.id) {
         this.labelContainer.id = this.id + "_label";
@@ -194,14 +233,7 @@ webui.@THEME@.widget.listbox.fillInTemplate = function(props, frag) {
     dojo.event.connect(this.listContainer, "onchange",
         webui.@THEME@.widget.listbox.createOnChangeCallback(this.id));
 
-    // Remove line break -- required for IE & cannot be updated.
-    if (this.label != null
-            && new Boolean(this.labelOnTop).valueOf() == true) {
-        webui.@THEME@.common.setVisibleElement(this.brContainer, true);
-    }
-
-    // Set common functions.
-    return webui.@THEME@.widget.listbox.superclass.fillInTemplate.call(this, props, frag);
+    return true;
 }
 
 /**
@@ -233,6 +265,7 @@ webui.@THEME@.widget.listbox.getProps = function() {
 
     // Get properties.
     if (this.size) { props.size = this.size; }
+    if (this.labelOnTop != null) { props.labelOnTop = this.labelOnTop; }
     if (this.multiple) { props.multiple = this.multiple; }
     if (this.monospace) { props.monospace = this.monospace; }
     if (this.disabled != null) { props.disabled = this.disabled; }
@@ -305,6 +338,8 @@ webui.@THEME@.widget.listbox.getSelectedValue = function() {
  * @param parent The parent of this widget.
  */
 webui.@THEME@.widget.listbox.initialize = function (props, frag, parent) {
+    webui.@THEME@.widget.listbox.superclass.initialize.call(this, props, frag, parent);
+
     // Set style classes.
     this.selectClassName = webui.@THEME@.widget.props.listbox.className;
     this.selectDisabledClassName = webui.@THEME@.widget.props.listbox.disabledClassName;
@@ -316,40 +351,7 @@ webui.@THEME@.widget.listbox.initialize = function (props, frag, parent) {
     this.optionDisabledClassName = webui.@THEME@.widget.props.listbox.optionDisabledClassName;
     this.optionSelectedClassName = webui.@THEME@.widget.props.listbox.optionSelectedClassName;
 
-    return webui.@THEME@.widget.listbox.superclass.initialize.call(this, 
-        props, frag, parent);
-}
-
-/**
- * This closure is used to process refresh events.
- */
-webui.@THEME@.widget.listbox.refresh = {
-    /**
-     * Event topics for custom AJAX implementations to listen for.
-     */
-    beginEventTopic: "webui_@THEME@_widget_listbox_refresh_begin",
-    endEventTopic: "webui_@THEME@_widget_listbox_refresh_end",
-
-    /**
-     * Process refresh event.
-     *
-     * @param execute The string containing a comma separated list of client ids 
-     * against which the execute portion of the request processing lifecycle
-     * must be run.
-     */
-    processEvent: function(execute) {
-        // Include default AJAX implementation.
-        this.ajaxify("webui.@THEME@.widget.jsfx.listbox");
-
-        // Publish an event for custom AJAX implementations to listen for.
-        dojo.event.topic.publish(
-            webui.@THEME@.widget.listbox.refresh.beginEventTopic, {
-                id: this.id,
-                execute: execute,
-                endEventTopic: webui.@THEME@.widget.listbox.refresh.endEventTopic
-            });
-        return true;
-    }
+    return true;
 }
 
 /**
@@ -377,6 +379,7 @@ webui.@THEME@.widget.listbox.setGroupOptionProps = function(element, option) {
  *  <li>dir</li>
  *  <li>disabled</li>
  *  <li>label</li>
+ *  <li>labelOnTop</li>
  *  <li>lang</li>
  *  <li>multiple</li>
  *  <li>monospace</li>
@@ -401,8 +404,9 @@ webui.@THEME@.widget.listbox.setGroupOptionProps = function(element, option) {
  *  <li>visible</li>
  * </ul>
  *
- * Note: This function should only be invoked through setProps(). Further, the
- * widget shall be updated only for the given key-value pairs.
+ * Note: This is considered a private API, do not use. This function should only
+ * be invoked through postInitialize() and setProps(). Further, the widget shall
+ * be updated only for the given key-value pairs.
  *
  * @param props Key-Value pairs of properties.
  */
@@ -437,10 +441,15 @@ webui.@THEME@.widget.listbox._setProps = function(props) {
         if (labelWidget) {
             // Update the existing one
             labelWidget.setProps(props.label);
-         } else {
+        } else {
             // Create a new one
             this.addFragment(this.labelContainer, props.label);
-         }
+        }
+    
+        // Remove line break -- required for IE & cannot be updated once set.
+        if (new Boolean(this.labelOnTop).valueOf() == true) {
+            webui.@THEME@.common.setVisibleElement(this.brContainer, true);
+        }
     }
 
     // Set more properties.
@@ -514,38 +523,6 @@ webui.@THEME@.widget.listbox.setSelectProps = function(selectNode, props) {
     return true;
 }
 
-/**
- * This closure is used to process submit events.
- */
-webui.@THEME@.widget.listbox.submit = {
-    /**
-     * Event topics for custom AJAX implementations to listen for.
-     */
-    beginEventTopic: "webui_@THEME@_widget_listbox_submit_begin",
-    endEventTopic: "webui_@THEME@_widget_listbox_submit_end",
-    
-    /**
-     * Process submit event.
-     *
-     * @param execute Comma separated string containing a list of client ids 
-     * against which the execute portion of the request processing lifecycle
-     * must be run.
-     */
-    processEvent: function(execute) {
-        // Include default AJAX implementation.
-        this.ajaxify("webui.@THEME@.widget.jsfx.listbox");
-
-        // Publish an event for custom AJAX implementations to listen for.
-        dojo.event.topic.publish(
-            webui.@THEME@.widget.listbox.submit.beginEventTopic, {
-                id: this.id,
-                execute: execute,
-                endEventTopic: webui.@THEME@.widget.listbox.submit.endEventTopic
-            });
-        return true;
-    }
-}
-
 // Inherit base widget properties.
 dojo.inherits(webui.@THEME@.widget.listbox, webui.@THEME@.widget.widgetBase);
 
@@ -562,14 +539,14 @@ dojo.lang.extend(webui.@THEME@.widget.listbox, {
     getSelectedLabel: webui.@THEME@.widget.listbox.getSelectedLabel,
     getSelectedValue: webui.@THEME@.widget.listbox.getSelectedValue,
     initialize: webui.@THEME@.widget.listbox.initialize,
-    refresh: webui.@THEME@.widget.listbox.refresh.processEvent,
     setGroupOptionProps: webui.@THEME@.widget.listbox.setGroupOptionProps,
     setOptionProps: webui.@THEME@.widget.listbox.setOptionProps,
     _setProps: webui.@THEME@.widget.listbox._setProps,
     setSelectProps: webui.@THEME@.widget.listbox.setSelectProps,
-    submit: webui.@THEME@.widget.listbox.submit.processEvent,
+    submit: webui.@THEME@.widget.widgetBase.event.submit.processEvent,
 
     // Set defaults.
+    event: webui.@THEME@.widget.listbox.event,
     labelOnTop: false,
     monospace: false,
     multiple: false,

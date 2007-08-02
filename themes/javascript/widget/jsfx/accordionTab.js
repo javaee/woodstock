@@ -33,40 +33,6 @@ dojo.require("webui.@THEME@.widget.accordionTab");
  */
 webui.@THEME@.widget.jsfx.accordionTab = {
     /**
-     * This function is used to process menu actions associated with a given 
-     * tabContent.
-     * <ul>
-     *  <li>old tab id</li>
-     *  <li>new tab id</li>
-     * </ul>
-     *
-     * @param props Key-Value pairs of properties.
-     */
-    processTabActionEvent: function(props) {
-        if (props == null) {
-            return false;
-        }
-
-        // Dynamic Faces requires a DOM node as the source property.
-        var domNode = document.getElementById(props.id);
-
-        // Generate AJAX request using the JSF Extensions library.
-        new DynaFaces.fireAjaxTransaction(
-            (domNode) ? domNode : document.forms[0], {
-            execute: props.id, // Need to decode hidden field.
-            render: props.id,
-            replaceElement: webui.@THEME@.widget.jsfx.accordionTab.tabActionCallback,
-            xjson: {
-                id : props.id,
-                action: props.actionName,
-                event: "tabAction"
-            }
-        });
-
-        return true;
-    },
-
-    /**
      * This function is used to load a tabContent asynchronously.
      *
      * <ul>
@@ -99,6 +65,40 @@ webui.@THEME@.widget.jsfx.accordionTab = {
     },
 
     /**
+     * This function is used to process menu actions associated with a given 
+     * tabContent.
+     *
+     * <ul>
+     *  <li>id</li>
+     * </ul>
+     *
+     * @param props Key-Value pairs of properties.
+     */
+    processTabActionEvent: function(props) {
+        if (props == null) {
+            return false;
+        }
+
+        // Dynamic Faces requires a DOM node as the source property.
+        var domNode = document.getElementById(props.id);
+
+        // Generate AJAX request using the JSF Extensions library.
+        new DynaFaces.fireAjaxTransaction(
+            (domNode) ? domNode : document.forms[0], {
+            execute: props.id, // Need to decode hidden field.
+            render: props.id,
+            replaceElement: webui.@THEME@.widget.jsfx.accordionTab.tabActionCallback,
+            xjson: {
+                id : props.id,
+                action: props.actionName,
+                event: "tabAction"
+            }
+        });
+
+        return true;
+    },
+
+    /**
      * This function is used to update tab with the loaded content.
      *
      * @param id The client id.
@@ -119,7 +119,7 @@ webui.@THEME@.widget.jsfx.accordionTab = {
         widget.setProps(json);
 
         // Publish an event for custom AJAX implementations to listen for.
-        dojo.event.topic.publish(webui.@THEME@.widget.accordionTab.loadContent.endEventTopic, json);
+        dojo.event.topic.publish(webui.@THEME@.widget.accordionTab.event.loadContent.endTopic, json);
         return true;
     },
 
@@ -144,16 +144,16 @@ webui.@THEME@.widget.jsfx.accordionTab = {
         widget.setProps(json);
 
         // Publish an event for custom AJAX implementations to listen for.
-        dojo.event.topic.publish(webui.@THEME@.widget.accordionTab.tabAction.endEventTopic, json);
+        dojo.event.topic.publish(webui.@THEME@.widget.accordionTab.event.tabAction.endTopic, json);
         return true;
     }
 }
 
 // Listen for Dojo Widget event signalling the tabContent's need to refresh, process
 // menu actions or load tab contents.
-dojo.event.topic.subscribe(webui.@THEME@.widget.accordionTab.loadContent.beginEventTopic,
+dojo.event.topic.subscribe(webui.@THEME@.widget.accordionTab.event.loadContent.beginTopic,
     webui.@THEME@.widget.jsfx.accordionTab, "processLoadContentEvent");
-dojo.event.topic.subscribe(webui.@THEME@.widget.accordionTab.refresh.beginEventTopic,
+dojo.event.topic.subscribe(webui.@THEME@.widget.accordionTab.event.refresh.beginTopic,
     webui.@THEME@.widget.jsfx.common, "processRefreshEvent");
-dojo.event.topic.subscribe(webui.@THEME@.widget.accordionTab.tabAction.beginEventTopic,
+dojo.event.topic.subscribe(webui.@THEME@.widget.accordionTab.event.tabAction.beginTopic,
     webui.@THEME@.widget.jsfx.accordionTab, "processTabActionEvent");

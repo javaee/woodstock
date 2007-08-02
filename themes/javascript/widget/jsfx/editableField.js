@@ -29,7 +29,7 @@ dojo.require("webui.@THEME@.widget.jsfx.*");
 dojo.require("webui.@THEME@.widget.editableField");
 
 // Listen for Dojo Widget events.
-dojo.event.topic.subscribe(webui.@THEME@.widget.editableField.refresh.beginEventTopic,
+dojo.event.topic.subscribe(webui.@THEME@.widget.editableField.event.refresh.beginTopic,
     webui.@THEME@.widget.jsfx.common, "processRefreshEvent");
-dojo.event.topic.subscribe(webui.@THEME@.widget.editableField.submit.beginEventTopic,
+dojo.event.topic.subscribe(webui.@THEME@.widget.editableField.event.submit.beginTopic,
     webui.@THEME@.widget.jsfx.common, "processSubmitEvent");

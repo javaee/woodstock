@@ -90,6 +90,33 @@ webui.@THEME@.widget.button.createOnFocusCallback = function(id) {
 }
 
 /**
+ * This closure is used to process widget events.
+ */
+webui.@THEME@.widget.button.event = {
+    /**
+     * This closure is used to process refresh events.
+     */
+    refresh: {
+        /**
+         * Event topics for custom AJAX implementations to listen for.
+         */
+        beginTopic: "webui_@THEME@_widget_button_event_refresh_begin",
+        endTopic: "webui_@THEME@_widget_button_event_refresh_end"
+    },
+
+    /**
+     * This closure is used to process state change events.
+     */
+    state: {
+        /**
+         * Event topics for custom AJAX implementations to listen for.
+         */
+        beginTopic: "webui_@THEME@_widget_button_event_state_begin",
+        endTopic: "webui_@THEME@_widget_button_event_state_end"
+    }
+}
+
+/**
  * This function is used to fill in template properties.
  *
  * Note: This is called after the buildRendering() function. Anything to be set 
@@ -99,6 +126,8 @@ webui.@THEME@.widget.button.createOnFocusCallback = function(id) {
  * @param frag HTML fragment.
  */
 webui.@THEME@.widget.button.fillInTemplate = function(props, frag) {
+    webui.@THEME@.widget.button.superclass.fillInTemplate.call(this, props, frag);
+
     // Set ids.
     if (this.id) {
         this.domNode.name = this.id;
@@ -121,8 +150,7 @@ webui.@THEME@.widget.button.fillInTemplate = function(props, frag) {
     dojo.event.connect(this.domNode, "onmouseover",
         webui.@THEME@.widget.button.createOnFocusCallback(this.id));
 
-    // Set common functions.
-    return webui.@THEME@.widget.button.superclass.fillInTemplate.call(this, props, frag);
+    return true;
 }
 
 /**
@@ -180,6 +208,26 @@ webui.@THEME@.widget.button.getHoverClassName = function() {
         ? className + " " + this.className
         : className;
 }
+    
+/**
+ * This function is used to get widget properties. Please see the 
+ * _setProps() function for a list of supported properties.
+ */
+webui.@THEME@.widget.button.getProps = function() {
+    var props = webui.@THEME@.widget.button.superclass.getProps.call(this);
+
+    // Set properties.
+    if (this.alt) { props.alt = this.alt; }
+    if (this.align) { props.align = this.align; }
+    if (this.disabled != null) { props.disabled = this.disabled; }
+    if (this.escape != null) { props.escape = this.escape; }
+    if (this.mini != null) { props.mini = this.mini; }
+    if (this.primary != null) { props.primary = this.primary; }
+    if (this.src) { props.src = this.src; }
+    if (this.value) { props.value = this.value; }
+
+    return props;
+}
 
 /**
  * This function is used to initialize the widget.
@@ -191,6 +239,8 @@ webui.@THEME@.widget.button.getHoverClassName = function() {
  * @param parent The parent of this widget.
  */
 webui.@THEME@.widget.button.initialize = function (props, frag, parent) {
+    webui.@THEME@.widget.button.superclass.initialize.call(this, props, frag, parent);
+
     // Initialize class names.
     if (this.src != null) {
         this.primaryClassName = webui.@THEME@.widget.props.button.imageClassName;
@@ -221,60 +271,7 @@ webui.@THEME@.widget.button.initialize = function (props, frag, parent) {
         this.secondaryMiniDisabledClassName = webui.@THEME@.widget.props.button.secondaryMiniDisabledClassName;
         this.secondaryMiniHovClassName = webui.@THEME@.widget.props.button.secondaryMiniHovClassName;
     }
-    return webui.@THEME@.widget.button.superclass.initialize.call(this, 
-        props, frag, parent);
-}
-    
-/**
- * This function is used to get widget properties. Please see the 
- * _setProps() function for a list of supported properties.
- */
-webui.@THEME@.widget.button.getProps = function() {
-    var props = webui.@THEME@.widget.button.superclass.getProps.call(this);
-
-    // Set properties.
-    if (this.alt) { props.alt = this.alt; }
-    if (this.align) { props.align = this.align; }
-    if (this.disabled != null) { props.disabled = this.disabled; }
-    if (this.escape != null) { props.escape = this.escape; }
-    if (this.mini != null) { props.mini = this.mini; }
-    if (this.primary != null) { props.primary = this.primary; }
-    if (this.src) { props.src = this.src; }
-    if (this.value) { props.value = this.value; }
-
-    return props;
-}
-
-/**
- * This closure is used to process refresh events.
- */
-webui.@THEME@.widget.button.refresh = {
-    /**
-     * Event topics for custom AJAX implementations to listen for.
-     */
-    beginEventTopic: "webui_@THEME@_widget_button_refresh_begin",
-    endEventTopic: "webui_@THEME@_widget_button_refresh_end",
- 
-    /**
-     * Process refresh event.
-     *
-     * @param execute The string containing a comma separated list of client ids 
-     * against which the execute portion of the request processing lifecycle
-     * must be run.
-     */
-    processEvent: function(execute) {
-        // Include default AJAX implementation.
-        this.ajaxify("webui.@THEME@.widget.jsfx.button");
-
-        // Publish an event for custom AJAX implementations to listen for.
-        dojo.event.topic.publish(
-            webui.@THEME@.widget.button.refresh.beginEventTopic, {
-                id: this.id,
-                execute: execute,
-                endEventTopic: webui.@THEME@.widget.button.refresh.endEventTopic
-            });
-        return true;
-    }
+    return true;
 }
 
 /**
@@ -312,8 +309,9 @@ webui.@THEME@.widget.button.refresh = {
  *  <li>visible</li>
  * </ul>
  *
- * Note: This function should only be invoked through setProps(). Further, the
- * widget shall be updated only for the given key-value pairs.
+ * Note: This is considered a private API, do not use. This function should only
+ * be invoked through postInitialize() and setProps(). Further, the widget shall
+ * be updated only for the given key-value pairs.
  *
  * @param props Key-Value pairs of properties.
  */
@@ -363,12 +361,12 @@ dojo.lang.extend(webui.@THEME@.widget.button, {
     getHoverClassName: webui.@THEME@.widget.button.getHoverClassName,
     getProps: webui.@THEME@.widget.button.getProps,
     initialize: webui.@THEME@.widget.button.initialize,
-    refresh: webui.@THEME@.widget.button.refresh.processEvent,
     _setProps: webui.@THEME@.widget.button._setProps,
 
     // Set defaults.
     disabled: false,
     escape: true,
+    event: webui.@THEME@.widget.button.event,
     mini: false,
     primary: true,
     widgetType: "button"

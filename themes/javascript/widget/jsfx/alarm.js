@@ -29,5 +29,5 @@ dojo.require("webui.@THEME@.widget.jsfx.*");
 dojo.require("webui.@THEME@.widget.alarm");
 
 // Listen for Dojo Widget events.
-dojo.event.topic.subscribe(webui.@THEME@.widget.alarm.refresh.beginEventTopic,
+dojo.event.topic.subscribe(webui.@THEME@.widget.alarm.event.refresh.beginTopic,
     webui.@THEME@.widget.jsfx.common, "processRefreshEvent");

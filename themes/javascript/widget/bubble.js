@@ -46,9 +46,9 @@ webui.@THEME@.widget.bubble.close = function() {
          return;
      }
      
-     var _this = this; // Closure magic.
+     var id = this; // Closure magic.
      this.timerId = setTimeout(function() {
-            dojo.widget.byId(_this.id).setProps({visible: false});
+            dojo.widget.byId(id).setProps({visible: false});
         }, this.defaultTime);  
 }
 
@@ -79,6 +79,33 @@ webui.@THEME@.widget.bubble.createCloseCallback = function(id) {
 }
 
 /**
+ * This closure is used to process widget events.
+ */
+webui.@THEME@.widget.bubble.event = {
+    /**
+     * This closure is used to process refresh events.
+     */
+    refresh: {
+        /**
+         * Event topics for custom AJAX implementations to listen for.
+         */
+        beginTopic: "webui_@THEME@_widget_bubble_event_refresh_begin",
+        endTopic: "webui_@THEME@_widget_bubble_event_refresh_end"
+    },
+
+    /**
+     * This closure is used to process state change events.
+     */
+    state: {
+        /**
+         * Event topics for custom AJAX implementations to listen for.
+         */
+        beginTopic: "webui_@THEME@_widget_bubble_event_state_begin",
+        endTopic: "webui_@THEME@_widget_bubble_event_state_end"
+    }
+}
+
+/**
  * This function is used to fill in template properties.
  *
  * Note: This is called after the buildRendering() function. Anything to be set 
@@ -88,6 +115,8 @@ webui.@THEME@.widget.bubble.createCloseCallback = function(id) {
  * @param frag HTML fragment.
  */
 webui.@THEME@.widget.bubble.fillInTemplate = function(props, frag) {
+    webui.@THEME@.widget.bubble.superclass.fillInTemplate.call(this, props, frag);
+
     // Set ids.
     if (this.id) {
         this.bottomLeftArrow.id = this.id + "_bottomLeftArrow";
@@ -95,11 +124,6 @@ webui.@THEME@.widget.bubble.fillInTemplate = function(props, frag) {
         this.topLeftArrow.id = this.id + "_topLeftArrow";
         this.topRightArrow.id = this.id + "_topRightArrow";
     }
-
-    this.timerId = null;
-    this.openTimerId = null;
-    this.left = null;
-    this.top = null;  
 
     // Set public functions.     
     this.domNode.open = function(event) { return dojo.widget.byId(this.id).open(event); }
@@ -154,10 +178,7 @@ webui.@THEME@.widget.bubble.fillInTemplate = function(props, frag) {
             this.close();            
         }
     }
-
-   
-    // Set common functions.
-    return webui.@THEME@.widget.bubble.superclass.fillInTemplate.call(this, props, frag);
+    return true;
 }
 
 /**
@@ -234,19 +255,18 @@ webui.@THEME@.widget.bubble.getProps = function() {
  * @param event 
  */
 webui.@THEME@.widget.bubble.open = function(event) {
-    
     // Get the absolute position of the target.
-        evt = (event) 
-            ? event : ((window.event) 
-                ? window.event : null);
+    var evt = (event) 
+        ? event : ((window.event) 
+            ? window.event : null);
 
-        this.target = (evt.target) 
-            ? evt.target : ((evt.srcElement) 
-                ? evt.srcElement : null);
+    this.target = (evt.target) 
+        ? evt.target : ((evt.srcElement) 
+            ? evt.srcElement : null);
 
-        var absPos = this.findPos(this.target);
-        this.target.targetLeft = absPos[0];
-        this.target.targetTop = absPos[1];
+    var absPos = this.findPos(this.target);
+    this.target.targetLeft = absPos[0];
+    this.target.targetTop = absPos[1];
    
     if (this.timerId != null) {
         clearTimeout(this.timerId);
@@ -260,20 +280,19 @@ webui.@THEME@.widget.bubble.open = function(event) {
     // There should be delay before opening the bubble if open delay is specified.
     // If openDelay is less than zero then there will be dafault 0.5 sec delay.  
     if (this.openDelay) {
-        var _this = this; // Closure magic.
+        var id = this.id; // Closure magic.
         this.openTimerId = setTimeout(function() {
-        // Store the active bubble id to form element.
-        // Check for the id if its available then close the pending bubble.
-        if (document.forms[0].activeBubbleId && document.forms[0].activeBubbleId != _this.id) {                
-            clearTimeout(dojo.widget.byId(document.forms[0].activeBubbleId).timerId);
-            dojo.widget.byId(document.forms[0].activeBubbleId).setProps({visible:false});
-            document.forms[0].activeBubbleId = null;                
-        }     
-        document.forms[0].activeBubbleId = _this.id;    
-            
-            dojo.widget.byId(_this.id).setProps({visible: true});
-            dojo.widget.byId(_this.id).setPosition();
-           }, this.openDelayTime);      
+            // Store the active bubble id to form element.
+            // Check for the id if its available then close the pending bubble.
+            if (document.forms[0].activeBubbleId && document.forms[0].activeBubbleId != id) {                
+                clearTimeout(dojo.widget.byId(document.forms[0].activeBubbleId).timerId);
+                dojo.widget.byId(document.forms[0].activeBubbleId).setProps({visible:false});
+                document.forms[0].activeBubbleId = null;                
+            }     
+            document.forms[0].activeBubbleId = id;            
+            dojo.widget.byId(id).setProps({visible: true});
+            dojo.widget.byId(id).setPosition();
+        }, this.openDelayTime);      
     }
         
     var duration = this.getProps().duration;
@@ -282,38 +301,6 @@ webui.@THEME@.widget.bubble.open = function(event) {
         this.defaultTime = duration;
     } 
     return true;
-}
-
-/**
- * This closure is used to process refresh events.
- */
-webui.@THEME@.widget.bubble.refresh = { 
-    /**
-     * Event topics for custom AJAX implementations to listen for.
-     */
-    beginEventTopic: "webui_@THEME@_widget_bubble_refresh_begin",
-    endEventTopic: "webui_@THEME@_widget_bubble_refresh_end",
- 
-    /**
-     * Process refresh event.
-     *
-     * @param execute Comma separated string containing a list of client ids 
-     * against which the execute portion of the request processing lifecycle
-     * must be run.
-     */
-    processEvent: function(execute) {
-        // Include default AJAX implementation.
-        this.ajaxify("webui.@THEME@.widget.jsfx.bubble");
-
-        // Publish an event for custom AJAX implementations to listen for.
-        dojo.event.topic.publish(
-            webui.@THEME@.widget.bubble.refresh.beginEventTopic, {
-                id: this.id,
-                execute: execute,
-                endEventTopic: webui.@THEME@.widget.bubble.refresh.endEventTopic
-            });
-        return true;
-    }
 }
 
 /**
@@ -419,18 +406,15 @@ webui.@THEME@.widget.bubble.setPosition = function() {
 
         // If rendering a callout arrow, set it's position relative to the bubble.
         if (this.arrow != null) {
-           
            this.arrow.style.display = "block";
            webui.@THEME@.common.setVisible(this.arrow, true);
 
            if (this.arrow == topLeftArrow) {
                this.arrow.style.top = -(bubble.offsetHeight - webui.@THEME@.widget.props.bubble.topConst) + "px";               
            }
-
            if (this.arrow == topRightArrow) {
                this.arrow.style.top = -(bubble.offsetHeight - webui.@THEME@.widget.props.bubble.topConst) + "px";               
            }
-           
         }
     }
     return true;
@@ -443,9 +427,14 @@ webui.@THEME@.widget.bubble.setPosition = function() {
  * Note: This function updates the widget object for later updates. Further, the
  * widget shall be updated only for the given key-value pairs.
  *
+ * Note: If the notify param is true, the widget's state change event shall be
+ * published. This is typically used to keep client-side state in sync with the
+ * server.
+ *
  * @param props Key-Value pairs of properties.
+ * @param notify Publish an event for custom AJAX implementations to listen for.
  */
-webui.@THEME@.widget.bubble.setProps = function(props) {
+webui.@THEME@.widget.bubble.setProps = function(props, notify) {
     if (props == null) {
         return false;
     }
@@ -456,7 +445,7 @@ webui.@THEME@.widget.bubble.setProps = function(props) {
     }
 
     // Extend widget object for later updates.
-    return webui.@THEME@.widget.bubble.superclass.setProps.call(this, props);
+    return webui.@THEME@.widget.bubble.superclass.setProps.call(this, props, notify);
 }
 
 /**
@@ -475,8 +464,9 @@ webui.@THEME@.widget.bubble.setProps = function(props) {
  *  <li>visible</li>
  * </ul>
  *
- * Note: This function should only be invoked through setProps(). Further, the
- * widget shall be updated only for the given key-value pairs.
+ * Note: This is considered a private API, do not use. This function should only
+ * be invoked through postInitialize() and setProps(). Further, the widget shall
+ * be updated only for the given key-value pairs.
  *
  * @param props Key-Value pairs of properties.
  */
@@ -533,13 +523,13 @@ dojo.lang.extend(webui.@THEME@.widget.bubble, {
     getPageWidth: webui.@THEME@.widget.bubble.getPageWidth,
     getProps: webui.@THEME@.widget.bubble.getProps,
     open: webui.@THEME@.widget.bubble.open,
-    refresh: webui.@THEME@.widget.bubble.refresh.processEvent,
     setPosition: webui.@THEME@.widget.bubble.setPosition,
     setProps: webui.@THEME@.widget.bubble.setProps,
     _setProps: webui.@THEME@.widget.bubble._setProps,
     
     // Set defaults.
     defaultTime: 2000,
-    openDelayTime: 500,    
+    event: webui.@THEME@.widget.bubble.event,
+    openDelayTime: 500,
     widgetType: "bubble"
 });

@@ -37,6 +37,33 @@ webui.@THEME@.widget.table2 = function() {
 }
 
 /**
+ * This closure is used to process widget events.
+ */
+webui.@THEME@.widget.table2.event = {
+    /**
+     * This closure is used to process refresh events.
+     */
+    refresh: {
+        /**
+         * Event topics for custom AJAX implementations to listen for.
+         */
+        beginTopic: "webui_@THEME@_widget_table2_event_refresh_begin",
+        endTopic: "webui_@THEME@_widget_table2_event_refresh_end"
+    },
+
+    /**
+     * This closure is used to process state change events.
+     */
+    state: {
+        /**
+         * Event topics for custom AJAX implementations to listen for.
+         */
+        beginTopic: "webui_@THEME@_widget_table2_event_state_begin",
+        endTopic: "webui_@THEME@_widget_table2_event_state_end"
+    }
+}
+
+/**
  * This function is used to fill in template properties.
  *
  * Note: This is called after the buildRendering() function. Anything to be set 
@@ -46,6 +73,8 @@ webui.@THEME@.widget.table2 = function() {
  * @param frag HTML fragment.
  */
 webui.@THEME@.widget.table2.fillInTemplate = function(props, frag) {
+    webui.@THEME@.widget.table2.superclass.fillInTemplate.call(this, props, frag);
+
     // Set ids.
     if (this.id) {
         this.actionsContainer.id = this.id + "_actionsContainer";
@@ -57,9 +86,7 @@ webui.@THEME@.widget.table2.fillInTemplate = function(props, frag) {
         this.titleContainer.id = this.id + "_titleContainer";
         this.tableFooterContainer.id = this.id + "_tableFooterContainer";
     }
-
-    // Set common functions.
-    return webui.@THEME@.widget.table2.superclass.fillInTemplate.call(this, props, frag);
+    return true;
 }
 
 /**
@@ -79,47 +106,20 @@ webui.@THEME@.widget.table2.getProps = function() {
 }
 
 /**
- * This closure is used to process refresh events.
- */
-webui.@THEME@.widget.table2.refresh = {
-    /**
-     * Event topics for custom AJAX implementations to listen for.
-     */
-    beginEventTopic: "webui_@THEME@_widget_table2_refresh_begin",
-    endEventTopic: "webui_@THEME@_widget_table2_refresh_end",
- 
-    /**
-     * Process refresh event.
-     *
-     * @param execute The string containing a comma separated list of client ids 
-     * against which the execute portion of the request processing lifecycle
-     * must be run.
-     */
-    processEvent: function(execute) {
-        // Include default AJAX implementation.
-        this.ajaxify("webui.@THEME@.widget.jsfx.table2");
-
-        // Publish an event for custom AJAX implementations to listen for.
-        dojo.event.topic.publish(
-            webui.@THEME@.widget.table.refresh.beginEventTopic, {
-                id: this.id,
-                execute: execute,
-                endEventTopic: webui.@THEME@.widget.table.refresh.endEventTopic
-            });
-        return true;
-    }
-}
-
-/**
  * This function is used to set widget properties. Please see the 
  * _setProps() function for a list of supported properties.
  *
  * Note: This function updates the widget object for later updates. Further, the
  * widget shall be updated only for the given key-value pairs.
  *
+ * Note: If the notify param is true, the widget's state change event shall be
+ * published. This is typically used to keep client-side state in sync with the
+ * server.
+ *
  * @param props Key-Value pairs of properties.
+ * @param notify Publish an event for custom AJAX implementations to listen for.
  */
-webui.@THEME@.widget.table2.setProps = function(props) {
+webui.@THEME@.widget.table2.setProps = function(props, notify) {
     if (props == null) {
         return false;
     }
@@ -135,7 +135,7 @@ webui.@THEME@.widget.table2.setProps = function(props) {
     }
 
     // Extend widget object for later updates.
-    return webui.@THEME@.widget.table2.superclass.setProps.call(this, props);
+    return webui.@THEME@.widget.table2.superclass.setProps.call(this, props, notify);
 }
 
 /**
@@ -151,8 +151,9 @@ webui.@THEME@.widget.table2.setProps = function(props) {
  *  <li>width</li>
  * </ul>
  *
- * Note: This function should only be invoked through setProps(). Further, the
- * widget shall be updated only for the given key-value pairs.
+ * Note: This is considered a private API, do not use. This function should only
+ * be invoked through postInitialize() and setProps(). Further, the widget shall
+ * be updated only for the given key-value pairs.
  *
  * @param props Key-Value pairs of properties.
  */
@@ -210,10 +211,10 @@ dojo.lang.extend(webui.@THEME@.widget.table2, {
     // Set private functions.
     fillInTemplate: webui.@THEME@.widget.table2.fillInTemplate,
     getProps: webui.@THEME@.widget.table2.getProps,
-    refresh: webui.@THEME@.widget.table2.refresh.processEvent,
     setProps: webui.@THEME@.widget.table2.setProps,
     _setProps: webui.@THEME@.widget.table2._setProps,
 
     // Set defaults.
+    event: webui.@THEME@.widget.table2.event,
     widgetType: "table2"
 });

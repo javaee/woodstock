@@ -101,15 +101,17 @@ webui.@THEME@.widget.jsfx.textField = {
 
         // Publish an event for custom AJAX implementations to listen for.
         dojo.event.topic.publish(
-            webui.@THEME@.widget.textField.validation.endEventTopic, props);
+            webui.@THEME@.widget.textField.event.validation.endTopic, props);
         return true;
     }
 }
 
 // Listen for Dojo Widget events.
-dojo.event.topic.subscribe(webui.@THEME@.widget.textField.refresh.beginEventTopic,
+dojo.event.topic.subscribe(webui.@THEME@.widget.textField.event.refresh.beginTopic,
     webui.@THEME@.widget.jsfx.common, "processRefreshEvent");
-dojo.event.topic.subscribe(webui.@THEME@.widget.textField.submit.beginEventTopic,
+dojo.event.topic.subscribe(webui.@THEME@.widget.textField.event.state.beginTopic,
+    webui.@THEME@.widget.jsfx.common, "processStateEvent");
+dojo.event.topic.subscribe(webui.@THEME@.widget.textField.event.submit.beginTopic,
     webui.@THEME@.widget.jsfx.common, "processSubmitEvent");
-dojo.event.topic.subscribe(webui.@THEME@.widget.textField.validation.beginEventTopic,
+dojo.event.topic.subscribe(webui.@THEME@.widget.textField.event.validation.beginTopic,
     webui.@THEME@.widget.jsfx.textField, "processValidationEvent");

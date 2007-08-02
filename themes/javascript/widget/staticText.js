@@ -36,6 +36,33 @@ webui.@THEME@.widget.staticText = function() {
 }
 
 /**
+ * This closure is used to process widget events.
+ */
+webui.@THEME@.widget.staticText.event = {
+    /**
+     * This closure is used to process refresh events.
+     */
+    refresh: {
+        /**
+         * Event topics for custom AJAX implementations to listen for.
+         */
+        beginTopic: "webui_@THEME@_widget_staticText_event_refresh_begin",
+        endTopic: "webui_@THEME@_widget_staticText_event_refresh_end"
+    },
+
+    /**
+     * This closure is used to process state change events.
+     */
+    state: {
+        /**
+         * Event topics for custom AJAX implementations to listen for.
+         */
+        beginTopic: "webui_@THEME@_widget_staticText_event_state_begin",
+        endTopic: "webui_@THEME@_widget_staticText_event_state_end"
+    }
+}
+
+/**
  * This function is used to get widget properties. Please see the 
  * _setProps() function for a list of supported properties.
  */
@@ -47,38 +74,6 @@ webui.@THEME@.widget.staticText.getProps = function() {
     if (this.value) { props.value = this.value; }
 
     return props;
-}
-
-/**
- * This closure is used to process refresh events.
- */
-webui.@THEME@.widget.staticText.refresh = {
-    /**
-     * Event topics for custom AJAX implementations to listen for.
-     */
-    beginEventTopic: "webui_@THEME@_widget_staticText_refresh_begin",
-    endEventTopic: "webui_@THEME@_widget_staticText_refresh_end",
- 
-    /**
-     * Process refresh event.
-     *
-     * @param execute The string containing a comma separated list of client ids 
-     * against which the execute portion of the request processing lifecycle
-     * must be run.
-     */
-    processEvent: function(execute) {
-        // Include default AJAX implementation.
-        this.ajaxify("webui.@THEME@.widget.jsfx.staticText");
-
-        // Publish an event for custom AJAX implementations to listen for.
-        dojo.event.topic.publish(
-            webui.@THEME@.widget.staticText.refresh.beginEventTopic, {
-                id: this.id,
-                execute: execute,
-                endEventTopic: webui.@THEME@.widget.staticText.refresh.endEventTopic
-            });
-        return true;
-    }
 }
 
 /**
@@ -104,8 +99,9 @@ webui.@THEME@.widget.staticText.refresh = {
  *  <li>visible</li>
  * </ul>
  *
- * Note: This function should only be invoked through setProps(). Further, the
- * widget shall be updated only for the given key-value pairs.
+ * Note: This is considered a private API, do not use. This function should only
+ * be invoked through postInitialize() and setProps(). Further, the widget shall
+ * be updated only for the given key-value pairs.
  *
  * @param props Key-Value pairs of properties.
  */
@@ -135,10 +131,10 @@ dojo.inherits(webui.@THEME@.widget.staticText, webui.@THEME@.widget.widgetBase);
 dojo.lang.extend(webui.@THEME@.widget.staticText, {
     // Set private functions.
     getProps: webui.@THEME@.widget.staticText.getProps,
-    refresh: webui.@THEME@.widget.staticText.refresh.processEvent,
     _setProps: webui.@THEME@.widget.staticText._setProps,
 
     // Set defaults.
     escape: true,
+    event: webui.@THEME@.widget.staticText.event,
     widgetType: "staticText"
 });

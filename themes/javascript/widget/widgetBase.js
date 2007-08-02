@@ -85,12 +85,11 @@ webui.@THEME@.widget.widgetBase = function() {
  * This function is used to include default Ajax functionality. Before the given
  * module is included in the page, a test is performed to ensure that the 
  * default Ajax implementation is being used.
- *
- * @param module The module to include in the page.
  */
-webui.@THEME@.widget.widgetBase.ajaxify = function(module) {
-    if (webui.@THEME@.widget.jsfx && module) {
-        webui.@THEME@.widget.common.require(module);
+webui.@THEME@.widget.widgetBase.ajaxify = function() {
+    // To do: Get module from the theme.
+    if (webui.@THEME@.widget.jsfx) {
+        webui.@THEME@.widget.common.require("webui.@THEME@.widget.jsfx." + this.widgetType);
     }
 }
 
@@ -104,8 +103,8 @@ webui.@THEME@.widget.widgetBase.ajaxify = function(module) {
 webui.@THEME@.widget.widgetBase.buildRendering = function (props, frag, parent) {
     // Get default templates.
     if (this.templatePath == null && this.templateString == null) {
-        this.templatePath = webui.@THEME@.theme.common.getTemplatePath(this.widgetType);
-        this.templateString = webui.@THEME@.theme.common.getTemplateString(this.widgetType);
+        this.templatePath = this.getTemplatePath(this.widgetType);
+        this.templateString = this.getTemplateString(this.widgetType);
     }
 
     // The templatePath should have precedence. Therefore, in order for the 
@@ -113,8 +112,108 @@ webui.@THEME@.widget.widgetBase.buildRendering = function (props, frag, parent) 
     if (this.templatePath != null) {
         this.templateString = null;
     }
-    return webui.@THEME@.widget.widgetBase.superclass.buildRendering.call(this, 
-        props, frag, parent);
+
+    // Template must be set prior to calling "superclass".
+    return webui.@THEME@.widget.widgetBase.superclass.buildRendering.call(this, props, frag, parent);
+}
+
+/**
+ * This closure is used to process widget events.
+ */
+webui.@THEME@.widget.widgetBase.event = {
+    /**
+     * This closure is used to process refresh events.
+     */
+    refresh: {
+        /**
+         * Event topics for custom AJAX implementations to listen for.
+         */
+        beginTopic: null,
+        endTopic: null,
+ 
+        /**
+         * Process refresh event.
+         *
+         * @param execute The string containing a comma separated list of client ids 
+         * against which the execute portion of the request processing lifecycle
+         * must be run.
+         */
+        processEvent: function(execute) {
+            // Include default AJAX implementation.
+            this.ajaxify();
+
+            // Publish an event for custom AJAX implementations to listen for.
+            dojo.event.topic.publish(
+                this.event.refresh.beginTopic, {
+                    id: this.id,
+                    execute: execute,
+                    endTopic: this.event.refresh.endTopic
+                });
+            return true;
+        }
+    },
+
+    /**
+     * This closure is used to process state change events.
+     */
+    state: {
+        /**
+         * Event topics for custom AJAX implementations to listen for.
+         */
+        beginTopic: null,
+        endTopic: null,
+
+        /**
+         * Process state change event.
+         *
+         * @param props Key-Value pairs of properties.
+         */
+        processEvent: function(props) {
+            // Include default AJAX implementation.
+            this.ajaxify();
+
+            // Publish an event for custom AJAX implementations to listen for.
+            dojo.event.topic.publish(
+                this.event.state.beginTopic, {
+                    id: this.id,
+                    endTopic: this.event.state.endTopic,
+                    props: props
+                });
+            return true;
+        }
+    },
+
+    /**
+     * This closure is used to process submit events.
+     */
+    submit: {
+        /**
+         * Event topics for custom AJAX implementations to listen for.
+         */
+        beginTopic: null,
+        endTopic: null,
+    
+        /**
+         * Process submit event.
+         *
+         * @param execute Comma separated string containing a list of client ids 
+         * against which the execute portion of the request processing lifecycle
+         * must be run.
+         */
+        processEvent: function(execute) {
+            // Include default AJAX implementation.
+            this.ajaxify();
+
+            // Publish an event for custom AJAX implementations to listen for.
+            dojo.event.topic.publish(
+                this.event.submit.beginTopic, {
+                    id: this.id,
+                    execute: execute,
+                    endTopic: this.event.submit.endTopic
+                });
+            return true;
+        }
+    }
 }
 
 /**
@@ -127,6 +226,8 @@ webui.@THEME@.widget.widgetBase.buildRendering = function (props, frag, parent) 
  * @param frag HTML fragment.
  */
 webui.@THEME@.widget.widgetBase.fillInTemplate = function(props, frag) {
+    webui.@THEME@.widget.widgetBase.superclass.fillInTemplate.call(this, props, frag, parent);
+
     // Since the anchor id and name must be the same on IE, we cannot obtain the
     // widget using the DOM node ID via the public functions below. Therefore, 
     // we need to set the widget id via closure magic.
@@ -134,15 +235,14 @@ webui.@THEME@.widget.widgetBase.fillInTemplate = function(props, frag) {
 
     // Set public functions.
     this.domNode.getProps = function() { return dojo.widget.byId(id).getProps(); }
-    this.domNode.refresh = function(_execute) { return dojo.widget.byId(id).refresh(_execute); }
-    this.domNode.setProps = function(_props) { return dojo.widget.byId(id).setProps(_props); }
+    this.domNode.refresh = function(execute) { return dojo.widget.byId(id).refresh(execute); }
+    this.domNode.setProps = function(_props, notify) { return dojo.widget.byId(id).setProps(_props, notify); }
 
     // In order to register widgets properly, the DOM node id must be set prior 
     // to creating any widget children. Otherwise, widgets may not be destroyed.
     this.domNode.id = id;
 
-    return webui.@THEME@.widget.widgetBase.superclass.fillInTemplate.call(this, 
-        props, frag, parent);
+    return true;
 }
 
 /**
@@ -230,6 +330,36 @@ webui.@THEME@.widget.widgetBase.getProps = function() {
 }
 
 /**
+ * This function is used to obtain a template path, or returns null
+ * if key is not found or is not a path, i.e. begins with "<".
+ *
+ * @param key A key defining a theme "templates" property.
+ */
+webui.@THEME@.widget.widgetBase.getTemplatePath = function(key) {
+    var template = this.theme.getTemplate(key);
+    if (this.isTemplatePath(template)) {
+        return this.theme.getPrefix() + "/" + template;
+    } else {
+        return null;
+    }
+}
+
+/**
+ * This function is used to obtain a template string, or returns null
+ * if key is not found or is not a string, i.e. does not begin with "<".
+ *
+ * @param key A key defining a theme "templates" property.
+ */
+webui.@THEME@.widget.widgetBase.getTemplateString = function(key) {
+    var template = this.theme.getTemplate(key);
+    if (!this.isTemplatePath(template)) {
+        return template;
+    } else {
+        return null;
+    }
+}
+
+/**
  * This function is used to initialize the widget.
  *
  * Note: This is called after the fillInTemplate() function.
@@ -239,8 +369,7 @@ webui.@THEME@.widget.widgetBase.getProps = function() {
  * @param parent The parent of this widget.
  */
 webui.@THEME@.widget.widgetBase.initialize = function (props, frag, parent) {
-    return webui.@THEME@.widget.widgetBase.superclass.initialize.call(this, 
-        props, frag, parent);
+    return webui.@THEME@.widget.widgetBase.superclass.initialize.call(this, props, frag, parent);
 }
 
 /**
@@ -258,6 +387,15 @@ webui.@THEME@.widget.widgetBase.isInitialized = function() {
 }
 
 /**
+ * This function is used to test template strings. Return true if the "template"
+ * is a template path, and false if it is a template String. Returns false if 
+ * the value is null or the empty string.
+ */
+webui.@THEME@.widget.widgetBase.isTemplatePath = function(template) {
+    return (template != null && template.charAt(0) != '<');
+}
+
+/**
  * This function is used after the widget has been initialized.
  *
  * Note: This is called after the initialize() function.
@@ -270,8 +408,9 @@ webui.@THEME@.widget.widgetBase.postInitialize = function (props, frag, parent) 
     // Set properties.
     this._setProps(props);
 
-    return webui.@THEME@.widget.widgetBase.superclass.postInitialize.call(this, 
-        props, frag, parent);
+    // Call "superclass" after setting properties due to flashing. This is best
+    // seen while invoking refresh() for checkbox/radiobutton group.
+    return webui.@THEME@.widget.widgetBase.superclass.postInitialize.call(this, props, frag, parent);
 }
 
 /**
@@ -284,8 +423,7 @@ webui.@THEME@.widget.widgetBase.postInitialize = function (props, frag, parent) 
  * @param parent The parent of this widget.
  */
 webui.@THEME@.widget.widgetBase.postCreate = function (props, frag, parent) {
-    return webui.@THEME@.widget.widgetBase.superclass.postCreate.call(this, 
-        props, frag, parent);
+    return webui.@THEME@.widget.widgetBase.superclass.postCreate.call(this, props, frag, parent);
 }
 
 /**
@@ -476,9 +614,14 @@ webui.@THEME@.widget.widgetBase.setEventProps = function(domNode, props) {
  * Note: This function updates the widget object for later updates. Further, the
  * widget shall be updated only for the given key-value pairs.
  *
+ * Note: If the notify param is true, the widget's state change event shall be
+ * published. This is typically used to keep client-side state in sync with the
+ * server.
+ *
  * @param props Key-Value pairs of properties.
+ * @param notify Publish an event for custom AJAX implementations to listen for.
  */
-webui.@THEME@.widget.widgetBase.setProps = function(props) {
+webui.@THEME@.widget.widgetBase.setProps = function(props, notify) {
     if (props == null) {
         return false;
     }
@@ -487,7 +630,13 @@ webui.@THEME@.widget.widgetBase.setProps = function(props) {
     this.extend(this, props);
 
     // Set properties.
-    return this._setProps(props);
+    this._setProps(props);
+
+    // Notify listeners state has changed.
+    if (new Boolean(notify).valueOf() == true) {
+        this.stateChanged(props);
+    }
+    return true;
 }
 
 /**
@@ -501,8 +650,9 @@ webui.@THEME@.widget.widgetBase.setProps = function(props) {
  *  <li>visible</li>
  * </ul>
  *
- * Note: This function should only be invoked through setProps(). Further, the
- * widget shall be updated only for the given key-value pairs.
+ * Note: This is considered a private API, do not use. This function should only
+ * be invoked through postInitialize() and setProps(). Further, the widget shall
+ * be updated only for the given key-value pairs.
  *
  * @param props Key-Value pairs of properties.
  */
@@ -534,14 +684,23 @@ dojo.lang.extend(webui.@THEME@.widget.widgetBase, {
     getCoreProps: webui.@THEME@.widget.widgetBase.getCoreProps,
     getEventProps: webui.@THEME@.widget.widgetBase.getEventProps,
     getProps: webui.@THEME@.widget.widgetBase.getProps,
+    getTemplatePath: webui.@THEME@.widget.widgetBase.getTemplatePath,
+    getTemplateString: webui.@THEME@.widget.widgetBase.getTemplateString,
     initialize: webui.@THEME@.widget.widgetBase.initialize,
     isInitialized: webui.@THEME@.widget.widgetBase.isInitialized,
+    isTemplatePath: webui.@THEME@.widget.widgetBase.isTemplatePath,
     postInitialize: webui.@THEME@.widget.widgetBase.postInitialize,
     postCreate: webui.@THEME@.widget.widgetBase.postCreate,
+    refresh: webui.@THEME@.widget.widgetBase.event.refresh.processEvent,
     removeChildNodes: webui.@THEME@.widget.common.removeChildNodes,
     setCommonProps: webui.@THEME@.widget.widgetBase.setCommonProps,
     setCoreProps: webui.@THEME@.widget.widgetBase.setCoreProps,
     setEventProps: webui.@THEME@.widget.widgetBase.setEventProps,
     setProps: webui.@THEME@.widget.widgetBase.setProps,
-    _setProps: webui.@THEME@.widget.widgetBase._setProps
+    _setProps: webui.@THEME@.widget.widgetBase._setProps,
+    stateChanged: webui.@THEME@.widget.widgetBase.event.state.processEvent,
+
+    // Set defaults.
+    event: webui.@THEME@.widget.widgetBase.event,
+    theme: webui.@THEME@.theme.common
 });

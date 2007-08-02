@@ -80,7 +80,34 @@ webui.@THEME@.widget.checkboxGroup.addContents = function(props) {
         }
     }
     return true;
-}  
+}
+
+/**
+ * This closure is used to process widget events.
+ */
+webui.@THEME@.widget.checkboxGroup.event = {
+    /**
+     * This closure is used to process refresh events.
+     */
+    refresh: {
+        /**
+         * Event topics for custom AJAX implementations to listen for.
+         */
+        beginTopic: "webui_@THEME@_widget_checkboxGroup_event_refresh_begin",
+        endTopic: "webui_@THEME@_widget_checkboxGroup_event_refresh_end"
+    },
+
+    /**
+     * This closure is used to process state change events.
+     */
+    state: {
+        /**
+         * Event topics for custom AJAX implementations to listen for.
+         */
+        beginTopic: "webui_@THEME@_widget_checkboxGroup_event_state_begin",
+        endTopic: "webui_@THEME@_widget_checkboxGroup_event_state_end"
+    }
+}
 
 /**
  * This function is used to fill in template properties.
@@ -92,6 +119,8 @@ webui.@THEME@.widget.checkboxGroup.addContents = function(props) {
  * @param frag HTML fragment.
  */
 webui.@THEME@.widget.checkboxGroup.fillInTemplate = function(props, frag) {
+    webui.@THEME@.widget.checkboxGroup.superclass.fillInTemplate.call(this, props, frag);
+
     // Set ids.
     if (this.id) {                    
         this.contentsRowNode.id = this.id + "_contentsRowNode";
@@ -108,9 +137,7 @@ webui.@THEME@.widget.checkboxGroup.fillInTemplate = function(props, frag) {
     if (this.label) {
         webui.@THEME@.common.setVisibleElement(this.rowNode, true);
     }
-
-    // Set common functions.
-    return webui.@THEME@.widget.checkboxGroup.superclass.fillInTemplate.call(this, props, frag);
+    return true;
 }
 
 /**
@@ -150,47 +177,20 @@ webui.@THEME@.widget.checkboxGroup.getProps = function() {
 }
 
 /**
- * This closure is used to process refresh events.
- */
-webui.@THEME@.widget.checkboxGroup.refresh = {
-    /**
-     * Event topics for custom AJAX implementations to listen for.
-     */
-    beginEventTopic: "webui_@THEME@_widget_checkboxGroup_refresh_begin",
-    endEventTopic: "webui_@THEME@_widget_checkboxGroup_refresh_end",
- 
-    /**
-     * Process refresh event.
-     *
-     * @param execute The string containing a comma separated list of client ids 
-     * against which the execute portion of the request processing lifecycle
-     * must be run.
-     */
-    processEvent: function(execute) {
-        // Include default AJAX implementation.
-        this.ajaxify("webui.@THEME@.widget.jsfx.checkboxGroup");
-
-        // Publish an event for custom AJAX implementations to listen for.
-        dojo.event.topic.publish(
-            webui.@THEME@.widget.checkboxGroup.refresh.beginEventTopic, {
-                id: this.id,
-                execute: execute,
-                endEventTopic: webui.@THEME@.widget.checkboxGroup.refresh.endEventTopic
-            });
-        return true;
-    }
-}
-
-/**
  * This function is used to set widget properties. Please see the 
  * _setProps() function for a list of supported properties.
  *
  * Note: This function updates the widget object for later updates. Further, the
  * widget shall be updated only for the given key-value pairs.
  *
+ * Note: If the notify param is true, the widget's state change event shall be
+ * published. This is typically used to keep client-side state in sync with the
+ * server.
+ *
  * @param props Key-Value pairs of properties.
+ * @param notify Publish an event for custom AJAX implementations to listen for.
  */
-webui.@THEME@.widget.checkboxGroup.setProps = function(props) {
+webui.@THEME@.widget.checkboxGroup.setProps = function(props, notify) {
     if (props == null) {
         return false;
     }
@@ -201,7 +201,7 @@ webui.@THEME@.widget.checkboxGroup.setProps = function(props) {
     }
 
     // Extend widget object for later updates.
-    return webui.@THEME@.widget.checkboxGroup.superclass.setProps.call(this, props);
+    return webui.@THEME@.widget.checkboxGroup.superclass.setProps.call(this, props, notify);
 }
 
 /**
@@ -226,8 +226,9 @@ webui.@THEME@.widget.checkboxGroup.setProps = function(props) {
  *  <li>visible</li>  
  * </ul>
  *
- * Note: This function should only be invoked through setProps(). Further, the
- * widget shall be updated only for the given key-value pairs.
+ * Note: This is considered a private API, do not use. This function should only
+ * be invoked through postInitialize() and setProps(). Further, the widget shall
+ * be updated only for the given key-value pairs.
  *
  * @param props Key-Value pairs of properties.
  */
@@ -269,10 +270,10 @@ dojo.lang.extend(webui.@THEME@.widget.checkboxGroup, {
     fillInTemplate: webui.@THEME@.widget.checkboxGroup.fillInTemplate,
     getClassName: webui.@THEME@.widget.checkboxGroup.getClassName,
     getProps: webui.@THEME@.widget.checkboxGroup.getProps,
-    refresh: webui.@THEME@.widget.checkboxGroup.refresh.processEvent,
     setProps: webui.@THEME@.widget.checkboxGroup.setProps,
     _setProps: webui.@THEME@.widget.checkboxGroup._setProps,
 
     // Set defaults.
+    event: webui.@THEME@.widget.checkboxGroup.event,
     widgetType: "checkboxGroup"
 });

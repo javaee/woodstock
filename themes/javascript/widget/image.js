@@ -37,6 +37,33 @@ webui.@THEME@.widget.image = function() {
 }
 
 /**
+ * This closure is used to process widget events.
+ */
+webui.@THEME@.widget.image.event = {
+    /**
+     * This closure is used to process refresh events.
+     */
+    refresh: {
+        /**
+         * Event topics for custom AJAX implementations to listen for.
+         */
+        beginTopic: "webui_@THEME@_widget_image_event_refresh_begin",
+        endTopic: "webui_@THEME@_widget_image_event_refresh_end"
+    },
+
+    /**
+     * This closure is used to process state change events.
+     */
+    state: {
+        /**
+         * Event topics for custom AJAX implementations to listen for.
+         */
+        beginTopic: "webui_@THEME@_widget_image_event_state_begin",
+        endTopic: "webui_@THEME@_widget_image_event_state_end"
+    }
+}
+
+/**
  * This function is used to get widget properties. Please see the 
  * _setProps() function for a list of supported properties.
  */
@@ -58,59 +85,39 @@ webui.@THEME@.widget.image.getProps = function() {
 }
 
 /**
- * This closure is used to process refresh events.
- */
-webui.@THEME@.widget.image.refresh = {
-    /**
-     * Event topics for custom AJAX implementations to listen for.
-     */
-    beginEventTopic: "webui_@THEME@_widget_image_refresh_begin",
-    endEventTopic: "webui_@THEME@_widget_image_refresh_end",
- 
-    /**
-     * Process refresh event.
-     *
-     * @param execute The string containing a comma separated list of client ids 
-     * against which the execute portion of the request processing lifecycle
-     * must be run.
-     */
-    processEvent: function(execute) {
-        // Include default AJAX implementation.
-        this.ajaxify("webui.@THEME@.widget.jsfx.image");
-
-        // Publish an event for custom AJAX implementations to listen for.
-        dojo.event.topic.publish(
-            webui.@THEME@.widget.image.refresh.beginEventTopic, {
-                id: this.id,
-                execute: execute,
-                endEventTopic: webui.@THEME@.widget.image.refresh.endEventTopic
-            });
-        return true;
-    }
-}
-
-/**
  * This function is used to set widget properties. Please see the 
  * _setProps() function for a list of supported properties.
  *
  * Note: This function updates the widget object for later updates. Further, the
  * widget shall be updated only for the given key-value pairs.
  *
+ * Note: If the notify param is true, the widget's state change event shall be
+ * published. This is typically used to keep client-side state in sync with the
+ * server.
+ *
  * @param props Key-Value pairs of properties.
+ * @param notify Publish an event for custom AJAX implementations to listen for.
  */
-webui.@THEME@.widget.image.setProps = function(props) {
+webui.@THEME@.widget.image.setProps = function(props, notify) {
     if (props == null) {
         return false;
     }
 
     // Note: This widget has trouble using this.extend(), possibly due to how
-    // alarm and alert provide image properties to setProps().
+    // alarm and alert provide image properties to setProps(). For now, we need
+    // to bypass the "superclass" function.
 
     // Extend widget object for later updates.
     Object.extend(this, props);
 
     // Set properties.
-    return this._setProps(props);
+    this._setProps(props);
+
+    // Notify listeners state has changed.
+    if (new Boolean(notify).valueOf() == true) {
+        this.stateChanged(props);
+    }
+    return true;
 }
 
 /**
@@ -147,8 +154,9 @@ webui.@THEME@.widget.image.setProps = function(props) {
  *  <li>width</li>
  * </ul>
  *
- * Note: This function should only be invoked through setProps(). Further, the
- * widget shall be updated only for the given key-value pairs.
+ * Note: This is considered a private API, do not use. This function should only
+ * be invoked through postInitialize() and setProps(). Further, the widget shall
+ * be updated only for the given key-value pairs.
  *
  * @param props Key-Value pairs of properties.
  */
@@ -183,11 +191,11 @@ dojo.inherits(webui.@THEME@.widget.image, webui.@THEME@.widget.widgetBase);
 dojo.lang.extend(webui.@THEME@.widget.image, {
     // Set private functions.
     getProps: webui.@THEME@.widget.image.getProps,
-    refresh: webui.@THEME@.widget.image.refresh.processEvent,
     setProps: webui.@THEME@.widget.image.setProps,
     _setProps: webui.@THEME@.widget.image._setProps,
 
     // Set defaults.
     border: 0,
+    event: webui.@THEME@.widget.image.event,
     widgetType: "image"
 });

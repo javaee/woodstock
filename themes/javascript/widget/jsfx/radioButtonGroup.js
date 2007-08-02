@@ -29,5 +29,5 @@ dojo.require("webui.@THEME@.widget.jsfx.*");
 dojo.require("webui.@THEME@.widget.radioButtonGroup");
 
 // Listen for Dojo Widget events.
-dojo.event.topic.subscribe(webui.@THEME@.widget.radioButtonGroup.refresh.beginEventTopic,
+dojo.event.topic.subscribe(webui.@THEME@.widget.radioButtonGroup.event.refresh.beginTopic,
     webui.@THEME@.widget.jsfx.common, "processRefreshEvent");

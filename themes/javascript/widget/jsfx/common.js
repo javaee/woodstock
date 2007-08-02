@@ -35,7 +35,7 @@ webui.@THEME@.widget.jsfx.common = {
      *
      * <ul>
      *  <li>id</li>
-     *  <li>endEventTopic</li>
+     *  <li>endTopic</li>
      *  <li>execute</li>
      * </ul>
      *
@@ -57,8 +57,43 @@ webui.@THEME@.widget.jsfx.common = {
             replaceElement: webui.@THEME@.widget.jsfx.common.refreshCallback,
             xjson: {
                 id: props.id,
-                endEventTopic: props.endEventTopic,
+                endTopic: props.endTopic,
                 event: "refresh"
+            }
+        });
+        return true;
+    },
+
+    /**
+     * This function is used to process state change events with the following 
+     * Object literals.
+     *
+     * <ul>
+     *  <li>id</li>
+     *  <li>endTopic</li>
+     *  <li>props</li>
+     * </ul>
+     *
+     * @param props Key-Value pairs of properties.
+     */
+    processStateEvent: function(props) {
+        if (props == null) {
+            return false;
+        }
+
+        // Dynamic Faces requires a DOM node as the source property.
+        var domNode = document.getElementById(props.id);
+
+        // Generate AJAX request using the JSF Extensions library.
+        DynaFaces.fireAjaxTransaction(
+            (domNode) ? domNode : document.forms[0], {
+            render: props.id,
+            replaceElement: webui.@THEME@.widget.jsfx.common.stateCallback,
+            xjson: {
+                id: props.id,
+                endTopic: props.endTopic,
+                event: "state",
+                props: props.props
             }
         });
         return true;
@@ -70,7 +105,7 @@ webui.@THEME@.widget.jsfx.common = {
      *
      * <ul>
      *  <li>id</li>
-     *  <li>endEventTopic</li>
+     *  <li>endTopic</li>
      *  <li>execute</li>
      * </ul>
      *
@@ -92,7 +127,7 @@ webui.@THEME@.widget.jsfx.common = {
             replaceElement: webui.@THEME@.widget.jsfx.common.submitCallback,
             xjson: {
                 id: props.id,
-                endEventTopic: props.endEventTopic,
+                endTopic: props.endTopic,
                 event: "submit"
             }
         });
@@ -120,8 +155,32 @@ webui.@THEME@.widget.jsfx.common = {
         widget.setProps(props);
 
         // Publish an event for custom AJAX implementations to listen for.
-        if (xjson.endEventTopic) {
-            dojo.event.topic.publish(xjson.endEventTopic, props);
+        if (xjson.endTopic) {
+            dojo.event.topic.publish(xjson.endTopic, props);
+        }
+        return true;
+    },
+
+    /**
+     * This function is a callback to respond to the end of state request.
+     * It will only publish submit end event without updating the widget itself.
+     *
+     * @param id The client id.
+     * @param content The content returned by the AJAX response.
+     * @param closure The closure argument provided to DynaFaces.fireAjaxTransaction.
+     * @param xjson The xjson argument provided to DynaFaces.fireAjaxTransaction.
+     */
+    stateCallback: function(id, content, closure, xjson) {
+        if (id == null || content == null) {
+            return false;
+        }
+
+        // Parse JSON text.
+        var props = JSON.parse(content);
+            
+        // Publish an event for custom AJAX implementations to listen for.
+        if (xjson.endTopic) {
+            dojo.event.topic.publish(xjson.endTopic, props);
         }
         return true;
     },
@@ -129,7 +188,6 @@ webui.@THEME@.widget.jsfx.common = {
     /**
      * This function is a callback to respond to the end of submit request.
      * It will only publish submit end event without updating the widget itself.
-     * While component data is available, it is NOT used to update the widget 
      *
      * @param id The client id.
      * @param content The content returned by the AJAX response.
@@ -145,8 +203,8 @@ webui.@THEME@.widget.jsfx.common = {
         var props = JSON.parse(content);
             
         // Publish an event for custom AJAX implementations to listen for.
-        if (xjson.endEventTopic) {
-            dojo.event.topic.publish(xjson.endEventTopic, props);
+        if (xjson.endTopic) {
+            dojo.event.topic.publish(xjson.endTopic, props);
         }
         return true;
     }

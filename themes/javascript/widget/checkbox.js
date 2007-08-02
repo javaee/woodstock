@@ -37,6 +37,44 @@ webui.@THEME@.widget.checkbox = function() {
 }
 
 /**
+ * This closure is used to process widget events.
+ */
+webui.@THEME@.widget.checkbox.event = {
+    /**
+     * This closure is used to process refresh events.
+     */
+    refresh: {
+        /**
+         * Event topics for custom AJAX implementations to listen for.
+         */
+        beginTopic: "webui_@THEME@_widget_checkbox_event_refresh_begin",
+        endTopic: "webui_@THEME@_widget_checkbox_event_refresh_end"
+    },
+
+    /**
+     * This closure is used to process state change events.
+     */
+    state: {
+        /**
+         * Event topics for custom AJAX implementations to listen for.
+         */
+        beginTopic: "webui_@THEME@_widget_checkbox_event_state_begin",
+        endTopic: "webui_@THEME@_widget_checkbox_event_state_end"
+    },
+
+    /**
+     * This closure is used to process submit events.
+     */
+    submit: {
+        /**
+         * Event topics for custom AJAX implementations to listen for.
+         */
+        beginTopic: "webui_@THEME@_widget_checkbox_event_submit_begin",
+        endTopic: "webui_@THEME@_widget_checkbox_event_submit_end"
+    }
+}
+
+/**
  * This function is used to fill in template properties.
  *
  * Note: This is called after the buildRendering() function. Anything to be set 
@@ -46,6 +84,8 @@ webui.@THEME@.widget.checkbox = function() {
  * @param frag HTML fragment.
  */
 webui.@THEME@.widget.checkbox.fillInTemplate = function(props, frag) {
+    webui.@THEME@.widget.checkbox.superclass.fillInTemplate.call(this, props, frag);
+
     // Set ids.
     if (this.id) {
         this.inputNode.id = this.id + this.idSuffix;
@@ -62,8 +102,7 @@ webui.@THEME@.widget.checkbox.fillInTemplate = function(props, frag) {
     this.domNode.getInputElement = function() { return dojo.widget.byId(this.id).getInputElement(); }
     this.domNode.submit = function(execute) { return dojo.widget.byId(this.id).submit(execute); }
 
-    // Set common functions.
-    return webui.@THEME@.widget.checkbox.superclass.fillInTemplate.call(this, props, frag);
+    return true;
 }
 
 /**
@@ -136,38 +175,6 @@ webui.@THEME@.widget.checkbox.getProps = function() {
 }
 
 /**
- * This closure is used to process refresh events.
- */
-webui.@THEME@.widget.checkbox.refresh = {
-    /**
-     * Event topics for custom AJAX implementations to listen for.
-     */
-    beginEventTopic: "webui_@THEME@_widget_checkbox_refresh_begin",
-    endEventTopic: "webui_@THEME@_widget_checkbox_refresh_end",
- 
-    /**
-     * Process refresh event.
-     *
-     * @param execute The string containing a comma separated list of client ids 
-     * against which the execute portion of the request processing lifecycle
-     * must be run.
-     */
-    processEvent: function(execute) {
-        // Include default AJAX implementation.
-        this.ajaxify("webui.@THEME@.widget.jsfx.checkbox");
-
-        // Publish an event for custom AJAX implementations to listen for.
-        dojo.event.topic.publish(
-            webui.@THEME@.widget.checkbox.refresh.beginEventTopic, {
-                id: this.id,
-                execute: execute,
-                endEventTopic: webui.@THEME@.widget.checkbox.refresh.endEventTopic
-            });
-        return true;
-    }
-}
-
-/**
  * This function is used to set widget properties with the following 
  * Object literals.
  *
@@ -207,8 +214,9 @@ webui.@THEME@.widget.checkbox.refresh = {
  *  <li>visible</li>
  * </ul>
  *
- * Note: This function should only be invoked through setProps(). Further, the
- * widget shall be updated only for the given key-value pairs.
+ * Note: This is considered a private API, do not use. This function should only
+ * be invoked through postInitialize() and setProps(). Further, the widget shall
+ * be updated only for the given key-value pairs.
  *
  * @param props Key-Value pairs of properties.
  */
@@ -238,12 +246,12 @@ webui.@THEME@.widget.checkbox._setProps = function(props) {
         // we shall use a timeout to set the property during initialization.
         if (this.isInitialized() != true
                 && webui.@THEME@.common.browser.is_ie6 == true) {
-            var _this = this;
+            var id = this.id;
             setTimeout(
                 function() {
                     // New literals are created every time this function
                     // is called, and it's saved by closure magic.
-                    var widget = _this;
+                    var widget = dojo.widget.byId(id);
                     widget.inputNode.checked = checked;
                 }, 0); // (n) milliseconds delay.
         } else {
@@ -297,38 +305,6 @@ webui.@THEME@.widget.checkbox._setProps = function(props) {
     return webui.@THEME@.widget.checkbox.superclass._setProps.call(this, props);
 }
 
-/**
- * This closure is used to process submit events.
- */
-webui.@THEME@.widget.checkbox.submit = {
-    /**
-     * Event topics for custom AJAX implementations to listen for.
-     */
-    beginEventTopic: "webui_@THEME@_widget_checkbox_submit_begin",
-    endEventTopic: "webui_@THEME@_widget_checkbox_submit_end",
-    
-    /**
-     * Process submit event.
-     *
-     * @param execute Comma separated string containing a list of client ids 
-     * against which the execute portion of the request processing lifecycle
-     * must be run.
-     */
-    processEvent: function(execute) {
-        // Include default AJAX implementation.
-        this.ajaxify("webui.@THEME@.widget.jsfx.checkbox");
-
-        // Publish an event for custom AJAX implementations to listen for.
-        dojo.event.topic.publish(
-            webui.@THEME@.widget.checkbox.submit.beginEventTopic, {
-                id: this.id,
-                execute: execute,
-                endEventTopic: webui.@THEME@.widget.checkbox.submit.endEventTopic
-            });
-        return true;
-    }
-}
-
 // Inherit base widget properties.
 dojo.inherits(webui.@THEME@.widget.checkbox, webui.@THEME@.widget.widgetBase);
 
@@ -341,11 +317,11 @@ dojo.lang.extend(webui.@THEME@.widget.checkbox, {
     getInputElement: webui.@THEME@.widget.checkbox.getInputElement,
     getLabelClassName: webui.@THEME@.widget.checkbox.getLabelClassName,
     getProps: webui.@THEME@.widget.checkbox.getProps,
-    refresh: webui.@THEME@.widget.checkbox.refresh.processEvent,
     _setProps: webui.@THEME@.widget.checkbox._setProps,
-    submit: webui.@THEME@.widget.checkbox.submit.processEvent,
+    submit: webui.@THEME@.widget.widgetBase.event.submit.processEvent,
 
     // Set defaults.
+    event: webui.@THEME@.widget.checkbox.event,
     idSuffix: "_cb",
     widgetType: "checkbox"
 });

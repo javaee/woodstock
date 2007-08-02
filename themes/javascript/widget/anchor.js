@@ -85,6 +85,33 @@ webui.@THEME@.widget.anchor.createOnClickCallback = function(id) {
 }
 
 /**
+ * This closure is used to process widget events.
+ */
+webui.@THEME@.widget.anchor.event = {
+    /**
+     * This closure is used to process refresh events.
+     */
+    refresh: {
+        /**
+         * Event topics for custom AJAX implementations to listen for.
+         */
+        beginTopic: "webui_@THEME@_widget_anchor_event_refresh_begin",
+        endTopic: "webui_@THEME@_widget_anchor_event_refresh_end"
+    },
+
+    /**
+     * This closure is used to process state change events.
+     */
+    state: {
+        /**
+         * Event topics for custom AJAX implementations to listen for.
+         */
+        beginTopic: "webui_@THEME@_widget_anchor_event_state_begin",
+        endTopic: "webui_@THEME@_widget_anchor_event_state_end"
+    }
+}
+
+/**
  * This function is used to fill in template properties.
  *
  * Note: This is called after the buildRendering() function. Anything to be set 
@@ -94,12 +121,13 @@ webui.@THEME@.widget.anchor.createOnClickCallback = function(id) {
  * @param frag HTML fragment.
  */
 webui.@THEME@.widget.anchor.fillInTemplate = function(props, frag) {
+    webui.@THEME@.widget.anchor.superclass.fillInTemplate.call(this, props, frag);
+
     // Create callback function for onclick event.
     dojo.event.connect(this.domNode, "onclick",
         webui.@THEME@.widget.anchor.createOnClickCallback(this.id));
 
-    // Set common functions.
-    return webui.@THEME@.widget.anchor.superclass.fillInTemplate.call(this, props, frag);
+    return true;
 }
 
 /**
@@ -145,47 +173,20 @@ webui.@THEME@.widget.anchor.getProps = function() {
 }
 
 /**
- * This closure is used to process refresh events.
- */
-webui.@THEME@.widget.anchor.refresh = {
-    /**
-     * Event topics for custom AJAX implementations to listen for.
-     */
-    beginEventTopic: "webui_@THEME@_widget_anchor_refresh_begin",
-    endEventTopic: "webui_@THEME@_widget_anchor_refresh_end",
-
-    /**
-     * Process refresh event.
-     *
-     * @param execute The string containing a comma separated list of client ids 
-     * against which the execute portion of the request processing lifecycle
-     * must be run.
-     */
-    processEvent: function(execute) {
-        // Include default AJAX implementation.
-        this.ajaxify("webui.@THEME@.widget.jsfx.anchor");
-
-        // Publish an event for custom AJAX implementations to listen for.
-        dojo.event.topic.publish(
-            webui.@THEME@.widget.anchor.refresh.beginEventTopic, {
-                id: this.id,
-                execute: execute,
-                endEventTopic: webui.@THEME@.widget.anchor.refresh.endEventTopic
-            });
-        return true;
-    }
-}
-
-/**
  * This function is used to set widget properties. Please see the 
  * _setProps() function for a list of supported properties.
  *
  * Note: This function updates the widget object for later updates. Further, the
  * widget shall be updated only for the given key-value pairs.
  *
+ * Note: If the notify param is true, the widget's state change event shall be
+ * published. This is typically used to keep client-side state in sync with the
+ * server.
+ *
  * @param props Key-Value pairs of properties.
+ * @param notify Publish an event for custom AJAX implementations to listen for.
  */
-webui.@THEME@.widget.anchor.setProps = function(props) {
+webui.@THEME@.widget.anchor.setProps = function(props, notify) {
     if (props == null) {
         return false;
     }
@@ -196,7 +197,7 @@ webui.@THEME@.widget.anchor.setProps = function(props) {
     }
 
     // Extend widget object for later updates.
-    return webui.@THEME@.widget.anchor.superclass.setProps.call(this, props);
+    return webui.@THEME@.widget.anchor.superclass.setProps.call(this, props, notify);
 }
 
 /**
@@ -237,8 +238,9 @@ webui.@THEME@.widget.anchor.setProps = function(props) {
  *  <li>visible</li>
  * </ul>
  *
- * Note: This function should only be invoked through setProps(). Further, the
- * widget shall be updated only for the given key-value pairs.
+ * Note: This is considered a private API, do not use. This function should only
+ * be invoked through postInitialize() and setProps(). Further, the widget shall
+ * be updated only for the given key-value pairs.
  *
  * @param props Key-Value pairs of properties.
  */
@@ -297,10 +299,10 @@ dojo.lang.extend(webui.@THEME@.widget.anchor, {
     fillInTemplate: webui.@THEME@.widget.anchor.fillInTemplate,
     getClassName: webui.@THEME@.widget.anchor.getClassName,
     getProps: webui.@THEME@.widget.anchor.getProps,
-    refresh: webui.@THEME@.widget.anchor.refresh.processEvent,
     setProps: webui.@THEME@.widget.anchor.setProps,
     _setProps: webui.@THEME@.widget.anchor._setProps,
 
     // Set defaults.
+    event: webui.@THEME@.widget.anchor.event,
     widgetType: "anchor"
 });

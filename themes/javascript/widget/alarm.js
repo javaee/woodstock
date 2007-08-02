@@ -37,6 +37,33 @@ webui.@THEME@.widget.alarm = function() {
 }
 
 /**
+ * This closure is used to process widget events.
+ */
+webui.@THEME@.widget.alarm.event = {
+    /**
+     * This closure is used to process refresh events.
+     */
+    refresh: {
+        /**
+         * Event topics for custom AJAX implementations to listen for.
+         */
+        beginTopic: "webui_@THEME@_widget_alarm_event_refresh_begin",
+        endTopic: "webui_@THEME@_widget_alarm_event_refresh_end"
+    },
+
+    /**
+     * This closure is used to process state change events.
+     */
+    state: {
+        /**
+         * Event topics for custom AJAX implementations to listen for.
+         */
+        beginTopic: "webui_@THEME@_widget_alarm_event_state_begin",
+        endTopic: "webui_@THEME@_widget_alarm_event_state_end"
+    }
+}
+
+/**
  * This function is used to fill in template properties.
  *
  * Note: This is called after the buildRendering() function. Anything to be set 
@@ -46,15 +73,15 @@ webui.@THEME@.widget.alarm = function() {
  * @param frag HTML fragment.
  */
 webui.@THEME@.widget.alarm.fillInTemplate = function(props, frag) {
+    webui.@THEME@.widget.alarm.superclass.fillInTemplate.call(this, props, frag);
+
     // Set ids.
     if (this.id) {
         this.rightText.id = this.id + "_rightText";
         this.leftText.id = this.id + "_leftText";
         this.imageContainer.id = this.id + "_imageContainer";        
     }
-
-    // Set common functions.
-    return webui.@THEME@.widget.alarm.superclass.fillInTemplate.call(this, props, frag);
+    return true;
 }
 
 /**
@@ -71,38 +98,6 @@ webui.@THEME@.widget.alarm.getProps = function() {
     if (this.type != null) { props.type = this.type; }
     
     return props;
-}
-
-/**
- * This closure is used to process refresh events.
- */
-webui.@THEME@.widget.alarm.refresh = { 
-    /**
-     * Event topics for custom AJAX implementations to listen for.
-     */
-    beginEventTopic: "webui_@THEME@_widget_alarm_refresh_begin",
-    endEventTopic: "webui_@THEME@_widget_alarm_refresh_end",
- 
-    /**
-     * Process refresh event.
-     *
-     * @param execute The string containing a comma separated list of client ids 
-     * against which the execute portion of the request processing lifecycle
-     * must be run.
-     */
-    processEvent: function(execute) {
-        // Include default AJAX implementation.
-        this.ajaxify("webui.@THEME@.widget.jsfx.alarm");
-
-        // Publish an event for custom AJAX implementations to listen for.
-        dojo.event.topic.publish(
-            webui.@THEME@.widget.alarm.refresh.beginEventTopic, {
-                id: this.id,
-                execute: execute,
-                endEventTopic: webui.@THEME@.widget.alarm.refresh.endEventTopic
-            });
-        return true;
-    }
 }
 
 /**
@@ -133,8 +128,9 @@ webui.@THEME@.widget.alarm.refresh = {
  *  <li>visible</li>
  * </ul>
  *
- * Note: This function should only be invoked through setProps(). Further, the
- * widget shall be updated only for the given key-value pairs.
+ * Note: This is considered a private API, do not use. This function should only
+ * be invoked through postInitialize() and setProps(). Further, the widget shall
+ * be updated only for the given key-value pairs.
  *
  * @param props Key-Value pairs of properties.
  */
@@ -201,9 +197,9 @@ dojo.lang.extend(webui.@THEME@.widget.alarm, {
     // Set private functions.
     fillInTemplate: webui.@THEME@.widget.alarm.fillInTemplate,
     getProps: webui.@THEME@.widget.alarm.getProps,
-    refresh: webui.@THEME@.widget.alarm.refresh.processEvent,
     _setProps: webui.@THEME@.widget.alarm._setProps,
 
     // Set defaults.
+    event: webui.@THEME@.widget.alarm.event,
     widgetType: "alarm"
 });

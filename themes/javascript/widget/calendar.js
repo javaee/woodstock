@@ -263,22 +263,6 @@ webui.@THEME@.widget.calendar.addWeekDays = function() {
 }
 
 /**
- * This function is called when a day link is selected .
- * It publishes an event which the calendarField widget will listen to and update
- * its text field.
- */
-webui.@THEME@.widget.calendar.day = {
-    dayPickedEvent: "webui_@THEME@_widget_calendar_day_picked_event",
-    processEvent: function(formattedDate) {
-        this.toggleCalendar();    
-        dojo.event.topic.publish(webui.@THEME@.widget.calendar.day.dayPickedEvent, 
-            {id:this.id,
-             date:formattedDate});
-        return false;
-    }
-}
-
-/**
  * This function is used to decrease the month by one.
  */
 webui.@THEME@.widget.calendar.decreaseMonth = function() {
@@ -315,6 +299,100 @@ webui.@THEME@.widget.calendar.decreaseMonth = function() {
 }
 
 /**
+ * This closure is used to process widget events.
+ */
+webui.@THEME@.widget.calendar.event = {
+    /**
+     * This closure is used to process day link events.
+     */
+    day: {
+        /**
+         * Event topic for custom AJAX implementations to listen for.
+         *
+         * When a day link is selected, an event is published which the 
+         * calendarField widget will use to update its text field.
+         */
+        dayPickedTopic: "webui_@THEME@_widget_calendar_event_dayPicked",
+
+        processEvent: function(formattedDate) {
+            this.toggleCalendar();    
+            dojo.event.topic.publish(
+                webui.@THEME@.widget.calendar.event.day.dayPickedTopic, {
+                    id:this.id,
+                    date:formattedDate
+                });
+            return false;
+        }
+    },
+
+    /**
+     * This closure is used to process refresh events.
+     */
+    refresh: {
+        /**
+         * Event topics for custom AJAX implementations to listen for.
+         */
+        beginTopic: "webui_@THEME@_widget_calendar_event_refresh_begin",
+        endTopic: "webui_@THEME@_widget_calendar_event_refresh_end"
+    },
+
+    /**
+     * This closure is used to process state change events.
+     */
+    state: {
+        /**
+         * Event topics for custom AJAX implementations to listen for.
+         */
+        beginTopic: "webui_@THEME@_widget_calendar_event_state_begin",
+        endTopic: "webui_@THEME@_widget_calendar_event_state_end"
+    },
+
+    /**
+     * This closure is used to process toggle events.
+     */
+    toggle: {
+        // Published when the calendar's  visible state is set to true
+        openTopic: "webui_@THEME@_widget_calendar_event_toggle_open",
+
+        // Published when the calendar's visible state is set to false
+        closeTopic: "webui_@THEME@_widget_calendar_event_toggle_close",
+
+        /**
+         * Process toogle event and set the visible state.
+         *
+         * @param execute The string containing a comma separated list of client ids 
+         * against which the execute portion of the request processing lifecycle
+         * must be run.
+         */
+        processEvent: function(execute) {
+            if (this.calendarContainer.style.display != "block") {        
+                this.calendarContainer.style.display = "block";
+                this.setInitialFocus();
+
+                // Publish an event for other widgets to listen for.
+                dojo.event.topic.publish(
+                    webui.@THEME@.widget.calendar.event.toggle.openTopic, {
+                        id: this.id,
+                        execute: execute
+                    });
+                this.updateMonth(true);    
+            } else {
+                // Hide the calendar popup
+                this.calendarContainer.style.display = "none";
+
+                // publish an event for other widgets to listen for.
+                dojo.event.topic.publish(
+                    webui.@THEME@.widget.calendar.event.toggle.closeTopic, {
+                        id: this.id,
+                        execute: execute
+                    });            
+            }
+            return false;
+        }
+    }
+}
+
+/**
  * This function is used to fill in template properties.
  *
  * Note: This is called after the buildRendering() function. Anything to be set 
@@ -324,6 +402,8 @@ webui.@THEME@.widget.calendar.decreaseMonth = function() {
  * @param frag HTML fragment.
  */
 webui.@THEME@.widget.calendar.fillInTemplate = function(props, frag) {
+    webui.@THEME@.widget.calendar.superclass.fillInTemplate.call(this, props, frag);
+
     // Set ids.
     if (this.id) {
         this.calendarMenuContainer.id = this.id + "_calendarMenuContainer";
@@ -335,9 +415,7 @@ webui.@THEME@.widget.calendar.fillInTemplate = function(props, frag) {
         this.nextLinkContainer.id = this.id + "_nextLinkContainer";
         this.yearMenuContainer.id = this.id + "_yearMenuContainer";
     }
-
-    // Set common functions.
-    return webui.@THEME@.widget.calendar.superclass.fillInTemplate.call(this, props, frag);
+    return true;
 }
 
 /**
@@ -575,8 +653,9 @@ webui.@THEME@.widget.calendar.setLimitedSelectedValue = function(select, value) 
  *  <li>yearMenu</li> 
  * </ul>
  *
- * Note: This function should only be invoked through setProps(). Further, the
- * widget shall be updated only for the given key-value pairs.
+ * Note: This is considered a private API, do not use. This function should only
+ * be invoked through postInitialize() and setProps(). Further, the widget shall
+ * be updated only for the given key-value pairs.
  *
  * @param props Key-Value pairs of properties.
  */
@@ -707,40 +786,6 @@ webui.@THEME@.widget.calendar.setSelectedValue = function(select, value) {
 }
 
 /**
- * Toggle the visible state of calendar.
- * Also publish an event when the calendar is made visible.
- */
-webui.@THEME@.widget.calendar.toggleCalendar = {
-    // Published when the calendar's  visible state is set to true
-    calendarOpenTopic: "webui_@THEME@_widget_calendar_toggleCalendar_open",
-    // Published when the calendar's visible state is set to false
-    calendarCloseTopic: "webui_@THEME@_widget_calendar_toggleCalendar_close",
-    processEvent: function(execute) {
-        if (this.calendarContainer.style.display != "block") {        
-            this.calendarContainer.style.display = "block";
-            this.setInitialFocus();
-            // Publish an event for other widgets to listen for.
-            dojo.event.topic.publish(
-                webui.@THEME@.widget.calendar.toggleCalendar.calendarOpenTopic, {
-                    id: this.id,
-                    execute: execute
-                });
-            this.updateMonth(true);    
-        } else {
-            // Hide the calendar popup
-            this.calendarContainer.style.display = "none";
-            // publish an event for other widgets to listen for.
-            dojo.event.topic.publish(
-                webui.@THEME@.widget.calendar.toggleCalendar.calendarCloseTopic, {
-                    id: this.id,
-                    execute: execute
-                });            
-        }
-            return false;
-   }
-}
-
-/**
  * This function is used to update the calendar month.
  * It is called when the calendar is opened, the next or previous
  * links are clicked, or the month or year menus are changed.
@@ -769,7 +814,7 @@ dojo.lang.extend(webui.@THEME@.widget.calendar, {
     addDayLink: webui.@THEME@.widget.calendar.addDayLink,
     addDaysInMonth: webui.@THEME@.widget.calendar.addDaysInMonth,
     addWeekDays: webui.@THEME@.widget.calendar.addWeekDays,
-    dayClicked:webui.@THEME@.widget.calendar.day.processEvent,
+    dayClicked:webui.@THEME@.widget.calendar.event.day.processEvent,
     decreaseMonth: webui.@THEME@.widget.calendar.decreaseMonth,
     fillInTemplate: webui.@THEME@.widget.calendar.fillInTemplate,
     formatDate: webui.@THEME@.widget.calendar.formatDate,
@@ -780,9 +825,10 @@ dojo.lang.extend(webui.@THEME@.widget.calendar, {
     setLimitedSelectedValue: webui.@THEME@.widget.calendar.setLimitedSelectedValue,
     _setProps: webui.@THEME@.widget.calendar._setProps,
     setSelectedValue: webui.@THEME@.widget.calendar.setSelectedValue,
-    toggleCalendar: webui.@THEME@.widget.calendar.toggleCalendar.processEvent,
+    toggleCalendar: webui.@THEME@.widget.calendar.event.toggle.processEvent,
     updateMonth: webui.@THEME@.widget.calendar.updateMonth,
        
     // Set defaults.
+    event: webui.@THEME@.widget.calendar.event,
     widgetType: "calendar"
 });

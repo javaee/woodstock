@@ -182,7 +182,7 @@ abstract public class ListRendererBase extends RendererBase {
      * @param context The faces context
      */
     protected JSONObject getProperties(FacesContext context, 
-        ListSelector component)throws JSONException, IOException {
+            ListSelector component)throws JSONException, IOException {
         
         JSONObject json = new JSONObject();
         
@@ -206,14 +206,14 @@ abstract public class ListRendererBase extends RendererBase {
         json.put("label", WidgetUtilities.renderComponent(context, label));
         
         // StyleClass, labelOnTop
-        json.put( "className", component.getStyleClass() );
-        json.put( "labelOnTop", labelOnTop );
+        json.put("className", component.getStyleClass());
+        json.put("labelOnTop", labelOnTop);
         
         // This needs to be called for supporting DB NULL values.
         recordRenderedValue(component);
         
         // Get properties for the select HTML element
-        getListProperties( json, component, context );
+        getListProperties(json, component, context);
         
         return json;
     }
@@ -229,14 +229,14 @@ abstract public class ListRendererBase extends RendererBase {
      * @param listManager The List component
      * @param context The faces context
      */
-    private void getListProperties( JSONObject json, ListManager listManager, 
+    private void getListProperties(JSONObject json, ListManager listManager, 
             FacesContext context)  throws JSONException {
 
-        json.put( "disabled", listManager.isDisabled() );
-        json.put( "size", listManager.getRows() );
-        json.put( "multiple", listManager.isMultiple() );
-        json.put( "tabIndex", listManager.getTabIndex() );
-        json.put( "title", listManager.getToolTip() );
+        json.put("disabled", listManager.isDisabled());
+        json.put("size", listManager.getRows());
+        json.put("multiple", listManager.isMultiple());
+        json.put("tabIndex", listManager.getTabIndex());
+        json.put("title", listManager.getToolTip());
        
         // Get the properties for all the option elements
         getListOptionsProperties(json,(UIComponent)listManager, 
@@ -250,7 +250,7 @@ abstract public class ListRendererBase extends RendererBase {
      * @param component The List component
      * @param optionsIterator The iterator for looping through the options
      */
-    private void getListOptionsProperties( JSONObject json, UIComponent component, 
+    private void getListOptionsProperties(JSONObject json, UIComponent component, 
             Iterator optionsIterator)  throws JSONException {
         
         // Store the options in a JSONArray. The elements in the array are the JSONObject for 
@@ -276,7 +276,7 @@ abstract public class ListRendererBase extends RendererBase {
         // Lets build up the option array
         Object option = null;
         boolean noSeparator = true;
-        while(optionsIterator.hasNext() ) {
+        while(optionsIterator.hasNext()) {
             
             option = optionsIterator.next();
             
@@ -284,48 +284,47 @@ abstract public class ListRendererBase extends RendererBase {
                 if (canGetSeparatorProperties(component)) {
                     // Create a JSONObject for the separator
                     JSONObject separatorJson = new JSONObject();
-                    getSeparatorProperties( separatorJson, component );
+                    getSeparatorProperties(separatorJson, component);
 
-                    if( groupOptionsJsonArray != null ) {
+                    if (groupOptionsJsonArray != null) {
                         // That means this is for the optgroup we're working on
-                        groupOptionsJsonArray.put( separatorJson );
-                    }
-                    else {
+                        groupOptionsJsonArray.put(separatorJson);
+                    } else {
                         // This is just an option for the list component
-                        optionsJsonArray.put( separatorJson );
+                        optionsJsonArray.put(separatorJson);
                     }
                 }
-            } else if (option instanceof StartGroup ) {
+            } else if (option instanceof StartGroup) {
                 
                 StartGroup group = (StartGroup)option;
                 
                 if(!noSeparator && canGetSeparatorProperties(component)) {
                     JSONObject separatorJson = new JSONObject();
                     getSeparatorProperties(separatorJson, component);
-                    optionsJsonArray.put( separatorJson );
+                    optionsJsonArray.put(separatorJson);
                 }
                 
                 groupOptionJson = new JSONObject();
-                groupOptionJson.put( "group", true );
-                groupOptionJson.put( "label", group.getLabel() );
+                groupOptionJson.put("group", true);
+                groupOptionJson.put("label", group.getLabel());
                 
                 // Add this option group to the option array for the list component
-                optionsJsonArray.put( groupOptionJson );
+                optionsJsonArray.put(groupOptionJson);
                 
                 // And allocate space for the options for this group
                 groupOptionsJsonArray = new JSONArray();
                 
                 noSeparator = true;
-            } else if(option instanceof EndGroup ) {
+            } else if(option instanceof EndGroup) {
                 
                 // Done with this group.
-                groupOptionJson.put( "options", groupOptionsJsonArray );
+                groupOptionJson.put("options", groupOptionsJsonArray);
                 groupOptionsJsonArray = null;
                 
                 if(optionsIterator.hasNext() && canGetSeparatorProperties(component)) {
                     JSONObject separatorJson = new JSONObject();
                     getSeparatorProperties(separatorJson, component);
-                    optionsJsonArray.put( separatorJson );
+                    optionsJsonArray.put(separatorJson);
                 }
                 noSeparator = true;
             } else { 
@@ -334,11 +333,11 @@ abstract public class ListRendererBase extends RendererBase {
                 JSONObject optionJson = new JSONObject();
                 getListOptionProperties(optionJson, (ListItem)option);
                 
-                if( groupOptionsJsonArray != null ) {
+                if (groupOptionsJsonArray != null) {
                     // This means this option belongs to the optgroup we're working on
-                    groupOptionsJsonArray.put( optionJson );
+                    groupOptionsJsonArray.put(optionJson);
                 } else {
-                    optionsJsonArray.put( optionJson );
+                    optionsJsonArray.put(optionJson);
                 }
                 noSeparator = false;
             }
@@ -346,7 +345,7 @@ abstract public class ListRendererBase extends RendererBase {
         }
         
         // Add all the options to the json object
-        json.put( "options", optionsJsonArray );
+        json.put("options", optionsJsonArray);
     }
     
     /**
@@ -364,9 +363,9 @@ abstract public class ListRendererBase extends RendererBase {
         ListSelector selector = (ListSelector)component;
         
         // Indicates this is a separator
-        json.put( "separator", true );
-        json.put( "group", false );
-        json.put( "disabled", true ); // Always disabled for separator
+        json.put("separator", true);
+        json.put("group", false);
+        json.put("disabled", true); // Always disabled for separator
         
         // The label for the separator. It is a series of dashes (-----------)
         int numEms = selector.getSeparatorLength();
@@ -374,7 +373,7 @@ abstract public class ListRendererBase extends RendererBase {
         for(int em = 0; em < numEms; ++em) {
             labelBuffer.append("-");                        
         }
-        json.put( "label", labelBuffer.toString() );
+        json.put("label", labelBuffer.toString());
     }
     
     private boolean canGetSeparatorProperties(UIComponent component) {
@@ -397,14 +396,14 @@ abstract public class ListRendererBase extends RendererBase {
      */
     private void getListOptionProperties(JSONObject json, ListItem listItem) 
             throws JSONException {
-        json.put( "group", false ); // Not a group
-        json.put( "separator", false );  // Not a separator
-        json.put( "disabled", listItem.isDisabled() );
-        json.put( "selected", listItem.isSelected() );
-        json.put( "value", listItem.getValue() );
-        json.put( "isTitle", listItem.isTitle() );  // A title option
-        json.put( "label", listItem.getLabel() );
-        json.put( "escape", listItem.isEscape() );
+        json.put("group", false); // Not a group
+        json.put("separator", false);  // Not a separator
+        json.put("disabled", listItem.isDisabled());
+        json.put("selected", listItem.isSelected());
+        json.put("value", listItem.getValue());
+        json.put("isTitle", listItem.isTitle());  // A title option
+        json.put("label", listItem.getLabel());
+        json.put("escape", listItem.isEscape());
         return;
     }
     

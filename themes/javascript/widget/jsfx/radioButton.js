@@ -29,7 +29,7 @@ dojo.require("webui.@THEME@.widget.jsfx.*");
 dojo.require("webui.@THEME@.widget.radioButton");
 
 // Listen for Dojo Widget events.
-dojo.event.topic.subscribe(webui.@THEME@.widget.radioButton.refresh.beginEventTopic,
+dojo.event.topic.subscribe(webui.@THEME@.widget.radioButton.event.refresh.beginTopic,
     webui.@THEME@.widget.jsfx.common, "processRefreshEvent");
-dojo.event.topic.subscribe(webui.@THEME@.widget.radioButton.submit.beginEventTopic,
+dojo.event.topic.subscribe(webui.@THEME@.widget.radioButton.event.submit.beginTopic,
     webui.@THEME@.widget.jsfx.common, "processSubmitEvent");

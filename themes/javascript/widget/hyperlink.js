@@ -76,6 +76,33 @@ webui.@THEME@.widget.hyperlink.createOnClickCallback = function(id, formId,
 }
 
 /**
+ * This closure is used to process widget events.
+ */
+webui.@THEME@.widget.hyperlink.event = {
+    /**
+     * This closure is used to process refresh events.
+     */
+    refresh: {
+        /**
+         * Event topics for custom AJAX implementations to listen for.
+         */
+        beginTopic: "webui_@THEME@_widget_hyperlink_event_refresh_begin",
+        endTopic: "webui_@THEME@_widget_hyperlink_event_refresh_end"
+    },
+
+    /**
+     * This closure is used to process state change events.
+     */
+    state: {
+        /**
+         * Event topics for custom AJAX implementations to listen for.
+         */
+        beginTopic: "webui_@THEME@_widget_hyperlink_event_state_begin",
+        endTopic: "webui_@THEME@_widget_hyperlink_event_state_end"
+    }
+}
+
+/**
  * This function is used to fill in template properties.
  *
  * Note: This is called after the buildRendering() function. Anything to be set 
@@ -85,6 +112,9 @@ webui.@THEME@.widget.hyperlink.createOnClickCallback = function(id, formId,
  * @param frag HTML fragment.
  */
 webui.@THEME@.widget.hyperlink.fillInTemplate = function(props, frag) {
+    // Skip anchor's fillInTemplate() function to avoid setting unique events.
+    webui.@THEME@.widget.anchor.superclass.fillInTemplate.call(this, props, frag);
+
     // If the href attribute does not exist, set "#" as the default value of the
     // DOM node.
     this.domNode.href = "#";
@@ -94,11 +124,7 @@ webui.@THEME@.widget.hyperlink.fillInTemplate = function(props, frag) {
         webui.@THEME@.widget.hyperlink.createOnClickCallback(this.id, 
             this.formId, this.params));
 
-    // Note: Skip anchor's fillInTemplate() function to avoid setting unique
-    // onClick event.
-
-    // Set common functions.
-    return webui.@THEME@.widget.anchor.superclass.fillInTemplate.call(this, props, frag);
+    return true;
 }
 
 /**
@@ -116,38 +142,6 @@ webui.@THEME@.widget.hyperlink.getClassName = function() {
     return (this.className)
         ? className + " " + this.className
         : className;
-}
-
-/**
- * This closure is used to process refresh events.
- */
-webui.@THEME@.widget.hyperlink.refresh = {
-    /**
-     * Event topics for custom AJAX implementations to listen for.
-     */
-    beginEventTopic: "webui_@THEME@_widget_hyperlink_refresh_begin",
-    endEventTopic: "webui_@THEME@_widget_hyperlink_refresh_end",
- 
-    /**
-     * Process refresh event.
-     *
-     * @param execute The string containing a comma separated list of client ids 
-     * against which the execute portion of the request processing lifecycle
-     * must be run.
-     */
-    processEvent: function(execute) {
-        // Include default AJAX implementation.
-        this.ajaxify("webui.@THEME@.widget.jsfx.hyperlink");
-
-        // Publish an event for custom AJAX implementations to listen for.
-        dojo.event.topic.publish(
-            webui.@THEME@.widget.hyperlink.refresh.beginEventTopic, {
-                id: this.id,
-                execute: execute,
-                endEventTopic: webui.@THEME@.widget.hyperlink.refresh.endEventTopic
-            });
-        return true;
-    }
 }
 
 /**
@@ -207,9 +201,9 @@ dojo.lang.extend(webui.@THEME@.widget.hyperlink, {
     // Set private functions.
     fillInTemplate: webui.@THEME@.widget.hyperlink.fillInTemplate,
     getClassName: webui.@THEME@.widget.hyperlink.getClassName,
-    refresh: webui.@THEME@.widget.hyperlink.refresh.processEvent,
     submit: webui.@THEME@.widget.hyperlink.submit,
 
     // Set defaults.
+    event: webui.@THEME@.widget.hyperlink.event,
     widgetType: "hyperlink"
 });

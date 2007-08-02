@@ -93,13 +93,13 @@ webui.@THEME@.widget.jsfx.table2RowGroup = {
 
         // Publish an event for custom AJAX implementations to listen for.
         dojo.event.topic.publish(
-            webui.@THEME@.widget.table2RowGroup.scroll.endEventTopic, props);
+            webui.@THEME@.widget.table2RowGroup.event.scroll.endTopic, props);
         return true;
     }
 }
 
 // Listen for Dojo Widget events.
-dojo.event.topic.subscribe(webui.@THEME@.widget.table2RowGroup.refresh.beginEventTopic,
+dojo.event.topic.subscribe(webui.@THEME@.widget.table2RowGroup.event.refresh.beginTopic,
     webui.@THEME@.widget.jsfx.common, "processRefreshEvent");
-dojo.event.topic.subscribe(webui.@THEME@.widget.table2RowGroup.scroll.beginEventTopic,
+dojo.event.topic.subscribe(webui.@THEME@.widget.table2RowGroup.event.scroll.beginTopic,
     webui.@THEME@.widget.jsfx.table2RowGroup, "processScrollEvent");

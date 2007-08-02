@@ -37,6 +37,33 @@ webui.@THEME@.widget.radioButtonGroup = function() {
 }
 
 /**
+ * This closure is used to process widget events.
+ */
+webui.@THEME@.widget.radioButtonGroup.event = {
+    /**
+     * This closure is used to process refresh events.
+     */
+    refresh: {
+        /**
+         * Event topics for custom AJAX implementations to listen for.
+         */
+        beginTopic: "webui_@THEME@_widget_radioButtonGroup_event_refresh_begin",
+        endTopic: "webui_@THEME@_widget_radioButtonGroup_event_refresh_end"
+    },
+
+    /**
+     * This closure is used to process state change events.
+     */
+    state: {
+        /**
+         * Event topics for custom AJAX implementations to listen for.
+         */
+        beginTopic: "webui_@THEME@_widget_radioButtonGroup_event_state_begin",
+        endTopic: "webui_@THEME@_widget_radioButtonGroup_event_state_end"
+    }
+}
+
+/**
  * This function is used to obtain the outermost HTML element class name.
  *
  * Note: Selectors should be concatinated in order of precedence (e.g., the 
@@ -53,47 +80,15 @@ webui.@THEME@.widget.radioButtonGroup.getClassName = function() {
         : className;
 }
 
-/**
- * This closure is used to process refresh events.
- */
-webui.@THEME@.widget.radioButtonGroup.refresh = {
-    /**
-     * Event topics for custom AJAX implementations to listen for.
-     */
-    beginEventTopic: "webui_@THEME@_widget_radioButtonGroup_refresh_begin",
-    endEventTopic: "webui_@THEME@_widget_radioButtonGroup_refresh_end",
- 
-    /**
-     * Process refresh event.
-     *
-     * @param execute The string containing a comma separated list of client ids 
-     * against which the execute portion of the request processing lifecycle
-     * must be run.
-     */
-    processEvent: function(execute) {
-        // Include default AJAX implementation.
-        this.ajaxify("webui.@THEME@.widget.jsfx.radioButtonGroup");
-
-        // Publish an event for custom AJAX implementations to listen for.
-        dojo.event.topic.publish(
-            webui.@THEME@.widget.radioButtonGroup.refresh.beginEventTopic, {
-                id: this.id,
-                execute: execute,
-                endEventTopic: webui.@THEME@.widget.radioButtonGroup.refresh.endEventTopic
-            });
-        return true;
-    }
-}
-
 // Inherit base widget properties.
 dojo.inherits(webui.@THEME@.widget.radioButtonGroup, webui.@THEME@.widget.checkboxGroup);
 
 // Override base widget by assigning properties to class prototype.
 dojo.lang.extend(webui.@THEME@.widget.radioButtonGroup, {
     // Set private functions.    
-    getClassName: webui.@THEME@.widget.radioButtonGroup.getClassName,    
-    refresh: webui.@THEME@.widget.radioButtonGroup.refresh.processEvent,                     
+    getClassName: webui.@THEME@.widget.radioButtonGroup.getClassName,
 
     // Set defaults.
+    event: webui.@THEME@.widget.radioButtonGroup.event,
     widgetType: "radioButtonGroup"
 });

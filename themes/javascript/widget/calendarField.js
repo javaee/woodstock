@@ -62,6 +62,33 @@ webui.@THEME@.widget.calendarField.dayClicked = function(props) {
 }
 
 /**
+ * This closure is used to process widget events.
+ */
+webui.@THEME@.widget.calendarField.event = {
+    /**
+     * This closure is used to process refresh events.
+     */
+    refresh: {
+        /**
+         * Event topics for custom AJAX implementations to listen for.
+         */
+        beginTopic: "webui_@THEME@_widget_calendarField_event_refresh_begin",
+        endTopic: "webui_@THEME@_widget_calendarField_event_refresh_end"
+    },
+
+    /**
+     * This closure is used to process state change events.
+     */
+    state: {
+        /**
+         * Event topics for custom AJAX implementations to listen for.
+         */
+        beginTopic: "webui_@THEME@_widget_calendarField_event_state_begin",
+        endTopic: "webui_@THEME@_widget_calendarField_event_state_end"
+    }
+}
+
+/**
  * This function is used to fill in template properties.
  *
  * Note: This is called after the buildRendering() function. Anything to be set 
@@ -71,6 +98,8 @@ webui.@THEME@.widget.calendarField.dayClicked = function(props) {
  * @param frag HTML fragment.
  */
 webui.@THEME@.widget.calendarField.fillInTemplate = function(props, frag) {
+    webui.@THEME@.widget.calendarField.superclass.fillInTemplate.call(this, props, frag);
+
     // Set ids.
     if (this.id) {
         this.inlineHelpNode.id = this.id + "_pattern";
@@ -81,14 +110,13 @@ webui.@THEME@.widget.calendarField.fillInTemplate = function(props, frag) {
     // Set events.
 
     // Subscribe to the "dayClicked" event present in the calendar widget.
-    dojo.event.topic.subscribe(webui.@THEME@.widget.calendar.day.dayPickedEvent,
+    dojo.event.topic.subscribe(webui.@THEME@.widget.calendar.event.day.dayPickedTopic,
         this, "dayClicked");
     // Subscribe to the "toggle" event that occurs whenever the calendar is opened.
-    dojo.event.topic.subscribe(webui.@THEME@.widget.calendar.toggleCalendar.calendarOpenTopic,
+    dojo.event.topic.subscribe(webui.@THEME@.widget.calendar.event.toggle.openTopic,
         this, "toggleCalendar");
 
-    // Set common functions.
-    return webui.@THEME@.widget.calendarField.superclass.fillInTemplate.call(this, props, frag);
+    return true;
 }
 
 /**
@@ -119,38 +147,6 @@ webui.@THEME@.widget.calendarField.getProps = function() {
     if (this.patternHelp) { props.patternHelp = this.patternHelp; }   
 
     return props;
-}
-
-/**
- * This closure is used to process refresh events.
- */
-webui.@THEME@.widget.calendarField.refresh = {
-    /**
-     * Event topics for custom AJAX implementations to listen for.
-     */
-    beginEventTopic: "webui_@THEME@_widget_calendarField_refresh_begin",
-    endEventTopic: "webui_@THEME@_widget_calendarField_refresh_end",
- 
-    /**
-     * Process refresh event.
-     *
-     * @param execute The string containing a comma separated list of client ids 
-     * against which the execute portion of the request processing lifecycle
-     * must be run.
-     */
-    processEvent: function(execute) {
-        // Include default AJAX implementation.
-        this.ajaxify("webui.@THEME@.widget.jsfx.calendarField");
-        
-        // Publish an event for custom AJAX implementations to listen for.
-        dojo.event.topic.publish(
-            webui.@THEME@.widget.calendarField.refresh.beginEventTopic, {
-                id: this.id,
-                execute: execute,
-                endEventTopic: webui.@THEME@.widget.calendarField.refresh.endEventTopic
-            });
-        return true;
-    }
 }
 
 /**
@@ -190,8 +186,9 @@ webui.@THEME@.widget.calendarField.refresh = {
  *  <li>visible</li> 
  * </ul>
  *
- * Note: This function should only be invoked through setProps(). Further, the
- * widget shall be updated only for the given key-value pairs.
+ * Note: This is considered a private API, do not use. This function should only
+ * be invoked through postInitialize() and setProps(). Further, the widget shall
+ * be updated only for the given key-value pairs.
  *
  * @param props Key-Value pairs of properties.
  */
@@ -260,10 +257,10 @@ dojo.lang.extend(webui.@THEME@.widget.calendarField, {
     fillInTemplate: webui.@THEME@.widget.calendarField.fillInTemplate,
     getClassName: webui.@THEME@.widget.calendarField.getClassName,
     getProps: webui.@THEME@.widget.calendarField.getProps,
-    refresh: webui.@THEME@.widget.calendarField.refresh.processEvent,
     _setProps: webui.@THEME@.widget.calendarField._setProps,
     toggleCalendar: webui.@THEME@.widget.calendarField.toggleCalendar,
 
     // Set defaults.
+    event: webui.@THEME@.widget.calendarField.event,
     widgetType: "calendarField"
 });

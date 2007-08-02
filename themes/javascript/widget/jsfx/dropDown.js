@@ -29,7 +29,7 @@ dojo.require("webui.@THEME@.widget.jsfx.*");
 dojo.require("webui.@THEME@.widget.dropDown");
 
 // Listen for Dojo Widget events.
-dojo.event.topic.subscribe(webui.@THEME@.widget.dropDown.refresh.beginEventTopic,
+dojo.event.topic.subscribe(webui.@THEME@.widget.dropDown.event.refresh.beginTopic,
     webui.@THEME@.widget.jsfx.common, "processRefreshEvent");
-dojo.event.topic.subscribe(webui.@THEME@.widget.dropDown.submit.beginEventTopic,
+dojo.event.topic.subscribe(webui.@THEME@.widget.dropDown.event.submit.beginTopic,
     webui.@THEME@.widget.jsfx.common, "processSubmitEvent");

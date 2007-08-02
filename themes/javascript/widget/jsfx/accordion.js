@@ -29,5 +29,5 @@ dojo.require("webui.@THEME@.widget.jsfx.*");
 dojo.require("webui.@THEME@.widget.accordion");
 
 // Listen for Dojo Widget event signalling the widget's need to refresh.
-dojo.event.topic.subscribe(webui.@THEME@.widget.accordion.refresh.beginEventTopic,
+dojo.event.topic.subscribe(webui.@THEME@.widget.accordion.event.refresh.beginTopic,
     webui.@THEME@.widget.jsfx.common, "processRefreshEvent");

@@ -23,11 +23,6 @@
 // component, where JSF Extensions is used as the underlying transfer protocol.
 //
 
-dojo.provide("webui.@THEME@.widget.jsfx.anchor");
+dojo.provide("webui.@THEME@.widget.jsfx.imageButton");
 
-dojo.require("webui.@THEME@.widget.jsfx.*");
-dojo.require("webui.@THEME@.widget.anchor");
-
-// Listen for Dojo Widget events.
-dojo.event.topic.subscribe(webui.@THEME@.widget.anchor.event.refresh.beginTopic,
-    webui.@THEME@.widget.jsfx.common, "processRefreshEvent");
+dojo.require("webui.@THEME@.widget.jsfx.button");

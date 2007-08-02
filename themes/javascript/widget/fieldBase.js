@@ -45,6 +45,8 @@ webui.@THEME@.widget.fieldBase = function() {
  * @param frag HTML fragment.
  */
 webui.@THEME@.widget.fieldBase.fillInTemplate = function(props, frag) {
+    webui.@THEME@.widget.fieldBase.superclass.fillInTemplate.call(this, props, frag);
+
     // Set ids.
     if (this.id) {
         this.fieldNode.id = this.id + "_field";
@@ -55,8 +57,7 @@ webui.@THEME@.widget.fieldBase.fillInTemplate = function(props, frag) {
     // Set public functions.
     this.domNode.getInputElement = function() { return dojo.widget.byId(this.id).getInputElement(); }
 
-    // Set common functions.
-    return webui.@THEME@.widget.fieldBase.superclass.fillInTemplate.call(this, props, frag);
+    return true;
 }
 
 /**
@@ -142,8 +143,9 @@ webui.@THEME@.widget.fieldBase.getProps = function() {
  *  <li>visible</li> 
  * </ul>
  *
- * Note: This function should only be invoked through setProps(). Further, the
- * widget shall be updated only for the given key-value pairs.
+ * Note: This is considered a private API, do not use. This function should only
+ * be invoked through postInitialize() and setProps(). Further, the widget shall
+ * be updated only for the given key-value pairs.
  *
  * @param props Key-Value pairs of properties.
  */
@@ -208,7 +210,7 @@ dojo.lang.extend(webui.@THEME@.widget.fieldBase, {
     getInputElement: webui.@THEME@.widget.fieldBase.getInputElement,
     getProps: webui.@THEME@.widget.fieldBase.getProps,
     _setProps: webui.@THEME@.widget.fieldBase._setProps,
-    
+
     // Set defaults.
     disabled: false,
     required: false,

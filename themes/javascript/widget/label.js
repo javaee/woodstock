@@ -36,6 +36,61 @@ webui.@THEME@.widget.label = function() {
 }
 
 /**
+ * This closure is used to process widget events.
+ */
+webui.@THEME@.widget.label.event = {
+    /**
+     * This closure is used to process refresh events.
+     */
+    refresh: {
+        /**
+         * Event topics for custom AJAX implementations to listen for.
+         */
+        beginTopic: "webui_@THEME@_widget_label_event_refresh_begin",
+        endTopic: "webui_@THEME@_widget_label_event_refresh_end"
+    },
+
+    /**
+     * This closure is used to process state change events.
+     */
+    state: {
+        /**
+         * Event topics for custom AJAX implementations to listen for.
+         */
+        beginTopic: "webui_@THEME@_widget_label_event_state_begin",
+        endTopic: "webui_@THEME@_widget_label_event_state_end"
+    },
+
+    /**
+     * This closure is used to process validation events.
+     */
+    validation: {
+        /**
+         * This function is used to process validation events with the following
+         * Object literals.
+         *
+         * <ul>
+         *  <li>detail</li>
+         *  <li>valid</li>
+         * </ul>
+         *
+         * @param props Key-Value pairs of properties.
+         */
+        processEvent: function(props) {
+            if (props == null) {
+                return false;
+            }
+            return this.setProps({
+                valid: props.valid,
+                errorImage: {
+                    title: props.detail
+                }
+            });
+        }
+    }
+}
+
+/**
  * This function is used to fill in template properties.
  *
  * Note: This is called after the buildRendering() function. Anything to be set 
@@ -45,6 +100,8 @@ webui.@THEME@.widget.label = function() {
  * @param frag HTML fragment.
  */
 webui.@THEME@.widget.label.fillInTemplate = function(props, frag) {
+    webui.@THEME@.widget.label.superclass.fillInTemplate.call(this, props, frag);
+
     // Set ids.
     if (this.id) {
         this.contentsContainer.id = this.id + "_contentsContainer";
@@ -52,9 +109,7 @@ webui.@THEME@.widget.label.fillInTemplate = function(props, frag) {
         this.requiredImageContainer.id = this.id + "_requiredImageContainer";
         this.valueContainer.id = this.id + "_valueContainer";
     }
-
-    // Set common functions.
-    return webui.@THEME@.widget.label.superclass.fillInTemplate.call(this, props, frag);
+    return true;
 }
 
 /**
@@ -102,47 +157,20 @@ webui.@THEME@.widget.label.getProps = function() {
 }
 
 /**
- * This closure is used to process refresh events.
- */
-webui.@THEME@.widget.label.refresh = {
-    /**
-     * Event topics for custom AJAX implementations to listen for.
-     */
-    beginEventTopic: "webui_@THEME@_widget_label_refresh_begin",
-    endEventTopic: "webui_@THEME@_widget_label_refresh_end",
- 
-    /**
-     * Process refresh event.
-     *
-     * @param execute The string containing a comma separated list of client ids 
-     * against which the execute portion of the request processing lifecycle
-     * must be run.
-     */
-    processEvent: function(execute) {
-        // Include default AJAX implementation.
-        this.ajaxify("webui.@THEME@.widget.jsfx.label");
-
-        // Publish an event for custom AJAX implementations to listen for.
-        dojo.event.topic.publish(
-            webui.@THEME@.widget.label.refresh.beginEventTopic, {
-                id: this.id,
-                execute: execute,
-                endEventTopic: webui.@THEME@.widget.label.refresh.endEventTopic
-            });
-        return true;
-    }
-}
-
-/**
  * This function is used to set widget properties. Please see the 
  * _setProps() function for a list of supported properties.
  *
  * Note: This function updates the widget object for later updates. Further, the
  * widget shall be updated only for the given key-value pairs.
  *
+ * Note: If the notify param is true, the widget's state change event shall be
+ * published. This is typically used to keep client-side state in sync with the
+ * server.
+ *
  * @param props Key-Value pairs of properties.
+ * @param notify Publish an event for custom AJAX implementations to listen for.
  */
-webui.@THEME@.widget.label.setProps = function(props) {
+webui.@THEME@.widget.label.setProps = function(props, notify) {
     if (props == null) {
         return false;
     }
@@ -153,7 +181,7 @@ webui.@THEME@.widget.label.setProps = function(props) {
     }
 
     // Extend widget object for later updates.
-    return webui.@THEME@.widget.label.superclass.setProps.call(this, props);
+    return webui.@THEME@.widget.label.superclass.setProps.call(this, props, notify);
 }
 
 /**
@@ -190,8 +218,9 @@ webui.@THEME@.widget.label.setProps = function(props) {
  *  <li>visible</li>
  * </ul>
  *
- * Note: This function should only be invoked through setProps(). Further, the
- * widget shall be updated only for the given key-value pairs.
+ * Note: This is considered a private API, do not use. This function should only
+ * be invoked through postInitialize() and setProps(). Further, the widget shall
+ * be updated only for the given key-value pairs.
  *
  * @param props Key-Value pairs of properties.
  */
@@ -266,34 +295,6 @@ webui.@THEME@.widget.label._setProps = function(props) {
     return webui.@THEME@.widget.label.superclass._setProps.call(this, props);
 }
 
-/**
- * This closure is used to process validation events.
- */
-webui.@THEME@.widget.label.validation = {
-    /**
-     * This function is used to process validation events with the following
-     * Object literals.
-     *
-     * <ul>
-     *  <li>detail</li>
-     *  <li>valid</li>
-     * </ul>
-     *
-     * @param props Key-Value pairs of properties.
-     */
-    processEvent: function(props) {
-        if (props == null) {
-            return false;
-        }
-        return this.setProps({
-            valid: props.valid,
-            errorImage: {
-                title: props.detail
-            }
-        });
-    }
-}
-
 // Inherit base widget properties.
 dojo.inherits(webui.@THEME@.widget.label, webui.@THEME@.widget.widgetBase);
 
@@ -303,12 +304,12 @@ dojo.lang.extend(webui.@THEME@.widget.label, {
     fillInTemplate: webui.@THEME@.widget.label.fillInTemplate,
     getClassName: webui.@THEME@.widget.label.getClassName,
     getProps: webui.@THEME@.widget.label.getProps,
-    refresh: webui.@THEME@.widget.label.refresh.processEvent,
     setProps: webui.@THEME@.widget.label.setProps,
     _setProps: webui.@THEME@.widget.label._setProps,
-    validate: webui.@THEME@.widget.label.validation.processEvent,
+    validate: webui.@THEME@.widget.label.event.validation.processEvent,
 
     // Set defaults.
+    event: webui.@THEME@.widget.label.event,
     level: 2,
     required: false,
     valid: true,

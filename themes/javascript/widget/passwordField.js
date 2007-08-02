@@ -75,9 +75,6 @@ dojo.lang.extend(webui.@THEME@.widget.passwordField, {
     getInputClassName: webui.@THEME@.widget.passwordField.getInputClassName,
 
     // Set defaults.
-    disabled: false,
-    required: false,
-    size: 20,
-    valid: true,
+    event: null,
     widgetType: "passwordField"
 });

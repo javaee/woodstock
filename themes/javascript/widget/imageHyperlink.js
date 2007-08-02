@@ -55,6 +55,33 @@ webui.@THEME@.widget.imageHyperlink.addContents = function(props) {
 }
 
 /**
+ * This closure is used to process widget events.
+ */
+webui.@THEME@.widget.imageHyperlink.event = {
+    /**
+     * This closure is used to process refresh events.
+     */
+    refresh: {
+        /**
+         * Event topics for custom AJAX implementations to listen for.
+         */
+        beginTopic: "webui_@THEME@_widget_imageHyperlink_event_refresh_begin",
+        endTopic: "webui_@THEME@_widget_imageHyperlink_event_refresh_end"
+    },
+
+    /**
+     * This closure is used to process state change events.
+     */
+    state: {
+        /**
+         * Event topics for custom AJAX implementations to listen for.
+         */
+        beginTopic: "webui_@THEME@_widget_imageHyperlink_event_state_begin",
+        endTopic: "webui_@THEME@_widget_imageHyperlink_event_state_end"
+    }
+}
+
+/**
  * This function is used to fill in template properties.
  *
  * Note: This is called after the buildRendering() function. Anything to be set 
@@ -64,6 +91,8 @@ webui.@THEME@.widget.imageHyperlink.addContents = function(props) {
  * @param frag HTML fragment.
  */
 webui.@THEME@.widget.imageHyperlink.fillInTemplate = function(props, frag) {
+    webui.@THEME@.widget.imageHyperlink.superclass.fillInTemplate.call(this, props, frag);
+
     // Set ids.
     if (this.id) {
         this.enabledImageContainer.id = this.id + "_enabled";
@@ -71,9 +100,7 @@ webui.@THEME@.widget.imageHyperlink.fillInTemplate = function(props, frag) {
         this.leftContentsContainer.id = this.id + "_leftContents";
         this.rightContentsContainer.id = this.id + "_rightContents";
     }
-
-    // Set common functions.
-    return webui.@THEME@.widget.imageHyperlink.superclass.fillInTemplate.call(this, props, frag);
+    return true;
 }
 
 /**
@@ -89,38 +116,6 @@ webui.@THEME@.widget.imageHyperlink.getProps = function() {
     if (this.imagePosition) { props.imagePosition = this.imagePosition; }
 
     return props;
-}
-
-/**
- * This closure is used to process refresh events.
- */
-webui.@THEME@.widget.imageHyperlink.refresh = {
-    /**
-     * Event topics for custom AJAX implementations to listen for.
-     */
-    beginEventTopic: "webui_@THEME@_widget_imageHyperlink_refresh_begin",
-    endEventTopic: "webui_@THEME@_widget_imageHyperlink_refresh_end",
- 
-    /**
-     * Process refresh event.
-     *
-     * @param execute The string containing a comma separated list of client ids 
-     * against which the execute portion of the request processing lifecycle
-     * must be run.
-     */
-    processEvent: function(execute) {
-        // Include default AJAX implementation.
-        this.ajaxify("webui.@THEME@.widget.jsfx.imageHyperlink");
-
-        // Publish an event for custom AJAX implementations to listen for.
-        dojo.event.topic.publish(
-            webui.@THEME@.widget.imageHyperlink.refresh.beginEventTopic, {
-                id: this.id,
-                execute: execute,
-                endEventTopic: webui.@THEME@.widget.imageHyperlink.refresh.endEventTopic
-            });
-        return true;
-    }
 }
 
 /**
@@ -157,8 +152,9 @@ webui.@THEME@.widget.imageHyperlink.refresh = {
  *  <li>visible</li>
  * </ul>
  *
- * Note: This function should only be invoked through setProps(). Further, the
- * widget shall be updated only for the given key-value pairs.
+ * Note: This is considered a private API, do not use. This function should only
+ * be invoked through postInitialize() and setProps(). Further, the widget shall
+ * be updated only for the given key-value pairs.
  *
  * @param props Key-Value pairs of properties.
  */
@@ -211,9 +207,9 @@ dojo.lang.extend(webui.@THEME@.widget.imageHyperlink, {
     addContents: webui.@THEME@.widget.imageHyperlink.addContents,
     fillInTemplate: webui.@THEME@.widget.imageHyperlink.fillInTemplate,
     getProps: webui.@THEME@.widget.imageHyperlink.getProps,
-    refresh: webui.@THEME@.widget.imageHyperlink.refresh.processEvent,
     _setProps: webui.@THEME@.widget.imageHyperlink._setProps,
 
     // Set defaults.
+    event: webui.@THEME@.widget.imageHyperlink.event,
     widgetType: "imageHyperlink"
 });

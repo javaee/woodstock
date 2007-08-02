@@ -36,6 +36,62 @@ webui.@THEME@.widget.alert = function() {
 }
 
 /**
+ * This closure is used to process widget events.
+ */
+webui.@THEME@.widget.alert.event = {
+    /**
+     * This closure is used to process refresh events.
+     */
+    refresh: {
+        /**
+         * Event topics for custom AJAX implementations to listen for.
+         */
+        beginTopic: "webui_@THEME@_widget_alert_event_refresh_begin",
+        endTopic: "webui_@THEME@_widget_alert_event_refresh_end"
+    },
+
+    /**
+     * This closure is used to process state change events.
+     */
+    state: {
+        /**
+         * Event topics for custom AJAX implementations to listen for.
+         */
+        beginTopic: "webui_@THEME@_widget_alert_event_state_begin",
+        endTopic: "webui_@THEME@_widget_alert_event_state_end"
+    },
+
+    /**
+     * This closure is used to process validation events.
+     */
+    validation: {
+        /**
+         * This function is used to process validation events with the following
+         * Object literals.
+         *
+         * <ul>
+         *  <li>detail</li>
+         *  <li>summary</li>
+         *  <li>valid</li>
+         * </ul>
+         *
+         * @param props Key-Value pairs of properties.
+         */
+        processEvent: function(props) {
+            if (props == null) {
+                return false;
+            }
+            return this.setProps({
+                summary: props.summary,
+                detail: props.detail,
+                type: "error",
+                visible: !props.valid
+            });
+        }
+    }
+}
+
+/**
  * This function is used to fill in template properties.
  *
  * Note: This is called after the buildRendering() function. Anything to be set 
@@ -45,6 +101,8 @@ webui.@THEME@.widget.alert = function() {
  * @param frag HTML fragment.
  */
 webui.@THEME@.widget.alert.fillInTemplate = function(props, frag) {
+    webui.@THEME@.widget.alert.superclass.fillInTemplate.call(this, props, frag);
+
     // Set ids.
     if (this.id) {
         this.bottomLeftContainer.id = this.id + "_bottomLeftContainer";
@@ -60,9 +118,7 @@ webui.@THEME@.widget.alert.fillInTemplate = function(props, frag) {
         this.topRightContainer.id = this.id + "_topRightContainer";
         this.detailContainerLink.id = this.id + "_detailContainerLink";
     }
-
-    // Set common functions.
-    return webui.@THEME@.widget.alert.superclass.fillInTemplate.call(this, props, frag);
+    return true;
 }
 
 /**
@@ -84,38 +140,6 @@ webui.@THEME@.widget.alert.getProps = function() {
 }
 
 /**
- * This closure is used to process refresh events.
- */
-webui.@THEME@.widget.alert.refresh = { 
-    /**
-     * Event topics for custom AJAX implementations to listen for.
-     */
-    beginEventTopic: "webui_@THEME@_widget_alert_refresh_begin",
-    endEventTopic: "webui_@THEME@_widget_alert_refresh_end",
- 
-    /**
-     * Process refresh event.
-     *
-     * @param execute The string containing a comma separated list of client ids 
-     * against which the execute portion of the request processing lifecycle
-     * must be run.
-     */
-    processEvent: function(execute) {
-        // Include default AJAX implementation.
-        this.ajaxify("webui.@THEME@.widget.jsfx.alert");
-
-        // Publish an event for custom AJAX implementations to listen for.
-        dojo.event.topic.publish(
-            webui.@THEME@.widget.alert.refresh.beginEventTopic, {
-                id: this.id,
-                execute: execute,
-                endEventTopic: webui.@THEME@.widget.alert.refresh.endEventTopic
-            });
-        return true;
-    }
-}
-
-/**
  * This function is used to set widget properties with the following 
  * Object literals.
  *
@@ -132,8 +156,9 @@ webui.@THEME@.widget.alert.refresh = {
  *  <li>visible</li>
  * </ul>
  *
- * Note: This function should only be invoked through setProps(). Further, the
- * widget shall be updated only for the given key-value pairs.
+ * Note: This is considered a private API, do not use. This function should only
+ * be invoked through postInitialize() and setProps(). Further, the widget shall
+ * be updated only for the given key-value pairs.
  *
  * @param props Key-Value pairs of properties.
  */
@@ -217,35 +242,6 @@ webui.@THEME@.widget.alert._setProps = function(props) {
     return webui.@THEME@.widget.alert.superclass._setProps.call(this, props);
 }
 
-/**
- * This closure is used to process validation events.
- */
-webui.@THEME@.widget.alert.validation = {
-    /**
-     * This function is used to process validation events with the following
-     * Object literals.
-     *
-     * <ul>
-     *  <li>detail</li>
-     *  <li>summary</li>
-     *  <li>valid</li>
-     * </ul>
-     *
-     * @param props Key-Value pairs of properties.
-     */
-    processEvent: function(props) {
-        if (props == null) {
-            return false;
-        }
-        return this.setProps({
-            summary: props.summary,
-            detail: props.detail,
-            type: "error",
-            visible: !props.valid
-        });
-    }
-}
-
 // Inherit base widget properties.
 dojo.inherits(webui.@THEME@.widget.alert, webui.@THEME@.widget.widgetBase);
 
@@ -254,10 +250,10 @@ dojo.lang.extend(webui.@THEME@.widget.alert, {
     // Set private functions.
     fillInTemplate: webui.@THEME@.widget.alert.fillInTemplate,
     getProps: webui.@THEME@.widget.alert.getProps,
-    refresh: webui.@THEME@.widget.alert.refresh.processEvent,
     _setProps: webui.@THEME@.widget.alert._setProps,
-    validate: webui.@THEME@.widget.alert.validation.processEvent,
+    validate: webui.@THEME@.widget.alert.event.validation.processEvent,
 
     // Set defaults.
+    event: webui.@THEME@.widget.alert.event,
     widgetType: "alert"
 });

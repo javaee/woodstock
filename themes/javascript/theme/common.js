@@ -48,8 +48,6 @@ dojo.require("dojo.i18n.common");
  * FIND MODULE LOADING METHODS.
  */
 webui.@THEME@.theme.common = {
-
-
     /**
      * This function is used to set widget properties with the
      * following Object literals.
@@ -162,10 +160,26 @@ webui.@THEME@.theme.common = {
 	}
     },
 
+    // private
+    _getImageProp: function(prop, isText) {
+
+	var value = webui.@THEME@.theme.common.getProperty("images", prop);
+	if (value == null || value.length == 0) {
+	    return null;
+	}
+	if (isText) {
+	    var msg = webui.@THEME@.theme.common.getMessage(value, null);
+	    if (msg != null && msg.length != 0) {
+		value = msg;
+	    }
+	}
+	return value;
+    },
+
     /**
-     * Returns the followin Object literals, else null.
+     * Returns the followin Object literals or null
      * <ul>
-     * <li>url - the image path with the theme prefix</li>
+     * <li>src - the image path with the theme prefix</li>
      * <li>width - image width</li>
      * <li>height - image height</li>
      * <li>title - value for the "title" attribute</li>
@@ -180,77 +194,77 @@ webui.@THEME@.theme.common = {
      * If the literal path is desired, without the prefix, use
      * "webui.@THEME@.theme.common.getProperty("images", imageprop)"
      * where imageprop is the actual image property like "ALARM_CRITICAL".
+     *
+     * @param srcProperty the image theme key, the image key without any suffix.
      */
-    getImage : function(property) {
+    getImage : function(srcProperty) {
 
-	var props = ["url", "alt", "title", "width", "height"];
-	var path = webui.@THEME@.theme.common.getProperty("images", property);
-	if (path == null) {
+	if (srcProperty == null || srcProperty.length == 0) {
 	    return null;
 	}
-	var image = {};
-	var j = 0;
-	image[props[j++]] = webui.@THEME@.theme.common.getPrefix() + path;
-
-	var imageprops = [property + "_ALT", property + "_TITLE"];
-	for (var i = 0; i < imageprops.length; ++i) {
-	    var value = webui.@THEME@.theme.common.getProperty("images", 
-		imageprops[i]);
-	    if (value != null) {
-		var msg = webui.@THEME@.theme.common.getMessage(value, null);
-		if (msg != null) {
-		    value = msg;
+	// Enforce srcProperty as the one without the extension
+	//
+	var imageSuffixes = [ "ALT", "TITLE", "WIDTH", "HEIGHT" ];
+	var srcPropertyParts = srcProperty.split("_");
+	if (srcPropertyParts.length > 1) {
+	    for (var i = 0; i < imageSuffixes.length; ++i) {
+		if (srcPropertyParts[srcPropertyParts.length - 1] ==
+			imageSuffixes[i]) {
+		    return null;
 		}
 	    }
-	    image[props[j++]] = value;
 	}
-	imageprops = [property + "_WIDTH", property + "_HEIGHT"];
-	for (var i = 0; i < imageprops.length; ++i) {
-	    image[props[j++]] =
-		webui.@THEME@.theme.common.getProperty("images", imageprops[i]);
+	     
+	// If this key does not have a value the image is not defined
+	// in the theme
+	//
+	var src = webui.@THEME@.theme.common._getImageProp(srcProperty, false);
+	if (src == null) {
+	    return null;
 	}
-	return image;
+	var imageObj = {};
+	imageObj["src"] = webui.@THEME@.theme.common.getPrefix() + src;
+
+	var value = webui.@THEME@.theme.common._getImageProp(
+		srcProperty + "_WIDTH", false);
+	if (value != null) {
+	    imageObj["width"] = value;
+	}
+	value = webui.@THEME@.theme.common._getImageProp(
+	    srcProperty + "_HEIGHT", false);
+	if (value != null) {
+	    imageObj["height"] = value;
+	}
+	value = webui.@THEME@.theme.common._getImageProp(
+	    srcProperty + "_ALT", true);
+	if (value != null) {
+	    imageObj["alt"] = value;
+	}
+	value =  webui.@THEME@.theme.common._getImageProp(
+	    srcProperty + "_TITLE", true);
+	if (value != null) {
+	    imageObj["title"] = value;
+	}
+
+	return imageObj;
     },
 
     /**
      * Return the selector from the "styles" theme category for property
      * else null.
      */
-    getStyleClass : function(property) {
+    getClassName : function(property) {
 	return webui.@THEME@.theme.common.getProperty("styles", property);
     },
 
     /**
-     * This function is used to obtain a template path, or returns null
-     * if key is not found or is not a path, i.e. begins with "<".
+     * This function is used to obtain a the literal "templates"
+     * theme value for "key"
      *
      * @param key A key defining a theme "templates" property.
      */
-    getTemplatePath: function(key) {
-
-        var template = webui.@THEME@.theme.common.getProperty("templates", key);
-        if (template != null && template.charAt(0) != '<') {
-            return themePrefix + "/" + template;
-        } else {
-            return null;
-        }
-    },
-
-    /**
-     * This function is used to obtain a template string, or returns null
-     * if key is not found or is not a string, i.e. does not begin with "<".
-     *
-     * @param key A key defining a theme "templates" property.
-     */
-    getTemplateString: function(key) {
-
-        var template = webui.@THEME@.theme.common.getProperty("templates", key);
-
-        if (template != null && template.charAt(0) == '<') {
-            return template;
-        } else {
-            return null;
-        }
+    getTemplate: function(key) {
+        return webui.@THEME@.theme.common.getProperty("templates", key);
     },
 
     /**
