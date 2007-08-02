@@ -378,3 +378,9 @@ a.TreeSelLink@THEME_CSS@:hover {
     font-weight: bold;
 }
 /*---*/
+
+/* ACCORDION */
+.AccdTabTitle@THEME_CSS@ {
+    font-weight: bold;
+}
+/*---*/
