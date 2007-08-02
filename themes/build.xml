@@ -481,6 +481,8 @@
 	<copy todir="${_dest-path_}/javascript">
 	    <fileset dir="${build}/javascript_toCompress"/>
 	</copy>
+
+	<delete dir="${build}/javascript_toCompress"/>
     </target>
     
     <target name="compile-theme-service"
