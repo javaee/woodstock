@@ -36,11 +36,3 @@ div.ConTblCl2Div@THEME_CSS@ .CbSpn@THEME_CSS@ .CbLbl@THEME_CSS@ {
 div.ConTblCl2Div@THEME_CSS@ .CbSpn@THEME_CSS@ input[type=checkbox] {
 	margin-top:-5px;
 }
-
-/* BUBBLE */
-.BubbleHeader@THEME_CSS@ {
-    height:1.0em;
-    margin-right: 0px;
-    overflow: visible;
-}
-
