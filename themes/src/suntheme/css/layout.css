@@ -1606,3 +1606,82 @@ table.TblLt@THEME_CSS@ td.TblPnlTd@THEME_CSS@ {padding-left:10px;border-top:none
 	padding:7px 0 7px 10px;
 }
 /*---*/
+
+/* BUBBLE */
+.BubbleDiv@THEME_CSS@ {
+    position:absolute;
+    width:20em;
+    z-index:99;    
+}
+
+.BubbleShadow@THEME_CSS@ {
+    display: block;
+}
+
+.Bubble@THEME_CSS@ {
+    position: relative; 
+    padding: 0px;
+    left: -5px;
+    top: -5px;
+}
+
+.Bubble@THEME_CSS@ .bottomLeftArrow@THEME_CSS@, .Bubble@THEME_CSS@
+.bottomRightArrow@THEME_CSS@, .Bubble@THEME_CSS@ .topLeftArrow@THEME_CSS@, 
+.Bubble@THEME_CSS@ .topRightArrow@THEME_CSS@ {
+    margin: 0px;
+    width: 44px;
+    height: 15px;
+    position: relative;
+    display: none;
+}
+
+.Bubble@THEME_CSS@ .bottomLeftArrow@THEME_CSS@ {
+    top:0px;
+    left:5px;
+    float:left;
+}
+
+.Bubble@THEME_CSS@ .bottomRightArrow@THEME_CSS@ {
+    top:0px;
+    left:-5px;
+    float:right;
+}
+
+.Bubble@THEME_CSS@ .topLeftArrow@THEME_CSS@ {
+    left:5px;
+    float:left;
+}
+
+.Bubble@THEME_CSS@ .topRightArrow@THEME_CSS@ {
+    left:-5px;
+    float:right;
+}
+
+.BubbleHeader@THEME_CSS@ {  /* Note override for IE6 in ie.css */
+    overflow: auto;
+    margin-right: 1px;
+}
+
+.BubbleTitle@THEME_CSS@ {
+    float: left;
+    width: 75%;
+    padding: 0;
+}
+
+.BubbleCloseBtn@THEME_CSS@ {
+    float: right;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    margin-right: 10px;
+    width: 15px;
+    height: 14px;
+}
+
+.BubbleTitle@THEME_CSS@, .BubbleContent@THEME_CSS@ {
+    margin:10px;
+}
+
+.BubbleContent@THEME_CSS@ {
+    clear: both;
+}
+/*---*/

@@ -1100,3 +1100,47 @@ a.WizStpLnk@THEME_CSS@:hover {
 	text-decoration:underline;
 }
 /*---*/
+
+/* BUBBLE */
+.BubbleShadow@THEME_CSS@ {
+    background: #98A0A5;
+    border: 1px solid #98A0A5;
+}
+
+.Bubble@THEME_CSS@ {
+    background: #ffffff; 
+    border: 1px solid #98A0A5; 
+}
+
+.BubbleShadow@THEME_CSS@, .Bubble@THEME_CSS@ {
+    -moz-border-radius: 5px;
+}
+
+.Bubble@THEME_CSS@ .bottomLeftArrow@THEME_CSS@ {
+    background-image: url(../images/bubble/bottomLeftArrow.png);
+}
+
+.Bubble@THEME_CSS@ .bottomRightArrow@THEME_CSS@ {
+    background-image: url(../images/bubble/bottomRightArrow.png);
+}
+
+.Bubble@THEME_CSS@ .topLeftArrow@THEME_CSS@ {
+    background-image: url(../images/bubble/topLeftArrow.png);
+}
+
+.Bubble@THEME_CSS@ .topRightArrow@THEME_CSS@ {
+    background-image: url(../images/bubble/topRightArrow.png);
+}
+
+.BubbleHeader@THEME_CSS@ {
+    background-color: #E5E9ED;
+}
+
+.BubbleTitle@THEME_CSS@ {
+    color: #5B87A5;
+}
+
+.BubbleCloseBtn@THEME_CSS@ {
+    background-image: url(../images/bubble/dismiss_icon.png);
+}
+/*---*/

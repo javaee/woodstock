@@ -368,3 +368,13 @@ a.TreeSelLink@THEME_CSS@:hover {
 	font-size:1.4em;
 }
 /*---*/
+
+/* BUBBLE */
+.Bubble@THEME_CSS@ {
+    font-weight: normal;
+}
+.BubbleTitle@THEME_CSS@ {
+    font-size: 1.0em;
+    font-weight: bold;
+}
+/*---*/
