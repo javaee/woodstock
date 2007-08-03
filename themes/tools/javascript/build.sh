@@ -56,9 +56,7 @@ JUNK=`rm -rf $SRC_DIR/org`
 # Test jar on given JavaScript directory or file.
 #
 if [ "$?" -eq 0 ]; then
-    if [ "$1" = "-compressJS" ]; then
-        java -jar $TOOLS_JAR -compressJS -verbose -sourcePath $2 -rhinoJar $RHINO_JAR
-    elif [ "$1" = "-templateJS" ]; then
-        java -jar $TOOLS_JAR -templateJS -verbose -sourcePath $2 -destPath $3 -nameSpace $4
+    if [ "$1" = "-compress" ]; then
+        java -jar $TOOLS_JAR -compress -verbose -sourcePath $2 -rhinoJar $RHINO_JAR
     fi
 fi

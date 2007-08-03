@@ -1,9 +1,30 @@
+/*
+ * The contents of this file are subject to the terms
+ * of the Common Development and Distribution License
+ * (the License).  You may not use this file except in
+ * compliance with the License.
+ * 
+ * You can obtain a copy of the license at
+ * https://woodstock.dev.java.net/public/CDDLv1.0.html.
+ * See the License for the specific language governing
+ * permissions and limitations under the License.
+ * 
+ * When distributing Covered Code, include this CDDL
+ * Header Notice in each file and include the License file
+ * at https://woodstock.dev.java.net/public/CDDLv1.0.html.
+ * If applicable, add the following below the CDDL Header,
+ * with the fields enclosed by brackets [] replaced by
+ * you own identifying information:
+ * "Portions Copyrighted [year] [name of copyright owner]"
+ * 
+ * Copyright 2007 Sun Microsystems, Inc. All rights reserved.
+ */
 package com.sun.webui.tools.javascript;
 
 import java.io.*;
 import com.sun.webui.tools.ExecProcess;
 
-public class CompressJS {
+public class Compress {
     private String rhinoJar = null;
     private boolean verbose = false;
 
@@ -13,7 +34,7 @@ public class CompressJS {
      * @param rhinoJar The jar containing the Rhino compress tool.
      * @param verbose Enable verbose output.
      */
-    public CompressJS(String rhinoJar, boolean verbose) {
+    public Compress(String rhinoJar, boolean verbose) {
         this.rhinoJar = rhinoJar;
         this.verbose = verbose;
     }
@@ -23,7 +44,7 @@ public class CompressJS {
      *
      * @param sourcePath Path to JavaScript directory or file.
      */
-    public void compress(String sourcePath) throws IOException {
+    public void reduce(String sourcePath) throws IOException {
         iterate(sourcePath);
     }
 
@@ -49,7 +70,7 @@ public class CompressJS {
      *
      * @param file The JavaScript file to compress.
      */
-    private void compressFile(File file) throws IOException {
+    private void reduceFile(File file) throws IOException {
         // The command line equivalent of the exec command is:
         //
 	// java -jar <rhinoJar> -strict -opt -1 -o <outputfile>
@@ -83,7 +104,7 @@ public class CompressJS {
                 iterate(fileName);
             }
         } else {
-            compressFile(file);
+            reduceFile(file);
         }
     }
 }

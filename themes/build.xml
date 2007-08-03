@@ -472,7 +472,7 @@
 	</copy>
 
 	<java jar="${tools.jar}" failonerror="true" fork="true">
-	  <arg value="-compressJS"/>
+	  <arg value="-compress"/>
 	  <arg value="-sourcePath"/>
 	  <arg value="${build}/javascript_toCompress"/>
 	  <arg value="-rhinoJar"/>

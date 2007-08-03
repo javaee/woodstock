@@ -19,19 +19,15 @@
  * 
  * Copyright 2007 Sun Microsystems, Inc. All rights reserved.
  */
-
 package com.sun.webui.tools;
 
 import java.io.OutputStream;
-import java.io.FileOutputStream;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.io.BufferedReader;
-import java.io.File;
 
 public class ExecProcess implements Runnable {
-
     private String command;
     private final boolean debug = false;
     private Process currentProcess;
