@@ -26,6 +26,11 @@ dojo.require("dojo.widget.*");
 dojo.require("webui.@THEME@.*");
 dojo.require("webui.@THEME@.widget.*");
 
+// Store the active bubble id to webui.@THEME@.widget.bubble namespace.
+webui.@THEME@.widget.bubble = {
+     activeBubbleId : null
+}
+
 /**
  * This function is used to generate a template based widget.
  *
@@ -284,12 +289,12 @@ webui.@THEME@.widget.bubble.open = function(event) {
         this.openTimerId = setTimeout(function() {
             // Store the active bubble id to form element.
             // Check for the id if its available then close the pending bubble.
-            if (document.forms[0].activeBubbleId && document.forms[0].activeBubbleId != id) {                
-                clearTimeout(dojo.widget.byId(document.forms[0].activeBubbleId).timerId);
-                dojo.widget.byId(document.forms[0].activeBubbleId).setProps({visible:false});
-                document.forms[0].activeBubbleId = null;                
+            if (webui.@THEME@.widget.bubble.activeBubbleId && webui.@THEME@.widget.bubble.activeBubbleId != id) {                
+                clearTimeout(dojo.widget.byId(webui.@THEME@.widget.bubble.activeBubbleId).timerId);
+                dojo.widget.byId(webui.@THEME@.widget.bubble.activeBubbleId).setProps({visible:false});
+                webui.@THEME@.widget.bubble.activeBubbleId = null;                
             }     
-            document.forms[0].activeBubbleId = id;            
+            webui.@THEME@.widget.bubble.activeBubbleId = id;            
             dojo.widget.byId(id).setProps({visible: true});
             dojo.widget.byId(id).setPosition();
         }, this.openDelayTime);      
