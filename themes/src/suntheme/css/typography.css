@@ -393,3 +393,22 @@ a.TreeSelLink@THEME_CSS@:hover {
 	font-weight:bold;
 }
 /*---*/
+
+/* COMMON TASKS */
+.commonTaskSection_4@THEME_CSS@ .header@THEME_CSS@ {
+	font-size:1.8em;
+}
+.commonTaskGroup_4@THEME_CSS@ .header@THEME_CSS@ {
+	font-size: 1.3em;
+}
+.commonTask_4@THEME_CSS@ .infoPanel@THEME_CSS@ .header@THEME_CSS@, .commonTaskSection_4@THEME_CSS@ .help@THEME_CSS@ {
+	font-size:1.2em;
+}
+.commonTask_4@THEME_CSS@ .TskScnTskPdng@THEME_CSS@, .commonTask_4@THEME_CSS@ .infoPanel@THEME_CSS@ .content@THEME_CSS@,.commonTask_4@THEME_CSS@ .infoPanel@THEME_CSS@ .more@THEME_CSS@ a:link,
+.commonTask_4@THEME_CSS@ .infoPanel@THEME_CSS@ .more@THEME_CSS@ a:visited, .commonTask_4@THEME_CSS@ .infoPanel@THEME_CSS@ .more@THEME_CSS@ a:hover {
+	font-size: 1.1em;
+} 
+.commonTaskSection_4@THEME_CSS@ .header@THEME_CSS@, .commonTaskGroup_4@THEME_CSS@ .header@THEME_CSS@, .commonTask_4@THEME_CSS@ .infoPanel@THEME_CSS@ .header@THEME_CSS@ {
+	font-weight: bold;
+}
+/*---*/

@@ -1817,3 +1817,129 @@ table.TblLt@THEME_CSS@ td.TblPnlTd@THEME_CSS@ {padding-left:10px;border-top:none
 	margin:10px;
 }
 /*---*/
+
+/* COMMON TASKS */
+.commonTaskSection_4@THEME_CSS@ {
+	width: 100%;
+}
+.commonTaskSection_4@THEME_CSS@ .TskScnTpBx@THEME_CSS@ .header@THEME_CSS@ {
+	margin: 17px 0px 0px 20px;
+}
+.commonTaskSection_4@THEME_CSS@ .TskScnTpBx@THEME_CSS@ .help@THEME_CSS@ {
+	margin: 3px 0 23px 21px;
+}
+.commonTaskGroup_4@THEME_CSS@ {
+	margin:0 0 20px 20px;
+}
+.commonTaskSection_4@THEME_CSS@ .header@THEME_CSS@ {
+	padding-bottom: 5px;
+	display: block;
+}
+.commonTask_4@THEME_CSS@ {
+	margin:0 22px 20px;
+}
+.commonTaskGroup_4@THEME_CSS@ .commonTask_4@THEME_CSS@ {
+	margin:0 0 2px 0;
+}
+.commonTask_4@THEME_CSS@ .left@THEME_CSS@ {
+	border-top-style:solid;
+	border-top-width:1px;
+	border-bottom-style:solid;
+	border-bottom-width:1px;
+	border-left-style:solid;
+	border-left-width:1px;
+}
+.commonTask_4@THEME_CSS@ .center@THEME_CSS@ {
+	border-top-style:solid;
+	border-top-width:1px;
+	border-bottom-style:solid;
+	border-bottom-width:1px;
+}
+.commonTask_4@THEME_CSS@ .right@THEME_CSS@ {
+	border-top-style:solid;
+	border-top-width:1px;
+	border-bottom-style:solid;
+	border-bottom-width:1px;
+	border-right-style:solid;
+	border-right-width:1px;
+}
+.commonTask_4@THEME_CSS@ a.TskScnTxtBg@THEME_CSS@,.commonTask_4@THEME_CSS@  a.TskScnTxtBgOvr@THEME_CSS@ {
+	display: block;
+	position: relative;
+	width: 100%;
+	min-height:21px;
+}
+.commonTask_4@THEME_CSS@ .infoPanel@THEME_CSS@ {
+	border-style:solid;
+	border-width:1px;
+	position:absolute;
+	height: 20em;
+	width: 10em;
+	z-index:2;
+}
+.commonTask_4@THEME_CSS@ .infoPanel@THEME_CSS@ .closeButton@THEME_CSS@ {
+	float: right;
+}
+.commonTask_4@THEME_CSS@ .infoPanel@THEME_CSS@ .info@THEME_CSS@ {
+	padding: 0 18px 0 0;
+	margin: 21px 3px 15px 12px;
+	height:14.2em;
+	overflow:auto;
+}
+.commonTask_4@THEME_CSS@ .infoPanel@THEME_CSS@ .more@THEME_CSS@ {
+	height:1.5em;
+	margin:5px 5px 0 5px;
+	border-top-style:solid;
+	border-top-width:1px;
+	padding:2px 0 0 5px;
+	overflow:hidden;
+}
+.commonTask_4@THEME_CSS@ .bullet@THEME_CSS@ {
+	margin-right:.4em;
+}
+.commonTask_4@THEME_CSS@ a.TskScnTxtBg@THEME_CSS@, .commonTask_4@THEME_CSS@ a.TskScnTxtBgOvr@THEME_CSS@ {
+	border-left-style:solid;
+	border-left-width:1px;
+}
+.commonTask_4@THEME_CSS@ .TskScnTskPdng@THEME_CSS@ {
+	padding: 0px 7px;
+	display: block;
+	padding-top: 4px;
+	padding-bottom: 3px;
+}
+.commonTask_4@THEME_CSS@ .TskScnTskLftBtm@THEME_CSS@, .commonTask_4@THEME_CSS@ .TskScnTskLftTp@THEME_CSS@, .commonTask_4@THEME_CSS@ .TskScnTskRghtBtm@THEME_CSS@, .commonTask_4@THEME_CSS@ .TskScnTskRghtTp@THEME_CSS@ {
+	position: absolute;
+	width: 8px;
+	height: 11px;
+	cursor: pointer;
+	background-position: top left;
+	background-repeat: no-repeat;
+}
+.commonTask_4@THEME_CSS@ .TskScnTskLftBtm@THEME_CSS@ {
+	bottom: -1px;
+	left: -1px;
+}     
+.commonTask_4@THEME_CSS@ .TskScnTskLftTp@THEME_CSS@ {
+	top: -1px;
+	left: -1px;
+}             
+.commonTask_4@THEME_CSS@ .TskScnTskRghtBtm@THEME_CSS@ {
+	bottom: -1px;
+	right: 0px;
+	z-index:1;
+}     
+.commonTask_4@THEME_CSS@ .TskScnTskRghtTp@THEME_CSS@ {
+	position: absolute;
+	top: -1px;
+	right: 0px;
+	z-index:1;
+} 
+.commonTask_4@THEME_CSS@ .TskScnTskRghtBrdr@THEME_CSS@ {
+	display: block;
+	position: absolute;
+	height: 100%;
+	right: 0px;
+	width: 1px;
+	cursor: pointer;
+}
+/*---*/

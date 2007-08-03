@@ -1263,3 +1263,81 @@ a.WizStpLnk@THEME_CSS@:hover {
 	cursor:pointer;
 }
 /*---*/
+
+/* COMMON TASKS */
+.commonTaskbgColor@THEME_CSS@ {
+	background:#B6C6D6
+}
+.commonTaskSection_4@THEME_CSS@ {
+	background:#B6C6D6 url(../images/commontaskssection/bkgrnd.gif) right top repeat-x;
+}
+.commonTaskSection_4@THEME_CSS@ .TskScnTpBx@THEME_CSS@ {
+	background:url(../images/commontaskssection/s-curve.gif) bottom left repeat-x;
+}
+.commonTaskSection_4@THEME_CSS@ .header@THEME_CSS@, .commonTaskSection_4@THEME_CSS@ .help@THEME_CSS@, .commonTaskGroup_4@THEME_CSS@ .header@THEME_CSS@ {
+	color: #4B5E6A;
+}
+.commonTask_4@THEME_CSS@ .left@THEME_CSS@ {
+	border-top-color:#AEB3B8;
+	border-bottom-color:#AEB3B8;
+	border-left-color:#AEB3B8;
+}
+.commonTask_4@THEME_CSS@ .center@THEME_CSS@ {
+	border-top-color:#AABCC8;
+	border-bottom-color:#AABCC8;
+}
+.commonTask_4@THEME_CSS@ .right@THEME_CSS@ {
+	background-color: #99B3C0;
+	border-top-color:#AABCC8;
+	border-bottom-color:#AABCC8;
+	border-right-color:#AABCC8;
+}
+.commonTask_4@THEME_CSS@ .background@THEME_CSS@ {
+	background: #9AB2BF url(../images/commontaskssection/gradation-grey.gif) right top repeat-x;
+}
+.commonTask_4@THEME_CSS@ a.TskScnTxtBg@THEME_CSS@ {
+	border-left-color:#AABCC8;
+}
+.commonTask_4@THEME_CSS@ a.TskScnTxtBg@THEME_CSS@:link,.commonTask_4@THEME_CSS@  a.TskScnTxtBg@THEME_CSS@:visited {
+	background: #E2E7EA url(../images/commontaskssection/grad1.gif) right top repeat-x;
+	color:#333333;
+}
+.commonTask_4@THEME_CSS@ a.TskScnTxtBg@THEME_CSS@:hover {
+	background:#4581B3 url(../images/commontaskssection/grad2.gif) right top repeat-x;
+	color:#FFF;
+}
+.commonTask_4@THEME_CSS@ .infoPanel@THEME_CSS@ {
+	border-color: #AABCC8;
+	background-color: #F4F6F7;
+}
+.commonTask_4@THEME_CSS@ .infoPanel@THEME_CSS@ .more@THEME_CSS@ {
+	border-top-color:#CFD7D9;
+}
+.commonTask_4@THEME_CSS@ .infoPanel@THEME_CSS@ .more@THEME_CSS@ a:link, .commonTask_4@THEME_CSS@ .infoPanel@THEME_CSS@ .more@THEME_CSS@ a:visited, .commonTask_4@THEME_CSS@ .infoPanel@THEME_CSS@ .more@THEME_CSS@ a:hover {
+	color:#003399;
+}
+.commonTask_4@THEME_CSS@ .infoPanel@THEME_CSS@ .more@THEME_CSS@ a:link, .commonTask_4@THEME_CSS@ .infoPanel@THEME_CSS@ .more@THEME_CSS@ a:visited, .commonTask_4@THEME_CSS@ a.TskScnTxtBg@THEME_CSS@, .commonTask_4@THEME_CSS@ a.TskScnTxtBgOvr@THEME_CSS@ {
+	text-decoration:none;
+}
+.commonTask_4@THEME_CSS@ .infoPanel@THEME_CSS@ .more@THEME_CSS@ a:hover {
+	text-decoration:underline;
+}
+.commonTask_4@THEME_CSS@ .infoPanel@THEME_CSS@ .header@THEME_CSS@ {
+	color:#666666;
+}
+.commonTask_4@THEME_CSS@ .TskScnTskLftBtm@THEME_CSS@ {
+	background-image: url(../images/commontaskssection/leftBottom.gif);
+}     
+.commonTask_4@THEME_CSS@ .TskScnTskLftTp@THEME_CSS@ {
+	background-image: url(../images/commontaskssection/leftTop.gif);
+}             
+.commonTask_4@THEME_CSS@ .TskScnTskRghtBtm@THEME_CSS@ {
+	background-image: url(../images/commontaskssection/rightBottom.gif);
+}     
+.commonTask_4@THEME_CSS@ .TskScnTskRghtTp@THEME_CSS@ {
+	background-image: url(../images/commontaskssection/rightTop.gif);
+} 
+.commonTask_4@THEME_CSS@ .TskScnTskRghtBrdr@THEME_CSS@ {
+	background-color: #AABCC8;
+}
+/*---*/
