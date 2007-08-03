@@ -1244,6 +1244,7 @@ public class CommonTask extends com.sun.webui.jsf.component.WebuiCommand
                 link.setUrl(getInfoLinkUrl());
                 link.setTarget("_blank");
                 link.setText(getInfoLinkText());
+                link.setTabIndex(this.getTabIndex());
            }catch (ClassCastException e) {
                // The comp object did not contain a hyperlink.
            }

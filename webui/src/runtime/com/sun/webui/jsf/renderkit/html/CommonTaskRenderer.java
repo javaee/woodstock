@@ -300,7 +300,7 @@ public class CommonTaskRenderer extends AbstractRenderer {
           // If no facet is defined, render the default taskAction.
           // Else, render the component that has been specified in the fact.
           if (component instanceof CommonTask) {
-              renderDefaultTaskAction((CommonTask)component, writer, context, theme);
+              renderDefaultTaskAction((CommonTask)component, writer, context, theme);              
           }else {
               RenderingUtilities.renderComponent(component, context);
           }
@@ -331,7 +331,7 @@ public class CommonTaskRenderer extends AbstractRenderer {
 
         String themeIcon = ThemeImages.CTS_RIGHT_TOGGLE_EMPTY;
         Icon icon = ThemeUtilities.getIcon(theme, themeIcon);
-        icon.setParent(component);;
+        icon.setParent(component);
         icon.setId(TOGGLE_IMAGE);                         // NOI18N
         RenderingUtilities.renderComponent(icon, context);
         writer.endElement(HTMLElements.TD);
@@ -356,7 +356,6 @@ public class CommonTaskRenderer extends AbstractRenderer {
                 HTMLAttributes.ALIGN); // NOI18N
         writer.writeAttribute(HTMLAttributes.VALIGN,"top",
                 HTMLAttributes.VALIGN); // NOI18N
-
         writer.writeAttribute(HTMLAttributes.CLASS,theme.getStyleClass
                 (ThemeStyles.CTS_TASK_RIGHT),HTMLAttributes.CLASS);  // NOI18N
 
@@ -365,6 +364,7 @@ public class CommonTaskRenderer extends AbstractRenderer {
         String themeIcon = null;
         themeIcon = ThemeImages.CTS_RIGHT_TOGGLE;
         ihk.setId(TOGGLE_IMAGE);                          // NOI18N
+        ihk.setTabIndex(((Integer)component.getAttributes().get("tabIndex")).intValue());
         ihk.setIcon(themeIcon);
         ihk.setParent(component); 
         ihk.setToolTip(theme.getMessage(INFO_IMAGE_TOOLTIP));
@@ -406,6 +406,7 @@ public class CommonTaskRenderer extends AbstractRenderer {
 
         close.setParent(task);
         close.setId(CLOSE_IMAGE);                     // NOI18N
+        close.setTabIndex(task.getTabIndex());
         close.setToolTip(theme.getMessage(CLOSE_IMAGE_TOOLTIP));
         if (close.getParent() == null) {
             close.setParent(task); 
@@ -461,8 +462,14 @@ public class CommonTaskRenderer extends AbstractRenderer {
         }
 
         try {
-            JSONObject json = getJSONProperties(context, theme, task, close, 
-                section);
+            JSONObject json = null;
+            if (facet != null) {
+                json = getJSONProperties(context, theme, task, close, 
+                section, facet);
+            } else {
+                json = getJSONProperties(context, theme, task, close, 
+                section);                
+            }
 
             sb.append(JavaScriptUtilities.getDomNode(context, section))
               .append(".addCommonTask(")
@@ -502,6 +509,20 @@ public class CommonTaskRenderer extends AbstractRenderer {
 
       }
       
+    /**
+     * Get the common task object's parameters as JSON properties. 
+     */
+    protected JSONObject getJSONProperties(FacesContext context, Theme theme, 
+          UIComponent component, ImageHyperlink close, UIComponent section,
+          UIComponent bottomInfoPanel) throws IOException, JSONException {
+        JSONObject json = getJSONProperties(context, theme, component, close, section);
+        json.put("bottomInfoLink",bottomInfoPanel.getClientId(context));
+        return json;
+    }
+   
+    /**
+     * Get the common task object's parameters as JSON properties. 
+     */    
     protected JSONObject getJSONProperties(FacesContext context, Theme theme, 
           UIComponent component, ImageHyperlink close, UIComponent section) 
           throws IOException, JSONException {
@@ -547,7 +568,7 @@ public class CommonTaskRenderer extends AbstractRenderer {
     }
     
     protected void renderDefaultTaskAction(CommonTask task, ResponseWriter writer,
-            FacesContext context, Theme theme) throws IOException{
+            FacesContext context, Theme theme) throws IOException {
         String onclick= task.getOnClick();
         String target = task.getTarget();
         String tooltip = task.getToolTip();        
@@ -555,6 +576,9 @@ public class CommonTaskRenderer extends AbstractRenderer {
         writer.startElement(HTMLElements.A, task);
         writer.writeAttribute(HTMLAttributes.ID, task.getClientId(context)
             +COMMONTASK_LINK, HTMLAttributes.ID);
+        
+        // Render the "tabIndex".
+        addIntegerAttributes(context, task, writer, integerAttributes);
         UIComponent form = Util.getForm(context, task);
         if (form != null) {
             String formClientId = form.getClientId(context);
@@ -741,5 +765,5 @@ public class CommonTaskRenderer extends AbstractRenderer {
         //this should automatically take care of actionlisteners and actions
         link.queueEvent(new ActionEvent(link));
     }
-
+    
 }
