@@ -772,6 +772,16 @@ public class Form extends UIForm {
                         addTableValuesEntry(erasedMap, kidEvh, 0, contextualTables, contextualRows, submittedValueToErase);
                     }
                     kidEvh.setSubmittedValue(null);
+                    //NB issue 93729. Scenario: Input "A" is bound. Form is submitted, entry is copied to local value, but then validation fails for input "B".
+                    //Next, the user submits a virtual form in which input "A" does not participate. However, local value is copied to binding target anyway.
+                    //This is incorrect behavior.
+                    //Therefore, for input "A" here, whose submitted value we are nulling out, see if it is bound.
+                    //If it is and the local value is set, then validation must have failed on the previous submission, in which case we need to null out the local value also.
+                    ValueExpression valueExpr = ((UIComponent)kidEvh).getValueExpression("value");
+                    if (kidEvh.isLocalValueSet() && valueExpr != null && !valueExpr.isLiteralText()) {
+                        kidEvh.setValue(null);
+                        kidEvh.setLocalValueSet(false); 
+                    }
                 }
 
                 //if children of kid are known to participate in submittedVirtualForm,
