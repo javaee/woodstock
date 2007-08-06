@@ -103,13 +103,15 @@ public class AlertRenderer extends RendererBase {
         Alert alert = (Alert) component;
         String type = alert.getType();
         Theme theme = getTheme();
-
+        String summary = alert.getSummary();
+        
         JSONObject json = new JSONObject();
         json.put("summary", RenderingUtilities.formattedMessage(context, alert, 
-                alert.getSummary()))
+                summary))
             .put("detail", RenderingUtilities.formattedMessage(context, alert, 
                 alert.getDetail()))
-            .put("visible", alert.isVisible())
+            .put("visible", (summary == null || summary.trim().length() == 0) 
+                             ? false : alert.isVisible())
             .put("type", type)
             .put("className", alert.getStyleClass());    
                        
