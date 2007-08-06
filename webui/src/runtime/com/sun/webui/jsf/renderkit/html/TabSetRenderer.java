@@ -173,7 +173,7 @@ public class TabSetRenderer extends AbstractRenderer {
         }
         
         // open the initial div containing the entire tab set
-        startTabSetDiv(writer, tabSet, theme);
+        startTabSetDiv(context, writer, tabSet, theme);
         
         // render the a11y skip link
         renderSkipLink(context, tabSet, theme);
@@ -200,8 +200,8 @@ public class TabSetRenderer extends AbstractRenderer {
     /**
      * Helper function called by encodeChildren to open the TabSet div.
      */
-    private void startTabSetDiv(ResponseWriter writer, TabSet tabSet,
-            Theme theme) throws IOException {
+    private void startTabSetDiv(FacesContext context, ResponseWriter writer,
+            TabSet tabSet, Theme theme) throws IOException {
         String style = tabSet.getStyle();
         String styleClass = tabSet.getStyleClass();
         
@@ -225,6 +225,13 @@ public class TabSetRenderer extends AbstractRenderer {
         }
         
         writer.startElement("div", tabSet);
+        
+        // use component client id for enclosing div id
+        String clientId = tabSet.getClientId(context);
+        
+        if (clientId != null) {
+            writer.writeAttribute("id", clientId, null);
+        }
         
         if (style != null) {
             writer.writeAttribute("style", style, null); // NOI18N
