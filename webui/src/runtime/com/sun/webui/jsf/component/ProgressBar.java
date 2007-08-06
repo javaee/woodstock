@@ -76,6 +76,8 @@ import javax.faces.el.ValueBinding;
  */
 @Component(type="com.sun.webui.jsf.ProgressBar", family="com.sun.webui.jsf.ProgressBar",
     displayName="ProgressBar", tagName="progressBar",
+    helpKey="projrave_ui_elements_palette_wdstk-jsf1_2_progressbar",
+    propertiesHelpKey="projrave_ui_elements_palette_wdstk-jsf1_2_propsheets_progress_bar_props",
     tagRendererType="com.sun.webui.jsf.widget.ProgressBar")
 public class ProgressBar extends javax.faces.component.UIOutput  
         implements NamingContainer {

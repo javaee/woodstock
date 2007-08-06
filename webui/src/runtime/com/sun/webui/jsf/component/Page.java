@@ -33,7 +33,7 @@ import com.sun.faces.annotation.Property;
  * page that is used by the Sun Java Web UI Components.
  */
 @Component(type="com.sun.webui.jsf.Page", family="com.sun.webui.jsf.Page", displayName="Page", tagName="page",
-    helpKey="projrave_ui_elements_palette_wdstk-jsf1.2_page",
+    helpKey="projrave_ui_elements_propsheets_page_props",
     propertiesHelpKey="projrave_ui_elements_palette_wdstk-jsf1.2_propsheets_page_props")
 public class Page extends UIComponentBase {
 
