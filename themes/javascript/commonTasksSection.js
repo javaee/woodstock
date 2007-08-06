@@ -185,6 +185,7 @@ webui.@THEME@.commonTasksSection = {
             if (evt.keyCode == 27 || evt.keyCode == 13) {
                 webui.@THEME@.common.setVisibleElement(that.info, false);
                 that.image.src = that.parent.pic3URL;
+                that.imageLink.focus();
             }
             return false;
         }
@@ -195,12 +196,14 @@ webui.@THEME@.commonTasksSection = {
          */
         this.captureBottomInfoKey = function(evt) {
             if ((evt.keyCode == 9 && !evt.shiftKey)|| evt.keyCode == 27) {
+
                 // need to remove the focus off the link. Otherwise there seems
                 // to be problems setting focus on another element in IE.
                 that.bottomInfoLink.blur();
 
                 webui.@THEME@.common.setVisibleElement(that.info, false);
                 that.image.src = that.parent.pic3URL;	
+                that.imageLink.focus();
             }
 
             if (evt.shiftKey && evt.keyCode == 9) {
@@ -236,9 +239,8 @@ webui.@THEME@.commonTasksSection = {
                 } else {
                     that.image.src = that.parent.pic3URL;	            
                     webui.@THEME@.common.setVisibleElement(that.info, false);    
-                    if (evt.shiftKey == true) {
-                        that.imageLink.focus();
-                    }         
+                    that.imageLink.focus();
+                             
                 }                                      
             }
         }
