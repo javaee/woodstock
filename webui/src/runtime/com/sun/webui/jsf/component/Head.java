@@ -33,8 +33,8 @@ import com.sun.faces.annotation.Property;
  * element.
  */
 @Component(type="com.sun.webui.jsf.Head", family="com.sun.webui.jsf.Head", displayName="Head", tagName="head",
-    helpKey="projrave_ui_elements_palette_wdstk-jsf1.2_head",
-    propertiesHelpKey="projrave_ui_elements_palette_wdstk-jsf1.2_propsheets_head_props")
+    helpKey="projrave_ui_elements_palette_html_elements_head",
+    propertiesHelpKey="projrave_ui_elements_palette_html_elements_propsheets_head_props")
 public class Head extends UIComponentBase {
 
     /**

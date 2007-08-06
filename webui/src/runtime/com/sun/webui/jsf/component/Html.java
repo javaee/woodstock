@@ -32,8 +32,8 @@ import com.sun.faces.annotation.Property;
  * The Html component is used to create the &lt;html&gt; element.
  */
 @Component(type="com.sun.webui.jsf.Html", family="com.sun.webui.jsf.Html", displayName="Html", tagName="html",
-    helpKey="projrave_ui_elements_palette_wdstk-jsf1.2_html",
-    propertiesHelpKey="projrave_ui_elements_palette_wdstk-jsf1.2_propsheets_html_props")
+    helpKey="projrave_ui_elements_palette_html_elements_html",
+    propertiesHelpKey="projrave_ui_elements_palette_html_elements_propsheets_html_props")
 public class Html extends UIComponentBase {
 
     /**

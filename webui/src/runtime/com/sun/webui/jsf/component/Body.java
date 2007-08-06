@@ -42,8 +42,8 @@ import com.sun.webui.theme.Theme;
  * The Body component is used to contain the other components of the page.
  */
 @Component(type="com.sun.webui.jsf.Body", family="com.sun.webui.jsf.Body", displayName="Body", tagName="body",
-    helpKey="projrave_ui_elements_palette_wdstk-jsf1.2_body",
-    propertiesHelpKey="projrave_ui_elements_palette_wdstk-jsf1.2_propsheets_body_props")
+    helpKey="projrave_ui_elements_palette_html_elements_body",
+    propertiesHelpKey="projrave_ui_elements_palette_html_elements_propsheets_body_props")
 public class Body extends UIComponentBase {
     
     /**
