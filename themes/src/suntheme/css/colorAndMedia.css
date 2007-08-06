@@ -1341,3 +1341,21 @@ a.WizStpLnk@THEME_CSS@:hover {
 	background-color: #AABCC8;
 }
 /*---*/
+
+/* TABLE2 */
+/* Top level div tag */
+.Tbl2@THEME_CSS@ {
+  /* Styles from old table */
+  border-color:#A0A3A5; 
+  border-top-color:#35556A; 
+  background-color:#E5E9ED; 
+  color:#000;
+}
+
+/* Title */ 
+.Tbl2Ttl@THEME_CSS@ {
+  /* Styles from old table */
+  color:#fff; 
+  background:#36586F url(../images/table/table_titlebar_gradient.gif) bottom left repeat-x;
+}
+/*---*/
