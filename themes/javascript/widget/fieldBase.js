@@ -170,22 +170,16 @@ webui.@THEME@.widget.fieldBase._setProps = function(props) {
     if (props.label || (props.valid != null || props.required != null) && this.label) {
         // Ensure property exists so we can call setProps just once.
         if (props.label == null) {
-            props.label = {};
+            props.label = {}; // Avoid updating all props using "this" keyword.
         }
-        
-        // Set valid.
-        if (props.valid != null) { props.label.valid = props.valid; }
-        
-        // Set required.
-        if (props.required != null) { props.label.required = props.required; }
-        
-        // Update widget/add fragment.                
-        var labelWidget = dojo.widget.byId(this.label.id);
-        if (labelWidget) {
-            labelWidget.setProps(props.label);
-        } else {
-            this.addFragment(this.labelContainer, props.label);
-        }
+
+        // Set properties.
+        props.label.id = this.label.id; // Required for updateFragment().
+        props.label.required = this.required;
+        props.label.valid = this.valid;
+
+        // Update/add fragment.
+        this.widget.updateFragment(this.labelContainer, props.label);
     }
 
     // Set HTML input element class name.

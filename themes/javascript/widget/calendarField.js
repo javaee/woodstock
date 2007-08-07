@@ -198,15 +198,13 @@ webui.@THEME@.widget.calendarField._setProps = function(props) {
     }
 
     // Set calendar properties.
-    if (props.calendar) {            
-        // Update widget/add fragment.                
-        var calendarWidget = dojo.widget.byId(this.calendar.id);
-        if (calendarWidget) {
-            calendarWidget.setProps(props.calendar);
-        } else {
-            this.addFragment(this.calendarContainer, props.calendar);
-        }
-    }
+    if (props.calendar) {
+        // Set properties.
+        props.calendar.id = this.calendar.id; // Required for updateFragment().
+
+        // Update/add fragment.
+        this.widget.updateFragment(this.calendarContainer, props.calendar);
+    }       
     
     // If disabled, hide the div that contains the date format pattern help
     // and the column that holds the calendarField button.
@@ -219,7 +217,7 @@ webui.@THEME@.widget.calendarField._setProps = function(props) {
     // Set date format pattern help.
     if (props.patternHelp) {
         // NOTE: If you set this value manually, text must be HTML escaped.
-        this.addFragment(this.inlineHelpNode, props.patternHelp);
+        this.widget.addFragment(this.inlineHelpNode, props.patternHelp);
     }
 
     // Set remaining properties.

@@ -451,17 +451,17 @@ webui.@THEME@.widget.progressBar.setProgress = function(props) {
     }
 
     // Save properties for later updates.
-    this.extend(this, props);    
+    this.widget.extend(this, props);    
 
     // Set status.
     if (props.status) {
-        this.addFragment(this.bottomTextContainer, props.status);
+        this.widget.addFragment(this.bottomTextContainer, props.status);
     }
 
     // If top text doesnt get change, dont update.
     if (props.topText) {
         if (props.topText != this.topText) {
-            this.addFragment(this.topTextContainer, props.topText);
+            this.widget.addFragment(this.topTextContainer, props.topText);
         }
     }
 
@@ -481,7 +481,7 @@ webui.@THEME@.widget.progressBar.setProgress = function(props) {
         // Add overlay text.
         if (this.overlayAnimation == true) {
             // NOTE: If you set this value manually, text must be HTML escaped.
-            this.addFragment(this.innerBarOverlayContainer, props.progress + "%");
+            this.widget.addFragment(this.innerBarOverlayContainer, props.progress + "%");
         }
     } 
 
@@ -496,7 +496,7 @@ webui.@THEME@.widget.progressBar.setProgress = function(props) {
 
         if (props.failedStateText != null) {
             // NOTE: If you set this value manually, text must be HTML escaped.
-            this.addFragment(this.failedLabelContainer,
+            this.widget.addFragment(this.failedLabelContainer,
                 props.failedStateText + " " + props.progress + this.percentChar);
 
             webui.@THEME@.common.setVisibleElement(this.failedLabelContainer, true);
@@ -646,13 +646,13 @@ webui.@THEME@.widget.progressBar._setProps = function(props) {
 
     // Add top text.
     if (props.topText) {
-        this.addFragment(this.topTextContainer, props.topText); 
+        this.widget.addFragment(this.topTextContainer, props.topText); 
         webui.@THEME@.common.setVisibleElement(this.topTextContainer, true);
     }
 
     // Add bottom text.
     if (props.bottomText) {
-        this.addFragment(this.bottomTextContainer, props.bottomText);
+        this.widget.addFragment(this.bottomTextContainer, props.bottomText);
         webui.@THEME@.common.setVisibleElement(this.bottomTextContainer, true);
     }
 
@@ -675,13 +675,13 @@ webui.@THEME@.widget.progressBar._setProps = function(props) {
 
         // Add right controls.
         if (props.progressControlRight != null) {
-            this.addFragment(this.rightControlsContainer, props.progressControlRight);
+            this.widget.addFragment(this.rightControlsContainer, props.progressControlRight);
             webui.@THEME@.common.setVisibleElement(this.rightControlsContainer, true);
         }
 
         // Add bottom controls.
         if (props.progressControlBottom != null) {
-            this.addFragment(this.bottomControlsContainer, props.progressControlBottom);
+            this.widget.addFragment(this.bottomControlsContainer, props.progressControlBottom);
             webui.@THEME@.common.setVisibleElement(this.bottomControlsContainer, true);
         }
     }
@@ -697,13 +697,13 @@ webui.@THEME@.widget.progressBar._setProps = function(props) {
         // Add overlay.
         if (props.overlayAnimation == true) {
             // NOTE: If you set this value manually, text must be HTML escaped.
-            this.addFragment(this.innerBarOverlayContainer, this.progress + "%");
+            this.widget.addFragment(this.innerBarOverlayContainer, this.progress + "%");
             webui.@THEME@.common.setVisibleElement(this.innerBarOverlayContainer, true);
         }
 
         // Add log.
         if (props.log != null && props.overlayAnimation == false) { 
-            this.addFragment(this.logContainer, props.log);
+            this.widget.addFragment(this.logContainer, props.log);
             webui.@THEME@.common.setVisibleElement(this.logContainer, true);
         }  
     } else if (props.type == webui.@THEME@.widget.props.progressBar.indeterminate) {
@@ -715,7 +715,7 @@ webui.@THEME@.widget.progressBar._setProps = function(props) {
     } else if (props.type == webui.@THEME@.widget.props.progressBar.busy) {
         // Add busy image.
         if (props.busyImage) {
-            this.addFragment(this.busyImageContainer, props.busyImage);
+            this.widget.addFragment(this.busyImageContainer, props.busyImage);
             webui.@THEME@.common.setVisibleElement(this.busyImageContainer, true);
         }
     }

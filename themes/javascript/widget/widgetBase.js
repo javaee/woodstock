@@ -23,7 +23,9 @@
 dojo.provide("webui.@THEME@.widget.widgetBase");
 
 dojo.require("dojo.widget.*");
+dojo.require("webui.@THEME@.*");
 dojo.require("webui.@THEME@.theme.*");
+dojo.require("webui.@THEME@.widget.*");
 
 /**
  * The widgetBase object is used for base functionality in all widgets. It 
@@ -89,7 +91,7 @@ webui.@THEME@.widget.widgetBase = function() {
 webui.@THEME@.widget.widgetBase.ajaxify = function() {
     // To do: Get module from the theme.
     if (webui.@THEME@.widget.jsfx) {
-        webui.@THEME@.widget.common.require("webui.@THEME@.widget.jsfx." + this.widgetType);
+        this.widget.require("webui.@THEME@.widget.jsfx." + this.widgetType);
     }
 }
 
@@ -103,8 +105,8 @@ webui.@THEME@.widget.widgetBase.ajaxify = function() {
 webui.@THEME@.widget.widgetBase.buildRendering = function (props, frag, parent) {
     // Get default templates.
     if (this.templatePath == null && this.templateString == null) {
-        this.templatePath = this.getTemplatePath(this.widgetType);
-        this.templateString = this.getTemplateString(this.widgetType);
+        this.templatePath = this.widget.getTemplatePath(this.widgetType);
+        this.templateString = this.widget.getTemplateString(this.widgetType);
     }
 
     // The templatePath should have precedence. Therefore, in order for the 
@@ -236,7 +238,7 @@ webui.@THEME@.widget.widgetBase.fillInTemplate = function(props, frag) {
     // Set public functions.
     this.domNode.getProps = function() { return dojo.widget.byId(id).getProps(); }
     this.domNode.refresh = function(execute) { return dojo.widget.byId(id).refresh(execute); }
-    this.domNode.setProps = function(_props, notify) { return dojo.widget.byId(id).setProps(_props, notify); }
+    this.domNode.setProps = function(props, notify) { return dojo.widget.byId(id).setProps(props, notify); }
 
     // In order to register widgets properly, the DOM node id must be set prior 
     // to creating any widget children. Otherwise, widgets may not be destroyed.
@@ -330,36 +332,6 @@ webui.@THEME@.widget.widgetBase.getProps = function() {
 }
 
 /**
- * This function is used to obtain a template path, or returns null
- * if key is not found or is not a path, i.e. begins with "<".
- *
- * @param key A key defining a theme "templates" property.
- */
-webui.@THEME@.widget.widgetBase.getTemplatePath = function(key) {
-    var template = this.theme.getTemplate(key);
-    if (this.isTemplatePath(template)) {
-        return this.theme.getPrefix() + "/" + template;
-    } else {
-        return null;
-    }
-}
-
-/**
- * This function is used to obtain a template string, or returns null
- * if key is not found or is not a string, i.e. does not begin with "<".
- *
- * @param key A key defining a theme "templates" property.
- */
-webui.@THEME@.widget.widgetBase.getTemplateString = function(key) {
-    var template = this.theme.getTemplate(key);
-    if (!this.isTemplatePath(template)) {
-        return template;
-    } else {
-        return null;
-    }
-}
-
-/**
  * This function is used to initialize the widget.
  *
  * Note: This is called after the fillInTemplate() function.
@@ -384,15 +356,6 @@ webui.@THEME@.widget.widgetBase.isInitialized = function() {
         return true;
     }
     return false;
-}
-
-/**
- * This function is used to test template strings. Return true if the "template"
- * is a template path, and false if it is a template String. Returns false if 
- * the value is null or the empty string.
- */
-webui.@THEME@.widget.widgetBase.isTemplatePath = function(template) {
-    return (template != null && template.charAt(0) != '<');
 }
 
 /**
@@ -480,24 +443,23 @@ webui.@THEME@.widget.widgetBase.setCommonProps = function(domNode, props) {
  * prior to calling this function. For example, the "myCSS" className would
  * be appended to the existing "Tblsun4" className (e.g., "Tbl_sun4 myCSS").
  *
- * @param domNode The DOM node to assign properties to.
  * @param props Key-Value pairs of properties.
  */
-webui.@THEME@.widget.widgetBase.setCoreProps = function(domNode, props) {
-    if (domNode == null || props == null) {
+webui.@THEME@.widget.widgetBase.setCoreProps = function(props) {
+    if (props == null) {
         return false;
     }
     if (props.className) {
-        domNode.className = props.className;
+        this.domNode.className = props.className;
     }
     if (props.id) { 
-        domNode.id = props.id;
+        this.domNode.id = props.id;
     }
     if (props.style) { 
-        domNode.style.cssText = props.style;
+        this.domNode.style.cssText = props.style;
     }
     if (props.visible != null) {
-        webui.@THEME@.common.setVisibleElement(domNode, 
+        webui.@THEME@.common.setVisibleElement(this.domNode, 
             new Boolean(props.visible).valueOf());
     }
     return true;
@@ -627,7 +589,7 @@ webui.@THEME@.widget.widgetBase.setProps = function(props, notify) {
     }
 
     // Extend widget object for later updates.
-    this.extend(this, props);
+    this.widget.extend(this, props);
 
     // Set properties.
     this._setProps(props);
@@ -665,7 +627,7 @@ webui.@THEME@.widget.widgetBase._setProps = function(props) {
     props.className = this.getClassName();
 
     // Set more properties.
-    return this.setCoreProps(this.domNode, props);
+    return this.setCoreProps(props);
 }
 
 // Inherit base widget properties.
@@ -674,25 +636,19 @@ dojo.inherits(webui.@THEME@.widget.widgetBase, dojo.widget.HtmlWidget);
 // Override base widget by assigning properties to class prototype.
 dojo.lang.extend(webui.@THEME@.widget.widgetBase, {
     // Set private functions.
-    addFragment: webui.@THEME@.widget.common.addFragment,
     ajaxify: webui.@THEME@.widget.widgetBase.ajaxify,
     buildRendering: webui.@THEME@.widget.widgetBase.buildRendering,
-    extend: webui.@THEME@.widget.common.extend,
     fillInTemplate: webui.@THEME@.widget.widgetBase.fillInTemplate,
     getClassName: webui.@THEME@.widget.widgetBase.getClassName,
     getCommonProps: webui.@THEME@.widget.widgetBase.getCommonProps,
     getCoreProps: webui.@THEME@.widget.widgetBase.getCoreProps,
     getEventProps: webui.@THEME@.widget.widgetBase.getEventProps,
     getProps: webui.@THEME@.widget.widgetBase.getProps,
-    getTemplatePath: webui.@THEME@.widget.widgetBase.getTemplatePath,
-    getTemplateString: webui.@THEME@.widget.widgetBase.getTemplateString,
     initialize: webui.@THEME@.widget.widgetBase.initialize,
     isInitialized: webui.@THEME@.widget.widgetBase.isInitialized,
-    isTemplatePath: webui.@THEME@.widget.widgetBase.isTemplatePath,
     postInitialize: webui.@THEME@.widget.widgetBase.postInitialize,
     postCreate: webui.@THEME@.widget.widgetBase.postCreate,
     refresh: webui.@THEME@.widget.widgetBase.event.refresh.processEvent,
-    removeChildNodes: webui.@THEME@.widget.common.removeChildNodes,
     setCommonProps: webui.@THEME@.widget.widgetBase.setCommonProps,
     setCoreProps: webui.@THEME@.widget.widgetBase.setCoreProps,
     setEventProps: webui.@THEME@.widget.widgetBase.setEventProps,
@@ -701,6 +657,8 @@ dojo.lang.extend(webui.@THEME@.widget.widgetBase, {
     stateChanged: webui.@THEME@.widget.widgetBase.event.state.processEvent,
 
     // Set defaults.
-    event: webui.@THEME@.widget.widgetBase.event,
-    theme: webui.@THEME@.theme.common
+    event: webui.@THEME@.widget.widgetBase.event, // Common events.
+    theme: webui.@THEME@.theme.common, // Common theme utils.
+    widget: webui.@THEME@.widget.common // Common widget utils.
 });
+

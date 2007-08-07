@@ -482,7 +482,7 @@ webui.@THEME@.widget.bubble._setProps = function(props) {
         
     // Set title.
     if (props.title) {
-        this.addFragment(this.titleNode, props.title);
+        this.widget.addFragment(this.titleNode, props.title);
     }
 
     // hide/display close button
@@ -505,10 +505,10 @@ webui.@THEME@.widget.bubble._setProps = function(props) {
     // Set contents.
     if (props.contents) {
         // Remove child nodes.
-        this.removeChildNodes(this.childNode);
+        this.widget.removeChildNodes(this.childNode);
 
         for (var i = 0; i < props.contents.length; i++) {
-            this.addFragment(this.childNode, props.contents[i], "last");
+            this.widget.addFragment(this.childNode, props.contents[i], "last");
         }
     }
 

@@ -38,48 +38,36 @@ webui.@THEME@.widget.accordion = function() {
 /**
  * Helper function to add accordion header controls
  */
-webui.@THEME@.widget.accordion.addControls = function(props) {
-    // add expand and collapse icons only if multiple select is set to
+webui.@THEME@.widget.accordion.addControls = function(props) {       
+    // Add expand and collapse icons only if multiple select is set to
     // true and the icons have been supplied.
     if (props.toggleControls && props.multipleSelect) {
-        this.expandAllContainer.className = webui.@THEME@.widget.props.accordionTab.accordionHdrOpenAll;
-        var expandAllImgWidget = dojo.widget.byId(this.expandAllImgContainer.id); 
-        if (expandAllImgWidget) {
-            expandAllImgWidget.setProps(props.expandAllImage);
-        } else {
-            this.addFragment(this.expandAllImgContainer, props.expandAllImage); 
-            dojo.event.connect(this.expandAllContainer, "onclick", this, "expandAllTabs");
-            this.expandAllContainer.className = webui.@THEME@.widget.props.accordionTab.accordionHdrOpenAll;
+        // Set expand all image properties.
+        if (props.expandAllImage) {
+            // Set properties.
+            props.expandAllImage.id = this.expandAllImage.id; // Required for updateFragment().
+
+            // Update/add fragment.
+            this.widget.updateFragment(this.expandAllImgContainer, props.expandAllImage);
         }
 
-        // add the collapseAll icon
-        this.collapseAllContainer.className = webui.@THEME@.widget.props.accordionTab.accordionHdrCloseApp;
-        var collapseAllImgWidget = dojo.widget.byId(this.collapseAllImgContainer.id); 
-        if (collapseAllImgWidget) {
-            collapseAllImgWidget.setProps(props.collapseAllImage);
-        } else {
-            this.addFragment(this.collapseAllImgContainer, props.collapseAllImage);
-            dojo.event.connect(this.collapseAllContainer, "onclick", this, "collapseAllTabs");
-        }
+        // Set collapse all image properties.
+        if (props.collapseAllImage) {
+            // Set properties.
+            props.collapseAllImage.id = this.collapseAllImage.id; // Required for updateFragment().
 
-        // add the divider 
-        this.dividerNodeContainer.className = webui.@THEME@.widget.props.accordionTab.accordionHdrDivider; 
+            // Update/add fragment.
+            this.widget.updateFragment(this.collapseAllImgContainer, props.collapseAllImage);
+        }
     }
 
-    // add refresh icon only if it has been supplied.
+    // Set refresh image properties.
     if (props.refreshImage) {
-        this.refreshNodeContainer.className = webui.@THEME@.widget.props.accordionTab.accordionHdrRefresh;
-        var refreshImgWidget = dojo.widget.byId(this.refreshImage.id); 
-        if (refreshImgWidget) {
-            refreshImgWidget.setProps(props.refreshImage);
-        } else {
-            this.addFragment(this.refreshImgContainer, props.refreshImage);
-            var id = this.id;
-            dojo.event.connect(this.refreshNodeContainer, "onclick", function() {
-                var widget = dojo.widget.byId(id);
-                widget.refresh(id);
-            });
-        }
+        // Set properties.
+        props.refreshImage.id = this.refreshImage.id; // Required for updateFragment().
+
+        // Update/add fragment.
+        this.widget.updateFragment(this.refreshImgContainer, props.refreshImage);
     }
     return true;
 }
@@ -171,6 +159,22 @@ webui.@THEME@.widget.accordion.fillInTemplate = function(props, frag) {
         this.dividerNodeContainer.id = this.id + "_dividerNode";
         this.refreshNodeContainer.id = this.id + "_refreshNode";
     }
+
+    // Set class names.
+    this.collapseAllContainer.className = webui.@THEME@.widget.props.accordionTab.accordionHdrCloseApp;
+    this.dividerNodeContainer.className = webui.@THEME@.widget.props.accordionTab.accordionHdrDivider;
+    this.expandAllContainer.className = webui.@THEME@.widget.props.accordionTab.accordionHdrOpenAll;
+    this.refreshNodeContainer.className = webui.@THEME@.widget.props.accordionTab.accordionHdrRefresh;
+
+    // Set events.
+    var id = this.id;
+    dojo.event.connect(this.collapseAllContainer, "onclick", this, "collapseAllTabs");
+    dojo.event.connect(this.expandAllContainer, "onclick", this, "expandAllTabs");
+    dojo.event.connect(this.refreshNodeContainer, "onclick", function() {
+        var widget = dojo.widget.byId(id);
+        widget.refresh(id);
+    });
+
     return true;
 }
 
@@ -288,7 +292,7 @@ webui.@THEME@.widget.accordion._setProps = function(props) {
         // would help isolate what needs to be removed. The following code works
         // because widgets of the same id are destroyed before creating new objects.
         for (var i=0; i < props.tabs.length; i++) {
-            this.addFragment(this.domNode, props.tabs[i], "last");
+            this.widget.addFragment(this.domNode, props.tabs[i], "last");
         }
     }
 

@@ -62,11 +62,11 @@ webui.@THEME@.widget.label.event = {
     },
 
     /**
-     * This closure is used to process validation events.
+     * This closure is used to process notification events.
      */
-    validation: {
+    notification: {
         /**
-         * This function is used to process validation events with the following
+         * This function is used to process notification events with the following
          * Object literals.
          *
          * <ul>
@@ -119,17 +119,20 @@ webui.@THEME@.widget.label.fillInTemplate = function(props, frag) {
  * user's className property is always appended last).
  */
 webui.@THEME@.widget.label.getClassName = function() {
-    var className = null;
+    var key = "LABEL_LEVEL_TWO_TEXT";
 
-    // Set default style.
     if (this.valid == false) {
-        className = webui.@THEME@.widget.props.label.errorStyleClass;
+        key = "CONTENT_ERROR_LABEL_TEXT";
     } else if (this.level == 1) {
-        className = webui.@THEME@.widget.props.label.levelOneStyleClass;
+        key = "LABEL_LEVEL_ONE_TEXT";
     } else if (this.level == 3) {
-        className = webui.@THEME@.widget.props.label.levelThreeStyleClass;
-    } else {
-        className = webui.@THEME@.widget.props.label.levelTwoStyleClass;
+        key = "LABEL_LEVEL_THREE_TEXT";
+    }
+
+    // Get theme property.
+    var className = this.theme.getClassName(key);
+    if (className == null || className.length == 0) {
+	return this.className;
     }
     return (this.className)
         ? className + " " + this.className
@@ -154,6 +157,34 @@ webui.@THEME@.widget.label.getProps = function() {
     if (this.value) { props.value = this.value; }
 
     return props;
+}
+
+/**
+ * This function is used to initialize the widget.
+ *
+ * Note: This is called after the fillInTemplate() function.
+ *
+ * @param props Key-Value pairs of properties.
+ * @param frag HTML fragment.
+ * @param parent The parent of this widget.
+ */
+webui.@THEME@.widget.label.initialize = function (props, frag, parent) {
+    // If errorImage or requiredImage are null, create images from the theme.
+    // When the _setProps() function is called, image widgets will be
+    // instantiated via the props param. 
+    if (this.errorImage == null) {
+	this.errorImage = this.widget.getImage("LABEL_INVALID_ICON", {
+            id: this.id + "_error"
+        });
+        props.errorImage = this.errorImage; // Required for _setProps().
+    }
+    if (this.requiredImage == null) {
+	this.requiredImage = this.widget.getImage("LABEL_REQUIRED_ICON", {
+            id: this.id + "_required"
+        });
+        props.requiredImage = this.requiredImage; // Required for _setProps().
+    }
+    return webui.@THEME@.widget.label.superclass.initialize.call(this, props, frag, parent);    
 }
 
 /**
@@ -231,59 +262,47 @@ webui.@THEME@.widget.label._setProps = function(props) {
 
     // Set properties.
     if (props.htmlFor) { this.domNode.htmlFor = props.htmlFor; }
+    if (props.valid != null) { this.valid = new Boolean(props.valid).valueOf(); }
+    if (props.required != null) { this.required = new Boolean(props.required).valueOf(); }
+    if (props.value) { this.widget.addFragment(this.valueContainer, props.value); }
 
-    // Set label value.
-    if (props.value) {
-        this.addFragment(this.valueContainer, props.value);
-    }
-  
     // Set error image properties.
-    if (props.errorImage || props.valid != null && this.errorImage) {
+    if (props.errorImage || props.valid != null) {
         // Ensure property exists so we can call setProps just once.
         if (props.errorImage == null) {
-            props.errorImage = {};
+            props.errorImage = {}; // Avoid updating all props using "this" keyword.
         }
 
-        // Show error image.
-        props.errorImage.visible = (this.valid != null)
-            ? !this.valid : false;
+        // Set properties.
+        props.errorImage.id = this.errorImage.id; // Required for updateFragment().
+        props.errorImage.visible = !this.valid;
 
-        // Update widget/add fragment.
-        var errorImageWidget = dojo.widget.byId(this.errorImage.id); 
-        if (errorImageWidget) {
-            errorImageWidget.setProps(props.errorImage);
-        } else {
-            this.addFragment(this.errorImageContainer, props.errorImage);
-        }
+        // Update/add fragment.
+        this.widget.updateFragment(this.errorImageContainer, props.errorImage);
     }
 
     // Set required image properties.
-    if (props.requiredImage || props.required != null && this.requiredImage) {       
+    if (props.requiredImage || props.required != null) {
         // Ensure property exists so we can call setProps just once.
         if (props.requiredImage == null) {
-            props.requiredImage = {};
+            props.requiredImage = {}; // Avoid updating all props using "this" keyword.
         }
 
-        // Show required image.
-        props.requiredImage.visible = (this.required != null)
-            ? this.required : false;
+        // Set properties.
+        props.requiredImage.id = this.requiredImage.id; // Required for updateFragment().
+        props.requiredImage.visible = this.required;
 
-        // Update widget/add fragment.
-        var requiredImageWidget = dojo.widget.byId(this.requiredImage.id);
-        if (requiredImageWidget) {
-            requiredImageWidget.setProps(props.requiredImage);
-        } else {
-            this.addFragment(this.requiredImageContainer, props.requiredImage);
-        }
+        // Update/add fragment.
+        this.widget.updateFragment(this.requiredImageContainer, props.requiredImage);
     }
 
     // Set contents.
     if (props.contents) {
         // Remove child nodes.
-        this.removeChildNodes(this.contentsContainer);
+        this.widget.removeChildNodes(this.contentsContainer);
 
 	for (var i = 0; i < props.contents.length; i++) {
-            this.addFragment(this.contentsContainer, props.contents[i], "last");
+            this.widget.addFragment(this.contentsContainer, props.contents[i], "last");
         }
     }
 
@@ -304,9 +323,10 @@ dojo.lang.extend(webui.@THEME@.widget.label, {
     fillInTemplate: webui.@THEME@.widget.label.fillInTemplate,
     getClassName: webui.@THEME@.widget.label.getClassName,
     getProps: webui.@THEME@.widget.label.getProps,
+    initialize: webui.@THEME@.widget.label.initialize,
     setProps: webui.@THEME@.widget.label.setProps,
     _setProps: webui.@THEME@.widget.label._setProps,
-    validate: webui.@THEME@.widget.label.event.validation.processEvent,
+    notify: webui.@THEME@.widget.label.event.notification.processEvent,
 
     // Set defaults.
     event: webui.@THEME@.widget.label.event,

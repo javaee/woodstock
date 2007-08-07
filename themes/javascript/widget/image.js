@@ -103,7 +103,7 @@ webui.@THEME@.widget.image.setProps = function(props, notify) {
         return false;
     }
 
-    // Note: This widget has trouble using this.extend(), possibly due to how
+    // Note: This widget has trouble using this.widget.extend(), possibly due to how
     // alarm and alert provide image properties to setProps(). For now, we need
     // to bypass the "superclass" function.
 

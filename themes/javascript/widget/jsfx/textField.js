@@ -85,17 +85,15 @@ webui.@THEME@.widget.jsfx.textField = {
             }
         });
 
-        // Notify widgets.
+        // Notify decoupled widgets.
         if (widget.notify) {
             // Update each given client ID.
             for (var i = 0; i < widget.notify.length; i++) {
                 // Get widget associated with client ID.
                 var curWidget = dojo.widget.byId(widget.notify[i]);
-                if (curWidget == null 
-                        || typeof curWidget.validate != "function") {
-                    continue;
+                if (curWidget && typeof curWidget.notify == "function") {
+                    curWidget.notify(props);
                 }
-                curWidget.validate(props);
             }
         }
 

@@ -260,41 +260,33 @@ webui.@THEME@.widget.checkbox._setProps = function(props) {
     }
 
     // Set image properties.
-    if (props.image || props.disabled != null && this.image) {
+    if (props.image || props.disabled != null && this.image) {     
         // Ensure property exists so we can call setProps just once.
         if (props.image == null) {
-            props.image = {};
+            props.image = {}; // Avoid updating all props using "this" keyword.
         }
-        
-        // Set style class.
+
+        // Set properties.
+        props.image.id = this.image.id; // Required for updateWidget.
         props.image.className = this.getImageClassName();
 
-        // Update widget/add fragment.                
-        var imageWidget = dojo.widget.byId(this.image.id);
-        if (imageWidget) {
-            imageWidget.setProps(props.image);
-        } else {
-            this.addFragment(this.imageContainer, props.image);
-        }        
-    }   
+        // Update/add fragment.
+        this.widget.updateFragment(this.imageContainer, props.image);
+    } 
 
     // Set label properties.
-    if (props.label || props.disabled != null && this.label) {
+    if (props.label || props.disabled != null && this.label) {     
         // Ensure property exists so we can call setProps just once.
         if (props.label == null) {
-            props.label = {};
+            props.label = {}; // Avoid updating all props using "this" keyword.
         }
-        
-        // Set style class.
+
+        // Set properties.
+        props.label.id = this.label.id; // Required for updateFragment().
         props.label.className = this.getLabelClassName();
 
-        // Update widget/add fragment.                
-        var labelWidget = dojo.widget.byId(this.label.id);
-        if (labelWidget) {
-            labelWidget.setProps(props.label);
-        } else {
-            this.addFragment(this.labelContainer, props.label);
-        }
+        // Update/add fragment.
+        this.widget.updateFragment(this.labelContainer, props.label);
     }
 
     // Set more properties.

@@ -370,7 +370,7 @@ webui.@THEME@.widget.accordionTab.setSelected = function (isSelected) {
 webui.@THEME@.widget.accordionTab.setTabContent = function(content) {
     if (content) {
         for (var i = 0; i < content.length; i++) {
-            this.addFragment(this.contentNode, content[i], "last");
+            this.widget.addFragment(this.contentNode, content[i], "last");
         }
     }
 }
@@ -382,12 +382,8 @@ webui.@THEME@.widget.accordionTab.setTabContent = function(content) {
  */
 webui.@THEME@.widget.accordionTab.setTitle = function (title) {
     if (title) {
-        var titleHref = dojo.widget.byId(this.titleHref.id); 
-        if (titleHref) {
-                titleHref.setProps(title);
-        } else {
-            this.addFragment(this.titleHref, title);
-        }
+        // NOTE: If you set this value manually, text must be HTML escaped.
+        this.widget.addFragment(this.titleHref, title);
     }
 }
 

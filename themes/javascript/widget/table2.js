@@ -169,20 +169,20 @@ webui.@THEME@.widget.table2._setProps = function(props) {
 
     // Add title.
     if (props.title) {
-        this.addFragment(this.titleContainer, props.title);
+        this.widget.addFragment(this.titleContainer, props.title);
         webui.@THEME@.common.setVisibleElement(this.titleContainer, true);
     }
 
     // Add actions.
     if (props.actions) {
-        this.addFragment(this.actionsContainer, props.actions);
+        this.widget.addFragment(this.actionsContainer, props.actions);
         webui.@THEME@.common.setVisibleElement(this.actionsContainer, true);
     }
 
     // Add row groups.
     if (props.rowGroups) {
         // Remove child nodes.
-        this.removeChildNodes(this.rowGroupsContainer);
+        this.widget.removeChildNodes(this.rowGroupsContainer);
 
         // Each group must be added to separate containers for padding.
         for (var i = 0; i < props.rowGroups.length; i++) {
@@ -191,7 +191,7 @@ webui.@THEME@.widget.table2._setProps = function(props) {
             this.rowGroupsContainer.appendChild(rowGroupsNodeClone);
             
             // Add row group.
-            this.addFragment(rowGroupsNodeClone, props.rowGroups[i], "last");
+            this.widget.addFragment(rowGroupsNodeClone, props.rowGroups[i], "last");
         }
     }
 

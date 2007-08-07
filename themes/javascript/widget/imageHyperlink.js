@@ -43,13 +43,13 @@ webui.@THEME@.widget.imageHyperlink.addContents = function(props) {
     }
 
     // Remove child nodes.
-    this.removeChildNodes(this.leftContentsContainer);
-    this.removeChildNodes(this.rightContentsContainer);
+    this.widget.removeChildNodes(this.leftContentsContainer);
+    this.widget.removeChildNodes(this.rightContentsContainer);
 
     // Add contents.
     for(i = 0; i <props.contents.length; i++) {
-        this.addFragment(this.leftContentsContainer, props.contents[i], "last");
-        this.addFragment(this.rightContentsContainer, props.contents[i], "last");
+        this.widget.addFragment(this.leftContentsContainer, props.contents[i], "last");
+        this.widget.addFragment(this.rightContentsContainer, props.contents[i], "last");
     }
     return true;
 }
@@ -176,12 +176,12 @@ webui.@THEME@.widget.imageHyperlink._setProps = function(props) {
 
     // Add enabled image.
     if (props.enabledImage) {
-        this.addFragment(this.enabledImageContainer, props.enabledImage);
+        this.widget.addFragment(this.enabledImageContainer, props.enabledImage);
     }
 
     // Add disabled image.
     if (props.disabledImage) {
-        this.addFragment(this.disabledImageContainer, props.disabledImage);
+        this.widget.addFragment(this.disabledImageContainer, props.disabledImage);
     }
 
     // Set image position.

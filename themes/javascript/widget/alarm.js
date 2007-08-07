@@ -146,13 +146,13 @@ webui.@THEME@.widget.alarm._setProps = function(props) {
     // Set right text.
     if (props.textPosition == "right" || props.textPosition == null && props.text != null) {
         webui.@THEME@.common.setVisibleElement(this.leftText, false);
-        this.addFragment(this.rightText, props.text);
+        this.widget.addFragment(this.rightText, props.text);
     }
 
     // Set left text.
     if (props.textPosition == "left" && props.text != null) {
         webui.@THEME@.common.setVisibleElement(this.rightText, false);
-        this.addFragment(this.leftText, props.text);
+        this.widget.addFragment(this.leftText, props.text);
     }    
     
     // Set indicator properties.
@@ -162,25 +162,18 @@ webui.@THEME@.widget.alarm._setProps = function(props) {
             // Ensure property exists so we can call setProps just once.
             var indicator = this.indicators[i]; // get current indicator.
             if (indicator == null) {
-                indicator = {};
+                indicator = {}; // Avoid updating all props using "this" keyword.
             }
-           
-            // Show indicator.
-            indicator.image.visible = (this.type != null && this.type == indicator.type)
-                ? true: false;
-                               
-            // Update widget/add fragment.
-            var indicatorWidget = dojo.widget.byId(indicator.image.id);
-            if (indicatorWidget) {
-                indicatorWidget.setProps(indicator.image);
-            } else { 
-                this.addFragment(this.imageContainer, indicator.image, "last");
-            }
+
+            // Set properties.
+            indicator.image.visible = (indicator.type == this.type) ? true: false;
+
+            // Update/add fragment.
+            this.widget.updateFragment(this.imageContainer, indicator.image, "last");
         }
     }
 
-    // Do not call setCommonProps() as that will result in assigning image 
-    // specific properties to outermost domNode. 
+    // Do not call setCommonProps() here. 
 
     // Set more properties.
     this.setEventProps(this.domNode, props);

@@ -55,7 +55,7 @@ webui.@THEME@.widget.calendar.addDayLink = function(rowNodeClone, day, id, class
     linkNodeClone.className = className;
 
     // NOTE: If you set this value manually, text must be HTML escaped.
-    this.addFragment(linkNodeClone, "" + day.getDate());
+    this.widget.addFragment(linkNodeClone, "" + day.getDate());
 
     var widgetId = this.id;
     linkNodeClone.onclick = function() { 
@@ -253,7 +253,7 @@ webui.@THEME@.widget.calendar.addWeekDays = function() {
         colNodeClone.appendChild(spanNodeClone);
         
         // NOTE: If you set this value manually, text must be HTML escaped.
-        this.addFragment(spanNodeClone, this.weekDays[firstDay]);
+        this.widget.addFragment(spanNodeClone, this.weekDays[firstDay]);
 
         firstDay++;
         if(firstDay == 7) {
@@ -667,99 +667,95 @@ webui.@THEME@.widget.calendar._setProps = function(props) {
     // Set properties.        
     if (props.todayDateMsg) {
         // NOTE: If you set this value manually, text must be HTML escaped.
-        this.addFragment(this.todayDateContainer, props.todayDateMsg);
+        this.widget.addFragment(this.todayDateContainer, props.todayDateMsg);
     }
 
     if (props.spacerImage) {
         if (!dojo.widget.byId(this.spacerImage.id)) {
-            this.addFragment(this.spacerImageContainer, props.spacerImage);
+            this.widget.addFragment(this.spacerImageContainer, props.spacerImage);
         }
     }
 
     if (props.topLeftImage) {
          if (!dojo.widget.byId(this.topLeftImage.id)) {
-            this.addFragment(this.topLeftImageContainer, props.topLeftImage);
+            this.widget.addFragment(this.topLeftImageContainer, props.topLeftImage);
         }
     }
 
     if (props.topRightImage) {
         if (!dojo.widget.byId(this.topRightImage.id)) {
-            this.addFragment(this.topRightImageContainer, props.topRightImage);
+            this.widget.addFragment(this.topRightImageContainer, props.topRightImage);
         }
     }
 
     if (props.date) {
         this.setCurrentValue(props.date);
     }
-        
+
+    // Set close link properties.
     if (props.closeButtonLink) {
-        // Update widget/add fragment.                
-        var closeLinkWidget = dojo.widget.byId(this.closeButtonLink.id);        
-        if (closeLinkWidget) {
-            closeLinkWidget.setProps(props.closeButtonLink);          
-        } else {  
-            props.closeButtonLink.onClick = 
-                "dojo.widget.byId('"+this.id+"').toggleCalendar();return false;";
-            this.addFragment(this.closeButtonContainer, props.closeButtonLink);
-        }
+        // Set properties.
+        props.closeButtonLink.id = this.closeButtonLink.id; // Required for updateFragment().
+        props.closeButtonLink.onClick = 
+            "dojo.widget.byId('" + this.id + "').toggleCalendar();return false;";
+
+        // Update/add fragment.
+        this.widget.updateFragment(this.closeButtonContainer, props.closeButtonLink);
     }
-    
+
+    // Set decrease link properties.
     if (props.decreaseLink) {
-        // Update widget/add fragment.                
-        var decreaseLinkWidget = dojo.widget.byId(this.decreaseLink.id);
-        if (decreaseLinkWidget) {
-            decreaseLinkWidget.setProps(props.decreaseLink);          
-        } else {  
-            props.decreaseLink.onClick = 
-                "dojo.widget.byId('"+this.id+"').decreaseMonth();return false;";
-            this.addFragment(this.previousLinkContainer, props.decreaseLink);   
-        }
+        // Set properties.
+        props.decreaseLink.id = this.decreaseLink.id; // Required for updateFragment().
+        props.decreaseLink.onClick = 
+            "dojo.widget.byId('" + this.id + "').decreaseMonth();return false;";
+
+        // Update/add fragment.
+        this.widget.updateFragment(this.previousLinkContainer, props.decreaseLink);
     }
-    
+
+    // Set increase link properties.
     if (props.increaseLink) {
-        // Update widget/add fragment.                
-        var increaseLinkWidget = dojo.widget.byId(this.increaseLink.id);
-        if (increaseLinkWidget) {
-            increaseLinkWidget.setProps(props.increaseLink);          
-        } else { 
-            props.increaseLink.onClick = 
-                "dojo.widget.byId('"+this.id+"').increaseMonth();return false;"
-            this.addFragment(this.nextLinkContainer, props.increaseLink);
-        }
+        // Set properties.
+        props.increaseLink.id = this.increaseLink.id; // Required for updateFragment().
+        props.increaseLink.onClick = 
+            "dojo.widget.byId('" + this.id + "').increaseMonth();return false;"
+
+        // Update/add fragment.
+        this.widget.updateFragment(this.nextLinkContainer, props.increaseLink);
     }
-    
+
+    // Set month menu properties.
     if (props.monthMenu) {
-        // Update widget/add fragment.                
-        var monthMenuWidget = dojo.widget.byId(this.monthMenu.id);
-        if (monthMenuWidget) {
-            monthMenuWidget.setProps(props.monthMenu);          
-        } else {  
-            props.monthMenu.onChange =
-                "dojo.widget.byId('"+this.id+"').updateMonth(false);return false;";
-            this.addFragment(this.monthMenuContainer, props.monthMenu);
-        }
+        // Set properties.
+        props.monthMenu.id = this.monthMenu.id; // Required for updateFragment().
+        props.monthMenu.onChange =
+            "dojo.widget.byId('" + this.id + "').updateMonth(false);return false;";
+
+        // Update/add fragment.
+        this.widget.updateFragment(this.monthMenuContainer, props.monthMenu);
     }
-    
+
+    // Set year menu properties.
     if (props.yearMenu) {
-        // Update widget/add fragment.                
-        var yearMenuWidget = dojo.widget.byId(this.yearMenu.id);
-        if (yearMenuWidget) {
-            yearMenuWidget.setProps(props.yearMenu);          
-        } else {  
-            props.yearMenu.onChange =
-                "dojo.widget.byId('"+this.id+"').updateMonth(false);return false;";
-            this.addFragment(this.yearMenuContainer, props.yearMenu);
-        }
+        // Set properties.
+        props.yearMenu.id = this.yearMenu.id; // Required for updateFragment().
+        props.yearMenu.onChange =
+            "dojo.widget.byId('" + this.id + "').updateMonth(false);return false;";
+
+        // Update/add fragment.
+        this.widget.updateFragment(this.yearMenuContainer, props.yearMenu);
     }
+
+    // Set toggle link properties.
     if (props.toggleLink) {
-        var linkWidget = dojo.widget.byId(this.toggleLink.id);
-        if (linkWidget) {
-            linkWidget.setProps(props.toggleLink);
-        } else {
-            props.toggleLink.onClick = 
-                "dojo.widget.byId('"+this.id+"').toggleCalendar();return false;";
-            this.addFragment(this.linkNode, props.toggleLink);
-        }
+        // Set properties.
+        props.toggleLink.id = this.toggleLink.id; // Required for updateFragment().
+        props.toggleLink.onClick =
+            "dojo.widget.byId('" + this.id + "').toggleCalendar();return false;";
+
+        // Update/add fragment.
+        this.widget.updateFragment(this.linkNode, props.toggleLink);
     }
 
     // Set more properties.
@@ -796,7 +792,7 @@ webui.@THEME@.widget.calendar.setSelectedValue = function(select, value) {
  */
 webui.@THEME@.widget.calendar.updateMonth = function(initialize) {
     // Remove all the nodes of <tbody> before cloning its children.
-    this.removeChildNodes(this.tbodyContainer);    
+    this.widget.removeChildNodes(this.tbodyContainer);    
     // Add week days
     this.addWeekDays();    
     // Add days of the month

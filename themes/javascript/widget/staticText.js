@@ -113,7 +113,7 @@ webui.@THEME@.widget.staticText._setProps = function(props) {
     // Set text value.
     if (props.value) {
         // NOTE: If you set this value manually, text must be HTML escaped.
-        this.addFragment(this.domNode, props.value, null, this.escape);
+        this.widget.addFragment(this.domNode, props.value, null, this.escape);
     }
 
     // Set more properties..

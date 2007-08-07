@@ -47,11 +47,11 @@ webui.@THEME@.widget.anchor.addContents = function(props) {
     }
 
     // Remove child nodes.
-    this.removeChildNodes(this.domNode);
+    this.widget.removeChildNodes(this.domNode);
 
     // Add contents.
     for (i = 0; i < props.contents.length; i++) {
-        this.addFragment(this.domNode, props.contents[i], "last");
+        this.widget.addFragment(this.domNode, props.contents[i], "last");
     }
     return true;
 }

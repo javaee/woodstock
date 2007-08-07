@@ -434,18 +434,14 @@ webui.@THEME@.widget.listbox._setProps = function(props) {
         this.addOptions(props);
     }
 
-    // Set label if there is one
+    // Set label properties.
     if (props.label) {
-        var labelWidget = dojo.widget.byId(this.label.id);
-        
-        if (labelWidget) {
-            // Update the existing one
-            labelWidget.setProps(props.label);
-        } else {
-            // Create a new one
-            this.addFragment(this.labelContainer, props.label);
-        }
-    
+        // Set properties.
+        props.label.id = this.label.id; // Required for updateFragment().
+
+        // Update/add fragment.
+        this.widget.updateFragment(this.labelContainer, props.label);
+
         // Remove line break -- required for IE & cannot be updated once set.
         if (new Boolean(this.labelOnTop).valueOf() == true) {
             webui.@THEME@.common.setVisibleElement(this.brContainer, true);

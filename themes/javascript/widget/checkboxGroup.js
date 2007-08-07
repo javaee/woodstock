@@ -53,7 +53,7 @@ webui.@THEME@.widget.checkboxGroup.addContents = function(props) {
     }
 
     if (props.contents) {    
-        this.removeChildNodes(this.ulContainer);
+        this.widget.removeChildNodes(this.ulContainer);
         for (var i = 0; i < props.contents.length; i++) { 
            // Clone <li> node.
            var liNodeClone = this.liNode.cloneNode(false);
@@ -66,7 +66,7 @@ webui.@THEME@.widget.checkboxGroup.addContents = function(props) {
                 props.contents[i].disabled = props.disabled;
            }           
            // Add child to the group.
-           this.addFragment(liNodeClone, props.contents[i], "last");
+           this.widget.addFragment(liNodeClone, props.contents[i], "last");
         }
     } else {
         // Update the disabled property client side
@@ -238,18 +238,13 @@ webui.@THEME@.widget.checkboxGroup._setProps = function(props) {
     }
 
     // Set label properties.
-    if (props.label || props.disabled != null && this.label) {
-        if (props.label == null) {
-            props.label = {};
-        }
-        var labelWidget = dojo.widget.byId(this.label.id);
-        
-        if (labelWidget) {
-            labelWidget.setProps(props.label);
-        } else {
-            this.addFragment(this.labelContainer, props.label);
-        }         
-    }       
+    if (props.label) {     
+        // Set properties.
+        props.label.id = this.label.id; // Required for updateFragment().
+
+        // Update/add fragment.
+        this.widget.updateFragment(this.labelContainer, props.label);
+    }
 
     // Set contents.    
     if (props.contents || props.disabled != null) {              

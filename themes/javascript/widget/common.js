@@ -23,6 +23,7 @@
 dojo.provide("webui.@THEME@.widget.common");
 
 dojo.require("dojo.widget.*");
+dojo.require("webui.@THEME@.theme.*");
 
 /**
  * This closure contains common functions of the webui.@THEME@.widget module.
@@ -241,12 +242,77 @@ webui.@THEME@.widget.common = {
         }
         for (var property in props) {
             if (obj[property] && typeof obj[property] == "object") {
-                this.extend(obj[property], props[property]);
+                webui.@THEME@.widget.common.extend(obj[property], props[property]);
             } else {
                 obj[property] = props[property];
             }
         }
         return true;
+    },
+
+    /**
+     * This function returns Object literals for a theme based image widget.
+     *
+     * It adds the necessary "module" and "widgetName" and theme properties for
+     * "imageKey". If "imageKey" doesn't exist in the theme, return null.
+     *
+     * @param key A key defining a theme "images" property.
+     * @param props Extra image properties.
+     */
+    getImage: function(key, props) {
+        var image = webui.@THEME@.theme.common.getImage(key);
+        if (image == null) {
+            return null;
+        }
+
+        // Set default module and widget name.
+        image.module = "webui.@THEME@.widget.image";
+        image.widgetName = "webui.@THEME@:image";
+
+        // Add extra properties
+        if (props != null) {
+            webui.@THEME@.widget.common.extend(image, props);
+        }
+        return image;
+    },
+
+    /**
+     * This function is used to obtain a template path, or returns null
+     * if key is not found or is not a path, i.e. begins with "<".
+     *
+     * @param key A key defining a theme "templates" property.
+     */
+    getTemplatePath: function(key) {
+        var template = webui.@THEME@.theme.common.getTemplate(key);
+        if (webui.@THEME@.widget.common.isTemplatePath(template)) {
+            return webui.@THEME@.theme.common.getPrefix() + "/" + template;
+        } else {
+            return null;
+        }
+    },
+
+    /**
+     * This function is used to obtain a template string, or returns null
+     * if key is not found or is not a string, i.e. does not begin with "<".
+     *
+     * @param key A key defining a theme "templates" property.
+     */
+    getTemplateString: function(key) {
+        var template = webui.@THEME@.theme.common.getTemplate(key);
+        if (!webui.@THEME@.widget.common.isTemplatePath(template)) {
+            return template;
+        } else {
+            return null;
+        }
+    },
+
+    /**
+     * This function is used to test template strings. Return true if the
+     * "template" is a template path, and false if it is a template String. 
+     * Returns false if the value is null or the empty string.
+     */
+    isTemplatePath: function(template) {
+        return (template != null && template.charAt(0) != '<');
     },
 
     /**
@@ -314,10 +380,10 @@ webui.@THEME@.widget.common = {
     },
 
     /**
-     * This function is used to replace a document fragment with a newly created
+     * This function is used to replace an HTML element with a newly created
      * widget -- see the createWidget() function.
      *
-     * Note: The fragment is used as a temporary place holder so that a widget
+     * Note: The element is used as a temporary place holder so that a widget
      * may be added to the document in the proper location. It is assumed that
      * the HTML element (i.e., document fragment) has the same id as the widget.
      *
@@ -328,7 +394,7 @@ webui.@THEME@.widget.common = {
      *
      * @param props Key-Value pairs of properties.
      */
-    replaceFragment: function(props) {
+    replaceElement: function(props) {
         if (props == null) {
             return null;
         }
@@ -373,5 +439,37 @@ webui.@THEME@.widget.common = {
             }
         }
         return false;
+    },
+
+    /**
+     * This function is used to update a widget, HTML fragment, or static
+     * string for the given domNode.
+     *
+     * Note: If the widget associated with props.id already exists, the widget's 
+     * setProps() function is invoked with the given props param. If the widget 
+     * does not exist, the widget object is instantiated via the addFragment()
+     * function -- all params are passed through.
+     *
+     * @param domNode The DOM node used to add widget.
+     * @param props Key-Value pairs of properties.
+     * @param position The position (e.g., "first", "last", etc.) to add widget.
+     * @param escape HTML escape static strings -- default is true.
+     */
+    updateFragment: function(domNode, props, position, escape) {
+        if (props == null) {
+            return false;
+        }
+
+        // Ensure props is not a string.
+        var widget = (typeof props != 'string') 
+            ? dojo.widget.byId(props.id) : null;
+
+        // Update widget or add fragment.
+        if (widget && typeof widget.setProps == "function") {
+            widget.setProps(props);
+        } else {
+            webui.@THEME@.widget.common.addFragment(domNode, props, position, escape);
+        }
+        return true;
     }
 }

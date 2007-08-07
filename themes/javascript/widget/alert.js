@@ -62,11 +62,11 @@ webui.@THEME@.widget.alert.event = {
     },
 
     /**
-     * This closure is used to process validation events.
+     * This closure is used to process notification events.
      */
-    validation: {
+    notification: {
         /**
-         * This function is used to process validation events with the following
+         * This function is used to process notification events with the following
          * Object literals.
          *
          * <ul>
@@ -173,17 +173,17 @@ webui.@THEME@.widget.alert._setProps = function(props) {
     
     // Set summary.
     if (props.summary) {
-        this.addFragment(this.summaryContainer, props.summary);
+        this.widget.addFragment(this.summaryContainer, props.summary);
     }
 
     // Set detail.
     if (props.detail) {
-        this.addFragment(this.detailContainer, props.detail);
+        this.widget.addFragment(this.detailContainer, props.detail);
     }
 
     // Set moreInfo.
     if (props.moreInfo) {
-        this.addFragment(this.detailContainerLink, props.moreInfo);
+        this.widget.addFragment(this.detailContainerLink, props.moreInfo);
     }
 
     // Set spacer image.
@@ -205,7 +205,7 @@ webui.@THEME@.widget.alert._setProps = function(props) {
             }
             // Replace container with image.
             if (!dojo.widget.byId(props.spacerImage.id)) {
-                this.addFragment(containers[i], props.spacerImage);
+                this.widget.addFragment(containers[i], props.spacerImage);
             }
         }
     }
@@ -216,27 +216,20 @@ webui.@THEME@.widget.alert._setProps = function(props) {
         for (var i = 0; i < this.indicators.length; i++) {
             // Ensure property exists so we can call setProps just once.
             var indicator = this.indicators[i]; // get current indicator.
-           
             if (indicator == null) {
-                indicator = {};
+                indicator = {}; // Avoid updating all props using "this" keyword.
             }
-           
-            // Show indicator.
-            indicator.image.visible = (this.type != null && this.type == indicator.type) ? true : false;
+
+            // Set properties.
+            indicator.image.visible = (indicator.type == this.type) ? true: false;
             indicator.image.tabIndex = this.tabIndex;
-           
-            // Update widget/add fragment.
-            var indicatorWidget = dojo.widget.byId(indicator.image.id);
-            if (indicatorWidget) {
-                indicatorWidget.setProps(indicator.image);
-            } else {
-                this.addFragment(this.imageContainer, indicator.image, "last");
-            }
+
+            // Update/add fragment.
+            this.widget.updateFragment(this.imageContainer, indicator.image, "last");
         }
     }
 
-    // Do not call setCommonProps() as that will result in assigning image 
-    // specific properties to outermost domNode. 
+    // Do not call setCommonProps() here. 
 
     // Set remaining properties.
     return webui.@THEME@.widget.alert.superclass._setProps.call(this, props);
@@ -251,7 +244,7 @@ dojo.lang.extend(webui.@THEME@.widget.alert, {
     fillInTemplate: webui.@THEME@.widget.alert.fillInTemplate,
     getProps: webui.@THEME@.widget.alert.getProps,
     _setProps: webui.@THEME@.widget.alert._setProps,
-    validate: webui.@THEME@.widget.alert.event.validation.processEvent,
+    notify: webui.@THEME@.widget.alert.event.notification.processEvent,
 
     // Set defaults.
     event: webui.@THEME@.widget.alert.event,

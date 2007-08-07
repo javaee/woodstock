@@ -204,14 +204,21 @@ public class LabelRenderer extends RendererBase {
 	    .put("visible", label.isVisible());
             
         // Append required image properties.
-        json.put("requiredImage", WidgetUtilities.renderComponent(context,
-            label.getRequiredIcon(theme, context)));
+	//
+	UIComponent facet = component.getFacet(Label.REQUIRED_FACET);
+	if (facet != null) {
+	    json.put("requiredImage", WidgetUtilities.renderComponent(context,
+		facet));
+	}
 
         // Append error image properties.
         // passing valid=false so that it can output error icon 
 	// (irrespective of valid attribute value). 
-        json.put("errorImage", WidgetUtilities.renderComponent(context, 
-            label.getErrorIcon(theme, context, errorMsg)));
+	facet = component.getFacet(Label.ERROR_FACET);
+	if (facet != null) {
+	    json.put("errorImage", WidgetUtilities.renderComponent(context, 
+		facet));
+	}
 
         // Add attributes.
         JSONUtilities.addProperties(attributes, component, json);

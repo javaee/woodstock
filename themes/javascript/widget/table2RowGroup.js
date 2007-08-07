@@ -74,7 +74,7 @@ webui.@THEME@.widget.table2RowGroup.addRows = function(rows) {
             if (col.width) { rowNodeClone.style.width = col.width; }
 
             // Add cell data.
-            this.addFragment(rowNodeClone, cols[k], "last");
+            this.widget.addFragment(rowNodeClone, cols[k], "last");
         }
 
         // Save row for destroy() function.
@@ -329,8 +329,8 @@ webui.@THEME@.widget.table2RowGroup.getProps = function() {
  */
 webui.@THEME@.widget.table2RowGroup.setColumns = function() {
     // Clear column headers/footers.
-    this.removeChildNodes(this.colHeaderContainer);
-    this.removeChildNodes(this.colFooterContainer);
+    this.widget.removeChildNodes(this.colHeaderContainer);
+    this.widget.removeChildNodes(this.colFooterContainer);
 
     // Containers are visible if at least one header/footer exists.
     var headerVisible = false;
@@ -351,11 +351,11 @@ webui.@THEME@.widget.table2RowGroup.setColumns = function() {
 
         // Add text.
         if (col.headerText) {
-            this.addFragment(headerClone, col.headerText);
+            this.widget.addFragment(headerClone, col.headerText);
             headerVisible = true;
         }
         if (col.footerText) {
-            this.addFragment(footerClone, col.footerText);
+            this.widget.addFragment(footerClone, col.footerText);
             footerVisible = true;
         }
 
@@ -457,13 +457,13 @@ webui.@THEME@.widget.table2RowGroup._setProps = function(props) {
 
     // Add header.
     if (props.headerText) { 
-        this.addFragment(this.groupHeaderTextNode, props.headerText);
+        this.widget.addFragment(this.groupHeaderTextNode, props.headerText);
         webui.@THEME@.common.setVisibleElement(this.groupHeaderContainer, true);
     }
 
     // Add footer.
     if (props.footerText) {
-        this.addFragment(this.groupFooterNode, props.footerText);
+        this.widget.addFragment(this.groupFooterNode, props.footerText);
         webui.@THEME@.common.setVisibleElement(this.groupFooterContainer, true);
     }
 
@@ -481,7 +481,7 @@ webui.@THEME@.widget.table2RowGroup._setProps = function(props) {
         this.currentRow = 0; // Reset current row in view.
 
         // Clear rows.
-        this.removeChildNodes(this.tbodyContainer);
+        this.widget.removeChildNodes(this.tbodyContainer);
         this.addRows(props.rows);
     }
 
@@ -506,7 +506,7 @@ webui.@THEME@.widget.table2RowGroup.setRowsText = function() {
         this.currentRow + this.maxRows);
 
     // NOTE: If you set this value manually, text must be HTML escaped.
-    this.addFragment(this.groupHeaderRowsTextNode, 
+    this.widget.addFragment(this.groupHeaderRowsTextNode, 
         "Items: " + firstRow + " - " + lastRow + " of " + this.totalRows);
 
     return true;

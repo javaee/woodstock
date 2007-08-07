@@ -129,12 +129,12 @@ webui.@THEME@.widget.props = {
     },
 
     // Label properties.
-    label: {
-        errorStyleClass: "ConErrLblTxt@THEME_CSS@",
-        levelOneStyleClass: "LblLev1Txt@THEME_CSS@",
-        levelTwoStyleClass: "LblLev2Txt@THEME_CSS@",
-        levelThreeStyleClass: "LblLev3Txt@THEME_CSS@"
-    },
+//    label: {
+//        errorStyleClass: "ConErrLblTxt@THEME_CSS@",
+//        levelOneStyleClass: "LblLev1Txt@THEME_CSS@",
+//        levelTwoStyleClass: "LblLev2Txt@THEME_CSS@",
+//        levelThreeStyleClass: "LblLev3Txt@THEME_CSS@"
+//    },
 
     // Listbox properties.
     listbox: {
