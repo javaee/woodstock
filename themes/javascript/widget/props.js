@@ -129,12 +129,12 @@ webui.@THEME@.widget.props = {
     },
 
     // Label properties.
-//    label: {
-//        errorStyleClass: "ConErrLblTxt@THEME_CSS@",
-//        levelOneStyleClass: "LblLev1Txt@THEME_CSS@",
-//        levelTwoStyleClass: "LblLev2Txt@THEME_CSS@",
-//        levelThreeStyleClass: "LblLev3Txt@THEME_CSS@"
-//    },
+    label: {
+        errorStyleClass: "ConErrLblTxt@THEME_CSS@",
+        levelOneStyleClass: "LblLev1Txt@THEME_CSS@",
+        levelTwoStyleClass: "LblLev2Txt@THEME_CSS@",
+        levelThreeStyleClass: "LblLev3Txt@THEME_CSS@"
+    },
 
     // Listbox properties.
     listbox: {
@@ -195,13 +195,15 @@ webui.@THEME@.widget.props = {
     textArea: {
         className: "TxtAra@THEME_CSS@",
         disabledClassName: "TxtAraDis@THEME_CSS@",
+        readOnlyClassName: "TxtAra_ReadOnly@THEME_CSS@",
         labelTopAlignStyle: "TxtAraLabel@THEME_CSS@" 
     },    
 
     // TextField properties.
     textField: {
         className: "TxtFld@THEME_CSS@",
-        disabledClassName: "TxtFldDis@THEME_CSS@"
+        disabledClassName: "TxtFldDis@THEME_CSS@",
+        readOnlyClassName: "TxtFld_ReadOnly@THEME_CSS@"
     },
     
     // Bubble properties    

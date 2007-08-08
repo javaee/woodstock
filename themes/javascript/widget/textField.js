@@ -141,6 +141,9 @@ webui.@THEME@.widget.textField.fillInTemplate = function(props, frag) {
  * Helper function to obtain HTML input element class names.
  */
 webui.@THEME@.widget.textField.getInputClassName = function() {   
+    if (this.fieldNode.readOnly)
+        return webui.@THEME@.widget.props.textField.readOnlyClassName;
+
     // Set default style.    
     return (this.disabled == true)
         ? webui.@THEME@.widget.props.textField.disabledClassName

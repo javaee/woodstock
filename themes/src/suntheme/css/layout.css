@@ -398,6 +398,8 @@ body.HlpBdy@THEME_CSS@ h2, body.HlpBdy@THEME_CSS@ h3, body.HlpBdy@THEME_CSS@ h4,
 .FulAlrtFrmDiv@THEME_CSS@ {
 	margin:10px 10px 5px 37px;
 }
+
+
 /*---*/
 /* INLINE ALERT */
 .inlineAlert_4@THEME_CSS@ {
@@ -826,9 +828,14 @@ a.DatOthBldLnk@THEME_CSS@:link, a.DatOthBldLnk@THEME_CSS@:visited {
 	border-width:1px;
 	padding:1px 0 0 2px;
 }
+.TxtFld_ReadOnly@THEME_CSS@, .TxtAra_ReadOnly@THEME_CSS@{
+	border: none;
+	border-width:0px;
+}
 .TxtAra@THEME_CSS@, .TxtAraDis@THEME_CSS@ {
 	padding-left:2px;
 }
+
 
 .TxtAraLabel@THEME_CSS@ span , .TxtAraLabel@THEME_CSS@ span > img { vertical-align: top; }
 
