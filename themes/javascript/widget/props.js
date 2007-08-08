@@ -154,7 +154,8 @@ webui.@THEME@.widget.props = {
     // PasswordField properties.
     passwordField: {
         className: "TxtFld@THEME_CSS@",
-        disabledClassName: "TxtFldDis@THEME_CSS@"
+        disabledClassName: "TxtFldDis@THEME_CSS@",
+        readOnlyClassName: "TxtFld_ReadOnly@THEME_CSS@"
     },
 
     // Progress bar properties.
