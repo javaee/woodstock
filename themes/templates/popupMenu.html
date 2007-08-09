@@ -1,0 +1,24 @@
+<div dojoAttachPoint="domNode" class="MenuDiv@THEME_CSS@">
+    <div dojoAttachPoint="shadowContainer">
+	<div dojoAttachPoint="outerMenuContainer" class="Menu@THEME_CSS@">
+            <!--The groupOptionContainer acts as an outermostcontainer for the whole menu
+            and also for "groups" inside the menu.-->
+            <ul dojoAttachPoint="groupOptionContainer" class="hidden@THEME_CSS@">
+                <li dojoAttachPoint="optionContainer" >
+                    <div dojoAttachPoint="menuItemContainer">
+                        <span dojoAttachPoint="menuItemImageContainer"></span>
+                           <img class="NoMenuItemWidget@THEME_CSS@"dojoAttachPoint="menuItemNoImageContainer"></img>
+                           <img class="NoMenuItemSubmenu@THEME_CSS@" dojoAttachPoint="menuItemSubMenu"></img>                            
+                           <div class="MenuItemLabel@THEME_CSS@" dojoAttachPoint="menuItemNode">                                
+                        </div>                            
+                    </div>                                              
+                </li>                        
+                <!-- Separator that gets appended if the separator property has been set to true
+                for the particular menu option-->
+                <li dojoAttachPoint="menuSeparatorContainer" class="hidden@THEME_CSS@">
+                    <div dojoAttachPoint="menuSeparator" class="MenuItemSeparator@THEME_CSS@" ></div>
+                </li>                        
+            </ul>
+        </div> 
+    </div>
+</div>

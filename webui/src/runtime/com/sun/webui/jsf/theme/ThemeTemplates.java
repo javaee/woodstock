@@ -168,6 +168,11 @@ public class ThemeTemplates {
     public static final String ACCORDIONTAB = "accordionTab";
     
     /**
+     * A template file that contains HTML for the popupMenu component.
+     */
+    public static String POPUPMENU = "popupMenu";
+    
+    /**
      * This private constructor prevents this class from being instantiated
      * directly as its only purpose is to provide image constants.
      */

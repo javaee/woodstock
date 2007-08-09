@@ -21,7 +21,12 @@
  */
 package com.sun.webui.jsf.util;
 
+import com.sun.webui.jsf.component.ImageComponent;
+import com.sun.webui.jsf.component.ListSelector;
 import com.sun.webui.jsf.model.Indicator;
+import com.sun.webui.jsf.model.Option;
+import com.sun.webui.jsf.model.OptionGroup;
+import com.sun.webui.jsf.model.Separator;
 import com.sun.webui.jsf.theme.ThemeImages;
 import com.sun.webui.theme.Theme;
 
@@ -194,6 +199,93 @@ public class WidgetUtilities {
         }
         return json;
     }
+    
+    /**
+     * Take an JSONArray object which will hold the options present for the
+     *  menu. Traverse through the provided  <code>com.sun.webui.jsf.model.Option</code>
+     * array and create JSON objects for each option present in the options array.
+     * Additionally add a parameter called "group" which will tell whether that particular
+     * JSON object acts as a group element. If it is a group element, then this particular
+     * JSON object can contain "child options" to be rendered. Hence create a new JSONArray to hold
+     * those options, add that to the JSON object and again call this function.
+     **/    
+    public static JSONArray getOptions(UIComponent component,
+            Option[] options, FacesContext context) throws IOException,
+            JSONException{
+        if (options == null) {
+            return null;
+        }
+
+        String tmp = null;
+        boolean separatorCreated = false;
+        int imgProps = -1;
+        JSONObject optionElement = null;
+        JSONArray json = new JSONArray();
+        
+        for (int i=0; i<options.length; i++) {
+            optionElement = new JSONObject();
+            
+            // Special handling required for objects that are instanceof
+            // separator.
+            if (options[i] instanceof Separator) {
+                JSONObject separatorObject = getSeparatorProperties(component);                
+                if (separatorObject != null) {
+                    json.put(separatorObject);                    
+                }                                                
+                continue;
+            }
+            
+            json.put(optionElement);
+            optionElement.put("value", ConversionUtilities.
+                    convertValueToString(component, options[i].getValue()))
+                         .put("label", (String)options[i].getLabel())
+                         .put("escape", options[i].isEscape())
+                         .put("disabled", options[i].isDisabled());
+                         
+            tmp = options[i].getTooltip();
+            if (tmp != null) {
+                optionElement.put("title", tmp);
+            }
+            
+            // If an image exists to be rendered, then add that to the set
+            // of properties.
+            JSONObject image = getImageOptionProperties(options[i], context, component);
+            optionElement.put("image", image);
+            if (options[i] instanceof OptionGroup) {
+                optionElement.put("group",true);                
+                
+                // Call this function again, with the Option elements in the
+                // OptionGroup as the parameter 
+                JSONArray groupOptions = getOptions(component,
+                        ((OptionGroup)options[i]).getOptions(),  context);
+                optionElement.put("options", groupOptions);
+                // Lists have a "Separators" attribute which needs to be set to true
+                // If this is set, each group needs to have a Separator at the end.
+                // If the group happens to be the last group in the option set, then
+                // no need to output a Separator for that optionGroup.
+                if (component instanceof ListSelector && i < options.length-1 ) {
+                    if (((ListSelector)component).isSeparators()) {
+                        
+                        // New functionality. Just set the separator to true
+                        optionElement.put("separator", true);
+                        
+                        // Need to maintain existing old functionality.
+                        // Create a separator object and add it so that the
+                        // existing list widget can recognize it.
+                         
+                        JSONObject separatorObject = getSeparatorProperties(component);                
+                        if (separatorObject != null) {
+                            json.put(separatorObject);                    
+                        }                                                
+                    }
+                }
+            } else {
+                optionElement.put("group", false)
+                             .put("separator", options[i].getSeparator());
+            }
+        }        
+        return json;
+    }
 
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     // Private methods
@@ -232,4 +324,69 @@ public class WidgetUtilities {
         context.setResponseWriter(newWriter);
         return strWriter;
     }
+    
+        
+    /**
+     * Adds the properties for the separator to the passed-in json object
+     *
+     * @param json The JSONObject for adding the properties
+     * @param component The List component
+     */
+    private static JSONObject getSeparatorProperties(UIComponent component) 
+            throws JSONException {
+       if(!(component instanceof ListSelector)) {
+            return null;
+        }
+        ListSelector selector = (ListSelector)component;
+        JSONObject json = new JSONObject();
+        // Indicates this is a separator
+        json.put("separator", true);
+        json.put("group", false);
+        json.put("disabled", true); // Always disabled for separator
+        
+        // The label for the separator. It is a series of dashes (-----------)
+        int numEms = selector.getSeparatorLength();
+        StringBuffer labelBuffer = new StringBuffer();
+        for(int em = 0; em < numEms; ++em) {
+            labelBuffer.append("-");                        
+        }
+        json.put("label", labelBuffer.toString());
+        return json;
+    }        
+    
+    /**
+     * This function checks if an image exists to be rendered for the  menu.
+     * If so, it creates a new JSON object  for the image and adds it to the
+     * properties list of the Option element's JSON object. 
+     * 
+     * @param json The JSON object of the  particular option element
+     * @param option The Option element object
+     * @param context The FacesContext instance.
+     * @param component The menu component.
+     */
+    private static JSONObject getImageOptionProperties( Option option,
+            FacesContext context, UIComponent component) throws JSONException, IOException {
+        String tmp;
+        Theme theme = ThemeUtilities.getTheme(context);
+        int imgProps;
+        if (option.getImage() == null) {
+            return null;
+        }
+        ImageComponent image = new ImageComponent();
+        image.setId(component.getId()+ option.getValue()+"_image");
+        image.setParent(component);
+        image.setUrl(option.getImage());
+        image.setAlt(option.getImageAlt());
+        imgProps = option.getImageHeight();
+        if (imgProps > 0) {
+            image.setHeight(imgProps);
+        }
+        imgProps = option.getImageWidth();
+        if (imgProps > 0) {
+            image.setWidth(imgProps);
+        }
+
+        return WidgetUtilities.renderComponent(context, image);
+
+    }    
 }

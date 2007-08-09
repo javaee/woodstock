@@ -1447,6 +1447,7 @@ table.TblLt@THEME_CSS@ td.TblPnlTd@THEME_CSS@ {padding-left:10px;border-top:none
 	padding-left:5px;
 }
 
+
 .TreeRootRow@THEME_CSS@ .float@THEME_CSS@, .TreeRootSelRow@THEME_CSS@ .float@THEME_CSS@ {	padding-left:7px;
 
 }
@@ -1824,6 +1825,105 @@ table.TblLt@THEME_CSS@ td.TblPnlTd@THEME_CSS@ {padding-left:10px;border-top:none
 	margin:10px;
 }
 /*---*/
+
+/* MENU */
+.MenuDiv@THEME_CSS@ {
+    position: absolute;
+    z-index: 99;
+}
+
+.MenuShadow@THEME_CSS@ {
+    display:block;
+}
+
+.Menu@THEME_CSS@ {
+    position: relative; 
+    padding: 1px 0px;
+
+    /* If you change these, then you MUST change the defaults in the javascript
+       to be the absolute values of these */
+    left: -5px;  /* horizontal offset from shadow */
+    top: -5px;   /* vertical offset from shadow */
+}
+
+ul.MenuItems@THEME_CSS@, ul.MenuItems@THEME_CSS@ ul {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+ul.MenuItems@THEME_CSS@ {
+    position: relative;
+    top: 0px;
+    left: 0px;
+}
+
+ul.MenuItems@THEME_CSS@ li .MenuItemSeparator@THEME_CSS@ {
+    margin:0 0.5em;
+}
+
+ul.MenuItems@THEME_CSS@ ul li {
+    padding:0;
+}
+
+ul.MenuItems@THEME_CSS@ li .MenuItem@THEME_CSS@,          /* 1st-level menu item */ 
+ul.MenuItems@THEME_CSS@ li .MenuItemDisabled@THEME_CSS@,
+ul.MenuItems@THEME_CSS@ ul li .MenuItem@THEME_CSS@,       /* 2nd-level menu item in 1st-level optgroup */
+ul.MenuItems@THEME_CSS@ ul li .MenuItemDisabled@THEME_CSS@,
+ul.MenuItems@THEME_CSS@ li .MenuOptGroupHeader@THEME_CSS@ {  /* 1st-level optgroup header */
+    margin: 0.3em 0;
+    height: 1.3em;
+}
+
+ul.MenuItems@THEME_CSS@ li .MenuItem@THEME_CSS@,             /* 1st-level menu item */
+ul.MenuItems@THEME_CSS@ li .MenuItemDisabled@THEME_CSS@,
+ul.MenuItems@THEME_CSS@ li .MenuOptGroupHeader@THEME_CSS@ {  /* 1st-level optgroup header */
+    padding: 0px 5px;
+}
+
+.MenuItemWidget@THEME_CSS@, .NoMenuItemWidget@THEME_CSS@ {
+    margin-top: 0.15em;  /* depends on final image height */
+    width: 12px;
+    float: left;
+}
+
+.MenuItemWidget@THEME_CSS@ {
+    height: 14px;
+}
+
+.NoMenuItemWidget@THEME_CSS@ {
+    height: 1px;
+}
+
+.MenuItemLabel@THEME_CSS@ {
+    display: block;
+    margin-left: 5px;
+    float: left;
+}
+
+.MenuItemAccel@THEME_CSS@ {  /* Accelerators not currently supported */
+    float: right;
+}
+
+.MenuItemSubmenu@THEME_CSS@, .NoMenuItemSubmenu@THEME_CSS@ {
+    margin-top: .3em;
+    margin-left: 5px;
+    width: 7px;
+    float: right;
+}
+
+.MenuItemSubmenu@THEME_CSS@ {
+    height: 7px;
+}
+
+.NoMenuItemSubmenu@THEME_CSS@ {
+    height: 1px;
+}
+
+ul.MenuItems@THEME_CSS@ ul li .MenuItem@THEME_CSS@ .MenuItemLabel@THEME_CSS@,  /* 2nd-level menu item label under 1st-level optgroup header */
+ul.MenuItems@THEME_CSS@ ul li .MenuItemDisabled@THEME_CSS@ .MenuItemLabel@THEME_CSS@ {
+    margin: 0 1.0em;
+}
 
 /* COMMON TASKS */
 .commonTaskSection_4@THEME_CSS@ {

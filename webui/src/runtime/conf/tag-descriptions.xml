@@ -4470,7 +4470,7 @@ as follows: </p>
  enctype="application/x-www-form-urlencoded">
   <select class="MnuJmp_sun4" id="menuform1:action_list" size="1"
  onchange="webui.suntheme.jumpDropDown.changed('menuform1:action');  return false;">
-  <option class="MnuJmpOpt_sun4" value="">— More Actions —</option>
+  <option class="MnuJmpOpt_sun4" value="">��� More Actions ���</option>
   <option class="MnuJmpOpt_sun4" value="Action1">Action 1</option>
   <option class="MnuJmpOptDis_sun4" value="Action2" disabled="disabled">Action
 2</option>
@@ -9584,7 +9584,328 @@ changed to value " + menu.getValue();<br>
  style="font-family: monospace;"></span></b>
 ]]></description>
     </tag>
+<tag>
+    <name>
+        menu
+    </name>
+    <description><![CDATA[
+    <pre>
+     The <code>webuijsf:menu</code> tag is used to display a set of selectable items in the form of a  menu.
+     The options to be displayed can be specified using the "items" attribute of the component.
+     Each option should be represented by a <code>com.sun.webui.jsf.model.Option</code> instance.
+     Options can also be grouped together based on some common functionality in which case, the 
+     <code>com.sun.webui.jsf.model.OptionGroup</code> should be used for specifying the options.
+  
+     The popupMenu will not be visible by default, but can be shown by calling the <code>open</code>
+     method on the popupMenu widget when any of the components on the page is clicked.
+     The open method used to display the popup menutakes an event attribute as an argument. This "event" attribute 
+     is the event that is generated when some keyboard or mouse action  happens on the web page
+     such as the "click" of a hyperlink. In this case if the style attribtute with menu positioning is defined, 
+     the popupMenu widget will use that to position itself on the page. If not, it will use the event attribute
+     which is passed on as argument . Clicking on an option or anywhere else inside the page
+     will cause the menu to close. Also, if another menu is opened, then the existing menu that is open, if any 
+     will close so that only one menu can be open at any given point of time. Note that a popup menu is not
+     associated with any component present in the page. Hence, the same menu can be used along with different
+     components present in the page. Note that however, in any case only the last selected item will be
+     maintained with the menu irrespective of the number of components it is used with.
 
+     Note that each option is uniquely identified by the value assigned to it. Hence, the value assigned to each
+     option has to be unique among the whole list of options including groups. The labels however may contain
+     duplicate values depending on the needs.
+      
+     Whenever an option is clicked, you can access the selected option through the getSelectedValue interface
+     available on the menu's dom element. This is the default behavior of the menu element.
+     The default behavior does not have any form of communcation with the server to inform of the selected state.
+     If a communication needs to be made to the server to inform of the selected value of the popupMenu component
+     then 
+     
+  i) Use domNode.submit() :- The menu element has a submit() function set on its dom. Invoking this function
+     will cause the menu widget to send an asynchronous request to the server and cause the menu component
+     to update itself. The menu widget in this case, appends an attribute called value to the dynamic faces
+     request made. The <code>com.sun.webui.jsf.renderkit.ajax.MenuRenderer</code> will in this case look for 
+     this particular value and update itself accordingly.
+  
+  ii) Set the submitForm attribute to true:- This will cause the menu component to submit the form whenever an
+     option is selected in the menu. All the elements in the form will be submitted and all the components present
+     in the form will go through the normal JSF processing lifecycle. 
+     The menu widget in this case will submit the value of the selected option similar to the way the hyperlink widget
+     submits the form. It will append the selected value as a request parameter with the key being the client id of 
+     the menu appended with a "_submittedValue" suffix.
+  
+  NOTE:- 
+   To obtain the value of the option that was clicked in the menu widget, use the eventListenerExpression attribute
+   and invoke the getSelectedOption method on the MenuEvent object that is passed as an argument to this method binding
+</pre>
+<br><br>    
+    <h3><a name="facets"></a>Facets</h3>
+None.<br>
+<h3>Theme Identifiers</h3>
+<p>None.</p><br>
+<h3>Client Side Javascript Functions</h3>
+When the component is rendered, a DOM object corresponding to the
+component is created. To manipulate the component on the client side,
+you may invoke functions on the DOM object.<br>
+<br>
+
+<table style="text-align: left; width: 100%;" border="1" cellpadding="2"
+ cellspacing="2">
+  <tbody>
+    <tr>
+      <td><code>getProps()</code></td>
+      <td>Use this function to get widget properties. Please see <code>setProps()</code>
+function for a list of supported properties.</td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top;"><code>refresh(execute)</code><br>
+      </td>
+      <td style="vertical-align: top;">Use this function to
+asynchronously refresh the component.<br>
+      <ul>
+        <li>[optional] execute: Comma separated string containing a
+list of client
+ids against which the <code>execute</code> portion of the request
+processing lifecycle must be run.</li>
+      </ul>
+      </td>
+    </tr>
+    <tr>
+      <td><code>setProps(props)</code></td>
+      <td>Use this function to change any of the following supported
+properties:<br>
+      <ul>
+  <li>accessKey</li>
+   <li>className</li>
+   <li>dir</li>
+   <li>id</li>
+   <li>onBlur</li>
+   <li>options</li>
+   <li>onClick</li>
+   <li>onDblClick</li>
+   <li>onFocus</li>
+   <li>onKeyDown</li>
+   <li>onKeyPress</li>
+   <li>onKeyUp</li>
+   <li>onMouseDown</li>
+   <li>onMouseOut</li>
+   <li>onMouseOver</li>
+   <li>onMouseUp</li>
+   <li>onMouseMove</li>
+   <li> submitForm</li>
+  <li>style</li>
+  <li>title</li>
+  <li>visible</li>
+      </ul>
+      <br>
+      </td>
+    </tr>
+        <tr>
+      <td style="vertical-align: top;"><code>submit(execute)</code><br>
+      </td>
+      <td style="vertical-align: top;">Use this function to asynchronously
+      submit the component..<br>
+      <ul>
+        <li>[optional] execute: Comma separated string containing a list 
+        of client ids against which the <code>execute</code> portion of the request processing
+        lifecycle must be run. If omitted, the component on which the function
+        has been invoked, is submitted.</li>
+      </ul>
+      </td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top;"><code>getSelectedValue()</code><br>
+      <td style="vertical-align: top;">Use this function to get the selected
+      item in the menu.<br></td>
+      </tr>
+      <tr>
+      <td style="vertical-align: top;">open(event)</td>
+      <td style="vertical-align: top;">Available if you have set the popup attribute
+      to true. In this case, you can invoke a menu for a particular component when
+      it is clicked by calling the open function on the menu. The event object that
+      is generated when the click event happens is to be passed on as argument.
+      </td>
+      </tr>
+      <tr>
+      <td style="vertical-align: top;">close</td>
+      <td style="vertical-align: top;">Invoke this function if you want to close
+      the menu at any point of time.</td>
+      </tr>
+  </tbody>  
+</table>
+
+<h3>Client Side JavaScript Events</h3>
+<p>
+When the component is manipulated client side, some functions may
+publish event topics for custom AJAX implementations to listen for.
+Using the Dojo event system, listen for the refresh event topic using:<br>
+<br>
+<code>
+&lt;webuijsf:script&gt;<br>
+&nbsp;&nbsp;&nbsp; var processEvents =
+{&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; update: function(props) {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; //
+Do something...<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; }<br>
+&nbsp;&nbsp;&nbsp; }<br>
+<br>
+&nbsp;&nbsp;&nbsp; // Subscribe to refresh event.<br>
+&nbsp;&nbsp;&nbsp;
+<code><br>
+// For popupMenu widgets (popup = true) it would be
+dojo.event.topic.subscribe(webui.suntheme.widget.popupMenu.&lt;eventname&gt;.endTopic,
+processEvents, "update");</code><code><br>
+<br>
+</code><code>
+&lt;/webuijsf:script&gt;<br>
+</code></p>
+
+<table border="1">
+  <tbody>
+        <tr>
+      <td> webui.suntheme.widget.popupMenu.event.refresh.beginTopic</td>
+      <td> Event topic published before asynchronously refreshing the
+popupMenu widget. Supported properties include:
+      <ul>
+        <li>[optional] execute - list of the components to be executed
+along with
+this component</li>
+        <li>id - The client id to process the event for</li>
+      </ul>
+      </td>
+    </tr>
+    <tr>
+      <td> webui.suntheme.widget.popupMenu.event.refresh.endTopic</td>
+      <td>
+      <p>Event topic published after asynchronously refreshing the
+popupMenu widget. Supported properties include:</p>
+      <ul>
+        <li> props - JSON object containing properties of the
+component. See
+setProps() function for details on properties and their usage </li>
+      </ul>
+      </td>
+    </tr>
+    <tr>
+      <td> webui.suntheme.widget.popupMenu.event.submit.beginTopic</td>
+      <td>Event topic published before asynchronously submitting the
+popupMenu widget. Supported properties include: <br>
+      <ul>
+        <li>[optional] execute - list of the components to be executed
+along with
+this component</li>
+        <li>id - The client id to process the event for<br>
+        </li>
+      </ul>
+      </td>
+    </tr>
+    <tr>
+      <td> webui.suntheme.widget.popupMenu.event.submit.endTopic</td>
+      <td>
+      <p>Event topic published after asynchronously submitting the
+popupMenu widget. Supported properties include:</p>
+      <ul>
+        <li> props - JSON object containing messages (if any) raised by
+the
+server. </li>
+      </ul>
+      </td>
+    </tr>
+
+  </tbody>
+</table>
+
+<h3>Examples</h3>
+<code></code>
+<h4>Example 1: Creating a popup menu </h4>
+        <pre>&lt;webuijsf:actionenu id="popup1" items="#{popUp.optionItems1}" eventListener="#{popUp.selectedItem}"  onChange="setTimeout('changeEvent();', 0);"/&gt;
+         &lt;webuijsf:textField id="verifier" label="Selected item:" text="#{popUp.selectedItem}" disabled="true"/&gt;
+<br />
+    &lt;webuijsf:button id="button3" style="position:absolute;top:400px;left:600px" text="Change option for this menu" onClick="clientUpdate();return false;"/&gt;
+         &lt;script type="text/javascript"&gt;
+            function changeEvent() {
+              document.getElementById("form1:popup1").submit(); // submit the selected value
+              var domNode = document.getElementById("form1:verifier"); 
+              domNode.refresh(); // show the selected value in a text field.
+            }
+        function changeDisabled() {
+            var menu = document.getElementById("form1:popup1");
+            if (menu != null) {
+                var options = menu.getProps().options;
+                options[0].disabled = !options[0].disabled;
+                menu.setProps({options:options});
+            }        
+        }
+            &lt;/script&gt;        
+         </pre>
+        <h4> Backing bean for the above menu</h4>
+        <pre>
+        public class PopUp {
+        private Option OptionItems[];
+        private Option groupOptions[];
+    
+        public PopUp() {
+        OptionItems = new Option[5];
+        OptionItems[0] = new Option("Copy", "Copy");
+        OptionItems[0].setSeparator(true);
+        OptionItems[0].setImage("/images/copy.gif");
+        OptionItems[1] = new Option("Paste", "Paste");
+        OptionItems[1].setImage("/images/paste.gif");        
+        OptionItems[1].setSeparator(true);
+        OptionItems[2] = new Option("Undo", "Undo");
+        OptionItems[2].setSeparator(true);
+        OptionItems[4] = new Option("Print", "Print");
+        OptionItems[4].setSeparator(true);
+        OptionItems[4].setDisabled(true);
+        groupOptions = new Option[2];
+        groupOptions[0] = new Option("Ascending", "Ascending");
+        groupOptions[1] = new Option("Descending", "Descending");        
+        group = new OptionGroup();
+        group.setValue("Sort");
+        group.setLabel("Sort By");
+        group.setOptions(groupOptions);
+        OptionItems[3] = group;
+        OptionItems[3].setSeparator(true);        
+        }
+        
+    public Option[] getOptionItems() {
+        return this.OptionItems;
+    }
+
+    public void setOptionItems(Option[] OptionItems) {
+        this.OptionItems = OptionItems;
+    }
+    
+    public String getSelectedItem() {
+        return this.text;
+    }
+    
+    public void setSelectedItem(String text) {
+        this.text = text;
+    }
+    
+    public String selectedAction() {
+        if(outcome.equalsIgnoreCase("Copy")) {
+            return "indexPage";
+        }
+        if(outcome.equalsIgnoreCase("Paste")) {
+            return "hyperlinkPage";
+        }        
+        return null;
+    }
+    
+    public void selectOption(com.sun.webui.jsf.event.MenuEvent ae) {
+        this.text = ae.getSelectedOption();
+        outcome = text;
+    }
+    
+    </pre>
+    
+   ]]>
+
+
+    </description>
+</tag>
     <tag>
         <name>pageAlert</name>
 

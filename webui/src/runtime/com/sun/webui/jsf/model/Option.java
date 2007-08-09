@@ -40,6 +40,7 @@ public class Option extends SelectItem {
 	private int imageHeight = -1;
 	private String imageAlt;
 	private String tooltip;
+        private boolean separator;        
 
 	/**
 	 * Create an instance of Selection.
@@ -155,4 +156,19 @@ public class Option extends SelectItem {
 	public void setTooltip(String tooltip) {
 	    this.tooltip = tooltip;
 	}
+        
+    /**
+     * Return the state of the separator.
+     */
+    public boolean getSeparator() {
+        return this.separator;
+    }
+    
+    /**
+     * Sets the state of the separator.
+     */
+    public void setSeparator(boolean separator) {
+        this.separator = separator;
+    }
+            
 }

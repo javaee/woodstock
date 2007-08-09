@@ -49,6 +49,7 @@ dojo.requireIf(djConfig.isDebug, "webui.@THEME@.widget.jsfx.imageButton");
 dojo.requireIf(djConfig.isDebug, "webui.@THEME@.widget.jsfx.imageHyperlink");
 dojo.requireIf(djConfig.isDebug, "webui.@THEME@.widget.jsfx.label");
 dojo.requireIf(djConfig.isDebug, "webui.@THEME@.widget.jsfx.listbox");
+dojo.requireIf(djConfig.isDebug, "webui.@THEME@.widget.jsfx.popupMenu");
 dojo.requireIf(djConfig.isDebug, "webui.@THEME@.widget.jsfx.progressBar");
 dojo.requireIf(djConfig.isDebug, "webui.@THEME@.widget.jsfx.radioButton");
 dojo.requireIf(djConfig.isDebug, "webui.@THEME@.widget.jsfx.radioButtonGroup");

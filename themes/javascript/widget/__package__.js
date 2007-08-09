@@ -34,6 +34,7 @@ dojo.kwCompoundRequire({
 // files are accessible to JavaScript debuggers.
 dojo.requireIf(djConfig.isDebug, "webui.@THEME@.widget.accordion");
 dojo.requireIf(djConfig.isDebug, "webui.@THEME@.widget.accordionTab");
+dojo.requireIf(djConfig.isDebug, "webui.@THEME@.widget.menuBase");
 dojo.requireIf(djConfig.isDebug, "webui.@THEME@.widget.alarm");
 dojo.requireIf(djConfig.isDebug, "webui.@THEME@.widget.anchor");
 dojo.requireIf(djConfig.isDebug, "webui.@THEME@.widget.alert");
@@ -53,6 +54,7 @@ dojo.requireIf(djConfig.isDebug, "webui.@THEME@.widget.imageButton");
 dojo.requireIf(djConfig.isDebug, "webui.@THEME@.widget.imageHyperlink");
 dojo.requireIf(djConfig.isDebug, "webui.@THEME@.widget.label");
 dojo.requireIf(djConfig.isDebug, "webui.@THEME@.widget.listbox");
+dojo.requireIf(djConfig.isDebug, "webui.@THEME@.widget.popupMenu");
 dojo.requireIf(djConfig.isDebug, "webui.@THEME@.widget.progressBar");
 dojo.requireIf(djConfig.isDebug, "webui.@THEME@.widget.radioButton");
 dojo.requireIf(djConfig.isDebug, "webui.@THEME@.widget.radioButtonGroup");
