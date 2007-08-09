@@ -1,4 +1,4 @@
-//<!--
+//
 // The contents of this file are subject to the terms
 // of the Common Development and Distribution License
 // (the License).  You may not use this file except in
@@ -23,18 +23,16 @@
 dojo.provide("webui.@THEME@.widget.popupMenu");
 
 dojo.require("dojo.widget.*");
-dojo.require("dojo.uri.Uri");
 dojo.require("webui.@THEME@.*");
 dojo.require("webui.@THEME@.widget.*");
-dojo.require("webui.@THEME@.browser");
 dojo.require("webui.@THEME@.widget.menuBase");
+
 /**
  * This function is used to generate a template based widget.
  *
  * Note: This is considered a private API, do not use.
  */
 webui.@THEME@.widget.popupMenu = function() {
-    
     // Register widget.
     dojo.widget.HtmlWidget.call(this);
 }
@@ -43,12 +41,17 @@ webui.@THEME@.widget.popupMenu = function() {
  * Close the menu. Sets the visibility to false.
  */
 webui.@THEME@.widget.popupMenu.close = function() {
-  if (webui.@THEME@.common.isVisibleElement(this.domNode)) {
-      this.domNode.setProps({visible:false});
-  }
+    if (webui.@THEME@.common.isVisibleElement(this.domNode)) {
+        this.domNode.setProps({visible: false});
+    }
     return false;    
 }
 
+/**
+ * Helper function to create callback to close menu.
+ *
+ * @param id The HTML element id used to invoke the callback.
+ */
 webui.@THEME@.widget.popupMenu.createCloseMenuCallBack = function(id) {
     if (id == null) {
         return null;
@@ -68,7 +71,7 @@ webui.@THEME@.widget.popupMenu.createCloseMenuCallBack = function(id) {
         evt = (event) ? event : ((window.event) ? window.event : null);
         var target = (evt.target) ? evt.target : ((evt.srcElement) ? evt.srcElement : null);
         
-       // If key pressed and it's NOT the escape key, do NOT cancel.
+        // If key pressed and it's NOT the escape key, do NOT cancel.
         if ((evt.type == "keydown") && (evt.keyCode != 27)) {
             return;
         }
@@ -82,6 +85,7 @@ webui.@THEME@.widget.popupMenu.createCloseMenuCallBack = function(id) {
             }
             target = target.parentNode;
         }
+
         // The above will not catch events on IE which occur on menuitem seperators
         // or empty space between menuitems.                
         var menuLeft = menu.offsetLeft;        
@@ -109,12 +113,15 @@ webui.@THEME@.widget.popupMenu.createCloseMenuCallBack = function(id) {
         }
         if ((evt.type == "keydown" && evt.keyCode == 27)
                 || evt.type == "click") {
-                widget.close();
+            widget.close();
         }
         return true;
     };
 }
 
+/**
+ * This closure is used to process widget events.
+ */
 webui.@THEME@.widget.popupMenu.event = {
     /**
      * This closure is used to process refresh events.
@@ -156,9 +163,8 @@ webui.@THEME@.widget.popupMenu.event = {
          * must be run.
          */
         processEvent: function(execute) {
-
             // Include default AJAX implementation.
-            this.ajaxify("webui.@THEME@.widget.jsfx.popupMenu");
+            this.ajaxify();
 
             // Publish an event for custom AJAX implementations to listen for.
             dojo.event.topic.publish(
@@ -166,34 +172,38 @@ webui.@THEME@.widget.popupMenu.event = {
                     id: this.id,
                     execute: execute,
                     value: this.getSelectedValue(),
-                    endTopic: webui.@THEME@.widget.popupMenu.submit.endTopic
+                    endTopic: webui.@THEME@.widget.popupMenu.event.submit.endTopic
                 });
             return true;
         }
-    },
-
+    }
 }
 
 /**
- * This function is used to fill a template with widget properties.
+ * This function is used to fill in template properties.
  *
- * Note: Anything to be set only once should be added here; otherwise, the
- * setProps() function should be used to set properties.
+ * Note: This is called after the buildRendering() function. Anything to be set 
+ * only once should be added here; otherwise, use the _setProps() function.
+ *
+ * @param props Key-Value pairs of properties.
+ * @param frag HTML fragment.
  */
 webui.@THEME@.widget.popupMenu.fillInTemplate = function(props, frag) {
+    webui.@THEME@.widget.popupMenu.superclass.fillInTemplate.call(this, props, frag);
     
     // Set public functions.
     this.domNode.open = function(event) { return dojo.widget.byId(this.id).open(event); }
-    this.domNode.close = function() { return dojo.widget.byId(this.id).close(); }    
+    this.domNode.close = function() { return dojo.widget.byId(this.id).close(); }
+
+    // Set events.s
     dojo.event.connect(document, "onclick", 
         webui.@THEME@.widget.popupMenu.createCloseMenuCallBack(this.id)); 
             
     // escape key should also close menu.
     dojo.event.connect(document, "onkeydown", 
         webui.@THEME@.widget.popupMenu.createCloseMenuCallBack(this.id));               
-    
-    // Set common functions.
-    return webui.@THEME@.widget.popupMenu.superclass.fillInTemplate.call(this, props, frag);
+
+    return true;
 }
 
 /**
@@ -205,15 +215,17 @@ webui.@THEME@.widget.popupMenu.fillInTemplate = function(props, frag) {
  * @param frag HTML fragment.
  * @param parent The parent of this widget.
  */
-webui.@THEME@.widget.popupMenu.initialize = function(props, frag, parent) {    
-// Default widths of the drop shadow on each side of the menu.  These MUST be in pixel
-    // units and MUST match the absolute values of the left/top styles of the "Menu" style
-    // class in the CSS.
+webui.@THEME@.widget.popupMenu.initialize = function(props, frag, parent) {
+    webui.@THEME@.widget.popupMenu.superclass.initialize.call(this, props, frag, parent);
+
+    // Default widths of the drop shadow on each side of the menu.  These MUST 
+    // be in pixel units and MUST match the absolute values of the left/top 
+    // styles of the "Menu" style class in the CSS.
     this.rightShadow = webui.@THEME@.widget.props.menu.rightShadow;
     this.bottomShadow = webui.@THEME@.widget.props.menu.bottomShadow;
     this.shadowContainer.className = webui.@THEME@.widget.props.menu.shadowContainerClassName;    
-    return webui.@THEME@.widget.popupMenu.superclass.initialize.call(this, 
-    props, frag, parent);
+
+    return true;
 }
 
 /**
@@ -221,11 +233,9 @@ webui.@THEME@.widget.popupMenu.initialize = function(props, frag, parent) {
  * as an argument.It calculates the position where the menu is to be displayed
  * at if one is not already provided by the developer.
  */
-
 webui.@THEME@.widget.popupMenu.open = function(evt) {
-    
-   // Only one menu can be open at a time. Hence, close the previous menu
-   // that was open in the form.
+    // Only one menu can be open at a time. Hence, close the previous menu
+    // that was open in the form.
     var form = document.getElementById(this.formId);
     if (form != null) {
         if (form.menu != null) {
@@ -236,14 +246,13 @@ webui.@THEME@.widget.popupMenu.open = function(evt) {
     evt.cancelBubble = true;
 
     // If menu already rendered, do nothing.
-     if (webui.@THEME@.common.isVisibleElement(this.domNode)) {
+    if (webui.@THEME@.common.isVisibleElement(this.domNode)) {
         return false;
     }
         
     // Check if developer defined styles are set on the widget.
     if (this.style != null) {
-
-       // Mozilla browsers will tell us which styles are set.  If they're not
+        // Mozilla browsers will tell us which styles are set.  If they're not
         // in the list, then the styles appear to be undefined.
         if (this.domNode.style.length != null) {
             for (var i = 0; i < this.domNode.style.length; i++) {
@@ -264,7 +273,7 @@ webui.@THEME@.widget.popupMenu.open = function(evt) {
             
     // Render the menu.  Must do this here, else target properties referenced
     // below will not be valid.
-      this.domNode.setProps({visible:true});
+    this.domNode.setProps({visible:true});
       
     // If specific positioning specified, then simply use it.  This means
     // no provisions are made to guarantee the menu renders in the viewable area.
@@ -272,7 +281,6 @@ webui.@THEME@.widget.popupMenu.open = function(evt) {
         this.domNode.style.left = this.left;
         this.domNode.style.top = this.top;
     } else {
-
         // No positioning specified, so we calculate the optimal position to guarantee
         // menu is fully viewable.
         // Get the absolute position of the target.
@@ -290,12 +298,11 @@ webui.@THEME@.widget.popupMenu.open = function(evt) {
         var rightEdge = menuLeft + this.domNode.offsetWidth;
         var pageWidth = webui.@THEME@.widget.common.getPageWidth();
         if (rightEdge > pageWidth) {
-
             // Shift menu left just enough to bring it into view.
             menuLeft -= (rightEdge - pageWidth);
         }
         
-        //Shift menu to account for horizontal scrolling.
+        // Shift menu to account for horizontal scrolling.
         if ((window.pageXOffset != null) && (window.pageXOffset > 0)) {
             menuLeft += window.pageXOffset;
         }
@@ -315,7 +322,7 @@ webui.@THEME@.widget.popupMenu.open = function(evt) {
         // Assume default vertical position is to position menu below target.
         var menuTop = targetTop + this.target.offsetHeight + this.bottomShadow;
         
-        //Shift menu to account for vertical scrolling.
+        // Shift menu to account for vertical scrolling.
         if ((window.pageYOffset != null) && (window.pageYOffset > 0)) {
             menuTop += window.pageYOffset;
         }
@@ -326,10 +333,10 @@ webui.@THEME@.widget.popupMenu.open = function(evt) {
         (document.documentElement.scrollTop > 0)) {
             menuTop += document.documentElement.scrollTop;
         }
+
         // Check if bottom edge of menu exceeds page boundary.
         var bottomEdge = menuTop + this.domNode.offsetHeight - this.bottomShadow;
         if (bottomEdge > webui.@THEME@.widget.common.getPageHeight()) {
-
             // Shift menu to top of target.
             menuTop = targetTop - this.domNode.offsetHeight;
 
@@ -342,19 +349,10 @@ webui.@THEME@.widget.popupMenu.open = function(evt) {
         }
 
         // Set new menu position.
-         
         this.domNode.style.left = menuLeft + "px";
         this.domNode.style.top = menuTop + "px";
-        return false;
+        return true;
     }
-}
-
-/**
- * This closure is used to process submit events.
- */
-webui.@THEME@.widget.popupMenu.submit = {
-    
-
 }
 
 /**
@@ -366,22 +364,20 @@ webui.@THEME@.widget.popupMenu.processOnClickEvent = function(value) {
     return true;
 }
 
-
 // Inherit base widget properties.
 dojo.inherits(webui.@THEME@.widget.popupMenu, webui.@THEME@.widget.menuBase);
 
 // Override base widget by assigning properties to class prototype.
 dojo.lang.extend(webui.@THEME@.widget.popupMenu, {
     // Set private functions.
-    fillInTemplate: webui.@THEME@.widget.popupMenu.fillInTemplate,
-    open: webui.@THEME@.widget.popupMenu.open,
     close: webui.@THEME@.widget.popupMenu.close,
+    fillInTemplate: webui.@THEME@.widget.popupMenu.fillInTemplate,
+    initialize: webui.@THEME@.widget.popupMenu.initialize,
+    open: webui.@THEME@.widget.popupMenu.open,
     processOnClickEvent: webui.@THEME@.widget.popupMenu.processOnClickEvent,
-    initialize: webui.@THEME@.widget.popupMenu.initialize, 
-    submit: webui.@THEME@.widget.popupMenu.event.submit.processEvent,    
+    submit: webui.@THEME@.widget.popupMenu.event.submit.processEvent,
+
     // Set defaults.
     event: webui.@THEME@.widget.popupMenu.event,
     widgetType: "popupMenu"    
 });
-
-//-->

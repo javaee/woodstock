@@ -251,74 +251,6 @@ webui.@THEME@.widget.common = {
     },
     
     /**
-     * Find absolute position of an object relative to the browser window.
-     *
-     * @param domNode   object to compute absolute position for
-     * @return      an array containing the absolute left and top position of the domNode
-     */
-    getPosition: function(domNode) {
-        var curleft = curtop = 0;
-        if (domNode.offsetParent) {
-            curleft = domNode.offsetLeft
-            curtop = domNode.offsetTop
-            while (domNode = domNode.offsetParent) {
-                curleft += domNode.offsetLeft
-                curtop += domNode.offsetTop
-            }
-        }
-        return [curleft,curtop];
-        },
-
-    /**
-     * Wrapper function to return the page height, handling standard noise
-     * to mitigate browser differences.
-     *
-     * @return  the page height
-     */
-    getPageHeight: function() {
-
-        // Mozilla browsers
-        if (window.innerHeight) {
-            return window.innerHeight;
-        }
-
-        // IE strict mode
-        if (document.documentElement.clientHeight > 0) {
-            return document.documentElement.clientHeight; 
-        }                
-
-        // IE quirks mode.
-        if (document.body.clientHeight) {
-            return document.body.clientHeight;
-        }
-        return (null);
-    },
-
-    /**
-     * Wrapper function to return the page width, handling standard noise
-     * to mitigate browser differences.
-     *
-     * @return  the page width
-     */
-    getPageWidth: function() {
-        if (window.innerWidth) {
-            return window.innerWidth;
-        }
-
-        // IE strict mode
-        if (document.documentElement.clientWidth > 0) {
-            return document.documentElement.clientWidth; 
-        }
-
-        // IE quirks mode.
-        if (document.body.clientWidth) {
-            return document.body.clientWidth;
-        }
-        return (null);
-    },
-
-
-    /**
      * This function returns Object literals for a theme based image widget.
      *
      * It adds the necessary "module" and "widgetName" and theme properties for
@@ -342,6 +274,69 @@ webui.@THEME@.widget.common = {
             webui.@THEME@.widget.common.extend(image, props);
         }
         return image;
+    },
+
+    /**
+     * Get array containing the absolute left and top position of the given DOM
+     * node relative to the browser window.
+     *
+     * @param domNode The DOM node compute position for.
+     */
+    getPosition: function(domNode) {
+        var leftPos = topPos = 0;
+        if (domNode.offsetParent) {
+            leftPos = domNode.offsetLeft;
+            topPos = domNode.offsetTop;
+            while (domNode = domNode.offsetParent) {
+                leftPos += domNode.offsetLeft;
+                topPos += domNode.offsetTop;
+            }
+        }
+        return [leftPos, topPos];
+    },
+
+    /**
+     * Get the page height, handling standard noise to mitigate browser
+     * differences.
+     */
+    getPageHeight: function() {
+        // Mozilla browsers.
+        if (window.innerHeight) {
+            return window.innerHeight;
+        }
+
+        // IE strict mode
+        if (document.documentElement.clientHeight > 0) {
+            return document.documentElement.clientHeight; 
+        }                
+
+        // IE quirks mode.
+        if (document.body.clientHeight) {
+            return document.body.clientHeight;
+        }
+        return null;
+    },
+
+    /**
+     * Get the page width, handling standard noise to mitigate browser 
+     * differences.
+     */
+    getPageWidth: function() {
+        // Mozilla browsers.
+        if (window.innerWidth) {
+            return window.innerWidth;
+        }
+
+        // IE strict mode.
+        if (document.documentElement.clientWidth > 0) {
+            return document.documentElement.clientWidth; 
+        }
+
+        // IE quirks mode.
+        if (document.body.clientWidth) {
+            return document.body.clientWidth;
+        }
+        return null;
     },
 
     /**

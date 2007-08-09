@@ -1,4 +1,4 @@
-//<!--
+//
 // The contents of this file are subject to the terms
 // of the Common Development and Distribution License
 // (the License).  You may not use this file except in
@@ -22,10 +22,8 @@
 
 dojo.provide("webui.@THEME@.widget.menuBase");
 dojo.require("dojo.widget.*");
-dojo.require("dojo.uri.Uri");
 dojo.require("webui.@THEME@.*");
 dojo.require("webui.@THEME@.widget.*");
-dojo.require("webui.@THEME@.browser");
 
 /**
  * This function is used to generate a template based widget.
@@ -39,12 +37,12 @@ webui.@THEME@.widget.menuBase = function() {
 
 /**
  * Add the specified options to the dom element.
+ *
  * @param props The JSON properties of the menu
  * @param menuNode The node to which the menu items are to be added
  * @param formId The id of the form.
  */
 webui.@THEME@.widget.menuBase.addOptions = function(props, menuNode, formId) {
-      
     var groupNode, optionNode, separator, sepNode;
     for (var i = 0; i < props.options.length; i++) {
         
@@ -52,8 +50,8 @@ webui.@THEME@.widget.menuBase.addOptions = function(props, menuNode, formId) {
         optionNode = this.optionContainer.cloneNode(false);   
         optionNode.id = this.id+"_"+props.options[i].label+"_container";                
         this.setOptionNodeProps(props.options[i], optionNode);
-        // Append the li element to the menu element.
-        
+
+        // Append the li element to the menu element.        
         menuNode.appendChild(optionNode);
         if (props.options[i].group == true) {
             optionNode.group = true;
@@ -63,7 +61,7 @@ webui.@THEME@.widget.menuBase.addOptions = function(props, menuNode, formId) {
             this.addOptions(props.options[i], groupNode, formId);
         }
          
-      // Create callback function for onClick event.
+        // Create callback function for onClick event.
         dojo.event.connect(optionNode, "onclick",
             webui.@THEME@.widget.menuBase.createOnClickCallback
             (this.id, optionNode.id, formId));
@@ -76,44 +74,19 @@ webui.@THEME@.widget.menuBase.addOptions = function(props, menuNode, formId) {
             }
             webui.@THEME@.common.setVisibleElement(separator, true);             
             menuNode.appendChild(separator);
-            
         }
     }
     return true;    
 }
 
 /**
- * Calculate the maximum width of menu to be set.
- * If a menu if at all contains a group, then set the containsGroup
- * attribute to true. This will help in adding an extra pixel width
- * while assigning the width of th menu. This is to account for the
- * indentation of the menu.
+ * The callback function for clicking on a menu item.
+ *
+ * @param menuId The id of th menu widget.
+ * @param optionId The id of the option element that is clicked
+ * @param formId The id of the form element.
  */
-
-webui.@THEME@.widget.menuBase.getMaxWidth = function(props) {
-    var menuWidth = 0;
-    var maxWidth = 0;
-    for (var i=0; i<props.length; i++) {
-         menuWidth = props[i].label.length;
-         if (menuWidth > maxWidth) {
-            maxWidth = menuWidth;
-         }
-         if (props[i].group) {
-            this.containsGroup = true;
-            maxWidth = this.getMaxWidth(props[i].options);
-         }
-    }
-    return maxWidth;
-}
-
- /**
-  * The callback function for clicking on a menu item.
-  * @param menuId The id of th menu widget.
-  * @param optionId The id of the option element that is clicked
-  * @param formId The id of the form element.
-  */
 webui.@THEME@.widget.menuBase.createOnClickCallback = function(menuId, optionId, formId) {
-    
     // Return if the menu id or the option id is null.
     if (menuId == null || optionId == null) {
         return null;
@@ -121,8 +94,7 @@ webui.@THEME@.widget.menuBase.createOnClickCallback = function(menuId, optionId,
     
     // New literals are created every time this function
     // is called, and it's saved by closure magic.
-    return function(event) { 
-        
+    return function(event) {
         // Get hold of the particular option element.
         var elem = document.getElementById(optionId);
         if (elem == null) {
@@ -141,70 +113,6 @@ webui.@THEME@.widget.menuBase.createOnClickCallback = function(menuId, optionId,
             widget.processOnClickEvent(val);
         }         
     }        
- }
-
-
-/**
- * This function is used to fill in template properties.
- *
- * Note: This is called after the buildRendering() function. Anything to be set 
- * only once should be added here; otherwise, use the _setProps() function.
- *
- * @param props Key-Value pairs of properties.
- * @param frag HTML fragment.
- */
-webui.@THEME@.widget.menuBase.fillInTemplate = function(props, frag) {
-    
-    // Set public functions.
-    this.domNode.getSelectedValue = function(props, optionNode) {return dojo.widget.byId(this.id).getSelectedValue(); }
-    this.domNode.submit = function(execute) { return dojo.widget.byId(this.id).submit(execute); } 
-        
-    // Set common functions.
-    return webui.@THEME@.widget.menuBase.superclass.fillInTemplate.call(this, props, frag);
-}
-
-/**
- * Set the appropriate class name on the menu item container.
- * @param menuItemContainer The container for the menu item
- * @param props The properties of the particular option
- */
-webui.@THEME@.widget.menuBase.setMenuNodeClassName = function(menuItemContainer, props) {
-
-    if (new Boolean(props.group).valueOf() == true) {
-        menuItemContainer.className = webui.@THEME@.widget.props.menu.menuHeaderClassName;
-    } else if(new Boolean(props.disabled).valueOf() == true) {
-        menuItemContainer.className = webui.@THEME@.widget.props.menu.disabledMenuItemClassName;
-    } else {
-        menuItemContainer.className = webui.@THEME@.widget.props.menu.menuItemClassName;        
-
-        // Apply an hack for IE for mouse hover on the div element since div:hover type
-        // of css declarations do not seem to work. onmouseover and onmouseout events
-        // are attached with the div element and a style class is applied each time a
-        // mouseover happens. This style represents the "hover" class.
-        // Note that the "this" in these functions represent the menuItem's "div" element
-        // and not the "menu" widget element.
-        if (webui.@THEME@.common.browser.is_ie5up) {
-            dojo.debug("Inside assignee functions");
-            dojo.event.connect(menuItemContainer, "onmouseover",
-                webui.@THEME@.widget.menuBase.createOnMouseOverCallBack(menuItemContainer));
-
-            dojo.event.connect(menuItemContainer, "onmouseout",
-                webui.@THEME@.widget.menuBase.createOnMouseOutCallBack(menuItemContainer));
-        }
-    }    
-}
-
-/**
- * Handles the on mouse over for each menuitem on IE
- */
-webui.@THEME@.widget.menuBase.createOnMouseOverCallBack = function(menuItem) {
-    if (menuItem == null) {
-        return;
-    }
-
-    return function() {
-        menuItem.className=menuItem.className+" "+webui.@THEME@.widget.props.menu.ieHoverClassName;            
-    }
 }
 
 /**
@@ -220,27 +128,58 @@ webui.@THEME@.widget.menuBase.createOnMouseOutCallBack = function(menuItem) {
 }
 
 /**
- * This function is used to initialize the widget.
+ * Handles the on mouse over for each menuitem on IE
+ */
+webui.@THEME@.widget.menuBase.createOnMouseOverCallBack = function(menuItem) {
+    if (menuItem == null) {
+        return;
+    }
+    return function() {
+        menuItem.className = menuItem.className + " " + 
+            webui.@THEME@.widget.props.menu.ieHoverClassName;            
+    }
+}
+
+/**
+ * Calculate the maximum width of menu to be set.
+ * If a menu if at all contains a group, then set the containsGroup
+ * attribute to true. This will help in adding an extra pixel width
+ * while assigning the width of th menu. This is to account for the
+ * indentation of the menu.
+ */
+webui.@THEME@.widget.menuBase.getMaxWidth = function(props) {
+    var menuWidth = 0;
+    var maxWidth = 0;
+    for (var i=0; i<props.length; i++) {
+         menuWidth = props[i].label.length;
+         if (menuWidth > maxWidth) {
+            maxWidth = menuWidth;
+         }
+         if (props[i].group) {
+            this.containsGroup = true;
+            maxWidth = this.getMaxWidth(props[i].options);
+         }
+    }
+    return maxWidth;
+}
+
+/**
+ * This function is used to fill in template properties.
  *
- * Note: This is called after the fillInTemplate() function.
+ * Note: This is called after the buildRendering() function. Anything to be set 
+ * only once should be added here; otherwise, use the _setProps() function.
  *
  * @param props Key-Value pairs of properties.
  * @param frag HTML fragment.
- * @param parent The parent of this widget.
  */
-webui.@THEME@.widget.menuBase.initialize = function(props, frag, parent) {
-    
-    // Try to set the width of the menu here.
-    this.maxWidth = this.getMaxWidth(props.options);
-     
-    if (this.containsGroup) {
-        this.maxWidth+=1;
-    }
-     //Account for images.
-     this.maxWidth += 1;
+webui.@THEME@.widget.menuBase.fillInTemplate = function(props, frag) {
+    webui.@THEME@.widget.menuBase.superclass.fillInTemplate.call(this, props, frag);
 
-    return webui.@THEME@.widget.menuBase.superclass.initialize.call(this, 
-    props, frag, parent);     
+    // Set public functions.
+    this.domNode.getSelectedValue = function(props, optionNode) { return dojo.widget.byId(this.id).getSelectedValue(); }
+    this.domNode.submit = function(execute) { return dojo.widget.byId(this.id).submit(execute); } 
+        
+    return true;
 }
 
 /**
@@ -267,6 +206,31 @@ webui.@THEME@.widget.menuBase.getSelectedValue = function() {
 }
 
 /**
+ * This function is used to initialize the widget.
+ *
+ * Note: This is called after the fillInTemplate() function.
+ *
+ * @param props Key-Value pairs of properties.
+ * @param frag HTML fragment.
+ * @param parent The parent of this widget.
+ */
+webui.@THEME@.widget.menuBase.initialize = function(props, frag, parent) {
+    webui.@THEME@.widget.menuBase.superclass.initialize.call(this, props, frag, parent);
+
+    // Try to set the width of the menu here.
+    this.maxWidth = this.getMaxWidth(props.options);
+     
+    if (this.containsGroup) {
+        this.maxWidth+=1;
+    }
+
+    // Account for images.
+    this.maxWidth += 1;
+
+    return true;
+}
+
+/**
  * This function executes the onchange and onclick event handlers if provided by the developer.
  * It then either submits the form if submitForm attribute is specified to true
  */
@@ -276,21 +240,106 @@ webui.@THEME@.widget.menuBase.processOnClickEvent = function(value) {
     if (this._onclick) {
         clickResult = (this._onclick) ? this._onclick() : true;
     }
+
     var x = this.getSelectedValue();
     var bool = (value == this.getSelectedValue());
     if (this._onchange && !bool) {    
-       // If function returns false, we must prevent the request.       
+        // If function returns false, we must prevent the request.       
         changeResult = (this._onchange) ? this._onchange() : true;
     }
     this.setSelectedValue(value);
+
     // Functions may sometime return without a value in which case the value
     // of the boolean variable may become undefined. 
     if (clickResult != false && changeResult != false) {
         if (this.submitForm) {
             this.submitMenuForm();
         }  
-     }
-     return true;
+    }
+    return true;
+}
+
+/**
+ * Set the appropriate class name on the menu item container.
+ * @param menuItemContainer The container for the menu item
+ * @param props The properties of the particular option
+ */
+webui.@THEME@.widget.menuBase.setMenuNodeClassName = function(menuItemContainer, props) {
+    if (new Boolean(props.group).valueOf() == true) {
+        menuItemContainer.className = webui.@THEME@.widget.props.menu.menuHeaderClassName;
+    } else if(new Boolean(props.disabled).valueOf() == true) {
+        menuItemContainer.className = webui.@THEME@.widget.props.menu.disabledMenuItemClassName;
+    } else {
+        menuItemContainer.className = webui.@THEME@.widget.props.menu.menuItemClassName;        
+
+        // Apply an hack for IE for mouse hover on the div element since div:hover type
+        // of css declarations do not seem to work. onmouseover and onmouseout events
+        // are attached with the div element and a style class is applied each time a
+        // mouseover happens. This style represents the "hover" class.
+        // Note that the "this" in these functions represent the menuItem's "div" element
+        // and not the "menu" widget element.
+        if (webui.@THEME@.common.browser.is_ie5up) {
+            dojo.debug("Inside assignee functions");
+            dojo.event.connect(menuItemContainer, "onmouseover",
+                webui.@THEME@.widget.menuBase.createOnMouseOverCallBack(menuItemContainer));
+
+            dojo.event.connect(menuItemContainer, "onmouseout",
+                webui.@THEME@.widget.menuBase.createOnMouseOutCallBack(menuItemContainer));
+        }
+    }    
+}
+
+/**
+ * Helper function to set the properties of an option item. This is invoked
+ * by the addOptions function call.
+ *
+ * @param props The property of the particular option.
+ * @param optionNode The node for which the option is to be added
+ */
+webui.@THEME@.widget.menuBase.setOptionNodeProps = function(props, optionNode) {
+    optionNode.id = this.id + "_" + props.value + "_container";
+    optionNode.selectValue = props.value;
+    optionNode.disabled = props.disabled;
+    var menuItemContainer = this.menuItemContainer.cloneNode(false);
+    menuItemContainer.id = optionNode.id + "_label";
+
+    // depending on the kind of node, assign the appropriate style
+    // for the menu node.
+    this.setMenuNodeClassName(menuItemContainer, props);
+    optionNode.appendChild(menuItemContainer);
+
+    // valueNode contains a div element which will hold the option.
+    var valueNode = this.menuItemNode.cloneNode(false);
+    valueNode.id = this.id + "_" + props.value;
+        
+    // Set label value.
+    if (props.label) {
+        this.widget.addFragment(valueNode, props.label, "last", props.escape);
+    }    
+
+    // Set title.
+    if (props.title) {
+        optionNode.title = props.title;
+    }
+    
+    // By default have the no image container cloned and kept
+    // If an image is present, then replace that with the span
+    // placeholder for the image.
+    var imageNode = this.menuItemNoImageContainer.cloneNode(false);
+    if (props.image != null) {
+        // Add the widget
+        imageNode = this.menuItemImageContainer.cloneNode(false);
+        props.image.className = webui.@THEME@.widget.props.menu.menuItemImageClassName;
+        this.widget.addFragment(imageNode, props.image);
+    } 
+    menuItemContainer.appendChild(imageNode);
+
+    // Append the placeholder image node.
+    menuItemContainer.appendChild(this.menuItemSubMenu.cloneNode(false));
+
+    // Append the div element to the li element.           
+    menuItemContainer.appendChild(valueNode);
+    return true;
 }
 
 /**
@@ -312,7 +361,7 @@ webui.@THEME@.widget.menuBase.setProps = function(props, notify) {
         return false;
     }
     
-   // Replace options -- do not extend.
+    // Replace options -- do not extend.
     if (props.options) {
         this.options = null;
     }
@@ -352,8 +401,9 @@ webui.@THEME@.widget.menuBase.setProps = function(props, notify) {
  *  <li>visible</li>
  * </ul>
  *
- * Note: This function should only be invoked through setProps(). Further, the
- * widget shall be updated only for the given key-value pairs.
+ * Note: This is considered a private API, do not use. This function should only
+ * be invoked through postInitialize() and setProps(). Further, the widget shall
+ * be updated only for the given key-value pairs.
  *
  * @param props Key-Value pairs of properties.
  */
@@ -415,6 +465,14 @@ webui.@THEME@.widget.menuBase._setProps = function(props){
 }
 
 /**
+ * Set the selected item on the widget.
+ */
+webui.@THEME@.widget.menuBase.setSelectedValue = function(item) {
+    this.clickedItem = item;
+    return true;
+}
+
+/**
  * Submits the form. Appends the value of the selected item in the request url.
  */
 webui.@THEME@.widget.menuBase.submitMenuForm = function () {
@@ -423,7 +481,7 @@ webui.@THEME@.widget.menuBase.submitMenuForm = function () {
     var oldTarget = theForm.target;
        
     // Specify which option in the menu was clicked.
-    theForm.action += "?" + this.id+"_submittedValue=" +this.getSelectedValue();
+    theForm.action += "?" + this.id + "_submittedValue=" + this.getSelectedValue();
     theForm.target = "_self";
     theForm.submit();     
     theForm.action = oldAction;
@@ -431,93 +489,25 @@ webui.@THEME@.widget.menuBase.submitMenuForm = function () {
     return false;
 }
 
-
-/**
- * Helper function to set the properties of an option item. This is invoked
- * by the addOptions function call.
- * @param props The property of the particular option.
- * @param optionNode The node for which the option is to be added
- */
-
-webui.@THEME@.widget.menuBase.setOptionNodeProps = function(props, optionNode) {
-    optionNode.id = this.id+"_"+props.value+"_container";
-    optionNode.selectValue = props.value;
-    optionNode.disabled = props.disabled;
-    var menuItemContainer = this.menuItemContainer.cloneNode(false);
-    menuItemContainer.id = optionNode.id+"_label";
-    // depending on the kind of node, assign the appropriate style
-    // for the menu node.
-    this.setMenuNodeClassName(menuItemContainer, props);
-    optionNode.appendChild(menuItemContainer);
-
-    // valueNode contains a div element which will hold the option.
-    var valueNode = this.menuItemNode.cloneNode(false);
-    valueNode.id = this.id+"_"+props.value;
-        
-    // store the value of the represented option in the dom element itself.    
-        // Set label value.
-    if (props.label) {
-        if (props.escape != null) {
-            this.widget.addFragment(valueNode, props.label,"last",props.escape);
-        } else {
-            this.widget.addFragment(valueNode, props.label,"last");
-        }
-    }    
-
-    if (props.title) {
-        optionNode.title = props.title;
-    }
-    
-    // By default have the no image container cloned and kept
-    // If an image is present, then replace that with the span
-    // placeholder for the image.
-    var imageNode = this.menuItemNoImageContainer.cloneNode(false);
-    if (props.image != null) {
-    // Add the widget
-        imageNode = this.menuItemImageContainer.cloneNode(false);
-       // imageNode.src = new dojo.uri.Uri(props.image).toString();
-       // imageNode.className = webui.@THEME@.widget.props.menu.menuItemImageClassName;
-       props.image.className = webui.@THEME@.widget.props.menu.menuItemImageClassName;
-       this.widget.addFragment(imageNode, props.image);
-    } 
-    menuItemContainer.appendChild(imageNode);
-
-    //Append the placeholder image node.
-    var placeHolderNode = this.menuItemSubMenu.cloneNode(false);
-    menuItemContainer.appendChild(placeHolderNode);
-
-    // Append the div element to the li element.           
-    menuItemContainer.appendChild(valueNode);
-    return true;
-}
-
-/**
- * Set the selected item on the widget. This is used by the getSelectedValue inteface.
- */
-webui.@THEME@.widget.menuBase.setSelectedValue = function(item) {
-    this.clickedItem = item;
-    return true;
-}
-
 // Inherit base widget properties.
 dojo.inherits(webui.@THEME@.widget.menuBase, webui.@THEME@.widget.widgetBase);
 
 // Override base widget by assigning properties to class prototype.
 dojo.lang.extend(webui.@THEME@.widget.menuBase, {
-    
     // Set private functions.
-    getMaxWidth: webui.@THEME@.widget.menuBase.getMaxWidth,
+    addOptions: webui.@THEME@.widget.menuBase.addOptions,
     fillInTemplate: webui.@THEME@.widget.menuBase.fillInTemplate,
+    getMaxWidth: webui.@THEME@.widget.menuBase.getMaxWidth,
     getProps: webui.@THEME@.widget.menuBase.getProps,
+    getSelectedValue:webui.@THEME@.widget.menuBase.getSelectedValue,
     initialize: webui.@THEME@.widget.menuBase.initialize,
+    processOnClickEvent: webui.@THEME@.widget.menuBase.processOnClickEvent,
+    setMenuNodeClassName: webui.@THEME@.widget.menuBase.setMenuNodeClassName,
+    setOptionNodeProps:webui.@THEME@.widget.menuBase.setOptionNodeProps,
     setProps: webui.@THEME@.widget.menuBase.setProps,
     _setProps: webui.@THEME@.widget.menuBase._setProps,
-    addOptions: webui.@THEME@.widget.menuBase.addOptions,
-    setOptionNodeProps:webui.@THEME@.widget.menuBase.setOptionNodeProps, 
     setSelectedValue:webui.@THEME@.widget.menuBase.setSelectedValue,
-    getSelectedValue:webui.@THEME@.widget.menuBase.getSelectedValue,
-    submitMenuForm:webui.@THEME@.widget.menuBase.submitMenuForm,
-    processOnClickEvent: webui.@THEME@.widget.menuBase.processOnClickEvent,
-    setMenuNodeClassName: webui.@THEME@.widget.menuBase.setMenuNodeClassName, 
+    submitMenuForm:webui.@THEME@.widget.menuBase.submitMenuForm
 
+    // Set defaults.
 });

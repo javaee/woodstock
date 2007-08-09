@@ -66,7 +66,6 @@ import com.sun.webui.jsf.util.JSONUtilities;
     rendererType="com.sun.webui.jsf.widget.Menu", 
     componentFamily="com.sun.webui.jsf.Menu"))
 public class MenuRenderer extends RendererBase {
-
     /**
      * The set of pass-through attributes to be rendered.
      */
@@ -85,9 +84,13 @@ public class MenuRenderer extends RendererBase {
         "onKeyUp",
         "style", 
         "dir",
-        "lang", 
+        "lang"
     };
-    @Override
+
+    // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    // Renderer Methods
+    // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
     /**
      * This method looks for a particular name value pair in the request 
      * parameter map. The name has to be the client id of the component appended
@@ -99,13 +102,11 @@ public class MenuRenderer extends RendererBase {
         if (context == null) {
             throw new NullPointerException();
         }
-    
 	if (!(component instanceof Menu)) {
 	    throw new IllegalArgumentException(
                 "MenuRenderer can only render Menu components.");
-        } 
-    
-        Menu menu = (Menu)component;
+        }
+        Menu menu = (Menu) component;
 
         // If this  menu has been clicked, find out which value has been clicked.
         String paramId = component.getClientId(context) + "_submittedValue";    
@@ -117,7 +118,12 @@ public class MenuRenderer extends RendererBase {
         MenuEvent me = new MenuEvent(component);
         me.setSelectedOption(value);
         menu.queueEvent(me);
-}    
+    }
+
+    // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    // RendererBase methods
+    // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
     /**
      * Get the Dojo module required to instantiate the widget.
      * The string literal "widget.menu" or "widget.popupMenu" is returned by this function
@@ -144,30 +150,29 @@ public class MenuRenderer extends RendererBase {
             UIComponent component) throws JSONException, IOException {
 	if (!(component instanceof Menu)) {
 	    throw new IllegalArgumentException(
-                "MenuRenderer can only render ActionMenu components.");
+                "MenuRenderer can only render Menu components.");
         }  
-        Menu menu = (Menu)component;
-        JSONObject json = new JSONObject();
-        
-        // Add core and pass-through attribute properties.
-        JSONUtilities.addProperties(attributes, menu, json);
-        setCoreProperties(context, menu, json);        
-        Option[] options = menu.getOptionsArray();
+        Menu menu = (Menu) component;
+        JSONObject json = new JSONObject();      
+
         // The form id is required if the  menu is to be submitted.
         UIComponent form = Util.getForm(context, component);
         if (form != null) {
             String formClientId = form.getClientId(context);
             json.put("formId", formClientId);
         }        
-        
-        JSONArray optionsArray = WidgetUtilities.getOptions(component, options, context);        
+
+        JSONArray optionsArray = WidgetUtilities.getOptions(context, component, 
+            menu.getOptionsArray());        
         json.put("options", optionsArray)
             .put("visible", menu.isVisible())
             .put("submitForm", menu.isSubmitForm());
 
+        // Add core and pass-through attribute properties.
+        JSONUtilities.addProperties(attributes, menu, json);
+
         return json;
     }               
-    
 
     /**
      * Get the type of widget represented by this component.

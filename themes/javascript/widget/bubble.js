@@ -186,9 +186,9 @@ webui.@THEME@.widget.bubble.fillInTemplate = function(props, frag) {
 
     // Initialize the BubbleTitle width as a percentage of the bubble header.
         
-        if ( this.bubbleTitle != null ) {
-            this.bubbleTitle.style.width = this.theme.getProperty("styles", "BUBBLE_TITLEWIDTH") + "%";
-        }
+    if ( this.bubbleTitle != null ) {
+        this.bubbleTitle.style.width = this.theme.getProperty("styles", "BUBBLE_TITLEWIDTH") + "%";
+    }
     return true;
 }
 
@@ -354,10 +354,10 @@ webui.@THEME@.widget.bubble.setPosition = function() {
     }
 
     // Get DOM bubble object associated with this Bubble instance.
-    var bubble = this.domNode;    
+    var bubble = this.domNode;
+
     // If this.style is not null that means developer has specified positioning
     // for component. 
-    
     if (this.domNode != null && this.style != null) {
         if (bubble.style.length != null) {
             for (var i = 0; i < bubble.style.length; i++) {
@@ -527,8 +527,8 @@ webui.@THEME@.widget.bubble._setProps = function(props) {
     // hide/display close button
     if (props.closeButton != null) {
         var classNames = this.closeBtn.className.split(" ");
-        var closeButtonClass=this.theme.getClassName("BUBBLE_CLOSEBTN");
-        var noCloseButtonClass=this.theme.getClassName("BUBBLE_NOCLOSEBTN");
+        var closeButtonClass = this.theme.getClassName("BUBBLE_CLOSEBTN");
+        var noCloseButtonClass = this.theme.getClassName("BUBBLE_NOCLOSEBTN");
 
         if (props.closeButton == false) {
             webui.@THEME@.common.stripStyleClass(this.closeBtn, closeButtonClass);

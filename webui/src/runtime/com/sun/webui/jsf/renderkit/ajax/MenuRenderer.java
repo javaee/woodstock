@@ -58,11 +58,11 @@ public class MenuRenderer extends
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
    /**
-   * This decode is done for Ajax requests. It checks whether the ajax request
-   * is of type "submit". If so, it looks for a key called "value" in the request
-   * parameter map. This contains the selected value of the Menu. If this
-   * key exists, then it updates teh component's value to this value.
-   */
+    * This decode is done for Ajax requests. It checks whether the ajax request
+    * is of type "submit". If so, it looks for a key called "value" in the request
+    * parameter map. This contains the selected value of the Menu. If this
+    * key exists, then it updates teh component's value to this value.
+    */
     public void decode(FacesContext context, UIComponent component) {
         if (context == null) {
             throw new NullPointerException();
@@ -74,17 +74,18 @@ public class MenuRenderer extends
         } 
         
         Menu menu = ((Menu)component);
-    // Need to decode for partial requests.
+
+        // Process submit events.
         if (ComponentUtilities.isAjaxRequest(context, component, "submit")) {
             try {        
                 Map map = context.getExternalContext().getRequestHeaderMap();
                 JSONObject xjson = new JSONObject((String)
                     map.get(AsyncResponse.XJSON_HEADER)); 
-                String value = (String)xjson.get("value");    
+                String value = (String) xjson.get("value");    
                 if (value != null) {
                     MenuEvent me = new MenuEvent(menu);
                     me.setSelectedOption(value);
-                   ((Menu)component).queueEvent(me);     
+                   ((Menu) component).queueEvent(me);     
                 }
             } catch(JSONException e) {            
             } catch(NullPointerException e) {} // JSON property may be null.
@@ -140,4 +141,3 @@ public class MenuRenderer extends
         // Do nothing...
     }    
 }
-
