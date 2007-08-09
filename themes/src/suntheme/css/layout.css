@@ -1678,7 +1678,7 @@ table.TblLt@THEME_CSS@ td.TblPnlTd@THEME_CSS@ {padding-left:10px;border-top:none
     padding: 0;
 }
 
-.BubbleCloseBtn@THEME_CSS@ {
+.BubbleCloseBtn@THEME_CSS@, .NoBubbleCloseBtn@THEME_CSS@ {
     float: right;
     margin-top: 10px;
     margin-bottom: 10px;

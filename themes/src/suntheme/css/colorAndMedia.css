@@ -1143,6 +1143,10 @@ a.WizStpLnk@THEME_CSS@:hover {
 .BubbleCloseBtn@THEME_CSS@ {
     background-image: url(../images/bubble/dismiss_icon.png);
 }
+
+.NoBubbleCloseBtn@THEME_CSS@ {
+    background-image: url(../images/other/dot.gif);
+}
 /*---*/
 
 /* ACCORDION */

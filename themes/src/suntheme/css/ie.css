@@ -259,4 +259,10 @@ table.Tbl@THEME_CSS@ td.TblFtrRow@THEME_CSS@ {padding:5px 5px 5px 10px}
     margin-right: 0px;
     overflow: visible;
 }
+.BubbleTitle@THEME_CSS@ {
+   margin-left: 5px;
+}
+.BubbleCloseBtn@THEME_CSS@, .NoBubbleCloseBtn@THEME_CSS@ {
+   margin-right: 5px;
+}
 /*---*/
