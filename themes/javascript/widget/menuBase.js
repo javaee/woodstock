@@ -38,11 +38,10 @@ webui.@THEME@.widget.menuBase = function() {
 /**
  * Add the specified options to the dom element.
  *
- * @param props The JSON properties of the menu
- * @param menuNode The node to which the menu items are to be added
- * @param formId The id of the form.
+ * @param menuNode The node to which the menu items are to be added.
+ * @param props Key-Value pairs of properties.
  */
-webui.@THEME@.widget.menuBase.addOptions = function(props, menuNode, formId) {
+webui.@THEME@.widget.menuBase.addOptions = function(menuNode, props) {
     var groupNode, optionNode, separator, sepNode;
     for (var i = 0; i < props.options.length; i++) {
         
@@ -55,16 +54,15 @@ webui.@THEME@.widget.menuBase.addOptions = function(props, menuNode, formId) {
         menuNode.appendChild(optionNode);
         if (props.options[i].group == true) {
             optionNode.group = true;
-            groupNode = this.groupOptionContainer.cloneNode(false);     
-            webui.@THEME@.common.setVisibleElement(groupNode, true); 
+            groupNode = this.groupOptionContainer.cloneNode(false);
             menuNode.appendChild(groupNode);
-            this.addOptions(props.options[i], groupNode, formId);
+            this.addOptions(groupNode, props.options[i]);
         }
          
         // Create callback function for onClick event.
         dojo.event.connect(optionNode, "onclick",
-            webui.@THEME@.widget.menuBase.createOnClickCallback
-            (this.id, optionNode.id, formId));
+            webui.@THEME@.widget.menuBase.createOnClickCallback(this.id, 
+                optionNode.id));
         
         if (props.options[i].separator == true) {
             separator = this.menuSeparatorContainer.cloneNode(true);
@@ -84,9 +82,8 @@ webui.@THEME@.widget.menuBase.addOptions = function(props, menuNode, formId) {
  *
  * @param menuId The id of th menu widget.
  * @param optionId The id of the option element that is clicked
- * @param formId The id of the form element.
  */
-webui.@THEME@.widget.menuBase.createOnClickCallback = function(menuId, optionId, formId) {
+webui.@THEME@.widget.menuBase.createOnClickCallback = function(menuId, optionId) {
     // Return if the menu id or the option id is null.
     if (menuId == null || optionId == null) {
         return null;
@@ -141,6 +138,25 @@ webui.@THEME@.widget.menuBase.createOnMouseOverCallBack = function(menuItem) {
 }
 
 /**
+ * This function is used to fill in template properties.
+ *
+ * Note: This is called after the buildRendering() function. Anything to be set 
+ * only once should be added here; otherwise, use the _setProps() function.
+ *
+ * @param props Key-Value pairs of properties.
+ * @param frag HTML fragment.
+ */
+webui.@THEME@.widget.menuBase.fillInTemplate = function(props, frag) {
+    webui.@THEME@.widget.menuBase.superclass.fillInTemplate.call(this, props, frag);
+
+    // Set public functions.
+    this.domNode.getSelectedValue = function(props, optionNode) { return dojo.widget.byId(this.id).getSelectedValue(); }
+    this.domNode.submit = function(execute) { return dojo.widget.byId(this.id).submit(execute); } 
+        
+    return true;
+}
+
+/**
  * Calculate the maximum width of menu to be set.
  * If a menu if at all contains a group, then set the containsGroup
  * attribute to true. This will help in adding an extra pixel width
@@ -161,25 +177,6 @@ webui.@THEME@.widget.menuBase.getMaxWidth = function(props) {
          }
     }
     return maxWidth;
-}
-
-/**
- * This function is used to fill in template properties.
- *
- * Note: This is called after the buildRendering() function. Anything to be set 
- * only once should be added here; otherwise, use the _setProps() function.
- *
- * @param props Key-Value pairs of properties.
- * @param frag HTML fragment.
- */
-webui.@THEME@.widget.menuBase.fillInTemplate = function(props, frag) {
-    webui.@THEME@.widget.menuBase.superclass.fillInTemplate.call(this, props, frag);
-
-    // Set public functions.
-    this.domNode.getSelectedValue = function(props, optionNode) { return dojo.widget.byId(this.id).getSelectedValue(); }
-    this.domNode.submit = function(execute) { return dojo.widget.byId(this.id).submit(execute); } 
-        
-    return true;
 }
 
 /**
@@ -206,6 +203,24 @@ webui.@THEME@.widget.menuBase.getSelectedValue = function() {
 }
 
 /**
+ * This function is used to obtain the outermost HTML element style.
+ *
+ * Note: Styles should be concatinated in order of precedence (e.g., the 
+ * user's style property is always appended last).
+ */
+webui.@THEME@.widget.menuBase.getStyle = function() {
+    var style = "width:" + this.maxWidth + "em;";
+
+    // Return user's style if width is set already.
+    if (this.style && this.style.indexOf("width") != -1) {
+        return this.style;
+    }
+    return (this.style)
+        ? style + this.style
+        : style;
+}
+
+/**
  * This function is used to initialize the widget.
  *
  * Note: This is called after the fillInTemplate() function.
@@ -221,7 +236,7 @@ webui.@THEME@.widget.menuBase.initialize = function(props, frag, parent) {
     this.maxWidth = this.getMaxWidth(props.options);
      
     if (this.containsGroup) {
-        this.maxWidth+=1;
+        this.maxWidth += 1;
     }
 
     // Account for images.
@@ -282,7 +297,6 @@ webui.@THEME@.widget.menuBase.setMenuNodeClassName = function(menuItemContainer,
             dojo.debug("Inside assignee functions");
             dojo.event.connect(menuItemContainer, "onmouseover",
                 webui.@THEME@.widget.menuBase.createOnMouseOverCallBack(menuItemContainer));
-
             dojo.event.connect(menuItemContainer, "onmouseout",
                 webui.@THEME@.widget.menuBase.createOnMouseOutCallBack(menuItemContainer));
         }
@@ -395,7 +409,7 @@ webui.@THEME@.widget.menuBase.setProps = function(props, notify) {
  *  <li>onMouseUp</li>
  *  <li>onMouseMove</li>
  *  <li>style</li>
- * <li>submitForm</li>
+ *  <li>submitForm</li>
  *  <li>tabIndex</li>
  *  <li>title</li>
  *  <li>visible</li>
@@ -415,7 +429,6 @@ webui.@THEME@.widget.menuBase._setProps = function(props){
     // A web app devleoper could return false in order to cancel the 
     // submit. Thus, we will handle this event via the onClick call back.
     if (props.onChange) {
-        
         // Set private function scope on widget.
         this._onchange = (typeof props.onChange == 'string')
             ? new Function(props.onChange) : props.onChange;
@@ -436,26 +449,22 @@ webui.@THEME@.widget.menuBase._setProps = function(props){
         props.onClick = null;
     }
 
-    // Need to account for the existing styles that are set.
-    if(!props.style || (props.style.indexOf("width")) == -1) {
-        if (!props.style) {
-            props.style="width:"+this.maxWidth+"em;";
-        } else {
-            props.style+=";width:"+this.maxWidth+"em;";
-        }        
-    }
-
     // Add options
     if (props.options) {
         this.widget.removeChildNodes(this.outerMenuContainer);
+
         // Clone the menu node and add it to the outer container.
-        var menuNode = this.groupOptionContainer.cloneNode(false);  
-        webui.@THEME@.common.setVisibleElement(menuNode, true); 
+        var menuNode = this.groupOptionContainer.cloneNode(false);
         menuNode.className = this.theme.getClassName("MENU_CONTAINER");
         this.outerMenuContainer.appendChild(menuNode);         
-        this.addOptions(props, menuNode, props.formId);
+        this.addOptions(menuNode, props);
     }
-    
+
+    // Set style.
+    if (props.style || !this.isInitialized()) {
+        props.style = this.getStyle();
+    }
+
     // Set more properties.
     this.setCommonProps(this.domNode, props);
     this.setEventProps(this.domNode, props);
@@ -500,6 +509,7 @@ dojo.lang.extend(webui.@THEME@.widget.menuBase, {
     getMaxWidth: webui.@THEME@.widget.menuBase.getMaxWidth,
     getProps: webui.@THEME@.widget.menuBase.getProps,
     getSelectedValue:webui.@THEME@.widget.menuBase.getSelectedValue,
+    getStyle: webui.@THEME@.widget.menuBase.getStyle,
     initialize: webui.@THEME@.widget.menuBase.initialize,
     processOnClickEvent: webui.@THEME@.widget.menuBase.processOnClickEvent,
     setMenuNodeClassName: webui.@THEME@.widget.menuBase.setMenuNodeClassName,

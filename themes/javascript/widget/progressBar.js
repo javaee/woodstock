@@ -313,11 +313,10 @@ webui.@THEME@.widget.progressBar.pause = function() {
  * @param parent The parent of this widget.
  */
 webui.@THEME@.widget.progressBar.postCreate = function (props, frag, parent) {
-    // Start a timer used to periodically publish progress events.
-    this.updateProgress();
+    webui.@THEME@.widget.progressBar.superclass.postCreate.call(this, props, frag, parent);
 
-    return webui.@THEME@.widget.progressBar.superclass.postCreate.call(this, 
-        props, frag, parent);
+    // Start a timer used to periodically publish progress events.
+    return this.updateProgress();
 }
 
 /**

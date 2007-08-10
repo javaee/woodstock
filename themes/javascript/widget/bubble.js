@@ -165,7 +165,7 @@ webui.@THEME@.widget.bubble.fillInTemplate = function(props, frag) {
         }
         if (this.closeBtn == target) {
             clearTimeout(this.timerId);
-            this.setProps({visible:false});
+            this.setProps({visible: false});
         }
     }
 
@@ -190,54 +190,6 @@ webui.@THEME@.widget.bubble.fillInTemplate = function(props, frag) {
         this.bubbleTitle.style.width = this.theme.getProperty("styles", "BUBBLE_TITLEWIDTH") + "%";
     }
     return true;
-}
-
-/**
- * Find absolute position of an object relative to the browser window.
- *
- * @param obj   object to compute absolute position for
- * @return      an array containing the absolute position
- */
-webui.@THEME@.widget.bubble.findPos = function(obj) {
-    var curleft = curtop = 0;
-    if (obj.offsetParent) {
-        curleft = obj.offsetLeft;
-	curtop = obj.offsetTop;
-	while (obj = obj.offsetParent) {
-            curleft += obj.offsetLeft;
-            curtop += obj.offsetTop;
-	}
-    }
-    return [curleft, curtop];
-}
-
-/**
- * This function is used to return the page height, handling standard noise
- * to mitigate browser differences.
- */
-webui.@THEME@.widget.bubble.getPageHeight = function() {
-    if (window.innerHeight) {
-        return window.innerHeight;
-    }
-    if (document.body.clientHeight) {
-        return document.body.clientHeight;
-    }
-    return (null);
-}
-
-/**
- * This function is used to return the page width, handling standard noise
- * to mitigate browser differences.
- */
-webui.@THEME@.widget.bubble.getPageWidth = function() {
-    if (window.innerWidth) {
-        return window.innerWidth;
-    }
-
-    if (document.body.clientWidth) {
-        return document.body.clientWidth;
-    }
-    return (null);
 }
 
 /**
@@ -275,7 +227,7 @@ webui.@THEME@.widget.bubble.open = function(event) {
         ? evt.target : ((evt.srcElement) 
             ? evt.srcElement : null);
 
-    var absPos = this.findPos(this.target);
+    var absPos = this.widget.getPosition(this.target);
     this.target.targetLeft = absPos[0];
     this.target.targetTop = absPos[1];
    
@@ -297,7 +249,7 @@ webui.@THEME@.widget.bubble.open = function(event) {
             // Check for the id if its available then close the pending bubble.
             if (webui.@THEME@.widget.bubble.activeBubbleId && webui.@THEME@.widget.bubble.activeBubbleId != id) {                
                 clearTimeout(dojo.widget.byId(webui.@THEME@.widget.bubble.activeBubbleId).timerId);
-                dojo.widget.byId(webui.@THEME@.widget.bubble.activeBubbleId).setProps({visible:false});
+                dojo.widget.byId(webui.@THEME@.widget.bubble.activeBubbleId).setProps({visible: false});
                 webui.@THEME@.widget.bubble.activeBubbleId = null;                
             }     
             webui.@THEME@.widget.bubble.activeBubbleId = id;            
@@ -410,7 +362,7 @@ webui.@THEME@.widget.bubble.setPosition = function() {
 
         // Check if right edge of bubble exceeds page boundary.
         var rightEdge = bubbleLeft + bubble.offsetWidth;
-        if (rightEdge > this.getPageWidth()) {
+        if (rightEdge > this.widget.getPageWidth()) {
 
             // Shift bubble to left side of target;  implies a bottomRight arrow.
             bubbleLeft = this.target.targetLeft - bubble.offsetWidth;
@@ -566,9 +518,6 @@ dojo.lang.extend(webui.@THEME@.widget.bubble, {
     // Set private functions.
     close: webui.@THEME@.widget.bubble.close,
     fillInTemplate: webui.@THEME@.widget.bubble.fillInTemplate,
-    findPos: webui.@THEME@.widget.bubble.findPos,
-    getPageHeight: webui.@THEME@.widget.bubble.getPageHeight,
-    getPageWidth: webui.@THEME@.widget.bubble.getPageWidth,
     getProps: webui.@THEME@.widget.bubble.getProps,
     open: webui.@THEME@.widget.bubble.open,
     setPosition: webui.@THEME@.widget.bubble.setPosition,

@@ -42,7 +42,7 @@ webui.@THEME@.widget.popupMenu = function() {
  */
 webui.@THEME@.widget.popupMenu.close = function() {
     if (webui.@THEME@.common.isVisibleElement(this.domNode)) {
-        this.domNode.setProps({visible: false});
+        return this.setProps({visible: false});
     }
     return false;    
 }
@@ -234,15 +234,12 @@ webui.@THEME@.widget.popupMenu.initialize = function(props, frag, parent) {
  * at if one is not already provided by the developer.
  */
 webui.@THEME@.widget.popupMenu.open = function(evt) {
-    // Only one menu can be open at a time. Hence, close the previous menu
-    // that was open in the form.
-    var form = document.getElementById(this.formId);
-    if (form != null) {
-        if (form.menu != null) {
-            dojo.widget.byId(form.menu).close();
-        }
-        form.menu = this.id;
+    // Only one menu can be open at a time. Hence, close the previous menu.
+    var menu = document.getElementById(webui.@THEME@.widget.popupMenu.activeMenuId);
+    if (menu != null) {
+        menu.close();
     }
+    webui.@THEME@.widget.popupMenu.activeMenuId = this.id;
     evt.cancelBubble = true;
 
     // If menu already rendered, do nothing.
@@ -270,10 +267,13 @@ webui.@THEME@.widget.popupMenu.open = function(evt) {
                 this.left = this.domNode.style.left;
         }    
     }
-            
-    // Render the menu.  Must do this here, else target properties referenced
+
+    // Fix: Setting the menu visible here causes flashing. The menu is shown in
+    // an old location until moved to the new location in the page.
+
+    // Show the menu. Must do this here, else target properties referenced
     // below will not be valid.
-    this.domNode.setProps({visible:true});
+    this.setProps({visible: true});
       
     // If specific positioning specified, then simply use it.  This means
     // no provisions are made to guarantee the menu renders in the viewable area.
@@ -284,8 +284,8 @@ webui.@THEME@.widget.popupMenu.open = function(evt) {
         // No positioning specified, so we calculate the optimal position to guarantee
         // menu is fully viewable.
         // Get the absolute position of the target.
-        this.target = (evt.target) ? evt.target : ((evt.srcElement) ? evt.srcElement : null);
-        var absPos = webui.@THEME@.widget.common.getPosition(this.target);
+        var target = (evt.target) ? evt.target : ((evt.srcElement) ? evt.srcElement : null);
+        var absPos = this.widget.getPosition(target);
         var targetLeft = absPos[0];
         var targetTop = absPos[1];
 
@@ -296,7 +296,7 @@ webui.@THEME@.widget.popupMenu.open = function(evt) {
         // But can be overridden to align right edges.
         // Check if right edge of menu exceeds page boundary.
         var rightEdge = menuLeft + this.domNode.offsetWidth;
-        var pageWidth = webui.@THEME@.widget.common.getPageWidth();
+        var pageWidth = this.widget.getPageWidth();
         if (rightEdge > pageWidth) {
             // Shift menu left just enough to bring it into view.
             menuLeft -= (rightEdge - pageWidth);
@@ -316,11 +316,12 @@ webui.@THEME@.widget.popupMenu.open = function(evt) {
 
         // If left edge of menu crosses left page boundary, then
         // shift menu right just enough to bring it into view.
-        if (menuLeft < 0)
+        if (menuLeft < 0) {
             menuLeft = 0;
+        }
 
         // Assume default vertical position is to position menu below target.
-        var menuTop = targetTop + this.target.offsetHeight + this.bottomShadow;
+        var menuTop = targetTop + target.offsetHeight + this.bottomShadow;
         
         // Shift menu to account for vertical scrolling.
         if ((window.pageYOffset != null) && (window.pageYOffset > 0)) {
@@ -336,7 +337,7 @@ webui.@THEME@.widget.popupMenu.open = function(evt) {
 
         // Check if bottom edge of menu exceeds page boundary.
         var bottomEdge = menuTop + this.domNode.offsetHeight - this.bottomShadow;
-        if (bottomEdge > webui.@THEME@.widget.common.getPageHeight()) {
+        if (bottomEdge > this.widget.getPageHeight()) {
             // Shift menu to top of target.
             menuTop = targetTop - this.domNode.offsetHeight;
 
@@ -344,7 +345,7 @@ webui.@THEME@.widget.popupMenu.open = function(evt) {
             // reposition menu back to below target.
             // User will need to use scrollbars to position menu into view.
             if (menuTop <= 0) {
-                menuTop = targetTop + this.target.offsetHeight - this.bottomShadow;
+                menuTop = targetTop + target.offsetHeight - this.bottomShadow;
             }
         }
 
