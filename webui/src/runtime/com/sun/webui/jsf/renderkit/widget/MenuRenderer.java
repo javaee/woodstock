@@ -23,6 +23,8 @@
 package com.sun.webui.jsf.renderkit.widget;
 
 import com.sun.webui.jsf.component.ImageComponent;
+import com.sun.webui.jsf.model.Option;
+import com.sun.webui.jsf.model.OptionGroup;
 import com.sun.webui.jsf.theme.ThemeTemplates;
 
 import java.io.IOException;
@@ -115,9 +117,11 @@ public class MenuRenderer extends RendererBase {
         if (value == null) {
             return;
         }
-        ValueEvent me = new ValueEvent(component);
-        me.setSelectedOption(value);
-        menu.queueEvent(me);
+        if (checkSubmittedOption(value, menu.getOptionsArray())) {
+            ValueEvent me = new ValueEvent(component);
+            me.setSelectedOption(value);
+            menu.queueEvent(me);
+        }
     }
 
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -183,7 +187,29 @@ public class MenuRenderer extends RendererBase {
      */
     protected String getWidgetName(FacesContext context, UIComponent component) {
         return JavaScriptUtilities.getNamespace("popupMenu");
-    }               
+    }        
+    
+    /**
+     * Checks whether the submitted value is present in the list of options
+     * that have been given as input
+     * @param value The submitted value
+     * @param optionArray The array of options given as input
+     */
+    protected boolean checkSubmittedOption(String value, Option[] optionArray) {
+        boolean optionMatch = false;
+        for (int i=0; i<optionArray.length; i++) {
+             if (optionArray[i] instanceof OptionGroup) {
+                 optionMatch = checkSubmittedOption(value, ((OptionGroup)optionArray[i]).getOptions());
+                 if (optionMatch) {
+                   return optionMatch;
+                 }
+             }
+             if (optionArray[i].getValue().equals(value)) {
+                return true;
+             }
+        }
+        return false;
+    }
 }
 
     

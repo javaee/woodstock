@@ -221,9 +221,9 @@ webui.@THEME@.widget.popupMenu.initialize = function(props, frag, parent) {
     // Default widths of the drop shadow on each side of the menu.  These MUST 
     // be in pixel units and MUST match the absolute values of the left/top 
     // styles of the "Menu" style class in the CSS.
-    this.rightShadow = webui.@THEME@.widget.props.menu.rightShadow;
-    this.bottomShadow = webui.@THEME@.widget.props.menu.bottomShadow;
-    this.shadowContainer.className = webui.@THEME@.widget.props.menu.shadowContainerClassName;    
+    this.rightShadow = parseFloat(this.theme.getMessage("Menu.rightShadow"));
+    this.bottomShadow = parseFloat(this.theme.getMessage("Menu.bottomShadow"));
+    this.shadowContainer.className = this.theme.getClassName("MENU_SHADOW_CONTAINER");    
 
     return true;
 }

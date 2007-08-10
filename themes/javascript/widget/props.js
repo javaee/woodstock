@@ -176,19 +176,6 @@ webui.@THEME@.widget.props = {
         stopped: "stopped"
     },
 
-    menu: {
-        menuItemsClassName: "MenuItems@THEME_CSS@",
-        shadowContainerClassName: "MenuShadow@THEME_CSS@",
-        menuItemClassName: "MenuItem@THEME_CSS@",
-        disabledMenuItemClassName: "MenuItemDisabled@THEME_CSS@",
-        menuHeaderClassName: "MenuOptGroupHeader@THEME_CSS@",
-        menuItemImageClassName: "MenuItemWidget@THEME_CSS@",
-        ieHoverClassName: "iehover@THEME_CSS@",
-        rightShadow:5,
-        bottomShadow:5
-    },
-
-
     // RadioButton properties.
     radioButton: {
         className: "RbSpn@THEME_CSS@",

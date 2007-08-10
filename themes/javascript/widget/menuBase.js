@@ -123,7 +123,7 @@ webui.@THEME@.widget.menuBase.createOnMouseOutCallBack = function(menuItem) {
         return;
     }
     return function() {
-        menuItem.className = webui.@THEME@.widget.props.menu.menuItemClassName;
+        menuItem.className = this.theme.getClassName("MENU_GROUP_CONTAINER");
     }
 }
 
@@ -136,7 +136,7 @@ webui.@THEME@.widget.menuBase.createOnMouseOverCallBack = function(menuItem) {
     }
     return function() {
         menuItem.className = menuItem.className + " " + 
-            webui.@THEME@.widget.props.menu.ieHoverClassName;            
+            this.theme.getClassName("MENU_ITEM_HOVER");            
     }
 }
 
@@ -266,11 +266,11 @@ webui.@THEME@.widget.menuBase.processOnClickEvent = function(value) {
  */
 webui.@THEME@.widget.menuBase.setMenuNodeClassName = function(menuItemContainer, props) {
     if (new Boolean(props.group).valueOf() == true) {
-        menuItemContainer.className = webui.@THEME@.widget.props.menu.menuHeaderClassName;
+        menuItemContainer.className = this.theme.getClassName("MENU_GROUP_HEADER");
     } else if(new Boolean(props.disabled).valueOf() == true) {
-        menuItemContainer.className = webui.@THEME@.widget.props.menu.disabledMenuItemClassName;
+        menuItemContainer.className = this.theme.getClassName("MENU_ITEM_DISABLED");
     } else {
-        menuItemContainer.className = webui.@THEME@.widget.props.menu.menuItemClassName;        
+        menuItemContainer.className = this.theme.getClassName("MENU_GROUP_CONTAINER");        
 
         // Apply an hack for IE for mouse hover on the div element since div:hover type
         // of css declarations do not seem to work. onmouseover and onmouseout events
@@ -329,7 +329,7 @@ webui.@THEME@.widget.menuBase.setOptionNodeProps = function(props, optionNode) {
     if (props.image != null) {
         // Add the widget
         imageNode = this.menuItemImageContainer.cloneNode(false);
-        props.image.className = webui.@THEME@.widget.props.menu.menuItemImageClassName;
+        props.image.className = this.theme.getClassName("MENU_ITEM_IMAGE");
         this.widget.addFragment(imageNode, props.image);
     } 
     menuItemContainer.appendChild(imageNode);
@@ -451,7 +451,7 @@ webui.@THEME@.widget.menuBase._setProps = function(props){
         // Clone the menu node and add it to the outer container.
         var menuNode = this.groupOptionContainer.cloneNode(false);  
         webui.@THEME@.common.setVisibleElement(menuNode, true); 
-        menuNode.className = webui.@THEME@.widget.props.menu.menuItemsClassName;
+        menuNode.className = this.theme.getClassName("MENU_CONTAINER");
         this.outerMenuContainer.appendChild(menuNode);         
         this.addOptions(props, menuNode, props.formId);
     }

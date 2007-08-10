@@ -82,10 +82,13 @@ public class MenuRenderer extends
                 JSONObject xjson = new JSONObject((String)
                     map.get(AsyncResponse.XJSON_HEADER)); 
                 String value = (String) xjson.get("value");    
-                if (value != null) {
-                    ValueEvent me = new ValueEvent(menu);
+                if (value == null) {
+                    return;
+                }
+                if (checkSubmittedOption(value, menu.getOptionsArray())) {
+                    ValueEvent me = new ValueEvent(component);
                     me.setSelectedOption(value);
-                   ((Menu) component).queueEvent(me);     
+                    menu.queueEvent(me);
                 }
             } catch(JSONException e) {            
             } catch(NullPointerException e) {} // JSON property may be null.
