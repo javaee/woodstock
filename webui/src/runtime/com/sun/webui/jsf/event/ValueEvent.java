@@ -31,7 +31,7 @@ import javax.faces.component.UIComponent;
  */
 public class ValueEvent extends FacesEvent {
 
-     private String selectedOption = null;
+     private Object selectedOption = null;
 
     /**
      * <p>Construct a new event object from the specified source component
@@ -48,11 +48,11 @@ public class ValueEvent extends FacesEvent {
 
     }
     
-    public String getSelectedOption() {
+    public Object getSelectedOption() {
         return selectedOption;
     }
 
-    public void setSelectedOption(String selectedOption) {
+    public void setSelectedOption(Object selectedOption) {
         this.selectedOption = selectedOption;
     }
     
