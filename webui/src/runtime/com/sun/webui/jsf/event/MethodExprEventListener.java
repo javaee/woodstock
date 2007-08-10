@@ -63,15 +63,15 @@ public class MethodExprEventListener implements EventListener,
      * @throws NullPointerException {@inheritDoc}     
      * @throws AbortProcessingException {@inheritDoc}     
      */
-    public void processEvent(MenuEvent menuEvent) throws AbortProcessingException {
+    public void processEvent(ValueEvent valueEvent) throws AbortProcessingException {
 
-        if (menuEvent == null) {
+        if (valueEvent == null) {
             throw new NullPointerException();
         }
         try {
             FacesContext context = FacesContext.getCurrentInstance();
             ELContext elContext = context.getELContext();
-            methodExpression.invoke(elContext, new Object[] {menuEvent});
+            methodExpression.invoke(elContext, new Object[] {valueEvent});
         } catch (ELException ee) {
             if (LOGGER.isLoggable(Level.SEVERE)) {
                 LOGGER.log(Level.SEVERE,
@@ -79,7 +79,7 @@ public class MethodExprEventListener implements EventListener,
                            new Object[]{
                                  ee.getCause().getClass().getName(),
                                  methodExpression.getExpressionString(),
-                                 menuEvent.getComponent().getId()
+                                 valueEvent.getComponent().getId()
                            });
                 StringWriter writer = new StringWriter(1024);
                 ee.getCause().printStackTrace(new PrintWriter(writer));

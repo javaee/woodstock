@@ -29,7 +29,7 @@ import javax.faces.component.UIComponent;
 /**
  * Event which holds the value for the option that is selected for an Menu.
  */
-public class MenuEvent extends FacesEvent {
+public class ValueEvent extends FacesEvent {
 
      private String selectedOption = null;
 
@@ -42,7 +42,7 @@ public class MenuEvent extends FacesEvent {
      * @throws IllegalArgumentException if <code>component</code> is
      *  <code>null</code>
      */
-    public MenuEvent(UIComponent component) {
+    public ValueEvent(UIComponent component) {
 
         super(component);
 

@@ -30,7 +30,7 @@ import com.sun.webui.theme.Theme;
 import com.sun.webui.jsf.event.MethodExprEventListener;
 import com.sun.webui.jsf.model.Option;
 import com.sun.webui.jsf.event.EventListener;
-import com.sun.webui.jsf.event.MenuEvent;    
+import com.sun.webui.jsf.event.ValueEvent;    
 import javax.faces.event.PhaseId;
 import com.sun.webui.jsf.util.ComponentUtilities;
 import java.util.Collection;
@@ -98,7 +98,7 @@ import javax.faces.el.MethodBinding;
  * 
  * NOTE:- 
  *  To obtain the value of the option that was clicked in the menu widget, use the eventListenerExpression attribute
- *  and invoke the getSelectedOption method on the MenuEvent object that is passed as an argument to this method binding
+ *  and invoke the getSelectedOption method on the ValueEvent object that is passed as an argument to this method binding
  * </pre>
  */
 @Component(type="com.sun.webui.jsf.Menu", family="com.sun.webui.jsf.Menu",

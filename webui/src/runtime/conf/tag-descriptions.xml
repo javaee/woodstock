@@ -9634,7 +9634,7 @@ changed to value " + menu.getValue();<br>
   
   NOTE:- 
    To obtain the value of the option that was clicked in the menu widget, use the eventListenerExpression attribute
-   and invoke the getSelectedOption method on the MenuEvent object that is passed as an argument to this method binding
+   and invoke the getSelectedOption method on the ValueEvent object that is passed as an argument to this method binding
 </pre>
 <br><br>    
     <h3><a name="facets"></a>Facets</h3>
@@ -9894,7 +9894,7 @@ server. </li>
         return null;
     }
     
-    public void selectOption(com.sun.webui.jsf.event.MenuEvent ae) {
+    public void selectOption(com.sun.webui.jsf.event.ValueEvent ae) {
         this.text = ae.getSelectedOption();
         outcome = text;
     }

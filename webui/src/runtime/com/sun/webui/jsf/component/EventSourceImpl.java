@@ -199,7 +199,7 @@ public abstract class EventSourceImpl extends UIComponentBase implements EventSo
      *
      */
     @Property(name="eventListenerExpression", isHidden=true, isAttribute=true, displayName="Menu Event Listener Expression", category="Advanced")
-    @Property.Method(signature="void processEvent(com.sun.webui.jsf.event.MenuEvent)")
+    @Property.Method(signature="void processEvent(com.sun.webui.jsf.event.ValueEvent)")
     private MethodExpression eventListenerExpression;
 
       /**

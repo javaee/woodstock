@@ -40,7 +40,7 @@ import org.json.JSONObject;
 import com.sun.faces.annotation.Renderer;
 import com.sun.webui.jsf.component.Menu;
 import com.sun.webui.jsf.component.util.Util;
-import com.sun.webui.jsf.event.MenuEvent;
+import com.sun.webui.jsf.event.ValueEvent;
 import com.sun.webui.jsf.model.Option;
 import com.sun.webui.jsf.model.OptionGroup;
 import com.sun.webui.theme.Theme;
@@ -115,7 +115,7 @@ public class MenuRenderer extends RendererBase {
         if (value == null) {
             return;
         }
-        MenuEvent me = new MenuEvent(component);
+        ValueEvent me = new ValueEvent(component);
         me.setSelectedOption(value);
         menu.queueEvent(me);
     }

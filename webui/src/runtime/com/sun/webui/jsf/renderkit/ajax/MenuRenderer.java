@@ -24,7 +24,7 @@ package com.sun.webui.jsf.renderkit.ajax;
 import com.sun.faces.extensions.avatar.lifecycle.AsyncResponse;
 import com.sun.faces.annotation.Renderer;
 import com.sun.webui.jsf.component.Menu;
-import com.sun.webui.jsf.event.MenuEvent;
+import com.sun.webui.jsf.event.ValueEvent;
 import com.sun.webui.jsf.model.Option;
 import com.sun.webui.jsf.util.ComponentUtilities;
 
@@ -83,7 +83,7 @@ public class MenuRenderer extends
                     map.get(AsyncResponse.XJSON_HEADER)); 
                 String value = (String) xjson.get("value");    
                 if (value != null) {
-                    MenuEvent me = new MenuEvent(menu);
+                    ValueEvent me = new ValueEvent(menu);
                     me.setSelectedOption(value);
                    ((Menu) component).queueEvent(me);     
                 }
