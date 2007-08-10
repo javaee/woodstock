@@ -255,4 +255,18 @@ public final class TableDesignHelper {
         widthProperty.setValue(widthValue);
        
     }
+    
+    public static DesignBean findChildBeanByName(DesignBean parent, String instanceName) {
+        DesignBean child = null;
+        DesignBean[] childBeans = parent.getChildBeans();
+        if (childBeans != null && childBeans.length > 0) {
+            for (int i = 0; i < childBeans.length; i++) {
+                if (instanceName.equals(childBeans[i].getInstanceName())) {
+                    child = childBeans[i];
+                    break;
+                }
+            }
+        }
+        return child;
+    }
 }

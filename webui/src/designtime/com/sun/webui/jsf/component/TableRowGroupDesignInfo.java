@@ -55,6 +55,8 @@ import com.sun.data.provider.DataProvider;
 public class TableRowGroupDesignInfo extends AbstractDesignInfo {
     
     private static final String SOURCE_DATA_PROPERTY = "sourceData";
+    public static final String SELECTION_COLUMN_SUFFIX = "SelectionColumn";   //NOI18N
+    public static final String SELECTION_CHILD_SUFFIX = "SelectionChild";   //NOI18N
     
     public TableRowGroupDesignInfo() {
         super(TableRowGroup.class);
@@ -213,6 +215,36 @@ public class TableRowGroupDesignInfo extends AbstractDesignInfo {
                 //add a new ProviderListener to tdpInstance
                 ProviderListener providerListener = new ProviderListener(tableRowGroupBean);
                 tdpInstance.addDataListener(providerListener);
+            }
+        }
+    }
+    
+    /**
+     * The specified DesignBean's instance name was changed.  This is the source-code instance name
+     * of the bean component.
+     *
+     * @param designBean The DesignBean that has a new instance name
+     * @param oldInstanceName The old instance name
+     */
+    public void instanceNameChanged(DesignBean designBean, String oldInstanceName) {
+        //look for a selection column and selection child, and, if found, change their instance names
+        String selectionColumnName = oldInstanceName + TableRowGroupDesignInfo.SELECTION_COLUMN_SUFFIX;
+        DesignBean selectionColumnBean = TableDesignHelper.findChildBeanByName(designBean, selectionColumnName);
+        if (selectionColumnBean != null) {
+            String selectionChildName = oldInstanceName + TableRowGroupDesignInfo.SELECTION_CHILD_SUFFIX;
+            DesignBean selectionChildBean = TableDesignHelper.findChildBeanByName(selectionColumnBean, selectionChildName);
+            if (selectionChildBean != null) {
+                String tableRowGroupBeanName = designBean.getInstanceName();
+                String selectionColumnNameRevised = tableRowGroupBeanName + TableRowGroupDesignInfo.SELECTION_COLUMN_SUFFIX;
+                String selectionChildNameRevised = tableRowGroupBeanName + TableRowGroupDesignInfo.SELECTION_CHILD_SUFFIX;
+                selectionColumnBean.setInstanceName(selectionColumnNameRevised);
+                selectionChildBean.setInstanceName(selectionChildNameRevised);
+                //change the selectId property of the selectionColumnBean
+                DesignProperty selectIdProperty = selectionColumnBean.getProperty("selectId");  //NOI18N
+                Object oldValue = selectIdProperty.getValue();
+                if (!selectionChildNameRevised.equals(oldValue)) {
+                    selectIdProperty.setValue(selectionChildNameRevised);
+                }
             }
         }
     }

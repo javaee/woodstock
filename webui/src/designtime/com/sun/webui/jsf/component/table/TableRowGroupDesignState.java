@@ -42,13 +42,15 @@ import com.sun.rave.designtime.faces.FacesDesignContext;
 import com.sun.rave.designtime.faces.FacesDesignProject;
 import com.sun.webui.jsf.component.Checkbox;
 import com.sun.webui.jsf.component.TableColumn;
-import java.lang.reflect.Type;
+import com.sun.webui.jsf.component.TableRowGroupDesignInfo;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.ResourceBundle;
 import java.util.Vector;
+import javax.faces.component.UIComponent;
+import javax.faces.context.FacesContext;
 
 /**
  * This class defines the design time state of the Table Group Component
@@ -388,6 +390,18 @@ public class TableRowGroupDesignState {
     }
     
     /**
+     * Get the boolean value of the property
+     */
+    private boolean getBooleanPropertyValue(String propertyname, DesignBean bean) {
+        boolean value = false;
+        Object propValue = getPropertyValue(propertyname, bean);
+        if(propValue != null){
+            value = ((Boolean) propValue).booleanValue();
+        }
+        return value;
+    }
+    
+    /**
      * Get String property value
      */
     private String getStringPropertyValue(String propertyname){
@@ -414,15 +428,19 @@ public class TableRowGroupDesignState {
     /**
      * Load the property value from the bean to this state
      */
-    private Object getPropertyValue(String propertyname){
+    private Object getPropertyValue(String propertyname, DesignBean bean){
         Object propertyValue = null;
-        DesignProperty designProperty = tableRowGroupBean.getProperty(propertyname);
+        DesignProperty designProperty = bean.getProperty(propertyname);
         if(designProperty != null){
             if(designProperty.getValue() != null){
                 propertyValue = designProperty.getValue();
             }
         }
         return propertyValue;
+    }
+    
+    private Object getPropertyValue(String propertyname) {
+        return getPropertyValue(propertyname, tableRowGroupBean);
     }
     
     /**
@@ -445,6 +463,22 @@ public class TableRowGroupDesignState {
             DesignProperty designProperty = tableRowGroupBean.getProperty(propertyname);
             if(designProperty != null){
                 Object origValue = getPropertyValue(propertyname);
+                if(value != origValue){
+                    if((value instanceof String) && value.toString().equals("")){
+                        designProperty.unset();
+                    }else{
+                        designProperty.setValue(value);
+                    }
+                }
+            }
+        }
+    }
+    
+    private void setPropertyValue(String propertyname, Object value, DesignBean bean){
+        if(value != null){
+            DesignProperty designProperty = bean.getProperty(propertyname);
+            if(designProperty != null){
+                Object origValue = getPropertyValue(propertyname, bean);
                 if(value != origValue){
                     if((value instanceof String) && value.toString().equals("")){
                         designProperty.unset();
@@ -568,7 +602,6 @@ public class TableRowGroupDesignState {
             childBeansDeleted = true;
         }
         
-        
         // Persist the design states of the selected Table Column.
         // Create the table column bean if not created already.
         for (int i=0; i< selectedColumnNames.size(); i++){
@@ -592,6 +625,39 @@ public class TableRowGroupDesignState {
                 fcontext.deleteBean(tblColDesignState.getTableColumnBean());
                 tblColDesignState.setTableColumnBean(null);
             }
+        }
+        
+        //create or delete the "selection column" if appropriate
+        String tableRowGroupBeanName = tableRowGroupBean.getInstanceName();
+        String selectionColumnName = tableRowGroupBeanName + TableRowGroupDesignInfo.SELECTION_COLUMN_SUFFIX;
+        //look for the "selection column" design bean
+        DesignBean selectionColumnBean = TableDesignHelper.findChildBeanByName(tableRowGroupBean, selectionColumnName);
+        DesignBean tableBean = tableRowGroupBean.getBeanParent();
+        //get the selectMultipleButton and deselectMultipleButton properties of the table bean
+        boolean useSelectMultipleButton = getBooleanPropertyValue("selectMultipleButton", tableBean);
+        boolean useDeselectMultipleButton = getBooleanPropertyValue("deselectMultipleButton", tableBean);
+        if (useSelectMultipleButton || useDeselectMultipleButton) { //if either is true
+            if (selectionColumnBean == null) {  //if the selection column does not exist
+                //create the selection column
+                selectionColumnBean = fcontext.createBean(TableColumn.class.getName(), tableRowGroupBean, new Position(0));
+                selectionColumnBean.setInstanceName(selectionColumnName);
+                //create a checkbox as a child of the selection column
+                DesignBean selectionChildBean = fcontext.createBean(Checkbox.class.getName(), selectionColumnBean, null);
+                String selectionChildName = tableRowGroupBeanName + TableRowGroupDesignInfo.SELECTION_CHILD_SUFFIX;
+                selectionChildBean.setInstanceName(selectionChildName);
+                //set selectionChildName as the value of the selectionColumnBean's selectId property
+                setPropertyValue("selectId", selectionChildName, selectionColumnBean);
+                UIComponent tableComponent = (UIComponent)tableBean.getInstance();
+                FacesContext facesContext = fcontext.getFacesContext();
+                String tableClientId = tableComponent.getClientId(facesContext);
+                String javascript = "setTimeout(function(){document.getElementById('" + tableClientId + "').initAllRows()}, 0);"; //NOI18N
+                //set the javascript as the value of the selectionColumnBean's onClick property
+                setPropertyValue("onClick", javascript, selectionColumnBean);
+            }
+        }
+        else if (selectionColumnBean != null) { //if neither useSelectMultipleButton or useDeselectMultipleButton is true, and the selection column exists
+            //delete the selection column
+            fcontext.deleteBean(selectionColumnBean);
         }
         
         if(childBeansDeleted) TableDesignHelper.adjustTableWidth(tableRowGroupBean);
