@@ -32,16 +32,15 @@ public interface EventListener extends FacesListener, StateHolder {
 
 
     /**
-     * <p>Invoked when the action described by the specified
-     * {@link MenuEvent} occurs.</p>
-     *
-     * @param event The {@link MenuEvent} that has occurred
-     *
-     * @throws AbortProcessingException Signal the JavaServer Faces
-     *  implementation that no further processing on the current event
-     *  should be performed
-     */
-    public void processEvent(MenuEvent event)
+   * <p>Invoked when the action described by the specified
+   * {@link ValueEvent} occurs.</p>
+   * 
+   * @param event The {@link MValueEvent that has occurred
+   * @throws AbortProcessingException Signal the JavaServer Faces
+   *  implementation that no further processing on the current event
+   *  should be performed
+   */
+    public void processEvent(ValueEvent event)
         throws AbortProcessingException;
 }
 
