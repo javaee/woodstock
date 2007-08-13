@@ -1287,9 +1287,12 @@ ul.MenuItems@THEME_CSS@ li .MenuItemSeparator@THEME_CSS@ {
 }
 
 ul.MenuItems@THEME_CSS@ li .MenuItem@THEME_CSS@,       /* 1st-level menu item */
-ul.MenuItems@THEME_CSS@ ul li .MenuItem@THEME_CSS@,    /* 2nd-level menu item in 1st-level optgroup */
+ul.MenuItems@THEME_CSS@ ul li .MenuItem@THEME_CSS@ {   /* 2nd-level menu item in 1st-level optgroup */
+    color: #003399;
+}
+
 ul.MenuItems@THEME_CSS@ li .MenuOptGroupHeader@THEME_CSS@ {  /* 1st-level optgroup header */
-    color: #0A3A9C;
+    color: #000;
 }
 
 ul.MenuItems@THEME_CSS@ li .MenuItemDisabled@THEME_CSS@,       /* 1st-level menu item */
@@ -1299,7 +1302,8 @@ ul.MenuItems@THEME_CSS@ ul li .MenuItemDisabled@THEME_CSS@ {   /* 2nd-level menu
 
 ul.MenuItems@THEME_CSS@ li div.MenuItem@THEME_CSS@:hover,     /* standard hover */
 ul.MenuItems@THEME_CSS@ li div.MenuItem@THEME_CSS@.iehover@THEME_CSS@ {  /* IE hover - see ieHover javascript function */
-    background-color: #A0BAD8;
+    background-color: #90b7d0;
+    color: #ffffff;
     cursor: pointer;
 }
 
