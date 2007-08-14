@@ -223,6 +223,8 @@
         <pathconvert property="apt.sourcepath" pathsep=" ">
             <path refid="annotation-sourcepath"/>
         </pathconvert>
+	<tempfile property="temp.file" deleteonexit="true"/>
+	<concat destfile="${temp.file}">${apt.sourcepath}</concat>
         <exec executable="${apt.home}/bin/apt">
             <arg line="-s ${generated-source-dir}"/>
             <arg line="-d ${generated-classes-dir}"/>
@@ -234,8 +236,9 @@
             <arg value="-A localize"/>
             <arg line="-classpath ${apt.classpath}"/>
             <arg line="-factory com.sun.faces.mirror.FacesAnnotationProcessorFactory"/>
-            <arg line="${apt.sourcepath}"/>
+            <arg line="@${temp.file}"/>
         </exec>
+	<delete file="${temp.file}"/>
     </target>
 
     <target name="compile-precopy-runtime" depends="process-runtime-annotations"
