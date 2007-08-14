@@ -21,7 +21,7 @@
  */
 
 /*
- * $Id: UploadFilter.java,v 1.3 2007-07-20 20:46:51 rratta Exp $
+ * $Id: UploadFilter.java,v 1.4 2007-08-14 23:00:40 mattbohm Exp $
  */
 
 package com.sun.webui.jsf.util;
@@ -35,7 +35,6 @@ import java.util.Hashtable;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-import java.util.Map.Entry;
 import java.util.Set;
 
 import javax.servlet.Filter;
@@ -58,6 +57,7 @@ import org.apache.commons.fileupload.FileUploadException;
 import com.sun.webui.jsf.component.Upload;
 import com.sun.webui.jsf.util.MessageUtil;
 import com.sun.webui.jsf.util.LogUtil;
+import java.io.UnsupportedEncodingException;
 
 /**
  * <p>
@@ -643,7 +643,7 @@ public class UploadFilter implements Filter {
      * </p>
      */
     private boolean getFormData(FileItem fileItem, 
-	    Hashtable formDataMap, ServletRequest request) {
+	    Hashtable formDataMap, ServletRequest request) throws UnsupportedEncodingException {
         
 	boolean haveMultipleValues = false;
 	String fieldName = fileItem.getFieldName();
@@ -672,7 +672,11 @@ public class UploadFilter implements Filter {
 	    // the new value. This keeps us from creating ArrayLists
 	    // unnecessarily.
 	    //
-	    String svalue = fileItem.getString();
+            String encoding = request.getCharacterEncoding();
+            if (encoding == null) {
+                encoding = "UTF-8";
+            }
+	    String svalue = fileItem.getString(encoding);
 	    Object value = formDataMap.get(fieldName);
 	    if (value == null) {
 		// Since getParameterMap must return a Map containing
@@ -708,7 +712,7 @@ public class UploadFilter implements Filter {
      * Assemble the form data into a Hashtable.
      */
     Hashtable getFormDataAsRequestParameters(List fileItems,
-	    ServletRequest request) {
+	    ServletRequest request) throws UnsupportedEncodingException {
 
 	// A flag set in getFormData if we encounter fields with multiple
 	// values. This is an optimization. If there are no multiple values
