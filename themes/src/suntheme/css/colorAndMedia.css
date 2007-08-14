@@ -1109,7 +1109,7 @@ a.WizStpLnk@THEME_CSS@:hover {
 
 .Bubble@THEME_CSS@ {
     background: #ffffff; 
-    border: 1px solid #98A0A5; 
+    border: 1px solid #8c8f91; 
 }
 
 .BubbleShadow@THEME_CSS@, .Bubble@THEME_CSS@ {
@@ -1133,11 +1133,12 @@ a.WizStpLnk@THEME_CSS@:hover {
 }
 
 .BubbleHeader@THEME_CSS@ {
-    background-color: #E5E9ED;
+    background-color: #e1e5e8;
+    border-bottom: 1px solid #8c8f91;
 }
 
 .BubbleTitle@THEME_CSS@ {
-    color: #5B87A5;
+    color: #36586f;
 }
 
 .BubbleCloseBtn@THEME_CSS@ {
@@ -1151,14 +1152,14 @@ a.WizStpLnk@THEME_CSS@:hover {
 
 /* ACCORDION */
 .Accordion@THEME_CSS@ {
-    border-top: thin solid #81939b;
+    border-top: thin solid #8c8f91;
 }
 
 .AccdHeader@THEME_CSS@ {
-    border-color: #81939b;
+    border-color: #8c8f91;
     background-image: url(../images/accordion/tab_collapsed_gradient.png);
     background-repeat: repeat-x;
-    background-color: #F8F8F9;
+    background-color: #e1e5e8;
     background-position: top;
 }
 
@@ -1171,15 +1172,15 @@ a.WizStpLnk@THEME_CSS@:hover {
 }
 
 .AccdTabExpanded@THEME_CSS@, .AccdTabCollapsed@THEME_CSS@ {
-    border-color: #81939b;
+    border-color: #8c8f91;
     cursor: pointer;
 }
 
 .AccdTabExpanded@THEME_CSS@ {
-    background: #386787 url(../images/accordion/tab_expanded_gradient.png) repeat-x top;
+    background: #46708e url(../images/accordion/tab_expanded_gradient.png) repeat-x top;
  }
 .AccdTabCollapsed@THEME_CSS@ {
-    background: #F8F8F9 url(../images/accordion/tab_collapsed_gradient.png) repeat-x top;
+    background: #e1e5e8 url(../images/accordion/tab_collapsed_gradient.png) repeat-x top;
  }
 
 .AccdTabExpanded@THEME_CSS@ a:link,
@@ -1200,7 +1201,7 @@ a.WizStpLnk@THEME_CSS@:hover {
 }
 
 .AccdTabCollapsed@THEME_CSS@ a:hover {
-    background: #DBE5ED url(../images/accordion/tab_collapsed_gradient.png) repeat-x top;
+    background: #f1f3f6 url(../images/accordion/tab_collapsed_gradient.png) repeat-x top;
 }
 
 .AccdTabTitle@THEME_CSS@ a:link,
@@ -1234,7 +1235,7 @@ a.WizStpLnk@THEME_CSS@:hover {
 
 .AccdTabContent@THEME_CSS@ {
     background-color: #FFFFFF;
-    border-color: #81939b;
+    border-color: #8c8f91;
  }
 /*---*/
 
@@ -1275,7 +1276,7 @@ a.WizStpLnk@THEME_CSS@:hover {
 
 .Menu@THEME_CSS@ {
     background: #fff; 
-    border: 1px solid #555; 
+    border: 1px solid #8c8f91; 
 }
 
 ul.MenuItems@THEME_CSS@ {
@@ -1283,7 +1284,7 @@ ul.MenuItems@THEME_CSS@ {
 }
 
 ul.MenuItems@THEME_CSS@ li .MenuItemSeparator@THEME_CSS@ {
-    border-top: 1px solid #DBDFE1;
+    border-top: 1px solid #cad0d2;
 }
 
 ul.MenuItems@THEME_CSS@ li .MenuItem@THEME_CSS@,       /* 1st-level menu item */
@@ -1297,7 +1298,7 @@ ul.MenuItems@THEME_CSS@ li .MenuOptGroupHeader@THEME_CSS@ {  /* 1st-level optgro
 
 ul.MenuItems@THEME_CSS@ li .MenuItemDisabled@THEME_CSS@,       /* 1st-level menu item */
 ul.MenuItems@THEME_CSS@ ul li .MenuItemDisabled@THEME_CSS@ {   /* 2nd-level menu item in 1st-level optgroup */
-    color: #848687;
+    color: #7a7277;
 }
 
 ul.MenuItems@THEME_CSS@ li div.MenuItem@THEME_CSS@:hover,     /* standard hover */

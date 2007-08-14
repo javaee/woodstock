@@ -1708,11 +1708,12 @@ table.TblLt@THEME_CSS@ td.TblPnlTd@THEME_CSS@ {padding-left:10px;border-top:none
     border-style: none solid solid solid;
     border-width: 1px;
     overflow: hidden;
-    height: 19px;
+    height: 25px;
 }
 
 .AccdHeader@THEME_CSS@ .AccdRefreshBtn@THEME_CSS@ img, .AccdHeader@THEME_CSS@ .AccdOpenAllBtn@THEME_CSS@ img, .AccdHeader@THEME_CSS@ .AccdCloseAllBtn@THEME_CSS@ img, .AccdHeader@THEME_CSS@ .AccdDivider@THEME_CSS@ {
     float:right;
+    margin-top: 3px;
     margin-right: 3px;
 }
 
@@ -1728,12 +1729,12 @@ table.TblLt@THEME_CSS@ td.TblPnlTd@THEME_CSS@ {padding-left:10px;border-top:none
 
 .AccdTabExpanded@THEME_CSS@ a, .AccdTabCollapsed@THEME_CSS@ a {
     display: block;
-    padding: 2px 6px 2px 6px;
+    padding: 3px 6px 3px 6px;
 }
 
 .AccdDownTurner@THEME_CSS@, .AccdRightTurner@THEME_CSS@ {
     display: block;
-    margin-top:8px;
+    margin-top:7px;
     margin-left:5px;
     margin-right:5px;
     float: left;
