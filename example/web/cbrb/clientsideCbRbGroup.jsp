@@ -64,11 +64,11 @@
                             var domNode = document.getElementById(id);                                       
                             if (levelid == '1') {
                                 domNode.setProps({
-                                        label: {level: 1, value: "Label level 1"}
+                                        label: {level: 1}
                                 });
                             } else {
                                 domNode.setProps({
-                                        label: {level: 3, value: "Label level 3"}
+                                        label: {level: 3}
                                 });                
                             }
                             return false;                                
