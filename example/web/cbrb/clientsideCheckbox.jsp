@@ -74,8 +74,8 @@
                      to wrap the HTML markup in the f:verbatim tag.  webuijsf:markup could
                      also be used but that is more heavyweight (slower). -->
                 <table>
-                  <tr>
-                    <td>
+                  <tr valign="top">
+                    <td style="padding-top:3px">
                       <!-- Checkbox -->
                       <webuijsf:label id="CheckboxLabel" text="#{msgs.cbrb_checkboxLabel}"/>
                     </td>
