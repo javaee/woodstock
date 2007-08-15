@@ -69,7 +69,7 @@
                     text="#{msgs.tabset_submitButton}"
                     actionExpression="showTabsetStateResults" />
 
-                  <webuijsf:button id="cancelButton" primary="true"
+                  <webuijsf:button id="cancelButton" primary="false"
                     text="#{msgs.tabset_resetButton}" 
                     actionExpression="#{StateBean.reset}"/>
                  </webuijsf:panelGroup>

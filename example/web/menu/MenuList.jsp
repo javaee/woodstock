@@ -134,9 +134,9 @@
                                     <td align="left">                                                       
                                         <!-- Buttons to disable/enable the standard drop down. -->                    
                                         <webuijsf:label text="Enable: "/>
-                                        <webuijsf:button primary="true" text="Yes" 
+                                        <webuijsf:button primary="false" text="Yes" 
                                              onClick="return updateDropDown({disabled:false}); return false;" />  
-                                         <webuijsf:button primary="true" text="No" 
+                                         <webuijsf:button primary="false" text="No" 
                                              onClick="return updateDropDown({disabled:true}); return false;" />                                         
                                     </td>
                                 </tr>    
@@ -173,9 +173,9 @@
                                     <td align="left">                                                       
                                         <!-- Buttons to disable/enable the listbox. -->                    
                                         <webuijsf:label text="Enable: "/>
-                                        <webuijsf:button primary="true" text="Yes" 
+                                        <webuijsf:button primary="false" text="Yes" 
                                              onClick="return updateListbox({disabled:false}); return false;" />  
-                                         <webuijsf:button primary="true" text="No" 
+                                         <webuijsf:button primary="false" text="No" 
                                              onClick="return updateListbox({disabled:true}); return false;" />                                         
                                     </td>
                                 </tr>    

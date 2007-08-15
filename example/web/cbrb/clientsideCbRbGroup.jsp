@@ -90,8 +90,8 @@
                             selected="#{rbcbGroupBean.cb1selected}"
                             toolTip="CheckboxGroup" />                                                                 
                     <br /><br />
-                    <webuijsf:button primary="true" id="disableBtn" text="#{msgs.cbrb_disable}" onClick="return updateGroup({disabled: true}, 'form1:cbGrp1');"/>                                    
-                    <webuijsf:button primary="true" id="enableBtn" text="#{msgs.cbrb_enable}" onClick="return updateGroup({disabled: false}, 'form1:cbGrp1');"/>                                                        
+                    <webuijsf:button primary="false" id="disableBtn" text="#{msgs.cbrb_disable}" onClick="return updateGroup({disabled: true}, 'form1:cbGrp1');"/>                                    
+                    <webuijsf:button primary="false" id="enableBtn" text="#{msgs.cbrb_enable}" onClick="return updateGroup({disabled: false}, 'form1:cbGrp1');"/>                                                        
                     <br /><br />                 
                     
                     <webuijsf:checkboxGroup id="cbGrp2" items="#{rbcbGroupBean.array}" 
@@ -113,8 +113,8 @@
                         </f:facet>
                     </webuijsf:radioButtonGroup>
                     <br /><br />    
-                    <webuijsf:button primary="true" id="levelBtn1" text="#{msgs.cbrb_level1}" onClick="return changeLevel('1', 'form1:rbGrp1');"/>
-                    <webuijsf:button primary="true" id="levelBtn3" text="#{msgs.cbrb_level3}" onClick="return changeLevel('3', 'form1:rbGrp1');"/>                     
+                    <webuijsf:button primary="false" id="levelBtn1" text="#{msgs.cbrb_level1}" onClick="return changeLevel('1', 'form1:rbGrp1');"/>
+                    <webuijsf:button primary="false" id="levelBtn3" text="#{msgs.cbrb_level3}" onClick="return changeLevel('3', 'form1:rbGrp1');"/>                     
                     <br /><br />    
                     
                     <webuijsf:radioButtonGroup id="rbGrp2" items="#{rbcbGroupBean.array}" 

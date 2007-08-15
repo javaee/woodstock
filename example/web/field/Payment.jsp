@@ -70,7 +70,7 @@
                     toolTip="#{msgs.field_autoValidateSubmitButtonTooltip}"
                     actionExpression="showTextInputAutoValidateResults" />
 
-                  <webuijsf:button id="resetButton" primary="true"
+                  <webuijsf:button id="resetButton" primary="false"
                     text="#{msgs.field_autoValidateResetButton}" 
                     toolTip="#{msgs.field_autoValidateResetButtonTooltip}" 
                     immediate="true"

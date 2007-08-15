@@ -57,7 +57,7 @@
                             <webuijsf:panelGroup id="pageButtonsGroupTop">
                                 <webuijsf:button id="okButton" primary="true" actionExpression="showPropertySheetResult"
                                            text="#{msgs.propertysheet_Okbutton}"  />
-                                <webuijsf:button id="cancelButton" primary="true" text="#{msgs.propertysheet_CancelButton}" 
+                                <webuijsf:button id="cancelButton" primary="false" text="#{msgs.propertysheet_CancelButton}" 
                                            immediate="true" actionExpression="#{PropertySheetBean.showExampleIndex}"/>
                             </webuijsf:panelGroup>
                         </f:facet>
@@ -65,7 +65,7 @@
                             <webuijsf:panelGroup id="pageButtonsGroupBottom">
                                 <webuijsf:button id="okButtonbottom" primary="true" actionExpression="showPropertySheetResult"
                                            text="#{msgs.propertysheet_Okbutton}"  />
-                                <webuijsf:button id="cancelButtonbottom" primary="true" text="#{msgs.propertysheet_CancelButton}" 
+                                <webuijsf:button id="cancelButtonbottom" primary="false" text="#{msgs.propertysheet_CancelButton}" 
                                            immediate="true" actionExpression="#{PropertySheetBean.showExampleIndex}"/>
                             </webuijsf:panelGroup>
                         </f:facet>
@@ -198,7 +198,7 @@
                               <webuijsf:property id="redisplayButton" labelAlign="left" noWrap="true" 
                                             overlapLabel="false">
                             
-                                 <webuijsf:button id="redisplay" primary="true" immediate="true"
+                                 <webuijsf:button id="redisplay" primary="false" immediate="true"
                                             text="#{msgs.propertysheet_redisplayButton}"/>
                               </webuijsf:property>
                           </webuijsf:propertySheetSection>
