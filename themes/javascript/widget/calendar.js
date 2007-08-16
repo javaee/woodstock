@@ -365,28 +365,26 @@ webui.@THEME@.widget.calendar.event = {
          * must be run.
          */
         processEvent: function(execute) {
+            var topic = webui.@THEME@.widget.calendar.event.toggle.openTopic;
             if (this.calendarContainer.style.display != "block") {        
                 this.calendarContainer.style.display = "block";
                 this.setInitialFocus();
-
-                // Publish an event for other widgets to listen for.
-                dojo.event.topic.publish(
-                    webui.@THEME@.widget.calendar.event.toggle.openTopic, {
-                        id: this.id,
-                        execute: execute
-                    });
                 this.updateMonth(true);    
             } else {
                 // Hide the calendar popup
                 this.calendarContainer.style.display = "none";
-
-                // publish an event for other widgets to listen for.
-                dojo.event.topic.publish(
-                    webui.@THEME@.widget.calendar.event.toggle.closeTopic, {
-                        id: this.id,
-                        execute: execute
-                    });            
+                topic = webui.@THEME@.widget.calendar.event.toggle.closeTopic;
             }
+            // Test for IE 
+            if (webui.@THEME@.common.browser.is_ie5up) {
+                this.ieStackingContextFix();
+            }
+            // publish an event for other widgets to listen for.
+            dojo.event.topic.publish(
+                topic, {
+                    id: this.id,
+                    execute: execute
+                });            
             return false;
         }
     }
@@ -414,6 +412,7 @@ webui.@THEME@.widget.calendar.fillInTemplate = function(props, frag) {
         this.monthMenuContainer.id = this.id + "_monthMenuContainer";
         this.nextLinkContainer.id = this.id + "_nextLinkContainer";
         this.yearMenuContainer.id = this.id + "_yearMenuContainer";
+        this.shimContainer.id = this.id + "_shim";
     }
     return true;
 }
@@ -462,6 +461,73 @@ webui.@THEME@.widget.calendar.getProps = function() {
 }
 
 /**
+ *Workaround IE bug where popup calendar appears under other components
+ */
+webui.@THEME@.widget.calendar.ieStackingContextFix = function() {
+    var div = this.calendarContainer;
+    if (div.style.display == "block") {
+
+         // This popup should be displayed
+        // Get the current zIndex for the div
+        var divZIndex = div.currentStyle.zIndex;
+
+        // Propogate the zIndex up the offsetParent tree
+        var tag = div.offsetParent;
+        while (tag != null) {
+            var position = tag.currentStyle.position;
+            if (position == "relative" || position == "absolute") {
+
+                // Save any zIndex so it can be restored
+                tag.raveOldZIndex = tag.style.zIndex;
+
+                // Change the zIndex
+                tag.style.zIndex = divZIndex;
+            }
+            tag = tag.offsetParent;
+        }
+
+        // Hide controls unaffected by z-index
+        this.ieShowShim();
+    } else {
+        // This popup should be hidden so restore zIndex-s
+        var tag = div.offsetParent;
+        while (tag != null) {
+            var position = tag.currentStyle.position;
+            if (position == "relative" || position == "absolute") {
+                if (tag.raveOldZIndex != null) {
+                    tag.style.zIndex = tag.raveOldZIndex;
+                }
+            }
+            tag = tag.offsetParent;
+        }
+        this.ieHideShim();
+    }
+}
+
+/**
+ * Hides components unaffected by z-index
+ */
+webui.@THEME@.widget.calendar.ieShowShim = function() {  
+    var popup = this.calendarContainer;
+    var shim = this.shimContainer;
+    shim.style.position = "absolute";
+    shim.style.left = popup.style.left;
+    shim.style.top = popup.style.top;
+    shim.style.width = popup.offsetWidth;
+    shim.style.height = popup.offsetHeight;
+    shim.style.zIndex = popup.currentStyle.zIndex - 1;
+    shim.style.display = "block";
+}
+
+/**
+ * Hide the shim iframe
+ */
+webui.@THEME@.widget.calendar.ieHideShim = function() {
+    var shim = this.shimContainer;
+    shim.style.display = "none";
+}   
+
+/**
  * This function is used to increment the current month.
  */
 webui.@THEME@.widget.calendar.increaseMonth = function() {            
@@ -475,7 +541,7 @@ webui.@THEME@.widget.calendar.increaseMonth = function() {
     
     var month = parseInt(monthMenu.value);
     if (month == 12) {
-        var yearMenu = dojo.widget.byId(widget.yearMenu.id).getSelectElement();
+        var yearMenu = dojo.widget.byId(this.yearMenu.id).getSelectElement();
         var numOptions = yearMenu.options.length;
         if (yearMenu.value == null) {
             // If the yearMenu has no value, set it to the first available year            
@@ -760,7 +826,6 @@ webui.@THEME@.widget.calendar._setProps = function(props) {
 
     // Set more properties.
     this.setCommonProps(this.domNode, props);
-
     // Set remaining properties.
     return webui.@THEME@.widget.calendar.superclass._setProps.call(this, props);
 }
@@ -815,6 +880,9 @@ dojo.lang.extend(webui.@THEME@.widget.calendar, {
     fillInTemplate: webui.@THEME@.widget.calendar.fillInTemplate,
     formatDate: webui.@THEME@.widget.calendar.formatDate,
     getProps: webui.@THEME@.widget.calendar.getProps,
+    ieStackingContextFix: webui.@THEME@.widget.calendar.ieStackingContextFix,
+    ieShowShim: webui.@THEME@.widget.calendar.ieShowShim,
+    ieHideShim: webui.@THEME@.widget.calendar.ieHideShim,
     increaseMonth: webui.@THEME@.widget.calendar.increaseMonth,
     setCurrentValue: webui.@THEME@.widget.calendar.setCurrentValue,
     setInitialFocus:webui.@THEME@.widget.calendar.setInitialFocus,
