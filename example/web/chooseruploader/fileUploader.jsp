@@ -63,6 +63,7 @@
                         <webuijsf:contentPageTitle id="uploaderContentPage" title="#{msgs.fileUploader_title}" />
                        
                          <webuijsf:markup tag="div" styleClass="#{themeStyles.CONTENT_MARGIN}">
+                         <webuijsf:legend id="legend" text="#{msgs.uploader_requiredLabel}" />
                          <table><tr style="height:5px"><td>
                          </td></tr>
                          <tr style="height:10px"><td></td></tr>
@@ -73,6 +74,7 @@
                             uploadedFile = "#{FileUploaderBean.uploadedFile}"
                             required="true"
                             label="#{msgs.uploader_uploadLabel}"
+                            toolTip="#{msgs.uploader_uploadLabelTooltip}"
                             validatorExpression="#{FileUploaderBean.validateFile}"/>
                          <f:verbatim><![CDATA[ &nbsp; ]]></f:verbatim>
                          </td></tr>

@@ -62,6 +62,7 @@
               
               <!-- Page Title -->
               <webuijsf:contentPageTitle id="pagetitle" title="#{msgs.pagetitle_title}" helpText="#{msgs.pagetitle_helpText}">
+
                 <!-- Page Buttons Top -->
                 <f:facet name="pageButtonsTop">
                   <webuijsf:panelGroup id="pageButtonsGroupTop"> 
@@ -89,12 +90,23 @@
                                actionListenerExpression="#{PagetitleBean.menuChanged}" selected="#{PagetitleBean.selectedItem}" 
                                submitForm="true" immediate="true" />                              
                 </f:facet>              
+
+                <!-- Required field legend -->
+                <webuijsf:markup tag="div" styleClass="#{themeStyles.CONTENT_MARGIN}">
+                  <webuijsf:legend id="legend"
+                    style="margin-top:20px"
+                    text="#{msgs.pageTitle_requiredLabel}" />
+                </webuijsf:markup>
                 
                 <!-- Text fields -->
                 <f:verbatim><![CDATA[<br/><table><tr><td>&nbsp;&nbsp;]]></f:verbatim>
-                <webuijsf:label id="label1" for="text1" text="#{msgs.pagetitle_label1}" />
+                <webuijsf:label id="label1" for="text1" 
+                  text="#{msgs.pagetitle_label1}"
+                  toolTip="#{msgs.pageTitle_nameTooltip}" />
                 <f:verbatim><![CDATA[</td><td>&nbsp;&nbsp;&nbsp;&nbsp;]]></f:verbatim>
-                <webuijsf:textField id="text1" required="true" text="#{PagetitleBean.text1}"/>
+                <webuijsf:textField id="text1" required="true" 
+                  text="#{PagetitleBean.text1}" 
+                  toolTip="#{msgs.pageTitle_nameTooltip}" />
                 
                 <f:verbatim><![CDATA[</tr><tr><td>&nbsp;&nbsp;]]></f:verbatim> 
                 <webuijsf:label id="label2" for="text2" text="#{msgs.pagetitle_label2}" />

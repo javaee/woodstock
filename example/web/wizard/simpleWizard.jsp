@@ -60,6 +60,9 @@
               detail="#{msgs.wiz_simple_step1_detail}"
               help="#{msgs.wiz_simple_step1_help}">
 
+                <webuijsf:legend id="legend" style="margin-bottom:10px"
+                  text="#{msgs.wiz_requiredLabel}" />
+
 		<table border="0">
                 <!-- User name field is required and validated.
 		     Guidelines require inline alert messages be used.
@@ -73,13 +76,15 @@
 		<webuijsf:message showDetail="true" for="name1"/>
 		</td></tr>
 		<tr><td>
-                <webuijsf:label text="#{msgs.wiz_user_username}" for="name1"/>
+                <webuijsf:label text="#{msgs.wiz_user_username}" for="name1"
+                  toolTip="#{msgs.wiz_user_username_tooltip}"/>
 		</td><td>
                 <webuijsf:textField id="name1"
                   label=""
                   required="true"
                   validatorExpression="#{SimpleWizardBean.validateUserName}"
                   text="#{SimpleWizardBean.userName}"
+                  toolTip="#{msgs.wiz_user_username_tooltip}"
                   onKeyPress="if (event.keyCode==13) return false;"/>
 		</td></tr>
 		<tr><td></td><td>
@@ -130,13 +135,15 @@
 		<webuijsf:message showDetail="true" for="uid1"/>
 		</td></tr>
 		<tr><td>
-                <webuijsf:label text="#{msgs.wiz_user_uid}" for="uid1"/>
+                <webuijsf:label text="#{msgs.wiz_user_uid}" for="uid1"
+                  toolTip="#{msgs.wiz_user_uid_tooltip}"/>
 		</td><td>
                 <webuijsf:textField id="uid1"
                   text="#{SimpleWizardBean.userUid}"
                   label=""
                   required="true"
                   disabled="#{SimpleWizardBean.uidDisabled}"
+                  toolTip="#{msgs.wiz_user_uid_tooltip}"
                   validatorExpression="#{SimpleWizardBean.validateUserUid}"
                   onKeyPress="if (event.keyCode==13) return false;"/>
 		</td></tr>
@@ -155,6 +162,10 @@
               title="#{msgs.wiz_simple_step2_title}"
               detail="#{msgs.wiz_simple_step2_detail}"
               help="#{msgs.wiz_simple_step2_help}">
+
+                <webuijsf:legend id="legend" style="margin-bottom:10px"
+                  text="#{msgs.wiz_requiredLabel}" />
+
 		<table border="0">
 
                 <!-- Set how password is obtained. Toggle password field. -->
@@ -200,11 +211,13 @@
 		</td></tr>
 		<tr><td>
                 <webuijsf:label text="#{msgs.wiz_user_pswdEnter1}"
-                  for="pswd1"/>
+                  for="pswd1"
+                  toolTip="#{msgs.wiz_user_pswdEnter1_tooltip}"/>
 		</td><td>
                 <webuijsf:passwordField id="pswd1"
                   password="#{SimpleWizardBean.userPassword}"
                   disabled="#{SimpleWizardBean.passwordDisabled}"
+                  toolTip="#{msgs.wiz_user_pswdEnter1_tooltip}"
                   required="true"
                   label=""
                   validatorExpression="#{SimpleWizardBean.validateUserPassword}"
@@ -224,11 +237,13 @@
 		</td></tr>
                 <tr><td>
                 <webuijsf:label text="#{msgs.wiz_user_pswdEnter2}"
-                  for="pswd2"/>
+                  for="pswd2"
+                  toolTip="#{msgs.wiz_user_pswdEnter2_tooltip}"/>
 		</td><td>
                 <webuijsf:passwordField id="pswd2"
                   password="#{SimpleWizardBean.userPasswordConfirm}"
                   disabled="#{SimpleWizardBean.passwordConfirmDisabled}"
+                  toolTip="#{msgs.wiz_user_pswdEnter2_tooltip}"
                   required="true"
                   label=""
                   validatorExpression="#{SimpleWizardBean.confirmUserPassword}"
@@ -278,6 +293,9 @@
               detail="#{msgs.wiz_simple_step4_detail}"
               help="#{msgs.wiz_simple_step4_help}">
 
+                <webuijsf:legend id="legend" style="margin-bottom:10px"
+                  text="#{msgs.wiz_requiredLabel}" />
+
                 <table border="0">
                 <!-- Home dir server name field is required and validated. -->
 		<!-- Guidelines require inline alert messages be used. -->
@@ -287,12 +305,14 @@
 		</td></tr>
 		<tr><td>
                 <webuijsf:label text="#{msgs.wiz_user_homeserver}"
-                  for="servername1"/>
+                  for="servername1"
+                  toolTip="#{msgs.wiz_user_homeserver_tooltip}"/>
 		</td><td>
                 <webuijsf:textField id="servername1"
                   required="true"
                   label=""
                   validatorExpression="#{SimpleWizardBean.validateHomeServer}"
+                  toolTip="#{msgs.wiz_user_homeserver_tooltip}"
                   text="#{SimpleWizardBean.homeServer}"
                   onKeyPress="if (event.keyCode==13) return false;"/>
 		</td></tr>
@@ -311,13 +331,15 @@
 		</td></tr>
 		<tr><td>
                 <webuijsf:label text="#{msgs.wiz_user_homedir}"
-                  for="homepath1"/>
+                  for="homepath1"
+                  toolTip="#{msgs.wiz_user_homedir_tooltip}"/>
 		</td><td>
                 <webuijsf:textField id="homepath1"
                   required="true"
                   label=""
                   validatorExpression="#{SimpleWizardBean.validateHomePath}"
                   text="#{SimpleWizardBean.homePath}"
+                  toolTip="#{msgs.wiz_user_homedir_tooltip}"
                   onKeyPress="if (event.keyCode==13) return false;"/>
 		</td></tr>
 		</table>

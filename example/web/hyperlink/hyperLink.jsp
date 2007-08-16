@@ -102,6 +102,7 @@
                        <!-- Page Title -->
                        <webuijsf:contentPageTitle title="#{msgs.hyperlink_title}" id="linkContentPage1"/>
                           <webuijsf:markup tag="div" styleClass="#{themeStyles.CONTENT_MARGIN}">
+                          <webuijsf:legend id="legend" text="#{msgs.label_requiredLabel}" />
                           <br/>
 
                           <!-- Anchor test-->
@@ -167,8 +168,11 @@
                             <webuijsf:label labelLevel="1" text="#{msgs.hyperlink_submitHeading}" id="submitlabel"/>
                             <webuijsf:helpInline id="submitHelp" text="#{msgs.hyperlink_textSubmit}" />
                             <br/>
-                            <webuijsf:textField id="nameField" label="#{msgs.hyperlink_textlabel}" text="#{HyperlinkBean.userName}" 
-                                          required="true" />
+                            <webuijsf:textField id="nameField" 
+                              label="#{msgs.hyperlink_textlabel}" 
+                              text="#{HyperlinkBean.userName}" 
+                              toolTip="#{msgs.hyperlink_tooltip}"
+                              required="true" />
                             <br/><br/>                            
                             <webuijsf:hyperlink id="hyperlinkSubmit" text="#{msgs.hyperlink_textlinkSubmit}" 
                                           actionExpression="#{HyperlinkBean.nextPage}" 

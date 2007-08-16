@@ -61,12 +61,15 @@
           <!-- Content Page Title -->
           <webuijsf:contentPageTitle id="contentPageTitle" title="#{msgs.addremove_title}">
             <webuijsf:markup id="markup1" tag="div" styleClass="#{themeStyles.CONTENT_MARGIN}">
+              <webuijsf:legend id="legend" text="#{msgs.addremove_requiredLabel}" />
+
               <webuijsf:markup id="markup2" tag="br" singleton="true" />
                             
               <!-- Label -->
               <webuijsf:label id="addremoveLabel"
                   for="addRemove"
                   hideIndicators="true"
+                  toolTip="#{msgs.addremove_tooltip}"
                   text="#{AddRemoveBean.labelText}" />  
 
               <!-- Add Remove -->
@@ -75,7 +78,8 @@
                   selected="#{AddRemoveBean.selectedOptions}"
                   items="#{AddRemoveBean.availableOptions}"                 
                   availableItemsLabel="#{msgs.addremove_available}"
-                  selectedItemsLabel="#{msgs.addremove_selected}"                                    
+                  selectedItemsLabel="#{msgs.addremove_selected}"
+                  toolTip="#{msgs.addremove_tooltip}"
                   vertical="#{AddRemoveBean.verticalLayout}"
                   required="true"
                   selectAll="true"                 
