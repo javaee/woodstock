@@ -197,22 +197,21 @@ webui.@THEME@.widget.calendarField._setProps = function(props) {
         return false;
     }
 
-    // Set calendar properties.
-    if (props.calendar) {
+    if (props.disabled != null) { this.disabled = new Boolean(props.disabled).valueOf(); }
+
+    if (props.calendar || props.disabled != null) {
+        // Ensure property exists so we can call setProps just once.
+        if (props.calendar == null) {
+            props.calendar = {}; // Avoid updating all props using "this" keyword.
+        }
+
         // Set properties.
         props.calendar.id = this.calendar.id; // Required for updateFragment().
-
+        props.calendar.disabled = this.disabled;
+        
         // Update/add fragment.
-        this.widget.updateFragment(this.calendarContainer, props.calendar);
-    }       
-    
-    // If disabled, hide the div that contains the date format pattern help
-    // and the column that holds the calendarField button.
-    if (props.disabled != null) {
-        var disabled = new Boolean(props.disabled).valueOf();
-        webui.@THEME@.common.setVisibleElement(this.inlineHelpNode, !disabled);
-        webui.@THEME@.common.setVisibleElement(this.linkContainer, !disabled);
-    }   
+        this.widget.updateFragment(this.calendarContainer, props.calendar); 
+    }
     
     // Set date format pattern help.
     if (props.patternHelp) {

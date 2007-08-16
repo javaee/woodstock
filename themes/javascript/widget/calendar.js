@@ -528,6 +528,29 @@ webui.@THEME@.widget.calendar.ieHideShim = function() {
 }   
 
 /**
+ * This function is used to initialize the widget.
+ *
+ * Note: This is called after the fillInTemplate() function.
+ *
+ * @param props Key-Value pairs of properties.
+ * @param frag HTML fragment.
+ * @param parent The parent of this widget.
+ */
+webui.@THEME@.widget.calendar.initialize = function (props, frag, parent) {
+    // If disabledImage is null, create images from the theme.
+    // When the _setProps() function is called, image widgets will be
+    // instantiated via the props param. 
+    if (this.toggleLink.disabledImage == null) {
+	this.toggleLink.disabledImage = this.widget.getImage("CALENDAR_BUTTON_DISABLED", {
+            id: this.id + "_disabledImage", border: 0
+        });
+        props.toggleLink = this.toggleLink; // Required for _setProps().
+    }
+    
+    return webui.@THEME@.widget.calendar.superclass.initialize.call(this, props, frag, parent);    
+}
+
+/**
  * This function is used to increment the current month.
  */
 webui.@THEME@.widget.calendar.increaseMonth = function() {            
@@ -814,14 +837,22 @@ webui.@THEME@.widget.calendar._setProps = function(props) {
     }
 
     // Set toggle link properties.
-    if (props.toggleLink) {
+    if (props.disabled != null) { this.disabled = new Boolean(props.disabled).valueOf(); }
+
+    if (props.toggleLink || props.disabled != null) {
+        // Ensure property exists so we can call setProps just once.
+        if (props.toggleLink == null) {
+            props.toggleLink = {}; // Avoid updating all props using "this" keyword.
+        }
+
         // Set properties.
         props.toggleLink.id = this.toggleLink.id; // Required for updateFragment().
+        props.toggleLink.disabled = this.disabled;
         props.toggleLink.onClick =
             "dojo.widget.byId('" + this.id + "').toggleCalendar();return false;";
 
         // Update/add fragment.
-        this.widget.updateFragment(this.linkNode, props.toggleLink);
+        this.widget.updateFragment(this.linkNode, props.toggleLink); 
     }
 
     // Set more properties.
@@ -891,6 +922,7 @@ dojo.lang.extend(webui.@THEME@.widget.calendar, {
     setSelectedValue: webui.@THEME@.widget.calendar.setSelectedValue,
     toggleCalendar: webui.@THEME@.widget.calendar.event.toggle.processEvent,
     updateMonth: webui.@THEME@.widget.calendar.updateMonth,
+    initialize: webui.@THEME@.widget.calendar.initialize,
        
     // Set defaults.
     event: webui.@THEME@.widget.calendar.event,
