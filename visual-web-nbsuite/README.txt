@@ -1,3 +1,6 @@
+2007-08-16 This directory structure is obsolete and will be deleted.
+Please see ide-plugins/netbeans/woodstock-suite.
+
 This directory contains scripts and artifacts that allow Project Woodstock
 components to be installed into the NetBeans IDE. It therefore assumes that
 you have a version of the IDE to work with. Building this subtree without
