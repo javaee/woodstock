@@ -84,13 +84,8 @@
                     
                     // Toggle Enable/Disable state of Radio Button Group 
                     function toggleRadioButtonGroupState() {
-                        rb4 = document.getElementById("form1:rbServer");                    
-                        rb5 = document.getElementById("form1:rbVolume");
-                        rb6 = document.getElementById("form1:rbPool");
-                        
-                        rb4.setProps({disabled: !rb4.getProps().disabled});
-                        rb5.setProps({disabled: !rb5.getProps().disabled});
-                        rb6.setProps({disabled: !rb6.getProps().disabled});
+                        var domNode=document.getElementById("form1:rbGrp1");
+                        domNode.setProps({disabled: !domNode.getProps().disabled});                        
                         return false;                        
                     }                              
                   
@@ -117,23 +112,14 @@
                     <br /><br />
                    
                     <!-- Radio Button Group -->
-                    <webuijsf:label id="RadioButtonLabel" text="#{msgs.cbrb_radiobuttonGroupLabel}"/>
-                    
-                            <div><webuijsf:radioButton id="rbServer" name="rbgrp"                                                                         
-                                        imageURL="/images/tree_server.gif"
-                                        label="#{msgs.cbrb_radioButton1}"/>
-                            </div>                        
-                            <div> <webuijsf:radioButton id="rbVolume" name="rbgrp" 
-                                        selected="true"
-                                        imageURL="/images/volumegroup_tree.gif"
-                                        label="#{msgs.cbrb_radioButton2}"/> 
-                            </div>
-                            <div> <webuijsf:radioButton id="rbPool" name="rbgrp"                                         
-                                        imageURL="/images/pool_tree.gif"
-                                        label="#{msgs.cbrb_radioButton3}"/>
-                            </div>
-                
-                    <br/><br/>                
+                    <webuijsf:radioButtonGroup id="rbGrp1" items="#{rbcbGroupBean.array}" 
+                           selected="#{rbcbGroupBean.rb1selected}"                                            
+                           toolTip="#{msgs.cbrb_radiobuttonGroupLabel}">  
+                        <f:facet name="label">
+                                 <webuijsf:label text="#{msgs.cbrb_radiobuttonGroupLabel}" for="rbGrp1"/> 
+                        </f:facet>
+                    </webuijsf:radioButtonGroup>
+                    <br /><br />                                    
                     <webuijsf:button id="btn5" text="#{msgs.cbrb_testCase_toggleRadioButtonGroupState}" onClick="return toggleRadioButtonGroupState();" /> 
                     <br /><br />
                    

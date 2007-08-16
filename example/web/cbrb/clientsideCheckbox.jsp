@@ -54,14 +54,8 @@
                   
                     // Toggle enable/disable state of checkbox client-side.
                     function toggleCheckboxState() {
-                        var cb1 = document.getElementById("form1:cbServer");
-                        var cb2 = document.getElementById("form1:cbVolume");
-                        var cb3 = document.getElementById("form1:cbPool");
-                    
-                        cb1.setProps({disabled: !cb1.getProps().disabled});
-                        cb2.setProps({disabled: !cb2.getProps().disabled});
-                        cb3.setProps({disabled: !cb3.getProps().disabled});
-                        
+                        var domNode = document.getElementById("form1:cbGrp1");
+                        domNode.setProps({disabled: !domNode.getProps().disabled});
                         return false;
                     }
                   
@@ -77,18 +71,10 @@
                   <tr valign="top">
                     <td style="padding-top:3px">
                       <!-- Checkbox -->
-                      <webuijsf:label id="CheckboxLabel" text="#{msgs.cbrb_checkboxLabel}"/>
-                    </td>
-                    <td>
-                      <div>
-                        <webuijsf:checkbox id="cbServer" name="cbgrp" label="#{msgs.cbrb_radioButton1}"/>                        
-                      </div>
-                      <div>
-                        <webuijsf:checkbox id="cbVolume" name="cbgrp" label="#{msgs.cbrb_radioButton2}"/>
-                      </div>
-                      <div>
-                        <webuijsf:checkbox id="cbPool" name="cbgrp" label="#{msgs.cbrb_radioButton3}"/>
-                      </div>                                          
+                       <webuijsf:checkboxGroup id="cbGrp1" items="#{rbcbGroupBean.array}" 
+                            selected="#{rbcbGroupBean.cb1selected}"
+                            toolTip="CheckboxGroup" />                                                                 
+                    <br /><br />                             
                     </td>
                   </tr>               
                 </table>
