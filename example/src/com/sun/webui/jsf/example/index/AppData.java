@@ -23,13 +23,17 @@
 package com.sun.webui.jsf.example.index;
 
 import com.sun.webui.jsf.example.index.AppAction;
+import com.sun.webui.jsf.example.common.MessageUtil;
 
 /**
  * A convenient class to wrap data about a given example.
  */
 public class AppData {    
     
-    /** The example app name */
+    /** The resource key to the example's full localized name */
+    private String nameKey;
+
+    /** The example's full localized name */
     private String name;
 
     /** The concepts illustrated by this example */
@@ -48,23 +52,31 @@ public class AppData {
      * Accepts info necessary to describe the given
      * example.
      *
-     * @param name The name of the example
+     * @param nameKey The resource key to the example's full localized name
      * @param concepts The concepts illustrated by this example
      * @param appAction The example app action
      * @param files Array of file names for this example
      */
-    public AppData(String name, String concepts, String appAction, String[] files) {
-        this.name = name;
+    public AppData(String nameKey, String concepts, String appAction, String[] files) {
+        this.nameKey = nameKey;
 	this.concepts = concepts;
         this.appAction = appAction;
 	this.files = files;
+	this.name = MessageUtil.getMessage(nameKey);
     }    
     
     /**
-     * Get the name of the example
+     * Get the resource key to the example's full localized name
+     */
+    public String getNameKey() {
+        return nameKey;
+    }
+
+    /**
+     * Get the example's full localized name
      */
     public String getName() {
-        return name;
+	return name;
     }
     
     /**

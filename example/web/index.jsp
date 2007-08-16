@@ -62,7 +62,7 @@
                     noWrap="true"  
                     headerText="#{msgs.index_exampleHeader}">
                   <webuijsf:hyperlink id="exampleLink"
-                      text="#{msgs[data.value.name]}"
+                      text="#{msgs[data.value.nameKey]}"
                       immediate="true"
                       actionExpression="#{data.value.appAction.action}" />                 
                 </webuijsf:tableColumn>
