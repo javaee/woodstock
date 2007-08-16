@@ -86,7 +86,7 @@ xmlns:jsp="http://java.sun.com/JSP/Page" xmlns:webuijsf="http://www.sun.com/webu
       </webuijsf:body>
           <webuijsf:script type="text/javascript">
         function popup() {
-            var popupWin = window.open('/example/faces/commontask/sample.jsp','Test Page','scrollbars,resizable,width=650,height=500,top='+((screen.height - (screen.height/1.618)) - (500/2))+',left='+((screen.width-650)/2) ); 
+            var popupWin = window.open('/example/faces/commontask/sample.jsp','TestPage','scrollbars,resizable,width=650,height=500,top='+((screen.height - (screen.height/1.618)) - (500/2))+',left='+((screen.width-650)/2) ); 
             popupWin.focus();
         }
     </webuijsf:script>
