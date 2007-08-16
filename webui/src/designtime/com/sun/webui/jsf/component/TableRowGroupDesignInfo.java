@@ -220,6 +220,24 @@ public class TableRowGroupDesignInfo extends AbstractDesignInfo {
     }
     
     /**
+     * The specified DesignBean's DesignContext has been "activated" in the project
+     *
+     * @param designBean the DesignBean who's DesignContext that has been activated
+     */
+    public void beanContextActivated(DesignBean designBean) {
+        DesignProperty sourceDataProperty = designBean.getProperty(SOURCE_DATA_PROPERTY);
+        Object propertyValue = sourceDataProperty.getValue();
+        if (propertyValue instanceof TableDataProvider) {
+            TableDataProvider tdpInstance = (TableDataProvider)propertyValue;
+            int providerListenerCount = getProviderListenerCount(tdpInstance, designBean);
+            if (providerListenerCount < 1) {
+                ProviderListener providerListener = new ProviderListener(designBean);
+                tdpInstance.addDataListener(providerListener);
+            }
+        }
+    }
+    
+    /**
      * The specified DesignBean's instance name was changed.  This is the source-code instance name
      * of the bean component.
      *
@@ -247,6 +265,24 @@ public class TableRowGroupDesignInfo extends AbstractDesignInfo {
                 }
             }
         }
+    }
+    
+    private int getProviderListenerCount(TableDataProvider tdp, DesignBean tableRowGroupBeanOfListenersToCount) {
+        DataListener[] dls = tdp.getDataListeners();
+        int count = 0;
+        if (dls != null && dls.length > 0) {
+            for (int i = 0; i < dls.length; i++) {
+                if (dls[i] instanceof ProviderListener) {
+                    ProviderListener pl = (ProviderListener)dls[i];
+                    DesignBean tableRowGroupBean = pl.getTableRowGroupBean();
+                    //only count listeners whose tableRowGroupBean is the one specified
+                    if (tableRowGroupBean == tableRowGroupBeanOfListenersToCount) {
+                        count++;
+                    }
+                }
+            }
+        }
+        return count;
     }
     
     private void removeProviderListeners(TableDataProvider tdp, DesignBean tableRowGroupBeanOfListenersToRemove) {
