@@ -95,13 +95,12 @@ public class HeadRenderer extends AbstractRenderer {
 
             // Title
             String title = head.getTitle();            
-            if (title == null) {
-                title = "";
-            }
             
-	    writer.startElement("title",  head);
-            writer.write(title);
-            writer.endElement("title");
+            if (!(title == null || title.equals(""))) {
+                writer.startElement("title",  head);            
+                writer.write(title);
+                writer.endElement("title");
+            }
             writer.write("\n"); //NOI18N
             
 	    // Base
