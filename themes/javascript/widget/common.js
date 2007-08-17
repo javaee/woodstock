@@ -277,6 +277,25 @@ webui.@THEME@.widget.common = {
     },
 
     /**
+     * This function returns style class name for a specified selector.
+     *
+     * If class "key" doesn't exist in the theme,      
+     * the method returns defaultValue, if one was supplied;
+     * or null, if defaultValue was not supplied.
+     *
+     * @param key A key defining a theme class name property.
+     * @param defaultValue A default value to be returned if class name for specified key is not found
+     */
+    getClassName: function(key, defaultValue) {
+        var ret =  webui.@THEME@.theme.common.getClassName(key);
+        return (ret != null) 
+            ? ret
+            : (defaultValue) 
+                ? defaultValue
+                : null;                
+    },
+
+    /**
      * Get array containing the absolute left and top position of the given DOM
      * node relative to the browser window.
      *

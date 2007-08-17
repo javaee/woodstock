@@ -201,16 +201,21 @@ webui.@THEME@.widget.editableField.fillInTemplate = function(props, frag) {
  * Helper function to obtain HTML input element class names.
  */
 webui.@THEME@.widget.editableField.getInputClassName = function() {    
-    var className;
 
     // Set default style.
     if (this.disabled == true) {
-        className = webui.@THEME@.widget.props.editableField.disabledClassName;
+        return  this.widget.getClassName("EDITABLE_FIELD_DISABLED","");
     }
 
+    //invalid style
+    var validStyle =  (this.valid == false) 
+        ? " " + this.widget.getClassName("EDITABLE_FIELD_INVALID","")
+        : ""; 
+
     return (this.edit == true)
-        ? webui.@THEME@.widget.props.editableField.editableClassName
-        : webui.@THEME@.widget.props.editableField.className;
+        ? this.widget.getClassName("EDITABLE_FIELD_EDIT","") + validStyle
+        : this.widget.getClassName("EDITABLE_FIELD_DEFAULT","") + validStyle;    
+    
 }
 
 /**

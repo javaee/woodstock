@@ -103,14 +103,8 @@ webui.@THEME@.widget.props = {
         titleOptionAppender: " &#8212;",
         titleOptionPreppender: "&#8212; "
     },
-
-    // EditableField properties.
-    editableField: {
-        className: "EdtFld_ReadOnly@THEME_CSS@",
-        editableClassName: "EdtFld_Edt@THEME_CSS@",
-        disabledClassName: "EdtFldDis@THEME_CSS@"
-    },
-
+    
+    
     // Hyperlink properties.
     hyperlink: {
         className:"Hyp@THEME_CSS@",
@@ -151,13 +145,6 @@ webui.@THEME@.widget.props = {
         titleOptionPreppender: "&#8212; ".unescapeHTML()
     },
 
-    // PasswordField properties.
-    passwordField: {
-        className: "TxtFld@THEME_CSS@",
-        disabledClassName: "TxtFldDis@THEME_CSS@",
-        readOnlyClassName: "TxtFld_ReadOnly@THEME_CSS@"
-    },
-
     // Progress bar properties.
     progressBar: {
         barContainerClassName: "barContainer@THEME_CSS@",
@@ -190,21 +177,8 @@ webui.@THEME@.widget.props = {
     radioButtonGroup: {
         vertClassName: "RBGRPVert@THEME_CSS@",
         horizClassName: "RBGRPHoriz@THEME_CSS@"       
-    },
-
-    // TextArea properties.
-    textArea: {
-        className: "TxtAra@THEME_CSS@",
-        disabledClassName: "TxtAraDis@THEME_CSS@",
-        readOnlyClassName: "TxtAra_ReadOnly@THEME_CSS@",
-        labelTopAlignStyle: "TxtAraLabel@THEME_CSS@" 
-    },    
-
-    // TextField properties.
-    textField: {
-        className: "TxtFld@THEME_CSS@",
-        disabledClassName: "TxtFldDis@THEME_CSS@",
-        readOnlyClassName: "TxtFld_ReadOnly@THEME_CSS@"
     }
+
+
         
 }

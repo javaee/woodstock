@@ -124,13 +124,19 @@ webui.@THEME@.widget.textArea.fillInTemplate = function(props, frag) {
  * Helper function to obtain HTML input element class names.
  */
 webui.@THEME@.widget.textArea.getInputClassName = function() {
+    //readOnly style
     if (this.fieldNode.readOnly)
-        return webui.@THEME@.widget.props.textArea.readOnlyClassName;
+        return this.widget.getClassName("TEXT_AREA_READONLY", "");
     
+    //invalid style
+    var validStyle =  (this.valid == false) 
+        ? " " + this.widget.getClassName("TEXT_AREA_INVALID", "")
+        : " " + this.widget.getClassName("TEXT_AREA_VALID", "");
+
     // Set default style.    
     return (this.disabled == true)
-        ? webui.@THEME@.widget.props.textArea.disabledClassName
-        : webui.@THEME@.widget.props.textArea.className;
+        ? this.widget.getClassName("TEXT_AREA_DISABLED", "") 
+        : this.widget.getClassName("TEXT_AREA", "") + validStyle;    
 }
 
 /**
@@ -208,8 +214,8 @@ webui.@THEME@.widget.textArea._setProps = function(props) {
     // Set label className -- must be set before calling superclass.
     if (props.label) {
         props.label.className = (props.label.className)
-            ? webui.@THEME@.widget.props.textArea.labelTopAlignStyle + " " + props.label.className
-            : webui.@THEME@.widget.props.textArea.labelTopAlignStyle;
+            ? this.widget.getClassName("TEXT_AREA_TOPLABELALIGN", "")  + " " + props.label.className
+            : this.widget.getClassName("TEXT_AREA_TOPLABELALIGN", "") ;
     }
 
     // Set remaining properties.

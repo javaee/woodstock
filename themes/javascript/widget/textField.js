@@ -140,14 +140,21 @@ webui.@THEME@.widget.textField.fillInTemplate = function(props, frag) {
 /**
  * Helper function to obtain HTML input element class names.
  */
-webui.@THEME@.widget.textField.getInputClassName = function() {   
+webui.@THEME@.widget.textField.getInputClassName = function() {          
+    
+    //readOnly style
     if (this.fieldNode.readOnly)
-        return webui.@THEME@.widget.props.textField.readOnlyClassName;
+        return this.widget.getClassName("TEXT_FIELD_READONLY", "");
 
+    //invalid style
+    var validStyle =  (this.valid == false) 
+        ? " " + this.widget.getClassName("TEXT_FIELD_INVALID", "")
+        : " " + this.widget.getClassName("TEXT_FIELD_VALID", "");
+    
     // Set default style.    
     return (this.disabled == true)
-        ? webui.@THEME@.widget.props.textField.disabledClassName
-        : webui.@THEME@.widget.props.textField.className;
+        ? this.widget.getClassName("TEXT_FIELD_DISABLED", "") 
+        : this.widget.getClassName("TEXT_FIELD", "") + validStyle;
 }
 
 /**

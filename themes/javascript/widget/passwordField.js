@@ -59,13 +59,20 @@ webui.@THEME@.widget.passwordField.fillInTemplate = function(props, frag) {
  * Helper function to obtain HTML input element class names.
  */
 webui.@THEME@.widget.passwordField.getInputClassName = function() {
+    
     if (this.fieldNode.readOnly)
-        return webui.@THEME@.widget.props.passwordField.readOnlyClassName;
+        return this.widget.getClassName("PASSWORD_FIELD_READONLY", "");
 
+    //invalid style
+    var validStyle =  (this.valid == false) 
+        ? " " + this.widget.getClassName("PASSWORD_FIELD_INVALID", "")
+        : " " + this.widget.getClassName("PASSWORD_FIELD_VALID", "");
+    
     // Set default style.    
     return (this.disabled == true)
-        ? webui.@THEME@.widget.props.passwordField.disabledClassName
-        : webui.@THEME@.widget.props.passwordField.className;
+        ? this.widget.getClassName("PASSWORD_FIELD_DISABLED", "") 
+        : this.widget.getClassName("PASSWORD_FIELD", "") + validStyle;
+
 }
 
 // Inherit base widget properties.

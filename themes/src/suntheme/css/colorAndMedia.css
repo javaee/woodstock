@@ -351,6 +351,8 @@ a.DatOthBldLnk@THEME_CSS@:hover {
 .FulAlrtHdrTxt@THEME_CSS@, .FulAlrtMsgTxt@THEME_CSS@ {
 	color:#000;
 }
+
+
 /* INLINE ALERT */
 .inlineAlert_4@THEME_CSS@ .topLeftCorner@THEME_CSS@ {
 	background:transparent url(../images/inlineAlert/alertbackground_top_left.gif) no-repeat;
@@ -425,6 +427,17 @@ body.HlpBdy@THEME_CSS@ {
 .CbDis@THEME_CSS@, .RbDis@THEME_CSS@ {
 	color:#848687;
 }
+/*---*/
+
+/* Editable Field*/
+    
+.EdtInvld@THEME_CSS@ {
+    background-color: #FFF7C8 !important;    
+} 
+
+.EdtVld@THEME_CSS@  {
+}
+
 /*---*/
 
 /* LABEL [originalName: GENERIC FIELD LABELS]*/
@@ -685,10 +698,6 @@ table.MniTabTbl@THEME_CSS@ td.MniTabTblSelTd@THEME_CSS@ {
 /*---*/
 /* TEXT AND PASSWORD FIELDS */
 
-.TxtFld@THEME_CSS@, .TxtAra@THEME_CSS@ {
-	background:#FFFFFF url(../images/field/bg_gradient.gif) repeat-x top;
-}
-
 .TxtFldDis@THEME_CSS@, .TxtAraDis@THEME_CSS@ {
 	background:#EAEDF0 url(../images/field/bg_gradient_disabled.gif) repeat-x top;
 	color:#7E7E7E;
@@ -703,6 +712,13 @@ table.MniTabTbl@THEME_CSS@ td.MniTabTblSelTd@THEME_CSS@ {
 	border-right-color:#AEAFB0;
 	border-bottom-color:#B9B9BA;
 	border-left-color:#AEAFB0;
+}
+.TxtFldInvld@THEME_CSS@ , .TxtAraInvld@THEME_CSS@ {
+    background-color: #FFF7C8 !important;    
+} 
+
+.TxtFldVld@THEME_CSS@ , .TxtAraVld@THEME_CSS@ {
+	background:#FFFFFF url(../images/field/bg_gradient.gif) repeat-x top;
 }
 
 /*---*/
