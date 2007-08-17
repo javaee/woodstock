@@ -1715,15 +1715,20 @@ table.TblLt@THEME_CSS@ td.TblPnlTd@THEME_CSS@ {padding-left:10px;border-top:none
     height: 25px;
 }
 
-.AccdHeader@THEME_CSS@ .AccdRefreshBtn@THEME_CSS@ img, .AccdHeader@THEME_CSS@ .AccdOpenAllBtn@THEME_CSS@ img, .AccdHeader@THEME_CSS@ .AccdCloseAllBtn@THEME_CSS@ img, .AccdHeader@THEME_CSS@ .AccdDivider@THEME_CSS@ {
+.AccdHeader@THEME_CSS@ .AccdRefreshBtn@THEME_CSS@ img, .AccdHeader@THEME_CSS@ .AccdOpenAllBtn@THEME_CSS@ img, .AccdHeader@THEME_CSS@ .AccdCloseAllBtn@THEME_CSS@ img {
     float:right;
-    margin-top: 3px;
-    margin-right: 3px;
+    margin-top: 2px;
+    margin-right: 2px;
+    margin-left: 2px;
 }
 
 .AccdDivider@THEME_CSS@ {
+    float: right;
     height:15px;
     width:1px;
+    margin-top: 4px;
+    margin-right: 2px;
+    margin-left: 2px;
 }
 
 .AccdTabExpanded@THEME_CSS@, .AccdTabCollapsed@THEME_CSS@ {
