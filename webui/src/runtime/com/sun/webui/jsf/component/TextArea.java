@@ -43,12 +43,12 @@ import javax.faces.context.FacesContext;
  * implement her own save/commit procedure.
  */
 @Component(type="com.sun.webui.jsf.TextArea",
-    family="com.sun.webui.jsf.TextArea",
-    displayName="Text Area", instanceName="textArea", tagName="textArea",
-    tagRendererType="com.sun.webui.jsf.widget.TextArea",
-    helpKey="projrave_ui_elements_palette_wdstk-jsf1.2_text_area",
-    propertiesHelpKey="projrave_ui_elements_palette_wdstk-jsf1.2_propsheets_text_area_props")
-public class TextArea extends TextField {
+family="com.sun.webui.jsf.TextArea",
+        displayName="Text Area", instanceName="textArea", tagName="textArea",
+        tagRendererType="com.sun.webui.jsf.widget.TextArea",
+        helpKey="projrave_ui_elements_palette_wdstk-jsf1.2_text_area",
+        propertiesHelpKey="projrave_ui_elements_palette_wdstk-jsf1.2_propsheets_text_area_props")
+        public class TextArea extends TextField {
     /**
      * Default constructor.
      */
@@ -63,7 +63,7 @@ public class TextArea extends TextField {
     public String getFamily() {
         return "com.sun.webui.jsf.TextArea";
     }
-
+    
     /**
      * Returns the renderer type for the component.
      *
@@ -140,9 +140,9 @@ public class TextArea extends TextField {
     /**
      * Attribute indicating to turn on/off the Auto-save  functionality of the TextArea.
      * <br>
-     * Auto-save will submit the content of the modified textArea for server side 
-     * processing that will be processed using JSFX partial lifecycle cycle. 
-     * Only modified data will be submitted, that is textArea data will be 
+     * Auto-save will submit the content of the modified textArea for server side
+     * processing that will be processed using JSFX partial lifecycle cycle.
+     * Only modified data will be submitted, that is textArea data will be
      * submitted every autoSave milliseconds only if it has been modified within
      * last interval.
      *
@@ -186,6 +186,43 @@ public class TextArea extends TextField {
         this.autoSave_set = true;
     }
     
+    /**
+     * <p>AutoSubmit attribute is disabled for TextArea.
+     * TextArea uses enter key to open new line.
+     *
+     * </p>
+     */
+    @Property(name="autoSubmit", isHidden=true, displayName="AutoSubmit", category="Behavior")
+    protected boolean autoSubmit = false;
+    protected boolean autoSubmit_set = false;
+    
+    /**
+     * <p>Flag indicating whether pressing enter in this text field would allow
+     * browser to submit the enclosing form.</p>
+     */
+    public boolean isAutoSubmit() {
+        if (this.autoSubmit_set) {
+            return this.autoSubmit;
+        }
+        ValueExpression _vb = getValueExpression("autoSubmit");
+        if (_vb != null) {
+            Object _result = _vb.getValue(getFacesContext().getELContext());
+            if (_result == null) {
+                return false;
+            } else {
+                return ((Boolean) _result).booleanValue();
+            }
+        }
+        return false;
+    }
+    
+    /**
+     * <p>AutoSubmit is disabled for TextArea
+     */
+    public void setAutoSubmit(boolean autoSubmit) {
+        this.autoSubmit = autoSubmit;
+        this.autoSubmit_set = true;
+    }
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     // State methods
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~

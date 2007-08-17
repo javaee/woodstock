@@ -201,6 +201,52 @@ public class TextField extends Field {
         this.notify = notify;
     }
 
+    /**
+     * <p>Flag indicating whether pressing enter in this text field would allow
+     * browser to submit the enclosing form ( for all input fields with the exception of TextArea
+     * which uses enter key to open a new line) <br>     
+     * If set to false, the browser will be prevented from submitting the form on enter in all circumstances.
+     * If set to true, the form will be submitted on enter in all circumstances.
+     * The default value for this attribute is "false", i.e.
+     * default browser auto submit feature will be disabled. 
+     * 
+     * </p>
+     */
+    @Property(name="autoSubmit", isHidden=true, displayName="AutoSubmit", category="Behavior")
+    protected boolean autoSubmit = false;
+    protected boolean autoSubmit_set = false;
+    
+    /**
+     * <p>Flag indicating whether pressing enter in this text field would allow
+     * browser to submit the enclosing form.</p>
+     */
+    public boolean isAutoSubmit() {
+        if (this.autoSubmit_set) {
+            return this.autoSubmit;
+        }
+        ValueExpression _vb = getValueExpression("autoSubmit");
+        if (_vb != null) {
+            Object _result = _vb.getValue(getFacesContext().getELContext());
+            if (_result == null) {
+                return false;
+            } else {
+                return ((Boolean) _result).booleanValue();
+            }
+        }
+        return false;
+    }
+    
+    /**
+     * <p>Flag indicating whether pressing enter in this text field would allow
+     * browser to submit the enclosing form.</p>
+     * @see #isAutoSubmit()
+     */
+    public void setAutoSubmit(boolean autoSubmit) {
+        this.autoSubmit = autoSubmit;
+        this.autoSubmit_set = true;
+    }
+    
+    
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     // Lifecycle methods
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -240,17 +286,21 @@ public class TextField extends Field {
         this.autoValidate =     ((Boolean) _values[1]).booleanValue();
         this.autoValidate_set = ((Boolean) _values[2]).booleanValue();
         this.notify = (String) _values[3];
-    }
+        this.autoSubmit = ((Boolean) _values[4]).booleanValue();
+        this.autoSubmit_set = ((Boolean) _values[5]).booleanValue();
+ }
 
     /**
      * Save the state of this component.
      */
     public Object saveState(FacesContext _context) {
-        Object _values[] = new Object[4];
+        Object _values[] = new Object[6];
         _values[0] = super.saveState(_context);
         _values[1] = this.autoValidate ? Boolean.TRUE : Boolean.FALSE;
         _values[2] = this.autoValidate_set ? Boolean.TRUE : Boolean.FALSE;
         _values[3] = this.notify;
+        _values[4] = this.autoSubmit ? Boolean.TRUE : Boolean.FALSE;
+        _values[5] = this.autoSubmit_set ? Boolean.TRUE : Boolean.FALSE;
         return _values;
     }
 

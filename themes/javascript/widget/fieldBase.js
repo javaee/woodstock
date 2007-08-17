@@ -46,7 +46,7 @@ webui.@THEME@.widget.fieldBase = function() {
  */
 webui.@THEME@.widget.fieldBase.fillInTemplate = function(props, frag) {
     webui.@THEME@.widget.fieldBase.superclass.fillInTemplate.call(this, props, frag);
-
+    
     // Set ids.
     if (this.id) {
         this.fieldNode.id = this.id + "_field";
@@ -56,7 +56,7 @@ webui.@THEME@.widget.fieldBase.fillInTemplate = function(props, frag) {
     
     // Set public functions.
     this.domNode.getInputElement = function() { return dojo.widget.byId(this.id).getInputElement(); }
-
+    
     return true;
 }
 
@@ -85,6 +85,7 @@ webui.@THEME@.widget.fieldBase.getProps = function() {
     
     // Set properties.
     if (this.alt) { props.alt = this.alt; }
+    if (this.autoSubmit != null) { props.autoSubmit = this.autoSubmit; }
     if (this.disabled != null) { props.disabled = this.disabled; }
     if (this.label) { props.label= this.label; }
     if (this.maxLength > 0) { props.maxLength = this.maxLength; }    
@@ -113,6 +114,7 @@ webui.@THEME@.widget.fieldBase.getProps = function() {
  *
  * <ul>
  *  <li>accesskey</li>
+ *  <li>autoSubmit</li>
  *  <li>className</li>
  *  <li>dir</li>
  *  <li>disabled</li>
@@ -153,8 +155,12 @@ webui.@THEME@.widget.fieldBase._setProps = function(props) {
     if (props == null) {
         return false;
     }
-
+    
     // Set properties.
+    if (props.autoSubmit == false || props.autoSubmit == true ) { 
+        // connect the keyPress event
+        dojo.event.connect(this.fieldNode, "onkeypress", webui.@THEME@.widget.fieldBase.event.autoSubmit.processEvent);
+    }
     if (props.maxLength > 0) { this.fieldNode.maxLength = props.maxLength; }
     if (props.size > 0) { this.fieldNode.size = props.size; }
     if (props.value != null) { this.fieldNode.value = props.value; }
@@ -165,33 +171,89 @@ webui.@THEME@.widget.fieldBase._setProps = function(props) {
     if (props.readOnly != null) { 
         this.fieldNode.readOnly = new Boolean(props.readOnly).valueOf();
     }
-
+    
     // Set label properties.
     if (props.label || (props.valid != null || props.required != null) && this.label) {
         // Ensure property exists so we can call setProps just once.
         if (props.label == null) {
             props.label = {}; // Avoid updating all props using "this" keyword.
         }
-
+        
         // Set properties.
         props.label.id = this.label.id; // Required for updateFragment().
         props.label.required = this.required;
         props.label.valid = this.valid;
-
+        
         // Update/add fragment.
         this.widget.updateFragment(this.labelContainer, props.label);
     }
-
+    
     // Set HTML input element class name.
     this.fieldNode.className = this.getInputClassName();
-
+    
     // Set more properties..
     this.setCommonProps(this.fieldNode, props);
     this.setEventProps(this.fieldNode, props);
-
+    
     // Set remaining properties.
     return webui.@THEME@.widget.fieldBase.superclass._setProps.call(this, props);
 }
+
+/**
+ * This closure is used to process widget events.
+ */
+webui.@THEME@.widget.fieldBase.event = {
+    /** 
+     * This closure is used to process keyPress events. 
+     */
+    autoSubmit: {    
+        /**
+         * Helper function to process keyPress events on the field, which
+         * enforces/disables autoSubmit behavior - form will not be submitted if 
+         * this function is connected.
+         * HTML events are connected to this function in fillInTemplate.
+         */
+        processEvent: function(event) {
+            if (event == null) {
+                return false;
+            }
+            
+            if (event.keyCode == event.KEY_ENTER) {
+                
+                var widget = dojo.widget.byId(event.currentTarget.parentNode.id);
+                if (!widget) 
+                    return false;
+                
+                if (widget.autoSubmit == false) {
+                    //disable form submission
+                    if(window.event){
+                        event.cancelBubble = true;
+                        event.returnValue = false;
+                    }else{
+                        event.preventDefault();
+                        event.stopPropagation();
+                    }
+                    
+                    return false;
+                } else {
+                    //submit the form
+                    
+                    //find the form
+                    var node = webui.@THEME@.common.getForm(event.currentTarget);
+                    
+                    if (!node)
+                        return false;
+                    
+                    node.submit();
+                }
+            }
+            return true;    
+        }
+    }
+}
+
+
+
 
 // Inherit base widget properties.
 dojo.inherits(webui.@THEME@.widget.fieldBase, webui.@THEME@.widget.widgetBase);
@@ -204,7 +266,7 @@ dojo.lang.extend(webui.@THEME@.widget.fieldBase, {
     getInputElement: webui.@THEME@.widget.fieldBase.getInputElement,
     getProps: webui.@THEME@.widget.fieldBase.getProps,
     _setProps: webui.@THEME@.widget.fieldBase._setProps,
-
+    
     // Set defaults.
     disabled: false,
     required: false,

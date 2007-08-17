@@ -54,6 +54,7 @@ public class TextFieldRenderer extends FieldRendererBase {
      */
     private static final String attributes[] = {
         "align",
+        "autoSubmit",
         "dir",
         "lang",
         "style",
