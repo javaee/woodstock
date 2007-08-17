@@ -1752,11 +1752,11 @@ table.TblLt@THEME_CSS@ td.TblPnlTd@THEME_CSS@ {padding-left:10px;border-top:none
 }
 
 .AccdTabMenuCue@THEME_CSS@ {
-    margin-top: 0.8em;
-    margin-right: 5px;
+    margin-top: 0px;
+    margin-right: 2px;
     float: right;
-    height:6px;
-    width:9px;
+    height: 16px;
+    width: 16px;
 }
 
 .AccdTabContent@THEME_CSS@ {
