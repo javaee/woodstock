@@ -1743,12 +1743,12 @@ table.TblLt@THEME_CSS@ td.TblPnlTd@THEME_CSS@ {padding-left:10px;border-top:none
 
 .AccdDownTurner@THEME_CSS@, .AccdRightTurner@THEME_CSS@ {
     display: block;
-    margin-top:7px;
-    margin-left:5px;
-    margin-right:5px;
+    margin-top:3px;
+    margin-left:1px;
+    margin-right:1px;
     float: left;
-    width: 7px;
-    height: 7px;
+    width: 16px;
+    height: 15px;
 }
 
 .AccdTabMenuCue@THEME_CSS@ {
