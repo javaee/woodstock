@@ -54,7 +54,6 @@ public class PasswordFieldRenderer extends FieldRendererBase {
      */
     private static final String attributes[] = {
         "align",
-        "autoSubmit",
         "dir",
         "lang",
         "style",
@@ -73,7 +72,8 @@ public class PasswordFieldRenderer extends FieldRendererBase {
         "onDblClick",
         "onKeyDown",
         "onKeyPress",
-        "onKeyUp"
+        "onKeyUp",
+        "submitForm"
     };
     
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~

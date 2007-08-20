@@ -212,19 +212,19 @@ public class TextField extends Field {
      * 
      * </p>
      */
-    @Property(name="autoSubmit", isHidden=true, displayName="AutoSubmit", category="Behavior")
-    protected boolean autoSubmit = false;
-    protected boolean autoSubmit_set = false;
+    @Property(name="submitForm", isHidden=true, displayName="Submit Form", category="Behavior")
+    protected boolean submitForm = false;
+    protected boolean submitForm_set = false;
     
     /**
      * <p>Flag indicating whether pressing enter in this text field would allow
      * browser to submit the enclosing form.</p>
      */
-    public boolean isAutoSubmit() {
-        if (this.autoSubmit_set) {
-            return this.autoSubmit;
+    public boolean isSubmitForm() {
+        if (this.submitForm_set) {
+            return this.submitForm;
         }
-        ValueExpression _vb = getValueExpression("autoSubmit");
+        ValueExpression _vb = getValueExpression("submitForm");
         if (_vb != null) {
             Object _result = _vb.getValue(getFacesContext().getELContext());
             if (_result == null) {
@@ -239,11 +239,11 @@ public class TextField extends Field {
     /**
      * <p>Flag indicating whether pressing enter in this text field would allow
      * browser to submit the enclosing form.</p>
-     * @see #isAutoSubmit()
+     * @see #isSubmitForm()
      */
-    public void setAutoSubmit(boolean autoSubmit) {
-        this.autoSubmit = autoSubmit;
-        this.autoSubmit_set = true;
+    public void setSubmitForm(boolean submitForm) {
+        this.submitForm = submitForm;
+        this.submitForm_set = true;
     }
     
     
@@ -286,8 +286,8 @@ public class TextField extends Field {
         this.autoValidate =     ((Boolean) _values[1]).booleanValue();
         this.autoValidate_set = ((Boolean) _values[2]).booleanValue();
         this.notify = (String) _values[3];
-        this.autoSubmit = ((Boolean) _values[4]).booleanValue();
-        this.autoSubmit_set = ((Boolean) _values[5]).booleanValue();
+        this.submitForm = ((Boolean) _values[4]).booleanValue();
+        this.submitForm_set = ((Boolean) _values[5]).booleanValue();
  }
 
     /**
@@ -299,8 +299,8 @@ public class TextField extends Field {
         _values[1] = this.autoValidate ? Boolean.TRUE : Boolean.FALSE;
         _values[2] = this.autoValidate_set ? Boolean.TRUE : Boolean.FALSE;
         _values[3] = this.notify;
-        _values[4] = this.autoSubmit ? Boolean.TRUE : Boolean.FALSE;
-        _values[5] = this.autoSubmit_set ? Boolean.TRUE : Boolean.FALSE;
+        _values[4] = this.submitForm ? Boolean.TRUE : Boolean.FALSE;
+        _values[5] = this.submitForm_set ? Boolean.TRUE : Boolean.FALSE;
         return _values;
     }
 

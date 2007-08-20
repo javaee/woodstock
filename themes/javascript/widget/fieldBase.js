@@ -85,11 +85,11 @@ webui.@THEME@.widget.fieldBase.getProps = function() {
     
     // Set properties.
     if (this.alt) { props.alt = this.alt; }
-    if (this.autoSubmit != null) { props.autoSubmit = this.autoSubmit; }
     if (this.disabled != null) { props.disabled = this.disabled; }
     if (this.label) { props.label= this.label; }
     if (this.maxLength > 0) { props.maxLength = this.maxLength; }    
     if (this.notify) { props.notify = this.notify; }
+    if (this.submitForm != null) { props.submitForm = this.submitForm; }
     if (this.text != null) { props.text = this.text; }
     if (this.title != null) { props.title = this.title; }
     if (this.type) { props.type= this.type; }
@@ -114,7 +114,6 @@ webui.@THEME@.widget.fieldBase.getProps = function() {
  *
  * <ul>
  *  <li>accesskey</li>
- *  <li>autoSubmit</li>
  *  <li>className</li>
  *  <li>dir</li>
  *  <li>disabled</li>
@@ -138,6 +137,7 @@ webui.@THEME@.widget.fieldBase.getProps = function() {
  *  <li>required</li>
  *  <li>size</li>
  *  <li>style</li>
+ *  <li>submitForm</li>
  *  <li>tabIndex</li>
  *  <li>title</li>
  *  <li>valid</li>
@@ -157,12 +157,12 @@ webui.@THEME@.widget.fieldBase._setProps = function(props) {
     }
     
     // Set properties.
-    if (props.autoSubmit == false || props.autoSubmit == true ) { 
+    if (props.submitForm == false || props.submitForm == true ) { 
         // connect the keyPress event
-        dojo.event.connect(this.fieldNode, "onkeypress", webui.@THEME@.widget.fieldBase.event.autoSubmit.processEvent);
+        dojo.event.connect(this.fieldNode, "onkeypress", webui.@THEME@.widget.fieldBase.event.submitForm.processEvent);
     }
     if (props.maxLength > 0) { this.fieldNode.maxLength = props.maxLength; }
-    if (props.size > 0) { this.fieldNode.size = props.size; }
+    if (props.size > 0) { this.fieldNode.size = props.size;  }
     if (props.value != null) { this.fieldNode.value = props.value; }
     if (props.title != null) { this.fieldNode.title = props.title; }   
     if (props.disabled != null) { 
@@ -206,11 +206,10 @@ webui.@THEME@.widget.fieldBase.event = {
     /** 
      * This closure is used to process keyPress events. 
      */
-    autoSubmit: {    
+    submitForm: {    
         /**
          * Helper function to process keyPress events on the field, which
-         * enforces/disables autoSubmit behavior - form will not be submitted if 
-         * this function is connected.
+         * enforces/disables submitForm behavior .
          * HTML events are connected to this function in fillInTemplate.
          */
         processEvent: function(event) {
@@ -224,7 +223,7 @@ webui.@THEME@.widget.fieldBase.event = {
                 if (!widget) 
                     return false;
                 
-                if (widget.autoSubmit == false) {
+                if (widget.submitForm == false) {
                     //disable form submission
                     if(window.event){
                         event.cancelBubble = true;
@@ -236,15 +235,9 @@ webui.@THEME@.widget.fieldBase.event = {
                     
                     return false;
                 } else {
-                    //submit the form
-                    
-                    //find the form
-                    var node = webui.@THEME@.common.getForm(event.currentTarget);
-                    
-                    if (!node)
-                        return false;
-                    
-                    node.submit();
+                    //submit the form                    
+                    if (event.currentTarget.form)
+                        event.currentTarget.form.submit();
                 }
             }
             return true;    

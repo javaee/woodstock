@@ -54,7 +54,6 @@ public class TextFieldRenderer extends FieldRendererBase {
      */
     private static final String attributes[] = {
         "align",
-        "autoSubmit",
         "dir",
         "lang",
         "style",
@@ -75,7 +74,8 @@ public class TextFieldRenderer extends FieldRendererBase {
         "onDblClick",
         "onKeyDown",
         "onKeyPress",
-        "onKeyUp"
+        "onKeyUp",
+        "submitForm"
     };
     
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~

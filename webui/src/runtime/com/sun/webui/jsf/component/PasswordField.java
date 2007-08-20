@@ -155,19 +155,19 @@ public class PasswordField extends Field {
      * 
      * </p>
      */
-    @Property(name="autoSubmit", isHidden=true, displayName="AutoSubmit", category="Behavior")
-    protected boolean autoSubmit = false;
-    protected boolean autoSubmit_set = false;
+    @Property(name="submitForm", isHidden=true, displayName="Submit Form", category="Behavior")
+    protected boolean submitForm = false;
+    protected boolean submitForm_set = false;
     
     /**
      * <p>Flag indicating whether pressing enter in this text field would allow
      * browser to submit the enclosing form.</p>
      */
-    public boolean isAutoSubmit() {
-        if (this.autoSubmit_set) {
-            return this.autoSubmit;
+    public boolean isSubmitForm() {
+        if (this.submitForm_set) {
+            return this.submitForm;
         }
-        ValueExpression _vb = getValueExpression("autoSubmit");
+        ValueExpression _vb = getValueExpression("submitForm");
         if (_vb != null) {
             Object _result = _vb.getValue(getFacesContext().getELContext());
             if (_result == null) {
@@ -182,11 +182,11 @@ public class PasswordField extends Field {
     /**
      * <p>Flag indicating whether pressing enter in this text field would allow
      * browser to submit the enclosing form.</p>
-     * @see #isAutoSubmit()
+     * @see #isSubmitForm()
      */
-    public void setAutoSubmit(boolean autoSubmit) {
-        this.autoSubmit = autoSubmit;
-        this.autoSubmit_set = true;
+    public void setSubmitForm(boolean submitForm) {
+        this.submitForm = submitForm;
+        this.submitForm_set = true;
     }
         
     
@@ -220,8 +220,8 @@ public class PasswordField extends Field {
     public void restoreState(FacesContext _context, Object _state) {
         Object _values[] = (Object[]) _state;
         super.restoreState(_context, _values[0]);
-        this.autoSubmit = ((Boolean) _values[1]).booleanValue();
-        this.autoSubmit_set = ((Boolean) _values[2]).booleanValue();
+        this.submitForm = ((Boolean) _values[1]).booleanValue();
+        this.submitForm_set = ((Boolean) _values[2]).booleanValue();
  }
 
     /**
@@ -230,8 +230,8 @@ public class PasswordField extends Field {
     public Object saveState(FacesContext _context) {
         Object _values[] = new Object[3];
         _values[0] = super.saveState(_context);
-        _values[1] = this.autoSubmit ? Boolean.TRUE : Boolean.FALSE;
-        _values[2] = this.autoSubmit_set ? Boolean.TRUE : Boolean.FALSE;
+        _values[1] = this.submitForm ? Boolean.TRUE : Boolean.FALSE;
+        _values[2] = this.submitForm_set ? Boolean.TRUE : Boolean.FALSE;
         return _values;
     }    
     

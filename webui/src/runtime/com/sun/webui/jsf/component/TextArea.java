@@ -187,24 +187,24 @@ family="com.sun.webui.jsf.TextArea",
     }
     
     /**
-     * <p>AutoSubmit attribute is disabled for TextArea.
+     * <p>SubmitForm attribute is disabled for TextArea.
      * TextArea uses enter key to open new line.
      *
      * </p>
      */
-    @Property(name="autoSubmit", isHidden=true, displayName="AutoSubmit", category="Behavior")
-    protected boolean autoSubmit = false;
-    protected boolean autoSubmit_set = false;
+    @Property(name="submitForm", isHidden=true, displayName="Submit Form", category="Behavior")
+    protected boolean submitForm = false;
+    protected boolean submitForm_set = false;
     
     /**
      * <p>Flag indicating whether pressing enter in this text field would allow
      * browser to submit the enclosing form.</p>
      */
-    public boolean isAutoSubmit() {
-        if (this.autoSubmit_set) {
-            return this.autoSubmit;
+    public boolean isSubmitForm() {
+        if (this.submitForm_set) {
+            return this.submitForm;
         }
-        ValueExpression _vb = getValueExpression("autoSubmit");
+        ValueExpression _vb = getValueExpression("submitForm");
         if (_vb != null) {
             Object _result = _vb.getValue(getFacesContext().getELContext());
             if (_result == null) {
@@ -217,11 +217,11 @@ family="com.sun.webui.jsf.TextArea",
     }
     
     /**
-     * <p>AutoSubmit is disabled for TextArea
+     * <p>SubmitForm is disabled for TextArea
      */
-    public void setAutoSubmit(boolean autoSubmit) {
-        this.autoSubmit = autoSubmit;
-        this.autoSubmit_set = true;
+    public void setSubmitForm(boolean submitForm) {
+        this.submitForm = submitForm;
+        this.submitForm_set = true;
     }
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     // State methods
