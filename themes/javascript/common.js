@@ -314,24 +314,6 @@ webui.@THEME@.common = {
         parentForm.appendChild(newElement);
     },
     
-    /** Recursively travels up the tree from the specified node 
-     *  and returns first met form element, i.e. form
-     *  that contains this specified node.
-     *  Returns form DOM element, or null if reached the top 
-     *  of the document without finding a form.
-     * @param domNode node for which a containing form should be returned
-     */
-    getForm: function(domNode) {
-        var node = domNode;
-        while (node && node.nodeName != 'FORM') {
-            node = node.parentNode;
-        }
-        if (!node || node.nodeName != 'FORM')
-            return null;
-        
-        return node;        
-    },
-    
     /**
      * Use this function to submit a virtual form.
      */
