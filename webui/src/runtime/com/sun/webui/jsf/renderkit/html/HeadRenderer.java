@@ -93,19 +93,20 @@ public class HeadRenderer extends AbstractRenderer {
 	        renderMetaTag("1", "Expires", writer, head); 
             }
 
-            // Title must always get rendered on the page.
-            // If not, this causes an A11Y violation.
-            // Hence, even if no title is specified(null), render a blank value.
-            String title = head.getTitle();            
-            if (title == null) {
-                title = "";
+            UIComponent titleFacet = head.getFacets().get(head.TITLE_FACET);
+              
+            // A page must always have a title tag.
+            writer.startElement("title",  head);            
+            if (titleFacet != null) {
+                RenderingUtilities.renderComponent(titleFacet, context);
+            } else {            
+                String title = head.getTitle();            
+                if (title != null) {
+                    writer.write(title);
+                }
             }
-            
-	    writer.startElement("title",  head);
-            writer.write(title);
             writer.endElement("title");
-            writer.write("\n"); //NOI18N
-            
+            writer.write("\n"); //NOI18N                
 	    // Base
             if(head.isDefaultBase()) {
                 writer.startElement("base", head); //NOI18N

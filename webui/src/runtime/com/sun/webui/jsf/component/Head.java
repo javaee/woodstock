@@ -38,6 +38,11 @@ import com.sun.faces.annotation.Property;
 public class Head extends UIComponentBase {
 
     /**
+     *Title facet identifier
+     */
+     public static final String TITLE_FACET="title"; 
+
+    /**
      * <p>Construct a new <code>Head</code>.</p>
      */
     public Head() {

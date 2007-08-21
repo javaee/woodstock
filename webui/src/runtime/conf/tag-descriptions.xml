@@ -5986,7 +5986,23 @@ update components server-side: refresh("form1:id1,form2:id2,...")<br>
  included components on the page.<br></p><span>The
  browser does not display the information in the <code>&lt;head&gt;</code>
  element to the user, with the exception of the title that is used in
- the browser's title bar.&nbsp;&nbsp; </span><h3>Client Side Javascript Functions</h3><span>None. </span>
+ the browser's title bar.&nbsp;&nbsp; </span>
+ <h3> Facets</h3>
+ <span><pre>The Head component supports the following facet</pre></span>
+<table style="text-align: left; color: rgb(0, 0, 0); width: 100%;"
+ border="1" cellpadding="2" cellspacing="2">
+  <tbody>
+    <tr>
+      <td style="vertical-align: top;"><code>title<br>
+      </code><br>
+      </td>
+      <td style="vertical-align: top;">Specify customized title
+      that needs to rendered</td>
+    </tr>
+  </tbody>
+</table>
+ 
+ <h3>Client Side Javascript Functions</h3><span>None. </span>
  <h3>Example</h3><b>Example 1: Create a head tag </b><br>
  <code><br>&lt;webuijsf:page&gt;<br>&nbsp;&nbsp;&nbsp; &lt;webuijsf:html&gt;<br>&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; </code><code>
  &lt;webuijsf:head
