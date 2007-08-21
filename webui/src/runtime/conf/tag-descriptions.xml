@@ -4856,7 +4856,7 @@ If editableField is modified and if autoSave is set to true (default
 value), the updated data will be automatically submitted to the server
 via Ajax request.
 <p>EditableField inherits most of the functionality and attributes from
-TextField. See <code>webuijsf:editableField</code> component description
+TextField. See <code>webuijsf:textField</code> component description
 for details and examples. </p>
 <h3>Configuring the <code>webuijsf:editableField</code> Tag</h3>
 <p>See <code>webuijsf:editableField</code> component description for
@@ -19066,6 +19066,11 @@ attribute's value to an EL expression that corresponds to a property
 of a backing bean.</p>
 <p>To optionally specify a label for the component, use the <code>label</code>
 attribute, or specify a label facet. </p>
+<p>Attribute <i>submitForm</i> can be used to alter the default browser behavior on form submission
+when Enter key is pressed within a text field. Value of <i>true</i> will force the form submission,
+value of <i>false</i> will prevent it, and if <i>submitForm</i> is not specified, the default browser 
+behavior ( that differs for different browsers) will take an effect.
+</p>
 
 <h3>Facets</h3>
 <ul>
