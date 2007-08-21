@@ -189,7 +189,22 @@ public class PasswordField extends Field {
         this.submitForm_set = true;
     }
         
-    
+   /**
+     * <p>Returns true if submitForm attribute has been explicitely set,
+     * either through binding, value expression, or programmatically.
+     * Returns false otherwise.</p>
+     */
+    public boolean isSubmitFormSet() {
+        if (this.submitForm_set) {
+            return true;
+        }
+        ValueExpression _vb = getValueExpression("submitForm");
+        if (_vb != null && _vb.getValue(getFacesContext().getELContext()) != null)
+            return true;
+        
+        return false;
+        
+    }        
     
  // --------------------------
 

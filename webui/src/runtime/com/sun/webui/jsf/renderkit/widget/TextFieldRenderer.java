@@ -74,8 +74,7 @@ public class TextFieldRenderer extends FieldRendererBase {
         "onDblClick",
         "onKeyDown",
         "onKeyPress",
-        "onKeyUp",
-        "submitForm"
+        "onKeyUp"
     };
     
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -126,6 +125,9 @@ public class TextFieldRenderer extends FieldRendererBase {
         .put("visible", field.isVisible())
         .put("title", field.getToolTip())
         .put("autoValidate", field.isAutoValidate());
+
+        if (field.isSubmitFormSet())
+            json.put("submitForm", field.isSubmitForm());
         
         // Append label properties.
         json.put("label", WidgetUtilities.renderComponent(context, 

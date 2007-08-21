@@ -72,8 +72,7 @@ public class PasswordFieldRenderer extends FieldRendererBase {
         "onDblClick",
         "onKeyDown",
         "onKeyPress",
-        "onKeyUp",
-        "submitForm"
+        "onKeyUp"
     };
     
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -124,7 +123,10 @@ public class PasswordFieldRenderer extends FieldRendererBase {
         .put("size", field.getColumns())
         .put("visible", field.isVisible())
         .put("title", field.getToolTip());
-        
+
+        if (field.isSubmitFormSet())
+            json.put("submitForm", field.isSubmitForm());
+          
         // Append label properties.
         json.put("label", WidgetUtilities.renderComponent(context, 
             field.getLabelComponent(context, null)));
