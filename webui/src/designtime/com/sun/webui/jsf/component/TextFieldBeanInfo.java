@@ -37,7 +37,7 @@ public class TextFieldBeanInfo extends TextFieldBeanInfoBase {
         BeanDescriptor beanDescriptor = super.getBeanDescriptor();
         beanDescriptor.setValue(
             Constants.BeanDescriptor.INLINE_EDITABLE_PROPERTIES,
-            new String[] { "text://input", "label://label" }); // NOI18N
+            new String[] { "*text://input", "label://label" }); // NOI18N
         DesignUtil.updateInputEventSetDescriptors(this);
     }
 
