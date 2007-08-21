@@ -1,4 +1,4 @@
-<?xml version="1.0"?>
+﻿<?xml version="1.0"?>
 <!--
  The contents of this file are subject to the terms
  of the Common Development and Distribution License
@@ -4420,8 +4420,9 @@ option is bolded.</p>
 &nbsp;&nbsp;&nbsp; pageOptions = new Option[4];<span
  style="font-weight: bold;"></span><br>
 <span style="font-weight: bold;">&nbsp;&nbsp;&nbsp; pageOptions[0] =
-new OptionTitle("Select a Page" ); </span> pageOptions[1] = new
-Option("indexPage", "Main Page" );<br>
+new OptionTitle("Select a Page"); </span><br>
+&nbsp;&nbsp;&nbsp; pageOptions[1] = new
+Option("indexPage", "Main Page");<br>
 &nbsp;&nbsp;&nbsp; pageOptions[2] = new Option("printerPage", "Printer
 Status");<br>
 &nbsp;&nbsp;&nbsp; pageOptions[3] = new Option("faxPage", "Fax
@@ -4442,9 +4443,8 @@ setting up your backing bean appropriately. A backing bean object that
 populates the drop down menu with grouped options might look as follows.</p>
 <div style="margin-left: 40px;"><code>public BackingFileDropDown2() {<br>
 &nbsp;&nbsp;&nbsp; actionOptions = new Option[5];<br>
-&nbsp;&nbsp;&nbsp; actionOptions[0] = new OptionTitle("More Actions" );<br>
-&nbsp;&nbsp;&nbsp; actionOptions[1] = new Option("Action1", "Action 1"
-);<br>
+&nbsp;&nbsp;&nbsp; actionOptions[0] = new OptionTitle("More Actions");<br>
+&nbsp;&nbsp;&nbsp; actionOptions[1] = new Option("Action1", "Action 1");<br>
 &nbsp;&nbsp;&nbsp; actionOptions[2] = new Option("Action2", "Action 2");<br>
 &nbsp;&nbsp;&nbsp; actionOptions[2].setDisabled(true);<br>
 &nbsp;&nbsp;&nbsp; actionOptions[3] = new Option("Action3", "Action 3");<br>
@@ -4458,7 +4458,7 @@ populates the drop down menu with grouped options might look as follows.</p>
 &nbsp;&nbsp;&nbsp; groupedOptions[1] = new Option("Action5", "Action
 5");<br>
 &nbsp;&nbsp;&nbsp; groupedOptions[2] = new Option("Action6", "Action
-6");&lt;<br>
+6");<br>
 &nbsp;&nbsp;&nbsp; groupedOptions[2].setDisabled(true);<br>
 &nbsp;&nbsp;&nbsp; group.setOptions(groupedOptions);<br>
 &nbsp;&nbsp;&nbsp; actionOptions[4] = group; <br>
@@ -4470,7 +4470,7 @@ as follows: </p>
  enctype="application/x-www-form-urlencoded">
   <select class="MnuJmp_sun4" id="menuform1:action_list" size="1"
  onchange="webui.suntheme.jumpDropDown.changed('menuform1:action');  return false;">
-  <option class="MnuJmpOpt_sun4" value="">��� More Actions ���</option>
+  <option class="MnuJmpOpt_sun4" value="">&#8212; More Actions &#8212;</option>
   <option class="MnuJmpOpt_sun4" value="Action1">Action 1</option>
   <option class="MnuJmpOptDis_sun4" value="Action2" disabled="disabled">Action
 2</option>
