@@ -206,7 +206,7 @@ public class ListSelector extends Selector implements ListManager,
         } 
         else if(optionsObject instanceof Map) { 
             Collection itemsCollection = ((Map)optionsObject).values(); 
-            options =  (Option[])(itemsCollection.toArray()); 
+            options = (Option[])itemsCollection.toArray(new Option[itemsCollection.size()]); 
         } 
         // The items attribute has not been specified
         else { 
