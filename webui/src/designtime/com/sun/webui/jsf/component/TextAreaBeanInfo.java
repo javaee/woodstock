@@ -37,7 +37,7 @@ public class TextAreaBeanInfo extends TextAreaBeanInfoBase {
         BeanDescriptor beanDescriptor = super.getBeanDescriptor();
         beanDescriptor.setValue(
             Constants.BeanDescriptor.INLINE_EDITABLE_PROPERTIES,
-            new String[] { "text://textarea", "label://label" }); // NOI18N
+            new String[] { "*text://textarea", "label://label" }); // NOI18N
         DesignUtil.hideProperties(this, new String[]{ "maxLength" });
         DesignUtil.updateInputEventSetDescriptors(this);
     }
