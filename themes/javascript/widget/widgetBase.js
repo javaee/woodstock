@@ -351,8 +351,13 @@ webui.@THEME@.widget.widgetBase.initialize = function (props, frag, parent) {
  * document fragment.
  */
 webui.@THEME@.widget.widgetBase.isInitialized = function() {
-    var domNode = document.getElementById(this.id);
-    if (domNode && domNode.getAttribute("dojoattachpoint")) {
+    // Testing if the outermost DOM node has been added to the document and
+    // ensuring a Dojo attach point exists works fine for JSP. However, the 
+    // following code always returns null for facelets.
+    //
+    // var domNode = document.getElementById(this.id);
+    // if (domNode && domNode.getAttribute("dojoattachpoint")) {
+    if (this.initialized == true) {
         return true;
     }
     return false;
@@ -386,6 +391,9 @@ webui.@THEME@.widget.widgetBase.postInitialize = function (props, frag, parent) 
  * @param parent The parent of this widget.
  */
 webui.@THEME@.widget.widgetBase.postCreate = function (props, frag, parent) {
+    // All widget properties have been set.
+    this.initialized = true;
+
     return webui.@THEME@.widget.widgetBase.superclass.postCreate.call(this, props, frag, parent);
 }
 
