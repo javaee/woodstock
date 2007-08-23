@@ -20,7 +20,7 @@
  * Copyright 2007 Sun Microsystems, Inc. All rights reserved.
  */
 /*
- * $Id: Property.java,v 1.5 2007-04-30 21:02:41 rratta Exp $
+ * $Id: Property.java,v 1.6 2007-08-23 12:28:46 animeshkumarsahay Exp $
  */
 package com.sun.webui.jsf.component;
 
@@ -579,7 +579,7 @@ public class Property extends UIComponentBase implements ComplexComponent,
      * is left. This attibute applies to labels that are specified with either 
      * the label attribute or the label facet.</p>
      */
-    @com.sun.faces.annotation.Property(name="labelAlign", displayName="Label Alignment", category="Appearance")
+    @com.sun.faces.annotation.Property(name="labelAlign", displayName="Label Alignment", category="Advanced")
     private String labelAlign = null;
 
     /**

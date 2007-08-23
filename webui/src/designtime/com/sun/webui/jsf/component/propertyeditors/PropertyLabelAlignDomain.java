@@ -19,19 +19,25 @@
  * 
  * Copyright 2007 Sun Microsystems, Inc. All rights reserved.
  */
-package com.sun.webui.jsf.component;
 
-import com.sun.webui.jsf.component.propertyeditors.PropertyLabelAlignDomain;
-import com.sun.webui.jsf.component.util.DesignUtil;
+package com.sun.webui.jsf.component.propertyeditors;
 
-/**
- * BeanInfo for the {@link com.sun.webui.jsf.component.Property} component.
- */
-public class PropertyBeanInfo extends PropertyBeanInfoBase {
+import com.sun.rave.propertyeditors.domains.Domain;
+import com.sun.rave.propertyeditors.domains.Element;
+import com.sun.webui.jsf.component.util.DesignMessageUtil;
+
+
+public class PropertyLabelAlignDomain extends Domain {
     
-    /** Creates a new instance of PropertyBeanInfo */
-    public PropertyBeanInfo() {
-        DesignUtil.applyPropertyDomain(this, "labelAlign", PropertyLabelAlignDomain.class);
+    private static Element[] elements = new Element[] {
+        new Element("left", 
+                DesignMessageUtil.getMessage(PropertyLabelAlignDomain.class, "PropertyLabelAlign.left")), //NOI18N
+        new Element("right", 
+                DesignMessageUtil.getMessage(PropertyLabelAlignDomain.class, "PropertyLabelAlign.right")) //NOI18N
+    };
+    
+    public Element[] getElements() {
+        return PropertyLabelAlignDomain.elements;
     }
     
 }
