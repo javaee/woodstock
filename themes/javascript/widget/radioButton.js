@@ -101,6 +101,20 @@ webui.@THEME@.widget.radioButton.getImageClassName = function() {
 }
 
 /**
+ * Helper function to obtain input class names.
+ */
+webui.@THEME@.widget.radioButton.getInputClassName = function() {
+        //readOnly style.
+        if(this.readOnly == true)
+            return this.theme.getClassName("RADIOBUTTON_READONLY");
+            
+        //disabled style.
+        return (this.disabled == true)
+            ? this.theme.getClassName("RADIOBUTTON_DISABLED")
+            : this.theme.getClassName("RADIOBUTTON");  
+}
+
+/**
  * Helper function to obtain label class names.
  */
 webui.@THEME@.widget.radioButton.getLabelClassName = function() {
@@ -182,10 +196,11 @@ dojo.inherits(webui.@THEME@.widget.radioButton, webui.@THEME@.widget.checkbox);
 
 // Override base widget by assigning properties to class prototype.
 dojo.lang.extend(webui.@THEME@.widget.radioButton, {
-    // Set private functions.
+    // Set private functions.    
     getClassName: webui.@THEME@.widget.radioButton.getClassName,
     getImageClassName: webui.@THEME@.widget.radioButton.getImageClassName,
     getLabelClassName: webui.@THEME@.widget.radioButton.getLabelClassName,
+    getInputClassName: webui.@THEME@.widget.radioButton.getInputClassName,
     _setProps: webui.@THEME@.widget.radioButton._setProps,
     submit: webui.@THEME@.widget.widgetBase.event.submit.processEvent,
 

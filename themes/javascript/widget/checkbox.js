@@ -37,6 +37,34 @@ webui.@THEME@.widget.checkbox = function() {
 }
 
 /**
+ * Helper function to create callback for onClick event.
+ *
+ * @param id The HTML element id used to invoke the callback.
+ */
+webui.@THEME@.widget.checkbox.createOnClickCallback = function(id) {
+    if (id == null) {
+        return null;
+    }
+    // New literals are created every time this function
+    // is called, and it's saved by closure magic.
+    return function(event) { 
+        var widget = dojo.widget.byId(id);
+        if (widget == null || widget.readOnly == true) {
+            event.preventDefault();
+            return false;
+        }
+
+        // If function returns false, we must prevent the request.
+        var result = (widget.domNode._onclick)
+            ? widget.domNode._onclick(event) : true;
+        if (result == false) {
+            event.preventDefault();
+            return false;
+        }
+    };
+}
+
+/**
  * This closure is used to process widget events.
  */
 webui.@THEME@.widget.checkbox.event = {
@@ -101,6 +129,10 @@ webui.@THEME@.widget.checkbox.fillInTemplate = function(props, frag) {
     // Set public functions.        
     this.domNode.getInputElement = function() { return dojo.widget.byId(this.id).getInputElement(); }
     this.domNode.submit = function(execute) { return dojo.widget.byId(this.id).submit(execute); }
+    
+    // Create callback function for onclick event.
+    dojo.event.connect(this.domNode, "onclick",
+        webui.@THEME@.widget.checkbox.createOnClickCallback(this.id));
 
     return true;
 }
@@ -129,6 +161,20 @@ webui.@THEME@.widget.checkbox.getImageClassName = function() {
     return (this.disabled == true)
         ? webui.@THEME@.widget.props.checkbox.imageDisabledClassName
         : webui.@THEME@.widget.props.checkbox.imageClassName;  
+}
+
+/**
+ * Helper function to obtain input class names.
+ */
+webui.@THEME@.widget.checkbox.getInputClassName = function() {
+    // readOnly style.
+    if (this.readOnly == true)
+        return this.theme.getClassName("CHECKBOX_READONLY");        
+    
+    // disabled style.
+    return (this.disabled == true)
+        ? this.theme.getClassName("CHECKBOX_DISABLED")
+        : this.theme.getClassName("CHECKBOX");  
 }
 
 /**
@@ -230,14 +276,30 @@ webui.@THEME@.widget.checkbox._setProps = function(props) {
         this.inputNode.value = props.value;
     }
     if (props.readOnly != null) { 
-        this.inputNode.readOnly = new Boolean(props.readOnly).valueOf();
+        this.inputNode.readOnly = new Boolean(props.readOnly).valueOf();       
     }
     if (props.disabled != null) {
-        this.inputNode.disabled = new Boolean(props.disabled).valueOf();
+        this.inputNode.disabled = new Boolean(props.disabled).valueOf();        
     }
+    
+    // Set HTML input element class name.
+    this.inputNode.className = this.getInputClassName();
+    
     if (props.name) { 
         this.inputNode.name = props.name;
-    }	
+    }
+    
+    // A web app devleoper could return false in order to cancel the 
+    // submit. Thus, we will handle this event via the onClick call back.
+    if (props.onClick) {
+        // Set private function scope on DOM node.
+        this.domNode._onclick = (typeof props.onClick == 'string')
+            ? new Function("event", props.onClick) : props.onClick;
+
+        // Must be cleared before calling setEventProps() below.
+        props.onClick = null;
+    }
+    	
     if (props.checked != null) {
         var checked = new Boolean(props.checked).valueOf();
 
@@ -305,6 +367,7 @@ dojo.lang.extend(webui.@THEME@.widget.checkbox, {
     // Set private functions.
     fillInTemplate: webui.@THEME@.widget.checkbox.fillInTemplate,
     getClassName: webui.@THEME@.widget.checkbox.getClassName,
+    getInputClassName: webui.@THEME@.widget.checkbox.getInputClassName,
     getImageClassName: webui.@THEME@.widget.checkbox.getImageClassName,
     getInputElement: webui.@THEME@.widget.checkbox.getInputElement,
     getLabelClassName: webui.@THEME@.widget.checkbox.getLabelClassName,

@@ -127,6 +127,14 @@ body {
 .CbSpn@THEME_CSS@ input {
 	vertical-align: -1px;
 }
+
+.CbReadOnly@THEME_CSS@, .RbReadOnly@THEME_CSS@ {
+        opacity:.45; filter: alpha(opacity=45); -moz-opacity: 0.45;
+}
+
+.CbDis@THEME_CSS@, .RbDis@THEME_CSS@ {
+        opacity:.40; filter: alpha(opacity=40); -moz-opacity: 0.4;    
+}
 .RbLbl@THEME_CSS@, .RbLblDis@THEME_CSS@ {
 	vertical-align: 1px;
 }

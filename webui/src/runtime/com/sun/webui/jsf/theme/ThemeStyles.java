@@ -275,6 +275,7 @@ public class ThemeStyles {
     public static final String CHECKBOX_DISABLED 	     = "CHECKBOX_DISABLED";
     public static final String CHECKBOX_LABEL 		     = "CHECKBOX_LABEL";
     public static final String CHECKBOX_LABEL_DISABLED 	     = "CHECKBOX_LABEL_DISABLED";
+    public static final String CHECKBOX_READONLY             = "CHECKBOX_READONLY";
     public static final String CHECKBOX_IMAGE 		     = "CHECKBOX_IMAGE";
     public static final String CHECKBOX_IMAGE_DISABLED 	     = "CHECKBOX_IMAGE_DISABLED";
     public static final String CHECKBOX_SPAN     	     = "CHECKBOX_SPAN";
@@ -297,6 +298,7 @@ public class ThemeStyles {
      */	
     public static final String RADIOBUTTON 	              = "RADIOBUTTON";
     public static final String RADIOBUTTON_DISABLED           = "RADIOBUTTON_DISABLED";
+    public static final String RADIOBUTTON_READONLY           = "RADIOBUTTON_READONLY";
     public static final String RADIOBUTTON_LABEL 	      = "RADIOBUTTON_LABEL";
     public static final String RADIOBUTTON_LABEL_DISABLED     = "RADIOBUTTON_LABEL_DISABLED";
     public static final String RADIOBUTTON_IMAGE 	      = "RADIOBUTTON_IMAGE";
