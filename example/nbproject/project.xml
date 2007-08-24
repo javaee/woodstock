@@ -27,8 +27,12 @@
             <name>example</name>
             <minimum-ant-version>1.6</minimum-ant-version>
             <web-module-libraries>
-                <library files="1">
+                <library>
                     <file>${reference.webui.jars}</file>
+                    <path-in-war>WEB-INF/lib</path-in-war>
+                </library>
+                <library files="1">
+                    <file>${reference.themes.all}</file>
                     <path-in-war>WEB-INF/lib</path-in-war>
                 </library>
             </web-module-libraries>
@@ -39,6 +43,14 @@
             <test-roots/>
         </data>
         <references xmlns="http://www.netbeans.org/ns/ant-project-references/1">
+            <reference>
+                <foreign-project>themes</foreign-project>
+                <artifact-type>jar</artifact-type>
+                <script>build.xml</script>
+                <target>all</target>
+                <clean-target>clean</clean-target>
+                <id>all</id>
+            </reference>
             <reference>
                 <foreign-project>webui</foreign-project>
                 <artifact-type>jar</artifact-type>
