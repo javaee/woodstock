@@ -86,9 +86,6 @@ public class ThemeLinksRenderer extends javax.faces.render.Renderer {
         JavaScriptUtilities.renderJavaScript(component, writer,
             JavaScriptUtilities.getDojoConfig());
 
-        // Render Dojo include.
-        JavaScriptUtilities.renderDojoInclude(component, writer);
-
         // Render JSON include.
         JavaScriptUtilities.renderJsonInclude(component, writer);
 
@@ -97,7 +94,10 @@ public class ThemeLinksRenderer extends javax.faces.render.Renderer {
 
         // Render JSF Extensions include.
         JavaScriptUtilities.renderJsfxInclude(component, writer);
-        
+
+        // Render Dojo include.
+        JavaScriptUtilities.renderDojoInclude(component, writer);
+
         // Render module config after including dojo.
         JavaScriptUtilities.renderJavaScript(component, writer,
             JavaScriptUtilities.getModuleConfig());
