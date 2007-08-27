@@ -1648,12 +1648,20 @@ table.TblLt@THEME_CSS@ td.TblPnlTd@THEME_CSS@ {padding-left:10px;border-top:none
     top: -5px;
 }
 
-.Bubble@THEME_CSS@ .bottomLeftArrow@THEME_CSS@, .Bubble@THEME_CSS@
-.bottomRightArrow@THEME_CSS@, .Bubble@THEME_CSS@ .topLeftArrow@THEME_CSS@, 
+.Bubble@THEME_CSS@ .topLeftArrow@THEME_CSS@, 
 .Bubble@THEME_CSS@ .topRightArrow@THEME_CSS@ {
     margin: 0px;
     width: 44px;
     height: 15px;
+    position: relative;
+    display: none;
+}
+
+.Bubble@THEME_CSS@ .bottomLeftArrow@THEME_CSS@,
+.Bubble@THEME_CSS@ .bottomRightArrow@THEME_CSS@ {
+    margin: 0px;
+    width: 53px;
+    height: 20px;
     position: relative;
     display: none;
 }
