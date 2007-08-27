@@ -28,6 +28,12 @@
 .CbImg@THEME_CSS@, .CbImgDis@THEME_CSS@ {
 	vertical-align: -6px;
 }
+.CbReadOnly@THEME_CSS@,.RbReadOnly@THEME_CSS@ {
+         filter: alpha(opacity=45); 
+}
+.CbDis@THEME_CSS@, .RbDis@THEME_CSS@ {
+         filter: alpha(opacity=40);
+}
 
 /* PROPERTY SHEET */
 div.ConTblCl2Div@THEME_CSS@ .CbSpn@THEME_CSS@ .CbLbl@THEME_CSS@ {
