@@ -75,15 +75,7 @@ webui.@THEME@.widget.props = {
         todayClass: "DatCurLnk@THEME_CSS@"
     },
     
-    // Checkbox properties.
-    checkbox: {
-        className: "CbSpn@THEME_CSS@",
-        disabledClassName: "CbSpnDis@THEME_CSS@",
-        labelClassName: "CbLbl@THEME_CSS@",
-        labelDisabledClassName: "CbLblDis@THEME_CSS@",
-        imageClassName: "CbImg@THEME_CSS@",
-        imageDisabledClassName: "CbImgDis@THEME_CSS@"
-    },
+    
         
     // Checkbox Group
     checkboxGroup: {
@@ -163,15 +155,6 @@ webui.@THEME@.widget.props = {
         stopped: "stopped"
     },
 
-    // RadioButton properties.
-    radioButton: {
-        className: "RbSpn@THEME_CSS@",
-        disabledClassName: "RbSpnDis@THEME_CSS@",
-        labelClassName: "RbLbl@THEME_CSS@",
-        labelDisabledClassName: "RbLblDis@THEME_CSS@",
-        imageClassName: "RbImg@THEME_CSS@",
-        imageDisabledClassName: "RbImgDis@THEME_CSS@"
-    },
     
     // RadioButton Group
     radioButtonGroup: {

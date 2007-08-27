@@ -146,8 +146,8 @@ webui.@THEME@.widget.checkbox.fillInTemplate = function(props, frag) {
 webui.@THEME@.widget.checkbox.getClassName = function() {
     // Set default style.
     var className = (this.disabled == true)
-        ? webui.@THEME@.widget.props.checkbox.disabledClassName
-        : webui.@THEME@.widget.props.checkbox.className; 
+        ? this.widget.getClassName("CHECKBOX_SPAN_DISABLED", "")
+        : this.widget.getClassName("CHECKBOX_SPAN", ""); 
 
     return (this.className)
         ? className + " " + this.className
@@ -159,8 +159,8 @@ webui.@THEME@.widget.checkbox.getClassName = function() {
  */
 webui.@THEME@.widget.checkbox.getImageClassName = function() {
     return (this.disabled == true)
-        ? webui.@THEME@.widget.props.checkbox.imageDisabledClassName
-        : webui.@THEME@.widget.props.checkbox.imageClassName;  
+        ? this.widget.getClassName("CHECKBOX_IMAGE_DISABLED", "")
+        : this.widget.getClassName("CHECKBOX_IMAGE", "");  
 }
 
 /**
@@ -169,12 +169,12 @@ webui.@THEME@.widget.checkbox.getImageClassName = function() {
 webui.@THEME@.widget.checkbox.getInputClassName = function() {
     // readOnly style.
     if (this.readOnly == true)
-        return this.theme.getClassName("CHECKBOX_READONLY");        
+        return this.widget.getClassName("CHECKBOX_READONLY", "");        
     
     // disabled style.
     return (this.disabled == true)
-        ? this.theme.getClassName("CHECKBOX_DISABLED")
-        : this.theme.getClassName("CHECKBOX");  
+        ? this.widget.getClassName("CHECKBOX_DISABLED", "")
+        : this.widget.getClassName("CHECKBOX", "");  
 }
 
 /**
@@ -191,8 +191,8 @@ webui.@THEME@.widget.checkbox.getInputElement = function() {
  */
 webui.@THEME@.widget.checkbox.getLabelClassName = function() {
     return (this.disabled == true)
-        ? webui.@THEME@.widget.props.checkbox.labelDisabledClassName
-        : webui.@THEME@.widget.props.checkbox.labelClassName;  
+        ? this.widget.getClassName("CHECKBOX_LABEL_DISABLED", "")
+        : this.widget.getClassName("CHECKBOX_LABEL", "");  
 }
 
 /**

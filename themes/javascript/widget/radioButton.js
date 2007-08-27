@@ -83,8 +83,8 @@ webui.@THEME@.widget.radioButton.event = {
 webui.@THEME@.widget.radioButton.getClassName = function() {
     // Set default style.
     var className = (this.disabled == true)
-        ? webui.@THEME@.widget.props.radioButton.disabledClassName
-        : webui.@THEME@.widget.props.radioButton.className;
+        ? this.widget.getClassName("RADIOBUTTON_SPAN_DISABLED", "")
+        : this.widget.getClassName("RADIOBUTTON_SPAN", "");
 
     return (this.className)
         ? className + " " + this.className
@@ -96,8 +96,8 @@ webui.@THEME@.widget.radioButton.getClassName = function() {
  */
 webui.@THEME@.widget.radioButton.getImageClassName = function() {
     return (this.disabled == true)
-        ? webui.@THEME@.widget.props.radioButton.imageDisabledClassName
-        : webui.@THEME@.widget.props.radioButton.imageClassName;  
+        ? this.widget.getClassName("RADIOBUTTON_IMAGE_DISABLED", "")
+        : this.widget.getClassName("RADIOBUTTON_IMAGE", "");  
 }
 
 /**
@@ -106,12 +106,12 @@ webui.@THEME@.widget.radioButton.getImageClassName = function() {
 webui.@THEME@.widget.radioButton.getInputClassName = function() {
         //readOnly style.
         if(this.readOnly == true)
-            return this.theme.getClassName("RADIOBUTTON_READONLY");
+            return this.widget.getClassName("RADIOBUTTON_READONLY", "");
             
         //disabled style.
         return (this.disabled == true)
-            ? this.theme.getClassName("RADIOBUTTON_DISABLED")
-            : this.theme.getClassName("RADIOBUTTON");  
+            ? this.widget.getClassName("RADIOBUTTON_DISABLED", "")
+            : this.widget.getClassName("RADIOBUTTON", "");  
 }
 
 /**
@@ -119,8 +119,8 @@ webui.@THEME@.widget.radioButton.getInputClassName = function() {
  */
 webui.@THEME@.widget.radioButton.getLabelClassName = function() {
     return (this.disabled == true)
-        ? webui.@THEME@.widget.props.radioButton.labelDisabledClassName
-        : webui.@THEME@.widget.props.radioButton.labelClassName;  
+        ? this.widget.getClassName("RADIOBUTTON_LABEL_DISABLED", "")
+        : this.widget.getClassName("RADIOBUTTON_LABEL", "");  
 }
 
 /**
