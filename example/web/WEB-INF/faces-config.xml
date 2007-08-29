@@ -298,6 +298,13 @@
         <managed-bean-scope>session</managed-bean-scope>
     </managed-bean>     
 
+  <managed-bean>
+    <description>The backing bean for the Menu Example</description>
+    <managed-bean-name>popupBean</managed-bean-name>
+    <managed-bean-class>com.sun.webui.jsf.example.popupMenu.PopupMenuBackingBean</managed-bean-class>
+    <managed-bean-scope>session</managed-bean-scope>
+  </managed-bean>
+
     <navigation-rule>    
       <from-view-id>/*</from-view-id>      
             
@@ -900,6 +907,22 @@
         <redirect/>
       </navigation-case>
    </navigation-rule>
+
+  <!-- Navigation Cases for popupMenu Example -->
+  <navigation-rule>
+    <navigation-case>
+      <from-outcome>showPopupMenu</from-outcome>
+      <to-view-id>/popupMenu/menu.jsp</to-view-id>
+      <redirect/>
+    </navigation-case>
+    
+    <navigation-case>
+    <from-outcome>showMasthead></from-outcome>
+    <to-view-id>/masthead/Index.jsp</to-view-id>
+    <redirect/>
+    </navigation-case>
+    
+  </navigation-rule>
 
    <!-- Navigation Cases for Accordion Example -->     
    <navigation-rule>

@@ -263,7 +263,13 @@ public class TableData {
         new AppData("index_bubbleName","index_bubbleConcepts", "showBubble",
                 new String[] {
                     "bubble/bubble.jsp"}
-        )
+        ),
+        new AppData("index_popupMenu", "index_popupMenuConcepts", "showPopupMenu",
+                new String[] {
+                    "popupMenu/menu.jsp",
+                    "popupMenu/menu.js",
+                    "popupMenu/PopupMenuBackingBean.java"}
+	)          
     };    
     
     /** Default constructor */
