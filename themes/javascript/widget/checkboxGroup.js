@@ -149,8 +149,8 @@ webui.@THEME@.widget.checkboxGroup.fillInTemplate = function(props, frag) {
 webui.@THEME@.widget.checkboxGroup.getClassName = function() {
     // Set default style.
     var className = (this.columns > 1)
-        ? webui.@THEME@.widget.props.checkboxGroup.horizClassName
-        : webui.@THEME@.widget.props.checkboxGroup.vertClassName;
+        ? this.widget.getClassName("CBGRP_HORIZ", "")
+        : this.widget.getClassName("CBGRP_VERT", "");
 
     return (this.className)
         ? className + " " + this.className

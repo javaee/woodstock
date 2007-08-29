@@ -72,8 +72,8 @@ webui.@THEME@.widget.radioButtonGroup.event = {
 webui.@THEME@.widget.radioButtonGroup.getClassName = function() {
     // Set default style.
     var className = (this.columns > 1)
-        ? webui.@THEME@.widget.props.radioButtonGroup.horizClassName
-        : webui.@THEME@.widget.props.radioButtonGroup.vertClassName;
+        ? this.widget.getClassName("RBGRP_HORIZ", "")
+        : this.widget.getClassName("RBGRP_VERT", "");
 
     return (this.className)
         ? className + " " + this.className

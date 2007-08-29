@@ -77,11 +77,7 @@ webui.@THEME@.widget.props = {
     
     
         
-    // Checkbox Group
-    checkboxGroup: {
-        vertClassName: "CBGRPVert@THEME_CSS@",
-        horizClassName: "CBGRPHoriz@THEME_CSS@"       
-    },
+
 
     // Drop Down properties.
     dropDown: {
@@ -153,15 +149,6 @@ webui.@THEME@.widget.props = {
         paused: "paused",
         resumed: "resumed",
         stopped: "stopped"
-    },
-
-    
-    // RadioButton Group
-    radioButtonGroup: {
-        vertClassName: "RBGRPVert@THEME_CSS@",
-        horizClassName: "RBGRPHoriz@THEME_CSS@"       
     }
-
-
         
 }
