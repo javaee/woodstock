@@ -917,7 +917,7 @@
     </navigation-case>
     
     <navigation-case>
-    <from-outcome>showMasthead></from-outcome>
+    <from-outcome>showMasthead</from-outcome>
     <to-view-id>/masthead/Index.jsp</to-view-id>
     <redirect/>
     </navigation-case>
