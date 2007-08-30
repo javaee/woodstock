@@ -111,9 +111,11 @@ body {
 /* BREADCRUMBS */
 .BcmWhtDiv@THEME_CSS@ {
 	margin:10px 10px 0px 10px;
+        padding: 0px;  /* must nullify BcmGryDiv.padding */
 }
 .BcmGryDiv@THEME_CSS@ {
 	padding:13px 10px 10px 10px;
+        margin: 0px;  /* must nullify BcmWhtDiv.margin */
 }
 .BcmSep@THEME_CSS@ {
 	margin:0px 5px;

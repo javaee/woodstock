@@ -79,6 +79,9 @@ a.HypDis@THEME_CSS@:hover, a.AncDis@THEME_CSS@:hover {
 .BcmGryDiv@THEME_CSS@ {
 	background-color:#E5E9ED;
 }
+.BcmGryBackColor@THEME_CSS@ {
+	background-color:#E5E9ED;  /* MUST match BcmGryDiv.background-color */
+}
 a.BcmLnk@THEME_CSS@:link, a.BcmLnk@THEME_CSS@:visited, a.BcmLnk@THEME_CSS@:hover, .BcmSep@THEME_CSS@ {
 	color:#003399;
 }

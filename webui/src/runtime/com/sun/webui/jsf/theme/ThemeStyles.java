@@ -237,6 +237,7 @@ public class ThemeStyles {
     public static final String BREADCRUMB_GRAY_DIV   = "BREADCRUMB_GRAY_DIV";
     public static final String BREADCRUMB_LINK       = "BREADCRUMB_LINK";
     public static final String BREADCRUMB_SEPARATOR  = "BREADCRUMB_SEPARATOR";
+    public static final String BREADCRUMB_GRAY_BACKCOLOR   = "BREADCRUMB_GRAY_BACKCOLOR";
 
     /** 
      * Page Title Styles. 
