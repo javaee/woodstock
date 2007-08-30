@@ -23,13 +23,15 @@
 package com.sun.webui.jsf.component;
 
 import com.sun.data.provider.TableDataProvider;
+import com.sun.data.provider.RowKey;
+import com.sun.data.provider.FieldKey;
 import com.sun.data.provider.impl.CachedRowSetDataProvider;
+import com.sun.data.provider.impl.TableRowDataProvider;
 import com.sun.rave.designtime.DesignBean;
 import com.sun.rave.designtime.DesignContext;
 import com.sun.rave.designtime.DesignProperty;
 import com.sun.rave.designtime.DisplayAction;
 import com.sun.rave.designtime.Result;
-import com.sun.rave.designtime.event.DesignBeanListener;
 import com.sun.rave.designtime.faces.FacesDesignContext;
 import com.sun.webui.jsf.component.customizers.TableBindToDataAction;
 import com.sun.webui.jsf.component.customizers.TableCustomizerAction;
@@ -37,11 +39,19 @@ import com.sun.webui.jsf.component.table.TableDesignHelper;
 import com.sun.webui.jsf.design.AbstractDesignInfo;
 import com.sun.webui.jsf.component.table.TableRowGroupDesignState;
 import com.sun.webui.jsf.component.TableRowGroup;
+import javax.faces.component.UIComponent;
 import javax.faces.el.ValueBinding;
+import javax.el.ValueExpression;
+import javax.el.ELContext;
+import javax.el.ELException;
 import javax.faces.context.FacesContext;
 import com.sun.data.provider.DataAdapter;
 import com.sun.data.provider.DataListener;
 import com.sun.data.provider.DataProvider;
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
 
 /**
  * DesignInfo for the <code>TableRowGroup</code> component. The following behavior is
@@ -54,7 +64,8 @@ import com.sun.data.provider.DataProvider;
  */
 public class TableRowGroupDesignInfo extends AbstractDesignInfo {
     
-    private static final String SOURCE_DATA_PROPERTY = "sourceData";
+    private static final String SOURCE_DATA_PROPERTY = "sourceData"; //NOI18N
+    private static final String SOURCE_VAR_PROPERTY = "sourceVar"; //NOI18N
     public static final String SELECTION_COLUMN_SUFFIX = "SelectionColumn";   //NOI18N
     public static final String SELECTION_CHILD_SUFFIX = "SelectionChild";   //NOI18N
     
@@ -310,12 +321,92 @@ public class TableRowGroupDesignInfo extends AbstractDesignInfo {
             return tableRowGroupBean;
         }
         public void providerChanged(DataProvider provider) {
-            DesignContext dcontext = tableRowGroupBean.getDesignContext();
-            DesignBean dataProviderBean = dcontext.getBeanForInstance(provider);
-            if (dataProviderBean != null) {
-                TableRowGroupDesignState tblRowGroupDesignState = new TableRowGroupDesignState(tableRowGroupBean);
-                tblRowGroupDesignState.setDataProviderBean(dataProviderBean,true);
-                tblRowGroupDesignState.saveState();
+            FacesDesignContext fdcontext = (FacesDesignContext)tableRowGroupBean.getDesignContext();
+            FacesContext fcontext = fdcontext.getFacesContext();
+            DesignBean[] children = tableRowGroupBean.getChildBeans();
+            List childrenToRemove = new ArrayList();
+            if (children != null && children.length > 0) {
+                //populate the "currentRow" request attribute
+                TableDataProvider tdp = (TableDataProvider)provider;
+                RowKey[] rowKeys = tdp.getRowKeys(1, null);
+                TableRowDataProvider rowDataProvider;
+                if (rowKeys.length > 0) {
+                    rowDataProvider = new TableRowDataProvider(tdp, rowKeys[0]);
+                }
+                else {
+                    rowDataProvider = new TableRowDataProvider(tdp);
+                }
+                Map requestMap = fcontext.getExternalContext().getRequestMap();
+                DesignProperty sourceVarProperty = tableRowGroupBean.getProperty(SOURCE_VAR_PROPERTY);
+                Object sourceVarObject = sourceVarProperty.getValue();
+                String sourceVar = "currentRow"; //NOI18N
+                if (sourceVarObject instanceof String) {
+                    sourceVar = (String)sourceVarObject;
+                }
+                Object oldRequestMapValue = requestMap.get(sourceVar);
+                requestMap.put(sourceVar, rowDataProvider);
+                //go through the columns of the row group
+                for (int c = 0; c < children.length; c++) {
+                    DesignBean child = children[c];
+                    if (child.getInstance() instanceof TableColumn) {
+                        //this is a TableColumn. loop through its children (grandchildren of the row group)
+                        DesignBean[] grandchildren = child.getChildBeans();
+                        if (grandchildren != null && grandchildren.length > 0) {
+                            for (int g = 0; g < grandchildren.length; g++) {
+                                DesignBean grandchild = grandchildren[g];
+                                //try to evaluate the binding for the "value" property of the grandchild
+                                //if evaluating it throws an ELException, then add child to childrenToRemove
+                                Object instanceObject = grandchild.getInstance();
+                                if (instanceObject instanceof UIComponent) {
+                                    UIComponent grandchildInstance = (UIComponent)instanceObject;
+                                    ValueExpression ve = grandchildInstance.getValueExpression("value");    //NOI18N
+                                    if (ve != null) {
+                                        ELContext elcontext = fcontext.getELContext();
+                                        try {
+                                            ve.getValue(elcontext);
+                                        }
+                                        catch (ELException e) {
+                                            childrenToRemove.add(child);
+                                            break;  //go to the next child
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+                //clean up: restore the oldRequestMapValue
+                requestMap.put(sourceVar, oldRequestMapValue);
+            }
+            int childrenToRemoveSize = childrenToRemove.size();
+            if (childrenToRemoveSize > 0) {
+                if (childrenToRemoveSize == children.length) {
+                    //all the table columns would have thrown ELException, so we have to reconstruct
+                    //if there are no field keys, bind the row group to the default data provider
+                    //if there are field keys, reconstruct the table keeping the current data provider
+                    FieldKey[] fieldKeys = provider.getFieldKeys();
+                    if (fieldKeys == null || fieldKeys.length < 1) {
+                        TableRowGroupDesignState tblRowGroupDesignState = new TableRowGroupDesignState(tableRowGroupBean);
+                        DesignBean defaultDataProviderBean = TableDesignHelper.createDefaultDataProvider(tableRowGroupBean.getBeanParent());
+                        tblRowGroupDesignState.setDataProviderBean(defaultDataProviderBean,true);
+                        tblRowGroupDesignState.saveState();
+                    }
+                    else {
+                        DesignBean dataProviderBean = fdcontext.getBeanForInstance(provider);
+                        if (dataProviderBean != null) {
+                            TableRowGroupDesignState tblRowGroupDesignState = new TableRowGroupDesignState(tableRowGroupBean);
+                            tblRowGroupDesignState.setDataProviderBean(dataProviderBean,true);
+                            tblRowGroupDesignState.saveState();
+                        }
+                    }
+                }
+                else {
+                    //just remove the columns that would have thrown ELException
+                    for (Iterator iter = childrenToRemove.iterator(); iter.hasNext(); ) {
+                        DesignBean child = (DesignBean)iter.next();
+                        fdcontext.deleteBean(child);
+                    }
+                }
             }
         }
     }
