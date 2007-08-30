@@ -91,7 +91,7 @@
     <property name="jhall.jar"
         value="${components.home}/lib/jhall.jar"/>
     <property name="jsf-impl.jar" value="${components.home}/lib/jsf-impl.jar"/>
-    <property name="json.jar" value="${webui-lib-external}/json.jar"/>
+    <property name="json.jar" value="${webui-lib-external}/json-2.jar"/>
 
     <!-- For Netbeans compatibility -->
     <property name="copyfiles.classpath" value="${copyfiles.jar}"/>    

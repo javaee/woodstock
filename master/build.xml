@@ -175,7 +175,7 @@
 	<include name="lib/${webui-dt.jar}"/>
 	<include name="lib/dataprovider.jar"/>
 	<include name="lib/${suntheme.jar}"/>
-	<include name="lib/json.jar"/>
+	<include name="lib/json*.jar"/>
 	<include name="lib/dojo*.jar"/>
 	<include name="lib/prototype*.jar"/>
     </patternset>

@@ -173,13 +173,13 @@ webui.@THEME@.widget.label.initialize = function (props, frag, parent) {
     // When the _setProps() function is called, image widgets will be
     // instantiated via the props param. 
     if (this.errorImage == null) {
-	this.errorImage = this.widget.getImage("LABEL_INVALID_ICON", {
+	this.errorImage = this.widget.getImageProps("LABEL_INVALID_ICON", {
             id: this.id + "_error"
         });
         props.errorImage = this.errorImage; // Required for _setProps().
     }
     if (this.requiredImage == null) {
-	this.requiredImage = this.widget.getImage("LABEL_REQUIRED_ICON", {
+	this.requiredImage = this.widget.getImageProps("LABEL_REQUIRED_ICON", {
             id: this.id + "_required"
         });
         props.requiredImage = this.requiredImage; // Required for _setProps().

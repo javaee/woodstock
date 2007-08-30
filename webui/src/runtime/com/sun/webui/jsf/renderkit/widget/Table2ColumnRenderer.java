@@ -56,10 +56,12 @@ public class Table2ColumnRenderer extends RendererBase {
         "bgColor",
         "char",
         "charOff",
+        "colspan",
         "dir",
         "headers",
         "height",
         "lang",
+        "noWrap",
         "onClick",
         "onDblClick",
         "onKeyDown",
@@ -70,6 +72,8 @@ public class Table2ColumnRenderer extends RendererBase {
         "onMouseMove",
         "onMouseOut",
         "onMouseOver",
+        "rowSpan",
+        "scope",
         "style",
         "valign",
         "width"};
@@ -105,15 +109,17 @@ public class Table2ColumnRenderer extends RendererBase {
         }
         Table2Column col = (Table2Column) component;
         JSONObject json = new JSONObject();
+        json.put("className", col.getStyleClass())
+            .put("footerText", col.getFooterText())
+            .put("headerText", col.getHeaderText())
+            .put("title", col.getToolTip())
+            .put("visible", col.isVisible());
 
         // Add attributes.
         JSONUtilities.addProperties(attributes, col, json);
-        setFooterProperties(context, col, json);
-        setHeaderProperties(context, col, json);
 
         return json;
     }
-
 
     /**
      * Get the name of widget represented by this component.
@@ -123,36 +129,6 @@ public class Table2ColumnRenderer extends RendererBase {
      */
     protected String getWidgetName(FacesContext context, UIComponent component) {
         return null; // Not implemented
-    }
-
-    // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    // Property methods
-    // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-    /** 
-     * Helper method to obtain footer properties.
-     *
-     * @param context FacesContext for the current request.
-     * @param component Table2Column to be rendered.
-     * @param json JSONObject to assign properties to.
-     */
-    protected void setFooterProperties(FacesContext context, Table2Column component,
-            JSONObject json) throws IOException, JSONException {
-        // Add footer text.
-        json.put("footerText", component.getFooterText());
-    }
-
-    /** 
-     * Helper method to obtain header properties.
-     *
-     * @param context FacesContext for the current request.
-     * @param component Table2Column to be rendered.
-     * @param json JSONObject to assign properties to.
-     */
-    protected void setHeaderProperties(FacesContext context, Table2Column component,
-            JSONObject json) throws IOException, JSONException {
-        // Add header text.
-        json.put("headerText", component.getHeaderText());
     }
     
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~

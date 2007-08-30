@@ -424,3 +424,18 @@ ul.MenuItems@THEME_CSS@ li div.MenuItem@THEME_CSS@.iehover {  /* IE hover - see 
 }
 /*---*/
 
+/* TABLE2 */
+.baseFont@THEME_CSS@ {
+	font-family:Arial, Helvetica, sans-serif;
+	font-size:70%;
+}
+.boldface@THEME_CSS@ {
+	font-weight:bold;
+}
+.actionBar@THEME_CSS@ button, .actionBar@THEME_CSS@ select {
+	font-size:.95em;
+}
+td, th  {
+	font-weight:normal;
+}
+/*---*/

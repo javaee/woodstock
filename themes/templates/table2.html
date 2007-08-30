@@ -1,20 +1,22 @@
-<div dojoAttachPoint="domNode" class="Tbl2@THEME_CSS@">
+<div dojoAttachPoint="domNode" class="table2@THEME_CSS@">
   <!-- Table title -->
-  <div dojoAttachPoint="titleContainer" class="Tbl2Ttl@THEME_CSS@ hidden@THEME_CSS@"></div>
-  <div dojoAttachPoint="marginContainer" class="Tbl2Mgn@THEME_CSS@">
+  <div dojoAttachPoint="captionContainer" class="title@THEME_CSS@ hidden@THEME_CSS@"></div>
+  <!-- Table background -->
+  <div class="bg@THEME_CSS@">
     <!-- Table actions -->
-    <div dojoAttachPoint="actionsContainer" class="Tbl2Act@THEME_CSS@ hidden@THEME_CSS@"></div>
+    <div dojoAttachPoint="actionsContainer" class="actionBar@THEME_CSS@ hidden@THEME_CSS@">
+        <div dojoAttachPoint="actionsNode" class="actionList@THEME_CSS@"></div>
+        <div dojoAttachPoint="controlsNode" class="controlsList@THEME_CSS@"></div>
+    </div>
     <!-- Sort panel -->
     <div dojoAttachPoint="sortPanelContainer" class="hidden@THEME_CSS@"></div>
     <!-- Filter panel -->
     <div dojoAttachPoint="filterPanelContainer" class="hidden@THEME_CSS@"></div>
     <!-- Preferences panel -->
     <div dojoAttachPoint="preferencesPanelContainer" class="hidden@THEME_CSS@"></div>
+    <!-- Spacer -->
+    <div class="clear@THEME_CSS@ spacer@THEME_CSS@"></div>
     <!-- Row Groups -->
-    <div dojoAttachPoint="rowGroupsContainer">
-        <div dojoAttachPoint="rowGroupsNode" class="Tbl2Grps@THEME_CSS@"></div>
-    </div>
-    <!-- Table Footer -->
-    <div dojoAttachPoint="tableFooterContainer" class="hidden@THEME_CSS@"></div>
+    <div dojoAttachPoint="rowGroupsContainer"></div>
   </div>
 </div>

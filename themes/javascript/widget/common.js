@@ -257,23 +257,22 @@ webui.@THEME@.widget.common = {
      * "imageKey". If "imageKey" doesn't exist in the theme, return null.
      *
      * @param key A key defining a theme "images" property.
-     * @param props Extra image properties.
+     * @param props Key-Value pairs of properties (optional).
      */
-    getImage: function(key, props) {
-        var image = webui.@THEME@.theme.common.getImage(key);
-        if (image == null) {
+    getImageProps: function(key, props) {
+        var _props = webui.@THEME@.theme.common.getImage(key);
+        if (_props == null) {
             return null;
         }
 
         // Set default module and widget name.
-        image.module = "webui.@THEME@.widget.image";
-        image.widgetName = "webui.@THEME@:image";
+        _props = webui.@THEME@.widget.common.getWidgetProps("image", _props);
 
         // Add extra properties
         if (props != null) {
-            webui.@THEME@.widget.common.extend(image, props);
+            webui.@THEME@.widget.common.extend(_props, props);
         }
-        return image;
+        return _props;
     },
 
     /**
@@ -386,6 +385,27 @@ webui.@THEME@.widget.common = {
         } else {
             return null;
         }
+    },
+
+    /**
+     * This function returns common Object literals used by widgets. For 
+     * example, it adds the necessary "module" and "widgetName".
+     *
+     * @param widgetType The widget type to add properties for.
+     * @param props Key-Value pairs of properties (optional).
+     */
+    getWidgetProps: function(widgetType, props) {
+        var _props = {};
+
+        // Set default module and widget name.
+        _props.module = "webui.@THEME@.widget." + widgetType;    
+        _props.widgetName = "webui.@THEME@:"  + widgetType;    
+
+        // Add extra properties
+        if (props != null) {
+            webui.@THEME@.widget.common.extend(_props, props);
+        }
+        return _props;
     },
 
     /**

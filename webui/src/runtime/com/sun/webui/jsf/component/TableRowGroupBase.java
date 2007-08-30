@@ -2236,33 +2236,6 @@ public abstract class TableRowGroupBase extends WebuiComponent
     }
 
     /**
-     * The text to be displayed in the group footer.
-     */
-    @Property(name="footerText", displayName="Footer Text", category="Appearance")
-    private String footerText = null;
-
-    /**
-     * The text to be displayed in the group footer.
-     */
-    public String getFooterText() {
-        if (this.footerText != null) {
-            return this.footerText;
-        }
-        ValueExpression _vb = getValueExpression("footerText");
-        if (_vb != null) {
-            return (String) _vb.getValue(getFacesContext().getELContext());
-        }
-        return null;
-    }
-
-    /**
-     * The text to be displayed in the group footer.
-     */
-    public void setFooterText(String footerText) {
-        this.footerText = footerText;
-    }
-
-    /**
      * Use the <code>groupToggleButton</code> attribute to display a button in the 
      * group header to allow users to collapse and expand the group of rows.
      */
@@ -3123,42 +3096,41 @@ public abstract class TableRowGroupBase extends WebuiComponent
         this.emptyDataMsg = (String) _values[7];
         this.first = ((Integer) _values[8]).intValue();
         this.first_set = ((Boolean) _values[9]).booleanValue();
-        this.footerText = (String) _values[10];
-        this.groupToggleButton = ((Boolean) _values[11]).booleanValue();
-        this.groupToggleButton_set = ((Boolean) _values[12]).booleanValue();
-        this.headerText = (String) _values[13];
-        this.onClick = (String) _values[14];
-        this.onDblClick = (String) _values[15];
-        this.onKeyDown = (String) _values[16];
-        this.onKeyPress = (String) _values[17];
-        this.onKeyUp = (String) _values[18];
-        this.onMouseDown = (String) _values[19];
-        this.onMouseMove = (String) _values[20];
-        this.onMouseOut = (String) _values[21];
-        this.onMouseOver = (String) _values[22];
-        this.onMouseUp = (String) _values[23];
-        this.rows = ((Integer) _values[24]).intValue();
-        this.rows_set = ((Boolean) _values[25]).booleanValue();
-        this.selectMultipleToggleButton = ((Boolean) _values[26]).booleanValue();
-        this.selectMultipleToggleButton_set = ((Boolean) _values[27]).booleanValue();
-        this.selected = ((Boolean) _values[28]).booleanValue();
-        this.selected_set = ((Boolean) _values[29]).booleanValue();
-        this.sourceData = (TableDataProvider) _values[30];
-        this.sourceVar = (String) _values[31];
-        this.styleClasses = (String) _values[32];
-        this.tableDataFilter = (TableDataFilter) _values[33];
-        this.tableDataSorter = (TableDataSorter) _values[34];
-        this.toolTip = (String) _values[35];
-        this.valign = (String) _values[36];
-        this.visible = ((Boolean) _values[37]).booleanValue();
-        this.visible_set = ((Boolean) _values[38]).booleanValue();
+        this.groupToggleButton = ((Boolean) _values[10]).booleanValue();
+        this.groupToggleButton_set = ((Boolean) _values[11]).booleanValue();
+        this.headerText = (String) _values[12];
+        this.onClick = (String) _values[13];
+        this.onDblClick = (String) _values[14];
+        this.onKeyDown = (String) _values[15];
+        this.onKeyPress = (String) _values[16];
+        this.onKeyUp = (String) _values[17];
+        this.onMouseDown = (String) _values[18];
+        this.onMouseMove = (String) _values[19];
+        this.onMouseOut = (String) _values[20];
+        this.onMouseOver = (String) _values[21];
+        this.onMouseUp = (String) _values[22];
+        this.rows = ((Integer) _values[23]).intValue();
+        this.rows_set = ((Boolean) _values[24]).booleanValue();
+        this.selectMultipleToggleButton = ((Boolean) _values[25]).booleanValue();
+        this.selectMultipleToggleButton_set = ((Boolean) _values[26]).booleanValue();
+        this.selected = ((Boolean) _values[27]).booleanValue();
+        this.selected_set = ((Boolean) _values[28]).booleanValue();
+        this.sourceData = (TableDataProvider) _values[29];
+        this.sourceVar = (String) _values[30];
+        this.styleClasses = (String) _values[31];
+        this.tableDataFilter = (TableDataFilter) _values[32];
+        this.tableDataSorter = (TableDataSorter) _values[33];
+        this.toolTip = (String) _values[34];
+        this.valign = (String) _values[35];
+        this.visible = ((Boolean) _values[36]).booleanValue();
+        this.visible_set = ((Boolean) _values[37]).booleanValue();
     }
 
     /**
      * Save the state of this component.
      */
     private Object _saveState(FacesContext _context) {
-        Object _values[] = new Object[39];
+        Object _values[] = new Object[38];
         _values[0] = super.saveState(_context);
         _values[1] = this.align;
         _values[2] = this.bgColor;
@@ -3169,35 +3141,34 @@ public abstract class TableRowGroupBase extends WebuiComponent
         _values[7] = this.emptyDataMsg;
         _values[8] = new Integer(this.first);
         _values[9] = this.first_set ? Boolean.TRUE : Boolean.FALSE;
-        _values[10] = this.footerText;
-        _values[11] = this.groupToggleButton ? Boolean.TRUE : Boolean.FALSE;
-        _values[12] = this.groupToggleButton_set ? Boolean.TRUE : Boolean.FALSE;
-        _values[13] = this.headerText;
-        _values[14] = this.onClick;
-        _values[15] = this.onDblClick;
-        _values[16] = this.onKeyDown;
-        _values[17] = this.onKeyPress;
-        _values[18] = this.onKeyUp;
-        _values[19] = this.onMouseDown;
-        _values[20] = this.onMouseMove;
-        _values[21] = this.onMouseOut;
-        _values[22] = this.onMouseOver;
-        _values[23] = this.onMouseUp;
-        _values[24] = new Integer(this.rows);
-        _values[25] = this.rows_set ? Boolean.TRUE : Boolean.FALSE;
-        _values[26] = this.selectMultipleToggleButton ? Boolean.TRUE : Boolean.FALSE;
-        _values[27] = this.selectMultipleToggleButton_set ? Boolean.TRUE : Boolean.FALSE;
-        _values[28] = this.selected ? Boolean.TRUE : Boolean.FALSE;
-        _values[29] = this.selected_set ? Boolean.TRUE : Boolean.FALSE;
-        _values[30] = this.sourceData;
-        _values[31] = this.sourceVar;
-        _values[32] = this.styleClasses;
-        _values[33] = this.tableDataFilter;
-        _values[34] = this.tableDataSorter;
-        _values[35] = this.toolTip;
-        _values[36] = this.valign;
-        _values[37] = this.visible ? Boolean.TRUE : Boolean.FALSE;
-        _values[38] = this.visible_set ? Boolean.TRUE : Boolean.FALSE;
+        _values[10] = this.groupToggleButton ? Boolean.TRUE : Boolean.FALSE;
+        _values[11] = this.groupToggleButton_set ? Boolean.TRUE : Boolean.FALSE;
+        _values[12] = this.headerText;
+        _values[13] = this.onClick;
+        _values[14] = this.onDblClick;
+        _values[15] = this.onKeyDown;
+        _values[16] = this.onKeyPress;
+        _values[17] = this.onKeyUp;
+        _values[18] = this.onMouseDown;
+        _values[19] = this.onMouseMove;
+        _values[20] = this.onMouseOut;
+        _values[21] = this.onMouseOver;
+        _values[22] = this.onMouseUp;
+        _values[23] = new Integer(this.rows);
+        _values[24] = this.rows_set ? Boolean.TRUE : Boolean.FALSE;
+        _values[25] = this.selectMultipleToggleButton ? Boolean.TRUE : Boolean.FALSE;
+        _values[26] = this.selectMultipleToggleButton_set ? Boolean.TRUE : Boolean.FALSE;
+        _values[27] = this.selected ? Boolean.TRUE : Boolean.FALSE;
+        _values[28] = this.selected_set ? Boolean.TRUE : Boolean.FALSE;
+        _values[29] = this.sourceData;
+        _values[30] = this.sourceVar;
+        _values[31] = this.styleClasses;
+        _values[32] = this.tableDataFilter;
+        _values[33] = this.tableDataSorter;
+        _values[34] = this.toolTip;
+        _values[35] = this.valign;
+        _values[36] = this.visible ? Boolean.TRUE : Boolean.FALSE;
+        _values[37] = this.visible_set ? Boolean.TRUE : Boolean.FALSE;
         return _values;
     }
 }

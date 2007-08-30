@@ -78,13 +78,13 @@ webui.@THEME@.widget.table2.fillInTemplate = function(props, frag) {
     // Set ids.
     if (this.id) {
         this.actionsContainer.id = this.id + "_actionsContainer";
+        this.actionsNode.id = this.id + "_actionsNode";
+        this.controlsNode.id = this.id + "_controlsNode";
         this.filterPanelContainer.id = this.id + "_filterPanelContainer";
-        this.marginContainer.id = this.id + "_marginContainer";
         this.preferencesPanelContainer.id = this.id + "_preferencesPanelContainer";
         this.sortPanelContainer.id = this.id + "_sortPanelContainer";
         this.rowGroupsContainer.id = this.id + "_rowGroupsContainer";
-        this.titleContainer.id = this.id + "_titleContainer";
-        this.tableFooterContainer.id = this.id + "_tableFooterContainer";
+        this.captionContainer.id = this.id + "_captionContainer";
     }
     return true;
 }
@@ -98,8 +98,15 @@ webui.@THEME@.widget.table2.getProps = function() {
 
     // Set properties.
     if (this.actions) { props.actions = this.actions; }
+    if (this.align) { props.align = this.align; }
+    if (this.bgColor) { props.bgColor = this.bgColor; }
+    if (this.border) { props.border = this.border; }
+    if (this.cellpadding) { props.cellpadding = this.cellpadding; }
+    if (this.cellspacing) { props.cellspacing = this.cellspacing; }
     if (this.filterText) { props.filterText = this.filterText; }
+    if (this.frame) { props.frame = this.frame; }
     if (this.rowGroups) { props.rowGroups = this.rowGroups; }
+    if (this.summary) { props.summary = this.summary; }
     if (this.width) { props.width = this.width; }
 
     return props;
@@ -144,10 +151,33 @@ webui.@THEME@.widget.table2.setProps = function(props, notify) {
  *
  * <ul>
  *  <li>actions</li>
+ *  <li>align</li>
+ *  <li>bgColor</li>
+ *  <li>border</li>
+ *  <li>caption</li>
+ *  <li>className</li>
+ *  <li>dir</li>
+ *  <li>frame</li>
  *  <li>filterText</li>
  *  <li>id</li>
+ *  <li>lang</li>
+ *  <li>onClick</li>
+ *  <li>onDblClick</li>
+ *  <li>onKeyDown</li>
+ *  <li>onKeyPress</li>
+ *  <li>onKeyUp</li>
+ *  <li>onMouseDown</li>
+ *  <li>onMouseMove</li>
+ *  <li>onMouseOut</li>
+ *  <li>onMouseOver</li>
+ *  <li>onMouseUp</li>
  *  <li>rowGroups</li>
+ *  <li>rules</li>
+ *  <li>style</li>
+ *  <li>summary</li>
+ *  <li>tabIndex</li>
  *  <li>title</li>
+ *  <li>visible</li>
  *  <li>width</li>
  * </ul>
  *
@@ -162,40 +192,56 @@ webui.@THEME@.widget.table2._setProps = function(props) {
         return false;
     }
 
-    // Set container width.
-    if (props.width) {
-        this.domNode.style.width = this.width;
-    }
+    // To do: Add tabIndex to subwidgets, but not table, tr, or td tags.
+    props.tabIndex = null;
 
-    // Add title.
-    if (props.title) {
-        this.widget.addFragment(this.titleContainer, props.title);
-        webui.@THEME@.common.setVisibleElement(this.titleContainer, true);
-    }
+    // Set properties.
+    if (props.align) { this.domNode.align = props.align; }
+    if (props.width) { this.domNode.style.width = props.width; }
 
     // Add actions.
     if (props.actions) {
-        this.widget.addFragment(this.actionsContainer, props.actions);
+        this.widget.addFragment(this.actionsNode, props.actions);
         webui.@THEME@.common.setVisibleElement(this.actionsContainer, true);
+    }
+
+    // Add caption.
+    if (props.caption || props.filterText && this.caption) {       
+        var filterText = null;
+        if (props.filterText) {
+            filterText = this.theme.getMessage("table.title.filterApplied", [
+                    props.filterText
+                ]);
+        }
+
+        // To do: Create a new title message.
+        
+        this.widget.addFragment(this.captionContainer, (filterText) 
+            ? props.caption + filterText : props.caption);
+        webui.@THEME@.common.setVisibleElement(this.captionContainer, true);
     }
 
     // Add row groups.
     if (props.rowGroups) {
         // Remove child nodes.
         this.widget.removeChildNodes(this.rowGroupsContainer);
-
-        // Each group must be added to separate containers for padding.
+ 
+        // Add row group.
         for (var i = 0; i < props.rowGroups.length; i++) {
-            // Clone node.
-            var rowGroupsNodeClone = this.rowGroupsNode.cloneNode(true);
-            this.rowGroupsContainer.appendChild(rowGroupsNodeClone);
-            
-            // Add row group.
-            this.widget.addFragment(rowGroupsNodeClone, props.rowGroups[i], "last");
+            // Set properties that must be applied to each HTML table element.
+            props.rowGroups[i]._table = {
+                bgColor: props.bgColor,
+                border: props.border,
+                cellpadding: props.cellpadding,
+                cellspacing: props.cellspacing,
+                frame: props.frame,
+                summary: props.summary
+            }
+            this.widget.addFragment(this.rowGroupsContainer, props.rowGroups[i], "last");
         }
     }
 
-    // Set more properties..
+    // Set more properties.
     this.setCommonProps(this.domNode, props);
     this.setEventProps(this.domNode, props);
 

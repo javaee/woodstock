@@ -59,6 +59,9 @@ public class Table2Renderer extends RendererBase {
     private static final String attributes[] = {
         "align",
         "bgColor",
+        "border",
+        "cellpadding",
+        "cellspacing",
         "dir",
         "frame",
         "lang",
@@ -108,13 +111,16 @@ public class Table2Renderer extends RendererBase {
         String templatePath = table.getHtmlTemplate(); // Get HTML template.
 
         JSONObject json = new JSONObject();
-        json.put("width", table.getWidth());
+        json.put("className", table.getStyleClass())
+            .put("title", table.getToolTip())
+            .put("visible", table.isVisible())        
+            .put("width", table.getWidth());
 
         // Add attributes.
         JSONUtilities.addProperties(attributes, table, json);
-        setRowGroupProperties(context, table, json);
         setActionsProperties(context, table, json);
-        setTitleProperties(context, table, json);
+        setCaptionProperties(context, table, json);
+        setRowGroupProperties(context, table, json);
 
         return json;
     }
@@ -133,6 +139,26 @@ public class Table2Renderer extends RendererBase {
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     // Property methods
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+    /** 
+     * Helper method to obtain title properties.
+     *
+     * @param context FacesContext for the current request.
+     * @param component Table2 to be rendered.
+     * @param json JSONObject to assign properties to.
+     */
+    protected void setCaptionProperties(FacesContext context, Table2 component, 
+            JSONObject json) throws IOException, JSONException {
+        // Get filter augment. 
+        String filterText = (component.getFilterText() != null) 
+            ? getTheme().getMessage("table.title.filterApplied",
+                new String[] {component.getFilterText()}) 
+            : null;
+
+        // Append component properties.
+        json.put("caption", component.getTitle())
+            .put("filterText", filterText);
+    }
 
     /** 
      * Helper method to obtain actions properties.
@@ -170,26 +196,6 @@ public class Table2Renderer extends RendererBase {
                 jArray.put(WidgetUtilities.renderComponent(context, group));
             }
         }
-    }
-
-    /** 
-     * Helper method to obtain title properties.
-     *
-     * @param context FacesContext for the current request.
-     * @param component Table2 to be rendered.
-     * @param json JSONObject to assign properties to.
-     */
-    protected void setTitleProperties(FacesContext context, Table2 component, 
-            JSONObject json) throws IOException, JSONException {
-        // Get filter augment. 
-        String filterText = (component.getFilterText() != null) 
-            ? getTheme().getMessage("table.title.filterApplied",
-                new String[] {component.getFilterText()}) 
-            : null;
-
-        // Append component properties.
-        json.put("title", component.getTitle())
-            .put("filterText", filterText);
     }
 
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~

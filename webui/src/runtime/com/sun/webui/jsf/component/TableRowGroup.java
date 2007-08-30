@@ -698,6 +698,32 @@ public class TableRowGroup extends TableRowGroupBase {
         this.extraHeaderHtml = extraHeaderHtml;
     }
 
+    /**
+     * The text to be displayed in the group footer.
+     */
+    @Property(name="footerText", displayName="Footer Text", category="Appearance")
+    private String footerText = null;
+
+    /**
+     * The text to be displayed in the group footer.
+     */
+    public String getFooterText() {
+        if (this.footerText != null) {
+            return this.footerText;
+        }
+        ValueExpression _vb = getValueExpression("footerText");
+        if (_vb != null) {
+            return (String) _vb.getValue(getFacesContext().getELContext());
+        }
+        return null;
+    }
+
+    /**
+     * The text to be displayed in the group footer.
+     */
+    public void setFooterText(String footerText) {
+        this.footerText = footerText;
+    }
 
     /**
      * Use the <code>multipleColumnFooters</code> attribute when the 
@@ -807,11 +833,12 @@ public class TableRowGroup extends TableRowGroupBase {
         this.aboveColumnHeader_set = ((Boolean) _values[4]).booleanValue();
         this.extraFooterHtml = (String) _values[5];
         this.extraHeaderHtml = (String) _values[6];
-        this.multipleColumnFooters = ((Boolean) _values[7]).booleanValue();
-        this.multipleColumnFooters_set = ((Boolean) _values[8]).booleanValue();
-        this.multipleTableColumnFooters = ((Boolean) _values[9]).booleanValue();
-        this.multipleTableColumnFooters_set = ((Boolean) _values[10]).booleanValue();
-        setPaginated(((Boolean) _values[11]).booleanValue());
+        this.footerText = (String) _values[7];
+        this.multipleColumnFooters = ((Boolean) _values[8]).booleanValue();
+        this.multipleColumnFooters_set = ((Boolean) _values[9]).booleanValue();
+        this.multipleTableColumnFooters = ((Boolean) _values[10]).booleanValue();
+        this.multipleTableColumnFooters_set = ((Boolean) _values[11]).booleanValue();
+        setPaginated(((Boolean) _values[12]).booleanValue());
     }
 
     /**
@@ -820,7 +847,7 @@ public class TableRowGroup extends TableRowGroupBase {
      * @return An array of Object values.
      */
     public Object saveState(FacesContext context) {
-        Object _values[] = new Object[12];
+        Object _values[] = new Object[13];
         _values[0] = super.saveState(context);
         _values[1] = this.aboveColumnFooter ? Boolean.TRUE : Boolean.FALSE;
         _values[2] = this.aboveColumnFooter_set ? Boolean.TRUE : Boolean.FALSE;
@@ -828,11 +855,12 @@ public class TableRowGroup extends TableRowGroupBase {
         _values[4] = this.aboveColumnHeader_set ? Boolean.TRUE : Boolean.FALSE;
         _values[5] = this.extraFooterHtml;
         _values[6] = this.extraHeaderHtml;
-        _values[7] = this.multipleColumnFooters ? Boolean.TRUE : Boolean.FALSE;
-        _values[8] = this.multipleColumnFooters_set ? Boolean.TRUE : Boolean.FALSE;
-        _values[9] = this.multipleTableColumnFooters ? Boolean.TRUE : Boolean.FALSE;
-        _values[10] = this.multipleTableColumnFooters_set ? Boolean.TRUE : Boolean.FALSE;
-        _values[11] = isPaginated() ? Boolean.TRUE : Boolean.FALSE;
+        _values[7] = this.footerText;
+        _values[8] = this.multipleColumnFooters ? Boolean.TRUE : Boolean.FALSE;
+        _values[9] = this.multipleColumnFooters_set ? Boolean.TRUE : Boolean.FALSE;
+        _values[10] = this.multipleTableColumnFooters ? Boolean.TRUE : Boolean.FALSE;
+        _values[11] = this.multipleTableColumnFooters_set ? Boolean.TRUE : Boolean.FALSE;
+        _values[12] = isPaginated() ? Boolean.TRUE : Boolean.FALSE;
         return _values;
     }
 }

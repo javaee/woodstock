@@ -186,7 +186,7 @@
     </path>
 
     <path id="json.jars">
-        <pathelement location="${lib.external}/json.jar"/>
+        <pathelement location="${lib.external}/json-2.jar"/>
     </path>
 
     

@@ -1418,20 +1418,69 @@ ul.MenuItems@THEME_CSS@ li div.MenuItem@THEME_CSS@.iehover@THEME_CSS@ {  /* IE h
 }
 /*---*/
 
-/* TABLE2 */
-/* Top level div tag */
-.Tbl2@THEME_CSS@ {
-  /* Styles from old table */
-  border-color:#A0A3A5; 
-  border-top-color:#35556A; 
-  background-color:#E5E9ED; 
-  color:#000;
+/* CSS Document */
+.hyperlink@THEME_CSS@ {
+	color:#003399;
+	text-decoration:none;
 }
 
-/* Title */ 
-.Tbl2Ttl@THEME_CSS@ {
-  /* Styles from old table */
-  color:#fff; 
-  background:#36586F url(../images/table/table_titlebar_gradient.gif) bottom left repeat-x;
+/* Table2 */
+.table2@THEME_CSS@ {
+	background-color:#213D51;
+	border-top:1px solid #374154;	
+	color:#000000;
+}
+.table2@THEME_CSS@ .bg@THEME_CSS@ {
+	background-color:#E5E9ED;
+	border-color:#8C8F91;
+}
+.table2@THEME_CSS@ .title@THEME_CSS@ {
+	color:#FFFFFF;
+	background:#386787 url(../images/table2/tab_expanded_gradient.png) top left repeat-x;
+}
+.table2@THEME_CSS@ .header@THEME_CSS@, .table2@THEME_CSS@ .footer@THEME_CSS@ {
+	border-left-color:#98A0A5;
+}
+.table2@THEME_CSS@ .header@THEME_CSS@ th, .table2@THEME_CSS@ .footer@THEME_CSS@ th {
+	border-bottom-color:#98A0A5;
+}
+.table2@THEME_CSS@ .tableScroller@THEME_CSS@ {
+	background-color:#FFFFFF;
+	border-top-color:#CAD0D2;
+	border-bottom-color:#CAD0D2;
+	border-left-color:#98A0A5;
+}
+.table2@THEME_CSS@ .tableScroller@THEME_CSS@ tr.selected@THEME_CSS@ td {
+	background-color:#90B7D0;
+}
+.table2@THEME_CSS@ tr {
+	border-right-color:#CAD0D2;
+}
+.table2@THEME_CSS@ th {
+	border-color:#CAD0D2;
+	background:#E1E5E8 url(../images/table2/column_gradient.png) top left repeat-x;
+	width:100%;
+	text-align:left;
+}
+.table2@THEME_CSS@ td {
+	border-bottom-color:#CAD0D2;
+	border-right-color:#CAD0D2;
+	background-color:#FFFFFF;
+}
+.table2@THEME_CSS@ th a.hyperlink@THEME_CSS@ {
+	color:#000000;
+}
+.table2@THEME_CSS@ .header@THEME_CSS@ th a.hyperlink@THEME_CSS@:hover {
+	background:#CAD0D2 url(../images/table2/column_gradient_selected.png) top left repeat-x;
+}
+.table2@THEME_CSS@ .header@THEME_CSS@ th a span {
+	background-image:url(../images/table2/down_arrow.png);
+	background-position:right;
+	background-repeat:no-repeat;
+}
+.table2@THEME_CSS@ .groupHeader@THEME_CSS@ {
+	border-color:#98A0A5;
+	border-top-color:#8C8F91;
+	background:#E1E5E8 url(../images/table2/column_gradient.png) top left repeat-x;
 }
 /*---*/

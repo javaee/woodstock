@@ -541,7 +541,7 @@ webui.@THEME@.widget.calendar.initialize = function (props, frag, parent) {
     // When the _setProps() function is called, image widgets will be
     // instantiated via the props param. 
     if (this.toggleLink.disabledImage == null) {
-	this.toggleLink.disabledImage = this.widget.getImage("CALENDAR_BUTTON_DISABLED", {
+	this.toggleLink.disabledImage = this.widget.getImageProps("CALENDAR_BUTTON_DISABLED", {
             id: this.id + "_disabledImage", border: 0
         });
         props.toggleLink = this.toggleLink; // Required for _setProps().

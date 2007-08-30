@@ -451,23 +451,24 @@ webui.@THEME@.widget.widgetBase.setCommonProps = function(domNode, props) {
  * prior to calling this function. For example, the "myCSS" className would
  * be appended to the existing "Tblsun4" className (e.g., "Tbl_sun4 myCSS").
  *
+ * @param domNode The DOM node to assign properties to.
  * @param props Key-Value pairs of properties.
  */
-webui.@THEME@.widget.widgetBase.setCoreProps = function(props) {
-    if (props == null) {
+webui.@THEME@.widget.widgetBase.setCoreProps = function(domNode, props) {
+    if (domNode == null || props == null) {
         return false;
     }
     if (props.className) {
-        this.domNode.className = props.className;
+        domNode.className = props.className;
     }
     if (props.id) { 
-        this.domNode.id = props.id;
+        domNode.id = props.id;
     }
     if (props.style) { 
-        this.domNode.style.cssText = props.style;
+        domNode.style.cssText = props.style;
     }
     if (props.visible != null) {
-        webui.@THEME@.common.setVisibleElement(this.domNode, 
+        webui.@THEME@.common.setVisibleElement(domNode, 
             new Boolean(props.visible).valueOf());
     }
     return true;
@@ -635,7 +636,7 @@ webui.@THEME@.widget.widgetBase._setProps = function(props) {
     props.className = this.getClassName();
 
     // Set more properties.
-    return this.setCoreProps(props);
+    return this.setCoreProps(this.domNode, props);
 }
 
 // Inherit base widget properties.

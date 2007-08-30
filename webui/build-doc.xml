@@ -86,7 +86,7 @@
   <property name="openide.jar" value="openide.jar"/>
   <property name="servlet-api.jar" value="servlet-api.jar"/>
   <property name="rowset.jar" value="rowset.jar"/>
-  <property name="json.jar" value="json.jar"/>
+  <property name="json.jar" value="json-2.jar"/>
   <property name="jsfa-lib.jar" value="jsfa-lib.jar"/>
   <property name="jsf-dt.jar" value="jsf-dt.jar"/>
   <property name="jsf-ext-dynafaces.jar"

@@ -1102,6 +1102,40 @@ public class TableColumn extends TableColumnBase {
         this.extraTableFooterHtml = extraTableFooterHtml;
     }
 
+
+    /**
+     * The text to be displayed in the table column footer. The table column footer is 
+     * displayed once per table, and is especially useful in tables with multiple 
+     * groups of rows.
+     */
+    @Property(name="tableFooterText", displayName="Table Footer Text", category="Appearance")
+    private String tableFooterText = null;
+
+    /**
+     * The text to be displayed in the table column footer. The table column footer is 
+     * displayed once per table, and is especially useful in tables with multiple 
+     * groups of rows.
+     */
+    public String getTableFooterText() {
+        if (this.tableFooterText != null) {
+            return this.tableFooterText;
+        }
+        ValueExpression _vb = getValueExpression("tableFooterText");
+        if (_vb != null) {
+            return (String) _vb.getValue(getFacesContext().getELContext());
+        }
+        return null;
+    }
+
+    /**
+     * The text to be displayed in the table column footer. The table column footer is 
+     * displayed once per table, and is especially useful in tables with multiple 
+     * groups of rows.
+     */
+    public void setTableFooterText(String tableFooterText) {
+        this.tableFooterText = tableFooterText;
+    }
+
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     // State methods
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -1115,17 +1149,19 @@ public class TableColumn extends TableColumnBase {
         this.extraFooterHtml = (String) _values[1];
         this.extraHeaderHtml = (String) _values[2];
         this.extraTableFooterHtml = (String) _values[3];
+        this.tableFooterText = (String) _values[4];
     }
 
     /**
      * Save the state of this component.
      */
     public Object saveState(FacesContext _context) {
-        Object _values[] = new Object[4];
+        Object _values[] = new Object[5];
         _values[0] = super.saveState(_context);
         _values[1] = this.extraFooterHtml;
         _values[2] = this.extraHeaderHtml;
         _values[3] = this.extraTableFooterHtml;
+        _values[4] = this.tableFooterText;
         return _values;
     }
 }

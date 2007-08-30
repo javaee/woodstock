@@ -905,6 +905,37 @@ public class Table extends TableBase {
         this.extraTitleHtml = extraTitleHtml;
     }
 
+
+    /**
+     * The text to be displayed in the table footer, which expands across the width of 
+     * the table.
+     */
+    @Property(name="footerText", displayName="Footer Text", category="Appearance")
+    private String footerText = null;
+
+    /**
+     * The text to be displayed in the table footer, which expands across the width of 
+     * the table.
+     */
+    public String getFooterText() {
+        if (this.footerText != null) {
+            return this.footerText;
+        }
+        ValueExpression _vb = getValueExpression("footerText");
+        if (_vb != null) {
+            return (String) _vb.getValue(getFacesContext().getELContext());
+        }
+        return null;
+    }
+
+    /**
+     * The text to be displayed in the table footer, which expands across the width of 
+     * the table.
+     */
+    public void setFooterText(String footerText) {
+        this.footerText = footerText;
+    }
+
     /**
      * Flag indicating that this component should use a virtual form. A virtual form is 
      * equivalent to enclosing the table component in its own HTML form element, 
@@ -981,23 +1012,25 @@ public class Table extends TableBase {
         this.extraFooterHtml = (String) _values[3];
         this.extraPanelHtml = (String) _values[4];
         this.extraTitleHtml = (String) _values[5];
-        this.internalVirtualForm = ((Boolean) _values[6]).booleanValue();
-        this.internalVirtualForm_set = ((Boolean) _values[7]).booleanValue();
+        this.footerText = (String) _values[6];
+        this.internalVirtualForm = ((Boolean) _values[7]).booleanValue();
+        this.internalVirtualForm_set = ((Boolean) _values[8]).booleanValue();
     }
 
     /**
      * Save the state of this component.
      */
     public Object saveState(FacesContext _context) {
-        Object _values[] = new Object[8];
+        Object _values[] = new Object[9];
         _values[0] = super.saveState(_context);
         _values[1] = this.extraActionBottomHtml;
         _values[2] = this.extraActionTopHtml;
         _values[3] = this.extraFooterHtml;
         _values[4] = this.extraPanelHtml;
         _values[5] = this.extraTitleHtml;
-        _values[6] = this.internalVirtualForm ? Boolean.TRUE : Boolean.FALSE;
-        _values[7] = this.internalVirtualForm_set ? Boolean.TRUE : Boolean.FALSE;
+        _values[6] = this.footerText;
+        _values[7] = this.internalVirtualForm ? Boolean.TRUE : Boolean.FALSE;
+        _values[8] = this.internalVirtualForm_set ? Boolean.TRUE : Boolean.FALSE;
         return _values;
     }
 

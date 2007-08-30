@@ -557,6 +557,7 @@ webui.@THEME@.table = {
             // Set row style class.
             var row = document.getElementById(this.groupIds[i] + 
                 this.SEPARATOR + rowIds[k]);
+            var props = select.getProps();
             if (select.getProps().checked == true) {
                 webui.@THEME@.common.addStyleClass(row, 
                     this.selectRowStyleClass);

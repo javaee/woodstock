@@ -14,16 +14,16 @@
                 <binary-origin>../../master/dist/webui-jsf.jar</binary-origin>
             </class-path-extension>
             <class-path-extension>
-                <runtime-relative-path>ext/json.jar</runtime-relative-path>
-                <binary-origin>../../master/dist/json.jar</binary-origin>
+                <runtime-relative-path>ext/json-2.jar</runtime-relative-path>
+                <binary-origin>../../master/dist/json-2.jar</binary-origin>
             </class-path-extension>
             <class-path-extension>
                 <runtime-relative-path>ext/prototype-1.5.0.jar</runtime-relative-path>
                 <binary-origin>../../master/dist/prototype-1.5.0.jar</binary-origin>
             </class-path-extension>
             <class-path-extension>
-                <runtime-relative-path>ext/dojo-0.4.1-ajax.jar</runtime-relative-path>
-                <binary-origin>../../master/dist/dojo-0.4.1-ajax.jar</binary-origin>
+                <runtime-relative-path>ext/dojo-0.4.1.jar</runtime-relative-path>
+                <binary-origin>../../master/dist/dojo-0.4.1.jar</binary-origin>
             </class-path-extension>
             <class-path-extension>
                 <runtime-relative-path>ext/jsf-extensions-common-0.1.jar</runtime-relative-path>

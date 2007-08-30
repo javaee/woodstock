@@ -1,34 +1,40 @@
-<div dojoAttachPoint="domNode" class="Tbl2Grp@THEME_CSS@">
-  <table dojoAttachPoint="tableContainer" cellpadding="0" cellspacing="0" class="Tbl@THEME_CSS@"
-      style="padding:0px">
-    <thead dojoAttachPoint="theadContainer">
-      <!-- Group Header -->
-      <tr dojoAttachPoint="groupHeaderContainer" class="Tbl2GrpHdr@THEME_CSS@ hidden@THEME_CSS@">
-        <th dojoAttachPoint="groupHeaderNode" scope="colgroup" style="padding:0px;">
-          <span dojoAttachPoint="groupHeaderTextNode" class="Tbl2GrpHdrTxt@THEME_CSS@"></span>
-          <span dojoAttachPoint="groupHeaderRowsTextNode" class="Tbl2GrpHdrRowsTxt@THEME_CSS@"></span>
-        </th>
-      </tr>
+<div dojoAttachPoint="domNode" class="group@THEME_CSS@">
+  <div class="groupHeader@THEME_CSS@">
+    <table border="0" cellpadding="0" cellspacing="0"> 
+      <tr> 
+        <th dojoAttachPoint="groupHeaderCell" class="boldface@THEME_CSS@">            
+          <div class="groupControls@THEME_CSS@">
+            <span dojoAttachPoint="groupHeaderControls"></span>
+            <span dojoAttachPoint="groupHeaderText" class="groupLabel@THEME_CSS@"></span>
+          </div>
+          <div class="paginationControls@THEME_CSS@">
+            <span dojoAttachPoint="rowsText" class="rowSelectionCount@THEME_CSS@"></span>
+            <span dojoAttachPoint="paginationControls" class="paginationButtons@THEME_CSS@"></span>
+          </div>
+        </th> 
+      </tr> 
+    </table> 
+  </div>
+  <div dojoAttachPoint="tableContainer" class="tableScroller@THEME_CSS@">
+    <table dojoAttachPoint="table" border="0" cellpadding="0" cellspacing="0">
       <!-- Column Headers -->
-      <tr dojoAttachPoint="colHeaderContainer" class="Tbl2ColHdr@THEME_CSS@ hidden@THEME_CSS@">
-        <th dojoAttachPoint="colHeaderNode" scope="col" style="padding:0px;"></th>
-      </tr>
-    </thead>
-    <tbody dojoAttachPoint="tbodyContainer" tabindex="0">
-      <!-- Rows -->
-      <tr dojoAttachPoint="rowContainer" class="hidden@THEME_CSS@">
-        <td dojoAttachPoint="rowNode" style="padding:0px;"></td>
-      </tr>
-    </tbody>
-    <tfoot dojoAttachPoint="tfootContainer">
+      <thead dojoAttachPoint="thead">
+        <tr dojoAttachPoint="colHeaderRow" class="header@THEME_CSS@"> 
+          <th dojoAttachPoint="colHeaderCell" scope="col"></th>
+        </tr> 
+      </thead>
       <!-- Column Footers -->
-      <tr dojoAttachPoint="colFooterContainer" class="Tbl2ColFtr@THEME_CSS@ hidden@THEME_CSS@">
-        <td dojoAttachPoint="colFooterNode" style="padding:0px;"></td>
-      </tr>
-      <!-- Group Footer -->
-      <tr dojoAttachPoint="groupFooterContainer" class="Tbl2GrpFtr@THEME_CSS@ hidden@THEME_CSS@">
-        <td dojoAttachPoint="groupFooterNode" style="padding:0px;"></td>
-      </tr>
-    </tfoot>
-  </table>
+      <tfoot dojoAttachPoint="tfoot"> 
+        <tr dojoAttachPoint="colFooterRow" class="footer@THEME_CSS@"> 
+          <th dojoAttachPoint="colFooterCell" scope="col"></th>
+        </tr>
+      </tfoot>
+      <!-- Rows -->
+      <tbody dojoAttachPoint="tbody">
+        <tr dojoAttachPoint="tableDataRow">
+          <td dojoAttachPoint="tableDataCell"></td>
+        </tr>
+      </tbody> 
+    </table> 
+  </div>
 </div>

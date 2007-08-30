@@ -14,9 +14,9 @@
         <type>classpath</type>
         <resource>jar:nbinst:///modules/ext/webui-jsf.jar!/</resource>
         <resource>jar:nbinst:///modules/ext/commons-fileupload.jar!/</resource>
-        <resource>jar:nbinst:///modules/ext/json.jar!/</resource>
+        <resource>jar:nbinst:///modules/ext/json-2.jar!/</resource>
         <resource>jar:nbinst:///modules/ext/prototype-1.5.0.jar!/</resource>
-        <resource>jar:nbinst:///modules/ext/dojo-0.4.1-ajax.jar!/</resource>
+        <resource>jar:nbinst:///modules/ext/dojo-0.4.1.jar!/</resource>
         
         <resource>jar:nbinst:///modules/ext/jsf-extensions-common-0.1.jar!/</resource>
         <resource>jar:nbinst:///modules/ext/jsf-extensions-dynamic-faces-0.1.jar!/</resource>

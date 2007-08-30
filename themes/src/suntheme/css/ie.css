@@ -272,3 +272,12 @@ table.Tbl@THEME_CSS@ td.TblFtrRow@THEME_CSS@ {padding:5px 5px 5px 10px}
    margin-right: 5px;
 }
 /*---*/
+
+/* Table2 */
+.table2@THEME_CSS@ .bg@THEME_CSS@ {
+	position:relative;
+}
+.table2@THEME_CSS@ .header@THEME_CSS@, .table2@THEME_CSS@ .footer@THEME_CSS@ {
+	margin:0 0 0 0;
+}
+/*---*/

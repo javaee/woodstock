@@ -2078,96 +2078,169 @@ ul.MenuItems@THEME_CSS@ ul li .MenuItemDisabled@THEME_CSS@ .MenuItemLabel@THEME_
 /*---*/
 
 /* TABLE2 */
-/* Top level div tag */
-.Tbl2@THEME_CSS@ {
-  /* Styles from old table */
-  -moz-border-radius-topleft:5px; 
-  -moz-border-radius-topright:5px;
-  border-style:solid;
-  border-width:1px;
+.center@THEME_CSS@ {
+	text-align:center !important;
 }
-
-/* Title */ 
-.Tbl2Ttl@THEME_CSS@ {
-  border-bottom-style:solid; 
-  border-bottom-width:1px;
-
-  /* Styles from old table */
-  text-align:left; 
-  background-position:5px 5px; 
-  padding:3px 10px 2px 10px;
-  -moz-border-radius-topleft:5px; 
-  -moz-border-radius-topright:5px;
+.clear@THEME_CSS@ {
+	clear:both;
+	height:0;
 }
-
-/* Margin */
-.Tbl2Mgn@THEME_CSS@ {
-  padding:6px;
+.clear@THEME_CSS@.spacer@THEME_CSS@ {
+	clear:both;
+	height:6px;
 }
-
-/* Actions */
-.Tbl2Act@THEME_CSS@ {
-  /* Styles from old table */
-  vertical-align:middle;
+form {
+	margin:0;
 }
-
-/* Outer div to capture absolutely positioned header/footer */
-.Tbl2Grps@THEME_CSS@ {
-  position: relative;
-  padding-bottom: 2.9em; /* Must be dynamic */
-  padding-top: 3.1em; /* Must be dynamic */
-  width: 100%; /* Required for IE */
+.table2@THEME_CSS@ input {
+	margin:0;
+	padding:0;
 }
-
-/* Inner div enabling table to scroll */
-.Tbl2Grp@THEME_CSS@ {
-  overflow: auto;
+.table2@THEME_CSS@ {
+	empty-cells:show;
+	-moz-border-radius-topleft:5px;
+	-moz-border-radius-topright:5px;
+	padding:3px 0 0 0;
+	position:relative;
+	text-align:left;
+        clear:both;
+        float:left;
+        width:100%;
 }
-
-/* Group header */
-.Tbl2GrpHdr@THEME_CSS@ {
-  position: absolute;
-  top: 7px;
-  left: 0px;
+.table2@THEME_CSS@ .header@THEME_CSS@, .table2@THEME_CSS@ .footer@THEME_CSS@ {
+	clear:both;
+	float:left;
+	position:absolute;
+	border-left-style:solid;
+	border-left-width:1px;
+	margin:0 0 0 -1px;
 }
-.Tbl2GrpHdr@THEME_CSS@ th {
-  min-height:1.5em;
+.table2@THEME_CSS@ .header@THEME_CSS@ th, .table2@THEME_CSS@ .footer@THEME_CSS@ th {
+	border-bottom-style:solid;
+	border-bottom-width:1px;
+	padding:0;
 }
-.Tbl2GrpHdrTxt@THEME_CSS@ {
-  float: left;
+.table2@THEME_CSS@ .header@THEME_CSS@ th, .table2@THEME_CSS@ .footer@THEME_CSS@ th {
+	border-bottom-style:solid;
+	border-bottom-width:1px;
+	padding:0;
 }
-.Tbl2GrpHdrRowsTxt@THEME_CSS@ {
-  float: right;
+.table2@THEME_CSS@ .header@THEME_CSS@ th span, .table2@THEME_CSS@ .footer@THEME_CSS@ th span {
+	display:block;
+	padding:3px 5px 1px 5px;
 }
-
-/* Column header */
-.Tbl2ColHdr@THEME_CSS@ {
-  position: absolute;
-  top: 1.95em; /* Must be dynamic */
-  left: 0px;
+.table2@THEME_CSS@ .header@THEME_CSS@ th a.hyperlink@THEME_CSS@:link,
+.table2@THEME_CSS@ .header@THEME_CSS@ th a.hyperlink@THEME_CSS@:hover,
+.table2@THEME_CSS@ .header@THEME_CSS@ th a.hyperlink@THEME_CSS@:visited {
+	display:block;
+	padding:3px 5px 1px 5px;
 }
-.Tbl2ColHdr@THEME_CSS@ th {
-  text-align: left;
-  min-height:1.5em;
+.table2@THEME_CSS@ .header@THEME_CSS@ th a span {
+	display:block;
+	padding:0;
 }
-
-/* Column footer */
-.Tbl2ColFtr@THEME_CSS@ {
-  position: absolute;
-  bottom: 1.35em; /* Must be dynamic */
-  left: 0px;
+.table2@THEME_CSS@ .bg@THEME_CSS@ {
+	border-width:1px;
+	border-style:solid;
+	border-top:none;
+	float:left;
+	padding:6px 5px 6px;
+        height:100%;
 }
-.Tbl2ColFtr@THEME_CSS@ td {
-  min-height:1.5em;
+.table2@THEME_CSS@ .title@THEME_CSS@ {
+	padding:2px 10px 2px 10px;
 }
-
-/* Group footer */
-.Tbl2GrpFtr@THEME_CSS@ {
-  position: absolute;
-  bottom: 0px;
-  left: 0px;
+.table2@THEME_CSS@ .actionBar@THEME_CSS@ {
+	border-left:none;
+	border-bottom:none;
+	padding:0 0 6px 0;
+	vertical-align:middle;
 }
-.Tbl2GrpFtr@THEME_CSS@ td {
-  min-height:1.5em;
+.table2@THEME_CSS@ .actionBar@THEME_CSS@ button, .table2@THEME_CSS@ .actionBar@THEME_CSS@ select {
+	margin:0 5px;
+}
+.table2@THEME_CSS@ .actionBar@THEME_CSS@ .actionList@THEME_CSS@ {
+	float:left;
+	margin:0;
+	padding:0;
+}
+.table2@THEME_CSS@ .actionBar@THEME_CSS@ .controlsList@THEME_CSS@ {
+	float:right;
+	margin:0;
+	padding:0;
+	text-align:right;
+}
+.table2@THEME_CSS@ .group@THEME_CSS@ {
+	clear:left;
+}
+.table2@THEME_CSS@ .tableScroller@THEME_CSS@ {
+	border-left-style:solid;
+	border-left-width:1px;
+	border-bottom-width:1px;
+	border-bottom-style:solid;
+	border-top-width:1px;
+	border-top-style:solid;
+	float:left;
+	height:100px;
+	overflow:auto;
+	overflow-x: hidden;
+	width:100%;
+}
+.table2@THEME_CSS@ .tableScroller@THEME_CSS@ table {
+	clear:left;
+	float:left;
+	width:100%;
+}
+.table2@THEME_CSS@ tr {
+	border-right-style:solid;
+	border-right-width:1px;
+}
+.table2@THEME_CSS@ th a.hyperlink@THEME_CSS@ {
+	display:block;
+	padding:3px 0 2px;
+}
+.table2@THEME_CSS@ td, .table2@THEME_CSS@ th  {
+	border-right-style:solid;
+	border-right-width:1px;
+	padding:3px 5px 1px 5px;
+	text-align:left;
+}
+.table2@THEME_CSS@ td {
+	border-bottom-style:solid;
+	border-bottom-width:1px;
+}
+.table2@THEME_CSS@ .groupHeader@THEME_CSS@ {
+	border-style:solid;
+	border-width:1px;
+	margin:0;
+}
+.table2@THEME_CSS@ .groupHeader@THEME_CSS@ button {
+	vertical-align:middle;
+}
+.table2@THEME_CSS@ .groupHeader@THEME_CSS@ input {
+	vertical-align:middle;
+}
+.table2@THEME_CSS@ .groupHeader@THEME_CSS@ th {
+	padding:6px 5px 5px 5px;
+	border:none;
+}
+.table2@THEME_CSS@ .groupHeader@THEME_CSS@ .groupControls@THEME_CSS@ {
+	float:left;
+}
+.table2@THEME_CSS@ .groupHeader@THEME_CSS@ .groupLabel@THEME_CSS@ {
+	margin:0 0 0 .5em;
+	vertical-align:middle;
+}
+.table2@THEME_CSS@ .groupHeader@THEME_CSS@ .paginationControls@THEME_CSS@ {
+	float:right;
+}
+.table2@THEME_CSS@ .groupHeader@THEME_CSS@ .rowSelectionCount@THEME_CSS@ {
+	vertical-align:middle;
+}
+.table2@THEME_CSS@ .groupHeader@THEME_CSS@ .paginationButtons@THEME_CSS@ {
+	margin:0 0 0 .5em;
+}
+.table2@THEME_CSS@ .groupHeader@THEME_CSS@ table {
+	width:100%;
 }
 /*---*/

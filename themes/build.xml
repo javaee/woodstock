@@ -55,7 +55,7 @@
     <property name="webui.jar"
               value="${components.home}/lib/webui-jsf.jar"/>
     <property name="json.jar"
-              value="${components.home}/lib/json.jar"/>
+              value="${components.home}/lib/json-2.jar"/>
 
     <!-- tools -->
     <property name="tools.jar"

@@ -110,14 +110,16 @@ public class Table2RowGroupRenderer extends RendererBase {
         String templatePath = group.getHtmlTemplate(); // Get HTML template.
 
         JSONObject json = new JSONObject();
-        json.put("first", group.getFirst())
+        json.put("className", group.getStyleClasses())
+            .put("first", group.getFirst())
             .put("maxRows", group.getRows())
-            .put("totalRows", group.getRowCount());
+            .put("title", group.getToolTip())
+            .put("totalRows", group.getRowCount())
+            .put("visible", group.isVisible());
 
         // Add attributes.
         JSONUtilities.addProperties(attributes, group, json);
         setColumnProperties(context, group, json);
-        setFooterProperties(context, group, json);
         setHeaderProperties(context, group, json);
         setRowProperties(context, group, json);
 
@@ -159,19 +161,6 @@ public class Table2RowGroupRenderer extends RendererBase {
                 jArray.put(WidgetUtilities.renderComponent(context, col));
             }
         }
-    }
-
-    /** 
-     * Helper method to obtain footer properties.
-     *
-     * @param context FacesContext for the current request.
-     * @param component Table2RowGroup to be rendered.
-     * @param json JSONObject to assign properties to.
-     */
-    protected void setFooterProperties(FacesContext context, Table2RowGroup component,
-            JSONObject json) throws IOException, JSONException {
-        // Add footer text.
-        json.put("footerText", component.getFooterText());
     }
 
     /** 

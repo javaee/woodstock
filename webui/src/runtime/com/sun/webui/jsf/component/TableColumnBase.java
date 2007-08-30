@@ -1583,39 +1583,6 @@ public abstract class TableColumnBase extends WebuiComponent
     }
 
     /**
-     * The text to be displayed in the table column footer. The table column footer is 
-     * displayed once per table, and is especially useful in tables with multiple 
-     * groups of rows.
-     */
-    @Property(name="tableFooterText", displayName="Table Footer Text", category="Appearance")
-    private String tableFooterText = null;
-
-    /**
-     * The text to be displayed in the table column footer. The table column footer is 
-     * displayed once per table, and is especially useful in tables with multiple 
-     * groups of rows.
-     */
-    public String getTableFooterText() {
-        if (this.tableFooterText != null) {
-            return this.tableFooterText;
-        }
-        ValueExpression _vb = getValueExpression("tableFooterText");
-        if (_vb != null) {
-            return (String) _vb.getValue(getFacesContext().getELContext());
-        }
-        return null;
-    }
-
-    /**
-     * The text to be displayed in the table column footer. The table column footer is 
-     * displayed once per table, and is especially useful in tables with multiple 
-     * groups of rows.
-     */
-    public void setTableFooterText(String tableFooterText) {
-        this.tableFooterText = tableFooterText;
-    }
-
-    /**
      * Sets the value of the title attribute for the HTML element.
      * The specified text will display as a tooltip if the mouse cursor hovers 
      * over the HTML element.
@@ -1836,19 +1803,18 @@ public abstract class TableColumnBase extends WebuiComponent
         this.spacerColumn_set = ((Boolean) _values[43]).booleanValue();
         this.style = (String) _values[44];
         this.styleClass = (String) _values[45];
-        this.tableFooterText = (String) _values[46];
-        this.toolTip = (String) _values[47];
-        this.valign = (String) _values[48];
-        this.visible = ((Boolean) _values[49]).booleanValue();
-        this.visible_set = ((Boolean) _values[50]).booleanValue();
-        this.width = (String) _values[51];
+        this.toolTip = (String) _values[46];
+        this.valign = (String) _values[47];
+        this.visible = ((Boolean) _values[48]).booleanValue();
+        this.visible_set = ((Boolean) _values[49]).booleanValue();
+        this.width = (String) _values[50];
     }
 
     /**
      * Save the state of this component.
      */
     public Object saveState(FacesContext _context) {
-        Object _values[] = new Object[52];
+        Object _values[] = new Object[51];
         _values[0] = super.saveState(_context);
         _values[1] = this.abbr;
         _values[2] = this.align;
@@ -1895,12 +1861,11 @@ public abstract class TableColumnBase extends WebuiComponent
         _values[43] = this.spacerColumn_set ? Boolean.TRUE : Boolean.FALSE;
         _values[44] = this.style;
         _values[45] = this.styleClass;
-        _values[46] = this.tableFooterText;
-        _values[47] = this.toolTip;
-        _values[48] = this.valign;
-        _values[49] = this.visible ? Boolean.TRUE : Boolean.FALSE;
-        _values[50] = this.visible_set ? Boolean.TRUE : Boolean.FALSE;
-        _values[51] = this.width;
+        _values[46] = this.toolTip;
+        _values[47] = this.valign;
+        _values[48] = this.visible ? Boolean.TRUE : Boolean.FALSE;
+        _values[49] = this.visible_set ? Boolean.TRUE : Boolean.FALSE;
+        _values[50] = this.width;
         return _values;
     }
 }

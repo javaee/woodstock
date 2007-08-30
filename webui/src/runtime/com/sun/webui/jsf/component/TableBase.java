@@ -710,36 +710,6 @@ public abstract class TableBase extends WebuiComponent
     }
 
     /**
-     * The text to be displayed in the table footer, which expands across the width of 
-     * the table.
-     */
-    @Property(name="footerText", displayName="Footer Text", category="Appearance")
-    private String footerText = null;
-
-    /**
-     * The text to be displayed in the table footer, which expands across the width of 
-     * the table.
-     */
-    public String getFooterText() {
-        if (this.footerText != null) {
-            return this.footerText;
-        }
-        ValueExpression _vb = getValueExpression("footerText");
-        if (_vb != null) {
-            return (String) _vb.getValue(getFacesContext().getELContext());
-        }
-        return null;
-    }
-
-    /**
-     * The text to be displayed in the table footer, which expands across the width of 
-     * the table.
-     */
-    public void setFooterText(String footerText) {
-        this.footerText = footerText;
-    }
-
-    /**
      * The BORDER attribute specifies the width in pixels of the border
      * around a table.
      */
@@ -1829,52 +1799,51 @@ public abstract class TableBase extends WebuiComponent
         this.filterId = (String) _values[17];
         this.filterPanelFocusId = (String) _values[18];
         this.filterText = (String) _values[19];
-        this.footerText = (String) _values[20];
-        this.frame = (String) _values[21];
-        this.hiddenSelectedRows = ((Boolean) _values[22]).booleanValue();
-        this.hiddenSelectedRows_set = ((Boolean) _values[23]).booleanValue();
-        this.itemsText = (String) _values[24];
-        this.lite = ((Boolean) _values[25]).booleanValue();
-        this.lite_set = ((Boolean) _values[26]).booleanValue();
-        this.onClick = (String) _values[27];
-        this.onDblClick = (String) _values[28];
-        this.onKeyDown = (String) _values[29];
-        this.onKeyPress = (String) _values[30];
-        this.onKeyUp = (String) _values[31];
-        this.onMouseDown = (String) _values[32];
-        this.onMouseMove = (String) _values[33];
-        this.onMouseOut = (String) _values[34];
-        this.onMouseOver = (String) _values[35];
-        this.onMouseUp = (String) _values[36];
-        this.paginateButton = ((Boolean) _values[37]).booleanValue();
-        this.paginateButton_set = ((Boolean) _values[38]).booleanValue();
-        this.paginationControls = ((Boolean) _values[39]).booleanValue();
-        this.paginationControls_set = ((Boolean) _values[40]).booleanValue();
-        this.preferencesPanelFocusId = (String) _values[41];
-        this.rules = (String) _values[42];
-        this.selectMultipleButton = ((Boolean) _values[43]).booleanValue();
-        this.selectMultipleButton_set = ((Boolean) _values[44]).booleanValue();
-        this.selectMultipleButtonOnClick = (String) _values[45];
-        this.sortPanelFocusId = (String) _values[46];
-        this.sortPanelToggleButton = ((Boolean) _values[47]).booleanValue();
-        this.sortPanelToggleButton_set = ((Boolean) _values[48]).booleanValue();
-        this.style = (String) _values[49];
-        this.styleClass = (String) _values[50];
-        this.summary = (String) _values[51];
-        this.tabIndex = ((Integer) _values[52]).intValue();
-        this.tabIndex_set = ((Boolean) _values[53]).booleanValue();
-        this.title = (String) _values[54];
-        this.toolTip = (String) _values[55];
-        this.visible = ((Boolean) _values[56]).booleanValue();
-        this.visible_set = ((Boolean) _values[57]).booleanValue();
-        this.width = (String) _values[58];
+        this.frame = (String) _values[20];
+        this.hiddenSelectedRows = ((Boolean) _values[21]).booleanValue();
+        this.hiddenSelectedRows_set = ((Boolean) _values[22]).booleanValue();
+        this.itemsText = (String) _values[23];
+        this.lite = ((Boolean) _values[24]).booleanValue();
+        this.lite_set = ((Boolean) _values[25]).booleanValue();
+        this.onClick = (String) _values[26];
+        this.onDblClick = (String) _values[27];
+        this.onKeyDown = (String) _values[28];
+        this.onKeyPress = (String) _values[29];
+        this.onKeyUp = (String) _values[30];
+        this.onMouseDown = (String) _values[31];
+        this.onMouseMove = (String) _values[32];
+        this.onMouseOut = (String) _values[33];
+        this.onMouseOver = (String) _values[34];
+        this.onMouseUp = (String) _values[35];
+        this.paginateButton = ((Boolean) _values[36]).booleanValue();
+        this.paginateButton_set = ((Boolean) _values[37]).booleanValue();
+        this.paginationControls = ((Boolean) _values[38]).booleanValue();
+        this.paginationControls_set = ((Boolean) _values[39]).booleanValue();
+        this.preferencesPanelFocusId = (String) _values[40];
+        this.rules = (String) _values[41];
+        this.selectMultipleButton = ((Boolean) _values[42]).booleanValue();
+        this.selectMultipleButton_set = ((Boolean) _values[43]).booleanValue();
+        this.selectMultipleButtonOnClick = (String) _values[44];
+        this.sortPanelFocusId = (String) _values[45];
+        this.sortPanelToggleButton = ((Boolean) _values[46]).booleanValue();
+        this.sortPanelToggleButton_set = ((Boolean) _values[47]).booleanValue();
+        this.style = (String) _values[48];
+        this.styleClass = (String) _values[49];
+        this.summary = (String) _values[50];
+        this.tabIndex = ((Integer) _values[51]).intValue();
+        this.tabIndex_set = ((Boolean) _values[52]).booleanValue();
+        this.title = (String) _values[53];
+        this.toolTip = (String) _values[54];
+        this.visible = ((Boolean) _values[55]).booleanValue();
+        this.visible_set = ((Boolean) _values[56]).booleanValue();
+        this.width = (String) _values[57];
     }
 
     /**
      * Save the state of this component.
      */
     public Object saveState(FacesContext _context) {
-        Object _values[] = new Object[59];
+        Object _values[] = new Object[58];
         _values[0] = super.saveState(_context);
         _values[1] = this.align;
         _values[2] = this.augmentTitle ? Boolean.TRUE : Boolean.FALSE;
@@ -1895,45 +1864,44 @@ public abstract class TableBase extends WebuiComponent
         _values[17] = this.filterId;
         _values[18] = this.filterPanelFocusId;
         _values[19] = this.filterText;
-        _values[20] = this.footerText;
-        _values[21] = this.frame;
-        _values[22] = this.hiddenSelectedRows ? Boolean.TRUE : Boolean.FALSE;
-        _values[23] = this.hiddenSelectedRows_set ? Boolean.TRUE : Boolean.FALSE;
-        _values[24] = this.itemsText;
-        _values[25] = this.lite ? Boolean.TRUE : Boolean.FALSE;
-        _values[26] = this.lite_set ? Boolean.TRUE : Boolean.FALSE;
-        _values[27] = this.onClick;
-        _values[28] = this.onDblClick;
-        _values[29] = this.onKeyDown;
-        _values[30] = this.onKeyPress;
-        _values[31] = this.onKeyUp;
-        _values[32] = this.onMouseDown;
-        _values[33] = this.onMouseMove;
-        _values[34] = this.onMouseOut;
-        _values[35] = this.onMouseOver;
-        _values[36] = this.onMouseUp;
-        _values[37] = this.paginateButton ? Boolean.TRUE : Boolean.FALSE;
-        _values[38] = this.paginateButton_set ? Boolean.TRUE : Boolean.FALSE;
-        _values[39] = this.paginationControls ? Boolean.TRUE : Boolean.FALSE;
-        _values[40] = this.paginationControls_set ? Boolean.TRUE : Boolean.FALSE;
-        _values[41] = this.preferencesPanelFocusId;
-        _values[42] = this.rules;
-        _values[43] = this.selectMultipleButton ? Boolean.TRUE : Boolean.FALSE;
-        _values[44] = this.selectMultipleButton_set ? Boolean.TRUE : Boolean.FALSE;
-        _values[45] = this.selectMultipleButtonOnClick;
-        _values[46] = this.sortPanelFocusId;
-        _values[47] = this.sortPanelToggleButton ? Boolean.TRUE : Boolean.FALSE;
-        _values[48] = this.sortPanelToggleButton_set ? Boolean.TRUE : Boolean.FALSE;
-        _values[49] = this.style;
-        _values[50] = this.styleClass;
-        _values[51] = this.summary;
-        _values[52] = new Integer(this.tabIndex);
-        _values[53] = this.tabIndex_set ? Boolean.TRUE : Boolean.FALSE;
-        _values[54] = this.title;
-        _values[55] = this.toolTip;
-        _values[56] = this.visible ? Boolean.TRUE : Boolean.FALSE;
-        _values[57] = this.visible_set ? Boolean.TRUE : Boolean.FALSE;
-        _values[58] = this.width;
+        _values[20] = this.frame;
+        _values[21] = this.hiddenSelectedRows ? Boolean.TRUE : Boolean.FALSE;
+        _values[22] = this.hiddenSelectedRows_set ? Boolean.TRUE : Boolean.FALSE;
+        _values[23] = this.itemsText;
+        _values[24] = this.lite ? Boolean.TRUE : Boolean.FALSE;
+        _values[25] = this.lite_set ? Boolean.TRUE : Boolean.FALSE;
+        _values[26] = this.onClick;
+        _values[27] = this.onDblClick;
+        _values[28] = this.onKeyDown;
+        _values[29] = this.onKeyPress;
+        _values[30] = this.onKeyUp;
+        _values[31] = this.onMouseDown;
+        _values[32] = this.onMouseMove;
+        _values[33] = this.onMouseOut;
+        _values[34] = this.onMouseOver;
+        _values[35] = this.onMouseUp;
+        _values[36] = this.paginateButton ? Boolean.TRUE : Boolean.FALSE;
+        _values[37] = this.paginateButton_set ? Boolean.TRUE : Boolean.FALSE;
+        _values[38] = this.paginationControls ? Boolean.TRUE : Boolean.FALSE;
+        _values[39] = this.paginationControls_set ? Boolean.TRUE : Boolean.FALSE;
+        _values[40] = this.preferencesPanelFocusId;
+        _values[41] = this.rules;
+        _values[42] = this.selectMultipleButton ? Boolean.TRUE : Boolean.FALSE;
+        _values[43] = this.selectMultipleButton_set ? Boolean.TRUE : Boolean.FALSE;
+        _values[44] = this.selectMultipleButtonOnClick;
+        _values[45] = this.sortPanelFocusId;
+        _values[46] = this.sortPanelToggleButton ? Boolean.TRUE : Boolean.FALSE;
+        _values[47] = this.sortPanelToggleButton_set ? Boolean.TRUE : Boolean.FALSE;
+        _values[48] = this.style;
+        _values[49] = this.styleClass;
+        _values[50] = this.summary;
+        _values[51] = new Integer(this.tabIndex);
+        _values[52] = this.tabIndex_set ? Boolean.TRUE : Boolean.FALSE;
+        _values[53] = this.title;
+        _values[54] = this.toolTip;
+        _values[55] = this.visible ? Boolean.TRUE : Boolean.FALSE;
+        _values[56] = this.visible_set ? Boolean.TRUE : Boolean.FALSE;
+        _values[57] = this.width;
         return _values;
     }
 }
