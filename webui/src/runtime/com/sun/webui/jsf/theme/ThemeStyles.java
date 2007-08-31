@@ -742,6 +742,16 @@ public class ThemeStyles {
     public static final String HYPERLINK = "HYPERLINK";
     public static final String HYPERLINK_DISABLED = "HYPERLINK_DISABLED";
 
+     /**
+     * Bubble styles
+     */
+    public static final String BUBBLE_HEADER = "BUBBLE_HEADER";
+    public static final String BUBBLE_CONTENT = "BUBBLE_CONTENT";
+    public static final String BUBBLE_DIV = "BUBBLE_DIV";
+    public static final String BUBBLE_CLOSEBTN = "BUBBLE_CLOSEBTN";
+    public static final String BUBBLE_NOCLOSEBTN = "BUBBLE_NOCLOSEBTN";
+    public static final String BUBBLE_TITLE = "BUBBLE_TITLE";
+
     /**
      * This private constructor prevents this class from being instantiated
      * directly as its only purpose is to provide image constants.

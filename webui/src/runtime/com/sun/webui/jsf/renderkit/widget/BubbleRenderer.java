@@ -84,7 +84,7 @@ public class BubbleRenderer extends RendererBase {
         String templatePath = bubble.getHtmlTemplate(); // Get HTML template.
         JSONObject json = new JSONObject();
         json.put("title", bubble.getTitle())
-            .put("visible", false) //bubble help should not be visible initially.
+            .put("visible", bubble.isVisible()) //bubble help should not be visible initially.
             .put("autoClose", bubble.isAutoClose())
             .put("closeButton", bubble.isCloseButton())
             .put("openDelay", bubble.getOpenDelay())

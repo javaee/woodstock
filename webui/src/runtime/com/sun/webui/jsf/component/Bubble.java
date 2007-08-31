@@ -25,8 +25,8 @@ package com.sun.webui.jsf.component;
 import com.sun.faces.annotation.Component;
 import com.sun.faces.annotation.Property;
 import com.sun.webui.jsf.util.ComponentUtilities;
+import java.beans.Beans;
 import javax.el.ValueExpression;
-import javax.faces.component.UIOutput;
 import javax.faces.context.FacesContext;
 import javax.faces.el.ValueBinding;
 
@@ -162,7 +162,7 @@ public class Bubble extends WebuiOutput {
      * component is not visible, it can still be processed on subsequent form
      * submissions because the HTML is present.</p>
      */
-    @Property(name="visible", isHidden=true, displayName="Visible", category="Behavior")
+    @Property(name="visible", displayName="Visible", category="Behavior")
     private boolean visible = false;
     private boolean visible_set = false;
 
@@ -188,7 +188,10 @@ public class Bubble extends WebuiOutput {
                 return ((Boolean) _result).booleanValue();
             }
         }
-        return true;
+        if (Beans.isDesignTime()) {
+            return true;
+        } 
+        return false;
     }
 
     /**
@@ -316,7 +319,7 @@ public class Bubble extends WebuiOutput {
      * <p>Number of pixels for the width of the bubble help window. The default
      * is 200px.</p>
      */
-    @Property(name="width", displayName="Buuble Width", category="Appearance", 
+    @Property(name="width", isHidden=true, displayName="Buuble Width", category="Appearance", 
               editorClassName="com.sun.rave.propertyeditors.IntegerPropertyEditor")
     private int width = Integer.MIN_VALUE;
     private boolean width_set = false;
