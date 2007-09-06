@@ -832,6 +832,10 @@ a.DatOthBldLnk@THEME_CSS@:link, a.DatOthBldLnk@THEME_CSS@:visited {
 .CalPopBtnDiv@THEME_CSS@ {
         position: relative;
 }
+.CalPopTxt@THEME_CSS@ {
+        width:12em;
+        padding-left:4px;
+}
 /*---*/
 
 
