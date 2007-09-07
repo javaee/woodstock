@@ -316,7 +316,7 @@
 
         <!-- Create templates -->
         <copy todir="${_dest-path_}/templates">
-            <fileset dir="templates">
+            <fileset dir="${_theme-dir_}/templates">
                 <exclude name="**/CVS/**" /> 
             </fileset>
             <filterset>
@@ -328,12 +328,13 @@
             <param name="_theme-name_" value="${suntheme}"/>
             <param name="_theme-name-css_" value="${suntheme.css}"/>
             <param name="_dest-path_" value="${_dest-path_}"/>
+            <param name="_src-path_" value="${_theme-dir_}"/>
 	</antcall>
 
         <!-- Create uncompressed javascript 
 	     Only copies out of date files -->
         <copy todir="${_dest-path_}/javascript_uncompressed">
-            <fileset dir="javascript">
+            <fileset dir="${_theme-dir_}/javascript">
                 <exclude name="**/CVS/**" />
             </fileset>
             <filterset>
@@ -355,18 +356,15 @@
                 <filter token="THEME_CSS" value="${_theme-name-css_}"/>
             </filterset>
         </copy>
-        <copy todir="${_dest-path_}/messages">
-            <fileset dir="messages">
-                <exclude name="**/CVS/**" /> 
-            </fileset>
-        </copy>
+        <copy tofile="${_dest-path_}/messages/messages.properties"
+            file="${_theme-dir_}/messages/messages.properties"/>
         
         <!-- copy messages.properties to messages_en.properties JSF hack -->
         <copy file="${_dest-path_}/messages/messages.properties"
-              tofile="${_dest-path_}/messages/messages_en.properties"/>
+	  tofile="${_dest-path_}/messages/messages_en.properties"/>
         
         <copy todir="${_dest-path_}/properties">
-            <fileset dir="${_theme-dir_}/props">
+            <fileset dir="${_theme-dir_}/properties">
                 <include name="images.properties" />
                 <include name="javascript.properties" />
                 <include name="stylesheets.properties" />
@@ -380,7 +378,7 @@
         
         <!-- copy styles.properties using shorter theme name -->
         <copy todir="${_dest-path_}/properties">
-            <fileset dir="${_theme-dir_}/props">
+            <fileset dir="${_theme-dir_}/properties">
                 <include name="styles.properties" /> 
             </fileset>
             <filterset>
@@ -444,9 +442,11 @@
     </target> 
     
 
+    <!-- _src-path_ and _dest-path_ are args from compressJavascript -->
     <target name="compressedJsUpToDate">
+
 	<uptodate property="compressedJsUpToDate">
-	    <srcfiles dir="." includes="javascript/**/*.js"/>
+	    <srcfiles dir="${_src-path_}" includes="javascript/**/*.js"/>
 	    <mapper type="regexp" from="^(.*)$$"
 		to="${_dest-path_}/\1"/>
 	</uptodate>
@@ -461,7 +461,7 @@
 
 	<!-- Get the out of date files into the "toCompress" dir -->
 	<copy todir="${build}/javascript_toCompress">
-	    <fileset dir="javascript">
+	    <fileset dir="${_src-path_}/javascript">
 		<exclude name="**/CVS/**" />
 		<depend targetDir="${_dest-path_}/javascript_uncompressed"/>
 	    </fileset>
