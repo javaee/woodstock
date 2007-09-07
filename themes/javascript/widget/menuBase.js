@@ -115,25 +115,27 @@ webui.@THEME@.widget.menuBase.createOnClickCallback = function(menuId, optionId)
 /**
  * Handles the on mouse out for each menuitem on IE
  */
-webui.@THEME@.widget.menuBase.createOnMouseOutCallBack = function(menuItem) {
-    if (menuItem == null) {
+webui.@THEME@.widget.menuBase.createOnMouseOutCallBack = function(menuItem, id) {
+    if (menuItem == null || id == null) {
         return;
     }
     return function() {
-        menuItem.className = this.theme.getClassName("MENU_GROUP_CONTAINER");
+        var widget = dojo.widget.byId(id);
+        menuItem.className = widget.theme.getClassName("MENU_GROUP_CONTAINER");
     }
 }
 
 /**
  * Handles the on mouse over for each menuitem on IE
  */
-webui.@THEME@.widget.menuBase.createOnMouseOverCallBack = function(menuItem) {
-    if (menuItem == null) {
+webui.@THEME@.widget.menuBase.createOnMouseOverCallBack = function(menuItem, id) {
+    if (menuItem == null || id == null) {
         return;
     }
     return function() {
+        var widget = dojo.widget.byId(id);
         menuItem.className = menuItem.className + " " + 
-            this.theme.getClassName("MENU_ITEM_HOVER");            
+            widget.theme.getClassName("MENU_ITEM_HOVER");            
     }
 }
 
@@ -170,6 +172,9 @@ webui.@THEME@.widget.menuBase.getMaxWidth = function(props) {
          menuWidth = props[i].label.length;
          if (menuWidth > maxWidth) {
             maxWidth = menuWidth;
+         }
+         if (props[i].image != null) {
+            this.hasImage = true;
          }
          if (props[i].group) {
             this.containsGroup = true;
@@ -211,38 +216,26 @@ webui.@THEME@.widget.menuBase.getSelectedValue = function() {
 webui.@THEME@.widget.menuBase.getStyle = function() {
     var style = "width:" + this.maxWidth + "em;";
 
-    // Return user's style if width is set already.
-    if (this.style && this.style.indexOf("width") != -1) {
-        return this.style;
+    // Since the style has to be recalculated each and every time the options
+    // are changed, you cannot rely on the the existing style on the dom element
+    // to see whether style was already defined. Hence use a separate variable
+    // which sets itself to true if the widget sets the width/
+    if (!this.widthSet) {
+    	var st = this.style;
+	var reg = ";?[\\t]*width[\\t]*:";
+	if (st != null) {
+	    var res = st.match(reg);
+
+            // Return user's style if width is set already.
+            if (this.style && res != null) {
+                return this.style;
+            }
+	}
     }
+    this.widthSet = true;
     return (this.style)
         ? style + this.style
         : style;
-}
-
-/**
- * This function is used to initialize the widget.
- *
- * Note: This is called after the fillInTemplate() function.
- *
- * @param props Key-Value pairs of properties.
- * @param frag HTML fragment.
- * @param parent The parent of this widget.
- */
-webui.@THEME@.widget.menuBase.initialize = function(props, frag, parent) {
-    webui.@THEME@.widget.menuBase.superclass.initialize.call(this, props, frag, parent);
-
-    // Try to set the width of the menu here.
-    this.maxWidth = this.getMaxWidth(props.options);
-     
-    if (this.containsGroup) {
-        this.maxWidth += 1;
-    }
-
-    // Account for images.
-    this.maxWidth += 1;
-
-    return true;
 }
 
 /**
@@ -296,9 +289,9 @@ webui.@THEME@.widget.menuBase.setMenuNodeClassName = function(menuItemContainer,
         if (webui.@THEME@.common.browser.is_ie5up) {
             dojo.debug("Inside assignee functions");
             dojo.event.connect(menuItemContainer, "onmouseover",
-                webui.@THEME@.widget.menuBase.createOnMouseOverCallBack(menuItemContainer));
+                webui.@THEME@.widget.menuBase.createOnMouseOverCallBack(menuItemContainer, this.id));
             dojo.event.connect(menuItemContainer, "onmouseout",
-                webui.@THEME@.widget.menuBase.createOnMouseOutCallBack(menuItemContainer));
+                webui.@THEME@.widget.menuBase.createOnMouseOutCallBack(menuItemContainer, this.id));
         }
     }    
 }
@@ -339,15 +332,17 @@ webui.@THEME@.widget.menuBase.setOptionNodeProps = function(props, optionNode) {
     // By default have the no image container cloned and kept
     // If an image is present, then replace that with the span
     // placeholder for the image.
-    var imageNode = this.menuItemNoImageContainer.cloneNode(false);
-    if (props.image != null) {
-        // Add the widget
-        imageNode = this.menuItemImageContainer.cloneNode(false);
-        props.image.className = this.theme.getClassName("MENU_ITEM_IMAGE");
-        this.widget.addFragment(imageNode, props.image);
-    } 
-    menuItemContainer.appendChild(imageNode);
-
+    if (new Boolean(this.hasImage).valueOf() == true) {
+        var imageNode = this.menuItemNoImageContainer.cloneNode(false);
+        if (props.image != null) {
+            // Add the widget
+            imageNode = this.menuItemImageContainer.cloneNode(false);
+            props.image.className = this.theme.getClassName("MENU_ITEM_IMAGE");
+            this.widget.addFragment(imageNode, props.image);
+        } 
+        menuItemContainer.appendChild(imageNode);
+    }
+    
     // Append the placeholder image node.
     menuItemContainer.appendChild(this.menuItemSubMenu.cloneNode(false));
 
@@ -448,11 +443,22 @@ webui.@THEME@.widget.menuBase._setProps = function(props){
         // Must be cleared before calling setJavaScriptProps() below.
         props.onClick = null;
     }
-
+    
     // Add options
     if (props.options) {
+        
+        // Try to set the width of the menu here.
+        this.maxWidth = this.getMaxWidth(props.options);        
+        
+        // Account for image width if one exists. This property can be got from the
+	// theme
+        if (this.hasImage) {
+            var placeHolderWidth = parseFloat(this.theme.getMessage("Menu.placeHolderImageWidth"));
+            this.maxWidth += placeHolderWidth; 
+        }       
+   
         this.widget.removeChildNodes(this.outerMenuContainer);
-
+        
         // Clone the menu node and add it to the outer container.
         var menuNode = this.groupOptionContainer.cloneNode(false);
         menuNode.className = this.theme.getClassName("MENU_CONTAINER");
@@ -460,8 +466,9 @@ webui.@THEME@.widget.menuBase._setProps = function(props){
         this.addOptions(menuNode, props);
     }
 
-    // Set style.
-    if (props.style || !this.isInitialized()) {
+    // Need to redo style calculation if style or options
+    // have been specified.
+    if (props.style || props.options) {
         props.style = this.getStyle();
     }
 
@@ -510,7 +517,6 @@ dojo.lang.extend(webui.@THEME@.widget.menuBase, {
     getProps: webui.@THEME@.widget.menuBase.getProps,
     getSelectedValue:webui.@THEME@.widget.menuBase.getSelectedValue,
     getStyle: webui.@THEME@.widget.menuBase.getStyle,
-    initialize: webui.@THEME@.widget.menuBase.initialize,
     processOnClickEvent: webui.@THEME@.widget.menuBase.processOnClickEvent,
     setMenuNodeClassName: webui.@THEME@.widget.menuBase.setMenuNodeClassName,
     setOptionNodeProps:webui.@THEME@.widget.menuBase.setOptionNodeProps,

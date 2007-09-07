@@ -7,6 +7,8 @@
                 <li dojoAttachPoint="optionContainer" >
                     <div dojoAttachPoint="menuItemContainer">
                         <span dojoAttachPoint="menuItemImageContainer"></span>
+			   <!-- We need to use an img tag over here instead of an ordinary span because
+			   IE does not seem to honor the width present in the styleclass unless an img is used -->
                            <img class="NoMenuItemWidget@THEME_CSS@"dojoAttachPoint="menuItemNoImageContainer"></img>
                            <img class="NoMenuItemSubmenu@THEME_CSS@" dojoAttachPoint="menuItemSubMenu"></img>                            
                            <div class="MenuItemLabel@THEME_CSS@" dojoAttachPoint="menuItemNode">                                
