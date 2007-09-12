@@ -572,8 +572,10 @@ public class TableRowGroupDesignState {
     public void saveState() {
         
         if (selectedColumnNames.size() > 0){
-            String defDataBindingExpr = ((FacesDesignContext)dataProviderBean.getDesignContext()).getBindingExpr(dataProviderBean);
-            setPropertyValue(SOURCE_DATA_PROPERTY, defDataBindingExpr);
+            String dataProviderBeanExpr = ((FacesDesignContext)dataProviderBean.getDesignContext()).getBindingExpr(dataProviderBean);
+            TableRowGroupDesignInfo rgdi = (TableRowGroupDesignInfo)tableRowGroupBean.getDesignInfo();
+            rgdi.setColumnsAlreadyReconstructed(true);
+            setPropertyValue(SOURCE_DATA_PROPERTY, dataProviderBeanExpr);
             setPropertyValue(EMPTY_DATA_MSG_PROPERTY, emptyDataMsg);
             setBooleanPropertyValue(PAGINATED_PROPERTY, rowGroupPaginated);
             

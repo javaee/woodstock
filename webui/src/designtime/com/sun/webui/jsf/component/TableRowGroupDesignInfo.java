@@ -176,6 +176,16 @@ public class TableRowGroupDesignInfo extends AbstractDesignInfo {
         return Result.SUCCESS;
     }
     
+    private boolean propertyChangedReentrance = false;
+    private boolean columnsAlreadyReconstructed = false;
+    
+    public boolean isColumnsAlreadyReconstructed() {
+        return columnsAlreadyReconstructed;
+    }
+    
+    public void setColumnsAlreadyReconstructed(boolean b) {
+        columnsAlreadyReconstructed = b;
+    }
     
     /**
      * Reset the table row group to use default table if the source data is set to null
@@ -193,11 +203,42 @@ public class TableRowGroupDesignInfo extends AbstractDesignInfo {
             DesignContext dcontext = tableRowGroupBean.getDesignContext();
             
             //see if we need to hook up a new default data provider
+            //this will happen if no columns are selected in table layout
+            //because the designstate will unset the sourceData
             if((oldValue != null) && (!property.isModified())) {
+                propertyChangedReentrance = true;
                 TableRowGroupDesignState tblRowGroupDesignState = new TableRowGroupDesignState(tableRowGroupBean);
                 DesignBean dataProviderBean = TableDesignHelper.createDefaultDataProvider(tableRowGroupBean.getBeanParent());
                 tblRowGroupDesignState.setDataProviderBean(dataProviderBean,true);
                 tblRowGroupDesignState.saveState();
+                propertyChangedReentrance = false;
+            } else {
+                Object propertyValue = property.getValue();
+                if (propertyValue instanceof TableDataProvider) {
+                    TableDataProvider tdpInstance = (TableDataProvider)propertyValue;
+                    FieldKey[] tdpInstanceFks = tdpInstance.getFieldKeys();
+                    if (tdpInstanceFks != null && tdpInstanceFks.length > 0) {
+                        if (columnsAlreadyReconstructed) {
+                            //we know not to reconstruct the columns here,
+                            //but need to set the flag false for next time
+                            columnsAlreadyReconstructed = false;
+                        }
+                        else {
+                            DesignBean dataProviderBean = dcontext.getBeanForInstance(tdpInstance);
+                            if (dataProviderBean != null) {
+                                propertyChangedReentrance = true;
+                                TableRowGroupDesignState tblRowGroupDesignState = new TableRowGroupDesignState(tableRowGroupBean);
+                                tblRowGroupDesignState.setDataProviderBean(dataProviderBean,true);
+                                tblRowGroupDesignState.saveState();
+                                propertyChangedReentrance = false;
+                            }
+                        }
+                    }
+                }
+            }
+            
+            if (propertyChangedReentrance) {
+                return;
             }
             
             //stop listening to old tdp
@@ -382,14 +423,18 @@ public class TableRowGroupDesignInfo extends AbstractDesignInfo {
             if (childrenToRemoveSize > 0) {
                 if (childrenToRemoveSize == children.length) {
                     //all the table columns would have thrown ELException, so we have to reconstruct
-                    //if there are no field keys, bind the row group to the default data provider
+                    //if there are no field keys, no-op (see comments below)
                     //if there are field keys, reconstruct the table keeping the current data provider
                     FieldKey[] fieldKeys = provider.getFieldKeys();
                     if (fieldKeys == null || fieldKeys.length < 1) {
-                        TableRowGroupDesignState tblRowGroupDesignState = new TableRowGroupDesignState(tableRowGroupBean);
-                        DesignBean defaultDataProviderBean = TableDesignHelper.createDefaultDataProvider(tableRowGroupBean.getBeanParent());
-                        tblRowGroupDesignState.setDataProviderBean(defaultDataProviderBean,true);
-                        tblRowGroupDesignState.saveState();
+                        //table columns would throw ELException, and there are no field keys.
+                        //one possibility would be to rebind the row group to the default data provider.
+                        //that's appropriate for the table layout dialog, since the user chooses the table columns there.
+                        //here, however, rebinding might be invasive: even though the field keys are unknown at designtime,
+                        //they may be present at runtime. since there are no field keys at designtime,
+                        //ObjectListDataProvider or ObjectArrayDataProvider will contain zero rows, 
+                        //and therefore not throw any ELExceptions.
+                        //So here we can assume the field keys will be present at runtime, and simply no-op.
                     }
                     else {
                         DesignBean dataProviderBean = fdcontext.getBeanForInstance(provider);
