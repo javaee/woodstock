@@ -48,25 +48,52 @@ webui.@THEME@.widget.checkboxGroup = function() {
  * @param props Key-Value pairs of properties.
  */
 webui.@THEME@.widget.checkboxGroup.addContents = function(props) {   
-    if (props == null) {
+     if (props == null) {
         return false;
     }
-
-    if (props.contents) {    
-        this.widget.removeChildNodes(this.ulContainer);
-        for (var i = 0; i < props.contents.length; i++) { 
-           // Clone <li> node.
-           var liNodeClone = this.liNode.cloneNode(false);
-
-           // Append the child element to <ul>
-           this.ulContainer.appendChild(liNodeClone);
-        
-           // Set disabled.
-           if (props.disabled != null) {
-                props.contents[i].disabled = props.disabled;
-           }           
-           // Add child to the group.
-           this.widget.addFragment(liNodeClone, props.contents[i], "last");
+    
+    if (props.contents) {
+        this.widget.removeChildNodes(this.tbodyContainer);
+        var rowContainerCloneNode = this.rowContainer.cloneNode(false);
+        this.tbodyContainer.appendChild(rowContainerCloneNode);
+        if (props.label) {
+            var rowNodeClone = this.rowNode.cloneNode(false);
+            rowContainerCloneNode.appendChild(rowNodeClone);
+            var labelContainerClone = this.labelContainer.cloneNode(false);
+            rowNodeClone.appendChild(labelContainerClone);
+            this.widget.addFragment(labelContainerClone, props.label, "last");            
+              
+        }
+        var itemN = 0;
+        var length = props.contents.length;
+        var columns = (props.columns <= 0) ? 1 : props.columns;
+        var rows = (length + (columns-1))/columns;
+        var propsdisabledvalue = props.disabled == null ? false : props.disabled;
+        for (var row = 0; row <= rows; row++) {
+            for (var column = 0; column < columns; column++) {
+                if (itemN < length) {
+                    // Clone < td> node.
+                    var contentsRowNodeClone = this.contentsRowNode.cloneNode(false);
+                    rowContainerCloneNode.appendChild(contentsRowNodeClone);
+                    // Set disabled.                   
+                    props.contents[itemN].disabled = propsdisabledvalue;
+                   
+                    // Add child to the group.
+                    this.widget.addFragment(contentsRowNodeClone, props.contents[itemN], "last");
+                    itemN++;
+                }
+            }
+            if (row + 1 <= rows) {
+                rowContainerCloneNode = this.rowContainer.cloneNode(false);
+                this.tbodyContainer.appendChild(rowContainerCloneNode);
+                // This check is required here. Else the elements won't be
+                // aligned properly when there is no label.
+                if (props.label != null) {
+                    var contentsRowNodeClone = this.contentsRowNode.cloneNode(false);
+                    rowContainerCloneNode.appendChild(contentsRowNodeClone);
+                }
+              
+            }
         }
     } else {
         // Update the disabled property client side
@@ -125,12 +152,11 @@ webui.@THEME@.widget.checkboxGroup.fillInTemplate = function(props, frag) {
     if (this.id) {                    
         this.contentsRowNode.id = this.id + "_contentsRowNode";
         this.divContainer.id = this.id + "_divContainer";
-        this.labelContainer.id = this.id + "_labelContainer";                    
-        this.liNode.id = this.id + "_liNode";
+        this.labelContainer.id = this.id + "_labelContainer";                            
         this.rowContainer.id = this.id + "_rowContainer";
         this.rowNode.id = this.id + "_rowNode";
-        this.tableContainer.id = this.id + "_tableContainer";
-        this.ulContainer.id = this.id + "_ulContainer";         
+        this.tableContainer.id = this.id + "_tableContainer";   
+        this.tbodyContainer.id = this.id + "_tbodyContainer";     
     }
 
     // Show label.
