@@ -831,7 +831,7 @@ table.Tbl@THEME_CSS@ th {
 /* Table Caption/Title */
 table.Tbl@THEME_CSS@ caption.TblTtlTxt@THEME_CSS@ {
 	color:#fff;
-	background:#46708e url(../images/table2/title_gradient.png) top center repeat-x;
+	background:#36586F url(../images/table/table_titlebar_gradient.gif) bottom left repeat-x;
 }
 caption.TblTtlTxt@THEME_CSS@ span.TblTtlMsgSpn@THEME_CSS@ {
 	color:#fff;
@@ -846,9 +846,9 @@ table.Tbl@THEME_CSS@ td.TblActTd@THEME_CSS@ {
  
 /* Selection Column - Headers */
 table.Tbl@THEME_CSS@ th.TblColHdrSel@THEME_CSS@ {
-	border-top-color:#81939B;
-	border-left-color:#81939B;
-	border-bottom-color:#81939B;
+	border-top-color:#8C8F91;
+	border-left-color:#8C8F91;
+	border-bottom-color:#8C8F91;
 	background-color:#f8f8f9;
 }
 table.Tbl@THEME_CSS@ th.TblColHdrSrtSel@THEME_CSS@ {
@@ -915,7 +915,7 @@ table.Tbl@THEME_CSS@ td.TblTdSrtSel@THEME_CSS@ {
 }
 /* Regular Column Headers */
 table.Tbl@THEME_CSS@ th.TblColHdr@THEME_CSS@ {
-	border-color:#81939B;
+	border-color:#8C8F91;
 	background-color:#FFFFFF;
 }
 table.Tbl@THEME_CSS@ .TblHdrTxt@THEME_CSS@ {
@@ -951,7 +951,7 @@ table.Tbl@THEME_CSS@ a.TblHdrImgLnk@THEME_CSS@:visited {
 	background-color:#E1E5E8;
 	color:#336699;
 	text-decoration:none;
-	border-left-color:#DBE0E3; 
+	border-left-color:#CAD0D2; 
 	background-image:url(../images/table2/column_gradient.png);
 }
 table.Tbl@THEME_CSS@ a.TblHdrImgLnk@THEME_CSS@:link, 
@@ -1247,9 +1247,9 @@ table.TblLt@THEME_CSS@ td.TblActTdLst@THEME_CSS@ {
 }
 /* Selection Column - Headers */
 table.TblLt@THEME_CSS@ th.TblColHdrSel@THEME_CSS@ {
-	border-top-color:#81939B; 
-	border-left-color:#81939B; 
-	border-bottom-color:#81939B; 
+	border-top-color:#8C8F91; 
+	border-left-color:#8C8F91; 
+	border-bottom-color:#8C8F91; 
 	background-color:#FFFFFF;
 }
 table.TblLt@THEME_CSS@ th.TblColHdrSrtSel@THEME_CSS@ {
@@ -1311,7 +1311,7 @@ table.TblLt@THEME_CSS@ a.TblHdrLnk@THEME_CSS@:hover {
 table.TblLt@THEME_CSS@ a.TblHdrImgLnk@THEME_CSS@:link, 
 table.TblLt@THEME_CSS@ a.TblHdrImgLnk@THEME_CSS@:visited {
 	background-color:#E1E5E8;
-	border-left-color:#DBE0E3;
+	border-left-color:#CAD0D2;
 	color:#336699;
 	text-decoration:none; 
 	background-image:url(../images/table2/column_gradient.png);
