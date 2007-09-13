@@ -1,0 +1,289 @@
+<?xml version='1.0' encoding='ISO-8859-1' ?>
+<!--
+ The contents of this file are subject to the terms
+ of the Common Development and Distribution License
+ (the License).  You may not use this file except in
+ compliance with the License.
+ 
+ You can obtain a copy of the license at
+ https://woodstock.dev.java.net/public/CDDLv1.0.html.
+ See the License for the specific language governing
+ permissions and limitations under the License.
+ 
+ When distributing Covered Code, include this CDDL
+ Header Notice in each file and include the License file
+ at https://woodstock.dev.java.net/public/CDDLv1.0.html.
+ If applicable, add the following below the CDDL Header,
+ with the fields enclosed by brackets [] replaced by
+ you own identifying information:
+ "Portions Copyrighted [year] [name of copyright owner]"
+ 
+ Copyright 2007 Sun Microsystems, Inc. All rights reserved.
+-->
+
+<project name="js-theme" default="all" basedir=".">
+    
+    <property file="../build.properties"/>
+    <property file="build.properties"/>
+
+    <property name="components.home" value="${basedir}/../webui"/>
+    
+    <!-- Building a javascript theme depends on ${_webui-jar_}
+         In the future it will depend on just the theme implementation
+	 jar, but for now the ResourceBundleTheme class implements
+	 the functionality and that class resides in ${_webui-jar_}.
+
+        This build script also depends on a ${_theme-jar_}
+	being built first. It uses that jar and the ${_webui-jar_}
+	to construct the javascript theme. It then updates the
+	${_theme-jar_} with the javascript theme files.
+
+       -->
+
+    <!-- default properties in case this build file is used
+	 explicitly vs. being called from another build file.-->
+
+    <property name="_js-webui-jar_" 
+	value="${components.home}/lib/webui-jsf.jar"/>
+    <property name="_json-jar_" 
+	value="${components.home}/lib/external/json-2.jar"/>
+
+    <!-- defaults -->
+    <property name="_js-to-dir_" value="build/suntheme"/>
+    <property name="_js-theme-jar_" value="webui-jsf-suntheme.jar"/>
+    <property name="_js-theme-name_" value="suntheme"/>
+    <property name="_js-theme-package" value="com.sun.webui.jsf.suntheme"/>
+    <property name="_js-l10n-dir_" value="./l10n"/>
+
+    <!-- Javascript theme properties 
+	The javascript theme uses dojo to load localizations
+	using the "requireLocalization" method. This requires that a
+	defined module path "com/sun/webui/jsf/suntheme/javascript/theme"
+	exists and under this path the following "nls" structure.
+
+	     "nls/suntheme.js"
+	     "nls/<lang>/suntheme.js"
+	     "nls/<lang>-<country>/suntheme.js"
+	     "nls/<lang>-<country>-<variant>/suntheme.js"
+
+	In this example "suntheme" would be the resource bundle name. The 
+	"nls/suntheme.js" file would be the fallback bundle containing
+	definitions suitable for any locale. -->
+
+
+    <!-- Note for the theme builder transformation, the javascript
+	widget namespace is assumed to be same, this is the
+	same assumption as when transforming the theme proper.
+	The default "version" is the hardcoded default
+	version as defined by the components.  -->
+
+    <!-- Ant task Arguments
+	 _js-to-dir_ - the root of the destination directory for created files.
+	 _js-webui-jar_ - The runtime jar that has the necessary 
+		ResourceBundleTheme class must be an ant task parameter 
+		from the caller
+	 _js-theme-jar_ - The prebuilt theme jar
+	 _js-theme-name_ - the theme name
+	 _js-theme-package - theme package
+	 _js-l10n-dir_ - the location of the localized jars or properties files.
+	 _js-locales_ - space separated list of locale suffixes like "fr",
+		"zh_CN", etc. (Not supported yet).
+	-->
+
+    <target name="buildJsTheme">
+
+	<!-- convert the package into a file path -->
+	<pathconvert property="__js-pkgpath__">
+	    <path path="${_js-theme-package_}"/>
+	    <mapper type="unpackage" from="*" to="*"/>
+	    <map from="${basedir}/" to=""/>
+	</pathconvert>
+
+	<property name="__cmp-nls-path__" 
+	    value="${__js-pkgpath__}/javascript/theme/nls"/>
+	<property name="__uncmp-nls-path__" 
+	    value="${__js-pkgpath__}/javascript_uncompressed/theme/nls"/>
+
+	<property name="__js-cmp-nls-path__"
+	    value="${_js-to-dir_}/${__cmp-nls-path__}"/>
+	<property name="__js-cmp-nls-file__"
+	    value="${__js-cmp-nls-path__}/${_js-theme-name_}.js"/>
+
+	<property name="__js-uncmp-nls-path__"
+	    value="${_js-to-dir_}/${__uncmp-nls-path__}"/>
+	<property name="__js-uncmp-nls-file__"
+	    value="${__js-uncmp-nls-path__}/${_js-theme-name_}.js"/>
+
+       <mkdir dir="${__js-cmp-nls-path__}"/>
+       <mkdir dir="${__js-uncmp-nls-path__}"/>
+
+	<!-- The uncompressed version is the JSON pretty printed version 
+	  -->
+	<java classname="com.sun.webui.theme.ResourceBundleTheme"
+		logError="yes"
+		failonerror="true" fork="true">
+	    <arg value="-dir"/>
+	    <arg value="${__js-uncmp-nls-path__}"/>
+	    <arg value="-theme"/>
+	    <arg value="${_js-theme-name_}"/>
+	    <arg value="-prettyprint"/>
+	    <arg value="4"/>
+	    <classpath>
+		 <pathelement path="${_json-jar_}"/>
+		 <pathelement path="${_js-webui-jar_}"/>
+		 <pathelement path="${_js-theme-jar_}"/>
+	    </classpath>
+	</java>
+
+	<java classname="com.sun.webui.theme.ResourceBundleTheme"
+		failonerror="true" fork="true">
+	    <arg value="-dir"/>
+	    <arg value="${__js-cmp-nls-path__}"/>
+	    <arg value="-theme"/>
+	    <arg value="${_js-theme-name_}"/>
+	     <classpath>
+		 <pathelement path="${_json-jar_}"/>
+		 <pathelement path="${_js-webui-jar_}"/>
+		 <pathelement path="${_js-theme-jar_}"/>
+	     </classpath>
+	</java>
+
+	<!-- supported locales the contents of the l10n directory
+	webui-jsf-suntheme_de.jar
+	webui-jsf-suntheme_es.jar
+	webui-jsf-suntheme_fr.jar
+	webui-jsf-suntheme_it.jar
+	webui-jsf-suntheme_ja.jar
+	webui-jsf-suntheme_ko.jar
+	webui-jsf-suntheme_pt_BR.jar
+	webui-jsf-suntheme_sv.jar
+	webui-jsf-suntheme_zh_CN.jar
+	webui-jsf-suntheme_zh_HK.jar
+	webui-jsf-suntheme_zh_TW.jar
+	-->
+
+	<!-- Don't create localized theme until l10n jars are fixed
+	<antcall target="localizeJSTheme">
+	    <param name="_locale_" value="de"/>
+	    <param name="_dojo-locale_" value="de"/>
+	</antcall>
+	<antcall target="localizeJSTheme">
+	    <param name="_locale_" value="es"/>
+	    <param name="_dojo-locale_" value="es"/>
+	</antcall>
+	<antcall target="localizeJSTheme">
+	    <param name="_locale_" value="fr"/>
+	    <param name="_dojo-locale_" value="fr"/>
+	</antcall>
+	<antcall target="localizeJSTheme">
+	    <param name="_locale_" value="it"/>
+	    <param name="_dojo-locale_" value="it"/>
+	</antcall>
+	<antcall target="localizeJSTheme">
+	    <param name="_locale_" value="ja"/>
+	    <param name="_dojo-locale_" value="ja"/>
+	</antcall>
+	<antcall target="localizeJSTheme">
+	    <param name="_locale_" value="ko"/>
+	    <param name="_dojo-locale_" value="ko"/>
+	</antcall>
+	<antcall target="localizeJSTheme">
+	    <param name="_locale_" value="pt_BR"/>
+	    <param name="_dojo-locale_" value="pt-br"/>
+	</antcall>
+	<antcall target="localizeJSTheme">
+	    <param name="_locale_" value="sv"/>
+	    <param name="_dojo-locale_" value="sv"/>
+	</antcall>
+	<antcall target="localizeJSTheme">
+	    <param name="_locale_" value="zh_CN"/>
+	    <param name="_dojo-locale_" value="zh-cn"/>
+	</antcall>
+	<antcall target="localizeJSTheme">
+	    <param name="_locale_" value="zh_HK"/>
+	    <param name="_dojo-locale_" value="zh-hk"/>
+	</antcall>
+	<antcall target="localizeJSTheme">
+	    <param name="_locale_" value="zh_TW"/>
+	    <param name="_dojo-locale_" value="zh-tw"/>
+	</antcall>
+       -->
+
+       <!-- Add the javascript theme to the theme jar -->
+       <jar destfile="${_js-theme-jar_}"
+	     update="true"
+	     basedir="${_js-to-dir_}"
+	     includes="${__cmp-nls-path__}/**/*.js,${__uncmp-nls-path__}/**/*.js">
+	</jar>
+
+    </target>
+
+    <!-- Create a JavaScript theme file for each localization 
+      Arguments
+	  _dojo-locale_ - the locale suffix in dojo syntax ("-" vs. "_")
+	  _locale_ - the locale suffix in java syntax
+      -->
+    <target name="localizeJSTheme">
+
+	<property name="__nlsdir__" 
+	    value="${__js-cmp-nls-path__}/${_dojo-locale_}"/>
+	<mkdir dir="${__nlsdir__}"/>
+
+	<basename property="__jarname__" suffix=".jar"
+		file="${_js-theme-jar_}"/>
+	<property name="__locale-jar__"
+	    value="${_js-l10n-dir_}/${__jarname__}_${_locale_}.jar"/>
+
+	<!-- Create the localized JS themes -->
+	<java classname="com.sun.webui.theme.ResourceBundleTheme"
+		failonerror="true" fork="true">
+	    <arg value="-dir"/>
+	    <arg value="${__nlsdir__}"/>
+	    <arg value="-theme"/>
+	    <arg value="${_js-theme-name_}"/>
+	    <arg value="-locale"/>
+	    <arg value="${_locale_}"/>
+	    <arg value="-l10nJar"/>
+	    <arg value="jar:file:${__locale-jar__}!/"/>
+	     <classpath>
+		 <pathelement path="${_json-jar_}"/>
+		 <pathelement path="${_webui-jar_}"/>
+		 <pathelement path="${_theme-jar_}"/>
+	     </classpath>
+	</java>
+
+        <property name="__uncmp-nlsdir__" 
+	    value="${__js-uncmp-nls-path__}${_dojo-locale_}"/>
+        <mkdir dir="${__uncmp-nlsdir__}"/>
+
+	<!-- Create the uncompressed localized JS themes -->
+	<java classname="com.sun.webui.theme.ResourceBundleTheme"
+		failonerror="true" fork="true">
+	    <arg value="-dir"/>
+	    <arg value="${__uncmp-nlsdir__}"/>
+	    <arg value="-theme"/>
+	    <arg value="${_js-theme-name_}"/>
+	    <arg value="-locale"/>
+	    <arg value="${_locale_}"/>
+	    <arg value="-prettyprint"/>
+	    <arg value="4"/>
+	    <arg value="-l10nJar"/>
+	    <arg value="jar:file:${__locale-jar__}!/"/>
+	    <classpath>
+		<pathelement path="${_json-jar_}"/>
+		<pathelement path="${_js-webui-jar_}"/>
+		<pathelement path="${_js-theme-jar_}"/>
+	    </classpath>
+	</java>
+    </target>
+
+    <target name="clean">
+        <delete dir="${nlsdir}" />
+        <delete dir="${nlsdir-uncompressed}" />
+    </target>
+
+    <target name="syntax-check">
+	<echo message="Ok"/>
+    </target>
+
+</project>

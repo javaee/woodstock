@@ -1,0 +1,149 @@
+#
+# The contents of this file are subject to the terms
+# of the Common Development and Distribution License
+# (the License).  You may not use this file except in
+# compliance with the License.
+# 
+# You can obtain a copy of the license at
+# https://woodstock.dev.java.net/public/CDDLv1.0.html.
+# See the License for the specific language governing
+# permissions and limitations under the License.
+# 
+# When distributing Covered Code, include this CDDL
+# Header Notice in each file and include the License file
+# at https://woodstock.dev.java.net/public/CDDLv1.0.html.
+# If applicable, add the following below the CDDL Header,
+# with the fields enclosed by brackets [] replaced by
+# you own identifying information:
+# "Portions Copyrighted [year] [name of copyright owner]"
+# 
+# Copyright 2007 Sun Microsystems, Inc. All rights reserved.
+#
+# --------------------------------------------------------------------
+#
+# Note that the suntheme is a special case and can be
+# built without a suntheme.properties file.
+#
+# --------------------------------------------------------------------
+#
+# This template defines an alternate theme called "mojave". Copy
+# this properties file to ./mojave.properties or ../mojave.properties
+# and invoke ant as 
+#
+# % ant -Dtheme.name=mojave cloneTheme buildTheme buildJsTheme
+#
+# A theme called mojave will be cloned in src/mojave and built in
+# in build/mojave and a jar will be produced in dist/webui-jsf-mojave.jar.
+#
+# Note that the clone and build files can be located anywhere depending
+# on the values of the path related properties.
+#
+# After this command line is run, calling ant with 
+# "-Dtheme.name=mojave" and no targets, runs
+# the "all" target which is buildTheme and buildJsTheme. 
+#
+# Note that the properties "FullVersion", "Version", "ThemeVersion"
+# and BuildNumber are defined in the ./build.properties file or
+# ../build.properties files. These are used in the MANIFEST.MF file
+# of the theme jar. ("ThemeVersion" is different than "theme.version"
+# and is used only in legacy woodstock web applications.)
+#
+# Note that if the ant command line option "-propertyfile" is used
+# to identify a properties file that defines the following properties
+# they must be defined literally. A property value cannot reference
+# another theme property like "${theme.name}" since ant does not
+# resolve the reference in time.
+#
+# Note the "theme.clone-filter" property. This controls whether or
+# substitution tokens are resolved during cloning. If "true" the tokens
+# will be substituted and if "false" they will not. Setting this to "false"
+# or not setting it all can be useful since the resulting clone can be
+# "diff'd" against newer versions of the suntheme and aid in maintaining
+# the custom theme. The tokens are always substituted during a build.
+#
+# Remember that custom themes at at specific version
+# cannot be guaranteed to work with component sets of a later version.
+# An older custom theme must be ported to the new suntheme in order to
+# define any new keys or value changes that may be in the new 
+# suntheme version.
+#
+# The exception is the "theme.service-class-template". Tokens in this
+# templates are always substituted. This is convenient for debugging
+# the resulting java source file. This file is not likely to change
+# its token structure as frequently as theme content changes.
+#
+# --------------------------------------------------------------------
+#
+# To create an alternate theme these properties must be defined
+# in a properties file in the parent directory, the build directory
+# itself or the propertes must be loaded using ANT command line parameters
+#
+#	theme.src-dir - The root of the source files to copy
+#	theme.clone-src-dir - The root of the source files to clone
+#	theme.build-dir - The destination build directory
+#	theme.jar - The destination directory and jar name
+#	theme.name - The theme name
+#	theme.version - The theme version for ThemeService impl,
+#			must be "<major>.<minor>" where "major" and
+#			"<minor>" are integers.
+#	theme.package- Them theme package. The package path will be
+#			     derived from this value as needed.
+#	theme.css-name - A "unique" suffix added to selectors to 
+#			 differentiate this theme's selectors from others.
+#	theme.service-class - The ThemeService class name.
+#	theme.service-class-template - The ThemeService implementation 
+#				       java class template file 
+#	theme.service-properties-template - The ThemeService properties 
+#					    file template.
+#	theme.clone-dir - The destination clone directory, ${theme.name}
+#			  will be appended to the directory.
+#	theme.clone-filter -  if "false" or not set, then files are just copied,
+#			      if "true" then files are filtered on copy.
+#	theme.clone-overwrite - If "true" any existing clone at
+#	    			${theme.clone-dir}/${theme.name} will be
+#				overwritten be the "cloneTheme" target;
+#				if false or unset the target will fail.
+#
+# To specify a specific theme to build either, define the "theme.name"
+# property on the ANT command line or define it in the "../build.properties"
+# file or the "build.properties" file.
+#
+#  ---------------------------------------------------------------------
+#
+# Create a clone of the base suntheme by using the "cloneTheme"
+# target. It will load the "${theme.name}.properties" file
+# and generate a set of source files in "${theme.clone-dir}" and reference
+# the other "theme.clone" properties to control how the clone is built.
+# See build.xml for more details.
+#
+# Once the clone is built, modify it as necessary. To build the clone
+# set the "${theme.src-dir}" to the "${theme.clone-dir}" property
+# and run the "buildTheme" target. It will load the necessary properties
+# from "${theme.name}.properties" file as described.
+#
+# Note that the cloned theme and its build do not have to reside 
+# within the "themes" directory. This allows for developing and
+# updating the theme as necessary by checking out the latest theme
+# and performing diffs from the suntheme to the clone. Loading the
+# the properties from the ant command line allows the
+# "${theme.name}.properties" to reside anywhere.
+#
+# -------------------------------------------------------------------------
+#
+theme.name=mojave
+theme.src-dir=src/${theme.name}
+theme.clone-src-dir=src/suntheme
+theme.build-dir=build/${theme.name}
+theme.l10n-dir=l10n
+theme.jar=dist/webui-jsf-${theme.name}.jar
+# Must be the same as the cloned theme
+theme.version=4.1
+theme.package=org.deserts.${theme.name}
+theme.css-name=_mjv4
+theme.service-class=MojaveThemeService
+theme.service-class-template=${theme.src-dir}/org/deserts/${theme.service-class}.java
+theme.service-properties-template=${theme.src-dir}/org/deserts/${theme.name}.properties
+theme.clone-dir=src/${theme.name}
+theme.clone-filter=false
+# Once the clone theme is built it won't be overwritten.
+theme.clone-overwrite=false
