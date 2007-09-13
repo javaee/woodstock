@@ -43,10 +43,11 @@
               //
               function disableButton(buttonID, hiddenFieldID, disable) {
                   (document.getElementById(theForm + ":" + buttonID)).setProps({disabled: disable});
+                  var hidden = document.getElementById(theForm + ":" + hiddenFieldID);
                   if (disable)
-                      webui.suntheme.field.setValue(theForm + ":" + hiddenFieldID, 'true');
+                      hidden.setProps({value: 'true'});
                   else
-                      webui.suntheme.field.setValue(theForm + ":" + hiddenFieldID, 'false');
+                      hidden.setProps({value: 'false'});
               }
                       
               // Utility for setting enable/disable state for all buttons.
@@ -57,10 +58,15 @@
                   disableButton('PrimaryMiniButton','primaryMiniButtonDisabled', disable);
                   disableButton('SecondaryButton','secondaryButtonDisabled', disable);
                   disableButton('SecondaryMiniButton','secondaryMiniButtonDisabled', disable);
-                  webui.suntheme.checkbox.setChecked('form1:PrimaryCheckbox', !disable);
-                  webui.suntheme.checkbox.setChecked('form1:PrimaryMiniCheckbox', !disable);
-                  webui.suntheme.checkbox.setChecked('form1:SecondaryCheckbox', !disable);
-                  webui.suntheme.checkbox.setChecked('form1:SecondaryMiniCheckbox', !disable);
+                  var checkbox;
+                  checkbox = document.getElementById(theForm + ":PrimaryCheckbox");
+                  checkbox.setProps({checked: !disable});
+                  checkbox = document.getElementById(theForm + ":PrimaryMiniCheckbox");
+                  checkbox.setProps({checked: !disable});
+                  checkbox = document.getElementById(theForm + ":SecondaryCheckbox");
+                  checkbox.setProps({checked: !disable});
+                  checkbox = document.getElementById(theForm + ":SecondaryMiniCheckbox");
+                  checkbox.setProps({checked: !disable});
               }
             </script>
           ]]></f:verbatim>
@@ -138,7 +144,8 @@
                         <webuijsf:checkbox id="PrimaryCheckbox" label="#{msgs.button_enable}"
                           selected="#{ButtonBean.primaryCBSelected}"
                           onClick="javascript: 
-                            disableButton('PrimaryButton', 'primaryButtonDisabled', !this.checked); 
+                            var domNode = document.getElementById('form1:PrimaryCheckbox');
+                            disableButton('PrimaryButton', 'primaryButtonDisabled', !domNode.getProps().checked); 
                             return true;"/>
                       </td>
                     </tr>
@@ -160,7 +167,8 @@
                         <webuijsf:checkbox id="PrimaryMiniCheckbox" label="#{msgs.button_enable}"
                           selected="#{ButtonBean.primaryMiniCBSelected}"
                           onClick="javascript: 
-                            disableButton('PrimaryMiniButton', 'primaryMiniButtonDisabled', !this.checked); 
+                            var domNode = document.getElementById('form1:PrimaryMiniCheckbox');
+                            disableButton('PrimaryMiniButton', 'primaryMiniButtonDisabled', !domNode.getProps().checked); 
                             return true;"/>
                       </td>
                     </tr>
@@ -182,7 +190,8 @@
                         <webuijsf:checkbox id="SecondaryCheckbox" label="#{msgs.button_enable}"
                           selected="#{ButtonBean.secondaryCBSelected}"
                           onClick="javascript: 
-                            disableButton('SecondaryButton', 'secondaryButtonDisabled', !this.checked); 
+                            var domNode = document.getElementById('form1:SecondaryCheckbox');
+                            disableButton('SecondaryButton', 'secondaryButtonDisabled', !domNode.getProps().checked); 
                             return true;"/>
                       </td>
                     </tr>
@@ -204,7 +213,8 @@
                         <webuijsf:checkbox id="SecondaryMiniCheckbox" label="#{msgs.button_enable}"
                           selected="#{ButtonBean.secondaryMiniCBSelected}"
                           onClick="javascript: 
-                            disableButton('SecondaryMiniButton', 'secondaryMiniButtonDisabled', !this.checked); 
+                            var domNode = document.getElementById('form1:SecondaryMiniCheckbox');
+                            disableButton('SecondaryMiniButton', 'secondaryMiniButtonDisabled', !domNode.getProps().checked); 
                             return true;"/>
                       </td>
                     </tr>
