@@ -160,26 +160,37 @@ webui.@THEME@.widget.button.fillInTemplate = function(props, frag) {
  * user's className property is always appended last).
  */
 webui.@THEME@.widget.button.getClassName = function() {
-    var className = null;
 
-    // Set default style.
+    var key = null;
+
+    // If it is an image button only the BUTTON3 selectors are used.
+    // There should a symmetric set of img button properties.
+    // since the "mini" and "primary" values can still be set but
+    // have no effect on image buttons by policy, vs by theme.
+    //
+    if (this.src != null) {
+	key = (this.disabled == true)
+	    ? "BUTTON3_DISABLED"
+	    : "BUTTON3";
+    } else 
     if (this.mini == true && this.primary == true) {
-        className = (this.disabled == true)
-            ? this.primaryMiniDisabledClassName
-            : this.primaryMiniClassName;
+        key = (this.disabled == true)
+            ? "BUTTON1_MINI_DISABLED" //primaryMiniDisabledClassName
+            : "BUTTON1_MINI";         //primaryMiniClassName;
     } else if (this.mini == true) {
-        className = (this.disabled == true)
-            ? this.secondaryMiniDisabledClassName
-            : this.secondaryMiniClassName;
+        key = (this.disabled == true)
+            ? "BUTTON2_MINI_DISABLED" //secondaryMiniDisabledClassName
+            : "BUTTON2_MINI";         //secondaryMiniClassName;
     } else if (this.primary == true) {
-        className = (this.disabled == true)
-            ? this.primaryDisabledClassName
-            : this.primaryClassName;
+        key = (this.disabled == true)
+            ? "BUTTON1_DISABLED"      //primaryDisabledClassName
+            : "BUTTON1";              //primaryClassName
     } else {
-        className = (this.disabled == true)
-            ? this.secondaryDisabledClassName
-            : this.secondaryClassName;
+        key = (this.disabled == true)
+            ? "BUTTON2_DISABLED"      //secondaryDisabledClassName
+            : "BUTTON2";	      //secondaryClassName
     }
+    var className = this.widget.getClassName(key, "");
     return (this.className)
         ? className + " " + this.className
         : className;
@@ -192,18 +203,24 @@ webui.@THEME@.widget.button.getClassName = function() {
  * user's className property is always appended last).
  */
 webui.@THEME@.widget.button.getHoverClassName = function() {
-    var className = null;
 
-    // Set default style.
+    var key = null;
+
+    // If this is an image button
+    //
+    if (this.src != null) {
+	key = "BUTTON3_HOVER";
+    } else
     if (this.mini == true && this.primary == true) {
-        className = this.primaryMiniHovClassName;
+        key = "BUTTON1_MINI_HOVER"; 	//primaryMiniHovClassName;
     } else if (this.mini == true) {
-        className = this.secondaryMiniHovClassName;
+        key = "BUTTON2_MINI_HOVER"; 	//secondaryMiniHovClassName;
     } else if (this.primary == true) {
-        className = this.primaryHovClassName;
+        key = "BUTTON1_HOVER"; 		//primaryHovClassName;
     } else {
-        className = this.secondaryHovClassName;
+        key = "BUTTON2_HOVER";		//secondaryHovClassName;
     }
+    var className = this.widget.getClassName(key, "");
     return (this.className)
         ? className + " " + this.className
         : className;
@@ -227,51 +244,6 @@ webui.@THEME@.widget.button.getProps = function() {
     if (this.value) { props.value = this.value; }
 
     return props;
-}
-
-/**
- * This function is used to initialize the widget.
- *
- * Note: This is called after the fillInTemplate() function.
- *
- * @param props Key-Value pairs of properties.
- * @param frag HTML fragment.
- * @param parent The parent of this widget.
- */
-webui.@THEME@.widget.button.initialize = function (props, frag, parent) {
-    webui.@THEME@.widget.button.superclass.initialize.call(this, props, frag, parent);
-
-    // Initialize class names.
-    if (this.src != null) {
-        this.primaryClassName = webui.@THEME@.widget.props.button.imageClassName;
-        this.primaryDisabledClassName = webui.@THEME@.widget.props.button.imageDisabledClassName;
-        this.primaryHovClassName = webui.@THEME@.widget.props.button.imageHovClassName;
-
-        // Currently not used in theme.
-        this.primaryMiniClassName = this.primaryClassName;
-        this.primaryMiniDisabledClassName = this.primaryDisabledClassName;
-        this.primaryMiniHovClassName = this.primaryHovClassName;
-        this.secondaryClassName = this.primaryClassName;
-        this.secondaryDisabledClassName = this.primaryDisabledClassName;
-        this.secondaryHovClassName = this.primaryHovClassName;
-        this.secondaryMiniClassName = this.primaryClassName;
-        this.secondaryMiniDisabledClassName = this.primaryDisabledClassName;
-        this.secondaryMiniHovClassName = this.primaryHovClassName;
-    } else {
-        this.primaryClassName = webui.@THEME@.widget.props.button.primaryClassName;
-        this.primaryDisabledClassName = webui.@THEME@.widget.props.button.primaryDisabledClassName;
-        this.primaryHovClassName = webui.@THEME@.widget.props.button.primaryHovClassName;
-        this.primaryMiniClassName = webui.@THEME@.widget.props.button.primaryMiniClassName;
-        this.primaryMiniDisabledClassName = webui.@THEME@.widget.props.button.primaryMiniDisabledClassName;
-        this.primaryMiniHovClassName = webui.@THEME@.widget.props.button.primaryMiniHovClassName;
-        this.secondaryClassName = webui.@THEME@.widget.props.button.secondaryClassName;
-        this.secondaryDisabledClassName = webui.@THEME@.widget.props.button.secondaryDisabledClassName;
-        this.secondaryHovClassName = webui.@THEME@.widget.props.button.secondaryHovClassName;
-        this.secondaryMiniClassName = webui.@THEME@.widget.props.button.secondaryMiniClassName;
-        this.secondaryMiniDisabledClassName = webui.@THEME@.widget.props.button.secondaryMiniDisabledClassName;
-        this.secondaryMiniHovClassName = webui.@THEME@.widget.props.button.secondaryMiniHovClassName;
-    }
-    return true;
 }
 
 /**
@@ -360,7 +332,6 @@ dojo.lang.extend(webui.@THEME@.widget.button, {
     getClassName: webui.@THEME@.widget.button.getClassName,
     getHoverClassName: webui.@THEME@.widget.button.getHoverClassName,
     getProps: webui.@THEME@.widget.button.getProps,
-    initialize: webui.@THEME@.widget.button.initialize,
     _setProps: webui.@THEME@.widget.button._setProps,
 
     // Set defaults.

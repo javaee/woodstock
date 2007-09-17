@@ -47,25 +47,6 @@ webui.@THEME@.widget.props = {
         disabledClassName:"AncDis@THEME_CSS@"
     },
 
-    // Button properties.
-    button: {
-        imageClassName: "Btn3@THEME_CSS@",
-        imageDisabledClassName: "Btn3Dis@THEME_CSS@",
-        imageHovClassName: "Btn3Hov@THEME_CSS@",
-        primaryClassName: "Btn1@THEME_CSS@",
-        primaryDisabledClassName: "Btn1Dis@THEME_CSS@",
-        primaryHovClassName: "Btn1Hov@THEME_CSS@",
-        primaryMiniClassName: "Btn1Mni@THEME_CSS@",
-        primaryMiniHovClassName: "Btn1MniHov@THEME_CSS@",
-        primaryMiniDisabledClassName: "Btn1MniDis@THEME_CSS@",
-        secondaryClassName: "Btn2@THEME_CSS@",
-        secondaryDisabledClassName: "Btn2Dis@THEME_CSS@",
-        secondaryHovClassName: "Btn2Hov@THEME_CSS@",
-        secondaryMiniClassName: "Btn2Mni@THEME_CSS@",
-        secondaryMiniDisabledClassName: "Btn2MniDis@THEME_CSS@",
-        secondaryMiniHovClassName: "Btn2MniHov@THEME_CSS@"
-    },
-    
     // Calendar properties.
     calendar: {
         className: "CalRootTbl@THEME_CSS@",          
@@ -75,10 +56,6 @@ webui.@THEME@.widget.props = {
         todayClass: "DatCurLnk@THEME_CSS@"
     },
     
-    
-        
-
-
     // Drop Down properties.
     dropDown: {
         className: "MnuStd@THEME_CSS@",
@@ -108,14 +85,6 @@ webui.@THEME@.widget.props = {
         optionGroupClassName: "MnuJmpOptGrp@THEME_CSS@",
         optionSelectedClassName: "MnuJmpOptSel@THEME_CSS@",
         optionSeparatorClassName: "MnuJmpOptSep@THEME_CSS@"
-    },
-
-    // Label properties.
-    label: {
-        errorStyleClass: "ConErrLblTxt@THEME_CSS@",
-        levelOneStyleClass: "LblLev1Txt@THEME_CSS@",
-        levelTwoStyleClass: "LblLev2Txt@THEME_CSS@",
-        levelThreeStyleClass: "LblLev3Txt@THEME_CSS@"
     },
 
     // Listbox properties.
