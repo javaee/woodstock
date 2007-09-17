@@ -188,11 +188,23 @@
 
     <target name="_buildTheme_">
 
-	<!-- convert the package into a file path -->
+	<!-- Windows unpackagemapper does not behave the same when there is a
+	     dot in the basedir path like woodstock-build-4.1
+	     therefore we have to create a "unpackage" version of the
+	     basedir and then "map" it out -->
+
+	<!-- make basedir a package -->
+	<pathconvert  property="__bld-basedir-pkg__">
+	    <path path="${basedir}"/>
+	    <unpackagemapper from="*" to="*"/>
+        </pathconvert>
+
+	<!-- convert the package into a file path
+	     and map out the basedir package -->
 	<pathconvert property="__bld-pkgpath__">
 	    <path path="${_bld-theme-package_}"/>
-	    <mapper type="unpackage" from="*" to="*"/>
-	    <map from="${basedir}/" to=""/>
+	    <unpackagemapper from="*" to="*"/>
+	    <map from="${__bld-basedir-pkg__}/" to=""/>
 	</pathconvert>
 
 	<!-- shorten a freqently used properties sequence -->
@@ -499,17 +511,29 @@
             <filterset refid="${__css-name-filter__}"/>
         </copy>
 
-	<!-- convert the package into a file path -->
+	<!-- Windows unpackagemapper does not behave the same when there is a
+	     dot in the basedir path like woodstock-build-4.1
+	     therefore we have to create an "unpackage" version of the
+	     basedir and then "map" it out -->
 
-	<pathconvert property="__cp-pkgpath__">
+	<!-- this version of the package path is not for the file system
+	     but for the THEME_PATH filter token which is always "/" -->
+	<!-- make basedir a package -->
+	<pathconvert  property="__cp-theme-basedir-pkg__" dirsep="/">
+	    <path path="${basedir}"/>
+	    <unpackagemapper from="*" to="*"/>
+        </pathconvert>
+
+	<!-- convert the package into a theme package path -->
+	<pathconvert property="__cp-theme-pkgpath__" dirsep="/">
 	    <path path="${_cp-theme-package_}"/>
-	    <mapper type="unpackage" from="*" to="*"/>
-	    <map from="${basedir}/" to=""/>
+	    <unpackagemapper from="*" to="*"/>
+	    <map from="${__cp-theme-basedir-pkg__}/" to=""/>
 	</pathconvert>
 
 	<filterset id="_theme-filter_">
 	    <filter token="THEME" value="${_cp-theme-name_}"/>
-	    <filter token="THEME_PATH" value="/${__cp-pkgpath__}"/>
+	    <filter token="THEME_PATH" value="/${__cp-theme-pkgpath__}"/>
 	</filterset>
 
 	<condition property="__theme-filter__"
@@ -567,10 +591,29 @@
 	    <istrue value="${_cp-filter_}"/>
 	</condition>
 
+	<!-- Windows unpackagemapper does not behave the same when there is a
+	     dot in the basedir path like woodstock-build-4.1
+	     therefore we have to create an "unpackage" version of the
+	     basedir and then "map" it out -->
+
+	<!-- this version of the package path is for the file system -->
+	<!-- make basedir a package -->
+	<pathconvert  property="__cp-basedir-pkg__">
+	    <path path="${basedir}"/>
+	    <unpackagemapper from="*" to="*"/>
+        </pathconvert>
+
+	<!-- convert the package into a theme package path -->
+	<pathconvert property="__cp-pkgpath__">
+	    <path path="${_cp-theme-package_}"/>
+	    <unpackagemapper from="*" to="*"/>
+	    <map from="${__cp-basedir-pkg__}/" to=""/>
+	</pathconvert>
+
 	<!-- filter out the package path if it exists in _cp-to-dir_ -->
 	<condition property="__to-dir__"
 	    value="${_cp-to-dir_}" else="${_cp-to-dir_}/${__cp-pkgpath__}">
-	    <matches string="${_cp-to-dir_}" pattern="^.*/${__cp-pkgpath__}$$"/>
+	    <contains string="${_cp-to-dir_}" substring="${__cp-pkgpath__}"/>
 	</condition>
 
         <!-- create the SPI theme properties files from template-->
