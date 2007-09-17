@@ -754,6 +754,23 @@ public class ThemeStyles {
     public static final String BUBBLE_TITLE = "BUBBLE_TITLE";
 
     /**
+     * Menu Styles
+     */
+    public static final String MENU_OUTER_DIV = "MENU_OUTER_DIV";
+    public static final String MENU = "MENU";
+    public static final String MENU_ITEM_LABEL = "MENU_ITEM_LABEL";
+    public static final String MENU_ITEM_NO_IMAGE = "MENU_ITEM_NO_IMAGE";
+    public static final String MENU_SUBMENU = "MENU_SUBMENU";
+    public static final String MENU_SEPARATOR = "MENU_SEPARATOR";
+    public static final String MENU_ITEM_HOVER = "MENU_ITEM_HOVER";
+    public static final String MENU_CONTAINER = "MENU_CONTAINER";
+    public static final String MENU_GROUP_CONTAINER = "MENU_GROUP_CONTAINER";
+    public static final String MENU_ITEM_IMAGE = "MENU_ITEM_IMAGE";
+    public static final String MENU_ITEM_DISABLED = "MENU_ITEM_DISABLED";
+    public static final String MENU_GROUP_HEADER = "MENU_GROUP_HEADER";
+    public static final String MENU_SHADOW_CONTAINER = "MENU_SHADOW_CONTAINER";
+    
+    /**
      * This private constructor prevents this class from being instantiated
      * directly as its only purpose is to provide image constants.
      */

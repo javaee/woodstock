@@ -190,6 +190,12 @@
     </renderer>
     
     <renderer>
+      <component-family>com.sun.webui.jsf.Menu</component-family>
+      <renderer-type>com.sun.webui.jsf.widget.MenuDesignTime</renderer-type>
+      <renderer-class>com.sun.webui.jsf.renderkit.html.MenuDesignTimeRenderer</renderer-class>
+    </renderer>    
+    
+    <renderer>
       <component-family>com.sun.webui.jsf.PageAlert</component-family>
       <renderer-type>com.sun.webui.jsf.PageAlertDesignTime</renderer-type>
       <renderer-class>com.sun.webui.jsf.renderkit.html.PageAlertDesignTimeRenderer</renderer-class>
