@@ -136,8 +136,8 @@ webui.@THEME@.widget.hyperlink.fillInTemplate = function(props, frag) {
 webui.@THEME@.widget.hyperlink.getClassName = function() {
     // Set default style.
     var className = (this.disabled == true)
-        ? webui.@THEME@.widget.props.hyperlink.disabledClassName
-        : webui.@THEME@.widget.props.hyperlink.className;
+        ? this.theme.getClassName("HYPERLINK_DISABLED")
+        : this.theme.getClassName("HYPERLINK");
 
     return (this.className)
         ? className + " " + this.className

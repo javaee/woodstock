@@ -154,12 +154,12 @@ webui.@THEME@.widget.calendar.addDaysInMonth = function(currentValue, initialize
     // Calculate the first of the main month to display in "first" row.
     var first = new Date(year, month, 1);                         
     var firstDay = first.getDay();    
+    var className = this.theme.getClassName("DATE_TIME_OTHER_LINK");
     if (firstDay == this.firstDayOfWeek - 1) {
         // First cell on first row is the first of the current month
         day = first;
     } else {
         // First cell on first row is in previous month.
-        var className = webui.@THEME@.widget.props.calendar.edgeDateClass;
         var backDays = (firstDay - (this.firstDayOfWeek - 1) + 7) % 7;        
         
         // Calculate the date of first cell on first row in previous month.
@@ -179,11 +179,11 @@ webui.@THEME@.widget.calendar.addDaysInMonth = function(currentValue, initialize
     while (column < 7) {
         // Set appropriate class name.
         if (day.getDate() == selected) {
-            className = webui.@THEME@.widget.props.calendar.selectedClass;
+            className = this.theme.getClassName("DATE_TIME_BOLD_LINK");
         } else if (day.getDate() == today) {
-            className = webui.@THEME@.widget.props.calendar.todayClass;
+            className = this.theme.getClassName("DATE_TIME_TODAY_LINK");
         } else {
-           className = webui.@THEME@.widget.props.calendar.dateClass;
+           className = this.theme.getClassName("DATE_TIME_LINK");
         }
             
         linkId = id + linkNum;
@@ -205,11 +205,11 @@ webui.@THEME@.widget.calendar.addDaysInMonth = function(currentValue, initialize
         while (column < 7 && day.getDate() != 1) {            
             // Set appropriate class name.
             if (day.getDate() == selected) {
-                className = webui.@THEME@.widget.props.calendar.selectedClass;
+                className = this.theme.getClassName("DATE_TIME_BOLD_LINK");
             } else if (day.getDate() == today) {
-                className = webui.@THEME@.widget.props.calendar.todayClass;
+                className = this.theme.getClassName("DATE_TIME_TODAY_LINK");
             } else {
-                className = webui.@THEME@.widget.props.calendar.dateClass;
+                className = this.theme.getClassName("DATE_TIME_LINK");
             }
                  
             linkId = id + linkNum;
@@ -222,7 +222,7 @@ webui.@THEME@.widget.calendar.addDaysInMonth = function(currentValue, initialize
     
     // Add any cells in the last row of the following month
     while (column < 7) {
-        var className = webui.@THEME@.widget.props.calendar.edgeDateClass;
+        var className = this.theme.getClassName("DATE_TIME_OTHER_LINK");
         linkId = id + linkNum;
         this.addDayLink(rowNodeClone, day, linkId, className);            
         day = new Date(day.getTime() + oneDayInMs);
@@ -365,8 +365,13 @@ webui.@THEME@.widget.calendar.event = {
          * must be run.
          */
         processEvent: function(execute) {
-            var topic = webui.@THEME@.widget.calendar.event.toggle.openTopic;
-            if (this.calendarContainer.style.display != "block") {        
+            var topic = webui.@THEME@.widget.calendar.event.toggle.openTopic;        
+            if (this.calendarContainer.style.display != "block") {
+                if (webui.@THEME@.widget.calendar.activeCalendarId != null) {
+                    var cal = dojo.widget.byId(webui.@THEME@.widget.calendar.activeCalendarId);
+                    cal.toggleCalendar();
+                }
+                webui.@THEME@.widget.calendar.activeCalendarId = this.id;        
                 this.calendarContainer.style.display = "block";
                 this.setInitialFocus();
                 this.updateMonth(true);    
@@ -374,6 +379,7 @@ webui.@THEME@.widget.calendar.event = {
                 // Hide the calendar popup
                 this.calendarContainer.style.display = "none";
                 topic = webui.@THEME@.widget.calendar.event.toggle.closeTopic;
+                webui.@THEME@.widget.calendar.activeCalendarId = null;
             }
             // Test for IE 
             if (webui.@THEME@.common.browser.is_ie5up) {

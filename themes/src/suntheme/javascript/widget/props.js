@@ -40,21 +40,6 @@ webui.@THEME@.widget.props = {
         accordionDownTurner: "AccdDownTurner@THEME_CSS@", 
         accordionRightTurner: "AccdRightTurner@THEME_CSS@"
     },
-
-    // Anchor properties.
-    anchor: {
-        className:"Anc@THEME_CSS@",
-        disabledClassName:"AncDis@THEME_CSS@"
-    },
-
-    // Calendar properties.
-    calendar: {
-        className: "CalRootTbl@THEME_CSS@",          
-        edgeDateClass: "DatOthLnk@THEME_CSS@",            
-        dateClass: "DatLnk@THEME_CSS@",
-        selectedClass: "DatBldLnk@THEME_CSS@",       
-        todayClass: "DatCurLnk@THEME_CSS@"
-    },
     
     // Drop Down properties.
     dropDown: {
@@ -70,12 +55,6 @@ webui.@THEME@.widget.props = {
     },
     
     
-    // Hyperlink properties.
-    hyperlink: {
-        className:"Hyp@THEME_CSS@",
-        disabledClassName:"HypDis@THEME_CSS@"
-    },
-
     // Jump drop down properties.
     jumpDropDown: {
         className: "MnuJmp@THEME_CSS@",
