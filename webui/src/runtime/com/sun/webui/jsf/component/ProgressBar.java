@@ -720,7 +720,14 @@ public class ProgressBar extends javax.faces.component.UIOutput
         // it to running state. Also if progress > 99 set taskState to
         // completed
         ValueBinding _vb = getValueBinding("taskState");
-        if (this.taskState == null && _vb == null) {
+        
+        if (_vb != null) {
+            String value = (String) _vb.getValue(getFacesContext());
+            if (value != null) {
+                return value;
+            }
+        }
+        if (this.taskState == null) {
             this.taskState = ProgressBar.TASK_NOT_STARTED;
         } else if (this.taskState.equals(ProgressBar.TASK_NOT_STARTED)
                     && this.progress > 0) {
@@ -733,10 +740,7 @@ public class ProgressBar extends javax.faces.component.UIOutput
         if (this.taskState != null) {
             return this.taskState;
         }
-        
-        if (_vb != null) {
-            return (String) _vb.getValue(getFacesContext());
-        }
+               
         return null;
     }
     
