@@ -2505,14 +2505,14 @@ ul.MenuItems@THEME_CSS@ ul li .MenuItemDisabled@THEME_CSS@ .MenuItemLabel@THEME_
 /*---*/
 
 /* TABLE2 */
-.center@THEME_CSS@ {
+.table2@THEME_CSS@ .center@THEME_CSS@ {
 	text-align:center !important;
 }
-.clear@THEME_CSS@ {
+.table2@THEME_CSS@ .clear@THEME_CSS@ {
 	clear:both;
 	height:0;
 }
-.clear@THEME_CSS@.spacer@THEME_CSS@ {
+.table2@THEME_CSS@ .clear@THEME_CSS@.spacer@THEME_CSS@ {
 	clear:both;
 	height:6px;
 }
