@@ -116,7 +116,9 @@ public class PropertySheet extends UIComponentBase implements NamingContainer {
 	Iterator it = getChildren().iterator();
 	while (it.hasNext()) {
 	    child = (UIComponent)it.next();
-	    if ((child instanceof PropertySheetSection) && child.isRendered()) {
+	    if ((child instanceof PropertySheetSection) && 
+		child.isRendered() && 
+		((PropertySheetSection)child).isVisible()) {
 		if (((PropertySheetSection)child).getVisibleSectionChildren().size() > 0) {
 		    visibleSections.add(child);
 		}
