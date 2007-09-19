@@ -139,8 +139,8 @@ webui.@THEME@.widget.anchor.fillInTemplate = function(props, frag) {
 webui.@THEME@.widget.anchor.getClassName = function() {
     // Set default style.
     var className = (this.href && this.disabled == false)
-        ? this.theme.getClassName("ANCHOR")
-        : this.theme.getClassName("ANCHOR_DISABLED");
+        ? this.widget.getClassName("ANCHOR","")
+        : this.widget.getClassName("ANCHOR_DISABLED","");
 
     return (this.className)
         ? className + " " + this.className

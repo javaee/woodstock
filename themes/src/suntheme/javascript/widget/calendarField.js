@@ -127,7 +127,7 @@ webui.@THEME@.widget.calendarField.fillInTemplate = function(props, frag) {
  */
 webui.@THEME@.widget.calendarField.getClassName = function() {
     // Set default style.
-    var className = webui.@THEME@.widget.props.calendar.className;
+    var className = this.widget.getClassName("CALENDAR_ROOT_TABLE","");
 
     return (this.className)
         ? className + " " + this.className
