@@ -22,7 +22,7 @@
 package com.sun.webui.jsf.renderkit.html;
 
 import com.sun.webui.jsf.component.Field;
-import java.io.IOException;
+import com.sun.webui.jsf.component.util.DesignMessageUtil;
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 
@@ -39,7 +39,7 @@ public class UploadDesignTimeRenderer extends FieldDesignTimeRenderer {
    }
 
     protected String getShadowText(FacesContext context, Field field) {
-        return field.getValueAsString(context);
+        return DesignMessageUtil.getMessage(UploadDesignTimeRenderer.class, "upload.readOnly.value");
     }
     
 }
