@@ -193,8 +193,8 @@ webui.@THEME@.widget.progressBar.getProps = function() {
     var props = webui.@THEME@.widget.progressBar.superclass.getProps.call(this);
 
     // Set properties.
-    if (this.barHeight) { props.barHeight = this.barHeight; }
-    if (this.barWidth) { props.barWidth = this.barWidth; }
+    if (this.height) { props.height = this.height; }
+    if (this.width) { props.width = this.width; }
     if (this.bottomText) { props.bottomText = this.bottomText; }
     if (this.busyImage != null) { props.busyImage = this.busyImage; }
     if (this.failedStateText != null) { props.failedStateText = this.failedStateText; }
@@ -442,7 +442,7 @@ webui.@THEME@.widget.progressBar.setProgress = function(props) {
     if (props == null) {
         return false;
     }
-
+      
     // Adjust max value.
     if (props.progress > 99 
             || props.taskState == webui.@THEME@.widget.props.progressBar.completed) {
@@ -466,7 +466,9 @@ webui.@THEME@.widget.progressBar.setProgress = function(props) {
 
     // Update log messages.
     if (this.type == webui.@THEME@.widget.props.progressBar.determinate) { 
-        this.innerBarContainer.style.width = props.progress + '%';
+        if (props.progress != null && props.progress >= 0 ) {
+            this.innerBarContainer.style.width = props.progress + '%';
+        }
 
         if (props.logMessage) {
             var field = webui.@THEME@.field.getInputElement(this.logId)
@@ -604,8 +606,8 @@ webui.@THEME@.widget.progressBar.setProgressBarVisible = function(show) {
  * Object literals.
  *
  * <ul>
- *  <li>barHeight</li>
- *  <li>barWidth</li>
+ *  <li>height</li>
+ *  <li>width</li>
  *  <li>bottomText</li>
  *  <li>busyImage</li>
  *  <li>failedStateText</li>
@@ -662,14 +664,14 @@ webui.@THEME@.widget.progressBar._setProps = function(props) {
             webui.@THEME@.widget.props.progressBar.barContainerClassName;
 
         // Set height.
-        if (props.barHeight != null && props.barHeight > 0) {
-            this.barContainer.style.height = props.barHeight + "px;"; 
-            this.innerBarContainer.style.height = props.barHeight + "px;";
+        if (props.height != null && props.height > 0) {
+            this.barContainer.style.height = props.height + "px;"; 
+            this.innerBarContainer.style.height = props.height + "px;";
         }
 
         // Set width.
-        if (props.barWidth != null && props.barWidth > 0) {
-            this.barContainer.style.width = props.barWidth + "px;";
+        if (props.width != null && props.width > 0) {
+            this.barContainer.style.width = props.width + "px;";
         }
 
         // Add right controls.
@@ -691,7 +693,9 @@ webui.@THEME@.widget.progressBar._setProps = function(props) {
             webui.@THEME@.widget.props.progressBar.determinateClassName;
 
         // Set width.
-        this.innerBarContainer.style.width = this.progress + '%';
+        if (this.progress != null && this.progress >= 0) {
+            this.innerBarContainer.style.width = this.progress + '%';
+        }    
 
         // Add overlay.
         if (props.overlayAnimation == true) {

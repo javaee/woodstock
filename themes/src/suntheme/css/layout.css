@@ -2234,7 +2234,7 @@ table.TblLt@THEME_CSS@ td.TblPnlTd@THEME_CSS@ {
 	width:16.9em;
 }
 .progressBar_4@THEME_CSS@ .barDeterminate@THEME_CSS@, .progressBar_4@THEME_CSS@ .barIndeterminate@THEME_CSS@, .progressBar_4@THEME_CSS@ .barIndeterminatePaused@THEME_CSS@ {
-	width:48%;
+	width:0%;
 	height:.8em;
 }
 .progressBar_4@THEME_CSS@ .failure@THEME_CSS@{
