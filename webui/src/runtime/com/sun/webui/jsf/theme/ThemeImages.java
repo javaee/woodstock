@@ -1152,14 +1152,15 @@ public class ThemeImages {
     /**
      * ProgressBar Images.
      */
-    public static final String PROGRESS_BUSY = "PROGRESS_BUSY";
+    public static final String PROGRESS_BUSY = "PROGRESS_BUSY";    
     public static final String PROGRESS_BUSY_WIDTH =
          "PROGRESS_BUSY_WIDTH";
     public static final String PROGRESS_BUSY_HEIGHT =
          "PROGRESS_BUSY_HEIGHT";
     public static final String PROGRESS_BUSY_ALT =
          "PROGRESS_BUSY_ALT";
-    
+    public static final String PROGRESS_BUSY_STILL = "PROGRESS_BUSY_STILL";
+        
     /**
      * Accordion Images.
      */

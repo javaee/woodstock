@@ -72,7 +72,7 @@ public class ProgressBarDesignTimeRenderer extends AbstractDesignTimeRenderer {
         //progressbar determinate div class
         String prgBarDeterminateClassName = theme.getStyleClass(ThemeStyles.PROGRESSBAR_DETERMINATE);
         //progressbar indeterminate div class
-        String prgBarIndeterminateClassName = theme.getStyleClass(ThemeStyles.PROGRESSBAR_INDETERMINATE);
+        String prgBarIndeterminateClassName = theme.getStyleClass(ThemeStyles.PROGRESSBAR_INDETERMINATE_PAUSED);
         //progressbar operation text div class
         String prgBarOperationClassName = theme.getStyleClass(ThemeStyles.PROGRESSBAR_OPERATION);
         //progressbar busy indicator div class
@@ -91,7 +91,7 @@ public class ProgressBarDesignTimeRenderer extends AbstractDesignTimeRenderer {
         String prgBarClearClassName = theme.getStyleClass(ThemeStyles.CLEAR);
         // busy indicator default image
         String prgBarBusyImage =
-	    theme.getImagePath(ThemeImages.PROGRESS_BUSY);
+	    theme.getImagePath(ThemeImages.PROGRESS_BUSY_STILL);
         String hiddenStyleClass = ThemeUtilities.getTheme(context)
             .getStyleClass(ThemeStyles.HIDDEN);
         hiddenStyleClass = " " + hiddenStyleClass;
