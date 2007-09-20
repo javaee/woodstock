@@ -39,19 +39,19 @@ public class JSONUtilities {
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     // Property methods
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
+    
     /**
      * This method may be used to add attribute name/value pairs to the given
      * JSONObject.
      *
-     * @param names Array of attribute names to be passed through.
+     * @param names Array of integer attribute names to be passed through.
      * @param component UIComponent to be rendered.
      * @param json JSONObject to add name/value pairs to.
      *
      * @exception IOException if an input/output error occurs
      * @exception JSONException if a key/value error occurs
      */
-    public static void addProperties(String names[], UIComponent component,
+    public static void addIntegerProperties(String names[], UIComponent component,
             JSONObject json) throws JSONException {
         if (names == null) {
             return;
@@ -68,6 +68,31 @@ public class JSONUtilities {
         }
     }
 
+    /**
+     * This method may be used to add attribute name/value pairs to the given
+     * JSONObject.
+     *
+     * @param names Array of string attribute names to be passed through.
+     * @param component UIComponent to be rendered.
+     * @param json JSONObject to add name/value pairs to.
+     *
+     * @exception IOException if an input/output error occurs
+     * @exception JSONException if a key/value error occurs
+     */
+    public static void addStringProperties(String names[], UIComponent component,
+            JSONObject json) throws JSONException {
+        if (names == null) {
+            return;
+        }
+        Map attributes = component.getAttributes();
+        String temp = null;
+        for (int i = 0; i < names.length; i++) {
+            Object value = attributes.get(names[i]);            
+            json.put(names[i], value);            
+        }
+    }
+
+    
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     // Writer methods
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
