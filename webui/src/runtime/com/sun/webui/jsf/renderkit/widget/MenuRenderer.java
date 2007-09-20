@@ -71,7 +71,7 @@ public class MenuRenderer extends RendererBase {
     /**
      * The set of pass-through attributes to be rendered.
      */
-    protected static final String[] attributes = {
+    protected static final String[] stringAttributes = {
         "onChange",
         "onClick",
         "onDblClick", 
@@ -173,7 +173,7 @@ public class MenuRenderer extends RendererBase {
             .put("submitForm", menu.isSubmitForm());
 
         // Add core and pass-through attribute properties.
-        JSONUtilities.addProperties(attributes, menu, json);
+        JSONUtilities.addStringProperties(stringAttributes, menu, json);
 
         return json;
     }               
@@ -211,5 +211,4 @@ public class MenuRenderer extends RendererBase {
         return false;
     }
 }
-
     

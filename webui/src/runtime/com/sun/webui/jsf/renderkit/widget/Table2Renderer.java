@@ -56,7 +56,7 @@ public class Table2Renderer extends RendererBase {
      * cuurently supported.
      * </p>
      */
-    private static final String attributes[] = {
+    private static final String stringAttributes[] = {
         "align",
         "bgColor",
         "border",
@@ -77,6 +77,13 @@ public class Table2Renderer extends RendererBase {
         "onMouseUp",
         "rules",
         "summary"};
+    
+    /**
+     * The set of int attributes to be rendered.
+     */
+    private static final String intAttributes[] = {
+        "width"           
+    };
 
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     // RendererBase methods
@@ -113,11 +120,12 @@ public class Table2Renderer extends RendererBase {
         JSONObject json = new JSONObject();
         json.put("className", table.getStyleClass())
             .put("title", table.getToolTip())
-            .put("visible", table.isVisible())        
-            .put("width", table.getWidth());
-
+            .put("visible", table.isVisible());        
+            
         // Add attributes.
-        JSONUtilities.addProperties(attributes, table, json);
+        JSONUtilities.addStringProperties(stringAttributes, table, json);
+        JSONUtilities.addIntegerProperties(intAttributes, table, json);
+        
         setActionsProperties(context, table, json);
         setCaptionProperties(context, table, json);
         setRowGroupProperties(context, table, json);

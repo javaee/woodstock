@@ -59,11 +59,17 @@ public class AlertRenderer extends RendererBase {
     /**
      * The set of pass-through attributes to be rendered.
      */
-    private static final String attributes[] = {
+    private static final String stringAttributes[] = {
         "dir",
         "lang",
-        "style",
-        "tabIndex"   
+        "style"
+    };
+    
+    /**
+     * The set of pass-through int attributes to be rendered.
+     */
+    private static final String intAttributes[] = {        
+        "tabIndex"
     };
     
     /**
@@ -162,8 +168,8 @@ public class AlertRenderer extends RendererBase {
         json.put("spacerImage", WidgetUtilities.renderComponent(context, dotImg));
         
         // Add attributes.
-        JSONUtilities.addProperties(attributes, component, json);
-
+        JSONUtilities.addStringProperties(stringAttributes, component, json);
+        JSONUtilities.addIntegerProperties(intAttributes, component, json);
         return json;
     }
     

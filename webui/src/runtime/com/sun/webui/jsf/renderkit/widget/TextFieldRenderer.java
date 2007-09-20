@@ -52,15 +52,12 @@ public class TextFieldRenderer extends FieldRendererBase {
     /**
      * The set of pass-through attributes to be rendered.
      */
-    private static final String attributes[] = {
+    private static final String stringAttributes[] = {
         "align",
         "dir",
         "lang",
-        "style",
-        "readOnly",
-        "maxLength",
+        "style",        
         "accessKey",
-        "tabIndex",
         "onMouseDown",
         "onMouseOut",
         "onMouseOver",
@@ -75,6 +72,14 @@ public class TextFieldRenderer extends FieldRendererBase {
         "onKeyDown",
         "onKeyPress",
         "onKeyUp"
+    };
+    
+    /**
+     * The set of int attributes to be rendered.
+     */
+    private static final String intAttributes[] = {
+        "maxLength",
+        "tabIndex"
     };
     
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -119,6 +124,7 @@ public class TextFieldRenderer extends FieldRendererBase {
         json.put("disabled", field.isDisabled())
         .put("value", field.getValueAsString(context))
         .put("required", field.isRequired())
+        .put("readOnly", field.isReadOnly())        
         .put("valid", field.isValid())
         .put("className", className )
         .put("size", field.getColumns())
@@ -134,7 +140,8 @@ public class TextFieldRenderer extends FieldRendererBase {
             field.getLabelComponent(context, null)));
         
         // Add attributes.
-        JSONUtilities.addProperties(attributes, component, json);
+        JSONUtilities.addStringProperties(stringAttributes, component, json);
+        JSONUtilities.addIntegerProperties(intAttributes, component, json);
         setNotifyProperties(context, component, json);
         
         return json;

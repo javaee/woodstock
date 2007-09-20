@@ -88,7 +88,7 @@ public class DropDownRenderer extends ListRendererBase {
             .put("submitForm", dropDown.isSubmitForm() );
 
         // Add attributes.
-        JSONUtilities.addProperties(attributes, component, json);
+        JSONUtilities.addStringProperties(stringAttributes, component, json);
 
         return json;
     }

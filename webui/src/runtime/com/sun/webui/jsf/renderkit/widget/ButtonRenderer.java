@@ -58,7 +58,7 @@ public class ButtonRenderer extends RendererBase {
     /**
      * The set of pass-through attributes to be rendered.
      */
-    private static final String attributes[] = {
+    private static final String stringAttributes[] = {
         "accessKey",
         "alt",
         "align",
@@ -76,7 +76,13 @@ public class ButtonRenderer extends RendererBase {
         "onMouseOver",
         "onMouseUp",
         "onMouseMove",
-        "style",
+        "style"
+    };
+    
+    /**
+     * The set of pass-through int attributes to be rendered.
+     */
+    private static final String intAttributes[] = {        
         "tabIndex"
     };
 
@@ -181,8 +187,8 @@ public class ButtonRenderer extends RendererBase {
         }
 
         // Add attributes.
-        JSONUtilities.addProperties(attributes, component, json);
-
+        JSONUtilities.addStringProperties(stringAttributes, component, json);
+        JSONUtilities.addIntegerProperties(intAttributes, component, json); 
         return json;
     }
 

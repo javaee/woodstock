@@ -59,7 +59,7 @@ public class AlarmRenderer extends RendererBase {
     /**
      * The set of pass-through attributes to be rendered.
      */
-    private static final String attributes[] = {
+    private static final String stringAttributes[] = {
         "dir",
         "lang",
         "style",
@@ -179,7 +179,7 @@ public class AlarmRenderer extends RendererBase {
         json.put("indicators", jArray);
                        
         // Add attributes.
-        JSONUtilities.addProperties(attributes, component, json);
+        JSONUtilities.addStringProperties(stringAttributes, component, json);
 
         return json;
     }

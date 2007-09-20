@@ -57,7 +57,7 @@ public class Table2RowGroupRenderer extends RendererBase {
      * cuurently supported.
      * </p>
      */
-    private static final String attributes[] = {
+    private static final String stringAttributes[] = {
         "align",
         "bgColor",
         "char",
@@ -118,7 +118,7 @@ public class Table2RowGroupRenderer extends RendererBase {
             .put("visible", group.isVisible());
 
         // Add attributes.
-        JSONUtilities.addProperties(attributes, group, json);
+        JSONUtilities.addStringProperties(stringAttributes, group, json);
         setColumnProperties(context, group, json);
         setHeaderProperties(context, group, json);
         setRowProperties(context, group, json);

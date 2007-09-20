@@ -51,15 +51,12 @@ public class TextAreaRenderer extends FieldRendererBase {
     /**
      * The set of pass-through attributes to be rendered.
      */
-    private static final String attributes[] = {
+    private static final String stringAttributes[] = {
         "align",
         "dir",
         "lang",
         "style",
-        "readOnly",
-        "maxLength",
-        "accessKey",
-        "tabIndex",
+        "accessKey",        
         "onMouseDown",
         "onMouseOut",
         "onMouseOver",
@@ -72,6 +69,14 @@ public class TextAreaRenderer extends FieldRendererBase {
         "onKeyDown",
         "onKeyPress",
         "onKeyUp"
+    };
+    
+    /**
+     * The set of int attributes to be rendered.
+     */
+    private static final String intAttributes[] = {
+        "maxLength",
+        "tabIndex"
     };
 
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -118,6 +123,7 @@ public class TextAreaRenderer extends FieldRendererBase {
         json.put("disabled", field.isDisabled())
             .put("value", field.getValueAsString(context))
             .put("required", field.isRequired())
+            .put("readOnly", field.isReadOnly())  
             .put("valid", field.isValid())
             .put("className", className )
             .put("cols", field.getColumns())
@@ -131,7 +137,8 @@ public class TextAreaRenderer extends FieldRendererBase {
             field.getLabelComponent(context, null)));
         
         // Add attributes.
-        JSONUtilities.addProperties(attributes, component, json);
+        JSONUtilities.addStringProperties(stringAttributes, component, json);
+        JSONUtilities.addIntegerProperties(intAttributes, component, json);
         
         return json;
     }

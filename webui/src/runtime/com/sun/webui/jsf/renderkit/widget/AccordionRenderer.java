@@ -55,7 +55,7 @@ public class AccordionRenderer extends RendererBase {
     /**
      * The set of pass-through attributes to be rendered.
      */
-    private static final String attributes[] = {
+    private static final String stringAttributes[] = {
         "style"};
 
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -115,7 +115,7 @@ public class AccordionRenderer extends RendererBase {
         }
         
         // Add attributes.
-        JSONUtilities.addProperties(attributes, container, json);
+        JSONUtilities.addStringProperties(stringAttributes, container, json);
 
         return json;
     }

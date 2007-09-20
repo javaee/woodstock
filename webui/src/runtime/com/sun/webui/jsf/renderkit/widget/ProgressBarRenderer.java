@@ -47,10 +47,20 @@ import org.json.JSONObject;
     componentFamily="com.sun.webui.jsf.ProgressBar"))
 public class ProgressBarRenderer extends RendererBase {
     /**
-     * The set of pass-through attributes to be rendered.
+     * The set of pass-through html attributes to be rendered.
      */
-    private static final String attributes[] = {
+    private static final String stringAttributes[] = {
         "style"};
+    /**
+     * The set of int attributes to be rendered.
+     */
+    private static final String intAttributes[] = {
+         "progress",
+         "width",
+         "height",
+         "refreshRate"
+    };
+       
 
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     // Renderer methods
@@ -84,15 +94,12 @@ public class ProgressBarRenderer extends RendererBase {
         ProgressBar progressBar = (ProgressBar) component;
 
         JSONObject json = new JSONObject();
-        json.put("barHeight", progressBar.getHeight())
-            .put("barWidth", progressBar.getWidth())
-            .put("failedStateText", progressBar.getFailedStateText())
+        
+            json.put("failedStateText", progressBar.getFailedStateText())
             .put("logMessage",progressBar.getLogMessage())
             .put("overlayAnimation",progressBar.isOverlayAnimation())
             .put("percentChar", getTheme().getMessage("ProgressBar.percentChar"))
-            .put("progress", String.valueOf(progressBar.getProgress()))
             .put("progressImageUrl", progressBar.getProgressImageUrl())
-            .put("refreshRate", progressBar.getRefreshRate())
             .put("taskState", progressBar.getTaskState())
             .put("toolTip", (progressBar.getToolTip() != null)
                 ? progressBar.getToolTip()
@@ -105,7 +112,8 @@ public class ProgressBarRenderer extends RendererBase {
             progressBar.getBusyIcon()));
 
         // Add attributes.
-        JSONUtilities.addProperties(attributes, component, json);
+        JSONUtilities.addStringProperties(stringAttributes, component, json);
+        JSONUtilities.addIntegerProperties(intAttributes, component, json);
         setFacetProperties(context, progressBar, json);
 
         return json;

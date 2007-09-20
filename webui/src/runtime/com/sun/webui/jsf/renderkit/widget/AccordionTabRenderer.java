@@ -29,8 +29,8 @@ import com.sun.faces.annotation.Renderer;
 
 import com.sun.webui.jsf.component.AccordionTab;
 import com.sun.webui.jsf.component.Accordion;
+import com.sun.webui.jsf.util.JSONUtilities;
 import com.sun.webui.jsf.util.WidgetUtilities;
-import com.sun.webui.jsf.theme.ThemeTemplates;
 import com.sun.webui.jsf.util.JavaScriptUtilities;
 
 import javax.faces.component.UIComponent;
@@ -50,6 +50,13 @@ import org.json.JSONObject;
     rendererType="com.sun.webui.jsf.widget.AccordionTab", 
     componentFamily="com.sun.webui.jsf.AccordionTab"))
 public class AccordionTabRenderer extends RendererBase {
+    
+     /**
+     * The set of int attributes to be rendered.
+     */
+    private static final String intAttributes[] = {
+        "contentHeight"};
+        
     
     /**
      * Decode the AccordionTab component. The basic purpose is to 
@@ -128,12 +135,12 @@ public class AccordionTabRenderer extends RendererBase {
             .put("style", content.getStyle())
             .put("selected", content.isSelected())
             .put("visible", content.isVisible())
-            .put("title", content.getTitle())
-            .put("contentHeight", content.getContentHeight());
+            .put("title", content.getTitle());            
 
         JSONArray tabContent = new JSONArray();
         appendChildProps(content, context, tabContent);
         json.put("tabContent", tabContent);
+        JSONUtilities.addIntegerProperties(intAttributes, component, json);
 
         return json;
     }

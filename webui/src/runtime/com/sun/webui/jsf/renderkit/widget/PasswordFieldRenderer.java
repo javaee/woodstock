@@ -52,15 +52,13 @@ public class PasswordFieldRenderer extends FieldRendererBase {
     /**
      * The set of pass-through attributes to be rendered.
      */
-    private static final String attributes[] = {
+    private static final String stringAttributes[] = {
         "align",
         "dir",
         "lang",
         "style",
         "readOnly",
-        "maxLength",
         "accessKey",
-        "tabIndex",
         "onMouseDown",
         "onMouseOut",
         "onMouseOver",
@@ -73,6 +71,14 @@ public class PasswordFieldRenderer extends FieldRendererBase {
         "onKeyDown",
         "onKeyPress",
         "onKeyUp"
+    };
+    
+    /**
+     * The set of int attributes to be rendered.
+     */
+    private static final String intAttributes[] = {
+        "tabIndex",
+        "maxLength"
     };
     
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -132,8 +138,8 @@ public class PasswordFieldRenderer extends FieldRendererBase {
             field.getLabelComponent(context, null)));
         
         // Add attributes.
-        JSONUtilities.addProperties(attributes, component, json);
-        
+        JSONUtilities.addStringProperties(stringAttributes, component, json);
+        JSONUtilities.addIntegerProperties(intAttributes, component, json);
         return json;
     }
     

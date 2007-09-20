@@ -50,16 +50,14 @@ public class Table2ColumnRenderer extends RendererBase {
      * LANG attributes are not cuurently supported.
      * </p>
      */
-    private static final String attributes[] = {
+    private static final String stringAttributes[] = {
         "abbr",
         "axis",
         "bgColor",
         "char",
-        "charOff",
-        "colspan",
+        "charOff",        
         "dir",
-        "headers",
-        "height",
+        "headers",        
         "lang",
         "noWrap",
         "onClick",
@@ -75,9 +73,19 @@ public class Table2ColumnRenderer extends RendererBase {
         "rowSpan",
         "scope",
         "style",
-        "valign",
-        "width"};
-
+        "valign"
+        };
+        
+    /**
+     * The set of int attributes to be rendered.
+     */
+    private static final String intAttributes[] = {
+        "tabIndex",
+        "height",
+        "width",
+        "colspan"        
+    };
+    
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     // RendererBase methods
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -116,7 +124,9 @@ public class Table2ColumnRenderer extends RendererBase {
             .put("visible", col.isVisible());
 
         // Add attributes.
-        JSONUtilities.addProperties(attributes, col, json);
+        JSONUtilities.addStringProperties(stringAttributes, col, json);
+        JSONUtilities.addIntegerProperties(intAttributes, col, json);
+        
 
         return json;
     }

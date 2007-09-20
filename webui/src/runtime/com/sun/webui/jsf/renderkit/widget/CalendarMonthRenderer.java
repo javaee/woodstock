@@ -70,7 +70,7 @@ public class CalendarMonthRenderer extends RendererBase {
     /**
      * The set of pass-through attributes to be rendered.
      */
-    private static final String attributes[] = {        
+    private static final String stringAttributes[] = {        
         "style"
     };           
 
@@ -165,7 +165,7 @@ public class CalendarMonthRenderer extends RendererBase {
         setControlsProperties(context, calendarMonth, json, theme);
             
         // Add attributes.
-        JSONUtilities.addProperties(attributes, component, json);
+        JSONUtilities.addStringProperties(stringAttributes, component, json);
         
         return json;
     }

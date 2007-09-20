@@ -57,7 +57,7 @@ public class LabelRenderer extends RendererBase {
     /**
      * The set of pass-through attributes to be rendered.
      */
-    private static final String attributes[] = {
+    private static final String stringAttributes[] = {
         "onMouseDown",
         "onMouseOut",
         "onMouseOver",
@@ -221,7 +221,7 @@ public class LabelRenderer extends RendererBase {
 	}
 
         // Add attributes.
-        JSONUtilities.addProperties(attributes, component, json);
+        JSONUtilities.addStringProperties(stringAttributes, component, json);
 	setContents(context, component, json);
 
         return json;

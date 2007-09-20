@@ -60,7 +60,7 @@ abstract public class ListRendererBase extends RendererBase {
     /**
      * The set of pass-through attributes to be rendered.
      */
-    protected static final String[] attributes = {
+    protected static final String[] stringAttributes = {
         "onBlur", 
         "onChange",
         "onClick",

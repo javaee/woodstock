@@ -51,7 +51,7 @@ public class StaticTextRenderer extends RendererBase {
     /**
      * The set of pass-through attributes to be rendered.
      */
-    private static final String attributes[] = {
+    private static final String stringAttributes[] = {
         "onMouseDown",
         "onMouseOut",
         "onMouseOver",
@@ -132,7 +132,7 @@ public class StaticTextRenderer extends RendererBase {
             .put("visible", staticText.isVisible());
         
         // Add attributes.
-        JSONUtilities.addProperties(attributes, component, json);
+        JSONUtilities.addStringProperties(stringAttributes, component, json);
         
         return json;
     }

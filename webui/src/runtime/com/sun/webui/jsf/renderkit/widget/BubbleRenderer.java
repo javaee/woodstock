@@ -49,9 +49,17 @@ public class BubbleRenderer extends RendererBase {
     /**
      * The set of pass-through attributes to be rendered.
      */
-    private static final String attributes[] = {
-        
+    private static final String stringAttributes[] = {        
         "style"                
+    };
+    
+    /**
+     * The set of pass-through int attributes to be rendered.
+     */
+    private static final String intAttributes[] = {        
+        "duration",
+        "openDelay",
+        "width"
     };
         
    /**
@@ -87,9 +95,6 @@ public class BubbleRenderer extends RendererBase {
             .put("visible", bubble.isVisible()) //bubble help should not be visible initially.
             .put("autoClose", bubble.isAutoClose())
             .put("closeButton", bubble.isCloseButton())
-            .put("openDelay", bubble.getOpenDelay())
-            .put("duration", bubble.getDuration())
-            .put("width", bubble.getWidth())
             .put("className", bubble.getStyleClass());
         
         JSONArray jArray = new JSONArray();
@@ -105,8 +110,8 @@ public class BubbleRenderer extends RendererBase {
         }
                     
        // Add attributes.
-        JSONUtilities.addProperties(attributes, component, json);
-        
+        JSONUtilities.addStringProperties(stringAttributes, component, json);
+        JSONUtilities.addIntegerProperties(intAttributes, component, json);
         return json;
     }
 

@@ -70,7 +70,7 @@ public class ImageRenderer extends RendererBase {
     /**
      * The set of pass-through attributes to be rendered.
      */
-    private static final String attributes[] = {
+    private static final String stringAttributes[] = {
         "align",
         "dir",
         "longDesc",
@@ -85,13 +85,20 @@ public class ImageRenderer extends RendererBase {
         "onMouseOut",
         "onMouseOver",
         "onMouseUp",
-        "onMouseMove",
+        "onMouseMove"        
+    };
+    
+    /**
+     * The set of int attributes to be rendered.
+     */
+    private static final String intAttributes[] = {
         "tabIndex",
         "hspace",
         "vspace",
-        "border",
+        "border"
     };
-
+                
+    
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     // RendererBase methods
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -227,8 +234,9 @@ public class ImageRenderer extends RendererBase {
         }
 
         // Add attributes.
-        JSONUtilities.addProperties(attributes, component, json);
-
+        JSONUtilities.addStringProperties(stringAttributes, component, json);
+        JSONUtilities.addIntegerProperties(intAttributes, component, json);
+        
         return json;
     }
 

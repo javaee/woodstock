@@ -50,7 +50,7 @@ public abstract class AnchorRendererBase extends RendererBase{
     /**
      * The set of pass-through attributes to be rendered.
      */
-    private static final String attributes[] = {
+    private static final String stringAttributes[] = {
         "accessKey",
         "charset",
         "coords",
@@ -130,7 +130,7 @@ public abstract class AnchorRendererBase extends RendererBase{
         Map attrsMap = component.getAttributes();
 
         // Add attributes.
-        JSONUtilities.addProperties(attributes, component, json);
+        JSONUtilities.addStringProperties(stringAttributes, component, json);
 
         String tmp = null;
         tmp = (String) attrsMap.get("style");

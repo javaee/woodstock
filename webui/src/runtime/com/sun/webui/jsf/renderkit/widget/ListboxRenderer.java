@@ -81,7 +81,7 @@ public class ListboxRenderer extends ListRendererBase {
             .put("monospace", listbox.isMonospace() );
 
         // Add attributes.
-        JSONUtilities.addProperties(attributes, component, json);
+        JSONUtilities.addStringProperties(stringAttributes, component, json);
 
         return json;
     }
