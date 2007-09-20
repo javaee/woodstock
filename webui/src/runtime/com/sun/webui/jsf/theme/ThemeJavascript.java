@@ -51,9 +51,19 @@ public class ThemeJavascript {
     public static final String JSON = "json";
 
     /**
+     * A Javascript file that contains uncompressed JSON functions.
+     */
+    public static final String JSON_UNCOMPRESSED = "jsonUncompressed";
+
+    /**
      * A Javascript file that contains JSF Extensions functions.
      */
     public static final String JSFX = "jsfx";
+
+    /**
+     * A Javascript file that contains uncompressed JSF Extensions functions.
+     */
+    public static final String JSFX_UNCOMPRESSED = "jsfxUncompressed";
 
     /**
      * The path to module resources.
@@ -71,9 +81,14 @@ public class ThemeJavascript {
     public static final String MODULE_PREFIX = "modulePrefix";
 
     /**
-     * A Javascript file that contains Prototype functions.
+     * A Javascript file that contains uncompressed Prototype functions.
      */
     public static final String PROTOTYPE = "prototype";
+
+    /**
+     * A Javascript file that contains Prototype functions.
+     */
+    public static final String PROTOTYPE_UNCOMPRESSED = "prototypeUncompressed";
 
     /**
      * A key that defines the theme javascript namespace.

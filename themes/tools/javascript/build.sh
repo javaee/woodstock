@@ -13,13 +13,13 @@ SRC_DIR=$SCRIPT_DIR/src
 MANIFEST_FILE=$SCRIPT_DIR/MANIFEST.tmp
 TOOLS_JAR=$SCRIPT_DIR/tools.jar
 RHINO_JAR=$SCRIPT_DIR/custom_rhino.jar
-JSON_JAR=$SCRIPT_DIR/../../../webui/tools/json/json.zip
+JSON_ZIP=$SCRIPT_DIR/../../../webui/tools/json/src/json.zip
 
 #
 # Extract JSON sources.
 #
 cd $SRC_DIR
-unzip $JSON_JAR
+unzip $JSON_ZIP
 chmod -R 755 org
 chmod 644 `find . -type f`
 

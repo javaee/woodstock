@@ -239,7 +239,9 @@ public class JavaScriptUtilities {
             ResponseWriter writer) throws IOException {
         Map requestMap = getRequestMap();
         if (!requestMap.containsKey(ScriptsComponent.AJAX_JS_LINKED)) {
-            renderJavaScriptInclude(component, writer, ThemeJavascript.JSFX);
+            renderJavaScriptInclude(component, writer, (isDebug())
+                ? ThemeJavascript.JSFX_UNCOMPRESSED
+                : ThemeJavascript.JSFX);
             requestMap.put(ScriptsComponent.AJAX_JS_LINKED, Boolean.TRUE);
         }
     }
@@ -254,7 +256,9 @@ public class JavaScriptUtilities {
      */
     public static void renderJsonInclude(UIComponent component,
             ResponseWriter writer) throws IOException {
-        renderJavaScriptInclude(component, writer, ThemeJavascript.JSON);
+        renderJavaScriptInclude(component, writer, (isDebug())
+                ? ThemeJavascript.JSON_UNCOMPRESSED
+                : ThemeJavascript.JSON);
     }
 
     /**
@@ -269,7 +273,9 @@ public class JavaScriptUtilities {
             ResponseWriter writer) throws IOException {
         Map map = getRequestMap();
         if (!map.containsKey(ScriptsComponent.PROTOTYPE_JS_LINKED)) {
-            renderJavaScriptInclude(component, writer, ThemeJavascript.PROTOTYPE);
+            renderJavaScriptInclude(component, writer, (isDebug())
+                ? ThemeJavascript.PROTOTYPE_UNCOMPRESSED
+                : ThemeJavascript.PROTOTYPE);
             map.put(ScriptsComponent.PROTOTYPE_JS_LINKED, Boolean.TRUE);
         }
     }
