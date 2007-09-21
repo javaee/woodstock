@@ -37,7 +37,6 @@ dojo.kwCompoundRequire({
 // dojo.hostenv.writeIncludes(). This will ensure that JavaScript
 // files are accessible to JavaScript debuggers.
 dojo.requireIf(djConfig.isDebug, "webui.@THEME@.addRemove");
-dojo.requireIf(djConfig.isDebug, "webui.@THEME@.calendar");
 dojo.requireIf(djConfig.isDebug, "webui.@THEME@.commonTasksSection");
 dojo.requireIf(djConfig.isDebug, "webui.@THEME@.editableList");
 dojo.requireIf(djConfig.isDebug, "webui.@THEME@.fileChooser");
