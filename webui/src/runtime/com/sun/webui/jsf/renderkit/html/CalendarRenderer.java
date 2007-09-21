@@ -135,23 +135,44 @@ public class CalendarRenderer extends FieldRenderer {
             // This is the span for the link
             writer.startElement("span", calendar); //NOI18N
             writer.writeAttribute("class", styles[5], null); //NOI18N
+            
+            
+             // Search for the private facet DATE_PICKER_LINK_FACET.
+             // If it exists, then use the facet.
+             // If facet does not exist, create an ImageHyperlnk and use that.
+             // The call to getDatePickerLink has been removed and the creation
+             // of an imageHyperlnk if one did not exist in the facet map happens
+             // here. The imageHyperlnk created here is not put into the facet
+             // map.
+            UIComponent comp = calendar.getFacet(Calendar.DATE_PICKER_LINK_FACET); 
+            if (comp instanceof ImageHyperlink) {
+                RenderingUtilities.renderComponent(comp, context);        
+            } else {              
+                ImageHyperlink datePickerLink = new ImageHyperlink();
+                datePickerLink.setParent(calendar);
+                StringBuilder linkId = new StringBuilder("_")
+                  .append(calendar.DATE_PICKER_LINK_FACET);
+                datePickerLink.setId(linkId.toString());
+                datePickerLink.setAlign("middle");  //NOI18N                                    
+                datePickerLink.setToolTip(styles[13]);                    
 
-            ImageHyperlink link =
-                    calendar.getDatePickerLink(context);
-            if(calendar.isDisabled()) {
-                writer.writeAttribute("style", "display:none;", null);
+                // Set the appropriate image icon depending on whether
+                // the calendar is on the enabled or disabled state.
+                if (!calendar.isDisabled()) {
+                    datePickerLink.setIcon(styles[14]);
+                } else {
+                    datePickerLink.setIcon(styles[19]);
+                }
+                RenderingUtilities.renderComponent(datePickerLink, context);                        
+                comp = datePickerLink;
             }
             writer.write("\n"); //NOI18N
-            
-            link.setIcon(styles[14]);
-	    link.setToolTip(styles[13]);
-            RenderingUtilities.renderComponent(link, context);
-            
+                        
             // Close link span
             writer.endElement("span"); //NOI18N
             writer.write("\n");
 
-	    renderDatePicker(context, writer, styles, calendar);
+	    renderDatePicker(context, writer, styles, calendar, comp);
             
             // Close the remaining div and table cell 
             writer.endElement("div"); //NOI18N
@@ -167,7 +188,7 @@ public class CalendarRenderer extends FieldRenderer {
     
     // <rave> Fix popup so that it always appears near button. eeg 2005-11-04
     private void renderDatePicker(FacesContext context, ResponseWriter writer,
-	    String[] styles, Calendar calendar) throws IOException {
+	    String[] styles, Calendar calendar, UIComponent datePickerLink) throws IOException {
 
         // render date picker
         CalendarMonth datePicker = calendar.getDatePicker();
@@ -190,7 +211,7 @@ public class CalendarRenderer extends FieldRenderer {
         RenderingUtilities.renderComponent(datePicker, context);
 
         //JS should be initialized by CalendarMonth, not by this component....
-        renderJavaScript(context, calendar, writer, styles);
+        renderJavaScript(context, calendar, writer, styles, datePickerLink);
     }
     // </rave>
 
@@ -279,9 +300,6 @@ public class CalendarRenderer extends FieldRenderer {
             id = id.concat(Calendar.PATTERN_ID);
             writer.writeAttribute("id", id, null); //NOI18N
             String style = styleClass;
-            if(calendar.isDisabled()) {
-                style = style.concat(" ").concat(hiddenStyle);
-            }
             writer.writeAttribute("class", style, null); //NOI18N
             writer.writeText(hint, null);
             writer.endElement("div"); //NOI18N
@@ -289,7 +307,7 @@ public class CalendarRenderer extends FieldRenderer {
     }
 
     private void renderJavaScript(FacesContext context, Calendar calendar,
-            ResponseWriter writer, String[] styles) throws IOException {
+            ResponseWriter writer, String[] styles, UIComponent datePickerLink) throws IOException {
         if(DEBUG) log("renderJavaScript()"); //NOI18N
 
         // First argument is the first day of the week
@@ -321,7 +339,7 @@ public class CalendarRenderer extends FieldRenderer {
                 .put("firstDay", day)
                 .put("fieldId", calendar.getClientId(context).concat(Calendar.INPUT_ID))
                 .put("patternId", calendar.getClientId(context).concat(Calendar.PATTERN_ID))
-                .put("calendarToggleId", calendar.getDatePickerLink(context).getClientId(context))
+                .put("calendarToggleId", datePickerLink.getClientId(context))
                 .put("datePickerId", datePickerId)
                 .put("monthMenuId", calendar.getDatePicker().getMonthMenu().getClientId(context))
                 .put("yearMenuId", calendar.getDatePicker().getYearMenu().getClientId(context))
@@ -354,7 +372,7 @@ public class CalendarRenderer extends FieldRenderer {
     
     String[] getStyles(Calendar calendar, FacesContext context) {
         Theme theme = ThemeUtilities.getTheme(context);
-        String[] styles = new String[19];
+        String[] styles = new String[20];
         styles[0] = theme.getStyleClass(ThemeStyles.TEXT_FIELD);
         styles[1] = theme.getStyleClass(ThemeStyles.TEXT_FIELD_DISABLED);
         styles[2] = theme.getStyleClass(ThemeStyles.HIDDEN);
@@ -377,6 +395,7 @@ public class CalendarRenderer extends FieldRenderer {
         // Style for today's date
         styles[17] = theme.getStyleClass(ThemeStyles.DATE_TIME_TODAY_LINK);
         styles[18] = theme.getStyleClass(ThemeStyles.CALENDAR_ROOT_TABLE);
+        styles[19] = ThemeImages.CALENDAR_BUTTON_DISABLED; 
         return styles;
-    }
+    }    
 }

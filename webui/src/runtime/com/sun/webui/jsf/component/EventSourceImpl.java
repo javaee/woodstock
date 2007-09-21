@@ -341,6 +341,7 @@ public abstract class EventSourceImpl extends UIComponentBase implements EventSo
      * <code>PhaseId.ANY</code> if <code>isImmediate</code> returns 
      * <code>true</code>
      */    
+    @Property(name="phaseId", displayName="PhaseId", category="Advanced")    
     private PhaseId phaseId = null;
       /**
      * Set the <code>PhaseId</code> in which events should be broadcast.

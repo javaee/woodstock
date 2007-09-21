@@ -49,7 +49,7 @@ import javax.faces.validator.Validator;
     propertiesHelpKey="projrave_ui_elements_palette_wdstk-jsf1.2_propsheets_calendar_props")
 public class Calendar extends TextField implements DateManager, NamingContainer {
 
-    private static final String DATE_PICKER_LINK_FACET = "datePickerLink";//NOI18N
+    public static final String DATE_PICKER_LINK_FACET = "datePickerLink";//NOI18N
     private static final String DATE_PICKER_LINK_ID = "_datePickerLink";//NOI18N
     private static final String DATE_PICKER_FACET = "datePicker";//NOI18N    
     private static final String DATE_PICKER_ID = "_datePicker";//NOI18N
@@ -85,6 +85,7 @@ public class Calendar extends TextField implements DateManager, NamingContainer 
      *
      * @param context The current FacesContext.
      * @return The ImageHyperlink to show or hide the calendar date picker.
+     * @deprecated 
      */
     public ImageHyperlink getDatePickerLink(FacesContext context) { 
 
