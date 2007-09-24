@@ -224,6 +224,38 @@ webui.@THEME@.widget.calendarField._setProps = function(props) {
 }
 
 /**
+ * This function is used to set widget properties. Please see the 
+ * _setProps() function for a list of supported properties.
+ *
+ * Note: This function updates the widget object for later updates. Further, the
+ * widget shall be updated only for the given key-value pairs.
+ *
+ * Note: If the notify param is true, the widget's state change event shall be
+ * published. This is typically used to keep client-side state in sync with the
+ * server.
+ *
+ * @param props Key-Value pairs of properties.
+ * @param notify Publish an event for custom AJAX implementations to listen for.
+ */
+webui.@THEME@.widget.calendarField.setProps = function(props, notify) {
+    if (props == null) {
+        return false;
+    }
+    
+    // If the popup calendar is still being shown, prevent disabling of the calendar.
+    // The widget can only be disabled if the popup calendar is not shown.
+    if (props.disabled != null) { 
+        var widget = dojo.widget.byId(this.calendar.id); 
+        if (widget != null && !(widget.calendarContainer.style.display != "block")) {
+            props.disabled = this.disabled;
+        }        
+    }
+    
+    // Set remaining properties.
+    return webui.@THEME@.widget.calendarField.superclass.setProps.call(this, props, notify);
+}
+
+/**
  * This function subscribes to the toggleCalendar function of the calendar widget.
  * Whenever the calendar is opened, it updates the value of the calendar with
  * the value present in the field.
@@ -256,6 +288,7 @@ dojo.lang.extend(webui.@THEME@.widget.calendarField, {
     getProps: webui.@THEME@.widget.calendarField.getProps,
     _setProps: webui.@THEME@.widget.calendarField._setProps,
     toggleCalendar: webui.@THEME@.widget.calendarField.toggleCalendar,
+    setProps: webui.@THEME@.widget.calendarField.setProps,
 
     // Set defaults.
     event: webui.@THEME@.widget.calendarField.event,

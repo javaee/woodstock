@@ -38,7 +38,7 @@ webui.@THEME@.widget.calendar = function() {
 /**
  * Helper function to add a day link in a cell.
  */
-webui.@THEME@.widget.calendar.addDayLink = function(rowNodeClone, day, id, className) {
+webui.@THEME@.widget.calendar.addDayLink = function(rowNodeClone, day, id, className, setFocus) {
     // Clone <td> and <a> elements. 
     var colNodeClone = this.dayColumnContainer.cloneNode(false);
     rowNodeClone.appendChild(colNodeClone);    
@@ -62,6 +62,34 @@ webui.@THEME@.widget.calendar.addDayLink = function(rowNodeClone, day, id, class
         dojo.widget.byId(widgetId).dayClicked(formattedDate); 
         return false;
     };  
+    
+    // If the setFocus is set to true, then when you tab out of the linkNode,
+    // the focus should go to the close button. 
+    if (setFocus) {
+        var node = dojo.widget.byId(linkNodeClone.id);        
+        linkNodeClone.onkeydown = function(event) {
+            var widget = dojo.widget.byId(widgetId);
+            
+            // Get hold of the close button and set focus on it.
+            var evt = (event) ? event : ((window.event) ? window.event : null);
+            if (evt.keyCode == 9) {
+                var elem = document.getElementById(widget.closeButtonLink.id);
+                if (elem != null) {
+                    if (elem.focus) {
+                        elem.focus();
+                    }
+                    
+                    if (evt.preventDefault) {
+                        evt.preventDefault();
+                    } else {
+                        evt.returnValue = false;
+                    }
+                    return false;                                  
+                }
+            }
+            return true;
+        }
+    } 
 }  
 
 /**
@@ -193,6 +221,10 @@ webui.@THEME@.widget.calendar.addDaysInMonth = function(currentValue, initialize
         linkNum++;
     } 
     
+    // This variable is used to decide whether the focus should be set
+    // on the calendar's close button when tabbing    
+    var setFocus = false;            
+    
     // Add intermediate rows
     while (day.getDate() != 1) {
         rowNum++;
@@ -200,7 +232,7 @@ webui.@THEME@.widget.calendar.addDaysInMonth = function(currentValue, initialize
         rowNodeClone = this.weekRowContainer.cloneNode(false);
         this.tbodyContainer.appendChild(rowNodeClone); 
         rowNodeClone.id = this.id + ":row" + rowNum;
-        
+
         column = 0;
         while (column < 7 && day.getDate() != 1) {            
             // Set appropriate class name.
@@ -213,8 +245,19 @@ webui.@THEME@.widget.calendar.addDaysInMonth = function(currentValue, initialize
             }
                  
             linkId = id + linkNum;
-            this.addDayLink(rowNodeClone, day, linkId, className);
-            day = new Date(day.getTime() + oneDayInMs);
+            var tmpDate = new Date(day.getTime() + oneDayInMs);
+            
+            // Check whether this is the last date in the calendar and if so
+            // set the setFocus variable to true. This will mean that when the
+            // user tabs away from this day, the focus will be set on the
+            // close button.
+            if (tmpDate.getDate() == 1 && column == 6) {
+                setFocus = true;
+            } else {
+                setFocus = false;
+            }
+            this.addDayLink(rowNodeClone, day, linkId, className, setFocus);
+            day = tmpDate;
             column++;
             linkNum++;
         }
@@ -224,7 +267,17 @@ webui.@THEME@.widget.calendar.addDaysInMonth = function(currentValue, initialize
     while (column < 7) {
         var className = this.theme.getClassName("DATE_TIME_OTHER_LINK");
         linkId = id + linkNum;
-        this.addDayLink(rowNodeClone, day, linkId, className);            
+        
+        // Check whether this is the last date in the calendar and if so
+        // set the setFocus variable to true. This will mean that when the
+        // user tabs away from this day, the focus will be set on the
+        // close button.        
+        if (column == 6) {
+            setFocus = true;
+        } else {
+            setFocus = false;
+        }
+        this.addDayLink(rowNodeClone, day, linkId, className, setFocus);                    
         day = new Date(day.getTime() + oneDayInMs);
         column++;
         linkNum++;
@@ -261,6 +314,23 @@ webui.@THEME@.widget.calendar.addWeekDays = function() {
         }     
     }        
 }
+
+/**
+ * Close the calendar if the enter key is pressed and set the initial focus
+ */            
+webui.@THEME@.widget.calendar.closeCalendar = function(widgetId, event) {
+    var evt = (event) ? event : ((window.event) ? window.event : null);
+    var widget = dojo.widget.byId(widgetId);    
+    
+    // If key pressed and enter, then close the menu
+    if ((evt.type == "keydown") && (evt.keyCode == 13)) {
+        widget.toggleCalendar();
+        document.getElementById(widget.toggleLink.id).focus();        
+        return false;
+    } 
+    widget.setInitialFocus();
+    return true;    
+}            
 
 /**
  * This function is used to decrease the month by one.
@@ -793,7 +863,9 @@ webui.@THEME@.widget.calendar._setProps = function(props) {
         props.closeButtonLink.id = this.closeButtonLink.id; // Required for updateFragment().
         props.closeButtonLink.onClick = 
             "dojo.widget.byId('" + this.id + "').toggleCalendar();return false;";
-
+        props.closeButtonLink.onKeyDown = 
+            "webui.@THEME@.widget.calendar.closeCalendar('" + this.id + "',event);return false;";       
+            
         // Update/add fragment.
         this.widget.updateFragment(this.closeButtonContainer, props.closeButtonLink);
     }
@@ -843,9 +915,15 @@ webui.@THEME@.widget.calendar._setProps = function(props) {
     }
 
     // Set toggle link properties.
-    if (props.disabled != null) { this.disabled = new Boolean(props.disabled).valueOf(); }
+    if (props.disabled != null) {
+        this.disabled = new Boolean(props.disabled).valueOf(); 
+    }
 
-    if (props.toggleLink || props.disabled != null) {
+    // If the popup calendar is still being shown, prevent disabling of the calendar.
+    // The widget can only be disabled if the popup calendar is not shown.
+    if (props.toggleLink || 
+        (props.disabled != null && this.calendarContainer.style.display != "block")) {
+
         // Ensure property exists so we can call setProps just once.
         if (props.toggleLink == null) {
             props.toggleLink = {}; // Avoid updating all props using "this" keyword.
