@@ -236,13 +236,13 @@ webui.@THEME@.widget.bubble.open = function(event) {
         this.timerId = null;
     }
     
-    if (this.openDelay >= 0) {
+    if (this.openDelay != null && this.openDelay >= 0) {
         this.openDelayTime = this.openDelay;
     }
 
     // There should be delay before opening the bubble if open delay is specified.
     // If openDelay is less than zero then there will be dafault 0.5 sec delay.  
-    if (this.openDelay) {
+    
         var id = this.id; // Closure magic.
         this.openTimerId = setTimeout(function() {
             // Store the active bubble id to form element.
@@ -256,11 +256,9 @@ webui.@THEME@.widget.bubble.open = function(event) {
             dojo.widget.byId(id).setProps({visible: true});
             dojo.widget.byId(id).setPosition();
         }, this.openDelayTime);      
-    }
-        
-    var duration = this.getProps().duration;
-
-    if (duration >= 0) {
+            
+    
+    if (this.duration != null && this.duration >= 0) {
         this.defaultTime = duration;
     } 
     return true;
