@@ -201,6 +201,7 @@ public class PropertySheetRenderer extends javax.faces.render.Renderer {
 	if (requiredFields != null && 
 		requiredFields.equalsIgnoreCase("true")) {//NOI18N
 	    Legend legend = new Legend();
+	    legend.setParent(propertySheet);
 	    legend.setId(propertySheet.getId() + "_legend"); //NOI18N
 	    legend.setStyleClass(
 		    theme.getStyleClass(ThemeStyles.CONTENT_REQUIRED_DIV));
@@ -209,6 +210,8 @@ public class PropertySheetRenderer extends javax.faces.render.Renderer {
 	    // FIXME : Needs to be theme.
 	    //
 	    Icon spacer = ThemeUtilities.getIcon(theme, ThemeImages.DOT);
+	    spacer.setParent(propertySheet);
+	    spacer.setId(propertySheet.getId() + "_legend");
 	    spacer.setHeight(20);
 	    spacer.setWidth(1);
 	    RenderingUtilities.renderComponent(spacer, context);
