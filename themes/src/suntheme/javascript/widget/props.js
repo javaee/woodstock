@@ -27,20 +27,6 @@ dojo.provide("webui.@THEME@.widget.props");
  */
 webui.@THEME@.widget.props = {
 
-    // Accordion and tabContent properties.
-    accordionTab: {
-        accordionTabExpanded: "AccdTabExpanded@THEME_CSS@",
-        accordionTabCollapsed: "AccdTabCollapsed@THEME_CSS@",
-        accordionTabMouseOver: "AccdTabMouseOver@THEME_CSS@",
-        accordionHdr: "AccdHeader@THEME_CSS@",
-        accordionHdrRefresh: "AccdRefreshBtn@THEME_CSS@",
-        accordionHdrOpenAll: "AccdOpenAllBtn@THEME_CSS@", 
-        accordionHdrCloseApp: "AccdCloseAllBtn@THEME_CSS@",
-        accordionHdrDivider: "AccdDivider@THEME_CSS@",
-        accordionDownTurner: "AccdDownTurner@THEME_CSS@", 
-        accordionRightTurner: "AccdRightTurner@THEME_CSS@"
-    },
-    
     // Drop Down properties.
     dropDown: {
         className: "MnuStd@THEME_CSS@",

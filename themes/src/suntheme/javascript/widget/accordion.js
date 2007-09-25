@@ -45,7 +45,7 @@ webui.@THEME@.widget.accordion.addControls = function(props) {
         // Set expand all image properties.
         if (props.expandAllImage) {
             // Set properties.
-            props.expandAllImage.id = this.expandAllImage.id; // Required for updateFragment().
+            // props.expandAllImage.id = this.expandAllImage.id; // Required for updateFragment().
 
             // Update/add fragment.
             this.widget.updateFragment(this.expandAllImgContainer, props.expandAllImage);
@@ -53,19 +53,16 @@ webui.@THEME@.widget.accordion.addControls = function(props) {
 
         // Set collapse all image properties.
         if (props.collapseAllImage) {
-            // Set properties.
-            props.collapseAllImage.id = this.collapseAllImage.id; // Required for updateFragment().
-
             // Update/add fragment.
             this.widget.updateFragment(this.collapseAllImgContainer, props.collapseAllImage);
         }
+        
+        // a divider should only be added if expand/collapse icons exist.
+        this.dividerNodeContainer.className = this.theme.getClassName("ACCORDION_HDR_DIVIDER");
     }
 
     // Set refresh image properties.
-    if (props.refreshImage) {
-        // Set properties.
-        props.refreshImage.id = this.refreshImage.id; // Required for updateFragment().
-
+    if (props.isRefreshIcon && props.refreshImage) {
         // Update/add fragment.
         this.widget.updateFragment(this.refreshImgContainer, props.refreshImage);
     }
@@ -161,10 +158,14 @@ webui.@THEME@.widget.accordion.fillInTemplate = function(props, frag) {
     }
 
     // Set class names.
-    this.collapseAllContainer.className = webui.@THEME@.widget.props.accordionTab.accordionHdrCloseApp;
-    this.dividerNodeContainer.className = webui.@THEME@.widget.props.accordionTab.accordionHdrDivider;
-    this.expandAllContainer.className = webui.@THEME@.widget.props.accordionTab.accordionHdrOpenAll;
-    this.refreshNodeContainer.className = webui.@THEME@.widget.props.accordionTab.accordionHdrRefresh;
+    this.headerContainer.className = this.theme.getClassName("ACCORDION_HDR");
+    this.collapseAllContainer.className = this.theme.getClassName("ACCORDION_HDR_CLOSEALL");
+    this.expandAllContainer.className = this.theme.getClassName("ACCORDION_HDR_OPENALL");
+    
+    // the divider should initially be hidden
+    this.dividerNodeContainer.className = this.theme.getClassName("HIDDEN");
+    
+    this.refreshNodeContainer.className = this.theme.getClassName("ACCORDION_HDR_REFRESH");
 
     // Set events.
     var id = this.id;
@@ -189,16 +190,82 @@ webui.@THEME@.widget.accordion.getProps = function() {
     if (this.loadOnSelect) { props.loadOnSelect = this.loadOnSelect; }
     if (this.toggleControls) { props.toggleControls = this.toggleControls; }
     if (this.multipleSelect) { props.multipleSelect = this.multipleSelect; }
-    if (this.expandAllImage != null) { props.expandAllImage = this.expandAllImage; }
-    if (this.collapseAllImage != null) { props.collapseAllImage = this.collapseAllImage; }
-    if (this.refreshImage != null) { props.refreshImage = this.refreshImage; }
+    if (this.isRefreshIcon != null) { props.isRefreshIcon = this.isRefreshIcon; }
     if (this.style != null) { props.style = this.style; }
-    if (this.styleClass != null) { props.styleClass = this.styleClass; }
+    if (this.className != null) { props.className = this.className; }
     if (this.tabs != null) { props.tabs = this.tabs; }
     if (this.id) { props.id = this.id; }
     if (this.type) { props.type = this.type; }
 
     return props;
+}
+
+/**
+ * This function is used to initialize the widget.
+ *
+ * Note: This is called after the fillInTemplate() function.
+ *
+ * @param props Key-Value pairs of properties.
+ * @param frag HTML fragment.
+ * @param parent The parent of this widget.
+ */
+webui.@THEME@.widget.accordion.initialize = function (props, frag, parent) {
+
+    // Generate the accordion header buttons on the client side.
+
+    if (this.toggleControls && this.multipleSelect) {
+        if (this.expandAllImage == null) {
+            var btnTitle = this.theme.getMessage("Accordion.expandAll");
+            this.expandAllImage = this.widget.getImageProps("ACCORDION_EXPAND_ALL", {
+                id: this.id + "_expandAll", 
+                title: btnTitle,
+                alt: btnTitle
+            });
+            props.expandAllImage = this.expandAllImage; // Required for _setProps().
+        }
+        
+        if (this.collapseAllImage == null) {
+            var btnTitle = this.theme.getMessage("Accordion.collapseAll");
+            this.collapseAllImage = this.widget.getImageProps("ACCORDION_COLLAPSE_ALL", {
+                id: this.id + "_collapseAll", 
+                title: btnTitle,
+                alt: btnTitle
+            });
+            props.collapseAllImage = this.collapseAllImage; // Required for _setProps().
+        }
+    }
+    // Set refresh image properties.
+    if (this.isRefreshIcon) {
+        if (this.refreshImage == null) {
+            var btnTitle = this.theme.getMessage("Accordion.refresh");
+            this.refreshImage = this.widget.getImageProps("ACCORDION_REFRESH", {
+                id: this.id + "_refresh", 
+                title: btnTitle,
+                alt: btnTitle
+                });
+            props.refreshImage = this.refreshImage; // Required for _setProps().
+         }
+    }
+    return webui.@THEME@.widget.accordion.superclass.initialize.call(this, props, frag, parent);
+}
+
+/**
+ * This function is used to obtain the outermost HTML element class name.
+ *
+ * Note: Selectors should be concatinated in order of precedence (e.g., the
+ * user's className property is always appended last).
+ */
+webui.@THEME@.widget.accordion.getClassName = function() {
+    var key = "ACCORDION_DIV";
+
+    // Get theme property.
+    var className = this.theme.getClassName(key);
+    if (className == null || className.length == 0) {
+        return this.className;
+    }
+    return (this.className)
+        ? className + " " + this.className
+        : className;
 }
 
 /**
@@ -256,11 +323,9 @@ webui.@THEME@.widget.accordion.setProps = function(props, notify) {
  *  <li>loadOnSelect</li>
  *  <li>toggleControls</li>
  *  <li>multipleSelect</li>
- *  <li>expandAllImage</li>
- *  <li>collapseAllImage</li>
- *  <li>refreshImage</li>
+ *  <li>isRefreshIcon</li>
  *  <li>style</li>
- *  <li>styleClass</li>
+ *  <li>className</li>
  *  <li>tabs</li>
  *  <li>type</li>
  * </ul>
@@ -318,7 +383,8 @@ dojo.lang.extend(webui.@THEME@.widget.accordion, {
     selectChild: webui.@THEME@.widget.accordion.selectChild,
     setProps: webui.@THEME@.widget.accordion.setProps,
     _setProps: webui.@THEME@.widget.accordion._setProps,
-
+    initialize: webui.@THEME@.widget.accordion.initialize,
+    getClassName: webui.@THEME@.widget.accordion.getClassName,
     // Set defaults.
     duration: 250,
     event: webui.@THEME@.widget.accordion.event,

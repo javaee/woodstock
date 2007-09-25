@@ -143,6 +143,13 @@ webui.@THEME@.widget.accordionTab.fillInTemplate = function(props, frag) {
         this.hiddenFieldNode.name = this.hiddenFieldNode.id;
     }
 
+    // set style classes
+    this.titleContainer.className = this.theme.getClassName("ACCORDION_TABCOLLAPSED");
+    this.turnerContainer.className = this.theme.getClassName("ACCORDION_RIGHTTURNER");
+    this.menuContainer.className = this.theme.getClassName("HIDDEN");
+    this.titleNode.className = this.theme.getClassName("ACCORDION_TABTITLE");
+    this.contentNode.className = this.theme.getClassName("ACCORDION_TABCONTENT");
+    
     // Set public functions.
     this.domNode.processAction = function(execute) { return dojo.widget.byId(this.id).processAction(execute); }
 
@@ -173,7 +180,7 @@ webui.@THEME@.widget.accordionTab.getProps = function() {
     if (this.tabContent) { props.tabContent = this.tabContent; }
     if (this.visible != null) { props.visible = this.visible; }
     if (this.actions != null) { props.actions = this.actions; }
-    if (this.styleClass != null) { props.styleClass = this.styleClass; }
+    if (this.className != null) { props.className = this.className; }
     if (this.style != null) { props.style = this.style; }
     if (this.contentHeight != null) { props.contentHeight = this.contentHeight; }
     if (this.id) { props.id = this.id; }
@@ -210,17 +217,13 @@ webui.@THEME@.widget.accordionTab.onTitleClick = function () {
  */
 webui.@THEME@.widget.accordionTab.onTitleMouseOut = function() {
     if (this.selected) {
-        this.titleContainer.className = 
-            webui.@THEME@.widget.props.accordionTab.accordionTabExpanded;
-        this.turnerContainer.className = 
-            webui.@THEME@.widget.props.accordionTab.accordionDownTurner;
+        this.titleContainer.className = this.theme.getClassName("ACCORDION_TABEXPANDED");
+        this.turnerContainer.className = this.theme.getClassName("ACCORDION_DOWNTURNER");
         return false;
     }
 
-    this.titleContainer.className = 
-        webui.@THEME@.widget.props.accordionTab.accordionTabCollapsed;
-    this.turnerContainer.className = 
-        webui.@THEME@.widget.props.accordionTab.accordionRightTurner;
+    this.titleContainer.className = this.theme.getClassName("ACCORDION_TABCOLLAPSED");
+    this.turnerContainer.className = this.theme.getClassName("ACCORDION_RIGHTTURNER");
 }
 
 /**
@@ -228,11 +231,9 @@ webui.@THEME@.widget.accordionTab.onTitleMouseOut = function() {
  */
 webui.@THEME@.widget.accordionTab.onTitleMouseOver = function() {
     if (this.selected) {
-        this.turnerContainer.className = 
-            webui.@THEME@.widget.props.accordionTab.accordionDownTurner;
+        this.turnerContainer.className = this.theme.getClassName("ACCORDION_DOWNTURNER");
     } else {
-        this.turnerContainer.className = 
-            webui.@THEME@.widget.props.accordionTab.accordionRightTurner;
+        this.turnerContainer.className = this.theme.getClassName("ACCORDION_RIGHTTURNER");
     }
 }
 
@@ -265,13 +266,23 @@ webui.@THEME@.widget.accordionTab.setProps = function(props, notify) {
 }
 
 /**
+ * This function is used to obtain the outermost HTML element class name.
+ *
+ * Note: Selectors should be concatinated in order of precedence (e.g., the
+ * user's className property is always appended last).
+ */
+webui.@THEME@.widget.accordionTab.getClassName = function() {
+    return this.className;
+}
+
+/**
  * This function is used to set widget properties with the following 
  * Object literals.
  *
  * <ul>
  *  <li>contentHeight</li>
  *  <li>Style</li>
- *  <li>styleClass</li>
+ *  <li>className</li>
  *  <li>title</li>
  *  <li>tabContent</li>
  *  <li>visible</li>
@@ -302,17 +313,13 @@ webui.@THEME@.widget.accordionTab._setProps = function(props) {
         this.setTabContent(props.tabContent);
         if (this.selected) {
             this.hiddenFieldNode.value = "true";
-            this.titleContainer.className = 
-                webui.@THEME@.widget.props.accordionTab.accordionTabExpanded;
-            this.turnerContainer.className = 
-                webui.@THEME@.widget.props.accordionTab.accordionDownTurner;
+            this.titleContainer.className = this.theme.getClassName("ACCORDION_TABEXPANDED");
+            this.turnerContainer.className = this.theme.getClassName("ACCORDION_DOWNTURNER");
             this.contentNode.style.display = "block";
         } else {
             this.hiddenFieldNode.value = "false";
-            this.titleContainer.className = 
-                webui.@THEME@.widget.props.accordionTab.accordionTabCollapsed;
-            this.turnerContainer.className = 
-                webui.@THEME@.widget.props.accordionTab.accordionRightTurner;
+            this.titleContainer.className = this.theme.getClassName("ACCORDION_TABCOLLAPSED");
+            this.turnerContainer.className = this.theme.getClassName("ACCORDION_RIGHTTURNER");
             this.contentNode.style.display = "none";
         }
     }
@@ -339,10 +346,8 @@ webui.@THEME@.widget.accordionTab.setSelected = function (isSelected) {
 
     if (this.selected) {
         this.hiddenFieldNode.value = "true";
-        this.titleContainer.className = 
-            webui.@THEME@.widget.props.accordionTab.accordionTabExpanded;
-        this.turnerContainer.className = 
-            webui.@THEME@.widget.props.accordionTab.accordionDownTurner;
+        this.titleContainer.className = this.theme.getClassName("ACCORDION_TABEXPANDED");
+        this.turnerContainer.className = this.theme.getClassName("ACCORDION_DOWNTURNER");
         this.contentNode.style.display = "block";
 
         // if the tab does not have content and "loadOnSelect" is set
@@ -354,10 +359,8 @@ webui.@THEME@.widget.accordionTab.setSelected = function (isSelected) {
         }
     } else {
         this.hiddenFieldNode.value = "false";
-        this.titleContainer.className = 
-            webui.@THEME@.widget.props.accordionTab.accordionTabCollapsed;
-        this.turnerContainer.className = 
-            webui.@THEME@.widget.props.accordionTab.accordionRightTurner;
+        this.titleContainer.className = this.theme.getClassName("ACCORDION_TABCOLLAPSED");
+        this.turnerContainer.className = this.theme.getClassName("ACCORDION_RIGHTTURNER");
         this.contentNode.style.display = "none";
     }
 }
@@ -403,6 +406,7 @@ dojo.lang.extend(webui.@THEME@.widget.accordionTab, {
     processAction: webui.@THEME@.widget.accordionTab.event.tabAction.processEvent,
     processLoad: webui.@THEME@.widget.accordionTab.event.loadContent.processEvent,
     setProps: webui.@THEME@.widget.accordionTab.setProps,
+    getClassName: webui.@THEME@.widget.accordionTab.getClassName,
     _setProps: webui.@THEME@.widget.accordionTab._setProps,
     setSelected: webui.@THEME@.widget.accordionTab.setSelected,    
     setTabContent: webui.@THEME@.widget.accordionTab.setTabContent,
