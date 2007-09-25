@@ -106,11 +106,7 @@ public class ProgressBarRenderer extends RendererBase {
                 : getTheme().getMessage("ProgressBar.toolTip"))
             .put("type", progressBar.getType())
             .put("visible", progressBar.isVisible());
-
-        // Add busy icon.
-        json.put("busyImage", WidgetUtilities.renderComponent(context, 
-            progressBar.getBusyIcon()));
-
+       
         // Add attributes.
         JSONUtilities.addStringProperties(stringAttributes, component, json);
         JSONUtilities.addIntegerProperties(intAttributes, component, json);

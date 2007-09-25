@@ -145,6 +145,7 @@ public class ProgressBar extends javax.faces.component.UIOutput
      * Get the busy icon.
      *
      * @return The busy icon.
+     * @deprecated  
      */
     public UIComponent getBusyIcon() {
         Theme theme = ThemeUtilities.getTheme(getFacesContext());

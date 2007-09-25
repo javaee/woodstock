@@ -79,24 +79,6 @@ webui.@THEME@.widget.props = {
         optionSeparatorClassName: "LstOptSep@THEME_CSS@",
         titleOptionAppender: " &#8212;".unescapeHTML(), // Prototype method
         titleOptionPreppender: "&#8212; ".unescapeHTML()
-    },
-
-    // Progress bar properties.
-    progressBar: {
-        barContainerClassName: "barContainer@THEME_CSS@",
-        busy: "BUSY",
-        canceled: "canceled",
-        completed: "completed",
-        determinate: "DETERMINATE",
-        determinateClassName: "barDeterminate@THEME_CSS@",
-        failed: "failed",
-        indeterminate: "INDETERMINATE",
-        indeterminateClassName: "barIndeterminate@THEME_CSS@",
-        indeterminatePausedClassName: "barIndeterminatePaused@THEME_CSS@",
-        notstarted: "not_started",
-        paused: "paused",
-        resumed: "resumed",
-        stopped: "stopped"
     }
-        
+            
 }
