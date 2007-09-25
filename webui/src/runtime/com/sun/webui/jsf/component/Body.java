@@ -710,6 +710,56 @@ public class Body extends UIComponentBase {
     }
 
     /**
+     * <p>Use the preserveScroll attribute to indicate whether the page
+     * should remember the scroll position when navigating to and from
+     * the page. The default value is <code>true</code></p>
+     */
+    @Property(name="preserveScroll", displayName="Preserve Scroll Position", category="Behavior")
+    private boolean preserveScroll = true;
+    private boolean preserveScroll_set = false;
+
+    /**
+     * <p>Use the preserveScroll attribute to indicate whether the page
+     * should remember the scroll position when navigating to and from
+     * the page. The default value is <code>true</code></p>
+     */
+    public boolean isPreserveScroll() {
+        if (this.preserveScroll_set) {
+            return this.preserveScroll;
+        }
+        ValueExpression _vb = getValueExpression("preserveScroll");
+        if (_vb != null) {
+            Object _result = _vb.getValue(getFacesContext().getELContext());
+            if (_result == null) {
+                return false;
+            } else {
+                return ((Boolean) _result).booleanValue();
+            }
+        }
+	// Get the default behavior from the theme.
+	//
+	String defaultPreserveScroll = null;
+	Theme theme =
+	    ThemeUtilities.getTheme(FacesContext.getCurrentInstance());
+	try {
+	    defaultPreserveScroll = theme.getMessage("body.preserveScroll");
+	    return Boolean.valueOf(defaultPreserveScroll).booleanValue();
+	} catch (Exception e) {
+	}
+        return this.preserveScroll;
+    }
+
+    /**
+     * <p>Use the preserveScroll attribute to indicate whether the page
+     * should remember the scroll position when navigating to and from
+     * the page. The default value is <code>true</code></p>
+     */
+    public void setPreserveScroll(boolean preserveScroll) {
+        this.preserveScroll = preserveScroll;
+        this.preserveScroll_set = true;
+    }
+
+    /**
      * <p>CSS style(s) to be applied to the outermost HTML element when this 
      * component is rendered.</p>
      */
@@ -852,13 +902,15 @@ public class Body extends UIComponentBase {
         this.visible_set = ((Boolean) _values[20]).booleanValue();
 	this.preserveFocus = ((Boolean) _values[21]).booleanValue();
 	this.preserveFocus_set = ((Boolean) _values[22]).booleanValue();
+	this.preserveScroll = ((Boolean) _values[23]).booleanValue();
+	this.preserveScroll_set = ((Boolean) _values[24]).booleanValue();
     }
 
     /**
      * <p>Save the state of this component.</p>
      */
     public Object saveState(FacesContext _context) {
-        Object _values[] = new Object[23];
+        Object _values[] = new Object[25];
         _values[0] = super.saveState(_context);
         _values[1] = this.focus;
         _values[2] = this.imageURL;
@@ -882,6 +934,8 @@ public class Body extends UIComponentBase {
         _values[20] = this.visible_set ? Boolean.TRUE : Boolean.FALSE;
 	_values[21] = this.preserveFocus ? Boolean.TRUE : Boolean.FALSE;
 	_values[22] = this.preserveFocus_set ? Boolean.TRUE : Boolean.FALSE;
+	_values[23] = this.preserveScroll ? Boolean.TRUE : Boolean.FALSE;
+	_values[24] = this.preserveScroll_set ? Boolean.TRUE : Boolean.FALSE;
         return _values;
     }
 }

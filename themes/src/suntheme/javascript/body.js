@@ -61,9 +61,11 @@ dojo.require("webui.@THEME@.cookie");
  * @param focusElementId the id of the element to receive the initial focus.
  * @param focusElementFieldId the id of a hidden field to maintain
  * the id of the last element to have the focus.
+ * @param preserveScroll if true or not defined the scroll position is 
+ * maintained else scroll is not maintained.
  */
 webui.@THEME@.body = function(viewId, path, defaultFocusElementId, 
-	focusElementId, focusElementFieldId)  {
+	focusElementId, focusElementFieldId, preserveScroll)  {
 
     /**
      * The id of the HTML element to receive the focus, if the
@@ -89,10 +91,16 @@ webui.@THEME@.body = function(viewId, path, defaultFocusElementId,
      */
     this.focusElementId = focusElementId;
 
+    // "==" also handles "null"
+    //
+    this.preserveScroll = (preserveScroll == undefined ? true : 
+		new Boolean(preserveScroll).valueOf());
     /**
      * Create the scroll cookie object.
      */
-    this.scrollCookie = new webui.@THEME@.scrollCookie(viewId, path);
+    if (this.preserveScroll == true) {
+	this.scrollCookie = new webui.@THEME@.scrollCookie(viewId, path);
+    }
 
     /**
      * @deprecated
@@ -120,7 +128,7 @@ webui.@THEME@.body = function(viewId, path, defaultFocusElementId,
 	    return false;
 	}
 	return this.setFocusByElement(window.document.getElementById(fid));
-    }
+    };
 
     /**
      * Set the focus on "focusElement".
@@ -281,6 +289,9 @@ webui.@THEME@.body = function(viewId, path, defaultFocusElementId,
      * body.onUnloadListener
      */
     this.storeScrollPosition = function() {
+	if (!this.preserveScroll) {
+	    return false;
+	}
 	try {
 	    this.scrollCookie.set(); 
 	} catch (e) {
@@ -293,6 +304,9 @@ webui.@THEME@.body = function(viewId, path, defaultFocusElementId,
      */
     this.setDefaultScrollPosition = function() {
 
+	if (!this.preserveScroll) {
+	    return false;
+	}
 	// # char found, anchor being used. forego scrolling.
 	// CR 6342635. 
 	//
@@ -397,11 +411,17 @@ webui.@THEME@.body = function(viewId, path, defaultFocusElementId,
      * it is only on the window in IE. IE does not support
      * "addEventListener".
      */
+    // If we are not preserving scroll don't add the unload listener
+    //
     if (window.document.addEventListener) {
 	window.addEventListener('load', this.onLoadListener, true);
-	window.addEventListener('unload', this.onUnloadListener, true);
+	if (this.preserveScroll) {
+	    window.addEventListener('unload', this.onUnloadListener, true);
+	}
     } else {
 	window.attachEvent('onload', this.onLoadListener);
-	window.attachEvent('onunload', this.onUnloadListener);
+	if (this.preserveScroll) {
+	    window.attachEvent('onunload', this.onUnloadListener);
+	}
     }
 }

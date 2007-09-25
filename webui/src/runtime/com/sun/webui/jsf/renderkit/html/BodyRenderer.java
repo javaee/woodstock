@@ -23,6 +23,8 @@
 package com.sun.webui.jsf.renderkit.html;
 
 import com.sun.faces.annotation.Renderer;
+import com.sun.webui.html.HTMLAttributes;
+import com.sun.webui.html.HTMLElements;
 import com.sun.webui.jsf.component.Body;
 import com.sun.webui.jsf.component.ComplexComponent;
 import com.sun.webui.jsf.util.FocusManager;
@@ -54,15 +56,15 @@ public class BodyRenderer extends AbstractRenderer {
      * <p>The set of String pass-through attributes to be rendered.</p>
      */
     private static final String stringAttributes[] =
-    { "onClick", "onDblClick", "onMouseDown", "onMouseUp", //NOI18N
-      "onMouseOver", "onMouseMove", "onMouseOut", "onKeyPress", //NOI18N
-      "onKeyDown", "onKeyUp", "onFocus", "onBlur", "onLoad", "onUnload"}; //NOI18N
+    { "onClick", "onDblClick", "onMouseDown", "onMouseUp",
+      "onMouseOver", "onMouseMove", "onMouseOut", "onKeyPress",
+      "onKeyDown", "onKeyUp", "onFocus", "onBlur", "onLoad", "onUnload"};
       
     /**
      * <p>The set of integer pass-through attributes to be rendered.</p>
      */
     private static final String integerAttributes[] =
-    { "tabIndex" }; //NOI18N
+    { "tabIndex" };
 
 
     /**
@@ -117,12 +119,12 @@ public class BodyRenderer extends AbstractRenderer {
                     this.getClass().getName(),
                     Body.class.getName() };
                     String message = MessageUtil.getMessage
-                            ("com.sun.webui.jsf.resources.LogMessages", //NOI18N
-                            "Renderer.component", params); //NOI18N
+                            ("com.sun.webui.jsf.resources.LogMessages",
+                            "Renderer.component", params);
                     throw new FacesException(message);
         }
         
-        writer.startElement("body", component); //NOI18N  
+        writer.startElement(HTMLElements.BODY, component);
     }
     
 
@@ -155,12 +157,11 @@ public class BodyRenderer extends AbstractRenderer {
 	if (imageUrl != null && imageUrl.length() > 0) {
 	    String resourceUrl = context.getApplication().
 		getViewHandler().getResourceURL(context, imageUrl);
-	    writer.writeAttribute("background", resourceUrl, null); //NOI18N
+	    writer.writeAttribute(HTMLAttributes.BACKGROUND, resourceUrl, null);
 	}
 
 
         addIntegerAttributes(context, component, writer, integerAttributes);
-        writer.write("\n"); //NOI18N
     }
     
     /**
@@ -199,13 +200,13 @@ public class BodyRenderer extends AbstractRenderer {
         Theme theme = ThemeUtilities.getTheme(context);
         StringBuffer buff = new StringBuffer(128);
         buff.append(JavaScriptUtilities.getModuleName("common.body"))
-            .append(" = new ") //NOI18N
-            .append(JavaScriptUtilities.getModuleName("body")) //NOI18N
-            .append("('") //NOI18N
+            .append(" = new ")
+            .append(JavaScriptUtilities.getModuleName("body"))
+            .append("('")
             .append(viewId)
-            .append("', '") //NOI18N
+            .append("', '")
             .append(urlString)
-            .append("'"); //NOI18N
+            .append("'");
 
 	// Pass the developer specified focus id. This will be the
 	// default focus id, if the "dynamic" focus element cannot
@@ -213,16 +214,16 @@ public class BodyRenderer extends AbstractRenderer {
 	// javascript argument.
 	//
 	String fid = getFocusElementId(context, body.getFocus());
-	buff.append(","); //NOI18N
+	buff.append(",");
 	if (fid != null && fid.length() != 0 ) {
-	    buff.append("'") //NOI18N
+	    buff.append("'")
 		.append(fid)
-		.append("'"); //NOI18N
+		.append("'");
 	} else  {
 	    // Note that javascript null must be rendered if fid 
 	    // is java null. We don't want to render the string 'null'.
 	    //
-	    buff.append("null"); //NOI18N
+	    buff.append("null");
 	}
 
         // Pass the id of the element that should receive the initial focus.
@@ -233,42 +234,38 @@ public class BodyRenderer extends AbstractRenderer {
 	// This is the "focusElementId" javascript argument.
 	//
 	String rid = FocusManager.getRequestFocusElementId(context);
-	buff.append(","); //NOI18N
+	buff.append(",");
 	if (rid != null && rid.length() != 0 ) {
-	    buff.append("'") //NOI18N
+	    buff.append("'")
 		.append(rid)
-		.append("'"); //NOI18N
+		.append("'");
 	} else  {
 	    // Note that javascript null must be rendered if fid 
 	    // is java null. We don't want to render the string 'null'.
 	    //
-	    buff.append("null"); //NOI18N
+	    buff.append("null");
 	}
 
 	// pass the id of the hidden field that holds the
 	// focus element id
 	// This is the "focusElementFieldId" argument.
 	//
-	buff.append(",'") // NOI18N
+	buff.append(",'")
 	    .append(FocusManager.FOCUS_FIELD_ID)
-	    .append("'") // NOI18N
-            .append(");"); //NOI18N
+	    .append("'");
+
+	// Pass the value of "isPreserveScroll"
+	//
+	buff.append(body.isPreserveScroll() ? ",true" : ",false")
+            .append(");");
 
         // Render JavaScript.
         JavaScriptUtilities.renderJavaScript(component, writer,
             buff.toString());
 
-        writer.endElement("body"); //NOI18N
-        writer.write("\n"); //NOI18N
+        writer.endElement(HTMLElements.BODY);
     }
     
-    /**
-     * Log an error - only used during development time.
-     */
-    void log(String s) {
-        System.out.println(this.getClass().getName() + "::" + s); //NOI18N
-    }
-
     /**
      * Helper method to obtain the id of a ComplexComponent sub
      * component. If a developer specified the focus property
