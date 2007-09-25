@@ -131,7 +131,7 @@ public class AccordionTabRenderer extends RendererBase {
         AccordionTab content = (AccordionTab) component;
 
         JSONObject json = new JSONObject();
-        json.put("styleClass", content.getStyleClass())
+        json.put("className", content.getStyleClass())
             .put("style", content.getStyle())
             .put("selected", content.isSelected())
             .put("visible", content.isVisible())

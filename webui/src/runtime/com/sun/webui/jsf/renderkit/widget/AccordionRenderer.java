@@ -94,24 +94,11 @@ public class AccordionRenderer extends RendererBase {
             .put("multipleSelect", isMultipleSelect)
             .put("loadOnSelect", container.isLoadOnSelect())
             .put("toggleControls", container.isToggleControls())
-            .put("visible", container.isVisible());
+            .put("visible", container.isVisible())
+            .put("isRefreshIcon", container.isRefreshIcon());
             
-        if (container.isRefreshButton()) {
-            json.put("refreshImage", WidgetUtilities.renderComponent(context,
-                container.getRefreshIcon(theme, context)));
-        }
-        
         if (container.getChildCount() > 0) {
             setContents(context, container, json);
-            if (container.isToggleControls() && isMultipleSelect) {
-                // Append expand/collapse image properties.
-                json.put("expandAllImage", 
-                    WidgetUtilities.renderComponent(context, 
-                        container.getExpandAllIcon(theme, context)));
-                json.put("collapseAllImage",
-                    WidgetUtilities.renderComponent(context,
-                        container.getCollapseAllIcon(theme, context)));                
-            }
         }
         
         // Add attributes.

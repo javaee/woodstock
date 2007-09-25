@@ -69,9 +69,6 @@ import com.sun.webui.theme.Theme;
  * decide what should be done in this scenario.
  */
 
-@Component(type="com.sun.webui.jsf.TabContainer", 
-family="com.sun.webui.jsf.TabContainer", displayName="Tab Container", 
-isTag=false)
 public class TabContainer extends WebuiComponent implements NamingContainer {
     
     /**

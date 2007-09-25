@@ -89,7 +89,7 @@ public class Accordion extends TabContainer {
      * selected the accordion will not supply expand/collapse icons even if 
      * the application developer provides facets for these.
      */
-    @Property(name="multipleSelect", displayName="Multiple tab selected", isHidden=true)
+    @Property(name="multipleSelect", displayName="Multiple tab selected")
     private boolean multipleSelect = false;
     private boolean multipleSelect_set = false;
     
@@ -127,8 +127,7 @@ public class Accordion extends TabContainer {
      * only in the case wehere multipleSelect has been set to true. In the case
      * of single select accordions only one tab can be open at any given time.
      */
-    @Property(name="toggleControls", displayName="Set expand and colapse controls", 
-        isHidden=true)
+    @Property(name="toggleControls", displayName="Set expand and colapse controls")
     private boolean toggleControls = false;
     private boolean toggleControls_set = false;
     
@@ -168,20 +167,19 @@ public class Accordion extends TabContainer {
      * the accordion header. When clicked it would refresh the accordion
      * and its tabs asynchronously.
      */
-    @Property(name="refreshButton", displayName="Display Refresh Icon", 
-        isHidden=true)
-    private boolean refreshButton = false;
-    private boolean refreshButton_set = false;
+    @Property(name="refreshIcon", displayName="Display Refresh Icon")
+    private boolean refreshIcon = false;
+    private boolean refreshIcon_set = false;
     
     /**
      * Returns true if the Accordion container contains a refresh icon.
      * 
      */
-    public boolean isRefreshButton() {
-        if (this.refreshButton_set) {
-            return this.refreshButton;
+    public boolean isRefreshIcon() {
+        if (this.refreshIcon_set) {
+            return this.refreshIcon;
         }
-        ValueExpression _vb = getValueExpression("refreshButton");
+        ValueExpression _vb = getValueExpression("refreshIcon");
         if (_vb != null) {
             Object _result = _vb.getValue(getFacesContext().getELContext());
             if (_result == null) {
@@ -197,80 +195,9 @@ public class Accordion extends TabContainer {
      * Set to true if Accordion container should contain a refresh icons.
      * 
      */
-    public void setRefreshButton(boolean refreshButton) {
-        this.refreshButton = refreshButton;
-        this.refreshButton_set = true;
-    }
-    
-    
-    
-    /**
-     * Return a component that implements a refresh icon.
-     * @return - the refresh Icon instance
-     */
-    public UIComponent getRefreshIcon(Theme theme, FacesContext context) { 
-        
-        Icon icon = (Icon)
-	    ComponentUtilities.getPrivateFacet(this,
-		"refresh", true);
-        if(icon != null) {
-	    return icon;
-	}
-        icon = ThemeUtilities.getIcon(theme,
-	    ThemeImages.ACCORDION_REFRESH);
-	icon.setId(
-	    ComponentUtilities.createPrivateFacetId(this, "refresh"));
-	icon.setParent(this);
-        icon.setToolTip(theme.getMessage("Accordion.refresh"));
-	icon.setBorder(0);            
-	return icon;    
-    }
-        
-    /**
-     * Return a component that implements a expandAll icon.
-     * @return - the expandAll Icon instance
-     */
-    public UIComponent getExpandAllIcon(Theme theme, FacesContext context) { 
-        
-        Icon icon = (Icon)
-	    ComponentUtilities.getPrivateFacet(this,
-		"expandAll", true);
-        if(icon != null) {
-	    return icon;
-	}
-        
-	icon = ThemeUtilities.getIcon(theme,
-	    ThemeImages.ACCORDION_EXPAND_ALL);
-	icon.setId(
-	    ComponentUtilities.createPrivateFacetId(this, "expandAll"));
-	icon.setParent(this);
-        icon.setToolTip(theme.getMessage("Accordion.expandAll"));
-        
-	icon.setBorder(0);            
-	return icon;    
-    }
-    
-    /**
-     * Return a component that implements a collapseAll icon.
-     * @return - the collapseAll Icon instance
-     */
-    public UIComponent getCollapseAllIcon(Theme theme, FacesContext context) { 
-        
-        Icon icon = (Icon)
-	    ComponentUtilities.getPrivateFacet(this,
-		"collapseAll", true);
-        if(icon != null) {
-	    return icon;
-	}
-
-	icon = ThemeUtilities.getIcon(theme,
-	    ThemeImages.ACCORDION_COLLAPSE_ALL);
-	icon.setId(
-	    ComponentUtilities.createPrivateFacetId(this, "collapseAll"));
-	icon.setParent(this);
-        icon.setToolTip(theme.getMessage("Accordion.collapseAll"));
-	icon.setBorder(0);            
-	return icon;    
+    public void setRefreshIcon(boolean refreshIcon) {
+        this.refreshIcon = refreshIcon;
+        this.refreshIcon_set = true;
     }
     
     /**
@@ -284,8 +211,8 @@ public class Accordion extends TabContainer {
         this.multipleSelect_set = ((Boolean) _values[2]).booleanValue();
         this.toggleControls = ((Boolean) _values[3]).booleanValue();
         this.toggleControls_set = ((Boolean) _values[4]).booleanValue();
-        this.refreshButton = ((Boolean) _values[5]).booleanValue();
-        this.refreshButton_set = ((Boolean) _values[6]).booleanValue();
+        this.refreshIcon = ((Boolean) _values[5]).booleanValue();
+        this.refreshIcon_set = ((Boolean) _values[6]).booleanValue();
     }
     
     /**
@@ -299,8 +226,8 @@ public class Accordion extends TabContainer {
         _values[2] = this.multipleSelect_set ? Boolean.TRUE : Boolean.FALSE;
         _values[3] = this.toggleControls ? Boolean.TRUE : Boolean.FALSE;
         _values[4] = this.toggleControls_set ? Boolean.TRUE : Boolean.FALSE;
-        _values[5] = this.refreshButton ? Boolean.TRUE : Boolean.FALSE;
-        _values[6] = this.refreshButton_set ? Boolean.TRUE : Boolean.FALSE;
+        _values[5] = this.refreshIcon ? Boolean.TRUE : Boolean.FALSE;
+        _values[6] = this.refreshIcon_set ? Boolean.TRUE : Boolean.FALSE;
         return _values;
     }
    

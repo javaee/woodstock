@@ -51,9 +51,6 @@ import com.sun.webui.jsf.component.util.Util;
  * submitted.
  *
  */
-@Component(type="com.sun.webui.jsf.TabContent", 
-family="com.sun.webui.jsf.TabContent", displayName="Tab Content", 
-isTag=false)
 public class TabContent extends WebuiComponent  implements NamingContainer {
     
            
