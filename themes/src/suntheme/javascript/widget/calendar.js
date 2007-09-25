@@ -436,6 +436,13 @@ webui.@THEME@.widget.calendar.event = {
          */
         processEvent: function(execute) {
             var topic = webui.@THEME@.widget.calendar.event.toggle.openTopic;        
+
+            // publish an event for other widgets to listen for.
+            dojo.event.topic.publish(
+                topic, {
+                    id: this.id,
+                    execute: execute
+                });  
             if (this.calendarContainer.style.display != "block") {
                 if (webui.@THEME@.widget.calendar.activeCalendarId != null) {
                     var cal = dojo.widget.byId(webui.@THEME@.widget.calendar.activeCalendarId);
@@ -454,13 +461,7 @@ webui.@THEME@.widget.calendar.event = {
             // Test for IE 
             if (webui.@THEME@.common.browser.is_ie5up) {
                 this.ieStackingContextFix();
-            }
-            // publish an event for other widgets to listen for.
-            dojo.event.topic.publish(
-                topic, {
-                    id: this.id,
-                    execute: execute
-                });            
+            }          
             return false;
         }
     }
