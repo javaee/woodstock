@@ -289,12 +289,23 @@ public class ProgressBarDesignTimeRenderer extends AbstractDesignTimeRenderer {
                         
             sb.append("<img src=\"");
             
-            if (progressImageUrl == null) {
+            if (progressImageUrl == null || progressImageUrl.length() == 0) {
                 sb.append(prgBarBusyImage);
             } else {
                 sb.append(progressImageUrl);
             }
-            sb.append("\"/>");
+            sb.append("\"");
+            if (progressBar.getHeight() > 0) {
+                sb.append(" height=\"");
+                sb.append(progressBar.getHeight());
+                sb.append("\"");
+            }
+            if (progressBar.getWidth() > 0) {
+                sb.append(" width=\"");
+                sb.append(progressBar.getWidth());
+                sb.append("\"");
+            }
+            sb.append("/>");
             
             writer.write(sb.toString());
             sb.setLength(0);
