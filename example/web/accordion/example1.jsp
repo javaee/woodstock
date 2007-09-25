@@ -103,7 +103,7 @@
     saved view selector set at a fixed height = 100%. Multiple select is set to true.</div><br />
 
       <!-- width override's default in CSS -->
-    <webuijsf:accordion id="acc2" style="width:30%" multipleSelect="true"  toggleControls="true" refreshButton="true">
+    <webuijsf:accordion id="acc2" style="width:30%" multipleSelect="true"  toggleControls="true" refreshIcon="true">
         
                 <webuijsf:accordionTab id="tab1" title="One" >
                     <webuijsf:label id="label1" text="Label1"/>
@@ -142,7 +142,7 @@
       and a saved view selector that fits all items. Multiple select set to false.</div><br />
 
       <!-- width override's default in CSS -->
-    <webuijsf:accordion id="acc3" style="width:100%" toggleControls="true" refreshButton="true">
+    <webuijsf:accordion id="acc3" style="width:100%" toggleControls="true" refreshIcon="true">
         
                 <webuijsf:accordionTab id="tab1" title="One" >
                     <webuijsf:label id="label1" text="Label1"/>

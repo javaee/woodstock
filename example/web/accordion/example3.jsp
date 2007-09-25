@@ -30,7 +30,7 @@
      <td width="200px">
      <div style="width:100%">Accordion occupying 100% of parent width. </div><br/>
 
-     <webuijsf:accordion id="acc1" toggleControls="true" refreshButton="true">
+     <webuijsf:accordion id="acc1" toggleControls="true" refreshIcon="true">
          
          <webuijsf:accordionTab id="tab1" title="One" contentHeight="50px" >
               <webuijsf:staticText binding="#{AccordionBean.text1}"/>
@@ -56,7 +56,7 @@
      <td width="200px">
      <div style="width:100%">Accordion occupying 100% of parent width. </div><br/>
 
-     <webuijsf:accordion id="acc2" toggleControls="true" refreshButton="true"
+     <webuijsf:accordion id="acc2" toggleControls="true" refreshIcon="true"
         multipleSelect="true">
          
          <webuijsf:accordionTab id="tab1" title="One" contentHeight="50px" >

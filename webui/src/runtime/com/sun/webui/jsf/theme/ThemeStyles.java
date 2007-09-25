@@ -771,6 +771,23 @@ public class ThemeStyles {
     public static final String MENU_SHADOW_CONTAINER = "MENU_SHADOW_CONTAINER";
     
     /**
+     * Accordion Styles
+     */
+    public static final String ACCORDION_DIV = "ACCORDION_DIV";
+    public static final String ACCORDION_HDR = "ACCORDION_HDR";
+    public static final String ACCORDION_HDR_REFRESH = "ACCORDION_HDR_REFRESH";
+    public static final String ACCORDION_HDR_OPENALL = "ACCORDION_HDR_OPENALL";
+    public static final String ACCORDION_HDR_CLOSEALL = "ACCORDION_HDR_CLOSEALL";
+    public static final String ACCORDION_HDR_DIVIDER = "ACCORDION_HDR_DIVIDER";
+    public static final String ACCORDION_COLLAPSED = "ACCORDION_COLLAPSED";
+    public static final String ACCORDION_TABCONTENT = "ACCORDION_TABCONTENT";
+    public static final String ACCORDION_TABTITLE = "ACCORDION_TABTITLE";
+    public static final String ACCORDION_TABEXPANDED = "ACCORDION_TABEXPANDED";
+    public static final String ACCORDION_TABCOLLAPSED = "ACCORDION_TABCOLLAPSED";
+    public static final String ACCORDION_DOWNTURNER = "ACCORDION_DOWNTURNER";
+    public static final String ACCORDION_RIGHTTURNER = "ACCORDION_RIGHTTURNER";
+
+    /**
      * This private constructor prevents this class from being instantiated
      * directly as its only purpose is to provide image constants.
      */
