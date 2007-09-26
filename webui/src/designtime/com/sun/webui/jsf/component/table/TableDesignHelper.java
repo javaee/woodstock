@@ -38,6 +38,7 @@ import java.io.StringWriter;
 import java.util.Iterator;
 import java.util.Properties;
 import java.util.StringTokenizer;
+import java.util.logging.Logger;
 
 /**
  * Helper class for Table designtime
@@ -49,9 +50,8 @@ public final class TableDesignHelper {
     
     public static final String DEFAULT_TABLE_DATA_PROVIDER =  "defaultTableDataProvider"; //NOI18N
     
-    private static final int INITIAL_TABLE_COLUMN_WIDTH = 120;
+    private static final int INITIAL_TABLE_COLUMN_WIDTH = 150;
     private static final String WIDTH_PROPRTY = "width";
-    private static final String STYLE_PROPRTY = "style";
     
     // Should not be instantiated
     private TableDesignHelper() {}
@@ -181,79 +181,122 @@ public final class TableDesignHelper {
         return tableColumnBean;
     }
     
-    public static void adjustTableWidth(DesignBean tableBean, int oldColumnWidth, int newColumnWidth){
+    public static void adjustTableWidth(DesignBean tableBean, int oldColumnWidth, int newColumnWidth) {
         DesignBean tableRowGroupBean = getTableRowGroupBean(tableBean);
-        if (tableRowGroupBean == null) return;
+        if (tableRowGroupBean == null) {
+            return;
+        }
         // Adjust the width of the table in its style property
         int tableWidth = -1;
-   
+
         DesignProperty widthProperty = tableBean.getProperty(WIDTH_PROPRTY); //NOI18N
-        String widthValue = (String)widthProperty.getValue();
-        
-        try{
-            tableWidth = Integer.parseInt(widthValue);
-        }catch(Exception exc){
-            tableWidth = -1;
-        }
-        
-        int childCount = tableRowGroupBean.getChildBeanCount();
-        
-        if (tableWidth == -1){
-            for(int i=0; i< childCount; i++){
-                tableWidth += INITIAL_TABLE_COLUMN_WIDTH;
+        String widthValue = (String) widthProperty.getValue();
+
+        if (widthProperty.getValue() != null) {
+            try {
+                tableWidth = Integer.parseInt(widthValue);
+            } catch (Exception exc) {
+                tableWidth = -1;
             }
         }
-        
+
+        int childCount = tableRowGroupBean.getChildBeanCount();
+
+        if (tableWidth == -1) {
+            //System.out.println("Table width null! ");
+            for (int i = 0; i < childCount; i++) {
+                DesignBean tableColumnBean = tableRowGroupBean.getChildBean(i);
+                DesignProperty columnWidthProperty = tableColumnBean.getProperty(WIDTH_PROPRTY); //NOI18N
+                if ((columnWidthProperty != null) && (columnWidthProperty.getValue() != null)) {
+                    try {
+                        int colWidth = Integer.parseInt((String) columnWidthProperty.getValue());
+                        //System.out.println("Width of column - " + i + " is " + colWidth);
+                        tableWidth += colWidth;
+                    } catch (Exception exc) {
+                        Logger.getLogger(TableDesignHelper.class.getName()).info(exc.getLocalizedMessage());
+                        tableWidth += INITIAL_TABLE_COLUMN_WIDTH;
+                    }
+                } else {
+                    tableWidth += INITIAL_TABLE_COLUMN_WIDTH;
+                }
+            }
+        }
+
         //System.out.println("Table old width - " + tableWidth);
-        if(oldColumnWidth == -1){
+        if (oldColumnWidth == -1) {
             int noWidthCols = 0;
             int setColumnsWidth = 0;
-            for(int i=0; i< childCount; i++){
+            for (int i = 0; i < childCount; i++) {
                 DesignBean tableColumnBean = tableRowGroupBean.getChildBean(i);
                 DesignProperty tcWidthProperty = tableColumnBean.getProperty(WIDTH_PROPRTY);
-                if(widthProperty.getValue() != null){
-                    try{
-                        int colWidth = Integer.parseInt((String)tcWidthProperty.getValue());
+                if ((tcWidthProperty != null) && (tcWidthProperty.getValue() != null)) {
+                    try {
+                        int colWidth = Integer.parseInt((String) tcWidthProperty.getValue());
                         //System.out.println("Width of column - " + i + " is " + colWidth);
                         setColumnsWidth += colWidth;
-                    }catch(Exception exc){
+                    } catch (Exception exc) {
+                        Logger.getLogger(TableDesignHelper.class.getName()).info(exc.getLocalizedMessage());
                         noWidthCols++;
                     }
-                }else{
+                } else {
                     noWidthCols++;
                 }
             }
             //System.out.println("No of columns without width  - " + noWidthCols);
             //System.out.println("Total  width of columns set  - " + setColumnsWidth);
-            if(noWidthCols != 0){
-                oldColumnWidth =   (tableWidth -  setColumnsWidth) / noWidthCols;
+            if (noWidthCols != 0) {
+                oldColumnWidth = (tableWidth - setColumnsWidth) / noWidthCols;
+                //System.out.println(" Old Width - " + oldColumnWidth + " New Column Width " + newColumnWidth);
+                tableWidth = tableWidth + (newColumnWidth - oldColumnWidth);
+                //System.out.println("Table new width - " + tableWidth);
             }
         }
-        //System.out.println( " Old Width - " + oldColumnWidth + " New Column Width " + newColumnWidth);
-        
-        tableWidth = tableWidth + (newColumnWidth - oldColumnWidth);
-        //System.out.println("Table new width - " + tableWidth);
-        
+
         widthValue = String.valueOf(tableWidth);
         widthProperty.setValue(widthValue);
     }
-    
-    public static void adjustTableWidth(DesignBean tableRowGroupBean){
+
+    public static void adjustTableWidth(DesignBean tableRowGroupBean) {
         // Adjust the width of the table in its style property
-        
+        //System.out.println("Adjusting Table Width .. ");
         DesignBean tableBean = tableRowGroupBean.getBeanParent();
-        DesignProperty widthProperty = tableBean.getProperty(WIDTH_PROPRTY); //NOI18N
-        String widthValue = (String)widthProperty.getValue();
-        
-        int tableWidth = 0;
+        DesignProperty tableWidthProperty = tableBean.getProperty(WIDTH_PROPRTY); //NOI18N
+        int oldTableWidth = 0;
         int childCount = tableRowGroupBean.getChildBeanCount();
-        for(int i=0; i< childCount; i++){
-            tableWidth += INITIAL_TABLE_COLUMN_WIDTH;
+
+        if ((tableWidthProperty != null) && (tableWidthProperty.getValue() != null)) {
+            try {
+                oldTableWidth = Integer.parseInt((String) tableWidthProperty.getValue());
+            } catch (Exception exc) {
+                Logger.getLogger(TableDesignHelper.class.getName()).info(exc.getLocalizedMessage());
+            }
+        } else {
+            // When the table is dropped set its initial width, else the default width will be 100%
+            for (int i = 0; i < childCount; i++) {
+                oldTableWidth += INITIAL_TABLE_COLUMN_WIDTH;
+            }
+            tableWidthProperty.setValue(String.valueOf(oldTableWidth));
         }
-        
-        widthValue = String.valueOf(tableWidth);
-        widthProperty.setValue(widthValue);
-       
+
+        int newTableWidth = 0;
+
+        for (int i = 0; i < childCount; i++) {
+            DesignBean tableColumnBean = tableRowGroupBean.getChildBean(i);
+            DesignProperty columnWidthProperty = tableColumnBean.getProperty(WIDTH_PROPRTY); //NOI18N
+            if ((columnWidthProperty != null) && (columnWidthProperty.getValue() != null)) {
+                try {
+                    int colWidth = Integer.parseInt((String) columnWidthProperty.getValue());
+                    newTableWidth += colWidth;
+                    //System.out.println("Width of column - " + i + " is " + colWidth);
+                } catch (Exception exc) {
+                    Logger.getLogger(TableDesignHelper.class.getName()).info(exc.getLocalizedMessage());
+                }
+            }
+        }
+
+        if (newTableWidth > oldTableWidth) {
+            tableWidthProperty.setValue(String.valueOf(newTableWidth));
+        }
     }
     
     public static DesignBean findChildBeanByName(DesignBean parent, String instanceName) {

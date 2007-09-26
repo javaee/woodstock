@@ -146,30 +146,13 @@ public class TableColumnDesignInfo extends AbstractDesignInfo {
      */
     public void propertyChanged(DesignProperty property, Object oldValue) {
         String propertyName = property.getPropertyDescriptor().getName();
-        if(propertyName.equals(WIDTH_PROPERTY)){
-            String columnWidth = (String)property.getValue();
-            if(columnWidth != null){
+        if (propertyName.equals(WIDTH_PROPERTY)) {
+            String columnWidth = (String) property.getValue();
+            if (columnWidth != null) {
                 // If not a percentage, units are in pixels.
                 // Ajust the table width only if the column width is specified in pixles
-                if (columnWidth.indexOf("%") == -1){
-                    int oldColumnWidth = -1;
-                    if(oldValue != null){
-                        String oldColumnWidthStr = (String)oldValue;
-                        if (oldColumnWidthStr.indexOf("%") == -1) { //NOI18N
-                            try{
-                                oldColumnWidth = Integer.parseInt(oldColumnWidthStr);
-                            }catch(Exception exc){
-                            }
-                        }
-                    }
-                    int newColumnWidth = -1;
-                    try{
-                        newColumnWidth = Integer.parseInt(columnWidth);
-                    }catch(Exception exc){
-                    }
-                    //System.out.println("Adjusting Width of column - " + columnName);
-                    // Adjust the table width to accomodate the change in width of the table column
-                    TableDesignHelper.adjustTableWidth(property.getDesignBean().getBeanParent().getBeanParent(), oldColumnWidth, newColumnWidth);
+                if (columnWidth.indexOf("%") == -1) {
+                    TableDesignHelper.adjustTableWidth(property.getDesignBean().getBeanParent());
                 }
             }
         }
