@@ -445,7 +445,7 @@ body.HlpBdy@THEME_CSS@ {
 
 /* LABEL [originalName: GENERIC FIELD LABELS]*/
 
-.LblLev1Txt@THEME_CSS@, .LblLev2Txt@THEME_CSS@, .LblLev2smTxt@THEME_CSS@ .LblLev3Txt@THEME_CSS@ {
+.LblLev1Txt@THEME_CSS@, .LblLev2Txt@THEME_CSS@, .LblLev2smTxt@THEME_CSS@, .LblLev3Txt@THEME_CSS@ {
 	color:#000000;
 }
 .LblLev1TxtDis@THEME_CSS@, .LblLev2TxtDis@THEME_CSS@, .LblLev2smTxtDis@THEME_CSS@, .LblLev3TxtDis@THEME_CSS@ {
