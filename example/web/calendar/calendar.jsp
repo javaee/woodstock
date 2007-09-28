@@ -50,6 +50,13 @@
                 onMouseOut="javascript: window.status=''; return true" />
             <webuijsf:hyperlink id="calendarLink" text="#{msgs.calendar_title}" />
           </webuijsf:breadcrumbs>
+                   
+          <!-- Alert -->
+          <webuijsf:alert id="alert"                
+              type="error"               
+              summary="#{CalendarBean.alertSummary}"
+              rendered="#{CalendarBean.alertRendered}" >
+          </webuijsf:alert>
 
           <!-- Content Page Title -->
           <webuijsf:contentPageTitle id="contentPageTitle"
@@ -57,12 +64,19 @@
 
             <webuijsf:markup tag="div" styleClass="#{themeStyles.CONTENT_MARGIN}">
 
+              <webuijsf:legend id="legend" text="#{msgs.calendar_requiredLabel}" />
+
               <br />
+              <!-- Calendar validation error message -->
+              <webuijsf:message id="calendarError" for="calendar" />
+
               <!-- Calendar -->
               <webuijsf:calendar id="calendar" label="#{msgs.calendar_label}"
                 dateFormatPattern="#{CalendarBean.dateFormatPattern}"
                 dateFormatPatternHelp="#{CalendarBean.dateFormatPatternHelp}"
                 converter="#{CalendarBean.dateConverter}"
+                toolTip="#{msgs.calendar_calendarTooltip}"
+                required="true"
                 selectedDate="#{CalendarBean.date}" />
                             
               <webuijsf:panelGroup id="pageActionsGroup" 

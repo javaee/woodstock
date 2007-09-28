@@ -80,6 +80,12 @@ public class CalendarBackingBean implements Serializable {
     // selections is "immediate" (as specified in calendar.jsp).
     private String datePatternActionOutcome = null;
 
+    // Holds value of property alertRendered.
+    private boolean alertRendered = false;
+
+    // Holds value of property alertSummary.
+    private String alertSummary = null;
+
 
     /**
      * Constructor
@@ -123,6 +129,16 @@ public class CalendarBackingBean implements Serializable {
 	this.dateFormatPatternHelp = dateFormatPatternHelp;
     }
 
+    /** Get the value of property alertRendered. */
+    public boolean getAlertRendered() {
+	return alertRendered;
+    }
+
+    /** Get the value of property alertSummary. */
+    public String getAlertSummary() {
+	return alertSummary;
+    }
+
     /** Return the result for the Calendar. */
     public String getCalendarResult() {                      
         Object[] args = new Object[2];
@@ -162,6 +178,8 @@ public class CalendarBackingBean implements Serializable {
 	    		MessageUtil.getMessage("calendar_invalidDate");
             	    FacesMessage msg = new FacesMessage(msgString);
             	    msg.setSeverity(FacesMessage.SEVERITY_ERROR);
+		    alertRendered = true;
+		    alertSummary = msgString;
             	    throw new ConverterException(msg);
 		}
 		return theDate;
@@ -183,6 +201,8 @@ public class CalendarBackingBean implements Serializable {
 	    		MessageUtil.getMessage("calendar_invalidDate");
             	    FacesMessage msg = new FacesMessage(msgString);
             	    msg.setSeverity(FacesMessage.SEVERITY_ERROR);
+		    alertRendered = true;
+		    alertSummary = msgString;
             	    throw new ConverterException(msg);
 		}
 		return theDate;
@@ -196,6 +216,8 @@ public class CalendarBackingBean implements Serializable {
 
     /** Action handler when navigating to the calendar example */
     public String showCalendar() {
+	alertRendered = false;
+	alertSummary = null;
 	return SHOW_CALENDAR;
     }
          
@@ -315,6 +337,11 @@ public class CalendarBackingBean implements Serializable {
 	    // simply allow the new date format to take effect.
 	}
 
+        // Ignore conversion failure when changing date format.
+        // We'll catch'em later if they try to submit the value!  ;-)
+	alertRendered = false;
+	alertSummary = null;
+
 	// Update our model and the calendar to account for the selected 
 	// date pattern.
 	dateFormatPattern = DATE_PATTERNS[n];
@@ -340,6 +367,8 @@ public class CalendarBackingBean implements Serializable {
     /** Initial all bean values to their defaults */
     private void _reset() {
 	date = null;
+	alertRendered = false;
+	alertSummary = null;
 
 	// Initialize the list of date format patterns
 	datePatterns = new Option[DATE_PATTERNS.length + 1];
