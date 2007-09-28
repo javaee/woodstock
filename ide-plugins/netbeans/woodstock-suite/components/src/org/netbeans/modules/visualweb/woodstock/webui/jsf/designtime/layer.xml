@@ -203,6 +203,10 @@ Microsystems, Inc. All Rights Reserved.
             <attr name="WoodstockWizardBranchSteps.comp_palette_item/WoodstockWizardStep.comp_palette_item" boolvalue="true"/>
             <attr name="WoodstockWizardStep.comp_palette_item/WoodstockWizardSubstepBranch.comp_palette_item" boolvalue="true"/> 
             <attr name="WoodstockWizardSubstepBranch.comp_palette_item/WoodstockEditableField.comp_palette_item" boolvalue="true"/>
+	    	<attr name="WoodstockEditableField.comp_palette_item/WoodstockAccordian.comp_palette_item" boolvalue="true"/>
+		    <attr name="WoodstockAccordian.comp_palette_item/WoodstockAccordianTab.comp_palette_item" boolvalue="true"/>
+		    <attr name="WoodstockAccordianTab.comp_palette_item/WoodstockBubble.comp_palette_item" boolvalue="true"/>
+
 
             <!-- End of Woodstock components not included in VWP -->
             
@@ -241,7 +245,11 @@ Microsystems, Inc. All Rights Reserved.
             <file name="WoodstockWizardBranchSteps.comp_palette_item" url="resources/WoodstockWizardBranchSteps.comp_palette_item"/>
             <file name="WoodstockWizardStep.comp_palette_item" url="resources/WoodstockWizardStep.comp_palette_item"/>
             <file name="WoodstockWizardSubstepBranch.comp_palette_item" url="resources/WoodstockWizardSubstepBranch.comp_palette_item"/> 
-	    <file name="WoodstockEditableField.comp_palette_item" url="resources/WoodstockEditableField.comp_palette_item"/>
+	        <file name="WoodstockEditableField.comp_palette_item" url="resources/WoodstockEditableField.comp_palette_item"/>
+	    	<file name="WoodstockAccordian.comp_palette_item" url="resources/WoodstockAccordian.comp_palette_item"/>
+		    <file name="WoodstockAccordianTab.comp_palette_item" url="resources/WoodstockAccordianTab.comp_palette_item"/>
+		    <file name="WoodstockBubble.comp_palette_item" url="resources/WoodstockBubble.comp_palette_item"/>
+
             <!-- End fo Woodstock components not included in VWP -->
         </folder>
         <folder name="Advanced">
