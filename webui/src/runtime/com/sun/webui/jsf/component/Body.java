@@ -689,7 +689,9 @@ public class Body extends UIComponentBase {
 	    ThemeUtilities.getTheme(FacesContext.getCurrentInstance());
 	try {
 	    defaultPreserveFocus = theme.getMessage("body.preserveFocus");
-	    return Boolean.valueOf(defaultPreserveFocus).booleanValue();
+	    if (defaultPreserveFocus != null) {
+		return Boolean.valueOf(defaultPreserveFocus).booleanValue();
+	    }
 	} catch (Exception e) {
 	}
         return this.preserveFocus;
@@ -743,7 +745,9 @@ public class Body extends UIComponentBase {
 	    ThemeUtilities.getTheme(FacesContext.getCurrentInstance());
 	try {
 	    defaultPreserveScroll = theme.getMessage("body.preserveScroll");
-	    return Boolean.valueOf(defaultPreserveScroll).booleanValue();
+	    if (defaultPreserveScroll != null) {
+		return Boolean.valueOf(defaultPreserveScroll).booleanValue();
+	    }
 	} catch (Exception e) {
 	}
         return this.preserveScroll;
