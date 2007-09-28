@@ -79,7 +79,7 @@
                     alignKey="last" headerText="#{msgs.table_LastName}" rowHeader="true">
                     <webuijsf:staticText text="#{name.value.last}"/>
                   </webuijsf:tableColumn>
-                  <webuijsf:tableColumn id="col2" alignKey="first" headerText="table_FirstName">
+                  <webuijsf:tableColumn id="col2" alignKey="first" headerText="#{msgs.table_FirstName}">
                     <webuijsf:staticText text="#{name.value.first}"/>
                   </webuijsf:tableColumn>
                 </webuijsf:tableRowGroup>
