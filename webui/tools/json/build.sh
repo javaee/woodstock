@@ -10,6 +10,7 @@ SCRIPT_DIR=`cd $SCRIPT_DIR; pwd`
 #
 CLASSES_DIR=$SCRIPT_DIR/classes
 SRC_DIR=$SCRIPT_DIR/src
+MANIFEST_FILE=$SCRIPT_DIR/MANIFEST.tmp
 TOOLS_DIR=$SCRIPT_DIR/../../../themes/tools/javascript
 TOOLS_JAR=$TOOLS_DIR/tools.jar
 RHINO_JAR=$TOOLS_DIR/custom_rhino.jar
@@ -54,11 +55,22 @@ cat $JSON_DIR/$COMPRESSED_FILE >> $JSON_DIR/$COMPRESSED_FILE.tmp
 mv $JSON_DIR/$COMPRESSED_FILE.tmp $JSON_DIR/$COMPRESSED_FILE
 
 #
+# Create manifest.
+#
+cat > $MANIFEST_FILE <<- EEOOFF 
+Created-By: Sun Microsystems Inc.
+Specification-Title: JSON
+Specification-Version: 2
+Specification-Vendor: json.org
+EEOOFF
+
+#
 # Create jar.
 #
-cd $CLASSES_DIR
 JUNK=`rm $JSON_JAR`
-jar cvf $JSON_JAR *
+cd $CLASSES_DIR
+jar cvfm $JSON_JAR $MANIFEST_FILE *
+rm $MANIFEST_FILE
 
 #
 # Clean

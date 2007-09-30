@@ -10,6 +10,7 @@ SCRIPT_DIR=`cd $SCRIPT_DIR; pwd`
 #
 CLASSES_DIR=$SCRIPT_DIR/classes
 SRC_DIR=$SCRIPT_DIR/src
+MANIFEST_FILE=$SCRIPT_DIR/MANIFEST.tmp
 TOOLS_DIR=$SCRIPT_DIR/../../../themes/tools/javascript
 TOOLS_JAR=$TOOLS_DIR/tools.jar
 RHINO_JAR=$TOOLS_DIR/custom_rhino.jar
@@ -38,14 +39,26 @@ cat $PROTOTYPE_DIR/$COMPRESSED_FILE >> $PROTOTYPE_DIR/$COMPRESSED_FILE.tmp
 mv $PROTOTYPE_DIR/$COMPRESSED_FILE.tmp $PROTOTYPE_DIR/$COMPRESSED_FILE
 
 #
+# Create manifest.
+#
+cat > $MANIFEST_FILE <<- EEOOFF 
+Created-By: Sun Microsystems Inc.
+Specification-Title: Prototype
+Specification-Version: 1.5.0_rc1
+Specification-Vendor: prototypejs.org
+EEOOFF
+
+#
 # Create jar.
 #
-cd $CLASSES_DIR
 JUNK=`rm $PROTOTYPE_JAR`
-jar cvf $PROTOTYPE_JAR *
+cd $CLASSES_DIR
+jar cvfm $PROTOTYPE_JAR $MANIFEST_FILE *
+rm $MANIFEST_FILE
 
 #
 # Clean
 #
 cd $SCRIPT_DIR
 JUNK=`rm -rf $CLASSES_DIR`
+
