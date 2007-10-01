@@ -191,53 +191,54 @@ Microsystems, Inc. All Rights Reserved.
                 <attr name="position" intvalue="1100"/>
             </file>  
             
-            <!-- Woodstock components not included in VWP. Add them here so that people can test the designtime code -->
-            <file name="WoodstockContentPageTitle.comp_palette_item" url="resources/WoodstockContentPageTitle.comp_palette_item">
+            <!-- By default, the folloing Woodstock components are not included in VWP palette. 
+                 Remove the .instance_hidden to have the component include in the palette -->
+            <file name="WoodstockContentPageTitle.comp_palette_item.instance_hidden" url="resources/WoodstockContentPageTitle.comp_palette_item">
                 <attr name="position" intvalue="500"/>
             </file>
-            <file name="WoodstockMasthead.comp_palette_item" url="resources/WoodstockMasthead.comp_palette_item">
+            <file name="WoodstockMasthead.comp_palette_item.instance_hidden" url="resources/WoodstockMasthead.comp_palette_item">
                 <attr name="position" intvalue="600"/>
             </file>
-            <file name="WoodstockVersionPage.comp_palette_item" url="resources/WoodstockVersionPage.comp_palette_item">
+            <file name="WoodstockVersionPage.comp_palette_item.instance_hidden" url="resources/WoodstockVersionPage.comp_palette_item">
                 <attr name="position" intvalue="700"/>
             </file>            
-            <file name="WoodstockEditableList.comp_palette_item" url="resources/WoodstockEditableList.comp_palette_item">
+            <file name="WoodstockEditableList.comp_palette_item.instance_hidden" url="resources/WoodstockEditableList.comp_palette_item">
                 <attr name="position" intvalue="1200"/>
             </file>
-            <file name="WoodstockFileChooser.comp_palette_item" url="resources/WoodstockFileChooser.comp_palette_item">
+            <file name="WoodstockFileChooser.comp_palette_item.instance_hidden" url="resources/WoodstockFileChooser.comp_palette_item">
                 <attr name="position" intvalue="1300"/>
             </file>
-            <file name="WoodstockHelpWindow.comp_palette_item" url="resources/WoodstockHelpWindow.comp_palette_item">
+            <file name="WoodstockHelpWindow.comp_palette_item.instance_hidden" url="resources/WoodstockHelpWindow.comp_palette_item">
                 <attr name="position" intvalue="1400"/>
             </file>
-            <file name="WoodstockLegend.comp_palette_item" url="resources/WoodstockLegend.comp_palette_item">
+            <file name="WoodstockLegend.comp_palette_item.instance_hidden" url="resources/WoodstockLegend.comp_palette_item">
                 <attr name="position" intvalue="1500"/>
             </file>
-            <file name="WoodstockOrderableList.comp_palette_item" url="resources/WoodstockOrderableList.comp_palette_item">
+            <file name="WoodstockOrderableList.comp_palette_item.instance_hidden" url="resources/WoodstockOrderableList.comp_palette_item">
                 <attr name="position" intvalue="1600"/>
             </file>
-            <file name="WoodstockScheduler.comp_palette_item" url="resources/WoodstockScheduler.comp_palette_item">
+            <file name="WoodstockScheduler.comp_palette_item.instance_hidden" url="resources/WoodstockScheduler.comp_palette_item">
                 <attr name="position" intvalue="1700"/>
             </file>
-            <file name="WoodstockWizard.comp_palette_item" url="resources/WoodstockWizard.comp_palette_item">
+            <file name="WoodstockWizard.comp_palette_item.instance_hidden" url="resources/WoodstockWizard.comp_palette_item">
                 <attr name="position" intvalue="1800"/>
             </file>
-            <file name="WoodstockWizardBranch.comp_palette_item" url="resources/WoodstockWizardBranch.comp_palette_item">
+            <file name="WoodstockWizardBranch.comp_palette_item.instance_hidden" url="resources/WoodstockWizardBranch.comp_palette_item">
                 <attr name="position" intvalue="1900"/>
             </file>
-            <file name="WoodstockWizardBranchSteps.comp_palette_item" url="resources/WoodstockWizardBranchSteps.comp_palette_item">
+            <file name="WoodstockWizardBranchSteps.comp_palette_item.instance_hidden" url="resources/WoodstockWizardBranchSteps.comp_palette_item">
                 <attr name="position" intvalue="2000"/>
             </file>
-            <file name="WoodstockWizardStep.comp_palette_item" url="resources/WoodstockWizardStep.comp_palette_item">
+            <file name="WoodstockWizardStep.comp_palette_item.instance_hidden" url="resources/WoodstockWizardStep.comp_palette_item">
                 <attr name="position" intvalue="2100"/>
             </file>
-            <file name="WoodstockWizardSubstepBranch.comp_palette_item" url="resources/WoodstockWizardSubstepBranch.comp_palette_item">
+            <file name="WoodstockWizardSubstepBranch.comp_palette_item.instance_hidden" url="resources/WoodstockWizardSubstepBranch.comp_palette_item">
                 <attr name="position" intvalue="2200"/>
             </file>
-	    <file name="WoodstockEditableField.comp_palette_item" url="resources/WoodstockEditableField.comp_palette_item">
+	    <file name="WoodstockEditableField.comp_palette_item.instance_hidden" url="resources/WoodstockEditableField.comp_palette_item">
                 <attr name="position" intvalue="2300"/>
             </file> 
-            <!-- End fo Woodstock components not included in VWP -->
+            <!-- End fo Woodstock components not included in VWP palette -->
         </folder>
         <folder name="Advanced">
             <!--<attr name="SystemFileSystem.localizingBundle" stringvalue="com.sun.jsf.resources.Bundle"/>-->
