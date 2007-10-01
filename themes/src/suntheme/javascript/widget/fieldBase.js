@@ -1,3 +1,4 @@
+// widget/fieldBase.js
 //
 // The contents of this file are subject to the terms
 // of the Common Development and Distribution License
@@ -20,51 +21,35 @@
 // Copyright 2007 Sun Microsystems, Inc. All rights reserved.
 //
 
+/**
+ * @name widget/fieldBase.js
+ * @version @THEME_VERSION@
+ * @overview This module contains classes and functions for the fieldBase object.
+ */
 dojo.provide("webui.@THEME@.widget.fieldBase");
 
-dojo.require("dojo.widget.*");
-dojo.require("webui.@THEME@.widget.*");
+dojo.require("webui.@THEME@.widget.submitBase");
 
 /**
- * This function is used to generate a template based widget.
+ * This function is used to construct a template based widget.
  *
- * Note: This is considered a private API, do not use.
+ * @name webui.@THEME@.widget.fieldBase
+ * @inherits webui.@THEME@.widget.submitBase
+ * @constructor
  */
-webui.@THEME@.widget.fieldBase = function() {
-    // Register widget.
-    dojo.widget.HtmlWidget.call(this);
-}
-
-/**
- * This function is used to fill in template properties.
- *
- * Note: This is called after the buildRendering() function. Anything to be set 
- * only once should be added here; otherwise, use the _setProps() function.
- *
- * @param props Key-Value pairs of properties.
- * @param frag HTML fragment.
- */
-webui.@THEME@.widget.fieldBase.fillInTemplate = function(props, frag) {
-    webui.@THEME@.widget.fieldBase.superclass.fillInTemplate.call(this, props, frag);
-    
-    // Set ids.
-    if (this.id) {
-        this.fieldNode.id = this.id + "_field";
-        this.fieldNode.name = this.id + "_field";
-        this.labelContainer.id = this.id + "_label";
-    }
-    
-    // Set public functions.
-    this.domNode.getInputElement = function() { return dojo.widget.byId(this.id).getInputElement(); }
-    
-    return true;
-}
+dojo.declare("webui.@THEME@.widget.fieldBase", webui.@THEME@.widget.submitBase, {
+    // Set defaults.
+    disabled: false,
+    required: false,
+    size: 20,
+    valid: true
+});
 
 /**
  * Helper function to obtain HTML input element class names.
  */
-webui.@THEME@.widget.fieldBase.getInputClassName = function() {   
-    return null;
+webui.@THEME@.widget.fieldBase.prototype.getInputClassName = function() {   
+    return null; // Overridden by subclass.
 }
 
 /**
@@ -72,16 +57,16 @@ webui.@THEME@.widget.fieldBase.getInputClassName = function() {
  *
  * @return a reference to the HTML input element. 
  */
-webui.@THEME@.widget.fieldBase.getInputElement = function() {
+webui.@THEME@.widget.fieldBase.prototype.getInputElement = function() {
     return this.fieldNode;
 }
 
 /**
  * This function is used to get widget properties. Please see the 
- * _setProps() function for a list of supported properties.
+ * setProps() function for a list of supported properties.
  */
-webui.@THEME@.widget.fieldBase.getProps = function() {
-    var props = webui.@THEME@.widget.fieldBase.superclass.getProps.call(this);
+webui.@THEME@.widget.fieldBase.prototype.getProps = function() {
+    var props = this.inherited("getProps", arguments);
     
     // Set properties.
     if (this.alt) { props.alt = this.alt; }
@@ -109,49 +94,38 @@ webui.@THEME@.widget.fieldBase.getProps = function() {
 }
 
 /**
- * This function is used to set widget properties with the following 
- * Object literals.
- *
- * <ul>
- *  <li>accesskey</li>
- *  <li>className</li>
- *  <li>dir</li>
- *  <li>disabled</li>
- *  <li>id</li>
- *  <li>label</li>
- *  <li>lang</li>
- *  <li>maxLength</li>
- *  <li>notify</li>
- *  <li>onClick</li>
- *  <li>onDblClick</li>
- *  <li>onFocus</li>
- *  <li>onKeyDown</li>
- *  <li>onKeyPress</li>
- *  <li>onKeyUp</li>
- *  <li>onMouseDown</li>
- *  <li>onMouseOut</li>
- *  <li>onMouseOver</li>
- *  <li>onMouseUp</li>
- *  <li>onMouseMove</li>
- *  <li>readOnly</li>
- *  <li>required</li>
- *  <li>size</li>
- *  <li>style</li>
- *  <li>submitForm</li>
- *  <li>tabIndex</li>
- *  <li>title</li>
- *  <li>valid</li>
- *  <li>value</li>
- *  <li>visible</li> 
- * </ul>
- *
- * Note: This is considered a private API, do not use. This function should only
- * be invoked through postInitialize() and setProps(). Further, the widget shall
- * be updated only for the given key-value pairs.
- *
- * @param props Key-Value pairs of properties.
+ * This function is used to fill in remaining template properties, after the
+ * buildRendering() function has been processed.
+ * <p>
+ * Note: Unlike Dojo 0.4, the DOM nodes don't yet exist. 
+ * </p>
  */
-webui.@THEME@.widget.fieldBase._setProps = function(props) {
+webui.@THEME@.widget.fieldBase.prototype.postCreate = function () {
+    // Set ids.
+    if (this.id) {
+        this.fieldNode.id = this.id + "_field";
+        this.fieldNode.name = this.id + "_field";
+        this.labelContainer.id = this.id + "_label";
+    }
+    
+    // Set public functions.
+    this.domNode.getInputElement = function() { return dijit.byId(this.id).getInputElement(); }
+    
+    return this.inherited("postCreate", arguments);
+}
+
+/**
+ * This function is used to set widget properties. Please see the setProps() 
+ * function for a list of supported properties.
+ * <p>
+ * Note: This is considered a private API, do not use. This function should only
+ * be invoked via setProps().
+ * </p>
+ *
+ * @param {Object} props Key-Value pairs of properties.
+ * @private
+ */
+webui.@THEME@.widget.fieldBase.prototype._setProps = function(props) {
     if (props == null) {
         return false;
     }
@@ -159,7 +133,7 @@ webui.@THEME@.widget.fieldBase._setProps = function(props) {
     // Set properties.
     if (props.submitForm == false || props.submitForm == true ) { 
         // connect the keyPress event
-        dojo.event.connect(this.fieldNode, "onkeypress", webui.@THEME@.widget.fieldBase.event.submitForm.processEvent);
+        dojo.connect(this.fieldNode, "onkeypress", this, "submitForm");
     }
     if (props.maxLength > 0) { this.fieldNode.maxLength = props.maxLength; }
     if (props.size > 0) { this.fieldNode.size = props.size;  }
@@ -191,78 +165,41 @@ webui.@THEME@.widget.fieldBase._setProps = function(props) {
     // Set HTML input element class name.
     this.fieldNode.className = this.getInputClassName();
     
-    // Set more properties..
+    // Set more properties.
     this.setCommonProps(this.fieldNode, props);
     this.setEventProps(this.fieldNode, props);
     
     // Set remaining properties.
-    return webui.@THEME@.widget.fieldBase.superclass._setProps.call(this, props);
+    return this.inherited("_setProps", arguments);
 }
 
 /**
- * This closure is used to process widget events.
+ * Process keyPress events on the field, which enforces/disables 
+ * submitForm behavior.
+ *
+ * @param {Event} event The JavaScript event
  */
-webui.@THEME@.widget.fieldBase.event = {
-    /** 
-     * This closure is used to process keyPress events. 
-     */
-    submitForm: {    
-        /**
-         * Helper function to process keyPress events on the field, which
-         * enforces/disables submitForm behavior .
-         * HTML events are connected to this function in fillInTemplate.
-         */
-        processEvent: function(event) {
-            if (event == null) {
-                return false;
+webui.@THEME@.widget.fieldBase.prototype.submitForm = function(event) {
+    if (event == null) {
+        return false;
+    }
+    if (event.keyCode == event.KEY_ENTER) {               
+        if (this.submitForm == false) {
+            // Disable form submission.
+            if (window.event) {
+                event.cancelBubble = true;
+                event.returnValue = false;
+            } else{
+                event.preventDefault();
+                event.stopPropagation();
             }
-            
-            if (event.keyCode == event.KEY_ENTER) {
-                
-                var widget = dojo.widget.byId(event.currentTarget.parentNode.id);
-                if (!widget) 
-                    return false;
-                
-                if (widget.submitForm == false) {
-                    //disable form submission
-                    if(window.event){
-                        event.cancelBubble = true;
-                        event.returnValue = false;
-                    }else{
-                        event.preventDefault();
-                        event.stopPropagation();
-                    }
-                    
-                    return false;
-                } else {
-                    //submit the form                    
-                    if (event.currentTarget.form)
-                        event.currentTarget.form.submit();
-                }
+            return false;
+        } else {
+            // Submit the form                    
+            if (event.currentTarget.form) {
+                event.currentTarget.form.submit();
             }
-            return true;    
         }
     }
+    return true;    
 }
-
-
-
-
-// Inherit base widget properties.
-dojo.inherits(webui.@THEME@.widget.fieldBase, webui.@THEME@.widget.widgetBase);
-
-// Override base widget by assigning properties to class prototype.
-dojo.lang.extend(webui.@THEME@.widget.fieldBase, {
-    // Set private functions.
-    fillInTemplate: webui.@THEME@.widget.fieldBase.fillInTemplate,
-    getInputClassName: webui.@THEME@.widget.fieldBase.getInputClassName,
-    getInputElement: webui.@THEME@.widget.fieldBase.getInputElement,
-    getProps: webui.@THEME@.widget.fieldBase.getProps,
-    _setProps: webui.@THEME@.widget.fieldBase._setProps,
-    
-    // Set defaults.
-    disabled: false,
-    required: false,
-    size: 20,
-    valid: true
-});

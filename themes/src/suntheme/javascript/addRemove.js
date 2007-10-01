@@ -1,3 +1,4 @@
+// addRemove.js
 //
 // The contents of this file are subject to the terms
 // of the Common Development and Distribution License
@@ -20,24 +21,27 @@
 // Copyright 2007 Sun Microsystems, Inc. All rights reserved.
 //
 
+/**
+ * @name addRemove.js
+ * @version @THEME_VERSION@
+ * @overview This module contains functions for addRemove components.
+ */
 dojo.provide("webui.@THEME@.addRemove");
 
 /** 
- * Define webui.@THEME@.addRemove name space. 
+ * This closure contains functions for addRemove components.
  */
 webui.@THEME@.addRemove = {
     /**
-     * This function is used to initialize HTML element properties with the
-     * following Object literals.
-     *
-     * <ul>
-     *  <li>id</li>
-     *  <li>separator<li>
-     * </ul>
-     *
+     * This function is used to initialize HTML element properties with Object 
+     * literals.
+     * <p>
      * Note: This is considered a private API, do not use.
+     * </p>
      *
-     * @param props Key-Value pairs of properties.
+     * @param {Object} props Key-Value pairs of properties.
+     * @config {String} [id] The HTML element id.
+     * @config {String} [separator] The character deliminator for ordered options.
      */
     init: function(props) {
         if (props == null || props.id == null) {
@@ -107,7 +111,7 @@ webui.@THEME@.addRemove = {
 
         // Calculate the value indices
         var itemString = document.getElementById(props.id + "_item_list");
-        if(itemString != null) {
+        if (itemString != null) {
             var string = new String(itemString.value);
             domNode.allValues = string.split(props.separator);	
         } else {
@@ -129,11 +133,16 @@ webui.@THEME@.addRemove = {
         domNode.allowMultipleAdditions = webui.@THEME@.addRemove.allowMultipleAdditions;
         domNode.availableOnChange = webui.@THEME@.addRemove.availableOnChange;
         domNode.selectedOnChange = webui.@THEME@.addRemove.selectedOnChange;
+
+        return true;
     },
 
+    /**
+     * This function adds options to the selected list.
+     */
     add: function() {
-        if(this.availableOptions.selectedIndex == -1) {
-            return;
+        if (this.availableOptions.selectedIndex == -1) {
+            return false;
         }
 
         var sort = this.sort && (this.moveUpButton == null);
@@ -144,9 +153,12 @@ webui.@THEME@.addRemove = {
             this.selectedList, sort);
     },
 
+    /**
+     * This function removes options to the selected list.
+     */
     remove: function() {
-        if(this.selectedOptions.selectedIndex == -1) {
-            return;
+        if (this.selectedOptions.selectedIndex == -1) {
+            return false;
         }
 
         // deselect everything in the selected list
@@ -155,14 +167,22 @@ webui.@THEME@.addRemove = {
             this.availableList, this.sort);
     },
 
+    /**
+     * This function moves options in the selected list.
+     *
+     * @param {Array} moveFromOptions
+     * @param {Array} moveToOptions
+     * @param {Array} moveToList
+     * @param {boolean} sort
+     */
     moveOption: function(moveFromOptions, moveToOptions, moveToList, sort) {
         var index = moveFromOptions.selectedIndex;
-        if(index == -1) {
+        if (index == -1) {
             return;
         }
 
-        // keep moving selected items until there aren't any more valid ones
-        while(index != -1 && index < moveFromOptions.length - 1) {
+        // Keep moving selected items until there aren't any more valid ones
+        while (index != -1 && index < moveFromOptions.length - 1) {
             var lastOption = moveToOptions.length - 1;
 
             // This is the option we're moving
@@ -174,7 +194,7 @@ webui.@THEME@.addRemove = {
             // ...and this is the option at that index
             var insertionOption;
  
-            if(sort) {
+            if (sort) {
                 // If there are no buttons to move the selected items up or
                 // down, then we preserve the sorting order of the available
                 // items. We calculate the index of the selected item (based 
@@ -182,9 +202,9 @@ webui.@THEME@.addRemove = {
                 // variable), and then we check each selected item until we
                 // reach an item with a higher index.
                 var itemIndex = this.calculateIndex(curSelection.value);
-                for(var counter = 0;counter < lastOption + 1;++counter) {
+                for (var counter = 0;counter < lastOption + 1;++counter) {
                     insertionOption = moveToOptions[counter];
-                    if(itemIndex < this.calculateIndex(insertionOption.value)) {
+                    if (itemIndex < this.calculateIndex(insertionOption.value)) {
                         insertionIndex = counter;
                         break;
                     }
@@ -198,7 +218,7 @@ webui.@THEME@.addRemove = {
 
             // To insert the item, Mozilla works different from Windows
             // and Opera.
-            if(moveFromOptions.remove == null) {
+            if (moveFromOptions.remove == null) {
                 // Case 1: Mozilla
                 moveToList.add(curSelection, insertionOption);
             } else {
@@ -221,36 +241,46 @@ webui.@THEME@.addRemove = {
         return false;
     },
 
+    /**
+     * This function adds all options to the selected list.
+     */
     addAll: function() {
         var numOptions = this.availableOptions.length - 1;
-        for(var index = 0;index < numOptions;++index) {
-            if(this.availableOptions[index].disabled == false) {
+        for (var index = 0;index < numOptions;++index) {
+            if (this.availableOptions[index].disabled == false) {
                 this.availableOptions[index].selected = true;
             }
         }
         return this.add();
     },
 
+    /**
+     * This function removes all options from the selected list.
+     */
     removeAll: function() {
         var numOptions = this.selectedOptions.length - 1;
-        for(var index = 0;index < numOptions;++index) {
-            if(this.selectedOptions[index].disabled == false) {
+        for (var index = 0;index < numOptions;++index) {
+            if (this.selectedOptions[index].disabled == false) {
                 this.selectedOptions[index].selected = true;
             }
         }
         return this.remove();
     },
 
-    // The original allowed items to be moved on both lists. Surely we
-    // only sort items on the selected list? 
-    // This does not work on Mozilla
+    /**
+     * This function moves options up in the selected list.
+     */
     moveUp: function() {
+        // The original allowed items to be moved on both lists. Surely we
+        // only sort items on the selected list? 
+        // This does not work on Mozilla.
+
         // We will not move the last item - it's the separator
         var numOptions = this.selectedOptions.length - 1;
 
         // If there aren't at least two more selected items, then there is
         // nothing to move 
-        if(numOptions < 2) {
+        if (numOptions < 2) {
             return;
         }
 
@@ -261,9 +291,9 @@ webui.@THEME@.addRemove = {
         // on the first selected item that is below an unselected
         // item. We identify the first unselected item on the list, and 
         // then we will start on next item after that
-        while(this.selectedOptions[index].selected) {
+        while (this.selectedOptions[index].selected) {
             ++index;
-            if(index == numOptions) {
+            if (index == numOptions) {
                 // We've reached the last item - no more items below it so
                 // we return
                 return;
@@ -273,10 +303,10 @@ webui.@THEME@.addRemove = {
         // Start on the item below this one 
         ++index;
 
-        for(index;index < numOptions;++index) {
-            if(this.selectedOptions[index].selected == true) {
+        for (index; index < numOptions; ++index) {
+            if (this.selectedOptions[index].selected == true) {
                 var curOption = this.selectedOptions[index];
-                if(this.selectedOptions.remove == null) {
+                if (this.selectedOptions.remove == null) {
                     // For Mozilla
                     this.selectedOptions[index] = null;
                     this.selectedList.add(curOption,
@@ -295,17 +325,21 @@ webui.@THEME@.addRemove = {
         return false;
     },
 
-    // The original allowed items to be moved on both lists. Surely we
-    // only sort items on the selected list? 
-    // This does not work on Mozilla
+    /**
+     * This function moves options down in the selected list.
+     */
     moveDown: function() {
+        // The original allowed items to be moved on both lists. Surely we
+        // only sort items on the selected list? 
+        // This does not work on Mozilla
+
         // Last option is numOption -1. That is the separator and we don't
         // move it. We start by examining the second to last item. 
         var index = this.selectedOptions.length - 2;
 
         // If this number is less than zero, there was nothing on the list
         // and we return
-        if(index < 0) {
+        if (index < 0) {
             return;
         }
 
@@ -313,9 +347,9 @@ webui.@THEME@.addRemove = {
         // on the last selected item that is above an unselected
         // item. We identify the last unselected item before the separator
         // and then we start with the item above that one. 
-        while(this.selectedOptions[index].selected) {
+        while (this.selectedOptions[index].selected) {
             --index;
-            if(index == 0) {
+            if (index == 0) {
                 // We've reached the first item - no item above it so we
                 // return 
                 return;
@@ -325,10 +359,10 @@ webui.@THEME@.addRemove = {
         // Start on the item above this one 
         --index;
 
-        for(index;index > -1;--index) {
-            if(this.selectedOptions[index].selected == true) {
+        for (index;index > -1;--index) {
+            if (this.selectedOptions[index].selected == true) {
                 var curOption = this.selectedOptions[index];
-                if(this.selectedOptions.remove == null) {
+                if (this.selectedOptions.remove == null) {
                     // For Mozilla
                     this.selectedOptions[index] = null;
                     this.selectedList.add(curOption, 
@@ -347,16 +381,17 @@ webui.@THEME@.addRemove = {
         return false;
     },
 
+    /**
+     * This function updates the state of all buttons.
+     */
     updateButtons: function() {
-        
         var numOptions = this.availableOptions.length-1;
         var setting;
         
-        //disabled items should not be moved and buttons should not be enabled
-        //for selected disabled items (IE problem)
-        for(var i = 0;i < numOptions;++i) {
-            if(this.availableOptions[i].disabled == true) {
-
+        // Disabled items should not be moved and buttons should not be enabled
+        // for selected disabled items (IE problem)
+        for (var i = 0; i < numOptions; ++i) {
+            if (this.availableOptions[i].disabled == true) {
                 this.availableOptions[i].selected = false;
             }
         }
@@ -365,9 +400,9 @@ webui.@THEME@.addRemove = {
 
         // The Add button is enabled if there is at least one option
         // to select from and at least one item is selected
-        if(this.addButton != null) {
+        if (this.addButton != null) {
             setting = numOptions < 1 || index == -1;
-            if(this.addButton.setDisabled != null) {
+            if (this.addButton.setDisabled != null) {
                 this.addButton.setDisabled(setting);
             } else {
                 this.addButton.disabled = setting;
@@ -376,19 +411,19 @@ webui.@THEME@.addRemove = {
 
         // The Add All button is enabled if there is at least one option
         // to select from, and disabled otherwise
-        if(this.addAllButton != null) {
+        if (this.addAllButton != null) {
             var counter = 0;
             // If available item list is disabled then AddAll button should be disabled 
             // irrespective of options element in list.
-            if(this.availableList.disabled == false) {
-                for(index = 0;index < numOptions;++index) {
-                    if(this.availableOptions[index].disabled == false) {
+            if (this.availableList.disabled == false) {
+                for (index = 0; index < numOptions; ++index) {
+                    if (this.availableOptions[index].disabled == false) {
                         ++counter;
                     }
                 }
             } 
             setting = (counter < 1);            
-            if(this.addAllButton.setDisabled != null) {
+            if (this.addAllButton.setDisabled != null) {
                 this.addAllButton.setDisabled(setting);
             } else {
                 this.addAllButton.disabled = setting;
@@ -400,19 +435,19 @@ webui.@THEME@.addRemove = {
         index = this.selectedOptions.selectedIndex;
         numOptions = this.selectedOptions.length - 1;
         
-        if(this.removeAllButton != null) {
+        if (this.removeAllButton != null) {
             var counter = 0;
             // If selected item list is disabled then RemoveAll button should be disabled 
             // irrespective of options element in list.  
-            if(this.selectedList.disabled == false) {
-                for(index = 0;index < numOptions;++index) {
-                     if(this.selectedOptions[index].disabled == false) {
+            if (this.selectedList.disabled == false) {
+                for (index = 0; index < numOptions; ++index) {
+                     if (this.selectedOptions[index].disabled == false) {
                          ++counter;
                      }
                 }
             } 
             setting = (counter < 1);
-            if(this.removeAllButton.setDisabled != null) {
+            if (this.removeAllButton.setDisabled != null) {
                 this.removeAllButton.setDisabled(setting);
             } else {
                 this.removeAllButton.disabled = setting;
@@ -423,8 +458,8 @@ webui.@THEME@.addRemove = {
         // we disable Remove, Move Up, Move Down
         index = this.selectedOptions.selectedIndex;
         var noItems = numOptions < 1 || index == -1;
-        if(this.removeButton != null) {
-            if(this.removeButton.setDisabled != null) {
+        if (this.removeButton != null) {
+            if (this.removeButton.setDisabled != null) {
                 this.removeButton.setDisabled(noItems);
             } else {
                 this.removeButton.disabled = noItems;
@@ -433,27 +468,27 @@ webui.@THEME@.addRemove = {
 
         // The Move Up button is enabled (setting = false) provided that
         // there is at least one selected item that is below an unselected item 
-        if(this.moveUpButton != null) {
+        if (this.moveUpButton != null) {
             setting = true;
-            if(noItems != true) {
+            if (noItems != true) {
                 // Find the first un-selected option, then see if there is
                 // a selected option below that one
                 var found = false;
                 var unselected = -1;
-                for(index = 0;index < numOptions;++index) {
-                    if(unselected == -1) {
-                        if(this.selectedOptions[index].selected == false) {
+                for (index = 0; index < numOptions; ++index) {
+                    if (unselected == -1) {
+                        if (this.selectedOptions[index].selected == false) {
                             unselected = index;
                         }
                     } else {
-                        if(this.selectedOptions[index].selected == true) {
+                        if (this.selectedOptions[index].selected == true) {
                             setting = false;
                             break;
                         }
                     }
                 }
             }
-            if(this.moveUpButton.setDisabled != null) {
+            if (this.moveUpButton.setDisabled != null) {
                 this.moveUpButton.setDisabled(setting);
             } else {
                 this.moveUpButton.disabled = setting;
@@ -462,18 +497,16 @@ webui.@THEME@.addRemove = {
 
         // The Move Down button is enabled (setting = false) provided that
         // there is at least one unselected item below a selected item.
-        if(this.moveDownButton != null) {
+        if (this.moveDownButton != null) {
             setting = true;
-            if(noItems != true) {	     
-                for(index = this.selectedOptions.selectedIndex;
-                    index < numOptions;
-                    ++index) {
-                    if(this.selectedOptions[index].selected == false) {
+            if (noItems != true) {	     
+                for (index = this.selectedOptions.selectedIndex; index < numOptions; ++index) {
+                    if (this.selectedOptions[index].selected == false) {
                         setting = false;
                     }
                 }
             }
-            if(this.moveDownButton.setDisabled != null) {
+            if (this.moveDownButton.setDisabled != null) {
                 this.moveDownButton.setDisabled(setting);
             } else {
                 this.moveDownButton.disabled = setting;
@@ -481,17 +514,21 @@ webui.@THEME@.addRemove = {
         }
         // set the focus to the list which has some selected item(s).
         // this needs to be done to shift the focus from disabled button (Mozilla)
-        if (this.selectedOptions.selectedIndex > -1)
+        if (this.selectedOptions.selectedIndex > -1) {
              this.selectedList.focus();
-        else if (this.availableOptions.selectedIndex > -1)
+        } else if (this.availableOptions.selectedIndex > -1) {
              this.availableList.focus();
+        }
         return false;
     },
 
+    /**
+     *
+     */
     calculateIndex: function(value, lastIndex) {
         var string = new String(value);
-        for(var counter=0;counter < this.allValues.length;counter++) {
-            if(string == this.allValues[counter]) {
+        for (var counter=0; counter < this.allValues.length; counter++) {
+            if (string == this.allValues[counter]) {
                 return counter;
             }
         }
@@ -499,10 +536,13 @@ webui.@THEME@.addRemove = {
         return this.allValues.length - 2;
     },
 
+    /**
+     *
+     */
     updateValue: function() {
         // Remove the options from the select that holds the actual
         // selected values
-        while(this.selectedValues.length > 0) {
+        while (this.selectedValues.length > 0) {
             this.selectedValues.remove(0);
         }
 
@@ -512,12 +552,12 @@ webui.@THEME@.addRemove = {
         var cntr = 0;
         var newOption;
 
-        while(cntr < this.selectedOptions.length-1) {
+        while (cntr < this.selectedOptions.length-1) {
             newOption = document.createElement("option");
-            if(this.selectedOptions[cntr].text != null) {
+            if (this.selectedOptions[cntr].text != null) {
                 newOption.text = this.selectedOptions[cntr].text;
             }
-            if(this.selectedOptions[cntr].value != null) {
+            if (this.selectedOptions[cntr].value != null) {
                 newOption.value = this.selectedOptions[cntr].value;
             }
             newOption.selected = true;
@@ -526,15 +566,15 @@ webui.@THEME@.addRemove = {
         }
 
         cntr = 0;
-        if(this.selectedOptions.remove == null) {
+        if (this.selectedOptions.remove == null) {
             // For Mozilla
-            while(cntr < newOptions.length) {
+            while (cntr < newOptions.length) {
                 this.selectedValues.add(newOptions[cntr], null);
                 ++cntr;
             }
         } else {
             // Windows and Opera do
-            while(cntr < newOptions.length) {
+            while (cntr < newOptions.length) {
                 this.selectedValues.add(newOptions[cntr], cntr);
                 ++cntr;
             }
@@ -542,22 +582,29 @@ webui.@THEME@.addRemove = {
         return true;
     },
 
+    /**
+     *
+     */
     allowMultipleAdditions: function() {
         // Replace the add and remove functions with functions which 
         // leave the available items as they are
         this.add = webui.@THEME@.addRemove.multipleAdd;
         this.remove = webui.@THEME@.addRemove.multipleRemove;
+        return true;
     },
 
+    /**
+     *
+     */
     multipleAdd: function() {
         this.selectedList.selectedIndex = -1;
         var index = this.availableOptions.selectedIndex;
-        if(index == -1) {
-            return;
+        if (index == -1) {
+            return false;
         }
     
         // keep moving selected items until there aren't any more valid ones
-        while(index != -1 && index < this.availableOptions.length - 1) {
+        while (index != -1 && index < this.availableOptions.length - 1) {
             var lastOption = this.selectedOptions.length - 1;
 
             // This is the option we're moving
@@ -582,11 +629,11 @@ webui.@THEME@.addRemove = {
             // We sort if there are no move buttons
             var sort = (this.moveUpButton == null);
 
-            if(sort) {
+            if (sort) {
                 var itemIndex = this.calculateIndex(curSelection.value);
-                for(var counter = 0;counter < lastOption + 1;++counter) {
+                for (var counter = 0; counter < lastOption + 1; ++counter) {
                     insertionOption = this.selectedOptions[counter];
-                    if(itemIndex < this.calculateIndex(insertionOption.value)) {
+                    if (itemIndex < this.calculateIndex(insertionOption.value)) {
                         insertionIndex = counter;
                         break;
                     }
@@ -600,7 +647,7 @@ webui.@THEME@.addRemove = {
 
             // To insert the item, Mozilla works different from Windows
             // and Opera. 
-            if(this.selectedOptions.remove == null) {
+            if (this.selectedOptions.remove == null) {
                 // Case 1: Mozilla
                 this.selectedList.add(addSelection, insertionOption);
             } else {
@@ -622,16 +669,19 @@ webui.@THEME@.addRemove = {
         return false;
     },
 
+    /**
+     *
+     */
     multipleRemove: function() {
         this.availableList.selectedIndex = -1;
         var index = this.selectedOptions.selectedIndex;
-        if(index == -1) {
-            return;
+        if (index == -1) {
+            return false;
         }
 
-        while(index < this.selectedOptions.length - 1) {
-            if(this.selectedOptions[index].selected) {
-                if(this.selectedOptions.remove == null) {
+        while (index < this.selectedOptions.length - 1) {
+            if (this.selectedOptions[index].selected) {
+                if (this.selectedOptions.remove == null) {
                     // Case 1: Mozilla
                     this.selectedOptions[index] = null;
                 } else {
@@ -647,12 +697,18 @@ webui.@THEME@.addRemove = {
         return false;
     },
 
+    /**
+     *
+     */
     availableOnChange: function() {
         this.selectedList.selectedIndex = -1;
         this.updateButtons();
         return false;
     },
 
+    /**
+     *
+     */
     selectedOnChange: function() {
         this.availableList.selectedIndex = -1;
         this.updateButtons();

@@ -128,28 +128,6 @@ public class ButtonRenderer extends RendererBase {
     // RendererBase methods
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-    /**
-     * Get the Dojo module required to instantiate the widget.
-     *
-     * @param context FacesContext for the current request.
-     * @param component UIComponent to be rendered.
-     */
-    protected String getModule(FacesContext context, UIComponent component) {
-	if (!(component instanceof Button)) {
-	    throw new IllegalArgumentException(
-                "ButtonRenderer can only render Button components.");
-        }
-        // Get type.
-        String type = getType((Button) component);
-        if (type.equals(TYPE_ICON) || type.equals(TYPE_IMAGE)) {
-            return JavaScriptUtilities.getModuleName("widget.imageButton");
-        } else if (type.equals(TYPE_RESET)) {
-            return JavaScriptUtilities.getModuleName("widget.resetButton");
-        } else {
-            return JavaScriptUtilities.getModuleName("widget.button");
-        }
-    }
-
     /** 
      * Helper method to obtain component properties.
      *
@@ -192,14 +170,13 @@ public class ButtonRenderer extends RendererBase {
         return json;
     }
 
-
     /**
-     * Get the name of widget represented by this component.
+     * Get the type of widget represented by this component.
      *
      * @param context FacesContext for the current request.
      * @param component UIComponent to be rendered.
      */
-    protected String getWidgetName(FacesContext context, UIComponent component) {
+    protected String getWidgetType(FacesContext context, UIComponent component) {
 	if (!(component instanceof Button)) {
 	    throw new IllegalArgumentException(
                 "ButtonRenderer can only render Button components.");
@@ -208,11 +185,11 @@ public class ButtonRenderer extends RendererBase {
         // Get type.
         String type = getType((Button) component);
         if (type.equals(TYPE_ICON) || type.equals(TYPE_IMAGE)) {
-            return JavaScriptUtilities.getNamespace("imageButton");
+            return JavaScriptUtilities.getModuleName("widget.imageButton");
         } else if (type.equals(TYPE_RESET)) {
-            return JavaScriptUtilities.getNamespace("resetButton");
+            return JavaScriptUtilities.getModuleName("widget.resetButton");
         } else {
-            return JavaScriptUtilities.getNamespace("button");
+            return JavaScriptUtilities.getModuleName("widget.button");
         }
     }
 

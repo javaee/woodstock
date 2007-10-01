@@ -1,3 +1,4 @@
+// widget/textArea.js
 //
 // The contents of this file are subject to the terms
 // of the Common Development and Distribution License
@@ -20,35 +21,44 @@
 // Copyright 2007 Sun Microsystems, Inc. All rights reserved.
 //
 
+/**
+ * @name widget/textArea.js
+ * @version @THEME_VERSION@
+ * @overview This module contains classes and functions for the textArea widget.
+ * @example The following code is used to create a textArea widget.
+ * <p><code>
+ * var widget = new webui.@THEME@.widget.textArea(props, domNode);
+ * </code></p>
+ */
 dojo.provide("webui.@THEME@.widget.textArea");
 
-dojo.require("dojo.widget.*");
-dojo.require("webui.@THEME@.widget.*");
 dojo.require("webui.@THEME@.widget.textField");
 
 /**
- * This function is used to generate a template based widget.
+ * This function is used to construct a template based widget.
  *
- * Note: This is considered a private API, do not use.
+ * @name webui.@THEME@.widget.textArea
+ * @inherits webui.@THEME@.widget.textField
+ * @constructor
  */
-webui.@THEME@.widget.textArea = function() {
-    // Register widget.
-    dojo.widget.HtmlWidget.call(this);
-}
+dojo.declare("webui.@THEME@.widget.textArea", webui.@THEME@.widget.textField, {
+    // Set defaults.
+    autoSave: 0,
+    cols: 20,
+    rows: 3,
+    widgetName: "textArea" // Required for theme properties.
+});
 
 /**
  * Helper function to create callback for timer event.
- *
- * @param id The HTML element id used to invoke the callback.
  */
-webui.@THEME@.widget.textArea.createSubmitCallback = function(id) {
-    if (id == null) {
-        return null;
-    }
+webui.@THEME@.widget.textArea.prototype.createSubmitCallback = function() {
+    var _id = this.id;
+
     // New literals are created every time this function
     // is called, and it's saved by closure magic.
     return function(event) { 
-        var widget = dojo.widget.byId(id);
+        var widget = dijit.byId(_id);
         if (widget == null) {
             return false;
         }
@@ -62,73 +72,64 @@ webui.@THEME@.widget.textArea.createSubmitCallback = function(id) {
 }
 
 /**
- * This closure is used to process widget events.
+ * This closure contains event topics.
+ * <p>
+ * Note: Event topics must be prototyped for inherited functions. However, these
+ * topics must also be available statically so that developers may subscribe to
+ * events.
+ * </p>
+ *
+ * @ignore
  */
-webui.@THEME@.widget.textArea.event = {
+webui.@THEME@.widget.textArea.prototype.event =
+        webui.@THEME@.widget.textArea.event = {
     /**
-     * This closure is used to process refresh events.
+     * This closure contains refresh event topics.
+     * @ignore
      */
     refresh: {
-        /**
-         * Event topics for custom AJAX implementations to listen for.
-         */
+        /** Refresh event topic for custom AJAX implementations to listen for. */
         beginTopic: "webui_@THEME@_widget_textArea_event_refresh_begin",
+
+        /** Refresh event topic for custom AJAX implementations to listen for. */
         endTopic: "webui_@THEME@_widget_textArea_event_refresh_end"
     },
 
     /**
-     * This closure is used to process state change events.
+     * This closure contains state event topics.
+     * @ignore
      */
     state: {
-        /**
-         * Event topics for custom AJAX implementations to listen for.
-         */
+        /** State event topic for custom AJAX implementations to listen for. */
         beginTopic: "webui_@THEME@_widget_textArea_event_state_begin",
+
+        /** State event topic for custom AJAX implementations to listen for. */
         endTopic: "webui_@THEME@_widget_textArea_event_state_end"
     },
 
     /**
-     * This closure is used to process submit events.
+     * This closure contains submit event topics.
+     * @ignore
      */
     submit: {
-        /**
-         * Event topics for custom AJAX implementations to listen for.
-         */
+        /** Submit event topic for custom AJAX implementations to listen for. */
         beginTopic: "webui_@THEME@_widget_textArea_event_submit_begin",
+
+        /** Submit event topic for custom AJAX implementations to listen for. */
         endTopic: "webui_@THEME@_widget_textArea_event_submit_end"
     }
 }
 
 /**
- * This function is used to fill in template properties.
- *
- * Note: This is called after the buildRendering() function. Anything to be set 
- * only once should be added here; otherwise, use the _setProps() function.
- *
- * @param props Key-Value pairs of properties.
- * @param frag HTML fragment.
- */
-webui.@THEME@.widget.textArea.fillInTemplate = function(props, frag) {
-    webui.@THEME@.widget.textArea.superclass.fillInTemplate.call(this, props, frag);
-
-    // Set events.                
-    if (this.autoSave > 0) {
-        this.autoSaveTimerId = setInterval(
-            webui.@THEME@.widget.textArea.createSubmitCallback(this.id), 
-                this.autoSave);  
-    }
-    return true;
-}
-
-/**
  * Helper function to obtain HTML input element class names.
  */
-webui.@THEME@.widget.textArea.getInputClassName = function() {
-    //readOnly style
-    if (this.fieldNode.readOnly)
+webui.@THEME@.widget.textArea.prototype.getInputClassName = function() {
+    // Set readOnly style
+    if (this.fieldNode.readOnly) {
         return this.widget.getClassName("TEXT_AREA_READONLY", "");
-    
-    //invalid style
+    }
+
+    // Apply invalid style.
     var validStyle =  (this.valid == false) 
         ? " " + this.widget.getClassName("TEXT_AREA_INVALID", "")
         : " " + this.widget.getClassName("TEXT_AREA_VALID", "");
@@ -141,10 +142,10 @@ webui.@THEME@.widget.textArea.getInputClassName = function() {
 
 /**
  * This function is used to get widget properties. Please see the 
- * _setProps() function for a list of supported properties.
+ * setProps() function for a list of supported properties.
  */
-webui.@THEME@.widget.textArea.getProps = function() {
-    var props = webui.@THEME@.widget.textArea.superclass.getProps.call(this);
+webui.@THEME@.widget.textArea.prototype.getProps = function() {
+    var props = this.inherited("getProps", arguments);
     
     // Set properties.
     if (this.cols > 0 ) { props.cols = this.cols; }
@@ -155,48 +156,81 @@ webui.@THEME@.widget.textArea.getProps = function() {
 }
 
 /**
- * This function is used to set widget properties with the following 
- * Object literals.
- *
- * <ul>
- *  <li>accesskey</li>
- *  <li>autoSave</li>
- *  <li>className</li>
- *  <li>cols</li>
- *  <li>dir</li>
- *  <li>disabled</li>
- *  <li>id</li>
- *  <li>label</li>
- *  <li>lang</li>
- *  <li>onClick</li>
- *  <li>onDblClick</li>
- *  <li>onFocus</li>
- *  <li>onKeyDown</li>
- *  <li>onKeyPress</li>
- *  <li>onKeyUp</li>
- *  <li>onMouseDown</li>
- *  <li>onMouseOut</li>
- *  <li>onMouseOver</li>
- *  <li>onMouseUp</li>
- *  <li>onMouseMove</li>
- *  <li>readOnly</li>
- *  <li>required</li>
- *  <li>rows</li>
- *  <li>style</li>
- *  <li>tabIndex</li>
- *  <li>title</li>
- *  <li>valid</li>
- *  <li>value</li>
- *  <li>visible</li> 
- * </ul>
- *
- * Note: This is considered a private API, do not use. This function should only
- * be invoked through postInitialize() and setProps(). Further, the widget shall
- * be updated only for the given key-value pairs.
- *
- * @param props Key-Value pairs of properties.
+ * This function is used to fill in remaining template properties, after the
+ * buildRendering() function has been processed.
+ * <p>
+ * Note: Unlike Dojo 0.4, the DOM nodes don't yet exist. 
+ * </p>
  */
-webui.@THEME@.widget.textArea._setProps = function(props) {
+webui.@THEME@.widget.textArea.prototype.postCreate = function () {
+    // Set events.                
+    if (this.autoSave > 0) {
+        this.autoSaveTimerId = setInterval(this.createSubmitCallback(), 
+            this.autoSave);  
+    }
+    return this.inherited("postCreate", arguments);
+}
+
+/**
+ * This function is used to set widget properties using Object literals.
+ * <p>
+ * Note: This function extends the widget object for later updates. Further, the
+ * widget shall be updated only for the given key-value pairs.
+ * </p><p>
+ * If the notify param is true, the widget's state change event shall be
+ * published. This is typically used to keep client-side state in sync with the
+ * server.
+ * </p>
+ *
+ * @param {Object} props Key-Value pairs of properties.
+ * @config {String} [accesskey] 
+ * @config {boolean} [autoSave] 
+ * @config {String} [className] CSS selector.
+ * @config {String} [dir] Specifies the directionality of text.
+ * @config {boolean} [disabled] Disable element.
+ * @config {String} [id] Uniquely identifies an element within a document.
+ * @config {String} [label]
+ * @config {String} [lang] Specifies the language of attribute values and content.
+ * @config {String} [onBlur] Element lost focus.
+ * @config {String} [onClick] Mouse button is clicked on element.
+ * @config {String} [onDblClick] Mouse button is double-clicked on element.
+ * @config {String} [onFocus] Element received focus.
+ * @config {String} [onKeyDown] Key is pressed down over element.
+ * @config {String} [onKeyPress] Key is pressed and released over element.
+ * @config {String} [onKeyUp] Key is released over element.
+ * @config {String} [onMouseDown] Mouse button is pressed over element.
+ * @config {String} [onMouseOut] Mouse is moved away from element.
+ * @config {String} [onMouseOver] Mouse is moved onto element.
+ * @config {String} [onMouseUp] Mouse button is released over element.
+ * @config {String} [onMouseMove] Mouse is moved while over element.
+ * @config {boolean} [readOnly] 
+ * @config {boolean} [required] 
+ * @config {int} [rows] 
+ * @config {String} [style] Specify style rules inline.
+ * @config {int} [tabIndex] Position in tabbing order.
+ * @config {String} [title] Provides a title for element.
+ * @config {boolean} [valid]
+ * @config {String} [value] Value of input.
+ * @config {boolean} [visible] Hide or show element.
+ * @param {boolean} notify Publish an event for custom AJAX implementations to listen for.
+ */
+webui.@THEME@.widget.textArea.prototype.setProps = function(props, notify) {
+    // Note: This function is overridden for JsDoc.
+    return this.inherited("setProps", arguments);
+}
+
+/**
+ * This function is used to set widget properties. Please see the setProps() 
+ * function for a list of supported properties.
+ * <p>
+ * Note: This is considered a private API, do not use. This function should only
+ * be invoked via setProps().
+ * </p>
+ *
+ * @param {Object} props Key-Value pairs of properties.
+ * @private
+ */
+webui.@THEME@.widget.textArea.prototype._setProps = function(props) {
     if (props == null) {
         return false;
     }
@@ -219,25 +253,5 @@ webui.@THEME@.widget.textArea._setProps = function(props) {
     }
 
     // Set remaining properties.
-    return webui.@THEME@.widget.textArea.superclass._setProps.call(this, props);
+    return this.inherited("_setProps", arguments);
 }
-
-// Inherit base widget properties.
-dojo.inherits(webui.@THEME@.widget.textArea, webui.@THEME@.widget.textField);
-
-// Override base widget by assigning properties to class prototype.
-dojo.lang.extend(webui.@THEME@.widget.textArea, {
-    // Set private functions.
-    fillInTemplate: webui.@THEME@.widget.textArea.fillInTemplate,
-    getInputClassName: webui.@THEME@.widget.textArea.getInputClassName,
-    getProps: webui.@THEME@.widget.textArea.getProps,
-    _setProps: webui.@THEME@.widget.textArea._setProps,
-    submit: webui.@THEME@.widget.widgetBase.event.submit.processEvent,
-    
-    // Set defaults.
-    autoSave: 0,
-    cols: 20,
-    event: webui.@THEME@.widget.textArea.event,
-    rows: 3,
-    widgetType: "textArea"
-});

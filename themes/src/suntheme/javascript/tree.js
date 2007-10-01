@@ -1,3 +1,4 @@
+// tree.js
 //
 // The contents of this file are subject to the terms
 // of the Common Development and Distribution License
@@ -20,23 +21,28 @@
 // Copyright 2007 Sun Microsystems, Inc. All rights reserved.
 //
 
+/**
+ * @name tree.js
+ * @version @THEME_VERSION@
+ * @overview This module contains functions for tree components.
+ */
 dojo.provide("webui.@THEME@.tree");
 
+dojo.require("webui.@THEME@.theme.common");
+
 /** 
- * Define webui.@THEME@.tree name space. 
+ * This closure contains functions for tree components.
  */ 
 webui.@THEME@.tree = {
     /**
-     * This function is used to initialize HTML element properties with the
-     * following Object literals.
-     *
-     * <ul>
-     *  <li>id</li>
-     * </ul>
-     *
+     * This function is used to initialize HTML element properties with Object
+     * literals.
+     * <p>
      * Note: This is considered a private API, do not use.
+     * </p>
      *
-     * @param props Key-Value pairs of properties.
+     * @param {Object} props Key-Value pairs of properties.
+     * @config {String} [id] The element id.
      */
     init: function(props) {
         if (props == null || props.id == null) {
@@ -75,8 +81,15 @@ webui.@THEME@.tree = {
         domNode.treeNodeIsExpanded = webui.@THEME@.tree.treeNodeIsExpanded;
         domNode.unhighlightParent = webui.@THEME@.tree.unhighlightParent;
         domNode.updateHighlight = webui.@THEME@.tree.updateHighlight;
+
+        return true;
     },
 
+    /**
+     *
+     * @param {String} cookieName
+     * @param {String} val
+     */
     setCookieValue: function(cookieName, val) {
 
 	/*
@@ -88,8 +101,13 @@ webui.@THEME@.tree = {
 	*/
 
 	document.cookie = cookieName + "=" + val +";path=/;";
+        return true;
     },
 
+    /**
+     *
+     * @param {String} cookieName
+     */
     getCookieValue: function(cookieName) {
         var docCookie = document.cookie;
         var pos= docCookie.indexOf(cookieName+"=");
@@ -108,13 +126,17 @@ webui.@THEME@.tree = {
     },
 
     /**
-     *  This function expands or collapses the given tree node.  It expects the
+     * This function expands or collapses the given tree node.  It expects the
      * source of the given event object (if supplied) to be a tree handle
      * image.  It will change this image to point in the correct direction
      * (right or down).  This implementation depends on the tree handle image
      * names including "tree_handleright" and "tree_handledown" in them.
      * Swapping "right" and "down" in these names must change the handle
      * direction to right and down respectively.
+     *
+     * @param {Node} treeNode
+     * @param {String} imageId
+     * @param {Event} event
      */
     expandCollapse: function(treeNode, imageId, event) {
         var tree = this.getTree(treeNode);
@@ -148,6 +170,7 @@ webui.@THEME@.tree = {
             // Last, update the visible parent of the selected node if now hidden
             this.highlightParent(this.getSelectedTreeNode(tree.id));
         }
+        return true;
     },
 
     /**
@@ -155,6 +178,8 @@ webui.@THEME@.tree = {
      * a DOM point of view, the tree directly contains all its children
      * (excluding *_children div tags.  This will return the first
      * parentNode that is a div w/ an id != "*_children".
+     *
+     * @param {Node} treeNode
      */
     getTree: function(treeNode) {
         var tree = treeNode.parentNode;
@@ -179,6 +204,10 @@ webui.@THEME@.tree = {
      * If this function is invoked from the TreeNode &lt;div&gt; object itself
      * (as is the case when this method is implicitly called), the TreeNode
      * object is simply the <code>this</code> variable.
+     *
+     * @param {Node} treeNode
+     * @param {String} imageId
+     * @param {Event} event
      */
     onTreeNodeClick: function(treeNode, imageId, event) {
         // Check for Tree Handles
@@ -207,6 +236,8 @@ webui.@THEME@.tree = {
      * user may have clicked on the expanded parent node
      * and closed it. In this case the parent node needs
      * to show up in bold.
+     *
+     * @param {String} treeNodeId
      */
     selectTreeNode: function(treeNodeId) {
         // Find the top of the tree
@@ -229,9 +260,7 @@ webui.@THEME@.tree = {
 
             // onClick handler should proceed with hyperlink
             return true;
-
 	} else {
-
 	    // get the parent node ID and highlight the parent.
 	    // var arr = treeNodeId.split(":");
 	    // var lastBitOfId = arr[arr.length - 1].length;
@@ -250,6 +279,8 @@ webui.@THEME@.tree = {
     /**
      * This function returns the selected TreeNode given the treeId of the
      * Tree.
+     *
+     * @param {String} treeId
      */
     getSelectedTreeNode: function(treeId) {
         var id = this.getCookieValue(treeId+"-hi");
@@ -259,6 +290,11 @@ webui.@THEME@.tree = {
         return null;
     },
 
+    /**
+     * 
+     *
+     * @param {String} cookieId
+     */
     clearAllHighlight: function(cookieId) {
         // Clear
         var selectedNode = this.getSelectedTreeNode(cookieId);
@@ -270,9 +306,15 @@ webui.@THEME@.tree = {
         return true;
     },
 
+    /**
+     * 
+     *
+     * @param {Node} node
+     */
     clearHighlight: function(node) {
         if (node) {
-	    node.className = webui.@THEME@.props.tree.treeRowClass;
+	    node.className = 
+                webui.@THEME@.theme.common.getClassName("TREE_ROW");
         }
         return true;
     },
@@ -282,6 +324,8 @@ webui.@THEME@.tree = {
      * This implementation depends on the tree handle image file name
      * containing "tree_handle" and no other images containing this
      * string.
+     *
+     * @param {Event} event
      */
     isTreeHandle: function(event) {
         if (!event) {
@@ -315,7 +359,9 @@ webui.@THEME@.tree = {
      * the parent nodes which contain it is an href.  To be an href, it must be
      * an "A" tag with an "href" attribute containing atleast 4 characters.
      * (Note: Browsers will add on the protocol if you supply a relative URL
-     *     such as one starting with a '#', '/', or filename).
+     * such as one starting with a '#', '/', or filename).
+     *
+     * @param {Event} event
      */
     isAnHref: function(event) {
         if (!event) {
@@ -346,6 +392,8 @@ webui.@THEME@.tree = {
      * This function updates the highlighting for the given Tree client id.
      * This function provides a way to restore the highlighting when a Tree is
      * reloaded in a window (necessary each page load).
+     *
+     * @param {String} cookieId
      */
     updateHighlight: function(cookieId) {
         var selNode = this.getSelectedTreeNode(cookieId)
@@ -353,7 +401,7 @@ webui.@THEME@.tree = {
 
         // FIXME: This doesn't work if the TreeNode element doesn't exist 
         // (which is the case for the server-side tree)
-        this.highlightParent(selNode);
+        return this.highlightParent(selNode);
     },
 
     /**
@@ -361,11 +409,13 @@ webui.@THEME@.tree = {
      * <code>obj</code> passed in is actually the &lt;div&gt; around the html
      * for the <code>TreeNode</code> and may be obtained by calling
      * <code>getElementById("&lt;TreeNode.getClidentId()&gt;")</code>.
+     *
+     * @param {Node} node
      */
     highlight: function(node) {
         if (node) {
 	    node.className = 
-	    	webui.@THEME@.props.tree.selectedTreeRowClass;
+                webui.@THEME@.theme.common.getClassName("TREE_SELECTED_ROW");
             return true;
         }
         return false;
@@ -379,6 +429,11 @@ webui.@THEME@.tree = {
      * The propVal is the value that must be contained in propName; this value
      * does not have to match exactly, it only needs to exist within the
      * property.
+     *
+     * @param {Node} node
+     * @param {String} type
+     * @param {String} propName
+     * @param {String} propVal
      */
     findNodeByTypeAndProp: function(node, type, propName, propVal) {
         if (node == null) {        
@@ -411,6 +466,8 @@ webui.@THEME@.tree = {
     /**
      * This function determines if the given TreeNode is expanded.  It returns
      * <code>true</code> if it is, <code>false</code> otherwise.
+     *
+     * @param {Node} treeNode
      */
     treeNodeIsExpanded: function(treeNode) {
         // Find the div containing the tree images for this TreeNode row
@@ -427,6 +484,8 @@ webui.@THEME@.tree = {
 
     /**
      * This function returns the parent TreeNode of the given TreeNode.
+     *
+     * @param {Node} treeNode
      */
     getParentTreeNode: function(treeNode) {
         // Get the parent id
@@ -441,6 +500,10 @@ webui.@THEME@.tree = {
         return document.getElementById(parentId);
     },
 
+    /**
+     *
+     * @param {Node} childNode
+     */
     unhighlightParent: function(childNode) {
         if (!childNode) {
             return false;
@@ -462,6 +525,10 @@ webui.@THEME@.tree = {
         return true;
     },
 
+    /**
+     *
+     * @param {Node} childNode
+     */
     highlightParent: function(childNode) {
         if (!childNode) {
             return false;
@@ -483,14 +550,23 @@ webui.@THEME@.tree = {
         return true;
     },
 
+    /**
+     *
+     */
     getNormalTreeTextColor: function() {
         return "#003399";
     },
 
+    /**
+     *
+     */
     getHighlightTreeBgColor: function() {
         return "#CBDCAF";  // ~greenish color
     },
 
+    /**
+     *
+     */
     getHighlightTreeTextColor: function() {
         return "#000000";  // black
     },
@@ -498,6 +574,8 @@ webui.@THEME@.tree = {
     /**
      * Returns the TreeNode that contains the given link. This assumes the link
      * is a direct child of the node.
+     *
+     * @param {Node} link
      */
     findContainingTreeNode: function(link) {     
         var linkId = link.id;
@@ -508,6 +586,12 @@ webui.@THEME@.tree = {
     /**
      * If the Tree's expandOnSelect property is true, this method is called to 
      * expand the turner of the tree node with the given labelLink.
+     *
+     * @param {Node} labelLink
+     * @param {String} turnerId
+     * @param {String} imageId
+     * @param {boolean} isClientSide
+     * @param {Event} event
      */
     expandTurner: function(labelLink, turnerId, imageId, isClientSide, event) {
         var labelLinkId = labelLink.id;
@@ -516,7 +600,7 @@ webui.@THEME@.tree = {
 	var turnerLink = document.getElementById(turnerId); 
 
 	if (turnerLink == null) {
-            return;
+            return false;
 	}
 	if (!this.treeNodeIsExpanded(node)) {
             // folder is currently closed, expand it
@@ -526,16 +610,19 @@ webui.@THEME@.tree = {
 		turnerLink.onclick();
             }    
         }
+        return true;
     },
 
     /**
-     * When the tree node link has an associated action, this method 
-     * should
-     * be called to ensure selection highlighting and (if necessary) node expansion
-     * occurs.
+     * When the tree node link has an associated action, this method should
+     * be called to ensure selection highlighting and (if necessary) node 
+     * expansion occurs.
+     * <p>
+     * If the developer specifies the content facet for a given TreeNode, he 
+     * should call this function from his facet hyperlink's onClick.
+     * </p>
      *
-     * If the developer specifies the content facet for a given TreeNode, he should
-     * call this function from his facet hyperlink's onClick.
+     * @param {String} nodeId
      */
     treecontent_submit: function(nodeId) {
 	if (nodeId == null) {
@@ -549,6 +636,6 @@ webui.@THEME@.tree = {
 
 	// set a cookie that the Tree's decode method will 
 	// inspect and expand the corresponding node if necessary
-	this.setCookieValue(tree.id + "-expand", nodeId);
+	return this.setCookieValue(tree.id + "-expand", nodeId);
     }
 }

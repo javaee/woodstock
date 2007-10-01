@@ -978,7 +978,7 @@ public class ResourceBundleTheme implements Theme {
 	public char DOT = '.';
 	public char USCORE = '_';
 	public String OPENBRACERE = "{";
-	public String OPENPARAMSUB = "%{";
+	public String OPENPARAMSUB = "${";
 	public String DQ = "\"";
 	public String SQ = "'";
 	public String SQRE = "''";
@@ -1255,7 +1255,7 @@ public class ResourceBundleTheme implements Theme {
 		//
 		value = value.replace(SQRE, SQ);
 		// Fix parameter substitution syntax.
-		// {0} to %{0}
+		// {0} to ${0}
 		//
 		value = value.replace(OPENBRACERE, OPENPARAMSUB);
 		return value.trim();

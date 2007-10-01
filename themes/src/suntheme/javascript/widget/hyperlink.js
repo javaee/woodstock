@@ -1,3 +1,4 @@
+// widget/hyperlink.js
 //
 // The contents of this file are subject to the terms
 // of the Common Development and Distribution License
@@ -20,120 +21,76 @@
 // Copyright 2007 Sun Microsystems, Inc. All rights reserved.
 //
 
+/**
+ * @name widget/hyperlink.js
+ * @version @THEME_VERSION@
+ * @overview This module contains classes and functions for the hyperlink widget.
+ * @example The following code is used to create a hyperlink widget.
+ * <p><code>
+ * var widget = new webui.@THEME@.widget.hyperlink(props, domNode);
+ * </code></p>
+ */
 dojo.provide("webui.@THEME@.widget.hyperlink");
 
-dojo.require("dojo.widget.*");
-dojo.require("webui.@THEME@.widget.*");
-dojo.require("webui.@THEME@.widget.anchor");
+dojo.require("webui.@THEME@.widget.anchorBase");
 
 /**
- * This function is used to generate a template based widget.
+ * This function is used to construct a template based widget.
  *
- * Note: This is considered a private API, do not use.
+ * @name webui.@THEME@.widget.hyperlink
+ * @inherits webui.@THEME@.widget.anchorBase
+ * @constructor
  */
-webui.@THEME@.widget.hyperlink = function() {
-    // Register widget.
-    dojo.widget.HtmlWidget.call(this);
-}
+dojo.declare("webui.@THEME@.widget.hyperlink", webui.@THEME@.widget.anchorBase, {
+    // Set defaults.
+    widgetName: "hyperlink" // Required for theme properties.
+});
 
 /**
- * Helper function to create callback for onClick event.
+ * This closure contains event topics.
+ * <p>
+ * Note: Event topics must be prototyped for inherited functions. However, these
+ * topics must also be available statically so that developers may subscribe to
+ * events.
+ * </p>
  *
- * @param id The HTML element id used to invoke the callback.
- * @param linkId The id of the html anchor element
- * @param formId The id of the form element
- * @param params The parameters to be passed on when the hyperlink is clicked
+ * @ignore
  */
-webui.@THEME@.widget.hyperlink.createOnClickCallback = function(id, formId, 
-        params) {
-    if (id == null) {
-        return null;
-    }
-    // New literals are created every time this function
-    // is called, and it's saved by closure magic.
-    return function(event) { 
-        var widget = dojo.widget.byId(id);
-        if (widget == null || widget.disabled == true) {
-            event.preventDefault();
-            return false;
-        }
-
-        // If function returns false, we must prevent the submit.
-        var result = (widget.domNode._onclick)
-            ? widget.domNode._onclick(event) : true;
-        if (result == false) {
-            event.preventDefault();
-            return false;
-        }
-        if (widget.href) {
-            return false;
-        }
-
-        event.preventDefault();
-        widget.submit(formId, params);
-        return false;
-    };
-}
-
-/**
- * This closure is used to process widget events.
- */
-webui.@THEME@.widget.hyperlink.event = {
+webui.@THEME@.widget.hyperlink.prototype.event =
+        webui.@THEME@.widget.hyperlink.event = {
     /**
-     * This closure is used to process refresh events.
+     * This closure contains refresh event topics.
+     * @ignore
      */
     refresh: {
-        /**
-         * Event topics for custom AJAX implementations to listen for.
-         */
+        /** Refresh event topic for custom AJAX implementations to listen for. */
         beginTopic: "webui_@THEME@_widget_hyperlink_event_refresh_begin",
+
+        /** Refresh event topic for custom AJAX implementations to listen for. */
         endTopic: "webui_@THEME@_widget_hyperlink_event_refresh_end"
     },
 
     /**
-     * This closure is used to process state change events.
+     * This closure contains state event topics.
+     * @ignore
      */
     state: {
-        /**
-         * Event topics for custom AJAX implementations to listen for.
-         */
+        /** State event topic for custom AJAX implementations to listen for. */
         beginTopic: "webui_@THEME@_widget_hyperlink_event_state_begin",
+
+        /** State event topic for custom AJAX implementations to listen for. */
         endTopic: "webui_@THEME@_widget_hyperlink_event_state_end"
     }
 }
 
 /**
- * This function is used to fill in template properties.
- *
- * Note: This is called after the buildRendering() function. Anything to be set 
- * only once should be added here; otherwise, use the _setProps() function.
- *
- * @param props Key-Value pairs of properties.
- * @param frag HTML fragment.
- */
-webui.@THEME@.widget.hyperlink.fillInTemplate = function(props, frag) {
-    // Skip anchor's fillInTemplate() function to avoid setting unique events.
-    webui.@THEME@.widget.anchor.superclass.fillInTemplate.call(this, props, frag);
-
-    // If the href attribute does not exist, set "#" as the default value of the
-    // DOM node.
-    this.domNode.href = "#";
-
-    // Create callback function for onClick event.
-    dojo.event.connect(this.domNode, "onclick",
-        webui.@THEME@.widget.hyperlink.createOnClickCallback(this.id, 
-            this.formId, this.params));
-
-    return true;
-}
-
-/**
  * This function is used to obtain the outermost HTML element class name.
- *
+ * <p>
  * Note: Selectors should be concatinated in order of precedence (e.g., the 
  * user's className property is always appended last).
+ * </p>
  */
-webui.@THEME@.widget.hyperlink.getClassName = function() {
+webui.@THEME@.widget.hyperlink.prototype.getClassName = function() {
     // Set default style.
     var className = (this.disabled == true)
         ? this.widget.getClassName("HYPERLINK_DISABLED","")
@@ -145,20 +102,114 @@ webui.@THEME@.widget.hyperlink.getClassName = function() {
 }
 
 /**
+ * Helper function to create callback for onClick event.
+ *
+ * @param {Event} event The JavaScript event.
+ */
+webui.@THEME@.widget.hyperlink.prototype.onClickCallback = function(event) {
+    if (this.disabled == true) {
+        event.preventDefault();
+        return false;
+    }
+
+    // If function returns false, we must prevent the submit.
+    var result = (this.domNode._onclick)
+        ? this.domNode._onclick(event) : true;
+    if (result == false) {
+        event.preventDefault();
+        return false;
+    }
+    if (this.href) {
+        return false;
+    }
+    event.preventDefault();
+    return this.submit(this.formId, this.params);
+}
+
+/**
+ * This function is used to fill in remaining template properties, after the
+ * buildRendering() function has been processed.
+ * <p>
+ * Note: Unlike Dojo 0.4, the DOM nodes don't yet exist. 
+ * </p>
+ */
+webui.@THEME@.widget.hyperlink.prototype.postCreate = function () {
+    // If the href attribute does not exist, set "#" as the default value of the
+    // DOM node.
+    this.domNode.href = "#";
+
+    // Create callback function for onClick event.
+    dojo.connect(this.domNode, "onclick", this, "onClickCallback");
+
+    return this.inherited("postCreate", arguments);
+}
+
+/**
+ * This function is used to set widget properties using Object literals.
+ * <p>
+ * Note: This function extends the widget object for later updates. Further, the
+ * widget shall be updated only for the given key-value pairs.
+ * </p><p>
+ * If the notify param is true, the widget's state change event shall be
+ * published. This is typically used to keep client-side state in sync with the
+ * server.
+ * </p>
+ *
+ * @param {Object} props Key-Value pairs of properties.
+ * @config {String} [accessKey]
+ * @config {String} [charset]
+ * @config {String} [className] CSS selector.
+ * @config {Array} [contents]
+ * @config {String} [coords]
+ * @config {String} [dir] Specifies the directionality of text.
+ * @config {boolean} [disabled] Disable element.
+ * @config {String} [formId] The id of the HTML form element.
+ * @config {String} [href]
+ * @config {String} [hrefLang]
+ * @config {String} [id] Uniquely identifies an element within a document.
+ * @config {String} [lang] Specifies the language of attribute values and content.
+ * @config {String} [name] 
+ * @config {String} [onBlur] Element lost focus.
+ * @config {String} [onClick] Mouse button is clicked on element.
+ * @config {String} [onDblClick] Mouse button is double-clicked on element.
+ * @config {String} [onFocus] Element received focus.
+ * @config {String} [onKeyDown] Key is pressed down over element.
+ * @config {String} [onKeyPress] Key is pressed and released over element.
+ * @config {String} [onKeyUp] Key is released over element.
+ * @config {String} [onMouseDown] Mouse button is pressed over element.
+ * @config {String} [onMouseOut] Mouse is moved away from element.
+ * @config {String} [onMouseOver] Mouse is moved onto element.
+ * @config {String} [onMouseUp] Mouse button is released over element.
+ * @config {String} [onMouseMove] Mouse is moved while over element.
+ * @config {Array} [params] The parameters to be passed during request.
+ * @config {String} [rel]
+ * @config {String} [rev]
+ * @config {String} [shape]
+ * @config {String} [style] Specify style rules inline.
+ * @config {int} [tabIndex] Position in tabbing order.
+ * @config {String} [title] Provides a title for element.
+ * @config {boolean} [visible] Hide or show element.
+ * @param {boolean} notify Publish an event for custom AJAX implementations to listen for.
+ */
+webui.@THEME@.widget.anchorBase.prototype.setProps = function(props, notify) {
+    // Note: This function is overridden for JsDoc.
+    return this.inherited("setProps", arguments);
+}
+
+/**
  * This function submits the hyperlink if the hyperlink is enabled.
  *
- * @param formId The id of the form element
- * @param params The parameters to be passed on when the hyperlink is clicked
- * @param id The id of the hyperlink component.
+ * @param {String} formId The id of the HTML form element.
+ * @param {Array} params The parameters to be passed during request.
  */
-webui.@THEME@.widget.hyperlink.submit = function (formId, params, id) {
+webui.@THEME@.widget.hyperlink.prototype.submit = function (formId, params) {
     var theForm = document.getElementById(formId);
     var oldTarget = theForm.target;
     var oldAction = theForm.action;
-    var link = null;
-    if (id) {
-        link = document.getElementById(id);
-    } else {
+
+    // Obtain HTML element for tab and common task components.
+    var link = document.getElementById(this.id);
+    if (link == null) {
         link = this.domNode;
     }
 
@@ -192,18 +243,3 @@ webui.@THEME@.widget.hyperlink.submit = function (formId, params, id) {
     }
     return false;        
 }
-
-// Inherit base widget properties.
-dojo.inherits(webui.@THEME@.widget.hyperlink, webui.@THEME@.widget.anchor);
-
-// Override base widget by assigning properties to class prototype.
-dojo.lang.extend(webui.@THEME@.widget.hyperlink, {
-    // Set private functions.
-    fillInTemplate: webui.@THEME@.widget.hyperlink.fillInTemplate,
-    getClassName: webui.@THEME@.widget.hyperlink.getClassName,
-    submit: webui.@THEME@.widget.hyperlink.submit,
-
-    // Set defaults.
-    event: webui.@THEME@.widget.hyperlink.event,
-    widgetType: "hyperlink"
-});

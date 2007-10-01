@@ -1,3 +1,4 @@
+// widget/common.js
 //
 // The contents of this file are subject to the terms
 // of the Common Development and Distribution License
@@ -20,55 +21,65 @@
 // Copyright 2007 Sun Microsystems, Inc. All rights reserved.
 //
 
+/**
+ * @name widget/common.js
+ * @version @THEME_VERSION@
+ * @overview This module contains functions common to all widgets.
+ * @example The following code is used to extend a widget with Object literals.
+ * <p><code>
+ * webui.@THEME@.widget.common.extend(webui.@THEME@.widget.button, props);
+ * </code></p>
+ */
 dojo.provide("webui.@THEME@.widget.common");
 
-dojo.require("dojo.widget.*");
 dojo.require("webui.@THEME@.theme.*");
 
 /**
- * This closure contains common functions of the webui.@THEME@.widget module.
+ * This closure contains functions common to all widgets.
+ * @ignore
  */
 webui.@THEME@.widget.common = {
     /**
      * This function is used to add a widget, HTML fragment, or static string to
      * the given domNode.
-     *
-     * If props is a JSON object, containing a widgetName property, a widget
-     * shall be created. The newly created widget shall be added as a child of 
-     * the given domNode. If props also contains a module property, the 
-     * specified resource shall be retrieved before creating the widget.
-     *
+     * <p>
+     * Note: If props is a string, it shall be added as the innerHTML of the 
+     * given domNode. By default, all strings shall be HTML escaped.
+     * <p></p>
      * If props is a JSON object, containing a fragment property instead of
-     * widgetName, it shall be added as the innerHTML of the given domNode. 
-     * If props also contains an escape property, that shall take precedence
-     * over the addFragment's escape param.
+     * widgetType, it shall be added as the innerHTML of the given domNode. A
+     * fragment is also a string; however it is evaluated as JavaScript and not
+     * HTML escaped.
+     * <p></p>
+     * If props is a JSON object, containing a widgetType property, a widget
+     * shall be created. The newly created widget shall be added as a child of 
+     * the given domNode.
+     * <p></p>
+     * Valid values for the position param consist of "last" or null. In 
+     * general, position only applies when creating new widgets; however, if the 
+     * position param is null, any existing child nodes are removed from the
+     * domNode.
+     * </p>
      *
-     * If props is a string, it shall be added as the innerHTML of the given 
-     * domNode. By default, all strings shall be HTML escaped.
-     *
-     * The position param is passed to Dojo's createWidget function. Valid
-     * values consist of "last", "first", etc. -- see Dojo docs. In general, 
-     * position only applies when creating widgets; however, if the position
-     * param is null, existing child nodes are removed from the domNode. Note
-     * that the domNode is never removed because it may be used as a place
-     * holder.
-     *
-     * @param domNode The DOM node used to add widget.
-     * @param props Key-Value pairs of properties.
-     * @param position The position (e.g., "first", "last", etc.) to add widget.
-     * @param escape HTML escape static strings -- default is true.
-     * @returns The newly added widget or HTML string.
+     * @param {Node} domNode The DOM node to add widget.
+     * @param {Object} props Key-Value pairs of properties.
+     * @param {boolean} position The position to add widget.
+     * @param {boolean} escape HTML escape strings (default).
      */
     addFragment: function(domNode, props, position, escape) {
         if (domNode == null || props == null) {
-            return null;
+            return false;
         }
 
         // If position is null, remove existing nodes. The contents shall be
         // replaced by the newly created widget.
         if (position == null) {
-            position = "last"; // Default.
             webui.@THEME@.widget.common.removeChildNodes(domNode);
+
+            // Note: To ensure Dojo does not replace the given domNode, always
+            // provide a default position to the createWidget function. The
+            // domNode may be used as a place holder for later updates.
+            position = "last";            
         }
 
         // Add fragment.
@@ -80,13 +91,7 @@ webui.@THEME@.widget.common = {
             // been more preferable than creating a new dependency
             // based on Prototype. However, as of version .4.1, Dojo
             // still does not use a timeout to eval JavaScript; thus,
-            // IE generates errors with innerHTML. For example: 
-            //
-            // var pane = dojo.widget.createWidget("ContentPane", { 
-            //     executeScripts: true,
-            //     scriptSeparation: false
-            // }, domNode, position);
-            // pane.setContent(props);
+            // IE generates errors with innerHTML.
             //
             // "The problem has to do with the browser's poor
             // threading model. Basically, once some JavaScript code
@@ -126,33 +131,32 @@ webui.@THEME@.widget.common = {
                 setTimeout(function() {props.evalScripts()}, 10);
             } else {
                 // Static strings must be HTML escaped by default.
-                webui.@THEME@.widget.common.appendHTML(domNode, 
-                    dojo.string.escape("html", props));
+                webui.@THEME@.widget.common.appendHTML(domNode,
+                    webui.@THEME@.widget.common.escapeHTML(props));
             }
-            return props;
-        } else if (props.widgetName) {
-            // Create widget.
-            return webui.@THEME@.widget.common.createWidget(domNode, props, position);
         } else if (props.fragment) {
-            // Add fragment -- props.escape takes precedence.
-            return webui.@THEME@.widget.common.addFragment(domNode, props.fragment, position, 
-                (props.escape != null) ? props.escape : escape);
+            // Add fragment -- do not HTML escape.
+            return webui.@THEME@.widget.common.addFragment(domNode, props.fragment, position, false);
+        } else {
+            // Create widget.
+            webui.@THEME@.widget.common.createWidget(domNode, props, position, false);
         }
-        return null;
+        return true;
     },
 
     /**
      * This function is used to append HTML strings to the innerHTML property of
      * the given domNode.
-     *
-     * Concatenating innerHTML with new strings does not always work. When
+     * <p>
+     * Note: Concatenating innerHTML with new strings does not always work. When
      * adding multiple HTML elements to domNode, we can get into a situation
      * where domNode.innerHTML may not yet contain all the changes made to 
      * the previously added DOM node. Therefore, we shall wrap new strings in an
      * HTML span element so it may be added as a child of domNode.
+     * </p>
      *
-     * @param domNode The DOM node used to append string.
-     * @param html The HTML string to append.
+     * @param {Node} domNode The DOM node to append string.
+     * @param {String} html The HTML string to append.
      */
     appendHTML: function(domNode, html) {
         if (domNode.innerHTML != null && domNode.innerHTML.length > 0) {
@@ -168,48 +172,60 @@ webui.@THEME@.widget.common = {
 
     /**
      * This function is used to create a widget.
+     * <p>
+     * Note: The props param must be a JSON object containing a widgetType
+     * value so the correct widget may be created.
+     * <p></p>
+     * Valid values for the position param consist of "last" or null. If 
+     * the position is "last", resulting HTML is appended to the given domNode. 
+     * If the position is null, the given domNode is replaced by the resulting
+     * HTML.
+     * <p></p>
      *
-     * Note: The props argument must be a JSON object containing a widgetName
-     * value so the correct widget may be created. If props also contains a 
-     * module property, the specified resources shall be retrieved before 
-     * creating the widget.
-     *
-     * Note: The position argument is passed though to Dojo's createWidget
-     * function. Valid values consist of "last", "first", etc. -- see Dojo docs.
-     * If the position is null, the given domNode is replaced by the widget.
-     *
-     * @param domNode The DOM node used to add widget.
-     * @param props Key-Value pairs of properties.
-     * @param position The position (e.g., "first", "last", etc.) to add widget.
-     * @returns The newly created widget.
+     * @param {Node} domNode The DOM node to add widget.
+     * @param {Object} props Key-Value pairs of properties.
+     * @param {boolean} position The position to add widget.
+     * @returns {Object} The newly created widget.
      */
     createWidget: function(domNode, props, position) {
-        if (props == null) {
-            return null;
+        var widget = null;
+        if (props == null || props.id == null || props.widgetType == null) {
+            return widget;
         }
 
         // Destroy previously created widgets, events, etc.
         webui.@THEME@.widget.common.destroyWidget(props.id);
 
         // Retrieve required module.
-        if (props.module) {
-            webui.@THEME@.widget.common.require(props.module);
+        dojo.require(props.widgetType);
+        
+        try {
+            // Get widget object.
+            var obj = dojo.getObject(props.widgetType);
+
+            // Instantiate widget. Note: Dojo replaces domNode, if provided.
+            widget = new obj(props, (position) ? null : domNode);
+        } catch (err) {
+            return widget;
         }
 
-        // Create widget.
-        var widget = dojo.widget.createWidget(props.widgetName, props,
-            domNode, position);
+        // Append widget as child.
+        if (position == "last") {
+            domNode.appendChild(widget.domNode);
+        }
 
-        // Register widget so that it may be destroyed properly.
-        webui.@THEME@.widget.common.registerWidget(widget);
-
+        // Start widget.
+        widget.startup();
         return widget;
     },
 
     /**
      * This function is used to detroy a widget.
+     * <p>
+     * Note: By default, all descendant widgets are destroyed as well.
+     * </p>
      *
-     * @param id The widget id to destroy.
+     * @param {String} id The widget id to destroy.
      */
     destroyWidget: function(id) {
         if (id == null) {
@@ -217,24 +233,37 @@ webui.@THEME@.widget.common = {
         }
 
         // Destroy previously created widgets, events, etc.
-        var widget = dojo.widget.byId(id);
+        var widget = dijit.byId(id);
         if (widget) {
-            return widget.destroy();
+            return widget.destroyRecursive();
         }
         return false;
     },   
 
     /**
+     * This function adds escape sequences for special characters in HTML: &<>"'
+     *
+     * @param {String} html The string to HTML escape.
+     */
+    escapeHTML: function(html){ 
+        return html.replace(/&/gm, "&amp;").
+            replace(/</gm, "&lt;").
+            replace(/>/gm, "&gt;").
+            replace(/"/gm, "&quot;"); 
+    },
+
+    /**
      * This function is used to extend the given object with Key-Value pairs of
-     * properties. If a property is an object containing Key-Value pairs itself,
-     * this function is called recursively to preserve data which is not
-     * explicitly extended.
+     * properties. 
+     * <p>
+     * Note: If a property is an object containing Key-Value pairs itself, this
+     * function is called recursively to preserve data which is not explicitly
+     * extended. If only top level properties must be replaced, use Prototype's 
+     * Object.extend() function.
+     * </p>
      *
-     * Note: If only top level properties must be replaced, use Prototype's 
-     * Object.extend function.
-     *
-     * @param obj The object to extend.
-     * @param props Key-Value pairs of properties.
+     * @param {Object} obj The object to extend.
+     * @param {Object} props Key-Value pairs of properties.
      */
     extend: function(obj, props) {
         if (obj == null || props == null) {
@@ -252,12 +281,14 @@ webui.@THEME@.widget.common = {
     
     /**
      * This function returns Object literals for a theme based image widget.
+     * <p>
+     * Note: In addition to widgetType and other theme properties, the props 
+     * param is add to the returned Object literals. If the given key doesn't 
+     * exist in the theme, null is returned.
+     * </p>
      *
-     * It adds the necessary "module" and "widgetName" and theme properties for
-     * "imageKey". If "imageKey" doesn't exist in the theme, return null.
-     *
-     * @param key A key defining a theme "images" property.
-     * @param props Key-Value pairs of properties (optional).
+     * @param {String} key A key defining a theme images property.
+     * @param {Object} props Key-Value pairs of properties (optional).
      */
     getImageProps: function(key, props) {
         var _props = webui.@THEME@.theme.common.getImage(key);
@@ -265,7 +296,7 @@ webui.@THEME@.widget.common = {
             return null;
         }
 
-        // Set default module and widget name.
+        // Set default widgetType.
         _props = webui.@THEME@.widget.common.getWidgetProps("image", _props);
 
         // Add extra properties
@@ -277,13 +308,13 @@ webui.@THEME@.widget.common = {
 
     /**
      * This function returns style class name for a specified selector.
+     * <p>
+     * Note: If the given key doesn't exist in the theme, the method returns the
+     * defaultValue param or null.
+     * </p>
      *
-     * If class "key" doesn't exist in the theme,      
-     * the method returns defaultValue, if one was supplied;
-     * or null, if defaultValue was not supplied.
-     *
-     * @param key A key defining a theme class name property.
-     * @param defaultValue A default value to be returned if class name for specified key is not found
+     * @param {String} key A key defining a theme class name property.
+     * @param {Object} defaultValue Value returned if specified key is not found.
      */
     getClassName: function(key, defaultValue) {
         var ret =  webui.@THEME@.theme.common.getClassName(key);
@@ -298,7 +329,7 @@ webui.@THEME@.widget.common = {
      * Get array containing the absolute left and top position of the given DOM
      * node relative to the browser window.
      *
-     * @param domNode The DOM node compute position for.
+     * @param {Node} domNode The DOM node compute position for.
      */
     getPosition: function(domNode) {
         var leftPos = topPos = 0;
@@ -360,8 +391,8 @@ webui.@THEME@.widget.common = {
     /**
      * This function is used to obtain a template path, or returns null
      * if key is not found or is not a path, i.e. begins with "<".
-     *
-     * @param key A key defining a theme "templates" property.
+     * 
+     * @param {String} key A key defining a theme "templates" property.
      */
     getTemplatePath: function(key) {
         var template = webui.@THEME@.theme.common.getTemplate(key);
@@ -376,7 +407,7 @@ webui.@THEME@.widget.common = {
      * This function is used to obtain a template string, or returns null
      * if key is not found or is not a string, i.e. does not begin with "<".
      *
-     * @param key A key defining a theme "templates" property.
+     * @param {String} key A key defining a theme "templates" property.
      */
     getTemplateString: function(key) {
         var template = webui.@THEME@.theme.common.getTemplate(key);
@@ -389,17 +420,16 @@ webui.@THEME@.widget.common = {
 
     /**
      * This function returns common Object literals used by widgets. For 
-     * example, it adds the necessary "module" and "widgetName".
+     * example, it adds the necessary widgetType.
      *
-     * @param widgetType The widget type to add properties for.
-     * @param props Key-Value pairs of properties (optional).
+     * @param {String} widgetName The widget name to add properties for.
+     * @param {Object} props Key-Value pairs of properties (optional).
      */
-    getWidgetProps: function(widgetType, props) {
+    getWidgetProps: function(widgetName, props) {
         var _props = {};
 
-        // Set default module and widget name.
-        _props.module = "webui.@THEME@.widget." + widgetType;    
-        _props.widgetName = "webui.@THEME@:"  + widgetType;    
+        // Set default widgetType.
+        _props.widgetType = "webui.@THEME@.widget."  + widgetName;    
 
         // Add extra properties
         if (props != null) {
@@ -409,65 +439,34 @@ webui.@THEME@.widget.common = {
     },
 
     /**
-     * This function is used to test template strings. Return true if the
-     * "template" is a template path, and false if it is a template String. 
-     * Returns false if the value is null or the empty string.
+     * This function is used to test template strings. 
+     * <p>
+     * Note: This function returns true if the "template" is a template path, 
+     * and false if it is a template String. False is also returned if the value
+     * is null or the empty string.
+     * </p>
+     *
+     * @param {String} template The template string to test.
      */
     isTemplatePath: function(template) {
         return (template != null && template.charAt(0) != '<');
     },
 
     /**
-     * This function is used to register widgets with the closest ancestor.
-     *
-     * Note: Registering ensures that when a widget is destroyed, all of its 
-     * chlidren are destroyed as well. This includes cleaning the browser of 
-     * events associated with the DOM node. It also allows children to be 
-     * notified of resize events through the onResized() function.
-     *
-     * @param widget The widget to register.
-     */
-    registerWidget: function(widget) {
-        if (widget == null) {
-            return false;
-        }
-        
-        // Search the DOM tree for an ancestor widget. We need to perform this 
-        // search for widgets created via HTML fragments. When using strings, 
-        // JavsScript is evaluated and the widget parent is not known.
-        //
-        // Note: In order to find an ancestor, the DOM node id must be set prior
-        // to creating widget children (e.g., via the fillInTemplate() functon).
-        var curNode = widget.domNode.parentNode;
-        while (curNode != null) {
-            var parentWidget = dojo.widget.byId(curNode.id);
-            if (parentWidget) {
-                // Register with ancestor widget.
-                parentWidget.registerChild(widget, parentWidget.children.length);
-                return true;
-            }
-            curNode = curNode.parentNode;
-        }
-        return false;
-    },
-
-    /**
      * This function is used to remove child nodes from given DOM node.
-     *
+     * <p>
      * Note: Child nodes may be cleared using the innerHTML property. However,
      * IE fails when this property is set via the widget's fillInTemplate 
      * function. In this case, DOM nodes shall be removed manually using the 
      * Node APIs.
+     * </p>
      *
-     * @param domNode The DOM node to remove child nodes.
+     * @param {Node} domNode The DOM node to remove child nodes.
      */
     removeChildNodes: function(domNode) {
         if (domNode == null) {
             return false;
         }
-
-        // To do: Should we destroy widgets here? Unless new widgets use the
-        // same id, the old widgets may never be removed.
 
         try {
             domNode.innerHTML = ""; // Cannot be null on IE.
@@ -484,57 +483,40 @@ webui.@THEME@.widget.common = {
     /**
      * This function is used to replace an HTML element with a newly created
      * widget -- see the createWidget() function.
+     * <p>
+     * Note: An HTML element is normally used as a temporary place holder so
+     * that a widget may be added to the document in the proper location. 
+     * Typically, the HTML element has the same id as the newly created widget.
+     * </p><p>
+     * Minimally, the props argument must be a JSON object containing an id and 
+     * widgetType property so the correct widget may be created.
+     * </p>
      *
-     * Note: The element is used as a temporary place holder so that a widget
-     * may be added to the document in the proper location. It is assumed that
-     * the HTML element (i.e., document fragment) has the same id as the widget.
-     *
-     * Note: The props argument must be a JSON object containing a widgetName
-     * value so the correct widget may be created. If props also contains a 
-     * module property, the specified resources shall be retrieved before 
-     * creating the widget.
-     *
-     * @param props Key-Value pairs of properties.
+     * @param {String} elementId The id of the HTML element to replace.
+     * @param {Object} props Key-Value pairs of properties.
+     * @config {String} [id] The widget id.
+     * @config {String} [widgetType] The widget type to create.
      */
-    replaceElement: function(props) {
+    replaceElement: function(elementId, props) {
         if (props == null) {
             return null;
         }
-        var domNode = document.getElementById(props.id);
+        var domNode = document.getElementById(elementId);
         return (domNode)
             ? webui.@THEME@.widget.common.createWidget(domNode, props)
             : null;
     },
 
     /**
-     * This function is used to obtain a module resources.
-     *
-     * @param module The module resource to retrieve.
-     */
-    require: function(module) {
-        if (module == null) {
-            return false;
-        }
-        
-        // Warning: Do not use dojo.require() here.
-        //
-        // Dojo appears to parse for dojo.require() statments when 
-        // djConfig.debugAtAllCosts is true. At this time, "modules" is 
-        // undefined and an exception is thrown.
-        dojo.require.apply(dojo, [module]);
-        return true;
-    },
-
-    /**
      * This function sleeps for specified milli seconds.
      * 
-     * @param delay 
+     * @param {int} delay The amount to delay.
      */
     sleep:  function(delay) {
         var start = new Date();
         var exitTime = start.getTime() + delay;
 
-        while(true) {
+        while (true) {
             start = new Date();
             if (start.getTime() > exitTime) {
                 return true;
@@ -546,16 +528,19 @@ webui.@THEME@.widget.common = {
     /**
      * This function is used to update a widget, HTML fragment, or static
      * string for the given domNode.
-     *
+     * <p>
      * Note: If the widget associated with props.id already exists, the widget's 
      * setProps() function is invoked with the given props param. If the widget 
      * does not exist, the widget object is instantiated via the addFragment()
      * function -- all params are passed through.
+     * </p><p>
+     * See webui.@THEME@.widget.label._setProps for example.
+     * </p>
      *
-     * @param domNode The DOM node used to add widget.
-     * @param props Key-Value pairs of properties.
-     * @param position The position (e.g., "first", "last", etc.) to add widget.
-     * @param escape HTML escape static strings -- default is true.
+     * @param {Node} domNode The DOM node used to add widget.
+     * @param {Object} props Key-Value pairs of properties.
+     * @param {String} position The position (e.g., "first", "last", etc.) to add widget.
+     * @param {boolean} escape HTML escape static strings -- default is true.
      */
     updateFragment: function(domNode, props, position, escape) {
         if (props == null) {
@@ -564,7 +549,7 @@ webui.@THEME@.widget.common = {
 
         // Ensure props is not a string.
         var widget = (typeof props != 'string') 
-            ? dojo.widget.byId(props.id) : null;
+            ? dijit.byId(props.id) : null;
 
         // Update widget or add fragment.
         if (widget && typeof widget.setProps == "function") {

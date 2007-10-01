@@ -1,3 +1,4 @@
+// widget/imageButton.js
 //
 // The contents of this file are subject to the terms
 // of the Common Development and Distribution License
@@ -20,33 +21,184 @@
 // Copyright 2007 Sun Microsystems, Inc. All rights reserved.
 //
 
+/**
+ * @name widget/imageButton.js
+ * @version @THEME_VERSION@
+ * @overview This module contains classes and functions for the imageButton 
+ * widget.
+ * @example The following code is used to create an imageButton widget.
+ * <p><code>
+ * var widget = new webui.@THEME@.widget.imageButton(props, domNode);
+ * </code></p>
+ */
 dojo.provide("webui.@THEME@.widget.imageButton");
 
-dojo.require("dojo.widget.*");
-dojo.require("webui.@THEME@.widget.*");
 dojo.require("webui.@THEME@.widget.button");
 
-// NOTE: Having a separate widget for each template allows the templateString
-// property to be cached. Otherwise, this would have to be cleared for each new
-// widget instance.
+/**
+ * This function is used to construct a template based widget.
+ *
+ * @name webui.@THEME@.widget.imageButton
+ * @inherits webui.@THEME@.widget.button
+ * @constructor
+ */
+dojo.declare("webui.@THEME@.widget.imageButton", webui.@THEME@.widget.button, {
+    // Set defaults.
+    widgetName: "imageButton"  // Required for theme properties.
+});
 
 /**
- * This function is used to generate a template based widget.
+ * This closure contains event topics.
+ * <p>
+ * Note: Event topics must be prototyped for inherited functions. However, these
+ * topics must also be available statically so that developers may subscribe to
+ * events.
+ * </p>
  *
- * Note: This is considered a private API, do not use.
+ * @ignore
  */
-webui.@THEME@.widget.imageButton = function() {    
-    // Register widget.
-    dojo.widget.HtmlWidget.call(this);
+webui.@THEME@.widget.imageButton.prototype.event =
+        webui.@THEME@.widget.imageButton.event = {
+    /**
+     * This closure contains refresh event topics.
+     * @ignore
+     */
+    refresh: {
+        /** Refresh event topic for custom AJAX implementations to listen for. */
+        beginTopic: webui.@THEME@.widget.button.event.refresh.beginTopic,
+
+        /** Refresh event topic for custom AJAX implementations to listen for. */
+        endTopic: webui.@THEME@.widget.button.event.refresh.endTopic
+    },
+
+    /**
+     * This closure contains state event topics.
+     * @ignore
+     */
+    state: {
+        /** State event topic for custom AJAX implementations to listen for. */
+        beginTopic: webui.@THEME@.widget.button.event.state.beginTopic,
+
+        /** State event topic for custom AJAX implementations to listen for. */
+        endTopic: webui.@THEME@.widget.button.event.state.endTopic
+    }
 }
 
-// Inherit base widget properties.
-dojo.inherits(webui.@THEME@.widget.imageButton, webui.@THEME@.widget.button);
+/**
+ * This function is used to obtain the outermost HTML element class name.
+ *
+ * Note: Selectors should be concatinated in order of precedence (e.g., the 
+ * user's className property is always appended last).
+ */
+webui.@THEME@.widget.imageButton.prototype.getClassName = function() {
+    // If it is an image button, only the BUTTON3 selectors are used.
+    // Note that the "mini" and "primary" values can still be set but
+    // have no effect on image buttons by policy, vs by theme.
+    var key = (this.disabled == true)
+	? "BUTTON3_DISABLED"
+	: "BUTTON3";
 
-// Override base widget by assigning properties to class prototype.
-dojo.lang.extend(webui.@THEME@.widget.imageButton, {
-    // Set private functions.
+    var className = this.widget.getClassName(key, "");
+    return (this.className)
+        ? className + " " + this.className
+        : className;
+}
 
-    // Set defaults.
-    widgetType: "imageButton"
-});
+/**
+ * This function is used to obtain the outermost HTML element class name.
+ * <p>
+ * Note: Selectors should be concatinated in order of precedence (e.g., the 
+ * user's className property is always appended last).
+ * </p>
+ */
+webui.@THEME@.widget.imageButton.prototype.getHoverClassName = function() {
+    // If it is an image button, only the BUTTON3 selectors are used.
+    // Note that the "mini" and "primary" values can still be set but
+    // have no effect on image buttons by policy, vs by theme.
+    var key = "BUTTON3_HOVER";
+    var className = this.widget.getClassName(key, "");
+    return (this.className)
+        ? className + " " + this.className
+        : className;
+}
+
+/**
+ * This function is used to get widget properties. Please see the 
+ * setProps() function for a list of supported properties.
+ */
+webui.@THEME@.widget.imageButton.prototype.getProps = function() {
+    var props = this.inherited("getProps", arguments);
+
+    // Set properties.
+    if (this.src) { props.src = this.src; }
+
+    return props;
+}
+
+/**
+ * This function is used to set widget properties using Object literals.
+ * <p>
+ * Note: This function extends the widget object for later updates. Further, the
+ * widget shall be updated only for the given key-value pairs.
+ * </p><p>
+ * If the notify param is true, the widget's state change event shall be
+ * published. This is typically used to keep client-side state in sync with the
+ * server.
+ * </p>
+ *
+ * @param {Object} props Key-Value pairs of properties.
+ * @config {String} [alt] Alternate text for image input.
+ * @config {String} [align] Alignment of image input.
+ * @config {String} [className] CSS selector.
+ * @config {String} [dir] Specifies the directionality of text.
+ * @config {boolean} [disabled] Disable element.
+ * @config {String} [escape] HTML escape button text (default).
+ * @config {String} [id] Uniquely identifies an element within a document.
+ * @config {String} [lang] Specifies the language of attribute values and content.
+ * @config {String} [onBlur] Element lost focus.
+ * @config {String} [onClick] Mouse button is clicked on element.
+ * @config {String} [onDblClick] Mouse button is double-clicked on element.
+ * @config {String} [onFocus] Element received focus.
+ * @config {String} [onKeyDown] Key is pressed down over element.
+ * @config {String} [onKeyPress] Key is pressed and released over element.
+ * @config {String} [onKeyUp] Key is released over element.
+ * @config {String} [onMouseDown] Mouse button is pressed over element.
+ * @config {String} [onMouseOut] Mouse is moved away from element.
+ * @config {String} [onMouseOver] Mouse is moved onto element.
+ * @config {String} [onMouseUp] Mouse button is released over element.
+ * @config {String} [onMouseMove] Mouse is moved while over element.
+ * @config {String} [src] Source for image.
+ * @config {String} [style] Specify style rules inline.
+ * @config {int} [tabIndex] Position in tabbing order.
+ * @config {String} [title] Provides a title for element.
+ * @config {String} [value] Value of input.
+ * @config {boolean} [visible] Hide or show element.
+ * @param {boolean} notify Publish an event for custom AJAX implementations to listen for.
+ */
+webui.@THEME@.widget.imageButton.prototype.setProps = function(props, notify) {
+    // Note: This function is overridden for JsDoc.
+    return this.inherited("setProps", arguments);
+}
+
+/**
+ * This function is used to set widget properties. Please see the setProps() 
+ * function for a list of supported properties.
+ * <p>
+ * Note: This is considered a private API, do not use. This function should only
+ * be invoked via setProps().
+ * </p>
+ *
+ * @param {Object} props Key-Value pairs of properties.
+ * @private
+ */
+webui.@THEME@.widget.imageButton.prototype._setProps = function(props) {
+    if (props == null) {
+        return false;
+    }
+
+    // Set properties.
+    if (props.src) { this.domNode.src = props.src; }
+
+    // Set remaining properties.
+    return this.inherited("_setProps", arguments);
+}

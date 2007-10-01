@@ -52,6 +52,7 @@ import com.sun.webui.jsf.util.JavaScriptUtilities;
 import com.sun.webui.jsf.util.WidgetUtilities;
 import com.sun.webui.jsf.util.ThemeUtilities;
 import com.sun.webui.jsf.util.JSONUtilities;
+
 /**
  * This class renders an instance of the Menu component.
  * It traverses through the <code>com.sun.webui.jsf.mode.Option</code>
@@ -126,17 +127,7 @@ public class MenuRenderer extends RendererBase {
 
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     // RendererBase methods
-    // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-    /**
-     * Get the Dojo module required to instantiate the widget.
-     * The string literal "widget.menu" or "widget.popupMenu" is returned by this function
-     * @param context FacesContext for the current request.
-     * @param component UIComponent to be rendered.
-     */
-    protected String getModule(FacesContext context, UIComponent component) {
-        return JavaScriptUtilities.getModuleName("widget.popupMenu");
-    }      
+    // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ 
    
     /** 
      * Helper method to obtain component properties.
@@ -185,8 +176,8 @@ public class MenuRenderer extends RendererBase {
      * @param context FacesContext for the current request.
      * @param component UIComponent to be rendered.
      */
-    protected String getWidgetName(FacesContext context, UIComponent component) {
-        return JavaScriptUtilities.getNamespace("popupMenu");
+    protected String getWidgetType(FacesContext context, UIComponent component) {
+        return JavaScriptUtilities.getModuleName("widget.popupMenu");
     }        
     
     /**
@@ -210,5 +201,9 @@ public class MenuRenderer extends RendererBase {
         }
         return false;
     }
+
+    // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    // Private methods
+    // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 }
     

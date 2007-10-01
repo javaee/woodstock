@@ -1,3 +1,4 @@
+// body.js
 //
 // The contents of this file are subject to the terms
 // of the Common Development and Distribution License
@@ -20,23 +21,19 @@
 // Copyright 2007 Sun Microsystems, Inc. All rights reserved.
 //
 
-dojo.provide("webui.@THEME@.body");
-
-dojo.require("webui.@THEME@.common");
-dojo.require("webui.@THEME@.cookie");
-
 /**
- * Construct a javascript body object.
+ * @name body.js
+ * @version @THEME_VERSION@
+ * @overview This module contains classes and functions used to maintain focus 
+ * and scroll position.
  * <p>
- * Them body maintains scroll position and focus.
  * There can be an initial focus element and a default focus element. The
  * initial focus element is identifed by the "focusElementId" argument.
  * This argument is typically null on the first display of the page. If
  * the Body component is not preserving the focus then it may also be null,
  * at other times, since it represents the element id that last received
  * the focus before the request.
- * </p>
- * <p>
+ * </p><p>
  * Whenever the page is displayed and "focusElementId" is null
  * "defaultFocusElementId" will receive the focus if it is not null. This id is
  * defined by the application using the Body "focus" attribute. If the
@@ -44,8 +41,7 @@ dojo.require("webui.@THEME@.cookie");
  * the Body component "preserveFocus" attribute to "false". The application then
  * explicitly sets the Body "focus" attribute to the element id to receive
  * focus on every request/response.
- * </p>
- * <p>
+ * </p><p>
  * In order to preserve focus across requests, the "focusElementFieldId"
  * element is used to preserve the id of the element that receives the focus
  * last. It is a hidden field that is submitted in the
@@ -55,18 +51,27 @@ dojo.require("webui.@THEME@.cookie");
  * element that received the focus is sent to the server. Which form
  * is submitted can never be known.
  * </p>
- * @param viewId used to name the scroll cookie
- * @param path a member of the scroll cookie
- * @param defaultFocusElementId the HTML element id that will receive focus.
- * @param focusElementId the id of the element to receive the initial focus.
- * @param focusElementFieldId the id of a hidden field to maintain
+ */
+dojo.provide("webui.@THEME@.body");
+
+dojo.require("webui.@THEME@.common");
+dojo.require("webui.@THEME@.cookie");
+
+/**
+ * This function is used to construct a body object.
+ *
+ * @param {String} viewId Used to name the scroll cookie
+ * @param {String} path A member of the scroll cookie
+ * @param {String} defaultFocusElementId The HTML element id that will receive focus.
+ * @param {String} focusElementId The id of the element to receive the initial focus.
+ * @param {String} focusElementFieldId The id of a hidden field to maintain
  * the id of the last element to have the focus.
- * @param preserveScroll if true or not defined the scroll position is 
+ * @param {boolean} preserveScroll if true or not defined the scroll position is 
  * maintained else scroll is not maintained.
+ * @constructor
  */
 webui.@THEME@.body = function(viewId, path, defaultFocusElementId, 
 	focusElementId, focusElementFieldId, preserveScroll)  {
-
     /**
      * The id of the HTML element to receive the focus, if the
      * element identified in focusElementFieldId cannot receive the focus.
@@ -103,9 +108,10 @@ webui.@THEME@.body = function(viewId, path, defaultFocusElementId,
     }
 
     /**
-     * @deprecated
      * This funtionality is taken care of by the body onload listener,
      * body.onLoadListener.
+     *
+     * @deprecated
      */
     this.setInitialFocus = function() {
 	// In old code this method was called as an onload handler.
@@ -121,6 +127,8 @@ webui.@THEME@.body = function(viewId, path, defaultFocusElementId,
     /**
      * Set the focus on element with id "fid".
      * If focus can be set returns true else false.
+     *
+     * @param {String} fid The id of the DOM node to have focus.
      */
     this.setFocusById = function(fid) {
 
@@ -133,6 +141,8 @@ webui.@THEME@.body = function(viewId, path, defaultFocusElementId,
     /**
      * Set the focus on "focusElement".
      * If focus can be set returns true else false.
+     *
+     * @param {Node} focusElement The DOM node to have focus.
      */
     this.setFocusByElement = function(focusElement) {
 
@@ -162,12 +172,13 @@ webui.@THEME@.body = function(viewId, path, defaultFocusElementId,
      * This method should only  be called once to prevent recursive
      * calls since it calls "focus()" on the focus element.
      * Called currently from the onload listener.
-     *
+     * <p>
      * If "this.focusElementId" is not null it will receive the focus.
      * If that element can't receive the focus
      * then the application defined "this.defaultFocusId" receives the focus.
      * If that element cannot receive the focus, no focus is set.
-     * Returns false if a default focus cannot be established, else true.
+     * </p>
+     * @return false if a default focus cannot be established, else true.
      */
     this.setDefaultFocus = function() {
 
@@ -223,6 +234,8 @@ webui.@THEME@.body = function(viewId, path, defaultFocusElementId,
      * catch the exception when trying to reference it.
      * Returns true if the element has a "focus" method, is not
      * disabled, and isVisible, else false.
+     *
+     * @param {Node} element The DOM node to have focus.
      */
     this.canAcceptFocus = function(element) {
 	var result = false;
@@ -239,6 +252,8 @@ webui.@THEME@.body = function(viewId, path, defaultFocusElementId,
      * Update the hidden field that maintains the last element to 
      * receive the focus. If the body has multiple forms every form's
      * hidden field is updated with the "focusElement".
+     *
+     * @param {Node} focusElement The DOM node to have focus.
      */
     this.updateFocusElementField = function(focusElement) {
 
@@ -280,7 +295,6 @@ webui.@THEME@.body = function(viewId, path, defaultFocusElementId,
 	    ffield.value = focusElement.id;
 	    fform.appendChild(ffield);
 	}
-
 	return true;
     };
 
@@ -303,7 +317,6 @@ webui.@THEME@.body = function(viewId, path, defaultFocusElementId,
      * This method is invoked in the onload listener, body.onLoadListener.
      */
     this.setDefaultScrollPosition = function() {
-
 	if (!this.preserveScroll) {
 	    return false;
 	}
@@ -317,6 +330,7 @@ webui.@THEME@.body = function(viewId, path, defaultFocusElementId,
 	    //
 	    this.scrollCookie.reset();
 	}
+        return true;
     };
 
     this.showAlert = true;
@@ -326,9 +340,10 @@ webui.@THEME@.body = function(viewId, path, defaultFocusElementId,
      * This is called whenever an element receives the focus.
      * This is set on the document so that the cursor entering the
      * window does not trigger this listener.
+     *
+     * @param {Event} event The object generated by the focus event.
      */
-    this.focusListener = function(evt) {
-
+    this.focusListener = function(event) {
 	// If it's not an element node just return
 	//
 	var node = null;
@@ -337,14 +352,14 @@ webui.@THEME@.body = function(viewId, path, defaultFocusElementId,
 	// is IE 
 	//
 	if (document.attachEvent) {
-	    node = evt.srcElement;
+	    node = event.srcElement;
 	
 	    // We have to hard code "1" as the Node.ELEMENT_NODE in
 	    // ie, because ie does not make the constant accessible.
 	    //
 	    isElementNode = (node == null ? false : node.nodeType == 1);
 	} else {
-	    node = evt.target;
+	    node = event.target;
 	    isElementNode = node.nodeType == Node.ELEMENT_NODE;
 	}
 
@@ -360,8 +375,10 @@ webui.@THEME@.body = function(viewId, path, defaultFocusElementId,
 
     /**
      * Set the initial focus and the scroll position.
+     *
+     * @param {Event} event The object generated by the focus event.
      */
-    this.onLoadListener = function(evt) {
+    this.onLoadListener = function(event) {
 
 	// register the focus listener first.
 	// Then call "setDefaultFocus" using "setTimeout" to
@@ -395,23 +412,24 @@ webui.@THEME@.body = function(viewId, path, defaultFocusElementId,
 	// restored. Need to make sure that this takes into
 	// account the default focus that was just set.
 	//
-	webui.@THEME@.common.body.setDefaultScrollPosition();
+	return webui.@THEME@.common.body.setDefaultScrollPosition();
     };
 
     /**
-     * Update the page's scroll position
+     * Update the page's scroll position.
+     *
+     * @param {Event} event The object generated by the focus event.
      */
-    this.onUnloadListener = function(evt) {
-	webui.@THEME@.common.body.storeScrollPosition();
+    this.onUnloadListener = function(event) {
+	return webui.@THEME@.common.body.storeScrollPosition();
     };
 
-    /*
-     * The focus listener is set on the document so that the cursor 
-     * entering the window does not trigger this listener. Unfortunately
-     * it is only on the window in IE. IE does not support
-     * "addEventListener".
-     */
-    // If we are not preserving scroll don't add the unload listener
+    // The focus listener is set on the document so that the cursor 
+    // entering the window does not trigger this listener. Unfortunately
+    // it is only on the window in IE. IE does not support
+    // "addEventListener".
+    //
+    // If we are not preserving scroll don't add the unload listener.
     //
     if (window.document.addEventListener) {
 	window.addEventListener('load', this.onLoadListener, true);

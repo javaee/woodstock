@@ -1,3 +1,4 @@
+// widget/resetButton.js
 //
 // The contents of this file are subject to the terms
 // of the Common Development and Distribution License
@@ -20,33 +21,65 @@
 // Copyright 2007 Sun Microsystems, Inc. All rights reserved.
 //
 
+/**
+ * @name widget/resetButton.js
+ * @version @THEME_VERSION@
+ * @overview This module contains classes and functions for the resetButton 
+ * widget.
+ * @example The following code is used to create a resetButton widget.
+ * <p><code>
+ * var widget = new webui.@THEME@.widget.resetButton(props, domNode);
+ * </code></p>
+ */
 dojo.provide("webui.@THEME@.widget.resetButton");
 
-dojo.require("dojo.widget.*");
-dojo.require("webui.@THEME@.widget.*");
 dojo.require("webui.@THEME@.widget.button");
 
-// NOTE: Having a separate widget for each template allows the templateString
-// property to be cached. Otherwise, this would have to be cleared for each new
-// widget instance.
+/**
+ * This function is used to construct a template based widget.
+ *
+ * @name webui.@THEME@.widget.resetButton
+ * @inherits webui.@THEME@.widget.button
+ * @constructor
+ */
+dojo.declare("webui.@THEME@.widget.resetButton", webui.@THEME@.widget.button, {
+    // Set defaults.
+    widgetName: "resetButton"  // Required for theme properties.
+});
 
 /**
- * This function is used to generate a template based widget.
+ * This closure contains event topics.
+ * <p>
+ * Note: Event topics must be prototyped for inherited functions. However, these
+ * topics must also be available statically so that developers may subscribe to
+ * events.
+ * </p>
  *
- * Note: This is considered a private API, do not use.
+ * @ignore
  */
-webui.@THEME@.widget.resetButton = function() {
-    // Register widget.
-    dojo.widget.HtmlWidget.call(this);
+webui.@THEME@.widget.resetButton.prototype.event =
+        webui.@THEME@.widget.resetButton.event = {
+    /**
+     * This closure contains refresh event topics.
+     * @ignore
+     */
+    refresh: {
+        /** Refresh event topic for custom AJAX implementations to listen for. */
+        beginTopic: webui.@THEME@.widget.button.event.refresh.beginTopic,
+
+        /** Refresh event topic for custom AJAX implementations to listen for. */
+        endTopic: webui.@THEME@.widget.button.event.refresh.endTopic
+    },
+
+    /**
+     * This closure contains state event topics.
+     * @ignore
+     */
+    state: {
+        /** State event topic for custom AJAX implementations to listen for. */
+        beginTopic: webui.@THEME@.widget.button.event.state.beginTopic,
+
+        /** State event topic for custom AJAX implementations to listen for. */
+        endTopic: webui.@THEME@.widget.button.event.state.endTopic
+    }
 }
-
-// Inherit base widget properties.
-dojo.inherits(webui.@THEME@.widget.resetButton, webui.@THEME@.widget.button);
-
-// Override base widget by assigning properties to class prototype.
-dojo.lang.extend(webui.@THEME@.widget.resetButton, {
-    // Set private functions.
-
-    // Set defaults.
-    widgetType: "resetButton"
-});

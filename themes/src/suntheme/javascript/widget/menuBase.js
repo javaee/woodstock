@@ -1,3 +1,4 @@
+// widget/menuBase.js
 //
 // The contents of this file are subject to the terms
 // of the Common Development and Distribution License
@@ -20,35 +21,41 @@
 // Copyright 2007 Sun Microsystems, Inc. All rights reserved.
 //
 
+/**
+ * @name widget/menuBase.js
+ * @version @THEME_VERSION@
+ * @overview This module contains classes and functions for the menuBase widget.
+ */
 dojo.provide("webui.@THEME@.widget.menuBase");
-dojo.require("dojo.widget.*");
-dojo.require("webui.@THEME@.*");
-dojo.require("webui.@THEME@.widget.*");
+
+dojo.require("webui.@THEME@.browser");
+dojo.require("webui.@THEME@.common");
+dojo.require("webui.@THEME@.widget.widgetBase");
 
 /**
- * This function is used to generate a template based widget.
+ * This function is used to construct a template based widget.
  *
- * Note: This is considered a private API, do not use.
+ * @name webui.@THEME@.widget.menuBase
+ * @inherits webui.@THEME@.widget.widgetBase
+ * @constructor
  */
-webui.@THEME@.widget.menuBase = function() {
-    // Register widget.
-    dojo.widget.HtmlWidget.call(this);
-}
+dojo.declare("webui.@THEME@.widget.menuBase", webui.@THEME@.widget.widgetBase);
 
 /**
  * Add the specified options to the dom element.
  *
- * @param menuNode The node to which the menu items are to be added.
- * @param props Key-Value pairs of properties.
+ * @param {Node} menuNode The node to which the menu items are to be added.
+ * @param {Object} props Key-Value pairs of properties.
+ * @config {Array} [options] 
  */
-webui.@THEME@.widget.menuBase.addOptions = function(menuNode, props) {
+webui.@THEME@.widget.menuBase.prototype.addOptions = function(menuNode, props) {
     var groupNode, optionNode, separator, sepNode;
     for (var i = 0; i < props.options.length; i++) {
         
         // create an li node which will represent an option element.
         optionNode = this.optionContainer.cloneNode(false);   
-        optionNode.id = this.id+"_"+props.options[i].label+"_container";                
-        this.setOptionNodeProps(props.options[i], optionNode);
+        optionNode.id = this.id + "_" + props.options[i].label + "_container";                
+        this.setOptionNodeProps(optionNode, props.options[i]);
 
         // Append the li element to the menu element.        
         menuNode.appendChild(optionNode);
@@ -60,13 +67,12 @@ webui.@THEME@.widget.menuBase.addOptions = function(menuNode, props) {
         }
          
         // Create callback function for onClick event.
-        dojo.event.connect(optionNode, "onclick",
-            webui.@THEME@.widget.menuBase.createOnClickCallback(this.id, 
-                optionNode.id));
+        dojo.connect(optionNode, "onclick", this.createOnClickCallback(
+            optionNode.id));
         
         if (props.options[i].separator == true) {
             separator = this.menuSeparatorContainer.cloneNode(true);
-            if (webui.@THEME@.common.browser.is_ie5up) {
+            if (webui.@THEME@.browser.is_ie5up()) {
                 var sep = this.menuSeparator.cloneNode(true);
                 separator.appendChild(sep);
             }
@@ -80,17 +86,17 @@ webui.@THEME@.widget.menuBase.addOptions = function(menuNode, props) {
 /**
  * The callback function for clicking on a menu item.
  *
- * @param menuId The id of th menu widget.
- * @param optionId The id of the option element that is clicked
+ * @param {String} optionId The id of the option element that is clicked.
  */
-webui.@THEME@.widget.menuBase.createOnClickCallback = function(menuId, optionId) {
-    // Return if the menu id or the option id is null.
-    if (menuId == null || optionId == null) {
-        return null;
-    }
-    
-    // New literals are created every time this function
-    // is called, and it's saved by closure magic.
+webui.@THEME@.widget.menuBase.prototype.createOnClickCallback = function(optionId) {
+    var _id = this.id;
+
+    /**
+     * New literals are created every time this function is called, and it's 
+     * saved by closure magic.
+     *
+     * @param {Event} event The JavaScript event.
+     */
     return function(event) {
         // Get hold of the particular option element.
         var elem = document.getElementById(optionId);
@@ -99,7 +105,7 @@ webui.@THEME@.widget.menuBase.createOnClickCallback = function(menuId, optionId)
         }        
 
         // Get hold of the menu element.
-        var widget = dojo.widget.byId(menuId);                
+        var widget = dijit.byId(_id);                
         var val = elem.selectValue;
         var dis = elem.disabled;       
         var group = elem.group;
@@ -113,49 +119,50 @@ webui.@THEME@.widget.menuBase.createOnClickCallback = function(menuId, optionId)
 }
 
 /**
- * Handles the on mouse out for each menuitem on IE
+ * Handles the on mouse out for each menuitem.
+ *
+ * @param {Node} menuItem The DOM node associated with the menu item.
  */
-webui.@THEME@.widget.menuBase.createOnMouseOutCallBack = function(menuItem, id) {
-    if (menuItem == null || id == null) {
-        return;
+webui.@THEME@.widget.menuBase.prototype.createOnMouseOutCallBack = function(menuItem) {
+    if (menuItem == null) {
+        return null;
     }
-    return function() {
-        var widget = dojo.widget.byId(id);
+    var _id = this.id;
+ 
+    /**
+     * New literals are created every time this function is called, and it's 
+     * saved by closure magic.
+     *
+     * @param {Event} event The JavaScript event.
+     */
+    return function(event) {
+        var widget = dijit.byId(_id);
         menuItem.className = widget.theme.getClassName("MENU_GROUP_CONTAINER");
     }
 }
 
 /**
- * Handles the on mouse over for each menuitem on IE
+ * Handles the on mouse over for each menuitem.
+ *
+ * @param {Node} menuItem The DOM node associated with the menu item.
  */
-webui.@THEME@.widget.menuBase.createOnMouseOverCallBack = function(menuItem, id) {
-    if (menuItem == null || id == null) {
-        return;
+webui.@THEME@.widget.menuBase.prototype.createOnMouseOverCallBack = function(menuItem) {
+    if (menuItem == null) {
+        return null;
     }
-    return function() {
-        var widget = dojo.widget.byId(id);
+    var _id = this.id;
+
+    /**
+     * New literals are created every time this function is called, and it's 
+     * saved by closure magic.
+     *
+     * @param {Event} event The JavaScript event.
+     */
+    return function(event) {
+        var widget = dijit.byId(_id);
         menuItem.className = menuItem.className + " " + 
             widget.theme.getClassName("MENU_ITEM_HOVER");            
     }
-}
-
-/**
- * This function is used to fill in template properties.
- *
- * Note: This is called after the buildRendering() function. Anything to be set 
- * only once should be added here; otherwise, use the _setProps() function.
- *
- * @param props Key-Value pairs of properties.
- * @param frag HTML fragment.
- */
-webui.@THEME@.widget.menuBase.fillInTemplate = function(props, frag) {
-    webui.@THEME@.widget.menuBase.superclass.fillInTemplate.call(this, props, frag);
-
-    // Set public functions.
-    this.domNode.getSelectedValue = function(props, optionNode) { return dojo.widget.byId(this.id).getSelectedValue(); }
-    this.domNode.submit = function(execute) { return dojo.widget.byId(this.id).submit(execute); } 
-        
-    return true;
 }
 
 /**
@@ -164,11 +171,13 @@ webui.@THEME@.widget.menuBase.fillInTemplate = function(props, frag) {
  * attribute to true. This will help in adding an extra pixel width
  * while assigning the width of th menu. This is to account for the
  * indentation of the menu.
+ *
+ * @param {Array} props 
  */
-webui.@THEME@.widget.menuBase.getMaxWidth = function(props) {
+webui.@THEME@.widget.menuBase.prototype.getMaxWidth = function(props) {
     var menuWidth = 0;
     var maxWidth = 0;
-    for (var i=0; i<props.length; i++) {
+    for (var i = 0; i < props.length; i++) {
          menuWidth = props[i].label.length;
          if (menuWidth > maxWidth) {
             maxWidth = menuWidth;
@@ -186,20 +195,22 @@ webui.@THEME@.widget.menuBase.getMaxWidth = function(props) {
 
 /**
  * This function is used to get widget properties. Please see the 
- * _setProps() function for a list of supported properties.
+ * setProps() function for a list of supported properties.
  */
-webui.@THEME@.widget.menuBase.getProps = function() {
-    var props = webui.@THEME@.widget.menuBase.superclass.getProps.call(this);
-    if (this.options ) { props.options = this.options; }
-    if (this.formId ) {props.formId = this.formId; }
-    if (this.submitForm) {props.submitForm = this.submitForm; }  
+webui.@THEME@.widget.menuBase.prototype.getProps = function() {
+    var props = this.inherited("getProps", arguments);
+
+    if (this.options) { props.options = this.options; }
+    if (this.formId) { props.formId = this.formId; }
+    if (this.submitForm) { props.submitForm = this.submitForm; }  
+
     return props;
 }
 
 /**
  * Returns the currently selected item in the menu
  */
-webui.@THEME@.widget.menuBase.getSelectedValue = function() {
+webui.@THEME@.widget.menuBase.prototype.getSelectedValue = function() {
     if (this.clickedItem) {
         return this.clickedItem;
     } else {
@@ -209,11 +220,12 @@ webui.@THEME@.widget.menuBase.getSelectedValue = function() {
 
 /**
  * This function is used to obtain the outermost HTML element style.
- *
+ * <p>
  * Note: Styles should be concatinated in order of precedence (e.g., the 
  * user's style property is always appended last).
+ * </p>
  */
-webui.@THEME@.widget.menuBase.getStyle = function() {
+webui.@THEME@.widget.menuBase.prototype.getStyle = function() {
     var style = "width:" + this.maxWidth + "em;";
 
     // Since the style has to be recalculated each and every time the options
@@ -239,10 +251,28 @@ webui.@THEME@.widget.menuBase.getStyle = function() {
 }
 
 /**
- * This function executes the onchange and onclick event handlers if provided by the developer.
- * It then either submits the form if submitForm attribute is specified to true
+ * This function is used to fill in remaining template properties, after the
+ * buildRendering() function has been processed.
+ * <p>
+ * Note: Unlike Dojo 0.4, the DOM nodes don't yet exist. 
+ * </p>
  */
-webui.@THEME@.widget.menuBase.processOnClickEvent = function(value) {
+webui.@THEME@.widget.menuBase.prototype.postCreate = function () {
+    // Set public functions.
+    this.domNode.getSelectedValue = function(props, optionNode) { return dijit.byId(this.id).getSelectedValue(); }
+    this.domNode.submit = function(execute) { return dijit.byId(this.id).submit(execute); } 
+        
+    return this.inherited("postCreate", arguments);
+}
+
+/**
+ * This function executes the onchange and onclick event handlers if provided by 
+ * the developer. It then either submits the form if submitForm attribute is 
+ * specified to true.
+ *
+ * @param {String} value The selected value.
+ */
+webui.@THEME@.widget.menuBase.prototype.processOnClickEvent = function(value) {
     var clickResult = true;
     var changeResult = true;
     if (this._onclick) {
@@ -269,13 +299,17 @@ webui.@THEME@.widget.menuBase.processOnClickEvent = function(value) {
 
 /**
  * Set the appropriate class name on the menu item container.
- * @param menuItemContainer The container for the menu item
- * @param props The properties of the particular option
+ *
+ * @param {Node} menuItemContainer The container for the menu item.
+ * @param {Object} props Key-Value pairs of properties.
+ * @config {boolean} [disabled] 
+ * @config {boolean} [group] 
  */
-webui.@THEME@.widget.menuBase.setMenuNodeClassName = function(menuItemContainer, props) {
+webui.@THEME@.widget.menuBase.prototype.setMenuNodeClassName = function(
+        menuItemContainer, props) {
     if (new Boolean(props.group).valueOf() == true) {
         menuItemContainer.className = this.theme.getClassName("MENU_GROUP_HEADER");
-    } else if(new Boolean(props.disabled).valueOf() == true) {
+    } else if (new Boolean(props.disabled).valueOf() == true) {
         menuItemContainer.className = this.theme.getClassName("MENU_ITEM_DISABLED");
     } else {
         menuItemContainer.className = this.theme.getClassName("MENU_GROUP_CONTAINER");        
@@ -286,12 +320,12 @@ webui.@THEME@.widget.menuBase.setMenuNodeClassName = function(menuItemContainer,
         // mouseover happens. This style represents the "hover" class.
         // Note that the "this" in these functions represent the menuItem's "div" element
         // and not the "menu" widget element.
-        if (webui.@THEME@.common.browser.is_ie5up) {
+        if (webui.@THEME@.browser.is_ie5up()) {
             dojo.debug("Inside assignee functions");
-            dojo.event.connect(menuItemContainer, "onmouseover",
-                webui.@THEME@.widget.menuBase.createOnMouseOverCallBack(menuItemContainer, this.id));
-            dojo.event.connect(menuItemContainer, "onmouseout",
-                webui.@THEME@.widget.menuBase.createOnMouseOutCallBack(menuItemContainer, this.id));
+            dojo.connect(menuItemContainer, "onmouseover",
+                this.createOnMouseOverCallBack(menuItemContainer));
+            dojo.connect(menuItemContainer, "onmouseout",
+                this.createOnMouseOutCallBack(menuItemContainer));
         }
     }    
 }
@@ -300,10 +334,16 @@ webui.@THEME@.widget.menuBase.setMenuNodeClassName = function(menuItemContainer,
  * Helper function to set the properties of an option item. This is invoked
  * by the addOptions function call.
  *
- * @param props The property of the particular option.
- * @param optionNode The node for which the option is to be added
+ * @param optionNode The node for which the option is to be added.
+ * @param {Object} props Key-Value pairs of properties.
+ * @config {boolean} [disabled] 
+ * @config {boolean} [escape]
+ * @config {Object} [image]
+ * @config {String} [label]
+ * @config {String} [title]
+ * @config {String} [value]
  */
-webui.@THEME@.widget.menuBase.setOptionNodeProps = function(props, optionNode) {
+webui.@THEME@.widget.menuBase.prototype.setOptionNodeProps = function(optionNode, props) {
     optionNode.id = this.id + "_" + props.value + "_container";
     optionNode.selectValue = props.value;
     optionNode.disabled = props.disabled;
@@ -352,20 +392,43 @@ webui.@THEME@.widget.menuBase.setOptionNodeProps = function(props, optionNode) {
 }
 
 /**
- * This function is used to set widget properties. Please see the 
- * _setProps() function for a list of supported properties.
- *
- * Note: This function updates the widget object for later updates. Further, the
+ * This function is used to set widget properties using Object literals.
+ * <p>
+ * Note: This function extends the widget object for later updates. Further, the
  * widget shall be updated only for the given key-value pairs.
- *
- * Note: If the notify param is true, the widget's state change event shall be
+ * </p><p>
+ * If the notify param is true, the widget's state change event shall be
  * published. This is typically used to keep client-side state in sync with the
  * server.
+ * </p>
  *
- * @param props Key-Value pairs of properties.
- * @param notify Publish an event for custom AJAX implementations to listen for.
+ * @param {Object} props Key-Value pairs of properties.
+ * @config {String} [accessKey] 
+ * @config {String} [className] CSS selector.
+ * @config {String} [dir] Specifies the directionality of text.
+ * @config {String} [formId] 
+ * @config {String} [id] Uniquely identifies an element within a document.
+ * @config {String} [onBlur] Element lost focus.
+ * @config {String} [onClick] Mouse button is clicked on element.
+ * @config {String} [onDblClick] Mouse button is double-clicked on element.
+ * @config {String} [onFocus] Element received focus.
+ * @config {String} [onKeyDown] Key is pressed down over element.
+ * @config {String} [onKeyPress] Key is pressed and released over element.
+ * @config {String} [onKeyUp] Key is released over element.
+ * @config {String} [onMouseDown] Mouse button is pressed over element.
+ * @config {String} [onMouseOut] Mouse is moved away from element.
+ * @config {String} [onMouseOver] Mouse is moved onto element.
+ * @config {String} [onMouseUp] Mouse button is released over element.
+ * @config {String} [onMouseMove] Mouse is moved while over element.
+ * @config {Array} [options] 
+ * @config {boolean} [primary] Set button as primary if true.
+ * @config {String} [style] Specify style rules inline.
+ * @config {int} [tabIndex] Position in tabbing order.
+ * @config {String} [title] Provides a title for element.
+ * @config {boolean} [visible] Hide or show element.
+ * @param {boolean} notify Publish an event for custom AJAX implementations to listen for.
  */
-webui.@THEME@.widget.menuBase.setProps = function(props, notify) {
+webui.@THEME@.widget.menuBase.prototype.setProps = function(props, notify) {
     if (props == null) {
         return false;
     }
@@ -376,47 +439,21 @@ webui.@THEME@.widget.menuBase.setProps = function(props, notify) {
     }
 
     // Extend widget object for later updates.
-    return webui.@THEME@.widget.menuBase.superclass.setProps.call(this, props, notify);
+    return this.inherited("setProps", arguments);
 }
 
 /**
- * This function is used to set widget properties with the following 
- * Object literals.
- *
- * <ul>
- *  <li>accessKey</li>
- *  <li>className</li>
- *  <li>dir</li>
- *  <li>formId</li>
- *  <li>id</li>
- *  <li>onBlur</li>
- *  <li>options</li>
- *  <li>onChange</li>
- *  <li>onClick</li>
- *  <li>onDblClick</li>
- *  <li>onFocus</li>
- *  <li>onKeyDown</li>
- *  <li>onKeyPress</li>
- *  <li>onKeyUp</li>
- *  <li>onMouseDown</li>
- *  <li>onMouseOut</li>
- *  <li>onMouseOver</li>
- *  <li>onMouseUp</li>
- *  <li>onMouseMove</li>
- *  <li>style</li>
- *  <li>submitForm</li>
- *  <li>tabIndex</li>
- *  <li>title</li>
- *  <li>visible</li>
- * </ul>
- *
+ * This function is used to set widget properties. Please see the setProps() 
+ * function for a list of supported properties.
+ * <p>
  * Note: This is considered a private API, do not use. This function should only
- * be invoked through postInitialize() and setProps(). Further, the widget shall
- * be updated only for the given key-value pairs.
+ * be invoked via setProps().
+ * </p>
  *
- * @param props Key-Value pairs of properties.
+ * @param {Object} props Key-Value pairs of properties.
+ * @private
  */
-webui.@THEME@.widget.menuBase._setProps = function(props){
+webui.@THEME@.widget.menuBase.prototype._setProps = function(props){
     if (props == null) {
         return false;
     }
@@ -477,13 +514,15 @@ webui.@THEME@.widget.menuBase._setProps = function(props){
     this.setEventProps(this.domNode, props);
     
     // Set remaining properties.
-    return webui.@THEME@.widget.menuBase.superclass._setProps.call(this, props);        
+    return this.inherited("_setProps", arguments);
 }
 
 /**
  * Set the selected item on the widget.
+ *
+ * @param {String} item The selected value.
  */
-webui.@THEME@.widget.menuBase.setSelectedValue = function(item) {
+webui.@THEME@.widget.menuBase.prototype.setSelectedValue = function(item) {
     this.clickedItem = item;
     return true;
 }
@@ -491,7 +530,7 @@ webui.@THEME@.widget.menuBase.setSelectedValue = function(item) {
 /**
  * Submits the form. Appends the value of the selected item in the request url.
  */
-webui.@THEME@.widget.menuBase.submitMenuForm = function () {
+webui.@THEME@.widget.menuBase.prototype.submitMenuForm = function () {
     var theForm = document.getElementById(this.formId);
     var oldAction = theForm.action;
     var oldTarget = theForm.target;
@@ -504,26 +543,3 @@ webui.@THEME@.widget.menuBase.submitMenuForm = function () {
     theForm.target = oldTarget;
     return false;
 }
-
-// Inherit base widget properties.
-dojo.inherits(webui.@THEME@.widget.menuBase, webui.@THEME@.widget.widgetBase);
-
-// Override base widget by assigning properties to class prototype.
-dojo.lang.extend(webui.@THEME@.widget.menuBase, {
-    // Set private functions.
-    addOptions: webui.@THEME@.widget.menuBase.addOptions,
-    fillInTemplate: webui.@THEME@.widget.menuBase.fillInTemplate,
-    getMaxWidth: webui.@THEME@.widget.menuBase.getMaxWidth,
-    getProps: webui.@THEME@.widget.menuBase.getProps,
-    getSelectedValue:webui.@THEME@.widget.menuBase.getSelectedValue,
-    getStyle: webui.@THEME@.widget.menuBase.getStyle,
-    processOnClickEvent: webui.@THEME@.widget.menuBase.processOnClickEvent,
-    setMenuNodeClassName: webui.@THEME@.widget.menuBase.setMenuNodeClassName,
-    setOptionNodeProps:webui.@THEME@.widget.menuBase.setOptionNodeProps,
-    setProps: webui.@THEME@.widget.menuBase.setProps,
-    _setProps: webui.@THEME@.widget.menuBase._setProps,
-    setSelectedValue:webui.@THEME@.widget.menuBase.setSelectedValue,
-    submitMenuForm:webui.@THEME@.widget.menuBase.submitMenuForm
-
-    // Set defaults.
-});

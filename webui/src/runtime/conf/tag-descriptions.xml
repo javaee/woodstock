@@ -119,7 +119,7 @@ Do something...<br>
 <br>
 &nbsp;&nbsp;&nbsp; // Subscribe to refresh event.<br>
 &nbsp;&nbsp;&nbsp;
-dojo.event.topic.subscribe(webui.suntheme.widget.accordion.event.&lt;eventname&gt;.endTopic,
+dojo.subscribe(webui.suntheme.widget.accordion.event.&lt;eventname&gt;.endTopic,
 processEvents, "update");</code><code><br>
 <br>
 </code><code>
@@ -771,7 +771,7 @@ Do something...<br>
 <br>
 &nbsp;&nbsp;&nbsp; // Subscribe to refresh event.<br>
 &nbsp;&nbsp;&nbsp;
-dojo.event.topic.subscribe(webui.suntheme.widget.alarm.event.&lt;eventname&gt;.endTopic,
+dojo.subscribe(webui.suntheme.widget.alarm.event.&lt;eventname&gt;.endTopic,
 processEvents, "update");</code><code><br>
 <br>
 </code><code>
@@ -1268,7 +1268,7 @@ Do something...<br>
 <br>
 &nbsp;&nbsp;&nbsp; // Subscribe to refresh event.<br>
 &nbsp;&nbsp;&nbsp;
-dojo.event.topic.subscribe(webui.suntheme.widget.alert.event.&lt;eventname&gt;.endTopic,
+dojo.subscribe(webui.suntheme.widget.alert.event.&lt;eventname&gt;.endTopic,
 processEvents, "update");</code><code><br>
 <br>
 </code><code>
@@ -1520,7 +1520,7 @@ Do something...<br>
 <br>
 &nbsp;&nbsp;&nbsp; // Subscribe to refresh event.<br>
 &nbsp;&nbsp;&nbsp;
-dojo.event.topic.subscribe(webui.suntheme.widget.anchor.event.&lt;eventname&gt;.endTopic,
+dojo.subscribe(webui.suntheme.widget.anchor.event.&lt;eventname&gt;.endTopic,
 processEvents, "update");</code><code><br>
 <br>
 </code><code>
@@ -1924,7 +1924,7 @@ Do something...<br>
 <br>
 &nbsp;&nbsp;&nbsp; // Subscribe to refresh event.<br>
 &nbsp;&nbsp;&nbsp;
-dojo.event.topic.subscribe(webui.suntheme.widget.bubble.event.&lt;eventname&gt;.endTopic,
+dojo.subscribe(webui.suntheme.widget.bubble.event.&lt;eventname&gt;.endTopic,
 processEvents, "update");</code><code><br>
 <br>
 </code><code>
@@ -2150,7 +2150,7 @@ Do something...<br>
 <br>
 &nbsp;&nbsp;&nbsp; // Subscribe to refresh event.<br>
 &nbsp;&nbsp;&nbsp;
-dojo.event.topic.subscribe(webui.suntheme.widget.button.event.&lt;eventname&gt;.endTopic,
+dojo.subscribe(webui.suntheme.widget.button.event.&lt;eventname&gt;.endTopic,
 processEvents, "update");</code><code><br>
 <br>
 </code><code>
@@ -2395,7 +2395,7 @@ Do something...<br>
 <br>
 &nbsp;&nbsp;&nbsp; // Subscribe to refresh event.<br>
 &nbsp;&nbsp;&nbsp;
-dojo.event.topic.subscribe(webui.suntheme.widget.calendar.event.&lt;eventname&gt;.endTopic,
+dojo.subscribe(webui.suntheme.widget.calendar.event.&lt;eventname&gt;.endTopic,
 processEvents, "update");</code><code><br>
 <br>
 </code><code>
@@ -2821,7 +2821,7 @@ Do something...<br>
 <br>
 &nbsp;&nbsp;&nbsp; // Subscribe to refresh event.<br>
 &nbsp;&nbsp;&nbsp;
-dojo.event.topic.subscribe(webui.suntheme.widget.checkbox.event.&lt;eventname&gt;.endTopic,
+dojo.subscribe(webui.suntheme.widget.checkbox.event.&lt;eventname&gt;.endTopic,
 processEvents, "update");</code><code><br>
 <br>
 </code><code>
@@ -3236,7 +3236,7 @@ Do something...<br>
 <br>
 &nbsp;&nbsp;&nbsp; // Subscribe to refresh event.<br>
 &nbsp;&nbsp;&nbsp;
-dojo.event.topic.subscribe(webui.suntheme.widget.rbcbGroup.event.&lt;eventname&gt;.endTopic,
+dojo.subscribe(webui.suntheme.widget.rbcbGroup.event.&lt;eventname&gt;.endTopic,
 processEvents, "update");</code><code><br>
 <br>
 </code><code>
@@ -4628,7 +4628,7 @@ Do something...<br>
 <br>
 &nbsp;&nbsp;&nbsp; // Subscribe to refresh event.<br>
 &nbsp;&nbsp;&nbsp;
-dojo.event.topic.subscribe(webui.suntheme.widget.dropDown.event.&lt;eventname&gt;.endTopic,
+dojo.subscribe(webui.suntheme.widget.dropDown.event.&lt;eventname&gt;.endTopic,
 processEvents, "update");</code><code><br>
 <br>
 </code><code>
@@ -4968,7 +4968,7 @@ Do something...<br>
 <br>
 &nbsp;&nbsp;&nbsp; // Subscribe to refresh event.<br>
 &nbsp;&nbsp;&nbsp;
-dojo.event.topic.subscribe(webui.suntheme.widget.editableField.event.&lt;eventname&gt;.endTopic,
+dojo.subscribe(webui.suntheme.widget.editableField.event.&lt;eventname&gt;.endTopic,
 processEvents, "update");</code><code><br>
 <br>
 </code><code>
@@ -6464,7 +6464,7 @@ Do something...<br>
 <br>
 &nbsp;&nbsp;&nbsp; // Subscribe to refresh event.<br>
 &nbsp;&nbsp;&nbsp;
-dojo.event.topic.subscribe(webui.suntheme.widget.hiddenField.event.&lt;eventname&gt;.endTopic,
+dojo.subscribe(webui.suntheme.widget.hiddenField.event.&lt;eventname&gt;.endTopic,
 processEvents, "update");</code><code><br>
 <br>
 </code><code>
@@ -6763,7 +6763,7 @@ Do something...<br>
 <br>
 &nbsp;&nbsp;&nbsp; // Subscribe to refresh event.<br>
 &nbsp;&nbsp;&nbsp;
-dojo.event.topic.subscribe(webui.suntheme.widget.hyperlink.event.&lt;eventname&gt;.endTopic,
+dojo.subscribe(webui.suntheme.widget.hyperlink.event.&lt;eventname&gt;.endTopic,
 processEvents, "update");</code><code><br>
 <br>
 </code><code>
@@ -7078,7 +7078,7 @@ Do something...<br>
 <br>
 &nbsp;&nbsp;&nbsp; // Subscribe to refresh event.<br>
 &nbsp;&nbsp;&nbsp;
-dojo.event.topic.subscribe(webui.suntheme.widget.image.event.&lt;eventname&gt;.endTopic,
+dojo.subscribe(webui.suntheme.widget.image.event.&lt;eventname&gt;.endTopic,
 processEvents, "update");</code><code><br>
 <br>
 </code><code>
@@ -7334,7 +7334,7 @@ Do something...<br>
 <br>
 &nbsp;&nbsp;&nbsp; // Subscribe to refresh event.<br>
 &nbsp;&nbsp;&nbsp;
-dojo.event.topic.subscribe(webui.suntheme.widget.imageHyperlink.event.&lt;eventname&gt;.endTopic,
+dojo.subscribe(webui.suntheme.widget.imageHyperlink.event.&lt;eventname&gt;.endTopic,
 processEvents, "update");</code><code><br>
 <br>
 </code><code>
@@ -7703,7 +7703,7 @@ Do something...<br>
 <br>
 &nbsp;&nbsp;&nbsp; // Subscribe to refresh event.<br>
 &nbsp;&nbsp;&nbsp;
-dojo.event.topic.subscribe(webui.suntheme.widget.label.event.&lt;eventname&gt;.endTopic,
+dojo.subscribe(webui.suntheme.widget.label.event.&lt;eventname&gt;.endTopic,
 processEvents, "update");</code><code><br>
 <br>
 </code><code>
@@ -8095,7 +8095,7 @@ Do something...<br>
 <br>
 &nbsp;&nbsp;&nbsp; // Subscribe to refresh event.<br>
 &nbsp;&nbsp;&nbsp;
-dojo.event.topic.subscribe(webui.suntheme.widget.listbox.event.&lt;eventname&gt;.endTopic,
+dojo.subscribe(webui.suntheme.widget.listbox.event.&lt;eventname&gt;.endTopic,
 processEvents, "update");</code><code><br>
 <br>
 </code><code>
@@ -9769,7 +9769,7 @@ Do something...<br>
 &nbsp;&nbsp;&nbsp;
 <code><br>
 // For popupMenu widgets (popup = true) it would be
-dojo.event.topic.subscribe(webui.suntheme.widget.popupMenu.&lt;eventname&gt;.endTopic,
+dojo.subscribe(webui.suntheme.widget.popupMenu.&lt;eventname&gt;.endTopic,
 processEvents, "update");</code><code><br>
 <br>
 </code><code>
@@ -10708,7 +10708,7 @@ Do something...<br>
 <br>
 &nbsp;&nbsp;&nbsp; // Subscribe to refresh event.<br>
 &nbsp;&nbsp;&nbsp;
-dojo.event.topic.subscribe(webui.suntheme.widget.progressBar.event.&lt;eventname&gt;.endTopic,
+dojo.subscribe(webui.suntheme.widget.progressBar.event.&lt;eventname&gt;.endTopic,
 processEvents, "update");</code><code><br>
 <br>
 </code><code>
@@ -11645,7 +11645,7 @@ Do something...<br>
 <br>
 &nbsp;&nbsp;&nbsp; // Subscribe to refresh event.<br>
 &nbsp;&nbsp;&nbsp;
-dojo.event.topic.subscribe(webui.suntheme.widget.radioButton.event.&lt;eventname&gt;.endTopic,
+dojo.subscribe(webui.suntheme.widget.radioButton.event.&lt;eventname&gt;.endTopic,
 processEvents, "update");</code><code><br>
 <br>
 </code><code>
@@ -12101,7 +12101,7 @@ Do something...<br>
 <br>
 &nbsp;&nbsp;&nbsp; // Subscribe to refresh event.<br>
 &nbsp;&nbsp;&nbsp;
-dojo.event.topic.subscribe(webui.suntheme.widget.rbcbGroup.event.&lt;eventname&gt;.endTopic,
+dojo.subscribe(webui.suntheme.widget.rbcbGroup.event.&lt;eventname&gt;.endTopic,
 processEvents, "update");</code><code><br>
 <br>
 </code><code>
@@ -12975,7 +12975,7 @@ Do something...<br>
 <br>
 &nbsp;&nbsp;&nbsp; // Subscribe to refresh event.<br>
 &nbsp;&nbsp;&nbsp;
-dojo.event.topic.subscribe(webui.suntheme.widget.staticText.event.&lt;eventname&gt;.endTopic,
+dojo.subscribe(webui.suntheme.widget.staticText.event.&lt;eventname&gt;.endTopic,
 processEvents, "update");</code><code><br>
 <br>
 </code><code>
@@ -13239,7 +13239,7 @@ Do something...<br>
 <br>
 &nbsp;&nbsp;&nbsp; // Subscribe to refresh event.<br>
 &nbsp;&nbsp;&nbsp;
-dojo.event.topic.subscribe(webui.suntheme.widget.accordionTab.event.&lt;eventname&gt;.endTopic,
+dojo.subscribe(webui.suntheme.widget.accordionTab.event.&lt;eventname&gt;.endTopic,
 processEvents, "update");</code><code><br>
 <br>
 </code><code>
@@ -18922,7 +18922,7 @@ Do something...<br>
 <br>
 &nbsp;&nbsp;&nbsp; // Subscribe to refresh event.<br>
 &nbsp;&nbsp;&nbsp;
-dojo.event.topic.subscribe(webui.suntheme.widget.textArea.event.&lt;eventname&gt;.endTopic,
+dojo.subscribe(webui.suntheme.widget.textArea.event.&lt;eventname&gt;.endTopic,
 processEvents, "update");</code><code><br>
 <br>
 </code><code>
@@ -19181,7 +19181,7 @@ Do something...<br>
 <br>
 &nbsp;&nbsp;&nbsp; // Subscribe to refresh event.<br>
 &nbsp;&nbsp;&nbsp;
-dojo.event.topic.subscribe(webui.suntheme.widget.textField.event.&lt;eventname&gt;.endTopic,
+dojo.subscribe(webui.suntheme.widget.textField.event.&lt;eventname&gt;.endTopic,
 processEvents, "update");</code><code><br>
 <br>
 </code><code>
@@ -19299,7 +19299,7 @@ returned validation message by subscribing to the following event and
 providing a call back closure (in this case closure called <em>processEvents</em>
 with <em>update </em>function) : <br>
 </p>
-<pre>&lt;webuijsf:script&gt;<br>    //  --- Subscribe to validation event. ---<br>    dojo.event.topic.subscribe(webui.suntheme.widget.textField.validation.event.endTopic, processEvents, "update");</pre>
+<pre>&lt;webuijsf:script&gt;<br>    //  --- Subscribe to validation event. ---<br>    dojo.subscribe(webui.suntheme.widget.textField.validation.event.endTopic, processEvents, "update");</pre>
 <pre>    // --- this closure is used for validation callback ---  <br>    var processEvents = {<br>        update: function(props) {<br>            var domNode = document.getElementById("form1:textFieldA");<br>   <br>            // The following data reflecting validation results is available in props:<br>            // props.valid ( true | false )<br>            // props.summary<br>            // props.detail<br><br>            // The default auto-validation will ONLY invalidate (make it red) the label<br>            // on the text field.<br><br>            // As an example, we will change the prefix before the label on the text field<br>            // to display detail message of the error, or successful validation upon success<br>            var date = (new Date()).toLocaleString();<br>            document.getElementById('messageId').innerHTML = <br>                ((props.valid == true)<br>                    ? '[validated OK]'<br>                    : '['+ props.detail+ ']' ) + ' on ' + date; <br>        }<br>    }<br>&lt;/webuijsf:script&gt;<br></pre>
 <h4>Example 4: Auto-Validation with notify<br>
 </h4>

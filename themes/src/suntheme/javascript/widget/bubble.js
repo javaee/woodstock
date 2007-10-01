@@ -1,3 +1,4 @@
+// widget/bubble.js
 //
 // The contents of this file are subject to the terms
 // of the Common Development and Distribution License
@@ -20,184 +21,101 @@
 // Copyright 2007 Sun Microsystems, Inc. All rights reserved.
 //
 
+/**
+ * @name widget/bubble.js
+ * @version @THEME_VERSION@
+ * @overview This module contains classes and functions for the bubble widget.
+ * @example The following code is used to create a bubble widget.
+ * <p><code>
+ * var widget = new webui.@THEME@.widget.bubble(props, domNode);
+ * </code></p>
+ */
 dojo.provide("webui.@THEME@.widget.bubble");
 
-dojo.require("dojo.widget.*");
-dojo.require("webui.@THEME@.*");
-dojo.require("webui.@THEME@.widget.*");
-
-// Store the active bubble id to webui.@THEME@.widget.bubble namespace.
-webui.@THEME@.widget.bubble = {
-     activeBubbleId : null
-}
+dojo.require("webui.@THEME@.browser");
+dojo.require("webui.@THEME@.common");
+dojo.require("webui.@THEME@.widget.widgetBase");
 
 /**
- * This function is used to generate a template based widget.
+ * This function is used to construct a template based widget.
  *
- * Note: This is considered a private API, do not use.
+ * @name webui.@THEME@.widget.bubble
+ * @inherits webui.@THEME@.widget.widgetBase
+ * @constructor
  */
-webui.@THEME@.widget.bubble = function() {
-    // Register widget.
-    dojo.widget.HtmlWidget.call(this);
-}
+dojo.declare("webui.@THEME@.widget.bubble", webui.@THEME@.widget.widgetBase, {
+    // Set defaults.
+    defaultTime: 2000,
+    openDelayTime: 500,
+    bubbleLeftConst: 5,
+    topConst: 2,    
+    widgetName: "bubble" // Required for theme properties.
+});
 
 /**
- * This function is used to close buuble help.
+ * This function is used to close bubble help.
  */
-webui.@THEME@.widget.bubble.close = function() {
-     if (this.openTimerId != null)
-         clearTimeout(this.openTimerId);
-     if (this.getProps().visible == false) {
-         return;
-     }
-     
-     var id = this; // Closure magic.
-     this.timerId = setTimeout(function() {
-            dojo.widget.byId(id).setProps({visible: false});
-        }, this.defaultTime);  
-}
-
-/**
- * Helper function to create callback for onClick, onKeyDown event.
- *
- * @param id The HTML element id used to invoke the callback.
- */
-webui.@THEME@.widget.bubble.createCloseCallback = function(id) {
-    if (id == null) {
-        return null;
+webui.@THEME@.widget.bubble.prototype.close = function() {
+    if (this.openTimerId != null) {
+        clearTimeout(this.openTimerId);
     }
-    // New literals are created every time this function
-    // is called, and it's saved by closure magic.
-    return function(event) { 
-        var widget = dojo.widget.byId(id);
-        if (widget == null) {
-            return false;
-        }
+    if (this.getProps().visible == false) {
+        return false;
+    }
+     
+    var _id = this.id;
+    this.timerId = setTimeout(function() {
+        // New literals are created every time this function is called, and it's 
+        // saved by closure magic.
+        dijit.byId(_id).setProps({visible: false});
+    }, this.defaultTime);
 
-        if ((event.type == "keydown" && event.keyCode == 27)
-                || event.type == "click") {
-            clearTimeout(widget.timerId); 
-            widget.setProps({visible: false});  
-        }
-        return true;
-    };
+    return true;
 }
 
 /**
- * This closure is used to process widget events.
+ * This closure contains event topics.
+ * <p>
+ * Note: Event topics must be prototyped for inherited functions. However, these
+ * topics must also be available statically so that developers may subscribe to
+ * events.
+ * </p>
+ *
+ * @ignore
  */
-webui.@THEME@.widget.bubble.event = {
+webui.@THEME@.widget.bubble.prototype.event =
+        webui.@THEME@.widget.bubble.event = {
     /**
-     * This closure is used to process refresh events.
+     * This closure contains refresh event topics.
+     * @ignore
      */
     refresh: {
-        /**
-         * Event topics for custom AJAX implementations to listen for.
-         */
+        /** Refresh event topic for custom AJAX implementations to listen for. */
         beginTopic: "webui_@THEME@_widget_bubble_event_refresh_begin",
+
+        /** Refresh event topic for custom AJAX implementations to listen for. */
         endTopic: "webui_@THEME@_widget_bubble_event_refresh_end"
     },
 
     /**
-     * This closure is used to process state change events.
+     * This closure contains state event topics.
+     * @ignore
      */
     state: {
-        /**
-         * Event topics for custom AJAX implementations to listen for.
-         */
+        /** State event topic for custom AJAX implementations to listen for. */
         beginTopic: "webui_@THEME@_widget_bubble_event_state_begin",
+
+        /** State event topic for custom AJAX implementations to listen for. */
         endTopic: "webui_@THEME@_widget_bubble_event_state_end"
     }
 }
 
 /**
- * This function is used to fill in template properties.
- *
- * Note: This is called after the buildRendering() function. Anything to be set 
- * only once should be added here; otherwise, use the _setProps() function.
- *
- * @param props Key-Value pairs of properties.
- * @param frag HTML fragment.
- */
-webui.@THEME@.widget.bubble.fillInTemplate = function(props, frag) {
-    webui.@THEME@.widget.bubble.superclass.fillInTemplate.call(this, props, frag);
-
-    // Set ids.
-    if (this.id) {
-        this.bottomLeftArrow.id = this.id + "_bottomLeftArrow";
-        this.bottomRightArrow.id = this.id + "_bottomRightArrow";
-        this.topLeftArrow.id = this.id + "_topLeftArrow";
-        this.topRightArrow.id = this.id + "_topRightArrow";
-    }
-
-    // Set public functions.     
-    this.domNode.open = function(event) { return dojo.widget.byId(this.id).open(event); }
-    this.domNode.close = function() { return dojo.widget.byId(this.id).close(); }
-
-    // Set events.
-
-    // onclick on window should close bubble.
-    dojo.event.connect(document, "onclick", 
-        webui.@THEME@.widget.bubble.createCloseCallback(this.id));
-    // escape key should also close bubble.
-    dojo.event.connect(document, "onkeydown", 
-        webui.@THEME@.widget.bubble.createCloseCallback(this.id));
-
-    // Close the popup if close button is clicked. Tthis function captures
-    // the onClick event for component body and closes the bubble only when
-    // close button is clicked.  
-    this.onClick = function(event) { 
-        event = (event) 
-            ? event : ((window.event) 
-                ? window.event : null);
-
-        var target = (event.target)
-            ? event.target 
-            : ((event.srcElement) 
-                ? event.srcElement : null);
-
-        if (webui.@THEME@.common.browser.is_ie5up) {
-            if (window.event != null) {
-                window.event.cancelBubble = true;
-            }
-        } else {
-            event.stopPropagation();
-        }
-        if (this.closeBtn == target) {
-            clearTimeout(this.timerId);
-            this.setProps({visible: false});
-        }
-    }
-
-    // Do not close the popup if mouseover on bubble if mouseover on bubble 
-    // component then clear the timer and do not close bubble.
-    this.onMouseOver = function(evt) { 
-        clearTimeout(this.timerId);
-    }
-
-    // Close the popup if mouseout and autoClose is true if onmouseout and 
-    // autoClose is true then close the bubble.
-    this.onMouseOut = function(evt) { 
-        if (this.autoClose == true) {
-            clearTimeout(this.timerId);            
-            this.close();            
-        }
-    }
-
-    // Initialize the BubbleTitle width as a percentage of the bubble header.
-        
-    if ( this.bubbleTitle != null ) {
-        this.bubbleTitle.style.width = this.theme.getProperty("styles", "BUBBLE_TITLEWIDTH") + "%";
-    }
-    return true;
-}
-
-/**
  * This function is used to get widget properties. Please see the 
- * _setProps() function for a list of supported properties.
+ * setProps() function for a list of supported properties.
  */
-webui.@THEME@.widget.bubble.getProps = function() {
-    var props = webui.@THEME@.widget.bubble.superclass.getProps.call(this);
+webui.@THEME@.widget.bubble.prototype.getProps = function() {
+    var props = this.inherited("getProps", arguments);
 
     // Set properties.
     if (this.title != null) { props.title = this.title; }
@@ -213,11 +131,78 @@ webui.@THEME@.widget.bubble.getProps = function() {
 }
 
 /**
- * This function is use to invoke buuble help.
- * 
- * @param event 
+ * Helper function to create callback for onClick event.
+ *
+ * @param {Event} event The JavaScript event.
  */
-webui.@THEME@.widget.bubble.open = function(event) {
+webui.@THEME@.widget.bubble.prototype.onClickCallback = function(event) {
+    // Close the popup if close button is clicked.
+    event = (event) 
+        ? event : ((window.event) 
+            ? window.event : null);
+
+    var target = (event.target)
+        ? event.target 
+        : ((event.srcElement) 
+            ? event.srcElement : null);
+
+    if (webui.@THEME@.browser.is_ie5up()) {
+        if (window.event != null) {
+            window.event.cancelBubble = true;
+        }
+    } else {
+        event.stopPropagation();
+    }
+    if (this.closeBtn == target) {
+        clearTimeout(this.timerId);
+        this.setProps({visible: false});
+    }
+    return true;
+}
+
+/**
+ * Helper function to create callback for close event.
+ *
+ * @param {Event} event The JavaScript event.
+ */
+webui.@THEME@.widget.bubble.prototype.onCloseCallback = function(event) {
+    if ((event.type == "keydown" && event.keyCode == 27)
+            || event.type == "click") {
+        clearTimeout(this.timerId); 
+        this.setProps({visible: false});  
+    }
+    return true;
+}
+
+/**
+ * Helper function to create callback for onMouseOver event.
+ *
+ * @param {Event} event The JavaScript event.
+ */
+webui.@THEME@.widget.bubble.prototype.onMouseOverCallback = function(event) {
+    clearTimeout(this.timerId);
+    return true;
+}
+
+/**
+ * Helper function to create callback for onMouseOut event.
+ *
+ * @param {Event} event The JavaScript event.
+ */
+webui.@THEME@.widget.bubble.prototype.onMouseOutCallback = function(event) {
+    if (this.autoClose == true) {
+        clearTimeout(this.timerId);            
+        this.close();            
+    }
+    return true;
+}
+
+/**
+ * This function is use to invoke buuble help.
+ *
+ * @param {Event} event The JavaScript event.
+ */
+webui.@THEME@.widget.bubble.prototype.open = function(event) {
     // Get the absolute position of the target.
     var evt = (event) 
         ? event : ((window.event) 
@@ -243,20 +228,19 @@ webui.@THEME@.widget.bubble.open = function(event) {
     // There should be delay before opening the bubble if open delay is specified.
     // If openDelay is less than zero then there will be dafault 0.5 sec delay.  
     
-        var id = this.id; // Closure magic.
-        this.openTimerId = setTimeout(function() {
-            // Store the active bubble id to form element.
-            // Check for the id if its available then close the pending bubble.
-            if (webui.@THEME@.widget.bubble.activeBubbleId && webui.@THEME@.widget.bubble.activeBubbleId != id) {                
-                clearTimeout(dojo.widget.byId(webui.@THEME@.widget.bubble.activeBubbleId).timerId);
-                dojo.widget.byId(webui.@THEME@.widget.bubble.activeBubbleId).setProps({visible: false});
-                webui.@THEME@.widget.bubble.activeBubbleId = null;                
-            }     
-            webui.@THEME@.widget.bubble.activeBubbleId = id;            
-            dojo.widget.byId(id).setProps({visible: true});
-            dojo.widget.byId(id).setPosition();
-        }, this.openDelayTime);      
-            
+    var id = this.id; // Closure magic.
+    this.openTimerId = setTimeout(function() {
+        // Store the active bubble id to form element.
+        // Check for the id if its available then close the pending bubble.
+        if (webui.@THEME@.widget.bubble.activeBubbleId && webui.@THEME@.widget.bubble.activeBubbleId != id) {                
+            clearTimeout(dijit.byId(webui.@THEME@.widget.bubble.activeBubbleId).timerId);
+            dijit.byId(webui.@THEME@.widget.bubble.activeBubbleId).setProps({visible: false});
+            webui.@THEME@.widget.bubble.activeBubbleId = null;                
+        }     
+        webui.@THEME@.widget.bubble.activeBubbleId = id;            
+        dijit.byId(id).setProps({visible: true});
+        dijit.byId(id).setPosition();
+    }, this.openDelayTime);           
     
     if (this.duration != null && this.duration >= 0) {
         this.defaultTime = duration;
@@ -265,11 +249,58 @@ webui.@THEME@.widget.bubble.open = function(event) {
 }
 
 /**
- * This function is used to position the bubble.
- *
- * @param event The JavaScript event generated by end user.
+ * This function is used to fill in remaining template properties, after the
+ * buildRendering() function has been processed.
+ * <p>
+ * Note: Unlike Dojo 0.4, the DOM nodes don't yet exist. 
+ * </p>
  */
-webui.@THEME@.widget.bubble.setPosition = function() {
+webui.@THEME@.widget.bubble.prototype.postCreate = function () {
+    // Set ids.
+    if (this.id) {
+        this.bottomLeftArrow.id = this.id + "_bottomLeftArrow";
+        this.bottomRightArrow.id = this.id + "_bottomRightArrow";
+        this.topLeftArrow.id = this.id + "_topLeftArrow";
+        this.topRightArrow.id = this.id + "_topRightArrow";
+    }
+
+    // Set public functions.     
+    this.domNode.open = function(event) { return dijit.byId(this.id).open(event); }
+    this.domNode.close = function() { return dijit.byId(this.id).close(); }
+
+    // Set events.
+
+    // The onClick on window should close bubble.
+    dojo.connect(document, "onclick", this, "onCloseCallback");
+
+    // The escape key should also close bubble.
+    dojo.connect(document, "onkeydown", this, "onCloseCallback");
+
+    // The onClick event for component body. Closes the bubble only when
+    // close button is clicked.
+    dojo.connect(this.domNode, "onclick", this, "onClickCallback");
+
+    // Do not close the popup if mouseover on bubble if mouseover on bubble 
+    // component then clear the timer and do not close bubble.
+    dojo.connect(this.domNode, "onmouseover", this, "onMouseOverCallback");
+
+    // Close the popup if mouseout and autoClose is true if onmouseout and 
+    // autoClose is true then close the bubble.
+    dojo.connect(this.domNode, "onmouseout", this, "onMouseOutCallback");
+
+    // Initialize the BubbleTitle width as a percentage of the bubble header.
+        
+    if (this.bubbleTitle != null) {
+        this.bubbleTitle.style.width = this.theme.getProperty("styles", 
+            "BUBBLE_TITLEWIDTH") + "%";
+    }
+    return this.inherited("postCreate", arguments);
+}
+
+/**
+ * This function is used to position the bubble.
+ */
+webui.@THEME@.widget.bubble.prototype.setPosition = function() {
     
     // THIS CODE BLOCK IS NECESSARY WHEN THE PAGE FONT IS VERY SMALL,
     // AND WHICH OTHERWISE CAUSES THE PERCENTAGE OF THE HEADER WIDTH
@@ -415,20 +446,29 @@ webui.@THEME@.widget.bubble.setPosition = function() {
 }
 
 /**
- * This function is used to set widget properties. Please see the 
- * _setProps() function for a list of supported properties.
- *
- * Note: This function updates the widget object for later updates. Further, the
+ * This function is used to set widget properties using Object literals.
+ * <p>
+ * Note: This function extends the widget object for later updates. Further, the
  * widget shall be updated only for the given key-value pairs.
- *
- * Note: If the notify param is true, the widget's state change event shall be
+ * </p><p>
+ * If the notify param is true, the widget's state change event shall be
  * published. This is typically used to keep client-side state in sync with the
  * server.
+ * </p>
  *
- * @param props Key-Value pairs of properties.
- * @param notify Publish an event for custom AJAX implementations to listen for.
+ * @param {Object} props Key-Value pairs of properties.
+ * @config {boolean} [autoClose] 
+ * @config {Object} [closeButton] 
+ * @config {Array} [contents] 
+ * @config {int} [duration] 
+ * @config {String} [id] Uniquely identifies an element within a document.
+ * @config {int} [openDelay] 
+ * @config {String} [title] Provides a title for element.
+ * @config {int} [width] 
+ * @config {boolean} [visible] Hide or show element.
+ * @param {boolean} notify Publish an event for custom AJAX implementations to listen for.
  */
-webui.@THEME@.widget.bubble.setProps = function(props, notify) {
+webui.@THEME@.widget.bubble.prototype.setProps = function(props, notify) {
     if (props == null) {
         return false;
     }
@@ -439,32 +479,21 @@ webui.@THEME@.widget.bubble.setProps = function(props, notify) {
     }
 
     // Extend widget object for later updates.
-    return webui.@THEME@.widget.bubble.superclass.setProps.call(this, props, notify);
+    return this.inherited("setProps", arguments);
 }
 
 /**
- * This function is used to set widget properties with the following 
- * Object literals.
- *
- * <ul>
- *  <li>autoClose</li>
- *  <li>closeButton</li> 
- *  <li>contents</li>
- *  <li>duration</li>
- *  <li>id</li>
- *  <li>openDelay</li>
- *  <li>title</li>
- *  <li>width</li>
- *  <li>visible</li>
- * </ul>
- *
+ * This function is used to set widget properties. Please see the setProps() 
+ * function for a list of supported properties.
+ * <p>
  * Note: This is considered a private API, do not use. This function should only
- * be invoked through postInitialize() and setProps(). Further, the widget shall
- * be updated only for the given key-value pairs.
+ * be invoked via setProps().
+ * </p>
  *
- * @param props Key-Value pairs of properties.
+ * @param {Object} props Key-Value pairs of properties.
+ * @private
  */
-webui.@THEME@.widget.bubble._setProps = function(props) {
+webui.@THEME@.widget.bubble.prototype._setProps = function(props) {
     if (props == null) {
         return false;
     }
@@ -506,27 +535,5 @@ webui.@THEME@.widget.bubble._setProps = function(props) {
     }
 
     // Set remaining properties.
-    return webui.@THEME@.widget.bubble.superclass._setProps.call(this, props);
+    return this.inherited("_setProps", arguments);
 }
-
-dojo.inherits(webui.@THEME@.widget.bubble, webui.@THEME@.widget.widgetBase);
-
-// Override base widget by assigning properties to class prototype.
-dojo.lang.extend(webui.@THEME@.widget.bubble, {
-    // Set private functions.
-    close: webui.@THEME@.widget.bubble.close,
-    fillInTemplate: webui.@THEME@.widget.bubble.fillInTemplate,
-    getProps: webui.@THEME@.widget.bubble.getProps,
-    open: webui.@THEME@.widget.bubble.open,
-    setPosition: webui.@THEME@.widget.bubble.setPosition,
-    setProps: webui.@THEME@.widget.bubble.setProps,
-    _setProps: webui.@THEME@.widget.bubble._setProps,
-    
-    // Set defaults.
-    defaultTime: 2000,
-    event: webui.@THEME@.widget.bubble.event,
-    openDelayTime: 500,
-    bubbleLeftConst: 5,
-    topConst: 2,    
-    widgetType: "bubble"
-});

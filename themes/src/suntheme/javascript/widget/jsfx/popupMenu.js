@@ -1,4 +1,5 @@
-//<!--
+// widget/jsfx/popupMenu.js
+//
 // The contents of this file are subject to the terms
 // of the Common Development and Distribution License
 // (the License).  You may not use this file except in
@@ -19,29 +20,41 @@
 // 
 // Copyright 2007 Sun Microsystems, Inc. All rights reserved.
 //
-// This Javascript file should be included in any page that uses the associated
-// component, where JSF Extensions is used as the underlying transfer protocol.
-//
 
+/**
+ * @name widget/jsfx/popupMenu.js
+ * @version @THEME_VERSION@
+ * @overview This module contains the default Ajax implementation for the 
+ * popupMenu widget.
+ * <p>
+ * Note: This Javascript file should be included in any page that uses the 
+ * associated widget, where JSF Extensions is used as the underlying transfer
+ * protocol.
+ * </p>
+ */
 dojo.provide("webui.@THEME@.widget.jsfx.popupMenu");
 
-dojo.require("webui.@THEME@.widget.jsfx.*");
+dojo.require("webui.@THEME@.widget.jsfx.common");
 dojo.require("webui.@THEME@.widget.popupMenu");
 
+/**
+ * This closure is used to obtain data asynchronously.
+ */
 webui.@THEME@.widget.jsfx.popupMenu = {
     /**
-     * This function is used to process submit events with the following Object
-     * literals.Cannot use the processSubmitEvent function in the common.js file
+     * This function is used to process submit events with Object literals. 
+     * <p>
+     * Note: Cannot use the processSubmitEvent() function in the common.js file
      * as we need an extra attribute called value to be submitted for every request.
-     *
-     * <ul>
-     *  <li>id</li>
-     *  <li>endTopic</li>
-     *  <li>execute</li>
-     *  <li>value</li>     
-     * </ul>
+     * </p>
      *
      * @param props Key-Value pairs of properties.
+     * @config {String} [id] The HTML element Id.
+     * @config {String} [endTopic] The event topic to publish.
+     * @config {String} [execute] The string containing a comma separated list 
+     * of client ids against which the execute portion of the request 
+     * processing lifecycle must be run.
+     * @config {String} [value] The selected menu option value.
      */
     processSubmitEvent: function(props) {
         if (props == null) {
@@ -67,10 +80,9 @@ webui.@THEME@.widget.jsfx.popupMenu = {
         return true;
     }
 }
-// Listen for Dojo Widget events.
-dojo.event.topic.subscribe(webui.@THEME@.widget.popupMenu.event.refresh.beginTopic,
-    webui.@THEME@.widget.jsfx.common, "processRefreshEvent");
-dojo.event.topic.subscribe(webui.@THEME@.widget.popupMenu.event.submit.beginTopic,
-    webui.@THEME@.widget.jsfx.popupMenu, "processSubmitEvent");
 
-//-->
+// Listen for Dojo Widget events.
+dojo.subscribe(webui.@THEME@.widget.popupMenu.event.refresh.beginTopic,
+    webui.@THEME@.widget.jsfx.common, "processRefreshEvent");
+dojo.subscribe(webui.@THEME@.widget.popupMenu.event.submit.beginTopic,
+    webui.@THEME@.widget.jsfx.popupMenu, "processSubmitEvent");

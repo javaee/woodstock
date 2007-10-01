@@ -1,3 +1,4 @@
+// widget/accordion.js
 //
 // The contents of this file are subject to the terms
 // of the Common Development and Distribution License
@@ -20,25 +21,48 @@
 // Copyright 2007 Sun Microsystems, Inc. All rights reserved.
 //
 
+/**
+ * @name widget/accordion.js
+ * @version @THEME_VERSION@
+ * @overview This module contains classes and functions for the accordion widget.
+ * @example The following code is used to create a accordion widget.
+ * <p><code>
+ * var widget = new webui.@THEME@.widget.accordion(props, domNode);
+ * </code></p>
+ */
 dojo.provide("webui.@THEME@.widget.accordion");
 
-dojo.require("dojo.widget.*");
-dojo.require("webui.@THEME@.widget.*");
+dojo.require("webui.@THEME@.widget.accordionTab");
+dojo.require("webui.@THEME@.widget.widgetBase");
 
 /**
- * This function is used to generate a template based widget.
+ * This function is used to construct a template based widget.
  *
- * Note: This is considered a private API, do not use.
+ * @name webui.@THEME@.widget.accordion
+ * @inherits webui.@THEME@.widget.widgetBase
+ * @constructor
  */
-webui.@THEME@.widget.accordion = function() {
-    // Register widget.
-    dojo.widget.HtmlWidget.call(this);
-}
+dojo.declare("webui.@THEME@.widget.accordion", webui.@THEME@.widget.widgetBase, {
+    // Set defaults.
+    duration: 250,
+    isContainer: true,
+    loadOnSelect: false,
+    multipleSelect: false,
+    widgetName: "accordion" // Required for theme properties.
+});
 
 /**
  * Helper function to add accordion header controls
+ *
+ * @param {Object} props Key-Value pairs of properties.
+ * @config {Object} [collapseAllImage] 
+ * @config {Object} [expandAllImage] 
+ * @config {Object} [isRefreshIcon] 
+ * @config {Object} [multipleSelect] 
+ * @config {Object} [refreshImage] 
+ * @config {Object} [toggleControls] 
  */
-webui.@THEME@.widget.accordion.addControls = function(props) {       
+webui.@THEME@.widget.accordion.prototype.addControls = function(props) {       
     // Add expand and collapse icons only if multiple select is set to
     // true and the icons have been supplied.
     if (props.toggleControls && props.multipleSelect) {
@@ -71,73 +95,118 @@ webui.@THEME@.widget.accordion.addControls = function(props) {
 
 /**
  * Close all open accordions and leave the others as is.
+ *
+ * @param {Event} event The JavaScript event.
  */
-webui.@THEME@.widget.accordion.collapseAllTabs = function() {
-    for (var i=0; i<this.children.length; i++) {
-        var child = this.children[i];
-        if (child.widgetType == "accordionTab") {
-            if (child.selected) {
-                child.setSelected(false);
-            }
+webui.@THEME@.widget.accordion.prototype.collapseAllTabs = function(event) {
+    // Iterate over all tabs.
+    for (var i = 0; i < this.tabs.length; i++) {
+        var widget = dijit.byId(this.tabs[i].id);
+        if (widget && widget.selected) {
+            widget.setSelected(false);
         }
     }
     return true;
 }
 
 /**
- * This closure is used to process widget events.
+ * This closure contains event topics.
+ * <p>
+ * Note: Event topics must be prototyped for inherited functions. However, these
+ * topics must also be available statically so that developers may subscribe to
+ * events.
+ * </p>
+ *
+ * @ignore
  */
-webui.@THEME@.widget.accordion.event = {
+webui.@THEME@.widget.accordion.prototype.event =
+        webui.@THEME@.widget.accordion.event = {
     /**
-     * This closure is used to process refresh events.
+     * This closure contains refresh event topics.
+     * @ignore
      */
     refresh: {
-        /**
-         * Event topics for custom AJAX implementations to listen for.
-         */
+        /** Refresh event topic for custom AJAX implementations to listen for. */
         beginTopic: "webui_@THEME@_widget_accordion_event_refresh_begin",
+
+        /** Refresh event topic for custom AJAX implementations to listen for. */
         endTopic: "webui_@THEME@_widget_accordion_event_refresh_end"
     },
 
     /**
-     * This closure is used to process state change events.
+     * This closure contains state event topics.
+     * @ignore
      */
     state: {
-        /**
-         * Event topics for custom AJAX implementations to listen for.
-         */
+        /** State event topic for custom AJAX implementations to listen for. */
         beginTopic: "webui_@THEME@_widget_accordion_event_state_begin",
+
+        /** State event topic for custom AJAX implementations to listen for. */
         endTopic: "webui_@THEME@_widget_accordion_event_state_end"
     }
 }
 
 /**
  * Open all closed tabs and leave the others as is.
+ *
+ * @param {Event} event The JavaScript event.
  */
-webui.@THEME@.widget.accordion.expandAllTabs = function() {
-    for (var i=0; i<this.children.length; i++) {
-        var child = this.children[i];
-        if (child.widgetType == "accordionTab") {
-            if (!child.selected) {
-                child.setSelected(true);
-            }
+webui.@THEME@.widget.accordion.prototype.expandAllTabs = function(event) {
+    // Iterate over all tabs.
+    for (var i = 0; i < this.tabs.length; i++) {
+        var widget = dijit.byId(this.tabs[i].id);
+        if (widget && !widget.selected) {
+            widget.setSelected(true);
         }
     }
     return true;
 }
 
 /**
- * This function is used to fill in template properties.
- *
- * Note: This is called after the buildRendering() function. Anything to be set 
- * only once should be added here; otherwise, use the _setProps() function.
- *
- * @param props Key-Value pairs of properties.
- * @param frag HTML fragment.
+ * This function is used to get widget properties. Please see the 
+ * setProps() function for a list of supported properties.
  */
-webui.@THEME@.widget.accordion.fillInTemplate = function(props, frag) {
-    webui.@THEME@.widget.accordion.superclass.fillInTemplate.call(this, props, frag);
+webui.@THEME@.widget.accordion.prototype.getProps = function() {
+    var props = this.inherited("getProps", arguments);
 
+    // Set properties.
+    if (this.collapseAllImage != null) { props.collapseAllImage = this.collapseAllImage; }
+    if (this.expandAllImage != null) { props.expandAllImage = this.expandAllImage; }
+    if (this.isRefreshIcon != null) { props.isRefreshIcon = this.isRefreshIcon; }
+    if (this.loadOnSelect) { props.loadOnSelect = this.loadOnSelect; }
+    if (this.multipleSelect) { props.multipleSelect = this.multipleSelect; }
+    if (this.refreshImage != null) { props.refreshImage = this.refreshImage; }
+    if (this.style != null) { props.style = this.style; }
+    if (this.tabs != null) { props.tabs = this.tabs; }
+    if (this.toggleControls) { props.toggleControls = this.toggleControls; }
+    if (this.type) { props.type = this.type; }
+ 
+    return props;
+}
+
+/**
+ * This function is used to obtain the outermost HTML element class name.
+ * <p>
+ * Note: Selectors should be concatinated in order of precedence (e.g., the
+ * user's className property is always appended last).
+ * </p>
+ */
+webui.@THEME@.widget.accordion.prototype.getClassName = function() {
+    // Get theme property.
+    var className = this.theme.getClassName("ACCORDION_DIV", "");
+    return (this.className)
+        ? className + " " + this.className
+        : className;
+}
+
+/**
+ * This function is used to fill in remaining template properties, after the
+ * buildRendering() function has been processed.
+ * <p>
+ * Note: Unlike Dojo 0.4, the DOM nodes don't yet exist. 
+ * </p>
+ */
+webui.@THEME@.widget.accordion.prototype.postCreate = function () {
     with (this.domNode.style) {
         if (position != "absolute") {
             position = "relative";
@@ -164,52 +233,22 @@ webui.@THEME@.widget.accordion.fillInTemplate = function(props, frag) {
     
     // the divider should initially be hidden
     this.dividerNodeContainer.className = this.theme.getClassName("HIDDEN");
-    
     this.refreshNodeContainer.className = this.theme.getClassName("ACCORDION_HDR_REFRESH");
 
     // Set events.
-    var id = this.id;
-    dojo.event.connect(this.collapseAllContainer, "onclick", this, "collapseAllTabs");
-    dojo.event.connect(this.expandAllContainer, "onclick", this, "expandAllTabs");
-    dojo.event.connect(this.refreshNodeContainer, "onclick", function() {
-        var widget = dojo.widget.byId(id);
-        widget.refresh(id);
+    var _id = this.id;
+    dojo.connect(this.collapseAllContainer, "onclick", this, "collapseAllTabs");
+    dojo.connect(this.expandAllContainer, "onclick", this, "expandAllTabs");
+    dojo.connect(this.refreshNodeContainer, "onclick", function(event) {
+        // New literals are created every time this function is called, and it's 
+        // saved by closure magic.
+        var widget = dijit.byId(_id);
+        widget.refresh(_id);
     });
 
-    return true;
-}
-
-/**
- * This function is used to get widget properties. Please see the 
- * _setProps() function for a list of supported properties.
- */
-webui.@THEME@.widget.accordion.getProps = function() {
-    var props = webui.@THEME@.widget.accordion.superclass.getProps.call(this);
-
-    // Set properties.
-    if (this.loadOnSelect) { props.loadOnSelect = this.loadOnSelect; }
-    if (this.toggleControls) { props.toggleControls = this.toggleControls; }
-    if (this.multipleSelect) { props.multipleSelect = this.multipleSelect; }
-    if (this.isRefreshIcon != null) { props.isRefreshIcon = this.isRefreshIcon; }
-    if (this.style != null) { props.style = this.style; }
-    if (this.className != null) { props.className = this.className; }
-    if (this.tabs != null) { props.tabs = this.tabs; }
-    if (this.id) { props.id = this.id; }
-    if (this.type) { props.type = this.type; }
-
-    return props;
-}
-
-/**
- * This function is used to initialize the widget.
- *
- * Note: This is called after the fillInTemplate() function.
- *
- * @param props Key-Value pairs of properties.
- * @param frag HTML fragment.
- * @param parent The parent of this widget.
- */
-webui.@THEME@.widget.accordion.initialize = function (props, frag, parent) {
+    // Subscribe to the "dayClicked" event present in the calendar widget.
+    dojo.subscribe(webui.@THEME@.widget.accordionTab.event.title.selectedTopic,
+        this, "tabSelected");
 
     // Generate the accordion header buttons on the client side.
 
@@ -221,7 +260,6 @@ webui.@THEME@.widget.accordion.initialize = function (props, frag, parent) {
                 title: btnTitle,
                 alt: btnTitle
             });
-            props.expandAllImage = this.expandAllImage; // Required for _setProps().
         }
         
         if (this.collapseAllImage == null) {
@@ -231,7 +269,6 @@ webui.@THEME@.widget.accordion.initialize = function (props, frag, parent) {
                 title: btnTitle,
                 alt: btnTitle
             });
-            props.collapseAllImage = this.collapseAllImage; // Required for _setProps().
         }
     }
     // Set refresh image properties.
@@ -242,65 +279,40 @@ webui.@THEME@.widget.accordion.initialize = function (props, frag, parent) {
                 id: this.id + "_refresh", 
                 title: btnTitle,
                 alt: btnTitle
-                });
-            props.refreshImage = this.refreshImage; // Required for _setProps().
+            });
          }
     }
-    return webui.@THEME@.widget.accordion.superclass.initialize.call(this, props, frag, parent);
+    return this.inherited("postCreate", arguments);
 }
 
 /**
- * This function is used to obtain the outermost HTML element class name.
- *
- * Note: Selectors should be concatinated in order of precedence (e.g., the
- * user's className property is always appended last).
- */
-webui.@THEME@.widget.accordion.getClassName = function() {
-    var key = "ACCORDION_DIV";
-
-    // Get theme property.
-    var className = this.theme.getClassName(key);
-    if (className == null || className.length == 0) {
-        return this.className;
-    }
-    return (this.className)
-        ? className + " " + this.className
-        : className;
-}
-
-/**
- * This function selects the child tab when the user clicks
- * on its label. The actual behavior of the accordion depends on
- * whether multipleSelect is enabled or not.
- */
-webui.@THEME@.widget.accordion.selectChild = function(widget) {
-    if (this.multipleSelect) {
-        widget.setSelected(true);
-    } else {
-        for (var i=0; i<this.children.length; i++) {
-            var child = this.children[i];
-            if (child.widgetType == "accordionTab") {
-                child.setSelected(child.id == widget.id);
-            }
-        }
-    }
-}
-
-/**
- * This function is used to set widget properties. Please see the 
- * _setProps() function for a list of supported properties.
- *
- * Note: This function updates the widget object for later updates. Further, the
+ * This function is used to set widget properties using Object literals.
+ * <p>
+ * Note: This function extends the widget object for later updates. Further, the
  * widget shall be updated only for the given key-value pairs.
- *
- * Note: If the notify param is true, the widget's state change event shall be
+ * </p><p>
+ * If the notify param is true, the widget's state change event shall be
  * published. This is typically used to keep client-side state in sync with the
  * server.
+ * </p>
  *
- * @param props Key-Value pairs of properties.
- * @param notify Publish an event for custom AJAX implementations to listen for.
+ * @param {Object} props Key-Value pairs of properties.
+ * @config {String} [className] CSS selector.
+ * @config {Object} [collapseAllImage] 
+ * @config {Object} [expandAllImage] 
+ * @config {String} [id] Uniquely identifies an element within a document.
+ * @config {boolean} [isRefreshIcon] 
+ * @config {boolean} [loadOnSelect] 
+ * @config {boolean} [multipleSelect] 
+ * @config {Object} [refreshImage] 
+ * @config {String} [style] Specify style rules inline.
+ * @config {Array} [tabs] 
+ * @config {boolean} [toggleControls]
+ * @config {String} [type] 
+ * @config {boolean} [visible] Hide or show element.
+ * @param {boolean} notify Publish an event for custom AJAX implementations to listen for.
  */
-webui.@THEME@.widget.accordion.setProps = function(props, notify) {
+webui.@THEME@.widget.accordion.prototype.setProps = function(props, notify) {
     if (props == null) {
         return false;
     }
@@ -311,32 +323,20 @@ webui.@THEME@.widget.accordion.setProps = function(props, notify) {
     }
 
     // Extend widget object for later updates.
-    return webui.@THEME@.widget.accordion.superclass.setProps.call(this, props, notify);
+    return this.inherited("setProps", arguments);
 }
 
 /**
- * This function is used to set widget properties with the following 
- * Object literals.
- *
- * <ul>
- *  <li>id</li>
- *  <li>loadOnSelect</li>
- *  <li>toggleControls</li>
- *  <li>multipleSelect</li>
- *  <li>isRefreshIcon</li>
- *  <li>style</li>
- *  <li>className</li>
- *  <li>tabs</li>
- *  <li>type</li>
- * </ul>
- *
+ * This function is used to set widget properties. Please see the setProps() 
+ * function for a list of supported properties.
+ * <p>
  * Note: This is considered a private API, do not use. This function should only
- * be invoked through postInitialize() and setProps(). Further, the widget shall
- * be updated only for the given key-value pairs.
- *
- * @param props Key-Value pairs of properties.
+ * be invoked via setProps().
+ * </p>
+ * @param {Object} props Key-Value pairs of properties.
+ * @private
  */
-webui.@THEME@.widget.accordion._setProps = function(props) {
+webui.@THEME@.widget.accordion.prototype._setProps = function(props) {
     if (props == null) {
         return false;
     }
@@ -350,46 +350,54 @@ webui.@THEME@.widget.accordion._setProps = function(props) {
     // we want to use the latest set of children. addFragment is supposed
     // to do that.
     if (props.tabs) {
-        // To Do: Before adding new children, previously created nodes should be
-        // removed via the removeChildNodes(domNode) function -- see label. 
-        //
-        // Adding children to a specific container (other than this.domNode) 
-        // would help isolate what needs to be removed. The following code works
-        // because widgets of the same id are destroyed before creating new objects.
-        for (var i=0; i < props.tabs.length; i++) {
-            this.widget.addFragment(this.domNode, props.tabs[i], "last");
+        // Remove child nodes.
+        this.widget.removeChildNodes(this.tabsContainer);
+
+        // Add tabs.
+        for (var i = 0; i < props.tabs.length; i++) {
+            this.widget.addFragment(this.tabsContainer, props.tabs[i], "last");
         }
     }
 
-    // Set more properties..
+    // Set more properties.
     this.setCommonProps(this.domNode, props);
     this.setEventProps(this.domNode, props);
 
     // Set remaining properties.
-    return webui.@THEME@.widget.accordion.superclass._setProps.call(this, props);
+    return this.inherited("_setProps", arguments);
 }
 
-// Inherit base widget properties.
-dojo.inherits(webui.@THEME@.widget.accordion, webui.@THEME@.widget.widgetBase);
+/**
+ * Process tab selected events.
+ *
+ * @param props Key-Value pairs of properties.
+ * @config {String} [id] The id of the selected tab.
+ */
+webui.@THEME@.widget.accordion.prototype.tabSelected = function(props) {
+    var widget = null;
 
-// Override base widget by assigning properties to class prototype.
-dojo.lang.extend(webui.@THEME@.widget.accordion, {
-    // Set private functions.
-    addControls: webui.@THEME@.widget.accordion.addControls,
-    collapseAllTabs: webui.@THEME@.widget.accordion.collapseAllTabs,
-    expandAllTabs: webui.@THEME@.widget.accordion.expandAllTabs,
-    fillInTemplate: webui.@THEME@.widget.accordion.fillInTemplate,
-    getProps: webui.@THEME@.widget.accordion.getProps,
-    selectChild: webui.@THEME@.widget.accordion.selectChild,
-    setProps: webui.@THEME@.widget.accordion.setProps,
-    _setProps: webui.@THEME@.widget.accordion._setProps,
-    initialize: webui.@THEME@.widget.accordion.initialize,
-    getClassName: webui.@THEME@.widget.accordion.getClassName,
-    // Set defaults.
-    duration: 250,
-    event: webui.@THEME@.widget.accordion.event,
-    isContainer: true,
-    loadOnSelect: false,
-    multipleSelect: false,
-    widgetType: "accordion"
-});
+    // Iterate over all tabs to ensure id is valid.
+    for (var i = 0; i < this.tabs.length; i++) {
+        if (props.id == this.tabs[i].id) {
+            widget = dijit.byId(this.tabs[i].id);
+            break;   
+        }
+    }
+    
+    // Return if id was not valid.
+    if (widget == null) {
+        return false;
+    }
+
+    if (this.multipleSelect) {
+        widget.setSelected(true);
+    } else {
+        for (var i = 0; i < this.tabs.length; i++) {
+            widget = dijit.byId(this.tabs[i].id);
+            if (widget) {
+                widget.setSelected(props.id == this.tabs[i].id);
+            }
+        }
+    }
+    return true;
+}

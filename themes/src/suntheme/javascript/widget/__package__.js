@@ -1,3 +1,4 @@
+// widget/__package__.js
 //
 // The contents of this file are subject to the terms
 // of the Common Development and Distribution License
@@ -20,52 +21,17 @@
 // Copyright 2007 Sun Microsystems, Inc. All rights reserved.
 //
 
+/**
+ * @name widget/__package__.js
+ * @version @THEME_VERSION@
+ * @overview This module contains features common to all widgets.
+ * <p>
+ * Note: This Javascript file should be included in any page that uses a widget. 
+ * </p>
+ */
 dojo.provide("webui.@THEME@.widget.*");
 
-dojo.kwCompoundRequire({
+dojo.platformRequire({
     common: [
-        "webui.@THEME@.widget.common",
-        "webui.@THEME@.widget.props",
-        "webui.@THEME@.widget.widgetBase"]
+        "webui.@THEME@.widget.common"] // Required to replace initial page elements.
 });
-
-// For debugging only, obtain all module resources before invoking
-// dojo.hostenv.writeIncludes(). This will ensure that JavaScript
-// files are accessible to JavaScript debuggers.
-dojo.requireIf(djConfig.isDebug, "webui.@THEME@.widget.accordion");
-dojo.requireIf(djConfig.isDebug, "webui.@THEME@.widget.accordionTab");
-dojo.requireIf(djConfig.isDebug, "webui.@THEME@.widget.menuBase");
-dojo.requireIf(djConfig.isDebug, "webui.@THEME@.widget.alarm");
-dojo.requireIf(djConfig.isDebug, "webui.@THEME@.widget.anchor");
-dojo.requireIf(djConfig.isDebug, "webui.@THEME@.widget.alert");
-dojo.requireIf(djConfig.isDebug, "webui.@THEME@.widget.bubble");
-dojo.requireIf(djConfig.isDebug, "webui.@THEME@.widget.button");
-dojo.requireIf(djConfig.isDebug, "webui.@THEME@.widget.calendar");
-dojo.requireIf(djConfig.isDebug, "webui.@THEME@.widget.calendarField");
-dojo.requireIf(djConfig.isDebug, "webui.@THEME@.widget.checkbox");
-dojo.requireIf(djConfig.isDebug, "webui.@THEME@.widget.checkboxGroup");
-dojo.requireIf(djConfig.isDebug, "webui.@THEME@.widget.dropDown");
-dojo.requireIf(djConfig.isDebug, "webui.@THEME@.widget.editableField");
-dojo.requireIf(djConfig.isDebug, "webui.@THEME@.widget.fieldBase");
-dojo.requireIf(djConfig.isDebug, "webui.@THEME@.widget.hiddenField");
-dojo.requireIf(djConfig.isDebug, "webui.@THEME@.widget.hyperlink");
-dojo.requireIf(djConfig.isDebug, "webui.@THEME@.widget.image");
-dojo.requireIf(djConfig.isDebug, "webui.@THEME@.widget.imageButton");
-dojo.requireIf(djConfig.isDebug, "webui.@THEME@.widget.imageHyperlink");
-dojo.requireIf(djConfig.isDebug, "webui.@THEME@.widget.label");
-dojo.requireIf(djConfig.isDebug, "webui.@THEME@.widget.listbox");
-dojo.requireIf(djConfig.isDebug, "webui.@THEME@.widget.popupMenu");
-dojo.requireIf(djConfig.isDebug, "webui.@THEME@.widget.progressBar");
-dojo.requireIf(djConfig.isDebug, "webui.@THEME@.widget.radioButton");
-dojo.requireIf(djConfig.isDebug, "webui.@THEME@.widget.radioButtonGroup");
-dojo.requireIf(djConfig.isDebug, "webui.@THEME@.widget.resetButton");
-dojo.requireIf(djConfig.isDebug, "webui.@THEME@.widget.staticText");
-dojo.requireIf(djConfig.isDebug, "webui.@THEME@.widget.table2");
-dojo.requireIf(djConfig.isDebug, "webui.@THEME@.widget.table2RowGroup");
-dojo.requireIf(djConfig.isDebug, "webui.@THEME@.widget.textArea");
-dojo.requireIf(djConfig.isDebug, "webui.@THEME@.widget.textField");
-dojo.requireIf(djConfig.isDebug, "webui.@THEME@.widget.passwordField");
-
-dojo.require("dojo.ns");
-dojo.registerNamespace("webui.@THEME@", "webui.@THEME@.widget");
-dojo.widget.manager.registerWidgetPackage("webui.@THEME@.widget");

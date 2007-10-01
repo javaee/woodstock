@@ -1,3 +1,4 @@
+// widget/alert.js
 //
 // The contents of this file are subject to the terms
 // of the Common Development and Distribution License
@@ -20,89 +21,115 @@
 // Copyright 2007 Sun Microsystems, Inc. All rights reserved.
 //
 
+/**
+ * @name widget/alert.js
+ * @version @THEME_VERSION@
+ * @overview This module contains classes and functions for the alert widget.
+ * @example The following code is used to create a alert widget.
+ * <p><code>
+ * var widget = new webui.@THEME@.widget.alert(props, domNode);
+ * </code></p>
+ */
 dojo.provide("webui.@THEME@.widget.alert");
 
-dojo.require("dojo.widget.*");
-dojo.require("webui.@THEME@.widget.*");
+dojo.require("webui.@THEME@.widget.widgetBase");
 
 /**
- * This function is used to generate a template based widget.
+ * This function is used to construct a template based widget.
  *
- * Note: This is considered a private API, do not use.
+ * @name webui.@THEME@.widget.alert
+ * @inherits webui.@THEME@.widget.widgetBase
+ * @constructor
  */
-webui.@THEME@.widget.alert = function() {
-    // Register widget.
-    dojo.widget.HtmlWidget.call(this);
-}
+dojo.declare("webui.@THEME@.widget.alert", webui.@THEME@.widget.widgetBase, {
+    // Set defaults.
+    widgetName: "alert" // Required for theme properties.
+});
 
 /**
- * This closure is used to process widget events.
+ * This closure contains event topics.
+ * <p>
+ * Note: Event topics must be prototyped for inherited functions. However, these
+ * topics must also be available statically so that developers may subscribe to
+ * events.
+ * </p>
+ *
+ * @ignore
  */
-webui.@THEME@.widget.alert.event = {
+webui.@THEME@.widget.alert.prototype.event =
+        webui.@THEME@.widget.alert.event = {
     /**
-     * This closure is used to process refresh events.
+     * This closure contains refresh event topics.
+     * @ignore
      */
     refresh: {
-        /**
-         * Event topics for custom AJAX implementations to listen for.
-         */
+        /** Refresh event topic for custom AJAX implementations to listen for. */
         beginTopic: "webui_@THEME@_widget_alert_event_refresh_begin",
+
+        /** Refresh event topic for custom AJAX implementations to listen for. */
         endTopic: "webui_@THEME@_widget_alert_event_refresh_end"
     },
 
     /**
-     * This closure is used to process state change events.
+     * This closure contains state event topics.
+     * @ignore
      */
     state: {
-        /**
-         * Event topics for custom AJAX implementations to listen for.
-         */
+        /** State event topic for custom AJAX implementations to listen for. */
         beginTopic: "webui_@THEME@_widget_alert_event_state_begin",
-        endTopic: "webui_@THEME@_widget_alert_event_state_end"
-    },
 
-    /**
-     * This closure is used to process notification events.
-     */
-    notification: {
-        /**
-         * This function is used to process notification events with the following
-         * Object literals.
-         *
-         * <ul>
-         *  <li>detail</li>
-         *  <li>summary</li>
-         *  <li>valid</li>
-         * </ul>
-         *
-         * @param props Key-Value pairs of properties.
-         */
-        processEvent: function(props) {
-            if (props == null) {
-                return false;
-            }
-            return this.setProps({
-                summary: props.summary,
-                detail: props.detail,
-                type: "error",
-                visible: !props.valid
-            });
-        }
+        /** State event topic for custom AJAX implementations to listen for. */
+        endTopic: "webui_@THEME@_widget_alert_event_state_end"
     }
 }
 
 /**
- * This function is used to fill in template properties.
- *
- * Note: This is called after the buildRendering() function. Anything to be set 
- * only once should be added here; otherwise, use the _setProps() function.
- *
- * @param props Key-Value pairs of properties.
- * @param frag HTML fragment.
+ * This function is used to get widget properties. Please see the 
+ * setProps() function for a list of supported properties.
  */
-webui.@THEME@.widget.alert.fillInTemplate = function(props, frag) {
-    webui.@THEME@.widget.alert.superclass.fillInTemplate.call(this, props, frag);
+webui.@THEME@.widget.alert.prototype.getProps = function() {
+    var props = this.inherited("getProps", arguments);
 
+    // Set properties.
+    if (this.detail != null) { props.detail = this.detail; }
+    if (this.indicators != null) { props.indicators = this.indicators; }
+    if (this.summary != null) { props.summary = this.summary; }
+    if (this.type != null) { props.type = this.type; }
+    if (this.moreInfo != null) { props.moreInfo = this.moreInfo; }
+    if (this.spacerImage != null) { props.spacerImage = this.spacerImage; }
+    
+    return props;
+}
+
+/**
+ * This function is used to process notification events with Object
+ * literals.
+ *
+ * @param {Object} props Key-Value pairs of properties.
+ * @config {String} [detail] Message detail text.
+ * @config {String} [summary] Message summary text.
+ * @config {boolean} [valid] Flag indicating validation state.
+ */
+webui.@THEME@.widget.alert.prototype.notify = function(props) {
+    if (props == null) {
+        return false;
+    }
+    return this.setProps({
+        summary: props.summary,
+        detail: props.detail,
+        type: "error",
+        visible: !props.valid
+    });
+}
+
+/**
+ * This function is used to fill in remaining template properties, after the
+ * buildRendering() function has been processed.
+ * <p>
+ * Note: Unlike Dojo 0.4, the DOM nodes don't yet exist. 
+ * </p>
+ */
+webui.@THEME@.widget.alert.prototype.postCreate = function () {
     // Set ids.
     if (this.id) {
         this.bottomLeftContainer.id = this.id + "_bottomLeftContainer";
@@ -118,51 +145,51 @@ webui.@THEME@.widget.alert.fillInTemplate = function(props, frag) {
         this.topRightContainer.id = this.id + "_topRightContainer";
         this.detailContainerLink.id = this.id + "_detailContainerLink";
     }
-    return true;
+    return this.inherited("postCreate", arguments);
 }
 
 /**
- * This function is used to get widget properties. Please see the 
- * _setProps() function for a list of supported properties.
+ * This function is used to set widget properties using Object literals.
+ * <p>
+ * Note: This function extends the widget object for later updates. Further, the
+ * widget shall be updated only for the given key-value pairs.
+ * </p><p>
+ * If the notify param is true, the widget's state change event shall be
+ * published. This is typically used to keep client-side state in sync with the
+ * server.
+ * </p>
+ *
+ * @param {Object} props Key-Value pairs of properties.
+ * @config {String} [className] CSS selector.
+ * @config {String} [detail]
+ * @config {String} [dir] Specifies the directionality of text.
+ * @config {String} [id] Uniquely identifies an element within a document.
+ * @config {String} [lang] Specifies the language of attribute values and content.
+ * @config {Array} [indicators] 
+ * @config {String} [moreInfo] 
+ * @config {String} [spacerImage] 
+ * @config {String} [summary] 
+ * @config {String} [type] 
+ * @config {boolean} [visible] Hide or show element.
+ * @param {boolean} notify Publish an event for custom AJAX implementations to listen for.
  */
-webui.@THEME@.widget.alert.getProps = function() {
-    var props = webui.@THEME@.widget.alert.superclass.getProps.call(this);
-
-    // Set properties.
-    if (this.detail != null) { props.detail = this.detail; }
-    if (this.indicators != null) { props.indicators = this.indicators; }
-    if (this.summary != null) { props.summary = this.summary; }
-    if (this.type != null) { props.type = this.type; }
-    if (this.moreInfo != null) { props.moreInfo = this.moreInfo; }
-    if (this.spacerImage != null) { props.spacerImage = this.spacerImage; }
-    
-    return props;
+webui.@THEME@.widget.alert.prototype.setProps = function(props, notify) {
+    // Note: This function is overridden for JsDoc.
+    return this.inherited("setProps", arguments);
 }
 
 /**
- * This function is used to set widget properties with the following 
- * Object literals.
- *
- * <ul>
- *  <li>dir</li>
- *  <li>lang</li>
- *  <li>detail</li>
- *  <li>spacerImage</li>
- *  <li>indicators</li>
- *  <li>id</li>
- *  <li>summary</li>
- *  <li>type</li>
- *  <li>moreInfo</li>
- *  <li>visible</li>
- * </ul>
- *
+ * This function is used to set widget properties. Please see the setProps() 
+ * function for a list of supported properties.
+ * <p>
  * Note: This is considered a private API, do not use. This function should only
- * be invoked through postInitialize() and setProps(). Further, the widget shall
- * be updated only for the given key-value pairs.
+ * be invoked via setProps().
+ * </p>
  *
- * @param props Key-Value pairs of properties.
+ * @param {Object} props Key-Value pairs of properties.
+ * @private
  */
-webui.@THEME@.widget.alert._setProps = function(props) {
+webui.@THEME@.widget.alert.prototype._setProps = function(props) {
     if (props == null) {
         return false;
     }
@@ -204,7 +231,7 @@ webui.@THEME@.widget.alert._setProps = function(props) {
                 props.spacerImage.id = this.id + "_spacerImage" + i;
             }
             // Replace container with image.
-            if (!dojo.widget.byId(props.spacerImage.id)) {
+            if (!dijit.byId(props.spacerImage.id)) {
                 this.widget.addFragment(containers[i], props.spacerImage);
             }
         }
@@ -232,21 +259,5 @@ webui.@THEME@.widget.alert._setProps = function(props) {
     // Do not call setCommonProps() here. 
 
     // Set remaining properties.
-    return webui.@THEME@.widget.alert.superclass._setProps.call(this, props);
+    return this.inherited("_setProps", arguments);
 }
-
-// Inherit base widget properties.
-dojo.inherits(webui.@THEME@.widget.alert, webui.@THEME@.widget.widgetBase);
-
-// Override base widget by assigning properties to class prototype.
-dojo.lang.extend(webui.@THEME@.widget.alert, {
-    // Set private functions.
-    fillInTemplate: webui.@THEME@.widget.alert.fillInTemplate,
-    getProps: webui.@THEME@.widget.alert.getProps,
-    _setProps: webui.@THEME@.widget.alert._setProps,
-    notify: webui.@THEME@.widget.alert.event.notification.processEvent,
-
-    // Set defaults.
-    event: webui.@THEME@.widget.alert.event,
-    widgetType: "alert"
-});

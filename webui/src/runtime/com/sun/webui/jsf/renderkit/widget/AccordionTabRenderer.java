@@ -50,14 +50,12 @@ import org.json.JSONObject;
     rendererType="com.sun.webui.jsf.widget.AccordionTab", 
     componentFamily="com.sun.webui.jsf.AccordionTab"))
 public class AccordionTabRenderer extends RendererBase {
-    
-     /**
+    /**
      * The set of int attributes to be rendered.
      */
     private static final String intAttributes[] = {
         "contentHeight"};
-        
-    
+
     /**
      * Decode the AccordionTab component. The basic purpose is to 
      * extract the value of a client side hiddenField to check
@@ -110,16 +108,6 @@ public class AccordionTabRenderer extends RendererBase {
     // RendererBase methods
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-    /**
-     * Get the Dojo module required to instantiate the widget.
-     *
-     * @param context FacesContext for the current request.
-     * @param component UIComponent to be rendered.
-     */
-    protected String getModule(FacesContext context, UIComponent component) {
-        return JavaScriptUtilities.getModuleName("widget.accordionTab");
-    }
-
     /** 
      * Helper method to obtain component properties.
      *
@@ -145,19 +133,18 @@ public class AccordionTabRenderer extends RendererBase {
         return json;
     }
 
-    
     /**
-     * Get the name of the widget represented by this component.
+     * Get the type of the widget represented by this component.
      *
      * @return The name of widget represented by this component. The
      * "accordionTab" in this case.
      */
-    protected String getWidgetName(FacesContext context, UIComponent component) {
-        return JavaScriptUtilities.getNamespace("accordionTab");
+    protected String getWidgetType(FacesContext context, UIComponent component) {
+        return JavaScriptUtilities.getModuleName("widget.accordionTab");
     }
 
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    // Private renderer methods
+    // Private methods
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     
     /**

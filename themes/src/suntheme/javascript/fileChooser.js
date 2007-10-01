@@ -1,3 +1,4 @@
+// fileChooser.js
 //
 // The contents of this file are subject to the terms
 // of the Common Development and Distribution License
@@ -20,106 +21,106 @@
 // Copyright 2007 Sun Microsystems, Inc. All rights reserved.
 //
 
-// The filechooser has several intermediate actions in addition to 
-// the selection of one or more files of folders.
-// There are actions that are initiated by buttons 
-// and actions initiated by mouse clicks and key presses.
-// Some events generated from key presses and mouse clicks
-// behave like accelerators for the button actions.
-//
-// Some actions are client side only actions, such as placing a
-// selected file or folder into the selected file or folder field.
-//
-// The server side events and how they are generated.
-//
-// 1. moveup - the moveup button is clicked
-// 2. openfolder - select a folder from the list and the openfolder
-//    button is clicked or press the return key with the selection in
-//    focus or double click the selection
-// 3. sort - a sort selection is made from the sort dropdown menu
-// 4. refresh the list - set focus in the look in field and press the return key
-// 5. change the directory listing - type a new value in the look in field
-//    and press the return key
-//    The directory listing is also changed when a folder is typed into
-//    the selected file field, and submitted.
-// 6. filter the list - the focus is placed in the filter field and the
-//    return key is pressed
-// 7. change filter value - a new value is entered into the filter field 
-//    and the return key is pressed
-// 8. commit the changes - the button assigned as the chooseButton is
-//    is clicked, or programmtically clicked when the return key is 
-//    pressed in the select file field or a file selection is double clicked.
-//
-// 
-// Mouse clicks and return key activations.
-//
-// - The mouse clicks and key presses that correspond to actions are
-//   exectuted by "clicking" the corresponding button action programmatically.
-//   For example, action #2 when activated by double clicking or the
-//   return key, programmatically clicks the open folder button.
-//
-// - Action #4 and #6 explcitly submit the form
-//
-// - Action #8 programmatically clicks the assigned chooserButton.
-//
-// Selections are made and submitted in the following ways
-//
-//   File chooser or folder chooser
-//
-//   - One or more absolute or relative paths are typed or placed
-//   into the select file or folder field the return key is pressed.
-//
-//   - An external submit button submits the form and there are selections
-//   in the selected file or folder field.
-//
-//   File chooser 
-//
-//   - A file selection is double clicked.
-//
-// Client side selections
-// 
-// - A file or folder is single clicked and it is entered into the
-//   selected file or folders field, depending on whether the chooser
-//   is a file or folder chooser.
-//
-// - When a directory is selected and the open folder button is clicked
-//   the entry is set as the look in field value and the form is submitted.
-// 
-// - When the move up button is clicked the parent directory is placed
-//   into the look in field and the form is submitted.
-//
-
-// FIXME: Note that the dependence on literal client id's is not sufficient
-// if these components are developer defined facets. The actual
-// literal id's cannot be guaranteed.
-//
-
+/**
+ * @name fileChooser.js
+ * @version @THEME_VERSION@
+ * @overview The filechooser has several intermediate actions in addition to 
+ * the selection of one or more files of folders.
+ * <p>
+ * There are actions that are initiated by buttons 
+ * and actions initiated by mouse clicks and key presses.
+ * Some events generated from key presses and mouse clicks
+ * behave like accelerators for the button actions.
+ * </p><p>
+ * Some actions are client side only actions, such as placing a
+ * selected file or folder into the selected file or folder field.
+ * </p><p>
+ * The server side events and how they are generated.
+ * </p><p><pre>
+ * 1. moveup - the moveup button is clicked
+ * 2. openfolder - select a folder from the list and the openfolder
+ *    button is clicked or press the return key with the selection in
+ *    focus or double click the selection
+ * 3. sort - a sort selection is made from the sort dropdown menu
+ * 4. refresh the list - set focus in the look in field and press the return key
+ * 5. change the directory listing - type a new value in the look in field
+ *    and press the return key
+ *    The directory listing is also changed when a folder is typed into
+ *    the selected file field, and submitted.
+ * 6. filter the list - the focus is placed in the filter field and the
+ *    return key is pressed
+ * 7. change filter value - a new value is entered into the filter field 
+ *    and the return key is pressed
+ * 8. commit the changes - the button assigned as the chooseButton is
+ *    is clicked, or programmtically clicked when the return key is 
+ *    pressed in the select file field or a file selection is double clicked.
+ * </pre></p><p>
+ * Mouse clicks and return key activations.
+ * </p><p><pre>
+ * - The mouse clicks and key presses that correspond to actions are
+ *   exectuted by "clicking" the corresponding button action programmatically.
+ *   For example, action #2 when activated by double clicking or the
+ *   return key, programmatically clicks the open folder button.
+ *
+ * - Action #4 and #6 explcitly submit the form
+ *
+ * - Action #8 programmatically clicks the assigned chooserButton.
+ * </pre></p><p>
+ * Selections are made and submitted in the following ways
+ * </p><p><pre>
+ *   File chooser or folder chooser
+ *
+ *   - One or more absolute or relative paths are typed or placed
+ *   into the select file or folder field the return key is pressed.
+ *
+ *   - An external submit button submits the form and there are selections
+ *   in the selected file or folder field.
+ *
+ *   File chooser 
+ *
+ *   - A file selection is double clicked.
+ * </pre></p><p>
+ * Client side selections
+ * </p><p><pre>
+ * - A file or folder is single clicked and it is entered into the
+ *   selected file or folders field, depending on whether the chooser
+ *   is a file or folder chooser.
+ *
+ * - When a directory is selected and the open folder button is clicked
+ *   the entry is set as the look in field value and the form is submitted.
+ * 
+ * - When the move up button is clicked the parent directory is placed
+ *   into the look in field and the form is submitted.
+ * </pre></p>
+ */
 dojo.provide("webui.@THEME@.fileChooser");
 
 dojo.require("webui.@THEME@.common");
 dojo.require("webui.@THEME@.formElements");
 
 /** 
- * Define webui.@THEME@.fileChooser name space. 
- */ 
+ * This closure contains functions for fileChooser components.
+ */
 webui.@THEME@.fileChooser = {
+    // FIXME: Note that the dependence on literal client id's is not sufficient
+    // if these components are developer defined facets. The actual
+    // literal id's cannot be guaranteed.
+
     /**
-     * This function is used to initialize HTML element properties with the
-     * following Object literals.
-     *
-     * <ul>
-     *  <li>id</li>
-     *  <li>chooserType</li>
-     *  <li>parentFolder</li>
-     *  <li>separatorChar</li>
-     *  <li>escapeChar</li>
-     *  <li>delimiter</li>
-     *  <li>currentDir</li>
-     * </ul>
-     *
+     * This function is used to initialize HTML element properties with Object
+     * literals.
+     * <p>
      * Note: This is considered a private API, do not use.
+     * </p>
      *
-     * @param props Key-Value pairs of properties.
+     * @param {Object} props Key-Value pairs of properties.
+     * @config {String} [id] The element id.
+     * @config {String} [chooserType] 
+     * @config {String} [parentFolder] 
+     * @config {String} [separatorChar] 
+     * @config {String} [escapeChar] 
+     * @config {String} [delimiter] 
+     * @config {String} [currentDir] 
      */
     init: function(props) {
         if (props == null || props.id == null) {
@@ -225,19 +226,24 @@ webui.@THEME@.fileChooser = {
 	    domNode.upButton.setDisabled(false);
 	  }
 	}
- 
+        return true;
     },
 
     /**
      * Handler for enter key presses.
+     * <p><pre>
      * - Enter key in LookInField
      * - Enter key in FilterField
      * - Enter key in SelectedFileField
      * - Enter key in Listbox with folder selection.
      * Submit the chooser from the various mouse clicks
      * key presses.
+     * </pre></p><p>
      * Handles doubleclick on a file selection in the list box.
      * This is equivalent to an enter key press in the selected file field.
+     * </p>
+     *
+     * @param {Node} element
      */
     enterKeyPressed: function(element) {
 	// Return pressed in the list
@@ -317,10 +323,12 @@ webui.@THEME@.fileChooser = {
 
     /**
      * In file chooser mode
+     * <p><pre>
      *    - a file selection, call enterKeyPressed with selected file field
      *    - a folder selection, call open folder click handler
      * In folder chooser mode
      *    - a folder selection, call open folder click handler
+     * </pre></p>
      */
     handleDblClick: function() {
 	// Nothing selected. Not sure if this can happen since
@@ -372,10 +380,15 @@ webui.@THEME@.fileChooser = {
 	return true;
     },
 
+    /**
+     *
+     * @param {boolean} disabled
+     */
     setChooseButtonDisabled: function(disabled) {
 	if (this.chooseButton) {
 	    this.chooseButton.setDisabled(disabled);
 	}
+        return true;
     },
 
     // Replaces entries in selectedFileField
@@ -409,15 +422,18 @@ webui.@THEME@.fileChooser = {
 
     /**
      * Handler placed on the list box onchange enent.
-     *
+     * <p>
      * Place all currently selected entries in to the
      * selected file field. If the chooser mode is file, only
      * files are placed into the selected file field.
+     * </p><p>
      * If the chooser mode is folder, only folders are placed in the
      * selected folder field.
+     * </p><p>
      * If multiple selections are allowed the entries are separated
      * by the specified delimiter. Enteries are escaped appropriately
      * with the specified escape character.
+     * </p>
      */
     handleOnChange: function() {
 	webui.@THEME@.listbox.changed(this.listentries.id);
@@ -509,15 +525,20 @@ webui.@THEME@.fileChooser = {
 	return false;
     },
 
+    /**
+     *
+     */
     clearSelectedField: function() {
 	if (this.selectedfield) {
 	    this.selectedfield.value = '';
 	}
+        return true;
     },
 
-    // This function is the event handler for the onclick event
-    // of the openFolder button.
-    //
+    /**
+     * This function is the event handler for the onclick event
+     * of the openFolder button.
+     */
     openFolderClicked: function() {
 	if (!this.isFolderSelected()) {
 	    return false;
@@ -529,31 +550,41 @@ webui.@THEME@.fileChooser = {
 	return true;
     },
 
+    /**
+     *
+     */
     isFolderSelected: function() {
 	return this.getSelectionType() == 'folder';
     },
 
-    // This function is the event handler for the moveUp button.
-    // Set the look in field to contain the parent or move up directory.
-    // This is imperative. Be careful of the corner case when the 
-    // look in field is already the root directory.
-    //
+    /**
+     * This function is the event handler for the moveUp button.
+     * Set the look in field to contain the parent or move up directory.
+     * This is imperative. Be careful of the corner case when the 
+     * look in field is already the root directory.
+     */
     moveUpButtonClicked: function() {
 	this.clearSelections();
 	this.lookinfield.value = this.parentFolder;
+        return true;
     },
 
-    // The values of the list options are encoded as
-    //
-    // <type>=<value>
-    //
-    // Where type is one of "file" or "folder"
-    //
+    /**
+     * The values of the list options are encoded as
+     * <p>
+     * <type>=<value>
+     * </p><p>
+     * Where type is one of "file" or "folder"
+     * </p>
+     */
     getSelectionValue: function() {
 	var index = this.listentries.selectedIndex;
 	return this.getSelectionValueByIndex(index);
     },
 
+    /**
+     *
+     */
     getSelectionValueByIndex: function(index) {
 	var selection = this.listOptions[index].value;
 	var i = selection.indexOf('=', 0);
@@ -563,20 +594,28 @@ webui.@THEME@.fileChooser = {
 	if (i != 0) {
 	    i = i + 1;
 	}
-	var value = selection.substring(i, selection.length); 
-	return value;
+	return selection.substring(i, selection.length); 
     },
 
+    /**
+     *
+     */
     getSelectionType: function() {
 	var index = this.listentries.selectedIndex;
 	return this.getSelectionTypeByIndex(index);
     },
 
+    /**
+     *
+     */
     getSelectionTypeByIndex: function(index) {
 	var selection = this.listOptions[index].value;
 	return this.getValueType(selection);
     },
 
+    /**
+     *
+     */
     getValueType: function(value) {
 	var i = value.indexOf('=', 0);
 	if (i <= 0) {
@@ -586,24 +625,39 @@ webui.@THEME@.fileChooser = {
 	return type;
     },
 
+    /**
+     *
+     */
     isFolderChooser: function() {
 	return this.folderChooser;
     },
 
+    /**
+     *
+     */
     itemSelected: function() {
 	return (this.listentries.selectedIndex != -1);
     },
 
+    /**
+     *
+     */
     getSelectedFolders: function() {
 	return this.getSelectedValuesByType('folder');
     },
 
+    /**
+     *
+     */
     getSelectedFiles: function() {
 	return this.getSelectedValuesByType('file');
     },
 
-    // Return all selected options by type, file or folder
-    //
+    /**
+     * Return all selected options by type, file or folder.
+     *
+     * @param {String} type
+     */
     getSelectedValuesByType: function(type) {
 	var selections = new Array();
 	var i = 0;
@@ -617,8 +671,11 @@ webui.@THEME@.fileChooser = {
 	return selections;
     },
 
-    // Format the selected file field as a comma separated list.
-    //
+    /**
+     * Format the selected file field as a comma separated list.
+     *
+     * @param {Array} selections
+     */
     setSelectedFieldValue: function(selections) {
 	var value;
 	if (this.selectedfield == null) {
@@ -648,6 +705,10 @@ webui.@THEME@.fileChooser = {
 	return true;
     },
 
+    /**
+     *
+     * @param {Node} element
+     */
     onFocus: function(element) {
 	if (element.id == this.lookinfield.id) {
 	    this.lookinCommitted = false;
@@ -659,6 +720,10 @@ webui.@THEME@.fileChooser = {
 	return true;
     },
 
+    /**
+     *
+     * @param {Node} element
+     */
     onBlur: function(element) {
 	if (element.id == this.lookinfield.id) {
 	    if (this.lookinCommitted == false) {
@@ -672,8 +737,9 @@ webui.@THEME@.fileChooser = {
 	return true;
     },
 
-    // Clear the selections whenever the selectedFileField is cleared.
-
+    /**
+     * Clear the selections whenever the selectedFileField is cleared.
+     */
     clearSelections: function() {
 	var i = 0;
 	for (var j = 0; j < this.listOptions.length; j++) {
@@ -688,17 +754,28 @@ webui.@THEME@.fileChooser = {
 	if (this.selectedfield != null) {
 	    this.selectedfield.value = "";
 	}
+        return true;
     },
 
+    /**
+     *
+     */
     setSelected: function(index, torf) {
 	this.listOptions[index].selected = torf;
-	webui.@THEME@.listbox.changed(this.listentries.id);
+	return webui.@THEME@.listbox.changed(this.listentries.id);
     },
 
+    /**
+     *
+     */
     deselectFolders: function() {
-	this.deselectSelectionsByType('folder');
+	return this.deselectSelectionsByType('folder');
     },
 
+    /**
+     *
+     * @param {String} type
+     */
     deselectSelectionsByType: function(type) {
 	for (var j = 0; j < this.listOptions.length; j++) {
 	    if (this.listOptions[j].selected &&
@@ -706,9 +783,13 @@ webui.@THEME@.fileChooser = {
 		this.listOptions[j].selected = false;
 	    } 
 	} 
-	webui.@THEME@.listbox.changed(this.listentries.id);
+	return webui.@THEME@.listbox.changed(this.listentries.id);
     },
 
+    /**
+     *
+     * @param {boolean} flag
+     */
     armChooseButton: function(flag) {
 	var disabled = true;
 	if (this.selectedfield == null) {
@@ -717,7 +798,7 @@ webui.@THEME@.fileChooser = {
 	    && this.selectedfield.value != '') {
 	        disabled = false;
 	} 
-	this.setChooseButtonDisabled(disabled);
+	return this.setChooseButtonDisabled(disabled);
     },
 
     // Note that this is the only way that the file chooser can control
@@ -729,10 +810,12 @@ webui.@THEME@.fileChooser = {
     //
     // This "feature" may become configurable.
 
-    /*
+    /**
      * convenience function to allow developers to disable their
      * chooser button when no entries from the filechooser are
      * selected. This function is not yet complete.
+     *
+     * @param {String} buttonId
      */
     setChooseButton: function(buttonId) {
 	this.chooseButton = document.getElementById(buttonId);
@@ -743,21 +826,22 @@ webui.@THEME@.fileChooser = {
 	if ((selections != null) && (selections.length > 0)) {
 	    disabled = false;
 	}
-	this.armChooseButton(disabled);
+	return this.armChooseButton(disabled);
     },
 
-    /*
+    /**
      * Convenience function to get the current directory without 
-     * going to the server
+     * going to the server.
      */
     getCurrentDirectory: function() {
 	if (this.lookinfield) {
 	    return this.lookinfield.value;
 	}
+        return null;
     },
 
-    /*
-     * Convenience function returning the list of option elements
+    /**
+     * Convenience function returning the list of option elements.
      */
     getOptionElements: function() {
 	return this.listOptions;
@@ -782,6 +866,8 @@ webui.@THEME@.fileChooser = {
     /*
      * Convenience function to get the file or folde name when 
      * the entire path name is supplied.
+     *
+     * @param {String} absoluteFileName
      */
     getFileNameOnly: function(absoluteFileName) {
         arrayOfPaths = absoluteFileName.split(this.separatorChar);

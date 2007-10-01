@@ -1,3 +1,4 @@
+// widget/label.js
 //
 // The contents of this file are subject to the terms
 // of the Common Development and Distribution License
@@ -20,105 +21,79 @@
 // Copyright 2007 Sun Microsystems, Inc. All rights reserved.
 //
 
+/**
+ * @name widget/label.js
+ * @version @THEME_VERSION@
+ * @overview This module contains classes and functions for the label widget.
+ * @example The following code is used to create a label widget.
+ * <p><code>
+ * var widget = new webui.@THEME@.widget.label(props, domNode);
+ * </code></p>
+ */
 dojo.provide("webui.@THEME@.widget.label");
 
-dojo.require("dojo.widget.*");
-dojo.require("webui.@THEME@.widget.*");
+dojo.require("webui.@THEME@.widget.widgetBase");
 
 /**
- * This function is used to generate a template based widget.
+ * This function is used to construct a template based widget.
  *
- * Note: This is considered a private API, do not use.
+ * @name webui.@THEME@.widget.label
+ * @inherits webui.@THEME@.widget.widgetBase
+ * @constructor
  */
-webui.@THEME@.widget.label = function() {
-    // Register widget.
-    dojo.widget.HtmlWidget.call(this);
-}
+dojo.declare("webui.@THEME@.widget.label", webui.@THEME@.widget.widgetBase, {
+    // Set defaults.
+    level: 2,
+    required: false,
+    valid: true,
+    widgetName: "label" // Required for theme properties.
+});
 
 /**
- * This closure is used to process widget events.
+ * This closure contains event topics.
+ * <p>
+ * Note: Event topics must be prototyped for inherited functions. However, these
+ * topics must also be available statically so that developers may subscribe to
+ * events.
+ * </p>
+ *
+ * @ignore
  */
-webui.@THEME@.widget.label.event = {
+webui.@THEME@.widget.label.prototype.event =
+        webui.@THEME@.widget.label.event = {
     /**
-     * This closure is used to process refresh events.
+     * This closure contains refresh event topics.
+     * @ignore
      */
     refresh: {
-        /**
-         * Event topics for custom AJAX implementations to listen for.
-         */
+        /** Refresh event topic for custom AJAX implementations to listen for. */
         beginTopic: "webui_@THEME@_widget_label_event_refresh_begin",
+
+        /** Refresh event topic for custom AJAX implementations to listen for. */
         endTopic: "webui_@THEME@_widget_label_event_refresh_end"
     },
 
     /**
-     * This closure is used to process state change events.
+     * This closure contains state event topics.
+     * @ignore
      */
     state: {
-        /**
-         * Event topics for custom AJAX implementations to listen for.
-         */
+        /** State event topic for custom AJAX implementations to listen for. */
         beginTopic: "webui_@THEME@_widget_label_event_state_begin",
+
+        /** State event topic for custom AJAX implementations to listen for. */
         endTopic: "webui_@THEME@_widget_label_event_state_end"
-    },
-
-    /**
-     * This closure is used to process notification events.
-     */
-    notification: {
-        /**
-         * This function is used to process notification events with the following
-         * Object literals.
-         *
-         * <ul>
-         *  <li>detail</li>
-         *  <li>valid</li>
-         * </ul>
-         *
-         * @param props Key-Value pairs of properties.
-         */
-        processEvent: function(props) {
-            if (props == null) {
-                return false;
-            }
-            return this.setProps({
-                valid: props.valid,
-                errorImage: {
-                    title: props.detail
-                }
-            });
-        }
     }
-}
-
-/**
- * This function is used to fill in template properties.
- *
- * Note: This is called after the buildRendering() function. Anything to be set 
- * only once should be added here; otherwise, use the _setProps() function.
- *
- * @param props Key-Value pairs of properties.
- * @param frag HTML fragment.
- */
-webui.@THEME@.widget.label.fillInTemplate = function(props, frag) {
-    webui.@THEME@.widget.label.superclass.fillInTemplate.call(this, props, frag);
-
-    // Set ids.
-    if (this.id) {
-        this.contentsContainer.id = this.id + "_contentsContainer";
-        this.errorImageContainer.id = this.id + "_errorImageContainer";
-        this.requiredImageContainer.id = this.id + "_requiredImageContainer";
-        this.valueContainer.id = this.id + "_valueContainer";
-    }
-    return true;
 }
 
 /**
  * This function is used to obtain the outermost HTML element class name.
- *
+ * <p>
  * Note: Selectors should be concatinated in order of precedence (e.g., the 
  * user's className property is always appended last).
+ * </p>
  */
-webui.@THEME@.widget.label.getClassName = function() {
+webui.@THEME@.widget.label.prototype.getClassName = function() {
     var key = "LABEL_LEVEL_TWO_TEXT";
 
     if (this.valid == false) {
@@ -140,11 +115,31 @@ webui.@THEME@.widget.label.getClassName = function() {
 }
 
 /**
- * This function is used to get widget properties. Please see the 
- * _setProps() function for a list of supported properties.
+ * This function is used to process notification events with Object
+ * literals.
+ *
+ * @param {Object} props Key-Value pairs of properties.
+ * @config {String} [detail] Message detail text.
+ * @config {boolean} [valid] Flag indicating validation state.
  */
-webui.@THEME@.widget.label.getProps = function() {
-    var props = webui.@THEME@.widget.label.superclass.getProps.call(this);
+webui.@THEME@.widget.label.prototype.notify = function(props) {
+    if (props == null) {
+        return false;
+    }
+    return this.setProps({
+        valid: props.valid,
+        errorImage: {
+            title: props.detail
+        }
+    });
+}
+
+/**
+ * This function is used to get widget properties. Please see the 
+ * setProps() function for a list of supported properties.
+ */
+webui.@THEME@.widget.label.prototype.getProps = function() {
+    var props = this.inherited("getProps", arguments);
 
     // Set properties.
     if (this.contents) { props.contents = this.contents; }
@@ -160,15 +155,21 @@ webui.@THEME@.widget.label.getProps = function() {
 }
 
 /**
- * This function is used to initialize the widget.
- *
- * Note: This is called after the fillInTemplate() function.
- *
- * @param props Key-Value pairs of properties.
- * @param frag HTML fragment.
- * @param parent The parent of this widget.
+ * This function is used to fill in remaining template properties, after the
+ * buildRendering() function has been processed.
+ * <p>
+ * Note: Unlike Dojo 0.4, the DOM nodes don't yet exist. 
+ * </p>
  */
-webui.@THEME@.widget.label.initialize = function (props, frag, parent) {
+webui.@THEME@.widget.label.prototype.postCreate = function () {
+    // Set ids.
+    if (this.id) {
+        this.contentsContainer.id = this.id + "_contentsContainer";
+        this.errorImageContainer.id = this.id + "_errorImageContainer";
+        this.requiredImageContainer.id = this.id + "_requiredImageContainer";
+        this.valueContainer.id = this.id + "_valueContainer";
+    }
+
     // If errorImage or requiredImage are null, create images from the theme.
     // When the _setProps() function is called, image widgets will be
     // instantiated via the props param. 
@@ -176,32 +177,57 @@ webui.@THEME@.widget.label.initialize = function (props, frag, parent) {
 	this.errorImage = this.widget.getImageProps("LABEL_INVALID_ICON", {
             id: this.id + "_error"
         });
-        props.errorImage = this.errorImage; // Required for _setProps().
     }
     if (this.requiredImage == null) {
 	this.requiredImage = this.widget.getImageProps("LABEL_REQUIRED_ICON", {
             id: this.id + "_required"
         });
-        props.requiredImage = this.requiredImage; // Required for _setProps().
     }
-    return webui.@THEME@.widget.label.superclass.initialize.call(this, props, frag, parent);    
+    return this.inherited("postCreate", arguments);
 }
 
 /**
- * This function is used to set widget properties. Please see the 
- * _setProps() function for a list of supported properties.
- *
- * Note: This function updates the widget object for later updates. Further, the
+ * This function is used to set widget properties using Object literals.
+ * <p>
+ * Note: This function extends the widget object for later updates. Further, the
  * widget shall be updated only for the given key-value pairs.
- *
- * Note: If the notify param is true, the widget's state change event shall be
+ * </p><p>
+ * If the notify param is true, the widget's state change event shall be
  * published. This is typically used to keep client-side state in sync with the
  * server.
+ * </p>
  *
- * @param props Key-Value pairs of properties.
- * @param notify Publish an event for custom AJAX implementations to listen for.
+ * @param {Object} props Key-Value pairs of properties.
+ * @config {String} [accesskey]
+ * @config {String} [className] CSS selector.
+ * @config {String} [contents] 
+ * @config {String} [dir] Specifies the directionality of text.
+ * @config {Object} [errorImage] 
+ * @config {String} [htmlFor] 
+ * @config {String} [id] Uniquely identifies an element within a document.
+ * @config {String} [lang] Specifies the language of attribute values and content.
+ * @config {int} [level] 
+ * @config {String} [onClick] Mouse button is clicked on element.
+ * @config {String} [onDblClick] Mouse button is double-clicked on element.
+ * @config {String} [onKeyDown] Key is pressed down over element.
+ * @config {String} [onKeyPress] Key is pressed and released over element.
+ * @config {String} [onKeyUp] Key is released over element.
+ * @config {String} [onMouseDown] Mouse button is pressed over element.
+ * @config {String} [onMouseOut] Mouse is moved away from element.
+ * @config {String} [onMouseOver] Mouse is moved onto element.
+ * @config {String} [onMouseUp] Mouse button is released over element.
+ * @config {String} [onMouseMove] Mouse is moved while over element.
+ * @config {boolean} [primary] Set button as primary if true.
+ * @config {boolean} [required]
+ * @config {Object} [requiredImage]
+ * @config {String} [style] Specify style rules inline.
+ * @config {String} [title] Provides a title for element.
+ * @config {boolean} [valid]
+ * @config {String} [value] Value of input.
+ * @config {boolean} [visible] Hide or show element.
+ * @param {boolean} notify Publish an event for custom AJAX implementations to listen for.
  */
-webui.@THEME@.widget.label.setProps = function(props, notify) {
+webui.@THEME@.widget.label.prototype.setProps = function(props, notify) {
     if (props == null) {
         return false;
     }
@@ -212,50 +238,21 @@ webui.@THEME@.widget.label.setProps = function(props, notify) {
     }
 
     // Extend widget object for later updates.
-    return webui.@THEME@.widget.label.superclass.setProps.call(this, props, notify);
+    return this.inherited("setProps", arguments);
 }
 
 /**
- * This function is used to set widget properties with the following 
- * Object literals.
- *
- * <ul>
- *  <li>accesskey</li>
- *  <li>className</li>
- *  <li>contents</li>
- *  <li>dir</li>
- *  <li>errorImage</li>
- *  <li>htmlFor</li>
- *  <li>id</li>
- *  <li>lang</li>
- *  <li>level</li>
- *  <li>onClick</li>
- *  <li>onDblClick</li>
- *  <li>onFocus</li>
- *  <li>onKeyDown</li>
- *  <li>onKeyPress</li>
- *  <li>onKeyUp</li>
- *  <li>onMouseDown</li>
- *  <li>onMouseOut</li>
- *  <li>onMouseOver</li>
- *  <li>onMouseUp</li>
- *  <li>onMouseMove</li>
- *  <li>required</li>
- *  <li>requiredImage</li>
- *  <li>style</li>
- *  <li>title</li>
- *  <li>valid</li>
- *  <li>value</li>
- *  <li>visible</li>
- * </ul>
- *
+ * This function is used to set widget properties. Please see the setProps() 
+ * function for a list of supported properties.
+ * <p>
  * Note: This is considered a private API, do not use. This function should only
- * be invoked through postInitialize() and setProps(). Further, the widget shall
- * be updated only for the given key-value pairs.
+ * be invoked via setProps().
+ * </p>
  *
- * @param props Key-Value pairs of properties.
+ * @param {Object} props Key-Value pairs of properties.
+ * @private
  */
-webui.@THEME@.widget.label._setProps = function(props) {
+webui.@THEME@.widget.label.prototype._setProps = function(props) {
     if (props == null) {
         return false;
     }
@@ -311,27 +308,5 @@ webui.@THEME@.widget.label._setProps = function(props) {
     this.setEventProps(this.domNode, props);
 
     // Set remaining properties.
-    return webui.@THEME@.widget.label.superclass._setProps.call(this, props);
+    return this.inherited("_setProps", arguments);
 }
-
-// Inherit base widget properties.
-dojo.inherits(webui.@THEME@.widget.label, webui.@THEME@.widget.widgetBase);
-
-// Override base widget by assigning properties to class prototype.
-dojo.lang.extend(webui.@THEME@.widget.label, {
-    // Set private functions.
-    fillInTemplate: webui.@THEME@.widget.label.fillInTemplate,
-    getClassName: webui.@THEME@.widget.label.getClassName,
-    getProps: webui.@THEME@.widget.label.getProps,
-    initialize: webui.@THEME@.widget.label.initialize,
-    setProps: webui.@THEME@.widget.label.setProps,
-    _setProps: webui.@THEME@.widget.label._setProps,
-    notify: webui.@THEME@.widget.label.event.notification.processEvent,
-
-    // Set defaults.
-    event: webui.@THEME@.widget.label.event,
-    level: 2,
-    required: false,
-    valid: true,
-    widgetType: "label"
-});

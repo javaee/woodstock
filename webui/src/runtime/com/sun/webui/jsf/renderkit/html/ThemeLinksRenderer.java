@@ -75,7 +75,6 @@ public class ThemeLinksRenderer extends javax.faces.render.Renderer {
         // Get global flags.
         JavaScriptUtilities.setDebug(themeLinks.isDebug());
         JavaScriptUtilities.setAjaxify(themeLinks.isAjaxify());
-        JavaScriptUtilities.setParseWidgets(themeLinks.isParseWidgets());
 
         // Do not render any JavaScript.
         if (!themeLinks.isJavaScript()) {

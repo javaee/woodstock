@@ -1,3 +1,4 @@
+// widget/jsfx/__package__.js
 //
 // The contents of this file are subject to the terms
 // of the Common Development and Distribution License
@@ -22,40 +23,20 @@
 
 dojo.provide("webui.@THEME@.widget.jsfx.*");
 
-dojo.kwCompoundRequire({
-    common: [
-        "webui.@THEME@.widget.jsfx.common"]
-});
+/**
+ * @name widget/jsfx/__package__.js
+ * @version @THEME_VERSION@
+ * @overview This module contains features common to the default Ajax 
+ * implementation.
+ * <p>
+ * Note: This Javascript file should be included in any page that uses the 
+ * associated widget, where JSF Extensions is used as the underlying transfer
+ * protocol.
+ * </p>
+ */
 
-// For debugging only, obtain all module resources before invoking
-// dojo.hostenv.writeIncludes(). This will ensure that JavaScript
-// files are accessible to JavaScript debuggers.
-dojo.requireIf(djConfig.isDebug, "webui.@THEME@.widget.jsfx.accordion");
-dojo.requireIf(djConfig.isDebug, "webui.@THEME@.widget.jsfx.accordionTab");
-dojo.requireIf(djConfig.isDebug, "webui.@THEME@.widget.jsfx.alarm");
-dojo.requireIf(djConfig.isDebug, "webui.@THEME@.widget.jsfx.anchor");
-dojo.requireIf(djConfig.isDebug, "webui.@THEME@.widget.jsfx.alert");
-dojo.requireIf(djConfig.isDebug, "webui.@THEME@.widget.jsfx.bubble");
-dojo.requireIf(djConfig.isDebug, "webui.@THEME@.widget.jsfx.button");
-dojo.requireIf(djConfig.isDebug, "webui.@THEME@.widget.jsfx.calendarField");
-dojo.requireIf(djConfig.isDebug, "webui.@THEME@.widget.jsfx.checkbox");
-dojo.requireIf(djConfig.isDebug, "webui.@THEME@.widget.jsfx.checkboxGroup");
-dojo.requireIf(djConfig.isDebug, "webui.@THEME@.widget.jsfx.dropDown");
-dojo.requireIf(djConfig.isDebug, "webui.@THEME@.widget.jsfx.editableField");
-dojo.requireIf(djConfig.isDebug, "webui.@THEME@.widget.jsfx.hiddenField");
-dojo.requireIf(djConfig.isDebug, "webui.@THEME@.widget.jsfx.hyperlink");
-dojo.requireIf(djConfig.isDebug, "webui.@THEME@.widget.jsfx.image");
-dojo.requireIf(djConfig.isDebug, "webui.@THEME@.widget.jsfx.imageButton");
-dojo.requireIf(djConfig.isDebug, "webui.@THEME@.widget.jsfx.imageHyperlink");
-dojo.requireIf(djConfig.isDebug, "webui.@THEME@.widget.jsfx.label");
-dojo.requireIf(djConfig.isDebug, "webui.@THEME@.widget.jsfx.listbox");
-dojo.requireIf(djConfig.isDebug, "webui.@THEME@.widget.jsfx.popupMenu");
-dojo.requireIf(djConfig.isDebug, "webui.@THEME@.widget.jsfx.progressBar");
-dojo.requireIf(djConfig.isDebug, "webui.@THEME@.widget.jsfx.radioButton");
-dojo.requireIf(djConfig.isDebug, "webui.@THEME@.widget.jsfx.radioButtonGroup");
-dojo.requireIf(djConfig.isDebug, "webui.@THEME@.widget.jsfx.resetButton");
-dojo.requireIf(djConfig.isDebug, "webui.@THEME@.widget.jsfx.staticText");
-dojo.requireIf(djConfig.isDebug, "webui.@THEME@.widget.jsfx.table2");
-dojo.requireIf(djConfig.isDebug, "webui.@THEME@.widget.jsfx.table2RowGroup");
-dojo.requireIf(djConfig.isDebug, "webui.@THEME@.widget.jsfx.textArea");
-dojo.requireIf(djConfig.isDebug, "webui.@THEME@.widget.jsfx.textField");
+// Only necessary, if preload is desired.
+//dojo.platformRequire({
+//    common: [
+//        "webui.@THEME@.widget.jsfx.common"]
+//});

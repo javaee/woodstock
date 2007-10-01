@@ -43,10 +43,10 @@ import org.json.JSONObject;
     rendererType="com.sun.webui.jsf.widget.Anchor", 
     componentFamily="com.sun.webui.jsf.Anchor"))
 public class AnchorRenderer extends AnchorRendererBase {
-     /**
-      * Id of the transparent image to be rendered for IE browsers
-      */    
-     private static String ANCHOR_IMAGE = "_img";
+    /**
+     * Id of the transparent image to be rendered for IE browsers
+     */    
+    private static String ANCHOR_IMAGE = "_img";
 
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     // Property methods
@@ -94,7 +94,7 @@ public class AnchorRenderer extends AnchorRendererBase {
                 jArray.put(WidgetUtilities.renderComponent(context, icon));   
             }
         }        
-     }
+    }
     
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     // Private methods

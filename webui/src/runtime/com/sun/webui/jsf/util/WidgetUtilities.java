@@ -38,7 +38,6 @@ import javax.faces.component.UIComponent;
 import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 import javax.faces.context.ResponseWriter;
-import javax.servlet.ServletRequest;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -283,7 +282,6 @@ public class WidgetUtilities {
         } catch (JSONException e) {
             json = new JSONObject();
             json.put("fragment", s);
-            json.put("escape", false);
         }
         return json;
     }
@@ -381,9 +379,8 @@ public class WidgetUtilities {
             newWriter = oldWriter.cloneWithWriter(strWriter);
         } else {
             ExternalContext extContext = context.getExternalContext();
-            ServletRequest request = (ServletRequest) extContext.getRequest();
             newWriter = context.getRenderKit().createResponseWriter(
-                strWriter, null, request.getCharacterEncoding());
+                strWriter, null, extContext.getRequestCharacterEncoding());
         }
         // Set new writer in context.
         context.setResponseWriter(newWriter);

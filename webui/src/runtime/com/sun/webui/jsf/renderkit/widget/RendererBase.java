@@ -86,9 +86,9 @@ abstract public class RendererBase extends Renderer {
         boolean isWidgetChild = isWidgetChild(context, component);
 
         // Not all components need to render JavaScript and instantiate a
-        // client-side widget. Therefore, if getWidgetName() returns null, only
+        // client-side widget. Therefore, if getWidgetType() returns null, only
         // JSON properties are output.
-        if (isWidgetChild || getWidgetName(context, component) == null) {
+        if (isWidgetChild || getWidgetType(context, component) == null) {
             return;
         }
 
@@ -108,7 +108,9 @@ abstract public class RendererBase extends Renderer {
         // Render JavaScript to instantiate Dojo widget.
         writer.write(JavaScriptUtilities.getModuleName(
             "widget.common.replaceElement"));
-        writer.write("(");
+        writer.write("(\"");
+        writer.write(component.getClientId(context));
+        writer.write("\", ");
     }
 
     /**
@@ -179,9 +181,9 @@ abstract public class RendererBase extends Renderer {
         boolean isWidgetChild = isWidgetChild(context, component);
 
         // Not all components need to render JavaScript and instantiate a
-        // client-side widget. Therefore, if getWidgetName() returns null, only
+        // client-side widget. Therefore, if getWidgetType() returns null, only
         // JSON properties are output.
-        if (isWidgetChild || getWidgetName(context, component) == null) {
+        if (isWidgetChild || getWidgetType(context, component) == null) {
             return;
         }
 
@@ -204,17 +206,6 @@ abstract public class RendererBase extends Renderer {
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     // Abstract methods
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-    /**
-     * Get the Dojo modules required to instantiate the widget.
-     *
-     * @param context FacesContext for the current request.
-     * @param component UIComponent to be rendered.
-     *
-     * @exception IOException if an input/output error occurs
-     */
-    abstract protected String getModule(FacesContext context,
-        UIComponent component) throws IOException;
 
     /**
      * Helper method to obtain component properties.
@@ -242,14 +233,14 @@ abstract public class RendererBase extends Renderer {
     }
 
     /**
-     * Get the name of widget represented by this component.
+     * Get the type of widget represented by this component.
      *
      * @param context FacesContext for the current request.
      * @param component UIComponent to be rendered.
      *
      * @exception IOException if an input/output error occurs
      */
-    abstract protected String getWidgetName(FacesContext context,
+    abstract protected String getWidgetType(FacesContext context,
         UIComponent component) throws IOException;
 
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -271,8 +262,7 @@ abstract public class RendererBase extends Renderer {
             JSONObject json) throws IOException, JSONException {
         // Set properties.
         json.put("id", component.getClientId(context))
-            .put("module", getModule(context, component))
-            .put("widgetName", getWidgetName(context, component))
+            .put("widgetType", getWidgetType(context, component))
             .put("templatePath", getTemplatePath(context, component));
     }
 

@@ -1,3 +1,4 @@
+// cookie.js
 //
 // The contents of this file are subject to the terms
 // of the Common Development and Distribution License
@@ -20,10 +21,15 @@
 // Copyright 2007 Sun Microsystems, Inc. All rights reserved.
 //
 
+/**
+ * @name cookie.js
+ * @version @THEME_VERSION@
+ * @overview This module contains functions to manipulate cookies.
+ */
 dojo.provide("webui.@THEME@.cookie");
 
 /**
- * The functions of this closure are used to manipulate cookies.
+ * This closure contains functions to manipulate cookies.
  */
 webui.@THEME@.cookie = {
     /**
@@ -115,6 +121,10 @@ webui.@THEME@.cookie = {
 /**
  * This function is used to construct a javascript object for
  * maintaining scroll position via cookie.
+ *
+ * @param {String} viewId
+ * @param {String} path
+ * @constructor
  */
 webui.@THEME@.scrollCookie = function(viewId, path) {    
     // All predefined properties of this object begin with '$' because
@@ -132,7 +142,7 @@ webui.@THEME@.scrollCookie = function(viewId, path) {
         this.load();
         scrollTo(this.left, this.top);
         return true;
-    }
+    };
 
     // This function will set the cookie value.
     this.set = function() {
@@ -153,7 +163,8 @@ webui.@THEME@.scrollCookie = function(viewId, path) {
         // Store cookie value.
         this.store();
         return true;
-    }
+    };
+    return true;
 }
 
 // Inherit cookie properties.

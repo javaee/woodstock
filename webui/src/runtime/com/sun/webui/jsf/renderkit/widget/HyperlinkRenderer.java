@@ -100,25 +100,15 @@ public class HyperlinkRenderer extends AnchorRendererBase{
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     // RendererBase methods
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    
-    /**
-     * Get the Dojo module required to instantiate the widget.
-     *
-     * @param context FacesContext for the current request.
-     * @param component UIComponent to be rendered.
-     */
-    protected String getModule(FacesContext context, UIComponent component) {
-        return JavaScriptUtilities.getModuleName("widget.hyperlink");
-    }
 
     /**
-     * Get the name of widget represented by this component.
+     * Get the type of widget represented by this component.
      *
      * @param context FacesContext for the current request.
      * @param component UIComponent to be rendered.
      */
-    protected String getWidgetName(FacesContext context, UIComponent component) {
-            return JavaScriptUtilities.getNamespace("hyperlink");          
+    protected String getWidgetType(FacesContext context, UIComponent component) {
+            return JavaScriptUtilities.getModuleName("widget.hyperlink");          
     }
 
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~

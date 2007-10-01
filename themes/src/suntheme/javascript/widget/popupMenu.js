@@ -1,3 +1,4 @@
+// widget/popupMenu.js
 //
 // The contents of this file are subject to the terms
 // of the Common Development and Distribution License
@@ -20,27 +21,36 @@
 // Copyright 2007 Sun Microsystems, Inc. All rights reserved.
 //
 
+/**
+ * @name widget/popupMenu.js
+ * @version @THEME_VERSION@
+ * @overview This module contains classes and functions for the popupMenu widget.
+ * @example The following code is used to create a popupMenu widget.
+ * <p><code>
+ * var widget = new webui.@THEME@.widget.popupMenu(props, domNode);
+ * </code></p>
+ */
 dojo.provide("webui.@THEME@.widget.popupMenu");
 
-dojo.require("dojo.widget.*");
-dojo.require("webui.@THEME@.*");
-dojo.require("webui.@THEME@.widget.*");
+dojo.require("webui.@THEME@.common");
 dojo.require("webui.@THEME@.widget.menuBase");
 
 /**
- * This function is used to generate a template based widget.
+ * This function is used to construct a template based widget.
  *
- * Note: This is considered a private API, do not use.
+ * @name webui.@THEME@.widget.popupMenu
+ * @inherits webui.@THEME@.widget.menuBase
+ * @constructor
  */
-webui.@THEME@.widget.popupMenu = function() {
-    // Register widget.
-    dojo.widget.HtmlWidget.call(this);
-}
+dojo.declare("webui.@THEME@.widget.popupMenu", webui.@THEME@.widget.menuBase, {
+    // Set defaults.
+    widgetName: "popupMenu" // Required for theme properties.
+});
 
 /**
  * Close the menu. Sets the visibility to false.
  */
-webui.@THEME@.widget.popupMenu.close = function() {
+webui.@THEME@.widget.popupMenu.prototype.close = function() {
     if (webui.@THEME@.common.isVisibleElement(this.domNode)) {
         return this.setProps({visible: false});
     }
@@ -48,183 +58,115 @@ webui.@THEME@.widget.popupMenu.close = function() {
 }
 
 /**
- * Helper function to create callback to close menu.
+ * This closure contains event topics.
+ * <p>
+ * Note: Event topics must be prototyped for inherited functions. However, these
+ * topics must also be available statically so that developers may subscribe to
+ * events.
+ * </p>
  *
- * @param id The HTML element id used to invoke the callback.
+ * @ignore
  */
-webui.@THEME@.widget.popupMenu.createCloseMenuCallBack = function(id) {
-    if (id == null) {
-        return null;
-    }
-    
-    // New literals are created every time this function
-    // is called, and it's saved by closure magic.
-    return function(event) { 
-        var menu = document.getElementById(id);
-        var widget = dojo.widget.byId(id);
-        if (menu == null) {
-            return false;
-        }
-
-        // Capture the click and see whether it falls within the boundary of the menu
-        // if so do not close the menu.
-        evt = (event) ? event : ((window.event) ? window.event : null);
-        var target = (evt.target) ? evt.target : ((evt.srcElement) ? evt.srcElement : null);
-        
-        // If key pressed and it's NOT the escape key, do NOT cancel.
-        if ((evt.type == "keydown") && (evt.keyCode != 27)) {
-            return;
-        }
-        
-        // If the event occured on the menu, do NOT cancel.
-        // Instead we let the event propagate to the MenuItem handler.
-        // Cannot use 
-        while (target != null) {
-            if (target.className == "Menu@THEME_CSS@") {
-                return;
-            }
-            target = target.parentNode;
-        }
-
-        // The above will not catch events on IE which occur on menuitem seperators
-        // or empty space between menuitems.                
-        var menuLeft = menu.offsetLeft;        
-        var menuTop = menu.offsetTop;        
-        var tmp;
-
-        var menuRight = menuLeft + menu.offsetWidth - widget.rightShadow;
-        var menuBottom = menuTop + menu.offsetHeight - widget.bottomShadow;
-
-        // Having problems with document.body.scrollTop/scrollLeft in firefox.
-        // It always seems to return 0. But window.pageXOffset works fine.
-        if (window.pageXOffset||window.pageYOffset) {
-            var eventX = evt.clientX + window.pageXOffset;
-            var eventY = evt.clientY + window.pageYOffset;
-        } else if(document.documentElement.scrollLeft||document.documentElement.scrollTop){
-             var eventX = evt.clientX + document.documentElement.scrollLeft;
-             var eventY = evt.clientY + document.documentElement.scrollTop;
-        } else {
-             var eventX = evt.clientX + document.body.scrollLeft;
-             var eventY = evt.clientY + document.body.scrollTop;
-        }
-        if ((eventX >= menuLeft) && (eventX <= menuRight) &&
-           (eventY >= menuTop) && (eventY <= menuBottom)) {
-           return;
-        }
-        if ((evt.type == "keydown" && evt.keyCode == 27)
-                || evt.type == "click") {
-            widget.close();
-        }
-        return true;
-    };
-}
-
-/**
- * This closure is used to process widget events.
- */
-webui.@THEME@.widget.popupMenu.event = {
+webui.@THEME@.widget.popupMenu.prototype.event =
+        webui.@THEME@.widget.popupMenu.event = {
     /**
-     * This closure is used to process refresh events.
+     * This closure contains refresh event topics.
+     * @ignore
      */
     refresh: {
-        /**
-         * Event topics for custom AJAX implementations to listen for.
-         */
+        /** Refresh event topic for custom AJAX implementations to listen for. */
         beginTopic: "webui_@THEME@_widget_popupMenu_event_refresh_begin",
+
+        /** Refresh event topic for custom AJAX implementations to listen for. */
         endTopic: "webui_@THEME@_widget_popupMenu_event_refresh_end"
     },
 
     /**
-     * This closure is used to process state change events.
+     * This closure contains state event topics.
+     * @ignore
      */
     state: {
-        /**
-         * Event topics for custom AJAX implementations to listen for.
-         */
+        /** State event topic for custom AJAX implementations to listen for. */
         beginTopic: "webui_@THEME@_widget_popupMenu_event_state_begin",
+
+        /** State event topic for custom AJAX implementations to listen for. */
         endTopic: "webui_@THEME@_widget_popupMenu_event_state_end"
     },
 
     /**
-     * This closure is used to process submit events.
+     * This closure contains submit event topics.
+     * @ignore
      */
     submit: {
-        /**
-         * Event topics for custom AJAX implementations to listen for.
-         */
+        /** Submit event topic for custom AJAX implementations to listen for. */
         beginTopic: "webui_@THEME@_widget_popupMenu_event_submit_begin",
-        endTopic: "webui_@THEME@_widget_popupMenu_event_submit_end",
 
-        /**
-         * Process submit event.
-         *
-         * @param execute Comma separated string containing a list of client ids 
-         * against which the execute portion of the request processing lifecycle
-         * must be run.
-         */
-        processEvent: function(execute) {
-            // Include default AJAX implementation.
-            this.ajaxify();
-
-            // Publish an event for custom AJAX implementations to listen for.
-            dojo.event.topic.publish(
-                webui.@THEME@.widget.popupMenu.event.submit.beginTopic, {
-                    id: this.id,
-                    execute: execute,
-                    value: this.getSelectedValue(),
-                    endTopic: webui.@THEME@.widget.popupMenu.event.submit.endTopic
-                });
-            return true;
-        }
+        /** Submit event topic for custom AJAX implementations to listen for. */
+        endTopic: "webui_@THEME@_widget_popupMenu_event_submit_end"
     }
 }
 
 /**
- * This function is used to fill in template properties.
+ * Helper function to create callback to close menu.
  *
- * Note: This is called after the buildRendering() function. Anything to be set 
- * only once should be added here; otherwise, use the _setProps() function.
- *
- * @param props Key-Value pairs of properties.
- * @param frag HTML fragment.
+ * @param {Event} event The JavaScript event.
  */
-webui.@THEME@.widget.popupMenu.fillInTemplate = function(props, frag) {
-    webui.@THEME@.widget.popupMenu.superclass.fillInTemplate.call(this, props, frag);
-    
-    // Set public functions.
-    this.domNode.open = function(event) { return dojo.widget.byId(this.id).open(event); }
-    this.domNode.close = function() { return dojo.widget.byId(this.id).close(); }
+webui.@THEME@.widget.popupMenu.prototype.onCloseMenuCallBack = function(event) {
+    // Capture the click and see whether it falls within the boundary of the menu
+    // if so do not close the menu.
+    var evt = (event) 
+        ? event : ((window.event) 
+            ? window.event : null);
 
-    // Set events.s
-    dojo.event.connect(document, "onclick", 
-        webui.@THEME@.widget.popupMenu.createCloseMenuCallBack(this.id)); 
-            
-    // escape key should also close menu.
-    dojo.event.connect(document, "onkeydown", 
-        webui.@THEME@.widget.popupMenu.createCloseMenuCallBack(this.id));               
+    var target = (evt.target) 
+        ? evt.target 
+        : ((evt.srcElement) 
+            ? evt.srcElement : null);
+        
+    // If key pressed and it's NOT the escape key, do NOT cancel.
+    if ((evt.type == "keydown") && (evt.keyCode != 27)) {
+        return;
+    }
+        
+    // If the event occured on the menu, do NOT cancel.
+    // Instead we let the event propagate to the MenuItem handler.
+    // Cannot use 
+    while (target != null) {
+        if (target.className == "Menu@THEME_CSS@") {
+            return;
+        }
+        target = target.parentNode;
+    }
 
-    return true;
-}
+    // The above will not catch events on IE which occur on menuitem seperators
+    // or empty space between menuitems.
+    var menuLeft = this.domNode.offsetLeft;        
+    var menuTop = this.domNode.offsetTop;        
+    var tmp;
 
-/**
- * This function is used to initialize the widget.
- *
- * Note: This is called after the fillInTemplate() function.
- *
- * @param props Key-Value pairs of properties.
- * @param frag HTML fragment.
- * @param parent The parent of this widget.
- */
-webui.@THEME@.widget.popupMenu.initialize = function(props, frag, parent) {
-    webui.@THEME@.widget.popupMenu.superclass.initialize.call(this, props, frag, parent);
+    var menuRight = menuLeft + this.domNode.offsetWidth - this.rightShadow;
+    var menuBottom = menuTop + this.domNode.offsetHeight - this.bottomShadow;
 
-    // Default widths of the drop shadow on each side of the menu.  These MUST 
-    // be in pixel units and MUST match the absolute values of the left/top 
-    // styles of the "Menu" style class in the CSS.
-    this.rightShadow = parseFloat(this.theme.getMessage("Menu.rightShadow"));
-    this.bottomShadow = parseFloat(this.theme.getMessage("Menu.bottomShadow"));
-    this.shadowContainer.className = this.theme.getClassName("MENU_SHADOW_CONTAINER");    
-
+    // Having problems with document.body.scrollTop/scrollLeft in firefox.
+    // It always seems to return 0. But window.pageXOffset works fine.
+    if (window.pageXOffset || window.pageYOffset) {
+        var eventX = evt.clientX + window.pageXOffset;
+        var eventY = evt.clientY + window.pageYOffset;
+    } else if (document.documentElement.scrollLeft ||
+            document.documentElement.scrollTop){
+        var eventX = evt.clientX + document.documentElement.scrollLeft;
+        var eventY = evt.clientY + document.documentElement.scrollTop;
+    } else {
+        var eventX = evt.clientX + document.body.scrollLeft;
+        var eventY = evt.clientY + document.body.scrollTop;
+    }
+    if ((eventX >= menuLeft) && (eventX <= menuRight) && (eventY >= menuTop) && 
+            (eventY <= menuBottom)) {
+        return;
+    }
+    if ((evt.type == "keydown" && evt.keyCode == 27) || evt.type == "click") {
+        this.close();
+    }
     return true;
 }
 
@@ -232,15 +174,17 @@ webui.@THEME@.widget.popupMenu.initialize = function(props, frag, parent) {
  * Use this function to make the menu visible. It takes an event parameter
  * as an argument.It calculates the position where the menu is to be displayed
  * at if one is not already provided by the developer.
+ *
+ * @param {Event} event The JavaScript event.
  */
-webui.@THEME@.widget.popupMenu.open = function(evt) {
+webui.@THEME@.widget.popupMenu.prototype.open = function(event) {
     // Only one menu can be open at a time. Hence, close the previous menu.
-    var menu = document.getElementById(webui.@THEME@.widget.popupMenu.activeMenuId);
-    if (menu != null) {
-        menu.close();
+    var widget = dijit.byId(webui.@THEME@.widget.popupMenu.activeMenuId);
+    if (widget != null) {
+        widget.close();
     }
     webui.@THEME@.widget.popupMenu.activeMenuId = this.id;
-    evt.cancelBubble = true;
+    event.cancelBubble = true;
 
     // If menu already rendered, do nothing.
     if (webui.@THEME@.common.isVisibleElement(this.domNode)) {
@@ -284,7 +228,10 @@ webui.@THEME@.widget.popupMenu.open = function(evt) {
         // No positioning specified, so we calculate the optimal position to guarantee
         // menu is fully viewable.
         // Get the absolute position of the target.
-        var target = (evt.target) ? evt.target : ((evt.srcElement) ? evt.srcElement : null);
+        var target = (event.target) 
+            ? event.target 
+            : ((event.srcElement) 
+                ? event.srcElement : null);
         var absPos = this.widget.getPosition(target);
         var targetLeft = absPos[0];
         var targetTop = absPos[1];
@@ -357,28 +304,61 @@ webui.@THEME@.widget.popupMenu.open = function(evt) {
 }
 
 /**
- * Override the "super class" processOnClickEvent functionality and close the menu.
+ * This function is used to fill in remaining template properties, after the
+ * buildRendering() function has been processed.
+ * <p>
+ * Note: Unlike Dojo 0.4, the DOM nodes don't yet exist. 
+ * </p>
  */
-webui.@THEME@.widget.popupMenu.processOnClickEvent = function(value) {
-    webui.@THEME@.widget.popupMenu.superclass.processOnClickEvent.call(this, value);
+webui.@THEME@.widget.popupMenu.prototype.postCreate = function () {
+    // Set public functions.
+    this.domNode.open = function(event) { return dijit.byId(this.id).open(event); }
+    this.domNode.close = function() { return dijit.byId(this.id).close(); }
+
+    // Set events.s
+    dojo.connect(document, "onclick", this, "onCloseMenuCallBack"); 
+            
+    // escape key should also close menu.
+    dojo.connect(document, "onkeydown", this, "onCloseMenuCallBack");  
+
+    // Default widths of the drop shadow on each side of the menu.  These MUST 
+    // be in pixel units and MUST match the absolute values of the left/top 
+    // styles of the "Menu" style class in the CSS.
+    this.rightShadow = parseFloat(this.theme.getMessage("Menu.rightShadow"));
+    this.bottomShadow = parseFloat(this.theme.getMessage("Menu.bottomShadow"));
+    this.shadowContainer.className = this.theme.getClassName("MENU_SHADOW_CONTAINER"); 
+
+    return this.inherited("postCreate", arguments);
+}
+
+/**
+ * Override the "super class" processOnClickEvent functionality and close the menu.
+ *
+ * @param {String} value The selected value.
+ */
+webui.@THEME@.widget.popupMenu.prototype.processOnClickEvent = function(value) {
+    this.inherited("processOnClickEvent", arguments);
     this.close();
     return true;
 }
 
-// Inherit base widget properties.
-dojo.inherits(webui.@THEME@.widget.popupMenu, webui.@THEME@.widget.menuBase);
+/**
+ * Process submit event.
+ *
+ * @param {String} execute The string containing a comma separated list 
+ * of client ids against which the execute portion of the request 
+ * processing lifecycle must be run.
+ */
+webui.@THEME@.widget.popupMenu.prototype.submit = function(execute) {
+    // Include default AJAX implementation.
+    this.ajaxify();
 
-// Override base widget by assigning properties to class prototype.
-dojo.lang.extend(webui.@THEME@.widget.popupMenu, {
-    // Set private functions.
-    close: webui.@THEME@.widget.popupMenu.close,
-    fillInTemplate: webui.@THEME@.widget.popupMenu.fillInTemplate,
-    initialize: webui.@THEME@.widget.popupMenu.initialize,
-    open: webui.@THEME@.widget.popupMenu.open,
-    processOnClickEvent: webui.@THEME@.widget.popupMenu.processOnClickEvent,
-    submit: webui.@THEME@.widget.popupMenu.event.submit.processEvent,
-
-    // Set defaults.
-    event: webui.@THEME@.widget.popupMenu.event,
-    widgetType: "popupMenu"    
-});
+    // Publish an event for custom AJAX implementations to listen for.
+    dojo.publish(webui.@THEME@.widget.popupMenu.event.submit.beginTopic, [{
+        id: this.id,
+        execute: execute,
+        value: this.getSelectedValue(),
+        endTopic: webui.@THEME@.widget.popupMenu.event.submit.endTopic
+    }]);
+    return true;
+}

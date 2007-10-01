@@ -211,7 +211,7 @@ public class CalendarRenderer extends FieldRenderer {
         RenderingUtilities.renderComponent(datePicker, context);
 
         //JS should be initialized by CalendarMonth, not by this component....
-        renderJavaScript(context, calendar, writer, styles, datePickerLink);
+        //renderJavaScript(context, calendar, writer, styles, datePickerLink);
     }
     // </rave>
 
@@ -306,6 +306,11 @@ public class CalendarRenderer extends FieldRenderer {
         }
     }
 
+    // Note: Other than for design-time, we're no longer maintaining the HTML
+    // version of Calendar. After the calendar widget was created, the old
+    // JavaScript file was unused, untested, and does not contain new features or
+    // the latest bug fixes. Therefore, the old JS file has been removed in favor
+    // of the new client-side widget.
     private void renderJavaScript(FacesContext context, Calendar calendar,
             ResponseWriter writer, String[] styles, UIComponent datePickerLink) throws IOException {
         if(DEBUG) log("renderJavaScript()"); //NOI18N

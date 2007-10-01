@@ -51,6 +51,7 @@ public class ProgressBarRenderer extends RendererBase {
      */
     private static final String stringAttributes[] = {
         "style"};
+
     /**
      * The set of int attributes to be rendered.
      */
@@ -60,21 +61,10 @@ public class ProgressBarRenderer extends RendererBase {
          "height",
          "refreshRate"
     };
-       
 
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     // Renderer methods
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-    /**
-     * Get the Dojo module required to instantiate the widget.
-     *
-     * @param context FacesContext for the current request.
-     * @param component UIComponent to be rendered.
-     */
-    protected String getModule(FacesContext context, UIComponent component) {
-        return JavaScriptUtilities.getModuleName("widget.progressBar");
-    }
 
     /**
      * Helper method to obtain component properties.
@@ -115,15 +105,14 @@ public class ProgressBarRenderer extends RendererBase {
         return json;
     }
 
-
     /**
-     * Get the name of widget represented by this component.
+     * Get the type of widget represented by this component.
      *
      * @param context FacesContext for the current request.
      * @param component UIComponent to be rendered.
      */
-    protected String getWidgetName(FacesContext context, UIComponent component) {
-        return JavaScriptUtilities.getNamespace("progressBar");
+    protected String getWidgetType(FacesContext context, UIComponent component) {
+        return JavaScriptUtilities.getModuleName("widget.progressBar");
     }
 
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~

@@ -1,3 +1,4 @@
+// widget/progressBar.js
 //
 // The contents of this file are subject to the terms
 // of the Common Development and Distribution License
@@ -20,26 +21,49 @@
 // Copyright 2007 Sun Microsystems, Inc. All rights reserved.
 //
 
+/**
+ * @name widget/progressBar.js
+ * @version @THEME_VERSION@
+ * @overview This module contains classes and functions for the progressBar widget.
+ * @example The following code is used to create a progressBar widget.
+ * <p><code>
+ * var widget = new webui.@THEME@.widget.progressBar(props, domNode);
+ * </code></p>
+ */
 dojo.provide("webui.@THEME@.widget.progressBar");
 
-dojo.require("dojo.widget.*");
-dojo.require("webui.@THEME@.*");
-dojo.require("webui.@THEME@.widget.*");
+dojo.require("webui.@THEME@.common");
+dojo.require("webui.@THEME@.widget.widgetBase");
 
 /**
- * This function is used to generate a template based widget.
+ * This function is used to construct a template based widget.
  *
- * Note: This is considered a private API, do not use.
+ * @name webui.@THEME@.widget.progressBar
+ * @inherits webui.@THEME@.widget.widgetBase
+ * @constructor
  */
-webui.@THEME@.widget.progressBar = function() {
-    // Register widget.
-    dojo.widget.HtmlWidget.call(this);
-}
+dojo.declare("webui.@THEME@.widget.progressBar", webui.@THEME@.widget.widgetBase, {
+    // Set defaults.
+    percentChar: "%",
+    progress: 0,
+    type: "DETERMINATE",
+    busy: "BUSY",
+    canceled: "canceled",
+    completed: "completed",
+    determinate: "DETERMINATE",
+    failed: "failed",
+    indeterminate: "INDETERMINATE",
+    notstarted: "not_started",
+    paused: "paused",
+    resumed: "resumed",
+    stopped: "stopped",
+    widgetName: "progressBar"
+});
 
 /**
- * This function handles cancel button event.
+ * This function handles cancel progressBar event.
  */
-webui.@THEME@.widget.progressBar.cancel = function() {
+webui.@THEME@.widget.progressBar.prototype.cancel = function() {
     clearTimeout(this.timeoutId);
 
     this.hiddenFieldNode.value = this.canceled;
@@ -50,147 +74,60 @@ webui.@THEME@.widget.progressBar.cancel = function() {
 }
 
 /**
- * This closure is used to process widget events.
+ * This closure contains event topics.
+ * <p>
+ * Note: Event topics must be prototyped for inherited functions. However, these
+ * topics must also be available statically so that developers may subscribe to
+ * events.
+ * </p>
+ *
+ * @ignore
  */
-webui.@THEME@.widget.progressBar.event = {
+webui.@THEME@.widget.progressBar.prototype.event =
+        webui.@THEME@.widget.progressBar.event = {
     /**
      * This closure is used to publish progress events.
+     * @ignore
      */
     progress: {
-        /**
-         * Event topics for custom AJAX implementations to listen for.
-         */
+        /** Progress event topic for custom AJAX implementations to listen for. */
         beginTopic: "webui_@THEME@_widget_progressBar_event_progress_begin",
-        endTopic: "webui_@THEME@_widget_progressBar_event_progress_end",
 
-        /**
-         * Helper function to to periodically obtain progress.
-         *
-         * @param id The client id used to invoke the callback.
-         */
-        createCallback: function(id) {
-            if (id != null) {
-                // New literals are created every time this function
-                // is called, and it's saved by closure magic.
-                return function() {
-                    var widget = dojo.widget.byId(id);
-                    if (widget == null) {
-                        return null;
-                    } else {
-                        widget.updateProgress();
-                    }
-                };
-            }
-        },
-
-        /**
-         * Process progress event.
-         */
-        processEvent: function() {
-            // Publish event.
-            if (this.refreshRate > 0) {
-                // Include default AJAX implementation.
-                this.ajaxify();
-
-                // Publish an event for custom AJAX implementations to listen for.
-                dojo.event.topic.publish(
-                    webui.@THEME@.widget.progressBar.event.progress.beginTopic, {
-                        id: this.id
-                    });
-            }
-
-            // Create a call back function to periodically publish progress events.
-            this.timeoutId = setTimeout(
-                webui.@THEME@.widget.progressBar.event.progress.createCallback(this.id),
-                this.refreshRate);
-        }
+        /** Progress event topic for custom AJAX implementations to listen for. */
+        endTopic: "webui_@THEME@_widget_progressBar_event_progress_end"
     },
 
     /**
-     * This closure is used to process refresh events.
+     * This closure contains refresh event topics.
+     * @ignore
      */
     refresh: {
-        /**
-         * Event topics for custom AJAX implementations to listen for.
-         */
+        /** Refresh event topic for custom AJAX implementations to listen for. */
         beginTopic: "webui_@THEME@_widget_progressBar_event_refresh_begin",
+
+        /** Refresh event topic for custom AJAX implementations to listen for. */
         endTopic: "webui_@THEME@_widget_progressBar_event_refresh_end"
     },
 
     /**
-     * This closure is used to process state change events.
+     * This closure contains state event topics.
+     * @ignore
      */
     state: {
-        /**
-         * Event topics for custom AJAX implementations to listen for.
-         */
+        /** State event topic for custom AJAX implementations to listen for. */
         beginTopic: "webui_@THEME@_widget_progressBar_event_state_begin",
+
+        /** State event topic for custom AJAX implementations to listen for. */
         endTopic: "webui_@THEME@_widget_progressBar_event_state_end"
     }
 }
 
 /**
- * This function is used to fill in template properties.
- *
- * Note: This is called after the buildRendering() function. Anything to be set 
- * only once should be added here; otherwise, use the _setProps() function.
- *
- * @param props Key-Value pairs of properties.
- * @param frag HTML fragment.
- */
-webui.@THEME@.widget.progressBar.fillInTemplate = function(props, frag) {
-    webui.@THEME@.widget.progressBar.superclass.fillInTemplate.call(this, props, frag);
-
-    // Set ids.
-    if (this.id) {
-        this.barContainer.id = this.id + "_barContainer";
-        this.bottomControlsContainer.id = this.id + "_bottomControlsContainer";
-        this.bottomTextContainer.id = this.id + "_bottomTextContainer"; 
-        this.failedStateContainer.id = this.id + "_failedStateContainer";
-        this.failedLabelContainer.id = this.id + "_failedLabelContainer";
-        this.hiddenFieldNode.id = this.id + "_" + "controlType";
-        this.hiddenFieldNode.name = this.hiddenFieldNode.id;
-        this.innerBarContainer.id = this.id + "_innerBarContainer";
-        this.innerBarOverlayContainer.id = this.id + "_innerBarOverlayContainer";
-        this.logContainer.id = this.id + "_logContainer";
-        this.rightControlsContainer.id = this.id + "_rightControlsContainer";
-        this.topTextContainer.id = this.id + "_topTextContainer"; 
-    }
-
-    // Set public functions
-    this.domNode.cancel = function() { return dojo.widget.byId(this.id).cancel(); }
-    this.domNode.isBottomControlVisible = function() { return dojo.widget.byId(this.id).isBottomControlVisible(); }
-    this.domNode.isFailedStateMessageVisible = function() { return dojo.widget.byId(this.id).isFailedStateMessageVisible(); }
-    this.domNode.isLogMsgVisible = function() { return dojo.widget.byId(this.id).isLogMsgVisible(); }
-    this.domNode.isOperationTextVisible = function() { return dojo.widget.byId(this.id).isOperationTextVisible(); }
-    this.domNode.isProgressBarContainerVisible = function() { return dojo.widget.byId(this.id).isProgressBarContainerVisible(); }
-    this.domNode.isProgressBarVisible = function() { return dojo.widget.byId(this.id).isProgressBarVisible(); }
-    this.domNode.isRightControlVisible = function() { return dojo.widget.byId(this.id).isRightControlVisible(); }
-    this.domNode.isStatusTextVisible = function() { return dojo.widget.byId(this.id).isStatusTextVisible(); }
-    this.domNode.pause = function() { return dojo.widget.byId(this.id).pause(); }
-    this.domNode.resume = function() { return dojo.widget.byId(this.id).resume(); }
-    this.domNode.stop = function() { return dojo.widget.byId(this.id).stop(); }
-    this.domNode.setOnCancel = function(func) { return dojo.widget.byId(this.id).setOnCancel(func); }
-    this.domNode.setOnComplete = function(func) { return dojo.widget.byId(this.id).setOnComplete(func); }
-    this.domNode.setOnFail = function(func) { return dojo.widget.byId(this.id).setOnFail(func); }
-    this.domNode.setBottomControlVisible = function(show) { return dojo.widget.byId(this.id).setBottomControlVisible(show); }
-    this.domNode.setFailedStateMessageVisible = function(show) { return dojo.widget.byId(this.id).setFailedStateMessageVisible(show); }
-    this.domNode.setLogMsgVisible = function(show) { return dojo.widget.byId(this.id).setLogMsgVisible(show); }
-    this.domNode.setOperationTextVisible = function(show) { return dojo.widget.byId(this.id).setOperationTextVisible(show); }
-    this.domNode.setProgressBarContainerVisible = function(show) { return dojo.widget.byId(this.id).setProgressBarContainerVisible(show); }
-    this.domNode.setProgressBarVisible = function(show) { return dojo.widget.byId(this.id).setProgressBarVisible(show); }
-    this.domNode.setRightControlVisible = function(show) { return dojo.widget.byId(this.id).setRightControlVisible(show); }
-    this.domNode.setStatusTextVisible = function(show) { return dojo.widget.byId(this.id).setStatusTextVisible(show); }
-
-    return true;
-}
-
-/**
  * This function is used to get widget properties. Please see the 
- * _setProps() function for a list of supported properties.
+ * setProps() function for a list of supported properties.
  */
-webui.@THEME@.widget.progressBar.getProps = function() {
-    var props = webui.@THEME@.widget.progressBar.superclass.getProps.call(this);
+webui.@THEME@.widget.progressBar.prototype.getProps = function() {
+    var props = this.inherited("getProps", arguments);
 
     // Set properties.
     if (this.height) { props.height = this.height; }
@@ -218,31 +155,11 @@ webui.@THEME@.widget.progressBar.getProps = function() {
 }
 
 /**
- * This function is used to initialize the widget.
- *
- * Note: This is called after the fillInTemplate() function.
- *
- * @param props Key-Value pairs of properties.
- * @param frag HTML fragment.
- * @param parent The parent of this widget.
- */
-webui.@THEME@.widget.progressBar.initialize = function (props, frag, parent) {
-     
-    if (this.busyImage == null) {
-	this.busyImage = this.widget.getImageProps("PROGRESS_BUSY", {
-            id: this.id + "_busy"
-        });
-        props.busyImage = this.busyImage; // Required for _setProps().
-    }    
-    return webui.@THEME@.widget.progressBar.superclass.initialize.call(this, props, frag, parent);    
-}
-
-/**
  * This method displays the Bottom Controls if it was hidden.
  *
  * @return true if successful; otherwise, false.
  */
-webui.@THEME@.widget.progressBar.isBottomControlVisible = function() {
+webui.@THEME@.widget.progressBar.prototype.isBottomControlVisible = function() {
     return webui.@THEME@.common.isVisibleElement(this.bottomControlsContainer);
 }
 
@@ -251,7 +168,7 @@ webui.@THEME@.widget.progressBar.isBottomControlVisible = function() {
  *
  * @return true if successful; otherwise, false.
  */
-webui.@THEME@.widget.progressBar.isFailedStateMessageVisible = function() {
+webui.@THEME@.widget.progressBar.prototype.isFailedStateMessageVisible = function() {
     return webui.@THEME@.common.isVisibleElement(this.failedStateContainer);
 }
 
@@ -260,7 +177,7 @@ webui.@THEME@.widget.progressBar.isFailedStateMessageVisible = function() {
  *
  * @return true if successful; otherwise, false.
  */
-webui.@THEME@.widget.progressBar.isLogMsgVisible = function() {
+webui.@THEME@.widget.progressBar.prototype.isLogMsgVisible = function() {
     return webui.@THEME@.common.isVisibleElement(this.logContainer);
 }
 
@@ -269,7 +186,7 @@ webui.@THEME@.widget.progressBar.isLogMsgVisible = function() {
  *
  * @return true if successful; otherwise, false.
  */
-webui.@THEME@.widget.progressBar.isOperationTextVisible = function() {
+webui.@THEME@.widget.progressBar.prototype.isOperationTextVisible = function() {
     return webui.@THEME@.common.isVisibleElement(this.topTextContainer);
 }
 
@@ -278,7 +195,7 @@ webui.@THEME@.widget.progressBar.isOperationTextVisible = function() {
  *
  * @return true if successful; otherwise, false.
  */
-webui.@THEME@.widget.progressBar.isProgressBarContainerVisible = function() {
+webui.@THEME@.widget.progressBar.prototype.isProgressBarContainerVisible = function() {
     return webui.@THEME@.common.isVisibleElement(this.barContainer);
 }
 
@@ -287,7 +204,7 @@ webui.@THEME@.widget.progressBar.isProgressBarContainerVisible = function() {
  *
  * @return true if successful; otherwise, false.
  */
-webui.@THEME@.widget.progressBar.isProgressBarVisible = function() {
+webui.@THEME@.widget.progressBar.prototype.isProgressBarVisible = function() {
     return webui.@THEME@.common.isVisibleElement(this); 
 }
 
@@ -296,7 +213,7 @@ webui.@THEME@.widget.progressBar.isProgressBarVisible = function() {
  *
  * @return true if successful; otherwise, false.
  */
-webui.@THEME@.widget.progressBar.isRightControlVisible = function() {
+webui.@THEME@.widget.progressBar.prototype.isRightControlVisible = function() {
     return webui.@THEME@.common.isVisibleElement(this.rightControlsContainer);
 }
 
@@ -305,14 +222,14 @@ webui.@THEME@.widget.progressBar.isRightControlVisible = function() {
  *
  * @return true if successful; otherwise, false.
  */
-webui.@THEME@.widget.progressBar.isStatusTextVisible = function() {
+webui.@THEME@.widget.progressBar.prototype.isStatusTextVisible = function() {
     return webui.@THEME@.common.isVisibleElement(this.bottomTextContainer);
 }
 
 /**
  * This function handles pause button event.
  */
-webui.@THEME@.widget.progressBar.pause = function() {
+webui.@THEME@.widget.progressBar.prototype.pause = function() {
     clearTimeout(this.timeoutId);
 
     this.hiddenFieldNode.value = this.paused;
@@ -320,29 +237,70 @@ webui.@THEME@.widget.progressBar.pause = function() {
         this.innerBarContainer.className =
             this.theme.getClassName("PROGRESSBAR_INDETERMINATE_PAUSED");
     }
-    this.updateProgress();
+    return this.updateProgress();
 }
 
 /**
- * This function is used after the widget has been initialized and rendered.
- *
- * Note: This is called after the postInitialize() function.
- *
- * @param props Key-Value pairs of properties.
- * @param frag HTML fragment.
- * @param parent The parent of this widget.
+ * This function is used to fill in remaining template properties, after the
+ * buildRendering() function has been processed.
+ * <p>
+ * Note: Unlike Dojo 0.4, the DOM nodes don't yet exist. 
+ * </p>
  */
-webui.@THEME@.widget.progressBar.postCreate = function (props, frag, parent) {
-    webui.@THEME@.widget.progressBar.superclass.postCreate.call(this, props, frag, parent);
+webui.@THEME@.widget.progressBar.prototype.postCreate = function () {
+    // Set ids.
+    if (this.id) {
+        this.barContainer.id = this.id + "_barContainer";
+        this.bottomControlsContainer.id = this.id + "_bottomControlsContainer";
+        this.bottomTextContainer.id = this.id + "_bottomTextContainer"; 
+        this.failedStateContainer.id = this.id + "_failedStateContainer";
+        this.failedLabelContainer.id = this.id + "_failedLabelContainer";
+        this.hiddenFieldNode.id = this.id + "_" + "controlType";
+        this.hiddenFieldNode.name = this.hiddenFieldNode.id;
+        this.innerBarContainer.id = this.id + "_innerBarContainer";
+        this.innerBarOverlayContainer.id = this.id + "_innerBarOverlayContainer";
+        this.logContainer.id = this.id + "_logContainer";
+        this.rightControlsContainer.id = this.id + "_rightControlsContainer";
+        this.topTextContainer.id = this.id + "_topTextContainer"; 
+    }
 
-    // Start a timer used to periodically publish progress events.
-    return this.updateProgress();
+    // Set public functions
+    this.domNode.cancel = function() { return dijit.byId(this.id).cancel(); }
+    this.domNode.isBottomControlVisible = function() { return dijit.byId(this.id).isBottomControlVisible(); }
+    this.domNode.isFailedStateMessageVisible = function() { return dijit.byId(this.id).isFailedStateMessageVisible(); }
+    this.domNode.isLogMsgVisible = function() { return dijit.byId(this.id).isLogMsgVisible(); }
+    this.domNode.isOperationTextVisible = function() { return dijit.byId(this.id).isOperationTextVisible(); }
+    this.domNode.isProgressBarContainerVisible = function() { return dijit.byId(this.id).isProgressBarContainerVisible(); }
+    this.domNode.isProgressBarVisible = function() { return dijit.byId(this.id).isProgressBarVisible(); }
+    this.domNode.isRightControlVisible = function() { return dijit.byId(this.id).isRightControlVisible(); }
+    this.domNode.isStatusTextVisible = function() { return dijit.byId(this.id).isStatusTextVisible(); }
+    this.domNode.pause = function() { return dijit.byId(this.id).pause(); }
+    this.domNode.resume = function() { return dijit.byId(this.id).resume(); }
+    this.domNode.stop = function() { return dijit.byId(this.id).stop(); }
+    this.domNode.setOnCancel = function(func) { return dijit.byId(this.id).setOnCancel(func); }
+    this.domNode.setOnComplete = function(func) { return dijit.byId(this.id).setOnComplete(func); }
+    this.domNode.setOnFail = function(func) { return dijit.byId(this.id).setOnFail(func); }
+    this.domNode.setBottomControlVisible = function(show) { return dijit.byId(this.id).setBottomControlVisible(show); }
+    this.domNode.setFailedStateMessageVisible = function(show) { return dijit.byId(this.id).setFailedStateMessageVisible(show); }
+    this.domNode.setLogMsgVisible = function(show) { return dijit.byId(this.id).setLogMsgVisible(show); }
+    this.domNode.setOperationTextVisible = function(show) { return dijit.byId(this.id).setOperationTextVisible(show); }
+    this.domNode.setProgressBarContainerVisible = function(show) { return dijit.byId(this.id).setProgressBarContainerVisible(show); }
+    this.domNode.setProgressBarVisible = function(show) { return dijit.byId(this.id).setProgressBarVisible(show); }
+    this.domNode.setRightControlVisible = function(show) { return dijit.byId(this.id).setRightControlVisible(show); }
+    this.domNode.setStatusTextVisible = function(show) { return dijit.byId(this.id).setStatusTextVisible(show); }
+
+    if (this.busyImage == null) {
+	this.busyImage = this.widget.getImageProps("PROGRESS_BUSY", {
+            id: this.id + "_busy"
+        });
+    }
+    return this.inherited("postCreate", arguments);
 }
 
 /**
  * This function handles resume button event.
  */
-webui.@THEME@.widget.progressBar.resume = function() {
+webui.@THEME@.widget.progressBar.prototype.resume = function() {
     clearTimeout(this.timeoutId);
 
     this.hiddenFieldNode.value = this.resumed;
@@ -351,16 +309,16 @@ webui.@THEME@.widget.progressBar.resume = function() {
             this.theme.getClassName("PROGRESSBAR_INDETERMINATE");
             
     }
-    this.updateProgress();
+    return this.updateProgress();
 }
 
 /**
  * This method hides the Bottom Control.
  *
- * @param show true to show the element, false to hide the element.
+ * @param {boolean} show true to show the element, false to hide the element.
  * @return true if successful; otherwise, false.
  */
-webui.@THEME@.widget.progressBar.setBottomControlVisible = function(show) {
+webui.@THEME@.widget.progressBar.prototype.setBottomControlVisible = function(show) {
     if (show == null) {
         return false;
     }
@@ -371,10 +329,10 @@ webui.@THEME@.widget.progressBar.setBottomControlVisible = function(show) {
 /**
  * This method hides the failed state message and icon area.
  *
- * @param show true to show the element, false to hide the element.
+ * @param {boolean} show true to show the element, false to hide the element.
  * @return true if successful; otherwise, false.
  */
-webui.@THEME@.widget.progressBar.setFailedStateMessageVisible = function(show) {
+webui.@THEME@.widget.progressBar.prototype.setFailedStateMessageVisible = function(show) {
     if (show == null) {
         return false;
     }
@@ -385,10 +343,10 @@ webui.@THEME@.widget.progressBar.setFailedStateMessageVisible = function(show) {
 /**
  * This method hides the log message area.
  *
- * @param show true to show the element, false to hide the element.
+ * @param {boolean} show true to show the element, false to hide the element.
  * @return true if successful; otherwise, false.
  */
-webui.@THEME@.widget.progressBar.setLogMsgVisible = function(show) {
+webui.@THEME@.widget.progressBar.prototype.setLogMsgVisible = function(show) {
     if (show == null) {
         return false;
     }
@@ -399,43 +357,46 @@ webui.@THEME@.widget.progressBar.setLogMsgVisible = function(show) {
 /**
  * This function invokes developer define function for cancel event.
  * 
- * @param func The JavaScript function.
+ * @param {Function} func The JavaScript function.
  */
-webui.@THEME@.widget.progressBar.setOnCancel = function(func) {
+webui.@THEME@.widget.progressBar.prototype.setOnCancel = function(func) {
     if (func) {
         this.funcCanceled = func;
     }
+    return true;
 }
 
 /**
  * This function invokes developer define function for complete event.
  * 
- * @param func The JavaScript function.
+ * @param {Function} func The JavaScript function.
  */
-webui.@THEME@.widget.progressBar.setOnComplete = function(func) {
+webui.@THEME@.widget.progressBar.prototype.setOnComplete = function(func) {
     if (func) {
         this.funcComplete = func;
     }
+    return true;
 }
 
 /**
  * This function invokes developer define function for failed event.
  * 
- * @param func The JavaScript function.
+ * @param {Function} func The JavaScript function.
  */
-webui.@THEME@.widget.progressBar.setOnFail = function(func) {
+webui.@THEME@.widget.progressBar.prototype.setOnFail = function(func) {
     if (func) {
         this.funcFailed = func;
     }
+    return true;
 }
 
 /**
  * This method hides the operation text.
  *
- * @param show true to show the element, false to hide the element.
+ * @param {boolean} show true to show the element, false to hide the element.
  * @return true if successful; otherwise, false.
  */
-webui.@THEME@.widget.progressBar.setOperationTextVisible = function(show) {
+webui.@THEME@.widget.progressBar.prototype.setOperationTextVisible = function(show) {
     if (show == null) {
         return false;
     }
@@ -444,22 +405,18 @@ webui.@THEME@.widget.progressBar.setOperationTextVisible = function(show) {
 }
 
 /**
- * This function is used to set progress with the following Object
- * literals.
+ * This function is used to set progress with Object literals.
  *
- * <ul>
- *  <li>failedStateText</li>
- *  <li>logMessage</li>
- *  <li>progress</li>
- *  <li>status</li>
- *  <li>taskState</li>
- *  <li>topText</li>
- *  <li>type</li>
- * </ul>
- *
- * @param props Key-Value pairs of properties.
+ * @param {Object} props Key-Value pairs of properties.
+ * @config {String} [failedStateText]
+ * @config {String} [logMessage]
+ * @config {int} [progress]
+ * @config {String} [status]
+ * @config {String} [taskState]
+ * @config {String} [topText]
+ * @config {String} [type]
  */
-webui.@THEME@.widget.progressBar.setProgress = function(props) {
+webui.@THEME@.widget.progressBar.prototype.setProgress = function(props) {
     if (props == null) {
         return false;
     }
@@ -492,7 +449,7 @@ webui.@THEME@.widget.progressBar.setProgress = function(props) {
         }
 
         if (props.logMessage) {
-            var field = webui.@THEME@.field.getInputElement(this.logId)
+            var field = dijit.byId(this.logId).getInputElement();
             if (field != null) {
                 field.value = (field.value)
                    ? field.value + props.logMessage + "\n"
@@ -510,7 +467,7 @@ webui.@THEME@.widget.progressBar.setProgress = function(props) {
     // Failed state.
     if (props.taskState == this.failed) {
         clearTimeout(this.timeoutId);
-        this.sleep(1000);
+        this.widget.sleep(1000);
         this.setProgressBarContainerVisible(false);
         this.setBottomControlVisible(false);
         this.setRightControlVisible(false);
@@ -527,13 +484,13 @@ webui.@THEME@.widget.progressBar.setProgress = function(props) {
         if (this.funcFailed != null) {
             (this.funcFailed)();
         }
-        return;
+        return true;
     }
 
     // Cancel state.
     if (props.taskState == this.canceled) {
         clearTimeout(this.timeoutId);
-        this.sleep(1000);
+        this.widget.sleep(1000);
         this.setOperationTextVisible(false);
         this.setStatusTextVisible(false);
         this.setProgressBarContainerVisible(false);
@@ -547,19 +504,19 @@ webui.@THEME@.widget.progressBar.setProgress = function(props) {
         if (this.funcCanceled != null) {
            (this.funcCanceled)(); 
         }
-        return;    
+        return true;    
     }
 
     // paused state
     if (props.taskState == this.paused) {
         clearTimeout(this.timeoutId);
-        return;
+        return true;
     }
 
     // stopped state
     if (props.taskState == this.stopped) {
         clearTimeout(this.timeoutId);
-        return;
+        return true;
     }
 
     if (props.progress > 99 
@@ -584,21 +541,19 @@ webui.@THEME@.widget.progressBar.setProgress = function(props) {
                 "valuenow", props.progress);
         }
     }
+    return true;
 }
 
 /**
  * This method hides the ProgressBar Container.
  *
- * @param show true to show the element, false to hide the element.
+ * @param {boolean} show true to show the element, false to hide the element.
  * @return true if successful; otherwise, false.
  */
-webui.@THEME@.widget.progressBar.setProgressBarContainerVisible = function(show) {
+webui.@THEME@.widget.progressBar.prototype.setProgressBarContainerVisible = function(show) {
     if (show == null) {
         return false;
     }
-
-    // FIX: Remove "display:block" from barContainer class and
-    // use webui.@THEME@.common.setVisibleElement.
 
     if (show == false) {
         this.barContainer.style.display = "none";
@@ -611,10 +566,10 @@ webui.@THEME@.widget.progressBar.setProgressBarContainerVisible = function(show)
 /**
  * This method hides the ProgressBar.
  *
- * @param show true to show the element, false to hide the element.
+ * @param {boolean} show true to show the element, false to hide the element.
  * @return true if successful; otherwise, false.
  */
-webui.@THEME@.widget.progressBar.setProgressBarVisible = function(show) {
+webui.@THEME@.widget.progressBar.prototype.setProgressBarVisible = function(show) {
     if (show == null) {
         return false;
     }
@@ -623,40 +578,55 @@ webui.@THEME@.widget.progressBar.setProgressBarVisible = function(show) {
 }
 
 /**
- * This function is used to set widget properties with the following 
- * Object literals.
+ * This function is used to set widget properties using Object literals.
+ * <p>
+ * Note: This function extends the widget object for later updates. Further, the
+ * widget shall be updated only for the given key-value pairs.
+ * </p><p>
+ * If the notify param is true, the widget's state change event shall be
+ * published. This is typically used to keep client-side state in sync with the
+ * server.
+ * </p>
  *
- * <ul>
- *  <li>height</li>
- *  <li>width</li>
- *  <li>bottomText</li>
- *  <li>busyImage</li>
- *  <li>failedStateText</li>
- *  <li>id</li>
- *  <li>log</li>
- *  <li>logId</li>
- *  <li>logMessage</li>
- *  <li>overlayAnimation</li>
- *  <li>percentChar</li>
- *  <li>progress</li>
- *  <li>progressImageUrl</li>
- *  <li>progressControlBottom</li>
- *  <li>progressControlRight</li>
- *  <li>refreshRate</li>
- *  <li>taskState</li>
- *  <li>toolTip</li>
- *  <li>topText</li>
- *  <li>type</li>
- *  <li>visible</li>
- * </ul>
- *
- * Note: This is considered a private API, do not use. This function should only
- * be invoked through postInitialize() and setProps(). Further, the widget shall
- * be updated only for the given key-value pairs.
- *
- * @param props Key-Value pairs of properties.
+ * @param {Object} props Key-Value pairs of properties.
+ * @config {String} [bottomText] 
+ * @config {Object} [busyImage] 
+ * @config {String} [failedStateText]
+ * @config {String} [id] Uniquely identifies an element within a document.
+ * @config {String} [logId] 
+ * @config {boolean} [logMessage] 
+ * @config {String} [overlayAnimation] 
+ * @config {String} [percentChar] 
+ * @config {int} [progress] 
+ * @config {String} [progressImageUrl] 
+ * @config {String} [progressControlBottom]
+ * @config {String} [progressControlRight] 
+ * @config {int} [refreshRate] 
+ * @config {String} [taskState]
+ * @config {String} [toolTip] 
+ * @config {String} [topText] 
+ * @config {String} [type] 
+ * @config {boolean} [visible] Hide or show element.
+ * @config {int} [width] 
+ * @param {boolean} notify Publish an event for custom AJAX implementations to listen for.
  */
-webui.@THEME@.widget.progressBar._setProps = function(props) {
+webui.@THEME@.widget.progressBar.prototype.setProps = function(props, notify) {
+    // Note: This function is overridden for JsDoc.
+    return this.inherited("setProps", arguments);
+}
+
+/**
+ * This function is used to set widget properties. Please see the setProps() 
+ * function for a list of supported properties.
+ * <p>
+ * Note: This is considered a private API, do not use. This function should only
+ * be invoked via setProps().
+ * </p>
+ *
+ * @param {Object} props Key-Value pairs of properties.
+ * @private
+ */
+webui.@THEME@.widget.progressBar.prototype._setProps = function(props) {
     if (props == null) {
         return false;
     }
@@ -763,20 +733,20 @@ webui.@THEME@.widget.progressBar._setProps = function(props) {
         }
     }
 
-    // Set more properties..
+    // Set more properties.
     this.setCommonProps(this.domNode, props);
 
     // Set remaining properties.
-    return webui.@THEME@.widget.progressBar.superclass._setProps.call(this, props);
+    return this.inherited("_setProps", arguments);
 }
 
 /**
  * This method hides the Right Control.
  *
- * @param show true to show the element, false to hide the element.
+ * @param {boolean} show true to show the element, false to hide the element.
  * @return true if successful; otherwise, false.
  */
-webui.@THEME@.widget.progressBar.setRightControlVisible = function(show) {
+webui.@THEME@.widget.progressBar.prototype.setRightControlVisible = function(show) {
     if (show == null) {
         return false;
     }
@@ -787,10 +757,10 @@ webui.@THEME@.widget.progressBar.setRightControlVisible = function(show) {
 /**
  * This method hides the status text.
  *
- * @param show true to show the element, false to hide the element.
+ * @param {boolean} show true to show the element, false to hide the element.
  * @return true if successful; otherwise, false.
  */
-webui.@THEME@.widget.progressBar.setStatusTextVisible = function(show) {
+webui.@THEME@.widget.progressBar.prototype.setStatusTextVisible = function(show) {
     if (show == null) {
         return false;
     }
@@ -799,24 +769,23 @@ webui.@THEME@.widget.progressBar.setStatusTextVisible = function(show) {
 }
 
 /**
- * This function sleeps for specified milli seconds.
+ * This function is used to "start" the widget, after the widget has been
+ * instantiated.
  */
-webui.@THEME@.widget.progressBar.sleep = function(delay) {
-    var start = new Date();
-    var exitTime = start.getTime() + delay;
-
-    while(true) {
-        start = new Date();
-        if (start.getTime() > exitTime) {
-            return;
-        }
+webui.@THEME@.widget.progressBar.prototype.startup = function () {
+    if (this._started) {
+        return false;
     }
+    // Start a timer used to periodically publish progress events.
+    this.updateProgress();
+    
+    return this.inherited("startup", arguments);
 }
 
 /**
  * This function handles stop button event.
  */
-webui.@THEME@.widget.progressBar.stop = function() {
+webui.@THEME@.widget.progressBar.prototype.stop = function() {
     clearTimeout(this.timeoutId);
 
     this.hiddenFieldNode.value = this.stopped;
@@ -827,57 +796,26 @@ webui.@THEME@.widget.progressBar.stop = function() {
     this.updateProgress();
 }
 
-// Inherit base widget properties.
-dojo.inherits(webui.@THEME@.widget.progressBar, webui.@THEME@.widget.widgetBase);
+/**
+ * Process progress event.
+ */
+webui.@THEME@.widget.progressBar.prototype.updateProgress = function() {
+    // Publish event.
+    if (this.refreshRate > 0) {
+        // Include default AJAX implementation.
+        this.ajaxify();
 
-// Override base widget by assigning properties to class prototype.
-dojo.lang.extend(webui.@THEME@.widget.progressBar, {
-    // Set private functions.
-    cancel: webui.@THEME@.widget.progressBar.cancel,
-    fillInTemplate: webui.@THEME@.widget.progressBar.fillInTemplate,
-    getProps:  webui.@THEME@.widget.progressBar.getProps,
-    isBottomControlVisible: webui.@THEME@.widget.progressBar.isBottomControlVisible,
-    isFailedStateMessageVisible: webui.@THEME@.widget.progressBar.isFailedStateMessageVisible,
-    isLogMsgVisible: webui.@THEME@.widget.progressBar.isLogMsgVisible,
-    isOperationTextVisible: webui.@THEME@.widget.progressBar.isOperationTextVisible,
-    isProgressBarContainerVisible: webui.@THEME@.widget.progressBar.isProgressBarContainerVisible,
-    isProgressBarVisible: webui.@THEME@.widget.progressBar.isProgressBarVisible,
-    isRightControlVisible: webui.@THEME@.widget.progressBar.isRightControlVisible,
-    isStatusTextVisible: webui.@THEME@.widget.progressBar.isStatusTextVisible,
-    pause: webui.@THEME@.widget.progressBar.pause,
-    postCreate: webui.@THEME@.widget.progressBar.postCreate,
-    resume: webui.@THEME@.widget.progressBar.resume,
-    stop: webui.@THEME@.widget.progressBar.stop,
-    setBottomControlVisible: webui.@THEME@.widget.progressBar.setBottomControlVisible,
-    setFailedStateMessageVisible: webui.@THEME@.widget.progressBar.setFailedStateMessageVisible,
-    setLogMsgVisible: webui.@THEME@.widget.progressBar.setLogMsgVisible,
-    setOnCancel: webui.@THEME@.widget.progressBar.setOnCancel,
-    setOnComplete: webui.@THEME@.widget.progressBar.setOnComplete,
-    setOnFail: webui.@THEME@.widget.progressBar.setOnFail,
-    setOperationTextVisible: webui.@THEME@.widget.progressBar.setOperationTextVisible,
-    setProgress: webui.@THEME@.widget.progressBar.setProgress,
-    setProgressBarContainerVisible: webui.@THEME@.widget.progressBar.setProgressBarContainerVisible,
-    setProgressBarVisible: webui.@THEME@.widget.progressBar.setProgressBarVisible,
-    _setProps: webui.@THEME@.widget.progressBar._setProps,
-    sleep: webui.@THEME@.widget.progressBar.sleep,
-    setRightControlVisible: webui.@THEME@.widget.progressBar.setRightControlVisible,
-    setStatusTextVisible: webui.@THEME@.widget.progressBar.setStatusTextVisible,
-    updateProgress: webui.@THEME@.widget.progressBar.event.progress.processEvent,
-    initialize: webui.@THEME@.widget.progressBar.initialize,
-    // Set defaults.
-    event: webui.@THEME@.widget.progressBar.event,
-    percentChar: "%",
-    progress: 0,
-    type: "DETERMINATE",
-    busy: "BUSY",
-    canceled: "canceled",
-    completed: "completed",
-    determinate: "DETERMINATE",
-    failed: "failed",
-    indeterminate: "INDETERMINATE",
-    notstarted: "not_started",
-    paused: "paused",
-    resumed: "resumed",
-    stopped: "stopped",
-    widgetType: "progressBar"
-});
+        // Publish an event for custom AJAX implementations to listen for.
+        dojo.publish(webui.@THEME@.widget.progressBar.event.progress.beginTopic, [{
+            id: this.id
+        }]);
+    }
+
+    // Create a call back function to periodically publish progress events.
+    var _id = this.id;
+    this.timeoutId = setTimeout(function() {
+        // New literals are created every time this function is called, and it's 
+        // saved by closure magic.
+        dijit.byId(_id).updateProgress();
+    }, this.refreshRate);
+}

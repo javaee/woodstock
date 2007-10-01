@@ -1,3 +1,4 @@
+// widget/jsfx/table2RowGroup.js
 //
 // The contents of this file are subject to the terms
 // of the Common Development and Distribution License
@@ -19,29 +20,33 @@
 // 
 // Copyright 2007 Sun Microsystems, Inc. All rights reserved.
 //
-// This Javascript file should be included in any page that uses the associated
-// component, where JSF Extensions is used as the underlying transfer protocol.
-//
 
+/**
+ * @name widget/jsfx/table2RowGroup.js
+ * @version @THEME_VERSION@
+ * @overview This module contains the default Ajax implementation for the 
+ * table2RowGroup widget.
+ * <p>
+ * Note: This Javascript file should be included in any page that uses the 
+ * associated widget, where JSF Extensions is used as the underlying transfer
+ * protocol.
+ * </p>
+ */
 dojo.provide("webui.@THEME@.widget.jsfx.table2RowGroup");
 
-dojo.require("webui.@THEME@.widget.jsfx.*");
+dojo.require("webui.@THEME@.widget.jsfx.common");
 dojo.require("webui.@THEME@.widget.table2RowGroup");
 
 /**
- * This function is used to obtain data asynchronously.
+ * This closure is used to obtain data asynchronously.
  */
 webui.@THEME@.widget.jsfx.table2RowGroup = {
     /**
-     * This function is used to process scroll events with the following Object
-     * literals.
-     *
-     * <ul>
-     *  <li>id</li>
-     *  <li>first</li>
-     * </ul>
+     * This function is used to process scroll events with Object literals.
      *
      * @param props Key-Value pairs of properties.
+     * @config {String} [id] The HTML element Id.
+     * @config {int} [row] The first row to be rendered.
      */
     processScrollEvent: function(props) {
         if (props == null) {
@@ -69,10 +74,10 @@ webui.@THEME@.widget.jsfx.table2RowGroup = {
     /**
      * This function is used to update widgets.
      *
-     * @param id The client id.
-     * @param content The content returned by the AJAX response.
-     * @param closure The closure argument provided to DynaFaces.fireAjaxTransaction.
-     * @param xjson The xjson argument provided to DynaFaces.fireAjaxTransaction.
+     * @param {String} elementId The HTML element Id.
+     * @param {String} content The content returned by the AJAX response.
+     * @param {Object} closure The closure argument provided to DynaFaces.fireAjaxTransaction.
+     * @param {Object} xjson The xjson argument provided to DynaFaces.fireAjaxTransaction.
      */
     scrollCallback: function(id, content, closure, xjson) {
         if (id == null || content == null) {
@@ -83,7 +88,7 @@ webui.@THEME@.widget.jsfx.table2RowGroup = {
         var props = JSON.parse(content);
 
         // Reject duplicate AJAX requests.
-        var widget = dojo.widget.byId(id);
+        var widget = dijit.byId(id);
         if (widget.first != xjson.first) {
             return;
         }
@@ -92,14 +97,14 @@ webui.@THEME@.widget.jsfx.table2RowGroup = {
         widget.addRows(props.rows);
 
         // Publish an event for custom AJAX implementations to listen for.
-        dojo.event.topic.publish(
-            webui.@THEME@.widget.table2RowGroup.event.scroll.endTopic, props);
+        dojo.publish(
+            webui.@THEME@.widget.table2RowGroup.event.scroll.endTopic, [props]);
         return true;
     }
 }
 
 // Listen for Dojo Widget events.
-dojo.event.topic.subscribe(webui.@THEME@.widget.table2RowGroup.event.refresh.beginTopic,
+dojo.subscribe(webui.@THEME@.widget.table2RowGroup.event.refresh.beginTopic,
     webui.@THEME@.widget.jsfx.common, "processRefreshEvent");
-dojo.event.topic.subscribe(webui.@THEME@.widget.table2RowGroup.event.scroll.beginTopic,
+dojo.subscribe(webui.@THEME@.widget.table2RowGroup.event.scroll.beginTopic,
     webui.@THEME@.widget.jsfx.table2RowGroup, "processScrollEvent");

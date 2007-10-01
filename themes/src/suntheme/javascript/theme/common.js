@@ -1,3 +1,4 @@
+// theme/common.js
 //
 // The contents of this file are subject to the terms
 // of the Common Development and Distribution License
@@ -20,15 +21,10 @@
 // Copyright 2007 Sun Microsystems, Inc. All rights reserved.
 //
 
-dojo.provide("webui.@THEME@.theme.common");
-
-dojo.require("dojo.i18n.common");
-
 /**
- * Define the theme namespace. This namespace contains
- * methods to obtain theme values. It is also the base of the
- * dojo nls localized theme namespace.
- * 
+ * @overview This module contains common functions to obtain theme properties.
+ * It is also the base of the Dojo nls localized theme namespace.
+ * <p>
  * The client theme is composed of the following theme categories.
  * <ul>
  * <li>messages</li>
@@ -38,36 +34,39 @@ dojo.require("dojo.i18n.common");
  * </ul>
  * Each category has a set of properties. See the methods in
  * webui.@THEME@.theme.common for obtaining the theme property values.
- *
+ * </p>
  * dojo.requireLocalization is reimplemented here in order to perform
  * hierarchical extension of the theme for application theme overrides.
- *
+ * <p>
  * NOTE THE SPACE AFTER THE "dojo." SEGMENT, IN  REFERENCES TO DOJO 
  * METHODS THAT LOAD A MODULE. IF THERE IS NO SPACE "debugAtAllCosts"
  * RESULTS IN JAVASCRIPT ERRORS DUE TO PATTERN MATCHING BY DOJO TO 
  * FIND MODULE LOADING METHODS.
+ * </p>
+ * @version @THEME_VERSION@
+ * @name theme/common.js
+ */
+dojo.provide("webui.@THEME@.theme.common");
+
+dojo.require("dojo.i18n");
+
+/**
+ * This closure contains common functions to obtain theme properties.
  */
 webui.@THEME@.theme.common = {
     /**
-     * This function is used to set widget properties with the
-     * following Object literals.
-     *
-     * <ul>
-     *  <li>bundle - the javascript theme basename "sunttheme" for
-     * @THEME@.js</li> 
-     *  <li>locale - locale in dojo form <lang>-<country>-<variant></li>
-     *  <li>module - the javascript namespace into which dojo will load the
-     * theme properties.</li>
-     *  <li>modulePath - a relative URL defining the root directory of the nls
-     * directory.</li>
-     *  <li>prefix - the application context and the theme servlet context.</li>
-     *  <li>custom - an array of basenames identifying an application's 
-     * javascript theme files. The last segment of this "dot" separated 
-     * string, is treated as the "bundle", and the initial segments are
-     * treated as the module path.</li>
-     * </ul>
+     * This function is used to set widget properties with Object literals.
      *
      * @param props Key-Value pairs of properties.
+     * @config {String} [bundle] The javascript theme basename "sunttheme" for @THEME@.js
+     * @config {String} [locale] The locale in dojo form <lang>-<country>-<variant>
+     * @config {String} [module] The module into which dojo will load the theme properties.
+     * @config {String} [modulePath] A relative URL defining the root directory of the nls directory
+     * @config {String} [prefix] The application context and the theme servlet context.
+     * @config {String} [custom] An array of basenames identifying an application's 
+     * javascript theme files. The last segment of this "dot" separated 
+     * string, is treated as the "bundle", and the initial segments are
+     * treated as the module path.
      */
     initialize: function(props) {
         if (props == null) {
@@ -88,7 +87,7 @@ webui.@THEME@.theme.common = {
 	    }
 	    webui.@THEME@.theme.common.modulePath = 
 		webui.@THEME@.theme.common.modulePath + props.modulePath;
-	    dojo. hostenv.setModulePrefix(props.module, 
+	    dojo.registerModulePath(props.module, 
 		webui.@THEME@.theme.common.modulePath);
 	}
 
@@ -97,7 +96,7 @@ webui.@THEME@.theme.common = {
         webui.@THEME@.theme.common.requireLocalization(props.module, 
             props.bundle, props.locale);
 
-        webui.@THEME@.theme.common.baseTheme = dojo. i18n.getLocalization(
+        webui.@THEME@.theme.common.baseTheme = dojo.i18n.getLocalization(
             props.module, props.bundle, props.locale);
 
         if (props.custom instanceof Array) {
@@ -120,6 +119,9 @@ webui.@THEME@.theme.common = {
 
     /**
      * Returns a theme property "theme[category][key]" or null, never "".
+     *
+     * @param {String} category
+     * @param {String} key
      */
     getProperty: function(category, key) {
         try {
@@ -132,6 +134,8 @@ webui.@THEME@.theme.common = {
 
     /**
      * Returns the theme properties for a theme category or null.
+     *
+     * @param {String} category
      */
     getProperties: function(category) {
         try {
@@ -145,8 +149,10 @@ webui.@THEME@.theme.common = {
     /**
      * Returns a formatted message if "params" is not null, else
      * the literal value of "getProperty("messages", prop) or
-     * null if there is no value for property. "params" can be
-     * a comma separated list of arguments, or an object.
+     * null if there is no value for property.
+     *
+     * @param {String} property
+     * @param {Array} params
      */
     getMessage : function(property, params) {
 	var msg = webui.@THEME@.theme.common.getProperty("messages", property);
@@ -154,13 +160,19 @@ webui.@THEME@.theme.common = {
 	    return null;
 	}
 	if (params != null) {
-	    return dojo.string.substituteParams(msg, params);
+            return msg.replace(/\$\{(\w+)\}/g, function(match, key){
+                if (typeof(params[key]) != "undefined" && params[key] != null) {
+                    return params[key];
+                }
+            });
 	} else {
 	    return msg;
 	}
     },
 
-    // private
+    /**
+     * @private
+     */
     _getImageProp: function(prop, isText) {
 
 	var value = webui.@THEME@.theme.common.getProperty("images", prop);
@@ -195,7 +207,7 @@ webui.@THEME@.theme.common = {
      * "webui.@THEME@.theme.common.getProperty("images", imageprop)"
      * where imageprop is the actual image property like "ALARM_CRITICAL".
      *
-     * @param srcProperty the image theme key, the image key without any suffix.
+     * @param {String} srcProperty the image theme key, the image key without any suffix.
      */
     getImage : function(srcProperty) {
 
@@ -252,6 +264,8 @@ webui.@THEME@.theme.common = {
     /**
      * Return the selector from the "styles" theme category for property
      * else null.
+     *
+     * @param {String} property
      */
     getClassName : function(property) {
 	return webui.@THEME@.theme.common.getProperty("styles", property);
@@ -261,7 +275,7 @@ webui.@THEME@.theme.common = {
      * This function is used to obtain a the literal "templates"
      * theme value for "key"
      *
-     * @param key A key defining a theme "templates" property.
+     * @param {String} key A key defining a theme "templates" property.
      */
     getTemplate: function(key) {
         return webui.@THEME@.theme.common.getProperty("templates", key);
@@ -272,6 +286,8 @@ webui.@THEME@.theme.common = {
      * "themePackage" is a "dot" separated string. The "bundle"
      * is the last segment and the prefix segments are the module.
      * Return true if the base theme was extended else false.
+     *
+     * @param {String} themePackage
      */
     extendBaseTheme: function(themePackage) {
         if (themePackage == null || themePackage == "") {
@@ -299,20 +315,18 @@ webui.@THEME@.theme.common = {
 	    // If they are not located there then a prefix must be set.
 	    // For example an application's theme javascript files.
 	    //
-            dojo. hostenv.setModulePrefix(module, prefix);
+            dojo.registerModulePath(module, prefix);
 
             webui.@THEME@.theme.common.requireLocalization(
                 module, bundle, webui.@THEME@.theme.common.themeLocale);
         } catch(e) {
-	    // dojo.debug(e)
 	    return false;
         }
         var newTheme = null;
         try {
-            newTheme = dojo. i18n.getLocalization(module, bundle, 
+            newTheme = dojo.i18n.getLocalization(module, bundle, 
                 webui.@THEME@.theme.common.themeLocale);
         } catch(e) {
-	    // dojo.debug(e)
 	    return false;
         }
         // Not sure if we should do the "prototype" magic like
@@ -326,9 +340,13 @@ webui.@THEME@.theme.common = {
     },
 
     /**
-     * Extend "theme" with "props". "props" is organized hierarchically
+     * Extend "theme" with "props". "props" is organized hierarchically.
+     *
+     * @param {Object} theme
+     * @param {Object} props
      */
     extend: function(theme, props) {
+        // To do: A duplicate function is also found in widget/common.js
         if (theme == null || props == null) {
             return false;
         }
@@ -343,168 +361,157 @@ webui.@THEME@.theme.common = {
     },
 
     /**
-     * Taken from dojo.js in order to override the 
-     * callback function that is passed to loadPath, in to perform
-     * hierarchical "extension" of properties.
+     * Declares translated resources and loads them if necessary, in the same 
+     * style as dojo.require. Contents of the resource bundle are typically 
+     * strings, but may be any name/value pair, represented in JSON format. 
+     * See also dojo.i18n.getLocalization.
+     * <p>
+     * Load translated resource bundles provided underneath the "nls" directory
+     * within a package. Translated resources may be located in different
+     * packages throughout the source tree.  For example, a particular widget
+     * may define one or more resource bundles, structured in a program as
+     * follows, where moduleName is mycode.mywidget and bundleNames available
+     * include bundleone and bundletwo:
+     * </p><p><pre>
+     * ...
+     * mycode/
+     *  mywidget/
+     *   nls/
+     *    bundleone.js (the fallback translation, English in this example)
+     *    bundletwo.js (also a fallback translation)
+     *    de/
+     *     bundleone.js
+     *     bundletwo.js
+     *    de-at/
+     *     bundleone.js
+     *    en/
+     *     (empty; use the fallback translation)
+     *    en-us/
+     *     bundleone.js
+     *    en-gb/
+     *     bundleone.js
+     *    es/
+     *     bundleone.js
+     *     bundletwo.js
+     *   ...etc
+     * ...
+     * </pre></p><p>
+     * Each directory is named for a locale as specified by RFC 3066, 
+     * (http://www.ietf.org/rfc/rfc3066.txt), normalized in lowercase. Note that
+     * the two bundles in the example do not define all the same variants. For a
+     * given locale, bundles will be loaded for that locale and all more general
+     * locales above it, including a fallback at the root directory. For 
+     * example, a declaration for the "de-at" locale will first load 
+     * nls/de-at/bundleone.js, then nls/de/bundleone.js and finally 
+     * nls/bundleone.js. The data will be flattened into a single Object so that
+     * lookups will follow this cascading pattern.  An optional build step can 
+     * preload the bundles to avoid data redundancy and the multiple network 
+     * hits normally required to load these resources.
+     * </p><p>
+     * NOTE: When loading these resources, the packaging does not match what is 
+     * on disk. This is an implementation detail, as this is just a private 
+     * data structure to hold the loaded resources. For example, 
+     * tests/hello/nls/en-us/salutations.js is loaded as the object 
+     * tests.hello.nls.salutations.en_us={...} The structure on disk is intended
+     * to be most convenient for developers and translators, but in memory it is
+     * more logical and efficient to store in a different order. Locales cannot 
+     * use dashes, since the resulting path will not evaluate as valid JS, so we 
+     * translate them to underscores.
+     * </p>
+     * @param {String} moduleName Name of the package containing the "nls" 
+     * directory in which the bundle is found.
+     * @param {String} bundleName The bundle name, i.e. the filename without the
+     * '.js' suffix locale: the locale to load (optional). By default, the 
+     * browser's user locale as defined by dojo.locale
+     * @param {String} locale The current locale.
+     * @param {String} availableFlatLocales A comma-separated list of the 
+     * available, flattened locales for this bundle.
      */
-    requireLocalization: function(/*String*/moduleName, /*String*/bundleName, 
-        /*String?*/locale, /*String?*/availableFlatLocales){
+    requireLocalization: function(moduleName, bundleName, locale, 
+            availableFlatLocales) {
+        // Taken from dojo.js in order to override the callback function that is 
+        // passed to loadPath, in to perform hierarchical "extension" of properties.
 
-// summary:
-//      Declares translated resources and loads them if necessary, 
-//       in the same style as dojo.require.
-//      Contents of the resource bundle are typically strings, but may be 
-//      any name/value pair,
-//      represented in JSON format.  See also dojo.i18n.getLocalization.
-//
-// moduleName: name of the package containing the "nls" directory in 
-//      which the bundle is found
-// bundleName: bundle name, i.e. the filename without the '.js' suffix
-// locale: the locale to load (optional)  By default, the browser's 
-//      user locale as defined by dojo.locale
-// availableFlatLocales: A comma-separated list of the available, 
-//      flattened locales for this bundle.
-// This argument should only be set by the build process.
-//
-// description:
-//      Load translated resource bundles provided underneath the "nls" 
-//      directory within a package.
-//      Translated resources may be located in different packages throughout 
-//      the source tree.  For example,
-//      a particular widget may define one or more resource bundles, 
-//      structured in a program as follows,
-//      where moduleName is mycode.mywidget and bundleNames available 
-//      include bundleone and bundletwo:
-//      ...
-//      mycode/
-//       mywidget/
-//        nls/
-//         bundleone.js (the fallback translation, English in this example)
-//         bundletwo.js (also a fallback translation)
-//         de/
-//          bundleone.js
-//          bundletwo.js
-//         de-at/
-//          bundleone.js
-//         en/
-//          (empty; use the fallback translation)
-//         en-us/
-//          bundleone.js
-//         en-gb/
-//          bundleone.js
-//         es/
-//          bundleone.js
-//          bundletwo.js
-//        ...etc
-//      ...
-//      Each directory is named for a locale as specified by 
-//      RFC 3066, (http://www.ietf.org/rfc/rfc3066.txt),
-//      normalized in lowercase.  Note that the two bundles in the 
-//      example do not define all the same variants.
-//      For a given locale, bundles will be loaded for that locale and 
-//      all more general locales above it, including
-//      a fallback at the root directory.  For example, a declaration 
-//      for the "de-at" locale will first
-//      load nls/de-at/bundleone.js, then nls/de/bundleone.js and 
-//      finally nls/bundleone.js.  The data will
-//      be flattened into a single Object so that lookups will follow this 
-//      cascading pattern.  An optional build
-//      step can preload the bundles to avoid data redundancy and the 
-//      multiple network hits normally required to
-//      load these resources.
-
-        dojo. hostenv.preloadLocalizations();
-        var targetLocale = dojo. hostenv.normalizeLocale(locale);
+        var targetLocale = dojo.i18n.normalizeLocale(locale);
         var bundlePackage = [moduleName, "nls", bundleName].join(".");
-
-//NOTE: When loading these resources, the packaging does not match 
-// what is on disk.  This is an
-// implementation detail, as this is just a private data structure to 
-// hold the loaded resources.
-// e.g. tests/hello/nls/en-us/salutations.js is loaded as the 
-// object tests.hello.nls.salutations.en_us={...}
-// The structure on disk is intended to be most convenient for developers 
-// and translators, but in memory
-// it is more logical and efficient to store in a different order.  
-// Locales cannot use dashes, since the
-// resulting path will not evaluate as valid JS, so we translate them 
-// to underscores.
         
-    // Find the best-match locale to load if we have available flat locales.
-    var bestLocale = "";
-    if(availableFlatLocales){
-        var flatLocales = availableFlatLocales.split(",");
-        for(var i = 0; i < flatLocales.length; i++){
-            //Locale must match from start of string.
-            if(targetLocale.indexOf(flatLocales[i]) == 0){
-                if(flatLocales[i].length > bestLocale.length){
-                    bestLocale = flatLocales[i];
+        // Find the best-match locale to load if we have available flat locales.
+        var bestLocale = "";
+        if (availableFlatLocales) {
+            var flatLocales = availableFlatLocales.split(",");
+            for (var i = 0; i < flatLocales.length; i++) {
+                //Locale must match from start of string.
+                if (targetLocale.indexOf(flatLocales[i]) == 0) {
+                    if (flatLocales[i].length > bestLocale.length) {
+                        bestLocale = flatLocales[i];
+                    }
                 }
             }
+            if (!bestLocale) {
+                bestLocale = "ROOT";
+            }               
         }
-        if(!bestLocale){
-            bestLocale = "ROOT";
-        }               
-    }
 
-    // See if the desired locale is already loaded.
-    var tempLocale = availableFlatLocales ? bestLocale : targetLocale;
-    var bundle = dojo. hostenv.findModule(bundlePackage);
-    var localizedBundle = null;
-    if(bundle){
-        if(djConfig.localizationComplete && bundle._built){return;}
-        var jsLoc = tempLocale.replace('-', '_');
-        var translationPackage = bundlePackage+"."+jsLoc;
-        localizedBundle = dojo. hostenv.findModule(translationPackage);
-    }
+        // See if the desired locale is already loaded.
+        var tempLocale = availableFlatLocales ? bestLocale : targetLocale;
+        var bundle = dojo._loadedModules[bundlePackage];
+        var localizedBundle = null;
+        if (bundle) {
+            if (djConfig.localizationComplete && bundle._built) {
+                return;    
+            }
+            var jsLoc = tempLocale.replace(/-/g, '_');
+            var translationPackage = bundlePackage+"."+jsLoc;
+            localizedBundle = dojo._loadedModules[translationPackage];
+        }
 
-    if(!localizedBundle){
-        bundle = dojo. hostenv.startPackage(bundlePackage);
-        var syms = dojo. hostenv.getModuleSymbols(moduleName);
-        var modpath = syms.concat("nls").join("/");
-        var parent;
+        if (!localizedBundle) {
+            bundle = dojo["provide"](bundlePackage);
+            var syms = dojo._getModuleSymbols(moduleName);
+            var modpath = syms.concat("nls").join("/");
+            var parent;
 
-        dojo. hostenv.searchLocalePath(tempLocale, 
-                availableFlatLocales, function(loc){
-            var jsLoc = loc.replace('-', '_');
-            var translationPackage = bundlePackage + "." + jsLoc;
+            dojo.i18n._searchLocalePath(tempLocale, availableFlatLocales, function(loc) {
+                var jsLoc = loc.replace(/-/g, '_');
+                var translationPackage = bundlePackage + "." + jsLoc;
                 var loaded = false;
-                if(!dojo. hostenv.findModule(translationPackage)){
+                if (!dojo._loadedModules[translationPackage]) {
                     // Mark loaded whether it's found or not, 
                     // so that further load attempts will not 
                     // be made
-                    dojo. hostenv.startPackage(translationPackage);
+                    dojo["provide"](translationPackage);
                     var module = [modpath];
-                    if(loc != "ROOT"){module.push(loc);}
+                    if (loc != "ROOT") {
+                        module.push(loc);    
+                    }
                     module.push(bundleName);
                     var filespec = module.join("/") + '.js';
 
-                    loaded = dojo. hostenv.loadPath(filespec, null,
-                        function(hash){
-                            // Use singleton with prototype to point to parent
-                            // bundle, then mix-in result from loadPath
-                            var clazz = function(){};
-                            clazz.prototype = parent;
-                            bundle[jsLoc] = new clazz();
-                            // Use "hierarchical" extend.
-                            // for(var j in hash){ bundle[jsLoc][j] = hash[j]; }
-                            webui.@THEME@.theme.common.extend(bundle[jsLoc], hash);
-                        });
-                }else{
+                    loaded = dojo._loadPath(filespec, null,
+                    function(hash) {
+                        // Use singleton with prototype to point to parent
+                        // bundle, then mix-in result from loadPath
+                        var clazz = function() {};
+                        clazz.prototype = parent;
+                        bundle[jsLoc] = new clazz();
+                        // Use "hierarchical" extend.
+                        // for (var j in hash){ bundle[jsLoc][j] = hash[j]; }
+                        webui.@THEME@.theme.common.extend(bundle[jsLoc], hash);
+                    });
+                } else {
                     loaded = true;
                 }
-                if(loaded && bundle[jsLoc]){
+                if (loaded && bundle[jsLoc]) {
                     parent = bundle[jsLoc];
-                }else{
+                } else {
                     bundle[jsLoc] = parent;
                 }
-                
-                if(availableFlatLocales){
-                    //Stop the locale path searching if we 
+                if (availableFlatLocales) {
+                    // Stop the locale path searching if we 
                     // know the availableFlatLocales, since
-                    //the first call to this function will 
+                    // the first call to this function will 
                     // load the only bundle that is needed.
-                        return true;
+                    return true;
                 }
             });
         }
@@ -513,9 +520,9 @@ webui.@THEME@.theme.common = {
         // when we know the
         // the available bundles.
         //
-        if(availableFlatLocales && targetLocale != bestLocale){
-                bundle[targetLocale.replace('-', '_')] = 
-                        bundle[bestLocale.replace('-', '_')];
+        if (availableFlatLocales && targetLocale != bestLocale) {
+            bundle[targetLocale.replace(/-/g, '_')] = 
+                bundle[bestLocale.replace(/-/g, '_')];
         }
     }
 }

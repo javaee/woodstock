@@ -123,7 +123,6 @@ public class HeadRenderer extends AbstractRenderer {
             // Get global flags.
             JavaScriptUtilities.setDebug(head.isDebug());
             JavaScriptUtilities.setAjaxify(head.isAjaxify());
-            JavaScriptUtilities.setParseWidgets(head.isParseWidgets());
 
             // Do not render any JavaScript.
             if (!head.isJavaScript()) {

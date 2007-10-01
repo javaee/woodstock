@@ -48,10 +48,7 @@ public class JavaScriptUtilities {
 
     // The key used to enable JavaScript debugging.
     private static final String DEBUG_KEY = "com_sun_webui_jsf_util_debug";
-
-    // parseWidgets Enable searching of dojoType widget tags.
-    private static final String PARSEWIDGETS_KEY = "com_sun_webui_jsf_util_parseWidgets";
-
+ 
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     // Global methods
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -96,24 +93,6 @@ public class JavaScriptUtilities {
         getRequestMap().put(DEBUG_KEY, (enable) ? Boolean.TRUE : null);
     }
 
-    /**
-     * Test flag to enable searching of dojoType widget tags.
-     * 
-     * @return true if enabled.
-     */
-    public static boolean isParseWidgets() {
-        return getRequestMap().containsKey(PARSEWIDGETS_KEY);
-    }
-
-    /**
-     * Set flag to enable searching of dojoType widget tags.
-     *
-     * @param enable Enable searching of dojoType widget tags.
-     */
-    public static void setParseWidgets(boolean enable) {
-        getRequestMap().put(PARSEWIDGETS_KEY, (enable) ? Boolean.TRUE : null);
-    }
-
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     // JavaScript config methods
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -129,8 +108,6 @@ public class JavaScriptUtilities {
         try {
             JSONObject json = new JSONObject();
             json.put("isDebug", isDebug())
-                .put("debugAtAllCosts", isDebug())
-                .put("parseWidgets", isParseWidgets())
                 .put(getModuleName("theme"), getThemeJavaScript(
                     FacesContext.getCurrentInstance()));
 
@@ -154,7 +131,7 @@ public class JavaScriptUtilities {
         StringBuffer buff = new StringBuffer(256);
 
         // Append JavaScript.
-        buff.append("dojo.hostenv.setModulePrefix(\"")
+        buff.append("dojo.registerModulePath(\"")
             .append(getTheme().getJSString(ThemeJavascript.MODULE_PREFIX))
             .append("\", \"")
             .append(getTheme().getPathToJSFile((isDebug())
@@ -163,8 +140,6 @@ public class JavaScriptUtilities {
             .append("\");\n")
             .append(getModule("*"))
             .append("\n")
-            .append(getModule("theme.*"))
-            .append("\n")	
             .append(getModule("widget.*"))
             .append("\n");
 
@@ -172,13 +147,6 @@ public class JavaScriptUtilities {
         if (isAjaxify()) {
             buff.append(getModule("widget.jsfx.*"))
             .append("\n");
-        }
-
-        // Output includes for debugging. This will ensure that JavaScript
-        // files are accessible to JavaScript debuggers.
-        if (isDebug()) {
-            buff.append("dojo.hostenv.writeIncludes();")
-                .append("\n");
         }
         return buff.toString();
     }
@@ -200,6 +168,9 @@ public class JavaScriptUtilities {
         renderJavaScriptInclude(component, writer, (isDebug())
             ? ThemeJavascript.DOJO_UNCOMPRESSED
             : ThemeJavascript.DOJO);
+        renderJavaScriptInclude(component, writer, (isDebug())
+            ? ThemeJavascript.DIJIT_UNCOMPRESSED
+            : ThemeJavascript.DIJIT);
     }
 
     /**
@@ -336,21 +307,6 @@ public class JavaScriptUtilities {
         StringBuffer buff = new StringBuffer(128);
         buff.append(getTheme().getJSString(ThemeJavascript.MODULE_PREFIX))
             .append(".")
-            .append(name);
-        return buff.toString();
-    }
-
-    /**
-     * Returns a string comprised of a theme prifix and the given widget name.
-     * For example, a value of "button" will return "webui.suntheme:button" for
-     * a theme, named "suntheme".
-     *
-     * @param name The widget name to append to the namespace prefix.
-     */
-    public static String getNamespace(String name) {
-        StringBuffer buff = new StringBuffer(128);
-        buff.append(getTheme().getJSString(ThemeJavascript.MODULE_PREFIX))
-            .append(":")
             .append(name);
         return buff.toString();
     }

@@ -1,3 +1,4 @@
+// widget/table2.js
 //
 // The contents of this file are subject to the terms
 // of the Common Development and Distribution License
@@ -20,61 +21,102 @@
 // Copyright 2007 Sun Microsystems, Inc. All rights reserved.
 //
 
+/**
+ * @name widget/table2.js
+ * @version @THEME_VERSION@
+ * @overview This module contains classes and functions for the table2 widget.
+ * @example The following code is used to create a table2 widget.
+ * <p><code>
+ * var widget = new webui.@THEME@.widget.table2(props, domNode);
+ * </code></p>
+ */
 dojo.provide("webui.@THEME@.widget.table2");
 
-dojo.require("dojo.widget.*");
-dojo.require("webui.@THEME@.*");
-dojo.require("webui.@THEME@.widget.*");
+dojo.require("webui.@THEME@.common");
+dojo.require("webui.@THEME@.widget.widgetBase");
 
 /**
- * This function is used to generate a template based widget.
+ * This function is used to construct a template based widget.
  *
- * Note: This is considered a private API, do not use.
+ * @name webui.@THEME@.widget.table2
+ * @inherits webui.@THEME@.widget.widgetBase
+ * @constructor
  */
-webui.@THEME@.widget.table2 = function() {
-    // Register widget.
-    dojo.widget.HtmlWidget.call(this);
-}
+dojo.declare("webui.@THEME@.widget.table2", webui.@THEME@.widget.widgetBase, {
+    // Set defaults.
+    widgetName: "table2" // Required for theme properties.
+});
 
 /**
- * This closure is used to process widget events.
+ * This closure contains event topics.
+ * <p>
+ * Note: Event topics must be prototyped for inherited functions. However, these
+ * topics must also be available statically so that developers may subscribe to
+ * events.
+ * </p>
+ *
+ * @ignore
  */
-webui.@THEME@.widget.table2.event = {
+webui.@THEME@.widget.table2.prototype.event =
+        webui.@THEME@.widget.table2.event = {
     /**
-     * This closure is used to process refresh events.
+     * This closure contains refresh event topics.
+     * @ignore
      */
     refresh: {
-        /**
-         * Event topics for custom AJAX implementations to listen for.
-         */
+        /** Refresh event topic for custom AJAX implementations to listen for. */
         beginTopic: "webui_@THEME@_widget_table2_event_refresh_begin",
+
+        /** Refresh event topic for custom AJAX implementations to listen for. */
         endTopic: "webui_@THEME@_widget_table2_event_refresh_end"
     },
 
     /**
-     * This closure is used to process state change events.
+     * This closure contains state event topics.
+     * @ignore
      */
     state: {
-        /**
-         * Event topics for custom AJAX implementations to listen for.
-         */
+        /** State event topic for custom AJAX implementations to listen for. */
         beginTopic: "webui_@THEME@_widget_table2_event_state_begin",
+
+        /** State event topic for custom AJAX implementations to listen for. */
         endTopic: "webui_@THEME@_widget_table2_event_state_end"
     }
 }
 
 /**
- * This function is used to fill in template properties.
- *
- * Note: This is called after the buildRendering() function. Anything to be set 
- * only once should be added here; otherwise, use the _setProps() function.
- *
- * @param props Key-Value pairs of properties.
- * @param frag HTML fragment.
+ * This function is used to get widget properties. Please see the 
+ * setProps() function for a list of supported properties.
  */
-webui.@THEME@.widget.table2.fillInTemplate = function(props, frag) {
-    webui.@THEME@.widget.table2.superclass.fillInTemplate.call(this, props, frag);
+webui.@THEME@.widget.table2.prototype.getProps = function() {
+    var props = this.inherited("getProps", arguments);
 
+    // Set properties.
+    if (this.actions) { props.actions = this.actions; }
+    if (this.align) { props.align = this.align; }
+    if (this.bgColor) { props.bgColor = this.bgColor; }
+    if (this.border) { props.border = this.border; }
+    if (this.caption) { props.caption = this.caption; }
+    if (this.cellpadding) { props.cellpadding = this.cellpadding; }
+    if (this.cellspacing) { props.cellspacing = this.cellspacing; }
+    if (this.filterText) { props.filterText = this.filterText; }
+    if (this.frame) { props.frame = this.frame; }
+    if (this.rowGroups) { props.rowGroups = this.rowGroups; }
+    if (this.rules) { props.rules = this.rules; }
+    if (this.summary) { props.summary = this.summary; }
+    if (this.width) { props.width = this.width; }
+
+    return props;
+}
+
+/**
+ * This function is used to fill in remaining template properties, after the
+ * buildRendering() function has been processed.
+ * <p>
+ * Note: Unlike Dojo 0.4, the DOM nodes don't yet exist. 
+ * </p>
+ */
+webui.@THEME@.widget.table2.prototype.postCreate = function () {
     // Set ids.
     if (this.id) {
         this.actionsContainer.id = this.id + "_actionsContainer";
@@ -86,47 +128,53 @@ webui.@THEME@.widget.table2.fillInTemplate = function(props, frag) {
         this.rowGroupsContainer.id = this.id + "_rowGroupsContainer";
         this.captionContainer.id = this.id + "_captionContainer";
     }
-    return true;
+    return this.inherited("postCreate", arguments);
 }
 
 /**
- * This function is used to get widget properties. Please see the 
- * _setProps() function for a list of supported properties.
- */
-webui.@THEME@.widget.table2.getProps = function() {
-    var props = webui.@THEME@.widget.table2.superclass.getProps.call(this);
-
-    // Set properties.
-    if (this.actions) { props.actions = this.actions; }
-    if (this.align) { props.align = this.align; }
-    if (this.bgColor) { props.bgColor = this.bgColor; }
-    if (this.border) { props.border = this.border; }
-    if (this.cellpadding) { props.cellpadding = this.cellpadding; }
-    if (this.cellspacing) { props.cellspacing = this.cellspacing; }
-    if (this.filterText) { props.filterText = this.filterText; }
-    if (this.frame) { props.frame = this.frame; }
-    if (this.rowGroups) { props.rowGroups = this.rowGroups; }
-    if (this.summary) { props.summary = this.summary; }
-    if (this.width) { props.width = this.width; }
-
-    return props;
-}
-
-/**
- * This function is used to set widget properties. Please see the 
- * _setProps() function for a list of supported properties.
- *
- * Note: This function updates the widget object for later updates. Further, the
+ * This function is used to set widget properties using Object literals.
+ * <p>
+ * Note: This function extends the widget object for later updates. Further, the
  * widget shall be updated only for the given key-value pairs.
- *
- * Note: If the notify param is true, the widget's state change event shall be
+ * </p><p>
+ * If the notify param is true, the widget's state change event shall be
  * published. This is typically used to keep client-side state in sync with the
  * server.
+ * </p>
  *
- * @param props Key-Value pairs of properties.
- * @param notify Publish an event for custom AJAX implementations to listen for.
+ * @param {Object} props Key-Value pairs of properties.
+ * @config {Object} [actions] 
+ * @config {String} [align] Alignment of image input.
+ * @config {String} [bgColor]
+ * @config {String} [border]
+ * @config {String} [caption]
+ * @config {String} [className] CSS selector.
+ * @config {String} [dir] Specifies the directionality of text.
+ * @config {String} [frame] 
+ * @config {String} [filterText] 
+ * @config {String} [id] Uniquely identifies an element within a document.
+ * @config {String} [lang] Specifies the language of attribute values and content.
+ * @config {String} [onClick] Mouse button is clicked on element.
+ * @config {String} [onDblClick] Mouse button is double-clicked on element.
+ * @config {String} [onKeyDown] Key is pressed down over element.
+ * @config {String} [onKeyPress] Key is pressed and released over element.
+ * @config {String} [onKeyUp] Key is released over element.
+ * @config {String} [onMouseDown] Mouse button is pressed over element.
+ * @config {String} [onMouseOut] Mouse is moved away from element.
+ * @config {String} [onMouseOver] Mouse is moved onto element.
+ * @config {String} [onMouseUp] Mouse button is released over element.
+ * @config {String} [onMouseMove] Mouse is moved while over element.
+ * @config {Array} [rowGroups] 
+ * @config {String} [rules] 
+ * @config {String} [style] Specify style rules inline.
+ * @config {String} [summary]
+ * @config {int} [tabIndex] Position in tabbing order.
+ * @config {String} [title] Provides a title for element.
+ * @config {boolean} [visible] Hide or show element.
+ * @config {String} [width]
+ * @param {boolean} notify Publish an event for custom AJAX implementations to listen for.
  */
-webui.@THEME@.widget.table2.setProps = function(props, notify) {
+webui.@THEME@.widget.table2.prototype.setProps = function(props, notify) {
     if (props == null) {
         return false;
     }
@@ -142,52 +190,21 @@ webui.@THEME@.widget.table2.setProps = function(props, notify) {
     }
 
     // Extend widget object for later updates.
-    return webui.@THEME@.widget.table2.superclass.setProps.call(this, props, notify);
+    return this.inherited("setProps", arguments);
 }
 
 /**
- * This function is used to set widget properties with the following 
- * Object literals.
- *
- * <ul>
- *  <li>actions</li>
- *  <li>align</li>
- *  <li>bgColor</li>
- *  <li>border</li>
- *  <li>caption</li>
- *  <li>className</li>
- *  <li>dir</li>
- *  <li>frame</li>
- *  <li>filterText</li>
- *  <li>id</li>
- *  <li>lang</li>
- *  <li>onClick</li>
- *  <li>onDblClick</li>
- *  <li>onKeyDown</li>
- *  <li>onKeyPress</li>
- *  <li>onKeyUp</li>
- *  <li>onMouseDown</li>
- *  <li>onMouseMove</li>
- *  <li>onMouseOut</li>
- *  <li>onMouseOver</li>
- *  <li>onMouseUp</li>
- *  <li>rowGroups</li>
- *  <li>rules</li>
- *  <li>style</li>
- *  <li>summary</li>
- *  <li>tabIndex</li>
- *  <li>title</li>
- *  <li>visible</li>
- *  <li>width</li>
- * </ul>
- *
+ * This function is used to set widget properties. Please see the setProps() 
+ * function for a list of supported properties.
+ * <p>
  * Note: This is considered a private API, do not use. This function should only
- * be invoked through postInitialize() and setProps(). Further, the widget shall
- * be updated only for the given key-value pairs.
+ * be invoked via setProps().
+ * </p>
  *
- * @param props Key-Value pairs of properties.
+ * @param {Object} props Key-Value pairs of properties.
+ * @private
  */
-webui.@THEME@.widget.table2._setProps = function(props) {
+webui.@THEME@.widget.table2.prototype._setProps = function(props) {
     if (props == null) {
         return false;
     }
@@ -210,8 +227,8 @@ webui.@THEME@.widget.table2._setProps = function(props) {
         var filterText = null;
         if (props.filterText) {
             filterText = this.theme.getMessage("table.title.filterApplied", [
-                    props.filterText
-                ]);
+                props.filterText
+            ]);
         }
 
         // To do: Create a new title message.
@@ -246,21 +263,5 @@ webui.@THEME@.widget.table2._setProps = function(props) {
     this.setEventProps(this.domNode, props);
 
     // Set remaining properties.
-    return webui.@THEME@.widget.table2.superclass._setProps.call(this, props);
+    return this.inherited("_setProps", arguments);
 }
-
-// Inherit base widget properties.
-dojo.inherits(webui.@THEME@.widget.table2, webui.@THEME@.widget.widgetBase);
-
-// Override base widget by assigning properties to class prototype.
-dojo.lang.extend(webui.@THEME@.widget.table2, {
-    // Set private functions.
-    fillInTemplate: webui.@THEME@.widget.table2.fillInTemplate,
-    getProps: webui.@THEME@.widget.table2.getProps,
-    setProps: webui.@THEME@.widget.table2.setProps,
-    _setProps: webui.@THEME@.widget.table2._setProps,
-
-    // Set defaults.
-    event: webui.@THEME@.widget.table2.event,
-    widgetType: "table2"
-});

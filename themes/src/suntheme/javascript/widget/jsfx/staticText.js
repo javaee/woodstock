@@ -1,3 +1,4 @@
+// widget/jsfx/staticText.js
 //
 // The contents of this file are subject to the terms
 // of the Common Development and Distribution License
@@ -19,15 +20,23 @@
 // 
 // Copyright 2007 Sun Microsystems, Inc. All rights reserved.
 //
-// This Javascript file should be included in any page that uses the associated
-// component, where JSF Extensions is used as the underlying transfer protocol.
-//
 
+/**
+ * @name widget/jsfx/staticText.js
+ * @version @THEME_VERSION@
+ * @overview This module contains the default Ajax implementation for the 
+ * staticText widget.
+ * <p>
+ * Note: This Javascript file should be included in any page that uses the 
+ * associated widget, where JSF Extensions is used as the underlying transfer
+ * protocol.
+ * </p>
+ */
 dojo.provide("webui.@THEME@.widget.jsfx.staticText");
 
-dojo.require("webui.@THEME@.widget.jsfx.*");
+dojo.require("webui.@THEME@.widget.jsfx.common");
 dojo.require("webui.@THEME@.widget.staticText");
 
 // Listen for Dojo Widget events.
-dojo.event.topic.subscribe(webui.@THEME@.widget.staticText.event.refresh.beginTopic,
+dojo.subscribe(webui.@THEME@.widget.staticText.event.refresh.beginTopic,
     webui.@THEME@.widget.jsfx.common, "processRefreshEvent");

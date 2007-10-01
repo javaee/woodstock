@@ -25,7 +25,7 @@
     <webuijsf:page >
       <webuijsf:html>
         <f:loadBundle basename="com.sun.webui.jsf.example.resources.Resources" var="msgs" />
-        <webuijsf:head title="#{msgs.label_resultsTitle}" >
+        <webuijsf:head title="#{msgs.label_resultsTitle}">
 	  <webuijsf:link rel="shortcut icon" url="/images/favicon.ico" type="image/x-icon" />
         </webuijsf:head>
         <webuijsf:body>

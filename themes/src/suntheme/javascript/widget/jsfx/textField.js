@@ -1,3 +1,4 @@
+// widget/jsfx/textField.js
 //
 // The contents of this file are subject to the terms
 // of the Common Development and Distribution License
@@ -20,23 +21,31 @@
 // Copyright 2007 Sun Microsystems, Inc. All rights reserved.
 //
 
-// This Javascript file should be included in any page that uses the associated
-// component, where JSF Extensions is used as the underlying transfer protocol.
-
+/**
+ * @name widget/jsfx/textField.js
+ * @version @THEME_VERSION@
+ * @overview This module contains the default Ajax implementation for the 
+ * textField widget.
+ * <p>
+ * Note: This Javascript file should be included in any page that uses the 
+ * associated widget, where JSF Extensions is used as the underlying transfer
+ * protocol.
+ * </p>
+ */
 dojo.provide("webui.@THEME@.widget.jsfx.textField");
 
-dojo.require("webui.@THEME@.widget.jsfx.*");
+dojo.require("webui.@THEME@.widget.jsfx.common");
 dojo.require("webui.@THEME@.widget.textField");
 
 /**
- * This function is used to obtain data asynchronously.
+ * This closure is used to obtain data asynchronously.
  */
 webui.@THEME@.widget.jsfx.textField = {
     /**
-     * This function is a validation event processor using props
-     * instead of event.
+     * This function is used to process validation events with Object literals.
      *
      * @param props Key-Value pairs of properties.
+     * @config {String} [id] The HTML element Id.
      */
     processValidationEvent: function(props) {
         if (props == null) {
@@ -63,10 +72,10 @@ webui.@THEME@.widget.jsfx.textField = {
     /**
      * This function is used to update widgets.
      *
-     * @param elementId The HTML element Id.
-     * @param content The content returned by the AJAX response.
-     * @param closure The closure argument provided to DynaFaces.fireAjaxTransaction.
-     * @param xjson The xjson argument provided to DynaFaces.fireAjaxTransaction.
+     * @param {String} elementId The HTML element Id.
+     * @param {String} content The content returned by the AJAX response.
+     * @param {Object} closure The closure argument provided to DynaFaces.fireAjaxTransaction.
+     * @param {Object} xjson The xjson argument provided to DynaFaces.fireAjaxTransaction.
      */
     validationCallback: function(elementId, content, closure, xjson) {
         if (elementId == null || content == null) {
@@ -77,7 +86,7 @@ webui.@THEME@.widget.jsfx.textField = {
         var props = JSON.parse(content);
 
         // Update text field.
-        var widget = dojo.widget.byId(elementId);
+        var widget = dijit.byId(elementId);
         widget.setProps({
             valid: props.valid,
             errorImage: {
@@ -90,7 +99,7 @@ webui.@THEME@.widget.jsfx.textField = {
             // Update each given client ID.
             for (var i = 0; i < widget.notify.length; i++) {
                 // Get widget associated with client ID.
-                var curWidget = dojo.widget.byId(widget.notify[i]);
+                var curWidget = dijit.byId(widget.notify[i]);
                 if (curWidget && typeof curWidget.notify == "function") {
                     curWidget.notify(props);
                 }
@@ -98,18 +107,18 @@ webui.@THEME@.widget.jsfx.textField = {
         }
 
         // Publish an event for custom AJAX implementations to listen for.
-        dojo.event.topic.publish(
-            webui.@THEME@.widget.textField.event.validation.endTopic, props);
+        dojo.publish(
+            webui.@THEME@.widget.textField.event.validation.endTopic, [props]);
         return true;
     }
 }
 
 // Listen for Dojo Widget events.
-dojo.event.topic.subscribe(webui.@THEME@.widget.textField.event.refresh.beginTopic,
+dojo.subscribe(webui.@THEME@.widget.textField.event.refresh.beginTopic,
     webui.@THEME@.widget.jsfx.common, "processRefreshEvent");
-dojo.event.topic.subscribe(webui.@THEME@.widget.textField.event.state.beginTopic,
+dojo.subscribe(webui.@THEME@.widget.textField.event.state.beginTopic,
     webui.@THEME@.widget.jsfx.common, "processStateEvent");
-dojo.event.topic.subscribe(webui.@THEME@.widget.textField.event.submit.beginTopic,
+dojo.subscribe(webui.@THEME@.widget.textField.event.submit.beginTopic,
     webui.@THEME@.widget.jsfx.common, "processSubmitEvent");
-dojo.event.topic.subscribe(webui.@THEME@.widget.textField.event.validation.beginTopic,
+dojo.subscribe(webui.@THEME@.widget.textField.event.validation.beginTopic,
     webui.@THEME@.widget.jsfx.textField, "processValidationEvent");

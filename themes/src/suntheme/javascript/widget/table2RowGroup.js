@@ -1,3 +1,4 @@
+// widget/table2RowGroup.js
 //
 // The contents of this file are subject to the terms
 // of the Common Development and Distribution License
@@ -20,26 +21,39 @@
 // Copyright 2007 Sun Microsystems, Inc. All rights reserved.
 //
 
+/**
+ * @name widget/table2RowGroup.js
+ * @version @THEME_VERSION@
+ * @overview This module contains classes and functions for the table2RowGroup widget.
+ * @example The following code is used to create a table2RowGroup widget.
+ * <p><code>
+ * var widget = new webui.@THEME@.widget.table2RowGroup(props, domNode);
+ * </code></p>
+ */
 dojo.provide("webui.@THEME@.widget.table2RowGroup");
 
-dojo.require("dojo.widget.*");
-dojo.require("webui.@THEME@.*");
-dojo.require("webui.@THEME@.widget.*");
+dojo.require("webui.@THEME@.browser");
+dojo.require("webui.@THEME@.common");
+dojo.require("webui.@THEME@.widget.widgetBase");
 
 /**
- * This function is used to generate a template based widget.
+ * This function is used to construct a template based widget.
  *
- * Note: This is considered a private API, do not use.
+ * @name webui.@THEME@.widget.table2RowGroup
+ * @inherits webui.@THEME@.widget.widgetBase
+ * @constructor
  */
-webui.@THEME@.widget.table2RowGroup = function() {
-    // Register widget.
-    dojo.widget.HtmlWidget.call(this);
-}
+dojo.declare("webui.@THEME@.widget.table2RowGroup", webui.@THEME@.widget.widgetBase, {
+    // Set defaults.
+    currentRow: 0, // Current row in view.
+    first: 0, // Index used to obtain rows.
+    widgetName: "table2RowGroup" // Required for theme properties.
+});
 
 /**
  * This function is used to set column headers and footers.
  */
-webui.@THEME@.widget.table2RowGroup.addColumns = function() {
+webui.@THEME@.widget.table2RowGroup.prototype.addColumns = function() {
     // Clear column headers/footers.
     this.widget.removeChildNodes(this.thead);
     this.widget.removeChildNodes(this.tfoot);
@@ -104,9 +118,9 @@ webui.@THEME@.widget.table2RowGroup.addColumns = function() {
  * This function is used to add rows using the gieven array. Each row contains
  * an array of columns which holds table data.
  *
- * @param rows An array of rows.
+ * @param {Array} rows An array of rows.
  */
-webui.@THEME@.widget.table2RowGroup.addRows = function(rows) {
+webui.@THEME@.widget.table2RowGroup.prototype.addRows = function(rows) {
     if (rows == null) {
         return false;
     }
@@ -165,222 +179,97 @@ webui.@THEME@.widget.table2RowGroup.addRows = function(rows) {
     this.first += rows.length;
 
     // Adjust layout.
-    setTimeout(webui.@THEME@.widget.table2RowGroup.event.resize.createCallback(this.id), 0);
+    var _id = this.id;
+    setTimeout(function() {
+        // New literals are created every time this function is called, and it's 
+        // saved by closure magic.
+        dijit.byId(_id).resize();
+    }, 10);
 
     return true;
 }
 
 /**
- * This closure is used to process widget events.
+ * This closure contains event topics.
+ * <p>
+ * Note: Event topics must be prototyped for inherited functions. However, these
+ * topics must also be available statically so that developers may subscribe to
+ * events.
+ * </p>
+ *
+ * @ignore
  */
-webui.@THEME@.widget.table2RowGroup.event = {
+webui.@THEME@.widget.table2RowGroup.prototype.event =
+        webui.@THEME@.widget.table2RowGroup.event = {
     /**
-     * This closure is used to process refresh events.
+     * This closure contains refresh event topics.
+     * @ignore
      */
     refresh: {
-        /**
-         * Event topics for custom AJAX implementations to listen for.
-         */
+        /** Refresh event topic for custom AJAX implementations to listen for. */
         beginTopic: "webui_@THEME@_widget_table2RowGroup_event_refresh_begin",
+
+        /** Refresh event topic for custom AJAX implementations to listen for. */
         endTopic: "webui_@THEME@_widget_table2RowGroup_event_refresh_end"
     },
 
     /**
-     * This closure is used to process resize events.
-     */
-    resize: {
-        /**
-         * Helper function to create callback for resize event.
-         *
-         * @param id The HTML element id of the widget.
-         */
-        createCallback: function(id) {
-            if (id != null) {
-                // New literals are created every time this function
-                // is called, and it's saved by closure magic.
-                return function(event) {
-                    // Note: The event param is not required here.
-                    var widget = dojo.widget.byId(id);
-                    if (widget) {
-                        widget.resize();
-                    }
-                };
-            }
-        },
-
-        /**
-         * Process resize event.
-         */
-        processEvent: function() {
-            // Update rows text.
-            this.updateRowsText();
-
-            // Get height offset of each row.
-            var offset = 0;
-            for (var i = this.currentRow; i < this.currentRow + this.maxRows; i++) {
-                var tableDataRow = document.getElementById(this.id + ":" + i);
-                if (tableDataRow != null) {
-                    
-                    offset += tableDataRow.offsetHeight;
-                } else {
-                    break;
-                }
-            }
-
-            // Set the scrollable height.
-            if (offset > 0) {
-                this.tableContainer.style.height = offset + "px";
-            }
-
-            // Set width of each column header & footer.
-            var rowId = this.id + ":0"; // ID of first row.
-            for (var i = 0; i < this.columns.length; i++) {
-                var col = this.columns[i]; // Get default column props.
-                var colId = col.id.replace(this.id, rowId);
-
-                // Get row node.
-                var tableDataCell = document.getElementById(colId);
-                if (tableDataCell == null) {
-                    continue;
-                }
-
-                // Get nodes.
-                var colHeaderCell = document.getElementById(col.id + "_colHeader");
-                var colFooterCell = document.getElementById(col.id + "_colFooter");
-
-                // Set width.
-                if (colHeaderCell) {
-                    // Column width plus offset for border.
-                    colHeaderCell.style.width = (tableDataCell.offsetWidth - 1) + "px";
-                }
-                if (colFooterCell) {
-                    // Column width plus offset for border.
-                    colFooterCell.style.width = (tableDataCell.offsetWidth - 1) + "px";
-                }
-            }
-
-            // Update heqader & footer position.
-            var colHeaderRow = document.getElementById(this.id + "_colHeaderRow");
-            var colFooterRow = document.getElementById(this.id + "_colFooterRow");
-
-            if (colHeaderRow) {
-                // Column header height plus offset for border.
-                this.tableContainer.style.marginTop = (colHeaderRow.offsetHeight - 1) + 'px';
-                colHeaderRow.style.top = (this.tableContainer.offsetTop -
-                    colHeaderRow.offsetHeight + 1) + 'px';
-
-                if (colFooterRow) {
-                    // Column footer height plus offset for border.
-                    this.tableContainer.style.marginBottom = colFooterRow.offsetHeight + 'px';
-                    colFooterRow.style.top = (this.tableContainer.offsetTop + 
-                        this.tableContainer.offsetHeight - 1) + 'px';
-                }
-            }
-            return true;
-        }
-    },
-
-    /**
      * This closure is used to process scroll events.
+     * @ignore
      */
     scroll: {
-        /**
-         * Event topics for custom AJAX implementations to listen for.
-         */
+        /** Scroll event topic for custom AJAX implementations to listen for. */
         beginTopic: "webui_@THEME@_widget_table2RowGroup_event_scroll_begin",
-        endTopic: "webui_@THEME@_widget_table2RowGroup_event_scroll_end",
- 
-         /**
-         * Helper function to create callback for scroll event.
-         *
-         * @param id The HTML element id of the widget.
-         */
-        createCallback: function(id) {
-            if (id != null) {
-                // New literals are created every time this function
-                // is called, and it's saved by closure magic.
-                return function(event) {
-                    // Note: The event param is not required here.
-                    var widget = dojo.widget.byId(id);
-                    if (widget) {
-                        widget.scroll();
-                    }
-                };
-            }
-        },
 
-        /**
-         * Process scroll event.
-         *
-         * @param event Event generated by scroll bar.
-         */
-        processEvent: function(event) {
-            // Publish event to retrieve data.
-            if (this.first < this.totalRows
-                    && this.currentRow % this.maxRows == 0) {
-                // Include default AJAX implementation.
-                this.ajaxify();
-
-                // Publish an event for custom AJAX implementations to listen for.
-                dojo.event.topic.publish(
-                    webui.@THEME@.widget.table2RowGroup.event.scroll.beginTopic, {
-                        id: this.id,
-                        first: this.first
-                    });
-            }
-       
-            // Set current row based on scroll position and row offset.
-            var first = 0; // First row in range.
-            var last = Math.min(this.totalRows,
-                this.first + this.maxRows) - 1; // Last row in range.
-            var scrollTop = this.tableContainer.scrollTop + 1; // Scroll position plus offset for border.
-
-            while (first < last) {
-                var mid = Math.floor((first + last) / 2); // Index of midpoint.
-                var tableDataRow = document.getElementById(this.id + ":" + mid);
-                if (tableDataRow == null) {
-                    break;
-                }
-                // Test if scroll position matches row offset.
-                if (scrollTop < tableDataRow.offsetTop) {
-                    last = mid; // Search left half.
-                } else if (scrollTop >= tableDataRow.offsetTop) {
-                    first = mid + 1; // Search right half.
-                }
-            }
-            this.currentRow = Math.max(0, first - 1);
-
-            // Set rows text.
-            this.updateRowsText();
-
-            return true;
-        }
+        /** Scroll event topic for custom AJAX implementations to listen for. */
+        endTopic: "webui_@THEME@_widget_table2RowGroup_event_scroll_end"
     },
 
     /**
-     * This closure is used to process state change events.
+     * This closure contains state event topics.
+     * @ignore
      */
     state: {
-        /**
-         * Event topics for custom AJAX implementations to listen for.
-         */
+        /** State event topic for custom AJAX implementations to listen for. */
         beginTopic: "webui_@THEME@_widget_table2RowGroup_event_state_begin",
+
+        /** State event topic for custom AJAX implementations to listen for. */
         endTopic: "webui_@THEME@_widget_table2RowGroup_event_state_end"
     }
 }
 
 /**
- * This function is used to fill in template properties.
- *
- * Note: This is called after the buildRendering() function. Anything to be set
- * only once should be added here; otherwise, use the _setProps() function.
- *
- * @param props Key-Value pairs of properties.
- * @param frag HTML fragment.
+ * This function is used to get widget properties. Please see the
+ * setProps() function for a list of supported properties.
  */
-webui.@THEME@.widget.table2RowGroup.fillInTemplate = function(props, frag) {
-    webui.@THEME@.widget.table2RowGroup.superclass.fillInTemplate.call(this, props, frag);
+webui.@THEME@.widget.table2RowGroup.prototype.getProps = function() {
+    var props = this.inherited("getProps", arguments);
 
+    // Set properties.
+    if (this.align) { props.align = this.align; }
+    if (this.bgColor) { props.bgColor = this.bgColor; }
+//    if (this.char) { props.char = this.char; } // To do: Rename -- keyword is reserved.
+    if (this.charOff) { props.charOff = this.charOff; }
+    if (this.columns) { props.columns = this.columns; }
+    if (this.first) { props.first = this.first; }
+    if (this.headerText) { props.headerText = this.headerText; }
+    if (this.height) { props.height = this.height; }
+    if (this.maxRows) { props.maxRows = this.maxRows; }
+    if (this.rows) { props.rows = this.rows; }
+    if (this.totalRows) { props.totalRows = this.totalRows; }
+    if (this.valign) { props.valign = this.valign; }
+
+    return props;
+}
+
+/**
+ * This function is used to fill in remaining template properties, after the
+ * buildRendering() function has been processed.
+ * <p>
+ * Note: Unlike Dojo 0.4, the DOM nodes don't yet exist. 
+ * </p>
+ */
+webui.@THEME@.widget.table2RowGroup.prototype.postCreate = function () {
     // Set ids.
     if (this.id) {
         this.colFooterRow.id = this.id + "_colFooterRow";
@@ -401,80 +290,121 @@ webui.@THEME@.widget.table2RowGroup.fillInTemplate = function(props, frag) {
     }
 
     // Set events.
-    dojo.event.connect(this.tableContainer, "onscroll",
-        webui.@THEME@.widget.table2RowGroup.event.scroll.createCallback(this.id));
+    dojo.connect(this.tableContainer, "onscroll", this, "scroll");
 
     // Resize hack for Moz/Firefox.
-    if (webui.@THEME@.common.browser.is_nav == true) {
-        dojo.event.connect(window, "onresize",
-            webui.@THEME@.widget.table2RowGroup.event.resize.createCallback(this.id));
+    if (webui.@THEME@.browser.is_nav()) {
+        dojo.connect(window, "onresize", this, "resize");
+    }
+    return this.inherited("postCreate", arguments);
+}
+
+/**
+ * Process resize event.
+ */
+webui.@THEME@.widget.table2RowGroup.prototype.resize = function() {
+    // Update rows text.
+    this.updateRowsText();
+
+    // Get height offset of each row.
+    var offset = 0;
+    for (var i = this.currentRow; i < this.currentRow + this.maxRows; i++) {
+        var tableDataRow = document.getElementById(this.id + ":" + i);
+        if (tableDataRow != null) {
+            offset += tableDataRow.offsetHeight;
+        } else {
+            break;
+        }
+    }
+
+    // Set the scrollable height.
+    if (offset > 0) {
+        this.tableContainer.style.height = offset + "px";
+    }
+
+    // Set width of each column header & footer.
+    var rowId = this.id + ":0"; // ID of first row.
+    for (var i = 0; i < this.columns.length; i++) {
+        var col = this.columns[i]; // Get default column props.
+        var colId = col.id.replace(this.id, rowId);
+
+        // Get row node.
+        var tableDataCell = document.getElementById(colId);
+        if (tableDataCell == null) {
+            continue;
+        }
+
+        // Get nodes.
+        var colHeaderCell = document.getElementById(col.id + "_colHeader");
+        var colFooterCell = document.getElementById(col.id + "_colFooter");
+
+        // Set width.
+        if (colHeaderCell) {
+            // Column width plus offset for border.
+            colHeaderCell.style.width = (tableDataCell.offsetWidth - 1) + "px";
+        }
+        if (colFooterCell) {
+            // Column width plus offset for border.
+            colFooterCell.style.width = (tableDataCell.offsetWidth - 1) + "px";
+        }
+    }
+
+    // Update heqader & footer position.
+    var colHeaderRow = document.getElementById(this.id + "_colHeaderRow");
+    var colFooterRow = document.getElementById(this.id + "_colFooterRow");
+
+    if (colHeaderRow) {
+        // Column header height plus offset for border.
+        this.tableContainer.style.marginTop = (colHeaderRow.offsetHeight - 1) + 'px';
+        colHeaderRow.style.top = (this.tableContainer.offsetTop -
+        colHeaderRow.offsetHeight + 1) + 'px';
+
+        if (colFooterRow) {
+            // Column footer height plus offset for border.
+            this.tableContainer.style.marginBottom = colFooterRow.offsetHeight + 'px';
+            colFooterRow.style.top = (this.tableContainer.offsetTop + 
+            this.tableContainer.offsetHeight - 1) + 'px';
+        }
     }
     return true;
 }
 
 /**
- * This function is used to get widget properties. Please see the
- * _setProps() function for a list of supported properties.
- */
-webui.@THEME@.widget.table2RowGroup.getProps = function() {
-    var props = webui.@THEME@.widget.table2RowGroup.superclass.getProps.call(this);
-
-    // Set properties.
-    if (this.align) { props.align = this.align; }
-    if (this.bgColor) { props.bgColor = this.bgColor; }
-//    if (this.char) { props.char = this.char; } // To do: Rename -- keyword is reserved.
-    if (this.charOff) { props.charOff = this.charOff; }
-    if (this.columns) { props.columns = this.columns; }
-    if (this.first) { props.first = this.first; }
-    if (this.headerText) { props.headerText = this.headerText; }
-    if (this.height) { props.height = this.height; }
-    if (this.maxRows) { props.maxRows = this.maxRows; }
-    if (this.totalRows) { props.totalRows = this.totalRows; }
-    if (this.valign) { props.valign = this.valign; }
-
-    return props;
-}
-
-/**
- * This function is used to set column properties with the following
- * Object literals.
+ * This function is used to set column properties with Object literals.
  *
- * <ul>
- *  <li>abbr</li>
- *  <li>axis</li>
- *  <li>bgColor</li>
- *  <li>char</li>
- *  <li>charOff</li>
- *  <li>className</li>
- *  <li>colspan</li>
- *  <li>dir</li>
- *  <li>height</li>
- *  <li>id</li>
- *  <li>lang</li>
- *  <li>noWrap</li>
- *  <li>onClick</li>
- *  <li>onDblClick</li>
- *  <li>onKeyDown</li>
- *  <li>onKeyPress</li>
- *  <li>onKeyUp</li>
- *  <li>onMouseDown</li>
- *  <li>onMouseMove</li>
- *  <li>onMouseOut</li>
- *  <li>onMouseOver</li>
- *  <li>onMouseUp</li>
- *  <li>rowSpan</li>
- *  <li>scope</li>
- *  <li>style</li>
- *  <li>title</li>
- *  <li>valign</li>
- *  <li>visible</li>
- *  <li>width</li>
- * </ul>
- *
- * @param domNode The DOM node to assign properties to.
- * @param props Key-Value pairs of properties.
+ * @param {Node} domNode The DOM node to assign properties to.
+ * @param {Object} props Key-Value pairs of properties.
+ * @config {String} [abbr]
+ * @config {String} [axis]
+ * @config {String} [bgColor]
+ * @config {String} [char]
+ * @config {String} [charOff]
+ * @config {String} [className] CSS selector.
+ * @config {int} [colspan]
+ * @config {String} [dir] Specifies the directionality of text.
+ * @config {String} [height]
+ * @config {String} [id] Uniquely identifies an element within a document.
+ * @config {String} [lang] Specifies the language of attribute values and content.
+ * @config {boolean} [noWrap] 
+ * @config {String} [onClick] Mouse button is clicked on element.
+ * @config {String} [onDblClick] Mouse button is double-clicked on element.
+ * @config {String} [onKeyDown] Key is pressed down over element.
+ * @config {String} [onKeyPress] Key is pressed and released over element.
+ * @config {String} [onKeyUp] Key is released over element.
+ * @config {String} [onMouseDown] Mouse button is pressed over element.
+ * @config {String} [onMouseOut] Mouse is moved away from element.
+ * @config {String} [onMouseOver] Mouse is moved onto element.
+ * @config {String} [onMouseUp] Mouse button is released over element.
+ * @config {String} [onMouseMove] Mouse is moved while over element.
+ * @config {int} [rowSpan] 
+ * @config {String} [scope] 
+ * @config {String} [style] Specify style rules inline.
+ * @config {String} [title] Provides a title for element.
+ * @config {String} [valign] 
+ * @config {boolean} [visible] Hide or show element.
+ * @config {String} [width]
  */
-webui.@THEME@.widget.table2RowGroup.setColumnProps = function(domNode, props) {
+webui.@THEME@.widget.table2RowGroup.prototype.setColumnProps = function(domNode, props) {
     // Set properties.
     if (this.abbr) { domNode.abbr = this.abbr; }
     if (this.axis) { domNode.axis = this.axis; }
@@ -497,20 +427,49 @@ webui.@THEME@.widget.table2RowGroup.setColumnProps = function(domNode, props) {
 }
 
 /**
- * This function is used to set widget properties. Please see the
- * _setProps() function for a list of supported properties.
- *
- * Note: This function updates the widget object for later updates. Further, the
+ * This function is used to set widget properties using Object literals.
+ * <p>
+ * Note: This function extends the widget object for later updates. Further, the
  * widget shall be updated only for the given key-value pairs.
- *
- * Note: If the notify param is true, the widget's state change event shall be
+ * </p><p>
+ * If the notify param is true, the widget's state change event shall be
  * published. This is typically used to keep client-side state in sync with the
  * server.
+ * </p>
  *
- * @param props Key-Value pairs of properties.
- * @param notify Publish an event for custom AJAX implementations to listen for.
+ * @param {Object} props Key-Value pairs of properties.
+ * @config {String} [align] Alignment of image input.
+ * @config {String} [bgColor]
+ * @config {String} [char]
+ * @config {String} [charOff]
+ * @config {String} [className] CSS selector.
+ * @config {Array} [columns]
+ * @config {String} [dir] Specifies the directionality of text.
+ * @config {int} [first]
+ * @config {String} [headerText]
+ * @config {int} [height]
+ * @config {String} [id] Uniquely identifies an element within a document.
+ * @config {String} [lang] Specifies the language of attribute values and content.
+ * @config {int} [maxRows] 
+ * @config {String} [onClick] Mouse button is clicked on element.
+ * @config {String} [onDblClick] Mouse button is double-clicked on element.
+ * @config {String} [onKeyDown] Key is pressed down over element.
+ * @config {String} [onKeyPress] Key is pressed and released over element.
+ * @config {String} [onKeyUp] Key is released over element.
+ * @config {String} [onMouseDown] Mouse button is pressed over element.
+ * @config {String} [onMouseOut] Mouse is moved away from element.
+ * @config {String} [onMouseOver] Mouse is moved onto element.
+ * @config {String} [onMouseUp] Mouse button is released over element.
+ * @config {String} [onMouseMove] Mouse is moved while over element.
+ * @config {Array} [rows] 
+ * @config {String} [style] Specify style rules inline.
+ * @config {String} [title] Provides a title for element.
+ * @config {int} [totalRows] 
+ * @config {String} [valign] 
+ * @config {boolean} [visible] Hide or show element.
+ * @param {boolean} notify Publish an event for custom AJAX implementations to listen for.
  */
-webui.@THEME@.widget.table2RowGroup.setProps = function(props, notify) {
+webui.@THEME@.widget.table2RowGroup.prototype.setProps = function(props, notify) {
     if (props == null) {
         return false;
     }
@@ -526,51 +485,21 @@ webui.@THEME@.widget.table2RowGroup.setProps = function(props, notify) {
     }
 
     // Extend widget object for later updates.
-    return webui.@THEME@.widget.table2RowGroup.superclass.setProps.call(this, props, notify);
+    return this.inherited("setProps", arguments);
 }
 
 /**
- * This function is used to set widget properties with the following
- * Object literals.
- *
- * <ul>
- *  <li>align</li>
- *  <li>bgColor</li>
- *  <li>char</li>
- *  <li>charOff</li>
- *  <li>className</li>
- *  <li>columns</li>
- *  <li>dir</li>
- *  <li>first</li>
- *  <li>headerText</li>
- *  <li>height</li>
- *  <li>id</li>
- *  <li>lang</li>
- *  <li>maxRows</li>
- *  <li>onClick</li>
- *  <li>onDblClick</li>
- *  <li>onKeyDown</li>
- *  <li>onKeyPress</li>
- *  <li>onKeyUp</li>
- *  <li>onMouseDown</li>
- *  <li>onMouseMove</li>
- *  <li>onMouseOut</li>
- *  <li>onMouseOver</li>
- *  <li>onMouseUp</li>
- *  <li>totalRows</li>
- *  <li>style</li>
- *  <li>title</li>
- *  <li>valign</li>
- *  <li>visible</li>
- * </ul>
- *
+ * This function is used to set widget properties. Please see the setProps() 
+ * function for a list of supported properties.
+ * <p>
  * Note: This is considered a private API, do not use. This function should only
- * be invoked through postInitialize() and setProps(). Further, the widget shall
- * be updated only for the given key-value pairs.
+ * be invoked via setProps().
+ * </p>
  *
- * @param props Key-Value pairs of properties.
+ * @param {Object} props Key-Value pairs of properties.
+ * @private
  */
-webui.@THEME@.widget.table2RowGroup._setProps = function(props) {
+webui.@THEME@.widget.table2RowGroup.prototype._setProps = function(props) {
     if (props == null) {
         return false;
     }
@@ -606,6 +535,7 @@ webui.@THEME@.widget.table2RowGroup._setProps = function(props) {
         if (props._table.cellpadding) { this.table.cellpadding = props._table.cellpadding; }
         if (props._table.cellspacing) { this.table.cellspacing = props._table.cellspacing; }
         if (props._table.frame) { this.table.frame = props._table.frame; }
+        if (props._table.rules) { this.table.rules = props._table.rules; }
         if (props._table.summary) { this.table.summary = props._table.summary; }
     }
     
@@ -616,10 +546,53 @@ webui.@THEME@.widget.table2RowGroup._setProps = function(props) {
 }
 
 /**
+ * Process scroll event.
+ *
+ * @param {Event} event The JavaScript event
+ */
+webui.@THEME@.widget.table2RowGroup.prototype.scroll = function(event) {
+    // Publish event to retrieve data.
+    if (this.first < this.totalRows
+            && this.currentRow % this.maxRows == 0) {
+        // Include default AJAX implementation.
+        this.ajaxify();
+
+        // Publish an event for custom AJAX implementations to listen for.
+        dojo.publish(webui.@THEME@.widget.table2RowGroup.event.scroll.beginTopic, [{
+            id: this.id,
+            first: this.first
+        }]);
+    }
+       
+    // Set current row based on scroll position and row offset.
+    var first = 0; // First row in range.
+    var last = Math.min(this.totalRows,
+        this.first + this.maxRows) - 1; // Last row in range.
+    var scrollTop = this.tableContainer.scrollTop + 1; // Scroll position plus offset for border.
+
+    while (first < last) {
+        var mid = Math.floor((first + last) / 2); // Index of midpoint.
+        var tableDataRow = document.getElementById(this.id + ":" + mid);
+        if (tableDataRow == null) {
+            break;
+        }
+        // Test if scroll position matches row offset.
+        if (scrollTop < tableDataRow.offsetTop) {
+            last = mid; // Search left half.
+        } else if (scrollTop >= tableDataRow.offsetTop) {
+            first = mid + 1; // Search right half.
+        }
+    }
+    this.currentRow = Math.max(0, first - 1);
+
+    // Set rows text.
+    return this.updateRowsText();
+}
+
+/**
  * This function is used to set rows text (e.g., "1 - 5 of 20").
  */
-webui.@THEME@.widget.table2RowGroup.updateRowsText = function() {
-
+webui.@THEME@.widget.table2RowGroup.prototype.updateRowsText = function() {
     // Add title augment.
     var firstRow = this.currentRow + 1;
     var lastRow = Math.min(this.totalRows, this.currentRow + this.maxRows);
@@ -628,12 +601,12 @@ webui.@THEME@.widget.table2RowGroup.updateRowsText = function() {
 
     // NOTE: If you set this value manually, text must be HTML escaped.
     var msg = this.theme.getMessage("table.title.paginated", [
-            "", 
-            firstRow, 
-            lastRow, 
-            this.totalRows, 
-            ""
-        ]);
+        "", 
+        firstRow, 
+        lastRow, 
+        this.totalRows, 
+        ""
+    ]);
 
     // "Items: " + firstRow + " - " + lastRow + " of " + this.totalRows);
     if (msg) {
@@ -641,27 +614,3 @@ webui.@THEME@.widget.table2RowGroup.updateRowsText = function() {
     }
     return true;
 }
-
-// Inherit base widget properties.
-dojo.inherits(webui.@THEME@.widget.table2RowGroup, webui.@THEME@.widget.widgetBase);
-
-// Override base widget by assigning properties to class prototype.
-dojo.lang.extend(webui.@THEME@.widget.table2RowGroup, {
-    // Set private functions.
-    addColumns: webui.@THEME@.widget.table2RowGroup.addColumns,
-    addRows: webui.@THEME@.widget.table2RowGroup.addRows,
-    fillInTemplate: webui.@THEME@.widget.table2RowGroup.fillInTemplate,
-    getProps: webui.@THEME@.widget.table2RowGroup.getProps,
-    resize: webui.@THEME@.widget.table2RowGroup.event.resize.processEvent,
-    scroll: webui.@THEME@.widget.table2RowGroup.event.scroll.processEvent,
-    setColumnProps: webui.@THEME@.widget.table2RowGroup.setColumnProps,
-    setProps: webui.@THEME@.widget.table2RowGroup.setProps,
-    _setProps: webui.@THEME@.widget.table2RowGroup._setProps,
-    updateRowsText: webui.@THEME@.widget.table2RowGroup.updateRowsText,
-
-    // Set defaults.
-    currentRow: 0, // Current row in view.
-    first: 0, // Index used to obtain rows.
-    event: webui.@THEME@.widget.table2RowGroup.event,
-    widgetType: "table2RowGroup"
-});

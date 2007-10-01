@@ -30,6 +30,16 @@ package com.sun.webui.jsf.theme;
 
 public class ThemeJavascript {
     /**
+     * A Javascript file that contains Dojo dijit functions.
+     */
+    public static final String DIJIT = "dijit";
+
+    /**
+     * A Javascript file that contains uncompressed Dojo digit functions.
+     */
+    public static final String DIJIT_UNCOMPRESSED = "dijitUncompressed";
+
+    /**
      * A Javascript file that contains Dojo functions.
      */
     public static final String DOJO = "dojo";

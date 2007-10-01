@@ -1,3 +1,4 @@
+// commonTasksSection.js
 //
 // The contents of this file are subject to the terms
 // of the Common Development and Distribution License
@@ -20,28 +21,32 @@
 // Copyright 2007 Sun Microsystems, Inc. All rights reserved.
 //
 
+/**
+ * @name commonTasksSection.js
+ * @version @THEME_VERSION@
+ * @overview This module contains functions for commonTasksSection components.
+ */
 dojo.provide("webui.@THEME@.commonTasksSection");
 
+dojo.require("webui.@THEME@.browser");
 dojo.require("webui.@THEME@.common");
 
 /** 
- * Define webui.@THEME@.commonTasksSection name space. 
+ * This closure contains functions for commonTasksSection components.
  */
 webui.@THEME@.commonTasksSection = {
     /**
-     * This function is used to initialize HTML element properties with the
-     * following Object literals.
-     *
-     * <ul>
-     *  <li>id: The HTML element ID for the component.</li>
-     *  <li>pic1URL: Selected image.</li>
-     *  <li>pic2URL: Hover image.</li>
-     *  <li>pic3URL: Normal image.</li>
-     * </ul>
-     *
+     * This function is used to initialize HTML element properties with Object 
+     * literals.
+     * <p>
      * Note: This is considered a private API, do not use.
+     * </p>
      *
-     * @param props Key-Value pairs of properties.
+     * @param {Object} props Key-Value pairs of properties.
+     * @config {String} [id] The HTML element id.
+     * @config {String} [pic1URL] Selected image.
+     * @config {String} [pic2URL] Hover image.
+     * @config {String} [pic3URL] Normal image.
      */
     init: function(props) {
         if (props == null || props.id == null) {
@@ -63,15 +68,22 @@ webui.@THEME@.commonTasksSection = {
         domNode.addInfoPanel = webui.@THEME@.commonTasksSection.addInfoPanel;
         domNode.windowResize = webui.@THEME@.commonTasksSection.windowResize;
         domNode.onclick = domNode.hideAll;
+
         // Set task element array.
         domNode.taskElement = new Array();
         domNode.count = 0;
 
         // Hide panels on resize.
-        dojo.event.connect(window, 'onresize', domNode, domNode.windowResize);
+        dojo.connect(window, 'onresize', domNode, domNode.windowResize);
+
+        return true;
     },
 
-    // Hide all task sections.
+    /**
+     * Hide all task sections.
+     *
+     * @param {Event} event The JavaScript event.
+     */
     hideAll: function(event) {
         for (var i = 0; i < this.count; i++) {
             task = this.taskElement[i];
@@ -80,13 +92,19 @@ webui.@THEME@.commonTasksSection = {
                task.infoPanel.image.src = this.pic3URL;
             }
         }
-        if (webui.@THEME@.common.browser.is_ie5up) {
+        if (webui.@THEME@.browser.is_ie5up()) {
             window. event.cancelBubble = true;
         } else {
             event.stopPropagation();
         }
+        return true;
     },
 
+    /**
+     * This function handles window resize events.
+     *
+     * @param {Event} event The JavaScript event.
+     */
     windowResize: function(event) {
         for (var i = 0; i < this.count; i++) {
             task = this.taskElement[i];
@@ -95,22 +113,19 @@ webui.@THEME@.commonTasksSection = {
                task.infoPanel.image.src = this.pic3URL;
             }
         }
+        return true;
     },
 
     /**
-     * This function is used to add a common task with the
-     * following Object literals.
+     * This function is used to set common task properties using Object literals.
      *
-     * <ul>
-     *  <li>commonTaskId:</li>
-     *  <li>closeId:</li>
-     *  <li>spacerId:</li>
-     *  <li>infoIconId:</li>
-     *  <li>infoPanelVar:</li>
-     *  <li>imageLinkId:</li>
-     * </ul>
-     *
-     * @param props Key-Value pairs of properties.
+     * @param {Object} props Key-Value pairs of properties.
+     * @config {String} [commonTaskId]
+     * @config {String} [closeId]
+     * @config {String} [spacerId]
+     * @config {String} [infoIconId]
+     * @config {String} [infoPanelVar]
+     * @config {String} [imageLinkId]
      */
     addCommonTask: function(props) {
         // Set info panel.
@@ -122,10 +137,19 @@ webui.@THEME@.commonTasksSection = {
         // Add task element to domNode.
         this.taskElement[this.count] = taskElement;
         this.count++;
+        return true;
     },
     
     /**
      * Add info panel to common task section.
+     *
+     * @param {String} sectionId
+     * @param {String} taskId
+     * @param {String} closeId
+     * @param {String} infoIconId
+     * @param {String} infoPanelVar
+     * @param {String} imageLinkId
+     * @param {String} bottomInfoLink
      */
     addInfoPanel: function(sectionId, taskId, closeId, spacerVar,
             infoIconId, infoPanelVar, imageLinkId, bottomInfoLink) {
@@ -137,27 +161,26 @@ webui.@THEME@.commonTasksSection = {
         this.parent = document.getElementById(sectionId);
         this.task = document.getElementById(taskId);
         if (bottomInfoLink) {
-            this.bottomInfoLink = document.getElementById(bottomInfoLink);// the bottom info panel id.
+            // The bottom info panel id.
+            this.bottomInfoLink = document.getElementById(bottomInfoLink);
         }
         var that = this;
 
-        /**
-         * Handle the keypress event for the "more" link if one is present.
-         * Tabbing out of the info panel should close the info panel whereas
-         * pressing escape key should close the info panel tooo
-         */
+        // Handle the keypress event for the "more" link if one is present.
+        // Tabbing out of the info panel should close the info panel whereas
+        // pressing escape key should close the info panel tooo
         if (this.bottomInfoLink) {
             this.bottomInfoLink.onkeypress = function(event) {	    
                 var evt = (event) ? event : ((window.event) ? window.event : null);  
-		if (!webui.@THEME@.common.browser.is_ie5up) {
+		if (!webui.@THEME@.browser.is_ie5up()) {
 		    that.captureBottomInfoKey(event);
 		}
                 return false;                                 
-            }
-
-            // Only for IE
+            };
+ 
+            // Only for IE.
             this.bottomInfoLink.onkeydown = function(event) {
-                if (webui.@THEME@.common.browser.is_ie5up) {
+                if (webui.@THEME@.browser.is_ie5up()) {
 
                     // For IE, while pressing the shift key along with the tab key
                     // the onkeydown seems to be called twice. To prevent this,
@@ -168,17 +191,15 @@ webui.@THEME@.commonTasksSection = {
                     }
                 }
                 return false;
-            }
+            };
         }
             
-        /**
-         * Handle the keypress event on the close imageHyperlink.
-         * If tab key is pressed, the focus must either pass to
-         * the "more" link if it is present or the infoPanel should close.
-         */
+        // Handle the keypress event on the close imageHyperlink.
+        // If tab key is pressed, the focus must either pass to
+        // the "more" link if it is present or the infoPanel should close. 
         this.close.onkeypress = function(event) {           
             var evt = (event) ? event : ((window.event) ? window.event : null);         
-            if (!webui.@THEME@.common.browser.is_ie5up) {
+            if (!webui.@THEME@.browser.is_ie5up()) {
                 that.captureCloseKey(evt);
             }
             // If escape key is pressed, the info panel must close.
@@ -188,14 +209,12 @@ webui.@THEME@.commonTasksSection = {
                 that.imageLink.focus();
             }
             return false;
-        }
+        };
 
-        /**
-         * Function that gets invoked when keypress event happens on the bottom
-         * portion of the info panel.
-         */
-        this.captureBottomInfoKey = function(evt) {
-            if ((evt.keyCode == 9 && !evt.shiftKey)|| evt.keyCode == 27) {
+        // Function that gets invoked when keypress event happens on the bottom
+        // portion of the info panel.
+        this.captureBottomInfoKey = function(event) {
+            if ((event.keyCode == 9 && !event.shiftKey)|| event.keyCode == 27) {
 
                 // need to remove the focus off the link. Otherwise there seems
                 // to be problems setting focus on another element in IE.
@@ -206,23 +225,21 @@ webui.@THEME@.commonTasksSection = {
                 that.imageLink.focus();
             }
 
-            if (evt.shiftKey && evt.keyCode == 9) {
+            if (event.shiftKey && event.keyCode == 9) {
                 that.close.focus();
 
                 // If you dont do this, the info panel closes on IE
                 // and the focus is set on the "i" icon.
                 webui.@THEME@.common.setVisibleElement(that.info, true);
             }
-        }
+            return true;
+        };
 
-        /**
-         * Function that is called when the key press event happens on the
-         * close image of the info panel.
-         */
-        this.captureCloseKey = function(evt) {
-
+        // Function that is called when the key press event happens on the
+        // close image of the info panel.
+        this.captureCloseKey = function(event) {
             // We want to process only key press events which have the tab key pressed.
-            if (evt.keyCode == 9) {
+            if (event.keyCode == 9) {
 
                 // If this is not done IE doesnt set focus on the next available
                 // element properly if the info panel closes.
@@ -230,7 +247,7 @@ webui.@THEME@.commonTasksSection = {
 
                 // If the "more" link is present, shift focus to that
                 // else close the info panel on blur.
-                if (that.bottomInfoLink && evt.shiftKey == false) {
+                if (that.bottomInfoLink && event.shiftKey == false) {
                     that.bottomInfoLink.focus(); 
 
                     // If this is not done, the info panel closes
@@ -240,67 +257,70 @@ webui.@THEME@.commonTasksSection = {
                     that.image.src = that.parent.pic3URL;	            
                     webui.@THEME@.common.setVisibleElement(that.info, false);    
                     that.imageLink.focus();
-                             
                 }                                      
             }
-        }
+            return true;
+        };
 
         // Need to do this only on IE. "Tab" key doesnt get registered
         // for keypress on IE.
         this.close.onkeydown = function(event) {
-           if (webui.@THEME@.common.browser.is_ie5up) {
+            if (webui.@THEME@.browser.is_ie5up()) {
 
-           // this seems to be called once for the shift key and
-           // once for the tab key. Prevent calling the capture
-           // function when the shift key is pressed
-           if (!(window.event.keyCode == 16)) {
-              that.captureCloseKey(window.event);
-           }
-           return false;
-           }
-        }
+                // this seems to be called once for the shift key and
+                // once for the tab key. Prevent calling the capture
+                // function when the shift key is pressed
+                if (!(window.event.keyCode == 16)) {
+                    that.captureCloseKey(window.event);
+                }
+                return false;
+            }
+            return true;
+        };
                 
-        /**
-         *Events which handle the closing of the div.
-         */
+        // Events which handle the closing of the div.
+
         this.close.onclick = function(event) {     
            webui.@THEME@.common.setVisibleElement(that.info, false);
             that.image.src = that.parent.pic3URL;	
-            if (webui.@THEME@.common.browser.is_ie5up) {
+            if (webui.@THEME@.browser.is_ie5up()) {
                 window. event.cancelBubble = true;
             } else {
                 event.stopPropagation();
             }
             that.task.focus();
-        }
+            return true;
+        };
 
         this.info.onclick = function(event) {
             webui.@THEME@.common.setVisibleElement(that.info, true);
-             if (webui.@THEME@.common.browser.is_ie5up) {
+             if (webui.@THEME@.browser.is_ie5up()) {
                  window. event.cancelBubble = true;
             } else {
                     event.stopPropagation();
             }
-        }
+            return true;
+        };
         
-        /**
-         * Events which handle the image changes for the "i" image.
-         */
+        // Events which handle the image changes for the "i" image.
+
         this.imageLink.onmouseover = function() {
-              if (!webui.@THEME@.common.isVisibleElement(that.info)) {
+            if (!webui.@THEME@.common.isVisibleElement(that.info)) {
                 that.image.src = that.parent.pic2URL;
             } else {
                 that.image.src = that.parent.pic1URL;
             }
-        }
+            return true;
+        };
 
         this.imageLink.onfocus = function() {
-              if (!webui.@THEME@.common.isVisibleElement(that.info)) {
+            if (!webui.@THEME@.common.isVisibleElement(that.info)) {
                 that.image.src = that.parent.pic2URL;
             } else {
                 that.image.src = that.parent.pic1URL;
             }
-        }
+            return true;
+        };
 
         this.imageLink.onblur = function() {
               if (!webui.@THEME@.common.isVisibleElement(that.info)) {
@@ -308,41 +328,44 @@ webui.@THEME@.commonTasksSection = {
             } else {
                 that.image.src = that.parent.pic1URL;
             }
-        }
+            return true;
+        };
 
         this.imageLink.onmouseout = function() {
-              if (!webui.@THEME@.common.isVisibleElement(that.info)) {
+            if (!webui.@THEME@.common.isVisibleElement(that.info)) {
                 that.image.src = that.parent.pic3URL;
             } else {
                 that.image.src = that.parent.pic1URL;
             }
-        }
+            return true;
+        };
 
-        /**
-         * Toggle functionality incorporated
-         */
+        // Toggle functionality incorporated
+
         this.image.onclick = function(event) {
             that.showInfoPanel();
-            if (webui.@THEME@.common.browser.is_ie5up) {
+            if (webui.@THEME@.browser.is_ie5up()) {
                 window. event.cancelBubble = true;
             } else {
                 event.stopPropagation();
             }
-        }
-        
+            return true;
+        };
+
         this.imageLink.onkeypress = function(event) {
             var evt = (event) ? event : ((window.event) ? window.event : null);            
-            if(evt.keyCode == 13) {
+            if (evt.keyCode == 13) {
                 that.showInfoPanel();
                 return false;                
             }
-                if (webui.@THEME@.common.browser.is_ie5up) {
-                     window.event.cancelBubble = true;
-                } else {
-                     event.stopPropagation();
-                }
-        }
-        
+            if (webui.@THEME@.browser.is_ie5up()) {
+                window.event.cancelBubble = true;
+            } else {
+                event.stopPropagation();
+            }
+            return true;
+        };
+
         this.showInfoPanel = function() {
             var cts = this.parent;
             for (var i = 0; i < cts.count; i++) {
@@ -354,7 +377,7 @@ webui.@THEME@.commonTasksSection = {
                 }
             }
  
-              if (!webui.@THEME@.common.isVisibleElement(this.info)) {
+            if (!webui.@THEME@.common.isVisibleElement(this.info)) {
                 webui.@THEME@.common.setVisibleElement(this.info, true);
                 this.getElementPosition2(this.image.id);
                 this.getElementPosition(this.spacer);        
@@ -367,9 +390,10 @@ webui.@THEME@.commonTasksSection = {
                 this.image.src = cts.pic3URL;
                 webui.@THEME@.common.setVisibleElement(this.info, false);
             }
-        }  
+            return true;
+        };
 
-        /*Javascript for setting the common task page's look and feel.*/
+        // Javascript for setting the common task page's look and feel.
 
         // The prized coordinate locating function - Thank you Danny Goodman...
         this.getElementPosition = function(elemID) {
@@ -390,7 +414,8 @@ webui.@THEME@.commonTasksSection = {
             }
             this.tleft=offsetLeft;
             this.ttop=offsetTop;
-        }
+            return true;
+        };
 
         this.getElementPosition2 = function(elemID) {
             var offsetTrail = document.getElementById(elemID);
@@ -408,7 +433,8 @@ webui.@THEME@.commonTasksSection = {
                 offsetTop += document.body.topMargin;
             }
             this.ileft=offsetLeft;
-        }
+            return true;
+        };
     }
 }
 

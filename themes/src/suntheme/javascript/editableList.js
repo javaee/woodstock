@@ -1,3 +1,4 @@
+// editableList.js
 //
 // The contents of this file are subject to the terms
 // of the Common Development and Distribution License
@@ -20,23 +21,28 @@
 // Copyright 2007 Sun Microsystems, Inc. All rights reserved.
 //
 
+/**
+ * @name editableList.js
+ * @version @THEME_VERSION@
+ * @overview This module contains functions for editableList components.
+ */
 dojo.provide("webui.@THEME@.editableList");
 
+dojo.require("webui.@THEME@.formElements");
+
 /** 
- * Define webui.@THEME@.editableList name space. 
- */ 
+ * This closure contains functions for editableList components.
+ */
 webui.@THEME@.editableList = {
     /**
-     * This function is used to initialize HTML element properties with the
-     * following Object literals.
-     *
-     * <ul>
-     *  <li>id</li>
-     * </ul>
-     *
+     * This function is used to initialize HTML element properties with Object
+     * literals.
+     * <p>
      * Note: This is considered a private API, do not use.
+     * </p>
      *
-     * @param props Key-Value pairs of properties.
+     * @param {Object} props Key-Value pairs of properties.
+     * @config {String} [id] The element id.
      */
     init: function(props) {
         if (props == null || props.id == null) {
@@ -57,8 +63,7 @@ webui.@THEME@.editableList = {
         // because only it knows about the underlying structure
         // of the rendered field component
         //
-        domNode.list = 
-            webui.@THEME@.listbox.getSelectElement(props.id + "_list");
+        domNode.list = document.getElementById(props.id + "_list");
                 
 
         // Bug 6338492 -
@@ -108,51 +113,78 @@ webui.@THEME@.editableList = {
         domNode.setRemoveDisabled = webui.@THEME@.editableList.setRemoveDisabled; 
         domNode.updateButtons = webui.@THEME@.editableList.updateButtons;
         domNode.setDisabled = webui.@THEME@.editableList.setDisabled;
+
+        return true;
     },
 
+    /**
+     *
+     * @param {String} elementId The HTML element id.
+     */
     add: function(elementId) {
         this.enableAdd(); 
         this.addButton.click();
     },
 
+    /**
+     *
+     */
     enableAdd: function() {
         var disabled = (this.field.value == ""); 
         this.setAddDisabled(disabled); 
     },
 
+    /**
+     *
+     * @param {boolean} disabled If true, disable element.
+     */
     setAddDisabled: function(disabled) {
-        if(this.addButton.setDisabled != null) {
+        if (this.addButton.setDisabled != null) {
             this.addButton.setDisabled(disabled); 
         } else {
             this.addButton.disabled = disabled; 
         }
     },
 
+    /**
+     *
+     */
     enableRemove: function() {
         var disabled = (this.list.selectedIndex == -1); 
         this.setRemoveDisabled(disabled); 
     },
 
+    /**
+     *
+     * @param {boolean} disabled If true, disable element.
+     */
     setRemoveDisabled: function(disabled) {
-        if(this.removeButton.setDisabled != null) {
+        if (this.removeButton.setDisabled != null) {
             this.removeButton.setDisabled(disabled); 
         } else {
             this.removeButton.disabled = disabled; 
         }
     },
 
+    /**
+     *
+     */
     updateButtons: function() {
         this.enableAdd(); 
         this.enableRemove(); 
     },
 
+    /**
+     *
+     * @param {boolean} disabled If true, disable element.
+     */
     setDisabled: function(disabled) {
-        if(this.addButton.setDisabled != null) {
+        if (this.addButton.setDisabled != null) {
             this.addButton.setDisabled(disabled); 
         } else {
             this.addButton.disabled = disabled; 
         }
-        if(this.removeButton.setDisabled != null) {
+        if (this.removeButton.setDisabled != null) {
             this.removeButton.setDisabled(disabled); 
         } else {
             this.removeButton.disabled = disabled; 

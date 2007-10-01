@@ -1,3 +1,4 @@
+// widget/dropDown.js
 //
 // The contents of this file are subject to the terms
 // of the Common Development and Distribution License
@@ -20,30 +21,41 @@
 // Copyright 2007 Sun Microsystems, Inc. All rights reserved.
 //
 
+/**
+ * @name widget/dropDown.js
+ * @version @THEME_VERSION@
+ * @overview This module contains classes and functions for the dropDown widget.
+ * @example The following code is used to create a dropDown widget.
+ * <p><code>
+ * var widget = new webui.@THEME@.widget.dropDown(props, domNode);
+ * </code></p>
+ */
 dojo.provide("webui.@THEME@.widget.dropDown");
 
-dojo.require("dojo.widget.*");
-dojo.require("webui.@THEME@.widget.*");
-dojo.require("webui.@THEME@.widget.listbox");
+dojo.require("webui.@THEME@.widget.selectBase");
 
 /**
- * This function is used to generate a template based widget.
+ * This function is used to construct a template based widget.
  *
- * Note: This is considered a private API, do not use.
+ * @name webui.@THEME@.widget.dropDown
+ * @inherits webui.@THEME@.widget.selectBase
+ * @constructor
  */
-webui.@THEME@.widget.dropDown = function() {
-    // Register widget.
-    dojo.widget.HtmlWidget.call(this);
-}
+dojo.declare("webui.@THEME@.widget.dropDown", webui.@THEME@.widget.selectBase, {
+    // Set defaults.
+    submitForm: false,
+    titleOptionLabel: "Menu.titleOptionLabel",
+    widgetName: "dropDown" // Required for theme properties.
+});
 
 /**
  * Helper function called by onChange event to set the proper
  * selected, and disabled styles.
  */
-webui.@THEME@.widget.dropDown.changed = function() {
+webui.@THEME@.widget.dropDown.prototype.changed = function() {
     if (this.submitForm != true) {
         // Drop down changed.
-        return webui.@THEME@.widget.dropDown.superclass.changed.call(this);
+        return this.inherited("changed", arguments);
     } else {
         // Jump drop down changed.
         var jumpDropdown = this.listContainer; 
@@ -72,68 +84,60 @@ webui.@THEME@.widget.dropDown.changed = function() {
 }
 
 /**
- * This closure is used to process widget events.
+ * This closure contains event topics.
+ * <p>
+ * Note: Event topics must be prototyped for inherited functions. However, these
+ * topics must also be available statically so that developers may subscribe to
+ * events.
+ * </p>
+ *
+ * @ignore
  */
-webui.@THEME@.widget.dropDown.event = {
+webui.@THEME@.widget.dropDown.prototype.event =
+        webui.@THEME@.widget.dropDown.event = {
     /**
-     * This closure is used to process refresh events.
+     * This closure contains refresh event topics.
+     * @ignore
      */
     refresh: {
-        /**
-         * Event topics for custom AJAX implementations to listen for.
-         */
+        /** Refresh event topic for custom AJAX implementations to listen for. */
         beginTopic: "webui_@THEME@_widget_dropDown_event_refresh_begin",
+
+        /** Refresh event topic for custom AJAX implementations to listen for. */
         endTopic: "webui_@THEME@_widget_dropDown_event_refresh_end"
     },
 
     /**
-     * This closure is used to process state change events.
+     * This closure contains state event topics.
+     * @ignore
      */
     state: {
-        /**
-         * Event topics for custom AJAX implementations to listen for.
-         */
+        /** State event topic for custom AJAX implementations to listen for. */
         beginTopic: "webui_@THEME@_widget_dropDown_event_state_begin",
+
+        /** State event topic for custom AJAX implementations to listen for. */
         endTopic: "webui_@THEME@_widget_dropDown_event_state_end"
     },
 
     /**
-     * This closure is used to process submit events.
+     * This closure contains submit event topics.
+     * @ignore
      */
     submit: {
-        /**
-         * Event topics for custom AJAX implementations to listen for.
-         */
+        /** Submit event topic for custom AJAX implementations to listen for. */
         beginTopic: "webui_@THEME@_widget_dropDown_event_submit_begin",
+
+        /** Submit event topic for custom AJAX implementations to listen for. */
         endTopic: "webui_@THEME@_widget_dropDown_event_submit_end"
     }
 }
 
 /**
- * This function is used to fill in template properties.
- *
- * Note: This is called after the buildRendering() function. Anything to be set 
- * only once should be added here; otherwise, use the _setProps() function.
- *
- * @param props Key-Value pairs of properties.
- * @param frag HTML fragment.
- */
-webui.@THEME@.widget.dropDown.fillInTemplate = function(props, frag) {
-    webui.@THEME@.widget.dropDown.superclass.fillInTemplate.call(this, props, frag);
-
-    // Set ids.
-    if (this.id) {
-        this.submitterHiddenNode.id = this.id + "_submitter";
-    }
-    return true;
-}
-
-/**
  * This function is used to get widget properties. Please see the 
- * _setProps() function for a list of supported properties.
+ * setProps() function for a list of supported properties.
  */
-webui.@THEME@.widget.dropDown.getProps = function() {
-    var props = webui.@THEME@.widget.dropDown.superclass.getProps.call(this);
+webui.@THEME@.widget.dropDown.prototype.getProps = function() {
+    var props = this.inherited("getProps", arguments);
 
     // Get properties.
     if (this.submitForm != null) { props.submitForm = this.submitForm; }
@@ -142,80 +146,100 @@ webui.@THEME@.widget.dropDown.getProps = function() {
 }
 
 /**
- * This function is used to initialize the widget.
- *
- * Note: This is called after the fillInTemplate() function.
- *
- * @param props Key-Value pairs of properties.
- * @param frag HTML fragment.
- * @param parent The parent of this widget.
+ * This function is used to fill in remaining template properties, after the
+ * buildRendering() function has been processed.
+ * <p>
+ * Note: Unlike Dojo 0.4, the DOM nodes don't yet exist. 
+ * </p>
  */
-webui.@THEME@.widget.dropDown.initialize = function (props, frag, parent) {
-    webui.@THEME@.widget.dropDown.superclass.initialize.call(this, props, frag, parent);
-
+webui.@THEME@.widget.dropDown.prototype.postCreate = function () {
+    // Set ids.
+    if (this.id) {
+        this.submitterHiddenNode.id = this.id + "_submitter";
+    }
+    
     // Set style classes
     if (this.submitForm) {
         if (new Boolean(this.submitForm).valueOf() == true) {
-            this.selectClassName = webui.@THEME@.widget.props.jumpDropDown.className;
-            this.selectDisabledClassName = webui.@THEME@.widget.props.jumpDropDown.disabledClassName;
-            this.optionClassName = webui.@THEME@.widget.props.jumpDropDown.optionClassName;
-            this.optionSeparatorClassName = webui.@THEME@.widget.props.jumpDropDown.optionSeparatorClassName;
-            this.optionGroupClassName = webui.@THEME@.widget.props.jumpDropDown.optionGroupClassName;
-            this.optionDisabledClassName = webui.@THEME@.widget.props.jumpDropDown.optionDisabledClassName;
-            this.optionSelectedClassName = webui.@THEME@.widget.props.jumpDropDown.optionSelectedClassName;
+            this.selectClassName = this.widget.getClassName("MENU_JUMP");
+            this.selectDisabledClassName = this.widget.getClassName("MENU_JUMP_DISABLED");
+            this.optionClassName = this.widget.getClassName("MENU_JUMP_OPTION");
+            this.optionDisabledClassName = this.widget.getClassName("MENU_JUMPOPTION_DISABLED");
+            this.optionGroupClassName = this.widget.getClassName("MENU_JUMP_OPTION_GROUP");
+            this.optionSelectedClassName = this.widget.getClassName("MENU_JUMP_OPTION_SELECTED");
+            this.optionSeparatorClassName = this.widget.getClassName("MENU_JUMP_OPTION_SEPARATOR");
         } else {
-            this.selectClassName = webui.@THEME@.widget.props.dropDown.className;
-            this.selectDisabledClassName = webui.@THEME@.widget.props.dropDown.disabledClassName;
-            this.optionClassName = webui.@THEME@.widget.props.dropDown.optionClassName;
-            this.optionSeparatorClassName = webui.@THEME@.widget.props.dropDown.optionSeparatorClassName;
-            this.optionGroupClassName = webui.@THEME@.widget.props.dropDown.optionGroupClassName;
-            this.optionDisabledClassName = webui.@THEME@.widget.props.dropDown.optionDisabledClassName;
-            this.optionSelectedClassName = webui.@THEME@.widget.props.dropDown.optionSelectedClassName;
+            this.selectClassName = this.widget.getClassName("MENU_STANDARD");
+            this.selectDisabledClassName = this.widget.getClassName("MENU_STANDARD_DISABLED");
+            this.optionClassName = this.widget.getClassName("MENU_STANDARD_OPTION");
+            this.optionDisabledClassName = this.widget.getClassName("MENU_STANDARD_DISABLED");
+            this.optionGroupClassName = this.widget.getClassName("MENU_STANDARD_OPTION_GROUP");
+            this.optionSelectedClassName = this.widget.getClassName("MENU_STANDARD_OPTION_SELECTED");
+            this.optionSeparatorClassName = this.widget.getClassName("MENU_STANDARD_OPTION_SEPARATOR");
         }
     }
-    return true;
+    return this.inherited("postCreate", arguments);
 }
 
 /**
- * This function is used to set widget properties with the following 
- * Object literals.
+ * This function is used to set widget properties using Object literals.
+ * <p>
+ * Note: This function extends the widget object for later updates. Further, the
+ * widget shall be updated only for the given key-value pairs.
+ * </p><p>
+ * If the notify param is true, the widget's state change event shall be
+ * published. This is typically used to keep client-side state in sync with the
+ * server.
+ * </p>
  *
- * <ul>
- *  <li>id</li>
- *  <li>dir</li>
- *  <li>disabled</li>
- *  <li>label</li>
- *  <li>lang</li>
- *  <li>multiple</li>
- *  <li>onBlur</li>
- *  <li>onChange</li>
- *  <li>onClick</li>
- *  <li>onDblClick</li>
- *  <li>onFocus</li>
- *  <li>onMouseDown</li>
- *  <li>onMouseOut</li>
- *  <li>onMouseOver</li>
- *  <li>onMouseUp</li>
- *  <li>onMouseMove</li>
- *  <li>onKeyPress</li>
- *  <li>onKeyUp</li>
- *  <li>onSelect</li>
- *  <li>options</li>
- *  <li>size</li>
- *  <li>style</li>
- *  <li>submitForm</li>
- *  <li>tabIndex</li>
- *  <li>title</li>
- *  <li>visible</li>
- * </ul>
- *
- * Note: This is considered a private API, do not use. This function should only
- * be invoked through postInitialize() and setProps(). Further, the widget shall
- * be updated only for the given key-value pairs.
- *
- * @param props Key-Value pairs of properties.
+ * @param {Object} props Key-Value pairs of properties.
+ * @config {String} [className] CSS selector.
+ * @config {String} [dir] Specifies the directionality of text.
+ * @config {boolean} [disabled] Disable element.
+ * @config {String} [id] Uniquely identifies an element within a document.
+ * @config {String} [label] 
+ * @config {String} [lang] Specifies the language of attribute values and content.
+ * @config {boolean} [multiple] 
+ * @config {String} [onBlur] Element lost focus.
+ * @config {String} [onChange] 
+ * @config {String} [onClick] Mouse button is clicked on element.
+ * @config {String} [onDblClick] Mouse button is double-clicked on element.
+ * @config {String} [onFocus] Element received focus.
+ * @config {String} [onKeyDown] Key is pressed down over element.
+ * @config {String} [onKeyPress] Key is pressed and released over element.
+ * @config {String} [onKeyUp] Key is released over element.
+ * @config {String} [onMouseDown] Mouse button is pressed over element.
+ * @config {String} [onMouseOut] Mouse is moved away from element.
+ * @config {String} [onMouseOver] Mouse is moved onto element.
+ * @config {String} [onMouseUp] Mouse button is released over element.
+ * @config {String} [onMouseMove] Mouse is moved while over element.
+ * @config {String} [onSelect]
+ * @config {Array} [options] 
+ * @config {int} [size] 
+ * @config {String} [style] Specify style rules inline.
+ * @config {boolean} [submitForm] 
+ * @config {int} [tabIndex] Position in tabbing order.
+ * @config {String} [title] Provides a title for element.
+ * @config {boolean} [visible] Hide or show element.
+ * @param {boolean} notify Publish an event for custom AJAX implementations to listen for.
  */
-webui.@THEME@.widget.dropDown._setProps = function(props) {
+webui.@THEME@.widget.dropDown.prototype.setProps = function(props, notify) {
+    // Note: This function is overridden for JsDoc.
+    return this.inherited("setProps", arguments);
+}
+
+/**
+ * This function is used to set widget properties. Please see the setProps() 
+ * function for a list of supported properties.
+ * <p>
+ * Note: This is considered a private API, do not use. This function should only
+ * be invoked via setProps().
+ * </p>
+ *
+ * @param {Object} props Key-Value pairs of properties.
+ * @private
+ */
+webui.@THEME@.widget.dropDown.prototype._setProps = function(props) {
     if (props == null) {
         return false;
     }
@@ -227,24 +251,5 @@ webui.@THEME@.widget.dropDown._setProps = function(props) {
     }
 
     // Set remaining properties.
-    return webui.@THEME@.widget.dropDown.superclass._setProps.call(this, props);
+    return this.inherited("_setProps", arguments);
 }
-
-// Inherit base widget properties.
-dojo.inherits(webui.@THEME@.widget.dropDown, webui.@THEME@.widget.listbox);
-
-// Override base widget by assigning properties to class prototype.
-dojo.lang.extend(webui.@THEME@.widget.dropDown, {
-    // Set private functions.
-    changed: webui.@THEME@.widget.dropDown.changed,
-    fillInTemplate: webui.@THEME@.widget.dropDown.fillInTemplate,
-    getProps: webui.@THEME@.widget.dropDown.getProps,
-    initialize: webui.@THEME@.widget.dropDown.initialize,
-    _setProps: webui.@THEME@.widget.dropDown._setProps,
-    submit: webui.@THEME@.widget.widgetBase.event.submit.processEvent,
-
-    // Set defaults.
-    event: webui.@THEME@.widget.dropDown.event,
-    submitForm: false,
-    widgetType: "dropDown"
-});

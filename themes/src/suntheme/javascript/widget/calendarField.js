@@ -1,3 +1,4 @@
+// widget/calendarField.js
 //
 // The contents of this file are subject to the terms
 // of the Common Development and Distribution License
@@ -20,38 +21,41 @@
 // Copyright 2007 Sun Microsystems, Inc. All rights reserved.
 //
 
+/**
+ * @name widget/calendarField.js
+ * @version @THEME_VERSION@
+ * @overview This module contains classes and functions for the calendarField widget.
+ * @example The following code is used to create a calendarField widget.
+ * <p><code>
+ * var widget = new webui.@THEME@.widget.calendarField(props, domNode);
+ * </code></p>
+ */
 dojo.provide("webui.@THEME@.widget.calendarField");
 
-dojo.require("dojo.widget.*");
-dojo.require("webui.@THEME@.*");
-dojo.require("webui.@THEME@.widget.*");
 dojo.require("webui.@THEME@.widget.calendar");
 dojo.require("webui.@THEME@.widget.textField");
 
 /**
- * This function is used to generate a template based widget.
+ * This function is used to construct a template based widget.
  *
- * Note: This is considered a private API, do not use.
+ * @name webui.@THEME@.widget.calendarField
+ * @inherits webui.@THEME@.widget.widgetBase
+ * @constructor
  */
-webui.@THEME@.widget.calendarField = function() {
-    // Register widget.
-    dojo.widget.HtmlWidget.call(this);    
-}
+dojo.declare("webui.@THEME@.widget.calendarField", webui.@THEME@.widget.textField, {
+    // Set defaults.
+    widgetName: "calendarField" // Required for theme properties.
+});
 
 /**
- * This function is called when a day link is selected from the calendar 
+ * This function is called when a day link is selected from the calendar.
  * It updates the field with the value of the clicked date.
  *
- * The following Object literals are supported.
- *
- * <ul>
- *  <li>id</li>
- *  <li>date</li>
- * </ul>
- *
  * @param props Key-Value pairs of properties.
+ * @config {String} [id] 
+ * @config {String} [date] 
  */
-webui.@THEME@.widget.calendarField.dayClicked = function(props) {
+webui.@THEME@.widget.calendarField.prototype.dayClicked = function(props) {
     // Check whether the calendar associated with this particular calendarField
     // broadcasted the event.
     if (props.date != null && props.id == this.calendar.id) {
@@ -62,70 +66,50 @@ webui.@THEME@.widget.calendarField.dayClicked = function(props) {
 }
 
 /**
- * This closure is used to process widget events.
+ * This closure contains event topics.
+ * <p>
+ * Note: Event topics must be prototyped for inherited functions. However, these
+ * topics must also be available statically so that developers may subscribe to
+ * events.
+ * </p>
+ *
+ * @ignore
  */
-webui.@THEME@.widget.calendarField.event = {
+webui.@THEME@.widget.calendarField.prototype.event =
+        webui.@THEME@.widget.calendarField.event = {
     /**
-     * This closure is used to process refresh events.
+     * This closure contains refresh event topics.
+     * @ignore
      */
     refresh: {
-        /**
-         * Event topics for custom AJAX implementations to listen for.
-         */
+        /** Refresh event topic for custom AJAX implementations to listen for. */
         beginTopic: "webui_@THEME@_widget_calendarField_event_refresh_begin",
+
+        /** Refresh event topic for custom AJAX implementations to listen for. */
         endTopic: "webui_@THEME@_widget_calendarField_event_refresh_end"
     },
 
     /**
-     * This closure is used to process state change events.
+     * This closure contains state event topics.
+     * @ignore
      */
     state: {
-        /**
-         * Event topics for custom AJAX implementations to listen for.
-         */
+        /** State event topic for custom AJAX implementations to listen for. */
         beginTopic: "webui_@THEME@_widget_calendarField_event_state_begin",
+
+        /** State event topic for custom AJAX implementations to listen for. */
         endTopic: "webui_@THEME@_widget_calendarField_event_state_end"
     }
 }
 
 /**
- * This function is used to fill in template properties.
- *
- * Note: This is called after the buildRendering() function. Anything to be set 
- * only once should be added here; otherwise, use the _setProps() function.
- *
- * @param props Key-Value pairs of properties.
- * @param frag HTML fragment.
- */
-webui.@THEME@.widget.calendarField.fillInTemplate = function(props, frag) {
-    webui.@THEME@.widget.calendarField.superclass.fillInTemplate.call(this, props, frag);
-
-    // Set ids.
-    if (this.id) {
-        this.inlineHelpNode.id = this.id + "_pattern";
-        this.linkContainer.id = this.id + "_linkContainer";
-        this.calendarContainer.id = this.id + "_calendarContainer";
-    }     
-
-    // Set events.
-
-    // Subscribe to the "dayClicked" event present in the calendar widget.
-    dojo.event.topic.subscribe(webui.@THEME@.widget.calendar.event.day.dayPickedTopic,
-        this, "dayClicked");
-    // Subscribe to the "toggle" event that occurs whenever the calendar is opened.
-    dojo.event.topic.subscribe(webui.@THEME@.widget.calendar.event.toggle.openTopic,
-        this, "toggleCalendar");
-
-    return true;
-}
-
-/**
  * This function is used to obtain the outermost HTML element class name.
- *
+ * <p>
  * Note: Selectors should be concatinated in order of precedence (e.g., the 
  * user's className property is always appended last).
+ * </p>
  */
-webui.@THEME@.widget.calendarField.getClassName = function() {
+webui.@THEME@.widget.calendarField.prototype.getClassName = function() {
     // Set default style.
     var className = this.widget.getClassName("CALENDAR_ROOT_TABLE","");
 
@@ -136,10 +120,10 @@ webui.@THEME@.widget.calendarField.getClassName = function() {
 
 /**
  * This function is used to get widget properties. Please see the 
- * _setProps() function for a list of supported properties.
+ * setProps() function for a list of supported properties.
  */
-webui.@THEME@.widget.calendarField.getProps = function() {
-    var props = webui.@THEME@.widget.calendarField.superclass.getProps.call(this);
+webui.@THEME@.widget.calendarField.prototype.getProps = function() {
+    var props = this.inherited("getProps", arguments);
 
     // Set properties.  
     if (this.align) { props.align = this.align; }
@@ -150,55 +134,115 @@ webui.@THEME@.widget.calendarField.getProps = function() {
 }
 
 /**
- * This function is used to set widget properties with the following 
- * Object literals.
- *
- * <ul>
- *  <li>accesskey</li>
- *  <li>align</li>
- *  <li>calendar</li>
- *  <li>className</li>
- *  <li>dir</li>
- *  <li>disabled</li>
- *  <li>id</li> 
- *  <li>label</li>
- *  <li>lang</li>
- *  <li>notify</li>
- *  <li>onClick</li>
- *  <li>onDblClick</li>
- *  <li>onFocus</li>
- *  <li>onKeyDown</li>
- *  <li>onKeyPress</li>
- *  <li>onKeyUp</li>
- *  <li>onMouseDown</li>
- *  <li>onMouseOut</li>
- *  <li>onMouseOver</li>
- *  <li>onMouseUp</li>
- *  <li>onMouseMove</li>
- *  <li>patternHelp</li>
- *  <li>readOnly</li>
- *  <li>required</li>
- *  <li>style</li>
- *  <li>tabIndex</li>
- *  <li>title</li>
- *  <li>valid</li>
- *  <li>value</li>
- *  <li>visible</li> 
- * </ul>
- *
- * Note: This is considered a private API, do not use. This function should only
- * be invoked through postInitialize() and setProps(). Further, the widget shall
- * be updated only for the given key-value pairs.
- *
- * @param props Key-Value pairs of properties.
+ * This function is used to fill in remaining template properties, after the
+ * buildRendering() function has been processed.
+ * <p>
+ * Note: Unlike Dojo 0.4, the DOM nodes don't yet exist. 
+ * </p>
  */
-webui.@THEME@.widget.calendarField._setProps = function(props) {
+webui.@THEME@.widget.calendarField.prototype.postCreate = function () {
+    // Set ids.
+    if (this.id) {
+        this.inlineHelpNode.id = this.id + "_pattern";
+        this.linkContainer.id = this.id + "_linkContainer";
+        this.calendarContainer.id = this.id + "_calendarContainer";
+    }     
+
+    // Set events.
+
+    // Subscribe to the "dayClicked" event present in the calendar widget.
+    dojo.subscribe(webui.@THEME@.widget.calendar.event.day.selectedTopic,
+        this, "dayClicked");
+    // Subscribe to the "toggle" event that occurs whenever the calendar is opened.
+    dojo.subscribe(webui.@THEME@.widget.calendar.event.toggle.openTopic,
+        this, "toggleCalendar");
+
+    return this.inherited("postCreate", arguments);
+}
+
+/**
+ * This function is used to set widget properties using Object literals.
+ * <p>
+ * Note: This function extends the widget object for later updates. Further, the
+ * widget shall be updated only for the given key-value pairs.
+ * </p><p>
+ * If the notify param is true, the widget's state change event shall be
+ * published. This is typically used to keep client-side state in sync with the
+ * server.
+ * </p>
+ *
+ * @param {Object} props Key-Value pairs of properties.
+ * @config {String} [alt] Alternate text for image input.
+ * @config {String} [align] Alignment of image input.
+ * @config {Object} [calendar] 
+ * @config {String} [className] CSS selector.
+ * @config {String} [dir] Specifies the directionality of text.
+ * @config {boolean} [disabled] Disable element.
+ * @config {String} [id] Uniquely identifies an element within a document.
+ * @config {String} [label]
+ * @config {String} [lang] Specifies the language of attribute values and content.
+ * @config {Array} [notify] 
+ * @config {String} [onBlur] Element lost focus.
+ * @config {String} [onClick] Mouse button is clicked on element.
+ * @config {String} [onDblClick] Mouse button is double-clicked on element.
+ * @config {String} [onFocus] Element received focus.
+ * @config {String} [onKeyDown] Key is pressed down over element.
+ * @config {String} [onKeyPress] Key is pressed and released over element.
+ * @config {String} [onKeyUp] Key is released over element.
+ * @config {String} [onMouseDown] Mouse button is pressed over element.
+ * @config {String} [onMouseOut] Mouse is moved away from element.
+ * @config {String} [onMouseOver] Mouse is moved onto element.
+ * @config {String} [onMouseUp] Mouse button is released over element.
+ * @config {String} [onMouseMove] Mouse is moved while over element.
+ * @config {String} [patternHelp] 
+ * @config {boolean} [readOnly] 
+ * @config {boolean} [required] 
+ * @config {String} [style] Specify style rules inline.
+ * @config {int} [tabIndex] Position in tabbing order.
+ * @config {String} [title] Provides a title for element.
+ * @config {boolean} [valid] 
+ * @config {String} [value] Value of input.
+ * @config {boolean} [visible] Hide or show element.
+ * @param {boolean} notify Publish an event for custom AJAX implementations to listen for.
+ */
+webui.@THEME@.widget.calendarField.prototype.setProps = function(props, notify) {
+    if (props == null) {
+        return false;
+    }
+    
+    // If the popup calendar is visible, prevent disabling of the calendar.
+    // The widget can only be disabled if the popup calendar is not visible.
+    if (props.disabled != null) { 
+        var widget = dijit.byId(this.calendar.id); 
+        if (widget != null && !(widget.calendarContainer.style.display != "block")) {
+            props.disabled = this.disabled;
+        }        
+    }
+    
+    // Set remaining properties.
+    return this.inherited("setProps", arguments);
+}
+
+/**
+ * This function is used to set widget properties. Please see the setProps() 
+ * function for a list of supported properties.
+ * <p>
+ * Note: This is considered a private API, do not use. This function should only
+ * be invoked via setProps().
+ * </p>
+ *
+ * @param {Object} props Key-Value pairs of properties.
+ * @private
+ */
+webui.@THEME@.widget.calendarField.prototype._setProps = function(props) {
     if (props == null) {
         return false;
     }
 
+    // Set disabled.
     if (props.disabled != null) { this.disabled = new Boolean(props.disabled).valueOf(); }
 
+    // Set calendar.
     if (props.calendar || props.disabled != null) {
         // Ensure property exists so we can call setProps just once.
         if (props.calendar == null) {
@@ -220,39 +264,7 @@ webui.@THEME@.widget.calendarField._setProps = function(props) {
     }
 
     // Set remaining properties.
-    return webui.@THEME@.widget.calendarField.superclass._setProps.call(this, props);
-}
-
-/**
- * This function is used to set widget properties. Please see the 
- * _setProps() function for a list of supported properties.
- *
- * Note: This function updates the widget object for later updates. Further, the
- * widget shall be updated only for the given key-value pairs.
- *
- * Note: If the notify param is true, the widget's state change event shall be
- * published. This is typically used to keep client-side state in sync with the
- * server.
- *
- * @param props Key-Value pairs of properties.
- * @param notify Publish an event for custom AJAX implementations to listen for.
- */
-webui.@THEME@.widget.calendarField.setProps = function(props, notify) {
-    if (props == null) {
-        return false;
-    }
-    
-    // If the popup calendar is still being shown, prevent disabling of the calendar.
-    // The widget can only be disabled if the popup calendar is not shown.
-    if (props.disabled != null) { 
-        var widget = dojo.widget.byId(this.calendar.id); 
-        if (widget != null && !(widget.calendarContainer.style.display != "block")) {
-            props.disabled = this.disabled;
-        }        
-    }
-    
-    // Set remaining properties.
-    return webui.@THEME@.widget.calendarField.superclass.setProps.call(this, props, notify);
+    return this.inherited("_setProps", arguments);
 }
 
 /**
@@ -260,37 +272,13 @@ webui.@THEME@.widget.calendarField.setProps = function(props, notify) {
  * Whenever the calendar is opened, it updates the value of the calendar with
  * the value present in the field.
  * 
- * The following Object literals are supported.
- *
- * <ul>
- *  <li>id</li>
- * </ul>
- *
  * @param props Key-Value pairs of properties.
+ * @config {String} [id] 
  */
-webui.@THEME@.widget.calendarField.toggleCalendar = function(props) {   
+webui.@THEME@.widget.calendarField.prototype.toggleCalendar = function(props) {   
     if (props.id != null && props.id == this.calendar.id) {
-        var widget = dojo.widget.byId(props.id);
+        var widget = dijit.byId(props.id);
         widget.setProps({date: this.getProps().value});
     }
     return true;
 }
-
-// Inherit base widget properties.
-dojo.inherits(webui.@THEME@.widget.calendarField, webui.@THEME@.widget.textField);
-
-// Override base widget by assigning properties to class prototype.
-dojo.lang.extend(webui.@THEME@.widget.calendarField, {
-    // Set private functions.    
-    dayClicked: webui.@THEME@.widget.calendarField.dayClicked,
-    fillInTemplate: webui.@THEME@.widget.calendarField.fillInTemplate,
-    getClassName: webui.@THEME@.widget.calendarField.getClassName,
-    getProps: webui.@THEME@.widget.calendarField.getProps,
-    _setProps: webui.@THEME@.widget.calendarField._setProps,
-    toggleCalendar: webui.@THEME@.widget.calendarField.toggleCalendar,
-    setProps: webui.@THEME@.widget.calendarField.setProps,
-
-    // Set defaults.
-    event: webui.@THEME@.widget.calendarField.event,
-    widgetType: "calendarField"
-});

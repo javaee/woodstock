@@ -1,3 +1,4 @@
+// widget/jsfx/listbox.js
 //
 // The contents of this file are subject to the terms
 // of the Common Development and Distribution License
@@ -19,17 +20,25 @@
 // 
 // Copyright 2007 Sun Microsystems, Inc. All rights reserved.
 //
-// This Javascript file should be included in any page that uses the associated
-// component, where JSF Extensions is used as the underlying transfer protocol.
-//
 
+/**
+ * @name widget/jsfx/listbox.js
+ * @version @THEME_VERSION@
+ * @overview This module contains the default Ajax implementation for the 
+ * listbox widget.
+ * <p>
+ * Note: This Javascript file should be included in any page that uses the 
+ * associated widget, where JSF Extensions is used as the underlying transfer
+ * protocol.
+ * </p>
+ */
 dojo.provide("webui.@THEME@.widget.jsfx.listbox");
 
-dojo.require("webui.@THEME@.widget.jsfx.*");
+dojo.require("webui.@THEME@.widget.jsfx.common");
 dojo.require("webui.@THEME@.widget.listbox");
 
 // Listen for Dojo Widget events.
-dojo.event.topic.subscribe(webui.@THEME@.widget.listbox.event.refresh.beginTopic,
+dojo.subscribe(webui.@THEME@.widget.listbox.event.refresh.beginTopic,
     webui.@THEME@.widget.jsfx.common, "processRefreshEvent");
-dojo.event.topic.subscribe(webui.@THEME@.widget.listbox.event.submit.beginTopic,
+dojo.subscribe(webui.@THEME@.widget.listbox.event.submit.beginTopic,
     webui.@THEME@.widget.jsfx.common, "processSubmitEvent");

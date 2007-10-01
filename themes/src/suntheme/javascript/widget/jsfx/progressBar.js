@@ -1,3 +1,4 @@
+// widget/jsfx/progressBar.js
 //
 // The contents of this file are subject to the terms
 // of the Common Development and Distribution License
@@ -19,28 +20,32 @@
 // 
 // Copyright 2007 Sun Microsystems, Inc. All rights reserved.
 //
-// This Javascript file should be included in any page that uses the associated
-// component, where JSF Extensions is used as the underlying transfer protocol.
-//
 
+/**
+ * @name widget/jsfx/progressBar.js
+ * @version @THEME_VERSION@
+ * @overview This module contains the default Ajax implementation for the 
+ * progressBar widget.
+ * <p>
+ * Note: This Javascript file should be included in any page that uses the 
+ * associated widget, where JSF Extensions is used as the underlying transfer
+ * protocol.
+ * </p>
+ */
 dojo.provide("webui.@THEME@.widget.jsfx.progressBar");
 
-dojo.require("webui.@THEME@.widget.jsfx.*");
+dojo.require("webui.@THEME@.widget.jsfx.common");
 dojo.require("webui.@THEME@.widget.progressBar");
 
 /**
- * This name space is used to update data asynchronously.
+ * This closure is used to update data asynchronously.
  */
 webui.@THEME@.widget.jsfx.progressBar =  {
     /**
-     * This function is used to process progress events with the following Object
-     * literals.
-     *
-     * <ul>
-     *  <li>id</li>
-     * </ul>
+     * This function is used to process progress events with Object literals.
      *
      * @param props Key-Value pairs of properties.
+     * @config {String} [id] The HTML element Id.
      */
     processProgressEvent: function(props) {
         if (props == null) {
@@ -68,10 +73,10 @@ webui.@THEME@.widget.jsfx.progressBar =  {
     /**
      * This function is used to update progress.
      *
-     * @param id The client id.
-     * @param content The content returned by the AJAX response.
-     * @param closure The closure argument provided to DynaFaces.fireAjaxTransaction.
-     * @param xjson The zjson argument provided to DynaFaces.fireAjaxTransaction.
+     * @param {String} elementId The HTML element Id.
+     * @param {String} content The content returned by the AJAX response.
+     * @param {Object} closure The closure argument provided to DynaFaces.fireAjaxTransaction.
+     * @param {Object} xjson The xjson argument provided to DynaFaces.fireAjaxTransaction.
      */
     progressCallback: function(id, content, closure, xjson) {
         if (id == null || content == null) {
@@ -82,7 +87,7 @@ webui.@THEME@.widget.jsfx.progressBar =  {
         var props = JSON.parse(content);
 
         // Set progress.
-        var widget = dojo.widget.byId(id);
+        var widget = dijit.byId(id);
         widget.setProgress({
             failedStateText : props.failedStateText,
             logMessage : props.logMessage,
@@ -93,14 +98,14 @@ webui.@THEME@.widget.jsfx.progressBar =  {
         });
 
         // Publish an event for custom AJAX implementations to listen for.
-        dojo.event.topic.publish(
-            webui.@THEME@.widget.progressBar.event.progress.endTopic, props);
+        dojo.publish(
+            webui.@THEME@.widget.progressBar.event.progress.endTopic, [props]);
         return true;
     }
 }
 
 // Listen for Dojo Widget events.
-dojo.event.topic.subscribe(webui.@THEME@.widget.progressBar.event.progress.beginTopic,
+dojo.subscribe(webui.@THEME@.widget.progressBar.event.progress.beginTopic,
     webui.@THEME@.widget.jsfx.progressBar, "processProgressEvent");
-dojo.event.topic.subscribe(webui.@THEME@.widget.progressBar.event.refresh.beginTopic,
+dojo.subscribe(webui.@THEME@.widget.progressBar.event.refresh.beginTopic,
     webui.@THEME@.widget.jsfx.common, "processRefreshEvent");

@@ -1,3 +1,4 @@
+// widget/jsfx/common.js
 //
 // The contents of this file are subject to the terms
 // of the Common Development and Distribution License
@@ -20,26 +21,32 @@
 // Copyright 2007 Sun Microsystems, Inc. All rights reserved.
 //
 
+/**
+ * @name widget/jsfx/common.js
+ * @version @THEME_VERSION@
+ * @overview This module contains the common functions for the default Ajax 
+ * implementation.
+ * <p>
+ * Note: This Javascript file should be included in any page that uses the 
+ * associated widget, where JSF Extensions is used as the underlying transfer
+ * protocol.
+ * </p>
+ */
 dojo.provide("webui.@THEME@.widget.jsfx.common");
 
-dojo.require("dojo.widget.*");
-
 /**
- * This closure contains common functions of the webui.@THEME@.widget.jsfx
- * module.
+ * This closure contains functions common to the default Ajax implementation.
  */
 webui.@THEME@.widget.jsfx.common = {
     /**
-     * This function is used to process refresh events with the following Object
-     * literals.
-     *
-     * <ul>
-     *  <li>id</li>
-     *  <li>endTopic</li>
-     *  <li>execute</li>
-     * </ul>
+     * This function is used to process refresh events with Object literals.
      *
      * @param props Key-Value pairs of properties.
+     * @config {String} [id] The HTML element Id.
+     * @config {String} [endTopic] The event topic to publish.
+     * @config {String} [execute] The string containing a comma separated list 
+     * of client ids against which the execute portion of the request 
+     * processing lifecycle must be run.
      */
     processRefreshEvent: function(props) {
         if (props == null) {
@@ -65,16 +72,12 @@ webui.@THEME@.widget.jsfx.common = {
     },
 
     /**
-     * This function is used to process state change events with the following 
-     * Object literals.
-     *
-     * <ul>
-     *  <li>id</li>
-     *  <li>endTopic</li>
-     *  <li>props</li>
-     * </ul>
+     * This function is used to process state change events with Object literals.
      *
      * @param props Key-Value pairs of properties.
+     * @config {String} [id] The HTML element Id.
+     * @config {String} [endTopic] The event topic to publish.
+     * @config {Object} [props] Key-Value pairs of widget properties to update.
      */
     processStateEvent: function(props) {
         if (props == null) {
@@ -93,23 +96,21 @@ webui.@THEME@.widget.jsfx.common = {
                 id: props.id,
                 endTopic: props.endTopic,
                 event: "state",
-                props: props.props
+                props: props.props // Widget properties to update.
             }
         });
         return true;
     },
 
     /**
-     * This function is used to process submit events with the following Object
-     * literals.
-     *
-     * <ul>
-     *  <li>id</li>
-     *  <li>endTopic</li>
-     *  <li>execute</li>
-     * </ul>
+     * This function is used to process submit events with Object literals.
      *
      * @param props Key-Value pairs of properties.
+     * @config {String} [id] The HTML element Id.
+     * @config {String} [endTopic] The event topic to publish.
+     * @config {String} [execute] The string containing a comma separated list 
+     * of client ids against which the execute portion of the request 
+     * processing lifecycle must be run.
      */
     processSubmitEvent: function(props) {
         if (props == null) {
@@ -137,10 +138,10 @@ webui.@THEME@.widget.jsfx.common = {
     /**
      * This function is used to refresh widgets.
      *
-     * @param id The client id.
-     * @param content The content returned by the AJAX response.
-     * @param closure The closure argument provided to DynaFaces.fireAjaxTransaction.
-     * @param xjson The xjson argument provided to DynaFaces.fireAjaxTransaction.
+     * @param {String} elementId The HTML element Id.
+     * @param {String} content The content returned by the AJAX response.
+     * @param {Object} closure The closure argument provided to DynaFaces.fireAjaxTransaction.
+     * @param {Object} xjson The xjson argument provided to DynaFaces.fireAjaxTransaction.
      */
     refreshCallback: function(id, content, closure, xjson) {
         if (id == null || content == null) {
@@ -151,12 +152,12 @@ webui.@THEME@.widget.jsfx.common = {
         var props = JSON.parse(content);
 
         // Add rows.
-        var widget = dojo.widget.byId(id);
+        var widget = dijit.byId(id);
         widget.setProps(props);
 
         // Publish an event for custom AJAX implementations to listen for.
         if (xjson.endTopic) {
-            dojo.event.topic.publish(xjson.endTopic, props);
+            dojo.publish(xjson.endTopic, [props]);
         }
         return true;
     },
@@ -165,10 +166,10 @@ webui.@THEME@.widget.jsfx.common = {
      * This function is a callback to respond to the end of state request.
      * It will only publish submit end event without updating the widget itself.
      *
-     * @param id The client id.
-     * @param content The content returned by the AJAX response.
-     * @param closure The closure argument provided to DynaFaces.fireAjaxTransaction.
-     * @param xjson The xjson argument provided to DynaFaces.fireAjaxTransaction.
+     * @param {String} elementId The HTML element Id.
+     * @param {String} content The content returned by the AJAX response.
+     * @param {Object} closure The closure argument provided to DynaFaces.fireAjaxTransaction.
+     * @param {Object} xjson The xjson argument provided to DynaFaces.fireAjaxTransaction.
      */
     stateCallback: function(id, content, closure, xjson) {
         if (id == null || content == null) {
@@ -180,7 +181,7 @@ webui.@THEME@.widget.jsfx.common = {
             
         // Publish an event for custom AJAX implementations to listen for.
         if (xjson.endTopic) {
-            dojo.event.topic.publish(xjson.endTopic, props);
+            dojo.publish(xjson.endTopic, [props]);
         }
         return true;
     },
@@ -189,10 +190,10 @@ webui.@THEME@.widget.jsfx.common = {
      * This function is a callback to respond to the end of submit request.
      * It will only publish submit end event without updating the widget itself.
      *
-     * @param id The client id.
-     * @param content The content returned by the AJAX response.
-     * @param closure The closure argument provided to DynaFaces.fireAjaxTransaction.
-     * @param xjson The xjson argument provided to DynaFaces.fireAjaxTransaction.
+     * @param {String} elementId The HTML element Id.
+     * @param {String} content The content returned by the AJAX response.
+     * @param {Object} closure The closure argument provided to DynaFaces.fireAjaxTransaction.
+     * @param {Object} xjson The xjson argument provided to DynaFaces.fireAjaxTransaction.
      */
     submitCallback: function(id, content, closure, xjson) {
         if (id == null || content == null) {
@@ -204,7 +205,7 @@ webui.@THEME@.widget.jsfx.common = {
             
         // Publish an event for custom AJAX implementations to listen for.
         if (xjson.endTopic) {
-            dojo.event.topic.publish(xjson.endTopic, props);
+            dojo.publish(xjson.endTopic, [props]);
         }
         return true;
     }

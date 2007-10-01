@@ -47,16 +47,6 @@ public class EditableFieldRenderer extends TextFieldRenderer {
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     // RendererBase methods
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-    /**
-     * Get the Dojo module required to instantiate the widget.
-     *
-     * @param context FacesContext for the current request.
-     * @param component UIComponent to be rendered.
-     */
-    protected String getModule(FacesContext context, UIComponent component) {
-        return JavaScriptUtilities.getModuleName("widget.editableField");
-    }
     
     /**
      * Helper method to obtain component properties.
@@ -81,13 +71,13 @@ public class EditableFieldRenderer extends TextFieldRenderer {
     }
 
     /**
-     * Get the name of widget represented by this component.
+     * Get the type of widget represented by this component.
      *
      * @param context FacesContext for the current request.
      * @param component UIComponent to be rendered.
      */
-    protected String getWidgetName(FacesContext context, UIComponent component) {
-        return JavaScriptUtilities.getNamespace("editableField");
+    protected String getWidgetType(FacesContext context, UIComponent component) {
+        return JavaScriptUtilities.getModuleName("widget.editableField");
     }
     
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~

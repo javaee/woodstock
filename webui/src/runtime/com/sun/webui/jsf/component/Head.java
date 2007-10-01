@@ -188,42 +188,6 @@ public class Head extends UIComponentBase {
     }
 
     /**
-     * Flag (true or false) indicating that Dojo should search for dojoType 
-     * widget tags. Page load time is proportional to the number of nodes on the
-     * page. The default value is false.
-     */
-    @Property(name="parseWidgets", displayName="Parse Dojo Widgets", category="Javascript")
-    private boolean parseWidgets = false;
-    private boolean parseWidgets_set = false;
-
-    /**
-     * Test flag indicating that Dojo should search for dojoType widget tags.
-     */
-    public boolean isParseWidgets() {
-        if (this.parseWidgets_set) {
-            return this.parseWidgets;
-        }
-        ValueExpression _vb = getValueExpression("parseWidgets");
-        if (_vb != null) {
-            Object _result = _vb.getValue(getFacesContext().getELContext());
-            if (_result == null) {
-                return false;
-            } else {
-                return ((Boolean) _result).booleanValue();
-            }
-        }
-        return this.parseWidgets;
-    }
-
-    /**
-     * Set flag indicating that Dojo should search for dojoType widget tags.
-     */
-    public void setParseWidgets(boolean parseWidgets) {
-        this.parseWidgets = parseWidgets;
-        this.parseWidgets_set = true;
-    }
-
-    /**
      * Flag (true or false) indicating if meta data should be rendered. The 
      * default value is true.
      */
@@ -376,15 +340,13 @@ public class Head extends UIComponentBase {
         this.javaScript_set = ((Boolean) _values[10]).booleanValue();
         this.meta = ((Boolean) _values[11]).booleanValue();
         this.meta_set = ((Boolean) _values[12]).booleanValue();
-        this.parseWidgets = ((Boolean) _values[13]).booleanValue();
-        this.parseWidgets_set = ((Boolean) _values[14]).booleanValue();
     }
 
     /**
      * <p>Save the state of this component.</p>
      */
     public Object saveState(FacesContext _context) {
-        Object _values[] = new Object[15];
+        Object _values[] = new Object[13];
         _values[0] = super.saveState(_context);
         _values[1] = this.defaultBase ? Boolean.TRUE : Boolean.FALSE;
         _values[2] = this.defaultBase_set ? Boolean.TRUE : Boolean.FALSE;
@@ -398,8 +360,6 @@ public class Head extends UIComponentBase {
         _values[10] = this.javaScript_set ? Boolean.TRUE : Boolean.FALSE;
         _values[11] = this.meta ? Boolean.TRUE : Boolean.FALSE;
         _values[12] = this.meta_set ? Boolean.TRUE : Boolean.FALSE;
-        _values[13] = this.parseWidgets ? Boolean.TRUE : Boolean.FALSE;
-        _values[14] = this.parseWidgets_set ? Boolean.TRUE : Boolean.FALSE;
         return _values;
     }
 }

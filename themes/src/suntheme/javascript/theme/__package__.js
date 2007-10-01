@@ -1,3 +1,4 @@
+// theme/__package__.js
 //
 // The contents of this file are subject to the terms
 // of the Common Development and Distribution License
@@ -20,14 +21,12 @@
 // Copyright 2007 Sun Microsystems, Inc. All rights reserved.
 //
 
+/**
+ * @overview This module contains features common to all theme properties.
+ * <p>
+ * Note: This Javascript file should be included in any page that uses the theme. 
+ * </p>
+ * @version @THEME_VERSION@
+ * @name theme/__package__.js
+ */
 dojo.provide("webui.@THEME@.theme.*");
-
-// Ordered according to dependencies.
-dojo.kwCompoundRequire({
-    common: [
-        "webui.@THEME@.theme.common"]
-});
-
-// For debugging only, obtain all module resources before invoking
-// dojo.hostenv.writeIncludes(). This will ensure that JavaScript
-// files are accessible to JavaScript debuggers.

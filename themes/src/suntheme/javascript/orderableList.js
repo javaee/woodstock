@@ -1,3 +1,4 @@
+// orderableList.js
 //
 // The contents of this file are subject to the terms
 // of the Common Development and Distribution License
@@ -20,24 +21,27 @@
 // Copyright 2007 Sun Microsystems, Inc. All rights reserved.
 //
 
+/**
+ * @name orderableList.js
+ * @version @THEME_VERSION@
+ * @overview This module contains functions for orderableList components.
+ */
 dojo.provide("webui.@THEME@.orderableList");
 
 /** 
- * Define webui.@THEME@.orderableList name space. 
- */ 
+ * This closure contains functions for orderableList components.
+ */
 webui.@THEME@.orderableList = {
     /**
-     * This function is used to initialize HTML element properties with the
-     * following Object literals.
-     *
-     * <ul>
-     *  <li>id</li>
-     *  <li>moveMessage</li>
-     * </ul>
-     *
+     * This function is used to initialize HTML element properties with Object
+     * literals.
+     * <p>
      * Note: This is considered a private API, do not use.
+     * </p>
      *
-     * @param props Key-Value pairs of properties.
+     * @param {Object} props Key-Value pairs of properties.
+     * @config {String} [id] The element id.
+     * @config {String} [moveMessage]
      */
     init: function(props) {
         if (props == null || props.id == null) {
@@ -103,7 +107,7 @@ webui.@THEME@.orderableList = {
         domNode.values = document.getElementById(props.id + "_list_value");
 
         // The messages
-        if(domNode.moveMessage == null) {
+        if (domNode.moveMessage == null) {
             "Select at least one item to remove";
         }
 
@@ -115,17 +119,21 @@ webui.@THEME@.orderableList = {
         domNode.updateButtons = webui.@THEME@.orderableList.updateButtons;
         domNode.updateValue = webui.@THEME@.orderableList.updateValue;
         domNode.onChange = webui.@THEME@.orderableList.updateButtons;
+
+        return true;
     },
 
-    // The original allowed items to be moved on both lists. Surely we
-    // only sort items on the selected list? 
-    // This does not work on Mozilla
+    /**
+     * The original allowed items to be moved on both lists. Surely we
+     * only sort items on the selected list? 
+     * This does not work on Mozilla
+     */
     moveUp: function() {
         var numOptions = this.options.length;
     
         // If there aren't at least two more selected items, then there is
         // nothing to move 
-        if(numOptions < 2) {
+        if (numOptions < 2) {
             return;
         }
 
@@ -136,9 +144,9 @@ webui.@THEME@.orderableList = {
         // on the first selected item that is below an unselected
         // item. We identify the first unselected item on the list, and 
         // then we will start on next item after that
-        while(this.options[index].selected) {
+        while (this.options[index].selected) {
             ++index;
-            if(index == numOptions) {
+            if (index == numOptions) {
                 // We've reached the last item - no more items below it so
                 // we return
                 return;
@@ -148,10 +156,10 @@ webui.@THEME@.orderableList = {
         // Start on the item below this one 
         ++index;
 
-        for(index;index < numOptions;++index) {
-            if(this.options[index].selected == true) {
+        for (index; index < numOptions; ++index) {
+            if (this.options[index].selected == true) {
                 var curOption = this.options[index];
-                if(this.options.remove == null) {
+                if (this.options.remove == null) {
                     // For Mozilla
                     this.options[index] = null;
                     this.list.add(curOption, this.options[index - 1]);
@@ -166,16 +174,18 @@ webui.@THEME@.orderableList = {
             }
         }
         this.updateValue();
-        this.updateButtons();
+        return this.updateButtons();
     },
 
-    // The original allowed items to be moved on both lists. Surely we
-    // only sort items on the selected list? 
-    // This does not work on Mozilla
+    /**
+     * The original allowed items to be moved on both lists. Surely we
+     * only sort items on the selected list? 
+     * This does not work on Mozilla
+     */
     moveTop: function() {
         var numOptions = this.options.length;
         // If there aren't at least two items, there is nothing to move  
-        if(numOptions < 2) {
+        if (numOptions < 2) {
             return;
         }
 
@@ -188,10 +198,10 @@ webui.@THEME@.orderableList = {
         // Find the first selected item below it
         var index = openSpot+1;
 
-        for(index;index < numOptions;++index) {
-            if(this.options[index].selected == true) {
+        for (index; index < numOptions; ++index) {
+            if (this.options[index].selected == true) {
                 var curOption = this.options[index];
-                if(this.options.remove == null) {
+                if (this.options.remove == null) {
                     // For Mozilla
                     this.options[index] = null;
                     this.list.add(curOption, this.options[openSpot]);
@@ -208,23 +218,25 @@ webui.@THEME@.orderableList = {
             }
         }
         this.updateValue();
-        this.updateButtons();
+        return this.updateButtons();
     },
 
-    // The original allowed items to be moved on both lists. Surely we
-    // only sort items on the selected list? 
-    // This does not work on Mozilla
+    /** 
+     * The original allowed items to be moved on both lists. Surely we
+     * only sort items on the selected list? 
+     * This does not work on Mozilla
+     */
     moveDown: function() {
         // Get the last item
         var index = this.options.length - 1;
     
         // If this number is less than zero, there was nothing on the list
         // and we return
-        if(index < 0) {
+        if (index < 0) {
             return;
         }
 
-        for (var i = index - 1;i >= 0;i--) {
+        for (var i = index - 1; i >= 0; i--) {
             if (this.options[i].selected) {          
                 var next = i + 1;
                 if (this.options[next].selected == false) {
@@ -241,14 +253,17 @@ webui.@THEME@.orderableList = {
         }
 
         this.updateValue();
-        this.updateButtons();
+        return this.updateButtons();
     },
 
+    /**
+     *
+     */
     moveBottom: function() {
         var numOptions = this.options.length - 1;
 
         // If there aren't at least two items, there is nothing to move  
-        if(numOptions < 1) {
+        if (numOptions < 1) {
             return;
         }
 
@@ -261,10 +276,10 @@ webui.@THEME@.orderableList = {
         // Find the first selected item above it
         var index = openSpot-1;
 
-        for(index;index > -1;--index) {
-            if(this.options[index].selected == true) {
+        for (index; index > -1; --index) {
+            if (this.options[index].selected == true) {
                 var curOption = this.options[index];
-	        if(this.options.remove == null) {
+	        if (this.options.remove == null) {
                     // For Mozilla
                     this.options[index] = null;
                     this.list.add(curOption, this.options[openSpot+1]);
@@ -281,9 +296,12 @@ webui.@THEME@.orderableList = {
             }
         }
         this.updateValue();
-        this.updateButtons();
+        return this.updateButtons();
     },
 
+    /**
+     *
+     */
     updateButtons: function() {
         var numOptions = this.options.length;
         var selectedIndex = this.options.selectedIndex;
@@ -294,10 +312,10 @@ webui.@THEME@.orderableList = {
         // enabled. These buttons should be enabled if and only if at
         // least one of the items are selected and there is at least one
         // open spot below a selected item. 
-        if(selectedIndex > -1 && selectedIndex < numOptions -1) {
+        if (selectedIndex > -1 && selectedIndex < numOptions -1) {
             index = selectedIndex+1;
-            while(index < numOptions) {
-                if(this.options[index].selected == false) {
+            while (index < numOptions) {
+                if (this.options[index].selected == false) {
                     disabled = false;
                     break;
                 }
@@ -305,16 +323,16 @@ webui.@THEME@.orderableList = {
             }
         }
 
-        if(this.moveDownButton != null) {
-            if(this.moveDownButton.setDisabled != null) {
+        if (this.moveDownButton != null) {
+            if (this.moveDownButton.setDisabled != null) {
                 this.moveDownButton.setDisabled(disabled);
             } else {
                 this.moveDownButton.disabled = disabled;
             }
         }
 
-        if(this.moveBottomButton != null) {
-            if(this.moveBottomButton.setDisabled != null) {
+        if (this.moveBottomButton != null) {
+            if (this.moveBottomButton.setDisabled != null) {
                 this.moveBottomButton.setDisabled(disabled);
             } else {
                 this.moveBottomButton.disabled = disabled;
@@ -327,17 +345,17 @@ webui.@THEME@.orderableList = {
         // open spot above a selected item. 
         disabled = true;
 
-        if(selectedIndex > -1) {
+        if (selectedIndex > -1) {
             index = numOptions - 1;
-            while(index > 0) {
-                if(this.options[index].selected) {
+            while (index > 0) {
+                if (this.options[index].selected) {
                     break;
                 }
                 index--;
             }
             index--;
-            while(index > -1) {
-                if(this.options[index].selected == false) {
+            while (index > -1) {
+                if (this.options[index].selected == false) {
                     disabled = false;
                     break;
                 }
@@ -345,27 +363,31 @@ webui.@THEME@.orderableList = {
             }
         }
 
-        if(this.moveUpButton != null) {
-            if(this.moveUpButton.setDisabled != null) {
+        if (this.moveUpButton != null) {
+            if (this.moveUpButton.setDisabled != null) {
                 this.moveUpButton.setDisabled(disabled);
             } else {
                 this.moveUpButton.disabled = disabled;
             }
         }
 
-        if(this.moveTopButton != null) {
-            if(this.moveTopButton.setDisabled != null) {
+        if (this.moveTopButton != null) {
+            if (this.moveTopButton.setDisabled != null) {
                 this.moveTopButton.setDisabled(disabled);
             } else {
                 this.moveTopButton.disabled = disabled;
             }
         }
+        return true;
     },
 
+    /**
+     *
+     */
     updateValue: function() {
         // Remove the options from the select that holds the actual
         // selected values
-        while(this.values.length > 0) {
+        while (this.values.length > 0) {
             this.values.remove(0);
         }
 
@@ -375,12 +397,12 @@ webui.@THEME@.orderableList = {
         var cntr = 0;
         var newOption;
 
-        while(cntr < this.options.length) {
+        while (cntr < this.options.length) {
             newOption = document.createElement("option");
-            if(this.options[cntr].text != null) {
+            if (this.options[cntr].text != null) {
                 newOption.text = this.options[cntr].text;
             }
-            if(this.options[cntr].value != null) {
+            if (this.options[cntr].value != null) {
                 newOption.value = this.options[cntr].value;
             }
             newOption.selected = true;
@@ -388,15 +410,15 @@ webui.@THEME@.orderableList = {
             ++ cntr;
         }
         cntr = 0;
-        if(this.options.remove == null) {
+        if (this.options.remove == null) {
             // For Mozilla
-            while(cntr < newOptions.length) {
+            while (cntr < newOptions.length) {
                 this.values.add(newOptions[cntr], null);
                 ++cntr;
             }
         } else {
             // Windows and Opera do
-            while(cntr < newOptions.length) {
+            while (cntr < newOptions.length) {
                 this.values.add(newOptions[cntr], cntr);
                 ++cntr;
             }

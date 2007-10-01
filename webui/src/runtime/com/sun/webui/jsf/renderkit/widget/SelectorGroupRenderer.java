@@ -171,7 +171,7 @@ abstract class SelectorGroupRenderer extends RendererBase {
      * radio button/checkbox.
      */
     protected abstract boolean isSelected(Option item, Object currentValue);
-        
+
 
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     // Renderer methods

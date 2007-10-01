@@ -1,3 +1,4 @@
+// widget/widgetBase.js
 //
 // The contents of this file are subject to the terms
 // of the Common Development and Distribution License
@@ -20,44 +21,36 @@
 // Copyright 2007 Sun Microsystems, Inc. All rights reserved.
 //
 
-dojo.provide("webui.@THEME@.widget.widgetBase");
-
-dojo.require("dojo.widget.*");
-dojo.require("webui.@THEME@.*");
-dojo.require("webui.@THEME@.theme.*");
-dojo.require("webui.@THEME@.widget.*");
-
 /**
- * The widgetBase object is used for base functionality in all widgets. It 
- * inherits from the dojo.widget.HtmlWidget module which, in turn, inherits 
- * from dojo.widget.DomWidget and dojo.widget.Widget. The dojo.widget.Widget
- * module is responsible for calling the buildRendering(), initialize(), 
- * postInitialize(), and postCreate() functions in that order.
- *
- * The dojo.widget.DomWidget module is responsible for calling fillInTemplate() 
- * from within buildRendering(). The fillInTemplate() function is used to fill 
- * in template properties during initialization. Anything to be set only once 
- * should be added here (e.g., setting public functions on a DOM node). Public
- * functions such as getProps(), setProps(), and refresh() are set on the DOM 
- * via the "superclass" function of widgetBase.
- *
- * The initialization() function is responsible for initializing widget object. 
- * For example, we use this function to initialize CSS selectors use by the 
- * button, dropDown, and listbox widgets.
- *
- * The postInitialization() function is responsible for invoking the private
- * _setProps() function. The _setProps() function is used to set widget 
- * properties that can be updated by a web app developer. Properties should be
- * set if and only if a key-value pair has been given. The function is also used
- * during initialization since it does not extend the widget with known 
- * properties.
- *
- * The private _setProps() function is responsible for invoking setCommonProps()
- * and setEventProps(). These properties may or may not be set on the outermost
- * DOM node; however, core (i.e., id, class, style, etc.) properties are. Core 
- * properties are set on the DOM via the "superclass" function of widgetBase 
- * which invokes the setCoreProps() function.
- *
+ * @name widget/widgetBase.js
+ * @version @THEME_VERSION@
+ * @overview This module contains classes and functions used as base 
+ * functionality for all widgets. 
+ * <p>
+ * The widgetBase object inherits from dijit._Widget and dijit_Templated. The 
+ * dijit._Widget object is responsible for calling the buildRendering() and 
+ * postCreate() functions in that order. The dijit_Templated function overrides
+ * the buildRendering() functon to fill in template properties.
+ * <p></p>
+ * The postCreate() function is responible for initializing CSS selectors, 
+ * events, and public functions. Commonly used functions (e.g., getProps(), 
+ * setProps(), and refresh() are set on the outermost DOM node via the 
+ * "superclass" function of widgetBase. This inherited function is also 
+ * responsible for invoking the private _setProps() function. 
+ * <p></p>
+ * The private _setProps() function is used to set widget properties that can be
+ * updated by a web app developer. This helps encapsolate functionality and 
+ * brand changes while providing a common API for all widgets. In addition, the 
+ * widget is selctively updated (i.e., if and only if a key-value pair has been 
+ * given). Saving given properties is deferred to the public setProps() function
+ * which allows _setProps() to be used during initialization.
+ * <p></p>
+ * The private _setProps() function is also responsible for invoking 
+ * setCommonProps() and setEventProps(). These properties may not always be set 
+ * on the outermost DOM node; however, core (i.e., id, class, style, etc.) 
+ * properties are. Core properties are set on the DOM via the "superclass" 
+ * function of widgetBase which invokes the setCoreProps() function.
+ * <p></p>
  * The getClassName() function is responsible for obtaining the selector that
  * will be set on the outermost DOM node. The private _setProps() function 
  * of widgetBase ensures that the getClassName() function is called prior to 
@@ -65,48 +58,70 @@ dojo.require("webui.@THEME@.widget.*");
  * order to apply widget specific selectors. However, selectors should be 
  * concatinated in order of precedence (e.g., the user's className property is 
  * always appended last).
- *
+ * <p></p>
  * The public setProps() function is responsible for extending the widget object
  * with properties so they can be used during later updates. After extending the
  * widget, the private _setProps() function is called. In some cases, the public
  * setProps() function may be overridden. For example, the label clears the
  * contents property from the widget because that is something we do not want to
  * extend.
+ * <p></p>
+ * The startup() function is typically called after the widget has been 
+ * instantiated. For example, a progressBar might start a timer to periodically
+ * refresh. 
+ * </p>
  *
- * The postCreate() function is typically used after the widget has been 
- * rendered completely. For example, the progressBar calls a timeout used to
- * periodically publish progress events. At this point, newly created DOM nodes
- * still have not been added to the document.
+ * @example The following function is used to create a feature-rich constructor
+ * from compact notation.
+ * <p><code>
+ * dojo.declare("webui.@THEME@.widget.button", webui.@THEME@.widget.widgetBase);
+ * </code></p>
  */
-webui.@THEME@.widget.widgetBase = function() {
-    // Register widget.
-    dojo.widget.HtmlWidget.call(this);
-}
+dojo.provide("webui.@THEME@.widget.widgetBase");
+ 
+dojo.require("dijit._Widget"); 
+dojo.require("dijit._Templated"); 
+dojo.require("webui.@THEME@.common");
+dojo.require("webui.@THEME@.theme.common");
+dojo.require("webui.@THEME@.widget.common");
+
+/**
+ * This function is used to construct a template based widget.
+ *
+ * @name webui.@THEME@.widget.widgetBase
+ * @constructor
+ */
+dojo.declare("webui.@THEME@.widget.widgetBase", [dijit._Widget, dijit._Templated], {
+    // Note: If your class contains arrays or other objects, they should be
+    // declared in the constructor function so that each instance gets it's own
+    // copy. Simple types (literal strings and numbers) are fine to declare in 
+    // the class directly.
+
+    // Set defaults.
+    theme: webui.@THEME@.theme.common, // Common theme utils.
+    widget: webui.@THEME@.widget.common // Common widget utils. 
+});
 
 /**
  * This function is used to include default Ajax functionality. Before the given
  * module is included in the page, a test is performed to ensure that the 
  * default Ajax implementation is being used.
  */
-webui.@THEME@.widget.widgetBase.ajaxify = function() {
+webui.@THEME@.widget.widgetBase.prototype.ajaxify = function() {
     // To do: Get module from the theme.
     if (webui.@THEME@.widget.jsfx) {
-        this.widget.require("webui.@THEME@.widget.jsfx." + this.widgetType);
+        dojo.require("webui.@THEME@.widget.jsfx." + this.widgetName);
     }
 }
 
 /**
  * This function is used to render the widget from a template.
- *
- * @param props Key-Value pairs of properties.
- * @param frag HTML fragment.
- * @param parent The parent of this widget.
  */
-webui.@THEME@.widget.widgetBase.buildRendering = function (props, frag, parent) {
+webui.@THEME@.widget.widgetBase.prototype.buildRendering = function () {
     // Get default templates.
     if (this.templatePath == null && this.templateString == null) {
-        this.templatePath = this.widget.getTemplatePath(this.widgetType);
-        this.templateString = this.widget.getTemplateString(this.widgetType);
+        this.templatePath = this.widget.getTemplatePath(this.widgetName);
+        this.templateString = this.widget.getTemplateString(this.widgetName);
     }
 
     // The templatePath should have precedence. Therefore, in order for the 
@@ -116,135 +131,7 @@ webui.@THEME@.widget.widgetBase.buildRendering = function (props, frag, parent) 
     }
 
     // Template must be set prior to calling "superclass".
-    return webui.@THEME@.widget.widgetBase.superclass.buildRendering.call(this, props, frag, parent);
-}
-
-/**
- * This closure is used to process widget events.
- */
-webui.@THEME@.widget.widgetBase.event = {
-    /**
-     * This closure is used to process refresh events.
-     */
-    refresh: {
-        /**
-         * Event topics for custom AJAX implementations to listen for.
-         */
-        beginTopic: null,
-        endTopic: null,
- 
-        /**
-         * Process refresh event.
-         *
-         * @param execute The string containing a comma separated list of client ids 
-         * against which the execute portion of the request processing lifecycle
-         * must be run.
-         */
-        processEvent: function(execute) {
-            // Include default AJAX implementation.
-            this.ajaxify();
-
-            // Publish an event for custom AJAX implementations to listen for.
-            dojo.event.topic.publish(
-                this.event.refresh.beginTopic, {
-                    id: this.id,
-                    execute: execute,
-                    endTopic: this.event.refresh.endTopic
-                });
-            return true;
-        }
-    },
-
-    /**
-     * This closure is used to process state change events.
-     */
-    state: {
-        /**
-         * Event topics for custom AJAX implementations to listen for.
-         */
-        beginTopic: null,
-        endTopic: null,
-
-        /**
-         * Process state change event.
-         *
-         * @param props Key-Value pairs of properties.
-         */
-        processEvent: function(props) {
-            // Include default AJAX implementation.
-            this.ajaxify();
-
-            // Publish an event for custom AJAX implementations to listen for.
-            dojo.event.topic.publish(
-                this.event.state.beginTopic, {
-                    id: this.id,
-                    endTopic: this.event.state.endTopic,
-                    props: props
-                });
-            return true;
-        }
-    },
-
-    /**
-     * This closure is used to process submit events.
-     */
-    submit: {
-        /**
-         * Event topics for custom AJAX implementations to listen for.
-         */
-        beginTopic: null,
-        endTopic: null,
-    
-        /**
-         * Process submit event.
-         *
-         * @param execute Comma separated string containing a list of client ids 
-         * against which the execute portion of the request processing lifecycle
-         * must be run.
-         */
-        processEvent: function(execute) {
-            // Include default AJAX implementation.
-            this.ajaxify();
-
-            // Publish an event for custom AJAX implementations to listen for.
-            dojo.event.topic.publish(
-                this.event.submit.beginTopic, {
-                    id: this.id,
-                    execute: execute,
-                    endTopic: this.event.submit.endTopic
-                });
-            return true;
-        }
-    }
-}
-
-/**
- * This function is used to fill in template properties.
- *
- * Note: This is called after the buildRendering() function. Anything to be set 
- * only once should be added here; otherwise, use the _setProps() function.
- *
- * @param props Key-Value pairs of properties.
- * @param frag HTML fragment.
- */
-webui.@THEME@.widget.widgetBase.fillInTemplate = function(props, frag) {
-    webui.@THEME@.widget.widgetBase.superclass.fillInTemplate.call(this, props, frag, parent);
-
-    // Since the anchor id and name must be the same on IE, we cannot obtain the
-    // widget using the DOM node ID via the public functions below. Therefore, 
-    // we need to set the widget id via closure magic.
-    var id = this.id;
-
-    // Set public functions.
-    this.domNode.getProps = function() { return dojo.widget.byId(id).getProps(); }
-    this.domNode.refresh = function(execute) { return dojo.widget.byId(id).refresh(execute); }
-    this.domNode.setProps = function(props, notify) { return dojo.widget.byId(id).setProps(props, notify); }
-
-    // In order to register widgets properly, the DOM node id must be set prior 
-    // to creating any widget children. Otherwise, widgets may not be destroyed.
-    this.domNode.id = id;
-
-    return true;
+    return this.inherited("buildRendering", arguments);
 }
 
 /**
@@ -253,7 +140,7 @@ webui.@THEME@.widget.widgetBase.fillInTemplate = function(props, frag) {
  * Note: Selectors should be concatinated in order of precedence (e.g., the 
  * user's className property is always appended last).
  */
-webui.@THEME@.widget.widgetBase.getClassName = function() {
+webui.@THEME@.widget.widgetBase.prototype.getClassName = function() {
     return this.className;
 }
 
@@ -261,7 +148,7 @@ webui.@THEME@.widget.widgetBase.getClassName = function() {
  * This function is used to get common properties from the widget. Please see
  * the setCommonProps() function for a list of supported properties.
  */
-webui.@THEME@.widget.widgetBase.getCommonProps = function() {
+webui.@THEME@.widget.widgetBase.prototype.getCommonProps = function() {
     var props = {};
 
     // Set properties.
@@ -278,7 +165,7 @@ webui.@THEME@.widget.widgetBase.getCommonProps = function() {
  * This function is used to get core properties from the widget. Please see
  * the setCoreProps() function for a list of supported properties.
  */
-webui.@THEME@.widget.widgetBase.getCoreProps = function() {
+webui.@THEME@.widget.widgetBase.prototype.getCoreProps = function() {
     var props = {};
 
     // Set properties.
@@ -294,7 +181,7 @@ webui.@THEME@.widget.widgetBase.getCoreProps = function() {
  * This function is used to get event properties from the widget. Please
  * see the setEventProps() function for a list of supported properties.
  */
-webui.@THEME@.widget.widgetBase.getEventProps = function() {
+webui.@THEME@.widget.widgetBase.prototype.getEventProps = function() {
     var props = {};
 
     // Set properties.
@@ -318,9 +205,9 @@ webui.@THEME@.widget.widgetBase.getEventProps = function() {
 
 /**
  * This function is used to get widget properties. Please see the 
- * _setProps() function for a list of supported properties.
+ * setProps() function for a list of supported properties.
  */
-webui.@THEME@.widget.widgetBase.getProps = function() {
+webui.@THEME@.widget.widgetBase.prototype.getProps = function() {
     var props = {};
 
     // Set properties.
@@ -332,25 +219,12 @@ webui.@THEME@.widget.widgetBase.getProps = function() {
 }
 
 /**
- * This function is used to initialize the widget.
- *
- * Note: This is called after the fillInTemplate() function.
- *
- * @param props Key-Value pairs of properties.
- * @param frag HTML fragment.
- * @param parent The parent of this widget.
- */
-webui.@THEME@.widget.widgetBase.initialize = function (props, frag, parent) {
-    return webui.@THEME@.widget.widgetBase.superclass.initialize.call(this, props, frag, parent);
-}
-
-/**
  * This function is used to test if widget has been initialized.
  *
  * Note: It is assumed that an HTML element is used as a place holder for the
  * document fragment.
  */
-webui.@THEME@.widget.widgetBase.isInitialized = function() {
+webui.@THEME@.widget.widgetBase.prototype.isInitialized = function() {
     // Testing if the outermost DOM node has been added to the document and
     // ensuring a Dojo attach point exists works fine for JSP. However, the 
     // following code always returns null for facelets.
@@ -364,55 +238,66 @@ webui.@THEME@.widget.widgetBase.isInitialized = function() {
 }
 
 /**
- * This function is used after the widget has been initialized.
- *
- * Note: This is called after the initialize() function.
- *
- * @param props Key-Value pairs of properties.
- * @param frag HTML fragment.
- * @param parent The parent of this widget.
+ * This is called after the buildRendering() function.
+ * 
+ * Note: Unlike Dojo 0.4, the DOM nodes don't yet exist. 
  */
-webui.@THEME@.widget.widgetBase.postInitialize = function (props, frag, parent) {
+webui.@THEME@.widget.widgetBase.prototype.postCreate = function () {
+    this.inherited("postCreate", arguments);
+
+    // In order to register widgets properly, the DOM node id must be set prior 
+    // to creating any widget children. Otherwise, widgets may not be destroyed.
+    this.domNode.id = this.id;
+
+    // Since the anchor id and name must be the same on IE, we cannot obtain the
+    // widget using the DOM node ID via the public functions below. Therefore, 
+    // we need to set the widget id via closure magic.
+    var _id = this.id;
+
+    // Set public functions.
+    this.domNode.getProps = function() { return dijit.byId(_id).getProps(); }
+    this.domNode.refresh = function(execute) { return dijit.byId(_id).refresh(execute); }
+    this.domNode.setProps = function(props, notify) { return dijit.byId(_id).setProps(props, notify); }
+
     // Set properties.
-    this._setProps(props);
+    this._setProps(this.getProps());
 
-    // Call "superclass" after setting properties due to flashing. This is best
-    // seen while invoking refresh() for checkbox/radiobutton group.
-    return webui.@THEME@.widget.widgetBase.superclass.postInitialize.call(this, props, frag, parent);
-}
-
-/**
- * This function is used after the widget has been initialized and rendered.
- *
- * Note: This is called after the postInitialize() function.
- *
- * @param props Key-Value pairs of properties.
- * @param frag HTML fragment.
- * @param parent The parent of this widget.
- */
-webui.@THEME@.widget.widgetBase.postCreate = function (props, frag, parent) {
     // All widget properties have been set.
-    this.initialized = true;
-
-    return webui.@THEME@.widget.widgetBase.superclass.postCreate.call(this, props, frag, parent);
+    return this.initialized = true;
 }
 
 /**
- * This function is used to set common properties for the given domNode
- * with the following Object literals.
+ * Process refresh event.
  *
- * <ul>
- *  <li>accessKey</li>
- *  <li>dir</li>
- *  <li>lang</li>
- *  <li>tabIndex</li>
- *  <li>title</li>
- * </ul>
- *
- * @param domNode The DOM node to assign properties to.
- * @param props Key-Value pairs of properties.
+ * @param {String} execute The string containing a comma separated list 
+ * of client ids against which the execute portion of the request 
+ * processing lifecycle must be run.
  */
-webui.@THEME@.widget.widgetBase.setCommonProps = function(domNode, props) {
+webui.@THEME@.widget.widgetBase.prototype.refresh = function(execute) {
+    // Include default AJAX implementation.
+    this.ajaxify();
+
+    // Publish an event for custom AJAX implementations to listen for.
+    dojo.publish(this.event.refresh.beginTopic, [{
+        id: this.id,
+        execute: execute,
+        endTopic: this.event.refresh.endTopic
+    }]);
+    return true;
+}
+
+/**
+ * This function is used to set common properties for the given domNode.
+ *
+ * @param {Node} domNode The DOM node to assign properties to.
+ * @param {Object} props Key-Value pairs of properties.
+ * @config {String} [accessKey] Shortcut key.
+ * @config {String} [dir] Specifies the directionality of text.
+ * @config {String} [lang] Specifies the language of attribute values and content.
+ * @config {int} [tabIndex] Position in tabbing order.
+ * @config {String} [title] Provides a title for element.
+ */
+webui.@THEME@.widget.widgetBase.prototype.setCommonProps = function(domNode, props) {
     if (domNode == null || props == null) {
         return false;
     }
@@ -435,26 +320,22 @@ webui.@THEME@.widget.widgetBase.setCommonProps = function(domNode, props) {
 }
 
 /**
- * This function is used to set core properties for the given domNode
- * with the following Object literals. These properties are typically
- * set on the outermost element.
- *
- * <ul>
- *  <li>className</li>
- *  <li>id</li>
- *  <li>style</li>
- *  <li>visible</li>
- * </ul>
+ * This function is used to set core properties for the given domNode. These
+ * properties are typically set on the outermost element.
  *
  * Note: The className is typically provided by a web app developer. If 
  * the widget has a default className, it should be added to the DOM node
  * prior to calling this function. For example, the "myCSS" className would
  * be appended to the existing "Tblsun4" className (e.g., "Tbl_sun4 myCSS").
  *
- * @param domNode The DOM node to assign properties to.
- * @param props Key-Value pairs of properties.
+ * @param {Node} domNode The DOM node to assign properties to.
+ * @param {Object} props Key-Value pairs of properties.
+ * @config {String} [className] CSS selector.
+ * @config {String} [id] Uniquely identifies an element within a document.
+ * @config {String} [style] Specify style rules inline.
+ * @config {boolean} [visible] Hide or show element.
  */
-webui.@THEME@.widget.widgetBase.setCoreProps = function(domNode, props) {
+webui.@THEME@.widget.widgetBase.prototype.setCoreProps = function(domNode, props) {
     if (domNode == null || props == null) {
         return false;
     }
@@ -475,30 +356,26 @@ webui.@THEME@.widget.widgetBase.setCoreProps = function(domNode, props) {
 }
 
 /**
- * This function is used to set event properties for the given domNode
- * with the following Object literals.
+ * This function is used to set event properties for the given domNode.
  *
- * <ul>
- *  <li>onBlur</li>
- *  <li>onChange</li>
- *  <li>onClick</li>
- *  <li>onDblClick</li>
- *  <li>onFocus</li>
- *  <li>onKeyDown</li>
- *  <li>onKeyPress</li>
- *  <li>onKeyUp</li>
- *  <li>onMouseDown</li>
- *  <li>onMouseOut</li>
- *  <li>onMouseOver</li>
- *  <li>onMouseUp</li>
- *  <li>onMouseMove</li>
- *  <li>onSelect</li>
- * </ul>
- *
- * @param domNode The DOM node to assign properties to.
- * @param props Key-Value pairs of properties.
+ * @param {Node} domNode The DOM node to assign properties to.
+ * @param {Object} props Key-Value pairs of properties.
+ * @config {String} [onBlur] Element lost focus.
+ * @config {String} [onChange] Element value changed.
+ * @config {String} [onClick] Mouse button is clicked on element.
+ * @config {String} [onDblClick] Mouse button is double-clicked on element.
+ * @config {String} [onFocus] Element received focus.
+ * @config {String} [onKeyDown] Key is pressed down over element.
+ * @config {String} [onKeyPress] Key is pressed and released over element.
+ * @config {String} [onKeyUp] Key is released over element.
+ * @config {String} [onMouseDown] Mouse button is pressed over element.
+ * @config {String} [onMouseOut] Mouse is moved away from element.
+ * @config {String} [onMouseOver] Mouse is moved onto element.
+ * @config {String} [onMouseUp] Mouse button is released over element.
+ * @config {String} [onMouseMove] Mouse is moved while over element.
+ * @config {String} [onSelect] Element text selected.
  */
-webui.@THEME@.widget.widgetBase.setEventProps = function(domNode, props) {
+webui.@THEME@.widget.widgetBase.prototype.setEventProps = function(domNode, props) {
     if (domNode == null || props == null) {
         return false;
     }
@@ -579,20 +456,22 @@ webui.@THEME@.widget.widgetBase.setEventProps = function(domNode, props) {
 }
 
 /**
- * This function is used to set widget properties. Please see the 
- * _setProps() function for a list of supported properties.
+ * This function is used to set widget properties.
  *
- * Note: This function updates the widget object for later updates. Further, the
+ * Note: This function extends the widget object for later updates. Further, the
  * widget shall be updated only for the given key-value pairs.
  *
  * Note: If the notify param is true, the widget's state change event shall be
  * published. This is typically used to keep client-side state in sync with the
  * server.
  *
- * @param props Key-Value pairs of properties.
- * @param notify Publish an event for custom AJAX implementations to listen for.
+ * @param {Object} props Key-Value pairs of properties.
+ * @config {String} [className] CSS selector.
+ * @config {String} [id] Uniquely identifies an element within a document.
+ * @config {String} [style] Specify style rules inline.
+ * @config {boolean} [visible] Hide or show element.
  */
-webui.@THEME@.widget.widgetBase.setProps = function(props, notify) {
+webui.@THEME@.widget.widgetBase.prototype.setProps = function(props, notify) {
     if (props == null) {
         return false;
     }
@@ -611,23 +490,16 @@ webui.@THEME@.widget.widgetBase.setProps = function(props, notify) {
 }
 
 /**
- * This function is used to set widget properties with the following 
- * Object literals.
- *
- * <ul>
- *  <li>className</li>
- *  <li>id</li>
- *  <li>style</li>
- *  <li>visible</li>
- * </ul>
+ * This function is used to set widget properties. Please see the setProps() 
+ * function for a list of supported properties.
  *
  * Note: This is considered a private API, do not use. This function should only
- * be invoked through postInitialize() and setProps(). Further, the widget shall
- * be updated only for the given key-value pairs.
+ * be invoked via setProps().
  *
- * @param props Key-Value pairs of properties.
+ * @param {Object} props Key-Value pairs of properties.
+ * @ignore
  */
-webui.@THEME@.widget.widgetBase._setProps = function(props) {
+webui.@THEME@.widget.widgetBase.prototype._setProps = function(props) {
     if (props == null) {
         return false;
     }
@@ -639,35 +511,32 @@ webui.@THEME@.widget.widgetBase._setProps = function(props) {
     return this.setCoreProps(this.domNode, props);
 }
 
-// Inherit base widget properties.
-dojo.inherits(webui.@THEME@.widget.widgetBase, dojo.widget.HtmlWidget);
+/**
+ * This function is used to "start" the widget, after the widget has been
+ * instantiated.
+ */
+webui.@THEME@.widget.widgetBase.prototype.startup = function () {
+    if (this._started) {
+        return false;
+    }
+    this.inherited("startup", arguments);
+    return this._started = true;
+}
 
-// Override base widget by assigning properties to class prototype.
-dojo.lang.extend(webui.@THEME@.widget.widgetBase, {
-    // Set private functions.
-    ajaxify: webui.@THEME@.widget.widgetBase.ajaxify,
-    buildRendering: webui.@THEME@.widget.widgetBase.buildRendering,
-    fillInTemplate: webui.@THEME@.widget.widgetBase.fillInTemplate,
-    getClassName: webui.@THEME@.widget.widgetBase.getClassName,
-    getCommonProps: webui.@THEME@.widget.widgetBase.getCommonProps,
-    getCoreProps: webui.@THEME@.widget.widgetBase.getCoreProps,
-    getEventProps: webui.@THEME@.widget.widgetBase.getEventProps,
-    getProps: webui.@THEME@.widget.widgetBase.getProps,
-    initialize: webui.@THEME@.widget.widgetBase.initialize,
-    isInitialized: webui.@THEME@.widget.widgetBase.isInitialized,
-    postInitialize: webui.@THEME@.widget.widgetBase.postInitialize,
-    postCreate: webui.@THEME@.widget.widgetBase.postCreate,
-    refresh: webui.@THEME@.widget.widgetBase.event.refresh.processEvent,
-    setCommonProps: webui.@THEME@.widget.widgetBase.setCommonProps,
-    setCoreProps: webui.@THEME@.widget.widgetBase.setCoreProps,
-    setEventProps: webui.@THEME@.widget.widgetBase.setEventProps,
-    setProps: webui.@THEME@.widget.widgetBase.setProps,
-    _setProps: webui.@THEME@.widget.widgetBase._setProps,
-    stateChanged: webui.@THEME@.widget.widgetBase.event.state.processEvent,
+/**
+ * Process state change event.
+ *
+ * @param {Object} props Key-Value pairs of widget properties to update.
+ */
+webui.@THEME@.widget.widgetBase.prototype.stateChanged = function(props) {
+    // Include default AJAX implementation.
+    this.ajaxify();
 
-    // Set defaults.
-    event: webui.@THEME@.widget.widgetBase.event, // Common events.
-    theme: webui.@THEME@.theme.common, // Common theme utils.
-    widget: webui.@THEME@.widget.common // Common widget utils.
-});
-
+    // Publish an event for custom AJAX implementations to listen for.
+    dojo.publish(this.event.state.beginTopic, [{
+        id: this.id,
+        endTopic: this.event.state.endTopic,
+        props: props
+    }]);
+    return true;
+}

@@ -1,3 +1,4 @@
+// scheduler.js
 //
 // The contents of this file are subject to the terms
 // of the Common Development and Distribution License
@@ -20,33 +21,36 @@
 // Copyright 2007 Sun Microsystems, Inc. All rights reserved.
 //
 
+/**
+ * @name scheduler.js
+ * @version @THEME_VERSION@
+ * @overview This module contains functions for scheduler components.
+ */
 dojo.provide("webui.@THEME@.scheduler");
 
 dojo.require("webui.@THEME@.formElements");
 
 /** 
- * Define webui.@THEME@.scheduler name space. 
- */ 
+ * This closure contains functions for scheduler components.
+ */
 webui.@THEME@.scheduler = {
     /**
-     * This function is used to initialize HTML element properties with the
-     * following Object literals.
-     *
-     * <ul>
-     *  <li>id</li>
-     *  <li>datePickerId</li>
-     *  <li>dateFieldId</li>
-     *  <li>dateClass</li>
-     *  <li>selectedClass</li>
-     *  <li>edgeClass</li>
-     *  <li>edgeSelectedClass</li>
-     *  <li>todayClass</li>
-     *  <li>dateFormat</li>
-     * </ul>
-     *
+     * This function is used to initialize HTML element properties with Object
+     * literals.
+     * <p>
      * Note: This is considered a private API, do not use.
+     * </p>
      *
-     * @param props Key-Value pairs of properties.
+     * @param {Object} props Key-Value pairs of properties.
+     * @config {String} [id] The element id.
+     * @config {String} [datePickerId]
+     * @config {String} [dateFieldId]
+     * @config {String} [dateClass]
+     * @config {String} [selectedClass]
+     * @config {String} [edgeClass]
+     * @config {String} [edgeSelectedClass]
+     * @config {String} [todayClass]
+     * @config {String} [dateFormat]
      */
     init: function(props) {
         if (props == null || props.id == null) {
@@ -64,17 +68,28 @@ webui.@THEME@.scheduler = {
         // Set functions.
         domNode.setSelected = webui.@THEME@.scheduler.setSelected;
         domNode.setDateValue = webui.@THEME@.scheduler.setDateValue; 
-        domNode.isToday = webui.@THEME@.scheduler.isToday;	
+        domNode.isToday = webui.@THEME@.scheduler.isToday;
+
+        return true;
     },
 
+    /**
+     *
+     * @param {String} value
+     * @param {Node} link
+     */
     setDateValue: function(value, link) {
         webui.@THEME@.field.setValue(this.dateFieldId, value); 
-        this.setSelected(link);	
+        return this.setSelected(link);	
     },
 
+    /**
+     *
+     * @param {Node} link
+     */
     setSelected: function(link) {
         if (link == null) {
-            return;
+            return false;
         }
 
         var dateLink;	
@@ -106,10 +121,15 @@ webui.@THEME@.scheduler = {
         } else if (link.className = this.edgeClass) {
             link.className = this.edgeSelectedClass;
         }
-        this.currentSelection = link;	
+        this.currentSelection = link;
+        return true;
     },
 
-    // Find out if date is today's date
+    /**
+     * Find out if date is today's date.
+     *
+     * @param {Object} date
+     */
     isToday: function(date) {
         var todaysDate = new Date();
         var pattern = new String(this.dateFormat); 

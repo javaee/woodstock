@@ -1,3 +1,4 @@
+// __package__.js
 //
 // The contents of this file are subject to the terms
 // of the Common Development and Distribution License
@@ -20,28 +21,20 @@
 // Copyright 2007 Sun Microsystems, Inc. All rights reserved.
 //
 
+/**
+ * @name __package__.js
+ * @version @THEME_VERSION@
+ * @overview This module contains features common to HTML elements.
+ * <p>
+ * Note: This Javascript file should be included in any page that uses HTML
+ * elements.
+ * </p>
+ */
 dojo.provide("webui.@THEME@.*");
 
-// Ordered according to dependencies.
-dojo.kwCompoundRequire({
+// Any one of the following will include common module.
+dojo.platformRequire({
     common: [
-        "webui.@THEME@.props",
-        "webui.@THEME@.cookie",
-        "webui.@THEME@.browser",
-        "webui.@THEME@.body",
-        "webui.@THEME@.common",
-        "webui.@THEME@.formElements"]
+        "webui.@THEME@.body", // Required for scroll and focus.
+        "webui.@THEME@.formElements"] // Required for old HTML renderers.
 });
-
-// For debugging only, obtain all module resources before invoking
-// dojo.hostenv.writeIncludes(). This will ensure that JavaScript
-// files are accessible to JavaScript debuggers.
-dojo.requireIf(djConfig.isDebug, "webui.@THEME@.addRemove");
-dojo.requireIf(djConfig.isDebug, "webui.@THEME@.commonTasksSection");
-dojo.requireIf(djConfig.isDebug, "webui.@THEME@.editableList");
-dojo.requireIf(djConfig.isDebug, "webui.@THEME@.fileChooser");
-dojo.requireIf(djConfig.isDebug, "webui.@THEME@.orderableList");
-dojo.requireIf(djConfig.isDebug, "webui.@THEME@.scheduler");
-dojo.requireIf(djConfig.isDebug, "webui.@THEME@.table");
-dojo.requireIf(djConfig.isDebug, "webui.@THEME@.tree");
-dojo.requireIf(djConfig.isDebug, "webui.@THEME@.wizard");

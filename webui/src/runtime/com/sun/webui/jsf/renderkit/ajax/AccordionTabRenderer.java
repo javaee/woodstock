@@ -87,17 +87,12 @@ public class AccordionTabRenderer
         }
 
         // Output component properties if Ajax request and is refresh event.
-        // For now handle loadContent and tabAction by refreshing re rendering
-        // the tab. Events and/or Actionlisteners will be generated that should
-        // prompt the application developer to supply the appropriate data.
+        // For now handle loadContent by refreshing the tab. Events and/or 
+        // Actionlisteners will be generated that should prompt the application
+        // developer to supply the appropriate data.
         
-        if (ComponentUtilities.isAjaxRequest(context, component, "refresh")) {
-            super.encodeChildren(context, component);
-            
-        } else if (ComponentUtilities.isAjaxRequest(context, component, "loadContent")) {
-            super.encodeChildren(context, component);
-            
-        } else if (ComponentUtilities.isAjaxRequest(context, component, "tabAction")) {
+        if (ComponentUtilities.isAjaxRequest(context, component, "refresh") ||
+                ComponentUtilities.isAjaxRequest(context, component, "loadContent")) {
             super.encodeChildren(context, component);
         }
     }

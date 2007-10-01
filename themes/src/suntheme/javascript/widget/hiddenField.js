@@ -1,3 +1,4 @@
+// widget/hiddenField.js
 //
 // The contents of this file are subject to the terms
 // of the Common Development and Distribution License
@@ -20,83 +21,87 @@
 // Copyright 2007 Sun Microsystems, Inc. All rights reserved.
 //
 
+/**
+ * @name widget/hiddenField.js
+ * @version @THEME_VERSION@
+ * @overview This module contains classes and functions for the hiddenField widget.
+ * @example The following code is used to create a hiddenField widget.
+ * <p><code>
+ * var widget = new webui.@THEME@.widget.hiddenField(props, domNode);
+ * </code></p>
+ */
 dojo.provide("webui.@THEME@.widget.hiddenField");
 
-dojo.require("dojo.widget.*");
-dojo.require("webui.@THEME@.widget.*");
+dojo.require("webui.@THEME@.widget.submitBase");
 
 /**
- * This function is used to generate a template based widget.
+ * This function is used to construct a template based widget.
  *
- * Note: This is considered a private API, do not use.
+ * @name webui.@THEME@.widget.hiddenField
+ * @inherits webui.@THEME@.widget.submitBase
+ * @constructor
  */
-webui.@THEME@.widget.hiddenField = function() {
-    // Register widget.
-    dojo.widget.HtmlWidget.call(this);
-}
+dojo.declare("webui.@THEME@.widget.hiddenField", webui.@THEME@.widget.submitBase, {
+    // Set defaults.
+    disabled: false,
+    widgetName: "hiddenField" // Required for theme properties.
+});
 
 /**
- * This closure is used to process widget events.
+ * This closure contains event topics.
+ * <p>
+ * Note: Event topics must be prototyped for inherited functions. However, these
+ * topics must also be available statically so that developers may subscribe to
+ * events.
+ * </p>
+ *
+ * @ignore
  */
-webui.@THEME@.widget.hiddenField.event = {
+webui.@THEME@.widget.hiddenField.prototype.event =
+        webui.@THEME@.widget.hiddenField.event = {
     /**
-     * This closure is used to process refresh events.
+     * This closure contains refresh event topics.
+     * @ignore
      */
     refresh: {
-        /**
-         * Event topics for custom AJAX implementations to listen for.
-         */
+        /** Refresh event topic for custom AJAX implementations to listen for. */
         beginTopic: "webui_@THEME@_widget_hiddenField_event_refresh_begin",
+
+        /** Refresh event topic for custom AJAX implementations to listen for. */
         endTopic: "webui_@THEME@_widget_hiddenField_event_refresh_end"
     },
 
     /**
-     * This closure is used to process state change events.
+     * This closure contains state event topics.
+     * @ignore
      */
     state: {
-        /**
-         * Event topics for custom AJAX implementations to listen for.
-         */
+        /** State event topic for custom AJAX implementations to listen for. */
         beginTopic: "webui_@THEME@_widget_hiddenField_event_state_begin",
+
+        /** State event topic for custom AJAX implementations to listen for. */
         endTopic: "webui_@THEME@_widget_hiddenField_event_state_end"
     },
 
     /**
-     * This closure is used to process submit events.
+     * This closure contains submit event topics.
+     * @ignore
      */
     submit: {
-        /**
-         * Event topics for custom AJAX implementations to listen for.
-         */
+        /** Submit event topic for custom AJAX implementations to listen for. */
         beginTopic: "webui_@THEME@_widget_hiddenField_event_submit_begin",
+
+        /** Submit event topic for custom AJAX implementations to listen for. */
         endTopic: "webui_@THEME@_widget_hiddenField_event_submit_end"
     }
 }
 
 /**
- * This function is used to fill in template properties.
- *
- * Note: This is called after the buildRendering() function. Anything to be set 
- * only once should be added here; otherwise, use the _setProps() function.
- *
- * @param props Key-Value pairs of properties.
- * @param frag HTML fragment.
- */
-webui.@THEME@.widget.hiddenField.fillInTemplate = function(props, frag) {
-    webui.@THEME@.widget.hiddenField.superclass.fillInTemplate.call(this, props, frag);
-
-    // Set public functions. 
-    this.domNode.submit = function(execute) { return dojo.widget.byId(this.id).submit(execute); }
-
-    return true;
-}
-
-/**
  * This function is used to get widget properties. Please see the 
- * _setProps() function for a list of supported properties.
+ * setProps() function for a list of supported properties.
  */
-webui.@THEME@.widget.hiddenField.getProps = function() {
-    var props = webui.@THEME@.widget.hiddenField.superclass.getProps.call(this);
+webui.@THEME@.widget.hiddenField.prototype.getProps = function() {
+    var props = this.inherited("getProps", arguments);
 
     // Set properties.
     if (this.disabled != null) { props.disabled = this.disabled; }
@@ -107,23 +112,54 @@ webui.@THEME@.widget.hiddenField.getProps = function() {
 }
 
 /**
- * This function is used to set widget properties with the following 
- * Object literals.
- *
- * <ul>
- *  <li>disabled</li>
- *  <li>id</li>
- *  <li>name</li>
- *  <li>value</li>
- * </ul>
- *
- * Note: This is considered a private API, do not use. This function should only
- * be invoked through postInitialize() and setProps(). Further, the widget shall
- * be updated only for the given key-value pairs.
- *
- * @param props Key-Value pairs of properties.
+ * This function is used to fill in remaining template properties, after the
+ * buildRendering() function has been processed.
+ * <p>
+ * Note: Unlike Dojo 0.4, the DOM nodes don't yet exist. 
+ * </p>
  */
-webui.@THEME@.widget.hiddenField._setProps = function(props) {
+webui.@THEME@.widget.hiddenField.prototype.postCreate = function () {
+    // Set public functions. 
+    this.domNode.submit = function(execute) { return dijit.byId(this.id).submit(execute); }
+
+    return this.inherited("postCreate", arguments);
+}
+
+/**
+ * This function is used to set widget properties using Object literals.
+ * <p>
+ * Note: This function extends the widget object for later updates. Further, the
+ * widget shall be updated only for the given key-value pairs.
+ * </p><p>
+ * If the notify param is true, the widget's state change event shall be
+ * published. This is typically used to keep client-side state in sync with the
+ * server.
+ * </p>
+ *
+ * @param {Object} props Key-Value pairs of properties.
+ * @config {boolean} [disabled] Disable element.
+ * @config {String} [id] Uniquely identifies an element within a document.
+ * @config {String} [name]
+ * @config {String} [value] Value of input.
+ * @param {boolean} notify Publish an event for custom AJAX implementations to listen for.
+ */
+webui.@THEME@.widget.hiddenField.prototype.setProps = function(props, notify) {
+    // Note: This function is overridden for JsDoc.
+    return this.inherited("setProps", arguments);
+}
+
+/**
+ * This function is used to set widget properties. Please see the setProps() 
+ * function for a list of supported properties.
+ * <p>
+ * Note: This is considered a private API, do not use. This function should only
+ * be invoked via setProps().
+ * </p>
+ *
+ * @param {Object} props Key-Value pairs of properties.
+ * @private
+ */
+webui.@THEME@.widget.hiddenField.prototype._setProps = function(props) {
     if (props == null) {
         return false;
     }
@@ -136,22 +172,5 @@ webui.@THEME@.widget.hiddenField._setProps = function(props) {
     }
 
     // Set remaining properties.
-    return webui.@THEME@.widget.hiddenField.superclass._setProps.call(this, props);
+    return this.inherited("_setProps", arguments);
 }
-
-// Inherit base widget properties.
-dojo.inherits(webui.@THEME@.widget.hiddenField, webui.@THEME@.widget.widgetBase);
-
-// Override base widget by assigning properties to class prototype.
-dojo.lang.extend(webui.@THEME@.widget.hiddenField, {
-    // Set private functions.
-    fillInTemplate: webui.@THEME@.widget.hiddenField.fillInTemplate,
-    getProps: webui.@THEME@.widget.hiddenField.getProps,
-    _setProps: webui.@THEME@.widget.hiddenField._setProps,
-    submit: webui.@THEME@.widget.widgetBase.event.submit.processEvent,
-
-    // Set defaults.
-    disabled: false,
-    event: webui.@THEME@.widget.hiddenField.event,
-    widgetType: "hiddenField"
-});

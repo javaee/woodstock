@@ -1,3 +1,4 @@
+// common.js
 //
 // The contents of this file are subject to the terms
 // of the Common Development and Distribution License
@@ -20,22 +21,30 @@
 // Copyright 2007 Sun Microsystems, Inc. All rights reserved.
 //
 
+/**
+ * @name common.js
+ * @version @THEME_VERSION@
+ * @overview This module contains functions common to HTML elements.
+ */
 dojo.provide("webui.@THEME@.common");
 
-dojo.require("webui.@THEME@.browser");
+dojo.require("webui.@THEME@.theme.common");
 
 /**
- * Define webui.@THEME@.common name space.
+ * This closure contains functions common to HTML elements.
  */
 webui.@THEME@.common = {
-    // Variables needed when submitting form so timeout will work properly.
+    /**
+     * Variables needed when submitting form so timeout will work properly.
+     * @private
+     */
     formToSubmit: null,
     submissionComponentId: null,
     
-    // Browser properties.
-    browser: new webui.@THEME@.browser(),
-    
-    // Place holder for body properties instantiated by BodyRenderer.
+    /**
+     * Place holder for body properties instantiated by BodyRenderer.
+     * @private
+     */
     body: null,
     
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -44,9 +53,12 @@ webui.@THEME@.common = {
     
     /**
      * Replace occurences of delimiter with the escapeChar and the
-     * delimiter.
-     * For example replace "," with "/," if delimiter == "," and
+     * delimiter. For example replace "," with "/," if delimiter == "," and
      * escapeChar is "/".
+     *
+     * @param {String} s The string to escape.
+     * @param {String} delimiter The character to replace.
+     * @param {String} escapeChar The character used for the escape.
      */
     escapeString: function(s, delimiter, escapeChar) {
         if (s == null) {
@@ -78,8 +90,11 @@ webui.@THEME@.common = {
     
     /**
      * Replace occurences of a sequence of 2 instances of delimiter 
-     * with 1 instance of the delimiter.
-     * For example replace ",," with "," if delimiter == ","
+     * with 1 instance of the delimiter. For example replace ",," with "," if delimiter == ","
+     *
+     * @param {String} s The string to escape.
+     * @param {String} delimiter The character to replace.
+     * @param {String} escapeChar The character used for the escape.
      */
     unescapeString: function(s, delimiter, escapeChar) {
         if (s == null) {
@@ -115,7 +130,7 @@ webui.@THEME@.common = {
      * Return an array of unescaped strings from escapedString
      * where the escaped character is delimiter.
      * If delimiter is "," escapedString might have the form
-     *
+     * <p><pre>
      * XX\,XX,MM\,MM
      *
      * where "\" is the escape char.
@@ -123,7 +138,11 @@ webui.@THEME@.common = {
      * and is returned as an array
      * array[0] == "XX,XX"
      * array[1] == "MM,MM"
+     * </pre><p>
      *
+     * @param {String} escapedString The string to escape.
+     * @param {String} delimiter The character to replace.
+     * @param {String} escapeChar The character used for the escape.
      */
     unescapeStrings: function(escapedString, delimiter, escapeChar) {
         if (escapedString == null || escapedString == "") {
@@ -179,8 +198,8 @@ webui.@THEME@.common = {
     /**
      * Use this function add any styleClass to an html tag
      *
-     * @param element the dom html tag element
-     * @param styleClass the name of the class to add
+     * @param {Node} element the dom html tag element
+     * @param {String} styleClass the name of the class to add
      * @return true if successful; otherwise, false
      */
     addStyleClass: function(element, styleClass) {
@@ -209,13 +228,14 @@ webui.@THEME@.common = {
             }
         }
         element.className = element.className + " " + styleClass;
+        return true;
     },
     
     /**
      * Use this function to check if an array has a style class
      *
-     * @param styleArray of style classes to check
-     * @param styleClass the styleClass to check
+     * @param {Array} styleArray of style classes to check
+     * @param {String} styleClass the styleClass to check
      * @return array of classes
      */
     checkStyleClasses: function(styleArray, styleClass) {
@@ -233,7 +253,7 @@ webui.@THEME@.common = {
     /**
      * Use this function to get array of style classes
      *
-     * @param element the dom html tag element
+     * @param {Node} element the dom html tag element
      * @return array of classes
      */
     splitStyleClasses: function(element) {
@@ -247,8 +267,8 @@ webui.@THEME@.common = {
     /**
      * Use this function remove any styleClass for an html tag
      *
-     * @param element the dom html tag element
-     * @param styleClass the name of the class to remove
+     * @param {Node} element the dom html tag element
+     * @param {String} styleClass the name of the class to remove
      * @return true if successful; otherwise, false
      */
     stripStyleClass: function(element, styleClass) {
@@ -271,6 +291,7 @@ webui.@THEME@.common = {
             }
         }
         element.className = classes.join(" ");
+        return true;
     },
     
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -280,9 +301,9 @@ webui.@THEME@.common = {
     /**
      * Use this function to insert a hidden field element in the page.
      *
-     * @param elementId The element ID of the html tag 
-     * @param elementValue The value of the html tag.
-     * @param parentForm The parent form of the html tag.
+     * @param {String} elementId The element ID of the html tag 
+     * @param {String} elementValue The value of the html tag.
+     * @param {Node} parentForm The parent form of the html tag.
      */
     insertHiddenField: function(elementId, elementValue, parentForm) {
         // We have to assume that there is only one element
@@ -303,7 +324,7 @@ webui.@THEME@.common = {
         var element = document.getElementById(elementId);
         if (element != null) {
             element.value = elementValue;
-            return;
+            return true;
         }
         
         var newElement = document.createElement('input');
@@ -312,6 +333,8 @@ webui.@THEME@.common = {
         newElement.value = elementValue;
         newElement.name = elementId;
         parentForm.appendChild(newElement);
+
+        return true;
     },
     
     /**
@@ -338,20 +361,21 @@ webui.@THEME@.common = {
     /**
      * Helper function to submit a virtual form.
      *
-     * @param form The HTML form element to submit.
-     * @param submissionComponentId The Id of the component submitting the form.
+     * @param {Node} form The HTML form element to submit.
+     * @param {String} submissionComponentId The Id of the component submitting the form.
      */
     timeoutSubmitForm: function(form, submissionComponentId) {
         webui.@THEME@.common.formToSubmit = form;
         webui.@THEME@.common.submissionComponentId = submissionComponentId;
         setTimeout('webui.@THEME@.common.submitForm()', 0);
+        return true;
     },
     
     /**
      * Helper function to submit a virtual form.
      *
-     * @param form The HTML form element to submit.
-     * @param submissionComponentId The Id of the component submitting the form.
+     * @param {Node} form The HTML form element to submit.
+     * @param {String} submissionComponentId The Id of the component submitting the form.
      */
     leaveSubmitterTrace: function(form, submissionComponentId) {
         // This function only needs to be called in the onclick handler of 
@@ -359,52 +383,58 @@ webui.@THEME@.common = {
         // Under those circumstances, if this function is not called, then when
         // the component is clicked, the virtual form implementation will have 
         // no way of knowing that a virtual form was submitted.
-        if (form != null && submissionComponentId != null
-        && submissionComponentId.length > 0) {
+        if (form != null && submissionComponentId != null && 
+                submissionComponentId.length > 0) {
             webui.@THEME@.common.insertHiddenField('_submissionComponentId',
             submissionComponentId, form);
         }
+        return true;
     },
     
     /**
      * delete a previously created element by createSubmittableArray.
+     *
+     * @param {String} name The element ID of the html tag 
+     * @param {Node} form The HTML form element to submit.
      */
-    deleteSubmittableArray: function (name, parentForm) {
+    deleteSubmittableArray: function(name, parentForm) {
         try {
             var submittableArray  = document.getElementById(name);
             if (submittableArray != null) {
                 parentForm.removeChild(submittableArray);
             }
         } catch (e) {}
+        return true;
     },
     
     /**
-     * webui.@THEME@.common.createSubmittableArray(string, string, 
-     * array, array);
-     *
      * This method creates a hidden "select" element with id 
      * and name attributes set name, values taken from the values
      * array argument, and display labels from the labels array.
      * It adds the element to the parentForm argument.
-     * 
+     * <p>
      * The pupose of this method is to create an array of values
      * that can be decoded using "name" as the key from a FacesContext
      * external context's "getRequestParameterValuesMap" as an
      * array of Strings. This reduces the need of rendering hidden input
      * field and delimiting several strings so that a multiple selection
      * can be returned.
+     * </p><p>
      * The labels array provides an additional piece of data
      * for use on the client, but it is not contained in the submit.
      * All values added to the select are selected so that the
      * values will be submitted.
+     * </p>
      *
-     * Returns the created select element.
-     *
-     * It relies on the webui.@THEME@.props.hiddenClassName style class.
-     * An attempt is made to remove a possibly previously created element
-     * by this name. It always deletes an element of name from parentForm.
+     * @param {String} name The element ID of the html tag 
+     * @param {Node} form The HTML form element to submit.
+     * @param {Array} labels
+     * @param {Array} values
+     * @return The created select element.
      */
     createSubmittableArray: function(name, parentForm, labels, values) {
+        // An attempt is made to remove a possibly previously created element
+        // by this name. It always deletes an element of name from parentForm.
         webui.@THEME@.common.deleteSubmittableArray(name, parentForm);
         
         if (values == null || values.length <= 0) {
@@ -412,7 +442,7 @@ webui.@THEME@.common = {
         }
         
         var selections = document.createElement('select');
-        selections.className = webui.@THEME@.props.hiddenClassName;
+        selections.className = webui.@THEME@.theme.common.getClassName("HIDDEN");
         selections.name = name;
         selections.id = name;
         selections.multiple = true;
@@ -438,10 +468,10 @@ webui.@THEME@.common = {
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     
     /**
-     * Use this function to test if the specified element is visible (i.e., className
-     * does not contain webui.@THEME@.props.hiddenClassName).
+     * Use this function to test if the specified element is visible (i.e., it
+     * does not contain the hidden className).
      *
-     * @param elementId The element ID of the html tag 
+     * @param {String} elementId The element ID of the html tag 
      * @return true if visible; otherwise, false
      */
     isVisible: function(elementId) {
@@ -454,10 +484,10 @@ webui.@THEME@.common = {
     },
     
     /**
-     * Use this function to test if the given element is visible (i.e., className
-     * does not contain webui.@THEME@.props.hiddenClassName).
+     * Use this function to test if the given element is visible (i.e., it
+     * does not contain the hidden className).
      *
-     * @param element The HTML element
+     * @param {Node} element The HTML element
      * @return true if visible; otherwise, false
      */
     isVisibleElement: function(element) {
@@ -467,14 +497,14 @@ webui.@THEME@.common = {
         // Test for the hidden style class.
         var styleClasses = webui.@THEME@.common.splitStyleClasses(element); 
         return !webui.@THEME@.common.checkStyleClasses(styleClasses,
-        webui.@THEME@.props.hiddenClassName);
+            webui.@THEME@.theme.common.getClassName("HIDDEN"));
     },
     
     /**
      * Use this function to show or hide any html element in the page
      *
-     * @param elementId The element ID of the html tag 
-     * @param visible true to make the element visible, false to hide the element
+     * @param {String} elementId The element ID of the html tag 
+     * @param {boolean} visible true to make the element visible, false to hide the element
      * @return true if successful; otherwise, false
      */
     setVisible: function(elementId, visible) {
@@ -483,14 +513,14 @@ webui.@THEME@.common = {
         }
         // Get element.
         var element = document.getElementById(elementId);
-        webui.@THEME@.common.setVisibleElement(element, visible);
+        return webui.@THEME@.common.setVisibleElement(element, visible);
     },
     
     /**
      * Use this function to show or hide any html element in the page
      *
-     * @param element The HTML element
-     * @param visible true to make the element visible, false to hide the element
+     * @param {Node} element The HTML element
+     * @param {boolean} visible true to make the element visible, false to hide the element
      * @return true if successful; otherwise, false
      */
     setVisibleElement: function(element, visible) {
@@ -498,11 +528,11 @@ webui.@THEME@.common = {
             return false;
         }
         if (visible) {
-            webui.@THEME@.common.stripStyleClass(element,
-            webui.@THEME@.props.hiddenClassName);
+            return webui.@THEME@.common.stripStyleClass(element,
+                webui.@THEME@.theme.common.getClassName("HIDDEN"));
         } else {
-            webui.@THEME@.common.addStyleClass(element,
-            webui.@THEME@.props.hiddenClassName);
+            return webui.@THEME@.common.addStyleClass(element,
+                webui.@THEME@.theme.common.getClassName("HIDDEN"));
         }
     }
 }

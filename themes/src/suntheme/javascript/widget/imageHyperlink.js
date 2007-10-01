@@ -1,3 +1,4 @@
+// widget/imageHyperlink.js
 //
 // The contents of this file are subject to the terms
 // of the Common Development and Distribution License
@@ -20,24 +21,39 @@
 // Copyright 2007 Sun Microsystems, Inc. All rights reserved.
 //
 
+/**
+ * @name widget/imageHyperlink.js
+ * @version @THEME_VERSION@
+ * @overview This module contains classes and functions for the imageHyperlink widget.
+ * @example The following code is used to create a imageHyperlink widget.
+ * <p><code>
+ * var widget = new webui.@THEME@.widget.imageHyperlink(props, domNode);
+ * </code></p>
+ */
 dojo.provide("webui.@THEME@.widget.imageHyperlink");
 
-dojo.require("dojo.widget.*");
-dojo.require("webui.@THEME@.*");
-dojo.require("webui.@THEME@.widget.*");
+dojo.require("webui.@THEME@.common");
 dojo.require("webui.@THEME@.widget.hyperlink");
 
 /**
- * This function is used to generate a template based widget.
+ * This function is used to construct a template based widget.
  *
- * Note: This is considered a private API, do not use.
+ * @name webui.@THEME@.widget.imageHyperlink
+ * @inherits webui.@THEME@.widget.widgetBase
+ * @constructor
  */
-webui.@THEME@.widget.imageHyperlink = function() {
-    // Register widget.
-    dojo.widget.HtmlWidget.call(this);
-}
+dojo.declare("webui.@THEME@.widget.imageHyperlink", webui.@THEME@.widget.hyperlink, {
+    // Set defaults.
+    widgetName: "imageHyperlink" // Required for theme properties.
+});
 
-webui.@THEME@.widget.imageHyperlink.addContents = function(props) {
+/**
+ * Helper function to add children.
+ *
+ * @param props Key-Value pairs of properties.
+ * @config {Array} [contents] The contents of the anchor body.
+ */
+webui.@THEME@.widget.imageHyperlink.prototype.addContents = function(props) {
     if (props.contents == null) {
         return false;
     }
@@ -47,7 +63,7 @@ webui.@THEME@.widget.imageHyperlink.addContents = function(props) {
     this.widget.removeChildNodes(this.rightContentsContainer);
 
     // Add contents.
-    for(i = 0; i <props.contents.length; i++) {
+    for (i = 0; i <props.contents.length; i++) {
         this.widget.addFragment(this.leftContentsContainer, props.contents[i], "last");
         this.widget.addFragment(this.rightContentsContainer, props.contents[i], "last");
     }
@@ -55,60 +71,48 @@ webui.@THEME@.widget.imageHyperlink.addContents = function(props) {
 }
 
 /**
- * This closure is used to process widget events.
+ * This closure contains event topics.
+ * <p>
+ * Note: Event topics must be prototyped for inherited functions. However, these
+ * topics must also be available statically so that developers may subscribe to
+ * events.
+ * </p>
+ *
+ * @ignore
  */
-webui.@THEME@.widget.imageHyperlink.event = {
+webui.@THEME@.widget.imageHyperlink.prototype.event =
+        webui.@THEME@.widget.imageHyperlink.event = {
     /**
-     * This closure is used to process refresh events.
+     * This closure contains refresh event topics.
+     * @ignore
      */
     refresh: {
-        /**
-         * Event topics for custom AJAX implementations to listen for.
-         */
+        /** Refresh event topic for custom AJAX implementations to listen for. */
         beginTopic: "webui_@THEME@_widget_imageHyperlink_event_refresh_begin",
+
+        /** Refresh event topic for custom AJAX implementations to listen for. */
         endTopic: "webui_@THEME@_widget_imageHyperlink_event_refresh_end"
     },
 
     /**
-     * This closure is used to process state change events.
+     * This closure contains state event topics.
+     * @ignore
      */
     state: {
-        /**
-         * Event topics for custom AJAX implementations to listen for.
-         */
+        /** State event topic for custom AJAX implementations to listen for. */
         beginTopic: "webui_@THEME@_widget_imageHyperlink_event_state_begin",
+
+        /** State event topic for custom AJAX implementations to listen for. */
         endTopic: "webui_@THEME@_widget_imageHyperlink_event_state_end"
     }
 }
 
 /**
- * This function is used to fill in template properties.
- *
- * Note: This is called after the buildRendering() function. Anything to be set 
- * only once should be added here; otherwise, use the _setProps() function.
- *
- * @param props Key-Value pairs of properties.
- * @param frag HTML fragment.
- */
-webui.@THEME@.widget.imageHyperlink.fillInTemplate = function(props, frag) {
-    webui.@THEME@.widget.imageHyperlink.superclass.fillInTemplate.call(this, props, frag);
-
-    // Set ids.
-    if (this.id) {
-        this.enabledImageContainer.id = this.id + "_enabled";
-        this.disabledImageContainer.id = this.id + "_disabled";
-        this.leftContentsContainer.id = this.id + "_leftContents";
-        this.rightContentsContainer.id = this.id + "_rightContents";
-    }
-    return true;
-}
-
-/**
  * This function is used to get widget properties. Please see the 
- * _setProps() function for a list of supported properties.
+ * setProps() function for a list of supported properties.
  */
-webui.@THEME@.widget.imageHyperlink.getProps = function() {
-    var props = webui.@THEME@.widget.imageHyperlink.superclass.getProps.call(this);
+webui.@THEME@.widget.imageHyperlink.prototype.getProps = function() {
+    var props = this.inherited("getProps", arguments);
 
     // Set properties.
     if (this.enabledImage) { props.enabledImage = this.enabledImage; }
@@ -119,46 +123,87 @@ webui.@THEME@.widget.imageHyperlink.getProps = function() {
 }
 
 /**
- * This function is used to set widget properties with the following 
- * Object literals.
- *
- * <ul>
- *  <li>className</li>
- *  <li>contents</li>
- *  <li>dir</li>
- *  <li>disabled</li>
- *  <li>disabledImage</li>
- *  <li>enabledImage</li>
- *  <li>href</li>
- *  <li>hrefLang</li>
- *  <li>id</li>
- *  <li>lang</li>
- *  <li>onFocus</li>
- *  <li>onBlur</li>
- *  <li>onClick</li>
- *  <li>onDblClick</li>
- *  <li>onKeyDown</li>
- *  <li>onKeyPress</li>
- *  <li>onKeyUp</li>
- *  <li>onMouseDown</li>
- *  <li>onMouseOut</li>
- *  <li>onMouseOver</li>
- *  <li>onMouseUp</li>
- *  <li>onMouseMove</li>
- *  <li>style</li>
- *  <li>imagePosition</li>
- *  <li>tabIndex</li>
- *  <li>title</li>
- *  <li>visible</li>
- * </ul>
- *
- * Note: This is considered a private API, do not use. This function should only
- * be invoked through postInitialize() and setProps(). Further, the widget shall
- * be updated only for the given key-value pairs.
- *
- * @param props Key-Value pairs of properties.
+ * This function is used to fill in remaining template properties, after the
+ * buildRendering() function has been processed.
+ * <p>
+ * Note: Unlike Dojo 0.4, the DOM nodes don't yet exist. 
+ * </p>
  */
-webui.@THEME@.widget.imageHyperlink._setProps = function(props) {
+webui.@THEME@.widget.imageHyperlink.prototype.postCreate = function () {
+    // Set ids.
+    if (this.id) {
+        this.enabledImageContainer.id = this.id + "_enabled";
+        this.disabledImageContainer.id = this.id + "_disabled";
+        this.leftContentsContainer.id = this.id + "_leftContents";
+        this.rightContentsContainer.id = this.id + "_rightContents";
+    }
+    return this.inherited("postCreate", arguments);
+}
+
+/**
+ * This function is used to set widget properties using Object literals.
+ * <p>
+ * Note: This function extends the widget object for later updates. Further, the
+ * widget shall be updated only for the given key-value pairs.
+ * </p><p>
+ * If the notify param is true, the widget's state change event shall be
+ * published. This is typically used to keep client-side state in sync with the
+ * server.
+ * </p>
+ *
+ * @param {Object} props Key-Value pairs of properties.
+ * @config {String} [accessKey]
+ * @config {String} [charset]
+ * @config {String} [className] CSS selector.
+ * @config {Array} [contents]
+ * @config {String} [coords]
+ * @config {String} [dir] Specifies the directionality of text.
+ * @config {boolean} [disabled] Disable element.
+ * @config {Object} [disabledImage]
+ * @config {Object} [enabledImage]
+ * @config {String} [href]
+ * @config {String} [hrefLang]
+ * @config {String} [id] Uniquely identifies an element within a document.
+ * @config {String} [imagePosition]
+ * @config {String} [lang] Specifies the language of attribute values and content.
+ * @config {String} [onBlur] Element lost focus.
+ * @config {String} [onClick] Mouse button is clicked on element.
+ * @config {String} [onDblClick] Mouse button is double-clicked on element.
+ * @config {String} [onFocus] Element received focus.
+ * @config {String} [onKeyDown] Key is pressed down over element.
+ * @config {String} [onKeyPress] Key is pressed and released over element.
+ * @config {String} [onKeyUp] Key is released over element.
+ * @config {String} [onMouseDown] Mouse button is pressed over element.
+ * @config {String} [onMouseOut] Mouse is moved away from element.
+ * @config {String} [onMouseOver] Mouse is moved onto element.
+ * @config {String} [onMouseUp] Mouse button is released over element.
+ * @config {String} [onMouseMove] Mouse is moved while over element.
+ * @config {String} [rel]
+ * @config {String} [rev]
+ * @config {String} [shape]
+ * @config {String} [style] Specify style rules inline.
+ * @config {int} [tabIndex] Position in tabbing order.
+ * @config {String} [title] Provides a title for element.
+ * @config {boolean} [visible] Hide or show element.
+ * @param {boolean} notify Publish an event for custom AJAX implementations to listen for.
+ */
+webui.@THEME@.widget.imageHyperlink.prototype.setProps = function(props, notify) {
+    // Note: This function is overridden for JsDoc.
+    return this.inherited("setProps", arguments);
+}
+
+/**
+ * This function is used to set widget properties. Please see the setProps() 
+ * function for a list of supported properties.
+ * <p>
+ * Note: This is considered a private API, do not use. This function should only
+ * be invoked via setProps().
+ * </p>
+ *
+ * @param {Object} props Key-Value pairs of properties.
+ * @private
+ */
+webui.@THEME@.widget.imageHyperlink.prototype._setProps = function(props) {
     if (props == null) {
         return false;
     }
@@ -195,21 +240,5 @@ webui.@THEME@.widget.imageHyperlink._setProps = function(props) {
     this.addContents(props);
 
     // Set remaining properties.
-    return webui.@THEME@.widget.imageHyperlink.superclass._setProps.call(this, props);
+    return this.inherited("_setProps", arguments);
 }
-
-// Inherit base widget properties.
-dojo.inherits(webui.@THEME@.widget.imageHyperlink, webui.@THEME@.widget.hyperlink);
-
-// Override base widget by assigning properties to class prototype.
-dojo.lang.extend(webui.@THEME@.widget.imageHyperlink, {
-    // Set private functions.
-    addContents: webui.@THEME@.widget.imageHyperlink.addContents,
-    fillInTemplate: webui.@THEME@.widget.imageHyperlink.fillInTemplate,
-    getProps: webui.@THEME@.widget.imageHyperlink.getProps,
-    _setProps: webui.@THEME@.widget.imageHyperlink._setProps,
-
-    // Set defaults.
-    event: webui.@THEME@.widget.imageHyperlink.event,
-    widgetType: "imageHyperlink"
-});

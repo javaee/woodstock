@@ -1,3 +1,4 @@
+// widget/image.js
 //
 // The contents of this file are subject to the terms
 // of the Common Development and Distribution License
@@ -20,55 +21,75 @@
 // Copyright 2007 Sun Microsystems, Inc. All rights reserved.
 //
 
+/**
+ * @name widget/image.js
+ * @version @THEME_VERSION@
+ * @overview This module contains classes and functions for the image widget.
+ * @example The following code is used to create a image widget.
+ * <p><code>
+ * var widget = new webui.@THEME@.widget.image(props, domNode);
+ * </code></p>
+ */
 dojo.provide("webui.@THEME@.widget.image");
 
-dojo.require("dojo.uri.Uri");
-dojo.require("dojo.widget.*");
-dojo.require("webui.@THEME@.widget.*");
+dojo.require("webui.@THEME@.widget.widgetBase");
 
 /**
- * This function is used to generate a template based widget.
+ * This function is used to construct a template based widget.
  *
- * Note: This is considered a private API, do not use.
+ * @name webui.@THEME@.widget.image
+ * @inherits webui.@THEME@.widget.widgetBase
+ * @constructor
  */
-webui.@THEME@.widget.image = function() {
-    // Register widget.
-    dojo.widget.HtmlWidget.call(this);
-}
+dojo.declare("webui.@THEME@.widget.image", webui.@THEME@.widget.widgetBase, {
+    // Set defaults.
+    border: 0,
+    widgetName: "image" // Required for theme properties.
+});
 
 /**
- * This closure is used to process widget events.
+ * This closure contains event topics.
+ * <p>
+ * Note: Event topics must be prototyped for inherited functions. However, these
+ * topics must also be available statically so that developers may subscribe to
+ * events.
+ * </p>
+ *
+ * @ignore
  */
-webui.@THEME@.widget.image.event = {
+webui.@THEME@.widget.image.prototype.event =
+        webui.@THEME@.widget.image.event = {
     /**
-     * This closure is used to process refresh events.
+     * This closure contains refresh event topics.
+     * @ignore
      */
     refresh: {
-        /**
-         * Event topics for custom AJAX implementations to listen for.
-         */
+        /** Refresh event topic for custom AJAX implementations to listen for. */
         beginTopic: "webui_@THEME@_widget_image_event_refresh_begin",
+
+        /** Refresh event topic for custom AJAX implementations to listen for. */
         endTopic: "webui_@THEME@_widget_image_event_refresh_end"
     },
 
     /**
-     * This closure is used to process state change events.
+     * This closure contains state event topics.
+     * @ignore
      */
     state: {
-        /**
-         * Event topics for custom AJAX implementations to listen for.
-         */
+        /** State event topic for custom AJAX implementations to listen for. */
         beginTopic: "webui_@THEME@_widget_image_event_state_begin",
+
+        /** State event topic for custom AJAX implementations to listen for. */
         endTopic: "webui_@THEME@_widget_image_event_state_end"
     }
 }
 
 /**
  * This function is used to get widget properties. Please see the 
- * _setProps() function for a list of supported properties.
+ * setProps() function for a list of supported properties.
  */
-webui.@THEME@.widget.image.getProps = function() {
-    var props = webui.@THEME@.widget.image.superclass.getProps.call(this);
+webui.@THEME@.widget.image.prototype.getProps = function() {
+    var props = this.inherited("getProps", arguments);
 
     // Set properties.
     if (this.alt) { props.alt = this.alt; }
@@ -85,82 +106,63 @@ webui.@THEME@.widget.image.getProps = function() {
 }
 
 /**
- * This function is used to set widget properties. Please see the 
- * _setProps() function for a list of supported properties.
- *
- * Note: This function updates the widget object for later updates. Further, the
+ * This function is used to set widget properties using Object literals.
+ * <p>
+ * Note: This function extends the widget object for later updates. Further, the
  * widget shall be updated only for the given key-value pairs.
- *
- * Note: If the notify param is true, the widget's state change event shall be
+ * </p><p>
+ * If the notify param is true, the widget's state change event shall be
  * published. This is typically used to keep client-side state in sync with the
  * server.
+ * </p>
  *
- * @param props Key-Value pairs of properties.
- * @param notify Publish an event for custom AJAX implementations to listen for.
+ * @param {Object} props Key-Value pairs of properties.
+ * @config {String} [alt] Alternate text for image input.
+ * @config {String} [align] Alignment of image input.
+ * @config {String} [border]
+ * @config {String} [className] CSS selector.
+ * @config {String} [dir] Specifies the directionality of text.
+ * @config {String} [height] 
+ * @config {String} [hspace] 
+ * @config {String} [id] Uniquely identifies an element within a document.
+ * @config {String} [lang] Specifies the language of attribute values and content.
+ * @config {String} [longDesc] 
+ * @config {String} [onClick] Mouse button is clicked on element.
+ * @config {String} [onDblClick] Mouse button is double-clicked on element.
+ * @config {String} [onKeyDown] Key is pressed down over element.
+ * @config {String} [onKeyPress] Key is pressed and released over element.
+ * @config {String} [onKeyUp] Key is released over element.
+ * @config {String} [onMouseDown] Mouse button is pressed over element.
+ * @config {String} [onMouseOut] Mouse is moved away from element.
+ * @config {String} [onMouseOver] Mouse is moved onto element.
+ * @config {String} [onMouseUp] Mouse button is released over element.
+ * @config {String} [onMouseMove] Mouse is moved while over element.
+ * @config {String} [src] 
+ * @config {String} [style] Specify style rules inline.
+ * @config {int} [tabIndex] Position in tabbing order.
+ * @config {String} [title] Provides a title for element.
+ * @config {boolean} [visible] Hide or show element.
+ * @config {String} [vspace]
+ * @config {String} [width]
+ * @param {boolean} notify Publish an event for custom AJAX implementations to listen for.
  */
-webui.@THEME@.widget.image.setProps = function(props, notify) {
-    if (props == null) {
-        return false;
-    }
-
-    // Note: This widget has trouble using this.widget.extend(), possibly due to how
-    // alarm and alert provide image properties to setProps(). For now, we need
-    // to bypass the "superclass" function.
-
-    // Extend widget object for later updates.
-    Object.extend(this, props);
-
-    // Set properties.
-    this._setProps(props);
-
-    // Notify listeners state has changed.
-    if (new Boolean(notify).valueOf() == true) {
-        this.stateChanged(props);
-    }
-    return true;
+webui.@THEME@.widget.image.prototype.setProps = function(props, notify) {
+    // Note: This function is overridden for JsDoc.
+    return this.inherited("setProps", arguments);
 }
 
 /**
- * This function is used to set widget properties with the following 
- * Object literals.
- *
- * <ul>
- *  <li>alt</li>
- *  <li>align</li>
- *  <li>border</li>
- *  <li>className</li>
- *  <li>dir</li>
- *  <li>height</li>
- *  <li>hspace</li>
- *  <li>id</li>
- *  <li>lang</li>>
- *  <li>longDesc</li>
- *  <li>onClick</li>
- *  <li>onDblClick</li>
- *  <li>onKeyDown</li>
- *  <li>onKeyPress</li>
- *  <li>onKeyUp</li>
- *  <li>onMouseDown</li>
- *  <li>onMouseOut</li>
- *  <li>onMouseOver</li>
- *  <li>onMouseUp</li>
- *  <li>onMouseMove</li>
- *  <li>src</li>
- *  <li>style</li>
- *  <li>tabIndex</li>
- *  <li>title</li>
- *  <li>visible</li>
- *  <li>vspace</li>
- *  <li>width</li>
- * </ul>
- *
+ * This function is used to set widget properties. Please see the setProps() 
+ * function for a list of supported properties.
+ * <p>
  * Note: This is considered a private API, do not use. This function should only
- * be invoked through postInitialize() and setProps(). Further, the widget shall
- * be updated only for the given key-value pairs.
+ * be invoked via setProps().
+ * </p>
  *
- * @param props Key-Value pairs of properties.
+ * @param {Object} props Key-Value pairs of properties.
+ * @private
  */
-webui.@THEME@.widget.image._setProps = function(props) {
+webui.@THEME@.widget.image.prototype._setProps = function(props) {
     if (props == null) {
         return false;
     }
@@ -172,7 +174,7 @@ webui.@THEME@.widget.image._setProps = function(props) {
     if (props.height) { this.domNode.height = props.height; }
     if (props.hspace) { this.domNode.hspace = props.hspace; }
     if (props.longDesc) { this.domNode.longDesc = props.longDesc; }
-    if (props.src) { this.domNode.src = new dojo.uri.Uri(props.src).toString(); }
+    if (props.src) { this.domNode.src = props.src; }
     if (props.vspace) { this.domNode.vspace = props.vspace; }
     if (props.width) { this.domNode.width = props.width; }
 
@@ -181,21 +183,5 @@ webui.@THEME@.widget.image._setProps = function(props) {
     this.setEventProps(this.domNode, props);
 
     // Set remaining properties.
-    return webui.@THEME@.widget.image.superclass._setProps.call(this, props);
+    return this.inherited("_setProps", arguments);
 }
-
-// Inherit base widget properties.
-dojo.inherits(webui.@THEME@.widget.image, webui.@THEME@.widget.widgetBase);
-
-// Override base widget by assigning properties to class prototype.
-dojo.lang.extend(webui.@THEME@.widget.image, {
-    // Set private functions.
-    getProps: webui.@THEME@.widget.image.getProps,
-    setProps: webui.@THEME@.widget.image.setProps,
-    _setProps: webui.@THEME@.widget.image._setProps,
-
-    // Set defaults.
-    border: 0,
-    event: webui.@THEME@.widget.image.event,
-    widgetType: "image"
-});

@@ -1,3 +1,4 @@
+// wizard.js
 //
 // The contents of this file are subject to the terms
 // of the Common Development and Distribution License
@@ -19,42 +20,47 @@
 // 
 // Copyright 2007 Sun Microsystems, Inc. All rights reserved.
 //
-// This Javascript file should be included in any page that uses the
-// ui:wizard tag. It is included automatically by 
-// com.sun.webui.jsf.renderkit.html.WizardRenderer.
-//
-// The wizard JavaScript object is accessed using the getElementById()
-// function. Methods defined on that javascript object instance maybe
-// called using that identifier. For example, the following javascript
-// could be used to close and forward to a page when the wizard closes.
-//
-//   <ui:wizard ...other attributes... 
-//	onPopupDismiss="document.getElementById('form1:wizard1').closeAndForward('launchform', '/faces/wizardData.jsp', true);" >
-//
-//	...wizard step tags...
-//
-//   </ui:wizard>
-//
 
+/**
+ * @name orderableList.js
+ * @version @THEME_VERSION@
+ * @overview This module contains functions for wizard components.
+ * <p>
+ * This Javascript file should be included in any page that uses the
+ * ui:wizard tag. It is included automatically by 
+ * com.sun.webui.jsf.renderkit.html.WizardRenderer.
+ * </p><p>
+ * The wizard JavaScript object is accessed using the getElementById()
+ * function. Methods defined on that javascript object instance maybe
+ * called using that identifier. For example, the following javascript
+ * could be used to close and forward to a page when the wizard closes.
+ * </p><p><code>
+ *   <ui:wizard ...other attributes... 
+ *	onPopupDismiss="document.getElementById('form1:wizard1').closeAndForward('launchform', '/faces/wizardData.jsp', true);" >
+ *
+ *	...wizard step tags...
+ *
+ *   </ui:wizard>
+ * </code></p>
+ */
 dojo.provide("webui.@THEME@.wizard");
 
+dojo.require("webui.@THEME@.browser");
 dojo.require("webui.@THEME@.common");
 
 /** 
- * Define webui.@THEME@.wizard name space. 
- */ 
+ * This closure contains functions for wizard components.
+ */
 webui.@THEME@.wizard = {
     /**
-     * This function is used to initialize HTML element properties with the
-     * following Object literals.
-     *
-     * <ul>
-     *  <li>id</li>
-     * </ul>
-     *
+     * This function is used to initialize HTML element properties with Object
+     * literals.
+     * <p>
      * Note: This is considered a private API, do not use.
+     * </p>
      *
-     * @param props Key-Value pairs of properties.
+     * @param {Object} props Key-Value pairs of properties.
+     * @config {String} [id] The element id.
      */
     init: function(props) {
         if (props == null || props.id == null) {
@@ -79,63 +85,93 @@ webui.@THEME@.wizard = {
         domNode.closeAndForward = webui.@THEME@.wizard.closeAndForward;
         domNode.wizOnLoad = webui.@THEME@.wizard.wizOnLoad;
         domNode.resize_hack = webui.@THEME@.wizard.resize_hack;
+
+        return true;
     },
 
+    /**
+     *
+     */
     nextClicked: function() {
         return true;
     },
 
+    /**
+     *
+     */
     previousClicked: function() {
         return true;
     },
 
+    /**
+     *
+     */
     cancelClicked: function() {
         return true;
     },
 
+    /**
+     *
+     */
     closeClicked: function() {
         return true;
     },
 
+    /**
+     *
+     */
     finishClicked: function() {
         return true;
     },
 
+    /**
+     *
+     */
     gotoStepClicked: function() {
         return true;
     },
 
+    /**
+     *
+     */
     closePopup: function() {
         window.close();
+        return true;
     },
 
-    // Close the wizard popup and forward to "submitPage" by submitting
-    // "submitForm".
-    //
-    // When the wizard closes it is often necessary to send
-    // a request to a page that will make use of the data collected
-    // during a wizard session. This method does this by obtaining the
-    // form element "submitForm" from the page that launched the
-    // the wizard. This means that the page that launched the wizard
-    // popup must still be visible in a browser window. If that form
-    // is found, the "action" property is set to "submitPage" and the
-    // "submit" method of that "submitForm" is executed.
-    // The popup window is then closed. 
-    //
-    // However due to JSF's client side state saving mode an extra step
-    // must be taken. If the application is operating with client side
-    // state saving, JSF will ignore the "submitPage" value of the
-    // submitted form's "action" property and will send the request to the
-    // view defined in the saved state, saved in an element in "submitForm".
-    //
-    // If the application is configured for client side state saving and
-    // the "submitPage" is different from the page that lauched the wizard,
-    // set "cleartState" to true. This method will clear the saved state 
-    // before submitting the form. The "clearState" default value is false
-    // and the saved state will not be cleared.
-    // 
-    // The "clearState" functionality only works with Sun's RI.
-    //
+    /**
+     * Close the wizard popup and forward to "submitPage" by submitting
+     * "submitForm".
+     * <p>
+     * When the wizard closes it is often necessary to send
+     * a request to a page that will make use of the data collected
+     * during a wizard session. This method does this by obtaining the
+     * form element "submitForm" from the page that launched the
+     * the wizard. This means that the page that launched the wizard
+     * popup must still be visible in a browser window. If that form
+     * is found, the "action" property is set to "submitPage" and the
+     * "submit" method of that "submitForm" is executed.
+     * The popup window is then closed. 
+     * </p><p>
+     * However due to JSF's client side state saving mode an extra step
+     * must be taken. If the application is operating with client side
+     * state saving, JSF will ignore the "submitPage" value of the
+     * submitted form's "action" property and will send the request to the
+     * view defined in the saved state, saved in an element in "submitForm".
+     * </p><p>
+     * If the application is configured for client side state saving and
+     * the "submitPage" is different from the page that lauched the wizard,
+     * set "cleartState" to true. This method will clear the saved state 
+     * before submitting the form. The "clearState" default value is false
+     * and the saved state will not be cleared.
+     * </p><p>
+     * The "clearState" functionality only works with Sun's RI.
+     * </p>
+     *
+     * @param {boolean} submitForm
+     * @param {boolean} submitPage
+     * @param {boolean} clearState     
+     */
     closeAndForward: function(submitForm, submitPage, clearState) {
         var f = window.opener.document.getElementById(submitForm);
         if (f == null) {
@@ -164,22 +200,25 @@ webui.@THEME@.wizard = {
         f.action = submitPage;
         f.submit();
         window.close();
+        return true;
     }, 
 
-    // This method must be assigned to the onload handler of the onLoad
-    // attribute of the ui:body tag if the wizard is to operate properly on IE.
-    //
+    /**
+     * This method must be assigned to the onload handler of the onLoad
+     * attribute of the ui:body tag if the wizard is to operate properly on IE.
+     */
     wizOnLoad: function() {
         var stepsid = this.id + "_stepspane";
         var helpid = this.id + "_helppane";
         var wizbdyid = this.id + "_WizBdy";
-        this.resize_hack(helpid, stepsid, wizbdyid);
+        return this.resize_hack(helpid, stepsid, wizbdyid);
     },
 
-    // used only for popup window and IE, and called by wizOnLoad.
-    //
+    /**
+     * used only for popup window and IE, and called by wizOnLoad.
+     */
     resize_hack: function(helpid, stepsid, wizbdyid) {
-        if (webui.@THEME@.common.browser.is_ie5up) {
+        if (webui.@THEME@.browser.is_ie5up()) {
             var bdy = document.getElementById(wizbdyid);
 
             if (bdy != null) {
@@ -199,5 +238,6 @@ webui.@THEME@.wizard = {
                 }
             }
         }
+        return true;
     }
 }

@@ -45,7 +45,6 @@ import org.json.JSONObject;
     rendererType="com.sun.webui.jsf.widget.Bubble",
         componentFamily="com.sun.webui.jsf.Bubble"))
 public class BubbleRenderer extends RendererBase {
-    
     /**
      * The set of pass-through attributes to be rendered.
      */
@@ -61,17 +60,11 @@ public class BubbleRenderer extends RendererBase {
         "openDelay",
         "width"
     };
-        
-   /**
-     * Get the Dojo module required to instantiate the widget.
-     *
-     * @param context FacesContext for the current request.
-     * @param component UIComponent to be rendered.
-     */
-    protected String getModule(FacesContext context, UIComponent component) {
-        return JavaScriptUtilities.getModuleName("widget.bubble");
-    }
-        
+
+    // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    // RendererBase methods
+    // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
     /**
      * Helper method to obtain component properties.
      *
@@ -115,16 +108,17 @@ public class BubbleRenderer extends RendererBase {
         return json;
     }
 
-    
     /**
-     * Get the name of widget represented by this component.
+     * Get the type of widget represented by this component.
      *
      * @param context FacesContext for the current request.
      * @param component UIComponent to be rendered.
      */
-    protected String getWidgetName(FacesContext context, UIComponent component) {
-        return JavaScriptUtilities.getNamespace("bubble");
+    protected String getWidgetType(FacesContext context, UIComponent component) {
+        return JavaScriptUtilities.getModuleName("widget.bubble");
     }
-     
-    
+
+    // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    // Private methods
+    // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 }

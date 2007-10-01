@@ -203,42 +203,6 @@ public class ThemeLinks extends UIComponentBase {
     }
 
     /**
-     * Flag (true or false) indicating that Dojo should search for dojoType 
-     * widget tags. Page load time is proportional to the number of nodes on the
-     * page. The default value is false.
-     */
-    @Property(name="parseWidgets", displayName="Parse Dojo Widgets", category="Javascript")
-    private boolean parseWidgets = false;
-    private boolean parseWidgets_set = false;
-
-    /**
-     * Test flag indicating that Dojo should search for dojoType widget tags.
-     */
-    public boolean isParseWidgets() {
-        if (this.parseWidgets_set) {
-            return this.parseWidgets;
-        }
-        ValueExpression _vb = getValueExpression("parseWidgets");
-        if (_vb != null) {
-            Object _result = _vb.getValue(getFacesContext().getELContext());
-            if (_result == null) {
-                return false;
-            } else {
-                return ((Boolean) _result).booleanValue();
-            }
-        }
-        return this.parseWidgets;
-    }
-
-    /**
-     * Set flag indicating that Dojo should search for dojoType widget tags.
-     */
-    public void setParseWidgets(boolean parseWidgets) {
-        this.parseWidgets = parseWidgets;
-        this.parseWidgets_set = true;
-    }
-
-    /**
      * <p>If set to true, a link element with a reference to the theme
      * stylesheet resource is rendered.</p>
      */
@@ -328,15 +292,13 @@ public class ThemeLinks extends UIComponentBase {
         this.styleSheetInline_set = ((Boolean) _values[6]).booleanValue();
         this.debug = ((Boolean) _values[7]).booleanValue();
         this.debug_set = ((Boolean) _values[8]).booleanValue();
-        this.parseWidgets = ((Boolean) _values[9]).booleanValue();
-        this.parseWidgets_set = ((Boolean) _values[10]).booleanValue();
     }
 
     /**
      * <p>Save the state of this component.</p>
      */
     public Object saveState(FacesContext _context) {
-        Object _values[] = new Object[11];
+        Object _values[] = new Object[9];
         _values[0] = super.saveState(_context);
         _values[1] = this.javaScript ? Boolean.TRUE : Boolean.FALSE;
         _values[2] = this.javaScript_set ? Boolean.TRUE : Boolean.FALSE;
@@ -346,8 +308,6 @@ public class ThemeLinks extends UIComponentBase {
         _values[6] = this.styleSheetInline_set ? Boolean.TRUE : Boolean.FALSE;
         _values[7] = this.debug ? Boolean.TRUE : Boolean.FALSE;
         _values[8] = this.debug_set ? Boolean.TRUE : Boolean.FALSE;
-        _values[9] = this.parseWidgets ? Boolean.TRUE : Boolean.FALSE;
-        _values[10] = this.parseWidgets_set ? Boolean.TRUE : Boolean.FALSE;
         return _values;
     }
 }
