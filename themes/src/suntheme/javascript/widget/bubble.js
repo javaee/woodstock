@@ -252,7 +252,7 @@ webui.@THEME@.widget.bubble.prototype.open = function(event) {
  * This function is used to fill in remaining template properties, after the
  * buildRendering() function has been processed.
  * <p>
- * Note: Unlike Dojo 0.4, the DOM nodes don't yet exist. 
+ * Note: Unlike Dojo 0.4, the DOM nodes don't exist in the document, yet. 
  * </p>
  */
 webui.@THEME@.widget.bubble.prototype.postCreate = function () {

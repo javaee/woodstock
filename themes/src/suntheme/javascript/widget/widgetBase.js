@@ -240,7 +240,7 @@ webui.@THEME@.widget.widgetBase.prototype.isInitialized = function() {
 /**
  * This is called after the buildRendering() function.
  * 
- * Note: Unlike Dojo 0.4, the DOM nodes don't yet exist. 
+ * Note: Unlike Dojo 0.4, the DOM nodes don't exist in the document, yet.
  */
 webui.@THEME@.widget.widgetBase.prototype.postCreate = function () {
     this.inherited("postCreate", arguments);
