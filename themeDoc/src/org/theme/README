@@ -1,0 +1,35 @@
+
+# The base theme properties files.
+# Note that these could be locale specific. It depends
+# on the number of locales and resources. If there are 
+# few resources, and few that are locale specific then specializing
+# the base properties file may be appropriate since the fallback will
+# be to the default locale and ultimately to the "base" non localized
+# properties file.
+#
+# The search is always made to the base properties file of the 
+# current locale, and then to an indirect resource bundle for the
+# resource if applicable. 
+#
+# Ultimately the ResourceBundle fallback algorithm searches the
+# non specialized ResourceBundle
+#
+suntheme.properties
+defaulttheme.properties
+
+# Note that these style sheets could be defined in a locale specific
+# properties file as well.
+# 
+# Values for the "Theme.styleSheet.global" property. 
+#
+sunBox.css
+defaultBox.css
+
+# This is an example where a level of indirection is used
+# to specify locale specific image files and message text
+# for a particular theme
+#
+images.properties
+images_fr.properties
+messages.properties
+messages_fr.properties

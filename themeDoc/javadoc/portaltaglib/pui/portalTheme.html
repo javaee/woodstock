@@ -1,0 +1,332 @@
+<html xmlns:j2ee="http://java.sun.com/xml/ns/j2ee" xmlns:fo="http://www.w3.org/1999/XSL/Format">
+<head>
+<META http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>portalTheme
+          (Tag Library Documentation Generator - Generated Documentation)
+        </title>
+<meta name="keywords" content="$title">
+<link rel="stylesheet" type="text/css" href="../stylesheet.css" title="Style">
+</head>
+<script>
+            function asd()
+            {
+            parent.document.title="portalTheme (Tag Library Documentation Generator - Generated Documentation)";
+            }
+          </script>
+<body bgcolor="white" onload="asd();">
+<a name="navbar_top"></a>
+<table border="0" width="100%" cellpadding="1" cellspacing="0">
+<tr>
+<td COLSPAN="3" BGCOLOR="#EEEEFF" CLASS="NavBarCell1"><a NAME="navbar_top_firstrow"></a>
+<table BORDER="0" CELLPADDING="0" CELLSPACING="3">
+<tr ALIGN="center" VALIGN="top">
+<td BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    &nbsp;<a href="../overview-summary.html"><font CLASS="NavBarFont1"><b>Overview</b></font></a>&nbsp;</td><td BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    &nbsp;<a href="tld-summary.html"><font CLASS="NavBarFont1"><b>Library</b></font></a>&nbsp;</td><td BGCOLOR="#FFFFFF" CLASS="NavBarCell1Rev"> &nbsp;<font CLASS="NavBarFont1Rev">&nbsp;Tag&nbsp;</font>&nbsp;</td><td BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    &nbsp;<a HREF="../help-doc.html"><font CLASS="NavBarFont1"><b>Help</b></font></a>&nbsp;</td>
+</tr>
+</table>
+</td><td ALIGN="right" VALIGN="top" ROWSPAN="3"><em></em></td>
+</tr>
+<tr>
+<td BGCOLOR="white" CLASS="NavBarCell2"><font SIZE="-2"></font></td><td BGCOLOR="white" CLASS="NavBarCell2"><font SIZE="-2">
+                &nbsp;<a HREF="../index.html" TARGET="_top"><b>FRAMES</b></a>&nbsp;
+                &nbsp;<a href="portalTheme.html" target="_top"><b>NO FRAMES</b></a>&nbsp;
+                <script></script>
+<noscript>
+<a HREF="../alltags-noframe.html" TARGET=""><b>All Tags</b></a>
+</noscript>
+</font></td>
+</tr>
+</table>
+<hr>
+<h2>
+<font size="-1">pui</font>
+<br>
+            Tag portalTheme</h2>
+<hr> 
+
+<p>The Sun Java Web UI Components rely on resource files, including 
+CSS stylesheets and JavaScript files, to render correctly. These
+resources are collectively known as a "Theme" and are bundled together
+in a Jar file. All SJWUIC components render CSS selectors that are
+defined on the Theme's basic stylesheet, and many rely on a common
+JavaScript library, so every HTML page that containing SJWUIC
+components must include a links to the core CSS stylesheet and
+JavaScript files. The <code>pui:portalTheme</code> tag can be used to
+print those links on the Portlet aggregation page. </p> 
+
+<p> The <code>pui:portalTheme</code> tag is a JSP tag that requires
+    neither JSF, nor the SJWUIC library. It prints the same links to
+    JavaScript files and CSS stylesheets as the SJWUIC
+    <code>ui:head</code> component in terms, and is intended for scenarios
+    where that component cannot be used. 
+ </p>
+
+
+<h3>HTML Elements</h3>
+
+<p>The <code>pui:portalTheme</code> tag renders a
+      <code>&lt;link&gt;</code> element for the primary stylesheet
+      associated with the theme and - if the browser client is
+      Internet Explorer - an second <code>&lt;link&gt;</code> with
+      additional styles needed for that browser. A
+
+      <code>&lt;script&gt;</code> element with a reference to the file
+      with JavaScript functions for the main form components is also 
+      written.</p>  
+
+<h3>Configuring the portal server</h3>
+
+<p>Configure the portal server as follows:</p>
+<ul> 
+<li> Ensure that portalThemeTags.jar is in the classpath of the web
+      application in which the portlet aggregation page ("the
+      desktop") resides.</li> 
+
+<li> Ensure that the desired theme jars (for example, suntheme.jar) is
+      in the classpath of the desktop, <em>as well as</em> in the
+      classpath of any web application that provides a portlet that
+      relies on the theme(s).  </li> 
+
+<li> The theme resources that the browser needs to download are in the
+      theme jar file. At least one web application on the portal
+      server (for example, the desktop) must make these files
+      available. You can either configure the application to run the
+      ThemeServlet (recommended), or explode the archive into that
+      application. It is possible to configure the ThemeServlet to run
+      in a non-JSF application, if desired. See below for more details. </li> 
+
+</ul> 
+
+<h3>Configuring the <code>pui:portalTheme</code> Tag</h3>
+
+<p>Place the tag so that its output is rendered inside the HTML
+<code>&lt;head&gt;</code> element of the generated page (where you
+would normally place JavaScript and CSS references). 
+</p>
+
+<p>If more than one Theme is available, you may specify which Theme
+to use by setting the value of the <code>themeName</code> attribute to
+the name of the Theme, for example <code>suntheme</code>.</p>
+
+<p>You must specify all locales that the SJWUIC portlets support. To
+      determine the supported locales, examine the
+      <code>faces-config.xml</code> files of the SJWUIC portlet web
+      applications. Examine the <code>&lt;locale-element&gt;</code>
+      and construct a string starting with the  value of the
+      <code>&lt;default-locale&gt;</code> element, followed by the
+      value of any <code>&lt;supported-locale&gt;</code> elements,
+      separated by commas. For example, if the configuration file contains 
+      <pre>
+        &lt;locale-config&gt;
+          &lt;default-locale&gt;en&lt;/default-locale&gt;
+          &lt;supported-locale&gt;de&lt;/supported-locale&gt;
+          &lt;supported-locale&gt;sv&lt;/supported-locale&gt;
+          &lt;supported-locale&gt;fr&lt;/supported-locale&gt;
+          &lt;supported-locale&gt;ko&lt;/supported-locale&gt;
+          &lt;supported-locale&gt;ja&lt;/supported-locale&gt;
+          &lt;supported-locale&gt;zh_TW&lt;/supported-locale&gt; 
+        &lt;/locale-config&gt;   
+      </pre> 
+      the value of <code>locales</code> will be 
+      <pre>en, de, sv, fr, ko, ja, zh_TW</pre>
+</p> 
+
+
+<p>If the Portlet aggregation page runs in a JSP-compliant container,
+      no further configuration is necessary. If the aggregation page
+      is in a non-compliant container such as the Sun Portal Server
+      version 6.3 or lower, you must specify a 
+      <code>sessionDataStrategyClass</code>.  For Sun Portal Server
+      6.3.X use
+      <code>com.sun.webui.theme.PSSessionDataStrategy</code>. 
+</p>
+
+<h3>Configuring the ThemeServlet in the aggregation application</h3>
+
+<p>The <code>pui:portalTheme</code> tag generates HTML elements that
+contain references to resources that must be extracted from the Theme
+jar. You must configure the ThemeServlet to serve these
+resources. This class is included in portalThemeTags.jar and can be used
+without the JSF runtime or the SJWUIC runtime.</p>
+
+   <p>Enter the following servlet
+      declaration into the deployment descriptor of the application: 
+      </p>
+    <pre>
+    &lt;servlet&gt;
+        &lt;servlet-name&gt;ThemeServlet&lt;/servlet-name&gt;
+        &lt;servlet-class&gt;com.sun.webui.theme.ThemeServlet&lt;/servlet-class&gt;
+        &lt;load-on-startup&gt;2&lt;/load-on-startup&gt;
+
+        &lt;init-param&gt;
+        &lt;param-name&gt;com.sun.webui.theme.SUPPORTED_LOCALES&lt;/param-name&gt;
+        &lt;param-value&gt;
+        &lt;/param-value&gt;[LOCALES]&lt;/init-param&gt;
+    &lt;/servlet&gt;
+    
+    &lt;servlet-mapping&gt;
+        &lt;servlet-name&gt;ThemeServlet&lt;/servlet-name&gt;
+        &lt;url-pattern&gt;/theme/*&lt;/url-pattern&gt;
+    &lt;/servlet-mapping&gt;
+    </pre>
+
+<p>where [LOCALES] should be replaced with the value that is used for
+the <code>locales</code> attribute of the tag, and the
+<code>load-on-startup</code> with whatever is appropriate for your
+application. When running in a SJWUIC application, the ThemeServlet
+gets the supported locales from the JSF configuration file; since this
+time the ThemeServlet is not in a JSF application, the locales must be
+specified like this. </p>
+   
+<h3>Serving Theme resources from one single web application</h3>
+
+<p>If a server is configured to run more than one web application that
+uses the same Theme(s), and if all of them support the same set of
+locales, then performance will be improved by providing the Theme
+resources through one of the applications only. </p>
+
+<p>To do this, remove the ThemeServlet declaration from all web
+applications but one (leave the one in the aggregation application). 
+In each of the applications where the ThemeServlet has been removed, 
+set the value of the context attribute
+<code>com.sun.web.console.resource_path</code> to the path of the web
+application that still declares the ThemeServlet, for example
+<code>/portalApp</code>.  (There are several ways to set a context
+attribute. One variant is to create a Servlet Listener and have it set
+the attribute when when the application is loaded.)</p>
+
+<p> Themes consist of both of resources that are used directly by the
+    Java classes at runtime (for example, a message) and resources to
+    which the Java classes print paths, but which are then requested by
+    the web application user's browser (for example, a stylesheet).
+    This means that the Theme jars must be available to all
+applications, not just the one with the ThemeServlet. 
+</p> 
+
+<h3>Examples</h3>
+
+<h4>Example 1: Sun Portal Server 6.3.X using suntheme, English is the
+      sole supported locale</h4>
+
+<pre> 
+      &lt;pui:portalTheme themeName="suntheme" 
+	  locales="en"
+  sessionDataStragegyClass="com.sun.webui.theme.PSSessionDataStrategy" /&gt;   
+</pre> 
+
+<h4>Example 2: Pluto Portlet container using defaulttheme, Swedish is
+      default and English is supported.</h4>
+
+<pre> 
+      &lt;pui:portalTheme themeName="defaulttheme" 
+                      locales="sv, en"/&gt;
+</pre> 
+    <br>
+<p></p>
+<hr>
+<table border="1" cellpadding="3" cellspacing="0" width="100%">
+<tr bgcolor="#CCCCFF" class="TableHeadingColor">
+<td colspan="2"><font size="+2"><b>Tag Information</b></font></td>
+</tr>
+<tr>
+<td>Tag Class</td><td>com.sun.webui.theme.portalThemeTag</td>
+</tr>
+<tr>
+<td>TagExtraInfo Class</td><td><i>None</i></td>
+</tr>
+<tr>
+<td>Body Content</td><td>empty</td>
+</tr>
+<tr>
+<td>Display Name</td><td><i>None</i></td>
+</tr>
+</table>
+<br>
+<p></p>
+<table border="1" cellpadding="3" cellspacing="0" width="100%">
+<tr bgcolor="#CCCCFF" class="TableHeadingColor">
+<td colspan="5"><font size="+2"><b>Attributes</b></font></td>
+</tr>
+<tr>
+<td><b>Name</b></td><td><b>Required</b></td><td><b>Request-time</b></td><td><b>Type</b></td><td><b>Description</b></td>
+</tr>
+<tr valign="top">
+<td>themeName</td><td>true</td><td>true</td><td><code>java.lang.String</code></td><td>Specify the name of the theme to use, for example
+<code>suntheme</code>.</td>
+</tr>
+<tr valign="top">
+<td>supportedLocales</td><td>true</td><td>true</td><td><code>java.lang.String</code></td><td>Specify the default locale of the SJWUIC
+	applications, followed by any other supported locales
+	separated by commas, for example <code>sv, en, fr</code>.
+	</td>
+</tr>
+<tr valign="top">
+<td>sessionDataStrategyClass</td><td>false</td><td>true</td><td><code>java.lang.String</code></td><td>Specify a value for this tag only if the JSP
+	container is not fully JSP compliant. If you are using 
+	Sun Portal Server 6.3.X set the value to
+	<code>com.sun.webui.theme.PSSessionDataStrategy</code>. 
+	</td>
+</tr>
+<tr valign="top">
+<td>debug</td><td>false</td><td>true</td><td><code>java.lang.String</code></td><td>
+        Flag (true or false) indicating that Dojo debugging is enabled. The 
+        default value is false.
+      </td>
+</tr>
+<tr valign="top">
+<td>json</td><td>false</td><td>true</td><td><code>java.lang.String</code></td><td>
+        Flag (true or false) indicating that component JavaScript should be 
+        output in page. The default value is true.
+      </td>
+</tr>
+<tr valign="top">
+<td>parseWidgets</td><td>false</td><td>true</td><td><code>java.lang.String</code></td><td>
+        Flag (true or false) indicating that Dojo should search for dojoType 
+        widget tags. The default is false.
+      </td>
+</tr>
+</table>
+<br>
+<p></p>
+<table border="1" cellpadding="3" cellspacing="0" width="100%">
+<tr bgcolor="#CCCCFF" class="TableHeadingColor">
+<td colspan="5"><font size="+2"><b>Variables</b></font></td>
+</tr>
+<td colspan="2"><i>No Variables Defined.</i></td>
+</table>
+<br>
+<p></p>
+<a name="navbar_bottom"></a>
+<table border="0" width="100%" cellpadding="1" cellspacing="0">
+<tr>
+<td COLSPAN="3" BGCOLOR="#EEEEFF" CLASS="NavBarCell1"><a NAME="navbar_bottom_firstrow"></a>
+<table BORDER="0" CELLPADDING="0" CELLSPACING="3">
+<tr ALIGN="center" VALIGN="top">
+<td BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    &nbsp;<a href="../overview-summary.html"><font CLASS="NavBarFont1"><b>Overview</b></font></a>&nbsp;</td><td BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    &nbsp;<a href="tld-summary.html"><font CLASS="NavBarFont1"><b>Library</b></font></a>&nbsp;</td><td BGCOLOR="#FFFFFF" CLASS="NavBarCell1Rev"> &nbsp;<font CLASS="NavBarFont1Rev">&nbsp;Tag&nbsp;</font>&nbsp;</td><td BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    &nbsp;<a HREF="../help-doc.html"><font CLASS="NavBarFont1"><b>Help</b></font></a>&nbsp;</td>
+</tr>
+</table>
+</td><td ALIGN="right" VALIGN="top" ROWSPAN="3"><em></em></td>
+</tr>
+<tr>
+<td BGCOLOR="white" CLASS="NavBarCell2"><font SIZE="-2"></font></td><td BGCOLOR="white" CLASS="NavBarCell2"><font SIZE="-2">
+                &nbsp;<a HREF="../index.html" TARGET="_top"><b>FRAMES</b></a>&nbsp;
+                &nbsp;<a href="portalTheme.html" target="_top"><b>NO FRAMES</b></a>&nbsp;
+                <script></script>
+<noscript>
+<a HREF="../alltags-noframe.html" TARGET=""><b>All Tags</b></a>
+</noscript>
+</font></td>
+</tr>
+</table>
+<hr>
+<small><i>
+            Output Generated by 
+            <a href="http://taglibrarydoc.dev.java.net/" target="_blank">Tag Library Documentation Generator</a>.
+            Java, JSP, and JavaServer Pages are trademarks or 
+            registered trademarks of Sun Microsystems, Inc. in the US and other
+            countries.  Copyright 2002-4 Sun Microsystems, Inc.
+            4150 Network Circle
+            Santa Clara, CA 95054, U.S.A.
+            All Rights Reserved. 
+            </i></small>
+</body>
+</html>

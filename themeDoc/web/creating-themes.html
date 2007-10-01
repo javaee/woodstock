@@ -1,0 +1,528 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<title>5. Creating Themes - The Theme and Woodstock Web Applications - Version 4.1</title>
+
+<meta name="COPYRIGHT" 
+    content="Woodstock Web Components Theme Documentation">
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+
+<base href="href="http://localhost:8080/woodstock-theme-doc/creating-themes.html">
+<!--
+<base href="href="http://localhost:8080/woods-theme-doc/creating-themes.html">
+-->
+<link href="css/browser-uispec.css" type="text/css" rel="stylesheet">
+<script src="javascript/uispec_js.js" type="text/javascript"></script>
+
+</head>
+<body bgcolor="#ffffff">
+    <div class="security-text" align="right">
+	<a href="#skipnav" title="Skip Navigation Links">
+	    </a>
+	    "Woodstock Web Components Theme Documentation"
+    </div>
+    <div class="MstDiv">
+    <table class="MstTblBot" title="" border="0" cellpadding="0"
+	cellspacing="0" width="100%">
+	<tbody>
+	<tr>
+	<td class="MstTdTtl"><div class="MstDivTtl">
+	<div class="Mst1TtlTxt">
+	The Theme and Woodstock Web Applications - Version 4.1
+	</div>
+	</div>
+	<!--
+	<div class="Mst1SecDiv">
+	<span class="Mst1SecTxt">
+	    <a href="mailto:woodstock-dev@sun.com">woodstock-dev@sun.com</a>
+	&nbsp;</span>
+	</div>
+	</td>
+	<td align="right" nowrap="nowrap" valign="top"><div class="MstDivSrch">
+	    <form method="post" action="javascript:SearchGuidelines()">
+		<input class="TxtFld" name="searchfield" id="searchfield"
+		    type="text">
+		<input class="Btn2" name="Submit" value="Search" id="Submit" 
+		    onmouseover="if (this.disabled==0) this.className='Btn2Hov'" 
+		    onfocus="if (this.disabled==0) this.className='Btn2Hov'" 
+		    onmouseout="if (this.disabled==0) this.className='Btn2'" 
+		    onblur="if (this.disabled==0) this.className='Btn2'"
+		    type="submit">
+	    </form>
+	</div> </td>
+	<td class="MstTdLogo" width="1%"><img src="images/javalogo.gif"
+	    alt="Java Logo" height="39" width="23"></td>
+	-->
+	</tr>
+    </tbody>
+    </table>
+
+    <!--
+    <table class="MstTblEnd" border="0" 
+	cellpadding="0" cellspacing="0" width="100%">
+	<tbody>
+	<tr><td><img src="images/masthead-sunname.gif"
+	    alt="Sun Microsystems, Inc." 
+	    align="right" height="10" width="113"></td>
+	</tr>
+      </tbody>
+    </table>
+    -->
+    </div>
+
+<!-- ################################################### -->
+<!-- End Document Title Block begin Navigation Bar Block -->
+<table class="NavTbl" border="0" cellpadding="10" cellspacing="0"
+ width="100%">
+  <tbody>
+    <tr>
+      <td>[ <a class="greybar_link"
+ href="index.html#toc">Table&nbsp;of&nbsp;Contents</a>&nbsp;|
+      <a class="greybar_link"
+ href="revision.html">0&nbsp;Revision&nbsp;History</a>&nbsp;|
+      <a class="greybar_link"
+ href="introduction.html">1&nbsp;Introduction</a>&nbsp;|
+      <a class="greybar_link"
+ href="redefining-theme-properties.html">2&nbsp;Configuring&nbsp;THEME_RESOURCES</a>&nbsp;|
+      <a class="greybar_link"
+ href="redefining-theme-properties.html">3&nbsp;Creating&nbsp;Properties&nbsp;Files</a>&nbsp;|
+      <a class="greybar_link"
+ href="redefining-theme-properties.html">4&nbsp;Redefining&nbsp;Properties</a>&nbsp;|
+ <strong>5&nbsp;Creating&nbsp;Themes</strong>&nbsp;|
+ <strong>6&nbsp;Configuring&nbsp;DEFAULT_THEME</strong>&nbsp;|
+      <a class="greybar_link"
+ href="runtime-theme-components.html">7&nbsp;Runtime&nbsp;Theme&nbsp;Components</a>&nbsp;|
+      <a class="greybar_link"
+ href="runtime-theme-components.html">8&nbsp;PortalThemeTagLib</a>&nbsp;|
+      <a class="greybar_link"
+ href="webui-jsf-theme.html">9&nbsp;com.sun.webui.jsf.theme</a>&nbsp;|
+      <a class="greybar_link"
+ href="theme-infrastructure.html">10&nbsp;com.sun.webui.theme</a>&nbsp;|
+      <a class="greybar_link"
+ href="javascript-theme.html">11&nbsp;Javascript&nbsp;Theme</a>&nbsp;|
+      <a class="greybar_link"
+ href="index.html#appendices">Appendices</a>&nbsp;]</td>
+    </tr>
+  </tbody>
+</table>
+<!-- ################################################### -->
+
+<a name="skipnav"></a>
+<a name="creating"><h1>Creating&nbsp;a&nbsp;Theme&nbsp;for&nbsp;the&nbsp;Woodstock&nbsp;Components</a>
+
+<p class="toc-level0"><a href="#2"><b>
+5 Creating a Theme</b></a></p>
+<p class="toc-level1"><a href="#5.1">
+5.1 Cloning an Existing Theme with themes/build.xml</a></p>
+<p class="toc-level1"><a href="#5.2">
+5.2 More than One Theme Jar in WEB-INF/lib</a></p>
+
+<p class="toc-level0"><a href="#6"><b>
+6 Configuring WEB-INF/web.xml</b></a></p>
+<p class="toc-level1"><a href="#6.1">
+6.1 The com.sun.webui.theme.DEFAULT_THEME init-param</a></p>
+
+<h1><a name="5"></a>5 Creating a Theme</h1>
+<p>
+Creating a theme is a very difficult and time consuming task. There are
+a large number of CSS selectors, images, Javascript files, and HTML 
+templates that are
+all interrelated. A change to one can have undesirable effects on
+another. For example a CSS selector definition and Javascript
+may be dependent on the HTML used to represent a component. It might be that
+the only way to effect a particular look is to change the HTML in addition
+to the CSS. This can be problematic for many of the Woodstock
+components because the HTML exists in JSF renderers written in Java.
+The HTML is written to the response programmatically. To change the
+rendered HTML, a subclass
+of the component's Renderer must be created and configured in the JSF
+render kit, and associated to a particular component. The details
+necessary for performing this level of customization is beyond
+the scope of this document.
+</p>
+<p>
+Some components are rendered using
+"widget" renderers which depend on an HTML template file that defines the
+HTML for the component. But many of these templates are sparse and 
+generic and most of the document construction happens 
+programmatically in Javascript, which depends on the HTML structure
+in the template. Changing these templates is beyond the
+scope of this document.
+However the techniques described in this document can be used to "override"
+the default HTML template, if only cosmetic changes to the template
+are needed and do not interfere with the logic implemented in 
+Javascript.
+</p>
+<p>
+There are a large number of images that are tightly bound to colors
+used in the CSS selector definitions. A seemingly simple color change
+to a CSS selector definition, may not be sufficient since there
+may be an image defined as part of that selector that needs to be
+modified to reflect the new color.
+</p>
+<p>
+Even changing font size may result in layout problems because the
+branding design of the HTML may not have considered a change in font size.
+</p>
+<p>
+Some effort has been made to organize the theme resources in such
+a way that a "new branding" is possible. For example many selectors
+are named based on the components that reference them. CSS style sheets
+have been organized as "layout", "colorAndMedia", and "typography".
+However there are many implicit dependencies that may result in
+undesirable effects if a change is made to only one of these style sheets.
+</p>
+<p>
+It is recommended that theme changes for an application be made as
+discussed previously. If a new theme is absolutely required the following
+sections will try and descibe how to attempt it.
+</p>
+<p>
+<em><b>Disclaimer: It must be understood that the content of a theme 
+is tightly bound to the version of the Woodstock components. No guarantee
+can be made that a theme created based on a given version of the 
+components can be used WITHOUT MODIFICATION with a later version of 
+the components.
+</b>
+</em>
+</p>
+<h3><a name="5.1"></a>5.1 Cloning an Existing Theme with themes/build.xml</h3>
+<p>
+If creating a new theme is absolutely the only means necessary to accomplish
+the desired goal then the approach is to clone the base theme defined
+in <code>webui-jsf-suntheme.jar</code> and modify files and properties
+as necessary. It is highly recommended that only the "skin" be 
+modified. This includes only those properties that affect color
+and typography. If images need changing then the sizes should be
+maintained. Any changes to layout cannot be guaranteed to be effective
+unless Java code and or Javascript is adjusted to accommodate the new
+layout.
+</p>
+<p>
+The <code>themes/build.xml</code> 
+<a href="http://ant.apache.org/index.html">ANT</a>
+script can be used to create a clone of the
+"suntheme". A clone means that the contents will be exactly the same
+as the "suntheme" except that the "suntheme" name will be changed
+to the new theme name. All paths will be redefined as well. To configure a
+new cloned theme, a properties file is used to specify the
+new values. In the following table the properties in bold type must be 
+specified in the properties file, and those not in bold type are optional.
+<p>
+<table border=1>
+<tr>
+<th>ANT Property</th>
+<th>Suntheme value</th>
+<th>Description</th>
+<tr>
+
+<tr><td>
+<b>theme.name</b>
+</td><td>
+suntheme
+</td><td>
+The Theme name.<br>
+<em>"suntheme" must not be used.</em>
+</td></tr>
+
+<tr><td>
+<b>theme.src</b>
+</td><td>
+src/suntheme
+</td><td>
+The directory to build when the <code>buildTheme</code> target is used.
+</td></tr>
+
+<tr><td>
+<b>theme.clone-src</b>
+</td><td>
+src/suntheme
+</td><td>
+The root of the theme resources to clone.
+</td></tr>
+
+<tr><td>
+<b>theme.build-dir</b>
+</td><td>
+build/suntheme
+</td><td>
+The temporary build destination for theme files.
+</td></tr>
+
+<tr><td>
+theme.l10n-dir
+</td><td>
+./l10n (Currently in transition)
+</td><td>
+The directory that contains locale specific jars that contain
+translations and locale dependent resources. Used for constructing
+the locale specific Javascript theme files.
+</td></tr>
+
+<tr><td>
+<b>theme.jar</b>
+</td><td>
+dist/webui-jsf-suntheme.jar
+</td><td>
+The destination path including the jar name for the theme jar.
+</td></tr>
+
+<tr><td>
+<b>theme.version</b>
+</td><td>
+4.1
+</td><td>
+The theme version as reported by the ThemeService implementation. This
+value must be the same as the theme that is being cloned.
+</td></tr>
+
+<tr><td>
+<b>theme.package</b>
+</td><td>
+com.sun.webui.jsf.suntheme
+</td><td>
+The resouce's package path, any paths are derived from this value, i.e
+com/sun/webui/jsf/suntheme.<br>
+<em>"com.sun.webui.jsf.suntheme" must not be used.</em>
+</td><td>
+
+<tr><td>
+<b>theme.css-name</b>
+</td><td>
+_sun4
+</td><td>
+An identifier that effects a name space for all CSS selectors.<br>
+<em>"_sun4" must not be used.</em>
+</td></tr>
+
+<tr><td>
+<b>theme.service-class</b>
+</td><td>
+SunthemeThemeService
+</td><td>
+The Java class name of the
+<a href="theme-infrastructure.html#10.6"><code>ThemeService</code></a>
+SPI implementation.<br>
+<em><code>SunthemeThemeService</code> must not be used.</em>
+</td></tr>
+
+<tr><td>
+theme.service-class-template
+</td><td>
+src/suntheme/com/sun/webui/jsf/suntheme/SunthemeThemeService.java
+</td><td>
+The name of a Java file to use a template to create the implementation
+of <a href="theme-infrastructure.html#10.6">
+<code>ThemeService</code></a>. 
+<code>META-INF/services/SunthemtThemeService.java</code>
+is the default template, if this property is not specified.
+</td></tr>
+
+<tr><td>
+theme.service-properties-template
+</td><td>
+src/suntheme/com/sun/webui/jsf/suntheme/suntheme.properties
+</td><td>
+The name of the Java ResourceBundle Properties file to use as a 
+template that defines the infomation about the theme and is returned
+by the <a href="theme-infrastructure.html#10.6"><code>ThemeService</code></a>
+implementation. <code>META-INF/services/suntheme.properties</code>
+is the default template, if this property is not specified.
+</td></tr>
+
+<tr><td>
+<b>theme.clone-dir</b>
+</td><td>
+No equivialent value.
+</td><td>
+The destination directory for the root of cloned theme files.
+</td></tr>
+
+<tr><td>
+theme.clone-filter
+</td><td>
+No equivialent value.
+</td><td>
+If this value is true the cloned files will be filtered and tokens
+will be replaced with values. For example the "@THEME_CSS@" token
+in the style sheets will be replaced with the value of
+<code>theme.css-name</code> property.
+It is not recommended to set this value to true.
+Substitution will take place when the theme is built. Leaving the
+tokens unresolved in the clone allows comparisons to be made more
+easily to new versions of the suntheme, easing the port to a newer theme.
+</td></tr>
+
+<tr><td>
+theme.clone-overwrite
+</td><td>
+No equivialent value.
+</td><td>
+If this value is true an existing clone at <code>theme.clone-dir</code>
+will be overwriiten when the <code>cloneTheme</code> target is called
+with the same properties file in effect. Only files that differ from the
+files being cloned will be overwritten. It is advised that this property
+be set to false or not specified, to prevent losing edits unintentionally.
+</td></tr>
+
+</table>
+</p>
+
+<p>
+The following is the contents of the
+<code>themes/theme-name.properties.sample</code> 
+<a href="http://ant.apache.org/index.html">ANT</a> properties file.
+<div class="codebox">
+<code>
+<pre>
+<iframe src="references/theme-name.properties.sample" width="100%"
+	height="100%" frameborder="0">
+</iframe>
+</pre>
+</code>
+</div>
+<p>
+Once this properties file is created it is named after the 
+new theme name with the "properties" suffix. <code>ant</code> is then
+invoked with the <code>-D</code> option defining the <code>theme.name</code>
+property.
+This is a little redundant in that the <code>theme.name</code> 
+property in the properties file is technically not necessary. For example
+<div class="codebox">
+<code>
+<pre>
+Assume the theme-name.properties.sample properties file was renamed
+to "mojave.properties".
+
+% ant -Dtheme.name=mojave cloneTheme buildTheme buildJsTheme
+
+This command will create the clone at "/tmp/theme/src/mojave", build
+the theme in "/tmp/theme/build/mojave" and generate the theme jar
+/tmp/theme/dist/webui-jsf-mojave.jar.
+</pre>
+</code>
+</div>
+Once the clone is created and as long as the <code>mojave.properties</code>
+files exists in the appropriate location, the ant command can just be
+<div class="codebox">
+<code>
+<pre>
+% ant -Dtheme.name=mojave
+</pre>
+</code>
+</div>
+This will just build the theme and produce the theme jar. Note that 
+token substititution takes place during a build.
+</p>
+<h3><a name="5.2"></a>5.2 More than One Theme Jar in WEB-INF/web.xml</h3>
+<p>
+Theme resources are delivered in a jar file. This requires that the
+jar file appear on an application's class path. Since the jar file 
+resides in the application's <code>WEB-INF/lib</code> directory it does
+appear on the class path. However there is no specified order of the 
+jars that are found on an application's class path.
+</p>
+<p>
+When more than one theme jar file or a component jar file that contains
+an implmentation of <code>ThemeService</code> appears on an application's
+class path it cannot be determined which theme resources will be in effect
+when running the application. The choice is determined by the 
+<a href="javadoc/webui/com/sun/webui/theme/ThemeFactory.html">
+<code>ThemeFactory</code></a>
+implementation. The default implementation is the 
+<a href="theme-infrastructure.html#10.5"><code>SPIThemeFactory</code></a>
+class. In brief, its policy, when a specific theme is not requested, is
+to provide a list of theme resources ordered based on the order of 
+responses to its requests for <code>ThemeService</code> SPI. Essentially
+the first <code>ThemeService</code> implementation to respond to a call
+for this service, becomes the "default" theme and its
+resources are used by the Woodstock components. The actual policy is 
+a little more involved than this.
+See <a href="theme-infrastructure.html#10.5"><code>SPIThemeFactory</code></a>
+for more details.
+</p>
+<p>
+However internally in the
+<a href="javadoc/webui/com/sun/webui/jsf/theme/ThemeUtilities.html">
+<code>ThemeUtilities</code></a> class, used by all Woodstock components, a
+specific version is always spefied in calls to <code>getTheme</code>.
+(As of this writing it is "4.1").
+Therefore, the first theme that satisfies the version requirement is used
+by the components.
+</p>
+
+<h1><a name="6"></a>6 Configuring WEB-INF/web.xml</h1>
+<p>
+Similar to the discussion in <a href="redefining-theme-properties.html#2">
+Configuring WEB-INF/web.xml</a> an application can affect the theme
+chosen by the <code>SPIThemeFactory</code> and therefore determine the
+Theme used by the Woodstock components.
+</p>
+<h3><a name="6.1">
+</a>6.1 The com.sun.webui.theme.DEFAULT_THEME context-param</h3>
+<p>
+The <code>com.sun.webui.theme.DEFAULT_THEME</code> <code>context-param</code>
+is used to define theme preferred theme by name that should be loaded
+by the <code>ThemeFactory</code>. The value of this parameter is stored
+in the <code>ThemeContext</code> and is referenced by the
+<code>ThemeFactory</code> for theme requests that do not explicitly
+request a theme name. The Woodstock components do not explicitly specify
+a theme name in its calls to <code>getTheme</code>.
+</p>
+<p>
+If an application has the cloned theme "mojave" as produced in
+<a href="#5.1">Cloning an Existing Theme with themes/build.xml</a> in 
+its <code>WEB-INF/lib</code> directory it could name that theme as the
+"default" theme for its application, as follows
+</p>
+<div class="codebox">
+<code>
+<pre>
+    &lt;context-param&gt;
+	&lt;param-name&gt;com.sun.webui.theme.DEFAULT_THEME&lt;param-name&gt;
+	&lt;param-value&gt;mojave&lt;param-value&gt;
+    &lt;context-param&gt;
+</pre>
+</code>
+</div>
+This would result in the application and the Woodstock components referencing
+this theme jar file for theme resource requests.
+</p>
+
+<!-- ################################################### -->
+<!-- End Document Title Block begin Navigation Bar Block -->
+<table class="NavTbl" border="0" cellpadding="10" cellspacing="0"
+ width="100%">
+  <tbody>
+    <tr>
+      <td>[ <a class="greybar_link"
+ href="index.html#toc">Table&nbsp;of&nbsp;Contents</a>&nbsp;|
+      <a class="greybar_link"
+ href="revision.html">0&nbsp;Revision&nbsp;History</a>&nbsp;|
+      <a class="greybar_link"
+ href="introduction.html">1&nbsp;Introduction</a>&nbsp;|
+      <a class="greybar_link"
+ href="redefining-theme-properties.html">2&nbsp;Configuring&nbsp;THEME_RESOURCES</a>&nbsp;|
+      <a class="greybar_link"
+ href="redefining-theme-properties.html">3&nbsp;Creating&nbsp;Properties&nbsp;Files</a>&nbsp;|
+      <a class="greybar_link"
+ href="redefining-theme-properties.html">4&nbsp;Redefining&nbsp;Properties</a>&nbsp;|
+ <strong>5&nbsp;Creating&nbsp;Themes</strong>&nbsp;|
+ <strong>6&nbsp;Configuring&nbsp;DEFAULT_THEME</strong>&nbsp;|
+      <a class="greybar_link"
+ href="runtime-theme-components.html">7&nbsp;Runtime&nbsp;Theme&nbsp;Components</a>&nbsp;|
+      <a class="greybar_link"
+ href="runtime-theme-components.html">8&nbsp;PortalThemeTagLib</a>&nbsp;|
+      <a class="greybar_link"
+ href="webui-jsf-theme.html">9&nbsp;com.sun.webui.jsf.theme</a>&nbsp;|
+      <a class="greybar_link"
+ href="theme-infrastructure.html">10&nbsp;com.sun.webui.theme</a>&nbsp;|
+      <a class="greybar_link"
+ href="javascript-theme.html">11&nbsp;Javascript&nbsp;Theme</a>&nbsp;|
+      <a class="greybar_link"
+ href="index.html#appendices">Appendices</a>&nbsp;]</td>
+    </tr>
+  </tbody>
+</table>
+<!-- ################################################### -->
+</p></body></html>

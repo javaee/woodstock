@@ -1,0 +1,538 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<title>2. Customizing the Theme - The Theme and Woodstock Web Applications - Version 4.1</title>
+
+<meta name="COPYRIGHT" 
+    content="Woodstock Web Components Theme Documentation">
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+
+<link href="css/browser-uispec.css" type="text/css" rel="stylesheet">
+<script src="javascript/uispec_js.js" type="text/javascript"></script>
+<base href="href="http://localhost:8080/woodstock-theme-doc/redefining-theme-properties.html">
+<!--
+<base href="href="http://localhost:8080/woods-theme-doc/redefining-theme-properties.html">
+-->
+
+</head>
+<body bgcolor="#ffffff">
+    <div class="MstDiv">
+    <table class="MstTblBot" title="" border="0" cellpadding="0"
+	cellspacing="0" width="100%">
+	<tbody>
+	<tr>
+	<td class="MstTdTtl"><div class="MstDivTtl">
+	<div class="Mst1TtlTxt">
+	The Theme and Woodstock Web Applications - Version 4.1
+	</div>
+	</div>
+	<!--
+	<div class="Mst1SecDiv">
+	<span class="Mst1SecTxt">
+	    <a href="mailto:woodstock-dev@sun.com">woodstock-dev@sun.com</a>
+	&nbsp;</span>
+	</div>
+	</td>
+	<td align="right" nowrap="nowrap" valign="top"><div class="MstDivSrch">
+	    <form method="post" action="javascript:SearchGuidelines()">
+		<input class="TxtFld" name="searchfield" id="searchfield"
+		    type="text">
+		<input class="Btn2" name="Submit" value="Search" id="Submit" 
+		    onmouseover="if (this.disabled==0) this.className='Btn2Hov'" 
+		    onfocus="if (this.disabled==0) this.className='Btn2Hov'" 
+		    onmouseout="if (this.disabled==0) this.className='Btn2'" 
+		    onblur="if (this.disabled==0) this.className='Btn2'"
+		    type="submit">
+	    </form>
+	</div></td>
+	<td class="MstTdLogo" width="1%"><img src="images/javalogo.gif"
+	    alt="Java Logo" height="39" width="23"></td>
+	-->
+	</tr>
+    </tbody>
+    </table>
+
+<!--
+    <table class="MstTblEnd" border="0" 
+	cellpadding="0" cellspacing="0" width="100%">
+	<tbody>
+	<tr><td><img src="images/masthead-sunname.gif"
+	    alt="Sun Microsystems, Inc." 
+	    align="right" height="10" width="113"></td>
+	</tr>
+      </tbody>
+    </table>
+-->
+    </div>
+
+<!-- ################################################### -->
+<!-- End Document Title Block begin Navigation Bar Block -->
+<table class="NavTbl" border="0" cellpadding="10" cellspacing="0"
+ width="100%">
+  <tbody>
+    <tr>
+      <td>[ <a class="greybar_link"
+ href="index.html#toc">Table&nbsp;of&nbsp;Contents</a>&nbsp;|
+      <a class="greybar_link"
+ href="revision.html">0&nbsp;Revision&nbsp;History</a>&nbsp;|
+      <a class="greybar_link"
+ href="introduction.html">1&nbsp;Introduction</a>&nbsp;|
+
+<strong>2&nbsp;Configuring&nbsp;THEME_RESOURCES</strong>&nbsp;|
+<strong>3&nbsp;Creating&nbsp;Properties&nbsp;Files</strong>&nbsp;|
+<strong>4&nbsp;Theme&nbsp;Properties</strong>&nbsp;|
+
+      <a class="greybar_link"
+ href="creating-themes.html">5&nbsp;Creating&nbsp;Themes</a>&nbsp;|
+      <a class="greybar_link"
+ href="creating-themes.html">6&nbsp;Configuring&nbsp;DEFAULT_THEME</a>&nbsp;|
+      <a class="greybar_link"
+ href="runtime-theme-components.html">7&nbsp;Runtime&nbsp;Theme&nbsp;Components</a>&nbsp;|
+      <a class="greybar_link"
+ href="runtime-theme-components.html">8&nbsp;PortalThemeTagLib</a>&nbsp;|
+      <a class="greybar_link"
+ href="webui-jsf-theme.html">9&nbsp;com.sun.webui.jsf.theme</a>&nbsp;|
+      <a class="greybar_link"
+ href="theme-infrastructure.html">10&nbsp;com.sun.webui.theme</a>&nbsp;|
+      <a class="greybar_link"
+ href="javascript-theme.html">11&nbsp;Javascript&nbsp;Theme</a>&nbsp;|
+      <a class="greybar_link"
+ href="index.html#appendices">Appendices</a>&nbsp;]</td>
+    </tr>
+  </tbody>
+</table>
+<!-- ################################################### -->
+
+<a name="skipnav"></a>
+
+<h1><a name="customizing"></a>Customizing Theme Properties</h1>
+
+<p class="toc-level0"><a href="#2"><b>
+2 Configuring WEB-INF/web.xml</b></a></p>
+<p class="toc-level1"><a href="#2.1">
+2.1 The com.sun.webui.theme.THEME_RESOURCES context-param</a></p>
+
+<p class="toc-level0"><a href="#3"><b>
+3 Creating Theme Properties Files</b></a></p>
+<p class="toc-level1"><a href="#3.1">
+3.1 Java ResourceBundle Theme Properties Files</a></p>
+<p class="toc-level1"><a href="#3.2">
+3.2 Javascript Theme Properties Files</a></p>
+<p class="toc-level1"><a href="#3.3">
+3.3 Localization</a></p>
+<p class="toc-level2"><a href="#3.3.1">3.3.1
+Theme Resources Defined in ResourceBundle Properties Files</a></p>
+<p class="toc-level2"><a href="#3.3.2">3.3.2
+Theme Resources Defined in Javascript Files</a></p>
+
+<p class="toc-level0"><a href="#4"><b>
+4 Theme Properties</b></a></p>
+<p class="toc-level1"><a href="#4.1">
+4.1 Application Page Theme Properties</a></p>
+<p class="toc-level1"><a href="#4.2">
+4.2 Component Theme Properties</a></p>
+
+<h1><a name="2"></a>2 Configuring WEB-INF/web.xml</h1>
+<p>
+The <a href="theme-infrastructure.html#10.1"><code>ThemeContext</code></a>
+interface defines several properties that affect the runtime environment
+of the Woodstock theme. These properties are supported by the 
+<a href="theme-infrastructure.html#10.2"><code>ServletThemeContext</code></a>
+concrete class and its JSF specialized subclass
+<a href="webui-jsf-theme.html#9.1"><code>JSFThemeContext</code></a>.
+</p>
+<p>
+<code>JSFThemeContext</code> (which is used internally by the Woodstock
+components as the "default" ThemeContext implementation)
+implements the properties as <code>context-param</code> elements
+that can be declared in an application's web.xml file. The values of these
+<code>context-param</code> elements affect 
+the runtime behavior of the theme. There are several
+parameters that can be defined that control different aspects of the
+theme behavior including, additional theme resource files, the default theme
+name, preferred theme version, default locale, theme factory
+implementation, and the theme servlet context. This chapter will discuss
+the <code>com.sun.webui.theme.THEME_RESOURCES</code> parameter which
+allows the application to define resources bundles. The 
+theme properties defined in these resource bundles take precedence
+over the theme's definitions of these property values.
+</p>
+
+<h2><a name="2.1"></a>2.1 The com.sun.webui.theme.THEME_RESOURCES context-param</h2>
+<p>
+The <code>com.sun.webui.theme.THEME_RESOURCES</code> <code>context-param</code>
+is used to define theme resource bundles in the form of Java ResourceBundle
+Properties files and Javascript files formatted as
+<a href="http://json.org">JSON</a> objects.
+</p>
+<p>
+The <code>context-param</code> value is space separated sequence of strings
+in the form of package paths also referred to as ResourceBundle base names.
+The example web application defines the <code>apptheme</code> bundle in its 
+web.xml file.
+</p>
+<div class="codebox">
+<code>
+<pre>
+    &lt;context-param&gt;
+	&lt;param-name&gt;com.sun.webui.theme.THEME_RESOURCES&lt;param-name&gt;
+	&lt;param-value&gt;apptheme&lt;param-value&gt;
+    &lt;context-param&gt;
+</pre>
+</code>
+</div>
+<p>
+The bundle base name <code>apptheme</code> resolves to 
+<code>WEB-INF/classes/apptheme.properties</code>. Since the theme resource
+properties files are treated like Java ResourceBundle's the files must be
+located along the application's class path. It is
+preferable to locate the properties files and actual application theme
+resources, like image files or style sheets under the 
+<code>WEB-INF/classes</code> directory
+instead of in a jar. This is to ensure that the application
+resources take precedence. If the resources were located in a jar file
+and they are not uniquely named, then there is no guarantee which
+resource would be referenced, since the ordering of the jars in the 
+class path would take precedence. The theme infrastructure relies on the
+Servlet spec as it gives precedence to resources under WEB-INF/classes
+over jars in WEB-INF/lib.
+</p>
+
+<h1><a name="3"></a>3 Creating Theme Properties Files</h1>
+<p>
+The theme resource properties files that an application creates can contain
+any theme property that is defined in a theme jar or a component jar that 
+defines theme properties and includes theme resources. The application
+defined properties override the default value of those theme defined properties.
+</p>
+
+<h2><a name="3.1"></a>3.1 Java ResourceBundle Theme Properties Files</h2>
+<p>
+Theme properties are formatted similarly to any Java ResourceBundle
+Properties file. The 
+<a href="faces/example/index.jsp">
+example web application</a> defines the following
+Properties file, <a href="example/apptheme.properties">
+<code>WEB-INF/classes/apptheme.properties</code></a>
+<div class="codebox">
+<code>
+<pre>
+<iframe src="example/apptheme.properties"
+	width="100%" height="280" frameborder="0">
+</iframe>
+</pre>
+</code>
+</div>
+All the theme properties associated with the components and renderers that
+reference them are listed in <a href="theme-properties-table.html">
+Appendix A - The Woodstock Theme (webui-jsf-suntheme.jar): Theme Properties
+Related by Component/Widget/Renderer</a>.
+
+<h2><a name="3.2"></a>3.2 Javascript Theme Properties Files</h2>
+<p>
+The component set is currently transitioning to a new architecture. Originally
+JSF Renderers rendered HTML markup. JSF Renderers in the new architecture
+render Javascript statements and some HTML markup associated with those 
+Javascript statements.  The Javascript statements reference Javascript
+functions and properties that render the component programmatically
+in the browser, dynamically modifying the document. For example the
+button component in the 
+<a href="faces/example/index.jsp">
+example web application</a> 
+renders the following in the response.
+<div class="codebox">
+<code>
+<pre>
+    &lt;span id="form1:discuss"&gt;&lt;/span&gt;
+    &lt;script type="text/javascript"&gt;
+	webui.suntheme.widget.common.replaceElement(
+	    { "value":"This is suntheme static text. The following button is a suntheme primary button.",
+	      "visible":true,
+	      "escape":true,
+	      "widgetName":"webui.suntheme:staticText",
+	      "module":"webui.suntheme.widget.staticText",
+	      "id":"form1:discuss"}
+	);
+    &lt;/script&gt;
+</pre>
+</code>
+</div>
+Notice the first argument to the Javascript function
+<code>webui.suntheme.widget.common.replaceElement</code>. This is an 
+example of a <a href="http://json.org">JSON</a>
+object and also called an "object literal".
+<p>
+The following is the Javascript equivalent of the 
+<code>apptheme.properties</code> file. The format is a hierarchy of 
+<a href="http://json.org">JSON</a> objects.
+<div class="codebox">
+<code>
+<pre>
+<iframe src="example/apptheme.js"
+	width="100%" height="125" frameborder="0">
+</iframe>
+</pre>
+</code>
+</div>
+There are a couple of differences between the ResourceBundle Properties file
+and the Javascript theme files.
+<ol>
+<li>The Javascript theme file must be located in a subdirectory called
+<code>nls</code>. The Javascript theme file in the example
+web application, <code>apptheme.js</code>, is located here.
+(See <a href="javascript-theme.html#11.3">
+The NLS Directory Structure</a> for more information)
+<div class="codebox">
+<code>
+<pre>
+WEB-INF/classes/nls/apptheme.js
+</pre>
+</code>
+</div>
+</li>
+<li> At this time, page level theme properties like
+<code>Theme.stylesheet</code> are not recognized by the Javascript theme 
+implementation.
+Obviously there are some oddities in this scheme. Like, "Why should I have to 
+duplicate the content of the 'apptheme.properties' file ?". The Theme 
+customization is at an early phase of development, especially in the 
+area of the Javascript theme. There are other inconsistencies as well.
+Some components have Javascript "widget" renderers and respect the Javascript 
+theme and other components do not have Javascript "widget" renderers and
+only recognize the theme's Java ResourceBundle properties files. The
+<a href="theme-properties-table.html">theme properties table</a> identifies
+all component properties and indicates which components
+have "widget" renderers. See 
+<a href="theme/com/sun/webui/jsf/suntheme/javascript_uncompressed/theme/nls/suntheme.js"><code>suntheme.js</code></a> for the actual Javascript theme.
+</li>
+</ol>
+</p>
+
+<h2><a name="3.3"></a>3.3 Localization</h2>
+<p>
+All theme properties can have locale specific values. This is accomplished
+by providing locale variants of the Java ResourceBundle Properties files
+and the Javascript theme files that define the theme properties.
+</p>
+<p>
+<h3><a name="3.3.1"></a>3.3.1 Theme Resources Defined in ResourceBundle Properties Files</h3>
+<p>
+Locale variants of the Java ResourceBundle Properties files follow the standard
+localized Java ResourceBundle file name pattern where the locale
+variant identifiers are added as a suffix to the file base name. For example,
+the simplified Chinese locale variant of the example web application's
+theme properties file name would be
+<div class="codebox">
+<code>
+<pre>
+WEB-INF/classes/apptheme_zh_CN.properties
+</pre>
+</code>
+</div>
+As with Java ResourceBundle behavior the file without the locale
+suffix, acts as the fallback bundle for properties that are not defined
+in a particular locale.
+</p>
+<h3><a name="3.3.2"></a>3.3.2 Theme Resources Defined in Javascript Files</h3>
+<p>
+The implementation of the client Javascript theme utilizes 
+<a href="http://dojotoolkit.org/">Dojo</a> to load localized Javascript
+theme files. Dojo defines a slightly different organization and naming
+pattern for locale variants. Javascript resource files are located in directory
+named <code>nls</code> with subdirectories named for the locale variants.
+Standard 
+<a href="http://www.ietf.org/rfc/rfc3066.txt">RFC 3066</a> locale and
+country codes are utilized but instead of "_" (underscore) a "-" (dash)
+is used to separate the language from the country code and the country code
+from the locale variant. By convention lowercase letters are used 
+in the directory name. For a simplified Chinese Javascript theme properties
+file, the name and location would be as follows.
+<div class="codebox">
+<code>
+<pre>
+WEB-INF/classes/nls/zh-cn/apptheme.js
+</pre>
+</code>
+</div>
+Note that the file name itself does not change, only the file's location. Note
+also that if the package name denoted a dot separated package hierarchy
+like <code>org.business.applications.apptheme</code> then the 
+location of the files would be
+<div class="codebox">
+<code>
+<pre>
+For a Javascript theme files
+    WEB-INF/classes/org/business/applications/nls/zh-cn/apptheme.js
+
+For a Java ResourceBunndle Properties file
+    WEB-INF/classes/org/business/applications/apptheme_zh_CN.properties
+</pre>
+</code>
+</div>
+(See <a href="javascript-theme.html#11.3">
+The NLS Directory Structure</a> for more information)
+</p>
+
+<h1><a name="4"></a>4&nbsp;Theme&nbsp;Properties</h1>
+<p>
+Note that Application Page Theme Properties are not recognized
+by the Javascript Theme implementation at this time.
+</p>
+<h2><a name="4.1"></a>4.1 Application Page Theme Properties</h2>
+<p>
+Application Page Theme Properties are theme properties that identify theme 
+resources that must be loaded in every application page. Resources like 
+CSS style sheets, and Javascript files. These properties can be a list 
+of space separated paths that exist along the application's class path.  
+The values must not include the protocol, schema, host or application 
+context.  For example, the following could be the definition of the 
+<code>Theme.stylesheet</code> property in the theme's
+<code>stylesheets.properties</code> file.
+<div class="codebox">
+<code>
+Theme.stylesheet=com/sun/webui/jsf/suntheme/css/master.css</code>
+<code>
+</div>
+At runtime it might have the following URL, 
+<div class="codebox">
+<code>
+http://foohost:80/application-foo/theme/com/sun/webui/jsf/suntheme/css/master.css
+</code> 
+</div>
+</p>
+<p>
+
+<table border="1">
+<tr><th>Property</th><th>Description</th></tr>
+
+<tr><td><p>
+Theme.stylesheet
+</p></td><td><p>
+The value of this property is a space separated list of paths
+to CSS style sheets. The paths are expected to be available
+from the application's class path. These style sheets are always
+loaded after the <code>STYLESHEET_MASTER</code> style sheets.
+All definitions of this property are considered in the order
+found and all style sheets defined are loaded.
+</p></td></tr>
+
+<tr><td><p>
+Theme.bundle.stylesheet
+</p></td><td><p>
+A <code>ResourceBundle</code> that contains style sheet
+related properties. This property is typically used when
+style sheets have locale variants, which is not common.
+It is usually sufficient to specify the following properties
+in the main theme resource bundle.
+</p></td></tr>
+
+<tr><td><p>
+Theme.bundle.stylesheet.classMapper
+</p></td><td><p>
+A <code>ResourceBundle</code> that contains
+properties whose values are CSS selectors.
+The properties defined in these bundles
+are referenced when application pages are rendered.
+</p></td></tr>
+
+<tr><td><p>
+Theme.javascript
+</p></td><td><p>
+The value of this property is a space separated list of
+paths to javascript files. These files are loaded for every
+application page. The paths are expected to be visible from
+the application's class path.
+</p></td></tr>
+
+<tr><td><p>
+Theme.bundle.javascript
+</p></td><td><p>
+A <code>ResourceBundle</code> that contains javascript
+related properties. This property is typically used when
+javascript files have locale variants, which is not common.
+It is usually sufficient to specify the following properties
+in the main theme resource bundle.
+</p></td></tr>
+
+<tr><td><p>
+Theme.bundle.template
+</p></td><td><p>
+A <code>ResourceBundle</code> that contains HTML markup
+used for a "template" for "widgets" rendered on the client.
+</p></td></tr>
+
+<tr><td><p>
+Theme.bundle.messages
+</p></td><td><p>
+A <code>ResourceBundle</code> that contains properties whose
+values are text strings, possibly formatted for use by
+<code>MessageFormat</code>. There are typically locale variants
+for this bundle.
+</p></td></tr>
+
+<tr><td><p>
+Theme.bundle.images
+</p></td><td><p>
+A <code>ResourceBundle</code> that contains properties whose
+values are paths to image files. The paths are expected to be
+visible on the application's class path.
+There are typically no locale variants for this bundle, but
+locale variants are not prohibited.
+</p></td></tr>
+</table>
+
+<h2><a name="4.2"></a>4.2 Component Theme Properties</h2>
+<p>
+Component Theme Properties are theme properties that identify
+<ul>
+<li>CSS selectors</li>
+<li>images including the image file path, width, height, alt
+text and title (tool tip)</li>
+<li> message text that appears in complex components like 
+<code>AddRemove</code> or <code>FileChooser</code>, button text,
+for example the <code>Wizard</code> NEXT, PREVIOUS, etc. buttons,
+informational message text, and data like the default column width
+for a <code>TextField</code>.</li>
+</ul>
+All the theme properties and the components and renderers that reference them
+are listed in <a href="theme-properties-table.html">
+Appendix A - The Woodstock Theme (webui-jsf-suntheme.jar): Theme Properties
+Related by Component/Widget/Renderer</a>
+</p>
+
+<!-- ################################################### -->
+<!-- End Document Title Block begin Navigation Bar Block -->
+<table class="NavTbl" border="0" cellpadding="10" cellspacing="0"
+ width="100%">
+  <tbody>
+    <tr>
+      <td>[ <a class="greybar_link"
+ href="index.html#toc">Table&nbsp;of&nbsp;Contents</a>&nbsp;|
+      <a class="greybar_link"
+ href="revision.html">0&nbsp;Revision&nbsp;History</a>&nbsp;|
+      <a class="greybar_link"
+ href="introduction.html">1&nbsp;Introduction</a>&nbsp;|
+<strong>2&nbsp;Configuring&nbsp;THEME_RESOURCES</strong>&nbsp;|
+<strong>3&nbsp;Creating&nbsp;Properties&nbsp;Files</strong>&nbsp;|
+<strong>4&nbsp;Theme&nbsp;Properties</strong>&nbsp;|
+      <a class="greybar_link"
+ href="creating-themes.html">5&nbsp;Creating&nbsp;Themes</a>&nbsp;|
+      <a class="greybar_link"
+ href="creating-themes.html">6&nbsp;Configuring&nbsp;DEFAULT_THEME</a>&nbsp;|
+      <a class="greybar_link"
+ href="runtime-theme-components.html">7&nbsp;Runtime&nbsp;Theme&nbsp;Components</a>&nbsp;|
+      <a class="greybar_link"
+ href="runtime-theme-components.html">8&nbsp;PortalThemeTagLib</a>&nbsp;|
+      <a class="greybar_link"
+ href="webui-jsf-theme.html">9&nbsp;com.sun.webui.jsf.theme</a>&nbsp;|
+      <a class="greybar_link"
+ href="theme-infrastructure.html">10&nbsp;com.sun.webui.theme</a>&nbsp;|
+      <a class="greybar_link"
+ href="javascript-theme.html">11&nbsp;Javascript&nbsp;Theme</a>&nbsp;|
+      <a class="greybar_link"
+ href="index.html#appendices">Appendices</a>&nbsp;]</td>
+    </tr>
+  </tbody>
+</table>
+<!-- ################################################### -->
+</p></body></html>

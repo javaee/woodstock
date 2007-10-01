@@ -1,0 +1,171 @@
+th, td, p, div, span, h1, h2, h3, h4, h5, h6, input, select, textarea, form, b, strong, i, u, dl, dd, dt, ul, li, ol, option, blockquote, body, a  { font-family: verdana, helvetica, arial, sans-serif; font-size:10pt;}
+
+body { background: #FFF; color: #000; font-family: verdana, helvetica, arial, sans-serif; }
+h1 { font-family: verdana, helvetica, sans-serif; font-size: 13pt; color: #000;margin-top:15px;margin-bottom:5px;}
+h2 { font-family: verdana, helvetica, sans-serif; font-size: 12pt; color: #000;margin-top:15px;margin-bottom:5px;}
+h3 { font-family: verdana, helvetica, sans-serif; font-size: 11pt; color: #000;margin-top:15px;margin-bottom:5px;}
+h4 { font-family: verdana, helvetica, sans-serif; font-size: 11pt; color: #000;margin-top:15px;margin-bottom:5px;}
+h5 { font-family: verdana, helvetica, sans-serif; font-size: 11pt; color: #000;margin-top:15px;margin-bottom:5px;}
+h6 { font-family: verdana, helvetica, sans-serif; font-size: 11pt; color: #000;margin-top:15px;margin-bottom:5px;}
+caption {text-align:left;font-size: 10pt;font-weight:normal;font-weight:bold;color: #000;padding-bottom:5px}
+
+a:link { color: #003399; }
+a:visited { color: #336699; }
+a:hover, a:active { color: #336699; }
+
+/* Main Page Masthead 
+.Mst1Tbl { background-color:#495B67;background-image: url(Guidelines_Icons/masthead-background.jpg);background-repeat:repeat-x;background-position:left top }
+.Mst1TtlTd { background-color:transparent; vertical-align:middle }
+.Mst1LgoTd { background-color:transparent; vertical-align:middle}
+
+.Mst1SecTxt  { font-size: 9pt; color: #fff;}
+a.Mst1Lnk:link { color: #003399;font-size: 9pt; }
+a.Mst1Lnk:visited { color: #336699;font-size: 9pt; }
+a.Mst1Lnk:hover, a.Mst1Lnk:active { color: #336699;font-size: 9pt; }
+*/
+.NavTbl { background-color:#E5E9ED }
+a.greybar_link:link { color: #003399; }
+a.greybar_link:visited { color: #336699; }
+a.greybar_link:hover, a.greybar_link:active { color: #336699; }
+.greybar_current { color: #333; font-weight: bold; }
+
+
+/* MASTHEAD */
+.security-text  { font-family: verdana, helvetica, sans-serif; font-size: 9pt; color: #333; margin-bottom:5px;text-align:right}
+.Mst1TtlTxt  { font-size: 18px; color:#fff;font-weight:bold;}
+.Mst1SecDiv  { margin:14px 5px 10px 0px; color:#fff}
+.Mst1SecDiv a:link {color:#fff}
+.Mst1SecDiv a:visited {color:#fff}
+
+/* [check overwrite classes on css_ie55up.css] */
+span.MstLbl, span.MstTxt, span.MstUsrRole, span.MstAlmDwnTxt, span.MstAlmCrtTxt, span.MstAlmMajTxt, span.MstAlmMinTxt {color:#eef0f2}
+a.MstUsrLnk:link, a.MstUsrLnk:visited, a.MstAlmLnk:link, a.MstAlmLnk:visited, a.MstPrgLnk:link, a.MstPrgLnk:visited {color:#eef0f2;text-decoration:underline}
+a.MstUsrLnk:hover, a.MstAlmLnk:hover, a.MstPrgLnk:hover {text-decoration:underline}
+.MstBdy {background-color:#5A6C76}
+.MstDiv {
+	background:#5B87A5 url(http://xdesign.sfbay.sun.com:8080/example/theme/com/sun/webui/jsf/suntheme/images/masthead/masthead-background.jpg) top left repeat-x;
+	border:1px solid #000000;
+}
+.MstTblEnd {
+	background-color:#5B87A5;
+	background-repeat:repeat-x;
+	background-position:left top;
+	text-align:right;
+	padding:1px 10px;
+}
+
+span.MstLbl, span.MstTxt, span.MstUsrRole {font-weight:normal}
+td.MstTdTtl {padding:0px 10px 0px 10px;vertical-align:top;}
+td.MstTdLogo {vertical-align:top;padding:10px 13px 10px 20px}
+div.MstDivTtl {padding-top:11px}
+div.MstDivSrch {padding-top:12px;margin-right:0px}
+a.MstLnk:link, a.MstLnk:visited {background-repeat:repeat-x;background-position:center center;padding:2px 10px 1px;text-transform:uppercase;font-size:10px;vertical-align:middle}
+a.MstLnk:hover {background-repeat:repeat-x;background-position:center center}
+.MstSpcImg {display:none}
+.MstBdy {margin:0px}
+.MstTblTop td {padding:6px 10px 4px}
+.MstTblTop img {vertical-align:middle}
+.MstTblBot  {}
+/*---*/
+
+
+
+
+/* Auxiliary Table */
+.AuxInTbl {background-color: #eef1f9;}
+
+/* Chapter Page Masthead */
+.Mst2Tbl { 
+	background:#5B87A5 url(http://xdesign.sfbay.sun.com:8080/example/theme/com/sun/webui/jsf/suntheme/images/masthead/masthead-background.jpg) top left repeat-x;
+}
+
+.Mst2TtlTd {  }
+.Mst2LgoTd { background-color:transparent; vertical-align:middle  }
+.Mst2TtlTxt  { font-size: 13pt; color: #fff;font-weight:bold;margin:10px 5px;}
+
+/* Table of Contents */
+.toc-level0 { font-weight: bold; margin: 16px 5px 0px 10px;}
+.toc-level1 { margin: 6px 5px 0px 25px;}
+.toc-level2 { margin: 4px 5px 0px 50px;}
+.toc-level3 { margin: 3px 5px 0px 90px;}
+.toc-level4 { margin: 2px 5px 0px 125px;}
+.toc-level5 { margin: 2px 5px 0px 160px;}
+
+.code-text { color: #000; font-family: monospace; }
+
+.info-table {border:solid 1px #000; border-collapse:collapse}
+.info-table th {border: solid 1px #B5B5B5;padding:5px 10px;background-color:#EEEEEE;font-weight:bold;text-align:left}
+.info-table th.th-center { border: solid 1px #B5B5B5;padding:5px 10px;background-color:#EEEEEE;font-weight:bold;text-align:center}
+.info-table th.th-right {border: solid 1px #B5B5B5;padding:5px 10px;background-color:#EEEEEE;font-weight:bold;text-align:right}
+.info-table td {border: solid 1px #B5B5B5;padding:10px;vertical-align:top}
+.info-table td.imageCell {text-align:center;}
+
+.jumplink-tbl {background-color:#E5E9ED;width:100%}
+.jumplink-tbl td {padding:3px 15px 5px;white-space:nowrap}
+
+#jumpLinks {
+	background-color:#E5E9ED;
+	width:100%;
+	float:left;
+}
+#jumpLinks ul {
+	float:left;
+	width:auto;
+	list-style:none;
+	margin:0;
+	padding:0 0 .4em 1.1em;
+}
+#jumpLinks ul li {
+	float:left;
+	padding:0 10em 0 0;
+	margin:.2em 0 0 0;
+}
+
+.Chapt-Collapse {display:none}
+/*.Btn2 {background-image:url(Guidelines_Icons/secondary-enabled.gif);background-color:#D9E6EC;border-top:solid 1px #6F787F;border-left:solid 1px #4E555A;border-right:solid 1px #4E555A;border-bottom:solid 1px #2D3235;background-repeat:repeat-x;background-position:center center;font-size:12px;padding:1px 8px;font-size:12px}
+.Btn2Hov {background-image:url(Guidelines_Icons/secondary-roll.gif);background-color:#EAF9FF;color:#000;border-top:solid 1px #6F97B2;border-left:solid 1px #4E7C9C;border-right:solid 1px #4E7C9C;border-bottom:solid 1px #2D6086;background-repeat:repeat-x;background-position:center center;font-size:12px;padding:1px 8px;cursor:pointer;font-size:12px}
+*/
+.Btn2,  .Btn2Hov {
+	cursor:pointer;
+	color:#000;
+	border-top:1px solid #83858C;
+	border-right:1px solid #62656B;
+	border-bottom:1px solid #44464C;
+	border-left:1px solid #62656B;
+	padding:0 5px 1px 5px;
+	margin:0 2px 0 1px;
+}
+
+.Btn2, .Btn2Mni {
+	background:#E0E3EB url(http://xdesign.sfbay.sun.com:8080/example/theme/com/sun/webui/jsf/suntheme/images/button/secondary-enabled.gif) repeat-x top;
+}
+
+.Btn2Hov, .Btn2MniHov {
+	background: #F4F7FE url(http://xdesign.sfbay.sun.com:8080/example/theme/com/sun/webui/jsf/suntheme/images/button/secondary-roll.gif) repeat-x top;
+}
+
+
+
+
+
+.TxtFld {border-top:solid 1px #6F787F;border-left:solid 1px #4E555A;border-right:solid 1px #4E555A;border-bottom:solid 1px #2D3235;padding:2px;font-size:12px;background-color:#F1F7FA}
+
+
+.Requirements li {list-style-type:none;margin-bottom:3px}
+.Requirements li li {list-style-image:none;margin-bottom:3px}
+.Recommendations li {list-style-type:none;margin-bottom:3px}
+.Recommendations li li {list-style-image:none;margin-bottom:3px}
+
+.examples {
+	list-style:none;
+	padding-left:0;
+	margin-left:0;
+}
+
+div.codebox {
+    border-style: solid;
+    border-width: 1px;
+    border-color: black;
+    margin: 2em;
+    padding: 1em;
+}

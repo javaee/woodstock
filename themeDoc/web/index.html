@@ -1,0 +1,485 @@
+<!DOCTYPE html PUBLIC "-//w3c//dtd html 4.0 transitional//en">
+<html>
+<head>
+  <meta http-equiv="content-type" content="text/html;charset=iso-8859-1">
+  <title>Table of Contents - The Theme and Woodstock Web Applications - Version 4.1</title>
+  <meta name="COPYRIGHT"
+     content="Woodstock Web Components Theme Documentation">
+
+  <link href="css/browser-uispec.css" type="text/css" rel="stylesheet">
+  <link href="css/theme-doc.css" type="text/css" rel="stylesheet">
+<base href="href="http://@HOST_APPCONTEXT@/index.html">
+<!--
+<base href="href="http://localhost:8080/woods-theme-doc/index.html">
+-->
+
+  <script type="text/javascript"
+      src="javascript/theme-doc.js"></script>
+
+</head>
+
+<body style="background-color: rgb(255, 255, 255);">
+
+<div class="MstDiv">
+<table class="MstTblBot" title="" border="0" cellpadding="0"
+ cellspacing="0" width="100%">
+  <tbody>
+    <tr>
+      <td class="MstTdTtl">
+      <div class="MstDivTtl">
+      <div class="Mst1TtlTxt">The Theme and Woodstock Web Applications - Version 4.1 </div>
+      </div>
+      <!--
+      <div class="Mst1SecDiv"> <span class="Mst1SecTxt">
+	  <a href="mailto:woodstock-dev@sun.com">woodstock-dev@sun.com</a>
+	  &nbsp; </span></div>
+      </td>
+      <td align="right" nowrap="nowrap" valign="top">
+      <div class="MstDivSrch">
+      <form method="post" action="javascript:SearchGuidelines()"> <input
+ class="TxtFld" name="searchfield" id="searchfield" type="text"> <input
+ class="Btn2" name="Submit" value="Search" id="Submit"
+ onmouseover="if (this.disabled==0) this.className='Btn2Hov'"
+ onfocus="if (this.disabled==0) this.className='Btn2Hov'"
+ onmouseout="if (this.disabled==0) this.className='Btn2'"
+ onblur="if (this.disabled==0) this.className='Btn2'" type="submit"> </form>
+      </div>
+      </td>
+      <td class="MstTdLogo" width="1%"><img
+ src="images/javalogo.gif" alt="Java Logo" height="39" width="23"></td>
+      -->
+    </tr>
+  </tbody>
+</table>
+<!--
+<table class="MstTblEnd" border="0" cellpadding="0" cellspacing="0"
+ width="100%">
+  <tbody>
+    <tr>
+      <td><img src="images/masthead-sunname.gif"
+ alt="Sun Microsystems, Inc." align="right" height="10" width="113"> </td>
+    </tr>
+  </tbody>
+</table>
+-->
+</div>
+<!-- End Document Title Block begin Navigation Bar Block -->
+<!-- ################################################### -->
+<table class="NavTbl" border="0" cellpadding="10" cellspacing="0"
+ width="100%">
+  <tbody>
+    <tr>
+      <td>[ <strong>Table&nbsp;of&nbsp;Contents</strong>&nbsp;|
+      <a class="greybar_link"
+ href="revision.html">0&nbsp;Revision&nbsp;History</a>&nbsp;|
+      <a class="greybar_link"
+ href="introduction.html">1&nbsp;Introduction</a>&nbsp;|
+      <a class="greybar_link"
+ href="redefining-theme-properties.html">2&nbsp;Configuring&nbsp;THEME_RESOURCES</a>&nbsp;|
+      <a class="greybar_link"
+ href="redefining-theme-properties.html">3&nbsp;Redefining&nbsp;Properties</a>&nbsp;|
+      <a class="greybar_link"
+ href="redefining-theme-properties.html">4&nbsp;Creating&nbsp;Properties</a>&nbsp;|
+      <a class="greybar_link"
+ href="creating-themes.html">5&nbsp;Creating&nbsp;Themes</a>&nbsp;|
+      <a class="greybar_link"
+ href="creating-themes.html">6&nbsp;Configuring&nbsp;DEFAULT_THEME</a>&nbsp;|
+      <a class="greybar_link"
+ href="runtime-theme-components.html">7&nbsp;Runtime&nbsp;Theme&nbsp;Components</a>&nbsp;|
+      <a class="greybar_link"
+ href="runtime-theme-components.html">8&nbsp;PortalThemeTagLib</a>&nbsp;|
+      <a class="greybar_link"
+ href="webui-jsf-theme.html">9&nbsp;com.sun.webui.jsf.theme</a>&nbsp;|
+      <a class="greybar_link"
+ href="theme-infrastructure.html">10&nbsp;com.sun.webui.theme</a>&nbsp;|
+      <a class="greybar_link"
+ href="javascript-theme.html">11&nbsp;Javascript&nbsp;Theme</a>&nbsp;|
+      <a class="greybar_link"
+ href="#appendices">Appendices</a>&nbsp;]</td>
+    </tr>
+  </tbody>
+</table>
+<!-- ################################################### -->
+<hr>
+<h2><br>
+<a name="toc"></a><font color="#ff8000">Table of Contents</font></h2>
+<p><a href="javascript:expandAll()">Expand All Sections</a> | <a
+ href="javascript:collapseAll()">Collapse All Sections</a></p>
+<br>
+
+<!-- ################################################### -->
+<h1><a name="whatsnew"></a>What's New in 4.1</h1>
+<p class="toc-level0"><a
+ href="javascript:toggleSection('ch0','ch0-img')"
+ title="Click to Expand Chapter"><img id="ch0-img"
+ src="images/collapsed.gif" alt="Click to Expand Chapter"
+ border="0" height="22" width="16"></a><a href="revision.html"><b>0
+Revision History<br>
+<br>
+</b></a></p>
+<div id="ch0" class="Chapt-Collapse">
+<p class="toc-level1"><a href="revision.html#0.1">0.1
+What's New - Additions and Changes since Revision 4.0
+</a><br></p>
+
+<p class="toc-level2"><a href="revision.html#0.1.1">0.1.1
+Theme Support for "Third Party" Component Jars</a><br></p>
+
+<p class="toc-level2"><a href="revision.html#0.1.2">0.1.2
+Application Level Customization</a><br></p>
+
+<p class="toc-level2"><a href="revision.html#0.1.3">0.1.3
+Theme SPI</a><br>
+</p>
+
+<p class="toc-level2"><a href="revision.html#0.1.4">0.1.4
+The Javascript Theme</a><br></p>
+
+<p class="toc-level2"><a href="revision.html#0.1.5">0.1.5
+Cloning a Theme</a><br>
+</p>
+
+</div>
+
+<!-- ################################################### -->
+<h1><a name="about"></a>About the Theme and Woodstock Web
+Applications</h1>
+<p class="toc-level0"><a
+ href="javascript:toggleSection('ch1','ch1-img')"
+ title="Click to Expand Chapter"><img id="ch1-img"
+ src="images/collapsed.gif" alt="Click to Expand Chapter"
+ border="0" height="22" width="16"></a><span class="style2">
+<a href="introduction.html"><strong>1
+Introduction</strong></a></span></p>
+<div id="ch1" class="Chapt-Collapse">
+<p class="toc-level2"><a href="introduction.html#1.1">1.1
+What is a Theme ?</a></p>
+<p class="toc-level2"><a href="introduction.html#1.2">1.2
+The Theme Resources<br>
+</a></p>
+<p class="toc-level2"><a href="introduction.html#1.3">1.3
+The Theme Infrastructure</a></p>
+<p class="toc-level2"><a href="introduction.html#1.4">1.4
+To Give Feedback</a>
+</p>
+</div>
+
+<!-- ################################################################ -->
+<h1>Customizing Theme Properties</h1>
+<p class="toc-level0"><a
+ href="javascript:toggleSection('ch2','ch2-img')"
+ title="Click to Expand Chapter"><img id="ch2-img"
+ src="images/collapsed.gif" alt="Click to Expand Chapter"
+ border="0" height="22" width="16"></a>
+ <a href="redefining-theme-properties.html#2"><strong>
+ 2 Configuring WEB-INF/web.xml<br>
+</strong></a></p>
+<div id="ch2" class="Chapt-Collapse">
+<br>
+<p class="toc-level2"><a href="redefining-theme-properties.html#2.1">2.1
+The Woodstock com.sun.webui.theme.THEME_RESOURCES context-param<br>
+</a></p>
+</div>
+
+<!-- ################################################################ -->
+<p class="toc-level0"><a
+ href="javascript:toggleSection('ch3','ch3-img')"
+ title="Click to Expand Chapter"><img id="ch3-img"
+ src="images/collapsed.gif" alt="Click to Expand Chapter"
+ border="0" height="22" width="16"></a><a
+ href="redefining-theme-properties.html#3"><strong>3
+Creating Theme Properties Files<br>
+</strong></a></p>
+<div id="ch3" class="Chapt-Collapse">
+<br>
+<p class="toc-level2"><a href="redefining-theme-properties.html#3.1">3.1
+Java ResourceBundle Theme Properties Files<br>
+</a></p>
+<p class="toc-level2"><a href="redefining-theme-properties.html#3.2">3.2
+Javascript Theme Properties Files<br>
+</a></p>
+<p class="toc-level2"><a href="redefining-theme-properties.html#3.3">3.3
+Localization<br>
+</a></p>
+<p class="toc-level3"><a href="redefining-theme-properties.html#3.3.1">3.3.1
+Theme Resources Defined in ResourceBundle Properties Files</a></p>
+<p class="toc-level3"><a href="redefining-theme-properties.html#3.3.2">3.3.2
+Theme Resources Defined in Javascript Files</a></p>
+</div>
+
+<!-- ################################################################ -->
+<p class="toc-level0"><a
+ href="javascript:toggleSection('ch4','ch4-img')"
+ title="Click to Expand Chapter"><img id="ch4-img"
+ src="images/collapsed.gif" alt="Click to Expand Chapter"
+ border="0" height="22" width="16"></a><a
+ href="redefining-theme-properties.html#4"><strong>4
+Theme Properties<br>
+</strong></a></p>
+<div id="ch4" class="Chapt-Collapse">
+<p class="toc-level2"><a href="redefining-theme-properties.html#4.1">4.1
+Application Page Theme Properties<br>
+</a></p>
+<p class="toc-level2"><a href="redefining-theme-properties.html#4.2">4.2
+Component Theme Properties<br>
+</a></p>
+</div>
+
+<!-- ################################################################ -->
+<h1>Creating a Theme for the Woodstock Components<br>
+</h1>
+<p class="toc-level0"><a
+ href="javascript:toggleSection('ch5','ch5-img')"
+ title="Click to Expand Chapter"><img id="ch5-img"
+ src="images/collapsed.gif" alt="Click to Expand Chapter"
+ border="0" height="22" width="16"></a><a href="creating-themes.html"><strong>5
+Creating the Theme<br>
+</strong></a></p>
+<div id="ch5" class="Chapt-Collapse">
+<br>
+<p class="toc-level2"><a href="creating-themes.html#5.1">5.1
+Cloning an Existing Theme with themes/build.xml<br>
+</a></p>
+<p class="toc-level2"><a href="creating-themes.html#5.2">5.2
+More than One Theme Jar in WEB-INF/lib<br>
+</a></p>
+</div>
+
+<!-- ################################################################ -->
+<p class="toc-level0"><a
+ href="javascript:toggleSection('ch6','ch6-img')"
+ title="Click to Expand Chapter"><img id="ch6-img"
+ src="images/collapsed.gif" alt="Click to Expand Chapter"
+ border="0" height="22" width="16"></a><a href="creating-themes.html#6"><strong>6
+Configuring WEB-INF/web.xml<br>
+</strong></a></p>
+<div id="ch6" class="Chapt-Collapse">
+<br>
+<p class="toc-level2"><a href="creating-themes.html#6.1">6.1
+The com.sun.webui.theme.DEFAULT_THEME context-param</a></p>
+</div>
+
+<!-- ################################################################ -->
+<h1>The Theme and Woodstock Component's Relationship at Runtime<br>
+</h1>
+<p class="toc-level0"><a
+ href="javascript:toggleSection('ch7','ch7-img')"
+ title="Click to Expand Chapter"><img id="ch7-img"
+ src="images/collapsed.gif" alt="Click to Expand Chapter"
+ border="0" height="22" width="16"></a><a
+ href="runtime-theme-components.html"><strong>7
+The HEAD and ThemeLinks Components<br>
+</strong></a></p>
+<div id="ch7" class="Chapt-Collapse">
+<br>
+<p class="toc-level2"><a href="runtime-theme-components.html#7.1">7.1
+The Head Component<br>
+</a></p>
+<p class="toc-level2"><a href="runtime-theme-components.html#7.2">7.2
+The ThemeLinks Component<br>
+</a></p>
+<p class="toc-level2"><a href="runtime-theme-components.html#7.3">7.3
+Theme Usage by Components<br>
+</a></p>
+</div>
+
+<!-- ################################################################ -->
+<p class="toc-level0"><a
+ href="javascript:toggleSection('ch8','ch8-img')"
+ title="Click to Expand Chapter"><img id="ch8-img"
+ src="images/collapsed.gif" alt="Click to Expand Chapter"
+ border="0" height="22" width="16"></a><a
+ href="runtime-theme-components.html#8"><strong>8
+The PortalThemeTaglib Tag Library<br>
+</strong></a></p>
+<div id="ch8" class="Chapt-Collapse"><br>
+<p class="toc-level2"><a
+ href="runtime-theme-components.html#8.1">8.1
+The PortalThemeTag JSP Tag</a></p>
+</div>
+
+<!-- ################################################################ -->
+<p class="toc-level0"><a
+ href="javascript:toggleSection('ch9','ch9-img')"
+ title="Click to Expand Chapter"><img id="ch9-img"
+ src="images/collapsed.gif" alt="Click to Expand Chapter"
+ border="0" height="22" width="16"></a><a href="webui-jsf-theme.html"><strong>9
+The Woodstock com.sun.webui.jsf.theme Package</strong></a></p>
+<div id="ch9" class="Chapt-Collapse">
+<p class="toc-level2"><a href="webui-jsf-theme.html#9.1">9.1
+The JSFThemeContext Class</a></p>
+<p class="toc-level2"><a href="webui-jsf-theme.html#9.2">9.2
+The ThemeUtilities Class</a></p>
+<p class="toc-level2"><a href="webui-jsf-theme.html#9.3">9.3
+The ThemeELResolver Class</a></p>
+
+<p class="toc-level2"><a href="webui-jsf-theme.html#9.4">9.4
+Java Theme Constants Classes</a></p>
+
+<p class="toc-level3"><a href="webui-jsf-theme.html#9.4.1">9.4.1
+The ThemeJavascript Class</a></p>
+<p class="toc-level3"><a href="webui-jsf-theme.html#9.4.2">9.4.2
+The ThemeImages Class</a></p>
+<p class="toc-level3"><a href="webui-jsf-theme.html#9.4.3">9.4.3
+The ThemeTemplates Class </a></p>
+<p class="toc-level3"><a href="webui-jsf-theme.html#9.4.4">9.4.4
+The ThemeStyles Class </a></p>
+<!--
+<p class="toc-level3"><a href="webui-jsf-theme.html#9.4.5">9.4.5
+The ThemeMessages Class</a></p>
+-->
+</div>
+
+<!-- ################################################################ -->
+<h1>The Theme Infrastructure<br>
+</h1>
+<p class="toc-level0"><a
+ href="javascript:toggleSection('ch10','ch10-img')"
+ title="Click to Expand Chapter"><img id="ch10-img"
+ src="images/collapsed.gif" alt="Click to Expand Chapter"
+ border="0" height="22" width="16"></a><a
+ href="theme-infrastructure.html"><strong>10
+The Woodstock com.sun.webui.theme Package<br>
+</strong></a></p>
+<div id="ch10" class="Chapt-Collapse">
+<br>
+<p class="toc-level2"><a
+ href="theme-infrastructure.html#10.1">10.1
+The ThemeContext Class<br>
+</a></p>
+<p class="toc-level2"><a
+ href="theme-infrastructure.html#10.2">10.2
+The ServletThemeContext Class<br>
+</a></p>
+<p class="toc-level2"><a
+ href="theme-infrastructure.html#10.3">10.3
+The ThemeServlet Class<br>
+</a></p>
+<p class="toc-level2"><a
+ href="theme-infrastructure.html#10.4">10.4
+The ThemeResourceBundle Class<br>
+</a></p>
+<p class="toc-level2"><a
+ href="theme-infrastructure.html#10.5">10.5
+The SPIThemeFactory Class<br>
+</a></p>
+<p class="toc-level2"><a
+ href="theme-infrastructure.html#10.6">10.6
+The ThemeService Class<br>
+</a></p>
+</div>
+
+<!-- ####################################### -->
+<h1>The Javascript Theme<br>
+</h1>
+<p class="toc-level0"><a
+ href="javascript:toggleSection('ch11','ch11-img')"
+ title="Click to Expand Chapter"><img id="ch11-img"
+ src="images/collapsed.gif" alt="Click to Expand Chapter"
+ border="0" height="22" width="16"></a><a
+ href="javascript-theme.html"><strong>11
+The Javascript Theme<br>
+</strong></a></p>
+<div id="ch11" class="Chapt-Collapse">
+<p class="toc-level2"><a
+ href="javascript-theme.html#11.1">11.1
+Generating the Javascript Theme<br>
+</a></p>
+<p class="toc-level2"><a
+ href="javascript-theme.html#11.2">11.2
+Javascript Theme Properties<br>
+</a></p>
+<p class="toc-level3"><a
+ href="javascript-theme.html#11.2.1">11.2.1
+themeBundle</a></p>
+<p class="toc-level3"><a
+ href="javascript-theme.html#11.2.2">11.2.2
+themeModule<br>
+</a></p>
+<p class="toc-level3"><a
+ href="javascript-theme.html#11.2.3">11.2.3
+themeModulePath<br>
+</a></p>
+<p class="toc-level2"><a
+ href="javascript-theme.html#11.3">11.3
+The NLS Directory Structure<br>
+</a></p>
+</div>
+<!-- ################################################### -->
+<h1><a name="appendices"></a>Additional Information<br>
+</h1>
+<p class="toc-level0"><a
+ href="javascript:toggleSection('app','app-img')"
+ title="Click to Expand Chapter"><img id="app-img"
+ src="images/collapsed.gif" alt="Click to Expand Chapter"
+ border="0" height="22" width="16"></a><strong>
+Appendices<br>
+</strong></p>
+<div id="app" class="Chapt-Collapse"><br>
+<p class="toc-level2"><a href="theme-properties-table.html">Appendix
+A - The Woodstock Theme (webui-jsf-suntheme.jar): Theme Properties Related
+by Component/Widget/Renderer</a></p>
+<p class="toc-level2"><a href="faces/example/index-client-theme.jsp">Appendix
+B - The Woodstock Theme (suntheme.js): Table Generated from
+the client theme</a></p>
+<p class="toc-level2"><a href="faces/example/index.jsp">Appendix
+C - An Example Web Application - Redefining Theme Properties at the 
+Application Level (also demonstrates third party component)</a></p>
+<p class="toc-level2"><a href="javadoc/webui/index.html">Appendix
+D - Woodstock Java Doc</a></p>
+<p class="toc-level2"><a
+ href="http://xdesign.sfbay/projects/swaed/uispec4_0/index.html">Appendix
+E - Web Application Guidelines 4.0</a></p>
+<p class="toc-level2"><a
+ href="http://json.org/">Appendix
+F - JSON</a></p>
+<p class="toc-level2"><a
+ href="http://dojotoolkit.org/">Appendix
+G - DOJO</a></p>
+<p class="toc-level2"><a
+ href="http://ant.apache.org/">Appendix
+H - ANT</a></p>
+</div>
+<p>&nbsp;</p>
+<!-- ################################################### -->
+<!-- End Document Title Block begin Navigation Bar Block -->
+<table class="NavTbl" border="0" cellpadding="10" cellspacing="0"
+ width="100%">
+  <tbody>
+    <tr>
+      <td>[ 
+      <strong>Table&nbsp;of&nbsp;Contents</strong>&nbsp;|
+      <a class="greybar_link"
+ href="revision.html">0&nbsp;Revision&nbsp;History</a>&nbsp;|
+      <a class="greybar_link"
+ href="introduction.html">1&nbsp;Introduction</a>&nbsp;|
+      <a class="greybar_link"
+ href="redefining-theme-properties.html">2&nbsp;Configuring&nbsp;THEME_RESOURCES</a>&nbsp;|
+      <a class="greybar_link"
+ href="redefining-theme-properties.html">3&nbsp;Redefining&nbsp;Properties</a>&nbsp;|
+      <a class="greybar_link"
+ href="redefining-theme-properties.html">4&nbsp;Creating&nbsp;Properties</a>&nbsp;|
+      <a class="greybar_link"
+ href="creating-themes.html">5&nbsp;Creating&nbsp;Themes</a>&nbsp;|
+      <a class="greybar_link"
+ href="creating-themes.html">6&nbsp;Configuring&nbsp;DEFAULT_THEME</a>&nbsp;|
+      <a class="greybar_link"
+ href="runtime-theme-components.html">7&nbsp;Runtime&nbsp;Theme&nbsp;Components</a>&nbsp;|
+      <a class="greybar_link"
+ href="runtime-theme-components.html">8&nbsp;PortalThemeTagLib</a>&nbsp;|
+      <a class="greybar_link"
+ href="webui-jsf-theme.html">9&nbsp;com.sun.webui.jsf.theme</a>&nbsp;|
+      <a class="greybar_link"
+ href="theme-infrastructure.html">10&nbsp;com.sun.webui.theme</a>&nbsp;|
+      <a class="greybar_link"
+ href="javascript-theme.html">11&nbsp;Javascript&nbsp;Theme</a>&nbsp;|
+      <a class="greybar_link"
+ href="#appendices">Appendices</a>&nbsp;]</td>
+    </tr>
+  </tbody>
+</table>
+<!-- ################################################### -->
+<br>
+</h1>
+</body>
+</html>

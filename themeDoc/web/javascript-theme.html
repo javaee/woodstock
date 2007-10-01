@@ -1,0 +1,353 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<title>11. Javascript Theme - The Theme and Woodstock Web Applications - Version 4.1</title>
+
+<meta name="COPYRIGHT" 
+    content="Woodstock Web Components Theme Documentation">
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+
+<link href="css/browser-uispec.css" type="text/css" rel="stylesheet">
+<base href="href="http://@HOST_APPCONTEXT@/javascript-theme.html">
+<!--
+<base href="href="http://localhost:8080/woods-theme-doc/javascript-theme.html">
+-->
+
+<script src="javascript/uispec_js.js" type="text/javascript"></script>
+
+</head>
+<body bgcolor="#ffffff">
+    <div class="MstDiv">
+    <table class="MstTblBot" title="" border="0" cellpadding="0"
+	cellspacing="0" width="100%">
+	<tbody>
+	<tr>
+	<td class="MstTdTtl"><div class="MstDivTtl">
+	<div class="Mst1TtlTxt">
+	The Theme and Woodstock Web Applications - Version 4.1
+	</div>
+	</div>
+	<!--
+	<div class="Mst1SecDiv">
+	<span class="Mst1SecTxt">
+	    <a href="mailto:woodstock-dev@sun.com">woodstock-dev@sun.com</a>
+	&nbsp;</span>
+	</div>
+	</td>
+	<td align="right" nowrap="nowrap" valign="top"><div class="MstDivSrch">
+	    <form method="post" action="javascript:SearchGuidelines()">
+		<input class="TxtFld" name="searchfield" id="searchfield"
+		    type="text">
+		<input class="Btn2" name="Submit" value="Search" id="Submit" 
+		    onmouseover="if (this.disabled==0) this.className='Btn2Hov'" 
+		    onfocus="if (this.disabled==0) this.className='Btn2Hov'" 
+		    onmouseout="if (this.disabled==0) this.className='Btn2'" 
+		    onblur="if (this.disabled==0) this.className='Btn2'"
+		    type="submit">
+	    </form>
+	</div></td>
+	<td class="MstTdLogo" width="1%"><img src="images/javalogo.gif"
+	    alt="Java Logo" height="39" width="23"></td>
+	-->
+	</tr>
+    </tbody>
+    </table>
+
+<!--
+    <table class="MstTblEnd" border="0" 
+	cellpadding="0" cellspacing="0" width="100%">
+	<tbody>
+	<tr><td><img src="images/masthead-sunname.gif"
+	    alt="Sun Microsystems, Inc." 
+	    align="right" height="10" width="113"></td>
+	</tr>
+      </tbody>
+    </table>
+-->
+    </div>
+
+<!-- ################################################### -->
+<!-- End Document Title Block begin Navigation Bar Block -->
+<table class="NavTbl" border="0" cellpadding="10" cellspacing="0"
+ width="100%">
+  <tbody>
+    <tr>
+      <td>[ <a class="greybar_link"
+ href="index.html#toc">Table&nbsp;of&nbsp;Contents</a>&nbsp;|
+      <a class="greybar_link"
+ href="revision.html">0&nbsp;Revision&nbsp;History</a>&nbsp;|
+      <a class="greybar_link"
+ href="introduction.html">1&nbsp;Introduction</a>&nbsp;|
+      <a class="greybar_link"
+ href="redefining-theme-properties.html">2&nbsp;Configuring&nbsp;THEME_RESOURCES</a>&nbsp;|
+      <a class="greybar_link"
+ href="redefining-theme-properties.html">3&nbsp;Creating&nbsp;Properties&nbsp;Files</a>&nbsp;|
+      <a class="greybar_link"
+ href="redefining-theme-properties.html">4&nbsp;Redefining&nbsp;Properties</a>&nbsp;|
+      <a class="greybar_link"
+ href="creating-themes.html">5&nbsp;Creating&nbsp;Themes</a>&nbsp;|
+      <a class="greybar_link"
+ href="creating-themes.html">6&nbsp;Configuring&nbsp;DEFAULT_THEME</a>&nbsp;|
+      <a class="greybar_link"
+ href="runtime-theme-components.html">7&nbsp;Runtime&nbsp;Theme&nbsp;Components</a>&nbsp;|
+      <a class="greybar_link"
+ href="runtime-theme-components.html">8&nbsp;PortalThemeTagLib</a>&nbsp;|
+      <a class="greybar_link"
+ href="webui-jsf-theme.html">9&nbsp;com.sun.webui.jsf.theme</a>&nbsp;|
+      <a class="greybar_link"
+ href="theme-infrastructure.html">10&nbsp;com.sun.webui.theme</a>&nbsp;|
+ <strong>11&nbsp;Javascript&nbsp;Theme</strong>&nbsp;|
+      <a class="greybar_link"
+ href="index.html#appendices">Appendices</a>&nbsp;]</td>
+    </tr>
+  </tbody>
+</table>
+<!-- ################################################### -->
+
+<a name="skipnav"></a>
+<a name="jstheme"><h1>The&nbsp;Javascript&nbsp;Theme</h1></a>
+<p class="toc-level0"><a href="javascript-theme.html#11"><b>
+11 The Javascript Theme</b></a></p>
+
+<p class="toc-level1"><a href="javascript-theme.html#11.1">
+11.1 Generating the Javascript Theme<br>
+</a>
+<p class="toc-level1"><a href="javascript-theme.html#11.2">
+11.2 Javascript Theme Properties</a></p>
+<p class="toc-level2"><a href="javascript-theme.html#11.2.1">
+11.2.1 themeBundle</a></p>
+<p class="toc-level2"><a href="javascript-theme.html#11.2.2">
+ 11.2.2 themeModule
+</a></p>
+<p class="toc-level2"><a href="javascript-theme.html#11.2.3">
+11.2.3 themeModulePath
+</a></p>
+<p class="toc-level1"><a href="javascript-theme.html#11.2">
+11.3 The NLS Directory Structure
+</a></p>
+
+<h1><a name="11"></a>11 The Javascript Theme</h1>
+<p>
+The Javascript theme is a Javascript file formatted as a 
+<a href="http://json.og">JSON</a> object that contains all the
+theme properties from all the theme properties files. This format
+is required in order to use the <a href="http://dojotoolkit.org/">DOJO</a>
+localized Javascript resource file interfaces.
+</p>
+<p>
+The Woodstock components are in a transitional phase where some
+components utilize HTML renderers that render HTML markup 
+to display the components, and "widget" renderers that render
+minimal HTML markup and Javascript statements. The Javascript statements invoke 
+Javascript methods that modify the document directly to 
+display the components. This means that HTML renderers reference
+the theme on the server and Javascript implementations for
+the "widget" components reference the Javascript theme.
+</p>
+<h2><a name="11.1"></a>11.1 Generating the Javascript Theme</h2>
+<p>
+The Javascript theme is generated from the <code>webui-jsf-suntheme.jar</code>
+file using the "main" method of <code>ResourceBundleTheme.java</code>.
+
+<div class="codebox">
+<code>
+<pre>
+% java -classpath ./webui-jsf.jar com.sun.webui.theme.ResourceBundleTheme -help
+Usage: java com.sun.webui.jsf.theme.ResourceBundleTheme 
+[-bundle messages|stylesheets|templates|properties|javascript|images|styles]
+[-factory &lt;ThemeFactory implementation class name&gt;]
+[-dir destination-directory]
+[-themeModule &lt;theme module javascript namespace&gt;]
+[-theme &lt;theme name&gt;]
+[-version &lt;theme version&gt;]
+[-locale &lt;lang&gt;[_&lt;country&gt;[_&lt;variant&gt;]]]
+[-l10nJar "jar:file:&lt;fullpath&gt;/&lt;jarname&gt;_&lt;lang&gt;[_&lt;country&gt;[_&lt;variant&gt;]].jar!/"
+[-prettyprint &lt;indent&gt;]
+
+[-help]
+'-bundle' - the properties file to process. If not specified, all properties
+    bundles are processed. If 'bundle' is specified the file name is
+    '&lt;bundle&gt;.js'.
+'-factory' - the ThemeFactory implementation to use, to obtain a Theme
+    instance. If not specified the 'com.sun.webui.theme.SPIThemeFactory'
+    implementation is used.
+'-dir' - the destination directory for the theme javascript file. The file
+    created is named from the 'ThemeJavascript.THEME_BUNDLE' theme property 
+    with an extension of '.js' If not specified the file is created in the
+    current directory.
+
+-l10nJar - the URI including the full path to l10n jar file. This value
+    is used to create a URLClassLoader restricting the class path to this jar.
+If '-themeModule' is not specified the 'ThemeJavascript.THEME_MODULE' theme
+    property is used as the theme name space.
+If '-theme' is not specified 'suntheme' is used. This theme is used as the
+    source of the properties files.
+If '-version' is not specified then '4.1' is used.
+
+The webui-jsf.jar and webui-jsf-suntheme.jar or equivalent theme jar
+    must appear in the class path.
+
+Note that if the '-bundle' and/or '-themeModule' options are specified,
+    javascript must be written to load those files. The default 'Head' component
+    behavior loads theme files based on the 'ThemeJavascript.THEME_BUNDLE',
+    'ThemeJavascript.THEME_MODULE', and 'ThemeJavascript.THEME_MODULE_PATH'
+    (or 'ThemeJavascript.THEME_MODULE_PATH_UNCOMPRESSED') theme properties.
+
+</pre>
+</code>
+</div>
+This operation is performed by the <code>themes/build.xml</code> file after
+the <code>webui-jsf-suntheme.jar</code> file is created.
+The <code>webui-jsf-suntheme.jar</code> file is updated with the resulting 
+Javascript theme file
+<a href="theme/com/sun/webui/jsf/suntheme/javascript_uncompressed/theme/nls/suntheme.js"><code>suntheme.js</code></a>.
+<div class="codebox">
+<code>
+<pre>
+% java -classpath ../webui/lib/external/json.jar:../webui/netbeans/modules/autoload/ext/webui-jsf.jar:\
+./dist/webui-jsf-suntheme.jar com.sun.webui.theme.ResourceBundleTheme \
+-dir build/suntheme/com/sun/webui/jsf/suntheme/javascript/theme/nls \
+-theme suntheme
+</pre>
+</code>
+</div>
+This process transforms the theme properties into a syntactically
+correct form for use in Javascript. This means that the parameter replacement
+format defined for properties files must be converted to a syntax that
+is recognized by <a href="http://dojotoolkit.org">
+<code>dojo.string.substituteParams</code></a>.
+<p>
+The contents of the "widget" HTML template files are used as the value of the
+templates properties so that a request does not have to be made 
+for the "widget" template HTML files.
+For the example the contents of the <code>textField.html</code> template
+becomes the value of the "templates" "textField" property instead of the
+resource location
+<code>/com/sun/webui/jsf/suntheme/templates/textField.html</code>.<br>
+From "suntheme.js"
+<div class="codebox">
+<code>
+<pre>
+...
+{
+    ....,
+    "templates" : {
+        "textField": "&lt;span dojoAttachPoint=\"domNode\"&gt;&lt;span dojoAttachPoint=\" labelContainer\"&gt;<br>        &lt;\/span&gt;&lt;input dojoAttachPoint=\"fieldNode\" type=\"text\"&gt;&lt;\/input&gt;&lt;\/span&gt;",
+	...
+    },
+    ...
+}
+...
+</pre>
+<code>
+
+</div>
+</p>
+<p>
+Unicode escape sequences are used for non-ascii characters.
+</p>
+<h2><a name="11.2"></a>11.2 Javascript Theme Properties</h2>
+The <a href="http://dojotoolkit.org">DOJO</a> localized resource file
+interfaces recognize resource files based on a bundle name, a module name
+and a path associated with that module. These properties are defined in
+<a href="theme/com/sun/webui/jsf/suntheme/properties/javascript.properties"><code>javascript.properties</code></a>.
+</p>
+<h3><a name="11.2.1"></a>11.2.1 themeBundle</h3>
+<p>
+The <code>themeBundle</code> property defines the actual resource file
+name. In the Woodstock suntheme the value is "suntheme" which translates to
+"suntheme.js". 
+</p>
+<h3><a name="11.2.2"></a>11.2.2 themeModule</h3>
+<p>
+The <code>themeModule</code> property is used as a Javascript namespace.
+In the Woodstock suntheme the value is "webui.suntheme.theme".
+</p>
+<h3><a name="11.2.3"></a>11.2.3 themeModulePath</h3>
+<p>
+The <code>themeModulePath</code> and <code>themeModulePathUncompressed</code>
+properties refer to the parent directory path of the "nls" directory.
+<a href="http://dojotoolkit.org">DOJO</a> organizes resource files
+differently than Java ResourceBundles as discussed in the next section.
+In the Woodstock suntheme this value is not set since the module path
+is the same as the initial module path set for other Javascript files
+and the <code>themeModule</code> is a superset of the
+<code>modulePrefix</code>.
+See <a href="http://dojotoolkit.org">DOJO</a> for more information on 
+how a module prefix and module path are used to identify Javascript
+resources and objects.
+</p>
+<p>
+The <code>uncompressed</code> version of this property is the location
+of the Javascript theme that was JSON "pretty printed" meaning that properties
+are indented and newlines are used. This format convenient when debugging.
+</p>
+<h2><a name="11.3"></a>11.3 The NLS Directory Structure</h2>
+<p>
+<a href="http://dojotoolkit.org">DOJO</a> organizes resource files differently
+than Java ResourceBundles. A directory is used to identify localized
+resources, vs. a suffix.
+The language, country and variant codes are in lower case and combined
+using a "-" (dash).  This string is used to name subdirectories in
+the "nls" directory.
+For example:
+<div class="codebox">
+<code>
+<pre>
+&lt;themeModulePath&gt;/&lt;themeModule&gt;/nls/&lt;themeBundle&gt;.js
+&lt;themeModulePath&gt;/&lt;themeModule&gt;/nls/&lt;language&gt;/&lt;themeBundle&gt;.js
+&lt;themeModulePath&gt;/&lt;themeModule&gt;/nls/&lt;language&gt;-&lt;country&gt;/&lt;themeBundle&gt;.js
+&lt;themeModulePath&gt;/&lt;themeModule&gt;/nls/&lt;language&gt;-&lt;country&gt;-&lt;variant&gt;/&lt;themeBundle&gt;.js
+
+For the Woodstock suntheme and a "ja" and "zh_CN" translation.
+
+com/sun/webui/jsf/suntheme/javascript/theme/nls/suntheme.js
+com/sun/webui/jsf/suntheme/javascript/theme/nls/ja/suntheme.js
+com/sun/webui/jsf/suntheme/javascript/theme/nls/zh-cn/suntheme.js
+
+Note that these paths would require the web application and theme
+servlet context in order to download them. They are supplied at 
+runtime to the Javascript "widget" library in the <a href="runtime-theme-components.html#7.1"> rendered markup for the <code>HEAD</code> HTML element</a>. 
+
+</pre>
+</code>
+</div>
+
+<!-- ################################################### -->
+<!-- End Document Title Block begin Navigation Bar Block -->
+<table class="NavTbl" border="0" cellpadding="10" cellspacing="0"
+ width="100%">
+  <tbody>
+    <tr>
+      <td>[ <a class="greybar_link"
+ href="index.html#toc">Table&nbsp;of&nbsp;Contents</a>&nbsp;|
+      <a class="greybar_link"
+ href="revision.html">0&nbsp;Revision&nbsp;History</a>&nbsp;|
+      <a class="greybar_link"
+ href="introduction.html">1&nbsp;Introduction</a>&nbsp;|
+      <a class="greybar_link"
+ href="redefining-theme-properties.html">2&nbsp;Configuring&nbsp;THEME_RESOURCES</a>&nbsp;|
+      <a class="greybar_link"
+ href="redefining-theme-properties.html">3&nbsp;Creating&nbsp;Properties&nbsp;Files</a>&nbsp;|
+      <a class="greybar_link"
+ href="redefining-theme-properties.html">4&nbsp;Redefining&nbsp;Properties</a>&nbsp;|
+      <a class="greybar_link"
+ href="creating-themes.html">5&nbsp;Creating&nbsp;Themes</a>&nbsp;|
+      <a class="greybar_link"
+ href="creating-themes.html">6&nbsp;Configuring&nbsp;DEFAULT_THEME</a>&nbsp;|
+      <a class="greybar_link"
+ href="runtime-theme-components.html">7&nbsp;Runtime&nbsp;Theme&nbsp;Components</a>&nbsp;|
+      <a class="greybar_link"
+ href="runtime-theme-components.html">8&nbsp;PortalThemeTagLib</a>&nbsp;|
+      <a class="greybar_link"
+ href="webui-jsf-theme.html">9&nbsp;com.sun.webui.jsf.theme</a>&nbsp;|
+      <a class="greybar_link"
+ href="theme-infrastructure.html">10&nbsp;com.sun.webui.theme</a>&nbsp;|
+ <strong>11&nbsp;Javascript&nbsp;Theme</strong>&nbsp;|
+      <a class="greybar_link"
+ href="index.html#appendices">Appendices</a>&nbsp;]</td>
+    </tr>
+  </tbody>
+</table>
+<!-- ################################################### -->
+</p></body></html>

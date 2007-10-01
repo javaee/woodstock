@@ -1,0 +1,290 @@
+<!--
+ The contents of this file are subject to the terms
+ of the Common Development and Distribution License
+ (the License).  You may not use this file except in
+ compliance with the License.
+ 
+ You can obtain a copy of the license at
+ https://woodstock.dev.java.net/public/CDDLv1.0.html.
+ See the License for the specific language governing
+ permissions and limitations under the License.
+ 
+ When distributing Covered Code, include this CDDL
+ Header Notice in each file and include the License file
+ at https://woodstock.dev.java.net/public/CDDLv1.0.html.
+ If applicable, add the following below the CDDL Header,
+ with the fields enclosed by brackets [] replaced by
+ you own identifying information:
+ "Portions Copyrighted [year] [name of copyright owner]"
+ 
+ Copyright 2007 Sun Microsystems, Inc. All rights reserved.
+-->
+
+<project name="themeDoc" default="netbeans" basedir=".">
+
+  <!-- Get release time overrides forom ../build.properties -->
+  <property file="../build.properties"/>
+
+  <!-- Initialize property values -->
+  <property file="build.properties"/>
+
+  <!--
+  <property name="DOCHOSTPORT" value="localhost:8080"/>
+  -->
+  <property name="DOCHOSTPORT" value="webdev2.sun.com"/>
+  <property name="DOCAPPCONTEXT" value="woodstock-theme-doc"/>
+
+  <property name="ws" value=".."/>
+  <property name="webui" value="${ws}/webui"/>
+  <property name="themes" value="${ws}/themes"/>
+  <property name="build" value="${basedir}/build"/>
+  <property name="dist" value="${basedir}/dist"/>
+
+  <!-- needed to build javadoc from source. This will not be
+       necessary when we use links to published javadoc -->
+
+  <property name="build.libs" value="${libdir}"/>
+  <property name="build.annotations" value="${webui}/lib/annotations"/>
+  <property name="build.classes" value="${webui}/classes/runtime"/>
+
+  <property name="webui-util" value="${webui}/src/runtime"/>
+  <property name="webui-theme" value="${webui}/src/runtime"/>
+  <property name="portal-theme-taglib" value="${ws}/portalThemeTaglib"/>
+  <property name="themeTestapp" value="${ws}/themeTestapp"/>
+  <property name="testapp" value="${ws}/testapp"/>
+
+  <property name="pkg-prefix" value="com.sun.webui.jsf"/>
+  <property name="pkg-path-prefix" value="com/sun/webui/jsf"/>
+  <property name="theme-pkg-path-prefix" value="com/sun/webui"/>
+
+  <!-- javadoc properties -->
+  <property name="theme-javadocs" value="${build}/web/javadoc/webui"/>
+  <!-- requires daning repository, so they are physically checked into
+       this tree
+  <property name="portaltaglib-javadocs" 
+	value="${build}/web/javadoc/portaltaglib"/>
+  -->
+  <property name="portaltaglib-javadocs" 
+	value="web/javadoc/portaltaglib"/>
+
+  <!-- dependent libraries - should be defined in one place not this file -->
+  <property name="commons-collections.jar" value="commons-collections.jar"/>
+  <property name="commons-beanutils.jar" value="commons-beanutils.jar"/>
+  <property name="commons-fileupload-1.0.jar" 
+    value="commons-fileupload-1.0.jar"/>
+  <property name="commons-digester.jar" value="commons-digester.jar"/>
+  <property name="commons-logging-1.0.4.jar" value="commons-logging-1.0.4.jar"/>
+  <property name="commons-logging.jar" value="commons-logging.jar"/>
+  <property name="dataprovider-rowset.jar" value="dataprovider-rowset.jar"/>
+  <property name="dataprovider.jar" value="dataprovider.jar"/>
+
+  <property name="portlet.jar" value="portlet.jar"/>
+  <property name="jsfcl.jar" value="jsfcl.jar"/>
+  <property name="jstl.jar" value="jstl.jar"/>
+  <property name="javaee.jar" value="javaee.jar"/>
+  <property name="jsf-impl.jar" value="jsf-impl.jar"/>
+  <property name="jsp-api.jar" value="jsp-api.jar"/>
+
+  <property name="servlet-api.jar" value="servlet-api.jar"/>
+  <property name="rowset.jar" value="rowset.jar"/>
+  <property name="json.jar" value="json.jar"/>
+  <property name="jsfa-lib.jar" value="jsfa-lib.jar"/>
+  <property name="jsf-dt.jar" value="jsf-dt.jar"/>
+  <property name="jsf-ext-dynafaces.jar"
+	value="jsf-extensions-dynamic-faces-0.1.jar"/>
+  <property name="jsf-extensions-common.jar"
+	value="jsf-extensions-common-0.1.jar"/>
+
+  <patternset id="dependent-libs">
+    <include name="${commons-collections.jar}"/>
+    <include name="${commons-beanutils.jar}"/>
+    <include name="${commons-fileupload-1.0.jar}"/>
+    <include name="${commons-digester.jar}"/>
+    <include name="${commons-logging-1.0.4.jar}"/>
+    <include name="${commons-logging.jar}"/>
+    <include name="${dataprovider-rowset.jar}"/>
+    <include name="${dataprovider.jar}"/>
+    <include name="${portlet.jar}"/>
+    <include name="${jstl.jar}"/>
+    <include name="${javaee.jar}"/>
+    <include name="${jsf-impl.jar}"/>
+    <include name="${servlet-api.jar}"/>
+    <include name="${rowset.jar}"/>
+    <include name="${json.jar}"/>
+  </patternset>
+  <patternset id="annotation-libs">
+    <include name="${jsfa-lib.jar}"/>
+    <include name="${jsf-dt.jar}"/>
+  </patternset>
+  <patternset id="jsf-ext-libs">
+    <include name="${jsf-ext-dynafaces.jar}"/>
+    <include name="${jsf-extensions-common.jar}"/>
+  </patternset>
+
+  <patternset id="webui-util">
+    <include name="${pkg-path-prefix}/util/ThemeUtilities.**"/>
+    <include name="${pkg-path-prefix}/faces/ThemeELResolver.**"/>
+  </patternset>
+
+  <patternset id="webui-theme">
+    <include name="${theme-pkg-path-prefix}/theme/Theme.**"/>
+    <include name="${theme-pkg-path-prefix}/theme/ThemeConfigurationException.**"/>
+    <include name="${theme-pkg-path-prefix}/theme/ThemeFactory.**"/>
+    <include name="${theme-pkg-path-prefix}/theme/ThemeManager.**"/>
+    <include name="${theme-pkg-path-prefix}/theme/ThemeServlet.**"/>
+    <include name="${theme-pkg-path-prefix}/theme/ThemeContext.**"/>
+    <include name="${theme-pkg-path-prefix}/theme/SPIThemeFactory.**"/>
+    <include name="${theme-pkg-path-prefix}/theme/ResourceBundleTheme.**"/>
+    <include name="${theme-pkg-path-prefix}/theme/ServletThemeContext.**"/>
+  </patternset>
+
+  <patternset id="webui-jsf-theme">
+    <include name="${pkg-path-prefix}/theme/ThemeImages.**"/>
+    <include name="${pkg-path-prefix}/theme/ThemeJavascript.**"/>
+    <include name="${pkg-path-prefix}/theme/ThemeStyles.**"/>
+    <include name="${pkg-path-prefix}/theme/ThemeTemplates.**"/>
+    <include name="${pkg-path-prefix}/theme/JSFThemeContext.**"/>
+    <include name="${pkg-path-prefix}/component/ThemeLinks.**"/>
+    <include name="${pkg-path-prefix}/component/Head.**"/>
+  </patternset>
+
+  <!-- Targets -->
+
+        
+  <target name="theme-javadoc"
+    description="Build theme webui java doc">
+
+    <mkdir dir="${theme-javadocs}"/>
+
+    <fail message="${webui} does not exist">
+      <condition>
+	<not>
+	  <available file="${webui}"/>
+	</not>
+      </condition>
+    </fail>
+
+    <!-- for now use break iterator to cut down on noise -->
+    <javadoc 
+      verbose="false"
+      destdir="${theme-javadocs}"
+      public="yes"
+      author="false"
+      version="true"
+      use="true"
+      breakiterator="no"
+      windowtitle="Project Woodstock 4.1 Theme">
+      <!-- bean directory -->
+      <!-- util directory -->
+      <fileset dir="${webui-util}">
+        <patternset refid="webui-util"/>
+      </fileset>
+      <!-- ${webui-theme} is the theme src root directory
+	   the refid's refer to the theme infrastructure
+	   implementation "webui-theme" and the theme consants
+	   webui-jsf-theme -->
+      <fileset dir="${webui-theme}">
+        <patternset refid="webui-jsf-theme"/>
+      </fileset>
+      <fileset dir="${webui-theme}">
+        <patternset refid="webui-theme"/>
+      </fileset>
+      <classpath>
+        <fileset dir="${build.libs}">
+	  <patternset refid="dependent-libs"/>
+	  <patternset refid="jsf-ext-libs"/>
+        </fileset>
+	<fileset dir="${build.annotations}">
+	  <patternset refid="annotation-libs"/>
+	</fileset>
+        <pathelement location="${build.classes}"/>
+      </classpath>
+      <doctitle><![CDATA[<h1>Woodstock</h1>]]></doctitle>
+      <bottom><![CDATA[<i>Copyright &#169; 2007 Sun Microsystems, Inc. All Rights Reserved.</i>]]></bottom>
+      <group title="Woodstock Theme" packages="${pkg-prefix}.*"/>
+    </javadoc>
+  </target>
+
+  <target name="portal-tag-doc">
+    <!-- This requires the daning repository so just check in the
+	 current version of these docs.
+    <mkdir  dir="${portaltaglib-javadocs}"/>
+    <fail
+    message="${portal-theme-taglib}/build/portalThemeTaglibDoc does not exist">
+      <condition>
+	<not>
+	  <available file="${portal-theme-taglib}/build/portalThemeTaglibDoc"/>
+	</not>
+      </condition>
+    </fail>
+    <copy todir="${portaltaglib-javadocs}">
+	<fileset dir="${portal-theme-taglib}/build/portalThemeTaglibDoc"/>
+    </copy>
+    -->
+    <mkdir  dir="${build}/${portaltaglib-javadocs}"/>
+    <copy todir="${build}/${portaltaglib-javadocs}">
+	<fileset dir="${portaltaglib-javadocs}"/>
+    </copy>
+  </target>
+
+  <target name="all" 
+      depends="build-example,theme-javadoc,portal-tag-doc,references,create-theme-properties-table">
+      <mkdir dir="${build}/web"/>
+      <copy todir="${build}/web">
+	  <fileset dir="web">
+	      <include name="*.html"/>
+	  </fileset>
+	  <filterset>
+	      <filter token="HOST_APPCONTEXT"
+		    value="${DOCHOSTPORT}/${DOCAPPCONTEXT}"/>
+	  </filterset>
+      </copy>
+      <copy todir="${build}/web">
+	  <fileset dir="web">
+	      <include name="images/**"/>
+	      <include name="javascript/**"/>
+	      <include name="css/**"/>
+	  </fileset>
+      </copy>
+  </target>
+
+  <target name="build-example">
+
+      <ant antfile="build-example.xml" inheritAll="false"/>
+
+  </target>
+
+  <target name="references">
+      <fail message="The woodstock/themes must be available.">
+	  <condition>
+	      <not>
+	      <available property="themes_available" type="file"
+		file="${themes}/theme-name.properties.sample"/>
+	      </not>
+	  </condition>
+      </fail>
+      <mkdir dir="${build}/web/references"/>
+      <copy tofile="${build}/web/references/theme-name.properties.sample"
+	  file="${themes}/theme-name.properties.sample"/>
+  </target>
+
+  <target name="create-theme-properties-table">
+      <echo message="Creating the theme properties table takes a long time."/>
+      <exec executable="${basedir}/tools/theme-properties-table.sh"
+	  dir="${basedir}/tools"/>
+  </target>
+
+  <target name="dist">
+    <mkdir dir="${dist}" />
+    <jar destfile="dist/${DOCAPPCONTEXT}.war" basedir="${build}/web">
+    </jar>
+  </target>
+
+  <target name="clean">
+	<delete dir="${build}"/>
+	<delete dir="${dist}"/>
+  </target>
+
+  <target name="netbeans" depends="all,dist"/>
+
+</project>

@@ -1,0 +1,152 @@
+<?xml version='1.0' encoding='ISO-8859-1' ?>
+<!--
+ Copyright 2002 Sun Microsystems, Inc. All rights reserved.
+ SUN PROPRIETARY/CONFIDENTIAL.
+ Use is subject to license terms.
+-->
+
+<project name="boxcompoennt" default="netbeans" basedir=".">
+
+  <!-- ### See build-manifest.xml for manifest generation information ### -->
+
+  <!-- Initialize property values -->
+  <property file="build.properties"/>
+
+  <property name="webui-dist" value="../webui/netbeans/modules/autoload/ext"/>
+  <property name="theme-dist" value="../themes/dist"/>
+
+  <property name="build" value="${basedir}/build"/>
+  <property name="src" value="${basedir}/src"/>
+  <property name="web" value="${basedir}/web"/>
+  <property name="build-webinf-lib" value="${build}/web/WEB-INF/lib"/>
+  <property name="build-webing-classes" value="${build}/web/WEB-INF/classes"/>
+  <property name="dist" value="${basedir}/dist"/>
+
+  <property name="webui-external" value="../webui/lib/external"/>
+  <property name="webui.jar" value="${webui-dist}/webui-jsf.jar"/>
+  <property name="theme.jar" value="${theme-dist}/webui-jsf-suntheme.jar"/>
+
+  <!-- Path references -->
+
+  <patternset id="j2ee-compile-time.jars">
+    <include name="javaee.jar"/>
+    <include name="appserv-rt.jar"/>
+    <include name="jhall.jar"/>
+  </patternset>
+
+  <patternset id="jsf-ext.jars">
+    <include name="jsf-extensions*.jar"/>
+  </patternset>
+
+  <patternset id="webui-compile-time.jars">
+    <include name="webui-jsf.jar"/>
+  </patternset>
+
+  <patternset id="3rd-party.jars">
+    <include name="commons*.jar"/>
+    <include name="dataprovider.jar"/>
+    <include name="json*.jar"/>
+  </patternset>
+
+  <patternset id="client-side.jars">
+     <include name="dojo*.jar"/>
+     <include name="prototype*.jar"/>
+  </patternset>
+
+  <target name="build-boxcomponent">
+
+    <mkdir dir="${build}/classes"/>
+
+    <javac srcdir="${src}"
+       destdir="${build}/classes" deprecation="false"
+       debug="true"
+       optimize="false"
+       source="1.5" target="1.5">
+      <classpath>
+	  <fileset dir="${webui-external}">
+	      <patternset refid="j2ee-compile-time.jars"/>
+	      <patternset refid="jsf-ext.jars"/>
+	      <patternset refid="3rd-party.jars"/>
+	  </fileset>
+	  <pathelement location="${webui.jar}"/>
+      </classpath>
+    </javac>
+
+    <copy todir="${build}/classes">
+      <fileset dir="${src}">
+        <include name="**/*.gif"/>
+        <include name="**/*.png"/>
+        <include name="**/*.txt"/>
+        <include name="**/*.properties"/>
+        <include name="**/*.css"/>
+        <include name="**/*.js"/>
+      </fileset>
+    </copy>
+
+    <copy todir="${build}/classes">
+      <fileset dir="${src}">
+        <include name="META-INF/*.tld"/>
+        <include name="META-INF/*.xml"/>
+        <include name="META-INF/services/*"/>
+      </fileset>
+    </copy>
+
+    <mkdir dir="${build-webinf-lib}"/>
+    <!-- Create the boxcomponent JAR -->
+    <jar jarfile="${build-webinf-lib}/boxcomponent.jar"
+         basedir="${build}/classes"
+         compress="${build.package.compress}" index="${build.package.index}">
+    </jar>
+
+  </target>
+
+  <target name="build-example">
+
+    <!-- assemble the example web app -->
+    <mkdir dir="${build}/web"/>
+    <mkdir dir="${build}/web/WEB-INF"/>
+    <mkdir dir="${build}/web/WEB-INF/lib"/>
+    <mkdir dir="${build}/web/WEB-INF/classes"/>
+    <mkdir dir="${build}/web/WEB-INF/classes/nls"/>
+
+    <copy todir="${build}/web">
+      <fileset dir="${web}">
+        <include name="example/*.jsp"/>
+        <include name="WEB-INF/web.xml"/>
+        <include name="WEB-INF/faces-config.xml"/>
+        <include name="WEB-INF/classes/*.*"/>
+        <include name="WEB-INF/classes/nls/*.*"/>
+      </fileset>
+    </copy>
+
+    <copy todir="${build-webinf-lib}">
+      <fileset dir="${webui-external}">
+	  <patternset refid="3rd-party.jars"/>
+	  <patternset refid="client-side.jars"/>
+	  <patternset refid="jsf-ext.jars"/>
+      </fileset>
+    </copy>
+    <copy todir="${build-webinf-lib}"
+	file="${webui.jar}"/>
+    <copy todir="${build-webinf-lib}"
+	file="${theme.jar}"/>
+
+    <copy todir="${build}/web/example">
+      <fileset dir="${web}/WEB-INF/classes">
+        <include name="*.properties"/>
+        <include name="*.css"/>
+      </fileset>
+      <fileset dir="${web}/WEB-INF/classes/nls">
+        <include name="*.js"/>
+      </fileset>
+    </copy>
+
+  </target>
+
+
+  <!-- ### Default Target ### -->
+
+  <target name="netbeans" depends="build-boxcomponent,build-example">
+  </target>
+
+</project>

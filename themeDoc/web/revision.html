@@ -1,0 +1,281 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<title>0. Revision History - The Theme and Woodstock Web Applications - Version 4.1</title>
+
+<meta name="COPYRIGHT" 
+    content="Woodstock Web Components Theme Documentation">
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+
+<link href="css/browser-uispec.css" type="text/css" rel="stylesheet">
+<base href="href="http://@HOST_APPCONTEXT@/revision.html">
+<!--
+<base href="href="http://localhost:8080/woods-theme-doc/revision.html">
+-->
+<script src="javascript/uispec_js.js" type="text/javascript"></script>
+
+</head>
+<body bgcolor="#ffffff">
+    <div class="MstDiv">
+    <table class="MstTblBot" title="" border="0" cellpadding="0"
+	cellspacing="0" width="100%">
+	<tbody>
+	<tr>
+	<td class="MstTdTtl"><div class="MstDivTtl">
+	<div class="Mst1TtlTxt">
+	The Theme and Woodstock Web Applications - Version 4.1
+	</div>
+	</div>
+	<!--
+	<div class="Mst1SecDiv">
+	<span class="Mst1SecTxt">
+	    <a href="mailto:woodstock-dev@sun.com">woodstock-dev@sun.com</a>
+	&nbsp;</span>
+	</div>
+	</td>
+	<td align="right" nowrap="nowrap" valign="top"><div class="MstDivSrch">
+	    <form method="post" action="javascript:SearchGuidelines()">
+		<input class="TxtFld" name="searchfield" id="searchfield"
+		    type="text">
+		<input class="Btn2" name="Submit" value="Search" id="Submit" 
+		    onmouseover="if (this.disabled==0) this.className='Btn2Hov'" 
+		    onfocus="if (this.disabled==0) this.className='Btn2Hov'" 
+		    onmouseout="if (this.disabled==0) this.className='Btn2'" 
+		    onblur="if (this.disabled==0) this.className='Btn2'"
+		    type="submit">
+	    </form>
+	</div></td>
+	<td class="MstTdLogo" width="1%"><img src="images/javalogo.gif"
+	    alt="Java Logo" height="39" width="23"></td>
+	-->
+	</tr>
+    </tbody>
+    </table>
+
+<!--
+    <table class="MstTblEnd" border="0" 
+	cellpadding="0" cellspacing="0" width="100%">
+	<tbody>
+	<tr><td><img src="images/masthead-sunname.gif"
+	    alt="Sun Microsystems, Inc." 
+	    align="right" height="10" width="113"></td>
+	</tr>
+      </tbody>
+    </table>
+-->
+    </div>
+
+<!-- ################################################### -->
+<!-- End Document Title Block begin Navigation Bar Block -->
+<table class="NavTbl" border="0" cellpadding="10" cellspacing="0"
+ width="100%">
+  <tbody>
+    <tr>
+      <td>[ <a class="greybar_link"
+ href="index.html#toc">Table&nbsp;of&nbsp;Contents</a>&nbsp;|
+ <strong>0&nbsp;Revision&nbsp;History</strong>&nbsp;|
+      <a class="greybar_link"
+ href="introduction.html">1&nbsp;Introduction</a>&nbsp;|
+      <a class="greybar_link"
+ href="redefining-theme-properties.html">2&nbsp;Configuring&nbsp;THEME_RESOURCES</a>&nbsp;|
+      <a class="greybar_link"
+ href="redefining-theme-properties.html">3&nbsp;Redefining&nbsp;Properties</a>&nbsp;|
+      <a class="greybar_link"
+ href="redefining-theme-properties.html">4&nbsp;Creating&nbsp;Properties</a>&nbsp;|
+      <a class="greybar_link"
+ href="creating-themes.html">5&nbsp;Creating&nbsp;Themes</a>&nbsp;|
+      <a class="greybar_link"
+ href="creating-themes.html">6&nbsp;Configuring&nbsp;DEFAULT_THEME</a>&nbsp;|
+      <a class="greybar_link"
+ href="runtime-theme-components.html">7&nbsp;Runtime&nbsp;Theme&nbsp;Components</a>&nbsp;|
+      <a class="greybar_link"
+ href="runtime-theme-components.html">8&nbsp;PortalThemeTagLib</a>&nbsp;|
+      <a class="greybar_link"
+ href="webui-jsf-theme.html">9&nbsp;com.sun.webui.jsf.theme</a>&nbsp;|
+      <a class="greybar_link"
+ href="theme-infrastructure.html">10&nbsp;com.sun.webui.theme</a>&nbsp;|
+      <a class="greybar_link"
+ href="javascript-theme.html">11&nbsp;Javascript&nbsp;Theme</a>&nbsp;|
+      <a class="greybar_link"
+ href="index.html#appendices">Appendices</a>&nbsp;]</td>
+    </tr>
+  </tbody>
+</table>
+<!-- ################################################### -->
+
+<!-- End Document Title Block begin Navigation Bar Block -->
+<a name="skipnav"></a>
+<p class="toc-level0"><a href="revision.html#0">0. Revision History</a></p>
+<p class="toc-level1"><a href="revision.html#0.1">
+0.1 What's New -  Additions and Changes Since Revision 4.0 </a></p>
+<p class="toc-level2"><a href="revision.html#0.1.1">
+0.1.1 Theme Support for &quot;Third Party&quot; Component Jars</a></p>
+<p class="toc-level2"><a href="revision.html#0.1.2">
+0.1.2 Application Level Customization</a></p>
+<p class="toc-level2"><a href="revision.html#0.1.3">
+0.1.3 Theme SPI</a></p>
+<p class="toc-level2"><a href="revision.html#0.1.4">
+0.1.4 Them Javascript Theme</a></p>
+<p class="toc-level2"><a href="revision.html#0.1.5">
+0.1.5 Cloning a Theme</a><br></p>
+
+<h1><a name="0"></a>0. Revision History</h1>
+<table class="dkblue" border="0" cellpadding="1" cellspacing="0">
+  <tbody> 
+  <tr> 
+    <td> 
+      <table class="info-table" border="1" cellpadding="10" cellspacing="0">
+        <tbody> 
+        <tr valign="top"> 
+          <th class="th-center">Revision</th>
+          <th>Date</th>
+          <th>Synopsis</th>
+        </tr>
+        <tr class="white" valign="top"> 
+          <td class="white" align="center">4.0 </td>
+          <td class="white">06/01/2006 </td>
+          <td class="white" bordercolor="#999999">Woodstock Components Released
+	  to Open Source.</td>
+        </tr>
+        <tr class="white" valign="top"> 
+          <td class="white" align="center">4.1</td>
+          <td class="white">09//01/2007</td>
+          <td class="white">This document introduced</td>
+        </tr>
+        <tr class="white" valign="top"> 
+          <td class="white" align="center">4.1.1</td>
+          <td class="white">09//12/2007</td>
+          <td class="white">Minor edits and corrections</td>
+        </tr>
+        </tbody> 
+      </table>
+    </td>
+  </tr>
+  </tbody> 
+</table>
+<br>
+
+<h2><a name="0.1"></a>
+0.1 What's New - Additions and Changes Since Revision 4.0 </h2>
+
+<h3><a name="0.1.1"></a>
+0.1.1 Theme Support for &quot;Third Party&quot; Component Jars</h3>
+<p>
+An application may need to create components to serve specific application
+needs or an independent component developer creates and delivers components
+in jar file. The application and component developer would like to have
+these components reflect
+the brand or theme of the Woodstock component set and take advantage of the
+<a href="theme-infrastructure.html">Woodstock Theme Infrastructure</a>.
+The theme infrastructure has been modified to recognize theme resources
+found in jars along an application's class path via the 
+<a href="theme-infrastructure.html#10.6">ThemeService</a>
+service provider interface. This allows a component developer to create
+a component implementation including resources for specific themes and
+release the implementation in a jar file and include the theme resources
+within the same jar file.
+</p>
+<h3><a name="0.1.2"></a>
+0.1.2 Application Level Customization </h3>
+<p>
+Previously it was difficult for an application to make
+minor changes to an image, CSS selector, or message defined in a
+theme. Support has been added that enables
+a web application to define theme resource bundles that
+<a href="redefining-theme-properties.html">redefine theme properties</a>.
+These resource bundles are specified in the application's web.xml file
+using a <code>context-param</code> called
+<a href="redefining-theme-properties.html#2.1">
+<code>com.sun.webui.theme.THEME_RESOURCES</code></a>.
+</p>
+<h3><a name="0.1.3"></a>
+0.1.3  Theme SPI </h3>
+<p>
+The theme infrastructure has defined an 
+SPI
+(Service Provider Interface
+utilizing <code>sun.misc.Service</code>) called 
+<a href="theme-infrastructure.html#10.6"><code>ThemeService</code></a>.
+A concrete subclass of this class is implemented by a theme
+implementation and delivered
+as part of the theme jar file. Components can also be created and delivered
+in a jar file along with their theme resources, and an implementation 
+of 
+<a href="theme-infrastructure.html#10.6"><code>ThemeService</code></a>.
+</p>
+<p>
+This feature allows multiple theme jars to exist on an application's 
+class path. The intention was not to enable dynamic theme changes at runtime, 
+but to provide a mechanism that allowed a component implementation with
+theme resources to utilize the theme infrastructure and be delivered in a jar file.
+</p>
+<h3><a name="0.1.4"></a>
+0.1.4 The Javascript Theme </h3>
+<p>
+Several components have been configured to utilize new "widget" renderers
+that render Javascript statements in the request's response.
+When the Javascript executes it dynamically
+generates the necessary HTML markup and DOM structure on the client.
+These renderers are called "widget renderers".
+The "widget renderers" still require theme resources in order to express the
+theme's look and feel. The
+<a href="javascript-theme.html">Javascript Theme</a> is a
+file formated in Javascript syntax as a <a href="http://json.org">JSON</a>
+object.  It is created at build time and included in the rendered page.
+</p>
+<h3><a name="0.1.5"></a>
+0.1.5 Cloning a Theme</h3>
+<p>
+Creating a theme from scratch is a nearly impossible task, for a
+variety of reasons. The Woodstock "themes" source tree's build.xml file
+provides targets to 
+<a href="creating-themes.html#5.1">clone</a>
+the "suntheme" defined in the "themes" source tree. Properties that
+define the theme, such as theme name, package name, etc. can be redefined
+in an <a href="http://ant.apache.org">ant</a> properties file.
+These properties are then used by the
+build targets to clone and build an alternate theme. Once a theme
+has been cloned it can be modified and maintained without affecting
+the "suntheme". The clone can be created and maintained external to the
+"themes" directory if so desired.
+</p>
+
+<!-- ################################################### -->
+<!-- End Document Title Block begin Navigation Bar Block -->
+<table class="NavTbl" border="0" cellpadding="10" cellspacing="0"
+ width="100%">
+  <tbody>
+    <tr>
+      <td>[ <a class="greybar_link"
+ href="index.html#toc">Table&nbsp;of&nbsp;Contents</a>&nbsp;|
+ <strong>0&nbsp;Revision&nbsp;History</strong>&nbsp;|
+      <a class="greybar_link"
+ href="introduction.html">1&nbsp;Introduction</a>&nbsp;|
+      <a class="greybar_link"
+ href="redefining-theme-properties.html">2&nbsp;Configuring&nbsp;THEME_RESOURCES</a>&nbsp;|
+      <a class="greybar_link"
+ href="redefining-theme-properties.html">3&nbsp;Redefining&nbsp;Properties</a>&nbsp;|
+      <a class="greybar_link"
+ href="redefining-theme-properties.html">4&nbsp;Creating&nbsp;Properties</a>&nbsp;|
+      <a class="greybar_link"
+ href="creating-themes.html">5&nbsp;Creating&nbsp;Themes</a>&nbsp;|
+      <a class="greybar_link"
+ href="creating-themes.html">6&nbsp;Configuring&nbsp;DEFAULT_THEME</a>&nbsp;|
+      <a class="greybar_link"
+ href="runtime-theme-components.html">7&nbsp;Runtime&nbsp;Theme&nbsp;Components</a>&nbsp;|
+      <a class="greybar_link"
+ href="runtime-theme-components.html">8&nbsp;PortalThemeTagLib</a>&nbsp;|
+      <a class="greybar_link"
+ href="webui-jsf-theme.html">9&nbsp;com.sun.webui.jsf.theme</a>&nbsp;|
+      <a class="greybar_link"
+ href="theme-infrastructure.html">10&nbsp;com.sun.webui.theme</a>&nbsp;|
+      <a class="greybar_link"
+ href="javascript-theme.html">11&nbsp;Javascript&nbsp;Theme</a>&nbsp;|
+      <a class="greybar_link"
+ href="index.html#appendices">Appendices</a>&nbsp;]</td>
+    </tr>
+  </tbody>
+</table>
+<!-- ################################################### -->
+
+</body></html>

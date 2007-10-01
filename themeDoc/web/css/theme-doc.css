@@ -1,0 +1,6 @@
+.Requirements li {
+    list-style-image:url(Guidelines_Icons/Requirement.jpg);margin-bottom:3px
+}
+.Recommendations li {
+    list-style-image:url(Guidelines_Icons/Recommendation.jpg);margin-bottom:3px
+}

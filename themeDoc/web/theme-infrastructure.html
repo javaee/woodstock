@@ -1,0 +1,493 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<title>9. Theme Infrasctructure - The Theme and Woodstock Web Applications - Version 4.1</title>
+
+<meta name="COPYRIGHT" 
+    content="Woodstock Web Components Theme Documentation">
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+
+<link href="css/browser-uispec.css" type="text/css" rel="stylesheet">
+<base href="href="http://@HOST_APPCONTEXT@/theme-infrastructure.html">
+<!--
+<base href="href="http://localhost:8080/woods-theme-doc/theme-infrastructure.html">
+-->
+<script src="javascript/uispec_js.js" type="text/javascript"></script>
+
+</head>
+<body bgcolor="#ffffff">
+    <div class="MstDiv">
+    <table class="MstTblBot" title="" border="0" cellpadding="0"
+	cellspacing="0" width="100%">
+	<tbody>
+	<tr>
+	<td class="MstTdTtl"><div class="MstDivTtl">
+	<div class="Mst1TtlTxt">
+	The Theme and Woodstock Web Applications - Version 4.1
+	</div>
+	</div>
+	<!--
+	<div class="Mst1SecDiv">
+	<span class="Mst1SecTxt">
+	    <a href="mailto:woodstock-dev@sun.com">woodstock-dev@sun.com</a>
+	&nbsp;</span>
+	</div>
+	</td>
+	<td align="right" nowrap="nowrap" valign="top"><div class="MstDivSrch">
+	    <form method="post" action="javascript:SearchGuidelines()">
+		<input class="TxtFld" name="searchfield" id="searchfield"
+		    type="text">
+		<input class="Btn2" name="Submit" value="Search" id="Submit" 
+		    onmouseover="if (this.disabled==0) this.className='Btn2Hov'" 
+		    onfocus="if (this.disabled==0) this.className='Btn2Hov'" 
+		    onmouseout="if (this.disabled==0) this.className='Btn2'" 
+		    onblur="if (this.disabled==0) this.className='Btn2'"
+		    type="submit">
+	    </form>
+	</div></td>
+	<td class="MstTdLogo" width="1%"><img src="images/javalogo.gif"
+	    alt="Java Logo" height="39" width="23"></td>
+	-->
+	</tr>
+    </tbody>
+    </table>
+
+<!--
+    <table class="MstTblEnd" border="0" 
+	cellpadding="0" cellspacing="0" width="100%">
+	<tbody>
+	<tr><td><img src="images/masthead-sunname.gif"
+	    alt="Sun Microsystems, Inc." 
+	    align="right" height="10" width="113"></td>
+	</tr>
+      </tbody>
+    </table>
+-->
+    </div>
+
+<!-- ################################################### -->
+<!-- End Document Title Block begin Navigation Bar Block -->
+<table class="NavTbl" border="0" cellpadding="10" cellspacing="0"
+ width="100%">
+  <tbody>
+    <tr>
+      <td>[ <a class="greybar_link"
+ href="index.html#toc">Table&nbsp;of&nbsp;Contents</a>&nbsp;|
+      <a class="greybar_link"
+ href="revision.html">0&nbsp;Revision&nbsp;History</a>&nbsp;|
+      <a class="greybar_link"
+ href="introduction.html">1&nbsp;Introduction</a>&nbsp;|
+      <a class="greybar_link"
+ href="redefining-theme-properties.html">2&nbsp;Configuring&nbsp;THEME_RESOURCES</a>&nbsp;|
+      <a class="greybar_link"
+ href="redefining-theme-properties.html">3&nbsp;Creating&nbsp;Properties&nbsp;Files</a>&nbsp;|
+      <a class="greybar_link"
+ href="redefining-theme-properties.html">4&nbsp;Redefining&nbsp;Properties</a>&nbsp;|
+      <a class="greybar_link"
+ href="creating-themes.html">5&nbsp;Creating&nbsp;Themes</a>&nbsp;|
+      <a class="greybar_link"
+ href="creating-themes.html">6&nbsp;Configuring&nbsp;DEFAULT_THEME</a>&nbsp;|
+      <a class="greybar_link"
+ href="runtime-theme-components.html">7&nbsp;Runtime&nbsp;Theme&nbsp;Components</a>&nbsp;|
+      <a class="greybar_link"
+ href="runtime-theme-components.html">8&nbsp;PortalThemeTagLib</a>&nbsp;|
+      <a class="greybar_link"
+ href="theme-infrastructure.html">9&nbsp;com.sun.webui.jsf.theme</a>&nbsp;|
+ <strong>10&nbsp;com.sun.webui.theme</strong>&nbsp;|
+      <a class="greybar_link"
+ href="javascript-theme.html">11&nbsp;Javascript&nbsp;Theme</a>&nbsp;|
+      <a class="greybar_link"
+ href="index.html#appendices">Appendices</a>&nbsp;]</td>
+    </tr>
+  </tbody>
+</table>
+<!-- ################################################### -->
+
+<a name="skipnav"></a>
+<a name"infrastructure"></a><h1>The&nbsp;Theme&nbsp;Infrastructure</h1>
+<p class="toc-level0"><a href="#10">10
+The Woodstock com.sun.webui.theme Package</strong></a></p>
+<p class="toc-level1"><a href="#10.1">10.1
+The ThemeContext Class</a></p>
+<p class="toc-level1"><a href="#10.2">10.2
+The ServletThemeContext Class</a></p>
+<p class="toc-level1"><a href="#10.3">10.3
+The ThemeServlet Class</a></p>
+<p class="toc-level1"><a href="#10.4">10.4
+The ResourceBundleTheme Class</a></p>
+<p class="toc-level1"><a href="#10.5">10.5
+The SPIThemeFactory Class</a></p>
+<p class="toc-level1"><a href="#10.6">10.6
+The ThemeService Class</a></p>
+
+<h1><a name="10"></a>10
+The Woodstock com.sun.webui.theme Package</h1>
+<p>
+This package defines interfaces and some concrete classes. It is responsible
+for defining the theme's policies and behavior. The package is delivered
+in <code>webui-jsf.jar</code> file but there are no build time or runtime
+dependencies on the components or <code>JSF</code>. In fact it can be
+delivered in a separate jar file. It is currently not delivered in a 
+separate jar file, as a convenience to web application developers,
+in order to reduce the total number of jar files required by a 
+Woodstock web application.
+</p>
+<h2><a name="10.1"></a>10.1 The ThemeContext Class</h2>
+<p>
+The <code>ThemeContext</code> interface defines a set of 
+methods and properties to provide
+a programming layer above the components and application, to control the
+runtime environment of the Theme infrastructure. The motivation for this
+interface resulted from the idea of a "console" controlling the theme
+of applications it served. For example if the "console" owned the theme
+resources and made them available on the class path of its applications,
+it would be the theme that was referenced by the running applications.
+For example the "console" could control the theme name, the theme
+factory instance, and the class loader referenced by the theme 
+infrastructure at runtime.
+</p>
+<p>
+This works because no application can be started without the console's
+knowledge. The "console" creates an instance of <code>ThemeContext</code>
+and places it in the runtime environment such that the theme runtime
+references that instance. In a <code>Servlet</code> environment the
+"console" would place the instance in the <code>ServletContext</code>.
+</p>
+<p>
+For more detailed information see
+<a href="javadoc/webui/com/sun/webui/theme/ThemeContext.html">
+<code>ThemeContext</code></a> javadoc.
+</p>
+<h2><a name="10.2"></a>10.2 The ServletThemeContext Class</h2>
+<p>
+The <code>ThemeServletContext</code> is a concrete subclass of 
+<code>ThemeContext</code> and it expresses the properties of the
+<code>ThemeContext</code> as <code>context-param</code> elements.
+This enables the web application to
+control the runtime environment of the theme by declaring these
+<code>context-param</code> elements with the desired values
+in the application's web.xml file.
+</p>
+<p>
+The "console" control as discussed in the previous section is still valid
+in the presence of <code>context-param</code> elements in an application's
+web.xml file. The console would be responsible for implementing a
+concrete subclass of <code>ThemeContext</code>, probably a 
+subclass of <code>ServletThemeContext</code>. Its implementation would
+determine which <code>context-param</code> declared in an application's
+web.xml file was appropriate and would not interfere with its policies. The
+"console" would then make the <code>ThemeContext</code> instance
+available in the application's servlet context.
+</p>
+<p>
+When a Woodstock component or renderer requires a theme resource
+the <code>ThemeContext</code> instance, made available by the "console",
+is obtained in an opaque manner, via <code>ThemeContext</code>
+interfaces. The "console" now has control over the theme
+that is eventually referenced, based on data contained in that
+instance of the a <code>ThemeContext</code>
+</p>
+<p>
+For more detailed information see
+<a href="javadoc/webui/com/sun/webui/theme/ServletThemeContext.html">
+<code>ServletThemeContext</code></a> javadoc.
+</p>
+<h2><a name="10.3"></a>10.3 The ThemeServlet Class</h2>
+<p>
+Theme resources for the Woodstock components are delivered in a jar file,
+<code>webui-jsf-suntheme.jar</code>. This has several advantages.
+<ul>
+<li>The jar can be replaced without redeploying a web application.</li>
+<li>It could be shared by many web applications in a servlet container</li>
+<li>More than one theme can exist in an application's environment</li>
+</ul>
+Since the resources are in a jar file, a simple HTTP request cannot obtain
+the resource. Unfortunately the <code>FacesServlet</code> class is defined as
+<code>final</code> and therefore cannot be subclassed in order to implement
+the necessary behavior. Because of these
+two constraints a separate servlet must be configured by web applications
+that use the Woodstock components and its theme. This servlet simply uses the
+class's <code>ClassLoader</code> to load the resource and write it 
+to the response. As I write this it occurs to me that a
+<code>ThemeContext</code> if available, should be used to obtain the
+class loader instance.
+</p>
+<p>
+Requiring a web application to declare a separate servlet
+can lead to complications if the "default" <code>url-pattern</code>
+which is "/theme", conflicts with other servlets in the application.
+This can be addressed by specifying the
+<code>com.sun.webui.theme.THEME_SERVLET_CONTEXT</code>
+<code>context-param</code> to communicate the <code>ThemeServlet</code>'s
+context path to the theme infrastructure. For example:
+<div class="codebox">
+<code>
+<pre>
+&lt;-- The Theme Servlet declaration --&gt;
+&lt;servlet&gt;
+    &lt;servlet-name&gt;ThemeServlet&lt;/servlet-name&gt;
+    &lt;servlet-class&gt;com.sun.webui.theme.ThemeServlet&lt;/servlet-class&gt;
+    &lt;load-on-startup&gt;2&lt;/load-on-startup&gt;
+&lt;/servlet&gt;
+&lt;servlet-mapping&gt;
+    &lt;servlet-name&gt;ThemeServlet&lt;/servlet-name&gt;
+    &lt;url-pattern&gt;/businesstheme/*&lt;/url-pattern&gt;
+&lt;/servlet-mapping&gt;
+
+&lt;!-- The com.sun.webui.theme.THEME_SERVLET_CONTEXT that needs to
+     reflect the url-pattern of the servlet mapping, without the "*" --&gt;
+&lt;context-param&gt;
+    &lt;param-name&gt;com.sun.webui.theme.THEME_SERVLET_CONTEXT&lt;/param-name&gt;
+    &lt;param-value&gt;/businesstheme&lt;/param-value&gt;
+&lt;/context-param&gt;
+</pre>
+</code>
+</div>
+For more detailed information see
+<a href="javadoc/webui/com/sun/webui/theme/ThemeServlet.html">
+<code>ThemeServlet</code></a> javadoc.
+</p>
+
+<h2><a name="10.4"></a>10.4 The ResourceBundleTheme Class</h2>
+<p>
+The <code>ResourceBundleTheme</code> class is concrete implementation of 
+<a href="javadoc/webui/com/sun/webui/theme/Theme.html"><code>Theme</code></a>
+and is responsible for obtaining theme data from Java 
+<code>ResourceBundles</code> that contain theme data. This class also
+implicitly defines the categories of theme resources. These categories are
+<ul>
+<li>Messages</li>
+<li>Images</li>
+<li>Templates</li>
+<li>Javascript</li>
+<li>StyleSheets</li>
+<li>ClassMapper (this is a mapping of a key to a literal CSS selector)</li>
+</ul>
+Within these categories are sets of keys that define theme data values.
+Some of these keys are implicitly defined by
+<code>ResourceBundleTheme.ThemeBundle</code> and
+<code>ResourceBundleTheme.ThemeProperties</code>. 
+<p>
+This class also implements a "main" method for generating the Javascript client
+theme and its locale variants from an existing theme jar file.
+See <a href="javascript-theme.html#11.1">Generating the Javascript Theme</a>.
+</p>
+<p>
+There is only one instance of this class created.
+A <code>ThreadLocal</code> <code>ThemeResources</code> instance is
+referenced by the <code>ResourceBundleTheme</code> instance to obtain requested
+theme properties.
+</p>
+<p>
+For more detailed information see
+<a href="javadoc/webui/com/sun/webui/theme/ResourceBundleTheme.html">
+<code>ResourceBundleTheme</code></a> javadoc.
+</p>
+<h2><a name="10.5"></a>10.5 The SPIThemeFactory Class</h2>
+<p>
+The <code>SPIThemeFactory</code> class is a concrete implementation of
+<a href="javadoc/webui/com/sun/webui/theme/ThemeFactory.html">
+<code>ThemeFactory</code></a> that recognizes <a href="#10.5">
+<code>ThemeService</code></a> service provider implementations. 
+The <code>SPIThemeFactory</code> is used to obtain
+<a href="javadoc/webui/com/sun/webui/theme/ResourceBundleTheme.html">
+<code>ResourceBundleTheme</code></a> instances.
+</p>
+<p>
+<code>SPIThemeFactory</code> discovers SPI based themes and 
+maintains a map of available themes based on theme name and version,
+and implements a "default" theme policy when
+a theme is requested without a specific name or version. That policy
+is simply; the default theme is the first theme that is discovered.
+When returning a theme, theme resources that are defined in the
+<code>ThemeContext</code> always have the highest precedence, in other
+words, those resources are always searched first, to resolve a request
+for a theme property.
+</p>
+<p>
+A component, renderer or application calls the <code>getTheme</code>
+method to acquire a <code>Theme</code> instance. This can can include
+a theme name, locale and version. If none of these parameters are
+given the <code>ThemeFactory</code>'s "default" theme policy will be
+used to determine the <code>Theme</code> instance to return.
+</p>
+A list of theme resources is assembled and is encapsulated in an instance of 
+<a javadoc/webui/com/sun/webui/theme/ResourceBundleTheme.html">
+<code>ThemeResources</code></a>. The order of theme resources is 
+significant. The ordering is based on the theme name and version as
+specified in the <code>getTheme</code> call.
+The ordering is as follows
+<ol>
+<li><code>ThemeContext</code> theme resources (defined implicitly or
+via a <code>com.sun.webui.theme.THEME_RESOURCES</code>
+<code>context-param</code>) will appear as ordered in the parameter value.
+</li>
+<li>If the theme name and version are specified in the call to 
+<code>getTheme</code> ; the named resources in descending version order.
+</li>
+<li>
+If only the theme version is specified in the call to <code>getTheme</code>
+; all available theme resources in descending version order.
+</li>
+<li>
+If only the theme name is specified in the call to <code>getTheme</code>
+; named resources in descending version order.
+</li>
+<li>
+If neither theme name or theme version is specified in the call to
+<code>getTheme</code>; default theme resources in descending version
+order.
+</li>
+</ol>
+<p>
+In all cases if a named theme or version is requested but not available
+then the default theme resources will be returned ordered in descending
+version order.
+</p>
+<p>
+For more detailed information see
+<a href="javadoc/webui/com/sun/webui/theme/SPIThemeFactory.html">
+<code>SPIThemeFactory</code></a> javadoc.
+</p>
+
+<h2><a name="10.6"></a>10.6 The ThemeService Class</h2>
+<p>
+The <code>ThemeService</code> class is an abstract class as per the
+design pattern for Java Service Providers <code>sun.misc.service</code>.
+An implementations of this service like
+<a href="javadoc/webui/com/sun/webui/theme/SunthemeThemeService.html">
+<code>SunthemeThemeService</code></a> is included in a theme jar file
+as per the conventions defined by <code>sun.misc.service</code>.
+<div class="codebox">
+<code>
+<pre>
+
+META-INF/services/com.sun.webui.theme.ThemeService
+com/sun/webui/jsf/suntheme/SunthemeThemeService.class
+
+The contents of META-INF/services/com.sun.webui.theme.ThemeService
+
+com.sun.webui.jsf.suntheme.SunthemeThemeService
+
+The contents of SunthemeThemeService.java
+
+/*
+ * The contents of this file are subject to the terms
+ * of the Common Development and Distribution License
+ * (the License).  You may not use this file except in
+ * compliance with the License.
+ *
+ * You can obtain a copy of the license at
+ * https://woodstock.dev.java.net/public/CDDLv1.0.html.
+ * See the License for the specific language governing
+ * permissions and limitations under the License.
+ *
+ * When distributing Covered Code, include this CDDL
+ * Header Notice in each file and include the License file
+ * at https://woodstock.dev.java.net/public/CDDLv1.0.html.
+ * If applicable, add the following below the CDDL Header,
+ * with the fields enclosed by brackets [] replaced by
+ * you own identifying information:
+ * "Portions Copyrighted [year] [name of copyright owner]"
+ *
+ * Copyright 2007 Sun Microsystems, Inc. All rights reserved.
+ */
+package com.sun.webui.jsf.suntheme;
+
+import com.sun.webui.theme.ThemeService;
+
+public class SunthemeThemeService extends ThemeService {
+
+    public SunthemeThemeService() {
+        super();
+    }
+
+    public String[] getThemeBundles() {
+        return new String[] { "com.sun.webui.jsf.suntheme.suntheme" };
+    }
+}
+
+The contents of "com.sun.webui.jsf.suntheme.suntheme.properties"
+
+Theme.name=suntheme
+Theme.version=4.1
+
+# Defines a bundle
+#
+Theme.bundle.stylesheet=com.sun.webui.jsf.suntheme.properties.stylesheets
+
+# Defines a bundle
+#
+Theme.bundle.messages=com.sun.webui.jsf.suntheme.messages.messages
+
+# Defines a bundle
+Theme.bundle.javascript=com.sun.webui.jsf.suntheme.properties.javascript
+
+# Defines a bundle
+#
+Theme.bundle.stylesheet.classMapper=com.sun.webui.jsf.suntheme.properties.styles
+
+# Defines a bundle
+#
+Theme.bundle.images=com.sun.webui.jsf.suntheme.properties.images
+
+# Defines a bundle
+#
+Theme.bundle.template=com.sun.webui.jsf.suntheme.properties.templates
+
+
+</pre>
+</code>
+</div>
+<p>
+This service implements one method that returns an array of 
+<code>ResourceBundle</code> base names that define information about a theme,
+namely, bundles that define theme properties in the theme categories
+as defined by <a href="#10.4"><code>ResourceBundleTheme</code></a>.
+<code>ThemeResources</code> instances mentioned in the previous
+discussion contain the base names for these bundles.
+</p>
+<p>
+For more detailed information see
+<a href="javadoc/webui/com/sun/webui/theme/ResourceBundleTheme.html">
+<code>ResourceBundleTheme</code></a> javadoc.
+</p>
+
+<!-- ################################################### -->
+<!-- End Document Title Block begin Navigation Bar Block -->
+<table class="NavTbl" border="0" cellpadding="10" cellspacing="0"
+ width="100%">
+  <tbody>
+    <tr>
+      <td>[ <a class="greybar_link"
+ href="index.html#toc">Table&nbsp;of&nbsp;Contents</a>&nbsp;|
+      <a class="greybar_link"
+ href="revision.html">0&nbsp;Revision&nbsp;History</a>&nbsp;|
+      <a class="greybar_link"
+ href="introduction.html">1&nbsp;Introduction</a>&nbsp;|
+      <a class="greybar_link"
+ href="redefining-theme-properties.html">2&nbsp;Configuring&nbsp;THEME_RESOURCES</a>&nbsp;|
+      <a class="greybar_link"
+ href="redefining-theme-properties.html">3&nbsp;Creating&nbsp;Properties&nbsp;Files</a>&nbsp;|
+      <a class="greybar_link"
+ href="redefining-theme-properties.html">4&nbsp;Redefining&nbsp;Properties</a>&nbsp;|
+      <a class="greybar_link"
+ href="creating-themes.html">5&nbsp;Creating&nbsp;Themes</a>&nbsp;|
+      <a class="greybar_link"
+ href="creating-themes.html">6&nbsp;Configuring&nbsp;DEFAULT_THEME</a>&nbsp;|
+      <a class="greybar_link"
+ href="runtime-theme-components.html">7&nbsp;Runtime&nbsp;Theme&nbsp;Components</a>&nbsp;|
+      <a class="greybar_link"
+ href="runtime-theme-components.html">8&nbsp;PortalThemeTagLib</a>&nbsp;|
+      <a class="greybar_link"
+ href="theme-infrastructure.html">9&nbsp;com.sun.webui.jsf.theme</a>&nbsp;|
+ <strong>10&nbsp;com.sun.webui.theme</strong>&nbsp;|
+      <a class="greybar_link"
+ href="javascript-theme.html">11&nbsp;Javascript&nbsp;Theme</a>&nbsp;|
+      <a class="greybar_link"
+ href="index.html#appendices">Appendices</a>&nbsp;]</td>
+    </tr>
+  </tbody>
+</table>
+<!-- ################################################### -->
+</p></body></html>
