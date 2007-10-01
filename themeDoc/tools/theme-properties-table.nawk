@@ -1,4 +1,24 @@
 
+# The contents of this file are subject to the terms
+# of the Common Development and Distribution License
+# (the License).  You may not use this file except in
+# compliance with the License.
+#
+# You can obtain a copy of the license at
+# https://woodstock.dev.java.net/public/CDDLv1.0.html.
+# See the License for the specific language governing
+# permissions and limitations under the License.
+#
+# When distributing Covered Code, include this CDDL
+# Header Notice in each file and include the License file
+# at https://woodstock.dev.java.net/public/CDDLv1.0.html.
+# If applicable, add the following below the CDDL Header,
+# with the fields enclosed by brackets [] replaced by
+# you own identifying information:
+# "Portions Copyrighted [year] [name of copyright owner]"
+#
+# Copyright 2007 Sun Microsystems, Inc. All rights reserved.
+#
 BEGIN { incomponent = 0;
 	inmsg = 0;
 	inimg = 0;
@@ -119,6 +139,32 @@ $2 == "end" {
 	    getRow(key, value, rows, i);
 	}
 	return keycount;
+    }
+
+    function printCopyright() {
+
+print "<!--"
+print " The contents of this file are subject to the terms"
+print " of the Common Development and Distribution License"
+print " (the License).  You may not use this file except in"
+print " compliance with the License."
+print ""
+print " You can obtain a copy of the license at"
+print " https://woodstock.dev.java.net/public/CDDLv1.0.html."
+print " See the License for the specific language governing"
+print " permissions and limitations under the License."
+print ""
+print " When distributing Covered Code, include this CDDL"
+print " Header Notice in each file and include the License file"
+print " at https://woodstock.dev.java.net/public/CDDLv1.0.html."
+print " If applicable, add the following below the CDDL Header,"
+print " with the fields enclosed by brackets [] replaced by"
+print " you own identifying information:"
+print " \"Portions Copyrighted [year] [name of copyright owner]\""
+print ""
+print "Copyright 2007 Sun Microsystems, Inc. All rights reserved."
+print "-->"
+
     }
 
     function printSectionHeader(section) {
@@ -248,6 +294,7 @@ print "  <tbody>";
 
 END { 
 
+    printCopyright();
     printDocHeader();
 
     # count the components

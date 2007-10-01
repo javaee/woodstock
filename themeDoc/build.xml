@@ -227,8 +227,7 @@
     </copy>
   </target>
 
-  <target name="all" 
-      depends="build-example,theme-javadoc,portal-tag-doc,references,create-theme-properties-table">
+  <target name="html">
       <mkdir dir="${build}/web"/>
       <copy todir="${build}/web">
 	  <fileset dir="web">
@@ -271,7 +270,9 @@
   <target name="create-theme-properties-table">
       <echo message="Creating the theme properties table takes a long time."/>
       <exec executable="${basedir}/tools/theme-properties-table.sh"
-	  dir="${basedir}/tools"/>
+	  dir="${basedir}/tools">
+	  <arg path="${build}/web/theme-properties-table.html"/>
+      </exec>
   </target>
 
   <target name="dist">
@@ -285,6 +286,7 @@
 	<delete dir="${dist}"/>
   </target>
 
-  <target name="netbeans" depends="all,dist"/>
+  <target name="netbeans" 
+      depends="build-example,theme-javadoc,portal-tag-doc,references,create-theme-properties-table,html,dist"/>
 
 </project>
