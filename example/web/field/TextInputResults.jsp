@@ -67,7 +67,7 @@
               <webuijsf:button id="backButton"
                   text="#{msgs.field_backButton}"   
                   immediate="true"
-                  actionExpression="showTextInput" />               
+                  actionExpression="#{TextInputBean.showTextInput}" />               
             </f:facet>            
           </webuijsf:contentPageTitle> 
                     

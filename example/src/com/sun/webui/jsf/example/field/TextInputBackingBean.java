@@ -49,6 +49,7 @@ import java.io.Serializable;
 public class TextInputBackingBean implements Serializable {
 
     public static final String SHOW_TEXTINPUT_INDEX = "showTextInputIndex";
+    public static final String SHOW_TEXTINPUT = "showTextInput";
     
     // Text input default value.
     private static final String TEXTINPUT_DEFAULT_VALUE =
@@ -223,6 +224,17 @@ public class TextInputBackingBean implements Serializable {
         disable(false);
 
         return SHOW_TEXTINPUT_INDEX;
+    }
+
+    /**
+     * Action handler when navigating to the text input example
+     * from the results pages.  Since the password field value will never
+     * be rendered (for security purposes), we clear the value.  It is
+     * the one value that is cleared after the page is submitted.
+     */
+    public String showTextInput() {
+        passwordValue = "";
+        return SHOW_TEXTINPUT;
     }
     
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
