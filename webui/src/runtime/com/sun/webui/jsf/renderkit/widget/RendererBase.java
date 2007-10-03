@@ -22,6 +22,7 @@
 package com.sun.webui.jsf.renderkit.widget;
 
 import com.sun.webui.theme.Theme;
+import com.sun.webui.jsf.util.ClientSniffer;
 import com.sun.webui.jsf.util.JSONUtilities;
 import com.sun.webui.jsf.util.JavaScriptUtilities;
 import com.sun.webui.jsf.util.ThemeUtilities;
@@ -185,6 +186,12 @@ abstract public class RendererBase extends Renderer {
         // JSON properties are output.
         if (isWidgetChild || getWidgetType(context, component) == null) {
             return;
+        }
+
+        // Defer widget creation to window.onLoad event.
+        ClientSniffer sniffer = ClientSniffer.getInstance(context);        
+        if (sniffer.isIe()) {
+            writer.write(", true");
         }
 
         // Render enclosing tag.

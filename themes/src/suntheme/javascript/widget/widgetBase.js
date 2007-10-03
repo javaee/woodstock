@@ -111,7 +111,9 @@ webui.@THEME@.widget.widgetBase.prototype.ajaxify = function() {
     // To do: Get module from the theme.
     if (webui.@THEME@.widget.jsfx) {
         dojo.require("webui.@THEME@.widget.jsfx." + this.widgetName);
+        return true;
     }
+    return false;
 }
 
 /**

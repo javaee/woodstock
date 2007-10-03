@@ -171,7 +171,7 @@ webui.@THEME@.widget.common = {
     },
 
     /**
-     * This function is used to create a widget.
+     * This function is used to create and start a widget.
      * <p>
      * Note: The props param must be a JSON object containing a widgetType
      * value so the correct widget may be created.
@@ -181,6 +181,14 @@ webui.@THEME@.widget.common = {
      * If the position is null, the given domNode is replaced by the resulting
      * HTML.
      * <p></p>
+     * Warning: It's not possible to append HTML elements from script that is 
+     * not a direct child of the BODY element. If there is any Javascript
+     * running inside the body that is a direct child of body, IE will throw
+     * an "Internet Explorer cannot open the Internet site" error. For example,
+     * dijit._Templated._createNodesFromText generates such an error by calling
+     * appendChild(). Therefore, invoke this function via the via the 
+     * window.onLoad event. See http://trac.dojotoolkit.org/ticket/4631
+     * </p>
      *
      * @param {Node} domNode The DOM node to add widget.
      * @param {Object} props Key-Value pairs of properties.
@@ -496,15 +504,28 @@ webui.@THEME@.widget.common = {
      * @param {Object} props Key-Value pairs of properties.
      * @config {String} [id] The widget id.
      * @config {String} [widgetType] The widget type to create.
+     * @param {boolean} onLoad Defer widget creation to window.onLoad event.
      */
-    replaceElement: function(elementId, props) {
+    replaceElement: function(elementId, props, onLoad) {
         if (props == null) {
             return null;
         }
-        var domNode = document.getElementById(elementId);
-        return (domNode)
-            ? webui.@THEME@.widget.common.createWidget(domNode, props)
-            : null;
+        // New literals are created every time this function is called, and it's 
+        // saved by closure magic.
+        var func = function() {
+            var domNode = document.getElementById(elementId);
+            if (domNode) {
+                webui.@THEME@.widget.common.createWidget(domNode, props);
+            }
+        }
+
+        // Invoke function or defer to onLoad event.
+        if (onLoad != null && new Boolean(onLoad).valueOf() == true) {
+            dojo.connect(window, "onload", func);
+        } else {
+            func();
+        }
+        return true;
     },
 
     /**
