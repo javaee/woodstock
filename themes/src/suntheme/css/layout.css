@@ -123,10 +123,10 @@ body {
 /*---*/
 
 /* CHECKBOXES AND RADIO BUTTONS */
-.RbSpn@THEME_CSS@ input {
+.RbSpn@THEME_CSS@ input, .RbSpnDis@THEME_CSS@ input {
 	vertical-align: -1px;
 }
-.CbSpn@THEME_CSS@ input {
+.CbSpn@THEME_CSS@ input, .CbSpnDis@THEME_CSS@ input {
 	vertical-align: -1px;
 }
 
@@ -140,11 +140,8 @@ body {
 .RbLbl@THEME_CSS@, .RbLblDis@THEME_CSS@ {
 	vertical-align: 1px;
 }
-.CbLbl@THEME_CSS@ {
+.CbLbl@THEME_CSS@, .CbLblDis@THEME_CSS@ {
 	vertical-align: 4px;
-}
-.CbLblDis@THEME_CSS@ {
-	vertical-align: 2px;
 }
 .RbImg@THEME_CSS@, .RbImgDis@THEME_CSS@ {
 	vertical-align: -5px
