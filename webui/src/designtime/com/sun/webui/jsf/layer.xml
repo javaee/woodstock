@@ -247,8 +247,11 @@
             <file name="WoodstockAccordian.comp_palette_item.instance_hidden" url="resources/WoodstockAccordian.comp_palette_item">
                 <attr name="position" intvalue="2500"/>
             </file> 
-		    <file name="WoodstockAccordianTab.comp_palette_item.instance_hidden" url="resources/WoodstockAccordianTab.comp_palette_item">
+            <file name="WoodstockAccordianTab.comp_palette_item.instance_hidden" url="resources/WoodstockAccordianTab.comp_palette_item">
                 <attr name="position" intvalue="2600"/>
+            </file>   
+            <file name="WoodstockMenu.comp_palette_item.instance_hidden" url="resources/WoodstockMenu.comp_palette_item">
+                <attr name="position" intvalue="2700"/>
             </file>   
             <!-- End of Woodstock components not included in VWP palette -->
 
