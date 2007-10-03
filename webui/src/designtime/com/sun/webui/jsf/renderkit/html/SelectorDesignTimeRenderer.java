@@ -126,6 +126,7 @@ public abstract class SelectorDesignTimeRenderer extends AbstractDesignTimeRende
         else {
             ValueBinding itemsBinding = selector.getValueBinding("items");
             if (itemsBinding != null) {
+                // Fake options
                 Object object = itemsBinding.getValue(context);
                 if (object instanceof Option[]) {
                     Option[] itemsValue = (Option[]) object;
@@ -136,6 +137,14 @@ public abstract class SelectorDesignTimeRenderer extends AbstractDesignTimeRende
                 } else if (object == null) {
                     isDummyValue = true;
                     selector.setItems(getDummyOptions());
+                }
+            }
+            
+            if (component instanceof ListSelector) {
+                // Give a place holder for the label in the designer
+                ValueBinding labelBinding = selector.getValueBinding("label");
+                if (labelBinding != null) {
+                    selector.setLabel("Label:");
                 }
             }
             super.encodeBegin(context, component);
