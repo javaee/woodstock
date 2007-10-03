@@ -41,7 +41,9 @@
              productImageDescription="#{msgs.mastheadAltText}" />
           
           <!-- Breadcrumbs -->   
-          <webuijsf:breadcrumbs id="breadcrumbs">
+          <webuijsf:breadcrumbs id="breadcrumbs"
+            styleClass="#{themeStyles.BREADCRUMB_GRAY_DIV}" >
+
             <webuijsf:hyperlink id="indexPageLink"
                 text="#{msgs.index_title}"
                 toolTip="#{msgs.index_title}"
@@ -59,23 +61,21 @@
 
           <!-- Content Page Title -->
           <webuijsf:contentPageTitle id="contentPageTitle"
+              styleClass="#{themeStyles.BREADCRUMB_GRAY_BACKCOLOR}"
               title="#{msgs.tabset_navtabTitle}" >
-
-            <webuijsf:markup tag="div" styleClass="#{themeStyles.CONTENT_MARGIN}">
-
-	      <!-- Tabset -->
-              <br />
-              <webuijsf:tabSet binding="#{NavtabBean.tabset}"/>
-
-              <!-- Frame to render tab content -->
-              <webuijsf:iframe id="contentFrame"
-                width="100%"
-                height="#{NavtabBean.contentHeight}"
-                scrolling="auto"
-                url="#{NavtabBean.contentUrl}" />
-
-            </webuijsf:markup>
           </webuijsf:contentPageTitle>
+
+
+          <!-- Tabset -->
+          <webuijsf:tabSet binding="#{NavtabBean.tabset}"/>
+
+          <!-- Frame to render tab content -->
+          <webuijsf:iframe id="contentFrame"
+            width="100%"
+            height="#{NavtabBean.contentHeight}"
+            scrolling="auto"
+            url="#{NavtabBean.contentUrl}" />
+
         </webuijsf:form>
       </webuijsf:body>
     </webuijsf:html>
