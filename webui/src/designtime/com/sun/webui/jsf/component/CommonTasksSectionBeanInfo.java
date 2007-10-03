@@ -21,7 +21,8 @@
  */
 package com.sun.webui.jsf.component;
 
-
+import com.sun.rave.designtime.Constants;
+import java.beans.BeanDescriptor;
 /**
  * BeanInfo for the {@link com.sun.webui.jsf.component.CommonTasksSection} component.
  */
@@ -32,4 +33,11 @@ public class CommonTasksSectionBeanInfo extends CommonTasksSectionBeanInfoBase{
 
     }
     
+    public BeanDescriptor getBeanDescriptor() {
+        BeanDescriptor beanDescriptor = super.getBeanDescriptor();
+        // Do not allow component to be resized.
+        beanDescriptor.setValue(Constants.BeanDescriptor.RESIZE_CONSTRAINTS,
+                new Integer(Constants.ResizeConstraints.NONE));
+        return beanDescriptor;
+    }    
 }
