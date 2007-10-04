@@ -74,6 +74,24 @@ public class AddRemoveDesignInfo extends SelectorDesignInfo {
         }
         return Result.SUCCESS;
     }
+    
+    public Result beanPastedSetup(DesignBean bean) {
+        FacesDesignContext context = (FacesDesignContext) bean.getDesignContext();
+        // If selector cut or copied and then pasted, and it looks like the
+        // component was previously bound to a default options bean, create a
+        // new bean for the pasted component. If the paste operation follows a
+        // copy operation, then copy the previous default option's properties
+        DesignProperty itemsProperty = bean.getProperty(ITEMS);
+        if (itemsProperty != null && itemsProperty.getValueSource() != null && itemsProperty.getValueSource().indexOf("DefaultOptions") >= 0) {
+            DesignBean options = context.createBean(getOptionsListClass().getName(), null, null);
+            options.setInstanceName(getOptionsListName(bean), true);
+            itemsProperty.setValueSource(context.getBindingExpr(options, ".options")); // NOI18N
+            
+            bean.getProperty("selected").setValueSource(context.getBindingExpr(options, ".selectedValue")); //NOI18N
+        }
+        return Result.SUCCESS;
+    }
+        
     /**
      * AddRemove component doesn't need to support "autosubmit" behavior so disabling this
      * default behavior.
