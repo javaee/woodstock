@@ -201,7 +201,7 @@ webui.@THEME@.widget.checkedBase.prototype._setProps = function(props) {
         // the HTML input element has been added to the DOM. As a work around, 
         // we shall use a timeout to set the property during initialization.
         if (this.isInitialized() != true &&
-                webui.@THEME@.browser.is_ie6()) {
+                webui.@THEME@.browser.is_ie()) {
             var _id = this.id;
             setTimeout(function() {
                 // New literals are created every time this function
