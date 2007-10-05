@@ -228,7 +228,9 @@ public class ListSelector extends Selector implements ListManager,
                 OptionGroup selectionGroup = 
                     (OptionGroup)options[counter]; 
                 String groupLabel = selectionGroup.getLabel(); 
-
+                if (groupLabel == null) {
+                    groupLabel = ""; //NOI18N
+                }
                 if(DEBUG) { 
                     log("\tFound SelectionGroup"); //NOI18N
                     log("\tLabel is " + groupLabel); //NOI18N

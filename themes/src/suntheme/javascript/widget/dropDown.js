@@ -61,15 +61,9 @@ webui.@THEME@.widget.dropDown.prototype.changed = function() {
         var jumpDropdown = this.listContainer; 
 
         // Find the <form> for this drop down
-        var form = jumpDropdown; 
-        while (form != null) { 
-            form = form.parentNode; 
-            if (form.tagName == "FORM") { 
-                break;
-            }
-        }
+        var form = jumpDropdown.form; 
 
-        if (form != null) { 
+        if (typeof form != "undefined" && form != null) { 
             this.submitterHiddenNode.value = "true";
 
             // Set style classes.
