@@ -22,6 +22,7 @@
 package com.sun.webui.jsf.renderkit.html;
 
 import com.sun.webui.jsf.component.AddRemove;
+import com.sun.webui.jsf.component.Button;
 
 import java.io.IOException;
 import javax.faces.context.FacesContext;
@@ -48,6 +49,12 @@ public class AddRemoveDesignTimeRenderer extends SelectorDesignTimeRenderer {
                 addRemove.getFacets().remove(AddRemove.AVAILABLE_LABEL_FACET);
             if (addRemove.getFacet(AddRemove.SELECTED_LABEL_FACET) != null)
                 addRemove.getFacets().remove(AddRemove.SELECTED_LABEL_FACET);
+            
+            // Set the escape to true at designtime. Otherwise, designtime complains not 
+            // well-formed character data or markup.: < Remove
+            // See bug http://www.netbeans.org/issues/show_bug.cgi?id=116338
+            ((Button)addRemove.getRemoveButtonComponent()).setEscape(true);
+            ((Button)addRemove.getRemoveAllButtonComponent()).setEscape(true);
         }
         super.encodeBegin(context, component);
     }
