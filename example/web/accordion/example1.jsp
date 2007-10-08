@@ -28,7 +28,7 @@
       
    <table><tr valign="top">
      <!-- Accordion example #1 -->
-     <td width="200px">
+     <td style="width:200px">
      <div style="width:100%">Accordion occupying 100% of parent width with variable tab
      content height. The first 4 are 50 pixels, the last one 200 pixels. </div><br/>
 
@@ -97,7 +97,7 @@
 
 
     <!-- Accordion example #2 -->
-    <td width="500px">
+    <td style="width:500px">
 
     <div style="width:30%">Accordion occupying 30% of parent width with standard tab content height = 100px and a 
     saved view selector set at a fixed height = 100%. Multiple select is set to true.</div><br />
@@ -136,7 +136,7 @@
 
 
     <!-- Accordion example #3 -->
-    <td width="200px">
+    <td style="width:200px">
 
       <div style="width:100%">Accordion occupying 100% of parent width with standard tab content height = 100px 
       and a saved view selector that fits all items. Multiple select set to false.</div><br />
@@ -182,7 +182,7 @@
     </td>
    </tr>
    <tr>
-       <td> <p> 
+       <td style="width:200px"> <p> 
            Along with exhibiting basic accordion behavior this test case 
            also illustrates the fact that the state of the accordion tabs
            is maintained when the form is submitted. Open or close arbitrary

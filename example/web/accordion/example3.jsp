@@ -27,7 +27,7 @@
       
    <table><tr valign="top">
      <!-- Accordion example1 -->
-     <td width="200px">
+     <td style="width:200px">
      <div style="width:100%">Accordion occupying 100% of parent width. </div><br/>
 
      <webuijsf:accordion id="acc1" toggleControls="true" refreshIcon="true">
@@ -53,7 +53,7 @@
     </td>
     <td> </td>
     <!-- Accordion example2 -->
-     <td width="200px">
+     <td style="width:200px">
      <div style="width:100%">Accordion occupying 100% of parent width. </div><br/>
 
      <webuijsf:accordion id="acc2" toggleControls="true" refreshIcon="true"
@@ -108,14 +108,14 @@
     </td>
    </tr>
    <tr>
-       <td> <p> 
+       <td style="width:200px"> <p> 
                This test case illustrates the refresh behavior of a single select accordion. Clicking
                the refresh icon of the accordion refreshes each accordionTab with the latest
                timestamp. Clicking on the refresh button above only refreshes the
                first accordionTab. 
        </p></td>
        <td> </td>
-       <td> <p> 
+       <td style="width:200px"> <p> 
                This test case illustrates the refresh behavior of a multiple select accordion. Clicking
                the refresh icon of the accordion refreshes each accordionTab with the latest
                timestamp. Clicking on the refresh button above only refreshes the
