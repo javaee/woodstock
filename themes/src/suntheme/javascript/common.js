@@ -40,13 +40,7 @@ webui.@THEME@.common = {
      */
     formToSubmit: null,
     submissionComponentId: null,
-    
-    /**
-     * Place holder for body properties instantiated by BodyRenderer.
-     * @private
-     */
-    body: null,
-    
+
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     // String functions
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -348,11 +342,11 @@ webui.@THEME@.common = {
         if (webui.@THEME@.common.formToSubmit == null) {
             return false;
         }
-        if (webui.@THEME@.common.submissionComponentId != null 
-        && webui.@THEME@.common.submissionComponentId.length > 0) {
+        if (webui.@THEME@.common.submissionComponentId != null &&
+                webui.@THEME@.common.submissionComponentId.length > 0) {
             webui.@THEME@.common.insertHiddenField('_submissionComponentId', 
-            webui.@THEME@.common.submissionComponentId,
-            webui.@THEME@.common.formToSubmit);
+                webui.@THEME@.common.submissionComponentId,
+                webui.@THEME@.common.formToSubmit);
         }
         webui.@THEME@.common.formToSubmit.submit();
         return false;

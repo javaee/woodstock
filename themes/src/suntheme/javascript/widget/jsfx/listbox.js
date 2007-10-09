@@ -38,7 +38,9 @@ dojo.require("webui.@THEME@.widget.jsfx.common");
 dojo.require("webui.@THEME@.widget.listbox");
 
 // Listen for Dojo Widget events.
-dojo.subscribe(webui.@THEME@.widget.listbox.event.refresh.beginTopic,
-    webui.@THEME@.widget.jsfx.common, "processRefreshEvent");
-dojo.subscribe(webui.@THEME@.widget.listbox.event.submit.beginTopic,
-    webui.@THEME@.widget.jsfx.common, "processSubmitEvent");
+if (new Boolean(webui.@THEME@.bootstrap.ajaxify).valueOf() == true) {
+    dojo.subscribe(webui.@THEME@.widget.listbox.event.refresh.beginTopic,
+        webui.@THEME@.widget.jsfx.common, "processRefreshEvent");
+    dojo.subscribe(webui.@THEME@.widget.listbox.event.submit.beginTopic,
+        webui.@THEME@.widget.jsfx.common, "processSubmitEvent");
+}

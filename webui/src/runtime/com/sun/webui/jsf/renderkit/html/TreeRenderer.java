@@ -247,7 +247,7 @@ public class TreeRenderer extends TreeNodeRenderer {
 
             // Render JavaScript.
             JavaScriptUtilities.renderJavaScript(component, writer, 
-                buff.toString());
+                buff.toString(), true);
 
             // Render skip anchor.
             RenderingUtilities.renderAnchor(SKIPTREE_LINK, node, context);

@@ -105,7 +105,9 @@ webui.@THEME@.widget.jsfx.progressBar =  {
 }
 
 // Listen for Dojo Widget events.
-dojo.subscribe(webui.@THEME@.widget.progressBar.event.progress.beginTopic,
-    webui.@THEME@.widget.jsfx.progressBar, "processProgressEvent");
-dojo.subscribe(webui.@THEME@.widget.progressBar.event.refresh.beginTopic,
-    webui.@THEME@.widget.jsfx.common, "processRefreshEvent");
+if (new Boolean(webui.@THEME@.bootstrap.ajaxify).valueOf() == true) {
+    dojo.subscribe(webui.@THEME@.widget.progressBar.event.progress.beginTopic,
+        webui.@THEME@.widget.jsfx.progressBar, "processProgressEvent");
+    dojo.subscribe(webui.@THEME@.widget.progressBar.event.refresh.beginTopic,
+        webui.@THEME@.widget.jsfx.common, "processRefreshEvent");
+}

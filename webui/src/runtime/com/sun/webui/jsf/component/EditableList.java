@@ -649,7 +649,7 @@ public class EditableList extends WebuiInput implements ListManager,
         //
         String jsObjectName = getJavaScriptObjectName();
         StringBuffer onkeypressBuffer = new StringBuffer(128);
-        onkeypressBuffer.append("if(event.keyCode == 13) { ");  //NOI18N      
+        onkeypressBuffer.append("if(event && event.keyCode == 13) { ");  //NOI18N      
         onkeypressBuffer.append(jsObjectName);
         onkeypressBuffer.append(ADD_FUNCTION);
         onkeypressBuffer.append("return false; } "); //NOI18N

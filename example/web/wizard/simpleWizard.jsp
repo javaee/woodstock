@@ -31,10 +31,17 @@
       var="msgs" />
     <webuijsf:html id="html">  
       <webuijsf:head id="head" title="#{msgs.wiz_simple_title}">
+      <webuijsf:script>
+          function init() {
+              var domNode = document.getElementById('form1:wizard1');
+              if (typeof domNode.wizOnLoad == "function") {
+                  domNode.wizOnLoad();
+              }
+          }
+      </webuijsf:script>
       </webuijsf:head>
-      <webuijsf:body id="body"
-        onLoad="document.getElementById('form1:wizard1').wizOnLoad()">
-        <webuijsf:form id="form1">                             
+      <webuijsf:body id="body" onLoad="setTimeout('init();', 0);">
+          <webuijsf:form id="form1">                             
             
           <!-- Simple Wizard:
 
@@ -85,7 +92,7 @@
                   validatorExpression="#{SimpleWizardBean.validateUserName}"
                   text="#{SimpleWizardBean.userName}"
                   toolTip="#{msgs.wiz_user_username_tooltip}"
-                  onKeyPress="if (event.keyCode==13) return false;"/>
+                  onKeyPress="var evt = (event) ? event : window.event; if (evt.keyCode==13) return false;"/>
 		</td></tr>
 		<tr><td></td><td>
 		<webuijsf:helpInline id="inhelp1" type="field"
@@ -145,7 +152,7 @@
                   disabled="#{SimpleWizardBean.uidDisabled}"
                   toolTip="#{msgs.wiz_user_uid_tooltip}"
                   validatorExpression="#{SimpleWizardBean.validateUserUid}"
-                  onKeyPress="if (event.keyCode==13) return false;"/>
+                  onKeyPress="var evt = (event) ? event : window.event; if (evt.keyCode==13) return false;"/>
 		</td></tr>
 		<tr><td></td><td>
 		<webuijsf:helpInline id="inhelp2" type="field"
@@ -221,7 +228,7 @@
                   required="true"
                   label=""
                   validatorExpression="#{SimpleWizardBean.validateUserPassword}"
-                  onKeyPress="if (event.keyCode==13) return false;"/>
+                  onKeyPress="var evt = (event) ? event : window.event; if (evt.keyCode==13) return false;"/>
 		</td></tr>
 		<tr><td></td><td>
 		<webuijsf:helpInline id="inhelp3" type="field"
@@ -247,7 +254,7 @@
                   required="true"
                   label=""
                   validatorExpression="#{SimpleWizardBean.confirmUserPassword}"
-                  onKeyPress="if (event.keyCode==13) return false;"/>
+                  onKeyPress="var evt = (event) ? event : window.event; if (evt.keyCode==13) return false;"/>
 		</td></tr>
 		<tr><td></td><td>
 		<webuijsf:helpInline id="inhelp4" type="field"
@@ -314,7 +321,7 @@
                   validatorExpression="#{SimpleWizardBean.validateHomeServer}"
                   toolTip="#{msgs.wiz_user_homeserver_tooltip}"
                   text="#{SimpleWizardBean.homeServer}"
-                  onKeyPress="if (event.keyCode==13) return false;"/>
+                  onKeyPress="var evt = (event) ? event : window.event; if (evt.keyCode==13) return false;"/>
 		</td></tr>
 		<tr><td></td><td>
 		<webuijsf:helpInline id="inhelp5" type="field"
@@ -340,7 +347,7 @@
                   validatorExpression="#{SimpleWizardBean.validateHomePath}"
                   text="#{SimpleWizardBean.homePath}"
                   toolTip="#{msgs.wiz_user_homedir_tooltip}"
-                  onKeyPress="if (event.keyCode==13) return false;"/>
+                  onKeyPress="var evt = (event) ? event : window.event; if (evt.keyCode==13) return false;"/>
 		</td></tr>
 		</table>
 

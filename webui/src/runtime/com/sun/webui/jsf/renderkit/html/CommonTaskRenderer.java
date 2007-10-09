@@ -475,7 +475,7 @@ public class CommonTaskRenderer extends AbstractRenderer {
               .append(".addCommonTask(")
               .append(JSONUtilities.getString(json))
               .append(");\n"); //NOI18N
-            JavaScriptUtilities.renderJavaScript(task, writer, sb.toString());
+            JavaScriptUtilities.renderJavaScript(task, writer, sb.toString(), true);
         }catch(JSONException e) {
             e.printStackTrace();
         }

@@ -76,33 +76,10 @@ public class ThemeLinksRenderer extends javax.faces.render.Renderer {
         JavaScriptUtilities.setDebug(themeLinks.isDebug());
         JavaScriptUtilities.setAjaxify(themeLinks.isAjaxify());
 
-        // Do not render any JavaScript.
-        if (!themeLinks.isJavaScript()) {
-            return;
+        // Render bootstrap.
+        if (themeLinks.isJavaScript()) {
+            JavaScriptUtilities.renderBootstrap(component, writer);
         }
-
-        // Render Dojo config.
-        JavaScriptUtilities.renderJavaScript(component, writer,
-            JavaScriptUtilities.getDojoConfig());
-
-        // Render JSON include.
-        JavaScriptUtilities.renderJsonInclude(component, writer);
-
-        // Render Prototype include before JSF Extensions.
-        JavaScriptUtilities.renderPrototypeInclude(component, writer);
-
-        // Render JSF Extensions include.
-        JavaScriptUtilities.renderJsfxInclude(component, writer);
-
-        // Render Dojo include.
-        JavaScriptUtilities.renderDojoInclude(component, writer);
-
-        // Render module config after including dojo.
-        JavaScriptUtilities.renderJavaScript(component, writer,
-            JavaScriptUtilities.getModuleConfig());
-
-        // Render global include.
-        JavaScriptUtilities.renderGlobalInclude(component, writer);
     }
 
     public boolean getRendersChildren() {

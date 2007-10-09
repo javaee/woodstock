@@ -104,7 +104,9 @@ webui.@THEME@.widget.jsfx.table2RowGroup = {
 }
 
 // Listen for Dojo Widget events.
-dojo.subscribe(webui.@THEME@.widget.table2RowGroup.event.refresh.beginTopic,
-    webui.@THEME@.widget.jsfx.common, "processRefreshEvent");
-dojo.subscribe(webui.@THEME@.widget.table2RowGroup.event.scroll.beginTopic,
-    webui.@THEME@.widget.jsfx.table2RowGroup, "processScrollEvent");
+if (new Boolean(webui.@THEME@.bootstrap.ajaxify).valueOf() == true) {
+    dojo.subscribe(webui.@THEME@.widget.table2RowGroup.event.refresh.beginTopic,
+        webui.@THEME@.widget.jsfx.common, "processRefreshEvent");
+    dojo.subscribe(webui.@THEME@.widget.table2RowGroup.event.scroll.beginTopic,
+        webui.@THEME@.widget.jsfx.table2RowGroup, "processScrollEvent");
+}

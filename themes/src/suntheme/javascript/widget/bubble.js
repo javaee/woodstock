@@ -146,7 +146,7 @@ webui.@THEME@.widget.bubble.prototype.onClickCallback = function(event) {
         : ((event.srcElement) 
             ? event.srcElement : null);
 
-    if (webui.@THEME@.browser.is_ie5up()) {
+    if (webui.@THEME@.browser.isIe5up()) {
         if (window.event != null) {
             window.event.cancelBubble = true;
         }
@@ -166,6 +166,9 @@ webui.@THEME@.widget.bubble.prototype.onClickCallback = function(event) {
  * @param {Event} event The JavaScript event.
  */
 webui.@THEME@.widget.bubble.prototype.onCloseCallback = function(event) {
+    if (event == null) {
+        return false;
+    }
     if ((event.type == "keydown" && event.keyCode == 27)
             || event.type == "click") {
         clearTimeout(this.timerId); 
@@ -264,9 +267,9 @@ webui.@THEME@.widget.bubble.prototype.postCreate = function () {
         this.topRightArrow.id = this.id + "_topRightArrow";
     }
 
-    // Set public functions.     
-    this.domNode.open = function(event) { return dijit.byId(this.id).open(event); }
+    // Set public functions.
     this.domNode.close = function() { return dijit.byId(this.id).close(); }
+    this.domNode.open = function(event) { return dijit.byId(this.id).open(event); }
 
     // Set events.
 

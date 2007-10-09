@@ -40,10 +40,14 @@
                             }
                             return true;
                         }
+                        function setChooserButton() {
+                            var domNode = document.getElementById("fileForm:chooserContentPage:fileChooser")
+                            domNode.setChooseButton("fileForm:chooserContentPage:file_button");
+                        }
                     </script>
                   ]]></f:verbatim>
                 </webuijsf:head>
-                <webuijsf:body>
+                <webuijsf:body onLoad="setTimeout('setChooserButton();', 0);">
                     <webuijsf:form id="fileForm">
 
                        <!-- Masthead -->
@@ -106,9 +110,6 @@
                         <f:verbatim><![CDATA[</td></tr></table>]]></f:verbatim>
                         </webuijsf:markup>
                     </webuijsf:contentPageTitle>
-                    <script>
-                       document.getElementById("fileForm:chooserContentPage:fileChooser").setChooseButton("fileForm:chooserContentPage:file_button");
-                    </script>
                     </webuijsf:form>
                 </webuijsf:body> 
             </webuijsf:html>  

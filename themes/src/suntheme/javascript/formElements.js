@@ -543,7 +543,7 @@ webui.@THEME@.hyperlink = {
             dojo.require("webui.@THEME@.widget.hyperlink");
             widget = new webui.@THEME@.widget.hyperlink({id: hyperlink.id});
 	}
-        return widget.submit(formId, params);
+        return widget.submitFormData(formId, params);
     },
 
     /**
@@ -920,7 +920,7 @@ webui.@THEME@.upload = {
             // form.enctype does not work for IE, but works Safari
             // form.encoding works on both IE and Firefox
 	    //
-            if (webui.@THEME@.browser.is_safari()) {
+            if (webui.@THEME@.browser.isSafari()) {
                 form.enctype = "multipart/form-data";
             } else {
                 form.encoding = "multipart/form-data";

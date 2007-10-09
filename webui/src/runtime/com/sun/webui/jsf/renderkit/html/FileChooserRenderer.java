@@ -967,7 +967,7 @@ public class FileChooserRenderer extends AbstractRenderer {
             
             // Render JavaScript.
             JavaScriptUtilities.renderJavaScript(chooser, writer,
-                buff.toString());
+                buff.toString(), true);
         } catch(JSONException e) {
             e.printStackTrace();
         }
@@ -1107,7 +1107,7 @@ public class FileChooserRenderer extends AbstractRenderer {
 
         // Append JS to capture the event.
         StringBuffer buff = new StringBuffer(128)
-            .append("if (") //NOI18N
+            .append("if (event && ") //NOI18N
             .append(keyCode)
             .append("==13) {"); //NOI18N
 

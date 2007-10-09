@@ -218,7 +218,7 @@ webui.@THEME@.wizard = {
      * used only for popup window and IE, and called by wizOnLoad.
      */
     resize_hack: function(helpid, stepsid, wizbdyid) {
-        if (webui.@THEME@.browser.is_ie5up()) {
+        if (webui.@THEME@.browser.isIe5up()) {
             var bdy = document.getElementById(wizbdyid);
 
             if (bdy != null) {

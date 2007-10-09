@@ -123,7 +123,7 @@ webui.@THEME@.widget.hyperlink.prototype.onClickCallback = function(event) {
         return false;
     }
     event.preventDefault();
-    return this.submit(this.formId, this.params);
+    return this.submitFormData(this.formId, this.params);
 }
 
 /**
@@ -202,7 +202,7 @@ webui.@THEME@.widget.anchorBase.prototype.setProps = function(props, notify) {
  * @param {String} formId The id of the HTML form element.
  * @param {Array} params The parameters to be passed during request.
  */
-webui.@THEME@.widget.hyperlink.prototype.submit = function (formId, params) {
+webui.@THEME@.widget.hyperlink.prototype.submitFormData = function (formId, params) {
     var theForm = document.getElementById(formId);
     var oldTarget = theForm.target;
     var oldAction = theForm.action;

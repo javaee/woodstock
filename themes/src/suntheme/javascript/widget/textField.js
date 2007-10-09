@@ -33,7 +33,6 @@
 dojo.provide("webui.@THEME@.widget.textField");
 
 dojo.require("webui.@THEME@.widget.fieldBase");
-dojo.require("webui.@THEME@.widget.submitBase");
 
 /**
  * This function is used to construct a template based widget.

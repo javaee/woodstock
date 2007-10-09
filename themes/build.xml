@@ -56,13 +56,21 @@
 
     <property name="webui.jar"
               value="${components.home}/lib/webui-jsf.jar"/>
-
     <property name="tools.jar"
               value="${tools}/javascript/tools.jar"/>
     <property name="rhino.jar"
               value="${tools}/javascript/custom_rhino.jar"/>
+    <property name="master.css"
+              value="css_master.css"/>
+    <property name="master-all.css"
+              value="css_master-all.css"/>
+    <property name="webui.js"
+              value="webui.js"/>
+    <property name="module.prefix"
+              value="webui.${theme.name}"/>
 
     <loadfile property="copyright" srcFile="${doc}/copyright.txt"/>
+    <loadfile property="copyright-css" srcFile="${doc}/copyright-css.txt"/>
 
     <!-- ========== all ========== -->
     <!-- This creates the theme jars for component distribution. -->
@@ -237,7 +245,6 @@
 
         </antcall>
 
-
         <!-- copy messages.properties to messages_en.properties JSF hack -->
         <copy file="${_bld-from-dir_}/messages/messages.properties"
               tofile="${__bld-to-pkgpath__}/messages/messages_en.properties"/>
@@ -259,7 +266,6 @@
             </filterset>
         </copy>
 
-
         <!-- Compile the Theme Service class-->
         <antcall target="compile-theme-service">
             <param name="_cmpl-java-src_" value="${__bld-to-pkgpath__}"/>
@@ -270,29 +276,25 @@
         <!-- Delete the service java file from the build dir -->
         <delete file="${__bld-to-pkgpath__}/${_bld-service-class_}.java"/>
 
-	<!-- Must happen before copying changed files to 
-	     javascript_uncompressed for dependency checking -->
+        <!-- Combine and compress CSS -->
+        <antcall target="combineCSS">
+	    <param name="_cmp-to-dir_" value="${_bld-to-dir_}"/>
+	    <param name="_cmp-from-dir_" value="${_bld-from-dir_}"/>
+	    <param name="_cmp-to-pkgpath_" value="${__bld-to-pkgpath__}"/>
+            <param name="_cmp-theme-name_" value="${_bld-theme-name_}"/>
+            <param name="_cmp-css-name_" value="${_bld-css-name_}"/>
+	    <param name="_cmp-theme-version_" value="${_bld-theme-version_}"/>
+	</antcall>
 
+        <!-- Combine and compress JavaScript -->
         <antcall target="compressJavascript">
 	    <param name="_cmp-to-dir_" value="${_bld-to-dir_}"/>
 	    <param name="_cmp-from-dir_" value="${_bld-from-dir_}"/>
 	    <param name="_cmp-to-pkgpath_" value="${__bld-to-pkgpath__}"/>
             <param name="_cmp-theme-name_" value="${_bld-theme-name_}"/>
             <param name="_cmp-css-name_" value="${_bld-css-name_}"/>
+	    <param name="_cmp-theme-version_" value="${_bld-theme-version_}"/>
 	</antcall>
-
-        <!-- Create uncompressed javascript 
-	     Only copies out of date files -->
-        <copy todir="${__bld-to-pkgpath__}/javascript_uncompressed">
-            <fileset dir="${_bld-from-dir_}/javascript">
-                <exclude name="**/CVS/**" />
-            </fileset>
-            <filterset>
-                <filter token="THEME" value="${_bld-theme-name_}"/> 
-                <filter token="THEME_CSS" value="${_bld-css-name_}"/>
-                <filter token="THEME_VERSION" value="${_bld-theme-version_}"/>
-            </filterset>
-        </copy>
         
         <!-- Create the theme jar -->
 	<dirname property="__distdir__" file="${_bld-theme-jar_}"/>
@@ -304,73 +306,178 @@
 
     </target> 
 
+    <!-- Parameters
+
+	_cmp-to-dir_
+	_cmp-from-dir_
+	_cmp-css-name_
+	_cmp-theme-name_
+	_cmp-theme-version_
+
+	Expects Global "${master.css}" to be set.
+
+	-->
+    <target name="combineCSS">
+
+	<!-- Do this before copying to temp dir. We don't want to mix theme 
+             nls files with the compressed file due to compression errors.
+        -->
+	<delete dir="${_cmp-to-dir_}/css_tmp"/>
+	<mkdir dir="${_cmp-to-dir_}/css_tmp"/>
+
+	<!-- Get the out of date files into the temporary dir -->
+	<copy todir="${_cmp-to-dir_}/css_tmp">
+	    <fileset dir="${_cmp-from-dir_}/css">
+              <exclude name="**/CVS/**" />
+	    </fileset>
+            <filterset>
+                <filter token="THEME_CSS" value="${_cmp-css-name_}"/>
+            </filterset>
+	</copy>
+
+	<java jar="${tools.jar}" failonerror="true" fork="true">
+	  <arg value="-combineCSS"/>
+	  <arg value="-sourcePath"/>
+	  <arg value="${_cmp-to-dir_}/css_tmp/${master.css}"/>
+	  <arg value="-modulePath"/>
+	  <arg value="${_cmp-to-dir_}/css_tmp"/>
+	  <arg value="-combinedFile"/>
+	  <arg value="${_cmp-to-dir_}/css_tmp/${master-all.css}"/>
+	  <arg value="-verbose"/>
+	</java>
+
+        <!-- Add copyright to combined file -->
+        <replaceregexp match="^" byline="false" replace="${copyright-css}"> 
+            <fileset file="${_cmp-to-dir_}/css_tmp/${master-all.css}"/>
+        </replaceregexp>
+
+	<!-- Copy files to the "uncompressed" directory -->
+	<copy todir="${_cmp-to-pkgpath_}/css">
+	    <fileset dir="${_cmp-to-dir_}/css_tmp"/>
+	</copy>
+
+        <delete dir="${_cmp-to-dir_}/css_tmp"/>
+    </target>
+
+    <!-- Parameters
+
+	_cmp-to-dir_
+	_cmp-from-dir_
+	_cmp-css-name_
+	_cmp-theme-name_
+	_cmp-theme-version_
+
+	Expects Global "${webui.js}" to be set.
+
+	-->
+    <target name="combineJavascript" depends="javascriptUpToDate"
+            unless="javascriptUpToDate">
+
+	<!-- Do this before copying to temp dir. We don't want to mix theme 
+             nls files with the compressed file due to compression errors.
+        -->
+	<delete dir="${_cmp-to-dir_}/javascript_tmp"/>
+	<mkdir dir="${_cmp-to-dir_}/javascript_tmp"/>
+
+	<!-- Get the out of date files into the temporary dir -->
+	<copy todir="${_cmp-to-dir_}/javascript_tmp">
+	    <fileset dir="${_cmp-from-dir_}/javascript">
+              <exclude name="**/CVS/**" />
+              <!-- Keep overall size small by excluding least used files -->
+<!--
+              <exclude name="addRemove.js" />
+              <exclude name="commonTasksSection.js" />
+              <exclude name="editableList.js" />
+              <exclude name="fileChooser.js" />
+              <exclude name="orderableList.js" />
+              <exclude name="scheduler.js" />
+              <exclude name="table.js" />
+              <exclude name="tree.js" />
+              <exclude name="wizard.js" />
+-->
+	    </fileset>
+            <filterset>
+                <filter token="THEME" value="${_cmp-theme-name_}"/> 
+                <filter token="THEME_CSS" value="${_cmp-css-name_}"/>
+		<filter token="THEME_VERSION" value="${_cmp-theme-version_}"/> 
+            </filterset>
+	</copy>
+
+	<java jar="${tools.jar}" failonerror="true" fork="true">
+	  <arg value="-combineJS"/>
+	  <arg value="-sourcePath"/>
+	  <arg value="${_cmp-to-dir_}/javascript_tmp"/>
+	  <arg value="-modulePrefix"/>
+	  <arg value="${module.prefix}"/>
+	  <arg value="-modulePath"/>
+	  <arg value="${_cmp-to-dir_}/javascript_tmp"/>
+	  <arg value="-combinedFile"/>
+	  <arg value="${_cmp-to-dir_}/javascript_tmp/${webui.js}"/>
+	  <arg value="-verbose"/>
+	</java>
+
+        <!-- Add copyright to combined file -->
+        <replaceregexp match="^" byline="false" replace="${copyright}"> 
+            <fileset file="${_cmp-to-dir_}/javascript_tmp/${webui.js}"/>
+        </replaceregexp>
+
+	<!-- Copy files to the "uncompressed" directory -->
+	<copy todir="${_cmp-to-pkgpath_}/javascript_uncompressed">
+	    <fileset dir="${_cmp-to-dir_}/javascript_tmp"/>
+	</copy>
+    </target>
+
+    <!-- Parameters
+
+	_cmp-to-dir_
+	_cmp-from-dir_
+        _cmp-to-pkgpath_
+	_cmp-css-name_
+	_cmp-theme-name_
+	_cmp-theme-version_
+
+	Expects Global "${rhino.jar}" to be set.
+
+	-->
+    <target name="compressJavascript" depends="combineJavascript"
+            unless="javascriptUpToDate">
+
+	<java jar="${tools.jar}" failonerror="true" fork="true">
+	  <arg value="-compressJS"/>
+	  <arg value="-sourcePath"/>
+	  <arg value="${_cmp-to-dir_}/javascript_tmp"/>
+	  <arg value="-rhinoJar"/>
+	  <arg value="${rhino.jar}"/>
+	  <arg value="-verbose"/>
+	</java>
+
+        <!-- Add copyrights stripped by compression tool -->
+        <replaceregexp match="^" byline="false" replace="${copyright}"> 
+            <fileset dir="${_cmp-to-dir_}/javascript_tmp"/>
+        </replaceregexp>
+
+	<!-- Copy files to the "compressed" directory -->
+	<copy todir="${_cmp-to-pkgpath_}/javascript">
+	    <fileset dir="${_cmp-to-dir_}/javascript_tmp"/>
+	</copy>
+
+	<delete dir="${_cmp-to-dir_}/javascript_tmp"/>
+    </target>
+
     <!-- Parameters defined in compressJavascript 
     
 	 _cmp-from-dir_
 	 _cmp-to-pkgpath_
 	 
 	 -->
-    <target name="compressedJsUpToDate">
-	<uptodate property="compressedJsUpToDate">
+    <target name="javascriptUpToDate">
+	<uptodate property="javascriptUpToDate">
 	    <srcfiles dir="${_cmp-from-dir_}" includes="javascript/**/*.js"/>
 	    <mapper type="regexp" from="^(.*)$$"
 		to="${_cmp-to-pkgpath_}/\1"/>
 	</uptodate>
     </target>
 
-    <!-- Parameters
-
-	_cmp-to-dir_
-	_cmp-to-pkgpath_
-	_cmp-from-dir_
-	_cmp-theme-name_
-	_cmp-css-name_
-
-	Expects Global "${rhino.jar}" to be set.
-
-	-->
-    <target name="compressJavascript" depends="compressedJsUpToDate"
-	    unless="compressedJsUpToDate">
-
-	<!-- Do this before copying to java_script uncompress -->
-	<delete dir="${_cmp-to-dir_}/javascript_toCompress"/>
-	<mkdir dir="${_cmp-to-dir_}/javascript_toCompress"/>
-
-	<!-- Get the out of date files into the temporary "toCompress" dir -->
-	<copy todir="${_cmp-to-dir_}/javascript_toCompress">
-	    <fileset dir="${_cmp-from-dir_}/javascript">
-	      <exclude name="**/CVS/**" />
-	      <depend targetDir="${_cmp-to-pkgpath_}/javascript_uncompressed"/>
-	    </fileset>
-            <filterset>
-                <filter token="THEME" value="${_cmp-theme-name_}"/> 
-                <filter token="THEME_CSS" value="${_cmp-css-name_}"/> 
-            </filterset>
-	</copy>
-
-	<java jar="${tools.jar}" failonerror="true" fork="true">
-	  <arg value="-compress"/>
-	  <arg value="-sourcePath"/>
-	  <arg value="${_cmp-to-dir_}/javascript_toCompress"/>
-	  <arg value="-rhinoJar"/>
-	  <arg value="${rhino.jar}"/>
-	  <arg value="-verbose"/>
-	</java>
-
-        <!-- Add copyright -->
-        <replaceregexp match="^" byline="false" replace="${copyright}"> 
-            <fileset dir="${_cmp-to-dir_}/javascript_toCompress"/>
-        </replaceregexp>
-
-	<!-- move the compressed files to the javascript directory -->
-	<copy todir="${_cmp-to-pkgpath_}/javascript">
-	    <fileset dir="${_cmp-to-dir_}/javascript_toCompress"/>
-	</copy>
-
-	<delete dir="${_cmp-to-dir_}/javascript_toCompress"/>
-
-    </target>
-    
     <!-- Parameters defined in compile-theme-service
 
 	_cmpl-java-src_
@@ -498,12 +605,14 @@
             <filterset refid="${__css-name-filter__}"/>
         </copy>
 
+        <!-- This shall be copied via the combineCSS target
         <copy todir="${_cp-to-dir_}/css">
             <fileset dir="${_cp-from-dir_}/css">
-                <exclude name="**/CVS/**" /> 
+                <exclude name="**/CVS/**" />
             </fileset>
             <filterset refid="${__css-name-filter__}"/>
         </copy>
+        -->
 
         <copy todir="${_cp-to-dir_}/properties">
             <fileset dir="${_cp-from-dir_}/properties">

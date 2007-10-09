@@ -39,7 +39,7 @@ dojo.require("webui.@THEME@.widget.textField");
  * This function is used to construct a template based widget.
  *
  * @name webui.@THEME@.widget.calendarField
- * @inherits webui.@THEME@.widget.widgetBase
+ * @inherits webui.@THEME@.widget.textField
  * @constructor
  */
 dojo.declare("webui.@THEME@.widget.calendarField", webui.@THEME@.widget.textField, {

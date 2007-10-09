@@ -180,11 +180,20 @@ webui.@THEME@.widget.popupMenu.prototype.onCloseMenuCallBack = function(event) {
 webui.@THEME@.widget.popupMenu.prototype.open = function(event) {
     // Only one menu can be open at a time. Hence, close the previous menu.
     var widget = dijit.byId(webui.@THEME@.widget.popupMenu.activeMenuId);
-    if (widget != null) {
+    if (widget) {
         widget.close();
     }
     webui.@THEME@.widget.popupMenu.activeMenuId = this.id;
-    event.cancelBubble = true;
+
+    var evt = (event) 
+        ? event : ((window.event) 
+            ? window.event : null);
+
+    // Note: Must test if event is null. Otherwise, pressing enter key while
+    // link has focus generates an error on IE.
+    if (evt) {
+        evt.cancelBubble = true;
+    }
 
     // If menu already rendered, do nothing.
     if (webui.@THEME@.common.isVisibleElement(this.domNode)) {
@@ -225,13 +234,16 @@ webui.@THEME@.widget.popupMenu.prototype.open = function(event) {
         this.domNode.style.left = this.left;
         this.domNode.style.top = this.top;
     } else {
+        if (evt == null) {
+            return false;
+        }
         // No positioning specified, so we calculate the optimal position to guarantee
         // menu is fully viewable.
         // Get the absolute position of the target.
-        var target = (event.target) 
-            ? event.target 
-            : ((event.srcElement) 
-                ? event.srcElement : null);
+        var target = (evt.target) 
+            ? evt.target 
+            : ((evt.srcElement) 
+                ? evt.srcElement : null);
         var absPos = this.widget.getPosition(target);
         var targetLeft = absPos[0];
         var targetTop = absPos[1];
@@ -299,8 +311,8 @@ webui.@THEME@.widget.popupMenu.prototype.open = function(event) {
         // Set new menu position.
         this.domNode.style.left = menuLeft + "px";
         this.domNode.style.top = menuTop + "px";
-        return true;
     }
+    return true;
 }
 
 /**

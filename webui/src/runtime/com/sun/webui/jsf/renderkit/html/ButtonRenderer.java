@@ -255,7 +255,7 @@ public class ButtonRenderer extends AbstractRenderer {
 
             // Render JavaScript.
             JavaScriptUtilities.renderJavaScript(component, writer, 
-                buff.toString());
+                buff.toString(), true);
         } catch(JSONException e) {
             e.printStackTrace();
         }

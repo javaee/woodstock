@@ -28,16 +28,16 @@
  */
 dojo.provide("webui.@THEME@.widget.fieldBase");
 
-dojo.require("webui.@THEME@.widget.submitBase");
+dojo.require("webui.@THEME@.widget.widgetBase");
 
 /**
  * This function is used to construct a template based widget.
  *
  * @name webui.@THEME@.widget.fieldBase
- * @inherits webui.@THEME@.widget.submitBase
+ * @inherits webui.@THEME@.widget.widgetBase
  * @constructor
  */
-dojo.declare("webui.@THEME@.widget.fieldBase", webui.@THEME@.widget.submitBase, {
+dojo.declare("webui.@THEME@.widget.fieldBase", webui.@THEME@.widget.widgetBase, {
     // Set defaults.
     disabled: false,
     required: false,
@@ -133,7 +133,7 @@ webui.@THEME@.widget.fieldBase.prototype._setProps = function(props) {
     // Set properties.
     if (props.submitForm == false || props.submitForm == true ) { 
         // connect the keyPress event
-        dojo.connect(this.fieldNode, "onkeypress", this, "submitForm");
+        dojo.connect(this.fieldNode, "onkeypress", this, "submitFormData");
     }
     if (props.maxLength > 0) { this.fieldNode.maxLength = props.maxLength; }
     if (props.size > 0) { this.fieldNode.size = props.size;  }
@@ -179,7 +179,7 @@ webui.@THEME@.widget.fieldBase.prototype._setProps = function(props) {
  *
  * @param {Event} event The JavaScript event
  */
-webui.@THEME@.widget.fieldBase.prototype.submitForm = function(event) {
+webui.@THEME@.widget.fieldBase.prototype.submitFormData = function(event) {
     if (event == null) {
         return false;
     }

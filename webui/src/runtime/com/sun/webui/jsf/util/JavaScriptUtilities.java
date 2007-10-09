@@ -94,165 +94,7 @@ public class JavaScriptUtilities {
     }
 
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    // JavaScript config methods
-    // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-    /**
-     * Get JavaScript used to configure Dojo.
-     *
-     * Note: Must be rendered before including dojo.js in page.
-     */
-    public static String getDojoConfig() {
-        StringBuffer buff = new StringBuffer(256);
-
-        try {
-            JSONObject json = new JSONObject();
-            json.put("isDebug", isDebug())
-                .put(getModuleName("theme"), getThemeJavaScript(
-                    FacesContext.getCurrentInstance()));
-
-            // Append djConfig properties.
-            buff.append("var djConfig = ")
-                .append(JSONUtilities.getString(json))
-                .append(";\n");
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }    
-        return buff.toString();
-    }
-
-    /**
-     * Get JavaScript used to configure module resources.
-     *
-     * Note: Must be rendered before including widget.js in page, but after
-     * formElements.js.
-     */
-    public static String getModuleConfig() {
-        StringBuffer buff = new StringBuffer(256);
-
-        // Append JavaScript.
-        buff.append("dojo.registerModulePath(\"")
-            .append(getTheme().getJSString(ThemeJavascript.MODULE_PREFIX))
-            .append("\", \"")
-            .append(getTheme().getPathToJSFile((isDebug())
-                ? ThemeJavascript.MODULE_PATH_UNCOMPRESSED
-                : ThemeJavascript.MODULE_PATH))
-            .append("\");\n")
-            .append(getModule("*"))
-            .append("\n")
-            .append(getModule("widget.*"))
-            .append("\n");
-
-        // Include default Ajax implementation.
-        if (isAjaxify()) {
-            buff.append(getModule("widget.jsfx.*"))
-            .append("\n");
-        }
-        return buff.toString();
-    }
-
-    // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    // JavaScript include methods
-    // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-    /**
-     * Helper method to render JavaScript include.
-     *
-     * @param component UIComponent to be rendered.
-     * @param writer ResponseWriter to which the component should be rendered.
-     *
-     * @exception IOException if an input/output error occurs.
-     */
-    public static void renderDojoInclude(UIComponent component,
-            ResponseWriter writer) throws IOException {
-        renderJavaScriptInclude(component, writer, (isDebug())
-            ? ThemeJavascript.DOJO_UNCOMPRESSED
-            : ThemeJavascript.DOJO);
-        renderJavaScriptInclude(component, writer, (isDebug())
-            ? ThemeJavascript.DIJIT_UNCOMPRESSED
-            : ThemeJavascript.DIJIT);
-    }
-
-    /**
-     * Helper method to render JavaScript include.
-     *
-     * @param component UIComponent to be rendered.
-     * @param writer ResponseWriter to which the component should be rendered.
-     */
-    public static void renderGlobalInclude(UIComponent component,
-            ResponseWriter writer) throws IOException {
-        String javascripts[] = getTheme().getGlobalJSFiles();
-        if (javascripts == null) {
-            return;
-        }
-        for (int i = 0; i < javascripts.length; i++) {
-            Object file = javascripts[i];
-            if (file == null) {
-                continue;
-            }
-            writer.startElement("script", component);
-            writer.writeAttribute("type", "text/javascript", null);
-            writer.writeURIAttribute("src", file.toString(), null);
-            writer.endElement("script");
-            writer.write("\n");
-        }
-    }
-
-    /**
-     * Helper method to render JavaScript include.
-     *
-     * @param component UIComponent to be rendered.
-     * @param writer ResponseWriter to which the component should be rendered.
-     *
-     * @exception IOException if an input/output error occurs.
-     */
-    public static void renderJsfxInclude(UIComponent component,
-            ResponseWriter writer) throws IOException {
-        Map requestMap = getRequestMap();
-        if (!requestMap.containsKey(ScriptsComponent.AJAX_JS_LINKED)) {
-            renderJavaScriptInclude(component, writer, (isDebug())
-                ? ThemeJavascript.JSFX_UNCOMPRESSED
-                : ThemeJavascript.JSFX);
-            requestMap.put(ScriptsComponent.AJAX_JS_LINKED, Boolean.TRUE);
-        }
-    }
-
-    /**
-     * Helper method to render JavaScript include.
-     *
-     * @param component UIComponent to be rendered.
-     * @param writer ResponseWriter to which the component should be rendered.
-     *
-     * @exception IOException if an input/output error occurs.
-     */
-    public static void renderJsonInclude(UIComponent component,
-            ResponseWriter writer) throws IOException {
-        renderJavaScriptInclude(component, writer, (isDebug())
-                ? ThemeJavascript.JSON_UNCOMPRESSED
-                : ThemeJavascript.JSON);
-    }
-
-    /**
-     * Helper method to render JavaScript include.
-     *
-     * @param component UIComponent to be rendered.
-     * @param writer ResponseWriter to which the component should be rendered.
-     *
-     * @exception IOException if an input/output error occurs.
-     */
-    public static void renderPrototypeInclude(UIComponent component,
-            ResponseWriter writer) throws IOException {
-        Map map = getRequestMap();
-        if (!map.containsKey(ScriptsComponent.PROTOTYPE_JS_LINKED)) {
-            renderJavaScriptInclude(component, writer, (isDebug())
-                ? ThemeJavascript.PROTOTYPE_UNCOMPRESSED
-                : ThemeJavascript.PROTOTYPE);
-            map.put(ScriptsComponent.PROTOTYPE_JS_LINKED, Boolean.TRUE);
-        }
-    }
-
-    // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    // Rendering methods
+    // JavaScript methods
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
     /**
@@ -328,30 +170,255 @@ public class JavaScriptUtilities {
         return buff.toString();        
     }
 
+    // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    // Rendering methods
+    // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+    /**
+     * Render bootstrap. 
+     * 
+     * Note: This must be called before the page body.
+     *
+     * @param component UIComponent to be rendered.
+     * @param writer ResponseWriter to which the component should be rendered.
+     *
+     * @exception IOException if an input/output error occurs.
+     */
+    public static void renderBootstrap(UIComponent component,
+            ResponseWriter writer) throws IOException {
+        // Render Dojo config.
+        renderJavaScript(component, writer, getDojoConfig(), false);
+
+        // Render JSON include.
+        renderJsonInclude(component, writer);
+
+        // Render Prototype include before JSF Extensions.
+        renderPrototypeInclude(component, writer);
+
+        // Render JSF Extensions include.
+        renderJsfxInclude(component, writer);
+
+        // Render Dojo include.
+        renderDojoInclude(component, writer);
+
+        // Render module config after including dojo.
+        renderJavaScript(component, writer, getBootstrapConfig(), false);
+
+        // Render webui include.
+        renderWebuiInclude(component, writer);
+
+        // Render global include.
+        renderGlobalInclude(component, writer);
+    }
+
     /**
      * Render JavaScript in the page, including enclosing script tags.
      *
      * @param component UIComponent to be rendered.
      * @param writer ResponseWriter to which the component should be rendered.
      * @param js The JavaScript string to render.
+     * @param defer Wait until the page has loaded before executing code.
      *
      * @exception IOException if an input/output error occurs.
      */
     public static void renderJavaScript(UIComponent component,
-            ResponseWriter writer, String js) throws IOException {
+            ResponseWriter writer, String js, boolean defer) throws IOException {
         if (js == null) {
             return;
         }
+        renderJavaScriptBegin(component, writer, defer);
+        writer.write(js);
+        renderJavaScriptEnd(component, writer, defer);
+    }
+
+    /**
+     * Render JavaScript in the page, including enclosing script tags.
+     *
+     * @param component UIComponent to be rendered.
+     * @param writer ResponseWriter to which the component should be rendered.
+     * @param defer Wait until the page has loaded before executing code.
+     *
+     * @exception IOException if an input/output error occurs.
+     */
+    public static void renderJavaScriptBegin(UIComponent component,
+            ResponseWriter writer, boolean defer) throws IOException {
         writer.startElement("script", component);
         writer.writeAttribute("type", "text/javascript", null);
-        writer.write("\n");
-        writer.write(js);
+
+        if (defer) {
+            // The dojo.addOnLoad function starts scripts after the DOM has
+            // loaded but before all of the page elements have loaded, which
+            // means your script doesn't have to wait for images and other
+            // large resources before it manipulates page structure.
+            writer.write("dojo.addOnLoad(function() {");
+        }
+    }
+
+    /**
+     * Render JavaScript in the page, including enclosing script tags.
+     *
+     * @param component UIComponent to be rendered.
+     * @param writer ResponseWriter to which the component should be rendered.
+     * @param defer Wait until the page has loaded before executing code.
+     *
+     * @exception IOException if an input/output error occurs.
+     */
+    public static void renderJavaScriptEnd(UIComponent component,
+            ResponseWriter writer, boolean defer) throws IOException {
+        if (defer) {
+            writer.write("});");
+        }
         writer.endElement("script");
         writer.write("\n");
     }
 
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    // Private renderer methods
+    // Private config methods
+    // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+    /**
+     * Get JavaScript used to configure Dojo.
+     *
+     * Note: Must be rendered before including dojo.js in page.
+     */
+    private static String getDojoConfig() {
+        StringBuffer buff = new StringBuffer(256);
+
+        try {
+            JSONObject json = new JSONObject();
+            json.put("isDebug", isDebug());
+
+            // Append djConfig properties.
+            buff.append("var djConfig = (djConfig) ? djConfig : ")
+                .append(JSONUtilities.getString(json))
+                .append(";\n");
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }    
+        return buff.toString();
+    }
+
+    /**
+     * Helper method to render bootstrap config.
+     * 
+     * Note: Must be rendered before including webui.js in page.
+     */
+    private static String getBootstrapConfig() {
+        StringBuffer buff = new StringBuffer(256);
+
+        // Append JavaScript.
+        buff.append("dojo.registerModulePath(\"")
+            .append(getTheme().getJSString(ThemeJavascript.MODULE_PREFIX))
+            .append("\", \"")
+            .append(getTheme().getPathToJSFile((isDebug())
+                ? ThemeJavascript.MODULE_PATH_UNCOMPRESSED
+                : ThemeJavascript.MODULE_PATH))
+            .append("\");\n");
+
+        try {
+            JSONObject json = new JSONObject();
+            json.put("debug", isDebug())
+                .put("ajaxify", isAjaxify())
+                .put("theme", getThemeConfig(FacesContext.getCurrentInstance()));
+
+            buff.append("var webui = ")
+                .append(JSONUtilities.getString(
+                    new JSONObject().put(getTheme().getJSString(ThemeJavascript.THEME_BUNDLE), 
+                    new JSONObject().put("bootstrap", json))))
+                .append(";");
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return buff.toString();
+    }
+
+    /**
+     * Return JSONObject containing the following properties in order
+     * to initialize the JavaScript theme.
+     * <ul>
+     * <li>prefix - the application contex plust the theme servlet prefix</li>
+     * <li>module - the value of ThemeJavascript.THEME_MODULE</li>
+     * <li>modulePath - the value of ThemeJavascript.THEME_MODULE_PATH or
+     * ThemeJavascript.THEME_MODULE_PATH_UNCOMPRESSED if in debug mode.</li>
+     * <li>bundle - the value of ThemeJavascript.THEME_BUNDLE</li>
+     * <li>custom - a JSONArray of the application's theme javascript
+     * bundles. @see com.sun.webui.theme.ThemeContext#THEME_RESOURCES </li>
+     * </ul>
+     */
+    private static JSONObject getThemeConfig(FacesContext context) 
+            throws JSONException {
+
+	// This is the namespace for the js theme.
+	// It is webui.@THEME@.theme. It is the "module" parameter for
+	// dojo.requireLocalization and dojo.i18n.getLocalization
+	//
+	String themeModule = getTheme().getJSString(ThemeJavascript.THEME_MODULE);
+
+	// The theme module path prefix.
+	//
+	String themeModulePath = isDebug()
+            ? getTheme().getJSString(ThemeJavascript.THEME_MODULE_PATH_UNCOMPRESSED)
+	    : getTheme().getJSString(ThemeJavascript.THEME_MODULE_PATH);
+
+	// The "bundle" parameter for 
+	// dojo.requireLocalization and dojo.i18n.getLocalization.
+	// It is the base name for the theme properties js file in the 
+	// nls directories, @THEME@.js
+	//
+	String themeBundle = getTheme().getJSString(ThemeJavascript.THEME_BUNDLE);
+
+
+	// While "toString" is not supposed to be guaranteed, the javadoc
+	// says it returns the complete lang, country and variant
+	// separated by "underbars".
+	//
+	// It's not clear if we want to be explicit in terms of 
+	// loading an explicit locale. It may be sufficient to 
+	// just allow dojo to load its notion of the "current"
+	// locale.
+	//
+	String themeLocale = context.getViewRoot().getLocale().toString().replaceAll("_", "-");
+
+	// Get the ThemeContext for the application's theme resources
+	// and the appcontext and the theme servlet context combined
+	// in the "getResourcePath" call.
+	//
+	ThemeContext themeContext = JSFThemeContext.getInstance(context);
+
+	// Fool getResourcePath into returning the prefix.
+	// by passing "", since we don't have path, we just want the
+	// prefix. This will have a trailing "/", so get rid of it.
+	//
+	String themePrefix = themeContext.getResourcePath("");
+	int lastSlash = themePrefix.lastIndexOf("/");
+	if (lastSlash > 0) {
+	    themePrefix = themePrefix.substring(0, lastSlash);
+	}
+
+	// Get the application's custom theme package(s).
+	//
+	JSONArray customThemes = null;
+	String customThemeResources[] = themeContext.getThemeResources();
+	if (customThemeResources != null) {
+	    // Format this as a javascript array
+	    //
+	    customThemes = new JSONArray();
+	    for (int i = 0; i < customThemeResources.length; ++i) {
+		customThemes.put(i, customThemeResources[i]);
+	    }
+	}
+        JSONObject json = new JSONObject();
+        json.put("prefix", themePrefix)
+            .put("module", themeModule)
+            .put("modulePath", themeModulePath)
+            .put("bundle", themeBundle)
+            .put("locale", themeLocale)
+            .put("custom", customThemes);
+        return json;
+    }
+
+    // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    // Private helper methods
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
     // Helper method to get Theme objects.
@@ -369,6 +436,53 @@ public class JavaScriptUtilities {
     private static Map getRequestParameterMap() {
         return FacesContext.getCurrentInstance().getExternalContext().
             getRequestParameterMap();
+    }
+
+    // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    // JavaScript include methods
+    // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+    /**
+     * Helper method to render JavaScript include.
+     *
+     * @param component UIComponent to be rendered.
+     * @param writer ResponseWriter to which the component should be rendered.
+     *
+     * @exception IOException if an input/output error occurs.
+     */
+    private static void renderDojoInclude(UIComponent component,
+            ResponseWriter writer) throws IOException {
+        renderJavaScriptInclude(component, writer, (isDebug())
+            ? ThemeJavascript.DOJO_UNCOMPRESSED
+            : ThemeJavascript.DOJO);
+        renderJavaScriptInclude(component, writer, (isDebug())
+            ? ThemeJavascript.DIJIT_UNCOMPRESSED
+            : ThemeJavascript.DIJIT);
+    }
+
+    /**
+     * Helper method to render JavaScript include.
+     *
+     * @param component UIComponent to be rendered.
+     * @param writer ResponseWriter to which the component should be rendered.
+     */
+    private static void renderGlobalInclude(UIComponent component,
+            ResponseWriter writer) throws IOException {
+        String javascripts[] = getTheme().getGlobalJSFiles();
+        if (javascripts == null) {
+            return;
+        }
+        for (int i = 0; i < javascripts.length; i++) {
+            Object file = javascripts[i];
+            if (file == null) {
+                continue;
+            }
+            writer.startElement("script", component);
+            writer.writeAttribute("type", "text/javascript", null);
+            writer.writeURIAttribute("src", file.toString(), null);
+            writer.endElement("script");
+            writer.write("\n");
+        }
     }
 
     /**
@@ -395,7 +509,6 @@ public class JavaScriptUtilities {
         if (file == null) {
 	    return;
 	}
-
 	String jsFile = getTheme().getPathToJSFile(file);
 	if (jsFile == null) {
 	    return;
@@ -408,91 +521,70 @@ public class JavaScriptUtilities {
     }
 
     /**
-     * Return JSONObject containing the following properties in order
-     * to initialize the JavaScript theme.
-     * <ul>
-     * <li>prefix - the application contex plust the theme servlet prefix</li>
-     * <li>module - the value of ThemeJavascript.THEME_MODULE</li>
-     * <li>modulePath - the value of ThemeJavascript.THEME_MODULE_PATH or
-     * ThemeJavascript.THEME_MODULE_PATH_UNCOMPRESSED if in debug mode.</li>
-     * <li>bundle - the value of ThemeJavascript.THEME_BUNDLE</li>
-     * <li>custom - a JSONArray of the application's theme javascript
-     * bundles. @see com.sun.webui.theme.ThemeContext#THEME_RESOURCES </li>
-     * </ul>
+     * Helper method to render JavaScript include.
+     *
+     * @param component UIComponent to be rendered.
+     * @param writer ResponseWriter to which the component should be rendered.
+     *
+     * @exception IOException if an input/output error occurs.
      */
-    private static JSONObject getThemeJavaScript(FacesContext context) 
-            throws JSONException {
+    private static void renderJsfxInclude(UIComponent component,
+            ResponseWriter writer) throws IOException {
+        Map requestMap = getRequestMap();
+        if (!requestMap.containsKey(ScriptsComponent.AJAX_JS_LINKED)) {
+            renderJavaScriptInclude(component, writer, (isDebug())
+                ? ThemeJavascript.JSFX_UNCOMPRESSED
+                : ThemeJavascript.JSFX);
+            requestMap.put(ScriptsComponent.AJAX_JS_LINKED, Boolean.TRUE);
+        }
+    }
 
-	// This is the namespace for the js theme.
-	// It is webui.@THEME@.theme. It is the "module" parameter for
-	// dojo.requireLocalization and dojo.i18n.getLocalization
-	//
-	String themeModule =
-	    getTheme().getJSString(ThemeJavascript.THEME_MODULE);
+    /**
+     * Helper method to render JavaScript include.
+     *
+     * @param component UIComponent to be rendered.
+     * @param writer ResponseWriter to which the component should be rendered.
+     *
+     * @exception IOException if an input/output error occurs.
+     */
+    private static void renderJsonInclude(UIComponent component,
+            ResponseWriter writer) throws IOException {
+        renderJavaScriptInclude(component, writer, (isDebug())
+                ? ThemeJavascript.JSON_UNCOMPRESSED
+                : ThemeJavascript.JSON);
+    }
 
-	// The theme module path prefix.
-	//
-	String themeModulePath = isDebug() ?
-	    getTheme().getJSString(
-		ThemeJavascript.THEME_MODULE_PATH_UNCOMPRESSED) :
-	    getTheme().getJSString(ThemeJavascript.THEME_MODULE_PATH);
+    /**
+     * Helper method to render JavaScript include.
+     *
+     * @param component UIComponent to be rendered.
+     * @param writer ResponseWriter to which the component should be rendered.
+     *
+     * @exception IOException if an input/output error occurs.
+     */
+    private static void renderPrototypeInclude(UIComponent component,
+            ResponseWriter writer) throws IOException {
+        Map map = getRequestMap();
+        if (!map.containsKey(ScriptsComponent.PROTOTYPE_JS_LINKED)) {
+            renderJavaScriptInclude(component, writer, (isDebug())
+                ? ThemeJavascript.PROTOTYPE_UNCOMPRESSED
+                : ThemeJavascript.PROTOTYPE);
+            map.put(ScriptsComponent.PROTOTYPE_JS_LINKED, Boolean.TRUE);
+        }
+    }
 
-	// The "bundle" parameter for 
-	// dojo.requireLocalization and dojo.i18n.getLocalization.
-	// It is the base name for the theme properties js file in the 
-	// nls directories, @THEME@.js
-	//
-	String themeBundle =
-	    getTheme().getJSString(ThemeJavascript.THEME_BUNDLE);
-
-
-	// While "toString" is not supposed to be guaranteed, the javadoc
-	// says it returns the complete lang, country and variant
-	// separated by "underbars".
-	//
-	// It's not clear if we want to be explicit in terms of 
-	// loading an explicit locale. It may be sufficient to 
-	// just allow dojo to load its notion of the "current"
-	// locale.
-	//
-	String dojoLocale = 
-	    context.getViewRoot().getLocale().toString().replaceAll("_", "-");
-
-	// Get the ThemeContext for the application's theme resources
-	// and the appcontext and the theme servlet context combined
-	// in the "getResourcePath" call.
-	//
-	ThemeContext themeContext = JSFThemeContext.getInstance(context);
-
-	// Fool getResourcePath into returning the prefix.
-	// by passing "", since we don't have path, we just want the
-	// prefix. This will have a trailing "/", so get rid of it.
-	//
-	String themePrefix = themeContext.getResourcePath("");
-	int lastSlash = themePrefix.lastIndexOf("/");
-	if (lastSlash > 0) {
-	    themePrefix = themePrefix.substring(0, lastSlash);
-	}
-
-	// Get the application's custom theme package(s).
-	//
-	JSONArray appthemes = null;
-	String appThemeResources[] = themeContext.getThemeResources();
-	if (appThemeResources != null) {
-	    // Format this as a javascript array
-	    //
-	    appthemes = new JSONArray();
-	    for (int i = 0; i < appThemeResources.length; ++i) {
-		appthemes.put(i, appThemeResources[i]);
-	    }
-	}
-        JSONObject json = new JSONObject();
-        json.put("prefix", themePrefix)
-            .put("module", themeModule)
-            .put("modulePath", themeModulePath)
-            .put("bundle", themeBundle)
-            .put("locale", dojoLocale)
-            .put("custom", appthemes);
-        return json;
+    /**
+     * Helper method to render JavaScript include.
+     *
+     * @param component UIComponent to be rendered.
+     * @param writer ResponseWriter to which the component should be rendered.
+     *
+     * @exception IOException if an input/output error occurs.
+     */
+    private static void renderWebuiInclude(UIComponent component,
+            ResponseWriter writer) throws IOException {
+        renderJavaScriptInclude(component, writer, (isDebug())
+                ? ThemeJavascript.WEBUI_UNCOMPRESSED
+                : ThemeJavascript.WEBUI);
     }
 }

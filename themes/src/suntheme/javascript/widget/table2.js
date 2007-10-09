@@ -256,6 +256,7 @@ webui.@THEME@.widget.table2.prototype._setProps = function(props) {
             }
             this.widget.addFragment(this.rowGroupsContainer, props.rowGroups[i], "last");
         }
+        //this.bgContainer.style.height = '100%'; // For IE?
     }
 
     // Set more properties.

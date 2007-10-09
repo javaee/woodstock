@@ -32,7 +32,7 @@
  */
 dojo.provide("webui.@THEME@.widget.common");
 
-dojo.require("webui.@THEME@.theme.*");
+dojo.require("webui.@THEME@.theme.common");
 
 /**
  * This closure contains functions common to all widgets.
@@ -180,14 +180,6 @@ webui.@THEME@.widget.common = {
      * the position is "last", resulting HTML is appended to the given domNode. 
      * If the position is null, the given domNode is replaced by the resulting
      * HTML.
-     * <p></p>
-     * Warning: It's not possible to append HTML elements from script that is 
-     * not a direct child of the BODY element. If there is any Javascript
-     * running inside the body that is a direct child of body, IE will throw
-     * an "Internet Explorer cannot open the Internet site" error. For example,
-     * dijit._Templated._createNodesFromText generates such an error by calling
-     * appendChild(). Therefore, invoke this function via the via the 
-     * window.onLoad event. See http://trac.dojotoolkit.org/ticket/4631
      * </p>
      *
      * @param {Node} domNode The DOM node to add widget.
@@ -214,7 +206,12 @@ webui.@THEME@.widget.common = {
             // Instantiate widget. Note: Dojo replaces domNode, if provided.
             widget = new obj(props, (position) ? null : domNode);
         } catch (err) {
-            return widget;
+            var message = "Error: createWidget falied for id=" + props.id;
+            if (err.description != null) {
+                message += ", " + err.description;
+            }
+            console.debug(message); // See Firebug console.
+            return null;
         }
 
         // Append widget as child.
@@ -504,28 +501,14 @@ webui.@THEME@.widget.common = {
      * @param {Object} props Key-Value pairs of properties.
      * @config {String} [id] The widget id.
      * @config {String} [widgetType] The widget type to create.
-     * @param {boolean} onLoad Defer widget creation to window.onLoad event.
      */
     replaceElement: function(elementId, props, onLoad) {
         if (props == null) {
             return null;
         }
-        // New literals are created every time this function is called, and it's 
-        // saved by closure magic.
-        var func = function() {
-            var domNode = document.getElementById(elementId);
-            if (domNode) {
-                webui.@THEME@.widget.common.createWidget(domNode, props);
-            }
-        }
-
-        // Invoke function or defer to onLoad event.
-        if (onLoad != null && new Boolean(onLoad).valueOf() == true) {
-            dojo.connect(window, "onload", func);
-        } else {
-            func();
-        }
-        return true;
+        var domNode = document.getElementById(elementId);
+        return (domNode)
+            ? webui.@THEME@.widget.common.createWidget(domNode, props) : null;
     },
 
     /**

@@ -27,8 +27,82 @@
     <webuijsf:html id="html">  
       <webuijsf:head id="head" title="#{msgs.field_autoValidateTitle}">
 	<webuijsf:link rel="shortcut icon" url="/images/favicon.ico" type="image/x-icon" />
-      </webuijsf:head>
-      <webuijsf:body id="body">
+<webuijsf:script type="text/javascript">
+
+    /**
+     * Listener class for textfields.  Note the ID naming policy we
+     * use in this example:
+     *   name for the textfield
+     *   nameLabel for the textfield's label
+     *   nameError2 for the static text component to hold the error
+     *                msg when the auto-validation fails.  When the message
+     *                component is integrated into the widget event system,
+     *                the static text error fields can be deleted and the
+     *                '2' can be dropped.
+     * This naming policy is strictly for convenience, since we manage
+     * events the same for both textfields.
+     *
+     * @param srcID  the ID of the element whose events we listen for.
+     *               This is NOT the fully-qualified ID, but simply the
+     *               basename.  Note again that this is simply due to
+     *               application policy in that the textfields have the
+     *               same parent container.
+     */
+    function TextfieldListener(srcID) {
+	this.srcID = 'form:contentPageTitle:' + srcID;
+	this.labelID = this.srcID + 'Label';
+	this.errorID = this.srcID + 'Error2';
+    }
+
+    /**
+     * Interface for a TextfieldListener class to receive events.
+     * We make the function an instance method by assigning it
+     * to the prototype object of the constructor.
+     *
+     * @param props properties associated with the textfield widget
+     */
+    function TextfieldNotify(props) {
+	// Ensure we have the correct event.
+	if (props.id != this.srcID) { return; }
+
+	// Update label.
+	var label = document.getElementById(this.labelID);
+	label.setProps({
+	    valid: props.valid
+	});
+ 
+	// Update error message.
+	var message = document.getElementById(this.errorID);
+	if (props.valid == true) {
+	    message.setProps({
+		value: "",
+		visible: !props.valid
+	    });
+	} else {
+	    message.setProps({
+		value: props.detail,
+		visible: !props.valid
+	    });
+        }
+    }
+    TextfieldListener.prototype.notify = TextfieldNotify;
+
+    function init() {
+        // Subscribe to validation event for credit card number.
+        var listener = new TextfieldListener("creditCard");
+        dojo.subscribe(
+            webui.suntheme.widget.textField.event.validation.endTopic,
+                listener, listener.notify);
+
+        // Subscribe to validation event for amount.
+        var listener = new TextfieldListener("amount");
+        dojo.subscribe(
+            webui.suntheme.widget.textField.event.validation.endTopic,
+                listener, listener.notify);
+    }
+</webuijsf:script>
+        </webuijsf:head>
+      <webuijsf:body id="body" onLoad="setTimeout('init();', 0);">
         <webuijsf:form id="form">                             
             
           <!-- Masthead -->
@@ -156,81 +230,6 @@
                   </td>
                 </tr>
               </table>
-
-<script type="text/javascript">
-
-    /**
-     * Listener class for textfields.  Note the ID naming policy we
-     * use in this example:
-     *   name for the textfield
-     *   nameLabel for the textfield's label
-     *   nameError2 for the static text component to hold the error
-     *                msg when the auto-validation fails.  When the message
-     *                component is integrated into the widget event system,
-     *                the static text error fields can be deleted and the
-     *                '2' can be dropped.
-     * This naming policy is strictly for convenience, since we manage
-     * events the same for both textfields.
-     *
-     * @param srcID  the ID of the element whose events we listen for.
-     *               This is NOT the fully-qualified ID, but simply the
-     *               basename.  Note again that this is simply due to
-     *               application policy in that the textfields have the
-     *               same parent container.
-     */
-    function TextfieldListener(srcID) {
-	this.srcID = 'form:contentPageTitle:' + srcID;
-	this.labelID = this.srcID + 'Label';
-	this.errorID = this.srcID + 'Error2';
-    }
-
-    /**
-     * Interface for a TextfieldListener class to receive events.
-     * We make the function an instance method by assigning it
-     * to the prototype object of the constructor.
-     *
-     * @param props properties associated with the textfield widget
-     */
-    function TextfieldNotify(props) {
-	// Ensure we have the correct event.
-	if (props.id != this.srcID) { return; }
-
-	// Update label.
-	var label = document.getElementById(this.labelID);
-	label.setProps({
-	    valid: props.valid
-	});
- 
-	// Update error message.
-	var message = document.getElementById(this.errorID);
-	if (props.valid == true)
-	    message.setProps({
-		value: "",
-		visible: !props.valid
-	    });
-	else
-	    message.setProps({
-		value: props.detail,
-		visible: !props.valid
-	    });
-    }
-    TextfieldListener.prototype.notify = TextfieldNotify;
-
- 
-    // Subscribe to validation event for credit card number.
-    var listener = new TextfieldListener("creditCard");
-    dojo.subscribe(
-	webui.suntheme.widget.textField.event.validation.endTopic,
-	listener, listener.notify);
-
-    // Subscribe to validation event for amount.
-    listener = new TextfieldListener("amount");
-    dojo.subscribe(
-	webui.suntheme.widget.textField.event.validation.endTopic,
-	listener, listener.notify);
-
-</script>
-
             </webuijsf:markup>
           </webuijsf:contentPageTitle>
         </webuijsf:form>

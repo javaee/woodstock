@@ -30,16 +30,15 @@ dojo.provide("webui.@THEME@.widget.selectBase");
 
 dojo.require("webui.@THEME@.browser");
 dojo.require("webui.@THEME@.common");
-dojo.require("webui.@THEME@.widget.submitBase");
 
 /**
  * This function is used to construct a template based widget.
  *
  * @name webui.@THEME@.widget.selectBase
- * @inherits webui.@THEME@.widget.submitBase
+ * @inherits webui.@THEME@.widget.widgetBase
  * @constructor
  */
-dojo.declare("webui.@THEME@.widget.selectBase", webui.@THEME@.widget.submitBase, {
+dojo.declare("webui.@THEME@.widget.selectBase", webui.@THEME@.widget.widgetBase, {
     // Set defaults.
     labelOnTop: false,
     titleOptionLabel: "" // Overridden by subclass.
@@ -78,7 +77,7 @@ webui.@THEME@.widget.selectBase.prototype.addOptions = function(props) {
             // style change) when using the DOM to populate options, but 
             // apparently not when the options are in a group
             
-            if (webui.@THEME@.browser.is_ie()) {
+            if (webui.@THEME@.browser.isIe()) {
                 thisNode = new Option();
             } else {
                 thisNode = this.optionNode.cloneNode(true);
@@ -88,7 +87,7 @@ webui.@THEME@.widget.selectBase.prototype.addOptions = function(props) {
             this.setOptionProps(thisNode, pOption);
             
             // Append this <option> node to the <select>
-            if (webui.@THEME@.browser.is_ie()) {
+            if (webui.@THEME@.browser.isIe()) {
                 var idx = this.listContainer.options.length;
                 var isSelected = thisNode.selected;
                 this.listContainer.options[idx] = thisNode;
@@ -126,7 +125,7 @@ webui.@THEME@.widget.selectBase.prototype.addOptions = function(props) {
 webui.@THEME@.widget.selectBase.prototype.changed = function() { 
     var options = this.listContainer.options;
 
-    if (webui.@THEME@.browser.is_ie()) { 
+    if (webui.@THEME@.browser.isIe()) { 
         for (var i = 0; i < options.length; ++i) {
             if (options[i].disabled == true && options[i].selected == true) {
                 if (this.listContainer.multiple == true) {
@@ -269,7 +268,6 @@ webui.@THEME@.widget.selectBase.prototype.postCreate = function () {
     this.domNode.getSelectedValue = function() { return dijit.byId(this.id).getSelectedValue(); }
     this.domNode.getSelectedLabel = function() { return dijit.byId(this.id).getSelectedLabel(); }
     this.domNode.getSelectElement = function() { return dijit.byId(this.id).getSelectElement(); }
-    this.domNode.submit = function(execute) { return dijit.byId(this.id).submit(execute); }
 
     // Set events.
     dojo.connect(this.listContainer, "onchange", this, "onChangeCallback");

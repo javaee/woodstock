@@ -82,7 +82,9 @@ webui.@THEME@.widget.jsfx.popupMenu = {
 }
 
 // Listen for Dojo Widget events.
-dojo.subscribe(webui.@THEME@.widget.popupMenu.event.refresh.beginTopic,
-    webui.@THEME@.widget.jsfx.common, "processRefreshEvent");
-dojo.subscribe(webui.@THEME@.widget.popupMenu.event.submit.beginTopic,
-    webui.@THEME@.widget.jsfx.popupMenu, "processSubmitEvent");
+if (new Boolean(webui.@THEME@.bootstrap.ajaxify).valueOf() == true) {
+    dojo.subscribe(webui.@THEME@.widget.popupMenu.event.refresh.beginTopic,
+        webui.@THEME@.widget.jsfx.common, "processRefreshEvent");
+    dojo.subscribe(webui.@THEME@.widget.popupMenu.event.submit.beginTopic,
+        webui.@THEME@.widget.jsfx.popupMenu, "processSubmitEvent");
+}

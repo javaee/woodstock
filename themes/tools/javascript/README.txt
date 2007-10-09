@@ -39,8 +39,49 @@ Usage:
   java -jar tools.jar -compress -verbose \
        -sourcePath <path> -rhinoJar custom_rhino.jar
 
+Options:
+
+-rhinoJar       Jar file containing the Rhino compression tool.
+-sourcePath     JavaScript directory or file to compress.
+-verbose        Enable verbose output.
+
 References:
 
 http://alex.dojotoolkit.org/shrinksafe
 http://dojotoolkit.org/docs/shrinksafe
 http://dojotoolkit.org/book/dojo-book-0-4/part-6-customizing-dojo-builds-better-performance/dojo-build-system
+
+Combining JavaScript files
+--------------------------
+
+This feature combines a JavaScript directory or file.
+
+Usage:
+
+  java -jar tools.jar -combineJavaScript -verbose \
+       -sourcePath <path> -modulePath <path> -modulePrefix webui.suntheme -combinedFile <path>
+
+Options:
+
+-combinedFile   File path for combined output.
+-modulePath     The path to locate module sources.
+-modulePrefix   The JavaScript prefix for module sources.
+-sourcePath     JavaScript directory or file to combine.
+-verbose        Enable verbose output.
+
+Combining CSS files
+-------------------
+
+This feature combines a CSS directory or file.
+
+Usage:
+
+  java -jar tools.jar -combineCSS -verbose \
+       -sourcePath <path> -modulePath <path> -combinedFile <path>
+
+Options:
+
+-combinedFile   File path for combined output.
+-modulePath     The path to locate module sources.
+-sourcePath     JavaScript directory or file to combine.
+-verbose        Enable verbose output.

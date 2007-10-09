@@ -64,10 +64,12 @@
                         dirField.setProps({value: dirPath});
                         window.close();
                     }
-               
-                 </script>
+                    function setChooserButton() {
+                        var domNode = document.getElementById("folderFormPopup:folderContent:folderChooser");
+                        domNode.setChooseButton("folderFormPopup:folderContent:select_folder");
+                    </script>
                 </webuijsf:head>
-                <webuijsf:body>
+                <webuijsf:body onLoad="setTimeout('setChooserButton();', 0);">
 
                     <webuijsf:form id="folderFormPopup">
 
@@ -106,9 +108,6 @@
                        <f:verbatim><![CDATA[</td></tr></table>]]></f:verbatim>
                        </webuijsf:markup>
                      </webuijsf:contentPageTitle>
-                     <script>
-                         document.getElementById("folderFormPopup:folderContent:folderChooser").setChooseButton("folderFormPopup:folderContent:select_folder");
-                     </script>
                     </webuijsf:form>
                 </webuijsf:body> 
             </webuijsf:html>  

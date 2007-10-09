@@ -652,7 +652,7 @@ public class SchedulerRenderer extends javax.faces.render.Renderer {
             
             // Render JavaScript.
             JavaScriptUtilities.renderJavaScript(scheduler, writer,
-                buff.toString());
+                buff.toString(), true);
         } catch(JSONException e) {
             e.printStackTrace();
         }

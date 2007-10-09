@@ -651,7 +651,7 @@ webui.@THEME@.widget.calendar.prototype.postCreate = function () {
             "CALENDAR_BUTTON_DISABLED", {
             id: this.id + "_disabledImage", border: 0
         });
-    }
+    }  
     return this.inherited("postCreate", arguments);
 }
 
@@ -1007,7 +1007,7 @@ webui.@THEME@.widget.calendar.prototype.toggleCalendar = function() {
     }
 
     // Test for IE 
-    if (webui.@THEME@.browser.is_ie5up()) {
+    if (webui.@THEME@.browser.isIe5up()) {
         this.ieStackingContextFix();
     }          
     return false;

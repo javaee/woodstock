@@ -66,21 +66,6 @@ webui.@THEME@.widget.passwordField.prototype.getInputClassName = function() {
 }
 
 /**
- * This function is used to fill in remaining template properties, after the
- * buildRendering() function has been processed.
- * <p>
- * Note: Unlike Dojo 0.4, the DOM nodes don't exist in the document, yet. 
- * </p>
- */
-webui.@THEME@.widget.passwordField.prototype.postCreate = function () {
-    // Set public functions.
-    this.refresh = this.domNode.refresh = null; // Not supported.
-    this.submit = this.domNode.submit = null; // Not supported.
-
-    return this.inherited("postCreate", arguments);
-}
-
-/**
  * This function is used to set widget properties using Object literals.
  * <p>
  * Note: This function extends the widget object for later updates. Further, the
@@ -123,9 +108,8 @@ webui.@THEME@.widget.passwordField.prototype.postCreate = function () {
  * @config {boolean} [valid]
  * @config {String} [value] Value of input.
  * @config {boolean} [visible] Hide or show element.
- * @param {boolean} notify Publish an event for custom AJAX implementations to listen for.
  */
-webui.@THEME@.widget.passwordField.prototype.setProps = function(props, notify) {
+webui.@THEME@.widget.passwordField.prototype.setProps = function(props) {
     // Note: This function is overridden for JsDoc.
     return this.inherited("setProps", arguments);
 }

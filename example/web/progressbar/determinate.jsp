@@ -26,9 +26,47 @@
             <webuijsf:html>
                 <f:loadBundle basename="com.sun.webui.jsf.example.resources.Resources" var="msgs" />
                 <webuijsf:head id="progressBarHead" title="#{msgs.progressbar_title}">
-		  <webuijsf:link rel="shortcut icon" url="/images/favicon.ico" type="image/x-icon" />
+                    <webuijsf:link rel="shortcut icon" url="/images/favicon.ico" type="image/x-icon" />
+                    <webuijsf:script type="text/javascript">
+                                function pause() {
+                                    // Enable resume button.
+                                    var resumeButton = document.getElementById('form1:progressBarContentPage:pb1:statusPanel:resumeButton');
+                                    resumeButton.setProps({disabled: false});
+                                    resumeButton.focus();
+
+                                    // Disable pause button and pause progress.
+                                    var pauseButton = document.getElementById('form1:progressBarContentPage:pb1:statusPanel:pauseButton');
+                                    pauseButton.setProps({disabled: true});
+                                    document.getElementById('form1:progressBarContentPage:pb1').pause();
+                                }
+                                function resume() {
+                                    // Enable pause button.
+                                    var pauseButton = document.getElementById('form1:progressBarContentPage:pb1:statusPanel:pauseButton');
+                                    pauseButton.setProps({disabled: false});
+                                    pauseButton.focus();
+
+                                    // Disable resume button and resume progress.
+                                    var resumeButton = document.getElementById('form1:progressBarContentPage:pb1:statusPanel:resumeButton');
+                                    resumeButton.setProps({disabled: true});
+                                    document.getElementById('form1:progressBarContentPage:pb1').resume();
+                                }
+                                function cancel() {
+                                    // Cancel progress.
+                                    document.getElementById('form1:progressBarContentPage:pb1').cancel();
+                                }
+                                function complete() {
+                                    // Disable pause, resume, and cancel buttons.
+                                    document.getElementById('form1:progressBarContentPage:pb1:statusPanel:pauseButton').setProps({disabled: true});
+                                    document.getElementById('form1:progressBarContentPage:pb1:statusPanel:resumeButton').setProps({disabled: true});
+                                    document.getElementById('form1:progressBarContentPage:pb1:statusPanel:cancelButton').setProps({disabled: true});
+                                }
+                                function setOnComplete() {
+                                    var domNode = document.getElementById('form1:progressBarContentPage:pb1');
+                                    domNode.setOnComplete(complete);
+                                }
+                    </webuijsf:script>
                 </webuijsf:head>
-                <webuijsf:body>
+                <webuijsf:body onLoad="setTimeout('setOnComplete();', 0);">
                     <webuijsf:form id="form1">
 
                        <!-- Masthead -->
@@ -79,42 +117,6 @@
                                 </f:facet>
 
                             </webuijsf:progressBar>
-                            <webuijsf:script type="text/javascript">
-                                function pause() {
-                                    // Enable resume button.
-                                    var resumeButton = document.getElementById('form1:progressBarContentPage:pb1:statusPanel:resumeButton');
-                                    resumeButton.setProps({disabled: false});
-                                    resumeButton.focus();
-
-                                    // Disable pause button and pause progress.
-                                    var pauseButton = document.getElementById('form1:progressBarContentPage:pb1:statusPanel:pauseButton');
-                                    pauseButton.setProps({disabled: true});
-                                    document.getElementById('form1:progressBarContentPage:pb1').pause();
-                                }
-                                function resume() {
-                                    // Enable pause button.
-                                    var pauseButton = document.getElementById('form1:progressBarContentPage:pb1:statusPanel:pauseButton');
-                                    pauseButton.setProps({disabled: false});
-                                    pauseButton.focus();
-
-                                    // Disable resume button and resume progress.
-                                    var resumeButton = document.getElementById('form1:progressBarContentPage:pb1:statusPanel:resumeButton');
-                                    resumeButton.setProps({disabled: true});
-                                    document.getElementById('form1:progressBarContentPage:pb1').resume();
-                                }
-                                function cancel() {
-                                    // Cancel progress.
-                                    document.getElementById('form1:progressBarContentPage:pb1').cancel();
-                                }
-                                function complete() {
-                                    // Disable pause, resume, and cancel buttons.
-                                    document.getElementById('form1:progressBarContentPage:pb1:statusPanel:pauseButton').setProps({disabled: true});
-                                    document.getElementById('form1:progressBarContentPage:pb1:statusPanel:resumeButton').setProps({disabled: true});
-                                    document.getElementById('form1:progressBarContentPage:pb1:statusPanel:cancelButton').setProps({disabled: true});
-                                }
-                                document.getElementById('form1:progressBarContentPage:pb1').setOnComplete(complete);
-                            </webuijsf:script>
-                 
                           </webuijsf:markup>
                        </webuijsf:contentPageTitle>
              

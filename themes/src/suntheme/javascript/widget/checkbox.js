@@ -38,8 +38,7 @@ dojo.require("webui.@THEME@.widget.checkedBase");
  * This function is used to construct a template based widget.
  *
  * @name webui.@THEME@.widget.checkbox
- * @inherits webui.@THEME@.widget.checkedBase 
- * @inherits webui.@THEME@.widget.submitBase
+ * @inherits webui.@THEME@.widget.checkedBase
  * @constructor
  */
 dojo.declare("webui.@THEME@.widget.checkbox", webui.@THEME@.widget.checkedBase, {

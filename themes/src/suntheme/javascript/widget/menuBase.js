@@ -72,7 +72,7 @@ webui.@THEME@.widget.menuBase.prototype.addOptions = function(menuNode, props) {
         
         if (props.options[i].separator == true) {
             separator = this.menuSeparatorContainer.cloneNode(true);
-            if (webui.@THEME@.browser.is_ie5up()) {
+            if (webui.@THEME@.browser.isIe5up()) {
                 var sep = this.menuSeparator.cloneNode(true);
                 separator.appendChild(sep);
             }
@@ -260,7 +260,6 @@ webui.@THEME@.widget.menuBase.prototype.getStyle = function() {
 webui.@THEME@.widget.menuBase.prototype.postCreate = function () {
     // Set public functions.
     this.domNode.getSelectedValue = function(props, optionNode) { return dijit.byId(this.id).getSelectedValue(); }
-    this.domNode.submit = function(execute) { return dijit.byId(this.id).submit(execute); } 
         
     return this.inherited("postCreate", arguments);
 }
@@ -291,7 +290,7 @@ webui.@THEME@.widget.menuBase.prototype.processOnClickEvent = function(value) {
     // of the boolean variable may become undefined. 
     if (clickResult != false && changeResult != false) {
         if (this.submitForm) {
-            this.submitMenuForm();
+            this.submitFormData();
         }  
     }
     return true;
@@ -320,8 +319,7 @@ webui.@THEME@.widget.menuBase.prototype.setMenuNodeClassName = function(
         // mouseover happens. This style represents the "hover" class.
         // Note that the "this" in these functions represent the menuItem's "div" element
         // and not the "menu" widget element.
-        if (webui.@THEME@.browser.is_ie5up()) {
-            dojo.debug("Inside assignee functions");
+        if (webui.@THEME@.browser.isIe5up()) {
             dojo.connect(menuItemContainer, "onmouseover",
                 this.createOnMouseOverCallBack(menuItemContainer));
             dojo.connect(menuItemContainer, "onmouseout",
@@ -530,7 +528,7 @@ webui.@THEME@.widget.menuBase.prototype.setSelectedValue = function(item) {
 /**
  * Submits the form. Appends the value of the selected item in the request url.
  */
-webui.@THEME@.widget.menuBase.prototype.submitMenuForm = function () {
+webui.@THEME@.widget.menuBase.prototype.submitFormData = function () {
     var theForm = document.getElementById(this.formId);
     var oldAction = theForm.action;
     var oldTarget = theForm.target;

@@ -27,7 +27,7 @@
     columns="5"
     label="Rows Per Page:"
     labelLevel="2"
-    onKeyPress="if (event.keyCode==13) {var e=document.getElementById('form1:table1:preferencesPanel:submit'); if (e != null) e.click(); return false}"
+    onKeyPress="var evt = (event) ? event : window.event; if (evt.keyCode==13) {var e=document.getElementById('form1:table1:preferencesPanel:submit'); if (e != null) e.click(); return false}"
     text="#{TableBean.groupA.preferences.preference}"/>
 <webuijsf:markup tag="div" styleClass="#{themeStyles.TABLE_PANEL_BUTTON_DIV}">
   <webuijsf:button id="submit"

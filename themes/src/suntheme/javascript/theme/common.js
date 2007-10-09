@@ -528,4 +528,4 @@ webui.@THEME@.theme.common = {
 }
 
 // Initialize theme.
-webui.@THEME@.theme.common.initialize(djConfig["webui.@THEME@.theme"]);
+webui.@THEME@.theme.common.initialize(webui.@THEME@.bootstrap.theme);

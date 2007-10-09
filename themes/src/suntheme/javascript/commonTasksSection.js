@@ -92,7 +92,7 @@ webui.@THEME@.commonTasksSection = {
                task.infoPanel.image.src = this.pic3URL;
             }
         }
-        if (webui.@THEME@.browser.is_ie5up()) {
+        if (webui.@THEME@.browser.isIe5up()) {
             window. event.cancelBubble = true;
         } else {
             event.stopPropagation();
@@ -172,7 +172,7 @@ webui.@THEME@.commonTasksSection = {
         if (this.bottomInfoLink) {
             this.bottomInfoLink.onkeypress = function(event) {	    
                 var evt = (event) ? event : ((window.event) ? window.event : null);  
-		if (!webui.@THEME@.browser.is_ie5up()) {
+		if (!webui.@THEME@.browser.isIe5up()) {
 		    that.captureBottomInfoKey(event);
 		}
                 return false;                                 
@@ -180,7 +180,7 @@ webui.@THEME@.commonTasksSection = {
  
             // Only for IE.
             this.bottomInfoLink.onkeydown = function(event) {
-                if (webui.@THEME@.browser.is_ie5up()) {
+                if (webui.@THEME@.browser.isIe5up()) {
 
                     // For IE, while pressing the shift key along with the tab key
                     // the onkeydown seems to be called twice. To prevent this,
@@ -199,7 +199,7 @@ webui.@THEME@.commonTasksSection = {
         // the "more" link if it is present or the infoPanel should close. 
         this.close.onkeypress = function(event) {           
             var evt = (event) ? event : ((window.event) ? window.event : null);         
-            if (!webui.@THEME@.browser.is_ie5up()) {
+            if (!webui.@THEME@.browser.isIe5up()) {
                 that.captureCloseKey(evt);
             }
             // If escape key is pressed, the info panel must close.
@@ -265,7 +265,7 @@ webui.@THEME@.commonTasksSection = {
         // Need to do this only on IE. "Tab" key doesnt get registered
         // for keypress on IE.
         this.close.onkeydown = function(event) {
-            if (webui.@THEME@.browser.is_ie5up()) {
+            if (webui.@THEME@.browser.isIe5up()) {
 
                 // this seems to be called once for the shift key and
                 // once for the tab key. Prevent calling the capture
@@ -283,7 +283,7 @@ webui.@THEME@.commonTasksSection = {
         this.close.onclick = function(event) {     
            webui.@THEME@.common.setVisibleElement(that.info, false);
             that.image.src = that.parent.pic3URL;	
-            if (webui.@THEME@.browser.is_ie5up()) {
+            if (webui.@THEME@.browser.isIe5up()) {
                 window. event.cancelBubble = true;
             } else {
                 event.stopPropagation();
@@ -294,7 +294,7 @@ webui.@THEME@.commonTasksSection = {
 
         this.info.onclick = function(event) {
             webui.@THEME@.common.setVisibleElement(that.info, true);
-             if (webui.@THEME@.browser.is_ie5up()) {
+             if (webui.@THEME@.browser.isIe5up()) {
                  window. event.cancelBubble = true;
             } else {
                     event.stopPropagation();
@@ -344,7 +344,7 @@ webui.@THEME@.commonTasksSection = {
 
         this.image.onclick = function(event) {
             that.showInfoPanel();
-            if (webui.@THEME@.browser.is_ie5up()) {
+            if (webui.@THEME@.browser.isIe5up()) {
                 window. event.cancelBubble = true;
             } else {
                 event.stopPropagation();
@@ -358,7 +358,7 @@ webui.@THEME@.commonTasksSection = {
                 that.showInfoPanel();
                 return false;                
             }
-            if (webui.@THEME@.browser.is_ie5up()) {
+            if (webui.@THEME@.browser.isIe5up()) {
                 window.event.cancelBubble = true;
             } else {
                 event.stopPropagation();

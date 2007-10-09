@@ -38,5 +38,7 @@ dojo.require("webui.@THEME@.widget.jsfx.common");
 dojo.require("webui.@THEME@.widget.table2");
 
 // Listen for Dojo Widget events.
-dojo.subscribe(webui.@THEME@.widget.table2.event.refresh.beginTopic,
-    webui.@THEME@.widget.jsfx.common, "processRefreshEvent");
+if (new Boolean(webui.@THEME@.bootstrap.ajaxify).valueOf() == true) {
+    dojo.subscribe(webui.@THEME@.widget.table2.event.refresh.beginTopic,
+        webui.@THEME@.widget.jsfx.common, "processRefreshEvent");
+}

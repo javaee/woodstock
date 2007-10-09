@@ -175,7 +175,7 @@ public class AddRemoveRenderer extends ListRendererBase {
 
             // Render JavaScript.
             JavaScriptUtilities.renderJavaScript(component, writer,
-                buff.toString());
+                buff.toString(), true);
         } catch(JSONException e) {
             e.printStackTrace();
         }

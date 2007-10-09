@@ -42,8 +42,14 @@
                         }
                     </script>
                   ]]></f:verbatim>
-                </webuijsf:head>
-                <webuijsf:body>
+                     <webuijsf:script>
+                         function setChooserButton() {
+                            var domNode = document.getElementById("folderForm:folderContent:folderChooser");
+                            domNode.setChooseButton("folderForm:folderContent:file_button");
+                         }
+                     </webuijsf:script>
+                  </webuijsf:head>
+                <webuijsf:body onLoad="setTimeout('setChooserButton();', 0)">
                     <webuijsf:form id="folderForm">
                        
                       <!-- Masthead -->
@@ -106,9 +112,6 @@
                       <f:verbatim><![CDATA[</td></tr></table>]]></f:verbatim>
                       </webuijsf:markup>
                      </webuijsf:contentPageTitle>
-                     <script>
-                         document.getElementById("folderForm:folderContent:folderChooser").setChooseButton("folderForm:folderContent:file_button");
-                     </script>
                     </webuijsf:form>
                 </webuijsf:body> 
             </webuijsf:html>  

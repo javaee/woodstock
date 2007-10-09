@@ -88,7 +88,7 @@ webui.@THEME@.widget.table2RowGroup.prototype.addColumns = function() {
             this.widget.addFragment(headerCellClone,
                 this.widget.getWidgetProps("staticText", {
                     id: headerCellClone.id + "Text",
-                    value: col.headerText,
+                    value: col.headerText
                 }));
             headerVisible = true;
         }
@@ -184,7 +184,7 @@ webui.@THEME@.widget.table2RowGroup.prototype.addRows = function(rows) {
         // New literals are created every time this function is called, and it's 
         // saved by closure magic.
         dijit.byId(_id).resize();
-    }, 10);
+    }, 0);
 
     return true;
 }
@@ -293,7 +293,7 @@ webui.@THEME@.widget.table2RowGroup.prototype.postCreate = function () {
     dojo.connect(this.tableContainer, "onscroll", this, "scroll");
 
     // Resize hack for Moz/Firefox.
-    if (webui.@THEME@.browser.is_nav()) {
+    if (webui.@THEME@.browser.isNav()) {
         dojo.connect(window, "onresize", this, "resize");
     }
     return this.inherited("postCreate", arguments);
@@ -349,21 +349,34 @@ webui.@THEME@.widget.table2RowGroup.prototype.resize = function() {
         }
     }
 
-    // Update heqader & footer position.
+    // Update header & footer position.
     var colHeaderRow = document.getElementById(this.id + "_colHeaderRow");
     var colFooterRow = document.getElementById(this.id + "_colFooterRow");
 
-    if (colHeaderRow) {
-        // Column header height plus offset for border.
-        this.tableContainer.style.marginTop = (colHeaderRow.offsetHeight - 1) + 'px';
-        colHeaderRow.style.top = (this.tableContainer.offsetTop -
-        colHeaderRow.offsetHeight + 1) + 'px';
+    var headerHeight = (colHeaderRow) ? colHeaderRow.offsetHeight : 0;
+    var footerHeight = (colFooterRow) ? colFooterRow.offsetHeight : 0;
 
-        if (colFooterRow) {
-            // Column footer height plus offset for border.
-            this.tableContainer.style.marginBottom = colFooterRow.offsetHeight + 'px';
+    this.tableContainer.style.marginTop = (headerHeight - 1) + 'px';
+    this.tableContainer.style.marginBottom = footerHeight + 'px';
+
+    if (colHeaderRow) {
+        if (webui.@THEME@.browser.isIe7()) {
+            // IE 7 does not account for the column header.
+            colHeaderRow.style.top = (this.tableContainer.offsetTop + 2) + 'px';
+        } else {
+            // Column header height plus offset for border.
+            colHeaderRow.style.top = (this.tableContainer.offsetTop - headerHeight + 1) + 'px';
+        }
+    }
+    if (colFooterRow) {
+        if (webui.@THEME@.browser.isIe7()) {
+            // IE 7 does not account for the column footer.
             colFooterRow.style.top = (this.tableContainer.offsetTop + 
-            this.tableContainer.offsetHeight - 1) + 'px';
+                this.tableContainer.offsetHeight + headerHeight + 2) + 'px';
+        } else {
+            // Column footer height plus offset for border.
+            colFooterRow.style.top = (this.tableContainer.offsetTop + 
+                this.tableContainer.offsetHeight - 1) + 'px';
         }
     }
     return true;
@@ -504,6 +517,20 @@ webui.@THEME@.widget.table2RowGroup.prototype._setProps = function(props) {
         return false;
     }
 
+    // Set properties.
+    if (props.id) { this.domNode.id = props.id; }
+
+    // Set private properties for table widget.
+    if (props._table) {
+        if (props._table.bgColor) { this.table.bgColor = props._table.bgColor; }
+        if (props._table.border) { this.table.border = props._table.border; }
+        if (props._table.cellpadding) { this.table.cellpadding = props._table.cellpadding; }
+        if (props._table.cellspacing) { this.table.cellspacing = props._table.cellspacing; }
+        if (props._table.frame) { this.table.frame = props._table.frame; }
+        if (props._table.rules) { this.table.rules = props._table.rules; }
+        if (props._table.summary) { this.table.summary = props._table.summary; }
+    }
+
     // Add header.
     if (props.headerText) {
         this.widget.addFragment(this.groupHeaderText, props.headerText);
@@ -527,21 +554,8 @@ webui.@THEME@.widget.table2RowGroup.prototype._setProps = function(props) {
         this.widget.removeChildNodes(this.tbody);
         this.addRows(props.rows);
     }
-
-    // Set private properties for table widget.
-    if (props._table) {
-        if (props._table.bgColor) { this.table.bgColor = props._table.bgColor; }
-        if (props._table.border) { this.table.border = props._table.border; }
-        if (props._table.cellpadding) { this.table.cellpadding = props._table.cellpadding; }
-        if (props._table.cellspacing) { this.table.cellspacing = props._table.cellspacing; }
-        if (props._table.frame) { this.table.frame = props._table.frame; }
-        if (props._table.rules) { this.table.rules = props._table.rules; }
-        if (props._table.summary) { this.table.summary = props._table.summary; }
-    }
-    
+   
     // Cannot call "superclass" here because properties are set on each row.
-    if (props.id) { this.domNode.id = props.id; }
-    
     return true;
 }
 

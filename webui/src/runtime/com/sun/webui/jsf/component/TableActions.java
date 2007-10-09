@@ -2190,7 +2190,7 @@ public class TableActions extends UIComponentBase implements NamingContainer {
 
         // Append JS to capture the event.
         StringBuffer buff = new StringBuffer(128)
-            .append("if (") //NOI18N
+            .append("if (event && ") //NOI18N
             .append(keyCode)
             .append("==13) {"); //NOI18N
 

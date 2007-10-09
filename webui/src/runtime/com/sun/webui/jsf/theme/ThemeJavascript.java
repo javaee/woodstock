@@ -122,6 +122,16 @@ public class ThemeJavascript {
     public static final String THEME_MODULE_PATH_UNCOMPRESSED = 
 	"themeModulePathUncompressed";
 
+    /**
+     * A Javascript file that contains webui functions.
+     */
+    public static final String WEBUI = "webui";
+
+    /**
+     * A Javascript file that contains uncompressed webui functions.
+     */
+    public static final String WEBUI_UNCOMPRESSED = "webuiUncompressed";
+
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     // Deprecations
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~

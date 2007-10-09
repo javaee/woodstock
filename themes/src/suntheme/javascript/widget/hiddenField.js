@@ -32,16 +32,16 @@
  */
 dojo.provide("webui.@THEME@.widget.hiddenField");
 
-dojo.require("webui.@THEME@.widget.submitBase");
+dojo.require("webui.@THEME@.widget.widgetBase");
 
 /**
  * This function is used to construct a template based widget.
  *
  * @name webui.@THEME@.widget.hiddenField
- * @inherits webui.@THEME@.widget.submitBase
+ * @inherits webui.@THEME@.widget.widgetBase
  * @constructor
  */
-dojo.declare("webui.@THEME@.widget.hiddenField", webui.@THEME@.widget.submitBase, {
+dojo.declare("webui.@THEME@.widget.hiddenField", webui.@THEME@.widget.widgetBase, {
     // Set defaults.
     disabled: false,
     widgetName: "hiddenField" // Required for theme properties.
@@ -109,20 +109,6 @@ webui.@THEME@.widget.hiddenField.prototype.getProps = function() {
     if (this.value) { props.value = this.value; }
 
     return props;
-}
-
-/**
- * This function is used to fill in remaining template properties, after the
- * buildRendering() function has been processed.
- * <p>
- * Note: Unlike Dojo 0.4, the DOM nodes don't exist in the document, yet. 
- * </p>
- */
-webui.@THEME@.widget.hiddenField.prototype.postCreate = function () {
-    // Set public functions. 
-    this.domNode.submit = function(execute) { return dijit.byId(this.id).submit(execute); }
-
-    return this.inherited("postCreate", arguments);
 }
 
 /**

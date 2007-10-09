@@ -45,7 +45,8 @@ cp $SRC_DIR/$COMPRESSED_FILE $JSON_DIR/$UNCOMPRESSED_FILE
 #
 # Compress jar on given JavaScript directory or file.
 #
-java -jar $TOOLS_JAR -compress -verbose -sourcePath $JSON_DIR/$COMPRESSED_FILE -rhinoJar $RHINO_JAR
+java -jar $TOOLS_JAR -compressJS -verbose \
+     -sourcePath $JSON_DIR/$COMPRESSED_FILE -rhinoJar $RHINO_JAR
 
 #
 # Add copyright

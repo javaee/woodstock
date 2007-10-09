@@ -27,7 +27,7 @@
     columns="50"
     label="#{msgs.table_customFilterLabel}"
     labelLevel="2"
-    onKeyPress="if (event.keyCode==13) {var e=document.getElementById('form1:table1:filterPanel:submit'); if (e != null) e.click(); return false}"
+    onKeyPress="var evt = (event) ? event : window.event; if (evt.keyCode==13) {var e=document.getElementById('form1:table1:filterPanel:submit'); if (e != null) e.click(); return false}"
     text="#{TableBean.groupA.filter.customFilter}"/>
 <webuijsf:markup tag="div" styleClass="#{themeStyles.TABLE_PANEL_BUTTON_DIV}">
   <webuijsf:button id="submit"

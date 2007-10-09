@@ -29,16 +29,16 @@
 dojo.provide("webui.@THEME@.widget.checkedBase");
 
 dojo.require("webui.@THEME@.browser");
-dojo.require("webui.@THEME@.widget.submitBase");
+dojo.require("webui.@THEME@.widget.widgetBase");
 
 /**
  * This function is used to construct a template based widget.
  *
  * @name webui.@THEME@.widget.checkedBase
- * @inherits webui.@THEME@.widget.submitBase
+ * @inherits webui.@THEME@.widget.widgetBase
  * @constructor
  */
-dojo.declare("webui.@THEME@.widget.checkedBase", webui.@THEME@.widget.submitBase, {
+dojo.declare("webui.@THEME@.widget.checkedBase", webui.@THEME@.widget.widgetBase, {
     // Set defaults.
     idSuffix: "" // Overridden by subclass
 });
@@ -139,9 +139,8 @@ webui.@THEME@.widget.checkedBase.prototype.postCreate = function () {
         }
     }
 
-    // Set public functions.        
+    // Set public functions.
     this.domNode.getInputElement = function() { return dijit.byId(this.id).getInputElement(); }
-    this.domNode.submit = function(execute) { return dijit.byId(this.id).submit(execute); }
     
     // Create callback function for onclick event.
     dojo.connect(this.domNode, "onclick", this, "onClickCallback");
@@ -201,7 +200,7 @@ webui.@THEME@.widget.checkedBase.prototype._setProps = function(props) {
         // the HTML input element has been added to the DOM. As a work around, 
         // we shall use a timeout to set the property during initialization.
         if (this.isInitialized() != true &&
-                webui.@THEME@.browser.is_ie()) {
+                webui.@THEME@.browser.isIe()) {
             var _id = this.id;
             setTimeout(function() {
                 // New literals are created every time this function

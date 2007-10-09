@@ -56,7 +56,14 @@ JUNK=`rm -rf $SRC_DIR/org`
 # Test jar on given JavaScript directory or file.
 #
 if [ "$?" -eq 0 ]; then
-    if [ "$1" = "-compress" ]; then
-        java -jar $TOOLS_JAR -compress -verbose -sourcePath $2 -rhinoJar $RHINO_JAR
+    if [ "$1" = "-combineCSS" ]; then
+        java -jar $TOOLS_JAR -combineCSS -verbose \
+             -sourcePath $2 -modulePath $2 -combinedFile $3
+    elif [ "$1" = "-combineJavaScript" ]; then
+        java -jar $TOOLS_JAR -combineJS -verbose \
+             -sourcePath $2 -modulePath $2 -modulePrefix webui.suntheme -combinedFile $3
+    elif [ "$1" = "-compressJavaScript" ]; then
+        java -jar $TOOLS_JAR -compressJS -verbose \
+             -sourcePath $2 -rhinoJar $RHINO_JAR
     fi
 fi

@@ -22,7 +22,6 @@
 package com.sun.webui.jsf.renderkit.widget;
 
 import com.sun.webui.theme.Theme;
-import com.sun.webui.jsf.util.ClientSniffer;
 import com.sun.webui.jsf.util.JSONUtilities;
 import com.sun.webui.jsf.util.JavaScriptUtilities;
 import com.sun.webui.jsf.util.ThemeUtilities;
@@ -99,12 +98,10 @@ abstract public class RendererBase extends Renderer {
         writer.writeAttribute("id", component.getClientId(context), null);
         writer.endElement("span");
 
-        // Note: Leading \n char causes grief with CSS float.
+        // Note: Leading \n char causes grief with CSS float in tree.
 
-        // Render enclosing tag -- must be located after div.
-        writer.startElement("script", component);
-        writer.writeAttribute("type", "text/javascript", null);
-        writer.write("\n");
+        // Render enclosing tag -- must be located after span.
+        JavaScriptUtilities.renderJavaScriptBegin(component, writer, true);
 
         // Render JavaScript to instantiate Dojo widget.
         writer.write(JavaScriptUtilities.getModuleName(
@@ -188,15 +185,9 @@ abstract public class RendererBase extends Renderer {
             return;
         }
 
-        // Defer widget creation to window.onLoad event.
-        ClientSniffer sniffer = ClientSniffer.getInstance(context);        
-        if (sniffer.isIe()) {
-            writer.write(", true");
-        }
-
         // Render enclosing tag.
-        writer.write(");\n");
-        writer.endElement("script");
+        writer.write(");");
+        JavaScriptUtilities.renderJavaScriptEnd(component, writer, true);
 
         // Note: Trailing \n char causes grief with CSS float.
     }

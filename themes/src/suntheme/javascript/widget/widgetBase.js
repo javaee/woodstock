@@ -69,6 +69,14 @@
  * The startup() function is typically called after the widget has been 
  * instantiated. For example, a progressBar might start a timer to periodically
  * refresh. 
+ * <p></p>
+ * Warning: It's not possible to append HTML elements from script that is 
+ * not a direct child of the BODY element. If there is any Javascript
+ * running inside the body that is a direct child of body, IE will throw
+ * an "Internet Explorer cannot open the Internet site" error. For example,
+ * dijit._Templated._createNodesFromText generates such an error by calling
+ * appendChild(). Therefore, widget creation must be deferred to the
+ * window.onLoad event. See http://trac.dojotoolkit.org/ticket/4631
  * </p>
  *
  * @example The following function is used to create a feature-rich constructor
@@ -84,6 +92,7 @@ dojo.require("dijit._Templated");
 dojo.require("webui.@THEME@.common");
 dojo.require("webui.@THEME@.theme.common");
 dojo.require("webui.@THEME@.widget.common");
+dojo.require("webui.@THEME@.widget.eventBase");
 
 /**
  * This function is used to construct a template based widget.
@@ -91,7 +100,8 @@ dojo.require("webui.@THEME@.widget.common");
  * @name webui.@THEME@.widget.widgetBase
  * @constructor
  */
-dojo.declare("webui.@THEME@.widget.widgetBase", [dijit._Widget, dijit._Templated], {
+dojo.declare("webui.@THEME@.widget.widgetBase", 
+        [dijit._Widget, dijit._Templated, webui.@THEME@.widget.eventBase], {
     // Note: If your class contains arrays or other objects, they should be
     // declared in the constructor function so that each instance gets it's own
     // copy. Simple types (literal strings and numbers) are fine to declare in 
@@ -101,20 +111,6 @@ dojo.declare("webui.@THEME@.widget.widgetBase", [dijit._Widget, dijit._Templated
     theme: webui.@THEME@.theme.common, // Common theme utils.
     widget: webui.@THEME@.widget.common // Common widget utils. 
 });
-
-/**
- * This function is used to include default Ajax functionality. Before the given
- * module is included in the page, a test is performed to ensure that the 
- * default Ajax implementation is being used.
- */
-webui.@THEME@.widget.widgetBase.prototype.ajaxify = function() {
-    // To do: Get module from the theme.
-    if (webui.@THEME@.widget.jsfx) {
-        dojo.require("webui.@THEME@.widget.jsfx." + this.widgetName);
-        return true;
-    }
-    return false;
-}
 
 /**
  * This function is used to render the widget from a template.
@@ -258,34 +254,16 @@ webui.@THEME@.widget.widgetBase.prototype.postCreate = function () {
 
     // Set public functions.
     this.domNode.getProps = function() { return dijit.byId(_id).getProps(); }
-    this.domNode.refresh = function(execute) { return dijit.byId(_id).refresh(execute); }
     this.domNode.setProps = function(props, notify) { return dijit.byId(_id).setProps(props, notify); }
+
+    // Initialize refresh(), stateChanged(), and submit().
+    this.initFunctions();
 
     // Set properties.
     this._setProps(this.getProps());
 
     // All widget properties have been set.
     return this.initialized = true;
-}
-
-/**
- * Process refresh event.
- *
- * @param {String} execute The string containing a comma separated list 
- * of client ids against which the execute portion of the request 
- * processing lifecycle must be run.
- */
-webui.@THEME@.widget.widgetBase.prototype.refresh = function(execute) {
-    // Include default AJAX implementation.
-    this.ajaxify();
-
-    // Publish an event for custom AJAX implementations to listen for.
-    dojo.publish(this.event.refresh.beginTopic, [{
-        id: this.id,
-        execute: execute,
-        endTopic: this.event.refresh.endTopic
-    }]);
-    return true;
 }
 
 /**
@@ -485,7 +463,8 @@ webui.@THEME@.widget.widgetBase.prototype.setProps = function(props, notify) {
     this._setProps(props);
 
     // Notify listeners state has changed.
-    if (new Boolean(notify).valueOf() == true) {
+    if (new Boolean(notify).valueOf() == true &&
+            typeof this.stateChanged == "function") {
         this.stateChanged(props);
     }
     return true;
@@ -523,22 +502,4 @@ webui.@THEME@.widget.widgetBase.prototype.startup = function () {
     }
     this.inherited("startup", arguments);
     return this._started = true;
-}
-
-/**
- * Process state change event.
- *
- * @param {Object} props Key-Value pairs of widget properties to update.
- */
-webui.@THEME@.widget.widgetBase.prototype.stateChanged = function(props) {
-    // Include default AJAX implementation.
-    this.ajaxify();
-
-    // Publish an event for custom AJAX implementations to listen for.
-    dojo.publish(this.event.state.beginTopic, [{
-        id: this.id,
-        endTopic: this.event.state.endTopic,
-        props: props
-    }]);
-    return true;
 }
