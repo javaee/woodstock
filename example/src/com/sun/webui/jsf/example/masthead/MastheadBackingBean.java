@@ -47,7 +47,7 @@ public class MastheadBackingBean implements Serializable {
     // Holds the severity of Alarms clicked.
     private String severity = null;
     // Contains the value of number of jobs that are running.
-    private String jobsRunning = "Jobs Running: 2";
+    private String jobsRunning = MessageUtil.getMessage("masthead_jobsrunning");
     // The outcome strings used in the faces config file
     private static final String MASTHEAD_INDEX = "showMasthead";
     private static final String MASTHEAD1 = "showMasthead1";
