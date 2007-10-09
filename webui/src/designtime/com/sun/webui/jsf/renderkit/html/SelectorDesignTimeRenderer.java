@@ -144,7 +144,7 @@ public abstract class SelectorDesignTimeRenderer extends AbstractDesignTimeRende
                 // Give a place holder for the label in the designer
                 ValueBinding labelBinding = selector.getValueBinding("label");
                 if (labelBinding != null) {
-                    selector.setLabel("Label:");
+                    selector.setLabel("abc");
                 }
             }
             super.encodeBegin(context, component);
