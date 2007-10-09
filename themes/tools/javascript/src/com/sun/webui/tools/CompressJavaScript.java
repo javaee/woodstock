@@ -49,8 +49,6 @@ public class CompressJavaScript {
      * @param sourcePath Path to JavaScript directory or file.
      */
     public void compress(String sourcePath) throws IOException {
-        // Ant adds ./ in the path.
-        sourcePath = sourcePath.replaceAll("\\./", "");
         compressDir(sourcePath);
         pruneDir(sourcePath);
     }

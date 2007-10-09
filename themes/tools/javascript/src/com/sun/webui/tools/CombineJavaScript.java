@@ -46,10 +46,14 @@ public class CombineJavaScript {
      */
     public CombineJavaScript(String combinedFile, String modulePath, 
             String modulePrefix, boolean verbose) {
-	this.combinedFile = combinedFile;
-	this.modulePath = new File(modulePath).getAbsolutePath();
-	this.modulePrefix = modulePrefix;
-        this.verbose = verbose;
+        try {
+            this.combinedFile = combinedFile;
+            this.modulePath = new File(modulePath).getCanonicalPath();
+            this.modulePrefix = modulePrefix;
+            this.verbose = verbose;
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     /**
@@ -58,8 +62,7 @@ public class CombineJavaScript {
      * @param sourcePath Path to JavaScript directory or file.
      */
     public void combine(String sourcePath) throws IOException {
-        // Ant adds ./ in the path.
-        combineDir(sourcePath.replaceAll("\\./", ""));
+        combineDir(sourcePath);
     }
 
     /**
@@ -68,10 +71,10 @@ public class CombineJavaScript {
      * @param file The JavaScript file to combine.
      */
     private void combineFile(File file) throws IOException {
-	if (combinedFiles.contains(file.getAbsolutePath())) {
+	if (combinedFiles.contains(file.getCanonicalPath())) {
 	    return;
 	}
-	combinedFiles.add(file.getAbsolutePath());
+	combinedFiles.add(file.getCanonicalPath());
 
 	// Create buffer to hold file contents.
         StringBuffer buff = new StringBuffer();
@@ -91,15 +94,14 @@ public class CombineJavaScript {
 		}
 		// Append required module.
 		if (line.indexOf("dojo.require(\"" + modulePrefix) == 0) {
-		    int first = line.indexOf("\"");
+                    int first = line.indexOf("\"") + modulePrefix.length();
 		    int last = line.indexOf("\"", first + 1);
 
 		    // Get module file name.
-                    String fileName = line.substring(first + 1, last).
-			replaceAll(modulePrefix, modulePath).
-			replace('.', File.separatorChar) + ".js";
+                    String fileName = line.substring(first + 1, last)
+                        .replace('.', File.separatorChar) + ".js";
 
-		    combineFile(new File(fileName));
+		    combineFile(new File(modulePath + fileName));
 		} else {
                	    buff.append(line);
                     buff.append(System.getProperty("line.separator"));
@@ -126,7 +128,7 @@ public class CombineJavaScript {
 	    }
         }
 	if (verbose) {
-	    System.out.println("Combined JavaScript file '" + file.getAbsolutePath() + "'");
+	    System.out.println("Combined JavaScript file '" + file.getCanonicalPath() + "'");
 	}
     }
 

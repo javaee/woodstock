@@ -27,9 +27,11 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
+import java.util.ArrayList;
 
 public class CombineCSS {
     private String combinedFile = null;
+    private ArrayList combinedFiles = new ArrayList();
     private String modulePath = null;
     private boolean verbose = false;
 
@@ -41,9 +43,13 @@ public class CombineCSS {
      * @param verbose Enable verbose output.
      */
     public CombineCSS(String combinedFile, String modulePath, boolean verbose) {
-	this.combinedFile = combinedFile;
-	this.modulePath = new File(modulePath).getAbsolutePath();
-        this.verbose = verbose;
+        try {
+            this.combinedFile = combinedFile;
+            this.modulePath = new File(modulePath).getCanonicalPath();
+            this.verbose = verbose;
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     /**
@@ -52,8 +58,7 @@ public class CombineCSS {
      * @param sourcePath Path to JavaScript directory or file.
      */
     public void combine(String sourcePath) throws IOException {
-        // Ant adds ./ in the path which throws off the combinedFiles array.
-        combineDir(sourcePath.replaceAll("\\./", ""));
+        combineDir(sourcePath);
     }
 
     /**
@@ -62,6 +67,11 @@ public class CombineCSS {
      * @param file The JavaScript file to combine.
      */
     private void combineFile(File file) throws IOException {
+	if (combinedFiles.contains(file.getCanonicalPath())) {
+	    return;
+	}
+	combinedFiles.add(file.getCanonicalPath());
+
 	// Create buffer to hold file contents.
         StringBuffer buff = new StringBuffer();
         BufferedReader input = null;
@@ -117,7 +127,7 @@ public class CombineCSS {
 	    }
         }
 	if (verbose) {
-	    System.out.println("Combined CSS file '" + file.getAbsolutePath() + "'");
+	    System.out.println("Combined CSS file '" + file.getCanonicalPath() + "'");
 	}
     }
 
