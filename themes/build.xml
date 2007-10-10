@@ -45,9 +45,6 @@
     <property name="build" value="./build"/>
     <property name="src" value="./src"/>
     <property name="tools" value="${basedir}/../tools"/>
-    <!--
-    <property name="tools" value="${basedir}/tools"/>
-    -->
     <property name="l10n" value="./l10n"/>
     
     <!-- Building a theme now depends on webui-jsf.jar 
@@ -63,12 +60,6 @@
               value="${tools}/lib/woodstock-tools.jar"/>
     <property name="rhino.jar"
               value="${tools}/lib/custom_rhino.jar"/>
-    <!--
-    <property name="tools.jar"
-              value="${tools}/javascript/tools.jar"/>
-    <property name="rhino.jar"
-              value="${tools}/javascript/custom_rhino.jar"/>
-    -->
 
     <property name="master.css"
               value="css_master.css"/>
