@@ -207,7 +207,7 @@ webui.@THEME@.widget.common = {
             widget = new obj(props, (position) ? null : domNode);
         } catch (err) {
             var message = "Error: createWidget falied for id=" + props.id;
-            if (err.description != null) {
+            if (err && err.description != null) {
                 message += ", " + err.description;
             }
             console.debug(message); // See Firebug console.

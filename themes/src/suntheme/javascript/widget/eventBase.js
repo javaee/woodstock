@@ -28,13 +28,17 @@
  */
 dojo.provide("webui.@THEME@.widget.eventBase");
 
+dojo.require("dijit._Widget"); 
+dojo.require("dijit._Templated"); 
+
 /**
  * This function is used to construct a template based widget.
  *
  * @name webui.@THEME@.widget.eventBase
+ * @inherits dijit._Widget, dijit._Templated
  * @constructor
  */
-dojo.declare("webui.@THEME@.widget.eventBase");
+dojo.declare("webui.@THEME@.widget.eventBase", [dijit._Widget, dijit._Templated]);
 
 /**
  * This function is used to include default Ajax functionality. Before the given
@@ -108,7 +112,7 @@ webui.@THEME@.widget.eventBase.prototype.event =
  * private functions with the names; refresh, stateChanged, or submit.
  * </p>
  */
-webui.@THEME@.widget.eventBase.prototype.initFunctions = function (props) {
+webui.@THEME@.widget.eventBase.prototype.initFunctions = function () {
     if (this.event == null) {
         return false;
     }

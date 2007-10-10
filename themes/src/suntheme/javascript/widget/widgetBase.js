@@ -87,8 +87,6 @@
  */
 dojo.provide("webui.@THEME@.widget.widgetBase");
  
-dojo.require("dijit._Widget"); 
-dojo.require("dijit._Templated"); 
 dojo.require("webui.@THEME@.common");
 dojo.require("webui.@THEME@.theme.common");
 dojo.require("webui.@THEME@.widget.common");
@@ -98,10 +96,10 @@ dojo.require("webui.@THEME@.widget.eventBase");
  * This function is used to construct a template based widget.
  *
  * @name webui.@THEME@.widget.widgetBase
+ * @inherits webui.@THEME@.widget.eventBase
  * @constructor
  */
-dojo.declare("webui.@THEME@.widget.widgetBase", 
-        [dijit._Widget, dijit._Templated, webui.@THEME@.widget.eventBase], {
+dojo.declare("webui.@THEME@.widget.widgetBase", webui.@THEME@.widget.eventBase, {
     // Note: If your class contains arrays or other objects, they should be
     // declared in the constructor function so that each instance gets it's own
     // copy. Simple types (literal strings and numbers) are fine to declare in 
