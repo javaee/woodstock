@@ -27,7 +27,10 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
+
 import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.TreeSet;
 
 public class CombineCSS {
     private String combinedFile = null;
@@ -139,11 +142,17 @@ public class CombineCSS {
     private void combineDir(String sourcePath) throws IOException {
         File file = new File(sourcePath);
         if (file.isDirectory()) {
+            TreeSet ts = new TreeSet();
             String[] fileNames = file.list();
             for (int i = 0; i < fileNames.length; i++) {
                 String fileName = file.getAbsolutePath() + 
                     File.separator + fileNames[i];
-                combineDir(fileName);
+                ts.add(fileName);
+            }
+            // Call files in alphabetical order for consistency.
+            Iterator files = ts.iterator();
+            while (files.hasNext()) {
+                combineDir((String) files.next());
             }
         } else {
             combineFile(file);
