@@ -28,352 +28,574 @@
 </head>
 <body>
 <h1><u>Woodstock 4.1 JSF Components Release Notes</u></h1>
-<p>&nbsp;</p>
+<p><br>
+</p>
+<h2><u><a name="4.1_Build_14">4.1 Build 14</a></u>&nbsp; (10/12/2007)</h2>
+<h3> New Features</h3>
+<ul>
+  <li>Woodstock is now based on Dojo .9. Please see the <a
+ target="_blank"
+ href="http://www.dojotoolkit.org/book/dojo-porting-guide-0-4-x-0-9">Dojo
+Porting Guide</a> for a list of changes.</li>
+  <ul>
+    <li>Widget creation is now deferred to the window.onLoad event.
+Therefore, if you have written JavaScript within the body tag like so:<br>
+      <br>
+      <code>&lt;html&gt;
+      <br>
+&nbsp;&lt;head&gt;&lt;/head&gt;
+      <br>
+&nbsp;&lt;body&gt;
+      <br>
+&nbsp;&nbsp; &lt;form&gt;
+      <br>
+&nbsp;&nbsp;&nbsp;&nbsp; &lt;script&gt;
+      <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; var domNode =
+document.getElementById("fileForm:chooserContentPage:fileChooser");
+      <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+domNode.setChooseButton("fileForm:chooserContentPage:file_button");
+      <br>
+&nbsp;&nbsp;&nbsp;&nbsp; &lt;/script&gt;
+      <br>
+&nbsp;&nbsp; &lt;/form&gt;
+      <br>
+&nbsp;&lt;/body&gt;
+      <br>
+&lt;/html&gt;
+      </code><br>
+      <br>
+You should rewrite the code above as:
+      <br>
+      <br>
+      <code>&lt;html&gt;
+      <br>
+&nbsp;&lt;head&gt;
+      <br>
+&nbsp;&nbsp;&nbsp;&nbsp; &lt;script&gt;
+      <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; function init() {
+      <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; var domNode =
+document.getElementById("fileForm:chooserContentPage:fileChooser");
+      <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+domNode.setChooseButton("fileForm:chooserContentPage:file_button");
+      <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; }
+      <br>
+&nbsp;&nbsp;&nbsp;&nbsp; &lt;/script&gt;
+      <br>
+&nbsp;&lt;/head&gt;
+      <br>
+&nbsp;&lt;body onLoad="setTimeout('init();', 0);"&gt;
+      <br>
+&nbsp;&nbsp; &lt;form&gt;&lt;/form&gt;
+      <br>
+&nbsp;&lt;/body&gt;
+      <br>
+&lt;/html&gt;
+      </code><br>
+      <br>
+The setTimeout statement may not be required, but it ensures your
+JavaScript is run after all HTML elements have been add to the DOM.
+      <br>
+      <br>
+    </li>
+  </ul>
+  <li>Woodstock gets a performance boost. In combination with Dojo .9,
+we've implemented the following improvments.</li>
+  <ul>
+    <li>Combined all JavaScript in a single file.</li>
+    <li>Combined common CSS in a single file.</li>
+    <li>All JavaScript files are compressed using Dojo's ShrinkSafe
+approach.</li>
+    <li>Added extra compression by removing all line breaks from
+JavaScript.</li>
+    <li>Third party JavaScript for JSON, Prototype, and Dynamic Faces
+are also compressed.<br>
+    </li>
+    <li>The <code>&lt;webuijsf:body&gt;</code> tag moves all Woodstock
+JavaScript to a single window.onLoad event.</li>
+    <li>JSON text is not "pretty printed" when debug mode is false.</li>
+    <li>Instead of generating requests for HTML template files, strings
+are embedded in JavaScript.</li>
+  </ul>
+</ul>
 <h2><u><a name="4.1_Build_13">4.1 Build 13</a></u>&nbsp; (09/28/2007)</h2>
 <h3> New Features</h3>
 <ul>
-  <li> Accordion Component now has Design Time added for support in NetBeans 6.</li>
-	<li> PopupMenu Component now has Design Time added for support in NetBeans 
-	6.</li>
-  </ul>
+  <li> Accordion Component now has Design Time added for support in
+NetBeans 6.</li>
+  <li> PopupMenu Component now has Design Time added for support in
+NetBeans 6.</li>
+</ul>
 <h3>Calendar Changes </h3>
 <ul>
-<li>
- The Calendar component's getDatePickerLink method has been deprecated. The DATE_PICKER_LINK facet is now obtained in the html CalendarRenderer and if a facet is not specified, the newly created imageHyperlink is not added to the facet map. Also, the renderer no more applies the enabled image to the obtained facet as it did before.
-</li>
+  <li> The Calendar component's getDatePickerLink method has been
+deprecated. The DATE_PICKER_LINK facet is now obtained in the html
+CalendarRenderer and if a facet is not specified, the newly created
+imageHyperlink is not added to the facet map. Also, the renderer no
+more applies the enabled image to the obtained facet as it did before.
+  </li>
 </ul>
 <h3>Bugs Resolved/Fixed</h3>
 <ul>
-  <li><a href="https://woodstock.dev.java.net/issues/show_bug.cgi?id=666">Issue 
-	#666</a> - Design Time support for PopupMenu</li>
-	<li><a href="https://woodstock.dev.java.net/issues/show_bug.cgi?id=770">Issue 
-	#770</a> - Themes build is not proper if directory name contains a &quot;.&quot;</li>
-	<li><a href="https://woodstock.dev.java.net/issues/show_bug.cgi?id=715">Issue 
-	#715</a> - SWAED: Example issue only: example against guidelines puts up 
-	dynamic validation error on empty fields</li>
-	<li><a href="https://woodstock.dev.java.net/issues/show_bug.cgi?id=671">Issue 
-	#671</a> - anchor &amp; hyperlink: Client-side work</li>
-	<li><a href="https://woodstock.dev.java.net/issues/show_bug.cgi?id=673">Issue 
-	#673</a> - calendar &amp; calendarField: Client-side twork</li>
-	<li><a href="https://woodstock.dev.java.net/issues/show_bug.cgi?id=453">Issue 
-	#453</a> - CALENDAR: Only one calendar should be up at a time</li>
-	<li><a href="https://woodstock.dev.java.net/issues/show_bug.cgi?id=748">Issue 
-	#748</a> - Windows:Add Remove Buttons misaligned in vertical orientation</li>
-	<li><a href="https://woodstock.dev.java.net/issues/show_bug.cgi?id=778">Issue 
-	#778</a> - NPE in getTaskState of ProgressBar</li>
-	<li><a href="https://woodstock.dev.java.net/issues/show_bug.cgi?id=779">Issue 
-	#779</a> - bubble help styles need adjustments</li>
-	<li><a href="https://woodstock.dev.java.net/issues/show_bug.cgi?id=368">Issue 
-	#368</a> - PropertySheet - jumplinks displayed for PropertySheetSection's 
-	with &quot;isVisible == false&quot;</li>
-	<li><a href="https://woodstock.dev.java.net/issues/show_bug.cgi?id=719">Issue 
-	#719</a> - designtime: readonly upload renders empty square</li>
-	<li><a href="https://woodstock.dev.java.net/issues/show_bug.cgi?id=761">Issue 
-	#761</a> - Designtime: 100% CPU after icon Busy/Indeterminate</li>
-	<li><a href="https://woodstock.dev.java.net/issues/show_bug.cgi?id=693">Issue 
-	#693</a> - Invalid argument exception</li>
-	<li><a href="https://woodstock.dev.java.net/issues/show_bug.cgi?id=781">Issue 
-	#781</a> - Required indicator legend needed for EditableList example</li>
-	<li><a href="https://woodstock.dev.java.net/issues/show_bug.cgi?id=688">Issue 
-	#688</a> - Designtime: Disabled calendar looses helptext and icon</li>
-	<li><a href="https://woodstock.dev.java.net/issues/show_bug.cgi?id=432">Issue 
-	#432</a> - ACCESSIBILITY: calendar (popup) needs to keep keyboard focus 
-	within it.</li>
-	<li><a href="https://woodstock.dev.java.net/issues/show_bug.cgi?id=369">Issue 
-	#369</a> - Property sheet renders image component whose ID is not set</li>
-	<li><a href="https://woodstock.dev.java.net/issues/show_bug.cgi?id=783">Issue 
-	#783</a> - date in textfield of calendar does not show up in popup calendar</li>
-	<li><a href="https://woodstock.dev.java.net/issues/show_bug.cgi?id=679">Issue 
-	#679</a> - ProgressBar: Client-side work</li>
-	<li><a href="https://woodstock.dev.java.net/issues/show_bug.cgi?id=736">Issue 
-	#736</a> - designtime: progress Image url takes renders incorrectly for BUSY</li>
-	<li><a href="https://woodstock.dev.java.net/issues/show_bug.cgi?id=668">Issue 
-	#668</a> - accordion &amp; accordionTab: Client-side work</li>
-	<li><a href="https://woodstock.dev.java.net/issues/show_bug.cgi?id=409">Issue 
-	#409</a> - Session Data Lost in Internet Explorer (Scroll cookie issue)</li>
-	<li><a href="https://woodstock.dev.java.net/issues/show_bug.cgi?id=277">Issue 
-	#277</a> - Has not effect on color if labelLevel is set to strong or medium</li>
-	<li><a href="https://woodstock.dev.java.net/issues/show_bug.cgi?id=47">Issue 
-	#47</a> - table:table column/table width does not work properly.<br>
+  <li><a
+ href="https://woodstock.dev.java.net/issues/show_bug.cgi?id=666">Issue
+#666</a> - Design Time support for PopupMenu</li>
+  <li><a
+ href="https://woodstock.dev.java.net/issues/show_bug.cgi?id=770">Issue
+#770</a> - Themes build is not proper if directory name contains a "."</li>
+  <li><a
+ href="https://woodstock.dev.java.net/issues/show_bug.cgi?id=715">Issue
+#715</a> - SWAED: Example issue only: example against guidelines puts
+up dynamic validation error on empty fields</li>
+  <li><a
+ href="https://woodstock.dev.java.net/issues/show_bug.cgi?id=671">Issue
+#671</a> - anchor &amp; hyperlink: Client-side work</li>
+  <li><a
+ href="https://woodstock.dev.java.net/issues/show_bug.cgi?id=673">Issue
+#673</a> - calendar &amp; calendarField: Client-side twork</li>
+  <li><a
+ href="https://woodstock.dev.java.net/issues/show_bug.cgi?id=453">Issue
+#453</a> - CALENDAR: Only one calendar should be up at a time</li>
+  <li><a
+ href="https://woodstock.dev.java.net/issues/show_bug.cgi?id=748">Issue
+#748</a> - Windows:Add Remove Buttons misaligned in vertical orientation</li>
+  <li><a
+ href="https://woodstock.dev.java.net/issues/show_bug.cgi?id=778">Issue
+#778</a> - NPE in getTaskState of ProgressBar</li>
+  <li><a
+ href="https://woodstock.dev.java.net/issues/show_bug.cgi?id=779">Issue
+#779</a> - bubble help styles need adjustments</li>
+  <li><a
+ href="https://woodstock.dev.java.net/issues/show_bug.cgi?id=368">Issue
+#368</a> - PropertySheet - jumplinks displayed for
+PropertySheetSection's with "isVisible == false"</li>
+  <li><a
+ href="https://woodstock.dev.java.net/issues/show_bug.cgi?id=719">Issue
+#719</a> - designtime: readonly upload renders empty square</li>
+  <li><a
+ href="https://woodstock.dev.java.net/issues/show_bug.cgi?id=761">Issue
+#761</a> - Designtime: 100% CPU after icon Busy/Indeterminate</li>
+  <li><a
+ href="https://woodstock.dev.java.net/issues/show_bug.cgi?id=693">Issue
+#693</a> - Invalid argument exception</li>
+  <li><a
+ href="https://woodstock.dev.java.net/issues/show_bug.cgi?id=781">Issue
+#781</a> - Required indicator legend needed for EditableList example</li>
+  <li><a
+ href="https://woodstock.dev.java.net/issues/show_bug.cgi?id=688">Issue
+#688</a> - Designtime: Disabled calendar looses helptext and icon</li>
+  <li><a
+ href="https://woodstock.dev.java.net/issues/show_bug.cgi?id=432">Issue
+#432</a> - ACCESSIBILITY: calendar (popup) needs to keep keyboard focus
+within it.</li>
+  <li><a
+ href="https://woodstock.dev.java.net/issues/show_bug.cgi?id=369">Issue
+#369</a> - Property sheet renders image component whose ID is not set</li>
+  <li><a
+ href="https://woodstock.dev.java.net/issues/show_bug.cgi?id=783">Issue
+#783</a> - date in textfield of calendar does not show up in popup
+calendar</li>
+  <li><a
+ href="https://woodstock.dev.java.net/issues/show_bug.cgi?id=679">Issue
+#679</a> - ProgressBar: Client-side work</li>
+  <li><a
+ href="https://woodstock.dev.java.net/issues/show_bug.cgi?id=736">Issue
+#736</a> - designtime: progress Image url takes renders incorrectly for
+BUSY</li>
+  <li><a
+ href="https://woodstock.dev.java.net/issues/show_bug.cgi?id=668">Issue
+#668</a> - accordion &amp; accordionTab: Client-side work</li>
+  <li><a
+ href="https://woodstock.dev.java.net/issues/show_bug.cgi?id=409">Issue
+#409</a> - Session Data Lost in Internet Explorer (Scroll cookie issue)</li>
+  <li><a
+ href="https://woodstock.dev.java.net/issues/show_bug.cgi?id=277">Issue
+#277</a> - Has not effect on color if labelLevel is set to strong or
+medium</li>
+  <li><a href="https://woodstock.dev.java.net/issues/show_bug.cgi?id=47">Issue
+#47</a> - table:table column/table width does not work properly.<br>
 &nbsp;</li>
 </ul>
-
-<h2><u><a name="4.1_Build_12">4.1 Build 12</a></u>&nbsp; (09/14/2007)<h3> Themes </h3>
+<h2><u><a name="4.1_Build_12">4.1 Build 12</a></u>&nbsp; (09/14/2007)</h2>
+<h3> Themes </h3>
 <ul>
-<li>A new CSS style selector "CalPopTxt@THEME_CSS@" with public interface CALENDAR_HELP_ROW has been added for the calendar component. This enables the help text to wrap around and stay within the confines of the width of the text field if the help text is too long.</li>
+  <li>A new CSS style selector "CalPopTxt@THEME_CSS@" with public
+interface CALENDAR_HELP_ROW has been added for the calendar component.
+This enables the help text to wrap around and stay within the confines
+of the width of the text field if the help text is too long.</li>
 </ul>
 <h3>Bugs Resolved/Fixed</h3>
 <ul>
-  <li> <a href="http://woodstock.dev.java.net/issues/show_bug.cgi?id=200">Issue 
-	#200</a> - Misc UI issues with TabSet example</li>
-  <li> <a href="http://woodstock.dev.java.net/issues/show_bug.cgi?id=665">Issue 
-	#665</a> - Design-time support needed for BubbleHelp</li>
-  <li> <a href="http://woodstock.dev.java.net/issues/show_bug.cgi?id=206">Issue 
-	#206</a> - errors found in dropdown's tld</li>
-  <li> <a href="http://woodstock.dev.java.net/issues/show_bug.cgi?id=209">Issue 
-	#209</a> - Pattern help dissappears after changing pattern</li>
-  <li> <a href="http://woodstock.dev.java.net/issues/show_bug.cgi?id=74">Issue 
-	#74</a> - calendar component required attribute not working</li>
-  <li> <a href="http://woodstock.dev.java.net/issues/show_bug.cgi?id=680">Issue 
-	#680</a> - table color specification updates from branding</li>
-  <li> <a href="http://woodstock.dev.java.net/issues/show_bug.cgi?id=659">Issue 
-	#659</a> - Menu needs to recalculate width each time options are changed</li>
-  <li> <a href="http://woodstock.dev.java.net/issues/show_bug.cgi?id=744">Issue 
-	#744</a> - SWAED: Large blank gap on left of popup menu</li>
-  <li> <a href="http://woodstock.dev.java.net/issues/show_bug.cgi?id=705">Issue 
-	#705</a> - Checkbox Group does not honor columns property</li>
-  <li> <a href="http://woodstock.dev.java.net/issues/show_bug.cgi?id=745">Issue 
-	#745</a> - Example-&gt; button is not enabled when checkbox is selected</li>
-	<li><a href="http://www.netbeans.org/issues/show_bug.cgi?id=113693">NB 
-	#113693</a> - Adding a query criteria changes Table binding</li>
-	<li><a href="http://www.netbeans.org/issues/show_bug.cgi?id=115387">NB 
-	#115387</a> - Handle changes in row group's sourceData and wrapped data more 
-	appropriately/flexibly</li>
+  <li> <a
+ href="http://woodstock.dev.java.net/issues/show_bug.cgi?id=200">Issue
+#200</a> - Misc UI issues with TabSet example</li>
+  <li> <a
+ href="http://woodstock.dev.java.net/issues/show_bug.cgi?id=665">Issue
+#665</a> - Design-time support needed for BubbleHelp</li>
+  <li> <a
+ href="http://woodstock.dev.java.net/issues/show_bug.cgi?id=206">Issue
+#206</a> - errors found in dropdown's tld</li>
+  <li> <a
+ href="http://woodstock.dev.java.net/issues/show_bug.cgi?id=209">Issue
+#209</a> - Pattern help dissappears after changing pattern</li>
+  <li> <a
+ href="http://woodstock.dev.java.net/issues/show_bug.cgi?id=74">Issue
+#74</a> - calendar component required attribute not working</li>
+  <li> <a
+ href="http://woodstock.dev.java.net/issues/show_bug.cgi?id=680">Issue
+#680</a> - table color specification updates from branding</li>
+  <li> <a
+ href="http://woodstock.dev.java.net/issues/show_bug.cgi?id=659">Issue
+#659</a> - Menu needs to recalculate width each time options are changed</li>
+  <li> <a
+ href="http://woodstock.dev.java.net/issues/show_bug.cgi?id=744">Issue
+#744</a> - SWAED: Large blank gap on left of popup menu</li>
+  <li> <a
+ href="http://woodstock.dev.java.net/issues/show_bug.cgi?id=705">Issue
+#705</a> - Checkbox Group does not honor columns property</li>
+  <li> <a
+ href="http://woodstock.dev.java.net/issues/show_bug.cgi?id=745">Issue
+#745</a> - Example-&gt; button is not enabled when checkbox is selected</li>
+  <li><a href="http://www.netbeans.org/issues/show_bug.cgi?id=113693">NB
+#113693</a> - Adding a query criteria changes Table binding</li>
+  <li><a href="http://www.netbeans.org/issues/show_bug.cgi?id=115387">NB
+#115387</a> - Handle changes in row group's sourceData and wrapped data
+more appropriately/flexibly</li>
 </ul>
 <p>&nbsp;</p>
 <h2><u><a name="4.1_Build_11">4.1 Build 11</a></u>&nbsp; (08/31/2007)</h2>
 <h3> New Features</h3>
 <ul>
   <li> New PopupMenu Example</li>
-	<li> New CommonTasksPage and EditableFields Test Specifications on the
-	<a href="https://woodstock.dev.java.net/Documentation.htm">Documentation 
-	page</a>.</li>
-  </ul>
+  <li> New CommonTasksPage and EditableFields Test Specifications on
+the <a href="https://woodstock.dev.java.net/Documentation.htm">Documentation
+page</a>.</li>
+</ul>
 <h3>Bugs Resolved/Fixed</h3>
 <ul>
-  <li> <a href="http://woodstock.dev.java.net/issues/show_bug.cgi?id=605">Issue 
-	#605</a> - Refresh feature does not work with calendar widget</li>
-  <li> <a href="http://woodstock.dev.java.net/issues/show_bug.cgi?id=662">Issue 
-	#662</a> - color specification updates from branding for accordion, bubble, 
-	menu</li>
-  <li> <a href="http://woodstock.dev.java.net/issues/show_bug.cgi?id=198">Issue 
-	#198</a> - Misc UI issues with clientsideCheckbox example</li>
-  <li> <a href="http://woodstock.dev.java.net/issues/show_bug.cgi?id=561">Issue 
-	#561</a> - upload component cannot handle multibyte char filename</li>
-  <li> <a href="http://woodstock.dev.java.net/issues/show_bug.cgi?id=654">Issue 
-	#654</a> - SWAED: top corners missing borders</li>
-  <li> <a href="http://woodstock.dev.java.net/issues/show_bug.cgi?id=544">Issue 
-	#544</a> - Example app --&gt; Checkbox and RadioButton Index-&gt; Client side 
-	radiobutton and checkbox group example-&gt; The lables get changed along with 
-	size</li>
-  <li> <a href="http://woodstock.dev.java.net/issues/show_bug.cgi?id=647">Issue 
-	#647</a> - Incorrect use Primary and secondary buttons in components</li>
-  <li> <a href="http://woodstock.dev.java.net/issues/show_bug.cgi?id=280">Issue 
-	#280</a> - Calendar renders under other components on IE 6 &amp; 7</li>
-  <li> <a href="http://woodstock.dev.java.net/issues/show_bug.cgi?id=560">Issue 
-	#560</a> - Disabled calendar hides help text and toggle icon</li>
-  <li> <a href="http://woodstock.dev.java.net/issues/show_bug.cgi?id=684">Issue 
-	#684</a> - IE7:Page Cotains Script Errors</li>
-  <li> <a href="http://woodstock.dev.java.net/issues/show_bug.cgi?id=269">Issue 
-	#269</a> - Add required indicator legend to all examples having required 
-	fields</li>
-  <li> <a href="http://woodstock.dev.java.net/issues/show_bug.cgi?id=199">Issue 
-	#199</a> - Misc UI issues with client-side RadioButton example</li>
-  <li> <a href="http://woodstock.dev.java.net/issues/show_bug.cgi?id=92">Issue 
-	#92</a> - drop down menu of test cases has error</li>
-  <li> <a href="http://woodstock.dev.java.net/issues/show_bug.cgi?id=196">Issue 
-	#196</a> - hyperlink sort order is not correct</li>
-  <li> <a href="http://woodstock.dev.java.net/issues/show_bug.cgi?id=189">Issue 
-	#189</a> - version page spans 1/2 popup</li>
-  <li> <a href="http://woodstock.dev.java.net/issues/show_bug.cgi?id=616">Issue 
-	#616</a> - webuijsf:head - please allow to disable rendering title</li>
-  <li> <a href="http://woodstock.dev.java.net/issues/show_bug.cgi?id=662">Issue 
-	#662</a> - color specification updates from branding for accordion, bubble, 
-	menu</li>
-  <li> <a href="http://woodstock.dev.java.net/issues/show_bug.cgi?id=658">Issue 
-	#658</a> - Fields - prevet submissions on &quot;enter&quot; keypress.</li>
-  <li> <a href="http://woodstock.dev.java.net/issues/show_bug.cgi?id=678">Issue 
-	#678</a> - editable, text, password, &amp; area: Client-side work</li>
-  <li> <a href="http://woodstock.dev.java.net/issues/show_bug.cgi?id=211">Issue 
-	#211</a> - UI request for yellow highlight for fields in error</li>
-  <li> <a href="http://woodstock.dev.java.net/issues/show_bug.cgi?id=696">Issue 
-	#696</a> - Do not search the DOM to find form element</li>
-  <li> <a href="http://woodstock.dev.java.net/issues/show_bug.cgi?id=697">Issue 
-	#697</a> - Rename autoSubmit tag attribute to submitForm</li>
-  <li> <a href="http://woodstock.dev.java.net/issues/show_bug.cgi?id=206">Issue 
-	#206</a> - errors found in dropdown's tld</li>
-  <li> <a href="http://woodstock.dev.java.net/issues/show_bug.cgi?id=681">Issue 
-	#681</a> - Inline editing doesn't work in textfield and text area, in grid 
-	mode</li>
-  <li> <a href="http://woodstock.dev.java.net/issues/show_bug.cgi?id=703">Issue 
-	#703</a> - Should be able to hit enter in text field to submit page</li>
-  <li> <a href="http://woodstock.dev.java.net/issues/show_bug.cgi?id=646">Issue 
-	#646</a> - hashMap is not supported</li>
-  <li> <a href="http://woodstock.dev.java.net/issues/show_bug.cgi?id=651">Issue 
-	#651</a> - Binding to hashMap generates ClassCastException</li>
-  <li> <a href="http://woodstock.dev.java.net/issues/show_bug.cgi?id=141">Issue 
-	#141</a> - Designtime: LabelAlign dropdown is missing</li>
-  <li> <a href="http://woodstock.dev.java.net/issues/show_bug.cgi?id=200">Issue 
-	#200</a> - Misc UI issues with TabSet example</li>
-  <li> <a href="http://woodstock.dev.java.net/issues/show_bug.cgi?id=712">Issue 
-	#712</a> - SWAED: Text fields and text areas seem to use different fonts</li>
-  <li> <a href="http://woodstock.dev.java.net/issues/show_bug.cgi?id=637">Issue 
-	#637</a> - Clarifications needed in &quot;build it yourself&quot; doc</li>
-  <li> <a href="http://woodstock.dev.java.net/issues/show_bug.cgi?id=500">Issue 
-	#500</a> - Read Only property of checkbox not working</li>
-  <li> <a href="http://woodstock.dev.java.net/issues/show_bug.cgi?id=709">Issue 
-	#709</a> - SWAED: Pointer of bubble is missing its shadow</li>
-  <li> <a href="http://woodstock.dev.java.net/issues/show_bug.cgi?id=82">Issue 
-	#82</a> - update theme version to 4.1</li>
-  <li> <a href="http://woodstock.dev.java.net/issues/show_bug.cgi?id=674">Issue 
-	#674</a> - checkbox &amp; checkboxGroup: Client-side work</li>
-  <li> <a href="http://woodstock.dev.java.net/issues/show_bug.cgi?id=675">Issue 
-	#675</a> - radiobutton &amp; radiobuttonGroup: Client-side work</li>
-	<li><a href="http://www.netbeans.org/issues/show_bug.cgi?id=112688">NB 
-	#112668</a> - In Migrated project Unsetting Array property of 
-	ObjectArrayDataProvider does not bind the component to defaultDP</li>
+  <li> <a
+ href="http://woodstock.dev.java.net/issues/show_bug.cgi?id=605">Issue
+#605</a> - Refresh feature does not work with calendar widget</li>
+  <li> <a
+ href="http://woodstock.dev.java.net/issues/show_bug.cgi?id=662">Issue
+#662</a> - color specification updates from branding for accordion,
+bubble, menu</li>
+  <li> <a
+ href="http://woodstock.dev.java.net/issues/show_bug.cgi?id=198">Issue
+#198</a> - Misc UI issues with clientsideCheckbox example</li>
+  <li> <a
+ href="http://woodstock.dev.java.net/issues/show_bug.cgi?id=561">Issue
+#561</a> - upload component cannot handle multibyte char filename</li>
+  <li> <a
+ href="http://woodstock.dev.java.net/issues/show_bug.cgi?id=654">Issue
+#654</a> - SWAED: top corners missing borders</li>
+  <li> <a
+ href="http://woodstock.dev.java.net/issues/show_bug.cgi?id=544">Issue
+#544</a> - Example app --&gt; Checkbox and RadioButton Index-&gt;
+Client side radiobutton and checkbox group example-&gt; The lables get
+changed along with size</li>
+  <li> <a
+ href="http://woodstock.dev.java.net/issues/show_bug.cgi?id=647">Issue
+#647</a> - Incorrect use Primary and secondary buttons in components</li>
+  <li> <a
+ href="http://woodstock.dev.java.net/issues/show_bug.cgi?id=280">Issue
+#280</a> - Calendar renders under other components on IE 6 &amp; 7</li>
+  <li> <a
+ href="http://woodstock.dev.java.net/issues/show_bug.cgi?id=560">Issue
+#560</a> - Disabled calendar hides help text and toggle icon</li>
+  <li> <a
+ href="http://woodstock.dev.java.net/issues/show_bug.cgi?id=684">Issue
+#684</a> - IE7:Page Cotains Script Errors</li>
+  <li> <a
+ href="http://woodstock.dev.java.net/issues/show_bug.cgi?id=269">Issue
+#269</a> - Add required indicator legend to all examples having
+required fields</li>
+  <li> <a
+ href="http://woodstock.dev.java.net/issues/show_bug.cgi?id=199">Issue
+#199</a> - Misc UI issues with client-side RadioButton example</li>
+  <li> <a
+ href="http://woodstock.dev.java.net/issues/show_bug.cgi?id=92">Issue
+#92</a> - drop down menu of test cases has error</li>
+  <li> <a
+ href="http://woodstock.dev.java.net/issues/show_bug.cgi?id=196">Issue
+#196</a> - hyperlink sort order is not correct</li>
+  <li> <a
+ href="http://woodstock.dev.java.net/issues/show_bug.cgi?id=189">Issue
+#189</a> - version page spans 1/2 popup</li>
+  <li> <a
+ href="http://woodstock.dev.java.net/issues/show_bug.cgi?id=616">Issue
+#616</a> - webuijsf:head - please allow to disable rendering title</li>
+  <li> <a
+ href="http://woodstock.dev.java.net/issues/show_bug.cgi?id=662">Issue
+#662</a> - color specification updates from branding for accordion,
+bubble, menu</li>
+  <li> <a
+ href="http://woodstock.dev.java.net/issues/show_bug.cgi?id=658">Issue
+#658</a> - Fields - prevet submissions on "enter" keypress.</li>
+  <li> <a
+ href="http://woodstock.dev.java.net/issues/show_bug.cgi?id=678">Issue
+#678</a> - editable, text, password, &amp; area: Client-side work</li>
+  <li> <a
+ href="http://woodstock.dev.java.net/issues/show_bug.cgi?id=211">Issue
+#211</a> - UI request for yellow highlight for fields in error</li>
+  <li> <a
+ href="http://woodstock.dev.java.net/issues/show_bug.cgi?id=696">Issue
+#696</a> - Do not search the DOM to find form element</li>
+  <li> <a
+ href="http://woodstock.dev.java.net/issues/show_bug.cgi?id=697">Issue
+#697</a> - Rename autoSubmit tag attribute to submitForm</li>
+  <li> <a
+ href="http://woodstock.dev.java.net/issues/show_bug.cgi?id=206">Issue
+#206</a> - errors found in dropdown's tld</li>
+  <li> <a
+ href="http://woodstock.dev.java.net/issues/show_bug.cgi?id=681">Issue
+#681</a> - Inline editing doesn't work in textfield and text area, in
+grid mode</li>
+  <li> <a
+ href="http://woodstock.dev.java.net/issues/show_bug.cgi?id=703">Issue
+#703</a> - Should be able to hit enter in text field to submit page</li>
+  <li> <a
+ href="http://woodstock.dev.java.net/issues/show_bug.cgi?id=646">Issue
+#646</a> - hashMap is not supported</li>
+  <li> <a
+ href="http://woodstock.dev.java.net/issues/show_bug.cgi?id=651">Issue
+#651</a> - Binding to hashMap generates ClassCastException</li>
+  <li> <a
+ href="http://woodstock.dev.java.net/issues/show_bug.cgi?id=141">Issue
+#141</a> - Designtime: LabelAlign dropdown is missing</li>
+  <li> <a
+ href="http://woodstock.dev.java.net/issues/show_bug.cgi?id=200">Issue
+#200</a> - Misc UI issues with TabSet example</li>
+  <li> <a
+ href="http://woodstock.dev.java.net/issues/show_bug.cgi?id=712">Issue
+#712</a> - SWAED: Text fields and text areas seem to use different fonts</li>
+  <li> <a
+ href="http://woodstock.dev.java.net/issues/show_bug.cgi?id=637">Issue
+#637</a> - Clarifications needed in "build it yourself" doc</li>
+  <li> <a
+ href="http://woodstock.dev.java.net/issues/show_bug.cgi?id=500">Issue
+#500</a> - Read Only property of checkbox not working</li>
+  <li> <a
+ href="http://woodstock.dev.java.net/issues/show_bug.cgi?id=709">Issue
+#709</a> - SWAED: Pointer of bubble is missing its shadow</li>
+  <li> <a
+ href="http://woodstock.dev.java.net/issues/show_bug.cgi?id=82">Issue
+#82</a> - update theme version to 4.1</li>
+  <li> <a
+ href="http://woodstock.dev.java.net/issues/show_bug.cgi?id=674">Issue
+#674</a> - checkbox &amp; checkboxGroup: Client-side work</li>
+  <li> <a
+ href="http://woodstock.dev.java.net/issues/show_bug.cgi?id=675">Issue
+#675</a> - radiobutton &amp; radiobuttonGroup: Client-side work</li>
+  <li><a href="http://www.netbeans.org/issues/show_bug.cgi?id=112688">NB
+#112668</a> - In Migrated project Unsetting Array property of
+ObjectArrayDataProvider does not bind the component to defaultDP</li>
 </ul>
 <p>&nbsp;</p>
 <h2><u><a name="4.1_Build_10">4.1 Build 10</a></u>&nbsp; (08/15/2007)</h2>
 <h3> New Features</h3>
 <ul>
   <li> New PopupMenu Component</li>
-	<li> New Client-Side Theme</li>
+  <li> New Client-Side Theme</li>
   <li> Accordion Example</li>
-	<li> BubbleHelp Example</li>
-	<li> Updated Functional and Test specs on the
-	<a href="https://woodstock.dev.java.net/Documentation.htm">Documentation 
-	page</a>.</li>
-  </ul>
+  <li> BubbleHelp Example</li>
+  <li> Updated Functional and Test specs on the <a
+ href="https://woodstock.dev.java.net/Documentation.htm">Documentation
+page</a>.</li>
+</ul>
 <h3>Bugs Resolved/Fixed</h3>
 <ul>
-  <li> <a href="http://woodstock.dev.java.net/issues/show_bug.cgi?id=588">Issue 
-	#588</a> - BUBBLE: bubble management too slow for fast mouse</li>
-  <li> <a href="http://woodstock.dev.java.net/issues/show_bug.cgi?id=233">Issue 
-	#233</a> - progress indicator status text is incorrect</li>
-  <li> <a href="http://woodstock.dev.java.net/issues/show_bug.cgi?id=615">Issue 
-	#615</a> - determinate progress bar completes - yet states 99%</li>
-  <li> <a href="http://woodstock.dev.java.net/issues/show_bug.cgi?id=389">Issue 
-	#389</a> - Wrong help IDs for Image component and its Properties window</li>
-  <li> <a href="http://woodstock.dev.java.net/issues/show_bug.cgi?id=618">Issue 
-	#618</a> - visible property in wrong category in NetBeans Properties window</li>
-  <li> <a href="http://woodstock.dev.java.net/issues/show_bug.cgi?id=620">Issue 
-	#620</a> - incorrect bubble header layout on IE</li>
-  <li> <a href="http://woodstock.dev.java.net/issues/show_bug.cgi?id=587">Issue 
-	#587</a> - Segment CSS files between color, topography, and layout</li>
-  <li> <a href="http://woodstock.dev.java.net/issues/show_bug.cgi?id=321">Issue 
-	#321</a> - textArea: required asterisk appears at bottom of component in 
-	safari</li>
-  <li> <a href="http://woodstock.dev.java.net/issues/show_bug.cgi?id=590">Issue 
-	#590</a> - JSF Alert component is always shown on page created by Netbeans 
-	6.0 M10 Visual Web Pack</li>
-  <li> <a href="http://woodstock.dev.java.net/issues/show_bug.cgi?id=488">Issue 
-	#488</a> - TABSET: the tabset renderer is not rendering the tabset id onto 
-	the enclosing div element.</li>
-  <li> <a href="http://woodstock.dev.java.net/issues/show_bug.cgi?id=640">Issue 
-	#640</a> - Read-Only field change for 4.1 needs to be fixed, or backed out</li>
-  <li> <a href="http://woodstock.dev.java.net/issues/show_bug.cgi?id=631">Issue 
-	#631</a> - bubble header layout incorrect with small text sizes</li>
-  <li> <a href="http://woodstock.dev.java.net/issues/show_bug.cgi?id=638">Issue 
-	#638</a> - IE: bubble header without close button has no bottom margin below 
-	title</li>
-  <li> <a href="http://woodstock.dev.java.net/issues/show_bug.cgi?id=630">Issue 
-	#630</a> - make woodstock compilable on JDK 1.6</li>
-  <li> <a href="http://woodstock.dev.java.net/issues/show_bug.cgi?id=351">Issue 
-	#351</a> - Select All Rows button of a table component not working</li>
-  <li> <a href="http://woodstock.dev.java.net/issues/show_bug.cgi?id=653">Issue 
-	#653</a> - popup menu visuals not correct</li>
-	<li><a href="http://www.netbeans.org/issues/show_bug.cgi?id=111028">NB 
-	#111028</a> - Unsetting Array property of ObjectArrayDataProvider does not 
-	remove relevant JSP code</li>
-	<li><a href="http://www.netbeans.org/issues/show_bug.cgi?id=94049">NB 
-	#94049</a> - Need help IDs implemented for body, head and html components 
-	and properties window</li>
-	<li><a href="http://www.netbeans.org/issues/show_bug.cgi?id=111666">NB 
-	#111666</a> - Add help ids for woodstock progress bar topics</li>
-	<li><a href="http://www.netbeans.org/issues/show_bug.cgi?id=110646">NB 
-	#110646</a> - Bad help ID for Page properties window</li>
+  <li> <a
+ href="http://woodstock.dev.java.net/issues/show_bug.cgi?id=588">Issue
+#588</a> - BUBBLE: bubble management too slow for fast mouse</li>
+  <li> <a
+ href="http://woodstock.dev.java.net/issues/show_bug.cgi?id=233">Issue
+#233</a> - progress indicator status text is incorrect</li>
+  <li> <a
+ href="http://woodstock.dev.java.net/issues/show_bug.cgi?id=615">Issue
+#615</a> - determinate progress bar completes - yet states 99%</li>
+  <li> <a
+ href="http://woodstock.dev.java.net/issues/show_bug.cgi?id=389">Issue
+#389</a> - Wrong help IDs for Image component and its Properties window</li>
+  <li> <a
+ href="http://woodstock.dev.java.net/issues/show_bug.cgi?id=618">Issue
+#618</a> - visible property in wrong category in NetBeans Properties
+window</li>
+  <li> <a
+ href="http://woodstock.dev.java.net/issues/show_bug.cgi?id=620">Issue
+#620</a> - incorrect bubble header layout on IE</li>
+  <li> <a
+ href="http://woodstock.dev.java.net/issues/show_bug.cgi?id=587">Issue
+#587</a> - Segment CSS files between color, topography, and layout</li>
+  <li> <a
+ href="http://woodstock.dev.java.net/issues/show_bug.cgi?id=321">Issue
+#321</a> - textArea: required asterisk appears at bottom of component
+in safari</li>
+  <li> <a
+ href="http://woodstock.dev.java.net/issues/show_bug.cgi?id=590">Issue
+#590</a> - JSF Alert component is always shown on page created by
+Netbeans 6.0 M10 Visual Web Pack</li>
+  <li> <a
+ href="http://woodstock.dev.java.net/issues/show_bug.cgi?id=488">Issue
+#488</a> - TABSET: the tabset renderer is not rendering the tabset id
+onto the enclosing div element.</li>
+  <li> <a
+ href="http://woodstock.dev.java.net/issues/show_bug.cgi?id=640">Issue
+#640</a> - Read-Only field change for 4.1 needs to be fixed, or backed
+out</li>
+  <li> <a
+ href="http://woodstock.dev.java.net/issues/show_bug.cgi?id=631">Issue
+#631</a> - bubble header layout incorrect with small text sizes</li>
+  <li> <a
+ href="http://woodstock.dev.java.net/issues/show_bug.cgi?id=638">Issue
+#638</a> - IE: bubble header without close button has no bottom margin
+below title</li>
+  <li> <a
+ href="http://woodstock.dev.java.net/issues/show_bug.cgi?id=630">Issue
+#630</a> - make woodstock compilable on JDK 1.6</li>
+  <li> <a
+ href="http://woodstock.dev.java.net/issues/show_bug.cgi?id=351">Issue
+#351</a> - Select All Rows button of a table component not working</li>
+  <li> <a
+ href="http://woodstock.dev.java.net/issues/show_bug.cgi?id=653">Issue
+#653</a> - popup menu visuals not correct</li>
+  <li><a href="http://www.netbeans.org/issues/show_bug.cgi?id=111028">NB
+#111028</a> - Unsetting Array property of ObjectArrayDataProvider does
+not remove relevant JSP code</li>
+  <li><a href="http://www.netbeans.org/issues/show_bug.cgi?id=94049">NB
+#94049</a> - Need help IDs implemented for body, head and html
+components and properties window</li>
+  <li><a href="http://www.netbeans.org/issues/show_bug.cgi?id=111666">NB
+#111666</a> - Add help ids for woodstock progress bar topics</li>
+  <li><a href="http://www.netbeans.org/issues/show_bug.cgi?id=110646">NB
+#110646</a> - Bad help ID for Page properties window</li>
 </ul>
 <h2><u><br>
 <a name="4.1_Build_9">4.1 Build 9</a></u>&nbsp;&nbsp; (07/27/2007)</h2>
 <h3>New Features</h3>
 <ul>
-  <li>New BubbleHelp component.&nbsp; An example application will be coming in 
-	Build 10.</li>
-	<li>New Accordion Example application.</li>
-	<li>Added specifications for the BubbleHelp and Accordion components on the
-	<a href="https://woodstock.dev.java.net/Documentation.htm">Documentation 
-	page</a>.</li>
+  <li>New BubbleHelp component.&nbsp; An example application will be
+coming in Build 10.</li>
+  <li>New Accordion Example application.</li>
+  <li>Added specifications for the BubbleHelp and Accordion components
+on the <a href="https://woodstock.dev.java.net/Documentation.htm">Documentation
+page</a>.</li>
 </ul>
 <h3>Bugs Resolved/Fixed</h3>
 <ul>
-  <li> <a href="http://woodstock.dev.java.net/issues/show_bug.cgi?id=391">Issue 
-	#391</a> - Wrong help id for radiobutton and radiobutton group Properties 
-	windows</li>
-	<li> <a href="http://www.netbeans.org/issues/show_bug.cgi?id=94550">NB 
-	#94550</a> - NPE - when clicked on ... of sourceData property of TableRow</li>
-	<li> <a href="http://www.netbeans.org/issues/show_bug.cgi?id=97151">NB 
-	#97151</a> - Help IDs for 3 JSF 1.2 components not working in Properties 
-	window</li>
-	<li> <a href="http://woodstock.dev.java.net/issues/show_bug.cgi?id=400">Issue 
-	#400</a> - Example app--&gt; File chooser--&gt; listbox data displayed as entry &amp;nbsp;</li>
-	<li> <a href="http://woodstock.dev.java.net/issues/show_bug.cgi?id=265">Issue 
-	#265</a> - Button for Client side upate in Hyperlink example submitts page</li>
-	<li> <a href="http://woodstock.dev.java.net/issues/show_bug.cgi?id=264">Issue 
-	#264</a> - Broken context-sensitive help JSF 1.2 Image component</li>
-	<li> <a href="http://woodstock.dev.java.net/issues/show_bug.cgi?id=364">Issue 
-	#364</a> - PropertySheetSection: Styles do not take affect</li>
-	<li> <a href="http://woodstock.dev.java.net/issues/show_bug.cgi?id=271">Issue 
-	#271</a> - possible malformed URL causes determinate PB bar buttons to not 
-	render</li>
-	<li> <a href="http://woodstock.dev.java.net/issues/show_bug.cgi?id=240">Issue 
-	#240</a> - maxLength property no longer works</li>
-	<li> <a href="http://woodstock.dev.java.net/issues/show_bug.cgi?id=85">Issue 
-	#85</a> - Remove readme from woodstock jar</li>
-	<li> <a href="http://woodstock.dev.java.net/issues/show_bug.cgi?id=202">Issue 
-	#202</a> - When dojo is updated to a new version, it does not get copied 
-	into the archive</li>
-	<li> <a href="http://woodstock.dev.java.net/issues/show_bug.cgi?id=211">Issue 
-	#211</a> - UI request for yellow highlight for fields in error</li>
-	<li> <a href="http://woodstock.dev.java.net/issues/show_bug.cgi?id=551">Issue 
-	#551</a> - Checkbox and Checkbox Group should not deprecate readOnly 
-	property</li>
-	<li> <a href="http://woodstock.dev.java.net/issues/show_bug.cgi?id=552">Issue 
-	#552</a> - Radiobutton and Radiobutton Group should not deprecate readOnly</li>
-	<li> <a href="http://woodstock.dev.java.net/issues/show_bug.cgi?id=394">Issue 
-	#394</a> - Tree has an attribute &quot;required&quot; which does not play any role</li>
-	<li> <a href="http://woodstock.dev.java.net/issues/show_bug.cgi?id=380">Issue 
-	#380</a> - Tree needs more TLD documentation</li>
-	<li> <a href="http://woodstock.dev.java.net/issues/show_bug.cgi?id=382">Issue 
-	#382</a> - Add to TLD specifications for tree component to not use facets</li>
-	<li> <a href="http://woodstock.dev.java.net/issues/show_bug.cgi?id=260">Issue 
-	#260</a> - Regression: breadcrumbs for file upload no longer work</li>
-	<li> <a href="http://woodstock.dev.java.net/issues/show_bug.cgi?id=222">Issue 
-	#222</a> - radiobutton group and checkbox group always line up at left of 
-	browser</li>
-	<li> <a href="http://woodstock.dev.java.net/issues/show_bug.cgi?id=226">Issue 
-	#226</a> - None of javascript events work in radiobutton.</li>
-	<li> <a href="http://woodstock.dev.java.net/issues/show_bug.cgi?id=411">Issue 
-	#411</a> - Wrong Help ID for Drop Down List's Properties window</li>
-	<li> <a href="http://woodstock.dev.java.net/issues/show_bug.cgi?id=457">Issue 
-	#457</a> - ListSelector NPE when Null Option Added in DropDown</li>
-	<li> <a href="http://woodstock.dev.java.net/issues/show_bug.cgi?id=2388">Issue 
-	#388</a> - File Upload properties window shows wrong help topic</li>
-	<li> <a href="http://woodstock.dev.java.net/issues/show_bug.cgi?id=341">Issue 
-	#341</a> - runtime: version page with copyright that line wraps imposes 
-	invalid scroll bar to top of page only</li>
-	<li> <a href="http://woodstock.dev.java.net/issues/show_bug.cgi?id=316">Issue 
-	#316</a> - Indicators property shows in properties sheet</li>
-	<li> <a href="http://www.netbeans.org/issues/show_bug.cgi?id=110665">NB 
-	#110665</a> - Adding help ids in CommonTask, CommonTaskGroup and 
-	CommonTaskSection components</li>
-	<li> <a href="http://woodstock.dev.java.net/issues/show_bug.cgi?id=239">Issue 
-	#239</a> - dropown set back to first item when submit form</li>
-	<li> <a href="http://woodstock.dev.java.net/issues/show_bug.cgi?id=606">Issue 
-	#606</a> - Hyperlink-&gt;The underscore and hand symbol are missing when user 
-	hovers on a link</li>
+  <li> <a
+ href="http://woodstock.dev.java.net/issues/show_bug.cgi?id=391">Issue
+#391</a> - Wrong help id for radiobutton and radiobutton group
+Properties windows</li>
+  <li> <a href="http://www.netbeans.org/issues/show_bug.cgi?id=94550">NB
+#94550</a> - NPE - when clicked on ... of sourceData property of
+TableRow</li>
+  <li> <a href="http://www.netbeans.org/issues/show_bug.cgi?id=97151">NB
+#97151</a> - Help IDs for 3 JSF 1.2 components not working in
+Properties window</li>
+  <li> <a
+ href="http://woodstock.dev.java.net/issues/show_bug.cgi?id=400">Issue
+#400</a> - Example app--&gt; File chooser--&gt; listbox data displayed
+as entry &amp;nbsp;</li>
+  <li> <a
+ href="http://woodstock.dev.java.net/issues/show_bug.cgi?id=265">Issue
+#265</a> - Button for Client side upate in Hyperlink example submitts
+page</li>
+  <li> <a
+ href="http://woodstock.dev.java.net/issues/show_bug.cgi?id=264">Issue
+#264</a> - Broken context-sensitive help JSF 1.2 Image component</li>
+  <li> <a
+ href="http://woodstock.dev.java.net/issues/show_bug.cgi?id=364">Issue
+#364</a> - PropertySheetSection: Styles do not take affect</li>
+  <li> <a
+ href="http://woodstock.dev.java.net/issues/show_bug.cgi?id=271">Issue
+#271</a> - possible malformed URL causes determinate PB bar buttons to
+not render</li>
+  <li> <a
+ href="http://woodstock.dev.java.net/issues/show_bug.cgi?id=240">Issue
+#240</a> - maxLength property no longer works</li>
+  <li> <a
+ href="http://woodstock.dev.java.net/issues/show_bug.cgi?id=85">Issue
+#85</a> - Remove readme from woodstock jar</li>
+  <li> <a
+ href="http://woodstock.dev.java.net/issues/show_bug.cgi?id=202">Issue
+#202</a> - When dojo is updated to a new version, it does not get
+copied into the archive</li>
+  <li> <a
+ href="http://woodstock.dev.java.net/issues/show_bug.cgi?id=211">Issue
+#211</a> - UI request for yellow highlight for fields in error</li>
+  <li> <a
+ href="http://woodstock.dev.java.net/issues/show_bug.cgi?id=551">Issue
+#551</a> - Checkbox and Checkbox Group should not deprecate readOnly
+property</li>
+  <li> <a
+ href="http://woodstock.dev.java.net/issues/show_bug.cgi?id=552">Issue
+#552</a> - Radiobutton and Radiobutton Group should not deprecate
+readOnly</li>
+  <li> <a
+ href="http://woodstock.dev.java.net/issues/show_bug.cgi?id=394">Issue
+#394</a> - Tree has an attribute "required" which does not play any role</li>
+  <li> <a
+ href="http://woodstock.dev.java.net/issues/show_bug.cgi?id=380">Issue
+#380</a> - Tree needs more TLD documentation</li>
+  <li> <a
+ href="http://woodstock.dev.java.net/issues/show_bug.cgi?id=382">Issue
+#382</a> - Add to TLD specifications for tree component to not use
+facets</li>
+  <li> <a
+ href="http://woodstock.dev.java.net/issues/show_bug.cgi?id=260">Issue
+#260</a> - Regression: breadcrumbs for file upload no longer work</li>
+  <li> <a
+ href="http://woodstock.dev.java.net/issues/show_bug.cgi?id=222">Issue
+#222</a> - radiobutton group and checkbox group always line up at left
+of browser</li>
+  <li> <a
+ href="http://woodstock.dev.java.net/issues/show_bug.cgi?id=226">Issue
+#226</a> - None of javascript events work in radiobutton.</li>
+  <li> <a
+ href="http://woodstock.dev.java.net/issues/show_bug.cgi?id=411">Issue
+#411</a> - Wrong Help ID for Drop Down List's Properties window</li>
+  <li> <a
+ href="http://woodstock.dev.java.net/issues/show_bug.cgi?id=457">Issue
+#457</a> - ListSelector NPE when Null Option Added in DropDown</li>
+  <li> <a
+ href="http://woodstock.dev.java.net/issues/show_bug.cgi?id=2388">Issue
+#388</a> - File Upload properties window shows wrong help topic</li>
+  <li> <a
+ href="http://woodstock.dev.java.net/issues/show_bug.cgi?id=341">Issue
+#341</a> - runtime: version page with copyright that line wraps imposes
+invalid scroll bar to top of page only</li>
+  <li> <a
+ href="http://woodstock.dev.java.net/issues/show_bug.cgi?id=316">Issue
+#316</a> - Indicators property shows in properties sheet</li>
+  <li> <a href="http://www.netbeans.org/issues/show_bug.cgi?id=110665">NB
+#110665</a> - Adding help ids in CommonTask, CommonTaskGroup and
+CommonTaskSection components</li>
+  <li> <a
+ href="http://woodstock.dev.java.net/issues/show_bug.cgi?id=239">Issue
+#239</a> - dropown set back to first item when submit form</li>
+  <li> <a
+ href="http://woodstock.dev.java.net/issues/show_bug.cgi?id=606">Issue
+#606</a> - Hyperlink-&gt;The underscore and hand symbol are missing
+when user hovers on a link</li>
 </ul>
 <p>&nbsp;</p>
-  
-<h2><u><a name="4.1_Build_8">4.1 Build 8</a></u>&nbsp;&nbsp; (07/13/2007)</h2>
+<h2><u><a name="4.1_Build_8">4.1 Build 8</a></u>&nbsp;&nbsp;
+(07/13/2007)</h2>
 <h3>Issues/Regressions</h3>
 <ul>
-	<li>The FileChooser has a regression,
-	<a href="http://woodstock.dev.java.net/issues/show_bug.cgi?id=400">Issue 
-	#400</a>, that causes the file listing to display a series of &amp;nbsp right 
-	after each file name.&nbsp; This should be fixed shortly, but since we have 
-	not promoted a build since mid June we wanted to get out the rest of the 
-	functionality.&nbsp; We expect to have this fixed shortly in the main trunk.</li>
+  <li>The FileChooser has a regression, <a
+ href="http://woodstock.dev.java.net/issues/show_bug.cgi?id=400">Issue
+#400</a>, that causes the file listing to display a series of &amp;nbsp
+right after each file name.&nbsp; This should be fixed shortly, but
+since we have not promoted a build since mid June we wanted to get out
+the rest of the functionality.&nbsp; We expect to have this fixed
+shortly in the main trunk.</li>
 </ul>
 <h3>New Features</h3>
 <ul>
@@ -418,65 +640,86 @@ to client. Thus while the user typed password will be echoed with
 asterisks, password field will always be rendered empty - whether on
 initial render
 or upon submission and re-render of the page. </li>
-  <li>Client-side rendering for Calendar.&nbsp; More bug fixes for Calendar are 
-	coming in Build 9.</li>
-  <li>Ajax enabled Accordion added to the component set.&nbsp; There is not an 
-	example yet.&nbsp; That will be coming in Build 9.</li>
+  <li>Client-side rendering for Calendar.&nbsp; More bug fixes for
+Calendar are coming in Build 9.</li>
+  <li>Ajax enabled Accordion added to the component set.&nbsp; There is
+not an example yet.&nbsp; That will be coming in Build 9.</li>
 </ul>
 <h3>Bugs Resolved/Fixed</h3>
 <ul>
-  <li> <a href="http://woodstock.dev.java.net/issues/show_bug.cgi?id=136">Issue 
-	#136</a> - Selecting DefaultOptions node for Add remove generates 
-	StringOutOfBoundsException</li>
-	<li> <a href="http://woodstock.dev.java.net/issues/show_bug.cgi?id=77">Issue 
-	#77</a>&nbsp;&nbsp; - Password text property shows '&lt;Lookup null value&gt;'</li>
-	<li> <a href="http://woodstock.dev.java.net/issues/show_bug.cgi?id=279">Issue 
-	#279</a> - today's date is wrong (at the top)</li>
-	<li> <a href="http://woodstock.dev.java.net/issues/show_bug.cgi?id=75">Issue 
-	#75</a>&nbsp;&nbsp; - Toolttip attribute not working
-  </li>
-	<li> <a href="http://woodstock.dev.java.net/issues/show_bug.cgi?id=298">Issue 
-	#298</a> - password does not render at runtime on IE7</li>
-	<li> <a href="http://woodstock.dev.java.net/issues/show_bug.cgi?id=296">Issue 
-	#296</a> - TextArea does not render at runtime</li>
-	<li> <a href="http://www.netbeans.org/issues/show_bug.cgi?id=107563">NB 
-	#107563</a> - Listbox: setProps on IE6 makes options disappear</li>
-	<li> <a href="http://woodstock.dev.java.net/issues/show_bug.cgi?id=295">Issue 
-	#295</a> - Password no longer renders at designtime</li>
-	<li> <a href="http://woodstock.dev.java.net/issues/show_bug.cgi?id=72">Issue 
-	#72</a>&nbsp;&nbsp; - Wizard renders too small at designtime</li>
-	<li> <a href="http://woodstock.dev.java.net/issues/show_bug.cgi?id=12">Issue 
-	#12</a>&nbsp;&nbsp; - client side disable is having problem</li>
-	<li> <a href="http://woodstock.dev.java.net/issues/show_bug.cgi?id=281">
-	Issue #281</a> -onChange does not work in Calendar</li>
-	<li> <a href="http://woodstock.dev.java.net/issues/show_bug.cgi?id=282">
-	Issue #282</a> - onSelect does not work in Calendar</li>
-	<li> <a href="http://woodstock.dev.java.net/issues/show_bug.cgi?id=69">Issue 
-	#69</a>&nbsp;&nbsp; - Designtime: Legend does not render on webform</li>
-	<li> <a href="http://woodstock.dev.java.net/issues/show_bug.cgi?id=251">
-	Issue #251</a> - Generated HTML body tag with annoying empty attributes (onload 
-	and onunload)</li>
-	<li> <a href="http://woodstock.dev.java.net/issues/show_bug.cgi?id=504">
-	Issue #504</a> - imageHyperlink : does not take the onclick attribute into 
-	account.</li>
-	<li> <a href="http://woodstock.dev.java.net/issues/show_bug.cgi?id=404">
-	Issue #404</a> - IE7 - problems rendering accordion component on page</li>
-	<li> <a href="http://www.netbeans.org/issues/show_bug.cgi?id=107914">NB 
-	#107914</a> - Designtime-only; fix autosubmit legacy toggling for nb5 to nb6 
-	migration</li>
-	<li><a href="http://woodstock.dev.java.net/issues/show_bug.cgi?id=514">Issue 
-	#514</a> - table title shows &quot;...: Filter Applied&quot; when No filters applied</li>
-	<li><a href="http://woodstock.dev.java.net/issues/show_bug.cgi?id=347">Issue 
-	#347</a>  FRAMESET: Outputs wrong value for frameBorder attribute.
-  	- This fix ensures that only a value of "0" or "1" will be output for the value of the html frameBorder attribute as opposed to rendering a
-	  value of "frameBorder" whenever the frameBorder attribute was set to true and none if the frameBorder was set to false for the compnent.
-          Since the earlier functionality  had caused the border to appear always even when frameBorder attribute was set to false for the frameSet 
-	  component,developers would see a change in the functionality and the border would cease to appear for the frame set if the frameBorder 
-	  attribute has been specified to false. </li>
+  <li> <a
+ href="http://woodstock.dev.java.net/issues/show_bug.cgi?id=136">Issue
+#136</a> - Selecting DefaultOptions node for Add remove generates
+StringOutOfBoundsException</li>
+  <li> <a
+ href="http://woodstock.dev.java.net/issues/show_bug.cgi?id=77">Issue
+#77</a>&nbsp;&nbsp; - Password text property shows '&lt;Lookup null
+value&gt;'</li>
+  <li> <a
+ href="http://woodstock.dev.java.net/issues/show_bug.cgi?id=279">Issue
+#279</a> - today's date is wrong (at the top)</li>
+  <li> <a
+ href="http://woodstock.dev.java.net/issues/show_bug.cgi?id=75">Issue
+#75</a>&nbsp;&nbsp; - Toolttip attribute not working </li>
+  <li> <a
+ href="http://woodstock.dev.java.net/issues/show_bug.cgi?id=298">Issue
+#298</a> - password does not render at runtime on IE7</li>
+  <li> <a
+ href="http://woodstock.dev.java.net/issues/show_bug.cgi?id=296">Issue
+#296</a> - TextArea does not render at runtime</li>
+  <li> <a href="http://www.netbeans.org/issues/show_bug.cgi?id=107563">NB
+#107563</a> - Listbox: setProps on IE6 makes options disappear</li>
+  <li> <a
+ href="http://woodstock.dev.java.net/issues/show_bug.cgi?id=295">Issue
+#295</a> - Password no longer renders at designtime</li>
+  <li> <a
+ href="http://woodstock.dev.java.net/issues/show_bug.cgi?id=72">Issue
+#72</a>&nbsp;&nbsp; - Wizard renders too small at designtime</li>
+  <li> <a
+ href="http://woodstock.dev.java.net/issues/show_bug.cgi?id=12">Issue
+#12</a>&nbsp;&nbsp; - client side disable is having problem</li>
+  <li> <a
+ href="http://woodstock.dev.java.net/issues/show_bug.cgi?id=281"> Issue
+#281</a> -onChange does not work in Calendar</li>
+  <li> <a
+ href="http://woodstock.dev.java.net/issues/show_bug.cgi?id=282"> Issue
+#282</a> - onSelect does not work in Calendar</li>
+  <li> <a
+ href="http://woodstock.dev.java.net/issues/show_bug.cgi?id=69">Issue
+#69</a>&nbsp;&nbsp; - Designtime: Legend does not render on webform</li>
+  <li> <a
+ href="http://woodstock.dev.java.net/issues/show_bug.cgi?id=251"> Issue
+#251</a> - Generated HTML body tag with annoying empty attributes
+(onload and onunload)</li>
+  <li> <a
+ href="http://woodstock.dev.java.net/issues/show_bug.cgi?id=504"> Issue
+#504</a> - imageHyperlink : does not take the onclick attribute into
+account.</li>
+  <li> <a
+ href="http://woodstock.dev.java.net/issues/show_bug.cgi?id=404"> Issue
+#404</a> - IE7 - problems rendering accordion component on page</li>
+  <li> <a href="http://www.netbeans.org/issues/show_bug.cgi?id=107914">NB
+#107914</a> - Designtime-only; fix autosubmit legacy toggling for nb5
+to nb6 migration</li>
+  <li><a href="http://woodstock.dev.java.net/issues/show_bug.cgi?id=514">Issue
+#514</a> - table title shows "...: Filter Applied" when No filters
+applied</li>
+  <li><a href="http://woodstock.dev.java.net/issues/show_bug.cgi?id=347">Issue
+#347</a> FRAMESET: Outputs wrong value for frameBorder attribute. -
+This fix ensures that only a value of "0" or "1" will be output for the
+value of the html frameBorder attribute as opposed to rendering a value
+of "frameBorder" whenever the frameBorder attribute was set to true and
+none if the frameBorder was set to false for the compnent. Since the
+earlier functionality had caused the border to appear always even when
+frameBorder attribute was set to false for the frameSet
+component,developers would see a change in the functionality and the
+border would cease to appear for the frame set if the frameBorder
+attribute has been specified to false. </li>
 </ul>
 <p>&nbsp;</p>
 <p></p>
-<h2><u><a name="4.1_Build_7">4.1 Build 7</a></u>&nbsp;&nbsp; (06/15/2007)</h2>
+<h2><u><a name="4.1_Build_7">4.1 Build 7</a></u>&nbsp;&nbsp;
+(06/15/2007)</h2>
 <h3>New Features</h3>
 <ul>
   <li>Moved ajaxify property from components to head, themeLinks, and
@@ -581,7 +824,8 @@ submit
 results in error </li>
   <li>CR6453366 - FileUpload: Need way to control MAX_FILE_SIZE&nbsp;</li>
 </ul>
-<h2><u><a name="4.1_Build_5">4.1 Build 5</a></u>&nbsp;&nbsp; (05/18/2007)</h2>
+<h2><u><a name="4.1_Build_5">4.1 Build 5</a></u>&nbsp;&nbsp;
+(05/18/2007)</h2>
 <h3>New Features</h3>
 <ul>
   <li> AlarmStatus, JobStatus and NotificationPhrase components have
@@ -604,7 +848,8 @@ refresh() functions </li>
 property binding<br>
 &nbsp;</li>
 </ul>
-<h2><u><a name="4.1_Build_4">4.1 Build 4</a></u>&nbsp;&nbsp; (05/06/2007)</h2>
+<h2><u><a name="4.1_Build_4">4.1 Build 4</a></u>&nbsp;&nbsp;
+(05/06/2007)</h2>
 <h3>New Features</h3>
 <ul>
   <li>Client-side rendering for Anchor, Hyperlink and ImageHyperlink</li>
@@ -644,7 +889,8 @@ List&lt;Indicator&gt; indicators"</li>
 #186</a> - can't switch back and forth from step and help tab in wizard</li>
 </ul>
 <p>&nbsp;</p>
-<h2><u><a name="4.1_Build_3">4.1 Build 3</a></u>&nbsp;&nbsp; (04/20/2007)</h2>
+<h2><u><a name="4.1_Build_3">4.1 Build 3</a></u>&nbsp;&nbsp;
+(04/20/2007)</h2>
 <h3>New Features</h3>
 <ul>
   <li>Alert supports a set of indicators which enables supporting
@@ -917,7 +1163,8 @@ available.
     <p>&nbsp;</p>
   </li>
 </ul>
-<h2><u><a name="4.1_Build_2">4.1 Build 2</a></u>&nbsp;&nbsp; (04/06/2007)</h2>
+<h2><u><a name="4.1_Build_2">4.1 Build 2</a></u>&nbsp;&nbsp;
+(04/06/2007)</h2>
 <h3>New Features</h3>
 <ul>
   <li>Client-side rendering for HiddenField</li>
@@ -975,7 +1222,8 @@ indicators. (partial fix)</li>
 ClassNotFoundException</li>
 </ul>
 <h2>&nbsp;</h2>
-<h2><u><a name="4.1_Build_1">4.1 Build 1</a></u>&nbsp;&nbsp; (03/23/2007)</h2>
+<h2><u><a name="4.1_Build_1">4.1 Build 1</a></u>&nbsp;&nbsp;
+(03/23/2007)</h2>
 <h3>New Features</h3>
 <ul>
   <li>Client-side rendering for Image</li>
