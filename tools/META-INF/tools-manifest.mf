@@ -1,0 +1,8 @@
+Implementation-Title: Woodstock Components @FULL_VERSION@ Tools
+Implementation-Version: @FULL_VERSION@
+Implementation-Vendor: Sun Microsystems, Inc.
+Implementation-Vendor-Id: com.sun
+Specification-Title: Woodstock Components Tools
+Specification-Version: @VERSION@
+Specification-Vendor: Sun Microsystems, Inc.
+Main-Class: @MAINCLASS@

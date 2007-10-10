@@ -11,9 +11,9 @@ SCRIPT_DIR=`cd $SCRIPT_DIR; pwd`
 CLASSES_DIR=$SCRIPT_DIR/classes
 SRC_DIR=$SCRIPT_DIR/src
 MANIFEST_FILE=$SCRIPT_DIR/MANIFEST.tmp
-TOOLS_DIR=$SCRIPT_DIR/../../../themes/tools/javascript
-TOOLS_JAR=$TOOLS_DIR/tools.jar
-RHINO_JAR=$TOOLS_DIR/custom_rhino.jar
+TOOLS_DIR=$SCRIPT_DIR/../../../tools
+TOOLS_JAR=$TOOLS_DIR/lib/woodstock-tools.jar
+RHINO_JAR=$TOOLS_DIR/lib/custom_rhino.jar
 PROTOTYPE_JAR=$SCRIPT_DIR/prototype-1.5.0.jar
 PROTOTYPE_DIR=$CLASSES_DIR/META-INF/prototype
 COMPRESSED_FILE=prototype.js
@@ -52,7 +52,7 @@ EEOOFF
 #
 # Create jar.
 #
-JUNK=`rm $PROTOTYPE_JAR`
+JUNK=`rm -f $PROTOTYPE_JAR`
 cd $CLASSES_DIR
 jar cvfm $PROTOTYPE_JAR $MANIFEST_FILE *
 rm $MANIFEST_FILE

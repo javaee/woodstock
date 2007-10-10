@@ -11,9 +11,9 @@ SCRIPT_DIR=`cd $SCRIPT_DIR; pwd`
 CLASSES_DIR=$SCRIPT_DIR/classes
 SRC_DIR=$SCRIPT_DIR/src
 MANIFEST_FILE=$SCRIPT_DIR/MANIFEST.tmp
-TOOLS_DIR=$SCRIPT_DIR/../../../themes/tools/javascript
-TOOLS_JAR=$TOOLS_DIR/tools.jar
-RHINO_JAR=$TOOLS_DIR/custom_rhino.jar
+TOOLS_DIR=$SCRIPT_DIR/../../../tools
+TOOLS_JAR=$TOOLS_DIR/lib/woodstock-tools.jar
+RHINO_JAR=$TOOLS_DIR/lib/custom_rhino.jar
 JSON_ZIP=$SRC_DIR/json.zip
 JSON_JAR=$SCRIPT_DIR/json-2.jar
 JSON_DIR=$CLASSES_DIR/META-INF/json
@@ -68,7 +68,7 @@ EEOOFF
 #
 # Create jar.
 #
-JUNK=`rm $JSON_JAR`
+JUNK=`rm -f $JSON_JAR`
 cd $CLASSES_DIR
 jar cvfm $JSON_JAR $MANIFEST_FILE *
 rm $MANIFEST_FILE
