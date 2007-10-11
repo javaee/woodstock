@@ -152,6 +152,13 @@ public class TableRowGroupDesignInfo extends AbstractDesignInfo {
                     return Result.FAILURE;
                 }
             }
+            
+            TableDataProvider tdp = (TableDataProvider) sourceBean.getInstance();
+            FieldKey[] columns = tdp.getFieldKeys();
+            if((columns == null) || (columns.length == 0)){
+                return Result.FAILURE;
+            }
+            
             TableRowGroupDesignState ts = new TableRowGroupDesignState(targetBean);
             ts.setDataProviderBean(sourceBean);
             ts.saveState();
