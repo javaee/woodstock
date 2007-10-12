@@ -69,30 +69,9 @@ public class RenderingUtilities {
      */
     public static void renderComponent(UIComponent component,
             FacesContext context) throws IOException {
-        if (!component.isRendered()) {
-            return;
-        }
-
-        // this is a workaround a jsf bug in tables where it caches the
-        // client id.  We are forcing the caching not to happen.
-        // this could be a potential source of performance issues if
-        // it turns out the jsf folks really wanted this
-
-        String id = component.getId();
-        if (id != null) {
-            component.setId(id);
-        }
-        component.encodeBegin(context);
-        if (component.getRendersChildren()) {
-            component.encodeChildren(context);
-        } else {
-            Iterator kids = component.getChildren().iterator();
-            while (kids.hasNext()) {
-                UIComponent kid = (UIComponent) kids.next();
-                renderComponent(kid, context);
-            }
-        }
-        component.encodeEnd(context);
+        // Calling encodeBegin, encodeChildren, and encodeEnd directly is no
+        // longer necessary here.
+        component.encodeAll(context);
     }
 
     /**

@@ -181,6 +181,13 @@ public class BodyRenderer extends AbstractRenderer {
      * The default implementation returns false.
      */
     public boolean getRendersChildren() {
+        // Hack for VWP because they are still using a JSF 1.1 renderer. VWP is
+        // also listening for write calls to the ResponseWriter, so we cannot
+        // invoke the initStringWriter method of RendereringUtilities in order 
+        // to capture JavaScript.
+        if (Beans.isDesignTime()) {
+            return false;
+        }
         return true;
     }
 
@@ -206,13 +213,6 @@ public class BodyRenderer extends AbstractRenderer {
         // Enforce NPE requirements in the Javadocs
         if (context == null || component == null) {
             throw new NullPointerException();
-        }
-
-        // Not certain if this is necessary, but VWP may need to listen for
-        // write events from the ResponseWriter?
-        if (Beans.isDesignTime()) {
-            super.encodeChildren(context, component);
-            return;
         }
 
         // Initialize Writer to buffer rendered output.
