@@ -34,7 +34,7 @@ dojo.require("webui.@THEME@.widget.selectBase");
 dojo.declare("webui.@THEME@.widget.dropDown", webui.@THEME@.widget.selectBase, {
     // Set defaults.
     submitForm: false,
-    titleOptionLabel: "Menu.titleOptionLabel",
+    titleOptionLabel: "DropDown.titleOptionLabel",
     widgetName: "dropDown" // Required for theme properties.
 });
 

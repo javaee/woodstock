@@ -333,7 +333,6 @@ webui.@THEME@.widget.common = {
      * Note: Traversing the DOM can be slow, but all HTML input elements have a
      * form property. Therefore, avoid using this function when the form can be
      * retrieved via an HTML input element.
-     * 
      * </p>
      * @param {Node} domNode A DOM node contained in the form.
      * @return {Node} The HTML form element or null if not found.
