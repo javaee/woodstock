@@ -131,19 +131,19 @@
 # -------------------------------------------------------------------------
 #
 theme.name=mojave
-theme.src-dir=src/${theme.name}
-theme.clone-src-dir=src/suntheme
-theme.build-dir=build/${theme.name}
+theme.src-dir=${basedir}/src/${theme.name}
+theme.clone-src-dir=${basedir}/src/suntheme
+theme.build-dir=${basedir}/build/${theme.name}
 theme.l10n-dir=l10n
-theme.jar=dist/webui-jsf-${theme.name}.jar
+theme.jar=${basedir}/dist/webui-jsf-${theme.name}.jar
 # Must be the same as the cloned theme
 theme.version=4.1
 theme.package=org.deserts.${theme.name}
 theme.css-name=_mjv4
 theme.service-class=MojaveThemeService
-theme.service-class-template=${theme.src-dir}/org/deserts/${theme.service-class}.java
-theme.service-properties-template=${theme.src-dir}/org/deserts/${theme.name}.properties
-theme.clone-dir=src/${theme.name}
+theme.service-class-template=${theme.src-dir}/org/deserts/${theme.name}/${theme.service-class}.java
+theme.service-properties-template=${theme.src-dir}/org/deserts/${theme.name}/${theme.name}.properties
+theme.clone-dir=${basedir}/src/${theme.name}
 theme.clone-filter=false
 # Once the clone theme is built it won't be overwritten.
 theme.clone-overwrite=false
