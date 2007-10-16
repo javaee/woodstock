@@ -55,17 +55,11 @@
               //
               function disableAll(disable) {
                   disableButton('PrimaryButton','primaryButtonDisabled', disable);
-                  disableButton('PrimaryMiniButton','primaryMiniButtonDisabled', disable);
                   disableButton('SecondaryButton','secondaryButtonDisabled', disable);
-                  disableButton('SecondaryMiniButton','secondaryMiniButtonDisabled', disable);
                   var checkbox;
                   checkbox = document.getElementById(theForm + ":PrimaryCheckbox");
                   checkbox.setProps({checked: !disable});
-                  checkbox = document.getElementById(theForm + ":PrimaryMiniCheckbox");
-                  checkbox.setProps({checked: !disable});
                   checkbox = document.getElementById(theForm + ":SecondaryCheckbox");
-                  checkbox.setProps({checked: !disable});
-                  checkbox = document.getElementById(theForm + ":SecondaryMiniCheckbox");
                   checkbox.setProps({checked: !disable});
               }
             </script>
@@ -76,9 +70,7 @@
                        
             <!-- Create hidden fields to maintain the enable/disable state of each button. -->
             <webuijsf:hiddenField id="primaryButtonDisabled" text="#{ButtonBean.primaryDisabled}"/>
-            <webuijsf:hiddenField id="primaryMiniButtonDisabled" text="#{ButtonBean.primaryMiniDisabled}"/>
             <webuijsf:hiddenField id="secondaryButtonDisabled" text="#{ButtonBean.secondaryDisabled}"/>
-            <webuijsf:hiddenField id="secondaryMiniButtonDisabled" text="#{ButtonBean.secondaryMiniDisabled}"/>
 
             <!-- Masthead -->
             <webuijsf:masthead id="Masthead" productImageURL="/images/example_primary_masthead.png"
@@ -150,29 +142,6 @@
                       </td>
                     </tr>
 
-                    <!-- Primary Mini Button -->
-                    <tr>
-                      <td>
-                        <webuijsf:label id="PrimaryMiniButtonLabel" text="#{msgs.button_primaryMiniButtonLabel}" />
-                      </td>
-                      <td>
-                        <webuijsf:button id="PrimaryMiniButton" text="#{msgs.button_primaryMiniButtonText}"
-                          disabled="#{ButtonBean.primaryMiniDisabled}"
-                          actionListenerExpression="#{ButtonBean.primaryMiniActionListener}"
-                          actionExpression="#{ButtonBean.actionHandler}"
-                          toolTip="#{msgs.button_primaryMiniButtonTooltip}"
-                          primary="true" mini="true" />
-                      </td>
-                      <td>
-                        <webuijsf:checkbox id="PrimaryMiniCheckbox" label="#{msgs.button_enable}"
-                          selected="#{ButtonBean.primaryMiniCBSelected}"
-                          onClick="javascript: 
-                            var domNode = document.getElementById('form1:PrimaryMiniCheckbox');
-                            disableButton('PrimaryMiniButton', 'primaryMiniButtonDisabled', !domNode.getProps().checked); 
-                            return true;"/>
-                      </td>
-                    </tr>
-
                     <!-- Secondary Button -->
                     <tr>
                       <td>
@@ -192,29 +161,6 @@
                           onClick="javascript: 
                             var domNode = document.getElementById('form1:SecondaryCheckbox');
                             disableButton('SecondaryButton', 'secondaryButtonDisabled', !domNode.getProps().checked); 
-                            return true;"/>
-                      </td>
-                    </tr>
-
-                    <!-- Secondary Mini Button -->
-                    <tr>
-                      <td>
-                        <webuijsf:label id="SecondaryMiniButtonLabel" text="#{msgs.button_secondaryMiniButtonLabel}" />
-                      </td>
-                      <td>
-                        <webuijsf:button id="SecondaryMiniButton" text="#{msgs.button_secondaryMiniButtonText}"
-                          disabled="#{ButtonBean.secondaryMiniDisabled}"
-                          actionListenerExpression="#{ButtonBean.secondaryMiniActionListener}"
-                          actionExpression="#{ButtonBean.actionHandler}"
-                          toolTip="#{msgs.button_secondaryMiniButtonTooltip}"
-                          primary="false" mini="true" />
-                      </td>
-                      <td>
-                        <webuijsf:checkbox id="SecondaryMiniCheckbox" label="#{msgs.button_enable}"
-                          selected="#{ButtonBean.secondaryMiniCBSelected}"
-                          onClick="javascript: 
-                            var domNode = document.getElementById('form1:SecondaryMiniCheckbox');
-                            disableButton('SecondaryMiniButton', 'secondaryMiniButtonDisabled', !domNode.getProps().checked); 
                             return true;"/>
                       </td>
                     </tr>

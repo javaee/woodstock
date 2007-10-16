@@ -63,9 +63,7 @@
             <br/>
             <webuijsf:markup tag="div" styleClass="#{themeStyles.CONTENT_MARGIN}">
               <webuijsf:staticText id="primary" text="#{ButtonBean.primaryResult}"/><br/>
-              <webuijsf:staticText id="primaryMini" text="#{ButtonBean.primaryMiniResult}"/><br/>
               <webuijsf:staticText id="secondary" text="#{ButtonBean.secondaryResult}"/><br/>
-              <webuijsf:staticText id="secondaryMini" text="#{ButtonBean.secondaryMiniResult}"/><br/>
             </webuijsf:markup>
 
           </webuijsf:form>
