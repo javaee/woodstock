@@ -281,3 +281,21 @@ table.Tbl@THEME_CSS@ td.TblFtrRow@THEME_CSS@ {padding:5px 5px 5px 10px}
 	margin:0 0 0 0;
 }
 /*---*/
+
+/* Accordion */
+/* Transparent gradients on IE6 cannot be supported */
+.AccdHeader@THEME_CSS@ {
+    background-image: none;
+}
+.AccdTabExpanded@THEME_CSS@ {
+    background-image: none;
+}
+.AccdTabCollapsed@THEME_CSS@ {
+    background-image: none;
+}
+.AccdTabExpanded@THEME_CSS@ a:hover {
+    background-image: none;
+}
+.AccdTabCollapsed@THEME_CSS@ a:hover {
+    background-image: none;
+}
