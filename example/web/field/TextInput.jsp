@@ -77,7 +77,7 @@
                                                             toolTip="#{msgs.field_textFieldTitle}" />                                     
                                     </td>
                                 </tr>
-                                <tr><td colspan="3"><f:verbatim><![CDATA[ &nbsp; ]]></f:verbatim></td></tr>
+                                <tr><td colspan="3"><div style="height:15px"/></td></tr>
                                 <tr>
                                     <td valign="top">                  
                                         <webuijsf:label id="passwordLabel"
@@ -93,7 +93,7 @@
                                                                 toolTip="#{msgs.field_passwordTitle}" />                
                                     </td>
                                 </tr>
-                                <tr><td colspan="3"><f:verbatim><![CDATA[ &nbsp; ]]></f:verbatim></td></tr>
+                                <tr><td colspan="3"><div style="height:15px"/></td></tr>
                                 <tr>
                                     <td valign="top">                                    
                                         <webuijsf:label id="textAreaLabel"
@@ -110,7 +110,7 @@
                                         
                                     </td>
                                 </tr>
-                                <tr><td colspan="3"><f:verbatim><![CDATA[ &nbsp; ]]></f:verbatim></td></tr>
+                                <tr><td colspan="3"><div style="height:15px"/></td></tr>
                             </table>        
                             
                             <webuijsf:panelGroup id="pageActionsGroup" block="true" style="padding:25px 0px 0px 0px;">
