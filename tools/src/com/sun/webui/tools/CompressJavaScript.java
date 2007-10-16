@@ -28,48 +28,44 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 
-public class CompressJavaScript {
+public class CompressJavaScript extends ToolsBase {
     private String rhinoJar = null;
-    private boolean verbose = false;
 
     /**
      * Constructor.
      *
+     * @param sourceDir Directory containing the files in fileList.
+     * @param destDir Directory where compressed files are written.
      * @param rhinoJar The jar containing the Rhino compress tool.
      * @param verbose Enable verbose output.
      */
-    public CompressJavaScript(String rhinoJar, boolean verbose) {
+    public CompressJavaScript(String sourceDir, String destDir, String rhinoJar, 
+            boolean verbose) {
+        super(sourceDir, destDir, null, verbose);
         this.rhinoJar = rhinoJar;
-        this.verbose = verbose;
     }
 
     /**
-     * Compress JavaScript directory or file.
+     * Compress a list of JavaScript files found in sourceDir
+     * and write the outpout to destDir.
      *
-     * @param sourcePath Path to JavaScript directory or file.
+     * @param fileList <f0,...,fn> A comma separated list of relative file paths to compress.
      */
-    public void compress(String sourcePath) throws IOException {
-        compressDir(sourcePath);
-        pruneDir(sourcePath);
-    }
-
-    /**
-     * Compress JavaScript directory or file.
-     *
-     * @param sourcePath Path to JavaScript directory or file.
-     */
-    private void compressDir(String sourcePath) throws IOException {
-        File file = new File(sourcePath);
-        if (file.isDirectory()) {
-            String[] fileNames = file.list();
-            for (int i = 0; i < fileNames.length; i++) {
-                String fileName = file.getAbsolutePath() + 
-                    File.separator + fileNames[i];
-                compressDir(fileName);
-            }
-        } else {
-            compressFile(file);
-        }
+    public void compress(String[] fileList) throws IOException {
+	for (int i = 0; i < fileList.length; ++i) {
+	    try {
+		File infile = new File(getSourceDir() + File.separator +
+		    fileList[i]);
+		File outfile = new File(getDestDir() + File.separator +
+		    fileList[i]);
+		compressFile(infile, outfile);
+		pruneFile(outfile);
+	    } catch (Exception e) {
+		throw new IOException("Cannot compress or prune " +
+		    getSourceDir() + File.separator + fileList[i] + " to " +
+		    getDestDir() + File.separator + fileList[i]);
+	    }
+	}
     }
 
     /**
@@ -94,7 +90,7 @@ public class CompressJavaScript {
      *
      * @param file The JavaScript file to compress.
      */
-    private void compressFile(File file) throws IOException {
+    private void compressFile(File infile, File outfile) throws IOException {
         // The command line equivalent of the exec command is:
         //
 	// java -jar <rhinoJar> -strict -opt -1 -o <outputfile>
@@ -103,33 +99,14 @@ public class CompressJavaScript {
 	String cmd = 
             "java -jar " +  rhinoJar + 
 	    " -strict -opt -1 -o " +
-            file.getAbsolutePath() +
+            outfile.getAbsolutePath() +
             " -c " +
-            file.getAbsolutePath();
+            infile.getAbsolutePath();
 	ExecProcess ep = new ExecProcess(cmd);
 	int returnVal = ep.exec();
 	if (returnVal != 0) {
 	    System.exit(returnVal);
 	}
-    }
-
-    /**
-     * Prune new lines from JavaScript directory or file.
-     *
-     * @param sourcePath Path to JavaScript directory or file.
-     */
-    private void pruneDir(String sourcePath) throws IOException {
-        File file = new File(sourcePath);
-        if (file.isDirectory()) {
-            String[] fileNames = file.list();
-            for (int i = 0; i < fileNames.length; i++) {
-                String fileName = file.getAbsolutePath() + 
-                    File.separator + fileNames[i];
-                pruneDir(fileName);
-            }
-        } else {
-            pruneFile(file);
-        }
     }
 
     /**

@@ -39,19 +39,22 @@ javac -d $CLASSES_DIR `find src -name \*.java`
 # Copy file to compress.
 #
 mkdir -p $JSON_DIR
-cp $SRC_DIR/$COMPRESSED_FILE $JSON_DIR/$COMPRESSED_FILE
 cp $SRC_DIR/$COMPRESSED_FILE $JSON_DIR/$UNCOMPRESSED_FILE
 
 #
 # Compress jar on given JavaScript directory or file.
 #
-java -jar $TOOLS_JAR -compressJS -verbose \
-     -sourcePath $JSON_DIR/$COMPRESSED_FILE -rhinoJar $RHINO_JAR
+java -jar $TOOLS_JAR -compressJS \
+     -verbose \
+     -sourceDir $SRC_DIR \
+     -fileList $COMPRESSED_FILE \
+     -destDir $JSON_DIR \
+     -rhinoJar $RHINO_JAR \
 
 #
 # Add copyright
 #
-head -20 $SRC_DIR/$COMPRESSED_FILE > $JSON_DIR/$COMPRESSED_FILE.tmp
+head -20 $JSON_DIR/$UNCOMPRESSED_FILE > $JSON_DIR/$COMPRESSED_FILE.tmp
 cat $JSON_DIR/$COMPRESSED_FILE >> $JSON_DIR/$COMPRESSED_FILE.tmp
 mv $JSON_DIR/$COMPRESSED_FILE.tmp $JSON_DIR/$COMPRESSED_FILE
 

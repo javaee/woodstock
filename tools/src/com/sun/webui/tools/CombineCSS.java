@@ -32,48 +32,27 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.TreeSet;
 
-public class CombineCSS {
-    private String combinedFile = null;
-    private ArrayList combinedFiles = new ArrayList();
-    private String modulePath = null;
-    private boolean verbose = false;
-
+public class CombineCSS extends CombineJavaScript {
     /**
      * Constructor.
      *
-     * @param combinedFile File path for combined output.
-     * @param modulePath The path to locate module sources.
+     * @param sourceDir Directory containing the files in fileList.
+     * @param outFile File path for combined output.
      * @param verbose Enable verbose output.
      */
-    public CombineCSS(String combinedFile, String modulePath, boolean verbose) {
-        try {
-            this.combinedFile = combinedFile;
-            this.modulePath = new File(modulePath).getCanonicalPath();
-            this.verbose = verbose;
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+    public CombineCSS(String sourceDir, String outFile, boolean verbose) {
+        super(sourceDir, outFile, null, verbose);
     }
 
     /**
-     * Combine JavaScript directory or file.
+     * Combine CSS file.
      *
-     * @param sourcePath Path to JavaScript directory or file.
-     */
-    public void combine(String sourcePath) throws IOException {
-        combineDir(sourcePath);
-    }
-
-    /**
-     * Combine JavaScript file.
-     *
-     * @param file The JavaScript file to combine.
+     * @param file The CSS file to combine.
      */
     private void combineFile(File file) throws IOException {
-	if (combinedFiles.contains(file.getCanonicalPath())) {
-	    return;
-	}
-	combinedFiles.add(file.getCanonicalPath());
+        if (isFileCombined(file)) {
+            return;
+        }
 
 	// Create buffer to hold file contents.
         StringBuffer buff = new StringBuffer();
@@ -100,7 +79,7 @@ public class CombineCSS {
 		    int last = line.indexOf(")", first + 1);
 
 		    // Get module file name.
-                    String fileName = modulePath + File.separatorChar +
+                    String fileName = getSourceDir() + File.separatorChar +
                         line.substring(first + 1, last);
 
 		    combineFile(new File(fileName));
@@ -111,7 +90,7 @@ public class CombineCSS {
             }
 
 	    // Write output.
-	    output = new FileWriter(combinedFile, true);
+	    output = new FileWriter(getOutFile(), true);
 	    output.write(buff.toString());
         } catch (FileNotFoundException e) {
             e.printStackTrace();
@@ -129,33 +108,8 @@ public class CombineCSS {
                 e.printStackTrace();
 	    }
         }
-	if (verbose) {
+	if (isVerbose()) {
 	    System.out.println("Combined CSS file '" + file.getCanonicalPath() + "'");
 	}
-    }
-
-    /**
-     * Combine JavaScript directory or file.
-     *
-     * @param sourcePath Path to JavaScript directory or file.
-     */
-    private void combineDir(String sourcePath) throws IOException {
-        File file = new File(sourcePath);
-        if (file.isDirectory()) {
-            TreeSet ts = new TreeSet();
-            String[] fileNames = file.list();
-            for (int i = 0; i < fileNames.length; i++) {
-                String fileName = file.getAbsolutePath() + 
-                    File.separator + fileNames[i];
-                ts.add(fileName);
-            }
-            // Call files in alphabetical order for consistency.
-            Iterator files = ts.iterator();
-            while (files.hasNext()) {
-                combineDir((String) files.next());
-            }
-        } else {
-            combineFile(file);
-        }
     }
 }

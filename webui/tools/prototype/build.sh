@@ -23,19 +23,22 @@ UNCOMPRESSED_FILE=prototype.js.uncompressed.js
 # Copy file to compress.
 #
 mkdir -p $PROTOTYPE_DIR
-cp $SRC_DIR/$COMPRESSED_FILE $PROTOTYPE_DIR/$COMPRESSED_FILE
 cp $SRC_DIR/$COMPRESSED_FILE $PROTOTYPE_DIR/$UNCOMPRESSED_FILE
 
 #
 # Compress jar on given JavaScript directory or file.
 #
-java -jar $TOOLS_JAR -compressJS -verbose \
-     -sourcePath $PROTOTYPE_DIR/$COMPRESSED_FILE -rhinoJar $RHINO_JAR
+java -jar $TOOLS_JAR -compressJS \
+     -verbose \
+     -sourceDir $SRC_DIR \
+     -fileList $COMPRESSED_FILE \
+     -destDir $PROTOTYPE_DIR \
+     -rhinoJar $RHINO_JAR \
 
 #
 # Add copyright
 #
-head -7 $SRC_DIR/$COMPRESSED_FILE > $PROTOTYPE_DIR/$COMPRESSED_FILE.tmp
+head -7 $PROTOTYPE_DIR/$UNCOMPRESSED_FILE > $PROTOTYPE_DIR/$COMPRESSED_FILE.tmp
 cat $PROTOTYPE_DIR/$COMPRESSED_FILE >> $PROTOTYPE_DIR/$COMPRESSED_FILE.tmp
 mv $PROTOTYPE_DIR/$COMPRESSED_FILE.tmp $PROTOTYPE_DIR/$COMPRESSED_FILE
 

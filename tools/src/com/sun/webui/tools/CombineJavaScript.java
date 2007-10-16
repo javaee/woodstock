@@ -32,40 +32,40 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.TreeSet;
 
-public class CombineJavaScript {
-    private String combinedFile = null;
+public class CombineJavaScript extends ToolsBase {
     private ArrayList combinedFiles = new ArrayList();
-    private String modulePath = null;
     private String modulePrefix = null;
-    private boolean verbose = false;
 
     /**
      * Constructor.
      *
-     * @param combinedFile File path for combined output.
-     * @param modulePath The path to locate module sources.
+     * @param sourceDir Directory containing the files in fileList.
+     * @param outFile File path for combined output.
      * @param modulePrefix The JavaScript prefix for module sources.
      * @param verbose Enable verbose output.
      */
-    public CombineJavaScript(String combinedFile, String modulePath, 
+    public CombineJavaScript(String sourceDir, String outFile,
             String modulePrefix, boolean verbose) {
-        try {
-            this.combinedFile = combinedFile;
-            this.modulePath = new File(modulePath).getCanonicalPath();
-            this.modulePrefix = modulePrefix;
-            this.verbose = verbose;
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        super(sourceDir, null, outFile, verbose);
+        this.modulePrefix = modulePrefix;
     }
 
     /**
-     * Combine JavaScript directory or file.
+     * Combine a list of JavaScript files found in sourceDir.
      *
-     * @param sourcePath Path to JavaScript directory or file.
+     * @param fileList <f0,...,fn> A comma separated list of relative file paths to compress.
      */
-    public void combine(String sourcePath) throws IOException {
-        combineDir(sourcePath);
+    public void combine(String[] fileList) throws IOException {
+        TreeSet ts = new TreeSet();
+	for (int i = 0; i < fileList.length; i++) {
+            ts.add(getSourceDir() + File.separator + fileList[i]);
+        }
+
+        // Combine files in alphabetical order for consistency.
+        Iterator files = ts.iterator();
+        while (files.hasNext()) {
+            combineFile(new File((String) files.next()));
+        }
     }
 
     /**
@@ -74,10 +74,9 @@ public class CombineJavaScript {
      * @param file The JavaScript file to combine.
      */
     private void combineFile(File file) throws IOException {
-	if (combinedFiles.contains(file.getCanonicalPath())) {
-	    return;
-	}
-	combinedFiles.add(file.getCanonicalPath());
+        if (isFileCombined(file)) {
+            return;
+        }
 
 	// Create buffer to hold file contents.
         StringBuffer buff = new StringBuffer();
@@ -104,7 +103,7 @@ public class CombineJavaScript {
                     String fileName = line.substring(first + 1, last)
                         .replace('.', File.separatorChar) + ".js";
 
-		    combineFile(new File(modulePath + fileName));
+		    combineFile(new File(getSourceDir() + fileName));
 		} else {
                	    buff.append(line);
                     buff.append(System.getProperty("line.separator"));
@@ -112,7 +111,7 @@ public class CombineJavaScript {
             }
 
 	    // Write output.
-	    output = new FileWriter(combinedFile, true);
+	    output = new FileWriter(getOutFile(), true);
 	    output.write(buff.toString());
         } catch (FileNotFoundException e) {
             e.printStackTrace();
@@ -130,33 +129,27 @@ public class CombineJavaScript {
                 e.printStackTrace();
 	    }
         }
-	if (verbose) {
+	if (isVerbose()) {
 	    System.out.println("Combined JavaScript file '" + file.getCanonicalPath() + "'");
 	}
     }
 
     /**
-     * Combine JavaScript directory or file.
+     * Helper method to determine if JavaScript file should be combined.
      *
-     * @param sourcePath Path to JavaScript directory or file.
+     * @param file The JavaScript file to combine.
      */
-    private void combineDir(String sourcePath) throws IOException {
-        File file = new File(sourcePath);
-        if (file.isDirectory()) {
-            TreeSet ts = new TreeSet();
-            String[] fileNames = file.list();
-            for (int i = 0; i < fileNames.length; i++) {
-                String fileName = file.getAbsolutePath() + 
-                    File.separator + fileNames[i];
-                ts.add(fileName);
+    protected boolean isFileCombined(File file) {
+        boolean result = false;
+
+        try {
+            if (combinedFiles.contains(file.getCanonicalPath())) {
+	        result = true;
             }
-            // Call files in alphabetical order for consistency.
-            Iterator files = ts.iterator();
-            while (files.hasNext()) {
-                combineDir((String) files.next());
-            }
-        } else {
-            combineFile(file);
+            combinedFiles.add(file.getCanonicalPath());
+        } catch (IOException e) {
+            e.printStackTrace();
         }
+        return result;
     }
 }

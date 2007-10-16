@@ -22,6 +22,8 @@
 package com.sun.webui.tools;
 
 import java.io.*;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.StringTokenizer;
 
 /**
@@ -34,34 +36,32 @@ public class Main {
      * @param args Command line arguments.
      */
     public static void combineCSS(String[] args) throws IOException {
-	String combinedFile = null;
-        String modulePath = null;
-        String sourcePath = null;
+	String[] fileList = null;
+	String outFile = null;
+        String sourceDir = null;
         boolean verbose = false;
 
         // Parse arguments.
-        for (int i = 1; i < args.length; i++) {
-            if (args[i].equals("-verbose")) {
-                verbose = true;
-            } else if (i + 1 < args.length) {
-                if (args[i].equals("-combinedFile")) {
-                    combinedFile = args[++i];
-                }
-                if (args[i].equals("-modulePath")) {
-                    modulePath = args[++i];
-                }
-                if (args[i].equals("-sourcePath")) {
-                    sourcePath = args[++i];
-                }
-            }
+        Map map = parseFileListArgs(args);
+	if (null == (fileList = (String[]) map.get("fileList")) ||
+	        fileList.length == 0) {
+	    System.out.println("A non emtpy file list is required.");
+	    usage();
+	    System.exit(-1);
 	}
-
-        if (combinedFile != null && modulePath != null && sourcePath != null) {
-            CombineCSS obj = new CombineCSS(combinedFile, modulePath, verbose);
-            obj.combine(sourcePath);
-        } else {
-            usage();
-        }
+	if (null == (outFile = (String) map.get("outFile"))) {
+	    System.out.println("-outFile is required.");
+	    usage();
+	    System.exit(-1);
+	}
+	if (null == (sourceDir = (String) map.get("sourceDir"))) {
+	    System.out.println("-sourceDir is required.");
+	    usage();
+	    System.exit(-1);
+	}
+	verbose = ((Boolean) map.get("verbose")).booleanValue();
+	CombineCSS obj = new CombineCSS(sourceDir, outFile, verbose);
+	obj.combine(fileList);
     }
 
     /**
@@ -70,40 +70,39 @@ public class Main {
      * @param args Command line arguments.
      */
     public static void combineJavaScript(String[] args) throws IOException {
-	String combinedFile = null;
-	String modulePath = null;
+	String[] fileList = null;
 	String modulePrefix = null;
-        String sourcePath = null;
+	String outFile = null;
+        String sourceDir = null;
         boolean verbose = false;
 
         // Parse arguments.
-        for (int i = 1; i < args.length; i++) {
-            if (args[i].equals("-verbose")) {
-                verbose = true;
-            } else if (i + 1 < args.length) {
-                if (args[i].equals("-combinedFile")) {
-                    combinedFile = args[++i];
-                }
-                if (args[i].equals("-modulePath")) {
-                    modulePath = args[++i];
-                }
-                if (args[i].equals("-modulePrefix")) {
-                    modulePrefix = args[++i];
-                }
-                if (args[i].equals("-sourcePath")) {
-                    sourcePath = args[++i];
-                }
-            }
+        Map map = parseFileListArgs(args);
+	if (null == (fileList = (String[]) map.get("fileList")) ||
+	        fileList.length == 0) {
+	    System.out.println("A non emtpy file list is required.");
+	    usage();
+	    System.exit(-1);
 	}
-
-        if (combinedFile != null && modulePath != null && modulePrefix != null 
-                && sourcePath != null) {
-            CombineJavaScript obj = new CombineJavaScript(combinedFile,
-                modulePath, modulePrefix, verbose);
-            obj.combine(sourcePath);
-        } else {
-            usage();
-        }
+	if (null == (modulePrefix = (String) map.get("modulePrefix"))) {
+	    System.out.println("-modulePrefix is required.");
+	    usage();
+	    System.exit(-1);
+	}
+	if (null == (outFile = (String) map.get("outFile"))) {
+	    System.out.println("-outFile is required.");
+	    usage();
+	    System.exit(-1);
+	}
+	if (null == (sourceDir = (String) map.get("sourceDir"))) {
+	    System.out.println("-sourceDir is required.");
+	    usage();
+	    System.exit(-1);
+	}
+	verbose = ((Boolean) map.get("verbose")).booleanValue();
+	CombineJavaScript obj = new CombineJavaScript(sourceDir, outFile,
+            modulePrefix, verbose);
+	obj.combine(fileList);
     }
 
     /**
@@ -112,29 +111,39 @@ public class Main {
      * @param args Command line arguments.
      */
     public static void compressJavaScript(String[] args) throws IOException {
-        String sourcePath = null;
+	String destDir = null;
+	String[] fileList = null;
         String rhinoJar = null;
+        String sourceDir = null;
         boolean verbose = false;
 
         // Parse arguments.
-        for (int i = 1; i < args.length; i++) {
-            if (args[i].equals("-verbose")) {
-                verbose = true;
-            } else if (i + 1 < args.length) {
-                if (args[i].equals("-sourcePath")) {
-                    sourcePath = args[++i];
-                } else if (args[i].equals("-rhinoJar")) {
-                    rhinoJar = args[++i];
-                }
-            }
+        Map map = parseFileListArgs(args);
+	if (null == (fileList = (String[]) map.get("fileList")) ||
+	        fileList.length == 0) {
+	    System.out.println("A non emtpy file list is required.");
+	    usage();
+	    System.exit(-1);
 	}
-
-        if (sourcePath != null && rhinoJar != null) {
-            CompressJavaScript obj = new CompressJavaScript(rhinoJar, verbose);
-            obj.compress(sourcePath);
-        } else {
-            usage();
-        }
+	if (null == (destDir = (String) map.get("destDir"))) {
+	    System.out.println("-destDir is required.");
+	    usage();
+	    System.exit(-1);
+	}
+	if (null == (rhinoJar = (String) map.get("rhinoJar"))) {
+	    System.out.println("-rhinoJar is required.");
+	    usage();
+	    System.exit(-1);
+	}
+	if (null == (sourceDir = (String) map.get("sourceDir"))) {
+	    System.out.println("-sourceDir is required.");
+	    usage();
+	    System.exit(-1);
+	}
+	verbose = ((Boolean) map.get("verbose")).booleanValue();
+	CompressJavaScript obj = new CompressJavaScript(sourceDir, destDir,
+            rhinoJar, verbose);
+        obj.compress(fileList);
     }
 
     private final static String n2aUsage =
@@ -146,7 +155,7 @@ public class Main {
 
 	String sourceDir = null;
 	String destDir = null;
-	String fileList = null;
+	String fileList[] = null;
 	String encoding = null;
 	boolean reverse = false;
 
@@ -157,21 +166,34 @@ public class Main {
 	    System.exit(-1);
 	}
 
+	Map map = parseFileListArgs(args);
+	if (null == (sourceDir = (String)map.get("sourceDir"))) {
+	    System.out.println("-sourceDir is required." +
+		"\n" + n2aUsage);
+	    System.exit(-1);
+	}
+	if (null == (destDir = (String)map.get("destDir"))) {
+	    System.out.println("-destDir is required."  +
+		"\n" + n2aUsage);
+	    System.exit(-1);
+	}
+	if (null == (fileList = (String[])map.get("fileList")) ||
+		fileList.length == 0) {
+	    System.out.println("A non emtpy file list is required.\n" +
+		n2aUsage);
+	    System.exit(-1);
+	}
+
 	// Move past the native2ascii command arg[0]
 	//
 	for (int i = 1; i < args.length; ++i) {
 	    try {
-		if (args[i].equals("-sourceDir")) {
-		    validString(sourceDir = args[i + 1].trim());
+		// Already handled
+		if (args[i].equals("-sourceDir") ||
+			args[i].equals("-destDir") ||
+			args[i].equals("-fileList")) {
 		    ++i;
-		} else
-		if (args[i].equals("-destDir")) {
-		    destDir = args[i + 1].trim();
-		    ++i;
-		} else
-		if (args[i].equals("-fileList")) {
-		    validString(fileList = args[i + 1].trim());
-		    ++i;
+		    continue;
 		} else
 		if (args[i].equals("-reverse")) {
 		    reverse = true;
@@ -193,39 +215,15 @@ public class Main {
 	    }
 	}
 
-	String[] fileListArray = null;
-	StringTokenizer fileListTokens = new StringTokenizer(fileList, ",");
-	try {
-	    int count = fileListTokens.countTokens();
-	    if (count == 0) {
-		System.out.println("Emtpy file list.\n" + n2aUsage);
-		System.exit(-1);
-	    }
-	    fileListArray = new String[count];
-	    for (int j = 0; fileListTokens.hasMoreTokens(); ++j) {
-		fileListArray[j] = fileListTokens.nextToken();
-	    }
-	} catch (Exception e) {
-	    System.out.println(n2aUsage);
-	    e.printStackTrace();
-	    System.exit(-1);
-	}
-
 	Native2ascii n2a = null;
 	try {
 	    n2a = new Native2ascii(encoding, reverse,
-		sourceDir, destDir, fileListArray);
+		sourceDir, destDir, fileList);
 	    n2a.convertAll();
 	} catch (Exception e) {
 	    System.out.println(e.getMessage());
 	    e.printStackTrace();
 	    System.exit(-1);
-	}
-    }
-
-    private static void validString(String s) throws Exception {
-	if (s == null || s.length() == 0) {
-	    throw new Exception("Invalid argument value");
 	}
     }
 
@@ -243,32 +241,40 @@ public class Main {
         System.out.println("-compressJavaScript <args...>\t\tCompress JavaScript directory or file.");
         System.out.println("-native2ascii <args...>\t\tConvert native encoded file to unicode escapes or vice versa.");
 
-
         System.out.println("\nOptions for -combineCSS include:");
-        System.out.println("-combinedFile\tFile path for combined output.");
-        System.out.println("-modulePath\tThe path to locate module sources.");
-	System.out.println("-sourcePath\tJavaScript directory or file to combine.");
+	System.out.println("-fileList <f0,...,fn>\t" +
+		"A comma separated list of relative file paths to compress.");
+        System.out.println("-outFile <outFile>\tFile path for combined output.");
+	System.out.println("-sourceDir <sourceDir>\t" +
+		"Directory containing the files in fileList.");
         System.out.println("-verbose\tEnable verbose output.");
 
         System.out.println("\nOptions for -combineJS include:");
-        System.out.println("-combinedFile\tFile path for combined output.");
-        System.out.println("-modulePath\tThe path to locate module sources.");
-	System.out.println("-modulePrefix\tThe JavaScript prefix for module sources.");
-	System.out.println("-sourcePath\tJavaScript directory or file to combine.");
+	System.out.println("-fileList <f0,...,fn>\t" +
+		"A comma separated list of relative file paths to compress.");
+	System.out.println("-modulePrefix <modulePrefix>\tThe JavaScript prefix for module sources.");
+        System.out.println("-outFile <outFile>\tFile path for combined output.");
+	System.out.println("-sourceDir <sourceDir>\t" +
+		"Directory containing the files in fileList.");
         System.out.println("-verbose\tEnable verbose output.");
 
         System.out.println("\nOptions for -compressJS include:");
-        System.out.println("-rhinoJar\tJar file containing the Rhino compression tool.");
-        System.out.println("-sourcePath\tJavaScript directory or file to compress.");
+	System.out.println("-fileList <f0,...,fn>\t" +
+		"A comma separated list of relative file paths to compress.");
+	System.out.println("-destDir <destDir>\t" +
+		"Directory where compressed files are written.");
+        System.out.println("-rhinoJar <rhinoJar>\tJar file containing the Rhino compression tool.");
+	System.out.println("-sourceDir <sourceDir>\t" +
+		"Directory containing the files in fileList.");
         System.out.println("-verbose\tEnable verbose output.");
 
 	System.out.println("\nOptions for -native2ascii include:");
 	System.out.println("-sourceDir <sourceDir>\t" +
-		"Directory containin files in fileList.");
+		"Directory containing files in fileList.");
 	System.out.println("-destDir <destDir>\t" +
 		"Directory where converted files are written.");
 	System.out.println("-fileList <f0,...,fn>\t" +
-		"A comma separated list of files to convert.");
+		"A comma separated list of relative file paths to convert.");
 	System.out.println("[-encoding <encoding>]\t" +
 		"The encoding to convert from or to." +
 		"UTF-8 is the default encoding");
@@ -298,4 +304,94 @@ public class Main {
             usage();
         }
     }
+
+    /**
+     * Return a Map with the file list args as keys and values
+     * "sourceDir", "destDir" and "fileList", where "fileList" has
+     * a value of String[].
+     * The returned map may have none, some or all of the desired
+     * args. It is up to the caller to check.
+     */
+    private static Map parseFileListArgs(String[] args) {
+	String destDir = null;
+	String fileList = null;
+	String modulePrefix = null;
+	String outFile = null;
+	String rhinoJar = null;
+	String sourceDir = null;
+
+	HashMap map = new HashMap();
+
+	// cmd + sourceDir + destDir + filesList == 4
+	if (args.length < 4) {
+	    return map;
+	}
+
+	// Move past the command arg[0]
+	//
+	for (int i = 1; i < args.length; ++i) {
+	    try {
+		if (args[i].equals("-fileList")) {
+		    validString(fileList = args[i + 1].trim());
+		    ++i;
+		} else
+		if (args[i].equals("-destDir")) {
+		    destDir = args[i + 1].trim();
+		    map.put("destDir", destDir);
+		    ++i;
+		} else
+		if (args[i].equals("-modulePrefix")) {
+		    modulePrefix = args[i + 1].trim();
+		    map.put("modulePrefix", modulePrefix);
+		    ++i;
+		} else
+		if (args[i].equals("-outFile")) {
+		    outFile = args[i + 1].trim();
+		    map.put("outFile", outFile);
+		    ++i;
+		} else
+		if (args[i].equals("-rhinoJar")) {
+		    rhinoJar = args[i + 1].trim();
+		    map.put("rhinoJar", rhinoJar);
+		    ++i;
+		} else
+		if (args[i].equals("-sourceDir")) {
+		    validString(sourceDir = args[i + 1].trim());
+		    map.put("sourceDir", sourceDir);
+		    ++i;
+
+		} else
+		if (args[i].equals("-verbose")) {
+		    map.put("verbose", new Boolean(true));
+                }
+	    } catch (Exception e) {
+		return map;
+	    }
+	}
+
+	String[] fileListArray = null;
+	try {
+	    StringTokenizer fileListTokens = new StringTokenizer(fileList, ",");
+	    int count = fileListTokens.countTokens();
+	    if (count == 0) {
+		return map;
+	    }
+	    fileListArray = new String[count];
+	    for (int j = 0; fileListTokens.hasMoreTokens(); ++j) {
+		fileListArray[j] = fileListTokens.nextToken();
+	    }
+	} catch (Exception e) {
+	    return map;
+	}
+
+	map.put("fileList", fileListArray);
+	return map;
+    }
+
+    private static void validString(String s) throws Exception {
+	if (s == null || s.length() == 0) {
+	    throw new Exception("Invalid argument value");
+	}
+    }
+
 }

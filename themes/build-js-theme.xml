@@ -28,32 +28,63 @@
 
     <property name="components.home" value="${basedir}/../webui"/>
     
-    <!-- Building a javascript theme depends on ${_webui-jar_}
+    <!-- Building a javascript theme depends on ${webui-jar}
          In the future it will depend on just the theme implementation
 	 jar, but for now the ResourceBundleTheme class implements
-	 the functionality and that class resides in ${_webui-jar_}.
+	 the functionality and that class resides in ${webui-jar}.
 
-        This build script also depends on a ${_theme-jar_}
-	being built first. It uses that jar and the ${_webui-jar_}
+        This build script also depends on a ${_js-theme-jar_}
+	being built first. It uses that jar and the ${webui-jar}
 	to construct the javascript theme. It then updates the
-	${_theme-jar_} with the javascript theme files.
+	${_js-theme-jar_} with the javascript theme files.
+
+	Similarly for the l10n javascript theme files.
 
        -->
 
     <!-- default properties in case this build file is used
 	 explicitly vs. being called from another build file.-->
 
-    <property name="_js-webui-jar_" 
-	value="${components.home}/lib/webui-jsf.jar"/>
-    <property name="_json-jar_" 
+    <property name="webui-jar" 
+	value="${components.home}/netbeans/modules/autoload/ext/webui-jsf.jar"/>
+    <property name="json-jar" 
 	value="${components.home}/lib/external/json-2.jar"/>
 
     <!-- defaults -->
-    <property name="_js-to-dir_" value="build/suntheme"/>
-    <property name="_js-theme-jar_" value="webui-jsf-suntheme.jar"/>
+    <!-- The "_js-from-dir_" is for checking dependencies -->
+    <property name="_js-from-dir_" value="${basedir}/src/suntheme"/>
+    <property name="_js-to-dir_" value="${basedir}/build/suntheme"/>
+    <property name="_js-theme-jar_" 
+	value="${basedir}/dist/webui-jsf-suntheme.jar"/>
     <property name="_js-theme-name_" value="suntheme"/>
-    <property name="_js-theme-package" value="com.sun.webui.jsf.suntheme"/>
-    <property name="_js-l10n-dir_" value="./l10n"/>
+    <property name="_js-theme-package_" value="com.sun.webui.jsf.suntheme"/>
+    <property name="_js-l10n-dir_" value="${basedir}/dist"/>
+
+    <!-- Need these paths defined at this scope for clean 
+	 Note that clean will not remove entries from update jars -->
+
+    <!-- Windows unpackagemapper does not behave the same when there is a
+	 dot in the basedir path like woodstock-build-4.1
+	 therefore we have to create a "unpackage" version of the
+	 basedir and then "map" it out -->
+
+    <!-- make basedir a package -->
+    <pathconvert  property="__js-basedir-pkg__" dirsep="/">
+	<path path="${basedir}"/>
+	<unpackagemapper from="*" to="*"/>
+    </pathconvert>
+
+    <!-- convert the package into a file path -->
+    <pathconvert property="__js-pkgpath__" dirsep="/">
+	<path path="${_js-theme-package_}"/>
+	<unpackagemapper from="*" to="*"/>
+	<map from="${__js-basedir-pkg__}/" to=""/>
+    </pathconvert>
+
+    <property name="__js-cmp-nlsdir__"
+	value="${__js-pkgpath__}/javascript/theme/nls"/>
+    <property name="__js-uncmp-nlsdir__"
+	value="${__js-pkgpath__}/javascript_uncompressed/theme/nls"/>
 
     <!-- Javascript theme properties 
 	The javascript theme uses dojo to load localizations
@@ -70,63 +101,91 @@
 	"nls/suntheme.js" file would be the fallback bundle containing
 	definitions suitable for any locale. -->
 
+    <!-- Assumes parameters properties "_js-to-dir_", "_js-from-dir_",
+	and "_js-theme-jar_", "__js-pkgpath__" have been set
 
-    <!-- Note for the theme builder transformation, the javascript
-	widget namespace is assumed to be same, this is the
-	same assumption as when transforming the theme proper.
-	The default "version" is the hardcoded default
-	version as defined by the components.  -->
+	Sets the "${js-theme-uptodate}" property if the
+	if the ${_js-theme-jar_} jar file exists and properties files in 
+	
+	    "${_js-from-dir_}/**/*.properties"
+
+	are older than
+
+	    "${_js-to-dir_}/**/${_js-theme-name_}.js"
+
+	If the "${build.jstheme}" property false "${js-theme-uptodate}"
+	is also set to true, inhibiting the build of the js theme.
+    -->
+    <target name="js-theme-uptodate">
+	<available property="_have-theme-jar_" file="${_js-theme-jar_}"/>
+	<!-- fail if the locale jar does not exist
+	-->
+	<fail message="${_js-theme-jar_} does not exist.">
+	    <condition>
+		<not>
+		    <isset property="_have-theme-jar_"/>
+		</not>
+	    </condition>
+	</fail>
+	<!-- the js theme file name and path
+	-->
+	<property name="__js-file__"
+	    value="${_js-to-dir_}/${__js-cmp-nlsdir__}/${_js-theme-name_}.js"/>
+
+	<!-- check to see if building the js theme is turned off
+	-->
+	<condition property="__js-dont-build__" value="true" else="false">
+	    <and>
+		<isset property="build.jstheme"/>
+		<isfalse value="${build.jstheme}"/>
+	    </and>
+	</condition>
+
+	<!-- If the theme jar exists and the theme js file
+	     exists and is newer than the corresponding properties
+	     files set the "${js-theme-uptodate}" property.
+	-->
+	<condition property="__js-files-uptodate__">
+	    <and>
+		<isset property="_have-theme-jar_"/>
+		<uptodate targetfile="${__js-file__}">
+		    <srcfiles dir="${_js-from-dir_}"
+			includes="**/*.properties"
+			excludes="translatedFiles/**.properties"/>
+		</uptodate>
+	    </and>
+	</condition>
+
+	<condition property="js-theme-uptodate">
+	    <or>
+		<istrue value="${__js-dont-build__}"/>
+		<isset property="__js-files-uptodate__"/>
+	    </or>
+	</condition>
+    </target>
 
     <!-- Ant task Arguments
 	 _js-to-dir_ - the root of the destination directory for created files.
-	 _js-webui-jar_ - The runtime jar that has the necessary 
-		ResourceBundleTheme class must be an ant task parameter 
-		from the caller
 	 _js-theme-jar_ - The prebuilt theme jar
 	 _js-theme-name_ - the theme name
 	 _js-theme-package - theme package
-	 _js-l10n-dir_ - the location of the localized jars or properties files.
 	 _js-locales_ - space separated list of locale suffixes like "fr",
 		"zh_CN", etc. (Not supported yet).
 	-->
 
-    <target name="buildJsTheme">
+    <target name="buildJsTheme" depends="js-theme-uptodate"
+	    unless="js-theme-uptodate">
 
-	<!-- Windows unpackagemapper does not behave the same when there is a
-	     dot in the basedir path like woodstock-build-4.1
-	     therefore we have to create a "unpackage" version of the
-	     basedir and then "map" it out -->
+	<!-- send a message since it is hard to tell if 
+	     it is actually building or up to date or turned off
+	-->
+	<echo message="Building js client theme"/>
 
-	<!-- make basedir a package -->
-	<pathconvert  property="__js-basedir-pkg__">
-	    <path path="${basedir}"/>
-	    <unpackagemapper from="*" to="*"/>
-        </pathconvert>
+	<mkdir dir="${_js-to-dir_}/${__js-cmp-nlsdir__}"/>
+	<mkdir dir="${_js-to-dir_}/${__js-uncmp-nlsdir__}"/>
 
-	<!-- convert the package into a file path -->
-	<pathconvert property="__js-pkgpath__">
-	    <path path="${_js-theme-package_}"/>
-	    <unpackagemapper from="*" to="*"/>
-	    <map from="${__js-basedir-pkg__}/" to=""/>
-	</pathconvert>
-
-	<property name="__cmp-nls-path__" 
-	    value="${__js-pkgpath__}/javascript/theme/nls"/>
-	<property name="__uncmp-nls-path__" 
-	    value="${__js-pkgpath__}/javascript_uncompressed/theme/nls"/>
-
-	<property name="__js-cmp-nls-path__"
-	    value="${_js-to-dir_}/${__cmp-nls-path__}"/>
-	<property name="__js-cmp-nls-file__"
-	    value="${__js-cmp-nls-path__}/${_js-theme-name_}.js"/>
-
-	<property name="__js-uncmp-nls-path__"
-	    value="${_js-to-dir_}/${__uncmp-nls-path__}"/>
-	<property name="__js-uncmp-nls-file__"
-	    value="${__js-uncmp-nls-path__}/${_js-theme-name_}.js"/>
-
-       <mkdir dir="${__js-cmp-nls-path__}"/>
-       <mkdir dir="${__js-uncmp-nls-path__}"/>
+	<property name="_to-uncmpdir-loc_"
+	    location="${_js-to-dir_}/${__js-uncmp-nlsdir__}"/>
 
 	<!-- The uncompressed version is the JSON pretty printed version 
 	  -->
@@ -134,167 +193,271 @@
 		logError="yes"
 		failonerror="true" fork="true">
 	    <arg value="-dir"/>
-	    <arg value="${__js-uncmp-nls-path__}"/>
+	    <arg value="${_to-uncmpdir-loc_}"/>
 	    <arg value="-theme"/>
 	    <arg value="${_js-theme-name_}"/>
 	    <arg value="-prettyprint"/>
 	    <arg value="4"/>
 	    <classpath>
-		 <pathelement path="${_json-jar_}"/>
-		 <pathelement path="${_js-webui-jar_}"/>
+		 <pathelement path="${json-jar}"/>
+		 <pathelement path="${webui.jar}"/>
 		 <pathelement path="${_js-theme-jar_}"/>
 	    </classpath>
 	</java>
 
+	<property name="_to-cmpdir-loc_"
+	    location="${_js-to-dir_}/${__js-cmp-nlsdir__}"/>
+
 	<java classname="com.sun.webui.theme.ResourceBundleTheme"
 		failonerror="true" fork="true">
 	    <arg value="-dir"/>
-	    <arg value="${__js-cmp-nls-path__}"/>
+	    <arg value="${_to-cmpdir-loc_}"/>
 	    <arg value="-theme"/>
 	    <arg value="${_js-theme-name_}"/>
-	     <classpath>
-		 <pathelement path="${_json-jar_}"/>
-		 <pathelement path="${_js-webui-jar_}"/>
+	    <classpath>
+		 <pathelement path="${json-jar}"/>
+		 <pathelement path="${webui-jar}"/>
 		 <pathelement path="${_js-theme-jar_}"/>
-	     </classpath>
+	    </classpath>
 	</java>
 
-	<!-- supported locales the contents of the l10n directory
-	webui-jsf-suntheme_de.jar
-	webui-jsf-suntheme_es.jar
-	webui-jsf-suntheme_fr.jar
-	webui-jsf-suntheme_it.jar
-	webui-jsf-suntheme_ja.jar
-	webui-jsf-suntheme_ko.jar
-	webui-jsf-suntheme_pt_BR.jar
-	webui-jsf-suntheme_sv.jar
-	webui-jsf-suntheme_zh_CN.jar
-	webui-jsf-suntheme_zh_HK.jar
-	webui-jsf-suntheme_zh_TW.jar
-	-->
-
-	<!-- Don't create localized theme until l10n jars are fixed
-	<antcall target="localizeJSTheme">
-	    <param name="_locale_" value="de"/>
-	    <param name="_dojo-locale_" value="de"/>
-	</antcall>
-	<antcall target="localizeJSTheme">
-	    <param name="_locale_" value="es"/>
-	    <param name="_dojo-locale_" value="es"/>
-	</antcall>
-	<antcall target="localizeJSTheme">
-	    <param name="_locale_" value="fr"/>
-	    <param name="_dojo-locale_" value="fr"/>
-	</antcall>
-	<antcall target="localizeJSTheme">
-	    <param name="_locale_" value="it"/>
-	    <param name="_dojo-locale_" value="it"/>
-	</antcall>
-	<antcall target="localizeJSTheme">
-	    <param name="_locale_" value="ja"/>
-	    <param name="_dojo-locale_" value="ja"/>
-	</antcall>
-	<antcall target="localizeJSTheme">
-	    <param name="_locale_" value="ko"/>
-	    <param name="_dojo-locale_" value="ko"/>
-	</antcall>
-	<antcall target="localizeJSTheme">
-	    <param name="_locale_" value="pt_BR"/>
-	    <param name="_dojo-locale_" value="pt-br"/>
-	</antcall>
-	<antcall target="localizeJSTheme">
-	    <param name="_locale_" value="sv"/>
-	    <param name="_dojo-locale_" value="sv"/>
-	</antcall>
-	<antcall target="localizeJSTheme">
-	    <param name="_locale_" value="zh_CN"/>
-	    <param name="_dojo-locale_" value="zh-cn"/>
-	</antcall>
-	<antcall target="localizeJSTheme">
-	    <param name="_locale_" value="zh_HK"/>
-	    <param name="_dojo-locale_" value="zh-hk"/>
-	</antcall>
-	<antcall target="localizeJSTheme">
-	    <param name="_locale_" value="zh_TW"/>
-	    <param name="_dojo-locale_" value="zh-tw"/>
-	</antcall>
-       -->
-
-       <!-- Add the javascript theme to the theme jar -->
-       <jar destfile="${_js-theme-jar_}"
+        <!-- Add the javascript theme to the theme jar -->
+	<jar destfile="${_js-theme-jar_}"
 	     update="true"
 	     basedir="${_js-to-dir_}"
-	     includes="${__cmp-nls-path__}/**/*.js,${__uncmp-nls-path__}/**/*.js">
+	     includes="${__js-cmp-nlsdir__}/${_js-theme-name_}.js,${__js-uncmp-nlsdir__}/${_js-theme-name_}.js">
 	</jar>
+
+    </target>
+
+    <target name="buildL10nJsTheme">
+
+	<!-- supported locales the contents of the dist directory -->
+	<!-- Don't create localized theme until l10n files are commited.
+	-->
+	<antcall target="localizeJSTheme">
+	    <param name="_l10n-locale_" value="de"/>
+	    <param name="_l10n-nls-locale_" value="de"/>
+	    <param name="_l10n-uptodate-prop_" value="de-uptodate"/>
+	</antcall>
+	<antcall target="localizeJSTheme">
+	    <param name="_l10n-locale_" value="es"/>
+	    <param name="_l10n-nls-locale_" value="es"/>
+	    <param name="_l10n-uptodate-prop_" value="es-uptodate"/>
+	</antcall>
+	<antcall target="localizeJSTheme">
+	    <param name="_l10n-locale_" value="fr"/>
+	    <param name="_l10n-nls-locale_" value="fr"/>
+	    <param name="_l10n-uptodate-prop_" value="fr-uptodate"/>
+	</antcall>
+	<antcall target="localizeJSTheme">
+	    <param name="_l10n-locale_" value="it"/>
+	    <param name="_l10n-nls-locale_" value="it"/>
+	    <param name="_l10n-uptodate-prop_" value="it-uptodate"/>
+	</antcall>
+	<antcall target="localizeJSTheme">
+	    <param name="_l10n-locale_" value="ja"/>
+	    <param name="_l10n-nls-locale_" value="ja"/>
+	    <param name="_l10n-uptodate-prop_" value="js-uptodate"/>
+	</antcall>
+	<antcall target="localizeJSTheme">
+	    <param name="_l10n-locale_" value="ko"/>
+	    <param name="_l10n-nls-locale_" value="ko"/>
+	    <param name="_l10n-uptodate-prop_" value="ko-uptodate"/>
+	</antcall>
+	<antcall target="localizeJSTheme">
+	    <param name="_l10n-locale_" value="pt_BR"/>
+	    <param name="_l10n-nls-locale_" value="pt-br"/>
+	    <param name="_l10n-uptodate-prop_" value="pt_BR-uptodate"/>
+	</antcall>
+	<antcall target="localizeJSTheme">
+	    <param name="_l10n-locale_" value="sv"/>
+	    <param name="_l10n-nls-locale_" value="sv"/>
+	    <param name="_l10n-uptodate-prop_" value="sv-uptodate"/>
+	</antcall>
+	<antcall target="localizeJSTheme">
+	    <param name="_l10n-locale_" value="zh_CN"/>
+	    <param name="_l10n-nls-locale_" value="zh-cn"/>
+	    <param name="_l10n-uptodate-prop_" value="zh_CN-uptodate"/>
+	</antcall>
+	<antcall target="localizeJSTheme">
+	    <param name="_l10n-locale_" value="zh_HK"/>
+	    <param name="_l10n-nls-locale_" value="zh-hk"/>
+	    <param name="_l10n-uptodate-prop_" value="zh_HK-uptodate"/>
+	</antcall>
+	<antcall target="localizeJSTheme">
+	    <param name="_l10n-locale_" value="zh_TW"/>
+	    <param name="_l10n-nls-locale_" value="zh-tw"/>
+	    <param name="_l10n-uptodate-prop_" value="zh_TW-uptodate"/>
+	</antcall>
+
+    </target>
+
+    <!-- Assumes parameters "_l10n-locale_", "_l10n-nls-locale_" , and
+	properties "_js-to-dir_", __js-cmp-nlsdir__", "_js-from-dir_",
+	and "_js-theme-name_" have been set
+
+	Sets the "${_l10n-uptodate-prop_}" property if the
+	if the corresponding jar file exists and properties files in 
+	
+	    "${_js-from-dir_}/translatedFiles/**/*_${_l10n-locale_}.properties
+
+	are older than
+
+	    "${_js-to-dir_}/translatedFiles/**/${_l10n-nls-locale_}/${_js-theme-name_}.js"
+
+	If the "${build.l10n-jstheme}" property is false
+	"${l10n-js-theme-uptodate}" is also set to true, inhibiting the 
+	build of the l10n js theme.
+    -->
+    <target name="l10n-js-theme-uptodate">
+
+	<!-- construct the l10n jar name for this locale -->
+	<basename property="__utd-jarname__" suffix=".jar"
+		    file="${_js-theme-jar_}"/>
+	<property name="__utd-jar-property__"
+	    value="${_js-l10n-dir_}/${__utd-jarname__}_${_l10n-locale_}.jar"/>
+
+	<available property="_have-${_l10n-locale_}-jar_"
+		file="${__utd-jar-property__}"/>
+
+	<!-- fail if the locale jar does not exist -->
+	<fail message="${__utd-jar-property__} does not exist.">
+	    <condition>
+		<not>
+		    <isset property="_have-${_l10n-locale_}-jar_"/>
+		</not>
+	    </condition>
+	</fail>
+
+	<!-- the js l10n file name and path -->
+	<property name="__utd-js-file__"
+	    value="${_js-to-dir_}/translatedFiles/${__js-cmp-nlsdir__}/${_l10n-nls-locale_}/${_js-theme-name_}.js"/>
+
+	<!-- check to see if building the l10n js theme is turned off
+	-->
+	<condition property="__l10n-dont-build__" value="true" else="false">
+	    <and>
+		<isset property="build.l10n-jstheme"/>
+		<isfalse value="${build.l10n-jstheme}"/>
+	    </and>
+	</condition>
+	<!-- If the locale jar exists and the localized js file
+	     exists and is newer than the corresponding localized
+	     files set the "${_l10n-uptodate-prop_}".
+	-->
+	<condition property="__l10n-files-uptodate__">
+	    <and>
+		<isset property="_have-${_l10n-locale_}-jar_"/>
+		<uptodate targetfile="${__utd-js-file__}">
+		    <srcfiles dir="${_js-from-dir_}/translatedFiles"
+			includes="**/*_${_l10n-locale_}.properties"/>
+		</uptodate>
+	    </and>
+	</condition>
+	<condition property="${_l10n-uptodate-prop_}">
+	    <or>
+		 <isset property="__l10n-files-uptodate__"/>
+		 <istrue value="${__l10n-dont-build__}"/>
+	    </or>
+	</condition>
 
     </target>
 
     <!-- Create a JavaScript theme file for each localization 
       Arguments
-	  _dojo-locale_ - the locale suffix in dojo syntax ("-" vs. "_")
-	  _locale_ - the locale suffix in java syntax
+
+	  _l10n-locale_ - the locale suffix in java syntax
+	  _l10n-nls-locale_ - the locale suffix in dojo syntax ("-" vs. "_")
+
+      Assumes properties
+
+	  __js-cmp-nlsdir__
+	  __js-uncmp-nlsdir__
+	  _js-theme-name_
+	  _js-theme-jar_
+	  _js-to-dir_ 
+	  _js-l10n-dir_
+	  
+	  json.jar
+	  webui.jar
       -->
-    <target name="localizeJSTheme">
+    <target name="localizeJSTheme" depends="l10n-js-theme-uptodate"
+	    unless="${_l10n-uptodate-prop_}">
 
-	<property name="__nlsdir__" 
-	    value="${__js-cmp-nls-path__}/${_dojo-locale_}"/>
-	<mkdir dir="${__nlsdir__}"/>
+	<!-- send a message since it is hard to tell if 
+	     it is actually building or up to date or turned off
+	-->
+	<echo message="Building l10n ${_l10n-locale_} js client theme"/>
 
+	<!-- construct the l10n jar name for this locale -->
 	<basename property="__jarname__" suffix=".jar"
 		file="${_js-theme-jar_}"/>
 	<property name="__locale-jar__"
-	    value="${_js-l10n-dir_}/${__jarname__}_${_locale_}.jar"/>
+	    location="${_js-l10n-dir_}/${__jarname__}_${_l10n-locale_}.jar"/>
+
+	<!-- The compressed javascript directory -->
+	<property name="__l10n-cmp-nlsdir__" 
+	    location="${_js-to-dir_}/translatedFiles/${__js-cmp-nlsdir__}/${_l10n-nls-locale_}"/>
+	<mkdir dir="${__l10n-cmp-nlsdir__}"/>
 
 	<!-- Create the localized JS themes -->
 	<java classname="com.sun.webui.theme.ResourceBundleTheme"
 		failonerror="true" fork="true">
 	    <arg value="-dir"/>
-	    <arg value="${__nlsdir__}"/>
+	    <arg value="${__l10n-cmp-nlsdir__}"/>
 	    <arg value="-theme"/>
 	    <arg value="${_js-theme-name_}"/>
 	    <arg value="-locale"/>
-	    <arg value="${_locale_}"/>
+	    <arg value="${_l10n-locale_}"/>
 	    <arg value="-l10nJar"/>
 	    <arg value="jar:file:${__locale-jar__}!/"/>
 	     <classpath>
-		 <pathelement path="${_json-jar_}"/>
-		 <pathelement path="${_webui-jar_}"/>
-		 <pathelement path="${_theme-jar_}"/>
+		 <pathelement path="${json-jar}"/>
+		 <pathelement path="${webui-jar}"/>
+		 <pathelement path="${_js-theme-jar_}"/>
 	     </classpath>
 	</java>
 
-        <property name="__uncmp-nlsdir__" 
-	    value="${__js-uncmp-nls-path__}${_dojo-locale_}"/>
-        <mkdir dir="${__uncmp-nlsdir__}"/>
+	<property name="__l10n-uncmp-nlsdir__" 
+	    location="${_js-to-dir_}/translatedFiles/${__js-uncmp-nlsdir__}/${_l10n-nls-locale_}"/>
+	<mkdir dir="${__l10n-uncmp-nlsdir__}"/>
 
 	<!-- Create the uncompressed localized JS themes -->
 	<java classname="com.sun.webui.theme.ResourceBundleTheme"
 		failonerror="true" fork="true">
 	    <arg value="-dir"/>
-	    <arg value="${__uncmp-nlsdir__}"/>
+	    <arg value="${__l10n-uncmp-nlsdir__}"/>
 	    <arg value="-theme"/>
 	    <arg value="${_js-theme-name_}"/>
 	    <arg value="-locale"/>
-	    <arg value="${_locale_}"/>
+	    <arg value="${_l10n-locale_}"/>
 	    <arg value="-prettyprint"/>
 	    <arg value="4"/>
 	    <arg value="-l10nJar"/>
 	    <arg value="jar:file:${__locale-jar__}!/"/>
 	    <classpath>
-		<pathelement path="${_json-jar_}"/>
-		<pathelement path="${_js-webui-jar_}"/>
+		<pathelement path="${json-jar}"/>
+		<pathelement path="${webui-jar}"/>
 		<pathelement path="${_js-theme-jar_}"/>
 	    </classpath>
 	</java>
+
+        <!-- Add the javascript theme to the theme jar -->
+	<jar destfile="${__locale-jar__}"
+	     update="true"
+	     basedir="${_js-to-dir_}/translatedFiles"
+	     includes="${__js-cmp-nlsdir__}/${_l10n-nls-locale_}/*.js,${__js-uncmp-nlsdir__}/${_l10n-nls-locale_}/*.js">
+	</jar>
     </target>
+
+    <target name="all" depends="buildJsTheme,buildL10nJsTheme"/>
 
     <target name="clean">
-        <delete dir="${nlsdir}" />
-        <delete dir="${nlsdir-uncompressed}" />
-    </target>
-
-    <target name="syntax-check">
-	<echo message="Ok"/>
+        <delete dir="${_js-to-dir_}/${__js-cmp-nlsdir__}"/>
+        <delete dir="${_js-to-dir_}/${__js-uncmp-nlsdir__}"/>
+        <delete dir="${_js-to-dir_}/translatedFiles/${__js-cmp-nlsdir__}"/>
+        <delete dir="${_js-to-dir_}/translatedFiles/${__js-uncmp-nlsdir__}"/>
     </target>
 
 </project>

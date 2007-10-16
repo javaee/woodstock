@@ -70,13 +70,13 @@ public class Native2ascii {
 	    throws Exception {
 
 	if (!dir.isDirectory()) {
-	    throw new Exception(dir.getAbsolutePath() + " is not a directory.");
+	    throw new Exception(dir.getCanonicalPath() + " is not a directory.");
 	}
 	if (readOnly && !dir.canRead()) {
-	    throw new Exception(dir.getAbsolutePath() + " is not readable.");
+	    throw new Exception(dir.getCanonicalPath() + " is not readable.");
 	}
 	if (!readOnly && !dir.canWrite()) {
-	    throw new Exception(dir.getAbsolutePath() + " is not writable.");
+	    throw new Exception(dir.getCanonicalPath() + " is not writable.");
 	}
     }
 
@@ -107,8 +107,8 @@ public class Native2ascii {
      */
     public void convertAll() throws Exception {
 
-	String absSourceDir = sourceDir.getAbsolutePath();
-	String absDestDir = destDir.getAbsolutePath();
+	String absSourceDir = sourceDir.getCanonicalPath();
+	String absDestDir = destDir.getCanonicalPath();
 	for (int i = 0; i < fileList.length; ++i) {
 	    try {
 		convert(absSourceDir + File.separator + fileList[i],

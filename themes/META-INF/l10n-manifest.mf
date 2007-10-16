@@ -1,0 +1,8 @@
+Implementation-Title: Woodstock Components @FULL_VERSION@ @LANG@ Theme: @THEME@
+Implementation-Version: @FULL_VERSION@
+Implementation-Vendor: Sun Microsystems, Inc.
+Implementation-Vendor-Id: com.sun
+Specification-Title: Woodstock Components Theme: @THEME@
+Specification-Version: @VERSION@
+Specification-Vendor: Sun Microsystems, Inc.
+
