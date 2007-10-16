@@ -123,6 +123,12 @@ webui.@THEME@.widget.hyperlink.prototype.onClickCallback = function(event) {
         return false;
     }
     event.preventDefault();
+    
+    // If a form id isnt provided, use the utility function to
+    // obtain the form id.
+    if (this.formId == null) {
+        this.formId = this.widget.getFormId(this.domNode.id);
+    }
     return this.submitFormData(this.formId, this.params);
 }
 

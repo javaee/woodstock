@@ -642,15 +642,123 @@ webui.@THEME@.widget.calendar.prototype.postCreate = function () {
         this.yearMenuContainer.id = this.id + "_yearMenuContainer";
         this.shimContainer.id = this.id + "_shim";
     }
-
-    // If disabledImage is null, create images from the theme.
-    // When the _setProps() function is called, image widgets will be
+    
+     // Create client side widgets for the calendar.
+     // When the _setProps() function is called, these widgets will be
     // instantiated via the props param. 
-    if (this.toggleLink.disabledImage == null) {
-	this.toggleLink.disabledImage = this.widget.getImageProps(
-            "CALENDAR_BUTTON_DISABLED", {
-            id: this.id + "_disabledImage", border: 0
+
+    // If toggle link is null, create the image hyperlink.
+    if (this.toggleLink == null) {
+        this.toggleLink = this.widget.getImageHyperlinkProps(
+            {id:this.id+"_datePickerLink",
+                contents:[],
+                imagePosition:"left",
+             title:this.theme.getMessage("calendar.popupImageAlt"),
+                 enabledImage:{
+                    id:this.id+"_datePickerLink_image",
+                    border:0
+                 },
+                 disabledImage:{
+                    id:this.id+"_datePickerLink_image_disabled", 
+                    border:0
+                 },
+                 align:"middle"                 
+            },            
+            "CALENDAR_BUTTON",
+            "CALENDAR_BUTTON_DISABLED"
+        );
+    }
+    
+    // Create the spacer image.
+    if (this.spacerImage == null) {
+        this.spacerImage = this.widget.getImageProps("DOT", {
+            id: this.id + ":DOT"
         });
+    }
+    
+    // Create the top left image.
+    if (this.topLeftImage == null) {
+        this.topLeftImage = this.widget.getImageProps("SCHEDULER_TOP_LEFT", {
+            id: this.id + ":topLeft"
+            });        
+    }        
+        
+    //Create the top right image.
+    if (this.topRightImage == null) {
+        this.topRightImage = this.widget.getImageProps("SCHEDULER_TOP_RIGHT", {
+            id: this.id + ":topRight"
+            });        
+    }
+    
+    // Create the increase link imageHyperlink widget.
+    if (this.increaseLink == null) {
+        this.increaseLink = this.widget.getImageHyperlinkProps(
+            {id:this.id+":nextMonthLink",
+             enabledImage:{
+                 border:0,
+                 id:this.id+":nextMonthLink_image"
+             },
+             title:this.theme.getMessage("CalendarMonth.goForward")             
+            },
+            "SCHEDULER_FORWARD"
+         );
+    }   
+    
+    // Create the decrease link imageHyperlink widget.
+    if (this.decreaseLink == null) {
+        this.decreaseLink = this.widget.getImageHyperlinkProps(
+            {"id":this.id+":previousMonthLink",
+             enabledImage:{
+                 border:0,
+                 id:this.id+":previousMonthLink_image"
+             },
+             title:this.theme.getMessage("CalendarMonth.goBack")},
+             "SCHEDULER_BACKWARD"                          
+         );
+    }        
+    
+    // Create the close button link imageHyperlink widget
+    if (this.closeButtonLink == null) {
+        this.closeButtonLink = this.widget.getImageHyperlinkProps (
+            {id:this.id+":closeButtonLink",
+             enabledImage: {
+                border:0,
+                id:this.id+"closeButtonLink_close"
+            },
+            title:this.theme.getMessage("CalendarMonth.close"),
+            className:this.theme.getClassName("CALENDAR_CLOSE_BUTTON")            
+            },            
+            "CALENDAR_CLOSE_BUTTON"            
+            );    
+        }
+    
+    //Create the month menu drop down
+    if (this.monthMenu.id == null) {
+        this.monthMenu = this.widget.getDropDownProps(
+            {id: this.id+":monthMenu",
+             options: this.monthMenu,
+             title:this.theme.getMessage("CalendarMonth.selectMonth")
+            });
+    }
+    
+    //Create the year menu drop down.
+    if (this.yearMenu.Id == null) {
+        this.yearMenu = this.widget.getDropDownProps(
+            {id:this.id+":yearMenu",
+             options:this.yearMenu,
+             title:this.theme.getMessage("CalendarMonth.selectYear")   
+            });
+    }   
+    // Initialize the days of the week.
+    if (this.weekDays == null) {
+        this.weekDays = new Array();
+        this.weekDays[0] = this.theme.getMessage("CalendarMonth.weekdaySun");
+        this.weekDays[1] = this.theme.getMessage("CalendarMonth.weekdayMon");
+        this.weekDays[2] = this.theme.getMessage("CalendarMonth.weekdayTue");                
+        this.weekDays[3] = this.theme.getMessage("CalendarMonth.weekdayWed");
+        this.weekDays[4] = this.theme.getMessage("CalendarMonth.weekdayThu");
+        this.weekDays[5] = this.theme.getMessage("CalendarMonth.weekdayFri");
+        this.weekDays[6] = this.theme.getMessage("CalendarMonth.weekdaySat");
     }  
     return this.inherited("postCreate", arguments);
 }

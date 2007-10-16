@@ -93,13 +93,7 @@ public class CalendarRenderer extends TextFieldRenderer {
         
         JSONObject json = super.getProperties(context, component);
         json.put("patternHelp", patternHelp);
-        
-        // Append image hyperlink properties that serves as 
-        // the button to show or hide the calendar date picker.
-        ImageHyperlink link = calendar.getDatePickerLink(context);        
-        link.setIcon(ThemeImages.CALENDAR_BUTTON);	
-        link.setToolTip(theme.getMessage("calendar.popupImageAlt"));
-        
+                    
         // Append date picker properties.        
         CalendarMonth calendarMonth = calendar.getDatePicker();
         Object value = calendar.getSubmittedValue();
@@ -118,8 +112,19 @@ public class CalendarRenderer extends TextFieldRenderer {
  
         JSONObject jsonCal = (JSONObject) WidgetUtilities.renderComponent(
             context, calendarMonth);
-        jsonCal.put("toggleLink", WidgetUtilities.renderComponent(context, link));
         json.put("calendar", jsonCal);
+        
+        // Search for the private facet DATE_PICKER_LINK_FACET.
+        // If it exists, then use the facet.
+        // If facet does not exist, create an ImageHyperlnk and use that.
+        // The call to getDatePickerLink has been removed and the creation
+        // of an imageHyperlnk if one did not exist in the facet map happens
+        // here. The imageHyperlnk created here is not put into the facet
+        // map.
+        UIComponent comp = calendar.getFacet(Calendar.DATE_PICKER_LINK_FACET); 
+        if (comp instanceof ImageHyperlink) {
+            jsonCal.put("toggleLink", WidgetUtilities.renderComponent(context, comp));
+        }
         
         return json;
     }    

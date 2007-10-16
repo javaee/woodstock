@@ -285,6 +285,109 @@ webui.@THEME@.widget.common = {
     },
     
     /**
+     * This function returns the id of the form that contains the element
+     * represented by the "id" value
+     * @param {String} id The id of the element whose form id is required.
+     */
+    getFormId: function(id) {
+        var object = document.getElementById(id);
+        while (object && (object.tagName != "FORM") && (object =
+            object.parentNode));
+        if (object && object.id) {
+            return object.id;
+        }
+    },
+    
+    /**
+     * This function returns Object literals for a hyperlink.
+     *
+     *
+     * @param {Object} props Key-Value pairs of properties (optional).
+     * @config {String} [id] Uniquely identifies an element within a document.   
+     */
+    getHyperlinkProps: function(props) {
+
+       if (props == null || props.id == null) {
+          return;
+       }
+       var _props = {};
+       
+      //Set default module and widget name
+      _props = webui.@THEME@.widget.common.getWidgetProps("hyperlink", _props); 
+       
+        // Add extra properties               
+       if (props != null) {
+            webui.@THEME@.widget.common.extend(_props, props);
+       }
+       return _props;
+    },
+
+    /**
+     * This function returns Object literals for an imageHyperlink
+     * If properties are to be defined for the enabled and the disabled images
+     * then they should be defined as props.enabledImage and props.disabledImage
+     * object literals each with its own id.
+     *
+     * @param {Object} props Key-Value pairs of properties
+     * @param {String} enabledImage A key defining a theme images property.
+     * @param {String} disabledImage A key defining a theme images property.
+     * @config {String} [id] Uniquely identifies an element within a document.
+     */    
+    getImageHyperlinkProps: function(props, enabledImage, disabledImage) {
+
+       if (props == null || props.id == null) {
+          return;
+       }
+       
+       //Set default module and widget name        
+       var _props = webui.@THEME@.widget.common.getWidgetProps("imageHyperlink", _props);        
+       
+       //Add the enabled image properties 
+        if (enabledImage != null) {
+            _props.enabledImage = webui.@THEME@.widget.common.getImageProps(enabledImage, props.enabledImage);
+        }
+                
+        //Add the disabled image properties
+        if (disabledImage != null) {
+            _props.disabledImage = webui.@THEME@.widget.common.getImageProps(disabledImage, props.disabledImage);
+        }
+              
+        // Add extra properties        
+        webui.@THEME@.widget.common.extend(_props, props);
+        
+        return _props;
+    },    
+    
+    /**
+     * This function returns Object literals for a drop down widget.
+     * <p>
+     * Note: In addition to widgetType and other theme properties, the values in props 
+     * param is added to the returned Object literals. The props param passed should
+     * contain the id of the element to be created. 
+     * </p>
+     *
+     * @param {Object} props Key-Value pairs of properties (optional).
+     * @config {String} [id] Uniquely identifies an element within a document.   
+     */
+    getDropDownProps: function(props) {
+        if (props == null || props.options == null) {
+            return;
+        }
+        
+        if (props.size == null) {
+            props.size = 1;
+        }
+        
+        // Set default widgetType.        
+        var _props = webui.@THEME@.widget.common.getWidgetProps("dropDown", _props);
+        
+        // Add extra properties        
+        webui.@THEME@.widget.common.extend(_props, props);
+        
+        return _props;        
+    },
+
+    /**
      * This function returns Object literals for a theme based image widget.
      * <p>
      * Note: In addition to widgetType and other theme properties, the props 
@@ -294,6 +397,7 @@ webui.@THEME@.widget.common = {
      *
      * @param {String} key A key defining a theme images property.
      * @param {Object} props Key-Value pairs of properties (optional).
+     * @config {String} [id] Uniquely identifies an element within a document.
      */
     getImageProps: function(key, props) {
         var _props = webui.@THEME@.theme.common.getImage(key);

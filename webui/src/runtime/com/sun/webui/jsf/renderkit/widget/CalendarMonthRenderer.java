@@ -112,48 +112,17 @@ public class CalendarMonthRenderer extends RendererBase {
         
         // Get first day of week, Sunday = 1, Monday = 2,...
         int firstDayOfWeek = calendar.getFirstDayOfWeek();
+        JSONObject json = new JSONObject();           
         
         // Initialize children -- must be called after "today" and
         // "firstDayOfWeek" variables are set since "calendar"
         // is modified in initializeChildren().
-        initializeChildren(calendarMonth, context, calendar);
+        initializeChildren(calendarMonth, context, calendar, json);
         
-        JSONObject json = new JSONObject();           
         json.put("todayDateMsg", todayDateMsg)  
             .put("dateFormat", calendarMonth.getDateFormatPattern()) 
-            .put("firstDayOfWeek", firstDayOfWeek);
-        
-        Icon icon = null;
-        icon = getIcon(theme, "DOT", calendarMonth, ThemeImages.DOT);
-        json.put("spacerImage", WidgetUtilities.renderComponent(context, icon));
-        
-        icon = getIcon(theme, "topLeft", calendarMonth, ThemeImages.SCHEDULER_TOP_LEFT);
-        json.put("topLeftImage", WidgetUtilities.renderComponent(context, icon));
-        
-        icon = getIcon(theme, "topRight", calendarMonth, ThemeImages.SCHEDULER_TOP_RIGHT);
-        json.put("topRightImage", WidgetUtilities.renderComponent(context, icon));
-                
-        json.put("closeButtonLink", WidgetUtilities.renderComponent(context, 
-            calendarMonth.getCloseButtonLink()));
-        
-        String[] weekDays = new String[8];
-        weekDays[Calendar.SUNDAY] = theme.getMessage("CalendarMonth.weekdaySun");
-        weekDays[Calendar.MONDAY] = theme.getMessage("CalendarMonth.weekdayMon");
-        weekDays[Calendar.TUESDAY] = theme.getMessage("CalendarMonth.weekdayTue");
-        weekDays[Calendar.WEDNESDAY] = theme.getMessage("CalendarMonth.weekdayWed");
-        weekDays[Calendar.THURSDAY] = theme.getMessage("CalendarMonth.weekdayThu");
-        weekDays[Calendar.FRIDAY] = theme.getMessage("CalendarMonth.weekdayFri");
-        weekDays[Calendar.SATURDAY] = theme.getMessage("CalendarMonth.weekdaySat");
-               
-        JSONArray jsonArray = new JSONArray();
-        for (int i = Calendar.SUNDAY; i <= Calendar.SATURDAY; i++) {
-            jsonArray.put(weekDays[i]);
-        }
-        json.put("weekDays", jsonArray);            
-        
-        // Add calendar controls properties.
-        setControlsProperties(context, calendarMonth, json, theme);
-            
+            .put("firstDayOfWeek", firstDayOfWeek);                  
+                    
         // Add attributes.
         JSONUtilities.addStringProperties(stringAttributes, component, json);
         
@@ -173,36 +142,7 @@ public class CalendarMonthRenderer extends RendererBase {
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     // Private methods
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    
-    /**
-     * Helper function to set calendar controls name/value paris for the given JSONObject.
-     * 
-     * @param context FacesContext for the current request.
-     * @param calendar CalendarMonth to be rendered.
-     * @param json JSONObject to add name/value pairs to.
-     * @param theme Theme object to use.
-     *
-     * @exception IOException if an input/output error occurs
-     * @exception JSONException if a key/value error occurs
-     */
-    private void setControlsProperties(FacesContext context, CalendarMonth calendarMonth,
-            JSONObject json, Theme theme) throws IOException, JSONException {
-        
-        json.put("decreaseLink", WidgetUtilities.renderComponent(context, 
-            calendarMonth.getPreviousMonthLink()));
-        
-        json.put("increaseLink", WidgetUtilities.renderComponent(context,
-            calendarMonth.getNextMonthLink()));
-        
-        DropDown monthMenu = calendarMonth.getMonthMenu();
-        monthMenu.setToolTip(theme.getMessage("CalendarMonth.selectMonth"));
-        json.put("monthMenu", WidgetUtilities.renderComponent(context, monthMenu));
-        
-        DropDown yearMenu = calendarMonth.getYearMenu();
-        yearMenu.setToolTip(theme.getMessage("CalendarMonth.selectYear"));
-        json.put("yearMenu", WidgetUtilities.renderComponent(context, yearMenu));        
-    }      
-    
+             
     // Helper method to get themed icon.
     private Icon getIcon(Theme theme, String id, CalendarMonth parent, String key) {                
         Icon icon = ThemeUtilities.getIcon(theme, key);
@@ -219,39 +159,12 @@ public class CalendarMonthRenderer extends RendererBase {
      * If you are working with the same instance of "calendar" be cautious as to when
      * initializeChildren() should be called.
      */ 
-    private void initializeChildren(CalendarMonth cm, FacesContext context, java.util.Calendar calendar) {
+    private void initializeChildren(CalendarMonth cm, FacesContext context, java.util.Calendar calendar,
+            JSONObject json)
+        throws IOException, JSONException{
         SimpleDateFormat dateFormat =
-		(SimpleDateFormat)cm.getDateFormat();
-        
-        // This variable is used to track whether the calendar 
-        // controls have to be updated based on the calculations
-        // performed in this method.
-        boolean updateCalendarControls = false;                 
-        
-        // The displayDate reflects the month that will be displayed 
-        // (we only use the year and month component of the date).
-        // We start by assuming that this will be the today's date
-        Date displayDate = calendar.getTime(); 
-                     
-        // Find out what the current year and month settings are of the 
-        // CalendarMonth component (this is whatever the user has 
-        // selected using the menus and the buttons on the control row). 
-        // Update the calendar with this data - it will be used when 
-        // calculating the dates on the display.
-        // If the user hasn't made any selections yet, the values 
-        // will be updated later, and will be based on today's date. 
-        Integer year = cm.getCurrentYear(); 
-        Integer month = cm.getCurrentMonth();         
-        if(year != null && month != null) {            
-            calendar.set(Calendar.YEAR, year.intValue());
-            // Adjust for the fact that we display the months as 1 - 12,
-            // but java.util.Calendar has them as 0 to 11.  
-            calendar.set(Calendar.MONTH, month.intValue() -1);            
-        }
-        else { 
-            updateCalendarControls = true; 
-        } 
-        
+		(SimpleDateFormat)cm.getDateFormat();            
+                           
         // Calculate which years should be displayed, based on the 
         // settings of the of the CalendarMonth component.
         // We should probably store these options as an attribute, 
@@ -267,27 +180,6 @@ public class CalendarMonthRenderer extends RendererBase {
             maxDate = ((DateManager)parent).getLastAvailableDate();
         }   
                
-        if(displayDate.before(minDate)) {            
-            displayDate = minDate;
-            updateCalendarControls = true;
-        }
-        if(maxDate.before(displayDate)) {            
-            displayDate = maxDate;
-            updateCalendarControls = true;
-        }
-        
-        DropDown yearMenu = cm.getYearMenu();
-        DropDown monthMenu = cm.getMonthMenu();
-        
-        if(updateCalendarControls) {
-            calendar.setTime(displayDate);           
-            String yearValue = String.valueOf(calendar.get(Calendar.YEAR));
-            yearMenu.setSubmittedValue(new String[]{yearValue});            
-            
-            String monthValue = String.valueOf(calendar.get(Calendar.MONTH) + 1);
-            monthMenu.setSubmittedValue(new String[]{monthValue});            
-        }
-       
         // Calculate the years to show on the menu.
         calendar.setTime(minDate);
         int firstYear = calendar.get(Calendar.YEAR);  
@@ -297,11 +189,25 @@ public class CalendarMonthRenderer extends RendererBase {
         int numYears = lastYear - firstYear + 1;
         Integer yearInteger = null;
         Option[] yearOptions = new Option[numYears];
+        
         for(int i=0; i < numYears; ++i) {
             yearInteger = new Integer(firstYear + i);
             yearOptions[i] = new Option(yearInteger, yearInteger.toString());
         }
-        yearMenu.setItems(yearOptions);  
+        
+        Theme theme = getTheme();        
+        
+        DropDown yMenu = (DropDown)cm.getFacet(cm.YEAR_MENU_ID);  
+        if (yMenu != null) {
+            yMenu.setToolTip(theme.getMessage("CalendarMonth.selectYear"));
+            json.put("yearMenu", WidgetUtilities.renderComponent(context, yMenu));                    
+        } else {        
+            //Render the options as JSON Array. 
+            // This will be used in populating the drop down that is created on the
+            // client side.
+            JSONArray yearObject = WidgetUtilities.getOptions(context, cm, yearOptions);
+            json.put("yearMenu", yearObject);
+        }
         
         // Set the items of the month component
         // construct an option[] for the locale specific months       
@@ -310,11 +216,24 @@ public class CalendarMonthRenderer extends RendererBase {
    
         calendar.set(Calendar.MONTH, Calendar.JANUARY);
         int monthInt;
+        
         for (int i = 0; i < 12; i++) {
             monthInt = calendar.get(Calendar.MONTH);
             months[i] = new Option(new Integer(monthInt+1), monthNames[i]);
             calendar.add(Calendar.MONTH, 1);
         }        
-        monthMenu.setItems(months);                
+                       
+        DropDown mMenu = (DropDown)cm.getFacet(cm.MONTH_MENU_ID);       
+        if (mMenu != null) {
+            mMenu.setToolTip(theme.getMessage("CalendarMonth.selectMonth"));
+            json.put("monthMenu", WidgetUtilities.renderComponent(context, mMenu));
+        } else {
+                
+            //Render the options as JSON Array. 
+            // This will be used in populating the drop down that is created on the
+            // client side.        
+            JSONArray monthObject = WidgetUtilities.getOptions(context, cm, months);
+            json.put("monthMenu", monthObject);
+        }
     }
 }
