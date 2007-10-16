@@ -142,8 +142,6 @@
     <fileset id="jar-file-set" dir="${theme.build-dir}">
 	<exclude name="${theme.package-path}/${theme.service-class}.java"/>
 	<exclude name="translatedFiles/**/*"/>
-	<exclude name="${theme.package-path}/javascript/theme/nls/"/>
-	<exclude name="${theme.package-path}/javascript_uncompressed/theme/nls/"/>
     </fileset>
 
     <!-- The patternsets for the combined javascript files -->
@@ -159,6 +157,7 @@
 	<exclude name="table.js" />
 	<exclude name="tree.js" />
 	<exclude name="wizard.js" />
+	<exclude name="theme/nls/"/>
     </patternset>
 
     <!-- "webui.js" -->
@@ -172,6 +171,7 @@
     <patternset id="webui-all-js-files">
 	<include name="**/*.js"/>
 	<exclude name="widget/jsfx/**" />
+	<exclude name="theme/nls/"/>
     </patternset>
 
     <!-- "webui-jsfx.js" -->
@@ -183,6 +183,7 @@
     <!-- "webui-jsfx-all.js" -->
     <patternset id="webui-jsfx-all-js-files">
 	<include name="**/*.js"/>
+	<exclude name="theme/nls/"/>
     </patternset>
 
     <!-- Public Targets -->
@@ -704,7 +705,8 @@
     -->
     <target name="combined-js-uptodate" depends="copyJavascript">
 	<uptodate property="combined-js-uptodate">
-	    <srcfiles dir="${_from-dir_}" includes="**/*.js"/>
+	    <srcfiles dir="${_from-dir_}" includes="**/*.js"
+		excludes="theme/nls/"/>
 	    <mergemapper to="${_combined-file_}"/>
 	</uptodate>
     </target>
@@ -763,7 +765,9 @@
     -->
     <target name="compressed-js-uptodate">
 	<uptodate property="compressed-js-uptodate">
-	    <srcfiles dir="${_from-dir_}" includes="**/*.js"/>
+	    <srcfiles dir="${_from-dir_}" 
+		includes="**/*.js"
+		excludes="theme/nls/"/>
 	    <mapper type="glob" from="*" to="${_to-dir_}/*"/>
 	</uptodate>
     </target>
@@ -793,7 +797,7 @@
 	<!-- make sure to exclude the "nls" directory -->
 	<pathconvert property="__files-to-compress__" pathsep=",">
 	    <fileset dir="${__from-dir-loc__}">
-		<exclude name="**/nls/**"/>
+		<exclude name="**/nls/"/>
 		<depend targetdir="${__to-dir-loc__}">
 		    <mapper type="glob" from="*" to="*"/>
 		</depend>
