@@ -21,17 +21,13 @@
 // Copyright 2007 Sun Microsystems, Inc. All rights reserved.
 //
 
-/**
- * @name editableList.js
- * @version @THEME_VERSION@
- * @overview This module contains functions for editableList components.
- */
 dojo.provide("webui.@THEME@.editableList");
 
 dojo.require("webui.@THEME@.formElements");
 
 /** 
- * This closure contains functions for editableList components.
+ * @class This class contains functions for editableList components.
+ * @static
  */
 webui.@THEME@.editableList = {
     /**
@@ -43,6 +39,7 @@ webui.@THEME@.editableList = {
      *
      * @param {Object} props Key-Value pairs of properties.
      * @config {String} [id] The element id.
+     * @return {boolean} true if successful; otherwise, false.
      */
     init: function(props) {
         if (props == null || props.id == null) {
@@ -118,25 +115,32 @@ webui.@THEME@.editableList = {
     },
 
     /**
+     * Add HTML element.
      *
      * @param {String} elementId The HTML element id.
+     * @return {boolean} true if successful; otherwise, false.
      */
     add: function(elementId) {
         this.enableAdd(); 
         this.addButton.click();
+        return true;
     },
 
     /**
+     * Enable add button.
      *
+     * @return {boolean} true if successful; otherwise, false.
      */
     enableAdd: function() {
         var disabled = (this.field.value == ""); 
-        this.setAddDisabled(disabled); 
+        return this.setAddDisabled(disabled);
     },
 
     /**
+     * Set add button disabled.
      *
      * @param {boolean} disabled If true, disable element.
+     * @return {boolean} true if successful; otherwise, false.
      */
     setAddDisabled: function(disabled) {
         if (this.addButton.setDisabled != null) {
@@ -144,19 +148,24 @@ webui.@THEME@.editableList = {
         } else {
             this.addButton.disabled = disabled; 
         }
+        return true;
     },
 
     /**
+     * Enable remove button.
      *
+     * @return {boolean} true if successful; otherwise, false.
      */
     enableRemove: function() {
         var disabled = (this.list.selectedIndex == -1); 
-        this.setRemoveDisabled(disabled); 
+        return this.setRemoveDisabled(disabled); 
     },
 
     /**
+     * Set remove button disabled.
      *
      * @param {boolean} disabled If true, disable element.
+     * @return {boolean} true if successful; otherwise, false.
      */
     setRemoveDisabled: function(disabled) {
         if (this.removeButton.setDisabled != null) {
@@ -164,19 +173,25 @@ webui.@THEME@.editableList = {
         } else {
             this.removeButton.disabled = disabled; 
         }
+        return true;
     },
 
     /**
+     * Update add and remove buttons.
      *
+     * @return {boolean} true if successful; otherwise, false.
      */
     updateButtons: function() {
         this.enableAdd(); 
         this.enableRemove(); 
+        return true;
     },
 
     /**
+     * Set buttons disabled.
      *
      * @param {boolean} disabled If true, disable element.
+     * @return {boolean} true if successful; otherwise, false.
      */
     setDisabled: function(disabled) {
         if (this.addButton.setDisabled != null) {
@@ -191,5 +206,6 @@ webui.@THEME@.editableList = {
         }
         this.field.disabled = disabled; 
         this.list.disabled = disabled; 
+        return true;
     }
 }

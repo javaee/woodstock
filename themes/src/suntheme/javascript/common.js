@@ -21,17 +21,13 @@
 // Copyright 2007 Sun Microsystems, Inc. All rights reserved.
 //
 
-/**
- * @name common.js
- * @version @THEME_VERSION@
- * @overview This module contains functions common to HTML elements.
- */
 dojo.provide("webui.@THEME@.common");
 
 dojo.require("webui.@THEME@.theme.common");
 
 /**
- * This closure contains functions common to HTML elements.
+ * @class This class contains functions common to HTML elements.
+ * @static
  */
 webui.@THEME@.common = {
     /**
@@ -53,6 +49,7 @@ webui.@THEME@.common = {
      * @param {String} s The string to escape.
      * @param {String} delimiter The character to replace.
      * @param {String} escapeChar The character used for the escape.
+     * @return {String} The escaped string.
      */
     escapeString: function(s, delimiter, escapeChar) {
         if (s == null) {
@@ -89,6 +86,7 @@ webui.@THEME@.common = {
      * @param {String} s The string to escape.
      * @param {String} delimiter The character to replace.
      * @param {String} escapeChar The character used for the escape.
+     * @return {String} The unescaped string.
      */
     unescapeString: function(s, delimiter, escapeChar) {
         if (s == null) {
@@ -137,6 +135,7 @@ webui.@THEME@.common = {
      * @param {String} escapedString The string to escape.
      * @param {String} delimiter The character to replace.
      * @param {String} escapeChar The character used for the escape.
+     * @return {Array} An array of unescaped strings.
      */
     unescapeStrings: function(escapedString, delimiter, escapeChar) {
         if (escapedString == null || escapedString == "") {
@@ -194,7 +193,7 @@ webui.@THEME@.common = {
      *
      * @param {Node} element the dom html tag element
      * @param {String} styleClass the name of the class to add
-     * @return true if successful; otherwise, false
+     * @return {boolean} true if successful; otherwise, false.
      */
     addStyleClass: function(element, styleClass) {
         // routine protection in javascript
@@ -230,7 +229,7 @@ webui.@THEME@.common = {
      *
      * @param {Array} styleArray of style classes to check
      * @param {String} styleClass the styleClass to check
-     * @return array of classes
+     * @return {Array} An array of classes.
      */
     checkStyleClasses: function(styleArray, styleClass) {
         if (styleArray == null || styleClass == null) {
@@ -248,7 +247,7 @@ webui.@THEME@.common = {
      * Use this function to get array of style classes
      *
      * @param {Node} element the dom html tag element
-     * @return array of classes
+     * @return {Array} An array of classes.
      */
     splitStyleClasses: function(element) {
         if (element != null && element.className != null) {
@@ -263,7 +262,7 @@ webui.@THEME@.common = {
      *
      * @param {Node} element the dom html tag element
      * @param {String} styleClass the name of the class to remove
-     * @return true if successful; otherwise, false
+     * @return {boolean} true if successful; otherwise, false.
      */
     stripStyleClass: function(element, styleClass) {
         // routine protection in javascript
@@ -298,6 +297,7 @@ webui.@THEME@.common = {
      * @param {String} elementId The element ID of the html tag 
      * @param {String} elementValue The value of the html tag.
      * @param {Node} parentForm The parent form of the html tag.
+     * @return {boolean} true if successful; otherwise, false.
      */
     insertHiddenField: function(elementId, elementValue, parentForm) {
         // We have to assume that there is only one element
@@ -333,6 +333,8 @@ webui.@THEME@.common = {
     
     /**
      * Use this function to submit a virtual form.
+     *
+     * @return {boolean} true if successful; otherwise, false.
      */
     submitForm: function() {
         // "formToSubmit" is a literal (not virtual) form.
@@ -357,6 +359,7 @@ webui.@THEME@.common = {
      *
      * @param {Node} form The HTML form element to submit.
      * @param {String} submissionComponentId The Id of the component submitting the form.
+     * @return {boolean} true if successful; otherwise, false.
      */
     timeoutSubmitForm: function(form, submissionComponentId) {
         webui.@THEME@.common.formToSubmit = form;
@@ -370,6 +373,7 @@ webui.@THEME@.common = {
      *
      * @param {Node} form The HTML form element to submit.
      * @param {String} submissionComponentId The Id of the component submitting the form.
+     * @return {boolean} true if successful; otherwise, false.
      */
     leaveSubmitterTrace: function(form, submissionComponentId) {
         // This function only needs to be called in the onclick handler of 
@@ -390,6 +394,7 @@ webui.@THEME@.common = {
      *
      * @param {String} name The element ID of the html tag 
      * @param {Node} form The HTML form element to submit.
+     * @return {boolean} true if successful; otherwise, false.
      */
     deleteSubmittableArray: function(name, parentForm) {
         try {
@@ -424,7 +429,7 @@ webui.@THEME@.common = {
      * @param {Node} form The HTML form element to submit.
      * @param {Array} labels
      * @param {Array} values
-     * @return The created select element.
+     * @return {Node} The newly created select element.
      */
     createSubmittableArray: function(name, parentForm, labels, values) {
         // An attempt is made to remove a possibly previously created element
@@ -466,7 +471,7 @@ webui.@THEME@.common = {
      * does not contain the hidden className).
      *
      * @param {String} elementId The element ID of the html tag 
-     * @return true if visible; otherwise, false
+     * @return {boolean} true if visible; otherwise, false
      */
     isVisible: function(elementId) {
         if (elementId == null) {
@@ -482,7 +487,7 @@ webui.@THEME@.common = {
      * does not contain the hidden className).
      *
      * @param {Node} element The HTML element
-     * @return true if visible; otherwise, false
+     * @return {boolean} true if visible; otherwise, false
      */
     isVisibleElement: function(element) {
         if (element == null) {
@@ -499,7 +504,7 @@ webui.@THEME@.common = {
      *
      * @param {String} elementId The element ID of the html tag 
      * @param {boolean} visible true to make the element visible, false to hide the element
-     * @return true if successful; otherwise, false
+     * @return {boolean} true if successful; otherwise, false.
      */
     setVisible: function(elementId, visible) {
         if (elementId == null || visible == null ) {
@@ -515,7 +520,7 @@ webui.@THEME@.common = {
      *
      * @param {Node} element The HTML element
      * @param {boolean} visible true to make the element visible, false to hide the element
-     * @return true if successful; otherwise, false
+     * @return {boolean} true if successful; otherwise, false.
      */
     setVisibleElement: function(element, visible) {
         if (element == null || visible == null) {

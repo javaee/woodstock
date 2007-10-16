@@ -21,25 +21,15 @@
 // Copyright 2007 Sun Microsystems, Inc. All rights reserved.
 //
 
-/**
- * @name widget/radioButton.js
- * @version @THEME_VERSION@
- * @overview This module contains classes and functions for the radioButton widget.
- * @example The following code is used to create a radioButton widget.
- * <p><code>
- * var widget = new webui.@THEME@.widget.radioButton(props, domNode);
- * </code></p>
- */
 dojo.provide("webui.@THEME@.widget.radioButton");
 
 dojo.require("webui.@THEME@.widget.checkedBase");
 
 /**
- * This function is used to construct a template based widget.
- *
  * @name webui.@THEME@.widget.radioButton
- * @inherits webui.@THEME@.widget.checkedBase
- * @constructor
+ * @extends webui.@THEME@.widget.checkedBase
+ * @class This class contains functions for the radioButton widget.
+ * @constructor This function is used to construct a radioButton widget.
  */
 dojo.declare("webui.@THEME@.widget.radioButton", webui.@THEME@.widget.checkedBase, {
     // Set defaults.
@@ -48,19 +38,18 @@ dojo.declare("webui.@THEME@.widget.radioButton", webui.@THEME@.widget.checkedBas
 });
 
 /**
- * This closure contains event topics.
+ * This object contains event topics.
  * <p>
  * Note: Event topics must be prototyped for inherited functions. However, these
  * topics must also be available statically so that developers may subscribe to
  * events.
  * </p>
- *
  * @ignore
  */
-webui.@THEME@.widget.radioButton.prototype.event =
-        webui.@THEME@.widget.radioButton.event = {
+webui.@THEME@.widget.radioButton.event =
+        webui.@THEME@.widget.radioButton.prototype.event = {
     /**
-     * This closure contains refresh event topics.
+     * This object contains refresh event topics.
      * @ignore
      */
     refresh: {
@@ -72,7 +61,7 @@ webui.@THEME@.widget.radioButton.prototype.event =
     },
 
     /**
-     * This closure contains state event topics.
+     * This object contains state event topics.
      * @ignore
      */
     state: {
@@ -84,7 +73,7 @@ webui.@THEME@.widget.radioButton.prototype.event =
     },
 
     /**
-     * This closure contains submit event topics.
+     * This object contains submit event topics.
      * @ignore
      */
     submit: {
@@ -102,6 +91,7 @@ webui.@THEME@.widget.radioButton.prototype.event =
  * Note: Selectors should be concatinated in order of precedence (e.g., the 
  * user's className property is always appended last).
  * </p>
+ * @return {String} The outermost HTML element class name.
  */
 webui.@THEME@.widget.radioButton.prototype.getClassName = function() {
     // Set default style.
@@ -116,6 +106,8 @@ webui.@THEME@.widget.radioButton.prototype.getClassName = function() {
 
 /**
  * Helper function to obtain image class names.
+ *
+ * @return {String} The HTML image element class name.
  */
 webui.@THEME@.widget.radioButton.prototype.getImageClassName = function() {
     return (this.disabled == true)
@@ -125,6 +117,8 @@ webui.@THEME@.widget.radioButton.prototype.getImageClassName = function() {
 
 /**
  * Helper function to obtain input class names.
+ *
+ * @return {String} The HTML input element class name.
  */
 webui.@THEME@.widget.radioButton.prototype.getInputClassName = function() {
     // Set readOnly style.
@@ -140,6 +134,8 @@ webui.@THEME@.widget.radioButton.prototype.getInputClassName = function() {
 
 /**
  * Helper function to obtain label class names.
+ *
+ * @return {String} The HTML label element class name.
  */
 webui.@THEME@.widget.radioButton.prototype.getLabelClassName = function() {
     return (this.disabled == true)
@@ -190,6 +186,7 @@ webui.@THEME@.widget.radioButton.prototype.getLabelClassName = function() {
  * @config {String} [value] Value of input.
  * @config {boolean} [visible] Hide or show element.
  * @param {boolean} notify Publish an event for custom AJAX implementations to listen for.
+ * @return {boolean} true if successful; otherwise, false.
  */
 webui.@THEME@.widget.radioButton.prototype.setProps = function(props, notify) {
     // Note: This function is overridden for JsDoc.
@@ -205,6 +202,7 @@ webui.@THEME@.widget.radioButton.prototype.setProps = function(props, notify) {
  * </p>
  *
  * @param {Object} props Key-Value pairs of properties.
+ * @return {boolean} true if successful; otherwise, false.
  * @private
  */
 webui.@THEME@.widget.radioButton.prototype._setProps = function(props) {

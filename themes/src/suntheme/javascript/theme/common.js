@@ -22,7 +22,9 @@
 //
 
 /**
- * @overview This module contains common functions to obtain theme properties.
+ * @name theme/common.js
+ * @version @THEME_VERSION@
+ * @fileOverview This library contains common functions to obtain theme properties.
  * It is also the base of the Dojo nls localized theme namespace.
  * <p>
  * The client theme is composed of the following theme categories.
@@ -43,15 +45,15 @@
  * RESULTS IN JAVASCRIPT ERRORS DUE TO PATTERN MATCHING BY DOJO TO 
  * FIND MODULE LOADING METHODS.
  * </p>
- * @version @THEME_VERSION@
- * @name theme/common.js
+ * @class
  */
 dojo.provide("webui.@THEME@.theme.common");
 
 dojo.require("dojo.i18n");
 
 /**
- * This closure contains common functions to obtain theme properties.
+ * @class This object contains common functions to obtain theme properties.
+ * @static
  */
 webui.@THEME@.theme.common = {
     /**
@@ -67,8 +69,9 @@ webui.@THEME@.theme.common = {
      * javascript theme files. The last segment of this "dot" separated 
      * string, is treated as the "bundle", and the initial segments are
      * treated as the module path.
+     * @return {boolean} true if successful; otherwise, false.
      */
-    initialize: function(props) {
+    init: function(props) {
         if (props == null) {
             return false;
         }
@@ -112,6 +115,8 @@ webui.@THEME@.theme.common = {
     /**
      * Return the theme prefix, this is the application context
      * concatenated with the theme servlet context.
+     *
+     * @return {String} The theme prefix.
      */
     getPrefix : function() {
 	return webui.@THEME@.theme.common.prefix;
@@ -122,6 +127,7 @@ webui.@THEME@.theme.common = {
      *
      * @param {String} category
      * @param {String} key
+     * @return {String} The theme property.
      */
     getProperty: function(category, key) {
         try {
@@ -136,6 +142,7 @@ webui.@THEME@.theme.common = {
      * Returns the theme properties for a theme category or null.
      *
      * @param {String} category
+     * @return {Object} Key-Value pairs of properties.
      */
     getProperties: function(category) {
         try {
@@ -153,6 +160,7 @@ webui.@THEME@.theme.common = {
      *
      * @param {String} property
      * @param {Array} params
+     * @return {String} A formatted message.
      */
     getMessage : function(property, params) {
 	var msg = webui.@THEME@.theme.common.getProperty("messages", property);
@@ -172,6 +180,7 @@ webui.@THEME@.theme.common = {
 
     /**
      * @private
+     * @return {Object} Key-Value pairs of properties.
      */
     _getImageProp: function(prop, isText) {
 
@@ -208,6 +217,7 @@ webui.@THEME@.theme.common = {
      * where imageprop is the actual image property like "ALARM_CRITICAL".
      *
      * @param {String} srcProperty the image theme key, the image key without any suffix.
+     * @return {Object} Key-Value pairs of properties.
      */
     getImage : function(srcProperty) {
 
@@ -266,6 +276,7 @@ webui.@THEME@.theme.common = {
      * else null.
      *
      * @param {String} property
+     * @return {String} The selector property.
      */
     getClassName : function(property) {
 	return webui.@THEME@.theme.common.getProperty("styles", property);
@@ -276,6 +287,7 @@ webui.@THEME@.theme.common = {
      * theme value for "key"
      *
      * @param {String} key A key defining a theme "templates" property.
+     * @return {String} The template property.
      */
     getTemplate: function(key) {
         return webui.@THEME@.theme.common.getProperty("templates", key);
@@ -288,6 +300,7 @@ webui.@THEME@.theme.common = {
      * Return true if the base theme was extended else false.
      *
      * @param {String} themePackage
+     * @return {boolean} true if successful; otherwise, false.
      */
     extendBaseTheme: function(themePackage) {
         if (themePackage == null || themePackage == "") {
@@ -344,6 +357,7 @@ webui.@THEME@.theme.common = {
      *
      * @param {Object} theme
      * @param {Object} props
+     * @return {boolean} true if successful; otherwise, false.
      */
     extend: function(theme, props) {
         // To do: A duplicate function is also found in widget/common.js
@@ -426,6 +440,7 @@ webui.@THEME@.theme.common = {
      * @param {String} locale The current locale.
      * @param {String} availableFlatLocales A comma-separated list of the 
      * available, flattened locales for this bundle.
+     * @return {boolean} true if successful; otherwise, false.
      */
     requireLocalization: function(moduleName, bundleName, locale, 
             availableFlatLocales) {
@@ -458,7 +473,7 @@ webui.@THEME@.theme.common = {
         var localizedBundle = null;
         if (bundle) {
             if (djConfig.localizationComplete && bundle._built) {
-                return;    
+                return false;    
             }
             var jsLoc = tempLocale.replace(/-/g, '_');
             var translationPackage = bundlePackage+"."+jsLoc;
@@ -524,8 +539,9 @@ webui.@THEME@.theme.common = {
             bundle[targetLocale.replace(/-/g, '_')] = 
                 bundle[bestLocale.replace(/-/g, '_')];
         }
+        return true;
     }
 }
 
 // Initialize theme.
-webui.@THEME@.theme.common.initialize(webui.@THEME@.bootstrap.theme);
+webui.@THEME@.theme.common.init(webui.@THEME@.bootstrap.theme);

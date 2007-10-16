@@ -21,26 +21,16 @@
 // Copyright 2007 Sun Microsystems, Inc. All rights reserved.
 //
 
-/**
- * @name widget/checkboxGroup.js
- * @version @THEME_VERSION@
- * @overview This module contains classes and functions for the checkboxGroup widget.
- * @example The following code is used to create a checkboxGroup widget.
- * <p><code>
- * var widget = new webui.@THEME@.widget.checkboxGroup(props, domNode);
- * </code></p>
- */
 dojo.provide("webui.@THEME@.widget.checkboxGroup");
 
 dojo.require("webui.@THEME@.common");
 dojo.require("webui.@THEME@.widget.checkedGroupBase");
 
 /**
- * This function is used to construct a template based widget.
- *
  * @name webui.@THEME@.widget.checkboxGroup
- * @inherits webui.@THEME@.widget.checkedGroupBase
- * @constructor
+ * @extends webui.@THEME@.widget.checkedGroupBase
+ * @class This class contains functions for the checkboxGroup widget.
+ * @constructor This function is used to construct a checkboxGroup widget.
  */
 dojo.declare("webui.@THEME@.widget.checkboxGroup", webui.@THEME@.widget.checkedGroupBase, {
     // Set defaults.
@@ -48,19 +38,18 @@ dojo.declare("webui.@THEME@.widget.checkboxGroup", webui.@THEME@.widget.checkedG
 });
 
 /**
- * This closure contains event topics.
+ * This object contains event topics.
  * <p>
  * Note: Event topics must be prototyped for inherited functions. However, these
  * topics must also be available statically so that developers may subscribe to
  * events.
  * </p>
- *
  * @ignore
  */
-webui.@THEME@.widget.checkboxGroup.prototype.event =
-        webui.@THEME@.widget.checkboxGroup.event = {
+webui.@THEME@.widget.checkboxGroup.event =
+        webui.@THEME@.widget.checkboxGroup.prototype.event = {
     /**
-     * This closure contains refresh event topics.
+     * This object contains refresh event topics.
      * @ignore
      */
     refresh: {
@@ -72,7 +61,7 @@ webui.@THEME@.widget.checkboxGroup.prototype.event =
     },
 
     /**
-     * This closure contains state event topics.
+     * This object contains state event topics.
      * @ignore
      */
     state: {
@@ -90,6 +79,7 @@ webui.@THEME@.widget.checkboxGroup.prototype.event =
  * Note: Selectors should be concatinated in order of precedence (e.g., the 
  * user's className property is always appended last).
  * </p>
+ * @return {String} The outermost HTML element class name.
  */
 webui.@THEME@.widget.checkboxGroup.prototype.getClassName = function() {
     // Set default style.

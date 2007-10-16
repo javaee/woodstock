@@ -21,25 +21,15 @@
 // Copyright 2007 Sun Microsystems, Inc. All rights reserved.
 //
 
-/**
- * @name widget/textArea.js
- * @version @THEME_VERSION@
- * @overview This module contains classes and functions for the textArea widget.
- * @example The following code is used to create a textArea widget.
- * <p><code>
- * var widget = new webui.@THEME@.widget.textArea(props, domNode);
- * </code></p>
- */
 dojo.provide("webui.@THEME@.widget.textArea");
 
 dojo.require("webui.@THEME@.widget.textField");
 
 /**
- * This function is used to construct a template based widget.
- *
  * @name webui.@THEME@.widget.textArea
- * @inherits webui.@THEME@.widget.textField
- * @constructor
+ * @extends webui.@THEME@.widget.textField
+ * @class This class contains functions for the textArea widget.
+ * @constructor This function is used to construct a textArea widget.
  */
 dojo.declare("webui.@THEME@.widget.textArea", webui.@THEME@.widget.textField, {
     // Set defaults.
@@ -51,6 +41,8 @@ dojo.declare("webui.@THEME@.widget.textArea", webui.@THEME@.widget.textField, {
 
 /**
  * Helper function to create callback for timer event.
+ *
+ * @return {Function} The callback function.
  */
 webui.@THEME@.widget.textArea.prototype.createSubmitCallback = function() {
     var _id = this.id;
@@ -72,19 +64,18 @@ webui.@THEME@.widget.textArea.prototype.createSubmitCallback = function() {
 }
 
 /**
- * This closure contains event topics.
+ * This object contains event topics.
  * <p>
  * Note: Event topics must be prototyped for inherited functions. However, these
  * topics must also be available statically so that developers may subscribe to
  * events.
  * </p>
- *
  * @ignore
  */
-webui.@THEME@.widget.textArea.prototype.event =
-        webui.@THEME@.widget.textArea.event = {
+webui.@THEME@.widget.textArea.event =
+        webui.@THEME@.widget.textArea.prototype.event = {
     /**
-     * This closure contains refresh event topics.
+     * This object contains refresh event topics.
      * @ignore
      */
     refresh: {
@@ -96,7 +87,7 @@ webui.@THEME@.widget.textArea.prototype.event =
     },
 
     /**
-     * This closure contains state event topics.
+     * This object contains state event topics.
      * @ignore
      */
     state: {
@@ -108,7 +99,7 @@ webui.@THEME@.widget.textArea.prototype.event =
     },
 
     /**
-     * This closure contains submit event topics.
+     * This object contains submit event topics.
      * @ignore
      */
     submit: {
@@ -122,6 +113,8 @@ webui.@THEME@.widget.textArea.prototype.event =
 
 /**
  * Helper function to obtain HTML input element class names.
+ *
+ * @return {String} The HTML input element class name.
  */
 webui.@THEME@.widget.textArea.prototype.getInputClassName = function() {
     // Set readOnly style
@@ -143,6 +136,8 @@ webui.@THEME@.widget.textArea.prototype.getInputClassName = function() {
 /**
  * This function is used to get widget properties. Please see the 
  * setProps() function for a list of supported properties.
+ *
+ * @return {Object} Key-Value pairs of properties.
  */
 webui.@THEME@.widget.textArea.prototype.getProps = function() {
     var props = this.inherited("getProps", arguments);
@@ -161,6 +156,7 @@ webui.@THEME@.widget.textArea.prototype.getProps = function() {
  * <p>
  * Note: Unlike Dojo 0.4, the DOM nodes don't exist in the document, yet. 
  * </p>
+ * @return {boolean} true if successful; otherwise, false.
  */
 webui.@THEME@.widget.textArea.prototype.postCreate = function () {
     // Set events.                
@@ -213,6 +209,7 @@ webui.@THEME@.widget.textArea.prototype.postCreate = function () {
  * @config {String} [value] Value of input.
  * @config {boolean} [visible] Hide or show element.
  * @param {boolean} notify Publish an event for custom AJAX implementations to listen for.
+ * @return {boolean} true if successful; otherwise, false.
  */
 webui.@THEME@.widget.textArea.prototype.setProps = function(props, notify) {
     // Note: This function is overridden for JsDoc.
@@ -228,6 +225,7 @@ webui.@THEME@.widget.textArea.prototype.setProps = function(props, notify) {
  * </p>
  *
  * @param {Object} props Key-Value pairs of properties.
+ * @return {boolean} true if successful; otherwise, false.
  * @private
  */
 webui.@THEME@.widget.textArea.prototype._setProps = function(props) {

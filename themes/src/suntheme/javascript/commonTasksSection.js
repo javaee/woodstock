@@ -21,18 +21,14 @@
 // Copyright 2007 Sun Microsystems, Inc. All rights reserved.
 //
 
-/**
- * @name commonTasksSection.js
- * @version @THEME_VERSION@
- * @overview This module contains functions for commonTasksSection components.
- */
 dojo.provide("webui.@THEME@.commonTasksSection");
 
 dojo.require("webui.@THEME@.browser");
 dojo.require("webui.@THEME@.common");
 
 /** 
- * This closure contains functions for commonTasksSection components.
+ * @class This class contains functions for commonTasksSection components.
+ * @static
  */
 webui.@THEME@.commonTasksSection = {
     /**
@@ -47,6 +43,7 @@ webui.@THEME@.commonTasksSection = {
      * @config {String} [pic1URL] Selected image.
      * @config {String} [pic2URL] Hover image.
      * @config {String} [pic3URL] Normal image.
+     * @return {boolean} true if successful; otherwise, false.
      */
     init: function(props) {
         if (props == null || props.id == null) {
@@ -83,6 +80,7 @@ webui.@THEME@.commonTasksSection = {
      * Hide all task sections.
      *
      * @param {Event} event The JavaScript event.
+     * @return {boolean} true if successful; otherwise, false.
      */
     hideAll: function(event) {
         for (var i = 0; i < this.count; i++) {
@@ -104,6 +102,7 @@ webui.@THEME@.commonTasksSection = {
      * This function handles window resize events.
      *
      * @param {Event} event The JavaScript event.
+     * @return {boolean} true if successful; otherwise, false.
      */
     windowResize: function(event) {
         for (var i = 0; i < this.count; i++) {
@@ -126,6 +125,7 @@ webui.@THEME@.commonTasksSection = {
      * @config {String} [infoIconId]
      * @config {String} [infoPanelVar]
      * @config {String} [imageLinkId]
+     * @return {boolean} true if successful; otherwise, false.
      */
     addCommonTask: function(props) {
         // Set info panel.
@@ -150,6 +150,7 @@ webui.@THEME@.commonTasksSection = {
      * @param {String} infoPanelVar
      * @param {String} imageLinkId
      * @param {String} bottomInfoLink
+     * @return {boolean} true if successful; otherwise, false.
      */
     addInfoPanel: function(sectionId, taskId, closeId, spacerVar,
             infoIconId, infoPanelVar, imageLinkId, bottomInfoLink) {
@@ -435,6 +436,7 @@ webui.@THEME@.commonTasksSection = {
             this.ileft=offsetLeft;
             return true;
         };
+        return true;
     }
 }
 

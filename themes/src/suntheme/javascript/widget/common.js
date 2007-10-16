@@ -21,22 +21,13 @@
 // Copyright 2007 Sun Microsystems, Inc. All rights reserved.
 //
 
-/**
- * @name widget/common.js
- * @version @THEME_VERSION@
- * @overview This module contains functions common to all widgets.
- * @example The following code is used to extend a widget with Object literals.
- * <p><code>
- * webui.@THEME@.widget.common.extend(webui.@THEME@.widget.button, props);
- * </code></p>
- */
 dojo.provide("webui.@THEME@.widget.common");
 
 dojo.require("webui.@THEME@.theme.common");
 
 /**
- * This closure contains functions common to all widgets.
- * @ignore
+ * @class This class contains functions common to all widgets.
+ * @static
  */
 webui.@THEME@.widget.common = {
     /**
@@ -65,6 +56,7 @@ webui.@THEME@.widget.common = {
      * @param {Object} props Key-Value pairs of properties.
      * @param {boolean} position The position to add widget.
      * @param {boolean} escape HTML escape strings (default).
+     * @return {boolean} true if successful; otherwise, false.
      */
     addFragment: function(domNode, props, position, escape) {
         if (domNode == null || props == null) {
@@ -157,6 +149,7 @@ webui.@THEME@.widget.common = {
      *
      * @param {Node} domNode The DOM node to append string.
      * @param {String} html The HTML string to append.
+     * @return {boolean} true if successful; otherwise, false.
      */
     appendHTML: function(domNode, html) {
         if (domNode.innerHTML != null && domNode.innerHTML.length > 0) {
@@ -231,6 +224,7 @@ webui.@THEME@.widget.common = {
      * </p>
      *
      * @param {String} id The widget id to destroy.
+     * @return {boolean} true if successful; otherwise, false.
      */
     destroyWidget: function(id) {
         if (id == null) {
@@ -249,6 +243,7 @@ webui.@THEME@.widget.common = {
      * This function adds escape sequences for special characters in HTML: &<>"'
      *
      * @param {String} html The string to HTML escape.
+     * @return {String} The HTML escaped string.
      */
     escapeHTML: function(html){ 
         return html.replace(/&/gm, "&amp;").
@@ -269,6 +264,7 @@ webui.@THEME@.widget.common = {
      *
      * @param {Object} obj The object to extend.
      * @param {Object} props Key-Value pairs of properties.
+     * @return {boolean} true if successful; otherwise, false.
      */
     extend: function(obj, props) {
         if (obj == null || props == null) {
@@ -283,81 +279,26 @@ webui.@THEME@.widget.common = {
         }
         return true;
     },
-    
-    /**
-     * This function returns the id of the form that contains the element
-     * represented by the "id" value
-     * @param {String} id The id of the element whose form id is required.
-     */
-    getFormId: function(id) {
-        var object = document.getElementById(id);
-        while (object && (object.tagName != "FORM") && (object =
-            object.parentNode));
-        if (object && object.id) {
-            return object.id;
-        }
-    },
-    
-    /**
-     * This function returns Object literals for a hyperlink.
-     *
-     *
-     * @param {Object} props Key-Value pairs of properties (optional).
-     * @config {String} [id] Uniquely identifies an element within a document.   
-     */
-    getHyperlinkProps: function(props) {
 
-       if (props == null || props.id == null) {
-          return;
-       }
-       var _props = {};
-       
-      //Set default module and widget name
-      _props = webui.@THEME@.widget.common.getWidgetProps("hyperlink", _props); 
-       
-        // Add extra properties               
-       if (props != null) {
-            webui.@THEME@.widget.common.extend(_props, props);
-       }
-       return _props;
+    /**
+     * This function returns style class name for a specified selector.
+     * <p>
+     * Note: If the given key doesn't exist in the theme, the method returns the
+     * defaultValue param or null.
+     * </p>
+     * @param {String} key A key defining a theme class name property.
+     * @param {Object} defaultValue Value returned if specified key is not found.
+     * @return {boolean} The style class name for a specified selector.
+     */
+    getClassName: function(key, defaultValue) {
+        var ret =  webui.@THEME@.theme.common.getClassName(key);
+        return (ret != null) 
+            ? ret
+            : (defaultValue) 
+                ? defaultValue
+                : null;                
     },
 
-    /**
-     * This function returns Object literals for an imageHyperlink
-     * If properties are to be defined for the enabled and the disabled images
-     * then they should be defined as props.enabledImage and props.disabledImage
-     * object literals each with its own id.
-     *
-     * @param {Object} props Key-Value pairs of properties
-     * @param {String} enabledImage A key defining a theme images property.
-     * @param {String} disabledImage A key defining a theme images property.
-     * @config {String} [id] Uniquely identifies an element within a document.
-     */    
-    getImageHyperlinkProps: function(props, enabledImage, disabledImage) {
-
-       if (props == null || props.id == null) {
-          return;
-       }
-       
-       //Set default module and widget name        
-       var _props = webui.@THEME@.widget.common.getWidgetProps("imageHyperlink", _props);        
-       
-       //Add the enabled image properties 
-        if (enabledImage != null) {
-            _props.enabledImage = webui.@THEME@.widget.common.getImageProps(enabledImage, props.enabledImage);
-        }
-                
-        //Add the disabled image properties
-        if (disabledImage != null) {
-            _props.disabledImage = webui.@THEME@.widget.common.getImageProps(disabledImage, props.disabledImage);
-        }
-              
-        // Add extra properties        
-        webui.@THEME@.widget.common.extend(_props, props);
-        
-        return _props;
-    },    
-    
     /**
      * This function returns Object literals for a drop down widget.
      * <p>
@@ -365,7 +306,6 @@ webui.@THEME@.widget.common = {
      * param is added to the returned Object literals. The props param passed should
      * contain the id of the element to be created. 
      * </p>
-     *
      * @param {Object} props Key-Value pairs of properties (optional).
      * @config {String} [id] Uniquely identifies an element within a document.   
      */
@@ -388,16 +328,103 @@ webui.@THEME@.widget.common = {
     },
 
     /**
+     * This function returns the closest form ancestor of the given DOM node.
+     *
+     * @param {Node} domNode A DOM node contained in the form.
+     * @return {Node} The HTML form element or null if not found.
+     */
+    getForm: function(domNode) {
+        var form = null;
+        var obj = domNode;
+        while (obj != null) {
+            if (obj.tagName == "FORM") {
+                form = obj;
+                break;
+            }
+            obj = obj.parentNode;
+        }
+        return form;
+    },
+    
+    /**
+     * This function returns Object literals for a hyperlink.
+     * <p>
+     * Note: In addition to widgetType and other theme properties, the props 
+     * param is add to the returned Object literals. If the given key doesn't 
+     * exist in the theme, null is returned.
+     * </p>
+     * @param {Object} props Key-Value pairs of properties (optional).
+     * @config {String} [id] Uniquely identifies an element within a document. 
+     * @return {Object} Key-Value pairs of properties.
+     */
+    getHyperlinkProps: function(props) {
+        if (props == null || props.id == null) {
+            return;
+        }
+        var _props = {};
+       
+        //Set default module and widget name
+        _props = webui.@THEME@.widget.common.getWidgetProps("hyperlink", _props); 
+       
+        // Add extra properties               
+        if (props != null) {
+            webui.@THEME@.widget.common.extend(_props, props);
+        }
+        return _props;
+    },
+
+    /**
+     * This function returns Object literals for an imageHyperlink.
+     * <p>
+     * Note: In addition to widgetType and other theme properties, the props 
+     * param is add to the returned Object literals. If the given key doesn't 
+     * exist in the theme, null is returned.
+     * </p><p>
+     * If properties are to be defined for the enabled and the disabled images
+     * then they should be defined as props.enabledImage and props.disabledImage
+     * object literals each with its own id.
+     * </p>
+     * @param {Object} props Key-Value pairs of properties
+     * @param {String} enabledImage A key defining a theme images property.
+     * @param {String} disabledImage A key defining a theme images property.
+     * @config {String} [id] Uniquely identifies an element within a document.
+     * @return {Object} Key-Value pairs of properties.
+     */    
+    getImageHyperlinkProps: function(props, enabledImage, disabledImage) {
+        if (props == null || props.id == null) {
+            return;
+        }
+       
+        // Set default module and widget name        
+        var _props = webui.@THEME@.widget.common.getWidgetProps("imageHyperlink", _props);        
+       
+        // Add the enabled image properties 
+        if (enabledImage != null) {
+            _props.enabledImage = webui.@THEME@.widget.common.getImageProps(enabledImage, props.enabledImage);
+        }
+                
+        // Add the disabled image properties
+        if (disabledImage != null) {
+            _props.disabledImage = webui.@THEME@.widget.common.getImageProps(disabledImage, props.disabledImage);
+        }
+              
+        // Add extra properties.
+        webui.@THEME@.widget.common.extend(_props, props);
+
+        return _props;
+    },    
+    
+    /**
      * This function returns Object literals for a theme based image widget.
      * <p>
      * Note: In addition to widgetType and other theme properties, the props 
      * param is add to the returned Object literals. If the given key doesn't 
      * exist in the theme, null is returned.
      * </p>
-     *
      * @param {String} key A key defining a theme images property.
      * @param {Object} props Key-Value pairs of properties (optional).
      * @config {String} [id] Uniquely identifies an element within a document.
+     * @return {Object} Key-Value pairs of properties.
      */
     getImageProps: function(key, props) {
         var _props = webui.@THEME@.theme.common.getImage(key);
@@ -416,29 +443,11 @@ webui.@THEME@.widget.common = {
     },
 
     /**
-     * This function returns style class name for a specified selector.
-     * <p>
-     * Note: If the given key doesn't exist in the theme, the method returns the
-     * defaultValue param or null.
-     * </p>
-     *
-     * @param {String} key A key defining a theme class name property.
-     * @param {Object} defaultValue Value returned if specified key is not found.
-     */
-    getClassName: function(key, defaultValue) {
-        var ret =  webui.@THEME@.theme.common.getClassName(key);
-        return (ret != null) 
-            ? ret
-            : (defaultValue) 
-                ? defaultValue
-                : null;                
-    },
-
-    /**
      * Get array containing the absolute left and top position of the given DOM
      * node relative to the browser window.
      *
      * @param {Node} domNode The DOM node compute position for.
+     * @return {Array} Array containing the absolute left and top position.
      */
     getPosition: function(domNode) {
         var leftPos = topPos = 0;
@@ -456,6 +465,8 @@ webui.@THEME@.widget.common = {
     /**
      * Get the page height, handling standard noise to mitigate browser
      * differences.
+     *
+     * @return {int} The page height or null if not available.
      */
     getPageHeight: function() {
         // Mozilla browsers.
@@ -478,6 +489,8 @@ webui.@THEME@.widget.common = {
     /**
      * Get the page width, handling standard noise to mitigate browser 
      * differences.
+     *
+     * @return {int} The page height or null if not available.
      */
     getPageWidth: function() {
         // Mozilla browsers.
@@ -502,6 +515,7 @@ webui.@THEME@.widget.common = {
      * if key is not found or is not a path, i.e. begins with "<".
      * 
      * @param {String} key A key defining a theme "templates" property.
+     * @return {String} The template path.
      */
     getTemplatePath: function(key) {
         var template = webui.@THEME@.theme.common.getTemplate(key);
@@ -517,6 +531,7 @@ webui.@THEME@.widget.common = {
      * if key is not found or is not a string, i.e. does not begin with "<".
      *
      * @param {String} key A key defining a theme "templates" property.
+     * @return {String} The template string.
      */
     getTemplateString: function(key) {
         var template = webui.@THEME@.theme.common.getTemplate(key);
@@ -533,6 +548,7 @@ webui.@THEME@.widget.common = {
      *
      * @param {String} widgetName The widget name to add properties for.
      * @param {Object} props Key-Value pairs of properties (optional).
+     * @return {Object} Key-Value pairs of properties.
      */
     getWidgetProps: function(widgetName, props) {
         var _props = {};
@@ -548,14 +564,14 @@ webui.@THEME@.widget.common = {
     },
 
     /**
-     * This function is used to test template strings. 
+     * This function is used to test HTML template strings. 
      * <p>
      * Note: This function returns true if the "template" is a template path, 
      * and false if it is a template String. False is also returned if the value
      * is null or the empty string.
      * </p>
-     *
      * @param {String} template The template string to test.
+     * @return boolean true if string is an HTML template.
      */
     isTemplatePath: function(template) {
         return (template != null && template.charAt(0) != '<');
@@ -569,8 +585,8 @@ webui.@THEME@.widget.common = {
      * function. In this case, DOM nodes shall be removed manually using the 
      * Node APIs.
      * </p>
-     *
      * @param {Node} domNode The DOM node to remove child nodes.
+     * @return {boolean} true if successful; otherwise, false.
      */
     removeChildNodes: function(domNode) {
         if (domNode == null) {
@@ -600,11 +616,11 @@ webui.@THEME@.widget.common = {
      * Minimally, the props argument must be a JSON object containing an id and 
      * widgetType property so the correct widget may be created.
      * </p>
-     *
      * @param {String} elementId The id of the HTML element to replace.
      * @param {Object} props Key-Value pairs of properties.
      * @config {String} [id] The widget id.
      * @config {String} [widgetType] The widget type to create.
+     * @return {Object} The newly created widget.
      */
     replaceElement: function(elementId, props, onLoad) {
         if (props == null) {
@@ -619,6 +635,7 @@ webui.@THEME@.widget.common = {
      * This function sleeps for specified milli seconds.
      * 
      * @param {int} delay The amount to delay.
+     * @return {boolean} true if current time is greater than the exit time.
      */
     sleep:  function(delay) {
         var start = new Date();
@@ -644,11 +661,11 @@ webui.@THEME@.widget.common = {
      * </p><p>
      * See webui.@THEME@.widget.label._setProps for example.
      * </p>
-     *
      * @param {Node} domNode The DOM node used to add widget.
      * @param {Object} props Key-Value pairs of properties.
      * @param {String} position The position (e.g., "first", "last", etc.) to add widget.
      * @param {boolean} escape HTML escape static strings -- default is true.
+     * @return {boolean} true if successful; otherwise, false.
      */
     updateFragment: function(domNode, props, position, escape) {
         if (props == null) {

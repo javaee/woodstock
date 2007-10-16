@@ -21,25 +21,15 @@
 // Copyright 2007 Sun Microsystems, Inc. All rights reserved.
 //
 
-/**
- * @name widget/image.js
- * @version @THEME_VERSION@
- * @overview This module contains classes and functions for the image widget.
- * @example The following code is used to create a image widget.
- * <p><code>
- * var widget = new webui.@THEME@.widget.image(props, domNode);
- * </code></p>
- */
 dojo.provide("webui.@THEME@.widget.image");
 
 dojo.require("webui.@THEME@.widget.widgetBase");
 
 /**
- * This function is used to construct a template based widget.
- *
  * @name webui.@THEME@.widget.image
- * @inherits webui.@THEME@.widget.widgetBase
- * @constructor
+ * @extends webui.@THEME@.widget.widgetBase
+ * @class This class contains functions for the image widget.
+ * @constructor This function is used to construct a image widget.
  */
 dojo.declare("webui.@THEME@.widget.image", webui.@THEME@.widget.widgetBase, {
     // Set defaults.
@@ -48,19 +38,18 @@ dojo.declare("webui.@THEME@.widget.image", webui.@THEME@.widget.widgetBase, {
 });
 
 /**
- * This closure contains event topics.
+ * This object contains event topics.
  * <p>
  * Note: Event topics must be prototyped for inherited functions. However, these
  * topics must also be available statically so that developers may subscribe to
  * events.
  * </p>
- *
  * @ignore
  */
-webui.@THEME@.widget.image.prototype.event =
-        webui.@THEME@.widget.image.event = {
+webui.@THEME@.widget.image.event =
+        webui.@THEME@.widget.image.prototype.event = {
     /**
-     * This closure contains refresh event topics.
+     * This object contains refresh event topics.
      * @ignore
      */
     refresh: {
@@ -72,7 +61,7 @@ webui.@THEME@.widget.image.prototype.event =
     },
 
     /**
-     * This closure contains state event topics.
+     * This object contains state event topics.
      * @ignore
      */
     state: {
@@ -87,6 +76,8 @@ webui.@THEME@.widget.image.prototype.event =
 /**
  * This function is used to get widget properties. Please see the 
  * setProps() function for a list of supported properties.
+ *
+ * @return {Object} Key-Value pairs of properties.
  */
 webui.@THEME@.widget.image.prototype.getProps = function() {
     var props = this.inherited("getProps", arguments);
@@ -145,6 +136,7 @@ webui.@THEME@.widget.image.prototype.getProps = function() {
  * @config {String} [vspace]
  * @config {String} [width]
  * @param {boolean} notify Publish an event for custom AJAX implementations to listen for.
+ * @return {boolean} true if successful; otherwise, false.
  */
 webui.@THEME@.widget.image.prototype.setProps = function(props, notify) {
     // Note: This function is overridden for JsDoc.
@@ -160,6 +152,7 @@ webui.@THEME@.widget.image.prototype.setProps = function(props, notify) {
  * </p>
  *
  * @param {Object} props Key-Value pairs of properties.
+ * @return {boolean} true if successful; otherwise, false.
  * @private
  */
 webui.@THEME@.widget.image.prototype._setProps = function(props) {

@@ -21,25 +21,15 @@
 // Copyright 2007 Sun Microsystems, Inc. All rights reserved.
 //
 
-/**
- * @name widget/passwordField.js
- * @version @THEME_VERSION@
- * @overview This module contains classes and functions for the passwordField widget.
- * @example The following code is used to create a passwordField widget.
- * <p><code>
- * var widget = new webui.@THEME@.widget.passwordField(props, domNode);
- * </code></p>
- */
 dojo.provide("webui.@THEME@.widget.passwordField");
 
 dojo.require("webui.@THEME@.widget.fieldBase");
 
 /**
- * This function is used to construct a template based widget.
- *
  * @name webui.@THEME@.widget.passwordField
- * @inherits webui.@THEME@.widget.fieldBase
- * @constructor
+ * @extends webui.@THEME@.widget.fieldBase
+ * @class This class contains functions for the passwordField widget.
+ * @constructor This function is used to construct a passwordField widget.
  */
 dojo.declare("webui.@THEME@.widget.passwordField", webui.@THEME@.widget.fieldBase, {
     // Set defaults.
@@ -48,6 +38,8 @@ dojo.declare("webui.@THEME@.widget.passwordField", webui.@THEME@.widget.fieldBas
 
 /**
  * Helper function to obtain HTML input element class names.
+ *
+ * @return {String} The HTML input element class name.
  */
 webui.@THEME@.widget.passwordField.prototype.getInputClassName = function() {
     if (this.fieldNode.readOnly) {
@@ -108,6 +100,7 @@ webui.@THEME@.widget.passwordField.prototype.getInputClassName = function() {
  * @config {boolean} [valid]
  * @config {String} [value] Value of input.
  * @config {boolean} [visible] Hide or show element.
+ * @return {boolean} true if successful; otherwise, false.
  */
 webui.@THEME@.widget.passwordField.prototype.setProps = function(props) {
     // Note: This function is overridden for JsDoc.

@@ -21,19 +21,17 @@
 // Copyright 2007 Sun Microsystems, Inc. All rights reserved.
 //
 
-/**
- * @name cookie.js
- * @version @THEME_VERSION@
- * @overview This module contains functions to manipulate cookies.
- */
 dojo.provide("webui.@THEME@.cookie");
 
 /**
- * This closure contains functions to manipulate cookies.
+ * @class This class contains functions to manipulate cookies.
+ * @static
  */
 webui.@THEME@.cookie = {
     /**
      * This function will get the cookie value.
+     *
+     * @return {String} The cookie value.
      */
     get: function() {
         // Get document cookie.
@@ -57,6 +55,8 @@ webui.@THEME@.cookie = {
 
     /**
      * This function will load the cookie value.
+     *
+     * @return {boolean} true if successful; otherwise, false.
      */
     load: function() {
         // Get document cookie.
@@ -82,6 +82,8 @@ webui.@THEME@.cookie = {
 
     /**
      * This function will reset the cookie value.
+     *
+     * @return {boolean} true if successful; otherwise, false.
      */
     reset: function() {
         // Clear cookie value.
@@ -91,6 +93,8 @@ webui.@THEME@.cookie = {
 
     /**
      * This function will store the cookie value.
+     *
+     * @return {boolean} true if successful; otherwise, false.
      */
     store: function() {
         // Create cookie value by looping through object properties
@@ -119,12 +123,11 @@ webui.@THEME@.cookie = {
 }
 
 /**
- * This function is used to construct a javascript object for
+ * @constructor This function is used to construct a javascript object for
  * maintaining scroll position via cookie.
- *
  * @param {String} viewId
  * @param {String} path
- * @constructor
+ * @return {boolean} true if successful; otherwise, false.
  */
 webui.@THEME@.scrollCookie = function(viewId, path) {    
     // All predefined properties of this object begin with '$' because

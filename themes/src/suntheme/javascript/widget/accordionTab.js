@@ -21,25 +21,15 @@
 // Copyright 2007 Sun Microsystems, Inc. All rights reserved.
 //
 
-/**
- * @name widget/accordionTab.js
- * @version @THEME_VERSION@
- * @overview This module contains classes and functions for the accordionTab widget.
- * @example The following code is used to create a accordionTab widget.
- * <p><code>
- * var widget = new webui.@THEME@.widget.accordionTab(props, domNode);
- * </code></p>
- */
 dojo.provide("webui.@THEME@.widget.accordionTab");
 
 dojo.require("webui.@THEME@.widget.widgetBase");
 
 /**
- * This function is used to construct a template based widget.
- *
  * @name webui.@THEME@.widget.accordionTab
- * @inherits webui.@THEME@.widget.widgetBase
- * @constructor
+ * @extends webui.@THEME@.widget.widgetBase
+ * @class This class contains functions for the accordionTab widget.
+ * @constructor This function is used to construct an accordionTab widget.
  */
 dojo.declare("webui.@THEME@.widget.accordionTab", webui.@THEME@.widget.widgetBase, {
     // Set defaults.
@@ -49,19 +39,18 @@ dojo.declare("webui.@THEME@.widget.accordionTab", webui.@THEME@.widget.widgetBas
 });
 
 /**
- * This closure contains event topics.
+ * This object contains event topics.
  * <p>
  * Note: Event topics must be prototyped for inherited functions. However, these
  * topics must also be available statically so that developers may subscribe to
  * events.
  * </p>
- *
  * @ignore
  */
-webui.@THEME@.widget.accordionTab.prototype.event =
-        webui.@THEME@.widget.accordionTab.event = {
+webui.@THEME@.widget.accordionTab.event =
+        webui.@THEME@.widget.accordionTab.prototype.event = {
     /**
-     * This closure contains load event topics.
+     * This object contains load event topics.
      * @ignore
      */
     load: {
@@ -73,7 +62,7 @@ webui.@THEME@.widget.accordionTab.prototype.event =
     },
 
     /**
-     * This closure contains refresh event topics.
+     * This object contains refresh event topics.
      * @ignore
      */
     refresh: {
@@ -85,7 +74,7 @@ webui.@THEME@.widget.accordionTab.prototype.event =
     },
 
     /**
-     * This closure contains state event topics.
+     * This object contains state event topics.
      * @ignore
      */
     state: {
@@ -97,7 +86,7 @@ webui.@THEME@.widget.accordionTab.prototype.event =
     },
 
     /**
-     * This closure contains title event topics.
+     * This object contains title event topics.
      * @ignore
      */
     title: {
@@ -112,6 +101,7 @@ webui.@THEME@.widget.accordionTab.prototype.event =
  * @param {String} execute The string containing a comma separated list 
  * of client ids against which the execute portion of the request 
  * processing lifecycle must be run.
+ * @return {boolean} true if successful; otherwise, false.
  */
 webui.@THEME@.widget.accordionTab.prototype.loadContent = function(execute) {
     // Include default AJAX implementation.
@@ -127,6 +117,8 @@ webui.@THEME@.widget.accordionTab.prototype.loadContent = function(execute) {
 /**
  * This function is used to get widget properties. Please see the 
  * setProps() function for a list of supported properties.
+ *
+ * @return {Object} Key-Value pairs of properties.
  */
 webui.@THEME@.widget.accordionTab.prototype.getProps = function() {
     var props = this.inherited("getProps", arguments);
@@ -148,6 +140,8 @@ webui.@THEME@.widget.accordionTab.prototype.getProps = function() {
 
 /**
  * Get title height.
+ *
+ * @return {int} The title height.
  */
 webui.@THEME@.widget.accordionTab.prototype.getTitleHeight = function () {
     // Warning: This function has been made private.
@@ -158,6 +152,7 @@ webui.@THEME@.widget.accordionTab.prototype.getTitleHeight = function () {
  * Handle menu onClick event.
  *
  * @param {Event} event The JavaScript event.
+ * @return {boolean} true if successful; otherwise, false.
  */
 webui.@THEME@.widget.accordionTab.prototype.onMenuClickCallback = function(event) {
     dojo.stopEvent(event);
@@ -172,6 +167,7 @@ webui.@THEME@.widget.accordionTab.prototype.onMenuClickCallback = function(event
  * </p>
  *
  * @param {Event} event The JavaScript event.
+ * @return {boolean} true if successful; otherwise, false.
  */
 webui.@THEME@.widget.accordionTab.prototype.onTitleClickCallback = function (event) {
     dojo.publish(webui.@THEME@.widget.accordionTab.event.title.selectedTopic, [{
@@ -184,6 +180,7 @@ webui.@THEME@.widget.accordionTab.prototype.onTitleClickCallback = function (eve
  * Handle title onMouseOut event.
  *
  * @param {Event} event The JavaScript event.
+ * @return {boolean} true if successful; otherwise, false.
  */
 webui.@THEME@.widget.accordionTab.prototype.onTitleMouseOutCallback = function(event) {
     if (this.selected) {
@@ -200,6 +197,7 @@ webui.@THEME@.widget.accordionTab.prototype.onTitleMouseOutCallback = function(e
  * Handle title onMouseOver event.
  *
  * @param {Event} event The JavaScript event.
+ * @return {boolean} true if successful; otherwise, false.
  */
 webui.@THEME@.widget.accordionTab.prototype.onTitleMouseOverCallback = function(event) {
     if (this.selected) {
@@ -216,6 +214,7 @@ webui.@THEME@.widget.accordionTab.prototype.onTitleMouseOverCallback = function(
  * <p>
  * Note: Unlike Dojo 0.4, the DOM nodes don't exist in the document, yet. 
  * </p>
+ * @return {boolean} true if successful; otherwise, false.
  */
 webui.@THEME@.widget.accordionTab.prototype.postCreate = function () {
     // Set ids.
@@ -273,6 +272,7 @@ webui.@THEME@.widget.accordionTab.prototype.postCreate = function () {
  * @config {String} [title] Provides a title for element.
  * @config {boolean} [visible] Hide or show element.
  * @param {boolean} notify Publish an event for custom AJAX implementations to listen for.
+ * @return {boolean} true if successful; otherwise, false.
  */
 webui.@THEME@.widget.accordionTab.prototype.setProps = function(props, notify) {
     if (props == null) {
@@ -297,6 +297,7 @@ webui.@THEME@.widget.accordionTab.prototype.setProps = function(props, notify) {
  * </p>
  *
  * @param {Object} props Key-Value pairs of properties.
+ * @return {boolean} true if successful; otherwise, false.
  * @private
  */
 webui.@THEME@.widget.accordionTab.prototype._setProps = function(props) {
@@ -340,6 +341,7 @@ webui.@THEME@.widget.accordionTab.prototype._setProps = function(props) {
  * Set tab selected.
  *
  * @param {boolean} isSelected true if selected.
+ * @return {boolean} true if successful; otherwise, false.
  */
 webui.@THEME@.widget.accordionTab.prototype.setSelected = function (isSelected) {
     if (this.selected) {
@@ -374,6 +376,7 @@ webui.@THEME@.widget.accordionTab.prototype.setSelected = function (isSelected) 
  * Set the contents of the accordion tab.
  *
  * @param {Array} content The Contents of the tab body.
+ * @return {boolean} true if successful; otherwise, false.
  */
 webui.@THEME@.widget.accordionTab.prototype.setTabContent = function(content) {
     if (content) {
@@ -388,6 +391,7 @@ webui.@THEME@.widget.accordionTab.prototype.setTabContent = function(content) {
  * Set the title associated with the accordion tab.
  *
  * @param {String} title Title property associated with the tab.
+ * @return {boolean} true if successful; otherwise, false.
  */
 webui.@THEME@.widget.accordionTab.prototype.setTitle = function (title) {
     if (title) {

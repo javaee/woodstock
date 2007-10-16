@@ -21,25 +21,15 @@
 // Copyright 2007 Sun Microsystems, Inc. All rights reserved.
 //
 
-/**
- * @name widget/anchor.js
- * @version @THEME_VERSION@
- * @overview This module contains classes and functions for the anchor widget.
- * @example The following code is used to create a anchor widget.
- * <p><code>
- * var widget = new webui.@THEME@.widget.anchor(props, domNode);
- * </code></p>
- */
 dojo.provide("webui.@THEME@.widget.anchor");
 
 dojo.require("webui.@THEME@.widget.anchorBase");
 
 /**
- * This function is used to construct a template based widget.
- *
  * @name webui.@THEME@.widget.anchor
- * @inherits webui.@THEME@.widget.anchorBase
- * @constructor
+ * @extends webui.@THEME@.widget.anchorBase
+ * @class This class contains functions for the anchor widget.
+ * @constructor This function is used to construct an anchor widget.
  */
 dojo.declare("webui.@THEME@.widget.anchor", webui.@THEME@.widget.anchorBase, {
     // Set defaults.
@@ -47,19 +37,18 @@ dojo.declare("webui.@THEME@.widget.anchor", webui.@THEME@.widget.anchorBase, {
 });
 
 /**
- * This closure contains event topics.
+ * This object contains event topics.
  * <p>
  * Note: Event topics must be prototyped for inherited functions. However, these
  * topics must also be available statically so that developers may subscribe to
  * events.
  * </p>
- *
  * @ignore
  */
-webui.@THEME@.widget.anchor.prototype.event =
-        webui.@THEME@.widget.anchor.event = {
+webui.@THEME@.widget.anchor.event =
+        webui.@THEME@.widget.anchor.prototype.event = {
     /**
-     * This closure contains refresh event topics.
+     * This object contains refresh event topics.
      * @ignore
      */
     refresh: {
@@ -71,7 +60,7 @@ webui.@THEME@.widget.anchor.prototype.event =
     },
 
     /**
-     * This closure contains state event topics.
+     * This object contains state event topics.
      * @ignore
      */
     state: {
@@ -85,9 +74,11 @@ webui.@THEME@.widget.anchor.prototype.event =
 
 /**
  * This function is used to obtain the outermost HTML element class name.
- *
+ * <p>
  * Note: Selectors should be concatinated in order of precedence (e.g., the 
  * user's className property is always appended last).
+ * </p>
+ * @return {String} The outermost HTML element class name.
  */
 webui.@THEME@.widget.anchor.prototype.getClassName = function() {
     // Set default style.
@@ -106,6 +97,7 @@ webui.@THEME@.widget.anchor.prototype.getClassName = function() {
  * <p>
  * Note: Unlike Dojo 0.4, the DOM nodes don't exist in the document, yet. 
  * </p>
+ * @return {boolean} true if successful; otherwise, false.
  */
 webui.@THEME@.widget.anchor.prototype.postCreate = function () {
     // Create callback function for onclick event.

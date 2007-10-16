@@ -21,21 +21,12 @@
 // Copyright 2007 Sun Microsystems, Inc. All rights reserved.
 //
 
-/**
- * @name widget/jsfx/common.js
- * @version @THEME_VERSION@
- * @overview This module contains the common functions for the default Ajax 
- * implementation.
- * <p>
- * Note: This Javascript file should be included in any page that uses the 
- * associated widget, where JSF Extensions is used as the underlying transfer
- * protocol.
- * </p>
- */
 dojo.provide("webui.@THEME@.widget.jsfx.common");
 
 /**
- * This closure contains functions common to the default Ajax implementation.
+ * @class This class contains functions to obtain data asynchronously using JSF
+ * Extensions as the underlying transfer protocol.
+ * @static
  */
 webui.@THEME@.widget.jsfx.common = {
     /**
@@ -47,6 +38,7 @@ webui.@THEME@.widget.jsfx.common = {
      * @config {String} [execute] The string containing a comma separated list 
      * of client ids against which the execute portion of the request 
      * processing lifecycle must be run.
+     * @return {boolean} true if successful; otherwise, false.
      */
     processRefreshEvent: function(props) {
         if (props == null) {
@@ -78,6 +70,7 @@ webui.@THEME@.widget.jsfx.common = {
      * @config {String} [id] The HTML element Id.
      * @config {String} [endTopic] The event topic to publish.
      * @config {Object} [props] Key-Value pairs of widget properties to update.
+     * @return {boolean} true if successful; otherwise, false.
      */
     processStateEvent: function(props) {
         if (props == null) {
@@ -111,6 +104,7 @@ webui.@THEME@.widget.jsfx.common = {
      * @config {String} [execute] The string containing a comma separated list 
      * of client ids against which the execute portion of the request 
      * processing lifecycle must be run.
+     * @return {boolean} true if successful; otherwise, false.
      */
     processSubmitEvent: function(props) {
         if (props == null) {
@@ -142,6 +136,7 @@ webui.@THEME@.widget.jsfx.common = {
      * @param {String} content The content returned by the AJAX response.
      * @param {Object} closure The closure argument provided to DynaFaces.fireAjaxTransaction.
      * @param {Object} xjson The xjson argument provided to DynaFaces.fireAjaxTransaction.
+     * @return {boolean} true if successful; otherwise, false.
      */
     refreshCallback: function(id, content, closure, xjson) {
         if (id == null || content == null) {
@@ -170,6 +165,7 @@ webui.@THEME@.widget.jsfx.common = {
      * @param {String} content The content returned by the AJAX response.
      * @param {Object} closure The closure argument provided to DynaFaces.fireAjaxTransaction.
      * @param {Object} xjson The xjson argument provided to DynaFaces.fireAjaxTransaction.
+     * @return {boolean} true if successful; otherwise, false.
      */
     stateCallback: function(id, content, closure, xjson) {
         if (id == null || content == null) {
@@ -194,6 +190,7 @@ webui.@THEME@.widget.jsfx.common = {
      * @param {String} content The content returned by the AJAX response.
      * @param {Object} closure The closure argument provided to DynaFaces.fireAjaxTransaction.
      * @param {Object} xjson The xjson argument provided to DynaFaces.fireAjaxTransaction.
+     * @return {boolean} true if successful; otherwise, false.
      */
     submitCallback: function(id, content, closure, xjson) {
         if (id == null || content == null) {

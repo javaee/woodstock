@@ -21,21 +21,15 @@
 // Copyright 2007 Sun Microsystems, Inc. All rights reserved.
 //
 
-/**
- * @name widget/anchorBase.js
- * @version @THEME_VERSION@
- * @overview This module contains classes and functions for the anchorBase object.
- */
 dojo.provide("webui.@THEME@.widget.anchorBase");
 
 dojo.require("webui.@THEME@.widget.widgetBase");
 
 /**
- * This function is used to construct a template based widget.
- *
  * @name webui.@THEME@.widget.anchorBase
- * @inherits webui.@THEME@.widget.widgetBase
- * @constructor
+ * @extends webui.@THEME@.widget.widgetBase
+ * @class This class contains functions for widgets that extend anchorBase.
+ * @static
  */
 dojo.declare("webui.@THEME@.widget.anchorBase", webui.@THEME@.widget.widgetBase);
 
@@ -44,6 +38,7 @@ dojo.declare("webui.@THEME@.widget.anchorBase", webui.@THEME@.widget.widgetBase)
  *
  * @param props Key-Value pairs of properties.
  * @config {Array} [contents] The contents of the anchor body.
+ * @return {boolean} true if successful; otherwise, false.
  */
 webui.@THEME@.widget.anchorBase.prototype.addContents = function(props) {
     if (props.contents == null) {
@@ -63,6 +58,8 @@ webui.@THEME@.widget.anchorBase.prototype.addContents = function(props) {
 /**
  * This function is used to get widget properties. Please see the 
  * setProps() function for a list of supported properties.
+ *
+ * @return {Object} Key-Value pairs of properties.
  */
 webui.@THEME@.widget.anchorBase.prototype.getProps = function() {
     var props = this.inherited("getProps", arguments);
@@ -89,6 +86,7 @@ webui.@THEME@.widget.anchorBase.prototype.getProps = function() {
  * Helper function to create callback for onClick event.
  *
  * @param {Event} event The JavaScript event.
+ * @return {boolean} true if successful; otherwise, false.
  */
 webui.@THEME@.widget.anchorBase.prototype.onClickCallback = function(event) {
     if (this.disabled == true) {
@@ -150,6 +148,7 @@ webui.@THEME@.widget.anchorBase.prototype.onClickCallback = function(event) {
  * @config {String} [title] Provides a title for element.
  * @config {boolean} [visible] Hide or show element.
  * @param {boolean} notify Publish an event for custom AJAX implementations to listen for.
+ * @return {boolean} true if successful; otherwise, false.
  */
 webui.@THEME@.widget.anchorBase.prototype.setProps = function(props, notify) {
     if (props == null) {
@@ -174,6 +173,7 @@ webui.@THEME@.widget.anchorBase.prototype.setProps = function(props, notify) {
  * </p>
  *
  * @param {Object} props Key-Value pairs of properties.
+ * @return {boolean} true if successful; otherwise, false.
  * @private
  */
 webui.@THEME@.widget.anchorBase.prototype._setProps = function(props) {

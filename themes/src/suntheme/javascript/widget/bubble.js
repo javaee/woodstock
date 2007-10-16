@@ -21,15 +21,6 @@
 // Copyright 2007 Sun Microsystems, Inc. All rights reserved.
 //
 
-/**
- * @name widget/bubble.js
- * @version @THEME_VERSION@
- * @overview This module contains classes and functions for the bubble widget.
- * @example The following code is used to create a bubble widget.
- * <p><code>
- * var widget = new webui.@THEME@.widget.bubble(props, domNode);
- * </code></p>
- */
 dojo.provide("webui.@THEME@.widget.bubble");
 
 dojo.require("webui.@THEME@.browser");
@@ -37,11 +28,10 @@ dojo.require("webui.@THEME@.common");
 dojo.require("webui.@THEME@.widget.widgetBase");
 
 /**
- * This function is used to construct a template based widget.
- *
  * @name webui.@THEME@.widget.bubble
- * @inherits webui.@THEME@.widget.widgetBase
- * @constructor
+ * @extends webui.@THEME@.widget.widgetBase
+ * @class This class contains functions for the bubble widget.
+ * @constructor This function is used to construct a bubble widget.
  */
 dojo.declare("webui.@THEME@.widget.bubble", webui.@THEME@.widget.widgetBase, {
     // Set defaults.
@@ -54,6 +44,8 @@ dojo.declare("webui.@THEME@.widget.bubble", webui.@THEME@.widget.widgetBase, {
 
 /**
  * This function is used to close bubble help.
+ *
+ * @return {boolean} true if successful; otherwise, false.
  */
 webui.@THEME@.widget.bubble.prototype.close = function() {
     if (this.openTimerId != null) {
@@ -74,19 +66,18 @@ webui.@THEME@.widget.bubble.prototype.close = function() {
 }
 
 /**
- * This closure contains event topics.
+ * This object contains event topics.
  * <p>
  * Note: Event topics must be prototyped for inherited functions. However, these
  * topics must also be available statically so that developers may subscribe to
  * events.
  * </p>
- *
  * @ignore
  */
-webui.@THEME@.widget.bubble.prototype.event =
-        webui.@THEME@.widget.bubble.event = {
+webui.@THEME@.widget.bubble.event =
+        webui.@THEME@.widget.bubble.prototype.event = {
     /**
-     * This closure contains refresh event topics.
+     * This object contains refresh event topics.
      * @ignore
      */
     refresh: {
@@ -98,7 +89,7 @@ webui.@THEME@.widget.bubble.prototype.event =
     },
 
     /**
-     * This closure contains state event topics.
+     * This object contains state event topics.
      * @ignore
      */
     state: {
@@ -113,6 +104,8 @@ webui.@THEME@.widget.bubble.prototype.event =
 /**
  * This function is used to get widget properties. Please see the 
  * setProps() function for a list of supported properties.
+ *
+ * @return {Object} Key-Value pairs of properties.
  */
 webui.@THEME@.widget.bubble.prototype.getProps = function() {
     var props = this.inherited("getProps", arguments);
@@ -134,6 +127,7 @@ webui.@THEME@.widget.bubble.prototype.getProps = function() {
  * Helper function to create callback for onClick event.
  *
  * @param {Event} event The JavaScript event.
+ * @return {boolean} true if successful; otherwise, false.
  */
 webui.@THEME@.widget.bubble.prototype.onClickCallback = function(event) {
     // Close the popup if close button is clicked.
@@ -164,6 +158,7 @@ webui.@THEME@.widget.bubble.prototype.onClickCallback = function(event) {
  * Helper function to create callback for close event.
  *
  * @param {Event} event The JavaScript event.
+ * @return {boolean} true if successful; otherwise, false.
  */
 webui.@THEME@.widget.bubble.prototype.onCloseCallback = function(event) {
     if (event == null) {
@@ -181,6 +176,7 @@ webui.@THEME@.widget.bubble.prototype.onCloseCallback = function(event) {
  * Helper function to create callback for onMouseOver event.
  *
  * @param {Event} event The JavaScript event.
+ * @return {boolean} true if successful; otherwise, false.
  */
 webui.@THEME@.widget.bubble.prototype.onMouseOverCallback = function(event) {
     clearTimeout(this.timerId);
@@ -191,6 +187,7 @@ webui.@THEME@.widget.bubble.prototype.onMouseOverCallback = function(event) {
  * Helper function to create callback for onMouseOut event.
  *
  * @param {Event} event The JavaScript event.
+ * @return {boolean} true if successful; otherwise, false.
  */
 webui.@THEME@.widget.bubble.prototype.onMouseOutCallback = function(event) {
     if (this.autoClose == true) {
@@ -204,6 +201,7 @@ webui.@THEME@.widget.bubble.prototype.onMouseOutCallback = function(event) {
  * This function is use to invoke buuble help.
  *
  * @param {Event} event The JavaScript event.
+ * @return {boolean} true if successful; otherwise, false.
  */
 webui.@THEME@.widget.bubble.prototype.open = function(event) {
     // Get the absolute position of the target.
@@ -257,6 +255,7 @@ webui.@THEME@.widget.bubble.prototype.open = function(event) {
  * <p>
  * Note: Unlike Dojo 0.4, the DOM nodes don't exist in the document, yet. 
  * </p>
+ * @return {boolean} true if successful; otherwise, false.
  */
 webui.@THEME@.widget.bubble.prototype.postCreate = function () {
     // Set ids.
@@ -302,6 +301,8 @@ webui.@THEME@.widget.bubble.prototype.postCreate = function () {
 
 /**
  * This function is used to position the bubble.
+ *
+ * @return {boolean} true if successful; otherwise, false.
  */
 webui.@THEME@.widget.bubble.prototype.setPosition = function() {
     
@@ -470,6 +471,7 @@ webui.@THEME@.widget.bubble.prototype.setPosition = function() {
  * @config {int} [width] 
  * @config {boolean} [visible] Hide or show element.
  * @param {boolean} notify Publish an event for custom AJAX implementations to listen for.
+ * @return {boolean} true if successful; otherwise, false.
  */
 webui.@THEME@.widget.bubble.prototype.setProps = function(props, notify) {
     if (props == null) {
@@ -494,6 +496,7 @@ webui.@THEME@.widget.bubble.prototype.setProps = function(props, notify) {
  * </p>
  *
  * @param {Object} props Key-Value pairs of properties.
+ * @return {boolean} true if successful; otherwise, false.
  * @private
  */
 webui.@THEME@.widget.bubble.prototype._setProps = function(props) {

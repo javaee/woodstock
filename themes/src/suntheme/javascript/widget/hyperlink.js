@@ -21,25 +21,15 @@
 // Copyright 2007 Sun Microsystems, Inc. All rights reserved.
 //
 
-/**
- * @name widget/hyperlink.js
- * @version @THEME_VERSION@
- * @overview This module contains classes and functions for the hyperlink widget.
- * @example The following code is used to create a hyperlink widget.
- * <p><code>
- * var widget = new webui.@THEME@.widget.hyperlink(props, domNode);
- * </code></p>
- */
 dojo.provide("webui.@THEME@.widget.hyperlink");
 
 dojo.require("webui.@THEME@.widget.anchorBase");
 
 /**
- * This function is used to construct a template based widget.
- *
  * @name webui.@THEME@.widget.hyperlink
- * @inherits webui.@THEME@.widget.anchorBase
- * @constructor
+ * @extends webui.@THEME@.widget.anchorBase
+ * @class This class contains functions for the hyperlink widget.
+ * @constructor This function is used to construct a hyperlink widget.
  */
 dojo.declare("webui.@THEME@.widget.hyperlink", webui.@THEME@.widget.anchorBase, {
     // Set defaults.
@@ -47,19 +37,18 @@ dojo.declare("webui.@THEME@.widget.hyperlink", webui.@THEME@.widget.anchorBase, 
 });
 
 /**
- * This closure contains event topics.
+ * This object contains event topics.
  * <p>
  * Note: Event topics must be prototyped for inherited functions. However, these
  * topics must also be available statically so that developers may subscribe to
  * events.
  * </p>
- *
  * @ignore
  */
-webui.@THEME@.widget.hyperlink.prototype.event =
-        webui.@THEME@.widget.hyperlink.event = {
+webui.@THEME@.widget.hyperlink.event =
+        webui.@THEME@.widget.hyperlink.prototype.event = {
     /**
-     * This closure contains refresh event topics.
+     * This object contains refresh event topics.
      * @ignore
      */
     refresh: {
@@ -71,7 +60,7 @@ webui.@THEME@.widget.hyperlink.prototype.event =
     },
 
     /**
-     * This closure contains state event topics.
+     * This object contains state event topics.
      * @ignore
      */
     state: {
@@ -89,6 +78,7 @@ webui.@THEME@.widget.hyperlink.prototype.event =
  * Note: Selectors should be concatinated in order of precedence (e.g., the 
  * user's className property is always appended last).
  * </p>
+ * @return {String} The outermost HTML element class name.
  */
 webui.@THEME@.widget.hyperlink.prototype.getClassName = function() {
     // Set default style.
@@ -105,6 +95,7 @@ webui.@THEME@.widget.hyperlink.prototype.getClassName = function() {
  * Helper function to create callback for onClick event.
  *
  * @param {Event} event The JavaScript event.
+ * @return {boolean} true if successful; otherwise, false.
  */
 webui.@THEME@.widget.hyperlink.prototype.onClickCallback = function(event) {
     if (this.disabled == true) {
@@ -127,7 +118,8 @@ webui.@THEME@.widget.hyperlink.prototype.onClickCallback = function(event) {
     // If a form id isnt provided, use the utility function to
     // obtain the form id.
     if (this.formId == null) {
-        this.formId = this.widget.getFormId(this.domNode.id);
+        var form = this.widget.getForm(this.domNode);
+        this.formId = (form) ? form.id : null;
     }
     return this.submitFormData(this.formId, this.params);
 }
@@ -138,6 +130,7 @@ webui.@THEME@.widget.hyperlink.prototype.onClickCallback = function(event) {
  * <p>
  * Note: Unlike Dojo 0.4, the DOM nodes don't exist in the document, yet. 
  * </p>
+ * @return {boolean} true if successful; otherwise, false.
  */
 webui.@THEME@.widget.hyperlink.prototype.postCreate = function () {
     // If the href attribute does not exist, set "#" as the default value of the
@@ -196,6 +189,7 @@ webui.@THEME@.widget.hyperlink.prototype.postCreate = function () {
  * @config {String} [title] Provides a title for element.
  * @config {boolean} [visible] Hide or show element.
  * @param {boolean} notify Publish an event for custom AJAX implementations to listen for.
+ * @return {boolean} true if successful; otherwise, false.
  */
 webui.@THEME@.widget.anchorBase.prototype.setProps = function(props, notify) {
     // Note: This function is overridden for JsDoc.
@@ -207,6 +201,7 @@ webui.@THEME@.widget.anchorBase.prototype.setProps = function(props, notify) {
  *
  * @param {String} formId The id of the HTML form element.
  * @param {Array} params The parameters to be passed during request.
+ * @return {boolean} false to cancel the JavaScript event.
  */
 webui.@THEME@.widget.hyperlink.prototype.submitFormData = function (formId, params) {
     var theForm = document.getElementById(formId);

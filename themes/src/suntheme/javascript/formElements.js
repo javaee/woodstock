@@ -21,11 +21,6 @@
 // Copyright 2007 Sun Microsystems, Inc. All rights reserved.
 //
 
-/**
- * @name formElements.js
- * @version @THEME_VERSION@
- * @overview This module contains functions common to HTML elements.
- */
 dojo.provide("webui.@THEME@.formElements");
 
 dojo.require("webui.@THEME@.browser");
@@ -36,7 +31,8 @@ dojo.require("webui.@THEME@.common");
 // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 /**
- * This closure contains functions for button components.
+ * @class This class contains functions for button components.
+ * @static
  *
  * @deprecated See webui.@THEME@.widget.button
  */
@@ -50,6 +46,7 @@ webui.@THEME@.button = {
      *
      * @param {Object} props Key-Value pairs of properties.
      * @config {String} [id] The element id.
+     * @return {boolean} true if successful; otherwise, false.
      * @deprecated See webui.@THEME@.widget.button
      */
     init: function(props) {
@@ -82,6 +79,7 @@ webui.@THEME@.button = {
     /**
      * Simulate a mouse click in a button. 
      *
+     * @return {boolean} true if successful; otherwise, false.
      * @deprecated Use document.getElementById(id).click();
      */
     click: function() {
@@ -91,7 +89,7 @@ webui.@THEME@.button = {
     /**
      * Get the textual label of a button. 
      *
-     * @return The element value.
+     * @return {String} The element value.
      * @deprecated Use document.getElementById(id).getProps().value;
      */
     getText: function() {
@@ -102,6 +100,7 @@ webui.@THEME@.button = {
      * Set the textual label of a button. 
      *
      * @param {String} text The element value
+     * @return {boolean} true if successful; otherwise, false.
      * @deprecated Use document.getElementById(id).setProps({value: "text"});
      */
     setText: function(text) {
@@ -112,6 +111,7 @@ webui.@THEME@.button = {
      * Use this function to show or hide a button. 
      *
      * @param {boolean} show true to show the element, false to hide the element
+     * @return {boolean} true if successful; otherwise, false.
      * @deprecated Use document.getElementById(id).setProps({visible: boolean});
      */
     setVisible: function(show) {
@@ -125,7 +125,7 @@ webui.@THEME@.button = {
      * Use this function to find whether or not this is visible according to our
      * spec.
      *
-     * @return true if visible; otherwise, false
+     * @return {boolean} true if visible; otherwise, false
      * @deprecated Use document.getElementById(id).getProps().visible;
      */
     getVisible: function() {
@@ -135,7 +135,7 @@ webui.@THEME@.button = {
     /**
      * Test if button is set as "primary".
      *
-     * @return true if primary; otherwise, false for secondary
+     * @return {boolean} true if primary; otherwise, false for secondary
      * @deprecated Use document.getElementById(id).getProps().primary;
      */
     isPrimary: function() {
@@ -146,6 +146,7 @@ webui.@THEME@.button = {
      * Set button as "primary".
      *
      * @param {boolean} primary true for primary, false for secondary
+     * @return {boolean} true if successful; otherwise, false.
      * @deprecated Use document.getElementById(id).setProps({primary: boolean});
      */
     setPrimary: function(primary) {
@@ -158,7 +159,7 @@ webui.@THEME@.button = {
     /**
      * Test if button is set as "secondary".
      *
-     * @return true if secondary; otherwise, false for primary
+     * @return {boolean} true if secondary; otherwise, false for primary
      * @deprecated Use !(document.getElementById(id).getProps().primary);
      */
     isSecondary: function() {
@@ -169,6 +170,7 @@ webui.@THEME@.button = {
      * Set button as "secondary".
      *
      * @param {boolean} secondary true for secondary, false for primary
+     * @return {boolean} true if successful; otherwise, false.
      * @deprecated Use document.getElementById(id).setProps({primary: false});
      */
     setSecondary: function(secondary) {
@@ -181,7 +183,7 @@ webui.@THEME@.button = {
     /**
      * Test if button is set as "mini".
      *
-     * @return true if mini; otherwise, false
+     * @return {boolean} true if mini; otherwise, false
      * @deprecated Use document.getElementById(id).getProps().mini;
      */
     isMini: function() {
@@ -204,7 +206,7 @@ webui.@THEME@.button = {
     /**
      * Test disabled state of button.
      *
-     * @return true if disabled; otherwise, false
+     * @return {boolean} true if disabled; otherwise, false
      * @deprecated Use document.getElementById(id).getProps().disabled;
      */
     getDisabled: function() {
@@ -230,7 +232,8 @@ webui.@THEME@.button = {
 // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 /**
- * This closure contains functions for checkbox components.
+ * @class This class contains functions for checkbox components.
+ * @static
  * 
  * @deprecated See webui.@THEME@.widget.checkbox
  */
@@ -241,7 +244,7 @@ webui.@THEME@.checkbox = {
      *
      * @param {String} elementId The element Id
      * @param {boolean} disabled true or false
-     *
+     * @return {boolean} true if successful; otherwise, false.
      * @deprecated Use document.getElementById(id).setProps({disabled: boolean});
      */
     setDisabled: function(elementId, disabled) {
@@ -256,7 +259,7 @@ webui.@THEME@.checkbox = {
      *
      * @param {String} controlName The checkbox group control name
      * @param {boolean} disabled true or false
-     *
+     * @return {boolean} true if successful; otherwise, false.
      * @deprecated Use document.getElementById(id).setProps({disabled: boolean});
      */
     setGroupDisabled: function(controlName, disabled) {    
@@ -269,7 +272,7 @@ webui.@THEME@.checkbox = {
      *
      * @param {String} elementId The element Id
      * @param checked true or false
-     *
+     * @return {boolean} true if successful; otherwise, false.
      * @deprecated Use document.getElementById(id).setProps({checked: boolean});
      */
     setChecked: function(elementId, checked) {
@@ -283,7 +286,8 @@ webui.@THEME@.checkbox = {
 // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 /**
- * This closure contains functions for dropDown components.
+ * @class This class contains functions for dropDown components.
+ * @static
  * 
  * @deprecated See webui.@THEME@.widget.dropDown
  */
@@ -295,8 +299,7 @@ webui.@THEME@.dropDown = {
      * @param {String} elementId The component id of the JSF component (this id is
      * assigned to the span tag enclosing the HTML elements that make up
      * the dropDown).
-     * @return a reference to the select element. 
-     *
+     * @return {Node} a reference to the select element. 
      * @deprecated Use document.getElementById(elementId).setSelectElement()
      */
     getSelectElement: function(elementId) { 
@@ -317,7 +320,7 @@ webui.@THEME@.dropDown = {
      * @param {String} elementId The component id of the JSF component (this id is
      * rendered in the div tag enclosing the HTML elements that make up
      * the list).
-     *
+     * @return {boolean} true if successful; otherwise, false.
      * @deprecated Use document.getElementById(elementId).changed();
      */
     changed: function(elementId) {         
@@ -339,7 +342,7 @@ webui.@THEME@.dropDown = {
      * rendered in the div tag enclosing the HTML elements that make up
      * the list).
      * @param {boolean} disabled true or false
-     *
+     * @return {boolean} true if successful; otherwise, false.
      * @deprecated Use document.getElementById(elementId).setProps({disabled: boolean});
      */
     setDisabled: function(elementId, disabled) { 
@@ -358,9 +361,8 @@ webui.@THEME@.dropDown = {
      * @param {String} elementId The component id of the JSF component (this id is
      * rendered in the div tag enclosing the HTML elements that make up
      * the list).
-     * @return The value of the selected option, or null if none is
+     * @return {String} The value of the selected option, or null if none is
      * selected. 
-     *
      * @deprecated Use document.getElementById(elementId).getSelectedValue();
      */
     getSelectedValue: function(elementId) { 
@@ -379,9 +381,8 @@ webui.@THEME@.dropDown = {
      * @param {String} elementId The component id of the JSF component (this id is
      * rendered in the div tag enclosing the HTML elements that make up
      * the list).
-     * @return The label of the selected option, or null if none is
+     * @return {String} The label of the selected option, or null if none is
      * selected. 
-     *
      * @deprecated Use document.getElementById(elementId).getSelectedLabel();
      */
     getSelectedLabel: function(elementId) { 
@@ -398,7 +399,8 @@ webui.@THEME@.dropDown = {
 // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 /**
- * This closure contains functions for field components.
+ * @class This class contains functions for field components.
+ * @static
  *
  * @deprecated See webui.@THEME@.widget.field
  */
@@ -409,8 +411,7 @@ webui.@THEME@.field = {
      * component.
      *
      * @param {String} elementId The element ID of the field 
-     * @return the input or text area element associated with the field component
-     *
+     * @return {Node} the input or text area element associated with the field component
      * @deprecated Use document.getElementById(elementId).getInputElement()
      */
     getInputElement: function(elementId) {
@@ -426,8 +427,7 @@ webui.@THEME@.field = {
      * corresponding to the Field component.
      *
      * @param {String} elementId The element ID of the Field component
-     * @return the value of the HTML element corresponding to the Field component 
-     *
+     * @return {String} the value of the HTML element corresponding to the Field component 
      * @deprecated Use document.getElementById(id).getProps().value;
      */
     getValue: function(elementId) {
@@ -444,7 +444,7 @@ webui.@THEME@.field = {
      *
      * @param {String} elementId The element ID of the Field component
      * @param {String} newValue The new value to enter into the input element Field component 
-     *
+     * @return {boolean} true if successful; otherwise, false.
      * @deprecated Use document.getElementById(id).setProps({value: "text"});
      */
     setValue: function(elementId, newValue) {
@@ -461,7 +461,7 @@ webui.@THEME@.field = {
      * encloses the (optional) label element and the input element.
      *
      * @param {String} elementId The element ID of the Field component
-     *
+     * @return {String} The style property of the field.
      * @deprecated Use document.getElementById(id).getProps().style;
      */
     getStyle: function(elementId) {
@@ -478,7 +478,7 @@ webui.@THEME@.field = {
      *
      * @param {String} elementId The element ID of the Field component
      * @param {String} newStyle The new style to apply
-     *
+     * @return {boolean} true if successful; otherwise, false.
      * @deprecated Use document.getElementById(id).setProps({style: newStyle});
      */
     setStyle: function(elementId, newStyle) { 
@@ -495,7 +495,7 @@ webui.@THEME@.field = {
      *
      * @param {String} elementId The element ID of the field 
      * @param {boolean} newDisabled true to disable the field, false to enable the field
-     *
+     * @return {boolean} true if successful; otherwise, false.
      * @deprecated Use document.getElementById(id).setProps({disabled: boolean});
      */
     setDisabled: function(elementId, newDisabled) {  
@@ -515,7 +515,8 @@ webui.@THEME@.field = {
 // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 /**
- * This closure contains functions for hyperlink components.
+ * @class This class contains functions for hyperlink components.
+ * @static
  *
  * @deprecated See webui.@THEME@.widget.hyperlink
  */
@@ -530,7 +531,7 @@ webui.@THEME@.hyperlink = {
      * @params {Object} hyperlink The hyperlink element
      * @params {String} formId The form id
      * @params {Object} params Name value pairs
-     *
+     * @return {boolean} true if successful; otherwise, false.
      * @deprecated See webui.@THEME@.widget.hyperlink    
      */
     submit: function(hyperlink, formId, params) {
@@ -552,8 +553,7 @@ webui.@THEME@.hyperlink = {
      *
      * @param {String} elementId The component id of the JSF component (this id is
      * assigned to the outter most tag enclosing the HTML img element).
-     * @return a reference to the img element.
-     *
+     * @return {Node} The HTML image element.
      * @deprecated Use document.getElementById(elementId).getProps().enabledImage;
      */
     getImgElement: function(elementId) {
@@ -583,7 +583,8 @@ webui.@THEME@.hyperlink = {
 // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 /**
- * This closure contains functions for jumpDropDown components.
+ * @class This class contains functions for jumpDropDown components.
+ * @static
  *
  * @deprecated See webui.@THEME@.widget.dropDown
  */
@@ -598,7 +599,7 @@ webui.@THEME@.jumpDropDown = {
      * @param {String} elementId The component id of the JSF component (this id is
      * rendered in the div tag enclosing the HTML elements that make up
      * the list).
-     *
+     * @return {boolean} true if successful; otherwise, false.
      * @deprecated Use document.getElementById(elementId).changed()
      */
     changed: function(elementId) {
@@ -615,7 +616,8 @@ webui.@THEME@.jumpDropDown = {
 // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 /**
- * This closure contains functions for listbox components.
+ * @class This class contains functions for listbox components.
+ * @static
  * 
  * @deprecated See webui.@THEME@.widget.listbox
  */
@@ -627,8 +629,7 @@ webui.@THEME@.listbox = {
      * @param {String} elementId The component id of the JSF component (this id is
      * assigned to the span tag enclosing the HTML elements that make up
      * the list).
-     * @return a reference to the select element.
-     *
+     * @return {Node} The HTML select element.
      * @deprecated Use document.getElementById(elementId).getSelectElement()
      */
     getSelectElement: function(elementId) { 
@@ -649,7 +650,7 @@ webui.@THEME@.listbox = {
      * @param {String} elementId The component id of the JSF component (this id is
      * rendered in the div tag enclosing the HTML elements that make up
      * the list).
-     *
+     * @return {boolean} true if successful; otherwise, false.
      * @deprecated Use document.getElementById(elementId).changed();
      */
     changed: function(elementId) {         
@@ -672,7 +673,7 @@ webui.@THEME@.listbox = {
      * rendered in the div tag enclosing the HTML elements that make up
      * the list).
      * @param {boolean} disabled true or false
-     *
+     * @return {boolean} true if successful; otherwise, false.
      * @deprecated Use document.getElementById(elementId).setProps({disabled: boolean});
      */
     setDisabled: function(elementId, disabled) { 
@@ -691,9 +692,8 @@ webui.@THEME@.listbox = {
      * @param {String} elementId The component id of the JSF component (this id is
      * rendered in the div tag enclosing the HTML elements that make up
      * the list).
-     * @return The value of the selected option, or null if none is
+     * @return {String} The value of the selected option, or null if none is
      * selected.
-     *
      * @deprecated Use document.getElementById(elementId).getSelectedValue();
      */
     getSelectedValue: function(elementId) { 
@@ -712,8 +712,7 @@ webui.@THEME@.listbox = {
      * @param {String} elementId The component id of the JSF component (this id is
      * rendered in the div tag enclosing the HTML elements that make up
      * the list).
-     * @return The label of the selected option, or null if none is selected.
-     *
+     * @return {String} The label of the selected option, or null if none is selected.
      * @deprecated Use document.getElementById(elementId).getSelectedLabel();
      */
     getSelectedLabel: function(elementId) { 
@@ -730,7 +729,8 @@ webui.@THEME@.listbox = {
 // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 /**
- * This closure contains functions for rbcbGroup components.
+ * @class This class contains functions for rbcbGroup components.
+ * @static
  *
  * @deprecated See webui.@THEME@.widget.rbcbGroup
  */
@@ -740,7 +740,7 @@ webui.@THEME@.rbcb = {
      * @param {String} elementId The element Id.
      * @param {boolean} checked true or false
      * @param {String} type
-     *
+     * @return {boolean} true if successful; otherwise, false.
      * @deprecated Use document.getElementById(id).setProps({checked: boolean});
      */ 
     setChecked: function(elementId, checked, type) {
@@ -758,7 +758,7 @@ webui.@THEME@.rbcb = {
      * @param {String} type
      * @param {String} enabledStyle
      * @param {String} disabledStyle
-     *
+     * @return {boolean} true if successful; otherwise, false.
      * @deprecated Use document.getElementById(id).setProps({disabled: boolean}); 
      */ 
     setDisabled: function(elementId, disabled, type, enabledStyle,
@@ -777,7 +777,7 @@ webui.@THEME@.rbcb = {
      * @param {String} elementId The element Id
      * @param {String} formName The name of the form containing the element
      * @param {boolean} disabled true or false
-     *
+     * @return {boolean} true if successful; otherwise, false.
      * @deprecated Use document.getElementById(id).setProps({disabled: boolean});
      */
     setGroupDisabled: function(controlName, disabled, type, enabledStyle,
@@ -795,7 +795,8 @@ webui.@THEME@.rbcb = {
 // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 /**
- * This closure contains functions for radioButton components.
+ * @class This class contains functions for radioButton components.
+ * @static
  *
  * @deprecated See webui.@THEME@.widget.radioButton
  */
@@ -806,7 +807,7 @@ webui.@THEME@.radiobutton = {
      *
      * @param {String} elementId The element Id.
      * @param {boolean} disabled true or false
-     *
+     * @return {boolean} true if successful; otherwise, false.
      * @deprecated Use document.getElementById(id).setProps({disabled: boolean});  
      */
     setDisabled: function(elementId, disabled) {    
@@ -821,7 +822,7 @@ webui.@THEME@.radiobutton = {
      *
      * @param {String} controlName The radio button group control name
      * @param {boolean} disabled true or false
-     *
+     * @return {boolean} true if successful; otherwise, false.
      * @deprecated Use document.getElementById(id).setProps({disabled: boolean});
      */
     setGroupDisabled: function(controlName, disabled) {    
@@ -834,7 +835,7 @@ webui.@THEME@.radiobutton = {
      *
      * @param {String} elementId The element Id
      * @param {boolean} checked true or false
-     *
+     * @return {boolean} true if successful; otherwise, false.
      * @deprecated Use document.getElementById(id).setProps({checked: boolean});  
      */
     setChecked: function(elementId, checked) {
@@ -847,15 +848,16 @@ webui.@THEME@.radiobutton = {
 // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 /**
- * This closure contains functions for upload components.
+ * @class This class contains functions for upload components.
+ * @static
  */
 webui.@THEME@.upload = {
     /**
      * Use this function to get the HTML input element associated with the
      * Upload component.  
      * @param {String} elementId The client id of the Upload component
-     * @return the input element associated with the Upload component else
-     * null if elementId is null or "".
+     * @return {Node} the input element associated with the Upload component
+     * else null if elementId is null or "".
      */
     getInputElement: function(elementId) { 
         if (elementId == null || elementId == "") {
@@ -884,7 +886,7 @@ webui.@THEME@.upload = {
      *
      * @param {String} elementId The client id of the upload component.
      * @param {boolean} disabled true to disable the upload, false to enable the upload
-     * @return true if successful; otherwise, false
+     * @return {boolean} true if successful; otherwise, false.
      */
     setDisabled: function(elementId, disabled) {  
 
@@ -904,9 +906,10 @@ webui.@THEME@.upload = {
 
     /**
      * Set the encoding type of the form to "multipart/form-data".
-     * @return true if encoding type can be set, else false.
+     * 
      *
      * @param {String} elementId The client id of the upload component.
+     * @return {boolean} true if encoding type can be set, else false.
      */
     setEncodingType: function(elementId) { 
 	if (elementId == null || elementId == "") {
@@ -938,7 +941,7 @@ webui.@THEME@.upload = {
      *
      * @param {String} uploadId The client id of the upload component.
      * @param {String} preservePathId
-     * @return true if the hidden element is created and a listener is
+     * @return {boolean} true if the hidden element is created and a listener is
      * added, else false.
      */
     preservePath: function(uploadId, preservePathId) {

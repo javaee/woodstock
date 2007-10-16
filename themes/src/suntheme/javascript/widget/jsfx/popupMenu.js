@@ -21,24 +21,15 @@
 // Copyright 2007 Sun Microsystems, Inc. All rights reserved.
 //
 
-/**
- * @name widget/jsfx/popupMenu.js
- * @version @THEME_VERSION@
- * @overview This module contains the default Ajax implementation for the 
- * popupMenu widget.
- * <p>
- * Note: This Javascript file should be included in any page that uses the 
- * associated widget, where JSF Extensions is used as the underlying transfer
- * protocol.
- * </p>
- */
 dojo.provide("webui.@THEME@.widget.jsfx.popupMenu");
 
 dojo.require("webui.@THEME@.widget.jsfx.common");
 dojo.require("webui.@THEME@.widget.popupMenu");
 
 /**
- * This closure is used to obtain data asynchronously.
+ * @class This class contains functions to obtain data asynchronously using JSF
+ * Extensions as the underlying transfer protocol.
+ * @static
  */
 webui.@THEME@.widget.jsfx.popupMenu = {
     /**
@@ -55,6 +46,7 @@ webui.@THEME@.widget.jsfx.popupMenu = {
      * of client ids against which the execute portion of the request 
      * processing lifecycle must be run.
      * @config {String} [value] The selected menu option value.
+     * @return {boolean} true if successful; otherwise, false.
      */
     processSubmitEvent: function(props) {
         if (props == null) {

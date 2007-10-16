@@ -21,22 +21,16 @@
 // Copyright 2007 Sun Microsystems, Inc. All rights reserved.
 //
 
-/**
- * @name widget/checkedBase.js
- * @version @THEME_VERSION@
- * @overview This module contains classes and functions for the checkedBase object.
- */
 dojo.provide("webui.@THEME@.widget.checkedBase");
 
 dojo.require("webui.@THEME@.browser");
 dojo.require("webui.@THEME@.widget.widgetBase");
 
 /**
- * This function is used to construct a template based widget.
- *
  * @name webui.@THEME@.widget.checkedBase
- * @inherits webui.@THEME@.widget.widgetBase
- * @constructor
+ * @extends webui.@THEME@.widget.widgetBase
+ * @class This class contains functions for widgets that extend checkedBase.
+ * @static
  */
 dojo.declare("webui.@THEME@.widget.checkedBase", webui.@THEME@.widget.widgetBase, {
     // Set defaults.
@@ -45,6 +39,8 @@ dojo.declare("webui.@THEME@.widget.checkedBase", webui.@THEME@.widget.widgetBase
 
 /**
  * Helper function to obtain image class names.
+ *
+ * @return {String} The HTML image element class name.
  */
 webui.@THEME@.widget.checkedBase.prototype.getImageClassName = function() {
     return null; // Overridden by subclass.
@@ -52,6 +48,8 @@ webui.@THEME@.widget.checkedBase.prototype.getImageClassName = function() {
 
 /**
  * Helper function to obtain input class names.
+ *
+ * @return {String} The HTML input element class name.
  */
 webui.@THEME@.widget.checkedBase.prototype.getInputClassName = function() {
     return null; // Overridden by subclass.
@@ -60,7 +58,7 @@ webui.@THEME@.widget.checkedBase.prototype.getInputClassName = function() {
 /**
  * Returns the HTML input element that makes up the chekcbox.
  *
- * @return a reference to the HTML input element. 
+ * @return {Node} The HTML input element. 
  */
 webui.@THEME@.widget.checkedBase.prototype.getInputElement = function() {
     return this.inputNode;
@@ -68,6 +66,8 @@ webui.@THEME@.widget.checkedBase.prototype.getInputElement = function() {
 
 /**
  * Helper function to obtain label class names.
+ *
+ * @return {String} The HTML label element class name.
  */
 webui.@THEME@.widget.checkedBase.prototype.getLabelClassName = function() {
     return null; // Overridden by subclass.
@@ -76,6 +76,8 @@ webui.@THEME@.widget.checkedBase.prototype.getLabelClassName = function() {
 /**
  * This function is used to get widget properties. Please see the 
  * setProps() function for a list of supported properties.
+ *
+ * @return {Object} Key-Value pairs of properties.
  */
 webui.@THEME@.widget.checkedBase.prototype.getProps = function() {
     var props = this.inherited("getProps", arguments);
@@ -102,6 +104,7 @@ webui.@THEME@.widget.checkedBase.prototype.getProps = function() {
  * Helper function to create callback for onClick event.
  *
  * @param {Event} event The JavaScript event.
+ * @return {boolean} true if successful; otherwise, false.
  */
 webui.@THEME@.widget.checkedBase.prototype.onClickCallback = function(event) {
     if (this.readOnly == true) {
@@ -125,6 +128,7 @@ webui.@THEME@.widget.checkedBase.prototype.onClickCallback = function(event) {
  * <p>
  * Note: Unlike Dojo 0.4, the DOM nodes don't exist in the document, yet. 
  * </p>
+ * @return {boolean} true if successful; otherwise, false.
  */
 webui.@THEME@.widget.checkedBase.prototype.postCreate = function () {
     // Set ids.
@@ -157,6 +161,7 @@ webui.@THEME@.widget.checkedBase.prototype.postCreate = function () {
  * </p>
  *
  * @param {Object} props Key-Value pairs of properties.
+ * @return {boolean} true if successful; otherwise, false.
  * @private
  */
 webui.@THEME@.widget.checkedBase.prototype._setProps = function(props) {

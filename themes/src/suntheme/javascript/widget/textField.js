@@ -21,25 +21,15 @@
 // Copyright 2007 Sun Microsystems, Inc. All rights reserved.
 //
 
-/**
- * @name widget/textField.js
- * @version @THEME_VERSION@
- * @overview This module contains classes and functions for the textField widget.
- * @example The following code is used to create a textField widget.
- * <p><code>
- * var widget = new webui.@THEME@.widget.textField(props, domNode);
- * </code></p>
- */
 dojo.provide("webui.@THEME@.widget.textField");
 
 dojo.require("webui.@THEME@.widget.fieldBase");
 
 /**
- * This function is used to construct a template based widget.
- *
  * @name webui.@THEME@.widget.textField
- * @inherits webui.@THEME@.widget.fieldBase
- * @constructor
+ * @extends webui.@THEME@.widget.fieldBase
+ * @class This class contains functions for the textField widget.
+ * @constructor This function is used to construct a textField widget.
  */
 dojo.declare("webui.@THEME@.widget.textField", webui.@THEME@.widget.fieldBase, {
     // Set defaults.
@@ -47,19 +37,18 @@ dojo.declare("webui.@THEME@.widget.textField", webui.@THEME@.widget.fieldBase, {
 });
 
 /**
- * This closure contains event topics.
+ * This object contains event topics.
  * <p>
  * Note: Event topics must be prototyped for inherited functions. However, these
  * topics must also be available statically so that developers may subscribe to
  * events.
  * </p>
- *
  * @ignore
  */
-webui.@THEME@.widget.textField.prototype.event =
-        webui.@THEME@.widget.textField.event = {
+webui.@THEME@.widget.textField.event =
+        webui.@THEME@.widget.textField.prototype.event = {
     /**
-     * This closure contains refresh event topics.
+     * This object contains refresh event topics.
      * @ignore
      */
     refresh: {
@@ -71,7 +60,7 @@ webui.@THEME@.widget.textField.prototype.event =
     },
 
     /**
-     * This closure contains state event topics.
+     * This object contains state event topics.
      * @ignore
      */
     state: {
@@ -83,7 +72,7 @@ webui.@THEME@.widget.textField.prototype.event =
     },
 
     /**
-     * This closure contains submit event topics.
+     * This object contains submit event topics.
      * @ignore
      */
     submit: {
@@ -95,7 +84,7 @@ webui.@THEME@.widget.textField.prototype.event =
     },
 
     /**
-     * This closure contains validation event topics.
+     * This object contains validation event topics.
      * @ignore
      */
     validation: {
@@ -109,6 +98,8 @@ webui.@THEME@.widget.textField.prototype.event =
 
 /**
  * Helper function to obtain HTML input element class names.
+ *
+ * @return {String} The HTML input element class name.
  */
 webui.@THEME@.widget.textField.prototype.getInputClassName = function() {          
     // Set readOnly style.
@@ -130,6 +121,8 @@ webui.@THEME@.widget.textField.prototype.getInputClassName = function() {
 /**
  * This function is used to get widget properties. Please see the 
  * setProps() function for a list of supported properties.
+ *
+ * @return {Object} Key-Value pairs of properties.
  */
 webui.@THEME@.widget.textField.prototype.getProps = function() {
     var props = this.inherited("getProps", arguments);
@@ -146,6 +139,7 @@ webui.@THEME@.widget.textField.prototype.getProps = function() {
  * <p>
  * Note: Unlike Dojo 0.4, the DOM nodes don't exist in the document, yet. 
  * </p>
+ * @return {boolean} true if successful; otherwise, false.
  */
 webui.@THEME@.widget.textField.prototype.postCreate = function () {
     // Set events.
@@ -201,6 +195,7 @@ webui.@THEME@.widget.textField.prototype.postCreate = function () {
  * @config {String} [value] Value of input.
  * @config {boolean} [visible] Hide or show element.
  * @param {boolean} notify Publish an event for custom AJAX implementations to listen for.
+ * @return {boolean} true if successful; otherwise, false.
  */
 webui.@THEME@.widget.textField.prototype.setProps = function(props, notify) {
     // Note: This function is overridden for JsDoc.
@@ -216,7 +211,8 @@ webui.@THEME@.widget.textField.prototype.setProps = function(props, notify) {
  * id is found, publishBeginEvent is called with extracted data.
  * </p>
  *
- * @param {Event} event The JavaScript event
+ * @param {Event} event The JavaScript event.
+ * @return {boolean} true if successful; otherwise, false.
  */
 webui.@THEME@.widget.textField.prototype.validate = function(event) {
     if (event == null) {
@@ -229,4 +225,5 @@ webui.@THEME@.widget.textField.prototype.validate = function(event) {
     dojo.publish(webui.@THEME@.widget.textField.event.validation.beginTopic, [{
         id: this.id
     }]);
+    return true;
 }

@@ -21,15 +21,11 @@
 // Copyright 2007 Sun Microsystems, Inc. All rights reserved.
 //
 
-/**
- * @name orderableList.js
- * @version @THEME_VERSION@
- * @overview This module contains functions for orderableList components.
- */
 dojo.provide("webui.@THEME@.orderableList");
 
 /** 
- * This closure contains functions for orderableList components.
+ * @class This class contains functions for orderableList components.
+ * @static
  */
 webui.@THEME@.orderableList = {
     /**
@@ -42,6 +38,7 @@ webui.@THEME@.orderableList = {
      * @param {Object} props Key-Value pairs of properties.
      * @config {String} [id] The element id.
      * @config {String} [moveMessage]
+     * @return {boolean} true if successful; otherwise, false.
      */
     init: function(props) {
         if (props == null || props.id == null) {
@@ -127,6 +124,8 @@ webui.@THEME@.orderableList = {
      * The original allowed items to be moved on both lists. Surely we
      * only sort items on the selected list? 
      * This does not work on Mozilla
+     *
+     * @return {boolean} true if successful; otherwise, false.
      */
     moveUp: function() {
         var numOptions = this.options.length;
@@ -181,6 +180,8 @@ webui.@THEME@.orderableList = {
      * The original allowed items to be moved on both lists. Surely we
      * only sort items on the selected list? 
      * This does not work on Mozilla
+     *
+     * @return {boolean} true if successful; otherwise, false.
      */
     moveTop: function() {
         var numOptions = this.options.length;
@@ -225,6 +226,8 @@ webui.@THEME@.orderableList = {
      * The original allowed items to be moved on both lists. Surely we
      * only sort items on the selected list? 
      * This does not work on Mozilla
+     *
+     * @return {boolean} true if successful; otherwise, false.
      */
     moveDown: function() {
         // Get the last item
@@ -257,7 +260,9 @@ webui.@THEME@.orderableList = {
     },
 
     /**
+     * Move options to bottom.
      *
+     * @return {boolean} true if successful; otherwise, false.
      */
     moveBottom: function() {
         var numOptions = this.options.length - 1;
@@ -300,7 +305,9 @@ webui.@THEME@.orderableList = {
     },
 
     /**
+     * Update buttons.
      *
+     * @return {boolean} true if successful; otherwise, false.
      */
     updateButtons: function() {
         var numOptions = this.options.length;
@@ -382,7 +389,9 @@ webui.@THEME@.orderableList = {
     },
 
     /**
+     * Update value.
      *
+     * @return {boolean} true if successful; otherwise, false.
      */
     updateValue: function() {
         // Remove the options from the select that holds the actual

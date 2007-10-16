@@ -21,26 +21,16 @@
 // Copyright 2007 Sun Microsystems, Inc. All rights reserved.
 //
 
-/**
- * @name widget/imageHyperlink.js
- * @version @THEME_VERSION@
- * @overview This module contains classes and functions for the imageHyperlink widget.
- * @example The following code is used to create a imageHyperlink widget.
- * <p><code>
- * var widget = new webui.@THEME@.widget.imageHyperlink(props, domNode);
- * </code></p>
- */
 dojo.provide("webui.@THEME@.widget.imageHyperlink");
 
 dojo.require("webui.@THEME@.common");
 dojo.require("webui.@THEME@.widget.hyperlink");
 
 /**
- * This function is used to construct a template based widget.
- *
  * @name webui.@THEME@.widget.imageHyperlink
- * @inherits webui.@THEME@.widget.widgetBase
- * @constructor
+ * @extends webui.@THEME@.widget.hyperlink
+ * @class This class contains functions for the imageHyperlink widget.
+ * @constructor This function is used to construct a imageHyperlink widget.
  */
 dojo.declare("webui.@THEME@.widget.imageHyperlink", webui.@THEME@.widget.hyperlink, {
     // Set defaults.
@@ -52,6 +42,7 @@ dojo.declare("webui.@THEME@.widget.imageHyperlink", webui.@THEME@.widget.hyperli
  *
  * @param props Key-Value pairs of properties.
  * @config {Array} [contents] The contents of the anchor body.
+ * @return {boolean} true if successful; otherwise, false.
  */
 webui.@THEME@.widget.imageHyperlink.prototype.addContents = function(props) {
     if (props.contents == null) {
@@ -71,19 +62,18 @@ webui.@THEME@.widget.imageHyperlink.prototype.addContents = function(props) {
 }
 
 /**
- * This closure contains event topics.
+ * This object contains event topics.
  * <p>
  * Note: Event topics must be prototyped for inherited functions. However, these
  * topics must also be available statically so that developers may subscribe to
  * events.
  * </p>
- *
  * @ignore
  */
-webui.@THEME@.widget.imageHyperlink.prototype.event =
-        webui.@THEME@.widget.imageHyperlink.event = {
+webui.@THEME@.widget.imageHyperlink.event =
+        webui.@THEME@.widget.imageHyperlink.prototype.event = {
     /**
-     * This closure contains refresh event topics.
+     * This object contains refresh event topics.
      * @ignore
      */
     refresh: {
@@ -95,7 +85,7 @@ webui.@THEME@.widget.imageHyperlink.prototype.event =
     },
 
     /**
-     * This closure contains state event topics.
+     * This object contains state event topics.
      * @ignore
      */
     state: {
@@ -110,6 +100,8 @@ webui.@THEME@.widget.imageHyperlink.prototype.event =
 /**
  * This function is used to get widget properties. Please see the 
  * setProps() function for a list of supported properties.
+ *
+ * @return {Object} Key-Value pairs of properties.
  */
 webui.@THEME@.widget.imageHyperlink.prototype.getProps = function() {
     var props = this.inherited("getProps", arguments);
@@ -128,6 +120,7 @@ webui.@THEME@.widget.imageHyperlink.prototype.getProps = function() {
  * <p>
  * Note: Unlike Dojo 0.4, the DOM nodes don't exist in the document, yet. 
  * </p>
+ * @return {boolean} true if successful; otherwise, false.
  */
 webui.@THEME@.widget.imageHyperlink.prototype.postCreate = function () {
     // Set ids.
@@ -186,6 +179,7 @@ webui.@THEME@.widget.imageHyperlink.prototype.postCreate = function () {
  * @config {String} [title] Provides a title for element.
  * @config {boolean} [visible] Hide or show element.
  * @param {boolean} notify Publish an event for custom AJAX implementations to listen for.
+ * @return {boolean} true if successful; otherwise, false.
  */
 webui.@THEME@.widget.imageHyperlink.prototype.setProps = function(props, notify) {
     // Note: This function is overridden for JsDoc.
@@ -201,6 +195,7 @@ webui.@THEME@.widget.imageHyperlink.prototype.setProps = function(props, notify)
  * </p>
  *
  * @param {Object} props Key-Value pairs of properties.
+ * @return {boolean} true if successful; otherwise, false.
  * @private
  */
 webui.@THEME@.widget.imageHyperlink.prototype._setProps = function(props) {

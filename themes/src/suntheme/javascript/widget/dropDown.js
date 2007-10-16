@@ -21,25 +21,15 @@
 // Copyright 2007 Sun Microsystems, Inc. All rights reserved.
 //
 
-/**
- * @name widget/dropDown.js
- * @version @THEME_VERSION@
- * @overview This module contains classes and functions for the dropDown widget.
- * @example The following code is used to create a dropDown widget.
- * <p><code>
- * var widget = new webui.@THEME@.widget.dropDown(props, domNode);
- * </code></p>
- */
 dojo.provide("webui.@THEME@.widget.dropDown");
 
 dojo.require("webui.@THEME@.widget.selectBase");
 
 /**
- * This function is used to construct a template based widget.
- *
  * @name webui.@THEME@.widget.dropDown
- * @inherits webui.@THEME@.widget.selectBase
- * @constructor
+ * @extends webui.@THEME@.widget.selectBase
+ * @class This class contains functions for the dropDown widget.
+ * @constructor This function is used to construct a dropDown widget.
  */
 dojo.declare("webui.@THEME@.widget.dropDown", webui.@THEME@.widget.selectBase, {
     // Set defaults.
@@ -51,6 +41,8 @@ dojo.declare("webui.@THEME@.widget.dropDown", webui.@THEME@.widget.selectBase, {
 /**
  * Helper function called by onChange event to set the proper
  * selected, and disabled styles.
+ *
+ * @return {boolean} true if successful; otherwise, false.
  */
 webui.@THEME@.widget.dropDown.prototype.changed = function() {
     if (this.submitForm != true) {
@@ -78,19 +70,18 @@ webui.@THEME@.widget.dropDown.prototype.changed = function() {
 }
 
 /**
- * This closure contains event topics.
+ * This object contains event topics.
  * <p>
  * Note: Event topics must be prototyped for inherited functions. However, these
  * topics must also be available statically so that developers may subscribe to
  * events.
  * </p>
- *
  * @ignore
  */
-webui.@THEME@.widget.dropDown.prototype.event =
-        webui.@THEME@.widget.dropDown.event = {
+webui.@THEME@.widget.dropDown.event =
+        webui.@THEME@.widget.dropDown.prototype.event = {
     /**
-     * This closure contains refresh event topics.
+     * This object contains refresh event topics.
      * @ignore
      */
     refresh: {
@@ -102,7 +93,7 @@ webui.@THEME@.widget.dropDown.prototype.event =
     },
 
     /**
-     * This closure contains state event topics.
+     * This object contains state event topics.
      * @ignore
      */
     state: {
@@ -114,7 +105,7 @@ webui.@THEME@.widget.dropDown.prototype.event =
     },
 
     /**
-     * This closure contains submit event topics.
+     * This object contains submit event topics.
      * @ignore
      */
     submit: {
@@ -129,6 +120,8 @@ webui.@THEME@.widget.dropDown.prototype.event =
 /**
  * This function is used to get widget properties. Please see the 
  * setProps() function for a list of supported properties.
+ *
+ * @return {Object} Key-Value pairs of properties.
  */
 webui.@THEME@.widget.dropDown.prototype.getProps = function() {
     var props = this.inherited("getProps", arguments);
@@ -145,6 +138,7 @@ webui.@THEME@.widget.dropDown.prototype.getProps = function() {
  * <p>
  * Note: Unlike Dojo 0.4, the DOM nodes don't exist in the document, yet. 
  * </p>
+ * @return {boolean} true if successful; otherwise, false.
  */
 webui.@THEME@.widget.dropDown.prototype.postCreate = function () {
     // Set ids.
@@ -216,6 +210,7 @@ webui.@THEME@.widget.dropDown.prototype.postCreate = function () {
  * @config {String} [title] Provides a title for element.
  * @config {boolean} [visible] Hide or show element.
  * @param {boolean} notify Publish an event for custom AJAX implementations to listen for.
+ * @return {boolean} true if successful; otherwise, false.
  */
 webui.@THEME@.widget.dropDown.prototype.setProps = function(props, notify) {
     // Note: This function is overridden for JsDoc.
@@ -231,6 +226,7 @@ webui.@THEME@.widget.dropDown.prototype.setProps = function(props, notify) {
  * </p>
  *
  * @param {Object} props Key-Value pairs of properties.
+ * @return {boolean} true if successful; otherwise, false.
  * @private
  */
 webui.@THEME@.widget.dropDown.prototype._setProps = function(props) {

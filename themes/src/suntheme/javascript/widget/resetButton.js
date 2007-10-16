@@ -21,26 +21,15 @@
 // Copyright 2007 Sun Microsystems, Inc. All rights reserved.
 //
 
-/**
- * @name widget/resetButton.js
- * @version @THEME_VERSION@
- * @overview This module contains classes and functions for the resetButton 
- * widget.
- * @example The following code is used to create a resetButton widget.
- * <p><code>
- * var widget = new webui.@THEME@.widget.resetButton(props, domNode);
- * </code></p>
- */
 dojo.provide("webui.@THEME@.widget.resetButton");
 
 dojo.require("webui.@THEME@.widget.button");
 
 /**
- * This function is used to construct a template based widget.
- *
  * @name webui.@THEME@.widget.resetButton
- * @inherits webui.@THEME@.widget.button
- * @constructor
+ * @extends webui.@THEME@.widget.button
+ * @class This class contains functions for the resetButton widget.
+ * @constructor This function is used to construct a resetButton widget.
  */
 dojo.declare("webui.@THEME@.widget.resetButton", webui.@THEME@.widget.button, {
     // Set defaults.
@@ -48,19 +37,18 @@ dojo.declare("webui.@THEME@.widget.resetButton", webui.@THEME@.widget.button, {
 });
 
 /**
- * This closure contains event topics.
+ * This object contains event topics.
  * <p>
  * Note: Event topics must be prototyped for inherited functions. However, these
  * topics must also be available statically so that developers may subscribe to
  * events.
  * </p>
- *
  * @ignore
  */
-webui.@THEME@.widget.resetButton.prototype.event =
-        webui.@THEME@.widget.resetButton.event = {
+webui.@THEME@.widget.resetButton.event =
+        webui.@THEME@.widget.resetButton.prototype.event = {
     /**
-     * This closure contains refresh event topics.
+     * This object contains refresh event topics.
      * @ignore
      */
     refresh: {
@@ -72,7 +60,7 @@ webui.@THEME@.widget.resetButton.prototype.event =
     },
 
     /**
-     * This closure contains state event topics.
+     * This object contains state event topics.
      * @ignore
      */
     state: {

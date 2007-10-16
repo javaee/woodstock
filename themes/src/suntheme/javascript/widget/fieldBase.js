@@ -21,21 +21,15 @@
 // Copyright 2007 Sun Microsystems, Inc. All rights reserved.
 //
 
-/**
- * @name widget/fieldBase.js
- * @version @THEME_VERSION@
- * @overview This module contains classes and functions for the fieldBase object.
- */
 dojo.provide("webui.@THEME@.widget.fieldBase");
 
 dojo.require("webui.@THEME@.widget.widgetBase");
 
 /**
- * This function is used to construct a template based widget.
- *
  * @name webui.@THEME@.widget.fieldBase
- * @inherits webui.@THEME@.widget.widgetBase
- * @constructor
+ * @extends webui.@THEME@.widget.widgetBase
+ * @class This class contains functions for widgets that extend fieldBase.
+ * @static
  */
 dojo.declare("webui.@THEME@.widget.fieldBase", webui.@THEME@.widget.widgetBase, {
     // Set defaults.
@@ -47,6 +41,8 @@ dojo.declare("webui.@THEME@.widget.fieldBase", webui.@THEME@.widget.widgetBase, 
 
 /**
  * Helper function to obtain HTML input element class names.
+ *
+ * @return {String} The HTML input element class name.
  */
 webui.@THEME@.widget.fieldBase.prototype.getInputClassName = function() {   
     return null; // Overridden by subclass.
@@ -55,7 +51,7 @@ webui.@THEME@.widget.fieldBase.prototype.getInputClassName = function() {
 /**
  * Returns the HTML input element that makes up the text field.
  *
- * @return a reference to the HTML input element. 
+ * @return {Node} The HTML input element.
  */
 webui.@THEME@.widget.fieldBase.prototype.getInputElement = function() {
     return this.fieldNode;
@@ -64,6 +60,8 @@ webui.@THEME@.widget.fieldBase.prototype.getInputElement = function() {
 /**
  * This function is used to get widget properties. Please see the 
  * setProps() function for a list of supported properties.
+ *
+ * @return {Object} Key-Value pairs of properties.
  */
 webui.@THEME@.widget.fieldBase.prototype.getProps = function() {
     var props = this.inherited("getProps", arguments);
@@ -99,6 +97,7 @@ webui.@THEME@.widget.fieldBase.prototype.getProps = function() {
  * <p>
  * Note: Unlike Dojo 0.4, the DOM nodes don't exist in the document, yet. 
  * </p>
+ * @return {boolean} true if successful; otherwise, false.
  */
 webui.@THEME@.widget.fieldBase.prototype.postCreate = function () {
     // Set ids.
@@ -123,6 +122,7 @@ webui.@THEME@.widget.fieldBase.prototype.postCreate = function () {
  * </p>
  *
  * @param {Object} props Key-Value pairs of properties.
+ * @return {boolean} true if successful; otherwise, false.
  * @private
  */
 webui.@THEME@.widget.fieldBase.prototype._setProps = function(props) {
@@ -177,7 +177,8 @@ webui.@THEME@.widget.fieldBase.prototype._setProps = function(props) {
  * Process keyPress events on the field, which enforces/disables 
  * submitForm behavior.
  *
- * @param {Event} event The JavaScript event
+ * @param {Event} event The JavaScript event.
+ * @return {boolean} true if successful; otherwise, false.
  */
 webui.@THEME@.widget.fieldBase.prototype.submitFormData = function(event) {
     if (event == null) {

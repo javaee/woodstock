@@ -21,22 +21,16 @@
 // Copyright 2007 Sun Microsystems, Inc. All rights reserved.
 //
 
-/**
- * @name widget/selectBase.js
- * @version @THEME_VERSION@
- * @overview This module contains classes and functions for the selectBase object.
- */
 dojo.provide("webui.@THEME@.widget.selectBase");
 
 dojo.require("webui.@THEME@.browser");
 dojo.require("webui.@THEME@.common");
 
 /**
- * This function is used to construct a template based widget.
- *
  * @name webui.@THEME@.widget.selectBase
- * @inherits webui.@THEME@.widget.widgetBase
- * @constructor
+ * @extends webui.@THEME@.widget.widgetBase
+ * @class This class contains functions for widgets that extend selectBase.
+ * @static
  */
 dojo.declare("webui.@THEME@.widget.selectBase", webui.@THEME@.widget.widgetBase, {
     // Set defaults.
@@ -45,10 +39,11 @@ dojo.declare("webui.@THEME@.widget.selectBase", webui.@THEME@.widget.widgetBase,
 });
 
 /**
- * Helper function to add <option> and <optgroup> elements to the <select> element.
+ * Helper function to add option and optgroup elements to the HTML select element.
  *
  * @param {Object} props Key-Value pairs of properties.
  * @config {Array} [options]
+ * @return {boolean} true if successful; otherwise, false.
  */
 webui.@THEME@.widget.selectBase.prototype.addOptions = function(props) {
     var numChildNodes = this.listContainer.options.length;
@@ -83,10 +78,10 @@ webui.@THEME@.widget.selectBase.prototype.addOptions = function(props) {
                 thisNode = this.optionNode.cloneNode(true);
             }
             
-            // Set the properties on this <option> element
+            // Set the properties on this option element
             this.setOptionProps(thisNode, pOption);
             
-            // Append this <option> node to the <select>
+            // Append this option node to the select
             if (webui.@THEME@.browser.isIe()) {
                 var idx = this.listContainer.options.length;
                 var isSelected = thisNode.selected;
@@ -97,16 +92,16 @@ webui.@THEME@.widget.selectBase.prototype.addOptions = function(props) {
             } else {
                 this.listContainer.appendChild(thisNode);
             }
-        } else { // group option <optgroup>
+        } else { // group option optgroup
             thisNode = this.optionGroupContainer.cloneNode(true);
             
-            // Set the properties on this <optgroup> element
+            // Set the properties on this optgroup element
             this.setGroupOptionProps(thisNode, pOption);
             
-            // Append this <optgroup> node to the <select>
+            // Append this optgroup node to the select
             this.listContainer.appendChild(thisNode);
 
-            // Add the <option> elements to this group
+            // Add the option elements to this group
             var thisSubNode;
             for (var ix = 0; ix < pOption.options.length; ix++) {
                 thisSubNode = this.memberOptionNode.cloneNode(true);
@@ -121,6 +116,8 @@ webui.@THEME@.widget.selectBase.prototype.addOptions = function(props) {
 /**
  * Helper function called by onChange event to set the selected and disabled
  * styles.
+ *
+ * @return {boolean} true if successful; otherwise, false.
  */
 webui.@THEME@.widget.selectBase.prototype.changed = function() { 
     var options = this.listContainer.options;
@@ -143,9 +140,10 @@ webui.@THEME@.widget.selectBase.prototype.changed = function() {
 }
 
 /**
- * Helper function to obtain class name for the <option> element
+ * Helper function to obtain class name for the option element
  *
  * @param {Object} option Key-Value pairs of properties.
+ * @return {String} The HTML option element class name.
  */
 webui.@THEME@.widget.selectBase.prototype.getOptionClassName = function(option) {
     // Set default style.
@@ -165,6 +163,8 @@ webui.@THEME@.widget.selectBase.prototype.getOptionClassName = function(option) 
 /**
  * This function is used to get widget properties. Please see the 
  * setProps() function for a list of supported properties.
+ *
+ * @return {Object} Key-Value pairs of properties.
  */
 webui.@THEME@.widget.selectBase.prototype.getProps = function() {
     var props = this.inherited("getProps", arguments);
@@ -179,10 +179,11 @@ webui.@THEME@.widget.selectBase.prototype.getProps = function() {
 }
 
 /**
- * Helper function to obtain class name for the <select> element.
+ * Helper function to obtain class name for the HTML select element.
  *
  * @param {Object} props Key-Value pairs of properties.
- * @config {boolean} [disabled]
+ * @config {boolean} [disabled] true if disabled.
+ * @return {String} The HTML select element class name.
  */
 webui.@THEME@.widget.selectBase.prototype.getSelectClassName = function(props) {    
     return (props.disabled == true)
@@ -192,6 +193,8 @@ webui.@THEME@.widget.selectBase.prototype.getSelectClassName = function(props) {
 
 /**
  * Returns the HTML select element that makes up the listbox.
+ *
+ * @return {Node} The HTML select element.
  */
 webui.@THEME@.widget.selectBase.prototype.getSelectElement = function() {
     return this.listContainer;
@@ -202,6 +205,7 @@ webui.@THEME@.widget.selectBase.prototype.getSelectElement = function() {
  * If no option is selected, this function returns null.
  * 
  * @return The label of the selected option, or null if none is selected. 
+ * @return {String} The label of the selected option.
  */
 webui.@THEME@.widget.selectBase.prototype.getSelectedLabel = function() { 
     var index = this.listContainer.selectedIndex; 
@@ -217,7 +221,7 @@ webui.@THEME@.widget.selectBase.prototype.getSelectedLabel = function() {
  * To get the value of the first selected option on the listbox. 
  * If no option is selected, this function returns null. 
  *
- * @return The value of the selected option, or null if none is selected. 
+ * @return {String} The selected option value or null if none is selected. 
  */
 webui.@THEME@.widget.selectBase.prototype.getSelectedValue = function() { 
     var index = this.listContainer.selectedIndex; 
@@ -233,6 +237,7 @@ webui.@THEME@.widget.selectBase.prototype.getSelectedValue = function() {
  * Helper function to create callback for onChange event.
  *
  * @param {Event} event The JavaScript event.
+ * @return {boolean} true if successful; otherwise, false.
  */
 webui.@THEME@.widget.selectBase.prototype.onChangeCallback = function(event) {
     if (this.disabled == true) {
@@ -256,6 +261,7 @@ webui.@THEME@.widget.selectBase.prototype.onChangeCallback = function(event) {
  * <p>
  * Note: Unlike Dojo 0.4, the DOM nodes don't exist in the document, yet. 
  * </p>
+ * @return {boolean} true if successful; otherwise, false.
  */
 webui.@THEME@.widget.selectBase.prototype.postCreate = function () {
     // Set ids.
@@ -276,10 +282,11 @@ webui.@THEME@.widget.selectBase.prototype.postCreate = function () {
 }
 
 /**
- * Helper function to set properties on <optgroup> element
+ * Helper function to set properties on optgroup element.
  *
- * @param {Node} element The <optgroup> DOM node
- * @param {Object} option Key-Value pairs of properties for the <optgroup> node
+ * @param {Node} element The optgroup DOM node
+ * @param {Object} option Key-Value pairs of properties for the optgroup node.
+ * @return {boolean} true if successful; otherwise, false.
  */
 webui.@THEME@.widget.selectBase.prototype.setGroupOptionProps = function(element, option) {
     element.className = this.getOptionClassName(option);
@@ -292,10 +299,11 @@ webui.@THEME@.widget.selectBase.prototype.setGroupOptionProps = function(element
 }
 
 /**
- * Helpper function to set properties on the <option> element
+ * Helpper function to set properties on the option element.
  *
- * @param {Node} element The <option> DOM node
- * @param {Object} option Key-Value pairs of properties for the <option> node
+ * @param {Node} element The option DOM node
+ * @param {Object} option Key-Value pairs of properties for the option node.
+ * @return {boolean} true if successful; otherwise, false.
  */
 webui.@THEME@.widget.selectBase.prototype.setOptionProps = function(element, option) {
     element.value = option.value;
@@ -339,6 +347,7 @@ webui.@THEME@.widget.selectBase.prototype.setOptionProps = function(element, opt
  * </p>
  *
  * @param {Object} props Key-Value pairs of properties.
+ * @return {boolean} true if successful; otherwise, false.
  * @private
  */
 webui.@THEME@.widget.selectBase.prototype._setProps = function(props) {
@@ -357,10 +366,10 @@ webui.@THEME@.widget.selectBase.prototype._setProps = function(props) {
         props.onChange = null;
     }
 
-    // Set the properties specific to the <select> element
+    // Set the properties specific to the select element
     this.setSelectProps(this.listContainer, props);
 
-    // Add <option> and <optgroup> elements in the <select> element
+    // Add option and optgroup elements in the select element
     if (props.options) {
         this.addOptions(props);
     }
@@ -388,11 +397,12 @@ webui.@THEME@.widget.selectBase.prototype._setProps = function(props) {
 }
 
 /**
- * Helper function to set properties specific to the <select> element
+ * Helper function to set properties specific to the HTML select element
  *
- * @param {Node} selectNode The <select> DOM node.
+ * @param {Node} selectNode The HTML select element.
  * @param {Object} props Key-Value pairs of properties.
  * @config {boolean} [disabled]
+ * @return {boolean} true if successful; otherwise, false.
  */
 webui.@THEME@.widget.selectBase.prototype.setSelectProps = function(selectNode, props) {
     selectNode.name = selectNode.id;

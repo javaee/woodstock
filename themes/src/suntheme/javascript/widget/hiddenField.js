@@ -21,25 +21,15 @@
 // Copyright 2007 Sun Microsystems, Inc. All rights reserved.
 //
 
-/**
- * @name widget/hiddenField.js
- * @version @THEME_VERSION@
- * @overview This module contains classes and functions for the hiddenField widget.
- * @example The following code is used to create a hiddenField widget.
- * <p><code>
- * var widget = new webui.@THEME@.widget.hiddenField(props, domNode);
- * </code></p>
- */
 dojo.provide("webui.@THEME@.widget.hiddenField");
 
 dojo.require("webui.@THEME@.widget.widgetBase");
 
 /**
- * This function is used to construct a template based widget.
- *
  * @name webui.@THEME@.widget.hiddenField
- * @inherits webui.@THEME@.widget.widgetBase
- * @constructor
+ * @extends webui.@THEME@.widget.widgetBase
+ * @class This class contains functions for the hiddenField widget.
+ * @constructor This function is used to construct a hiddenField widget.
  */
 dojo.declare("webui.@THEME@.widget.hiddenField", webui.@THEME@.widget.widgetBase, {
     // Set defaults.
@@ -48,19 +38,18 @@ dojo.declare("webui.@THEME@.widget.hiddenField", webui.@THEME@.widget.widgetBase
 });
 
 /**
- * This closure contains event topics.
+ * This object contains event topics.
  * <p>
  * Note: Event topics must be prototyped for inherited functions. However, these
  * topics must also be available statically so that developers may subscribe to
  * events.
  * </p>
- *
  * @ignore
  */
-webui.@THEME@.widget.hiddenField.prototype.event =
-        webui.@THEME@.widget.hiddenField.event = {
+webui.@THEME@.widget.hiddenField.event =
+        webui.@THEME@.widget.hiddenField.prototype.event = {
     /**
-     * This closure contains refresh event topics.
+     * This object contains refresh event topics.
      * @ignore
      */
     refresh: {
@@ -72,7 +61,7 @@ webui.@THEME@.widget.hiddenField.prototype.event =
     },
 
     /**
-     * This closure contains state event topics.
+     * This object contains state event topics.
      * @ignore
      */
     state: {
@@ -84,7 +73,7 @@ webui.@THEME@.widget.hiddenField.prototype.event =
     },
 
     /**
-     * This closure contains submit event topics.
+     * This object contains submit event topics.
      * @ignore
      */
     submit: {
@@ -99,6 +88,8 @@ webui.@THEME@.widget.hiddenField.prototype.event =
 /**
  * This function is used to get widget properties. Please see the 
  * setProps() function for a list of supported properties.
+ *
+ * @return {Object} Key-Value pairs of properties.
  */
 webui.@THEME@.widget.hiddenField.prototype.getProps = function() {
     var props = this.inherited("getProps", arguments);
@@ -128,6 +119,7 @@ webui.@THEME@.widget.hiddenField.prototype.getProps = function() {
  * @config {String} [name]
  * @config {String} [value] Value of input.
  * @param {boolean} notify Publish an event for custom AJAX implementations to listen for.
+ * @return {boolean} true if successful; otherwise, false.
  */
 webui.@THEME@.widget.hiddenField.prototype.setProps = function(props, notify) {
     // Note: This function is overridden for JsDoc.
@@ -143,6 +135,7 @@ webui.@THEME@.widget.hiddenField.prototype.setProps = function(props, notify) {
  * </p>
  *
  * @param {Object} props Key-Value pairs of properties.
+ * @return {boolean} true if successful; otherwise, false.
  * @private
  */
 webui.@THEME@.widget.hiddenField.prototype._setProps = function(props) {

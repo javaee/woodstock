@@ -21,17 +21,6 @@
 // Copyright 2007 Sun Microsystems, Inc. All rights reserved.
 //
 
-/**
- * @name widget/jsfx/radioButtonGroup.js
- * @version @THEME_VERSION@
- * @overview This module contains the default Ajax implementation for the 
- * radioButtonGroup widget.
- * <p>
- * Note: This Javascript file should be included in any page that uses the 
- * associated widget, where JSF Extensions is used as the underlying transfer
- * protocol.
- * </p>
- */
 dojo.provide("webui.@THEME@.widget.jsfx.radioButtonGroup");
 
 dojo.require("webui.@THEME@.widget.jsfx.common");

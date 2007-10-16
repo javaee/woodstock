@@ -21,16 +21,19 @@
 // Copyright 2007 Sun Microsystems, Inc. All rights reserved.
 //
 
-/**
- * @name fileChooser.js
- * @version @THEME_VERSION@
- * @overview The filechooser has several intermediate actions in addition to 
- * the selection of one or more files of folders.
+dojo.provide("webui.@THEME@.fileChooser");
+
+dojo.require("webui.@THEME@.common");
+dojo.require("webui.@THEME@.formElements");
+
+/** 
+ * @class This class contains functions for fileChooser components.
  * <p>
- * There are actions that are initiated by buttons 
- * and actions initiated by mouse clicks and key presses.
- * Some events generated from key presses and mouse clicks
- * behave like accelerators for the button actions.
+ * The filechooser has several intermediate actions in addition to the selection
+ * of one or more files of folders. For example, there are actions that are 
+ * initiated by buttons and actions initiated by mouse clicks and key presses.
+ * Some events generated from key presses and mouse clicks behave like 
+ * accelerators for the button actions.
  * </p><p>
  * Some actions are client side only actions, such as placing a
  * selected file or folder into the selected file or folder field.
@@ -92,14 +95,7 @@
  * - When the move up button is clicked the parent directory is placed
  *   into the look in field and the form is submitted.
  * </pre></p>
- */
-dojo.provide("webui.@THEME@.fileChooser");
-
-dojo.require("webui.@THEME@.common");
-dojo.require("webui.@THEME@.formElements");
-
-/** 
- * This closure contains functions for fileChooser components.
+ * @static
  */
 webui.@THEME@.fileChooser = {
     // FIXME: Note that the dependence on literal client id's is not sufficient
@@ -120,7 +116,8 @@ webui.@THEME@.fileChooser = {
      * @config {String} [separatorChar] 
      * @config {String} [escapeChar] 
      * @config {String} [delimiter] 
-     * @config {String} [currentDir] 
+     * @config {String} [currentDir]
+     * @return {boolean} true if successful; otherwise, false.
      */
     init: function(props) {
         if (props == null || props.id == null) {
@@ -244,6 +241,7 @@ webui.@THEME@.fileChooser = {
      * </p>
      *
      * @param {Node} element
+     * @return {boolean} false to cancel JavaScript event.
      */
     enterKeyPressed: function(element) {
 	// Return pressed in the list
@@ -329,6 +327,7 @@ webui.@THEME@.fileChooser = {
      * In folder chooser mode
      *    - a folder selection, call open folder click handler
      * </pre></p>
+     * @return {boolean} true if successful; otherwise, false.
      */
     handleDblClick: function() {
 	// Nothing selected. Not sure if this can happen since
@@ -381,8 +380,10 @@ webui.@THEME@.fileChooser = {
     },
 
     /**
+     * Set choose button disabled.
      *
      * @param {boolean} disabled
+     * @return {boolean} true if successful; otherwise, false.
      */
     setChooseButtonDisabled: function(disabled) {
 	if (this.chooseButton) {
@@ -434,6 +435,7 @@ webui.@THEME@.fileChooser = {
      * by the specified delimiter. Enteries are escaped appropriately
      * with the specified escape character.
      * </p>
+     * @return {boolean} false to cancel JavaScript event.
      */
     handleOnChange: function() {
 	webui.@THEME@.listbox.changed(this.listentries.id);
@@ -526,7 +528,9 @@ webui.@THEME@.fileChooser = {
     },
 
     /**
+     * Clear selected field.
      *
+     * @return {boolean} true if successful; otherwise, false.
      */
     clearSelectedField: function() {
 	if (this.selectedfield) {
@@ -538,6 +542,8 @@ webui.@THEME@.fileChooser = {
     /**
      * This function is the event handler for the onclick event
      * of the openFolder button.
+     *
+     * @return {boolean} true if successful; otherwise, false.
      */
     openFolderClicked: function() {
 	if (!this.isFolderSelected()) {
@@ -551,7 +557,9 @@ webui.@THEME@.fileChooser = {
     },
 
     /**
+     * Test if folder is selected.
      *
+     * @return {boolean} true if folder is selected.
      */
     isFolderSelected: function() {
 	return this.getSelectionType() == 'folder';
@@ -562,6 +570,7 @@ webui.@THEME@.fileChooser = {
      * Set the look in field to contain the parent or move up directory.
      * This is imperative. Be careful of the corner case when the 
      * look in field is already the root directory.
+     * @return {boolean} true if successful; otherwise, false.
      */
     moveUpButtonClicked: function() {
 	this.clearSelections();
@@ -576,6 +585,7 @@ webui.@THEME@.fileChooser = {
      * </p><p>
      * Where type is one of "file" or "folder"
      * </p>
+     * @return {String} The selection value.
      */
     getSelectionValue: function() {
 	var index = this.listentries.selectedIndex;
@@ -583,7 +593,9 @@ webui.@THEME@.fileChooser = {
     },
 
     /**
+     * Get selection value by index.
      *
+     * @return {String}The selection value.
      */
     getSelectionValueByIndex: function(index) {
 	var selection = this.listOptions[index].value;
@@ -598,7 +610,9 @@ webui.@THEME@.fileChooser = {
     },
 
     /**
+     * Get selection type.
      *
+     * @return {String} The selection type.
      */
     getSelectionType: function() {
 	var index = this.listentries.selectedIndex;
@@ -606,7 +620,9 @@ webui.@THEME@.fileChooser = {
     },
 
     /**
+     * Get selection type by index.
      *
+     * @return {String} The selection type.
      */
     getSelectionTypeByIndex: function(index) {
 	var selection = this.listOptions[index].value;
@@ -614,7 +630,9 @@ webui.@THEME@.fileChooser = {
     },
 
     /**
+     * Get value type.
      *
+     * @return {String} The value type.
      */
     getValueType: function(value) {
 	var i = value.indexOf('=', 0);
@@ -626,28 +644,36 @@ webui.@THEME@.fileChooser = {
     },
 
     /**
+     * Test if folder chooser.
      *
+     * @return {boolean} true if folder chooser.
      */
     isFolderChooser: function() {
 	return this.folderChooser;
     },
 
     /**
+     * Get selected item.
      *
+     * @return {String} The selected item.
      */
     itemSelected: function() {
 	return (this.listentries.selectedIndex != -1);
     },
 
     /**
+     * Get selected folders.
      *
+     * @return {Array} An array of selected folders.
      */
     getSelectedFolders: function() {
 	return this.getSelectedValuesByType('folder');
     },
 
     /**
+     * Get selected files.
      *
+     * @return {Array} An array of selected files.
      */
     getSelectedFiles: function() {
 	return this.getSelectedValuesByType('file');
@@ -657,6 +683,7 @@ webui.@THEME@.fileChooser = {
      * Return all selected options by type, file or folder.
      *
      * @param {String} type
+     * @return {Array} An array of selected values.
      */
     getSelectedValuesByType: function(type) {
 	var selections = new Array();
@@ -675,6 +702,7 @@ webui.@THEME@.fileChooser = {
      * Format the selected file field as a comma separated list.
      *
      * @param {Array} selections
+     * @return {boolean} true if successful; otherwise, false.
      */
     setSelectedFieldValue: function(selections) {
 	var value;
@@ -708,6 +736,7 @@ webui.@THEME@.fileChooser = {
     /**
      *
      * @param {Node} element
+     * @return {boolean} true if successful; otherwise, false.
      */
     onFocus: function(element) {
 	if (element.id == this.lookinfield.id) {
@@ -723,6 +752,7 @@ webui.@THEME@.fileChooser = {
     /**
      *
      * @param {Node} element
+     * @return {boolean} true if successful; otherwise, false.
      */
     onBlur: function(element) {
 	if (element.id == this.lookinfield.id) {
@@ -739,6 +769,8 @@ webui.@THEME@.fileChooser = {
 
     /**
      * Clear the selections whenever the selectedFileField is cleared.
+     *
+     * @return {boolean} true if successful; otherwise, false.
      */
     clearSelections: function() {
 	var i = 0;
@@ -758,7 +790,9 @@ webui.@THEME@.fileChooser = {
     },
 
     /**
+     * Set selected.
      *
+     * @return {boolean} true if successful; otherwise, false.
      */
     setSelected: function(index, torf) {
 	this.listOptions[index].selected = torf;
@@ -766,15 +800,19 @@ webui.@THEME@.fileChooser = {
     },
 
     /**
+     * Deselect folders.
      *
+     * @return {boolean} true if successful; otherwise, false.
      */
     deselectFolders: function() {
 	return this.deselectSelectionsByType('folder');
     },
 
     /**
+     * Deselect by type.
      *
      * @param {String} type
+     * @return {boolean} true if successful; otherwise, false.
      */
     deselectSelectionsByType: function(type) {
 	for (var j = 0; j < this.listOptions.length; j++) {
@@ -787,8 +825,10 @@ webui.@THEME@.fileChooser = {
     },
 
     /**
+     * Enable the choose button.
      *
      * @param {boolean} flag
+     * @return {boolean} true if successful; otherwise, false.
      */
     armChooseButton: function(flag) {
 	var disabled = true;
@@ -816,6 +856,7 @@ webui.@THEME@.fileChooser = {
      * selected. This function is not yet complete.
      *
      * @param {String} buttonId
+     * @return {boolean} true if successful; otherwise, false.
      */
     setChooseButton: function(buttonId) {
 	this.chooseButton = document.getElementById(buttonId);
@@ -832,6 +873,8 @@ webui.@THEME@.fileChooser = {
     /**
      * Convenience function to get the current directory without 
      * going to the server.
+     *
+     * @return {String} The current directory.
      */
     getCurrentDirectory: function() {
 	if (this.lookinfield) {
@@ -842,6 +885,8 @@ webui.@THEME@.fileChooser = {
 
     /**
      * Convenience function returning the list of option elements.
+     *
+     * @return {Array} An array of list options.
      */
     getOptionElements: function() {
 	return this.listOptions;
@@ -851,6 +896,8 @@ webui.@THEME@.fileChooser = {
      * Convenience function to get the list of selected option elements
      * Return an array of selected values or a 0 length array if there
      * are no selections.
+     *
+     * @return {Array} An array of selected options.
      */
     getSelectedOptions: function() {
 	var selections = new Array();
@@ -864,10 +911,11 @@ webui.@THEME@.fileChooser = {
     },
 
     /*
-     * Convenience function to get the file or folde name when 
+     * Convenience function to get the file or folder name when 
      * the entire path name is supplied.
      *
      * @param {String} absoluteFileName
+     * @return {String} The file name.
      */
     getFileNameOnly: function(absoluteFileName) {
         arrayOfPaths = absoluteFileName.split(this.separatorChar);

@@ -21,22 +21,16 @@
 // Copyright 2007 Sun Microsystems, Inc. All rights reserved.
 //
 
-/**
- * @name widget/eventBase.js
- * @version @THEME_VERSION@
- * @overview This module contains classes and functions for the eventBase object.
- */
 dojo.provide("webui.@THEME@.widget.eventBase");
 
 dojo.require("dijit._Widget"); 
 dojo.require("dijit._Templated"); 
 
 /**
- * This function is used to construct a template based widget.
- *
  * @name webui.@THEME@.widget.eventBase
- * @inherits dijit._Widget, dijit._Templated
- * @constructor
+ * @extends dijit._Widget, dijit._Templated
+ * @class This class contains functions for widgets that extend eventBase.
+ * @static
  */
 dojo.declare("webui.@THEME@.widget.eventBase", [dijit._Widget, dijit._Templated]);
 
@@ -44,6 +38,8 @@ dojo.declare("webui.@THEME@.widget.eventBase", [dijit._Widget, dijit._Templated]
  * This function is used to include default Ajax functionality. Before the given
  * module is included in the page, a test is performed to ensure that the 
  * default Ajax implementation is being used.
+ *
+ * @return {boolean} true if successful; otherwise, false.
  */
 webui.@THEME@.widget.eventBase.prototype.ajaxify = function() {
     // To do: Get default module from the theme.
@@ -55,19 +51,18 @@ webui.@THEME@.widget.eventBase.prototype.ajaxify = function() {
 }
 
 /**
- * This closure contains event topics.
+ * This object contains event topics.
  * <p>
  * Note: Event topics must be prototyped for inherited functions. However, these
  * topics must also be available statically so that developers may subscribe to
  * events.
  * </p>
- *
  * @ignore
  */
-webui.@THEME@.widget.eventBase.prototype.event = 
-        webui.@THEME@.widget.eventBase.event = {
+webui.@THEME@.widget.eventBase.event =
+        webui.@THEME@.widget.eventBase.prototype.event = {
     /**
-     * This closure contains refresh event topics.
+     * This object contains refresh event topics.
      * @ignore
      */
     refresh: {
@@ -79,7 +74,7 @@ webui.@THEME@.widget.eventBase.prototype.event =
     },
 
     /**
-     * This closure contains state event topics.
+     * This object contains state event topics.
      * @ignore
      */
     state: {
@@ -91,7 +86,7 @@ webui.@THEME@.widget.eventBase.prototype.event =
     },
 
     /**
-     * This closure contains submit event topics.
+     * This object contains submit event topics.
      * @ignore
      */
     submit: {
@@ -104,13 +99,13 @@ webui.@THEME@.widget.eventBase.prototype.event =
 }
 
 /**
- * Initialize functions.
+ * Initialize public functions.
  * <p>
  * Note: If this.event.<eventName> is not null, a public function shall be added
- * to the DOM node, if applicable. If the event topic is null, the function
- * prototyped by this object is removed. To avoid name clashes, do not create
- * private functions with the names; refresh, stateChanged, or submit.
+ * to the DOM node. To avoid name clashes, do not create private functions with
+ * the names; refresh, stateChanged, or submit.
  * </p>
+ * @return {boolean} true if successful; otherwise, false.
  */
 webui.@THEME@.widget.eventBase.prototype.initFunctions = function () {
     if (this.event == null) {
@@ -128,9 +123,6 @@ webui.@THEME@.widget.eventBase.prototype.initFunctions = function () {
         this.domNode.refresh = function(execute) {
             return dijit.byId(_id).refresh(execute);
         };
-    } else {
-        // Remove prototyped function.
-        this.refresh = null;
     }
 
     // Submit.
@@ -139,9 +131,6 @@ webui.@THEME@.widget.eventBase.prototype.initFunctions = function () {
         this.domNode.submit = function(execute) {
             return dijit.byId(_id).submit(execute);    
         };
-    } else {
-        // Remove prototyped function.
-        this.submit = null;
     }
 
     // State.
@@ -154,14 +143,25 @@ webui.@THEME@.widget.eventBase.prototype.initFunctions = function () {
 
 /**
  * Process refresh event.
- *
+ * <p>
+ * Note: If this.event.refresh is not null, an event is published for custom
+ * Ajax implementations to listen for. If event topics are not implemented for 
+ * this widget, the function returns and a message is output to the console.
+ * </p>
  * @param {String} execute The string containing a comma separated list 
  * of client ids against which the execute portion of the request 
  * processing lifecycle must be run.
+ * @return {boolean} true if successful; otherwise, false.
  */
 webui.@THEME@.widget.eventBase.prototype.refresh = function(execute) {
     // Include default AJAX implementation.
     this.ajaxify();
+
+    if (this.event.refresh == null) {
+        console.debug("Error: Refresh event topics not implemented for " + 
+            this.widgetName); // See Firebug console.
+        return false;
+    }
 
     // Publish an event for custom AJAX implementations to listen for.
     dojo.publish(this.event.refresh.beginTopic, [{
@@ -174,12 +174,23 @@ webui.@THEME@.widget.eventBase.prototype.refresh = function(execute) {
 
 /**
  * Process state event.
- *
+ * <p>
+ * Note: If this.event.state is not null, an event is published for custom
+ * Ajax implementations to listen for. If event topics are not implemented for 
+ * this widget, the function returns and a message is output to the console.
+ * </p>
  * @param {Object} props Key-Value pairs of widget properties to update.
+ * @return {boolean} true if successful; otherwise, false.
  */
 webui.@THEME@.widget.eventBase.prototype.stateChanged = function(props) {
     // Include default AJAX implementation.
     this.ajaxify();
+
+    if (this.event.state == null) {
+        console.debug("Error: State event topics not implemented for " + 
+            this.widgetName); // See Firebug console.
+        return false;
+    }
 
     // Publish an event for custom AJAX implementations to listen for.
     dojo.publish(this.event.state.beginTopic, [{
@@ -192,14 +203,25 @@ webui.@THEME@.widget.eventBase.prototype.stateChanged = function(props) {
 
 /**
  * Process submit event.
- *
+ * <p>
+ * Note: If this.event.submit is not null, an event is published for custom
+ * Ajax implementations to listen for. If event topics are not implemented for 
+ * this widget, the function returns and a message is output to the console.
+ * </p>
  * @param {String} execute Comma separated string containing a list of 
  * client ids against which the execute portion of the request 
  * processing lifecycle must be run.
+ * @return {boolean} true if successful; otherwise, false.
  */
 webui.@THEME@.widget.eventBase.prototype.submit = function(execute) {
     // Include default AJAX implementation.
     this.ajaxify();
+
+    if (this.event.submit == null) {
+        console.debug("Error: Submit event topics not implemented for " + 
+            this.widgetName); // See Firebug console.
+        return false;
+    }
 
     // Publish an event for custom AJAX implementations to listen for.
     dojo.publish(this.event.submit.beginTopic, [{

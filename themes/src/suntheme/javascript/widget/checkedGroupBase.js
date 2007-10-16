@@ -21,22 +21,16 @@
 // Copyright 2007 Sun Microsystems, Inc. All rights reserved.
 //
 
-/**
- * @name widget/checkedGroup.js
- * @version @THEME_VERSION@
- * @overview This module contains classes and functions for the checkedGroupBase object.
- */
 dojo.provide("webui.@THEME@.widget.checkedGroupBase");
 
 dojo.require("webui.@THEME@.common");
 dojo.require("webui.@THEME@.widget.widgetBase");
 
 /**
- * This function is used to construct a template based widget.
- *
  * @name webui.@THEME@.widget.checkedGroupBase
- * @inherits webui.@THEME@.widget.widgetBase
- * @constructor
+ * @extends webui.@THEME@.widget.widgetBase
+ * @class This class contains functions for widgets that extend checkedGroupBase.
+ * @static
  */
 dojo.declare("webui.@THEME@.widget.checkedGroupBase", webui.@THEME@.widget.widgetBase);
 
@@ -47,7 +41,8 @@ dojo.declare("webui.@THEME@.widget.checkedGroupBase", webui.@THEME@.widget.widge
  * @config {boolean} [disabled] 
  * @config {Array} [columns] 
  * @config {Array} [contents] 
- * @config {Object} [label] 
+ * @config {Object} [label]
+ * @return {boolean} true if successful; otherwise, false.
  */
 webui.@THEME@.widget.checkedGroupBase.prototype.addContents = function(props) {   
     if (props == null) {
@@ -114,6 +109,8 @@ webui.@THEME@.widget.checkedGroupBase.prototype.addContents = function(props) {
 /**
  * This function is used to get widget properties. Please see the 
  * setProps() function for a list of supported properties.
+ *
+ * @return {Object} Key-Value pairs of properties.
  */
 webui.@THEME@.widget.checkedGroupBase.prototype.getProps = function() {
     var props = this.inherited("getProps", arguments);
@@ -136,6 +133,7 @@ webui.@THEME@.widget.checkedGroupBase.prototype.getProps = function() {
  * <p>
  * Note: Unlike Dojo 0.4, the DOM nodes don't exist in the document, yet. 
  * </p>
+ * @return {boolean} true if successful; otherwise, false.
  */
 webui.@THEME@.widget.checkedGroupBase.prototype.postCreate = function () {
     // Set ids.
@@ -184,6 +182,7 @@ webui.@THEME@.widget.checkedGroupBase.prototype.postCreate = function () {
  * @config {String} [title] Provides a title for element.
  * @config {boolean} [visible] Hide or show element.
  * @param {boolean} notify Publish an event for custom AJAX implementations to listen for.
+ * @return {boolean} true if successful; otherwise, false.
  */
 webui.@THEME@.widget.checkedGroupBase.prototype.setProps = function(props, notify) {
     if (props == null) {
@@ -208,6 +207,7 @@ webui.@THEME@.widget.checkedGroupBase.prototype.setProps = function(props, notif
  * </p>
  *
  * @param {Object} props Key-Value pairs of properties.
+ * @return {boolean} true if successful; otherwise, false.
  * @private
  */
 webui.@THEME@.widget.checkedGroupBase.prototype._setProps = function(props) {

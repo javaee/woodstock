@@ -21,26 +21,15 @@
 // Copyright 2007 Sun Microsystems, Inc. All rights reserved.
 //
 
-/**
- * @name widget/imageButton.js
- * @version @THEME_VERSION@
- * @overview This module contains classes and functions for the imageButton 
- * widget.
- * @example The following code is used to create an imageButton widget.
- * <p><code>
- * var widget = new webui.@THEME@.widget.imageButton(props, domNode);
- * </code></p>
- */
 dojo.provide("webui.@THEME@.widget.imageButton");
 
 dojo.require("webui.@THEME@.widget.button");
 
 /**
- * This function is used to construct a template based widget.
- *
  * @name webui.@THEME@.widget.imageButton
- * @inherits webui.@THEME@.widget.button
- * @constructor
+ * @extends webui.@THEME@.widget.button
+ * @class This class contains functions for the imageButton widget.
+ * @constructor This function is used to construct a imageButton widget.
  */
 dojo.declare("webui.@THEME@.widget.imageButton", webui.@THEME@.widget.button, {
     // Set defaults.
@@ -48,19 +37,18 @@ dojo.declare("webui.@THEME@.widget.imageButton", webui.@THEME@.widget.button, {
 });
 
 /**
- * This closure contains event topics.
+ * This object contains event topics.
  * <p>
  * Note: Event topics must be prototyped for inherited functions. However, these
  * topics must also be available statically so that developers may subscribe to
  * events.
  * </p>
- *
  * @ignore
  */
-webui.@THEME@.widget.imageButton.prototype.event =
-        webui.@THEME@.widget.imageButton.event = {
+webui.@THEME@.widget.imageButton.event =
+        webui.@THEME@.widget.imageButton.prototype.event = {
     /**
-     * This closure contains refresh event topics.
+     * This object contains refresh event topics.
      * @ignore
      */
     refresh: {
@@ -72,7 +60,7 @@ webui.@THEME@.widget.imageButton.prototype.event =
     },
 
     /**
-     * This closure contains state event topics.
+     * This object contains state event topics.
      * @ignore
      */
     state: {
@@ -86,9 +74,11 @@ webui.@THEME@.widget.imageButton.prototype.event =
 
 /**
  * This function is used to obtain the outermost HTML element class name.
- *
+ * <p>
  * Note: Selectors should be concatinated in order of precedence (e.g., the 
  * user's className property is always appended last).
+ * </p>
+ * @return {String} The outermost HTML element class name.
  */
 webui.@THEME@.widget.imageButton.prototype.getClassName = function() {
     // If it is an image button, only the BUTTON3 selectors are used.
@@ -105,11 +95,13 @@ webui.@THEME@.widget.imageButton.prototype.getClassName = function() {
 }
 
 /**
- * This function is used to obtain the outermost HTML element class name.
+ * This function is used to obtain the outermost HTML element class name during
+ * an onFocus or onMouseOver event.
  * <p>
  * Note: Selectors should be concatinated in order of precedence (e.g., the 
  * user's className property is always appended last).
  * </p>
+ * @return {String} The outermost HTML element class name.
  */
 webui.@THEME@.widget.imageButton.prototype.getHoverClassName = function() {
     // If it is an image button, only the BUTTON3 selectors are used.
@@ -125,6 +117,8 @@ webui.@THEME@.widget.imageButton.prototype.getHoverClassName = function() {
 /**
  * This function is used to get widget properties. Please see the 
  * setProps() function for a list of supported properties.
+ *
+ * @return {Object} Key-Value pairs of properties.
  */
 webui.@THEME@.widget.imageButton.prototype.getProps = function() {
     var props = this.inherited("getProps", arguments);

@@ -21,15 +21,11 @@
 // Copyright 2007 Sun Microsystems, Inc. All rights reserved.
 //
 
-/**
- * @name addRemove.js
- * @version @THEME_VERSION@
- * @overview This module contains functions for addRemove components.
- */
 dojo.provide("webui.@THEME@.addRemove");
 
 /** 
- * This closure contains functions for addRemove components.
+ * @class This class contains functions for addRemove components.
+ * @static
  */
 webui.@THEME@.addRemove = {
     /**
@@ -42,6 +38,7 @@ webui.@THEME@.addRemove = {
      * @param {Object} props Key-Value pairs of properties.
      * @config {String} [id] The HTML element id.
      * @config {String} [separator] The character deliminator for ordered options.
+     * @return {boolean} true if successful; otherwise, false.
      */
     init: function(props) {
         if (props == null || props.id == null) {
@@ -139,6 +136,8 @@ webui.@THEME@.addRemove = {
 
     /**
      * This function adds options to the selected list.
+     *
+     * @return {boolean} true if successful; otherwise, false.
      */
     add: function() {
         if (this.availableOptions.selectedIndex == -1) {
@@ -155,6 +154,8 @@ webui.@THEME@.addRemove = {
 
     /**
      * This function removes options to the selected list.
+     *
+     * @return {boolean} true if successful; otherwise, false.
      */
     remove: function() {
         if (this.selectedOptions.selectedIndex == -1) {
@@ -174,6 +175,7 @@ webui.@THEME@.addRemove = {
      * @param {Array} moveToOptions
      * @param {Array} moveToList
      * @param {boolean} sort
+     * @return {boolean} true if successful; otherwise, false.
      */
     moveOption: function(moveFromOptions, moveToOptions, moveToList, sort) {
         var index = moveFromOptions.selectedIndex;
@@ -243,6 +245,8 @@ webui.@THEME@.addRemove = {
 
     /**
      * This function adds all options to the selected list.
+     *
+     * @return {boolean} true if successful; otherwise, false.
      */
     addAll: function() {
         var numOptions = this.availableOptions.length - 1;
@@ -256,6 +260,8 @@ webui.@THEME@.addRemove = {
 
     /**
      * This function removes all options from the selected list.
+     *
+     * @return {boolean} true if successful; otherwise, false.
      */
     removeAll: function() {
         var numOptions = this.selectedOptions.length - 1;
@@ -269,6 +275,8 @@ webui.@THEME@.addRemove = {
 
     /**
      * This function moves options up in the selected list.
+     *
+     * @return {boolean} true if successful; otherwise, false.
      */
     moveUp: function() {
         // The original allowed items to be moved on both lists. Surely we
@@ -327,6 +335,8 @@ webui.@THEME@.addRemove = {
 
     /**
      * This function moves options down in the selected list.
+     *
+     * @return {boolean} false to cancel JavaScript event.
      */
     moveDown: function() {
         // The original allowed items to be moved on both lists. Surely we
@@ -383,6 +393,8 @@ webui.@THEME@.addRemove = {
 
     /**
      * This function updates the state of all buttons.
+     *
+     * @return {boolean} false to cancel JavaScript event.
      */
     updateButtons: function() {
         var numOptions = this.availableOptions.length-1;
@@ -523,7 +535,9 @@ webui.@THEME@.addRemove = {
     },
 
     /**
+     * Calculate the current index.
      *
+     * @return {int} The current index.
      */
     calculateIndex: function(value, lastIndex) {
         var string = new String(value);
@@ -537,7 +551,9 @@ webui.@THEME@.addRemove = {
     },
 
     /**
+     * Update current value.
      *
+     * @return {boolean} true if successful; otherwise, false.
      */
     updateValue: function() {
         // Remove the options from the select that holds the actual
@@ -583,7 +599,9 @@ webui.@THEME@.addRemove = {
     },
 
     /**
+     * Initialize multiple additions.
      *
+     * @return {boolean} true if successful; otherwise, false.
      */
     allowMultipleAdditions: function() {
         // Replace the add and remove functions with functions which 
@@ -594,7 +612,9 @@ webui.@THEME@.addRemove = {
     },
 
     /**
+     * Add multiple options.
      *
+     * @return {boolean} true if successful; otherwise, false.
      */
     multipleAdd: function() {
         this.selectedList.selectedIndex = -1;
@@ -670,7 +690,9 @@ webui.@THEME@.addRemove = {
     },
 
     /**
+     * Remove multiple options.
      *
+     * @return {boolean} true if successful; otherwise, false.
      */
     multipleRemove: function() {
         this.availableList.selectedIndex = -1;
@@ -698,7 +720,9 @@ webui.@THEME@.addRemove = {
     },
 
     /**
+     * Process available on change event.
      *
+     * @return {boolean} true if successful; otherwise, false.
      */
     availableOnChange: function() {
         this.selectedList.selectedIndex = -1;
@@ -707,7 +731,9 @@ webui.@THEME@.addRemove = {
     },
 
     /**
+     * Process selected on change event.
      *
+     * @return {boolean} true if successful; otherwise, false.
      */
     selectedOnChange: function() {
         this.availableList.selectedIndex = -1;

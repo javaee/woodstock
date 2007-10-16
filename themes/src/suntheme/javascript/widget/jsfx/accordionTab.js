@@ -21,24 +21,15 @@
 // Copyright 2007 Sun Microsystems, Inc. All rights reserved.
 //
 
-/**
- * @name widget/jsfx/accordionTab.js
- * @version @THEME_VERSION@
- * @overview This module contains the default Ajax implementation for the 
- * accordionTab widget.
- * <p>
- * Note: This Javascript file should be included in any page that uses the 
- * associated widget, where JSF Extensions is used as the underlying transfer
- * protocol.
- * </p>
- */
 dojo.provide("webui.@THEME@.widget.jsfx.accordionTab");
 
 dojo.require("webui.@THEME@.widget.jsfx.common");
 dojo.require("webui.@THEME@.widget.accordionTab");
 
 /**
- * This closure is used to obtain data asynchronously.
+ * @class This class contains functions to obtain data asynchronously using JSF
+ * Extensions as the underlying transfer protocol.
+ * @static
  */
 webui.@THEME@.widget.jsfx.accordionTab = {
     /**
@@ -46,6 +37,7 @@ webui.@THEME@.widget.jsfx.accordionTab = {
      *
      * @param props Key-Value pairs of properties.
      * @config {String} [id] The HTML element Id.
+     * @return {boolean} true if successful; otherwise, false.
      */
     processLoadContentEvent: function(props) {
         if (props == null) {
@@ -76,6 +68,7 @@ webui.@THEME@.widget.jsfx.accordionTab = {
      * @param {String} content The content returned by the AJAX response.
      * @param {Object} closure The closure argument provided to DynaFaces.fireAjaxTransaction.
      * @param {Object} xjson The xjson argument provided to DynaFaces.fireAjaxTransaction.
+     * @return {boolean} true if successful; otherwise, false.
      */
     loadContentCallback: function(id, content, closure, xjson) {
         if (id == null || content == null) {

@@ -21,15 +21,14 @@
 // Copyright 2007 Sun Microsystems, Inc. All rights reserved.
 //
 
-/**
- * @name orderableList.js
- * @version @THEME_VERSION@
- * @overview This module contains functions for wizard components.
+dojo.provide("webui.@THEME@.wizard");
+
+dojo.require("webui.@THEME@.browser");
+dojo.require("webui.@THEME@.common");
+
+/** 
+ * @class This class contains functions for wizard components.
  * <p>
- * This Javascript file should be included in any page that uses the
- * ui:wizard tag. It is included automatically by 
- * com.sun.webui.jsf.renderkit.html.WizardRenderer.
- * </p><p>
  * The wizard JavaScript object is accessed using the getElementById()
  * function. Methods defined on that javascript object instance maybe
  * called using that identifier. For example, the following javascript
@@ -42,14 +41,7 @@
  *
  *   </ui:wizard>
  * </code></p>
- */
-dojo.provide("webui.@THEME@.wizard");
-
-dojo.require("webui.@THEME@.browser");
-dojo.require("webui.@THEME@.common");
-
-/** 
- * This closure contains functions for wizard components.
+ * @static
  */
 webui.@THEME@.wizard = {
     /**
@@ -61,6 +53,7 @@ webui.@THEME@.wizard = {
      *
      * @param {Object} props Key-Value pairs of properties.
      * @config {String} [id] The element id.
+     * @return {boolean} true if successful; otherwise, false.
      */
     init: function(props) {
         if (props == null || props.id == null) {
@@ -90,49 +83,51 @@ webui.@THEME@.wizard = {
     },
 
     /**
-     *
+     * @private
      */
     nextClicked: function() {
         return true;
     },
 
     /**
-     *
+     * @private
      */
     previousClicked: function() {
         return true;
     },
 
     /**
-     *
+     * @private
      */
     cancelClicked: function() {
         return true;
     },
 
     /**
-     *
+     * @private
      */
     closeClicked: function() {
         return true;
     },
 
     /**
-     *
+     * @private
      */
     finishClicked: function() {
         return true;
     },
 
     /**
-     *
+     * @private
      */
     gotoStepClicked: function() {
         return true;
     },
 
     /**
+     * Close popup.
      *
+     * @return {boolean} true if successful; otherwise, false.
      */
     closePopup: function() {
         window.close();
@@ -170,7 +165,8 @@ webui.@THEME@.wizard = {
      *
      * @param {boolean} submitForm
      * @param {boolean} submitPage
-     * @param {boolean} clearState     
+     * @param {boolean} clearState
+     * @return {boolean} true if successful; otherwise, false.
      */
     closeAndForward: function(submitForm, submitPage, clearState) {
         var f = window.opener.document.getElementById(submitForm);
@@ -206,6 +202,8 @@ webui.@THEME@.wizard = {
     /**
      * This method must be assigned to the onload handler of the onLoad
      * attribute of the ui:body tag if the wizard is to operate properly on IE.
+     *
+     * @return {boolean} true if successful; otherwise, false.
      */
     wizOnLoad: function() {
         var stepsid = this.id + "_stepspane";
@@ -216,6 +214,8 @@ webui.@THEME@.wizard = {
 
     /**
      * used only for popup window and IE, and called by wizOnLoad.
+     *
+     * @return {boolean} true if successful; otherwise, false.
      */
     resize_hack: function(helpid, stepsid, wizbdyid) {
         if (webui.@THEME@.browser.isIe5up()) {

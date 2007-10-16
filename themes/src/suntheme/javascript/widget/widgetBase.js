@@ -21,14 +21,21 @@
 // Copyright 2007 Sun Microsystems, Inc. All rights reserved.
 //
 
+dojo.provide("webui.@THEME@.widget.widgetBase");
+ 
+dojo.require("webui.@THEME@.common");
+dojo.require("webui.@THEME@.theme.common");
+dojo.require("webui.@THEME@.widget.common");
+dojo.require("webui.@THEME@.widget.eventBase");
+
 /**
- * @name widget/widgetBase.js
- * @version @THEME_VERSION@
- * @overview This module contains classes and functions used as base 
- * functionality for all widgets. 
+ * @name webui.@THEME@.widget.widgetBase
+ * @extends webui.@THEME@.widget.eventBase
+ * @class This class contains functions used for base functionality in all 
+ * widgets. 
  * <p>
- * The widgetBase object inherits from dijit._Widget and dijit_Templated. The 
- * dijit._Widget object is responsible for calling the buildRendering() and 
+ * The widgetBase class inherits from dijit._Widget and dijit_Templated. The 
+ * dijit._Widget class is responsible for calling the buildRendering() and 
  * postCreate() functions in that order. The dijit_Templated function overrides
  * the buildRendering() functon to fill in template properties.
  * <p></p>
@@ -59,7 +66,7 @@
  * concatinated in order of precedence (e.g., the user's className property is 
  * always appended last).
  * <p></p>
- * The public setProps() function is responsible for extending the widget object
+ * The public setProps() function is responsible for extending the widget class
  * with properties so they can be used during later updates. After extending the
  * widget, the private _setProps() function is called. In some cases, the public
  * setProps() function may be overridden. For example, the label clears the
@@ -78,26 +85,7 @@
  * appendChild(). Therefore, widget creation must be deferred to the
  * window.onLoad event. See http://trac.dojotoolkit.org/ticket/4631
  * </p>
- *
- * @example The following function is used to create a feature-rich constructor
- * from compact notation.
- * <p><code>
- * dojo.declare("webui.@THEME@.widget.button", webui.@THEME@.widget.widgetBase);
- * </code></p>
- */
-dojo.provide("webui.@THEME@.widget.widgetBase");
- 
-dojo.require("webui.@THEME@.common");
-dojo.require("webui.@THEME@.theme.common");
-dojo.require("webui.@THEME@.widget.common");
-dojo.require("webui.@THEME@.widget.eventBase");
-
-/**
- * This function is used to construct a template based widget.
- *
- * @name webui.@THEME@.widget.widgetBase
- * @inherits webui.@THEME@.widget.eventBase
- * @constructor
+ * @static
  */
 dojo.declare("webui.@THEME@.widget.widgetBase", webui.@THEME@.widget.eventBase, {
     // Note: If your class contains arrays or other objects, they should be
@@ -112,6 +100,8 @@ dojo.declare("webui.@THEME@.widget.widgetBase", webui.@THEME@.widget.eventBase, 
 
 /**
  * This function is used to render the widget from a template.
+ *
+ * @return {boolean} true if successful; otherwise, false.
  */
 webui.@THEME@.widget.widgetBase.prototype.buildRendering = function () {
     // Get default templates.
@@ -132,9 +122,11 @@ webui.@THEME@.widget.widgetBase.prototype.buildRendering = function () {
 
 /**
  * This function is used to obtain the outermost HTML element class name.
- *
+ * <p>
  * Note: Selectors should be concatinated in order of precedence (e.g., the 
  * user's className property is always appended last).
+ * </p>
+ * @return {String} The outermost HTML element class name.
  */
 webui.@THEME@.widget.widgetBase.prototype.getClassName = function() {
     return this.className;
@@ -143,6 +135,8 @@ webui.@THEME@.widget.widgetBase.prototype.getClassName = function() {
 /**
  * This function is used to get common properties from the widget. Please see
  * the setCommonProps() function for a list of supported properties.
+ *
+ * @return {Object} Key-Value pairs of properties.
  */
 webui.@THEME@.widget.widgetBase.prototype.getCommonProps = function() {
     var props = {};
@@ -160,6 +154,8 @@ webui.@THEME@.widget.widgetBase.prototype.getCommonProps = function() {
 /**
  * This function is used to get core properties from the widget. Please see
  * the setCoreProps() function for a list of supported properties.
+ *
+ * @return {Object} Key-Value pairs of properties.
  */
 webui.@THEME@.widget.widgetBase.prototype.getCoreProps = function() {
     var props = {};
@@ -176,6 +172,8 @@ webui.@THEME@.widget.widgetBase.prototype.getCoreProps = function() {
 /**
  * This function is used to get event properties from the widget. Please
  * see the setEventProps() function for a list of supported properties.
+ *
+ * @return {Object} Key-Value pairs of properties.
  */
 webui.@THEME@.widget.widgetBase.prototype.getEventProps = function() {
     var props = {};
@@ -202,6 +200,8 @@ webui.@THEME@.widget.widgetBase.prototype.getEventProps = function() {
 /**
  * This function is used to get widget properties. Please see the 
  * setProps() function for a list of supported properties.
+ *
+ * @return {Object} Key-Value pairs of properties.
  */
 webui.@THEME@.widget.widgetBase.prototype.getProps = function() {
     var props = {};
@@ -216,9 +216,11 @@ webui.@THEME@.widget.widgetBase.prototype.getProps = function() {
 
 /**
  * This function is used to test if widget has been initialized.
- *
+ * <p>
  * Note: It is assumed that an HTML element is used as a place holder for the
  * document fragment.
+ * </p>
+ * @return {boolean} true if widget is initialized.
  */
 webui.@THEME@.widget.widgetBase.prototype.isInitialized = function() {
     // Testing if the outermost DOM node has been added to the document and
@@ -235,8 +237,10 @@ webui.@THEME@.widget.widgetBase.prototype.isInitialized = function() {
 
 /**
  * This is called after the buildRendering() function.
- * 
+ * <p>
  * Note: Unlike Dojo 0.4, the DOM nodes don't exist in the document, yet.
+ * </p>
+ * @return {boolean} true if successful; otherwise, false.
  */
 webui.@THEME@.widget.widgetBase.prototype.postCreate = function () {
     this.inherited("postCreate", arguments);
@@ -274,6 +278,7 @@ webui.@THEME@.widget.widgetBase.prototype.postCreate = function () {
  * @config {String} [lang] Specifies the language of attribute values and content.
  * @config {int} [tabIndex] Position in tabbing order.
  * @config {String} [title] Provides a title for element.
+ * @return {boolean} true if successful; otherwise, false.
  */
 webui.@THEME@.widget.widgetBase.prototype.setCommonProps = function(domNode, props) {
     if (domNode == null || props == null) {
@@ -312,6 +317,7 @@ webui.@THEME@.widget.widgetBase.prototype.setCommonProps = function(domNode, pro
  * @config {String} [id] Uniquely identifies an element within a document.
  * @config {String} [style] Specify style rules inline.
  * @config {boolean} [visible] Hide or show element.
+ * @return {boolean} true if successful; otherwise, false.
  */
 webui.@THEME@.widget.widgetBase.prototype.setCoreProps = function(domNode, props) {
     if (domNode == null || props == null) {
@@ -352,6 +358,7 @@ webui.@THEME@.widget.widgetBase.prototype.setCoreProps = function(domNode, props
  * @config {String} [onMouseUp] Mouse button is released over element.
  * @config {String} [onMouseMove] Mouse is moved while over element.
  * @config {String} [onSelect] Element text selected.
+ * @return {boolean} true if successful; otherwise, false.
  */
 webui.@THEME@.widget.widgetBase.prototype.setEventProps = function(domNode, props) {
     if (domNode == null || props == null) {
@@ -448,6 +455,7 @@ webui.@THEME@.widget.widgetBase.prototype.setEventProps = function(domNode, prop
  * @config {String} [id] Uniquely identifies an element within a document.
  * @config {String} [style] Specify style rules inline.
  * @config {boolean} [visible] Hide or show element.
+ * @return {boolean} true if successful; otherwise, false.
  */
 webui.@THEME@.widget.widgetBase.prototype.setProps = function(props, notify) {
     if (props == null) {
@@ -476,6 +484,7 @@ webui.@THEME@.widget.widgetBase.prototype.setProps = function(props, notify) {
  * be invoked via setProps().
  *
  * @param {Object} props Key-Value pairs of properties.
+ * @return {boolean} true if successful; otherwise, false.
  * @ignore
  */
 webui.@THEME@.widget.widgetBase.prototype._setProps = function(props) {
@@ -493,6 +502,8 @@ webui.@THEME@.widget.widgetBase.prototype._setProps = function(props) {
 /**
  * This function is used to "start" the widget, after the widget has been
  * instantiated.
+ *
+ * @return {boolean} true if successful; otherwise, false.
  */
 webui.@THEME@.widget.widgetBase.prototype.startup = function () {
     if (this._started) {

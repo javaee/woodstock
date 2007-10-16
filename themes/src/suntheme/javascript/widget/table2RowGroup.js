@@ -21,15 +21,6 @@
 // Copyright 2007 Sun Microsystems, Inc. All rights reserved.
 //
 
-/**
- * @name widget/table2RowGroup.js
- * @version @THEME_VERSION@
- * @overview This module contains classes and functions for the table2RowGroup widget.
- * @example The following code is used to create a table2RowGroup widget.
- * <p><code>
- * var widget = new webui.@THEME@.widget.table2RowGroup(props, domNode);
- * </code></p>
- */
 dojo.provide("webui.@THEME@.widget.table2RowGroup");
 
 dojo.require("webui.@THEME@.browser");
@@ -37,11 +28,10 @@ dojo.require("webui.@THEME@.common");
 dojo.require("webui.@THEME@.widget.widgetBase");
 
 /**
- * This function is used to construct a template based widget.
- *
  * @name webui.@THEME@.widget.table2RowGroup
- * @inherits webui.@THEME@.widget.widgetBase
- * @constructor
+ * @extends webui.@THEME@.widget.widgetBase
+ * @class This class contains functions for the table2RowGroup widget.
+ * @constructor This function is used to construct a table2RowGroup widget.
  */
 dojo.declare("webui.@THEME@.widget.table2RowGroup", webui.@THEME@.widget.widgetBase, {
     // Set defaults.
@@ -52,6 +42,8 @@ dojo.declare("webui.@THEME@.widget.table2RowGroup", webui.@THEME@.widget.widgetB
 
 /**
  * This function is used to set column headers and footers.
+ *
+ * @return {boolean} true if successful; otherwise, false.
  */
 webui.@THEME@.widget.table2RowGroup.prototype.addColumns = function() {
     // Clear column headers/footers.
@@ -119,6 +111,7 @@ webui.@THEME@.widget.table2RowGroup.prototype.addColumns = function() {
  * an array of columns which holds table data.
  *
  * @param {Array} rows An array of rows.
+ * @return {boolean} true if successful; otherwise, false.
  */
 webui.@THEME@.widget.table2RowGroup.prototype.addRows = function(rows) {
     if (rows == null) {
@@ -190,19 +183,18 @@ webui.@THEME@.widget.table2RowGroup.prototype.addRows = function(rows) {
 }
 
 /**
- * This closure contains event topics.
+ * This object contains event topics.
  * <p>
  * Note: Event topics must be prototyped for inherited functions. However, these
  * topics must also be available statically so that developers may subscribe to
  * events.
  * </p>
- *
  * @ignore
  */
-webui.@THEME@.widget.table2RowGroup.prototype.event =
-        webui.@THEME@.widget.table2RowGroup.event = {
+webui.@THEME@.widget.table2RowGroup.event =
+        webui.@THEME@.widget.table2RowGroup.prototype.event = {
     /**
-     * This closure contains refresh event topics.
+     * This object contains refresh event topics.
      * @ignore
      */
     refresh: {
@@ -226,7 +218,7 @@ webui.@THEME@.widget.table2RowGroup.prototype.event =
     },
 
     /**
-     * This closure contains state event topics.
+     * This object contains state event topics.
      * @ignore
      */
     state: {
@@ -241,6 +233,8 @@ webui.@THEME@.widget.table2RowGroup.prototype.event =
 /**
  * This function is used to get widget properties. Please see the
  * setProps() function for a list of supported properties.
+ *
+ * @return {Object} Key-Value pairs of properties.
  */
 webui.@THEME@.widget.table2RowGroup.prototype.getProps = function() {
     var props = this.inherited("getProps", arguments);
@@ -268,6 +262,7 @@ webui.@THEME@.widget.table2RowGroup.prototype.getProps = function() {
  * <p>
  * Note: Unlike Dojo 0.4, the DOM nodes don't exist in the document, yet. 
  * </p>
+ * @return {boolean} true if successful; otherwise, false.
  */
 webui.@THEME@.widget.table2RowGroup.prototype.postCreate = function () {
     // Set ids.
@@ -301,6 +296,8 @@ webui.@THEME@.widget.table2RowGroup.prototype.postCreate = function () {
 
 /**
  * Process resize event.
+ *
+ * @return {boolean} true if successful; otherwise, false.
  */
 webui.@THEME@.widget.table2RowGroup.prototype.resize = function() {
     // Update rows text.
@@ -416,6 +413,7 @@ webui.@THEME@.widget.table2RowGroup.prototype.resize = function() {
  * @config {String} [valign] 
  * @config {boolean} [visible] Hide or show element.
  * @config {String} [width]
+ * @return {boolean} true if successful; otherwise, false.
  */
 webui.@THEME@.widget.table2RowGroup.prototype.setColumnProps = function(domNode, props) {
     // Set properties.
@@ -437,6 +435,8 @@ webui.@THEME@.widget.table2RowGroup.prototype.setColumnProps = function(domNode,
     this.setCommonProps(domNode, props);
     this.setEventProps(domNode, props);
     this.setCoreProps(domNode, props);
+
+    return true;
 }
 
 /**
@@ -481,6 +481,7 @@ webui.@THEME@.widget.table2RowGroup.prototype.setColumnProps = function(domNode,
  * @config {String} [valign] 
  * @config {boolean} [visible] Hide or show element.
  * @param {boolean} notify Publish an event for custom AJAX implementations to listen for.
+ * @return {boolean} true if successful; otherwise, false.
  */
 webui.@THEME@.widget.table2RowGroup.prototype.setProps = function(props, notify) {
     if (props == null) {
@@ -510,6 +511,7 @@ webui.@THEME@.widget.table2RowGroup.prototype.setProps = function(props, notify)
  * </p>
  *
  * @param {Object} props Key-Value pairs of properties.
+ * @return {boolean} true if successful; otherwise, false.
  * @private
  */
 webui.@THEME@.widget.table2RowGroup.prototype._setProps = function(props) {
@@ -562,7 +564,8 @@ webui.@THEME@.widget.table2RowGroup.prototype._setProps = function(props) {
 /**
  * Process scroll event.
  *
- * @param {Event} event The JavaScript event
+ * @param {Event} event The JavaScript event.
+ * @return {boolean} true if successful; otherwise, false.
  */
 webui.@THEME@.widget.table2RowGroup.prototype.scroll = function(event) {
     // Publish event to retrieve data.
@@ -605,6 +608,8 @@ webui.@THEME@.widget.table2RowGroup.prototype.scroll = function(event) {
 
 /**
  * This function is used to set rows text (e.g., "1 - 5 of 20").
+ *
+ * @return {boolean} true if successful; otherwise, false.
  */
 webui.@THEME@.widget.table2RowGroup.prototype.updateRowsText = function() {
     // Add title augment.

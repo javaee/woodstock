@@ -21,25 +21,15 @@
 // Copyright 2007 Sun Microsystems, Inc. All rights reserved.
 //
 
-/**
- * @name widget/alert.js
- * @version @THEME_VERSION@
- * @overview This module contains classes and functions for the alert widget.
- * @example The following code is used to create a alert widget.
- * <p><code>
- * var widget = new webui.@THEME@.widget.alert(props, domNode);
- * </code></p>
- */
 dojo.provide("webui.@THEME@.widget.alert");
 
 dojo.require("webui.@THEME@.widget.widgetBase");
 
 /**
- * This function is used to construct a template based widget.
- *
  * @name webui.@THEME@.widget.alert
- * @inherits webui.@THEME@.widget.widgetBase
- * @constructor
+ * @extends webui.@THEME@.widget.widgetBase
+ * @class This class contains functions for the alert widget.
+ * @constructor This function is used to construct an alert widget.
  */
 dojo.declare("webui.@THEME@.widget.alert", webui.@THEME@.widget.widgetBase, {
     // Set defaults.
@@ -47,19 +37,18 @@ dojo.declare("webui.@THEME@.widget.alert", webui.@THEME@.widget.widgetBase, {
 });
 
 /**
- * This closure contains event topics.
+ * This object contains event topics.
  * <p>
  * Note: Event topics must be prototyped for inherited functions. However, these
  * topics must also be available statically so that developers may subscribe to
  * events.
  * </p>
- *
  * @ignore
  */
-webui.@THEME@.widget.alert.prototype.event =
-        webui.@THEME@.widget.alert.event = {
+webui.@THEME@.widget.alert.event =
+        webui.@THEME@.widget.alert.prototype.event = {
     /**
-     * This closure contains refresh event topics.
+     * This object contains refresh event topics.
      * @ignore
      */
     refresh: {
@@ -71,7 +60,7 @@ webui.@THEME@.widget.alert.prototype.event =
     },
 
     /**
-     * This closure contains state event topics.
+     * This object contains state event topics.
      * @ignore
      */
     state: {
@@ -86,6 +75,8 @@ webui.@THEME@.widget.alert.prototype.event =
 /**
  * This function is used to get widget properties. Please see the 
  * setProps() function for a list of supported properties.
+ *
+ * @return {Object} Key-Value pairs of properties.
  */
 webui.@THEME@.widget.alert.prototype.getProps = function() {
     var props = this.inherited("getProps", arguments);
@@ -109,6 +100,7 @@ webui.@THEME@.widget.alert.prototype.getProps = function() {
  * @config {String} [detail] Message detail text.
  * @config {String} [summary] Message summary text.
  * @config {boolean} [valid] Flag indicating validation state.
+ * @return {boolean} true if successful; otherwise, false.
  */
 webui.@THEME@.widget.alert.prototype.notify = function(props) {
     if (props == null) {
@@ -128,6 +120,7 @@ webui.@THEME@.widget.alert.prototype.notify = function(props) {
  * <p>
  * Note: Unlike Dojo 0.4, the DOM nodes don't exist in the document, yet. 
  * </p>
+ * @return {boolean} true if successful; otherwise, false.
  */
 webui.@THEME@.widget.alert.prototype.postCreate = function () {
     // Set ids.
@@ -172,6 +165,7 @@ webui.@THEME@.widget.alert.prototype.postCreate = function () {
  * @config {String} [type] 
  * @config {boolean} [visible] Hide or show element.
  * @param {boolean} notify Publish an event for custom AJAX implementations to listen for.
+ * @return {boolean} true if successful; otherwise, false.
  */
 webui.@THEME@.widget.alert.prototype.setProps = function(props, notify) {
     // Note: This function is overridden for JsDoc.
@@ -187,6 +181,7 @@ webui.@THEME@.widget.alert.prototype.setProps = function(props, notify) {
  * </p>
  *
  * @param {Object} props Key-Value pairs of properties.
+ * @return {boolean} true if successful; otherwise, false.
  * @private
  */
 webui.@THEME@.widget.alert.prototype._setProps = function(props) {

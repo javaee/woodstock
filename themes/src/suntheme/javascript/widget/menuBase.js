@@ -21,11 +21,6 @@
 // Copyright 2007 Sun Microsystems, Inc. All rights reserved.
 //
 
-/**
- * @name widget/menuBase.js
- * @version @THEME_VERSION@
- * @overview This module contains classes and functions for the menuBase widget.
- */
 dojo.provide("webui.@THEME@.widget.menuBase");
 
 dojo.require("webui.@THEME@.browser");
@@ -33,11 +28,10 @@ dojo.require("webui.@THEME@.common");
 dojo.require("webui.@THEME@.widget.widgetBase");
 
 /**
- * This function is used to construct a template based widget.
- *
  * @name webui.@THEME@.widget.menuBase
- * @inherits webui.@THEME@.widget.widgetBase
- * @constructor
+ * @extends webui.@THEME@.widget.widgetBase
+ * @class This class contains functions for widgets that extend menuBase.
+ * @static
  */
 dojo.declare("webui.@THEME@.widget.menuBase", webui.@THEME@.widget.widgetBase);
 
@@ -47,6 +41,7 @@ dojo.declare("webui.@THEME@.widget.menuBase", webui.@THEME@.widget.widgetBase);
  * @param {Node} menuNode The node to which the menu items are to be added.
  * @param {Object} props Key-Value pairs of properties.
  * @config {Array} [options] 
+ * @return {boolean} true if successful; otherwise, false.
  */
 webui.@THEME@.widget.menuBase.prototype.addOptions = function(menuNode, props) {
     var groupNode, optionNode, separator, sepNode;
@@ -87,6 +82,7 @@ webui.@THEME@.widget.menuBase.prototype.addOptions = function(menuNode, props) {
  * The callback function for clicking on a menu item.
  *
  * @param {String} optionId The id of the option element that is clicked.
+ * @return {Function} The callback function.
  */
 webui.@THEME@.widget.menuBase.prototype.createOnClickCallback = function(optionId) {
     var _id = this.id;
@@ -122,6 +118,7 @@ webui.@THEME@.widget.menuBase.prototype.createOnClickCallback = function(optionI
  * Handles the on mouse out for each menuitem.
  *
  * @param {Node} menuItem The DOM node associated with the menu item.
+ * @return {Function} The callback function.
  */
 webui.@THEME@.widget.menuBase.prototype.createOnMouseOutCallBack = function(menuItem) {
     if (menuItem == null) {
@@ -145,6 +142,7 @@ webui.@THEME@.widget.menuBase.prototype.createOnMouseOutCallBack = function(menu
  * Handles the on mouse over for each menuitem.
  *
  * @param {Node} menuItem The DOM node associated with the menu item.
+ * @return {Function} The callback function.
  */
 webui.@THEME@.widget.menuBase.prototype.createOnMouseOverCallBack = function(menuItem) {
     if (menuItem == null) {
@@ -173,6 +171,7 @@ webui.@THEME@.widget.menuBase.prototype.createOnMouseOverCallBack = function(men
  * indentation of the menu.
  *
  * @param {Array} props 
+ * @return {int} The max menu width.
  */
 webui.@THEME@.widget.menuBase.prototype.getMaxWidth = function(props) {
     var menuWidth = 0;
@@ -196,6 +195,8 @@ webui.@THEME@.widget.menuBase.prototype.getMaxWidth = function(props) {
 /**
  * This function is used to get widget properties. Please see the 
  * setProps() function for a list of supported properties.
+ *
+ * @return {Object} Key-Value pairs of properties.
  */
 webui.@THEME@.widget.menuBase.prototype.getProps = function() {
     var props = this.inherited("getProps", arguments);
@@ -208,7 +209,9 @@ webui.@THEME@.widget.menuBase.prototype.getProps = function() {
 }
 
 /**
- * Returns the currently selected item in the menu
+ * Returns the currently selected item in the menu.
+ *
+ * @return {String} The selected item.
  */
 webui.@THEME@.widget.menuBase.prototype.getSelectedValue = function() {
     if (this.clickedItem) {
@@ -224,6 +227,7 @@ webui.@THEME@.widget.menuBase.prototype.getSelectedValue = function() {
  * Note: Styles should be concatinated in order of precedence (e.g., the 
  * user's style property is always appended last).
  * </p>
+ * @return {String} The outermost HTML element style.
  */
 webui.@THEME@.widget.menuBase.prototype.getStyle = function() {
     var style = "width:" + this.maxWidth + "em;";
@@ -256,6 +260,7 @@ webui.@THEME@.widget.menuBase.prototype.getStyle = function() {
  * <p>
  * Note: Unlike Dojo 0.4, the DOM nodes don't exist in the document, yet. 
  * </p>
+ * @return {boolean} true if successful; otherwise, false.
  */
 webui.@THEME@.widget.menuBase.prototype.postCreate = function () {
     // Set public functions.
@@ -270,6 +275,7 @@ webui.@THEME@.widget.menuBase.prototype.postCreate = function () {
  * specified to true.
  *
  * @param {String} value The selected value.
+ * @return {boolean} true if successful; otherwise, false.
  */
 webui.@THEME@.widget.menuBase.prototype.processOnClickEvent = function(value) {
     var clickResult = true;
@@ -302,7 +308,8 @@ webui.@THEME@.widget.menuBase.prototype.processOnClickEvent = function(value) {
  * @param {Node} menuItemContainer The container for the menu item.
  * @param {Object} props Key-Value pairs of properties.
  * @config {boolean} [disabled] 
- * @config {boolean} [group] 
+ * @config {boolean} [group]
+ * @return {boolean} true if successful; otherwise, false.
  */
 webui.@THEME@.widget.menuBase.prototype.setMenuNodeClassName = function(
         menuItemContainer, props) {
@@ -325,7 +332,8 @@ webui.@THEME@.widget.menuBase.prototype.setMenuNodeClassName = function(
             dojo.connect(menuItemContainer, "onmouseout",
                 this.createOnMouseOutCallBack(menuItemContainer));
         }
-    }    
+    }
+    return true;
 }
 
 /**
@@ -340,6 +348,7 @@ webui.@THEME@.widget.menuBase.prototype.setMenuNodeClassName = function(
  * @config {String} [label]
  * @config {String} [title]
  * @config {String} [value]
+ * @return {boolean} true if successful; otherwise, false.
  */
 webui.@THEME@.widget.menuBase.prototype.setOptionNodeProps = function(optionNode, props) {
     optionNode.id = this.id + "_" + props.value + "_container";
@@ -425,6 +434,7 @@ webui.@THEME@.widget.menuBase.prototype.setOptionNodeProps = function(optionNode
  * @config {String} [title] Provides a title for element.
  * @config {boolean} [visible] Hide or show element.
  * @param {boolean} notify Publish an event for custom AJAX implementations to listen for.
+ * @return {boolean} true if successful; otherwise, false.
  */
 webui.@THEME@.widget.menuBase.prototype.setProps = function(props, notify) {
     if (props == null) {
@@ -449,6 +459,7 @@ webui.@THEME@.widget.menuBase.prototype.setProps = function(props, notify) {
  * </p>
  *
  * @param {Object} props Key-Value pairs of properties.
+ * @return {boolean} true if successful; otherwise, false.
  * @private
  */
 webui.@THEME@.widget.menuBase.prototype._setProps = function(props){
@@ -519,6 +530,7 @@ webui.@THEME@.widget.menuBase.prototype._setProps = function(props){
  * Set the selected item on the widget.
  *
  * @param {String} item The selected value.
+ * @return {boolean} true if successful; otherwise, false.
  */
 webui.@THEME@.widget.menuBase.prototype.setSelectedValue = function(item) {
     this.clickedItem = item;
@@ -527,6 +539,8 @@ webui.@THEME@.widget.menuBase.prototype.setSelectedValue = function(item) {
 
 /**
  * Submits the form. Appends the value of the selected item in the request url.
+ *
+ * @return {boolean} false to cancel the JavaScript event.
  */
 webui.@THEME@.widget.menuBase.prototype.submitFormData = function () {
     var theForm = document.getElementById(this.formId);

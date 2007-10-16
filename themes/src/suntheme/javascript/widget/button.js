@@ -21,26 +21,16 @@
 // Copyright 2007 Sun Microsystems, Inc. All rights reserved.
 //
 
-/**
- * @name widget/button.js
- * @version @THEME_VERSION@
- * @overview This module contains classes and functions for the button widget.
- * @example The following code is used to create a button widget.
- * <p><code>
- * var widget = new webui.@THEME@.widget.button(props, domNode);
- * </code></p>
- */
 dojo.provide("webui.@THEME@.widget.button");
 
 dojo.require("webui.@THEME@.formElements");
 dojo.require("webui.@THEME@.widget.widgetBase");
  
 /**
- * This function is used to construct a template based widget.
- *
  * @name webui.@THEME@.widget.button
- * @inherits webui.@THEME@.widget.widgetBase
- * @constructor
+ * @extends webui.@THEME@.widget.widgetBase
+ * @class This class contains functions for the button widget.
+ * @constructor This function is used to construct a button widget.
  */
 dojo.declare("webui.@THEME@.widget.button", webui.@THEME@.widget.widgetBase, {
     // Set defaults.
@@ -52,19 +42,18 @@ dojo.declare("webui.@THEME@.widget.button", webui.@THEME@.widget.widgetBase, {
 });
 
 /**
- * This closure contains event topics.
+ * This object contains event topics.
  * <p>
  * Note: Event topics must be prototyped for inherited functions. However, these
  * topics must also be available statically so that developers may subscribe to
  * events.
  * </p>
- *
  * @ignore
  */
-webui.@THEME@.widget.button.prototype.event =
-        webui.@THEME@.widget.button.event = {
+webui.@THEME@.widget.button.event =
+        webui.@THEME@.widget.button.prototype.event = {
     /**
-     * This closure contains refresh event topics.
+     * This object contains refresh event topics.
      * @ignore
      */
     refresh: {
@@ -76,7 +65,7 @@ webui.@THEME@.widget.button.prototype.event =
     },
 
     /**
-     * This closure contains state event topics.
+     * This object contains state event topics.
      * @ignore
      */
     state: {
@@ -90,9 +79,11 @@ webui.@THEME@.widget.button.prototype.event =
 
 /**
  * This function is used to obtain the outermost HTML element class name.
- *
+ * <p>
  * Note: Selectors should be concatinated in order of precedence (e.g., the 
  * user's className property is always appended last).
+ * </p>
+ * @return {String} The outermost HTML element class name.
  */
 webui.@THEME@.widget.button.prototype.getClassName = function() {
     var key = null;
@@ -122,10 +113,13 @@ webui.@THEME@.widget.button.prototype.getClassName = function() {
 }
 
 /**
- * This function is used to obtain the outermost HTML element class name.
- *
+ * This function is used to obtain the outermost HTML element class name during
+ * an onFocus or onMouseOver event.
+ * <p>
  * Note: Selectors should be concatinated in order of precedence (e.g., the 
  * user's className property is always appended last).
+ * </p>
+ * @return {String} The outermost HTML element class name.
  */
 webui.@THEME@.widget.button.prototype.getHoverClassName = function() {
     var key = null;
@@ -149,6 +143,8 @@ webui.@THEME@.widget.button.prototype.getHoverClassName = function() {
 /**
  * This function is used to get widget properties. Please see the 
  * setProps() function for a list of supported properties.
+ *
+ * @return {Object} Key-Value pairs of properties.
  */
 webui.@THEME@.widget.button.prototype.getProps = function() {
     var props = this.inherited("getProps", arguments);
@@ -169,6 +165,7 @@ webui.@THEME@.widget.button.prototype.getProps = function() {
  * Helper function to create callback for onBlur event.
  *
  * @param {Event} event The JavaScript event.
+ * @return {boolean} true if successful; otherwise, false.
  */
 webui.@THEME@.widget.button.prototype.onBlurCallback = function(event) {
     if (this.disabled == true) {
@@ -186,6 +183,7 @@ webui.@THEME@.widget.button.prototype.onBlurCallback = function(event) {
  * Helper function to create callback for onFocus event.
  *
  * @param {Event} event The JavaScript event.
+ * @return {boolean} true if successful; otherwise, false.
  */
 webui.@THEME@.widget.button.prototype.onFocusCallback = function(event) {
     if (this.disabled == true) {
@@ -205,6 +203,7 @@ webui.@THEME@.widget.button.prototype.onFocusCallback = function(event) {
  * <p>
  * Note: Unlike Dojo 0.4, the DOM nodes don't exist in the document, yet. 
  * </p>
+ * @return {boolean} true if successful; otherwise, false.
  */
 webui.@THEME@.widget.button.prototype.postCreate = function () {
     // Set ids.
@@ -268,6 +267,7 @@ webui.@THEME@.widget.button.prototype.postCreate = function () {
  * @config {String} [value] Value of input.
  * @config {boolean} [visible] Hide or show element.
  * @param {boolean} notify Publish an event for custom AJAX implementations to listen for.
+ * @return {boolean} true if successful; otherwise, false.
  */
 webui.@THEME@.widget.button.prototype.setProps = function(props, notify) {
     // Note: This function is overridden for JsDoc.
@@ -283,6 +283,7 @@ webui.@THEME@.widget.button.prototype.setProps = function(props, notify) {
  * </p>
  *
  * @param {Object} props Key-Value pairs of properties.
+ * @return {boolean} true if successful; otherwise, false.
  * @private
  */
 webui.@THEME@.widget.button.prototype._setProps = function(props) {

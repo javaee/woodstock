@@ -21,26 +21,16 @@
 // Copyright 2007 Sun Microsystems, Inc. All rights reserved.
 //
 
-/**
- * @name widget/popupMenu.js
- * @version @THEME_VERSION@
- * @overview This module contains classes and functions for the popupMenu widget.
- * @example The following code is used to create a popupMenu widget.
- * <p><code>
- * var widget = new webui.@THEME@.widget.popupMenu(props, domNode);
- * </code></p>
- */
 dojo.provide("webui.@THEME@.widget.popupMenu");
 
 dojo.require("webui.@THEME@.common");
 dojo.require("webui.@THEME@.widget.menuBase");
 
 /**
- * This function is used to construct a template based widget.
- *
  * @name webui.@THEME@.widget.popupMenu
- * @inherits webui.@THEME@.widget.menuBase
- * @constructor
+ * @extends webui.@THEME@.widget.menuBase
+ * @class This class contains functions for the popupMenu widget.
+ * @constructor This function is used to construct a popupMenu widget.
  */
 dojo.declare("webui.@THEME@.widget.popupMenu", webui.@THEME@.widget.menuBase, {
     // Set defaults.
@@ -49,6 +39,8 @@ dojo.declare("webui.@THEME@.widget.popupMenu", webui.@THEME@.widget.menuBase, {
 
 /**
  * Close the menu. Sets the visibility to false.
+ *
+ * @return {boolean} false to cancel the JavaScript event.
  */
 webui.@THEME@.widget.popupMenu.prototype.close = function() {
     if (webui.@THEME@.common.isVisibleElement(this.domNode)) {
@@ -58,19 +50,18 @@ webui.@THEME@.widget.popupMenu.prototype.close = function() {
 }
 
 /**
- * This closure contains event topics.
+ * This object contains event topics.
  * <p>
  * Note: Event topics must be prototyped for inherited functions. However, these
  * topics must also be available statically so that developers may subscribe to
  * events.
  * </p>
- *
  * @ignore
  */
-webui.@THEME@.widget.popupMenu.prototype.event =
-        webui.@THEME@.widget.popupMenu.event = {
+webui.@THEME@.widget.popupMenu.event =
+        webui.@THEME@.widget.popupMenu.prototype.event = {
     /**
-     * This closure contains refresh event topics.
+     * This object contains refresh event topics.
      * @ignore
      */
     refresh: {
@@ -82,7 +73,7 @@ webui.@THEME@.widget.popupMenu.prototype.event =
     },
 
     /**
-     * This closure contains state event topics.
+     * This object contains state event topics.
      * @ignore
      */
     state: {
@@ -94,7 +85,7 @@ webui.@THEME@.widget.popupMenu.prototype.event =
     },
 
     /**
-     * This closure contains submit event topics.
+     * This object contains submit event topics.
      * @ignore
      */
     submit: {
@@ -110,6 +101,7 @@ webui.@THEME@.widget.popupMenu.prototype.event =
  * Helper function to create callback to close menu.
  *
  * @param {Event} event The JavaScript event.
+ * @return {boolean} true if successful; otherwise, false.
  */
 webui.@THEME@.widget.popupMenu.prototype.onCloseMenuCallBack = function(event) {
     // Capture the click and see whether it falls within the boundary of the menu
@@ -125,7 +117,7 @@ webui.@THEME@.widget.popupMenu.prototype.onCloseMenuCallBack = function(event) {
         
     // If key pressed and it's NOT the escape key, do NOT cancel.
     if ((evt.type == "keydown") && (evt.keyCode != 27)) {
-        return;
+        return false;
     }
         
     // If the event occured on the menu, do NOT cancel.
@@ -133,7 +125,7 @@ webui.@THEME@.widget.popupMenu.prototype.onCloseMenuCallBack = function(event) {
     // Cannot use 
     while (target != null) {
         if (target.className == "Menu@THEME_CSS@") {
-            return;
+            return false;
         }
         target = target.parentNode;
     }
@@ -176,6 +168,7 @@ webui.@THEME@.widget.popupMenu.prototype.onCloseMenuCallBack = function(event) {
  * at if one is not already provided by the developer.
  *
  * @param {Event} event The JavaScript event.
+ * @return {boolean} true if successful; otherwise, false.
  */
 webui.@THEME@.widget.popupMenu.prototype.open = function(event) {
     // Only one menu can be open at a time. Hence, close the previous menu.
@@ -321,6 +314,7 @@ webui.@THEME@.widget.popupMenu.prototype.open = function(event) {
  * <p>
  * Note: Unlike Dojo 0.4, the DOM nodes don't exist in the document, yet. 
  * </p>
+ * @return {boolean} true if successful; otherwise, false.
  */
 webui.@THEME@.widget.popupMenu.prototype.postCreate = function () {
     // Set public functions.
@@ -347,6 +341,7 @@ webui.@THEME@.widget.popupMenu.prototype.postCreate = function () {
  * Override the "super class" processOnClickEvent functionality and close the menu.
  *
  * @param {String} value The selected value.
+ * @return {boolean} true if successful; otherwise, false.
  */
 webui.@THEME@.widget.popupMenu.prototype.processOnClickEvent = function(value) {
     this.inherited("processOnClickEvent", arguments);
@@ -360,6 +355,7 @@ webui.@THEME@.widget.popupMenu.prototype.processOnClickEvent = function(value) {
  * @param {String} execute The string containing a comma separated list 
  * of client ids against which the execute portion of the request 
  * processing lifecycle must be run.
+ * @return {boolean} true if successful; otherwise, false.
  */
 webui.@THEME@.widget.popupMenu.prototype.submit = function(execute) {
     // Include default AJAX implementation.

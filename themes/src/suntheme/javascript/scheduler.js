@@ -21,17 +21,13 @@
 // Copyright 2007 Sun Microsystems, Inc. All rights reserved.
 //
 
-/**
- * @name scheduler.js
- * @version @THEME_VERSION@
- * @overview This module contains functions for scheduler components.
- */
 dojo.provide("webui.@THEME@.scheduler");
 
 dojo.require("webui.@THEME@.formElements");
 
 /** 
- * This closure contains functions for scheduler components.
+ * @class This class contains functions for scheduler components.
+ * @static
  */
 webui.@THEME@.scheduler = {
     /**
@@ -51,6 +47,7 @@ webui.@THEME@.scheduler = {
      * @config {String} [edgeSelectedClass]
      * @config {String} [todayClass]
      * @config {String} [dateFormat]
+     * @return {boolean} true if successful; otherwise, false.
      */
     init: function(props) {
         if (props == null || props.id == null) {
@@ -74,9 +71,11 @@ webui.@THEME@.scheduler = {
     },
 
     /**
+     * Set selected link.
      *
      * @param {String} value
      * @param {Node} link
+     * @return {boolean} true if successful; otherwise, false.
      */
     setDateValue: function(value, link) {
         webui.@THEME@.field.setValue(this.dateFieldId, value); 
@@ -84,8 +83,10 @@ webui.@THEME@.scheduler = {
     },
 
     /**
+     * Set selected.
      *
      * @param {Node} link
+     * @return {boolean} true if successful; otherwise, false.
      */
     setSelected: function(link) {
         if (link == null) {
@@ -129,6 +130,7 @@ webui.@THEME@.scheduler = {
      * Find out if date is today's date.
      *
      * @param {Object} date
+     * @return {boolean} true if date is today.
      */
     isToday: function(date) {
         var todaysDate = new Date();

@@ -21,26 +21,16 @@
 // Copyright 2007 Sun Microsystems, Inc. All rights reserved.
 //
 
-/**
- * @name widget/accordion.js
- * @version @THEME_VERSION@
- * @overview This module contains classes and functions for the accordion widget.
- * @example The following code is used to create a accordion widget.
- * <p><code>
- * var widget = new webui.@THEME@.widget.accordion(props, domNode);
- * </code></p>
- */
 dojo.provide("webui.@THEME@.widget.accordion");
 
 dojo.require("webui.@THEME@.widget.accordionTab");
 dojo.require("webui.@THEME@.widget.widgetBase");
 
 /**
- * This function is used to construct a template based widget.
- *
  * @name webui.@THEME@.widget.accordion
- * @inherits webui.@THEME@.widget.widgetBase
- * @constructor
+ * @extends webui.@THEME@.widget.widgetBase
+ * @class This class contains functions for the accordion widget.
+ * @constructor This function is used to construct an accordion widget.
  */
 dojo.declare("webui.@THEME@.widget.accordion", webui.@THEME@.widget.widgetBase, {
     // Set defaults.
@@ -60,7 +50,8 @@ dojo.declare("webui.@THEME@.widget.accordion", webui.@THEME@.widget.widgetBase, 
  * @config {Object} [isRefreshIcon] 
  * @config {Object} [multipleSelect] 
  * @config {Object} [refreshImage] 
- * @config {Object} [toggleControls] 
+ * @config {Object} [toggleControls]
+ * @return {boolean} true if successful; otherwise, false.
  */
 webui.@THEME@.widget.accordion.prototype.addControls = function(props) {       
     // Add expand and collapse icons only if multiple select is set to
@@ -97,6 +88,7 @@ webui.@THEME@.widget.accordion.prototype.addControls = function(props) {
  * Close all open accordions and leave the others as is.
  *
  * @param {Event} event The JavaScript event.
+ * @return {boolean} true if successful; otherwise, false.
  */
 webui.@THEME@.widget.accordion.prototype.collapseAllTabs = function(event) {
     // Iterate over all tabs.
@@ -110,19 +102,18 @@ webui.@THEME@.widget.accordion.prototype.collapseAllTabs = function(event) {
 }
 
 /**
- * This closure contains event topics.
+ * This object contains event topics.
  * <p>
  * Note: Event topics must be prototyped for inherited functions. However, these
  * topics must also be available statically so that developers may subscribe to
  * events.
  * </p>
- *
  * @ignore
  */
-webui.@THEME@.widget.accordion.prototype.event =
-        webui.@THEME@.widget.accordion.event = {
+webui.@THEME@.widget.accordion.event = 
+        webui.@THEME@.widget.accordion.prototype.event = {
     /**
-     * This closure contains refresh event topics.
+     * This object contains refresh event topics.
      * @ignore
      */
     refresh: {
@@ -134,7 +125,7 @@ webui.@THEME@.widget.accordion.prototype.event =
     },
 
     /**
-     * This closure contains state event topics.
+     * This object contains state event topics.
      * @ignore
      */
     state: {
@@ -150,6 +141,7 @@ webui.@THEME@.widget.accordion.prototype.event =
  * Open all closed tabs and leave the others as is.
  *
  * @param {Event} event The JavaScript event.
+ * @return {boolean} true if successful; otherwise, false.
  */
 webui.@THEME@.widget.accordion.prototype.expandAllTabs = function(event) {
     // Iterate over all tabs.
@@ -165,6 +157,8 @@ webui.@THEME@.widget.accordion.prototype.expandAllTabs = function(event) {
 /**
  * This function is used to get widget properties. Please see the 
  * setProps() function for a list of supported properties.
+ *
+ * @return {Object} Key-Value pairs of properties.
  */
 webui.@THEME@.widget.accordion.prototype.getProps = function() {
     var props = this.inherited("getProps", arguments);
@@ -190,6 +184,7 @@ webui.@THEME@.widget.accordion.prototype.getProps = function() {
  * Note: Selectors should be concatinated in order of precedence (e.g., the
  * user's className property is always appended last).
  * </p>
+ * @return {String} The outermost HTML element class name.
  */
 webui.@THEME@.widget.accordion.prototype.getClassName = function() {
     // Get theme property.
@@ -205,6 +200,7 @@ webui.@THEME@.widget.accordion.prototype.getClassName = function() {
  * <p>
  * Note: Unlike Dojo 0.4, the DOM nodes don't exist in the document, yet. 
  * </p>
+ * @return {boolean} true if successful; otherwise, false.
  */
 webui.@THEME@.widget.accordion.prototype.postCreate = function () {
     with (this.domNode.style) {
@@ -311,6 +307,7 @@ webui.@THEME@.widget.accordion.prototype.postCreate = function () {
  * @config {String} [type] 
  * @config {boolean} [visible] Hide or show element.
  * @param {boolean} notify Publish an event for custom AJAX implementations to listen for.
+ * @return {boolean} true if successful; otherwise, false.
  */
 webui.@THEME@.widget.accordion.prototype.setProps = function(props, notify) {
     if (props == null) {
@@ -334,6 +331,7 @@ webui.@THEME@.widget.accordion.prototype.setProps = function(props, notify) {
  * be invoked via setProps().
  * </p>
  * @param {Object} props Key-Value pairs of properties.
+ * @return {boolean} true if successful; otherwise, false.
  * @private
  */
 webui.@THEME@.widget.accordion.prototype._setProps = function(props) {
@@ -372,6 +370,7 @@ webui.@THEME@.widget.accordion.prototype._setProps = function(props) {
  *
  * @param props Key-Value pairs of properties.
  * @config {String} [id] The id of the selected tab.
+ * @return {boolean} true if successful; otherwise, false.
  */
 webui.@THEME@.widget.accordion.prototype.tabSelected = function(props) {
     var widget = null;
