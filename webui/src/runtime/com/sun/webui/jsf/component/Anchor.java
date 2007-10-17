@@ -291,13 +291,13 @@ public class Anchor extends WebuiComponent implements ComplexComponent,
     }
     
     /**
-     * <p>The MIME content type of the resource specified by this component.</p>
+     * <p>The MIME content type of the resource specified by the anchor component.</p>
      */
     @Property(name="type", displayName="Type", category="Advanced")
     private String type = null;
 
     /**
-     * <p>The MIME content type of the resource specified by this component.</p>
+     * <p>The MIME content type of the resource specified by the anchor component.</p>
      */
     public String getType() {
         if (this.type != null) {
@@ -311,7 +311,7 @@ public class Anchor extends WebuiComponent implements ComplexComponent,
     }
 
     /**
-     * <p>The MIME content type of the resource specified by this component.</p>
+     * <p>The MIME content type of the resource specified by the anchor component.</p>
      * @see #getType()
      */
     public void setType(String type) {
@@ -321,7 +321,7 @@ public class Anchor extends WebuiComponent implements ComplexComponent,
     /**
      * <p>Absolute, relative, or context relative (starting with "/") URL to the 
      * resource selected by this anchor. If the url attribute is specified, 
-     * clicking this anchor sends the browser to the new location.
+     * clicking the anchor sends the browser to the new location.
      * If UIParameter components are specified as child to the anchor component,
      * then the renderer processes these name value pairs of the UIParameter components
      * and appends them as query parameters to the specified url. 
@@ -333,7 +333,7 @@ public class Anchor extends WebuiComponent implements ComplexComponent,
     /**
      * <p>Absolute, relative, or context relative (starting with "/") URL to the 
      * resource selected by this anchor. If the url attribute is specified, 
-     * clicking this anchor sends the browser to the new location.
+     * clicking the anchor sends the browser to the new location.
      * If UIParameter components are specified as child to the anchor component,
      * then the renderer processes these name value pairs of the UIParameter components
      * and appends them as query parameters to the specified url. 
@@ -353,7 +353,7 @@ public class Anchor extends WebuiComponent implements ComplexComponent,
     /**
      * <p>Absolute, relative, or context relative (starting with "/") URL to the 
      * resource selected by this anchor. If the url attribute is specified, 
-     * clicking this anchor sends the browser to the new location.
+     * clicking the anchor sends the browser to the new location.
      * If UIParameter components are specified as child to the anchor component,
      * then the renderer processes these name value pairs of the UIParameter components
      * and appends them as query parameters to the specified url. 
@@ -608,26 +608,26 @@ public class Anchor extends WebuiComponent implements ComplexComponent,
     }
 
     /**
-     * <p>Scripting code executed when a mouse click occurs over this component.
+     * <p>Scripting code that is executed when a mouse click occurs over this component.
      * If the component submits the form (by using the action attribute), the 
      * script that you use with the onClick attribute should not return from 
      * the function. When the action attribute is used, the component handles the 
      * return with a script that is appended to the anchor element's onclick 
      * property. When you supply an onClick attribute, this return script is 
-     * appended after your script in the anchor's onclick. It is ok to return 
+     * appended after your script in the anchor's onclick. You can return 
      * from your script to abort the submit process if necessary.</p>
      */
     @Property(name="onClick", displayName="Click Script", category="Javascript", editorClassName="com.sun.rave.propertyeditors.JavaScriptPropertyEditor")
     private String onClick = null;
 
     /**
-     * <p>Scripting code executed when a mouse click occurs over this component.
+     * <p>Scripting code that is executed when a mouse click occurs over this component.
      * If the component submits the form (by using the action attribute), the 
      * script that you use with the onClick attribute should not return from 
      * the function. When the action attribute is used, the component handles the 
      * return with a script that is appended to the anchor element's onclick 
      * property. When you supply an onClick attribute, this return script is 
-     * appended after your script in the anchor's onclick. It is ok to return 
+     * appended after your script in the anchor's onclick. You can return 
      * from your script to abort the submit process if necessary.</p>
      */
     public String getOnClick() {
@@ -642,13 +642,13 @@ public class Anchor extends WebuiComponent implements ComplexComponent,
     }
 
     /**
-     * <p>Scripting code executed when a mouse click occurs over this component.
+     * <p>Scripting code that is executed when a mouse click occurs over this component.
      * If the component submits the form (by using the action attribute), the 
      * script that you use with the onClick attribute should not return from 
      * the function. When the action attribute is used, the component handles the 
      * return with a script that is appended to the anchor element's onclick 
      * property. When you supply an onClick attribute, this return script is 
-     * appended after your script in the anchor's onclick. It is ok to return 
+     * appended after your script in the anchor's onclick. You can return 
      * from your script to abort the submit process if necessary.</p>
      * @see #getOnClick()
      */
@@ -680,7 +680,7 @@ public class Anchor extends WebuiComponent implements ComplexComponent,
     }
 
     /**
-     * <p>Scripting code executed when a mouse double click
+     * <p>Scripting code that is executed when a mouse double click
      * occurs over this component.</p>
      * @see #getOnDblClick()
      */
@@ -689,7 +689,7 @@ public class Anchor extends WebuiComponent implements ComplexComponent,
     }
 
     /**
-     * <p>Scripting code executed when this component  receives focus. An
+     * <p>Scripting code that is executed when the anchor component  receives focus. An
      * element receives focus when the user selects the element by pressing
      * the tab key or clicking the mouse.</p>
      */
@@ -697,7 +697,7 @@ public class Anchor extends WebuiComponent implements ComplexComponent,
     private String onFocus = null;
 
     /**
-     * <p>Scripting code executed when this component  receives focus. An
+     * <p>Scripting code that is executed when the anchor component  receives focus. An
      * element receives focus when the user selects the element by pressing
      * the tab key or clicking the mouse.</p>
      */
@@ -713,7 +713,7 @@ public class Anchor extends WebuiComponent implements ComplexComponent,
     }
 
     /**
-     * <p>Scripting code executed when this component  receives focus. An
+     * <p>Scripting code that is executed when the anchor component  receives focus. An
      * element receives focus when the user selects the element by pressing
      * the tab key or clicking the mouse.</p>
      * @see #getOnFocus()
@@ -723,14 +723,14 @@ public class Anchor extends WebuiComponent implements ComplexComponent,
     }
 
     /**
-     * <p>Scripting code executed when the user presses down on a key while the
+     * <p>Scripting code that is executed when the user presses down on a key while the anchor
      * component has focus.</p>
      */
     @Property(name="onKeyDown", displayName="Key Down Script", category="Javascript", editorClassName="com.sun.rave.propertyeditors.JavaScriptPropertyEditor")
     private String onKeyDown = null;
 
     /**
-     * <p>Scripting code executed when the user presses down on a key while the
+     * <p>Scripting code that is executed when the user presses down on a key while the anchor
      * component has focus.</p>
      */
     public String getOnKeyDown() {
@@ -745,7 +745,7 @@ public class Anchor extends WebuiComponent implements ComplexComponent,
     }
 
     /**
-     * <p>Scripting code executed when the user presses down on a key while the
+     * <p>Scripting code thta is executed when the user presses down on a key while the anchor
      * component has focus.</p>
      * @see #getOnKeyDown()
      */
@@ -754,14 +754,14 @@ public class Anchor extends WebuiComponent implements ComplexComponent,
     }
 
     /**
-     * <p>Scripting code executed when the user presses and releases a key while
+     * <p>Scripting code that is executed when the user presses and releases a key while
      * the component has focus.</p>
      */
     @Property(name="onKeyPress", displayName="Key Press Script", category="Javascript", editorClassName="com.sun.rave.propertyeditors.JavaScriptPropertyEditor")
     private String onKeyPress = null;
 
     /**
-     * <p>Scripting code executed when the user presses and releases a key while
+     * <p>Scripting code that is executed when the user presses and releases a key while
      * the component has focus.</p>
      */
     public String getOnKeyPress() {
@@ -776,7 +776,7 @@ public class Anchor extends WebuiComponent implements ComplexComponent,
     }
 
     /**
-     * <p>Scripting code executed when the user presses and releases a key while
+     * <p>Scripting code that is executed when the user presses and releases a key while
      * the component has focus.</p>
      * @see #getOnKeyPress()
      */
@@ -999,14 +999,14 @@ public class Anchor extends WebuiComponent implements ComplexComponent,
 
     /**
      *<p>This attribute assigns an access key to an element. An access key 
-     * is a single character from the document character set./p>
+     * is a single character from the document character set.</p>
      */        
     @Property(name="accessKey", displayName="AccessKey", category="Advanced")    
     private String accessKey = null;
 
     /**
      *<p>This attribute assigns an access key to an element. An access key 
-     * is a single character from the document character set./p>
+     * is a single character from the document character set.</p>
      */          
     public String getAccessKey() {
         if (this.accessKey != null) {
@@ -1021,21 +1021,21 @@ public class Anchor extends WebuiComponent implements ComplexComponent,
 
     /**
      *<p>This attribute assigns an access key to an element. An access key 
-     * is a single character from the document character set./p>
+     * is a single character from the document character set.</p>
      */        
     public void setAccessKey (String accessKey) {
         this.accessKey = accessKey;
     }
 
     /**
-     * <p>CSS style(s) to be applied to the outermost HTML element when this 
+     * <p>CSS style or styles to be applied to the outermost HTML element when this 
      * component is rendered.</p>
      */
     @Property(name="style", displayName="CSS Style(s)", category="Appearance", editorClassName="com.sun.jsfcl.std.css.CssStylePropertyEditor")
     private String style = null;
 
     /**
-     * <p>CSS style(s) to be applied to the outermost HTML element when this 
+     * <p>CSS style or styles to be applied to the outermost HTML element when this 
      * component is rendered.</p>
      */
     public String getStyle() {
@@ -1050,7 +1050,7 @@ public class Anchor extends WebuiComponent implements ComplexComponent,
     }
 
     /**
-     * <p>CSS style(s) to be applied to the outermost HTML element when this 
+     * <p>CSS style or styles to be applied to the outermost HTML element when this 
      * component is rendered.</p>
      * @see #getStyle()
      */
@@ -1059,14 +1059,14 @@ public class Anchor extends WebuiComponent implements ComplexComponent,
     }
 
     /**
-     * <p>CSS style class(es) to be applied to the outermost HTML element when
+     * <p>CSS style class or classes to be applied to the outermost HTML element when
      * this component is rendered.</p>
      */
     @Property(name="styleClass", displayName="CSS Style Class(es)", category="Appearance", editorClassName="com.sun.rave.propertyeditors.StyleClassPropertyEditor")
     private String styleClass = null;
 
     /**
-     * <p>CSS style class(es) to be applied to the outermost HTML element when
+     * <p>CSS style class or classes to be applied to the outermost HTML element when
      * this component is rendered.</p>
      */
     public String getStyleClass() {
@@ -1081,7 +1081,7 @@ public class Anchor extends WebuiComponent implements ComplexComponent,
     }
 
     /**
-     * <p>CSS style class(es) to be applied to the outermost HTML element when
+     * <p>CSS style class or classes to be applied to the outermost HTML element when
      * this component is rendered.</p>
      * @see #getStyleClass()
      */
@@ -1090,13 +1090,13 @@ public class Anchor extends WebuiComponent implements ComplexComponent,
     }
     
     /**
-     * Alternative HTML template to be used by this component.
+     * Get alternative HTML template to be used by the anchor component.
      */
     @Property(name="htmlTemplate", isHidden=true, isAttribute=true, displayName="HTML Template", category="Appearance")
     private String htmlTemplate = null;
 
     /**
-     * Get alternative HTML template to be used by this component.
+     * Get alternative HTML template to be used by the anchor component.
      */
     public String getHtmlTemplate() {
         if (this.htmlTemplate != null) {
@@ -1110,14 +1110,14 @@ public class Anchor extends WebuiComponent implements ComplexComponent,
     }
     
     /**
-     * Set alternative HTML template to be used by this component.
+     * Get alternative HTML template to be used by the anchor component.
      */
     public void setHtmlTemplate(String htmlTemplate) {
         this.htmlTemplate = htmlTemplate;
     }
     
     /**
-     * <p>Flag indicating that clicking of this component by the user is not
+     * <p>Flag indicating that clicking this component by the user is not
      * currently permitted. </p>
      */
     @Property(name="disabled", displayName="Disabled", category="Behavior")
@@ -1125,8 +1125,8 @@ public class Anchor extends WebuiComponent implements ComplexComponent,
     private boolean disabled_set = false;
 
     /**
-     * <p>Flag indicating that activation of this component by the user is not
-     * currently permitted.</p>
+     * <p>Flag indicating that clicking this component by the user is not
+     * currently permitted. </p>
      */
     public boolean isDisabled() {
         if (this.disabled_set) {
@@ -1145,8 +1145,9 @@ public class Anchor extends WebuiComponent implements ComplexComponent,
     }
 
     /**
-     * <p>Flag indicating that activation of this component by the user is not
-     * currently permitted.</p>
+     * <p>Flag indicating that clicking this component by the user is not
+     * currently permitted. </p>
+     *
      * @see #isDisabled()
      */
     public void setDisabled(boolean disabled) {

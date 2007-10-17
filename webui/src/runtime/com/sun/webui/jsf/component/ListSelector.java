@@ -791,8 +791,8 @@ public class ListSelector extends Selector implements ListManager,
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
     /**
-     * <p>If this attribute is true, the label is rendered above the
-     * component. If it is false, the label is rendered next to the
+     * <p>If true, the label is rendered above the
+     * component. If false, the label is rendered next to the
      * component. The default is false.</p>
      */
     @Property(name="labelOnTop", displayName="Label on Top", category="Appearance")
@@ -800,8 +800,8 @@ public class ListSelector extends Selector implements ListManager,
     private boolean labelOnTop_set = false;
 
     /**
-     * <p>If this attribute is true, the label is rendered above the
-     * component. If it is false, the label is rendered next to the
+     * <p>If true, the label is rendered above the
+     * component. If false, the label is rendered next to the
      * component. The default is false.</p>
      */
     public boolean isLabelOnTop() {

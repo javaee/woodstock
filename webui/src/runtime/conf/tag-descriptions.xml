@@ -186,26 +186,26 @@ The following code is from the Accordion used in the examples.
  one list to the other, and can be moved up and down in the list until the user 
  is satisfied with the list of selected items. </p>
  <p>
- Another component, the editableList, also allows users to manipulate lists. 
+ Another component, the editableList, also enables users to manipulate lists. 
  However, the editableList is designed to allow users to provide their own list 
- items, and does not allow users to change the order of the items after being 
+ items. Users cannot change the order of the items after they have been
  added to the list.  </p>
  <h3>HTML Elements and Layout</h3>
  <p>
  The addRemove component renders two listboxes, one for available options and one for
- selected options. Between the lists are buttons that are used to move
+ selected options. Buttons are used to move
  the options between the lists, and optionally to order the selected options. </p>
  <p>
- The addRemove component is laid out with a horizontal layout by
+ The addRemove component has a horizontal layout by
  default, as shown in the <a href="#horizontal">Horizontal layout</a> diagram.
- The component is rendered in a vertical layout, as shown in the <a
-  href="#vertical">Vertical layout</a> diagram, if you set the <code>webuijsf:addRemove</code> 
- tag's <code>vertical</code> attribute to true. In both diagrams, the
+ If you set the <code>webuijsf:addRemove</code>  tag's <code>vertical</code> attribute
+ to true, the component is rendered in a vertical layout, as shown in the <a
+  href="#vertical">Vertical layout</a> diagram. In both diagrams, the
  supported facets are shown in light blue. Non-facet areas
  are gray. The facets are described in <a href="#facets">Facets</a> section.</p>
  <h4><a name="horizontal"></a>Horizontal layout</h4>
  <p>    
- In horizontal layout, the component label (or header) is displayed next to the
+ In the horizontal layout, the component label (or header) is displayed next to the
  component by default. The <code>header</code> facet shows the location of the 
  component label in the diagram. The header is displayed above the component when 
  the <code>webuijsf:addRemove</code> tag's <code>labelOnTop</code> attribute is
@@ -279,7 +279,7 @@ The following code is from the Accordion used in the examples.
  </div> 
  <hr style="height: 2px; margin-left: 0px; margin-right: auto; width: 100%;">
  <h4><a name="vertical"></a>Vertical layout</h4>
- In vertical layout, the component label (header) is always displayed above the 
+ In the vertical layout, the component label (header) is always displayed above the 
  component.
  <br>
  <div id="addremove1:list_enclosing">
@@ -348,13 +348,13 @@ The following code is from the Accordion used in the examples.
  of the value of the <code>labelOnTop</code> attribute.</p>
  <p>By default, only the Add and Remove buttons are displayed. You can use the
  <code>moveButtons</code> attribute to render the Move Up and Move Down buttons, 
- to enable users to specify the order of selected list items by moving them up or 
+ which enable users to specify the order of selected list items by moving them up or 
  down in the list. You can use the <code>selectAll</code> attribute to render the 
- Add All and Remove All buttons to enable users to quickly move all items from 
- one list to the other list. In addition, any of the buttons can be replaced
+ Add All and Remove All buttons so that the users can quickly move all items from 
+ one list to another. In addition, any of the buttons can be replaced
  with a facet, as described in <a href="#facets">Facets</a>.</p>
- <p>You can enable users to add available list items to the selected 
- list more than once by setting the <code>duplicateSelections</code> attribute.
+ <p>If you want the user to be able to add available list items to the selected
+ list more than once set the <code>duplicateSelections</code> attribute.
  When this attribute is true, items remain displayed in the available
  items list after they have been added to the selected items list. The default
  behavior is to remove an item from one list when it is added to the other list.
@@ -371,8 +371,8 @@ The following code is from the Accordion used in the examples.
        <td style="vertical-align: top;"><code>addButton</code></td>
        <td style="vertical-align: top;">Use the <code>addButton</code> facet 
        to replace the standard Add
- button. When you use this facet, the id attribute of the facet component
- should be set to the <code>webuijsf:addRemove</code> tag's id attribute with <code>_addButton</code>
+ button. When you use this facet, set the id attribute of the facet component
+ to the <code>webuijsf:addRemove</code> tag's id attribute with <code>_addButton</code>
  appended to the id. For example, if the <code>webuijsf:addRemove</code> id is <code>ar1</code>,
  the facet component's id should be <code>ar1_addButton</code>. <br>
        <br>
@@ -384,8 +384,8 @@ The following code is from the Accordion used in the examples.
        <td style="vertical-align: top;"><code>removeButton</code></td>
        <td style="vertical-align: top;">Use the <code>removeButton</code> facet 
        to replace the standard Remove 
-       button. When you use this facet, the id attribute of the facet component 
-       should be set to the <code>webuijsf:addRemove</code> tag's id attribute with 
+       button. When you use this facet, set the id attribute of the facet component 
+       to the <code>webuijsf:addRemove</code> tag's id attribute with 
        <code>_removeButton</code> appended to the id. For example, if
        the <code>webuijsf:addRemove</code> id is <code>ar1</code>, the facet
        component's id should be <code>ar1_removeButton</code>. <br>
@@ -396,8 +396,8 @@ The following code is from the Accordion used in the examples.
      <tr>
        <td style="vertical-align: top;"><code>addAllButton</code></td>
        <td style="vertical-align: top;">Use the <code>addAllButton</code>facet to replace the standard Add
- All button. When you use this facet, the id
- attribute of the facet component should be set to
+ All button. When you use this facet, set the id
+ attribute of the facet component to
  the <code>webuijsf:addRemove</code> tag's id attribute with <code>_addAllButton</code>
  appended to the id. For example, if
  the <code>webuijsf:addRemove</code> id is <code>ar1</code>,
@@ -405,15 +405,15 @@ The following code is from the Accordion used in the examples.
        <br>
  If you want to use
  the JavaScript function associated with the default button, use the <code>
- addAll()</code> function. See <a href="#JS">Client-side JavaScript Functions</a> 
+ addAll()</code> function. See <a href="#JS">Client-Side JavaScript Functions</a> 
  below for details.</td>
      </tr>
      <tr>
        <td style="vertical-align: top;"> <code>removeAllButton</code></td>
        <td style="vertical-align: top;">Use the <code>removeAllButton</code>facet 
        to replace the standard
- Remove All button. When you use this facet, the id
- attribute of the facet component should be set to
+ Remove All button. When you use this facet,set the id
+ attribute of the facet component to
  the <code>webuijsf:addRemove</code> tag's id attribute with <code>_removeAllButton</code>
  appended to the id. For example, if the <code>webuijsf:addRemove</code> id is <code>ar1</code>,
  the facet component's id should be <code>ar1_removeAllButton</code>.
@@ -421,14 +421,14 @@ The following code is from the Accordion used in the examples.
        <br>
  If you want to use the
  JavaScript function associated with the default button, use the 
- <code>removeAll()</code> function. See <a href="#JS">Client-side
+ <code>removeAll()</code> function. See <a href="#JS">Client-Side
  JavaScript Functions</a> below for details.</td>
      </tr>
      <tr>
        <td style="vertical-align: top;"><code>moveUpButton</code></td>
        <td style="vertical-align: top;">Use the <code>moveUpButton</code>facet 
-       to replace the standard Move Up button. When you use this facet, the id
-       attribute of the facet component should be set to
+       to replace the standard Move Up button. When you use this facet,set the id
+       attribute of the facet component to
        the <code>webuijsf:addRemove</code> tag's id attribute with <code>_moveUpButton</code>
        appended to the id. For example, if
        the <code>webuijsf:addRemove</code> id is <code>ar1</code>,
@@ -436,20 +436,20 @@ The following code is from the Accordion used in the examples.
        <br>
        If you want to use the
        JavaScript function associated with the default button, use the <code>
-       moveUp()</code> function. See <a href="#JS">Client-side JavaScript Functions</a> 
+       moveUp()</code> function. See <a href="#JS">Client-Side JavaScript Functions</a> 
        below for details.</td>
      </tr>
      <tr>
        <td style="vertical-align: top;"> <code>moveDownButton</code></td>
        <td style="vertical-align: top;">
        Use the <code>moveDownButton</code> facet to replace the standard Move
- Down button. When you use this facet, the id attribute of the facet component should be set to
+ Down button. When you use this facet,set the id attribute of the facet component to
  the <code>webuijsf:addRemove</code> tag's id attribute with <code>_moveDownButton</code>
  appended to the id. For example, if the <code>webuijsf:addRemove</code> id is <code>ar1</code>,
  the facet component's id should be <code>ar1_moveDownButton</code>. <br>
        <br>
  If you want to use the JavaScript function associated with the default button, use the <code>
- moveDown()</code> function. See <a href="#JS">Client-side JavaScript Functions</a> 
+ moveDown()</code> function. See <a href="#JS">Client-Side JavaScript Functions</a> 
  below for details.</td>
      </tr>
      <tr>
@@ -469,12 +469,12 @@ The following code is from the Accordion used in the examples.
  </table>
  <h3>Theme Identifiers</h3>
  <p>None.</p>
- <h3><a name="JS"></a>Client-side JavaScript Functions</h3>
- <p>When the component is rendered, a DOM object corresponding to the
+ <h3><a name="JS"></a>Client-Side JavaScript Functions</h3>
+ <p>When the AddRemove component is rendered, a DOM object corresponding to the
  component is created. To manipulate the component on the client side,
- you may invoke functions on the DOM object. With reference to the DOM
- id, to add all elements on the available list that the user has
- selected, invoke <code>document.getElementById(id).add()</code>. 
+ you can call functions on the DOM object. To add elements on the available list,
+ call  <code>document.getElementById(id).add()</code> where "id" is the DOM id of the
+ AddRemove element.
  </p> 
     <table style="text-align: left; width: 100%;" border="1"
   cellpadding="2" cellspacing="2">
@@ -520,7 +520,7 @@ The following code is from the Accordion used in the examples.
      </tr>
    </tbody>
  </table>
- <h3>Examples</h3>
+ <h3>Code Examples</h3>
  <h4>Example 1: Horizontal AddRemove Component</h4>    
  <p>In this example, the component gets the list options from a managed bean called
  AirportBean. The selections are stored in another managed bean
@@ -544,7 +544,7 @@ The following code is from the Accordion used in the examples.
                        labelOnTop="false"/&gt;
  </pre>
  <h4>Example 2: Vertical AddRemove Component</h4>
- <p>This example is similar to the previous example, with the following 
+ <p>This example is similar to the previous example- with the following 
  exceptions: The component is rendered using vertical layout (in this case, the main
  component label is always rendered above the component). 
  The <code>moveButtons</code> attribute indicates that the
@@ -1420,7 +1420,7 @@ update components server-side: refresh("form1:id1,form2:id2,...")<br>
         <description><![CDATA[
 <p> Use the <code>webuijsf:anchor</code> tag to </p>
 <ul>
-  <li> Create an anchor that traverses to the specified url.</li>
+  <li> Create an anchor that traverses to the specified URL.</li>
   <li> Anchor a position in the page so that you can jump to it.</li>
 </ul>
 <p>The value of the id attribute of the rendered anchor element will be
@@ -1432,12 +1432,15 @@ component's client id.
 This means that the component id must be unique in the page and not
 just
 unique within the closest NamingContainer. </p>
+
+<h3>Facets</h3>
+<p>None</p>
 <p> </p>
 <h3>Client Side Javascript Functions</h3>
 When the component is rendered, a DOM object corresponding to the
 component is created. To manipulate the component on the client side,
-you may invoke functions on the DOM object. With reference to the DOM
-id, to disable the component, invoke <code>document.getElementById(id).setProps({disabled:
+you can call functions on the DOM object. To disable the component, 
+invoke <code>document.getElementById(id).setProps({disabled:
 true})</code>.<br>
 <br>
 <table style="text-align: left; width: 100%;" border="1" cellpadding="2"
@@ -1445,7 +1448,7 @@ true})</code>.<br>
   <tbody>
     <tr>
       <td><code>getProps()</code></td>
-      <td>Use this function to get widget properties. Please see <code>setProps()</code>
+      <td>Use this function to get widget properties. See <code>setProps()</code>
 function for a list of supported properties.</td>
     </tr>
     <tr>
@@ -1503,9 +1506,9 @@ properties:
 <code></code><br>
 <h3>Client Side JavaScript Events</h3>
 <p>
-When the component is manipulated client side, some functions may
-publish event topics for custom AJAX implementations to listen for.
-Using the Dojo event system, listen for the refresh event topic using:<br>
+When the component is manipulated on the client side, some functions may
+publish event topics for custom Ajax implementations to listen for.
+Using the Dojo event system, listen for the refresh event topic by using:<br>
 <br>
 <code>
 &lt;webuijsf:script&gt;<br>
@@ -1536,7 +1539,7 @@ The following events are supported.<br>
       <td> Event topic published before asynchronously refreshing the
 component. Supported properties include: <br>
       <ul>
-        <li>[optional] execute - list of the components to be executed
+        <li>[optional] execute - List of the components to be executed
 along with
 this component</li>
         <li>id - The client id to process the event for</li>
@@ -1546,7 +1549,7 @@ this component</li>
     <tr>
       <td> webui.suntheme.widget.anchor.event.refresh.endTopic </td>
       <td> Event topic published after asynchronously refreshing the
-component. Supported properties include: See setProps() function.<br>
+component. Supported properties include:See setProps() function.<br>
       <br>
       <ul>
         <li>props - JSON object containing properties of the component.
@@ -1558,23 +1561,23 @@ function for details on properties and their usage</li>
     </tr>
   </tbody>
 </table>
-<h3>Examples</h3>
-<h4>Example 1: Create an anchor that points to an url</h4>
+<h3>Code Examples</h3>
+<h4>Example 1: Create an Anchor That Points to an URL</h4>
 <code>&lt;webuijsf:anchor id="anchor1" url="http://www.sun.com"/&gt; </code>
 <br>
-<h4> Example 2: Create an anchor that anchors a particular position on
-the page.<span>&nbsp; </span><br>
+<h4> Example 2: Create an Anchor That Anchors a Particular Position on
+the Page.<span>&nbsp; </span><br>
 </h4>
 <code>&lt;a id="foo" /&gt;<br>
 <br>
 </code> Note: To access this on the client side, use <code>document.getElementById("anchor1");
 </code>
-<h4>Example 3: Create a hyperlink to that will go to the anchor above<br>
+<h4>Example 3: Create a Hyperlink to The Anchor Above<br>
 </h4>
 <code>&lt;webuijsf:hyperlink id="link1"url="#anchor1" &gt; Go to Anchor
 &lt;/webuijsf:hyperlink &gt;<br>
 </code>
-<h4>Example 4: Create a relative anchor to go to the anchor in Example 1</h4>
+<h4>Example 4: Create a Relative Anchor to the Anchor in Example 1</h4>
 <code>&lt;webuijsf:anchor id="gotoAnchor1"
 url="/faces/hyperlink.jsp#anchor1" /&gt;<br>
 </code><br>
@@ -1582,9 +1585,9 @@ Note:&nbsp; In the <code>url</code> attribute, you must specify a path
 that maps to the correct servlet. However, you do not need the context.
 In this example, the <code></code> part of the path maps to the
 servlet through the JSF FacesServlet as defined in the web.xml.
-<h4>Example 5: Update client-side anchor properties using the getProps
+<h4>Example 5: Update Client-Side Anchor Properties Using the getProps
 and setProps
-functions<br>
+Functions<br>
 </h4>
 This example shows how to toggle the visible state of an anchor client
 side using the getProps and setProps functions. When the user clicks
@@ -1608,9 +1611,9 @@ domNode.setProps({"visible":!props.visible});<br>
 &nbsp;&nbsp;&nbsp; }<br>
 &lt;/script&gt;</code><br>
 </code>
-<h4>Example 6: Asynchronously update anchor using refresh function</h4>
+<h4>Example 6: Asynchronously Update Anchor using refresh Function</h4>
 This example shows how to asynchronously update an anchor using
-the refresh function. When the user clicks on the button, the anchor
+the refresh function. When the user clicks the button, the anchor
 is asynchronously updated with new data.<br>
 <pre><code><code>&lt;webuijsf:anchor id="anchor1"</code></code> <code><code></code></code>text="#{MyBean.text}"/<code><code>&gt;<br></code></code>&lt;webuijsf:button id="<code>button1</code>" text="#{MyBean.text}" onClick="refreshAnchor();return false;"/&gt;<br></pre>
 <code>&lt;webuijsf:script&gt;<br>
@@ -1629,7 +1632,7 @@ update components server-side: refresh("form1:id1,form2:id2,..."). When
 no parameter is given, the refresh function acts as a reset.
 That is, the component will be redrawn using values set
 server-side, but not updated.<br>
-<h4>Example 7: Asynchronously update anchor using refresh function</h4>
+<h4>Example 7: Asynchronously Update Anchor Using refresh Function</h4>
 This example shows how to asynchronously update an anchor using
 the refresh function. The execute property of the refresh function is
 used
@@ -1662,23 +1665,25 @@ update components server-side: refresh("form1:id1,form2:id2,...")<br>
 
         <description><![CDATA[
  <p>
- Use the <code>webuijsf:body</code> tag to contain the JSP tags for
- the body of the JSP page, if you are not using frames in the
+ <h4>  Using Body Tags on Pages Without Frames </h4>
+ If you are not using frames on your page, use the <code>webuijsf:body</code>
+ tag to contain the JSP tags for the body of the JSP page.
  page. The <code>webuijsf:body</code> tag must be placed after the 
  <a href="html.html"><code>webuijsf:html</code></a> and 
- <a href="head.html"><code>webuijsf:head</code></a> tags. The tags for
- the page content must be nested inside the <code>webuijsf:body</code> tag. This
- placement ensures that the corresponding HTML elements are rendered in the order that is
- required in HTML. </p>
+ <a href="head.html"><code>webuijsf:head</code></a> tags. Tags for page content
+ must be nested inside the <code>webuijsf:body</code> tag to ensure that the 
+ HTML elements are rendered in the necessary order.</p>
+ 
+ <h4>Using Body Tags on Pages With Frames</h4>
  <p>
- Note that if you are using frames, you should use 
+ If you are using frames in your page, use 
  the <a href="frameSet.html"><code>webuijsf:frameSet</code></a>
  tag instead of the <code>webuijsf:body</code> tag.</p>
  <p>
  The focus can be maintained with the <code>body</code> tag's
  <code>focus</code> and <code>preserveFocus</code> attributes.
  The <code>preserveFocus</code> attribute's default value is <code>true</code>.
- This means that the focus, after the first display, will be returned
+This means that after the first display, the focus, will be returned
  to the element that had the focus when the request was made. Setting 
  <code>preserveFocus</code> to <code>false</code> inhibits that behavior.
  </p>
@@ -1695,12 +1700,12 @@ update components server-side: refresh("form1:id1,form2:id2,...")<br>
  page. Attributes that you specify with the <code>webuijsf:body</code>
  tag are used to specify the corresponding attributes in the rendered <code>&lt;body&gt;</code>
  element.</p>
- <h3>Client Side Javascript Functions</h3>
+ <h3>Client-Side Javascript Functions</h3>
  <p>None.
  </p>
  <p>
- <h3>Examples</h3>
- <h4>Example 1: Create a body tag</h4>
+ <h3>Code Examples</h3>
+ <h4>Example 1: Create a Body Tag</h4>
  <p>This example shows a simple <code>webuijsf:body</code> tag.</p>
  <code>&lt;webuijsf:page&gt;<br>
  &nbsp;&nbsp;&nbsp; &lt;webuijsf:head title="body test" &gt;<br>
@@ -1713,24 +1718,24 @@ update components server-side: refresh("form1:id1,form2:id2,...")<br>
  ...<br>
  &nbsp;&nbsp;&nbsp; &lt;/webuijsf:body id="bodytest"&gt;<br>
  &lt;/webuijsf:page&gt;</code>
- <h4>Example 2: Create a body tag that sets focus</h4>
- <p>This example demonstrates how to set focus in the 
+ <h4>Example 2: Create a Body Tag That Sets the Focus</h4>
+ <p>This example demonstrates how to set the focus in the 
  <code>webuijsf:body</code> tag for a particular
  component in the page. When the page is first loaded, the third text
  field has focus.</p>
  <p>
- Since <code>preserveFocus</code> has not been specified, then focus will
- be set in one of two ways if the same page is redisplayed in the 
- resulting response.
+ Since <code>preserveFocus</code> has not been specified, if the same page is 
+ redisplayed in the response, then the focus will
+ be set in one of two ways.
  </p>
  <ul>
  <li>
- If the enter key is pressed in an input field then the focus will be
- returned to that field in the subsequent response.
+ If the Enter key is pressed in an input field, then the focus 
+ returns to that field in the subsequent response.
  </li>
  <li>
- If the page is submitted is some other fashion, say via a submit button
- then the focus will be returned to the element that submitted the page
+ If the page is submitted is some other fashion, for example through a submit button
+ then the focus returns to the element that submitted the page
  since it was the last element to have the focus.
  </li>
  </ul>

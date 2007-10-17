@@ -1520,7 +1520,7 @@ public class AddRemove extends ListSelector implements ListManager {
     }
 
     /**
-     * <p>If duplicateSelections is set to true, items in the available
+     * <p>If true, items in the available
      * list are not removed when they are added to the selected list.
      * The user is permitted to add an available item more than once 
      * to the list of selected items. The list of selected items would 
@@ -1531,7 +1531,7 @@ public class AddRemove extends ListSelector implements ListManager {
     private boolean duplicateSelections_set = false;
 
     /**
-     * <p>If duplicateSelections is set to true, items in the available
+     * <p>If true, items in the available
      * list are not removed when they are added to the selected list.
      * The user is permitted to add an available item more than once 
      * to the list of selected items. The list of selected items would 
@@ -1554,7 +1554,7 @@ public class AddRemove extends ListSelector implements ListManager {
     }
 
     /**
-     * <p>If duplicateSelections is set to true, items in the available
+     * <p>If true, items in the available
      * list are not removed when they are added to the selected list.
      * The user is permitted to add an available item more than once 
      * to the list of selected items. The list of selected items would 
@@ -1567,14 +1567,14 @@ public class AddRemove extends ListSelector implements ListManager {
     }
 
     /**
-     * <p>Show the Move Up and Move Down buttons.</p>
+     * <p>Shows the Move Up and Move Down buttons.</p>
      */
     @Property(name="moveButtons", displayName="Move Buttons", category="Appearance")
     private boolean moveButtons = false;
     private boolean moveButtons_set = false;
 
     /**
-     * <p>Show the Move Up and Move Down buttons.</p>
+     * <p>Shows the Move Up and Move Down buttons.</p>
      */
     public boolean isMoveButtons() {
         if (this.moveButtons_set) {
@@ -1593,7 +1593,7 @@ public class AddRemove extends ListSelector implements ListManager {
     }
 
     /**
-     * <p>Show the Move Up and Move Down buttons.</p>
+     * <p>Shows the Move Up and Move Down buttons.</p>
      * @see #isMoveButtons()
      */
     public void setMoveButtons(boolean moveButtons) {
@@ -1665,7 +1665,7 @@ public class AddRemove extends ListSelector implements ListManager {
     }
 
     /**
-     * <p>If sorted is set to true, the items on the available list are shown in
+     * <p>If true, the items on the available list are shown in
      * alphabetical order. The items on the selected options list are
      * also shown in alphabetical order, unless the moveButtons
      * attribute is true, in which case the user is expected to order
@@ -1676,7 +1676,7 @@ public class AddRemove extends ListSelector implements ListManager {
     private boolean sorted_set = false;
 
     /**
-     * <p>If sorted is set to true, the items on the available list are shown in
+     * <p>If true, the items on the available list are shown in
      * alphabetical order. The items on the selected options list are
      * also shown in alphabetical order, unless the moveButtons
      * attribute is true, in which case the user is expected to order
@@ -1699,7 +1699,7 @@ public class AddRemove extends ListSelector implements ListManager {
     }
 
     /**
-     * <p>If sorted is set to true, the items on the available list are shown in
+     * <p>If true, the items on the available list are shown in
      * alphabetical order. The items on the selected options list are
      * also shown in alphabetical order, unless the moveButtons
      * attribute is true, in which case the user is expected to order
@@ -1712,7 +1712,7 @@ public class AddRemove extends ListSelector implements ListManager {
     }
 
     /**
-     * <p>Use the vertical layout instead of the default horizontal layout. The
+     * <p>Uses the vertical layout instead of the default horizontal layout. The
      * vertical layout displays the available items list above the selected
      * items list.</p>
      */
@@ -1721,7 +1721,7 @@ public class AddRemove extends ListSelector implements ListManager {
     private boolean vertical_set = false;
 
     /**
-     * <p>Use the vertical layout instead of the default horizontal layout. The
+     * <p>Uses the vertical layout instead of the default horizontal layout. The
      * vertical layout displays the available items list above the selected
      * items list.</p>
      */
@@ -1742,7 +1742,7 @@ public class AddRemove extends ListSelector implements ListManager {
     }
 
     /**
-     * <p>Use the vertical layout instead of the default horizontal layout. The
+     * <p>Uses the vertical layout instead of the default horizontal layout. The
      * vertical layout displays the available items list above the selected
      * items list.</p>
      * @see #isVertical()

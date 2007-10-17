@@ -1096,7 +1096,7 @@ public class Selector extends WebuiInput implements SelectorManager {
     }
 
     /**
-     * <p>If this attribute is set to true, the value of the component is
+     * <p>If true, the value of the component is
      * rendered as text, preceded by the label if one was defined.</p>
      *
      * @deprecated The attribute is deprected starting from version 4.1
@@ -1106,7 +1106,7 @@ public class Selector extends WebuiInput implements SelectorManager {
     private boolean readOnly_set = false;
 
     /**
-     * <p>If this attribute is set to true, the value of the component is
+     * <p>If true, the value of the component is
      * rendered as text, preceded by the label if one was defined.</p>
      *
      * @deprecated The attribute is deprected starting from version 4.1
@@ -1128,7 +1128,7 @@ public class Selector extends WebuiInput implements SelectorManager {
     }
 
     /**
-     * <p>If this attribute is set to true, the value of the component is
+     * <p>If true, the value of the component is
      * rendered as text, preceded by the label if one was defined.</p>
      * @see #isReadOnly()
      *
@@ -1162,14 +1162,14 @@ public class Selector extends WebuiInput implements SelectorManager {
     }
 
     /**
-     * <p>CSS style(s) to be applied to the outermost HTML element when this 
+     * <p>CSS style or styles to be applied to the outermost HTML element when this 
      * component is rendered.</p>
      */
     @Property(name="style", displayName="CSS Style(s)", category="Appearance", editorClassName="com.sun.jsfcl.std.css.CssStylePropertyEditor")
     private String style = null;
 
     /**
-     * <p>CSS style(s) to be applied to the outermost HTML element when this 
+     * <p>CSS style or styles to be applied to the outermost HTML element when this 
      * component is rendered.</p>
      */
     public String getStyle() {
@@ -1184,7 +1184,7 @@ public class Selector extends WebuiInput implements SelectorManager {
     }
 
     /**
-     * <p>CSS style(s) to be applied to the outermost HTML element when this 
+     * <p>CSS style or styles to be applied to the outermost HTML element when this 
      * component is rendered.</p>
      * @see #getStyle()
      */
@@ -1193,14 +1193,14 @@ public class Selector extends WebuiInput implements SelectorManager {
     }
 
     /**
-     * <p>CSS style class(es) to be applied to the outermost HTML element when this 
+     * <p>CSS style class or classes to be applied to the outermost HTML element when this 
      * component is rendered.</p>
      */
     @Property(name="styleClass", displayName="CSS Style Class(es)", category="Appearance", editorClassName="com.sun.rave.propertyeditors.StyleClassPropertyEditor")
     private String styleClass = null;
 
     /**
-     * <p>CSS style class(es) to be applied to the outermost HTML element when this 
+     * <p>CSS style class or classes to be applied to the outermost HTML element when this 
      * component is rendered.</p>
      */
     public String getStyleClass() {
@@ -1215,7 +1215,7 @@ public class Selector extends WebuiInput implements SelectorManager {
     }
 
     /**
-     * <p>CSS style class(es) to be applied to the outermost HTML element when this 
+     * <p>CSS style class or classes to be applied to the outermost HTML element when this 
      * component is rendered.</p>
      * @see #getStyleClass()
      */
@@ -1315,10 +1315,10 @@ public class Selector extends WebuiInput implements SelectorManager {
     private boolean visible_set = false;
 
     /**
-     * <p>Use the visible attribute to indicate whether the component should be
-     * viewable by the user in the rendered HTML page. If set to false, the
+     * <p>Indicates whether the component should be
+     * viewable by the user in the rendered HTML page. If false, the
      * HTML code for the component is present in the page, but the component
-     * is hidden with style attributes. By default, visible is set to true, so
+     * is hidden with style attributes. By default, visible is true, so
      * HTML for the component HTML is included and visible to the user. If the
      * component is not visible, it can still be processed on subsequent form
      * submissions because the HTML is present.</p>

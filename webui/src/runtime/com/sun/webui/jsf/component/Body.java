@@ -279,14 +279,14 @@ public class Body extends UIComponentBase {
     }
 
     /**
-     * <p>Scripting code executed when a mouse double click
+     * <p>Scripting code that executes when a mouse double click
      * occurs over this component.</p>
      */
     @Property(name="onDblClick", displayName="Double Click Script", category="Javascript", editorClassName="com.sun.rave.propertyeditors.JavaScriptPropertyEditor")
     private String onDblClick = null;
 
     /**
-     * <p>Scripting code executed when a mouse double click
+     * <p>Scripting code that executes when a mouse double click
      * occurs over this component.</p>
      */
     public String getOnDblClick() {
@@ -301,7 +301,7 @@ public class Body extends UIComponentBase {
     }
 
     /**
-     * <p>Scripting code executed when a mouse double click
+     * <p>Scripting code that executes when a mouse double click
      * occurs over this component.</p>
      * @see #getOnDblClick()
      */
@@ -310,7 +310,7 @@ public class Body extends UIComponentBase {
     }
 
     /**
-     * <p>Scripting code executed when this component  receives focus. An
+     * <p>Scripting code that executes when this component  receives focus. An
      * element receives focus when the user selects the element by pressing
      * the tab key or clicking the mouse.</p>
      */
@@ -318,7 +318,7 @@ public class Body extends UIComponentBase {
     private String onFocus = null;
 
     /**
-     * <p>Scripting code executed when this component  receives focus. An
+     * <p>Scripting code that executes when this component  receives focus. An
      * element receives focus when the user selects the element by pressing
      * the tab key or clicking the mouse.</p>
      */
@@ -334,7 +334,7 @@ public class Body extends UIComponentBase {
     }
 
     /**
-     * <p>Scripting code executed when this component  receives focus. An
+     * <p>Scripting code that executes when this component  receives focus. An
      * element receives focus when the user selects the element by pressing
      * the tab key or clicking the mouse.</p>
      * @see #getOnFocus()
@@ -344,14 +344,14 @@ public class Body extends UIComponentBase {
     }
 
     /**
-     * <p>Scripting code executed when the user presses down on a key while the
+     * <p>Scripting code that executes when the user presses down on a key while the
      * component has focus.</p>
      */
     @Property(name="onKeyDown", displayName="Key Down Script", category="Javascript", editorClassName="com.sun.rave.propertyeditors.JavaScriptPropertyEditor")
     private String onKeyDown = null;
 
     /**
-     * <p>Scripting code executed when the user presses down on a key while the
+     * <p>Scripting code that executes when the user presses down on a key while the
      * component has focus.</p>
      */
     public String getOnKeyDown() {
@@ -366,7 +366,7 @@ public class Body extends UIComponentBase {
     }
 
     /**
-     * <p>Scripting code executed when the user presses down on a key while the
+     * <p>Scripting code that executes when the user presses down on a key while the
      * component has focus.</p>
      * @see #getOnKeyDown()
      */
@@ -375,14 +375,14 @@ public class Body extends UIComponentBase {
     }
 
     /**
-     * <p>Scripting code executed when the user presses and releases a key while
+     * <p>Scripting code that executes when the user presses and releases a key while
      * the component has focus.</p>
      */
     @Property(name="onKeyPress", displayName="Key Press Script", category="Javascript", editorClassName="com.sun.rave.propertyeditors.JavaScriptPropertyEditor")
     private String onKeyPress = null;
 
     /**
-     * <p>Scripting code executed when the user presses and releases a key while
+     * <p>Scripting code that executes when the user presses and releases a key while
      * the component has focus.</p>
      */
     public String getOnKeyPress() {
@@ -397,7 +397,7 @@ public class Body extends UIComponentBase {
     }
 
     /**
-     * <p>Scripting code executed when the user presses and releases a key while
+     * <p>Scripting code that executes when the user presses and releases a key while
      * the component has focus.</p>
      * @see #getOnKeyPress()
      */
@@ -406,14 +406,14 @@ public class Body extends UIComponentBase {
     }
 
     /**
-     * <p>Scripting code executed when the user releases a key while the
+     * <p>Scripting code that executes when the user releases a key while the
      * component has focus.</p>
      */
     @Property(name="onKeyUp", displayName="Key Up Script", category="Javascript", editorClassName="com.sun.rave.propertyeditors.JavaScriptPropertyEditor")
     private String onKeyUp = null;
 
     /**
-     * <p>Scripting code executed when the user releases a key while the
+     * <p>Scripting code that executes when the user releases a key while the
      * component has focus.</p>
      */
     public String getOnKeyUp() {
@@ -428,7 +428,7 @@ public class Body extends UIComponentBase {
     }
 
     /**
-     * <p>Scripting code executed when the user releases a key while the
+     * <p>Scripting code that executes when the user releases a key while the
      * component has focus.</p>
      * @see #getOnKeyUp()
      */
@@ -437,13 +437,13 @@ public class Body extends UIComponentBase {
     }
 
     /**
-     * <p>Scripting code executed when when this page is loaded in a browser.</p>
+     * <p>Scripting code that executes when when this page is loaded in a browser.</p>
      */
     @Property(name="onLoad", displayName="Onload Script", category="Javascript", editorClassName="com.sun.rave.propertyeditors.JavaScriptPropertyEditor")
     private String onLoad = null;
 
     /**
-     * <p>Scripting code executed when when this page is loaded in a browser.</p>
+     * <p>Scripting code that executes when when this page is loaded in a browser.</p>
      */
     public String getOnLoad() {
         if (this.onLoad != null) {
@@ -457,7 +457,7 @@ public class Body extends UIComponentBase {
     }
 
     /**
-     * <p>Scripting code executed when when this page is loaded in a browser.</p>
+     * <p>Scripting code that executes when when this page is loaded in a browser.</p>
      * @see #getOnLoad()
      */
     public void setOnLoad(String onLoad) {
@@ -465,14 +465,14 @@ public class Body extends UIComponentBase {
     }
 
     /**
-     * <p>Scripting code executed when the user presses a mouse button while the
+     * <p>Scripting code that executes when the user presses a mouse button while the
      * mouse pointer is on the component.</p>
      */
     @Property(name="onMouseDown", displayName="Mouse Down Script", category="Javascript", editorClassName="com.sun.rave.propertyeditors.JavaScriptPropertyEditor")
     private String onMouseDown = null;
 
     /**
-     * <p>Scripting code executed when the user presses a mouse button while the
+     * <p>Scripting code that executes when the user presses a mouse button while the
      * mouse pointer is on the component.</p>
      */
     public String getOnMouseDown() {
@@ -487,8 +487,9 @@ public class Body extends UIComponentBase {
     }
 
     /**
-     * <p>Scripting code executed when the user presses a mouse button while the
+     * <p>Scripting code that executes when the user presses a mouse button while the
      * mouse pointer is on the component.</p>
+     *
      * @see #getOnMouseDown()
      */
     public void setOnMouseDown(String onMouseDown) {
@@ -496,14 +497,14 @@ public class Body extends UIComponentBase {
     }
 
     /**
-     * <p>Scripting code executed when the user moves the mouse pointer while
+     * <p>Scripting code that executes when the user moves the mouse pointer while
      * over the component.</p>
      */
     @Property(name="onMouseMove", displayName="Mouse Move Script", category="Javascript", editorClassName="com.sun.rave.propertyeditors.JavaScriptPropertyEditor")
     private String onMouseMove = null;
 
     /**
-     * <p>Scripting code executed when the user moves the mouse pointer while
+     * <p>Scripting code that executes when the user moves the mouse pointer while
      * over the component.</p>
      */
     public String getOnMouseMove() {
@@ -518,7 +519,7 @@ public class Body extends UIComponentBase {
     }
 
     /**
-     * <p>Scripting code executed when the user moves the mouse pointer while
+     * <p>Scripting code that executes when the user moves the mouse pointer while
      * over the component.</p>
      * @see #getOnMouseMove()
      */
@@ -527,14 +528,14 @@ public class Body extends UIComponentBase {
     }
 
     /**
-     * <p>Scripting code executed when a mouse out movement
+     * <p>Scripting code that executes when a mouse out movement
      * occurs over this component.</p>
      */
     @Property(name="onMouseOut", displayName="Mouse Out Script", category="Javascript", editorClassName="com.sun.rave.propertyeditors.JavaScriptPropertyEditor")
     private String onMouseOut = null;
 
     /**
-     * <p>Scripting code executed when a mouse out movement
+     * <p>Scripting code that executes when a mouse out movement
      * occurs over this component.</p>
      */
     public String getOnMouseOut() {
@@ -549,7 +550,7 @@ public class Body extends UIComponentBase {
     }
 
     /**
-     * <p>Scripting code executed when a mouse out movement
+     * <p>Scripting code that executes when a mouse out movement
      * occurs over this component.</p>
      * @see #getOnMouseOut()
      */
@@ -558,14 +559,14 @@ public class Body extends UIComponentBase {
     }
 
     /**
-     * <p>Scripting code executed when the user moves the  mouse pointer into
+     * <p>Scripting code that executes when the user moves the  mouse pointer into
      * the boundary of this component.</p>
      */
     @Property(name="onMouseOver", displayName="Mouse In Script", category="Javascript", editorClassName="com.sun.rave.propertyeditors.JavaScriptPropertyEditor")
     private String onMouseOver = null;
 
     /**
-     * <p>Scripting code executed when the user moves the  mouse pointer into
+     * <p>Scripting code that executes when the user moves the  mouse pointer into
      * the boundary of this component.</p>
      */
     public String getOnMouseOver() {
@@ -580,7 +581,7 @@ public class Body extends UIComponentBase {
     }
 
     /**
-     * <p>Scripting code executed when the user moves the  mouse pointer into
+     * <p>Scripting code that executes when the user moves the  mouse pointer into
      * the boundary of this component.</p>
      * @see #getOnMouseOver()
      */
@@ -589,14 +590,14 @@ public class Body extends UIComponentBase {
     }
 
     /**
-     * <p>Scripting code executed when the user releases a mouse button while
+     * <p>Scripting code that executes when the user releases a mouse button while
      * the mouse pointer is on the component.</p>
      */
     @Property(name="onMouseUp", displayName="Mouse Up Script", category="Javascript", editorClassName="com.sun.rave.propertyeditors.JavaScriptPropertyEditor")
     private String onMouseUp = null;
 
     /**
-     * <p>Scripting code executed when the user releases a mouse button while
+     * <p>Scripting code that executes when the user releases a mouse button while
      * the mouse pointer is on the component.</p>
      */
     public String getOnMouseUp() {
@@ -611,7 +612,7 @@ public class Body extends UIComponentBase {
     }
 
     /**
-     * <p>Scripting code executed when the user releases a mouse button while
+     * <p>Scripting code that executes when the user releases a mouse button while
      * the mouse pointer is on the component.</p>
      * @see #getOnMouseUp()
      */
@@ -620,13 +621,13 @@ public class Body extends UIComponentBase {
     }
 
     /**
-     * <p>Scripting code executed when this page is unloaded from a browser as a user exits the page.</p>
+     * <p>Scripting code that executes when this page is unloaded from a browser as a user exits the page.</p>
      */
     @Property(name="onUnload", displayName="Unload Script", category="Javascript", editorClassName="com.sun.rave.propertyeditors.JavaScriptPropertyEditor")
     private String onUnload = null;
 
     /**
-     * <p>Scripting code executed when this page is unloaded from a browser as a user exits the page.</p>
+     * <p>Scripting code that executes when this page is unloaded from a browser as a user exits the page.</p>
      */
     public String getOnUnload() {
         if (this.onUnload != null) {
@@ -640,7 +641,7 @@ public class Body extends UIComponentBase {
     }
 
     /**
-     * <p>Scripting code executed when this page is unloaded from a browser as a user exits the page.</p>
+     * <p>Scripting code that executes when this page is unloaded from a browser as a user exits the page.</p>
      * @see #getOnUnload()
      */
     public void setOnUnload(String onUnload) {
@@ -648,12 +649,12 @@ public class Body extends UIComponentBase {
     }
 
     /**
-     * <p>Use the preserveFocus attribute to indicate whether the last 
+     * <p>Indicates  whether the last 
      * element to have the focus, receives the focus the
-     * next time the page is rendered. If set to <code>true</code> the
+     * next time the page is rendered. If this is set to <code>true</code> the
      * focus is preserved; if set to <code>false</code> it is not.
      * If set to <code>false</code> and the <code>focus</code> attribute
-     * is set then the element identified by that id will receive the
+     * is set then the element identified by that id receives the
      * focus. The default value is true.</p>
      */
     @Property(name="preserveFocus", displayName="Preserve Focus", category="Behavior")
@@ -661,12 +662,12 @@ public class Body extends UIComponentBase {
     private boolean preserveFocus_set = false;
 
     /**
-     * <p>Use the preserveFocus attribute to indicate whether the last 
+     * <p>Indicates  whether the last 
      * element to have the focus, receives the focus the
-     * next time the page is rendered. If set to <code>true</code> the
+     * next time the page is rendered. If this is set to <code>true</code> the
      * focus is preserved; if set to <code>false</code> it is not.
      * If set to <code>false</code> and the <code>focus</code> attribute
-     * is set then the element identified by that id will receive the
+     * is set then the element identified by that id receives the
      * focus. The default value is true.</p>
      */
     public boolean isPreserveFocus() {
@@ -698,12 +699,12 @@ public class Body extends UIComponentBase {
     }
 
     /**
-     * <p>Use the preserveFocus attribute to indicate whether the last 
+     * <p>Indicates  whether the last 
      * element to have the focus, receives the focus the
-     * next time the page is rendered. If set to <code>true</code> the
+     * next time the page is rendered. If this is set to <code>true</code> the
      * focus is preserved; if set to <code>false</code> it is not.
      * If set to <code>false</code> and the <code>focus</code> attribute
-     * is set then the element identified by that id will receive the
+     * is set then the element identified by that id receives the
      * focus. The default value is true.</p>
      */
     public void setPreserveFocus(boolean preserveFocus) {
@@ -764,14 +765,14 @@ public class Body extends UIComponentBase {
     }
 
     /**
-     * <p>CSS style(s) to be applied to the outermost HTML element when this 
+     * <p>CSS style or styles to be applied to the outermost HTML element when this 
      * component is rendered.</p>
      */
     @Property(name="style", displayName="CSS Style(s)", category="Appearance", editorClassName="com.sun.jsfcl.std.css.CssStylePropertyEditor")
     private String style = null;
 
     /**
-     * <p>CSS style(s) to be applied to the outermost HTML element when this 
+     * <p>CSS style or styles to be applied to the outermost HTML element when this 
      * component is rendered.</p>
      */
     public String getStyle() {
@@ -786,7 +787,7 @@ public class Body extends UIComponentBase {
     }
 
     /**
-     * <p>CSS style(s) to be applied to the outermost HTML element when this 
+     * <p>CSS style or styles to be applied to the outermost HTML element when this 
      * component is rendered.</p>
      * @see #getStyle()
      */
@@ -795,14 +796,14 @@ public class Body extends UIComponentBase {
     }
 
     /**
-     * <p>CSS style class(es) to be applied to the outermost HTML element when this 
+     * <p>CSS style class or classes to be applied to the outermost HTML element when the body
      * component is rendered.</p>
      */
     @Property(name="styleClass", displayName="CSS Style Class(es)", category="Appearance", editorClassName="com.sun.rave.propertyeditors.StyleClassPropertyEditor")
     private String styleClass = null;
 
     /**
-     * <p>CSS style class(es) to be applied to the outermost HTML element when this 
+     * <p>CSS style class or classes to be applied to the outermost HTML element when the body
      * component is rendered.</p>
      */
     public String getStyleClass() {
@@ -817,8 +818,9 @@ public class Body extends UIComponentBase {
     }
 
     /**
-     * <p>CSS style class(es) to be applied to the outermost HTML element when this 
+     * <p>CSS style class or classes to be applied to the outermost HTML element when the body
      * component is rendered.</p>
+     *
      * @see #getStyleClass()
      */
     public void setStyleClass(String styleClass) {
@@ -826,8 +828,8 @@ public class Body extends UIComponentBase {
     }
 
     /**
-     * <p>Use the visible attribute to indicate whether the component should be
-     * viewable by the user in the rendered HTML page. If set to false, the
+     * <p>Indicates whether the component should be
+     * viewable by the user in the rendered HTML page. If this is set to false, the
      * HTML code for the component is present in the page, but the component
      * is hidden with style attributes. By default, visible is set to true, so
      * HTML for the component HTML is included and visible to the user. If the
