@@ -36,6 +36,9 @@ import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.context.ResponseWriter;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 /**
  * <p>Renderer for a {@link Head} component.</p>
  */
@@ -122,11 +125,21 @@ public class HeadRenderer extends AbstractRenderer {
 
             // Get global flags.
             JavaScriptUtilities.setDebug(head.isDebug());
-            JavaScriptUtilities.setAjaxify(head.isAjaxify());
 
-            // Render bootstrap.
-            if (head.isJavaScript()) {
-                JavaScriptUtilities.renderBootstrap(component, writer);
+            try {
+                // Set flags.
+                JSONObject json = new JSONObject();
+                json.put("dijitAll", head.isDijitAll())
+                    .put("parseOnLoad", head.isParseOnLoad())
+                    .put("webuiAll", head.isWebuiAll())
+                    .put("webuiJsfx", head.isWebuiJsfx());
+
+                // Render bootstrap.
+                if (head.isJavaScript()) {
+                    JavaScriptUtilities.renderBootstrap(component, writer, json);
+                }
+            } catch (JSONException e) {
+                e.printStackTrace();
             }
 	}
     }

@@ -43,33 +43,12 @@ import org.json.JSONArray;
  * properties, etc.
  */
 public class JavaScriptUtilities {
-    // The key used to enable default Ajax implementation.
-    private static final String AJAXIFY_KEY = "com_sun_webui_jsf_util_ajaxify";
-
     // The key used to enable JavaScript debugging.
     private static final String DEBUG_KEY = "com_sun_webui_jsf_util_debug";
  
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     // Global methods
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-    /**
-     * Test flag to enable default Ajax implementation.
-     * 
-     * @return true if enabled.
-     */
-    public static boolean isAjaxify() {
-        return getRequestMap().containsKey(AJAXIFY_KEY) ;
-    }
-
-    /**
-     * Set flag to enable default Ajax implementation.
-     *
-     * @param enable Enable default Ajax implementation.
-     */
-    public static void setAjaxify(boolean enable) {
-        getRequestMap().put(AJAXIFY_KEY, (enable) ? Boolean.TRUE : null);
-    }
 
     /**
      * Test flag to enable JavaScript debugging.
@@ -181,13 +160,16 @@ public class JavaScriptUtilities {
      *
      * @param component UIComponent to be rendered.
      * @param writer ResponseWriter to which the component should be rendered.
+     * @param json JSONObject containing properties for dijitAll, parseOnLoad, 
+     * webuiAll, and webuiJsfx.
      *
      * @exception IOException if an input/output error occurs.
      */
     public static void renderBootstrap(UIComponent component,
-            ResponseWriter writer) throws IOException {
+            ResponseWriter writer, JSONObject json) throws IOException, JSONException {
         // Render Dojo config.
-        renderJavaScript(component, writer, getDojoConfig(), false);
+        renderJavaScript(component, writer, getDojoConfig(
+            json.getBoolean("parseOnLoad")), false);
 
         // Render JSON include.
         renderJsonInclude(component, writer);
@@ -199,13 +181,14 @@ public class JavaScriptUtilities {
         renderJsfxInclude(component, writer);
 
         // Render Dojo include.
-        renderDojoInclude(component, writer);
+        renderDojoInclude(component, writer, json.getBoolean("dijitAll"));
 
         // Render module config after including dojo.
         renderJavaScript(component, writer, getBootstrapConfig(), false);
 
         // Render webui include.
-        renderWebuiInclude(component, writer);
+        renderWebuiInclude(component, writer, json.getBoolean("webuiAll"), 
+            json.getBoolean("webuiJsfx"));
 
         // Render global include.
         renderGlobalInclude(component, writer);
@@ -280,13 +263,16 @@ public class JavaScriptUtilities {
      * Get JavaScript used to configure Dojo.
      *
      * Note: Must be rendered before including dojo.js in page.
+     * 
+     * @param parseOnLoad Flag indicating Dojo should parse markup.
      */
-    private static String getDojoConfig() {
+    private static String getDojoConfig(boolean parseOnLoad) {
         StringBuffer buff = new StringBuffer(256);
 
         try {
             JSONObject json = new JSONObject();
-            json.put("isDebug", isDebug());
+            json.put("isDebug", isDebug())
+                .put("parseOnLoad", parseOnLoad);
 
             // Append djConfig properties.
             buff.append("var djConfig = (djConfig) ? djConfig : ")
@@ -318,7 +304,6 @@ public class JavaScriptUtilities {
         try {
             JSONObject json = new JSONObject();
             json.put("debug", isDebug())
-                .put("ajaxify", isAjaxify())
                 .put("theme", getThemeConfig(FacesContext.getCurrentInstance()));
 
             buff.append("var webui = ")
@@ -447,17 +432,27 @@ public class JavaScriptUtilities {
      *
      * @param component UIComponent to be rendered.
      * @param writer ResponseWriter to which the component should be rendered.
-     *
+     * @param dijitAll Flag indicating to include all Dojo dijit functionality. 
+     * 
      * @exception IOException if an input/output error occurs.
      */
     private static void renderDojoInclude(UIComponent component,
-            ResponseWriter writer) throws IOException {
+            ResponseWriter writer, boolean dijitAll) throws IOException {
         renderJavaScriptInclude(component, writer, (isDebug())
             ? ThemeJavascript.DOJO_UNCOMPRESSED
             : ThemeJavascript.DOJO);
-        renderJavaScriptInclude(component, writer, (isDebug())
-            ? ThemeJavascript.DIJIT_UNCOMPRESSED
-            : ThemeJavascript.DIJIT);
+
+        String dijit = null;
+        if (dijitAll) {
+            dijit = (isDebug())
+                ? ThemeJavascript.DIJIT_ALL_UNCOMPRESSED 
+                : ThemeJavascript.DIJIT_ALL;
+        } else {
+            dijit = (isDebug())
+                ? ThemeJavascript.DIJIT_UNCOMPRESSED 
+                : ThemeJavascript.DIJIT;
+        }
+        renderJavaScriptInclude(component, writer, dijit);
     }
 
     /**
@@ -550,8 +545,8 @@ public class JavaScriptUtilities {
     private static void renderJsonInclude(UIComponent component,
             ResponseWriter writer) throws IOException {
         renderJavaScriptInclude(component, writer, (isDebug())
-                ? ThemeJavascript.JSON_UNCOMPRESSED
-                : ThemeJavascript.JSON);
+            ? ThemeJavascript.JSON_UNCOMPRESSED
+            : ThemeJavascript.JSON);
     }
 
     /**
@@ -578,13 +573,36 @@ public class JavaScriptUtilities {
      *
      * @param component UIComponent to be rendered.
      * @param writer ResponseWriter to which the component should be rendered.
-     *
+     * @param webuiAll Flag indicating to include all webui functionality.
+     * @param webuiJsfx Flag indicating to include default Ajax functionality.
+     * 
      * @exception IOException if an input/output error occurs.
      */
     private static void renderWebuiInclude(UIComponent component,
-            ResponseWriter writer) throws IOException {
-        renderJavaScriptInclude(component, writer, (isDebug())
-                ? ThemeJavascript.WEBUI_UNCOMPRESSED
-                : ThemeJavascript.WEBUI);
+        ResponseWriter writer, boolean webuiAll, boolean webuiJsfx)
+            throws IOException {
+        String webui = null;
+        if (webuiAll) {
+            if (webuiJsfx) {
+                webui = (isDebug())
+                    ? ThemeJavascript.WEBUI_JSFX_ALL_UNCOMPRESSED
+                    : ThemeJavascript.WEBUI_JSFX_ALL;
+            } else {
+                webui = (isDebug())
+                    ? ThemeJavascript.WEBUI_ALL_UNCOMPRESSED
+                    : ThemeJavascript.WEBUI_ALL;
+            }
+        } else {
+            if (webuiJsfx) {
+                webui = (isDebug())
+                    ? ThemeJavascript.WEBUI_JSFX_UNCOMPRESSED
+                    : ThemeJavascript.WEBUI_JSFX;
+            } else {
+                webui = (isDebug())
+                    ? ThemeJavascript.WEBUI_UNCOMPRESSED
+                    : ThemeJavascript.WEBUI;
+            }
+        }
+        renderJavaScriptInclude(component, writer, webui);
     }
 }

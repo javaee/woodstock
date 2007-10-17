@@ -37,6 +37,9 @@ import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.context.ResponseWriter;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 /**
  * <p>Renderer for a {@link Theme} component.</p>
  */
@@ -74,11 +77,21 @@ public class ThemeLinksRenderer extends javax.faces.render.Renderer {
 
         // Get global flags.
         JavaScriptUtilities.setDebug(themeLinks.isDebug());
-        JavaScriptUtilities.setAjaxify(themeLinks.isAjaxify());
 
-        // Render bootstrap.
-        if (themeLinks.isJavaScript()) {
-            JavaScriptUtilities.renderBootstrap(component, writer);
+        try {
+            // Set flags.
+            JSONObject json = new JSONObject();
+            json.put("dijitAll", themeLinks.isDijitAll())
+                .put("parseOnLoad", themeLinks.isParseOnLoad())
+                .put("webuiAll", themeLinks.isWebuiAll())
+                .put("webuiJsfx", themeLinks.isWebuiJsfx());
+
+            // Render bootstrap.
+            if (themeLinks.isJavaScript()) {
+                JavaScriptUtilities.renderBootstrap(component, writer, json);
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
         }
     }
 

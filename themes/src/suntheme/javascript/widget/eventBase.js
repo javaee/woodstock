@@ -35,22 +35,6 @@ dojo.require("dijit._Templated");
 dojo.declare("webui.@THEME@.widget.eventBase", [dijit._Widget, dijit._Templated]);
 
 /**
- * This function is used to include default Ajax functionality. Before the given
- * module is included in the page, a test is performed to ensure that the 
- * default Ajax implementation is being used.
- *
- * @return {boolean} true if successful; otherwise, false.
- */
-webui.@THEME@.widget.eventBase.prototype.ajaxify = function() {
-    // To do: Get default module from the theme.
-    if (new Boolean(webui.@THEME@.bootstrap.ajaxify).valueOf() == true) {
-        dojo.require("webui.@THEME@.widget.jsfx." + this.widgetName);
-        return true;
-    }
-    return false;
-}
-
-/**
  * This object contains event topics.
  * <p>
  * Note: Event topics must be prototyped for inherited functions. However, these
@@ -154,9 +138,6 @@ webui.@THEME@.widget.eventBase.prototype.initFunctions = function () {
  * @return {boolean} true if successful; otherwise, false.
  */
 webui.@THEME@.widget.eventBase.prototype.refresh = function(execute) {
-    // Include default AJAX implementation.
-    this.ajaxify();
-
     if (this.event.refresh == null) {
         console.debug("Error: Refresh event topics not implemented for " + 
             this.widgetName); // See Firebug console.
@@ -183,9 +164,6 @@ webui.@THEME@.widget.eventBase.prototype.refresh = function(execute) {
  * @return {boolean} true if successful; otherwise, false.
  */
 webui.@THEME@.widget.eventBase.prototype.stateChanged = function(props) {
-    // Include default AJAX implementation.
-    this.ajaxify();
-
     if (this.event.state == null) {
         console.debug("Error: State event topics not implemented for " + 
             this.widgetName); // See Firebug console.
@@ -214,9 +192,6 @@ webui.@THEME@.widget.eventBase.prototype.stateChanged = function(props) {
  * @return {boolean} true if successful; otherwise, false.
  */
 webui.@THEME@.widget.eventBase.prototype.submit = function(execute) {
-    // Include default AJAX implementation.
-    this.ajaxify();
-
     if (this.event.submit == null) {
         console.debug("Error: Submit event topics not implemented for " + 
             this.widgetName); // See Firebug console.

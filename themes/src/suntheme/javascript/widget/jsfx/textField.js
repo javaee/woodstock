@@ -107,13 +107,11 @@ webui.@THEME@.widget.jsfx.textField = {
 }
 
 // Listen for Dojo Widget events.
-if (new Boolean(webui.@THEME@.bootstrap.ajaxify).valueOf() == true) {
-    dojo.subscribe(webui.@THEME@.widget.textField.event.refresh.beginTopic,
-        webui.@THEME@.widget.jsfx.common, "processRefreshEvent");
-    dojo.subscribe(webui.@THEME@.widget.textField.event.state.beginTopic,
-        webui.@THEME@.widget.jsfx.common, "processStateEvent");
-    dojo.subscribe(webui.@THEME@.widget.textField.event.submit.beginTopic,
-        webui.@THEME@.widget.jsfx.common, "processSubmitEvent");
-    dojo.subscribe(webui.@THEME@.widget.textField.event.validation.beginTopic,
-        webui.@THEME@.widget.jsfx.textField, "processValidationEvent");
-}
+dojo.subscribe(webui.@THEME@.widget.textField.event.refresh.beginTopic,
+    webui.@THEME@.widget.jsfx.common, "processRefreshEvent");
+dojo.subscribe(webui.@THEME@.widget.textField.event.state.beginTopic,
+    webui.@THEME@.widget.jsfx.common, "processStateEvent");
+dojo.subscribe(webui.@THEME@.widget.textField.event.submit.beginTopic,
+    webui.@THEME@.widget.jsfx.common, "processSubmitEvent");
+dojo.subscribe(webui.@THEME@.widget.textField.event.validation.beginTopic,
+    webui.@THEME@.widget.jsfx.textField, "processValidationEvent");

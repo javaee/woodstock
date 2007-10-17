@@ -358,9 +358,6 @@ webui.@THEME@.widget.popupMenu.prototype.processOnClickEvent = function(value) {
  * @return {boolean} true if successful; otherwise, false.
  */
 webui.@THEME@.widget.popupMenu.prototype.submit = function(execute) {
-    // Include default AJAX implementation.
-    this.ajaxify();
-
     // Publish an event for custom AJAX implementations to listen for.
     dojo.publish(webui.@THEME@.widget.popupMenu.event.submit.beginTopic, [{
         id: this.id,

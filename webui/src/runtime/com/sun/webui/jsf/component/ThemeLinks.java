@@ -98,41 +98,6 @@ public class ThemeLinks extends UIComponentBase {
     }
 
     /**
-     * Flag indicating to turn off default Ajax functionality. Set ajaxify to
-     * false when providing a different Ajax implementation.
-     */
-    @Property(name="ajaxify", displayName="Ajaxify", category="Javascript", isHidden=true)
-    private boolean ajaxify = true; 
-    private boolean ajaxify_set = false; 
- 
-    /**
-     * Test if default Ajax functionality should be turned off.
-     */
-    public boolean isAjaxify() { 
-        if (this.ajaxify_set) {
-            return this.ajaxify;
-        }
-        ValueExpression _vb = getValueExpression("ajaxify");
-        if (_vb != null) {
-            Object _result = _vb.getValue(getFacesContext().getELContext());
-            if (_result == null) {
-                return false;
-            } else {
-                return ((Boolean) _result).booleanValue();
-            }
-        }
-        return this.ajaxify;
-    } 
-
-    /**
-     * Set flag indicating to turn off default Ajax functionality.
-     */
-    public void setAjaxify(boolean ajaxify) {
-        this.ajaxify = ajaxify;
-        this.ajaxify_set = true;
-    }
-
-    /**
      * Flag (true or false) indicating that Dojo debugging is enabled. The 
      * default value is false.
      */
@@ -168,6 +133,48 @@ public class ThemeLinks extends UIComponentBase {
     }
 
     /**
+     * Flag (true or false) indicating to include all dijit functionality. 
+     * <p>
+     * For better performance, least used JavaScript is excluded from the 
+     * dijit.js file. Dojo will continue to load JavaScript regardless of this
+     * setting, but using separate requests.
+     * </p><p>
+     * To limit the number of JavaScript requests, set dijitAll to true when
+     * this functionality is needed. The default is false.
+     * </p>
+     */
+    @Property(name="dijitAll", displayName="dijitAll", category="Javascript", isHidden=true)
+    private boolean dijitAll = false; 
+    private boolean dijitAll_set = false; 
+ 
+    /**
+     * Test flag indicating to include all Dojo dijit functionality. 
+     */
+    public boolean isDijitAll() { 
+        if (this.dijitAll_set) {
+            return this.dijitAll;
+        }
+        ValueExpression _vb = getValueExpression("dijitAll");
+        if (_vb != null) {
+            Object _result = _vb.getValue(getFacesContext().getELContext());
+            if (_result == null) {
+                return false;
+            } else {
+                return ((Boolean) _result).booleanValue();
+            }
+        }
+        return this.dijitAll;
+    } 
+
+    /**
+     * Set flag indicating to include all Dojo dijit functionality. 
+     */
+    public void setDijitAll(boolean dijitAll) {
+        this.dijitAll = dijitAll;
+        this.dijitAll_set = true;
+    }
+
+    /**
      * Flag (true or false) indicating that component JavaScript should be 
      * output in page. The default value is true.
      */
@@ -200,6 +207,44 @@ public class ThemeLinks extends UIComponentBase {
     public void setJavaScript(boolean javaScript) {
         this.javaScript = javaScript;
         this.javaScript_set = true;
+    }
+
+    /**
+     * Flag (true or false) indicating that Dojo should parse markup. 
+     * <p>
+     * For better performance, set parseOnLoad to true only when markup contains
+     * Dojo tag attributes. The default is false.
+     * </p>
+     */
+    @Property(name="parseOnLoad", displayName="parseOnLoad", category="Javascript", isHidden=true)
+    private boolean parseOnLoad = false; 
+    private boolean parseOnLoad_set = false; 
+ 
+    /**
+     * Test flag indicating that Dojo should parse markup.
+     */
+    public boolean isParseOnLoad() { 
+        if (this.parseOnLoad_set) {
+            return this.parseOnLoad;
+        }
+        ValueExpression _vb = getValueExpression("parseOnLoad");
+        if (_vb != null) {
+            Object _result = _vb.getValue(getFacesContext().getELContext());
+            if (_result == null) {
+                return false;
+            } else {
+                return ((Boolean) _result).booleanValue();
+            }
+        }
+        return this.parseOnLoad;
+    } 
+
+    /**
+     * Set flag indicating that Dojo should parse markup.
+     */
+    public void setParseOnLoad(boolean parseOnLoad) {
+        this.parseOnLoad = parseOnLoad;
+        this.parseOnLoad_set = true;
     }
 
     /**
@@ -279,6 +324,97 @@ public class ThemeLinks extends UIComponentBase {
     }
 
     /**
+     * Flag (true or false) indicating to include all webui functionality.
+     * <p>
+     * For better performance, least used JavaScript is excluded from the 
+     * webui.js and webui-jsfx files. The following components will continue to 
+     * load JavaScript regardless of this setting, but using separate requests.
+     * </p><p>
+     * addRemove
+     * commonTasksSection
+     * editableList
+     * fileChooser
+     * orderableList
+     * scheduler
+     * table
+     * tree
+     * wizard
+     * </p><p>
+     * To limit the number of JavaScript requests, set webuiAll to true when
+     * this functionality is needed. The default is false.
+     * </p>
+     */
+    @Property(name="webuiAll", displayName="webuiAll", category="Javascript", isHidden=true)
+    private boolean webuiAll = false; 
+    private boolean webuiAll_set = false; 
+ 
+    /**
+     * Test flag indicating to include all webui functionality.
+     */
+    public boolean isWebuiAll() { 
+        if (this.webuiAll_set) {
+            return this.webuiAll;
+        }
+        ValueExpression _vb = getValueExpression("webuiAll");
+        if (_vb != null) {
+            Object _result = _vb.getValue(getFacesContext().getELContext());
+            if (_result == null) {
+                return false;
+            } else {
+                return ((Boolean) _result).booleanValue();
+            }
+        }
+        return this.webuiAll;
+    } 
+
+    /**
+     * Flag indicating to include all webui functionality.
+     */
+    public void setWebuiAll(boolean webuiAll) {
+        this.webuiAll = webuiAll;
+        this.webuiAll_set = true;
+    }
+
+    /**
+     * Flag (true or false) indicating to include default Ajax functionality 
+     * based on JSF Extensions.
+     * <p>
+     * For better performance, set webuiJsfx to false when Ajax features are
+     * not used. The default is true.
+     * </p>
+     */
+    @Property(name="webuiJsfx", displayName="webuiJsfx", category="Javascript", isHidden=true)
+    private boolean webuiJsfx = true; 
+    private boolean webuiJsfx_set = false; 
+ 
+    /**
+     * Test flag indicating to include default Ajax functionality.
+     */
+    public boolean isWebuiJsfx() { 
+        if (this.webuiJsfx_set) {
+            return this.webuiJsfx;
+        }
+        ValueExpression _vb = getValueExpression("webuiJsfx");
+        if (_vb != null) {
+            Object _result = _vb.getValue(getFacesContext().getELContext());
+            if (_result == null) {
+                return false;
+            } else {
+                return ((Boolean) _result).booleanValue();
+            }
+        }
+        return this.webuiJsfx;
+    } 
+
+    /**
+     * Set flag indicating to include default Ajax functionality.
+     */
+    public void setWebuiJsfx(boolean webuiJsfx) {
+        this.webuiJsfx = webuiJsfx;
+        this.webuiJsfx_set = true;
+    }
+
+    /**
      * <p>Restore the state of this component.</p>
      */
     public void restoreState(FacesContext _context,Object _state) {
@@ -292,13 +428,21 @@ public class ThemeLinks extends UIComponentBase {
         this.styleSheetInline_set = ((Boolean) _values[6]).booleanValue();
         this.debug = ((Boolean) _values[7]).booleanValue();
         this.debug_set = ((Boolean) _values[8]).booleanValue();
+        this.dijitAll = ((Boolean) _values[9]).booleanValue();
+        this.dijitAll_set = ((Boolean) _values[10]).booleanValue();
+        this.parseOnLoad = ((Boolean) _values[11]).booleanValue();
+        this.parseOnLoad_set = ((Boolean) _values[12]).booleanValue();
+        this.webuiAll = ((Boolean) _values[13]).booleanValue();
+        this.webuiAll_set = ((Boolean) _values[14]).booleanValue();
+        this.webuiJsfx = ((Boolean) _values[15]).booleanValue();
+        this.webuiJsfx_set = ((Boolean) _values[16]).booleanValue();
     }
 
     /**
      * <p>Save the state of this component.</p>
      */
     public Object saveState(FacesContext _context) {
-        Object _values[] = new Object[9];
+        Object _values[] = new Object[17];
         _values[0] = super.saveState(_context);
         _values[1] = this.javaScript ? Boolean.TRUE : Boolean.FALSE;
         _values[2] = this.javaScript_set ? Boolean.TRUE : Boolean.FALSE;
@@ -308,6 +452,14 @@ public class ThemeLinks extends UIComponentBase {
         _values[6] = this.styleSheetInline_set ? Boolean.TRUE : Boolean.FALSE;
         _values[7] = this.debug ? Boolean.TRUE : Boolean.FALSE;
         _values[8] = this.debug_set ? Boolean.TRUE : Boolean.FALSE;
+        _values[9] = this.dijitAll ? Boolean.TRUE : Boolean.FALSE;
+        _values[10] = this.dijitAll_set ? Boolean.TRUE : Boolean.FALSE;
+        _values[11] = this.parseOnLoad ? Boolean.TRUE : Boolean.FALSE;
+        _values[12] = this.parseOnLoad_set ? Boolean.TRUE : Boolean.FALSE;
+        _values[13] = this.webuiAll ? Boolean.TRUE : Boolean.FALSE;
+        _values[14] = this.webuiAll_set ? Boolean.TRUE : Boolean.FALSE;
+        _values[15] = this.webuiJsfx ? Boolean.TRUE : Boolean.FALSE;
+        _values[16] = this.webuiJsfx_set ? Boolean.TRUE : Boolean.FALSE;
         return _values;
     }
 }

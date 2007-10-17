@@ -218,9 +218,6 @@ webui.@THEME@.widget.textField.prototype.validate = function(event) {
     if (event == null) {
         return false;
     }
-    // Include default AJAX implementation.
-    this.ajaxify();
-
     // Publish an event for custom AJAX implementations to listen for.
     dojo.publish(webui.@THEME@.widget.textField.event.validation.beginTopic, [{
         id: this.id

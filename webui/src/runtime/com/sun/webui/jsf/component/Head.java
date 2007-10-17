@@ -83,50 +83,16 @@ public class Head extends UIComponentBase {
     }
 
     /**
-     * Flag indicating to turn off default Ajax functionality. Set ajaxify to
-     * false when providing a different Ajax implementation.
-     */
-    @Property(name="ajaxify", displayName="Ajaxify", category="Javascript", isHidden=true)
-    private boolean ajaxify = true; 
-    private boolean ajaxify_set = false; 
- 
-    /**
-     * Test if default Ajax functionality should be turned off.
-     */
-    public boolean isAjaxify() { 
-        if (this.ajaxify_set) {
-            return this.ajaxify;
-        }
-        ValueExpression _vb = getValueExpression("ajaxify");
-        if (_vb != null) {
-            Object _result = _vb.getValue(getFacesContext().getELContext());
-            if (_result == null) {
-                return false;
-            } else {
-                return ((Boolean) _result).booleanValue();
-            }
-        }
-        return this.ajaxify;
-    } 
-
-    /**
-     * Set flag indicating to turn off default Ajax functionality.
-     */
-    public void setAjaxify(boolean ajaxify) {
-        this.ajaxify = ajaxify;
-        this.ajaxify_set = true;
-    }
-
-    /**
-     * Flag (true or false) indicating that Dojo debugging is enabled. The 
-     * default value is false.
+     * Flag (true or false) indicating that debugging is enabled. This will 
+     * output uncompressed JavaScript and set Dojo's djConfig property. The 
+     * default is false.
      */
     @Property(name="debug", displayName="Enable Dojo Debugging", category="Javascript")
     private boolean debug = false;
     private boolean debug_set = false;
 
     /**
-     * Test flag indicating that Dojo debugging is enabled.
+     * Test flag indicating that debugging is enabled.
      */
     public boolean isDebug() {
         if (this.debug_set) {
@@ -145,11 +111,94 @@ public class Head extends UIComponentBase {
     }
     
     /**
-     * Set flag indicating that Dojo debugging is enabled.
+     * Set flag indicating that debugging is enabled.
      */
     public void setDebug(boolean debug) {
         this.debug = debug;
         this.debug_set = true;
+    }
+
+    /**
+     * <p>Flag (true or false) indicating that a default html base tag should be
+     * shown or not. Changing this attribute could cause webuijsf:anchor to not
+     * work properly. The default value is false.</p>
+     */
+    @Property(name="defaultBase", displayName="Default Base", category="Appearance")
+    private boolean defaultBase = false;
+    private boolean defaultBase_set = false;
+
+    /**
+     * <p>Flag (true or false) indicating that a default html base tag should be
+     * shown or not. Changing this attribute could cause webuijsf:anchor to not work
+     * properly. The default value is false.</p>
+     */
+    public boolean isDefaultBase() {
+        if (this.defaultBase_set) {
+            return this.defaultBase;
+        }
+        ValueExpression _vb = getValueExpression("defaultBase");
+        if (_vb != null) {
+            Object _result = _vb.getValue(getFacesContext().getELContext());
+            if (_result == null) {
+                return false;
+            } else {
+                return ((Boolean) _result).booleanValue();
+            }
+        }
+        return false;
+    }
+
+    /**
+     * <p>Flag (true or false) indicating that a default html base tag should be
+     * shown or not. Changing this attribute could cause webuijsf:anchor to not
+     * work properly. The default value is false.</p>
+     * @see #isDefaultBase()
+     */
+    public void setDefaultBase(boolean defaultBase) {
+        this.defaultBase = defaultBase;
+        this.defaultBase_set = true;
+    }
+
+    /**
+     * Flag (true or false) indicating to include all dijit functionality. 
+     * <p>
+     * For better performance, least used JavaScript is excluded from the 
+     * dijit.js file. Dojo will continue to load JavaScript regardless of this
+     * setting, but using separate requests.
+     * </p><p>
+     * To limit the number of JavaScript requests, set dijitAll to true when
+     * this functionality is needed. The default is false.
+     * </p>
+     */
+    @Property(name="dijitAll", displayName="dijitAll", category="Javascript", isHidden=true)
+    private boolean dijitAll = false; 
+    private boolean dijitAll_set = false; 
+ 
+    /**
+     * Test flag indicating to include all Dojo dijit functionality. 
+     */
+    public boolean isDijitAll() { 
+        if (this.dijitAll_set) {
+            return this.dijitAll;
+        }
+        ValueExpression _vb = getValueExpression("dijitAll");
+        if (_vb != null) {
+            Object _result = _vb.getValue(getFacesContext().getELContext());
+            if (_result == null) {
+                return false;
+            } else {
+                return ((Boolean) _result).booleanValue();
+            }
+        }
+        return this.dijitAll;
+    } 
+
+    /**
+     * Set flag indicating to include all Dojo dijit functionality. 
+     */
+    public void setDijitAll(boolean dijitAll) {
+        this.dijitAll = dijitAll;
+        this.dijitAll_set = true;
     }
 
     /**
@@ -223,24 +272,24 @@ public class Head extends UIComponentBase {
     }
 
     /**
-     * <p>Flag (true or false) indicating that a default html base tag should be
-     * shown or not.  Changing this attribute could cause webuijsf:anchor to not work
-     * properly.  The default value is false.</p>
+     * Flag (true or false) indicating that Dojo should parse markup. 
+     * <p>
+     * For better performance, set parseOnLoad to true only when markup contains
+     * Dojo tag attributes. The default is false.
+     * </p>
      */
-    @Property(name="defaultBase", displayName="Default Base", category="Appearance")
-    private boolean defaultBase = false;
-    private boolean defaultBase_set = false;
-
+    @Property(name="parseOnLoad", displayName="parseOnLoad", category="Javascript", isHidden=true)
+    private boolean parseOnLoad = false; 
+    private boolean parseOnLoad_set = false; 
+ 
     /**
-     * <p>Flag (true or false) indicating that a default html base tag should be
-     * shown or not.  Changing this attribute could cause webuijsf:anchor to not work
-     * properly.  The default value is false.</p>
+     * Test flag indicating that Dojo should parse markup.
      */
-    public boolean isDefaultBase() {
-        if (this.defaultBase_set) {
-            return this.defaultBase;
+    public boolean isParseOnLoad() { 
+        if (this.parseOnLoad_set) {
+            return this.parseOnLoad;
         }
-        ValueExpression _vb = getValueExpression("defaultBase");
+        ValueExpression _vb = getValueExpression("parseOnLoad");
         if (_vb != null) {
             Object _result = _vb.getValue(getFacesContext().getELContext());
             if (_result == null) {
@@ -249,18 +298,15 @@ public class Head extends UIComponentBase {
                 return ((Boolean) _result).booleanValue();
             }
         }
-        return false;
-    }
+        return this.parseOnLoad;
+    } 
 
     /**
-     * <p>Flag (true or false) indicating that a default html base tag should be
-     * shown or not.  Changing this attribute could cause webuijsf:anchor to not work
-     * properly.  The default value is false.</p>
-     * @see #isDefaultBase()
+     * Set flag indicating that Dojo should parse markup.
      */
-    public void setDefaultBase(boolean defaultBase) {
-        this.defaultBase = defaultBase;
-        this.defaultBase_set = true;
+    public void setParseOnLoad(boolean parseOnLoad) {
+        this.parseOnLoad = parseOnLoad;
+        this.parseOnLoad_set = true;
     }
 
     /**
@@ -323,6 +369,97 @@ public class Head extends UIComponentBase {
     }
 
     /**
+     * Flag (true or false) indicating to include all webui functionality.
+     * <p>
+     * For better performance, least used JavaScript is excluded from the 
+     * webui.js and webui-jsfx files. The following components will continue to 
+     * load JavaScript regardless of this setting, but using separate requests.
+     * </p><p>
+     * addRemove
+     * commonTasksSection
+     * editableList
+     * fileChooser
+     * orderableList
+     * scheduler
+     * table
+     * tree
+     * wizard
+     * </p><p>
+     * To limit the number of JavaScript requests, set webuiAll to true when
+     * this functionality is needed. The default is false.
+     * </p>
+     */
+    @Property(name="webuiAll", displayName="webuiAll", category="Javascript", isHidden=true)
+    private boolean webuiAll = false; 
+    private boolean webuiAll_set = false; 
+ 
+    /**
+     * Test flag indicating to include all webui functionality.
+     */
+    public boolean isWebuiAll() { 
+        if (this.webuiAll_set) {
+            return this.webuiAll;
+        }
+        ValueExpression _vb = getValueExpression("webuiAll");
+        if (_vb != null) {
+            Object _result = _vb.getValue(getFacesContext().getELContext());
+            if (_result == null) {
+                return false;
+            } else {
+                return ((Boolean) _result).booleanValue();
+            }
+        }
+        return this.webuiAll;
+    } 
+
+    /**
+     * Flag indicating to include all webui functionality.
+     */
+    public void setWebuiAll(boolean webuiAll) {
+        this.webuiAll = webuiAll;
+        this.webuiAll_set = true;
+    }
+
+    /**
+     * Flag (true or false) indicating to include default Ajax functionality 
+     * based on JSF Extensions.
+     * <p>
+     * For better performance, set webuiJsfx to false when Ajax features are
+     * not used. The default is true.
+     * </p>
+     */
+    @Property(name="webuiJsfx", displayName="webuiJsfx", category="Javascript", isHidden=true)
+    private boolean webuiJsfx = true; 
+    private boolean webuiJsfx_set = false; 
+ 
+    /**
+     * Test flag indicating to include default Ajax functionality.
+     */
+    public boolean isWebuiJsfx() { 
+        if (this.webuiJsfx_set) {
+            return this.webuiJsfx;
+        }
+        ValueExpression _vb = getValueExpression("webuiJsfx");
+        if (_vb != null) {
+            Object _result = _vb.getValue(getFacesContext().getELContext());
+            if (_result == null) {
+                return false;
+            } else {
+                return ((Boolean) _result).booleanValue();
+            }
+        }
+        return this.webuiJsfx;
+    } 
+
+    /**
+     * Set flag indicating to include default Ajax functionality.
+     */
+    public void setWebuiJsfx(boolean webuiJsfx) {
+        this.webuiJsfx = webuiJsfx;
+        this.webuiJsfx_set = true;
+    }
+
+    /**
      * <p>Restore the state of this component.</p>
      */
     public void restoreState(FacesContext _context,Object _state) {
@@ -332,34 +469,46 @@ public class Head extends UIComponentBase {
         this.defaultBase_set = ((Boolean) _values[2]).booleanValue();
         this.profile = (String) _values[3];
         this.title = (String) _values[4];
-        this.ajaxify = ((Boolean) _values[5]).booleanValue();
-        this.ajaxify_set = ((Boolean) _values[6]).booleanValue();
-        this.debug = ((Boolean) _values[7]).booleanValue();
-        this.debug_set = ((Boolean) _values[8]).booleanValue();
+        this.debug = ((Boolean) _values[5]).booleanValue();
+        this.debug_set = ((Boolean) _values[6]).booleanValue();
+        this.dijitAll = ((Boolean) _values[7]).booleanValue();
+        this.dijitAll_set = ((Boolean) _values[8]).booleanValue();
         this.javaScript = ((Boolean) _values[9]).booleanValue();
         this.javaScript_set = ((Boolean) _values[10]).booleanValue();
         this.meta = ((Boolean) _values[11]).booleanValue();
         this.meta_set = ((Boolean) _values[12]).booleanValue();
+        this.parseOnLoad = ((Boolean) _values[13]).booleanValue();
+        this.parseOnLoad_set = ((Boolean) _values[14]).booleanValue();
+        this.webuiAll = ((Boolean) _values[15]).booleanValue();
+        this.webuiAll_set = ((Boolean) _values[16]).booleanValue();
+        this.webuiJsfx = ((Boolean) _values[17]).booleanValue();
+        this.webuiJsfx_set = ((Boolean) _values[18]).booleanValue();
     }
 
     /**
      * <p>Save the state of this component.</p>
      */
     public Object saveState(FacesContext _context) {
-        Object _values[] = new Object[13];
+        Object _values[] = new Object[19];
         _values[0] = super.saveState(_context);
         _values[1] = this.defaultBase ? Boolean.TRUE : Boolean.FALSE;
         _values[2] = this.defaultBase_set ? Boolean.TRUE : Boolean.FALSE;
         _values[3] = this.profile;
         _values[4] = this.title;
-        _values[5] = this.ajaxify ? Boolean.TRUE : Boolean.FALSE;
-        _values[6] = this.ajaxify_set ? Boolean.TRUE : Boolean.FALSE;
-        _values[7] = this.debug ? Boolean.TRUE : Boolean.FALSE;
-        _values[8] = this.debug_set ? Boolean.TRUE : Boolean.FALSE;
+        _values[5] = this.debug ? Boolean.TRUE : Boolean.FALSE;
+        _values[6] = this.debug_set ? Boolean.TRUE : Boolean.FALSE;
+        _values[7] = this.dijitAll ? Boolean.TRUE : Boolean.FALSE;
+        _values[8] = this.dijitAll_set ? Boolean.TRUE : Boolean.FALSE;
         _values[9] = this.javaScript ? Boolean.TRUE : Boolean.FALSE;
         _values[10] = this.javaScript_set ? Boolean.TRUE : Boolean.FALSE;
         _values[11] = this.meta ? Boolean.TRUE : Boolean.FALSE;
         _values[12] = this.meta_set ? Boolean.TRUE : Boolean.FALSE;
+        _values[13] = this.parseOnLoad ? Boolean.TRUE : Boolean.FALSE;
+        _values[14] = this.parseOnLoad_set ? Boolean.TRUE : Boolean.FALSE;
+        _values[15] = this.webuiAll ? Boolean.TRUE : Boolean.FALSE;
+        _values[16] = this.webuiAll_set ? Boolean.TRUE : Boolean.FALSE;
+        _values[17] = this.webuiJsfx ? Boolean.TRUE : Boolean.FALSE;
+        _values[18] = this.webuiJsfx_set ? Boolean.TRUE : Boolean.FALSE;
         return _values;
     }
 }

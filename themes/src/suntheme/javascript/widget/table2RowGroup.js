@@ -571,9 +571,6 @@ webui.@THEME@.widget.table2RowGroup.prototype.scroll = function(event) {
     // Publish event to retrieve data.
     if (this.first < this.totalRows
             && this.currentRow % this.maxRows == 0) {
-        // Include default AJAX implementation.
-        this.ajaxify();
-
         // Publish an event for custom AJAX implementations to listen for.
         dojo.publish(webui.@THEME@.widget.table2RowGroup.event.scroll.beginTopic, [{
             id: this.id,

@@ -104,9 +104,6 @@ webui.@THEME@.widget.accordionTab.event =
  * @return {boolean} true if successful; otherwise, false.
  */
 webui.@THEME@.widget.accordionTab.prototype.loadContent = function(execute) {
-    // Include default AJAX implementation.
-    this.ajaxify();
-
     // Publish event.
     dojo.publish(webui.@THEME@.widget.accordionTab.event.load.beginTopic, [{
         id: this.id

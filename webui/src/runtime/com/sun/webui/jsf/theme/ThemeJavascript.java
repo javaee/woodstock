@@ -30,14 +30,24 @@ package com.sun.webui.jsf.theme;
 
 public class ThemeJavascript {
     /**
-     * A Javascript file that contains Dojo dijit functions.
+     * A Javascript file that contains common Dojo dijit functions.
      */
     public static final String DIJIT = "dijit";
 
     /**
-     * A Javascript file that contains uncompressed Dojo digit functions.
+     * A Javascript file that contains common uncompressed Dojo digit functions.
      */
     public static final String DIJIT_UNCOMPRESSED = "dijitUncompressed";
+
+    /**
+     * A Javascript file that contains all Dojo dijit functions.
+     */
+    public static final String DIJIT_ALL = "dijitAll";
+
+    /**
+     * A Javascript file that contains all uncompressed Dojo digit functions.
+     */
+    public static final String DIJIT_ALL_UNCOMPRESSED = "dijitAllUncompressed";
 
     /**
      * A Javascript file that contains Dojo functions.
@@ -123,14 +133,52 @@ public class ThemeJavascript {
 	"themeModulePathUncompressed";
 
     /**
-     * A Javascript file that contains webui functions.
+     * A Javascript file that contains common webui functions, but without the 
+     * default Ajax implementation.
      */
     public static final String WEBUI = "webui";
 
     /**
-     * A Javascript file that contains uncompressed webui functions.
+     * A Javascript file that contains common uncompressed webui functions, but
+     * without the default Ajax implementation.
      */
     public static final String WEBUI_UNCOMPRESSED = "webuiUncompressed";
+
+    /**
+     * A Javascript file that contains all webui functions, but without the 
+     * default Ajax implementation.
+     */
+    public static final String WEBUI_ALL = "webuiAll";
+
+    /**
+     * A Javascript file that contains all uncompressed webui functions, but
+     * without the default Ajax implementation.
+     */
+    public static final String WEBUI_ALL_UNCOMPRESSED = "webuiAllUncompressed";
+
+    /**
+     * A Javascript file that contains common webui functions and the default
+     * Ajax implementation based on JSF Extensions.
+     */
+    public static final String WEBUI_JSFX = "webuiJsfx";
+
+    /**
+     * A Javascript file that contains common uncompressed webui functions and 
+     * the default Ajax implementation based on JSF Extensions.
+     */
+    public static final String WEBUI_JSFX_UNCOMPRESSED = "webuiJsfxUncompressed";
+
+    /**
+     * A Javascript file that contains all webui functions and the default Ajax 
+     * implementation based on JSF Extensions.
+     */
+    public static final String WEBUI_JSFX_ALL = "webuiJsfxAll";
+
+    /**
+     * A Javascript file that contains all uncompressed webui functions and the
+     * default Ajax implementation based on JSF Extensions.
+     */
+    public static final String WEBUI_JSFX_ALL_UNCOMPRESSED = "webuiJsfxAllUncompressed";
 
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     // Deprecations

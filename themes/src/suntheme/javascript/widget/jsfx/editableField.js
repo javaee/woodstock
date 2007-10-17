@@ -27,9 +27,7 @@ dojo.require("webui.@THEME@.widget.jsfx.common");
 dojo.require("webui.@THEME@.widget.editableField");
 
 // Listen for Dojo Widget events.
-if (new Boolean(webui.@THEME@.bootstrap.ajaxify).valueOf() == true) {
-    dojo.subscribe(webui.@THEME@.widget.editableField.event.refresh.beginTopic,
-        webui.@THEME@.widget.jsfx.common, "processRefreshEvent");
-    dojo.subscribe(webui.@THEME@.widget.editableField.event.submit.beginTopic,
-        webui.@THEME@.widget.jsfx.common, "processSubmitEvent");
-}
+dojo.subscribe(webui.@THEME@.widget.editableField.event.refresh.beginTopic,
+    webui.@THEME@.widget.jsfx.common, "processRefreshEvent");
+dojo.subscribe(webui.@THEME@.widget.editableField.event.submit.beginTopic,
+    webui.@THEME@.widget.jsfx.common, "processSubmitEvent");

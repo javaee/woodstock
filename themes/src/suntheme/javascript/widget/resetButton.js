@@ -53,10 +53,10 @@ webui.@THEME@.widget.resetButton.event =
      */
     refresh: {
         /** Refresh event topic for custom AJAX implementations to listen for. */
-        beginTopic: webui.@THEME@.widget.button.event.refresh.beginTopic,
+        beginTopic: "webui_@THEME@_widget_resetButton_event_refresh_begin",
 
         /** Refresh event topic for custom AJAX implementations to listen for. */
-        endTopic: webui.@THEME@.widget.button.event.refresh.endTopic
+        endTopic: "webui_@THEME@_widget_resetButton_event_refresh_end"
     },
 
     /**
@@ -65,9 +65,9 @@ webui.@THEME@.widget.resetButton.event =
      */
     state: {
         /** State event topic for custom AJAX implementations to listen for. */
-        beginTopic: webui.@THEME@.widget.button.event.state.beginTopic,
+        beginTopic: "webui_@THEME@_widget_resetButton_event_state_begin",
 
         /** State event topic for custom AJAX implementations to listen for. */
-        endTopic: webui.@THEME@.widget.button.event.state.endTopic
+        endTopic: "webui_@THEME@_widget_resetButton_event_state_end"
     }
 }

@@ -23,4 +23,9 @@
 
 dojo.provide("webui.@THEME@.widget.jsfx.resetButton");
 
-dojo.require("webui.@THEME@.widget.jsfx.button");
+dojo.require("webui.@THEME@.widget.jsfx.common");
+dojo.require("webui.@THEME@.widget.resetButton");
+
+// Listen for Dojo Widget events.
+dojo.subscribe(webui.@THEME@.widget.resetButton.event.refresh.beginTopic,
+    webui.@THEME@.widget.jsfx.common, "processRefreshEvent");

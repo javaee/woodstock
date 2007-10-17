@@ -812,9 +812,6 @@ webui.@THEME@.widget.progressBar.prototype.stop = function() {
 webui.@THEME@.widget.progressBar.prototype.updateProgress = function() {
     // Publish event.
     if (this.refreshRate > 0) {
-        // Include default AJAX implementation.
-        this.ajaxify();
-
         // Publish an event for custom AJAX implementations to listen for.
         dojo.publish(webui.@THEME@.widget.progressBar.event.progress.beginTopic, [{
             id: this.id
