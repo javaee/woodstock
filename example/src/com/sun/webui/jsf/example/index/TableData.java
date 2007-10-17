@@ -73,7 +73,7 @@ public class TableData {
                     "field/PaymentResults.jsp",
                     "field/TextInputResults.jsp",
                     "field/TextInputBackingBean.java",
-                    "field/PaymentBacking.java"}
+                    "field/PaymentBackingBean.java"}
         ),
         new AppData("index_tableName", "index_tableConcepts", "showTableIndex", 
                 new String[] {
