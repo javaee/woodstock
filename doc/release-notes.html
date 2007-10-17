@@ -30,14 +30,50 @@
 <h1><u>Woodstock 4.1 JSF Components Release Notes</u></h1>
 <p><br>
 </p>
-<h2><u><a name="4.1_Build_14">4.1 Build 14</a></u>&nbsp; (10/12/2007)</h2>
+<h2><u><a name="4.1_Build_15">4.1 Build 15</a></u>&nbsp; (10/26/2007)</h2>
 <h3> New Features</h3>
 <ul>
-  <li>All new components (BubleHelp, PopupMenu, Accordion) are now in the NBM 
-	module so they will appear in the NetBeans 6 Beta 2 palette when<br>
-	you add the .nbm files from the Download page to NetBeans 6 Beta 2.&nbsp; 
-	You must use a Beta 2 or later build.<li>Added new &quot;Tools&quot; module for 
-	building Themes.<li>Woodstock is now based on Dojo .9. Please see the <a
+  <li>Head and ThemeLinks components have some new properties; named
+parseOnLoad, dijitAll, webuiAll, and webuiJsfx. <br>
+  </li>
+  <ul>
+    <li>The parseOnLoad attribute simply sets a djConfig property,
+forcing Dojo to parse markup in the page for widgets. <br>
+    </li>
+    <li>The dijitAll attribute indicates that the dijit-all.js file
+should be included in order to use extra widgets not supported in the
+basic dijit.js file.</li>
+    <li>The webuiAll and webuiJsfx attributes perform fine tuning for
+component JavaScript.</li>
+  </ul>
+  <ul>
+    <ul>
+      <li>webuiAll=true, webuiJsfx=false: Uses the webui-all.js file
+containing all webui JavaScipt, but no default Ajax functionality. <br>
+      </li>
+      <li>webuiAll=true, webuiJsfx=true: Uses the webui-jsfx-all.js
+file containing all webui JavaScipt and the default Ajax functionality.
+        <br>
+      </li>
+      <li>webuiAll=false, webuiJsfx=false: Uses the webui.js file
+excluding least used JavaScipt and no default Ajax functionality. <br>
+      </li>
+      <li>webuiAll=false, webuiJsfx=true: Uses the webui-jsfx.js file
+excluding least used JavaScipt, but the default Ajax functionality is
+included.
+      </li>
+    </ul>
+  </ul>
+</ul>
+<h2><u><a name="4.1_Build_14">1 Build 14</a></u>&nbsp; (10/12/2007)</h2>
+<h3> New Features</h3>
+<ul>
+  <li>All new components (BubleHelp, PopupMenu, Accordion) are now in
+the NBM module so they will appear in the NetBeans 6 Beta 2 palette when<br>
+you add the .nbm files from the Download page to NetBeans 6 Beta
+2.&nbsp; You must use a Beta 2 or later build.</li>
+  <li>Added new "Tools" module for building Themes.</li>
+  <li>Woodstock is now based on Dojo .9. Please see the <a
  target="_blank"
  href="http://www.dojotoolkit.org/book/dojo-porting-guide-0-4-x-0-9">Dojo
 Porting Guide</a> for a list of changes.</li>
@@ -45,66 +81,40 @@ Porting Guide</a> for a list of changes.</li>
     <li>Widget creation is now deferred to the window.onLoad event.
 Therefore, if you have written JavaScript within the body tag like so:<br>
       <br>
-      <code>&lt;html&gt;
-      <br>
-&nbsp;&lt;head&gt;&lt;/head&gt;
-      <br>
-&nbsp;&lt;body&gt;
-      <br>
-&nbsp;&nbsp; &lt;form&gt;
-      <br>
-&nbsp;&nbsp;&nbsp;&nbsp; &lt;script&gt;
-      <br>
+      <code>&lt;html&gt; <br>
+&nbsp;&lt;head&gt;&lt;/head&gt; <br>
+&nbsp;&lt;body&gt; <br>
+&nbsp;&nbsp; &lt;form&gt; <br>
+&nbsp;&nbsp;&nbsp;&nbsp; &lt;script&gt; <br>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; var domNode =
-document.getElementById("fileForm:chooserContentPage:fileChooser");
-      <br>
+document.getElementById("fileForm:chooserContentPage:fileChooser"); <br>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-domNode.setChooseButton("fileForm:chooserContentPage:file_button");
+domNode.setChooseButton("fileForm:chooserContentPage:file_button"); <br>
+&nbsp;&nbsp;&nbsp;&nbsp; &lt;/script&gt; <br>
+&nbsp;&nbsp; &lt;/form&gt; <br>
+&nbsp;&lt;/body&gt; <br>
+&lt;/html&gt; </code><br>
       <br>
-&nbsp;&nbsp;&nbsp;&nbsp; &lt;/script&gt;
+You should rewrite the code above as: <br>
       <br>
-&nbsp;&nbsp; &lt;/form&gt;
-      <br>
-&nbsp;&lt;/body&gt;
-      <br>
-&lt;/html&gt;
-      </code><br>
-      <br>
-You should rewrite the code above as:
-      <br>
-      <br>
-      <code>&lt;html&gt;
-      <br>
-&nbsp;&lt;head&gt;
-      <br>
-&nbsp;&nbsp;&nbsp;&nbsp; &lt;script&gt;
-      <br>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; function init() {
-      <br>
+      <code>&lt;html&gt; <br>
+&nbsp;&lt;head&gt; <br>
+&nbsp;&nbsp;&nbsp;&nbsp; &lt;script&gt; <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; function init() { <br>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; var domNode =
-document.getElementById("fileForm:chooserContentPage:fileChooser");
-      <br>
+document.getElementById("fileForm:chooserContentPage:fileChooser"); <br>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-domNode.setChooseButton("fileForm:chooserContentPage:file_button");
-      <br>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; }
-      <br>
-&nbsp;&nbsp;&nbsp;&nbsp; &lt;/script&gt;
-      <br>
-&nbsp;&lt;/head&gt;
-      <br>
-&nbsp;&lt;body onLoad="setTimeout('init();', 0);"&gt;
-      <br>
-&nbsp;&nbsp; &lt;form&gt;&lt;/form&gt;
-      <br>
-&nbsp;&lt;/body&gt;
-      <br>
-&lt;/html&gt;
-      </code><br>
+domNode.setChooseButton("fileForm:chooserContentPage:file_button"); <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; } <br>
+&nbsp;&nbsp;&nbsp;&nbsp; &lt;/script&gt; <br>
+&nbsp;&lt;/head&gt; <br>
+&nbsp;&lt;body onLoad="setTimeout('init();', 0);"&gt; <br>
+&nbsp;&nbsp; &lt;form&gt;&lt;/form&gt; <br>
+&nbsp;&lt;/body&gt; <br>
+&lt;/html&gt; </code><br>
       <br>
 The setTimeout statement may not be required, but it ensures your
-JavaScript is run after all HTML elements have been add to the DOM.
-      <br>
+JavaScript is run after all HTML elements have been add to the DOM. <br>
       <br>
     </li>
   </ul>
@@ -129,47 +139,67 @@ are embedded in JavaScript.</li>
 </ul>
 <h3>Bugs Resolved/Fixed</h3>
 <ul>
-  <li><a href="https://woodstock.dev.java.net/issues/show_bug.cgi?id=193">Issue
+  <li><a
+ href="https://woodstock.dev.java.net/issues/show_bug.cgi?id=193">Issue
 #193</a> - Calender doesn't have alert message or tooltip</li>
-  <li><a href="https://woodstock.dev.java.net/issues/show_bug.cgi?id=787">Issue
+  <li><a
+ href="https://woodstock.dev.java.net/issues/show_bug.cgi?id=787">Issue
 #787</a> - key instead of localized column header text</li>
-  <li><a href="https://woodstock.dev.java.net/issues/show_bug.cgi?id=155">Issue 
-	#155</a> - vwp nbm is failing to build</li>
-  <li><a href="https://woodstock.dev.java.net/issues/show_bug.cgi?id=802">Issue
+  <li><a
+ href="https://woodstock.dev.java.net/issues/show_bug.cgi?id=155">Issue
+#155</a> - vwp nbm is failing to build</li>
+  <li><a
+ href="https://woodstock.dev.java.net/issues/show_bug.cgi?id=802">Issue
 #802</a> - issues with text input test's password field.</li>
-	<li><a href="https://woodstock.dev.java.net/issues/show_bug.cgi?id=255">Issue
+  <li><a
+ href="https://woodstock.dev.java.net/issues/show_bug.cgi?id=255">Issue
 #255</a> - common task section:resize issue in design time</li>
-	<li><a href="https://woodstock.dev.java.net/issues/show_bug.cgi?id=198">Issue
+  <li><a
+ href="https://woodstock.dev.java.net/issues/show_bug.cgi?id=198">Issue
 #198</a> - Misc UI issues with clientsideCheckbox example</li>
-	<li><a href="https://woodstock.dev.java.net/issues/show_bug.cgi?id=200">Issue
+  <li><a
+ href="https://woodstock.dev.java.net/issues/show_bug.cgi?id=200">Issue
 #200</a> - Misc UI issues with TabSet example</li>
-	<li><a href="https://woodstock.dev.java.net/issues/show_bug.cgi?id=510">Issue
+  <li><a
+ href="https://woodstock.dev.java.net/issues/show_bug.cgi?id=510">Issue
 #510</a> - fail to cut/paste addremove component</li>
-	<li><a href="https://woodstock.dev.java.net/issues/show_bug.cgi?id=811">Issue
+  <li><a
+ href="https://woodstock.dev.java.net/issues/show_bug.cgi?id=811">Issue
 #811</a> - Radio button selected value does not render on IE7</li>
-	<li><a href="https://woodstock.dev.java.net/issues/show_bug.cgi?id=441">Issue
-#441</a> - setItems(OptionGroup) throws NPE if OptionGroup's label is not set</li>
-	<li><a href="https://woodstock.dev.java.net/issues/show_bug.cgi?id=695">Issue
+  <li><a
+ href="https://woodstock.dev.java.net/issues/show_bug.cgi?id=441">Issue
+#441</a> - setItems(OptionGroup) throws NPE if OptionGroup's label is
+not set</li>
+  <li><a
+ href="https://woodstock.dev.java.net/issues/show_bug.cgi?id=695">Issue
 #695</a> - Do not search the DOM to find form element</li>
-	<li><a href="https://woodstock.dev.java.net/issues/show_bug.cgi?id=813">Issue
+  <li><a
+ href="https://woodstock.dev.java.net/issues/show_bug.cgi?id=813">Issue
 #813</a> - wide text below accordions on IE</li>
-	<li><a href="https://woodstock.dev.java.net/issues/show_bug.cgi?id=663">Issue
+  <li><a
+ href="https://woodstock.dev.java.net/issues/show_bug.cgi?id=663">Issue
 #663</a> - Designtime shows Markup error &lt; Remove</li>
-	<li><a href="https://woodstock.dev.java.net/issues/show_bug.cgi?id=815">Issue
+  <li><a
+ href="https://woodstock.dev.java.net/issues/show_bug.cgi?id=815">Issue
 #815</a> - accordion examples layout need overhaul</li>
-	<li><a href="https://woodstock.dev.java.net/issues/show_bug.cgi?id=612">Issue
+  <li><a
+ href="https://woodstock.dev.java.net/issues/show_bug.cgi?id=612">Issue
 #612</a> - accordion example 1 - broken images seen on IE7</li>
-	<li><a href="https://woodstock.dev.java.net/issues/show_bug.cgi?id=442">Issue
+  <li><a
+ href="https://woodstock.dev.java.net/issues/show_bug.cgi?id=442">Issue
 #442</a> - drop down list with bound label doesn't show in designer</li>
-	<li><a href="http://www.netbeans.org/issues/show_bug.cgi?id=117498">NB Issue
-#117498</a> - IllegalStateException by VW project creation at 
-	org.netbeans.ProxyClassLoader.printDefaultPackageWarning</li>
-	<li><a href="http://www.netbeans.org/issues/show_bug.cgi?id=116587">NB Issue
-#116587</a> - Duplicate code is inserted while Table component reverts to 
-	default DP</li>
-	<li><a href="http://www.netbeans.org/issues/show_bug.cgi?id=115875">NB Issue
-#115875</a> - Help topic need to be assigned to Options Customizer dialog box 
-	Help button<br>
+  <li><a href="http://www.netbeans.org/issues/show_bug.cgi?id=117498">NB
+Issue
+#117498</a> - IllegalStateException by VW project creation at
+org.netbeans.ProxyClassLoader.printDefaultPackageWarning</li>
+  <li><a href="http://www.netbeans.org/issues/show_bug.cgi?id=116587">NB
+Issue
+#116587</a> - Duplicate code is inserted while Table component reverts
+to default DP</li>
+  <li><a href="http://www.netbeans.org/issues/show_bug.cgi?id=115875">NB
+Issue
+#115875</a> - Help topic need to be assigned to Options Customizer
+dialog box Help button<br>
 &nbsp;</li>
 </ul>
 <h2><u><a name="4.1_Build_13">4.1 Build 13</a></u>&nbsp; (09/28/2007)</h2>
@@ -186,8 +216,7 @@ NetBeans 6.</li>
 deprecated. The DATE_PICKER_LINK facet is now obtained in the html
 CalendarRenderer and if a facet is not specified, the newly created
 imageHyperlink is not added to the facet map. Also, the renderer no
-more applies the enabled image to the obtained facet as it did before.
-  </li>
+more applies the enabled image to the obtained facet as it did before. </li>
 </ul>
 <h3>Bugs Resolved/Fixed</h3>
 <ul>
