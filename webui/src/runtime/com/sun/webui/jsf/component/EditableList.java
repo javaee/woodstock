@@ -1905,7 +1905,7 @@ public class EditableList extends WebuiInput implements ListManager,
     }
 
     /**
-     * <p>CSS style(s) to be applied to the outermost HTML element when this 
+     * <p>CSS style(s) see Accordion example to be applied to the outermost HTML element when this 
      * component is rendered.</p>
      */
     @Property(name="style", displayName="CSS Style(s)", category="Appearance", editorClassName="com.sun.jsfcl.std.css.CssStylePropertyEditor")
@@ -1936,7 +1936,7 @@ public class EditableList extends WebuiInput implements ListManager,
     }
 
     /**
-     * <p>CSS style class(es) to be applied to the outermost HTML element when this 
+     * <p>CSS style class(es) no parents, see Accordion example to be applied to the outermost HTML element when this 
      * component is rendered.</p>
      */
     @Property(name="styleClass", displayName="CSS Style Class(es)", category="Appearance", editorClassName="com.sun.rave.propertyeditors.StyleClassPropertyEditor")
@@ -2045,9 +2045,9 @@ public class EditableList extends WebuiInput implements ListManager,
     }
 
     /**
-     * <p>Use the visible attribute to indicate whether the component should be
+     * <p>Indicates whether the component should be
      * viewable by the user in the rendered HTML page. If set to false, the
-     * HTML code for the component is present in the page, but the component
+     * HTML code for this component is present in the page, but the component
      * is hidden with style attributes. By default, visible is set to true, so
      * HTML for the component HTML is included and visible to the user. If the
      * component is not visible, it can still be processed on subsequent form

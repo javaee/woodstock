@@ -3097,14 +3097,14 @@ update components on the server-side: refresh("form1:id1,form2:id2,...")<br>
         <description><![CDATA[
 <p>Use the <code>webuijsf:checkboxGroup</code> tag to display two or
 more check boxes in a grid layout in the rendered HTML page. The <code>webuijsf:checkboxGroup</code>
-tag attributes that you specify determine how the check boxes are
+tag attributes that you specify determine how the checkboxes are
 displayed.
 <p> If the <code>label</code> attribute is specified a <code>com.sun.webui.jsf.component.Label</code>
 component is rendered before the first checkbox and identifies the
 checkbox group. The label component's <code>for</code> attribute is
 set to the <code>id</code> attribute of the first checkbox in the
 rendered HTML page. </p>
-<p> The check boxes are laid out in rows and columns in an HTML
+<p> The checkboxes are laid out in rows and columns in an HTML
 &lt;table&gt; element. The number of rows is defined by the length of
 the items array. The number of columns is defined by the columns
 attribute. The default layout is a single vertical column. </p>
@@ -3139,13 +3139,13 @@ details on the HTML elements and components rendered for a checkbox. </p>
 component rendered is assigned the <code>clientId</code> of the <code>CheckboxGroup<code>
 component instance associated with this tag. The <code>id</code>
 attribute of each <code>Checkbox</code> component rendered is formed
-as follows, where <em>cbgrpid</em> is the id of the <code>CheckboxGroup</code>
+as follows, where <em>cbgrpid</em> is the ID of the <code>CheckboxGroup</code>
 instance and <em>N</em> is the nth checkbox. </code></code></p>
 <ul>
   <li> <em>cbgrpid_N</em></li>
 </ul>
 <p> See <a href="checkbox.html" target="tagFrame">webuijsf:checkbox</a>
-for details on how the id properties of the components that make up the
+for details on how the ID properties of the components that comprise
 checkbox are defined. </p>
 <p> </p>
 <h3>Theme Identifiers</h3>
@@ -3161,19 +3161,19 @@ disabled</li>
   <li>CbGrpClEv for even TD elements</li>
   <li>CbGrpClOd for odd TD elements</li>
   <li>Cb for the INPUT element</li>
-  <li>CbDis for the INPUT element for disabled check box </li>
-  <li>CbLbl for a LABEL element of a check box</li>
-  <li>CbLblDis for a LABEL element of a disabled check box</li>
-  <li>CbImg for an IMG element of a check box</li>
-  <li>CbImgDis for an IMG element of a disabled check box</li>
+  <li>CbDis for the INPUT element for d disabled checkbox </li>
+  <li>CbLbl for a LABEL element of a checkbox</li>
+  <li>CbLblDis for a LABEL element of a disabled checkbox</li>
+  <li>CbImg for an IMG element of a checkbox</li>
+  <li>CbImgDis for an IMG element of a disabled checkbox</li>
   <li>CbGrp - for the <em>span</em> element that encloses the entire
 set of elements rendered for the <code>checkboxGroup</code>. </li>
 </ul>
-<h3>Client Side Javascript Functions</h3>
+<h3>Client Side JavaScript Functions</h3>
 When the component is rendered, a DOM object corresponding to the
 component is created. To manipulate the component on the client side,
-you may invoke functions on the DOM object. With reference to the DOM
-id, to disable the component, invoke <code>document.getElementById(id).setProps({disabled:
+you call functions on the DOM object. To disable the component, 
+call <code>document.getElementById(id).setProps({disabled:
 true})</code>.<br>
 <br>
 <table style="text-align: left; width: 100%;" border="1" cellpadding="2"
@@ -3190,7 +3190,7 @@ function for a list of supported properties.</td>
 asynchronously refresh the component.<br>
       <ul>
         <li>[optional] execute: Comma separated string containing a
-list of client ids against which the <code>execute</code> portion of
+list of client IDs against which the <code>execute</code> portion of
 the request processing lifecycle must be run. If omitted, no other
 components are executed.</li>
       </ul>
@@ -3224,9 +3224,9 @@ properties:
 <code></code>
 <h3>Client Side JavaScript Events</h3>
 <p>
-When the component is manipulated client side, some functions may
-publish event topics for custom AJAX implementations to listen for.
-Using the Dojo event system, listen for the refresh event topic using:<br>
+When the component is manipulated client-side, some functions might
+publish event topics for custom Ajax implementations to listen for.
+Using the Dojo event system, you can instruct Ajax to listen for the refresh event topic bye using:<br>
 <br>
 <code>
 &lt;webuijsf:script&gt;<br>
@@ -3255,19 +3255,19 @@ The following events are supported.
   <tbody>
     <tr>
       <td> webui.suntheme.widget.rbcbGroup.event.refresh.beginTopic </td>
-      <td> Event topic published before asynchronously refreshing the
+      <td> Event topic is published before asynchronously refreshing the
 component. Supported properties include: <br>
       <ul>
         <li>[optional] execute - list of the components to be executed
 along with
 this component</li>
-        <li>id - The client id to process the event for</li>
+        <li>id - The client ID to process the event for</li>
       </ul>
       </td>
     </tr>
     <tr>
       <td> webui.suntheme.widget.rbcbGroup.event.refresh.endTopic </td>
-      <td> Event topic published after asynchronously refreshing the
+      <td> Event topic is published after asynchronously refreshing the
 component. Supported properties include: See setProps() function.<br>
       <ul>
         <li>props - JSON object containing properties of the component.
@@ -3279,8 +3279,8 @@ function for details on properties and their usage</li>
     </tr>
   </tbody>
 </table>
-<h3>Example</h3>
-<b>Example 1: Create a checkbox group</b>
+<h3>Code Examples</h3>
+<b>Example 1: Create a Checkbox Group</b>
 <p> <code> &nbsp;&lt;webuijsf:checkboxGroup
 items="#{rbcbGrp.selections}"<br>
 &nbsp;&nbsp;&nbsp;&nbsp;label="#{rbcbGrp.cbGrpLabel}"<br>
@@ -3296,11 +3296,11 @@ obtained from the value binding expression <code>#{rbcbGrp.selections}</code>.
 <code>rbcbGrp</code> is an application defined managed bean and
 provides the values for other attributes such as <code>selected</code>
 to receive the value of the selected checkboxes in the group. </p>
-<h4> Example 2: Update checkboxGroup client side using the getProps
-and setProps functions </h4>
+<h4> Example 2: Update CheckboxGroup Client-Side Using the GetProps
+and SetProps Functions </h4>
 <p>This example shows how to toggle the disabled state of a
 checkboxGroup
-client side using the getProps and setProps functions. </p>
+client-side using the getProps and setProps functions. </p>
 <code></code>
 <pre>&lt;webuijsf:checkboxGroup id="cb1" name="cb1" items="#{rbcbGrp.selections}" selected="#{rbcbGrp.cbvalue}" label="#{rbcbGrp.cbGrpLabel}"/&gt;<br>&lt;webuijsf:button id="button1" text="Toggle CheckboxGroup Disabled" onClick="toggleDisabled(); return false"/&gt;<br><br>&lt;webuijsf:script&gt;         <br>   function toggleDisabled() { <br>        var domNode = document.getElementById("form1:cb1"); <br>        domNode.setProps({ disabled: !domNode.getProps().disabled });<br>    }        <br>&lt;/webuijsf:script&gt;<br></pre>
 <h4>Example 3: Asynchronously update checkboxGroup using refresh
@@ -3324,13 +3324,13 @@ elements
 to execute. Thus, a comma-separated list of ids can be provided to
 update components server-side: refresh("form1:id1,form2:id2,..."). When
 no parameter is given, the refresh function acts as a reset.
-That is, the component will be redrawn using values set
+That is, the component will be redrawn using values that have been set
 server-side, but not updated.<br>
 <h4>Example 4: Asynchronously update checkboxGroup using refresh
 function</h4>
 This example shows how to asynchronously update a checkboxGroup using
 the refresh function. The execute property of the refresh function is
-used to define the client id which is to be submitted and updated
+used to define the client ID which is to be submitted and updated
 server-side. As the user types in the text field, the input value is
 updated server-side and the checkboxGroup label is updated client-side
 -- all without a page refresh.
@@ -3348,7 +3348,7 @@ submitting field value<br>
 <br>
 </code>Note that the refresh function can optionally take a list of
 elements
-to execute. Thus, a comma-separated list of ids can be provided to
+to execute. Thus, a comma-separated list of IDs can be provided to
 update components server-side: refresh("form1:id1,form2:id2,...")<br>
 <br>
 
@@ -5151,20 +5151,20 @@ update components server-side: refresh("form1:id1,form2:id2,...")<br>
    <tbody>
      <tr>
        <td style="vertical-align: top;"><code>fieldLabel</code></td>
-       <td style="vertical-align: top;">Specify a custom
+       <td style="vertical-align: top;">Specifies a custom
  component for the text field label. <br>
        </td>
      </tr>
      <tr>
        <td style="vertical-align: top;"><code>listLabel</code></td>
-       <td style="vertical-align: top;">Specify a custom
+       <td style="vertical-align: top;">Specifies a custom
  component for the label next to the list box.<br>
        </td>
      </tr>
      <tr>
        <td style="vertical-align: top;"><code>search<br>
        </code></td>
-       <td style="vertical-align: top;">Specify a custom
+       <td style="vertical-align: top;">Specifies a custom
  component for the Search button. The component is rendered on the same row as the
  text field and the Add button, after the Add button. The button should be used to
  provide a way for users to identify an appropriate value to be passed back and displayed
@@ -5174,19 +5174,19 @@ update components server-side: refresh("form1:id1,form2:id2,...")<br>
      <tr>
        <td style="vertical-align: top;"><code>readOnly<br>
        </code></td>
-       <td style="vertical-align: top;">Specify a custom
+       <td style="vertical-align: top;">Specifies a custom
  component for displaying a read-only version of the component</td>
      </tr>
      <tr>
        <td style="vertical-align: top;"><code>header<br>
        </code></td>
-       <td style="vertical-align: top;">Specify a header to
+       <td style="vertical-align: top;">Specifies a header to
  be rendered in a table row above the component.</td>
      </tr>
      <tr>
        <td style="vertical-align: top;"><code>footer<br>
        </code></td>
-       <td style="vertical-align: top;">Specify a header to
+       <td style="vertical-align: top;">Specifies a header to
  be rendered in a table row below the component.</td>
      </tr>
    </tbody>
@@ -5211,7 +5211,7 @@ update components server-side: refresh("form1:id1,form2:id2,...")<br>
  </pre> 
   <h4>Example 2: An editable list with a search button</h4>
      <p>This example uses the search facet to render a Search button. The button
-     executes a JavaScript function (which is defined by the developer). The list 
+     executes a JavaScript function which is defined by the developer. The list 
      allows multiple selections, and is rendered with the list on top. </p>
   <pre>
    &lt;webuijsf:editableList id="list2"
