@@ -47,7 +47,7 @@ import javax.faces.validator.ValidatorException;
  */
 public class WebuiInput extends UIInput {
     /**
-     * The converter attribute is used to specify a method to translate native
+     * Specifies a method to translate native
      * property values to String and back for this component. The converter 
      * attribute value must be one of the following:
      * <ul>
@@ -82,7 +82,7 @@ public class WebuiInput extends UIInput {
     }
 
     /**
-     * Use the rendered attribute to indicate whether the HTML code for the
+     * Indicates whether the HTML code for the
      * component should be included in the rendered HTML page. If set to false,
      * the rendered HTML page does not include the HTML for the component. If
      * the component is not rendered, it is also not processed on any subsequent

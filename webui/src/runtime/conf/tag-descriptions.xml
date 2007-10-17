@@ -2660,8 +2660,8 @@ attribute. </p>
 application defined object, a converter must be registered to convert
 to and from a <code>String</code> value. The converter is used to
 encode the checkbox value as the value of the HTML &lt;input&gt;
-element and to decode the submitted value in a request. In addition the
-object must support an <code>equals</code> method that returns <code>true</code>
+element and to decode the submitted value in a request. The
+object must also support an <code>equals</code> method that returns <code>true</code>
 when the value of the <code>selectedValue</code> attribute is compared
 to the <code>selected</code> attribute value in order to detect a
 selected checkbox. </p>
@@ -2693,16 +2693,16 @@ Each checkbox may consist of the following elements and components: </p>
   <li>an &lt;input&gt; element of type <em>checkbox</em></li>
   <li>an optional image, if the <code>imageURL</code> attribute or an <code>image</code>
 facet is specified. If the <code>imageURL</code> is specified and no
-image facet exists a <code>com.sun.webui.jsf.component.ImageComponent</code>
+image facet exists, then a <code>com.sun.webui.jsf.component.ImageComponent</code>
 is created and rendered. If an <code>image</code> facet is specified
 then the component specified by the facet is rendered.</li>
   <li>an optional label, if the <code>label</code> attribute or a <code>label</code>
 facet is specified. If the <code>label</code> attribute is specified
-and no label facet exists a <code>com.sun.webui.jsf.component.Label</code>
+and no label facet exists, then a <code>com.sun.webui.jsf.component.Label</code>
 is created and rendered If a <code>label</code> facet is specified
 then the component specified by the facet is rendered.</li>
 </ul>
-<p> The id attributes for HTML elements and components are constructed
+<p> The ID attributes for HTML elements and components are constructed
 as follows, where <em>cid</em> is the <code>clientId</code> of the
 component being rendered. </p>
 <ul>
@@ -2725,7 +2725,7 @@ component being rendered. </p>
 When the component is rendered, a DOM object corresponding to the
 component is created. To manipulate the component on the client side,
 you may invoke functions on the DOM object. With reference to the DOM
-id, to disable the component, invoke <code>document.getElementById(id).setProps({disabled:
+ID, to disable the component, invoke <code>document.getElementById(id).setProps({disabled:
 true})</code>.<br>
 <br>
 <table style="text-align: left; width: 100%;" border="1" cellpadding="2"
@@ -2747,7 +2747,7 @@ function for a list of supported properties.</td>
 asynchronously refresh the component.<br>
       <ul>
         <li>[optional] execute: Comma separated string containing a
-list of client ids against which the <code>execute</code> portion of
+list of client IDs against which the <code>execute</code> portion of
 the request processing lifecycle must be run. If omitted, no other
 components are executed.</li>
       </ul>
@@ -2798,7 +2798,7 @@ properties:
 asynchronously submit the component.<br>
       <ul>
         <li>[optional] execute: Comma separated string containing a
-list of client ids against which the <code>execute</code> portion of
+list of client IDs against which the <code>execute</code> portion of
 the request processing lifecycle must be run. If omitted, the component
 on which the function has been invoked, is submitted. </li>
       </ul>
@@ -2839,19 +2839,19 @@ The following events are supported.<br>
   <tbody>
     <tr>
       <td> webui.suntheme.widget.checkbox.event.refresh.beginTopic </td>
-      <td> Event topic published before asynchronously refreshing the
+      <td> Event topic is published before asynchronously refreshing the
 component. Supported properties include: <br>
       <ul>
         <li>[optional] execute - list of the components to be executed
 along with
 this component</li>
-        <li>id - The client id to process the event for</li>
+        <li>id - The client ID to process the event for</li>
       </ul>
       </td>
     </tr>
     <tr>
       <td> webui.suntheme.widget.checkbox.event.refresh.endTopic </td>
-      <td> Event topic published after asynchronously refreshing the
+      <td> Event topic is published after asynchronously refreshing the
 component. Supported properties include: See setProps() function.<br>
       <ul>
         <li>props - JSON object containing properties of the component.
@@ -2869,7 +2869,7 @@ component. Supported properties include:
         <li>[optional] execute - list of the components to be executed
 along with
 this component</li>
-        <li>id - The client id to process the event for</li>
+        <li>id - The client ID to process the event for</li>
       </ul>
       </td>
     </tr>
@@ -2888,7 +2888,7 @@ validation failed </li>
     </tr>
   </tbody>
 </table>
-<h3>Examples</h3>
+<h3>Code Examples</h3>
 <h4>Example 1: Single boolean checkbox with value binding</h4>
 <code> &lt;webuijsf:checkbox id="cb1"
 selected="#{tldRbCbExample.selectedCb1}"/&gt; </code>
@@ -2952,7 +2952,7 @@ selected="#{tldRbCbExample.selectedCb4}"
 converter="#{tldRbCbExample.printerConverter}"/&gt; </code>
 <p> The value bindings <code>#{tldRbCbExample.selectedCb4}</code> and <code>#{tldRbCbExample.selectedValueCb4}</code>
 imply the following methods are implemented in the <code>tldRbCbExample</code>
-managed bean. Let's say the object value is an instance of the
+managed bean. If the object value is an instance of the
 "Printer" class, then the expected method signatures will be: </p>
 <p> </p>
 <ul>
@@ -2979,7 +2979,7 @@ valued checkbox, this checkbox will be checked only if the <code>getSelectedCb4<
 method returns a Printer instance that equals the Printer instance
 returned by the <code>getSelectedValueCb4</code> method.<br>
 If the <code>getSelectedCb4</code> method returns a Printer instance
-that is not equal as determined by <code>getSelectedValueCb4().equals(getSelectedCb4())</code>
+that is not equal as determined by <code>getSelectedValueCb4().equals(getSelectedCb4())</code>, then
 the checkbox will not be checked.<br>
 When the checkbox is checked by the user the <code>setSelectedCb4</code>
 method will be called with the Printer instance returned by the
@@ -3036,15 +3036,15 @@ useful to specify boolean checkboxes in a group, in order to obtain the
 list of selected checkboxes from the request map. The list will consist
 of indistinguishable <code>true</code> values; one for each selected
 checkbox. <br>
-<h4> Example 7: Update checkbox client side using the getProps and
+<h4> Example 7: Update checkbox on the client side using the getProps and
 setProps functions </h4>
 <p>This example shows how to toggle the disabled state of a checkbox
 client side using the getProps and setProps functions. </p>
 <code></code>
 <pre>&lt;webuijsf:checkbox id="cb1" name="cb1" label="My Checkbox"/&gt;<br>&lt;webuijsf:button id="button1" text="Toggle Checkbox Disabled" onClick="toggleDisabled(); return false"/&gt;<br><br>&lt;webuijsf:script&gt;         <br>   function toggleDisabled() { <br>        var domNode = document.getElementById("form1:cb1"); <br>        domNode.setProps({ disabled: !domNode.getProps().disabled });<br>    }        <br>&lt;/webuijsf:script&gt;<br></pre>
-<h4>Example 8: Asynchronously update checkbox using refresh function</h4>
+<h4>Example 8: Asynchronously update a checkbox using the refresh function</h4>
 This example shows how to asynchronously update a checkbox using
-the refresh function. When the user clicks on the button, the checkbox
+the refresh function. When the user clicks the button, the checkbox
 is asynchronously updated with new data.<br>
 <pre>&lt;webuijsf:checkbox id="cb1" name="cb1" label="#{MyBean.label}"/&gt;<br>&lt;webuijsf:button id="button1" text="Refresh Checkbox" onClick="refreshCheckbox(); return false;"/&gt;<br></pre>
 <code>&lt;webuijsf:script&gt;<br>
@@ -3066,9 +3066,9 @@ server-side, but not updated.<br>
 <h4>Example 9: Asynchronously update checkbox using refresh function</h4>
 This example shows how to asynchronously update a checkbox using
 the refresh function. The execute property of the refresh function is
-used to define the client id which is to be submitted and updated
+used to define the client ID which is to be submitted and updated on the
 server-side. As the user types in the text field, the input value is
-updated server-side and the checkbox label is updated client-side
+updated on the server-side and the checkbox label is updated on the client-side
 -- all without a page refresh.
 <pre>&lt;webuijsf:checkbox id="cb1" name="cb1" label="#{MyBean.label}"/&gt;<br>&lt;webuijsf:textField id="field1" text="#{MyBean.label}" label="Change Radio Button Label" <br>          onKeyPress="setTimeout('refreshCheckbox();', 0);"/&gt; // Field used to asynchronously update label.<br></pre>
 <code>&lt;webuijsf:script&gt;<br>
@@ -3084,8 +3084,8 @@ submitting field value<br>
 <br>
 </code>Note that the refresh function can optionally take a list of
 elements
-to execute. Thus, a comma-separated list of ids can be provided to
-update components server-side: refresh("form1:id1,form2:id2,...")<br>
+to execute. Thus, a comma-separated list of IDs can be provided to
+update components on the server-side: refresh("form1:id1,form2:id2,...")<br>
 <br>
 
 ]]></description>

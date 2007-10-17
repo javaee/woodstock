@@ -419,7 +419,7 @@ public class Checkbox extends RbCbSelector {
     }
 
     /**
-     * <p>Alternative HTML template to be used by this component.</p>
+     * <p>Alternative HTML template to be used by the Checkbox component.</p>
      */
     @Property(name="htmlTemplate", isHidden=true, isAttribute=true, displayName="HTML Template", category="Appearance") 
     private String htmlTemplate = null;

@@ -662,7 +662,7 @@ public class Selector extends WebuiInput implements SelectorManager {
     }
 
     /**
-     * <p>Scripting code executed when this element loses focus.</p>
+     * <p>Scripting code that is executed when this element loses the focus.</p>
      */
     @Property(name="onBlur", displayName="Blur Script", category="Javascript", editorClassName="com.sun.rave.propertyeditors.JavaScriptPropertyEditor")
     private String onBlur = null;
@@ -712,7 +712,7 @@ public class Selector extends WebuiInput implements SelectorManager {
     }
 
     /**
-     * <p>Scripting code executed when the element
+     * <p>Scripting code that is executed when the element
      * value of this component is changed.</p>
      * @see #getOnChange()
      */
@@ -721,8 +721,8 @@ public class Selector extends WebuiInput implements SelectorManager {
     }
 
     /**
-     * <p>Scripting code executed when a mouse click
-     * occurs over this component.</p>
+     * <p>Scripting code that is executed when a mouse click
+     * occurs over the component.</p>
      */
     @Property(name="onClick", displayName="Click Script", category="Javascript", editorClassName="com.sun.rave.propertyeditors.JavaScriptPropertyEditor")
     private String onClick = null;
@@ -752,7 +752,7 @@ public class Selector extends WebuiInput implements SelectorManager {
     }
 
     /**
-     * <p>Scripting code executed when a mouse double click
+     * <p>Scripting code that is executed when a mouse double-click
      * occurs over this component.</p>
      */
     @Property(name="onDblClick", displayName="Double Click Script", category="Javascript", editorClassName="com.sun.rave.propertyeditors.JavaScriptPropertyEditor")
@@ -783,7 +783,7 @@ public class Selector extends WebuiInput implements SelectorManager {
     }
 
     /**
-     * <p>Scripting code executed when this component  receives focus. An
+     * <p>Scripting code that is executed when this component  receives focus. An
      * element receives focus when the user selects the element by pressing
      * the tab key or clicking the mouse.</p>
      */
@@ -817,8 +817,8 @@ public class Selector extends WebuiInput implements SelectorManager {
     }
 
     /**
-     * <p>Scripting code executed when the user presses down on a key while the
-     * component has focus.</p>
+     * <p>Scripting code that is executed when the user presses down on a key while the
+     * component has the focus.</p>
      */
     @Property(name="onKeyDown", displayName="Key Down Script", category="Javascript", editorClassName="com.sun.rave.propertyeditors.JavaScriptPropertyEditor")
     private String onKeyDown = null;
@@ -848,8 +848,8 @@ public class Selector extends WebuiInput implements SelectorManager {
     }
 
     /**
-     * <p>Scripting code executed when the user presses and releases a key while
-     * the component has focus.</p>
+     * <p>Scripting code that is executed when the user presses and releases a key while
+     * the component has the focus.</p>
      */
     @Property(name="onKeyPress", displayName="Key Press Script", category="Javascript", editorClassName="com.sun.rave.propertyeditors.JavaScriptPropertyEditor")
     private String onKeyPress = null;
@@ -879,8 +879,8 @@ public class Selector extends WebuiInput implements SelectorManager {
     }
 
     /**
-     * <p>Scripting code executed when the user releases a key while the
-     * component has focus.</p>
+     * <p>Scripting code that is executed when the user releases a key while the
+     * component has the focus.</p>
      */
     @Property(name="onKeyUp", displayName="Key Up Script", category="Javascript", editorClassName="com.sun.rave.propertyeditors.JavaScriptPropertyEditor")
     private String onKeyUp = null;
@@ -910,7 +910,7 @@ public class Selector extends WebuiInput implements SelectorManager {
     }
 
     /**
-     * <p>Scripting code executed when the user presses a mouse button while the
+     * <p>Scripting code that is executed when the user presses a mouse button while the
      * mouse pointer is on the component.</p>
      */
     @Property(name="onMouseDown", displayName="Mouse Down Script", category="Javascript", editorClassName="com.sun.rave.propertyeditors.JavaScriptPropertyEditor")
@@ -963,7 +963,7 @@ public class Selector extends WebuiInput implements SelectorManager {
     }
 
     /**
-     * <p>Scripting code executed when the user moves the mouse pointer while
+     * <p>Scripting code that is executed when the user moves the mouse pointer while
      * over the component.</p>
      * @see #getOnMouseMove()
      */
@@ -972,7 +972,7 @@ public class Selector extends WebuiInput implements SelectorManager {
     }
 
     /**
-     * <p>Scripting code executed when a mouse out movement
+     * <p>Scripting code that is executed when a mouse out movement
      * occurs over this component.</p>
      */
     @Property(name="onMouseOut", displayName="Mouse Out Script", category="Javascript", editorClassName="com.sun.rave.propertyeditors.JavaScriptPropertyEditor")
@@ -1003,7 +1003,7 @@ public class Selector extends WebuiInput implements SelectorManager {
     }
 
     /**
-     * <p>Scripting code executed when the user moves the  mouse pointer into
+     * <p>Scripting code that is executed when the user moves the  mouse pointer into
      * the boundary of this component.</p>
      */
     @Property(name="onMouseOver", displayName="Mouse In Script", category="Javascript", editorClassName="com.sun.rave.propertyeditors.JavaScriptPropertyEditor")
@@ -1034,7 +1034,7 @@ public class Selector extends WebuiInput implements SelectorManager {
     }
 
     /**
-     * <p>Scripting code executed when the user releases a mouse button while
+     * <p>Scripting code that is executed when the user releases a mouse button while
      * the mouse pointer is on the component.</p>
      */
     @Property(name="onMouseUp", displayName="Mouse Up Script", category="Javascript", editorClassName="com.sun.rave.propertyeditors.JavaScriptPropertyEditor")
@@ -1065,7 +1065,7 @@ public class Selector extends WebuiInput implements SelectorManager {
     }
 
     /**
-     * <p>Scripting code executed when some text in this
+     * <p>Scripting code that is executed when some text in this
      * component value is selected.</p>
      */
     @Property(name="onSelect", displayName="Text Selected Script", category="Javascript", editorClassName="com.sun.rave.propertyeditors.JavaScriptPropertyEditor")
@@ -1162,7 +1162,7 @@ public class Selector extends WebuiInput implements SelectorManager {
     }
 
     /**
-     * <p>CSS style or styles to be applied to the outermost HTML element when this 
+     * <p>CSS style(s) that are applied to the outermost HTML element when the 
      * component is rendered.</p>
      */
     @Property(name="style", displayName="CSS Style(s)", category="Appearance", editorClassName="com.sun.jsfcl.std.css.CssStylePropertyEditor")
@@ -1184,7 +1184,7 @@ public class Selector extends WebuiInput implements SelectorManager {
     }
 
     /**
-     * <p>CSS style or styles to be applied to the outermost HTML element when this 
+     * <p>CSS style or styles that are applied to the outermost HTML element when this 
      * component is rendered.</p>
      * @see #getStyle()
      */
@@ -1193,7 +1193,7 @@ public class Selector extends WebuiInput implements SelectorManager {
     }
 
     /**
-     * <p>CSS style class or classes to be applied to the outermost HTML element when this 
+     * <p>CSS style class(es) to be applied to the outermost HTML element when this 
      * component is rendered.</p>
      */
     @Property(name="styleClass", displayName="CSS Style Class(es)", category="Appearance", editorClassName="com.sun.rave.propertyeditors.StyleClassPropertyEditor")
@@ -1302,7 +1302,7 @@ public class Selector extends WebuiInput implements SelectorManager {
     }
 
     /**
-     * <p>Use the visible attribute to indicate whether the component should be
+     * <p>Indicates whether the component should be
      * viewable by the user in the rendered HTML page. If set to false, the
      * HTML code for the component is present in the page, but the component
      * is hidden with style attributes. By default, visible is set to true, so
