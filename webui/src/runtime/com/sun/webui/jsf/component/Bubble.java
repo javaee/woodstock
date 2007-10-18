@@ -63,7 +63,7 @@ public class Bubble extends WebuiOutput {
     }
         
     /**
-     * Alternative HTML template to be used by this component.
+     * Alternative HTML template to be used by bubble component.
      */
     @Property(name="htmlTemplate", isHidden=true, isAttribute=true, displayName="HTML Template", category="Appearance")
     private String htmlTemplate = null;
@@ -92,14 +92,14 @@ public class Bubble extends WebuiOutput {
     }
    
     /**
-     * <p>CSS style(s) to be applied to the outermost HTML element when this 
+     * <p>CSS style or styles to be applied to the outermost HTML element when this 
      * component is rendered.</p>
      */
     @Property(name="style", displayName="CSS Style(s)", category="Appearance", editorClassName="com.sun.jsfcl.std.css.CssStylePropertyEditor")
     private String style = null;
 
     /**
-     * <p>CSS style(s) to be applied to the outermost HTML element when this 
+     * <p>CSS style or styles to be applied to the outermost HTML element when this 
      * component is rendered.</p>
      */
     public String getStyle() {
@@ -114,7 +114,7 @@ public class Bubble extends WebuiOutput {
     }
 
     /**
-     * <p>CSS style(s) to be applied to the outermost HTML element when this 
+     * <p>CSS style or styles to be applied to the outermost HTML element when this 
      * component is rendered.</p>
      * @see #getStyle()
      */
@@ -123,14 +123,14 @@ public class Bubble extends WebuiOutput {
     }
 
     /**
-     * <p>CSS style class(es) to be applied to the outermost HTML element when this 
+     * <p>CSS style class or classes to be applied to the outermost HTML element when this 
      * component is rendered.</p>
      */
     @Property(name="styleClass", displayName="CSS Style Class(es)", category="Appearance", editorClassName="com.sun.rave.propertyeditors.StyleClassPropertyEditor")
     private String styleClass = null;
 
     /**
-     * <p>CSS style class(es) to be applied to the outermost HTML element when this 
+     * <p>CSS style class or classes to be applied to the outermost HTML element when this 
      * component is rendered.</p>
      */
     public String getStyleClass() {
@@ -145,7 +145,7 @@ public class Bubble extends WebuiOutput {
     }
 
     /**
-     * <p>CSS style class(es) to be applied to the outermost HTML element when this 
+     * <p>CSS style class or classes to be applied to the outermost HTML element when this 
      * component is rendered.</p>
      * @see #getStyleClass()
      */
@@ -154,7 +154,7 @@ public class Bubble extends WebuiOutput {
     }
     
     /**
-     * <p>Use the visible attribute to indicate whether the component should be
+     * <p>Use to indicate whether the component should be
      * viewable by the user in the rendered HTML page. If set to false, the
      * HTML code for the component is present in the page, but the component
      * is hidden with style attributes. By default, visible is set to false, so
@@ -167,7 +167,7 @@ public class Bubble extends WebuiOutput {
     private boolean visible_set = false;
 
     /**
-     * <p>Use the visible attribute to indicate whether the component should be
+     * <p>Use to indicate whether the component should be
      * viewable by the user in the rendered HTML page. If set to false, the
      * HTML code for the component is present in the page, but the component
      * is hidden with style attributes. By default, visible is set to false, so
@@ -195,7 +195,7 @@ public class Bubble extends WebuiOutput {
     }
 
     /**
-     * <p>Use the visible attribute to indicate whether the component should be
+     * <p>Use to indicate whether the component should be
      * viewable by the user in the rendered HTML page. If set to false, the
      * HTML code for the component is present in the page, but the component
      * is hidden with style attributes. By default, visible is set to false, so
@@ -210,14 +210,14 @@ public class Bubble extends WebuiOutput {
     }
     
     /**
-     * <p>Use the autoClose attribute to close the bubble help automatically </p>
+     * <p>Use to close the bubble help automatically </p>
      */
     @Property(name="autoClose", displayName="Auto Close", category="Behavior")
     private boolean autoClose = false;
     private boolean autoClose_set = false;
 
     /**
-     * <p>Use the autoClose attribute to close the bubble help automatically </p>
+     * <p>Use to close the bubble help automatically </p>
      */
     public boolean isAutoClose() {
         if (this.autoClose_set) {
@@ -236,7 +236,7 @@ public class Bubble extends WebuiOutput {
     }
 
     /**
-     * <p>Use the autoClose attribute to close the bubble help automatically </p>
+     * <p>Use to close the bubble help automatically </p>
      * @see #isVisible()
      */
     public void setAutoClose(boolean autoClose) {
@@ -245,14 +245,14 @@ public class Bubble extends WebuiOutput {
     }
     
     /**
-     * <p>Use the closeButton attribute to display close button for bubble. </p>
+     * <p>Use to display close button for bubble. </p>
      */
     @Property(name="closeButton", displayName="Close Button", category="Behavior")
     private boolean closeButton = false;
     private boolean closeButton_set = false;
 
     /**
-     * <p>Use the closeButton attribute to display close button for bubble. </p>
+     * <p>Use to display close button for bubble. </p>
      */
     public boolean isCloseButton() {
         if (this.closeButton_set) {
@@ -271,7 +271,7 @@ public class Bubble extends WebuiOutput {
     }
 
     /**
-     * <p>Use the closeButton attribute to display close button for bubble. </p>
+     * <p>Use to display close button for bubble. </p>
      * @see #isVisible()
      */
     public void setCloseButton(boolean closeButton) {
@@ -280,7 +280,7 @@ public class Bubble extends WebuiOutput {
     }
     
     /**
-     * <p>Use the openDelay attribute to put a delay in ms before opening the bubble.</p>
+     * <p>Use to put a delay in ms before opening the bubble.</p>
      */
     @Property(name="openDelay", displayName="Open Delay", category="Appearance", 
               editorClassName="com.sun.rave.propertyeditors.IntegerPropertyEditor")
@@ -288,7 +288,7 @@ public class Bubble extends WebuiOutput {
     private boolean openDelay_set = false;
 
     /**
-     * <p>Use the openDelay attribute to put a delay in ms before opening the bubble.</p>
+     * <p>Use to put a delay in ms before opening the bubble.</p>
      */
     public int getOpenDelay() {
         if (this.openDelay_set) {
@@ -307,7 +307,7 @@ public class Bubble extends WebuiOutput {
     }
 
     /**
-     * <p>Use the openDelay attribute to put a delay in ms before opening the bubble. </p>
+     * <p>Use to put a delay in ms before opening the bubble. </p>
      * 
      */
     public void setOpenDelay(int openDelay) {
@@ -355,8 +355,8 @@ public class Bubble extends WebuiOutput {
     }
         
     /**
-     * <p>Number of milli seconds after which popup help window should close.
-     * The default is 2000. </p>
+     * <p>Number of milli-seconds after which pop-up help window should close.
+     * The default is 2000 milliseconds. </p>
      */
     @Property(name="duration", displayName="Duration for AutoClose", category="Appearance", 
               editorClassName="com.sun.rave.propertyeditors.IntegerPropertyEditor")
@@ -364,8 +364,8 @@ public class Bubble extends WebuiOutput {
     private boolean duration_set = false;
     
     /**
-     * <p>Number of milli seconds after which popup help window should close.
-     * The default is 2000. </p>
+     * <p>Number of milli-seconds after which pop-up help window should close.
+     * The default is 2000 milliseconds. </p>
      */
     public int getDuration() {
         if (this.duration_set) {
@@ -384,8 +384,8 @@ public class Bubble extends WebuiOutput {
     }
     
     /**
-     * <p>Number of milli seconds after which popup help window should close.
-     * The default is 2000. </p>
+     * <p>Number of milli-seconds after which pop-up help window should close.
+     * The default is 2000 milliseconds. </p>
      * @see #getDuration()
      */
     public void setDuration(int duration) {
@@ -400,7 +400,7 @@ public class Bubble extends WebuiOutput {
     private String title = null;
     
     /**
-     * <p>Title for the popup help window. </p>
+     * <p>Title for the pop-up help window. </p>
      */
     public String getTitle() {
         if (this.title != null) {
