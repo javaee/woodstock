@@ -4358,13 +4358,13 @@ The Common Tasks Section component. This encapsulates a number of common task gr
         <name>dropDown</name>
 
         <description><![CDATA[
-<p>Use the <code>webuijsf:dropDown</code> tag to display a drop down
-menu to allow users to select one or more items from a list. The drop
-down menu occupies one line of the page, and displays one list item.
+<p>Use the <code>webuijsf:dropDown</code> tag to display a drop-down
+menu that enables users to select one or more items from a list. The
+drop-down menu occupies one line of the page, and displays one list item.
 The rest of the list items are displayed when the user opens the menu.</p>
 <p>The <code>webuijsf:dropDown</code> tag can be configured to
 immediately submit the form when the user makes a selection. By
-default, the drop down menu is used only for selecting items, and does
+default, the drop-down menu is used only for selecting items, and does
 not submit the form. </p>
 <h3>HTML Elements and Layout</h3>
 <p>The dropDown component renders an XHTML <code>&lt;select&gt;</code>
@@ -4374,7 +4374,7 @@ from the <code>webuijsf:dropDown</code> tag's <code>items</code>
 attribute.</p>
 <h3>Configuring the <code>webuijsf:dropdown</code> tag</h3>
 <p>Use the <code>items</code> attribute to specify the options to be
-displayed in the drop down menu. The value must be a JavaServer Faces
+displayed in the drop-down menu. The value must be a JavaServer Faces
 EL expression that identifies an array, a <code>java.util.Collection</code>
 or a <code>java.util.Map</code> of <code>com.sun.webui.jsf.model.Option</code>.</p>
 <p>The first time the component is rendered, the option that
@@ -4388,18 +4388,18 @@ attribute to true. </p>
 attribute, or specify a <code>label</code> facet.<br>
 </p>
 <h4>Configuring a Jump Menu</h4>
-<p>A drop down menu can be configured as a jump menu. Jump menus
-immediately perform some action, such as opening a window or navigating
+<p>A drop-down menu can be configured as a jump menu. Jump menus
+immediately perform an action, such as opening a window or navigating
 to another page, when the user selects an item. This action is
 accomplished by submitting the form immediately when the user changes
 the selection. By default, the dropDown menu is not a jump menu. The
 submission of the form does not occur until the user activates another
-component such as a button to submit the form.</p>
+component such as a button in order to submit the form.</p>
 <p>To configure the <code>webuijsf:dropDown</code> tag to render a
 jump menu, set the <code>submitForm</code> attribute to true. If the
 jump menu is to be used to navigate to another location, you should
 also use the <code>navigateToValue</code> attribute and include
-outcome strings in the drop down menu's list of options. In addition,
+outcome strings in the drop-down menu's list of options. In addition,
 you should set the <code>forgetValue</code> attribute to true to cause
 the dropDown's selected value to be reset when the page is redisplayed.
 This enables the dropDown to always display the same option initially. </p>
@@ -4410,11 +4410,11 @@ method to handle the action.</p>
 you do not want to submit any data entered into the form when a
 
 selection is made in the jump menu.</p>
-<h4>Using a Title in the Drop Down Menu</h4>
-<p>You can display a non-selectable title as the first item in a drop
-down menu. The title might be used to provide a brief instruction for
+<h4>Using a Title in the Drop-Down Menu</h4>
+<p>You can display a non-selectable title as the first item in a
+drop-down menu. The title might be used to provide a brief instruction for
 the user, such as "Select a page". </p>
-<p> To create a title in a drop down menu, when you define your drop
+<p> To create a title in a drop-down menu, when you define your drop
 down menu items in an Option[], you must specify the first Option as
 type OptionTitle along with the string to display. The title is
 rendered as the specified string with dashes before and after the text,
@@ -4436,16 +4436,16 @@ Machines"); <br>
 </div>
 <p>In addition, you should set the <code>webuijsf:dropDown</code>
 tag's <code>forgetValue</code> attribute to true, to ensure that the
-title is always displayed in the drop down menu when the page is
+title is always displayed in the drop-down menu when the page is
 rendered.</p>
 <h4>Grouping Options in the Drop Down Menu</h4>
 <p>The XHTML <code>&lt;select&gt;</code> element can contain an <code>&lt;optgroup&gt;</code>
-element to define a group of related items in a drop down menu. The <code>&lt;optgroup&gt;</code>
+element to define a group of related items in a drop-down menu. The <code>&lt;optgroup&gt;</code>
 has a label, and the options within the group are indented in the
 displayed menu. You can configure the list of items created with the <code>webuijsf:dropDown</code>
 tag to be rendered with <code>&lt;optgroup&gt;</code> elements by
 setting up your backing bean appropriately. A backing bean object that
-populates the drop down menu with grouped options might look as follows.</p>
+populates the drop-down menu with grouped options might look as follows.</p>
 <div style="margin-left: 40px;"><code>public BackingFileDropDown2() {<br>
 &nbsp;&nbsp;&nbsp; actionOptions = new Option[5];<br>
 &nbsp;&nbsp;&nbsp; actionOptions[0] = new OptionTitle("More Actions");<br>
@@ -4469,7 +4469,7 @@ populates the drop down menu with grouped options might look as follows.</p>
 &nbsp;&nbsp;&nbsp; actionOptions[4] = group; <br>
 }</code> <br>
 </div>
-<p>The drop down menu that is rendered with this property will appear
+<p>The drop-down menu that is rendered with this property will appear
 as follows: </p>
 <form id="menuform1" method="post"
  enctype="application/x-www-form-urlencoded">
@@ -4499,7 +4499,7 @@ method that sets the label of the <code>&lt;optgroup&gt; </code>to
   <li>
     <p>A separator (a series of dashes) is rendered above the optgroup
 label. By default, the separator is rendered above each optgroup in a
-drop down menu. The separators can be removed by setting the <code>webuijsf:dropDown</code>
+drop-down menu. The separators can be removed by setting the <code>webuijsf:dropDown</code>
 tag's <code>separators</code> attribute to false.&nbsp; </p>
   </li>
   <li>
@@ -4510,7 +4510,7 @@ values.</p>
   </li>
   <li>
     <p>The <code>setDisabled</code> method can be used to disable any
-of the options in the drop down menu.</p>
+of the options in the drop-down menu.</p>
   </li>
 </ul>
 <h3>Facets</h3>
@@ -4521,7 +4521,7 @@ overrides the <code>label</code> attribute.</p>
 <p>When the component is rendered, a DOM object corresponding to the
 component is created. To manipulate the component on the client side,
 you may invoke functions on the DOM object. With reference to the DOM
-id, to disable the component, invoke <code>document.getElementById(id).setProps({visible:
+ID, to disable the component, invoke <code>document.getElementById(id).setProps({visible:
 false})</code>.<br>
 <br>
 <table style="text-align: left; width: 100%;" border="1" cellpadding="2"
@@ -4529,35 +4529,34 @@ false})</code>.<br>
   <tbody>
     <tr>
       <td style="vertical-align: top;"><code>getProps()</code></td>
-      <td style="vertical-align: top;">Use this function to get widget
+      <td style="vertical-align: top;">Used to get widget
 properties. Please see <code>setProps()</code> function for a list of
 supported properties.</td>
     </tr>
     <tr>
       <td style="vertical-align: top; text-align: left;"><code>getSelectElement()</code></td>
-      <td>Use this function to access the HTML <code>&lt;select&gt;</code>
+      <td>Used to access the HTML <code>&lt;select&gt;</code>
 element that is rendered by the component.<br>
       </td>
     </tr>
     <tr>
       <td><code>getSelectedLabel()</code></td>
-      <td>Use this function to get the label of the first selected
+      <td>Used to get the label of the first selected
 option on the dropDown. If no option is selected, this function returns
 null.</td>
     </tr>
     <tr>
       <td><code>getSelectedValue()</code></td>
-      <td> Use this&nbsp;function to get the value of the
+      <td> Used to &nbsp;get the value of the
 first&nbsp;selected option on the dropDown. If no option is selected,
 this&nbsp; function returns null.</td>
     </tr>
     <tr>
       <td style="vertical-align: top;"><code>refresh(execute)</code> </td>
-      <td style="vertical-align: top;">Use this function to
-asynchronously refresh the component.<br>
+      <td style="vertical-align: top;">Used to asynchronously refresh the component.<br>
       <ul>
         <li>[optional] execute: Comma separated string containing a
-list of client ids against which the <code>execute</code> portion of
+list of client IDs against which the <code>execute</code> portion of
 the request processing lifecycle must be run. If omitted, no other
 components are executed.</li>
       </ul>
@@ -4565,7 +4564,7 @@ components are executed.</li>
     </tr>
     <tr>
       <td><code>setProps(props)</code></td>
-      <td>Use this function to change any of the following supported
+      <td>Used to change any of the following supported
 properties:
       <ul>
         <li>id</li>
@@ -4600,11 +4599,10 @@ properties:
     <tr>
       <td style="vertical-align: top;"><code>submit(execute)</code><br>
       </td>
-      <td style="vertical-align: top;">Use this function to
-asynchronously submit the component.<br>
+      <td style="vertical-align: top;">Used to asynchronously submit the component.<br>
       <ul>
         <li>[optional] execute: Comma separated string containing a
-list of client ids against which the <code>execute</code> portion of
+list of client IDs against which the <code>execute</code> portion of
 the request processing lifecycle must be run. If omitted, the component
 on which the function has been invoked, is submitted. </li>
       </ul>
@@ -4614,11 +4612,12 @@ on which the function has been invoked, is submitted. </li>
 </table>
 </p>
 <code></code>
-<h3>Client Side JavaScript Events</h3>
+<h3>Client-side JavaScript Events</h3>
 <p>
-When the component is manipulated client side, some functions may
-publish event topics for custom AJAX implementations to listen for.
-Using the Dojo event system, listen for the refresh event topic using:<br>
+When the component is manipulated client-side, some functions might
+publish event topics for custom Ajax implementations to listen for.
+Using the Dojo event system, you can instruct Ajax to listen for 
+the refresh event topic by using:<br>
 <br>
 <code>
 &lt;webuijsf:script&gt;<br>
@@ -4653,14 +4652,14 @@ component. Supported properties include: <br>
         <li>[optional] execute - list of the components to be executed
 along with
 this component</li>
-        <li>id - The client id to process the event for</li>
+        <li>id - The client ID to process the event for</li>
       </ul>
       </td>
     </tr>
     <tr>
       <td> webui.suntheme.widget.dropDown.event.refresh.endTopic </td>
       <td> Event topic published after asynchronously refreshing the
-component. Supported properties include: See setProps() function.<br>
+component. Supported properties include:<br>
       <ul>
         <li>props - JSON object containing properties of the component.
 See
@@ -4677,7 +4676,7 @@ component. Supported properties include:
         <li>[optional] execute - list of the components to be executed
 along with
 this component</li>
-        <li>id - The client id to process the event for</li>
+        <li>id - The client ID to process the event for</li>
       </ul>
       </td>
     </tr>
@@ -4697,11 +4696,11 @@ validation failed </li>
   </tbody>
 </table>
 <h3>Examples</h3>
-<h4>Example 1: Drop down menu using backing beans</h4>
+<h4>Example 1: Drop-Down Menu Using Backing Beans</h4>
 <p>This example uses several backing beans. The options to display in
-the drop down menu are provided in the <code>items</code> attribute,
+the drop-down menu are provided in the <code>items</code> attribute,
 which is set to an EL expression that resolves to an <code>airports</code>
-array in the <code>dataBean</code>. The tag generates a drop down menu
+array in the <code>dataBean</code>. The tag generates a drop-down menu
 with a label, which is specified with the <code>label</code>
 attribute, and the label text is obtained from the <code>chooseDepartureAirport</code>
 property of a <code>msgs</code> bean. The tooltip text is provided in
@@ -4712,20 +4711,20 @@ property of the <code>flightSearch</code> backing bean. </p>
 <p>The <code>dataBean</code> backing bean would include the following
 definition for the "airports" items:</p>
 <pre>     private Option[] airports = null;<br>      // Creates a new instance of backing bean //<br>     public DataBean() {<br>         airports = new Option[11];<br>         airports[0] = new Option("SFO", "San Francisco");<br>         airports[1] = new Option("OAK", "Oakland");<br>         airports[2] = new Option("SAN", "San Diego");<br>         airports[3] = new Option("BOS", "Boston");<br>         airports[4] = new Option("ARN", "Stockholm");<br>         airports[5] = new Option("MNL", "Manila");<br>         airports[6] = new Option("CDG", "Paris");<br>         airports[7] = new Option("PDX", "Portland");<br>         airports[8] = new Option("LAX", "Los Angeles");<br>         airports[9] = new Option("NRT", "Tokyo");<br>         airports[10] = new Option("TBD", "Future Airport");<br>         airports[10].setDisabled(true);<br>     }<br>     public Option[] getAirports() {<br>         return airports;<br>     } </pre>
-<h4>Example 2: Drop down menu with label facet</h4>
+<h4>Example 2: Drop-Down Menu With Label Facet</h4>
 <p>This example is the same as Example 1 except that it uses the <code>label</code>
 facet, which contains a <code>webuijsf:label</code> tag. </p>
 <pre>     &lt;webuijsf:dropDown selected="#{flightSearch.leaveAirport}" <br>                  items="#{dataBean.airports}" <br>                  id="leaveAirport" <br>                  tooltip="#{msgs.chooseAirport}" &gt;<br>         &lt;f:facet name="label"&gt;       <br>              &lt;webuijsf:label text="#{msgs.chooseDepartureAirport}" for="menuform1:leaveAirport"/&gt;<br>         &lt;/f:facet&gt;<br>     &lt;/webuijsf:dropDown&gt;<br> </pre>
-<h4>Example 3: Jump drop down menu</h4>
-<p> This example shows a drop down menu that submits the form as soon
+<h4>Example 3: Jump Drop-Down Menu</h4>
+<p> This example shows a drop-down menu that submits the form as soon
 as the user makes a selection. The action of this dropDown component
 does not move to another page (no action or navigation rule has been
 configured). When the form is submitted, the selected value is updated.
-The value of the DropDown after the submit is displayed by the
+After submitting the form, the value of the DropDown is displayed by the
 staticText component.</p>
 <pre> &lt;webuijsf:dropDown items="#{dataBean.airports}"<br>                      submitForm="true"<br>                      required="true"<br>                      id="airport"<br>                      selected="#{dataBean.airport}"&gt;<br>               &lt;f:facet name="label"&gt;<br>                   &lt;webuijsf:label text="Set airport:" for="menuform1:airport"/&gt;<br>               &lt;/f:facet&gt;  <br>        &lt;/webuijsf:dropDown&gt;<br>        &lt;p&gt;<br>        &lt;webuijsf:label text="Current airport: "&gt;<br>          &lt;webuijsf:staticText text="#{dataBean.airport}" id="blah" /&gt;<br>        &lt;/webuijsf:label&gt;</pre>
-<h4>Example 4: Jump drop down menu used for Navigation</h4>
-<p>This example shows a drop down menu that allows the user to jump to
+<h4>Example 4: Jump Drop-Down Menu Used For Navigation</h4>
+<p>This example shows a drop-down menu that allows the user to jump to
 the page indicated by the selected item. The component is configured
 with navigateToValue="true", so the action value returned by the
 component is the value of the selected item. The selected value should
@@ -4735,14 +4734,12 @@ file.</p>
 The DropDownBean defines the menu items as shown below.
 <pre>                             <br>  public BackingFileDropDown3() {        <br>         pageOptions = new Option[4];<br>         pageOptions[0] = new OptionTitle("Select a Page" );             <br>         pageOptions[1] = new Option("indexPage", "Test App Index" );<br>         pageOptions[2] = new Option("hyperlinkPage", "HyperLink Test Page");  <br>         pageOptions[3] = new Option("tablePage", "Table Test Page");  <br>     } </pre>
 <code></code> <code></code>
-<h4>Example 5: Update client-side drop down menu properties using the
-getProps
-and setProps functions</h4>
-This example shows how to toggle the disabled state of a drop down
+<h4>Example 5: Update Client-Side Drop-Down Menu Properties Using 
+getProps and setProps Functions</h4>
+This example shows how to toggle the disabled state of a drop-down
 menu client
-side using the getProps and setProps functions. When the user clicks
-the radio button,
-the drop down menu is either disabled or enabled.<code></code><code><br>
+side using the getProps and setProps functions. When the user selects
+the Hide Menu option, the drop-down menu is either disabled or enabled.<code></code><code><br>
 <br>
 </code><code>&lt;webuijsf:radioButton id="rb1" name="rb1" label="Hide
 Menu" onClick="hideMenu()"/&gt;<br>
@@ -4765,12 +4762,11 @@ disabled state<br>
 &nbsp;&nbsp;&nbsp; }<br>
 &lt;/webuijsf:script&gt;</code>
 <code></code>
-<h4>Example 6: Asynchronously update drop down menu using refresh
-function</h4>
-This example shows how to asynchronously update a drop down menu using
-the refresh function. When the user clicks on the radio button, the
-drop down
-menu is asynchronously updated with new data.<br>
+<h4>Example 6: Asynchronously Update Drop-Down Menu Using Refresh
+Function</h4>
+This example shows how to asynchronously update a drop-down menu using
+the refresh function. When the user selects the Refresh Menu option, the
+drop-down menu is asynchronously updated with new data.<br>
 <br>
 <code>&lt;webuijsf:radioButton id="rb1" name="rb1" label="Refresh Menu"
 onClick="refreshMenu()"/&gt;<br>
@@ -4799,17 +4795,14 @@ update components server-side: refresh("form1:id1,form2:id2,..."). When
 no parameter is given, the refresh function acts as a reset.
 That is, the component will be redrawn using values set
 server-side, but not updated.<br>
-<h4>Example 7: Asynchronously update drop down menu using refresh
-function</h4>
-This example shows how to asynchronously update a drop down menu using
+<h4>Example 7: Asynchronously Update Drop-Down Menu Using Refresh
+Function</h4>
+This example shows how to asynchronously update a drop-down menu using
 the refresh function. The execute property of the refresh function is
-used
-to define the client id which is to be submitted and updated
+used to define the client ID which is to be submitted and updated
 server-side. As the user types in the text field, the input value is
-updated server-side and the drop down menu label is updated client-side
---
-all
-without a page refresh.<br>
+updated server-side and the drop-down menu label is updated client-side
+-- all without a page refresh.<br>
 <br>
 <code></code><code>&lt;webuijsf:dropDown </code><code>id="menu1"</code><code><span
  style="font-family: monospace;"><br>
@@ -4837,8 +4830,7 @@ submitting field value<br>
 &lt;/webuijsf:script&gt;<br>
 <br>
 </code>Note that the refresh function can optionally take a list of
-elements
-to execute. Thus, a comma-separated list of ids can be provided to
+elements to execute. Thus, a comma-separated list of IDs can be provided to
 update components server-side: refresh("form1:id1,form2:id2,...")<br>
 <br>
 
@@ -5258,7 +5250,7 @@ update components server-side: refresh("form1:id1,form2:id2,...")<br>
      -->
      <h3>HTML Elements and Layout</h3>
      <p>The rendered fileChooser component is an XHTML &lt;table&gt; element that contains
-     several text fields, a drop down, a listbox, and buttons. 
+     several text fields, a drop-down, a listbox, and buttons. 
      The layout is similar to the following:   </p>
      <br>
  <table style="text-align: left; width: 100%;" border="1"
@@ -5619,7 +5611,7 @@ update components server-side: refresh("form1:id1,form2:id2,...")<br>
      <tr>
        <td style="vertical-align: top;"><code>sortMenu</code></td>
        <td style="vertical-align: top;"><p>Specifies a custom
- component to replace the Sort By drop down menu&nbsp;of the
+ component to replace the Sort By drop-down menu&nbsp;of the
  component. <br>
        </td>
      </tr>
@@ -12242,12 +12234,12 @@ update components server-side: refresh("form1:id1,form2:id2,...")<br>
  for each day of the month. When a date link is clicked, the associated
  date is displayed in the Start Date field. The current month is displayed
  initially by default, and the user can select a different month by
- using a drop down menu. Hyperlinked icons to the left and right of the
+ using a drop-down menu. Hyperlinked icons to the left and right of the
  Month menu can be used to go to the previous and next months. Another
- drop down menu can be used to select a different year.</p>
+ drop-down menu can be used to select a different year.</p>
  <p>
  The Start Time
- is always rendered by the component, and consists of separate drop down
+ is always rendered by the component, and consists of separate drop-down
  menus for the hour and minute. The user is required to
  enter values for Start Date and Start Time, so those subcomponents of
  the Scheduler are annotated as required by default.</p>
@@ -13955,7 +13947,7 @@ text=&quot;Three B&quot; /&gt;<br>
  </li>
  <ul>
  <li>
- <p> Filter - displays a drop down menu of filter options,
+ <p> Filter - displays a drop-down menu of filter options,
  which allow users to select criteria to be used to determine the items
  to display. The component provides a default implementation for adding
  options when the Custom filter becomes active, to display the filter
