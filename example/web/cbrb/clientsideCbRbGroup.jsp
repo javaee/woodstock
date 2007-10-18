@@ -50,6 +50,19 @@
                        
               <!-- Page Title -->
               <webuijsf:contentPageTitle title="#{msgs.cbrb_clientsideCbRbTitle}" />
+
+              <!-- Workaround for issue #854.
+                The default "auto submit" HTML behavior for the return key
+                is to run the onClick handler for the 1st submit input element.
+                For this page, that means that entering the return key
+                for any element which does not have an onclick handler will
+                will cause the Disable button's onClick handler to be called,
+                which results in the 1st group of checkboxes being disabled.
+                So to workaround the problem, we create an invisible button 
+                with a handler that stops the event chaining.
+              -->
+              <webuijsf:button primary="false" id="dummy" text="" 
+                visible="false" onClick="return false;"/>
               
                            
               <webuijsf:script>                  
