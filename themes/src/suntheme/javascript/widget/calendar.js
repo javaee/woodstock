@@ -257,6 +257,12 @@ webui.@THEME@.widget.calendar.prototype.addDaysInMonth = function(currentValue, 
                  
             linkId = id + linkNum;
             var tmpDate = new Date(day.getTime() + oneDayInMs);
+
+            // On some platforms, the date is not incremented correctly (e.g.,
+            // October 28th 1990, 2007, and 2012). In this case, try again.
+            if (tmpDate.getDate() == day.getDate()) {
+                tmpDate = new Date(tmpDate.getTime() + oneDayInMs);
+            } 
             
             // Check whether this is the last date in the calendar and if so
             // set the setFocus variable to true. This will mean that when the
