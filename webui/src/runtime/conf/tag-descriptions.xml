@@ -4438,7 +4438,7 @@ Machines"); <br>
 tag's <code>forgetValue</code> attribute to true, to ensure that the
 title is always displayed in the drop-down menu when the page is
 rendered.</p>
-<h4>Grouping Options in the Drop Down Menu</h4>
+<h4>Grouping Options in the Drop-Down Menu</h4>
 <p>The XHTML <code>&lt;select&gt;</code> element can contain an <code>&lt;optgroup&gt;</code>
 element to define a group of related items in a drop-down menu. The <code>&lt;optgroup&gt;</code>
 has a label, and the options within the group are indented in the
