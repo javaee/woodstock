@@ -1224,9 +1224,9 @@ public class Selector extends WebuiInput implements SelectorManager {
     }
 
     /**
-     * <p>Position of this element in the tabbing order of the current document. 
-     * Tabbing order determines the sequence in which elements receive 
-     * focus when the tab key is pressed. The value must be an integer 
+     * <p>Describes the position of this element in the tabbing order of the  
+     * current document. Tabbing order determines the sequence in which elements 
+     * receive focus when the tab key is pressed. The value must be an integer 
      * between 0 and 32767.</p>
      */
     @Property(name="tabIndex", displayName="Tab Index", category="Accessibility", editorClassName="com.sun.rave.propertyeditors.IntegerPropertyEditor")

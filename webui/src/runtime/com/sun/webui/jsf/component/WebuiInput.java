@@ -121,9 +121,8 @@ public class WebuiInput extends UIInput {
     }
 
     /**
-     * The <code>valueChangeListener</code> attribute is used to specify a
-     * method to handle a value-change event that is triggered when the
-     * user enters data in the input component. The  
+     * Specifies a method to handle a value-change event that is triggered
+     * when the user enters data in the input component. The  
      * attribute value must be a JavaServer Faces EL expression that
      * resolves to a backing bean method. The method must take a single
      * parameter of type <code>javax.faces.event.ValueChangeEvent</code>,
@@ -154,9 +153,9 @@ public class WebuiInput extends UIInput {
     }
 
     /**
-     * The validator attribute is used to specify a method in a backing bean to
-     * validate input to the component. The validator attribute value must be a
-     * JavaServer Faces EL expression that resolves to a public method with
+     * Used to specify a method in a backing bean to validate input
+     * to the component. The value must be a JavaServer Faces
+     * EL expression that resolves to a public method with
      * return type void. The method must take three parameters:
      * <ul>
      * <li>a <code>javax.faces.context.FacesContext</code></li>

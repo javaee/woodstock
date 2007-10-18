@@ -456,8 +456,8 @@ public class DropDown extends ListSelector implements ActionSource2 {
 
 
     /**
-     * <p>The actionExpression attribute is used to specify the action to take when this
-     * component is activated by the user. The value of the actionExpression attribute
+     * <p>Used to specify the action to take when this component is 
+     * activated by the user. The value of the actionExpression attribute
      * must be one of the following:
      * <ul>
      * <li>an outcome string, used to indicate which page to display next,
@@ -468,8 +468,8 @@ public class DropDown extends ListSelector implements ActionSource2 {
      * and return an outcome string. The class that defines the method
      * must implement the <code>java.io.Serializable</code> interface or
      * <code>javax.faces.component.StateHolder</code> interface.</li></ul>
-     * <p>When you use the actionExpression attribute in the DropDown component, you must also
-     * set the submitForm attribute to true.
+     * <p>When you use the actionExpression attribute in the DropDown component, 
+     * you must set the submitForm attribute to true.
      */
     @Property(name="actionExpression", isHidden=true, displayName="Action Expression")
     @Property.Method(signature="java.lang.String action()")
@@ -549,9 +549,8 @@ public class DropDown extends ListSelector implements ActionSource2 {
     }
 
     /**
-     * <p>The actionListenerExpression attribute is used to specify a method to handle
-     * an action event that is triggered when this
-     * component is activated by the user. The actionListenerExpression attribute
+     * <p>Used to specify a method to handle an action event that is 
+     * triggered when this component is activated by the user. The 
      * value must be a JavaServer Faces EL expression that resolves
      * to a method in a backing bean. The method must take a single parameter
      * that is an ActionEvent, and its return type must be <code>void</code>.

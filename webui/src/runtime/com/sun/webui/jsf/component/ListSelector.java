@@ -926,8 +926,8 @@ public class ListSelector extends Selector implements ListManager,
     }
 
    /**
-     * <p>Use the visible attribute to indicate whether the component should be
-     * viewable by the user in the rendered HTML page. If set to false, the
+     * <p>Indicates whether the component should be viewable by 
+     * the user in the rendered HTML page. If set to false, the
      * HTML code for the component is present in the page, but the component
      * is hidden with style attributes. By default, visible is set to true, so
      * HTML for the component HTML is included and visible to the user. If the
