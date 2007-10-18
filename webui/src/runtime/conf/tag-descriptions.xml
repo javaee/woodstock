@@ -10296,7 +10296,7 @@ the text field is either disabled or enabled.<code></code><code>
 
         <description><![CDATA[ 
 <p> Use the <code>webuijsf:progressBar</code> to render a progress
-indicator to provide user feedback about a task or job in
+indicator that provides user feedback about a task or job in
 progress.&nbsp; </p>
 <p>The Progress Bar component supports the following types of progress
 indicators:</p>
@@ -10513,15 +10513,19 @@ elements displayed at the bottom of the progress bar.<br>
 </table>
 <br>
 <h3>Client Side Javascript Functions</h3>
-When the component is rendered, a DOM object corresponding to the
-component is created. To manipulate the component on the client side,
-you may invoke functions on the DOM object. With reference to the DOM
-id, to disable the component, invoke <code>document.getElementById(id).setProps({disabled:
+When the progressBar component is rendered, a DOM object corresponding to the progressBar
+component is created. To manipulate the progressBar component on the client side,
+you may call functions on the DOM object. With reference to the DOM
+ID, to disable the component, call <code>document.getElementById(id).setProps({disabled:
 true})</code>.<br>
 <br>
 <table style="text-align: left; width: 100%;" border="1" cellpadding="2"
  cellspacing="2">
   <tbody>
+    <tr>
+      <td style="vertical-align: top;"><b>JavaScript Function</b></td>
+      <td style="vertical-align: top;"><b>Description</b></td>
+    </tr>
     <tr>
       <td style="vertical-align: top;"><code>cancel()</code></td>
       <td style="vertical-align: top;">Handles the Cancel button event.</td>
@@ -10582,7 +10586,7 @@ area, if it was hidden.</td>
 asynchronously refresh the component.<br>
       <ul>
         <li>[optional] execute: Comma separated string containing a
-list of client ids against which the <code>execute</code> portion of
+list of client IDs against which the <code>execute</code> portion of
 the request processing lifecycle must be run. If omitted, no other
 components are executed.</li>
       </ul>
@@ -10690,11 +10694,11 @@ displays on the right side of the component.</td>
   </tbody>
 </table>
 <code></code>
-<h3>Client Side JavaScript Events</h3>
+<h3>Client-Side JavaScript Events</h3>
 <p>
-When the component is manipulated client side, some functions may
+When the component is manipulated on the client side, some functions might
 publish event topics for custom AJAX implementations to listen for.
-Using the Dojo event system, listen for the refresh event topic using:<br>
+Using the Dojo event system, you can instruct Ajax to listen for the refresh event topic by using:<br>
 <br>
 <code>
 &lt;webuijsf:script&gt;<br>
@@ -10721,6 +10725,9 @@ processEvents, "update");</code><code><br>
  cellspacing="2">
   <tbody>
     <tr>
+     <td><b>Event</b></td>
+     <td><b>Description</b></td>
+    <tr>
       <td> webui.suntheme.widget.progressBar.event.refresh.beginTopic </td>
       <td> Event topic published before asynchronously refreshing the
 component. Supported properties include: <br>
@@ -10728,14 +10735,14 @@ component. Supported properties include: <br>
         <li>[optional] execute - list of the components to be executed
 along with
 this component</li>
-        <li>id - The client id to process the event for</li>
+        <li>id - The client ID to process the event for</li>
       </ul>
       </td>
     </tr>
     <tr>
       <td> webui.suntheme.widget.progressBar.event.refresh.endTopic </td>
       <td> Event topic published after asynchronously refreshing the
-component. Supported properties include: See setProps() function.<br>
+component. Supported properties include: setProps() function.<br>
       <ul>
         <li>props - JSON object containing properties of the component.
 See
@@ -10869,8 +10876,7 @@ onClick="document.getElementById('form1:pb2').cancel();return false;"
 <p>This example creates a
 simple Busy progress indicator.&nbsp; Although this example does not
 show it, you can specify a description, status message, log message in
-a Busy progress indicator.&nbsp; The component does not restrict the
-content of the component.<br>
+a Busy progress indicator.&nbsp; <br>
 </p>
 <p><code>&lt;webuijsf:progressBar type="BUSY" id="pb3" <br>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
@@ -10995,7 +11001,7 @@ getComponentInstance().setTaskState(ProgressBar.TASK_NOT_STARTED);<br>
 }<br>
 <br>
 </code>
-<h4>Example 5: Update client-side progress bar properties using the
+<h4>Example 5: Update Client-Side ProgressBar Properties Using the
 getProps
 and setProps
 functions<br>
@@ -11022,7 +11028,7 @@ domNode.setProps({"visible":!props.visible});<br>
 &nbsp;&nbsp;&nbsp; }<br>
 &lt;/script&gt;</code><br>
 </code>
-<h4>Example 6: Asynchronously update progress bar using refresh function</h4>
+<h4>Example 6: Asynchronously Update ProgressBar Using refresh function</h4>
 This example shows how to asynchronously update an anchor using
 the refresh function. When the user clicks on the button, the progress
 bar
@@ -11044,7 +11050,7 @@ update components server-side: refresh("form1:id1,form2:id2,..."). When
 no parameter is given, the refresh function acts as a reset.
 That is, the component will be redrawn using values set
 server-side, but not updated.<br>
-<h4>Example 7: Asynchronously update progress bar using refresh function</h4>
+<h4>Example 7: Asynchronously Update ProgressBar Using refresh function</h4>
 This example shows how to asynchronously update a progress bar using
 the refresh function. The execute property of the refresh function is
 used
@@ -11065,7 +11071,7 @@ submitting field value<br>
 <br>
 </code>Note that the refresh function can optionally take a list of
 elements
-to execute. Thus, a comma-separated list of ids can be provided to
+to execute. Thus, a comma-separated list of IDs can be provided to
 update components server-side: refresh("form1:id1,form2:id2,...")<br>
 <br>
 

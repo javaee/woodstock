@@ -579,7 +579,7 @@ public class ProgressBar extends javax.faces.component.UIOutput
     }
     
     /**
-     * <p>CSS style(s) to be applied to the outermost HTML element when this
+     * <p>CSS style or styles to be applied to the outermost HTML element when this
      * component is rendered.</p>
      */
     @Property(name="style", displayName="CSS Style(s)", category="Appearance", 
@@ -587,7 +587,7 @@ public class ProgressBar extends javax.faces.component.UIOutput
     private String style = null;
     
     /**
-     * <p>CSS style(s) to be applied to the outermost HTML element when this
+     * <p>CSS style or styles to be applied to the outermost HTML element when this
      * component is rendered.</p>
      */
     public String getStyle() {
@@ -602,7 +602,7 @@ public class ProgressBar extends javax.faces.component.UIOutput
     }
     
     /**
-     * <p>CSS style(s) to be applied to the outermost HTML element when this
+     * <p>CSS style or styles to be applied to the outermost HTML element when this
      * component is rendered.</p>
      * @see #getStyle()
      */
@@ -611,7 +611,7 @@ public class ProgressBar extends javax.faces.component.UIOutput
     }
     
     /**
-     * <p>CSS style class(es) to be applied to the outermost HTML element when this
+     * <p>CSS style class or classes to be applied to the outermost HTML element when this
      * component is rendered.</p>
      */
     @Property(name="styleClass", displayName="CSS Style Class(es)", category="Appearance", 
@@ -619,7 +619,7 @@ public class ProgressBar extends javax.faces.component.UIOutput
     private String styleClass = null;
     
     /**
-     * <p>CSS style class(es) to be applied to the outermost HTML element when this
+     * <p>CSS style class or classes to be applied to the outermost HTML element when this
      * component is rendered.</p>
      */
     public String getStyleClass() {
@@ -634,7 +634,7 @@ public class ProgressBar extends javax.faces.component.UIOutput
     }
     
     /**
-     * <p>CSS style class(es) to be applied to the outermost HTML element when this
+     * <p>CSS style class or classes to be applied to the outermost HTML element when this
      * component is rendered.</p>
      * @see #getStyleClass()
      */
