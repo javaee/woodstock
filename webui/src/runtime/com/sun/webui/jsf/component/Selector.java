@@ -1162,7 +1162,7 @@ public class Selector extends WebuiInput implements SelectorManager {
     }
 
     /**
-     * <p>CSS style(s) that are applied to the outermost HTML element when the 
+     * <p>CSS style or styles that are applied to the outermost HTML element when the 
      * component is rendered.</p>
      */
     @Property(name="style", displayName="CSS Style(s)", category="Appearance", editorClassName="com.sun.jsfcl.std.css.CssStylePropertyEditor")
@@ -1193,7 +1193,7 @@ public class Selector extends WebuiInput implements SelectorManager {
     }
 
     /**
-     * <p>CSS style class(es) to be applied to the outermost HTML element when this 
+     * <p>CSS style class or classes to be applied to the outermost HTML element when this 
      * component is rendered.</p>
      */
     @Property(name="styleClass", displayName="CSS Style Class(es)", category="Appearance", editorClassName="com.sun.rave.propertyeditors.StyleClassPropertyEditor")

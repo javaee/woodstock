@@ -763,7 +763,7 @@ public class DropDown extends ListSelector implements ActionSource2 {
     }
 
     /**
-     * <p>When the submitForm attribute is set to true,
+     * <p>When this attribute is set to true,
      * the form is immediately submitted when the user changes the
      * selection in the drop down list.</p>
      * @see #isSubmitForm()
