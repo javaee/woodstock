@@ -44,6 +44,14 @@ dojo.declare("webui.@THEME@.widget.popupMenu", webui.@THEME@.widget.menuBase, {
  */
 webui.@THEME@.widget.popupMenu.prototype.close = function() {
     if (webui.@THEME@.common.isVisibleElement(this.domNode)) {
+        if (webui.@THEME@.widget.popupMenu.activeMenuId) {
+            webui.@THEME@.widget.popupMenu.activeMenuId = null;
+        }
+        if (this.target != null) {
+            if (this.target.focus) {
+                this.target.focus();
+            }   
+        }        
         return this.setProps({visible: false});
     }
     return false;    
@@ -170,7 +178,25 @@ webui.@THEME@.widget.popupMenu.prototype.onCloseMenuCallBack = function(event) {
  * @param {Event} event The JavaScript event.
  * @return {boolean} true if successful; otherwise, false.
  */
-webui.@THEME@.widget.popupMenu.prototype.open = function(event) {
+webui.@THEME@.widget.popupMenu.prototype.open = function(event) {    
+    
+    var evt = this.widget.getEvent(event);
+    var keyCode = this.widget.getKeyCode(evt);
+    if(evt.type == "keydown" || evt.type == "keypress") {
+
+        if (!(evt.shiftKey && keyCode == 121)) {
+            return false;
+        }
+
+        if (webui.@THEME@.browser.isIe5up()) {
+            window.event.cancelBubble = true;
+            window.event.returnValue = false;
+        } else {
+            evt.stopPropagation();
+            evt.preventDefault();
+        }         
+     }
+         
     // Only one menu can be open at a time. Hence, close the previous menu.
     var widget = dijit.byId(webui.@THEME@.widget.popupMenu.activeMenuId);
     if (widget) {
@@ -305,7 +331,34 @@ webui.@THEME@.widget.popupMenu.prototype.open = function(event) {
         this.domNode.style.left = menuLeft + "px";
         this.domNode.style.top = menuTop + "px";
     }
-    return true;
+
+    // Keep track of the element that opened the popup menu.
+    // When the menu is closed, the focus is set back on this element.
+    if (evt.target) {
+        this.target = evt.target;
+    } else if (evt.srcElement) {
+        this.target = evt.srcElement;
+    }
+    if (this.target.blur) {
+        this.target.blur();
+    }
+    
+    // Always set the focus on the first element of the menu.
+    if (this.focusPosition > 0) {
+        var menuNode = document.getElementById(this.menuId[this.focusPosition]); 
+        if (menuNode) {
+            menuNode.className = this.theme.getClassName("MENU_GROUP_CONTAINER");
+        }
+    }
+    this.focusPosition = 0;
+    menuNode = document.getElementById(this.menuId[0]);
+    menuNode.className = menuNode.className + " " + 
+        this.theme.getClassName("MENU_FOCUS");  
+        
+    if (menuNode.focus) {
+        menuNode.focus();
+    }
+    return true;        
 }
 
 /**
@@ -346,6 +399,66 @@ webui.@THEME@.widget.popupMenu.prototype.postCreate = function () {
 webui.@THEME@.widget.popupMenu.prototype.processOnClickEvent = function(value) {
     this.inherited("processOnClickEvent", arguments);
     this.close();
+    return true;
+}
+
+/**
+ * Override the "super class" processKeyPressEvent functionality and close the menu.
+ * @param (String) value The "value" of the selected option.  
+ * @return {b oolean} true The enter key press event completed successfully 
+ */
+webui.@THEME@.widget.popupMenu.prototype.processEnterKeyPressEvent = function(value) {
+    this.inherited("processEnterKeyPressEvent", arguments);
+    this.close();
+    return true;
+}
+
+/**
+ * Traverse through the menu items. This overrides the superclass implementation
+ * and handles escape/tab/page up/page down/home/end key press events.
+ * @param (String) keyCode The valye of the key which was pressed
+ * @param (Event) event The key press event.
+ * @param (String) nodeId The id of the menu item. 
+ * @return {boolean} true Propagate the javascript event 
+ */
+webui.@THEME@.widget.popupMenu.prototype.traverseMenu = function(keyCode, event, nodeId) {
+    
+    // Handle the escape key and tab key press
+    if (keyCode == 27 || keyCode == 9) {
+        var focusElem = document.getElementById(this.menuId[this.focusPosition]);
+        focusElem.className = this.theme.getClassName("MENU_GROUP_CONTAINER");        
+        this.close();
+        return true;
+    } else if(keyCode >= 33 && keyCode <= 36) {
+        focusElem = document.getElementById(this.menuId[this.focusPosition]);        
+        focusElem.className = this.theme.getClassName("MENU_GROUP_CONTAINER");
+        
+        // Handle the home and page Up keys. Focus is set on the first element.
+        if (keyCode == 33 || keyCode == 36) {
+            this.focusPosition = 0;
+            focusElem = document.getElementById(this.menuId[this.focusPosition]);        
+        }
+        
+        // Handle Page Down and End keys. Focus is set on the last element.
+        if (keyCode == 34 || keyCode == 35) {
+            this.focusPosition = this.menuId.length - 1;
+            focusElem = document.getElementById(this.menuId[this.focusPosition]);        
+        }
+        if (focusElem.focus) {
+            focusElem.focus();
+        }                        
+        focusElem.className = focusElem.className + " " +
+            this.theme.getClassName("MENU_FOCUS"); 
+        if (webui.@THEME@.browser.isIe5up()) {
+            window. event.cancelBubble = true;
+            window.event.returnValue = false;
+        } else {
+            event.stopPropagation();
+            event.preventDefault();
+        }   
+        return true;                 
+    }    
+    this.inherited("traverseMenu", arguments);
     return true;
 }
 

@@ -131,9 +131,7 @@ webui.@THEME@.widget.bubble.prototype.getProps = function() {
  */
 webui.@THEME@.widget.bubble.prototype.onClickCallback = function(event) {
     // Close the popup if close button is clicked.
-    event = (event) 
-        ? event : ((window.event) 
-            ? window.event : null);
+    event = this.widget.getEvent(event);
 
     var target = (event.target)
         ? event.target 
@@ -205,9 +203,7 @@ webui.@THEME@.widget.bubble.prototype.onMouseOutCallback = function(event) {
  */
 webui.@THEME@.widget.bubble.prototype.open = function(event) {
     // Get the absolute position of the target.
-    var evt = (event) 
-        ? event : ((window.event) 
-            ? window.event : null);
+    var evt = this.widget.getEvent(event);
 
     this.target = (evt.target) 
         ? evt.target : ((evt.srcElement) 

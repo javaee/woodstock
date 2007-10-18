@@ -50,7 +50,7 @@ webui.@THEME@.widget.menuBase.prototype.addOptions = function(menuNode, props) {
         // create an li node which will represent an option element.
         optionNode = this.optionContainer.cloneNode(false);   
         optionNode.id = this.id + "_" + props.options[i].label + "_container";                
-        this.setOptionNodeProps(optionNode, props.options[i]);
+        this.setOptionNodeProps(optionNode, props.options[i], i);
 
         // Append the li element to the menu element.        
         menuNode.appendChild(optionNode);
@@ -60,10 +60,6 @@ webui.@THEME@.widget.menuBase.prototype.addOptions = function(menuNode, props) {
             menuNode.appendChild(groupNode);
             this.addOptions(groupNode, props.options[i]);
         }
-         
-        // Create callback function for onClick event.
-        dojo.connect(optionNode, "onclick", this.createOnClickCallback(
-            optionNode.id));
         
         if (props.options[i].separator == true) {
             separator = this.menuSeparatorContainer.cloneNode(true);
@@ -115,6 +111,47 @@ webui.@THEME@.widget.menuBase.prototype.createOnClickCallback = function(optionI
 }
 
 /**
+ * The callback function for key press on a menu item.
+ *
+ * @param {String} nodeId The id of the option element that is clicked
+ * @return {Function} The callback function. 
+ */
+webui.@THEME@.widget.menuBase.prototype.createOnKeyDownCallBack = function(nodeId) {
+    if (nodeId == null) {
+        return;
+    }
+    
+    var id = this.id;
+    var _widget = this.widget;
+    return function(event) {
+       var elem = document.getElementById(nodeId);
+       if (elem == null) {
+          return;
+       }
+        var widget = dijit.byId(id);
+
+        // If the menu is not visible, we do not need to capture
+        // key press events.
+        if (!webui.@THEME@.common.isVisibleElement(widget.domNode)) {
+            return;
+        }
+        event = _widget.getEvent(event);
+        var keyCode = _widget.getKeyCode(event);
+        
+        // if onkeypress returns false, we do not traverse the menu.
+        var keyPressResult = true;
+        if (this._onkeypress) {
+            keyPressResult = (this._onkeypress) ? this._onkeypress() : true;
+        }        
+        
+        if (keyPressResult != false) {
+            widget.traverseMenu(keyCode, event, nodeId);
+        }
+        return true;
+    }
+}
+
+/**
  * Handles the on mouse out for each menuitem.
  *
  * @param {Node} menuItem The DOM node associated with the menu item.
@@ -159,7 +196,23 @@ webui.@THEME@.widget.menuBase.prototype.createOnMouseOverCallBack = function(men
     return function(event) {
         var widget = dijit.byId(_id);
         menuItem.className = menuItem.className + " " + 
-            widget.theme.getClassName("MENU_ITEM_HOVER");            
+                    widget.theme.getClassName("MENU_ITEM_HOVER");            
+            if (widget != null) {
+                
+                //Mozilla browser (not firefox/seamonkey) do not support focus/blur
+                // for divs                
+                if (document.getElementById(widget.menuId[widget.focusPosition]).blur) {
+                    document.getElementById(widget.menuId[widget.focusPosition]).blur();
+                }                
+                if (!(menuItem.id == widget.menuId[widget.focusPosition])) {
+                    document.getElementById(widget.menuId[widget.focusPosition]).className =
+                        widget.theme.getClassName("MENU_GROUP_CONTAINER");
+                }
+            }
+            if (webui.@THEME@.browser.isIe5up() ) {
+                menuItem.className = menuItem.className + " " + 
+                    widget.theme.getClassName("MENU_ITEM_HOVER");            
+            }
     }
 }
 
@@ -265,10 +318,40 @@ webui.@THEME@.widget.menuBase.prototype.getStyle = function() {
 webui.@THEME@.widget.menuBase.prototype.postCreate = function () {
     // Set public functions.
     this.domNode.getSelectedValue = function(props, optionNode) { return dijit.byId(this.id).getSelectedValue(); }
-        
+    this.focusPosition = 0;        
     return this.inherited("postCreate", arguments);
 }
 
+
+/**
+ * Process the enter key press event.Evaluvate the keyPress/keyDown (for non-IE/IE browsers)
+ * and traverse through the menu. Also, if onChange is specified, evaluvate that and 
+ * submit the form if submitForm is specified to true.
+ * @param (String) value The "value" of the selected option. 
+ * @return {boolean} true The enter key press event completed successfully
+ */
+webui.@THEME@.widget.menuBase.prototype.processEnterKeyPressEvent = function(value) {
+    var changeResult = true;
+
+    // Check whether the selected value is different than the one previously selected
+    var bool = (value == this.getSelectedValue());
+    this.setSelectedValue(value);
+
+    if (this._onchange && !bool) {    
+        // If function returns false, we must prevent the request.       
+        changeResult = (this._onchange) ? this._onchange() : true;
+    }
+    
+    // Functions may sometime return without a value in which case the value
+    // of the boolean variable may become undefined. 
+    if (changeResult != false) {
+        if (this.submitForm) {
+            this.submitFormData();
+        }  
+    }
+    return true;
+}    
+    
 /**
  * This function executes the onchange and onclick event handlers if provided by 
  * the developer. It then either submits the form if submitForm attribute is 
@@ -280,17 +363,18 @@ webui.@THEME@.widget.menuBase.prototype.postCreate = function () {
 webui.@THEME@.widget.menuBase.prototype.processOnClickEvent = function(value) {
     var clickResult = true;
     var changeResult = true;
+    
+    //Check if the selected value has changed from the previous selection.
+    var bool = (value == this.getSelectedValue());
+    this.setSelectedValue(value);
+
     if (this._onclick) {
         clickResult = (this._onclick) ? this._onclick() : true;
     }
-
-    var x = this.getSelectedValue();
-    var bool = (value == this.getSelectedValue());
     if (this._onchange && !bool) {    
         // If function returns false, we must prevent the request.       
         changeResult = (this._onchange) ? this._onchange() : true;
     }
-    this.setSelectedValue(value);
 
     // Functions may sometime return without a value in which case the value
     // of the boolean variable may become undefined. 
@@ -312,7 +396,7 @@ webui.@THEME@.widget.menuBase.prototype.processOnClickEvent = function(value) {
  * @return {boolean} true if successful; otherwise, false.
  */
 webui.@THEME@.widget.menuBase.prototype.setMenuNodeClassName = function(
-        menuItemContainer, props) {
+        menuItemContainer, props) {        
     if (new Boolean(props.group).valueOf() == true) {
         menuItemContainer.className = this.theme.getClassName("MENU_GROUP_HEADER");
     } else if (new Boolean(props.disabled).valueOf() == true) {
@@ -320,18 +404,18 @@ webui.@THEME@.widget.menuBase.prototype.setMenuNodeClassName = function(
     } else {
         menuItemContainer.className = this.theme.getClassName("MENU_GROUP_CONTAINER");        
 
+        // Whenever mouse over/out happens, focus must be set on the menu accordingly.
         // Apply an hack for IE for mouse hover on the div element since div:hover type
         // of css declarations do not seem to work. onmouseover and onmouseout events
         // are attached with the div element and a style class is applied each time a
         // mouseover happens. This style represents the "hover" class.
         // Note that the "this" in these functions represent the menuItem's "div" element
         // and not the "menu" widget element.
-        if (webui.@THEME@.browser.isIe5up()) {
             dojo.connect(menuItemContainer, "onmouseover",
                 this.createOnMouseOverCallBack(menuItemContainer));
             dojo.connect(menuItemContainer, "onmouseout",
                 this.createOnMouseOutCallBack(menuItemContainer));
-        }
+
     }
     return true;
 }
@@ -342,6 +426,7 @@ webui.@THEME@.widget.menuBase.prototype.setMenuNodeClassName = function(
  *
  * @param optionNode The node for which the option is to be added.
  * @param {Object} props Key-Value pairs of properties.
+ * @param {String} number The position of the option item in the menu.
  * @config {boolean} [disabled] 
  * @config {boolean} [escape]
  * @config {Object} [image]
@@ -350,10 +435,8 @@ webui.@THEME@.widget.menuBase.prototype.setMenuNodeClassName = function(
  * @config {String} [value]
  * @return {boolean} true if successful; otherwise, false.
  */
-webui.@THEME@.widget.menuBase.prototype.setOptionNodeProps = function(optionNode, props) {
+webui.@THEME@.widget.menuBase.prototype.setOptionNodeProps = function(optionNode, props, number) {
     optionNode.id = this.id + "_" + props.value + "_container";
-    optionNode.selectValue = props.value;
-    optionNode.disabled = props.disabled;
     var menuItemContainer = this.menuItemContainer.cloneNode(false);
     menuItemContainer.id = optionNode.id + "_label";
 
@@ -361,10 +444,42 @@ webui.@THEME@.widget.menuBase.prototype.setOptionNodeProps = function(optionNode
     // for the menu node.
     this.setMenuNodeClassName(menuItemContainer, props);
     optionNode.appendChild(menuItemContainer);
-
+    
     // valueNode contains a div element which will hold the option.
-    var valueNode = this.menuItemNode.cloneNode(false);
+    var valueNode = this.menuItemNode.cloneNode(false);  
     valueNode.id = this.id + "_" + props.value;
+
+    if (!(new Boolean(props.group).valueOf() == true) && 
+            !(new Boolean(props.disabled).valueOf() == true)) {
+        this.menuId[this.menuItemCount++] = menuItemContainer.id;   
+    }
+
+    menuItemContainer.tabIndex = -1;
+    valueNode.tabIndex = -1;
+
+    menuItemContainer.selectValue = props.value;
+    menuItemContainer.disabled = props.disabled;
+    menuItemContainer.group = props.group;
+    menuItemContainer.title = props.label;
+    valueNode.title = props.label;
+    
+    if (valueNode.setAttributeNS) {
+        valueNode.setAttributeNS(
+            "http://www.w3.org/2005/07/aaa", "posinset", number);
+    }
+
+    if (valueNode.setAttributeNS) {
+        valueNode.setAttributeNS(
+            "http://www.w3.org/2005/07/aaa", "disabled", props.disabled);
+    }
+        
+    //Create callback function for onkeydown event.
+    dojo.connect(menuItemContainer, "onkeydown", 
+        this.createOnKeyDownCallBack(menuItemContainer.id));         
+        
+     //Create callback function for onClick event.
+     dojo.connect(menuItemContainer, "onclick",
+        this.createOnClickCallback(menuItemContainer.id));
         
     // Set label value.
     if (props.label) {
@@ -466,7 +581,7 @@ webui.@THEME@.widget.menuBase.prototype._setProps = function(props){
     if (props == null) {
         return false;
     }
-    
+
     // A web app devleoper could return false in order to cancel the 
     // submit. Thus, we will handle this event via the onClick call back.
     if (props.onChange) {
@@ -503,7 +618,15 @@ webui.@THEME@.widget.menuBase.prototype._setProps = function(props){
             this.maxWidth += placeHolderWidth; 
         }       
    
+        // If an menuGroup exists, then add one character width. Otherwise menu
+        // does not scale properly
+        if (this.containsGroup) {
+            this.maxWidth += 1;
+        }
+             
         this.widget.removeChildNodes(this.outerMenuContainer);
+        this.menuId = [];
+        this.menuItemCount = 0;
         
         // Clone the menu node and add it to the outer container.
         var menuNode = this.groupOptionContainer.cloneNode(false);
@@ -554,4 +677,66 @@ webui.@THEME@.widget.menuBase.prototype.submitFormData = function () {
     theForm.action = oldAction;
     theForm.target = oldTarget;
     return false;
+}
+
+/**
+ * This function takes care of traversing through the menu items depending
+ * on which key is presse
+ * @param (String) keyCode The valye of the key which was pressed
+ * @param (Event) event The key press event.
+ * @param (String) nodeId The id of the menu item. 
+ * @return {boolean} true Propagate the javascript event
+ */
+webui.@THEME@.widget.menuBase.prototype.traverseMenu = function(keyCode, event, nodeId) {
+    var arr = this.menuId;
+    var elem = document.getElementById(nodeId);
+    var focusElem = document.getElementById(arr[this.focusPosition]);
+    
+    if (focusElem.blur) {
+        focusElem.blur();
+    }
+    // Operations to be performed if the arrow keys are pressed.
+    if (keyCode >= 37 && keyCode <= 40) {
+        
+        // Check whether up arrow was pressed.
+        if (keyCode == 38) {
+            focusElem.className = this.theme.getClassName("MENU_GROUP_CONTAINER");
+            this.focusPosition--;
+            if (this.focusPosition < 0) {
+                this.focusPosition = arr.length-1;
+            }
+            focusElem = document.getElementById(arr[this.focusPosition]); 
+
+        // Check whether down arrow was pressed
+        } else if (keyCode == 40) {
+            focusElem.className = 
+                this.theme.getClassName("MENU_GROUP_CONTAINER");
+            this.focusPosition++;
+            if (this.focusPosition == arr.length) {
+                this.focusPosition = 0;
+            }
+            focusElem = document.getElementById(arr[this.focusPosition]);
+        }   
+        
+    if (focusElem.focus) {
+        focusElem.focus();
+    }        
+        focusElem.className = focusElem.className + " "+
+            this.theme.getClassName("MENU_FOCUS");           
+    // Check if enter key was pressed    
+    } else if(keyCode == 13){
+        focusElem.className =
+            this.theme.getClassName("MENU_GROUP_CONTAINER");
+        var val = elem.selectValue;
+        this.processEnterKeyPressEvent(val);
+       
+    }    
+    if (webui.@THEME@.browser.isIe5up()) {
+        window. event.cancelBubble = true;
+        window.event.returnValue = false;
+    } else {
+        event.stopPropagation();
+        event.preventDefault();
+    }
+    return true;
 }

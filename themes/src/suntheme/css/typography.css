@@ -400,8 +400,7 @@ a.TreeSelLink@THEME_CSS@:hover {
     font-weight: normal;
 }
 
-ul.MenuItems@THEME_CSS@ li div.MenuItem@THEME_CSS@:hover,     /* standard hover */
-ul.MenuItems@THEME_CSS@ li div.MenuItem@THEME_CSS@.iehover {  /* IE hover - see ieHover javascript function */
+ul.MenuItems@THEME_CSS@ li div.MenuItem@THEME_CSS@:hover{    /* standard hover */
     font-weight: bold;
 }
 /*---*/

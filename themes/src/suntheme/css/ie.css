@@ -299,3 +299,15 @@ table.Tbl@THEME_CSS@ td.TblFtrRow@THEME_CSS@ {padding:5px 5px 5px 10px}
 .AccdTabCollapsed@THEME_CSS@ a:hover {
     background-image: none;
 }
+
+/*Menu*/
+/*Needed for mouse hover on menu option divs*/
+ul.MenuItems@THEME_CSS@ li .MenuItem@THEME_CSS@.iehover@THEME_CSS@{ 
+    background-color: #90b7d0;
+    color: #ffffff;   
+    cursor: pointer;         
+}
+
+ul.MenuItems@THEME_CSS@ li div.MenuItem@THEME_CSS@.iehover { 
+font-weight: bold;    
+ }
