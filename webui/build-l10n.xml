@@ -1,0 +1,308 @@
+<?xml version='1.0' encoding='ISO-8859-1' ?>
+<!--
+ The contents of this file are subject to the terms
+ of the Common Development and Distribution License
+ (the License).  You may not use this file except in
+ compliance with the License.
+ 
+ You can obtain a copy of the license at
+ https://woodstock.dev.java.net/public/CDDLv1.0.html.
+ See the License for the specific language governing
+ permissions and limitations under the License.
+ 
+ When distributing Covered Code, include this CDDL
+ Header Notice in each file and include the License file
+ at https://woodstock.dev.java.net/public/CDDLv1.0.html.
+ If applicable, add the following below the CDDL Header,
+ with the fields enclosed by brackets [] replaced by
+ you own identifying information:
+ "Portions Copyrighted [year] [name of copyright owner]"
+ 
+ Copyright 2007 Sun Microsystems, Inc. All rights reserved.
+-->
+
+<project name="webui-l10n" default="all" basedir=".">
+
+    <!-- Initialize property values -->
+    <property file="../build.properties"/>
+    <property file="build.properties"/>
+
+    <property name="build" value="${basedir}/build"/>
+    <property name="src" value="${basedir}/src"/>
+    <property name="l10n.dir" value="${basedir}/dist"/>
+    <property name="tools.jar" location="${basedir}/../tools/lib/woodstock-tools.jar"/>
+
+    <!-- so this build script can run on its own -->
+    <property name="l10n.runtime-jar" value="${l10n.dir}/webui-jsf.jar"/>
+    <property name="l10n.designtime-jar" value="${l10n.dir}/webui-jsf-dt.jar"/>
+
+    <property name="l10n.package-path" value="com/sun/webui/jsf"/>
+    <property name="l10n.package" value="com.sun.webui.jsf"/>
+
+    <!-- L10n properties -->
+    <property name="l10n.src-rt"
+	location="${src}/translatedFiles/runtime"/>
+    <property name="l10n.src-dt"
+	location="${src}/translatedFiles/designtime"/>
+
+    <property name="l10n.build"
+	location="${build}/translatedFiles"/>
+
+    <property name="l10n.build-dest-rt"
+	location="${l10n.build}/runtime/${l10n.package-path}"/>
+    <property name="l10n.build-dest-dt"
+	location="${l10n.build}/designtime/${l10n.package-path}"/>
+
+    <target name="build-l10n-off">
+	<condition property="build-l10n-off">
+	    <and>
+		<isset property="build.l10n"/>
+		<isfalse value="${build.l10n}"/>
+	    </and>
+	</condition>
+    </target>
+
+    <target name="buildL10n-rt" 
+	depends="build-l10n-off"
+	unless="build-l10n-off"
+	description="Run native2ascii on the properties and build l10n runtime jars.">
+	<mkdir dir="${l10n.build-dest-rt}/component"/>
+	<mkdir dir="${l10n.build-dest-rt}/model"/>
+	<mkdir dir="${l10n.build-dest-rt}/renderkit/html"/>
+	<mkdir dir="${l10n.build-dest-rt}/resources"/>
+
+	<antcall target="native2ascii">
+	    <param name="_l10n-src_" 
+		value="${l10n.src-rt}/${l10n.package-path}"/>
+	    <param name="_l10n-dest_" value="${l10n.build-dest-rt}"/>
+	</antcall>
+	<antcall target="buildL10n-rt-jars">
+	    <param name="_l10n-src_" value="${l10n.build}/runtime"/>
+	</antcall>
+
+    </target>
+
+    <target name="buildL10n-dt"
+	depends="build-l10n-off"
+	unless="build-l10n-off"
+	description="Run native2ascii on the properties and build l10n designtime jars.">
+
+	<mkdir dir="${l10n.build-dest-dt}/component/customizers"/>
+	<mkdir dir="${l10n.build-dest-dt}/component/propertyeditors"/>
+	<mkdir dir="${l10n.build-dest-dt}/component/table"/>
+	<mkdir dir="${l10n.build-dest-dt}/component/util"/>
+	<mkdir dir="${l10n.build-dest-dt}/component/vforms"/>
+	<mkdir dir="${l10n.build-dest-dt}/design"/>
+	<mkdir dir="${l10n.build-dest-dt}/faces"/>
+	<mkdir dir="${l10n.build-dest-dt}/renderkit/html"/>
+
+	<antcall target="native2ascii">
+	    <param name="_l10n-src_" 
+		value="${l10n.src-dt}/${l10n.package-path}"/>
+	    <param name="_l10n-dest_" value="${l10n.build-dest-dt}"/>
+	</antcall>
+	<antcall target="buildL10n-dt-jars">
+	    <param name="_l10n-src_" value="${l10n.build}/designtime"/>
+	</antcall>
+    </target>
+
+    <target name="buildL10n-rt-jars" 
+	description="Build the runtime l10n jars for all supported locales.">
+
+	<property name="_non-l10n-jar_" value="${l10n.runtime-jar}"/>
+
+	<!-- No way to loop so the fixed set of locales is
+	     de,es,fr,it,ja,ko,pt_BR,sv,zh_CN,zh_HK,zh_TW
+	-->
+	<antcall target="create-l10n-jar">
+	    <param name="_l10n-locale_" value="de"/>
+	</antcall>
+	<antcall target="create-l10n-jar">
+	    <param name="_l10n-locale_" value="es"/>
+	</antcall>
+	<antcall target="create-l10n-jar">
+	    <param name="_l10n-locale_" value="fr"/>
+	</antcall>
+	<antcall target="create-l10n-jar">
+	    <param name="_l10n-locale_" value="it"/>
+	</antcall>
+	<antcall target="create-l10n-jar">
+	    <param name="_l10n-locale_" value="ja"/>
+	</antcall>
+	<antcall target="create-l10n-jar">
+	    <param name="_l10n-locale_" value="ko"/>
+	</antcall>
+	<antcall target="create-l10n-jar">
+	    <param name="_l10n-locale_" value="pt_BR"/>
+	</antcall>
+	<antcall target="create-l10n-jar">
+	    <param name="_l10n-locale_" value="sv"/>
+	</antcall>
+	<antcall target="create-l10n-jar">
+	    <param name="_l10n-locale_" value="zh_CN"/>
+	</antcall>
+	<antcall target="create-l10n-jar">
+	    <param name="_l10n-locale_" value="zh_HK"/>
+	</antcall>
+	<antcall target="create-l10n-jar">
+	    <param name="_l10n-locale_" value="zh_TW"/>
+	</antcall>
+
+    </target>
+
+    <target name="buildL10n-dt-jars"
+	description="Build the designtime l10n jars for all supported locales.">
+
+	<property name="_non-l10n-jar_" value="${l10n.designtime-jar}"/>
+
+	<!-- No way to loop so the fixed set of locales is
+	     de,es,fr,it,ja,ko,pt_BR,sv,zh_CN,zh_HK,zh_TW
+	-->
+	<antcall target="create-l10n-jar">
+	    <param name="_l10n-locale_" value="ja"/>
+	</antcall>
+	<antcall target="create-l10n-jar">
+	    <param name="_l10n-locale_" value="pt_BR"/>
+	</antcall>
+	<antcall target="create-l10n-jar">
+	    <param name="_l10n-locale_" value="zh_CN"/>
+	</antcall>
+
+    </target>
+
+    <!-- Assumes "${_l10n-locale_}", ${_non-l10n-jar_}", "
+	and ${l10n.build}" are set.
+    -->
+    <target name="l10n-jar-uptodate">
+	<l10n-jar-name locale="${_l10n-locale_}" property="__l10n-jar__"
+		jar="${_non-l10n-jar_}"/>
+	<uptodate property="l10n-jar-uptodate">
+	    <srcfiles dir="${_l10n-src_}"
+		includes="**/*_${_l10n-locale_}*.properties"/>
+	    <mergemapper to="${__l10n-jar__}"/>
+	</uptodate>
+    </target>
+
+    <!--
+	Parameters
+
+	_l10n-src_ - directory to jar from
+	_l10n-locale_ - the locale jar to create
+	_non-l10n-jar_ - the non localized jar
+
+	Assumes properties
+
+	basedir - used to file manifest template
+	l10n.package-path - package path.
+    -->
+    <target name="create-l10n-jar"
+	    depends="l10n-jar-uptodate"
+	    unless="l10n-jar-uptodate"
+	    description="Create an l10n jar.">
+
+	<mkdir dir="${_l10n-src_}/META-INF"/>
+	<delete file="${_l10n-src_}/META-INF/MANIFEST.MF"/>
+
+	<ant antfile="build-manifest.xml" target="l10n-manifest">
+	    <property name="_l10n-manifest_" 
+		value="${_l10n-src_}/META-INF/MANIFEST.MF"/>
+	    <property name="_impl-title_"
+		value="Woodstock Resources - ${_l10n-locale_}"/>
+	    <property name="section-name" value="${l10n.package}"/>
+	</ant>
+
+	<l10n-jar-name locale="${_l10n-locale_}" property="l10n-jar"
+		jar="${_non-l10n-jar_}"/>
+	<jar destfile="${l10n-jar}"
+	    basedir="${_l10n-src_}"
+	    includes="${l10n.package-path}/**/*_${_l10n-locale_}.*"
+	    manifest="${_l10n-src_}/META-INF/MANIFEST.MF">
+	</jar>
+
+    </target>
+
+    <target name="l10n-uptodate">
+
+	<!-- If the build l10n files exist and are newer
+	     than the corresponding built l10n properties
+	     files set the l10n-uptodate property.
+	-->
+	<condition property="l10n-uptodate">
+	    <or>
+		<uptodate>
+		    <srcfiles dir="${_l10n-src_}"
+			includes="**/*.properties"/>
+		    <globmapper from="*"
+			to="${_l10n-dest_}/*"/>
+		</uptodate>
+		<and>
+		    <isset property="build.l10n"/>
+		    <isfalse value="${build.l10n}"/>
+		</and>
+	    </or>
+	</condition>
+    </target>
+
+    <!-- Parameters
+	_l10n-src_ - root directory of the properties files
+	_l10n-dest_ - root directory for the destination properties files
+    -->
+    <target name="native2ascii" depends="l10n-uptodate"
+	    unless="l10n-uptodate"
+	    description="Run native2ascii on the properties files.">
+
+	<!-- make the destination directory and all the subdirectories -->
+	<mkdir dir="${_l10n-dest_}"/>
+
+	<fileset id="n2afiles" dir="${_l10n-src_}">
+	    <include name="**/*.properties"/>
+	    <depend targetdir="${_l10n-dest_}">
+		<mapper type="glob" from="*" to="*"/>
+	    </depend>
+	</fileset>
+
+	<pathconvert property="n2alist" refid="n2afiles" pathsep=",">
+	    <map from="${_l10n-src_}${file.separator}" to=""/>
+	</pathconvert>
+
+	<echo message="Running native2asci for ${n2alist}, it takes several minutes..."/>
+
+	<java jar="${tools.jar}" failonerror="true" fork="true">
+	  <arg value="-native2ascii"/>
+	  <arg value="-sourceDir"/>
+	  <arg value="${_l10n-src_}"/>
+	  <arg value="-destDir"/>
+	  <arg value="${_l10n-dest_}" />
+	  <arg value="-fileList"/>
+	  <arg value="${n2alist}"/>
+	</java>
+    </target>
+
+    <target name="all" depends="buildL10n-rt,buildL10n-dt"/>
+
+    <macrodef name="l10n-jar-name">
+	<attribute name="property" default="l10n-jar"/>
+	<attribute name="locale"/>
+	<attribute name="jar"/>
+	<sequential>
+	    <dirname property="__dest-dir__" file="@{jar}"/>
+	    <basename property="__base-name__" 
+		file="@{jar}" suffix=".jar"/>
+	    <property name="@{property}" 
+		location="${__dest-dir__}/${__base-name__}_@{locale}.jar"/>
+	</sequential>
+    </macrodef>
+
+    <target name="clean">
+	<delete dir="${l10n.build}"/>
+	<delete>
+	    <fileset dir="${l10n.dir}"
+		includes="webui-jsf_*.jar,webui-jsf-dt_*.jar"/>
+	</delete>
+    </target>
+
+    <target name="syntax-check">
+	<echo message="Ok"/>
+    </target>
+
+</project>

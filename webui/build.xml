@@ -351,6 +351,11 @@
             compress="${build.package.compress}" index="${build.package.index}">
         </jar>
 
+	<!-- put it in dist too -->
+	<mkdir dir="${dist}"/>
+	<copy file="${netbeans}/modules/autoload/ext/${webui.jar}"
+		todir="${dist}"/>
+
     </target>
 
     <target name="designtime-jars" depends="compile-all-designtime">
@@ -371,12 +376,17 @@
             compress="${build.package.compress}" index="${build.package.index}">
         </jar>
 
+	<!-- put it in dist too -->
+	<mkdir dir="${dist}"/>
+	<copy file="${netbeans}/modules/autoload/ext/${webui-dt.jar}"
+		todir="${dist}"/>
+
     </target>
 
     <target name="compile-all"
     depends="compile-all-runtime, compile-all-designtime, compile-postcopy"/>
 
-    <target name="jars" depends="runtime-jars,designtime-jars"/>
+    <target name="jars" depends="runtime-jars,designtime-jars,l10n-jars"/>
 
     <target name="source" depends="jars,javadoc">
 
@@ -438,6 +448,15 @@
             <fileset dir="${basedir}/tlddocs"></fileset>
         </zip>
         
+    </target>
+
+    <target name="l10n-jars" description="Build the l10n jars">
+	<ant antfile="build-l10n.xml" target="buildL10n-rt">
+	    <property name="_non-l10n-jar_" value="${dist}/${webui.jar}"/>
+	</ant>
+	<ant antfile="build-l10n.xml" target="buildL10n-dt">
+	    <property name="_non-l10n-jar_" value="${dist}/${webui-dt.jar}"/>
+	</ant>
     </target>
 
     <target name="clean" description="Clean build products.">

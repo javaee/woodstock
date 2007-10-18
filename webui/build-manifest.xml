@@ -107,6 +107,17 @@
     </antcall>
   </target>
 
+  <target name="l10n-manifest">
+    <antcall target="build-l10n-manifest">
+      <param name="mf-name" value="${_l10n-manifest_}"/>
+      <param name="implementation-title" value="${_impl-title_}" />
+      <param name="implementation-version" value="${webui-impl-version}" />
+      <param name="specification-title" value="${webui-spec-title}" />
+      <param name="specification-version" value="${webui-spec-version}" />
+      <param name="component-version" value="${component-version}"/>
+    </antcall>
+  </target>
+
   <target name="build-manifest">
     <manifest file="${mf-name}" mode="replace">
       <attribute name="Created-By" value="${vendor}"/>
@@ -161,6 +172,36 @@
 	    value="${fileupload-dependencies}"/>
 	</section>
 
+
+    </manifest>
+  </target>
+
+  <target name="build-l10n-manifest">
+
+    <manifest file="${mf-name}" mode="replace">
+      <attribute name="Created-By" value="${vendor}"/>
+
+        <attribute name="Implementation-Title" 
+            value="${implementation-title}"/>
+        <attribute name="Implementation-Version" 
+            value="${implementation-version}"/> 
+        <attribute name="Implementation-Vendor" 
+            value="${vendor}"/>
+        <attribute name="Implementation-Vendor-Id" 
+            value="com.sun"/>
+        <attribute name="Specification-Title" 
+            value="${specification-title}"/>
+        <attribute name="Specification-Version" 
+            value="${specification-version}"/>
+        <attribute name="Specification-Vendor" 
+            value="${vendor}"/>
+
+	<section name="${section-name}">
+	  <attribute name="X-SJWUIC-Components-Version"
+	      value="${component-version}"/>
+	  <attribute name="X-SJWUIC-Components-Timestamp"
+	      value="${buildnumber}"/>
+	</section>
 
     </manifest>
   </target>

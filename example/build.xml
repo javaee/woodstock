@@ -182,8 +182,18 @@
     -->
 
     <target name="-pre-dist">
-        <echo message="Copying libraries from the components lib dir..."/> 
+
         <mkdir dir="${build.dir}/web/WEB-INF/lib"/>
+
+	<!-- Turn off l10n until ready 
+        <echo message="Building and copying the l10n jars..."/>
+	<ant antfile="build-l10n.xml" target="buildL10n">
+	    <property name="l10n.dir" value="${build.dir}/web/WEB-INF/lib"/>
+	    <property name="l10n.jar-name" value="example"/>
+	</ant>
+	-->
+
+        <echo message="Copying libraries from the components lib dir..."/> 
         <copy file="${commons-beanutils.jar}" todir="${build.dir}/web/WEB-INF/lib"/>
         <copy file="${commons-collections.jar}" todir="${build.dir}/web/WEB-INF/lib"/>
         <copy file="${commons-digester.jar}" todir="${build.dir}/web/WEB-INF/lib"/>
@@ -213,7 +223,13 @@
 
     <target name="-post-clean">
 	    <delete file="example.zip" />
-	</target>
+	    <!-- Turn off l10n until ready 
+	    <ant antfile="build-l10n.xml" target="clean">
+		<property name="l10n.dir"
+		    value="${build.dir}/web/WEB-INF/lib"/>
+	    </ant>
+	    -->
+    </target>
 
     <target name="release" depends="default">
         <zip destfile="example.zip">
