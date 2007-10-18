@@ -322,11 +322,11 @@ webui.@THEME@.widget.menuBase.prototype.postCreate = function () {
     return this.inherited("postCreate", arguments);
 }
 
-
 /**
  * Process the enter key press event.Evaluvate the keyPress/keyDown (for non-IE/IE browsers)
  * and traverse through the menu. Also, if onChange is specified, evaluvate that and 
  * submit the form if submitForm is specified to true.
+ *
  * @param (String) value The "value" of the selected option. 
  * @return {boolean} true The enter key press event completed successfully
  */
@@ -681,7 +681,8 @@ webui.@THEME@.widget.menuBase.prototype.submitFormData = function () {
 
 /**
  * This function takes care of traversing through the menu items depending
- * on which key is presse
+ * on which key is pressed.
+ *
  * @param (String) keyCode The valye of the key which was pressed
  * @param (Event) event The key press event.
  * @param (String) nodeId The id of the menu item. 

@@ -179,7 +179,6 @@ webui.@THEME@.widget.popupMenu.prototype.onCloseMenuCallBack = function(event) {
  * @return {boolean} true if successful; otherwise, false.
  */
 webui.@THEME@.widget.popupMenu.prototype.open = function(event) {    
-    
     var evt = this.widget.getEvent(event);
     var keyCode = this.widget.getKeyCode(evt);
     if(evt.type == "keydown" || evt.type == "keypress") {
@@ -391,6 +390,18 @@ webui.@THEME@.widget.popupMenu.prototype.postCreate = function () {
 }
 
 /**
+ * Override the "super class" processKeyPressEvent functionality and close the menu.
+ *
+ * @param (String) value The "value" of the selected option.  
+ * @return {boolean} true The enter key press event completed successfully 
+ */
+webui.@THEME@.widget.popupMenu.prototype.processEnterKeyPressEvent = function(value) {
+    this.inherited("processEnterKeyPressEvent", arguments);
+    this.close();
+    return true;
+}
+
+/**
  * Override the "super class" processOnClickEvent functionality and close the menu.
  *
  * @param {String} value The selected value.
@@ -403,19 +414,9 @@ webui.@THEME@.widget.popupMenu.prototype.processOnClickEvent = function(value) {
 }
 
 /**
- * Override the "super class" processKeyPressEvent functionality and close the menu.
- * @param (String) value The "value" of the selected option.  
- * @return {b oolean} true The enter key press event completed successfully 
- */
-webui.@THEME@.widget.popupMenu.prototype.processEnterKeyPressEvent = function(value) {
-    this.inherited("processEnterKeyPressEvent", arguments);
-    this.close();
-    return true;
-}
-
-/**
  * Traverse through the menu items. This overrides the superclass implementation
  * and handles escape/tab/page up/page down/home/end key press events.
+ *
  * @param (String) keyCode The valye of the key which was pressed
  * @param (Event) event The key press event.
  * @param (String) nodeId The id of the menu item. 

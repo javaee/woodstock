@@ -328,23 +328,17 @@ webui.@THEME@.widget.common = {
     },
 
     /**
-     * Return the appropriate event object depending on the browser
+     * Return the appropriate event object depending on the browser.
+     *
      * @param {Event} event The client side event generated
      * @return {Event} The appropriate event object 
      */
     getEvent: function(event) {
-        return  (event) ? event : ((window.event) ? window.event : null);          
+        return (event) 
+            ? event 
+            : ((window.event) ? window.event : null);          
     },
     
-    /**
-     * Return the key code of the key which generated the event.
-     * @param {Event} event The client side event generated
-     * @return {String} The key code of the key which generated the event     
-     */
-    getKeyCode: function(event) {    
-    return event.keyCode ? event.keyCode : event.which ? event.which : event.charCode;              
-    },
-
     /**
      * This function returns the closest form ancestor of the given DOM node.
      * <p>
@@ -462,6 +456,18 @@ webui.@THEME@.widget.common = {
             webui.@THEME@.widget.common.extend(_props, props);
         }
         return _props;
+    },
+
+    /**
+     * Return the key code of the key which generated the event.
+     *
+     * @param {Event} event The client side event generated
+     * @return {String} The key code of the key which generated the event     
+     */
+    getKeyCode: function(event) {    
+        return (event.keyCode) 
+            ? event.keyCode 
+            : ((event.which) ? event.which : event.charCode);              
     },
 
     /**
