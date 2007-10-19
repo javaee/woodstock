@@ -47,13 +47,11 @@ webui.@THEME@.wizard = {
     /**
      * This function is used to initialize HTML element properties with Object
      * literals.
-     * <p>
-     * Note: This is considered a private API, do not use.
-     * </p>
      *
      * @param {Object} props Key-Value pairs of properties.
      * @config {String} [id] The element id.
      * @return {boolean} true if successful; otherwise, false.
+     * @private
      */
     init: function(props) {
         if (props == null || props.id == null) {

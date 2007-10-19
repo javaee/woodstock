@@ -108,6 +108,7 @@ webui.@THEME@.body = function(viewId, path, defaultFocusElementId,
      *
      * @return {boolean} true if successful; otherwise, false.
      * @deprecated
+     * @ignore
      */
     this.setInitialFocus = function() {
 	// In old code this method was called as an onload handler.

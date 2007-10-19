@@ -34,9 +34,6 @@ webui.@THEME@.commonTasksSection = {
     /**
      * This function is used to initialize HTML element properties with Object 
      * literals.
-     * <p>
-     * Note: This is considered a private API, do not use.
-     * </p>
      *
      * @param {Object} props Key-Value pairs of properties.
      * @config {String} [id] The HTML element id.
@@ -44,6 +41,7 @@ webui.@THEME@.commonTasksSection = {
      * @config {String} [pic2URL] Hover image.
      * @config {String} [pic3URL] Normal image.
      * @return {boolean} true if successful; otherwise, false.
+     * @private
      */
     init: function(props) {
         if (props == null || props.id == null) {

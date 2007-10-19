@@ -178,11 +178,10 @@ webui.@THEME@.widget.imageButton.prototype.setProps = function(props, notify) {
  * This function is used to set widget properties. Please see the setProps() 
  * function for a list of supported properties.
  * <p>
- * Note: This is considered a private API, do not use. This function should only
- * be invoked via setProps().
+ * Note: This function should only be invoked through setProps().
  * </p>
- *
  * @param {Object} props Key-Value pairs of properties.
+ * @return {boolean} true if successful; otherwise, false.
  * @private
  */
 webui.@THEME@.widget.imageButton.prototype._setProps = function(props) {

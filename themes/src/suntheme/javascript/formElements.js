@@ -35,19 +35,18 @@ dojo.require("webui.@THEME@.common");
  * @static
  *
  * @deprecated See webui.@THEME@.widget.button
+ * @ignore
  */
 webui.@THEME@.button = {
     /**
      * This function is used to initialize HTML element properties with Object
      * literals.
-     * <p>
-     * Note: This is considered a private API, do not use.
-     * </p>
      *
      * @param {Object} props Key-Value pairs of properties.
      * @config {String} [id] The element id.
      * @return {boolean} true if successful; otherwise, false.
      * @deprecated See webui.@THEME@.widget.button
+     * @private
      */
     init: function(props) {
         if (props == null || props.id == null) {
@@ -236,6 +235,7 @@ webui.@THEME@.button = {
  * @static
  * 
  * @deprecated See webui.@THEME@.widget.checkbox
+ * @ignore
  */
 webui.@THEME@.checkbox = {
     /**
@@ -290,6 +290,7 @@ webui.@THEME@.checkbox = {
  * @static
  * 
  * @deprecated See webui.@THEME@.widget.dropDown
+ * @ignore
  */
 webui.@THEME@.dropDown = {
     /**
@@ -403,6 +404,7 @@ webui.@THEME@.dropDown = {
  * @static
  *
  * @deprecated See webui.@THEME@.widget.field
+ * @ignore
  */
 webui.@THEME@.field = {
     /**
@@ -519,6 +521,7 @@ webui.@THEME@.field = {
  * @static
  *
  * @deprecated See webui.@THEME@.widget.hyperlink
+ * @ignore
  */
 webui.@THEME@.hyperlink = {
     /**
@@ -587,6 +590,7 @@ webui.@THEME@.hyperlink = {
  * @static
  *
  * @deprecated See webui.@THEME@.widget.dropDown
+ * @ignore
  */
 webui.@THEME@.jumpDropDown = {
     /**
@@ -620,6 +624,7 @@ webui.@THEME@.jumpDropDown = {
  * @static
  * 
  * @deprecated See webui.@THEME@.widget.listbox
+ * @ignore
  */
 webui.@THEME@.listbox = {
     /**
@@ -733,6 +738,7 @@ webui.@THEME@.listbox = {
  * @static
  *
  * @deprecated See webui.@THEME@.widget.rbcbGroup
+ * @ignore
  */
 webui.@THEME@.rbcb = {
     /**
@@ -799,6 +805,7 @@ webui.@THEME@.rbcb = {
  * @static
  *
  * @deprecated See webui.@THEME@.widget.radioButton
+ * @ignore
  */
 webui.@THEME@.radiobutton = {
     /**

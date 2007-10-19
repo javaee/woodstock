@@ -70,6 +70,7 @@ webui.@THEME@.theme.common = {
      * string, is treated as the "bundle", and the initial segments are
      * treated as the module path.
      * @return {boolean} true if successful; otherwise, false.
+     * @private
      */
     init: function(props) {
         if (props == null) {

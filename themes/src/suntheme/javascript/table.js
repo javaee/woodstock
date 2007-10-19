@@ -282,9 +282,6 @@ webui.@THEME@.table = {
     /**
      * This function is used to initialize HTML element properties with Object
      * literals.
-     * <p>
-     * Note: This is considered a private API, do not use.
-     * </p>
      *
      * @param {Object} props Key-Value pairs of properties.
      * @config {String} [id] The HTML element ID for the component.
@@ -344,7 +341,8 @@ webui.@THEME@.table = {
      * @param {String} [selectMultipleToggleButtonToolTip] The select multiple toggle button tool tip.</li>
      * @param {String} [selectMultipleToggleButtonToolTipSelected] The select multiple toggle button tool tip when selected.</li>
      * @return {boolean} true if successful; otherwise, false.
-    */
+     * @private
+     */
     init: function(props) {
         if (props == null || props.id == null) {
             return false;
@@ -419,12 +417,10 @@ webui.@THEME@.table = {
      * group (i.e., checkboxes or radiobuttons used to de/select rows of the table).
      * This functionality requires the selectId property of the tableColumn component
      * and the hiddenSelectedRows property of the table component to be set.
-     * <p>
-     * Note: This is considered a private API, do not use.
-     * </p>
      *
      * @param {String} groupId The HTML element ID for the tableRowGroup component.
      * @return {int} The number of components selected in the current page.
+     * @private
      */
     getGroupSelectedRowsCount: function(groupId) {
         return this.getGroupHiddenSelectedRowsCount(groupId) + 
@@ -437,12 +433,10 @@ webui.@THEME@.table = {
      * currently hidden from view. This functionality requires the selectId property
      * of the tableColumn component and hiddenSelectedRows property of the table
      * component to be set.
-     * <p>
-     * Note: This is considered a private API, do not use.
-     * </p>
      *
      * @param {String} groupId The HTML element ID for the tableRowGroup component.
      * @return {int} The number of selected components hidden from view.
+     * @private
      */
     getGroupHiddenSelectedRowsCount: function(groupId) {
         var count = 0;
@@ -469,12 +463,10 @@ webui.@THEME@.table = {
      * group (i.e., checkboxes or radiobuttons used to de/select rows of the table),
      * currently rendered. This functionality requires the selectId property of the
      * tableColumn component to be set.
-     * <p>
-     * Note: This is considered a private API, do not use.
-     * </p>
      *
      * @param {String} groupId The HTML element ID for the tableRowGroup component.
      * @return {int} The number of components selected in the current page.
+     * @private
      */
     getGroupRenderedSelectedRowsCount: function(groupId) {
         var count = 0;
@@ -518,12 +510,10 @@ webui.@THEME@.table = {
      * of selected components change (i.e., checkboxes or radiobuttons used to
      * de/select rows of the table). This functionality requires the selectId
      * property of the tableColumn component to be set.
-     * <p>
-     * Note: This is considered a private API, do not use.
-     * </p>
      *
      * @param {String} groupId The HTML element ID for the tableRowGroup component.
      * @return {boolean} true if successful; otherwise, false.
+     * @private
      */
     initGroupRows: function(groupId) {
         // Validate groupIDs.
@@ -608,11 +598,9 @@ webui.@THEME@.table = {
     /**
      * This function is used to initialize the primary sort order menus used in the 
      * table sort panel.
-     * <p>
-     * Note: This is considered a private API, do not use.
-     * </p>
      *
      * @return {boolean} true if successful; otherwise, false.
+     * @private
      */
     initPrimarySortOrderMenu: function() {
         return this.initSortOrderMenu(this.sortColumnMenuIds[this.PRIMARY], 
@@ -622,11 +610,9 @@ webui.@THEME@.table = {
     /**
      * This function is used to initialize the primary sort order menu tool tips 
      * used in the table sort panel.
-     * <p>
-     * Note: This is considered a private API, do not use.
-     * </p>
      *
      * @return {boolean} true if successful; otherwise, false.
+     * @private
      */
     initPrimarySortOrderMenuToolTip: function() {
         // Get sort order menu.
@@ -645,11 +631,9 @@ webui.@THEME@.table = {
     /**
      * This function is used to initialize the secondary sort order menus used in the 
      * table sort panel.
-     * <p>
-     * Note: This is considered a private API, do not use.
-     * </p>
      *
      * @return {boolean} true if successful; otherwise, false.
+     * @private
      */
     initSecondarySortOrderMenu: function() {
         return this.initSortOrderMenu(this.sortColumnMenuIds[this.SECONDARY], 
@@ -659,11 +643,9 @@ webui.@THEME@.table = {
     /**
      * This function is used to initialize the secondary sort order menu tool tips
      * used in the table sort panel.
-     * <p>
-     * Note: This is considered a private API, do not use.
-     * </p>
      *
      * @return {boolean} true if successful; otherwise, false.
+     * @private
      */
     initSecondarySortOrderMenuToolTip: function() {
         // Get sort order menu.
@@ -682,11 +664,9 @@ webui.@THEME@.table = {
     /**
      * This function is used to initialize the primary, secondary, and tertiary 
      * sort column menus used in the table sort panel.
-     * <p>
-     * Note: This is considered a private API, do not use.
-     * </p>
      *
      * @return {boolean} true if successful; otherwise, false.
+     * @private
      */
     initSortColumnMenus: function() {
         // Validate sort column menu IDs.
@@ -722,11 +702,9 @@ webui.@THEME@.table = {
     /**
      * This function is used to initialize the primary, secondary, and tertiary 
      * sort order menus used in the table sort panel.
-     * <p>
-     * Note: This is considered a private API, do not use.
-     * </p>
      *
      * @return {boolean} true if successful; otherwise, false.
+     * @private
      */
     initSortOrderMenus: function() {
         // Validate sort order menu IDs.
@@ -782,13 +760,11 @@ webui.@THEME@.table = {
      * sort panel. When a sort column menu changes, the given sort order 
      * menu is initialized based on the the selected value of the given
      * sort column menu.
-     * <p>
-     * Note: This is considered a private API, do not use.
-     * </p>
      *
      * @param {String} sortColumnMenuId The HTML element ID for the sort column menu component.
      * @param {String} sortOrderMenuId The HTML element ID for the sort order menu component.
      * @return {boolean} true if successful; otherwise, false.
+     * @private
      */
     initSortOrderMenu: function(sortColumnMenuId, sortOrderMenuId) {
         if (sortColumnMenuId == null || sortOrderMenuId == null) {
@@ -895,13 +871,11 @@ webui.@THEME@.table = {
      * sort panel. When a sort column menu changes, the given sort order 
      * menu tool tip is initialized based on the the selected value of the given
      * sort column menu.
-     * <p>
-     * Note: This is considered a private API, do not use.
-     * </p>
      *
      * @param {String} sortColumnMenuId The HTML element ID for the sort column menu component.
      * @param {String} sortOrderMenuId The HTML element ID for the sort order menu component.
      * @return {boolean} true if successful; otherwise, false.
+     * @private
      */
     initSortOrderMenuToolTip: function(sortColumnMenuId, sortOrderMenuId) {
         if (sortColumnMenuId == null || sortOrderMenuId == null) {
@@ -950,11 +924,9 @@ webui.@THEME@.table = {
     /**
      * This function is used to initialize the tertiary sort order menus used in the 
      * table sort panel.
-     * <p>
-     * Note: This is considered a private API, do not use.
-     * </p>
      *
      * @return {boolean} true if successful; otherwise, false.
+     * @private
      */
     initTertiarySortOrderMenu: function() {
         return this.initSortOrderMenu(this.sortColumnMenuIds[this.TERTIARY], 
@@ -964,11 +936,9 @@ webui.@THEME@.table = {
     /**
      * This function is used to initialize the tertiary sort order menu tool tips
      * used in the table sort panel.
-     * <p>
-     * Note: This is considered a private API, do not use.
-     * </p>
      *
      * @return {boolean} true if successful; otherwise, false.
+     * @private
      */
     initTertiarySortOrderMenuToolTip: function() {
         // Get sort order menu.
@@ -989,12 +959,10 @@ webui.@THEME@.table = {
      * requires the filterId of the table component to be set. In addition,
      * the selected value must be set as well to restore the default selected
      * value when the embedded filter panel is closed.
-     * <p>
-     * Note: This is considered a private API, do not use.
-     * </p>
      *
      * @param {String} filterId The HTML element ID of the filter menu.
      * @return {boolean} true if successful; otherwise, false.
+     * @private
      */
     resetFilterMenu: function(filterId) {
         if (filterId == null) {
@@ -1037,12 +1005,10 @@ webui.@THEME@.table = {
      * displayed in the table (i.e., checkboxes or radiobuttons used to de/select
      * rows of the table). This functionality requires the selectId property of
      * the tableColumn component to be set.
-     * <p>
-     * Note: This is considered a private API, do not use.
-     * </p>
      *
      * @param {boolean} selected Flag indicating components should be selected.
      * @return {boolean} true if successful; otherwise, false.
+     * @private
      */
     selectAllRows: function(selected) {
         // Validate groupIDs.
@@ -1062,13 +1028,11 @@ webui.@THEME@.table = {
      * (i.e., checkboxes or radiobuttons used to de/select rows of the table). This 
      * functionality requires the selectId property of the tableColumn component to be
      * set.
-     * <p>
-     * Note: This is considered a private API, do not use.
-     * </p>
      *
      * @param {String} groupId The HTML element ID for the tableRowGroup component.
      * @param {boolean} selected Flag indicating components should be selected.
      * @return {boolean} true if successful; otherwise, false.
+     * @private
      */
     selectGroupRows: function(groupId, selected) {
         // Validate groupIDs.
@@ -1107,12 +1071,10 @@ webui.@THEME@.table = {
 
     /**
      * This function is used to toggle row group panels open or closed.
-     * <p>
-     * Note: This is considered a private API, do not use.
-     * </p>
      *
      * @param {String} groupId The HTML element ID for the tableRowGroup component.
      * @return {boolean} true if successful; otherwise, false.
+     * @private
      */
     toggleGroupPanel: function(groupId) {
         // Validate groupIDs.
@@ -1226,14 +1188,12 @@ webui.@THEME@.table = {
 
     /**
      * This function is used to toggle embedded panels.
-     * <p>
-     * Note: This is considered a private API, do not use.
-     * </p>
      *
      * @param {String} panelId The panel ID to toggle.
      * @param {String} panelFocusIdOpen The ID used to set focus when panel is opened.
      * @param {String} panelFocusIdClose The ID used to set focus when panel is closed.
      * @return {boolean} true if successful; otherwise, false.
+     * @private
      */
     togglePanel: function(panelId, panelFocusIdOpen, panelFocusIdClose) {
         if (panelId == null) {
@@ -1290,11 +1250,9 @@ webui.@THEME@.table = {
     /**
      * This function is used to toggle the sort panel open or closed. This
      * functionality requires the filterId of the table component to be set.
-     * <p>
-     * Note: This is considered a private API, do not use.
-     * </p>
      *
      * @return {boolean} true if successful; otherwise, false.
+     * @private
      */
     toggleSortPanel: function() {
         // Validate panel IDs.
@@ -1315,11 +1273,9 @@ webui.@THEME@.table = {
     /**
      * This function is used to validate sort column menu selections 
      * for the sort panel.
-     * <p>
-     * Note: This is considered a private API, do not use.
-     * </p>
      *
      * @return {boolean} true if successful; otherwise, false.
+     * @private
      */
     validateSortPanel: function() {
         // Validate sort column menu IDs.
