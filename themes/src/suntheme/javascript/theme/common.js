@@ -331,14 +331,14 @@ webui.@THEME@.theme.common = {
             dojo.registerModulePath(module, prefix);
 
             webui.@THEME@.theme.common.requireLocalization(
-                module, bundle, webui.@THEME@.theme.common.themeLocale);
+                module, bundle, webui.@THEME@.theme.common.locale);
         } catch(e) {
 	    return false;
         }
         var newTheme = null;
         try {
             newTheme = dojo.i18n.getLocalization(module, bundle, 
-                webui.@THEME@.theme.common.themeLocale);
+                webui.@THEME@.theme.common.locale);
         } catch(e) {
 	    return false;
         }
