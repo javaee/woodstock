@@ -70,7 +70,20 @@
      <include name="prototype*.jar"/>
   </patternset>
 
-  <target name="build-boxcomponent">
+  <target name="boxcomponent-uptodate">
+    <uptodate property="boxcomponent-uptodate">
+	<srcfiles dir="${src}" includes="**/*"/>
+	<srcfiles dir="${webui-external}">
+	      <patternset refid="j2ee-compile-time.jars"/>
+	      <patternset refid="jsf-ext.jars"/>
+	      <patternset refid="3rd-party.jars"/>
+	</srcfiles>
+	<mergemapper to="${build-webinf-lib}/boxcomponent.jar"/>
+    </uptodate>
+  </target>
+  <target name="build-boxcomponent" 
+	depends="boxcomponent-uptodate"
+	unless="boxcomponent-uptodate">
 
     <mkdir dir="${build}/classes"/>
 
@@ -117,7 +130,29 @@
 
   </target>
 
-  <target name="build-example">
+  <target name="example-uptodate">
+      <uptodate property="example-uptodate">
+	  <srcfiles dir="${web}">
+	    <include name="example/*.jsp"/>
+	    <include name="WEB-INF/web.xml"/>
+	    <include name="WEB-INF/faces-config.xml"/>
+	    <include name="WEB-INF/classes/*.*"/>
+	    <include name="WEB-INF/classes/nls/*.*"/>
+	    <include name="WEB-INF/classes/nls/**/*.*"/>
+	  </srcfiles>
+	  <srcfiles dir="${webui-external}">
+	      <patternset refid="3rd-party.jars"/>
+	      <patternset refid="client-side.jars"/>
+	      <patternset refid="jsf-ext.jars"/>
+	  </srcfiles>
+	  <srcfiles file="${webui.jar}"/>
+	  <srcfiles file="${theme.jar}"/>
+	  <mergemapper to="${example-war}"/>
+      </uptodate>
+  </target>
+  <target name="build-example"
+	depends="example-uptodate"
+	unless="example-uptodate">
 
     <!-- assemble the example web app -->
     <mkdir dir="${build}/web"/>
@@ -133,6 +168,7 @@
         <include name="WEB-INF/faces-config.xml"/>
         <include name="WEB-INF/classes/*.*"/>
         <include name="WEB-INF/classes/nls/*.*"/>
+	    <include name="WEB-INF/classes/nls/**/*.*"/>
       </fileset>
     </copy>
 

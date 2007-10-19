@@ -98,6 +98,7 @@
         <ant dir="${example}" target="clean" inheritAll="false"/>
         <ant dir="${webui}" target="clean" inheritAll="false"/>
         <ant dir="${themes}" target="clean" inheritAll="false"/>
+        <ant dir="${themeDoc}" target="clean" inheritAll="false"/>
     </target>
 
      <!-- ========== webui ========== -->
@@ -147,6 +148,11 @@
         <ant dir="${example}" inheritAll="false" />
     </target>
 
+     <!-- ========== themeDoc ========== -->
+     <!-- This builds the themeDoc example app   -->
+    <target name="themeDoc">
+        <ant dir="${themeDoc}" inheritAll="false" />
+    </target>
     
     <!-- All these jars are not direct dependencies. Some
 	 are runtime dependenices like "jsf*" and some are
@@ -280,7 +286,7 @@
     <target name="all" depends="clean, ship">
     </target>
 
-    <target name="ship" depends="webui, themes, extralibs, doc, buildsdk, example">
+    <target name="ship" depends="webui, themes, extralibs, doc, buildsdk, example, themeDoc">
     </target>
     
     <target name="build-manifests">

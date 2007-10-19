@@ -151,8 +151,25 @@
   <!-- Targets -->
 
         
+  <target name="theme-javadoc-uptodate">
+      <uptodate property="theme-javadoc-uptodate">
+	  <srcfiles dir="${webui-util}">
+	      <patternset refid="webui-util"/>
+	  </srcfiles>
+	  <srcfiles dir="${webui-theme}">
+	    <patternset refid="webui-jsf-theme"/>
+	  </srcfiles>
+	  <srcfiles dir="${webui-theme}">
+	    <patternset refid="webui-theme"/>
+	  </srcfiles>
+	  <mergemapper to="${theme-javadocs}/index.html"/>
+      </uptodate>
+  </target>
+
   <target name="theme-javadoc"
-    description="Build theme webui java doc">
+	depends="theme-javadoc-uptodate"
+	unless="theme-javadoc-uptodate"
+	description="Build theme webui java doc">
 
     <mkdir dir="${theme-javadocs}"/>
 
@@ -205,7 +222,16 @@
     </javadoc>
   </target>
 
-  <target name="portal-tag-doc">
+  <target name="portal-tag-doc-uptodate">
+      <uptodate property="portal-tag-doc-uptodate">
+	  <srcfiles dir="${portaltaglib-javadocs}"
+		includes="**/*"/>
+	  <globmapper from="*" to="${build}/${portaltaglib-javadocs}/*"/>
+      </uptodate>
+  </target>
+  <target name="portal-tag-doc"
+	depends="portal-tag-doc-uptodate"
+	unless="portal-tag-doc-uptodate">
     <!-- This requires the daning repository so just check in the
 	 current version of these docs.
     <mkdir  dir="${portaltaglib-javadocs}"/>
@@ -249,11 +275,21 @@
 
   <target name="build-example">
 
-      <ant antfile="build-example.xml" inheritAll="false"/>
+      <ant antfile="build-example.xml" inheritAll="false">
+	  <property name="example-war" 
+		value="${basedir}/dist/${DOCAPPCONTEXT}.war"/>
+      </ant>
 
   </target>
 
-  <target name="references">
+  <target name="references-uptodate">
+      <uptodate property="references-uptodate"
+	  srcfile="${themes}/theme-name.properties.sample"
+	  targetfile="${build}/web/references/theme-name.properties.sample"/>
+  </target>
+  <target name="references"
+	depends="references-uptodate"
+	unless="references-uptodate">
       <fail message="The woodstock/themes must be available.">
 	  <condition>
 	      <not>
@@ -267,7 +303,17 @@
 	  file="${themes}/theme-name.properties.sample"/>
   </target>
 
-  <target name="create-theme-properties-table">
+  <target name="theme-properties-table-uptodate">
+      <uptodate property="theme-properties-table-uptodate">
+	  <srcfiles dir="../../woodstock/themes/src/suntheme"
+	      includes="messages/messages.properties,properties/images.properties,properties/styles.properties">
+	   </srcfiles>
+	  <mergemapper to="${build}/web/theme-properties-table.html"/>
+      </uptodate>
+  </target>
+  <target name="create-theme-properties-table" 
+	depends="theme-properties-table-uptodate"
+	unless="theme-properties-table-uptodate">
       <echo message="Creating the theme properties table takes a long time."/>
       <exec executable="${basedir}/tools/theme-properties-table.sh"
 	  dir="${basedir}/tools">
