@@ -191,7 +191,7 @@ webui.@THEME@.widget.hyperlink.prototype.postCreate = function () {
  * @param {boolean} notify Publish an event for custom AJAX implementations to listen for.
  * @return {boolean} true if successful; otherwise, false.
  */
-webui.@THEME@.widget.anchorBase.prototype.setProps = function(props, notify) {
+webui.@THEME@.widget.hyperlink.prototype.setProps = function(props, notify) {
     // Note: This function is overridden for JsDoc.
     return this.inherited("setProps", arguments);
 }
