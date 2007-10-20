@@ -148,11 +148,41 @@
         <ant dir="${example}" inheritAll="false" />
     </target>
 
+     <!-- set "result" to true if "property" isset and is false -->
+     <!-- This macrodef is useful to "dereference" a property whose
+	  value is a property -->
+     <macrodef name="property-is-false">
+	 <attribute name="result"/>
+	 <attribute name="property"/>
+	 <sequential>
+	     <condition property="@{result}" value="true" else="false">
+		 <and>
+		     <isset property="@{property}"/>
+		     <isfalse value="${@{property}}"/>
+		 </and>
+	     </condition>
+	 </sequential>
+     </macrodef>
+
+     <!-- Sets the property build-themeDoc
+	  if "${build-dir}" is available and the property defined
+	  by "${build-flag}" is not set or set and true.
+     -->
+     <target name="build-themeDoc">
+	 <property-is-false result="_result_" property="build.themeDoc"/>
+	 <condition property="build-themeDoc">
+	     <and>
+		 <available file="${themeDoc}"/>
+		 <isfalse value="${_result_}"/>
+	     </and>
+	 </condition>
+     </target>
+
      <!-- ========== themeDoc ========== -->
      <!-- This builds the themeDoc example app   -->
-    <target name="themeDoc">
-        <ant dir="${themeDoc}" inheritAll="false" />
-    </target>
+     <target name="themeDoc" depends="build-themeDoc" if="build-themeDoc">
+         <ant dir="${themeDoc}" inheritAll="false" />
+     </target>
     
     <!-- All these jars are not direct dependencies. Some
 	 are runtime dependenices like "jsf*" and some are
