@@ -84,8 +84,8 @@ public class Head extends UIComponentBase {
 
     /**
      * Flag (true or false) indicating that debugging is enabled. This will 
-     * output uncompressed JavaScript and set Dojo's djConfig property. The 
-     * default is false.
+     * output uncompressed JavaScript and enable Dojo debugging. The default is
+     * false.
      */
     @Property(name="debug", displayName="Enable Dojo Debugging", category="Javascript")
     private boolean debug = false;
@@ -162,15 +162,15 @@ public class Head extends UIComponentBase {
     /**
      * Flag (true or false) indicating to include all dijit functionality. 
      * <p>
-     * For better performance, least used JavaScript is excluded from the 
-     * dijit.js file. Dojo will continue to load JavaScript regardless of this
-     * setting, but using separate requests.
+     * For better performance, only the most commonly used features are 
+     * included by default. Dojo will continue to function, but 
+     * JavaScript may be retrieved using separate requests.
      * </p><p>
      * To limit the number of JavaScript requests, set dijitAll to true when
      * this functionality is needed. The default is false.
      * </p>
      */
-    @Property(name="dijitAll", displayName="dijitAll", category="Javascript", isHidden=true)
+    @Property(name="dijitAll", displayName="Include All Dijit Functionality", category="Javascript")
     private boolean dijitAll = false; 
     private boolean dijitAll_set = false; 
  
@@ -202,8 +202,8 @@ public class Head extends UIComponentBase {
     }
 
     /**
-     * Flag (true or false) indicating that component JavaScript should be 
-     * output in page. The default value is true.
+     * Flag (true or false) indicating that component and third party JavaScript
+     * should be output in page. The default value is true.
      */
     @Property(name="javaScript", displayName="Include Component JavaScript", category="Javascript")
     private boolean javaScript = true;
@@ -278,7 +278,7 @@ public class Head extends UIComponentBase {
      * Dojo tag attributes. The default is false.
      * </p>
      */
-    @Property(name="parseOnLoad", displayName="parseOnLoad", category="Javascript", isHidden=true)
+    @Property(name="parseOnLoad", displayName="Enable Dojo Parsing", category="Javascript")
     private boolean parseOnLoad = false; 
     private boolean parseOnLoad_set = false; 
  
@@ -369,27 +369,27 @@ public class Head extends UIComponentBase {
     }
 
     /**
-     * Flag (true or false) indicating to include all webui functionality.
+     * Flag (true or false) indicating to include all tag library functionality. 
      * <p>
-     * For better performance, least used JavaScript is excluded from the 
-     * webui.js and webui-jsfx files. The following components will continue to 
-     * load JavaScript regardless of this setting, but using separate requests.
-     * </p><p>
-     * addRemove
-     * commonTasksSection
-     * editableList
-     * fileChooser
-     * orderableList
-     * scheduler
-     * table
-     * tree
-     * wizard
-     * </p><p>
+     * For better performance, only the most commonly used features are 
+     * included by default. The following tags will continue to function, but 
+     * JavaScript may be retrieved using separate requests.
+     * </p><p><ul>
+     * <li>addRemove</li>
+     * <li>commonTasksSection</li>
+     * <li>editableList</li>
+     * <li>fileChooser</li>
+     * <li>orderableList</li>
+     * <li>scheduler</li>
+     * <li>table</li>
+     * <li>tree</li>
+     * <li>wizard</li>
+     * </ul></p><p>
      * To limit the number of JavaScript requests, set webuiAll to true when
      * this functionality is needed. The default is false.
      * </p>
      */
-    @Property(name="webuiAll", displayName="webuiAll", category="Javascript", isHidden=true)
+    @Property(name="webuiAll", displayName="Include All Tag Library Functionality", category="Javascript")
     private boolean webuiAll = false; 
     private boolean webuiAll_set = false; 
  
@@ -428,7 +428,7 @@ public class Head extends UIComponentBase {
      * not used. The default is true.
      * </p>
      */
-    @Property(name="webuiJsfx", displayName="webuiJsfx", category="Javascript", isHidden=true)
+    @Property(name="webuiJsfx", displayName="Include Ajax Functionality", category="Javascript")
     private boolean webuiJsfx = true; 
     private boolean webuiJsfx_set = false; 
  
