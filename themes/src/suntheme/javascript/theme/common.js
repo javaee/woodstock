@@ -21,10 +21,12 @@
 // Copyright 2007 Sun Microsystems, Inc. All rights reserved.
 //
 
+dojo.provide("webui.@THEME@.theme.common");
+
+dojo.require("dojo.i18n");
+
 /**
- * @name theme/common.js
- * @version @THEME_VERSION@
- * @fileOverview This library contains common functions to obtain theme properties.
+ * @class This class contains common functions to obtain theme properties.
  * It is also the base of the Dojo nls localized theme namespace.
  * <p>
  * The client theme is composed of the following theme categories.
@@ -45,14 +47,6 @@
  * RESULTS IN JAVASCRIPT ERRORS DUE TO PATTERN MATCHING BY DOJO TO 
  * FIND MODULE LOADING METHODS.
  * </p>
- * @class
- */
-dojo.provide("webui.@THEME@.theme.common");
-
-dojo.require("dojo.i18n");
-
-/**
- * @class This object contains common functions to obtain theme properties.
  * @static
  */
 webui.@THEME@.theme.common = {
