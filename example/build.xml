@@ -72,8 +72,13 @@
         value="${container.lib}/servlet-api.jar"/>
 
     <!-- components home resources -->
+    <!-- this style of definition leaves no way to follow this
+	 pattern for l10n theme jars see build.properties for
+	 "theme.dist" and "webui.dist" referenced in filesets referencing
+	 the theme-jars  and webui-l10n-jars patternset.-->
     <property name="suntheme.jar"
         value="${components.home}/lib/webui-jsf-suntheme.jar"/>
+
     <property name="webui.jar"
         value="${components.home}/lib/webui-jsf.jar"/>
     <property name="commons-logging.jar"
@@ -123,6 +128,16 @@
 	<pathelement location="${servlet-api.jar}"/>
 	<pathelement location="${ant.jar}"/>
     </path>
+
+    <!-- webui and theme jars including l10n jars -->
+    <!-- "suntheme.jar" was already used so using literal here -->
+    <patternset id="theme-jars">
+	<include name="webui-jsf-suntheme.jar"/>
+	<include name="webui-jsf-suntheme_*.jar"/>
+    </patternset>
+    <patternset id="webui-l10n-jars">
+	<include name="webui-jsf_*.jar"/>
+    </patternset>
 
     <property name="javac.classpath" refid="javacJars"/>
     <property name="jspc.classpath" refid="jspJars"/>
@@ -202,8 +217,19 @@
         <copy file="${dataprovider.jar}" todir="${build.dir}/web/WEB-INF/lib"/>
         <copy file="${jhall.jar}" todir="${build.dir}/web/WEB-INF/lib"/>
         <copy file="${json.jar}" todir="${build.dir}/web/WEB-INF/lib"/>
-        <copy file="${suntheme.jar}" todir="${build.dir}/web/WEB-INF/lib"/>
+
+        <copy todir="${build.dir}/web/WEB-INF/lib">
+	    <fileset dir="${themes.dist}">
+		<patternset refid="theme-jars"/>
+	    </fileset>
+	</copy>
+
         <copy file="${webui.jar}" todir="${build.dir}/web/WEB-INF/lib"/>
+        <copy todir="${build.dir}/web/WEB-INF/lib">
+	    <fileset dir="${webui.dist}">
+		<patternset refid="webui-l10n-jars"/>
+	    </fileset>
+	</copy>
 
 		<copy todir="${build.dir}/web/WEB-INF/lib">
 			<fileset dir="${webui-lib-external}">
