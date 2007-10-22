@@ -321,7 +321,7 @@ public class Alarm extends ImageComponent implements NamingContainer, Comparator
     }
 
     /**
-     * <p>A developer define types of Alarm. This can be set to an array Indicators
+     * <p>A developer define types of Alarm. This attribute can be set to an array of Indicators
      *  where Indicator holds
      *  the custom defined type and associated image.</p>
      */
@@ -428,7 +428,7 @@ public class Alarm extends ImageComponent implements NamingContainer, Comparator
     private String onClick = null;
 
     /**
-     * <p>Scripting code executed when a mouse click
+     * <p>Scripting code that is executed when a mouse click
      * occurs over this component.</p>
      */
     public String getOnClick() {
@@ -443,7 +443,7 @@ public class Alarm extends ImageComponent implements NamingContainer, Comparator
     }
 
     /**
-     * <p>Scripting code executed when a mouse click
+     * <p>Scripting code that is executed when a mouse click
      * occurs over this component.</p>
      * @see #getOnClick()
      */
@@ -452,14 +452,14 @@ public class Alarm extends ImageComponent implements NamingContainer, Comparator
     }
 
     /**
-     * <p>Scripting code executed when a mouse double click
+     * <p>Scripting code that is executed when a mouse double click
      * occurs over this component.</p>
      */
     @Property(name="onDblClick", displayName="Double Click Script", category="Javascript", editorClassName="com.sun.rave.propertyeditors.JavaScriptPropertyEditor")
     private String onDblClick = null;
 
     /**
-     * <p>Scripting code executed when a mouse double click
+     * <p>Scripting code that is executed when a mouse double click
      * occurs over this component.</p>
      */
     public String getOnDblClick() {
@@ -474,7 +474,7 @@ public class Alarm extends ImageComponent implements NamingContainer, Comparator
     }
 
     /**
-     * <p>Scripting code executed when a mouse double click
+     * <p>Scripting code that is executed when a mouse double click
      * occurs over this component.</p>
      * @see #getOnDblClick()
      */
@@ -483,14 +483,14 @@ public class Alarm extends ImageComponent implements NamingContainer, Comparator
     }
 
     /**
-     * <p>Scripting code executed when the user presses down on a key while the
+     * <p>Scripting code that is executed when the user presses down on a key while the
      * component has focus.</p>
      */
     @Property(name="onKeyDown", displayName="Key Down Script", category="Javascript", editorClassName="com.sun.rave.propertyeditors.JavaScriptPropertyEditor")
     private String onKeyDown = null;
 
     /**
-     * <p>Scripting code executed when the user presses down on a key while the
+     * <p>Scripting code that is executed when the user presses down on a key while the
      * component has focus.</p>
      */
     public String getOnKeyDown() {
@@ -505,7 +505,7 @@ public class Alarm extends ImageComponent implements NamingContainer, Comparator
     }
 
     /**
-     * <p>Scripting code executed when the user presses down on a key while the
+     * <p>Scripting code that is executed when the user presses down on a key while the
      * component has focus.</p>
      * @see #getOnKeyDown()
      */
@@ -514,14 +514,14 @@ public class Alarm extends ImageComponent implements NamingContainer, Comparator
     }
 
     /**
-     * <p>Scripting code executed when the user presses and releases a key while
+     * <p>Scripting code that is executed when the user presses and releases a key while
      * the component has focus.</p>
      */
     @Property(name="onKeyPress", displayName="Key Press Script", category="Javascript", editorClassName="com.sun.rave.propertyeditors.JavaScriptPropertyEditor")
     private String onKeyPress = null;
 
     /**
-     * <p>Scripting code executed when the user presses and releases a key while
+     * <p>Scripting code that is executed when the user presses and releases a key while
      * the component has focus.</p>
      */
     public String getOnKeyPress() {
@@ -536,7 +536,7 @@ public class Alarm extends ImageComponent implements NamingContainer, Comparator
     }
 
     /**
-     * <p>Scripting code executed when the user presses and releases a key while
+     * <p>Scripting code that is executed when the user presses and releases a key while
      * the component has focus.</p>
      * @see #getOnKeyPress()
      */
@@ -545,14 +545,14 @@ public class Alarm extends ImageComponent implements NamingContainer, Comparator
     }
 
     /**
-     * <p>Scripting code executed when the user releases a key while the
+     * <p>Scripting code that is executed when the user releases a key while the
      * component has focus.</p>
      */
     @Property(name="onKeyUp", displayName="Key Up Script", category="Javascript", editorClassName="com.sun.rave.propertyeditors.JavaScriptPropertyEditor")
     private String onKeyUp = null;
 
     /**
-     * <p>Scripting code executed when the user releases a key while the
+     * <p>Scripting code that is executed when the user releases a key while the
      * component has focus.</p>
      */
     public String getOnKeyUp() {
@@ -567,7 +567,7 @@ public class Alarm extends ImageComponent implements NamingContainer, Comparator
     }
 
     /**
-     * <p>Scripting code executed when the user releases a key while the
+     * <p>Scripting code that is executed when the user releases a key while the
      * component has focus.</p>
      * @see #getOnKeyUp()
      */
@@ -576,14 +576,14 @@ public class Alarm extends ImageComponent implements NamingContainer, Comparator
     }
 
     /**
-     * <p>Scripting code executed when the user presses a mouse button while the
+     * <p>Scripting code that is executed when the user presses a mouse button while the
      * mouse pointer is on the component.</p>
      */
     @Property(name="onMouseDown", displayName="Mouse Down Script", category="Javascript", editorClassName="com.sun.rave.propertyeditors.JavaScriptPropertyEditor")
     private String onMouseDown = null;
 
     /**
-     * <p>Scripting code executed when the user presses a mouse button while the
+     * <p>Scripting code that is executed when the user presses a mouse button while the
      * mouse pointer is on the component.</p>
      */
     public String getOnMouseDown() {
@@ -598,7 +598,7 @@ public class Alarm extends ImageComponent implements NamingContainer, Comparator
     }
 
     /**
-     * <p>Scripting code executed when the user presses a mouse button while the
+     * <p>Scripting code that is executed when the user presses a mouse button while the
      * mouse pointer is on the component.</p>
      * @see #getOnMouseDown()
      */
@@ -607,14 +607,14 @@ public class Alarm extends ImageComponent implements NamingContainer, Comparator
     }
 
     /**
-     * <p>Scripting code executed when the user moves the mouse pointer while
+     * <p>Scripting code that is executed when the user moves the mouse pointer while
      * over the component.</p>
      */
     @Property(name="onMouseMove", displayName="Mouse Move Script", category="Javascript", editorClassName="com.sun.rave.propertyeditors.JavaScriptPropertyEditor")
     private String onMouseMove = null;
 
     /**
-     * <p>Scripting code executed when the user moves the mouse pointer while
+     * <p>Scripting code that is executed when the user moves the mouse pointer while
      * over the component.</p>
      */
     public String getOnMouseMove() {
@@ -629,7 +629,7 @@ public class Alarm extends ImageComponent implements NamingContainer, Comparator
     }
 
     /**
-     * <p>Scripting code executed when the user moves the mouse pointer while
+     * <p>Scripting code that is executed when the user moves the mouse pointer while
      * over the component.</p>
      * @see #getOnMouseMove()
      */
@@ -638,14 +638,14 @@ public class Alarm extends ImageComponent implements NamingContainer, Comparator
     }
 
     /**
-     * <p>Scripting code executed when a mouse out movement
+     * <p>Scripting code that is executed when a mouse out movement
      * occurs over this component.</p>
      */
     @Property(name="onMouseOut", displayName="Mouse Out Script", category="Javascript", editorClassName="com.sun.rave.propertyeditors.JavaScriptPropertyEditor")
     private String onMouseOut = null;
 
     /**
-     * <p>Scripting code executed when a mouse out movement
+     * <p>Scripting code that is executed when a mouse out movement
      * occurs over this component.</p>
      */
     public String getOnMouseOut() {
@@ -660,7 +660,7 @@ public class Alarm extends ImageComponent implements NamingContainer, Comparator
     }
 
     /**
-     * <p>Scripting code executed when a mouse out movement
+     * <p>Scripting code that is executed when a mouse out movement
      * occurs over this component.</p>
      * @see #getOnMouseOut()
      */
@@ -669,14 +669,14 @@ public class Alarm extends ImageComponent implements NamingContainer, Comparator
     }
 
     /**
-     * <p>Scripting code executed when the user moves the  mouse pointer into
+     * <p>Scripting code that is executed when the user moves the  mouse pointer into
      * the boundary of this component.</p>
      */
     @Property(name="onMouseOver", displayName="Mouse In Script", category="Javascript", editorClassName="com.sun.rave.propertyeditors.JavaScriptPropertyEditor")
     private String onMouseOver = null;
 
     /**
-     * <p>Scripting code executed when the user moves the  mouse pointer into
+     * <p>Scripting code that is executed when the user moves the  mouse pointer into
      * the boundary of this component.</p>
      */
     public String getOnMouseOver() {
@@ -691,7 +691,7 @@ public class Alarm extends ImageComponent implements NamingContainer, Comparator
     }
 
     /**
-     * <p>Scripting code executed when the user moves the  mouse pointer into
+     * <p>Scripting code that is executed when the user moves the  mouse pointer into
      * the boundary of this component.</p>
      * @see #getOnMouseOver()
      */
@@ -700,14 +700,14 @@ public class Alarm extends ImageComponent implements NamingContainer, Comparator
     }
 
     /**
-     * <p>Scripting code executed when the user releases a mouse button while
+     * <p>Scripting code that is executed when the user releases a mouse button while
      * the mouse pointer is on the component.</p>
      */
     @Property(name="onMouseUp", displayName="Mouse Up Script", category="Javascript", editorClassName="com.sun.rave.propertyeditors.JavaScriptPropertyEditor")
     private String onMouseUp = null;
 
     /**
-     * <p>Scripting code executed when the user releases a mouse button while
+     * <p>Scripting code that is executed when the user releases a mouse button while
      * the mouse pointer is on the component.</p>
      */
     public String getOnMouseUp() {
@@ -722,7 +722,7 @@ public class Alarm extends ImageComponent implements NamingContainer, Comparator
     }
 
     /**
-     * <p>Scripting code executed when the user releases a mouse button while
+     * <p>Scripting code that is executed when the user releases a mouse button while
      * the mouse pointer is on the component.</p>
      * @see #getOnMouseUp()
      */
@@ -786,14 +786,14 @@ public class Alarm extends ImageComponent implements NamingContainer, Comparator
     }
 
     /**
-     * <p>CSS style(s) to be applied to the outermost HTML element when this 
+     * <p>CSS style or styles to be applied to the outermost HTML element when this 
      * component is rendered.</p>
      */
     @Property(name="style", displayName="CSS Style(s)", category="Appearance", editorClassName="com.sun.jsfcl.std.css.CssStylePropertyEditor")
     private String style = null;
 
     /**
-     * <p>CSS style(s) to be applied to the outermost HTML element when this 
+     * <p>CSS style or styles to be applied to the outermost HTML element when this 
      * component is rendered.</p>
      */
     public String getStyle() {
@@ -808,7 +808,7 @@ public class Alarm extends ImageComponent implements NamingContainer, Comparator
     }
 
     /**
-     * <p>CSS style(s) to be applied to the outermost HTML element when this 
+     * <p>CSS style or styles to be applied to the outermost HTML element when this 
      * component is rendered.</p>
      * @see #getStyle()
      */
@@ -817,14 +817,14 @@ public class Alarm extends ImageComponent implements NamingContainer, Comparator
     }
 
     /**
-     * <p>CSS style class(es) to be applied to the outermost HTML element when this 
+     * <p>CSS style class or classes to be applied to the outermost HTML element when this 
      * component is rendered.</p>
      */
     @Property(name="styleClass", displayName="CSS Style Class(es)", category="Appearance", editorClassName="com.sun.rave.propertyeditors.StyleClassPropertyEditor")
     private String styleClass = null;
 
     /**
-     * <p>CSS style class(es) to be applied to the outermost HTML element when this 
+     * <p>CSS style class or classes to be applied to the outermost HTML element when this 
      * component is rendered.</p>
      */
     public String getStyleClass() {
@@ -839,7 +839,7 @@ public class Alarm extends ImageComponent implements NamingContainer, Comparator
     }
 
     /**
-     * <p>CSS style class(es) to be applied to the outermost HTML element when this 
+     * <p>CSS style class or classes to be applied to the outermost HTML element when this 
      * component is rendered.</p>
      * @see #getStyleClass()
      */
@@ -941,12 +941,12 @@ public class Alarm extends ImageComponent implements NamingContainer, Comparator
     }
 
     /**
-     * <p>Use the visible attribute to indicate whether the component should be
+     * <p>Indicates whether the component should be
      * viewable by the user in the rendered HTML page. If set to false, the
      * HTML code for the component is present in the page, but the component
-     * is hidden with style attributes. By default, visible is set to true, so
+     * is hidden with style attributes. By default, is true, so
      * HTML for the component HTML is included and visible to the user. If the
-     * component is not visible, it can still be processed on subsequent form
+     * Alarm component is not visible, it can still be processed on subsequent form
      * submissions because the HTML is present.</p>
      */
     @Property(name="visible", displayName="Visible", category="Behavior")
@@ -954,12 +954,12 @@ public class Alarm extends ImageComponent implements NamingContainer, Comparator
     private boolean visible_set = false;
 
     /**
-     * <p>Use the visible attribute to indicate whether the component should be
+     * <p>Indicates whether the component should be
      * viewable by the user in the rendered HTML page. If set to false, the
      * HTML code for the component is present in the page, but the component
-     * is hidden with style attributes. By default, visible is set to true, so
+     * is hidden with style attributes. By default, is true, so
      * HTML for the component HTML is included and visible to the user. If the
-     * component is not visible, it can still be processed on subsequent form
+     * Alarm component is not visible, it can still be processed on subsequent form
      * submissions because the HTML is present.</p>
      */
     public boolean isVisible() {
@@ -979,12 +979,12 @@ public class Alarm extends ImageComponent implements NamingContainer, Comparator
     }
 
     /**
-     * <p>Use the visible attribute to indicate whether the component should be
+     * <p>Indicates whether the component should be
      * viewable by the user in the rendered HTML page. If set to false, the
      * HTML code for the component is present in the page, but the component
-     * is hidden with style attributes. By default, visible is set to true, so
+     * is hidden with style attributes. By default, is true, so
      * HTML for the component HTML is included and visible to the user. If the
-     * component is not visible, it can still be processed on subsequent form
+     * Alarm component is not visible, it can still be processed on subsequent form
      * submissions because the HTML is present.</p>
      * @see #isVisible()
      */

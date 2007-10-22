@@ -668,11 +668,11 @@ attributes.</p>
 <h3>Configuring the <code>webuijsf:alarm</code> tag</h3>
 <p>Use the <code>severity</code> attribute to specify the alarm
 severity, which determines the theme-specific alarm icon to render.
-Alarm supports a set of Indicators which enables to
-define custom types and associated images in addition with default
-types. Indicators also supports sorting attribute which enables sorting
+The Alarm supports a set of Indicators which enables you to
+define custom types and associated images in addition to default
+types. Indicators also support the sorting attribute which enables sorting
 among Indicators depending on the <code>sortValue</code> value. </p>
-<p>The <code>text</code> attribute is used to specify text to display
+<p>The <code>text</code> attribute is used to specify the text to be displayed
 next to the alarm icon, and the <code>textPosition</code> attribute
 specifies whether the text should be displayed to the left or right of
 the icon. </p>
@@ -680,7 +680,7 @@ the icon. </p>
 theme-specific alarm icon. The image that you specify with the <code>url</code>
 attribute is always rendered, even if a severity is not specified. If
 you specify a theme key with the <code>icon</code> attribute, you must
-also specify a standard severity. If you do not specify a severity
+also specify a standard severity. If you do not specify a severity, the
 component will assume default severity. The icon is coupled with the
 severity, while the url is not. If you specify an <code>icon</code>
 attribute as well as a <code>url</code> attribute, the image specified
@@ -689,14 +689,16 @@ the <code>icon</code> attribute. </p>
 <p> Other image-related attributes, such as border, height, and width,
 can also be specified with the <code>webuijsf:alarm</code> tag
 attributes to override the image attributes of the icon.</p>
+<p> </p>
+<h3><a name="facets"></a>Facets</h3>
+None.<br>
 <h3>Theme Identifiers</h3>
 <p>The Theme provides the following alarm icon identifiers. </p>
 <pre wrap=""> DOWN_ALARM_INDICATOR<br> CRITICAL_ALARM_INDICATOR<br> MAJOR_ALARM_INDICATOR<br> OK_ALARM_INDICATOR<br> ALARM_CRITICAL_SMALL<br> ALARM_CRITICAL_MEDIUM <br> ALARM_MAJOR_SMALL<br> ALARM_MAJOR_MEDIUM <br> ALARM_MINOR_SMALL <br> ALARM_MINOR_MEDIUM<br> ALARM_DOWN_SMALL <br> ALARM_DOWN_MEDIUM<br> ALARM_MASTHEAD_CRITICAL_MEDIUM <br> ALARM_MASTHEAD_DOWN_MEDIUM <br> ALARM_MASTHEAD_MAJOR_MEDIUM<br> ALARM_MASTHEAD_MINOR_MEDIUM</pre>
-<h3>Client Side Javascript Functions</h3>
-When the component is rendered, a DOM object corresponding to the
-component is created. To manipulate the component on the client side,
-you may invoke functions on the DOM object. With reference to the DOM
-id, to disable the component, invoke <code>document.getElementById(id).setProps({text:
+<h3>Client-Side JavaScript Functions</h3>
+When the Alarm component is rendered, a DOM object corresponding to the
+component is created. To manipulate the Alarm component on the client side,
+you can call functions on the DOM object. To disable the component, call <code>document.getElementById(id).setProps({text:
 "New Alarm Text"})</code>.<br>
 <br>
 <table style="text-align: left; width: 100%;" border="1" cellpadding="2"
@@ -704,7 +706,7 @@ id, to disable the component, invoke <code>document.getElementById(id).setProps(
   <tbody>
     <tr>
       <td><code>getProps()</code></td>
-      <td>Use this function to get widget properties. Please see <code>setProps()</code>
+      <td>Use this function to get widget properties. See <code>setProps()</code>
 function for a list of supported properties.</td>
     </tr>
     <tr>
@@ -714,7 +716,7 @@ function for a list of supported properties.</td>
 asynchronously refresh the component.<br>
       <ul>
         <li>[optional] execute: Comma separated string containing a
-list of client ids against which the <code>execute</code> portion of
+list of client IDs against which the <code>execute</code> portion of
 the request processing lifecycle must be run. If omitted, no other
 components are executed.</li>
       </ul>
@@ -752,11 +754,11 @@ properties:<br>
   </tbody>
 </table>
 <br>
-<h3>Client Side JavaScript Events</h3>
+<h3>Client-Side JavaScript Events</h3>
 <p>
-When the component is manipulated client side, some functions may
-publish event topics for custom AJAX implementations to listen for.
-Using the Dojo event system, listen for the refresh event topic using:<br>
+When the component is manipulated client side, some functions might
+publish event topics for custom Ajax implementations to listen for.
+Using the Dojo event system, you can instruct Ajax to listen for the refresh event topic by using:<br>
 <br>
 <code>
 &lt;webuijsf:script&gt;<br>
@@ -808,20 +810,20 @@ function for details on properties and their usage</li>
     </tr>
   </tbody>
 </table>
-<h3><a name="Examples">Examples</a></h3>
-<h4>Example 1: Create an alarm with critical severity.</h4>
+<h3><a name="Examples">Code Examples</a></h3>
+<h4>Example 1: Alarm with Critical Severity.</h4>
 <code>&lt;webuijsf:alarm id="alarm1" severity="critical" /&gt; <br>
 <br>
 </code>
-<h4>Example 2: Create an alarm with major severity, but override the
-alarm image.</h4>
+<h4>Example 2: Alarm with Major Severity Overriding the
+Alarm Image.</h4>
 <pre wrap=""> <code>&lt;webuijsf:alarm id="alarm2" <br>           severity="major"<br>           url="../images/major.gif" <br>           height="10" <br>           width="10" <br>           alt="Processor Alarm:Major" /&gt;<br> </code></pre>
 <h4>Example 3: Using Alarms in a Table</h4>
 <p>See the Examples section in the documentation for the <a
  href="tableColumn.html#Alarms"><code>webuijsf:tableColumn</code></a>
 component. </p>
-<b>Example 4: An example showing the use of developer define
-types</b><br>
+<b>Example 4: Developer Define
+Types</b><br>
 <code><br>
 &lt;webuijsf:alarm id="alarm1"
 indicators="#{AlarmBean.customIndicator}" severity="mySeverity"
@@ -846,9 +848,9 @@ Indicator(UIComponent imageComponent, String type, int sortValue) </code>
 <br>
 <br>
 The third parameter of constructor enables sorting for Indicators.<br>
-<h4>Example 5: Update client-side alarm properties using the getProps
-and setProps
-functions</h4>
+<h4>Example 5: Update Client-Side Alarm Properties Using the getProps
+And setProps
+Functions</h4>
 This example shows how to toggle the visible state of an alarm client
 side using the getProps and setProps functions. When the user clicks
 the radio button,
@@ -856,9 +858,9 @@ the button is either shown or hidden.<code>
 </code>
 <pre>&lt;webuijsf:radioButton id="rb1" name="rb1" label="Toggle Alarm Visible" onClick="toggleVisible()"/&gt;<br><code>&lt;webuijsf:alarm id="alarm1" severity="</code><code>major</code><code>" text="#{MyBean.text}"</code><code> /&gt;</code><code></code><br><code><br></code>&lt;webuijsf:script&gt;<br>    function toggleVisible() {<br>        var domNode = document.getElementById("form1:<code>alarm1</code>"); // Get alarm<br>        return domNode.setProps({visible: !domNode.getProps().visible}); // Toggle visible state<br>    }<br>&lt;/webuijsf:script&gt;</pre>
 <code></code>
-<h4>Example 6: Asynchronously update alarm using refresh function</h4>
+<h4>Example 6: Asynchronously Update Alarm Using Refresh Function</h4>
 This example shows how to asynchronously update an alarm using
-the refresh function. When the user clicks on the radio button, the
+the refresh function. When the user clicks the radio button, the
 alarm
 is asynchronously updated with new data.<br>
 <pre>&lt;webuijsf:radioButton id="rb1" name="rb1" label="Refresh Alarm" onClick="refreshAlarm()"/&gt;<br><code>&lt;webuijsf:alarm id="alarm1" severity="</code><code>major</code><code>" text="#{MyBean.text}"</code><code> /&gt;</code><br></pre>
@@ -878,11 +880,11 @@ update components server-side: refresh("form1:id1,form2:id2,..."). When
 no parameter is given, the refresh function acts as a reset.
 That is, the component will be redrawn only using values set
 server-side.<br>
-<h4>Example 7: Asynchronously update alarm using refresh function</h4>
-This example shows how to asynchronously update a alarm using
+<h4>Example 7: Asynchronously Update Alarm Using Refresh Function</h4>
+This example shows how to asynchronously update an alarm using
 the refresh function. The execute property of the refresh function is
 used
-to define the client id which is to be submitted and updated
+to define the client ID which is to be submitted and updated
 server-side. As the user types in the text field, the input value is
 updated server-side and the alarm text is updated client-side -- all
 without a page refresh.<br>
@@ -900,8 +902,8 @@ submitting field value<br>
 </i></small>Note that the refresh function can optionally take a list
 of
 elements
-to execute. Thus, a comma-separated list of ids can be provided to
-update components server-side: refresh("form1:id1,form2:id2,...")<br>
+to execute. Thus, a comma-separated list of IDs can be provided to
+update components on the server-side: refresh("form1:id1,form2:id2,...")<br>
 <br>
 
 ]]></description>
