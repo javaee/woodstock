@@ -45,7 +45,8 @@
     <property name="build" value="${basedir}/build"/>
     <property name="src" value="${basedir}/src"/>
     <property name="tools" value="${basedir}/../tools"/>
-    
+    <property name="jsdocs" value="${basedir}/jsdocs"/>
+
     <!-- Building a theme now depends on webui-jsf.jar 
          In the future it will depend on just the theme implementation
 	 jar, but for now the SPI ThemeService 
@@ -60,6 +61,12 @@
               value="${tools}/lib/woodstock-tools.jar"/>
     <property name="rhino.jar"
               value="${tools}/lib/custom_rhino.jar"/>
+    <property name="jsdoc.dir"
+              value="${tools}/jsdoctoolkit/src"/>
+    <property name="jsdoc.exec"
+              value="${jsdoc.dir}/app/run.js"/>
+    <property name="jsdoc.template"
+              value="${jsdoc.dir}/templates/suntheme"/>
 
     <loadfile property="copyright" srcFile="${doc}/copyright.txt"/>
     <loadfile property="copyright-css" srcFile="${doc}/copyright-css.txt"/>
@@ -314,6 +321,11 @@
 	</antcall>
 
         <antcall target="createThemeJar"/>
+
+        <antcall target="jsdoc">
+	    <param name="_to-dir_" value="${jsdocs}"/>
+	    <param name="_from-dir_" value="${js-dest-uncmp}"/>
+	</antcall>
     </target> 
 
     <!-- General internal targets -->
@@ -695,7 +707,6 @@
 	</copy>
     </target>
 
-
     <!-- Set the combined-js-uptodate property if
 	"${_combined-file_}" is newer than "${_from-dir_}/**/*.js"
     -->
@@ -770,8 +781,11 @@
 
     <!-- Parameters
 
-	_to-dir_
-	_from-dir_
+	_to-dir_ - root of the destination for combined files
+	_from-dir_ - the source of the javascipt files.
+
+        Comment out build-compressJS in the build.properties file if you
+        don't want to compress when modifying JavaScript files
 
 	To simplify the dependency checking it is expected that
 	there are files in "${_from-dir_}", so either "combineJavascript"
@@ -779,8 +793,8 @@
 
 	Expects Global "${rhino.jar}" to be set.
     -->
-    <target name="compressJavascript" depends="compressed-js-uptodate"
-	    unless="compressed-js-uptodate">
+    <target name="compressJavascript" if="build-compressJS" 
+            depends="compressed-js-uptodate" unless="compressed-js-uptodate">
 
 	<mkdir dir="${_to-dir_}"/>
 
@@ -837,6 +851,68 @@
 	    <property name="_js-theme-jar_" value="${theme.jar}"/>
 	    <property name="_js-theme-package_" value="${theme.package}"/>
 	 </ant>
+    </target>
+
+    <!-- Set the jsdoc-uptodate property if
+	"${_to-dir_}/index.html" is newer than "${_from-dir_}/**/*.js"
+    -->
+    <target name="jsdoc-uptodate">
+	<uptodate property="jsdoc-uptodate">
+	    <srcfiles dir="${_from-dir_}" includes="**/*.js"
+		excludes="theme/nls/"/>
+	    <mergemapper to="${_to-dir_}/index.html"/>
+	</uptodate>
+    </target>
+
+    <!-- Parameters
+
+	_to-dir_ - root of the destination for combined files
+	_from-dir_ - the source of the javascipt files.
+
+        Comment out build-jsdoc in the build.properties file if you
+        don't want jsDoc to build when modifying JavaScript files
+
+	To simplify the dependency checking it is expected that
+	there are files in "${_from-dir_}", so either "combineJavascript"
+	or "copyJavascript" should have been called.
+
+	Expects Global "${rhino.jar}" to be set.
+    -->
+    <target name="jsdoc" if="build-jsdoc" depends="jsdoc-uptodate"
+	    unless="jsdoc-uptodate">
+
+	<mkdir dir="${_to-dir_}"/>
+
+	<!-- Use property location to overcome issues with
+	     Windows paths and pathconvert.
+	-->
+	<property name="__from-dir-loc__" location="${_from-dir_}"/>
+	<property name="__to-dir-loc__" location="${_to-dir_}"/>
+
+	<!-- make sure to exclude the "nls" directory -->
+	<pathconvert property="__files-to-doc__" pathsep=" ">
+	    <fileset dir="${__from-dir-loc__}">
+		<exclude name="**/nls/"/>
+                <exclude name="${theme.webui.js}"/>
+                <exclude name="${theme.webui-all.js}"/>
+                <exclude name="${theme.webui-jsfx.js}"/>
+                <exclude name="${theme.webui-jsfx-all.js}"/>
+		<depend targetdir="${__to-dir-loc__}">
+		    <mapper type="glob" from="*" to="*"/>
+		</depend>
+	    </fileset>
+	    <mapper type="glob" from="*" to="*"/>
+	</pathconvert>
+
+	<!-- Always add "webui.js" since it is always a generated file -->
+	<java jar="${rhino.jar}" failonerror="true" fork="true">
+          <sysproperty key="jsdoc.dir" value="${jsdoc.dir}"/>
+          <arg value="${jsdoc.exec}"/>
+	  <arg value="-d=${_to-dir_}"/>
+	  <arg value="-t=${jsdoc.template}"/>
+          <arg line="${__files-to-doc__}"/>
+	</java>
+
     </target>
 
     <!-- ################ theme service targets ################# -->
@@ -1214,6 +1290,7 @@
         <delete dir="${dist}" />
 	<delete dir="${theme.build-dir}"/>
 	<delete file="${theme.jar}"/>
+        <delete dir="${jsdocs}" />
     </target>
 
 </project>
