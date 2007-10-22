@@ -1168,10 +1168,9 @@ attribute, which must be set to <code>information</code>, <code>success</code>,
 <code>warning</code>, <code>error</code> or one of the developer
 define types. Alert supports a set of Indicators which enables to
 define custom types and associated images in addition with default
-types. Indicators also supports sorting attribute which enables sorting
+types. Indicators also support the sorting attribute which enables sorting
 among Indicators depending on the <code>sortValue</code> value. A
-different icon is shown for each alert type. A different icon is shown
-for each alert type. The icon is determined by the theme or could be a
+different icon is shown for each alert type. The icon is determined by the theme or could be a
 ImageComponent.</p>
 <p> The component renders HTML <code>&lt;div&gt;</code> and <code>&lt;table&gt;</code>
 elements for the alert box and text, with an <code>&lt;img&gt;</code>
@@ -1182,7 +1181,7 @@ element is also rendered. </p>
 attribute, and is displayed prominently next to the icon. The optional
 detail message is specified with the <code>detail</code> attribute,
 and is displayed in less prominent text following the summary text. The
-detail text can provide more information about the alert. </p>
+detail text provides more information about the alert. </p>
 <p> You can also include a link to further information or another
 window by using the <code>linkTarget</code>, <code>linkText</code>, <code>linkToolTip</code>,
 <code>linkURL</code>, and <code>linkActionExpression</code>
@@ -1203,10 +1202,9 @@ component to use for the link, to add formatting or extra text, for
 example. </li>
 </ul>
 <h3>Client Side Javascript Functions</h3>
-When the component is rendered, a DOM object corresponding to the
+When the Alert component is rendered, a DOM object corresponding to the
 component is created. To manipulate the component on the client side,
-you may invoke functions on the DOM object. With reference to the DOM
-id, to disable the component, invoke <code>document.getElementById(id).setProps({detail:
+you call functions on the DOM object. To disable the component, call <code>document.getElementById(id).setProps({detail:
 "New Detail Text"})</code>.<br>
 <br>
 <table style="text-align: left; width: 100%;" border="1" cellpadding="2"
@@ -1214,7 +1212,7 @@ id, to disable the component, invoke <code>document.getElementById(id).setProps(
   <tbody>
     <tr>
       <td><code>getProps()</code></td>
-      <td>Use this function to get widget properties. Please see <code>setProps()</code>
+      <td>Use this function to get widget properties. See <code>setProps()</code>
 function for a list of supported properties.</td>
     </tr>
     <tr>
@@ -1224,7 +1222,7 @@ function for a list of supported properties.</td>
 asynchronously refresh the component.<br>
       <ul>
         <li>[optional] execute: Comma separated string containing a
-list of client ids against which the <code>execute</code> portion of
+list of client IDs against which the <code>execute</code> portion of
 the request processing lifecycle must be run. If omitted, no other
 components are executed.</li>
       </ul>
@@ -1253,9 +1251,9 @@ properties:<br>
 <code></code><br>
 <h3>Client Side JavaScript Events</h3>
 <p>
-When the component is manipulated client side, some functions may
-publish event topics for custom AJAX implementations to listen for.
-Using the Dojo event system, listen for the refresh event topic using:<br>
+When the component is manipulated on the client side, some functions might
+publish event topics for custom Ajax implementations to listen for.
+Using the Dojo event system, you can instruct Ajax to listen for the refresh event topic by using:<br>
 <br>
 <code>
 &lt;webuijsf:script&gt;<br>
@@ -1289,14 +1287,14 @@ component. Supported properties include: <br>
         <li>[optional] execute - list of the components to be executed
 along with
 this component</li>
-        <li>id - The client id to process the event for</li>
+        <li>id - The client ID to process the event for</li>
       </ul>
       </td>
     </tr>
     <tr>
       <td> webui.suntheme.widget.alert.event.refresh.endTopic </td>
       <td> Event topic published after asynchronously refreshing the
-component. Supported properties include: See setProps() function.<br>
+component. Supported properties include: setProps() function.<br>
       <ul>
         <li>props - JSON object containing properties of the component.
 See
@@ -1308,20 +1306,20 @@ function for details on properties and their usage</li>
   </tbody>
 </table>
 <h3>Examples</h3>
-<b>Example 1: An example showing an informational alert</b><br>
+<b>Example 1: An Informational Alert</b><br>
 <code><br>
 &lt;webuijsf:alert id="msg1" type="information" summary="Patch
 Installed Successfully" detail="Patch 9997-01 was successfully
 installed on host alpha, beta and zed." /&gt;<br>
 </code><br>
-<b>Example 2: An example showing an error alert with an alert link</b><br>
+<b>Example 2: An Error Alert with Alert Link</b><br>
 <code><br>
 &lt;webuijsf:alert id="msg2" type="error" summary="Patch Installation
 Failed!" detail="Patch 9997-01 was not installed on host alpha, beta
 and zed." linkText="View Log" linkURL="/log/patch-log.txt"
 linkTarget="_blank" linkToolTip="Open Window Containing Error Log"/&gt;<br>
 <br>
-</code><b>Example 3: An example showing the use of an alertImage facet</b><br>
+</code><b>Example 3: Using alertImage facet</b><br>
 <code><br>
 &lt;webuijsf:alert id="msg2" type="error" summary="Patch Installation
 Failed!" detail="Patch 9997-01 was not installed on host alpha, beta
@@ -1332,8 +1330,8 @@ and zed."&gt;<br>
 &nbsp;&nbsp;&nbsp; &lt;/f:facet&gt;<br>
 &lt;/webuijsf:alert&gt;<br>
 <br>
-</code> <b>Example 4: An example showing the use of developer define
-types</b><br>
+</code> <b>Example 4: Using Developer Define
+Types</b><br>
 <code><br>
 &lt;webuijsf:alert id="alert1"
 indicators="#{AlertBean.customIndicator}" type="myType"
@@ -1357,8 +1355,8 @@ Indicator(UIComponent imageComponent, String type, int sortValue) </code>
 <br>
 <br>
 The third parameter of constructor enables sorting for Indicators.<br>
-<h4>Example 5: Update client-side alert properties using the getProps
-and setProps functions</h4>
+<h4>Example 5: Update Client-Side Alert Properties Using the getProps
+and setProps Functions</h4>
 This example shows how to toggle the visible state of an alert client
 side using the getProps and setProps functions. When the user clicks
 the radio button,
@@ -1366,9 +1364,9 @@ the button is either shown or hidden.<code>
 </code>
 <pre>&lt;webuijsf:radioButton id="rb1" name="rb1" label="Toggle Alert Visible" onClick="toggleVisible()"/&gt;<br><code>&lt;webuijsf:alert id="alert1" type="</code><code>information</code><code>" summary="#{MyBean.summary}"</code><code> /&gt;</code><code></code><br><code><br></code>&lt;webuijsf:script&gt;<br>    function toggleVisible() {<br>        var domNode = document.getElementById("form1:<code>alert1</code>"); // Get alert<br>        return domNode.setProps({visible: !domNode.getProps().visible}); // Toggle visible state<br>    }<br>&lt;/webuijsf:script&gt;</pre>
 <code></code>
-<h4>Example 6: Asynchronously update button using refresh function</h4>
+<h4>Example 6: Asynchronously Update Alert Using Refresh Function - 1</h4>
 This example shows how to asynchronously update an alert using
-the refresh function. When the user clicks on the radio button, the
+the refresh function. When the user clicks the radio button, the
 alert
 is asynchronously updated with new data.<br>
 <pre>&lt;webuijsf:radioButton id="rb1" name="rb1" label="Refresh Alert" onClick="refreshAlert()"/&gt;<br><code>&lt;webuijsf:alert id="alert1" type="</code><code>information</code><code>" summary="#{MyBean.summary}"</code><code> /&gt;</code><br></pre>
@@ -1383,18 +1381,18 @@ Asynchronously refresh alert<br>
 <br>
 </code>Note that the refresh function can optionally take a list of
 elements
-to execute. Thus, a comma-separated list of ids can be provided to
+to execute. Thus, a comma-separated list of IDs can be provided to
 update components server-side: refresh("form1:id1,form2:id2,..."). When
 no parameter is given, the refresh function acts as a reset.
 That is, the component will be redrawn using values set
 server-side, but not updated.<br>
-<h4>Example 7: Asynchronously update button using refresh function</h4>
-This example shows how to asynchronously update a button using
+<h4>Example 7: Asynchronously Update Alert Using Refresh Function - 2</h4>
+This example shows how to asynchronously update a alert using
 the refresh function. The execute property of the refresh function is
 used
-to define the client id which is to be submitted and updated
+to define the client id which is submitted and updated
 server-side. As the user types in the text field, the input value is
-updated server-side and the button text is updated client-side -- all
+updated server-side and the alert text is updated client-side -- all
 without a page refresh.<br>
 <pre><code>&lt;webuijsf:alert id="alert1" type="</code><code>information</code><code>" summary="#{MyBean.summary}"</code><code> /&gt;</code><br>&lt;webuijsf:textField id="field1" text="<code>#{MyBean.summary}</code>" label="Change Summary Text"<br>          onKeyPress="setTimeout('refreshAlert();', 0);"/&gt; // Field used to asynchronously update summary.<br></pre>
 <code>&lt;webuijsf:script&gt;<br>
@@ -1409,7 +1407,7 @@ submitting field value<br>
 <br>
 </code>Note that the refresh function can optionally take a list of
 elements
-to execute. Thus, a comma-separated list of ids can be provided to
+to execute. Thus, a comma-separated list of IDs can be provided to
 update components server-side: refresh("form1:id1,form2:id2,...")<br>
 <br>
 

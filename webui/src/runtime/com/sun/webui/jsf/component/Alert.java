@@ -360,13 +360,13 @@ public class Alert extends WebuiOutput implements NamingContainer, Comparator {
     }
    
     /**
-     * <p>Optional detailed message text for the alert. This message might include more information about the alert and instructions for what to do about the alert.</p>
+     * <p>Optional detailed message text for the Alert that can include more information about the alert and instructions for what to do about the alert.</p>
      */ 
     @Property(name="detail", displayName="Detail Message", category="Appearance")
     private String detail = null;
 
     /**
-     * <p>Optional detailed message text for the alert. This message might include more information about the alert and instructions for what to do about the alert.</p>
+     * <p>Optional detailed message text for the Alert that can include more information about the alert and instructions for what to do about the alert.</p>
      */
     public String getDetail() {
         if (this.detail != null) {
@@ -380,7 +380,7 @@ public class Alert extends WebuiOutput implements NamingContainer, Comparator {
     }
 
     /**
-     * <p>Optional detailed message text for the alert. This message might include more information about the alert and instructions for what to do about the alert.</p>
+     * <p>Optional detailed message text for the Alert that can include more information about the alert and instructions for what to do about the alert.</p>
      * @see #getDetail()
      */
     public void setDetail(String detail) {
@@ -393,10 +393,10 @@ public class Alert extends WebuiOutput implements NamingContainer, Comparator {
      * linkActionExpression attribute must be one of the following: <br>
      * <ul>
      * <li>
-     * an outcome string, used to indicate which page to display next, as defined by a
+     * An outcome string, used to indicate which page to display next, as defined by a
      * navigation rule in the application configuration resource file<code>(faces-config.xml)</code>.
      * </li>
-     * <li>a JavaServer Faces EL expression that resolves
+     * <li>A JavaServer Faces EL expression that resolves
      * to a backing bean method. The method must take no parameters and return
      * an outcome string. The class that defines the method must implement the<br>
      * <code>java.io.Serializable</code> interface or <code>javax.faces.component.StateHolder</code>
@@ -413,10 +413,10 @@ public class Alert extends WebuiOutput implements NamingContainer, Comparator {
      * linkActionExpression attribute must be one of the following: <br>
      * <ul>
      * <li>
-     * an outcome string, used to indicate which page to display next, as defined by a
+     * An outcome string, used to indicate which page to display next, as defined by a
      * navigation rule in the application configuration resource file<code>(faces-config.xml)</code>.
      * </li>
-     * <li>a JavaServer Faces EL expression that resolves
+     * <li>A JavaServer Faces EL expression that resolves
      * to a backing bean method. The method must take no parameters and return
      * an outcome string. The class that defines the method must implement the<br>
      * <code>java.io.Serializable</code> interface or <code>javax.faces.component.StateHolder</code>
@@ -440,10 +440,10 @@ public class Alert extends WebuiOutput implements NamingContainer, Comparator {
      * linkActionExpression attribute must be one of the following: <br>
      * <ul>
      * <li>
-     * an outcome string, used to indicate which page to display next, as defined by a
+     * An outcome string, used to indicate which page to display next, as defined by a
      * navigation rule in the application configuration resource file<code>(faces-config.xml)</code>.
      * </li>
-     * <li>a JavaServer Faces EL expression that resolves
+     * <li>A JavaServer Faces EL expression that resolves
      * to a backing bean method. The method must take no parameters and return
      * an outcome string. The class that defines the method must implement the<br>
      * <code>java.io.Serializable</code> interface or <code>javax.faces.component.StateHolder</code>
@@ -571,14 +571,14 @@ public class Alert extends WebuiOutput implements NamingContainer, Comparator {
     }
 
     /**
-     * <p>CSS style(s) to be applied to the outermost HTML element when this 
+     * <p>CSS style or styles to be applied to the outermost HTML element when this 
      * component is rendered.</p>
      */
     @Property(name="style", displayName="CSS Style(s)", category="Appearance", editorClassName="com.sun.jsfcl.std.css.CssStylePropertyEditor")
     private String style = null;
 
     /**
-     * <p>CSS style(s) to be applied to the outermost HTML element when this 
+     * <p>CSS style or styles to be applied to the outermost HTML element when this 
      * component is rendered.</p>
      */
     public String getStyle() {
@@ -593,7 +593,7 @@ public class Alert extends WebuiOutput implements NamingContainer, Comparator {
     }
 
     /**
-     * <p>CSS style(s) to be applied to the outermost HTML element when this 
+     * <p>CSS style or styles to be applied to the outermost HTML element when this 
      * component is rendered.</p>
      * @see #getStyle()
      */
@@ -602,14 +602,14 @@ public class Alert extends WebuiOutput implements NamingContainer, Comparator {
     }
 
     /**
-     * <p>CSS style class(es) to be applied to the outermost HTML element when this 
+     * <p>CSS style class or classes to be applied to the outermost HTML element when this 
      * component is rendered.</p>
      */
     @Property(name="styleClass", displayName="CSS Style Class(es)", category="Appearance", editorClassName="com.sun.rave.propertyeditors.StyleClassPropertyEditor")
     private String styleClass = null;
 
     /**
-     * <p>CSS style class(es) to be applied to the outermost HTML element when this 
+     * <p>CSS style class or classes to be applied to the outermost HTML element when this 
      * component is rendered.</p>
      */
     public String getStyleClass() {
@@ -624,7 +624,7 @@ public class Alert extends WebuiOutput implements NamingContainer, Comparator {
     }
 
     /**
-     * <p>CSS style class(es) to be applied to the outermost HTML element when this 
+     * <p>CSS style class or classes to be applied to the outermost HTML element when this 
      * component is rendered.</p>
      * @see #getStyleClass()
      */
@@ -708,17 +708,17 @@ public class Alert extends WebuiOutput implements NamingContainer, Comparator {
     }
 
     /**
-     * <p>The type or category of alert. This type can be set to
-     * "information", "success", "warning" or "error". The type specified determines
+     * <p>The type or category of alert. This attribute can be set to
+     * "information", "success", "warning" or "error". The selection determines
      * which icon is rendered for the alert.</p>
      */
     @Property(name="type", displayName="Alert Type", category="Advanced")
     private String type = null;
 
     /**
-     * <p>The type or category of alert. This type can be set to
+     * <p>The type or category of alert. This attribute can be set to
      * "information", "success", "warning", "error" or any custom defined type specified for Indicator.
-     * The type specified determines
+     * The selection determines
      * which icon is rendered for the alert.</p>
      */
     public String getType() {
@@ -733,9 +733,9 @@ public class Alert extends WebuiOutput implements NamingContainer, Comparator {
     }
 
     /**
-     * <p>The type or category of alert. This type can be set to  
+     * <p>The type or category of alert. This attribute can be set to  
      * "information", "success", "warning", "error" or any custom defined type specified for Indicator.
-     * The type specified determines
+     * The selection determines
      * which icon is rendered for the alert.</p>
      * @see #getType()
      */
@@ -744,12 +744,12 @@ public class Alert extends WebuiOutput implements NamingContainer, Comparator {
     }
 
     /**
-     * <p>Use the visible attribute to indicate whether the component should be
-     * viewable by the user in the rendered HTML page. If set to false, the
+     * <p>Indicates whether the component should be
+     * viewable by the user in the rendered HTML page. If this setting is false, the
      * HTML code for the component is present in the page, but the component
-     * is hidden with style attributes. By default, visible is set to true, so
+     * is hidden with style attributes. By default, this setting is true, so
      * HTML for the component HTML is included and visible to the user. If the
-     * component is not visible, it can still be processed on subsequent form
+     * Alert component is not visible, it can still be processed on subsequent form
      * submissions because the HTML is present.</p>
      */
     @Property(name="visible", displayName="Visible", category="Behavior")
@@ -757,12 +757,12 @@ public class Alert extends WebuiOutput implements NamingContainer, Comparator {
     private boolean visible_set = false;
 
     /**
-     * <p>Use the visible attribute to indicate whether the component should be
-     * viewable by the user in the rendered HTML page. If set to false, the
+     * <p>Indicates whether the component should be
+     * viewable by the user in the rendered HTML page. If this setting is false, the
      * HTML code for the component is present in the page, but the component
-     * is hidden with style attributes. By default, visible is set to true, so
+     * is hidden with style attributes. By default, this setting is true, so
      * HTML for the component HTML is included and visible to the user. If the
-     * component is not visible, it can still be processed on subsequent form
+     * Alert component is not visible, it can still be processed on subsequent form
      * submissions because the HTML is present.</p>
      */
     public boolean isVisible() {
@@ -782,12 +782,12 @@ public class Alert extends WebuiOutput implements NamingContainer, Comparator {
     }
 
     /**
-     * <p>Use the visible attribute to indicate whether the component should be
-     * viewable by the user in the rendered HTML page. If set to false, the
+     * <p>Indicates whether the component should be
+     * viewable by the user in the rendered HTML page. If this setting is false, the
      * HTML code for the component is present in the page, but the component
-     * is hidden with style attributes. By default, visible is set to true, so
+     * is hidden with style attributes. By default,this setting is true, so
      * HTML for the component HTML is included and visible to the user. If the
-     * component is not visible, it can still be processed on subsequent form
+     * Alert component is not visible, it can still be processed on subsequent form
      * submissions because the HTML is present.</p>
      * @see #isVisible()
      */
@@ -797,7 +797,7 @@ public class Alert extends WebuiOutput implements NamingContainer, Comparator {
     }
 
     /**
-     * <p>A developer define types of Alert. This can be set to an array Indicators
+     * <p>A developer define types of Alert that can be set to an array Indicators
      *  where Indicator holds
      *  the custom defined type and associated image.</p>
      */
