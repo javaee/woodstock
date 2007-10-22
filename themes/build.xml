@@ -129,7 +129,7 @@
     <property name="theme.l10n-build-dir"
 	location="${theme.build-dir}/translatedFiles"/>
     <property name="theme.l10n-build-package-path"
-    location="${theme.l10n-build-dir}/translatedFiles/${theme.package-path}"/>
+    location="${theme.l10n-build-dir}/${theme.package-path}"/>
 
     <!-- The default filter set for Javascript files. -->
     <filterset id="js-filter-set">
@@ -191,12 +191,8 @@
     <!-- ========== all ========== -->
     <!-- Enable L10n when L10n files are committed. -->
     <!-- This creates the theme jars for component distribution.-->
-    <!--
     <target name="all" 
 	depends="buildTheme,buildJsTheme,buildL10nTheme,buildL10nJsTheme" />
-    -->
-    <target name="all" 
-	depends="buildTheme,buildJsTheme" />
 
     <!-- Parameters
 	See the default "theme.*" properties above.
