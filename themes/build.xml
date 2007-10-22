@@ -913,6 +913,12 @@
           <arg line="${__files-to-doc__}"/>
 	</java>
 
+        <!-- JsDoc doesn't link source files correctly for subdirectories,
+             so we'll just remove them for now. 
+        -->
+        <delete>
+            <fileset dir="${_to-dir_}" includes="**/*.src.html"/>
+        </delete>
     </target>
 
     <!-- ################ theme service targets ################# -->

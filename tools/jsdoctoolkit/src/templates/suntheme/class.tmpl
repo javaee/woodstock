@@ -77,7 +77,9 @@ thisClass = data[0];
 <if test="thisClass.augments && thisClass.augments.length">
 	Extends<for each="augment" in="thisClass.augments"> <a href="{+augment+}.html">{+augment+}</a></for>.<br/>
 </if>
+<!--
 <if test="thisClass.source"><i>Defined in <a href="{+thisClass.source+}">{+thisClass.filename+}</a></i></if>
+-->
 <if test="thisClass.classDesc"><p>{+thisClass.classDesc+}</p></if>
 <if test="thisClass.doc">
 <for each="author" in="thisClass.doc.getTag('author')">
