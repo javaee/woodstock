@@ -33,8 +33,11 @@
     <property file="build.properties"/>
 
     <property name="webui.jar" value="webui-jsf.jar"/>
+    <property name="webui-l10n.jars" value="webui-jsf_*.jar"/>
     <property name="webui-dt.jar" value="webui-jsf-dt.jar"/>
+    <property name="webui-dt-l10n.jars" value="webui-jsf-dt_*.jar"/>
     <property name="suntheme.jar" value="webui-jsf-suntheme.jar"/>
+    <property name="suntheme-l10n.jars" value="webui-jsf-suntheme_*.jar"/>
 
     <target name="createFolders" 
             description="Create folders necessary for building" >
@@ -69,7 +72,9 @@
             </fileset>
             <fileset dir="${webui.component.libs}">
                 <include name="${webui.jar}" />
+                <include name="${webui-l10n.jars}" />
                 <include name="${webui-dt.jar}" />
+                <include name="${webui-dt-l10n.jars}" />
             </fileset>
             <fileset dir="${dataprovider.component.libs}">
                 <include name="dataprovider.jar" />
@@ -80,11 +85,10 @@
 	    </fileset>
             <fileset dir="${themes.dist}">
                 <include name="${suntheme.jar}" />
+                <include name="${suntheme-l10n.jars}" />
 	    </fileset>
         </copy>
     </target> 
-
- 
 
     <!-- ========== clean ========== --> 
     <!-- This creates the extra jars needed for ${sdkspectitle} component distribution   -->
@@ -208,9 +212,12 @@
 
     <patternset id="core-libs">
 	<include name="lib/${webui.jar}"/>
+	<include name="lib/${webui-l10n.jars}"/>
 	<include name="lib/${webui-dt.jar}"/>
+	<include name="lib/${webui-dt-l10n.jars}"/>
 	<include name="lib/dataprovider.jar"/>
 	<include name="lib/${suntheme.jar}"/>
+	<include name="lib/${suntheme-l10n.jars}"/>
 	<include name="lib/json*.jar"/>
 	<include name="lib/dojo*.jar"/>
 	<include name="lib/prototype*.jar"/>
@@ -408,10 +415,13 @@
                 <include name="json*" />
                 <include name="prototype*" />
                 <include name="${suntheme.jar}" />
+                <include name="${suntheme-l10n.jars}" />
             </fileset>
             <fileset dir="${webui.component.libs}">
                 <include name="${webui.jar}" />
+                <include name="${webui-l10n.jars}" />
                 <include name="${webui-dt.jar}" />
+                <include name="${webui-dt-l10n.jars}" />
             </fileset>
             <fileset dir="${webui.dist}">
                 <include name="webui-jsf*.zip" />
