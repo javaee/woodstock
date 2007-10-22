@@ -124,6 +124,13 @@ body.HlpBdy@THEME_CSS@ h5, H6 {
 }
 /*---*/
 
+
+/** DnD avatar class */
+.dojoDndAvatar {
+	font-size: 75%;
+}
+
+
 /* HELPINLINE [originalName: INLINE HELP] */
 .inlineFieldHelp@THEME_CSS@, a.HlpFldLnk@THEME_CSS@ {
 	font-size:1.0em;

@@ -156,6 +156,23 @@ body {
 	vertical-align: 6px;
 }
 
+/* DnD styles */
+
+.dojoDndItem { 
+	padding:3px; 
+}
+
+.dndOuterSpan@THEME_CSS@"  {
+    position: relative;
+}
+
+.dndContainer@THEME_CSS@ {
+    position:relative; 
+    top:0px; 
+    right:0px; 
+    bottom:0px; 
+    left:0px;
+}
 /* HORIZONTAL AND VERTICAL CHECKBOX GROUP AND RADIO BUTTON GROUP */
 .RBGRPVert@THEME_CSS@, .RBGRPHoriz@THEME_CSS@, .CBGRPVert@THEME_CSS@, .CBGRPHoriz@THEME_CSS@ {
     padding:0;

@@ -148,6 +148,125 @@ a.BcmLnk@THEME_CSS@:hover {
 	cursor:pointer;
 }
 
+
+
+/* DnD styles -----------*/
+
+/* style for dragItem - item that is activated for dragging 
+    Note that due to dojo implementation, this style will stay with the element
+    even after it is dropped into Target that is not a Source. In this case
+    item is not armed to be dragged, but style misleadingly remains there.
+ */
+.dojoDndItem { 
+	cursor:pointer; 
+}
+
+
+/* CONTAINER styles ---------------------------------------------
+    apply to source/target containers
+ */
+
+/* container ( source or target) takes on this style when dragItem is dragged
+  over it 
+ */
+.dojoDndContainerOver {
+	 border:2px dotted #aaa; 
+}
+
+/* horizontal container is marked with .dojoDndHorizontal 
+ * although it is anticipated to be used alone but only as part of descendant selector ( see below)
+ 
+ */
+.dojoDndHorizontal {
+	
+}
+
+
+/* SELECTOR styles ----------------------------------------------
+    applied to individual items within containers( selectors)
+*/
+
+/* this style is added to dojoDndItem when cursor is over the potential selectable item */
+.dojoDndItemOver {
+	background: #99ccff; 
+}
+/* item(s) selected within a source(container) are marked with this style.
+   Drag operation will drag all of the selected items
+   */
+.dojoDndItemSelected {
+	background: #90C0FD;         
+}
+/*  item is selected and an anchor for a "shift" selection, usually  
+    presented along with dojoDndItemSelected
+*/
+.dojoDndItemAnchor {
+	background: #9ACAFF; color: black;
+}
+
+/* TARGET styles -------------------------------------------------*/
+/** 
+ This following styles are used to indicate an insertion point in the target. Insertion point is 
+ 'anchored' to existing nodes ( i.e. if no nodes are present in the list, no insertion point 
+ will be displayed ). Thus the element in the target container will be assigned
+ both dojoDndItemOver AND dojoDndItemBefore-or-dojoDndItemAfter.
+ 
+ dojoDndItemBefore - The drop insertion point is located just above of the target item that is 
+ currently under the cursor. 
+
+ dojoDndItemAfter - The drop insertion point is located just under of the target item that is 
+ currently under the cursor. 
+ */
+.dojoDndItemBefore {
+	border-top: 2px solid #369;
+}
+
+.dojoDndItemAfter {
+	border-bottom: 2px solid #369;
+}
+/* children of horizontal container present border differently */
+.dojoDndHorizontal > .dojoDndItemBefore {
+	border-left: 2px solid #369;
+	border-top: none;
+	border-bottom: none;
+}
+.dojoDndHorizontal > .dojoDndItemAfter {
+	border-right: 2px solid #369;
+	border-top: none;
+	border-bottom: none;
+}
+
+/* AVATAR styles ------------------------------------------------
+    these styles are hardcoded into default avatar implementation.
+    if implementation is changed, they may be irrelevant.
+ */
+ 
+
+/* avatar header */	
+.dojoDndAvatarHeader {
+	background: #aaa;
+}
+
+/* avatar item */
+.dojoDndAvatarItem {
+	background: #fff;
+	border-bottom:1px solid #666;
+}
+/* avatar is ready to be dropped */
+.dojoDndAvatarCanDrop {
+	background: #aaf;
+	
+}
+
+.dojoDndMove .dojoDndAvatarHeader	{background-image: url(../images/dnd/dndNoMove.png); background-repeat: no-repeat;}
+.dojoDndCopy .dojoDndAvatarHeader	{background-image: url(../images/dnd/dndNoCopy.png); background-repeat: no-repeat;}
+.dojoDndMove .dojoDndAvatarCanDrop .dojoDndAvatarHeader	{background-image: url(../images/dnd/dndMove.png); background-repeat: no-repeat;}
+.dojoDndCopy .dojoDndAvatarCanDrop .dojoDndAvatarHeader	{background-image: url(../images/dnd/dndCopy.png); background-repeat: no-repeat;}
+
+.dojoDndWebuiItemDragged {
+    opacity:.50;filter: alpha(opacity=50); -moz-opacity: 0.5; 
+}
+
+
 .MstDiv@THEME_CSS@ .Btn1@THEME_CSS@, .MstDiv@THEME_CSS@ .Btn1Mni@THEME_CSS@, .MstDiv@THEME_CSS@ .Btn2@THEME_CSS@, .MstDiv@THEME_CSS@ .Btn2Mni@THEME_CSS@, .MstDiv@THEME_CSS@ .Btn1Hov@THEME_CSS@, .MstDiv@THEME_CSS@ .Btn1MniHov@THEME_CSS@, .MstDiv@THEME_CSS@ .Btn2Hov@THEME_CSS@, .MstDiv@THEME_CSS@ .Btn2MniHov@THEME_CSS@,
 .mastheadButton_4@THEME_CSS@ a:link, .mastheadButton_4@THEME_CSS@ a:visited, .mastheadButton_4@THEME_CSS@ a:hover {
 	color:#FFF;
