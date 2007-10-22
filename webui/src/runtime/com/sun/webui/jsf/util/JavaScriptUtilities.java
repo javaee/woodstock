@@ -178,7 +178,9 @@ public class JavaScriptUtilities {
         renderPrototypeInclude(component, writer);
 
         // Render JSF Extensions include.
-        renderJsfxInclude(component, writer);
+        if (json.getBoolean("webuiJsfx")) {
+            renderJsfxInclude(component, writer);
+        }
 
         // Render Dojo include.
         renderDojoInclude(component, writer, json.getBoolean("dijitAll"));
