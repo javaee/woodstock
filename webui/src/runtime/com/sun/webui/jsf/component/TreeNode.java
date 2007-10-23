@@ -988,6 +988,11 @@ public class TreeNode extends UIComponentBase implements NamingContainer, Serial
             ComponentUtilities.putPrivateFacet(this,
 	        "link", child);
         }
+        
+        Tree root = Tree.getAbsoluteRoot(this);
+        if ((root != null) && (root.isImmediate())) {
+            child.setImmediate(true);
+        }
         child.setText(this.getText());
         child.setUrl(this.getUrl());
         if (this.getTarget() != null) {
@@ -1025,7 +1030,10 @@ public class TreeNode extends UIComponentBase implements NamingContainer, Serial
             ComponentUtilities.putPrivateFacet(this,
 	    "image", child);
         }
-            
+        Tree root = Tree.getAbsoluteRoot(this);
+        if ((root != null) && (root.isImmediate())) {
+            child.setImmediate(true);
+        } 
         child.setImageURL(this.getImageURL());
         child.setUrl(this.getUrl());
         child.setBorder(0);
@@ -1061,6 +1069,10 @@ public class TreeNode extends UIComponentBase implements NamingContainer, Serial
             ihl.addActionListener(new ToggleActionListener());
             ComponentUtilities.putPrivateFacet(this,
                 "turner", ihl);
+        }
+        Tree root = Tree.getAbsoluteRoot(this);
+        if ((root != null) && (root.isImmediate())) {
+            ihl.setImmediate(true);
         }
         return ihl;
     }
