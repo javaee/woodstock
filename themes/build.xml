@@ -154,10 +154,12 @@
 
     <!-- The patternsets for the combined javascript files -->
 
-    <!-- The files that are commonly combined or omitted -->
+    <!-- The files that are commonly omitted. Some files (e.g., dnd.js) may be
+         included via widgets. -->
     <patternset id="exclude-js-files">
 	<exclude name="addRemove.js" />
 	<exclude name="commonTasksSection.js" />
+        <exclude name="dnd.js" />
 	<exclude name="editableList.js" />
 	<exclude name="fileChooser.js" />
 	<exclude name="orderableList.js" />
@@ -165,6 +167,7 @@
 	<exclude name="table.js" />
 	<exclude name="tree.js" />
 	<exclude name="wizard.js" />
+        <exclude name="widget/dndContainer.js" />
 	<exclude name="theme/nls/"/>
     </patternset>
 

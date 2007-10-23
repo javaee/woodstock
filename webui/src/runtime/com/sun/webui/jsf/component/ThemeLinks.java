@@ -334,6 +334,7 @@ public class ThemeLinks extends UIComponentBase {
      * </p><p><ul>
      * <li>addRemove</li>
      * <li>commonTasksSection</li>
+     * <li>dndContainer</li>
      * <li>editableList</li>
      * <li>fileChooser</li>
      * <li>orderableList</li>
