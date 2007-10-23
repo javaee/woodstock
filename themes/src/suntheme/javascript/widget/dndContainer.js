@@ -97,8 +97,8 @@ webui.@THEME@.widget.dndContainer.prototype.postCreate = function () {
     if (this.dropTypes) {        
         params.accept = (this.dropTypes instanceof Array) ? this.dropTypes : this.dropTypes.split(',');
     }
-    if (this.horizontalMarker != null) {        
-        params.horizontal = this.horizontalMarker;
+    if (this.horizontalIndicator != null) {        
+        params.horizontal = this.horizontalIndicator;
     }
     if (this.dragTypes == null) {        
         params.isSource = false;
