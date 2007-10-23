@@ -1294,7 +1294,7 @@
 	    <srcfiles dir="${theme.src-dir}"
 		includes="images/**/*,properties/images.properties"/>
 	    <mergemapper 
-	    to="${theme.build-package-path}/images/${theme.combined-image}"/>
+	    to="${theme.build-package-path}/images/other/${theme.combined-image}"/>
 	 </uptodate>
     </target>
 
