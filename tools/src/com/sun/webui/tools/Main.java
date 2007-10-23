@@ -227,6 +227,47 @@ public class Main {
 	}
     }
 
+    private static void combineImages(String[] args) {
+
+	String sourceDir = null;
+	String imageFile = null;
+	String imagePropertyFile = null;
+	String outFile = null;
+
+	for (int i = 1; i < args.length; ++i) {
+	    try {
+		if (args[i].equals("-sourceDir")) {
+		    validString(sourceDir = args[i + 1].trim());
+		    ++i;
+		} else
+		if (args[i].equals("-imageFile")) {
+		    validString(imageFile = args[i + 1].trim());
+		    ++i;
+		} else
+		if (args[i].equals("-imagePropertyFile")) {
+		    validString(imagePropertyFile = args[i + 1].trim());
+		    ++i;
+		} else
+		if (args[i].equals("-outFile")) {
+		    validString(outFile = args[i + 1].trim());
+		    ++i;
+		} else {
+		    System.out.println("Unknown arguement " + args[i]);
+		    usage();
+		    System.exit(-1);
+		}
+	    } catch (Exception e) {
+		System.out.println("Invalid argument value for " + args[i]);
+		usage();
+		System.exit(-1);
+	    }
+	}
+
+	CombineImages ci = new CombineImages(sourceDir, imagePropertyFile,
+		imageFile, outFile);
+	ci.combine();
+    }
+
     /**
      * Helper function to show usage.
      *
@@ -248,6 +289,14 @@ public class Main {
 	System.out.println("-sourceDir <sourceDir>\t" +
 		"Directory containing the files in fileList.");
         System.out.println("-verbose\tEnable verbose output.");
+
+        System.out.println("\nOptions for -combineImages include:");
+	System.out.println("-sourceDir <sourceDir>\t" +
+		"Directory containing the image files.");
+        System.out.println("-imageFile\tFile path for combined image output.");
+	System.out.println("-imagePropertyFile\t" +
+		"File path for image properties file.");
+        System.out.println("-outFile\tFile path for updated image properties file.");
 
         System.out.println("\nOptions for -combineJS include:");
 	System.out.println("-fileList <f0,...,fn>\t" +
@@ -297,6 +346,8 @@ public class Main {
                 compressJavaScript(args);
             } else if (args[0].equals("-native2ascii")) {
                 native2ascii(args);
+            } else if (args[0].equals("-combineImages")) {
+                combineImages(args);
             } else {
                 usage();
             }
@@ -393,5 +444,4 @@ public class Main {
 	    throw new Exception("Invalid argument value");
 	}
     }
-
 }

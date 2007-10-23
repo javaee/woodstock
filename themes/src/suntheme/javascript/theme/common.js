@@ -252,6 +252,26 @@ webui.@THEME@.theme.common = {
 	if (value != null) {
 	    imageObj["height"] = value;
 	}
+        var value = webui.@THEME@.theme.common._getImageProp(
+                    srcProperty + "_MAP", false);
+        if (value != null) {
+            imageObj["map_key"] = value;
+            var value = webui.@THEME@.theme.common._getImageProp(
+                    srcProperty + "_MAP_WIDTH", false);
+            if (value != null) {
+                imageObj["actual_width"] = value;
+            }
+            value = webui.@THEME@.theme.common._getImageProp(
+                srcProperty + "_MAP_HEIGHT", false);
+            if (value != null) {
+                imageObj["actual_height"] = value;
+            }
+            value = webui.@THEME@.theme.common._getImageProp(
+                srcProperty + "_MAP_TOP", false);
+            if (value != null) {
+                imageObj["top"] = value;
+            }
+        }
 	value = webui.@THEME@.theme.common._getImageProp(
 	    srcProperty + "_ALT", true);
 	if (value != null) {

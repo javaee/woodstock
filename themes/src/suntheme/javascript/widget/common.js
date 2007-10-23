@@ -446,11 +446,33 @@ webui.@THEME@.widget.common = {
         var _props = webui.@THEME@.theme.common.getImage(key);
         if (_props == null) {
             return null;
-        }
-
+        }        
         // Set default widgetType.
-        _props = webui.@THEME@.widget.common.getWidgetProps("image", _props);
-
+        _props = webui.@THEME@.widget.common.getWidgetProps("image", _props);        
+        var mapKey = _props["map_key"];
+        //ie6 has issues with "png" images. 
+        //IE6 png issue can be fixed but that needs an outermost <span> tag. 
+        //<span style="overflow: hidden; width:13px;height:13px; padding: 0px;zoom: 1";>
+        //<img src="dot.gif"
+        //style="filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(src='testImage.png',sizingMethod='crop');
+        //margin-left:-0px;
+        //margin-top:-26px; border: none; height:39px;width:13px;"/>
+        //</span>
+        //For now, skipping the combined image approach for ie6.
+        if (mapKey != null && !webui.@THEME@.browser.isIe6()) {
+        var transImage = webui.@THEME@.theme.common.getImage("DOT");
+      
+        var combinedImage = webui.@THEME@.theme.common.getImage(mapKey);        
+            if (_props['top'] != null && (_props['actual_height'] 
+                    == _props['height'] && _props['actual_width'] == _props['width'])) {
+                
+                props.style =
+                    "background-image:url("+combinedImage["src"]+");" +
+                    "background-position:" + 0+"px"+  " " + _props['top'] +"px"+ ";" +"height:"+
+                    _props['actual_height'] +"px"+ ";" + "width:"+_props['actual_width'] +"px"+"border:0"+ ";";  
+                _props["src"] = transImage["src"];                    
+            }           
+        }
         // Add extra properties
         if (props != null) {
             webui.@THEME@.widget.common.extend(_props, props);

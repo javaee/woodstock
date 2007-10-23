@@ -117,6 +117,7 @@
     <property name="theme.webui-all.js" value="webui-all.js"/>
     <property name="theme.webui-jsfx.js" value="webui-jsfx.js"/>
     <property name="theme.webui-jsfx-all.js" value="webui-jsfx-all.js"/>
+    <property name="theme.combined-image" value="combinedImage.png"/>
 
     <property name="theme.webui-js-files" value="webui-js-files"/>
     <property name="theme.webui-all-js-files" value="webui-all-js-files"/>
@@ -319,6 +320,8 @@
 	    <param name="_to-dir_" value="${js-dest-cmp}"/>
 	    <param name="_from-dir_" value="${js-dest-uncmp}"/>
 	</antcall>
+
+	<antcall target="combineImages"/>
 
         <antcall target="createThemeJar"/>
 
@@ -1283,7 +1286,35 @@
 
     </target>
 
+    <!-- If the combinedImage file is newer than any image file and
+	 the images.properties file, set "images-uptodate".
+    -->
+    <target name="images-uptodate">
+	 <uptodate property="images-uptodate">
+	    <srcfiles dir="${theme.src-dir}"
+		includes="images/**/*,properties/images.properties"/>
+	    <mergemapper 
+	    to="${theme.build-package-path}/images/${theme.combined-image}"/>
+	 </uptodate>
+    </target>
 
+    <target name="combineImages" depends="images-uptodate"
+	    unless="images-uptodate" if="build-combineImages"
+	    description="Combine images.">
+
+	<java jar="${tools.jar}" failonerror="true" fork="true">
+	  <arg value="-combineImages"/>
+	  <arg value="-sourceDir"/>
+	  <arg value="${theme.build-dir}"/>
+	  <arg value="-imageFile"/>
+	  <arg value="${theme.build-package-path}/images/other/${theme.combined-image}"/>
+	  <arg value="-imagePropertyFile"/>
+	  <arg value="${theme.build-package-path}/properties/images.properties"/>
+	  <arg value="-outFile"/>
+	  <arg value="${theme.build-package-path}/properties/images.properties"/>
+	</java>
+
+    </target>
 
     <!-- the null filterset -->
     <filterset id="null-filter"/>
