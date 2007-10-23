@@ -23,29 +23,126 @@
 
 dojo.provide("webui.@THEME@.widget.dndContainer");
 
-dojo.require("webui.@THEME@.widget.widgetBase");
 dojo.require("webui.@THEME@.dnd");
+dojo.require("webui.@THEME@.widget.widgetBase");
 
  /**
-   * @name webui.@THEME@.widget.dndContainer
-   * @extends webui.@THEME@.widget.widgetBase
-   * @class This class contains functions for the dndContainer widget
-   * @constructor This function is used to construct a dndContainer widget.
-   */
+  * @name webui.@THEME@.widget.dndContainer
+  * @extends webui.@THEME@.widget.widgetBase
+  * @class This class contains functions for the dndContainer widget
+  * @constructor This function is used to construct a dndContainer widget.
+  */
 dojo.declare("webui.@THEME@.widget.dndContainer", webui.@THEME@.widget.widgetBase, {
     // Set defaults.
-    widgetName: "dndContainer" // Required for theme properties
+    widgetName: "dndContainer" // Required for theme properties.
 });
 
 /**
- * Helper function to obtain HTML container element class names.
- * @return {String} calculated class name of the container node
+ * Helper function to create callback for user's node creator function
+ *
+ * @param {String} name of the function to be called for node creation, with 
+ * signature function(data, hint).
+ * @return {Function} function to be called for node creation.
  */
-webui.@THEME@.widget.dndContainer.prototype.getContainerClassName = function() {   
-    // Add default style.    + " " + this.widget.getClassName("DND_CONTAINER", "") ;    
-    return  this.dndContainer.className;
+webui.@THEME@.widget.dndContainer.prototype.createCreatorCallback = function(funcName) {
+    var dragTypes = this.dragTypes ? this.dragTypes : "";
+    var dragSource = this.dragSource;
+    var func = new Function("data", "hint", "return " + funcName + "(data, hint)");
+
+    // This function will invoke user provided creator function (onNodeCreateFunc) 
+    // and will add default dnd type to the item created by it. All items 
+    // created within this container will automatically be associated with the 
+    // type provided by the container - a container's 'dragTypes' property.
+    //
+    // The function returns the same data structure as required to be returned 
+    // by the user's creator function.
+    //
+    // {
+    //  node: DOM node that will be inserted.
+    //  data: Data that will be associated with newly created node.
+    //  type: Drag type array that will be associated with newly created node.
+    // }; 
+    //
+    return function(data, hint) { 
+        if (func == null)
+            return null;
+        var ret = func(data, hint);
+        
+        if (ret != null) {
+            // Add type to it.
+            ret.type = dragTypes;
+        } else {
+            // User func did not create node - create one with default creator.
+            ret = dragSource.defaultCreator(data, hint);
+        }
+        return ret;
+    };
 }
 
+/**
+ * Helper function to create callback for user's onDrop function.
+ *
+ * @return {Function} function to be called upon drop.
+ */
+webui.@THEME@.widget.dndContainer.prototype.createOnDndDropCallback = function() {
+    var containerWidget = this;
+ 
+    return function(source, nodes, copy){
+        // Call user's onDropFunction
+        if (containerWidget.onDropFunc) {
+            try {
+                var func = eval(containerWidget.onDropFunc);
+                return func(source, nodes, copy);
+            } catch (error) {           
+                //do nothing        
+            }
+        }
+        return true;
+    }
+}
+
+/** 
+ * Helper creator function that can be referenced by user in order to supply 
+ * node creator. This function will create a div with data as innerHTML text 
+ * within it. The newly created node will not be a dragdata any more.
+ *
+ * @param (Object) data data to be used for node creation.
+ * @param (String) hint hint that takes value of "avatar" when avatar is 
+ * created, null otherwise.
+ * @return (Object) Map required by dojo for node draggable node creation.
+ */
+webui.@THEME@.widget.dndContainer.divCreator = function(data, hint) {
+    var node = dojo.doc.createElement("div");
+    node.innerHTML = data;
+    node.id = dojo.dnd.getUniqueId();        
+    return {node: node, data: data, type: null};
+};
+
+/** 
+ * Dojo library always requires a node to be created at the drop site.
+ * This method returns minimalistic node to be inserted without changing the
+ * visual appearance of the target.
+ *
+ * @param (Object) data data to be used for node creation.
+ * @param (String) hint hint that takes value of "avatar" when avatar is 
+ * created, null otherwise.
+ * @return (Object) Map required by dojo for node draggable node creation.
+ */
+webui.@THEME@.widget.dndContainer.emptyCreator = function(data, hint) {
+    var sp = dojo.dnd._createSpan(data);
+    sp.style.display = "none";
+    return {node: sp, data: null, type: null};
+};
+
+/**
+ * Helper function to obtain HTML container element class names.
+ *
+ * @return {String} calculated class name of the container node.
+ */
+webui.@THEME@.widget.dndContainer.prototype.getContainerClassName = function() {   
+    // Add default style.
+    return  this.dndContainer.className;
+}
 
 /**
  * This function is used to get widget properties. Please see the 
@@ -85,8 +182,7 @@ webui.@THEME@.widget.dndContainer.prototype.postCreate = function () {
         this.dndContainer.id = this.id + "_container";
     }
     
-    
-    //make things draggable
+    // Make things draggable.
     var params = {};
     if (this.onNodeCreateFunc ) {
         params.creator = this.createCreatorCallback(this.onNodeCreateFunc);                   
@@ -106,12 +202,9 @@ webui.@THEME@.widget.dndContainer.prototype.postCreate = function () {
     params.onDropFunction = this.createOnDndDropCallback();
     
     this.dragSource = new webui.@THEME@.dnd.Source(this.dndContainer.id , params );
-    
-    
 
     return this.inherited("postCreate", arguments);
 }
-
 
 /**
  * This function is used to set widget properties using Object literals.
@@ -119,18 +212,18 @@ webui.@THEME@.widget.dndContainer.prototype.postCreate = function () {
  * Note: This function extends the widget object for later updates. Further, the
  * widget shall be updated only for the given key-value pairs.
  * </p>
- *
  * @param {Object} props Key-Value pairs of properties.
- * @config {Array}      [dragTypes] list of space-trimmed strings representing types of the drag element
- * @config {String}     [contents] children of the container
- * @config {String}     [className] CSS selector.
- * @config {String}     [id] Uniquely identifies an element within a document.
- * @config {String}     [onNodeCreateFunc] Javascript code to create new item
- * @config {Array}      [dropTypes] list of space-trimmed strings accepted by this container as a drop
- * @config {String}     [style] Specify style rules inline.
- * @config {boolean}    [visible] Hide or show element.
- *
- * @return {Boolean} true if operation was successfull, false otherwise
+ * @config {Array} [dragTypes] list of space-trimmed strings representing 
+ * types of the drag element.
+ * @config {String} [contents] children of the container.
+ * @config {String} [className] CSS selector.
+ * @config {String} [id] Uniquely identifies an element within a document.
+ * @config {String} [onNodeCreateFunc] Javascript code to create new item.
+ * @config {Array} [dropTypes] list of space-trimmed strings accepted by this 
+ * container as a drop.
+ * @config {String} [style] Specify style rules inline.
+ * @config {boolean} [visible] Hide or show element.
+ * @return {Boolean} true if operation was successfull, false otherwise.
  */
 webui.@THEME@.widget.dndContainer.prototype.setProps = function(props, notify) {
     if (props == null) {
@@ -141,36 +234,31 @@ webui.@THEME@.widget.dndContainer.prototype.setProps = function(props, notify) {
     if (props.contents) {
         this.contents = null;
     }
-    
     return this.inherited("setProps", arguments);
 }
-
 
 /**
  * This function is used to set widget properties. Please see the setProps() 
  * function for a list of supported properties.
  * <p>
- * Note: This is considered a private API, do not use. This function should only
- * be invoked via setProps().
+ * Note: This function should only be invoked through setProps().
  * </p>
- *
  * @param {Object} props Key-Value pairs of properties.
+ * @return {boolean} true if successful; otherwise, false.
  * @private
- * @return {Boolean} true if operation was successfull, false otherwise 
  */
 webui.@THEME@.widget.dndContainer.prototype._setProps = function(props) {
     if (props == null) {
         return false;
     }      
-    
     if (props.dragTypes) {        
-        this.dragTypes = (props.dragTypes instanceof Array)? props.dragTypes : props.dragTypes.split(',');        
+        this.dragTypes = (props.dragTypes instanceof Array)
+            ? props.dragTypes : props.dragTypes.split(',');        
     }
-    
     if (props.dropTypes) {        
-        this.dropTypes = (props.dropTypes instanceof Array)? props.dropTypes : props.dropTypes.split(',');
+        this.dropTypes = (props.dropTypes instanceof Array)
+            ? props.dropTypes : props.dropTypes.split(',');
     }
-    
     if (props.onDropFunc) {
         this.onDropFunc =  props.onDropFunc; 
     }
@@ -178,9 +266,8 @@ webui.@THEME@.widget.dndContainer.prototype._setProps = function(props) {
     // Set container class name.
     this.dndContainer.className = this.getContainerClassName();
     
-    
-      // Set contents.         
-      //assert there is a dragData and id entry for each fragment
+    // Set contents.         
+    // Assert there is a dragData and id entry for each fragment
     if (props.contents && props.contentsDragData 
             && props.contents.length == props.contentsDragData.length 
             && this.dragSource ) {                   
@@ -189,132 +276,25 @@ webui.@THEME@.widget.dndContainer.prototype._setProps = function(props) {
         
 	for (var i = 0; i < props.contents.length; i++) {
             if (this.dragTypes) {
-                /*for each item in the contents create a span placeholder using normalized creator function
-                 *(this will allow for consistent internal placement of container elements within container)
-                 * which will be an element of the container and at the same time will contain
-                 the output of addFragment. Add the rendered content into the span.             
-                 */
-                var node = this.dragSource.addItem([""], this.dragTypes, props.contentsDragData[i] ); //empty data content
+                // For each item in the contents create a span placeholder using
+                // normalized creator function (this will allow for consistent 
+                // internal placement of container elements within container)
+                // which will be an element of the container and at the same 
+                // time will contain the output of addFragment. Add the rendered
+                // content into the span.             
+                var node = this.dragSource.addItem([""], this.dragTypes, 
+                    props.contentsDragData[i] ); //empty data content
                 this.widget.addFragment(node, props.contents[i], "last");
-               
             } else {
-                //simply add data, without making it draggable
+                // Simply add data, without making it draggable
                 this.widget.addFragment(this.dndContainer, props.contents[i], "last");            
             }
-            
         }
-
-        
     }
     
     // Set more properties.
     this.setCommonProps(this.dndContainer, props);
 
-    
     // Set remaining properties.
     return this.inherited("_setProps", arguments);
 }
-
-/**
- * Helper function to create callback for user's node creator function
- *
- * @param {String} name of the function to be called for node creation, with signature function(data, hint)
- * @return {Function} function to be called for node creation
- */
-webui.@THEME@.widget.dndContainer.prototype.createCreatorCallback = function(funcName) {
-    var dragTypes = this.dragTypes ? this.dragTypes : "";
-    var dragSource = this.dragSource;
-
-    var func = new Function("data", "hint", "return " + funcName + "(data, hint)");
-
-        
-    /* This closure function will invoke user provided creator function ( onNodeCreateFunc)
-     * and will add default dnd type to the item created by it.
-     * Thus all items created within this container will automatically be associated with 
-     * the type provided by the container - a container's 'dragTypes' property
-     *
-     * The function returns the same data structure as required to be returned by the 
-     * user's creator function:
-     * {
-        node: DOM node, //DOM node that will be inserted
-        data: data,    // (payload) data that will be associated with newly created node
-        type: array    //drag type array that will be associated with newly created node
-        };
-     *
-     * @return item to be inserted into drag container 
-     */
-    
-    return function(data, hint) { 
-        if (func == null)
-            return null;
-        var ret = func(data, hint);
-        
-        if (ret != null) {
-            //add type to it
-            ret.type = dragTypes;
-        } else {
-            //user func did not create node - create one with the default creator
-            ret = dragSource.defaultCreator(data, hint);
-        }
-        
-        return ret;
-    };
-}
-/**
- * Helper function to create callback for user's onDrop function.
- * @return {Function} function to be called upon drop
- */
-webui.@THEME@.widget.dndContainer.prototype.createOnDndDropCallback = function() {
-
- var containerWidget = this;
- 
- return function(source, nodes, copy){
-    //call user's onDropFunction
-    if (containerWidget.onDropFunc) {
-        try {
-            var func = eval(containerWidget.onDropFunc);
-            return func(source, nodes, copy);
-            } catch (error) {           
-                //do nothing        
-            }
-    }
-    return true;
-}
-}
-
-    
-/** Dojo library alwasy requires a node to be created at the drop site.
-*  This method returns minimalistic node to be inserted without changing the
-*  visual appearance of the target.
-*  @param (Object) data data to be used for node creation
-*  @param (String) hint hint that takes value of "avatar" when avatar is created, null otherwise
-*  @return (Object) Map required by dojo for node draggable node creation
-*/
-webui.@THEME@.widget.dndContainer.emptyCreator  = function(data, hint){
-    var sp = dojo.dnd._createSpan(data);
-    sp.style.display = "none";
-    return {node: sp, data: null, type: null};
-
-};
-
-
-
-/** Helper creator function that can be referenced by user in order to supply 
-* node creator.
-* This function will create a div with data as innerHTML text within it.
-* The newly created node will not be a dragdata any more.
-*  @param (Object) data data to be used for node creation
-*  @param (String) hint hint that takes value of "avatar" when avatar is created, null otherwise
-*  @return (Object) Map required by dojo for node draggable node creation
-*/
-
-webui.@THEME@.widget.dndContainer.divCreator  = function(data, hint){
-    var node = dojo.doc.createElement("div");
-    node.innerHTML = data;
-    node.id = dojo.dnd.getUniqueId();        
-    return {node: node, data: data, type: null};
-
-};
-
-
-
