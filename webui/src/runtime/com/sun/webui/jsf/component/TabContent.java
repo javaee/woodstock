@@ -222,14 +222,14 @@ public class TabContent extends WebuiComponent  implements NamingContainer {
     }
     
     /**
-     * CSS style(s) to be applied to the outermost div tag of the Tab title
+     * CSS style or styles to be applied to the outermost div tag of the Tab title
      */
     public void setStyle(String style) {
         this.style = style;
     }
     
     /**
-     * CSS style class(es) to be applied to the outermost HTML element of the 
+     * CSS style class or classes to be applied to the outermost HTML element of the 
      * TabContent.
      */
     @Property(name="styleClass", displayName="CSS Style Class(es)", category="Appearance", 
@@ -288,11 +288,11 @@ public class TabContent extends WebuiComponent  implements NamingContainer {
     }
     
     /**
-     * <p>Use the visible attribute to indicate whether the component should be
+     * <p>Indicates whether the component should be
      * viewable by the user in the rendered HTML page. If set to false, the
      * HTML code for the component is present in the page, but the component
-     * is hidden with style attributes. By default, visible is set to true, so
-     * HTML for the component HTML is included and visible to the user. If the
+     * is hidden with style attributes. By default, this setting is set to true, so
+     * HTML for the tab component is included and visible to the user. If the
      * component is not visible, it can still be processed on subsequent form
      * submissions because the HTML is present.</p>
      */

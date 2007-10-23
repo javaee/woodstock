@@ -84,7 +84,7 @@ public class Accordion extends TabContainer {
       
     /**
      * Returns true if multiple tabs can be selected at the same time.
-     * By default this is set to false and only one accordion tab can be
+     * By default this setting is false and only one accordion tab can be
      * selected at any given time. Note that when only a single tab is
      * selected the accordion will not supply expand/collapse icons even if 
      * the application developer provides facets for these.
@@ -122,9 +122,9 @@ public class Accordion extends TabContainer {
     }
 
     /**
-     * Should be set to true if the accordion container should display
-     * expandAll and collapseAll control features. Note that this makes sense 
-     * only in the case wehere multipleSelect has been set to true. In the case
+     * Set to true if the accordion container should display
+     * expandAll and collapseAll control features. Note that this setting applies
+     * only in the case where multipleSelect has been set to true. In the case
      * of single select accordions only one tab can be open at any given time.
      */
     @Property(name="toggleControls", displayName="Set expand and colapse controls")

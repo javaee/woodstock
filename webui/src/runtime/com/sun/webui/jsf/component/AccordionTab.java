@@ -71,9 +71,9 @@ public class AccordionTab extends TabContent {
     }
     
     /**
-     * Height of each tab content. This height is applied to the style of
-     * the content section of AccordionTab. It can be either in pixels, em
-     * or en. By default the height is set to 100 pixels.
+     * The height of each tab content. This height is applied to the style of
+     * the content section of AccordionTab. It can be listed either in pixels, 
+     * or in em or en. By default the height is set to 100 pixels.
      */
     @Property(name="contentHeight", displayName="Tab Content Height", category="Appearance", 
         editorClassName="com.sun.rave.propertyeditors.StringPropertyEditor")
@@ -111,13 +111,12 @@ public class AccordionTab extends TabContent {
     }
         
     /**
-     * This attribute is to handle the case where the AccordionTab is itself
-     * a container of AccordionTabs.
+     * Use when the AccordionTab is itself a container of AccordionTabs.
      * Returns true if multiple tabs can be selected at the same time.
-     * By default this is set to false and only one accordion tab can be
+     * By default this setting is false and only one accordion tab can be
      * selected at any given time. Note that when only a single tab is
-     * selected the accordion will not supply expand/collapse icons even if 
-     * the application developer provides facets for these.
+     * selected the accordion will not supply expand or collapse icons even if 
+     * the application developer provides facets for these icons.
      */
     @Property(name="multipleSelect", displayName="Multiple tab selected", isHidden=true)
     private boolean multipleSelect = false;

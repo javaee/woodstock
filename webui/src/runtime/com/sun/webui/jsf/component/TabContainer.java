@@ -115,8 +115,8 @@ public class TabContainer extends WebuiComponent implements NamingContainer {
     
     /**
      * Returns true if the tabs should be loaded when first selected.
-     * Once loaded the tabs would not be reloaded until the container is
-     * refreshed or the user performs some action on tab in question. 
+     * After tabs are loaded they are not reloaded until the container is
+     * refreshed or the user performs some action on the tab in question. 
      */
     @Property(name="loadOnSelect", displayName="Load on select", isHidden=true)
     private boolean loadOnSelect = false;
@@ -151,15 +151,15 @@ public class TabContainer extends WebuiComponent implements NamingContainer {
     }
     
     /**
-     * CSS style(s) to be applied to the outermost HTML element when this
-     * component is rendered.
+     * CSS style class or classes to be applied to the outermost HTML element 
+     * when this component is rendered.
      */
     @Property(name="style", displayName="CSS Style(s)", category="Appearance", 
         editorClassName="com.sun.jsfcl.std.css.CssStylePropertyEditor")
     private String style = null;
     
     /**
-     * CSS style(s) to be applied to the outermost HTML element when this
+     * CSS style or styles to be applied to the outermost HTML element when this
      * component is rendered.
      */
     public String getStyle() {
@@ -183,7 +183,7 @@ public class TabContainer extends WebuiComponent implements NamingContainer {
     }
     
     /**
-     * CSS style class(es) to be applied to the outermost HTML element when this
+     * CSS style class or classes to be applied to the outermost HTML element when this
      * component is rendered.
      */
     @Property(name="styleClass", displayName="CSS Style Class(es)", category="Appearance", 
@@ -215,12 +215,12 @@ public class TabContainer extends WebuiComponent implements NamingContainer {
     }
     
     /**
-     * <p>Use the visible attribute to indicate whether the component should be
+     * <p>Indicates whether the accordion component should be
      * viewable by the user in the rendered HTML page. If set to false, the
      * HTML code for the component is present in the page, but the component
-     * is hidden with style attributes. By default, visible is set to true, so
-     * HTML for the component HTML is included and visible to the user. If the
-     * component is not visible, it can still be processed on subsequent form
+     * is hidden with style attributes. By default, this setting is true, so
+     * HTML for the component is included and visible to the user. If the
+     * accordion component is not visible, it can still be processed on subsequent form
      * submissions because the HTML is present.</p>
      */
     @Property(name="visible", displayName="Visible")
@@ -228,12 +228,12 @@ public class TabContainer extends WebuiComponent implements NamingContainer {
     private boolean visible_set = false;
     
     /**
-     * <p>Use the visible attribute to indicate whether the component should be
+     * <p>Indicates whether the accordion component should be
      * viewable by the user in the rendered HTML page. If set to false, the
      * HTML code for the component is present in the page, but the component
-     * is hidden with style attributes. By default, visible is set to true, so
-     * HTML for the component HTML is included and visible to the user. If the
-     * component is not visible, it can still be processed on subsequent form
+     * is hidden with style attributes. By default, this setting is true, so
+     * HTML for the component is included and visible to the user. If the
+     * accordion component is not visible, it can still be processed on subsequent form
      * submissions because the HTML is present.</p>
      */
     public boolean isVisible() {
@@ -254,13 +254,7 @@ public class TabContainer extends WebuiComponent implements NamingContainer {
     }
     
     /**
-     * <p>Use the visible attribute to indicate whether the component should be
-     * viewable by the user in the rendered HTML page. If set to false, the
-     * HTML code for the component is present in the page, but the component
-     * is hidden with style attributes. By default, visible is set to true, so
-     * HTML for the component HTML is included and visible to the user. If the
-     * component is not visible, it can still be processed on subsequent form
-     * submissions because the HTML is present.</p>
+     * <p>Set the visible attribute.</p>
      * @see #isVisible()
      */
     public void setVisible(boolean visible) {
@@ -270,15 +264,15 @@ public class TabContainer extends WebuiComponent implements NamingContainer {
     
     
     /**
-     * An array of selected tabs. In some cases only a single tab can be selected
-     * in which case the array would contain just one tab.
+     * An array of selected tabs. In some cases, only a single tab can be selected
+     * which specifies that the array contains just one tab.
      */
     @Property(name="selectedTabs", displayName="Array of Selected Tabs", category="Advanced")
     private TabContent[] selectedTabs = null;
     
     /**
      * Return an array of selected tab content. If no tabs are selected an 
-     * empty array would be returned as opposed to null.
+     * empty array is returned.
      * 
      */
     public TabContent[] getSelectedTabs() {

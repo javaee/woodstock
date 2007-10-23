@@ -26,40 +26,50 @@
 
         <description><![CDATA[
 <p>Use the <code>webuijsf:accordion</code> tag to display an accordion
-component in the rendered HTML page. An accordion can be thought of as
-a vertical tab set. It can contain one of more tabs each of which can
-contain virtually any HTML markup. In general accordions are used for
-navigational purposes - each tab contains links which when clicked
-takes the user to different sections (tasks) of the application. In
-general only one accorion tab can be open at any given time. This
-accordion, however, allows muliple tabs to be open simultaneously. In
-such situations the accordion also supports "expandAll" and
-"collapseAll" icons which have their usual meaning. An accordion can be
-refreshed if the application using it so desires. Each attribute of the
-accordion is described in detail in the TLD doccument. It is adviseable
-to use an alternate navigational component if the number of tabs in the
-accordion are exceeding ten.</p>
-<p> Unless otherwise specified the accordion will nto display the
-"expand all", "collapse all" and "refresh" icons. One has to set the
-respective attributes, displayRefresh, expandCollapse to true. </p>
+component in the rendered HTML page. Think of an accordion as a vertical 
+tab set. This set can contain one or more tabs each of which can
+contain virtually any HTML markup and have the following characteristics: 
+
+<ul>
+  <li> Each tab contains links to different sections(tasks) of the application.
+  </li>
+  <li> Only one accordion tab can be open at any given time. </li>
+</ul>
+
+The accordion component, however, allows muliple tabs to be open simultaneously.
+Note: use an alternate navigational component if the number of tabs in the
+accordion are exceeding ten.
+
+The accordion tag also supports "expandAll" and "collapseAll" icons. 
+An accordion can be refreshed if the application using it supports
+this function. Each attribute of the accordion is described in detail 
+in the TLD document. </p>
+
+<p> Unless otherwise specified the accordion dows not display the
+expand all, collapse all and refresh icons. To display these icons,
+set the toggleControls and refreshIcon attributes to true. </p>
 <p> </p>
 <h3><a name="facets"></a>Facets</h3>
 None.<br>
 <h3>Theme Identifiers</h3>
 <p>None.</p>
 <h3>Client Side Javascript Functions</h3>
-When the component is rendered, a DOM object corresponding to the
-component is created. To manipulate the component on the client side,
-you may invoke functions on the DOM object. With reference to the DOM
-id, to disable the component, invoke <code>document.getElementById(id).setProps({</code><code>multipleSelect</code><code>:
+When the Accordion component is rendered, a DOM object corresponding to the
+Accordion component is created. To manipulate the accordion component on the client side,
+you can call functions on the DOM object. 
+To disable the component, call <code>document.getElementById(id).setProps({</code><code>multipleSelect</code><code>:
 true})</code>.<br>
 <br>
 <table style="text-align: left; width: 100%;" border="1" cellpadding="2"
  cellspacing="2">
   <tbody>
     <tr>
+      <td>Function</td>
+      <td>Description</td>
+    </tr>
+    <tr>
       <td><code>getProps()</code></td>
-      <td>Use this function to get widget properties. Please see <code>setProps()</code>
+      <td>Use this function to get widget properties. See <code>setProps()</code>
 function for a list of supported properties.</td>
     </tr>
     <tr>
@@ -70,14 +80,14 @@ asynchronously refresh the component.<br>
       <ul>
         <li>[optional] execute: Comma separated string containing a
 list of client
-ids against which the <code>execute</code> portion of the request
+ID against which the <code>execute</code> portion of the request
 processing lifecycle must be run.</li>
       </ul>
       </td>
     </tr>
     <tr>
-      <td><code>setProps(props)</code></td>
-      <td>Use this function to change any of the following supported
+      <td style="vertical-align: top;"><code>setProps(props)</code></td>
+      <td style="vertical-align: top;">Use this function to change any of the following supported
 properties:<br>
       <ul>
         <li>collapseAllImage</li>
@@ -102,9 +112,9 @@ properties:<br>
 <code></code>
 <h3>Client Side JavaScript Events</h3>
 <p>
-When the component is manipulated client side, some functions may
+When the accordion component is manipulated client-side, some functions may
 publish event topics for custom AJAX implementations to listen for.
-Using the Dojo event system, listen for the refresh event topic using:<br>
+Using the Dojo event system, you can instruct Ajax to listen for the refresh event topic by using:<br>
 <br>
 <code>
 &lt;webuijsf:script&gt;<br>
@@ -131,20 +141,24 @@ processEvents, "update");</code><code><br>
  cellspacing="2">
   <tbody>
     <tr>
-      <td style="vertical-align: middle;">
+    <td>Event</td>
+    <td>Description</td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top;">
 webui.suntheme.widget.accordion.event.refresh.beginTopic </td>
       <td> Event topic published before asynchronously refreshing the
 component. Supported properties include: <br>
       <ul>
-        <li>[optional] execute - list of the components to be executed
+        <li>[optional] execute - List of the components to be executed
 along with
 this component</li>
-        <li>id - The client id to process the event for</li>
+        <li>id - The client ID to process the event for</li>
       </ul>
       </td>
     </tr>
     <tr>
-      <td style="vertical-align: middle;"> webui.suntheme.widget.accordion.event.refresh.endTopic
+      <td style="vertical-align: top;"> webui.suntheme.widget.accordion.event.refresh.endTopic
       </td>
       <td> Event topic published after asynchronously refreshing the
 component. Supported properties include: See setProps() function.<br>
@@ -159,16 +173,111 @@ function for details on properties and their usage</li>
   </tbody>
 </table>
 <br>
-<h3>Examples</h3>
+<h3>Code Examples</h3>
 <h4>Example 1: Accordion as a navigational Element.</h4>
 <p>In this example, the component is used for navigational purposes.</p>
 <pre>       &lt;webuijsf:accordion id="acc1" style="width:70%"&gt;<br>        <br>                &lt;webuijsf:accordionTab id="tab1" label="Buttons and links" &gt;<br>                    &lt;webuijsf:hyperlink id="hyper1" text="Button Examples" <br>                    url="/faces/button/index.jsp"<br>                    target="rightFrame"/&gt;<br>                    &lt;br/&gt;<br>                    &lt;webuijsf:hyperlink id="hyper2" text="Link Examples" <br>                    url="/faces/hyperlink/index.jsp"<br>                    target="rightFrame"/&gt;<br>                    &lt;br/&gt;<br>                    &lt;webuijsf:hyperlink id="hyper3" text="Image Link Examples" <br>                    url="/faces/imagehyperlink/index.jsp"<br>                    target="rightFrame"/&gt;<br>                &lt;/webuijsf:accordionTab&gt;<br>                <br>                &lt;webuijsf:accordionTab id="tab2" label="Input Elements" &gt;<br>                    &lt;webuijsf:hyperlink id="hyper1" text="CheckBoxes" <br>                        url="/faces/clientsideCheckbox/checkbox.jsp"<br>                    target="rightFrame"/&gt;<br>                    &lt;br/&gt;<br>                    &lt;webuijsf:hyperlink id="hyper2" text="CheckBox group" <br>                    url="/faces/clientsideCheckbox/index.jsp"<br>                    target="rightFrame"/&gt;<br>                    &lt;br/&gt;<br>                    &lt;webuijsf:hyperlink id="hyper3" text="Radio Button Group" <br>                    url="/faces/clientsiderbcbGroup/index.jsp"<br>                    target="rightFrame"/&gt;<br>                &lt;/webuijsf:accordionTab&gt;<br>                <br>                &lt;webuijsf:accordionTab id="tab3" label="label1" &gt;<br>                    &lt;webuijsf:hyperlink id="hyper1" text="Calendar" <br>                        url="/faces/calendar/index.jsp"<br>                    target="rightFrame"/&gt;<br>                &lt;/webuijsf:accordionTab&gt;<br>                <br>          &lt;/webuijsf:accordion&gt; <br> </pre>
 <h4>Example 2: TBD</h4>
-<h4>Example 3: Accordion Using Facets</h4>
-<p>TBD</p>
-<h4><a name="AccordionBean"></a>Example Backing Bean Content</h4>
-The following code is from the Accordion used in the examples.
-<pre> public class AccordionBean {<br> }<br>  </pre>
+<p> This example shows the how Ajax is used to refresh the accordion 
+component as a whole or simply a single AccorionTab. </p>
+<pre>
+&lt;webuijsf:accordion id="acc1" toggleControls="true" refreshIcon="true"&gt;
+         
+                   &lt;webuijsf:accordionTab id="tab1" title="#{msgs.accordion_tab1}" 
+                     contentHeight="50px" &gt; 
+                     &lt;webuijsf:staticText binding="#{AccordionBean.text1}"/&gt; 
+                   &lt;/webuijsf:accordionTab&gt; <br> 
+                
+                   &lt;webuijsf:accordionTab id="tab2" title="#{msgs.accordion_tab2}" 
+                     contentHeight="50px"&gt; 
+                     &lt;webuijsf:staticText binding="#{AccordionBean.text2}"/&gt; 
+                   &lt;/webuijsf:accordionTab &gt; <br>
+                
+                   &lt;webuijsf:accordionTab id="tab3" title="#{msgs.accordion_tab3}" 
+                     contentHeight="50px" &gt; 
+                     &lt;webuijsf:staticText binding="#{AccordionBean.text3}"/&gt; 
+                   &lt;/webuijsf:accordionTab &gt; <br>
+                
+                   &lt;webuijsf:accordionTab id="tab4" title="#{msgs.accordion_tab4}" 
+                     contentHeight="50px" &gt; 
+                     &lt;webuijsf:staticText binding="#{AccordionBean.text4}"/&gt; 
+                   &lt;/webuijsf:accordionTab &gt; <br>
+                
+                 &lt;/webuijsf:accordion &gt; <br>
+
+		&lt;webuijsf:script &gt; 
+               function refreshAccordion1() { 
+                 var acc = document.getElementById("accordionExample:acc1:tab1"); 
+                 acc.refresh("accordionExample:acc1:tab1"); 
+                 return false; 
+               }
+             &lt;/webuijsf:script &gt; <br>
+</pre>
+
+<p> The corresponding backing bean. </p>
+
+<pre>
+public class AccordionBackingBean { 
+    
+    public final static String SHOW_ACCORDION = "showAccordionIndex"; <br>
+    
+    /** Creates a new instance of AccordionBackingBean */ 
+    public AccordionBackingBean() { 
+    } <br>
+    
+      
+    public StaticText text1 = new StaticText(); 
+    public StaticText text2 = new StaticText(); 
+    public StaticText text3 = new StaticText(); 
+    public StaticText text4 = new StaticText(); <br>
+    
+    public StaticText getText1() { 
+        this.text1.setText(getTime());
+        return text1;
+    }    <br>
+    
+    public void setText1(StaticText text1) {
+        this.text1 = text1; 
+        this.text1.setText(getTime());
+    }<br>
+    
+    public StaticText getText2() {
+        this.text2.setText(getTime());
+        return text2;
+    }    <br>
+    
+    public void setText2(StaticText text2) {
+        this.text2 = text2;
+        this.text2.setText(getTime());
+    }<br>
+    
+    public StaticText getText3() { 
+        this.text3.setText(getTime());
+        return text3;
+    }    <br>
+  
+    public void setText3(StaticText text3) { 
+        this.text3 = text3;
+        this.text3.setText(getTime()); 
+    }<br>
+    
+    public StaticText getText4() { 
+        this.text4.setText(getTime());
+        return text4;
+    }    <br>
+    
+    public void setText4(StaticText text4) { 
+        this.text4 = text4;
+        this.text4.setText(getTime()); 
+    } <br>
+        
+    private String getTime() { 
+        Calendar calendar = Calendar.getInstance(); 
+        return calendar.getTime().toString();
+    }<br>
+    
+}<br>
+</pre>
 ]]></description>
     </tag>
     
@@ -13166,8 +13275,8 @@ text="Tab 3" action="#{TabSetBean.tab3Clicked}" /&gt;<br>
 
         <description><![CDATA[
 <p>
-Use the <code>webuijsf:accordionTab</code> within the <code><a
- href="accordion.html">webuijsf:accordion</a></code> tag to create an
+Use the <code>webuijsf:accordionTab</code> tag within <code><a
+ href="accordion.html">webuijsf:accordion</a></code> to create an
 accordion tab within an accordion in the rendered HTML page. The <code>webuijsf:accordionTab</code>
 tag represents a container within which an arbitrary number of
 components can be placed.
@@ -13180,33 +13289,36 @@ tag. </p>
 <h3>Configuring the webuijsf:accordionTab Tag</h3>
 <p>The <code>webuijsf:accordionTab</code> tag should be configured to
 have a label
-that will show up in the accordion body even when the tab is not
+that will appear in the accordion body even when the tab is not
 selected. The height
 of the content area can also be specified. Tabs with larger content can
-have a more
-height.
+have greater height.
 </p>
 <h3>Facets</h3>
 None.
 <h3>Client Side Javascript Functions</h3>
-When the component is rendered, a DOM object corresponding to the
-component is created. To manipulate the component on the client side,
-you may invoke functions on the DOM object. With reference to the DOM
-id, to disable the component, invoke <code>document.getElementById(id).setProps({</code><code>multipleSelect</code><code>:
+When the accordinTab component is rendered, a DOM object corresponding to the
+accordionTab component is created. To manipulate the component on the client side,
+you can call functions on the DOM object. Call 
+<code>document.getElementById(id).setProps({</code><code>multipleSelect</code><code>:
 true})</code>.<br>
 <br>
 <table style="text-align: left; width: 100%;" border="1" cellpadding="2"
  cellspacing="2">
   <tbody>
     <tr>
+      <td>Function</code></td>
+      <td>Description</td>
+    </tr>
+    <tr>
       <td><code>getProps()</code></td>
-      <td>Use this function to get widget properties. Please see <code>setProps()</code>
+      <td>Used to get widget properties. See the <code>setProps()</code>
 function for a list of supported properties.</td>
     </tr>
     <tr>
       <td style="vertical-align: top;"><code>refresh(execute)</code><br>
       </td>
-      <td style="vertical-align: top;">Use this function to
+      <td style="vertical-align: top;">Used to
 asynchronously refresh the component.<br>
       <ul>
         <li>[optional] execute: Comma separated string containing a
@@ -13218,7 +13330,7 @@ processing lifecycle must be run.</li>
     </tr>
     <tr>
       <td><code>setProps(props)</code></td>
-      <td>Use this function to change any of the following supported
+      <td>Used to change any of the following supported
 properties:<br>
       <ul>
         <li>contentClass</li>
@@ -13235,11 +13347,11 @@ properties:<br>
   </tbody>
 </table>
 <code></code>
-<h3>Client Side JavaScript Events</h3>
+<h3>Client-Side JavaScript Events</h3>
 <p>
-When the component is manipulated client side, some functions may
-publish event topics for custom AJAX implementations to listen for.
-Using the Dojo event system, listen for the refresh event topic using:<br>
+When the component is manipulated on the client side, some functions might
+publish event topics for custom Ajax implementations to listen for.
+Using the Dojo event system, you can instruct Ajax to listen for the refresh event topic by using:<br>
 <br>
 <code>
 &lt;webuijsf:script&gt;<br>
@@ -13266,20 +13378,24 @@ processEvents, "update");</code><code><br>
  cellspacing="2">
   <tbody>
     <tr>
-      <td style="vertical-align: middle;">
+	<td>Even</td>
+	<td>Description</td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top;">
 webui.suntheme.widget.accordionTab.event.refresh.beginTopic </td>
       <td> Event topic published before asynchronously refreshing the
 component. Supported properties include: <br>
       <ul>
-        <li>[optional] execute - list of the components to be executed
+        <li>[optional] execute - List of the components to be executed
 along with
 this component</li>
-        <li>id - The client id to process the event for</li>
+        <li>id - The client ID to process the event for</li>
       </ul>
       </td>
     </tr>
     <tr>
-      <td style="vertical-align: middle;">
+      <td style="vertical-align: top;">
 webui.suntheme.widget.accordionTab.event.refresh.endTopic </td>
       <td> Event topic published after asynchronously refreshing the
 component. Supported properties include: See setProps() function.<br>
@@ -13292,22 +13408,19 @@ function for details on properties and their usage</li>
       </td>
     </tr>
     <tr>
-      <td style="vertical-align: middle;">webui.suntheme.widget.accordion.event.tabAction.beginTopic</td>
+      <td style="vertical-align: top;">webui.suntheme.widget.accordionTab.event.load.beginTopic</td>
       <td style="vertical-align: top;"> Event topic published before
-asynchronously processing tab actions. Supported properties include: <br>
+asynchronously loading the tab contents. Supported properties include: <br>
       <ul>
-        <li>[optional] execute - list of the components to be executed
-along with
-this component</li>
-        <li>id - The client id to process the event for</li>
+        <li>id - The client ID to process the event for</li>
       </ul>
       </td>
     </tr>
     <tr>
-      <td style="vertical-align: middle;">webui.suntheme.widget.accordion.event.tabAction.endTopic</td>
+      <td style="vertical-align: top;">webui.suntheme.widget.accordionTab.event.load.endTopic</td>
       <td style="vertical-align: top;"> Event topic published after
-asynchronously processing tab actions. Supported properties include:
-See setProps() function.<br>
+asynchronously loading the contents of an accordionTab. Supported properties include:
+setProps() function.<br>
       <ul>
         <li>props - JSON object containing properties of the component.
 See
@@ -13316,11 +13429,20 @@ function for details on properties and their usage</li>
       </ul>
       </td>
     </tr>
+    <tr>
+      <td style="vertical-align: top;">webui.suntheme.widget.accordiontab.event.title.selectTopic</td>
+      <td style="vertical-align: top;"> Event topic published when an accordionTab is 
+	selected. Supported properties include: <br>
+      <ul>
+        <li>id - The client ID of the selected accordionTab</li>
+      </ul>
+      </td>
+    </tr>
   </tbody>
 </table>
 <br>
 <h3>Examples</h3>
-<h4>Example 1: Using the accordionTab in an accordion.</h4>
+<h4>Example 1: Using the AccordionTab in an Accordion.</h4>
 <p>In this example, the accordionTab component is populated with
 hyperlink components that act as navigational elements.</p>
 <pre>       &lt;webuijsf:accordion id="acc1" style="width:70%"&gt;<br>        <br>                &lt;webuijsf:accordionTab id="tab1" label="Buttons and links" &gt;<br>                    &lt;webuijsf:hyperlink id="hyper1" text="Button Examples" <br>                    url="/faces/button/index.jsp"<br>                    target="rightFrame"/&gt;<br>                    &lt;br/&gt;<br>                    &lt;webuijsf:hyperlink id="hyper2" text="Link Examples" <br>                    url="/faces/hyperlink/index.jsp"<br>                    target="rightFrame"/&gt;<br>                    &lt;br/&gt;<br>                    &lt;webuijsf:hyperlink id="hyper3" text="Image Link Examples" <br>                    url="/faces/imagehyperlink/index.jsp"<br>                    target="rightFrame"/&gt;<br>                &lt;/webuijsf:accordionTab&gt;<br>                <br>                &lt;webuijsf:accordionTab id="tab2" label="Input Elements" &gt;<br>                    &lt;webuijsf:hyperlink id="hyper1" text="CheckBoxes" <br>                        url="/faces/clientsideCheckbox/checkbox.jsp"<br>                    target="rightFrame"/&gt;<br>                    &lt;br/&gt;<br>                    &lt;webuijsf:hyperlink id="hyper2" text="CheckBox group" <br>                    url="/faces/clientsideCheckbox/index.jsp"<br>                    target="rightFrame"/&gt;<br>                    &lt;br/&gt;<br>                    &lt;webuijsf:hyperlink id="hyper3" text="Radio Button Group" <br>                    url="/faces/clientsiderbcbGroup/index.jsp"<br>                    target="rightFrame"/&gt;<br>                &lt;/webuijsf:accordionTab&gt;<br>                <br>                &lt;webuijsf:accordionTab id="tab3" label="label1" &gt;<br>                    &lt;webuijsf:hyperlink id="hyper1" text="Calendar" <br>                        url="/faces/calendar/index.jsp"<br>                    target="rightFrame"/&gt;<br>                &lt;/webuijsf:accordionTab&gt;<br>                <br>          &lt;/webuijsf:accordion&gt; <br> </pre>
