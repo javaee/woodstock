@@ -219,7 +219,7 @@ dojo.declare("webui.@THEME@.dnd.Manager",dojo.dnd.Manager,{
 webui.@THEME@.dnd.Manager.prototype.stopDrag = function(){
     dojo.forEach(this.nodes,
     function(node) {
-        dojo.removeClass(node, "dojoDndWebuidataDragged");
+        dojo.removeClass(node, "dojoDndWebuiItemDragged");
     }
     );
     return webui.@THEME@.dnd.Manager.superclass.stopDrag.call(this);    
@@ -232,7 +232,7 @@ webui.@THEME@.dnd.Manager.prototype.startDrag = function(source, nodes, copy){
 
     dojo.forEach(nodes,
     function(node) {
-        dojo.addClass(node, "dojoDndWebuidataDragged");
+        dojo.addClass(node, "dojoDndWebuiItemDragged");
     }
     );
     return webui.@THEME@.dnd.Manager.superclass.startDrag.call(this, source, nodes, copy);
