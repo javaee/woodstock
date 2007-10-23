@@ -133,10 +133,10 @@
                                     <td><f:verbatim><![CDATA[ &nbsp; ]]></f:verbatim></td>                
                                     <td align="left">                                                       
                                         <!-- Buttons to disable/enable the standard drop down. -->                    
-                                        <webuijsf:label text="Enable: "/>
-                                        <webuijsf:button primary="false" text="Yes" 
+                                        <webuijsf:label text="#{msgs.menu_enable} "/>
+                                        <webuijsf:button primary="false" text="#{msgs.menu_YesButton}" 
                                              onClick="return updateDropDown({disabled:false}); return false;" />  
-                                         <webuijsf:button primary="false" text="No" 
+                                         <webuijsf:button primary="false" text="#{msgs.menu_NoButton}" 
                                              onClick="return updateDropDown({disabled:true}); return false;" />                                         
                                     </td>
                                 </tr>    
@@ -172,10 +172,10 @@
                                     <td><f:verbatim><![CDATA[ &nbsp; ]]></f:verbatim></td>                
                                     <td align="left">                                                       
                                         <!-- Buttons to disable/enable the listbox. -->                    
-                                        <webuijsf:label text="Enable: "/>
-                                        <webuijsf:button primary="false" text="Yes" 
+                                        <webuijsf:label text="#{msgs.menu_enable} "/>
+                                        <webuijsf:button primary="false" text="#{msgs.menu_YesButton}" 
                                              onClick="return updateListbox({disabled:false}); return false;" />  
-                                         <webuijsf:button primary="false" text="No" 
+                                         <webuijsf:button primary="false" text="#{msgs.menu_NoButton}" 
                                              onClick="return updateListbox({disabled:true}); return false;" />                                         
                                     </td>
                                 </tr>    
