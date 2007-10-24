@@ -159,7 +159,7 @@
     <patternset id="exclude-js-files">
 	<exclude name="addRemove.js" />
 	<exclude name="commonTasksSection.js" />
-        <exclude name="dnd.js" />
+	<exclude name="dnd.js" />
 	<exclude name="editableList.js" />
 	<exclude name="fileChooser.js" />
 	<exclude name="orderableList.js" />
@@ -167,7 +167,7 @@
 	<exclude name="table.js" />
 	<exclude name="tree.js" />
 	<exclude name="wizard.js" />
-        <exclude name="widget/dndContainer.js" />
+	<exclude name="widget/dndContainer.js" />
 	<exclude name="theme/nls/"/>
     </patternset>
 
@@ -202,8 +202,10 @@
     <!-- ========== all ========== -->
     <!-- Enable L10n when L10n files are committed. -->
     <!-- This creates the theme jars for component distribution.-->
+    <!-- Note that that L10n jars must exist for buildL10nJsTheme to succeed
+    -->
     <target name="all" 
-	depends="buildTheme,buildJsTheme,buildL10nTheme,buildL10nJsTheme" />
+	depends="buildTheme,buildJsTheme,buildL10nTheme,buildL10nJars,buildL10nJsTheme,jsdoc" />
 
     <!-- Parameters
 	See the default "theme.*" properties above.
@@ -282,9 +284,9 @@
 	    theme.webui-jsfx-all.js
 	-->
 	<property name="js-dest-uncmp"
-		value="${theme.build-package-path}/javascript_uncompressed"/>
+		location="${theme.build-package-path}/javascript_uncompressed"/>
 	<property name="js-dest-cmp"
-		value="${theme.build-package-path}/javascript"/>
+		location="${theme.build-package-path}/javascript"/>
 	<property name="js-src" value="${theme.src-dir}/javascript"/>
 
 	<antcall target="combineJavascript">
@@ -328,10 +330,6 @@
 
         <antcall target="createThemeJar"/>
 
-        <antcall target="jsdoc">
-	    <param name="_to-dir_" value="${jsdocs}"/>
-	    <param name="_from-dir_" value="${js-dest-uncmp}"/>
-	</antcall>
     </target> 
 
     <!-- General internal targets -->
@@ -339,7 +337,7 @@
     <target name="themejar-uptodate">
 	<uptodate property="themejar-uptodate">
 	    <srcfiles dir="${theme.build-dir}"
-		excludes="${build.l10n-build-dir}/**/*"/>
+		excludes="translatedFiles/"/>
 	    <mergemapper to="${theme.jar}"/>
 	</uptodate>
     </target>
@@ -362,40 +360,26 @@
     <!-- ############### L10n targets ######################## -->
 
     <!-- Requires only the "default" "theme.*" properties 
-	 Sets "l10n-uptodate"  "build.l10n" is defined
-	 and set to false or l10n files are up to date with the
+	 Sets "l10n-uptodate" if l10n files are up to date with the
 	 l10n build files.
      -->
     <target name="l10n-uptodate">
-	<!-- check to see if building l10n is turned off
-	-->
-	<condition property="__l10n-dont-build__" value="true" else="false">
-	    <and>
-		<isset property="build.l10n"/>
-		<isfalse value="${build.l10n}"/>
-	    </and>
-	</condition>
-
 	<!-- If the build l10n files exist and are newer
 	     than the corresponding l10n properties
 	     files set the l10n-uptodate property.
 	-->
-	<condition property="l10n-uptodate">
-	    <or>
-		<uptodate>
-		    <srcfiles dir="${theme.src-dir}/translatedFiles"
-			includes="**/*.*"/>
-		    <globmapper from="*"
-			to="${theme.l10n-build-package-path}/*"/>
-		</uptodate>
-		<istrue value="${__l10n-dont-build__}"/>
-	    </or>
-	</condition>
+	<uptodate property="l10n-uptodate">
+	    <srcfiles dir="${theme.src-dir}/translatedFiles"
+		includes="**/*.*"/>
+	    <globmapper from="*"
+		to="${theme.l10n-build-package-path}/*"/>
+	</uptodate>
     </target>
 
     <!-- Requires only the "default" "theme.*" properties -->
 
-    <target name="buildL10nTheme" depends="l10n-uptodate"
+    <target name="buildL10nTheme" if="build-l10n"
+	    depends="l10n-uptodate"
 	    unless="l10n-uptodate"
 	    description="Build the L10n theme jars.">
 
@@ -429,18 +413,29 @@
 	<mkdir dir="${theme.l10n-build-package-path}/templates"/>
 	<mkdir dir="${theme.l10n-build-package-path}/properties"/>
 
-	<fileset id="n2afiles" dir="${__l10n-tmp__}">
+	<fileset id="n2afiles" dir="${theme.src-dir}/translatedFiles">
 	    <include name="**/*"/>
 	    <depend targetdir="${theme.l10n-build-package-path}">
 		<mapper type="glob" from="*" to="*"/>
 	    </depend>
 	</fileset>
 
+	<!--
 	<pathconvert property="n2alist" refid="n2afiles" pathsep=",">
 	    <map from="${__l10n-tmp__}${file.separator}" to=""/>
 	</pathconvert>
+	-->
+	<pathconvert property="n2alist" refid="n2afiles" pathsep=",">
+	    <map from="${theme.src-dir}/translatedFiles${file.separator}" to=""/>
+	</pathconvert>
 
 	<echo message="Running native2asci for ${n2alist}, it takes several minutes..."/>
+	<!-- JAVA_HOME points to JDK on Mac, to JRE elsewhere. -->
+	<condition property="_jbin_" 
+		value="${java.home}${file.separator}bin"
+		else="${java.home}${file.separator}..${file.separator}bin">
+	    <os family="mac"/>
+	</condition>
 
 	<java jar="${tools.jar}" failonerror="true" fork="true">
 	  <arg value="-native2ascii"/>
@@ -450,15 +445,14 @@
 	  <arg value="${theme.l10n-build-package-path}" />
 	  <arg value="-fileList"/>
 	  <arg value="${n2alist}"/>
+          <sysproperty key="jbin" value="${_jbin_}"/>
 	</java>
-
-	<antcall target="buildL10nJars"/>
 
 	<delete dir="${__l10n-tmp__}"/>
 
     </target>
 
-    <target name="buildL10nJars">
+    <target name="buildL10nJars" if="build-l10n">
 
 	<!-- No way to loop so the fixed set of locales is
 	     de,es,fr,it,ja,ko,pt_BR,sv,zh_CN,zh_HK,zh_TW
@@ -501,7 +495,9 @@
     <target name="l10n-jar-uptodate">
 	<l10n-jar-name locale="${_l10n-locale_}" property="__l10n-jar__"/>
 	<uptodate property="l10n-jar-uptodate">
-	    <srcfiles dir="${theme.l10n-build-dir}"/>
+	    <srcfiles dir="${theme.l10n-build-dir}"
+	    includes="**/*_${_l10n-locale_}.properties"
+		excludes="META-INF/MANIFEST.MF,**/nls/"/>
 	    <mergemapper to="${__l10n-jar__}"/>
 	</uptodate>
     </target>
@@ -524,6 +520,7 @@
 
     -->
     <target name="create-l10n-jar"
+	    if="build-l10n"
 	    depends="l10n-jar-uptodate"
 	    unless="l10n-jar-uptodate"
 	    description="Create an l10n theme jar.">
@@ -586,6 +583,7 @@
 		location="${__dest-dir__}/${__base-name__}_@{locale}.jar"/>
 	</sequential>
     </macrodef>
+
     <target name="buildL10nJsTheme">
 
         <ant antfile="build-js-theme.xml" 
@@ -780,7 +778,7 @@
 	<uptodate property="compressed-js-uptodate">
 	    <srcfiles dir="${_from-dir_}" 
 		includes="**/*.js"
-		excludes="theme/nls/"/>
+		excludes="theme/nls/,**/${theme.webui.js},**/${theme.webui-all.js},**/${theme.webui-jsfx.js},**/${theme.webui-jsfx-all.js}"/>
 	    <mapper type="glob" from="*" to="${_to-dir_}/*"/>
 	</uptodate>
     </target>
@@ -864,16 +862,14 @@
     -->
     <target name="jsdoc-uptodate">
 	<uptodate property="jsdoc-uptodate">
-	    <srcfiles dir="${_from-dir_}" includes="**/*.js"
-		excludes="theme/nls/"/>
-	    <mergemapper to="${_to-dir_}/index.html"/>
+	    <srcfiles dir="${theme.build-package-path}/javascript_uncompressed"
+		includes="**/*.js"
+		excludes="theme/nls/,**/${theme.webui.js},**/${theme.webui-all.js},**/${theme.webui-jsfx.js},**/${theme.webui-jsfx-all.js}"/>
+	    <mergemapper to="${jsdocs}/index.html"/>
 	</uptodate>
     </target>
 
     <!-- Parameters
-
-	_to-dir_ - root of the destination for combined files
-	_from-dir_ - the source of the javascipt files.
 
         Comment out build-jsdoc in the build.properties file if you
         don't want jsDoc to build when modifying JavaScript files
@@ -886,6 +882,10 @@
     -->
     <target name="jsdoc" if="build-jsdoc" depends="jsdoc-uptodate"
 	    unless="jsdoc-uptodate">
+
+	<property name="_to-dir_" value="${jsdocs}"/>
+	<property name="_from-dir_" 
+		value="${theme.build-package-path}/javascript_uncompressed"/>
 
 	<mkdir dir="${_to-dir_}"/>
 
@@ -1301,8 +1301,8 @@
 	 </uptodate>
     </target>
 
-    <target name="combineImages" depends="images-uptodate"
-	    unless="images-uptodate" if="build-combineImages"
+    <target name="combineImages" if="build-combineImages"
+	    depends="images-uptodate" unless="images-uptodate" 
 	    description="Combine images.">
 
 	<java jar="${tools.jar}" failonerror="true" fork="true">

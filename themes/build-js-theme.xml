@@ -132,35 +132,19 @@
 	<property name="__js-file__"
 	    value="${_js-to-dir_}/${__js-cmp-nlsdir__}/${_js-theme-name_}.js"/>
 
-	<!-- check to see if building the js theme is turned off
-	-->
-	<condition property="__js-dont-build__" value="true" else="false">
-	    <and>
-		<isset property="build.jstheme"/>
-		<isfalse value="${build.jstheme}"/>
-	    </and>
-	</condition>
-
 	<!-- If the theme jar exists and the theme js file
 	     exists and is newer than the corresponding properties
 	     files set the "${js-theme-uptodate}" property.
 	-->
-	<condition property="__js-files-uptodate__">
+	<condition property="js-theme-uptodate">
 	    <and>
 		<isset property="_have-theme-jar_"/>
 		<uptodate targetfile="${__js-file__}">
 		    <srcfiles dir="${_js-from-dir_}"
 			includes="**/*.properties"
-			excludes="translatedFiles/**.properties"/>
+			excludes="translatedFiles/"/>
 		</uptodate>
 	    </and>
-	</condition>
-
-	<condition property="js-theme-uptodate">
-	    <or>
-		<istrue value="${__js-dont-build__}"/>
-		<isset property="__js-files-uptodate__"/>
-	    </or>
 	</condition>
     </target>
 
@@ -230,7 +214,7 @@
 
     </target>
 
-    <target name="buildL10nJsTheme">
+    <target name="buildL10nJsTheme" if="build-l10n">
 
 	<!-- supported locales the contents of the dist directory -->
 	<!-- Don't create localized theme until l10n files are commited.
@@ -306,11 +290,8 @@
 
 	    "${_js-to-dir_}/translatedFiles/**/${_l10n-nls-locale_}/${_js-theme-name_}.js"
 
-	If the "${build.l10n-jstheme}" property is false
-	"${l10n-js-theme-uptodate}" is also set to true, inhibiting the 
-	build of the l10n js theme.
     -->
-    <target name="l10n-js-theme-uptodate">
+    <target name="l10n-js-theme-uptodate" if="build-l10n">
 
 	<!-- construct the l10n jar name for this locale -->
 	<basename property="__utd-jarname__" suffix=".jar"
@@ -334,19 +315,11 @@
 	<property name="__utd-js-file__"
 	    value="${_js-to-dir_}/translatedFiles/${__js-cmp-nlsdir__}/${_l10n-nls-locale_}/${_js-theme-name_}.js"/>
 
-	<!-- check to see if building the l10n js theme is turned off
-	-->
-	<condition property="__l10n-dont-build__" value="true" else="false">
-	    <and>
-		<isset property="build.l10n-jstheme"/>
-		<isfalse value="${build.l10n-jstheme}"/>
-	    </and>
-	</condition>
 	<!-- If the locale jar exists and the localized js file
 	     exists and is newer than the corresponding localized
 	     files set the "${_l10n-uptodate-prop_}".
 	-->
-	<condition property="__l10n-files-uptodate__">
+	<condition property="${_l10n-uptodate-prop_}">
 	    <and>
 		<isset property="_have-${_l10n-locale_}-jar_"/>
 		<uptodate targetfile="${__utd-js-file__}">
@@ -355,13 +328,6 @@
 		</uptodate>
 	    </and>
 	</condition>
-	<condition property="${_l10n-uptodate-prop_}">
-	    <or>
-		 <isset property="__l10n-files-uptodate__"/>
-		 <istrue value="${__l10n-dont-build__}"/>
-	    </or>
-	</condition>
-
     </target>
 
     <!-- Create a JavaScript theme file for each localization 
@@ -382,7 +348,8 @@
 	  json.jar
 	  webui.jar
       -->
-    <target name="localizeJSTheme" depends="l10n-js-theme-uptodate"
+    <target name="localizeJSTheme" if="build-l10n"
+	    depends="l10n-js-theme-uptodate"
 	    unless="${_l10n-uptodate-prop_}">
 
 	<!-- send a message since it is hard to tell if 

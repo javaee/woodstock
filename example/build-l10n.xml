@@ -193,6 +193,12 @@
 
 	<echo message="Running native2asci for ${n2alist}, it takes several minutes..."/>
 
+	<!-- JAVA_HOME points to JDK on Mac, to JRE elsewhere. -->
+	<condition property="_jbin_" 
+		value="${java.home}${file.separator}bin"
+		else="${java.home}${file.separator}..${file.separator}bin">
+	    <os family="mac"/>
+	</condition>
 	<java jar="${tools.jar}" failonerror="true" fork="true">
 	  <arg value="-native2ascii"/>
 	  <arg value="-sourceDir"/>
@@ -201,6 +207,7 @@
 	  <arg value="${_l10n-dest_}" />
 	  <arg value="-fileList"/>
 	  <arg value="${n2alist}"/>
+	  <sysproperty key="jbin" value="${_jbin_}"/>
 	</java>
     </target>
 

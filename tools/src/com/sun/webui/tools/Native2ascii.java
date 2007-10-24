@@ -89,7 +89,8 @@ public class Native2ascii {
     protected void convert(String sourceFile, String destFile) 
 	    throws Exception {
 
-	String cmd =
+	String bindir = System.getProperty("jbin");
+	String cmd = (String)(bindir == null ? "" : bindir + File.separator) +
 	    "native2ascii -encoding " +  encoding + " " +
 	    (reverse ? "-reverse " : "") + " " + 
 	    sourceFile + " " +
