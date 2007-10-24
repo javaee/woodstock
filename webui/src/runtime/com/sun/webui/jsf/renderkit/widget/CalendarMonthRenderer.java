@@ -109,9 +109,8 @@ public class CalendarMonthRenderer extends RendererBase {
         Date today = calendar.getTime(); 
         String[] param = {df.format(today)};
         String todayDateMsg = theme.getMessage("CalendarMonth.todayIs", param);                
-        
-        // Get first day of week, Sunday = 1, Monday = 2,...
-        int firstDayOfWeek = calendar.getFirstDayOfWeek();
+
+
         JSONObject json = new JSONObject();           
         
         // Initialize children -- must be called after "today" and
@@ -119,11 +118,10 @@ public class CalendarMonthRenderer extends RendererBase {
         // is modified in initializeChildren().
         initializeChildren(calendarMonth, context, calendar, json);
         
-        json.put("todayDateMsg", todayDateMsg)  
-            .put("dateFormat", calendarMonth.getDateFormatPattern()) 
-            .put("firstDayOfWeek", firstDayOfWeek);                  
+        json.put("todayDateMsg", todayDateMsg)
+            .put("dateFormat", calendarMonth.getDateFormatPattern());                
                     
-        // Add attributes.
+        // Add attributes.  
         JSONUtilities.addStringProperties(stringAttributes, component, json);
         
         return json;
@@ -143,21 +141,9 @@ public class CalendarMonthRenderer extends RendererBase {
     // Private methods
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
              
-    // Helper method to get themed icon.
-    private Icon getIcon(Theme theme, String id, CalendarMonth parent, String key) {                
-        Icon icon = ThemeUtilities.getIcon(theme, key);
-        icon.setId(id);
-        icon.setParent(parent);
-        
-        return icon;
-    }
-    
     /**
      * Initialize children (month and year menus).
      * 
-     * Note that the "calendar" instance that is passed to this method gets modified.
-     * If you are working with the same instance of "calendar" be cautious as to when
-     * initializeChildren() should be called.
      */ 
     private void initializeChildren(CalendarMonth cm, FacesContext context, java.util.Calendar calendar,
             JSONObject json)
@@ -173,67 +159,36 @@ public class CalendarMonthRenderer extends RendererBase {
         // Calculate min and max dates
         Date minDate = null; 
         Date maxDate = null;   
-          
+                
+        //Output the minDate and maxDate properties.
         UIComponent parent = cm.getParent(); 
         if(parent instanceof DateManager) {
             minDate = ((DateManager)parent).getFirstAvailableDate();
             maxDate = ((DateManager)parent).getLastAvailableDate();
-        }   
-               
-        // Calculate the years to show on the menu.
-        calendar.setTime(minDate);
-        int firstYear = calendar.get(Calendar.YEAR);  
-        calendar.setTime(maxDate); 
-        int lastYear = calendar.get(Calendar.YEAR);  
+        }
         
-        int numYears = lastYear - firstYear + 1;
-        Integer yearInteger = null;
-        Option[] yearOptions = new Option[numYears];
+       if (minDate != null) {
+            json.put("minDate", dateFormat.format(minDate));
+        }
         
-        for(int i=0; i < numYears; ++i) {
-            yearInteger = new Integer(firstYear + i);
-            yearOptions[i] = new Option(yearInteger, yearInteger.toString());
+        if (maxDate != null) {
+            json.put("maxDate", dateFormat.format(maxDate));
         }
         
         Theme theme = getTheme();        
         
+        //If a year facet is defined, render it
         DropDown yMenu = (DropDown)cm.getFacet(cm.YEAR_MENU_ID);  
         if (yMenu != null) {
             yMenu.setToolTip(theme.getMessage("CalendarMonth.selectYear"));
             json.put("yearMenu", WidgetUtilities.renderComponent(context, yMenu));                    
-        } else {        
-            //Render the options as JSON Array. 
-            // This will be used in populating the drop down that is created on the
-            // client side.
-            JSONArray yearObject = WidgetUtilities.getOptions(context, cm, yearOptions);
-            json.put("yearMenu", yearObject);
         }
         
-        // Set the items of the month component
-        // construct an option[] for the locale specific months       
-        String[] monthNames = dateFormat.getDateFormatSymbols().getMonths();
-        Option[] months = new Option[12];
-   
-        calendar.set(Calendar.MONTH, Calendar.JANUARY);
-        int monthInt;
-        
-        for (int i = 0; i < 12; i++) {
-            monthInt = calendar.get(Calendar.MONTH);
-            months[i] = new Option(new Integer(monthInt+1), monthNames[i]);
-            calendar.add(Calendar.MONTH, 1);
-        }        
-                       
+        // If a month menu facet is defined, render it.
         DropDown mMenu = (DropDown)cm.getFacet(cm.MONTH_MENU_ID);       
         if (mMenu != null) {
             mMenu.setToolTip(theme.getMessage("CalendarMonth.selectMonth"));
             json.put("monthMenu", WidgetUtilities.renderComponent(context, mMenu));
-        } else {
-                
-            //Render the options as JSON Array. 
-            // This will be used in populating the drop down that is created on the
-            // client side.        
-            JSONArray monthObject = WidgetUtilities.getOptions(context, cm, months);
-            json.put("monthMenu", monthObject);
         }
     }
 }

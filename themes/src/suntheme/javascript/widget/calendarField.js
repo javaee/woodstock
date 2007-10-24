@@ -142,6 +142,18 @@ webui.@THEME@.widget.calendarField.prototype.postCreate = function () {
         this.calendarContainer.id = this.id + "_calendarContainer";
     }     
 
+    // If a patternHelp is not specified by the developer
+    // try to get one from the themes. If not, the dateFormatPattern
+    // will be used as the help.
+    if (this.patternHelp == null) {
+        var pattern = this.theme.getMessage("calendar.dateFormat");
+        var help = this.theme.getMessage("calendar."+pattern);
+        if (help != null) {
+            this.patternHelp = help;
+        } else {
+            this.patternHelp = pattern;
+        }
+    }
     // Set events.
 
     // Subscribe to the "dayClicked" event present in the calendar widget.
@@ -150,7 +162,7 @@ webui.@THEME@.widget.calendarField.prototype.postCreate = function () {
     // Subscribe to the "toggle" event that occurs whenever the calendar is opened.
     dojo.subscribe(webui.@THEME@.widget.calendar.event.toggle.openTopic,
         this, "toggleCalendar");
-
+        
     return this.inherited("postCreate", arguments);
 }
 

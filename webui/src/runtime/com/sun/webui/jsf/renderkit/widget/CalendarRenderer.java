@@ -78,21 +78,15 @@ public class CalendarRenderer extends TextFieldRenderer {
         
         Calendar calendar = (Calendar) component;
         Theme theme = getTheme();
+                                
+        JSONObject json = super.getProperties(context, component);
         
         // Get date format pattern help.
-        String patternHelp = calendar.getDateFormatPatternHelp();
-        String dateFormat = calendar.getDatePicker().getDateFormatPattern(); 
-        if(patternHelp == null) {
-            try {                                  
-                patternHelp = theme.getMessage("calendar.".concat(dateFormat)); 
-            }
-            catch(MissingResourceException mre) { 
-                patternHelp = ((SimpleDateFormat)(calendar.getDateFormat())).toLocalizedPattern().toLowerCase();
-            }
-        }                     
+        String patternHelp = calendar.getDateFormatPatternHelp();        
         
-        JSONObject json = super.getProperties(context, component);
-        json.put("patternHelp", patternHelp);
+        if(patternHelp != null) {
+            json.put("patternHelp", patternHelp);            
+        }                             
                     
         // Append date picker properties.        
         CalendarMonth calendarMonth = calendar.getDatePicker();
@@ -109,9 +103,9 @@ public class CalendarRenderer extends TextFieldRenderer {
             calendarMonth.setValue(calendar.getValue());
         }                  
         calendarMonth.initCalendarControls(calendar.getJavaScriptObjectName(context));
- 
+        
         JSONObject jsonCal = (JSONObject) WidgetUtilities.renderComponent(
-            context, calendarMonth);
+            context, calendarMonth);                
         json.put("calendar", jsonCal);
         
         // Search for the private facet DATE_PICKER_LINK_FACET.

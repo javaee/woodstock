@@ -514,6 +514,8 @@ webui.@THEME@.widget.calendar.prototype.getProps = function() {
     if (this.firstDayOfWeek) { props.firstDayOfWeek = this.firstDayOfWeek; }
     if (this.toggleLink) { props.toggleLink = this.toggleLink; }
     if (this.weekDays) { props.weekDays = this.weekDays; }    
+    if (this.maxDate) { props.maxDate = this.maxDate; }
+    if (this.minDate) { props.minDate = this.minDate; }
     
     return props;
 }
@@ -529,7 +531,7 @@ webui.@THEME@.widget.calendar.prototype.ieStackingContextFix = function() {
         // This popup should be displayed
         // Get the current zIndex for the div
         var divZIndex = div.currentStyle.zIndex;
-
+        
         // Propogate the zIndex up the offsetParent tree
         var tag = div.offsetParent;
         while (tag != null) {
@@ -572,7 +574,7 @@ webui.@THEME@.widget.calendar.prototype.ieStackingContextFix = function() {
 webui.@THEME@.widget.calendar.prototype.ieShowShim = function() {  
     var popup = this.calendarContainer;
     var shim = this.shimContainer;
-
+    
     shim.style.position = "absolute";
     shim.style.left = popup.style.left;
     shim.style.top = popup.style.top;
@@ -636,6 +638,51 @@ webui.@THEME@.widget.calendar.prototype.increaseMonth = function() {
 }
 
 /**
+ * This function returns a JSON array of months to be displayed in the month 
+ * drop down. 
+ * return {Object} A JSON array of months.
+ */
+webui.@THEME@.widget.calendar.prototype.getMonthOptions = function() {
+    var monthMenu = new Array();
+    
+    // Get the number of months in a calendar year.
+    // Some calendars may have more than 12 months a year.
+    var numOfMonths = parseInt(this.theme.getMessage("calendar.numOfMonths"));
+    
+    for ( var i = 0; i <= numOfMonths; i++ ) {
+        monthMenu[i] = {};
+        monthMenu[i].value = i+1;
+        monthMenu[i].disabled = false;
+        monthMenu[i].separator = false;
+        monthMenu[i].escape = true;
+        monthMenu[i].group = false;
+        monthMenu[i].label=this.theme.getMessage("calendar."+i);
+    }    
+    return monthMenu;
+}
+/**
+ * This function returns a JSON array of years to be displayed in the year
+ * drop down
+ * @param {String} minYear the minimum year of the calendar display
+ * @param {String} maxYear the maximum year of the calendar display
+ * @return {Object} A JSON array of calendar years.
+ */
+webui.@THEME@.widget.calendar.prototype.getYearOptions = function(minYear, maxYear) {    
+    var yearMenu =new Array();       
+    var diff = maxYear - minYear;
+    for ( var i = 0; i <= diff; i++ ) {
+        yearMenu[i] = {};
+        yearMenu[i].value = minYear;
+        yearMenu[i].disabled = false;
+        yearMenu[i].separator = false;
+        yearMenu[i].escape = true;
+        yearMenu[i].group = false;
+        yearMenu[i].label=minYear;
+        minYear++;
+    }
+    return yearMenu;
+}
+/**
  * This function is used to fill in remaining template properties, after the
  * buildRendering() function has been processed.
  * <p>
@@ -644,7 +691,7 @@ webui.@THEME@.widget.calendar.prototype.increaseMonth = function() {
  * @return {boolean} true if successful; otherwise, false.
  */
 webui.@THEME@.widget.calendar.prototype.postCreate = function () {
-    // Set ids.
+    // Set ids. 
     if (this.id) {
         this.calendarMenuContainer.id = this.id + "_calendarMenuContainer";
         this.linkNode.id = this.id + "_linkNodeContainer";
@@ -656,7 +703,7 @@ webui.@THEME@.widget.calendar.prototype.postCreate = function () {
         this.yearMenuContainer.id = this.id + "_yearMenuContainer";
         this.shimContainer.id = this.id + "_shim";
     }
-    
+
     // Create client side widgets for the calendar.
     // When the _setProps() function is called, these widgets will be
     // instantiated via the props param. 
@@ -682,7 +729,7 @@ webui.@THEME@.widget.calendar.prototype.postCreate = function () {
             "CALENDAR_BUTTON_DISABLED"
         );
     }
-    
+
     // Create the spacer image.
     if (this.spacerImage == null) {
         this.spacerImage = this.widget.getImageProps("DOT", {
@@ -703,7 +750,7 @@ webui.@THEME@.widget.calendar.prototype.postCreate = function () {
             id: this.id + ":topRight"
         });        
     }
-    
+
     // Create the increase link imageHyperlink widget.
     if (this.increaseLink == null) {
         this.increaseLink = this.widget.getImageHyperlinkProps({
@@ -747,23 +794,31 @@ webui.@THEME@.widget.calendar.prototype.postCreate = function () {
         );    
     }
     
-    //Create the month menu drop down
-    if (this.monthMenu.id == null) {
-        this.monthMenu = this.widget.getDropDownProps({
-            id: this.id + ":monthMenu",
-            options: this.monthMenu,
-            title: this.theme.getMessage("CalendarMonth.selectMonth")
-        });
+    // If the dateFormatPattern is null, get one from the themes.
+    if (this.dateFormat == null) {
+        this.dateFormat = this.theme.getMessage("calendar.dateFormat");
     }
     
-    //Create the year menu drop down.
-    if (this.yearMenu.Id == null) {
-        this.yearMenu = this.widget.getDropDownProps({
-            id: this.id + ":yearMenu",
-            options: this.yearMenu,
-            title: this.theme.getMessage("CalendarMonth.selectYear")   
-        });
-    }
+    // If the minDate and maxDate are not specified, create a default values.
+    // The minDate's year is set to 100 years previous to the current year
+    // and maxDate is set to 200 years forward from the minDate's year'
+    var minDate = new Date();
+    var maxDate = new Date();
+    if (this.minDate == null) {
+        minDate.setFullYear(minDate.getFullYear() - 100);
+        this.minDate = this.formatDate(minDate.getMonth(), 
+                            minDate.getDate(), minDate.getFullYear());        
+    } else {
+        minDate = this.convertStringToDate(this.minDate);
+    } 
+
+    if (this.maxDate == null) {
+        maxDate.setFullYear(minDate.getFullYear() + 200);
+        this.maxDate = this.formatDate(maxDate.getMonth(), 
+                            maxDate.getDate(), maxDate.getFullYear());
+    } else {
+        maxDate = this.convertStringToDate(this.maxDate);
+    }             
   
     // Initialize the days of the week.
     if (this.weekDays == null) {
@@ -775,31 +830,76 @@ webui.@THEME@.widget.calendar.prototype.postCreate = function () {
         this.weekDays[4] = this.theme.getMessage("CalendarMonth.weekdayThu");
         this.weekDays[5] = this.theme.getMessage("CalendarMonth.weekdayFri");
         this.weekDays[6] = this.theme.getMessage("CalendarMonth.weekdaySat");
-    }  
+    }           
+    
+    // Get the first day of week for that particular locale.
+    if (this.firstDayOfWeek == null) {
+        this.firstDayOfWeek = parseInt(this.theme.getMessage("calendar.firstDayOfWeek"));
+    }
+    
+    // This will append a localized string along with the
+    // today's date
+    if (this.todayDateMsg == null) {        
+        var d = new Date();
+        var todayDateMsg = this.theme.getMessage("CalendarMonth.todayIs");
+        
+        // Remove the "$0" argument used for the server side param
+        var index = todayDateMsg.indexOf(":");
+        this.todayDateMsg = todayDateMsg.substr(0, index+1);
+        
+        var month = this.theme.getMessage(
+                        "calendar." + (d.getMonth()));
+        month=month.substr(0,3);
+        if (this.dateFormat.indexOf("MM") == 0) {
+            this.todayDateMsg += " " + month + " " + d.getDay();
+        } else {
+            this.todayDateMsg += " " + d.getDay() + " " + month;        
+        }
+        this.todayDateMsg += ", "+d.getFullYear();
+    }
+
+    // Initialize the month menu if one does not exist.
+    if (this.monthMenu == null) {                  
+        this.monthMenu = this.widget.getDropDownProps({
+            id: this.id + ":monthMenu",
+            options:this.getMonthOptions(),
+            title: this.theme.getMessage("CalendarMonth.selectMonth")
+        });                  
+    }
+    
+    // Initialize the year menu if one does not exist.
+    if (this.yearMenu == null) {
+        this.yearMenu = this.widget.getDropDownProps({
+            id: this.id + ":yearMenu",
+            options: this.getYearOptions(minDate.getYear(), maxDate.getYear()),
+            title: this.theme.getMessage("CalendarMonth.selectYear")   
+        });          
+    }
     return this.inherited("postCreate", arguments);
 }
 
 /**
- * This function is used to set the current value by parsing the field value.
+ * This function is used to obtain the Date object from the given string
+ * date value
  *
- * @param {String} curDate The current date.
- * @return {boolean} true if successful; otherwise, false.
+ * @param {String} inputDate The date to be converted into Dataee object
+ * @param {boolean} yearCheck Check whether the year falls within the specified range
+ * @return {Object}  The Date object corresponding to the input String
  */
-webui.@THEME@.widget.calendar.prototype.setCurrentValue = function(curDate) {   
-    if (curDate == "") {
-        this.currentValue = null;
+webui.@THEME@.widget.calendar.prototype.convertStringToDate = function(inputDate, yearCheck) {   
+    if (inputDate == "") {
+        property = null;
         return false;
     }
-
-    var pattern = new String(this.dateFormat);
+    
+    var pattern = this.dateFormat;
     var yearIndex = pattern.indexOf("yyyy");
     var monthIndex = pattern.indexOf("MM");
     var dayIndex = pattern.indexOf("dd");
 
     // If the format is invalid, set the current value to null
     if (yearIndex < 0 || monthIndex < 0 || dayIndex < 0) {
-        this.currentValue = null;
-        return false;
+        return null;
     } 
     
     var counter = 0;
@@ -808,33 +908,40 @@ webui.@THEME@.widget.calendar.prototype.setCurrentValue = function(curDate) {
     var found = 0;
     var dateString;
 
-    while (counter < curDate.length) {
+    while (counter < inputDate.length) {
         if (counter == yearIndex) {
             try {
-                number = parseInt(curDate.substr(counter, 4));
+                number = parseInt(inputDate.substr(counter, 4));
                 if (isNaN(number)) {
-                    this.currentValue = null;
+                    property = null;
                     return false;
                 }                
-                var index = 0;
-                var foundYear = false;               
-                yearMenu = dijit.byId(this.yearMenu.id).getSelectElement();
-                while (index < yearMenu.length) {
-                    if (number == yearMenu.options[index].value) {
-                        selectedDate.setFullYear(number);
-                        ++found;
-                        foundYear = true;
+             // Check if the input date's year range is inbetween the 
+             // allowed dates.   
+               if (yearCheck == true) {
+                   var index = 0;
+                    var foundYear = false;                               
+                    yearMenu = dijit.byId(this.yearMenu.id).getSelectElement();
+                    while (index < yearMenu.length) {
+                        if (number == yearMenu.options[index].value) {
+                            selectedDate.setFullYear(number);
+                            ++found;
+                            foundYear = true;
+                            break;
+                        }
+                        index++;
+                    }
+                    if (!foundYear) {
                         break;
                     }
-                    index++;
-                }
-                if (!foundYear) {
-                    break;
-                }                
+                } else {            
+                    selectedDate.setFullYear(number);
+                    ++found;
+                }                    
             } catch(e) {}
         } else if (counter == monthIndex) {
             try {    
-                dateString = curDate.substr(counter, 2);
+                dateString = inputDate.substr(counter, 2);
                 // This is a workaround for Firefox! 
                 // parseInt() returns 0 for values 08 and 09
                 // while all other leading zeros work.
@@ -843,7 +950,7 @@ webui.@THEME@.widget.calendar.prototype.setCurrentValue = function(curDate) {
                 }
                 number = parseInt(dateString);
                 if (isNaN(number)) {
-                    this.currentValue = null;
+                    property = null;
                     return false;
                 }
                 selectedDate.setMonth(number-1);
@@ -851,7 +958,7 @@ webui.@THEME@.widget.calendar.prototype.setCurrentValue = function(curDate) {
             } catch(e) {}
         } else if (counter == dayIndex) {
             try {
-                dateString = curDate.substr(counter, 2);
+                dateString = inputDate.substr(counter, 2);
                 // This is a workaround for Firefox! 
                 // parseInt() returns 0 for values 08 and 09
                 // while all other leading zeros work.
@@ -860,8 +967,7 @@ webui.@THEME@.widget.calendar.prototype.setCurrentValue = function(curDate) {
                 }
                 number = parseInt(dateString);
                 if (isNaN(number)) {
-                    this.currentValue = null;
-                    return false;
+                    return null;
                 }
                 selectedDate.setDate(number);
                 ++found;
@@ -871,9 +977,9 @@ webui.@THEME@.widget.calendar.prototype.setCurrentValue = function(curDate) {
     }
 
     if (found == 3) {
-        this.currentValue = selectedDate;
+        return selectedDate;
     } else {
-        this.currentValue = null;
+        return null;
     }    
     return true;       
 }
@@ -993,7 +1099,10 @@ webui.@THEME@.widget.calendar.prototype._setProps = function(props) {
     }
 
     if (props.date) {
-        this.setCurrentValue(props.date);
+        var selDate = this.convertStringToDate(props.date, true);
+        if (selDate != null) {
+            this.currentValue = selDate;
+        }
     }
 
     // Set close link properties.
@@ -1030,20 +1139,56 @@ webui.@THEME@.widget.calendar.prototype._setProps = function(props) {
         // Update/add fragment.
         this.widget.updateFragment(this.nextLinkContainer, props.increaseLink);
     }
-
-    // Set month menu properties.
-    if (props.monthMenu) {
+    
+        var minDate = null;
+        var maxDate = null;    
+    if (props.minDate || props.maxDate) {
+        if (props.minDate) {
+            
+            // Convert the given string to a proper given date format pattern
+            // and then store it.
+            minDate = this.convertStringToDate(props.minDate);
+            if (minDate != null) {
+                this.minDate = this.formatDate(minDate.getMonth(), 
+                    minDate.getDate(), minDate.getFullYear());
+            }
+        } 
+        
+        if (props.maxDate) {
+            
+            // Convert the given string to a proper given date format pattern
+            // and then store it.            
+            maxDate = this.convertStringToDate(props.maxDate);      
+            if (maxDate != null) {
+                this.maxDate = this.formatDate(maxDate.getMonth(), 
+                    maxDate.getDate(), maxDate.getFullYear());
+            }               
+        } 
+        
+        //Recalculate the year options with new minDate and maxDate values.
+        props.yearMenu = this.widget.getDropDownProps({
+            id: this.id + ":yearMenu",
+            options:this.getYearOptions(minDate.getFullYear(), maxDate.getFullYear()),
+            title: this.theme.getMessage("CalendarMonth.selectYear")   
+        });  
+        
+        // update the value of yearMenu
+        this.yearMenu = props.yearMenu;                                          
+    }
+        
+    // Set month menu properties
+    if (props.monthMenu) {                        
         // Set properties.
         props.monthMenu.id = this.monthMenu.id; // Required for updateFragment().
         props.monthMenu.onChange =
             "dijit.byId('" + this.id + "').updateMonth(false);return false;";
-
+                         
         // Update/add fragment.
         this.widget.updateFragment(this.monthMenuContainer, props.monthMenu);
     }
 
     // Set year menu properties.
-    if (props.yearMenu) {
+    if (props.yearMenu) {        
         // Set properties.
         props.yearMenu.id = this.yearMenu.id; // Required for updateFragment().
         props.yearMenu.onChange =
@@ -1154,10 +1299,12 @@ webui.@THEME@.widget.calendar.prototype.toggleCalendar = function() {
  * @return {boolean} true if successful; otherwise, false.
  */
 webui.@THEME@.widget.calendar.prototype.updateMonth = function(initialize) {
+    
     // Remove all the nodes of <tbody> before cloning its children.
     this.widget.removeChildNodes(this.tbodyContainer);    
     // Add week days
     this.addWeekDays();    
+    
     // Add days of the month
     this.addDaysInMonth(this.currentValue, initialize);
     
