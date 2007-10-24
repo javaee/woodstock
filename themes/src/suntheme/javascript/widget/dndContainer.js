@@ -101,38 +101,6 @@ webui.@THEME@.widget.dndContainer.prototype.createOnDndDropCallback = function()
     }
 }
 
-/** 
- * Helper creator function that can be referenced by user in order to supply 
- * node creator. This function will create a div with data as innerHTML text 
- * within it. The newly created node will not be a dragdata any more.
- *
- * @param (Object) data data to be used for node creation.
- * @param (String) hint hint that takes value of "avatar" when avatar is 
- * created, null otherwise.
- * @return (Object) Map required by dojo for node draggable node creation.
- */
-webui.@THEME@.widget.dndContainer.divCreator = function(data, hint) {
-    var node = dojo.doc.createElement("div");
-    node.innerHTML = data;
-    node.id = dojo.dnd.getUniqueId();        
-    return {node: node, data: data, type: null};
-};
-
-/** 
- * Dojo library always requires a node to be created at the drop site.
- * This method returns minimalistic node to be inserted without changing the
- * visual appearance of the target.
- *
- * @param (Object) data data to be used for node creation.
- * @param (String) hint hint that takes value of "avatar" when avatar is 
- * created, null otherwise.
- * @return (Object) Map required by dojo for node draggable node creation.
- */
-webui.@THEME@.widget.dndContainer.emptyCreator = function(data, hint) {
-    var sp = dojo.dnd._createSpan(data);
-    sp.style.display = "none";
-    return {node: sp, data: null, type: null};
-};
 
 /**
  * Helper function to obtain HTML container element class names.
