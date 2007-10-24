@@ -47,7 +47,7 @@ webui.@THEME@.dnd.Manager.prototype.startDrag = function(source, nodes, copy) {
             dojo.addClass(node, "dojoDndWebuiItemDragged");
         }
     );
-    return webui.@THEME@.dnd.Manager.superclass.startDrag.call(this, source, nodes, copy);
+    return this.inherited("startDrag", arguments);    
 }
 
 /**
@@ -61,7 +61,7 @@ webui.@THEME@.dnd.Manager.prototype.stopDrag = function() {
             dojo.removeClass(node, "dojoDndWebuiItemDragged");
         }
     );
-    return webui.@THEME@.dnd.Manager.superclass.stopDrag.call(this);
+    return this.inherited("stopDrag", arguments);    
 }
 
 /**
@@ -209,8 +209,8 @@ webui.@THEME@.dnd.Source.prototype.markupFactory = function(props, node) {
  * @return {boolean} The result of user's onDropFunction.
  */
 webui.@THEME@.dnd.Source.prototype.onDndDrop = function(source, nodes, copy) {
-    webui.@THEME@.dnd.Source.superclass.onDndDrop.call(this, source, nodes, copy);
-
+    this.inherited("onDndDrop", arguments);
+    
     // We have to remove class onDndDrop here as well as in mgr
     // because onDndDrop is called before mgr.stopDrag, and transparency 
     // needs to be removed before clone is made.
