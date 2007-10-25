@@ -44,6 +44,7 @@ import com.sun.webui.jsf.util.ThemeUtilities;
 public class TreeNodeBeanInfo extends TreeNodeBeanInfoBase {
     
     public TreeNodeBeanInfo() {
+        DesignUtil.applyPropertyDomain(this, "target", com.sun.rave.propertyeditors.domains.FrameTargetsDomain.class);
         DesignUtil.hideProperties(this, new String[]{"actionListeners"});    //NOI18N
         BeanDescriptor beanDescriptor = super.getBeanDescriptor();
         beanDescriptor.setValue(Constants.BeanDescriptor.PREFERRED_CHILD_TYPES,
