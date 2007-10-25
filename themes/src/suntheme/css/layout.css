@@ -162,7 +162,7 @@ body {
 	padding:3px; 
 }
 
-.dndOuterSpan@THEME_CSS@"  {
+.dndOuterSpan@THEME_CSS@ {
     position: relative;
 }
 
