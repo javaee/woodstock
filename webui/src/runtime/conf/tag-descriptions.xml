@@ -2391,20 +2391,20 @@ update components server-side: refresh("form1:id1,form2:id2,...")<br>
         <description><![CDATA[
  <p>Use the <code>webuijsf:calendar</code> when the user needs to select a
      date. The calendar component displays a text field that expects a
-     date as input, together with an icon that when clicked displays a
-     small calendar. The user can either type directly into the
+     date as input, together with an icon that displays a
+     small calendar when clicked. The user can either type directly into the
      textfield or select a date from the calendar display. 
  </p>
  <h3>HTML Elements and Layout</h3>
  <p>
- The component renders several elements: an optional
+ The calendar component renders several elements: an optional
  <code>&lt;label&gt;</code>, an <code>&lt;input type="text"&gt;</code>
  and an <code>&lt;img&gt;</code> element for the icon. They are laid
  out inside a HTML <code>&lt;table&gt;</code>. </p> <p> The pop-up
- calendar is a complex component also laid out using a HTML
+ calendar is a complex component also formatted using a HTML
  <code>&lt;table&gt;</code>. It has child components corresponding to
- <code>&lt;webuijsf:dropDown&gt;</code> and
- <code>&lt;webuijsf:iconHyperlink&gt;</code> (please see these for details)
+ <code>&lt;webuijsf:dropDown&gt;</code>,
+ <code>&lt;webuijsf:iconHyperlink&gt;</code> (See these for details)
  and anchors <code>&lt;a&gt;</code> to represent the dates and the
  "close" button. </p>
  <h3>Configuring the <code>webuijsf:calendar</code> tag </h3>
@@ -2422,18 +2422,18 @@ update components server-side: refresh("form1:id1,form2:id2,...")<br>
  <code>label</code> attribute, or specify a label facet. </p>
      <h3>Facets</h3>
      <ul>
-     <li><code>label</code>: use this facet to specify a custom 
+     <li><code>label</code>: Use this facet to specify a custom 
      component for the label.</li>
-     <li><code>readOnly</code>: use this facet to specify a custom 
+     <li><code>readOnly</code>: Use this facet to specify a custom 
      component for displaying the value of this component when it is
-     marked as readonly. The default is a <code>webuijsf:staticText</code>. </li>
+     marked as readonly. The default is <code>webuijsf:staticText</code>. </li>
      </ul>
      <h3>Client-side JavaScript functions</h3>
 <p>When the component is rendered, a DOM object corresponding to the
 component is created. To manipulate the component on the client side,
-you may invoke functions on the DOM object. With reference to the DOM
-id, to disable the component, invoke <code>document.getElementById(id).setProps({disabled:
-false})</code>.<br>
+you can call functions on the DOM object.To disable the component, 
+invoke <code>document.getElementById(id).setProps({disabled:
+false})</code> where id is the DOM id of the calendar widget.<br>
 <br>
 <table style="text-align: left; width: 100%;" border="1" cellpadding="2"
  cellspacing="2">
@@ -2441,7 +2441,7 @@ false})</code>.<br>
     <tr>
       <td style="vertical-align: top;"><code>getProps()</code></td>
       <td style="vertical-align: top;">Use this function to get widget
-properties. Please see <code>setProps()</code> function for a list of
+properties. See <code>setProps()</code> function for a list of
 supported properties.</td>
     </tr>
     <tr>
@@ -2500,9 +2500,10 @@ properties:
 <code></code>
 <h3>Client Side JavaScript Events</h3>
 <p>
-When the component is manipulated client side, some functions may
-publish event topics for custom AJAX implementations to listen for.
-Using the Dojo event system, listen for the refresh event topic using:<br>
+When the calendar component is manipulated client side, some functions may
+publish event topics for custom Ajax implementations to listen for.
+Using the Dojo event system, custom Ajax implementations can listen 
+for the refresh event topic using:<br>
 <br>
 <code>
 &lt;webuijsf:script&gt;<br>
@@ -2534,7 +2535,7 @@ The following events are supported.
       <td> Event topic published before asynchronously refreshing the
 component. Supported properties include: <br>
       <ul>
-        <li>[optional] execute - list of the components to be executed
+        <li>[optional] execute - List of the components to be executed
 along with
 this component</li>
         <li>id - The client id to process the event for</li>
@@ -2555,8 +2556,8 @@ function for details on properties and their usage</li>
     </tr>
   </tbody>
 </table>
- <h3>Examples</h3>
- <h4>Example 1: Basic Popup Calendar</h4>
+ <h3>Code Examples</h3>
+ <h4>Example 1: Basic Pop-up Calendar</h4>
  <p>The component gets the options from a managed bean called
  <code>CalendarBean</code>. The value of the component
      <code>selectedDate</code> is bound to a property of the managed
@@ -2607,26 +2608,26 @@ function for details on properties and their usage</li>
  been specified for the list of available items and for the list of
  selected items. The <code>sorted</code> attribute indicates that the options on
  the list will be shown in alphabetical order.</p>
- <h4>Example 2: DateFormat Pattern and Range of Dates configured</h4>
- <p>The component gets the options from a managed bean called
- <code>TravelBean</code>. The value of the component
-     <code>selectedDate</code> is bound to a property
-     <code>travelDate</code>of the managed
+ <h4>Example 2: DateFormat Pattern and Date Ranges Configured</h4>
+ <p>The calendar component gets its options from a managed bean called
+ <code>TravelBean</code>. The value of the attribute
+     <code>selectedDate</code> is bound to a property called
+     <code>travelDate</code>, that belongs to the managed
      bean. A label for the component as a whole (<code>label</code>) is
      shown next to the component; the label is retrieved from a message
      bundle. 
  </p>
- <p>The component has been configured to use a pattern for date
+ <p>The calendar component has been configured to use a pattern for date
      representation consisting of four digits for the year, two for the
      month, and two for the day, separated by dashes. This pattern, set
      using the <code>dateFormatPattern</code> attribute will be used
      regardless of locale. With this date format pattern, the default
      help string will be "YYYY-MM-DD", which is suitable for English,
-     but not for other locales where other words are used, so a
-     different message is retrieved for each locale
+     but not for other locales where other words are used. So a
+     different message will be retrieved for each locale
      (<code>dateFormatPattern</code>). </p> 
  <p>
- The component is also configured to restrict the range of dates that
+ The calendar component is also configured to restrict the range of dates that
      are valid, so that the first valid date is the day after the day
      the component is viewed, and the last valid date is six months
      from that date.
@@ -2640,13 +2641,13 @@ function for details on properties and their usage</li>
          minDate="#{TravelBean.tomorrowsDate}"
          maxDate="#{TravelBean.sixMonthsFromNow}" /&gt;
  </pre>
-<h4> Example 3: Update calendar client side using the getProps and
-setProps functions </h4>
+<h4> Example 3: Update Calendar Client Side using the getProps and
+setProps Functions </h4>
 <p>This example shows how to toggle the disabled state of a calendar
 client side using the getProps and setProps functions. </p>
 <code></code>
 <pre>&lt;webuijsf:calendar id="calendar1" label="Start Date:"/&gt;<br>&lt;webuijsf:button id="button1" text="Toggle Calendar Disabled" onClick="toggleDisabled(); return false"/&gt;<br><br>&lt;webuijsf:script&gt;         <br>   function toggleDisabled() { <br>        var domNode = document.getElementById("form1:calendar1"); <br>        domNode.setProps({ disabled: !domNode.getProps().disabled });<br>    }        <br>&lt;/webuijsf:script&gt;<br></pre>
-<h4>Example 4: Asynchronously update calendar using refresh function</h4>
+<h4>Example 4: Asynchronously Update Calendar Using refresh Function</h4>
 This example shows how to asynchronously update a calendar using
 the refresh function. The execute property of the refresh function is
 used to define the client id which is to be submitted and updated
@@ -4381,7 +4382,7 @@ The Common Tasks Section component. This encapsulates a number of common task gr
      <tr>
        <td style="vertical-align: top;"><code>pageTitle<br>
        </code></td>
-       <td style="vertical-align: top;">Specifies component
+       <td style="vertical-align: top;">Specifies a component
  tag to use for the title of the content page of the web application. This facet
  overrides the title attribute.<br>
        </td>
@@ -4423,8 +4424,8 @@ The Common Tasks Section component. This encapsulates a number of common task gr
      <tr>
        <td style="vertical-align: top;"><code>pageViews<br>
        </code></td>
-       <td style="vertical-align: top;">Specifies a component tag to use to
- allow the user to change the view of the page. The <code>webuijsf:dropDown</code>
+       <td style="vertical-align: top;">Specifies a component tag that
+ allows the user to change the view of the page. The <code>webuijsf:dropDown</code>
  tag can be used to provide a list of views.<br>
        </td>
      </tr>
@@ -4441,7 +4442,7 @@ The Common Tasks Section component. This encapsulates a number of common task gr
  TBA
  <h3>Client Side Javascript Functions</h3>
  <p>None.<p>
- <h3>Examples</h3>
+ <h3>Code Examples</h3>
  <h4>Example 1:  Using facets for optional contentPageTitle elements</h4>
  <pre>&lt;webuijsf:contentPageTitle title=&quot;Masthead and Page Title Example&quot; helpText=&quot;Help text would go here&quot;&gt;
    &lt;f:facet name=&quot;pageButtonsTop&quot;&gt;
@@ -4481,7 +4482,7 @@ drop-down menu occupies one line of the page, and displays one list item.
 The rest of the list items are displayed when the user opens the menu.</p>
 <p>The <code>webuijsf:dropDown</code> tag can be configured to
 immediately submit the form when the user makes a selection. By
-default, the drop-down menu is used only for selecting items, and does
+default, the drop-down <name is used only for selecting items, and does
 not submit the form. </p>
 <h3>HTML Elements and Layout</h3>
 <p>The dropDown component renders an XHTML <code>&lt;select&gt;</code>
@@ -9724,42 +9725,42 @@ changed to value " + menu.getValue();<br>
     </name>
     <description><![CDATA[
     <pre>
-     The <code>webuijsf:menu</code> tag is used to display a set of selectable items in the form of a  menu.
+     The <code>webuijsf:menu</code> tag is used to display a set of selectable items in the form of a  pop-up menu.
      The options to be displayed can be specified using the "items" attribute of the component.
      Each option should be represented by a <code>com.sun.webui.jsf.model.Option</code> instance.
-     Options can also be grouped together based on some common functionality in which case, the 
-     <code>com.sun.webui.jsf.model.OptionGroup</code> should be used for specifying the options.
+     Options can also be grouped together based on some functionality in which case, the 
+     <code>com.sun.webui.jsf.model.OptionGroup</code> should be used to specify the options.
   
      The popupMenu will not be visible by default, but can be shown by calling the <code>open</code>
      method on the popupMenu widget when any of the components on the page is clicked.
-     The open method used to display the popup menutakes an event attribute as an argument. This "event" attribute 
-     is the event that is generated when some keyboard or mouse action  happens on the web page
-     such as the "click" of a hyperlink. In this case if the style attribtute with menu positioning is defined, 
+     The open method used to display the pop-up menu takes an event attribute as an argument. This "event" attribute 
+     is the event that is generated when a keyboard or mouse action  happens on the web page
+     such as clicking a hyperlink. If the style attribtute with menu positioning is defined, 
      the popupMenu widget will use that to position itself on the page. If not, it will use the event attribute
-     which is passed on as argument . Clicking on an option or anywhere else inside the page
-     will cause the menu to close. Also, if another menu is opened, then the existing menu that is open, if any 
-     will close so that only one menu can be open at any given point of time. Note that a popup menu is not
+     which is passed on as an argument. Clicking an option or clicking anywhere inside the page
+     will cause the menu to close. If another menu is opened, then any open menu 
+     will close so that only one menu can be open at any given time. Note that a pop-up menu is not
      associated with any component present in the page. Hence, the same menu can be used along with different
-     components present in the page. Note that however, in any case only the last selected item will be
+     components present in the page. Note however, that in any case only the last selected item will be
      maintained with the menu irrespective of the number of components it is used with.
 
-     Note that each option is uniquely identified by the value assigned to it. Hence, the value assigned to each
+     Each option is uniquely identified by the value assigned to it. Hence, the value assigned to each
      option has to be unique among the whole list of options including groups. The labels however may contain
      duplicate values depending on the needs.
       
      Whenever an option is clicked, you can access the selected option through the getSelectedValue interface
-     available on the menu's dom element. This is the default behavior of the menu element.
-     The default behavior does not have any form of communcation with the server to inform of the selected state.
+     available on the menu's DOM element. This is the default behavior of the menu element.
+     The default behavior does not have any form of communication with the server to inform of the selected state.
      If a communication needs to be made to the server to inform of the selected value of the popupMenu component
      then 
      
-  i) Use domNode.submit() :- The menu element has a submit() function set on its dom. Invoking this function
-     will cause the menu widget to send an asynchronous request to the server and cause the menu component
-     to update itself. The menu widget in this case, appends an attribute called value to the dynamic faces
+  i) Use domNode.submit(). The menu element has a submit() function set on its DOM. Invoking this function
+     will cause the menu widget to send an asynchronous request to the server causing the menu component
+     to update itself. The menu widget in this case appends an attribute called value to the dynamic faces
      request made. The <code>com.sun.webui.jsf.renderkit.ajax.MenuRenderer</code> will in this case look for 
      this particular value and update itself accordingly.
   
-  ii) Set the submitForm attribute to true:- This will cause the menu component to submit the form whenever an
+  ii) Set the submitForm attribute to true. This will cause the menu component to submit the form whenever an
      option is selected in the menu. All the elements in the form will be submitted and all the components present
      in the form will go through the normal JSF processing lifecycle. 
      The menu widget in this case will submit the value of the selected option similar to the way the hyperlink widget
@@ -9776,14 +9777,18 @@ None.<br>
 <h3>Theme Identifiers</h3>
 <p>None.</p><br>
 <h3>Client Side Javascript Functions</h3>
-When the component is rendered, a DOM object corresponding to the
-component is created. To manipulate the component on the client side,
-you may invoke functions on the DOM object.<br>
+When the menu component is rendered, a DOM object corresponding to the menu
+component is created. To manipulate the menu component on the client side,
+you may call functions on the DOM object.<br>
 <br>
 
 <table style="text-align: left; width: 100%;" border="1" cellpadding="2"
  cellspacing="2">
   <tbody>
+    <tr>
+      <td style="vertical-align: top;"><b>JavaScript Function</b></td>
+      <td style="vertical-align: top;"><b>Description</b></td>
+    </tr>  
     <tr>
       <td><code>getProps()</code></td>
       <td>Use this function to get widget properties. Please see <code>setProps()</code>
@@ -9847,7 +9852,7 @@ properties:<br>
     </tr>
     <tr>
       <td style="vertical-align: top;"><code>getSelectedValue()</code><br>
-      <td style="vertical-align: top;">Use this function to get the selected
+      <td style="vertical-align: top;">Use to get the selected
       item in the menu.<br></td>
       </tr>
       <tr>
@@ -9860,16 +9865,16 @@ properties:<br>
       </tr>
       <tr>
       <td style="vertical-align: top;">close</td>
-      <td style="vertical-align: top;">Invoke this function if you want to close
-      the menu at any point of time.</td>
+      <td style="vertical-align: top;">Invoke in order to close
+      the menu at any time.</td>
       </tr>
   </tbody>  
 </table>
 
 <h3>Client Side JavaScript Events</h3>
 <p>
-When the component is manipulated client side, some functions may
-publish event topics for custom AJAX implementations to listen for.
+When the component is manipulated on the client side, some functions may
+publish event topics for custom Ajax implementations to listen for.
 Using the Dojo event system, listen for the refresh event topic using:<br>
 <br>
 <code>
@@ -9896,6 +9901,10 @@ processEvents, "update");</code><code><br>
 
 <table border="1">
   <tbody>
+    <tr>
+      <td style="vertical-align: top;"><b>JavaScript Event</b></td>
+      <td style="vertical-align: top;"><b>Description</b></td>
+    </tr>    
         <tr>
       <td> webui.suntheme.widget.popupMenu.event.refresh.beginTopic</td>
       <td> Event topic published before asynchronously refreshing the
@@ -9949,9 +9958,9 @@ server. </li>
   </tbody>
 </table>
 
-<h3>Examples</h3>
+<h3>Code Examples</h3>
 <code></code>
-<h4>Example 1: Creating a popup menu </h4>
+<h4>Example 1: Creating a Pop-Up Menu </h4>
         <pre>&lt;webuijsf:actionenu id="popup1" items="#{popUp.optionItems1}" eventListener="#{popUp.selectedItem}"  onChange="setTimeout('changeEvent();', 0);"/&gt;
          &lt;webuijsf:textField id="verifier" label="Selected item:" text="#{popUp.selectedItem}" disabled="true"/&gt;
 <br />
@@ -9972,7 +9981,7 @@ server. </li>
         }
             &lt;/script&gt;        
          </pre>
-        <h4> Backing bean for the above menu</h4>
+        <h4> Backing Bean for the Above Menu</h4>
         <pre>
         public class PopUp {
         private Option OptionItems[];

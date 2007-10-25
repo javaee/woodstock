@@ -191,14 +191,14 @@ public class Menu extends EventSourceImpl {
     }
     
     /**
-     * <p>CSS style(s) to be applied to the outermost HTML element when this
+     * <p>CSS style or styles to be applied to the outermost HTML element when this
      * component is rendered.</p>
      */
     @Property(name="style", displayName="CSS Style(s)", category="Appearance", editorClassName="com.sun.jsfcl.std.css.CssStylePropertyEditor")
     private String style = null;
     
     /**
-     * <p>CSS style(s) to be applied to the outermost HTML element when this
+     * <p>CSS style or styles to be applied to the outermost HTML element when this
      * component is rendered.</p>
      */
     public String getStyle() {
@@ -213,7 +213,7 @@ public class Menu extends EventSourceImpl {
     }
     
     /**
-     * <p>CSS style(s) to be applied to the outermost HTML element when this
+     * <p>CSS style or styles to be applied to the outermost HTML element when this
      * component is rendered.</p>
      * @see #getStyle()
      */
@@ -222,14 +222,14 @@ public class Menu extends EventSourceImpl {
     }
     
     /**
-     * <p>CSS style class(es) to be applied to the outermost HTML element when this
+     * <p>CSS style class or classes to be applied to the outermost HTML element when this
      * component is rendered.</p>
      */
     @Property(name="styleClass", displayName="CSS Style Class(es)", category="Appearance", editorClassName="com.sun.rave.propertyeditors.StyleClassPropertyEditor")
     private String styleClass = null;
     
     /**
-     * <p>CSS style class(es) to be applied to the outermost HTML element when this
+     * <p>CSS style class or classes to be applied to the outermost HTML element when this
      * component is rendered.</p>
      */
     public String getStyleClass() {
@@ -244,7 +244,7 @@ public class Menu extends EventSourceImpl {
     }
     
     /**
-     * <p>CSS style class(es) to be applied to the outermost HTML element when this
+     * <p>CSS style class or classes to be applied to the outermost HTML element when this
      * component is rendered.</p>
      * @see #getStyleClass()
      */
@@ -253,10 +253,10 @@ public class Menu extends EventSourceImpl {
     }
     
     /**
-     * <p>Use the visible attribute to indicate whether the component should be
+     * <p>Use to indicate whether the component should be
      * viewable by the user in the rendered HTML page. If set to false, the
      * HTML code for the component is present in the page, but the component
-     * is hidden with style attributes. By default, visible is set to false, so
+     * is hidden with style attributes. By default,this setting is false, so
      * HTML for the component HTML is rendered but the menu is not visible to user.
      * Note that, even If the component is not visible, it can still be processed on subsequent form
      * submissions because the HTML is present.</p>
@@ -266,10 +266,10 @@ public class Menu extends EventSourceImpl {
     private boolean visible_set = false;
     
     /**
-     * <p>Use the visible attribute to indicate whether the component should be
+     * <p>Use to indicate whether the component should be
      * viewable by the user in the rendered HTML page. If set to false, the
      * HTML code for the component is present in the page, but the component
-     * is hidden with style attributes. By default, visible is set to false, so
+     * is hidden with style attributes. By default,this setting is false, so
      * HTML for the component HTML is rendered but the menu is not visible to user.
      * Note that, even If the component is not visible, it can still be processed on subsequent form
      * submissions because the HTML is present.</p>
@@ -291,10 +291,10 @@ public class Menu extends EventSourceImpl {
     }
     
     /**
-     * <p>Use the visible attribute to indicate whether the component should be
+     * <p>Use to indicate whether the component should be
      * viewable by the user in the rendered HTML page. If set to false, the
      * HTML code for the component is present in the page, but the component
-     * is hidden with style attributes. By default, visible is set to false, so
+     * is hidden with style attributes. By default,this setting is false, so
      * HTML for the component HTML is rendered but the menu is not visible to user.
      * Note that, even If the component is not visible, it can still be processed on subsequent form
      * submissions because the HTML is present.</p>
@@ -691,7 +691,7 @@ public class Menu extends EventSourceImpl {
     }
     
     /**
-     * <p>When the submitForm attribute is set to true,
+     * <p>When set to true,
      * the form is immediately submitted when the user changes the
      * selection in the menu.</p>
      */
@@ -700,7 +700,7 @@ public class Menu extends EventSourceImpl {
     private boolean submitForm_set = false;
 
     /**
-     * <p>When the submitForm attribute is set to true,
+     * <p>When set to true,
      * the form is immediately submitted when the user changes the
      * selection in the menu.</p>
      */
@@ -721,7 +721,7 @@ public class Menu extends EventSourceImpl {
     }
 
     /**
-     * <p>When the submitForm attribute is set to true,
+     * <p>When set to true,
      * the form is immediately submitted when the user changes the
      * selection in the menu.</p>
      */

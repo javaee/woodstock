@@ -78,7 +78,12 @@ public abstract class EventSourceImpl extends UIComponentBase implements EventSo
           Logger.getLogger("javax.faces.event", "javax.faces.LogStrings");  
 
     /**
-     * <p>The immediate flag.</p>
+     * <p>The immediate flag. If set to true, the processing of the menu's event
+     * will happen ahead of processing other validators and converters present
+     * in the page whose components' immediate attributes are not set to true.
+     * Tihs attribute will be meaningful only if a page submit occurs (i.e. submitForm
+     * attribute set to true)
+     * </p>
      */
     @Property(name="immediate", displayName="Immediate", category="Behavior")    
     private boolean immediate = false;
@@ -188,10 +193,10 @@ public abstract class EventSourceImpl extends UIComponentBase implements EventSo
     }
 
       /**
-     * <p>The EventListenerExpression attribute is used to specify a method to handle
+     * <p>Used to specify a method to handle
      * an menu event that is triggered when this
-     * component is activated by the user. The EventListenerExpression attribute
-     * value must be a JavaServer Faces EL expression that resolves
+     * component is activated by the user.
+     * Value must be a JavaServer Faces EL expression that resolves
      * to a method in a backing bean. The method must take a single parameter
      * that is an event, and its return type must be <code>void</code>.
      * The class that defines the method must implement the <code>java.io.Serializable</code>
@@ -203,10 +208,10 @@ public abstract class EventSourceImpl extends UIComponentBase implements EventSo
     private MethodExpression eventListenerExpression;
 
       /**
-     * <p>The EventListenerExpression attribute is used to specify a method to handle
+     * <p>Used to specify a method to handle
      * an menu event that is triggered when this
-     * component is activated by the user. The EventListenerExpression attribute
-     * value must be a JavaServer Faces EL expression that resolves
+     * component is activated by the user.
+     * Value must be a JavaServer Faces EL expression that resolves
      * to a method in a backing bean. The method must take a single parameter
      * that is an event, and its return type must be <code>void</code>.
      * The class that defines the method must implement the <code>java.io.Serializable</code>
@@ -217,11 +222,11 @@ public abstract class EventSourceImpl extends UIComponentBase implements EventSo
             return this.eventListenerExpression;
     }
 
-          /**
-     * <p>The EventListenerExpression attribute is used to specify a method to handle
+    /**
+     * <p>Used to specify a method to handle
      * an menu event that is triggered when this
-     * component is activated by the user. The EventListenerExpression attribute
-     * value must be a JavaServer Faces EL expression that resolves
+     * component is activated by the user. 
+     * Value must be a JavaServer Faces EL expression that resolves
      * to a method in a backing bean. The method must take a single parameter
      * that is an event, and its return type must be <code>void</code>.
      * The class that defines the method must implement the <code>java.io.Serializable</code>

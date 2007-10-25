@@ -315,15 +315,15 @@ public class Calendar extends TextField implements DateManager, NamingContainer 
 
     /**
      * <p>The date format pattern to use (i.e. yyyy-MM-dd). The
-     * component uses an instance of
-     * <code>java.text.SimpleDateFormat</code> and you may specify 
-     * a pattern to be used by this component, with the following
+     * calendar component uses an instance of
+     * <code>java.text.SimpleDateFormat</code> and you can specify 
+     * a pattern to be used by this component with the following
      * restriction: the format pattern must include <code>yyyy</code> (not
      * <code>yy</code>), <code>MM</code>, and <code>dd</code>; and no
-     * other parts of time may be displayed. If a pattern is not
+     * other time elements(such as seconds or minutes) may be displayed. If a pattern is not
      * specified, a locale-specific default is used.</p> 
      * <p> 
-     * If you change the date format pattern, you may also need to
+     * If you change the date format pattern, you might also need to
      * change the <code>dateFormatPatternHelp</code> attribute. See the
      * documentation for that attribute. 
      * </p>
@@ -333,15 +333,15 @@ public class Calendar extends TextField implements DateManager, NamingContainer 
 
     /**
      * <p>The date format pattern to use (i.e. yyyy-MM-dd). The
-     * component uses an instance of
-     * <code>java.text.SimpleDateFormat</code> and you may specify 
-     * a pattern to be used by this component, with the following
+     * calendar component uses an instance of
+     * <code>java.text.SimpleDateFormat</code> and you can specify 
+     * a pattern to be used by this component with the following
      * restriction: the format pattern must include <code>yyyy</code> (not
      * <code>yy</code>), <code>MM</code>, and <code>dd</code>; and no
-     * other parts of time may be displayed. If a pattern is not
+     * other time elements(such as seconds or minutes) may be displayed. If a pattern is not
      * specified, a locale-specific default is used.</p> 
      * <p> 
-     * If you change the date format pattern, you may also need to
+     * If you change the date format pattern, you might also need to
      * change the <code>dateFormatPatternHelp</code> attribute. See the
      * documentation for that attribute. 
      * </p>
@@ -359,31 +359,31 @@ public class Calendar extends TextField implements DateManager, NamingContainer 
 
     /**
      * <p>The date format pattern to use (i.e. yyyy-MM-dd). The
-     * component uses an instance of
-     * <code>java.text.SimpleDateFormat</code> and you may specify 
-     * a pattern to be used by this component, with the following
+     * calendar component uses an instance of
+     * <code>java.text.SimpleDateFormat</code> and you can specify 
+     * a pattern to be used by this component with the following
      * restriction: the format pattern must include <code>yyyy</code> (not
      * <code>yy</code>), <code>MM</code>, and <code>dd</code>; and no
-     * other parts of time may be displayed. If a pattern is not
+     * other time elements(such as seconds or minutes) may be displayed. If a pattern is not
      * specified, a locale-specific default is used.</p> 
      * <p> 
-     * If you change the date format pattern, you may also need to
+     * If you change the date format pattern, you might also need to
      * change the <code>dateFormatPatternHelp</code> attribute. See the
      * documentation for that attribute. 
-     * </p>
      * @see #getDateFormatPattern()
+     * </p>
      */
     private void _setDateFormatPattern(String dateFormatPattern) {
         this.dateFormatPattern = dateFormatPattern;
     }
 
     /**
-     * <p>A message below the textfield for the date, indicating the
+     * <p>A message located below the textfield for the date.Indicates which 
      * string format to use when entering a date as text into the
      * textfield.</p>  
      * 
-     * <p>The component internally relies on an instance of
-     * <code>java.text.SimpleDateFormat</code> to produce the hint. 
+     * <p>The calendar component internally relies on an instance of
+     * <code>java.text.SimpleDateFormat</code> to produce this help. 
      * The default hint is constructed by invoking the
      * <code>toLocalizedPattern()</code> method on the
      * <code>SimpleDateFormat</code> instance and converting this 
@@ -394,8 +394,8 @@ public class Calendar extends TextField implements DateManager, NamingContainer 
      * <code>toLocalizedPattern()</code> does not actually produce
      * locale-appropriate strings for most locales (it works for
      * German, but not for other locales). If the default value for
-     * the <code>dateFormtPattern</code> is used, the
-     * component takes care of the localization itself, but if the default 
+     * the <code>dateFormtPattern</code> is used, the calendar
+     * component performs the localization itself, but if the default 
      * is overridden, you may need to override the hint on a
      * per-locale basis too. </p>
      */
@@ -403,12 +403,12 @@ public class Calendar extends TextField implements DateManager, NamingContainer 
     private String dateFormatPatternHelp = null;
 
     /**
-     * <p>A message below the textfield for the date, indicating the
+     * <p>A message located below the textfield for the date.Indicates which 
      * string format to use when entering a date as text into the
      * textfield.</p>  
      * 
-     * <p>The component internally relies on an instance of
-     * <code>java.text.SimpleDateFormat</code> to produce the hint. 
+     * <p>The calendar component internally relies on an instance of
+     * <code>java.text.SimpleDateFormat</code> to produce this help. 
      * The default hint is constructed by invoking the
      * <code>toLocalizedPattern()</code> method on the
      * <code>SimpleDateFormat</code> instance and converting this 
@@ -419,8 +419,8 @@ public class Calendar extends TextField implements DateManager, NamingContainer 
      * <code>toLocalizedPattern()</code> does not actually produce
      * locale-appropriate strings for most locales (it works for
      * German, but not for other locales). If the default value for
-     * the <code>dateFormtPattern</code> is used, the
-     * component takes care of the localization itself, but if the default 
+     * the <code>dateFormtPattern</code> is used, the calendar
+     * component performs the localization itself, but if the default 
      * is overridden, you may need to override the hint on a
      * per-locale basis too. </p>
      */
@@ -436,12 +436,12 @@ public class Calendar extends TextField implements DateManager, NamingContainer 
     }
 
     /**
-     * <p>A message below the textfield for the date, indicating the
+     * <p>A message located below the textfield for the date.Indicates which 
      * string format to use when entering a date as text into the
      * textfield.</p>  
      * 
-     * <p>The component internally relies on an instance of
-     * <code>java.text.SimpleDateFormat</code> to produce the hint. 
+     * <p>The calendar component internally relies on an instance of
+     * <code>java.text.SimpleDateFormat</code> to produce this help. 
      * The default hint is constructed by invoking the
      * <code>toLocalizedPattern()</code> method on the
      * <code>SimpleDateFormat</code> instance and converting this 
@@ -452,8 +452,8 @@ public class Calendar extends TextField implements DateManager, NamingContainer 
      * <code>toLocalizedPattern()</code> does not actually produce
      * locale-appropriate strings for most locales (it works for
      * German, but not for other locales). If the default value for
-     * the <code>dateFormtPattern</code> is used, the
-     * component takes care of the localization itself, but if the default 
+     * the <code>dateFormtPattern</code> is used, the calendar
+     * component performs the localization itself, but if the default 
      * is overridden, you may need to override the hint on a
      * per-locale basis too. </p>
      * @see #getDateFormatPatternHelp()
@@ -519,10 +519,10 @@ public class Calendar extends TextField implements DateManager, NamingContainer 
      * selectable day. The default value is 100 years prior to today's date.</p> 
      * <p>The value of this attribute is reflected in the years that
      * are available for selection in the month display. In future
-     * releases of this component, web application users will also not
+     * releases of this component, web application users will  not
      * be able to view months before this date, or select days that
      * precede this date. At present such dates can be selected, but
-     * will not be validated when the form is submitted.</p>
+     * are not validated when the form is submitted.</p>
      */
     @Property(name="minDate", displayName="First selectable date", category="Data", editorClassName="com.sun.rave.propertyeditors.binding.ValueBindingPropertyEditor", shortDescription="The first selectable date.")
     private java.util.Date minDate = null;
@@ -532,10 +532,10 @@ public class Calendar extends TextField implements DateManager, NamingContainer 
      * selectable day. The default value is 100 years prior to today's date.</p> 
      * <p>The value of this attribute is reflected in the years that
      * are available for selection in the month display. In future
-     * releases of this component, web application users will also not
+     * releases of this component, web application users will  not
      * be able to view months before this date, or select days that
      * precede this date. At present such dates can be selected, but
-     * will not be validated when the form is submitted.</p>
+     * are not validated when the form is submitted.</p>
      */
     public java.util.Date getMinDate() {
         if (this.minDate != null) {
@@ -553,10 +553,10 @@ public class Calendar extends TextField implements DateManager, NamingContainer 
      * selectable day. The default value is 100 years prior to today's date.</p> 
      * <p>The value of this attribute is reflected in the years that
      * are available for selection in the month display. In future
-     * releases of this component, web application users will also not
+     * releases of this component, web application users will  not
      * be able to view months before this date, or select days that
      * precede this date. At present such dates can be selected, but
-     * will not be validated when the form is submitted.</p>
+     * are not validated when the form is submitted.</p>
      * @see #getMinDate()
      */
     public void setMinDate(java.util.Date minDate) {
@@ -582,7 +582,7 @@ public class Calendar extends TextField implements DateManager, NamingContainer 
     }
 
     /**
-     * <p>The <code>java.util.TimeZone</code> used with this
+     * <p>The <code>java.util.TimeZone</code> that is used with the calendar
      * component. Unless set, the default TimeZone for the locale in  
      * <code>javax.faces.component.UIViewRoot</code> is used.</p>
      */
@@ -590,7 +590,7 @@ public class Calendar extends TextField implements DateManager, NamingContainer 
     private java.util.TimeZone timeZone = null;
 
     /**
-     * <p>The <code>java.util.TimeZone</code> used with this
+     * <p>The <code>java.util.TimeZone</code> that is used with the calendar
      * component. Unless set, the default TimeZone for the locale in  
      * <code>javax.faces.component.UIViewRoot</code> is used.</p>
      */
@@ -606,7 +606,7 @@ public class Calendar extends TextField implements DateManager, NamingContainer 
     }
 
     /**
-     * <p>The <code>java.util.TimeZone</code> used with this
+     * <p>The <code>java.util.TimeZone</code> that is used with the calendar
      * component. Unless set, the default TimeZone for the locale in  
      * <code>javax.faces.component.UIViewRoot</code> is used.</p>
      * @see #getTimeZone()
