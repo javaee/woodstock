@@ -26,7 +26,6 @@ dojo.provide("webui.@THEME@.dnd");
 dojo.require("dojo.dnd.manager");
 dojo.require("dojo.dnd.source");
 
-webui.@THEME@.dnd.DEFAULT_TYPES = ["default"];
 
 /**
  * @name webui.@THEME@.dnd.Manager
@@ -91,6 +90,8 @@ webui.@THEME@.dnd.Manager.prototype.stopDrag = function() {
  * signature function(source, nodes, copy){..}.
  */
 dojo.declare("webui.@THEME@.dnd.Source", dojo.dnd.Source, {
+    defaultTypes: [ "default" ], // default types for the source
+    
     /**
      * Constructor
      *
@@ -172,7 +173,7 @@ webui.@THEME@.dnd.Source.prototype.makeNodeDraggable = function(node, dragType, 
     }
     var type = dragType ? dragType : node.getAttribute("dndType");
     if (!type) {
-        type = webui.@THEME@.dnd.DEFAULT_TYPES;
+        type = this.DEFAULT_TYPES;
     }
     type = (type instanceof Array) ? type : type = type.split(',');
     dojo.forEach(type, this.trim);
@@ -243,7 +244,7 @@ webui.@THEME@.dnd.Source.prototype._normalizedCreator = function(data, hint) {
     // Adds all necessary data to the output of user-supplied creator function.
     var t = (this.creator ? this.creator : this.defaultCreator)(data, hint);
     if (!dojo.isArray(t.type)) {
-        t.type = webui.@THEME@.dnd.DEFAULT_TYPES;    
+        t.type = this.DEFAULT_TYPES;    
     }
     if (!t.node.id) {
         t.node.id = dojo.dnd.getUniqueId();    
