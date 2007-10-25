@@ -217,11 +217,11 @@ a.BcmLnk@THEME_CSS@:hover {
  currently under the cursor. 
  */
 .dojoDndItemBefore {
-	border-top: 2px solid #369;
+	border-top: 4px dotted #369;
 }
 
 .dojoDndItemAfter {
-	border-bottom: 2px solid #369;
+	border-bottom:  4px dotted #369;
 }
 /* children of horizontal container present border differently */
 .dojoDndHorizontal > .dojoDndItemBefore {
