@@ -84,14 +84,14 @@ public class CommonTasksGroup  extends javax.faces.component.UIComponentBase  im
     }
 
     /**
-     * <p>CSS style(s) to be applied to the outermost HTML element when this 
+     * <p>CSS style or styles that are applied to the outermost HTML element when this 
      * component is rendered.</p>
      */    
     @Property(name="style", displayName="CSS Style(s)", category="Appearance", editorClassName="com.sun.jsfcl.std.css.CssStylePropertyEditor")
     private String style = null;
 
     /**
-     * <p>CSS style(s) to be applied to the outermost HTML element when this 
+     * <p>CSS style or styles that are applied to the outermost HTML element when this 
      * component is rendered.</p>
      */
     public String getStyle() {
@@ -106,7 +106,7 @@ public class CommonTasksGroup  extends javax.faces.component.UIComponentBase  im
     }
 
     /**
-     * <p>CSS style(s) to be applied to the outermost HTML element when this 
+     * <p>CSS style or styles that are applied to the outermost HTML element when this 
      * component is rendered.</p>
      * @see #getStyle()
      */
@@ -115,14 +115,14 @@ public class CommonTasksGroup  extends javax.faces.component.UIComponentBase  im
     }
 
     /**
-     * <p>CSS style class(es) to be applied to the outermost HTML element when this 
+     * <p>CSS style class or classes that are applied to the outermost HTML element when the commonTaskGroup
      * component is rendered.</p>
-     */    
+     */
     @Property(name="styleClass", displayName="CSS Style Class(es)", category="Appearance", editorClassName="com.sun.rave.propertyeditors.StyleClassPropertyEditor")
     private String styleClass = null;
 
     /**
-     * <p>CSS style class(es) to be applied to the outermost HTML element when this 
+     * <p>CSS style class or classes that are applied to the outermost HTML element when the commonTaskGroup
      * component is rendered.</p>
      */
     public String getStyleClass() {
@@ -137,7 +137,7 @@ public class CommonTasksGroup  extends javax.faces.component.UIComponentBase  im
     }
 
     /**
-     * <p>CSS style class(es) to be applied to the outermost HTML element when this 
+     * <p>CSS style class or classes that are applied to the outermost HTML element when the commonTaskGroup
      * component is rendered.</p>
      * @see #getStyleClass()
      */
@@ -174,7 +174,7 @@ public class CommonTasksGroup  extends javax.faces.component.UIComponentBase  im
     }
 
     /**
-     * <p>Use the visible attribute to indicate whether the component should be
+     * <p>Indicates whether the component should be
      * viewable by the user in the rendered HTML page. If set to false, the
      * HTML code for the component is present in the page, but the component
      * is hidden with style attributes. By default, visible is set to true, so
@@ -187,7 +187,7 @@ public class CommonTasksGroup  extends javax.faces.component.UIComponentBase  im
     private boolean visible_set = false;
 
     /**
-     * <p>Use the visible attribute to indicate whether the component should be
+     * <p>Indicates whether the component should be
      * viewable by the user in the rendered HTML page. If set to false, the
      * HTML code for the component is present in the page, but the component
      * is hidden with style attributes. By default, visible is set to true, so
@@ -212,7 +212,7 @@ public class CommonTasksGroup  extends javax.faces.component.UIComponentBase  im
     }
 
     /**
-     * <p>Use the visible attribute to indicate whether the component should be
+     * <p>Indicates whether the component should be
      * viewable by the user in the rendered HTML page. If set to false, the
      * HTML code for the component is present in the page, but the component
      * is hidden with style attributes. By default, visible is set to true, so

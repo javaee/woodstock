@@ -133,14 +133,14 @@ public class CommonTasksSection extends javax.faces.component.UIComponentBase im
     }
 
     /**
-     * <p>CSS style(s) to be applied to the outermost HTML element when this 
+     * <p>CSS style or styles  that are applied to the outermost HTML element when the commontaskssection
      * component is rendered.</p>
      */
     @Property(name="style", displayName="CSS Style(s)", category="Appearance", editorClassName="com.sun.jsfcl.std.css.CssStylePropertyEditor")
     private String style = null;
 
     /**
-     * <p>CSS style(s) to be applied to the outermost HTML element when this 
+     * <p>CSS style or styles  that are applied to the outermost HTML element when the commontaskssection
      * component is rendered.</p>
      */
     public String getStyle() {
@@ -155,7 +155,7 @@ public class CommonTasksSection extends javax.faces.component.UIComponentBase im
     }
 
     /**
-     * <p>CSS style(s) to be applied to the outermost HTML element when this 
+     * <p>CSS style or styles  that are applied to the outermost HTML element when the commontaskssection
      * component is rendered.</p>
      * @see #getStyle()
      */
@@ -164,14 +164,14 @@ public class CommonTasksSection extends javax.faces.component.UIComponentBase im
     }
 
     /**
-     * <p>CSS style class(es) to be applied to the outermost HTML element when this 
+     * <p>CSS style class or classes that are applied to the outermost HTML element when the commontaskssection 
      * component is rendered.</p>
      */
     @Property(name="styleClass", displayName="CSS Style Class(es)", category="Appearance", editorClassName="com.sun.rave.propertyeditors.StyleClassPropertyEditor")
     private String styleClass = null;
 
     /**
-     * <p>CSS style class(es) to be applied to the outermost HTML element when this 
+     * <p>CSS style class or classes that are applied to the outermost HTML element when the commontaskssection 
      * component is rendered.</p>
      */
     public String getStyleClass() {
@@ -186,7 +186,7 @@ public class CommonTasksSection extends javax.faces.component.UIComponentBase im
     }
 
     /**
-     * <p>CSS style class(es) to be applied to the outermost HTML element when this 
+     * <p>CSS style class or classes that are applied to the outermost HTML element when the commontaskssection 
      * component is rendered.</p>
      * @see #getStyleClass()
      */
@@ -223,7 +223,7 @@ public class CommonTasksSection extends javax.faces.component.UIComponentBase im
     }
 
     /**
-     * <p>Use the visible attribute to indicate whether the component should be
+     * <p>Indicates whether the component should be
      * viewable by the user in the rendered HTML page. If set to false, the
      * HTML code for the component is present in the page, but the component
      * is hidden with style attributes. By default, visible is set to true, so
@@ -236,7 +236,7 @@ public class CommonTasksSection extends javax.faces.component.UIComponentBase im
     private boolean visible_set = false;
 
     /**
-     * <p>Use the visible attribute to indicate whether the component should be
+     * <p>Indicates whether the component should be
      * viewable by the user in the rendered HTML page. If set to false, the
      * HTML code for the component is present in the page, but the component
      * is hidden with style attributes. By default, visible is set to true, so
@@ -276,7 +276,7 @@ public class CommonTasksSection extends javax.faces.component.UIComponentBase im
     }
 
     /**
-     * <p>Specify the number of task columns to display in the common tasks section.
+     * <p>Specifies the number of task columns to display in the common tasks section.
      * </p>
      */
     @Property(name="columns", displayName="columns" , category="Appearance", editorClassName="com.sun.rave.propertyeditors.IntegerPropertyEditor")
@@ -284,7 +284,7 @@ public class CommonTasksSection extends javax.faces.component.UIComponentBase im
     private boolean columns_set = false;
 
     /**
-     * <p>Specify the number of task columns to display in the common tasks section.
+     * <p>Specifies the number of task columns to display in the common tasks section.
      * </p>
      */
     public int getColumns() {
@@ -304,7 +304,7 @@ public class CommonTasksSection extends javax.faces.component.UIComponentBase im
     }
 
     /**
-     * <p>Specify the number of task columns to display in the common tasks section. </p>
+     * <p>Specifies the number of task columns to display in the common tasks section. </p>
      * @see #getColumns()
      */
     public void setColumns(int columns) {

@@ -159,7 +159,7 @@ public class CommonTask extends com.sun.webui.jsf.component.WebuiCommand
     }
 
     /**
-     * <p>Specify a theme key for an image to be displayed in front of the text for
+     * <p>Specifies a theme key for an image to be displayed in front of the text for
      * the task. The key <code>CTS_OVERVIEW</code> will generate 
      * an image that can be used to mark tasks that are for overview information about the task</p>
      */
@@ -167,7 +167,7 @@ public class CommonTask extends com.sun.webui.jsf.component.WebuiCommand
     private String icon = null;
 
     /**
-     * <p>Specify a theme key for an image to be displayed in front of the text for
+     * <p>Specifies a theme key for an image to be displayed in front of the text for
      * the task. The key <code>CTS_OVERVIEW</code> will generate 
      * an image that can be used to mark tasks that are for overview information about the task</p>
      */
@@ -183,7 +183,7 @@ public class CommonTask extends com.sun.webui.jsf.component.WebuiCommand
     }
 
     /**
-    * <p>Specify a theme key for an image to be displayed in front of the text for
+    * <p>Specifies a theme key for an image to be displayed in front of the text for
      * the task. The key <code>CTS_OVERVIEW</code> will generate 
      * an image that can be used to mark tasks that are for overview information about the task</p>
      * @see #getIcon()
@@ -193,7 +193,7 @@ public class CommonTask extends com.sun.webui.jsf.component.WebuiCommand
     }
 
     /**
-     * <p>Specify the height in pixels of the image that is specified with the imageUrl attribute
+     * <p>Specifies the height in pixels of the image that is specified with the imageUrl attribute
      * </p>
      */    
     @Property(name="imageHeight", displayName="imageHeight" , category="Appearance", editorClassName="com.sun.rave.propertyeditors.IntegerPropertyEditor")
@@ -201,7 +201,7 @@ public class CommonTask extends com.sun.webui.jsf.component.WebuiCommand
     private boolean imageHeight_set = false;
 
     /**
-     * <p>Specify the height in pixels of the image that is specified with the imageUrl attribute
+     * <p>Specifies the height in pixels of the image that is specified with the imageUrl attribute
      * </p>
      */  
     public int getImageHeight() {
@@ -221,7 +221,7 @@ public class CommonTask extends com.sun.webui.jsf.component.WebuiCommand
     }
 
     /**
-     * <p>Specify the height in pixels of the image that is specified with the imageUrl attribute
+     * <p>Specifies the height in pixels of the image that is specified with the imageUrl attribute
      * </p>
      * @see #getImageHeight()
      */
@@ -265,7 +265,7 @@ public class CommonTask extends com.sun.webui.jsf.component.WebuiCommand
     }
 
     /**
-     * <p>Specify the width in pixels of the image that is specified with the imageUrl attribute.
+     * <p>Specifies the width in pixels of the image that is specified with the imageUrl attribute.
      * </p>
      */    
     @Property(name="imageWidth", displayName="imageWidth", category="Appearance", editorClassName="com.sun.rave.propertyeditors.IntegerPropertyEditor")
@@ -273,7 +273,7 @@ public class CommonTask extends com.sun.webui.jsf.component.WebuiCommand
     private boolean imageWidth_set = false;
 
     /**
-     * <p>Specify the width in pixels of the image that is specified with the imageUrl attribute.
+     * <p>Specifies the width in pixels of the image that is specified with the imageUrl attribute.
      * </p>
      */
     public int getImageWidth() {
@@ -293,7 +293,7 @@ public class CommonTask extends com.sun.webui.jsf.component.WebuiCommand
     }
 
     /**
-     * <p>Specify the width in pixels of the image that is specified with the imageUrl attribute.
+     * <p>Specifies the width in pixels of the image that is specified with the imageUrl attribute.
      * </p>
      * @see #getImageWidth()
      */
@@ -339,7 +339,7 @@ public class CommonTask extends com.sun.webui.jsf.component.WebuiCommand
     }
 
     /**
-     * <p>Specify the text for the link that is displayed at the bottom of the task's information
+     * <p>Specifies the text for the link that is displayed at the bottom of the task's information
      * panel. 
      * </p>
      */    
@@ -347,7 +347,7 @@ public class CommonTask extends com.sun.webui.jsf.component.WebuiCommand
     private String infoLinkText = null;
 
     /**
-     * <p>Specify the text for the link that is displayed at the bottom of the task's information
+     * <p>Specifies the text for the link that is displayed at the bottom of the task's information
      * panel. 
      * </p>
      */
@@ -363,7 +363,7 @@ public class CommonTask extends com.sun.webui.jsf.component.WebuiCommand
     }
 
     /**
-     * <p>Specify the text for the link that is displayed at the bottom of the task's information
+     * <p>Specifies the text for the link that is displayed at the bottom of the task's information
      * panel. 
      * </p>
      * @see #getInfoLinkText()
@@ -373,7 +373,7 @@ public class CommonTask extends com.sun.webui.jsf.component.WebuiCommand
     }
 
     /**
-     * <p>Specify the URL for the link that is displayed at the bottom of the task's 
+     * <p>Specifies the URL for the link that is displayed at the bottom of the task's 
      * information panel.
      * </p>
      */    
@@ -381,7 +381,7 @@ public class CommonTask extends com.sun.webui.jsf.component.WebuiCommand
     private String infoLinkUrl = null;
 
     /**
-     * <p>Specify the URL for the link that is displayed at the bottom of the task's 
+     * <p>Specifies the URL for the link that is displayed at the bottom of the task's 
      * information panel.
      * </p>
      */    
@@ -397,7 +397,7 @@ public class CommonTask extends com.sun.webui.jsf.component.WebuiCommand
     }
 
     /**
-     * <p>Specify the URL for the link that is displayed at the bottom of the task's
+     * <p>Specifies the URL for the link that is displayed at the bottom of the task's
      * information panel.
      * </p>
      * @see #getInfoLinkUrl()
@@ -407,13 +407,13 @@ public class CommonTask extends com.sun.webui.jsf.component.WebuiCommand
     }
 
     /**
-     * <p>Specify the text to be displayed in the information panel for this task. </p>
+     * <p>Specifies the text to be displayed in the information panel for this task. </p>
      */
     @Property(name="infoText", displayName="infoText", category="Appearance")
     private String infoText = null;
 
     /**
-     * <p>Specify the text to be displayed in the information panel for this task. </p>
+     * <p>Specifies the text to be displayed in the information panel for this task. </p>
      */
     public String getInfoText() {
         if (this.infoText != null) {
@@ -427,7 +427,7 @@ public class CommonTask extends com.sun.webui.jsf.component.WebuiCommand
     }
 
     /**
-     * <p>Specify the text to be displayed in the information panel for this task. </p>
+     * <p>Specifies the text to be displayed in the information panel for this task. </p>
      * @see #getInfoText()
      */
     public void setInfoText(String infoText) {
@@ -435,13 +435,13 @@ public class CommonTask extends com.sun.webui.jsf.component.WebuiCommand
     }
 
     /**
-     * <p>Specify the title text to be displayed in the information panel for this task. </p>
+     * <p>Specifies the title text to be displayed in the information panel for this task. </p>
      */
     @Property(name="infoTitle", displayName="infoTitle", category="Appearance")
     private String infoTitle = null;
 
     /**
-     * <p>Specify the title text to be displayed in the information panel for this task. </p>
+     * <p>Specifies the title text to be displayed in the information panel for this task. </p>
      */
     public String getInfoTitle() {
         if (this.infoTitle != null) {
@@ -455,7 +455,7 @@ public class CommonTask extends com.sun.webui.jsf.component.WebuiCommand
     }
 
     /**
-     * <p>Specify the title text to be displayed in the information panel for this task. </p>
+     * <p>Specifies the title text to be displayed in the information panel for this task. </p>
      * @see #getInfoTitle()
      */
     public void setInfoTitle(String infoTitle) {
@@ -463,14 +463,14 @@ public class CommonTask extends com.sun.webui.jsf.component.WebuiCommand
     }
 
     /**
-     * <p>Scripting code executed when this element loses focus.</p>
+     * <p>Scripting code that is executed when this element loses the focus.</p>
      */    
     @Property(name="onBlur", displayName="Blur Script",category="Javascript", editorClassName="com.sun.rave.propertyeditors.JavaScriptPropertyEditor")
     private String onBlur = null;
 
     /**
-     * <p>Scripting code executed when this element loses focus.</p>
-     */
+     * <p>Scripting code that is executed when this element loses the focus.</p>
+     */    
     public String getOnBlur() {
         if (this.onBlur != null) {
             return this.onBlur;
@@ -483,7 +483,7 @@ public class CommonTask extends com.sun.webui.jsf.component.WebuiCommand
     }
 
     /**
-     * <p>Scripting code executed when this element loses focus.</p>
+     * <p>Scripting code that is executed when this element loses the focus.</p>
      * @see #getOnBlur()
      */
     public void setOnBlur(String onBlur) {
@@ -491,14 +491,14 @@ public class CommonTask extends com.sun.webui.jsf.component.WebuiCommand
     }
 
     /**
-     * <p>Scripting code executed when a mouse click
+     * <p>Scripting code that is executed when a mouse click
      * occurs over this component.</p>
      */    
     @Property(name="onClick", displayName="Click Script",category="Javascript", editorClassName="com.sun.rave.propertyeditors.JavaScriptPropertyEditor")
     private String onClick = null;
 
     /**
-     * <p>Scripting code executed when a mouse click
+     * <p>Scripting code that is executed when a mouse click
      * occurs over this component.</p>
      */
     public String getOnClick() {
@@ -513,7 +513,7 @@ public class CommonTask extends com.sun.webui.jsf.component.WebuiCommand
     }
 
     /**
-     * <p>Scripting code executed when a mouse click
+     * <p>Scripting code that is executed when a mouse click
      * occurs over this component.</p>
      * @see #getOnClick()
      */
@@ -522,14 +522,14 @@ public class CommonTask extends com.sun.webui.jsf.component.WebuiCommand
     }
 
     /**
-     * <p>Scripting code executed when a mouse double click
+     * <p>Scripting code that is executed when a mouse double click
      * occurs over this component.</p>
      */
     @Property(name="onDblClick", displayName="Double Click Script",category="Javascript", editorClassName="com.sun.rave.propertyeditors.JavaScriptPropertyEditor")
     private String onDblClick = null;
 
     /**
-     * <p>Scripting code executed when a mouse double click
+     * <p>Scripting code that is executed when a mouse double click
      * occurs over this component.</p>
      */
     public String getOnDblClick() {
@@ -544,7 +544,7 @@ public class CommonTask extends com.sun.webui.jsf.component.WebuiCommand
     }
 
     /**
-     * <p>Scripting code executed when a mouse double click
+     * <p>Scripting code that is executed when a mouse double click
      * occurs over this component.</p>
      * @see #getOnDblClick()
      */
@@ -553,16 +553,16 @@ public class CommonTask extends com.sun.webui.jsf.component.WebuiCommand
     }
 
     /**
-     * <p>Scripting code executed when this component  receives focus. An
-     * element receives focus when the user selects the element by pressing
+     * <p>Scripting code that is executed when this component  receives the focus. An
+     * element receivesthe  focus when the user selects the element by pressing
      * the tab key or clicking the mouse.</p>
      */        
     @Property(name="onFocus", displayName="Focus Script",category="Javascript", editorClassName="com.sun.rave.propertyeditors.JavaScriptPropertyEditor")
     private String onFocus = null;
 
     /**
-     * <p>Scripting code executed when this component  receives focus. An
-     * element receives focus when the user selects the element by pressing
+     * <p>Scripting code that is executed when this component  receives the focus. An
+     * element receivesthe  focus when the user selects the element by pressing
      * the tab key or clicking the mouse.</p>
      */
     public String getOnFocus() {
@@ -577,8 +577,8 @@ public class CommonTask extends com.sun.webui.jsf.component.WebuiCommand
     }
 
     /**
-     * <p>Scripting code executed when this component  receives focus. An
-     * element receives focus when the user selects the element by pressing
+     * <p>Scripting code that is executed when this component  receives the focus. An
+     * element receivesthe  focus when the user selects the element by pressing
      * the tab key or clicking the mouse.</p>
      * @see #getOnFocus()
      */
@@ -587,14 +587,14 @@ public class CommonTask extends com.sun.webui.jsf.component.WebuiCommand
     }
 
     /**
-     * <p>Scripting code executed when the user presses down on a key while the
+     * <p>Scripting code that is executed when the user presses down on a key while the
      * component has focus.</p>
      */
     @Property(name="onKeyDown", displayName="Key Down Script",category="Javascript", editorClassName="com.sun.rave.propertyeditors.JavaScriptPropertyEditor")
     private String onKeyDown = null;
 
     /**
-     * <p>Scripting code executed when the user presses down on a key while the
+     * <p>Scripting code that is executed when the user presses down on a key while the
      * component has focus.</p>
      */
     public String getOnKeyDown() {
@@ -609,7 +609,7 @@ public class CommonTask extends com.sun.webui.jsf.component.WebuiCommand
     }
 
     /**
-     * <p>Scripting code executed when the user presses down on a key while the
+     * <p>Scripting code that is executed when the user presses down on a key while the
      * component has focus.</p>
      * @see #getOnKeyDown()
      */
@@ -618,15 +618,15 @@ public class CommonTask extends com.sun.webui.jsf.component.WebuiCommand
     }
 
     /**
-     * <p>Scripting code executed when the user presses and releases a key while
-     * the component has focus.</p>
+     * <p>Scripting code that is executed when the user presses and releases a key while
+     * the component has the focus.</p>
      */
     @Property(name="onKeyPress", displayName="Key Press Script",category="Javascript", editorClassName="com.sun.rave.propertyeditors.JavaScriptPropertyEditor")
     private String onKeyPress = null;
 
     /**
-     * <p>Scripting code executed when the user presses and releases a key while
-     * the component has focus.</p>
+     * <p>Scripting code that is executed when the user presses and releases a key while
+     * the component has the focus.</p>
      */
     public String getOnKeyPress() {
         if (this.onKeyPress != null) {
@@ -640,8 +640,8 @@ public class CommonTask extends com.sun.webui.jsf.component.WebuiCommand
     }
 
     /**
-     * <p>Scripting code executed when the user presses and releases a key while
-     * the component has focus.</p>
+     * <p>Scripting code that is executed when the user presses and releases a key while
+     * the component has the focus.</p>
      * @see #getOnKeyPress()
      */
     public void setOnKeyPress(String onKeyPress) {
@@ -649,14 +649,14 @@ public class CommonTask extends com.sun.webui.jsf.component.WebuiCommand
     }
 
     /**
-     * <p>Scripting code executed when the user releases a key while the
+     * <p>Scripting code that is executed when the user releases a key while the
      * component has focus.</p>
      */
     @Property(name="onKeyUp", displayName="Key Up Script",category="Javascript", editorClassName="com.sun.rave.propertyeditors.JavaScriptPropertyEditor")
     private String onKeyUp = null;
 
     /**
-     * <p>Scripting code executed when the user releases a key while the
+     * <p>Scripting code that is executed when the user releases a key while the
      * component has focus.</p>
      */
     public String getOnKeyUp() {
@@ -671,7 +671,7 @@ public class CommonTask extends com.sun.webui.jsf.component.WebuiCommand
     }
 
     /**
-     * <p>Scripting code executed when the user releases a key while the
+     * <p>Scripting code that is executed when the user releases a key while the
      * component has focus.</p>
      * @see #getOnKeyUp()
      */
@@ -680,14 +680,14 @@ public class CommonTask extends com.sun.webui.jsf.component.WebuiCommand
     }
 
     /**
-     * <p>Scripting code executed when the user presses a mouse button while the
+     * <p>Scripting code that is executed when the user presses a mouse button while the
      * mouse pointer is on the component.</p>
      */
     @Property(name="onMouseDown", displayName="Mouse Down Script",category="Javascript", editorClassName="com.sun.rave.propertyeditors.JavaScriptPropertyEditor")
     private String onMouseDown = null;
 
     /**
-     * <p>Scripting code executed when the user presses a mouse button while the
+     * <p>Scripting code that is executed when the user presses a mouse button while the
      * mouse pointer is on the component.</p>
      */
     public String getOnMouseDown() {
@@ -702,7 +702,7 @@ public class CommonTask extends com.sun.webui.jsf.component.WebuiCommand
     }
 
     /**
-     * <p>Scripting code executed when the user presses a mouse button while the
+     * <p>Scripting code that is executed when the user presses a mouse button while the
      * mouse pointer is on the component.</p>
      * @see #getOnMouseDown()
      */
@@ -711,14 +711,14 @@ public class CommonTask extends com.sun.webui.jsf.component.WebuiCommand
     }
 
     /**
-     * <p>Scripting code executed when the user moves the mouse pointer while
+     * <p>Scripting code that is executed when the user moves the mouse pointer while
      * it is over the component.</p>
      */    
     @Property(name="onMouseMove", displayName="Mouse Move Script",category="Javascript", editorClassName="com.sun.rave.propertyeditors.JavaScriptPropertyEditor")
     private String onMouseMove = null;
 
     /**
-     * <p>Scripting code executed when the user moves the mouse pointer while
+     * <p>Scripting code that is executed when the user moves the mouse pointer while
      * it is over the component.</p>
      */
     public String getOnMouseMove() {
@@ -733,7 +733,7 @@ public class CommonTask extends com.sun.webui.jsf.component.WebuiCommand
     }
 
     /**
-     * <p>Scripting code executed when the user moves the mouse pointer while
+     * <p>Scripting code that is executed when the user moves the mouse pointer while
      * it is over the component.</p>
      * @see #getOnMouseMove()
      */
@@ -742,13 +742,13 @@ public class CommonTask extends com.sun.webui.jsf.component.WebuiCommand
     }
 
     /**
-     * <p>Scripting code executed when the user moves the mouse pointer off this component.</p>
+     * <p>Scripting code that is executed when the user moves the mouse pointer off this component.</p>
      */    
     @Property(name="onMouseOut", displayName="Mouse Out Script",category="Javascript", editorClassName="com.sun.rave.propertyeditors.JavaScriptPropertyEditor")
     private String onMouseOut = null;
 
     /**
-     * <p>Scripting code executed when the user moves the mouse pointer off this component.</p>
+     * <p>Scripting code that is executed when the user moves the mouse pointer off this component.</p>
      */
     public String getOnMouseOut() {
         if (this.onMouseOut != null) {
@@ -762,7 +762,7 @@ public class CommonTask extends com.sun.webui.jsf.component.WebuiCommand
     }
 
     /**
-     * <p>Scripting code executed when the user moves the mouse pointer off this component.</p>
+     * <p>Scripting code that is executed when the user moves the mouse pointer off this component.</p>
      * @see #getOnMouseOut()
      */
     public void setOnMouseOut(String onMouseOut) {
@@ -770,14 +770,14 @@ public class CommonTask extends com.sun.webui.jsf.component.WebuiCommand
     }
 
     /**
-     * <p>Scripting code executed when the user moves the  mouse pointer into
+     * <p>Scripting code that is executed when the user moves the  mouse pointer into
      * the boundary of this component.</p>
      */
     @Property(name="onMouseOver", displayName="Mouse In Script",category="Javascript", editorClassName="com.sun.rave.propertyeditors.JavaScriptPropertyEditor")
     private String onMouseOver = null;
 
     /**
-     * <p>Scripting code executed when the user moves the  mouse pointer into
+     * <p>Scripting code that is executed when the user moves the  mouse pointer into
      * the boundary of this component.</p>
      */
     public String getOnMouseOver() {
@@ -792,7 +792,7 @@ public class CommonTask extends com.sun.webui.jsf.component.WebuiCommand
     }
 
     /**
-     * <p>Scripting code executed when the user moves the mouse pointer into
+     * <p>Scripting code that is executed when the user moves the mouse pointer into
      * the boundary of this component.</p>
      * @see #getOnMouseOver()
      */
@@ -801,14 +801,14 @@ public class CommonTask extends com.sun.webui.jsf.component.WebuiCommand
     }
 
     /**
-     * <p>Scripting code executed when the user releases a mouse button while
+     * <p>Scripting code that is executed when the user releases a mouse button while
      * the mouse pointer is on the component.</p>
      */    
     @Property(name="onMouseUp", displayName="Mouse Up Script",category="Javascript", editorClassName="com.sun.rave.propertyeditors.JavaScriptPropertyEditor")
     private String onMouseUp = null;
 
     /**
-     * <p>Scripting code executed when the user releases a mouse button while
+     * <p>Scripting code that is executed when the user releases a mouse button while
      * the mouse pointer is on the component.</p>
      */
     public String getOnMouseUp() {
@@ -823,7 +823,7 @@ public class CommonTask extends com.sun.webui.jsf.component.WebuiCommand
     }
 
     /**
-     * <p>Scripting code executed when the user releases a mouse button while
+     * <p>Scripting code that is executed when the user releases a mouse button while
      * the mouse pointer is on the component.</p>
      * @see #getOnMouseUp()
      */
@@ -832,14 +832,14 @@ public class CommonTask extends com.sun.webui.jsf.component.WebuiCommand
     }
 
     /**
-     * <p>CSS style(s) to be applied to the outermost HTML element when this 
+     * <p>CSS style(s) that are applied to the outermost HTML element when this 
      * component is rendered.</p>
      */    
     @Property(name="style", displayName="CSS Style(s)", category="Appearance", editorClassName="com.sun.jsfcl.std.css.CssStylePropertyEditor")
     private String style = null;
 
     /**
-     * <p>CSS style(s) to be applied to the outermost HTML element when this 
+     * <p>CSS style(s) that are applied to the outermost HTML element when this 
      * component is rendered.</p>
      */
     public String getStyle() {
@@ -854,7 +854,7 @@ public class CommonTask extends com.sun.webui.jsf.component.WebuiCommand
     }
 
     /**
-     * <p>CSS style(s) to be applied to the outermost HTML element when this 
+     * <p>CSS style(s) that are applied to the outermost HTML element when this 
      * component is rendered.</p>
      * @see #getStyle()
      */
@@ -863,14 +863,14 @@ public class CommonTask extends com.sun.webui.jsf.component.WebuiCommand
     }
 
     /**
-     * <p>CSS style class(es) to be applied to the outermost HTML element when this 
+     * <p>CSS style class(es) that are applied to the outermost HTML element when this 
      * component is rendered.</p>
      */    
     @Property(name="styleClass", displayName="CSS Style Class(es)", category="Appearance", editorClassName="com.sun.rave.propertyeditors.StyleClassPropertyEditor")
     private String styleClass = null;
 
     /**
-     * <p>CSS style class(es) to be applied to the outermost HTML element when this 
+     * <p>CSS style class(es) that are to be applied to the outermost HTML element when this 
      * component is rendered.</p>
      */
     public String getStyleClass() {
@@ -885,7 +885,7 @@ public class CommonTask extends com.sun.webui.jsf.component.WebuiCommand
     }
 
     /**
-     * <p>CSS style class(es) to be applied to the outermost HTML element when this 
+     * <p>CSS style class(es) that are to be applied to the outermost HTML element when this 
      * component is rendered.</p>
      * @see #getStyleClass()
      */
@@ -1051,7 +1051,7 @@ public class CommonTask extends com.sun.webui.jsf.component.WebuiCommand
     }
 
     /**
-     * <p>Use the visible attribute to indicate whether the component should be
+     * <p>Indicates whether the component should be
      * viewable by the user in the rendered HTML page. If set to false, the
      * HTML code for the component is present in the page, but the component
      * is hidden with style attributes. By default, visible is set to true, so
@@ -1064,7 +1064,7 @@ public class CommonTask extends com.sun.webui.jsf.component.WebuiCommand
     private boolean visible_set = false;
 
     /**
-     * <p>Use the visible attribute to indicate whether the component should be
+     * <p>Indicates whether the component should be
      * viewable by the user in the rendered HTML page. If set to false, the
      * HTML code for the component is present in the page, but the component
      * is hidden with style attributes. By default, visible is set to true, so
@@ -1089,7 +1089,7 @@ public class CommonTask extends com.sun.webui.jsf.component.WebuiCommand
     }
 
     /**
-     * <p>Use the visible attribute to indicate whether the component should be
+     * <p>Indicates whether the component should be
      * viewable by the user in the rendered HTML page. If set to false, the
      * HTML code for the component is present in the page, but the component
      * is hidden with style attributes. By default, visible is set to true, so

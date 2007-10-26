@@ -3481,10 +3481,20 @@ update components server-side: refresh("form1:id1,form2:id2,...")<br>
  Use the <code>webuijsf:commonTask</code> tag to create a single
  task within a common tasks section or common tasks group. </p>
  <p>
- Tasks can be used to invoke simple actions that can be performed in a
- single dialog, or to start a wizard to aid in performing a complex action, 
- or to quickly navigate to a
- particular area of the application. The tasks can be grouped into
+ Tasks can be used in the followin ways:
+ <ul>
+ <li>
+ to invoke simple actions that can be performed in a
+ single dialog
+ </li>
+ <li>
+ to start a wizard to aid in performing a complex action, 
+ </li>
+ <li>
+  to quickly navigate to a particular area of the application. 
+  </li>
+  </ul>
+  The tasks can be grouped into
  categories of related tasks.</p>
  <p>The common tasks section is created with the following tags:
  </p>
@@ -3724,7 +3734,7 @@ update components server-side: refresh("form1:id1,form2:id2,...")<br>
  <td style="vertical-align: top;">Used to define a custom component to be 
  displayed for the task.  The component that you specify in this facet 
  should invoke an action for the task. See <a href="#examples">Examples</a>
- to see how to use the facet.</td>
+ to learn how to use this facet.</td>
  </tr>
  <tr>
  <td style="vertical-align: top;"><code>infoLink</code><br>
@@ -3750,7 +3760,7 @@ update components server-side: refresh("form1:id1,form2:id2,...")<br>
  </tr>
  </tbody>
  </table>
- <h3><a name="examples"> Examples</a></h3>
+ <h3><a name="examples">Code Examples</a></h3>
  <h4>Example 1: Creating tasks with tag attributes</h4>
  <code>&lt;webuijsf:commonTasksSection id="tasks1" title =
  "#{tasks.tskTtl}"&gt; <br>
@@ -4031,7 +4041,7 @@ update components server-side: refresh("form1:id1,form2:id2,...")<br>
  attribute. </p>
  <h3><a name="#facets">Facets</a></h3>
  None.
- <h3> <a name="#examples">Examples</a></h3>
+ <h3> <a name="#examples">Code Examples</a></h3>
  <h4>Example1: Grouping tasks using a <code>webuijsf:commonTasksGroup</code>
  component</h4>
  <code>&lt;webuijsf:commonTasksSection id="tasks1" title =
@@ -4061,9 +4071,20 @@ update components server-side: refresh("form1:id1,form2:id2,...")<br>
  actions that could also be done using various features of the application.
  <br>
  <p>
- Tasks can be used to invoke simple actions, or to start a wizard to
- aid in performing a complex action, or to quickly navigate to a 
- particular area of the application. The tasks can be grouped into
+ Tasks can be:
+ <ul>
+ <li>
+ used ti invoke simple actions
+ </li>
+ <li>
+ used to start a wizard to aid in performing a complex action
+ </li>
+ <li>
+  used to quickly navigate to a 
+ particular area of the application. 
+ </li>
+ </ul>
+ The tasks can be grouped into
  categories of related tasks.<br>
 </p>
 The common tasks section is created with the following tags:<br>
@@ -4252,7 +4273,7 @@ The common tasks section is created with the following tags:<br>
  help is rendered below the title by the component that you specify. See
  the <a href="#examples">Examples</a> section for an example that uses
  the <code>help</code> facet.&nbsp;
- <h3><a name="#examples">Examples</a></h3>
+ <h3><a name="#examples">Code Examples</a></h3>
  <h4>Example 1: Specifying a custom title</h4>
  <code>&lt;webuijsf:commonTasksSection
  id="tasks1" title = "#{tasks.tskTtl}"&gt; <br>
