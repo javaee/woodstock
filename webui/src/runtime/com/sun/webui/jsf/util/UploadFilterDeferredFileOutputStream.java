@@ -20,9 +20,9 @@
  * Copyright 2007 Sun Microsystems, Inc. All rights reserved.
  */
 /*
- * $Header: /zpool01/javanet/scm/svn/tmp/cvs2svn/woodstock/webui/src/runtime/com/sun/webui/jsf/util/UploadFilterDeferredFileOutputStream.java,v 1.1 2007-06-07 21:53:44 rratta Exp $
- * $Revision: 1.1 $
- * $Date: 2007-06-07 21:53:44 $
+ * $Header: /zpool01/javanet/scm/svn/tmp/cvs2svn/woodstock/webui/src/runtime/com/sun/webui/jsf/util/UploadFilterDeferredFileOutputStream.java,v 1.2 2007-10-26 20:22:53 rratta Exp $
+ * $Revision: 1.2 $
+ * $Date: 2007-10-26 20:22:53 $
  *
  * ====================================================================
  *
@@ -408,7 +408,7 @@ public class UploadFilterDeferredFileOutputStream extends OutputStream {
 	    return;
 	}
 	long total = written + count;
-	if (total > maxFileSize) {
+	if (maxFileSize > -1 && total > maxFileSize) {
 	    logException(new SizeLimitExceededException(
 		Long.toString(maxFileSize)));
 	} else 
