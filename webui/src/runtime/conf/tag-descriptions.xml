@@ -4568,8 +4568,8 @@ drag items.</P>
 <P>When the component is rendered, a DOM object corresponding to the
 component is created. To manipulate the component on the client side,
 you may invoke functions on the DOM object. With reference to the DOM
-id, to disable the component, invoke
-<CODE>document.getElementById(id).setProps({disabled: true})</CODE>.</P>
+id, to hide the component, invoke
+<CODE>document.getElementById(id).setProps({visible: false})</CODE>.</P>
 <TABLE WIDTH=885 BORDER=1 CELLPADDING=2 CELLSPACING=3>
 	<COL WIDTH=159>
 	<COL WIDTH=707>
