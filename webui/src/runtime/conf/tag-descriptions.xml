@@ -4492,6 +4492,158 @@ The Common Tasks Section component. This encapsulates a number of common task gr
  &lt;/webuijsf:contentPageTitle&gt;</pre>
 ]]></description>
     </tag>
+ <tag>
+        <name>dndContainer</name>
+
+        <description><![CDATA[
+
+<P>Use the <CODE>webuijsf:dndContainer</CODE> tag to create a drag,
+drop or drag-and drop container. Drag container will make all
+contained elements draggable. Drop container will allow draggable
+elements to be dropped in. Drag-and-drop has qualities of the both.</P>
+<UL>
+	<LI><P STYLE="margin-bottom: 0in">Elements within container can be
+	selected for single and multiple selections 
+	</P>
+	<LI><P STYLE="margin-bottom: 0in">Elements can be dropped within the
+	same container ( rearranged) or into other dndContainers provided
+	that the drop containers accepts drops of this particular dragType. 
+	</P>
+	<LI><P STYLE="margin-bottom: 0in">For the purpose of dragging all
+	elements are identified with 
+	</P>
+	<OL>
+		<LI><P STYLE="margin-bottom: 0in"><CODE>dragType</CODE> &ndash;
+		aimed to facilitate the acceptance check at the drop site. All
+		elements inherit the same type set from the container ( in this
+		case type set is associated with the container, and propagated down
+		to elements) 
+		</P>
+		<LI><P STYLE="margin-bottom: 0in"><CODE>dragData</CODE> &ndash;
+		payload. The data is furnished to the drop container  ( and
+		available to the user) when new element is created there. 
+		</P>
+	</OL>
+	<LI><P STYLE="margin-bottom: 0in">When dragged, an avatar ( moving
+	image) is created. 
+	</P>
+	<LI><P STYLE="margin-bottom: 0in">When dropped, the new element at
+	the destination is created: user can use default logic on creating
+	new nodes when element is dropped( deep node clone), or provide a
+	user's function <CODE>onNodeCreateFunc</CODE>that takes care of
+	creating DOM elements based on the data supplied by each element (
+	see payload above). 
+	</P>
+	<LI><P STYLE="margin-bottom: 0in">User may supply a <FONT FACE="Cumberland, monospace">onDropFunc</FONT>
+	to add custom logic based to the drop process.</P>
+	<P></P>
+</UL>
+<P>DndContainer component represents a &quot;render-only&quot;
+component and the JSF component tree will not reflect any changes
+performed on the client side. 
+</P>
+<H3>HTML Elements and Layout</H3>
+<P>The dndContainer component renders a set of nested XHTML <CODE>&lt;div&gt;
+<FONT FACE="Thorndale, serif">or</FONT> &lt;span&gt; </CODE>elements.</P>
+<H3>Configuring the <CODE>webuijsf:dndContainer</CODE> Tag</H3>
+<P>Use the <CODE>dragTypes</CODE> attribute to associate any of the
+nested components with a list of specified types, by setting the
+attribute's value to a comma-separated list of types or an EL
+expression that corresponds to a property of a backing bean. If
+dragTypes is not specified, container will not behave as a source of
+drag items.</P>
+<P>Use the <CODE>dropTypes</CODE> attribute to make container a drop
+target and accept drops of specified types, by setting the
+attribute's value to a comma-separated list of accepted types or an
+EL expression that corresponds to a property of a backing bean. If
+dropTypes is not specified, container will not behave as a target of
+drag items.</P>
+<P> 
+</P>
+<H3>Facets</H3>
+<UL>
+	<P>None</P>
+</UL>
+<H3>Client Side Javascript Functions</H3>
+<P>When the component is rendered, a DOM object corresponding to the
+component is created. To manipulate the component on the client side,
+you may invoke functions on the DOM object. With reference to the DOM
+id, to disable the component, invoke
+<CODE>document.getElementById(id).setProps({disabled: true})</CODE>.</P>
+<TABLE WIDTH=885 BORDER=1 CELLPADDING=2 CELLSPACING=3>
+	<COL WIDTH=159>
+	<COL WIDTH=707>
+	<TR>
+		<TD WIDTH=159>
+			<P><CODE>getProps()</CODE></P>
+		</TD>
+		<TD WIDTH=707>
+			<P>Use this function to get widget properties. Please see
+			<CODE>setProps()</CODE> function for a list of supported
+			properties.</P>
+		</TD>
+	</TR>
+	<TR>
+		<TD WIDTH=159>
+			<P><CODE>setProps(props)</CODE></P>
+		</TD>
+		<TD WIDTH=707>
+			<P>Use this function to change any of the following supported
+			properties:</P>
+			<UL>
+				<P STYLE="margin-bottom: 0in"></P>
+				<LI><P STYLE="margin-bottom: 0in">style</P>
+				<LI><P>visible</P>
+			</UL>
+		</TD>
+	</TR>
+</TABLE>
+<P><BR><BR>
+</P>
+<H3>Examples</H3>
+<H4>Example 1: Create draggable image 
+</H4>
+<P>This example creates a drag container that contains a draggable
+image within. Drag item will be associated with types &ldquo;words&rdquo;
+and &ldquo;sentences&rdquo;.</P>
+<PRE>               &lt;webuijsf:dndContainer id=&quot;drag&quot; 
+                    <B>dragTypes = &quot;words, sentences&quot; </B>
+                    visible=&quot;true&quot;
+                    style=&quot;position: absolute; top:125px; left: 10px; width: 200px; background: #eee repeat;&quot;
+                    &gt;
+                    &lt;img src=&quot;pond.jpg&quot; style=&quot;width:100px;&quot;/&gt;
+                &lt;/webuijsf:dndContainer&gt;</PRE><H4>
+Example 2: Create draggable image 
+</H4>
+<P>In addition to the previos example, this example will container
+draggable staticText component, html text, and textArea.</P>
+<PRE>               &lt;webuijsf:dndContainer id=&quot;drag&quot; 
+                    <B>dragTypes = &quot;words, sentences&quot; </B>
+                    visible=&quot;true&quot;
+                    style=&quot;position: absolute; top:125px; left: 10px; width: 200px; background: #eee repeat;&quot;
+                    &gt;
+                    &lt;img src=&quot;pond.jpg&quot; style=&quot;width:100px;&quot;/&gt;  
+                    &lt;webuijsf:staticText id = &quot;t1&quot; text = &quot;and they say&quot;/&gt;                   <BR>                    some text
+                    &lt;webuijsf:textArea text = &quot;content&quot; columns=&quot;3&quot; rows = &quot;3&quot; label =&quot;Directions:&quot;/&gt;
+                   
+                &lt;/webuijsf:dndContainer&gt;</PRE><H4>
+Example 3: Create drop container 
+</H4>
+<P>This example creates container that will accept drops of items
+with types &ldquo;words&rdquo; and &ldquo;sentences&rdquo;. Container
+will also display an image, but the image will not be draggable.</P>
+<PRE>                   &lt;webuijsf:dndContainer id=&quot;drag&quot; 
+                    <B>dropTypes = &quot;words, sentences&quot; </B>
+                    visible=&quot;true&quot;
+                    style=&quot;position: absolute; top:125px; left: 10px; width: 200px; background: #eee repeat;&quot;
+                    &gt;
+                    &lt;img src=&quot;pond.jpg&quot; style=&quot;width:100px;&quot;/&gt;
+                &lt;/webuijsf:dndContainer&gt;</PRE><H4>
+<BR><BR>
+</H4>
+      
+]]></description>
+    </tag>
 
     <tag>
         <name>dropDown</name>
