@@ -1049,7 +1049,7 @@ update components on the server-side: refresh("form1:id1,form2:id2,...")<br>
  as demonstrated in the example below. 
  </p>
  <br>
- <p> Note that the <code>AlarmStatus</code> component is deprecated. Please look at the examples to see
+ <p> Note that the <code>AlarmStatus</code> component is deprecated. Look at the examples to see
  how the equivalent of <code>webuijsf:alarmStatus</code> can be created in the masthead.
  <h3>HTML Elements and Layout</h3>
  <p>
@@ -1059,8 +1059,8 @@ update components on the server-side: refresh("form1:id1,form2:id2,...")<br>
  element are four image hyperlinks that show the number of alarms for each severity.
  You can determine how the links respond when clicked by specifying attributes such 
  as <code>url</code>, <code>action</code>,
- or <code>actionListener</code>. The links might be used to show
- the user more information about the alarms, for example. </p>
+ or <code>actionListener</code>. The links can be used to show
+ the user more information about the alarms. </p>
  <h3>Configuring the <code>webuijsf:alarmStatus</code> tag</h3>
  <p>Use the <code>text</code>
  attribute to specify a title or label for the alarmStatus component. The default
@@ -1087,14 +1087,14 @@ update components on the server-side: refresh("form1:id1,form2:id2,...")<br>
  <p>The order in which you specify
  the attributes does not matter because the alarms are always displayed
  in the order of severity: down, critical, major, minor. If the count
- of an alarm type is 0, a dimmed version of icon is displayed.</p>
+ of an alarm type is 0, a dimmed version of the icon is displayed.</p>
  <p>
  You can also specify key identifiers
  for alternative theme image files to use for the icons.  See the 
  <a href="#ThemeIdentifiers">Theme Identifiers</a>
  section. </p>
  <p>
- The image-related attributes such as align, border, vspace apply to all
+ The image-related attributes such as align, border and vspace apply to all
  the alarm images. The link-related attributes such as type, url, and
  action apply to all the alarm count links.
  </p>
@@ -1107,36 +1107,36 @@ update components on the server-side: refresh("form1:id1,form2:id2,...")<br>
  <tbody>
  <tr>
  <td style="vertical-align: top;"><code>alarmLabel</code></td>
- <td style="vertical-align: top;">Specify a custom component to use
+ <td style="vertical-align: top;">Specifies a custom component to use
  for the label. This facet overrides the static text label that is rendered
- by default, and also overrides the text attribute. The facet might be used to
- create a hyperlink label, for example, instead of static text. 
+ by default, and also overrides the text attribute. This facet might be used to
+ create a hyperlink label, instead of static text. 
  </td>
  </tr>
  <tr>
  <td style="vertical-align: top;"><code>criticalAlarms</code></td>
- <td style="vertical-align: top;">Specify a custom component for the icon and count
+ <td style="vertical-align: top;">Specifies a custom component for the icon and count
  for critical alarms. Overrides <code>criticalAlarms</code> and 
  <code>numCriticalAlarms</code> attributes.
  </td>
  </tr>
  <tr>
  <td style="vertical-align: top;"><code>downAlarms</code></td>
- <td style="vertical-align: top;">Specify a custom component for the icon and 
+ <td style="vertical-align: top;">Specifies a custom component for the icon and 
  count for down alarms. Overrides <code>downAlarms</code> and 
  <code>numDownAlarms</code> attributes.
  </td>
  </tr>
  <tr>
  <td style="vertical-align: top;"><code>majorAlarms</code></td>
- <td style="vertical-align: top;">Specify a custom component for the icon and 
+ <td style="vertical-align: top;">Specifies a custom component for the icon and 
  count for major alarms. Overrides <code>majorAlarms</code> and 
  <code>numMajorAlarms</code> attributes.
  </td>
  </tr>
  <tr>
  <td style="vertical-align: top;"><code>minorAlarms</code></td>
- <td style="vertical-align: top;">Specify a custom component for the icon and 
+ <td style="vertical-align: top;">Specifies a custom component for the icon and 
  count for minor alarms. Overrides <code>minorAlarms</code> and 
  <code>numMinorAlarms</code> attributes.
  </td>
@@ -1189,13 +1189,13 @@ update components on the server-side: refresh("form1:id1,form2:id2,...")<br>
  <code>majorIcon</code>, <code>minorIcon</code>, 
  <code>downIcon</code> attributes to vary the appearance of the icons.
  </p>
- <h3>Client Side Javascript Functions</h3>
+ <h3>Client-Side JavaScript Functions</h3>
  <p>None.</p>
- <h3>Examples</h3>
- <h4>Example 1: Display alarm status information as part of the masthead statusArea facet</h4>
+ <h3>Code Examples</h3>
+ <h4>Example 1: Display Alarm Status Information As Part of the Masthead StatusArea facet</h4>
  <p>This example shows the <code>webuijsf:alarmStatus</code> tag with attributes set to indicate the 
  numbers of each type of alarm. The example shows literal values for these 
- attributes, but you would typically set them to a JavaServer Faces EL expression  
+ attributes, but you can set them to a JavaServer Faces EL expression  
  that resolves to a backing bean property. The <code>f:verbatim</code> tags are 
  used to add style selectors that are defined in the theme style sheet.
  </p>
@@ -1219,7 +1219,7 @@ update components on the server-side: refresh("form1:id1,form2:id2,...")<br>
       &lt;/f:facet&gt;
  &lt;/webuijsf:masthead&gt;
  </code></pre>
- <h4> Example 2: Create an equivalent of <code>webuijsf:alarmStatus</code> tag</h4>
+ <h4> Example 2: Create the Equivalent of <code>webuijsf:alarmStatus</code> tag</h4>
  <pre><code>
  &lt;f:facet name="currentAlarmsInfo"&gt;  
   &lt;webuijsf:panelGroup id="alarmStatus"&gt;

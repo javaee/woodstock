@@ -58,7 +58,7 @@ public class AlarmStatus extends ImageHyperlink {
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     
     /**
-     * Scripting code executed when a mouse double click occurs over this 
+     * Scripting code that is executed when a mouse double-click occurs over this 
      * component.
      */
     @Property(name="onDblClick", isHidden=false, isAttribute=true)
@@ -87,7 +87,7 @@ public class AlarmStatus extends ImageHyperlink {
     }
 
     /**
-     * <p>Specify if the critical alarm count should be displayed. Set to false to 
+     * <p>Specifies if the critical alarm count should be displayed. Is false to 
      * prevent display of critical alarm count and icon.</p>
      */
     @Property(name="criticalAlarms", displayName="Critical Alarms")
@@ -95,7 +95,7 @@ public class AlarmStatus extends ImageHyperlink {
     private boolean criticalAlarms_set = false;
 
     /**
-     * <p>Specify if the critical alarm count should be displayed. Set to false to 
+     * <p>Specifies if the critical alarm count should be displayed. Is false to 
      * prevent display of critical alarm count and icon.</p>
      */
     public boolean isCriticalAlarms() {
@@ -115,7 +115,7 @@ public class AlarmStatus extends ImageHyperlink {
     }
 
     /**
-     * <p>Specify if the critical alarm count should be displayed. Set to false to 
+     * <p>Specifies if the critical alarm count should be displayed. Is false to 
      * prevent display of critical alarm count and icon.</p>
      * @see #isCriticalAlarms()
      */
@@ -153,16 +153,16 @@ public class AlarmStatus extends ImageHyperlink {
     }
 
     /**
-     * <p>Specify if the down alarm count should be displayed.  
-     * Set to false to prevent display of down alarm count and icon.</p>
+     * <p>Specifies if the down alarm count should be displayed.  
+     * Is false to prevent display of down alarm count and icon.</p>
      */
     @Property(name="downAlarms", displayName="Down Alarms")
     private boolean downAlarms = false;
     private boolean downAlarms_set = false;
 
     /**
-     * <p>Specify if the down alarm count should be displayed.  
-     * Set to false to prevent display of down alarm count and icon.</p>
+     * <p>Specifies if the down alarm count should be displayed.  
+     * Is false to prevent display of down alarm count and icon.</p>
      */
     public boolean isDownAlarms() {
         if (this.downAlarms_set) {
@@ -181,8 +181,8 @@ public class AlarmStatus extends ImageHyperlink {
     }
 
     /**
-     * <p>Specify if the down alarm count should be displayed.  
-     * Set to false to prevent display of down alarm count and icon.</p>
+     * <p>Specifies if the down alarm count should be displayed.  
+     * Is false to prevent display of down alarm count and icon.</p>
      * @see #isDownAlarms()
      */
     public void setDownAlarms(boolean downAlarms) {
@@ -285,7 +285,7 @@ public class AlarmStatus extends ImageHyperlink {
     }
 
     /**
-     * <p>Specify if the minor alarm count should be displayed. Set to false to 
+     * <p>Specifies if the minor alarm count should be displayed. Is false to 
      * prevent display of minor alarm count and icon.</p>
      */
     @Property(name="minorAlarms", displayName="Minor Alarms")
@@ -293,7 +293,7 @@ public class AlarmStatus extends ImageHyperlink {
     private boolean minorAlarms_set = false;
 
     /**
-     * <p>Specify if the minor alarm count should be displayed. Set to false to 
+     * <p>Specifies if the minor alarm count should be displayed. Is false to 
      * prevent display of minor alarm count and icon.</p>
      */
     public boolean isMinorAlarms() {
@@ -313,7 +313,7 @@ public class AlarmStatus extends ImageHyperlink {
     }
 
     /**
-     * <p>Specify if the minor alarm count should be displayed. Set to false to 
+     * <p>Specifies if the minor alarm count should be displayed. Is false to 
      * prevent display of minor alarm count and icon.</p>
      * @see #isMinorAlarms()
      */
@@ -421,14 +421,14 @@ public class AlarmStatus extends ImageHyperlink {
     }
 
     /**
-     * <p>The number of major alarms, to display next to the appropriate icon.</p>
+     * <p>The number of major alarms, can be displayed next to the appropriate icon.</p>
      */
     @Property(name="numMajorAlarms", displayName="Number of Major Alarms")
     private int numMajorAlarms = Integer.MIN_VALUE;
     private boolean numMajorAlarms_set = false;
 
     /**
-     * <p>The number of major alarms, to display next to the appropriate icon.</p>
+     * <p>The number of major alarms, can be displayed next to the appropriate icon.</p>
      */
     public int getNumMajorAlarms() {
         if (this.numMajorAlarms_set) {
@@ -447,7 +447,7 @@ public class AlarmStatus extends ImageHyperlink {
     }
 
     /**
-     * <p>The number of major alarms, to display next to the appropriate icon.</p>
+     * <p>The number of major alarms, can be displayed next to the appropriate icon.</p>
      * @see #getNumMajorAlarms()
      */
     public void setNumMajorAlarms(int numMajorAlarms) {
@@ -456,14 +456,14 @@ public class AlarmStatus extends ImageHyperlink {
     }
 
     /**
-     * <p>The number of minor alarms, to display next to the appropriate icon.</p>
+     * <p>The number of minor alarms that can be displayed next to the appropriate icon.</p>
      */
     @Property(name="numMinorAlarms", displayName="Number of Minor Alarms")
     private int numMinorAlarms = Integer.MIN_VALUE;
     private boolean numMinorAlarms_set = false;
 
     /**
-     * <p>The number of minor alarms, to display next to the appropriate icon.</p>
+     * <p>The number of minor alarms that can be displayed next to the appropriate icon.</p>
      */
     public int getNumMinorAlarms() {
         if (this.numMinorAlarms_set) {
@@ -482,7 +482,7 @@ public class AlarmStatus extends ImageHyperlink {
     }
 
     /**
-     * <p>The number of minor alarms, to display next to the appropriate icon.</p>
+     * <p>The number of minor alarms that can be displayed next to the appropriate icon./p>
      * @see #getNumMinorAlarms()
      */
     public void setNumMinorAlarms(int numMinorAlarms) {
@@ -491,14 +491,14 @@ public class AlarmStatus extends ImageHyperlink {
     }
 
     /**
-     * <p>CSS style(s) to be applied to the outermost HTML element when this 
+     * <p>CSS style or styles to be applied to the outermost HTML element when this 
      * component is rendered.</p>
      */
     @Property(name="style", displayName="CSS Style(s)")
     private String style = null;
 
     /**
-     * <p>CSS style(s) to be applied to the outermost HTML element when this 
+     * <p>CSS style or styles to be applied to the outermost HTML element when this 
      * component is rendered.</p>
      */
     public String getStyle() {
@@ -513,7 +513,7 @@ public class AlarmStatus extends ImageHyperlink {
     }
 
     /**
-     * <p>CSS style(s) to be applied to the outermost HTML element when this 
+     * <p>CSS style or styles to be applied to the outermost HTML element when this 
      * component is rendered.</p>
      * @see #getStyle()
      */
@@ -522,14 +522,14 @@ public class AlarmStatus extends ImageHyperlink {
     }
 
     /**
-     * <p>CSS style class(es) to be applied to the outermost HTML element when this 
+     * <p>CSS style class or classes to be applied to the outermost HTML element when this 
      * component is rendered.</p>
      */
     @Property(name="styleClass", displayName="CSS Style Class(es)")
     private String styleClass = null;
 
     /**
-     * <p>CSS style class(es) to be applied to the outermost HTML element when this 
+     * <p>CSS style class or classes to be applied to the outermost HTML element when this 
      * component is rendered.</p>
      */
     public String getStyleClass() {
@@ -544,7 +544,7 @@ public class AlarmStatus extends ImageHyperlink {
     }
 
     /**
-     * <p>CSS style class(es) to be applied to the outermost HTML element when this 
+     * <p>CSS style class or classes to be applied to the outermost HTML element when this 
      * component is rendered.</p>
      * @see #getStyleClass()
      */
@@ -553,12 +553,12 @@ public class AlarmStatus extends ImageHyperlink {
     }
 
     /**
-     * <p>Use the visible attribute to indicate whether the component should be
-     * viewable by the user in the rendered HTML page. If set to false, the
+     * <p>Indicates whether the component should be
+     * viewable by the user in the rendered HTML page. If false, the
      * HTML code for the component is present in the page, but the component
-     * is hidden with style attributes. By default, visible is set to true, so
+     * is hidden with style attributes. By default, this setting is true, so
      * HTML for the component HTML is included and visible to the user. If the
-     * component is not visible, it can still be processed on subsequent form
+     * AlarmStatus component is not visible, it can still be processed on subsequent form
      * submissions because the HTML is present.</p>
      */
     @Property(name="visible", displayName="Visible")
@@ -566,12 +566,12 @@ public class AlarmStatus extends ImageHyperlink {
     private boolean visible_set = false;
 
     /**
-     * <p>Use the visible attribute to indicate whether the component should be
-     * viewable by the user in the rendered HTML page. If set to false, the
+     * <p>Indicates whether the component should be
+     * viewable by the user in the rendered HTML page. If false, the
      * HTML code for the component is present in the page, but the component
-     * is hidden with style attributes. By default, visible is set to true, so
+     * is hidden with style attributes. By default, this setting is true, so
      * HTML for the component HTML is included and visible to the user. If the
-     * component is not visible, it can still be processed on subsequent form
+     * AlarmStatus component is not visible, it can still be processed on subsequent form
      * submissions because the HTML is present.</p>
      */
     public boolean isVisible() {
@@ -591,12 +591,12 @@ public class AlarmStatus extends ImageHyperlink {
     }
 
     /**
-     * <p>Use the visible attribute to indicate whether the component should be
-     * viewable by the user in the rendered HTML page. If set to false, the
+     * <p>Indicates whether the component should be
+     * viewable by the user in the rendered HTML page. If false, the
      * HTML code for the component is present in the page, but the component
-     * is hidden with style attributes. By default, visible is set to true, so
+     * is hidden with style attributes. By default, this setting is true, so
      * HTML for the component HTML is included and visible to the user. If the
-     * component is not visible, it can still be processed on subsequent form
+     * AlarmStatus component is not visible, it can still be processed on subsequent form
      * submissions because the HTML is present.</p>
      * @see #isVisible()
      */
