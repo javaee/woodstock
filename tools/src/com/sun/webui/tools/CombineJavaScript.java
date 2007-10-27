@@ -73,7 +73,7 @@ public class CombineJavaScript extends ToolsBase {
      *
      * @param file The JavaScript file to combine.
      */
-    private void combineFile(File file) throws IOException {
+    protected void combineFile(File file) throws IOException {
         if (isFileCombined(file)) {
             return;
         }

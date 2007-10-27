@@ -49,7 +49,7 @@ public class CombineCSS extends CombineJavaScript {
      *
      * @param file The CSS file to combine.
      */
-    private void combineFile(File file) throws IOException {
+    protected void combineFile(File file) throws IOException {
         if (isFileCombined(file)) {
             return;
         }
