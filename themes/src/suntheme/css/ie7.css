@@ -42,3 +42,7 @@ div.ConTblCl2Div@THEME_CSS@ .CbSpn@THEME_CSS@ .CbLbl@THEME_CSS@ {
 div.ConTblCl2Div@THEME_CSS@ .CbSpn@THEME_CSS@ input[type=checkbox] {
 	margin-top:-5px;
 }
+/** Drag and drop styles */
+.dojoDndWebuiItemDragged {
+    filter: alpha(opacity=50); 
+}

@@ -263,7 +263,7 @@ a.BcmLnk@THEME_CSS@:hover {
 .dojoDndCopy .dojoDndAvatarCanDrop .dojoDndAvatarHeader	{background-image: url(../images/dnd/dndCopy.png); background-repeat: no-repeat;}
 
 .dojoDndWebuiItemDragged {
-    opacity:.50;filter: alpha(opacity=50); -moz-opacity: 0.5; 
+    opacity:.50; -moz-opacity: 0.5; 
 }
 
 
