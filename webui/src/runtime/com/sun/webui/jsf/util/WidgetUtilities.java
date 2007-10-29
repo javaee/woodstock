@@ -35,6 +35,7 @@ import java.io.Writer;
 import java.util.Iterator;
 
 import javax.faces.component.UIComponent;
+import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 import javax.faces.context.ResponseWriter;
 
@@ -266,7 +267,7 @@ public class WidgetUtilities {
 
         // Initialize Writer to buffer rendered output.
         ResponseWriter oldWriter = context.getResponseWriter();
-        Writer strWriter = RenderingUtilities.initStringWriter(context);
+        Writer strWriter = initStringWriter(context);
 
         // Render component and restore writer.
         RenderingUtilities.renderComponent(component, context);
@@ -351,5 +352,38 @@ public class WidgetUtilities {
             image.setWidth(imgProps);
         }
         return WidgetUtilities.renderComponent(context, image);
+    }
+
+    /**
+     * Helper method to initialize a writer used to buffer rendered output.
+     * 
+     * Note: Be certain to save the old writer pior to invoking this method. The
+     * writer in the given context is replaced with a new writer.
+     *
+     * @param context FacesContext for the current request.
+     *
+     * @returns The Writer used to buffer rendered output.
+     */
+    private static Writer initStringWriter(FacesContext context) {
+        if (context == null) {
+            return null;
+        }
+
+        // Get writers.
+        ResponseWriter oldWriter = context.getResponseWriter();
+        Writer strWriter = new FastStringWriter(1024);
+        ResponseWriter newWriter = null;
+
+        // Initialize new writer.
+        if (null != oldWriter) {
+            newWriter = oldWriter.cloneWithWriter(strWriter);
+        } else {
+            ExternalContext extContext = context.getExternalContext();
+            newWriter = context.getRenderKit().createResponseWriter(
+                strWriter, null, extContext.getRequestCharacterEncoding());
+        }
+        // Set new writer in context.
+        context.setResponseWriter(newWriter);
+        return strWriter;
     }
 }

@@ -35,11 +35,7 @@ import com.sun.webui.jsf.util.RenderingUtilities;
 import com.sun.webui.jsf.util.ThemeUtilities;
 import com.sun.webui.theme.Theme;
 
-import java.beans.Beans;
 import java.io.IOException;
-import java.io.Writer;
-import java.util.Iterator;
-import java.util.Map;
 
 import javax.faces.FacesException;
 import javax.faces.component.NamingContainer;
@@ -50,19 +46,8 @@ import javax.faces.context.ResponseWriter;
 /**
  * <p>Renderer for a {@link Body} component.</p>
  */
-
 @Renderer(@Renderer.Renders(componentFamily="com.sun.webui.jsf.Body"))
-public class BodyRenderer extends AbstractRenderer {
-    private static final String SCRIPT_KEY = "com_sun_webui_jsf_renderkit_html_body_script";
-
-    private static final String SCRIPT_START =
-        "<script type=\"text/javascript\">dojo.addOnLoad(function() {";
-
-    private static final String SCRIPT_END = 
-        "});</script>";
-
-    private static final boolean DEBUG = false;
-    
+public class BodyRenderer extends AbstractRenderer {   
     /**
      * <p>The set of String pass-through attributes to be rendered.</p>
      */
@@ -176,90 +161,6 @@ public class BodyRenderer extends AbstractRenderer {
     }
 
     /**
-     * Return a flag indicating whether this Renderer is responsible
-     * for rendering the children the component it is asked to render.
-     * The default implementation returns false.
-     */
-    public boolean getRendersChildren() {
-        // Hack for VWP because they are still using a JSF 1.1 renderer. VWP is
-        // also listening for write calls to the ResponseWriter, so we cannot
-        // invoke the initStringWriter method of RendereringUtilities in order 
-        // to capture JavaScript.
-        if (Beans.isDesignTime()) {
-            return false;
-        }
-        return true;
-    }
-
-    /**
-     * <p>Render the children of the specified <code>UIComponent</code>
-     * to the output stream or writer associated with the response we are
-     * creating.</p>
-     *
-     * <p>The default implementation iterates through the children of
-     * this component and renders them.</p>
-     *
-     * @param context <code>FacesContext</code> for the current request
-     * @param component <code>UIComponent</code> to be decoded
-     *
-     * @exception NullPointerException if <code>context</code> or
-     *  <code>component</code> is <code>null</code>
-     *
-     * @exception IOException if an input/output error occurs
-     */   
-    public void encodeChildren(FacesContext context, UIComponent component)
-            throws IOException {
-        
-        // Enforce NPE requirements in the Javadocs
-        if (context == null || component == null) {
-            throw new NullPointerException();
-        }
-
-        // Initialize Writer to buffer rendered output.
-        ResponseWriter oldWriter = context.getResponseWriter();
-        Writer strWriter = RenderingUtilities.initStringWriter(context);
-
-        if (component.isRendered()) {
-            Iterator kids = component.getChildren().iterator();
-            while (kids.hasNext()) {
-                UIComponent kid = (UIComponent) kids.next();
-                RenderingUtilities.renderComponent(kid, context);
-            }
-        }
-
-        // Restore writer.
-        context.setResponseWriter(oldWriter);
-
-        // Extract JavaScript from buffered output.
-        StringBuffer buff = new StringBuffer(1024);
-        String s = strWriter.toString();
-
-        int first = 0;
-        while (first < s.length()) {
-            int last = s.indexOf(SCRIPT_START, first);
-
-            if (last != -1) {
-                // Write HTML to ResponseWriter.
-                oldWriter.write(s.substring(first, last));
-
-                // Append JavaScript to buffer.
-                first = last + SCRIPT_START.length();
-                last = s.indexOf(SCRIPT_END, first);
-                if (last != -1) {
-                    buff.append(s.substring(first, last));
-                }
-                first = last + SCRIPT_END.length();
-            } else {
-                oldWriter.write(s.substring(first, s.length()));
-                break;
-            } 
-        } 
-
-        // Store buffer for encodeEnd.
-        getRequestMap().put(SCRIPT_KEY, buff);
-    }
-
-    /**
      * <p>Render the appropriate element end, depending on whether the
      * <code>for</code> property is set or not.</p>
      *
@@ -293,10 +194,7 @@ public class BodyRenderer extends AbstractRenderer {
 
         // Instead of creating a global variable...
         Theme theme = ThemeUtilities.getTheme(context);
-        StringBuffer buff = (StringBuffer) getRequestMap().get(SCRIPT_KEY);
-        if (buff == null) {
-            buff = new StringBuffer(128);
-        }
+        StringBuffer buff = new StringBuffer(128);
         buff.append(JavaScriptUtilities.getModuleName("bootstrap.body"))
             .append(" = new ")
             .append(JavaScriptUtilities.getModuleName("body"))
@@ -411,11 +309,5 @@ public class BodyRenderer extends AbstractRenderer {
 	    }
 	}
 	return id;
-    }
-
-    // Helper method to get request map.
-    private static Map getRequestMap() {
-        return FacesContext.getCurrentInstance().getExternalContext().
-            getRequestMap();
     }
 }

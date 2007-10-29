@@ -37,10 +37,9 @@ import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletResponseWrapper;
 import javax.servlet.http.HttpServletResponse;
 
-import javax.faces.component.NamingContainer;
 import javax.faces.component.UIComponent;
 import javax.faces.component.UIParameter;
-import javax.faces.context.ExternalContext;
+
 import javax.faces.context.FacesContext;
 import javax.faces.context.ResponseWriter;
 
@@ -831,42 +830,5 @@ public class RenderingUtilities {
         }
 
         return message;
-    }
-
-    // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    // Writer methods
-    // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-    /**
-     * Helper method to initialize a writer used to buffer rendered output.
-     * 
-     * Note: Be certain to save the old writer pior to invoking this method. The
-     * writer in the given context is replaced with a new writer.
-     *
-     * @param context FacesContext for the current request.
-     *
-     * @returns The Writer used to buffer rendered output.
-     */
-    public static Writer initStringWriter(FacesContext context) {
-        if (context == null) {
-            return null;
-        }
-
-        // Get writers.
-        ResponseWriter oldWriter = context.getResponseWriter();
-        Writer strWriter = new FastStringWriter(1024);
-        ResponseWriter newWriter = null;
-
-        // Initialize new writer.
-        if (null != oldWriter) {
-            newWriter = oldWriter.cloneWithWriter(strWriter);
-        } else {
-            ExternalContext extContext = context.getExternalContext();
-            newWriter = context.getRenderKit().createResponseWriter(
-                strWriter, null, extContext.getRequestCharacterEncoding());
-        }
-        // Set new writer in context.
-        context.setResponseWriter(newWriter);
-        return strWriter;
     }
 }
