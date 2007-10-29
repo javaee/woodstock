@@ -109,26 +109,16 @@
                           <webuijsf:treeNode id="Node1_2_1"
                             text="#{msgs.accordion_Google}" 
                             url="http://www.google.com" target="external">
-                            <f:facet name="image">
-                              <webuijsf:image id="image" url="/images/google.jpg" 
-                                height="16" width="16" />
-                            </f:facet>
                           </webuijsf:treeNode>
          
                           <webuijsf:treeNode id="Node1_2_2"
                             text="#{msgs.accordion_Yahoo}" 
-                            url="http://www.yahoo.com" 
-                            imageURL="/images/yahoo.jpg" target="external">
+                            url="http://www.yahoo.com"> 
                           </webuijsf:treeNode>
          
                           <webuijsf:treeNode id="Node1_2_3"
                             text="#{msgs.accordion_Lycos}" 
                             url="http://www.lycos.com" target="external">
-                            <f:facet name="image">
-                              <webuijsf:image id="image" 
-                                url="http://ly.lygo.com/ly/srch/hp/dog_web_34x35.gif"
-                                height="16" width="16" />
-                            </f:facet>
                           </webuijsf:treeNode>
                         </webuijsf:treeNode>
                       </webuijsf:treeNode>
