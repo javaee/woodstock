@@ -52,7 +52,7 @@ import javax.faces.context.FacesContext;
 @Component(type="com.sun.webui.jsf.Table2RowGroup",
     family="com.sun.webui.jsf.Table2RowGroup",
     tagRendererType="com.sun.webui.jsf.widget.Table2RowGroup",
-    displayName="Table2RowGroup", tagName="table2RowGroup")
+    displayName="Table2RowGroup", tagName="table2RowGroup", isTag=false)
 public class Table2RowGroup extends TableRowGroupBase {
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     // Base methods
