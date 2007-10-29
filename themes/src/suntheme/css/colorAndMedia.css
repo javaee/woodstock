@@ -1700,6 +1700,7 @@ a.WizStpLnk@THEME_CSS@:hover {
 
 .AccdTabExpanded@THEME_CSS@ {
     background: #46708e url(../images/accordion/tab_expanded_gradient.png) repeat-x top;
+    color: #FFFFFF;
  }
 .AccdTabCollapsed@THEME_CSS@ {
     background: #e1e5e8 url(../images/accordion/tab_collapsed_gradient.png) repeat-x top;
@@ -1719,7 +1720,6 @@ a.WizStpLnk@THEME_CSS@:hover {
 
 .AccdTabExpanded@THEME_CSS@ a:hover {
     background: #5b87a5 url(../images/accordion/tab_expanded_gradient.png) repeat-x top;
-    color: #333333; 
 }
 
 .AccdTabCollapsed@THEME_CSS@ a:hover {
