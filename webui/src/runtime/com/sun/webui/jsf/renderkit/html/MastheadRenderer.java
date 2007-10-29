@@ -269,7 +269,7 @@ public class MastheadRenderer extends AbstractRenderer {
                 
         writer.startElement(HTMLElements.TD, masthead);
         writer.writeAttribute(HTMLAttributes.CLASS,
-            theme.getStyleClass(ThemeStyles.MASTHEAD_TABLE_END), null);
+            theme.getStyleClass(ThemeStyles.MASTHEAD_STATUS_DIV), null);
         
         UIComponent notificationFacet = 
 	    masthead.getFacet("notificationInfo"); //NOI18N
