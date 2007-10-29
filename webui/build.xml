@@ -455,11 +455,9 @@
 	<ant antfile="build-l10n.xml" target="buildL10n-rt">
 	    <property name="_non-l10n-jar_" value="${dist}/${webui.jar}"/>
 	</ant>
-	<!--
 	<ant antfile="build-l10n.xml" target="buildL10n-dt">
 	    <property name="_non-l10n-jar_" value="${dist}/${webui-dt.jar}"/>
 	</ant>
-	-->
     </target>
 
     <target name="clean" description="Clean build products.">
