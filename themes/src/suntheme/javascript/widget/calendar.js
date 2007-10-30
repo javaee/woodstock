@@ -649,7 +649,7 @@ webui.@THEME@.widget.calendar.prototype.getMonthOptions = function() {
     // Some calendars may have more than 12 months a year.
     var numOfMonths = parseInt(this.theme.getMessage("calendar.numOfMonths"));
     
-    for ( var i = 0; i <= numOfMonths; i++ ) {
+    for ( var i = 0; i < numOfMonths; i++ ) {
         monthMenu[i] = {};
         monthMenu[i].value = i+1;
         monthMenu[i].disabled = false;
