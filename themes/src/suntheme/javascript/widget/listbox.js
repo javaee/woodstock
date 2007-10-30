@@ -35,6 +35,7 @@ dojo.declare("webui.@THEME@.widget.listbox", webui.@THEME@.widget.selectBase, {
     // Set defaults.
     monospace: false,
     multiple: false,
+    size: 12,
     titleOptionLabel: "ListSelector.titleOptionLabel",
     widgetName: "listbox" // Required for theme properties.
 });
@@ -97,9 +98,9 @@ webui.@THEME@.widget.listbox.prototype.getProps = function() {
     var props = this.inherited("getProps", arguments);
 
     // Get properties.
-    if (this.size) { props.size = this.size; }
-    if (this.multiple) { props.multiple = this.multiple; }
-    if (this.monospace) { props.monospace = this.monospace; }
+    if (this.size != null) { props.size = this.size; }
+    if (this.multiple != null) { props.multiple = this.multiple; }
+    if (this.monospace != null) { props.monospace = this.monospace; }
 
     return props;
 }
@@ -206,7 +207,7 @@ webui.@THEME@.widget.listbox.prototype.setProps = function(props, notify) {
  * @return {boolean} true if successful; otherwise, false.
  */
 webui.@THEME@.widget.listbox.prototype.setSelectProps = function(selectNode, props) {
-    if (props.size) {
+    if (props.size != null) {
         selectNode.size = (props.size < 1) ? 12 : props.size;  
     }
     if (props.multiple != null) {
