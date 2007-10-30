@@ -56,7 +56,6 @@
                         <!-- Alert for validator exception. -->
                         <webuijsf:alert id="uploaderAlert" rendered="#{FileUploaderBean.errorsOnPage}" type="error" 
                                     summary="#{FileUploaderBean.summaryMsg}"> 
-                             <webuijsf:message for=":uploaderForm:upload" showDetail="true"/>
                         </webuijsf:alert>
                         
                         <!-- Page Title -->
@@ -67,6 +66,20 @@
                          <table><tr style="height:5px"><td>
                          </td></tr>
                          <tr style="height:10px"><td></td></tr>
+
+                         <tr><td>
+                           <!-- Bucket for error messages.  Note that error
+                             messages from the upload component itself will
+                             NOT invalidate the field, and so the upload's
+                             label will not show the field as invalid.  Errors
+                             from the validator will however invalidate the field.
+                             To make the behavior identical for all messages, you
+                             would need to create a binding for the upload in the
+                             FileUploaderBackingBean class and then invalidate
+                             the field after trapping on the FacesMessage.
+                             -->
+                           <webuijsf:message for="upload" showDetail="true"/>
+                         </td></tr>
                                      
                          <!-- File Uploader -->
                          <tr><td>

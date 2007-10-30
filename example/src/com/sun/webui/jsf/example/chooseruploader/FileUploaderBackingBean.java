@@ -44,9 +44,6 @@ public class FileUploaderBackingBean implements Serializable {
     // Holds file name.
     private String tmpFileName = null;
     
-    // Holds value of uploadPath property.
-    private String uploadPath = null;
-    
     // Holds value of property uploadedFile.
     private UploadedFile uploadedFile;
     
@@ -170,10 +167,33 @@ public class FileUploaderBackingBean implements Serializable {
         if (severity == null) {
             return false;
         }
-        if (severity.compareTo(FacesMessage.SEVERITY_ERROR) >= 0) {
-            return true;
-        }
-        return false;
+        
+        // While FacesMessages queued from our validator will invalidate
+        // the upload field and cause the label to show the invalidation,
+        // the same does not occur with errors reported by the upload 
+        // component itself. To make the behavior identical for all 
+        // messages, we would need to create a binding for the upload instead
+        // of specifying the upload in the jsp, and then invalidate the 
+        // field in this method after trapping on the FacesMessage.
+        // 
+        // However since we chose not to create such a binding, then
+        // the upload field is never invalidated when the file to be uploaded
+        // exceeds maxSize.  As a result we have to reset our backing bean values
+        // to their initial state because the page is submitted despite the
+        // fact that we do render an error alert and an error message.  A
+        // consequence of this is that the required field's label never shows the
+        // invalidation.  An alternative to resetting state and to show
+        // the invalidation in the label is to set then UploadFilter's
+        // maxSize to the highest value possible (so the upload component
+        // essentially never fails) and create a context parameter whose value
+        // is less than maxSize and which is validated this bean's validator,
+        // throwing an appropriate ValidatorException if the filesize
+        // exceeds the value of this context-param.
+        
+        tmpFileName = null;
+        uploadedFile = null;
+       
+        return true;
     }
     
     /**
@@ -181,7 +201,6 @@ public class FileUploaderBackingBean implements Serializable {
      */
     public String showExampleIndex() {
         tmpFileName = null;
-        uploadPath = null;
         uploadedFile = null;
         return IndexBackingBean.INDEX_ACTION;
     }
@@ -191,7 +210,6 @@ public class FileUploaderBackingBean implements Serializable {
      */
     public String showUploaderIndex() {
         tmpFileName = null;
-        uploadPath = null;
         uploadedFile = null;
         return "showChooserUploader";
     }
