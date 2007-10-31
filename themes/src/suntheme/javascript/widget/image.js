@@ -84,6 +84,7 @@ webui.@THEME@.widget.image.prototype.getProps = function() {
 
     // Set properties.
     if (this.alt) { props.alt = this.alt; }
+    if (this.icon) { props.icon = this.icon; }
     if (this.align) { props.align = this.align; }
     if (this.border != null) { props.border = this.border; }
     if (this.height) { props.height = this.height; }
@@ -157,7 +158,9 @@ webui.@THEME@.widget.image.prototype._setProps = function(props) {
     if (props == null) {
         return false;
     }
-
+    if (props.icon != null) {
+        props = this.widget.getImageProps(props.icon, props);
+    }
     // Set properties.
     if (props.alt) { this.domNode.alt = props.alt; }
     if (props.align) { this.domNode.align = props.align; }

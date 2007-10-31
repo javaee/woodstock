@@ -146,7 +146,8 @@ public class ImageRenderer extends RendererBase {
         String icon = image.getIcon();
         String alt = image.getAlt();
         int height = image.getHeight();
-        int width = image.getWidth();                
+        int width = image.getWidth();  
+        boolean urlFlag = false;
         
         // If an icon attribute is set and the url attribute is null,
         // render the image represented by the icon attribute.
@@ -176,7 +177,8 @@ public class ImageRenderer extends RendererBase {
               String iconAlt = themeImage.getAlt();
               if (alt == null) {
                   alt = iconAlt;
-              }   
+              }
+              
             // If neither the url attribute nor the icon attribute have been
             // specified, log an error.
         } else if (url == null || url.length() == 0) {         
@@ -190,6 +192,7 @@ public class ImageRenderer extends RendererBase {
               if (!(image instanceof Icon)) {
                 url = context.getApplication().getViewHandler().getResourceURL(
                     context, url);
+                urlFlag = true;
               }
         }
 
@@ -202,7 +205,10 @@ public class ImageRenderer extends RendererBase {
         JSONObject json = new JSONObject();                       
         json.put("visible", image.isVisible())
             .put("alt", alt)
-            .put("title", image.getToolTip());        
+            .put("title", image.getToolTip());
+        if (!urlFlag) {
+            json.put("icon", icon); //If url is specified, do not output icon attribute.
+        }
 
         if (isPngAndIE(context, url)) {            
             setPngProperties(json, width, height, getTheme(), style, url);

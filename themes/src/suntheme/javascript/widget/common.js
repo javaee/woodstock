@@ -25,6 +25,7 @@ dojo.provide("webui.@THEME@.widget.common");
 
 dojo.require("webui.@THEME@.theme.common");
 
+
 /**
  * @class This class contains functions common to all widgets.
  * @static
@@ -470,7 +471,12 @@ webui.@THEME@.widget.common = {
                     "background-image:url("+combinedImage["src"]+");" +
                     "background-position:" + 0+"px"+  " " + _props['top'] +"px"+ ";" +"height:"+
                     _props['actual_height'] +"px"+ ";" + "width:"+_props['actual_width'] +"px"+"border:0"+ ";";  
-                _props["src"] = transImage["src"];                    
+                var hcFlag = webui.@THEME@.widget.common.isHighContrastMode();
+                if(!hcFlag) {
+                   _props["src"] = transImage["src"];
+                    if (props != null)
+                        props.src = transImage["src"];
+                }                   
             }           
         }
         // Add extra properties
@@ -614,6 +620,32 @@ webui.@THEME@.widget.common = {
     },
 
     /**
+     * This function checks for the high contrast mode.
+     *  
+     * @return {boolean} true if high contrast mode.
+     */
+    isHighContrastMode:  function() {
+        //Dojo appends a div tag in body tag for a11y support. 
+        //<div style="border-style: solid; border-color: red green; border-width: 1px; 
+        //  position: absolute; left: -999px; top: -999px; background-image: 
+        //  url(/example/theme/META-INF/dojo/dijit/form/templates/blank.gif);" id="a11yTestNode">
+        //</div>
+        //Using this to detect the high contrast mode. 
+        var divA11y = document.getElementById('a11yTestNode');
+        var bImg = null;
+        if (divA11y != null && window.getComputedStyle) {
+            var styleValue = getComputedStyle(divA11y, "");
+            bImg = styleValue.getPropertyValue("background-image");
+        } else {
+            bImg = divA11y.currentStyle.backgroundImage;
+        }
+        if (bImg != null && (bImg == "none" || bImg == "url(invalid-url:)" )) {
+            return true; //High Contrast Mode
+        }
+        return false;    
+    },
+    
+    /**
      * This function is used to test HTML template strings. 
      * <p>
      * Note: This function returns true if the "template" is a template path, 
@@ -699,7 +731,7 @@ webui.@THEME@.widget.common = {
         }
         return false;
     },
-
+        
     /**
      * This function is used to update a widget, HTML fragment, or static
      * string for the given domNode.
