@@ -30,9 +30,20 @@
 <h1><u>Woodstock 4.1 JSF Components Release Notes</u></h1>
 <p><br>
 </p>
-<h2><u><a name="4.1_Build_15">4.1 Build 15</a></u>&nbsp; (10/26/2007)</h2>
+<h2><u><a name="4.1_Build_15">4.1 Build 15</a></u>&nbsp; (10/30/2007)</h2>
 <h3> New Features</h3>
 <ul>
+  <li>The UIComponentELResolver has been deprecated and removed from
+the Woodstock faces-config.xml file due to conflicts with Seam. To
+enable this EL resolver, add the following to the application
+faces-config.xml file.<br>
+    <br>
+    <code>&lt;application&gt;<br>
+&nbsp;&nbsp;&nbsp;
+&lt;el-resolver&gt;com.sun.webui.jsf.faces.UIComponentELResolver&lt;/el-resolver&gt;<br>
+&lt;application&gt;</code><br>
+    <br>
+  </li>
   <li>Head and ThemeLinks components have some new properties; named
 parseOnLoad, dijitAll, webuiAll, and webuiJsfx. <br>
   </li>
@@ -60,12 +71,11 @@ excluding least used JavaScipt and no default Ajax functionality. <br>
       </li>
       <li>webuiAll=false, webuiJsfx=true: Uses the webui-jsfx.js file
 excluding least used JavaScipt, but the default Ajax functionality is
-included.
-      </li>
+included. </li>
     </ul>
   </ul>
 </ul>
-<h2><u><a name="4.1_Build_14">1 Build 14</a></u>&nbsp; (10/12/2007)</h2>
+<h2><u><a name="4.1_Build_14">4.1 Build 14</a></u>&nbsp; (10/12/2007)</h2>
 <h3> New Features</h3>
 <ul>
   <li>All new components (BubleHelp, PopupMenu, Accordion) are now in

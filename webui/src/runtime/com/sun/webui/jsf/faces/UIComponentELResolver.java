@@ -40,8 +40,16 @@ import java.util.Arrays;
  * <p>Custom <code>ELResolver that, when the <code>base</code>
  * object is a <code>UIComponent</code>, scans for a child with the
  * <code>id</code> specified by the property name.</p>
+ * 
+ * @deprecated This EL resolver conflicts with Seam and has been removed from
+ * the Woodstock faces-config.xml file. To enable this EL resolver, add the 
+ * following to the application faces-config.xml file.
+ * <p><pre>
+ * <application>
+ *   <el-resolver>com.sun.webui.jsf.faces.UIComponentELResolver</el-resolver>
+ * </application>
+ * </pre></p>
  */
-@Resolver
 public class UIComponentELResolver extends ELResolver {
     
 
