@@ -158,6 +158,7 @@
          included via widgets. -->
     <patternset id="exclude-js-files">
 	<exclude name="addRemove.js" />
+        <exclude name="calendar.js" /> <!-- Never include deprecated file -->
 	<exclude name="commonTasksSection.js" />
 	<exclude name="dnd.js" />
 	<exclude name="editableList.js" />
@@ -183,6 +184,7 @@
 	<include name="**/*.js"/>
 	<exclude name="widget/jsfx/**" />
 	<exclude name="theme/nls/"/>
+        <exclude name="calendar.js" /> <!-- Never include deprecated file -->
     </patternset>
 
     <!-- "webui-jsfx.js" -->
@@ -195,6 +197,7 @@
     <patternset id="webui-jsfx-all-js-files">
 	<include name="**/*.js"/>
 	<exclude name="theme/nls/"/>
+        <exclude name="calendar.js" /> <!-- Never include deprecated file -->
     </patternset>
 
     <!-- Public Targets -->
