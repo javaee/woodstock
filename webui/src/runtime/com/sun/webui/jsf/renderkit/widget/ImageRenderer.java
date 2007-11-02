@@ -206,8 +206,10 @@ public class ImageRenderer extends RendererBase {
         json.put("visible", image.isVisible())
             .put("alt", alt)
             .put("title", image.getToolTip());
+
+        // If url is specified, do not output icon attribute.
         if (!urlFlag) {
-            json.put("icon", icon); //If url is specified, do not output icon attribute.
+            json.put("icon", icon);
         }
 
         if (isPngAndIE(context, url)) {            

@@ -158,10 +158,11 @@ webui.@THEME@.widget.image.prototype._setProps = function(props) {
     if (props == null) {
         return false;
     }
+
+    // Set properties.
     if (props.icon != null) {
         props = this.widget.getImageProps(props.icon, props);
-    }
-    // Set properties.
+    }    
     if (props.alt) { this.domNode.alt = props.alt; }
     if (props.align) { this.domNode.align = props.align; }
     if (props.border != null) { this.domNode.border = props.border; }
