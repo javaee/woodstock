@@ -176,13 +176,15 @@ You should rewrite the code above as: <br>
 &nbsp;&nbsp;&nbsp;&nbsp; &lt;script&gt; <br>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; function init() { <br>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; var domNode =
-document.getElementById("fileForm:chooserContentPage:fileChooser"); <br>
+document.getElementById("fileForm:chooserContentPage:fileChooser");<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </code><code>if
+(domNode == null) { return </code><code>setTimeout('init();', 10); }<br>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-domNode.setChooseButton("fileForm:chooserContentPage:file_button"); <br>
+domNode.setChooseButton("fileForm:chooserContentPage:file_button");<br>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; } <br>
 &nbsp;&nbsp;&nbsp;&nbsp; &lt;/script&gt; <br>
 &nbsp;&lt;/head&gt; <br>
-&nbsp;&lt;body onLoad="setTimeout('init();', 0);"&gt; <br>
+&nbsp;&lt;body onLoad="init();"&gt; <br>
 &nbsp;&nbsp; &lt;form&gt;&lt;/form&gt; <br>
 &nbsp;&lt;/body&gt; <br>
 &lt;/html&gt; </code><br>
