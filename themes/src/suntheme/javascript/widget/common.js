@@ -451,17 +451,22 @@ webui.@THEME@.widget.common = {
         // Set default widgetType.
         _props = webui.@THEME@.widget.common.getWidgetProps("image", _props);
 
-        //ie6 has issues with "png" images. 
-        //IE6 png issue can be fixed but that needs an outermost <span> tag. 
-        //<span style="overflow: hidden; width:13px;height:13px; padding: 0px;zoom: 1";>
-        //<img src="dot.gif"
-        //style="filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(src='testImage.png',sizingMethod='crop');
-        //margin-left:-0px;
-        //margin-top:-26px; border: none; height:39px;width:13px;"/>
-        //</span>
-        //For now, skipping the combined image approach for ie6.
+        // To do: Fix for Safari.
+
+        // IE6 has issues with "png" images. IE6 png issue can be fixed but that
+        // needs an outermost <span> tag. 
+        //
+        // <span style="overflow: hidden; width:13px;height:13px; padding: 0px;zoom: 1";>
+        // <img src="dot.gif"
+        //  style="filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(src='testImage.png',sizingMethod='crop');
+        //  margin-left:-0px;
+        //  margin-top:-26px; border: none; height:39px;width:13px;"/>
+        // </span>
+        //
+        // For now, skipping the combined image approach for IE6.
         var mapKey = _props["map_key"];
-        if (mapKey != null && !webui.@THEME@.browser.isIe6()) {
+        var hcFlag = webui.@THEME@.widget.common.isHighContrastMode();
+        if (mapKey != null && !hcFlag && !webui.@THEME@.browser.isIe6()) {
             var transImage = webui.@THEME@.theme.common.getImage("DOT");
             var combinedImage = webui.@THEME@.theme.common.getImage(mapKey);        
             if (_props['top'] != null 
@@ -475,12 +480,9 @@ webui.@THEME@.widget.common = {
                     _props['actual_height'] + "px"+ ";" + "width:" + 
                     _props['actual_width'] + "px" + "border:0" + ";";
 
-                var hcFlag = webui.@THEME@.widget.common.isHighContrastMode();
-                if(!hcFlag) {
-                    _props["src"] = transImage["src"];
-                    if (props != null) {
-                        props.src = transImage["src"];
-                    }
+                _props["src"] = transImage["src"];
+                if (props != null) {
+                    props.src = transImage["src"];
                 }                   
             }           
         }
@@ -630,12 +632,20 @@ webui.@THEME@.widget.common = {
      * @return {boolean} true if high contrast mode.
      */
     isHighContrastMode:  function() {
-        //Dojo appends a div tag in body tag for a11y support. 
-        //<div style="border-style: solid; border-color: red green; border-width: 1px; 
+        // Dojo appends the following div tag in body tag for a11y support.
+        //
+        // <div style="border-style: solid; border-color: red green; border-width: 1px; 
         //  position: absolute; left: -999px; top: -999px; background-image: 
         //  url(/example/theme/META-INF/dojo/dijit/form/templates/blank.gif);" id="a11yTestNode">
-        //</div>
-        //Using this to detect the high contrast mode. 
+        // </div>
+
+        // Currently high contrast mode check is supported for firefox and ie on
+        // windows. High contrast mode is not supported for Safari.
+        if (webui.@THEME@.browser.isSafari()) {
+            return false;            
+        }
+
+        // Detect the high contrast mode. 
         var divA11y = document.getElementById('a11yTestNode');
         var bImg = null;
         if (divA11y != null && window.getComputedStyle) {
