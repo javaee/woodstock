@@ -126,11 +126,39 @@ webui.@THEME@.commonTasksSection = {
      * @return {boolean} true if successful; otherwise, false.
      */
     addCommonTask: function(props) {
+        if (props == null) {
+            return false;
+        }
+
+        // Get HTML elements.
+        var info = document.getElementById(props.commonTaskId + props.infoPanelVar);  //id of the info panel box.
+        var image = document.getElementById(props.infoIconId); // id of the "i" image .
+        var imageLink = document.getElementById(props.imageLinkId);
+        var close = document.getElementById(props.closeId); // id of the close button.	
+        var parent = document.getElementById(this.id);
+        var task = document.getElementById(props.commonTaskId);
+        var bottomInfoLink = (props.bottomInfoLink)
+            ? document.getElementById(props.bottomInfoLink) 
+            : null; // The bottom info panel id.
+        var spacer = props.commonTaskId + ":" + props.spacerId; // id of the spacer image.
+
+        // HTML elements may not have been created, yet.
+        if (info == null
+                || image == null
+                || imageLink == null
+                || close == null
+                || parent == null
+                || task == null
+                || (props.bottomInfoLink && bottomInfoLink == null)) {
+            return setTimeout(function() {
+                parent.addCommonTask(props);
+            }, 10);
+        }
+
         // Set info panel.
         var taskElement = document.getElementById(props.commonTaskId);
-        taskElement.infoPanel = new this.addInfoPanel(this.id,
-            props.commonTaskId, props.closeId, props.spacerId, props.infoIconId,
-            props.infoPanelVar, props.imageLinkId, props.bottomInfoLink);
+        taskElement.infoPanel = new this.addInfoPanel(info, image, imageLink,
+            close, parent, task, bottomInfoLink, spacer);
 
         // Add task element to domNode.
         this.taskElement[this.count] = taskElement;
@@ -141,28 +169,27 @@ webui.@THEME@.commonTasksSection = {
     /**
      * Add info panel to common task section.
      *
-     * @param {String} sectionId
-     * @param {String} taskId
-     * @param {String} closeId
-     * @param {String} infoIconId
-     * @param {String} infoPanelVar
-     * @param {String} imageLinkId
-     * @param {String} bottomInfoLink
+     * @param {Node} info The info panel box.
+     * @param {Node} image The info panel icon
+     * @param {Node} imageLink
+     * @param {Node} close The close button.
+     * @param {Node} parent
+     * @param {Node} task
+     * @param {Node} bottomInfoLink The bottom info panel link.
+     * @param {String} spacer ID of the spacer image.
      * @return {boolean} true if successful; otherwise, false.
      */
-    addInfoPanel: function(sectionId, taskId, closeId, spacerVar,
-            infoIconId, infoPanelVar, imageLinkId, bottomInfoLink) {
-        this.info = document.getElementById(taskId + infoPanelVar);  //id of the info panel box.
-        this.image = document.getElementById(infoIconId); // id of the "i" image .
-        this.imageLink = document.getElementById(imageLinkId);
-        this.close = document.getElementById(closeId); // id of the close button.	
-        this.spacer = taskId + ":" + spacerVar; // Just the id of the spacer image.
-        this.parent = document.getElementById(sectionId);
-        this.task = document.getElementById(taskId);
-        if (bottomInfoLink) {
-            // The bottom info panel id.
-            this.bottomInfoLink = document.getElementById(bottomInfoLink);
-        }
+    addInfoPanel: function(info, image, imageLink, close, parent, task, 
+            bottomInfoLink, spacer) {
+        // Set HTML elements.
+        this.info = info;
+        this.image = image;
+        this.imageLink = imageLink;
+        this.close = close;
+        this.parent = parent;
+        this.task = task;
+        this.bottomInfoLink = bottomInfoLink;
+        this.spacer = spacer;
         var that = this;
 
         // Handle the keypress event for the "more" link if one is present.
@@ -180,7 +207,6 @@ webui.@THEME@.commonTasksSection = {
             // Only for IE.
             this.bottomInfoLink.onkeydown = function(event) {
                 if (webui.@THEME@.browser.isIe5up()) {
-
                     // For IE, while pressing the shift key along with the tab key
                     // the onkeydown seems to be called twice. To prevent this,
                     // check whether the shift key is the one thats being pressed
@@ -214,7 +240,6 @@ webui.@THEME@.commonTasksSection = {
         // portion of the info panel.
         this.captureBottomInfoKey = function(event) {
             if ((event.keyCode == 9 && !event.shiftKey)|| event.keyCode == 27) {
-
                 // need to remove the focus off the link. Otherwise there seems
                 // to be problems setting focus on another element in IE.
                 that.bottomInfoLink.blur();
@@ -239,7 +264,6 @@ webui.@THEME@.commonTasksSection = {
         this.captureCloseKey = function(event) {
             // We want to process only key press events which have the tab key pressed.
             if (event.keyCode == 9) {
-
                 // If this is not done IE doesnt set focus on the next available
                 // element properly if the info panel closes.
                 that.close.blur();     
@@ -265,7 +289,6 @@ webui.@THEME@.commonTasksSection = {
         // for keypress on IE.
         this.close.onkeydown = function(event) {
             if (webui.@THEME@.browser.isIe5up()) {
-
                 // this seems to be called once for the shift key and
                 // once for the tab key. Prevent calling the capture
                 // function when the shift key is pressed
@@ -434,7 +457,6 @@ webui.@THEME@.commonTasksSection = {
             this.ileft=offsetLeft;
             return true;
         };
-        return true;
     }
 }
 

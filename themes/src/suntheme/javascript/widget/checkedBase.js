@@ -184,18 +184,7 @@ webui.@THEME@.widget.checkedBase.prototype._setProps = function(props) {
     if (props.name) { 
         this.inputNode.name = props.name;
     }
-    
-    // A web app devleoper could return false in order to cancel the 
-    // submit. Thus, we will handle this event via the onClick call back.
-    if (props.onClick) {
-        // Set private function scope on DOM node.
-        this.domNode._onclick = (typeof props.onClick == 'string')
-            ? new Function("event", props.onClick) : props.onClick;
 
-        // Must be cleared before calling setEventProps() below.
-        props.onClick = null;
-    }
-    	
     if (props.checked != null) {
         var checked = new Boolean(props.checked).valueOf();
 

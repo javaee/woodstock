@@ -48,9 +48,6 @@ webui.@THEME@.editableList = {
             return false;
         }
 
-        // Set given properties on domNode.
-        Object.extend(domNode, props);
-
         // Not a facet does not have "extra" editable list id.
 
         // child elements
@@ -59,7 +56,6 @@ webui.@THEME@.editableList = {
         // of the rendered field component
         //
         domNode.list = document.getElementById(props.id + "_list");
-                
 
         // Bug 6338492 -
         //     ALL: If a component supports facets or children is must be a
@@ -95,11 +91,23 @@ webui.@THEME@.editableList = {
         // because only it knows about the underlying structure
         // of the rendered field component
         //
-        domNode.field =
-            webui.@THEME@.field.getInputElement(facetid + "_field");
+        domNode.field = webui.@THEME@.field.getInputElement(facetid + "_field");
         domNode.addButton = document.getElementById(facetid + "_addButton"); 
         domNode.removeButton = document.getElementById(facetid + "_removeButton"); 
-    
+
+        // HTML elements may not have been created, yet.
+        if (domNode.list == null 
+                || domNode.field == null 
+                || domNode.addButton == null 
+                || domNode.removeButton == null) {
+            return setTimeout(function() {
+                webui.@THEME@.editableList.init(props);
+            }, 10);
+        }
+
+        // Set given properties on domNode.
+        Object.extend(domNode, props);
+
         // attach methods
         domNode.add = webui.@THEME@.editableList.add;
         domNode.enableAdd = webui.@THEME@.editableList.enableAdd;
@@ -109,6 +117,8 @@ webui.@THEME@.editableList = {
         domNode.updateButtons = webui.@THEME@.editableList.updateButtons;
         domNode.setDisabled = webui.@THEME@.editableList.setDisabled;
 
+        // Initialize buttons.
+        domNode.updateButtons();
         return true;
     },
 

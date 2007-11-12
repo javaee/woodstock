@@ -402,6 +402,9 @@ public class RenderingUtilities {
     public static void renderStylesheetLinks(String[] css,
 	    UIComponent component, ResponseWriter writer) throws IOException {
 	for (int i = 0; i < css.length; i++) {
+            if (JavaScriptUtilities.isDebug()) {
+                writer.write("\n");
+            }
             writer.startElement(HTMLElements.LINK, component); //NOI18N
             writer.writeAttribute(HTMLAttributes.REL,
 		"stylesheet", null); //NOI18N
@@ -409,7 +412,6 @@ public class RenderingUtilities {
 		"text/css", null); //NOI18N
             writer.writeURIAttribute(HTMLAttributes.HREF, css[i], null);
             writer.endElement(HTMLElements.LINK); //NOI18N
-            writer.write("\n"); //NOI18N
 	}
     }
         
@@ -421,11 +423,13 @@ public class RenderingUtilities {
      * @param component The uicomponent
      */
     public static void renderStyleSheetInline(UIComponent component, 
-        Theme theme, FacesContext context, ResponseWriter writer) 
-            throws IOException {        
+            Theme theme, FacesContext context, ResponseWriter writer) 
+            throws IOException {
+        if (JavaScriptUtilities.isDebug()) {
+            writer.write("\n");
+        }
         writer.startElement(HTMLElements.STYLE, component);
         writer.writeAttribute(HTMLAttributes.TYPE, "text/css", null); //NOI18N
-        writer.write("\n"); //NOI18N
 
         String[] files = theme.getMasterStylesheets();
         if (files != null && files.length != 0) {
@@ -454,10 +458,12 @@ public class RenderingUtilities {
     public static void renderImports(String[] imports, ResponseWriter writer)
             throws IOException {
         for (int i = 0; i < imports.length; i++) {
-            writer.write("@import(\""); //NOI18N
-            writer.write(imports[i]); //NOI18N
-            writer.write("\");"); //NOI18N
-            writer.write("\n"); //NOI18N
+            if (JavaScriptUtilities.isDebug()) {
+                writer.write("\n");
+            }
+            writer.write("@import(\"");
+            writer.write(imports[i]);
+            writer.write("\");");
         }
     }
 
@@ -770,11 +776,9 @@ public class RenderingUtilities {
         buffer.append(anchorName);
         
         writer.startElement("div", component); //NOI18N
-        writer.write("\n"); //NOI18N
         writer.startElement("a", component); //NOI18N
         writer.writeAttribute("name", buffer.toString(), null);
         writer.endElement("a"); //NOI18N
-        writer.write("\n"); //NOI18N
         writer.endElement("div"); //NOI18N
     }
     

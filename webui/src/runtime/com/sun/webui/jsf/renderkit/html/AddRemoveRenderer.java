@@ -154,7 +154,8 @@ public class AddRemoveRenderer extends ListRendererBase {
             JSONObject json = new JSONObject();
             json.put("id", id)
                 .put("separator", component.getSeparator())
-                .put("sort", component.isSorted());
+                .put("sort", component.isSorted())
+                .put("duplicateSelections", component.isDuplicateSelections());
             String jsObject = JavaScriptUtilities.getDomNode(context, component);
 
             // Append JavaScript.
@@ -163,15 +164,7 @@ public class AddRemoveRenderer extends ListRendererBase {
                 .append(JavaScriptUtilities.getModuleName("addRemove.init")) // NOI18N
                 .append("(") //NOI18N
                 .append(JSONUtilities.getString(json))
-                .append(");\n") //NOI18N
-                .append(jsObject)
-                .append(AddRemove.UPDATEBUTTONS_FUNCTION);
-
-            if(component.isDuplicateSelections()) { 
-                buff.append("\n") //NOI18N
-                    .append(jsObject)
-                    .append(AddRemove.MULTIPLEADDITIONS_FUNCTION);
-            }
+                .append(");"); //NOI18N
 
             // Render JavaScript.
             JavaScriptUtilities.renderJavaScript(component, writer,

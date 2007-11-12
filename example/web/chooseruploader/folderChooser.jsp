@@ -43,13 +43,16 @@
                     </script>
                   ]]></f:verbatim>
                      <webuijsf:script>
-                         function setChooserButton() {
+                         function init() {
                             var domNode = document.getElementById("folderForm:folderContent:folderChooser");
+                            if (domNode == null || typeof domNode.setChooseButton != "function") {
+                                return setTimeout('init();', 10);
+                            }
                             domNode.setChooseButton("folderForm:folderContent:file_button");
                          }
                      </webuijsf:script>
                   </webuijsf:head>
-                <webuijsf:body onLoad="setTimeout('setChooserButton();', 0)">
+                <webuijsf:body onLoad="init();">
                     <webuijsf:form id="folderForm">
                        
                       <!-- Masthead -->

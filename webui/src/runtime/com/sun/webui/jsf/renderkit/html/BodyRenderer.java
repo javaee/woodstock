@@ -195,8 +195,7 @@ public class BodyRenderer extends AbstractRenderer {
         // Instead of creating a global variable...
         Theme theme = ThemeUtilities.getTheme(context);
         StringBuffer buff = new StringBuffer(128);
-        buff.append(JavaScriptUtilities.getModuleName("bootstrap.body"))
-            .append(" = new ")
+        buff.append("new ")
             .append(JavaScriptUtilities.getModuleName("body"))
             .append("('")
             .append(viewId)

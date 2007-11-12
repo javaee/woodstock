@@ -102,7 +102,7 @@
     }
 </webuijsf:script>
         </webuijsf:head>
-      <webuijsf:body id="body" onLoad="setTimeout('init();', 0);">
+      <webuijsf:body id="body" onLoad="init();">
         <webuijsf:form id="form">                             
             
           <!-- Masthead -->

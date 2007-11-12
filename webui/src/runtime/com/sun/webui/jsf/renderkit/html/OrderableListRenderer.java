@@ -223,9 +223,7 @@ public class OrderableListRenderer extends ListRendererBase {
                 .append(JavaScriptUtilities.getModuleName("orderableList.init")) // NOI18N
                 .append("(") //NOI18N
                 .append(JSONUtilities.getString(json))
-                .append(");\n") //NOI18N
-                .append(JavaScriptUtilities.getDomNode(context, component))
-                .append(OrderableList.UPDATEBUTTONS_FUNCTION);
+                .append(");"); //NOI18N
         
             // Render JavaScript.
             JavaScriptUtilities.renderJavaScript(component, writer,

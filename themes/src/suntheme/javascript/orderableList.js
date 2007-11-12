@@ -47,21 +47,10 @@ webui.@THEME@.orderableList = {
             return false;
         }
 
-        // Set given properties on domNode.
-        Object.extend(domNode, props);
-
-        // Not a facet does not have "extra" editable list id.
-
-        // child elements
-        domNode.list = document.getElementById(props.id + "_list");
-
         // Not a facet does not have "extra" editable list id.
 
         // The select element from which selections are made 
         domNode.list = document.getElementById(props.id + "_list");
-
-        // The options of the select element from which selections are made 
-        domNode.options = domNode.list.options;
 
         // Bug 6338492 -
         //     ALL: If a component supports facets or children is must be a
@@ -101,12 +90,30 @@ webui.@THEME@.orderableList = {
         // Not a facet
         domNode.values = document.getElementById(props.id + "_list_value");
 
+        // HTML elements may not have been created, yet.
+        if (domNode.list == null
+                || domNode.moveUpButton == null 
+                || domNode.moveDownButton == null 
+                || domNode.moveTopButton == null
+                || domNode.moveBottomButton == null 
+                || domNode.values == null) {
+            return setTimeout(function() {
+                webui.@THEME@.orderableList.init(props);
+            }, 10);
+        }
+
+        // Set given properties on domNode.
+        Object.extend(domNode, props);
+
+        // The options of the select element from which selections are made 
+        domNode.options = domNode.list.options;
+
         // The messages
         if (domNode.moveMessage == null) {
             "Select at least one item to remove";
         }
 
-        // attach OrderableList object methods
+        // Set functions.
         domNode.moveUp = webui.@THEME@.orderableList.moveUp;
         domNode.moveDown = webui.@THEME@.orderableList.moveDown;
         domNode.moveTop = webui.@THEME@.orderableList.moveTop;
@@ -115,6 +122,8 @@ webui.@THEME@.orderableList = {
         domNode.updateValue = webui.@THEME@.orderableList.updateValue;
         domNode.onChange = webui.@THEME@.orderableList.updateButtons;
 
+        // Initialize buttons.
+        domNode.updateButtons();
         return true;
     },
 

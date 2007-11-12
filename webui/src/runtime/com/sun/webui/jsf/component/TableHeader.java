@@ -363,7 +363,7 @@ public class TableHeader extends UIComponentBase implements NamingContainer {
                 .append(table.getClientId(getFacesContext()))
                 .append("').selectGroupRows('") //NOI18N
                 .append(group.getClientId(getFacesContext()))
-                .append("', this.checked)"); //NOI18N
+                .append("', this.checked);"); //NOI18N
             child.setOnClick(buff.toString());
         } else {
             log("getSelectMultipleToggleButton", //NOI18N

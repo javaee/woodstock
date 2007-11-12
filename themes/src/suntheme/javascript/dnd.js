@@ -95,7 +95,7 @@ dojo.declare("webui.@THEME@.dnd.Source", dojo.dnd.Source, {
     /**
      * Constructor
      *
-     * @param {Object} node DOM node
+     * @param {Node} node DOM node
      * @param {Object} props Key-Value pairs of properties as described above.
      * @return {boolean} true if successful; otherwise, false.
      * @private
@@ -109,7 +109,7 @@ dojo.declare("webui.@THEME@.dnd.Source", dojo.dnd.Source, {
         // Disable source functionality
         if (typeof props.isSource != "undefined" && props.isSource == false) {
             this.isSource = false;
-            dojo.removeClass(this.node, "dojoDndSource");
+            dojo.removeClass(node, "dojoDndSource");
         }
 
         // Set user's onDrop function

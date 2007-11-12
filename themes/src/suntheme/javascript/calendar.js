@@ -56,6 +56,7 @@ webui.@THEME@.calendar = {
      * @config {String} [todayClass]
      * @config {String} [hiddenClass]
      * @return {boolean} true if successful; otherwise, false.
+     * @deprecated See webui.@THEME@.widget.calendar
      * @private
      */
     init: function(props) {
@@ -67,17 +68,31 @@ webui.@THEME@.calendar = {
             return false;
         }
 
-        // Set given properties on domNode.
-        Object.extend(domNode, props);
-
+        // Get HTML elements.
         domNode.field = document.getElementById(props.fieldId);
         domNode.pattern = document.getElementById(props.patternId);
         domNode.calendarToggle = document.getElementById(props.calendarToggleId);
-        domNode.datePickerId = props.datePickerId;
-        domNode.dateLinkId = props.datePickerId + ":dateLink";
         domNode.lastRow = document.getElementById(props.rowId);
         domNode.monthMenu = webui.@THEME@.listbox.getSelectElement(props.monthMenuId);
         domNode.yearMenu = webui.@THEME@.listbox.getSelectElement(props.yearMenuId);
+
+        // HTML elements may not have been created, yet.
+        if (domNode.field == null 
+                || domNode.pattern == null 
+                || domNode.calendarToggle == null 
+                || domNode.lastRow == null
+                || domNode.monthMenu == null 
+                || domNode.yearMenu == null) {
+            return setTimeout(function() {
+                webui.@THEME@.calendar.init(props);
+            }, 10);
+        }
+
+        // Set given properties on domNode.
+        Object.extend(domNode, props);
+
+        domNode.datePickerId = props.datePickerId;
+        domNode.dateLinkId = props.datePickerId + ":dateLink";
 
         // Set functions.
         domNode.toggle = webui.@THEME@.calendar.toggleCalendar;
@@ -96,6 +111,7 @@ webui.@THEME@.calendar = {
         domNode.setSelectedValue = webui.@THEME@.calendar.setSelectedValue;
         domNode.setLimitedSelectedValue = webui.@THEME@.calendar.setLimitedSelectedValue;
         domNode.redrawPopup = webui.@THEME@.calendar.redrawPopup;
+
         return true;
     },
 
@@ -106,6 +122,8 @@ webui.@THEME@.calendar = {
      * previous month and the next days of the next month.
      *
      * @return {boolean} true if successful; otherwise, false.
+     * @deprecated See webui.@THEME@.widget.calendar
+     * @ignore Until JsDoc supports deprecated tag.
      */
     dayClicked: function(link) {
         //store old value
@@ -155,6 +173,8 @@ webui.@THEME@.calendar = {
      * Decrease month.
      *
      * @return {boolean} true if successful; otherwise, false.
+     * @deprecated See webui.@THEME@.widget.calendar
+     * @ignore Until JsDoc supports deprecated tag.
      */
     decreaseMonth: function() {
         // If the monthMenu has a zero value, set it to January
@@ -191,6 +211,8 @@ webui.@THEME@.calendar = {
      * Increase month.
      *
      * @return {boolean} true if successful; otherwise, false.
+     * @deprecated See webui.@THEME@.widget.calendar
+     * @ignore Until JsDoc supports deprecated tag.
      */
     increaseMonth: function() {
         // If the monthMenu has a zero value, set it to January
@@ -230,6 +252,8 @@ webui.@THEME@.calendar = {
      * Redraw calendar.
      *
      * @return {boolean} true if successful; otherwise, false.
+     * @deprecated See webui.@THEME@.widget.calendar
+     * @ignore Until JsDoc supports deprecated tag.
      */
     redrawCalendar: function(initialize) {
         var selected = 0;   //if 1 - 31, will show that day as highlighted
@@ -380,6 +404,8 @@ webui.@THEME@.calendar = {
      * Set current value.
      *
      * @return {boolean} true if successful; otherwise, false.
+     * @deprecated See webui.@THEME@.widget.calendar
+     * @ignore Until JsDoc supports deprecated tag.
      */
     setCurrentValue: function() {
         var curDate = this.field.value;
@@ -478,6 +504,8 @@ webui.@THEME@.calendar = {
      * Toggle calendar open/closed.
      *
      * @return {boolean} true if successful; otherwise, false.
+     * @deprecated See webui.@THEME@.widget.calendar
+     * @ignore Until JsDoc supports deprecated tag.
      */
     toggleCalendar: function() {
         var div = document.getElementById(this.datePickerId);
@@ -521,6 +549,8 @@ webui.@THEME@.calendar = {
      * Get left offset position.
      *
      * @return {int} Left offset position.
+     * @deprecated See webui.@THEME@.widget.calendar
+     * @ignore Until JsDoc supports deprecated tag.
      */
     findPosX: function(obj) {
         var curleft = 0;
@@ -539,6 +569,8 @@ webui.@THEME@.calendar = {
      * Get top offset position.
      *
      * @return {int} Top offset position.
+     * @deprecated See webui.@THEME@.widget.calendar
+     * @ignore Until JsDoc supports deprecated tag.
      */
     findPosY: function(obj) {
         var curtop = 0;
@@ -557,6 +589,8 @@ webui.@THEME@.calendar = {
      * Set disabled.
      *
      * @return {boolean} true if successful; otherwise, false.
+     * @deprecated See webui.@THEME@.widget.calendar
+     * @ignore Until JsDoc supports deprecated tag.
      */
     setDisabled: function(disabled) {
         webui.@THEME@.field.setDisabled(this.field.id, disabled);
@@ -578,6 +612,8 @@ webui.@THEME@.calendar = {
      * Set initial focus.
      *
      * @return {boolean} true if successful; otherwise, false.
+     * @deprecated See webui.@THEME@.widget.calendar
+     * @ignore Until JsDoc supports deprecated tag.
      */
     setInitialFocus: function() {
         var pattern = new String(this.dateFormat);
@@ -596,6 +632,8 @@ webui.@THEME@.calendar = {
      * Get date format.
      *
      * @return {String} The date format.
+     * @deprecated See webui.@THEME@.widget.calendar
+     * @ignore Until JsDoc supports deprecated tag.
      */
     formatDate: function(month, day, year) {
         var date = new String(this.dateFormat);
@@ -626,6 +664,8 @@ webui.@THEME@.calendar = {
      * div = Main popup div with class="CalPopShdDiv"
      *
      * @return {boolean} true if successful; otherwise, false.
+     * @deprecated See webui.@THEME@.widget.calendar
+     * @ignore Until JsDoc supports deprecated tag.
      */
     ieStackingContextFix: function(div) {
         // Test for IE and return if not
@@ -676,6 +716,8 @@ webui.@THEME@.calendar = {
      * components in IE 5.5 and above. Assumes popup has id.
      *
      * @return {boolean} true if successful; otherwise, false.
+     * @deprecated See webui.@THEME@.widget.calendar
+     * @ignore Until JsDoc supports deprecated tag.
      */
     ieGetShim: function(popup) {
         var shimId = popup.id + "_shim";
@@ -698,6 +740,8 @@ webui.@THEME@.calendar = {
      * Show IE shim.
      *
      * @return {boolean} true if successful; otherwise, false.
+     * @deprecated See webui.@THEME@.widget.calendar
+     * @ignore Until JsDoc supports deprecated tag.
      */
     ieShowShim: function(popup) {
         var shim = this.ieGetShim(popup);
@@ -715,6 +759,8 @@ webui.@THEME@.calendar = {
      * Hide IE shim.
      *
      * @return {boolean} true if successful; otherwise, false.
+     * @deprecated See webui.@THEME@.widget.calendar
+     * @ignore Until JsDoc supports deprecated tag.
      */
     ieHideShim: function(popup) {
         var shim = this.ieGetShim(popup);
@@ -726,6 +772,8 @@ webui.@THEME@.calendar = {
      * Set selected value.
      *
      * @return {boolean} true if successful; otherwise, false.
+     * @deprecated See webui.@THEME@.widget.calendar
+     * @ignore Until JsDoc supports deprecated tag.
      */
     setSelectedValue: function(select, val) {
         for (var i = 0;i < select.length;i++) {
@@ -742,6 +790,8 @@ webui.@THEME@.calendar = {
      * Set the value of a SELECT, but limit value to min and max.
      *
      * @return {boolean} true if successful; otherwise, false.
+     * @deprecated See webui.@THEME@.widget.calendar
+     * @ignore Until JsDoc supports deprecated tag.
      */
     setLimitedSelectedValue: function(select, value) {
         var min = select.options[0].value;
@@ -760,6 +810,8 @@ webui.@THEME@.calendar = {
      * Workaround gecko scrunched table bug and force a redraw.
      *
      * @return {boolean} true if successful; otherwise, false.
+     * @deprecated See webui.@THEME@.widget.calendar
+     * @ignore Until JsDoc supports deprecated tag.
      */
     redrawPopup: function() {
         // Force a redraw of the popup header controls by changing the selected

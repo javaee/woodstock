@@ -101,7 +101,6 @@ webui.@THEME@.widget.dndContainer.prototype.createOnDndDropCallback = function()
     }
 }
 
-
 /**
  * Helper function to obtain HTML container element class names.
  *
@@ -122,13 +121,13 @@ webui.@THEME@.widget.dndContainer.prototype.getProps = function() {
     var props = this.inherited("getProps", arguments);
     
     // Set properties.
-    if (this.dropTypes != null)    { props.dropTypes= this.dropTypes; }
+    if (this.dropTypes != null) { props.dropTypes= this.dropTypes; }
     if (this.contents)          { props.contents = this.contents; }
     if (this.contentsDragData)  { props.contentsDragData = this.contentsDragData; }
     if (this.copyOnly != null)  { props.copyOnly = this.copyOnly; }
     if (this.onDropFunc)        { props.onDropFunc = this.onDropFunc; }
     if (this.onNodeCreateFunc)  { props.onNodeCreateFunc = this.onNodeCreateFunc; }
-    if (this.dragTypes != null)   { props.dragTypes = this.dragTypes; }
+    if (this.dragTypes != null) { props.dragTypes = this.dragTypes; }
     if (this.style != null)     { props.style = this.style; }
     if (this.title != null)     { this.dndContainer.title = this.title;}
     
@@ -144,7 +143,6 @@ webui.@THEME@.widget.dndContainer.prototype.getProps = function() {
  * @return {boolean} true if successful; otherwise, false.
  */
 webui.@THEME@.widget.dndContainer.prototype.postCreate = function () {
-    
     // Set ids.
     if (this.id) {
         this.dndContainer.id = this.id + "_container";
@@ -152,24 +150,25 @@ webui.@THEME@.widget.dndContainer.prototype.postCreate = function () {
     
     // Make things draggable.
     var params = {};
-    if (this.onNodeCreateFunc ) {
+    if (this.onNodeCreateFunc) {
         params.creator = this.createCreatorCallback(this.onNodeCreateFunc);                   
     }
     if (this.copyOnly) {
         params.copyOnly = this.copyOnly;
     }
     if (this.dropTypes) {        
-        params.accept = (this.dropTypes instanceof Array) ? this.dropTypes : this.dropTypes.split(',');
+        params.accept = (this.dropTypes instanceof Array) 
+            ? this.dropTypes : this.dropTypes.split(',');
     }
     if (this.horizontalIndicator != null) {        
         params.horizontal = this.horizontalIndicator;
     }
     if (this.dragTypes == null) {        
         params.isSource = false;
-     }
+    }
     params.onDropFunction = this.createOnDndDropCallback();
     
-    this.dragSource = new webui.@THEME@.dnd.Source(this.dndContainer.id , params );
+    this.dragSource = new webui.@THEME@.dnd.Source(this.dndContainer, params);
 
     return this.inherited("postCreate", arguments);
 }
@@ -238,7 +237,7 @@ webui.@THEME@.widget.dndContainer.prototype._setProps = function(props) {
     // Assert there is a dragData and id entry for each fragment
     if (props.contents && props.contentsDragData 
             && props.contents.length == props.contentsDragData.length 
-            && this.dragSource ) {                   
+            && this.dragSource) {                   
         // Remove child nodes.
         this.widget.removeChildNodes(this.dndContainer);
         
@@ -251,7 +250,7 @@ webui.@THEME@.widget.dndContainer.prototype._setProps = function(props) {
                 // time will contain the output of addFragment. Add the rendered
                 // content into the span.             
                 var node = this.dragSource.addItem([""], this.dragTypes, 
-                    props.contentsDragData[i] ); //empty data content
+                    props.contentsDragData[i]); //empty data content
                 this.widget.addFragment(node, props.contents[i], "last");
             } else {
                 // Simply add data, without making it draggable

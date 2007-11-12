@@ -447,9 +447,7 @@ public class EditableListRenderer extends ListRendererBase {
                 .append(JavaScriptUtilities.getModuleName("editableList.init")) // NOI18N
                 .append("(") //NOI18N
                 .append(JSONUtilities.getString(json))
-                .append(");\n") //NOI18N
-                .append(JavaScriptUtilities.getDomNode(context, component))
-                .append(EditableList.UPDATE_BUTTONS_FUNCTION);
+                .append(");"); //NOI18N
             
             // Render JavaScript.
             JavaScriptUtilities.renderJavaScript(component, writer,

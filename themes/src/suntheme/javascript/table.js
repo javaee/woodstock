@@ -568,12 +568,13 @@ webui.@THEME@.table = {
         var checkbox = document.getElementById(groupId + this.SEPARATOR + 
             this.selectMultipleToggleButtonId);
         if (checkbox != null) {
-            checkbox.setProps({"checked": checked});
-            if (checked) {    
-                checkbox.title = this.selectMultipleToggleButtonToolTipSelected;
-            } else {
-                checkbox.title = this.selectMultipleToggleButtonToolTip;
-            }
+            var title = (checked) 
+                ? this.selectMultipleToggleButtonToolTipSelected
+                : this.selectMultipleToggleButtonToolTip;
+            checkbox.setProps({
+                "checked": checked,
+                "title": title
+            });
         }
 
         // Get flag indicating groupis collapsed.
@@ -583,14 +584,18 @@ webui.@THEME@.table = {
         // Set next warning image.
         var image = document.getElementById(prefix + this.warningIconId);
         if (image != null) {
+            var src = this.warningIconOpen;
+            var title = this.warningIconToolTipOpen;
+
             // Don't show icon when multiple select is checked.
             if (collapsed && selected && !checked) {
-                image.src = this.warningIconClose;
-                image.title = this.warningIconToolTipClose;
-            } else {
-                image.src = this.warningIconOpen;
-                image.title = this.warningIconToolTipOpen;
+                src = this.warningIconClose;
+                title = this.warningIconToolTipClose;
             }
+            image.setProps({
+               "src": src,
+               "title": title
+            });
         }
         return true;
     },
@@ -1169,12 +1174,14 @@ webui.@THEME@.table = {
         var hyperlink = document.getElementById(groupPanelToggleButtonId);
         var image = webui.@THEME@.hyperlink.getImgElement(groupPanelToggleButtonId);
         if (hyperlink != null && image != null) {
+            image.style.cssText = null; // Need to clear clipped, theme image.
             if (collapsed) {
+                // Need to provide themed icon key?
                 image.src = this.groupPanelToggleIconOpen;
-                hyperlink.title = this.groupPanelToggleButtonToolTipOpen;
+                hyperlink.setProps({title: this.groupPanelToggleButtonToolTipOpen});
             } else {
                 image.src = this.groupPanelToggleIconClose;
-                hyperlink.title = this.groupPanelToggleButtonToolTipClose;
+                hyperlink.setProps({title: this.groupPanelToggleButtonToolTipClose});
             }
         }
 

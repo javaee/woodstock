@@ -88,7 +88,6 @@ public class HeadRenderer extends AbstractRenderer {
 
 	    // Meta tags
             if (head.isMeta()) {
-	        writer.write("\n"); //NOI18N
 	        renderMetaTag("no-cache", "Pragma", writer, head); 
 	        renderMetaTag("no-cache", "Cache-Control", writer, head); 
 	        renderMetaTag("no-store", "Cache-Control", writer, head); 
@@ -99,6 +98,7 @@ public class HeadRenderer extends AbstractRenderer {
             UIComponent titleFacet = head.getFacets().get(head.TITLE_FACET);
               
             // A page must always have a title tag.
+            writer.write("\n");
             writer.startElement("title",  head);            
             if (titleFacet != null) {
                 RenderingUtilities.renderComponent(titleFacet, context);
@@ -109,19 +109,21 @@ public class HeadRenderer extends AbstractRenderer {
                 }
             }
             writer.endElement("title");
-            writer.write("\n"); //NOI18N                
+
 	    // Base
             if(head.isDefaultBase()) {
+                writer.write("\n");
                 writer.startElement("base", head); //NOI18N
                 // TODO - verify the requirements w.r.t. printing this href
                 writer.writeURIAttribute("href", Util.getBase(context), null); //NOI18N
                 writer.endElement("base"); //NOI18N
-                writer.write("\n"); //NOI18N
             }
 
-            // Master link to always write out.
+            // Master stylesheet link.
             Theme theme = ThemeUtilities.getTheme(context);
-            RenderingUtilities.renderStyleSheetLink(head, theme, context, writer);
+            if (head.isStyleSheet()) {
+                RenderingUtilities.renderStyleSheetLink(head, theme, context, writer);
+            }
 
             // Get global flags.
             JavaScriptUtilities.setDebug(head.isDebug());
@@ -160,16 +162,15 @@ public class HeadRenderer extends AbstractRenderer {
         // Start the appropriate element.
         if (!RenderingUtilities.isPortlet(context)) {
             writer.endElement("head"); //NOI18N
-            writer.write("\n"); //NOI18N
         }
     }
 
     private void renderMetaTag(String content, String httpEquivalent, 
-            ResponseWriter writer, Head head) throws IOException { 
-	writer.startElement("meta", head); 
+            ResponseWriter writer, Head head) throws IOException {
+        writer.write("\n");
+        writer.startElement("meta", head); 
 	writer.writeAttribute("content", content, null); 
 	writer.writeAttribute("http-equiv", httpEquivalent, null); 
-	writer.endElement("meta"); 
-	writer.writeText("\n", null); 
+	writer.endElement("meta");
     }
 }

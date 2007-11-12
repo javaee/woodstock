@@ -341,6 +341,44 @@ public class Head extends UIComponentBase {
     }
 
     /**
+     * <p>If set to true, a link element with a reference to the theme
+     * stylesheet resource is rendered.</p>
+     */
+    @Property(name="styleSheet", displayName="Include StyleSheet Link", category="Advanced")
+    private boolean styleSheet = false;
+    private boolean styleSheet_set = false;
+
+    /**
+     * <p>If set to true, a link element with a reference to the theme
+     * stylesheet resource is rendered.</p>
+     */
+    public boolean isStyleSheet() {
+        if (this.styleSheet_set) {
+            return this.styleSheet;
+        }
+        ValueExpression _vb = getValueExpression("styleSheet");
+        if (_vb != null) {
+            Object _result = _vb.getValue(getFacesContext().getELContext());
+            if (_result == null) {
+                return false;
+            } else {
+                return ((Boolean) _result).booleanValue();
+            }
+        }
+        return true;
+    }
+
+    /**
+     * <p>If set to true, a link element with a reference to the theme
+     * stylesheet resource is rendered.</p>
+     * @see #isStyleSheet()
+     */
+    public void setStyleSheet(boolean styleSheet) {
+        this.styleSheet = styleSheet;
+        this.styleSheet_set = true;
+    }
+
+    /**
      * <p>Title of the document to be displayed in the browser title bar.</p>
      */
     @Property(name="title", displayName="title", category="Appearance", isDefault=true)
@@ -483,13 +521,15 @@ public class Head extends UIComponentBase {
         this.webuiAll_set = ((Boolean) _values[16]).booleanValue();
         this.webuiJsfx = ((Boolean) _values[17]).booleanValue();
         this.webuiJsfx_set = ((Boolean) _values[18]).booleanValue();
+        this.styleSheet = ((Boolean) _values[19]).booleanValue();
+        this.styleSheet_set = ((Boolean) _values[20]).booleanValue();
     }
 
     /**
      * <p>Save the state of this component.</p>
      */
     public Object saveState(FacesContext _context) {
-        Object _values[] = new Object[19];
+        Object _values[] = new Object[21];
         _values[0] = super.saveState(_context);
         _values[1] = this.defaultBase ? Boolean.TRUE : Boolean.FALSE;
         _values[2] = this.defaultBase_set ? Boolean.TRUE : Boolean.FALSE;
@@ -509,6 +549,8 @@ public class Head extends UIComponentBase {
         _values[16] = this.webuiAll_set ? Boolean.TRUE : Boolean.FALSE;
         _values[17] = this.webuiJsfx ? Boolean.TRUE : Boolean.FALSE;
         _values[18] = this.webuiJsfx_set ? Boolean.TRUE : Boolean.FALSE;
+        _values[19] = this.styleSheet ? Boolean.TRUE : Boolean.FALSE;
+        _values[20] = this.styleSheet_set ? Boolean.TRUE : Boolean.FALSE;
         return _values;
     }
 }

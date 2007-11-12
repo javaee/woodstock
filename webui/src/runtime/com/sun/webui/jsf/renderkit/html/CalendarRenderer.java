@@ -211,7 +211,7 @@ public class CalendarRenderer extends FieldRenderer {
         RenderingUtilities.renderComponent(datePicker, context);
 
         //JS should be initialized by CalendarMonth, not by this component....
-        //renderJavaScript(context, calendar, writer, styles, datePickerLink);
+        renderJavaScript(context, calendar, writer, styles, datePickerLink);
     }
     // </rave>
 

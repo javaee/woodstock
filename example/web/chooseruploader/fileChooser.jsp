@@ -40,14 +40,17 @@
                             }
                             return true;
                         }
-                        function setChooserButton() {
-                            var domNode = document.getElementById("fileForm:chooserContentPage:fileChooser")
+                        function init() {
+                            var domNode = document.getElementById("fileForm:chooserContentPage:fileChooser");
+                            if (domNode == null || typeof domNode.setChooseButton != "function") { 
+                                return setTimeout('init();', 10);
+                            }
                             domNode.setChooseButton("fileForm:chooserContentPage:file_button");
                         }
                     </script>
                   ]]></f:verbatim>
                 </webuijsf:head>
-                <webuijsf:body onLoad="setTimeout('setChooserButton();', 0);">
+                <webuijsf:body onLoad="init();">
                     <webuijsf:form id="fileForm">
 
                        <!-- Masthead -->
