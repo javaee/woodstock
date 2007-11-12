@@ -72,6 +72,16 @@ webui.@THEME@.browser = {
     },
 
     /**
+     * Test for the Linux platform.
+     *
+     * @return {boolean} true if Linux.
+     */
+    isMac: function() {
+        var agent = webui.@THEME@.browser.getAgent();
+        return (agent.indexOf("macintosh")!= -1);
+    },
+
+    /**
      * Test for the Sun platform.
      *
      * @return {boolean} true if Sun.
@@ -94,13 +104,24 @@ webui.@THEME@.browser = {
     // Firefox/Mozilla tests.
 
     /**
-     * Test for Gecko.
+     * Test for Firefox.
      *
-     * @return {boolean} true if Gecko.
+     * @return {boolean} true if Firefox.
      */
-    isGecko: function() {
+    isFirefox: function() {
         var agent = webui.@THEME@.browser.getAgent();
-        return (agent.indexOf('gecko') != -1);
+        return (agent.indexOf("firefox") != -1);
+    },
+
+    /**
+     * Test for Mozilla.
+     *
+     * @return {boolean} true if Mozilla.
+     */
+    isMozilla: function() {
+        var agent = webui.@THEME@.browser.getAgent();
+        return (agent.indexOf("gecko") != -1 && agent.indexOf("firefox") == -1
+            && agent.indexOf("safari") == -1);
     },
 
     // Internet Explorer tests.
@@ -121,8 +142,8 @@ webui.@THEME@.browser = {
      * @return {boolean} true if IE 3.
      */
     isIe3: function() {
-        return (webui.@THEME@.browser.isIe() && 
-            webui.@THEME@.browser.getMajor() < 4);
+        return (webui.@THEME@.browser.isIe()
+            && webui.@THEME@.browser.getMajor() < 4);
     },
 
     /**
@@ -132,9 +153,9 @@ webui.@THEME@.browser = {
      */
     isIe4: function() {
         var agent = webui.@THEME@.browser.getAgent();
-        return (webui.@THEME@.browser.isIe() && 
-            webui.@THEME@.browser.getMajor() == 4 && 
-            agent.indexOf("msie 4") != -1);
+        return (webui.@THEME@.browser.isIe()
+            && webui.@THEME@.browser.getMajor() == 4
+            && agent.indexOf("msie 4") != -1);
     },
 
     /**
@@ -143,8 +164,8 @@ webui.@THEME@.browser = {
      * @return {boolean} true if IE 4 and up.
      */
     isIe4up: function() {
-        return (webui.@THEME@.browser.isIe() && 
-            webui.@THEME@.browser.getMajor() >= 4);
+        return (webui.@THEME@.browser.isIe()
+            && webui.@THEME@.browser.getMajor() >= 4);
     },
  
     /**
@@ -154,9 +175,9 @@ webui.@THEME@.browser = {
      */
     isIe5: function() {
         var agent = webui.@THEME@.browser.getAgent();
-        return (webui.@THEME@.browser.isIe() && 
-            webui.@THEME@.browser.getMajor() == 4 && 
-            agent.indexOf("msie 5.0") != -1);
+        return (webui.@THEME@.browser.isIe()
+            && webui.@THEME@.browser.getMajor() == 4
+            && agent.indexOf("msie 5.0") != -1);
     },
 
     /**
@@ -166,9 +187,9 @@ webui.@THEME@.browser = {
      */
     isIe5_5: function() {
         var agent = webui.@THEME@.browser.getAgent();
-        return (webui.@THEME@.browser.isIe() && 
-            webui.@THEME@.browser.getMajor() == 4 &&
-            agent.indexOf("msie 5.5") != -1);
+        return (webui.@THEME@.browser.isIe()
+            && webui.@THEME@.browser.getMajor() == 4
+            && agent.indexOf("msie 5.5") != -1);
     },
 
     /**
@@ -177,9 +198,9 @@ webui.@THEME@.browser = {
      * @return {boolean} true if IE 5 and up.
      */
     isIe5up: function() {
-        return (webui.@THEME@.browser.isIe() && 
-            !webui.@THEME@.browser.isIe3() &&
-            !webui.@THEME@.browser.isIe4());
+        return (webui.@THEME@.browser.isIe() 
+            && !webui.@THEME@.browser.isIe3()
+            && !webui.@THEME@.browser.isIe4());
     },
 
     /**
@@ -188,10 +209,10 @@ webui.@THEME@.browser = {
      * @return {boolean} true if IE 5.5 and up.
      */
     isIe5_5up: function() {
-        return (webui.@THEME@.browser.isIe() && 
-            !webui.@THEME@.browser.isIe3() && 
-            !webui.@THEME@.browser.isIe4() && 
-            !webui.@THEME@.browser.isIe5());
+        return (webui.@THEME@.browser.isIe()
+            && !webui.@THEME@.browser.isIe3()
+            && !webui.@THEME@.browser.isIe4()
+            && !webui.@THEME@.browser.isIe5());
     },
 
     /**
@@ -201,9 +222,9 @@ webui.@THEME@.browser = {
      */
     isIe6: function() {
         var agent = webui.@THEME@.browser.getAgent();
-        return (webui.@THEME@.browser.isIe() && 
-            webui.@THEME@.browser.getMajor() == 4 && 
-            agent.indexOf("msie 6.") != -1);
+        return (webui.@THEME@.browser.isIe()
+            && webui.@THEME@.browser.getMajor() == 4
+            && agent.indexOf("msie 6.") != -1);
     },
 
     /**
@@ -212,11 +233,11 @@ webui.@THEME@.browser = {
      * @return {boolean} true if IE 6 and up.
      */
     isIe6up: function() {
-        return (webui.@THEME@.browser.isIe() && 
-            !webui.@THEME@.browser.isIe3() && 
-            !webui.@THEME@.browser.isIe4() && 
-            !webui.@THEME@.browser.isIe5() && 
-            !webui.@THEME@.browser.isIe5_5());
+        return (webui.@THEME@.browser.isIe()
+            && !webui.@THEME@.browser.isIe3()
+            && !webui.@THEME@.browser.isIe4()
+            && !webui.@THEME@.browser.isIe5()
+            && !webui.@THEME@.browser.isIe5_5());
     },
 
     /**
@@ -226,9 +247,9 @@ webui.@THEME@.browser = {
      */
     isIe7: function() {
         var agent = webui.@THEME@.browser.getAgent();
-        return (webui.@THEME@.browser.isIe() && 
-            webui.@THEME@.browser.getMajor() == 4 && 
-            agent.indexOf("msie 7.") != -1);
+        return (webui.@THEME@.browser.isIe()
+            && webui.@THEME@.browser.getMajor() == 4
+            && agent.indexOf("msie 7.") != -1);
     },
 
     /**
@@ -237,12 +258,12 @@ webui.@THEME@.browser = {
      * @return {boolean} true if IE 7 and up.
      */
     isIe7up: function() {
-        return (webui.@THEME@.browser.isIe() && 
-            !webui.@THEME@.browser.isIe3() && 
-            !webui.@THEME@.browser.isIe4() && 
-            !webui.@THEME@.browser.isIe5() && 
-            !webui.@THEME@.browser.isIe5_5() && 
-            !webui.@THEME@.browser.isIe6());
+        return (webui.@THEME@.browser.isIe()
+            && !webui.@THEME@.browser.isIe3()
+            && !webui.@THEME@.browser.isIe4()
+            && !webui.@THEME@.browser.isIe5()
+            && !webui.@THEME@.browser.isIe5_5()
+            && !webui.@THEME@.browser.isIe6());
     },
 
     // Navigator tests.
@@ -255,9 +276,9 @@ webui.@THEME@.browser = {
     isNav: function() {
         // Note: Opera and WebTV spoof Navigator.
         var agent = webui.@THEME@.browser.getAgent();
-        return (agent.indexOf('mozilla') != -1 &&
-            agent.indexOf('spoofer') == -1 &&
-            agent.indexOf('compatible') == -1);
+        return (agent.indexOf("mozilla") != -1
+            && agent.indexOf("spoofer") == -1
+            && agent.indexOf("compatible") == -1);
     },
 
     /**
@@ -267,9 +288,9 @@ webui.@THEME@.browser = {
      */
     isNavOnly: function() {
         var agent = webui.@THEME@.browser.getAgent();
-        return (webui.@THEME@.browser.isNav() && 
-            agent.indexOf(";nav") != -1 ||
-            agent.indexOf("; nav") != -1);
+        return (webui.@THEME@.browser.isNav()
+            && agent.indexOf(";nav") != -1
+            || agent.indexOf("; nav") != -1);
     },
 
     /**
@@ -278,8 +299,8 @@ webui.@THEME@.browser = {
      * @return {boolean} true if Navigator 4.
      */
     isNav4: function() {
-        return (webui.@THEME@.browser.isNav() && 
-            webui.@THEME@.browser.getMajor() == 4);
+        return (webui.@THEME@.browser.isNav()
+            && webui.@THEME@.browser.getMajor() == 4);
     },
 
     /**
@@ -288,8 +309,8 @@ webui.@THEME@.browser = {
      * @return {boolean} true if Navigator 4 and up.
      */
     isNav4up: function() {
-        return (webui.@THEME@.browser.isNav() && 
-            webui.@THEME@.browser.getMajor() >= 4);
+        return (webui.@THEME@.browser.isNav()
+            && webui.@THEME@.browser.getMajor() >= 4);
     },
 
     /**
@@ -298,8 +319,8 @@ webui.@THEME@.browser = {
      * @return {boolean} true if Navigator 6.
      */
     isNav6: function() {
-        return (webui.@THEME@.browser.isNav() && 
-            webui.@THEME@.browser.getMajor() == 5);
+        return (webui.@THEME@.browser.isNav()
+            && webui.@THEME@.browser.getMajor() == 5);
     },
 
     /**
@@ -308,8 +329,8 @@ webui.@THEME@.browser = {
      * @return {boolean} true if Navigator 6 and up.
      */
     isNav6up: function() {
-        return (webui.@THEME@.browser.isNav() && 
-            webui.@THEME@.browser.getMajor() >= 5);
+        return (webui.@THEME@.browser.isNav()
+            && webui.@THEME@.browser.getMajor() >= 5);
     },
 
     // Safari tests.
@@ -321,6 +342,6 @@ webui.@THEME@.browser = {
      */
     isSafari: function() {
         var agent = webui.@THEME@.browser.getAgent();
-        return (agent.indexOf('safari') != -1);
+        return (agent.indexOf("safari") != -1);
     }
 }

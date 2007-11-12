@@ -169,7 +169,7 @@ public class JavaScriptUtilities {
             ResponseWriter writer, JSONObject json) throws IOException, JSONException {
         // Render Dojo config.
         renderJavaScript(component, writer, getDojoConfig(
-            json.getBoolean("parseOnLoad")), false);
+            json.getBoolean("parseOnLoad")));
 
         // Render JSON include.
         renderJsonInclude(component, writer);
@@ -185,15 +185,32 @@ public class JavaScriptUtilities {
         // Render Dojo include.
         renderDojoInclude(component, writer, json.getBoolean("dijitAll"));
 
-        // Render module config after including dojo.
-        renderJavaScript(component, writer, getBootstrapConfig(), false);
+        // Render module config.
+        renderJavaScript(component, writer, getModuleConfig());
 
         // Render webui include.
         renderWebuiInclude(component, writer, json.getBoolean("webuiAll"), 
             json.getBoolean("webuiJsfx"));
 
+        // Render bootstrap config.
+        renderJavaScript(component, writer, getBootstrapConfig());
+
         // Render global include.
         renderGlobalInclude(component, writer);
+    }
+
+    /**
+     * Render JavaScript in the page, including enclosing script tags.
+     *
+     * @param component UIComponent to be rendered.
+     * @param writer ResponseWriter to which the component should be rendered.
+     * @param js The JavaScript string to render.
+     *
+     * @exception IOException if an input/output error occurs.
+     */
+    public static void renderJavaScript(UIComponent component,
+            ResponseWriter writer, String js) throws IOException {
+        renderJavaScript(component, writer, js, false);
     }
 
     /**
@@ -227,6 +244,9 @@ public class JavaScriptUtilities {
      */
     public static void renderJavaScriptBegin(UIComponent component,
             ResponseWriter writer, boolean defer) throws IOException {
+        if (isDebug()) {
+            writer.write("\n");
+        }
         writer.startElement("script", component);
         writer.writeAttribute("type", "text/javascript", null);
 
@@ -254,12 +274,31 @@ public class JavaScriptUtilities {
             writer.write("});");
         }
         writer.endElement("script");
-        writer.write("\n");
     }
 
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     // Private config methods
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+    /**
+     * Helper method to render bootstrap config.
+     * 
+     * Note: Must be rendered after including webui.js in page.
+     */
+    private static String getBootstrapConfig() throws JSONException {
+        JSONObject json = new JSONObject();
+        json.put("debug", isDebug())
+            .put("theme", getThemeConfig(FacesContext.getCurrentInstance()));
+
+        // Append JavaScript.
+        StringBuffer buff = new StringBuffer(256);
+        buff.append(getModuleName("bootstrap.init"))
+            .append("(")
+            .append(JSONUtilities.getString(json))
+            .append(");");
+
+        return buff.toString();
+    }
 
     /**
      * Get JavaScript used to configure Dojo.
@@ -268,21 +307,17 @@ public class JavaScriptUtilities {
      * 
      * @param parseOnLoad Flag indicating Dojo should parse markup.
      */
-    private static String getDojoConfig(boolean parseOnLoad) {
+    private static String getDojoConfig(boolean parseOnLoad) 
+            throws JSONException {
+        JSONObject json = new JSONObject();
+        json.put("isDebug", isDebug())
+            .put("parseOnLoad", parseOnLoad);
+
+        // Append djConfig properties.
         StringBuffer buff = new StringBuffer(256);
+        buff.append("var djConfig=")
+            .append(JSONUtilities.getString(json));
 
-        try {
-            JSONObject json = new JSONObject();
-            json.put("isDebug", isDebug())
-                .put("parseOnLoad", parseOnLoad);
-
-            // Append djConfig properties.
-            buff.append("var djConfig = (djConfig) ? djConfig : ")
-                .append(JSONUtilities.getString(json))
-                .append(";\n");
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }    
         return buff.toString();
     }
 
@@ -291,31 +326,15 @@ public class JavaScriptUtilities {
      * 
      * Note: Must be rendered before including webui.js in page.
      */
-    private static String getBootstrapConfig() {
+    private static String getModuleConfig() {
         StringBuffer buff = new StringBuffer(256);
-
-        // Append JavaScript.
         buff.append("dojo.registerModulePath(\"")
             .append(getTheme().getJSString(ThemeJavascript.MODULE_PREFIX))
             .append("\", \"")
             .append(getTheme().getPathToJSFile((isDebug())
                 ? ThemeJavascript.MODULE_PATH_UNCOMPRESSED
                 : ThemeJavascript.MODULE_PATH))
-            .append("\");\n");
-
-        try {
-            JSONObject json = new JSONObject();
-            json.put("debug", isDebug())
-                .put("theme", getThemeConfig(FacesContext.getCurrentInstance()));
-
-            buff.append("var webui = ")
-                .append(JSONUtilities.getString(
-                    new JSONObject().put(getTheme().getJSString(ThemeJavascript.THEME_BUNDLE), 
-                    new JSONObject().put("bootstrap", json))))
-                .append(";");
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
+            .append("\");");
         return buff.toString();
     }
 
@@ -474,11 +493,13 @@ public class JavaScriptUtilities {
             if (file == null) {
                 continue;
             }
+            if (isDebug()) {
+                writer.write("\n");
+            }
             writer.startElement("script", component);
             writer.writeAttribute("type", "text/javascript", null);
             writer.writeURIAttribute("src", file.toString(), null);
             writer.endElement("script");
-            writer.write("\n");
         }
     }
 
@@ -510,11 +531,13 @@ public class JavaScriptUtilities {
 	if (jsFile == null) {
 	    return;
 	}
+        if (isDebug()) {
+            writer.write("\n");
+        }
         writer.startElement("script", component);
         writer.writeAttribute("type", "text/javascript", null);
         writer.writeURIAttribute("src", jsFile, null);
         writer.endElement("script");
-        writer.write("\n");
     }
 
     /**

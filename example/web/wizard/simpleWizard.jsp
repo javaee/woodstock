@@ -32,15 +32,16 @@
     <webuijsf:html id="html">  
       <webuijsf:head id="head" title="#{msgs.wiz_simple_title}">
       <webuijsf:script>
-          function init() {
-              var domNode = document.getElementById('form1:wizard1');
-              if (typeof domNode.wizOnLoad == "function") {
-                  domNode.wizOnLoad();
-              }
-          }
+        function init() {
+            var domNode = document.getElementById('form1:wizard1');
+            if (domNode == null || typeof domNode.wizOnLoad != "function") {
+                return setTimeout('init();', 10);
+            }
+            domNode.wizOnLoad();
+        }
       </webuijsf:script>
       </webuijsf:head>
-      <webuijsf:body id="body" onLoad="setTimeout('init();', 0);">
+      <webuijsf:body id="body" onLoad="init();">
           <webuijsf:form id="form1">                             
             
           <!-- Simple Wizard:

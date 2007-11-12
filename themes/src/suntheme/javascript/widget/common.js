@@ -25,7 +25,6 @@ dojo.provide("webui.@THEME@.widget.common");
 
 dojo.require("webui.@THEME@.theme.common");
 
-
 /**
  * @class This class contains functions common to all widgets.
  * @static
@@ -117,11 +116,15 @@ webui.@THEME@.widget.common = {
             // http://www.ruby-forum.com/topic/73990
             //
             if (escape != null && new Boolean(escape).valueOf() == false) {
-                webui.@THEME@.widget.common.appendHTML(domNode, 
-                    props.stripScripts());
+                // Note: IE does not insert script tags via innerHTML.
+                webui.@THEME@.widget.common.appendHTML(domNode, props.stripScripts());
 
                 // Evaluate JavaScript.
-                setTimeout(function() {props.evalScripts()}, 10);
+                setTimeout(function() {
+                    // Eval not required for Mozilla/Firefox, but consistent.
+                    props.evalScripts();
+                    webui.@THEME@.widget.common.replaceElements(domNode);
+                }, 10);
             } else {
                 // Static strings must be HTML escaped by default.
                 webui.@THEME@.widget.common.appendHTML(domNode,
@@ -129,7 +132,7 @@ webui.@THEME@.widget.common = {
             }
         } else if (props.fragment) {
             // Add fragment -- do not HTML escape.
-            return webui.@THEME@.widget.common.addFragment(domNode, props.fragment, position, false);
+            webui.@THEME@.widget.common.addFragment(domNode, props.fragment, position, false);
         } else {
             // Create widget.
             webui.@THEME@.widget.common.createWidget(domNode, props, position, false);
@@ -167,15 +170,14 @@ webui.@THEME@.widget.common = {
     /**
      * This function is used to create and start a widget.
      * <p>
-     * Note: The props param must be a JSON object containing a widgetType
-     * value so the correct widget may be created.
+     * Note: Minimally, the props argument must be a JSON object containing an 
+     * id and widgetType property so the correct widget may be created.
      * <p></p>
      * Valid values for the position param consist of "last" or null. If 
      * the position is "last", resulting HTML is appended to the given domNode. 
      * If the position is null, the given domNode is replaced by the resulting
      * HTML.
      * </p>
-     *
      * @param {Node} domNode The DOM node to add widget.
      * @param {Object} props Key-Value pairs of properties.
      * @param {boolean} position The position to add widget.
@@ -197,8 +199,9 @@ webui.@THEME@.widget.common = {
             // Get widget object.
             var obj = dojo.getObject(props.widgetType);
 
-            // Instantiate widget. Note: Dojo replaces domNode, if provided.
-            widget = new obj(props, (position) ? null : domNode);
+            // Instantiate widget. 
+            // Note: Dojo mixes attributes, if domNode is provided.
+            widget = new obj(props);
         } catch (err) {
             var message = "Error: createWidget falied for id=" + props.id;
             if (err && err.description != null) {
@@ -208,14 +211,51 @@ webui.@THEME@.widget.common = {
             return null;
         }
 
-        // Append widget as child.
-        if (position == "last") {
-            domNode.appendChild(widget.domNode);
+        // Add widget to DOM.
+        if (domNode) {
+            if (position == "last") {
+                // Append widget as child node.
+                domNode.appendChild(widget.domNode);
+            } else if (domNode.parentNode) {
+                // Replace DOM node.
+                domNode.parentNode.replaceChild(widget.domNode, domNode);
+            }
         }
 
         // Start widget.
         widget.startup();
         return widget;
+    },
+
+    /**
+     * This function is used to create a widget during the window.onLoad event. 
+     * See the createWidget() function.
+     * <p>
+     * Note: Minimally, the props argument must be a JSON object containing an 
+     * id and widgetType property so the correct widget may be created.
+     * <p></p>
+     * An HTML element is normally used as a temporary place holder so that a 
+     * widget may be added to the document in the proper location. For better
+     * lookup performance, script tags are placed in an HTML span element. 
+     * Ultimately, the span is replaced by the newly created widget.
+     * </p>
+     * @param {String} elementId The HTML element id to replace.
+     * @param {Object} props Key-Value pairs of properties.
+     * @config {String} [id] The widget id.
+     * @config {String} [widgetType] The widget type to create.
+     * @return {boolean} true if successful; otherwise, false.
+     * @private
+     */
+    createWidgetOnLoad: function(elementId, props) {
+        if (elementId == null || props == null) {
+            return false;
+        }
+        // Use Object as associative array.
+        if (webui.@THEME@.widget.common._widgetProps == null) {
+            webui.@THEME@.widget.common._widgetProps = new Object();
+        }
+        webui.@THEME@.widget.common._widgetProps[elementId] = props;
+        return true;
     },
 
     /**
@@ -292,9 +332,9 @@ webui.@THEME@.widget.common = {
      * @return {boolean} The style class name for a specified selector.
      */
     getClassName: function(key, defaultValue) {
-        var ret =  webui.@THEME@.theme.common.getClassName(key);
-        return (ret != null) 
-            ? ret
+        var className =  webui.@THEME@.theme.common.getClassName(key);
+        return (className != null) 
+            ? className
             : (defaultValue) 
                 ? defaultValue
                 : null;                
@@ -324,8 +364,7 @@ webui.@THEME@.widget.common = {
         
         // Add extra properties        
         webui.@THEME@.widget.common.extend(_props, props);
-        
-        return _props;        
+        return _props;
     },
 
     /**
@@ -703,29 +742,73 @@ webui.@THEME@.widget.common = {
     },
 
     /**
-     * This function is used to replace an HTML element with a newly created
-     * widget -- see the createWidget() function.
+     * This function is used to replace an HTML element with a newly created 
+     * widget. See the createWidget() function.
      * <p>
-     * Note: An HTML element is normally used as a temporary place holder so
-     * that a widget may be added to the document in the proper location. 
-     * Typically, the HTML element has the same id as the newly created widget.
-     * </p><p>
-     * Minimally, the props argument must be a JSON object containing an id and 
-     * widgetType property so the correct widget may be created.
-     * </p>
-     * @param {String} elementId The id of the HTML element to replace.
+     * Note: Minimally, the props argument must be a JSON object containing an 
+     * id and widgetType property so the correct widget may be created.
+     * <p>
+     * @param {Node} domNode The HTML element to replace.
      * @param {Object} props Key-Value pairs of properties.
      * @config {String} [id] The widget id.
-     * @config {String} [widgetType] The widget type to create.
-     * @return {Object} The newly created widget.
+     * @return {boolean} true if successful; otherwise, false.
+     * @private
      */
-    replaceElement: function(elementId, props, onLoad) {
-        if (props == null) {
-            return null;
+    replaceElement: function(domNode, props) {
+        if (props == null || domNode == null || domNode.parentNode == null) {
+            return false;
         }
-        var domNode = document.getElementById(elementId);
-        return (domNode)
-            ? webui.@THEME@.widget.common.createWidget(domNode, props) : null;
+        // Set timeout to prevent "JavaScript runs slowly" messages.
+        setTimeout(function() {
+            webui.@THEME@.widget.common.createWidget(domNode, props);                
+        }, 0);
+        return true;
+    },
+
+    /**
+     * This function is used to replace HTML elements with newly created 
+     * widgets. See the createWidgetOnLoad() function.
+     * <p>
+     * An HTML element is normally used as a temporary place holder so that a 
+     * widget may be added to the document in the proper location. For better
+     * lookup performance, script tags are placed in an HTML span element. 
+     * Ultimately, the span is replaced by the newly created widget.
+     * </p>
+     * @param {Node} domNode The DOM node containing HTML elements to replace.
+     * @return {boolean} true if successful; otherwise, false.
+     * @private
+     */
+    replaceElements: function(domNode) {
+        if (domNode == null) {
+            return false;
+        }
+        // Note: Using document.getElementById results in poor perfromance. 
+        var nodes = domNode.getElementsByTagName("SCRIPT");
+        var widgetProps = webui.@THEME@.widget.common._widgetProps;
+        var replaceElement = webui.@THEME@.widget.common.replaceElement;
+        if (widgetProps == null) {
+            return false;
+        }
+
+        // If dealing with JSF facet fragments, we must search for span 
+        // elements because IE strips HTML script elements from strings.
+        if (nodes.length == 0) {
+            nodes = domNode.getElementsByTagName("SPAN");
+            if (nodes.length == 0) {
+                return false;
+            }
+
+            // Match widget props with node id.
+            for (var i = 0; i < nodes.length; i++) {
+                replaceElement(nodes[i], widgetProps[nodes[i].id]);
+            }
+        } else {
+            // Match widget props with parent id.
+            for (var i = 0; i < nodes.length; i++) {
+                replaceElement(nodes[i], widgetProps[nodes[i].parentNode.id]);
+            }
+        }
+        return true;
     },
 
     /**

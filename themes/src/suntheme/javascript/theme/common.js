@@ -557,6 +557,3 @@ webui.@THEME@.theme.common = {
         return true;
     }
 }
-
-// Initialize theme.
-webui.@THEME@.theme.common.init(webui.@THEME@.bootstrap.theme);

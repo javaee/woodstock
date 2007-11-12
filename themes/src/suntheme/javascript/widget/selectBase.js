@@ -331,6 +331,11 @@ webui.@THEME@.widget.selectBase.prototype.setOptionProps = function(element, opt
 
     if (option.selected != null) {
         element.selected = new Boolean(option.selected).valueOf();
+
+        // When creating new options, defaultSelected should also be set.
+        if (element.selected == true) {
+            element.defaultSelected = true;
+        }
     }
     if (option.disabled != null) {
         element.disabled = new Boolean(option.disabled).valueOf();

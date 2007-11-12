@@ -126,25 +126,6 @@ webui.@THEME@.fileChooser = {
             return false;
         }
 
-        // Set given properties on domNode.
-        Object.extend(domNode, props);
-
-        // boolean identifying the chooser mode.
-        domNode.folderChooser = (props.chooserType == "folderChooser");
-        domNode.fileAndFolderChooser = (props.chooserType == "fileAndFolderChooser");
-        domNode.chooseButton = null;
-
-        // FIXME: This encoding needs to be generalized if this code is to
-        // become more generic chooser-like.
-        // In fact encoding entries this way in not ideal.
-        // A more explicit typing needs to be developed if it is 
-        // necessary, possible a data structure that maps type to entry.
-        if (domNode.folderChooser) {
-            domNode.chooser = 'folder';
-        } else {
-            domNode.chooser = 'file';
-        }
-
         // This is not a user defined facet. It is created dynamically
         // if the enter key is pressed in the selected file field.
         // This is the expected form of the request paramter name
@@ -158,17 +139,50 @@ webui.@THEME@.fileChooser = {
              idPrefix += props.id.substring(index);
         }
 
-        domNode.selectionsId = idPrefix + "_selections";
+        // Get HTML elements.
         domNode.lookinfield = webui.@THEME@.field.getInputElement(idPrefix + "_lookinField");
         domNode.filterfield = webui.@THEME@.field.getInputElement(idPrefix + "_filterField");
         domNode.selectedfield = webui.@THEME@.field.getInputElement(idPrefix + "_selectedField");
         domNode.upButton = document.getElementById(idPrefix + "_upButton");
         domNode.openFolderButton = document.getElementById(idPrefix + "_openButton");
         domNode.listentries = webui.@THEME@.listbox.getSelectElement(idPrefix + "_listEntries");
-        domNode.listOptions = domNode.listentries.options;
         domNode.sortmenu = webui.@THEME@.dropDown.getSelectElement(idPrefix + "_sortMenu");
 
-        // Define the methods.
+        // HTML elements may not have been created, yet.
+        if (domNode.lookinfield == null 
+                || domNode.filterfield == null 
+                || domNode.selectedfield == null 
+                || domNode.upButton == null
+                || domNode.openFolderButton == null 
+                || domNode.listentries == null
+                || domNode.sortmenu == null) {
+            return setTimeout(function() {
+                webui.@THEME@.fileChooser.init(props);
+            }, 10);
+        }
+
+        // Set given properties on domNode.
+        Object.extend(domNode, props);
+
+        // boolean identifying the chooser mode.
+        domNode.folderChooser = (props.chooserType == "folderChooser");
+        domNode.fileAndFolderChooser = (props.chooserType == "fileAndFolderChooser");
+        domNode.chooseButton = null;
+        domNode.selectionsId = idPrefix + "_selections";
+        domNode.listOptions = domNode.listentries.options;
+
+        // FIXME: This encoding needs to be generalized if this code is to
+        // become more generic chooser-like.
+        // In fact encoding entries this way in not ideal.
+        // A more explicit typing needs to be developed if it is 
+        // necessary, possible a data structure that maps type to entry.
+        if (domNode.folderChooser) {
+            domNode.chooser = 'folder';
+        } else {
+            domNode.chooser = 'file';
+        }
+
+        // Set functions.
         domNode.enterKeyPressed = webui.@THEME@.fileChooser.enterKeyPressed;
         domNode.handleDblClick = webui.@THEME@.fileChooser.handleDblClick;
         domNode.handleOnChange = webui.@THEME@.fileChooser.handleOnChange;

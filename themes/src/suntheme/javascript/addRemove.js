@@ -47,23 +47,14 @@ webui.@THEME@.addRemove = {
             return false;
         }
 
-        // Set given properties on domNode.
-        Object.extend(domNode, props);
-
         // Note that _available, and _selected are not a facets
         // and therefore do not require the use of "facetid" as discussed below
 
         // The select element from which selections are made 
         domNode.availableList = document.getElementById(props.id + "_available");
 
-        // The options of the select element from which selections are made 
-        domNode.availableOptions = domNode.availableList.options;
-
         // The select element in which selections are shown 
         domNode.selectedList = document.getElementById(props.id + "_selected");
-
-        // The options of the select element in which selections are shown 
-        domNode.selectedOptions = domNode.selectedList.options;
 
         // Bug 6338492 -
         //     ALL: If a component supports facets or children is must be a
@@ -106,15 +97,41 @@ webui.@THEME@.addRemove = {
 
         // Calculate the value indices
         var itemString = document.getElementById(props.id + "_item_list");
+
+        // HTML elements may not have been created, yet.
+        if (domNode.availableList == null 
+                || domNode.selectedList == null 
+                || domNode.addButton == null 
+                || domNode.addAllButton == null
+                || domNode.removeButton == null 
+                || domNode.removeAllButton == null
+                || domNode.moveUpButton == null 
+                || domNode.moveDownButton == null
+                || domNode.selectedValues == null 
+                || itemString == null) {
+            return setTimeout(function() {
+                webui.@THEME@.addRemove.init(props);
+            }, 10);
+        }
+
+        // Set given properties on domNode.
+        Object.extend(domNode, props);
+
+        // Calculate the value indices
         if (itemString != null) {
             var string = new String(itemString.value);
             domNode.allValues = string.split(props.separator);	
         } else {
-            alert("Did not construct value array");
             domNode.allValues = new Array();
         }
 
-        // attach AddRemove object methods
+        // The options of the select element from which selections are made 
+        domNode.availableOptions = domNode.availableList.options;
+
+        // The options of the select element in which selections are shown 
+        domNode.selectedOptions = domNode.selectedList.options;
+
+        // Set functions.
         domNode.add = webui.@THEME@.addRemove.add;
         domNode.addAll = webui.@THEME@.addRemove.addAll;
         domNode.remove = webui.@THEME@.addRemove.remove;
@@ -129,6 +146,13 @@ webui.@THEME@.addRemove = {
         domNode.availableOnChange = webui.@THEME@.addRemove.availableOnChange;
         domNode.selectedOnChange = webui.@THEME@.addRemove.selectedOnChange;
 
+        // Enable multiple buttons.
+        if (new Boolean(props.duplicateSelections).valueOf() == true) {
+            domNode.allowMultipleAdditions();
+        }
+
+        // Initialize buttons.
+        domNode.updateButtons();
         return true;
     },
 

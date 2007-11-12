@@ -589,11 +589,15 @@ webui.@THEME@.hyperlink = {
      * @ignore Until JsDoc supports deprecated tag.
      */
     getImgElement: function(elementId) {
-        // Need to test widget for alarmStatus, jobstatus and notification phrase
+        // Need to test widget for alarmStatus, jobstatus, and notification phrase
         // components. If a widget does not exist, fall back to the old code.
         var widget = dijit.byId(elementId);
-        if (widget) {
-            return widget.getProps().enabledImage;
+        var props = (widget) ? widget.getProps() : null;
+        if (props && props.enabledImage) {
+            var imgWidget = dijit.byId(props.enabledImage.id);
+            if (imgWidget != null) {
+                return imgWidget.domNode;    
+            }
         }
 
         // Image hyperlink is now a naming container and the img element id 

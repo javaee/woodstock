@@ -60,13 +60,16 @@
                                     document.getElementById('form1:progressBarContentPage:pb1:statusPanel:resumeButton').setProps({disabled: true});
                                     document.getElementById('form1:progressBarContentPage:pb1:statusPanel:cancelButton').setProps({disabled: true});
                                 }
-                                function setOnComplete() {
+                                function init() {
                                     var domNode = document.getElementById('form1:progressBarContentPage:pb1');
+                                    if (domNode == null || typeof domNode.setOnComplete != "function") {
+                                        return setTimeout('init();', 10);
+                                    }
                                     domNode.setOnComplete(complete);
                                 }
                     </webuijsf:script>
                 </webuijsf:head>
-                <webuijsf:body onLoad="setTimeout('setOnComplete();', 0);">
+                <webuijsf:body onLoad="init();">
                     <webuijsf:form id="form1">
 
                        <!-- Masthead -->

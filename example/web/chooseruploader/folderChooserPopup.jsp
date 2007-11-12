@@ -64,12 +64,16 @@
                         dirField.setProps({value: dirPath});
                         window.close();
                     }
-                    function setChooserButton() {
+                    function init() {
                         var domNode = document.getElementById("folderFormPopup:folderContent:folderChooser");
+                        if (domNode == null || typeof domNode.setChooseButton != "function") {
+                            return setTimeout('init();', 10);
+                        }
                         domNode.setChooseButton("folderFormPopup:folderContent:select_folder");
+                    }
                     </script>
                 </webuijsf:head>
-                <webuijsf:body onLoad="setTimeout('setChooserButton();', 0);">
+                <webuijsf:body onLoad="init();">
 
                     <webuijsf:form id="folderFormPopup">
 

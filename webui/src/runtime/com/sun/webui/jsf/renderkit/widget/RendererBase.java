@@ -92,23 +92,27 @@ abstract public class RendererBase extends Renderer {
             return;
         }
 
-        // Render temporary place holder to position widget in page -- 
-        // ultimately replaced by document fragment.
-        writer.startElement("span", component);
-        writer.writeAttribute("id", component.getClientId(context), null);
-        writer.endElement("span");
-
         // Note: Leading \n char causes grief with CSS float in tree.
 
-        // Render enclosing tag -- must be located after span.
-        JavaScriptUtilities.renderJavaScriptBegin(component, writer, true);
+        // This id will be used as a temporary place holder to position the
+        // component in page -- ultimately replaced by the newly created widget.
+        String id = context.getViewRoot().createUniqueId();
+
+        // Note: Adding the id to the script tag looked promising, but turned
+        // out to be problimatic for facet fragments. Unfortunately, IE will 
+        // not insert script tags when adding strings via innerHTML.
+        writer.startElement("span", component);
+        writer.writeAttribute("id", id, null);
+
+        // Render enclosing tag.
+        JavaScriptUtilities.renderJavaScriptBegin(component, writer, false);
 
         // Render JavaScript to instantiate Dojo widget.
         writer.write(JavaScriptUtilities.getModuleName(
-            "widget.common.replaceElement"));
+            "widget.common.createWidgetOnLoad"));
         writer.write("(\"");
-        writer.write(component.getClientId(context));
-        writer.write("\", ");
+        writer.write(id);
+        writer.write("\",");
     }
 
     /**
@@ -185,11 +189,12 @@ abstract public class RendererBase extends Renderer {
             return;
         }
 
+        // Note: Trailing \n char causes grief with CSS float.
+
         // Render enclosing tag.
         writer.write(");");
-        JavaScriptUtilities.renderJavaScriptEnd(component, writer, true);
-
-        // Note: Trailing \n char causes grief with CSS float.
+        JavaScriptUtilities.renderJavaScriptEnd(component, writer, false);
+        writer.endElement("span");
     }
 
     /**
