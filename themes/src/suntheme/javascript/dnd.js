@@ -23,8 +23,8 @@
 
 dojo.provide("webui.@THEME@.dnd");
 
-dojo.require("dojo.dnd.manager");
-dojo.require("dojo.dnd.source");
+dojo.require("dojo.dnd.Manager");
+dojo.require("dojo.dnd.Source");
 
 
 /**

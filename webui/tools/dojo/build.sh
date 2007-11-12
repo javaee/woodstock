@@ -11,8 +11,8 @@ SCRIPT_DIR=`cd $SCRIPT_DIR; pwd`
 CLASSES_DIR=$SCRIPT_DIR/classes
 SRC_DIR=$SCRIPT_DIR/src
 MANIFEST_FILE=$SCRIPT_DIR/MANIFEST.tmp
-DOJO_ZIP=$SRC_DIR/dojo-release-0.9.0.tar.gz
-DOJO_JAR=$SCRIPT_DIR/dojo-0.9.0.jar
+DOJO_ZIP=$SRC_DIR/dojo-release-1.0.0.tar.gz
+DOJO_JAR=$SCRIPT_DIR/dojo-1.0.0.jar
 DOJO_DIR=$CLASSES_DIR/META-INF/dojo
 
 # 
@@ -38,7 +38,7 @@ rm -rf `find $DOJO_DIR -name tests\* -o -name demos\* -o -name bench\*`
 cat > $MANIFEST_FILE <<- EEOOFF 
 Created-By: Sun Microsystems Inc.
 Specification-Title: Dojo
-Specification-Version: 0.9.0
+Specification-Version: 1.0.0
 Specification-Vendor: dojotoolkit.org
 EEOOFF
 
