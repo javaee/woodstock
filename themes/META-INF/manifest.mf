@@ -7,8 +7,8 @@ Specification-Version: @VERSION@
 Specification-Vendor: Sun Microsystems, Inc.
 
 Name: com/sun/webui/jsf/theme/
-X-SJWUIC-SWAED-Version: 4.0
-X-SJWUIC-Theme-Version: 4.1
+X-SJWUIC-SWAED-Version: @SWAED_VERSION@
+X-SJWUIC-Theme-Version: @THEME_VERSION@
 X-SJWUIC-Theme-Timestamp: @DATESTAMP@
 X-SJWUIC-Theme-Name: @THEME@
 X-SJWUIC-Theme-Prefix: /theme

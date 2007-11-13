@@ -33,10 +33,10 @@
 
     <!-- "manifest" properties -->
     <property name="webui-title" value="Woodstock"/>
-    <property name="webui-impl-version" value="4.1-${buildnumber}-dev"/>
+    <property name="webui-impl-version" value="${Version}"/>
     <property name="webui-impl-title"
 	  value="${webui-title} ${webui-impl-version}"/>
-    <property name="webui-spec-version" value="4.1-dev"/>
+    <property name="webui-spec-version" value="${Version}"/>
     <property name="webui-spec-title" value="${webui-title}"/>
 
     <!-- Global "build-manifest" properties -->

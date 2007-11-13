@@ -1094,7 +1094,7 @@ public class ResourceBundleTheme implements Theme {
 	String dir = ".";
 	String factoryClass = null;
 	String themeName = "suntheme";
-	String version = "4.1";
+	String version = "4.2";
 	String locale = null;
 	String l10nJar = null;
 	int indent = 0;

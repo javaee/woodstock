@@ -190,7 +190,8 @@
 	<mkdir dir="${_l10n-src_}/META-INF"/>
 	<delete file="${_l10n-src_}/META-INF/MANIFEST.MF"/>
 
-	<ant antfile="build-manifest.xml" target="l10n-manifest">
+	<ant antfile="build-manifest.xml" target="l10n-manifest"
+		inheritAll="false">
 	    <property name="_l10n-manifest_" 
 		value="${_l10n-src_}/META-INF/MANIFEST.MF"/>
 	    <property name="_impl-title_"

@@ -135,7 +135,7 @@ public class ThemeUtilities {
 	// environment, there isn't much one can do smartly or stupidly.
 	// The theme name should be sufficient.
 	//
-	theme = themeFactory.getTheme(null, "4.1", locale, themeContext);
+	theme = themeFactory.getTheme(null, "4.2", locale, themeContext);
 
 	// Now see if this call to getTheme, set a default theme
 	// as a result of not theme set in ThemeContext and the

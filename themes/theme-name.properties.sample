@@ -137,7 +137,7 @@ theme.build-dir=${basedir}/build/${theme.name}
 theme.l10n-dir=l10n
 theme.jar=${basedir}/dist/webui-jsf-${theme.name}.jar
 # Must be the same as the cloned theme
-theme.version=4.1
+theme.version=4.2
 theme.package=org.deserts.${theme.name}
 theme.css-name=_mjv4
 theme.service-class=MojaveThemeService

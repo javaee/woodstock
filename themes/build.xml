@@ -101,7 +101,7 @@
 
     <property name="theme.l10n-dir" value="${basedir}/dist"/>
     <property name="theme.jar" value="${basedir}/dist/webui-jsf-suntheme.jar"/>
-    <property name="theme.version" value="4.1"/>
+    <property name="theme.version" value="${ThemeVersion}"/>
     <property name="theme.css-name" value="_sun4"/>
     <property name="theme.service-class" value="SunthemeThemeService"/>
     <property name="theme.service-class-template"
@@ -250,6 +250,7 @@
                 <filter token="THEME" value="${theme.name}"/>
                 <filter token="FULL_VERSION" value="${FullVersion}"/>
                 <filter token="VERSION" value="${Version}"/>
+		<filter token="SWAED_VERSION" value="${SWAEDVersion}"/>
                 <filter token="THEME_VERSION" value="${theme.version}"/>
                 <filter token="THEME_PACKAGE" value="${theme.package}"/>
                 <filter token="THEME_SERVICE_CLASS"
