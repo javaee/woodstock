@@ -222,7 +222,10 @@ webui.@THEME@.dnd.Source.prototype.onDndDrop = function(source, nodes, copy) {
     );
 
     var ret = true;
-    if (this.onDropFunction && this != source) {
+    if (this.onDropFunction && 
+        this != source && 
+        this.containerState == "Over"
+        ) {
         try {
             ret = this.onDropFunction(source, nodes, copy);
         } catch (err) {}
