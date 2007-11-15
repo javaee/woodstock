@@ -406,6 +406,9 @@ public class CommonTasksSectionRenderer extends AbstractRenderer {
             Object obj = itr.next();
             comp = (UIComponent) obj;
 
+            if (!comp.isRendered()) {
+                continue;
+            }
             // For the case when number of common tasks groups is lesser than
             // or equal to the number of columns, just renderer each task group
             // in each column. 
