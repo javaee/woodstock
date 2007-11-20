@@ -146,26 +146,47 @@ webui.@THEME@.tree = {
             if (!event) {
                 event = window.event;
             }
+            
             var elt = document.getElementById(imageId);
-
+            
+            // get the image widget to compare the actual icon values
+            // as opposed to checking the name of the final rendered image.
+            
+            var imgWidget = dijit.byId(imageId);
+            var imgProps = imgWidget.getProps();
+            var nodeIcon = imgProps.icon;
+            
             // First, unhighlight the parent if applicable
             this.unhighlightParent(this.getSelectedTreeNode(tree.id));
 
             // Change the style to cause the expand / collapse & switch the image
             var display = childNodes.style.display;
+            
             if (display == "none") {
                 childNodes.style.display = "block";
-                if (elt && elt.src) {
-                    elt.src = elt.src.replace("tree_handleright", 
-                        "tree_handledown");
+                if (nodeIcon == "TREE_HANDLE_RIGHT_MIDDLE") {
+                    nodeIcon = "TREE_HANDLE_DOWN_MIDDLE";    
+                } else if (nodeIcon == "TREE_HANDLE_RIGHT_TOP") {
+                    nodeIcon = "TREE_HANDLE_DOWN_TOP";
+                } else if (nodeIcon == "TREE_HANDLE_RIGHT_LAST") {
+                    nodeIcon = "TREE_HANDLE_DOWN_LAST";
+                } else if (nodeIcon == "TREE_HANDLE_RIGHT_TOP_NOSIBLING") {
+                    nodeIcon = "TREE_HANDLE_DOWN_TOP_NOSIBLING";
                 }
             } else {
                 childNodes.style.display = "none";
-                if (elt && elt.src) {
-                    elt.src = elt.src.replace("tree_handledown",
-                        "tree_handleright");
+                if (nodeIcon == "TREE_HANDLE_DOWN_MIDDLE" ) {
+                    nodeIcon = "TREE_HANDLE_RIGHT_MIDDLE";    
+                } else if (nodeIcon == "TREE_HANDLE_DOWN_TOP" ) {
+                    nodeIcon = "TREE_HANDLE_RIGHT_TOP";
+                } else if (nodeIcon == "TREE_HANDLE_DOWN_LAST" ) {
+                    nodeIcon = "TREE_HANDLE_RIGHT_LAST";
+                } else if (nodeIcon == "TREE_HANDLE_DOWN_TOP_NOSIBLING") {
+                    nodeIcon = "TREE_HANDLE_RIGHT_TOP_NOSIBLING" ;
                 }
             }
+            // update the image property to reflect the icon change
+            imgWidget.setProps({icon: nodeIcon});
 
             // Last, update the visible parent of the selected node if now hidden
             this.highlightParent(this.getSelectedTreeNode(tree.id));
@@ -213,6 +234,9 @@ webui.@THEME@.tree = {
      */
     onTreeNodeClick: function(treeNode, imageId, event) {
         // Check for Tree Handles
+        // The handle image and its surrounding area represents the 
+        // handler section of the tree node. Clicking on this area
+        // alone should cause the node to toggle.
         if (this.isTreeHandle(event)) {
             this.expandCollapse(treeNode, imageId, event);
             return true;
@@ -344,17 +368,26 @@ webui.@THEME@.tree = {
         var elt = (event.target) ? event.target : event.srcElement;
 
         // Ignore Tree Handles b/c they should not update highlighting
+        
         if (elt.nodeName == "IMG") {
-            var url = new String(elt.src);
-            if ((url.indexOf("tree_handle") > 0) && (url.indexOf("theme") > 0)) {
-                // This is a tree handle
+            var imgWidget = dijit.byId(elt.id);
+            var imgProps = imgWidget.getProps();
+            var nodeIcon = imgProps.icon;
+            if (nodeIcon.indexOf("TREE_HANDLE_") != -1) {
                 return true;
             }
         } else if (elt.nodeName == "A") {
-            // might have been user pressing enter on a around image
-            if (elt.innerHTML.toLowerCase().indexOf("<img") == 0) {
-                // This is a tree handle
-		return true;
+            // User might have been pressing enter around an image.
+            // Note: I have never managed to get control to come here.
+            
+            aID = elt.id;
+            var lastIndex = aID.lastIndexOf("_handle");
+            if (lastIndex == -1) {
+                return false;
+            }
+            var result = aID.substring(lastIndex, aID.length - 1);
+            if (result == "_handle") {
+                return true; 
             }
         }
         // Not a tree handle
@@ -432,46 +465,60 @@ webui.@THEME@.tree = {
     },
 
     /**
-     * This function finds a node of the given type w/ matching property name
-     * and value by looking recursively deep at the children of the given
-     * node.  The type is the type of node to find (i.e. "IMG").  The propName
-     * is the name of the property to match (i.e. "src" on an "IMG" node).
-     * The propVal is the value that must be contained in propName; this value
-     * does not have to match exactly, it only needs to exist within the
-     * property.
+     * This function finds the handler image ICON associated with a given 
+     * tree node. The ICON value is used to identify if the node in 
+     * question is expanded or not. This is a private function and should
+     * not be used by developers on the client side.
      *
      * @param {Node} node
-     * @param {String} type
-     * @param {String} propName
-     * @param {String} propVal
-     * @return {Node} The node for the given type or null if not found.
+     * @return {boolean} true if the node has an image whose ICON 
+     *        indicates the node is expanded.
      */
-    findNodeByTypeAndProp: function(node, type, propName, propVal) {
+    findNodeByTypeAndProp: function(node) {
         if (node == null) {        
-            return null;
+            return true;
         }
-        // First check to see if node is what we are looking for...
-        if (node.nodeName == type) {
-            if (node[propName].indexOf(propVal) > -1) {
-                return node;
+        // First check to see if node is a handler image.
+        // Then check if it is of the right type. "RIGHT" icon
+        // type indicates the node is not expanded.
+        if (node.nodeName == "IMG") {
+        
+            var imgWidget = dijit.byId(node.id);
+            var imgProps = imgWidget.getProps();
+            var nodeIcon = imgProps.icon;
+
+            if ((nodeIcon == "TREE_HANDLE_RIGHT_MIDDLE") ||
+                (nodeIcon == "TREE_HANDLE_RIGHT_TOP") ||
+                (nodeIcon == "TREE_HANDLE_RIGHT_LAST") ||
+                (nodeIcon == "TREE_HANDLE_RIGHT_TOP_NOSIBLING")) {
+                
+                return false;
+                
+            } else if ((nodeIcon == "TREE_HANDLE_DOWN_MIDDLE") ||
+                (nodeIcon == "TREE_HANDLE_DOWN_TOP") ||
+                (nodeIcon == "TREE_HANDLE_DOWN_LAST") ||
+                (nodeIcon == "TREE_HANDLE_DOWN_TOP_NOSIBLING")) {
+                
+                return true;
             }
-        }
+        }        
         // Not what we want, walk its children if any
+        // Return true for when null conditions arise.
         var nodeList = node.childNodes;
         if (!nodeList || (nodeList.length == 0)) {
-            return null;
+            return true;
         }
         var result;
         for (var count = 0; count<nodeList.length; count++) {
             // Recurse
-            result = this.findNodeByTypeAndProp(nodeList[count], type, propName, propVal);
+            return this.findNodeByTypeAndProp(nodeList[count]);
             if (result) {
                 // Propagate the result
                 return result;
             }
         }
         // Not found
-        return null;
+        return true;
     },
 
     /**
@@ -482,16 +529,13 @@ webui.@THEME@.tree = {
      * @return {boolean} true if TreeNode is expanded.
      */
     treeNodeIsExpanded: function(treeNode) {
-        // Find the div containing the tree images for this TreeNode row
+        // Find the div containing the handler images for this TreeNode row
+        // and pass it to a function that looks for the right image within
+        // the div and returns true if the image has been found and is of the
+        // type that indicates the node is expanded, false otherwise.
         var node = document.getElementById(treeNode.id + "LineImages");
-        node = this.findNodeByTypeAndProp(node, "IMG", "src", "tree_handle");
-        if (!node) {
-            // This shouldn't happen, but if it does return true b/c nothing
-            // happens in this case
-            return true;
-        }
-        // If the image contains this string, it is not expanded
-        return (node.src.indexOf("tree_handleright") == -1);
+        return this.findNodeByTypeAndProp(node);
+        
     },
 
     /**
