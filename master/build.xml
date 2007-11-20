@@ -323,7 +323,28 @@
     <target name="all" depends="clean, ship">
     </target>
 
-    <target name="ship" depends="webui, themes, extralibs, doc, buildsdk, example, themeDoc">
+    <target name="ship" depends="webui, themes, extralibs, doc, buildsdk, example, themeDoc, l10n">
+    </target>
+    
+    <target name="l10n" depends="webui, themes" if="build-l10n">
+        <ant antfile="${webui}/build-l10n.xml" target="buildL10n-dt" inheritall="false">
+            <property name="build-l10n" value="true"/>
+        </ant>
+        <ant antfile="${webui}/build-l10n.xml" target="buildL10n-rt" inheritall="false">
+            <property name="build-l10n" value="true"/>
+        </ant>
+        <ant antfile="${themes}/build.xml" target="buildL10nJars" inheritall="false">
+            <property name="build-l10n" value="true"/>
+        </ant>
+        <jar jarfile="${build}/${sdk}.${sdkrev}-l10n-${buildnumber}.jar">
+            <zipfileset dir="${webui.dist}" prefix="lib">
+                <include name="${webui-dt-l10n.jars}"/>
+                <include name="${webui-l10n.jars}"/>
+            </zipfileset>
+            <zipfileset dir="${themes.dist}" prefix="lib">
+                <include name="${suntheme-l10n.jars}"/>
+            </zipfileset>
+        </jar>
     </target>
     
     <target name="build-manifests">
