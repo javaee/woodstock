@@ -241,8 +241,8 @@ webui.@THEME@.widget.common = {
      * </p>
      * @param {String} elementId The HTML element id to replace.
      * @param {Object} props Key-Value pairs of properties.
-     * @config {String} [id] The widget id.
-     * @config {String} [widgetType] The widget type to create.
+     * @config {String} id The widget id.
+     * @config {String} widgetType The widget type to create.
      * @return {boolean} true if successful; otherwise, false.
      * @private
      */
@@ -348,7 +348,7 @@ webui.@THEME@.widget.common = {
      * contain the id of the element to be created. 
      * </p>
      * @param {Object} props Key-Value pairs of properties (optional).
-     * @config {String} [id] Uniquely identifies an element within a document.   
+     * @config {String} id Uniquely identifies an element within a document.   
      */
     getDropDownProps: function(props) {
         if (props == null || props.options == null) {
@@ -410,7 +410,7 @@ webui.@THEME@.widget.common = {
      * exist in the theme, null is returned.
      * </p>
      * @param {Object} props Key-Value pairs of properties (optional).
-     * @config {String} [id] Uniquely identifies an element within a document. 
+     * @config {String} id Uniquely identifies an element within a document. 
      * @return {Object} Key-Value pairs of properties.
      */
     getHyperlinkProps: function(props) {
@@ -443,7 +443,7 @@ webui.@THEME@.widget.common = {
      * @param {Object} props Key-Value pairs of properties
      * @param {String} enabledImage A key defining a theme images property.
      * @param {String} disabledImage A key defining a theme images property.
-     * @config {String} [id] Uniquely identifies an element within a document.
+     * @config {String} id Uniquely identifies an element within a document.
      * @return {Object} Key-Value pairs of properties.
      */    
     getImageHyperlinkProps: function(props, enabledImage, disabledImage) {
@@ -479,7 +479,7 @@ webui.@THEME@.widget.common = {
      * </p>
      * @param {String} key A key defining a theme images property.
      * @param {Object} props Key-Value pairs of properties (optional).
-     * @config {String} [id] Uniquely identifies an element within a document.
+     * @config {String} id Uniquely identifies an element within a document.
      * @return {Object} Key-Value pairs of properties.
      */
     getImageProps: function(key, props) {
@@ -750,7 +750,7 @@ webui.@THEME@.widget.common = {
      * <p>
      * @param {Node} domNode The HTML element to replace.
      * @param {Object} props Key-Value pairs of properties.
-     * @config {String} [id] The widget id.
+     * @config {String} id The widget id.
      * @return {boolean} true if successful; otherwise, false.
      * @private
      */

@@ -457,15 +457,15 @@ webui.@THEME@.widget.bubble.prototype.setPosition = function() {
  * </p>
  *
  * @param {Object} props Key-Value pairs of properties.
- * @config {boolean} [autoClose] 
- * @config {Object} [closeButton] 
- * @config {Array} [contents] 
- * @config {int} [duration] 
- * @config {String} [id] Uniquely identifies an element within a document.
- * @config {int} [openDelay] 
- * @config {String} [title] Provides a title for element.
- * @config {int} [width] 
- * @config {boolean} [visible] Hide or show element.
+ * @config {boolean} autoClose 
+ * @config {Object} closeButton 
+ * @config {Array} contents 
+ * @config {int} duration 
+ * @config {String} id Uniquely identifies an element within a document.
+ * @config {int} openDelay 
+ * @config {String} title Provides a title for element.
+ * @config {int} width 
+ * @config {boolean} visible Hide or show element.
  * @param {boolean} notify Publish an event for custom AJAX implementations to listen for.
  * @return {boolean} true if successful; otherwise, false.
  */

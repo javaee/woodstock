@@ -109,8 +109,8 @@ webui.@THEME@.widget.label.prototype.getClassName = function() {
  * literals.
  *
  * @param {Object} props Key-Value pairs of properties.
- * @config {String} [detail] Message detail text.
- * @config {boolean} [valid] Flag indicating validation state.
+ * @config {String} detail Message detail text.
+ * @config {boolean} valid Flag indicating validation state.
  * @return {boolean} true if successful; otherwise, false.
  */
 webui.@THEME@.widget.label.prototype.notify = function(props) {
@@ -192,33 +192,33 @@ webui.@THEME@.widget.label.prototype.postCreate = function () {
  * </p>
  *
  * @param {Object} props Key-Value pairs of properties.
- * @config {String} [accesskey]
- * @config {String} [className] CSS selector.
- * @config {String} [contents] 
- * @config {String} [dir] Specifies the directionality of text.
- * @config {Object} [errorImage] 
- * @config {String} [htmlFor] 
- * @config {String} [id] Uniquely identifies an element within a document.
- * @config {String} [lang] Specifies the language of attribute values and content.
- * @config {int} [level] 
- * @config {String} [onClick] Mouse button is clicked on element.
- * @config {String} [onDblClick] Mouse button is double-clicked on element.
- * @config {String} [onKeyDown] Key is pressed down over element.
- * @config {String} [onKeyPress] Key is pressed and released over element.
- * @config {String} [onKeyUp] Key is released over element.
- * @config {String} [onMouseDown] Mouse button is pressed over element.
- * @config {String} [onMouseOut] Mouse is moved away from element.
- * @config {String} [onMouseOver] Mouse is moved onto element.
- * @config {String} [onMouseUp] Mouse button is released over element.
- * @config {String} [onMouseMove] Mouse is moved while over element.
- * @config {boolean} [primary] Set button as primary if true.
- * @config {boolean} [required]
- * @config {Object} [requiredImage]
- * @config {String} [style] Specify style rules inline.
- * @config {String} [title] Provides a title for element.
- * @config {boolean} [valid]
- * @config {String} [value] Value of input.
- * @config {boolean} [visible] Hide or show element.
+ * @config {String} accesskey
+ * @config {String} className CSS selector.
+ * @config {String} contents 
+ * @config {String} dir Specifies the directionality of text.
+ * @config {Object} errorImage 
+ * @config {String} htmlFor 
+ * @config {String} id Uniquely identifies an element within a document.
+ * @config {String} lang Specifies the language of attribute values and content.
+ * @config {int} level 
+ * @config {String} onClick Mouse button is clicked on element.
+ * @config {String} onDblClick Mouse button is double-clicked on element.
+ * @config {String} onKeyDown Key is pressed down over element.
+ * @config {String} onKeyPress Key is pressed and released over element.
+ * @config {String} onKeyUp Key is released over element.
+ * @config {String} onMouseDown Mouse button is pressed over element.
+ * @config {String} onMouseOut Mouse is moved away from element.
+ * @config {String} onMouseOver Mouse is moved onto element.
+ * @config {String} onMouseUp Mouse button is released over element.
+ * @config {String} onMouseMove Mouse is moved while over element.
+ * @config {boolean} primary Set button as primary if true.
+ * @config {boolean} required
+ * @config {Object} requiredImage
+ * @config {String} style Specify style rules inline.
+ * @config {String} title Provides a title for element.
+ * @config {boolean} valid
+ * @config {String} value Value of input.
+ * @config {boolean} visible Hide or show element.
  * @param {boolean} notify Publish an event for custom AJAX implementations to listen for.
  * @return {boolean} true if successful; otherwise, false.
  */

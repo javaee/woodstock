@@ -33,8 +33,8 @@ webui.@THEME@.addRemove = {
      * literals.
      *
      * @param {Object} props Key-Value pairs of properties.
-     * @config {String} [id] The HTML element id.
-     * @config {String} [separator] The character deliminator for ordered options.
+     * @config {String} id The HTML element id.
+     * @config {String} separator The character deliminator for ordered options.
      * @return {boolean} true if successful; otherwise, false.
      * @private
      */

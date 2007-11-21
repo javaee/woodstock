@@ -1038,19 +1038,19 @@ webui.@THEME@.widget.calendar.prototype.setLimitedSelectedValue = function(selec
  * </p>
  *
  * @param {Object} props Key-Value pairs of properties.
- * @config {String} [className] CSS selector.
- * @config {Object} [closeButtonLink] 
- * @config {String} [date] 
- * @config {String} [dateFormat] 
- * @config {Object} [decreaseLink] 
- * @config {String} [id] Uniquely identifies an element within a document.
- * @config {Object} [increaseLink] 
- * @config {Object} [monthMenu]
- * @config {String} [style] Specify style rules inline.
- * @config {Object} [todayDateMsg]
- * @config {Object} [toggleLink]
- * @config {boolean} [visible] Hide or show element.
- * @config {Object} [yearMenu]
+ * @config {String} className CSS selector.
+ * @config {Object} closeButtonLink 
+ * @config {String} date 
+ * @config {String} dateFormat 
+ * @config {Object} decreaseLink 
+ * @config {String} id Uniquely identifies an element within a document.
+ * @config {Object} increaseLink 
+ * @config {Object} monthMenu
+ * @config {String} style Specify style rules inline.
+ * @config {Object} todayDateMsg
+ * @config {Object} toggleLink
+ * @config {boolean} visible Hide or show element.
+ * @config {Object} yearMenu
  * @param {boolean} notify Publish an event for custom AJAX implementations to listen for.
  * @return {boolean} true if successful; otherwise, false.
  */

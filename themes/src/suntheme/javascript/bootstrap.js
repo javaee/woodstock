@@ -37,8 +37,8 @@ webui.@THEME@.bootstrap = {
      * literals.
      *
      * @param {Object} props Key-Value pairs of properties.
-     * @config {Object} [theme] Key-Value pairs of theme properties.
-     * @config {boolean} [debug] Flag indicating debug mode is enabled.
+     * @config {Object} theme Key-Value pairs of theme properties.
+     * @config {boolean} debug Flag indicating debug mode is enabled.
      * @return {boolean} true if successful; otherwise, false.
      * @private
      */

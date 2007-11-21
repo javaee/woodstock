@@ -42,7 +42,7 @@ dojo.declare("webui.@THEME@.widget.selectBase", webui.@THEME@.widget.widgetBase,
  * Helper function to add option and optgroup elements to the HTML select element.
  *
  * @param {Object} props Key-Value pairs of properties.
- * @config {Array} [options]
+ * @config {Array} options
  * @return {boolean} true if successful; otherwise, false.
  */
 webui.@THEME@.widget.selectBase.prototype.addOptions = function(props) {
@@ -182,7 +182,7 @@ webui.@THEME@.widget.selectBase.prototype.getProps = function() {
  * Helper function to obtain class name for the HTML select element.
  *
  * @param {Object} props Key-Value pairs of properties.
- * @config {boolean} [disabled] true if disabled.
+ * @config {boolean} disabled true if disabled.
  * @return {String} The HTML select element class name.
  */
 webui.@THEME@.widget.selectBase.prototype.getSelectClassName = function(props) {    
@@ -404,7 +404,7 @@ webui.@THEME@.widget.selectBase.prototype._setProps = function(props) {
  *
  * @param {Node} selectNode The HTML select element.
  * @param {Object} props Key-Value pairs of properties.
- * @config {boolean} [disabled]
+ * @config {boolean} disabled
  * @return {boolean} true if successful; otherwise, false.
  */
 webui.@THEME@.widget.selectBase.prototype.setSelectProps = function(selectNode, props) {

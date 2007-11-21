@@ -273,11 +273,11 @@ webui.@THEME@.widget.widgetBase.prototype.postCreate = function () {
  *
  * @param {Node} domNode The DOM node to assign properties to.
  * @param {Object} props Key-Value pairs of properties.
- * @config {String} [accessKey] Shortcut key.
- * @config {String} [dir] Specifies the directionality of text.
- * @config {String} [lang] Specifies the language of attribute values and content.
- * @config {int} [tabIndex] Position in tabbing order.
- * @config {String} [title] Provides a title for element.
+ * @config {String} accessKey Shortcut key.
+ * @config {String} dir Specifies the directionality of text.
+ * @config {String} lang Specifies the language of attribute values and content.
+ * @config {int} tabIndex Position in tabbing order.
+ * @config {String} title Provides a title for element.
  * @return {boolean} true if successful; otherwise, false.
  */
 webui.@THEME@.widget.widgetBase.prototype.setCommonProps = function(domNode, props) {
@@ -313,10 +313,10 @@ webui.@THEME@.widget.widgetBase.prototype.setCommonProps = function(domNode, pro
  *
  * @param {Node} domNode The DOM node to assign properties to.
  * @param {Object} props Key-Value pairs of properties.
- * @config {String} [className] CSS selector.
- * @config {String} [id] Uniquely identifies an element within a document.
- * @config {String} [style] Specify style rules inline.
- * @config {boolean} [visible] Hide or show element.
+ * @config {String} className CSS selector.
+ * @config {String} id Uniquely identifies an element within a document.
+ * @config {String} style Specify style rules inline.
+ * @config {boolean} visible Hide or show element.
  * @return {boolean} true if successful; otherwise, false.
  */
 webui.@THEME@.widget.widgetBase.prototype.setCoreProps = function(domNode, props) {
@@ -344,20 +344,20 @@ webui.@THEME@.widget.widgetBase.prototype.setCoreProps = function(domNode, props
  *
  * @param {Node} domNode The DOM node to assign properties to.
  * @param {Object} props Key-Value pairs of properties.
- * @config {String} [onBlur] Element lost focus.
- * @config {String} [onChange] Element value changed.
- * @config {String} [onClick] Mouse button is clicked on element.
- * @config {String} [onDblClick] Mouse button is double-clicked on element.
- * @config {String} [onFocus] Element received focus.
- * @config {String} [onKeyDown] Key is pressed down over element.
- * @config {String} [onKeyPress] Key is pressed and released over element.
- * @config {String} [onKeyUp] Key is released over element.
- * @config {String} [onMouseDown] Mouse button is pressed over element.
- * @config {String} [onMouseOut] Mouse is moved away from element.
- * @config {String} [onMouseOver] Mouse is moved onto element.
- * @config {String} [onMouseUp] Mouse button is released over element.
- * @config {String} [onMouseMove] Mouse is moved while over element.
- * @config {String} [onSelect] Element text selected.
+ * @config {String} onBlur Element lost focus.
+ * @config {String} onChange Element value changed.
+ * @config {String} onClick Mouse button is clicked on element.
+ * @config {String} onDblClick Mouse button is double-clicked on element.
+ * @config {String} onFocus Element received focus.
+ * @config {String} onKeyDown Key is pressed down over element.
+ * @config {String} onKeyPress Key is pressed and released over element.
+ * @config {String} onKeyUp Key is released over element.
+ * @config {String} onMouseDown Mouse button is pressed over element.
+ * @config {String} onMouseOut Mouse is moved away from element.
+ * @config {String} onMouseOver Mouse is moved onto element.
+ * @config {String} onMouseUp Mouse button is released over element.
+ * @config {String} onMouseMove Mouse is moved while over element.
+ * @config {String} onSelect Element text selected.
  * @return {boolean} true if successful; otherwise, false.
  */
 webui.@THEME@.widget.widgetBase.prototype.setEventProps = function(domNode, props) {
@@ -451,10 +451,10 @@ webui.@THEME@.widget.widgetBase.prototype.setEventProps = function(domNode, prop
  * server.
  *
  * @param {Object} props Key-Value pairs of properties.
- * @config {String} [className] CSS selector.
- * @config {String} [id] Uniquely identifies an element within a document.
- * @config {String} [style] Specify style rules inline.
- * @config {boolean} [visible] Hide or show element.
+ * @config {String} className CSS selector.
+ * @config {String} id Uniquely identifies an element within a document.
+ * @config {String} style Specify style rules inline.
+ * @config {boolean} visible Hide or show element.
  * @return {boolean} true if successful; otherwise, false.
  */
 webui.@THEME@.widget.widgetBase.prototype.setProps = function(props, notify) {

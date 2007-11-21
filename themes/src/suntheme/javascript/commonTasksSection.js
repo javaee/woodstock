@@ -36,10 +36,10 @@ webui.@THEME@.commonTasksSection = {
      * literals.
      *
      * @param {Object} props Key-Value pairs of properties.
-     * @config {String} [id] The HTML element id.
-     * @config {String} [pic1URL] Selected image.
-     * @config {String} [pic2URL] Hover image.
-     * @config {String} [pic3URL] Normal image.
+     * @config {String} id The HTML element id.
+     * @config {String} pic1URL Selected image.
+     * @config {String} pic2URL Hover image.
+     * @config {String} pic3URL Normal image.
      * @return {boolean} true if successful; otherwise, false.
      * @private
      */
@@ -117,12 +117,12 @@ webui.@THEME@.commonTasksSection = {
      * This function is used to set common task properties using Object literals.
      *
      * @param {Object} props Key-Value pairs of properties.
-     * @config {String} [commonTaskId]
-     * @config {String} [closeId]
-     * @config {String} [spacerId]
-     * @config {String} [infoIconId]
-     * @config {String} [infoPanelVar]
-     * @config {String} [imageLinkId]
+     * @config {String} commonTaskId
+     * @config {String} closeId
+     * @config {String} spacerId
+     * @config {String} infoIconId
+     * @config {String} infoPanelVar
+     * @config {String} imageLinkId
      * @return {boolean} true if successful; otherwise, false.
      */
     addCommonTask: function(props) {

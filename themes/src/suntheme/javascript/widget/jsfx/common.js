@@ -33,9 +33,9 @@ webui.@THEME@.widget.jsfx.common = {
      * This function is used to process refresh events with Object literals.
      *
      * @param props Key-Value pairs of properties.
-     * @config {String} [id] The HTML element Id.
-     * @config {String} [endTopic] The event topic to publish.
-     * @config {String} [execute] The string containing a comma separated list 
+     * @config {String} id The HTML element Id.
+     * @config {String} endTopic The event topic to publish.
+     * @config {String} execute The string containing a comma separated list 
      * of client ids against which the execute portion of the request 
      * processing lifecycle must be run.
      * @return {boolean} true if successful; otherwise, false.
@@ -67,9 +67,9 @@ webui.@THEME@.widget.jsfx.common = {
      * This function is used to process state change events with Object literals.
      *
      * @param props Key-Value pairs of properties.
-     * @config {String} [id] The HTML element Id.
-     * @config {String} [endTopic] The event topic to publish.
-     * @config {Object} [props] Key-Value pairs of widget properties to update.
+     * @config {String} id The HTML element Id.
+     * @config {String} endTopic The event topic to publish.
+     * @config {Object} props Key-Value pairs of widget properties to update.
      * @return {boolean} true if successful; otherwise, false.
      */
     processStateEvent: function(props) {
@@ -99,9 +99,9 @@ webui.@THEME@.widget.jsfx.common = {
      * This function is used to process submit events with Object literals.
      *
      * @param props Key-Value pairs of properties.
-     * @config {String} [id] The HTML element Id.
-     * @config {String} [endTopic] The event topic to publish.
-     * @config {String} [execute] The string containing a comma separated list 
+     * @config {String} id The HTML element Id.
+     * @config {String} endTopic The event topic to publish.
+     * @config {String} execute The string containing a comma separated list 
      * of client ids against which the execute portion of the request 
      * processing lifecycle must be run.
      * @return {boolean} true if successful; otherwise, false.

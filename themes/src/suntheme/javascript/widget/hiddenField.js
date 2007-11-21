@@ -114,10 +114,10 @@ webui.@THEME@.widget.hiddenField.prototype.getProps = function() {
  * </p>
  *
  * @param {Object} props Key-Value pairs of properties.
- * @config {boolean} [disabled] Disable element.
- * @config {String} [id] Uniquely identifies an element within a document.
- * @config {String} [name]
- * @config {String} [value] Value of input.
+ * @config {boolean} disabled Disable element.
+ * @config {String} id Uniquely identifies an element within a document.
+ * @config {String} name
+ * @config {String} value Value of input.
  * @param {boolean} notify Publish an event for custom AJAX implementations to listen for.
  * @return {boolean} true if successful; otherwise, false.
  */

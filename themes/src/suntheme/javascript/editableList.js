@@ -35,7 +35,7 @@ webui.@THEME@.editableList = {
      * literals.
      *
      * @param {Object} props Key-Value pairs of properties.
-     * @config {String} [id] The element id.
+     * @config {String} id The element id.
      * @return {boolean} true if successful; otherwise, false.
      * @private
      */

@@ -40,12 +40,12 @@ webui.@THEME@.widget.jsfx.popupMenu = {
      * </p>
      *
      * @param props Key-Value pairs of properties.
-     * @config {String} [id] The HTML element Id.
-     * @config {String} [endTopic] The event topic to publish.
-     * @config {String} [execute] The string containing a comma separated list 
+     * @config {String} id The HTML element Id.
+     * @config {String} endTopic The event topic to publish.
+     * @config {String} execute The string containing a comma separated list 
      * of client ids against which the execute portion of the request 
      * processing lifecycle must be run.
-     * @config {String} [value] The selected menu option value.
+     * @config {String} value The selected menu option value.
      * @return {boolean} true if successful; otherwise, false.
      */
     processSubmitEvent: function(props) {

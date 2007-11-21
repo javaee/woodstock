@@ -107,13 +107,13 @@ webui.@THEME@.fileChooser = {
      * literals.
      *
      * @param {Object} props Key-Value pairs of properties.
-     * @config {String} [id] The element id.
-     * @config {String} [chooserType] 
-     * @config {String} [parentFolder] 
-     * @config {String} [separatorChar] 
-     * @config {String} [escapeChar] 
-     * @config {String} [delimiter] 
-     * @config {String} [currentDir]
+     * @config {String} id The element id.
+     * @config {String} chooserType 
+     * @config {String} parentFolder 
+     * @config {String} separatorChar 
+     * @config {String} escapeChar 
+     * @config {String} delimiter 
+     * @config {String} currentDir
      * @return {boolean} true if successful; otherwise, false.
      * @private
      */

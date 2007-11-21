@@ -97,9 +97,9 @@ webui.@THEME@.widget.alert.prototype.getProps = function() {
  * literals.
  *
  * @param {Object} props Key-Value pairs of properties.
- * @config {String} [detail] Message detail text.
- * @config {String} [summary] Message summary text.
- * @config {boolean} [valid] Flag indicating validation state.
+ * @config {String} detail Message detail text.
+ * @config {String} summary Message summary text.
+ * @config {boolean} valid Flag indicating validation state.
  * @return {boolean} true if successful; otherwise, false.
  */
 webui.@THEME@.widget.alert.prototype.notify = function(props) {
@@ -153,17 +153,17 @@ webui.@THEME@.widget.alert.prototype.postCreate = function () {
  * </p>
  *
  * @param {Object} props Key-Value pairs of properties.
- * @config {String} [className] CSS selector.
- * @config {String} [detail]
- * @config {String} [dir] Specifies the directionality of text.
- * @config {String} [id] Uniquely identifies an element within a document.
- * @config {String} [lang] Specifies the language of attribute values and content.
- * @config {Array} [indicators] 
- * @config {String} [moreInfo] 
- * @config {String} [spacerImage] 
- * @config {String} [summary] 
- * @config {String} [type] 
- * @config {boolean} [visible] Hide or show element.
+ * @config {String} className CSS selector.
+ * @config {String} detail
+ * @config {String} dir Specifies the directionality of text.
+ * @config {String} id Uniquely identifies an element within a document.
+ * @config {String} lang Specifies the language of attribute values and content.
+ * @config {Array} indicators 
+ * @config {String} moreInfo 
+ * @config {String} spacerImage 
+ * @config {String} summary 
+ * @config {String} type 
+ * @config {boolean} visible Hide or show element.
  * @param {boolean} notify Publish an event for custom AJAX implementations to listen for.
  * @return {boolean} true if successful; otherwise, false.
  */

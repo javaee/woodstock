@@ -45,12 +45,12 @@ dojo.declare("webui.@THEME@.widget.accordion", webui.@THEME@.widget.widgetBase, 
  * Helper function to add accordion header controls
  *
  * @param {Object} props Key-Value pairs of properties.
- * @config {Object} [collapseAllImage] 
- * @config {Object} [expandAllImage] 
- * @config {Object} [isRefreshIcon] 
- * @config {Object} [multipleSelect] 
- * @config {Object} [refreshImage] 
- * @config {Object} [toggleControls]
+ * @config {Object} collapseAllImage 
+ * @config {Object} expandAllImage 
+ * @config {Object} isRefreshIcon 
+ * @config {Object} multipleSelect 
+ * @config {Object} refreshImage 
+ * @config {Object} toggleControls
  * @return {boolean} true if successful; otherwise, false.
  */
 webui.@THEME@.widget.accordion.prototype.addControls = function(props) {       
@@ -293,19 +293,19 @@ webui.@THEME@.widget.accordion.prototype.postCreate = function () {
  * </p>
  *
  * @param {Object} props Key-Value pairs of properties.
- * @config {String} [className] CSS selector.
- * @config {Object} [collapseAllImage] 
- * @config {Object} [expandAllImage] 
- * @config {String} [id] Uniquely identifies an element within a document.
- * @config {boolean} [isRefreshIcon] 
- * @config {boolean} [loadOnSelect] 
- * @config {boolean} [multipleSelect] 
- * @config {Object} [refreshImage] 
- * @config {String} [style] Specify style rules inline.
- * @config {Array} [tabs] 
- * @config {boolean} [toggleControls]
- * @config {String} [type] 
- * @config {boolean} [visible] Hide or show element.
+ * @config {String} className CSS selector.
+ * @config {Object} collapseAllImage 
+ * @config {Object} expandAllImage 
+ * @config {String} id Uniquely identifies an element within a document.
+ * @config {boolean} isRefreshIcon 
+ * @config {boolean} loadOnSelect 
+ * @config {boolean} multipleSelect 
+ * @config {Object} refreshImage 
+ * @config {String} style Specify style rules inline.
+ * @config {Array} tabs 
+ * @config {boolean} toggleControls
+ * @config {String} type 
+ * @config {boolean} visible Hide or show element.
  * @param {boolean} notify Publish an event for custom AJAX implementations to listen for.
  * @return {boolean} true if successful; otherwise, false.
  */
@@ -368,7 +368,7 @@ webui.@THEME@.widget.accordion.prototype._setProps = function(props) {
  * Process tab selected events.
  *
  * @param props Key-Value pairs of properties.
- * @config {String} [id] The id of the selected tab.
+ * @config {String} id The id of the selected tab.
  * @return {boolean} true if successful; otherwise, false.
  */
 webui.@THEME@.widget.accordion.prototype.tabSelected = function(props) {

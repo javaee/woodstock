@@ -36,8 +36,8 @@ webui.@THEME@.widget.jsfx.table2RowGroup = {
      * This function is used to process scroll events with Object literals.
      *
      * @param props Key-Value pairs of properties.
-     * @config {String} [id] The HTML element Id.
-     * @config {int} [row] The first row to be rendered.
+     * @config {String} id The HTML element Id.
+     * @config {int} row The first row to be rendered.
      * @return {boolean} true if successful; otherwise, false.
      */
     processScrollEvent: function(props) {

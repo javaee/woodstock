@@ -35,15 +35,15 @@ webui.@THEME@.scheduler = {
      * literals.
      *
      * @param {Object} props Key-Value pairs of properties.
-     * @config {String} [id] The element id.
-     * @config {String} [datePickerId]
-     * @config {String} [dateFieldId]
-     * @config {String} [dateClass]
-     * @config {String} [selectedClass]
-     * @config {String} [edgeClass]
-     * @config {String} [edgeSelectedClass]
-     * @config {String} [todayClass]
-     * @config {String} [dateFormat]
+     * @config {String} id The element id.
+     * @config {String} datePickerId
+     * @config {String} dateFieldId
+     * @config {String} dateClass
+     * @config {String} selectedClass
+     * @config {String} edgeClass
+     * @config {String} edgeSelectedClass
+     * @config {String} todayClass
+     * @config {String} dateFormat
      * @return {boolean} true if successful; otherwise, false.
      * @private
      */

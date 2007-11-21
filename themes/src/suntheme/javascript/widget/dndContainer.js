@@ -180,16 +180,16 @@ webui.@THEME@.widget.dndContainer.prototype.postCreate = function () {
  * widget shall be updated only for the given key-value pairs.
  * </p>
  * @param {Object} props Key-Value pairs of properties.
- * @config {Array} [dragTypes] list of space-trimmed strings representing 
+ * @config {Array} dragTypes list of space-trimmed strings representing 
  * types of the drag element.
- * @config {String} [contents] children of the container.
- * @config {String} [className] CSS selector.
- * @config {String} [id] Uniquely identifies an element within a document.
- * @config {String} [onNodeCreateFunc] Javascript code to create new item.
- * @config {Array} [dropTypes] list of space-trimmed strings accepted by this 
+ * @config {String} contents children of the container.
+ * @config {String} className CSS selector.
+ * @config {String} id Uniquely identifies an element within a document.
+ * @config {String} onNodeCreateFunc Javascript code to create new item.
+ * @config {Array} dropTypes list of space-trimmed strings accepted by this 
  * container as a drop.
- * @config {String} [style] Specify style rules inline.
- * @config {boolean} [visible] Hide or show element.
+ * @config {String} style Specify style rules inline.
+ * @config {boolean} visible Hide or show element.
  * @return {Boolean} true if operation was successfull, false otherwise.
  */
 webui.@THEME@.widget.dndContainer.prototype.setProps = function(props, notify) {

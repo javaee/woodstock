@@ -36,7 +36,7 @@ webui.@THEME@.widget.jsfx.accordionTab = {
      * This function is used to load a tab content asynchronously.
      *
      * @param props Key-Value pairs of properties.
-     * @config {String} [id] The HTML element Id.
+     * @config {String} id The HTML element Id.
      * @return {boolean} true if successful; otherwise, false.
      */
     processLoadContentEvent: function(props) {

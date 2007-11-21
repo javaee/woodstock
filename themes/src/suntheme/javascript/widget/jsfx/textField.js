@@ -36,7 +36,7 @@ webui.@THEME@.widget.jsfx.textField = {
      * This function is used to process validation events with Object literals.
      *
      * @param props Key-Value pairs of properties.
-     * @config {String} [id] The HTML element Id.
+     * @config {String} id The HTML element Id.
      * @return {boolean} true if successful; otherwise, false.
      */
     processValidationEvent: function(props) {
