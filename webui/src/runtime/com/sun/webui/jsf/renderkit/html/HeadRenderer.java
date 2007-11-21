@@ -86,7 +86,7 @@ public class HeadRenderer extends AbstractRenderer {
 	    // Profile
             addStringAttributes(context, component, writer, stringAttributes);
 
-	    // Meta tags
+	    // Deprecated meta tags.
             if (head.isMeta()) {
 	        renderMetaTag("no-cache", "Pragma", writer, head); 
 	        renderMetaTag("no-cache", "Cache-Control", writer, head); 

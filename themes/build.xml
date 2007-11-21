@@ -88,9 +88,17 @@
 	<unpackagemapper from="*" to="*"/>
     </pathconvert>
 
-    <!-- convert the package into a file path
+    <!-- convert the package into a dest file path
 	 and map out the basedir package -->
     <pathconvert property="theme.package-path" dirsep="/">
+	<path path="${theme.package}"/>
+	<unpackagemapper from="*" to="*${FullThemeVersion}"/>
+	<map from="${__basedir-pkg__}/" to=""/>
+    </pathconvert>
+
+    <!-- convert the package into a src file path
+	 and map out the basedir package -->
+    <pathconvert property="theme.src-package-path" dirsep="/">
 	<path path="${theme.package}"/>
 	<unpackagemapper from="*" to="*"/>
 	<map from="${__basedir-pkg__}/" to=""/>
@@ -105,9 +113,9 @@
     <property name="theme.css-name" value="_sun4"/>
     <property name="theme.service-class" value="SunthemeThemeService"/>
     <property name="theme.service-class-template"
-	value="${theme.src-dir}/${theme.package-path}/${theme.service-class}.java"/>    
+	value="${theme.src-dir}/${theme.src-package-path}/${theme.service-class}.java"/>    
     <property name="theme.service-properties-template"
-	value="${theme.src-dir}/${theme.package-path}/${theme.name}.properties"/>
+	value="${theme.src-dir}/${theme.src-package-path}/${theme.name}.properties"/>
 
     <!-- Not currently documented for cloning -->
     <property name="theme.master.css" value="css_master.css"/>
@@ -1228,7 +1236,7 @@
 	<filterset id="_theme-service-filter_">
 	    <filter token="THEME" value="${theme.name}"/>
 	    <filter token="THEME_VERSION" value="${theme.version}"/>
-	    <filter token="THEME_PACKAGE" value="${theme.package}"/>
+	    <filter token="THEME_PACKAGE" value="${theme.package}${FullThemeVersion}"/>
 	    <filter token="THEME_SERVICE_CLASS" value="${theme.service-class}"/>
 	</filterset>
 

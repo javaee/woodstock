@@ -77,7 +77,7 @@
     <!-- convert the package into a file path -->
     <pathconvert property="__js-pkgpath__" dirsep="/">
 	<path path="${_js-theme-package_}"/>
-	<unpackagemapper from="*" to="*"/>
+	<unpackagemapper from="*" to="*${FullThemeVersion}"/>
 	<map from="${__js-basedir-pkg__}/" to=""/>
     </pathconvert>
 

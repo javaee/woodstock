@@ -239,6 +239,10 @@ public class Head extends UIComponentBase {
     /**
      * Flag (true or false) indicating if meta data should be rendered. The 
      * default value is true.
+     * 
+     * @deprecated Using meta tags and pragma headers are not very effective for
+     * broswer caching. In fact, they are only honored by a few browser caches.
+     * For more information, see http://www.mnot.net/cache_docs.
      */
     @Property(name="meta", displayName="Render Meta Data", category="Advanced")
     private boolean meta = false;
@@ -246,6 +250,10 @@ public class Head extends UIComponentBase {
 
     /**
      * Test flag indicating if the default meta data should be rendered.
+     * 
+     * @deprecated Using meta tags and pragma headers are not very effective for
+     * broswer caching. In fact, they are only honored by a few browser caches.
+     * For more information, see http://www.mnot.net/cache_docs/#META.
      */
     public boolean isMeta() {
         if (this.meta_set) {
@@ -260,11 +268,15 @@ public class Head extends UIComponentBase {
                 return ((Boolean) _result).booleanValue();
             }
         }
-        return true;
+        return false;
     }
 
     /**
      * Set flag indicating if the default meta data should be rendered.
+     * 
+     * @deprecated Using meta tags and pragma headers are not very effective for
+     * broswer caching. In fact, they are only honored by a few browser caches.
+     * For more information, see http://www.mnot.net/cache_docs/#META.
      */
     public void setMeta(boolean meta) {
         this.meta = meta;

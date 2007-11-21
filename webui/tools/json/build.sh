@@ -6,6 +6,15 @@ SCRIPT_DIR=`dirname $0`
 SCRIPT_DIR=`cd $SCRIPT_DIR; pwd`
 
 #
+# Resources loaded via ThemeServlet are cached using an "Expires" time
+# stamp. In order for browsers to load new resources, without expiring
+# or clearing the cache manually, a new package path is used. The
+# following must be updated for new releases.
+#
+VERSION=2
+VERSION_DIR=2_0
+
+#
 # Defaults
 #
 CLASSES_DIR=$SCRIPT_DIR/classes
@@ -15,8 +24,8 @@ TOOLS_DIR=$SCRIPT_DIR/../../../tools
 TOOLS_JAR=$TOOLS_DIR/lib/woodstock-tools.jar
 RHINO_JAR=$TOOLS_DIR/lib/custom_rhino.jar
 JSON_ZIP=$SRC_DIR/json.zip
-JSON_JAR=$SCRIPT_DIR/json-2.jar
-JSON_DIR=$CLASSES_DIR/META-INF/json
+JSON_JAR=$SCRIPT_DIR/json-$VERSION.jar
+JSON_DIR=$CLASSES_DIR/META-INF/json$VERSION_DIR
 COMPRESSED_FILE=json.js
 UNCOMPRESSED_FILE=json.js.uncompressed.js
 
@@ -64,7 +73,7 @@ mv $JSON_DIR/$COMPRESSED_FILE.tmp $JSON_DIR/$COMPRESSED_FILE
 cat > $MANIFEST_FILE <<- EEOOFF 
 Created-By: Sun Microsystems Inc.
 Specification-Title: JSON
-Specification-Version: 2
+Specification-Version: $VERSION
 Specification-Vendor: json.org
 EEOOFF
 
