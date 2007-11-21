@@ -105,6 +105,18 @@ public class ThemeServlet extends HttpServlet {
     private final static boolean DEBUG = false;
     private final static Map respType = new HashMap();
 
+    /**
+     * Flag indicating that the cache is disabled.
+     */
+    protected final static String CACHE_DISABLED =
+	"com.sun.webui.theme.CACHE_DISABLED"; //NOI18N
+
+    /**
+     * Flag indicating that the cache expires in a certain duration (seconds).
+     */
+    protected final static String CACHE_EXPIRES =
+	"com.sun.webui.theme.CACHE_EXPIRES"; //NOI18N
+
     // Some mime-types... by extension
     static {
 	// There is no IANA registered type for JS files. See 
@@ -348,7 +360,7 @@ public class ThemeServlet extends HttpServlet {
 
             // Get expires duration, if available.
             String duration = (String) getServletContext().getInitParameter(
-                ThemeContext.CACHE_EXPIRES);
+                CACHE_EXPIRES);
 
             // Set expires duration.
             if (duration != null) {
@@ -382,7 +394,7 @@ public class ThemeServlet extends HttpServlet {
     private boolean isCache() {
         if (cache == null) {
             cache = new Boolean((String) getServletContext().getInitParameter(
-                ThemeContext.CACHE_DISABLED));
+                CACHE_DISABLED));
         }
         return cache.booleanValue();
     }

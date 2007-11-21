@@ -19,7 +19,7 @@
  * 
  * Copyright 2007 Sun Microsystems, Inc. All rights reserved.
  */
-/* $Id: ThemeContext.java,v 1.3 2007-11-21 17:38:43 danl Exp $ */
+/* $Id: ThemeContext.java,v 1.4 2007-11-21 19:20:00 danl Exp $ */
 
 package com.sun.webui.theme;
 
@@ -115,18 +115,6 @@ public abstract class ThemeContext {
      */
     protected final static String THEME_CONTEXT =
 	"com.sun.webui.theme.THEME_CONTEXT";
-
-    /**
-     * Identifies the context's cache is disabled.
-     */
-    protected final static String CACHE_DISABLED =
-	"com.sun.webui.theme.CACHE_DISABLED"; //NOI18N
-
-    /**
-     * Identifies the context's cache expires duration in seconds.
-     */
-    protected final static String CACHE_EXPIRES =
-	"com.sun.webui.theme.CACHE_EXPIRES"; //NOI18N
 
     /**
      * Identifies the context's default locale.
