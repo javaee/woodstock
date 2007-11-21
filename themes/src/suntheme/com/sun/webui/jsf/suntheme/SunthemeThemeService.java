@@ -30,6 +30,6 @@ public class SunthemeThemeService extends ThemeService {
     }
 
     public String[] getThemeBundles() {
-	return new String[] { "com.sun.webui.jsf.suntheme.suntheme" };
+	return new String[] { "@THEME_PACKAGE@.suntheme" };
     }
 }

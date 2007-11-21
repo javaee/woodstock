@@ -19,11 +19,6 @@
  * 
  * Copyright 2007 Sun Microsystems, Inc. All rights reserved.
  */
-
-/*
- * $Id: ThemeServlet.java,v 1.1 2007-02-16 01:53:45 bob_yennaco Exp $
- */
-
 package com.sun.webui.theme;
 
 import java.io.BufferedInputStream;
@@ -31,12 +26,9 @@ import java.io.BufferedOutputStream;
 import java.io.InputStream;
 import java.io.IOException;
 import java.io.OutputStream;
-import java.util.Date;
+import java.util.Calendar;
 import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Locale;
 import java.util.Map;
-import java.util.Set; 
 
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
@@ -107,7 +99,6 @@ import javax.servlet.http.HttpServletResponse;
  * @see com.sun.webui.theme.ThemeFactory
  */
 public class ThemeServlet extends HttpServlet {
-
     /**
      * For advanced use only
      */
@@ -190,15 +181,14 @@ public class ThemeServlet extends HttpServlet {
 
     /**
      * This method handles the requests for the Theme files.
+     * 
      * @param request The Servlet Request for the theme file
      * @param response The Servlet Response
      * @throws ServletException If the Servlet fails to serve the resource file
      * @throws IOException If the Servlet cannot locate and read a requested ThemeFile
      */
-    protected void doGet(HttpServletRequest request,
-			 HttpServletResponse response)
-	throws ServletException, IOException {
-
+    protected void doGet(HttpServletRequest request, 
+            HttpServletResponse response) throws ServletException, IOException {
         if(DEBUG) log("doGet()");
 	String resourceName = request.getPathInfo();
 	InputStream inStream = null;
@@ -232,8 +222,16 @@ public class ThemeServlet extends HttpServlet {
                 response.setContentType(type);
             }
 
-            // Set the timestamp of the response to enable caching
-            response.setDateHeader("Last-Modified", getLastModified(request));
+            // Enable caching.
+            if (!isCache()) {
+                // Set the timestamp to prevent browsers from unnecessarily 
+                // sending "If-Modified-Since" headers, reducing the overall 
+                // number of requests.
+                response.setDateHeader("Expires", getExpires(request));
+
+                // Allow authenticated responses to be cacheable.
+                response.addHeader("Cache-Control", getCacheControl(request));
+            }
 
             // Get the OutputStream
 	    outStream = response.getOutputStream();
@@ -301,26 +299,91 @@ public class ThemeServlet extends HttpServlet {
 	
     }
     
-
     /**
-     * <p>The "last modified" timestamp we should broadcast for all resources
-     * provided by this servlet.  This will enable browsers that cache static
+     * The "Last-Modified" timestamp we should broadcast for all resources
+     * provided by this servlet. This will enable browsers that cache static
      * resources to send an "If-Modified-Since" header, which will allow us to
-     * return a "Not Modified" response.</p>
+     * return a "Not Modified" response. If the "Expires" header is set, this
+     * timestamp shall be used to validate expired resources.
      */
-    private long lastModified = (new Date()).getTime();
-
+    private Calendar lastModified = Calendar.getInstance();
 
     /**
-     * <p>Return the timestamp for when resources provided by this servlet
+     * The "Expires" timestamp we should broadcast for all resources
+     * provided by this servlet. This will prevent browsers from unnecessarily 
+     * sending "If-Modified-Since" headers, reducing the overall number of 
+     * requests.
+     */
+    private Calendar expires = null;
+
+    /**
+     * Return the timestamp for when resources provided by this servlet
      * were last modified.  By default, this will be the timestamp when this
-     * servlet was first loaded at the deployment of the containing webapp,
-     * so that any changes in the resources will be automatically sent to
-     * the clients who might have cached earlier versions.</p>
+     * servlet was first loaded at the deployment of the containing webapp.
+     * 
      * @param request The HttpServletRequest being processed
      * @return The date when the resource was last modified
      */
     public long getLastModified(HttpServletRequest request) {
-        return this.lastModified;
+        // Caching is enabled by returning an non-negative number.
+        if (!isCache()) {
+            return lastModified.getTimeInMillis();
+        } else {
+            return super.getLastModified(request);
+        }
+    }
+
+    /**
+     * Return the timestamp for when resources provided by this servlet
+     * should expire. By default, this will be the timestamp when this
+     * servlet was first loaded plus one year. This depends on "Last-Modified"
+     * header as a validator.
+     * 
+     * @param request The HttpServletRequest being processed.
+     * @return The date when the resource expires.
+     */
+    protected long getExpires(HttpServletRequest request) {
+        if (expires == null) {
+            expires = (Calendar) lastModified.clone();
+
+            // Get expires duration, if available.
+            String duration = (String) getServletContext().getInitParameter(
+                ThemeContext.CACHE_EXPIRES);
+
+            // Set expires duration.
+            if (duration != null) {
+                expires.add(Calendar.SECOND, Integer.parseInt(duration));
+            } else {
+                expires.add(Calendar.YEAR, 1);
+            }
+        }
+        return expires.getTimeInMillis();
+    }
+
+    /**
+     * Return "Cache-Control" header properties.
+     * 
+     * @param request The HttpServletRequest being processed
+     * @return The Cache-Control properties.
+     */
+    protected String getCacheControl(HttpServletRequest request) {
+        // Allow authenticated responses to be cacheable.
+        return "public";
+    }
+
+    // Flag (true or false) indicating that caching is enabled.
+    private Boolean cache = null;
+    
+    /** 
+     * Test flag indicating that caching is enabled.
+     * 
+     * @return true if caching is enabled; otherwise, false.
+     */
+    private boolean isCache() {
+        if (cache == null) {
+            cache = new Boolean((String) getServletContext().getInitParameter(
+                ThemeContext.CACHE_DISABLED));
+        }
+        return cache.booleanValue();
     }
 }

@@ -6,14 +6,23 @@ SCRIPT_DIR=`dirname $0`
 SCRIPT_DIR=`cd $SCRIPT_DIR; pwd`
 
 #
+# Resources loaded via ThemeServlet are cached using an "Expires" time
+# stamp. In order for browsers to load new resources, without expiring
+# or clearing the cache manually, a new package path is used. The
+# following must be updated for new releases.
+#
+VERSION=1.0.0
+VERSION_DIR=1_0
+
+#
 # Defaults
 #
 CLASSES_DIR=$SCRIPT_DIR/classes
 SRC_DIR=$SCRIPT_DIR/src
 MANIFEST_FILE=$SCRIPT_DIR/MANIFEST.tmp
-DOJO_ZIP=$SRC_DIR/dojo-release-1.0.0.tar.gz
-DOJO_JAR=$SCRIPT_DIR/dojo-1.0.0.jar
-DOJO_DIR=$CLASSES_DIR/META-INF/dojo
+DOJO_ZIP=$SRC_DIR/dojo-release-$VERSION.tar.gz
+DOJO_JAR=$SCRIPT_DIR/dojo-$VERSION.jar
+DOJO_DIR=$CLASSES_DIR/META-INF/dojo$VERSION_DIR
 
 # 
 # Extract DOJO sources. 
@@ -38,7 +47,7 @@ rm -rf `find $DOJO_DIR -name tests\* -o -name demos\* -o -name bench\*`
 cat > $MANIFEST_FILE <<- EEOOFF 
 Created-By: Sun Microsystems Inc.
 Specification-Title: Dojo
-Specification-Version: 1.0.0
+Specification-Version: $VERSION
 Specification-Vendor: dojotoolkit.org
 EEOOFF
 

@@ -6,6 +6,15 @@ SCRIPT_DIR=`dirname $0`
 SCRIPT_DIR=`cd $SCRIPT_DIR; pwd`
 
 #
+# Resources loaded via ThemeServlet are cached using an "Expires" time
+# stamp. In order for browsers to load new resources, without expiring
+# or clearing the cache manually, a new package path is used. The
+# following must be updated for new releases.
+#
+VERSION=1.5.0
+VERSION_DIR=1_5
+
+#
 # Defaults
 #
 CLASSES_DIR=$SCRIPT_DIR/classes
@@ -14,8 +23,8 @@ MANIFEST_FILE=$SCRIPT_DIR/MANIFEST.tmp
 TOOLS_DIR=$SCRIPT_DIR/../../../tools
 TOOLS_JAR=$TOOLS_DIR/lib/woodstock-tools.jar
 RHINO_JAR=$TOOLS_DIR/lib/custom_rhino.jar
-PROTOTYPE_JAR=$SCRIPT_DIR/prototype-1.5.0.jar
-PROTOTYPE_DIR=$CLASSES_DIR/META-INF/prototype
+PROTOTYPE_JAR=$SCRIPT_DIR/prototype-$VERSION.jar
+PROTOTYPE_DIR=$CLASSES_DIR/META-INF/prototype$VERSION_DIR
 COMPRESSED_FILE=prototype.js
 UNCOMPRESSED_FILE=prototype.js.uncompressed.js
 
@@ -48,7 +57,7 @@ mv $PROTOTYPE_DIR/$COMPRESSED_FILE.tmp $PROTOTYPE_DIR/$COMPRESSED_FILE
 cat > $MANIFEST_FILE <<- EEOOFF 
 Created-By: Sun Microsystems Inc.
 Specification-Title: Prototype
-Specification-Version: 1.5.0_rc1
+Specification-Version: $VERSION rc1
 Specification-Vendor: prototypejs.org
 EEOOFF
 
