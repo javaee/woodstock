@@ -43,7 +43,7 @@ webui.@THEME@.button = {
      * literals.
      *
      * @param {Object} props Key-Value pairs of properties.
-     * @config {String} [id] The element id.
+     * @config {String} id The element id.
      * @return {boolean} true if successful; otherwise, false.
      * @deprecated See webui.@THEME@.widget.button
      * @private

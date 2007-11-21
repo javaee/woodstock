@@ -384,35 +384,35 @@ webui.@THEME@.widget.table2RowGroup.prototype.resize = function() {
  *
  * @param {Node} domNode The DOM node to assign properties to.
  * @param {Object} props Key-Value pairs of properties.
- * @config {String} [abbr]
- * @config {String} [axis]
- * @config {String} [bgColor]
- * @config {String} [char]
- * @config {String} [charOff]
- * @config {String} [className] CSS selector.
- * @config {int} [colspan]
- * @config {String} [dir] Specifies the directionality of text.
- * @config {String} [height]
- * @config {String} [id] Uniquely identifies an element within a document.
- * @config {String} [lang] Specifies the language of attribute values and content.
- * @config {boolean} [noWrap] 
- * @config {String} [onClick] Mouse button is clicked on element.
- * @config {String} [onDblClick] Mouse button is double-clicked on element.
- * @config {String} [onKeyDown] Key is pressed down over element.
- * @config {String} [onKeyPress] Key is pressed and released over element.
- * @config {String} [onKeyUp] Key is released over element.
- * @config {String} [onMouseDown] Mouse button is pressed over element.
- * @config {String} [onMouseOut] Mouse is moved away from element.
- * @config {String} [onMouseOver] Mouse is moved onto element.
- * @config {String} [onMouseUp] Mouse button is released over element.
- * @config {String} [onMouseMove] Mouse is moved while over element.
- * @config {int} [rowSpan] 
- * @config {String} [scope] 
- * @config {String} [style] Specify style rules inline.
- * @config {String} [title] Provides a title for element.
- * @config {String} [valign] 
- * @config {boolean} [visible] Hide or show element.
- * @config {String} [width]
+ * @config {String} abbr
+ * @config {String} axis
+ * @config {String} bgColor
+ * @config {String} char
+ * @config {String} charOff
+ * @config {String} className CSS selector.
+ * @config {int} colspan
+ * @config {String} dir Specifies the directionality of text.
+ * @config {String} height
+ * @config {String} id Uniquely identifies an element within a document.
+ * @config {String} lang Specifies the language of attribute values and content.
+ * @config {boolean} noWrap 
+ * @config {String} onClick Mouse button is clicked on element.
+ * @config {String} onDblClick Mouse button is double-clicked on element.
+ * @config {String} onKeyDown Key is pressed down over element.
+ * @config {String} onKeyPress Key is pressed and released over element.
+ * @config {String} onKeyUp Key is released over element.
+ * @config {String} onMouseDown Mouse button is pressed over element.
+ * @config {String} onMouseOut Mouse is moved away from element.
+ * @config {String} onMouseOver Mouse is moved onto element.
+ * @config {String} onMouseUp Mouse button is released over element.
+ * @config {String} onMouseMove Mouse is moved while over element.
+ * @config {int} rowSpan 
+ * @config {String} scope 
+ * @config {String} style Specify style rules inline.
+ * @config {String} title Provides a title for element.
+ * @config {String} valign 
+ * @config {boolean} visible Hide or show element.
+ * @config {String} width
  * @return {boolean} true if successful; otherwise, false.
  */
 webui.@THEME@.widget.table2RowGroup.prototype.setColumnProps = function(domNode, props) {
@@ -451,35 +451,35 @@ webui.@THEME@.widget.table2RowGroup.prototype.setColumnProps = function(domNode,
  * </p>
  *
  * @param {Object} props Key-Value pairs of properties.
- * @config {String} [align] Alignment of image input.
- * @config {String} [bgColor]
- * @config {String} [char]
- * @config {String} [charOff]
- * @config {String} [className] CSS selector.
- * @config {Array} [columns]
- * @config {String} [dir] Specifies the directionality of text.
- * @config {int} [first]
- * @config {String} [headerText]
- * @config {int} [height]
- * @config {String} [id] Uniquely identifies an element within a document.
- * @config {String} [lang] Specifies the language of attribute values and content.
- * @config {int} [maxRows] 
- * @config {String} [onClick] Mouse button is clicked on element.
- * @config {String} [onDblClick] Mouse button is double-clicked on element.
- * @config {String} [onKeyDown] Key is pressed down over element.
- * @config {String} [onKeyPress] Key is pressed and released over element.
- * @config {String} [onKeyUp] Key is released over element.
- * @config {String} [onMouseDown] Mouse button is pressed over element.
- * @config {String} [onMouseOut] Mouse is moved away from element.
- * @config {String} [onMouseOver] Mouse is moved onto element.
- * @config {String} [onMouseUp] Mouse button is released over element.
- * @config {String} [onMouseMove] Mouse is moved while over element.
- * @config {Array} [rows] 
- * @config {String} [style] Specify style rules inline.
- * @config {String} [title] Provides a title for element.
- * @config {int} [totalRows] 
- * @config {String} [valign] 
- * @config {boolean} [visible] Hide or show element.
+ * @config {String} align Alignment of image input.
+ * @config {String} bgColor
+ * @config {String} char
+ * @config {String} charOff
+ * @config {String} className CSS selector.
+ * @config {Array} columns
+ * @config {String} dir Specifies the directionality of text.
+ * @config {int} first
+ * @config {String} headerText
+ * @config {int} height
+ * @config {String} id Uniquely identifies an element within a document.
+ * @config {String} lang Specifies the language of attribute values and content.
+ * @config {int} maxRows 
+ * @config {String} onClick Mouse button is clicked on element.
+ * @config {String} onDblClick Mouse button is double-clicked on element.
+ * @config {String} onKeyDown Key is pressed down over element.
+ * @config {String} onKeyPress Key is pressed and released over element.
+ * @config {String} onKeyUp Key is released over element.
+ * @config {String} onMouseDown Mouse button is pressed over element.
+ * @config {String} onMouseOut Mouse is moved away from element.
+ * @config {String} onMouseOver Mouse is moved onto element.
+ * @config {String} onMouseUp Mouse button is released over element.
+ * @config {String} onMouseMove Mouse is moved while over element.
+ * @config {Array} rows 
+ * @config {String} style Specify style rules inline.
+ * @config {String} title Provides a title for element.
+ * @config {int} totalRows 
+ * @config {String} valign 
+ * @config {boolean} visible Hide or show element.
  * @param {boolean} notify Publish an event for custom AJAX implementations to listen for.
  * @return {boolean} true if successful; otherwise, false.
  */

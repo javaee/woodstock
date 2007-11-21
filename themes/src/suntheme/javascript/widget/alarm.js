@@ -120,26 +120,26 @@ webui.@THEME@.widget.alarm.prototype.postCreate = function () {
  * </p>
  *
  * @param {Object} props Key-Value pairs of properties.
- * @config {String} [className] CSS selector.
- * @config {String} [id] Uniquely identifies an element within a document.
- * @config {Array} [indicators] 
- * @config {String} [lang] Specifies the language of attribute values and content.
- * @config {String} [onClick] Mouse button is clicked on element.
- * @config {String} [onDblClick] Mouse button is double-clicked on element.
- * @config {String} [onKeyDown] Key is pressed down over element.
- * @config {String} [onKeyPress] Key is pressed and released over element.
- * @config {String} [onKeyUp] Key is released over element.
- * @config {String} [onMouseDown] Mouse button is pressed over element.
- * @config {String} [onMouseOut] Mouse is moved away from element.
- * @config {String} [onMouseOver] Mouse is moved onto element.
- * @config {String} [onMouseUp] Mouse button is released over element.
- * @config {String} [onMouseMove] Mouse is moved while over element.
- * @config {String} [style] Specify style rules inline.
- * @config {String} [text] 
- * @config {String} [textPosition]
- * @config {String} [title] Provides a title for element.
- * @config {String} [type] Provides a title for element.
- * @config {boolean} [visible] Hide or show element.
+ * @config {String} className CSS selector.
+ * @config {String} id Uniquely identifies an element within a document.
+ * @config {Array} indicators 
+ * @config {String} lang Specifies the language of attribute values and content.
+ * @config {String} onClick Mouse button is clicked on element.
+ * @config {String} onDblClick Mouse button is double-clicked on element.
+ * @config {String} onKeyDown Key is pressed down over element.
+ * @config {String} onKeyPress Key is pressed and released over element.
+ * @config {String} onKeyUp Key is released over element.
+ * @config {String} onMouseDown Mouse button is pressed over element.
+ * @config {String} onMouseOut Mouse is moved away from element.
+ * @config {String} onMouseOver Mouse is moved onto element.
+ * @config {String} onMouseUp Mouse button is released over element.
+ * @config {String} onMouseMove Mouse is moved while over element.
+ * @config {String} style Specify style rules inline.
+ * @config {String} text 
+ * @config {String} textPosition
+ * @config {String} title Provides a title for element.
+ * @config {String} type Provides a title for element.
+ * @config {boolean} visible Hide or show element.
  * @param {boolean} notify Publish an event for custom AJAX implementations to listen for.
  * @return {boolean} true if successful; otherwise, false.
  */

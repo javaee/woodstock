@@ -409,13 +409,13 @@ webui.@THEME@.widget.progressBar.prototype.setOperationTextVisible = function(sh
  * This function is used to set progress with Object literals.
  *
  * @param {Object} props Key-Value pairs of properties.
- * @config {String} [failedStateText]
- * @config {String} [logMessage]
- * @config {int} [progress]
- * @config {String} [status]
- * @config {String} [taskState]
- * @config {String} [topText]
- * @config {String} [type]
+ * @config {String} failedStateText
+ * @config {String} logMessage
+ * @config {int} progress
+ * @config {String} status
+ * @config {String} taskState
+ * @config {String} topText
+ * @config {String} type
  * @return {boolean} true if successful; otherwise, false.
  */
 webui.@THEME@.widget.progressBar.prototype.setProgress = function(props) {
@@ -591,25 +591,25 @@ webui.@THEME@.widget.progressBar.prototype.setProgressBarVisible = function(show
  * </p>
  *
  * @param {Object} props Key-Value pairs of properties.
- * @config {String} [bottomText] 
- * @config {Object} [busyImage] 
- * @config {String} [failedStateText]
- * @config {String} [id] Uniquely identifies an element within a document.
- * @config {String} [logId] 
- * @config {boolean} [logMessage] 
- * @config {String} [overlayAnimation] 
- * @config {String} [percentChar] 
- * @config {int} [progress] 
- * @config {String} [progressImageUrl] 
- * @config {String} [progressControlBottom]
- * @config {String} [progressControlRight] 
- * @config {int} [refreshRate] 
- * @config {String} [taskState]
- * @config {String} [toolTip] 
- * @config {String} [topText] 
- * @config {String} [type] 
- * @config {boolean} [visible] Hide or show element.
- * @config {int} [width] 
+ * @config {String} bottomText 
+ * @config {Object} busyImage 
+ * @config {String} failedStateText
+ * @config {String} id Uniquely identifies an element within a document.
+ * @config {String} logId 
+ * @config {boolean} logMessage 
+ * @config {String} overlayAnimation 
+ * @config {String} percentChar 
+ * @config {int} progress 
+ * @config {String} progressImageUrl 
+ * @config {String} progressControlBottom
+ * @config {String} progressControlRight 
+ * @config {int} refreshRate 
+ * @config {String} taskState
+ * @config {String} toolTip 
+ * @config {String} topText 
+ * @config {String} type 
+ * @config {boolean} visible Hide or show element.
+ * @config {int} width 
  * @param {boolean} notify Publish an event for custom AJAX implementations to listen for.
  * @return {boolean} true if successful; otherwise, false.
  */

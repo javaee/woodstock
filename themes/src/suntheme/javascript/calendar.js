@@ -37,24 +37,24 @@ webui.@THEME@.calendar = {
      * literals.
      *
      * @param {Object} props Key-Value pairs of properties.
-     * @config {String} [id] The element id.
-     * @config {String} [firstDay]
-     * @config {String} [fieldId]
-     * @config {String} [patternId]
-     * @config {String} [calendarToggleId]
-     * @config {String} [datePickerId]
-     * @config {String} [monthMenuId]
-     * @config {String} [yearMenuId]
-     * @config {String} [rowId]
-     * @config {String} [showButtonSrc]
-     * @config {String} [hideButtonSrc]
-     * @config {String} [dateFormat]
-     * @config {String} [dateClass]
-     * @config {String} [edgeClass]
-     * @config {String} [selectedClass]
-     * @config {String} [edgeSelectedClass]
-     * @config {String} [todayClass]
-     * @config {String} [hiddenClass]
+     * @config {String} id The element id.
+     * @config {String} firstDay
+     * @config {String} fieldId
+     * @config {String} patternId
+     * @config {String} calendarToggleId
+     * @config {String} datePickerId
+     * @config {String} monthMenuId
+     * @config {String} yearMenuId
+     * @config {String} rowId
+     * @config {String} showButtonSrc
+     * @config {String} hideButtonSrc
+     * @config {String} dateFormat
+     * @config {String} dateClass
+     * @config {String} edgeClass
+     * @config {String} selectedClass
+     * @config {String} edgeSelectedClass
+     * @config {String} todayClass
+     * @config {String} hiddenClass
      * @return {boolean} true if successful; otherwise, false.
      * @deprecated See webui.@THEME@.widget.calendar
      * @private

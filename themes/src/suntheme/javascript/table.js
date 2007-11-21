@@ -284,42 +284,42 @@ webui.@THEME@.table = {
      * literals.
      *
      * @param {Object} props Key-Value pairs of properties.
-     * @config {String} [id] The HTML element ID for the component.
+     * @config {String} id The HTML element ID for the component.
      *
      * // Panel Properties
-     * @config {Array} [panelIds] An array of embedded panel IDs.</li>
-     * @config {Array} [panelFocusIds] An array of IDs used to set focus for open panels.</li>
-     * @config {Array} [panelToggleIds] An array of IDs used to toggle embedded panels.</li>
-     * @config {Array} [panelToggleIconsOpen] An array of toggle icons for open panels.</li>
-     * @config {Array} [panelToggleIconsClose] An array of toggle icons for closed panels.</li>
+     * @config {Array} panelIds An array of embedded panel IDs.</li>
+     * @config {Array} panelFocusIds An array of IDs used to set focus for open panels.</li>
+     * @config {Array} panelToggleIds An array of IDs used to toggle embedded panels.</li>
+     * @config {Array} panelToggleIconsOpen An array of toggle icons for open panels.</li>
+     * @config {Array} panelToggleIconsClose An array of toggle icons for closed panels.</li>
      *
      * // Filter Properties
-     * @config {String} [basicFilterStyleClass] The style class for basic or no filters.</li>
-     * @config {String} [customFilterStyleClass] The style class for custom filters.</li>
-     * @config {String} [customFilterOptionValue] The custom filter menu option value.</li>
-     * @config {String} [customFilterAppliedOptionValue] The custom filter applied menu option value.</li>
+     * @config {String} basicFilterStyleClass The style class for basic or no filters.</li>
+     * @config {String} customFilterStyleClass The style class for custom filters.</li>
+     * @config {String} customFilterOptionValue The custom filter menu option value.</li>
+     * @config {String} customFilterAppliedOptionValue The custom filter applied menu option value.</li>
      *
      * // Sort Panel Properties
-     * @config {Array} [sortColumnMenuIds] An array of HTML element IDs for sort column menu components.</li>
-     * @config {Array} [sortOrderMenuIds] An array of HTML element IDs for sort order menu components.</li>
-     * @config {Array} [sortOrderToolTips] An array of tool tips used for sort order menus.</li>
-     * @config {Array} [sortOrderToolTipsAscending] An array of ascending tool tips used for sort order menus.</li>
-     * @config {Array} [sortOrderToolTipsDescending] An array of descending tool tips used for sort order menus.</li>
-     * @config {String} [duplicateSelectionMsg] The message displayed for duplicate menu selections.</li>
-     * @config {String} [missingSelectionMsg] The message displayed for missing menu selections.</li>
-     * @config {String} [selectSortMenuOptionValue] The sort menu option value for the select column.</li>
-     * @config {boolean} [hiddenSelectedRows] Flag indicating that selected rows might be currently hidden from view.</li>
-     * @config {boolean} [paginated] Flag indicating table is in pagination mode.</li>
+     * @config {Array} sortColumnMenuIds An array of HTML element IDs for sort column menu components.</li>
+     * @config {Array} sortOrderMenuIds An array of HTML element IDs for sort order menu components.</li>
+     * @config {Array} sortOrderToolTips An array of tool tips used for sort order menus.</li>
+     * @config {Array} sortOrderToolTipsAscending An array of ascending tool tips used for sort order menus.</li>
+     * @config {Array} sortOrderToolTipsDescending An array of descending tool tips used for sort order menus.</li>
+     * @config {String} duplicateSelectionMsg The message displayed for duplicate menu selections.</li>
+     * @config {String} missingSelectionMsg The message displayed for missing menu selections.</li>
+     * @config {String} selectSortMenuOptionValue The sort menu option value for the select column.</li>
+     * @config {boolean} hiddenSelectedRows Flag indicating that selected rows might be currently hidden from view.</li>
+     * @config {boolean} paginated Flag indicating table is in pagination mode.</li>
      *
      * // Group Properties
-     * @config {String} [selectRowStylClass] The style class for selected rows.</li>
-     * @config {Array} [selectIds] An arrary of component IDs used to select rows of the table.</li>
-     * @config {Array} [groupIds] An array of TableRowGroup IDs rendered for the table.</li>
-     * @config {Array} [rowIds] An array of row IDs for rendered for each TableRowGroup.</li>
-     * @config {Array} [hiddenSelectedRowCounts] An array of selected row counts hidden from view.</li>
-     * @config {String} [hiddenSelectionsMsg] The hidden selections message for confirm dialog.</li>
-     * @config {String} [totalSelectionsMsg] The total selections message for confirm dialog.</li>
-     * @config {String} [deleteSelectionsMsg] The delete selections message for confirm dialog.</li>
+     * @config {String} selectRowStylClass The style class for selected rows.</li>
+     * @config {Array} selectIds An arrary of component IDs used to select rows of the table.</li>
+     * @config {Array} groupIds An array of TableRowGroup IDs rendered for the table.</li>
+     * @config {Array} rowIds An array of row IDs for rendered for each TableRowGroup.</li>
+     * @config {Array} hiddenSelectedRowCounts An array of selected row counts hidden from view.</li>
+     * @config {String} hiddenSelectionsMsg The hidden selections message for confirm dialog.</li>
+     * @config {String} totalSelectionsMsg The total selections message for confirm dialog.</li>
+     * @config {String} deleteSelectionsMsg The delete selections message for confirm dialog.</li>
      *
      * // Group Panel Properties
      * @param {String} [columnFooterId] ID for column footer.</li>

@@ -260,14 +260,14 @@ webui.@THEME@.widget.accordionTab.prototype.postCreate = function () {
  * </p>
  *
  * @param {Object} props Key-Value pairs of properties.
- * @config {String} [className] CSS selector.
- * @config {int} [contentHeight] CSS selector.
- * @config {String} [hiddenField] 
- * @config {String} [id] Uniquely identifies an element within a document.
- * @config {Array} [tabContent] 
- * @config {String} [style] Specify style rules inline.
- * @config {String} [title] Provides a title for element.
- * @config {boolean} [visible] Hide or show element.
+ * @config {String} className CSS selector.
+ * @config {int} contentHeight CSS selector.
+ * @config {String} hiddenField 
+ * @config {String} id Uniquely identifies an element within a document.
+ * @config {Array} tabContent 
+ * @config {String} style Specify style rules inline.
+ * @config {String} title Provides a title for element.
+ * @config {boolean} visible Hide or show element.
  * @param {boolean} notify Publish an event for custom AJAX implementations to listen for.
  * @return {boolean} true if successful; otherwise, false.
  */

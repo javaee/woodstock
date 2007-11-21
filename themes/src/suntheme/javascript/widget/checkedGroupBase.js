@@ -38,10 +38,10 @@ dojo.declare("webui.@THEME@.widget.checkedGroupBase", webui.@THEME@.widget.widge
  * Helper function to add elements with Object literals.
  *
  * @param {Object} props Key-Value pairs of properties.
- * @config {boolean} [disabled] 
- * @config {Array} [columns] 
- * @config {Array} [contents] 
- * @config {Object} [label]
+ * @config {boolean} disabled 
+ * @config {Array} columns 
+ * @config {Array} contents 
+ * @config {Object} label
  * @return {boolean} true if successful; otherwise, false.
  */
 webui.@THEME@.widget.checkedGroupBase.prototype.addContents = function(props) {   
@@ -166,21 +166,21 @@ webui.@THEME@.widget.checkedGroupBase.prototype.postCreate = function () {
  * </p>
  *
  * @param {Object} props Key-Value pairs of properties.
- * @config {String} [align] Alignment of image input.
- * @config {String} [className] CSS selector.
- * @config {int} [columns] 
- * @config {Array} [contents] 
- * @config {String} [dir] Specifies the directionality of text.
- * @config {boolean} [disabled] Disable element.
- * @config {String} [id] Uniquely identifies an element within a document.
- * @config {String} [label]
- * @config {String} [lang] Specifies the language of attribute values and content.
- * @config {String} [name] 
- * @config {boolean} [readOnly] Set button as primary if true.
- * @config {String} [style] Specify style rules inline.
- * @config {int} [tabIndex] Position in tabbing order.
- * @config {String} [title] Provides a title for element.
- * @config {boolean} [visible] Hide or show element.
+ * @config {String} align Alignment of image input.
+ * @config {String} className CSS selector.
+ * @config {int} columns 
+ * @config {Array} contents 
+ * @config {String} dir Specifies the directionality of text.
+ * @config {boolean} disabled Disable element.
+ * @config {String} id Uniquely identifies an element within a document.
+ * @config {String} label
+ * @config {String} lang Specifies the language of attribute values and content.
+ * @config {String} name 
+ * @config {boolean} readOnly Set button as primary if true.
+ * @config {String} style Specify style rules inline.
+ * @config {int} tabIndex Position in tabbing order.
+ * @config {String} title Provides a title for element.
+ * @config {boolean} visible Hide or show element.
  * @param {boolean} notify Publish an event for custom AJAX implementations to listen for.
  * @return {boolean} true if successful; otherwise, false.
  */

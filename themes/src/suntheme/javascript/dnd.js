@@ -70,23 +70,23 @@ webui.@THEME@.dnd.Manager.prototype.stopDrag = function() {
  * Woodstock drag and drop.
  * @constructor This function is used to construct a dnd source.
  * @param {Object} props Key-Value pairs of properties.
- * @config {boolean} [isSource] Can be used as a DnD source, if true; assumed to
+ * @config {boolean} isSource Can be used as a DnD source, if true; assumed to
  * be "true" if omitted.
- * @config {Array} [accept] List of accepted types (text strings) for a target; 
+ * @config {Array} accept List of accepted types (text strings) for a target; 
  * assumed to be ["text"] if omitted.
- * @config {boolean} [horizontal] A horizontal container, if true, vertical 
+ * @config {boolean} horizontal A horizontal container, if true, vertical 
  * otherwise or when omitted.
- * @config {boolean} [copyOnly] Always copy items, if true, use a state of Ctrl 
+ * @config {boolean} copyOnly Always copy items, if true, use a state of Ctrl 
  * key otherwise.
- * @config {boolean} [skipForm] Don't start the drag operation, if clicked on 
+ * @config {boolean} skipForm Don't start the drag operation, if clicked on 
  * form elements.
- * @config {boolean} [singular] Allows selection of only one element, if true.
- * @config {Function} [creator] Function A creator function, which takes a data
+ * @config {boolean} singular Allows selection of only one element, if true.
+ * @config {Function} creator Function A creator function, which takes a data
  * item, and returns an object like that: {node: newNode, data: usedData, type: 
  * arrayOfStrings}.
- * @config {boolean} [_skipStartup] Skip startup(), which collects children, for
+ * @config {boolean} _skipStartup Skip startup(), which collects children, for
  * deferred initialization (used in the markup mode).
- * @config {Function} [onDropFunction] User defined onDrop function with 
+ * @config {Function} onDropFunction User defined onDrop function with 
  * signature function(source, nodes, copy){..}.
  */
 dojo.declare("webui.@THEME@.dnd.Source", dojo.dnd.Source, {

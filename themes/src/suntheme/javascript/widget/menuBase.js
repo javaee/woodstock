@@ -40,7 +40,7 @@ dojo.declare("webui.@THEME@.widget.menuBase", webui.@THEME@.widget.widgetBase);
  *
  * @param {Node} menuNode The node to which the menu items are to be added.
  * @param {Object} props Key-Value pairs of properties.
- * @config {Array} [options] 
+ * @config {Array} options 
  * @return {boolean} true if successful; otherwise, false.
  */
 webui.@THEME@.widget.menuBase.prototype.addOptions = function(menuNode, props) {
@@ -391,8 +391,8 @@ webui.@THEME@.widget.menuBase.prototype.processOnClickEvent = function(value) {
  *
  * @param {Node} menuItemContainer The container for the menu item.
  * @param {Object} props Key-Value pairs of properties.
- * @config {boolean} [disabled] 
- * @config {boolean} [group]
+ * @config {boolean} disabled 
+ * @config {boolean} group
  * @return {boolean} true if successful; otherwise, false.
  */
 webui.@THEME@.widget.menuBase.prototype.setMenuNodeClassName = function(
@@ -427,12 +427,12 @@ webui.@THEME@.widget.menuBase.prototype.setMenuNodeClassName = function(
  * @param optionNode The node for which the option is to be added.
  * @param {Object} props Key-Value pairs of properties.
  * @param {String} number The position of the option item in the menu.
- * @config {boolean} [disabled] 
- * @config {boolean} [escape]
- * @config {Object} [image]
- * @config {String} [label]
- * @config {String} [title]
- * @config {String} [value]
+ * @config {boolean} disabled 
+ * @config {boolean} escape
+ * @config {Object} image
+ * @config {String} label
+ * @config {String} title
+ * @config {String} value
  * @return {boolean} true if successful; otherwise, false.
  */
 webui.@THEME@.widget.menuBase.prototype.setOptionNodeProps = function(optionNode, props, number) {
@@ -525,29 +525,29 @@ webui.@THEME@.widget.menuBase.prototype.setOptionNodeProps = function(optionNode
  * </p>
  *
  * @param {Object} props Key-Value pairs of properties.
- * @config {String} [accessKey] 
- * @config {String} [className] CSS selector.
- * @config {String} [dir] Specifies the directionality of text.
- * @config {String} [formId] 
- * @config {String} [id] Uniquely identifies an element within a document.
- * @config {String} [onBlur] Element lost focus.
- * @config {String} [onClick] Mouse button is clicked on element.
- * @config {String} [onDblClick] Mouse button is double-clicked on element.
- * @config {String} [onFocus] Element received focus.
- * @config {String} [onKeyDown] Key is pressed down over element.
- * @config {String} [onKeyPress] Key is pressed and released over element.
- * @config {String} [onKeyUp] Key is released over element.
- * @config {String} [onMouseDown] Mouse button is pressed over element.
- * @config {String} [onMouseOut] Mouse is moved away from element.
- * @config {String} [onMouseOver] Mouse is moved onto element.
- * @config {String} [onMouseUp] Mouse button is released over element.
- * @config {String} [onMouseMove] Mouse is moved while over element.
- * @config {Array} [options] 
- * @config {boolean} [primary] Set button as primary if true.
- * @config {String} [style] Specify style rules inline.
- * @config {int} [tabIndex] Position in tabbing order.
- * @config {String} [title] Provides a title for element.
- * @config {boolean} [visible] Hide or show element.
+ * @config {String} accessKey 
+ * @config {String} className CSS selector.
+ * @config {String} dir Specifies the directionality of text.
+ * @config {String} formId 
+ * @config {String} id Uniquely identifies an element within a document.
+ * @config {String} onBlur Element lost focus.
+ * @config {String} onClick Mouse button is clicked on element.
+ * @config {String} onDblClick Mouse button is double-clicked on element.
+ * @config {String} onFocus Element received focus.
+ * @config {String} onKeyDown Key is pressed down over element.
+ * @config {String} onKeyPress Key is pressed and released over element.
+ * @config {String} onKeyUp Key is released over element.
+ * @config {String} onMouseDown Mouse button is pressed over element.
+ * @config {String} onMouseOut Mouse is moved away from element.
+ * @config {String} onMouseOver Mouse is moved onto element.
+ * @config {String} onMouseUp Mouse button is released over element.
+ * @config {String} onMouseMove Mouse is moved while over element.
+ * @config {Array} options 
+ * @config {boolean} primary Set button as primary if true.
+ * @config {String} style Specify style rules inline.
+ * @config {int} tabIndex Position in tabbing order.
+ * @config {String} title Provides a title for element.
+ * @config {boolean} visible Hide or show element.
  * @param {boolean} notify Publish an event for custom AJAX implementations to listen for.
  * @return {boolean} true if successful; otherwise, false.
  */

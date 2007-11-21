@@ -69,37 +69,37 @@ webui.@THEME@.widget.passwordField.prototype.getInputClassName = function() {
  * </p>
  *
  * @param {Object} props Key-Value pairs of properties.
- * @config {String} [accesskey] 
- * @config {String} [className] CSS selector.
- * @config {String} [dir] Specifies the directionality of text.
- * @config {boolean} [disabled] Disable element.
- * @config {String} [id] Uniquely identifies an element within a document.
- * @config {String} [label]
- * @config {String} [lang] Specifies the language of attribute values and content.
- * @config {int} [maxLength] 
- * @config {Array} [notify] 
- * @config {String} [onBlur] Element lost focus.
- * @config {String} [onClick] Mouse button is clicked on element.
- * @config {String} [onDblClick] Mouse button is double-clicked on element.
- * @config {String} [onFocus] Element received focus.
- * @config {String} [onKeyDown] Key is pressed down over element.
- * @config {String} [onKeyPress] Key is pressed and released over element.
- * @config {String} [onKeyUp] Key is released over element.
- * @config {String} [onMouseDown] Mouse button is pressed over element.
- * @config {String} [onMouseOut] Mouse is moved away from element.
- * @config {String} [onMouseOver] Mouse is moved onto element.
- * @config {String} [onMouseUp] Mouse button is released over element.
- * @config {String} [onMouseMove] Mouse is moved while over element.
- * @config {boolean} [readOnly] 
- * @config {boolean} [required] 
- * @config {int} [size] 
- * @config {String} [style] Specify style rules inline.
- * @config {boolean} [submitForm]
- * @config {int} [tabIndex] Position in tabbing order.
- * @config {String} [title] Provides a title for element.
- * @config {boolean} [valid]
- * @config {String} [value] Value of input.
- * @config {boolean} [visible] Hide or show element.
+ * @config {String} accesskey 
+ * @config {String} className CSS selector.
+ * @config {String} dir Specifies the directionality of text.
+ * @config {boolean} disabled Disable element.
+ * @config {String} id Uniquely identifies an element within a document.
+ * @config {String} label
+ * @config {String} lang Specifies the language of attribute values and content.
+ * @config {int} maxLength 
+ * @config {Array} notify 
+ * @config {String} onBlur Element lost focus.
+ * @config {String} onClick Mouse button is clicked on element.
+ * @config {String} onDblClick Mouse button is double-clicked on element.
+ * @config {String} onFocus Element received focus.
+ * @config {String} onKeyDown Key is pressed down over element.
+ * @config {String} onKeyPress Key is pressed and released over element.
+ * @config {String} onKeyUp Key is released over element.
+ * @config {String} onMouseDown Mouse button is pressed over element.
+ * @config {String} onMouseOut Mouse is moved away from element.
+ * @config {String} onMouseOver Mouse is moved onto element.
+ * @config {String} onMouseUp Mouse button is released over element.
+ * @config {String} onMouseMove Mouse is moved while over element.
+ * @config {boolean} readOnly 
+ * @config {boolean} required 
+ * @config {int} size 
+ * @config {String} style Specify style rules inline.
+ * @config {boolean} submitForm
+ * @config {int} tabIndex Position in tabbing order.
+ * @config {String} title Provides a title for element.
+ * @config {boolean} valid
+ * @config {String} value Value of input.
+ * @config {boolean} visible Hide or show element.
  * @return {boolean} true if successful; otherwise, false.
  */
 webui.@THEME@.widget.passwordField.prototype.setProps = function(props) {

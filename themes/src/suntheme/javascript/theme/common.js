@@ -54,12 +54,12 @@ webui.@THEME@.theme.common = {
      * This function is used to set widget properties with Object literals.
      *
      * @param props Key-Value pairs of properties.
-     * @config {String} [bundle] The javascript theme basename "sunttheme" for @THEME@.js
-     * @config {String} [locale] The locale in dojo form <lang>-<country>-<variant>
-     * @config {String} [module] The module into which dojo will load the theme properties.
-     * @config {String} [modulePath] A relative URL defining the root directory of the nls directory
-     * @config {String} [prefix] The application context and the theme servlet context.
-     * @config {String} [custom] An array of basenames identifying an application's 
+     * @config {String} bundle The javascript theme basename "sunttheme" for @THEME@.js
+     * @config {String} locale The locale in dojo form <lang>-<country>-<variant>
+     * @config {String} module The module into which dojo will load the theme properties.
+     * @config {String} modulePath A relative URL defining the root directory of the nls directory
+     * @config {String} prefix The application context and the theme servlet context.
+     * @config {String} custom An array of basenames identifying an application's 
      * javascript theme files. The last segment of this "dot" separated 
      * string, is treated as the "bundle", and the initial segments are
      * treated as the module path.
