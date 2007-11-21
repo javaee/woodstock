@@ -27,9 +27,47 @@
   <title>Woodstock 4.1 Components Release Notes</title>
 </head>
 <body>
-<h1><u>Woodstock 4.1 JSF Components Release Notes</u></h1>
-<p><br>
-</p>
+<h1><u>Woodstock 4.2 JSF Components Release Notes</u></h1>
+<h2><u><a name="4.2_Build_1">4.2 Build 1</a></u>&nbsp; (Q4 2007)</h2>
+<h3> New Features</h3>
+<ul>
+  <li>In previous versions of Woodstock, JavaScript and image files
+were being cached,
+but browsers still generated "If-Modified-Since" requests for all
+resources. Although Woodstock sets a
+"Last-Modified" time stamp, the extra requests are eliminated by adding
+an "Expires" time
+stamp. By default, the "Expires" timestamp shall be one year from the
+date the
+ThemeServlet was started. During each release, the theme path shall be
+augmented with a version number so browsers will retrieve the latest
+resources without expiring or clearing the cache manually. To
+manipulate the "Expires" time stamp or disable caching completely, the
+following parameters may be added to the web application web.xml file.<br>
+    <br>
+    <div style="margin-left: 40px;"><code>&lt;context-param&gt;<br>
+&nbsp;&nbsp;
+&lt;param-name&gt;com.sun.webui.theme.CACHE_EXPIRES&lt;/param-name&gt;<br>
+&nbsp;&nbsp; &lt;param-value&gt;86400&lt;/param-value&gt; &lt;!-- one
+day in seconds --&gt;<br>
+&lt;/context-param&gt;<br>
+&lt;context-param&gt;<br>
+&nbsp;&nbsp;
+&lt;param-name&gt;com.sun.webui.theme.CACHE_DISABLED&lt;/param-name&gt;<br>
+&nbsp;&nbsp; &lt;param-value&gt;true&lt;/param-value&gt;<br>
+&lt;/context-param&gt;</code><br>
+    </div>
+    <span style="font-family: monospace;"></span></li>
+</ul>
+<h3>Deprecated attributes</h3>
+<ul>
+  <li>The meta attribute of the Head tag has
+been deprecated. Using meta tags and pragma headers to control browser
+cahing is not very effective because they are only honored by a few
+browsers. For more information, see <a class="moz-txt-link-freetext"
+ href="http://www.mnot.net/cache_docs">http://www.mnot.net/cache_docs</a>.</li>
+</ul>
+<p></p>
 <h2><u><a name="4.1_Build_15">4.1 Build 15</a></u>&nbsp; (11/02/2007)</h2>
 <h3> New Features</h3>
 <ul>
