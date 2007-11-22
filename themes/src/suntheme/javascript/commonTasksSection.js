@@ -196,46 +196,33 @@ webui.@THEME@.commonTasksSection = {
         // Tabbing out of the info panel should close the info panel whereas
         // pressing escape key should close the info panel tooo
         if (this.bottomInfoLink) {
-            this.bottomInfoLink.onkeypress = function(event) {	    
-                var evt = (event) ? event : ((window.event) ? window.event : null);  
-		if (!webui.@THEME@.browser.isIe5up()) {
-		    that.captureBottomInfoKey(event);
-		}
-                return false;                                 
-            };
- 
-            // Only for IE.
-            this.bottomInfoLink.onkeydown = function(event) {
-                if (webui.@THEME@.browser.isIe5up()) {
-                    // For IE, while pressing the shift key along with the tab key
-                    // the onkeydown seems to be called twice. To prevent this,
-                    // check whether the shift key is the one thats being pressed
-                    // before actually calling the event handling function.
-                    if (!(window.event.keyCode == 16)) {
-                        that.captureBottomInfoKey(window.event);
-                    }
-                }
-                return false;
-            };
-        }
             
-        // Handle the keypress event on the close imageHyperlink.
-        // If tab key is pressed, the focus must either pass to
-        // the "more" link if it is present or the infoPanel should close. 
-        this.close.onkeypress = function(event) {           
-            var evt = (event) ? event : ((window.event) ? window.event : null);         
-            if (!webui.@THEME@.browser.isIe5up()) {
-                that.captureCloseKey(evt);
-            }
-            // If escape key is pressed, the info panel must close.
-            if (evt.keyCode == 27 || evt.keyCode == 13) {
-                webui.@THEME@.common.setVisibleElement(that.info, false);
-                that.image.src = that.parent.pic3URL;
-                that.imageLink.focus();
-            }
-            return false;
-        };
+            this.bottomInfoLink.setProps({
+                
+                // Only for IE.                
+                onKeyDown:function(event) {
+                    if (webui.@THEME@.browser.isIe5up()) {
 
+                        // For IE, while pressing the shift key along with the tab key
+                        // the onkeydown seems to be called twice. To prevent this,
+                        // check whether the shift key is the one thats being pressed
+                        // before actually calling the event handling function.
+                        if (!(window.event.keyCode == 16)) {
+                            that.captureBottomInfoKey(window.event);
+                        }
+                    }
+                    return false;
+                },
+                onKeyPress:function(event) {	    
+                    var evt = (event) ? event : ((window.event) ? window.event : null);  
+                    if (!webui.@THEME@.browser.isIe5up()) {
+                        that.captureBottomInfoKey(event);
+                    }
+                    return false;                                 
+                }        
+            });
+        }
+        
         // Function that gets invoked when keypress event happens on the bottom
         // portion of the info panel.
         this.captureBottomInfoKey = function(event) {
@@ -284,36 +271,62 @@ webui.@THEME@.commonTasksSection = {
             }
             return true;
         };
+                
+        // Events which handle the closing of the div.        
+        this.close.setProps({
+            onClick:function(event) {
+                webui.@THEME@.common.setVisibleElement(that.info, false);
+                that.image.src = that.parent.pic3URL;	
+                if (webui.@THEME@.browser.isIe5up()) {
+                    window. event.cancelBubble = true;
+                } else {
+                    event.stopPropagation();
+                }
+                that.task.focus();
+                return false;
+            },        
+            
+            // Need to do this only on IE. "Tab" key doesnt get registered
+            // for keypress on IE.                        
+            onKeyDown:function(event) {
+                if (webui.@THEME@.browser.isIe5up()) {
 
-        // Need to do this only on IE. "Tab" key doesnt get registered
-        // for keypress on IE.
-        this.close.onkeydown = function(event) {
-            if (webui.@THEME@.browser.isIe5up()) {
-                // this seems to be called once for the shift key and
-                // once for the tab key. Prevent calling the capture
-                // function when the shift key is pressed
-                if (!(window.event.keyCode == 16)) {
-                    that.captureCloseKey(window.event);
+                    // this seems to be called once for the shift key and
+                    // once for the tab key. Prevent calling the capture
+                    // function when the shift key is pressed
+                    if (!(window.event.keyCode == 16)) {
+                        that.captureCloseKey(window.event);
+                    }
+
+                    // If escape key is pressed, the info panel must close.
+                    if (window.event.keyCode == 27 || window.event.keyCode == 13) {
+                        webui.@THEME@.common.setVisibleElement(that.info, false);
+                        that.image.src = that.parent.pic3URL;
+                        that.imageLink.focus();
+                    }                
+                    return false;
+                }
+                return true;
+            },
+            
+            // Handle the keypress event on the close imageHyperlink.
+            // If tab key is pressed, the focus must either pass to
+            // the "more" link if it is present or the infoPanel should close. 
+            onKeyPress:function(event) {              
+                var evt = (event) ? event : ((window.event) ? window.event : null);         
+                if (!webui.@THEME@.browser.isIe5up()) {
+                    that.captureCloseKey(evt);
+                }
+                // If escape key is pressed, the info panel must close.
+                if (evt.keyCode == 27 || evt.keyCode == 13) {
+                    webui.@THEME@.common.setVisibleElement(that.info, false);
+                    that.image.src = that.parent.pic3URL;
+                    that.imageLink.focus();
                 }
                 return false;
             }
-            return true;
-        };
-                
-        // Events which handle the closing of the div.
-
-        this.close.onclick = function(event) {     
-           webui.@THEME@.common.setVisibleElement(that.info, false);
-            that.image.src = that.parent.pic3URL;	
-            if (webui.@THEME@.browser.isIe5up()) {
-                window. event.cancelBubble = true;
-            } else {
-                event.stopPropagation();
-            }
-            that.task.focus();
-            return true;
-        };
-
+        });
+        
         this.info.onclick = function(event) {
             webui.@THEME@.common.setVisibleElement(that.info, true);
              if (webui.@THEME@.browser.isIe5up()) {
@@ -325,46 +338,56 @@ webui.@THEME@.commonTasksSection = {
         };
         
         // Events which handle the image changes for the "i" image.
-
-        this.imageLink.onmouseover = function() {
-            if (!webui.@THEME@.common.isVisibleElement(that.info)) {
-                that.image.src = that.parent.pic2URL;
-            } else {
-                that.image.src = that.parent.pic1URL;
-            }
-            return true;
-        };
-
-        this.imageLink.onfocus = function() {
-            if (!webui.@THEME@.common.isVisibleElement(that.info)) {
-                that.image.src = that.parent.pic2URL;
-            } else {
-                that.image.src = that.parent.pic1URL;
-            }
-            return true;
-        };
-
-        this.imageLink.onblur = function() {
-              if (!webui.@THEME@.common.isVisibleElement(that.info)) {
-                that.image.src = that.parent.pic3URL;
-            } else {
-                that.image.src = that.parent.pic1URL;
-            }
-            return true;
-        };
-
-        this.imageLink.onmouseout = function() {
-            if (!webui.@THEME@.common.isVisibleElement(that.info)) {
-                that.image.src = that.parent.pic3URL;
-            } else {
-                that.image.src = that.parent.pic1URL;
-            }
-            return true;
-        };
-
-        // Toggle functionality incorporated
-
-        this.image.onclick = function(event) {
+        this.imageLink.setProps({
+            onMouseOver:function() {
+                if (!webui.@THEME@.common.isVisibleElement(that.info)) {
+                    that.image.src = that.parent.pic2URL;
+                } else {
+                    that.image.src = that.parent.pic1URL;
+                }
+                return true;
+            },        
+            onFocus:function() {
+                if (!webui.@THEME@.common.isVisibleElement(that.info)) {
+                    that.image.src = that.parent.pic2URL;
+                } else {
+                    that.image.src = that.parent.pic1URL;
+                }
+                return true;
+            },        
+            onBlur:function() {
+                  if (!webui.@THEME@.common.isVisibleElement(that.info)) {
+                    that.image.src = that.parent.pic3URL;
+                } else {
+                    that.image.src = that.parent.pic1URL;
+                }
+                return true;
+            },
+            onMouseOut:function() {
+                if (!webui.@THEME@.common.isVisibleElement(that.info)) {
+                    that.image.src = that.parent.pic3URL;
+                } else {
+                    that.image.src = that.parent.pic1URL;
+                }
+                return true;
+            },
+            onKeyPress:function(event) {
+                var evt = (event) ? event : ((window.event) ? window.event : null);            
+                if (evt.keyCode == 13) {
+                    that.showInfoPanel();
+                    return false;                
+                }
+                if (webui.@THEME@.browser.isIe5up()) {
+                    window.event.cancelBubble = true;
+                } else {
+                    event.stopPropagation();
+                }
+                return true;
+            }            
+        });
+        
+       // Toggle functionality incorporated
+        this.image.setProps({onClick:function(event){
             that.showInfoPanel();
             if (webui.@THEME@.browser.isIe5up()) {
                 window. event.cancelBubble = true;
@@ -372,22 +395,8 @@ webui.@THEME@.commonTasksSection = {
                 event.stopPropagation();
             }
             return true;
-        };
-
-        this.imageLink.onkeypress = function(event) {
-            var evt = (event) ? event : ((window.event) ? window.event : null);            
-            if (evt.keyCode == 13) {
-                that.showInfoPanel();
-                return false;                
-            }
-            if (webui.@THEME@.browser.isIe5up()) {
-                window.event.cancelBubble = true;
-            } else {
-                event.stopPropagation();
-            }
-            return true;
-        };
-
+        }});
+        
         this.showInfoPanel = function() {
             var cts = this.parent;
             for (var i = 0; i < cts.count; i++) {
