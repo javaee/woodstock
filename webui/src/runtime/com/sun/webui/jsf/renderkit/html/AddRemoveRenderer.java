@@ -155,7 +155,9 @@ public class AddRemoveRenderer extends ListRendererBase {
             json.put("id", id)
                 .put("separator", component.getSeparator())
                 .put("sort", component.isSorted())
-                .put("duplicateSelections", component.isDuplicateSelections());
+                .put("duplicateSelections", component.isDuplicateSelections())
+                .put("selectAll", component.isSelectAll())
+                .put("moveButtons", component.isMoveButtons());
             String jsObject = JavaScriptUtilities.getDomNode(context, component);
 
             // Append JavaScript.

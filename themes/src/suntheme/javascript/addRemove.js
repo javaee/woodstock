@@ -98,17 +98,18 @@ webui.@THEME@.addRemove = {
         // Calculate the value indices
         var itemString = document.getElementById(props.id + "_item_list");
 
-        // HTML elements may not have been created, yet.
-        if (domNode.availableList == null 
-                || domNode.selectedList == null 
-                || domNode.addButton == null 
-                || domNode.addAllButton == null
-                || domNode.removeButton == null 
-                || domNode.removeAllButton == null
-                || domNode.moveUpButton == null 
-                || domNode.moveDownButton == null
-                || domNode.selectedValues == null 
-                || itemString == null) {
+        // HTML elements may not have been created, yet. The moveUp/Down and 
+        // remove/All buttons may not exist at all.
+        if (itemString == null
+                || domNode.availableList == null 
+                || domNode.selectedList == null
+                || domNode.selectedValues == null
+                || domNode.addButton == null
+                || domNode.removeButton == null
+                || (new Boolean(props.selectAll).valueOf() == true
+                    && (domNode.addAllButton == null || domNode.removeAllButton == null))
+                || (new Boolean(props.moveButtons).valueOf() == true
+                    && (domNode.moveUpButton == null || domNode.moveDownButton == null))) {
             return setTimeout(function() {
                 webui.@THEME@.addRemove.init(props);
             }, 10);
