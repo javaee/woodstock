@@ -34,14 +34,17 @@
   <li>In previous versions of Woodstock, JavaScript and image files
 were being cached,
 but browsers still generated "If-Modified-Since" requests for all
-resources. Although Woodstock sets a
+resources -- issue #926. Although Woodstock sets a
 "Last-Modified" time stamp, the extra requests are eliminated by adding
 an "Expires" time
 stamp. By default, the "Expires" timestamp shall be one year from the
 date the
 ThemeServlet was started. During each release, the theme path shall be
 augmented with a version number so browsers will retrieve the latest
-resources without expiring or clearing the cache manually. To
+resources without expiring or clearing the cache manually. (Note that
+developers should not use theme paths directly. If obtaining
+a theme resource is required, use the Theme APIs or the Theme property
+resolver.) To
 manipulate the "Expires" time stamp or disable caching completely, the
 following parameters may be added to the web application web.xml file.<br>
     <br>
@@ -54,10 +57,27 @@ day in seconds --&gt;<br>
 &lt;context-param&gt;<br>
 &nbsp;&nbsp;
 &lt;param-name&gt;com.sun.webui.theme.CACHE_DISABLED&lt;/param-name&gt;<br>
-&nbsp;&nbsp; &lt;param-value&gt;true&lt;/param-value&gt;<br>
+&nbsp;&nbsp; &lt;param-value&gt;true&lt;/param-value&gt;</code><code><br>
 &lt;/context-param&gt;</code><br>
-    </div>
-    <span style="font-family: monospace;"></span></li>
+    <code>&nbsp;</code><code></code></div>
+  </li>
+  <li>Upgraded to Dojo 1.0.1 to get the latest bug fixes -- issue #947.
+Note that the theme path for this resource changed from
+theme/META-INF/dojo/** to theme/META-INF/dojo1_0_1/**. As described
+above, this is done so that browsers will load new resources without
+expiring or clearing the cache manually.</li>
+  <li>It has been noted that table components show an empty shell while
+pages are loaded -- issue #941. What is output to the browser is a
+mixture of older HTML based components (rendered server-side) and new
+Dojo based widgets. In the Woodstock example app, the main index page
+uses an older HTML based table. The components inside the table cells
+are actually new Dojo based widgets (i.e., text hyperlinks, etc.).
+When&nbsp; the page initially renders, you will see the raw HTML
+displayed
+first (i.e., the output from the older HTML table renderer). During the
+window onLoad event, the Dojobased widgets are rendered and fill in the
+HTML table cells. <br>
+  </li>
 </ul>
 <h3>Deprecated attributes</h3>
 <ul>
