@@ -143,13 +143,13 @@ webui.@THEME@.commonTasksSection = {
         var spacer = props.commonTaskId + ":" + props.spacerId; // id of the spacer image.
 
         // HTML elements may not have been created, yet.
-        if (info == null
-                || image == null
-                || imageLink == null
-                || close == null
-                || parent == null
-                || task == null
-                || (props.bottomInfoLink && bottomInfoLink == null)) {
+        if (parent == null
+                || (props.bottomInfoLink && bottomInfoLink == null)
+                || (props.closeId && close == null)
+                || (props.commonTaskId && props.infoPanelVar && info == null)
+                || (props.commonTaskId && task == null)
+                || (props.infoIconId && image == null)
+                || (props.imageLinkId && imageLink == null)) {
             return setTimeout(function() {
                 parent.addCommonTask(props);
             }, 10);

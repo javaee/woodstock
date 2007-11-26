@@ -1,3 +1,4 @@
+// calendar.js
 //
 // The contents of this file are subject to the terms
 // of the Common Development and Distribution License
@@ -77,12 +78,12 @@ webui.@THEME@.calendar = {
         domNode.yearMenu = webui.@THEME@.listbox.getSelectElement(props.yearMenuId);
 
         // HTML elements may not have been created, yet.
-        if (domNode.field == null 
-                || domNode.pattern == null 
-                || domNode.calendarToggle == null 
-                || domNode.lastRow == null
-                || domNode.monthMenu == null 
-                || domNode.yearMenu == null) {
+        if ((props.fieldId && domNode.field == null)
+                || (props.patternId && domNode.pattern == null)
+                || (props.calendarToggleId && domNode.calendarToggle == null)
+                || (props.rowId && domNode.lastRow == null)
+                || (props.monthMenuId && domNode.monthMenu == null)
+                || (props.yearMenuId && domNode.yearMenu == null)) {
             return setTimeout(function() {
                 webui.@THEME@.calendar.init(props);
             }, 10);
