@@ -11,8 +11,8 @@ SCRIPT_DIR=`cd $SCRIPT_DIR; pwd`
 # or clearing the cache manually, a new package path is used. The
 # following must be updated for new releases.
 #
-VERSION=1.0.0
-VERSION_DIR=1_0
+VERSION=1.0.1
+VERSION_DIR=1_0_1
 
 #
 # Defaults
