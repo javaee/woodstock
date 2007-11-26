@@ -31,7 +31,12 @@
 <h2><u><a name="4.1.1_Build_1">4.1.1 Build 1</a></u>&nbsp; (12/01/2007)</h2>
 <h3> New Features</h3>
 <ul>
-  <li>In previous versions of Woodstock, JavaScript and image files
+  <li>The Woodstock NetBeans Plugin has been fixed to now work with NetBeans 6.0 
+	RC1, RC2 and GA releases.&nbsp; We have updated the Module Spec number to 
+	make sure<br>
+	that we can update these NetBeans milestones, and will be closely tracking 
+	Spec numbers in the future to ensure this does not happen again.</li>
+	<li>In previous versions of Woodstock, JavaScript and image files
 were being cached,
 but browsers still generated "If-Modified-Since" requests for all
 resources. Although Woodstock sets a
@@ -43,21 +48,12 @@ ThemeServlet was started. During each release, the theme path shall be
 augmented with a version number so browsers will retrieve the latest
 resources without expiring or clearing the cache manually. To
 manipulate the "Expires" time stamp or disable caching completely, the
-following parameters may be added to the web application web.xml file.<br>
-    <br>
-    <div style="margin-left: 40px;"><code>&lt;context-param&gt;<br>
-&nbsp;&nbsp;
-&lt;param-name&gt;com.sun.webui.theme.CACHE_EXPIRES&lt;/param-name&gt;<br>
-&nbsp;&nbsp; &lt;param-value&gt;86400&lt;/param-value&gt; &lt;!-- one
-day in seconds --&gt;<br>
-&lt;/context-param&gt;<br>
-&lt;context-param&gt;<br>
-&nbsp;&nbsp;
-&lt;param-name&gt;com.sun.webui.theme.CACHE_DISABLED&lt;/param-name&gt;<br>
-&nbsp;&nbsp; &lt;param-value&gt;true&lt;/param-value&gt;<br>
-&lt;/context-param&gt;</code><br>
-    </div>
-    <span style="font-family: monospace;"></span></li>
+following parameters may be added to the web application web.xml file.<br><br>
+	<div style="margin-left: 40px;"><code>&lt;context-param&gt;<br>&nbsp;&nbsp;
+&lt;param-name&gt;com.sun.webui.theme.CACHE_EXPIRES&lt;/param-name&gt;<br>&nbsp;&nbsp; &lt;param-value&gt;86400&lt;/param-value&gt; &lt;!-- one
+day in seconds --&gt;<br>&lt;/context-param&gt;<br>&lt;context-param&gt;<br>&nbsp;&nbsp;
+&lt;param-name&gt;com.sun.webui.theme.CACHE_DISABLED&lt;/param-name&gt;<br>&nbsp;&nbsp; &lt;param-value&gt;true&lt;/param-value&gt;<br>&lt;/context-param&gt;</code><br>
+	</div><span style="font-family: monospace;"></span></li>
 </ul>
 <h3>Deprecated attributes</h3>
 <ul>
@@ -88,7 +84,7 @@ browsers. For more information, see <a class="moz-txt-link-freetext"
 	<li><a href="https://woodstock.dev.java.net/issues/show_bug.cgi?id=944">
 	Issue #944</a> - Merge L10N build support to 4.1.1 branch</li>
 	<li><a href="https://woodstock.dev.java.net/issues/show_bug.cgi?id=909">
-	Issue #909</a> - iconic calendar button does not render on safari Approved:<br>
+	Issue #909</a> - iconic calendar button does not render on safari<br>
 &nbsp;</li>
 </ul>
 <h2><u><a name="4.1_Build_15">4.1 Build 15</a></u>&nbsp; (11/02/2007)</h2>
