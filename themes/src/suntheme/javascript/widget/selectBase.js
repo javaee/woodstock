@@ -25,6 +25,7 @@ dojo.provide("webui.@THEME@.widget.selectBase");
 
 dojo.require("webui.@THEME@.browser");
 dojo.require("webui.@THEME@.common");
+dojo.require("webui.@THEME@.widget.widgetBase");
 
 /**
  * @name webui.@THEME@.widget.selectBase
