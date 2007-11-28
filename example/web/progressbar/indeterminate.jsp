@@ -74,8 +74,7 @@
                                     <f:subview id="statusPanel">
                                         <webuijsf:button mini="true" id="pauseButton" text="#{msgs.progressbar_pauseButton}" onClick="pause(); return false;"/>
                                         <webuijsf:button mini="true" id="resumeButton" text="#{msgs.progressbar_resumeButton}" onClick="resume(); return false;" disabled="true"/>
-                                        <webuijsf:image  id="sepimg" url="/theme/com/sun/webui/jsf/suntheme/images/table/embeded_actions_separator.gif" /> 
-                                        <webuijsf:button mini="true" id="cancelButton" text="#{msgs.progressbar_cancelButton}" onClick="cancel(); return false;"/>
+                                        <webuijsf:button mini="true" id="cancelButton" style="margin-left:15px;" text="#{msgs.progressbar_cancelButton}" onClick="cancel(); return false;"/>
                                     </f:subview>
                                 </f:facet>
 
