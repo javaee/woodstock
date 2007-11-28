@@ -47,7 +47,7 @@ import javax.faces.context.FacesContext;
 @Component(type="com.sun.webui.jsf.Table2",
     family="com.sun.webui.jsf.Table2",
     tagRendererType="com.sun.webui.jsf.widget.Table2", 
-    displayName="Table2", tagName="table2", isTag=false)
+    displayName="Table2", tagName="table2")
 public class Table2 extends TableBase {
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     // Base methods

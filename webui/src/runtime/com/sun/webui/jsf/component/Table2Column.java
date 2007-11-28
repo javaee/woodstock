@@ -39,7 +39,7 @@ import javax.faces.context.FacesContext;
 @Component(type="com.sun.webui.jsf.Table2Column",
     family="com.sun.webui.jsf.Table2Column",
     tagRendererType="com.sun.webui.jsf.widget.Table2Column",
-    displayName="Table2Column", tagName="table2Column", isTag=false)
+    displayName="Table2Column", tagName="table2Column")
 public class Table2Column extends TableColumnBase {
     public Table2Column() {
         super();
