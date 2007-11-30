@@ -46,3 +46,9 @@ div.ConTblCl2Div@THEME_CSS@ .CbSpn@THEME_CSS@ input[type=checkbox] {
 .dojoDndWebuiItemDragged {
     filter: alpha(opacity=50); 
 }
+
+/* Table2 */
+.table2@THEME_CSS@ .bg@THEME_CSS@ {
+	position:relative;
+	float:none;
+}

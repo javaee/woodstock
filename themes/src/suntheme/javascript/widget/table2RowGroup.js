@@ -177,8 +177,7 @@ webui.@THEME@.widget.table2RowGroup.prototype.addRows = function(rows) {
         // New literals are created every time this function is called, and it's 
         // saved by closure magic.
         dijit.byId(_id).resize();
-    }, 0);
-
+    }, 10);
     return true;
 }
 
@@ -356,25 +355,16 @@ webui.@THEME@.widget.table2RowGroup.prototype.resize = function() {
     this.tableContainer.style.marginTop = (headerHeight - 1) + 'px';
     this.tableContainer.style.marginBottom = footerHeight + 'px';
 
+    // Column header height plus offset for border.
     if (colHeaderRow) {
-        if (webui.@THEME@.browser.isIe7()) {
-            // IE 7 does not account for the column header.
-            colHeaderRow.style.top = (this.tableContainer.offsetTop + 2) + 'px';
-        } else {
-            // Column header height plus offset for border.
-            colHeaderRow.style.top = (this.tableContainer.offsetTop - headerHeight + 1) + 'px';
-        }
+        colHeaderRow.style.top = (this.tableContainer.offsetTop - 
+            headerHeight + 1) + 'px';
     }
+
+    // Column footer height plus offset for border.
     if (colFooterRow) {
-        if (webui.@THEME@.browser.isIe7()) {
-            // IE 7 does not account for the column footer.
-            colFooterRow.style.top = (this.tableContainer.offsetTop + 
-                this.tableContainer.offsetHeight + headerHeight + 2) + 'px';
-        } else {
-            // Column footer height plus offset for border.
-            colFooterRow.style.top = (this.tableContainer.offsetTop + 
-                this.tableContainer.offsetHeight - 1) + 'px';
-        }
+        colFooterRow.style.top = (this.tableContainer.offsetTop + 
+            this.tableContainer.offsetHeight - 1) + 'px';
     }
     return true;
 }

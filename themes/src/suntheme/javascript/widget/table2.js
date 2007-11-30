@@ -208,12 +208,6 @@ webui.@THEME@.widget.table2.prototype._setProps = function(props) {
     if (props.align) { this.domNode.align = props.align; }
     if (props.width) { this.domNode.style.width = props.width; }
 
-    // Add actions.
-    if (props.actions) {
-        this.widget.addFragment(this.actionsNode, props.actions);
-        webui.@THEME@.common.setVisibleElement(this.actionsContainer, true);
-    }
-
     // Add caption.
     if (props.caption || props.filterText && this.caption) {       
         var filterText = null;
@@ -228,6 +222,12 @@ webui.@THEME@.widget.table2.prototype._setProps = function(props) {
         this.widget.addFragment(this.captionContainer, (filterText) 
             ? props.caption + filterText : props.caption);
         webui.@THEME@.common.setVisibleElement(this.captionContainer, true);
+    }
+
+    // Add actions.
+    if (props.actions) {
+        this.widget.addFragment(this.actionsNode, props.actions);
+        webui.@THEME@.common.setVisibleElement(this.actionsContainer, true);
     }
 
     // Add row groups.
@@ -247,8 +247,21 @@ webui.@THEME@.widget.table2.prototype._setProps = function(props) {
                 summary: props.summary
             }
             this.widget.addFragment(this.rowGroupsContainer, props.rowGroups[i], "last");
+
+            // To do: Fix me.
+            // Actions my be rendered after column headers are positioned. When 
+            // this happens, older offsetTop properties are no longer valid and
+            // headers are off by one row, at least. We need a better way to 
+            // solve this (e.g., set a fixed action bar height), but we'll call
+            // resize() for now. Note that the addRows() function already calls
+            // this, but with a much shorter timeout.
+            var _id = props.rowGroups[i].id;
+            setTimeout(function() {
+                // New literals are created every time this function is called, 
+                // and it's saved by closure magic.
+                dijit.byId(_id).resize();
+            }, 2000);
         }
-        //this.bgContainer.style.height = '100%'; // For IE?
     }
 
     // Set more properties.

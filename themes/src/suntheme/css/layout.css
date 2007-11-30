@@ -2523,6 +2523,7 @@ ul.MenuItems@THEME_CSS@ ul li .MenuItemDisabled@THEME_CSS@ .MenuItemLabel@THEME_
 /*---*/
 
 /* TABLE2 */
+/* Table2 'global' styles */
 .table2@THEME_CSS@ .center@THEME_CSS@ {
 	text-align:center !important;
 }
@@ -2534,13 +2535,11 @@ ul.MenuItems@THEME_CSS@ ul li .MenuItemDisabled@THEME_CSS@ .MenuItemLabel@THEME_
 	clear:both;
 	height:6px;
 }
-form {
-	margin:0;
-}
 .table2@THEME_CSS@ input {
 	margin:0;
 	padding:0;
 }
+/* Top Level Container */
 .table2@THEME_CSS@ {
 	empty-cells:show;
 	-moz-border-radius-topleft:5px;
@@ -2548,13 +2547,21 @@ form {
 	padding:3px 0 0 0;
 	position:relative;
 	text-align:left;
-        clear:both;
-        float:left;
-        width:100%;
+	
 }
+/* Background */
+.table2@THEME_CSS@ .bg@THEME_CSS@ {
+	border-width:1px;
+	border-style:solid;
+	padding:6px 5px 6px;
+}
+/* Title Bar */
+.table2@THEME_CSS@ .title@THEME_CSS@ {
+	padding:2px 10px 2px 10px;
+}
+/* Header and Footer */
 .table2@THEME_CSS@ .header@THEME_CSS@, .table2@THEME_CSS@ .footer@THEME_CSS@ {
 	clear:both;
-	float:left;
 	position:absolute;
 	border-left-style:solid;
 	border-left-width:1px;
@@ -2569,14 +2576,15 @@ form {
 	border-bottom-style:solid;
 	border-bottom-width:1px;
 	padding:0;
+	vertical-align:bottom;
 }
 .table2@THEME_CSS@ .header@THEME_CSS@ th span, .table2@THEME_CSS@ .footer@THEME_CSS@ th span {
 	display:block;
 	padding:3px 5px 1px 5px;
 }
-.table2@THEME_CSS@ .header@THEME_CSS@ th a.hyperlink@THEME_CSS@:link,
-.table2@THEME_CSS@ .header@THEME_CSS@ th a.hyperlink@THEME_CSS@:hover,
-.table2@THEME_CSS@ .header@THEME_CSS@ th a.hyperlink@THEME_CSS@:visited {
+.table2@THEME_CSS@ .header@THEME_CSS@ th a.Hyp@THEME_CSS@:link,
+.table2@THEME_CSS@ .header@THEME_CSS@ th a.Hyp@THEME_CSS@:hover,
+.table2@THEME_CSS@ .header@THEME_CSS@ th a.Hyp@THEME_CSS@:visited {
 	display:block;
 	padding:3px 5px 1px 5px;
 }
@@ -2584,24 +2592,101 @@ form {
 	display:block;
 	padding:0;
 }
-.table2@THEME_CSS@ .bg@THEME_CSS@ {
-	border-width:1px;
+.table2@THEME_CSS@ th a.Hyp@THEME_CSS@ {
+	display:block;
+	padding:3px 0 2px;
+}
+.table2@THEME_CSS@ th a.Hyp@THEME_CSS@ span {
+	display:block;
+	height:100%;
+}
+/* Spanning Headers */
+.table2@THEME_CSS@ .header@THEME_CSS@ th.spanning@THEME_CSS@ table,
+.table2@THEME_CSS@ .header@THEME_CSS@ th.spanning@THEME_CSS@ span {
+	margin:0;
+	padding:0;
+}
+.table2@THEME_CSS@ .header@THEME_CSS@ th.spanning@THEME_CSS@ {
+	border-bottom:none;
+}
+.table2@THEME_CSS@ .header@THEME_CSS@ th.spanning@THEME_CSS@ th.lastSpannedColumn@THEME_CSS@ {
+	border-right:none;
+}
+.table2@THEME_CSS@ .header@THEME_CSS@ th.spanning@THEME_CSS@ div {
+	border-top-width:1px;
+	border-top-style:solid;
+}
+/* Group Header */
+.table2@THEME_CSS@ .groupHeader@THEME_CSS@ {
 	border-style:solid;
-	border-top:none;
+	border-width:1px;
+	margin:0;
+}
+.table2@THEME_CSS@ .groupHeader@THEME_CSS@ button {
+	vertical-align:middle;
+}
+.table2@THEME_CSS@ .groupHeader@THEME_CSS@ input {
+	vertical-align:middle;
+}
+.table2@THEME_CSS@ .groupHeader@THEME_CSS@ th {
+	padding:3px 5px 2px 5px;
+	border:none;
+}
+.table2@THEME_CSS@ .groupHeader@THEME_CSS@ .groupControls@THEME_CSS@ {
 	float:left;
-	padding:6px 5px 6px;
-        height:100%;
 }
-.table2@THEME_CSS@ .title@THEME_CSS@ {
-	padding:2px 10px 2px 10px;
+.table2@THEME_CSS@ .groupHeader@THEME_CSS@ .groupLabel@THEME_CSS@ {
+	margin:0 0 0 .5em;
+	vertical-align:middle;
 }
+.table2@THEME_CSS@ .groupHeader@THEME_CSS@ table {
+	width:100%;
+}
+/* Rows and Cells */
+.table2@THEME_CSS@ tr {
+	border-right-style:solid;
+	border-right-width:1px;
+}
+.table2@THEME_CSS@ td, .table2@THEME_CSS@ th  {
+	border-right-style:solid;
+	border-right-width:1px;
+	padding:3px 5px 1px 5px;
+	text-align:left;
+}
+.table2@THEME_CSS@ td {
+	border-bottom-style:solid;
+	border-bottom-width:1px;
+}
+.table2@THEME_CSS@ .rowSelectionCount@THEME_CSS@ {
+	vertical-align:middle;
+}
+/* Table Scroller */
+.table2@THEME_CSS@ .tableScroller@THEME_CSS@ {
+	border-left-style:solid;
+	border-left-width:1px;
+	border-bottom-width:1px;
+	border-bottom-style:solid;
+	border-top-width:1px;
+	border-top-style:solid;
+	height:100px;
+	overflow:auto;
+	overflow-x: hidden;
+	width:100%;
+}
+.table2@THEME_CSS@ .tableScroller@THEME_CSS@ table {
+	clear:left;
+	float:left;
+	width:100%;
+}
+/* Action Bar and Drawers */
 .table2@THEME_CSS@ .actionBar@THEME_CSS@ {
 	border-left:none;
 	border-bottom:none;
 	padding:0 0 6px 0;
 	vertical-align:middle;
 }
-.table2@THEME_CSS@ .actionBar@THEME_CSS@ button, .table2@THEME_CSS@ .actionBar@THEME_CSS@ select {
+.table2@THEME_CSS@ .actionBar@THEME_CSS@ button, .table2@THEME_CSS@ .actionBar@THEME_CSS@ select,
+.table2@THEME_CSS@ .drawer@THEME_CSS@ button, .table2@THEME_CSS@ .drawer@THEME_CSS@ select {
 	margin:0 5px;
 }
 .table2@THEME_CSS@ .actionBar@THEME_CSS@ .actionList@THEME_CSS@ {
@@ -2615,77 +2700,130 @@ form {
 	padding:0;
 	text-align:right;
 }
-.table2@THEME_CSS@ .group@THEME_CSS@ {
-	clear:left;
+.table2@THEME_CSS@ .drawer@THEME_CSS@ {
+	border-width:1px;
+	border-style:solid;
+	float:left;
+	width:100%;
 }
-.table2@THEME_CSS@ .tableScroller@THEME_CSS@ {
-	border-left-style:solid;
-	border-left-width:1px;
-	border-bottom-width:1px;
-	border-bottom-style:solid;
+.table2@THEME_CSS@ .drawer@THEME_CSS@ .drawer@THEME_CSS@ {
+	border:none;
 	border-top-width:1px;
 	border-top-style:solid;
-	float:left;
-	height:100px;
-	overflow:auto;
-	overflow-x: hidden;
-	width:100%;
-}
-.table2@THEME_CSS@ .tableScroller@THEME_CSS@ table {
-	clear:left;
+	padding:0;
 	float:left;
 	width:100%;
 }
-.table2@THEME_CSS@ tr {
-	border-right-style:solid;
-	border-right-width:1px;
-}
-.table2@THEME_CSS@ th a.hyperlink@THEME_CSS@ {
-	display:block;
-	padding:3px 0 2px;
-}
-.table2@THEME_CSS@ td, .table2@THEME_CSS@ th  {
-	border-right-style:solid;
-	border-right-width:1px;
-	padding:3px 5px 1px 5px;
-	text-align:left;
-}
-.table2@THEME_CSS@ td {
-	border-bottom-style:solid;
-	border-bottom-width:1px;
-}
-.table2@THEME_CSS@ .groupHeader@THEME_CSS@ {
-	border-style:solid;
-	border-width:1px;
-	margin:0;
-}
-.table2@THEME_CSS@ .groupHeader@THEME_CSS@ button {
-	vertical-align:middle;
-}
-.table2@THEME_CSS@ .groupHeader@THEME_CSS@ input {
-	vertical-align:middle;
-}
-.table2@THEME_CSS@ .groupHeader@THEME_CSS@ th {
-	padding:6px 5px 5px 5px;
-	border:none;
-}
-.table2@THEME_CSS@ .groupHeader@THEME_CSS@ .groupControls@THEME_CSS@ {
+.table2@THEME_CSS@ .drawer@THEME_CSS@ .buttonBar@THEME_CSS@ {
+	padding:6px 0 4px 0;
 	float:left;
+	width:100%;
 }
-.table2@THEME_CSS@ .groupHeader@THEME_CSS@ .groupLabel@THEME_CSS@ {
-	margin:0 0 0 .5em;
-	vertical-align:middle;
+.table2@THEME_CSS@ .drawer@THEME_CSS@ .controlBucket1@THEME_CSS@ {
+	float:left;
+	padding:6px 9px 4px 9px;
 }
-.table2@THEME_CSS@ .groupHeader@THEME_CSS@ .paginationControls@THEME_CSS@ {
+.table2@THEME_CSS@ .drawer@THEME_CSS@ .controlBucket2@THEME_CSS@ {
+	float:right;
+	padding:6px 9px 4px 9px;
+}
+/* Pagination Controls */
+.table2@THEME_CSS@ .paginationControls@THEME_CSS@ {
 	float:right;
 }
-.table2@THEME_CSS@ .groupHeader@THEME_CSS@ .rowSelectionCount@THEME_CSS@ {
-	vertical-align:middle;
-}
-.table2@THEME_CSS@ .groupHeader@THEME_CSS@ .paginationButtons@THEME_CSS@ {
+.table2@THEME_CSS@ .paginationButtons@THEME_CSS@ {
 	margin:0 0 0 .5em;
 }
-.table2@THEME_CSS@ .groupHeader@THEME_CSS@ table {
-	width:100%;
+/* STYLES FOR SEARCH (Custom Filter) PANEL */
+/* We are dealing with a list of choices, so semantically speaking, an unordered list is the correct way to mark it up*/
+.rbcb@THEME_CSS@ ul {
+	float:left;
+	list-style:none;
+	margin:0;
+	padding:6px 9px 4px 9px;
+	text-align:left;
+} 
+.rbcb@THEME_CSS@ ul li {
+	margin:5px 0;
+	padding:0;
+	vertical-align:bottom;
+}
+span.rbcb@THEME_CSS@ input {
+	display:inline;
+	float:none;
+}
+.rbcb@THEME_CSS@ .groupLabel {
+	display:block;
+	float:left;
+	padding:3px 5px 0 0;
+	margin:0;
+}
+.rbcb@THEME_CSS@ label {
+	margin:0;
+	padding:0 15px 0 0;
+}
+.rbcb@THEME_CSS@ .rb@THEME_CSS@ {
+	display:block;
+	float:left;
+	margin:0 5px 0 0;
+}
+
+/* To use it as a horizontal list */
+.rbcb@THEME_CSS@.horizontal ul li {
+	float:left;
+	margin:0 10px 0 0;
+}
+/***/
+/* Tips */
+.table2@THEME_CSS@ .tip@THEME_CSS@ {
+	margin:8px 9px 7px 9px;
+	padding:7px 12px;
+	border-style:solid;
+   	border-width:1px;
+	white-space:normal;
+   	-moz-border-radius-topleft:5px;
+   	-moz-border-radius-topright:5px;
+   	-moz-border-radius-bottomleft:5px;
+   	-moz-border-radius-bottomright:5px;
+}
+/* Multisort bucket */
+.table2@THEME_CSS@ .multiSort@THEME_CSS@ {
+	border-bottom-width:1px;
+	border-bottom-style:solid;
+}
+
+/*---*/
+/* TABLE2 LITE */
+.table2@THEME_CSS@.lite@THEME_CSS@ .bg@THEME_CSS@, .table2@THEME_CSS@.lite@THEME_CSS@ .actionBar@THEME_CSS@ {
+	padding:0;
+}
+.table2@THEME_CSS@.lite@THEME_CSS@ .groupHeader@THEME_CSS@, .table2@THEME_CSS@.lite@THEME_CSS@ .tableScroller@THEME_CSS@ {
+	border-width:0;
+	border-style:none;
+}
+.table2@THEME_CSS@.lite@THEME_CSS@ .header@THEME_CSS@ {
+	border-top-width:1px;
+	border-top-style:solid;
+}
+.table2@THEME_CSS@.lite@THEME_CSS@ .clear@THEME_CSS@.spacer@THEME_CSS@ {
+	height:0;
+}
+.table2@THEME_CSS@.lite@THEME_CSS@ .title@THEME_CSS@ {
+	padding-top:0;
+	padding-bottom:0;
+}
+.table2@THEME_CSS@.lite@THEME_CSS@ .titleText@THEME_CSS@ {
+	float:left;
+	line-height:1.7em;
+}
+.table2@THEME_CSS@.lite@THEME_CSS@ .rowSelectionCount@THEME_CSS@ {
+	line-height:1.8em;
+	vertical-align:bottom;
+}
+.table2@THEME_CSS@.lite@THEME_CSS@ .paginationControls@THEME_CSS@ {
+	margin:-2px 0 0 0;
+}
+.table2@THEME_CSS@.lite@THEME_CSS@ .paginationButtons@THEME_CSS@ {
+	line-height:1.8
 }
 /*---*/

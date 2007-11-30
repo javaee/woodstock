@@ -273,15 +273,6 @@ table.Tbl@THEME_CSS@ td.TblFtrRow@THEME_CSS@ {padding:5px 5px 5px 10px}
 }
 /*---*/
 
-/* Table2 */
-.table2@THEME_CSS@ .bg@THEME_CSS@ {
-	position:relative;
-}
-.table2@THEME_CSS@ .header@THEME_CSS@, .table2@THEME_CSS@ .footer@THEME_CSS@ {
-	margin:0 0 0 0;
-}
-/*---*/
-
 /* Accordion */
 /* Transparent gradients on IE6 cannot be supported */
 .AccdHeader@THEME_CSS@ {
@@ -311,3 +302,12 @@ ul.MenuItems@THEME_CSS@ li .MenuItem@THEME_CSS@.iehover@THEME_CSS@{
 ul.MenuItems@THEME_CSS@ li div.MenuItem@THEME_CSS@.iehover { 
 font-weight: bold;    
  }
+
+/* Table2 */
+.table2@THEME_CSS@ .bg@THEME_CSS@ {
+	position:relative;
+}
+.table2@THEME_CSS@ .header@THEME_CSS@, .table2@THEME_CSS@ .footer@THEME_CSS@ {
+	margin:0 0 0 0;
+}
+/*---*/

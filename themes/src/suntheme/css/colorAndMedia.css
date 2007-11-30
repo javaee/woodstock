@@ -1924,24 +1924,28 @@ ul.MenuItems@THEME_CSS@ li .MenuItem@THEME_CSS@:hover{     /* standard hover */
 	background-color: #AABCC8;
 }
 /*---*/
-.hyperlink@THEME_CSS@ {
-	color:#003399;
-	text-decoration:none;
-}
 
 /* Table2 */
+/* Top Level Container */
 .table2@THEME_CSS@ {
 	background-color:#213D51;
 	border-top:1px solid #374154;	
 	color:#000000;
 }
+/* Background */
 .table2@THEME_CSS@ .bg@THEME_CSS@ {
 	background-color:#E5E9ED;
 	border-color:#8C8F91;
+	border-top-color:#386787;
 }
+/* Title Bar */
 .table2@THEME_CSS@ .title@THEME_CSS@ {
 	color:#FFFFFF;
 	background:#386787 url(../images/table2/tab_expanded_gradient.png) top left repeat-x;
+}
+/* Header and Footer */
+.table2@THEME_CSS@ .header@THEME_CSS@ {
+	border-top-color:#98A0A5;
 }
 .table2@THEME_CSS@ .header@THEME_CSS@, .table2@THEME_CSS@ .footer@THEME_CSS@ {
 	border-left-color:#98A0A5;
@@ -1949,6 +1953,62 @@ ul.MenuItems@THEME_CSS@ li .MenuItem@THEME_CSS@:hover{     /* standard hover */
 .table2@THEME_CSS@ .header@THEME_CSS@ th, .table2@THEME_CSS@ .footer@THEME_CSS@ th {
 	border-bottom-color:#98A0A5;
 }
+.table2@THEME_CSS@ th {
+	border-color:#CAD0D2;
+	background:#E1E5E8 url(../images/table2/column_gradient.png) top left repeat-x;
+	width:100%;
+	text-align:left;
+}
+.table2@THEME_CSS@ th a.Hyp@THEME_CSS@ {
+	color:#000000;
+	text-decoration:none;
+}
+.table2@THEME_CSS@ .header@THEME_CSS@ th a.Hyp@THEME_CSS@:hover {
+	background:#CAD0D2 url(../images/table2/column_gradient_selected.png) top left repeat-x;
+}
+.table2@THEME_CSS@ .header@THEME_CSS@ th a span {
+	background-image:url(../images/table2/down_arrow.png);
+	background-position:right;
+	background-repeat:no-repeat;
+}
+/* Spanning Headers */
+.table2@THEME_CSS@ .header@THEME_CSS@ th.spanning@THEME_CSS@ th {
+	background:none;
+}
+.table2@THEME_CSS@ .header@THEME_CSS@ th.spanning@THEME_CSS@, .table2@THEME_CSS@ .anteSpanning@THEME_CSS@, .table2@THEME_CSS@ .lastSpannedColumn@THEME_CSS@ {
+	border-right-color:#98A0A5;
+}
+.table2@THEME_CSS@ .header@THEME_CSS@ th.spanning@THEME_CSS@ div {
+	border-top-color:#98A0A5;
+}
+/* Group Header */
+.table2@THEME_CSS@ .groupHeader@THEME_CSS@ {
+	border-color:#98A0A5;
+	border-top-color:#8C8F91;
+	background:#E1E5E8 url(../images/table2/column_gradient.png) top left repeat-x;
+}
+/* Row and Cell */
+.table2@THEME_CSS@ tr {
+	border-right-color:#CAD0D2;
+}
+.table2@THEME_CSS@ td {
+	border-bottom-color:#CAD0D2;
+	border-right-color:#CAD0D2;
+	background-color:#FFFFFF;
+}
+/* Primary Sort Column */
+.table2@THEME_CSS@ td.primarySort@THEME_CSS@ {
+	background-color:#E5E9ED;
+	border-bottom-color:#98A0A5;
+	border-right-color:#98A0A5;
+}
+.table2@THEME_CSS@ td.antePrimarySort@THEME_CSS@ {
+	border-right-color:#98A0A5;
+}
+.table2@THEME_CSS@ .header@THEME_CSS@ .primarySort@THEME_CSS@, .table2@THEME_CSS@ .footer@THEME_CSS@ .primarySort@THEME_CSS@ {
+	background-color:#CAD0D2
+}
+/* Table Scroller */
 .table2@THEME_CSS@ .tableScroller@THEME_CSS@ {
 	background-color:#FFFFFF;
 	border-top-color:#CAD0D2;
@@ -1972,10 +2032,11 @@ ul.MenuItems@THEME_CSS@ li .MenuItem@THEME_CSS@:hover{     /* standard hover */
 	border-right-color:#CAD0D2;
 	background-color:#FFFFFF;
 }
-.table2@THEME_CSS@ th a.hyperlink@THEME_CSS@ {
+.table2@THEME_CSS@ th a.Hyp@THEME_CSS@ {
 	color:#000000;
+	text-decoration:none;
 }
-.table2@THEME_CSS@ .header@THEME_CSS@ th a.hyperlink@THEME_CSS@:hover {
+.table2@THEME_CSS@ .header@THEME_CSS@ th a.Hyp@THEME_CSS@:hover {
 	background:#CAD0D2 url(../images/table2/column_gradient_selected.png) top left repeat-x;
 }
 .table2@THEME_CSS@ .header@THEME_CSS@ th a span {
@@ -1983,9 +2044,28 @@ ul.MenuItems@THEME_CSS@ li .MenuItem@THEME_CSS@:hover{     /* standard hover */
 	background-position:right;
 	background-repeat:no-repeat;
 }
-.table2@THEME_CSS@ .groupHeader@THEME_CSS@ {
+/* Drawer */
+.table2@THEME_CSS@ .drawer@THEME_CSS@ {
 	border-color:#98A0A5;
-	border-top-color:#8C8F91;
-	background:#E1E5E8 url(../images/table2/column_gradient.png) top left repeat-x;
+	background-color:#FFFFFF;
+}
+.table2@THEME_CSS@ .drawer@THEME_CSS@ .drawer@THEME_CSS@ {
+	border-top-color:#CAD0D2;
+}
+.table2@THEME_CSS@ .drawer@THEME_CSS@ .buttonBar@THEME_CSS@ {
+	background-color:#E5E9ED;
+}
+/* Tip */
+.table2@THEME_CSS@ .tip@THEME_CSS@ {
+	background:#DBE5ED url(../images/table2/column_gradient_selected.png) top left repeat-x;
+	border-top-color:#758B9B;
+	border-right-color:#9CB6C7;
+	border-bottom-color:#CADDED;
+	border-left-color:#9CB6C7;
+}
+/* Multisort bucket */
+.table2@THEME_CSS@ .multiSort@THEME_CSS@ {
+	border-bottom-color:#98A0A5;
+	background-color:#E5E9ED;
 }
 /*---*/
