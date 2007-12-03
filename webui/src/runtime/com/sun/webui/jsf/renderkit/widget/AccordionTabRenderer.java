@@ -123,6 +123,7 @@ public class AccordionTabRenderer extends RendererBase {
             .put("style", content.getStyle())
             .put("selected", content.isSelected())
             .put("visible", content.isVisible())
+            .put("focusId", content.getFocusId())
             .put("title", content.getTitle());            
 
         JSONArray tabContent = new JSONArray();

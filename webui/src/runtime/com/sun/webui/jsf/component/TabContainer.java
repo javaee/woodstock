@@ -87,6 +87,50 @@ public class TabContainer extends WebuiComponent implements NamingContainer {
     }
     
     /**
+     * <p>Position of this element in the tabbing order of the current document. 
+     * Tabbing order determines the sequence in which elements receive 
+     * focus when the tab key is pressed. The value must be an integer 
+     * between 0 and 32767.</p>
+     */
+    @Property(name="tabIndex", displayName="Tab Index", category="Accessibility", editorClassName="com.sun.rave.propertyeditors.IntegerPropertyEditor")
+    private int tabIndex = Integer.MIN_VALUE;
+    private boolean tabIndex_set = false;
+
+    /**
+     * <p>Position of this element in the tabbing order of the current document. 
+     * Tabbing order determines the sequence in which elements receive 
+     * focus when the tab key is pressed. The value must be an integer 
+     * between 0 and 32767.</p>
+     */
+    public int getTabIndex() {
+        if (this.tabIndex_set) {
+            return this.tabIndex;
+        }
+        ValueExpression _vb = getValueExpression("tabIndex");
+        if (_vb != null) {
+            Object _result = _vb.getValue(getFacesContext().getELContext());
+            if (_result == null) {
+                return Integer.MIN_VALUE;
+            } else {
+                return ((Integer) _result).intValue();
+            }
+        }
+        return Integer.MIN_VALUE;
+    }
+
+    /**
+     * <p>Position of this element in the tabbing order of the current document. 
+     * Tabbing order determines the sequence in which elements receive 
+     * focus when the tab key is pressed. The value must be an integer 
+     * between 0 and 32767.</p>
+     * @see #getTabIndex()
+     */
+    public void setTabIndex(int tabIndex) {
+        this.tabIndex = tabIndex;
+        this.tabIndex_set = true;
+    }
+    
+    /**
      * Alternative HTML template to be used by this component.
      */
     @Property(name="htmlTemplate", displayName="HTML Template", category="Appearance")
@@ -385,6 +429,8 @@ public class TabContainer extends WebuiComponent implements NamingContainer {
         this.loadOnSelect_set = ((Boolean) _values[6]).booleanValue();
         this.visible = ((Boolean) _values[7]).booleanValue();
         this.visible_set = ((Boolean) _values[8]).booleanValue();
+        this.tabIndex = ((Integer) _values[9]).intValue();
+        this.tabIndex_set = ((Boolean) _values[10]).booleanValue();
     }
     
     /**
@@ -392,7 +438,7 @@ public class TabContainer extends WebuiComponent implements NamingContainer {
      */
     @Override
     public Object saveState(FacesContext _context) {
-        Object _values[] = new Object[9];
+        Object _values[] = new Object[11];
         _values[0] = super.saveState(_context);
         _values[1] = this.selectedTabs;
         _values[2] = this.htmlTemplate;
@@ -402,6 +448,8 @@ public class TabContainer extends WebuiComponent implements NamingContainer {
         _values[6] = this.loadOnSelect_set ? Boolean.TRUE : Boolean.FALSE;
         _values[7] = this.visible ? Boolean.TRUE : Boolean.FALSE;
         _values[8] = this.visible_set ? Boolean.TRUE : Boolean.FALSE;
+        _values[9] = new Integer(this.tabIndex);
+        _values[10] = this.tabIndex_set ? Boolean.TRUE : Boolean.FALSE;
         return _values;
     }
       

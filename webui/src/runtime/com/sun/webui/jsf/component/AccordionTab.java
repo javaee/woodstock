@@ -71,6 +71,40 @@ public class AccordionTab extends TabContent {
     }
     
     /**
+     * The client ID of the first element to focus on when the user tabs to
+     * an open(selected) accordionTab. This attribute helps make
+     * the accordionTab accessible. Once inside the accordionTab's content
+     * section one can tab through all the tabable elements until it reaches
+     * the end after which pressing the tab key will cause the accordion to lose
+     * focus.
+     */
+    @Property(name="focusId", displayName="Focus Element ID", category="Appearance", 
+        editorClassName="com.sun.rave.propertyeditors.StringPropertyEditor")
+    private String focusId = null;
+    
+    /**
+     * Return the client ID of the first element to focus on in the accordionTab's
+     * content area.
+     */
+    public String getFocusId() {
+        if (this.focusId != null) {
+            return this.focusId;
+        }
+        ValueExpression _vb = getValueExpression("focusId");
+        if (_vb != null) {
+            return (String) _vb.getValue(getFacesContext().getELContext());
+        }
+        return null;
+    }
+    
+    /**
+     * Set the client ID of the first element to focus on for the accordionTab.
+     */
+    public void setFocusId(String focusId) {
+        this.focusId = focusId;
+    }
+    
+    /**
      * The height of each tab content. This height is applied to the style of
      * the content section of AccordionTab. It can be listed either in pixels, 
      * or in em or en. By default the height is set to 100 pixels.
@@ -160,6 +194,7 @@ public class AccordionTab extends TabContent {
         this.contentHeight = (String) _values[1];
         this.multipleSelect = ((Boolean) _values[2]).booleanValue();
         this.multipleSelect_set = ((Boolean) _values[3]).booleanValue();
+        this.focusId = (String) _values[4];
     }
     
     /**
@@ -167,11 +202,12 @@ public class AccordionTab extends TabContent {
      */
     @Override
     public Object saveState(FacesContext _context) {
-        Object _values[] = new Object[4];
+        Object _values[] = new Object[5];
         _values[0] = super.saveState(_context);
         _values[1] = this.contentHeight;
         _values[2] = this.multipleSelect ? Boolean.TRUE : Boolean.FALSE;
         _values[3] = this.multipleSelect_set ? Boolean.TRUE : Boolean.FALSE;
+        _values[4] = this.focusId;
         return _values;
     }
 }

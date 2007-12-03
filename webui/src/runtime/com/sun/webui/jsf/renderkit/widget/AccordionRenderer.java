@@ -58,6 +58,10 @@ public class AccordionRenderer extends RendererBase {
     private static final String stringAttributes[] = {
         "style"};
 
+    private static final String intAttributes[] = {        
+        "tabIndex"
+    };
+    
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     // RendererBase methods
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -93,7 +97,8 @@ public class AccordionRenderer extends RendererBase {
         
         // Add attributes.
         JSONUtilities.addStringProperties(stringAttributes, container, json);
-
+        JSONUtilities.addIntegerProperties(intAttributes, container, json);
+        
         return json;
     }
 
