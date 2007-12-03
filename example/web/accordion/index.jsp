@@ -56,6 +56,10 @@
              <br/><br/>
              <webuijsf:hyperlink url="example3.jsp" 
 	       text="#{msgs.accordion_refreshTitle}"/>
+               
+             <br/><br/>
+             <webuijsf:hyperlink url="a11yAccordion.jsp" 
+	       text="#{msgs.accordion_a11y}"/>
 
            </webuijsf:markup>
          </webuijsf:form>
