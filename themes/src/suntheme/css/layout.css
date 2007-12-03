@@ -162,6 +162,7 @@ body {
 	padding:3px; 
 }
 
+
 .dndOuterSpan@THEME_CSS@ {
     position: relative;
 }
@@ -2183,6 +2184,15 @@ table.TblLt@THEME_CSS@ td.TblPnlTd@THEME_CSS@ {
     margin-left: 2px;
 }
 
+.AccdHeader@THEME_CSS@ .AccdRefreshBtnFocus@THEME_CSS@ img, .AccdHeader@THEME_CSS@ .AccdOpenAllBtnFocus@THEME_CSS@ img, .AccdHeader@THEME_CSS@ .AccdCloseAllBtnFocus@THEME_CSS@ img {
+    float:right;
+    margin-top: 2px;
+    margin-right: 2px;
+    margin-left: 2px;
+    border-style: solid solid solid solid;
+    border-width: 1px;
+}
+
 .AccdDivider@THEME_CSS@ {
     float: right;
     height:15px;
@@ -2192,12 +2202,14 @@ table.TblLt@THEME_CSS@ td.TblPnlTd@THEME_CSS@ {
     margin-left: 2px;
 }
 
-.AccdTabExpanded@THEME_CSS@, .AccdTabCollapsed@THEME_CSS@ {
+.AccdTabExpanded@THEME_CSS@, .AccdTabCollapsed@THEME_CSS@,
+.AccdTabExpanded_Focus@THEME_CSS@, .AccdTabCollapsed_Focus@THEME_CSS@ {
     border-style: none solid solid solid;
     border-width: 1px;
 }
 
-.AccdTabExpanded@THEME_CSS@ a, .AccdTabCollapsed@THEME_CSS@ a {
+.AccdTabExpanded@THEME_CSS@ a, .AccdTabCollapsed@THEME_CSS@ a, 
+.AccdTabExpanded_Focus@THEME_CSS@ a, .AccdTabCollapsed_Focus@THEME_CSS@ a {
     display: block;
     padding: 3px 6px 3px 6px;
 }
@@ -2223,6 +2235,14 @@ table.TblLt@THEME_CSS@ td.TblPnlTd@THEME_CSS@ {
 .AccdTabContent@THEME_CSS@ {
     border-style: solid solid solid solid;
     border-width: 1px;
+    padding: 5px;
+    overflow: auto;
+    height: 100px;   /* default height, but can be overridden */
+ }
+
+.AccdTabContent_Focus@THEME_CSS@ {
+    border-style: solid solid solid solid;
+    border-width: 2px;
     padding: 5px;
     overflow: auto;
     height: 100px;   /* default height, but can be overridden */

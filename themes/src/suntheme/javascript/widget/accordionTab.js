@@ -35,8 +35,46 @@ dojo.declare("webui.@THEME@.widget.accordionTab", webui.@THEME@.widget.widgetBas
     // Set defaults.
     isContainer: true,
     selected: false,
+    focusState: "title",
     widgetName: "accordionTab" // Required for theme properties.    
 });
+
+
+/**
+ * The callback function for key press on the accordion tabs.
+ *
+ * @param {String} id The id of the accordion.
+ * @return {boolean} true if successful; otherwise, false.
+ */
+webui.@THEME@.widget.accordionTab.prototype.createOnKeyDownCallBack = function(id) {
+    if (id == null) {
+        return;
+    }
+
+    var id = this.id;
+    var _widget = this.widget;
+    return function(event) {
+        var elem = document.getElementById(id);
+        if (elem == null) {
+            return;
+        }
+        var widget = dijit.byId(id);
+
+        event = _widget.getEvent(event);
+        var keyCode = _widget.getKeyCode(event);
+        
+        // if onkeypress returns false, we do not traverse the menu.
+        var keyPressResult = true;
+        if (this._onkeypress) {
+            keyPressResult = (this._onkeypress) ? this._onkeypress() : true;
+        }        
+       
+        if (keyPressResult != false) {
+            widget.traverseMenu(keyCode, event, id);
+        }
+        return true;
+   }
+}
 
 /**
  * This object contains event topics.
@@ -130,6 +168,8 @@ webui.@THEME@.widget.accordionTab.prototype.getProps = function() {
     if (this.style != null) { props.style = this.style; }
     if (this.contentHeight != null) { props.contentHeight = this.contentHeight; }
     if (this.id) { props.id = this.id; }
+    if (this.tabContent) { props.tabContent = this.tabContent; }
+    if (this.focusId) { props.focusId = this.focusId; }
     if (this.type) { props.type = this.type; }
 
     return props;
@@ -170,6 +210,9 @@ webui.@THEME@.widget.accordionTab.prototype.onTitleClickCallback = function (eve
     dojo.publish(webui.@THEME@.widget.accordionTab.event.title.selectedTopic, [{
         id: this.id
     }]);
+    if (this.titleContainer.focus) {
+        this.titleContainer.focus();
+    }
     return true;
 }
 
@@ -183,7 +226,10 @@ webui.@THEME@.widget.accordionTab.prototype.onTitleMouseOutCallback = function(e
     if (this.selected) {
         this.titleContainer.className = this.theme.getClassName("ACCORDION_TABEXPANDED");
         this.turnerContainer.className = this.theme.getClassName("ACCORDION_DOWNTURNER");
-        return false;
+        if (this.titleContainer.focus) {
+            this.titleContainer.focus();
+        }
+        return true;
     }
     this.titleContainer.className = this.theme.getClassName("ACCORDION_TABCOLLAPSED");
     this.turnerContainer.className = this.theme.getClassName("ACCORDION_RIGHTTURNER");
@@ -202,8 +248,25 @@ webui.@THEME@.widget.accordionTab.prototype.onTitleMouseOverCallback = function(
     } else {
         this.turnerContainer.className = this.theme.getClassName("ACCORDION_RIGHTTURNER");
     }
+    if (this.titleContainer.focus) {
+        this.titleContainer.focus();
+    }
     return true;
 }
+
+/**
+ * Handle the case when the contentNode is about to lose focus. The tabIndex for the tab 
+ * and the contentNode should be set to -1 and the focusElement should also be nulled.
+ * 
+ *
+ * @param {Event} event The JavaScript event.
+ * @return {boolean} true if successful; otherwise, false.
+ */
+webui.@THEME@.widget.accordionTab.prototype.onContentEndCallback = function(event) {
+    this.focusState = "end";
+    return true;
+}
+
 
 /**
  * This function is used to fill in remaining template properties, after the
@@ -222,6 +285,8 @@ webui.@THEME@.widget.accordionTab.prototype.postCreate = function () {
         this.menuContainer.id = this.id + "_tabMenu";
         this.hiddenFieldNode.id = this.id + ":selectedState";
         this.hiddenFieldNode.name = this.hiddenFieldNode.id;
+        this.domNode.tabIndex = -1;
+        this.contentEnd.id = this.id + "_contentEnd";
     }
 
     // Set style classes.
@@ -230,12 +295,13 @@ webui.@THEME@.widget.accordionTab.prototype.postCreate = function () {
     this.menuContainer.className = this.theme.getClassName("HIDDEN");
     this.titleNode.className = this.theme.getClassName("ACCORDION_TABTITLE");
     this.contentNode.className = this.theme.getClassName("ACCORDION_TABCONTENT");
-    
+
     // Set public functions.
     // TBD...
 
     // Set events.
     dojo.connect(this.titleContainer, "onclick", this, "onTitleClickCallback");
+
     dojo.connect(this.titleContainer, "onmouseover", this, "onTitleMouseOverCallback");
     dojo.connect(this.turnerContainer, "onmouseover", this, "onTitleMouseOverCallback");
     dojo.connect(this.turnerContainer, "onclick", this, "onTitleClickCallback");
@@ -244,7 +310,11 @@ webui.@THEME@.widget.accordionTab.prototype.postCreate = function () {
     dojo.connect(this.titleContainer, "onmouseout", this, "onTitleMouseOutCallback");
     dojo.connect(this.turnerContainer, "onmouseout", this, "onTitleMouseOutCallback");
     dojo.connect(this.menuContainer, "onmouseout", this, "onTitleMouseOutCallback");
-
+    dojo.connect(this.contentEnd, "onblur", this, "onContentEndCallback");
+    //Create callback function for onkeydown event.
+    dojo.connect(this.domNode, "onkeydown", 
+        this.createOnKeyDownCallBack(this.id)); 
+    
     return this.inherited("postCreate", arguments);
 }
 
@@ -262,9 +332,9 @@ webui.@THEME@.widget.accordionTab.prototype.postCreate = function () {
  * @param {Object} props Key-Value pairs of properties.
  * @config {String} className CSS selector.
  * @config {int} contentHeight CSS selector.
- * @config {String} hiddenField 
+ * @config {String} hiddenField Field set to true if tab is selected.
  * @config {String} id Uniquely identifies an element within a document.
- * @config {Array} tabContent 
+ * @config {Array} tabContent The content area of the tab.
  * @config {String} style Specify style rules inline.
  * @config {String} title Provides a title for element.
  * @config {boolean} visible Hide or show element.
@@ -296,9 +366,21 @@ webui.@THEME@.widget.accordionTab.prototype.setProps = function(props, notify) {
  * @private
  */
 webui.@THEME@.widget.accordionTab.prototype._setProps = function(props) {
+
     if (props == null) {
         return false;
     }
+
+    if (props.tabIndex == null) {
+        props.tabIndex = -1;
+        this.tabIndex = -1;
+    } else { //new code
+        this.domNode.tabIndex = props.tabIndex;
+        this.titleContainer.tabIndex = props.tabIndex;
+        this.contentNode.tabIndex = props.tabIndex;
+        this.tabIndex = props.tabIndex;
+        this.contentEnd.tabIndex = this.tabIndex;
+    }  // end of new code.
 
     // Set properties.
     if (props.contentHeight) {
@@ -327,6 +409,20 @@ webui.@THEME@.widget.accordionTab.prototype._setProps = function(props) {
     // Set more properties.
     this.setCommonProps(this.domNode, props);
     this.setEventProps(this.domNode, props);
+
+    if (props.focusId != null) {
+        this.focusId = props.focusId;
+        if (this.selected) {
+            if (this.focusState == "content") {
+                var focusElem = document.getElementById(this.focusId);
+                if (focusElem.focus) {
+                    focusElem.focus();
+                }
+            }
+        } else {
+            this.focusState = "title";
+        }
+    }
 
     // Set remaining properties.
     return this.inherited("_setProps", arguments);
@@ -389,9 +485,131 @@ webui.@THEME@.widget.accordionTab.prototype.setTabContent = function(content) {
  * @return {boolean} true if successful; otherwise, false.
  */
 webui.@THEME@.widget.accordionTab.prototype.setTitle = function (title) {
+    
     if (title) {
         // NOTE: If you set this value manually, text must be HTML escaped.
-        this.widget.addFragment(this.titleHref, title);
+        var titleHref = webui.@THEME@.widget.common.getWidgetProps("hyperlink", {
+                id: this.id + "_titleLink",
+                title: title,
+                onClick: "return false;",
+                className: "",
+                contents: [title]
+                
+        });
+        this.widget.addFragment(this.titleNode, titleHref);
+    }
+    return true;
+}
+
+/**
+ * This function takes care of traversing through the accordionTab depending
+ * on which key is pressed. If tab is open and current focus is on the title, 
+ * the focus should move to the first element in the the open tab. Else it 
+ * should simply move out accordion.
+ * @param (String) keyCode The value of the key which was pressed
+ * @param (Event) event The key press event.
+ * @param (String) nodeId The id of the accordionTab. 
+ * @return {boolean} true if successful; otherwise, false.
+ */
+webui.@THEME@.widget.accordionTab.prototype.traverseMenu = function(keyCode, event, nodeId) {
+    // The focus can either be on the title or the content.
+    // If tab is open and current focus is on the title, the focus should move
+    // to the first element in the the open tab. Else it should simply move out 
+    // accordion.
+
+    // do nothing if only shift is pressed.
+    if (event.shiftKey && keyCode != 9) {  
+        return true;
+    }
+
+    // handle the tab case.
+    if (keyCode == 9) {         
+
+        // shift+tab is handled by the parent accordion, simply remove focus
+        // from this tab and set tabIndex to -1.
+        if (event.shiftKey) {
+            
+            this.focusState == "title";
+            if (this.contentNode.blur) {
+                this.contentNode.blur();
+            }
+            if (this.titleContainer.blur) {
+                this.titleContainer.blur();
+            }
+            // this.focusId = null;
+            // this.domNode.tabIndex = -1;  //new
+            return true;
+        }
+
+        // If tab is open and focus is on the title section
+        // shift focus to the content section, else move out of the
+        // tab.
+        if (this.selected) {
+            if (this.focusState == "title") {
+                this.contentNode.tabIndex = this.tabIndex;
+                this.contentEnd.tabIndex = this.tabIndex;
+                this.contentNode.focus();
+                if (this.focusId == undefined) {
+                    var fChild = this.contentNode.firstChild;
+                    if (fChild) {
+                        if (fChild.focus) {
+                            fChild.focus();
+                        }
+                        this.focusId = fChild;
+                    }
+                    return true;
+                } else {
+                    var focusElem = document.getElementById(this.focusId);
+                    if (focusElem) {
+                        if (focusElem.focus) {
+                            focusElem.focus();
+                        }
+                    }
+                }
+                this.focusState = "content";
+            } else if (this.focusState == "content") {
+                return true;
+            } else {
+                this.contentNode.focus();
+                if (this.focusId == undefined) {
+                    this.contentNode.tabIndex = this.tabIndex;
+                    return true;
+                } else {
+                    var focusElem = document.getElementById(this.focusId);
+                    if (focusElem) {
+                        if (focusElem.focus) {
+                            focusElem.focus();
+                        }
+                    }
+                }
+                this.focusState = "content";
+            }
+        } else {
+            // reset the tabIndex as control is moving out of the tab.
+            // this.domNode.tabIndex = -1; //new
+            return true;
+        }
+    } else if (keyCode == 38 && event.ctrlKey) {  // handle ctrl + up
+
+        // Move focus to the header of the accordion tab if its contents is
+        // currently in focus. Else, do nothing. Also, stop event propagation.
+
+        if (this.focusState == "content") {
+            this.focusState == "title";
+            if (this.contentNode.blur) {
+                this.contentNode.blur();
+            }
+            if (this.titleContainer.focus) {
+                this.titleContainer.focus();
+            }
+            if (webui.@THEME@.browser.isIe5up()) {
+                window. event.cancelBubble = true;
+                window.event.returnValue = false;
+            } else {
+                event.stopPropagation();
+                event.preventDefault();
+            }
+        }
     }
     return true;
 }

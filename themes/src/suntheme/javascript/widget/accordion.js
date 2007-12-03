@@ -38,6 +38,7 @@ dojo.declare("webui.@THEME@.widget.accordion", webui.@THEME@.widget.widgetBase, 
     isContainer: true,
     loadOnSelect: false,
     multipleSelect: false,
+    focusElement: null,
     widgetName: "accordion" // Required for theme properties.
 });
 
@@ -45,12 +46,6 @@ dojo.declare("webui.@THEME@.widget.accordion", webui.@THEME@.widget.widgetBase, 
  * Helper function to add accordion header controls
  *
  * @param {Object} props Key-Value pairs of properties.
- * @config {Object} collapseAllImage 
- * @config {Object} expandAllImage 
- * @config {Object} isRefreshIcon 
- * @config {Object} multipleSelect 
- * @config {Object} refreshImage 
- * @config {Object} toggleControls
  * @return {boolean} true if successful; otherwise, false.
  */
 webui.@THEME@.widget.accordion.prototype.addControls = function(props) {       
@@ -98,8 +93,47 @@ webui.@THEME@.widget.accordion.prototype.collapseAllTabs = function(event) {
             widget.setSelected(false);
         }
     }
+    this.updateFocus(this.collapseAllContainer);
     return true;
 }
+
+/**
+ * The callback function for key press on the accordion header.
+ *
+ * @param {String} id The id of the accordion widget.
+ * @return {boolean} true if successful; otherwise, false.
+ */
+webui.@THEME@.widget.accordion.prototype.createOnKeyDownCallBack = function(id) {
+    if (id == null) {
+        return;
+    }
+
+    var id = this.id;
+    var _widget = this.widget;
+    return function(event) {
+        
+        var elem = document.getElementById(id);
+        if (elem == null) {
+            return;
+        }
+        var widget = dijit.byId(id);
+
+        event = _widget.getEvent(event);
+        var keyCode = _widget.getKeyCode(event);
+        
+        // if onkeypress returns false, we do not traverse the accordion
+        var keyPressResult = true;
+        if (this._onkeypress) {
+            keyPressResult = (this._onkeypress) ? this._onkeypress() : true;
+        }        
+       
+        if (keyPressResult != false) {
+            widget.traverseMenu(keyCode, event, id);
+        }
+        return true;
+   }
+}
+
 
 /**
  * This object contains event topics.
@@ -151,7 +185,29 @@ webui.@THEME@.widget.accordion.prototype.expandAllTabs = function(event) {
             widget.setSelected(true);
         }
     }
+    this.updateFocus(this.expandAllContainer);
     return true;
+}
+
+/**
+ * Set the appropriate focus before invoking tabSelected. This
+ * function has been put in place because tabSelected is called
+ * from various places but the focus does not have to be set
+ * in all the cases.
+ *
+ * @param {Event} event The JavaScript event.
+ * @return {boolean} true if successful; otherwise, false.
+ */
+webui.@THEME@.widget.accordion.prototype.focusAndSelectTab = function(props) {
+    
+    // Iterate over all tabs to ensure id is valid.
+    for (var i = 0; i < this.tabs.length; i++) {
+        if (props.id == this.tabs[i].id) {
+            this.focusElement = this.tabs[i];
+            break;   
+        }
+    }
+    this.tabSelected(props);
 }
 
 /**
@@ -235,49 +291,85 @@ webui.@THEME@.widget.accordion.prototype.postCreate = function () {
     var _id = this.id;
     dojo.connect(this.collapseAllContainer, "onclick", this, "collapseAllTabs");
     dojo.connect(this.expandAllContainer, "onclick", this, "expandAllTabs");
+    
     dojo.connect(this.refreshNodeContainer, "onclick", function(event) {
         // New literals are created every time this function is called, and it's 
         // saved by closure magic.
         var widget = dijit.byId(_id);
+        widget.updateFocus(this.refreshNodeContainer);
         widget.refresh(_id);
+        return false;
     });
-
-    // Subscribe to the "dayClicked" event present in the calendar widget.
+    
+    //Create callback function for onkeydown event.
+    dojo.connect(this.domNode, "onkeydown", 
+        this.createOnKeyDownCallBack(this.id));
+    
+    // Subscribe to the "tabSelected" event present in the accordion widget.
     dojo.subscribe(webui.@THEME@.widget.accordionTab.event.title.selectedTopic,
-        this, "tabSelected");
+        this, "focusAndSelectTab");
 
-    // Generate the accordion header buttons on the client side.
+    // Generate the accordion header icons on the client side.
 
     if (this.toggleControls && this.multipleSelect) {
+
         if (this.expandAllImage == null) {
-            var btnTitle = this.theme.getMessage("Accordion.expandAll");
-            this.expandAllImage = this.widget.getImageProps("ACCORDION_EXPAND_ALL", {
-                id: this.id + "_expandAll", 
-                title: btnTitle,
-                alt: btnTitle
-            });
+            this.expandAllImage = this.widget.getImageHyperlinkProps({
+                    id: this.id + "_expandImageLink",
+                    onClick: "return false;",
+                    enabledImage: {
+                        id: this.id + "_expandAll"
+                    },
+                    title: this.theme.getMessage("Accordion.expandAll")            
+                },
+                "ACCORDION_EXPAND_ALL"
+             );
         }
         
         if (this.collapseAllImage == null) {
-            var btnTitle = this.theme.getMessage("Accordion.collapseAll");
-            this.collapseAllImage = this.widget.getImageProps("ACCORDION_COLLAPSE_ALL", {
-                id: this.id + "_collapseAll", 
-                title: btnTitle,
-                alt: btnTitle
-            });
+            this.collapseAllImage = this.widget.getImageHyperlinkProps({
+                    id: this.id + "_collapseImageLink",
+                    onClick: "return false;",
+                    enabledImage: {
+                        id: this.id + "_collapseAll"
+                    },
+                    title: this.theme.getMessage("Accordion.collapseAll")            
+                },
+                "ACCORDION_COLLAPSE_ALL"
+             );
         }
     }
-    // Set refresh image properties.
+    // Set refresh image hyperlink properties.
     if (this.isRefreshIcon) {
         if (this.refreshImage == null) {
-            var btnTitle = this.theme.getMessage("Accordion.refresh");
-            this.refreshImage = this.widget.getImageProps("ACCORDION_REFRESH", {
-                id: this.id + "_refresh", 
-                title: btnTitle,
-                alt: btnTitle
-            });
+            this.refreshImage = this.widget.getImageHyperlinkProps({
+                    id: this.id + "_refreshImageLink",
+                    onClick: "return false;",
+                    enabledImage: {
+                        id: this.id + "_refresh"
+                    },
+                    title: this.theme.getMessage("Accordion.refresh")            
+                },
+                "ACCORDION_REFRESH"
+             );
          }
     }
+    
+    if (this.isRefreshIcon) {
+        this.refreshNodeContainer.tabIndex = this.tabIndex;
+    }    
+    
+    if (this.toggleControls && this.multipleSelect) {
+            this.expandAllContainer.tabIndex = this.tabIndex;
+            this.collapseAllContainer.tabIndex = this.tabIndex;
+    }
+    
+    if (this.tabs.length > 0) {
+        for (var i=0; i< this.tabs.length; i++) {
+            this.tabs[i].tabIndex = this.tabIndex;
+        }
+    }
+                
     return this.inherited("postCreate", arguments);
 }
 
@@ -294,17 +386,15 @@ webui.@THEME@.widget.accordion.prototype.postCreate = function () {
  *
  * @param {Object} props Key-Value pairs of properties.
  * @config {String} className CSS selector.
- * @config {Object} collapseAllImage 
- * @config {Object} expandAllImage 
+ * @config {Object} collapseAllImage Image associated with collapse all icon
+ * @config {Object} expandAllImage Image associated with expand all icon
  * @config {String} id Uniquely identifies an element within a document.
- * @config {boolean} isRefreshIcon 
- * @config {boolean} loadOnSelect 
- * @config {boolean} multipleSelect 
- * @config {Object} refreshImage 
+ * @config {boolean} isRefreshIcon True if refresh icon should be set
+ * @config {boolean} multipleSelect Set to true if multiple tabs can be selected
+ * @config {Object} refreshImage Image associated with refresh icon.
  * @config {String} style Specify style rules inline.
- * @config {Array} tabs 
- * @config {boolean} toggleControls
- * @config {String} type 
+ * @config {Array} tabs Tabs constituting the accordion's children
+ * @config {boolean} toggleControls Set to true if expand/collapse icons should be set.
  * @config {boolean} visible Hide or show element.
  * @param {boolean} notify Publish an event for custom AJAX implementations to listen for.
  * @return {boolean} true if successful; otherwise, false.
@@ -338,6 +428,11 @@ webui.@THEME@.widget.accordion.prototype._setProps = function(props) {
         return false;
     }
 
+    if (props.tabIndex == null) {
+        props.tabIndex = -1;
+        this.tabIndex = -1;
+    }
+
     // add control icons - refresh, expandall, collapseall.
     this.addControls(props); 
 
@@ -350,6 +445,15 @@ webui.@THEME@.widget.accordion.prototype._setProps = function(props) {
         // Remove child nodes.
         this.widget.removeChildNodes(this.tabsContainer);
 
+        // set the tab focus 
+        var tabFocus = true;
+        
+        if (props.tabs.length > 0) {
+            for (var i=0; i< props.tabs.length; i++) {
+                props.tabs[i].tabIndex = this.tabIndex;
+            }
+        }
+       
         // Add tabs.
         for (var i = 0; i < props.tabs.length; i++) {
             this.widget.addFragment(this.tabsContainer, props.tabs[i], "last");
@@ -362,6 +466,103 @@ webui.@THEME@.widget.accordion.prototype._setProps = function(props) {
 
     // Set remaining properties.
     return this.inherited("_setProps", arguments);
+}
+
+/**
+ * Set a different look for refresh/expand/collapse icons when focus is set
+ * on them.
+ *
+ * @param {String} nodeId The node ID of the icon.
+ * @return {boolean} true if successful; otherwise, false.
+ */
+webui.@THEME@.widget.accordion.prototype.setFocusStyleClass = function(nodeId) {
+
+    if (nodeId == this.collapseAllContainer.id) {
+        //set focus style on collapseNode
+        this.collapseAllContainer.className = this.theme.getClassName("ACCORDION_HDR_CLOSEALL_FOCUS");
+        
+    } else if (nodeId == this.expandAllContainer.id) {
+        //set focus style on expandNode
+        this.expandAllContainer.className = this.theme.getClassName("ACCORDION_HDR_OPENALL_FOCUS");
+        
+    } else if (nodeId == this.refreshNodeContainer.id) {
+        //set focus style on refreshNode
+        this.refreshNodeContainer.className = this.theme.getClassName("ACCORDION_HDR_REFRESH_FOCUS");
+    }
+    return true;
+}
+
+/**
+ * Reset the styles asscociated with refresh/expand/collapse icons when these 
+ * icons are blurred.
+ *
+ * @param {String} nodeId The node ID of the icon.
+ * @return {boolean} true if successful; otherwise, false.
+ */
+webui.@THEME@.widget.accordion.prototype.setBlurStyleClass = function(nodeId) {
+
+    if (nodeId == this.collapseAllContainer.id) {
+        //set normal className on collapseNode
+        this.collapseAllContainer.className = this.theme.getClassName("ACCORDION_HDR_CLOSEALL");
+    
+    } else if (nodeId == this.expandAllContainer.id) {
+        //set normal className on expandNode
+        this.expandAllContainer.className = this.theme.getClassName("ACCORDION_HDR_OPENALL");
+    
+    } else if (nodeId == this.refreshNodeContainer.id) {
+        //set normal className on refreshNode
+        this.refreshNodeContainer.className = this.theme.getClassName("ACCORDION_HDR_REFRESH");
+    }
+    return true;
+}
+
+/**
+ * Set appropriate styles when a tab is in focus.
+ *
+ * @param {String} nodeId The node ID of the icon.
+ * @return {boolean} true if successful; otherwise, false.
+ */
+webui.@THEME@.widget.accordion.prototype.setTabFocus = function(nodeId) {
+
+    // update the tab with the appropriate tabIndex
+    var tabWidget = dijit.byId(nodeId);
+    var props = {id: nodeId, tabIndex: this.tabIndex};
+    this.widget.updateFragment(this.tabsContainer, props);
+
+    // set the style class to indicate that the tab is in focus.
+    if (tabWidget.selected) {
+        tabWidget.titleContainer.className = this.theme.getClassName("ACCORDION_TABEXPANDED_FOCUS");
+    } else {
+        tabWidget.titleContainer.className = this.theme.getClassName("ACCORDION_TABCOLLAPSED_FOCUS");
+    }
+    tabWidget.domNode.focus();
+    return true;
+}
+
+
+/**
+ * Set appropriate styles when a tab loses focus.
+ *
+ * @param {String} nodeId The node ID of the icon.
+ * @return {boolean} true if successful; otherwise, false.
+ */
+webui.@THEME@.widget.accordion.prototype.setTabBlur = function(nodeId) {
+
+    // update the tab with the appropriate tabIndex
+    var tabWidget = dijit.byId(nodeId);
+    
+    if (tabWidget.selected) {
+        tabWidget.titleContainer.className = this.theme.getClassName("ACCORDION_TABEXPANDED");
+        tabWidget.turnerContainer.className = this.theme.getClassName("ACCORDION_DOWNTURNER");
+    } else { 
+        tabWidget.titleContainer.className = this.theme.getClassName("ACCORDION_TABCOLLAPSED");
+        tabWidget.turnerContainer.className = this.theme.getClassName("ACCORDION_RIGHTTURNER");
+    }    
+
+    if (tabWidget) {
+        tabWidget.titleContainer.blur();
+    }
+    return true;
 }
 
 /**
@@ -384,9 +585,9 @@ webui.@THEME@.widget.accordion.prototype.tabSelected = function(props) {
     
     // Return if id was not valid.
     if (widget == null) {
-        return false;
+            return false;
     }
-
+    
     if (this.multipleSelect) {
         widget.setSelected(true);
     } else {
@@ -394,6 +595,368 @@ webui.@THEME@.widget.accordion.prototype.tabSelected = function(props) {
             widget = dijit.byId(this.tabs[i].id);
             if (widget) {
                 widget.setSelected(props.id == this.tabs[i].id);
+                this.tabs[i] = widget.getProps();
+            }
+        }
+    }
+    return true;
+}
+
+
+/**
+ * This function traverses through the accordion depending
+ * on which key is pressed. If the down or right arrow key is pressed the
+ * next focusable element of the accordion is focused on. If the last element 
+ * was on focus this changes to the first element. If the enter or space key
+ * was pressed the onclick function associated with the focused element is 
+ * activated. 
+ * @param (String) keyCode The valye of the key which was pressed
+ * @param (Event) event The key press event.
+ * @param (String) nodeId The id of the accordion item. 
+ * @return {boolean} true if successful; otherwise, false.
+ */
+webui.@THEME@.widget.accordion.prototype.traverseMenu = function(keyCode, event, nodeId) {
+
+    var savedFocusElement;
+
+    if (this.focusElement != null) {
+        savedFocusElement = this.focusElement;
+    }
+
+    // Operations to be performed if the arrow keys are pressed.
+    // down or right arrow key ==> forward
+    // up or left arrow key ==> backward
+    // During forward traversal control should go from the refresh icon
+    // to the collapseAll icon to the expandAll icon to the tabs from
+    // top to bottom. If control is on the last tab, clicking a forward
+    // key will cause control to come back to the first tab and not the
+    // accordion control icons. A similar but opposite behavior is 
+    // exhibited when the up or left keys are pressed. Once control is
+    // on the first tab backward traversal will take control to the last 
+    // tab in the accordion.
+
+    if (keyCode >= 37 && keyCode <= 40) {
+        var forward = true;
+        if (keyCode == 37 || keyCode == 38) {
+            forward = false;
+        }
+        var focusSet = false;
+        if (forward) {  // handling the down and right arrow keys
+            if (this.isRefreshIcon) {
+                if (this.focusElement.id == this.refreshNodeContainer.id) {
+                    if (this.toggleControls && this.multipleSelect) {
+                        this.updateFocus(this.collapseAllContainer);
+                        focusSet = true;
+                    } else {
+                        this.updateFocus(this.tabs[0]);
+                        focusSet = true;
+                    }
+                }
+            }
+            
+            if (!focusSet && this.toggleControls && this.multipleSelect) {
+                
+                if (this.focusElement.id == this.collapseAllContainer.id) {
+                    this.updateFocus(this.expandAllContainer);
+                    focusSet = true;
+
+                } else if (this.focusElement.id == this.expandAllContainer.id) {
+                    this.updateFocus(this.tabs[0]);
+                    focusSet = true;
+                
+                } else {
+                    for (var i = 0; i < this.tabs.length; i++) {
+                        if (this.tabs[i].id == this.focusElement.id) {
+                            var newIndex = (i + 1) % this.tabs.length;
+                            this.updateFocus(this.tabs[newIndex]);
+                            focusSet = true;
+                            break;
+                        }
+                    }
+                }
+            }
+            if (!focusSet) {
+                for (var i = 0; i < this.tabs.length; i++) {
+                    if (this.tabs[i].id == this.focusElement.id) {
+                        var newIndex = (i + 1) % this.tabs.length;
+                        this.updateFocus(this.tabs[newIndex]);
+                        focusSet = true;
+                        break;
+                    }
+                }
+                if (this.focusElement == null) {
+                    this.updateFocus(this.tabs[0]);
+                }
+            }
+
+         } else {  // traverse backward
+
+            if (this.isRefreshIcon) {
+                if (this.focusElement.id == this.refreshNodeContainer.id) {
+                    var index = this.tabs.length;
+                    this.updateFocus(this.tabs[index-1]);
+                    focusSet = true;
+                }
+            }
+            
+            if (!focusSet && this.toggleControls && this.multipleSelect) {
+                if (this.focusElement.id == this.collapseAllContainer.id) {
+                    if (this.isRefreshIcon) {
+                        this.updateFocus(this.refreshNodeContainer);
+                        focusSet = true;
+                    } else {
+                        var index = this.tabs.length;
+                        focusSet = true;
+                        this.updateFocus(this.tabs[index-1]);
+                    }
+ 
+                } else if (this.focusElement.id == this.expandAllContainer.id) {
+                    this.updateFocus(this.collapseAllContainer);
+                    focusSet = true;
+                }
+            }
+            if (!focusSet) {
+                for (var i = 0; i < this.tabs.length; i++) {
+                    if (this.tabs[i].id == this.focusElement.id) {
+                        if (i == 0) {
+                            var index = this.tabs.length;
+                            this.updateFocus(this.tabs[index-1]);
+                            focusSet = true;
+                            break;
+                            
+                        } else {
+                            this.updateFocus(this.tabs[i-1]);
+                            focusSet = true;
+                        }
+                        break;
+                    }
+                }
+                if (this.focusElement == null) { //focus on the last tab
+                    var index = this.tabs.length;
+                    this.updateFocus(this.tabs[index - 1]);
+                    focusSet = true;
+                }
+            }
+        }
+
+        if (webui.@THEME@.browser.isIe5up()) {
+            window.event.cancelBubble = true;
+            window.event.returnValue = false;
+        } else {
+            event.stopPropagation();
+            event.preventDefault();
+        }
+    } else if(keyCode == 13 || keyCode == 32) {  // handle enter and space bar
+        var actionComplete = false;
+        if (this.isRefreshIcon) {
+            if (this.focusElement.id == this.refreshNodeContainer.id) {
+                var accWidget = dijit.byId(nodeId);
+                accWidget.refresh(nodeId);
+                actionComplete = true;
+            }    
+        }
+        if (!actionComplete && this.toggleControls && this.multipleSelect) {
+            if (this.focusElement.id == this.collapseAllContainer.id) {
+                this.collapseAllTabs();
+                actionComplete = true;
+                
+            } else if (this.focusElement.id == this.expandAllContainer.id) {
+                this.expandAllTabs();
+                actionComplete = true;
+            }
+        } 
+        if (!actionComplete) { // has to be an accordion tab
+            if (this.focusElement) {
+                var props;
+                if (this.focusElement.selected) {
+                    var widget = dijit.byId(this.focusElement.id);
+                    widget.setSelected(false);
+                } else {
+                    var widget = dijit.byId(this.focusElement.id);
+                    widget.setSelected(true);
+                }
+             
+            }
+        }
+
+        if (webui.@THEME@.browser.isIe5up()) {
+            window.event.cancelBubble = true;
+            window.event.returnValue = false;
+        } else {
+            event.stopPropagation();
+            event.preventDefault();
+        }
+    } else if (keyCode == 9) {  // handle tabbing
+        
+        // Tabbing order:  refresh -> expand/collapse -> first tab header
+        // -> first tabable element in tab content (if tab is open)
+        // -> tab out of the accordion completely. Reverse tabbing order
+        // is also supported.
+        
+        var forward = true;
+        if (event.shiftKey) {
+            forward = false;
+        }
+        if (this.focusElement) {
+            var focusSet = false;
+            if (this.isRefreshIcon) {
+                if (this.focusElement.id == this.refreshNodeContainer.id) {
+                    if (forward) {
+                        if (this.toggleControls && this.multipleSelect) {
+                            this.focusElement = this.collapseAllContainer;
+                            this.setFocusStyleClass(this.collapseAllContainer.id);
+                            this.setBlurStyleClass(this.refreshNodeContainer.id);
+                            focusSet = true;
+                            return true;
+                        } else {
+                            this.focusElement = this.tabs[0];
+                            this.setBlurStyleClass(this.refreshNodeContainer.id);
+                            this.setTabFocus(this.focusElement.id);
+                            focusSet = true;
+                            return true;
+                        }
+                    } else {
+                        this.focusElement = null;
+                        this.setBlurStyleClass(this.refreshNodeContainer.id);
+                        focusSet = true;
+                        return true;
+                    }
+                }
+            }
+
+            if (!focusSet && this.toggleControls && this.multipleSelect) {
+
+                if (this.focusElement.id == this.collapseAllContainer.id) {
+                    if (forward) {
+                        this.focusElement = this.expandAllContainer;
+                        this.setBlurStyleClass(this.collapseAllContainer.id);
+                        this.setFocusStyleClass(this.expandAllContainer.id);
+                        focusSet = true;
+                    } else {
+                        this.focusElement = this.refreshNodeContainer;
+                        this.setFocusStyleClass(this.refreshNodeContainer.id);
+                        this.setBlurStyleClass(this.collapseAllContainer.id);
+                        focusSet = true;
+                    }
+                } else if (this.focusElement.id == this.expandAllContainer.id) {
+                    if (forward) {
+                        this.focusElement = this.tabs[0];
+                        this.setTabFocus(this.focusElement.id);
+                        this.setBlurStyleClass(this.expandAllContainer.id);
+                        focusSet = true;
+                    } else {
+                        this.focusElement = this.collapseAllContainer;
+                        this.setFocusStyleClass(this.collapseAllContainer.id);
+                        this.setBlurStyleClass(this.expandAllContainer.id);
+                        focusSet = true;
+                    }
+                } 
+            }
+
+            if (!focusSet) { // focus is on a tab
+                if (forward) {  
+                    var widget = dijit.byId(this.focusElement.id);
+                    if ((widget.getProps().selected == false) ||
+                        (widget.focusState == "end")) {
+                        
+                        // simply move out of the accordion if tab is closed
+                        // or tab is open but user has navigated to the end of
+                        // the content section.
+                        
+                        for (var i = 0; i < this.tabs.length; i++) {
+                            if (this.tabs[i].id == this.focusElement.id) {
+                                var newIndex = (i + 1);
+                                if (newIndex == this.tabs.length) {
+                                    this.updateFocus(null);
+                                    return true;
+                                }
+                                this.updateFocus(this.tabs[newIndex]);
+                                focusSet = true;
+                                return true;
+                            }
+                        }
+
+                    }
+                    focusSet = true;
+                    
+                } else {    // move to the expand/collapse/refresh icons
+                    
+                    this.setTabBlur(this.focusElement.id);
+                    if (this.toggleControls && this.multipleSelect) {
+                        this.focusElement = this.expandAllContainer;
+                        this.setFocusStyleClass(this.expandAllContainer.id);
+                    } else { 
+                        this.focusElement = this.refreshNodeContainer;
+                        this.setFocusStyleClass(this.refreshNodeContainer.id);
+                    }
+                    focusSet = true;
+                    return true;
+                }
+            }
+
+        } else { //get focus to the first element
+            var focusSet = false;
+            if (this.isRefreshIcon) {
+               this.focusElement = this.refreshNodeContainer;
+               this.setFocusStyleClass(this.refreshNodeContainer.id);
+               focusSet = true;
+            }
+            if (!focusSet && this.toggleControls && this.multipleSelect) {
+                this.focusElement = this.collapseAllContainer;
+                this.setFocusStyleClass(this.collapseAllContainer.id);
+                focusSet = true;
+            } 
+            if (!focusSet) {
+                this.focusElement = this.tabs[0];
+                this.setTabFocus(this.focusElement.id);
+            }
+            
+        } 
+    } 
+    return true;
+}
+
+/**
+ * This function updates the focused node within the accordion.
+ * The old focus element is blurred and the new focus element is
+ * set to focus. Appropriate style selectors are applied. 
+ * @param (String) newFocusNode The new focus node.
+ * @return {boolean} true if successful; otherwise, false.
+ */
+webui.@THEME@.widget.accordion.prototype.updateFocus = function(newFocusNode) {
+
+    if (this.focusElement) {
+        if (this.focusElement.id == this.refreshNodeContainer.id) {
+            this.setBlurStyleClass(this.refreshNodeContainer.id);
+        } else if (this.focusElement.id == this.collapseAllContainer.id) {
+            this.setBlurStyleClass(this.collapseAllContainer.id);
+        } else if (this.focusElement.id == this.expandAllContainer.id) {
+            this.setBlurStyleClass(this.expandAllContainer.id);
+        } else {
+            for (var i = 0; i < this.tabs.length; i++) {
+                if (this.tabs[i].id == this.focusElement.id) {
+                    this.setTabBlur(this.tabs[i].id);
+                    break;
+                }
+            }
+        }
+    }
+    
+    // set the new focusElement and then the associate syles etc.
+    if (newFocusNode) {
+        this.focusElement = newFocusNode;
+        if (this.focusElement.id == this.refreshNodeContainer.id) {
+                this.setFocusStyleClass(this.refreshNodeContainer.id);
+        } else if (this.focusElement.id == this.collapseAllContainer.id) {
+                this.setFocusStyleClass(this.collapseAllContainer.id);
+        } else if (this.focusElement.id == this.expandAllContainer.id) {
+                this.setFocusStyleClass(this.expandAllContainer.id);
+        } else {
+            for (var i = 0; i < this.tabs.length; i++) {
+                if (this.tabs[i].id == this.focusElement.id) {
+                    this.setTabFocus(this.tabs[i].id);
+                    break;
+                }
             }
         }
     }

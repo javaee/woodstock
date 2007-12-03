@@ -1718,11 +1718,11 @@ a.WizStpLnk@THEME_CSS@:hover {
     color: #333333; 
 }
 
-.AccdTabExpanded@THEME_CSS@ a:hover {
+.AccdTabExpanded@THEME_CSS@ a:hover, .AccdTabExpanded_Focus@THEME_CSS@ {
     background: #5b87a5 url(../images/accordion/tab_expanded_gradient.png) repeat-x top;
 }
 
-.AccdTabCollapsed@THEME_CSS@ a:hover {
+.AccdTabCollapsed@THEME_CSS@ a:hover, .AccdTabCollapsed_Focus@THEME_CSS@ {
     background: #f1f3f6 url(../images/accordion/tab_collapsed_gradient.png) repeat-x top;
 }
 
@@ -1739,6 +1739,16 @@ a.WizStpLnk@THEME_CSS@:hover {
 }
 
 .AccdTabCollapsed@THEME_CSS@ .AccdRightTurner@THEME_CSS@ {
+    background: transparent url(../images/accordion/tab_collapsed_turner.png);
+    cursor: pointer;
+}
+
+.AccdTabExpanded_Focus@THEME_CSS@ .AccdDownTurner@THEME_CSS@ {
+    background: transparent url(../images/accordion/tab_expanded_turner.png);
+    cursor: pointer;
+}
+
+.AccdTabCollapsed_Focus@THEME_CSS@ .AccdRightTurner@THEME_CSS@ {
     background: transparent url(../images/accordion/tab_collapsed_turner.png);
     cursor: pointer;
 }
