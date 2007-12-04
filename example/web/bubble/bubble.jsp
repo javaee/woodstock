@@ -40,7 +40,7 @@
             <!-- Bread Crumb Component -->
             <webuijsf:breadcrumbs id="breadcrumbs">
               <webuijsf:hyperlink actionExpression="#{LabelBean.showExampleIndex}" 
-                text="#{msgs.exampleTitle}"
+                text="#{msgs.exampleTitle}" 
                 onMouseOver="javascript:window.status='#{msgs.index_breadcrumbMouseOver}'; return true;"
                 onMouseOut="javascript: window.status=''; return true" />
               <webuijsf:hyperlink text="#{msgs.bubble_text}"/>
@@ -49,11 +49,12 @@
             <!-- Page Title -->
             <webuijsf:contentPageTitle title="#{msgs.bubble_title}">
               <webuijsf:staticText style="margin-left:10px;" id="static" 
-                    text="#{msgs.bubble_helpText}"/>                 
-                   <webuijsf:hyperlink id="pageHelpLink2"
-                     text="#{msgs.bubble_imageLinkText}"
+                    text="#{msgs.bubble_helpText}" />                 
+                   <webuijsf:hyperlink id="pageHelpLink2" 
+                     text="#{msgs.bubble_imageLinkText}" 
                      onMouseOver="document.getElementById('form1:bubble1').open(event);"
                      onMouseOut="document.getElementById('form1:bubble1').close();"
+                     onKeyDown="document.getElementById('form1:bubble1').open(event);"
                      onClick="return false;"/>             
             </webuijsf:contentPageTitle>                       
             <br/>
@@ -66,6 +67,7 @@
                       <webuijsf:hyperlink id="basicBubble" 
                         onMouseOver="document.getElementById('form1:bubble2').open(event);" 
                         onMouseOut="document.getElementById('form1:bubble2').close();"
+                        onKeyDown="document.getElementById('form1:bubble2').open(event);"
                         onClick="return false;"
                         text="#{msgs.bubble_basicBubble}"/>
                     </td>
@@ -82,6 +84,7 @@
                       <webuijsf:hyperlink id="linkBubble" 
                         onMouseOver="document.getElementById('form1:bubble3').open(event);" 
                         onMouseOut="document.getElementById('form1:bubble3').close();"
+                        onKeyDown="document.getElementById('form1:bubble3').open(event);"
                         onClick="return false;"
                         text="#{msgs.bubble_hyperlinkBubble}"/>
                     </td>                    
@@ -98,6 +101,7 @@
                     <webuijsf:hyperlink id="imageBubble" 
                         onMouseOver="document.getElementById('form1:bubble4').open(event);" 
                         onMouseOut="document.getElementById('form1:bubble4').close();"
+                        onKeyDown="document.getElementById('form1:bubble4').open(event);"
                         onClick="return false;"
                         text="#{msgs.bubble_imageBubble}"/>
                   </td>                 
@@ -114,6 +118,7 @@
                     <webuijsf:label id="closeBubble" 
                         onMouseOver="document.getElementById('form1:bubble5').open(event);" 
                         onMouseOut="document.getElementById('form1:bubble5').close();"
+                        
                         text="#{msgs.bubble_closeBubble}"/>
                   </td>                 
                 </tr>
@@ -130,7 +135,7 @@
               </webuijsf:bubble>
               
               <!-- Bubble with hyperlink -->
-              <webuijsf:bubble id="bubble3" title="#{msgs.bubble_titleText3}" >
+              <webuijsf:bubble id="bubble3"  focusId="anchor2" title="#{msgs.bubble_titleText3}" >
                   <webuijsf:panelLayout id="panel3">
                       <webuijsf:label labelLevel="1" text="#{msgs.bubble_anchorHeading}" 
                          id="anchorUrlLabel"/>          
@@ -138,6 +143,9 @@
                           text="#{msgs.hyperlink_anchorUrlHelp}" />
                       <webuijsf:anchor id="anchor2"  
                           text="#{msgs.hyperlink_anchorUrlText}" url="http://www.sun.com"/>
+                          <br/>
+                          <webuijsf:textField id="tf1" label="User Id" /><br/><br/>
+                       <webuijsf:textField id="tf2" label="Password:" />
                   </webuijsf:panelLayout>
               </webuijsf:bubble>
               
