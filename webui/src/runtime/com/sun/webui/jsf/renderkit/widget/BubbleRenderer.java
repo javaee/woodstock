@@ -88,6 +88,8 @@ public class BubbleRenderer extends RendererBase {
             .put("visible", bubble.isVisible()) //bubble help should not be visible initially.
             .put("autoClose", bubble.isAutoClose())
             .put("closeButton", bubble.isCloseButton())
+            .put("focusId", bubble.getFocusId())
+            .put("tabIndex", bubble.getTabIndex())
             .put("className", bubble.getStyleClass());
         
         JSONArray jArray = new JSONArray();

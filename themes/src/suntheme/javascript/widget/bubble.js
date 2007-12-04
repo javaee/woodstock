@@ -60,6 +60,7 @@ webui.@THEME@.widget.bubble.prototype.close = function() {
         // New literals are created every time this function is called, and it's 
         // saved by closure magic.
         dijit.byId(_id).setProps({visible: false});
+        dijit.byId(_id).srcElm.focus();
     }, this.defaultTime);
 
     return true;
@@ -119,6 +120,8 @@ webui.@THEME@.widget.bubble.prototype.getProps = function() {
     if (this.duration != null) { props.duration = this.duration; }
     if (this.closeButton != null) {props.closeButton = this.closeButton;}
     if (this.openDelay != null) {props.openDelay = this.openDelay;}
+    if (this.focusId != null) {props.focusId = this.focusId;}
+    if (this.tabIndex != null) {props.tabIndex = this.tabIndex;}
     
     return props;
 }
@@ -148,6 +151,7 @@ webui.@THEME@.widget.bubble.prototype.onClickCallback = function(event) {
     if (this.closeBtn == target) {
         clearTimeout(this.timerId);
         this.setProps({visible: false});
+        this.srcElm.focus();
     }
     return true;
 }
@@ -162,14 +166,71 @@ webui.@THEME@.widget.bubble.prototype.onCloseCallback = function(event) {
     if (event == null) {
         return false;
     }
+    
     if ((event.type == "keydown" && event.keyCode == 27)
             || event.type == "click") {
         clearTimeout(this.timerId); 
-        this.setProps({visible: false});  
+        
+        if (this.srcElm != null && this.getProps().visible) {
+            this.srcElm.focus();
+        }      
+        this.setProps({visible: false});
     }
     return true;
 }
 
+/**
+ * Helper function to create callback for shift + tab event.
+ * Shift+Tab should not allow user to tab out of bubble component.
+ * @param {Event} event The JavaScript event.
+ * @return {boolean} true if successful; otherwise, false.
+ */
+webui.@THEME@.widget.bubble.prototype.onShftTabCallback = function(event) {
+    if (event == null) {
+        return false;
+    }
+    event = this.widget.getEvent(event);
+
+    var target = (event.target)
+        ? event.target 
+        : ((event.srcElement) 
+            ? event.srcElement : null);
+    if (target == this.bubbleHeader) {                    
+        if (webui.@THEME@.browser.isFirefox() && (event.shiftKey && (event.keyCode == 9))) {
+            if (this.focusId != null) {
+                document.getElementById(this.focusId).focus();        
+            } else {                
+                 this.bubbleHeader.focus();
+            }
+            event.stopPropagation();
+            event.preventDefault(); 
+        }
+     }       
+                           
+}
+
+/**
+ * Helper function to create callback for tab event.
+ * Cyclic tabbing behavior is implemented for bubble to prevent tab out of bubble component. 
+ * @param {Event} event The JavaScript event.
+ * @return {boolean} true if successful; otherwise, false.
+ */
+webui.@THEME@.widget.bubble.prototype.onTabCallback = function(event) {
+    if (event == null) {
+        return false;
+    }
+    event = this.widget.getEvent(event);
+
+    var target = (event.target)
+        ? event.target 
+        : ((event.srcElement) 
+            ? event.srcElement : null);
+            
+    if (webui.@THEME@.browser.isFirefox() && (this.contentEnd == target)) {
+        this.bubbleHeader.focus();
+    }
+ } 
+    
 /**
  * Helper function to create callback for onMouseOver event.
  *
@@ -204,14 +265,21 @@ webui.@THEME@.widget.bubble.prototype.onMouseOutCallback = function(event) {
 webui.@THEME@.widget.bubble.prototype.open = function(event) {
     // Get the absolute position of the target.
     var evt = this.widget.getEvent(event);
-
-    this.target = (evt.target) 
+    // A11Y - open the bubble if its Ctrl key + F1
+    if (evt.type == "keydown") {
+        if (!(evt.ctrlKey && (evt.keyCode == 112))) {
+            return;
+        }
+        evt.stopPropagation();
+        evt.preventDefault();  
+    }
+    this.srcElm = (evt.target) 
         ? evt.target : ((evt.srcElement) 
             ? evt.srcElement : null);
 
-    var absPos = this.widget.getPosition(this.target);
-    this.target.targetLeft = absPos[0];
-    this.target.targetTop = absPos[1];
+    var absPos = this.widget.getPosition(this.srcElm);
+    this.srcElm.targetLeft = absPos[0];
+    this.srcElm.targetTop = absPos[1];
    
     if (this.timerId != null) {
         clearTimeout(this.timerId);
@@ -285,7 +353,12 @@ webui.@THEME@.widget.bubble.prototype.postCreate = function () {
     // Close the popup if mouseout and autoClose is true if onmouseout and 
     // autoClose is true then close the bubble.
     dojo.connect(this.domNode, "onmouseout", this, "onMouseOutCallback");
-
+    
+    // The onfocus event for component body. This is needed to handle tab event. 
+    dojo.connect(this.contentEnd, "onfocus", this, "onTabCallback");
+    
+    // The onkeydown event for component body. This is needed to handle shift+tab event.
+    dojo.connect(this.domNode, "onkeydown", this, "onShftTabCallback");
     // Initialize the BubbleTitle width as a percentage of the bubble header.
         
     if (this.bubbleTitle != null) {
@@ -386,8 +459,8 @@ webui.@THEME@.widget.bubble.prototype.setPosition = function() {
         // bottomLeft callout arrow
         this.arrow = bottomLeftArrow;
 
-        // Try to position bubble to right of target.
-        var bubbleLeft = this.target.targetLeft + this.target.offsetWidth + this.bubbleLeftConst;
+        // Try to position bubble to right of srcElm.
+        var bubbleLeft = this.srcElm.targetLeft + this.srcElm.offsetWidth + this.bubbleLeftConst;
 
         // Check if right edge of bubble exceeds page boundary.
         var rightEdge = bubbleLeft + bubble.offsetWidth;
@@ -403,20 +476,20 @@ webui.@THEME@.widget.bubble.prototype.setPosition = function() {
             // back to bottomLeft arrow.  User will need to use scrollbars
             // to position bubble into view.
             if (bubbleLeft <= 0) {
-                bubbleLeft = this.target.targetLeft + this.target.offsetWidth + this.bubbleLeftConst;
+                bubbleLeft = this.srcElm.targetLeft + this.srcElm.offsetWidth + this.bubbleLeftConst;
                 this.arrow = bottomLeftArrow;
                 slidLeft = false;
             }
         }
 
-        // Try to position bubble above target
-        var bubbleTop = this.target.targetTop - bubble.offsetHeight;
+        // Try to position bubble above source element
+        var bubbleTop = this.srcElm.targetTop - bubble.offsetHeight;
 
         // Check if top edge of bubble crosses top page boundary
         if (bubbleTop <= 0) {
             // Shift bubble to bottom of target.  User may need to use scrollbars
             // to position bubble into view.
-            bubbleTop = this.target.targetTop + this.target.offsetHeight + this.bubbleLeftConst;
+            bubbleTop = this.srcElm.targetTop + this.srcElm.offsetHeight + this.bubbleLeftConst;
 
             // Use appropriate top arrow depending on left/right position.
             if (slidLeft == true)
@@ -440,6 +513,13 @@ webui.@THEME@.widget.bubble.prototype.setPosition = function() {
            if (this.arrow == topRightArrow) {
                this.arrow.style.top = -(bubble.offsetHeight - this.topConst) + "px";               
            }
+        }
+    }
+    if (this.focusId != null) {
+        document.getElementById(this.focusId).focus();        
+    } else {
+        if (webui.@THEME@.browser.isFirefox()) {
+            this.bubbleHeader.focus();
         }
     }
     return true;
@@ -473,7 +553,7 @@ webui.@THEME@.widget.bubble.prototype.setProps = function(props, notify) {
     if (props == null) {
         return false;
     }
-
+    
     // Replace contents -- do not extend.
     if (props.contents) {
         this.contents = null;
@@ -497,7 +577,12 @@ webui.@THEME@.widget.bubble.prototype._setProps = function(props) {
     if (props == null) {
         return false;
     }
-        
+    
+    if (this.getProps().tabIndex >= 0) {
+        this.contentEnd.tabIndex = this.getProps().tabIndex;
+    } else {
+        this.contentEnd.tabIndex = 0;
+    }   
     // Set title.
     if (props.title) {
         this.widget.addFragment(this.titleNode, props.title);

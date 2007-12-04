@@ -422,6 +422,74 @@ public class Bubble extends WebuiOutput {
     }
     
     /**
+     * <p>focusId is use to set the focus to the one of the elements inside bubble. 
+     *  By default focus is set to bubble header.</p>
+     */
+    @Property(name="focusId", displayName="focus Id", category="Appearance")
+    private String focusId = null;
+    
+    /**
+     * <p>focusId is use to set the focus to the one of the elements inside bubble. 
+     *  By default focus is set to bubble header.</p>
+     */
+    public String getFocusId() {
+        if (this.focusId != null) {
+            return this.focusId;
+        }
+        ValueBinding _vb = getValueBinding("focusId");
+        if (_vb != null) {
+            return (String) _vb.getValue(getFacesContext());
+        }
+        return null;
+    }
+    
+    /**
+     * <p>focusId is use to set the focus to the one of the elements inside bubble. 
+     *  By default focus is set to bubble header.</p>
+     * @see #getFocusId()
+     */
+    public void setFocusId(String focusId) {
+        this.focusId = focusId;
+    }
+    
+    /**
+     * <p>This tabIndex value is used for making bubble component accessible. The value must be one higher than the
+     * last tabIndex value provided to the bubble body element. </p>
+     */
+    @Property(name="tabIndex", displayName="Tab Index", category="Accessibility", editorClassName="com.sun.rave.propertyeditors.IntegerPropertyEditor")
+    private int tabIndex = Integer.MIN_VALUE;
+    private boolean tabIndex_set = false;
+
+    /**
+     * <p>This tabIndex value is used for making bubble component accessible. The value must be one higher than the
+     * last tabIndex value provided to the bubble body element. </p>
+     */
+    public int getTabIndex() {
+        if (this.tabIndex_set) {
+            return this.tabIndex;
+        }
+        ValueExpression _vb = getValueExpression("tabIndex");
+        if (_vb != null) {
+            Object _result = _vb.getValue(getFacesContext().getELContext());
+            if (_result == null) {
+                return Integer.MIN_VALUE;
+            } else {
+                return ((Integer) _result).intValue();
+            }
+        }
+        return Integer.MIN_VALUE;
+    }
+
+    /**
+     * <p>This tabIndex value is used for making bubble component accessible. The value must be one higher than the
+     * last tabIndex value provided to the bubble body element. </p>
+     */
+    public void setTabIndex(int tabIndex) {
+        this.tabIndex = tabIndex;
+        this.tabIndex_set = true;
+    }
+    
+    /**
      * <p>Restore the state of this component.</p>
      */
     public void restoreState(FacesContext _context,Object _state) {
@@ -443,14 +511,16 @@ public class Bubble extends WebuiOutput {
         this.closeButton_set = ((Boolean) _values[14]).booleanValue();
         this.openDelay = ((Integer) _values[15]).intValue();
         this.openDelay_set = ((Boolean) _values[16]).booleanValue();
-               
+        this.focusId = (String) _values[17];
+        this.tabIndex = ((Integer) _values[18]).intValue();
+        this.tabIndex_set = ((Boolean) _values[19]).booleanValue();
     }
     
     /**
      * <p>Save the state of this component.</p>
      */
     public Object saveState(FacesContext _context) {
-        Object _values[] = new Object[17];
+        Object _values[] = new Object[20];
         _values[0] = super.saveState(_context);        
         _values[1] = this.title;                
         _values[2] = this.style;
@@ -468,7 +538,9 @@ public class Bubble extends WebuiOutput {
         _values[14] = this.closeButton_set ? Boolean.TRUE : Boolean.FALSE;
         _values[15] = new Integer(this.openDelay);
         _values[16] = this.openDelay_set ? Boolean.TRUE : Boolean.FALSE;
-                
+        _values[17] = this.focusId;
+        _values[18] = new Integer(this.tabIndex);
+        _values[19] = this.tabIndex_set ? Boolean.TRUE : Boolean.FALSE;
         return _values;
     }
 }
