@@ -142,10 +142,7 @@
                         <webuijsf:helpInline id="anchorUrlHelp" 
                           text="#{msgs.hyperlink_anchorUrlHelp}" />
                       <webuijsf:anchor id="anchor2"  
-                          text="#{msgs.hyperlink_anchorUrlText}" url="http://www.sun.com"/>
-                          <br/>
-                          <webuijsf:textField id="tf1" label="User Id" /><br/><br/>
-                       <webuijsf:textField id="tf2" label="Password:" />
+                          text="#{msgs.hyperlink_anchorUrlText}" url="http://www.sun.com"/>                                               
                   </webuijsf:panelLayout>
               </webuijsf:bubble>
               
