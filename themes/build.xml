@@ -178,6 +178,10 @@
 	<exclude name="widget/dndContainer.js" />
 	<exclude name="widget/table2.js" />
 	<exclude name="theme/nls/"/>
+	<exclude name="webui.js"/>
+	<exclude name="webui-all.js"/>
+	<exclude name="webui-jsfx.js"/>
+	<exclude name="webui-jsfx-all.js"/>
     </patternset>
 
     <!-- "webui.js" -->
@@ -235,7 +239,7 @@
 	    <param name="_filter_" value="true"/>
 	    <param name="_fail-on-error_" value="true"/>
 
-	    <!-- we copy during js combining -->
+	    <!-- we copy js during combining -->
 	    <param name="_copy-javascript_" value="false"/>
         </antcall>
 
@@ -759,6 +763,7 @@
 	    description="Create a combined javascript file.">
 
 	<echo message="Combining ${_combined-file_}"/>
+	<delete file="${_combined-file_}"/>
 
 	<!-- create a "location" for portability -->
 	<property name="__from-dir-loc__"
@@ -806,8 +811,9 @@
 
     <!-- Parameters
 
-	_to-dir_ - root of the destination for combined files
-	_from-dir_ - the source of the javascipt files.
+	_to-dir_ - root of the destination for compressed files
+	_from-dir_ - the source of the uncompressed and
+	             filtered javascript files.
 
         Comment out build-compressJS in the build.properties file if you
         don't want to compress when modifying JavaScript files
