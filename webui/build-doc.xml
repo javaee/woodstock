@@ -395,7 +395,8 @@
     <java jar="${tlddoc.jar}" fork="true">
       <arg line="-d tlddocs"/>
       <arg line="${webui-tld}"/>
-      <arg line="-windowtitle &quot;Project Woodstock 4.1 Tag Library&quot;"/>
+      <arg line="-doctitle &quot;Project Woodstock ${ComponentVersion} Tag Library&quot;"/>
+      <arg line="-windowtitle &quot;Project Woodstock ${ComponentVersion} Tag Library&quot;"/>
       <classpath>
 	<path refid="tlddoc.jar"/>
       </classpath>
