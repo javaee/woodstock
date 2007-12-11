@@ -54,17 +54,16 @@ webui.@THEME@.widget.accordion.prototype.addControls = function(props) {
     if (props.toggleControls && props.multipleSelect) {
         // Set expand all image properties.
         if (props.expandAllImage) {
-            // Set properties.
-            // props.expandAllImage.id = this.expandAllImage.id; // Required for updateFragment().
-
             // Update/add fragment.
-            this.widget.updateFragment(this.expandAllImgContainer, props.expandAllImage);
+            this.widget.updateFragment(this.expandAllImgContainer, 
+                this.expandAllImage.id, props.expandAllImage);
         }
 
         // Set collapse all image properties.
         if (props.collapseAllImage) {
             // Update/add fragment.
-            this.widget.updateFragment(this.collapseAllImgContainer, props.collapseAllImage);
+            this.widget.updateFragment(this.collapseAllImgContainer,
+                this.collapseAllImage.id, props.collapseAllImage);
         }
         
         // a divider should only be added if expand/collapse icons exist.
@@ -74,7 +73,8 @@ webui.@THEME@.widget.accordion.prototype.addControls = function(props) {
     // Set refresh image properties.
     if (props.isRefreshIcon && props.refreshImage) {
         // Update/add fragment.
-        this.widget.updateFragment(this.refreshImgContainer, props.refreshImage);
+        this.widget.updateFragment(this.refreshImgContainer,
+            this.refreshImage.id, props.refreshImage);
     }
     return true;
 }
@@ -526,8 +526,8 @@ webui.@THEME@.widget.accordion.prototype.setTabFocus = function(nodeId) {
 
     // update the tab with the appropriate tabIndex
     var tabWidget = dijit.byId(nodeId);
-    var props = {id: nodeId, tabIndex: this.tabIndex};
-    this.widget.updateFragment(this.tabsContainer, props);
+    var props = {tabIndex: this.tabIndex};
+    this.widget.updateFragment(this.tabsContainer, nodeId, props);
 
     // set the style class to indicate that the tab is in focus.
     if (tabWidget.selected) {
@@ -538,7 +538,6 @@ webui.@THEME@.widget.accordion.prototype.setTabFocus = function(nodeId) {
     tabWidget.domNode.focus();
     return true;
 }
-
 
 /**
  * Set appropriate styles when a tab loses focus.

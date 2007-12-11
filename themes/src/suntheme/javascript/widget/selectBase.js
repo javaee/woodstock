@@ -380,11 +380,8 @@ webui.@THEME@.widget.selectBase.prototype._setProps = function(props) {
 
     // Set label properties.
     if (props.label) {
-        // Set properties.
-        props.label.id = this.label.id; // Required for updateFragment().
-
         // Update/add fragment.
-        this.widget.updateFragment(this.labelContainer, props.label);
+        this.widget.updateFragment(this.labelContainer, this.label.id, props.label);
 
         // Remove line break -- required for IE & cannot be updated once set.
         if (new Boolean(this.labelOnTop).valueOf() == true) {

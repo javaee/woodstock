@@ -265,11 +265,11 @@ webui.@THEME@.widget.label.prototype._setProps = function(props) {
         }
 
         // Set properties.
-        props.errorImage.id = this.errorImage.id; // Required for updateFragment().
         props.errorImage.visible = !this.valid;
 
         // Update/add fragment.
-        this.widget.updateFragment(this.errorImageContainer, props.errorImage);
+        this.widget.updateFragment(this.errorImageContainer, this.errorImage.id, 
+            props.errorImage);
     }
 
     // Set required image properties.
@@ -280,11 +280,11 @@ webui.@THEME@.widget.label.prototype._setProps = function(props) {
         }
 
         // Set properties.
-        props.requiredImage.id = this.requiredImage.id; // Required for updateFragment().
         props.requiredImage.visible = this.required;
 
         // Update/add fragment.
-        this.widget.updateFragment(this.requiredImageContainer, props.requiredImage);
+        this.widget.updateFragment(this.requiredImageContainer, 
+            this.requiredImage.id, props.requiredImage);
     }
 
     // Set contents.

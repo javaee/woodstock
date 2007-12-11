@@ -1108,36 +1108,36 @@ webui.@THEME@.widget.calendar.prototype._setProps = function(props) {
     // Set close link properties.
     if (props.closeButtonLink) {
         // Set properties.
-        props.closeButtonLink.id = this.closeButtonLink.id; // Required for updateFragment().
         props.closeButtonLink.onClick = 
             "dijit.byId('" + this.id + "').toggleCalendar();return false;";
         props.closeButtonLink.onKeyDown = 
             "dijit.byId('" + this.id + "').closeCalendar(event);return false;";       
 
         // Update/add fragment.
-        this.widget.updateFragment(this.closeButtonContainer, props.closeButtonLink);
+        this.widget.updateFragment(this.closeButtonContainer, 
+            this.closeButtonLink.id, props.closeButtonLink);
     }
 
     // Set decrease link properties.
     if (props.decreaseLink) {
         // Set properties.
-        props.decreaseLink.id = this.decreaseLink.id; // Required for updateFragment().
         props.decreaseLink.onClick = 
             "dijit.byId('" + this.id + "').decreaseMonth();return false;";
 
         // Update/add fragment.
-        this.widget.updateFragment(this.previousLinkContainer, props.decreaseLink);
+        this.widget.updateFragment(this.previousLinkContainer, 
+            this.decreaseLink.id, props.decreaseLink);
     }
 
     // Set increase link properties.
     if (props.increaseLink) {
         // Set properties.
-        props.increaseLink.id = this.increaseLink.id; // Required for updateFragment().
         props.increaseLink.onClick = 
             "dijit.byId('" + this.id + "').increaseMonth();return false;"
 
         // Update/add fragment.
-        this.widget.updateFragment(this.nextLinkContainer, props.increaseLink);
+        this.widget.updateFragment(this.nextLinkContainer, this.increaseLink.id, 
+            props.increaseLink);
     }
     
         var minDate = null;
@@ -1179,23 +1179,23 @@ webui.@THEME@.widget.calendar.prototype._setProps = function(props) {
     // Set month menu properties
     if (props.monthMenu) {                        
         // Set properties.
-        props.monthMenu.id = this.monthMenu.id; // Required for updateFragment().
         props.monthMenu.onChange =
             "dijit.byId('" + this.id + "').updateMonth(false);return false;";
                          
         // Update/add fragment.
-        this.widget.updateFragment(this.monthMenuContainer, props.monthMenu);
+        this.widget.updateFragment(this.monthMenuContainer, this.monthMenu.id,
+            props.monthMenu);
     }
 
     // Set year menu properties.
     if (props.yearMenu) {        
         // Set properties.
-        props.yearMenu.id = this.yearMenu.id; // Required for updateFragment().
         props.yearMenu.onChange =
             "dijit.byId('" + this.id + "').updateMonth(false);return false;";
 
         // Update/add fragment.
-        this.widget.updateFragment(this.yearMenuContainer, props.yearMenu);
+        this.widget.updateFragment(this.yearMenuContainer, this.yearMenu.id,
+            props.yearMenu);
     }
 
     // Set toggle link properties.
@@ -1214,13 +1214,12 @@ webui.@THEME@.widget.calendar.prototype._setProps = function(props) {
         }
 
         // Set properties.
-        props.toggleLink.id = this.toggleLink.id; // Required for updateFragment().
         props.toggleLink.disabled = this.disabled;
         props.toggleLink.onClick =
             "dijit.byId('" + this.id + "').toggleCalendar();return false;";
 
         // Update/add fragment.
-        this.widget.updateFragment(this.linkNode, props.toggleLink); 
+        this.widget.updateFragment(this.linkNode, this.toggleLink.id, props.toggleLink); 
     }
 
     // Set more properties.

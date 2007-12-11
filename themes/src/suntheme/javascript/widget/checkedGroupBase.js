@@ -214,12 +214,9 @@ webui.@THEME@.widget.checkedGroupBase.prototype._setProps = function(props) {
     }
 
     // Set label properties.
-    if (props.label) {     
-        // Set properties.
-        props.label.id = this.label.id; // Required for updateFragment().
-
+    if (props.label) {
         // Update/add fragment.
-        this.widget.updateFragment(this.labelContainer, props.label);
+        this.widget.updateFragment(this.labelContainer, this.label.id, props.label);
     }
 
     // Set contents.    

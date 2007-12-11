@@ -193,7 +193,8 @@ webui.@THEME@.widget.alarm.prototype._setProps = function(props) {
             indicator.image.visible = (indicator.type == this.type) ? true: false;
 
             // Update/add fragment.
-            this.widget.updateFragment(this.imageContainer, indicator.image, "last");
+            this.widget.updateFragment(this.imageContainer, indicator.image.id, 
+                indicator.image, "last");
         }
     }
 

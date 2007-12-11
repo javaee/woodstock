@@ -152,12 +152,11 @@ webui.@THEME@.widget.fieldBase.prototype._setProps = function(props) {
         }
         
         // Set properties.
-        props.label.id = this.label.id; // Required for updateFragment().
         props.label.required = this.required;
         props.label.valid = this.valid;
         
         // Update/add fragment.
-        this.widget.updateFragment(this.labelContainer, props.label);
+        this.widget.updateFragment(this.labelContainer, this.label.id, props.label);
     }
     
     // Set HTML input element class name.

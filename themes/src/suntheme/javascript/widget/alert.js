@@ -245,7 +245,8 @@ webui.@THEME@.widget.alert.prototype._setProps = function(props) {
             indicator.image.tabIndex = this.tabIndex;
 
             // Update/add fragment.
-            this.widget.updateFragment(this.imageContainer, indicator.image, "last");
+            this.widget.updateFragment(this.imageContainer, indicator.image.id, 
+                indicator.image, "last");
         }
     }
 

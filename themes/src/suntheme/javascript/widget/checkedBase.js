@@ -213,11 +213,10 @@ webui.@THEME@.widget.checkedBase.prototype._setProps = function(props) {
         }
 
         // Set properties.
-        props.image.id = this.image.id; // Required for updateWidget.
         props.image.className = this.getImageClassName();
 
         // Update/add fragment.
-        this.widget.updateFragment(this.imageContainer, props.image);
+        this.widget.updateFragment(this.imageContainer, this.image.id, props.image);
     } 
 
     // Set label properties.
@@ -228,11 +227,10 @@ webui.@THEME@.widget.checkedBase.prototype._setProps = function(props) {
         }
 
         // Set properties.
-        props.label.id = this.label.id; // Required for updateFragment().
         props.label.className = this.getLabelClassName();
 
         // Update/add fragment.
-        this.widget.updateFragment(this.labelContainer, props.label);
+        this.widget.updateFragment(this.labelContainer, this.label.id, props.label);
     }
 
     // Set more properties.

@@ -841,20 +841,21 @@ webui.@THEME@.widget.common = {
      * </p><p>
      * See webui.@THEME@.widget.label._setProps for example.
      * </p>
-     * @param {Node} domNode The DOM node used to add widget.
+     * @param {Node} domNode The DOM node used to add widget (default).
+     * @param {String} id The id of the widget to update, if available.
      * @param {Object} props Key-Value pairs of properties.
      * @param {String} position The position (e.g., "first", "last", etc.) to add widget.
      * @param {boolean} escape HTML escape static strings -- default is true.
      * @return {boolean} true if successful; otherwise, false.
      */
-    updateFragment: function(domNode, props, position, escape) {
+    updateFragment: function(domNode, id, props, position, escape) {
         if (props == null) {
             return false;
         }
 
         // Ensure props is not a string.
         var widget = (typeof props != 'string') 
-            ? dijit.byId(props.id) : null;
+            ? dijit.byId(id) : null;
 
         // Update widget or add fragment.
         if (widget && typeof widget.setProps == "function") {

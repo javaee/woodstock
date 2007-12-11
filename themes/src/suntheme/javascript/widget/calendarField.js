@@ -256,11 +256,11 @@ webui.@THEME@.widget.calendarField.prototype._setProps = function(props) {
         }
 
         // Set properties.
-        props.calendar.id = this.calendar.id; // Required for updateFragment().
         props.calendar.disabled = this.disabled;
         
         // Update/add fragment.
-        this.widget.updateFragment(this.calendarContainer, props.calendar); 
+        this.widget.updateFragment(this.calendarContainer, this.calendar.id,
+            props.calendar); 
     }
     
     // Set date format pattern help.
