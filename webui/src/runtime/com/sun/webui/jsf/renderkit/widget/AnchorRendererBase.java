@@ -167,12 +167,12 @@ public abstract class AnchorRendererBase extends RendererBase{
             JSONObject json)throws JSONException, IOException{
         JSONArray jArray = new JSONArray();
         json.put("contents", jArray);
-
-        String text = (String) component.getAttributes().get("text");
-        if (text != null && text.length() > 0) {
-            text = ConversionUtilities.convertValueToString(component, text);
+        String text = ConversionUtilities.convertValueToString(component, 
+                 component.getAttributes().get("text"));
+        
+        if (text.length() > 0) {
+            jArray.put(text);
         }
-        jArray.put(text);
         Iterator it = component.getChildren().iterator();
         while (it.hasNext()) {
             UIComponent child = (UIComponent) it.next();
