@@ -36,6 +36,7 @@
         <name>${componentInfo.tagName}</name>
         <tag-class>${componentInfo.tagClassQualifiedName}</tag-class>
         <body-content>JSP</body-content>
+        <description><![CDATA[${componentInfo.tagDescription}]]></description>
 
         <attribute>
             <name>binding</name>
@@ -43,6 +44,11 @@
             <deferred-value>
                 <type>${componentInfo.qualifiedName}</type>
             </deferred-value>
+            <description>
+                A ValueExpression that resolves to the UIComponent that corresponds
+                to this tag. This attribute allows the Java bean that contains the UIComponent 
+                to manipulate the UIComponent, its properties, and its children.
+            </description>
         </attribute>
 #foreach ($propertyInfo in $componentInfo.propertyInfoMap)
 #if ($propertyInfo.name == 'id' && $propertyInfo.attributeInfo)
@@ -75,6 +81,9 @@
                 <type>${escaper.escape($propertyInfo.type)}</type>
             </deferred-value>
 #end##if ($propertyInfo.type == 'javax.el.MethodExpression')
+#if ($propertyInfo.attributeInfo.description)
+            <description><![CDATA[${propertyInfo.attributeInfo.description}]]></description>
+#end
         </attribute>
 #end##if ($propertyInfo.attributeInfo)
 #end##foreach ($propertyInfo in $componentInfo.propertyInfoMap)
@@ -113,6 +122,9 @@
                 <type>${propertyInfo.type}</type>
             </deferred-value>
 #end##if ($propertyInfo.type == 'javax.el.MethodExpression')
+#if ($propertyInfo.attributeInfo.description)
+            <description><![CDATA[${propertyInfo.attributeInfo.description}]]></description>
+#end
         </attribute>
 #end##if ($propertyInfo.attributeInfo)
 #end##foreach ($propertyInfo in $componentInfo.inheritedPropertyInfoMap)

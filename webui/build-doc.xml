@@ -50,7 +50,7 @@
 
   <property name="tlddocs" value="${build}/tlddocs"/>
   <property name="webui-tld"
-	value="${build.classes}/META-INF/webui-jsf.tld"/>
+	value="${build}/gen/META-INF/taglib.tld"/>
 
   <!-- designtime javadoc properties -->
   <property name="designtime-javadocs" value="${javadocs}/designtime"/>

@@ -59,7 +59,11 @@ public class GeneratorFactory {
     public BeanInfoSourceGenerator getBeanInfoSourceGenerator() {
         return new BeanInfoSourceGeneratorImpl(this.velocityEngine);
     }
-    
+
+    public TldFileGenerator getTldFileGenerator() {
+        return new TldFileGeneratorImpl(this.velocityEngine);
+    }
+
     public TagLibFileGenerator getTagLibFileGenerator() {
         return new TagLibFileGeneratorImpl(this.velocityEngine);
     }

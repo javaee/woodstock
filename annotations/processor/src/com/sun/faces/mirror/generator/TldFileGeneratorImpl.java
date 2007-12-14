@@ -35,19 +35,18 @@ import org.apache.velocity.app.VelocityEngine;
 
 /**
  * An implementation of TagLibFileGenerator that creates the taglib file by
- * merging component info with a template file. For better performance, 
- * descriptions are not used in the template.
+ * merging component info with a template file.
  * 
  * @author gjmurphy
  */
-class TagLibFileGeneratorImpl extends TagLibFileGenerator {
+class TldFileGeneratorImpl extends TldFileGenerator {
     
-    static final String TEMPLATE = "com/sun/faces/mirror/generator/TagLib.template";
+    static final String TEMPLATE = "com/sun/faces/mirror/generator/Tld.template";
     
     VelocityEngine velocityEngine;
     
     
-    TagLibFileGeneratorImpl(VelocityEngine velocityEngine) {
+    TldFileGeneratorImpl(VelocityEngine velocityEngine) {
         this.velocityEngine = velocityEngine;
     }
     
@@ -87,7 +86,7 @@ class TagLibFileGeneratorImpl extends TagLibFileGenerator {
     
     @Override
     public String getFileName() {
-        return "taglib.xml";
+        return "taglib.tld";
     }
     
     @Override

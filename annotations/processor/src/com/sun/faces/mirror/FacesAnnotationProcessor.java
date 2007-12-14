@@ -643,6 +643,7 @@ class FacesAnnotationProcessor implements AnnotationProcessor {
                                     e.getMessage());
                         }
                     }
+                    // For better performance, no descriptions are output.
                     TagLibFileGenerator tagLibGenerator = generatorFactory.getTagLibFileGenerator();
                     tagLibGenerator.setDeclaredComponentInfoSet(this.declaredComponentSet);
                     tagLibGenerator.setNamespace(this.getNamespaceUri());
@@ -650,6 +651,15 @@ class FacesAnnotationProcessor implements AnnotationProcessor {
                     String fileName = tagLibGenerator.getFileName();
                     tagLibGenerator.setPrintWriter(filer.createTextFile(Filer.Location.CLASS_TREE, "", new File(fileName), "UTF-8"));
                     tagLibGenerator.generate();
+
+                    // To generate full TLD docs, descriptions are used.
+                    TldFileGenerator tldGenerator = generatorFactory.getTldFileGenerator();
+                    tldGenerator.setDeclaredComponentInfoSet(this.declaredComponentSet);
+                    tldGenerator.setNamespace(this.getNamespaceUri());
+                    tldGenerator.setNamespacePrefix(this.getNamespacePrefix());
+                    fileName = tldGenerator.getFileName();
+                    tldGenerator.setPrintWriter(filer.createTextFile(Filer.Location.CLASS_TREE, "", new File(fileName), "UTF-8"));
+                    tldGenerator.generate();
                 }
             }
         } catch (IOException e) {
