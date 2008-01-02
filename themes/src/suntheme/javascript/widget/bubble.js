@@ -172,7 +172,9 @@ webui.@THEME@.widget.bubble.prototype.onCloseCallback = function(event) {
         clearTimeout(this.timerId); 
         
         if (this.srcElm != null && this.getProps().visible) {
-            this.srcElm.focus();
+            if (this.srcElm.focus) {
+                this.srcElm.focus();
+            }
         }      
         this.setProps({visible: false});
     }
@@ -225,10 +227,16 @@ webui.@THEME@.widget.bubble.prototype.onTabCallback = function(event) {
         ? event.target 
         : ((event.srcElement) 
             ? event.srcElement : null);
-            
-    if (webui.@THEME@.browser.isFirefox() && (this.contentEnd == target)) {
-        this.bubbleHeader.focus();
+    if (webui.@THEME@.browser.isFirefox()) {        
+        if (this.contentEnd == target) {
+            this.bubbleHeader.focus();
+        } else if (this.bubbleHeader == target && this.focusId != null && (event.keyCode == 9)) {
+            document.getElementById(this.focusId).focus();            
+        }
+        event.stopPropagation();
+        event.preventDefault(); 
     }
+    return true;
  } 
     
 /**
@@ -354,8 +362,11 @@ webui.@THEME@.widget.bubble.prototype.postCreate = function () {
     // autoClose is true then close the bubble.
     dojo.connect(this.domNode, "onmouseout", this, "onMouseOutCallback");
     
-    // The onfocus event for component body. This is needed to handle tab event. 
+    // The onfocus event for contentEnd. This is needed to handle tab event. 
     dojo.connect(this.contentEnd, "onfocus", this, "onTabCallback");
+    
+    // The onkeydown event for bubbleHeader. This is needed to handle tab event. 
+    dojo.connect(this.bubbleHeader, "onkeydown", this, "onTabCallback");
     
     // The onkeydown event for component body. This is needed to handle shift+tab event.
     dojo.connect(this.domNode, "onkeydown", this, "onShftTabCallback");
@@ -577,12 +588,16 @@ webui.@THEME@.widget.bubble.prototype._setProps = function(props) {
     if (props == null) {
         return false;
     }
-    
-    if (this.getProps().tabIndex >= 0) {
-        this.contentEnd.tabIndex = this.getProps().tabIndex;
-    } else {
-        this.contentEnd.tabIndex = 0;
-    }   
+    //Cyclic focus behavior is supported for firefox browser only.
+    //If tabIndex values are provided for elements inside bubble then developer needs to set a valid tabIndex 
+    //value for bubble component to achieve cyclic focus behavior. 
+    if (webui.@THEME@.browser.isFirefox()) {
+        if (this.getProps().tabIndex >= 0) {
+            this.contentEnd.tabIndex = this.getProps().tabIndex;
+        } else {
+            this.contentEnd.tabIndex = 0;
+        }   
+    }
     // Set title.
     if (props.title) {
         this.widget.addFragment(this.titleNode, props.title);
