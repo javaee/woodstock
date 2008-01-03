@@ -2846,4 +2846,28 @@ span.rbcb@THEME_CSS@ input {
 .table2@THEME_CSS@.lite@THEME_CSS@ .paginationButtons@THEME_CSS@ {
 	line-height:1.8
 }
+
+
+/* Login related CSS */
+.logLblSvrNam@THEME_CSS@ {margin:0px 0px 5px 15px}
+.logTxtSvrNam@THEME_CSS@ {margin:0px 0px 5px 10px}
+.logLblStxt@THEME_CSS@ {margin:0px 0px 5px 15px}
+.logStxt@THEME_CSS@ {margin:0px 0px 5px 10px}
+.logUsrLbl@THEME_CSS@ {margin:4px 0px 6px 15px}
+.logUsrNam@THEME_CSS@ {margin:4px 0px 6px 10px}
+.logLbl@THEME_CSS@ {margin:0px 0px 3px 15px}
+.logInp@THEME_CSS@ {margin:0px 0px 3px 10px}
+.logLblLst@THEME_CSS@ {margin:0px 0px 10px 15px}
+.logInpLst@THEME_CSS@ {margin:0px 0px 10px 10px}
+.logBtn@THEME_CSS@ {margin:0px 0px 7px 10px}
+.logHlp@THEME_CSS@ {margin:0px 15px 7px 10px}
+.logErr@THEME_CSS@ {margin:5px 15px 5px 0px}
+.logCpy@THEME_CSS@ {width :720px;margin:5px 0px 50px;vertical-align:top}
+.logTxtCpy@THEME_CSS@ {font-size:10px;color:#fff;vertical-align:top}
+.LogBdy@THEME_CSS@ {background-color:#4A5C69;margin:0px}
+.LogTopBnd@THEME_CSS@ {background-color:#4A5C69}
+.LogCntTd@THEME_CSS@ {background-color:#fff;padding-top:120px}
+.LogBotBnd@THEME_CSS@ {background-color:#4A5C69}
+.LogMidBnd@THEME_CSS@ {background-color:#D4DCE1}
+
 /*---*/
