@@ -304,6 +304,13 @@
         <managed-bean-name>ImageBean</managed-bean-name>
         <managed-bean-class>com.sun.webui.jsf.example.image.ImageBean</managed-bean-class>
         <managed-bean-scope>session</managed-bean-scope>
+    </managed-bean>    
+    
+    <managed-bean>
+        <description>The backing bean for the Login example</description>
+        <managed-bean-name>LoginBean</managed-bean-name>
+        <managed-bean-class>com.sun.webui.jsf.example.login.LoginBean</managed-bean-class>
+        <managed-bean-scope>session</managed-bean-scope>
     </managed-bean>     
 
   <managed-bean>
@@ -941,4 +948,12 @@
       </navigation-case>   
    </navigation-rule>         
    
+   <!-- Navigation Cases for Login Example -->     
+   <navigation-rule>
+      <navigation-case>
+        <from-outcome>showLoginIndex</from-outcome>
+        <to-view-id>/login/index.jsp</to-view-id>
+        <redirect/>
+      </navigation-case>   
+   </navigation-rule>         
 </faces-config>

@@ -127,6 +127,7 @@
 	<pathelement location="${j2ee.jar}"/>
 	<pathelement location="${servlet-api.jar}"/>
 	<pathelement location="${ant.jar}"/>
+        <pathelement location="${json.jar}"/>
     </path>
 
     <!-- webui and theme jars including l10n jars -->

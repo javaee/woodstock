@@ -269,7 +269,18 @@ public class TableData {
                     "popupMenu/menu.jsp",
                     "popupMenu/menu.js",
                     "popupMenu/PopupMenuBackingBean.java"}
-	)          
+	),
+        new AppData("index_login", "index_loginConcepts", "showLoginIndex",
+                new String[] {
+                    "login/login1.jsp",
+                    "login/login2.jsp",
+                    "login/login3.jsp",
+                    "login/secondary.jsp",
+                    "login/LoginBean.java",
+                    "login/TestLoginModule.java",
+                    "login/TestLoginModule2.java",
+                    "login/TestLoginModule3.java"}
+        )
     };    
     
     /** Default constructor */
