@@ -753,6 +753,7 @@ public class ThemeStyles {
     public static final String BUBBLE_NOCLOSEBTN = "BUBBLE_NOCLOSEBTN";
     public static final String BUBBLE_TITLE = "BUBBLE_TITLE";
 
+    
     /**
      * Menu Styles
      */
@@ -769,7 +770,15 @@ public class ThemeStyles {
     public static final String MENU_ITEM_DISABLED = "MENU_ITEM_DISABLED";
     public static final String MENU_GROUP_HEADER = "MENU_GROUP_HEADER";
     public static final String MENU_SHADOW_CONTAINER = "MENU_SHADOW_CONTAINER";
+
+    /**
+     * Login Styles
+     */
     
+    public static final String LOGIN_DIV = "LOGIN_DIV";
+    public static final String LOGIN_LABEL_CLASS = "LOGIN_LABEL_CLASS";
+    public static final String LOGIN_BUTTON = "LOGIN_BUTTON";
+
     /**
      * Accordion Styles
      */

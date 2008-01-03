@@ -166,11 +166,16 @@ public class ThemeTemplates {
      * A template file that contains HTML for the accordion tab component.
      */
     public static final String ACCORDIONTAB = "accordionTab";
-    
-    /**
+
+   /**
      * A template file that contains HTML for the popupMenu component.
      */
     public static String POPUPMENU = "popupMenu";
+
+    /**
+     * A template file that contains HTML for the Login component.
+     */
+    public static final String LOGIN = "login";
     
     /**
      * This private constructor prevents this class from being instantiated
