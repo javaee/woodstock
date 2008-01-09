@@ -264,13 +264,24 @@ webui.@THEME@.widget.calendarField.prototype._setProps = function(props) {
     }
     
     // Set date format pattern help.
-    if (props.patternHelp) {
+    if (props.patternHelp) {                            
         // NOTE: If you set this value manually, text must be HTML escaped.
         this.widget.addFragment(this.inlineHelpNode, props.patternHelp);
     }
 
     // Set remaining properties.
     return this.inherited("_setProps", arguments);
+}
+
+// Cannot do this in the postCreate or setProps as the dom element hasnt yet been
+// created on the page. So, offsetWidth would return zero. 
+webui.@THEME@.widget.calendarField.prototype.startup = function () {
+    
+    // Adjust the size of the inline help text so that it fits to the
+    // size of the text field     
+    var width = this.fieldNode.offsetWidth;
+    this.inlineHelpNode.style.cssText ="width:"+width+"px;";
+    return this.inherited("startup", arguments);
 }
 
 /**

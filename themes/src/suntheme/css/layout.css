@@ -847,8 +847,8 @@ a.DatOthBldLnk@THEME_CSS@:link, a.DatOthBldLnk@THEME_CSS@:visited {
 .CalPopBtnDiv@THEME_CSS@ {
         position: relative;
 }
-.CalPopTxt@THEME_CSS@ {
-        width:12em;
+.CalPopTxt@THEME_CSS@ {         
+        padding-right:8px;
         padding-left:4px;
 }
 /*---*/
@@ -2871,3 +2871,4 @@ span.rbcb@THEME_CSS@ input {
 .LogMidBnd@THEME_CSS@ {background-color:#D4DCE1}
 
 /*---*/
+
