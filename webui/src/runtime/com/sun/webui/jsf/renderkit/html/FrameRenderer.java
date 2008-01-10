@@ -21,7 +21,7 @@
  */
 
  /*
-  * $Id: FrameRenderer.java,v 1.1 2007-02-16 01:38:00 bob_yennaco Exp $
+  * $Id: FrameRenderer.java,v 1.2 2008-01-10 16:46:34 danl Exp $
   */
 
 package com.sun.webui.jsf.renderkit.html;
@@ -180,7 +180,7 @@ public class FrameRenderer extends AbstractRenderer {
         
         // End the outermost "html" element
         if (!RenderingUtilities.isPortlet(context)) {
-            writer.write(" />"); //NOI18N
+            writer.endElement("frame"); //NOI18N
             writer.write("\n"); //NOI18N
         }
                 
