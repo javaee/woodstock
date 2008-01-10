@@ -783,7 +783,7 @@ webui.@THEME@.widget.common = {
             return false;
         }
         // Note: Using document.getElementById results in poor perfromance. 
-        var nodes = domNode.getElementsByTagName("SCRIPT");
+        var nodes = domNode.getElementsByTagName("script");
         var widgetProps = webui.@THEME@.widget.common._widgetProps;
         var replaceElement = webui.@THEME@.widget.common.replaceElement;
         if (widgetProps == null) {
@@ -793,7 +793,7 @@ webui.@THEME@.widget.common = {
         // If dealing with JSF facet fragments, we must search for span 
         // elements because IE strips HTML script elements from strings.
         if (nodes.length == 0) {
-            nodes = domNode.getElementsByTagName("SPAN");
+            nodes = domNode.getElementsByTagName("span");
             if (nodes.length == 0) {
                 return false;
             }
