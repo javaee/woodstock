@@ -250,6 +250,14 @@ webui.@THEME@.widget.common = {
         if (elementId == null || props == null) {
             return false;
         }
+        // Temp fix for ajaxZone. In this scenario script tags are stripped from
+        // innerHTML and evaluated separately. See replaceElements.
+        if (webui.@THEME@.widget.common._createOnLoad == false) {
+            var domNode = document.getElementById(elementId);
+            webui.@THEME@.widget.common.replaceElement(domNode, props);
+            return true;
+        }
+
         // Use Object as associative array.
         if (webui.@THEME@.widget.common._widgetProps == null) {
             webui.@THEME@.widget.common._widgetProps = new Object();
@@ -766,10 +774,23 @@ webui.@THEME@.widget.common = {
                 replaceElement(nodes[i], widgetProps[nodes[i].id]);
             }
         } else {
-            // Match widget props with parent id.
+            // Match parent id with widget props.
             for (var i = 0; i < nodes.length; i++) {
-                replaceElement(nodes[i], widgetProps[nodes[i].parentNode.id]);
+                var parent = nodes[i].parentNode;
+                if (parent) {
+                    replaceElement(parent, widgetProps[parent.id]);
+                    widgetProps[parent.id] = null; // Clean up.
+                }
             }
+            // Temp fix for ajaxZone. In this scenario script tags are stripped
+            // from innerHTML and evaluated separately. See createWidgetOnLoad.
+            setTimeout(function() {
+                // Note that replaceElements may also be called when adding JSF 
+                // facets, but won't get here. In theory, this property will be 
+                // set after all script tags have been processed. The setTimeout
+                // is used to help ensure all widget JavaScript has completed.
+                webui.@THEME@.widget.common._createOnLoad = false;
+            }, 10);
         }
         return true;
     },
