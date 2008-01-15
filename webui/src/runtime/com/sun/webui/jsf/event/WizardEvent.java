@@ -193,6 +193,7 @@ public class WizardEvent extends FacesEvent {
 	this.navigationSource = eventSource;
 	this.navigationEvent = event;
 	this.data = gotoStepId;
+	this.setStep(step);
     }
 
     /**
