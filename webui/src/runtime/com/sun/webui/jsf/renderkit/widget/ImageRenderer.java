@@ -205,7 +205,8 @@ public class ImageRenderer extends RendererBase {
         JSONObject json = new JSONObject();                       
         json.put("visible", image.isVisible())
             .put("alt", alt)
-            .put("title", image.getToolTip());
+            .put("title", image.getToolTip())
+            .put("style", style); // Overridden by setPngProperties.
 
         // If url is specified, do not output icon attribute.
         if (!urlFlag) {
@@ -214,10 +215,10 @@ public class ImageRenderer extends RendererBase {
 
         if (isPngAndIE(context, url)) {            
             setPngProperties(json, width, height, getTheme(), style, url);
-        } else {        
-            json.put("src", url)
-                .put("style", style);
+        } else if (urlFlag) {
+            json.put("src", url); // Don't output when icon is used.
         }
+
         if (width > 0) {
             json.put("width", width);
         }
@@ -270,9 +271,8 @@ public class ImageRenderer extends RendererBase {
      * @exception JSONException if a key/value error occurs
      */
     protected void setPngProperties(JSONObject json, int width, int height, 
-        Theme theme, String style, String url) throws JSONException, 
+            Theme theme, String style, String url) throws JSONException, 
             IOException {
-                       
         String imgHeight = null;
         String imgWidth = null;
 
@@ -285,15 +285,15 @@ public class ImageRenderer extends RendererBase {
         if (height >= 0) {
             imgHeight = Integer.toString(height);
         } else {
-            imgHeight =theme.getMessage("Image.defaultHeight");
+            imgHeight = theme.getMessage("Image.defaultHeight");
         }
         String IEStyle = theme.getMessage("Image.IEPngCSSStyleQuirk", 
-                new String[] {imgWidth, imgHeight, url});
+            new String[] {imgWidth, imgHeight, url});
         url = theme.getImagePath(ThemeImages.DOT);
         if (style == null) {
-           style =  IEStyle;
+            style = IEStyle;
         } else {
-            style=IEStyle+style;
+            style = IEStyle + style;
         }
         json.put("style", style);
         json.put("src", url);
@@ -316,19 +316,18 @@ public class ImageRenderer extends RendererBase {
     private boolean isPngAndIE(FacesContext context, String url) {
         ClientSniffer cs = ClientSniffer.getInstance(context);
         if (!cs.isIe() || cs.isIe7up()) {
-                     return false;
-        }         
-        //Sometimes encodeResourceURL(url) adds the session id to the
+            return false;
+        }
+
+        // Sometimes encodeResourceURL(url) adds the session id to the
         // image URL, make sure to take that in to account
-        //
         if (url.indexOf("sessionid") != -1){ //NOI18N
-            if (url.substring(0,url.indexOf(';')).
-		    endsWith(".png")) { //NOI18N
+            if (url.substring(0,url.indexOf(';')).endsWith(".png")) { //NOI18N
                 return true;
             }
         } else{ //</RAVE>
             if (url.endsWith(".png")) {
-                    return true;
+                return true;
             }
         }        
         return false;

@@ -158,10 +158,20 @@ webui.@THEME@.widget.image.prototype._setProps = function(props) {
     if (props == null) {
         return false;
     }
-    // Set properties.
-    if (props.icon != null) {
-        // To do: Fix for Safari.
 
+    // Style must be set first (e.g., for absolute positioning) -- some style
+    // properties may be overridden later by the combined image.
+    this.setCommonProps(this.domNode, props);
+
+    // Set properties.
+    if (props.src && this.icon) {
+        // Clear style properties if icon was previously set.
+        this.domNode.style.border = "";
+        this.domNode.style.backgroundImage = "";
+        this.domNode.style.backgroundPosition = "";
+        this.domNode.style.height = "";
+        this.domNode.style.width = "";
+    } else if (props.icon) {
         // IE6 has issues with "png" images. IE6 png issue can be fixed but that
         // needs an outermost <span> tag. 
         //
@@ -172,60 +182,45 @@ webui.@THEME@.widget.image.prototype._setProps = function(props) {
         //  margin-top:-26px; border: none; height:39px;width:13px;"/>
         // </span>
         //
-        // For now, skipping the combined image approach for IE6.
-        var _props = webui.@THEME@.theme.common.getImage(props.icon);
-        var mapKey = _props["map_key"];
-        var hcFlag = webui.@THEME@.widget.common.isHighContrastMode();
-        if (mapKey != null && !hcFlag && !webui.@THEME@.browser.isIe6()) {
-            var transImage = webui.@THEME@.theme.common.getImage("DOT");
-            var combinedImage = webui.@THEME@.theme.common.getImage(mapKey);        
-            if (_props['top'] != null 
-                    && (_props['actual_height'] == _props['height'] 
-                    && _props['actual_width'] == _props['width'])) {
+        // For now, skipping the combined image approach for IE6. Also need fix 
+        // for Safari.
+        var iconProps = webui.@THEME@.theme.common.getImage(props.icon);
+        var mapKey = iconProps['map_key'];
+        if (mapKey != null && !webui.@THEME@.browser.isIe6()
+                && !webui.@THEME@.widget.common.isHighContrastMode()) {
+            // Note: Comparing height/width against "actual" properties is not a
+            // valid test -- DOT images do not have defaults, for example.
+            if (iconProps['top'] != null && iconProps['actual_height'] != null 
+                    && iconProps['actual_width'] != null) {               
+                var transImage = webui.@THEME@.theme.common.getImage("DOT");
+                var combinedImage = webui.@THEME@.theme.common.getImage(mapKey);
 
-                props.style =
-                    "background-image:url(" + combinedImage["src"] + ");" +
-                    "background-position:" + 0 + "px" +  " " + 
-                    _props['top'] + "px" + ";" + "height:" +
-                    _props['actual_height'] + "px"+ ";" + "width:" + 
-                    _props['actual_width'] + "px" + "border:0" + ";";
+                // Set style properties.
+                this.domNode.style.border = "0";
+                this.domNode.style.backgroundImage = "url(" + combinedImage['src'] + ")";
+                this.domNode.style.backgroundPosition = "0px " + iconProps['top'] + "px";
+                this.domNode.style.height = iconProps['actual_height'] + "px";
+                this.domNode.style.width = iconProps['actual_width'] + "px";
 
-                _props["src"] = transImage["src"];
-                if (props != null) {
-                    props.src = transImage["src"];
-                }                
-                         
-            }           
+                // Set transparent image.
+                iconProps.src = transImage['src'];
+            }
         }
-    } 
+        // Assign all icon properties, even if combined image is not used.
+        Object.extend(props, iconProps);
+    }
+
     if (props.alt) { this.domNode.alt = props.alt; }
     if (props.align) { this.domNode.align = props.align; }
     if (props.border != null) { this.domNode.border = props.border; }
     if (props.height) { this.domNode.height = props.height; }
     if (props.hspace) { this.domNode.hspace = props.hspace; }
-    if (props.longDesc) { this.domNode.longDesc = props.longDesc; }
-    
-    if (props.src) {         
-        if (this.icon) {
-        // Clear style if icon was used previously.
-        this.domNode.style.backgroundImage = "";
-        this.domNode.style.backgroundPosition = "";
-        this.domNode.style.height = "";
-        }
-        if (this.domNode.src) {
-            this.icon = null; // Only one value is valid.
-        }
-        this.domNode.src = props.src; 
-    } else if (props.icon) {
-        // Don't set style if props.src is given.    
-        this.src = null; // Only one value is valid.
-    } 
-    
+    if (props.longDesc) { this.domNode.longDesc = props.longDesc; }    
+    if (props.src) { this.domNode.src = props.src; }   
     if (props.vspace) { this.domNode.vspace = props.vspace; }
     if (props.width) { this.domNode.width = props.width; }
 
     // Set more properties.
-    this.setCommonProps(this.domNode, props);
     this.setEventProps(this.domNode, props);
 
     // Set remaining properties.
