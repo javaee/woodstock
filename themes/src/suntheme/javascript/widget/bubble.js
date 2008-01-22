@@ -316,7 +316,7 @@ webui.@THEME@.widget.bubble.prototype.open = function(event) {
     }, this.openDelayTime);           
     
     if (this.duration != null && this.duration >= 0) {
-        this.defaultTime = duration;
+        this.defaultTime = this.duration;
     } 
     return true;
 }
