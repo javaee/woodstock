@@ -478,7 +478,7 @@ webui.@THEME@.widget.bubble.prototype.setPosition = function() {
         if (rightEdge > this.widget.getPageWidth()) {
 
             // Shift bubble to left side of target;  implies a bottomRight arrow.
-            bubbleLeft = this.target.targetLeft - bubble.offsetWidth;
+            bubbleLeft = this.srcElm.targetLeft - bubble.offsetWidth;
             this.arrow = bottomRightArrow;
             slidLeft = true;
 
