@@ -8563,6 +8563,289 @@ update components server-side: refresh("form1:id1,form2:id2,...")<br>
     </tag>
 
     <tag>
+        <name>login</name>
+
+        <description><![CDATA[ <p
+  style="color: rgb(0, 0, 0);"><span
+  style="text-decoration: line-through;"></span>Use
+ the <code>webuijsf:login</code> component to authenticate users.
+ By default the tag is linked to a JAAS(Java Authentication and Authorization Service) based infrastructure. Application developers can write
+LoginModule implementations suited to their needs. For more details on how to write JAAS LoginModule applications see the following link:
+<a href=http://java.sun.com/javase/6/docs/technotes/guides/security/jaas/JAASRefGuide.html>
+http://java.sun.com/javase/6/docs/technotes/guides/security/jaas/JAASRefGuide.html</a>. The JAAS configuration containing the LoginModule impl entries should be added to the config file if one exists or a new file should be created and specified using the appropriate Djava parameter.
+ 
+ The <code>webuijsf:login</code>
+ tag allows you to insert HTML elements like textfield, statictext,
+dropdowns, listboxes, labels to prompt users to enter authentication
+data. The prompts that need to be displayed are usually controlled at the server side by the loginModule implementation classes. 
+ <br></p><h3 style="color: rgb(0, 0, 0);">Configuring
+ the login tag <br></h3><p style="color: rgb(0, 0, 0);">
+ <p>Use the <code>serviceName</code>
+ attribute to identify the underlying authentication service.</p>
+<p> Use the <code>value</code> to capture the resuolt of the authentication process.
+For the default JAAS based backend the value of the authentication process is the 
+Subject object representing the authenticated Principal and credential objects.
+</p>
+<p> Use the <code>redirectURL</code> to specify a URL to redirect to after successful
+authentication.</p>
+<p> Set the <code>autoStart</code> attribute to true to initiate the 
+authentication process on its own without any client side intervention or 
+wait for some other client side entity to start the authentication process.
+ By default this attribute is set to true. In situations where the authentication
+ process needs to start based on other events happening on the client side this
+ attribute should be set to false and the appropriate client side API used to
+ fire up the process.</p>
+<br>
+
+<h3>Client-side JavaScript Functions</h3>
+<p>When the component is rendered, a DOM object corresponding to the
+component is created. Subscribing to well known events is the only way
+to interact with the login widget. The widget publishes events announcing
+success or failure of the authentication process. Applications should use
+these events to figure out what to do next. Applications can also use the
+authenticate() function to kick start the authentication process.<br>
+<br>
+<table style="text-align: left; width: 100%;" border="1" cellpadding="2"
+ cellspacing="2">
+  <tbody>
+    <tr>
+      <td style="vertical-align: top;"><code>getProps()</code></td>
+      <td style="vertical-align: top;">Use this function to get widget
+properties. Please see <code>setProps()</code> function for a list of
+supported properties.</td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top;"><code>authenticate()</code> </td>
+      <td style="vertical-align: top;">Use this function to start the 
+		authentication process if you do not want the process to start
+		when the page loads. 
+      <td>
+    </tr>
+    <tr>
+      <td><code>setProps(props)</code></td>
+      <td>Use this function to change any of the following supported
+properties. Generally, setProps() should only be called by function that 
+is handling the result of an authentication to the underlying server side.
+      <ul>
+        <li>id - ID of the login widget.</li>
+        <li>loginState - State of the authentication process.</li>
+        <li>autoStart - Flag indicating if authentication process should start on page load.</li>
+        <li>userData - JSON object containing user data that needs to be displayed as user prompt.</li>
+        <li>keys - JSON object representing the key value mapping for user data fields</li>
+        <li>style</li>
+        <li>tabIndex</li>
+        <li>className</li>
+       </ul>
+      </td>
+    </tr>
+  </tbody>
+</table>
+</p>
+<h3>Client Side JavaScript Events</h3>
+<p>
+Based on the result of the authentication process, some functions may
+publish event topics for custom AJAX implementations to listen for.
+See example2 below.</p>
+<br>
+<p>The following events are supported.<br>
+</p>
+<table style="text-align: left; width: 100%;" border="1" cellpadding="2"
+ cellspacing="2">
+  <tbody>
+    <tr>
+      <td> webui.suntheme.widget.login.event.authenticate.beginTopic </td>
+      <td> Event topic published before asynchronously authenticating the
+component. Supported properties include: <br>
+id: this.id,
+            loginState: this.loginState,
+            keys: this.keys,
+            endTopic: webui.@THEME@.widget.login.event.authenticate.endTopic
+
+      <ul>
+        <li>loginState - the current state of the authentication process</li>
+        <li>keys - the set of key value pairs representing user/credential information</li>
+        <li>id - The client id to process the event for</li>
+      </ul>
+      </td>
+    </tr>
+    <tr>
+      <td> webui.suntheme.widget.login.event.authenticate.endTopic </td>
+      <td> Event topic published after asynchronously authenticating the
+component. Supported properties include: See setProps() function.<br>
+      <ul>
+        <li>props - JSON object containing properties of the component.
+See
+setProps()
+function for details on properties and their usage</li>
+      </ul>
+      </td>
+    </tr>
+    <tr>
+      <td> webui.suntheme.widget.login.event.result.successTopic</td>
+      <td>Event topic published when the asynchronously submitted
+	authentication process has succeeded. Supported properties include:
+      <ul>
+        <li>id - The client id to process the event for</li>
+      </ul>
+      </td>
+    </tr>
+    <tr>
+      <td> webui.suntheme.widget.login.event.result.failureTopic</td>
+      <td>
+      <p>Event topic published when the asynchronously submitted
+	authentication process has failed. Supported properties include:</p>
+      <ul>
+	<li>id - The client id to process the event for</li>
+      </ul>
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+<br>
+<h3>Examples</h3>
+<h4> For all the examples below one of the following JAAS configuration
+     entries have been used. </h4>
+<pre>
+AppLogin1 {
+    com.sun.webui.jsf.example.login.TestLoginModule optional;
+};
+
+AppLogin2 {
+    com.sun.webui.jsf.example.login.TestLoginModule2 requisite;
+    com.sun.webui.jsf.example.login.TestLoginModule3 requisite;
+};
+</pre>
+<h4>Example 1: Basic login example with single LoginModule</h4>
+<pre>  &lt;webuijsf:login id="login1"  redirectURL="/example/faces/login/result.jsp" 
+            serviceName="AppLogin1" value="#{LoginBean.value}" /&gt;<br>   </pre>
+<h4>Example 2: Login example showing use of events</h4>
+<pre> 
+&lt;webuijsf:script&gt;
+        window.onload=init;
+        
+        function init() {
+            dojo.subscribe(webui.suntheme.widget.login.event.result.successTopic, 
+                this, handleEvent);
+            dojo.subscribe(webui.suntheme.widget.login.event.result.failureTopic, 
+                this, handleFailureEvent);
+        }
+        
+        this.handleEvent = function(id) {
+
+            var loc = document.location;
+            var newURL = loc.protocol + "//" + loc.host;
+            newURL = newURL + "/example/faces/login/result.jsp";
+            document.location.href = newURL;
+        }
+        
+        this.handleFailureEvent = function(id) {
+
+            var loc = document.location;
+            var newURL = loc.protocol + "//" + loc.host;
+            newURL = newURL + "/example/faces/login/failed.jsp";
+            document.location.href = newURL;
+        }
+
+    &lt;/webuijsf:script&gt;
+    
+    &lt;webuijsf:body&gt;
+    &lt;webuijsf:form id="form1"&gt;
+      &lt;webuijsf:masthead id="Masthead" productImageURL="/images/webconsole.png"
+            productImageDescription="Java Web Console" userInfo="test_user"
+            serverInfo="test_server" /&gt;
+      
+       <br/><br/>
+       
+        &lt;webuijsf:login id="login3" value="#{LoginBean.value}" serviceName="AppLogin1"/&gt;
+            
+        &lt;webuijsf:form&gt;
+    &lt;webuijsf:body&gt;
+
+</pre>
+<h4>Example 3: Login example using two LoginModule implementations.</h4>
+<pre>
+&lt;webuijsf:login id="login2" value="#{LoginBean.value}" serviceName="AppLogin2" /&gt;
+</pre>
+
+<h4>Example 4: Secondary login example</h4>
+<pre>
+          &lt;webuijsf:script&gt;
+            window.onload=init;
+
+            function init() {
+                dojo.subscribe(webui.suntheme.widget.login.event.result.successTopic, 
+                    this, handleSuccessEvent);
+                dojo.subscribe(webui.suntheme.widget.login.event.result.failureTopic, 
+                    this, handleFailureEvent);
+                
+            }
+
+            this.handleSuccessEvent = function(id) {
+                // show the common task page after successful authentication
+                var cts = document.getElementById("form1:ctp1");
+                cts.style.display = "block";
+            }
+            
+            this.handleFailureEvent = function(id) {
+                // show the retry button
+                
+                var loginDiv = document.getElementById("form1:secondary");
+                loginDiv.style.display = "none";
+                var btn = document.getElementById("form1:retry");
+                btn.style.display = "block";
+            }
+
+
+          &lt;webuijsf:script&gt;
+    
+      &lt;webuijsf:head&gt;
+      
+      &lt;webuijsf:body id="body" styleClass="#{themeStyles.CTS_BACKGROUND}">
+          
+       &lt;webuijsf:form id="form1"&gt;  
+           
+         &lt;webuijsf:login id="secondary" value="#{LoginBean.value}" serviceName="AppLogin1" /&gt;
+            
+            
+            &lt;webuijsf:button id="retry" text="Authentication Failed, Retry" toolTip="Try Authenticating Again"
+               style="display:none"
+              onClick="var login = document.getElementById('form1:login1'); login.style.display='block'; login.authenticate();" /&gt;
+                             
+       &lt;webuijsf:commonTasksSection style="display:none" id="ctp1">
+         &lt;webuijsf:commonTasksGroup id="taskGroup1" title="#{msgs.commontask_group1}"&gt;
+            &lt;webuijsf:commonTask id="task1" text="#{msgs.commontask_task1}"  
+                toolTip="#{msgs.commontask_task1}" actionExpression="#{commonTask.taskAction}"
+                target="_blank" icon="CTS_OVERVIEW"&gt;
+            &lt;webuijsf:commonTask&gt;
+            &lt;webuijsf:commonTask id="task2" text="#{msgs.commontask_task2}" toolTip="#{msgs.commontask_task2}"
+                onClick="popup();return false;" infoTitle="#{msgs.commontask_task2infotitle}"
+                infoText="#{msgs.commontask_task2infotext}" /&gt;
+        &lt;webuijsf:commonTasksGroup&gt;
+
+        &lt;webuijsf:commonTasksGroup id="taskGroup2"  title="#{msgs.commontask_group2}"&gt;
+            &lt;webuijsf:commonTask id="task3" text="#{msgs.commontask_task3}"  toolTip="#{msgs.commontask_task3}"
+                 onClick="popup();return false; "  infoLinkUrl="/faces/commontask/sample.jsp" 
+                  infoLinkText="#{msgs.commontask_infolinktext}" infoTitle="#{msgs.commontask_task3infotitle}" 
+                  infoText="#{msgs.commontask_task3infotext}"/&gt;
+             &lt;webuijsf:commonTask id="task4" text="#{msgs.commontask_task4}" onClick="popup();return false;"
+                 toolTip="#{msgs.commontask_task4}"/&gt;
+              &lt;webuijsf:commonTask id="task5" text="#{msgs.commontask_task5}" 
+                  onClick="popup();return false;" infoTitle="#{msgs.commontask_task5infotitle}"
+                  toolTip="#{msgs.commontask_task5}" infoText="#{msgs.commontask_task5infotext}"/&gt;
+        &lt;webuijsf:commonTasksGroup&gt;
+        
+      &lt;webuijsf:body>
+          &lt;webuijsf:script type="text/javascript">
+        function popup() {
+            var popupWin = window.open('/example/faces/commontask/sample.jsp','Test Page','scrollbars,resizable,width=650,height=500,top='+((screen.height - (screen.height/1.618)) - (500/2))+',left='+((screen.width-650)/2) ); 
+            popupWin.focus();
+        }
+    &lt;webuijsf:script&gt;
+</pre>
+]]></description>
+    </tag>
+    <tag>
         <name>markup</name>
 
         <description><![CDATA[ <p
