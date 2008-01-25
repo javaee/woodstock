@@ -294,7 +294,7 @@
 	</fileset>
         <pathelement location="${build.classes}"/>
       </classpath>
-      <doctitle><![CDATA[<h1>Woodstock</h1>]]></doctitle>
+      <doctitle><![CDATA[<h1>Project Woodstock ${ComponentVersion}</h1>]]></doctitle>
       <bottom><![CDATA[<i>Copyright &#169; 2008 Sun Microsystems, Inc. All Rights Reserved.</i>]]></bottom>
       <group title="Woodstock" packages="${pkg-prefix}.*"/>
     </javadoc>
@@ -359,7 +359,7 @@
 	</fileset>
         <pathelement location="${build.classes}"/>
       </classpath>
-      <doctitle><![CDATA[<h1>Woodstock</h1>]]></doctitle>
+      <doctitle><![CDATA[<h1>Project Woodstock ${ComponentVersion}</h1>]]></doctitle>
       <bottom><![CDATA[<i>Copyright &#169; 2008 Sun Microsystems, Inc. All Rights Reserved.</i>]]></bottom>
       <group title="Woodstock" packages="${pkg-prefix}.*"/>
     </javadoc>
