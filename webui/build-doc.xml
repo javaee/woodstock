@@ -17,7 +17,7 @@
  you own identifying information:
  "Portions Copyrighted [year] [name of copyright owner]"
  
- Copyright 2007 Sun Microsystems, Inc. All rights reserved.
+ Copyright 2008 Sun Microsystems, Inc. All rights reserved.
 -->
 
 <project name="sjwc-doc" default="netbeans" basedir=".">
@@ -253,7 +253,7 @@
       version="true"
       use="true"
       breakiterator="no"
-      windowtitle="Project Woodstock 4.1 Components">
+      windowtitle="Project Woodstock ${ComponentVersion} Components">
       <!-- bean directory -->
       <fileset dir="${webui-bean}">
         <patternset refid="webui-bean"/>
@@ -295,7 +295,7 @@
         <pathelement location="${build.classes}"/>
       </classpath>
       <doctitle><![CDATA[<h1>Woodstock</h1>]]></doctitle>
-      <bottom><![CDATA[<i>Copyright &#169; 2007 Sun Microsystems, Inc. All Rights Reserved.</i>]]></bottom>
+      <bottom><![CDATA[<i>Copyright &#169; 2008 Sun Microsystems, Inc. All Rights Reserved.</i>]]></bottom>
       <group title="Woodstock" packages="${pkg-prefix}.*"/>
     </javadoc>
   </target>
@@ -335,7 +335,7 @@
       version="true"
       use="true"
       breakiterator="no"
-      windowtitle="Woodstock">
+      windowtitle="Woodstock ${ComponentVersion}">
       <!-- Generated classes -->
       <packageset dir="${build}/gen/beaninfo">
         <include name="com/sun/webui/**"/>
@@ -360,7 +360,7 @@
         <pathelement location="${build.classes}"/>
       </classpath>
       <doctitle><![CDATA[<h1>Woodstock</h1>]]></doctitle>
-      <bottom><![CDATA[<i>Copyright &#169; 2007 Sun Microsystems, Inc. All Rights Reserved.</i>]]></bottom>
+      <bottom><![CDATA[<i>Copyright &#169; 2008 Sun Microsystems, Inc. All Rights Reserved.</i>]]></bottom>
       <group title="Woodstock" packages="${pkg-prefix}.*"/>
     </javadoc>
 
