@@ -657,6 +657,8 @@
 
 	<mkdir dir="${_to-dir_}"/>
 
+	<delete file="${_combined-file_}"/>
+
 	<!-- Should be a separate "copyCSS" -->
 	<!-- Copy and filter files into the temporary dir -->
 	<!--
