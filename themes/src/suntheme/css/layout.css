@@ -2613,11 +2613,9 @@ ul.MenuItems@THEME_CSS@ ul li .MenuItemDisabled@THEME_CSS@ .MenuItemLabel@THEME_
 	padding:0;
 }
 .table2@THEME_CSS@ th a.Hyp@THEME_CSS@ {
-	display:block;
 	padding:3px 0 2px;
 }
 .table2@THEME_CSS@ th a.Hyp@THEME_CSS@ span {
-	display:block;
 	height:100%;
 }
 /* Spanning Headers */

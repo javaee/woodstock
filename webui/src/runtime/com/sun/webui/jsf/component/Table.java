@@ -996,6 +996,49 @@ public class Table extends TableBase {
         this.internalVirtualForm = internalVirtualForm;
         this.internalVirtualForm_set = true;
     }
+    
+    /**
+     * Show the table pagination controls, which allow users to change which page is 
+     * displayed. The controls include an input field for specifying the page number, a 
+     * Go button to go to the specified page, and buttons for going to the first, last, 
+     * previous, and next page.
+     */
+    @Property(name="paginationControls", displayName="Show Pagination Controls", category="Appearance")
+    private boolean paginationControls = false;
+    private boolean paginationControls_set = false;
+
+    /**
+     * Show the table pagination controls, which allow users to change which page is 
+     * displayed. The controls include an input field for specifying the page number, a 
+     * Go button to go to the specified page, and buttons for going to the first, last, 
+     * previous, and next page.
+     */
+    public boolean isPaginationControls() {
+        if (this.paginationControls_set) {
+            return this.paginationControls;
+        }
+        ValueExpression _vb = getValueExpression("paginationControls");
+        if (_vb != null) {
+            Object _result = _vb.getValue(getFacesContext().getELContext());
+            if (_result == null) {
+                return false;
+            } else {
+                return ((Boolean) _result).booleanValue();
+            }
+        }
+        return false;
+    }
+
+    /**
+     * Show the table pagination controls, which allow users to change which page is 
+     * displayed. The controls include an input field for specifying the page number, a 
+     * Go button to go to the specified page, and buttons for going to the first, last, 
+     * previous, and next page.
+     */
+    public void setPaginationControls(boolean paginationControls) {
+        this.paginationControls = paginationControls;
+        this.paginationControls_set = true;
+    }
 
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     // State methods
@@ -1015,13 +1058,15 @@ public class Table extends TableBase {
         this.footerText = (String) _values[6];
         this.internalVirtualForm = ((Boolean) _values[7]).booleanValue();
         this.internalVirtualForm_set = ((Boolean) _values[8]).booleanValue();
+        this.paginationControls = ((Boolean) _values[9]).booleanValue();
+        this.paginationControls_set = ((Boolean) _values[10]).booleanValue();
     }
 
     /**
      * Save the state of this component.
      */
     public Object saveState(FacesContext _context) {
-        Object _values[] = new Object[9];
+        Object _values[] = new Object[11];
         _values[0] = super.saveState(_context);
         _values[1] = this.extraActionBottomHtml;
         _values[2] = this.extraActionTopHtml;
@@ -1031,6 +1076,8 @@ public class Table extends TableBase {
         _values[6] = this.footerText;
         _values[7] = this.internalVirtualForm ? Boolean.TRUE : Boolean.FALSE;
         _values[8] = this.internalVirtualForm_set ? Boolean.TRUE : Boolean.FALSE;
+        _values[9] = this.paginationControls ? Boolean.TRUE : Boolean.FALSE;
+        _values[10] = this.paginationControls_set ? Boolean.TRUE : Boolean.FALSE;
         return _values;
     }
 

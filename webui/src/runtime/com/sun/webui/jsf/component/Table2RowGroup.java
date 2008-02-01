@@ -78,6 +78,43 @@ public class Table2RowGroup extends TableRowGroupBase {
         }
         return super.getRendererType();
     }
+    
+    /**
+     * Use the paginationControls attribute to set pagination buttons. The default is to 
+     * show the pagination buttons.
+     */
+    @Property(name="paginationControls", displayName="Is pagination buttons", category="Appearance")
+    private boolean paginationControls = false;
+    private boolean paginationControls_set = false;
+
+    /**
+     * Use the paginationControls attribute to set pagination buttons. The default is to 
+     * show the pagination buttons.
+     */
+    public boolean isPaginationControls() {
+        if (this.paginationControls_set) {
+            return this.paginationControls;
+        }
+        ValueExpression _vb = getValueExpression("paginationControls");
+        if (_vb != null) {
+            Object _result = _vb.getValue(getFacesContext().getELContext());
+            if (_result == null) {
+                return false;
+            } else {
+                return ((Boolean) _result).booleanValue();
+            }
+        }
+        return true;
+    }
+
+    /**
+     * Use the paginationControls attribute to set pagination buttons. The default is to 
+     * show the pagination buttons.
+     */
+    public void setPaginationControls(boolean paginationControls) {
+        this.paginationControls = paginationControls;
+        this.paginationControls_set = true;
+    }
 
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     // Child methods
@@ -200,15 +237,19 @@ public class Table2RowGroup extends TableRowGroupBase {
         Object _values[] = (Object[]) _state;
         super.restoreState(_context, _values[0]);
         this.htmlTemplate = (String) _values[1];
+        this.paginationButtons = ((Boolean) _values[2]).booleanValue();
+        this.paginationButtons_set = ((Boolean) _values[3]).booleanValue();
     }
 
     /**
      * Save the state of this component.
      */
     public Object saveState(FacesContext _context) {
-        Object _values[] = new Object[2];
+        Object _values[] = new Object[4];
         _values[0] = super.saveState(_context);
         _values[1] = this.htmlTemplate;
+        _values[2] = this.paginationButtons ? Boolean.TRUE : Boolean.FALSE;
+        _values[3] = this.paginationButtons_set ? Boolean.TRUE : Boolean.FALSE;
         return _values;
     }
 }

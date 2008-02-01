@@ -102,11 +102,13 @@ public class Table2RowGroupRenderer extends RendererBase {
         JSONObject json = new JSONObject();
         json.put("className", group.getStyleClasses())
             .put("first", group.getFirst())
+            .put("page", group.getPage())
             .put("maxRows", group.getRows())
             .put("title", group.getToolTip())
             .put("totalRows", group.getRowCount())
+            .put("paginationControls",group.isPaginationControls())
             .put("visible", group.isVisible());
-
+        
         // Add attributes.
         JSONUtilities.addStringProperties(stringAttributes, group, json);
         setColumnProperties(context, group, json);

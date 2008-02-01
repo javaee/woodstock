@@ -1235,50 +1235,7 @@ public abstract class TableBase extends WebuiComponent
     public void setPaginateButton(boolean paginateButton) {
         this.paginateButton = paginateButton;
         this.paginateButton_set = true;
-    }
-
-    /**
-     * Show the table pagination controls, which allow users to change which page is 
-     * displayed. The controls include an input field for specifying the page number, a 
-     * Go button to go to the specified page, and buttons for going to the first, last, 
-     * previous, and next page.
-     */
-    @Property(name="paginationControls", displayName="Show Pagination Controls", category="Appearance")
-    private boolean paginationControls = false;
-    private boolean paginationControls_set = false;
-
-    /**
-     * Show the table pagination controls, which allow users to change which page is 
-     * displayed. The controls include an input field for specifying the page number, a 
-     * Go button to go to the specified page, and buttons for going to the first, last, 
-     * previous, and next page.
-     */
-    public boolean isPaginationControls() {
-        if (this.paginationControls_set) {
-            return this.paginationControls;
-        }
-        ValueExpression _vb = getValueExpression("paginationControls");
-        if (_vb != null) {
-            Object _result = _vb.getValue(getFacesContext().getELContext());
-            if (_result == null) {
-                return false;
-            } else {
-                return ((Boolean) _result).booleanValue();
-            }
-        }
-        return false;
-    }
-
-    /**
-     * Show the table pagination controls, which allow users to change which page is 
-     * displayed. The controls include an input field for specifying the page number, a 
-     * Go button to go to the specified page, and buttons for going to the first, last, 
-     * previous, and next page.
-     */
-    public void setPaginationControls(boolean paginationControls) {
-        this.paginationControls = paginationControls;
-        this.paginationControls_set = true;
-    }
+    }    
 
     /**
      * The element id used to set focus when the preferences panel is open.
@@ -1816,34 +1773,32 @@ public abstract class TableBase extends WebuiComponent
         this.onMouseOver = (String) _values[34];
         this.onMouseUp = (String) _values[35];
         this.paginateButton = ((Boolean) _values[36]).booleanValue();
-        this.paginateButton_set = ((Boolean) _values[37]).booleanValue();
-        this.paginationControls = ((Boolean) _values[38]).booleanValue();
-        this.paginationControls_set = ((Boolean) _values[39]).booleanValue();
-        this.preferencesPanelFocusId = (String) _values[40];
-        this.rules = (String) _values[41];
-        this.selectMultipleButton = ((Boolean) _values[42]).booleanValue();
-        this.selectMultipleButton_set = ((Boolean) _values[43]).booleanValue();
-        this.selectMultipleButtonOnClick = (String) _values[44];
-        this.sortPanelFocusId = (String) _values[45];
-        this.sortPanelToggleButton = ((Boolean) _values[46]).booleanValue();
-        this.sortPanelToggleButton_set = ((Boolean) _values[47]).booleanValue();
-        this.style = (String) _values[48];
-        this.styleClass = (String) _values[49];
-        this.summary = (String) _values[50];
-        this.tabIndex = ((Integer) _values[51]).intValue();
-        this.tabIndex_set = ((Boolean) _values[52]).booleanValue();
-        this.title = (String) _values[53];
-        this.toolTip = (String) _values[54];
-        this.visible = ((Boolean) _values[55]).booleanValue();
-        this.visible_set = ((Boolean) _values[56]).booleanValue();
-        this.width = (String) _values[57];
+        this.paginateButton_set = ((Boolean) _values[37]).booleanValue();        
+        this.preferencesPanelFocusId = (String) _values[38];
+        this.rules = (String) _values[39];
+        this.selectMultipleButton = ((Boolean) _values[40]).booleanValue();
+        this.selectMultipleButton_set = ((Boolean) _values[41]).booleanValue();
+        this.selectMultipleButtonOnClick = (String) _values[42];
+        this.sortPanelFocusId = (String) _values[43];
+        this.sortPanelToggleButton = ((Boolean) _values[44]).booleanValue();
+        this.sortPanelToggleButton_set = ((Boolean) _values[45]).booleanValue();
+        this.style = (String) _values[46];
+        this.styleClass = (String) _values[47];
+        this.summary = (String) _values[48];
+        this.tabIndex = ((Integer) _values[49]).intValue();
+        this.tabIndex_set = ((Boolean) _values[50]).booleanValue();
+        this.title = (String) _values[51];
+        this.toolTip = (String) _values[52];
+        this.visible = ((Boolean) _values[53]).booleanValue();
+        this.visible_set = ((Boolean) _values[54]).booleanValue();
+        this.width = (String) _values[55];
     }
 
     /**
      * Save the state of this component.
      */
     public Object saveState(FacesContext _context) {
-        Object _values[] = new Object[58];
+        Object _values[] = new Object[56];
         _values[0] = super.saveState(_context);
         _values[1] = this.align;
         _values[2] = this.augmentTitle ? Boolean.TRUE : Boolean.FALSE;
@@ -1881,27 +1836,25 @@ public abstract class TableBase extends WebuiComponent
         _values[34] = this.onMouseOver;
         _values[35] = this.onMouseUp;
         _values[36] = this.paginateButton ? Boolean.TRUE : Boolean.FALSE;
-        _values[37] = this.paginateButton_set ? Boolean.TRUE : Boolean.FALSE;
-        _values[38] = this.paginationControls ? Boolean.TRUE : Boolean.FALSE;
-        _values[39] = this.paginationControls_set ? Boolean.TRUE : Boolean.FALSE;
-        _values[40] = this.preferencesPanelFocusId;
-        _values[41] = this.rules;
-        _values[42] = this.selectMultipleButton ? Boolean.TRUE : Boolean.FALSE;
-        _values[43] = this.selectMultipleButton_set ? Boolean.TRUE : Boolean.FALSE;
-        _values[44] = this.selectMultipleButtonOnClick;
-        _values[45] = this.sortPanelFocusId;
-        _values[46] = this.sortPanelToggleButton ? Boolean.TRUE : Boolean.FALSE;
-        _values[47] = this.sortPanelToggleButton_set ? Boolean.TRUE : Boolean.FALSE;
-        _values[48] = this.style;
-        _values[49] = this.styleClass;
-        _values[50] = this.summary;
-        _values[51] = new Integer(this.tabIndex);
-        _values[52] = this.tabIndex_set ? Boolean.TRUE : Boolean.FALSE;
-        _values[53] = this.title;
-        _values[54] = this.toolTip;
-        _values[55] = this.visible ? Boolean.TRUE : Boolean.FALSE;
-        _values[56] = this.visible_set ? Boolean.TRUE : Boolean.FALSE;
-        _values[57] = this.width;
+        _values[37] = this.paginateButton_set ? Boolean.TRUE : Boolean.FALSE;       
+        _values[38] = this.preferencesPanelFocusId;
+        _values[39] = this.rules;
+        _values[40] = this.selectMultipleButton ? Boolean.TRUE : Boolean.FALSE;
+        _values[41] = this.selectMultipleButton_set ? Boolean.TRUE : Boolean.FALSE;
+        _values[42] = this.selectMultipleButtonOnClick;
+        _values[43] = this.sortPanelFocusId;
+        _values[44] = this.sortPanelToggleButton ? Boolean.TRUE : Boolean.FALSE;
+        _values[45] = this.sortPanelToggleButton_set ? Boolean.TRUE : Boolean.FALSE;
+        _values[46] = this.style;
+        _values[47] = this.styleClass;
+        _values[48] = this.summary;
+        _values[49] = new Integer(this.tabIndex);
+        _values[50] = this.tabIndex_set ? Boolean.TRUE : Boolean.FALSE;
+        _values[51] = this.title;
+        _values[52] = this.toolTip;
+        _values[53] = this.visible ? Boolean.TRUE : Boolean.FALSE;
+        _values[54] = this.visible_set ? Boolean.TRUE : Boolean.FALSE;
+        _values[55] = this.width;
         return _values;
     }
 }

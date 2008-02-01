@@ -62,7 +62,7 @@ webui.@THEME@.widget.jsfx.table2RowGroup = {
         });
         return true;
     },
-
+    
     /**
      * This function is used to update widgets.
      *
@@ -73,6 +73,7 @@ webui.@THEME@.widget.jsfx.table2RowGroup = {
      * @return {boolean} true if successful; otherwise, false.
      */
     scrollCallback: function(id, content, closure, xjson) {
+        
         if (id == null || content == null) {
             return false;
         }
@@ -84,20 +85,22 @@ webui.@THEME@.widget.jsfx.table2RowGroup = {
         var widget = dijit.byId(id);
         if (widget.first != xjson.first) {
             return;
-        }
-
+        }        
         // Add rows.
         widget.addRows(props.rows);
 
         // Publish an event for custom AJAX implementations to listen for.
-        dojo.publish(
+        
+    dojo.publish(
             webui.@THEME@.widget.table2RowGroup.event.scroll.endTopic, [props]);
         return true;
     }
 }
-
+    
 // Listen for Dojo Widget events.
 dojo.subscribe(webui.@THEME@.widget.table2RowGroup.event.refresh.beginTopic,
     webui.@THEME@.widget.jsfx.common, "processRefreshEvent");
 dojo.subscribe(webui.@THEME@.widget.table2RowGroup.event.scroll.beginTopic,
+    webui.@THEME@.widget.jsfx.table2RowGroup, "processScrollEvent");
+dojo.subscribe(webui.@THEME@.widget.table2RowGroup.event.pagination.next.beginTopic,
     webui.@THEME@.widget.jsfx.table2RowGroup, "processScrollEvent");
