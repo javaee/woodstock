@@ -26,7 +26,7 @@ xmlns:jsp="http://java.sun.com/JSP/Page" xmlns:webuijsf="http://www.sun.com/webu
   <webuijsf:page>
     <f:loadBundle basename="com.sun.webui.jsf.example.resources.Resources" var="msgs" />
     <webuijsf:html id="html">  
-      <webuijsf:head id="head" title="#{msgs.commontask_title}">                        
+      <webuijsf:head id="head" title="#{msgs.login_example4}">                        
         <webuijsf:link rel="shortcut icon" url="/images/favicon.ico" type="image/x-icon" />
           <webuijsf:script>
             window.onload=init;

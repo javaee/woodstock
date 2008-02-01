@@ -5,16 +5,28 @@
 <%@taglib uri="http://java.sun.com/jsf/html" prefix="h" %> 
 <f:view>
   <webuijsf:page>
-    <webuijsf:head title="Successful Authentication Page." />
+    <f:loadBundle basename="com.sun.webui.jsf.example.resources.Resources" var="msgs" />
+    <webuijsf:head title="#{msgs.login_success_page}" />
     <webuijsf:body>
     <webuijsf:form id="form1">
-      <webuijsf:masthead id="Masthead" productImageURL="/images/webconsole.png"
-            productImageDescription="Java Web Console" userInfo="test_user"
-            serverInfo="test_server" />
+      <webuijsf:masthead id="masthead"
+              productImageURL="/images/example_primary_masthead.png"
+              productImageHeight="40"
+              productImageWidth="188"
+              userInfo="test_user" 
+              serverInfo="test_server"
+              productImageDescription="#{msgs.mastheadAltText}" />
       
        <br/><br/>
        
-        Congratulations! You have been successfully authenticated.
+       <webuijsf:breadcrumbs id="breadcrumbs">
+                <webuijsf:hyperlink url="../index.jsp" text="#{msgs.index_title}"/>
+                <webuijsf:hyperlink url="index.jsp" text="#{msgs.login_indexTitle}"/>
+                <webuijsf:hyperlink url="result.jsp" text="#{msgs.login_success_page}"/>
+            </webuijsf:breadcrumbs>
+        
+        <br/><br/>
+        <webuijsf:staticText id="st1" text="#{msgs.login_success_summary}" />
         
         </webuijsf:form>
     </webuijsf:body>

@@ -5,7 +5,8 @@
 <%@taglib uri="http://java.sun.com/jsf/html" prefix="h" %> 
 <f:view>
   <webuijsf:page>
-    <webuijsf:head title="Test Login Page" debug="true"/>
+    <f:loadBundle basename="com.sun.webui.jsf.example.resources.Resources" var="msgs" />
+    <webuijsf:head title="#{msgs.login_example3}"/>
     
     <webuijsf:script>
         window.onload=init;
@@ -13,6 +14,16 @@
         function init() {
             dojo.subscribe(webui.suntheme.widget.login.event.result.successTopic, 
                 this, handleEvent);
+            dojo.subscribe(webui.suntheme.widget.login.event.result.failureTopic, 
+                this, handleFailureEvent);
+        }
+        
+               
+        this.handleFailureEvent = function(id) {
+
+            var div1 = document.getElementById("div1");
+            div1.style.visibility="visible";
+                        
         }
         
         this.handleEvent = function(id) {
@@ -20,7 +31,6 @@
             var loc = document.location;
             var newURL = loc.protocol + "//" + loc.host;
             newURL = newURL + "/example/faces/login/result.jsp";
-            // dojo.debug("forwarding to...: ", newURL);
             document.location.href = newURL;
         }
 
@@ -29,14 +39,52 @@
     
     <webuijsf:body>
     <webuijsf:form id="form2">
-      <webuijsf:masthead id="Masthead" productImageURL="/images/webconsole.png"
-            productImageDescription="Java Web Console" userInfo="test_user"
-            serverInfo="test_server" />
+      <webuijsf:masthead id="masthead"
+              productImageURL="/images/example_primary_masthead.png"
+              productImageHeight="40"
+              productImageWidth="188"
+              userInfo="test_user" 
+              serverInfo="test_server"
+              productImageDescription="#{msgs.mastheadAltText}" />
       
+            <webuijsf:breadcrumbs id="breadcrumbs">
+                <webuijsf:hyperlink url="../index.jsp" text="#{msgs.index_title}"/>
+                <webuijsf:hyperlink url="index.jsp" text="#{msgs.login_indexTitle}"/>
+                <webuijsf:hyperlink url="login3.jsp" text="#{msgs.login_example3}"/>
+            </webuijsf:breadcrumbs>
        <br/><br/>
        
         <webuijsf:login id="login2" value="#{LoginBean.value}" serviceName="AppLogin2" />
+        <br/><br/>
+        <div id="div1" style="visibility:hidden">
             
+            <webuijsf:staticText id="st1" text="#{msgs.login_page_reload}"/>
+            <p>
+            <webuijsf:staticText id="st2" text="#{msgs.login_msg1}"/>
+            </p> 
+            <p>
+            <webuijsf:staticText id="st3" text="#{msgs.login_msg2}"/>
+            </p>
+            <pre>
+            &lt;glassfish_install_dir&gt;/domains/your_domain/config/login.conf
+            </pre>
+            <br/>
+            <pre>
+            AppLogin1 {
+                com.sun.webui.jsf.example.login.TestLoginModule optional;
+            };
+            
+            AppLogin2 {
+                com.sun.webui.jsf.example.login.TestLoginModule2 requisite;
+                com.sun.webui.jsf.example.login.TestLoginModule3 requisite;
+            };
+            </pre>
+            <p>
+                <webuijsf:staticText id="st4" text="#{msgs.login_msg3}"/>
+            </p>
+            <pre>-Djava.security.auth.login.config=/path/to/file/login.conf</pre>
+            
+        </div>      
         </webuijsf:form>
     </webuijsf:body>
   </webuijsf:page>

@@ -5,7 +5,8 @@
 <%@taglib uri="http://java.sun.com/jsf/html" prefix="h" %> 
 <f:view>
   <webuijsf:page>
-    <webuijsf:head title="Test Login Page" debug="true"/>
+    <f:loadBundle basename="com.sun.webui.jsf.example.resources.Resources" var="msgs"/>
+    <webuijsf:head title="#{msgs.login_example2}"/>
     
     <webuijsf:script>
         window.onload=init;
@@ -37,10 +38,18 @@
     
     <webuijsf:body>
     <webuijsf:form id="form1">
-      <webuijsf:masthead id="Masthead" productImageURL="/images/webconsole.png"
-            productImageDescription="Java Web Console" userInfo="test_user"
-            serverInfo="test_server" />
-      
+      <webuijsf:masthead id="masthead"
+              productImageURL="/images/example_primary_masthead.png"
+              productImageHeight="40"
+              productImageWidth="188"
+              userInfo="test_user" 
+              serverInfo="test_server"
+              productImageDescription="#{msgs.mastheadAltText}" />
+      <webuijsf:breadcrumbs id="breadcrumbs">
+                <webuijsf:hyperlink url="../index.jsp" text="#{msgs.index_title}"/>
+                <webuijsf:hyperlink url="index.jsp" text="#{msgs.login_indexTitle}"/>
+                <webuijsf:hyperlink url="login2.jsp" text="#{msgs.login_example2}"/>
+            </webuijsf:breadcrumbs>
        <br/><br/>
        
         <webuijsf:login id="login3" value="#{LoginBean.value}" serviceName="AppLogin1"/>
