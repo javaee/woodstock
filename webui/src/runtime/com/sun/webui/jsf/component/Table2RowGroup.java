@@ -237,8 +237,8 @@ public class Table2RowGroup extends TableRowGroupBase {
         Object _values[] = (Object[]) _state;
         super.restoreState(_context, _values[0]);
         this.htmlTemplate = (String) _values[1];
-        this.paginationButtons = ((Boolean) _values[2]).booleanValue();
-        this.paginationButtons_set = ((Boolean) _values[3]).booleanValue();
+        this.paginationControls = ((Boolean) _values[2]).booleanValue();
+        this.paginationControls_set = ((Boolean) _values[3]).booleanValue();
     }
 
     /**
@@ -248,8 +248,8 @@ public class Table2RowGroup extends TableRowGroupBase {
         Object _values[] = new Object[4];
         _values[0] = super.saveState(_context);
         _values[1] = this.htmlTemplate;
-        _values[2] = this.paginationButtons ? Boolean.TRUE : Boolean.FALSE;
-        _values[3] = this.paginationButtons_set ? Boolean.TRUE : Boolean.FALSE;
+        _values[2] = this.paginationControls ? Boolean.TRUE : Boolean.FALSE;
+        _values[3] = this.paginationControls_set ? Boolean.TRUE : Boolean.FALSE;
         return _values;
     }
 }
