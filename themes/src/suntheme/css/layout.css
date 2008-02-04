@@ -1037,7 +1037,6 @@ a.MstLnkLft@THEME_CSS@:link, a.MstLnkLft@THEME_CSS@:visited, a.MstLnkRt@THEME_CS
 	padding:6px 10px 0px;
 } 
 a.Tab1Lnk@THEME_CSS@:link, a.Tab1Lnk@THEME_CSS@:visited  {
-	display:block;
 	padding:8px 15px 7px;
 	text-align:center;
 }
@@ -1097,7 +1096,6 @@ table.Tab2Tbl3New@THEME_CSS@ td.Tab2TblSelTd@THEME_CSS@ {
 	padding:6px 0px 0px 10px;
 }
 a.Tab2Lnk@THEME_CSS@:link, a.Tab2Lnk@THEME_CSS@:visited {
-	display:block;
 	padding:5px 15px 4px;
 	text-align:center;
 }
@@ -1133,7 +1131,6 @@ a.Tab2Lnk@THEME_CSS@:link, a.Tab2Lnk@THEME_CSS@:visited {
 	border-width:1px;
 }
 a.Tab3Lnk@THEME_CSS@:link,a.Tab3Lnk@THEME_CSS@:visited {
-	display:block;
 	padding:4px 15px 3px;
 	text-align:center;
 }
