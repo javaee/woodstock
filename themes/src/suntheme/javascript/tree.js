@@ -21,9 +21,10 @@
 // Copyright 2007 Sun Microsystems, Inc. All rights reserved.
 //
 
-dojo.provide("webui.@THEME@.tree");
+webui.@THEME@.dojo.provide("webui.@THEME@.tree");
 
-dojo.require("webui.@THEME@.theme.common");
+webui.@THEME@.dojo.require("webui.@THEME@.prototypejs");
+webui.@THEME@.dojo.require("webui.@THEME@.theme.common");
 
 /** 
  * @class This class contains functions for tree components.
@@ -49,7 +50,7 @@ webui.@THEME@.tree = {
         }
 
         // Set given properties on domNode.
-        Object.extend(domNode, props);
+        webui.@THEME@.prototypejs.extend(domNode, props, false);
 
 	// Set functions.
         domNode.clearAllHighlight = webui.@THEME@.tree.clearAllHighlight;
@@ -152,7 +153,7 @@ webui.@THEME@.tree = {
             // get the image widget to compare the actual icon values
             // as opposed to checking the name of the final rendered image.
             
-            var imgWidget = dijit.byId(imageId);
+            var imgWidget = webui.@THEME@.dijit.byId(imageId);
             var imgProps = imgWidget.getProps();
             var nodeIcon = imgProps.icon;
             
@@ -370,7 +371,7 @@ webui.@THEME@.tree = {
         // Ignore Tree Handles b/c they should not update highlighting
         
         if (elt.nodeName == "IMG") {
-            var imgWidget = dijit.byId(elt.id);
+            var imgWidget = webui.@THEME@.dijit.byId(elt.id);
             var imgProps = imgWidget.getProps();
             var nodeIcon = imgProps.icon;
             if (nodeIcon.indexOf("TREE_HANDLE_") != -1) {
@@ -483,7 +484,7 @@ webui.@THEME@.tree = {
         // type indicates the node is not expanded.
         if (node.nodeName == "IMG") {
         
-            var imgWidget = dijit.byId(node.id);
+            var imgWidget = webui.@THEME@.dijit.byId(node.id);
             var imgProps = imgWidget.getProps();
             var nodeIcon = imgProps.icon;
 

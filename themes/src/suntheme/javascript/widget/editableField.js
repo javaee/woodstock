@@ -21,9 +21,9 @@
 // Copyright 2007 Sun Microsystems, Inc. All rights reserved.
 //
 
-dojo.provide("webui.@THEME@.widget.editableField");
+webui.@THEME@.dojo.provide("webui.@THEME@.widget.editableField");
 
-dojo.require("webui.@THEME@.widget.textField");
+webui.@THEME@.dojo.require("webui.@THEME@.widget.textField");
 
 /**
  * @name webui.@THEME@.widget.editableField
@@ -31,7 +31,7 @@ dojo.require("webui.@THEME@.widget.textField");
  * @class This class contains functions for the editableField widget.
  * @constructor This function is used to construct a editableField widget.
  */
-dojo.declare("webui.@THEME@.widget.editableField", webui.@THEME@.widget.textField, {
+webui.@THEME@.dojo.declare("webui.@THEME@.widget.editableField", webui.@THEME@.widget.textField, {
     // Set defaults.
     edit: false,
     widgetName: "editableField" // Required for theme properties.
@@ -225,9 +225,9 @@ webui.@THEME@.widget.editableField.prototype.postCreate = function () {
     this.fieldNode.readOnly = true;
 
     // Set events.
-    dojo.connect(this.fieldNode, "ondblclick", this, "onEditCallback");
-    dojo.connect(this.fieldNode, "onblur", this, "onEditCallback");
-    dojo.connect(this.fieldNode, "onkeyup", this, "onEditCallback");
+    this.dojo.connect(this.fieldNode, "ondblclick", this, "onEditCallback");
+    this.dojo.connect(this.fieldNode, "onblur", this, "onEditCallback");
+    this.dojo.connect(this.fieldNode, "onkeyup", this, "onEditCallback");
 
     return this.inherited("postCreate", arguments);
 }

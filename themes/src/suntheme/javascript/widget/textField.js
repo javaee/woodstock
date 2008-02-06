@@ -21,9 +21,9 @@
 // Copyright 2007 Sun Microsystems, Inc. All rights reserved.
 //
 
-dojo.provide("webui.@THEME@.widget.textField");
+webui.@THEME@.dojo.provide("webui.@THEME@.widget.textField");
 
-dojo.require("webui.@THEME@.widget.fieldBase");
+webui.@THEME@.dojo.require("webui.@THEME@.widget.fieldBase");
 
 /**
  * @name webui.@THEME@.widget.textField
@@ -31,7 +31,7 @@ dojo.require("webui.@THEME@.widget.fieldBase");
  * @class This class contains functions for the textField widget.
  * @constructor This function is used to construct a textField widget.
  */
-dojo.declare("webui.@THEME@.widget.textField", webui.@THEME@.widget.fieldBase, {
+webui.@THEME@.dojo.declare("webui.@THEME@.widget.textField", webui.@THEME@.widget.fieldBase, {
     // Set defaults.
     widgetName: "textField" // Required for theme properties.
 });
@@ -145,7 +145,7 @@ webui.@THEME@.widget.textField.prototype.postCreate = function () {
     // Set events.
     if (this.autoValidate == true) {
         // Generate the following event ONLY when 'autoValidate' == true.
-        dojo.connect(this.fieldNode, "onblur", this, "validate");
+        this.dojo.connect(this.fieldNode, "onblur", this, "validate");
     }
     return this.inherited("postCreate", arguments);
 }
@@ -219,7 +219,7 @@ webui.@THEME@.widget.textField.prototype.validate = function(event) {
         return false;
     }
     // Publish an event for custom AJAX implementations to listen for.
-    dojo.publish(webui.@THEME@.widget.textField.event.validation.beginTopic, [{
+    this.publish(webui.@THEME@.widget.textField.event.validation.beginTopic, [{
         id: this.id
     }]);
     return true;

@@ -21,9 +21,10 @@
 // Copyright 2007 Sun Microsystems, Inc. All rights reserved.
 //
 
-dojo.provide("webui.@THEME@.editableList");
+webui.@THEME@.dojo.provide("webui.@THEME@.editableList");
 
-dojo.require("webui.@THEME@.formElements");
+webui.@THEME@.dojo.require("webui.@THEME@.formElements");
+webui.@THEME@.dojo.require("webui.@THEME@.prototypejs");
 
 /** 
  * @class This class contains functions for editableList components.
@@ -106,7 +107,7 @@ webui.@THEME@.editableList = {
         }
 
         // Set given properties on domNode.
-        Object.extend(domNode, props);
+        webui.@THEME@.prototypejs.extend(domNode, props, false);
 
         // attach methods
         domNode.add = webui.@THEME@.editableList.add;

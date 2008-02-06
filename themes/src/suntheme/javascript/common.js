@@ -21,9 +21,9 @@
 // Copyright 2007 Sun Microsystems, Inc. All rights reserved.
 //
 
-dojo.provide("webui.@THEME@.common");
+webui.@THEME@.dojo.provide("webui.@THEME@.common");
 
-dojo.require("webui.@THEME@.theme.common");
+webui.@THEME@.dojo.require("webui.@THEME@.theme.common");
 
 /**
  * @class This class contains functions common to HTML elements.

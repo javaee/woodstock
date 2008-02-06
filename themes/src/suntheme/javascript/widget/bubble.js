@@ -21,11 +21,10 @@
 // Copyright 2007 Sun Microsystems, Inc. All rights reserved.
 //
 
-dojo.provide("webui.@THEME@.widget.bubble");
+webui.@THEME@.dojo.provide("webui.@THEME@.widget.bubble");
 
-dojo.require("webui.@THEME@.browser");
-dojo.require("webui.@THEME@.common");
-dojo.require("webui.@THEME@.widget.widgetBase");
+webui.@THEME@.dojo.require("webui.@THEME@.browser");
+webui.@THEME@.dojo.require("webui.@THEME@.widget.widgetBase");
 
 /**
  * @name webui.@THEME@.widget.bubble
@@ -33,7 +32,7 @@ dojo.require("webui.@THEME@.widget.widgetBase");
  * @class This class contains functions for the bubble widget.
  * @constructor This function is used to construct a bubble widget.
  */
-dojo.declare("webui.@THEME@.widget.bubble", webui.@THEME@.widget.widgetBase, {
+webui.@THEME@.dojo.declare("webui.@THEME@.widget.bubble", webui.@THEME@.widget.widgetBase, {
     // Set defaults.
     defaultTime: 2000,
     openDelayTime: 500,
@@ -59,8 +58,8 @@ webui.@THEME@.widget.bubble.prototype.close = function() {
     this.timerId = setTimeout(function() {
         // New literals are created every time this function is called, and it's 
         // saved by closure magic.
-        dijit.byId(_id).setProps({visible: false});
-        dijit.byId(_id).srcElm.focus();
+        webui.@THEME@.dijit.byId(_id).setProps({visible: false});
+        webui.@THEME@.dijit.byId(_id).srcElm.focus();
     }, this.defaultTime);
 
     return true;
@@ -306,13 +305,13 @@ webui.@THEME@.widget.bubble.prototype.open = function(event) {
         // Store the active bubble id to form element.
         // Check for the id if its available then close the pending bubble.
         if (webui.@THEME@.widget.bubble.activeBubbleId && webui.@THEME@.widget.bubble.activeBubbleId != id) {                
-            clearTimeout(dijit.byId(webui.@THEME@.widget.bubble.activeBubbleId).timerId);
-            dijit.byId(webui.@THEME@.widget.bubble.activeBubbleId).setProps({visible: false});
+            clearTimeout(webui.@THEME@.dijit.byId(webui.@THEME@.widget.bubble.activeBubbleId).timerId);
+            webui.@THEME@.dijit.byId(webui.@THEME@.widget.bubble.activeBubbleId).setProps({visible: false});
             webui.@THEME@.widget.bubble.activeBubbleId = null;                
         }     
         webui.@THEME@.widget.bubble.activeBubbleId = id;            
-        dijit.byId(id).setProps({visible: true});
-        dijit.byId(id).setPosition();
+        webui.@THEME@.dijit.byId(id).setProps({visible: true});
+        webui.@THEME@.dijit.byId(id).setPosition();
     }, this.openDelayTime);           
     
     if (this.duration != null && this.duration >= 0) {
@@ -339,39 +338,39 @@ webui.@THEME@.widget.bubble.prototype.postCreate = function () {
     }
 
     // Set public functions.
-    this.domNode.close = function() { return dijit.byId(this.id).close(); }
-    this.domNode.open = function(event) { return dijit.byId(this.id).open(event); }
+    this.domNode.close = function() { return webui.@THEME@.dijit.byId(this.id).close(); }
+    this.domNode.open = function(event) { return webui.@THEME@.dijit.byId(this.id).open(event); }
 
     // Set events.
 
     // The onClick on window should close bubble.
-    dojo.connect(document, "onclick", this, "onCloseCallback");
+    this.dojo.connect(document, "onclick", this, "onCloseCallback");
 
     // The escape key should also close bubble.
-    dojo.connect(document, "onkeydown", this, "onCloseCallback");
+    this.dojo.connect(document, "onkeydown", this, "onCloseCallback");
 
     // The onClick event for component body. Closes the bubble only when
     // close button is clicked.
-    dojo.connect(this.domNode, "onclick", this, "onClickCallback");
+    this.dojo.connect(this.domNode, "onclick", this, "onClickCallback");
 
     // Do not close the popup if mouseover on bubble if mouseover on bubble 
     // component then clear the timer and do not close bubble.
-    dojo.connect(this.domNode, "onmouseover", this, "onMouseOverCallback");
+    this.dojo.connect(this.domNode, "onmouseover", this, "onMouseOverCallback");
 
     // Close the popup if mouseout and autoClose is true if onmouseout and 
     // autoClose is true then close the bubble.
-    dojo.connect(this.domNode, "onmouseout", this, "onMouseOutCallback");
+    this.dojo.connect(this.domNode, "onmouseout", this, "onMouseOutCallback");
     
     // The onfocus event for contentEnd. This is needed to handle tab event. 
-    dojo.connect(this.contentEnd, "onfocus", this, "onTabCallback");
+    this.dojo.connect(this.contentEnd, "onfocus", this, "onTabCallback");
     
     // The onkeydown event for bubbleHeader. This is needed to handle tab event. 
-    dojo.connect(this.bubbleHeader, "onkeydown", this, "onTabCallback");
+    this.dojo.connect(this.bubbleHeader, "onkeydown", this, "onTabCallback");
     
     // The onkeydown event for component body. This is needed to handle shift+tab event.
-    dojo.connect(this.domNode, "onkeydown", this, "onShftTabCallback");
-    // Initialize the BubbleTitle width as a percentage of the bubble header.
-        
+    this.dojo.connect(this.domNode, "onkeydown", this, "onShftTabCallback");
+    
+    // Initialize the BubbleTitle width as a percentage of the bubble header.    
     if (this.bubbleTitle != null) {
         this.bubbleTitle.style.width = this.theme.getProperty("styles", 
             "BUBBLE_TITLEWIDTH") + "%";
@@ -454,10 +453,10 @@ webui.@THEME@.widget.bubble.prototype.setPosition = function() {
         var bottomLeftArrow = document.getElementById(this.bottomLeftArrow.id);
         var bottomRightArrow = document.getElementById(this.bottomRightArrow.id);
         // hide all callout arrows.
-        webui.@THEME@.common.setVisible(bottomLeftArrow, false);
-        webui.@THEME@.common.setVisible(bottomRightArrow, false);
-        webui.@THEME@.common.setVisible(topLeftArrow, false);
-        webui.@THEME@.common.setVisible(topRightArrow, false);
+        this.common.setVisible(bottomLeftArrow, false);
+        this.common.setVisible(bottomRightArrow, false);
+        this.common.setVisible(topLeftArrow, false);
+        this.common.setVisible(topRightArrow, false);
 
         bottomLeftArrow.style.display = "none";
         bottomRightArrow.style.display = "none";
@@ -516,7 +515,7 @@ webui.@THEME@.widget.bubble.prototype.setPosition = function() {
         // If rendering a callout arrow, set it's position relative to the bubble.
         if (this.arrow != null) {
            this.arrow.style.display = "block";
-           webui.@THEME@.common.setVisible(this.arrow, true);
+           this.common.setVisible(this.arrow, true);
 
            if (this.arrow == topLeftArrow) {
                this.arrow.style.top = -(bubble.offsetHeight - this.topConst) + "px";               
@@ -610,12 +609,12 @@ webui.@THEME@.widget.bubble.prototype._setProps = function(props) {
         var noCloseButtonClass = this.theme.getClassName("BUBBLE_NOCLOSEBTN");
 
         if (props.closeButton == false) {
-            webui.@THEME@.common.stripStyleClass(this.closeBtn, closeButtonClass);
-            if (!webui.@THEME@.common.checkStyleClasses(classNames, noCloseButtonClass))
-             webui.@THEME@.common.addStyleClass(this.closeBtn, noCloseButtonClass);
+            this.common.stripStyleClass(this.closeBtn, closeButtonClass);
+            if (!this.common.checkStyleClasses(classNames, noCloseButtonClass))
+             this.common.addStyleClass(this.closeBtn, noCloseButtonClass);
         } else {          
-          if (!webui.@THEME@.common.checkStyleClasses(classNames, closeButtonClass))
-             webui.@THEME@.common.addStyleClass(this.closeBtn, closeButtonClass);
+          if (!this.common.checkStyleClasses(classNames, closeButtonClass))
+             this.common.addStyleClass(this.closeBtn, closeButtonClass);
         }
     }
 

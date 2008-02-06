@@ -21,10 +21,9 @@
 // Copyright 2007 Sun Microsystems, Inc. All rights reserved.
 //
 
-dojo.provide("webui.@THEME@.widget.checkboxGroup");
+webui.@THEME@.dojo.provide("webui.@THEME@.widget.checkboxGroup");
 
-dojo.require("webui.@THEME@.common");
-dojo.require("webui.@THEME@.widget.checkedGroupBase");
+webui.@THEME@.dojo.require("webui.@THEME@.widget.checkedGroupBase");
 
 /**
  * @name webui.@THEME@.widget.checkboxGroup
@@ -32,7 +31,7 @@ dojo.require("webui.@THEME@.widget.checkedGroupBase");
  * @class This class contains functions for the checkboxGroup widget.
  * @constructor This function is used to construct a checkboxGroup widget.
  */
-dojo.declare("webui.@THEME@.widget.checkboxGroup", webui.@THEME@.widget.checkedGroupBase, {
+webui.@THEME@.dojo.declare("webui.@THEME@.widget.checkboxGroup", webui.@THEME@.widget.checkedGroupBase, {
     // Set defaults.
     widgetName: "checkboxGroup" // Required for theme properties.
 });

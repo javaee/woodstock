@@ -21,10 +21,10 @@
 // Copyright 2007 Sun Microsystems, Inc. All rights reserved.
 //
 
-dojo.provide("webui.@THEME@.widget.calendar");
+webui.@THEME@.dojo.provide("webui.@THEME@.widget.calendar");
 
-dojo.require("webui.@THEME@.browser");
-dojo.require("webui.@THEME@.widget.widgetBase");
+webui.@THEME@.dojo.require("webui.@THEME@.browser");
+webui.@THEME@.dojo.require("webui.@THEME@.widget.widgetBase");
 
 /**
  * @name webui.@THEME@.widget.calendar
@@ -32,7 +32,7 @@ dojo.require("webui.@THEME@.widget.widgetBase");
  * @class This class contains functions for the calendar widget.
  * @constructor This function is used to construct a calendar widget.
  */
-dojo.declare("webui.@THEME@.widget.calendar", webui.@THEME@.widget.widgetBase, {
+webui.@THEME@.dojo.declare("webui.@THEME@.widget.calendar", webui.@THEME@.widget.widgetBase, {
     // Set defaults.
     widgetName: "calendar" // Required for theme properties.
 });
@@ -69,16 +69,16 @@ webui.@THEME@.widget.calendar.prototype.addDayLink = function(rowNodeClone, day,
 
     var widgetId = this.id;
     linkNodeClone.onclick = function() { 
-        dijit.byId(widgetId).daySelected(formattedDate); 
+        webui.@THEME@.dijit.byId(widgetId).daySelected(formattedDate); 
         return false;
     };  
     
     // If the setFocus is set to true, then when you tab out of the linkNode,
     // the focus should go to the close button. 
     if (setFocus) {
-        var node = dijit.byId(linkNodeClone.id);        
+        var node = webui.@THEME@.dijit.byId(linkNodeClone.id);        
         linkNodeClone.onkeydown = function(event) {
-            var widget = dijit.byId(widgetId);
+            var widget = webui.@THEME@.dijit.byId(widgetId);
             
             // Get hold of the close button and set focus on it.
             var evt = (event) ? event : ((window.event) ? window.event : null);
@@ -148,8 +148,8 @@ webui.@THEME@.widget.calendar.prototype.addDaysInMonth = function(currentValue, 
     }
     
     // Get month and year menu widgets.
-    var monthMenuWidget = dijit.byId(this.monthMenu.id);        
-    var yearMenuWidget = dijit.byId(this.yearMenu.id);
+    var monthMenuWidget = webui.@THEME@.dijit.byId(this.monthMenu.id);        
+    var yearMenuWidget = webui.@THEME@.dijit.byId(this.yearMenu.id);
     if (monthMenuWidget == null || yearMenuWidget == null) {
         return;
     }
@@ -366,7 +366,7 @@ webui.@THEME@.widget.calendar.prototype.closeCalendar = function(event) {
  */
 webui.@THEME@.widget.calendar.prototype.daySelected = function(formattedDate) {
     this.toggleCalendar();    
-    dojo.publish(webui.@THEME@.widget.calendar.event.day.selectedTopic, [{
+    this.publish(webui.@THEME@.widget.calendar.event.day.selectedTopic, [{
         id: this.id,
         date:formattedDate
     }]);
@@ -379,7 +379,7 @@ webui.@THEME@.widget.calendar.prototype.daySelected = function(formattedDate) {
  * @return {boolean} true if successful; otherwise, false.
  */
 webui.@THEME@.widget.calendar.prototype.decreaseMonth = function() {
-    var monthMenu = dijit.byId(this.monthMenu.id).getSelectElement();
+    var monthMenu = webui.@THEME@.dijit.byId(this.monthMenu.id).getSelectElement();
     // If the monthMenu has no value, set it to January (that's what
     // it will have appeared like in the browser). Can happen on IE.  
     if (monthMenu.value == null) {
@@ -388,7 +388,7 @@ webui.@THEME@.widget.calendar.prototype.decreaseMonth = function() {
     
     var month = parseInt(monthMenu.value);
     if (month == 1) {
-        var yearMenu = dijit.byId(this.yearMenu.id).getSelectElement();        
+        var yearMenu = webui.@THEME@.dijit.byId(this.yearMenu.id).getSelectElement();        
          if (yearMenu.value == null) {
              // If the yearMenu has no value, set it to the first available year            
              // (that's what it will have appeared like in the browser). Can happen on IE.
@@ -603,7 +603,7 @@ webui.@THEME@.widget.calendar.prototype.ieHideShim = function() {
  * @return {boolean} true if successful; otherwise, false.
  */
 webui.@THEME@.widget.calendar.prototype.increaseMonth = function() {            
-    var monthMenu = dijit.byId(this.monthMenu.id).getSelectElement();          
+    var monthMenu = webui.@THEME@.dijit.byId(this.monthMenu.id).getSelectElement();          
     
     // If the monthMenu has no value, set it to January (that's what
     // it will have appeared like in the browser). Can happen on IE. 
@@ -613,7 +613,7 @@ webui.@THEME@.widget.calendar.prototype.increaseMonth = function() {
     
     var month = parseInt(monthMenu.value);
     if (month == 12) {
-        var yearMenu = dijit.byId(this.yearMenu.id).getSelectElement();
+        var yearMenu = webui.@THEME@.dijit.byId(this.yearMenu.id).getSelectElement();
         var numOptions = yearMenu.options.length;
         if (yearMenu.value == null) {
             // If the yearMenu has no value, set it to the first available year            
@@ -916,12 +916,12 @@ webui.@THEME@.widget.calendar.prototype.convertStringToDate = function(inputDate
                     property = null;
                     return false;
                 }                
-             // Check if the input date's year range is inbetween the 
-             // allowed dates.   
-               if (yearCheck == true) {
-                   var index = 0;
+                // Check if the input date's year range is inbetween the 
+                // allowed dates.   
+                if (yearCheck == true) {
+                    var index = 0;
                     var foundYear = false;                               
-                    yearMenu = dijit.byId(this.yearMenu.id).getSelectElement();
+                    yearMenu = webui.@THEME@.dijit.byId(this.yearMenu.id).getSelectElement();
                     while (index < yearMenu.length) {
                         if (number == yearMenu.options[index].value) {
                             selectedDate.setFullYear(number);
@@ -1000,7 +1000,7 @@ webui.@THEME@.widget.calendar.prototype.setInitialFocus = function() {
     //    var yearMenu = document.getElementById(this.calendarMonth.yearMenu.id).getSelectElement();
     //    yearMenu.focus();                 
     // } else {
-        var monthMenu = dijit.byId(this.monthMenu.id).getSelectElement();          
+        var monthMenu = webui.@THEME@.dijit.byId(this.monthMenu.id).getSelectElement();          
         monthMenu.focus();
     // }
     return true;
@@ -1081,19 +1081,19 @@ webui.@THEME@.widget.calendar.prototype._setProps = function(props) {
     }
 
     if (props.spacerImage) {
-        if (!dijit.byId(this.spacerImage.id)) {
+        if (!webui.@THEME@.dijit.byId(this.spacerImage.id)) {
             this.widget.addFragment(this.spacerImageContainer, props.spacerImage);
         }
     }
 
     if (props.topLeftImage) {
-         if (!dijit.byId(this.topLeftImage.id)) {
+        if (!webui.@THEME@.dijit.byId(this.topLeftImage.id)) {
             this.widget.addFragment(this.topLeftImageContainer, props.topLeftImage);
         }
     }
 
     if (props.topRightImage) {
-        if (!dijit.byId(this.topRightImage.id)) {
+        if (!webui.@THEME@.dijit.byId(this.topRightImage.id)) {
             this.widget.addFragment(this.topRightImageContainer, props.topRightImage);
         }
     }
@@ -1109,9 +1109,9 @@ webui.@THEME@.widget.calendar.prototype._setProps = function(props) {
     if (props.closeButtonLink) {
         // Set properties.
         props.closeButtonLink.onClick = 
-            "dijit.byId('" + this.id + "').toggleCalendar();return false;";
+            "webui.@THEME@.dijit.byId('" + this.id + "').toggleCalendar();return false;";
         props.closeButtonLink.onKeyDown = 
-            "dijit.byId('" + this.id + "').closeCalendar(event);return false;";       
+            "webui.@THEME@.dijit.byId('" + this.id + "').closeCalendar(event);return false;";       
 
         // Update/add fragment.
         this.widget.updateFragment(this.closeButtonContainer, 
@@ -1122,7 +1122,7 @@ webui.@THEME@.widget.calendar.prototype._setProps = function(props) {
     if (props.decreaseLink) {
         // Set properties.
         props.decreaseLink.onClick = 
-            "dijit.byId('" + this.id + "').decreaseMonth();return false;";
+            "webui.@THEME@.dijit.byId('" + this.id + "').decreaseMonth();return false;";
 
         // Update/add fragment.
         this.widget.updateFragment(this.previousLinkContainer, 
@@ -1133,7 +1133,7 @@ webui.@THEME@.widget.calendar.prototype._setProps = function(props) {
     if (props.increaseLink) {
         // Set properties.
         props.increaseLink.onClick = 
-            "dijit.byId('" + this.id + "').increaseMonth();return false;"
+            "webui.@THEME@.dijit.byId('" + this.id + "').increaseMonth();return false;"
 
         // Update/add fragment.
         this.widget.updateFragment(this.nextLinkContainer, this.increaseLink.id, 
@@ -1180,7 +1180,7 @@ webui.@THEME@.widget.calendar.prototype._setProps = function(props) {
     if (props.monthMenu) {                        
         // Set properties.
         props.monthMenu.onChange =
-            "dijit.byId('" + this.id + "').updateMonth(false);return false;";
+            "webui.@THEME@.dijit.byId('" + this.id + "').updateMonth(false);return false;";
                          
         // Update/add fragment.
         this.widget.updateFragment(this.monthMenuContainer, this.monthMenu.id,
@@ -1191,7 +1191,7 @@ webui.@THEME@.widget.calendar.prototype._setProps = function(props) {
     if (props.yearMenu) {        
         // Set properties.
         props.yearMenu.onChange =
-            "dijit.byId('" + this.id + "').updateMonth(false);return false;";
+            "webui.@THEME@.dijit.byId('" + this.id + "').updateMonth(false);return false;";
 
         // Update/add fragment.
         this.widget.updateFragment(this.yearMenuContainer, this.yearMenu.id,
@@ -1216,7 +1216,7 @@ webui.@THEME@.widget.calendar.prototype._setProps = function(props) {
         // Set properties.
         props.toggleLink.disabled = this.disabled;
         props.toggleLink.onClick =
-            "dijit.byId('" + this.id + "').toggleCalendar();return false;";
+            "webui.@THEME@.dijit.byId('" + this.id + "').toggleCalendar();return false;";
 
         // Update/add fragment.
         this.widget.updateFragment(this.linkNode, this.toggleLink.id, props.toggleLink); 
@@ -1261,14 +1261,14 @@ webui.@THEME@.widget.calendar.prototype.toggleCalendar = function() {
     //
     // Note: This must be done before the calendar is opened so user
     // input can be applied to the current date.
-    dojo.publish(webui.@THEME@.widget.calendar.event.toggle.openTopic, [{
+    this.publish(webui.@THEME@.widget.calendar.event.toggle.openTopic, [{
         id: this.id
     }]);
 
     // Open the calendar.
     if (this.calendarContainer.style.display != "block") {
         if (webui.@THEME@.widget.calendar.activeCalendarId != null) {
-            var cal = dijit.byId(webui.@THEME@.widget.calendar.activeCalendarId);
+            var cal = webui.@THEME@.dijit.byId(webui.@THEME@.widget.calendar.activeCalendarId);
             cal.toggleCalendar();
         }
         webui.@THEME@.widget.calendar.activeCalendarId = this.id;        

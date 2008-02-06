@@ -21,9 +21,9 @@
 // Copyright 2007 Sun Microsystems, Inc. All rights reserved.
 //
 
-dojo.provide("webui.@THEME@.widget.accordionTab");
+webui.@THEME@.dojo.provide("webui.@THEME@.widget.accordionTab");
 
-dojo.require("webui.@THEME@.widget.widgetBase");
+webui.@THEME@.dojo.require("webui.@THEME@.widget.widgetBase");
 
 /**
  * @name webui.@THEME@.widget.accordionTab
@@ -31,7 +31,7 @@ dojo.require("webui.@THEME@.widget.widgetBase");
  * @class This class contains functions for the accordionTab widget.
  * @constructor This function is used to construct an accordionTab widget.
  */
-dojo.declare("webui.@THEME@.widget.accordionTab", webui.@THEME@.widget.widgetBase, {
+webui.@THEME@.dojo.declare("webui.@THEME@.widget.accordionTab", webui.@THEME@.widget.widgetBase, {
     // Set defaults.
     isContainer: true,
     selected: false,
@@ -58,7 +58,7 @@ webui.@THEME@.widget.accordionTab.prototype.createOnKeyDownCallBack = function(i
         if (elem == null) {
             return;
         }
-        var widget = dijit.byId(id);
+        var widget = webui.@THEME@.dijit.byId(id);
 
         event = _widget.getEvent(event);
         var keyCode = _widget.getKeyCode(event);
@@ -143,7 +143,7 @@ webui.@THEME@.widget.accordionTab.event =
  */
 webui.@THEME@.widget.accordionTab.prototype.loadContent = function(execute) {
     // Publish event.
-    dojo.publish(webui.@THEME@.widget.accordionTab.event.load.beginTopic, [{
+    this.publish(webui.@THEME@.widget.accordionTab.event.load.beginTopic, [{
         id: this.id
     }]);
     return true;
@@ -182,7 +182,7 @@ webui.@THEME@.widget.accordionTab.prototype.getProps = function() {
  */
 webui.@THEME@.widget.accordionTab.prototype.getTitleHeight = function () {
     // Warning: This function has been made private.
-    return dojo._getMarginBox(this.titleContainer).height;
+    return this.dojo._getMarginBox(this.titleContainer).height;
 }
 
 /**
@@ -192,7 +192,7 @@ webui.@THEME@.widget.accordionTab.prototype.getTitleHeight = function () {
  * @return {boolean} true if successful; otherwise, false.
  */
 webui.@THEME@.widget.accordionTab.prototype.onMenuClickCallback = function(event) {
-    dojo.stopEvent(event);
+    this.dojo.stopEvent(event);
     return true;
 }
 
@@ -207,7 +207,7 @@ webui.@THEME@.widget.accordionTab.prototype.onMenuClickCallback = function(event
  * @return {boolean} true if successful; otherwise, false.
  */
 webui.@THEME@.widget.accordionTab.prototype.onTitleClickCallback = function (event) {
-    dojo.publish(webui.@THEME@.widget.accordionTab.event.title.selectedTopic, [{
+    this.publish(webui.@THEME@.widget.accordionTab.event.title.selectedTopic, [{
         id: this.id
     }]);
     if (this.titleContainer.focus) {
@@ -300,19 +300,18 @@ webui.@THEME@.widget.accordionTab.prototype.postCreate = function () {
     // TBD...
 
     // Set events.
-    dojo.connect(this.titleContainer, "onclick", this, "onTitleClickCallback");
-
-    dojo.connect(this.titleContainer, "onmouseover", this, "onTitleMouseOverCallback");
-    dojo.connect(this.turnerContainer, "onmouseover", this, "onTitleMouseOverCallback");
-    dojo.connect(this.turnerContainer, "onclick", this, "onTitleClickCallback");
-    dojo.connect(this.menuContainer, "onmouseover", this, "onTitleMouseOverCallback");
-    dojo.connect(this.menuContainer, "onclick", this, "onMenuClickCallback");
-    dojo.connect(this.titleContainer, "onmouseout", this, "onTitleMouseOutCallback");
-    dojo.connect(this.turnerContainer, "onmouseout", this, "onTitleMouseOutCallback");
-    dojo.connect(this.menuContainer, "onmouseout", this, "onTitleMouseOutCallback");
-    dojo.connect(this.contentEnd, "onblur", this, "onContentEndCallback");
+    this.dojo.connect(this.titleContainer, "onclick", this, "onTitleClickCallback");
+    this.dojo.connect(this.titleContainer, "onmouseover", this, "onTitleMouseOverCallback");
+    this.dojo.connect(this.turnerContainer, "onmouseover", this, "onTitleMouseOverCallback");
+    this.dojo.connect(this.turnerContainer, "onclick", this, "onTitleClickCallback");
+    this.dojo.connect(this.menuContainer, "onmouseover", this, "onTitleMouseOverCallback");
+    this.dojo.connect(this.menuContainer, "onclick", this, "onMenuClickCallback");
+    this.dojo.connect(this.titleContainer, "onmouseout", this, "onTitleMouseOutCallback");
+    this.dojo.connect(this.turnerContainer, "onmouseout", this, "onTitleMouseOutCallback");
+    this.dojo.connect(this.menuContainer, "onmouseout", this, "onTitleMouseOutCallback");
+    this.dojo.connect(this.contentEnd, "onblur", this, "onContentEndCallback");
     //Create callback function for onkeydown event.
-    dojo.connect(this.domNode, "onkeydown", 
+    this.dojo.connect(this.domNode, "onkeydown", 
         this.createOnKeyDownCallBack(this.id)); 
     
     return this.inherited("postCreate", arguments);
@@ -549,7 +548,7 @@ webui.@THEME@.widget.accordionTab.prototype.traverseMenu = function(keyCode, eve
                 this.contentNode.tabIndex = this.tabIndex;
                 this.contentEnd.tabIndex = this.tabIndex;
                 this.contentNode.focus();
-                if (this.focusId == undefined) {
+                if (this.focusId == null) {
                     var fChild = this.contentNode.firstChild;
                     if (fChild) {
                         if (fChild.focus) {
@@ -571,7 +570,7 @@ webui.@THEME@.widget.accordionTab.prototype.traverseMenu = function(keyCode, eve
                 return true;
             } else {
                 this.contentNode.focus();
-                if (this.focusId == undefined) {
+                if (this.focusId == null) {
                     this.contentNode.tabIndex = this.tabIndex;
                     return true;
                 } else {

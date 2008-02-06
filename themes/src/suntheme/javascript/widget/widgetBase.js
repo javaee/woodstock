@@ -21,12 +21,13 @@
 // Copyright 2007 Sun Microsystems, Inc. All rights reserved.
 //
 
-dojo.provide("webui.@THEME@.widget.widgetBase");
+webui.@THEME@.dojo.provide("webui.@THEME@.widget.widgetBase");
  
-dojo.require("webui.@THEME@.common");
-dojo.require("webui.@THEME@.theme.common");
-dojo.require("webui.@THEME@.widget.common");
-dojo.require("webui.@THEME@.widget.eventBase");
+webui.@THEME@.dojo.require("webui.@THEME@.common");
+webui.@THEME@.dojo.require("webui.@THEME@.prototypejs");
+webui.@THEME@.dojo.require("webui.@THEME@.theme.common");
+webui.@THEME@.dojo.require("webui.@THEME@.widget.common");
+webui.@THEME@.dojo.require("webui.@THEME@.widget.eventBase");
 
 /**
  * @name webui.@THEME@.widget.widgetBase
@@ -34,10 +35,11 @@ dojo.require("webui.@THEME@.widget.eventBase");
  * @class This class contains functions used for base functionality in all 
  * widgets. 
  * <p>
- * The widgetBase class inherits from dijit._Widget and dijit_Templated. The 
- * dijit._Widget class is responsible for calling the buildRendering() and 
- * postCreate() functions in that order. The dijit_Templated function overrides
- * the buildRendering() functon to fill in template properties.
+ * The widgetBase class inherits from webui.@THEME@.dijit._Widget and 
+ * webui.@THEME@.dijit._Templated. The webui.@THEME@.dijit._Widget class is 
+ * responsible for calling the buildRendering() and postCreate() functions in 
+ * that order. The dijit_Templated function overrides the buildRendering() 
+ * functon to fill in template properties.
  * <p></p>
  * The postCreate() function is responible for initializing CSS selectors, 
  * events, and public functions. Commonly used functions (e.g., getProps(), 
@@ -81,21 +83,24 @@ dojo.require("webui.@THEME@.widget.eventBase");
  * not a direct child of the BODY element. If there is any Javascript
  * running inside the body that is a direct child of body, IE will throw
  * an "Internet Explorer cannot open the Internet site" error. For example,
- * dijit._Templated._createNodesFromText generates such an error by calling
+ * webui.@THEME@.dijit._Templated._createNodesFromText generates such an error by calling
  * appendChild(). Therefore, widget creation must be deferred to the
  * window.onLoad event. See http://trac.dojotoolkit.org/ticket/4631
  * </p>
  * @static
  */
-dojo.declare("webui.@THEME@.widget.widgetBase", webui.@THEME@.widget.eventBase, {
+webui.@THEME@.dojo.declare("webui.@THEME@.widget.widgetBase", webui.@THEME@.widget.eventBase, {
     // Note: If your class contains arrays or other objects, they should be
     // declared in the constructor function so that each instance gets it's own
     // copy. Simple types (literal strings and numbers) are fine to declare in 
     // the class directly.
 
     // Set defaults.
-    theme: webui.@THEME@.theme.common, // Common theme utils.
-    widget: webui.@THEME@.widget.common // Common widget utils. 
+    common: webui.@THEME@.common, // Common utils.
+    dojo: webui.@THEME@.dojo, // Dojo utils.
+    prototypejs: webui.@THEME@.prototypejs, // Prototype utils.
+    theme: webui.@THEME@.theme.common, // Theme utils.
+    widget: webui.@THEME@.widget.common // Widget utils. 
 });
 
 /**
@@ -207,9 +212,9 @@ webui.@THEME@.widget.widgetBase.prototype.getProps = function() {
     var props = {};
 
     // Set properties.
-    Object.extend(props, this.getCommonProps());
-    Object.extend(props, this.getCoreProps());
-    Object.extend(props, this.getEventProps());
+    this.prototypejs.extend(props, this.getCommonProps(), false);
+    this.prototypejs.extend(props, this.getCoreProps(), false);
+    this.prototypejs.extend(props, this.getEventProps(), false);
 
     return props;
 }
@@ -255,11 +260,11 @@ webui.@THEME@.widget.widgetBase.prototype.postCreate = function () {
     var _id = this.id;
 
     // Set public functions.
-    this.domNode.getProps = function() { return dijit.byId(_id).getProps(); }
-    this.domNode.setProps = function(props, notify) { return dijit.byId(_id).setProps(props, notify); }
+    this.domNode.getProps = function() { return webui.@THEME@.dijit.byId(_id).getProps(); }
+    this.domNode.setProps = function(props, notify) { return webui.@THEME@.dijit.byId(_id).setProps(props, notify); }
 
-    // Initialize refresh(), stateChanged(), and submit().
-    this.initFunctions();
+    // Initialize public events and functions.
+    this.initEvents();
 
     // Set properties.
     this._setProps(this.getProps());
@@ -333,7 +338,7 @@ webui.@THEME@.widget.widgetBase.prototype.setCoreProps = function(domNode, props
         domNode.style.cssText = props.style;
     }
     if (props.visible != null) {
-        webui.@THEME@.common.setVisibleElement(domNode, 
+        this.common.setVisibleElement(domNode, 
             new Boolean(props.visible).valueOf());
     }
     return true;
@@ -463,7 +468,7 @@ webui.@THEME@.widget.widgetBase.prototype.setProps = function(props, notify) {
     }
 
     // Extend widget object for later updates.
-    this.widget.extend(this, props);
+    this.prototypejs.extend(this, props);
 
     // Set properties.
     this._setProps(props);

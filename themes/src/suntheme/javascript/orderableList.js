@@ -21,7 +21,9 @@
 // Copyright 2007 Sun Microsystems, Inc. All rights reserved.
 //
 
-dojo.provide("webui.@THEME@.orderableList");
+webui.@THEME@.dojo.provide("webui.@THEME@.orderableList");
+
+webui.@THEME@.dojo.require("webui.@THEME@.prototypejs");
 
 /** 
  * @class This class contains functions for orderableList components.
@@ -103,7 +105,7 @@ webui.@THEME@.orderableList = {
         }
 
         // Set given properties on domNode.
-        Object.extend(domNode, props);
+        webui.@THEME@.prototypejs.extend(domNode, props, false);
 
         // The options of the select element from which selections are made 
         domNode.options = domNode.list.options;

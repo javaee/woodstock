@@ -21,9 +21,9 @@
 // Copyright 2007 Sun Microsystems, Inc. All rights reserved.
 //
 
-dojo.provide("webui.@THEME@.widget.fieldBase");
+webui.@THEME@.dojo.provide("webui.@THEME@.widget.fieldBase");
 
-dojo.require("webui.@THEME@.widget.widgetBase");
+webui.@THEME@.dojo.require("webui.@THEME@.widget.widgetBase");
 
 /**
  * @name webui.@THEME@.widget.fieldBase
@@ -31,7 +31,7 @@ dojo.require("webui.@THEME@.widget.widgetBase");
  * @class This class contains functions for widgets that extend fieldBase.
  * @static
  */
-dojo.declare("webui.@THEME@.widget.fieldBase", webui.@THEME@.widget.widgetBase, {
+webui.@THEME@.dojo.declare("webui.@THEME@.widget.fieldBase", webui.@THEME@.widget.widgetBase, {
     // Set defaults.
     disabled: false,
     required: false,
@@ -108,7 +108,7 @@ webui.@THEME@.widget.fieldBase.prototype.postCreate = function () {
     }
     
     // Set public functions.
-    this.domNode.getInputElement = function() { return dijit.byId(this.id).getInputElement(); }
+    this.domNode.getInputElement = function() { return webui.@THEME@.dijit.byId(this.id).getInputElement(); }
     
     return this.inherited("postCreate", arguments);
 }
@@ -131,7 +131,7 @@ webui.@THEME@.widget.fieldBase.prototype._setProps = function(props) {
     // Set properties.
     if (props.submitForm == false || props.submitForm == true ) { 
         // connect the keyPress event
-        dojo.connect(this.fieldNode, "onkeypress", this, "submitFormData");
+        this.dojo.connect(this.fieldNode, "onkeypress", this, "submitFormData");
     }
     if (props.maxLength > 0) { this.fieldNode.maxLength = props.maxLength; }
     if (props.size > 0) { this.fieldNode.size = props.size;  }

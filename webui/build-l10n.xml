@@ -30,7 +30,7 @@
     <property name="build" value="${basedir}/build"/>
     <property name="src" value="${basedir}/src"/>
     <property name="l10n.dir" value="${basedir}/dist"/>
-    <property name="tools.jar" location="${basedir}/../tools/lib/woodstock-tools.jar"/>
+    <property name="tools.jar" location="${basedir}/../tools/woodstock/lib/webui-tools.jar"/>
 
     <!-- so this build script can run on its own -->
     <property name="l10n.runtime-jar" value="${l10n.dir}/webui-jsf.jar"/>

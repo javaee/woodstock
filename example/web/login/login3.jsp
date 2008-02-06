@@ -6,38 +6,29 @@
 <f:view>
   <webuijsf:page>
     <f:loadBundle basename="com.sun.webui.jsf.example.resources.Resources" var="msgs" />
-    <webuijsf:head title="#{msgs.login_example3}"/>
-    
-    <webuijsf:script>
-        window.onload=init;
-        
-        function init() {
-            dojo.subscribe(webui.suntheme.widget.login.event.result.successTopic, 
-                this, handleEvent);
-            dojo.subscribe(webui.suntheme.widget.login.event.result.failureTopic, 
-                this, handleFailureEvent);
-        }
-        
-               
-        this.handleFailureEvent = function(id) {
-
-            var div1 = document.getElementById("div1");
-            div1.style.visibility="visible";
-                        
-        }
-        
-        this.handleEvent = function(id) {
-
-            var loc = document.location;
-            var newURL = loc.protocol + "//" + loc.host;
-            newURL = newURL + "/example/faces/login/result.jsp";
-            document.location.href = newURL;
-        }
-
-
-    </webuijsf:script>
-    
-    <webuijsf:body>
+    <webuijsf:head title="#{msgs.login_example3}">
+        <webuijsf:script>
+            function init() {
+                var domNode = document.getElementById("form2:login2");
+                if (domNode == null || domNode.event == null) { 
+                    return setTimeout('init();', 10);
+                }
+                domNode.subscribe(domNode.event.result.successTopic, this, handleEvent);
+                domNode.subscribe(domNode.event.result.failureTopic, this, handleFailureEvent);
+            }
+            this.handleEvent = function(id) {
+                var loc = document.location;
+                var newURL = loc.protocol + "//" + loc.host;
+                newURL = newURL + "/example/faces/login/result.jsp";
+                document.location.href = newURL;
+            }
+            this.handleFailureEvent = function(id) {
+                var div1 = document.getElementById("div1");
+                div1.style.visibility = "visible";        
+            }
+        </webuijsf:script>
+    </webuijsf:head>
+    <webuijsf:body onLoad="init();">
     <webuijsf:form id="form2">
       <webuijsf:masthead id="masthead"
               productImageURL="/images/example_primary_masthead.png"

@@ -84,10 +84,10 @@ public class Head extends UIComponentBase {
 
     /**
      * Flag (true or false) indicating that debugging is enabled. This will 
-     * output uncompressed JavaScript and enable Dojo debugging. The default is
+     * output uncompressed JavaScript and enable debugging. The default is
      * false.
      */
-    @Property(name="debug", displayName="Enable Dojo Debugging", category="Javascript")
+    @Property(name="debug", displayName="Enable Debugging", category="Javascript")
     private boolean debug = false;
     private boolean debug_set = false;
 
@@ -169,13 +169,16 @@ public class Head extends UIComponentBase {
      * To limit the number of JavaScript requests, set dijitAll to true when
      * this functionality is needed. The default is false.
      * </p>
+     * @deprecated Dojo is no longer included in the page.
      */
-    @Property(name="dijitAll", displayName="Include All Dijit Functionality", category="Javascript")
+    @Property(name="dijitAll", displayName="Include All Dijit Functionality", category="Javascript", isHidden=true)
     private boolean dijitAll = false; 
     private boolean dijitAll_set = false; 
  
     /**
      * Test flag indicating to include all Dojo dijit functionality. 
+     * 
+     * @deprecated Dojo is no longer included in the page.
      */
     public boolean isDijitAll() { 
         if (this.dijitAll_set) {
@@ -195,6 +198,8 @@ public class Head extends UIComponentBase {
 
     /**
      * Set flag indicating to include all Dojo dijit functionality. 
+     * 
+     * @deprecated Dojo is no longer included in the page.
      */
     public void setDijitAll(boolean dijitAll) {
         this.dijitAll = dijitAll;
@@ -289,13 +294,16 @@ public class Head extends UIComponentBase {
      * For better performance, set parseOnLoad to true only when markup contains
      * Dojo tag attributes. The default is false.
      * </p>
+     * @deprecated Dojo is no longer included in the page.
      */
-    @Property(name="parseOnLoad", displayName="Enable Dojo Parsing", category="Javascript")
+    @Property(name="parseOnLoad", displayName="Enable Dojo Parsing", category="Javascript", isHidden=true)
     private boolean parseOnLoad = false; 
     private boolean parseOnLoad_set = false; 
  
     /**
      * Test flag indicating that Dojo should parse markup.
+     * 
+     * @deprecated Dojo is no longer included in the page.
      */
     public boolean isParseOnLoad() { 
         if (this.parseOnLoad_set) {
@@ -315,6 +323,8 @@ public class Head extends UIComponentBase {
 
     /**
      * Set flag indicating that Dojo should parse markup.
+     * 
+     * @deprecated Dojo is no longer included in the page.
      */
     public void setParseOnLoad(boolean parseOnLoad) {
         this.parseOnLoad = parseOnLoad;
@@ -421,22 +431,13 @@ public class Head extends UIComponentBase {
     /**
      * Flag (true or false) indicating to include all tag library functionality. 
      * <p>
-     * For better performance, only the most commonly used features are 
-     * included by default. The following tags will continue to function, but 
-     * JavaScript may be retrieved using separate requests.
-     * </p><p><ul>
-     * <li>addRemove</li>
-     * <li>commonTasksSection</li>
-     * <li>dndContainer</li>
-     * <li>editableList</li>
-     * <li>fileChooser</li>
-     * <li>orderableList</li>
-     * <li>scheduler</li>
-     * <li>tree</li>
-     * <li>wizard</li>
-     * </ul></p><p>
-     * To limit the number of JavaScript requests, set webuiAll to true when
-     * this functionality is needed. The default is false.
+     * For better performance, Javascript is included in the page for only the
+     * most commonly used tags (default). Other tags will continue to function,
+     * but additional requests may be generated to include more resources. Set
+     * the webuiAll property to true to include JavaScript resources when the 
+     * page is loaded, using a single request. Use this feature in combination 
+     * with the webuiJsfx property to include default Ajax functionality 
+     * based on JSF Extensions.
      * </p>
      */
     @Property(name="webuiAll", displayName="Include All Tag Library Functionality", category="Javascript")
@@ -474,12 +475,17 @@ public class Head extends UIComponentBase {
      * Flag (true or false) indicating to include default Ajax functionality 
      * based on JSF Extensions.
      * <p>
-     * For better performance, set webuiJsfx to false when Ajax features are
-     * not used. The default is true.
+     * For better performance, Ajax functionality is not included in the page
+     * by default. Ajax features will continue to function, but additional 
+     * requests are lazily generated to retrieve JavaScript resources as needed, 
+     * including JSF Extensions. Set the webuiJsfx property to true to include 
+     * JavaScript resources when the page is loaded, using a single request. Use
+     * this feature in combination with the webuiAll property to include all tag
+     * library functionality. 
      * </p>
      */
     @Property(name="webuiJsfx", displayName="Include Ajax Functionality", category="Javascript")
-    private boolean webuiJsfx = true; 
+    private boolean webuiJsfx = false; 
     private boolean webuiJsfx_set = false; 
  
     /**

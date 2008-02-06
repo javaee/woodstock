@@ -21,9 +21,9 @@
 // Copyright 2007 Sun Microsystems, Inc. All rights reserved.
 //
 
-dojo.provide("webui.@THEME@.widget.radioButtonGroup");
+webui.@THEME@.dojo.provide("webui.@THEME@.widget.radioButtonGroup");
 
-dojo.require("webui.@THEME@.widget.checkedGroupBase");
+webui.@THEME@.dojo.require("webui.@THEME@.widget.checkedGroupBase");
 
 /**
  * @name webui.@THEME@.widget.radioButtonGroup
@@ -31,7 +31,7 @@ dojo.require("webui.@THEME@.widget.checkedGroupBase");
  * @class This class contains functions for the radioButtonGroup widget.
  * @constructor This function is used to construct a radioButtonGroup widget.
  */
-dojo.declare("webui.@THEME@.widget.radioButtonGroup", webui.@THEME@.widget.checkedGroupBase, {
+webui.@THEME@.dojo.declare("webui.@THEME@.widget.radioButtonGroup", webui.@THEME@.widget.checkedGroupBase, {
     // Set defaults.
     widgetName: "radioButtonGroup" // Required for theme properties.
 });

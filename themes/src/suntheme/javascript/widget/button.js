@@ -21,10 +21,10 @@
 // Copyright 2007 Sun Microsystems, Inc. All rights reserved.
 //
 
-dojo.provide("webui.@THEME@.widget.button");
+webui.@THEME@.dojo.provide("webui.@THEME@.widget.button");
 
-dojo.require("webui.@THEME@.formElements");
-dojo.require("webui.@THEME@.widget.widgetBase");
+webui.@THEME@.dojo.require("webui.@THEME@.formElements");
+webui.@THEME@.dojo.require("webui.@THEME@.widget.widgetBase");
  
 /**
  * @name webui.@THEME@.widget.button
@@ -32,7 +32,7 @@ dojo.require("webui.@THEME@.widget.widgetBase");
  * @class This class contains functions for the button widget.
  * @constructor This function is used to construct a button widget.
  */
-dojo.declare("webui.@THEME@.widget.button", webui.@THEME@.widget.widgetBase, {
+webui.@THEME@.dojo.declare("webui.@THEME@.widget.button", webui.@THEME@.widget.widgetBase, {
     // Set defaults.
     disabled: false,
     escape: true,
@@ -219,10 +219,10 @@ webui.@THEME@.widget.button.prototype.postCreate = function () {
     webui.@THEME@.button.init({id: this.id});
 
     // Set events.
-    dojo.connect(this.domNode, "onblur", this, "onBlurCallback");
-    dojo.connect(this.domNode, "onfocus", this, "onFocusCallback");
-    dojo.connect(this.domNode, "onmouseout", this, "onBlurCallback");
-    dojo.connect(this.domNode, "onmouseover", this, "onFocusCallback");
+    this.dojo.connect(this.domNode, "onblur", this, "onBlurCallback");
+    this.dojo.connect(this.domNode, "onfocus", this, "onFocusCallback");
+    this.dojo.connect(this.domNode, "onmouseout", this, "onBlurCallback");
+    this.dojo.connect(this.domNode, "onmouseover", this, "onFocusCallback");
 
     return this.inherited("postCreate", arguments);
 }
@@ -306,7 +306,7 @@ webui.@THEME@.widget.button.prototype._setProps = function(props) {
         // If escape is false, we want any special sequences in the text 
         // (e.g., "&nbsp;") to be displayed as evaluated (i.e., unescaped).
         this.domNode.value = (new Boolean(this.escape).valueOf() == false)
-            ? props.value.unescapeHTML() // Prototype method.
+            ? this.prototypejs.unescapeHTML(props.value)
             : props.value;
     }
 

@@ -21,13 +21,13 @@
 // Copyright 2007 Sun Microsystems, Inc. All rights reserved.
 //
 
-dojo.provide("webui.@THEME@.widget.jsfx.editableField");
+webui.@THEME@.dojo.provide("webui.@THEME@.widget.jsfx.editableField");
 
-dojo.require("webui.@THEME@.widget.jsfx.common");
-dojo.require("webui.@THEME@.widget.editableField");
+webui.@THEME@.dojo.require("webui.@THEME@.widget.jsfx.common");
+webui.@THEME@.dojo.require("webui.@THEME@.widget.editableField");
 
 // Listen for Dojo Widget events.
-dojo.subscribe(webui.@THEME@.widget.editableField.event.refresh.beginTopic,
+webui.@THEME@.dojo.subscribe(webui.@THEME@.widget.editableField.event.refresh.beginTopic,
     webui.@THEME@.widget.jsfx.common, "processRefreshEvent");
-dojo.subscribe(webui.@THEME@.widget.editableField.event.submit.beginTopic,
+webui.@THEME@.dojo.subscribe(webui.@THEME@.widget.editableField.event.submit.beginTopic,
     webui.@THEME@.widget.jsfx.common, "processSubmitEvent");

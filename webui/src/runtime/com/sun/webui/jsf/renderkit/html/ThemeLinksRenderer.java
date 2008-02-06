@@ -78,20 +78,14 @@ public class ThemeLinksRenderer extends javax.faces.render.Renderer {
         // Get global flags.
         JavaScriptUtilities.setDebug(themeLinks.isDebug());
 
-        try {
-            // Set flags.
-            JSONObject json = new JSONObject();
-            json.put("dijitAll", themeLinks.isDijitAll())
-                .put("parseOnLoad", themeLinks.isParseOnLoad())
-                .put("webuiAll", themeLinks.isWebuiAll())
-                .put("webuiJsfx", themeLinks.isWebuiJsfx());
-
-            // Render bootstrap.
-            if (themeLinks.isJavaScript()) {
-                JavaScriptUtilities.renderBootstrap(component, writer, json);
+        // Render bootstrap.
+        if (themeLinks.isJavaScript()) {
+            try {
+                JavaScriptUtilities.renderBootstrap(component, writer, 
+                    themeLinks.isWebuiAll(), themeLinks.isWebuiJsfx());
+            } catch (JSONException e) {
+                e.printStackTrace();
             }
-        } catch (JSONException e) {
-            e.printStackTrace();
         }
     }
 

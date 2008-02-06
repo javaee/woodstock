@@ -21,11 +21,10 @@
 // Copyright 2007 Sun Microsystems, Inc. All rights reserved.
 //
 
-dojo.provide("webui.@THEME@.widget.menuBase");
+webui.@THEME@.dojo.provide("webui.@THEME@.widget.menuBase");
 
-dojo.require("webui.@THEME@.browser");
-dojo.require("webui.@THEME@.common");
-dojo.require("webui.@THEME@.widget.widgetBase");
+webui.@THEME@.dojo.require("webui.@THEME@.browser");
+webui.@THEME@.dojo.require("webui.@THEME@.widget.widgetBase");
 
 /**
  * @name webui.@THEME@.widget.menuBase
@@ -33,7 +32,7 @@ dojo.require("webui.@THEME@.widget.widgetBase");
  * @class This class contains functions for widgets that extend menuBase.
  * @static
  */
-dojo.declare("webui.@THEME@.widget.menuBase", webui.@THEME@.widget.widgetBase);
+webui.@THEME@.dojo.declare("webui.@THEME@.widget.menuBase", webui.@THEME@.widget.widgetBase);
 
 /**
  * Add the specified options to the dom element.
@@ -67,7 +66,7 @@ webui.@THEME@.widget.menuBase.prototype.addOptions = function(menuNode, props) {
                 var sep = this.menuSeparator.cloneNode(true);
                 separator.appendChild(sep);
             }
-            webui.@THEME@.common.setVisibleElement(separator, true);             
+            this.common.setVisibleElement(separator, true);             
             menuNode.appendChild(separator);
         }
     }
@@ -97,7 +96,7 @@ webui.@THEME@.widget.menuBase.prototype.createOnClickCallback = function(optionI
         }        
 
         // Get hold of the menu element.
-        var widget = dijit.byId(_id);                
+        var widget = webui.@THEME@.dijit.byId(_id);                
         var val = elem.selectValue;
         var dis = elem.disabled;       
         var group = elem.group;
@@ -128,11 +127,11 @@ webui.@THEME@.widget.menuBase.prototype.createOnKeyDownCallBack = function(nodeI
        if (elem == null) {
           return;
        }
-        var widget = dijit.byId(id);
+        var widget = webui.@THEME@.dijit.byId(id);
 
         // If the menu is not visible, we do not need to capture
         // key press events.
-        if (!webui.@THEME@.common.isVisibleElement(widget.domNode)) {
+        if (!this.common.isVisibleElement(widget.domNode)) {
             return;
         }
         event = _widget.getEvent(event);
@@ -170,7 +169,7 @@ webui.@THEME@.widget.menuBase.prototype.createOnMouseOutCallBack = function(menu
      * @param {Event} event The JavaScript event.
      */
     return function(event) {
-        var widget = dijit.byId(_id);
+        var widget = webui.@THEME@.dijit.byId(_id);
         menuItem.className = widget.theme.getClassName("MENU_GROUP_CONTAINER");
     }
 }
@@ -194,7 +193,7 @@ webui.@THEME@.widget.menuBase.prototype.createOnMouseOverCallBack = function(men
      * @param {Event} event The JavaScript event.
      */
     return function(event) {
-        var widget = dijit.byId(_id);
+        var widget = webui.@THEME@.dijit.byId(_id);
         menuItem.className = menuItem.className + " " + 
                     widget.theme.getClassName("MENU_ITEM_HOVER");            
             if (widget != null) {
@@ -317,7 +316,7 @@ webui.@THEME@.widget.menuBase.prototype.getStyle = function() {
  */
 webui.@THEME@.widget.menuBase.prototype.postCreate = function () {
     // Set public functions.
-    this.domNode.getSelectedValue = function(props, optionNode) { return dijit.byId(this.id).getSelectedValue(); }
+    this.domNode.getSelectedValue = function(props, optionNode) { return webui.@THEME@.dijit.byId(this.id).getSelectedValue(); }
     this.focusPosition = 0;        
     return this.inherited("postCreate", arguments);
 }
@@ -411,11 +410,10 @@ webui.@THEME@.widget.menuBase.prototype.setMenuNodeClassName = function(
         // mouseover happens. This style represents the "hover" class.
         // Note that the "this" in these functions represent the menuItem's "div" element
         // and not the "menu" widget element.
-            dojo.connect(menuItemContainer, "onmouseover",
-                this.createOnMouseOverCallBack(menuItemContainer));
-            dojo.connect(menuItemContainer, "onmouseout",
-                this.createOnMouseOutCallBack(menuItemContainer));
-
+        this.dojo.connect(menuItemContainer, "onmouseover",
+            this.createOnMouseOverCallBack(menuItemContainer));
+        this.dojo.connect(menuItemContainer, "onmouseout",
+            this.createOnMouseOutCallBack(menuItemContainer));
     }
     return true;
 }
@@ -473,12 +471,12 @@ webui.@THEME@.widget.menuBase.prototype.setOptionNodeProps = function(optionNode
             "http://www.w3.org/2005/07/aaa", "disabled", props.disabled);
     }
         
-    //Create callback function for onkeydown event.
-    dojo.connect(menuItemContainer, "onkeydown", 
+    // Create callback function for onkeydown event.
+    this.dojo.connect(menuItemContainer, "onkeydown", 
         this.createOnKeyDownCallBack(menuItemContainer.id));         
         
-     //Create callback function for onClick event.
-     dojo.connect(menuItemContainer, "onclick",
+    // Create callback function for onClick event.
+    this.dojo.connect(menuItemContainer, "onclick",
         this.createOnClickCallback(menuItemContainer.id));
         
     // Set label value.
@@ -731,7 +729,7 @@ webui.@THEME@.widget.menuBase.prototype.traverseMenu = function(keyCode, event, 
        
     }    
     if (webui.@THEME@.browser.isIe5up()) {
-        window. event.cancelBubble = true;
+        window.event.cancelBubble = true;
         window.event.returnValue = false;
     } else {
         event.stopPropagation();

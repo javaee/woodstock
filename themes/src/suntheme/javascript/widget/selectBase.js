@@ -21,11 +21,10 @@
 // Copyright 2007 Sun Microsystems, Inc. All rights reserved.
 //
 
-dojo.provide("webui.@THEME@.widget.selectBase");
+webui.@THEME@.dojo.provide("webui.@THEME@.widget.selectBase");
 
-dojo.require("webui.@THEME@.browser");
-dojo.require("webui.@THEME@.common");
-dojo.require("webui.@THEME@.widget.widgetBase");
+webui.@THEME@.dojo.require("webui.@THEME@.browser");
+webui.@THEME@.dojo.require("webui.@THEME@.widget.widgetBase");
 
 /**
  * @name webui.@THEME@.widget.selectBase
@@ -33,7 +32,7 @@ dojo.require("webui.@THEME@.widget.widgetBase");
  * @class This class contains functions for widgets that extend selectBase.
  * @static
  */
-dojo.declare("webui.@THEME@.widget.selectBase", webui.@THEME@.widget.widgetBase, {
+webui.@THEME@.dojo.declare("webui.@THEME@.widget.selectBase", webui.@THEME@.widget.widgetBase, {
     // Set defaults.
     labelOnTop: false,
     titleOptionLabel: "" // Overridden by subclass.
@@ -272,12 +271,12 @@ webui.@THEME@.widget.selectBase.prototype.postCreate = function () {
     }
 
     // Set public functions.
-    this.domNode.getSelectedValue = function() { return dijit.byId(this.id).getSelectedValue(); }
-    this.domNode.getSelectedLabel = function() { return dijit.byId(this.id).getSelectedLabel(); }
-    this.domNode.getSelectElement = function() { return dijit.byId(this.id).getSelectElement(); }
+    this.domNode.getSelectedValue = function() { return webui.@THEME@.dijit.byId(this.id).getSelectedValue(); }
+    this.domNode.getSelectedLabel = function() { return webui.@THEME@.dijit.byId(this.id).getSelectedLabel(); }
+    this.domNode.getSelectElement = function() { return webui.@THEME@.dijit.byId(this.id).getSelectElement(); }
 
     // Set events.
-    dojo.connect(this.listContainer, "onchange", this, "onChangeCallback");
+    this.dojo.connect(this.listContainer, "onchange", this, "onChangeCallback");
 
     return this.inherited("postCreate", arguments);
 }
@@ -313,8 +312,8 @@ webui.@THEME@.widget.selectBase.prototype.setOptionProps = function(element, opt
     var textToUse = null;
     if (option.isTitle == true) {
        // Prepend and append long dashes with the title label
-       textToUse = this.theme.getMessage(this.titleOptionLabel,
-           [option.label]).unescapeHTML(); // Prototype method.
+       textToUse = this.prototypejs.unescapeHTML(
+           this.theme.getMessage(this.titleOptionLabel, [option.label]));
     } else {
        textToUse = option.label;
     }
@@ -325,7 +324,7 @@ webui.@THEME@.widget.selectBase.prototype.setOptionProps = function(element, opt
     // If option.escape is false, we want any special sequences in the text 
     // (e.g., "&nbsp;") to be displayed as evaluated (i.e., unescaped).
     if (new Boolean(option.escape).valueOf() == false) {
-        element.text = textToUse.unescapeHTML(); // Prototype method.
+        element.text = this.prototypejs.unescapeHTML(textToUse);
     } else {
         element.text = textToUse;
     }
@@ -385,7 +384,7 @@ webui.@THEME@.widget.selectBase.prototype._setProps = function(props) {
 
         // Remove line break -- required for IE & cannot be updated once set.
         if (new Boolean(this.labelOnTop).valueOf() == true) {
-            webui.@THEME@.common.setVisibleElement(this.brContainer, true);
+            this.common.setVisibleElement(this.brContainer, true);
         }
     }
 

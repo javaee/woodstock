@@ -21,10 +21,9 @@
 // Copyright 2007 Sun Microsystems, Inc. All rights reserved.
 //
 
-dojo.provide("webui.@THEME@.widget.alarm");
+webui.@THEME@.dojo.provide("webui.@THEME@.widget.alarm");
 
-dojo.require("webui.@THEME@.common");
-dojo.require("webui.@THEME@.widget.widgetBase");
+webui.@THEME@.dojo.require("webui.@THEME@.widget.widgetBase");
 
 /**
  * @name webui.@THEME@.widget.alarm
@@ -32,7 +31,7 @@ dojo.require("webui.@THEME@.widget.widgetBase");
  * @class This class contains functions for the alarm widget.
  * @constructor This function is used to construct an alarm widget.
  */
-dojo.declare("webui.@THEME@.widget.alarm", webui.@THEME@.widget.widgetBase, {
+webui.@THEME@.dojo.declare("webui.@THEME@.widget.alarm", webui.@THEME@.widget.widgetBase, {
     widgetName: "alarm" // Required for theme properties.
 });
 
@@ -169,13 +168,13 @@ webui.@THEME@.widget.alarm.prototype._setProps = function(props) {
     
     // Set right text.
     if (props.textPosition == "right" || props.textPosition == null && props.text != null) {
-        webui.@THEME@.common.setVisibleElement(this.leftText, false);
+        this.common.setVisibleElement(this.leftText, false);
         this.widget.addFragment(this.rightText, props.text);
     }
 
     // Set left text.
     if (props.textPosition == "left" && props.text != null) {
-        webui.@THEME@.common.setVisibleElement(this.rightText, false);
+        this.common.setVisibleElement(this.rightText, false);
         this.widget.addFragment(this.leftText, props.text);
     }    
     

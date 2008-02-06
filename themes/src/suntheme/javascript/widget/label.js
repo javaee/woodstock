@@ -21,9 +21,9 @@
 // Copyright 2007 Sun Microsystems, Inc. All rights reserved.
 //
 
-dojo.provide("webui.@THEME@.widget.label");
+webui.@THEME@.dojo.provide("webui.@THEME@.widget.label");
 
-dojo.require("webui.@THEME@.widget.widgetBase");
+webui.@THEME@.dojo.require("webui.@THEME@.widget.widgetBase");
 
 /**
  * @name webui.@THEME@.widget.label
@@ -31,7 +31,7 @@ dojo.require("webui.@THEME@.widget.widgetBase");
  * @class This class contains functions for the label widget.
  * @constructor This function is used to construct a label widget.
  */
-dojo.declare("webui.@THEME@.widget.label", webui.@THEME@.widget.widgetBase, {
+webui.@THEME@.dojo.declare("webui.@THEME@.widget.label", webui.@THEME@.widget.widgetBase, {
     // Set defaults.
     level: 2,
     required: false,

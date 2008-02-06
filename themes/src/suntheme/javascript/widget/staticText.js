@@ -21,9 +21,9 @@
 // Copyright 2007 Sun Microsystems, Inc. All rights reserved.
 //
 
-dojo.provide("webui.@THEME@.widget.staticText");
+webui.@THEME@.dojo.provide("webui.@THEME@.widget.staticText");
 
-dojo.require("webui.@THEME@.widget.widgetBase");
+webui.@THEME@.dojo.require("webui.@THEME@.widget.widgetBase");
 
 /**
  * @name webui.@THEME@.widget.staticText
@@ -31,7 +31,7 @@ dojo.require("webui.@THEME@.widget.widgetBase");
  * @class This class contains functions for the staticText widget.
  * @constructor This function is used to construct a staticText widget.
  */
-dojo.declare("webui.@THEME@.widget.staticText", webui.@THEME@.widget.widgetBase, {
+webui.@THEME@.dojo.declare("webui.@THEME@.widget.staticText", webui.@THEME@.widget.widgetBase, {
     // Set defaults.
     escape: true,
     widgetName: "staticText" // Required for theme properties.

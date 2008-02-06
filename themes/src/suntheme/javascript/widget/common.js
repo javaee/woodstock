@@ -21,9 +21,9 @@
 // Copyright 2007 Sun Microsystems, Inc. All rights reserved.
 //
 
-dojo.provide("webui.@THEME@.widget.common");
+webui.@THEME@.dojo.provide("webui.@THEME@.widget.common");
 
-dojo.require("webui.@THEME@.theme.common");
+webui.@THEME@.dojo.require("webui.@THEME@.theme.common");
 
 /**
  * @class This class contains functions common to all widgets.
@@ -117,18 +117,19 @@ webui.@THEME@.widget.common = {
             //
             if (escape != null && new Boolean(escape).valueOf() == false) {
                 // Note: IE does not insert script tags via innerHTML.
-                webui.@THEME@.widget.common.appendHTML(domNode, props.stripScripts());
+                webui.@THEME@.widget.common.appendHTML(domNode, 
+                    webui.@THEME@.prototypejs.stripScripts(props));
 
                 // Evaluate JavaScript.
                 setTimeout(function() {
                     // Eval not required for Mozilla/Firefox, but consistent.
-                    props.evalScripts();
+                    webui.@THEME@.prototypejs.evalScripts(props);
                     webui.@THEME@.widget.common.replaceElements(domNode);
                 }, 10);
             } else {
                 // Static strings must be HTML escaped by default.
                 webui.@THEME@.widget.common.appendHTML(domNode,
-                    webui.@THEME@.widget.common.escapeHTML(props));
+                    webui.@THEME@.prototypejs.escapeHTML(props));
             }
         } else if (props.fragment) {
             // Add fragment -- do not HTML escape.
@@ -154,6 +155,7 @@ webui.@THEME@.widget.common = {
      * @param {Node} domNode The DOM node to append string.
      * @param {String} html The HTML string to append.
      * @return {boolean} true if successful; otherwise, false.
+     * @private
      */
     appendHTML: function(domNode, html) {
         if (domNode.innerHTML != null && domNode.innerHTML.length > 0) {
@@ -193,11 +195,11 @@ webui.@THEME@.widget.common = {
         webui.@THEME@.widget.common.destroyWidget(props.id);
 
         // Retrieve required module.
-        dojo.require(props.widgetType);
+        webui.@THEME@.dojo.require(props.widgetType);
         
         try {
             // Get widget object.
-            var obj = dojo.getObject(props.widgetType);
+            var obj = webui.@THEME@.dojo.getObject(props.widgetType);
 
             // Instantiate widget. 
             // Note: Dojo mixes attributes, if domNode is provided.
@@ -281,52 +283,11 @@ webui.@THEME@.widget.common = {
         }
 
         // Destroy previously created widgets, events, etc.
-        var widget = dijit.byId(id);
+        var widget = webui.@THEME@.dijit.byId(id);
         if (widget) {
             return widget.destroyRecursive();
         }
         return false;
-    },   
-
-    /**
-     * This function adds escape sequences for special characters in HTML: &<>"'
-     *
-     * @param {String} html The string to HTML escape.
-     * @return {String} The HTML escaped string.
-     */
-    escapeHTML: function(html){ 
-        return html.replace(/&/gm, "&amp;").
-            replace(/</gm, "&lt;").
-            replace(/>/gm, "&gt;").
-            replace(/"/gm, "&quot;"); 
-    },
-
-    /**
-     * This function is used to extend the given object with Key-Value pairs of
-     * properties. 
-     * <p>
-     * Note: If a property is an object containing Key-Value pairs itself, this
-     * function is called recursively to preserve data which is not explicitly
-     * extended. If only top level properties must be replaced, use Prototype's 
-     * Object.extend() function.
-     * </p>
-     *
-     * @param {Object} obj The object to extend.
-     * @param {Object} props Key-Value pairs of properties.
-     * @return {boolean} true if successful; otherwise, false.
-     */
-    extend: function(obj, props) {
-        if (obj == null || props == null) {
-            return false;
-        }
-        for (var property in props) {
-            if (obj[property] && typeof obj[property] == "object") {
-                webui.@THEME@.widget.common.extend(obj[property], props[property]);
-            } else {
-                obj[property] = props[property];
-            }
-        }
-        return true;
     },
 
     /**
@@ -371,7 +332,7 @@ webui.@THEME@.widget.common = {
         var _props = webui.@THEME@.widget.common.getWidgetProps("dropDown", _props);
         
         // Add extra properties        
-        webui.@THEME@.widget.common.extend(_props, props);
+        webui.@THEME@.prototypejs.extend(_props, props);
         return _props;
     },
 
@@ -432,7 +393,7 @@ webui.@THEME@.widget.common = {
        
         // Add extra properties               
         if (props != null) {
-            webui.@THEME@.widget.common.extend(_props, props);
+            webui.@THEME@.prototypejs.extend(_props, props);
         }
         return _props;
     },
@@ -460,20 +421,23 @@ webui.@THEME@.widget.common = {
         }
        
         // Set default module and widget name        
-        var _props = webui.@THEME@.widget.common.getWidgetProps("imageHyperlink", _props);        
+        var _props = webui.@THEME@.widget.common.getWidgetProps(
+            "imageHyperlink", _props);        
        
         // Add the enabled image properties 
         if (enabledImage != null) {
-            _props.enabledImage = webui.@THEME@.widget.common.getImageProps(enabledImage, props.enabledImage);
+            _props.enabledImage = webui.@THEME@.widget.common.getImageProps(
+                enabledImage, props.enabledImage);
         }
                 
         // Add the disabled image properties
         if (disabledImage != null) {
-            _props.disabledImage = webui.@THEME@.widget.common.getImageProps(disabledImage, props.disabledImage);
+            _props.disabledImage = webui.@THEME@.widget.common.getImageProps(
+                disabledImage, props.disabledImage);
         }
               
         // Add extra properties.
-        webui.@THEME@.widget.common.extend(_props, props);
+        webui.@THEME@.prototypejs.extend(_props, props);
 
         return _props;
     },    
@@ -498,7 +462,7 @@ webui.@THEME@.widget.common = {
         
         // Add extra properties
         if (props != null) {
-            webui.@THEME@.widget.common.extend(_props, props);
+            webui.@THEME@.prototypejs.extend(_props, props);
         }
         return _props;
     },
@@ -631,7 +595,7 @@ webui.@THEME@.widget.common = {
 
         // Add extra properties
         if (props != null) {
-            webui.@THEME@.widget.common.extend(_props, props);
+            webui.@THEME@.prototypejs.extend(_props, props);
         }
         return _props;
     },
@@ -646,7 +610,7 @@ webui.@THEME@.widget.common = {
         //
         // <div style="border-style: solid; border-color: red green; border-width: 1px; 
         //  position: absolute; left: -999px; top: -999px; background-image: 
-        //  url(/example/theme/META-INF/dojo/dijit/form/templates/blank.gif);" id="a11yTestNode">
+        //  url(.../blank.gif);" id="a11yTestNode">
         // </div>
 
         // Currently high contrast mode check is supported for firefox and ie on
@@ -839,7 +803,7 @@ webui.@THEME@.widget.common = {
 
         // Ensure props is not a string.
         var widget = (typeof props != 'string') 
-            ? dijit.byId(id) : null;
+            ? webui.@THEME@.dijit.byId(id) : null;
 
         // Update widget or add fragment.
         if (widget && typeof widget.setProps == "function") {

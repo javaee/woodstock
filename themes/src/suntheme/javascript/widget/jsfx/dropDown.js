@@ -21,13 +21,13 @@
 // Copyright 2007 Sun Microsystems, Inc. All rights reserved.
 //
 
-dojo.provide("webui.@THEME@.widget.jsfx.dropDown");
+webui.@THEME@.dojo.provide("webui.@THEME@.widget.jsfx.dropDown");
 
-dojo.require("webui.@THEME@.widget.jsfx.common");
-dojo.require("webui.@THEME@.widget.dropDown");
+webui.@THEME@.dojo.require("webui.@THEME@.widget.jsfx.common");
+webui.@THEME@.dojo.require("webui.@THEME@.widget.dropDown");
 
 // Listen for Dojo Widget events.
-dojo.subscribe(webui.@THEME@.widget.dropDown.event.refresh.beginTopic,
+webui.@THEME@.dojo.subscribe(webui.@THEME@.widget.dropDown.event.refresh.beginTopic,
     webui.@THEME@.widget.jsfx.common, "processRefreshEvent");
-dojo.subscribe(webui.@THEME@.widget.dropDown.event.submit.beginTopic,
+webui.@THEME@.dojo.subscribe(webui.@THEME@.widget.dropDown.event.submit.beginTopic,
     webui.@THEME@.widget.jsfx.common, "processSubmitEvent");

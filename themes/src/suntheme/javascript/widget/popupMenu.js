@@ -21,10 +21,9 @@
 // Copyright 2007 Sun Microsystems, Inc. All rights reserved.
 //
 
-dojo.provide("webui.@THEME@.widget.popupMenu");
+webui.@THEME@.dojo.provide("webui.@THEME@.widget.popupMenu");
 
-dojo.require("webui.@THEME@.common");
-dojo.require("webui.@THEME@.widget.menuBase");
+webui.@THEME@.dojo.require("webui.@THEME@.widget.menuBase");
 
 /**
  * @name webui.@THEME@.widget.popupMenu
@@ -32,7 +31,7 @@ dojo.require("webui.@THEME@.widget.menuBase");
  * @class This class contains functions for the popupMenu widget.
  * @constructor This function is used to construct a popupMenu widget.
  */
-dojo.declare("webui.@THEME@.widget.popupMenu", webui.@THEME@.widget.menuBase, {
+webui.@THEME@.dojo.declare("webui.@THEME@.widget.popupMenu", webui.@THEME@.widget.menuBase, {
     // Set defaults.
     widgetName: "popupMenu" // Required for theme properties.
 });
@@ -43,7 +42,7 @@ dojo.declare("webui.@THEME@.widget.popupMenu", webui.@THEME@.widget.menuBase, {
  * @return {boolean} false to cancel the JavaScript event.
  */
 webui.@THEME@.widget.popupMenu.prototype.close = function() {
-    if (webui.@THEME@.common.isVisibleElement(this.domNode)) {
+    if (this.common.isVisibleElement(this.domNode)) {
         if (webui.@THEME@.widget.popupMenu.activeMenuId) {
             webui.@THEME@.widget.popupMenu.activeMenuId = null;
         }
@@ -197,7 +196,7 @@ webui.@THEME@.widget.popupMenu.prototype.open = function(event) {
      }
          
     // Only one menu can be open at a time. Hence, close the previous menu.
-    var widget = dijit.byId(webui.@THEME@.widget.popupMenu.activeMenuId);
+    var widget = webui.@THEME@.dijit.byId(webui.@THEME@.widget.popupMenu.activeMenuId);
     if (widget) {
         widget.close();
     }
@@ -214,7 +213,7 @@ webui.@THEME@.widget.popupMenu.prototype.open = function(event) {
     }
 
     // If menu already rendered, do nothing.
-    if (webui.@THEME@.common.isVisibleElement(this.domNode)) {
+    if (this.common.isVisibleElement(this.domNode)) {
         return false;
     }
         
@@ -370,14 +369,14 @@ webui.@THEME@.widget.popupMenu.prototype.open = function(event) {
  */
 webui.@THEME@.widget.popupMenu.prototype.postCreate = function () {
     // Set public functions.
-    this.domNode.open = function(event) { return dijit.byId(this.id).open(event); }
-    this.domNode.close = function() { return dijit.byId(this.id).close(); }
+    this.domNode.open = function(event) { return webui.@THEME@.dijit.byId(this.id).open(event); }
+    this.domNode.close = function() { return webui.@THEME@.dijit.byId(this.id).close(); }
 
     // Set events.s
-    dojo.connect(document, "onclick", this, "onCloseMenuCallBack"); 
+    this.dojo.connect(document, "onclick", this, "onCloseMenuCallBack"); 
             
     // escape key should also close menu.
-    dojo.connect(document, "onkeydown", this, "onCloseMenuCallBack");  
+    this.dojo.connect(document, "onkeydown", this, "onCloseMenuCallBack");  
 
     // Default widths of the drop shadow on each side of the menu.  These MUST 
     // be in pixel units and MUST match the absolute values of the left/top 
@@ -473,7 +472,7 @@ webui.@THEME@.widget.popupMenu.prototype.traverseMenu = function(keyCode, event,
  */
 webui.@THEME@.widget.popupMenu.prototype.submit = function(execute) {
     // Publish an event for custom AJAX implementations to listen for.
-    dojo.publish(webui.@THEME@.widget.popupMenu.event.submit.beginTopic, [{
+    this.publish(webui.@THEME@.widget.popupMenu.event.submit.beginTopic, [{
         id: this.id,
         execute: execute,
         value: this.getSelectedValue(),

@@ -21,9 +21,9 @@
 // Copyright 2007 Sun Microsystems, Inc. All rights reserved.
 //
 
-dojo.provide("webui.@THEME@.widget.dropDown");
+webui.@THEME@.dojo.provide("webui.@THEME@.widget.dropDown");
 
-dojo.require("webui.@THEME@.widget.selectBase");
+webui.@THEME@.dojo.require("webui.@THEME@.widget.selectBase");
 
 /**
  * @name webui.@THEME@.widget.dropDown
@@ -31,7 +31,7 @@ dojo.require("webui.@THEME@.widget.selectBase");
  * @class This class contains functions for the dropDown widget.
  * @constructor This function is used to construct a dropDown widget.
  */
-dojo.declare("webui.@THEME@.widget.dropDown", webui.@THEME@.widget.selectBase, {
+webui.@THEME@.dojo.declare("webui.@THEME@.widget.dropDown", webui.@THEME@.widget.selectBase, {
     // Set defaults.
     submitForm: false,
     titleOptionLabel: "DropDown.titleOptionLabel",
@@ -55,7 +55,7 @@ webui.@THEME@.widget.dropDown.prototype.changed = function() {
         // Find the <form> for this drop down
         var form = jumpDropdown.form; 
 
-        if (typeof form != "undefined" && form != null) { 
+        if (form != null) { 
             this.submitterHiddenNode.value = "true";
 
             // Set style classes.

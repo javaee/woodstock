@@ -20,10 +20,11 @@
 // 
 // Copyright 2007 Sun Microsystems, Inc. All rights reserved.
 
-dojo.provide("webui.@THEME@.table");
+webui.@THEME@.dojo.provide("webui.@THEME@.table");
 
-dojo.require("webui.@THEME@.common");
-dojo.require("webui.@THEME@.formElements");
+webui.@THEME@.dojo.require("webui.@THEME@.common");
+webui.@THEME@.dojo.require("webui.@THEME@.formElements");
+webui.@THEME@.dojo.require("webui.@THEME@.prototypejs");
 
 /** 
  * @class This class contains functions for table components.
@@ -322,24 +323,24 @@ webui.@THEME@.table = {
      * @config {String} deleteSelectionsMsg The delete selections message for confirm dialog.</li>
      *
      * // Group Panel Properties
-     * @param {String} [columnFooterId] ID for column footer.</li>
-     * @param {String} [columnHeaderId] ID for column header.</li>
-     * @param {String} [tableColumnFooterId] ID for table column footer.</li>
-     * @param {String} [groupFooterId] ID for group footer.</li>
-     * @param {String} [groupPanelToggleButtonId] ID for group panel toggle button.</li>
-     * @param {String} [groupPanelToggleButtonToolTipOpen] tool tip for open row group.</li>
-     * @param {String} [groupPanelToggleButtonToolTipClose] tool tip for closed row group.</li>
-     * @param {String} [groupPanelToggleIconOpen] The toggle icon for open row group.</li>
-     * @param {String} [groupPanelToggleIconClose] The toggle icon for closed row group.</li>
-     * @param {String} [warningIconId] ID for warning icon.</li>
-     * @param {String} [warningIconOpen] The warning icon for open row group.</li>
-     * @param {String} [warningIconClosed] The warning icon for closed row group.</li>
-     * @param {String} [warningIconToolTipOpen] The warning icon tool tip for open row group.</li>
-     * @param {String} [warningIconToolTipClose] The warning icon tool tip for closed row group.</li>
-     * @param {String} [collapsedHiddenFieldId ID] for collapsed hidden field.</li>
-     * @param {String} [selectMultipleToggleButtonId ID] for select multiple toggle button.</li>
-     * @param {String} [selectMultipleToggleButtonToolTip] The select multiple toggle button tool tip.</li>
-     * @param {String} [selectMultipleToggleButtonToolTipSelected] The select multiple toggle button tool tip when selected.</li>
+     * @param {String} columnFooterId ID for column footer.</li>
+     * @param {String} columnHeaderId ID for column header.</li>
+     * @param {String} tableColumnFooterId ID for table column footer.</li>
+     * @param {String} groupFooterId ID for group footer.</li>
+     * @param {String} groupPanelToggleButtonId ID for group panel toggle button.</li>
+     * @param {String} groupPanelToggleButtonToolTipOpen tool tip for open row group.</li>
+     * @param {String} groupPanelToggleButtonToolTipClose tool tip for closed row group.</li>
+     * @param {String} groupPanelToggleIconOpen The toggle icon for open row group.</li>
+     * @param {String} groupPanelToggleIconClose The toggle icon for closed row group.</li>
+     * @param {String} warningIconId ID for warning icon.</li>
+     * @param {String} warningIconOpen The warning icon for open row group.</li>
+     * @param {String} warningIconClosed The warning icon for closed row group.</li>
+     * @param {String} warningIconToolTipOpen The warning icon tool tip for open row group.</li>
+     * @param {String} warningIconToolTipClose The warning icon tool tip for closed row group.</li>
+     * @param {String} collapsedHiddenFieldId ID for collapsed hidden field.</li>
+     * @param {String} selectMultipleToggleButtonId ID for select multiple toggle button.</li>
+     * @param {String} selectMultipleToggleButtonToolTip The select multiple toggle button tool tip.</li>
+     * @param {String} selectMultipleToggleButtonToolTipSelected The select multiple toggle button tool tip when selected.</li>
      * @return {boolean} true if successful; otherwise, false.
      * @private
      */
@@ -353,7 +354,7 @@ webui.@THEME@.table = {
         }
 
         // Set given properties on domNode.
-        Object.extend(domNode, props);
+        webui.@THEME@.prototypejs.extend(domNode, props, false);
 
         // Misc properties.
         domNode.SEPARATOR = ":";   // NamingContainer separator.

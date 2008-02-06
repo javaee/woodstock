@@ -61,14 +61,12 @@
         <copy todir="${releaselib}" >
             <fileset dir="${webui.external.libs}">
                 <include name="commons*" />
-		<include name="dojo*" />
 		<include name="jh*" />
 		<include name="jsearch*" />
                 <include name="jsf*" />
                 <include name="jstl*" />
 		<include name="json*" />
                 <include name="portlet*" />
-		<include name="prototype*" />
             </fileset>
             <fileset dir="${webui.component.libs}">
                 <include name="${webui.jar}" />
@@ -219,8 +217,6 @@
 	<include name="lib/${suntheme.jar}"/>
 	<include name="lib/${suntheme-l10n.jars}"/>
 	<include name="lib/json*.jar"/>
-	<include name="lib/dojo*.jar"/>
-	<include name="lib/prototype*.jar"/>
     </patternset>
 
     <patternset id="com-sun-webui-jsf">
@@ -431,10 +427,8 @@
         <mkdir dir="${dist}"/>
         <copy todir="${dist}" >
             <fileset dir="${releaselib}">
-		<include name="dojo*" />
                 <include name="jsf-extension**" />
                 <include name="json*" />
-                <include name="prototype*" />
                 <include name="${suntheme.jar}" />
                 <include name="${suntheme-l10n.jars}" />
             </fileset>

@@ -21,9 +21,9 @@
 // Copyright 2007 Sun Microsystems, Inc. All rights reserved.
 //
 
-dojo.provide("webui.@THEME@.widget.passwordField");
+webui.@THEME@.dojo.provide("webui.@THEME@.widget.passwordField");
 
-dojo.require("webui.@THEME@.widget.fieldBase");
+webui.@THEME@.dojo.require("webui.@THEME@.widget.fieldBase");
 
 /**
  * @name webui.@THEME@.widget.passwordField
@@ -31,7 +31,7 @@ dojo.require("webui.@THEME@.widget.fieldBase");
  * @class This class contains functions for the passwordField widget.
  * @constructor This function is used to construct a passwordField widget.
  */
-dojo.declare("webui.@THEME@.widget.passwordField", webui.@THEME@.widget.fieldBase, {
+webui.@THEME@.dojo.declare("webui.@THEME@.widget.passwordField", webui.@THEME@.widget.fieldBase, {
     // Set defaults.
     widgetName: "passwordField" // Required for theme properties.
 });

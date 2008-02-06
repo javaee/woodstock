@@ -21,9 +21,9 @@
 // Copyright 2007 Sun Microsystems, Inc. All rights reserved.
 //
 
-dojo.provide("webui.@THEME@.widget.alert");
+webui.@THEME@.dojo.provide("webui.@THEME@.widget.alert");
 
-dojo.require("webui.@THEME@.widget.widgetBase");
+webui.@THEME@.dojo.require("webui.@THEME@.widget.widgetBase");
 
 /**
  * @name webui.@THEME@.widget.alert
@@ -31,7 +31,7 @@ dojo.require("webui.@THEME@.widget.widgetBase");
  * @class This class contains functions for the alert widget.
  * @constructor This function is used to construct an alert widget.
  */
-dojo.declare("webui.@THEME@.widget.alert", webui.@THEME@.widget.widgetBase, {
+webui.@THEME@.dojo.declare("webui.@THEME@.widget.alert", webui.@THEME@.widget.widgetBase, {
     // Set defaults.
     widgetName: "alert" // Required for theme properties.
 });
@@ -224,7 +224,7 @@ webui.@THEME@.widget.alert.prototype._setProps = function(props) {
                 props.spacerImage.id = this.id + "_spacerImage" + i;
             }
             // Replace container with image.
-            if (!dijit.byId(props.spacerImage.id)) {
+            if (!webui.@THEME@.dijit.byId(props.spacerImage.id)) {
                 this.widget.addFragment(containers[i], props.spacerImage);
             }
         }

@@ -21,11 +21,11 @@
 // Copyright 2007 Sun Microsystems, Inc. All rights reserved.
 //
 
-dojo.provide("webui.@THEME@.widget.jsfx.radioButtonGroup");
+webui.@THEME@.dojo.provide("webui.@THEME@.widget.jsfx.radioButtonGroup");
 
-dojo.require("webui.@THEME@.widget.jsfx.common");
-dojo.require("webui.@THEME@.widget.radioButtonGroup");
+webui.@THEME@.dojo.require("webui.@THEME@.widget.jsfx.common");
+webui.@THEME@.dojo.require("webui.@THEME@.widget.radioButtonGroup");
 
 // Listen for Dojo Widget events.
-dojo.subscribe(webui.@THEME@.widget.radioButtonGroup.event.refresh.beginTopic,
+webui.@THEME@.dojo.subscribe(webui.@THEME@.widget.radioButtonGroup.event.refresh.beginTopic,
     webui.@THEME@.widget.jsfx.common, "processRefreshEvent");

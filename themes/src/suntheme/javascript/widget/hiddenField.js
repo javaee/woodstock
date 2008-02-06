@@ -21,9 +21,9 @@
 // Copyright 2007 Sun Microsystems, Inc. All rights reserved.
 //
 
-dojo.provide("webui.@THEME@.widget.hiddenField");
+webui.@THEME@.dojo.provide("webui.@THEME@.widget.hiddenField");
 
-dojo.require("webui.@THEME@.widget.widgetBase");
+webui.@THEME@.dojo.require("webui.@THEME@.widget.widgetBase");
 
 /**
  * @name webui.@THEME@.widget.hiddenField
@@ -31,7 +31,7 @@ dojo.require("webui.@THEME@.widget.widgetBase");
  * @class This class contains functions for the hiddenField widget.
  * @constructor This function is used to construct a hiddenField widget.
  */
-dojo.declare("webui.@THEME@.widget.hiddenField", webui.@THEME@.widget.widgetBase, {
+webui.@THEME@.dojo.declare("webui.@THEME@.widget.hiddenField", webui.@THEME@.widget.widgetBase, {
     // Set defaults.
     disabled: false,
     widgetName: "hiddenField" // Required for theme properties.

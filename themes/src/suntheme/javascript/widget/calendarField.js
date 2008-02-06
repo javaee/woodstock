@@ -21,10 +21,10 @@
 // Copyright 2007 Sun Microsystems, Inc. All rights reserved.
 //
 
-dojo.provide("webui.@THEME@.widget.calendarField");
+webui.@THEME@.dojo.provide("webui.@THEME@.widget.calendarField");
 
-dojo.require("webui.@THEME@.widget.calendar");
-dojo.require("webui.@THEME@.widget.textField");
+webui.@THEME@.dojo.require("webui.@THEME@.widget.calendar");
+webui.@THEME@.dojo.require("webui.@THEME@.widget.textField");
 
 /**
  * @name webui.@THEME@.widget.calendarField
@@ -32,7 +32,7 @@ dojo.require("webui.@THEME@.widget.textField");
  * @class This class contains functions for the calendarField widget.
  * @constructor This function is used to construct a calendarField widget.
  */
-dojo.declare("webui.@THEME@.widget.calendarField", webui.@THEME@.widget.textField, {
+webui.@THEME@.dojo.declare("webui.@THEME@.widget.calendarField", webui.@THEME@.widget.textField, {
     // Set defaults.
     widgetName: "calendarField" // Required for theme properties.
 });
@@ -157,10 +157,10 @@ webui.@THEME@.widget.calendarField.prototype.postCreate = function () {
     // Set events.
 
     // Subscribe to the "dayClicked" event present in the calendar widget.
-    dojo.subscribe(webui.@THEME@.widget.calendar.event.day.selectedTopic,
+    this.subscribe(webui.@THEME@.widget.calendar.event.day.selectedTopic,
         this, "dayClicked");
     // Subscribe to the "toggle" event that occurs whenever the calendar is opened.
-    dojo.subscribe(webui.@THEME@.widget.calendar.event.toggle.openTopic,
+    this.subscribe(webui.@THEME@.widget.calendar.event.toggle.openTopic,
         this, "toggleCalendar");
         
     return this.inherited("postCreate", arguments);
@@ -220,7 +220,7 @@ webui.@THEME@.widget.calendarField.prototype.setProps = function(props, notify) 
     // If the popup calendar is visible, prevent disabling of the calendar.
     // The widget can only be disabled if the popup calendar is not visible.
     if (props.disabled != null) { 
-        var widget = dijit.byId(this.calendar.id); 
+        var widget = webui.@THEME@.dijit.byId(this.calendar.id); 
         if (widget != null && !(widget.calendarContainer.style.display != "block")) {
             props.disabled = this.disabled;
         }        
@@ -295,7 +295,7 @@ webui.@THEME@.widget.calendarField.prototype.startup = function () {
  */
 webui.@THEME@.widget.calendarField.prototype.toggleCalendar = function(props) {   
     if (props.id != null && props.id == this.calendar.id) {
-        var widget = dijit.byId(props.id);
+        var widget = webui.@THEME@.dijit.byId(props.id);
         widget.setProps({date: this.getProps().value});
     }
     return true;

@@ -21,7 +21,7 @@
 // Copyright 2007 Sun Microsystems, Inc. All rights reserved.
 //
 
-dojo.provide("webui.@THEME@.cookie");
+webui.@THEME@.dojo.provide("webui.@THEME@.cookie");
 
 /**
  * @class This class contains functions to manipulate cookies.

@@ -21,10 +21,10 @@
 // Copyright 2007 Sun Microsystems, Inc. All rights reserved.
 //
 
-dojo.provide("webui.@THEME@.formElements");
+webui.@THEME@.dojo.provide("webui.@THEME@.formElements");
 
-dojo.require("webui.@THEME@.browser");
-dojo.require("webui.@THEME@.common");
+webui.@THEME@.dojo.require("webui.@THEME@.browser");
+webui.@THEME@.dojo.require("webui.@THEME@.common");
 
 // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 // button functions
@@ -52,7 +52,7 @@ webui.@THEME@.button = {
         if (props == null || props.id == null) {
             return false;
         }
-        var widget = dijit.byId(props.id);
+        var widget = webui.@THEME@.dijit.byId(props.id);
         if (widget == null) {
             return false;
         }
@@ -321,7 +321,7 @@ webui.@THEME@.dropDown = {
      * @ignore Until JsDoc supports deprecated tag.
      */
     getSelectElement: function(elementId) { 
-        var widget = dijit.byId(elementId);
+        var widget = webui.@THEME@.dijit.byId(elementId);
         if (widget) {
             return widget.getSelectElement();
         }
@@ -343,7 +343,7 @@ webui.@THEME@.dropDown = {
      * @ignore Until JsDoc supports deprecated tag.
      */
     changed: function(elementId) {         
-        var widget = dijit.byId(elementId);
+        var widget = webui.@THEME@.dijit.byId(elementId);
         if (widget) {
             return widget.changed();
         }
@@ -366,7 +366,7 @@ webui.@THEME@.dropDown = {
      * @ignore Until JsDoc supports deprecated tag.
      */
     setDisabled: function(elementId, disabled) { 
-        var widget = dijit.byId(elementId);
+        var widget = webui.@THEME@.dijit.byId(elementId);
         if (widget) {
             return widget.setProps({ disabled: disabled});
         }
@@ -387,7 +387,7 @@ webui.@THEME@.dropDown = {
      * @ignore Until JsDoc supports deprecated tag.
      */
     getSelectedValue: function(elementId) { 
-        var widget = dijit.byId(elementId);
+        var widget = webui.@THEME@.dijit.byId(elementId);
         if (widget) {
             return widget.getSelectedValue();
         }
@@ -408,7 +408,7 @@ webui.@THEME@.dropDown = {
      * @ignore Until JsDoc supports deprecated tag.
      */
     getSelectedLabel: function(elementId) { 
-        var widget = dijit.byId(elementId);
+        var widget = webui.@THEME@.dijit.byId(elementId);
         if (widget) {
             return widget.getSelectedLabel();
         }
@@ -439,7 +439,7 @@ webui.@THEME@.field = {
      * @ignore Until JsDoc supports deprecated tag.
      */
     getInputElement: function(elementId) {
-        var widget = dijit.byId(elementId);
+        var widget = webui.@THEME@.dijit.byId(elementId);
         if (widget) {
             return widget.getInputElement();
         }
@@ -456,7 +456,7 @@ webui.@THEME@.field = {
      * @ignore Until JsDoc supports deprecated tag.
      */
     getValue: function(elementId) {
-        var widget = dijit.byId(elementId);
+        var widget = webui.@THEME@.dijit.byId(elementId);
         if (widget) {
             return widget.getProps().value;
         }
@@ -474,7 +474,7 @@ webui.@THEME@.field = {
      * @ignore Until JsDoc supports deprecated tag.
      */
     setValue: function(elementId, newValue) {
-        var widget = dijit.byId(elementId);
+        var widget = webui.@THEME@.dijit.byId(elementId);
         if (widget) {
             return widget.setProps({value: newValue});
         }
@@ -492,7 +492,7 @@ webui.@THEME@.field = {
      * @ignore Until JsDoc supports deprecated tag.
      */
     getStyle: function(elementId) {
-        var widget = dijit.byId(elementId);
+        var widget = webui.@THEME@.dijit.byId(elementId);
         if (widget) {
             return widget.getProps().style;
         }
@@ -510,7 +510,7 @@ webui.@THEME@.field = {
      * @ignore Until JsDoc supports deprecated tag.
      */
     setStyle: function(elementId, newStyle) { 
-        var widget = dijit.byId(elementId);
+        var widget = webui.@THEME@.dijit.byId(elementId);
         if (widget) {
             return widget.setProps({style: newStyle});
         }
@@ -531,7 +531,7 @@ webui.@THEME@.field = {
         if (newDisabled == null) {
             return null;
         }
-        var widget = dijit.byId(elementId);
+        var widget = webui.@THEME@.dijit.byId(elementId);
         if (widget) {
             return widget.setProps({disabled: newDisabled});
         }
@@ -568,11 +568,11 @@ webui.@THEME@.hyperlink = {
     submit: function(hyperlink, formId, params) {
         // Need to test widget for tab and common task components. If a widget 
         // does not exist, fall back to the old code.
-	var widget = dijit.byId(hyperlink.id);
+	var widget = webui.@THEME@.dijit.byId(hyperlink.id);
 	if (widget == null) {
             // If a widget does not exist, we shall create one in order to call
             // the submit function directly.
-            dojo.require("webui.@THEME@.widget.hyperlink");
+            webui.@THEME@.dojo.require("webui.@THEME@.widget.hyperlink");
             widget = new webui.@THEME@.widget.hyperlink({id: hyperlink.id});
 	}
         return widget.submitFormData(formId, params);
@@ -591,10 +591,10 @@ webui.@THEME@.hyperlink = {
     getImgElement: function(elementId) {
         // Need to test widget for alarmStatus, jobstatus, and notification phrase
         // components. If a widget does not exist, fall back to the old code.
-        var widget = dijit.byId(elementId);
+        var widget = webui.@THEME@.dijit.byId(elementId);
         var props = (widget) ? widget.getProps() : null;
         if (props && props.enabledImage) {
-            var imgWidget = dijit.byId(props.enabledImage.id);
+            var imgWidget = webui.@THEME@.dijit.byId(props.enabledImage.id);
             if (imgWidget != null) {
                 return imgWidget.domNode;    
             }
@@ -641,7 +641,7 @@ webui.@THEME@.jumpDropDown = {
      * @ignore Until JsDoc supports deprecated tag.
      */
     changed: function(elementId) {
-        var widget = dijit.byId(elementId);
+        var widget = webui.@THEME@.dijit.byId(elementId);
         if (widget) {
             return widget.changed();
         }
@@ -673,7 +673,7 @@ webui.@THEME@.listbox = {
      * @ignore Until JsDoc supports deprecated tag.
      */
     getSelectElement: function(elementId) { 
-        var widget = dijit.byId(elementId);
+        var widget = webui.@THEME@.dijit.byId(elementId);
         if (widget) {
             return widget.getSelectElement();
         }
@@ -695,7 +695,7 @@ webui.@THEME@.listbox = {
      * @ignore Until JsDoc supports deprecated tag.
      */
     changed: function(elementId) {         
-        var widget = dijit.byId(elementId);
+        var widget = webui.@THEME@.dijit.byId(elementId);
         if (widget) {
             return widget.changed();
         }
@@ -719,7 +719,7 @@ webui.@THEME@.listbox = {
      * @ignore Until JsDoc supports deprecated tag.
      */
     setDisabled: function(elementId, disabled) { 
-        var widget = dijit.byId(elementId);
+        var widget = webui.@THEME@.dijit.byId(elementId);
         if (widget) {
             return widget.setProps({disabled: disabled});
         }
@@ -740,7 +740,7 @@ webui.@THEME@.listbox = {
      * @ignore Until JsDoc supports deprecated tag.
      */
     getSelectedValue: function(elementId) { 
-        var widget = dijit.byId(elementId);
+        var widget = webui.@THEME@.dijit.byId(elementId);
         if (widget) {
             return widget.getSelectedValue();
         }
@@ -760,7 +760,7 @@ webui.@THEME@.listbox = {
      * @ignore Until JsDoc supports deprecated tag.
      */
     getSelectedLabel: function(elementId) { 
-        var widget = dijit.byId(elementId);
+        var widget = webui.@THEME@.dijit.byId(elementId);
         if (widget) {
             return widget.getSelectedLabel();
         }
@@ -790,7 +790,7 @@ webui.@THEME@.rbcb = {
      * @ignore Until JsDoc supports deprecated tag.
      */ 
     setChecked: function(elementId, checked, type) {
-        var widget = dijit.byId(elementId);
+        var widget = webui.@THEME@.dijit.byId(elementId);
         if (widget) {
             return widget.setProps({checked: checked});
         }
@@ -810,7 +810,7 @@ webui.@THEME@.rbcb = {
      */ 
     setDisabled: function(elementId, disabled, type, enabledStyle,
             disabledStyle) {
-        var widget = dijit.byId(elementId);
+        var widget = webui.@THEME@.dijit.byId(elementId);
         if (widget) {
             return widget.setProps({disabled: disabled});
         }
@@ -830,7 +830,7 @@ webui.@THEME@.rbcb = {
      */
     setGroupDisabled: function(controlName, disabled, type, enabledStyle,
             disabledStyle) {
-        var widget = dijit.byId(elementId);
+        var widget = webui.@THEME@.dijit.byId(elementId);
         if (widget) {
             return widget.setProps({disabled: disabled});
         }

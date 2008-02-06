@@ -21,10 +21,11 @@
 // Copyright 2007 Sun Microsystems, Inc. All rights reserved.
 //
 
-dojo.provide("webui.@THEME@.widget.jsfx.popupMenu");
+webui.@THEME@.dojo.provide("webui.@THEME@.widget.jsfx.popupMenu");
 
-dojo.require("webui.@THEME@.widget.jsfx.common");
-dojo.require("webui.@THEME@.widget.popupMenu");
+webui.@THEME@.dojo.require("webui.@THEME@.widget.jsfx.common");
+webui.@THEME@.dojo.require("webui.@THEME@.widget.jsfx.dynaFaces");
+webui.@THEME@.dojo.require("webui.@THEME@.widget.popupMenu");
 
 /**
  * @class This class contains functions to obtain data asynchronously using JSF
@@ -74,7 +75,7 @@ webui.@THEME@.widget.jsfx.popupMenu = {
 }
 
 // Listen for Dojo Widget events.
-dojo.subscribe(webui.@THEME@.widget.popupMenu.event.refresh.beginTopic,
+webui.@THEME@.dojo.subscribe(webui.@THEME@.widget.popupMenu.event.refresh.beginTopic,
     webui.@THEME@.widget.jsfx.common, "processRefreshEvent");
-dojo.subscribe(webui.@THEME@.widget.popupMenu.event.submit.beginTopic,
+webui.@THEME@.dojo.subscribe(webui.@THEME@.widget.popupMenu.event.submit.beginTopic,
     webui.@THEME@.widget.jsfx.popupMenu, "processSubmitEvent");

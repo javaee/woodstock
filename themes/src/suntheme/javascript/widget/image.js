@@ -21,9 +21,9 @@
 // Copyright 2007 Sun Microsystems, Inc. All rights reserved.
 //
 
-dojo.provide("webui.@THEME@.widget.image");
+webui.@THEME@.dojo.provide("webui.@THEME@.widget.image");
 
-dojo.require("webui.@THEME@.widget.widgetBase");
+webui.@THEME@.dojo.require("webui.@THEME@.widget.widgetBase");
 
 /**
  * @name webui.@THEME@.widget.image
@@ -31,7 +31,7 @@ dojo.require("webui.@THEME@.widget.widgetBase");
  * @class This class contains functions for the image widget.
  * @constructor This function is used to construct a image widget.
  */
-dojo.declare("webui.@THEME@.widget.image", webui.@THEME@.widget.widgetBase, {
+webui.@THEME@.dojo.declare("webui.@THEME@.widget.image", webui.@THEME@.widget.widgetBase, {
     // Set defaults.
     border: 0,
     widgetName: "image" // Required for theme properties.
@@ -163,15 +163,17 @@ webui.@THEME@.widget.image.prototype._setProps = function(props) {
     // properties may be overridden later by the combined image.
     this.setCommonProps(this.domNode, props);
 
-    // Set properties.
+    // Clear style properties if icon was previously set.
     if (props.src && this.icon) {
-        // Clear style properties if icon was previously set.
         this.domNode.style.border = "";
         this.domNode.style.backgroundImage = "";
         this.domNode.style.backgroundPosition = "";
         this.domNode.style.height = "";
         this.domNode.style.width = "";
-    } else if (props.icon) {
+    }
+
+    // Set properties.
+    if (props.icon) {
         // IE6 has issues with "png" images. IE6 png issue can be fixed but that
         // needs an outermost <span> tag. 
         //
@@ -189,7 +191,7 @@ webui.@THEME@.widget.image.prototype._setProps = function(props) {
         if (mapKey != null && !webui.@THEME@.browser.isIe6()
                 && !webui.@THEME@.widget.common.isHighContrastMode()) {
             // Note: Comparing height/width against "actual" properties is not a
-            // valid test -- DOT images do not have defaults, for example.
+            // valid test -- DOT images don't have a default size, for example.
             if (iconProps['top'] != null && iconProps['actual_height'] != null 
                     && iconProps['actual_width'] != null) {               
                 var transImage = webui.@THEME@.theme.common.getImage("DOT");
@@ -206,19 +208,23 @@ webui.@THEME@.widget.image.prototype._setProps = function(props) {
                 iconProps.src = transImage['src'];
             }
         }
-        // Assign all icon properties, even if combined image is not used.
-        Object.extend(props, iconProps);
+        // Assign icon properties, even if combined image is not used.
+        if (iconProps.alt) { this.domNode.alt = iconProps.alt; }
+        if (iconProps.height) { this.domNode.height = iconProps.height; }
+        if (iconProps.src) { this.domNode.src = iconProps.src; }
+        if (iconProps.width) { this.domNode.width = iconProps.width; }
+    } else {
+        // Icon properties take precedence.
+        if (props.alt) { this.domNode.alt = props.alt; }
+        if (props.height) { this.domNode.height = props.height; }
+        if (props.src) { this.domNode.src = props.src; } 
+        if (props.width) { this.domNode.width = props.width; }
     }
-
-    if (props.alt) { this.domNode.alt = props.alt; }
     if (props.align) { this.domNode.align = props.align; }
     if (props.border != null) { this.domNode.border = props.border; }
-    if (props.height) { this.domNode.height = props.height; }
     if (props.hspace) { this.domNode.hspace = props.hspace; }
     if (props.longDesc) { this.domNode.longDesc = props.longDesc; }    
-    if (props.src) { this.domNode.src = props.src; }   
     if (props.vspace) { this.domNode.vspace = props.vspace; }
-    if (props.width) { this.domNode.width = props.width; }
 
     // Set more properties.
     this.setEventProps(this.domNode, props);

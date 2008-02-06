@@ -21,10 +21,12 @@
 // Copyright 2007 Sun Microsystems, Inc. All rights reserved.
 //
 
-dojo.provide("webui.@THEME@.widget.jsfx.textField");
+webui.@THEME@.dojo.provide("webui.@THEME@.widget.jsfx.textField");
 
-dojo.require("webui.@THEME@.widget.jsfx.common");
-dojo.require("webui.@THEME@.widget.textField");
+webui.@THEME@.dojo.require("webui.@THEME@.json");
+webui.@THEME@.dojo.require("webui.@THEME@.widget.jsfx.common");
+webui.@THEME@.dojo.require("webui.@THEME@.widget.jsfx.dynaFaces");
+webui.@THEME@.dojo.require("webui.@THEME@.widget.textField");
 
 /**
  * @class This class contains functions to obtain data asynchronously using JSF
@@ -76,10 +78,10 @@ webui.@THEME@.widget.jsfx.textField = {
         }
         
         // Parse JSON text.
-        var props = JSON.parse(content);
+        var props = webui.@THEME@.json.parse(content);
 
         // Update text field.
-        var widget = dijit.byId(elementId);
+        var widget = webui.@THEME@.dijit.byId(elementId);
         widget.setProps({
             valid: props.valid,
             errorImage: {
@@ -92,7 +94,7 @@ webui.@THEME@.widget.jsfx.textField = {
             // Update each given client ID.
             for (var i = 0; i < widget.notify.length; i++) {
                 // Get widget associated with client ID.
-                var curWidget = dijit.byId(widget.notify[i]);
+                var curWidget = webui.@THEME@.dijit.byId(widget.notify[i]);
                 if (curWidget && typeof curWidget.notify == "function") {
                     curWidget.notify(props);
                 }
@@ -100,18 +102,18 @@ webui.@THEME@.widget.jsfx.textField = {
         }
 
         // Publish an event for custom AJAX implementations to listen for.
-        dojo.publish(
+        webui.@THEME@.dojo.publish(
             webui.@THEME@.widget.textField.event.validation.endTopic, [props]);
         return true;
     }
 }
 
 // Listen for Dojo Widget events.
-dojo.subscribe(webui.@THEME@.widget.textField.event.refresh.beginTopic,
+webui.@THEME@.dojo.subscribe(webui.@THEME@.widget.textField.event.refresh.beginTopic,
     webui.@THEME@.widget.jsfx.common, "processRefreshEvent");
-dojo.subscribe(webui.@THEME@.widget.textField.event.state.beginTopic,
+webui.@THEME@.dojo.subscribe(webui.@THEME@.widget.textField.event.state.beginTopic,
     webui.@THEME@.widget.jsfx.common, "processStateEvent");
-dojo.subscribe(webui.@THEME@.widget.textField.event.submit.beginTopic,
+webui.@THEME@.dojo.subscribe(webui.@THEME@.widget.textField.event.submit.beginTopic,
     webui.@THEME@.widget.jsfx.common, "processSubmitEvent");
-dojo.subscribe(webui.@THEME@.widget.textField.event.validation.beginTopic,
+webui.@THEME@.dojo.subscribe(webui.@THEME@.widget.textField.event.validation.beginTopic,
     webui.@THEME@.widget.jsfx.textField, "processValidationEvent");

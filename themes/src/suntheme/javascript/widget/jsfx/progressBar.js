@@ -21,10 +21,12 @@
 // Copyright 2007 Sun Microsystems, Inc. All rights reserved.
 //
 
-dojo.provide("webui.@THEME@.widget.jsfx.progressBar");
+webui.@THEME@.dojo.provide("webui.@THEME@.widget.jsfx.progressBar");
 
-dojo.require("webui.@THEME@.widget.jsfx.common");
-dojo.require("webui.@THEME@.widget.progressBar");
+webui.@THEME@.dojo.require("webui.@THEME@.json");
+webui.@THEME@.dojo.require("webui.@THEME@.widget.jsfx.common");
+webui.@THEME@.dojo.require("webui.@THEME@.widget.jsfx.dynaFaces");
+webui.@THEME@.dojo.require("webui.@THEME@.widget.progressBar");
 
 /**
  * @class This class contains functions to obtain data asynchronously using JSF
@@ -77,10 +79,10 @@ webui.@THEME@.widget.jsfx.progressBar =  {
         }
 
         // Parse JSON text.
-        var props = JSON.parse(content);
+        var props = webui.@THEME@.json.parse(content);
 
         // Set progress.
-        var widget = dijit.byId(id);
+        var widget = webui.@THEME@.dijit.byId(id);
         widget.setProgress({
             failedStateText : props.failedStateText,
             logMessage : props.logMessage,
@@ -91,14 +93,14 @@ webui.@THEME@.widget.jsfx.progressBar =  {
         });
 
         // Publish an event for custom AJAX implementations to listen for.
-        dojo.publish(
+        webui.@THEME@.dojo.publish(
             webui.@THEME@.widget.progressBar.event.progress.endTopic, [props]);
         return true;
     }
 }
 
 // Listen for Dojo Widget events.
-dojo.subscribe(webui.@THEME@.widget.progressBar.event.progress.beginTopic,
+webui.@THEME@.dojo.subscribe(webui.@THEME@.widget.progressBar.event.progress.beginTopic,
     webui.@THEME@.widget.jsfx.progressBar, "processProgressEvent");
-dojo.subscribe(webui.@THEME@.widget.progressBar.event.refresh.beginTopic,
+webui.@THEME@.dojo.subscribe(webui.@THEME@.widget.progressBar.event.refresh.beginTopic,
     webui.@THEME@.widget.jsfx.common, "processRefreshEvent");

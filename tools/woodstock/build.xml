@@ -1,0 +1,222 @@
+<?xml version='1.0' encoding='ISO-8859-1' ?>
+<!--
+ The contents of this file are subject to the terms
+ of the Common Development and Distribution License
+ (the License).  You may not use this file except in
+ compliance with the License.
+ 
+ You can obtain a copy of the license at
+ https://woodstock.dev.java.net/public/CDDLv1.0.html.
+ See the License for the specific language governing
+ permissions and limitations under the License.
+ 
+ When distributing Covered Code, include this CDDL
+ Header Notice in each file and include the License file
+ at https://woodstock.dev.java.net/public/CDDLv1.0.html.
+ If applicable, add the following below the CDDL Header,
+ with the fields enclosed by brackets [] replaced by
+ you own identifying information:
+ "Portions Copyrighted [year] [name of copyright owner]"
+ 
+ Copyright 2007 Sun Microsystems, Inc. All rights reserved.
+-->
+
+<project name="tools" default="all" basedir=".">
+    
+    <property file="../build.properties"/>
+    <property file="build.properties"/>
+    
+    <property name="build" value="${basedir}/build"/>
+    
+    <property name="tools-dist" value="${basedir}/dist"/>
+    <property name="tools-src" value="${basedir}/src"/>
+    <property name="tools-classes" value="${build}/classes"/>
+    <property name="tools-pkg" value="com.sun.webui.tools"/>
+    <property name="tools.jar" value="${tools-dist}/webui-tools.jar"/>
+    <property name="tools-lib" value="${basedir}/lib"/>
+    <property name="debug" value="on"/>
+
+    <mkdir dir="${tools-classes}"/>
+    <mkdir dir="${tools-dist}"/>
+   
+    <target name="tools-uptodate">
+	<uptodate property="tools-uptodate">
+	    <srcfiles dir="${tools-src}" includes="**/*.java"/>
+	    <mergemapper to="${tools.jar}"/>
+	</uptodate>
+    </target>
+
+    <target name="compile-tools"
+	    depends="tools-uptodate"
+            unless="tools-uptodate"
+	    description="Compile the tool sources.">
+        
+        <javac srcdir="${tools-src}" 
+               destdir="${tools-classes}" deprecation="false"
+	       includes="**/*.java"
+               debug="${debug}"
+               optimize="${debug}"
+               source="1.5" target="1.5">
+            <compilerarg line="-Xmaxwarns 1000"/>
+        </javac>
+        
+    </target>
+
+    <target name="create-tools-jar"
+	    description="Create a runnable tools jar.">
+
+	<!-- create a manifest file -->
+	<copy tofile="${build}/META-INF/MANIFEST.MF">
+	    <fileset dir="${basedir}/META-INF">
+		<include name="tools-manifest.mf" /> 
+	    </fileset>
+	    <filterset>
+		<filter token="FULL_VERSION" value="${FullVersion}"/>
+		<filter token="VERSION" value="${Version}"/>
+		<filter token="MAINCLASS" value="${tools-pkg}/Main"/>
+	    </filterset>
+	</copy>
+
+	<delete file="${tools.jar}"/>
+
+	<jar destfile="${tools.jar}"
+	    basedir="${tools-classes}"
+	    includes="**/*.class"
+	    manifest="${build}/META-INF/MANIFEST.MF">
+	</jar>
+
+	<copy file="${tools.jar}" todir="${tools-lib}" overwrite="true"/>
+
+    </target>
+
+    <property name="combineCSSusage"
+    value="Usage: ant -DsourcePath=&lt;sourcePath&gt; -DmodulePath=&lt;modulePath&gt; -DcombineFile=&lt;combineFile&gt; combineCSS"/>
+
+    <target name="combineCSS" description="${combineCSSusage}">
+
+	<fail message="${combineCSSusage}">
+	    <condition>
+	    <not>
+		<and>
+		    <isset property="sourcePath"/>
+		    <isset property="modulePath"/>
+		    <isset property="combineFile"/>
+		</and>
+	    </not>
+	    </condition>
+	</fail>
+
+	<java jar="${tools.jar}" failonerror="true" fork="true">
+	  <arg value="-combineCSS"/>
+	  <arg value="-sourcePath"/>
+	  <arg value="${sourcePath}"/>
+	  <arg value="-modulePath"/>
+	  <arg value="${modulePath}"/>
+	  <arg value="-combindFile"/>
+	  <arg value="${combineFile}"/>
+	  <arg value="-rhinoJar"/>
+	  <arg value="${rhino.jar}"/>
+	  <arg value="-verbose"/>
+	</java>
+
+    </target>
+
+    <property name="combineJSusage"
+    value="Usage: ant -DsourcePath=&lt;sourcePath&gt; -DmodulePath=&lt;modulePath&gt; -DmodulePrefix=&lt;modulePrefix&gt; -Doutfile=&lt;outfile&gt; combineJS"/>
+
+    <target name="combineJS" description="${combineJSusage}">
+
+	<fail message="${combineCSSusage}">
+	    <condition>
+	    <not>
+		<and>
+		    <isset property="sourcePath"/>
+		    <isset property="modulePath"/>
+		    <isset property="modulePrefix"/>
+		    <isset property="outfile"/>
+		</and>
+	    </not>
+	    </condition>
+	</fail>
+
+	<java jar="${tools.jar}" failonerror="true" fork="true">
+	  <arg value="-combineJS"/>
+	  <arg value="-sourcePath"/>
+	  <arg value="${sourcePath}"/>
+	  <arg value="-modulePath"/>
+	  <arg value="${modulePath}"/>
+	  <arg value="-modulePrefix"/>
+	  <arg value="${modulePrefix}"/>
+	  <arg value="${outfile}"/>
+	  <arg value="-rhinoJar"/>
+	  <arg value="${rhino.jar}"/>
+	  <arg value="-verbose"/>
+	</java>
+
+    </target>
+
+    <property name="compressJSusage"
+    value="Usage: ant -DsourcePath=&lt;sourcePath&gt; -DrhinoJar=&lt;rhinoJar&gt; compressJS"/>
+
+    <target name="compressJS" description="${compressJSusage}">
+
+	<fail message="${compressJSusage}">
+	    <condition>
+	    <not>
+		<and>
+		    <isset property="sourcePath"/>
+		    <isset property="rhinoJar"/>
+		</and>
+	    </not>
+	    </condition>
+	</fail>
+
+	<java jar="${tools.jar}" failonerror="true" fork="true">
+	  <arg value="-compressJS"/>
+	  <arg value="-sourcePath"/>
+	  <arg value="${sourcePath}"/>
+	  <arg value="-rhinoJar"/>
+	  <arg value="${rhinoJar}"/>
+	  <arg value="-verbose"/>
+	</java>
+
+    </target>
+
+    <property name="native2asciiUsage"
+    value="ant -DsourceDir=&lt;sourceDir$gt; -DdestDir=&lt;destDir&gt; -DfileList=&lt;f0,...,fn&gt;"/>
+
+    <target name="native2ascii"
+	    description="${native2asciiUsage}">
+
+	<fail message="${native2asciiUsage}">
+	    <condition>
+	    <not>
+		<and>
+		    <isset property="sourceDir"/>
+		    <isset property="destDir"/>
+		    <isset property="fileList"/>
+		</and>
+	    </not>
+	    </condition>
+	</fail>
+
+	<java jar="${tools.jar}" failonerror="true" fork="true">
+	  <arg value="native2ascii"/>
+	  <arg value="-sourceDir"/>
+	  <arg value="${sourceDir}"/>
+	  <arg value="-destDir"/>
+	  <arg value="${destDir}"/>
+	  <arg value="-fileList"/>
+	  <arg value="${fileList}"/>
+	</java>
+
+    </target>
+
+    <target name="all" depends="compile-tools,create-tools-jar"/>
+
+    <target name="clean">
+        <delete dir="${tools-classes}" />
+        <delete dir="${tools-dist}" />
+    </target>
+
+</project>

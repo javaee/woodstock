@@ -21,10 +21,11 @@
 // Copyright 2007 Sun Microsystems, Inc. All rights reserved.
 //
 
-dojo.provide("webui.@THEME@.commonTasksSection");
+webui.@THEME@.dojo.provide("webui.@THEME@.commonTasksSection");
 
-dojo.require("webui.@THEME@.browser");
-dojo.require("webui.@THEME@.common");
+webui.@THEME@.dojo.require("webui.@THEME@.browser");
+webui.@THEME@.dojo.require("webui.@THEME@.common");
+webui.@THEME@.dojo.require("webui.@THEME@.prototypejs");
 
 /** 
  * @class This class contains functions for commonTasksSection components.
@@ -53,7 +54,7 @@ webui.@THEME@.commonTasksSection = {
         }
 
         // Set given properties on domNode.
-        Object.extend(domNode, props);
+        webui.@THEME@.prototypejs.extend(domNode, props, false);
 
         // Set functions.
 	domNode.captureCloseKey = webui.@THEME@.commonTasksSection.captureCloseKey;
@@ -69,7 +70,7 @@ webui.@THEME@.commonTasksSection = {
         domNode.count = 0;
 
         // Hide panels on resize.
-        dojo.connect(window, 'onresize', domNode, domNode.windowResize);
+        webui.@THEME@.dojo.connect(window, 'onresize', domNode, domNode.windowResize);
 
         return true;
     },
@@ -89,7 +90,7 @@ webui.@THEME@.commonTasksSection = {
             }
         }
         if (webui.@THEME@.browser.isIe5up()) {
-            window. event.cancelBubble = true;
+            window.event.cancelBubble = true;
         } else {
             event.stopPropagation();
         }
@@ -329,10 +330,10 @@ webui.@THEME@.commonTasksSection = {
         
         this.info.onclick = function(event) {
             webui.@THEME@.common.setVisibleElement(that.info, true);
-             if (webui.@THEME@.browser.isIe5up()) {
-                 window. event.cancelBubble = true;
+            if (webui.@THEME@.browser.isIe5up()) {
+                window. event.cancelBubble = true;
             } else {
-                    event.stopPropagation();
+                event.stopPropagation();
             }
             return true;
         };
@@ -390,7 +391,7 @@ webui.@THEME@.commonTasksSection = {
         this.image.setProps({onClick:function(event){
             that.showInfoPanel();
             if (webui.@THEME@.browser.isIe5up()) {
-                window. event.cancelBubble = true;
+                window.event.cancelBubble = true;
             } else {
                 event.stopPropagation();
             }
@@ -412,9 +413,9 @@ webui.@THEME@.commonTasksSection = {
                 webui.@THEME@.common.setVisibleElement(this.info, true);
                 this.getElementPosition2(this.image.id);
                 this.getElementPosition(this.spacer);        
-                    this.info.style.top = (this.ttop + 12) +'px';
-                    this.info.style.left =  (this.tleft - 1) + 'px'
-                this.info.style.width = (this.ileft - this.tleft) + 29+'px';
+                this.info.style.top = (this.ttop + 12) +'px';
+                this.info.style.left =  (this.tleft - 1) + 'px'
+                this.info.style.width = (this.ileft - this.tleft) + 29 + 'px';
                 this.close.focus();
                 this.image.src = cts.pic1URL;
             } else {
@@ -439,12 +440,11 @@ webui.@THEME@.commonTasksSection = {
             }
             if (navigator.userAgent.indexOf("Mac") != -1 
                     && typeof document.body.leftMargin != "undefined") {
-                alert("Undefined");
                 offsetLeft += document.body.leftMargin;
                 offsetTop += document.body.topMargin;
             }
-            this.tleft=offsetLeft;
-            this.ttop=offsetTop;
+            this.tleft = offsetLeft;
+            this.ttop = offsetTop;
             return true;
         };
 
@@ -458,12 +458,12 @@ webui.@THEME@.commonTasksSection = {
                 offsetTop += offsetTrail.offsetTop;
                 offsetTrail = offsetTrail.offsetParent;
             }
-            if (navigator.userAgent.indexOf("Mac") != -1 && 
-                typeof document.body.leftMargin != "undefined") {
+            if (navigator.userAgent.indexOf("Mac") != -1
+                    && typeof document.body.leftMargin != "undefined") {
                 offsetLeft += document.body.leftMargin;
                 offsetTop += document.body.topMargin;
             }
-            this.ileft=offsetLeft;
+            this.ileft = offsetLeft;
             return true;
         };
     }

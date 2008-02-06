@@ -87,18 +87,19 @@
     }
     TextfieldListener.prototype.notify = TextfieldNotify;
 
-    function init() {
+    function init() {               
+        var domNode = document.getElementById("form:contentPageTitle:creditCard");
+        if (domNode == null || domNode.event == null) { 
+            return setTimeout('init();', 10);
+        }
+
         // Subscribe to validation event for credit card number.
         var listener = new TextfieldListener("creditCard");
-        dojo.subscribe(
-            webui.suntheme.widget.textField.event.validation.endTopic,
-                listener, listener.notify);
+        domNode.subscribe(domNode.event.validation.endTopic, listener, listener.notify);
 
         // Subscribe to validation event for amount.
         var listener = new TextfieldListener("amount");
-        dojo.subscribe(
-            webui.suntheme.widget.textField.event.validation.endTopic,
-                listener, listener.notify);
+        domNode.subscribe(domNode.event.validation.endTopic, listener, listener.notify);
     }
 </webuijsf:script>
         </webuijsf:head>

@@ -107,6 +107,19 @@ properties:<br>
       <br>
       </td>
     </tr>
+<tr>
+<td style="vertical-align: top;"><code>subscribe(topic, obj, func)</code></td>
+<td style="vertical-align: top;">Use this function to subscribe
+to an event topic.<br>
+<ul>
+<li>topic: The event topic to subscribe to.</li>
+<li>obj: The object in which a function will be invoked, or
+null for default scope.</li>
+<li>func The name of a function in context, or a function
+reference to invoke when topic is published.</li>
+</ul>
+</td>
+</tr>
   </tbody>
 </table>
 <code></code>
@@ -114,7 +127,7 @@ properties:<br>
 <p>
 When the accordion component is manipulated client-side, some functions may
 publish event topics for custom AJAX implementations to listen for.
-Using the Dojo event system, you can instruct Ajax to listen for the refresh event topic by using:<br>
+For example, you can listen for the refresh event topic by using:<br>
 <br>
 <code>
 &lt;webuijsf:script&gt;<br>
@@ -128,8 +141,8 @@ Do something...<br>
 &nbsp;&nbsp;&nbsp; }<br>
 <br>
 &nbsp;&nbsp;&nbsp; // Subscribe to refresh event.<br>
-&nbsp;&nbsp;&nbsp;
-dojo.subscribe(webui.suntheme.widget.accordion.event.&lt;eventname&gt;.endTopic,
+&nbsp;&nbsp;&nbsp; var domNode = document.getElementById("form1:test1");<br>
+&nbsp;&nbsp;&nbsp; domNode.subscribe(domNode.event.refresh.endTopic,
 processEvents, "update");</code><code><br>
 <br>
 </code><code>
@@ -146,7 +159,7 @@ processEvents, "update");</code><code><br>
     </tr>
     <tr>
       <td style="vertical-align: top;">
-webui.suntheme.widget.accordion.event.refresh.beginTopic </td>
+&lt;Node&gt;.event.refresh.beginTopic </td>
       <td> Event topic published before asynchronously refreshing the
 component. Supported properties include: <br>
       <ul>
@@ -158,7 +171,7 @@ this component</li>
       </td>
     </tr>
     <tr>
-      <td style="vertical-align: top;"> webui.suntheme.widget.accordion.event.refresh.endTopic
+      <td style="vertical-align: top;"> &lt;Node&gt;.event.refresh.endTopic
       </td>
       <td> Event topic published after asynchronously refreshing the
 component. Supported properties include: See setProps() function.<br>
@@ -860,6 +873,19 @@ properties:<br>
       </ul>
       </td>
     </tr>
+<tr>
+<td style="vertical-align: top;"><code>subscribe(topic, obj, func)</code></td>
+<td style="vertical-align: top;">Use this function to subscribe
+to an event topic.<br>
+<ul>
+<li>topic: The event topic to subscribe to.</li>
+<li>obj: The object in which a function will be invoked, or
+null for default scope.</li>
+<li>func The name of a function in context, or a function
+reference to invoke when topic is published.</li>
+</ul>
+</td>
+</tr>
   </tbody>
 </table>
 <br>
@@ -867,7 +893,7 @@ properties:<br>
 <p>
 When the component is manipulated client side, some functions might
 publish event topics for custom Ajax implementations to listen for.
-Using the Dojo event system, you can instruct Ajax to listen for the refresh event topic by using:<br>
+For example, you can listen for the refresh event topic by using:<br>
 <br>
 <code>
 &lt;webuijsf:script&gt;<br>
@@ -881,8 +907,8 @@ Do something...<br>
 &nbsp;&nbsp;&nbsp; }<br>
 <br>
 &nbsp;&nbsp;&nbsp; // Subscribe to refresh event.<br>
-&nbsp;&nbsp;&nbsp;
-dojo.subscribe(webui.suntheme.widget.alarm.event.&lt;eventname&gt;.endTopic,
+&nbsp;&nbsp;&nbsp; var domNode = document.getElementById("form1:test1");<br>
+&nbsp;&nbsp;&nbsp; domNode.subscribe(domNode.event.refresh.endTopic,
 processEvents, "update");</code><code><br>
 <br>
 </code><code>
@@ -894,7 +920,7 @@ The following events are supported.<code></code><br>
  cellspacing="2">
   <tbody>
     <tr>
-      <td> webui.suntheme.widget.alarm.event.refresh.beginTopic </td>
+      <td> &lt;Node&gt;.event.refresh.beginTopic </td>
       <td> Event topic published before asynchronously refreshing the
 component. Supported properties include: <br>
       <ul>
@@ -906,7 +932,7 @@ this component</li>
       </td>
     </tr>
     <tr>
-      <td> webui.suntheme.widget.alarm.event.refresh.endTopic </td>
+      <td> &lt;Node&gt;.event.refresh.endTopic </td>
       <td> Event topic published after asynchronously refreshing the
 component. Supported properties include: See setProps() function.<br>
       <ul>
@@ -1355,6 +1381,19 @@ properties:<br>
       </ul>
       </td>
     </tr>
+<tr>
+<td style="vertical-align: top;"><code>subscribe(topic, obj, func)</code></td>
+<td style="vertical-align: top;">Use this function to subscribe
+to an event topic.<br>
+<ul>
+<li>topic: The event topic to subscribe to.</li>
+<li>obj: The object in which a function will be invoked, or
+null for default scope.</li>
+<li>func The name of a function in context, or a function
+reference to invoke when topic is published.</li>
+</ul>
+</td>
+</tr>
   </tbody>
 </table>
 <code></code><br>
@@ -1362,7 +1401,7 @@ properties:<br>
 <p>
 When the component is manipulated on the client side, some functions might
 publish event topics for custom Ajax implementations to listen for.
-Using the Dojo event system, you can instruct Ajax to listen for the refresh event topic by using:<br>
+For example, you can listen for the refresh event topic by using:<br>
 <br>
 <code>
 &lt;webuijsf:script&gt;<br>
@@ -1376,8 +1415,8 @@ Do something...<br>
 &nbsp;&nbsp;&nbsp; }<br>
 <br>
 &nbsp;&nbsp;&nbsp; // Subscribe to refresh event.<br>
-&nbsp;&nbsp;&nbsp;
-dojo.subscribe(webui.suntheme.widget.alert.event.&lt;eventname&gt;.endTopic,
+&nbsp;&nbsp;&nbsp; var domNode = document.getElementById("form1:test1");<br>
+&nbsp;&nbsp;&nbsp; domNode.subscribe(domNode.event.refresh.endTopic,
 processEvents, "update");</code><code><br>
 <br>
 </code><code>
@@ -1389,7 +1428,7 @@ The following events are supported.<code></code><br>
  cellspacing="2">
   <tbody>
     <tr>
-      <td> webui.suntheme.widget.alert.event.refresh.beginTopic </td>
+      <td> &lt;Node&gt;.event.refresh.beginTopic </td>
       <td> Event topic published before asynchronously refreshing the
 component. Supported properties include: <br>
       <ul>
@@ -1401,7 +1440,7 @@ this component</li>
       </td>
     </tr>
     <tr>
-      <td> webui.suntheme.widget.alert.event.refresh.endTopic </td>
+      <td> &lt;Node&gt;.event.refresh.endTopic </td>
       <td> Event topic published after asynchronously refreshing the
 component. Supported properties include: setProps() function.<br>
       <ul>
@@ -1610,6 +1649,19 @@ properties:
       </ul>
       </td>
     </tr>
+<tr>
+<td style="vertical-align: top;"><code>subscribe(topic, obj, func)</code></td>
+<td style="vertical-align: top;">Use this function to subscribe
+to an event topic.<br>
+<ul>
+<li>topic: The event topic to subscribe to.</li>
+<li>obj: The object in which a function will be invoked, or
+null for default scope.</li>
+<li>func The name of a function in context, or a function
+reference to invoke when topic is published.</li>
+</ul>
+</td>
+</tr>
   </tbody>
 </table>
 <code></code><br>
@@ -1617,7 +1669,7 @@ properties:
 <p>
 When the component is manipulated on the client side, some functions may
 publish event topics for custom Ajax implementations to listen for.
-Using the Dojo event system, listen for the refresh event topic by using:<br>
+For example, you can listen for the refresh event topic by using:<br>
 <br>
 <code>
 &lt;webuijsf:script&gt;<br>
@@ -1631,8 +1683,8 @@ Do something...<br>
 &nbsp;&nbsp;&nbsp; }<br>
 <br>
 &nbsp;&nbsp;&nbsp; // Subscribe to refresh event.<br>
-&nbsp;&nbsp;&nbsp;
-dojo.subscribe(webui.suntheme.widget.anchor.event.&lt;eventname&gt;.endTopic,
+&nbsp;&nbsp;&nbsp; var domNode = document.getElementById("form1:test1");<br>
+&nbsp;&nbsp;&nbsp; domNode.subscribe(domNode.event.refresh.endTopic,
 processEvents, "update");</code><code><br>
 <br>
 </code><code>
@@ -1644,7 +1696,7 @@ The following events are supported.<br>
  cellspacing="2">
   <tbody>
     <tr>
-      <td> webui.suntheme.widget.anchor.event.refresh.beginTopic </td>
+      <td> &lt;Node&gt;.event.refresh.beginTopic </td>
       <td> Event topic published before asynchronously refreshing the
 component. Supported properties include: <br>
       <ul>
@@ -1656,7 +1708,7 @@ this component</li>
       </td>
     </tr>
     <tr>
-      <td> webui.suntheme.widget.anchor.event.refresh.endTopic </td>
+      <td> &lt;Node&gt;.event.refresh.endTopic </td>
       <td> Event topic published after asynchronously refreshing the
 component. Supported properties include:See setProps() function.<br>
       <br>
@@ -2020,6 +2072,19 @@ properties:<br>
       <br>
       </td>
     </tr>
+<tr>
+<td style="vertical-align: top;"><code>subscribe(topic, obj, func)</code></td>
+<td style="vertical-align: top;">Use this function to subscribe
+to an event topic.<br>
+<ul>
+<li>topic: The event topic to subscribe to.</li>
+<li>obj: The object in which a function will be invoked, or
+null for default scope.</li>
+<li>func The name of a function in context, or a function
+reference to invoke when topic is published.</li>
+</ul>
+</td>
+</tr>
   </tbody>
 </table>
 <code></code>
@@ -2027,7 +2092,7 @@ properties:<br>
 <p>
 When the component is manipulated on the client side, some functions might
 publish event topics for custom AJAX implementations to listen for.
-Using the Dojo event system, you can instruct Ajax to listen for the refresh event topic by using:<br>
+For example, you can listen for the refresh event topic by using:<br>
 <br>
 <code>
 &lt;webuijsf:script&gt;<br>
@@ -2041,8 +2106,8 @@ Do something...<br>
 &nbsp;&nbsp;&nbsp; }<br>
 <br>
 &nbsp;&nbsp;&nbsp; // Subscribe to refresh event.<br>
-&nbsp;&nbsp;&nbsp;
-dojo.subscribe(webui.suntheme.widget.bubble.event.&lt;eventname&gt;.endTopic,
+&nbsp;&nbsp;&nbsp; var domNode = document.getElementById("form1:test1");<br>
+&nbsp;&nbsp;&nbsp; domNode.subscribe(domNode.event.refresh.endTopic,
 processEvents, "update");</code><code><br>
 <br>
 </code><code>
@@ -2058,7 +2123,7 @@ processEvents, "update");</code><code><br>
     <td><b>Description</b></td>
   </tr>  
     <tr>
-      <td> webui.suntheme.widget.bubble.event.refresh.beginTopic </td>
+      <td> &lt;Node&gt;.bubble.event.refresh.beginTopic </td>
       <td> Event topic published before asynchronously refreshing the
 component. Supported properties include: <br>
       <ul>
@@ -2070,7 +2135,7 @@ this component</li>
       </td>
     </tr>
     <tr>
-      <td> webui.suntheme.widget.bubble.event.refresh.endTopic </td>
+      <td> &lt;Node&gt;.event.refresh.endTopic </td>
       <td> Event topic published after asynchronously refreshing the
 component. Supported properties include: setProps() function.<br>
       <ul>
@@ -2173,7 +2238,7 @@ as providing initial default input, should be configured
 with <code>immediate="true"</code> and&nbsp; an <code>actionListenerExpression</code>
 that updates the components. <br>
 <p>If you want a button to submit a page, you should <span
- style="font-style: italic;">not</span> set <code>immediate</code>,
+style="font-style: italic;">not</span> set <code>immediate</code>,
 and should set an <code>actionExpression</code> and possibly an <code>actionListenerExpression</code>.&nbsp;&nbsp;
 The action should get information from the managed bean and
 perform some business logic, and then determine what to show next on
@@ -2190,65 +2255,78 @@ id, to disable the component, invoke <code>document.getElementById(id).setProps(
 true})</code>.<br>
 <br>
 <table style="text-align: left; width: 100%;" border="1" cellpadding="2"
- cellspacing="2">
-  <tbody>
-    <tr>
-      <td><code>getProps()</code></td>
-      <td>Use this function to get widget properties. Please see <code>setProps()</code>
+cellspacing="2">
+<tbody>
+<tr>
+<td><code>getProps()</code></td>
+<td>Use this function to get widget properties. Please see <code>setProps()</code>
 function for a list of supported properties.</td>
-    </tr>
-    <tr>
-      <td style="vertical-align: top;"><code>refresh(execute)</code><br>
-      </td>
-      <td style="vertical-align: top;">Use this function to
+</tr>
+<tr>
+<td style="vertical-align: top;"><code>refresh(execute)</code><br>
+</td>
+<td style="vertical-align: top;">Use this function to
 asynchronously refresh the component.<br>
-      <ul>
-        <li>[optional] execute: Comma separated string containing a
+<ul>
+<li>[optional] execute: Comma separated string containing a
 list of client ids against which the <code>execute</code> portion of
 the request processing lifecycle must be run. If omitted, no other
 components are executed.</li>
-      </ul>
-      </td>
-    </tr>
-    <tr>
-      <td><code>setProps(props)</code></td>
-      <td>Use this function to change any of the following supported
+</ul>
+</td>
+</tr>
+<tr>
+<td><code>setProps(props)</code></td>
+<td>Use this function to change any of the following supported
 properties:<br>
-      <ul>
-        <li>accesskey</li>
-        <li>align</li>
-        <li>className</li>
-        <li>dir</li>
-        <li>disabled</li>
-        <li>escape</li>
-        <li>id</li>
-        <li>icon</li>
-        <li>lang</li>
-        <li>mini</li>
-        <li>onBlur</li>
-        <li>onChange</li>
-        <li>onClick</li>
-        <li>onDblClick</li>
-        <li>onFocus</li>
-        <li>onKeyDown</li>
-        <li>onKeyPress</li>
-        <li>onKeyUp</li>
-        <li>onMouseDown</li>
-        <li>onMouseMove</li>
-        <li>onMouseOut</li>
-        <li>onMouseOver</li>
-        <li>onMouseUp</li>
-        <li>primary</li>
-        <li>src</li>
-        <li>style</li>
-        <li>tabIndex</li>
-        <li>title</li>
-        <li>value</li>
-        <li>visible</li>
-      </ul>
-      </td>
-    </tr>
-  </tbody>
+<ul>
+<li>accesskey</li>
+<li>align</li>
+<li>className</li>
+<li>dir</li>
+<li>disabled</li>
+<li>escape</li>
+<li>id</li>
+<li>icon</li>
+<li>lang</li>
+<li>mini</li>
+<li>onBlur</li>
+<li>onChange</li>
+<li>onClick</li>
+<li>onDblClick</li>
+<li>onFocus</li>
+<li>onKeyDown</li>
+<li>onKeyPress</li>
+<li>onKeyUp</li>
+<li>onMouseDown</li>
+<li>onMouseMove</li>
+<li>onMouseOut</li>
+<li>onMouseOver</li>
+<li>onMouseUp</li>
+<li>primary</li>
+<li>src</li>
+<li>style</li>
+<li>tabIndex</li>
+<li>title</li>
+<li>value</li>
+<li>visible</li>
+</ul>
+</td>
+</tr>
+<tr>
+<td style="vertical-align: top;"><code>subscribe(topic, obj, func)</code></td>
+<td style="vertical-align: top;">Use this function to subscribe
+to an event topic.<br>
+<ul>
+<li>topic: The event topic to subscribe to.</li>
+<li>obj: The object in which a function will be invoked, or
+null for default scope.</li>
+<li>func The name of a function in context, or a function
+reference to invoke when topic is published.</li>
+</ul>
+</td>
+</tr>
+</tbody>
 </table>
 <ul>
 </ul>
@@ -2256,8 +2334,8 @@ properties:<br>
 <h3>Client Side JavaScript Events</h3>
 <p>
 When the component is manipulated client side, some functions may
-publish event topics for custom AJAX implementations to listen for.
-Using the Dojo event system, listen for the refresh event topic using:<br>
+publish event topics for custom AJAX implementations to listen for. For
+example, listen for the refresh event topic using:<br>
 <br>
 <code>
 &lt;webuijsf:script&gt;<br>
@@ -2271,8 +2349,9 @@ Do something...<br>
 &nbsp;&nbsp;&nbsp; }<br>
 <br>
 &nbsp;&nbsp;&nbsp; // Subscribe to refresh event.<br>
-&nbsp;&nbsp;&nbsp;
-dojo.subscribe(webui.suntheme.widget.button.event.&lt;eventname&gt;.endTopic,
+&nbsp;&nbsp;&nbsp; var domNode =
+document.getElementById("form1:button1");<br>
+&nbsp;&nbsp;&nbsp; domNode.subscribe(domNode.event.refresh.endTopic,
 processEvents, "update");</code><code><br>
 <br>
 </code><code>
@@ -2281,33 +2360,33 @@ processEvents, "update");</code><code><br>
 <p>The following events are supported.<br>
 </p>
 <table style="text-align: left; width: 100%;" border="1" cellpadding="2"
- cellspacing="2">
-  <tbody>
-    <tr>
-      <td> webui.suntheme.widget.button.event.refresh.beginTopic </td>
-      <td> Event topic published before asynchronously refreshing the
+cellspacing="2">
+<tbody>
+<tr>
+<td>&lt;Node&gt;.event.refresh.beginTopic </td>
+<td> Event topic published before asynchronously refreshing the
 component. Supported properties include: <br>
-      <ul>
-        <li>[optional] execute - list of the components to be executed
+<ul>
+<li>[optional] execute - list of the components to be executed
 along with
 this component</li>
-        <li>id - The client id to process the event for</li>
-      </ul>
-      </td>
-    </tr>
-    <tr>
-      <td> webui.suntheme.widget.button.event.refresh.endTopic </td>
-      <td> Event topic published after asynchronously refreshing the
+<li>id - The client id to process the event for</li>
+</ul>
+</td>
+</tr>
+<tr>
+<td>&lt;Node&gt;.event.refresh.endTopic </td>
+<td> Event topic published after asynchronously refreshing the
 component. Supported properties include: See setProps() function.<br>
-      <ul>
-        <li>props - JSON object containing properties of the component.
+<ul>
+<li>props - JSON object containing properties of the component.
 See
 setProps()
 function for details on properties and their usage</li>
-      </ul>
-      </td>
-    </tr>
-  </tbody>
+</ul>
+</td>
+</tr>
+</tbody>
 </table>
 <h3>Examples</h3>
 <h4>Example 1: Create a primary button</h4>
@@ -2333,7 +2412,7 @@ side using the getProps and setProps functions. When the user clicks
 the radio button,
 the button is either disabled or enabled.<code></code><code>
 </code>
-<pre>&lt;webuijsf:radioButton id="rb1" name="rb1" label="Toggle Button Disabled" onClick="toggleDisabled()"/&gt;<br><code>&lt;webuijsf:button id="button1" text="My Button" /&gt;<br><br></code>&lt;webuijsf:script&gt;<br>    function toggleDisabled() {<br>        var domNode = document.getElementById("form1:<code>button1</code>"); // Get button<br>        return domNode.setProps({disabled: !domNode.getProps().disabled}); // Toggle disabled state<br>    }<br>&lt;/webuijsf:script&gt;</pre>
+<pre>&lt;webuijsf:radioButton id="rb1" name="rb1" label="Toggle Button Disabled" onClick="toggleDisabled()"/&gt;<br><code>&lt;webuijsf:button id="button1" text="My Button" /&gt;<br><br></code>&lt;webuijsf:script&gt;<br> function toggleDisabled() {<br> var domNode = document.getElementById("form1:<code>button1</code>"); // Get button<br> return domNode.setProps({disabled: !domNode.getProps().disabled}); // Toggle disabled state<br> }<br>&lt;/webuijsf:script&gt;</pre>
 <code></code>
 <h4>Example 6: Asynchronously update button using refresh function</h4>
 This example shows how to asynchronously update a button using
@@ -2365,7 +2444,7 @@ to define the client id which is to be submitted and updated
 server-side. As the user types in the text field, the input value is
 updated server-side and the button text is updated client-side -- all
 without a page refresh.<br>
-<pre>&lt;webuijsf:button id="<code>button1</code>" text="#{MyBean.text}"/&gt;<br>&lt;webuijsf:textField id="field1" text="#{MyBean.text}" label="Change Button Text"<br>          onKeyPress="setTimeout('refreshButton();', 0);"/&gt; // Field used to asynchronously update text.<br></pre>
+<pre>&lt;webuijsf:button id="<code>button1</code>" text="#{MyBean.text}"/&gt;<br>&lt;webuijsf:textField id="field1" text="#{MyBean.text}" label="Change Button Text"<br> onKeyPress="setTimeout('refreshButton();', 0);"/&gt; // Field used to asynchronously update text.<br></pre>
 <code>&lt;webuijsf:script&gt;<br>
 &nbsp;&nbsp;&nbsp; function </code><code>refreshButton</code><code>() {<br>
 &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; var domNode =
@@ -2381,7 +2460,6 @@ elements
 to execute. Thus, a comma-separated list of ids can be provided to
 update components server-side: refresh("form1:id1,form2:id2,...")<br>
 <br>
-
 ]]></description>
     </tag>
 
@@ -2494,6 +2572,19 @@ properties:
       </ul>
       </td>
     </tr>
+<tr>
+<td style="vertical-align: top;"><code>subscribe(topic, obj, func)</code></td>
+<td style="vertical-align: top;">Use this function to subscribe
+to an event topic.<br>
+<ul>
+<li>topic: The event topic to subscribe to.</li>
+<li>obj: The object in which a function will be invoked, or
+null for default scope.</li>
+<li>func The name of a function in context, or a function
+reference to invoke when topic is published.</li>
+</ul>
+</td>
+</tr>
   </tbody>
 </table>
 </p>
@@ -2502,7 +2593,7 @@ properties:
 <p>
 When the calendar component is manipulated client side, some functions may
 publish event topics for custom Ajax implementations to listen for.
-Using the Dojo event system, custom Ajax implementations can listen 
+For example, custom Ajax implementations can listen 
 for the refresh event topic using:<br>
 <br>
 <code>
@@ -2517,8 +2608,8 @@ Do something...<br>
 &nbsp;&nbsp;&nbsp; }<br>
 <br>
 &nbsp;&nbsp;&nbsp; // Subscribe to refresh event.<br>
-&nbsp;&nbsp;&nbsp;
-dojo.subscribe(webui.suntheme.widget.calendar.event.&lt;eventname&gt;.endTopic,
+&nbsp;&nbsp;&nbsp; var domNode = document.getElementById("form1:test1");<br>
+&nbsp;&nbsp;&nbsp; domNode.subscribe(domNode.event.refresh.endTopic,
 processEvents, "update");</code><code><br>
 <br>
 </code><code>
@@ -2531,7 +2622,7 @@ The following events are supported.
  cellspacing="2">
   <tbody>
     <tr>
-      <td> webui.suntheme.widget.calendar.event.refresh.beginTopic </td>
+      <td> &lt;Node&gt;.event.refresh.beginTopic </td>
       <td> Event topic published before asynchronously refreshing the
 component. Supported properties include: <br>
       <ul>
@@ -2543,7 +2634,7 @@ this component</li>
       </td>
     </tr>
     <tr>
-      <td> webui.suntheme.widget.calendar.event.refresh.endTopic </td>
+      <td> &lt;Node&gt;.event.refresh.endTopic </td>
       <td> Event topic published after asynchronously refreshing the
 component. Supported properties include: See setProps() function.<br>
       <ul>
@@ -2922,6 +3013,19 @@ on which the function has been invoked, is submitted. </li>
       </ul>
       </td>
     </tr>
+<tr>
+<td style="vertical-align: top;"><code>subscribe(topic, obj, func)</code></td>
+<td style="vertical-align: top;">Use this function to subscribe
+to an event topic.<br>
+<ul>
+<li>topic: The event topic to subscribe to.</li>
+<li>obj: The object in which a function will be invoked, or
+null for default scope.</li>
+<li>func The name of a function in context, or a function
+reference to invoke when topic is published.</li>
+</ul>
+</td>
+</tr>
   </tbody>
 </table>
 <code></code><br>
@@ -2929,7 +3033,7 @@ on which the function has been invoked, is submitted. </li>
 <p>
 When the component is manipulated client side, some functions may
 publish event topics for custom AJAX implementations to listen for.
-Using the Dojo event system, listen for the refresh event topic using:<br>
+For example, you can listen for the refresh event topic using:<br>
 <br>
 <code>
 &lt;webuijsf:script&gt;<br>
@@ -2943,8 +3047,8 @@ Do something...<br>
 &nbsp;&nbsp;&nbsp; }<br>
 <br>
 &nbsp;&nbsp;&nbsp; // Subscribe to refresh event.<br>
-&nbsp;&nbsp;&nbsp;
-dojo.subscribe(webui.suntheme.widget.checkbox.event.&lt;eventname&gt;.endTopic,
+&nbsp;&nbsp;&nbsp; var domNode = document.getElementById("form1:test1");<br>
+&nbsp;&nbsp;&nbsp; domNode.subscribe(domNode.event.refresh.endTopic,
 processEvents, "update");</code><code><br>
 <br>
 </code><code>
@@ -2956,7 +3060,7 @@ The following events are supported.<br>
  cellspacing="2">
   <tbody>
     <tr>
-      <td> webui.suntheme.widget.checkbox.event.refresh.beginTopic </td>
+      <td> &lt;Node&gt;.event.refresh.beginTopic </td>
       <td> Event topic is published before asynchronously refreshing the
 component. Supported properties include: <br>
       <ul>
@@ -2968,7 +3072,7 @@ this component</li>
       </td>
     </tr>
     <tr>
-      <td> webui.suntheme.widget.checkbox.event.refresh.endTopic </td>
+      <td> &lt;Node&gt;.event.refresh.endTopic </td>
       <td> Event topic is published after asynchronously refreshing the
 component. Supported properties include: See setProps() function.<br>
       <ul>
@@ -2980,7 +3084,7 @@ function for details on properties and their usage</li>
       </td>
     </tr>
     <tr>
-      <td> webui.suntheme.widget.checkbox.event.submit.beginTopic</td>
+      <td> &lt;Node&gt;.event.submit.beginTopic</td>
       <td>Event topic published before asynchronously submitting the
 component. Supported properties include:
       <ul>
@@ -2992,7 +3096,7 @@ this component</li>
       </td>
     </tr>
     <tr>
-      <td> webui.suntheme.widget.checkbox.event.submit.endTopic</td>
+      <td> &lt;Node&gt;.event.submit.endTopic</td>
       <td>
       <p>Event topic published after asynchronously submitting the
 component. Supported properties include:</p>
@@ -3336,6 +3440,19 @@ properties:
       </ul>
       </td>
     </tr>
+<tr>
+<td style="vertical-align: top;"><code>subscribe(topic, obj, func)</code></td>
+<td style="vertical-align: top;">Use this function to subscribe
+to an event topic.<br>
+<ul>
+<li>topic: The event topic to subscribe to.</li>
+<li>obj: The object in which a function will be invoked, or
+null for default scope.</li>
+<li>func The name of a function in context, or a function
+reference to invoke when topic is published.</li>
+</ul>
+</td>
+</tr>
   </tbody>
 </table>
 <p> </p>
@@ -3344,7 +3461,7 @@ properties:
 <p>
 When the component is manipulated client-side, some functions might
 publish event topics for custom Ajax implementations to listen for.
-Using the Dojo event system, you can instruct Ajax to listen for the refresh event topic bye using:<br>
+For example, you can listen for the refresh event topic bye using:<br>
 <br>
 <code>
 &lt;webuijsf:script&gt;<br>
@@ -3358,8 +3475,8 @@ Do something...<br>
 &nbsp;&nbsp;&nbsp; }<br>
 <br>
 &nbsp;&nbsp;&nbsp; // Subscribe to refresh event.<br>
-&nbsp;&nbsp;&nbsp;
-dojo.subscribe(webui.suntheme.widget.rbcbGroup.event.&lt;eventname&gt;.endTopic,
+&nbsp;&nbsp;&nbsp; var domNode = document.getElementById("form1:test1");<br>
+&nbsp;&nbsp;&nbsp; domNode.subscribe(domNode.event.refresh.endTopic,
 processEvents, "update");</code><code><br>
 <br>
 </code><code>
@@ -3372,7 +3489,7 @@ The following events are supported.
  cellspacing="2">
   <tbody>
     <tr>
-      <td> webui.suntheme.widget.rbcbGroup.event.refresh.beginTopic </td>
+      <td> &lt;Node&gt;.event.refresh.beginTopic </td>
       <td> Event topic is published before asynchronously refreshing the
 component. Supported properties include: <br>
       <ul>
@@ -3384,7 +3501,7 @@ this component</li>
       </td>
     </tr>
     <tr>
-      <td> webui.suntheme.widget.rbcbGroup.event.refresh.endTopic </td>
+      <td> &lt;Node&gt;.event.refresh.endTopic </td>
       <td> Event topic is published after asynchronously refreshing the
 component. Supported properties include: See setProps() function.<br>
       <ul>
@@ -4899,6 +5016,19 @@ on which the function has been invoked, is submitted. </li>
       </ul>
       </td>
     </tr>
+<tr>
+<td style="vertical-align: top;"><code>subscribe(topic, obj, func)</code></td>
+<td style="vertical-align: top;">Use this function to subscribe
+to an event topic.<br>
+<ul>
+<li>topic: The event topic to subscribe to.</li>
+<li>obj: The object in which a function will be invoked, or
+null for default scope.</li>
+<li>func The name of a function in context, or a function
+reference to invoke when topic is published.</li>
+</ul>
+</td>
+</tr>
   </tbody>
 </table>
 </p>
@@ -4907,7 +5037,7 @@ on which the function has been invoked, is submitted. </li>
 <p>
 When the component is manipulated client-side, some functions might
 publish event topics for custom Ajax implementations to listen for.
-Using the Dojo event system, you can instruct Ajax to listen for 
+For example, you can listen for 
 the refresh event topic by using:<br>
 <br>
 <code>
@@ -4922,8 +5052,8 @@ Do something...<br>
 &nbsp;&nbsp;&nbsp; }<br>
 <br>
 &nbsp;&nbsp;&nbsp; // Subscribe to refresh event.<br>
-&nbsp;&nbsp;&nbsp;
-dojo.subscribe(webui.suntheme.widget.dropDown.event.&lt;eventname&gt;.endTopic,
+&nbsp;&nbsp;&nbsp; var domNode = document.getElementById("form1:test1");<br>
+&nbsp;&nbsp;&nbsp; domNode.subscribe(domNode.event.refresh.endTopic,
 processEvents, "update");</code><code><br>
 <br>
 </code><code>
@@ -4936,7 +5066,7 @@ The following events are supported.
  cellspacing="2">
   <tbody>
     <tr>
-      <td> webui.suntheme.widget.dropDown.event.refresh.beginTopic </td>
+      <td> &lt;Node&gt;.event.refresh.beginTopic </td>
       <td> Event topic published before asynchronously refreshing the
 component. Supported properties include: <br>
       <ul>
@@ -4948,7 +5078,7 @@ this component</li>
       </td>
     </tr>
     <tr>
-      <td> webui.suntheme.widget.dropDown.event.refresh.endTopic </td>
+      <td> &lt;Node&gt;.event.refresh.endTopic </td>
       <td> Event topic published after asynchronously refreshing the
 component. Supported properties include:<br>
       <ul>
@@ -4960,7 +5090,7 @@ function for details on properties and their usage</li>
       </td>
     </tr>
     <tr>
-      <td> webui.suntheme.widget.dropDown.event.submit.beginTopic</td>
+      <td> &lt;Node&gt;.event.submit.beginTopic</td>
       <td>Event topic published before asynchronously submitting the
 component. Supported properties include:
       <ul>
@@ -4972,7 +5102,7 @@ this component</li>
       </td>
     </tr>
     <tr>
-      <td> webui.suntheme.widget.dropDown.event.submit.endTopic</td>
+      <td> &lt;Node&gt;.event.submit.endTopic</td>
       <td>
       <p>Event topic published after asynchronously submitting the
 component. Supported properties include:</p>
@@ -5235,13 +5365,26 @@ on which the function has been invoked, is submitted. </li>
       </ul>
       </td>
     </tr>
+<tr>
+<td style="vertical-align: top;"><code>subscribe(topic, obj, func)</code></td>
+<td style="vertical-align: top;">Use this function to subscribe
+to an event topic.<br>
+<ul>
+<li>topic: The event topic to subscribe to.</li>
+<li>obj: The object in which a function will be invoked, or
+null for default scope.</li>
+<li>func The name of a function in context, or a function
+reference to invoke when topic is published.</li>
+</ul>
+</td>
+</tr>
   </tbody>
 </table>
 <h3>Client Side JavaScript Events</h3>
 <p>
 When the component is manipulated client side, some functions may
 publish event topics for custom AJAX implementations to listen for.
-Using the Dojo event system, subscribe to any of these events in order to add 
+For example, subscribe to any of these events in order to add 
 custom logic to the editableField behavior. For example:<br>
 <br>
 <code>
@@ -5256,8 +5399,8 @@ Do something...<br>
 &nbsp;&nbsp;&nbsp; }<br>
 <br>
 &nbsp;&nbsp;&nbsp; // Subscribe to refresh event.<br>
-&nbsp;&nbsp;&nbsp;
-dojo.subscribe(webui.suntheme.widget.editableField.event.&lt;eventname&gt;.endTopic,
+&nbsp;&nbsp;&nbsp; var domNode = document.getElementById("form1:test1");<br>
+&nbsp;&nbsp;&nbsp; domNode.subscribe(domNode.event.refresh.endTopic,
 processEvents, "update");</code><code><br>
 <br>
 </code><code>
@@ -5272,7 +5415,7 @@ processEvents, "update");</code><code><br>
      <th>Description</th>
     </tr>
     <tr>
-      <td> webui.suntheme.widget.editableField.event.refresh.beginTopic</td>
+      <td> &lt;Node&gt;.event.refresh.beginTopic</td>
       <td> Event topic published before asynchronously refreshing the
 component. Supported properties include:
       <ul>
@@ -5284,7 +5427,7 @@ this component</li>
       </td>
     </tr>
     <tr>
-      <td> webui.suntheme.widget.editableField.event.refresh.endTopic</td>
+      <td> &lt;Node&gt;.event.refresh.endTopic</td>
       <td>
       <p>Event topic published after asynchronously refreshing the
 component. Supported properties include:</p>
@@ -5296,7 +5439,7 @@ setProps() function for details on properties and their usage </li>
       </td>
     </tr>
     <tr>
-      <td> webui.suntheme.widget.editableField.event.submit.beginTopic</td>
+      <td> &lt;Node&gt;.event.submit.beginTopic</td>
       <td>Event topic published before asynchronously submitting the
 component. Supported properties include: <br>
       <ul>
@@ -5309,7 +5452,7 @@ this component</li>
       </td>
     </tr>
     <tr>
-      <td> webui.suntheme.widget.editableField.event.submit.endTopic</td>
+      <td> &lt;Node&gt;.event.submit.endTopic</td>
       <td>
       <p>Event topic published after asynchronously submitting the
 component. Supported properties include:</p>
@@ -6734,6 +6877,19 @@ on which the function has been invoked, is submitted. </li>
       </ul>
       </td>
     </tr>
+<tr>
+<td style="vertical-align: top;"><code>subscribe(topic, obj, func)</code></td>
+<td style="vertical-align: top;">Use this function to subscribe
+to an event topic.<br>
+<ul>
+<li>topic: The event topic to subscribe to.</li>
+<li>obj: The object in which a function will be invoked, or
+null for default scope.</li>
+<li>func The name of a function in context, or a function
+reference to invoke when topic is published.</li>
+</ul>
+</td>
+</tr>
   </tbody>
 </table>
 <code></code>
@@ -6741,7 +6897,7 @@ on which the function has been invoked, is submitted. </li>
 <p>
 When the component is manipulated client side, some functions may
 publish event topics for custom AJAX implementations to listen for.
-Using the Dojo event system, listen for the refresh event topic using:<br>
+For example, you can listen for the refresh event topic using:<br>
 <br>
 <code>
 &lt;webuijsf:script&gt;<br>
@@ -6755,8 +6911,8 @@ Do something...<br>
 &nbsp;&nbsp;&nbsp; }<br>
 <br>
 &nbsp;&nbsp;&nbsp; // Subscribe to refresh event.<br>
-&nbsp;&nbsp;&nbsp;
-dojo.subscribe(webui.suntheme.widget.hiddenField.event.&lt;eventname&gt;.endTopic,
+&nbsp;&nbsp;&nbsp; var domNode = document.getElementById("form1:test1");<br>
+&nbsp;&nbsp;&nbsp; domNode.subscribe(domNode.event.refresh.endTopic,
 processEvents, "update");</code><code><br>
 <br>
 </code><code>
@@ -6768,7 +6924,7 @@ The following events are supported.<code></code><br>
  cellspacing="2">
   <tbody>
     <tr>
-      <td> webui.suntheme.widget.hiddenField.event.refresh.beginTopic </td>
+      <td> &lt;Node&gt;.event.refresh.beginTopic </td>
       <td> Event topic published before asynchronously refreshing the
 component. Supported properties include: <br>
       <ul>
@@ -6780,7 +6936,7 @@ this component</li>
       </td>
     </tr>
     <tr>
-      <td> webui.suntheme.widget.hiddenField.event.refresh.endTopic </td>
+      <td> &lt;Node&gt;.event.refresh.endTopic </td>
       <td> Event topic published after asynchronously refreshing the
 component. Supported properties include: See setProps() function.<br>
       <ul>
@@ -6792,7 +6948,7 @@ function for details on properties and their usage</li>
       </td>
     </tr>
     <tr>
-      <td> webui.suntheme.widget.hiddenField.event.submit.beginTopic</td>
+      <td> &lt;Node&gt;.event.submit.beginTopic</td>
       <td>Event topic published before asynchronously submitting the
 component. Supported properties include:
       <ul>
@@ -6804,7 +6960,7 @@ this component</li>
       </td>
     </tr>
     <tr>
-      <td> webui.suntheme.widget.hiddenField.event.submit.endTopic</td>
+      <td> &lt;Node&gt;.event.submit.endTopic</td>
       <td>
       <p>Event topic published after asynchronously submitting the
 component. Supported properties include:</p>
@@ -7033,6 +7189,19 @@ properties:
       </ul>
       </td>
     </tr>
+<tr>
+<td style="vertical-align: top;"><code>subscribe(topic, obj, func)</code></td>
+<td style="vertical-align: top;">Use this function to subscribe
+to an event topic.<br>
+<ul>
+<li>topic: The event topic to subscribe to.</li>
+<li>obj: The object in which a function will be invoked, or
+null for default scope.</li>
+<li>func The name of a function in context, or a function
+reference to invoke when topic is published.</li>
+</ul>
+</td>
+</tr>
   </tbody>
 </table>
 <br>
@@ -7040,7 +7209,7 @@ properties:
 <p>
 When the component is manipulated client side, some functions may
 publish event topics for custom AJAX implementations to listen for.
-Using the Dojo event system, listen for the refresh event topic using:<br>
+For example, you can listen for the refresh event topic using:<br>
 <br>
 <code>
 &lt;webuijsf:script&gt;<br>
@@ -7054,8 +7223,8 @@ Do something...<br>
 &nbsp;&nbsp;&nbsp; }<br>
 <br>
 &nbsp;&nbsp;&nbsp; // Subscribe to refresh event.<br>
-&nbsp;&nbsp;&nbsp;
-dojo.subscribe(webui.suntheme.widget.hyperlink.event.&lt;eventname&gt;.endTopic,
+&nbsp;&nbsp;&nbsp; var domNode = document.getElementById("form1:test1");<br>
+&nbsp;&nbsp;&nbsp; domNode.subscribe(domNode.event.refresh.endTopic,
 processEvents, "update");</code><code><br>
 <br>
 </code><code>
@@ -7068,7 +7237,7 @@ The following events are supported.
  cellspacing="2">
   <tbody>
     <tr>
-      <td> webui.suntheme.widget.hyperlink.event.refresh.beginTopic </td>
+      <td> &lt;Node&gt;.event.refresh.beginTopic </td>
       <td> Event topic published before asynchronously refreshing the
 component. Supported properties include: <br>
       <ul>
@@ -7080,7 +7249,7 @@ this component</li>
       </td>
     </tr>
     <tr>
-      <td> webui.suntheme.widget.hyperlink.event.refresh.endTopic </td>
+      <td> &lt;Node&gt;.event.refresh.endTopic </td>
       <td> Event topic published after asynchronously refreshing the
 component. Supported properties include: See setProps() function.<br>
       <ul>
@@ -7348,6 +7517,19 @@ properties:<br>
       </ul>
       </td>
     </tr>
+<tr>
+<td style="vertical-align: top;"><code>subscribe(topic, obj, func)</code></td>
+<td style="vertical-align: top;">Use this function to subscribe
+to an event topic.<br>
+<ul>
+<li>topic: The event topic to subscribe to.</li>
+<li>obj: The object in which a function will be invoked, or
+null for default scope.</li>
+<li>func The name of a function in context, or a function
+reference to invoke when topic is published.</li>
+</ul>
+</td>
+</tr>
   </tbody>
 </table>
 <code></code>
@@ -7355,7 +7537,7 @@ properties:<br>
 <p>
 When the component is manipulated client side, some functions may
 publish event topics for custom AJAX implementations to listen for.
-Using the Dojo event system, listen for the refresh event topic using:<br>
+For example, you can listen for the refresh event topic using:<br>
 <br>
 <code>
 &lt;webuijsf:script&gt;<br>
@@ -7369,8 +7551,8 @@ Do something...<br>
 &nbsp;&nbsp;&nbsp; }<br>
 <br>
 &nbsp;&nbsp;&nbsp; // Subscribe to refresh event.<br>
-&nbsp;&nbsp;&nbsp;
-dojo.subscribe(webui.suntheme.widget.image.event.&lt;eventname&gt;.endTopic,
+&nbsp;&nbsp;&nbsp; var domNode = document.getElementById("form1:test1");<br>
+&nbsp;&nbsp;&nbsp; domNode.subscribe(domNode.event.refresh.endTopic,
 processEvents, "update");</code><code><br>
 <br>
 </code><code>
@@ -7382,7 +7564,7 @@ The following events are supported.<code></code><br>
  cellspacing="2">
   <tbody>
     <tr>
-      <td> webui.suntheme.widget.image.event.refresh.beginTopic </td>
+      <td> &lt;Node&gt;.event.refresh.beginTopic </td>
       <td> Event topic published before asynchronously refreshing the
 component. Supported properties include: <br>
       <ul>
@@ -7394,7 +7576,7 @@ this component</li>
       </td>
     </tr>
     <tr>
-      <td> webui.suntheme.widget.image.event.refresh.endTopic </td>
+      <td> &lt;Node&gt;.event.refresh.endTopic </td>
       <td> Event topic published after asynchronously refreshing the
 component. Supported properties include: See setProps() function.<br>
       <ul>
@@ -7604,6 +7786,19 @@ properties:
       </ul>
       </td>
     </tr>
+<tr>
+<td style="vertical-align: top;"><code>subscribe(topic, obj, func)</code></td>
+<td style="vertical-align: top;">Use this function to subscribe
+to an event topic.<br>
+<ul>
+<li>topic: The event topic to subscribe to.</li>
+<li>obj: The object in which a function will be invoked, or
+null for default scope.</li>
+<li>func The name of a function in context, or a function
+reference to invoke when topic is published.</li>
+</ul>
+</td>
+</tr>
   </tbody>
 </table>
 </span></span></p>
@@ -7611,7 +7806,7 @@ properties:
 <p>
 When the component is manipulated client side, some functions may
 publish event topics for custom AJAX implementations to listen for.
-Using the Dojo event system, listen for the refresh event topic using:<br>
+For example, you can listen for the refresh event topic using:<br>
 <br>
 <code>
 &lt;webuijsf:script&gt;<br>
@@ -7625,8 +7820,8 @@ Do something...<br>
 &nbsp;&nbsp;&nbsp; }<br>
 <br>
 &nbsp;&nbsp;&nbsp; // Subscribe to refresh event.<br>
-&nbsp;&nbsp;&nbsp;
-dojo.subscribe(webui.suntheme.widget.imageHyperlink.event.&lt;eventname&gt;.endTopic,
+&nbsp;&nbsp;&nbsp; var domNode = document.getElementById("form1:test1");<br>
+&nbsp;&nbsp;&nbsp; domNode.subscribe(domNode.event.refresh.endTopic,
 processEvents, "update");</code><code><br>
 <br>
 </code><code>
@@ -7638,7 +7833,7 @@ processEvents, "update");</code><code><br>
  cellspacing="2">
   <tbody>
     <tr>
-      <td> webui.suntheme.widget.imageHyperlink.event.refresh.beginTopic
+      <td> &lt;Node&gt;.event.refresh.beginTopic
       </td>
       <td> Event topic published before asynchronously refreshing the
 component. Supported properties include: <br>
@@ -7651,7 +7846,7 @@ this component</li>
       </td>
     </tr>
     <tr>
-      <td> webui.suntheme.widget.imageHyperlink.event.refresh.endTopic </td>
+      <td> &lt;Node&gt;.event.refresh.endTopic </td>
       <td> Event topic published after asynchronously refreshing the
 component. Supported properties include: See setProps() function.<br>
       <ul>
@@ -7974,13 +8169,26 @@ properties:<br>
       </ul>
       </td>
     </tr>
+<tr>
+<td style="vertical-align: top;"><code>subscribe(topic, obj, func)</code></td>
+<td style="vertical-align: top;">Use this function to subscribe
+to an event topic.<br>
+<ul>
+<li>topic: The event topic to subscribe to.</li>
+<li>obj: The object in which a function will be invoked, or
+null for default scope.</li>
+<li>func The name of a function in context, or a function
+reference to invoke when topic is published.</li>
+</ul>
+</td>
+</tr>
   </tbody>
 </table>
 <h3>Client Side JavaScript Events</h3>
 <p>
 When the component is manipulated client side, some functions may
 publish event topics for custom AJAX implementations to listen for.
-Using the Dojo event system, listen for the refresh event topic using:<br>
+For example, you can listen for the refresh event topic using:<br>
 <br>
 <code>
 &lt;webuijsf:script&gt;<br>
@@ -7994,8 +8202,8 @@ Do something...<br>
 &nbsp;&nbsp;&nbsp; }<br>
 <br>
 &nbsp;&nbsp;&nbsp; // Subscribe to refresh event.<br>
-&nbsp;&nbsp;&nbsp;
-dojo.subscribe(webui.suntheme.widget.label.event.&lt;eventname&gt;.endTopic,
+&nbsp;&nbsp;&nbsp; var domNode = document.getElementById("form1:test1");<br>
+&nbsp;&nbsp;&nbsp; domNode.subscribe(domNode.event.refresh.endTopic,
 processEvents, "update");</code><code><br>
 <br>
 </code><code>
@@ -8007,7 +8215,7 @@ processEvents, "update");</code><code><br>
  cellspacing="2">
   <tbody>
     <tr>
-      <td> webui.suntheme.widget.label.event.refresh.beginTopic </td>
+      <td> &lt;Node&gt;.event.refresh.beginTopic </td>
       <td> Event topic published before asynchronously refreshing the
 component. Supported properties include: <br>
       <ul>
@@ -8019,7 +8227,7 @@ this component</li>
       </td>
     </tr>
     <tr>
-      <td> webui.suntheme.widget.label.event.refresh.endTopic </td>
+      <td> &lt;Node&gt;.event.refresh.endTopic </td>
       <td> Event topic published after asynchronously refreshing the
 component. Supported properties include: See setProps() function.<br>
       <ul>
@@ -8365,6 +8573,19 @@ on which the function has been invoked, is submitted. </li>
       </ul>
       </td>
     </tr>
+<tr>
+<td style="vertical-align: top;"><code>subscribe(topic, obj, func)</code></td>
+<td style="vertical-align: top;">Use this function to subscribe
+to an event topic.<br>
+<ul>
+<li>topic: The event topic to subscribe to.</li>
+<li>obj: The object in which a function will be invoked, or
+null for default scope.</li>
+<li>func The name of a function in context, or a function
+reference to invoke when topic is published.</li>
+</ul>
+</td>
+</tr>
   </tbody>
 </table>
 </p>
@@ -8372,7 +8593,7 @@ on which the function has been invoked, is submitted. </li>
 <p>
 When the component is manipulated client side, some functions may
 publish event topics for custom AJAX implementations to listen for.
-Using the Dojo event system, listen for the refresh event topic using:<br>
+For example, you can listen for the refresh event topic using:<br>
 <br>
 <code>
 &lt;webuijsf:script&gt;<br>
@@ -8386,8 +8607,8 @@ Do something...<br>
 &nbsp;&nbsp;&nbsp; }<br>
 <br>
 &nbsp;&nbsp;&nbsp; // Subscribe to refresh event.<br>
-&nbsp;&nbsp;&nbsp;
-dojo.subscribe(webui.suntheme.widget.listbox.event.&lt;eventname&gt;.endTopic,
+&nbsp;&nbsp;&nbsp; var domNode = document.getElementById("form1:test1");<br>
+&nbsp;&nbsp;&nbsp; domNode.subscribe(domNode.event.refresh.endTopic,
 processEvents, "update");</code><code><br>
 <br>
 </code><code>
@@ -8399,7 +8620,7 @@ processEvents, "update");</code><code><br>
  cellspacing="2">
   <tbody>
     <tr>
-      <td> webui.suntheme.widget.listbox.event.refresh.beginTopic </td>
+      <td> &lt;Node&gt;.event.refresh.beginTopic </td>
       <td> Event topic published before asynchronously refreshing the
 component. Supported properties include: <br>
       <ul>
@@ -8411,7 +8632,7 @@ this component</li>
       </td>
     </tr>
     <tr>
-      <td> webui.suntheme.widget.listbox.event.refresh.endTopic </td>
+      <td> &lt;Node&gt;.event.refresh.endTopic </td>
       <td> Event topic published after asynchronously refreshing the
 component. Supported properties include: See setProps() function.<br>
       <ul>
@@ -8423,7 +8644,7 @@ function for details on properties and their usage</li>
       </td>
     </tr>
     <tr>
-      <td> webui.suntheme.widget.listbox.event.submit.beginTopic</td>
+      <td> &lt;Node&gt;.event.submit.beginTopic</td>
       <td>Event topic published before asynchronously submitting the
 component. Supported properties include:
       <ul>
@@ -8435,7 +8656,7 @@ this component</li>
       </td>
     </tr>
     <tr>
-      <td> webui.suntheme.widget.listbox.event.submit.endTopic</td>
+      <td> &lt;Node&gt;.event.submit.endTopic</td>
       <td>
       <p>Event topic published after asynchronously submitting the
 component. Supported properties include:</p>
@@ -8565,80 +8786,111 @@ update components server-side: refresh("form1:id1,form2:id2,...")<br>
     <tag>
         <name>login</name>
 
-        <description><![CDATA[ <p
-  style="color: rgb(0, 0, 0);"><span
-  style="text-decoration: line-through;"></span>Use
- the <code>webuijsf:login</code> component to authenticate users.
- By default the tag is linked to a JAAS(Java Authentication and Authorization Service) based infrastructure. Application developers can write
-LoginModule implementations suited to their needs. For more details on how to write JAAS LoginModule applications see the following link:
-<a href=http://java.sun.com/javase/6/docs/technotes/guides/security/jaas/JAASRefGuide.html>
-http://java.sun.com/javase/6/docs/technotes/guides/security/jaas/JAASRefGuide.html</a>. The JAAS configuration containing the LoginModule impl entries should be added to the config file if one exists or a new file should be created and specified using the appropriate Djava parameter.
- 
- The <code>webuijsf:login</code>
- tag allows you to insert HTML elements like textfield, statictext,
+        <description><![CDATA[ 
+<p style="color: rgb(0, 0, 0);"><span
+style="text-decoration: line-through;"></span>Use the <code>webuijsf:login</code>
+component to authenticate users. By default the tag is linked to a
+JAAS(Java Authentication and Authorization Service) based
+infrastructure. Application developers can write
+LoginModule implementations suited to their needs. For more details on
+how to write JAAS LoginModule applications see the following link:
+<a
+href="http://java.sun.com/javase/6/docs/technotes/guides/security/jaas/JAASRefGuide.html">http://java.sun.com/javase/6/docs/technotes/guides/security/jaas/JAASRefGuide.html</a>.
+The JAAS configuration containing the LoginModule impl entries should
+be added to the config file if one exists or a new file should be
+created and specified using the appropriate Djava parameter. The <code>webuijsf:login</code>
+tag allows you to insert HTML elements like textfield, statictext,
 dropdowns, listboxes, labels to prompt users to enter authentication
-data. The prompts that need to be displayed are usually controlled at the server side by the loginModule implementation classes. 
- <br></p><h3 style="color: rgb(0, 0, 0);">Configuring
- the login tag <br></h3><p style="color: rgb(0, 0, 0);">
- <p>Use the <code>serviceName</code>
- attribute to identify the underlying authentication service.</p>
-<p> Use the <code>value</code> to capture the resuolt of the authentication process.
-For the default JAAS based backend the value of the authentication process is the 
-Subject object representing the authenticated Principal and credential objects.
+data. The prompts that need to be displayed are usually controlled at
+the server side by the loginModule implementation classes. <br>
 </p>
-<p> Use the <code>redirectURL</code> to specify a URL to redirect to after successful
+<h3 style="color: rgb(0, 0, 0);">Configuring the login tag <br>
+</h3>
+<p style="color: rgb(0, 0, 0);"> </p>
+<p>Use the <code>serviceName</code> attribute to identify the
+underlying authentication service.</p>
+<p> Use the <code>value</code> to capture the resuolt of the
+authentication process.
+For the default JAAS based backend the value of the authentication
+process is the Subject object representing the authenticated Principal
+and credential objects.
+</p>
+<p> Use the <code>redirectURL</code> to specify a URL to redirect to
+after successful
 authentication.</p>
-<p> Set the <code>autoStart</code> attribute to true to initiate the 
-authentication process on its own without any client side intervention or 
-wait for some other client side entity to start the authentication process.
- By default this attribute is set to true. In situations where the authentication
- process needs to start based on other events happening on the client side this
- attribute should be set to false and the appropriate client side API used to
- fire up the process.</p>
+<p> Set the <code>autoStart</code> attribute to true to initiate the
+authentication process on its own without any client side intervention
+or wait for some other client side entity to start the authentication
+process. By default this attribute is set to true. In situations where
+the authentication process needs to start based on other events
+happening on the client side this attribute should be set to false and
+the appropriate client side API used to fire up the process.</p>
 <br>
-
 <h3>Client-side JavaScript Functions</h3>
 <p>When the component is rendered, a DOM object corresponding to the
 component is created. Subscribing to well known events is the only way
-to interact with the login widget. The widget publishes events announcing
-success or failure of the authentication process. Applications should use
-these events to figure out what to do next. Applications can also use the
+to interact with the login widget. The widget publishes events
+announcing
+success or failure of the authentication process. Applications should
+use
+these events to figure out what to do next. Applications can also use
+the
 authenticate() function to kick start the authentication process.<br>
 <br>
 <table style="text-align: left; width: 100%;" border="1" cellpadding="2"
- cellspacing="2">
-  <tbody>
-    <tr>
-      <td style="vertical-align: top;"><code>getProps()</code></td>
-      <td style="vertical-align: top;">Use this function to get widget
+cellspacing="2">
+<tbody>
+<tr>
+<td style="vertical-align: top;"><code>getProps()</code></td>
+<td style="vertical-align: top;">Use this function to get widget
 properties. Please see <code>setProps()</code> function for a list of
 supported properties.</td>
-    </tr>
-    <tr>
-      <td style="vertical-align: top;"><code>authenticate()</code> </td>
-      <td style="vertical-align: top;">Use this function to start the 
-		authentication process if you do not want the process to start
-		when the page loads. 
-      <td>
-    </tr>
-    <tr>
-      <td><code>setProps(props)</code></td>
-      <td>Use this function to change any of the following supported
-properties. Generally, setProps() should only be called by function that 
-is handling the result of an authentication to the underlying server side.
-      <ul>
-        <li>id - ID of the login widget.</li>
-        <li>loginState - State of the authentication process.</li>
-        <li>autoStart - Flag indicating if authentication process should start on page load.</li>
-        <li>userData - JSON object containing user data that needs to be displayed as user prompt.</li>
-        <li>keys - JSON object representing the key value mapping for user data fields</li>
-        <li>style</li>
-        <li>tabIndex</li>
-        <li>className</li>
-       </ul>
-      </td>
-    </tr>
-  </tbody>
+</tr>
+<tr>
+<td style="vertical-align: top;"><code>authenticate()</code> </td>
+<td style="vertical-align: top;">Use this function to start the
+authentication process if you do not want the process to start when the
+page loads. </td>
+<td> <br>
+</td>
+</tr>
+<tr>
+<td><code>setProps(props)</code></td>
+<td>Use this function to change any of the following supported
+properties. Generally, setProps() should only be called by function
+that is handling the result of an authentication to the underlying
+server side.
+<ul>
+<li>id - ID of the login widget.</li>
+<li>loginState - State of the authentication process.</li>
+<li>autoStart - Flag indicating if authentication process
+should start on page load.</li>
+<li>userData - JSON object containing user data that needs to
+be displayed as user prompt.</li>
+<li>keys - JSON object representing the key value mapping for
+user data fields</li>
+<li>style</li>
+<li>tabIndex</li>
+<li>className</li>
+</ul>
+</td>
+</tr>
+<tr>
+<td style="vertical-align: top;"><code>subscribe(topic, obj, func)</code></td>
+<td style="vertical-align: top;">Use this function to subscribe
+to an event topic.<br>
+<ul>
+<li>topic: The event topic to subscribe to.</li>
+<li>obj: The object in which a function will be invoked, or
+null for default scope.</li>
+<li>func The name of a function in context, or a function
+reference to invoke when topic is published.</li>
+</ul>
+</td>
+<td style="vertical-align: top;"><br>
+</td>
+</tr>
+</tbody>
 </table>
 </p>
 <h3>Client Side JavaScript Events</h3>
@@ -8650,199 +8902,249 @@ See example2 below.</p>
 <p>The following events are supported.<br>
 </p>
 <table style="text-align: left; width: 100%;" border="1" cellpadding="2"
- cellspacing="2">
-  <tbody>
-    <tr>
-      <td> webui.suntheme.widget.login.event.authenticate.beginTopic </td>
-      <td> Event topic published before asynchronously authenticating the
+cellspacing="2">
+<tbody>
+<tr>
+<td>&lt;Node&gt;.event.authenticate.beginTopic </td>
+<td> Event topic published before asynchronously authenticating
+the
 component. Supported properties include: <br>
-id: this.id,
-            loginState: this.loginState,
-            keys: this.keys,
-            endTopic: webui.@THEME@.widget.login.event.authenticate.endTopic
-
-      <ul>
-        <li>loginState - the current state of the authentication process</li>
-        <li>keys - the set of key value pairs representing user/credential information</li>
-        <li>id - The client id to process the event for</li>
-      </ul>
-      </td>
-    </tr>
-    <tr>
-      <td> webui.suntheme.widget.login.event.authenticate.endTopic </td>
-      <td> Event topic published after asynchronously authenticating the
+id: this.id, loginState: this.loginState, keys: this.keys, endTopic:
+&lt;Node&gt;.event.authenticate.endTopic
+<ul>
+<li>loginState - the current state of the authentication process</li>
+<li>keys - the set of key value pairs representing
+user/credential information</li>
+<li>id - The client id to process the event for</li>
+</ul>
+</td>
+</tr>
+<tr>
+<td>&lt;Node&gt;.event.authenticate.endTopic </td>
+<td> Event topic published after asynchronously authenticating
+the
 component. Supported properties include: See setProps() function.<br>
-      <ul>
-        <li>props - JSON object containing properties of the component.
+<ul>
+<li>props - JSON object containing properties of the component.
 See
 setProps()
 function for details on properties and their usage</li>
-      </ul>
-      </td>
-    </tr>
-    <tr>
-      <td> webui.suntheme.widget.login.event.result.successTopic</td>
-      <td>Event topic published when the asynchronously submitted
-	authentication process has succeeded. Supported properties include:
-      <ul>
-        <li>id - The client id to process the event for</li>
-      </ul>
-      </td>
-    </tr>
-    <tr>
-      <td> webui.suntheme.widget.login.event.result.failureTopic</td>
-      <td>
-      <p>Event topic published when the asynchronously submitted
-	authentication process has failed. Supported properties include:</p>
-      <ul>
-	<li>id - The client id to process the event for</li>
-      </ul>
-      </td>
-    </tr>
-  </tbody>
+</ul>
+</td>
+</tr>
+<tr>
+<td>&lt;Node&gt;.event.result.successTopic</td>
+<td>Event topic published when the asynchronously submitted
+authentication process has succeeded. Supported properties include:
+<ul>
+<li>id - The client id to process the event for</li>
+</ul>
+</td>
+</tr>
+<tr>
+<td>&lt;Node&gt;.event.result.failureTopic</td>
+<td>
+<p>Event topic published when the asynchronously submitted
+authentication process has failed. Supported properties include:</p>
+<ul>
+<li>id - The client id to process the event for</li>
+</ul>
+</td>
+</tr>
+</tbody>
 </table>
-
 <br>
 <h3>Examples</h3>
 <h4> For all the examples below one of the following JAAS configuration
-     entries have been used. </h4>
-<pre>
-AppLogin1 {
-    com.sun.webui.jsf.example.login.TestLoginModule optional;
-};
-
-AppLogin2 {
-    com.sun.webui.jsf.example.login.TestLoginModule2 requisite;
-    com.sun.webui.jsf.example.login.TestLoginModule3 requisite;
-};
-</pre>
+entries have been used. </h4>
+AppLogin1 {<br>
+com.sun.webui.jsf.example.login.TestLoginModule optional;<br>
+};<br>
+<br>
+AppLogin2 {<br>
+com.sun.webui.jsf.example.login.TestLoginModule2 requisite;<br>
+com.sun.webui.jsf.example.login.TestLoginModule3 requisite;<br>
+};<br>
 <h4>Example 1: Basic login example with single LoginModule</h4>
-<pre>  &lt;webuijsf:login id="login1"  redirectURL="/example/faces/login/result.jsp" 
-            serviceName="AppLogin1" value="#{LoginBean.value}" /&gt;<br>   </pre>
+&lt;webuijsf:login id="login1"
+redirectURL="/example/faces/login/result.jsp" <br>
+serviceName="AppLogin1" value="#{LoginBean.value}" /&gt;<br>
+<br>
 <h4>Example 2: Login example showing use of events</h4>
-<pre> 
-&lt;webuijsf:script&gt;
-        window.onload=init;
-        
-        function init() {
-            dojo.subscribe(webui.suntheme.widget.login.event.result.successTopic, 
-                this, handleEvent);
-            dojo.subscribe(webui.suntheme.widget.login.event.result.failureTopic, 
-                this, handleFailureEvent);
-        }
-        
-        this.handleEvent = function(id) {
-
-            var loc = document.location;
-            var newURL = loc.protocol + "//" + loc.host;
-            newURL = newURL + "/example/faces/login/result.jsp";
-            document.location.href = newURL;
-        }
-        
-        this.handleFailureEvent = function(id) {
-
-            var loc = document.location;
-            var newURL = loc.protocol + "//" + loc.host;
-            newURL = newURL + "/example/faces/login/failed.jsp";
-            document.location.href = newURL;
-        }
-
-    &lt;/webuijsf:script&gt;
-    
-    &lt;webuijsf:body&gt;
-    &lt;webuijsf:form id="form1"&gt;
-      &lt;webuijsf:masthead id="Masthead" productImageURL="/images/webconsole.png"
-            productImageDescription="Java Web Console" userInfo="test_user"
-            serverInfo="test_server" /&gt;
-      
-       <br/><br/>
-       
-        &lt;webuijsf:login id="login3" value="#{LoginBean.value}" serviceName="AppLogin1"/&gt;
-            
-        &lt;webuijsf:form&gt;
-    &lt;webuijsf:body&gt;
-
-</pre>
+<br>
+<code>&lt;webuijsf:script&gt;<br>
+&nbsp;&nbsp;&nbsp; function init() {<br>
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; var domNode =
+document.getElementById("form1:login3");<br>
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; if (domNode == null ||
+domNode.event == null) { <br>
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; return
+setTimeout('init();', 10);<br>
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; }<br>
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+domNode.subscribe(domNode.event.result.successTopic, this, handleEvent);<br>
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+domNode.subscribe(domNode.event.result.failureTopic, this,
+handleFailureEvent);<br>
+&nbsp;&nbsp;&nbsp; }<br>
+<br>
+&nbsp;&nbsp;&nbsp; this.handleEvent = function(id) {<br>
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; var loc = document.location;<br>
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; var newURL = loc.protocol + "//"
++ loc.host;<br>
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; newURL = newURL +
+"/example/faces/login/result.jsp";<br>
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; document.location.href = newURL;<br>
+&nbsp;&nbsp;&nbsp; }<br>
+<br>
+&nbsp;&nbsp;&nbsp; this.handleFailureEvent = function(id) {<br>
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; var loc = document.location;<br>
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; var newURL = loc.protocol + "//"
++ loc.host;<br>
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; newURL = newURL +
+"/example/faces/login/failed.jsp";<br>
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; document.location.href = newURL;<br>
+&nbsp;&nbsp;&nbsp; }<br>
+&lt;/webuijsf:script&gt;<br>
+<br>
+&lt;webuijsf:body onLoad="init();"&gt;<br>
+&lt;webuijsf:form id="form1"&gt;<br>
+&lt;webuijsf:masthead id="Masthead"
+productImageURL="/images/webconsole.png"<br>
+&nbsp; productImageDescription="Java Web Console" userInfo="test_user"<br>
+&nbsp; serverInfo="test_server" /&gt;<br>
+<br>
+&lt;webuijsf:login id="login3" value="#{LoginBean.value}"
+serviceName="AppLogin1"/&gt;<br>
+<br>
+&lt;/webuijsf:form&gt;<br>
+&lt;/webuijsf:body&gt;</code> <br>
+<br>
 <h4>Example 3: Login example using two LoginModule implementations.</h4>
-<pre>
-&lt;webuijsf:login id="login2" value="#{LoginBean.value}" serviceName="AppLogin2" /&gt;
-</pre>
-
+<br>
+&lt;webuijsf:login id="login2" value="#{LoginBean.value}"
+serviceName="AppLogin2" /&gt;<br>
+<br>
 <h4>Example 4: Secondary login example</h4>
-<pre>
-          &lt;webuijsf:script&gt;
-            window.onload=init;
-
-            function init() {
-                dojo.subscribe(webui.suntheme.widget.login.event.result.successTopic, 
-                    this, handleSuccessEvent);
-                dojo.subscribe(webui.suntheme.widget.login.event.result.failureTopic, 
-                    this, handleFailureEvent);
-                
-            }
-
-            this.handleSuccessEvent = function(id) {
-                // show the common task page after successful authentication
-                var cts = document.getElementById("form1:ctp1");
-                cts.style.display = "block";
-            }
-            
-            this.handleFailureEvent = function(id) {
-                // show the retry button
-                
-                var loginDiv = document.getElementById("form1:secondary");
-                loginDiv.style.display = "none";
-                var btn = document.getElementById("form1:retry");
-                btn.style.display = "block";
-            }
-
-
-          &lt;webuijsf:script&gt;
-    
-      &lt;webuijsf:head&gt;
-      
-      &lt;webuijsf:body id="body" styleClass="#{themeStyles.CTS_BACKGROUND}">
-          
-       &lt;webuijsf:form id="form1"&gt;  
-           
-         &lt;webuijsf:login id="secondary" value="#{LoginBean.value}" serviceName="AppLogin1" /&gt;
-            
-            
-            &lt;webuijsf:button id="retry" text="Authentication Failed, Retry" toolTip="Try Authenticating Again"
-               style="display:none"
-              onClick="var login = document.getElementById('form1:login1'); login.style.display='block'; login.authenticate();" /&gt;
-                             
-       &lt;webuijsf:commonTasksSection style="display:none" id="ctp1">
-         &lt;webuijsf:commonTasksGroup id="taskGroup1" title="#{msgs.commontask_group1}"&gt;
-            &lt;webuijsf:commonTask id="task1" text="#{msgs.commontask_task1}"  
-                toolTip="#{msgs.commontask_task1}" actionExpression="#{commonTask.taskAction}"
-                target="_blank" icon="CTS_OVERVIEW"&gt;
-            &lt;webuijsf:commonTask&gt;
-            &lt;webuijsf:commonTask id="task2" text="#{msgs.commontask_task2}" toolTip="#{msgs.commontask_task2}"
-                onClick="popup();return false;" infoTitle="#{msgs.commontask_task2infotitle}"
-                infoText="#{msgs.commontask_task2infotext}" /&gt;
-        &lt;webuijsf:commonTasksGroup&gt;
-
-        &lt;webuijsf:commonTasksGroup id="taskGroup2"  title="#{msgs.commontask_group2}"&gt;
-            &lt;webuijsf:commonTask id="task3" text="#{msgs.commontask_task3}"  toolTip="#{msgs.commontask_task3}"
-                 onClick="popup();return false; "  infoLinkUrl="/faces/commontask/sample.jsp" 
-                  infoLinkText="#{msgs.commontask_infolinktext}" infoTitle="#{msgs.commontask_task3infotitle}" 
-                  infoText="#{msgs.commontask_task3infotext}"/&gt;
-             &lt;webuijsf:commonTask id="task4" text="#{msgs.commontask_task4}" onClick="popup();return false;"
-                 toolTip="#{msgs.commontask_task4}"/&gt;
-              &lt;webuijsf:commonTask id="task5" text="#{msgs.commontask_task5}" 
-                  onClick="popup();return false;" infoTitle="#{msgs.commontask_task5infotitle}"
-                  toolTip="#{msgs.commontask_task5}" infoText="#{msgs.commontask_task5infotext}"/&gt;
-        &lt;webuijsf:commonTasksGroup&gt;
-        
-      &lt;webuijsf:body>
-          &lt;webuijsf:script type="text/javascript">
-        function popup() {
-            var popupWin = window.open('/example/faces/commontask/sample.jsp','Test Page','scrollbars,resizable,width=650,height=500,top='+((screen.height - (screen.height/1.618)) - (500/2))+',left='+((screen.width-650)/2) ); 
-            popupWin.focus();
-        }
-    &lt;webuijsf:script&gt;
-</pre>
+<code> &lt;webuijsf:head&gt;</code><br>
+<code>&lt;webuijsf:script&gt;<br>
+&nbsp;&nbsp;&nbsp; function init() {<br>
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; var domNode =
+document.getElementById("form1:secondary");<br>
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; if (domNode == null ||
+domNode.event == null) { <br>
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; return
+setTimeout('init();', 10);<br>
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; }<br>
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+domNode.subscribe(domNode.event.result.successTopic, this,
+handleSuccessEvent);<br>
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+domNode.subscribe(domNode.event.result.failureTopic, this,
+handleFailureEvent);<br>
+&nbsp;&nbsp;&nbsp; }<br>
+<br>
+&nbsp;&nbsp;&nbsp; this.handleSuccessEvent = function(id) {<br>
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; // show the common task page
+after successful authentication<br>
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; var cts =
+document.getElementById("form1:ctp1");<br>
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; cts.style.display = "block";<br>
+&nbsp;&nbsp;&nbsp; }<br>
+<br>
+&nbsp;&nbsp;&nbsp; this.handleFailureEvent = function(id) {<br>
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; // show the retry button<br>
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; var loginDiv =
+document.getElementById("form1:secondary");<br>
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; loginDiv.style.display = "none";<br>
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; var btn =
+document.getElementById("form1:retry");<br>
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; btn.style.display = "block";<br>
+&nbsp;&nbsp;&nbsp; }<br>
+&lt;webuijsf:script&gt;<br>
+<br>
+&lt;/webuijsf:head&gt; <br>
+&lt;webuijsf:body id="body" onLoad="init();"
+styleClass="#{themeStyles.CTS_BACKGROUND}"&gt;<br>
+&nbsp; &lt;webuijsf:form id="form1"&gt;<br>
+<br>
+&nbsp;&nbsp;&nbsp; &lt;webuijsf:login id="secondary"
+value="#{LoginBean.value}" serviceName="AppLogin1" /&gt;<br>
+<br>
+&nbsp;&nbsp;&nbsp; &lt;webuijsf:button id="retry" text="Authentication
+Failed, Retry" <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; toolTip="Try Authenticating Again"
+style="display:none"<br>
+&nbsp;&nbsp; &nbsp;&nbsp; onClick="var login =
+document.getElementById('form1:login1'); login.style.display='block';
+login.authenticate();" /&gt;<br>
+<br>
+&nbsp;&nbsp;&nbsp; &lt;webuijsf:commonTasksSection style="display:none"
+id="ctp1"&gt;<br>
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &lt;webuijsf:commonTasksGroup
+id="taskGroup1" title="#{msgs.commontask_group1}"&gt;<br>
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+&lt;webuijsf:commonTask id="task1" text="#{msgs.commontask_task1}" <br>
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+toolTip="#{msgs.commontask_task1}"
+actionExpression="#{commonTask.taskAction}"<br>
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+target="_blank" icon="CTS_OVERVIEW"&gt;<br>
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+&lt;webuijsf:commonTask&gt;<br>
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+&lt;webuijsf:commonTask id="task2" text="#{msgs.commontask_task2}"
+toolTip="#{msgs.commontask_task2}"<br>
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+onClick="popup();return false;"
+infoTitle="#{msgs.commontask_task2infotitle}"<br>
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+infoText="#{msgs.commontask_task2infotext}" /&gt;<br>
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &lt;/webuijsf:commonTasksGroup&gt;<br>
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &lt;webuijsf:commonTasksGroup
+id="taskGroup2" title="#{msgs.commontask_group2}"&gt;<br>
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+&lt;webuijsf:commonTask id="task3" text="#{msgs.commontask_task3}"
+toolTip="#{msgs.commontask_task3}"<br>
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; onClick="popup();return false; "
+infoLinkUrl="/faces/commontask/sample.jsp" <br>
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+infoLinkText="#{msgs.commontask_infolinktext}"
+infoTitle="#{msgs.commontask_task3infotitle}" <br>
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+infoText="#{msgs.commontask_task3infotext}"/&gt;<br>
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+&lt;webuijsf:commonTask id="task4" text="#{msgs.commontask_task4}"
+onClick="popup();return false;"<br>
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+toolTip="#{msgs.commontask_task4}"/&gt;<br>
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+&lt;webuijsf:commonTask id="task5" text="#{msgs.commontask_task5}" <br>
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; onClick="popup();return false;"
+infoTitle="#{msgs.commontask_task5infotitle}"<br>
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; toolTip="#{msgs.commontask_task5}"
+infoText="#{msgs.commontask_task5infotext}"/&gt;<br>
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;
+&lt;/webuijsf:commonTasksGroup&gt;<br>
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; ...<br>
+&lt;/webuijsf:body&gt;<br>
+&lt;webuijsf:script type="text/javascript"&gt;<br>
+&nbsp;&nbsp;&nbsp; function popup() {<br>
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; var popupWin =
+window.open('/example/faces/commontask/sample.jsp', 'Test Page',<br>
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+'scrollbars,resizable,width=650,height=500,top='+((screen.height -
+(screen.height/1.618)) - (500/2))+',left='+((screen.width-650)/2) ); <br>
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; popupWin.focus();<br>
+&nbsp;&nbsp;&nbsp; }<br>
+&lt;webuijsf:script&gt;</code> <br>
+<br>
 ]]></description>
     </tag>
     <tag>
@@ -10324,6 +10626,19 @@ properties:<br>
       <td style="vertical-align: top;">Invoke in order to close
       the menu at any time.</td>
       </tr>
+<tr>
+<td style="vertical-align: top;"><code>subscribe(topic, obj, func)</code></td>
+<td style="vertical-align: top;">Use this function to subscribe
+to an event topic.<br>
+<ul>
+<li>topic: The event topic to subscribe to.</li>
+<li>obj: The object in which a function will be invoked, or
+null for default scope.</li>
+<li>func The name of a function in context, or a function
+reference to invoke when topic is published.</li>
+</ul>
+</td>
+</tr>
   </tbody>  
 </table>
 
@@ -10331,7 +10646,7 @@ properties:<br>
 <p>
 When the component is manipulated on the client side, some functions may
 publish event topics for custom Ajax implementations to listen for.
-Using the Dojo event system, listen for the refresh event topic using:<br>
+For example, you can listen for the refresh event topic using:<br>
 <br>
 <code>
 &lt;webuijsf:script&gt;<br>
@@ -10345,10 +10660,8 @@ Do something...<br>
 &nbsp;&nbsp;&nbsp; }<br>
 <br>
 &nbsp;&nbsp;&nbsp; // Subscribe to refresh event.<br>
-&nbsp;&nbsp;&nbsp;
-<code><br>
-// For popupMenu widgets (popup = true) it would be
-dojo.subscribe(webui.suntheme.widget.popupMenu.&lt;eventname&gt;.endTopic,
+&nbsp;&nbsp;&nbsp; var domNode = document.getElementById("form1:test1");<br>
+&nbsp;&nbsp;&nbsp; domNode.subscribe(domNode.event.refresh.endTopic,
 processEvents, "update");</code><code><br>
 <br>
 </code><code>
@@ -10362,7 +10675,7 @@ processEvents, "update");</code><code><br>
       <td style="vertical-align: top;"><b>Description</b></td>
     </tr>    
         <tr>
-      <td> webui.suntheme.widget.popupMenu.event.refresh.beginTopic</td>
+      <td> &lt;Node&gt;.event.refresh.beginTopic</td>
       <td> Event topic published before asynchronously refreshing the
 popupMenu widget. Supported properties include:
       <ul>
@@ -10374,7 +10687,7 @@ this component</li>
       </td>
     </tr>
     <tr>
-      <td> webui.suntheme.widget.popupMenu.event.refresh.endTopic</td>
+      <td> &lt;Node&gt;.event.refresh.endTopic</td>
       <td>
       <p>Event topic published after asynchronously refreshing the
 popupMenu widget. Supported properties include:</p>
@@ -10386,7 +10699,7 @@ setProps() function for details on properties and their usage </li>
       </td>
     </tr>
     <tr>
-      <td> webui.suntheme.widget.popupMenu.event.submit.beginTopic</td>
+      <td> &lt;Node&gt;.event.submit.beginTopic</td>
       <td>Event topic published before asynchronously submitting the
 popupMenu widget. Supported properties include: <br>
       <ul>
@@ -10399,7 +10712,7 @@ this component</li>
       </td>
     </tr>
     <tr>
-      <td> webui.suntheme.widget.popupMenu.event.submit.endTopic</td>
+      <td> &lt;Node&gt;.event.submit.endTopic</td>
       <td>
       <p>Event topic published after asynchronously submitting the
 popupMenu widget. Supported properties include:</p>
@@ -10853,6 +11166,19 @@ properties:<br>
       </ul>
       </td>
     </tr>
+<tr>
+<td style="vertical-align: top;"><code>subscribe(topic, obj, func)</code></td>
+<td style="vertical-align: top;">Use this function to subscribe
+to an event topic.<br>
+<ul>
+<li>topic: The event topic to subscribe to.</li>
+<li>obj: The object in which a function will be invoked, or
+null for default scope.</li>
+<li>func The name of a function in context, or a function
+reference to invoke when topic is published.</li>
+</ul>
+</td>
+</tr>
   </tbody>
 </table>
 <h3><br>
@@ -11045,8 +11371,8 @@ image must be an animated GIF.</p>
 the asynchronous JavaScript capabilities of the component, which are
 responsible for implementing its dynamic behavior. When the default
 Ajax functionality is added to the page, it will automatically
-subscribe to a Dojo event that is published according to the specified <code>refreshRate.</code>&nbsp;
-When the Dojo event is received, an Ajax request is generated using the
+subscribe to an event that is published according to the specified <code>refreshRate.</code>&nbsp;
+When the event is received, an Ajax request is generated using the
 DynaFaces JavaScript library. This same implementation will also listen
 for the Ajax response. When the response is returned, the progress bar
 is updated as needed.&nbsp;
@@ -11273,6 +11599,19 @@ displays on the right side of the component.</td>
       <td style="vertical-align: top;"><code>stop()</code></td>
       <td style="vertical-align: top;">Handles the Stop button event.</td>
     </tr>
+<tr>
+<td style="vertical-align: top;"><code>subscribe(topic, obj, func)</code></td>
+<td style="vertical-align: top;">Use this function to subscribe
+to an event topic.<br>
+<ul>
+<li>topic: The event topic to subscribe to.</li>
+<li>obj: The object in which a function will be invoked, or
+null for default scope.</li>
+<li>func The name of a function in context, or a function
+reference to invoke when topic is published.</li>
+</ul>
+</td>
+</tr>
   </tbody>
 </table>
 <code></code>
@@ -11280,7 +11619,7 @@ displays on the right side of the component.</td>
 <p>
 When the component is manipulated on the client side, some functions might
 publish event topics for custom AJAX implementations to listen for.
-Using the Dojo event system, you can instruct Ajax to listen for the refresh event topic by using:<br>
+For example, you can listen for the refresh event topic by using:<br>
 <br>
 <code>
 &lt;webuijsf:script&gt;<br>
@@ -11293,9 +11632,9 @@ Do something...<br>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; }<br>
 &nbsp;&nbsp;&nbsp; }<br>
 <br>
-&nbsp;&nbsp;&nbsp; // Subscribe to refresh event.<br>
-&nbsp;&nbsp;&nbsp;
-dojo.subscribe(webui.suntheme.widget.progressBar.event.&lt;eventname&gt;.endTopic,
+&nbsp;&nbsp;&nbsp; // Subscribe to refresh event.<br
+&nbsp;&nbsp;&nbsp; var domNode = document.getElementById("form1:test1");<br>
+&nbsp;&nbsp;&nbsp; domNode.subscribe(domNode.event.refresh.endTopic,
 processEvents, "update");</code><code><br>
 <br>
 </code><code>
@@ -11310,7 +11649,7 @@ processEvents, "update");</code><code><br>
      <td><b>Event</b></td>
      <td><b>Description</b></td>
     <tr>
-      <td> webui.suntheme.widget.progressBar.event.refresh.beginTopic </td>
+      <td> &lt;Node&gt;.event.refresh.beginTopic </td>
       <td> Event topic published before asynchronously refreshing the
 component. Supported properties include: <br>
       <ul>
@@ -11322,7 +11661,7 @@ this component</li>
       </td>
     </tr>
     <tr>
-      <td> webui.suntheme.widget.progressBar.event.refresh.endTopic </td>
+      <td> &lt;Node&gt;.event.refresh.endTopic </td>
       <td> Event topic published after asynchronously refreshing the
 component. Supported properties include: setProps() function.<br>
       <ul>
@@ -12213,13 +12552,26 @@ on which the function has been invoked, is submitted. </li>
       </ul>
       </td>
     </tr>
+<tr>
+<td style="vertical-align: top;"><code>subscribe(topic, obj, func)</code></td>
+<td style="vertical-align: top;">Use this function to subscribe
+to an event topic.<br>
+<ul>
+<li>topic: The event topic to subscribe to.</li>
+<li>obj: The object in which a function will be invoked, or
+null for default scope.</li>
+<li>func The name of a function in context, or a function
+reference to invoke when topic is published.</li>
+</ul>
+</td>
+</tr>
   </tbody>
 </table>
 <h3>Client Side JavaScript Events</h3>
 <p>
 When the component is manipulated client side, some functions may
 publish event topics for custom AJAX implementations to listen for.
-Using the Dojo event system, listen for the refresh event topic using:<br>
+For example, you can listen for the refresh event topic using:<br>
 <br>
 <code>
 &lt;webuijsf:script&gt;<br>
@@ -12233,8 +12585,8 @@ Do something...<br>
 &nbsp;&nbsp;&nbsp; }<br>
 <br>
 &nbsp;&nbsp;&nbsp; // Subscribe to refresh event.<br>
-&nbsp;&nbsp;&nbsp;
-dojo.subscribe(webui.suntheme.widget.radioButton.event.&lt;eventname&gt;.endTopic,
+&nbsp;&nbsp;&nbsp; var domNode = document.getElementById("form1:test1");<br>
+&nbsp;&nbsp;&nbsp; domNode.subscribe(domNode.event.refresh.endTopic,
 processEvents, "update");</code><code><br>
 <br>
 </code><code>
@@ -12246,7 +12598,7 @@ processEvents, "update");</code><code><br>
  cellspacing="2">
   <tbody>
     <tr>
-      <td> webui.suntheme.widget.radioButton.event.refresh.beginTopic </td>
+      <td> &lt;Node&gt;.event.refresh.beginTopic </td>
       <td> Event topic published before asynchronously refreshing the
 component. Supported properties include: <br>
       <ul>
@@ -12258,7 +12610,7 @@ this component</li>
       </td>
     </tr>
     <tr>
-      <td> webui.suntheme.widget.radioButton.event.refresh.endTopic </td>
+      <td> &lt;Node&gt;.event.refresh.endTopic </td>
       <td> Event topic published after asynchronously refreshing the
 component. Supported properties include: See setProps() function.<br>
       <ul>
@@ -12270,7 +12622,7 @@ function for details on properties and their usage</li>
       </td>
     </tr>
     <tr>
-      <td> webui.suntheme.widget.radioButton.event.submit.beginTopic</td>
+      <td> &lt;Node&gt;.event.submit.beginTopic</td>
       <td>Event topic published before asynchronously submitting the
 component. Supported properties include:
       <ul>
@@ -12282,7 +12634,7 @@ this component</li>
       </td>
     </tr>
     <tr>
-      <td> webui.suntheme.widget.radioButton.event.submit.endTopic</td>
+      <td> &lt;Node&gt;.event.submit.endTopic</td>
       <td>
       <p>Event topic published after asynchronously submitting the
 component. Supported properties include:</p>
@@ -12668,6 +13020,19 @@ properties:
       </ul>
       </td>
     </tr>
+<tr>
+<td style="vertical-align: top;"><code>subscribe(topic, obj, func)</code></td>
+<td style="vertical-align: top;">Use this function to subscribe
+to an event topic.<br>
+<ul>
+<li>topic: The event topic to subscribe to.</li>
+<li>obj: The object in which a function will be invoked, or
+null for default scope.</li>
+<li>func The name of a function in context, or a function
+reference to invoke when topic is published.</li>
+</ul>
+</td>
+</tr>
   </tbody>
 </table>
 </p>
@@ -12675,7 +13040,7 @@ properties:
 <p>
 When the component is manipulated client side, some functions may
 publish event topics for custom AJAX implementations to listen for.
-Using the Dojo event system, listen for the refresh event topic using:<br>
+For example, you can listen for the refresh event topic using:<br>
 <br>
 <code>
 &lt;webuijsf:script&gt;<br>
@@ -12689,8 +13054,8 @@ Do something...<br>
 &nbsp;&nbsp;&nbsp; }<br>
 <br>
 &nbsp;&nbsp;&nbsp; // Subscribe to refresh event.<br>
-&nbsp;&nbsp;&nbsp;
-dojo.subscribe(webui.suntheme.widget.rbcbGroup.event.&lt;eventname&gt;.endTopic,
+&nbsp;&nbsp;&nbsp; var domNode = document.getElementById("form1:test1");<br>
+&nbsp;&nbsp;&nbsp; domNode.subscribe(domNode.event.refresh.endTopic,
 processEvents, "update");</code><code><br>
 <br>
 </code><code>
@@ -12702,7 +13067,7 @@ processEvents, "update");</code><code><br>
  cellspacing="2">
   <tbody>
     <tr>
-      <td> webui.suntheme.widget.rbcbGroup.event.refresh.beginTopic </td>
+      <td> &lt;Node&gt;.event.refresh.beginTopic </td>
       <td> Event topic published before asynchronously refreshing the
 component. Supported properties include: <br>
       <ul>
@@ -12714,7 +13079,7 @@ this component</li>
       </td>
     </tr>
     <tr>
-      <td> webui.suntheme.widget.rbcbGroup.event.refresh.endTopic </td>
+      <td> &lt;Node&gt;.event.refresh.endTopic </td>
       <td> Event topic published after asynchronously refreshing the
 component. Supported properties include: See setProps() function.<br>
       <ul>
@@ -13543,13 +13908,26 @@ properties:<br>
       </ul>
       </td>
     </tr>
+<tr>
+<td style="vertical-align: top;"><code>subscribe(topic, obj, func)</code></td>
+<td style="vertical-align: top;">Use this function to subscribe
+to an event topic.<br>
+<ul>
+<li>topic: The event topic to subscribe to.</li>
+<li>obj: The object in which a function will be invoked, or
+null for default scope.</li>
+<li>func The name of a function in context, or a function
+reference to invoke when topic is published.</li>
+</ul>
+</td>
+</tr>
   </tbody>
 </table>
 <h3>Client Side JavaScript Events</h3>
 <p>
 When the component is manipulated client side, some functions may
 publish event topics for custom AJAX implementations to listen for.
-Using the Dojo event system, listen for the refresh event topic using:<br>
+For example, you can listen for the refresh event topic using:<br>
 <br>
 <code>
 &lt;webuijsf:script&gt;<br>
@@ -13563,8 +13941,8 @@ Do something...<br>
 &nbsp;&nbsp;&nbsp; }<br>
 <br>
 &nbsp;&nbsp;&nbsp; // Subscribe to refresh event.<br>
-&nbsp;&nbsp;&nbsp;
-dojo.subscribe(webui.suntheme.widget.staticText.event.&lt;eventname&gt;.endTopic,
+&nbsp;&nbsp;&nbsp; var domNode = document.getElementById("form1:test1");<br>
+&nbsp;&nbsp;&nbsp; domNode.subscribe(domNode.event.refresh.endTopic,
 processEvents, "update");</code><code><br>
 <br>
 </code><code>
@@ -13576,7 +13954,7 @@ processEvents, "update");</code><code><br>
  cellspacing="2">
   <tbody>
     <tr>
-      <td> webui.suntheme.widget.staticText.event.refresh.beginTopic </td>
+      <td> &lt;Node&gt;.event.refresh.beginTopic </td>
       <td> Event topic published before asynchronously refreshing the
 component. Supported properties include: <br>
       <ul>
@@ -13588,7 +13966,7 @@ this component</li>
       </td>
     </tr>
     <tr>
-      <td> webui.suntheme.widget.staticText.event.refresh.endTopic </td>
+      <td> &lt;Node&gt;.event.refresh.endTopic </td>
 
       <td> Event topic published after asynchronously refreshing the
 component. Supported properties include: See setProps() function.<br>
@@ -13809,6 +14187,19 @@ properties:<br>
       </ul>
       </td>
     </tr>
+<tr>
+<td style="vertical-align: top;"><code>subscribe(topic, obj, func)</code></td>
+<td style="vertical-align: top;">Use this function to subscribe
+to an event topic.<br>
+<ul>
+<li>topic: The event topic to subscribe to.</li>
+<li>obj: The object in which a function will be invoked, or
+null for default scope.</li>
+<li>func The name of a function in context, or a function
+reference to invoke when topic is published.</li>
+</ul>
+</td>
+</tr>
   </tbody>
 </table>
 <code></code>
@@ -13816,7 +14207,7 @@ properties:<br>
 <p>
 When the component is manipulated on the client side, some functions might
 publish event topics for custom Ajax implementations to listen for.
-Using the Dojo event system, you can instruct Ajax to listen for the refresh event topic by using:<br>
+For example, you can listen for the refresh event topic by using:<br>
 <br>
 <code>
 &lt;webuijsf:script&gt;<br>
@@ -13830,8 +14221,8 @@ Do something...<br>
 &nbsp;&nbsp;&nbsp; }<br>
 <br>
 &nbsp;&nbsp;&nbsp; // Subscribe to refresh event.<br>
-&nbsp;&nbsp;&nbsp;
-dojo.subscribe(webui.suntheme.widget.accordionTab.event.&lt;eventname&gt;.endTopic,
+&nbsp;&nbsp;&nbsp; var domNode = document.getElementById("form1:test1");<br>
+&nbsp;&nbsp;&nbsp; domNode.subscribe(domNode.event.refresh.endTopic,
 processEvents, "update");</code><code><br>
 <br>
 </code><code>
@@ -13848,7 +14239,7 @@ processEvents, "update");</code><code><br>
     </tr>
     <tr>
       <td style="vertical-align: top;">
-webui.suntheme.widget.accordionTab.event.refresh.beginTopic </td>
+&lt;Node&gt;.event.refresh.beginTopic </td>
       <td> Event topic published before asynchronously refreshing the
 component. Supported properties include: <br>
       <ul>
@@ -13861,7 +14252,7 @@ this component</li>
     </tr>
     <tr>
       <td style="vertical-align: top;">
-webui.suntheme.widget.accordionTab.event.refresh.endTopic </td>
+&lt;Node&gt;.event.refresh.endTopic </td>
       <td> Event topic published after asynchronously refreshing the
 component. Supported properties include: See setProps() function.<br>
       <ul>
@@ -13873,7 +14264,7 @@ function for details on properties and their usage</li>
       </td>
     </tr>
     <tr>
-      <td style="vertical-align: top;">webui.suntheme.widget.accordionTab.event.load.beginTopic</td>
+      <td style="vertical-align: top;">&lt;Node&gt;.event.load.beginTopic</td>
       <td style="vertical-align: top;"> Event topic published before
 asynchronously loading the tab contents. Supported properties include: <br>
       <ul>
@@ -13882,7 +14273,7 @@ asynchronously loading the tab contents. Supported properties include: <br>
       </td>
     </tr>
     <tr>
-      <td style="vertical-align: top;">webui.suntheme.widget.accordionTab.event.load.endTopic</td>
+      <td style="vertical-align: top;">&lt;Node&gt;.event.load.endTopic</td>
       <td style="vertical-align: top;"> Event topic published after
 asynchronously loading the contents of an accordionTab. Supported properties include:
 setProps() function.<br>
@@ -13895,7 +14286,7 @@ function for details on properties and their usage</li>
       </td>
     </tr>
     <tr>
-      <td style="vertical-align: top;">webui.suntheme.widget.accordiontab.event.title.selectTopic</td>
+      <td style="vertical-align: top;">&lt;Node&gt;.event.title.selectTopic</td>
       <td style="vertical-align: top;"> Event topic published when an accordionTab is 
 	selected. Supported properties include: <br>
       <ul>
@@ -19502,6 +19893,19 @@ on which the function has been invoked, is submitted. </li>
       </ul>
       </td>
     </tr>
+<tr>
+<td style="vertical-align: top;"><code>subscribe(topic, obj, func)</code></td>
+<td style="vertical-align: top;">Use this function to subscribe
+to an event topic.<br>
+<ul>
+<li>topic: The event topic to subscribe to.</li>
+<li>obj: The object in which a function will be invoked, or
+null for default scope.</li>
+<li>func The name of a function in context, or a function
+reference to invoke when topic is published.</li>
+</ul>
+</td>
+</tr>
   </tbody>
 </table>
 <code></code><br>
@@ -19509,7 +19913,7 @@ on which the function has been invoked, is submitted. </li>
 <p>
 When the component is manipulated client side, some functions may
 publish event topics for custom AJAX implementations to listen for.
-Using the Dojo event system, listen for the refresh event topic using:<br>
+For example, you can listen for the refresh event topic using:<br>
 <br>
 <code>
 &lt;webuijsf:script&gt;<br>
@@ -19523,8 +19927,8 @@ Do something...<br>
 &nbsp;&nbsp;&nbsp; }<br>
 <br>
 &nbsp;&nbsp;&nbsp; // Subscribe to refresh event.<br>
-&nbsp;&nbsp;&nbsp;
-dojo.subscribe(webui.suntheme.widget.textArea.event.&lt;eventname&gt;.endTopic,
+&nbsp;&nbsp;&nbsp; var domNode = document.getElementById("form1:test1");<br>
+&nbsp;&nbsp;&nbsp; domNode.subscribe(domNode.event.refresh.endTopic,
 processEvents, "update");</code><code><br>
 <br>
 </code><code>
@@ -19535,7 +19939,7 @@ processEvents, "update");</code><code><br>
 <table border="1">
   <tbody>
     <tr>
-      <td> webui.suntheme.widget.textArea.event.refresh.beginTopic</td>
+      <td> &lt;Node&gt;.event.refresh.beginTopic</td>
       <td> Event topic published before asynchronously refreshing the
 component. Supported properties include:
       <ul>
@@ -19547,7 +19951,7 @@ this component</li>
       </td>
     </tr>
     <tr>
-      <td> webui.suntheme.widget.textArea.event.refresh.endTopic</td>
+      <td> &lt;Node&gt;.event.refresh.endTopic</td>
       <td>
       <p>Event topic published after asynchronously refreshing the
 component. Supported properties include:</p>
@@ -19559,7 +19963,7 @@ setProps() function for details on properties and their usage </li>
       </td>
     </tr>
     <tr>
-      <td> webui.suntheme.widget.textArea.event.submit.beginTopic</td>
+      <td> &lt;Node&gt;.event.submit.beginTopic</td>
       <td>Event topic published before asynchronously submitting the
 component. Supported properties include:
       <ul>
@@ -19571,7 +19975,7 @@ this component</li>
       </td>
     </tr>
     <tr>
-      <td> webui.suntheme.widget.textArea.event.submit.endTopic</td>
+      <td> &lt;Node&gt;.event.submit.endTopic</td>
       <td>
       <p>Event topic published after asynchronously submitting the
 component. Supported properties include:</p>
@@ -19654,7 +20058,6 @@ update components server-side: submit("form1:id1,form2:id2,...")</p>
         <name>textField</name>
 
         <description><![CDATA[
-
 <p> Use the <code>webuijsf:textField</code> tag to create an input
 field for a single line of text.</p>
 <h3>HTML Elements and Layout</h3>
@@ -19668,15 +20071,17 @@ attribute's value to an EL expression that corresponds to a property
 of a backing bean.</p>
 <p>To optionally specify a label for the component, use the <code>label</code>
 attribute, or specify a label facet. </p>
-<p>Attribute <i>submitForm</i> can be used to alter the default browser behavior on form submission
-when Enter key is pressed within a text field. Value of <i>true</i> will force the form submission,
-value of <i>false</i> will prevent it, and if <i>submitForm</i> is not specified, the default browser 
-behavior ( that differs for different browsers) will take an effect.
+<p>Attribute <i>submitForm</i> can be used to alter the default
+browser behavior on form submission
+when Enter key is pressed within a text field. Value of <i>true</i>
+will force the form submission,
+value of <i>false</i> will prevent it, and if <i>submitForm</i> is
+not specified, the default browser behavior ( that differs for
+different browsers) will take an effect.
 </p>
-
 <h3>Facets</h3>
 <ul>
-  <li><code>label</code>: use this facet to specify a custom component
+<li><code>label</code>: use this facet to specify a custom component
 for the label.</li>
 </ul>
 <h3>Client Side Javascript Functions</h3>
@@ -19687,88 +20092,101 @@ id, to disable the component, invoke <code>document.getElementById(id).setProps(
 true})</code>.<br>
 <br>
 <table style="text-align: left; width: 100%;" border="1" cellpadding="2"
- cellspacing="2">
-  <tbody>
-    <tr>
-      <td style="vertical-align: top;"><code>getInputElement()</code></td>
-      <td style="vertical-align: top;">Use this function to access the
+cellspacing="2">
+<tbody>
+<tr>
+<td style="vertical-align: top;"><code>getInputElement()</code></td>
+<td style="vertical-align: top;">Use this function to access the
 HTML <code>&lt;input&gt;</code> element that is rendered by the
 component.</td>
-    </tr>
-    <tr>
-      <td><code>getProps()</code></td>
-      <td>Use this function to get widget properties. Please see <code>setProps()</code>
+</tr>
+<tr>
+<td><code>getProps()</code></td>
+<td>Use this function to get widget properties. Please see <code>setProps()</code>
 function for a list of supported properties.</td>
-    </tr>
-    <tr>
-      <td style="vertical-align: top;"><code>refresh(execute)</code><br>
-      </td>
-      <td style="vertical-align: top;">Use this function to
+</tr>
+<tr>
+<td style="vertical-align: top;"><code>refresh(execute)</code><br>
+</td>
+<td style="vertical-align: top;">Use this function to
 asynchronously refresh the component.<br>
-      <ul>
-        <li>[optional] execute: Comma separated string containing a
+<ul>
+<li>[optional] execute: Comma separated string containing a
 list of client ids against which the <code>execute</code> portion of
 the request processing lifecycle must be run. If omitted, no other
 components are executed.</li>
-      </ul>
-      </td>
-    </tr>
-    <tr>
-      <td><code>setProps(props)</code></td>
-      <td>Use this function to change any of the following supported
+</ul>
+</td>
+</tr>
+<tr>
+<td><code>setProps(props)</code></td>
+<td>Use this function to change any of the following supported
 properties:<br>
-      <ul>
-        <li>accesskey</li>
-        <li>className</li>
-        <li>dir</li>
-        <li>disabled</li>
-        <li>id</li>
-        <li>label</li>
-        <li>lang</li>
-        <li>onClick</li>
-        <li>onDblClick</li>
-        <li>onFocus</li>
-        <li>onKeyDown</li>
-        <li>onKeyPress</li>
-        <li>onKeyUp</li>
-        <li>onMouseDown</li>
-        <li>onMouseMove</li>
-        <li>onMouseOut</li>
-        <li>onMouseOver</li>
-        <li>onMouseUp</li>
-        <li>readOnly</li>
-        <li>required</li>
-        <li>size</li>
-        <li>style</li>
-        <li>tabIndex</li>
-        <li>title</li>
-        <li>valid</li>
-        <li>value</li>
-        <li>visible</li>
-      </ul>
-      </td>
-    </tr>
-    <tr>
-      <td style="vertical-align: top;"><code>submit(execute)</code><br>
-      </td>
-      <td style="vertical-align: top;">Use this function to
+<ul>
+<li>accesskey</li>
+<li>className</li>
+<li>dir</li>
+<li>disabled</li>
+<li>id</li>
+<li>label</li>
+<li>lang</li>
+<li>onClick</li>
+<li>onDblClick</li>
+<li>onFocus</li>
+<li>onKeyDown</li>
+<li>onKeyPress</li>
+<li>onKeyUp</li>
+<li>onMouseDown</li>
+<li>onMouseMove</li>
+<li>onMouseOut</li>
+<li>onMouseOver</li>
+<li>onMouseUp</li>
+<li>readOnly</li>
+<li>required</li>
+<li>size</li>
+<li>style</li>
+<li>tabIndex</li>
+<li>title</li>
+<li>valid</li>
+<li>value</li>
+<li>visible</li>
+</ul>
+</td>
+</tr>
+<tr>
+<td style="vertical-align: top;"><code>submit(execute)</code><br>
+</td>
+<td style="vertical-align: top;">Use this function to
 asynchronously submit the component.<br>
-      <ul>
-        <li>[optional] execute: Comma separated string containing a
+<ul>
+<li>[optional] execute: Comma separated string containing a
 list of client ids against which the <code>execute</code> portion of
 the request processing lifecycle must be run. If omitted, the component
 on which the function has been invoked, is submitted. </li>
-      </ul>
-      </td>
-    </tr>
-  </tbody>
+</ul>
+</td>
+</tr>
+<tr>
+<td style="vertical-align: top;"><code>subscribe(topic, obj, func)</code></td>
+<td style="vertical-align: top;">Use this function to subscribe
+to an event topic.<br>
+<ul>
+<li>topic: The event topic to subscribe to.</li>
+<li>obj: The object in which a function will be invoked, or
+null for default scope.</li>
+<li>func The name of a function in context, or a function
+reference to invoke when topic is published.</li>
+</ul>
+</td>
+</tr>
+</tbody>
 </table>
 <code></code><br>
 <h3>Client Side JavaScript Events</h3>
 <p>
 When the component is manipulated client side, some functions may
 publish event topics for custom AJAX implementations to listen for.
-Using the Dojo event system, listen for the refresh event topic using:<br>
+For example, you can listen for the refresh event topic using:<br>
 <br>
 <code>
 &lt;webuijsf:script&gt;<br>
@@ -19782,8 +20200,8 @@ Do something...<br>
 &nbsp;&nbsp;&nbsp; }<br>
 <br>
 &nbsp;&nbsp;&nbsp; // Subscribe to refresh event.<br>
-&nbsp;&nbsp;&nbsp;
-dojo.subscribe(webui.suntheme.widget.textField.event.&lt;eventname&gt;.endTopic,
+&nbsp;&nbsp;&nbsp; var domNode = document.getElementById("form1:test1");<br>
+&nbsp;&nbsp;&nbsp; domNode.subscribe(domNode.event.refresh.endTopic,
 processEvents, "update");</code><code><br>
 <br>
 </code><code>
@@ -19792,83 +20210,83 @@ processEvents, "update");</code><code><br>
 <p>The following events are supported.<br>
 </p>
 <table border="1">
-  <tbody>
-    <tr>
-      <td> webui.suntheme.widget.textField.event.refresh.beginTopic</td>
-      <td> Event topic published before asynchronously refreshing the
+<tbody>
+<tr>
+<td>&lt;Node&gt;.event.refresh.beginTopic</td>
+<td> Event topic published before asynchronously refreshing the
 component. Supported properties include:
-      <ul>
-        <li>[optional] execute - list of the components to be executed
+<ul>
+<li>[optional] execute - list of the components to be executed
 along with
 this component</li>
-        <li>id - The client id to process the event for</li>
-      </ul>
-      </td>
-    </tr>
-    <tr>
-      <td> webui.suntheme.widget.textField.event.refresh.endTopic</td>
-      <td>
-      <p>Event topic published after asynchronously refreshing the
+<li>id - The client id to process the event for</li>
+</ul>
+</td>
+</tr>
+<tr>
+<td>&lt;Node&gt;.event.refresh.endTopic</td>
+<td>
+<p>Event topic published after asynchronously refreshing the
 component. Supported properties include:</p>
-      <ul>
-        <li> props - JSON object containing properties of the
+<ul>
+<li> props - JSON object containing properties of the
 component. See
 setProps() function for details on properties and their usage </li>
-      </ul>
-      </td>
-    </tr>
-    <tr>
-      <td> webui.suntheme.widget.textField.event.submit.beginTopic</td>
-      <td>Event topic published before asynchronously submitting the
+</ul>
+</td>
+</tr>
+<tr>
+<td>&lt;Node&gt;.event.submit.beginTopic</td>
+<td>Event topic published before asynchronously submitting the
 component. Supported properties include:
-      <ul>
-        <li>[optional] execute - list of the components to be executed
+<ul>
+<li>[optional] execute - list of the components to be executed
 along with
 this component</li>
-        <li>id - The client id to process the event for</li>
-      </ul>
-      </td>
-    </tr>
-    <tr>
-      <td> webui.suntheme.widget.textField.event.submit.endTopic</td>
-      <td>
-      <p>Event topic published after asynchronously submitting the
+<li>id - The client id to process the event for</li>
+</ul>
+</td>
+</tr>
+<tr>
+<td>&lt;Node&gt;.event.submit.endTopic</td>
+<td>
+<p>Event topic published after asynchronously submitting the
 component. Supported properties include:</p>
-      <ul>
-        <li> props - JSON object containing messages (if any) raised by
+<ul>
+<li> props - JSON object containing messages (if any) raised by
 the
 server.In particular, valdiation messages will be present here if
 validation failed </li>
-      </ul>
-      </td>
-    </tr>
-    <tr>
-      <td style="vertical-align: top;">webui.suntheme.widget.textField.event.validation.beginTopic</td>
-      <td style="vertical-align: top;">Event topic published before
+</ul>
+</td>
+</tr>
+<tr>
+<td style="vertical-align: top;">&lt;Node&gt;.event.validation.beginTopic</td>
+<td style="vertical-align: top;">Event topic published before
 asynchronously submitting the
 component. Supported properties include:
-      <ul>
-        <li>[optional] execute - list of the components to be executed
+<ul>
+<li>[optional] execute - list of the components to be executed
 along with
 this component</li>
-        <li>id - The client id to process the event for</li>
-      </ul>
-      </td>
-    </tr>
-    <tr>
-      <td style="vertical-align: top;">webui.suntheme.widget.textField.event.validation.endTopic</td>
-      <td style="vertical-align: top;">
-      <p>Event topic published after asynchronously submitting the
+<li>id - The client id to process the event for</li>
+</ul>
+</td>
+</tr>
+<tr>
+<td style="vertical-align: top;">&lt;Node&gt;.event.validation.endTopic</td>
+<td style="vertical-align: top;">
+<p>Event topic published after asynchronously submitting the
 component. Supported properties include:</p>
-      <ul>
-        <li> props - JSON object containing messages (if any) raised by
+<ul>
+<li> props - JSON object containing messages (if any) raised by
 the
 server. In particular, valdiation messages will be present here if
 validation failed </li>
-      </ul>
-      </td>
-    </tr>
-  </tbody>
+</ul>
+</td>
+</tr>
+</tbody>
 </table>
 <br>
 <h3>Examples</h3>
@@ -19879,7 +20297,7 @@ text input field. The required attribute is set to true, which causes
 an icon to be rendered next to the label to indicate that the
 application user must enter a value in the text field. The icon, label
 and input elements are enclosed by a span.</p>
-<pre>     &lt;webuijsf:textField id="textfield" label="Enter a value:" <br>               text="#{FieldTest.string}" <br>               required="true"/&gt;<br></pre>
+<pre> &lt;webuijsf:textField id="textfield" label="Enter a value:" <br> text="#{FieldTest.string}" <br> required="true"/&gt;<br></pre>
 <h4>Example 2: Text field using a validator</h4>
 <p>This example uses a backing bean <code>FieldTest</code> with a
 property <code>number</code>. The number property is an <code>int</code>,
@@ -19888,21 +20306,21 @@ necessary to specify a Converter instance, however, since standard JSF
 conversion deals with this case. A Validator has been set to verify
 that any value entered by the user is within a certain range. The HTML
 elements are rendered as in example 1.</p>
-<pre>     &lt;webuijsf:textField id="test2" label="Enter a number:" <br>               text="#{FieldTest.number}" <br>               validator="#{FieldTest.checkNumberRange}"/&gt;</pre>
+<pre> &lt;webuijsf:textField id="test2" label="Enter a number:" <br> text="#{FieldTest.number}" <br> validator="#{FieldTest.checkNumberRange}"/&gt;</pre>
 <h4>Example 3: Auto-Validation</h4>
 This example shows how to enable auto-validation on the field using
 server side validator. Attribute <em>autoValidate </em> specifies
 that validation will be triggered on <em>onBlur</em> event, initiating
 Ajax call to the server to validate data. <br>
-<pre><code>&lt;webuijsf:textField <br>   id="textFieldA" <br>   text="4111 1111 1111 1111" <br>   label="Enter Credit Card Number" <br>   columns="20"<br>   required="true" <br>   autoValidate="true"<br>   validatorExpression="#{Payment.cardValidator}"/&gt;</code><code></code></pre>
+<pre><code>&lt;webuijsf:textField <br> id="textFieldA" <br> text="4111 1111 1111 1111" <br> label="Enter Credit Card Number" <br> columns="20"<br> required="true" <br> autoValidate="true"<br> validatorExpression="#{Payment.cardValidator}"/&gt;</code><code></code></pre>
 <p>Validator Payment will be invoked, and when result comes back, the
 validation message is available to the developer. One can get hold of
 returned validation message by subscribing to the following event and
 providing a call back closure (in this case closure called <em>processEvents</em>
 with <em>update </em>function) : <br>
 </p>
-<pre>&lt;webuijsf:script&gt;<br>    //  --- Subscribe to validation event. ---<br>    dojo.subscribe(webui.suntheme.widget.textField.validation.event.endTopic, processEvents, "update");</pre>
-<pre>    // --- this closure is used for validation callback ---  <br>    var processEvents = {<br>        update: function(props) {<br>            var domNode = document.getElementById("form1:textFieldA");<br>   <br>            // The following data reflecting validation results is available in props:<br>            // props.valid ( true | false )<br>            // props.summary<br>            // props.detail<br><br>            // The default auto-validation will ONLY invalidate (make it red) the label<br>            // on the text field.<br><br>            // As an example, we will change the prefix before the label on the text field<br>            // to display detail message of the error, or successful validation upon success<br>            var date = (new Date()).toLocaleString();<br>            document.getElementById('messageId').innerHTML = <br>                ((props.valid == true)<br>                    ? '[validated OK]'<br>                    : '['+ props.detail+ ']' ) + ' on ' + date; <br>        }<br>    }<br>&lt;/webuijsf:script&gt;<br></pre>
+<pre>&lt;webuijsf:script&gt;</pre>
+<pre> // --- this closure is used for validation callback --- <br> var processEvents = {<br> update: function(props) {<br> var domNode = document.getElementById("form1:textFieldA");<br> <br> // The following data reflecting validation results is available in props:<br> // props.valid ( true | false )<br> // props.summary<br> // props.detail<br><br> // The default auto-validation will ONLY invalidate (make it red) the label<br> // on the text field.<br><br> // As an example, we will change the prefix before the label on the text field<br> // to display detail message of the error, or successful validation upon success<br> var date = (new Date()).toLocaleString();<br> document.getElementById('messageId').innerHTML = <br> ((props.valid == true)<br> ? '[validated OK]'<br> : '['+ props.detail+ ']' ) + ' on ' + date; <br> }<br> }<br><br> // --- Subscribe to validation event. ---<br> var domNode = document.getElementById("form1:textFieldA");<br>&nbsp;&nbsp;&nbsp; domNode.subscribe(domNode.event.endTopic, processEvents, "update");<br><br>&lt;/webuijsf:script&gt;<br></pre>
 <h4>Example 4: Auto-Validation with notify<br>
 </h4>
 This example shows how to dynamically update a label and alert during
@@ -19910,7 +20328,7 @@ text field auto-validation events. Although these components are
 decoupled from the text<br>
 field, they can both be updated automatically via the notify tag
 attribute.
-<pre>  &lt;webuijsf:alert id="alert1" type="error" visible="false"/&gt;<br>  &lt;webuijsf:label id="label1" text="Enter Credit Card Number" for="textField1"/&gt;<br>  &lt;webuijsf:textField<br>     id="textField1"<br>     text="4111 1111 1111 1111"<br>     columns="20"<br>     required="true"<br>     autoValidate="true"<br>     validatorExpression="#{Payment.cardValidator}"<br>     notify="form1:alert1,form1:label1"/&gt;<br></pre>
+<pre> &lt;webuijsf:alert id="alert1" type="error" visible="false"/&gt;<br> &lt;webuijsf:label id="label1" text="Enter Credit Card Number" for="textField1"/&gt;<br> &lt;webuijsf:textField<br> id="textField1"<br> text="4111 1111 1111 1111"<br> columns="20"<br> required="true"<br> autoValidate="true"<br> validatorExpression="#{Payment.cardValidator}"<br> notify="form1:alert1,form1:label1"/&gt;<br></pre>
 <code></code>
 <h4>Example 5: Update client-side textField properties using the
 getProps
@@ -19921,7 +20339,7 @@ side using the getProps and setProps functions. When the user clicks
 the radio button,
 the text field is either disabled or enabled.<code></code><code>
 </code>
-<pre>&lt;webuijsf:radioButton id="rb1" name="rb1" label="Toggle Field Disabled" onClick="toggleDisabled()"/&gt;<br><code>&lt;webuijsf:textField id="field1" text="My Text Field" /&gt;</code><br><code><br></code>&lt;webuijsf:script&gt;<br>    // Toggle field disabled.<br>    function toggleDisabled() {<br>        var domNode = document.getElementById("form1:field<code>1</code>"); // Get field<br>        return domNode.setProps({disabled: !domNode.getProps().disabled}); // Toggle disabled state<br>    }<br>&lt;/webuijsf:script&gt;</pre>
+<pre>&lt;webuijsf:radioButton id="rb1" name="rb1" label="Toggle Field Disabled" onClick="toggleDisabled()"/&gt;<br><code>&lt;webuijsf:textField id="field1" text="My Text Field" /&gt;</code><br><code><br></code>&lt;webuijsf:script&gt;<br> // Toggle field disabled.<br> function toggleDisabled() {<br> var domNode = document.getElementById("form1:field<code>1</code>"); // Get field<br> return domNode.setProps({disabled: !domNode.getProps().disabled}); // Toggle disabled state<br> }<br>&lt;/webuijsf:script&gt;</pre>
 <code></code>
 <h4>Example 6: Asynchronously update textField using refresh function</h4>
 This example shows how to asynchronously update a text field using
@@ -19988,9 +20406,7 @@ document.getElementById("form1:field1"); // Get field<br>
 to execute. Thus, a comma-separated list of ids can be provided to
 update components server-side: submit("form1:id1,form2:id2,...")<br>
 <br>
-</p>
-
-      
+</p>      
 ]]></description>
     </tag>
 

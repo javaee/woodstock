@@ -21,10 +21,11 @@
 // Copyright 2007 Sun Microsystems, Inc. All rights reserved.
 //
 
-dojo.provide("webui.@THEME@.calendar");
+webui.@THEME@.dojo.provide("webui.@THEME@.calendar");
 
-dojo.require("webui.@THEME@.common");
-dojo.require("webui.@THEME@.formElements");
+webui.@THEME@.dojo.require("webui.@THEME@.common");
+webui.@THEME@.dojo.require("webui.@THEME@.formElements");
+webui.@THEME@.dojo.require("webui.@THEME@.prototypejs");
 
 /** 
  * @class This class contains functions for calendar components.
@@ -90,7 +91,7 @@ webui.@THEME@.calendar = {
         }
 
         // Set given properties on domNode.
-        Object.extend(domNode, props);
+        webui.@THEME@.prototypejs.extend(domNode, props, false);
 
         domNode.datePickerId = props.datePickerId;
         domNode.dateLinkId = props.datePickerId + ":dateLink";

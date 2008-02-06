@@ -21,7 +21,7 @@
 // Copyright 2007 Sun Microsystems, Inc. All rights reserved.
 //
 
-dojo.provide("webui.@THEME@.browser");
+webui.@THEME@.dojo.provide("webui.@THEME@.browser");
 
 /**
  * @class This class contains functions for testing browser properties.

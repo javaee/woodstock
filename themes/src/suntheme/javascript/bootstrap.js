@@ -21,10 +21,10 @@
 // Copyright 2007 Sun Microsystems, Inc. All rights reserved.
 //
 
-dojo.provide("webui.@THEME@.bootstrap");
+webui.@THEME@.dojo.provide("webui.@THEME@.bootstrap");
 
-dojo.require("webui.@THEME@.theme.common");
-dojo.require("webui.@THEME@.widget.common");
+webui.@THEME@.dojo.require("webui.@THEME@.theme.common");
+webui.@THEME@.dojo.require("webui.@THEME@.widget.common");
 
 /**
  * @class This class contains functions to initialize the environment.
@@ -33,12 +33,13 @@ dojo.require("webui.@THEME@.widget.common");
  */
 webui.@THEME@.bootstrap = {
     /**
-     * This function is used to initialize HTML element properties with Object
-     * literals.
+     * This function is used to initialize the environment with Object literals.
      *
      * @param {Object} props Key-Value pairs of properties.
+     * @config {boolean} isDebug Flag indicating debug mode is enabled.
+     * @config {String} module The Woodtsock module.
+     * @config {String} modulePath The module path.
      * @config {Object} theme Key-Value pairs of theme properties.
-     * @config {boolean} debug Flag indicating debug mode is enabled.
      * @return {boolean} true if successful; otherwise, false.
      * @private
      */
@@ -47,18 +48,29 @@ webui.@THEME@.bootstrap = {
             return false;
         }
 
-        // Save props for later reference.
-        Object.extend(webui.@THEME@.bootstrap, props);
+        // Register module path.
+        if (props.module && props.modulePath) {
+            webui.@THEME@.dojo.registerModulePath(props.module, props.modulePath);
+        } else {
+            return false;
+        }
 
         // Initialize theme.
-        webui.@THEME@.theme.common.init(props.theme);
+        if (props.theme) {
+            webui.@THEME@.theme.common.init(props.theme);
+        } else {
+            return false;
+        }
 
         // Dojo inserts a div into body for HTML template rendering; therefore,
         // we must wait until the window.onLoad event before creating widgets.
         // Otherwise, IE will throw a security exception.
-        dojo.addOnLoad(function() {
-            webui.@THEME@.widget.common.replaceElements(dojo.body());
+        webui.@THEME@.dojo.addOnLoad(function() {
+            webui.@THEME@.widget.common.replaceElements(webui.@THEME@.dojo.body());
         });
         return true;
     }
 }
+
+// Initialize the environment.
+webui.@THEME@.bootstrap.init(webui.@THEME@.config);

@@ -21,7 +21,9 @@
 // Copyright 2007 Sun Microsystems, Inc. All rights reserved.
 //
 
-dojo.provide("webui.@THEME@.addRemove");
+webui.@THEME@.dojo.provide("webui.@THEME@.addRemove");
+
+webui.@THEME@.dojo.require("webui.@THEME@.prototypejs");
 
 /** 
  * @class This class contains functions for addRemove components.
@@ -116,7 +118,7 @@ webui.@THEME@.addRemove = {
         }
 
         // Set given properties on domNode.
-        Object.extend(domNode, props);
+        webui.@THEME@.prototypejs.extend(domNode, props, false);
 
         // Calculate the value indices
         if (itemString != null) {

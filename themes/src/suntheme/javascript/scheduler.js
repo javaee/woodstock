@@ -21,9 +21,10 @@
 // Copyright 2007 Sun Microsystems, Inc. All rights reserved.
 //
 
-dojo.provide("webui.@THEME@.scheduler");
+webui.@THEME@.dojo.provide("webui.@THEME@.scheduler");
 
-dojo.require("webui.@THEME@.formElements");
+webui.@THEME@.dojo.require("webui.@THEME@.formElements");
+webui.@THEME@.dojo.require("webui.@THEME@.prototypejs");
 
 /** 
  * @class This class contains functions for scheduler components.
@@ -57,7 +58,7 @@ webui.@THEME@.scheduler = {
         }
 
         // Set given properties on domNode.
-        Object.extend(domNode, props);
+        webui.@THEME@.prototypejs.extend(domNode, props, false);
         domNode.dateLinkId = props.datePickerId + ":dateLink"; 
 
         // Set functions.

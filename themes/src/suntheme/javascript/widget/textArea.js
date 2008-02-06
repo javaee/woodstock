@@ -21,9 +21,9 @@
 // Copyright 2007 Sun Microsystems, Inc. All rights reserved.
 //
 
-dojo.provide("webui.@THEME@.widget.textArea");
+webui.@THEME@.dojo.provide("webui.@THEME@.widget.textArea");
 
-dojo.require("webui.@THEME@.widget.textField");
+webui.@THEME@.dojo.require("webui.@THEME@.widget.textField");
 
 /**
  * @name webui.@THEME@.widget.textArea
@@ -31,7 +31,7 @@ dojo.require("webui.@THEME@.widget.textField");
  * @class This class contains functions for the textArea widget.
  * @constructor This function is used to construct a textArea widget.
  */
-dojo.declare("webui.@THEME@.widget.textArea", webui.@THEME@.widget.textField, {
+webui.@THEME@.dojo.declare("webui.@THEME@.widget.textArea", webui.@THEME@.widget.textField, {
     // Set defaults.
     autoSave: 0,
     cols: 20,
@@ -50,7 +50,7 @@ webui.@THEME@.widget.textArea.prototype.createSubmitCallback = function() {
     // New literals are created every time this function
     // is called, and it's saved by closure magic.
     return function(event) { 
-        var widget = dijit.byId(_id);
+        var widget = webui.@THEME@.dijit.byId(_id);
         if (widget == null) {
             return false;
         }

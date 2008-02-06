@@ -21,10 +21,12 @@
 // Copyright 2007 Sun Microsystems, Inc. All rights reserved.
 //
 
-dojo.provide("webui.@THEME@.widget.jsfx.accordionTab");
+webui.@THEME@.dojo.provide("webui.@THEME@.widget.jsfx.accordionTab");
 
-dojo.require("webui.@THEME@.widget.jsfx.common");
-dojo.require("webui.@THEME@.widget.accordionTab");
+webui.@THEME@.dojo.require("webui.@THEME@.json");
+webui.@THEME@.dojo.require("webui.@THEME@.widget.accordionTab");
+webui.@THEME@.dojo.require("webui.@THEME@.widget.jsfx.common");
+webui.@THEME@.dojo.require("webui.@THEME@.widget.jsfx.dynaFaces");
 
 /**
  * @class This class contains functions to obtain data asynchronously using JSF
@@ -76,20 +78,20 @@ webui.@THEME@.widget.jsfx.accordionTab = {
         }
 
         // Parse JSON text.
-        var json = JSON.parse(content);
+        var json = webui.@THEME@.json.parse(content);
 
         // Set progress.
-        var widget = dijit.byId(id);
+        var widget = webui.@THEME@.dijit.byId(id);
         widget.setProps(json);
 
         // Publish an event for custom AJAX implementations to listen for.
-        dojo.publish(webui.@THEME@.widget.accordionTab.event.load.endTopic, [json]);
+        webui.@THEME@.dojo.publish(webui.@THEME@.widget.accordionTab.event.load.endTopic, [json]);
         return true;
     }
 }
 
 // Listen for Dojo Widget events.
-dojo.subscribe(webui.@THEME@.widget.accordionTab.event.load.beginTopic,
+webui.@THEME@.dojo.subscribe(webui.@THEME@.widget.accordionTab.event.load.beginTopic,
     webui.@THEME@.widget.jsfx.accordionTab, "processLoadContentEvent");
-dojo.subscribe(webui.@THEME@.widget.accordionTab.event.refresh.beginTopic,
+webui.@THEME@.dojo.subscribe(webui.@THEME@.widget.accordionTab.event.refresh.beginTopic,
     webui.@THEME@.widget.jsfx.common, "processRefreshEvent");

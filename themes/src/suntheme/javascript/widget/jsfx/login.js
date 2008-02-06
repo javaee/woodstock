@@ -1,4 +1,5 @@
-// 
+// widget/jsfx/login.js
+//
 // Copyright 2006 by Sun Microsystems, Inc. All rights reserved.
 // Use is subject to license terms.
 //
@@ -15,11 +16,16 @@
 // to update the DOM tree reflecting the state of the authentication
 // process.
 
-dojo.provide("webui.@THEME@.widget.jsfx.login");
-dojo.require("webui.@THEME@.widget.login");
+webui.@THEME@.dojo.provide("webui.@THEME@.widget.jsfx.login");
+
+webui.@THEME@.dojo.require("webui.@THEME@.json");
+webui.@THEME@.dojo.require("webui.@THEME@.widget.login");
+webui.@THEME@.dojo.require("webui.@THEME@.widget.jsfx.dynaFaces");
+
 /**
- * This name space is used to send authentication data
- * from the client to the server. 
+ * @class This class contains functions to authenticate data asynchronously 
+ * using JSF Extensions as the underlying transfer protocol.
+ * @static
  */
 webui.@THEME@.widget.jsfx.login =  {
     /**
@@ -35,19 +41,17 @@ webui.@THEME@.widget.jsfx.login =  {
      * @return {boolean} true if successful; otherwise, false.
      */
     loginCallback : function(id, content, closure, xjson) {
-
-        
         // Parse JSON text and update login widget.
-        var props = JSON.parse(content);
+        var props = webui.@THEME@.json.parse(content);
 
         // Publish an event for custom AJAX implementations 
 	// to listen for.
-        var widget = dijit.byId(id);
+        var widget = webui.@THEME@.dijit.byId(id);
         widget.setProps(props);
         
         // Publish an event for custom AJAX implementations to listen for.
         if (xjson.endTopic) {
-            dojo.publish(xjson.endTopic, props);
+            webui.@THEME@.dojo.publish(xjson.endTopic, props);
         }
         return true;
     },
@@ -58,19 +62,19 @@ webui.@THEME@.widget.jsfx.login =  {
      * JAAS authentication is taking place.
      *
      * @param {Object} props Key-Value pairs of properties.
+     * @config {String} id The HTML element Id.
+     * @config {String} loginState
+     * @config {String} endTopic
+     * @config {String} keys
      * @return {boolean} true if successful; otherwise, false.
      */
     processLoginEvent : function(props) {
-
         if (props == null) {
             return false;
         }
-
-        // dojo.debug("submitting the Ajax request...");
         var domNode = document.getElementById(props.id); 
 
         // Generate AJAX request using the JSF Extensions library.
-        
         DynaFaces.fireAjaxTransaction(
             (domNode) ? domNode : document.forms[0], {
             execute: props.id,
@@ -83,11 +87,9 @@ webui.@THEME@.widget.jsfx.login =  {
                 keys: (props.keys) ? props.keys : "none"
             }
         });
-        
     }
-
 }
 
 // Listen for Dojo Widget events.
-dojo.subscribe(webui.@THEME@.widget.login.event.authenticate.beginTopic,
+webui.@THEME@.dojo.subscribe(webui.@THEME@.widget.login.event.authenticate.beginTopic,
     webui.@THEME@.widget.jsfx.login, "processLoginEvent");

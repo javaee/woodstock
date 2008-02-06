@@ -21,10 +21,9 @@
 // Copyright 2007 Sun Microsystems, Inc. All rights reserved.
 //
 
-dojo.provide("webui.@THEME@.widget.imageHyperlink");
+webui.@THEME@.dojo.provide("webui.@THEME@.widget.imageHyperlink");
 
-dojo.require("webui.@THEME@.common");
-dojo.require("webui.@THEME@.widget.hyperlink");
+webui.@THEME@.dojo.require("webui.@THEME@.widget.hyperlink");
 
 /**
  * @name webui.@THEME@.widget.imageHyperlink
@@ -32,7 +31,7 @@ dojo.require("webui.@THEME@.widget.hyperlink");
  * @class This class contains functions for the imageHyperlink widget.
  * @constructor This function is used to construct a imageHyperlink widget.
  */
-dojo.declare("webui.@THEME@.widget.imageHyperlink", webui.@THEME@.widget.hyperlink, {
+webui.@THEME@.dojo.declare("webui.@THEME@.widget.imageHyperlink", webui.@THEME@.widget.hyperlink, {
     // Set defaults.
     widgetName: "imageHyperlink" // Required for theme properties.
 });
@@ -207,8 +206,8 @@ webui.@THEME@.widget.imageHyperlink.prototype._setProps = function(props) {
 
         // We need to hide/show images only when the disabed image is specified.
         if (this.disabledImage) { 
-            webui.@THEME@.common.setVisibleElement(this.enabledImageContainer, !disabled);
-            webui.@THEME@.common.setVisibleElement(this.disabledImageContainer, disabled);
+            this.common.setVisibleElement(this.enabledImageContainer, !disabled);
+            this.common.setVisibleElement(this.disabledImageContainer, disabled);
         }
     }
 
@@ -225,8 +224,8 @@ webui.@THEME@.widget.imageHyperlink.prototype._setProps = function(props) {
     // Set image position.
     if (props.imagePosition) {
         var left = (props.imagePosition == "left") 
-        webui.@THEME@.common.setVisibleElement(this.leftContentsContainer, !left);
-        webui.@THEME@.common.setVisibleElement(this.rightContentsContainer, left);    
+        this.common.setVisibleElement(this.leftContentsContainer, !left);
+        this.common.setVisibleElement(this.rightContentsContainer, left);    
     }
 
     // Add contents.

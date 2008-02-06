@@ -354,8 +354,9 @@ public class ThemeELResolver extends ELResolver {
     private class Javascript {
         // Special constant which does not prefix the theme path.
         private static final String JS_PREFIX = "JS_PREFIX"; // Deprecated.
+        private static final String MODULE = "MODULE";
         private static final String MODULE_PATH = "MODULE_PATH";
-        private static final String MODULE_PREFIX = "MODULE_PREFIX";
+        private static final String MODULE_PREFIX = "MODULE_PREFIX"; // Deprecated.
 
         /**
          * Reslove ThemeJavascript constants.
@@ -376,6 +377,7 @@ public class ThemeELResolver extends ELResolver {
 
                 // This is a special case where the theme path is not prefixed.
                 if (JS_PREFIX.equals(property)
+                        || MODULE.equals(property)
                         || MODULE_PATH.equals(property)
                         || MODULE_PREFIX.equals(property)) {
                     result = theme.getJSString(value);

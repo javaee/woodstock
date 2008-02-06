@@ -21,18 +21,18 @@
 // Copyright 2007 Sun Microsystems, Inc. All rights reserved.
 //
 
-dojo.provide("webui.@THEME@.widget.eventBase");
+webui.@THEME@.dojo.provide("webui.@THEME@.widget.eventBase");
 
-dojo.require("dijit._Widget"); 
-dojo.require("dijit._Templated"); 
+webui.@THEME@.dojo.require("webui.@THEME@.dijit._Widget"); 
+webui.@THEME@.dojo.require("webui.@THEME@.dijit._Templated");
 
 /**
  * @name webui.@THEME@.widget.eventBase
- * @extends dijit._Widget, dijit._Templated
+ * @extends webui.@THEME@.dijit._Widget, webui.@THEME@.dijit._Templated
  * @class This class contains functions for widgets that extend eventBase.
  * @static
  */
-dojo.declare("webui.@THEME@.widget.eventBase", [dijit._Widget, dijit._Templated]);
+webui.@THEME@.dojo.declare("webui.@THEME@.widget.eventBase", [webui.@THEME@.dijit._Widget, webui.@THEME@.dijit._Templated]);
 
 /**
  * This object contains event topics.
@@ -83,7 +83,7 @@ webui.@THEME@.widget.eventBase.event =
 }
 
 /**
- * Initialize public functions.
+ * Initialize public events and functions.
  * <p>
  * Note: If this.event.<eventName> is not null, a public function shall be added
  * to the DOM node. To avoid name clashes, do not create private functions with
@@ -91,7 +91,7 @@ webui.@THEME@.widget.eventBase.event =
  * </p>
  * @return {boolean} true if successful; otherwise, false.
  */
-webui.@THEME@.widget.eventBase.prototype.initFunctions = function () {
+webui.@THEME@.widget.eventBase.prototype.initEvents = function () {
     if (this.event == null) {
         return false;
     }
@@ -101,27 +101,96 @@ webui.@THEME@.widget.eventBase.prototype.initFunctions = function () {
     // we need to set the widget id via closure magic.
     var _id = this.id;
 
+    // Flag to add subscribe function.
+    var subscribe = false;
+
+    // Add event topics.
+    this.domNode.event = this.event;
+
     // Refresh.
     if (this.event.refresh != null) {
         // Set public function.
         this.domNode.refresh = function(execute) {
-            return dijit.byId(_id).refresh(execute);
+            return webui.@THEME@.dijit.byId(_id).refresh(execute);
         };
+        subscribe = true;
+    } else {
+        this.domNode.event.refresh = null; // clean.
     }
 
     // Submit.
     if (this.event.submit != null) {
         // Set public function.
         this.domNode.submit = function(execute) {
-            return dijit.byId(_id).submit(execute);    
+            return webui.@THEME@.dijit.byId(_id).submit(execute);    
         };
+        subscribe = true;
+    } else {
+        this.domNode.event.submit = null; // clean.
     }
 
     // State.
-    if (this.event.state != null) {
+    if (this.event.state == null) {
         // Remove prototyped function.
         this.stateChanged = null;
+        this.domNode.event.state = null; // clean.
     }
+    
+    // Subscribe.
+    if (subscribe == true) {
+        this.domNode.subscribe = function(topic, obj, func) {
+            return webui.@THEME@.dijit.byId(_id).subscribe(topic, obj, func);
+        }
+    }
+    return true;
+}
+
+/**
+ * Publish an event topic.
+ *
+ * @param {String} topic The event topic to publish.
+ * @param {Object} props Key-Value pairs of properties. This will be applied
+ * to each topic subscriber.
+ * @return {boolean} true if successful; otherwise, false.
+ */
+webui.@THEME@.widget.eventBase.prototype.publish = function(topic, props) {
+    // Obtain the Ajax module associated with this widget.
+    if (webui.@THEME@.config.ajax.module) {
+        webui.@THEME@.dojo.require(webui.@THEME@.config.ajax.module + "." + this.widgetName);
+    }
+    return webui.@THEME@.widget.eventBase.prototype._publish(topic, props);
+}
+
+/**
+ * Publish an event topic.
+ * <p>
+ * Note: In order to obtain Ajax modules dynamically, this function shall be 
+ * overridden by a custom AJAX implementation.
+ * </p>
+ * @param {String} topic The event topic to publish.
+ * @param {Object} props Key-Value pairs of properties. This will be applied
+ * to each topic subscriber.
+ * @return {boolean} true if successful; otherwise, false.
+ * @private
+ */
+webui.@THEME@.widget.eventBase.prototype._publish = function(topic, props) {
+    // Publish an event for custom AJAX implementations to listen for.
+    webui.@THEME@.dojo.publish(topic, props);
+    return true;
+}
+
+/**
+ * Subscribe to an event topic.
+ *
+ * @param {String} topic The event topic to subscribe to.
+ * @param {Object} obj The object in which a function will be invoked, or
+ * null for default scope.
+ * @param {String|Function} func The name of a function in context, or a 
+ * function reference to invoke when topic is published. 
+ * @return {boolean} true if successful; otherwise, false.
+ */
+webui.@THEME@.widget.eventBase.prototype.subscribe = function(topic, obj, func) {
+    webui.@THEME@.dojo.subscribe(topic, obj, func);
     return true;
 }
 
@@ -145,7 +214,7 @@ webui.@THEME@.widget.eventBase.prototype.refresh = function(execute) {
     }
 
     // Publish an event for custom AJAX implementations to listen for.
-    dojo.publish(this.event.refresh.beginTopic, [{
+    this.publish(this.event.refresh.beginTopic, [{
         id: this.id,
         execute: execute,
         endTopic: this.event.refresh.endTopic
@@ -171,7 +240,7 @@ webui.@THEME@.widget.eventBase.prototype.stateChanged = function(props) {
     }
 
     // Publish an event for custom AJAX implementations to listen for.
-    dojo.publish(this.event.state.beginTopic, [{
+    this.publish(this.event.state.beginTopic, [{
         id: this.id,
         endTopic: this.event.state.endTopic,
         props: props
@@ -199,7 +268,7 @@ webui.@THEME@.widget.eventBase.prototype.submit = function(execute) {
     }
 
     // Publish an event for custom AJAX implementations to listen for.
-    dojo.publish(this.event.submit.beginTopic, [{
+    this.publish(this.event.submit.beginTopic, [{
         id: this.id,
         execute: execute,
         endTopic: this.event.submit.endTopic

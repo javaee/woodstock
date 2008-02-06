@@ -21,10 +21,10 @@
 // Copyright 2007 Sun Microsystems, Inc. All rights reserved.
 //
 
-dojo.provide("webui.@THEME@.widget.accordion");
+webui.@THEME@.dojo.provide("webui.@THEME@.widget.accordion");
 
-dojo.require("webui.@THEME@.widget.accordionTab");
-dojo.require("webui.@THEME@.widget.widgetBase");
+webui.@THEME@.dojo.require("webui.@THEME@.widget.accordionTab");
+webui.@THEME@.dojo.require("webui.@THEME@.widget.widgetBase");
 
 /**
  * @name webui.@THEME@.widget.accordion
@@ -32,7 +32,7 @@ dojo.require("webui.@THEME@.widget.widgetBase");
  * @class This class contains functions for the accordion widget.
  * @constructor This function is used to construct an accordion widget.
  */
-dojo.declare("webui.@THEME@.widget.accordion", webui.@THEME@.widget.widgetBase, {
+webui.@THEME@.dojo.declare("webui.@THEME@.widget.accordion", webui.@THEME@.widget.widgetBase, {
     // Set defaults.
     duration: 250,
     isContainer: true,
@@ -88,7 +88,7 @@ webui.@THEME@.widget.accordion.prototype.addControls = function(props) {
 webui.@THEME@.widget.accordion.prototype.collapseAllTabs = function(event) {
     // Iterate over all tabs.
     for (var i = 0; i < this.tabs.length; i++) {
-        var widget = dijit.byId(this.tabs[i].id);
+        var widget = webui.@THEME@.dijit.byId(this.tabs[i].id);
         if (widget && widget.selected) {
             widget.setSelected(false);
         }
@@ -116,7 +116,7 @@ webui.@THEME@.widget.accordion.prototype.createOnKeyDownCallBack = function(id) 
         if (elem == null) {
             return;
         }
-        var widget = dijit.byId(id);
+        var widget = webui.@THEME@.dijit.byId(id);
 
         event = _widget.getEvent(event);
         var keyCode = _widget.getKeyCode(event);
@@ -180,7 +180,7 @@ webui.@THEME@.widget.accordion.event =
 webui.@THEME@.widget.accordion.prototype.expandAllTabs = function(event) {
     // Iterate over all tabs.
     for (var i = 0; i < this.tabs.length; i++) {
-        var widget = dijit.byId(this.tabs[i].id);
+        var widget = webui.@THEME@.dijit.byId(this.tabs[i].id);
         if (widget && !widget.selected) {
             widget.setSelected(true);
         }
@@ -289,24 +289,23 @@ webui.@THEME@.widget.accordion.prototype.postCreate = function () {
 
     // Set events.
     var _id = this.id;
-    dojo.connect(this.collapseAllContainer, "onclick", this, "collapseAllTabs");
-    dojo.connect(this.expandAllContainer, "onclick", this, "expandAllTabs");
-    
-    dojo.connect(this.refreshNodeContainer, "onclick", function(event) {
+    this.dojo.connect(this.collapseAllContainer, "onclick", this, "collapseAllTabs");
+    this.dojo.connect(this.expandAllContainer, "onclick", this, "expandAllTabs");
+    this.dojo.connect(this.refreshNodeContainer, "onclick", function(event) {
         // New literals are created every time this function is called, and it's 
         // saved by closure magic.
-        var widget = dijit.byId(_id);
+        var widget = webui.@THEME@.dijit.byId(_id);
         widget.updateFocus(this.refreshNodeContainer);
         widget.refresh(_id);
         return false;
     });
     
     //Create callback function for onkeydown event.
-    dojo.connect(this.domNode, "onkeydown", 
+    this.dojo.connect(this.domNode, "onkeydown", 
         this.createOnKeyDownCallBack(this.id));
     
     // Subscribe to the "tabSelected" event present in the accordion widget.
-    dojo.subscribe(webui.@THEME@.widget.accordionTab.event.title.selectedTopic,
+    this.subscribe(webui.@THEME@.widget.accordionTab.event.title.selectedTopic,
         this, "focusAndSelectTab");
 
     // Generate the accordion header icons on the client side.
@@ -476,15 +475,12 @@ webui.@THEME@.widget.accordion.prototype._setProps = function(props) {
  * @return {boolean} true if successful; otherwise, false.
  */
 webui.@THEME@.widget.accordion.prototype.setFocusStyleClass = function(nodeId) {
-
     if (nodeId == this.collapseAllContainer.id) {
         //set focus style on collapseNode
         this.collapseAllContainer.className = this.theme.getClassName("ACCORDION_HDR_CLOSEALL_FOCUS");
-        
     } else if (nodeId == this.expandAllContainer.id) {
         //set focus style on expandNode
         this.expandAllContainer.className = this.theme.getClassName("ACCORDION_HDR_OPENALL_FOCUS");
-        
     } else if (nodeId == this.refreshNodeContainer.id) {
         //set focus style on refreshNode
         this.refreshNodeContainer.className = this.theme.getClassName("ACCORDION_HDR_REFRESH_FOCUS");
@@ -500,15 +496,12 @@ webui.@THEME@.widget.accordion.prototype.setFocusStyleClass = function(nodeId) {
  * @return {boolean} true if successful; otherwise, false.
  */
 webui.@THEME@.widget.accordion.prototype.setBlurStyleClass = function(nodeId) {
-
     if (nodeId == this.collapseAllContainer.id) {
         //set normal className on collapseNode
         this.collapseAllContainer.className = this.theme.getClassName("ACCORDION_HDR_CLOSEALL");
-    
     } else if (nodeId == this.expandAllContainer.id) {
         //set normal className on expandNode
         this.expandAllContainer.className = this.theme.getClassName("ACCORDION_HDR_OPENALL");
-    
     } else if (nodeId == this.refreshNodeContainer.id) {
         //set normal className on refreshNode
         this.refreshNodeContainer.className = this.theme.getClassName("ACCORDION_HDR_REFRESH");
@@ -523,9 +516,8 @@ webui.@THEME@.widget.accordion.prototype.setBlurStyleClass = function(nodeId) {
  * @return {boolean} true if successful; otherwise, false.
  */
 webui.@THEME@.widget.accordion.prototype.setTabFocus = function(nodeId) {
-
     // update the tab with the appropriate tabIndex
-    var tabWidget = dijit.byId(nodeId);
+    var tabWidget = webui.@THEME@.dijit.byId(nodeId);
     var props = {tabIndex: this.tabIndex};
     this.widget.updateFragment(this.tabsContainer, nodeId, props);
 
@@ -546,9 +538,8 @@ webui.@THEME@.widget.accordion.prototype.setTabFocus = function(nodeId) {
  * @return {boolean} true if successful; otherwise, false.
  */
 webui.@THEME@.widget.accordion.prototype.setTabBlur = function(nodeId) {
-
     // update the tab with the appropriate tabIndex
-    var tabWidget = dijit.byId(nodeId);
+    var tabWidget = webui.@THEME@.dijit.byId(nodeId);
     
     if (tabWidget.selected) {
         tabWidget.titleContainer.className = this.theme.getClassName("ACCORDION_TABEXPANDED");
@@ -577,7 +568,7 @@ webui.@THEME@.widget.accordion.prototype.tabSelected = function(props) {
     // Iterate over all tabs to ensure id is valid.
     for (var i = 0; i < this.tabs.length; i++) {
         if (props.id == this.tabs[i].id) {
-            widget = dijit.byId(this.tabs[i].id);
+            widget = webui.@THEME@.dijit.byId(this.tabs[i].id);
             break;   
         }
     }
@@ -591,7 +582,7 @@ webui.@THEME@.widget.accordion.prototype.tabSelected = function(props) {
         widget.setSelected(true);
     } else {
         for (var i = 0; i < this.tabs.length; i++) {
-            widget = dijit.byId(this.tabs[i].id);
+            widget = webui.@THEME@.dijit.byId(this.tabs[i].id);
             if (widget) {
                 widget.setSelected(props.id == this.tabs[i].id);
                 this.tabs[i] = widget.getProps();
@@ -615,7 +606,6 @@ webui.@THEME@.widget.accordion.prototype.tabSelected = function(props) {
  * @return {boolean} true if successful; otherwise, false.
  */
 webui.@THEME@.widget.accordion.prototype.traverseMenu = function(keyCode, event, nodeId) {
-
     var savedFocusElement;
 
     if (this.focusElement != null) {
@@ -749,7 +739,7 @@ webui.@THEME@.widget.accordion.prototype.traverseMenu = function(keyCode, event,
         var actionComplete = false;
         if (this.isRefreshIcon) {
             if (this.focusElement.id == this.refreshNodeContainer.id) {
-                var accWidget = dijit.byId(nodeId);
+                var accWidget = webui.@THEME@.dijit.byId(nodeId);
                 accWidget.refresh(nodeId);
                 actionComplete = true;
             }    
@@ -768,10 +758,10 @@ webui.@THEME@.widget.accordion.prototype.traverseMenu = function(keyCode, event,
             if (this.focusElement) {
                 var props;
                 if (this.focusElement.selected) {
-                    var widget = dijit.byId(this.focusElement.id);
+                    var widget = webui.@THEME@.dijit.byId(this.focusElement.id);
                     widget.setSelected(false);
                 } else {
-                    var widget = dijit.byId(this.focusElement.id);
+                    var widget = webui.@THEME@.dijit.byId(this.focusElement.id);
                     widget.setSelected(true);
                 }
              
@@ -854,7 +844,7 @@ webui.@THEME@.widget.accordion.prototype.traverseMenu = function(keyCode, event,
 
             if (!focusSet) { // focus is on a tab
                 if (forward) {  
-                    var widget = dijit.byId(this.focusElement.id);
+                    var widget = webui.@THEME@.dijit.byId(this.focusElement.id);
                     if ((widget.getProps().selected == false) ||
                         (widget.focusState == "end")) {
                         

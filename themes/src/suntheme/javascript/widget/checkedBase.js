@@ -21,10 +21,10 @@
 // Copyright 2007 Sun Microsystems, Inc. All rights reserved.
 //
 
-dojo.provide("webui.@THEME@.widget.checkedBase");
+webui.@THEME@.dojo.provide("webui.@THEME@.widget.checkedBase");
 
-dojo.require("webui.@THEME@.browser");
-dojo.require("webui.@THEME@.widget.widgetBase");
+webui.@THEME@.dojo.require("webui.@THEME@.browser");
+webui.@THEME@.dojo.require("webui.@THEME@.widget.widgetBase");
 
 /**
  * @name webui.@THEME@.widget.checkedBase
@@ -32,7 +32,7 @@ dojo.require("webui.@THEME@.widget.widgetBase");
  * @class This class contains functions for widgets that extend checkedBase.
  * @static
  */
-dojo.declare("webui.@THEME@.widget.checkedBase", webui.@THEME@.widget.widgetBase, {
+webui.@THEME@.dojo.declare("webui.@THEME@.widget.checkedBase", webui.@THEME@.widget.widgetBase, {
     // Set defaults.
     idSuffix: "" // Overridden by subclass
 });
@@ -144,10 +144,10 @@ webui.@THEME@.widget.checkedBase.prototype.postCreate = function () {
     }
 
     // Set public functions.
-    this.domNode.getInputElement = function() { return dijit.byId(this.id).getInputElement(); }
+    this.domNode.getInputElement = function() { return webui.@THEME@.dijit.byId(this.id).getInputElement(); }
     
     // Create callback function for onclick event.
-    dojo.connect(this.domNode, "onclick", this, "onClickCallback");
+    this.dojo.connect(this.domNode, "onclick", this, "onClickCallback");
 
     return this.inherited("postCreate", arguments);
 }
@@ -197,7 +197,7 @@ webui.@THEME@.widget.checkedBase.prototype._setProps = function(props) {
             setTimeout(function() {
                 // New literals are created every time this function
                 // is called, and it's saved by closure magic.
-                var widget = dijit.byId(_id);
+                var widget = webui.@THEME@.dijit.byId(_id);
                 widget.inputNode.checked = checked;
             }, 0); // (n) milliseconds delay.
         } else {

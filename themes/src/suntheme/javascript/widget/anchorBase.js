@@ -21,9 +21,9 @@
 // Copyright 2007 Sun Microsystems, Inc. All rights reserved.
 //
 
-dojo.provide("webui.@THEME@.widget.anchorBase");
+webui.@THEME@.dojo.provide("webui.@THEME@.widget.anchorBase");
 
-dojo.require("webui.@THEME@.widget.widgetBase");
+webui.@THEME@.dojo.require("webui.@THEME@.widget.widgetBase");
 
 /**
  * @name webui.@THEME@.widget.anchorBase
@@ -31,7 +31,7 @@ dojo.require("webui.@THEME@.widget.widgetBase");
  * @class This class contains functions for widgets that extend anchorBase.
  * @static
  */
-dojo.declare("webui.@THEME@.widget.anchorBase", webui.@THEME@.widget.widgetBase);
+webui.@THEME@.dojo.declare("webui.@THEME@.widget.anchorBase", webui.@THEME@.widget.widgetBase);
 
 /**
  * Helper function to add children.

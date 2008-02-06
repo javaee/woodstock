@@ -21,9 +21,9 @@
 // Copyright 2007 Sun Microsystems, Inc. All rights reserved.
 //
 
-dojo.provide("webui.@THEME@.widget.listbox");
+webui.@THEME@.dojo.provide("webui.@THEME@.widget.listbox");
 
-dojo.require("webui.@THEME@.widget.selectBase");
+webui.@THEME@.dojo.require("webui.@THEME@.widget.selectBase");
 
 /**
  * @name webui.@THEME@.widget.listbox
@@ -31,7 +31,7 @@ dojo.require("webui.@THEME@.widget.selectBase");
  * @class This class contains functions for the listbox widget.
  * @constructor This function is used to construct a listbox widget.
  */
-dojo.declare("webui.@THEME@.widget.listbox", webui.@THEME@.widget.selectBase, {
+webui.@THEME@.dojo.declare("webui.@THEME@.widget.listbox", webui.@THEME@.widget.selectBase, {
     // Set defaults.
     monospace: false,
     multiple: false,

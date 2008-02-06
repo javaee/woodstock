@@ -58,9 +58,9 @@
     <property name="webui.jar"
               value="${components.home}/lib/webui-jsf.jar"/>
     <property name="tools.jar"
-              value="${tools}/lib/woodstock-tools.jar"/>
+              value="${tools}/woodstock/lib/webui-tools.jar"/>
     <property name="rhino.jar"
-              value="${tools}/lib/custom_rhino.jar"/>
+              value="${tools}/dojo/lib/custom_rhino.jar"/>
     <property name="jsdoc.dir"
               value="${tools}/jsdoctoolkit/src"/>
     <property name="jsdoc.exec"
@@ -121,12 +121,17 @@
     <property name="theme.master.css" value="css_master.css"/>
     <property name="theme.master-all.css" value="css_master-all.css"/>
     <property name="theme.js-module-prefix" value="webui.${theme.name}"/>
+    <property name="theme.dnd.js" value="dnd.js"/>
+    <property name="theme.dojo.js" value="dojo/dojo.js"/>
+    <property name="theme.dojo-all.js" value="dojo/dojo-all.js"/>
+    <property name="theme.dojo-dnd.js" value="dojo/dojo-dnd.js"/>
     <property name="theme.webui.js" value="webui.js"/>
     <property name="theme.webui-all.js" value="webui-all.js"/>
     <property name="theme.webui-jsfx.js" value="webui-jsfx.js"/>
     <property name="theme.webui-jsfx-all.js" value="webui-jsfx-all.js"/>
     <property name="theme.combined-image" value="combinedImage.png"/>
 
+    <property name="theme.dnd-js-files" value="dnd-js-files"/>
     <property name="theme.webui-js-files" value="webui-js-files"/>
     <property name="theme.webui-all-js-files" value="webui-all-js-files"/>
     <property name="theme.webui-jsfx-js-files" value="webui-jsfx-js-files"/>
@@ -137,6 +142,8 @@
 	value="${theme.build-dir}/META-INF/manifest.mf"/>
 
     <property name="theme.exclude-js-files" value="exclude-js-files"/>
+    <property name="theme.include-js-files" value="include-js-files"/>
+    <property name="theme.include-jsfx-files" value="include-jsfx-files"/>
     <property name="theme.js-filter-set" value="js-filter-set"/>
     <property name="theme.jar-file-set" value="jar-file-set"/>
 
@@ -152,6 +159,7 @@
 	<filter token="THEME" value="${theme.name}"/> 
 	<filter token="THEME_CSS" value="${theme.css-name}"/>
 	<filter token="THEME_VERSION" value="${theme.version}"/>
+        <filter token="THEME_PATH" value="/${theme.package-path}"/>
     </filterset>
 
     <!-- The default file set for the theme jar. -->
@@ -160,23 +168,60 @@
 	<exclude name="translatedFiles/**/*"/>
     </fileset>
 
-    <!-- The patternsets for the combined javascript files -->
+    <!-- The patternsets for the combined javascript files. Additional files may 
+        be included via dependencies. -->
 
-    <!-- The files that are commonly omitted. Some files (e.g., dnd.js) may be
-         included via widgets. -->
+    <!-- The Javascript files that are commonly included. -->
+    <patternset id="include-js-files">
+	<include name="body.js" />
+        <include name="bootstrap.js" />
+	<include name="formElements.js" />
+	<include name="table.js" />
+	<include name="widget/anchor.js" />
+	<include name="widget/button.js" />
+	<include name="widget/checkbox.js" />
+        <include name="widget/checkboxGroup.js" />
+	<include name="widget/dropDown.js" />
+	<include name="widget/hiddenField.js" />
+	<include name="widget/hyperlink.js" />
+	<include name="widget/image.js" />
+	<include name="widget/imageHyperlink.js" />
+	<include name="widget/label.js" />
+	<include name="widget/listbox.js" />
+	<include name="widget/passwordField.js" />
+	<include name="widget/radioButton.js" />
+        <include name="widget/radioButtonGroup.js" />
+	<include name="widget/staticText.js" />
+	<include name="widget/textArea.js" />
+	<include name="widget/textField.js" />
+    </patternset>
+
+    <!-- The JSF Extension files that are commonly included. Additional files
+        may be included via dependencies. -->
+    <patternset id="include-jsfx-files">
+	<include name="widget/jsfx/anchor.js" />
+        <include name="widget/jsfx/button.js" />
+	<include name="widget/jsfx/checkbox.js" />
+        <include name="widget/jsfx/checkboxGroup.js" />
+	<include name="widget/jsfx/dropDown.js" />
+	<include name="widget/jsfx/hiddenField.js" />
+	<include name="widget/jsfx/hyperlink.js" />
+	<include name="widget/jsfx/image.js" />
+	<include name="widget/jsfx/imageHyperlink.js" />
+        <include name="widget/jsfx/label.js" />
+	<include name="widget/jsfx/listbox.js" />
+	<include name="widget/jsfx/passwordField.js" />
+	<include name="widget/jsfx/radioButton.js" />
+        <include name="widget/jsfx/radioButtonGroup.js" />
+	<include name="widget/jsfx/staticText.js" />
+	<include name="widget/jsfx/textArea.js" />
+	<include name="widget/jsfx/textField.js" />
+    </patternset>
+
+    <!-- The files that are commonly excluded. -->
     <patternset id="exclude-js-files">
-	<exclude name="addRemove.js" />
-        <exclude name="calendar.js" /> <!-- Never include deprecated file -->
-	<exclude name="commonTasksSection.js" />
-	<exclude name="dnd.js" />
-	<exclude name="editableList.js" />
-	<exclude name="fileChooser.js" />
-	<exclude name="orderableList.js" />
-	<exclude name="scheduler.js" />
-	<exclude name="tree.js" />
-	<exclude name="wizard.js" />
-	<exclude name="widget/dndContainer.js" />
-	<exclude name="widget/table2.js" />
+        <exclude name="calendar.js" /> <!-- Never include deprecated files -->
+        <exclude name="dojo/" /> <!-- dojo.js must be included separately -->
 	<exclude name="theme/nls/"/>
 	<exclude name="webui.js"/>
 	<exclude name="webui-all.js"/>
@@ -184,32 +229,36 @@
 	<exclude name="webui-jsfx-all.js"/>
     </patternset>
 
+    <!-- "dnd.js" -->
+    <patternset id="dnd-js-files">
+	<include name="dnd.js" />
+    </patternset>
+
     <!-- "webui.js" -->
     <patternset id="webui-js-files">
-	<include name="**/*.js"/>
 	<exclude name="widget/jsfx/**" />
+        <patternset refid="${theme.include-js-files}"/>
 	<patternset refid="${theme.exclude-js-files}"/>
     </patternset>
 
     <!-- "webui-all.js" -->
     <patternset id="webui-all-js-files">
-	<include name="**/*.js"/>
-	<exclude name="widget/jsfx/**" />
-	<exclude name="theme/nls/"/>
-        <exclude name="calendar.js" /> <!-- Never include deprecated file -->
+        <include name="**/*.js"/>
+        <exclude name="widget/jsfx/**" />
+	<patternset refid="${theme.exclude-js-files}"/>
     </patternset>
 
     <!-- "webui-jsfx.js" -->
     <patternset id="webui-jsfx-js-files">
-	<include name="**/*.js"/>
+        <patternset refid="${theme.include-js-files}"/>
+        <patternset refid="${theme.include-jsfx-files}"/>
 	<patternset refid="${theme.exclude-js-files}"/>
     </patternset>
 
     <!-- "webui-jsfx-all.js" -->
     <patternset id="webui-jsfx-all-js-files">
 	<include name="**/*.js"/>
-	<exclude name="theme/nls/"/>
-        <exclude name="calendar.js" /> <!-- Never include deprecated file -->
+        <patternset refid="${theme.exclude-js-files}"/>
     </patternset>
 
     <!-- Public Targets -->
@@ -303,6 +352,7 @@
 
 	<!-- Call combineJavascript once for each of the 
 	     combined javascript files.
+            theme.dnd.js
 	    theme.webui.js
 	    theme.webui-all.js
 	    theme.webui-jsfx.js
@@ -313,10 +363,11 @@
 	<property name="js-dest-cmp"
 		location="${theme.build-package-path}/javascript"/>
 	<property name="js-src" value="${theme.src-dir}/javascript"/>
-
+        
 	<antcall target="combineJavascript">
 	    <param name="_to-dir_" value="${js-dest-uncmp}"/>
 	    <param name="_from-dir_" value="${js-src}"/>
+            <param name="_base-file_" value="${js-src}/${theme.dojo.js}"/>
 	    <param name="_pattern-set_" value="${theme.webui-js-files}"/>
 	    <param name="_combined-file_" 
 		value="${js-dest-uncmp}/${theme.webui.js}"/>
@@ -324,6 +375,7 @@
 	<antcall target="combineJavascript">
 	    <param name="_to-dir_" value="${js-dest-uncmp}"/>
 	    <param name="_from-dir_" value="${js-src}"/>
+            <param name="_base-file_" value="${js-src}/${theme.dojo-all.js}"/>
 	    <param name="_pattern-set_"
 		value="${theme.webui-all-js-files}"/>
 	    <param name="_combined-file_" 
@@ -332,6 +384,7 @@
 	<antcall target="combineJavascript">
 	    <param name="_to-dir_" value="${js-dest-uncmp}"/>
 	    <param name="_from-dir_" value="${js-src}"/>
+            <param name="_base-file_" value="${js-src}/${theme.dojo.js}"/>
 	    <param name="_pattern-set_"
 		value="${theme.webui-jsfx-js-files}"/>
 	    <param name="_combined-file_" 
@@ -340,11 +393,22 @@
 	<antcall target="combineJavascript">
 	    <param name="_to-dir_" value="${js-dest-uncmp}"/>
 	    <param name="_from-dir_" value="${js-src}"/>
+            <param name="_base-file_" value="${js-src}/${theme.dojo-all.js}"/>
 	    <param name="_pattern-set_"
 		value="${theme.webui-jsfx-all-js-files}"/>
 	    <param name="_combined-file_" 
 		value="${js-dest-uncmp}/${theme.webui-jsfx-all.js}"/>
 	</antcall>
+	<antcall target="combineJavascript">
+	    <param name="_to-dir_" value="${js-dest-uncmp}"/>
+	    <param name="_from-dir_" value="${js-src}"/>
+            <param name="_base-file_" value="${js-src}/${theme.dojo-dnd.js}"/>
+	    <param name="_pattern-set_" value="${theme.dnd-js-files}"/>
+	    <param name="_combined-file_" 
+		value="${js-dest-uncmp}/_${theme.dnd.js}"/>
+	</antcall>
+        <!-- file must be renamed because dnd.js already exists in src -->
+        <rename src="${js-dest-uncmp}/_${theme.dnd.js}" dest="${js-dest-uncmp}/${theme.dnd.js}"/>
 
         <antcall target="compressJavascript">
 	    <param name="_to-dir_" value="${js-dest-cmp}"/>
@@ -756,16 +820,22 @@
 	_to-dir_ - root of the destination for combined files
 	_from-dir_ - the source of the javascipt files.
 			   This directory will be written into.
+        _base-file_ - the base file to include before all others.
 	_pattern-set_ - the patternset refid defining the files to combine.
 	_combined-file_ - the combined js file.
 
     -->
-    <target name="combineJavascript" depends="combined-js-uptodate"
-	    unless="combined-js-uptodate"
+    <target name="combineJavascript" depends="combined-js-uptodate" 
+            unless="combined-js-uptodate"
 	    description="Create a combined javascript file.">
 
 	<echo message="Combining ${_combined-file_}"/>
-	<delete file="${_combined-file_}"/>
+        <delete file="${_combined-file_}"/>
+
+        <!-- create base file to ensure Dojo resources are included first -->
+        <copy file="${_base-file_}" tofile="${_combined-file_}">
+            <filterset refid="${theme.js-filter-set}"/>
+        </copy>
 
 	<!-- create a "location" for portability -->
 	<property name="__from-dir-loc__"
@@ -841,6 +911,7 @@
 	<pathconvert property="__files-to-compress__" pathsep=",">
 	    <fileset dir="${__from-dir-loc__}">
 		<exclude name="**/nls/"/>
+                <exclude name="dojo/_firebug/"/>
 		<depend targetdir="${__to-dir-loc__}">
 		    <mapper type="glob" from="*" to="*"/>
 		</depend>
@@ -893,7 +964,7 @@
 	<uptodate property="jsdoc-uptodate">
 	    <srcfiles dir="${theme.build-package-path}/javascript_uncompressed"
 		includes="**/*.js"
-		excludes="theme/nls/,**/${theme.webui.js},**/${theme.webui-all.js},**/${theme.webui-jsfx.js},**/${theme.webui-jsfx-all.js}"/>
+		excludes="dojo/,theme/nls/,**/${theme.webui.js},**/${theme.webui-all.js},**/${theme.webui-jsfx.js},**/${theme.webui-jsfx-all.js}"/>
 	    <mergemapper to="${jsdocs}/index.html"/>
 	</uptodate>
     </target>
@@ -927,6 +998,7 @@
 	<!-- make sure to exclude the "nls" directory -->
 	<pathconvert property="__files-to-doc__" pathsep=" ">
 	    <fileset dir="${__from-dir-loc__}">
+                <exclude name="dojo/"/>
 		<exclude name="**/nls/"/>
                 <exclude name="${theme.webui.js}"/>
                 <exclude name="${theme.webui-all.js}"/>
@@ -945,6 +1017,7 @@
           <arg value="${jsdoc.exec}"/>
 	  <arg value="-d=${_to-dir_}"/>
 	  <arg value="-t=${jsdoc.template}"/>
+          <arg value="-v"/>
           <arg line="${__files-to-doc__}"/>
 	</java>
 

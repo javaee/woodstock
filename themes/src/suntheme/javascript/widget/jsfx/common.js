@@ -21,7 +21,10 @@
 // Copyright 2007 Sun Microsystems, Inc. All rights reserved.
 //
 
-dojo.provide("webui.@THEME@.widget.jsfx.common");
+webui.@THEME@.dojo.provide("webui.@THEME@.widget.jsfx.common");
+
+webui.@THEME@.dojo.require("webui.@THEME@.json");
+webui.@THEME@.dojo.require("webui.@THEME@.widget.jsfx.dynaFaces");
 
 /**
  * @class This class contains functions to obtain data asynchronously using JSF
@@ -144,15 +147,15 @@ webui.@THEME@.widget.jsfx.common = {
         }
 
         // Parse JSON text.
-        var props = JSON.parse(content);
+        var props = webui.@THEME@.json.parse(content);
 
         // Add rows.
-        var widget = dijit.byId(id);
+        var widget = webui.@THEME@.dijit.byId(id);
         widget.setProps(props);
 
         // Publish an event for custom AJAX implementations to listen for.
         if (xjson.endTopic) {
-            dojo.publish(xjson.endTopic, [props]);
+            webui.@THEME@.dojo.publish(xjson.endTopic, [props]);
         }
         return true;
     },
@@ -173,11 +176,11 @@ webui.@THEME@.widget.jsfx.common = {
         }
 
         // Parse JSON text.
-        var props = JSON.parse(content);
+        var props = webui.@THEME@.json.parse(content);
             
         // Publish an event for custom AJAX implementations to listen for.
         if (xjson.endTopic) {
-            dojo.publish(xjson.endTopic, [props]);
+            webui.@THEME@.dojo.publish(xjson.endTopic, [props]);
         }
         return true;
     },
@@ -198,11 +201,11 @@ webui.@THEME@.widget.jsfx.common = {
         }
 
         // Parse JSON text.
-        var props = JSON.parse(content);
+        var props = webui.@THEME@.json.parse(content);
             
         // Publish an event for custom AJAX implementations to listen for.
         if (xjson.endTopic) {
-            dojo.publish(xjson.endTopic, [props]);
+            webui.@THEME@.dojo.publish(xjson.endTopic, [props]);
         }
         return true;
     }

@@ -128,20 +128,14 @@ public class HeadRenderer extends AbstractRenderer {
             // Get global flags.
             JavaScriptUtilities.setDebug(head.isDebug());
 
-            try {
-                // Set flags.
-                JSONObject json = new JSONObject();
-                json.put("dijitAll", head.isDijitAll())
-                    .put("parseOnLoad", head.isParseOnLoad())
-                    .put("webuiAll", head.isWebuiAll())
-                    .put("webuiJsfx", head.isWebuiJsfx());
-
-                // Render bootstrap.
-                if (head.isJavaScript()) {
-                    JavaScriptUtilities.renderBootstrap(component, writer, json);
+            // Render bootstrap.
+            if (head.isJavaScript()) {
+                try {
+                    JavaScriptUtilities.renderBootstrap(component, writer, 
+                        head.isWebuiAll(), head.isWebuiJsfx());
+                } catch (JSONException e) {
+                    e.printStackTrace();
                 }
-            } catch (JSONException e) {
-                e.printStackTrace();
             }
 	}
     }

@@ -21,10 +21,9 @@
 // Copyright 2007 Sun Microsystems, Inc. All rights reserved.
 //
 
-dojo.provide("webui.@THEME@.widget.progressBar");
+webui.@THEME@.dojo.provide("webui.@THEME@.widget.progressBar");
 
-dojo.require("webui.@THEME@.common");
-dojo.require("webui.@THEME@.widget.widgetBase");
+webui.@THEME@.dojo.require("webui.@THEME@.widget.widgetBase");
 
 /**
  * @name webui.@THEME@.widget.progressBar
@@ -32,7 +31,7 @@ dojo.require("webui.@THEME@.widget.widgetBase");
  * @class This class contains functions for the progressBar widget.
  * @constructor This function is used to construct a progressBar widget.
  */
-dojo.declare("webui.@THEME@.widget.progressBar", webui.@THEME@.widget.widgetBase, {
+webui.@THEME@.dojo.declare("webui.@THEME@.widget.progressBar", webui.@THEME@.widget.widgetBase, {
     // Set defaults.
     percentChar: "%",
     progress: 0,
@@ -153,7 +152,7 @@ webui.@THEME@.widget.progressBar.prototype.getProps = function() {
  * @return {boolean} true if successful; otherwise, false.
  */
 webui.@THEME@.widget.progressBar.prototype.isBottomControlVisible = function() {
-    return webui.@THEME@.common.isVisibleElement(this.bottomControlsContainer);
+    return this.common.isVisibleElement(this.bottomControlsContainer);
 }
 
 /**
@@ -162,7 +161,7 @@ webui.@THEME@.widget.progressBar.prototype.isBottomControlVisible = function() {
 * @return {boolean} true if successful; otherwise, false.
  */
 webui.@THEME@.widget.progressBar.prototype.isFailedStateMessageVisible = function() {
-    return webui.@THEME@.common.isVisibleElement(this.failedStateContainer);
+    return this.common.isVisibleElement(this.failedStateContainer);
 }
 
 /**
@@ -171,7 +170,7 @@ webui.@THEME@.widget.progressBar.prototype.isFailedStateMessageVisible = functio
 * @return {boolean} true if successful; otherwise, false.
  */
 webui.@THEME@.widget.progressBar.prototype.isLogMsgVisible = function() {
-    return webui.@THEME@.common.isVisibleElement(this.logContainer);
+    return this.common.isVisibleElement(this.logContainer);
 }
 
 /**
@@ -180,7 +179,7 @@ webui.@THEME@.widget.progressBar.prototype.isLogMsgVisible = function() {
 * @return {boolean} true if successful; otherwise, false.
  */
 webui.@THEME@.widget.progressBar.prototype.isOperationTextVisible = function() {
-    return webui.@THEME@.common.isVisibleElement(this.topTextContainer);
+    return this.common.isVisibleElement(this.topTextContainer);
 }
 
 /**
@@ -189,7 +188,7 @@ webui.@THEME@.widget.progressBar.prototype.isOperationTextVisible = function() {
 * @return {boolean} true if successful; otherwise, false.
  */
 webui.@THEME@.widget.progressBar.prototype.isProgressBarContainerVisible = function() {
-    return webui.@THEME@.common.isVisibleElement(this.barContainer);
+    return this.common.isVisibleElement(this.barContainer);
 }
 
 /**
@@ -198,7 +197,7 @@ webui.@THEME@.widget.progressBar.prototype.isProgressBarContainerVisible = funct
 * @return {boolean} true if successful; otherwise, false.
  */
 webui.@THEME@.widget.progressBar.prototype.isProgressBarVisible = function() {
-    return webui.@THEME@.common.isVisibleElement(this); 
+    return this.common.isVisibleElement(this); 
 }
 
 /**
@@ -207,7 +206,7 @@ webui.@THEME@.widget.progressBar.prototype.isProgressBarVisible = function() {
 * @return {boolean} true if successful; otherwise, false.
  */
 webui.@THEME@.widget.progressBar.prototype.isRightControlVisible = function() {
-    return webui.@THEME@.common.isVisibleElement(this.rightControlsContainer);
+    return this.common.isVisibleElement(this.rightControlsContainer);
 }
 
 /**
@@ -216,7 +215,7 @@ webui.@THEME@.widget.progressBar.prototype.isRightControlVisible = function() {
 * @return {boolean} true if successful; otherwise, false.
  */
 webui.@THEME@.widget.progressBar.prototype.isStatusTextVisible = function() {
-    return webui.@THEME@.common.isVisibleElement(this.bottomTextContainer);
+    return this.common.isVisibleElement(this.bottomTextContainer);
 }
 
 /**
@@ -261,29 +260,29 @@ webui.@THEME@.widget.progressBar.prototype.postCreate = function () {
     }
 
     // Set public functions
-    this.domNode.cancel = function() { return dijit.byId(this.id).cancel(); }
-    this.domNode.isBottomControlVisible = function() { return dijit.byId(this.id).isBottomControlVisible(); }
-    this.domNode.isFailedStateMessageVisible = function() { return dijit.byId(this.id).isFailedStateMessageVisible(); }
-    this.domNode.isLogMsgVisible = function() { return dijit.byId(this.id).isLogMsgVisible(); }
-    this.domNode.isOperationTextVisible = function() { return dijit.byId(this.id).isOperationTextVisible(); }
-    this.domNode.isProgressBarContainerVisible = function() { return dijit.byId(this.id).isProgressBarContainerVisible(); }
-    this.domNode.isProgressBarVisible = function() { return dijit.byId(this.id).isProgressBarVisible(); }
-    this.domNode.isRightControlVisible = function() { return dijit.byId(this.id).isRightControlVisible(); }
-    this.domNode.isStatusTextVisible = function() { return dijit.byId(this.id).isStatusTextVisible(); }
-    this.domNode.pause = function() { return dijit.byId(this.id).pause(); }
-    this.domNode.resume = function() { return dijit.byId(this.id).resume(); }
-    this.domNode.stop = function() { return dijit.byId(this.id).stop(); }
-    this.domNode.setOnCancel = function(func) { return dijit.byId(this.id).setOnCancel(func); }
-    this.domNode.setOnComplete = function(func) { return dijit.byId(this.id).setOnComplete(func); }
-    this.domNode.setOnFail = function(func) { return dijit.byId(this.id).setOnFail(func); }
-    this.domNode.setBottomControlVisible = function(show) { return dijit.byId(this.id).setBottomControlVisible(show); }
-    this.domNode.setFailedStateMessageVisible = function(show) { return dijit.byId(this.id).setFailedStateMessageVisible(show); }
-    this.domNode.setLogMsgVisible = function(show) { return dijit.byId(this.id).setLogMsgVisible(show); }
-    this.domNode.setOperationTextVisible = function(show) { return dijit.byId(this.id).setOperationTextVisible(show); }
-    this.domNode.setProgressBarContainerVisible = function(show) { return dijit.byId(this.id).setProgressBarContainerVisible(show); }
-    this.domNode.setProgressBarVisible = function(show) { return dijit.byId(this.id).setProgressBarVisible(show); }
-    this.domNode.setRightControlVisible = function(show) { return dijit.byId(this.id).setRightControlVisible(show); }
-    this.domNode.setStatusTextVisible = function(show) { return dijit.byId(this.id).setStatusTextVisible(show); }
+    this.domNode.cancel = function() { return webui.@THEME@.dijit.byId(this.id).cancel(); }
+    this.domNode.isBottomControlVisible = function() { return webui.@THEME@.dijit.byId(this.id).isBottomControlVisible(); }
+    this.domNode.isFailedStateMessageVisible = function() { return webui.@THEME@.dijit.byId(this.id).isFailedStateMessageVisible(); }
+    this.domNode.isLogMsgVisible = function() { return webui.@THEME@.dijit.byId(this.id).isLogMsgVisible(); }
+    this.domNode.isOperationTextVisible = function() { return webui.@THEME@.dijit.byId(this.id).isOperationTextVisible(); }
+    this.domNode.isProgressBarContainerVisible = function() { return webui.@THEME@.dijit.byId(this.id).isProgressBarContainerVisible(); }
+    this.domNode.isProgressBarVisible = function() { return webui.@THEME@.dijit.byId(this.id).isProgressBarVisible(); }
+    this.domNode.isRightControlVisible = function() { return webui.@THEME@.dijit.byId(this.id).isRightControlVisible(); }
+    this.domNode.isStatusTextVisible = function() { return webui.@THEME@.dijit.byId(this.id).isStatusTextVisible(); }
+    this.domNode.pause = function() { return webui.@THEME@.dijit.byId(this.id).pause(); }
+    this.domNode.resume = function() { return webui.@THEME@.dijit.byId(this.id).resume(); }
+    this.domNode.stop = function() { return webui.@THEME@.dijit.byId(this.id).stop(); }
+    this.domNode.setOnCancel = function(func) { return webui.@THEME@.dijit.byId(this.id).setOnCancel(func); }
+    this.domNode.setOnComplete = function(func) { return webui.@THEME@.dijit.byId(this.id).setOnComplete(func); }
+    this.domNode.setOnFail = function(func) { return webui.@THEME@.dijit.byId(this.id).setOnFail(func); }
+    this.domNode.setBottomControlVisible = function(show) { return webui.@THEME@.dijit.byId(this.id).setBottomControlVisible(show); }
+    this.domNode.setFailedStateMessageVisible = function(show) { return webui.@THEME@.dijit.byId(this.id).setFailedStateMessageVisible(show); }
+    this.domNode.setLogMsgVisible = function(show) { return webui.@THEME@.dijit.byId(this.id).setLogMsgVisible(show); }
+    this.domNode.setOperationTextVisible = function(show) { return webui.@THEME@.dijit.byId(this.id).setOperationTextVisible(show); }
+    this.domNode.setProgressBarContainerVisible = function(show) { return webui.@THEME@.dijit.byId(this.id).setProgressBarContainerVisible(show); }
+    this.domNode.setProgressBarVisible = function(show) { return webui.@THEME@.dijit.byId(this.id).setProgressBarVisible(show); }
+    this.domNode.setRightControlVisible = function(show) { return webui.@THEME@.dijit.byId(this.id).setRightControlVisible(show); }
+    this.domNode.setStatusTextVisible = function(show) { return webui.@THEME@.dijit.byId(this.id).setStatusTextVisible(show); }
 
     if (this.busyImage == null) {
 	this.busyImage = this.widget.getImageProps("PROGRESS_BUSY", {
@@ -320,7 +319,7 @@ webui.@THEME@.widget.progressBar.prototype.setBottomControlVisible = function(sh
     if (show == null) {
         return false;
     }
-    webui.@THEME@.common.setVisibleElement(this.bottomControlsContainer, show);
+    this.common.setVisibleElement(this.bottomControlsContainer, show);
     return true;
 }
 
@@ -334,7 +333,7 @@ webui.@THEME@.widget.progressBar.prototype.setFailedStateMessageVisible = functi
     if (show == null) {
         return false;
     }
-    webui.@THEME@.common.setVisibleElement(this.failedStateContainer, show);
+    this.common.setVisibleElement(this.failedStateContainer, show);
     return true;
 }
 
@@ -348,7 +347,7 @@ webui.@THEME@.widget.progressBar.prototype.setLogMsgVisible = function(show) {
     if (show == null) {
         return false;
     }
-    webui.@THEME@.common.setVisibleElement(this.logContainer, show);
+    this.common.setVisibleElement(this.logContainer, show);
     return true;
 }
 
@@ -401,7 +400,7 @@ webui.@THEME@.widget.progressBar.prototype.setOperationTextVisible = function(sh
     if (show == null) {
         return false;
     }
-    webui.@THEME@.common.setVisibleElement(this.topTextContainer, show);
+    this.common.setVisibleElement(this.topTextContainer, show);
     return true;
 }
 
@@ -430,7 +429,7 @@ webui.@THEME@.widget.progressBar.prototype.setProgress = function(props) {
     }
 
     // Save properties for later updates.
-    this.widget.extend(this, props);    
+    this.prototypejs.extend(this, props);    
 
     // Set status.
     if (props.status) {
@@ -451,7 +450,7 @@ webui.@THEME@.widget.progressBar.prototype.setProgress = function(props) {
         }
 
         if (props.logMessage) {
-            var field = dijit.byId(this.logId).getInputElement();
+            var field = webui.@THEME@.dijit.byId(this.logId).getInputElement();
             if (field != null) {
                 field.value = (field.value)
                    ? field.value + props.logMessage + "\n"
@@ -480,8 +479,8 @@ webui.@THEME@.widget.progressBar.prototype.setProgress = function(props) {
             this.widget.addFragment(this.failedLabelContainer,
                 props.failedStateText + " " + props.progress + this.percentChar);
 
-            webui.@THEME@.common.setVisibleElement(this.failedLabelContainer, true);
-            webui.@THEME@.common.setVisibleElement(this.failedStateContainer, true);
+            this.common.setVisibleElement(this.failedLabelContainer, true);
+            this.common.setVisibleElement(this.failedStateContainer, true);
         }
         if (this.funcFailed != null) {
             (this.funcFailed)();
@@ -575,7 +574,7 @@ webui.@THEME@.widget.progressBar.prototype.setProgressBarVisible = function(show
     if (show == null) {
         return false;
     }
-    webui.@THEME@.common.setVisibleElement(this, show);
+    this.common.setVisibleElement(this, show);
     return true; 
 }
 
@@ -641,13 +640,13 @@ webui.@THEME@.widget.progressBar.prototype._setProps = function(props) {
     // Add top text.
     if (props.topText) {
         this.widget.addFragment(this.topTextContainer, props.topText); 
-        webui.@THEME@.common.setVisibleElement(this.topTextContainer, true);
+        this.common.setVisibleElement(this.topTextContainer, true);
     }
 
     // Add bottom text.
     if (props.bottomText) {
         this.widget.addFragment(this.bottomTextContainer, props.bottomText);
-        webui.@THEME@.common.setVisibleElement(this.bottomTextContainer, true);
+        this.common.setVisibleElement(this.bottomTextContainer, true);
     }
 
     if (props.type == this.determinate 
@@ -670,13 +669,13 @@ webui.@THEME@.widget.progressBar.prototype._setProps = function(props) {
         // Add right controls.
         if (props.progressControlRight != null) {
             this.widget.addFragment(this.rightControlsContainer, props.progressControlRight);
-            webui.@THEME@.common.setVisibleElement(this.rightControlsContainer, true);
+            this.common.setVisibleElement(this.rightControlsContainer, true);
         }
 
         // Add bottom controls.
         if (props.progressControlBottom != null) {
             this.widget.addFragment(this.bottomControlsContainer, props.progressControlBottom);
-            webui.@THEME@.common.setVisibleElement(this.bottomControlsContainer, true);
+            this.common.setVisibleElement(this.bottomControlsContainer, true);
         }
     }
 
@@ -694,13 +693,13 @@ webui.@THEME@.widget.progressBar.prototype._setProps = function(props) {
         if (props.overlayAnimation == true) {
             // NOTE: If you set this value manually, text must be HTML escaped.
             this.widget.addFragment(this.innerBarOverlayContainer, this.progress + "%");
-            webui.@THEME@.common.setVisibleElement(this.innerBarOverlayContainer, true);
+            this.common.setVisibleElement(this.innerBarOverlayContainer, true);
         }
 
         // Add log.
         if (props.log != null && props.overlayAnimation == false) { 
             this.widget.addFragment(this.logContainer, props.log);
-            webui.@THEME@.common.setVisibleElement(this.logContainer, true);
+            this.common.setVisibleElement(this.logContainer, true);
         }  
     } else if (props.type == this.indeterminate) {
         // Set style class.
@@ -718,7 +717,7 @@ webui.@THEME@.widget.progressBar.prototype._setProps = function(props) {
                 props.busyImage.height = props.height;
             }
             this.widget.addFragment(this.busyImageContainer, props.busyImage);
-            webui.@THEME@.common.setVisibleElement(this.busyImageContainer, true);
+            this.common.setVisibleElement(this.busyImageContainer, true);
         }
     }
 
@@ -752,7 +751,7 @@ webui.@THEME@.widget.progressBar.prototype.setRightControlVisible = function(sho
     if (show == null) {
         return false;
     }
-    webui.@THEME@.common.setVisibleElement(this.rightControlsContainer, show);
+    this.common.setVisibleElement(this.rightControlsContainer, show);
     return true;
 }
 
@@ -766,7 +765,7 @@ webui.@THEME@.widget.progressBar.prototype.setStatusTextVisible = function(show)
     if (show == null) {
         return false;
     }
-    webui.@THEME@.common.setVisibleElement(this.bottomTextContainer, show);
+    this.common.setVisibleElement(this.bottomTextContainer, show);
     return true;
 }
 
@@ -811,7 +810,7 @@ webui.@THEME@.widget.progressBar.prototype.updateProgress = function() {
     // Publish event.
     if (this.refreshRate > 0) {
         // Publish an event for custom AJAX implementations to listen for.
-        dojo.publish(webui.@THEME@.widget.progressBar.event.progress.beginTopic, [{
+        this.publish(webui.@THEME@.widget.progressBar.event.progress.beginTopic, [{
             id: this.id
         }]);
     }
@@ -821,7 +820,7 @@ webui.@THEME@.widget.progressBar.prototype.updateProgress = function() {
     this.timeoutId = setTimeout(function() {
         // New literals are created every time this function is called, and it's 
         // saved by closure magic.
-        dijit.byId(_id).updateProgress();
+        webui.@THEME@.dijit.byId(_id).updateProgress();
     }, this.refreshRate);
     return true;
 }

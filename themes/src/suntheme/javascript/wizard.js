@@ -21,10 +21,11 @@
 // Copyright 2007 Sun Microsystems, Inc. All rights reserved.
 //
 
-dojo.provide("webui.@THEME@.wizard");
+webui.@THEME@.dojo.provide("webui.@THEME@.wizard");
 
-dojo.require("webui.@THEME@.browser");
-dojo.require("webui.@THEME@.common");
+webui.@THEME@.dojo.require("webui.@THEME@.browser");
+webui.@THEME@.dojo.require("webui.@THEME@.common");
+webui.@THEME@.dojo.require("webui.@THEME@.prototypejs");
 
 /** 
  * @class This class contains functions for wizard components.
@@ -63,7 +64,7 @@ webui.@THEME@.wizard = {
         }
 
         // Set given properties on domNode.
-        Object.extend(domNode, props);
+        webui.@THEME@.prototypejs.extend(domNode, props, false);
 
         // Set functions.
         domNode.nextClicked = webui.@THEME@.wizard.nextClicked;

@@ -21,10 +21,9 @@
 // Copyright 2007 Sun Microsystems, Inc. All rights reserved.
 //
 
-dojo.provide("webui.@THEME@.widget.checkedGroupBase");
+webui.@THEME@.dojo.provide("webui.@THEME@.widget.checkedGroupBase");
 
-dojo.require("webui.@THEME@.common");
-dojo.require("webui.@THEME@.widget.widgetBase");
+webui.@THEME@.dojo.require("webui.@THEME@.widget.widgetBase");
 
 /**
  * @name webui.@THEME@.widget.checkedGroupBase
@@ -32,7 +31,7 @@ dojo.require("webui.@THEME@.widget.widgetBase");
  * @class This class contains functions for widgets that extend checkedGroupBase.
  * @static
  */
-dojo.declare("webui.@THEME@.widget.checkedGroupBase", webui.@THEME@.widget.widgetBase);
+webui.@THEME@.dojo.declare("webui.@THEME@.widget.checkedGroupBase", webui.@THEME@.widget.widgetBase);
 
 /**
  * Helper function to add elements with Object literals.
@@ -96,7 +95,7 @@ webui.@THEME@.widget.checkedGroupBase.prototype.addContents = function(props) {
         // Update the disabled property client side
         if (props.disabled != null && this.contents) {
             for (var i = 0; i < this.contents.length; i++) {
-                var contentWidget = dijit.byId(this.contents[i].id);
+                var contentWidget = webui.@THEME@.dijit.byId(this.contents[i].id);
                 if (contentWidget) {
                     contentWidget.setProps({disabled: props.disabled});
                 }
@@ -149,7 +148,7 @@ webui.@THEME@.widget.checkedGroupBase.prototype.postCreate = function () {
 
     // Show label.
     if (this.label) {
-        webui.@THEME@.common.setVisibleElement(this.rowNode, true);
+        this.common.setVisibleElement(this.rowNode, true);
     }
     return this.inherited("postCreate", arguments);
 }

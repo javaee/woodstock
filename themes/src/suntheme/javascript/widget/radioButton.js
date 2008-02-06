@@ -21,9 +21,9 @@
 // Copyright 2007 Sun Microsystems, Inc. All rights reserved.
 //
 
-dojo.provide("webui.@THEME@.widget.radioButton");
+webui.@THEME@.dojo.provide("webui.@THEME@.widget.radioButton");
 
-dojo.require("webui.@THEME@.widget.checkedBase");
+webui.@THEME@.dojo.require("webui.@THEME@.widget.checkedBase");
 
 /**
  * @name webui.@THEME@.widget.radioButton
@@ -31,7 +31,7 @@ dojo.require("webui.@THEME@.widget.checkedBase");
  * @class This class contains functions for the radioButton widget.
  * @constructor This function is used to construct a radioButton widget.
  */
-dojo.declare("webui.@THEME@.widget.radioButton", webui.@THEME@.widget.checkedBase, {
+webui.@THEME@.dojo.declare("webui.@THEME@.widget.radioButton", webui.@THEME@.widget.checkedBase, {
     // Set defaults.
     idSuffix: "_rb",
     widgetName: "radioButton" // Required for theme properties.

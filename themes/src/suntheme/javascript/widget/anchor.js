@@ -21,9 +21,9 @@
 // Copyright 2007 Sun Microsystems, Inc. All rights reserved.
 //
 
-dojo.provide("webui.@THEME@.widget.anchor");
+webui.@THEME@.dojo.provide("webui.@THEME@.widget.anchor");
 
-dojo.require("webui.@THEME@.widget.anchorBase");
+webui.@THEME@.dojo.require("webui.@THEME@.widget.anchorBase");
 
 /**
  * @name webui.@THEME@.widget.anchor
@@ -31,7 +31,7 @@ dojo.require("webui.@THEME@.widget.anchorBase");
  * @class This class contains functions for the anchor widget.
  * @constructor This function is used to construct an anchor widget.
  */
-dojo.declare("webui.@THEME@.widget.anchor", webui.@THEME@.widget.anchorBase, {
+webui.@THEME@.dojo.declare("webui.@THEME@.widget.anchor", webui.@THEME@.widget.anchorBase, {
     // Set defaults.
     widgetName: "anchor" // Required for theme properties.
 });
@@ -101,7 +101,7 @@ webui.@THEME@.widget.anchor.prototype.getClassName = function() {
  */
 webui.@THEME@.widget.anchor.prototype.postCreate = function () {
     // Create callback function for onclick event.
-    dojo.connect(this.domNode, "onclick", this, "onClickCallback");
+    this.dojo.connect(this.domNode, "onclick", this, "onClickCallback");
 
     return this.inherited("postCreate", arguments);
 }

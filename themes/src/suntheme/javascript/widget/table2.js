@@ -21,10 +21,9 @@
 // Copyright 2007 Sun Microsystems, Inc. All rights reserved.
 //
 
-dojo.provide("webui.@THEME@.widget.table2");
+webui.@THEME@.dojo.provide("webui.@THEME@.widget.table2");
 
-dojo.require("webui.@THEME@.common");
-dojo.require("webui.@THEME@.widget.widgetBase");
+webui.@THEME@.dojo.require("webui.@THEME@.widget.widgetBase");
 
 /**
  * @name webui.@THEME@.widget.table2
@@ -32,7 +31,7 @@ dojo.require("webui.@THEME@.widget.widgetBase");
  * @class This class contains functions for the table2 widget.
  * @constructor This function is used to construct a table2 widget.
  */
-dojo.declare("webui.@THEME@.widget.table2", webui.@THEME@.widget.widgetBase, {
+webui.@THEME@.dojo.declare("webui.@THEME@.widget.table2", webui.@THEME@.widget.widgetBase, {
     // Set defaults.
     widgetName: "table2" // Required for theme properties.
 });
@@ -221,13 +220,13 @@ webui.@THEME@.widget.table2.prototype._setProps = function(props) {
         
         this.widget.addFragment(this.captionContainer, (filterText) 
             ? props.caption + filterText : props.caption);
-        webui.@THEME@.common.setVisibleElement(this.captionContainer, true);
+        this.common.setVisibleElement(this.captionContainer, true);
     }
 
     // Add actions.
     if (props.actions) {
         this.widget.addFragment(this.actionsNode, props.actions);
-        webui.@THEME@.common.setVisibleElement(this.actionsContainer, true);
+        this.common.setVisibleElement(this.actionsContainer, true);
     }
 
     // Add row groups.
@@ -259,7 +258,7 @@ webui.@THEME@.widget.table2.prototype._setProps = function(props) {
             setTimeout(function() {
                 // New literals are created every time this function is called, 
                 // and it's saved by closure magic.
-                dijit.byId(_id).resize();
+                webui.@THEME@.dijit.byId(_id).resize();
             }, 2000);
         }
     }

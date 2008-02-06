@@ -21,11 +21,10 @@
 // Copyright 2007 Sun Microsystems, Inc. All rights reserved.
 //
 
-dojo.provide("webui.@THEME@.widget.table2RowGroup");
+webui.@THEME@.dojo.provide("webui.@THEME@.widget.table2RowGroup");
 
-dojo.require("webui.@THEME@.browser");
-dojo.require("webui.@THEME@.common");
-dojo.require("webui.@THEME@.widget.widgetBase");
+webui.@THEME@.dojo.require("webui.@THEME@.browser");
+webui.@THEME@.dojo.require("webui.@THEME@.widget.widgetBase");
 
 /**
  * @name webui.@THEME@.widget.table2RowGroup
@@ -33,7 +32,7 @@ dojo.require("webui.@THEME@.widget.widgetBase");
  * @class This class contains functions for the table2RowGroup widget.
  * @constructor This function is used to construct a table2RowGroup widget.
  */
-dojo.declare("webui.@THEME@.widget.table2RowGroup", webui.@THEME@.widget.widgetBase, {
+webui.@THEME@.dojo.declare("webui.@THEME@.widget.table2RowGroup", webui.@THEME@.widget.widgetBase, {
     // Set defaults.
     currentRow: 0, // Current row in view.
     first: 0, // Index used to obtain rows.
@@ -175,7 +174,7 @@ webui.@THEME@.widget.table2RowGroup.prototype.addRows = function(rows) {
     setTimeout(function() {
         // New literals are created every time this function is called, and it's 
         // saved by closure magic.
-        dijit.byId(_id).resize();
+        webui.@THEME@.dijit.byId(_id).resize();
     }, 10);
     return true;
 }
@@ -316,43 +315,44 @@ webui.@THEME@.widget.table2RowGroup.prototype.postCreate = function () {
     }
 
     // Set events.
-    dojo.connect(this.tableContainer, "onscroll", this, "scroll");
-        
-        if (this.paginationPrevButton == null) {
-            this.paginationPrevButton = this.widget.getImageHyperlinkProps({
-                    id: this.id + "_paginationPrevButton",
-                    enabledImage: {
-                        id: this.id + "_paginationPrevButtonImg"
-                    },
-                    disabledImage: {
-                        id: this.id + "_paginationPrevButtonImgDis"
-                    },
-                    title: this.theme.getMessage("table2.pagination.previous")      
+    this.dojo.connect(this.tableContainer, "onscroll", this, "scroll");
+
+    // Set pagination controls.
+    if (this.paginationPrevButton == null) {
+        this.paginationPrevButton = this.widget.getImageHyperlinkProps({
+                id: this.id + "_paginationPrevButton",
+                enabledImage: {
+                    id: this.id + "_paginationPrevButtonImg"
                 },
-                "TABLE2_PAGINATION_PREV",
-                "TABLE2_PAGINATION_PREV_DISABLED"
-             );
-        }
+                disabledImage: {
+                    id: this.id + "_paginationPrevButtonImgDis"
+                },
+                title: this.theme.getMessage("table2.pagination.previous")      
+            },
+            "TABLE2_PAGINATION_PREV",
+            "TABLE2_PAGINATION_PREV_DISABLED"
+        );
+    }
       
-        if (this.paginationNextButton == null) {
-            this.paginationNextButton = this.widget.getImageHyperlinkProps({
-                    id: this.id + "_paginationNextButton",
-                    enabledImage: {
-                        id: this.id + "_paginationNextButtonImg"
-                    },
-                    disabledImage: {
-                        id: this.id + "_paginationNextButtonImgDis"
-                    },
-                    title: this.theme.getMessage("table2.pagination.next")          
+    if (this.paginationNextButton == null) {
+        this.paginationNextButton = this.widget.getImageHyperlinkProps({
+                id: this.id + "_paginationNextButton",
+                enabledImage: {
+                    id: this.id + "_paginationNextButtonImg"
                 },
-                "TABLE2_PAGINATION_NEXT",
-                "TABLE2_PAGINATION_NEXT_DISABLED"
-             );
-        }
+                disabledImage: {
+                    id: this.id + "_paginationNextButtonImgDis"
+                },
+                title: this.theme.getMessage("table2.pagination.next")          
+            },
+            "TABLE2_PAGINATION_NEXT",
+            "TABLE2_PAGINATION_NEXT_DISABLED"
+        );
+    }
     
     // Resize hack for Moz/Firefox.
     if (webui.@THEME@.browser.isNav()) {
-        dojo.connect(window, "onresize", this, "resize");
+        this.dojo.connect(window, "onresize", this, "resize");
     }        
     return this.inherited("postCreate", arguments);
 }
@@ -588,19 +588,19 @@ webui.@THEME@.widget.table2RowGroup.prototype._setProps = function(props) {
     // Add header.
     if (props.headerText) {
         this.widget.addFragment(this.groupHeaderText, props.headerText);
-        webui.@THEME@.common.setVisibleElement(this.groupHeaderContainer, true);
+        this.common.setVisibleElement(this.groupHeaderContainer, true);
     }
     // Add paginationControl.    
     if (props.paginationPrevButton) {
         // set onclick for previous button.
         props.paginationPrevButton.onClick = 
-            "dijit.byId('" + this.id + "').paginationPrevious();return false;";        
+            "webui.@THEME@.dijit.byId('" + this.id + "').paginationPrevious();return false;";        
         this.widget.addFragment(this.paginationButtonsNode, props.paginationPrevButton,"last");
     }
     if (props.paginationNextButton) {
         // set onclick for next button.
         props.paginationNextButton.onClick = 
-            "dijit.byId('" + this.id + "').paginationNext();return false;";
+            "webui.@THEME@.dijit.byId('" + this.id + "').paginationNext();return false;";
         this.widget.addFragment(this.paginationButtonsNode, props.paginationNextButton,"last");
     }
     if (props.paginationControls != null) {        
@@ -641,7 +641,7 @@ webui.@THEME@.widget.table2RowGroup.prototype.scroll = function(event) {
     if (this.first < this.totalRows
             && this.currentRow % this.maxRows == 0) {
         // Publish an event for custom AJAX implementations to listen for.
-        dojo.publish(webui.@THEME@.widget.table2RowGroup.event.scroll.beginTopic, [{
+        this.publish(webui.@THEME@.widget.table2RowGroup.event.scroll.beginTopic, [{
             id: this.id,
             first: this.first
         }]);
@@ -664,8 +664,8 @@ webui.@THEME@.widget.table2RowGroup.prototype.scroll = function(event) {
  */
 webui.@THEME@.widget.table2RowGroup.prototype.updatePaginationControls = function() {
     if (this.paginationPrevButton && this.paginationNextButton) {
-        var domNodePrev = dijit.byId(this.paginationPrevButton.id);
-        var domNodeNext = dijit.byId(this.paginationNextButton.id);
+        var domNodePrev = webui.@THEME@.dijit.byId(this.paginationPrevButton.id);
+        var domNodeNext = webui.@THEME@.dijit.byId(this.paginationNextButton.id);
 
         if (domNodePrev != null && domNodeNext != null) {
             if (this.currentRow / this.maxRows == 0) {
@@ -696,7 +696,7 @@ webui.@THEME@.widget.table2RowGroup.prototype.paginationNext = function(event) {
     if (this.first < this.totalRows
             && currentPage < totalPage) {
         // Publish an event for custom AJAX implementations to listen for.
-        dojo.publish(webui.@THEME@.widget.table2RowGroup.event.pagination.next.beginTopic, [{
+        this.publish(webui.@THEME@.widget.table2RowGroup.event.pagination.next.beginTopic, [{
             id: this.id,
             first: this.first 
         }]);

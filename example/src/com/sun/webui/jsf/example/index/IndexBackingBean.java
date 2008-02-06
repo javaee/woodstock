@@ -28,8 +28,10 @@ import com.sun.webui.jsf.example.common.MessageUtil;
 
 import com.sun.webui.jsf.component.Hyperlink;
 import com.sun.webui.jsf.component.TableColumn;
+import com.sun.webui.jsf.component.TableRowGroup;
 import com.sun.webui.jsf.component.Markup;
 
+import com.sun.data.provider.impl.FieldIdSortCriteria;
 import com.sun.data.provider.TableDataProvider;
 import com.sun.data.provider.impl.ObjectArrayDataProvider;
 
@@ -64,7 +66,10 @@ public class IndexBackingBean implements Serializable {
     
     // Table provider
     private TableDataProvider provider = null;
-    
+
+    // TableRowGroup component.
+    private TableRowGroup tableRowGroup = null; 
+
     /** Default constructor. */
     public IndexBackingBean() {           
         tableData = new TableData(); 
@@ -152,6 +157,28 @@ public class IndexBackingBean implements Serializable {
      */
     public void setTableColumn(TableColumn tableColumn) {
         this.tableColumn = tableColumn;
+    }
+
+    /**
+     * Get tableRowGroup component
+     */
+    public TableRowGroup getTableRowGroup() {        
+        if (tableRowGroup == null) {
+            tableRowGroup = new TableRowGroup();
+
+            // Set initial sort.
+            tableRowGroup.addSort(new FieldIdSortCriteria("name", true));
+        }
+        return tableRowGroup;
+    }
+    
+    /**
+     * Set tableRowGroup component.
+     *
+     * @param tableRowGroup The TableRowGroup component
+     */
+    public void setTableRowGroup(TableRowGroup tableRowGroup) {
+        this.tableRowGroup = tableRowGroup;
     }
 
     /** 

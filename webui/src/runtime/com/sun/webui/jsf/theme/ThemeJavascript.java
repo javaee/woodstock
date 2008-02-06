@@ -30,50 +30,20 @@ package com.sun.webui.jsf.theme;
 
 public class ThemeJavascript {
     /**
-     * A Javascript file that contains common Dojo dijit functions.
+     * The path to custom Dojo module.
      */
-    public static final String DIJIT = "dijit";
+    public static final String DOJO_MODULE_PATH = "dojoModulePath";
 
     /**
-     * A Javascript file that contains common uncompressed Dojo digit functions.
+     * The path to uncompressed, custom Dojo module.
      */
-    public static final String DIJIT_UNCOMPRESSED = "dijitUncompressed";
-
-    /**
-     * A Javascript file that contains all Dojo dijit functions.
-     */
-    public static final String DIJIT_ALL = "dijitAll";
-
-    /**
-     * A Javascript file that contains all uncompressed Dojo digit functions.
-     */
-    public static final String DIJIT_ALL_UNCOMPRESSED = "dijitAllUncompressed";
-
-    /**
-     * A Javascript file that contains Dojo functions.
-     */
-    public static final String DOJO = "dojo";
-
-    /**
-     * A Javascript file that contains uncompressed Dojo functions.
-     */
-    public static final String DOJO_UNCOMPRESSED = "dojoUncompressed";
+    public static final String DOJO_MODULE_PATH_UNCOMPRESSED = "dojoModulePathUncompressed";
 
     /**
      * A properties file key whose value is a space separated list of
      * keys identifying javascript files that are included in every page.
      */
     public static final String GLOBAL = "global";
-
-    /**
-     * A Javascript file that contains JSON functions.
-     */
-    public static final String JSON = "json";
-
-    /**
-     * A Javascript file that contains uncompressed JSON functions.
-     */
-    public static final String JSON_UNCOMPRESSED = "jsonUncompressed";
 
     /**
      * A Javascript file that contains JSF Extensions functions.
@@ -96,9 +66,9 @@ public class ThemeJavascript {
     public static final String MODULE_PATH_UNCOMPRESSED = "modulePathUncompressed";
 
     /**
-     * The module to prefix to all resources.
+     * The module to prefix to webui resources.
      */
-    public static final String MODULE_PREFIX = "modulePrefix";
+    public static final String MODULE = "module";
 
     /**
      * A Javascript file that contains uncompressed Prototype functions.
@@ -190,7 +160,7 @@ public class ThemeJavascript {
      *
      * @deprecated
      */
-    public static final String ADD_REMOVE = "global";
+    public static final String ADD_REMOVE = GLOBAL;
 
     /**
      * A Javascript file that contains general functions used by
@@ -198,7 +168,7 @@ public class ThemeJavascript {
      *
      * @deprecated
      */
-    public static final String BASIC = "global";
+    public static final String BASIC = GLOBAL;
 
     /**
      * A javascript file that contains functions for manipulating
@@ -206,7 +176,7 @@ public class ThemeJavascript {
      *
      * @deprecated
      */
-    public static final String CALENDAR = "global";
+    public static final String CALENDAR = GLOBAL;
 
     /**
      * A Javascript file that contains functions for manipulating
@@ -214,7 +184,7 @@ public class ThemeJavascript {
      *
      * @deprecated
      */
-    public static final String COOKIE = "global";
+    public static final String COOKIE = GLOBAL;
 
     /**
      * A Javascript file that contains functions for manipulating
@@ -222,14 +192,56 @@ public class ThemeJavascript {
      *
      * @deprecated
      */
-    public static final String COMMONTASKSSECTION = "global";
+    public static final String COMMONTASKSSECTION = GLOBAL;
+
+    /**
+     * A Javascript file that contains common Dojo dijit functions.
+     * 
+     * @deprecated Dojo is no longer included in page.
+     */
+    public static final String DIJIT = "dijit";
+
+    /**
+     * A Javascript file that contains common uncompressed Dojo digit functions.
+     * 
+     * @deprecated Dojo is no longer included in page.
+     */
+    public static final String DIJIT_UNCOMPRESSED = "dijitUncompressed";
+
+    /**
+     * A Javascript file that contains all Dojo dijit functions.
+     * 
+     * @deprecated Dojo is no longer included in page.
+     */
+    public static final String DIJIT_ALL = "dijitAll";
+
+    /**
+     * A Javascript file that contains all uncompressed Dojo digit functions.
+     * 
+     * @deprecated Dojo is no longer included in page.
+     */
+    public static final String DIJIT_ALL_UNCOMPRESSED = "dijitAllUncompressed";
+
+    /**
+     * A Javascript file that contains Dojo functions.
+     * 
+     * @deprecated Dojo is no longer included in page.
+     */
+    public static final String DOJO = "dojo";
+
+    /**
+     * A Javascript file that contains uncompressed Dojo functions.
+     * 
+     * @deprecated Dojo is no longer included in page.
+     */
+    public static final String DOJO_UNCOMPRESSED = "dojoUncompressed";
 
     /**
      * A Javascript file that contains DynaFaces functions.
      *
      * @deprecated
      */
-    public static final String DYNAFACES = "global";
+    public static final String DYNAFACES = GLOBAL;
 
     /**
      * A Javascript file that contains functions for manipulating
@@ -237,7 +249,7 @@ public class ThemeJavascript {
      *
      * @deprecated
      */
-    public static final String EDITABLE_LIST = "global";
+    public static final String EDITABLE_LIST = GLOBAL;
     
     /**
      * A Javascript file that contains functions for manipulating
@@ -245,7 +257,7 @@ public class ThemeJavascript {
      *
      * @deprecated
      */
-    public static final String FILE_CHOOSER = "global";
+    public static final String FILE_CHOOSER = GLOBAL;
     
     /**
      * A Javascript file that contains functions for maintaining
@@ -253,14 +265,35 @@ public class ThemeJavascript {
      *
      * @deprecated
      */
-    public static final String FOCUS_COOKIE = "global";
+    public static final String FOCUS_COOKIE = GLOBAL;
+
+    /**
+     * A Javascript file that contains JSON functions.
+     * 
+     * @deprecated JSON is no longer included in page.
+     */
+    public static final String JSON = "json";
+
+    /**
+     * A Javascript file that contains uncompressed JSON functions.
+     * 
+     * @deprecated JSON is no longer included in page.
+     */
+    public static final String JSON_UNCOMPRESSED = "jsonUncompressed";
 
     /**
      * A Javascript prefix for locating function names.
      *
      * @deprecated Use MODULE_PREFIX.
      */
-    public static final String JS_PREFIX = "modulePrefix";
+    public static final String JS_PREFIX = MODULE;
+
+    /**
+     * The module to prefix to webui resources.
+     * 
+     * @deprecated Use MODULE.
+     */
+    public static final String MODULE_PREFIX = MODULE;
 
     /**
      * A Javascript file that contains functions for manipulating
@@ -268,7 +301,7 @@ public class ThemeJavascript {
      *
      * @deprecated
      */
-    public static final String ORDERABLE_LIST = "global";
+    public static final String ORDERABLE_LIST = GLOBAL;
 
     /**
      * A Javascript file that contains functions for manipulating
@@ -276,7 +309,7 @@ public class ThemeJavascript {
      *
      * @deprecated
      */
-    public static final String PROGRESSBAR = "global";
+    public static final String PROGRESSBAR = GLOBAL;
 
     /**
      * A Javascript file that contains functions for manipulating
@@ -284,7 +317,7 @@ public class ThemeJavascript {
      *
      * @deprecated
      */
-    public static final String PROGRESSBAR_DYNAFACES = "global";
+    public static final String PROGRESSBAR_DYNAFACES = GLOBAL;
 
     /**
      * A Javascript file that contains functions for maintaining
@@ -292,7 +325,7 @@ public class ThemeJavascript {
      *
      * @deprecated
      */
-    public static final String SCROLL_COOKIE = "global";
+    public static final String SCROLL_COOKIE = GLOBAL;
     
     /**
      * A javascript file that contains functions for manipulating
@@ -300,7 +333,7 @@ public class ThemeJavascript {
      *
      * @deprecated
      */
-    public static final String SCHEDULER = "global";
+    public static final String SCHEDULER = GLOBAL;
     
     /**
      * A Javascript file that contains functions for manipulating
@@ -308,7 +341,7 @@ public class ThemeJavascript {
      *
      * @deprecated
      */
-    public static final String STYLESHEET = "global";
+    public static final String STYLESHEET = GLOBAL;
 
     /**
      * A Javascript file that contains functions for manipulating
@@ -316,7 +349,7 @@ public class ThemeJavascript {
      *
      * @deprecated
      */
-    public static final String TABLE = "global";
+    public static final String TABLE = GLOBAL;
 
     /**
      * A Javascript file that contains functions for manipulating
@@ -324,7 +357,7 @@ public class ThemeJavascript {
      *
      * @deprecated
      */
-    public static final String TREE = "global";
+    public static final String TREE = GLOBAL;
 
     /**
      * A Javascript file that contains functions for manipulating
@@ -332,21 +365,21 @@ public class ThemeJavascript {
      *
      * @deprecated
      */
-    public static final String WIZARD = "global";
+    public static final String WIZARD = GLOBAL;
 
     /**
      * A Javascript file that contains common functions for widgets.
      *
      * @deprecated
      */
-    public static final String WIDGET = "global";
+    public static final String WIDGET = GLOBAL;
 
     /**
      * The location of the widget module assigned via Dojo.
      *
      * @deprecated Use MODULE_PATH.
      */
-    public static final String WIDGET_MODULE = "modulePath";  
+    public static final String WIDGET_MODULE = MODULE_PATH;  
 
     /**
      * This private constructor prevents this class from being instantiated

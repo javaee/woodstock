@@ -21,10 +21,11 @@
 // Copyright 2007 Sun Microsystems, Inc. All rights reserved.
 //
 
-dojo.provide("webui.@THEME@.fileChooser");
+webui.@THEME@.dojo.provide("webui.@THEME@.fileChooser");
 
-dojo.require("webui.@THEME@.common");
-dojo.require("webui.@THEME@.formElements");
+webui.@THEME@.dojo.require("webui.@THEME@.common");
+webui.@THEME@.dojo.require("webui.@THEME@.formElements");
+webui.@THEME@.dojo.require("webui.@THEME@.prototypejs");
 
 /** 
  * @class This class contains functions for fileChooser components.
@@ -162,7 +163,7 @@ webui.@THEME@.fileChooser = {
         }
 
         // Set given properties on domNode.
-        Object.extend(domNode, props);
+        webui.@THEME@.prototypejs.extend(domNode, props, false);
 
         // boolean identifying the chooser mode.
         domNode.folderChooser = (props.chooserType == "folderChooser");

@@ -21,9 +21,9 @@
 // Copyright 2007 Sun Microsystems, Inc. All rights reserved.
 //
 
-dojo.provide("webui.@THEME@.widget.hyperlink");
+webui.@THEME@.dojo.provide("webui.@THEME@.widget.hyperlink");
 
-dojo.require("webui.@THEME@.widget.anchorBase");
+webui.@THEME@.dojo.require("webui.@THEME@.widget.anchorBase");
 
 /**
  * @name webui.@THEME@.widget.hyperlink
@@ -31,7 +31,7 @@ dojo.require("webui.@THEME@.widget.anchorBase");
  * @class This class contains functions for the hyperlink widget.
  * @constructor This function is used to construct a hyperlink widget.
  */
-dojo.declare("webui.@THEME@.widget.hyperlink", webui.@THEME@.widget.anchorBase, {
+webui.@THEME@.dojo.declare("webui.@THEME@.widget.hyperlink", webui.@THEME@.widget.anchorBase, {
     // Set defaults.
     widgetName: "hyperlink" // Required for theme properties.
 });
@@ -138,7 +138,7 @@ webui.@THEME@.widget.hyperlink.prototype.postCreate = function () {
     this.domNode.href = "#";
 
     // Create callback function for onClick event.
-    dojo.connect(this.domNode, "onclick", this, "onClickCallback");
+    this.dojo.connect(this.domNode, "onclick", this, "onClickCallback");
 
     return this.inherited("postCreate", arguments);
 }

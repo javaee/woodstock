@@ -51,7 +51,8 @@
             <webuijsf:table id="table" title="#{msgs.pluginName}">
           
               <!-- Table Row -->
-              <webuijsf:tableRowGroup id="rowGroup1"                 
+              <webuijsf:tableRowGroup id="rowGroup1"
+                  binding="#{IndexBean.tableRowGroup}"               
                   sourceData="#{IndexBean.dataProvider}"
                   sourceVar="data">
                 
