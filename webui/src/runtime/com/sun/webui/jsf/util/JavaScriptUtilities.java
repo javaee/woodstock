@@ -163,21 +163,22 @@ public class JavaScriptUtilities {
      * @param writer ResponseWriter to which the component should be rendered.
      * @param webuiAll Flag indicating to include all webui functionality.
      * @param webuiJsfx Flag indicating to include default Ajax functionality.
+     * @param jsfx Flag indicating to include JSF Extensions resources.
      *
      * @exception IOException if an input/output error occurs.
      */
     public static void renderBootstrap(UIComponent component,
-            ResponseWriter writer, boolean webuiAll, boolean webuiJsfx) 
-            throws IOException, JSONException {
+            ResponseWriter writer, boolean webuiAll, boolean webuiJsfx, 
+            boolean jsfx) throws IOException, JSONException {
         // Render config.
-        renderJavaScript(component, writer, getBootstrapConfig(webuiJsfx));
+        renderJavaScript(component, writer, getBootstrapConfig(webuiAll,
+            webuiJsfx, jsfx));
 
         // Render webui include.
         renderWebuiInclude(component, writer, webuiAll, webuiJsfx);
 
         // Render JSF Extensions include.
-        if (webuiJsfx) {
-            // Render Prototype include before JSF Extensions.
+        if (jsfx && webuiJsfx) {
             renderPrototypeInclude(component, writer);
             renderJsfxInclude(component, writer);
         }
@@ -271,21 +272,25 @@ public class JavaScriptUtilities {
     /**
      * Get properties used to configure Ajax.
      * 
-     * @param webuiJsfx Flag indicating to include default Ajax functionality.
+     * @param jsfx Flag indicating to include JSF Extensions resources.
      */
-    private static JSONObject getAjaxConfig(boolean webuiJsfx) throws JSONException {
+    private static JSONObject getAjaxConfig(boolean jsfx)
+            throws JSONException {
         JSONObject json = new JSONObject();
         json.put("module", getModuleName("widget.jsfx"))
-            .put("webuiJsfx", webuiJsfx);
+            .put("jsfx", jsfx);
         return json;
     }
 
     /**
      * Helper method to render config.
      * 
+     * @param webuiAll Flag indicating to include all webui functionality.
      * @param webuiJsfx Flag indicating to include default Ajax functionality.
+     * @param jsfx Flag indicating to include JSF Extensions resources.
      */
-    private static String getBootstrapConfig(boolean webuiJsfx) throws JSONException {
+    private static String getBootstrapConfig(boolean webuiAll, 
+            boolean webuiJsfx, boolean jsfx) throws JSONException {
         Theme theme = getTheme();
         JSONObject webui = new JSONObject();
 
@@ -315,14 +320,16 @@ public class JavaScriptUtilities {
                     suntheme.put(st.nextToken(), config); // config: {
 
                     // Add config properties.
-                    config.put("ajax", getAjaxConfig(webuiJsfx))
+                    config.put("ajax", getAjaxConfig(jsfx))
                         .put("djConfig", getDojoConfig())
                         .put("module", theme.getJSString(ThemeJavascript.MODULE))
                         .put("modulePath", theme.getPathToJSFile((isDebug())
                             ? ThemeJavascript.MODULE_PATH_UNCOMPRESSED
                             : ThemeJavascript.MODULE_PATH))
                         .put("isDebug", isDebug())
-                        .put("theme", getThemeConfig(FacesContext.getCurrentInstance()));
+                        .put("theme", getThemeConfig(FacesContext.getCurrentInstance()))
+                        .put("webuiAll", webuiAll)
+                        .put("webuiJsfx", webuiJsfx);
                 }
             }
             buff.append(JSONUtilities.getString(webui))
@@ -530,10 +537,10 @@ public class JavaScriptUtilities {
      */
     private static void renderJsfxInclude(UIComponent component,
             ResponseWriter writer) throws IOException {
+        // Note: JavaScript shall be included client-side, but still need to
+        // register with the scripts tag.
         Map requestMap = getRequestMap();
         if (!requestMap.containsKey(ScriptsComponent.AJAX_JS_LINKED)) {
-            // JavaScript shall be included client-side, but still need to
-            // register with the scripts tag.
 //            renderJavaScriptInclude(component, writer, (isDebug())
 //                ? ThemeJavascript.JSFX_UNCOMPRESSED
 //                : ThemeJavascript.JSFX);
@@ -551,10 +558,10 @@ public class JavaScriptUtilities {
      */
     private static void renderPrototypeInclude(UIComponent component,
             ResponseWriter writer) throws IOException {
+        // Note: JavaScript shall be included client-side, but still need to
+        // register with the scripts tag.
         Map map = getRequestMap();
         if (!map.containsKey(ScriptsComponent.PROTOTYPE_JS_LINKED)) {
-            // JavaScript shall be included client-side, but still need to
-            // register with the scripts tag.
 //            renderJavaScriptInclude(component, writer, (isDebug())
 //                ? ThemeJavascript.PROTOTYPE_UNCOMPRESSED
 //                : ThemeJavascript.PROTOTYPE);

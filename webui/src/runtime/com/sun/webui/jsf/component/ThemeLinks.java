@@ -217,6 +217,59 @@ public class ThemeLinks extends UIComponentBase {
     }
 
     /**
+     * Flag (true or false) indicating to include JSF Extensions.
+     * <p>
+     * For better performance, JSF Extensions may be lazily loaded only when
+     * Ajax functionality is needed. When referencing DynaFaces or Prototype 
+     * APIs directly, use the JSF Extensions <jsfx:scripts> tag to include these
+     * resources when the page is loaded. For example:
+     * <p><pre>
+     * <%@ taglib prefix="jsfx" uri="http://java.sun.com/jsf/extensions/dynafaces" %>
+     * <f:view>
+     * <html>
+     *   <head>
+     *     <jsfx:scripts />
+     *   </head>
+     *   <body> <!-- body omitted --> </body>
+     * </html>
+     * </f:view>
+     * </pre></p><p>
+     * In this case, set the jsfx property to false to prevent Woodstock from 
+     * including JSF Extension resources.
+     * </p>
+     */
+    @Property(name="jsfx", displayName="Include JSF Extensions", category="Javascript")
+    private boolean jsfx = true; 
+    private boolean jsfx_set = false; 
+ 
+    /**
+     * Test flag indicating to include JSF Extensions.
+     */
+    public boolean isJsfx() { 
+        if (this.jsfx_set) {
+            return this.jsfx;
+        }
+        ValueExpression _vb = getValueExpression("jsfx");
+        if (_vb != null) {
+            Object _result = _vb.getValue(getFacesContext().getELContext());
+            if (_result == null) {
+                return false;
+            } else {
+                return ((Boolean) _result).booleanValue();
+            }
+        }
+        return this.jsfx;
+    } 
+
+    /**
+     * Set flag indicating to include JSF Extensions.
+     */
+    public void setJsfx(boolean jsfx) {
+        this.jsfx = jsfx;
+        this.jsfx_set = true;
+    }
+
+    /**
      * Flag (true or false) indicating that Dojo should parse markup. 
      * <p>
      * For better performance, set parseOnLoad to true only when markup contains
@@ -264,7 +317,7 @@ public class ThemeLinks extends UIComponentBase {
      * stylesheet resource is rendered.</p>
      */
     @Property(name="styleSheet", displayName="Include StyleSheet Link", category="Advanced")
-    private boolean styleSheet = false;
+    private boolean styleSheet = true;
     private boolean styleSheet_set = false;
 
     /**
@@ -284,7 +337,7 @@ public class ThemeLinks extends UIComponentBase {
                 return ((Boolean) _result).booleanValue();
             }
         }
-        return true;
+        return this.styleSheet;
     }
 
     /**
@@ -430,44 +483,48 @@ public class ThemeLinks extends UIComponentBase {
         super.restoreState(_context, _values[0]);
         this.javaScript = ((Boolean) _values[1]).booleanValue();
         this.javaScript_set = ((Boolean) _values[2]).booleanValue();
-        this.styleSheet = ((Boolean) _values[3]).booleanValue();
-        this.styleSheet_set = ((Boolean) _values[4]).booleanValue();
-        this.styleSheetInline = ((Boolean) _values[5]).booleanValue();
-        this.styleSheetInline_set = ((Boolean) _values[6]).booleanValue();
-        this.debug = ((Boolean) _values[7]).booleanValue();
-        this.debug_set = ((Boolean) _values[8]).booleanValue();
-        this.dijitAll = ((Boolean) _values[9]).booleanValue();
-        this.dijitAll_set = ((Boolean) _values[10]).booleanValue();
-        this.parseOnLoad = ((Boolean) _values[11]).booleanValue();
-        this.parseOnLoad_set = ((Boolean) _values[12]).booleanValue();
-        this.webuiAll = ((Boolean) _values[13]).booleanValue();
-        this.webuiAll_set = ((Boolean) _values[14]).booleanValue();
-        this.webuiJsfx = ((Boolean) _values[15]).booleanValue();
-        this.webuiJsfx_set = ((Boolean) _values[16]).booleanValue();
+        this.jsfx = ((Boolean) _values[3]).booleanValue();
+        this.jsfx_set = ((Boolean) _values[4]).booleanValue();
+        this.styleSheet = ((Boolean) _values[5]).booleanValue();
+        this.styleSheet_set = ((Boolean) _values[6]).booleanValue();
+        this.styleSheetInline = ((Boolean) _values[7]).booleanValue();
+        this.styleSheetInline_set = ((Boolean) _values[8]).booleanValue();
+        this.debug = ((Boolean) _values[9]).booleanValue();
+        this.debug_set = ((Boolean) _values[10]).booleanValue();
+        this.dijitAll = ((Boolean) _values[11]).booleanValue();
+        this.dijitAll_set = ((Boolean) _values[12]).booleanValue();
+        this.parseOnLoad = ((Boolean) _values[13]).booleanValue();
+        this.parseOnLoad_set = ((Boolean) _values[14]).booleanValue();
+        this.webuiAll = ((Boolean) _values[15]).booleanValue();
+        this.webuiAll_set = ((Boolean) _values[16]).booleanValue();
+        this.webuiJsfx = ((Boolean) _values[17]).booleanValue();
+        this.webuiJsfx_set = ((Boolean) _values[18]).booleanValue();
     }
 
     /**
      * <p>Save the state of this component.</p>
      */
     public Object saveState(FacesContext _context) {
-        Object _values[] = new Object[17];
+        Object _values[] = new Object[19];
         _values[0] = super.saveState(_context);
         _values[1] = this.javaScript ? Boolean.TRUE : Boolean.FALSE;
         _values[2] = this.javaScript_set ? Boolean.TRUE : Boolean.FALSE;
-        _values[3] = this.styleSheet ? Boolean.TRUE : Boolean.FALSE;
-        _values[4] = this.styleSheet_set ? Boolean.TRUE : Boolean.FALSE;
-        _values[5] = this.styleSheetInline ? Boolean.TRUE : Boolean.FALSE;
-        _values[6] = this.styleSheetInline_set ? Boolean.TRUE : Boolean.FALSE;
-        _values[7] = this.debug ? Boolean.TRUE : Boolean.FALSE;
-        _values[8] = this.debug_set ? Boolean.TRUE : Boolean.FALSE;
-        _values[9] = this.dijitAll ? Boolean.TRUE : Boolean.FALSE;
-        _values[10] = this.dijitAll_set ? Boolean.TRUE : Boolean.FALSE;
-        _values[11] = this.parseOnLoad ? Boolean.TRUE : Boolean.FALSE;
-        _values[12] = this.parseOnLoad_set ? Boolean.TRUE : Boolean.FALSE;
-        _values[13] = this.webuiAll ? Boolean.TRUE : Boolean.FALSE;
-        _values[14] = this.webuiAll_set ? Boolean.TRUE : Boolean.FALSE;
-        _values[15] = this.webuiJsfx ? Boolean.TRUE : Boolean.FALSE;
-        _values[16] = this.webuiJsfx_set ? Boolean.TRUE : Boolean.FALSE;
+        _values[3] = this.jsfx ? Boolean.TRUE : Boolean.FALSE;
+        _values[4] = this.jsfx_set ? Boolean.TRUE : Boolean.FALSE;
+        _values[5] = this.styleSheet ? Boolean.TRUE : Boolean.FALSE;
+        _values[6] = this.styleSheet_set ? Boolean.TRUE : Boolean.FALSE;
+        _values[7] = this.styleSheetInline ? Boolean.TRUE : Boolean.FALSE;
+        _values[8] = this.styleSheetInline_set ? Boolean.TRUE : Boolean.FALSE;
+        _values[9] = this.debug ? Boolean.TRUE : Boolean.FALSE;
+        _values[10] = this.debug_set ? Boolean.TRUE : Boolean.FALSE;
+        _values[11] = this.dijitAll ? Boolean.TRUE : Boolean.FALSE;
+        _values[12] = this.dijitAll_set ? Boolean.TRUE : Boolean.FALSE;
+        _values[13] = this.parseOnLoad ? Boolean.TRUE : Boolean.FALSE;
+        _values[14] = this.parseOnLoad_set ? Boolean.TRUE : Boolean.FALSE;
+        _values[15] = this.webuiAll ? Boolean.TRUE : Boolean.FALSE;
+        _values[16] = this.webuiAll_set ? Boolean.TRUE : Boolean.FALSE;
+        _values[17] = this.webuiJsfx ? Boolean.TRUE : Boolean.FALSE;
+        _values[18] = this.webuiJsfx_set ? Boolean.TRUE : Boolean.FALSE;
         return _values;
     }
 }

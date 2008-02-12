@@ -37,7 +37,9 @@ webui.@THEME@.widget.jsfx.dynaFaces = {
      * This function is used to initialize the environment with Object literals.
      *
      * @param {Object} props Key-Value pairs of properties.
-     * @config (Object) ajax Key-Value pairs of Ajax properties.
+     * @config (Object) ajax Key-Value pairs of Ajax properties.     
+     * @config (boolean) ajax.jsfx Flag indicating to include JSF Extensions.
+     * @config (boolean) webuiJsfx Flag indicating to include default Ajax functionality.
      * @return {boolean} true if successful; otherwise, false.
      * @private
      */
@@ -45,9 +47,16 @@ webui.@THEME@.widget.jsfx.dynaFaces = {
         if (props == null) {
             return false;
         }
+
+        // Don't load JSF Extensions.
+        if (props.ajax && props.ajax.jsfx != null) {
+            if (new Boolean(props.ajax.jsfx).valueOf() == false) {
+                return false;
+            }
+        }
         
         // Load JSF Extensions immediately.
-        if (props.ajax.webuiJsfx == true) {
+        if (new Boolean(props.webuiJsfx).valueOf() == true) {
             webui.@THEME@.widget.jsfx.dynaFaces.loadJsfx();
         } else {
             // Override default publish functionality to lazily load JSFX.

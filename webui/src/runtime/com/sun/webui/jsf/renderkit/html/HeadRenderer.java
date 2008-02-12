@@ -132,7 +132,7 @@ public class HeadRenderer extends AbstractRenderer {
             if (head.isJavaScript()) {
                 try {
                     JavaScriptUtilities.renderBootstrap(component, writer, 
-                        head.isWebuiAll(), head.isWebuiJsfx());
+                        head.isWebuiAll(), head.isWebuiJsfx(), head.isJsfx());
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }

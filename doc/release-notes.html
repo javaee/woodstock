@@ -29,6 +29,13 @@
 <body>
 <h1><u>Project Woodstock&nbsp;Components Release Notes</u></h1>
 <br>
+<h2><u><a name="4.2_Build_3">4.2 Build 3</a></u>&nbsp; (02/22/2008)</h2>
+<h3> New Features</h3>
+<ul>
+  <li>To prevent Woodstock from including JSF Extensions, set the <code>jsfx</code>
+tag attribute of the Head and/or
+ThemeLinks tags to false.</li>
+</ul>
 <h2><u><a name="4.2_Build_2">4.2 Build 2</a></u>&nbsp; (02/08/2008)</h2>
 <h3> New Features</h3>
 <ul>
@@ -78,28 +85,27 @@ and/or ThemeLinks tags to true. </li>
 page. Woodstock has removed its own dependany on Prototype; however,
 JSF Extensions has not. Therefore, whenever JSF Extensions (i.e.,
 DynaFaces) is loaded in the page, Prototype must be included as well.
-The prototype-1.5.0.jar file is no longer a dependency for Woodstock.<br>
-  </li>
-  <li>If you are using DynaFaces or Prototype APIs directly, you may
-use the <code>webuiJsfx</code> tag attribute of the Head and/or
-ThemeLinks tags to include this resource when the page is loaded. If
-you prefer, you may also use the JSF Extensions <code>&lt;jsfExt:scripts&gt;</code>
-tag directly. Please see the instructions at
+The prototype-1.5.0.jar file is no longer a dependency for Woodstock.</li>
+  <li>If you are using DynaFaces or Prototype APIs directly, use the
+JSF Extensions <code>&lt;jsfx:scripts&gt;</code>
+tag to include this resource when the page is loaded. Please see the
+instructions at
 https://jsf-extensions.dev.java.net for including the
-&lt;jsfExt:scripts&gt; tag in the page. For example:<br>
+&lt;jsfx:scripts&gt; tag in the page. For example:<br>
   </li>
 </ul>
-<div style="margin-left: 40px;"><code>&lt;%@ taglib prefix="jsfExt"
+<div style="margin-left: 40px;"><code>&lt;%@ taglib prefix="jsfx"
 uri="http://java.sun.com/jsf/extensions/dynafaces" %&gt;</code><br>
 <code>&lt;f:view&gt;</code><br>
 <code>&lt;html&gt;</code><br>
 <code>&nbsp; &lt;head&gt;</code><br>
-<code>&nbsp;&nbsp;&nbsp; <span style="color: rgb(255, 0, 0);">&lt;jsfExt:scripts
+<code>&nbsp;&nbsp;&nbsp; <span style="color: rgb(255, 0, 0);">&lt;jsfx:scripts
 /&gt;</span></code><br>
 <code>&nbsp; &lt;/head&gt;</code><br>
 <code>&nbsp; &lt;body&gt; &lt;!-- body omitted --&gt; &lt;/body&gt;</code><br>
-<code>&lt;/html&gt;</code><br>
-</div>
+<code>&lt;/html&gt;<br>
+&lt;/f:view&gt;<br>
+</code></div>
 <h3>Deprecated attributes</h3>
 <ul>
   <li>The dijitAll attribute of the Head and ThemeLinks tags have
