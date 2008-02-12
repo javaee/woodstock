@@ -196,6 +196,12 @@
     </renderer>
     
     <renderer>
+      <component-family>com.sun.webui.jsf.Login</component-family>
+      <renderer-type>com.sun.webui.jsf.widget.LoginDesignTime</renderer-type>
+      <renderer-class>com.sun.webui.jsf.renderkit.html.LoginDesignTimeRenderer</renderer-class>
+    </renderer>
+    
+    <renderer>
       <component-family>com.sun.webui.jsf.Masthead</component-family>
       <renderer-type>com.sun.webui.jsf.MastheadDesignTime</renderer-type>
       <renderer-class>com.sun.webui.jsf.renderkit.html.MastheadDesignTimeRenderer</renderer-class>

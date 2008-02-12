@@ -279,7 +279,9 @@ made subject to such option by the copyright holder.
             <file name="WoodstockMenu.comp_palette_item" url="resources/WoodstockMenu.comp_palette_item">
 	         <attr name="position" intvalue="2700"/>
             </file>  
-            
+            <file name="WoodstockLogin.comp_palette_item" url="resources/WoodstockLogin.comp_palette_item">
+	         <attr name="position" intvalue="2800"/>
+            </file>  
             <!-- End fo Woodstock components not included in VWP -->
         </folder>
         <folder name="Advanced">
