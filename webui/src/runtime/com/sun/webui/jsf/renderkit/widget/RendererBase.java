@@ -232,7 +232,7 @@ abstract public class RendererBase extends Renderer {
      */
     protected String getTemplatePath(FacesContext context,
 	    UIComponent component) throws IOException {
-	return (String)component.getAttributes().get("templatePath");
+	return (String)component.getAttributes().get("htmlTemplate");
     }
 
     /**
