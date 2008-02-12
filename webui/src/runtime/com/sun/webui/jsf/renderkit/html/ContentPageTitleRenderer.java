@@ -160,9 +160,7 @@ public class ContentPageTitleRenderer extends javax.faces.render.Renderer {
                 
                 renderPageViews(context, pagetitle, theme, writer);
             }
-            
             writer.endElement("td");
-            
             endLayoutTable(writer);
         }
         
@@ -198,7 +196,6 @@ public class ContentPageTitleRenderer extends javax.faces.render.Renderer {
         RenderingUtilities.renderComponent(pageActions, context);
         
         writer.endElement("div");
-        writer.endElement("td");
     }
     
     /**

@@ -961,7 +961,7 @@ public abstract class TableRowGroupBase extends WebuiComponent
      * automatically by the renderer.
      * </p><p>
      * Note: This method also resets pagination to the first page per UI 
-     * guidelines.
+     * guidelines (primary sorts only).
      * </p>
      * @param criteria The SortCriteria object to sort.
      */
@@ -982,6 +982,8 @@ public abstract class TableRowGroupBase extends WebuiComponent
                 String key = oldCriteria[i].getCriteriaKey();
                 if (key != null && key.equals(criteria.getCriteriaKey())) {
                     oldCriteria[i] = criteria;
+                    sorter.setSortCriteria(oldCriteria); // Set new SortCriteria.
+                    sortedRowKeys = null; // Clear sorted row keys.
                     return; // No further processing is required.
                 }
             }
@@ -1265,7 +1267,6 @@ public abstract class TableRowGroupBase extends WebuiComponent
         if (null == context || null == clientId) {
             throw new NullPointerException();
         }
-
         String baseClientId = super.getClientId(context);
         if (clientId.equals(baseClientId)) {
             return super.invokeOnComponent(context, clientId, callback);
@@ -1281,12 +1282,16 @@ public abstract class TableRowGroupBase extends WebuiComponent
                 // Get row id.
                 int first = clientId.indexOf(NamingContainer.SEPARATOR_CHAR, baseClientId.length());
                 int last = clientId.indexOf(NamingContainer.SEPARATOR_CHAR, ++first + 1);
-            
-                // Set row key.
                 String rowId = clientId.substring(first, last);
-                setRowKey(com.sun.data.provider.impl.IndexRowKey.create(rowId));
-                if (isRowAvailable()) {
-                    found = super.invokeOnComponent(context, clientId, callback);
+
+                // Set row key.
+                TableDataProvider provider = getTableRowDataProvider().
+                    getTableDataProvider();
+                if (provider != null) {                    
+                    setRowKey(provider.getRowKey(rowId));
+                    if (isRowAvailable()) {
+                        found = super.invokeOnComponent(context, clientId, callback);
+                    }
                 }
             } catch (IndexOutOfBoundsException e) {
                 // Do nothing.
