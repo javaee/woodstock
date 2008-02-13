@@ -620,7 +620,7 @@ webui.@THEME@.widget.bubble.prototype._setProps = function(props) {
 
     // Set width.
     if (props.width > 0) {                    
-        this.domNode.style.width = props.width;        
+        this.domNode.style.width = props.width + "px";        
     }
 
     // Set contents.
