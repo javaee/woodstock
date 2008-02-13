@@ -103,7 +103,7 @@ public class CombineJavaScript extends ToolsBase {
                         .replace('.', File.separatorChar) + ".js";
 
 		    // Skip Dojo resources.
-		    if (fileName.indexOf("dojo/") != -1 || fileName.indexOf("dijit/") != -1) {
+		    if (fileName.indexOf("dojo") != -1 || fileName.indexOf("dijit") != -1) {
 			continue;
 		    }
 		    combineFile(new File(getSourceDir() + fileName));
