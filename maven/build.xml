@@ -1,0 +1,259 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<!--
+ The contents of this file are subject to the terms
+ of the Common Development and Distribution License
+ (the License).  You may not use this file except in
+ compliance with the License.
+
+ You can obtain a copy of the license at
+ https://woodstock.dev.java.net/public/CDDLv1.0.html.
+ See the License for the specific language governing
+ permissions and limitations under the License.
+
+ When distributing Covered Code, include this CDDL
+ Header Notice in each file and include the License file
+ at https://woodstock.dev.java.net/public/CDDLv1.0.html.
+ If applicable, add the following below the CDDL Header,
+ with the fields enclosed by brackets [] replaced by
+ you own identifying information:
+ "Portions Copyrighted [year] [name of copyright owner]"
+
+ Copyright 2008 Sun Microsystems, Inc. All rights reserved.
+-->
+
+<project name="Woodstock" default="upload.maven" basedir="." xmlns:artifact="urn:maven-artifact-ant">
+    <path id="maven-ant-tasks.classpath" path="external/maven-ant-tasks-2.0.8.jar" />
+    <typedef resource="org/apache/maven/artifact/ant/antlib.xml" uri="urn:maven-artifact-ant"
+             classpathref="maven-ant-tasks.classpath" />
+    
+    <target name="-basic-init">
+        <!-- webui-jsf.locales, suntheme.locales, release.version and build_id
+             are intialized from here -->
+        <property file="./build.properties"/>
+    </target>
+    
+    <target name="-init" depends="-basic-init">
+        <!-- define default remote maven2 repository, if it was not defined
+             in build properties -->
+        <path id="local.repository.path" location="target/tmp"/>
+        <pathconvert property="local.repository.path" refid="local.repository.path"/>
+        <condition property="repository.url" value="file://${local.repository.path}">
+            <and>
+                <not>
+                    <isset property="repository.id"/>
+                </not>
+                <not>
+                    <isset property="repository.url"/>
+                </not>
+            </and>
+        </condition>
+        <condition property="repository.id" value="local-m2-repository">
+            <and>
+                <not>
+                    <isset property="repository.id"/>
+                </not>
+            </and>
+        </condition>
+        <!-- look for build Id of Woodstock components -->
+        <antcall target="-get-build-id"/>
+        <property file="tmp/build_id.properties"/>
+    </target>
+    
+    <target name="-get-build-id">
+        <!-- get value of X-SJWUIC-Components-Timestamp tag from 
+             ../webui/dist/webui-jsf.jar:META-INF/MANIFEST.MF -->
+        <mkdir dir="tmp"/>
+        <delete> <!-- clean data from previous attempt -->
+            <fileset dir="tmp">
+                <include name="MANIFEST.MF"/>
+                <include name="MANIFEST.properties"/>
+                <include name="build_id.properties"/>
+            </fileset>
+        </delete>
+        <!-- unpack manifest from webui-jsf.jar library -->
+        <unjar src="../webui/dist/webui-jsf.jar" dest="tmp" >
+            <patternset>
+                <include name="META-INF/MANIFEST.MF"/>
+            </patternset>
+            <mapper type="flatten"/>
+        </unjar>
+        <!-- copy manifest file into a working copy -->
+        <copy file="tmp/MANIFEST.MF" tofile="tmp/MANIFEST.properties"/>
+        <!-- change file formating from manifest to property file -->
+        <replace file="tmp/MANIFEST.properties" token=": " value="="/>
+        <!-- load the manifest as property file -->
+        <property file="tmp/MANIFEST.properties"/>
+        <!-- fail if the manifest did not contain tag with build timestamp -->
+        <fail message="Attention: webui-jsf.jar does not contain tag &quot;X-SJWUIC-Components-Timestamp&quot; in it's manifest" unless="X-SJWUIC-Components-Timestamp"/>
+        <!-- save the build timestamp into new property file -->
+        <propertyfile file="tmp/build_id.properties">
+            <entry key="build_id" value="${X-SJWUIC-Components-Timestamp}"/>
+        </propertyfile>
+        <!-- cleanup after obtaining the build Id -->
+        <delete>
+            <fileset dir="tmp">
+                <include name="MANIFEST.MF"/>
+                <include name="MANIFEST.properties"/>
+            </fileset>
+        </delete>
+    </target>
+    
+    <target name="bootstrap" depends="-init" description="Initializes Ant extensions for Maven and prints current settings for the build">
+        <!-- build repeat Ant task -->
+        <mkdir dir="${build.antclasses}"/>
+        <javac srcdir="antsrc" destdir="${build.antclasses}" target="1.4" source="1.4"/>
+        <!-- define repeat task -->
+        <taskdef name="repeat" classname="org.netbeans.nbbuild.Repeat" classpath="${build.antclasses}"/>
+        <!-- install a deployment provider that can deploy to SVN repositories -->
+        <artifact:install-provider artifactId="wagon-svn" groupId="org.jvnet.wagon-svn" version="1.7">
+            <!-- download the provider from java.net repository -->
+            <artifact:remoteRepository id="java.net.maven2.repository" url="http://download.java.net/maven/2/" />
+            <!-- store the provider in temp local repository-->
+            <artifact:localRepository path="target/tmp"/>
+        </artifact:install-provider>
+        <!-- print information about current build -->
+        <echo message="release.version is ${release.version}"/>
+        <echo message="qualifier is ${qualifier}"/>
+        <echo message="build_id is ${build_id}"/>
+        <echo message="repository.id is ${repository.id}"/>
+        <echo message="repository.url is ${repository.url}"/>
+    </target>
+    
+    <target name="-get-data">
+        <!-- webui-jsf artifact -->
+        <mkdir dir="${upload.dir}/webui-jsf"/>
+        <copy todir="${upload.dir}/webui-jsf">
+            <fileset dir="../webui/dist">
+                <include name="webui-jsf.jar"/>
+                <include name="webui-jsf_*.jar"/>
+            </fileset>
+        </copy>
+        
+        <!-- webui-jsf artifact -->
+        <mkdir dir="${upload.dir}/webui-jsf-dt"/>
+        <copy todir="${upload.dir}/webui-jsf-dt">
+            <fileset dir="../webui/dist">
+                <include name="webui-jsf-dt.jar"/>
+                <include name="webui-jsf-dt_*.jar"/>
+            </fileset>
+        </copy>
+        
+        <!-- suntheme artifact -->
+        <mkdir dir="${upload.dir}/webui-jsf-suntheme"/>
+        <copy todir="${upload.dir}/webui-jsf-suntheme">
+            <fileset dir="../themes/dist">
+                <include name="webui-jsf-suntheme.jar"/>
+                <include name="webui-jsf-suntheme_*.jar"/>
+            </fileset>
+        </copy>
+        
+        <!-- dataprovider dependency -->
+        <mkdir dir="${upload.dir}/dataprovider"/>
+        <copy todir="${upload.dir}/dataprovider" file="../webui/lib/external/dataprovider.jar"/>
+        
+        <!-- jh dependency -->
+        <mkdir dir="${upload.dir}/jh"/>
+        <copy todir="${upload.dir}/jh" file="../webui/lib/external/jh.jar"/>
+        
+        <!-- jhall dependency -->
+        <mkdir dir="${upload.dir}/jhall"/>
+        <copy todir="${upload.dir}/jhall" file="../webui/lib/external/jhall.jar"/>
+        
+        <!-- jhbasic dependency -->
+        <mkdir dir="${upload.dir}/jhbasic"/>
+        <copy todir="${upload.dir}/jhbasic" file="../webui/lib/external/jhbasic.jar"/>
+        
+        <!-- json dependency -->
+        <mkdir dir="${upload.dir}/json"/>
+        <copy tofile="${upload.dir}/json/json.jar" file="../webui/lib/external/json-2.jar"/>
+        
+        <!-- portlet dependency -->
+        <mkdir dir="${upload.dir}/portlet"/>
+        <copy todir="${upload.dir}/portlet" file="../webui/lib/external/portlet.jar"/>
+        
+    </target>
+    
+    <target name="upload.maven" depends="bootstrap,-get-data" description="Uploads Woodstock components into Maven2 repository">
+        <echo message="release.version ${release.version}"/>
+        <echo message="build_id ${build_id}"/>
+        <echo message="qualifier ${qualifier}"/>
+        <repeat target="-check-upload-dependlibs-repeat" name="dependlib" values="${dependlib.upload.list}"/>
+        <repeat target="-upload-artifacts-repeat" name="artifact" values="${artifact.upload.list}"/>
+        <repeat target="-upload-artifacts-l10n-repeat" name="artifact" values="${artifact.upload.list.l10n}"/>
+    </target>
+    
+    <target name="-check-upload-dependlibs-repeat" depends="bootstrap" if="dependlib">
+        <!-- Copy template to pom.xml filtering various properties -->
+        <copy file="templates/${dependlib}-pom.xml" tofile="${upload.dir}/${dependlib}/pom.xml" overwrite="true">
+            <filterset>
+                <filter token="release.version" value="${release.version}"/>
+                <filter token="build_id"        value="${build_id}"/>
+                <filter token="qualifier"       value="-RELEASE"/>
+                <filter token="repository.id"   value="${repository.id}"/>
+                <filter token="repository.url"  value="${repository.url}"/>
+            </filterset>
+        </copy>
+        <!-- TODO: check for existence of dependlibs in remote repository, avoid
+                     updating existing data -->
+        <!-- deploy artifact into "remote" repository -->
+        <artifact:deploy file="${upload.dir}/${dependlib}/${dependlib}.jar">
+            <pom file="${upload.dir}/${dependlib}/pom.xml"/>
+        </artifact:deploy>
+    </target>
+    
+    <target name="-upload-artifacts-l10n-repeat" depends="bootstrap" if="artifact">
+        <copy file="templates/${artifact}-pom.xml" tofile="${upload.dir}/${artifact}/pom.xml" overwrite="true">
+            <filterset>
+                <filter token="release.version" value="${release.version}"/>
+                <filter token="build_id"        value="${build_id}"/>
+                <filter token="qualifier"       value="${qualifier}"/>
+                <filter token="repository.id"   value="${repository.id}"/>
+                <filter token="repository.url"  value="${repository.url}"/>
+                
+            </filterset>
+        </copy>
+        <!-- deploy artifact into "remote" repository -->
+        <artifact:deploy file="${upload.dir}/${artifact}/${artifact}.jar">
+            <pom file="${upload.dir}/${artifact}/pom.xml"/>
+            <!-- attached localization jarfiles -->
+            <attach file="${upload.dir}/${artifact}/${artifact}_de.jar" classifier="l10n_de"/>
+            <attach file="${upload.dir}/${artifact}/${artifact}_es.jar" classifier="l10n_es"/>
+            <attach file="${upload.dir}/${artifact}/${artifact}_fr.jar" classifier="l10n_fr"/>
+            <attach file="${upload.dir}/${artifact}/${artifact}_it.jar" classifier="l10n_it"/>
+            <attach file="${upload.dir}/${artifact}/${artifact}_ja.jar" classifier="l10n_ja"/>
+            <attach file="${upload.dir}/${artifact}/${artifact}_ko.jar" classifier="l10n_ko"/>
+            <attach file="${upload.dir}/${artifact}/${artifact}_pt_BR.jar" classifier="l10n_pt_BR"/>
+            <attach file="${upload.dir}/${artifact}/${artifact}_sv.jar" classifier="l10n_sv"/>
+            <attach file="${upload.dir}/${artifact}/${artifact}_zh_CN.jar" classifier="l10n_zh_CN"/>
+            <attach file="${upload.dir}/${artifact}/${artifact}_zh_HK.jar" classifier="l10n_zh_HK"/>
+            <attach file="${upload.dir}/${artifact}/${artifact}_zh_TW.jar" classifier="l10n_zh_TW"/>
+        </artifact:deploy>
+    </target>
+    
+    <target name="-upload-artifacts-repeat" depends="bootstrap" if="artifact">
+        <copy file="templates/${artifact}-pom.xml" tofile="${upload.dir}/${artifact}/pom.xml" overwrite="true">
+            <filterset>
+                <filter token="release.version" value="${release.version}"/>
+                <filter token="build_id"        value="${build_id}"/>
+                <filter token="qualifier"       value="${qualifier}"/>
+                <filter token="repository.id"   value="${repository.id}"/>
+                <filter token="repository.url"  value="${repository.url}"/>
+                
+            </filterset>
+        </copy>
+        <!-- deploy artifact into "remote" repository -->
+        <artifact:deploy file="${upload.dir}/${artifact}/${artifact}.jar">
+            <pom file="${upload.dir}/${artifact}/pom.xml"/>
+        </artifact:deploy>
+    </target>
+    
+    <target name="clean" depends="-basic-init" description="Cleans all working data">
+        <delete includeEmptyDirs="true" quiet="true">
+            <fileset dir="${build.dir}"/>
+            <fileset dir="${upload.dir}"/>
+            <fileset dir="tmp"/>
+            <fileset dir="target"/>
+        </delete>
+    </target>
+    
+</project>
