@@ -1173,7 +1173,6 @@ table.MniTabTbl@THEME_CSS@ td {
 	border-width:1px;
 }
 a.MniTabLnk@THEME_CSS@:link,a.MniTabLnk@THEME_CSS@:visited {
-	display:block;
 	padding:5px 15px 4px;
 }
 table.MniTabTbl@THEME_CSS@ td.MniTabTblSelTd@THEME_CSS@ {
@@ -1186,7 +1185,6 @@ table.MniTabTbl@THEME_CSS@ td.MniTabTblSelTd@THEME_CSS@ {
 	border-bottom:none;
 }
 .MniTabSelTxt@THEME_CSS@ {
-	display:block;
 	padding:5px 15px 4px;
 }
 /* MINI-TABS - LIGHTWEIGHT */

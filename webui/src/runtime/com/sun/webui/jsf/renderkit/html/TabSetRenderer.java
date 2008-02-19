@@ -357,7 +357,6 @@ public class TabSetRenderer extends AbstractRenderer {
         
         Theme theme = ThemeUtilities.getTheme(context);
         String[] styles = getStyles(tabSet, theme, level);
-        String hidden = theme.getStyleClass(ThemeStyles.HIDDEN);
         String selectedTabId = tabSet.getSelected();
         Tab currentLevelSelection = null;
         
@@ -432,13 +431,6 @@ public class TabSetRenderer extends AbstractRenderer {
             writer.startElement("td", tabSet);
             
             String newSelectedClass = styles[3];
-            String newNonSelectedClass = null;
-            
-            if (!tab.isVisible()) {
-                newSelectedClass =
-                        newSelectedClass.concat(SPACE).concat(hidden);
-                newNonSelectedClass =  hidden;
-            }
             
             if (selectedTabId != null && isSelected(tab, selectedTabId)) {
                 // this tab or one of it's children is selected
@@ -490,9 +482,14 @@ public class TabSetRenderer extends AbstractRenderer {
             selectionDivClass =
                     selectionDivClass.concat(SPACE).concat(padClass);
         }
-        
+        selectionDivClass = 
+                RenderingUtilities.getStyleClasses(context, tab, selectionDivClass);
         writer.writeAttribute("class", selectedClass, null); // NOI18N
         writer.startElement("div", tab); //NOI18N
+        String style = tab.getStyle();
+        if (style != null && style.length() > 0) {
+            writer.writeAttribute("style", style, null);
+        }
         writer.writeAttribute("class", selectionDivClass, null); // NOI18N
         String titleString = theme.getMessage(
                 "tabSet.selectedTab", new Object[] { label }); //NOI18N
