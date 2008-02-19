@@ -96,12 +96,12 @@ webui.@THEME@.widget.login.event =
         /**
          * Authentication begin event topics for custom AJAX implementations to listen for.
          */
-        beginTopic: "webui_widget_login_event_authenticate_begin",
+        beginTopic: "webui_@THEME@_widget_login_event_authenticate_begin",
 
         /**
          * Authentication end event topics for custom AJAX implementations to listen for.
          */
-        endTopic: "webui_widget_login_event_authenticate_end"
+        endTopic: "webui_@THEME@_widget_login_event_authenticate_end"
 
     },
 
@@ -130,12 +130,12 @@ webui.@THEME@.widget.login.event =
         /**
          * Successful authentication event topic for applications can listen for.
          */
-        successTopic: "webui_widget_login_event_result_success",
+        successTopic: "webui_@THEME@_widget_login_event_result_success",
 
         /**
          * Authentication failure event topic that applications can listen for.
          */
-        failureTopic: "webui_widget_login_event_result_failure"
+        failureTopic: "webui_@THEME@_widget_login_event_result_failure"
     },
 
     /**
