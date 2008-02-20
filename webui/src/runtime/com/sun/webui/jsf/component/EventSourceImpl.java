@@ -21,30 +21,35 @@
  */
 package com.sun.webui.jsf.component;
 
+import javax.el.MethodExpression;
+import javax.el.ValueExpression;
+
+import javax.faces.FacesException;
+import javax.faces.application.Application;
+import javax.faces.application.NavigationHandler;
+import javax.faces.component.UIComponent; // For javadoc
+import javax.faces.component.UIComponentBase;
+import javax.faces.context.FacesContext;
+import javax.faces.convert.ConverterException;
+import javax.faces.el.EvaluationException;
+import javax.faces.event.ActionListener; // For javadoc
+import javax.faces.event.AbortProcessingException;
+import javax.faces.event.ActionEvent; // For javadoc
+import javax.faces.event.FacesEvent;
+import javax.faces.event.PhaseId;
+
 import com.sun.faces.annotation.Component;
 import com.sun.faces.annotation.Property;
+
 import com.sun.webui.jsf.event.MethodExprEventListener;
 import com.sun.webui.jsf.model.Option;
 import com.sun.webui.jsf.event.EventListener;
-import javax.faces.event.PhaseId;
+
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.el.ELContext;
 import javax.el.ELException;
 
-import javax.el.MethodExpression;
-import javax.el.ValueExpression;
-import javax.faces.FacesException;
-import javax.faces.application.Application;
-import javax.faces.application.NavigationHandler;
-import javax.faces.component.UIComponentBase;
-import javax.faces.context.FacesContext;
-import javax.faces.convert.ConverterException;
-import javax.faces.el.EvaluationException;
-import javax.faces.event.AbortProcessingException;
-import javax.faces.event.FacesEvent;
-import javax.faces.event.PhaseId;
-import javax.faces.el.MethodBinding;
 
 /**
  * The EventSource interface defines a minimal component interface
@@ -159,7 +164,7 @@ public abstract class EventSourceImpl extends UIComponentBase implements EventSo
      * <p>Any method referenced by such an expression must be public, with
      * a return type of <code>String</code>, and accept no parameters.</p>
      *
-     * @param action The new method expression
+     * @param eventExpression The new method expression
      */
     public void setEventExpression(MethodExpression eventExpression) {
 	this.eventExpression = eventExpression;
@@ -311,7 +316,7 @@ public abstract class EventSourceImpl extends UIComponentBase implements EventSo
     }    
 
     
- /**
+    /**
      * <p>In addition to to the default {@link UIComponent#broadcast}
      * processing, pass the {@link ActionEvent} being broadcast to the
      * method referenced by <code>actionListener</code> (if any),

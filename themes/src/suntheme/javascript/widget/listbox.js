@@ -33,6 +33,7 @@ webui.@THEME@.dojo.require("webui.@THEME@.widget.selectBase");
  */
 webui.@THEME@.dojo.declare("webui.@THEME@.widget.listbox", webui.@THEME@.widget.selectBase, {
     // Set defaults.
+    width: webui.@THEME@.theme.common.getMessage("listbox.width", null),
     monospace: false,
     multiple: false,
     size: 12,

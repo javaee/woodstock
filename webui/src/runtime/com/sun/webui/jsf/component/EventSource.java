@@ -21,8 +21,12 @@
  */
 package com.sun.webui.jsf.component;
 
-import com.sun.webui.jsf.event.EventListener;
 import javax.el.MethodExpression;
+import javax.faces.component.UIComponent;
+
+import com.sun.webui.jsf.event.EventListener;
+
+
 /**
  * The EventSource interface defines a minimal component interface
  * to provide an application with simple GUI events. These GUI
@@ -126,7 +130,7 @@ public interface EventSource {
      * <p>Any method referenced by such an expression must be public, with
      * a return type of <code>String</code>, and accept no parameters.</p>
      *
-     * @param action The new method expression
+     * @param eventExpression The new method expression
      */
     public void setEventExpression(MethodExpression eventExpression);
     

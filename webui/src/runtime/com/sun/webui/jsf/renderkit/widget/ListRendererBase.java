@@ -234,6 +234,10 @@ abstract public class ListRendererBase extends RendererBase {
 
         json.put("disabled", listManager.isDisabled());
         json.put("size", listManager.getRows());
+	String width = listManager.getWidth();
+	if (width != null && width.trim().length() != 0) {
+	    json.put("width", width.trim());
+	}
         json.put("multiple", listManager.isMultiple());
         json.put("tabIndex", listManager.getTabIndex());
         json.put("title", listManager.getToolTip());

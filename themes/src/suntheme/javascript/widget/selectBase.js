@@ -174,6 +174,7 @@ webui.@THEME@.widget.selectBase.prototype.getProps = function() {
     if (this.disabled != null) { props.disabled = this.disabled; }
     if (this.label ) { props.label = this.label; }
     if (this.options ) { props.options = this.options; }
+    if (this.width) { props.width = this.width; }
 
     return props;
 }
@@ -386,6 +387,10 @@ webui.@THEME@.widget.selectBase.prototype._setProps = function(props) {
         if (new Boolean(this.labelOnTop).valueOf() == true) {
             this.common.setVisibleElement(this.brContainer, true);
         }
+    }
+
+    if (props.width != null && props.width != "") {
+	this.listContainer.style.width = props.width;
     }
 
     // Set more properties.

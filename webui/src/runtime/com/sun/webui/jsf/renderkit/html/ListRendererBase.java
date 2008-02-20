@@ -20,7 +20,7 @@
  * Copyright 2007 Sun Microsystems, Inc. All rights reserved.
  */
 /*
- * $Id: ListRendererBase.java,v 1.4 2007-04-30 21:02:41 rratta Exp $
+ * $Id: ListRendererBase.java,v 1.5 2008-02-20 16:29:23 rratta Exp $
  */
 package com.sun.webui.jsf.renderkit.html;
 
@@ -321,6 +321,8 @@ abstract public class ListRendererBase extends Renderer {
         ResponseWriter writer = context.getResponseWriter();
    
         writer.startElement("select", (UIComponent)listManager); //NOI18N
+
+	renderSelectStyle(listManager, writer);
 
         writer.writeAttribute("class", styleClass, null);      //NOI18N
         writer.writeAttribute("id", id, null); //NOI18N
@@ -828,5 +830,38 @@ abstract public class ListRendererBase extends Renderer {
             ConversionUtilities.setRenderedValue(component, 
                     ((EditableValueHolder)component).getValue());
         }
+    }
+
+    /**
+     * Render the <code>ListItem</code> <code>label</code> and 
+     * <code>text</code> properties.
+     * If the widget of the listbox is based on character columns.
+     * If the label property is not set, render the text property
+     * truncated to the desired character column width as the
+     * <code>label</code> property value and the <code>text</code>
+     * property as the full length value. If the <code>label</code>
+     * and <code>text</code> properties are set, render them as is.
+     * <p>
+     * To support existing applications where a theme has set
+     * the behavior for character column mode, there will be no
+     * <code>text</code> propert value set. In this case assume that the
+     * <code>label</code> property is the full length value. Render it
+     * for the <code>text</code> property and truncated for the 
+     * <code>label</code> property value.
+     */
+    protected void renderSelectStyle(ListManager component,
+	    ResponseWriter writer) throws IOException {
+
+	// If width is null, then we are using the widest option
+	// to control the select element's width
+	//
+	String width = component.getWidth();
+	if (width != null) {
+	    // style="width:<width>"
+	    //
+	    StringBuilder sb = new StringBuilder("width");
+	    sb.append(':').append(width).append(';');
+	    writer.writeAttribute("style", sb.toString(), null);
+	}
     }
 }

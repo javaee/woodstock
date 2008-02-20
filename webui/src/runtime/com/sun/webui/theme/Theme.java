@@ -20,7 +20,7 @@
  * Copyright 2007 Sun Microsystems, Inc. All rights reserved.
  */
 /*
- * $Id: Theme.java,v 1.2 2007-04-03 00:25:47 rratta Exp $
+ * $Id: Theme.java,v 1.3 2008-02-20 16:29:23 rratta Exp $
  */
 
 package com.sun.webui.theme;
@@ -217,6 +217,28 @@ public interface Theme  {
      * @return A formatted message string
      */
     public String getMessage(String key, Object[] params);
+
+    /**
+     * Return a <code>boolean</code> value for <code>key</code>.
+     * If <code>key</code> is not defined, return <code>defaultValue</code>.
+     * If <code>defaultValue</code> is <code>null</code> and <code>key</code>
+     * is not defined <code>RuntimeException</code> is thrown.
+     * @param key Defines a boolean value.
+     * @param defaultValue The value to return if <code>key</code> is not
+     * defined.
+     * @return A boolean value for <code>key</code>
+     */
+    public boolean getMessageBoolean(String key, boolean defaultValue);
+
+    /**
+     * Return an <code>int</code> value for <code>key</code>.
+     * If <code>key</code> is not defined, return <code>defaultValue</code>.
+     * @param key Defines an <code>int</code> value.
+     * @param defaultValue The value to return if <code>key</code> is not
+     * defined.
+     * @return A <code>int</code> value for <code>key</code>
+     */
+    public int getMessageInt(String key, int defaultValue);
 
     /**
      * Return a String URI that can be used to access the physical

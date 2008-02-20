@@ -33,7 +33,7 @@ public class LabelLevelsDomain extends Domain {
                 DesignMessageUtil.getMessage(LabelLevelsDomain.class, "LabelLevel.1")), //NOI18N
         new Element(new Integer(2), //"Medium (2)"),
                 DesignMessageUtil.getMessage(LabelLevelsDomain.class, "LabelLevel.2")), //NOI18N
-        new Element(new Integer(3), //"Weak (3Ê)"),
+        new Element(new Integer(3), //"Weak (3)"),
                 DesignMessageUtil.getMessage(LabelLevelsDomain.class, "LabelLevel.3")) //NOI18N
     };
     

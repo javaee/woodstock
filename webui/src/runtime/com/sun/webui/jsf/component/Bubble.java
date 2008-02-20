@@ -415,7 +415,7 @@ public class Bubble extends WebuiOutput {
     
     /**
      * <p>Title for the bubble help window. </p>
-     * @see #getDescription()
+     * @see #getTitle()
      */
     public void setTitle(String title) {
         this.title = title;

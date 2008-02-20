@@ -126,7 +126,6 @@ public class ListSelector extends Selector implements ListManager,
         
         if(DEBUG) log("getListItems()"); //NOI18N
 
-
         listItems = new ArrayList();
         separatorLength = 0; 
 
@@ -167,6 +166,25 @@ public class ListSelector extends Selector implements ListManager,
 
     public int getSeparatorLength() {
         return separatorLength;
+    }
+
+    // All separator length functionality should be the responsibility
+    // of the renderer.
+    /**
+     * Set the separator length only if length is longer than
+     * the current separatorLength. This implementation uses
+     * "1.5" as an offset for some reason. It may be because of the
+     * original "-" character used for the separator length. Now that
+     * an "en" dash is used, this added offset may not be necessary.
+     */
+    protected void setSeparatorLength(int length) {
+	// "1.5" is an arbitrary offset estimate to compensate for the
+	// character used for the separator.
+	//
+	int newvalue = (int)(length * 1.5);
+	if (newvalue > separatorLength) {
+	    separatorLength = newvalue;
+	}
     }
 
     /** 
@@ -227,22 +245,19 @@ public class ListSelector extends Selector implements ListManager,
 
                 OptionGroup selectionGroup = 
                     (OptionGroup)options[counter]; 
+
                 String groupLabel = selectionGroup.getLabel(); 
                 if (groupLabel == null) {
                     groupLabel = ""; //NOI18N
                 }
-                if(DEBUG) { 
-                    log("\tFound SelectionGroup"); //NOI18N
-                    log("\tLabel is " + groupLabel); //NOI18N
-                } 
-
-                if((groupLabel.length() * 1.5) > separatorLength) { 
-                    // FIXME - needs to be dependent on the
-                    // browser if not the OS... ARRGGH.
-                    separatorLength = (int)(groupLabel.length() * 1.5); 
-                } 
+		// Perform the heuristic in the setSeparatorLength
+		// method to hide the 1.5. Hopefully we can get 
+		// rid of it.
+		//
+		setSeparatorLength(groupLabel.length());
                 
                 listItems.add(new StartGroup(groupLabel)); 
+
                 processOptions(selectionGroup.getOptions());
                 listItems.add(new EndGroup()); 
             } 
@@ -459,12 +474,15 @@ public class ListSelector extends Selector implements ListManager,
              label = valueString;
          
         if(DEBUG) log("Label is " + label); 
-        if((label.length() * 1.5) > separatorLength) { 
-            separatorLength = (int)(label.length() * 1.5); 
-        } 
 
-        ListItem listItem = new ListItem(si.getValue(), label, si.getDescription(), 
-                                   si.isDisabled(), si.isEscape());
+	// Perform the heuristic in the setSeparatorLength
+	// method to hide the 1.5. Hopefully we can get 
+	// rid of it.
+	//
+	setSeparatorLength(label.length());
+
+        ListItem listItem = new ListItem(si.getValue(), label,
+		si.getDescription(), si.isDisabled(), si.isEscape());
 
         listItem.setValue(valueString); 
         if(si instanceof OptionTitle) { 
@@ -979,6 +997,66 @@ public class ListSelector extends Selector implements ListManager,
     }
 
     /**
+     * The <code>width</code> property is a value for the CSS <code>width</code>
+     * property suitable for the <code>select</code> HTML element.
+     */
+    @Property(name="width", displayName="Width", category="Appearance")
+    private String width;
+
+    /**
+     * Return a value suitable for the CSS width property to be applied to 
+     * an HTML select element.
+     * <p>
+     * This ListSelector base class interprets a null value to imply 
+     * that the select element should size itself based on the
+     * length of the longest option.
+     * </p>
+     * @return The value used to determine the width of a select HTML element.
+     */
+    public String getWidth() {
+        if (this.width != null) {
+            return this.width;
+        }
+        ValueExpression _vb = getValueExpression("width");
+        if (_vb != null) {
+	    String _result = 
+		(String)_vb.getValue(getFacesContext().getELContext());
+	    _result = _result == null ? null : _result.trim();
+	    if (_result != null && _result.length() != 0) {
+		return _result;
+            }
+        }
+	return null;
+    }
+
+    /**
+     * <code>width</code> is a value for the CSS <code>width</code>
+     * property suitable for the <code>select</code> HTML element.
+     * As a CSS string property value, <code>width</code>
+     * is assumed to contain the units. For example:
+     * <p>
+     * <ul>
+     * <li>20em</li>
+     * <li>250px</li>
+     * <li>5%</li>
+     * </ul>
+     * The value is not parsed by <code>ListSelector</code> and may
+     * not be by its subclasses. It is intended to be applied directly
+     * to the style attribute of the select element.
+     * If <code>width</code> is null, <code>ListSelector</code> behavior
+     * will assume the size of the select element will be based on the
+     * length of the longest <code>Option</code> item's <code>text</code>
+     * property, and if that is not set, its <code>label</code> property.
+     * </p>
+     * @param width The width of the listbox.
+     * @see #getWidth()
+     * @see com.sun.webui.jsf.model.Option#label The Option.label property
+     */
+    public void setWidth(String width) {
+        this.width = width;
+    }
+
+    /**
      * <p>Restore the state of this component.</p>
      */
     public void restoreState(FacesContext _context,Object _state) {
@@ -992,13 +1070,14 @@ public class ListSelector extends Selector implements ListManager,
         this.separators_set = ((Boolean) _values[6]).booleanValue();
         this.visible = ((Boolean) _values[7]).booleanValue();
         this.visible_set = ((Boolean) _values[8]).booleanValue();
+        this.width = (String)_values[9];
     }
 
     /**
      * <p>Save the state of this component.</p>
      */
     public Object saveState(FacesContext _context) {
-        Object _values[] = new Object[9];
+        Object _values[] = new Object[10];
         _values[0] = super.saveState(_context);
         _values[1] = this.labelOnTop ? Boolean.TRUE : Boolean.FALSE;
         _values[2] = this.labelOnTop_set ? Boolean.TRUE : Boolean.FALSE;
@@ -1008,6 +1087,7 @@ public class ListSelector extends Selector implements ListManager,
         _values[6] = this.separators_set ? Boolean.TRUE : Boolean.FALSE;
         _values[7] = this.visible ? Boolean.TRUE : Boolean.FALSE;
         _values[8] = this.visible_set ? Boolean.TRUE : Boolean.FALSE;
+        _values[9] = this.width;
         return _values;
     }
 }

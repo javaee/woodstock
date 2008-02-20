@@ -4772,7 +4772,7 @@ drop-down menu occupies one line of the page, and displays one list item.
 The rest of the list items are displayed when the user opens the menu.</p>
 <p>The <code>webuijsf:dropDown</code> tag can be configured to
 immediately submit the form when the user makes a selection. By
-default, the drop-down <name is used only for selecting items, and does
+default, the drop-down is used only for selecting items, and does
 not submit the form. </p>
 <h3>HTML Elements and Layout</h3>
 <p>The dropDown component renders an XHTML <code>&lt;select&gt;</code>

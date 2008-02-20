@@ -44,10 +44,10 @@ import javax.faces.component.UIComponentBase;
  * provided that the drop containers accepts drops of this particular type.
  * <li>For the purpose of dragging all elements are identified with 
  *  <ol>
- * <li>Type – aimed to facilitate the acceptance check on the drop site. 
+ * <li>Type - aimed to facilitate the acceptance check on the drop site. 
  *      All elements inherit the same type set  from the container ( in this case type set 
  *      is associated with the container, and propagated down to elements)
- * <li> Data – payload. The data is furnished to the drop container when new element is created there.
+ * <li> Data - payload. The data is furnished to the drop container when new element is created there.
  * </ol>
  * <li>When dragged, an avatar ( moving image) is created.
  * <li> When dropped, the new element at the destination is created: user can use default  
@@ -206,7 +206,7 @@ public class DndContainer extends UIComponentBase  {
     
     /**
      * <p>Sets list of drag item types.
-     * @see #getdropTypes()
+     * @see #getDropTypes()
      */
     public void setDropTypes(String dropTypes) {
         this.dropTypes = dropTypes;
@@ -260,7 +260,7 @@ public class DndContainer extends UIComponentBase  {
     
     /**
      * <p>Scripting code executed when new element is created from the data.</p>
-     * @see #getonNodeCreateFunc()
+     * @see #getOnNodeCreateFunc()
      */
     public void setOnNodeCreateFunc(String onNodeCreateFunc) {
         this.onNodeCreateFunc = onNodeCreateFunc;

@@ -195,6 +195,18 @@
     nbproject/build-impl.xml file. 
 
     -->
+    <target name="javadoc-uptodate">
+	<uptodate property="javadoc-uptodate"
+	  targetfile="${dist.javadoc.dir}/index.html">
+	  <srcfiles dir="${build.classes.dir}" 
+		includes="**/*.class"/>
+	</uptodate>
+    </target>
+    <target name="javadoc-build" depends="javadoc-uptodate"
+	unless="javadoc-uptodate">
+
+	<ant antfile="nbproject/build-impl.xml" target="javadoc-build"/>
+    </target>
 
     <target name="-pre-dist">
 

@@ -20,7 +20,7 @@
  * Copyright 2007 Sun Microsystems, Inc. All rights reserved.
  */
 /*
- * $Id: JarTheme.java,v 1.2 2007-04-03 00:25:46 rratta Exp $
+ * $Id: JarTheme.java,v 1.3 2008-02-20 16:29:23 rratta Exp $
  */
 
 package com.sun.webui.theme;
@@ -414,7 +414,6 @@ public class JarTheme implements Theme {
 	return message;
     }
 
-
     /**
      * Retrieves a message from the appropriate ResourceBundle.
      * If the web application specifies a bundle that overrides
@@ -432,6 +431,56 @@ public class JarTheme implements Theme {
         return mf.format(params); 
     }
 
+    /**
+     * Return a <code>boolean</code> value for <code>key</code>.
+     * If <code>key</code> is not defined, return <code>defaultValue</code>.
+     * <p>
+     * This method will coerce the <code>String</code> property value
+     * to boolean, using <code>Boolean.valueOf(String)</code>.
+     * </p>
+     * @param key Defines a boolean value.
+     * @param defaultValue The value to return if <code>key</code> is not
+     * defined.
+     * @return A boolean value for <code>key</code>
+     */
+    public boolean getMessageBoolean(String key, boolean defaultValue) {
+	String property = key;
+	try {
+	    property = getMessage(key);
+	} catch (MissingResourceException mre) {
+	    return defaultValue;
+	}
+	return Boolean.valueOf(property).booleanValue();
+    }
+
+    /**
+     * Return an <code>int</code> value for <code>key</code>.
+     * If <code>key</code> is not defined or the value of key 
+     * cannot be coerced to an <code>int</code>, 
+     * return <code>defaultValue</code>.
+     * <p>
+     * This method will coerce the <code>String</code> property value
+     * to <code>int</code>, using <code>Integer.parseInt(String)</code>.
+     * </p>
+     * @param key Defines an <code>int</code> value.
+     * @param defaultValue The value to return if <code>key</code> is not
+     * defined or cannot be converted to <code>int</code>.
+     * @return An <code>int</code> value for <code>key</code>
+     */
+    public int getMessageInt(String key, int defaultValue) {
+
+	String property = key;
+	try {
+	    property = getMessage(key);
+	    if (property == null || property.trim().length() == 0) {
+		return defaultValue;
+	    }
+	    int ivalue = Integer.parseInt(property);
+	    return ivalue;
+	} catch(Exception e) {
+	}
+        return defaultValue;
+    }
 
     // Sets the prefix to be unconditionally prepended for any URI given out
     // by theme.

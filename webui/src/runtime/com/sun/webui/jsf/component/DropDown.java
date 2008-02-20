@@ -30,6 +30,7 @@ import com.sun.webui.jsf.event.MethodExprActionListener;
 import com.sun.webui.jsf.util.ComponentUtilities;
 import com.sun.webui.jsf.util.MethodBindingMethodExpressionAdapter;
 import com.sun.webui.jsf.util.MethodExpressionMethodBindingAdapter;
+import com.sun.webui.jsf.util.ThemeUtilities;
 
 import java.util.Iterator;
 import java.util.Map;
@@ -121,22 +122,6 @@ public class DropDown extends ListSelector implements ActionSource2 {
      */
     public void setHtmlTemplate(String htmlTemplate) {
         this.htmlTemplate = htmlTemplate;
-    }
-
-    /**
-     * Getter for property Rows.
-     * @return Value of property Rows.
-     */
-    private int _getRows() {
-        return 1;
-    }
-
-    /**
-     * Setter for property Rows.
-     * @param DisplayRows New value of property DisplayRows.
-     */
-    public void setRows(int DisplayRows) {
-        setRows(1);
     }
 
     /**
@@ -445,8 +430,17 @@ public class DropDown extends ListSelector implements ActionSource2 {
     // Hide rows
     @Property(name="rows", isHidden=true, isAttribute=false)
     public int getRows() {
-        return _getRows();
+        return 1;
     }
+
+    /**
+     * Setter for property Rows.
+     * @param DisplayRows New value of property DisplayRows.
+     */
+    public void setRows(int DisplayRows) {
+        setRows(1);
+    }
+
 
     // Hide value
     @Property(name="value", isHidden=true, isAttribute=false)
@@ -454,6 +448,30 @@ public class DropDown extends ListSelector implements ActionSource2 {
         return super.getValue();
     }
 
+    /**
+     * Return a value suitable for the CSS width property to be applied to 
+     * an HTML select element or null.
+     * <p>
+     * If no value has been set, a default value is determined from
+     * the theme property <code>dropDown.width</code> defined in the
+     * <code>messages</code> theme category. If this theme
+     * property is not defined, the width is determined by the
+     * longest option element in the rendered select element.
+     * </p>
+     * @return The value used to determine the width of a select HTML element.
+     */
+    public String getWidth() {
+	String _width = super.getWidth();
+	if (_width != null) {
+	    return _width;
+	}
+	_width = ThemeUtilities.getTheme(FacesContext.getCurrentInstance())
+	    .getMessage("dropDown.width");
+	if (_width != null && _width.trim().length() != 0) {
+	    return _width.trim();
+	}
+	return null;
+    }
 
     /**
      * <p>Used to specify the action to take when this component is 

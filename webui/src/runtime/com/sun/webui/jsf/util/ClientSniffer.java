@@ -555,7 +555,12 @@ public class ClientSniffer {
             return ClientType.OTHER;
         }
         agent = agent.toLowerCase();
-        if (agent.indexOf("gecko") != -1) {
+	// Need to test for Safari first since it has "Gecko like"
+	// in the user agent string and this will match "gecko"
+	//
+        if (agent.indexOf("safari") != -1) {
+            return ClientType.SAFARI;
+	} else if (agent.indexOf("gecko") != -1) {
             return ClientType.GECKO;
         } else if (agent.indexOf("msie 7") != -1) {
             return ClientType.IE7;

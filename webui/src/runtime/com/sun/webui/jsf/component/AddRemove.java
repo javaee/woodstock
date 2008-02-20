@@ -1752,6 +1752,11 @@ public class AddRemove extends ListSelector implements ListManager {
         this.vertical_set = true;
     }
 
+    @Property(name="width", isHidden=true, isAttribute=false)
+    public String getWidth() {
+        return super.getWidth();
+    }
+
     /**
      * <p>Restore the state of this component.</p>
      */

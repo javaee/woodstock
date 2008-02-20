@@ -143,6 +143,8 @@
 		    <srcfiles dir="${_js-from-dir_}"
 			includes="**/*.properties"
 			excludes="translatedFiles/"/>
+		    <srcfiles dir="${_js-from-dir_}"
+			includes="templates/*.html"/>
 		</uptodate>
 	    </and>
 	</condition>

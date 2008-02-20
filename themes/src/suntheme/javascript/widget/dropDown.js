@@ -33,6 +33,7 @@ webui.@THEME@.dojo.require("webui.@THEME@.widget.selectBase");
  */
 webui.@THEME@.dojo.declare("webui.@THEME@.widget.dropDown", webui.@THEME@.widget.selectBase, {
     // Set defaults.
+    width: webui.@THEME@.theme.common.getMessage("dropDown.width", null),
     submitForm: false,
     titleOptionLabel: "DropDown.titleOptionLabel",
     widgetName: "dropDown" // Required for theme properties.

@@ -74,6 +74,13 @@ public interface ListManager extends EditableValueHolder, SelectorManager,
     public int getRows();
    
     /**
+     * The width value to apply to the CSS width property of a sn HTML
+     * select element.
+     * @return The width of the list.
+     */
+    public String getWidth();
+
+    /**
      * Returns a UIComponent used to display the readonly value for this 
      * component
      * @return a UIComponent used to display the readonly value for this 

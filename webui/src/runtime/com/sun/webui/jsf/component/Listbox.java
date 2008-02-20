@@ -24,9 +24,12 @@ package com.sun.webui.jsf.component;
 import com.sun.faces.annotation.Component;
 import com.sun.faces.annotation.Property;
 import com.sun.webui.jsf.util.ComponentUtilities;
+import com.sun.webui.jsf.util.ThemeUtilities;
 
 import javax.el.ValueExpression;
 import javax.faces.context.FacesContext;
+
+import com.sun.webui.jsf.model.Option; // for javadoc
 
 /**
  * The Listbox component allows users to select one or more items from a list.
@@ -235,6 +238,31 @@ public class Listbox extends ListSelector {
      */
     public void setToolTip(String toolTip) {
         this.toolTip = toolTip;
+    }
+
+    /**
+     * Return a value suitable for the CSS width property to be applied to 
+     * an HTML select element or null.
+     * <p>
+     * If no value has been set, a default value is determined from
+     * the theme property <code>listbox.width</code> defined in the
+     * <code>messages</code> theme category. If this theme
+     * property is not defined, the width is determined by the
+     * longest option element of the rendered select element.
+     * </p>
+     * @return The value used to determine the width of a select HTML element.
+     */
+    public String getWidth() {
+	String _width = super.getWidth();
+	if (_width != null) {
+	    return _width;
+	}
+	_width = ThemeUtilities.getTheme(FacesContext.getCurrentInstance())
+	    .getMessage("listbox.width");
+	if (_width != null && _width.trim().length() != 0) {
+	    return _width.trim();
+	}
+	return null;
     }
 
     /**

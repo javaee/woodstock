@@ -610,7 +610,7 @@ public class Login extends WebuiInput implements NamingContainer {
     
     
     /**
-     * <p>Override the default {@link UIComponentBase#processDecodes}
+     * <p>Override the default {@link UIComponent#processDecodes}
      * processing to perform the following steps.</p>
      * <ul>
      * The Login component does not need all its children to be

@@ -1039,15 +1039,16 @@ public class ImageCustomizerPanel extends javax.swing.JPanel implements Property
      * Convert a file system path to a URL by converting unsafe characters into
      * numeric character entity references. The unsafe characters are listed in
      * in the IETF specification of URLs
-     * (<a href="http://www.ietf.org/rfc/rfc1738.txt">RFC 1738</a>). Safe URL
-     * characters are all printable ASCII characters, with the exception of the
-     * space characters, '#', <', '>', '%', '[', ']', '{', '}', and '~'. This
-     * method differs from {@link java.net.URLEncoder#encode(String)}, in that
+     * Safe URL characters are all printable ASCII characters, with the 
+     * exception of the space characters, '#', '&lt;', '&gt;', '%', '[',
+     * ']', '{', '}', and '~'. This method differs from 
+     * {@link java.net.URLEncoder#encode(String)}, in that
      * it is intended for encoding the path portion of a URL, not the query
      * string. This method also attempts to recognize value binding expressions
      * within the string, as any sequence of characters matching the regular
-     * expression {@code #{[^{]*}). Value binding expressions are <emph>not</emph>
-     * escaped.
+     * expression <code>#{[^{]*}</code>. 
+     * Value binding expressions are <emph>not</emph> escaped.
+     * @see <a href="http://www.ietf.org/rfc/rfc1738.txt">RFC 1738</a>
      */
     public static String encodeUrl(String url) {
         if (url == null || url.length() == 0)

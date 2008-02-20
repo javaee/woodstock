@@ -297,10 +297,6 @@
 	    <param name="_filter_" value="true"/>
         </antcall>
 
-        <!-- copy messages.properties to messages_en.properties JSF hack -->
-        <copy file="${theme.src-dir}/messages/messages.properties"
-              tofile="${theme.build-package-path}/messages/messages_en.properties"/>
-        
         <copy todir="${theme.build-dir}/META-INF">
             <fileset dir="${basedir}/META-INF">
                 <include name="manifest.mf" /> 

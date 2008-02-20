@@ -204,10 +204,10 @@ public class ResourceBundleTheme implements Theme {
      * Returns a literal message value defined by <code>key</code>
      * from the <code>ThemeResourceBundle.ThemeBundle.MESSAGES</code>
      * <code>ResourceBundle</code>.
-     * If the <code>key</code> is not defined, <code>key</code>
+     * If the <code>key</code> is not defined, <code>null</code>
      * is returned.
      * @param key Defines a theme message or string.
-     * @return A message string
+     * @return A message string or null
      */
     public String getMessage(String key) {
 
@@ -222,7 +222,6 @@ public class ResourceBundleTheme implements Theme {
 	}
 	return property;
     }
-
 
     /**
      * Return a message that has been formatted using
@@ -264,6 +263,69 @@ public class ResourceBundleTheme implements Theme {
 		new Object[] { property }, e);
 	}
 	return property;
+    }
+
+    /**
+     * Return a <code>boolean</code> value for <code>key</code>.
+     * If <code>key</code> is not defined, return <code>defaultValue</code>.
+     * <p>
+     * This method will coerce the <code>String</code> property value
+     * to <code>boolean</code>, using <code>Boolean.valueOf(String)</code>.
+     * </p>
+     * @param key Defines a <code>boolean</code> value.
+     * @param defaultValue The value to return if <code>key</code> is not
+     * defined.
+     * @return A <code>boolean</code> value for <code>key</code>
+     */
+    public boolean getMessageBoolean(String key, boolean defaultValue) {
+	String property = key;
+	try {
+	    property = (String)getProperty(key,
+		ThemeResourceBundle.ThemeBundle.MESSAGES);
+	} catch (MissingResourceException mre) {
+	    ThemeLogger.log(Level.FINEST, "NO_SUCH_PROPERTY",
+		new Object[] { key, getThemeResources().getName() }, mre);
+	    return defaultValue;
+	}
+	return Boolean.valueOf(property).booleanValue();
+    }
+
+    /**
+     * Return an <code>int</code> value for <code>key</code>.
+     * If <code>key</code> is not defined or the value of key 
+     * cannot be coerced to an <code>int</code>, 
+     * return <code>defaultValue</code>.
+     * <p>
+     * This method will coerce the <code>String</code> property value
+     * to <code>int</code>, using <code>Integer.parseInt(String)</code>.
+     * </p>
+     * @param key Defines an <code>int</code> value.
+     * @param defaultValue The value to return if <code>key</code> is not
+     * defined or cannot be converted to <code>int</code>.
+     * @return An <code>int</code> value for <code>key</code>
+     */
+    public int getMessageInt(String key, int defaultValue) {
+
+	String property = key;
+	try {
+	    property = (String)getProperty(key,
+		ThemeResourceBundle.ThemeBundle.MESSAGES);
+	    if (property == null || property.trim().length() == 0) {
+		return defaultValue;
+	    }
+	} catch (MissingResourceException mre) {
+	    ThemeLogger.log(Level.FINEST, "NO_SUCH_PROPERTY",
+		new Object[] { key, getThemeResources().getName() }, mre);
+	    return defaultValue;
+	}
+	try {
+	    int ivalue = Integer.parseInt(property);
+	    return ivalue;
+	} catch (Exception mre) {
+	    ThemeLogger.log(Level.FINEST, "NOT_INT_PROPERTY",
+		new Object[] { key, getThemeResources().getName() }, mre);
+	    return defaultValue;
+	}
     }
 
     // Was defined in the MANIFEST.MF as

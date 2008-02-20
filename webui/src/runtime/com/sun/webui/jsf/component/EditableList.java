@@ -1831,26 +1831,29 @@ public class EditableList extends WebuiInput implements ListManager,
     private boolean rows_set = false;
 
     /**
-     * <p>The number of items to display, which determines the length of the 
-     * rendered listbox. The default value is 6.</p>
+     * The number of items to display, which determines the length of the 
+     * rendered listbox. The default value is 6.
+     * @return The number options to display.
      */
     public int getRows() {
-        if (this.rows_set) {
-            return this.rows;
-        }
+	if (this.rows_set) {
+	    return this.rows;
+	}
         ValueExpression _vb = getValueExpression("rows");
         if (_vb != null) {
             Object _result = _vb.getValue(getFacesContext().getELContext());
-            if (_result == null) {
-                return Integer.MIN_VALUE;
-            } else {
-                return ((Integer) _result).intValue();
-            }
+            if (_result != null) {
+		try {
+		    return ((Integer) _result).intValue();
+		} catch (Exception e) {
+		    // fall through for default;
+		}
+	    }
         }
-        return 6;
+	return getTheme().getMessageInt("editableList.rows", 6);
     }
 
-    /**
+    /*
      * <p>The number of items to display, which determines the length of the 
      * rendered listbox. The default value is 6.</p>
      * @see #getRows()
@@ -1859,6 +1862,7 @@ public class EditableList extends WebuiInput implements ListManager,
         this.rows = rows;
         this.rows_set = true;
     }
+
 
     /**
      * <p>Set sorted to true if the list items should be
@@ -2098,6 +2102,68 @@ public class EditableList extends WebuiInput implements ListManager,
     }
     
     /**
+     * The <code>width</code> property is a value for the CSS <code>width</code>
+     * property suitable for the <code>select</code> HTML element.
+     */
+    @Property(name="width", displayName="Width", category="Appearance")
+    private String width;
+
+    /**
+     * Return a value suitable for the CSS width property to be applied to 
+     * an HTML select element or null.
+     * <p>
+     * If no value has been set, a default value is determined from
+     * the theme property <code>editableList.width</code> defined in the
+     * <code>messages</code> theme category. If this theme
+     * property is not defined, the width is determined by the
+     * longest option element of the rendered select element.
+     * </p>
+     * @return The value used to determine the width of a select HTML element.
+     */
+    public String getWidth() {
+	if (this.width != null) {
+	    return this.width;
+	}
+        ValueExpression _vb = getValueExpression("style");
+        if (_vb != null) {
+            String _width = (String)_vb.getValue(
+		getFacesContext().getELContext());
+	    if (_width != null && _width.trim().length() != 0) {
+		return _width;
+	    }
+        }
+	String _width = getTheme().getMessage("editableList.width");
+	if (_width != null && _width.trim().length() != 0) {
+	    return _width.trim();
+	}
+	return null;
+    }
+
+    /**
+     * <code>width</code> is a value for the CSS <code>width</code>
+     * property suitable for the <code>select</code> HTML element.
+     * As a CSS string property value, <code>width</code>
+     * is assumed to contain the units. For example:
+     * <p>
+     * <ul>
+     * <li>20em</li>
+     * <li>250px</li>
+     * <li>5%</li>
+     * </ul>
+     * The value is not parsed by <code>EditableList</code>
+     * and is intended to be applied directly
+     * to the style attribute of the select element.
+     * If <code>width</code> is null, <code>EditableList</code> behavior
+     * will assume the size of the select element will be based on the
+     * length of the longest option in the select element.
+     * </p>
+     * @see #getWidth()
+     */
+    public void setWidth(String width) {
+        this.width = width;
+    }
+
+    /**
      * <p>
      * A validator that will be applied to entries made into the
      * textfield. Specify this to be the <code>validate()</code>
@@ -2200,13 +2266,14 @@ public class EditableList extends WebuiInput implements ListManager,
         this.visible = ((Boolean) _values[24]).booleanValue();
         this.visible_set = ((Boolean) _values[25]).booleanValue();
         this.fieldValidatorExpression = (MethodExpression)restoreAttachedState(_context, _values[26]);
+        this.width = (String) _values[27];
     }
 
     /**
      * <p>Save the state of this component.</p>
      */
     public Object saveState(FacesContext _context) {
-        Object _values[] = new Object[27];
+        Object _values[] = new Object[28];
         _values[0] = super.saveState(_context);
         _values[1] = this.disabled ? Boolean.TRUE : Boolean.FALSE;
         _values[2] = this.disabled_set ? Boolean.TRUE : Boolean.FALSE;
@@ -2234,6 +2301,7 @@ public class EditableList extends WebuiInput implements ListManager,
         _values[24] = this.visible ? Boolean.TRUE : Boolean.FALSE;
         _values[25] = this.visible_set ? Boolean.TRUE : Boolean.FALSE;
         _values[26] = saveAttachedState(_context, fieldValidatorExpression);
+        _values[27] = this.width;
         return _values;
     }
 }

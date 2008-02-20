@@ -18,7 +18,7 @@ you own identifying information:
 "Portions Copyrighted [year] [name of copyright owner]"
 Copyright 2007 Sun Microsystems, Inc. All rights reserved.
 -->
-<meta http-equiv="content-type" content="text/html; charset=ISO-8859-1"><title>Woodstock 4.1 Components Release Notes</title>
+<meta http-equiv="content-type" content="text/html; charset=ISO-8859-1"><title>Woodstock 4.2 Components Release Notes</title>
 
 </head>
 
@@ -33,6 +33,29 @@ Copyright 2007 Sun Microsystems, Inc. All rights reserved.
 <code>jsfx</code>
 tag attribute of the Head and/or
 ThemeLinks tags to false.</li>
+</ul>
+<h3>Bugs Resolved/Fixed</h3>
+<ul>
+<li>
+<a href="https://woodstock.dev.java.net/issues/show_bug.cgi?id=979">
+Issue #979</a> - NB : 6.0 adoption blocker due to unable to set size 
+on DropDown and Listbox components.
+<p>A new <code>width</code> property has been added to the EditableList,
+OrderableList, Listbox and DropDown components. This property accepts
+a <code>String</code> value that must be suitable for the 
+CSS <code>width</code> property and will be applied to the underlying
+select HTML element. For example values like <code>30em</code>,
+<code>200px</code>, etc. Note that in some cases using this property
+may obscure the option text, if the value is not longer than the
+option text length. The following theme properties will be recognized
+as the default value for this property, <code>listbox.width</code>,
+<code>dropDown.width</code>, <code>editableList.width</code>, and
+<code>orderableList.width</code> when defined in the 
+<code>messages.properties</code> file and the javascript theme.
+The "suntheme" does NOT define these properties since its behavior
+is to size to the largest option. This is the default behavior if no
+theme property exists and width is not set on the component.
+</li>
 </ul>
 <h2><u><a name="4.2_Build_2">4.2 Build 2</a></u>&nbsp;
 (02/012/2008)</h2>

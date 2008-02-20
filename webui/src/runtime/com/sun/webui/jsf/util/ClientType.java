@@ -51,6 +51,8 @@ public class ClientType {
     public static final ClientType IE6 = new ClientType("ie6");
      /** Client type is IE 5, version 5.5 or higher */
     public static final ClientType IE5_5 = new ClientType("ie5.5"); 
+     /** Client type is safari */
+    public static final ClientType SAFARI = new ClientType("safari"); 
     /** Client type is not IE 5.5+ or gecko. */
     public static final ClientType OTHER = new ClientType("default");
 
