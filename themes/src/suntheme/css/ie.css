@@ -1,4 +1,4 @@
-/*
+/**
  * The contents of this file are subject to the terms
  * of the Common Development and Distribution License
  * (the License).  You may not use this file except in
@@ -17,10 +17,10 @@
  * you own identifying information:
  * "Portions Copyrighted [year] [name of copyright owner]"
  * 
- * Copyright 2007 Sun Microsystems, Inc. All rights reserved.
+ * Copyright 2008 Sun Microsystems, Inc. All rights reserved.
  */
-/* CSS Document */
-/*BUTTON*/
+
+/* BUTTON */
 .Btn1Mni@THEME_CSS@, .Btn1MniHov@THEME_CSS@, .Btn1MniDis@THEME_CSS@, .Btn2Mni@THEME_CSS@, .Btn2MniHov@THEME_CSS@, .Btn2MniDis@THEME_CSS@, .Btn1@THEME_CSS@, .Btn1Hov@THEME_CSS@, .Btn1Dis@THEME_CSS@, .Btn2@THEME_CSS@, .Btn2Hov@THEME_CSS@, .Btn2Dis@THEME_CSS@,
 .MstDiv@THEME_CSS@ .Btn1@THEME_CSS@, .MstDiv@THEME_CSS@ .Btn1Mni@THEME_CSS@, .MstDiv@THEME_CSS@ .Btn1Hov@THEME_CSS@, .MstDiv@THEME_CSS@ .Btn1MniHov@THEME_CSS@, .MstDiv@THEME_CSS@ .Btn2@THEME_CSS@, .MstDiv@THEME_CSS@ .Btn2Mni@THEME_CSS@, .MstDiv@THEME_CSS@ .Btn2Hov@THEME_CSS@, .MstDiv@THEME_CSS@ .Btn2MniHov@THEME_CSS@ {
 	padding:1px 0 1px 0;
@@ -33,8 +33,9 @@
 	margin:0;
 	padding:0 1px;
 }
-/**/
-/* progress bar */
+/*---*/
+
+/* PROGRESS BAR */
 .progressBar_4@THEME_CSS@ .barContainer@THEME_CSS@ {
 	margin-bottom:-2px;
 }
@@ -47,7 +48,7 @@
 .progressBar_4@THEME_CSS@ .buttonsBottom@THEME_CSS@ {
 	margin: 10px 0 0 -1px;
 }
-/**/
+/*---*/
 
 /* CHECKBOXES AND RADIO BUTTONS */
 .CbLbl@THEME_CSS@, CbLblDis@THEME_CSS@ {
@@ -62,33 +63,15 @@
 .CbDis@THEME_CSS@, .RbDis@THEME_CSS@ {
          filter: alpha(opacity=40);
 }
-/**/
+/*---*/
 
 /* PROPERTY SHEET */
 div.ConTblCl2Div@THEME_CSS@ .CbSpn@THEME_CSS@ input {
 	margin-top:-5px;
 }
-/**/
-
-/* LEFT PANE HELP */
-.LftHlpHlp@THEME_CSS@ {
-	clear:none;
-	width:30%;
-}
-.LftHlpBdy@THEME_CSS@ {
-	clear:right;
-	width:69.8%;
-}
-.LftHlpBtm@THEME_CSS@ {
-	float:left;
-}
-.LftHlpHlp@THEME_CSS@, .LftHlpBdy@THEME_CSS@ {
-	float:left;
-	height:94.7%;
-}
 /*---*/
 
-/* SCHEDULER [originalName: DATE AND TIME]*/
+/* SCHEDULER */
 .DatSelDiv@THEME_CSS@ {
 	padding:0 3px;
 }
@@ -100,13 +83,13 @@ div.ConTblCl2Div@THEME_CSS@ .CbSpn@THEME_CSS@ input {
 	width:29px;
 }
 /*---*/
-/*CALENDAR */
+
+/* CALENDAR */
 .CalPopShd2Div@THEME_CSS@ {
 	position:relative;
 	width:17.75em;
 	padding:0 0 0 0;
 }
-
 .CalPopDiv@THEME_CSS@ .DatCalDiv@THEME_CSS@ {
 	float:left;
 	width:16.8em;
@@ -127,6 +110,7 @@ div.ConTblCl2Div@THEME_CSS@ .CbSpn@THEME_CSS@ input {
 	text-align:right; 
 }
 /*---*/
+
 /* COMMON TASKS */
 .commonTask_4@THEME_CSS@ .infoPanel@THEME_CSS@ .info@THEME_CSS@ {
 	margin-right:1px;
@@ -159,11 +143,12 @@ div.ConTblCl2Div@THEME_CSS@ .CbSpn@THEME_CSS@ input {
 .EdtLstTbl@THEME_CSS@ .EdtLstAddTxtTd@THEME_CSS@ .TxtFldDis@THEME_CSS@ {
 	height: 1.6em;
 }
+/*---*/
+
 /* HELP WINDOW */
 .HlpStpTab@THEME_CSS@ {
 	margin-right:-10px;
 }
-/*---*/
 /* LEFT PANE HELP */
 .LftHlpHlp@THEME_CSS@ {
 	clear:none;
@@ -182,7 +167,7 @@ div.ConTblCl2Div@THEME_CSS@ .CbSpn@THEME_CSS@ input {
 }
 /*---*/
 
-/* TABLE [originalName: ACTION TABLE] */
+/* TABLE */
 table.Tbl@THEME_CSS@ {
 	width:100%;
 	padding:0;
@@ -222,6 +207,7 @@ table.Tbl@THEME_CSS@ td.TblFtrRow@THEME_CSS@ {padding:5px 5px 5px 10px}
 	height:100%;
 }
 /*---*/
+
 /* WIZARD */
 .WizStp@THEME_CSS@ {
 	width:29.7%;
@@ -259,7 +245,9 @@ table.Tbl@THEME_CSS@ td.TblFtrRow@THEME_CSS@ {padding:5px 5px 5px 10px}
 .ChoSortByDiv@THEME_CSS@ {
 	margin-bottom: 10px;
 }
-/* Bubble */
+/*---*/
+
+/* BUBBLE */
 .BubbleHeader@THEME_CSS@ {
     height:1.0em;
     margin-right: 0px;
@@ -273,7 +261,7 @@ table.Tbl@THEME_CSS@ td.TblFtrRow@THEME_CSS@ {padding:5px 5px 5px 10px}
 }
 /*---*/
 
-/* Accordion */
+/* ACCORDION */
 /* Transparent gradients on IE6 cannot be supported */
 .AccdHeader@THEME_CSS@ {
     background-image: none;
@@ -290,20 +278,21 @@ table.Tbl@THEME_CSS@ td.TblFtrRow@THEME_CSS@ {padding:5px 5px 5px 10px}
 .AccdTabCollapsed@THEME_CSS@ a:hover {
     background-image: none;
 }
+/*---*/
 
-/*Menu*/
+/* MENU */
 /*Needed for mouse hover on menu option divs*/
 ul.MenuItems@THEME_CSS@ li .MenuItem@THEME_CSS@.iehover@THEME_CSS@{ 
     background-color: #90b7d0;
     color: #ffffff;   
     cursor: pointer;         
 }
-
 ul.MenuItems@THEME_CSS@ li div.MenuItem@THEME_CSS@.iehover { 
-font-weight: bold;    
- }
+    font-weight: bold;    
+}
+/*---*/
 
-/* Table2 */
+/* TABLE2 */
 .table2@THEME_CSS@ .bg@THEME_CSS@ {
 	position:relative;
 }

@@ -39,7 +39,7 @@ public class ThemeLinks extends UIComponentBase {
     /**
      * Holds value of property styleSheetLink.
      */
-    private boolean styleSheetLink = true; 
+    private boolean styleSheetLink = true;
 
     /**
      * Default constructor.
@@ -59,6 +59,7 @@ public class ThemeLinks extends UIComponentBase {
     /**
      * Getter for property styleSheetLink.
      * @return Value of property styleSheetLink.
+     * @deprecated Use isStyleSheet
      */
     public boolean isStyleSheetLink() {
         return this.styleSheetLink;
@@ -67,6 +68,7 @@ public class ThemeLinks extends UIComponentBase {
     /**
      * Setter for property styleSheetLink.
      * @param styleSheetLink New value of property styleSheetLink.
+     * @deprecated Use setStyleSheet
      */
     public void setStyleSheetLink(boolean styleSheetLink) {
         this.styleSheetLink = styleSheetLink;
@@ -353,14 +355,16 @@ public class ThemeLinks extends UIComponentBase {
     /**
      * <p>If set to true, the theme stylesheet contents will be rendered inline 
      * instead of being linked to.</p>
+     * @deprecated Not well supported by browsers.
      */
-    @Property(name="styleSheetInline", displayName="Include StyleSheet Definitions Inline", category="Advanced")
+    @Property(name="styleSheetInline", displayName="Include StyleSheet Definitions Inline", category="Advanced", isHidden=true)
     private boolean styleSheetInline = false;
     private boolean styleSheetInline_set = false;
 
     /**
      * <p>If set to true, the theme stylesheet contents will be rendered inline 
      * instead of being linked to.</p>
+     * @deprecated Not well supported by browsers.
      */
     public boolean isStyleSheetInline() {
         if (this.styleSheetInline_set) {
@@ -382,6 +386,7 @@ public class ThemeLinks extends UIComponentBase {
      * <p>If set to true, the theme stylesheet contents will be rendered inline 
      * instead of being linked to.</p>
      * @see #isStyleSheetInline()
+     * @deprecated Not well supported by browsers.
      */
     public void setStyleSheetInline(boolean styleSheetInline) {
         this.styleSheetInline = styleSheetInline;
@@ -476,6 +481,50 @@ public class ThemeLinks extends UIComponentBase {
     }
 
     /**
+     * Flag (true or false) indicating to initialize tag library functionality
+     * on load.
+     * <p>
+     * The document.getElementById() function and Level 0 DOM syntax can be 
+     * expensive calls, especially for large HTML tables. For better 
+     * performance, initialization is deferred until the page has loaded. This
+     * allows for progressive HTML rendering. However, partially rendered HTML
+     * may be displayed before JavaScript widgets have been created. Set the 
+     * webuiOnLoad property to false to initialize tags as the page is read by 
+     * the browser.
+     * </p>
+     */
+    @Property(name="webuiOnLoad", displayName="Initialize Tag Library On Load", category="Javascript")
+    private boolean webuiOnLoad = true; 
+    private boolean webuiOnLoad_set = false; 
+ 
+    /**
+     * Test flag indicating to include default Ajax functionality.
+     */
+    public boolean isWebuiOnLoad() { 
+        if (this.webuiOnLoad_set) {
+            return this.webuiOnLoad;
+        }
+        ValueExpression _vb = getValueExpression("webuiOnLoad");
+        if (_vb != null) {
+            Object _result = _vb.getValue(getFacesContext().getELContext());
+            if (_result == null) {
+                return false;
+            } else {
+                return ((Boolean) _result).booleanValue();
+            }
+        }
+        return this.webuiOnLoad;
+    } 
+
+    /**
+     * Set flag indicating to include default Ajax functionality.
+     */
+    public void setWebuiOnLoad(boolean webuiOnLoad) {
+        this.webuiOnLoad = webuiOnLoad;
+        this.webuiOnLoad_set = true;
+    }
+
+    /**
      * <p>Restore the state of this component.</p>
      */
     public void restoreState(FacesContext _context,Object _state) {
@@ -499,13 +548,15 @@ public class ThemeLinks extends UIComponentBase {
         this.webuiAll_set = ((Boolean) _values[16]).booleanValue();
         this.webuiJsfx = ((Boolean) _values[17]).booleanValue();
         this.webuiJsfx_set = ((Boolean) _values[18]).booleanValue();
+        this.webuiOnLoad = ((Boolean) _values[19]).booleanValue();
+        this.webuiOnLoad_set = ((Boolean) _values[20]).booleanValue();
     }
 
     /**
      * <p>Save the state of this component.</p>
      */
     public Object saveState(FacesContext _context) {
-        Object _values[] = new Object[19];
+        Object _values[] = new Object[21];
         _values[0] = super.saveState(_context);
         _values[1] = this.javaScript ? Boolean.TRUE : Boolean.FALSE;
         _values[2] = this.javaScript_set ? Boolean.TRUE : Boolean.FALSE;
@@ -525,6 +576,8 @@ public class ThemeLinks extends UIComponentBase {
         _values[16] = this.webuiAll_set ? Boolean.TRUE : Boolean.FALSE;
         _values[17] = this.webuiJsfx ? Boolean.TRUE : Boolean.FALSE;
         _values[18] = this.webuiJsfx_set ? Boolean.TRUE : Boolean.FALSE;
+        _values[19] = this.webuiOnLoad ? Boolean.TRUE : Boolean.FALSE;
+        _values[20] = this.webuiOnLoad_set ? Boolean.TRUE : Boolean.FALSE;
         return _values;
     }
 }

@@ -309,7 +309,7 @@ public class TableHeader extends UIComponentBase implements NamingContainer {
         if (table != null && group != null) {
             buff.append("document.getElementById('") //NOI18N
                 .append(table.getClientId(getFacesContext()))
-                .append("').toggleGroupPanel('") //NOI18N
+                .append("')._toggleGroupPanel('") //NOI18N
                 .append(group.getClientId(getFacesContext()))
                 .append("'); return false"); //NOI18N
             child.setOnClick(buff.toString());
@@ -361,7 +361,7 @@ public class TableHeader extends UIComponentBase implements NamingContainer {
         if (table != null && group != null) {
             buff.append("document.getElementById('") //NOI18N
                 .append(table.getClientId(getFacesContext()))
-                .append("').selectGroupRows('") //NOI18N
+                .append("')._selectGroupRows('") //NOI18N
                 .append(group.getClientId(getFacesContext()))
                 .append("', this.checked);"); //NOI18N
             child.setOnClick(buff.toString());

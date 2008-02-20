@@ -1,28 +1,28 @@
-// widget/eventBase.js
-//
-// The contents of this file are subject to the terms
-// of the Common Development and Distribution License
-// (the License).  You may not use this file except in
-// compliance with the License.
-// 
-// You can obtain a copy of the license at
-// https://woodstock.dev.java.net/public/CDDLv1.0.html.
-// See the License for the specific language governing
-// permissions and limitations under the License.
-// 
-// When distributing Covered Code, include this CDDL
-// Header Notice in each file and include the License file
-// at https://woodstock.dev.java.net/public/CDDLv1.0.html.
-// If applicable, add the following below the CDDL Header,
-// with the fields enclosed by brackets [] replaced by
-// you own identifying information:
-// "Portions Copyrighted [year] [name of copyright owner]"
-// 
-// Copyright 2007 Sun Microsystems, Inc. All rights reserved.
-//
+/**
+ * The contents of this file are subject to the terms
+ * of the Common Development and Distribution License
+ * (the License).  You may not use this file except in
+ * compliance with the License.
+ * 
+ * You can obtain a copy of the license at
+ * https://woodstock.dev.java.net/public/CDDLv1.0.html.
+ * See the License for the specific language governing
+ * permissions and limitations under the License.
+ * 
+ * When distributing Covered Code, include this CDDL
+ * Header Notice in each file and include the License file
+ * at https://woodstock.dev.java.net/public/CDDLv1.0.html.
+ * If applicable, add the following below the CDDL Header,
+ * with the fields enclosed by brackets [] replaced by
+ * you own identifying information:
+ * "Portions Copyrighted [year] [name of copyright owner]"
+ * 
+ * Copyright 2008 Sun Microsystems, Inc. All rights reserved.
+ */
 
 webui.@THEME@.dojo.provide("webui.@THEME@.widget.eventBase");
 
+webui.@THEME@.dojo.require("webui.@THEME@.config");
 webui.@THEME@.dojo.require("webui.@THEME@.dijit._Widget"); 
 webui.@THEME@.dojo.require("webui.@THEME@.dijit._Templated");
 
@@ -32,7 +32,8 @@ webui.@THEME@.dojo.require("webui.@THEME@.dijit._Templated");
  * @class This class contains functions for widgets that extend eventBase.
  * @static
  */
-webui.@THEME@.dojo.declare("webui.@THEME@.widget.eventBase", [webui.@THEME@.dijit._Widget, webui.@THEME@.dijit._Templated]);
+webui.@THEME@.dojo.declare("webui.@THEME@.widget.eventBase", [
+    webui.@THEME@.dijit._Widget, webui.@THEME@.dijit._Templated]);
 
 /**
  * This object contains event topics.
@@ -155,8 +156,9 @@ webui.@THEME@.widget.eventBase.prototype.initEvents = function () {
  */
 webui.@THEME@.widget.eventBase.prototype.publish = function(topic, props) {
     // Obtain the Ajax module associated with this widget.
-    if (webui.@THEME@.config.ajax.module) {
-        webui.@THEME@.dojo.require(webui.@THEME@.config.ajax.module + "." + this.widgetName);
+    var config = webui.@THEME@.config;
+    if (config.ajax.module) {
+        webui.@THEME@.dojo.require(config.ajax.module + "." + this.widgetName);
     }
     return webui.@THEME@.widget.eventBase.prototype._publish(topic, props);
 }

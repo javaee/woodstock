@@ -7,7 +7,7 @@ dependencies = {
             "dijit._Templated"
         ]}, 
         {
-        name: "dojo-dnd.js",
+        name: "dnd.js",
         dependencies: [
             "dojo.dnd.Manager",
             "dojo.dnd.Source"

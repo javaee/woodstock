@@ -1,25 +1,24 @@
-// common.js
-//
-// The contents of this file are subject to the terms
-// of the Common Development and Distribution License
-// (the License).  You may not use this file except in
-// compliance with the License.
-// 
-// You can obtain a copy of the license at
-// https://woodstock.dev.java.net/public/CDDLv1.0.html.
-// See the License for the specific language governing
-// permissions and limitations under the License.
-// 
-// When distributing Covered Code, include this CDDL
-// Header Notice in each file and include the License file
-// at https://woodstock.dev.java.net/public/CDDLv1.0.html.
-// If applicable, add the following below the CDDL Header,
-// with the fields enclosed by brackets [] replaced by
-// you own identifying information:
-// "Portions Copyrighted [year] [name of copyright owner]"
-// 
-// Copyright 2007 Sun Microsystems, Inc. All rights reserved.
-//
+/**
+ * The contents of this file are subject to the terms
+ * of the Common Development and Distribution License
+ * (the License).  You may not use this file except in
+ * compliance with the License.
+ * 
+ * You can obtain a copy of the license at
+ * https://woodstock.dev.java.net/public/CDDLv1.0.html.
+ * See the License for the specific language governing
+ * permissions and limitations under the License.
+ * 
+ * When distributing Covered Code, include this CDDL
+ * Header Notice in each file and include the License file
+ * at https://woodstock.dev.java.net/public/CDDLv1.0.html.
+ * If applicable, add the following below the CDDL Header,
+ * with the fields enclosed by brackets [] replaced by
+ * you own identifying information:
+ * "Portions Copyrighted [year] [name of copyright owner]"
+ * 
+ * Copyright 2008 Sun Microsystems, Inc. All rights reserved.
+ */
 
 webui.@THEME@.dojo.provide("webui.@THEME@.common");
 
@@ -34,8 +33,8 @@ webui.@THEME@.common = {
      * Variables needed when submitting form so timeout will work properly.
      * @private
      */
-    formToSubmit: null,
-    submissionComponentId: null,
+    _formToSubmit: null,
+    _submissionComponentId: null,
 
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     // String functions
@@ -335,22 +334,23 @@ webui.@THEME@.common = {
      * Use this function to submit a virtual form.
      *
      * @return {boolean} true if successful; otherwise, false.
+     * @private
      */
     submitForm: function() {
         // "formToSubmit" is a literal (not virtual) form.
         // "submissionComponentId" is a component id (not client id).
         // the virtual form implementation uses _submissionComponentId
         // to determine which virtual form (if any) was submitted.
-        if (webui.@THEME@.common.formToSubmit == null) {
+        if (webui.@THEME@.common._formToSubmit == null) {
             return false;
         }
-        if (webui.@THEME@.common.submissionComponentId != null &&
-                webui.@THEME@.common.submissionComponentId.length > 0) {
+        if (webui.@THEME@.common._submissionComponentId != null &&
+                webui.@THEME@.common._submissionComponentId.length > 0) {
             webui.@THEME@.common.insertHiddenField('_submissionComponentId', 
-                webui.@THEME@.common.submissionComponentId,
-                webui.@THEME@.common.formToSubmit);
+                webui.@THEME@.common._submissionComponentId,
+                webui.@THEME@.common._formToSubmit);
         }
-        webui.@THEME@.common.formToSubmit.submit();
+        webui.@THEME@.common._formToSubmit.submit();
         return false;
     },
     
@@ -360,10 +360,11 @@ webui.@THEME@.common = {
      * @param {Node} form The HTML form element to submit.
      * @param {String} submissionComponentId The Id of the component submitting the form.
      * @return {boolean} true if successful; otherwise, false.
+     * @private
      */
     timeoutSubmitForm: function(form, submissionComponentId) {
-        webui.@THEME@.common.formToSubmit = form;
-        webui.@THEME@.common.submissionComponentId = submissionComponentId;
+        webui.@THEME@.common._formToSubmit = form;
+        webui.@THEME@.common._submissionComponentId = submissionComponentId;
         setTimeout('webui.@THEME@.common.submitForm()', 0);
         return true;
     },
@@ -374,6 +375,7 @@ webui.@THEME@.common = {
      * @param {Node} form The HTML form element to submit.
      * @param {String} submissionComponentId The Id of the component submitting the form.
      * @return {boolean} true if successful; otherwise, false.
+     * @private
      */
     leaveSubmitterTrace: function(form, submissionComponentId) {
         // This function only needs to be called in the onclick handler of 
@@ -395,6 +397,7 @@ webui.@THEME@.common = {
      * @param {String} name The element ID of the html tag 
      * @param {Node} form The HTML form element to submit.
      * @return {boolean} true if successful; otherwise, false.
+     * @private
      */
     deleteSubmittableArray: function(name, parentForm) {
         try {
@@ -430,6 +433,7 @@ webui.@THEME@.common = {
      * @param {Array} labels
      * @param {Array} values
      * @return {Node} The newly created select element.
+     * @private
      */
     createSubmittableArray: function(name, parentForm, labels, values) {
         // An attempt is made to remove a possibly previously created element

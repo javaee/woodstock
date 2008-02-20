@@ -248,14 +248,14 @@ public class ButtonRenderer extends AbstractRenderer {
                     || button.getIcon() != null));
 
             // Append JavaScript.
-            buff.append(JavaScriptUtilities.getModuleName("button.init"))
+            buff.append(JavaScriptUtilities.getModuleName("button._init"))
                 .append("(")
                 .append(JSONUtilities.getString(json))
                 .append(");");
 
             // Render JavaScript.
             JavaScriptUtilities.renderJavaScript(component, writer, 
-                buff.toString(), true);
+                buff.toString(), JavaScriptUtilities.isWebuiOnLoad());
         } catch(JSONException e) {
             e.printStackTrace();
         }

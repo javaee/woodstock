@@ -1,25 +1,24 @@
-// Prototype.js
-//
-// The contents of this file are subject to the terms
-// of the Common Development and Distribution License
-// (the License).  You may not use this file except in
-// compliance with the License.
-// 
-// You can obtain a copy of the license at
-// https://woodstock.dev.java.net/public/CDDLv1.0.html.
-// See the License for the specific language governing
-// permissions and limitations under the License.
-// 
-// When distributing Covered Code, include this CDDL
-// Header Notice in each file and include the License file
-// at https://woodstock.dev.java.net/public/CDDLv1.0.html.
-// If applicable, add the following below the CDDL Header,
-// with the fields enclosed by brackets [] replaced by
-// you own identifying information:
-// "Portions Copyrighted [year] [name of copyright owner]"
-// 
-// Copyright 2007 Sun Microsystems, Inc. All rights reserved.
-//
+/**
+ * The contents of this file are subject to the terms
+ * of the Common Development and Distribution License
+ * (the License).  You may not use this file except in
+ * compliance with the License.
+ * 
+ * You can obtain a copy of the license at
+ * https://woodstock.dev.java.net/public/CDDLv1.0.html.
+ * See the License for the specific language governing
+ * permissions and limitations under the License.
+ * 
+ * When distributing Covered Code, include this CDDL
+ * Header Notice in each file and include the License file
+ * at https://woodstock.dev.java.net/public/CDDLv1.0.html.
+ * If applicable, add the following below the CDDL Header,
+ * with the fields enclosed by brackets [] replaced by
+ * you own identifying information:
+ * "Portions Copyrighted [year] [name of copyright owner]"
+ * 
+ * Copyright 2008 Sun Microsystems, Inc. All rights reserved.
+ */
 
 webui.@THEME@.dojo.provide("webui.@THEME@.prototypejs");
 
@@ -33,14 +32,19 @@ webui.@THEME@.dojo.provide("webui.@THEME@.prototypejs");
 
 /**
  * @class This class contains functions from the Prototype JavaScript framework.
+ * @name webui.@THEME@.prototypejs
  * @static
+ */
+
+/**
+ * @scope webui.@THEME@.prototypejs
  */
 webui.@THEME@.prototypejs = {
     /** 
      * A RegExp pattern used to match scrip tags.
      * @private
      */
-    ScriptFragment: '(?:<script.*?>)((\n|\r|.)*?)(?:<\/script>)',
+    _scriptFragment: '(?:<script.*?>)((\n|\r|.)*?)(?:<\/script>)',
 
     /**
      * This function is used to escape HTML in given string.
@@ -110,8 +114,8 @@ webui.@THEME@.prototypejs = {
      */
     extractScripts: function(str) {
         var prototypejs = webui.@THEME@.prototypejs;
-        var matchAll = new RegExp(prototypejs.ScriptFragment, 'img');
-        var matchOne = new RegExp(prototypejs.ScriptFragment, 'im');
+        var matchAll = new RegExp(prototypejs._scriptFragment, 'img');
+        var matchOne = new RegExp(prototypejs._scriptFragment, 'im');
 
         return prototypejs.map(str.match(matchAll) || [], function(scriptTag) {
             return (scriptTag.match(matchOne) || ['', ''])[1];
@@ -151,7 +155,7 @@ webui.@THEME@.prototypejs = {
      * @return {Object} The string minus any script tags.
      */
     stripScripts: function(str) {
-        return str.replace(new RegExp(webui.@THEME@.prototypejs.ScriptFragment, 'img'), ''); 
+        return str.replace(new RegExp(webui.@THEME@.prototypejs._scriptFragment, 'img'), ''); 
     },
 
     /**

@@ -3,7 +3,7 @@ dojo.provide("dijit._Templated");
 dojo.require("dijit._Widget");
 
 dojo.require("dojo.string");
-dojo.require("dojo.parser");
+//dojo.require("dojo.parser"); // Woodstock: Unused.
 
 dojo.declare("dijit._Templated",
 	null,
@@ -279,7 +279,9 @@ if(dojo.isIE){
 		if(!tn){
 			tn = dojo.doc.createElement("div");
 			tn.style.display="none";
-			dojo.body().appendChild(tn);
+
+                        // Woodstock: IE throws security exception here.
+			//dojo.body().appendChild(tn);
 		}
 		var tableType = "none";
 		var rtext = text.replace(/^\s+/, "");
@@ -297,6 +299,10 @@ if(dojo.isIE){
 			tn.normalize();
 		}
 
+                // Woodstock: If "tn" is appended before text is added, IE
+                // throws security exception.
+                dojo.body().appendChild(tn);
+
 		var tag = { cell: "tr", row: "tbody", section: "table" }[tableType];
 		var _parent = (typeof tag != "undefined") ?
 						tn.getElementsByTagName(tag)[0] :
@@ -311,7 +317,6 @@ if(dojo.isIE){
                 // Woodstock: IE throws security exception if "tn" isn't removed.
                 // This allows widgets to be created before the window onLoad event.
                 dojo.body().removeChild(tn);
-                tn = null;
 
 		return nodes;	//	Array
 	}

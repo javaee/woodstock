@@ -24,13 +24,7 @@ package com.sun.webui.tools;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.FileReader;
-import java.io.FileWriter;
-
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.TreeSet;
 
 public class CombineCSS extends CombineJavaScript {
     /**
@@ -38,10 +32,12 @@ public class CombineCSS extends CombineJavaScript {
      *
      * @param sourceDir Directory containing the files in fileList.
      * @param outFile File path for combined output.
+     * @param copyrightFile File path for copyright file.
      * @param verbose Enable verbose output.
      */
-    public CombineCSS(String sourceDir, String outFile, boolean verbose) {
-        super(sourceDir, outFile, null, verbose);
+    public CombineCSS(String sourceDir, String outFile, String copyrightFile,
+            boolean verbose) {
+        super(sourceDir, outFile, copyrightFile, null, verbose);
     }
 
     /**
@@ -49,67 +45,52 @@ public class CombineCSS extends CombineJavaScript {
      *
      * @param file The CSS file to combine.
      */
-    protected void combineFile(File file) throws IOException {
-        if (isFileCombined(file)) {
-            return;
+    protected boolean combineFile(File file) throws IOException {
+        if (!isFileAvailable(file)) {
+            return false;
         }
 
-	// Create buffer to hold file contents.
-        StringBuffer buff = new StringBuffer();
-        BufferedReader input = null;
-	FileWriter output = null;
+        BufferedReader input = new BufferedReader(new FileReader(file));
+        StringBuffer buff = getOutputBuffer();
+        String line = null;
 
-	try {
-            input = new BufferedReader(new FileReader(file));
-            String line = null;
+        // readLine is a bit quirky:
+        // it returns the content of a line MINUS the newline.	    
+        while ((line = input.readLine()) != null) {
+            boolean omitLine = false;
 
-            // readLine is a bit quirky:
-            // it returns the content of a line MINUS the newline.
-            while ((line = input.readLine()) != null) {
-		// Strip copyright, it will be added later.
-		if (line.indexOf("/* CSS Document */") == 0) {
-		    buff.setLength(0);
-		}
-		// Append required module.
-		if (line.indexOf("@import url") == 0) {
-		    buff.setLength(0);
+            // Test for required module.
+            if (line.indexOf("@import url") == 0) {
+                // Append required module.
+		int first = line.indexOf("(");
+		int last = line.indexOf(")", first + 1);
 
-                    // Append required module.
-		    int first = line.indexOf("(");
-		    int last = line.indexOf(")", first + 1);
+		// Get module file name.
+                String fileName = getSourceDir() + File.separatorChar +
+                    line.substring(first + 1, last);
 
-		    // Get module file name.
-                    String fileName = getSourceDir() + File.separatorChar +
-                        line.substring(first + 1, last);
-
-		    combineFile(new File(fileName));
-		} else {
-               	    buff.append(line);
-                    buff.append(System.getProperty("line.separator"));
-		}
+                omitLine = combineFile(new File(fileName));
             }
-
-	    // Write output.
-	    output = new FileWriter(getOutFile(), true);
-	    output.write(buff.toString());
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-	} catch (IOException e){
-            e.printStackTrace();
-	} finally {
-	    try {
-	        if (input != null) {
-                    input.close();
-	        }
-		if (output != null) {
-		    output.close();
-		}
-	    } catch (IOException e) {
-                e.printStackTrace();
-	    }
+ 
+            // Omit line if and only if file was included sucessfully.
+            if (!omitLine) {
+                buff.append(line);
+                buff.append(System.getProperty("line.separator"));
+            }
         }
+
+        try {
+	    if (input != null) {
+                input.close();
+	    }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        
+        // Print status.
 	if (isVerbose()) {
 	    System.out.println("Combined CSS file '" + file.getCanonicalPath() + "'");
 	}
+        return true;
     }
 }

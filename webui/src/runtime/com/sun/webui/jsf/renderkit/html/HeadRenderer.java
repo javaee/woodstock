@@ -119,20 +119,18 @@ public class HeadRenderer extends AbstractRenderer {
                 writer.endElement("base"); //NOI18N
             }
 
-            // Master stylesheet link.
-            Theme theme = ThemeUtilities.getTheme(context);
-            if (head.isStyleSheet()) {
-                RenderingUtilities.renderStyleSheetLink(head, theme, context, writer);
-            }
-
             // Get global flags.
             JavaScriptUtilities.setDebug(head.isDebug());
+            JavaScriptUtilities.setJsfx(head.isJsfx());
+            JavaScriptUtilities.setStyleSheet(head.isStyleSheet());
+            JavaScriptUtilities.setWebuiAll(head.isWebuiAll());
+            JavaScriptUtilities.setWebuiJsfx(head.isWebuiJsfx());
+            JavaScriptUtilities.setWebuiOnLoad(head.isWebuiOnLoad());
 
             // Render bootstrap.
             if (head.isJavaScript()) {
                 try {
-                    JavaScriptUtilities.renderBootstrap(component, writer, 
-                        head.isWebuiAll(), head.isWebuiJsfx(), head.isJsfx());
+                    JavaScriptUtilities.renderBootstrap(component, writer);
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }

@@ -163,14 +163,14 @@ public class AddRemoveRenderer extends ListRendererBase {
             // Append JavaScript.
             buff.append(JavaScriptUtilities.getModule("addRemove"))
                 .append("\n") // NOI18N
-                .append(JavaScriptUtilities.getModuleName("addRemove.init")) // NOI18N
+                .append(JavaScriptUtilities.getModuleName("addRemove._init")) // NOI18N
                 .append("(") //NOI18N
                 .append(JSONUtilities.getString(json))
                 .append(");"); //NOI18N
 
             // Render JavaScript.
             JavaScriptUtilities.renderJavaScript(component, writer,
-                buff.toString(), true);
+                buff.toString(), JavaScriptUtilities.isWebuiOnLoad());
         } catch(JSONException e) {
             e.printStackTrace();
         }

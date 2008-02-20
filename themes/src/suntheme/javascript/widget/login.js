@@ -1,26 +1,27 @@
-// widget/login.js
-// The contents of this file are subject to the terms
-// of the Common Development and Distribution License
-// (the License).  You may not use this file except in
-// compliance with the License.
-// 
-// You can obtain a copy of the license at
-// https://woodstock.dev.java.net/public/CDDLv1.0.html.
-// See the License for the specific language governing
-// permissions and limitations under the License.
-// 
-// When distributing Covered Code, include this CDDL
-// Header Notice in each file and include the License file
-// at https://woodstock.dev.java.net/public/CDDLv1.0.html.
-// If applicable, add the following below the CDDL Header,
-// with the fields enclosed by brackets [] replaced by
-// you own identifying information:
-// "Portions Copyrighted [year] [name of copyright owner]"
-// 
-// Copyright 2007 Sun Microsystems, Inc. All rights reserved.
-//
+/**
+ * The contents of this file are subject to the terms
+ * of the Common Development and Distribution License
+ * (the License).  You may not use this file except in
+ * compliance with the License.
+ * 
+ * You can obtain a copy of the license at
+ * https://woodstock.dev.java.net/public/CDDLv1.0.html.
+ * See the License for the specific language governing
+ * permissions and limitations under the License.
+ * 
+ * When distributing Covered Code, include this CDDL
+ * Header Notice in each file and include the License file
+ * at https://woodstock.dev.java.net/public/CDDLv1.0.html.
+ * If applicable, add the following below the CDDL Header,
+ * with the fields enclosed by brackets [] replaced by
+ * you own identifying information:
+ * "Portions Copyrighted [year] [name of copyright owner]"
+ * 
+ * Copyright 2008 Sun Microsystems, Inc. All rights reserved.
+ */
 
 webui.@THEME@.dojo.provide("webui.@THEME@.widget.login");
+
 webui.@THEME@.dojo.require("webui.@THEME@.widget.widgetBase");
 
 /**
@@ -73,7 +74,7 @@ webui.@THEME@.widget.login.prototype.authenticate = function() {
  * @return {boolean} true if successful; otherwise, false.
  * @private
  */
-webui.@THEME@.widget.login.prototype.buttonClicked = function() {
+webui.@THEME@.widget.login.prototype._buttonClicked = function() {
     this.authenticate();
 }
 
@@ -167,8 +168,8 @@ webui.@THEME@.widget.login.event =
  * @return {boolean} true if successful; otherwise, false.
  * @private
  */
-webui.@THEME@.widget.login.prototype.handleFailure = function(props) {
-    this.setAlert(props.alert);
+webui.@THEME@.widget.login.prototype._handleFailure = function(props) {
+    this._setAlert(props.alert);
     this.publish(webui.@THEME@.widget.login.event.result.failureTopic, [{
         id: props.id
     }]);
@@ -257,12 +258,12 @@ webui.@THEME@.widget.login.prototype._getWidgetProps = function(props) {
  * @return {boolean} true if successful; otherwise, false.
  * @private
  */
-webui.@THEME@.widget.login.prototype.handleSuccess = function(props) {
+webui.@THEME@.widget.login.prototype._handleSuccess = function(props) {
     // Publish the success event topic
     // Remove the alert message if props does not
     // contain any alert information.
     // Clear out the loginTable.
-    this.setAlert(props.alert);
+    this._setAlert(props.alert);
     this.publish(webui.@THEME@.widget.login.event.result.successTopic, [{
         id: props.id
     }]);
@@ -363,13 +364,13 @@ webui.@THEME@.widget.login.prototype._setProps = function(props) {
     // problems on the server side. 
 
     if (props.loginState == "SUCCESS") {
-        this.handleSuccess(props);
+        this._handleSuccess(props);
 
     } else if (props.loginState == "FAILURE") {
-        this.handleFailure(props);
+        this._handleFailure(props);
 
     } else if (props.loginState == "CONTINUE") {
-        this.updateLoginTable(props);
+        this._updateLoginTable(props);
     }
 
     // Set remaining properties.
@@ -387,7 +388,7 @@ webui.@THEME@.widget.login.prototype._setProps = function(props) {
  * @return {boolean} true if successful; otherwise, false.
  * @private
  */
-webui.@THEME@.widget.login.prototype.setAlert = function(alertProps) {
+webui.@THEME@.widget.login.prototype._setAlert = function(alertProps) {
     if (alertProps == null) {
         this.widget.removeChildNodes(this.alertContainer);
         return false;
@@ -460,7 +461,7 @@ webui.@THEME@.widget.login.prototype.startup = function () {
  * @return {boolean} true if successful; otherwise, false.
  * @private
  */
-webui.@THEME@.widget.login.prototype.updateLoginTable = function(props) {
+webui.@THEME@.widget.login.prototype._updateLoginTable = function(props) {
     // Remove existing data entries before adding the new ones.
     // This involves destroying the widgets and also deleting
     // the table rows.
@@ -469,7 +470,7 @@ webui.@THEME@.widget.login.prototype.updateLoginTable = function(props) {
     var rowNum = 1;
 
     // add the alert row
-    var alertAdded = this.setAlert(props.alert);
+    var alertAdded = this._setAlert(props.alert);
         
     // set up table rows for each of the user prompts
     if (props.userData) {
@@ -531,7 +532,7 @@ webui.@THEME@.widget.login.prototype.updateLoginTable = function(props) {
         var spanNode = this.loginButtonContainer.cloneNode(true);
         var _this = this;
         this.loginButton.onClick = function() {
-            _this.buttonClicked(props);
+            _this._buttonClicked(props);
             return false;
         }
         td2.appendChild(spanNode);

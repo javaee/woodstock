@@ -1,4 +1,4 @@
-/*
+/**
  * The contents of this file are subject to the terms
  * of the Common Development and Distribution License
  * (the License).  You may not use this file except in
@@ -17,9 +17,8 @@
  * you own identifying information:
  * "Portions Copyrighted [year] [name of copyright owner]"
  * 
- * Copyright 2007 Sun Microsystems, Inc. All rights reserved.
+ * Copyright 2008 Sun Microsystems, Inc. All rights reserved.
  */
-/* CSS Document */
 
 body {
 	font-family:Arial, Helvetica, sans-serif;
@@ -54,7 +53,7 @@ strong {
 	font-weight:bold;
 }
 
-/* ADDREMOVE [originalName: ADD-REMOVE-IDIOM]*/
+/* ADDREMOVE */
 .AddRmvLbl@THEME_CSS@, .AddRmvLbl2@THEME_CSS@ {
 	font-size:1.0em;
 	font-weight:bold;
@@ -83,7 +82,7 @@ a.BcmLnk@THEME_CSS@ {
 }
 /*---*/
 
-/* PAGEALERT [originalName: FULL ALERTS]*/
+/* PAGE ALERT */
 .FulAlrtHdrTxt@THEME_CSS@, .FulAlrtMsgTxt@THEME_CSS@ {
 	font-size:1.0em;
 }
@@ -122,18 +121,21 @@ body.HlpBdy@THEME_CSS@ h4 {
 body.HlpBdy@THEME_CSS@ h5, H6 {
 	font-size:1.0em;
 }
+/* LEFT PANE HELP */
+.LftHlpDiv@THEME_CSS@ {
+	font-size:1.0em;
+}
 /*---*/
 
-
-/** DnD avatar class */
-.dojoDndAvatar {
-	font-size: 75%;
-}
-
-
-/* HELPINLINE [originalName: INLINE HELP] */
+/* HELP INLINE */
 .inlineFieldHelp@THEME_CSS@, a.HlpFldLnk@THEME_CSS@ {
 	font-size:1.0em;
+}
+/*---*/
+
+/** DRAG AND DROP */
+.dojoDndAvatar {
+	font-size: 75%;
 }
 /*---*/
 
@@ -144,8 +146,8 @@ table.EdtLstTbl@THEME_CSS@ td.EdtLstAddLblTd@THEME_CSS@ span.LblLev2Txt@THEME_CS
 	font-size:1.0em;
 }
 /*---*/
-/* LABEL [originalName: GENERIC FIELD LABELS]*/
 
+/* LABEL */
 .LblLev2Txt@THEME_CSS@, .LblLev2smTxt@THEME_CSS@, .LblRqdDiv@THEME_CSS@, .LblLev3Txt@THEME_CSS@, .LblLev3TxtDis@THEME_CSS@ {
 	font-size:1.0em;
 }
@@ -158,12 +160,6 @@ table.EdtLstTbl@THEME_CSS@ td.EdtLstAddLblTd@THEME_CSS@ span.LblLev2Txt@THEME_CS
 }
 /*---*/
 
-/* LEFT PANE HELP */
-.LftHlpDiv@THEME_CSS@ {
-	font-size:1.0em;
-}
-/*---*/
-
 /* LISTS */
 .LstOptSel@THEME_CSS@, 
 .LstOptSep@THEME_CSS@, 
@@ -171,7 +167,6 @@ table.EdtLstTbl@THEME_CSS@ td.EdtLstAddLblTd@THEME_CSS@ span.LblLev2Txt@THEME_CS
 .LstDis@THEME_CSS@ .LstOptGrp@THEME_CSS@ {
 	font-size:1.0em;
 }
-
 /* Use fixed font size in listboxes with mono-spaced fonts */
 .LstMno@THEME_CSS@ .LstOptGrp@THEME_CSS@, 
 .LstMnoDis@THEME_CSS@ .LstOptGrp@THEME_CSS@, 
@@ -183,7 +178,6 @@ table.EdtLstTbl@THEME_CSS@ td.EdtLstAddLblTd@THEME_CSS@ span.LblLev2Txt@THEME_CS
 .LstMnoDis@THEME_CSS@ .LstOptGrp@THEME_CSS@  {
 	font-size:11px;
 }
-
 .LstOptGrp@THEME_CSS@, .LstDis@THEME_CSS@ .LstOptGrp@THEME_CSS@, .LstMno@THEME_CSS@ .LstOptGrp@THEME_CSS@, .LstMnoDis@THEME_CSS@ .LstOptGrp@THEME_CSS@ {
 	font-weight:normal;
 	font-style:normal;
@@ -207,9 +201,8 @@ table.EdtLstTbl@THEME_CSS@ td.EdtLstAddLblTd@THEME_CSS@ span.LblLev2Txt@THEME_CS
 .ConJmpTopDiv@THEME_CSS@, a.JmpLnk@THEME_CSS@ {
 	font-size:1.0em;
 }
-/*---*/
 
-/* CONTENTPAGETITLE [originalName: PAGE TITLE]*/
+/* CONTENT PAGE TITLE */
 .TtlVewLbl@THEME_CSS@ {
 	font-weight:bold;
 }
@@ -219,7 +212,7 @@ table.EdtLstTbl@THEME_CSS@ td.EdtLstAddLblTd@THEME_CSS@ span.LblLev2Txt@THEME_CS
 }
 /*---*/
 
-/* TEXTAREA and TEXTFIELDS*/
+/* TEXTAREA AND TEXTFIELD */
 .TxtAra@THEME_CSS@, .TxtAraDis@THEME_CSS@, .TxtAra_ReadOnly@THEME_CSS@, 
 .TxtFld@THEME_CSS@, .TxtFldDis@THEME_CSS@, .TxtFld_ReadOnly@THEME_CSS@, 
 .EdtFld_Edt@THEME_CSS@, .EdtFldDis@THEME_CSS@, .EdtFld_ReadOnly@THEME_CSS@{
@@ -228,7 +221,7 @@ table.EdtLstTbl@THEME_CSS@ td.EdtLstAddLblTd@THEME_CSS@ span.LblLev2Txt@THEME_CS
 }
 /*---*/
 
-/* TABSET [originalName: LEVEL TABS]*/
+/* TABSET */
 .Tab1Div@THEME_CSS@, .Tab2Div@THEME_CSS@, .Tab3Div@THEME_CSS@, .MniTabDiv@THEME_CSS@, .TabGrpBox@THEME_CSS@ {
 	font-size:1.0em;
 }
@@ -237,7 +230,7 @@ table.EdtLstTbl@THEME_CSS@ td.EdtLstAddLblTd@THEME_CSS@ span.LblLev2Txt@THEME_CS
 }
 /*---*/
 
-/* SCHEDULER/POPUP CALENDAR*/
+/* SCHEDULER AND CALENDAR */
 a.DatLnk@THEME_CSS@:hover, a.DatOthLnk@THEME_CSS@:hover, .DatLblTxt@THEME_CSS@, a.DatBldLnk@THEME_CSS@:link, a.DatBldLnk@THEME_CSS@:visited, a.DatCurLnk@THEME_CSS@:link,
  a.DatCurLnk@THEME_CSS@:visited, a.DatCurLnk@THEME_CSS@:hover, a.DatOthBldLnk@THEME_CSS@:link, a.DatOthBldLnk@THEME_CSS@:visited, .DatSelContent@THEME_CSS@ {
 	font-weight:bold;
@@ -276,7 +269,7 @@ a.MstPrgLnk@THEME_CSS@, a.MstAlmLnk@THEME_CSS@ {
 }
 /*---*/
 
-/* TABLE [originalName: ACTION TABLE] */
+/* TABLE */
 .TblTtlTxt@THEME_CSS@ {
 	font-size:1.0em;
 	font-weight:bold;
@@ -352,7 +345,7 @@ a.TreeSelLink@THEME_CSS@:hover {
 } 
 .VrsTxt@THEME_CSS@ {
 	font-size:1.1em;
-} 
+}
 /*---*/
 
 /* WIZARD */
@@ -402,15 +395,16 @@ a.TreeSelLink@THEME_CSS@:hover {
 	font-weight:bold;
 }
 /*---*/
+
 /* MENU */
 .Menu@THEME_CSS@ {
     font-weight: normal;
 }
-
 ul.MenuItems@THEME_CSS@ li div.MenuItem@THEME_CSS@:hover{    /* standard hover */
     font-weight: bold;
 }
 /*---*/
+
 /* COMMON TASKS */
 .commonTaskSection_4@THEME_CSS@ .header@THEME_CSS@ {
 	font-size:1.8em;

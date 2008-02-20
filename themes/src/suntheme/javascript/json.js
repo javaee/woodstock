@@ -1,25 +1,24 @@
-// json.js
-//
-// The contents of this file are subject to the terms
-// of the Common Development and Distribution License
-// (the License).  You may not use this file except in
-// compliance with the License.
-// 
-// You can obtain a copy of the license at
-// https://woodstock.dev.java.net/public/CDDLv1.0.html.
-// See the License for the specific language governing
-// permissions and limitations under the License.
-// 
-// When distributing Covered Code, include this CDDL
-// Header Notice in each file and include the License file
-// at https://woodstock.dev.java.net/public/CDDLv1.0.html.
-// If applicable, add the following below the CDDL Header,
-// with the fields enclosed by brackets [] replaced by
-// you own identifying information:
-// "Portions Copyrighted [year] [name of copyright owner]"
-// 
-// Copyright 2007 Sun Microsystems, Inc. All rights reserved.
-//
+/**
+ * The contents of this file are subject to the terms
+ * of the Common Development and Distribution License
+ * (the License).  You may not use this file except in
+ * compliance with the License.
+ * 
+ * You can obtain a copy of the license at
+ * https://woodstock.dev.java.net/public/CDDLv1.0.html.
+ * See the License for the specific language governing
+ * permissions and limitations under the License.
+ * 
+ * When distributing Covered Code, include this CDDL
+ * Header Notice in each file and include the License file
+ * at https://woodstock.dev.java.net/public/CDDLv1.0.html.
+ * If applicable, add the following below the CDDL Header,
+ * with the fields enclosed by brackets [] replaced by
+ * you own identifying information:
+ * "Portions Copyrighted [year] [name of copyright owner]"
+ * 
+ * Copyright 2008 Sun Microsystems, Inc. All rights reserved.
+ */
 
 webui.@THEME@.dojo.provide("webui.@THEME@.json");
 
@@ -53,7 +52,7 @@ webui.@THEME@.json = {
      * JSON escape chars.
      * @private
      */
-    m: {
+    _m: {
         '\b': '\\b',
         '\t': '\\t',
         '\n': '\\n',
@@ -67,7 +66,7 @@ webui.@THEME@.json = {
      * JSON parsor.
      * @private
      */
-    s: {
+    _s: {
         'boolean': function (x) {
             return String(x);
         },
@@ -77,7 +76,7 @@ webui.@THEME@.json = {
         string: function (x) {
             if (/["\\\x00-\x1f]/.test(x)) {
                 x = x.replace(/([\x00-\x1f\\"])/g, function(a, b) {
-                    var c = webui.@THEME@.json.m[b];
+                    var c = webui.@THEME@.json._m[b];
                     if (c) {
                         return c;
                     }
@@ -97,7 +96,7 @@ webui.@THEME@.json = {
                     l = x.length;
                     for (i = 0; i < l; i += 1) {
                         v = x[i];
-                        f = webui.@THEME@.json.s[typeof v];
+                        f = webui.@THEME@.json._s[typeof v];
                         if (f) {
                             v = f(v);
                             if (typeof v == 'string') {
@@ -115,14 +114,14 @@ webui.@THEME@.json = {
                     for (i in x) {
                         if (x.hasOwnProperty(i)) {
                             v = x[i];
-                            f = webui.@THEME@.json.s[typeof v];
+                            f = webui.@THEME@.json._s[typeof v];
                             if (f) {
                                 v = f(v);
                                 if (typeof v == 'string') {
                                     if (b) {
                                         a[a.length] = ',';
                                     }
-                                    a.push(webui.@THEME@.json.s.string(i), ':', v);
+                                    a.push(webui.@THEME@.json._s.string(i), ':', v);
                                     b = true;
                                 }
                             }
@@ -145,7 +144,7 @@ webui.@THEME@.json = {
      * @return {boolean} true if successful; otherwise, false.
      */
     stringify: function (v) {
-        var f = webui.@THEME@.json.s[typeof v];
+        var f = webui.@THEME@.json._s[typeof v];
         if (f) {
             v = f(v);
             if (typeof v == 'string') {

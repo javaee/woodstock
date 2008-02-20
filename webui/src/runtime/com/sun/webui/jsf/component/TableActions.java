@@ -870,7 +870,7 @@ public class TableActions extends UIComponentBase implements NamingContainer {
             StringBuffer buff = new StringBuffer(128)
                 .append("document.getElementById('") //NOI18N
                 .append(table.getClientId(getFacesContext()))
-                .append("').toggleSortPanel(); return false"); //NOI18N
+                .append("')._toggleSortPanel(); return false"); //NOI18N
             child.setOnClick(buff.toString());
             child.setTabIndex(table.getTabIndex());
         } else {
@@ -2140,7 +2140,7 @@ public class TableActions extends UIComponentBase implements NamingContainer {
         if (table != null) {
             buff.append("document.getElementById('") //NOI18N
                 .append(table.getClientId(getFacesContext()))
-                .append("').selectAllRows(") //NOI18N
+                .append("')._selectAllRows(") //NOI18N
                 .append(checked)
                 .append("); return false"); //NOI18N
         } else {

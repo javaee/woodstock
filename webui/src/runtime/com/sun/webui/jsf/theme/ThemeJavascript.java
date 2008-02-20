@@ -30,14 +30,19 @@ package com.sun.webui.jsf.theme;
 
 public class ThemeJavascript {
     /**
-     * The path to custom Dojo module.
+     * A key that defines the Ajax module.
      */
-    public static final String DOJO_MODULE_PATH = "dojoModulePath";
+    public static final String AJAX_MODULE = "ajaxModule";
 
     /**
-     * The path to uncompressed, custom Dojo module.
+     * A key that defines the bootstrap JavaScript file.
      */
-    public static final String DOJO_MODULE_PATH_UNCOMPRESSED = "dojoModulePathUncompressed";
+    public static final String BOOTSTRAP = "bootstrap";
+
+    /**
+     * A key that defines the uncompressed bootstrap JavaScript file.
+     */
+    public static final String BOOTSTRAP_UNCOMPRESSED = "bootstrapUncompressed";
 
     /**
      * A properties file key whose value is a space separated list of
@@ -46,58 +51,58 @@ public class ThemeJavascript {
     public static final String GLOBAL = "global";
 
     /**
-     * A Javascript file that contains JSF Extensions functions.
+     * A key that defines the JSF Extensions JavaScript file.
      */
     public static final String JSFX = "jsfx";
 
     /**
-     * A Javascript file that contains uncompressed JSF Extensions functions.
+     * A key that defines the uncompressed JSF Extensions JavaScript file.
      */
     public static final String JSFX_UNCOMPRESSED = "jsfxUncompressed";
 
     /**
-     * The path to module resources.
+     * A key that defines the path for the webui module.
      */
     public static final String MODULE_PATH = "modulePath";
 
     /**
-     * The path to uncompressed module resources.
+     * A key that defines the path for the uncompressed webui module.
      */
     public static final String MODULE_PATH_UNCOMPRESSED = "modulePathUncompressed";
 
     /**
-     * The module to prefix to webui resources.
+     * A key that defines the webui module.
      */
     public static final String MODULE = "module";
 
     /**
-     * A Javascript file that contains uncompressed Prototype functions.
+     * A key that defines the Prototype JavaScfript file.
      */
     public static final String PROTOTYPE = "prototype";
 
     /**
-     * A Javascript file that contains Prototype functions.
+     * A key that defines the uncompressed Prototype JavaScfript file.
      */
     public static final String PROTOTYPE_UNCOMPRESSED = "prototypeUncompressed";
 
     /**
-     * A key that defines the theme javascript namespace.
-     */
-    public static final String THEME_MODULE = "themeModule";
-
-    /**
      * A key that defines the javascript theme bundle. This is 
-     * the basenae of the file found in the nls directories.
+     * the basename of the file found in the nls directories.
      */
     public static final String THEME_BUNDLE = "themeBundle";
 
     /**
-     * A key that defines the prefix path for the theme module.
+     * A key that defines the theme module.
+     */
+    public static final String THEME_MODULE = "themeModule";
+
+    /**
+     * A key that defines the path for the theme module.
      */
     public static final String THEME_MODULE_PATH = "themeModulePath";
 
     /**
-     * A key that defines the prefix path for the uncompressed theme module.
+     * A key that defines the path for the uncompressed theme module.
      */
     public static final String THEME_MODULE_PATH_UNCOMPRESSED = 
 	"themeModulePathUncompressed";
@@ -235,6 +240,20 @@ public class ThemeJavascript {
      * @deprecated Dojo is no longer included in page.
      */
     public static final String DOJO_UNCOMPRESSED = "dojoUncompressed";
+
+    /**
+     * The path to custom Dojo module.
+     * 
+     * @deprecated Dojo is no longer included in page.
+     */
+    public static final String DOJO_MODULE_PATH = "dojoModulePath";
+
+    /**
+     * The path to uncompressed, custom Dojo module.
+     * 
+     * @deprecated Dojo is no longer included in page.
+     */
+    public static final String DOJO_MODULE_PATH_UNCOMPRESSED = "dojoModulePathUncompressed";
 
     /**
      * A Javascript file that contains DynaFaces functions.
@@ -379,7 +398,7 @@ public class ThemeJavascript {
      *
      * @deprecated Use MODULE_PATH.
      */
-    public static final String WIDGET_MODULE = MODULE_PATH;  
+    public static final String WIDGET_MODULE = MODULE_PATH;
 
     /**
      * This private constructor prevents this class from being instantiated

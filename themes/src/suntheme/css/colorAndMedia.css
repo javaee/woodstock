@@ -1,4 +1,4 @@
-/*
+/**
  * The contents of this file are subject to the terms
  * of the Common Development and Distribution License
  * (the License).  You may not use this file except in
@@ -17,14 +17,12 @@
  * you own identifying information:
  * "Portions Copyrighted [year] [name of copyright owner]"
  * 
- * Copyright 2007 Sun Microsystems, Inc. All rights reserved.
+ * Copyright 2008 Sun Microsystems, Inc. All rights reserved.
  */
-/* CSS Document */
 
 body {
 	color:#000;
 }
-
 a.Hyp@THEME_CSS@:link, a.Hyp@THEME_CSS@:visited, a.Anc@THEME_CSS@:link, a.Anc@THEME_CSS@:visited {
 	color:#003399;
         text-decoration:none;
@@ -33,17 +31,16 @@ a.Hyp@THEME_CSS@:hover, a.Anc@THEME_CSS@:hover {
 	color:#003399;
 	text-decoration:underline;
 }
-
 a.HypDis@THEME_CSS@:link, a.HypDis@THEME_CSS@:visited, a.AncDis@THEME_CSS@:link,a.AncDis@THEME_CSS@:visited {
     color:#000000;
     text-decoration:none;
     cursor:default;
 }
-
 a.HypDis@THEME_CSS@:hover, a.AncDis@THEME_CSS@:hover {
    color:#000000;
    text-decoration:none;
 }
+
 /* SKIP NAVIGATION LINK */
 .SkpWht@THEME_CSS@ {
 	background-color:#FFFFFF;
@@ -53,12 +50,10 @@ a.HypDis@THEME_CSS@:hover, a.AncDis@THEME_CSS@:hover {
 }
 /*---*/
 
-/* ADDREMOVE [originalName: ADD-REMOVE-IDIOM]*/
-
+/* ADDREMOVE */
 .AddRmvLbl@THEME_CSS@ {
 	color:#000;
 }
-
 .AddRmvLbl2@THEME_CSS@ {
 	background: #f7f8fb url(../images/addremove/add-rem_header.gif) repeat-x top;
 	border-top: 1px solid #a4aaaf;
@@ -66,12 +61,11 @@ a.HypDis@THEME_CSS@:hover, a.AncDis@THEME_CSS@:hover {
 	border-bottom: 1px solid #686b6e;
 	border-left: 1px solid #a4aaaf;
 }
-
 .AddRmvLbl2@THEME_CSS@, .AddRmvLbl2ReadOnly@THEME_CSS@ {
 	color:#000;
 }
-
 /*---*/
+
 /* BREADCRUMBS */
 .BcmWhtDiv@THEME_CSS@ {
 	background-color:#FFF;
@@ -94,7 +88,6 @@ a.BcmLnk@THEME_CSS@:hover {
 /*---*/
 
 /* BUTTONS */
-
 .Btn1@THEME_CSS@, .Btn1Mni@THEME_CSS@ {
 	background:#ABD2EB url(../images/button/primary-enabled.gif) repeat-x top;
 	border-top-color:#6C8197;
@@ -102,7 +95,6 @@ a.BcmLnk@THEME_CSS@:hover {
 	border-bottom-color:#263E5A;
 	border-left-color:#4E647A;
 }
-
 .Btn1Hov@THEME_CSS@, .Btn1MniHov@THEME_CSS@ {
 	background:#E2F1FF url(../images/button/primary-roll.gif) repeat-x top;
 	border-top-color:#6D8197;
@@ -110,22 +102,18 @@ a.BcmLnk@THEME_CSS@:hover {
 	border-bottom-color:#273E5A;
 	border-left-color:#475D75;
 }
-
 .Btn2@THEME_CSS@, .Btn2Mni@THEME_CSS@, .Btn2Hov@THEME_CSS@, .Btn2MniHov@THEME_CSS@ {
 	border-top-color:#83858C;
 	border-right-color:#62656B;
 	border-bottom-color:#44464C;
 	border-left-color:#62656B;
 }
-
 .Btn2@THEME_CSS@, .Btn2Mni@THEME_CSS@ {
 	background:#E0E3EB url(../images/button/secondary-enabled.gif) repeat-x top;
 }
-
 .Btn2Hov@THEME_CSS@, .Btn2MniHov@THEME_CSS@ {
 	background: #F4F7FE url(../images/button/secondary-roll.gif) repeat-x top;
 }
-
 .Btn1Dis@THEME_CSS@, .Btn1MniDis@THEME_CSS@ {
 	background:#BAC4D1 url(../images/button/primary-disabled.gif) repeat-x top;
 	color:#777E86;
@@ -134,7 +122,6 @@ a.BcmLnk@THEME_CSS@:hover {
 	border-bottom-color:#99A0A8;
 	border-left-color:#A7AFB8;
 }
-
 .Btn2Dis@THEME_CSS@, .Btn2MniDis@THEME_CSS@ {
 	background:#D1D4DB url(../images/button/secondary-disabled.gif) repeat-x top;
 	color:#7C7D82;
@@ -143,68 +130,53 @@ a.BcmLnk@THEME_CSS@:hover {
 	border-bottom-color:#AEAFB2;
 	border-left-color:#BEBFC2;
 }
-
 .Btn1Hov@THEME_CSS@, .Btn1MniHov@THEME_CSS@, .Btn2Hov@THEME_CSS@, .Btn2MniHov@THEME_CSS@ {
 	cursor:pointer;
 }
+/*---*/
 
-
-
-/* DnD styles -----------*/
-
-/* style for dragItem - item that is activated for dragging 
-    Note that due to dojo implementation, this style will stay with the element
-    even after it is dropped into Target that is not a Source. In this case
-    item is not armed to be dragged, but style misleadingly remains there.
+/* DRAG AND DROP
+ Style for dragItem - item that is activated for dragging 
+ Note that due to dojo implementation, this style will stay with the element
+ even after it is dropped into Target that is not a Source. In this case
+ item is not armed to be dragged, but style misleadingly remains there.
  */
 .dojoDndItem { 
 	cursor:pointer; 
 }
-
-
-/* CONTAINER styles ---------------------------------------------
-    apply to source/target containers
- */
-
-/* container ( source or target) takes on this style when dragItem is dragged
-  over it 
+/* CONTAINER - Apply to source/target containers */
+/**
+ Container ( source or target) takes on this style when dragItem is dragged over it 
  */
 .dojoDndContainerOver {
 	 border:2px dotted #aaa; 
 }
-
-/* horizontal container is marked with .dojoDndHorizontal 
- * although it is anticipated to be used alone but only as part of descendant selector ( see below)
- 
+/**
+ Horizontal container is marked with .dojoDndHorizontal 
+ although it is anticipated to be used alone but only as part of descendant selector ( see below)
  */
-.dojoDndHorizontal {
-	
-}
-
-
-/* SELECTOR styles ----------------------------------------------
-    applied to individual items within containers( selectors)
-*/
-
-/* this style is added to dojoDndItem when cursor is over the potential selectable item */
+.dojoDndHorizontal {}
+/* SELECTOR
+   Applied to individual items within containers (selectors) 
+ */
+/* This style is added to dojoDndItem when cursor is over the potential selectable item */
 .dojoDndItemOver {
 	background: #99ccff; 
 }
-/* item(s) selected within a source(container) are marked with this style.
-   Drag operation will drag all of the selected items
-   */
+/**
+ Item(s) selected within a source(container) are marked with this style.
+ Drag operation will drag all of the selected items
+ */
 .dojoDndItemSelected {
 	background: #90C0FD;         
 }
-/*  item is selected and an anchor for a "shift" selection, usually  
-    presented along with dojoDndItemSelected
+/* Item is selected and an anchor for a "shift" selection, usually  
+   presented along with dojoDndItemSelected
 */
 .dojoDndItemAnchor {
 	background: #9ACAFF; color: black;
 }
-
-/* TARGET styles -------------------------------------------------*/
-/** 
+/* TARGET
  This following styles are used to indicate an insertion point in the target. Insertion point is 
  'anchored' to existing nodes ( i.e. if no nodes are present in the list, no insertion point 
  will be displayed ). Thus the element in the target container will be assigned
@@ -219,7 +191,6 @@ a.BcmLnk@THEME_CSS@:hover {
 .dojoDndItemBefore {
 	border-top: 4px dotted #369;
 }
-
 .dojoDndItemAfter {
 	border-bottom:  4px dotted #369;
 }
@@ -234,18 +205,14 @@ a.BcmLnk@THEME_CSS@:hover {
 	border-top: none;
 	border-bottom: none;
 }
-
-/* AVATAR styles ------------------------------------------------
-    these styles are hardcoded into default avatar implementation.
-    if implementation is changed, they may be irrelevant.
+/* AVATAR
+ These styles are hardcoded into default avatar implementation.
+ if implementation is changed, they may be irrelevant.
  */
- 
-
 /* avatar header */	
 .dojoDndAvatarHeader {
 	background: #aaa;
 }
-
 /* avatar item */
 .dojoDndAvatarItem {
 	background: #fff;
@@ -256,17 +223,16 @@ a.BcmLnk@THEME_CSS@:hover {
 	background: #aaf;
 	
 }
-
 .dojoDndMove .dojoDndAvatarHeader	{background-image: url(../images/dnd/dndNoMove.png); background-repeat: no-repeat;}
 .dojoDndCopy .dojoDndAvatarHeader	{background-image: url(../images/dnd/dndNoCopy.png); background-repeat: no-repeat;}
 .dojoDndMove .dojoDndAvatarCanDrop .dojoDndAvatarHeader	{background-image: url(../images/dnd/dndMove.png); background-repeat: no-repeat;}
 .dojoDndCopy .dojoDndAvatarCanDrop .dojoDndAvatarHeader	{background-image: url(../images/dnd/dndCopy.png); background-repeat: no-repeat;}
-
 .dojoDndWebuiItemDragged {
     opacity:.50; -moz-opacity: 0.5; 
 }
+/*---*/
 
-
+/* MASTHEAD */
 .MstDiv@THEME_CSS@ .Btn1@THEME_CSS@, .MstDiv@THEME_CSS@ .Btn1Mni@THEME_CSS@, .MstDiv@THEME_CSS@ .Btn2@THEME_CSS@, .MstDiv@THEME_CSS@ .Btn2Mni@THEME_CSS@, .MstDiv@THEME_CSS@ .Btn1Hov@THEME_CSS@, .MstDiv@THEME_CSS@ .Btn1MniHov@THEME_CSS@, .MstDiv@THEME_CSS@ .Btn2Hov@THEME_CSS@, .MstDiv@THEME_CSS@ .Btn2MniHov@THEME_CSS@,
 .mastheadButton_4@THEME_CSS@ a:link, .mastheadButton_4@THEME_CSS@ a:visited, .mastheadButton_4@THEME_CSS@ a:hover {
 	color:#FFF;
@@ -281,7 +247,6 @@ a.BcmLnk@THEME_CSS@:hover {
 .MstDiv@THEME_CSS@ .Btn1Hov@THEME_CSS@, .MstDiv@THEME_CSS@ .Btn1MniHov@THEME_CSS@, .MstDiv@THEME_CSS@ .Btn2Hov@THEME_CSS@, .MstDiv@THEME_CSS@ .Btn2MniHov@THEME_CSS@ {
 	background:#99B0C4 url(../images/masthead/masthead_button_over.gif) repeat-x bottom;
 }
-
 .mastheadButton_4@THEME_CSS@ {
 	background-color:#374154;
 	border-top-color:#4a5467;
@@ -290,7 +255,8 @@ a.BcmLnk@THEME_CSS@:hover {
 	border-bottom-color:#7ea0b8;
 }
 /*---*/
-/* SCHEDULER [originalName: DATE AND TIME]*/
+
+/* SCHEDULER */
 .DatCalDiv@THEME_CSS@ {
 	border-left-color: #5F6466;
 	border-right-color:#5F6466;
@@ -300,32 +266,26 @@ a.BcmLnk@THEME_CSS@:hover {
 	background-color:#3D6079;
 	border-top-color:#5F6466;
 }
-
 .DatSelContent@THEME_CSS@ {
 	border-left-color: #5F6466;
 	border-right-color:#5F6466;
 	background:#3D6079 url(../images/scheduler/header-short.gif) bottom left repeat-x;
 	color:#FFFFFF;
 }
-
 .DatCalDiv@THEME_CSS@ {
 	border-left-color: #5F6466;
 	border-right-color:#5F6466;
 	border-bottom-color:#5F6466;
 }
-
 .DatCalDiv@THEME_CSS@, .DatCalTbl@THEME_CSS@ th {
 	background-color:#E3E7EA;
 }
-
 .DatCalTbl@THEME_CSS@ th {
 	border-color:#E3E7EA;
 }
-
 .DatCalTbl@THEME_CSS@ td {
 	border-color:#E1E5E8;
 }
-
 .DatDayHdrTxt@THEME_CSS@, .DatZonTxt@THEME_CSS@ {
 	color:#000000;
 }
@@ -335,19 +295,16 @@ a.BcmLnk@THEME_CSS@:hover {
 .DatLblTxt@THEME_CSS@ {
 	color:#666;
 }
-
 a.DatLnk@THEME_CSS@:link, a.DatLnk@THEME_CSS@:visited {
 	color:#000000;
 	background-color:#fff;
 	text-decoration:none;
 	border-color:#fff;
 }
-
 a.DatLnk@THEME_CSS@:hover {
 	text-decoration:underline;
 	border-color:#fff;
 }
-
 a.DatBldLnk@THEME_CSS@:link, a.DatBldLnk@THEME_CSS@:visited {
 	color:#000000;
 	background-color:#90B7D0;
@@ -357,34 +314,28 @@ a.DatBldLnk@THEME_CSS@:link, a.DatBldLnk@THEME_CSS@:visited {
 	border-left-color:#242E34;
 	text-decoration:none;
 }
-
 a.DatBldLnk@THEME_CSS@:hover {
 	text-decoration:underline;
 }
-
 a.DatCurLnk@THEME_CSS@:link, a.DatCurLnk@THEME_CSS@:visited {
 	color:#000;
 	background-color:#fff;
 	text-decoration:none;
 	border-color:#fff;
 }
-
 a.DatCurLnk@THEME_CSS@:hover {
 	text-decoration:underline;
 	border-color:#fff;
 }
-
 a.DatOthLnk@THEME_CSS@ {
 	color:#000;
 	background-color:#ECF0F3;
 	text-decoration:none;
 	border-color:#ECF0F3;
 }
-
 a.DatOthLnk@THEME_CSS@:hover {
 	text-decoration:underline;
 }
-
 a.DatOthBldLnk@THEME_CSS@:link, a.DatOthBldLnk@THEME_CSS@:visited {
 	color:#000000;
 	background-color:#90B7D0;
@@ -394,13 +345,12 @@ a.DatOthBldLnk@THEME_CSS@:link, a.DatOthBldLnk@THEME_CSS@:visited {
 	border-left-color:#242E34;
 	text-decoration:none;
 }
-
 a.DatOthBldLnk@THEME_CSS@:hover {
 	text-decoration:underline;
 }
 /*---*/
 
-/*CALENDAR */
+/* CALENDAR */
 .CalPopDiv@THEME_CSS@ {
 	background:transparent url(../images/calendar/calpop_dropshadow.png) bottom right no-repeat;
 }
@@ -467,13 +417,13 @@ a.DatOthBldLnk@THEME_CSS@:hover {
 	border-right: 1px solid #ced0d3;
 	border-left: 1px solid #ced0d3;
 }
-
 /*---*/
-/* PAGEALERT [originalName: FULL ALERTS]*/
+
+/* PAGE ALERT */
 .FulAlrtHdrTxt@THEME_CSS@, .FulAlrtMsgTxt@THEME_CSS@ {
 	color:#000;
 }
-
+/*---*/
 
 /* INLINE ALERT */
 .inlineAlert_4@THEME_CSS@ .topLeftCorner@THEME_CSS@ {
@@ -531,7 +481,7 @@ body.HlpBdy@THEME_CSS@ {
 }
 /*---*/
 
-/* HELPINLINE [originalName: INLINE HELP]*/
+/* HELP INLINE */
 .inlinePageHelp@THEME_CSS@, .inlineFieldHelp@THEME_CSS@ {
 	color:#707277;
 }
@@ -551,19 +501,15 @@ body.HlpBdy@THEME_CSS@ {
 }
 /*---*/
 
-/* Editable Field*/
-    
+/* Editable Field*/    
 .EdtInvld@THEME_CSS@ {
     background-color: #FFF7C8 !important;    
 } 
-
 .EdtVld@THEME_CSS@  {
 }
-
 /*---*/
 
-/* LABEL [originalName: GENERIC FIELD LABELS]*/
-
+/* LABEL */
 .LblLev1Txt@THEME_CSS@, .LblLev2Txt@THEME_CSS@, .LblLev2smTxt@THEME_CSS@, .LblLev3Txt@THEME_CSS@ {
 	color:#000000;
 }
@@ -573,8 +519,8 @@ body.HlpBdy@THEME_CSS@ {
 .LblRqdDiv@THEME_CSS@ {
 	color:#707277;
 }
-
 /*---*/
+
 /* LEFT PANE HELP */
 .LftHlpMst@THEME_CSS@ {
 	background:#E5E9ED;
@@ -595,8 +541,8 @@ body.HlpBdy@THEME_CSS@ {
 	border-color:#A8B0B5;
 }
 /*---*/
+
 /* LISTS */
-/* Regular List */
 .Lst@THEME_CSS@, .LstMno@THEME_CSS@ {
 	background:#FFFFFF url(../images/field/bg_gradient.gif) repeat-x top;
 }
@@ -688,7 +634,8 @@ a.JmpTopLnk@THEME_CSS@:hover {
 	text-decoration:underline;
 }
 /*---*/
-/* CONTENTPAGETITLE [originalName: PAGE TITLE]*/
+
+/* CONTENT PAGE TITLE */
 .TtlLin@THEME_CSS@ {
 	background-color:#81939B;
 }
@@ -699,7 +646,8 @@ span.TtlTxt@THEME_CSS@, h1.TtlTxt@THEME_CSS@ {
 	color:#5F6466;
 }
 /*---*/
-/* TABSET [originalName: LEVEL TABS]*/
+
+/* TABSET */
 .Tab1Div@THEME_CSS@, .Tab1Div@THEME_CSS@ .Tab1TblSpcTd@THEME_CSS@ {
 	background:#E5E9ED url(../images/tabs/background_border_bottom.gif) left bottom repeat-x;
 } 
@@ -818,17 +766,15 @@ table.MniTabTbl@THEME_CSS@ td.MniTabTblSelTd@THEME_CSS@ {
 	background-image:url(../images/tabs/background_border_bottom.gif);
 }
 /*---*/
-/* TEXT AND PASSWORD FIELDS */
 
+/* TEXT AND PASSWORD FIELDS */
 .TxtFldDis@THEME_CSS@, .TxtAraDis@THEME_CSS@ {
 	background:#EAEDF0 url(../images/field/bg_gradient_disabled.gif) repeat-x top;
 	color:#7E7E7E;
 }
-
 .TxtFld@THEME_CSS@Sel {
 	background:#A0BBD8 url(../images/field/bg_gradient_selected.gif) repeat-x top;
 }
-
 .TxtFld@THEME_CSS@, .TxtFldDis@THEME_CSS@, .TxtAra@THEME_CSS@, .TxtAraDis@THEME_CSS@ {
 	border-top-color:#9D9FA1;
 	border-right-color:#AEAFB0;
@@ -838,21 +784,15 @@ table.MniTabTbl@THEME_CSS@ td.MniTabTblSelTd@THEME_CSS@ {
 .TxtFldInvld@THEME_CSS@ , .TxtAraInvld@THEME_CSS@ {
     background-color: #FFF7C8 !important;    
 } 
-
 .TxtFldVld@THEME_CSS@ , .TxtAraVld@THEME_CSS@ {
 	background:#FFFFFF url(../images/field/bg_gradient.gif) repeat-x top;
 }
-
 /*---*/
 
 /* MENUS */
-
 .MnuJmpOptGrp@THEME_CSS@, .MnuStdOptGrp@THEME_CSS@ {color:#000;}
-
 .MnuStdOpt@THEME_CSS@, .MnuStdOptSel@THEME_CSS@, .MnuStd@THEME_CSS@ {color:#333;}
-
 .MnuJmpOpt@THEME_CSS@, .MnuJmpOpt@THEME_CSS@:hover, .MnuJmp@THEME_CSS@ {color:#0A3A9C;}
-
 .MnuJmpOptSep@THEME_CSS@, .MnuJmpOptDis@THEME_CSS@, .MnuStdOptSep@THEME_CSS@, .MnuStdOptDis@THEME_CSS@, .MnuJmpDis@THEME_CSS@, .MnuStdDis@THEME_CSS@ {
 	color:#848687;
 	border-top-color:#9D9FA1;
@@ -860,9 +800,7 @@ table.MniTabTbl@THEME_CSS@ td.MniTabTblSelTd@THEME_CSS@ {
 	border-bottom-color:#B9B9BA;
 	border-left-color:#AEAFB0;
 }
-
 .MnuJmpOpt@THEME_CSS@:hover {text-decoration:underline;}
-
 .MnuJmp@THEME_CSS@, .MnuStd@THEME_CSS@ {
 	background:#FFFFFF url(../images/field/bg_gradient.gif) repeat-x top;
 	border-top-color:#9D9FA1;
@@ -870,29 +808,22 @@ table.MniTabTbl@THEME_CSS@ td.MniTabTblSelTd@THEME_CSS@ {
 	border-bottom-color:#B9B9BA;
 	border-left-color:#AEAFB0;
 }
-
 .MnuJmpOptSel@THEME_CSS@ {font-weight:normal;}
-
 .MnuJmpOptGrp@THEME_CSS@, .MnuStdOptGrp@THEME_CSS@ {font-weight:normal;font-style:normal;}
-
 /*---*/
 
 /* MASTHEAD */
-
 span.MstLbl@THEME_CSS@, span.MstTxt@THEME_CSS@, span.MstUsrRole@THEME_CSS@, span.MstAlmDwnTxt@THEME_CSS@, span.MstAlmCrtTxt@THEME_CSS@, span.MstAlmMajTxt@THEME_CSS@, span.MstAlmMinTxt@THEME_CSS@,
 a.MstUsrLnk@THEME_CSS@:link, a.MstUsrLnk@THEME_CSS@:visited, a.MstAlmLnk@THEME_CSS@:link, a.MstAlmLnk@THEME_CSS@:visited, a.MstPrgLnk@THEME_CSS@:link, a.MstPrgLnk@THEME_CSS@:visited {
 	color:#FFFFFF;
 }
-
 a.MstUsrLnk@THEME_CSS@:hover, a.MstAlmLnk@THEME_CSS@:hover, a.MstPrgLnk@THEME_CSS@:hover,
 a.MstUsrLnk@THEME_CSS@:link, a.MstUsrLnk@THEME_CSS@:visited, a.MstAlmLnk@THEME_CSS@:link, a.MstAlmLnk@THEME_CSS@:visited, a.MstPrgLnk@THEME_CSS@:link, a.MstPrgLnk@THEME_CSS@:visited {
 	text-decoration:underline;
 }
-
 .MstBdy@THEME_CSS@ {
 	background-color:#5B87A5;
 }
-
 .MstTblEnd@THEME_CSS@ {
 	background-color:#5B87A5;
 }
@@ -900,7 +831,6 @@ a.MstUsrLnk@THEME_CSS@:link, a.MstUsrLnk@THEME_CSS@:visited, a.MstAlmLnk@THEME_C
 	border-top-color:#3E637E;
 	background-color:#7196B0;
 }	
-
 .MstDiv@THEME_CSS@ {
 	background:#5B87A5 url(../images/masthead/masthead-background.jpg) top left repeat-x;
 	border-color:#000000;
@@ -913,12 +843,10 @@ a.MstUsrLnk@THEME_CSS@:link, a.MstUsrLnk@THEME_CSS@:visited, a.MstAlmLnk@THEME_C
 	background-color:#5B87A5;
 	border-color:#000000;
 }
-
 a.MstLnk@THEME_CSS@:hover, a.MstLnkLft@THEME_CSS@:hover, a.MstLnkRt@THEME_CSS@:hover, a.MstLnkCen@THEME_CSS@:hover {
 	background-color:#EAF9FF;
 	background-image:url(../images/masthead/masthead_link_roll.gif);
 }
-
 a.MstLnk@THEME_CSS@:link, a.MstLnk@THEME_CSS@:visited, a.MstLnkLft@THEME_CSS@:link, a.MstLnkLft@THEME_CSS@:visited, a.MstLnkRt@THEME_CSS@:link, a.MstLnkRt@THEME_CSS@:visited, a.MstLnkCen@THEME_CSS@:link, a.MstLnkCen@THEME_CSS@:visited {
 	background-color:#D9E6EC;
 	background-image:url(../images/masthead/masthead_link_enabled.gif);
@@ -928,14 +856,12 @@ a.MstLnk@THEME_CSS@:link, a.MstLnk@THEME_CSS@:visited, a.MstLnkLft@THEME_CSS@:li
 	border-bottom-color:#0E1418;
 	border-left-color:#1C262D;
 }
-
 a.MstLnk@THEME_CSS@:link, a.MstLnk@THEME_CSS@:visited, a.MstLnkRt@THEME_CSS@:link, a.MstLnkRt@THEME_CSS@:visited {
 	border-right-color:#1C262D;
 }
 /*---*/
 
-
-/* TABLE [originalName: ACTION TABLE] */
+/* TABLE */
 .Tbl@THEME_CSS@ {
 	border-color:#8C8F91;
 	border-top-color:#35556A;
@@ -1339,7 +1265,7 @@ table.Tbl@THEME_CSS@ div.TblPnlDiv@THEME_CSS@ td {
 	border-right-color:#9CB6C7;
 	border-bottom-color:#CADDED;
 	border-left-color:#9CB6C7;
-} 
+}
 /*---*/
 
 /* LIGHTWEIGHT TABLE DESIGN */
@@ -1592,6 +1518,7 @@ a.TreeSelLink@THEME_CSS@:hover {
 	background:#FFFFFF url(../images/version/version_brand.jpg) no-repeat;
 }
 /*---*/
+
 /* WIZARD */
 .WizTtlBar@THEME_CSS@ {
 	background:#5B87A5 url(../images/masthead/sec-masthead-background.jpg) top left repeat-x;
@@ -1626,47 +1553,37 @@ a.WizStpLnk@THEME_CSS@:hover {
     background: #BBBBBB;
     border: 1px solid #BBBBBB;
 }
-
 .Bubble@THEME_CSS@ {
     background: #ffffff; 
     border: 1px solid #8c8f91; 
 }
-
 .BubbleShadow@THEME_CSS@, .Bubble@THEME_CSS@ {
     -moz-border-radius: 5px;
 }
-
 .Bubble@THEME_CSS@ .bottomLeftArrow@THEME_CSS@ {
     background-image: url(../images/bubble/bottomLeftArrow.png);
 }
-
 .Bubble@THEME_CSS@ .bottomRightArrow@THEME_CSS@ {
     background-image: url(../images/bubble/bottomRightArrow.png);
 }
-
 .Bubble@THEME_CSS@ .topLeftArrow@THEME_CSS@ {
     background-image: url(../images/bubble/topLeftArrow.png);
 }
-
 .Bubble@THEME_CSS@ .topRightArrow@THEME_CSS@ {
     background-image: url(../images/bubble/topRightArrow.png);
 }
-
 .BubbleHeader@THEME_CSS@ {
     background-color: #e1e5e8;
     border-bottom: 1px solid #8c8f91;
     -moz-border-radius-topleft: 5px;
     -moz-border-radius-topright: 5px;
 }
-
 .BubbleTitle@THEME_CSS@ {
     color: #36586f;
 }
-
 .BubbleCloseBtn@THEME_CSS@ {
     background-image: url(../images/bubble/dismiss_icon.png);
 }
-
 .NoBubbleCloseBtn@THEME_CSS@ {
     background-image: url(../images/other/dot.gif);
 }
@@ -1676,7 +1593,6 @@ a.WizStpLnk@THEME_CSS@:hover {
 .Accordion@THEME_CSS@ {
     border-top: thin solid #8c8f91;
 }
-
 .AccdHeader@THEME_CSS@ {
     border-color: #8c8f91;
     background-image: url(../images/accordion/tab_collapsed_gradient.png);
@@ -1684,91 +1600,74 @@ a.WizStpLnk@THEME_CSS@:hover {
     background-color: #e1e5e8;
     background-position: top;
 }
-
 .AccdRefreshBtn@THEME_CSS@, .AccdOpenAllBtn@THEME_CSS@, .AccdCloseAllBtn@THEME_CSS@ {
     cursor: pointer;
 }
-
 .AccdDivider@THEME_CSS@ {
     background-color:#C7C8CA;
 }
-
 .AccdTabExpanded@THEME_CSS@, .AccdTabCollapsed@THEME_CSS@ {
     border-color: #8c8f91;
     cursor: pointer;
 }
-
 .AccdTabExpanded@THEME_CSS@ {
     background: #46708e url(../images/accordion/tab_expanded_gradient.png) repeat-x top;
     color: #FFFFFF;
- }
+}
 .AccdTabCollapsed@THEME_CSS@ {
     background: #e1e5e8 url(../images/accordion/tab_collapsed_gradient.png) repeat-x top;
- }
-
+}
 .AccdTabExpanded@THEME_CSS@ a:link,
 .AccdTabExpanded@THEME_CSS@ a:visited,
 .AccdTabExpanded@THEME_CSS@ a:active {
     color: #FFFFFF;
 }
-
 .AccdTabCollapsed@THEME_CSS@ a:link,
 .AccdTabCollapsed@THEME_CSS@ a:visited,
 .AccdTabCollapsed@THEME_CSS@ a:active {
     color: #333333; 
 }
-
 .AccdTabExpanded@THEME_CSS@ a:hover, .AccdTabExpanded_Focus@THEME_CSS@ {
     background: #5b87a5 url(../images/accordion/tab_expanded_gradient.png) repeat-x top;
 }
-
 .AccdTabCollapsed@THEME_CSS@ a:hover, .AccdTabCollapsed_Focus@THEME_CSS@ {
     background: #f1f3f6 url(../images/accordion/tab_collapsed_gradient.png) repeat-x top;
 }
-
 .AccdTabTitle@THEME_CSS@ a:link,
 .AccdTabTitle@THEME_CSS@ a:visited,
 .AccdTabTitle@THEME_CSS@ a:hover,
 .AccdTabTitle@THEME_CSS@ a:active {
     text-decoration: none;
 }
-
 .AccdTabExpanded@THEME_CSS@ .AccdDownTurner@THEME_CSS@ {
     background: transparent url(../images/accordion/tab_expanded_turner.png);
     cursor: pointer;
 }
-
 .AccdTabCollapsed@THEME_CSS@ .AccdRightTurner@THEME_CSS@ {
     background: transparent url(../images/accordion/tab_collapsed_turner.png);
     cursor: pointer;
 }
-
 .AccdTabExpanded_Focus@THEME_CSS@ .AccdDownTurner@THEME_CSS@ {
     background: transparent url(../images/accordion/tab_expanded_turner.png);
     cursor: pointer;
 }
-
 .AccdTabCollapsed_Focus@THEME_CSS@ .AccdRightTurner@THEME_CSS@ {
     background: transparent url(../images/accordion/tab_collapsed_turner.png);
     cursor: pointer;
 }
-
 .AccdTabMenuCue@THEME_CSS@ {
     cursor: pointer;
 }
-
 .AccdTabExpanded@THEME_CSS@ .AccdTabMenuCue@THEME_CSS@ {
     background-image: url(../images/accordion/tab_expanded_droparrow.png);
 }
-
 .AccdTabCollapsed@THEME_CSS@ .AccdTabMenuCue@THEME_CSS@ {
     background-image: url(../images/accordion/tab_collapsed_droparrow.png);
 }
-
 .AccdTabContent@THEME_CSS@ {
     background-color: #FFFFFF;
     border-color: #8c8f91;
- }
+}
 /*---*/
 
 /* PROGRESS BAR */
@@ -1799,62 +1698,51 @@ a.WizStpLnk@THEME_CSS@:hover {
 .progressBar_4@THEME_CSS@ .checkboxContainer@THEME_CSS@ label {
 	cursor:pointer;
 }
+/*---*/
 
 /* MENU */
 .MenuShadow@THEME_CSS@ {
     background:#bbb; 
     border:1px solid #ddd;
 }
-
 .Menu@THEME_CSS@ {
     background: #fff; 
     border: 1px solid #8c8f91; 
 }
-
 ul.MenuItems@THEME_CSS@ {
     background-color: #FFFFFF;
 }
-
 ul.MenuItems@THEME_CSS@ li .MenuItemSeparator@THEME_CSS@ {
     border-top: 1px solid #cad0d2;
 }
-
 ul.MenuItems@THEME_CSS@ li .MenuItem@THEME_CSS@,       /* 1st-level menu item */
 ul.MenuItems@THEME_CSS@ ul li .MenuItem@THEME_CSS@ {   /* 2nd-level menu item in 1st-level optgroup */
     color: #003399;
 }
-
 ul.MenuItems@THEME_CSS@ li .MenuOptGroupHeader@THEME_CSS@ {  /* 1st-level optgroup header */
     color: #000;
 }
-
 ul.MenuItems@THEME_CSS@ li .MenuItemDisabled@THEME_CSS@,       /* 1st-level menu item */
 ul.MenuItems@THEME_CSS@ ul li .MenuItemDisabled@THEME_CSS@ {   /* 2nd-level menu item in 1st-level optgroup */
     color: #7a7277;
 }
-
 ul.MenuItems@THEME_CSS@ li .MenuItem@THEME_CSS@:hover,     /* standard hover */
 ul.MenuItems@THEME_CSS@ li .MenuItem@THEME_CSS@.MenuFocus@THEME_CSS@{  
     background-color: #90b7d0;
     color: #ffffff;
 }
-
 ul.MenuItems@THEME_CSS@ li .MenuItem@THEME_CSS@:hover{     /* standard hover */
     cursor: pointer;
 }
-
 .NoMenuItemWidget@THEME_CSS@ {
     background-image: url(../images/other/dot.gif);
 }
-
 .MenuItemSubmenu@THEME_CSS@ {
     background-color: transparent;
 }
-
 .NoMenuItemSubmenu@THEME_CSS@ {
     background-image: url(../images/other/dot.gif);
 }
-
 /*---*/
 
 /* COMMON TASKS */
@@ -1935,7 +1823,7 @@ ul.MenuItems@THEME_CSS@ li .MenuItem@THEME_CSS@:hover{     /* standard hover */
 }
 /*---*/
 
-/* Table2 */
+/* TABLE2 */
 /* Top Level Container */
 .table2@THEME_CSS@ {
 	background-color:#213D51;
@@ -2079,3 +1967,4 @@ ul.MenuItems@THEME_CSS@ li .MenuItem@THEME_CSS@:hover{     /* standard hover */
 	background-color:#E5E9ED;
 }
 /*---*/
+

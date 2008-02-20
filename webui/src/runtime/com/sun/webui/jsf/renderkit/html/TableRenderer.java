@@ -900,14 +900,14 @@ public class TableRenderer extends javax.faces.render.Renderer {
             // Append JavaScript.
             buff.append(JavaScriptUtilities.getModule("table"))
                 .append("\n") // NOI18N
-                .append(JavaScriptUtilities.getModuleName("table.init")) // NOI18N
+                .append(JavaScriptUtilities.getModuleName("table._init")) // NOI18N
                 .append("(") //NOI18N
                 .append(JSONUtilities.getString(json))
                 .append(");"); //NOI18N
 
             // Render JavaScript.
             JavaScriptUtilities.renderJavaScript(component, writer,
-                buff.toString(), true);
+                buff.toString(), JavaScriptUtilities.isWebuiOnLoad());
         } catch(JSONException e) {
             e.printStackTrace();
         }

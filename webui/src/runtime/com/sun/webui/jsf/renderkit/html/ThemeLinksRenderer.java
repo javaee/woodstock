@@ -62,27 +62,21 @@ public class ThemeLinksRenderer extends javax.faces.render.Renderer {
             throw new FacesException(message);
         }
         
-        ThemeLinks themeLinks = (ThemeLinks)component;
+        ThemeLinks themeLinks = (ThemeLinks) component;
         ResponseWriter writer = context.getResponseWriter();
-        
-        // Link and Scripts
-	if (themeLinks.isStyleSheet()) {
-	    Theme theme = ThemeUtilities.getTheme(context);
-	    if (themeLinks.isStyleSheetInline()) {
-		RenderingUtilities.renderStyleSheetInline(themeLinks, theme, context, writer);
-	    } else if (themeLinks.isStyleSheetLink()) {
-		RenderingUtilities.renderStyleSheetLink(themeLinks, theme, context, writer);
-	    }
-	}
 
         // Get global flags.
         JavaScriptUtilities.setDebug(themeLinks.isDebug());
+        JavaScriptUtilities.setJsfx(themeLinks.isJsfx());
+        JavaScriptUtilities.setStyleSheet(themeLinks.isStyleSheet());
+        JavaScriptUtilities.setWebuiAll(themeLinks.isWebuiAll());
+        JavaScriptUtilities.setWebuiJsfx(themeLinks.isWebuiJsfx());
+        JavaScriptUtilities.setWebuiOnLoad(themeLinks.isWebuiOnLoad());
 
         // Render bootstrap.
         if (themeLinks.isJavaScript()) {
             try {
-                JavaScriptUtilities.renderBootstrap(component, writer, 
-                    themeLinks.isWebuiAll(), themeLinks.isWebuiJsfx(), themeLinks.isJsfx());
+                JavaScriptUtilities.renderBootstrap(component, writer);
             } catch (JSONException e) {
                 e.printStackTrace();
             }

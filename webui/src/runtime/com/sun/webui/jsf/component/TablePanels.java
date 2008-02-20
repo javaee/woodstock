@@ -208,7 +208,7 @@ public class TablePanels extends UIComponentBase implements NamingContainer {
         if (table != null) {
             child.setTabIndex(table.getTabIndex());
             child.setOnChange("document.getElementById('" + //NOI18N
-                table.getClientId(getFacesContext()) + "').initPrimarySortOrderMenu()"); //NOI18N
+                table.getClientId(getFacesContext()) + "')._initPrimarySortOrderMenu()"); //NOI18N
         } else {
             log("getPrimarySortColumnMenu", //NOI18N
                 "Tab index & onChange not set, Table is null"); //NOI18N
@@ -265,7 +265,7 @@ public class TablePanels extends UIComponentBase implements NamingContainer {
             child.setTabIndex(table.getTabIndex());
             child.setOnChange("document.getElementById('" + //NOI18N
                 table.getClientId(getFacesContext()) + 
-                "').initPrimarySortOrderMenuToolTip()"); //NOI18N
+                "')._initPrimarySortOrderMenuToolTip()"); //NOI18N
         } else {
             log("getPrimarySortOrderMenu", //NOI18N
                 "Tab index & onChange not set, Table is null"); //NOI18N
@@ -304,7 +304,7 @@ public class TablePanels extends UIComponentBase implements NamingContainer {
             child.setTabIndex(table.getTabIndex());
             child.setOnChange("document.getElementById('" + //NOI18N
                 table.getClientId(getFacesContext()) + 
-                "').initSecondarySortOrderMenu()"); //NOI18N
+                "')._initSecondarySortOrderMenu()"); //NOI18N
         } else {
             log("getSecondarySortColumnMenu", //NOI18N
                 "Tab index & onChange not set, Table is null"); //NOI18N
@@ -361,7 +361,7 @@ public class TablePanels extends UIComponentBase implements NamingContainer {
             child.setTabIndex(table.getTabIndex());
             child.setOnChange("document.getElementById('" + //NOI18N
                 table.getClientId(getFacesContext()) + 
-                "').initSecondarySortOrderMenuToolTip()"); //NOI18N
+                "')._initSecondarySortOrderMenuToolTip()"); //NOI18N
         } else {
             log("getSecondarySortOrderMenu", //NOI18N
                 "Tab index & onChange not set, Table is null"); //NOI18N
@@ -401,7 +401,7 @@ public class TablePanels extends UIComponentBase implements NamingContainer {
             child.setTabIndex(table.getTabIndex());
             child.setOnClick("document.getElementById('" + //NOI18N
                 table.getClientId(getFacesContext()) +
-                "').toggleSortPanel(); return false"); //NOI18N
+                "')._toggleSortPanel(); return false"); //NOI18N
         } else {
             log("getSortPanelCancelButton", //NOI18N
                 "Tab index & onClick not set, Table is null"); //NOI18N
@@ -438,7 +438,7 @@ public class TablePanels extends UIComponentBase implements NamingContainer {
             child.setTabIndex(table.getTabIndex());
             child.setOnClick("return document.getElementById('" + //NOI18N
                 table.getClientId(getFacesContext()) + 
-                "').validateSortPanel()"); //NOI18N
+                "')._validateSortPanel()"); //NOI18N
         } else {
             log("getSortPanelSubmitButton", //NOI18N
                 "Tab index & onClick not set, Table is null"); //NOI18N
@@ -472,7 +472,7 @@ public class TablePanels extends UIComponentBase implements NamingContainer {
             child.setTabIndex(table.getTabIndex());
             child.setOnChange("document.getElementById('" + //NOI18N
                 table.getClientId(getFacesContext()) + 
-                "').initTertiarySortOrderMenu()"); //NOI18N
+                "')._initTertiarySortOrderMenu()"); //NOI18N
         } else {
             log("getTertiarySortColumnMenu", //NOI18N
                 "Tab index & onChange not set, Table is null"); //NOI18N
@@ -529,7 +529,7 @@ public class TablePanels extends UIComponentBase implements NamingContainer {
             child.setTabIndex(table.getTabIndex());
             child.setOnChange("document.getElementById('" + //NOI18N
                 table.getClientId(getFacesContext()) + 
-                "').initTertiarySortOrderMenuToolTip()"); //NOI18N
+                "')._initTertiarySortOrderMenuToolTip()"); //NOI18N
         } else {
             log("getTertiarySortOrderMenu", //NOI18N
                 "Tab index & onChange not set, Table is null"); //NOI18N

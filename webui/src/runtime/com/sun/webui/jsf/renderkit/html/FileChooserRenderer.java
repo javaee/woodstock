@@ -960,14 +960,14 @@ public class FileChooserRenderer extends AbstractRenderer {
             // Append JavaScript.
             buff.append(JavaScriptUtilities.getModule("fileChooser"))
                 .append("\n") // NOI18N
-                .append(JavaScriptUtilities.getModuleName("fileChooser.init")) // NOI18N
+                .append(JavaScriptUtilities.getModuleName("fileChooser._init")) // NOI18N
                 .append("(") //NOI18N
                 .append(JSONUtilities.getString(json))
                 .append(");"); //NOI18N
             
             // Render JavaScript.
             JavaScriptUtilities.renderJavaScript(chooser, writer,
-                buff.toString(), true);
+                buff.toString(), JavaScriptUtilities.isWebuiOnLoad());
         } catch(JSONException e) {
             e.printStackTrace();
         }

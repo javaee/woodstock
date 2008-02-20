@@ -645,14 +645,14 @@ public class SchedulerRenderer extends javax.faces.render.Renderer {
             // Append JavaScript.
             buff.append(JavaScriptUtilities.getModule("scheduler"))
                 .append("\n") // NOI18N
-                .append(JavaScriptUtilities.getModuleName("scheduler.init")) // NOI18N
+                .append(JavaScriptUtilities.getModuleName("scheduler._init")) // NOI18N
                 .append("(") //NOI18N
                 .append(JSONUtilities.getString(json))
                 .append(");"); //NOI18N
             
             // Render JavaScript.
             JavaScriptUtilities.renderJavaScript(scheduler, writer,
-                buff.toString(), true);
+                buff.toString(), JavaScriptUtilities.isWebuiOnLoad());
         } catch(JSONException e) {
             e.printStackTrace();
         }

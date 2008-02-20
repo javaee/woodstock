@@ -1,25 +1,24 @@
-// fileChooser.js
-//
-// The contents of this file are subject to the terms
-// of the Common Development and Distribution License
-// (the License).  You may not use this file except in
-// compliance with the License.
-// 
-// You can obtain a copy of the license at
-// https://woodstock.dev.java.net/public/CDDLv1.0.html.
-// See the License for the specific language governing
-// permissions and limitations under the License.
-// 
-// When distributing Covered Code, include this CDDL
-// Header Notice in each file and include the License file
-// at https://woodstock.dev.java.net/public/CDDLv1.0.html.
-// If applicable, add the following below the CDDL Header,
-// with the fields enclosed by brackets [] replaced by
-// you own identifying information:
-// "Portions Copyrighted [year] [name of copyright owner]"
-// 
-// Copyright 2007 Sun Microsystems, Inc. All rights reserved.
-//
+/**
+ * The contents of this file are subject to the terms
+ * of the Common Development and Distribution License
+ * (the License).  You may not use this file except in
+ * compliance with the License.
+ * 
+ * You can obtain a copy of the license at
+ * https://woodstock.dev.java.net/public/CDDLv1.0.html.
+ * See the License for the specific language governing
+ * permissions and limitations under the License.
+ * 
+ * When distributing Covered Code, include this CDDL
+ * Header Notice in each file and include the License file
+ * at https://woodstock.dev.java.net/public/CDDLv1.0.html.
+ * If applicable, add the following below the CDDL Header,
+ * with the fields enclosed by brackets [] replaced by
+ * you own identifying information:
+ * "Portions Copyrighted [year] [name of copyright owner]"
+ * 
+ * Copyright 2008 Sun Microsystems, Inc. All rights reserved.
+ */
 
 webui.@THEME@.dojo.provide("webui.@THEME@.fileChooser");
 
@@ -118,12 +117,15 @@ webui.@THEME@.fileChooser = {
      * @return {boolean} true if successful; otherwise, false.
      * @private
      */
-    init: function(props) {
+    _init: function(props) {
+        var message = "Cannot initialize fileChooser.";
         if (props == null || props.id == null) {
+            console.debug(message); // See Firebug console.
             return false;
         }
         var domNode = document.getElementById(props.id);
         if (domNode == null) {
+            console.debug(message); // See Firebug console.
             return false;
         }
 
@@ -158,7 +160,7 @@ webui.@THEME@.fileChooser = {
                 || domNode.listentries == null
                 || domNode.sortmenu == null) {
             return setTimeout(function() {
-                webui.@THEME@.fileChooser.init(props);
+                webui.@THEME@.fileChooser._init(props);
             }, 10);
         }
 

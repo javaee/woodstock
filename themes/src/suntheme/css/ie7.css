@@ -1,4 +1,4 @@
-/*
+/**
  * The contents of this file are subject to the terms
  * of the Common Development and Distribution License
  * (the License).  You may not use this file except in
@@ -17,9 +17,8 @@
  * you own identifying information:
  * "Portions Copyrighted [year] [name of copyright owner]"
  * 
- * Copyright 2007 Sun Microsystems, Inc. All rights reserved.
+ * Copyright 2008 Sun Microsystems, Inc. All rights reserved.
  */
-/* CSS Document for IE7 */
 
 /* CHECKBOXES AND RADIO BUTTONS */
 .CbLbl@THEME_CSS@, CbLblDis@THEME_CSS@ {
@@ -34,6 +33,7 @@
 .CbDis@THEME_CSS@, .RbDis@THEME_CSS@ {
          filter: alpha(opacity=40);
 }
+/*---*/
 
 /* PROPERTY SHEET */
 div.ConTblCl2Div@THEME_CSS@ .CbSpn@THEME_CSS@ .CbLbl@THEME_CSS@ {
@@ -42,13 +42,17 @@ div.ConTblCl2Div@THEME_CSS@ .CbSpn@THEME_CSS@ .CbLbl@THEME_CSS@ {
 div.ConTblCl2Div@THEME_CSS@ .CbSpn@THEME_CSS@ input[type=checkbox] {
 	margin-top:-5px;
 }
-/** Drag and drop styles */
+/*---*/
+
+/** DRAG AND DROP */
 .dojoDndWebuiItemDragged {
     filter: alpha(opacity=50); 
 }
+/*---*/
 
-/* Table2 */
+/* TABLE2 */
 .table2@THEME_CSS@ .bg@THEME_CSS@ {
 	position:relative;
 	float:none;
 }
+/*---*/

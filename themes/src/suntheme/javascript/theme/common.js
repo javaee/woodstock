@@ -1,28 +1,28 @@
-// theme/common.js
-//
-// The contents of this file are subject to the terms
-// of the Common Development and Distribution License
-// (the License).  You may not use this file except in
-// compliance with the License.
-// 
-// You can obtain a copy of the license at
-// https://woodstock.dev.java.net/public/CDDLv1.0.html.
-// See the License for the specific language governing
-// permissions and limitations under the License.
-// 
-// When distributing Covered Code, include this CDDL
-// Header Notice in each file and include the License file
-// at https://woodstock.dev.java.net/public/CDDLv1.0.html.
-// If applicable, add the following below the CDDL Header,
-// with the fields enclosed by brackets [] replaced by
-// you own identifying information:
-// "Portions Copyrighted [year] [name of copyright owner]"
-// 
-// Copyright 2007 Sun Microsystems, Inc. All rights reserved.
-//
+/**
+ * The contents of this file are subject to the terms
+ * of the Common Development and Distribution License
+ * (the License).  You may not use this file except in
+ * compliance with the License.
+ * 
+ * You can obtain a copy of the license at
+ * https://woodstock.dev.java.net/public/CDDLv1.0.html.
+ * See the License for the specific language governing
+ * permissions and limitations under the License.
+ * 
+ * When distributing Covered Code, include this CDDL
+ * Header Notice in each file and include the License file
+ * at https://woodstock.dev.java.net/public/CDDLv1.0.html.
+ * If applicable, add the following below the CDDL Header,
+ * with the fields enclosed by brackets [] replaced by
+ * you own identifying information:
+ * "Portions Copyrighted [year] [name of copyright owner]"
+ * 
+ * Copyright 2008 Sun Microsystems, Inc. All rights reserved.
+ */
 
 webui.@THEME@.dojo.provide("webui.@THEME@.theme.common");
 
+webui.@THEME@.dojo.require("webui.@THEME@.config");
 webui.@THEME@.dojo.require("webui.@THEME@.dojo.i18n");
 webui.@THEME@.dojo.require("webui.@THEME@.prototypejs");
 
@@ -31,22 +31,19 @@ webui.@THEME@.dojo.require("webui.@THEME@.prototypejs");
  * It is also the base of the Dojo nls localized theme namespace.
  * <p>
  * The client theme is composed of the following theme categories.
+ * </p>
  * <ul>
  * <li>messages</li>
  * <li>styles</li>
  * <li>images</li>
  * <li>templates</li>
  * </ul>
+ * <p>
  * Each category has a set of properties. See the methods in
  * webui.@THEME@.theme.common for obtaining the theme property values.
- * </p>
+ * </p><p>
  * webui.@THEME@.dojo.requireLocalization is reimplemented here in order to perform
  * hierarchical extension of the theme for application theme overrides.
- * <p>
- * NOTE THE SPACE AFTER THE "webui.@THEME@.dojo." SEGMENT, IN  REFERENCES TO DOJO 
- * METHODS THAT LOAD A MODULE. IF THERE IS NO SPACE "debugAtAllCosts"
- * RESULTS IN JAVASCRIPT ERRORS DUE TO PATTERN MATCHING BY DOJO TO 
- * FIND MODULE LOADING METHODS.
  * </p>
  * @static
  */
@@ -55,11 +52,9 @@ webui.@THEME@.theme.common = {
      * This function is used to set widget properties with Object literals.
      *
      * @param props Key-Value pairs of properties.
-     * @config {String} bundle The javascript theme basename "sunttheme" for @THEME@.js
-     * @config {String} locale The locale in dojo form <lang>-<country>-<variant>
-     * @config {String} module The module into which dojo will load the theme properties.
+     * @config {String} bundle The javascript theme basename "suntheme" for @THEME@.js
+     * @config {String} locale The theme locale formatted as <lang>-<country>-<variant>
      * @config {String} modulePath A relative URL defining the root directory of the nls directory
-     * @config {String} prefix The application context and the theme servlet context.
      * @config {String} custom An array of basenames identifying an application's 
      * javascript theme files. The last segment of this "dot" separated 
      * string, is treated as the "bundle", and the initial segments are
@@ -67,46 +62,36 @@ webui.@THEME@.theme.common = {
      * @return {boolean} true if successful; otherwise, false.
      * @private
      */
-    init: function(props) {
-        if (props == null) {
+    _init: function(props) {
+        if (props == null || props.bundle == null || props.locale == null 
+                || props.modulePath == null) {
+            console.debug("Cannot initialize theme."); // See Firebug console.
             return false;
         }
+        var module = "webui.@THEME@.theme";
+        var theme = webui.@THEME@.theme.common;
 
-	webui.@THEME@.theme.common.modulePath = null;
-        webui.@THEME@.theme.common.prefix = props.prefix;
-        webui.@THEME@.theme.common.module = props.module;
-        webui.@THEME@.theme.common.bundle = props.bundle;
-        webui.@THEME@.theme.common.locale = props.locale;
-
-	if (props.modulePath != null && props.modulePath != "") {
-	    webui.@THEME@.theme.common.modulePath = props.prefix;
-	    if (props.modulePath.charAt(0) != '/') {
-		webui.@THEME@.theme.common.modulePath = 
-			webui.@THEME@.theme.common.modulePath + "/";
-	    }
-	    webui.@THEME@.theme.common.modulePath = 
-		webui.@THEME@.theme.common.modulePath + props.modulePath;
-	    webui.@THEME@.dojo.registerModulePath(props.module, 
-		webui.@THEME@.theme.common.modulePath);
+        // Register module path.
+	if (props.modulePath) {
+	    webui.@THEME@.dojo.registerModulePath(module, props.modulePath);
 	}
 
         // Load the javascript theme.
         //
         // Note: Default to "ROOT" for base locales so multiple requests are not
         // generated.
-        webui.@THEME@.theme.common.requireLocalization(props.module, 
-            props.bundle, (props.locale == "en" || props.locale == "en-us") 
-                ? "ROOT" : props.locale);
+        theme.requireLocalization(module, props.bundle, 
+            (props.locale == "en" || props.locale == "en-us") ? "ROOT" : props.locale);
 
-        webui.@THEME@.theme.common.baseTheme = webui.@THEME@.dojo.i18n.getLocalization(
-            props.module, props.bundle, props.locale);
+        theme.baseTheme = webui.@THEME@.dojo.i18n.getLocalization(module,
+            props.bundle, props.locale);
 
         if (props.custom instanceof Array) {
             for (var i = 0; i < props.custom.length; ++i) {
-                webui.@THEME@.theme.common.extendBaseTheme(props.custom[i]);
+                theme.extendBaseTheme(props.custom[i]);
             }
         } else if (typeof(props.custom) == "string") {
-            webui.@THEME@.theme.common.extendBaseTheme(props.custom);
+            theme.extendBaseTheme(props.custom);
         }
         return true;
     },
@@ -117,8 +102,8 @@ webui.@THEME@.theme.common = {
      *
      * @return {String} The theme prefix.
      */
-    getPrefix : function() {
-	return webui.@THEME@.theme.common.prefix;
+    getPrefix: function() {
+	return webui.@THEME@.config.theme.prefix;
     },
 
     /**
@@ -161,7 +146,7 @@ webui.@THEME@.theme.common = {
      * @param {Array} params
      * @return {String} A formatted message.
      */
-    getMessage : function(key, params) {
+    getMessage: function(key, params) {
 	var msg = webui.@THEME@.theme.common.getProperty("messages", key);
 	if (msg == null) {
 	    return null;
@@ -182,12 +167,13 @@ webui.@THEME@.theme.common = {
      * @return {Object} Key-Value pairs of properties.
      */
     _getImageProp: function(prop, isText) {
-	var value = webui.@THEME@.theme.common.getProperty("images", prop);
+        var theme = webui.@THEME@.theme.common;
+	var value = theme.getProperty("images", prop);
 	if (value == null || value.length == 0) {
 	    return null;
 	}
 	if (isText) {
-	    var msg = webui.@THEME@.theme.common.getMessage(value, null);
+	    var msg = theme.getMessage(value, null);
 	    if (msg != null && msg.length != 0) {
 		value = msg;
 	    }
@@ -217,7 +203,7 @@ webui.@THEME@.theme.common = {
      * @param {String} srcProperty the image theme key, the image key without any suffix.
      * @return {Object} Key-Value pairs of properties.
      */
-    getImage : function(srcProperty) {
+    getImage: function(srcProperty) {
 	if (srcProperty == null || srcProperty.length == 0) {
 	    return null;
 	}
@@ -237,50 +223,43 @@ webui.@THEME@.theme.common = {
 	// If this key does not have a value the image is not defined
 	// in the theme
 	//
-	var src = webui.@THEME@.theme.common._getImageProp(srcProperty, false);
+        var theme = webui.@THEME@.theme.common;
+	var src = theme._getImageProp(srcProperty, false);
 	if (src == null) {
 	    return null;
 	}
 	var imageObj = {};
-	imageObj["src"] = webui.@THEME@.theme.common.getPrefix() + src;
+	imageObj["src"] = theme.getPrefix() + src;
 
-	var value = webui.@THEME@.theme.common._getImageProp(
-		srcProperty + "_WIDTH", false);
+	var value = theme._getImageProp(srcProperty + "_WIDTH", false);
 	if (value != null) {
 	    imageObj["width"] = value;
 	}
-	value = webui.@THEME@.theme.common._getImageProp(
-	    srcProperty + "_HEIGHT", false);
+	value = theme._getImageProp(srcProperty + "_HEIGHT", false);
 	if (value != null) {
 	    imageObj["height"] = value;
 	}
-        var value = webui.@THEME@.theme.common._getImageProp(
-                    srcProperty + "_MAP", false);
+        var value = theme._getImageProp(srcProperty + "_MAP", false);
         if (value != null) {
             imageObj["map_key"] = value;
-            var value = webui.@THEME@.theme.common._getImageProp(
-                    srcProperty + "_MAP_WIDTH", false);
+            var value = theme._getImageProp(srcProperty + "_MAP_WIDTH", false);
             if (value != null) {
                 imageObj["actual_width"] = value;
             }
-            value = webui.@THEME@.theme.common._getImageProp(
-                srcProperty + "_MAP_HEIGHT", false);
+            value = theme._getImageProp(srcProperty + "_MAP_HEIGHT", false);
             if (value != null) {
                 imageObj["actual_height"] = value;
             }
-            value = webui.@THEME@.theme.common._getImageProp(
-                srcProperty + "_MAP_TOP", false);
+            value = theme._getImageProp(srcProperty + "_MAP_TOP", false);
             if (value != null) {
                 imageObj["top"] = value;
             }
         }
-	value = webui.@THEME@.theme.common._getImageProp(
-	    srcProperty + "_ALT", true);
+	value = theme._getImageProp(srcProperty + "_ALT", true);
 	if (value != null) {
 	    imageObj["alt"] = value;
 	}
-	value =  webui.@THEME@.theme.common._getImageProp(
-	    srcProperty + "_TITLE", true);
+	value = theme._getImageProp(srcProperty + "_TITLE", true);
 	if (value != null) {
 	    imageObj["title"] = value;
 	}
@@ -294,13 +273,30 @@ webui.@THEME@.theme.common = {
      * @param {String} key A key defining a theme "javascript" property.
      * @return {String} The javascript property.
      */
-    getJavaScript : function(key) {
-	var url = webui.@THEME@.theme.common.getProperty("javascript", key);
+    getJavaScript: function(key) {
+        var theme = webui.@THEME@.theme.common;
+	var url = theme.getProperty("javascript", key);
 	if (url == null) {
 	    return null;
 	}
-	return webui.@THEME@.theme.common.getPrefix() + url;
-     },
+	return theme.getPrefix() + url;
+    },
+
+    /**
+     * This function is used to obtain a the literal "stylesheets"
+     * theme value for "key"
+     *
+     * @param {String} key A key defining a theme "stylesheets" property.
+     * @return {String} The stylesheets property.
+     */
+    getStyleSheet: function(key) {
+        var theme = webui.@THEME@.theme.common;
+	var url = theme.getProperty("stylesheets", key);
+	if (url == null) {
+	    return null;
+	}
+	return theme.getPrefix() + url;
+    },
 
     /**
      * Return the selector from the "styles" theme category for key
@@ -309,7 +305,7 @@ webui.@THEME@.theme.common = {
      * @param {String} key A key defining a theme "styles" property.
      * @return {String} The selector property.
      */
-    getClassName : function(key) {
+    getClassName: function(key) {
 	return webui.@THEME@.theme.common.getProperty("styles", key);
     },
 
@@ -334,9 +330,11 @@ webui.@THEME@.theme.common = {
      * @return {boolean} true if successful; otherwise, false.
      */
     extendBaseTheme: function(themePackage) {
-        if (themePackage == null || themePackage == "") {
+        if (themePackage == null) {
             return false;
         }
+        var config = webui.@THEME@.config;
+        var theme = webui.@THEME@.theme.common;
         var segments = themePackage.split(".");
         var bundle = segments[segments.length - 1];
         var module = segments.slice(0, segments.length - 1).join(".");
@@ -345,31 +343,21 @@ webui.@THEME@.theme.common = {
             // If there is no module, i.e. just a bundle segment
             // create a module name in the theme namespace.
             //
-            var prefix = webui.@THEME@.theme.common.prefix;
             if (module == null || module == "") {
-                    webui.@THEME@.theme.common.custom = {};
-                    module = "webui.@THEME@.theme.common.custom";
-            } else {
-                var re = new RegExp("\\.", "g");
-                prefix = prefix + "/" + module.replace(re, "/");
+                theme.custom = {};
+                module = "webui.@THEME@.theme.common.custom";
             }
-            // NOTE: Shouldn't need to set a module prefix to obtain a module???
-	    // Only when the theme files are located under the initial
-	    // set prefix for "webui.@THEME@."
-	    // If they are not located there then a prefix must be set.
-	    // For example an application's theme javascript files.
-	    //
-            webui.@THEME@.dojo.registerModulePath(module, prefix);
-
-            webui.@THEME@.theme.common.requireLocalization(
-                module, bundle, webui.@THEME@.theme.common.locale);
+            var re = new RegExp("\\.", "g");
+            var modulePath = module.replace(re, "/");
+            webui.@THEME@.dojo.registerModulePath(module, modulePath);
+            theme.requireLocalization(module, bundle, config.theme.locale);
         } catch(e) {
 	    return false;
         }
         var newTheme = null;
         try {
             newTheme = webui.@THEME@.dojo.i18n.getLocalization(module, bundle, 
-                webui.@THEME@.theme.common.locale);
+                config.theme.locale);
         } catch(e) {
 	    return false;
         }
@@ -377,8 +365,7 @@ webui.@THEME@.theme.common = {
         // dojo, vs. just replacing the orginal baseTheme values.
         //
         if (newTheme != null) {
-            webui.@THEME@.prototypejs.extend(
-                webui.@THEME@.theme.common.baseTheme, newTheme);
+            webui.@THEME@.prototypejs.extend(theme.baseTheme, newTheme);
         }
         return true;
     },
@@ -481,7 +468,7 @@ webui.@THEME@.theme.common = {
         var bundle = webui.@THEME@.dojo._loadedModules[bundlePackage];
         var localizedBundle = null;
         if (bundle) {
-            if (djConfig.localizationComplete && bundle._built) {
+            if (webui_@THEME@_config.djConfig.localizationComplete && bundle._built) {
                 return false;    
             }
             var jsLoc = tempLocale.replace(/-/g, '_');
@@ -549,3 +536,6 @@ webui.@THEME@.theme.common = {
         return true;
     }
 }
+
+// Initialize the theme.
+webui.@THEME@.theme.common._init(webui.@THEME@.config.theme);

@@ -444,14 +444,14 @@ public class EditableListRenderer extends ListRendererBase {
             // Append JavaScript.
             buff.append(JavaScriptUtilities.getModule("editableList"))
                 .append("\n") // NOI18N
-                .append(JavaScriptUtilities.getModuleName("editableList.init")) // NOI18N
+                .append(JavaScriptUtilities.getModuleName("editableList._init")) // NOI18N
                 .append("(") //NOI18N
                 .append(JSONUtilities.getString(json))
                 .append(");"); //NOI18N
             
             // Render JavaScript.
             JavaScriptUtilities.renderJavaScript(component, writer,
-                buff.toString(), true);
+                buff.toString(), JavaScriptUtilities.isWebuiOnLoad());
         } catch(JSONException e) {
             e.printStackTrace();
         }

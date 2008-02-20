@@ -8,32 +8,32 @@ if(typeof window != 'undefined'){
 		var d = dojo;
 		// this is a scope protection closure. We set browser versions and grab
 		// the URL we were loaded from here.
-
-		// grab the node we were loaded from
-		if(document && document.getElementsByTagName){
-			var scripts = document.getElementsByTagName("script");
-			var rePkg = /dojo(\.xd)?\.js([\?\.]|$)/i;
-			for(var i = 0; i < scripts.length; i++){
-				var src = scripts[i].getAttribute("src");
-				if(!src){ continue; }
-				var m = src.match(rePkg);
-				if(m){
-					// find out where we came from
-					if(!djConfig["baseUrl"]){
-						djConfig["baseUrl"] = src.substring(0, m.index);
-					}
-					// and find out if we need to modify our behavior
-					var cfg = scripts[i].getAttribute("djConfig");
-					if(cfg){
-						var cfgo = eval("({ "+cfg+" })");
-						for(var x in cfgo){
-							djConfig[x] = cfgo[x];
-						}
-					}
-					break; // "first Dojo wins"
-				}
-			}
-		}
+// Woodstock: The baseUrl property is used instead script tag.
+//		// grab the node we were loaded from
+//		if(document && document.getElementsByTagName){
+//			var scripts = document.getElementsByTagName("script");
+//			var rePkg = /dojo(\.xd)?\.js([\?\.]|$)/i;
+//			for(var i = 0; i < scripts.length; i++){
+//				var src = scripts[i].getAttribute("src");
+//				if(!src){ continue; }
+//				var m = src.match(rePkg);
+//				if(m){
+//					// find out where we came from
+//					if(!djConfig["baseUrl"]){
+//						djConfig["baseUrl"] = src.substring(0, m.index);
+//					}
+//					// and find out if we need to modify our behavior
+//					var cfg = scripts[i].getAttribute("djConfig");
+//					if(cfg){
+//						var cfgo = eval("({ "+cfg+" })");
+//						for(var x in cfgo){
+//							djConfig[x] = cfgo[x];
+//						}
+//					}
+//					break; // "first Dojo wins"
+//				}
+//			}
+//		}
 
 		// Woodstock: Append slash typically left by parsing script tag.
                 if (djConfig["baseUrl"].charAt(djConfig["baseUrl"].length) != '/') {

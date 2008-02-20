@@ -48,7 +48,7 @@ cd $SRC_DIR/custom
 find . -name CVS -prune -o -print | cpio -dumpv $DOJO_DIR
 
 #
-# Create the dojo.js and dnd.js files. The dojo.js file shall be used as a base file for
+# Create the dojo.js and dnd.js files. The dojo.js file shall be used as a base file
 # for webui.js. The dnd.js file shall be used as a base file for Woodstock's dnd.js file.
 #
 cd $DOJO_BUILD_DIR
@@ -61,26 +61,7 @@ copyTests=false internStrings=false
 #
 mkdir -p $BUILD_DIR/javascript/dojo
 cp $DOJO_RELEASE_DIR/dojo/dojo/dojo.js.uncompressed.js $BUILD_DIR/javascript/dojo/dojo.js
-cp $DOJO_RELEASE_DIR/dojo/dojo/dojo-dnd.js.uncompressed.js $BUILD_DIR/javascript/dojo/dojo-dnd.js
-
-#
-# Clean.
-#
-JUNK=`rm -rf $DOJO_RELEASE_DIR`
-
-#
-# Create the dojo-all.js file. This shall be used as a base file for
-# webui-all.js and webui-jsfx-all.js.
-#
-cd $DOJO_BUILD_DIR
-build.sh profile=webui-all action=release version=$VERSION \
-copyTests=false internStrings=false
-
-#
-# Copy custom resources.
-#
-mkdir -p $BUILD_DIR/javascript/dojo
-cp $DOJO_RELEASE_DIR/dojo/dojo/dojo.js.uncompressed.js $BUILD_DIR/javascript/dojo/dojo-all.js
+cp $DOJO_RELEASE_DIR/dojo/dojo/dnd.js.uncompressed.js $BUILD_DIR/javascript/dojo/dnd.js
 
 #
 # Copy firebug resources.
@@ -98,7 +79,7 @@ JUNK=`rm -rf $DOJO_DIR`
 # Modify the djConfig variable.
 #
 OLD=djConfig
-NEW=webui\\.@THEME@\\.config\\.djConfig
+NEW=webui_@THEME@_config\\.djConfig
 for F in `find $BUILD_DIR/javascript -name \*.js`
 do
     sed -e "s|$OLD\.|$NEW\.|g" \
@@ -143,5 +124,5 @@ done
 #
 # Update themes module.
 #
-#cd $BUILD_DIR
-#find . | cpio -dumpv $THEMES_DIR
+cd $BUILD_DIR
+find . | cpio -dumpv $THEMES_DIR

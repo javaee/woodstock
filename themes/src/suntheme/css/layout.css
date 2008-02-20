@@ -1,4 +1,4 @@
-/*
+/**
  * The contents of this file are subject to the terms
  * of the Common Development and Distribution License
  * (the License).  You may not use this file except in
@@ -17,9 +17,8 @@
  * you own identifying information:
  * "Portions Copyrighted [year] [name of copyright owner]"
  * 
- * Copyright 2007 Sun Microsystems, Inc. All rights reserved.
+ * Copyright 2008 Sun Microsystems, Inc. All rights reserved.
  */
-/* CSS Document */
 
 body {
 	margin:0;
@@ -30,24 +29,23 @@ body {
 .hidden@THEME_CSS@ {
 	display:none;
 }
-
 .clear@THEME_CSS@ {
 	clear:both;
 }
 .float@THEME_CSS@ {
 	float:left;
 }
-
 .ConMgn@THEME_CSS@ {
 	margin:0px 10px;
 }
-/*---*/
+
 /* SKIP NAVIGATION LINK */
 .SkpWht@THEME_CSS@, .SkpMedGry1@THEME_CSS@ {
 	height:0px;
 }
 /*---*/
-/* ADDREMOVE [originalName: ADD-REMOVE-IDIOM]*/
+
+/* ADDREMOVE */
 .AddRmvBtnTbl@THEME_CSS@ .Btn1@THEME_CSS@, .AddRmvBtnTbl@THEME_CSS@ .Btn1Hov@THEME_CSS@, .AddRmvBtnTbl@THEME_CSS@ .Btn1Dis@THEME_CSS@,
 .AddRmvBtnTbl@THEME_CSS@ .Btn2@THEME_CSS@, .AddRmvBtnTbl@THEME_CSS@ .Btn2Hov@THEME_CSS@, .AddRmvBtnTbl@THEME_CSS@ .Btn2Dis@THEME_CSS@ {
 	width:100%;
@@ -129,11 +127,9 @@ body {
 .CbSpn@THEME_CSS@ input, .CbSpnDis@THEME_CSS@ input {
 	vertical-align: -1px;
 }
-
 .CbReadOnly@THEME_CSS@, .RbReadOnly@THEME_CSS@ {
         opacity:.45;  -moz-opacity: 0.45;
 }
-
 .CbDis@THEME_CSS@, .RbDis@THEME_CSS@ {
         opacity:.40;  -moz-opacity: 0.4;    
 }
@@ -155,18 +151,15 @@ body {
 .CbGrp@THEME_CSS@ label, .RbGrp@THEME_CSS@ label {
 	vertical-align: 6px;
 }
+/*---*/
 
-/* DnD styles */
-
+/* DRAG AND DROP */
 .dojoDndItem { 
 	padding:3px; 
 }
-
-
 .dndOuterSpan@THEME_CSS@ {
     position: relative;
 }
-
 .dndContainer@THEME_CSS@ {
     position:relative; 
     top:0px; 
@@ -174,7 +167,9 @@ body {
     bottom:0px; 
     left:0px;
 }
-/* HORIZONTAL AND VERTICAL CHECKBOX GROUP AND RADIO BUTTON GROUP */
+/*---*/
+
+/* CHECKBOX GROUP AND RADIO BUTTON GROUP */
 .RBGRPVert@THEME_CSS@, .RBGRPHoriz@THEME_CSS@, .CBGRPVert@THEME_CSS@, .CBGRPHoriz@THEME_CSS@ {
     padding:0;
 }
@@ -196,7 +191,6 @@ body {
     float:left;
     margin:0 10px 0 0;
 }
-
 /*---*/
 
 /* EDITABLE LIST */
@@ -262,7 +256,6 @@ body {
 	padding:0 5px 1px 5px;
 	margin:0 2px 0 1px;
 }
-
 /* for arrays where buttons need to be of equal width */
 .BtnTbl@THEME_CSS@ .Btn1@THEME_CSS@, .BtnTbl@THEME_CSS@ .Btn1Hov@THEME_CSS@, .BtnTbl@THEME_CSS@ .Btn1Dis@THEME_CSS@, .BtnTbl@THEME_CSS@ .Btn2@THEME_CSS@, .BtnTbl@THEME_CSS@ .Btn2Hov@THEME_CSS@, .BtnTbl@THEME_CSS@ .Btn2Dis@THEME_CSS@ {
 	width:100%;
@@ -416,7 +409,7 @@ body.HlpBdy@THEME_CSS@ h2, body.HlpBdy@THEME_CSS@ h3, body.HlpBdy@THEME_CSS@ h4,
 }
 /*---*/
 
-/* PAGEALERT [originalName: FULL ALERTS]*/
+/* PAGE ALERT */
 .FulAlrtHdrDiv@THEME_CSS@ {
 	margin:7px 10px 5px 37px;
 }
@@ -426,9 +419,8 @@ body.HlpBdy@THEME_CSS@ h2, body.HlpBdy@THEME_CSS@ h3, body.HlpBdy@THEME_CSS@ h4,
 .FulAlrtFrmDiv@THEME_CSS@ {
 	margin:10px 10px 5px 37px;
 }
-
-
 /*---*/
+
 /* INLINE ALERT */
 .inlineAlert_4@THEME_CSS@ {
 	margin:0 20px 0 20px;
@@ -484,6 +476,11 @@ body.HlpBdy@THEME_CSS@ h2, body.HlpBdy@THEME_CSS@ h3, body.HlpBdy@THEME_CSS@ h4,
 	border-bottom-width:1px;
 }
 /*---*/
+
+/* HELP INLINE */
+.inlineFieldHelp@THEME_CSS@ {
+	padding:2px 0 0 0;
+}
 /* LEFT PANE HELP */
 .LftHlpHlp@THEME_CSS@ {
 	position:absolute;
@@ -519,6 +516,7 @@ body.HlpBdy@THEME_CSS@ h2, body.HlpBdy@THEME_CSS@ h3, body.HlpBdy@THEME_CSS@ h4,
 	text-align:right;
 }
 /*---*/
+
 /* LISTS */
 .Lst@THEME_CSS@, .LstDis@THEME_CSS@, .LstMno@THEME_CSS@, .LstMnoDis@THEME_CSS@ {
 	border-width:1px;
@@ -528,11 +526,6 @@ body.HlpBdy@THEME_CSS@ h2, body.HlpBdy@THEME_CSS@ h3, body.HlpBdy@THEME_CSS@ h4,
 	vertical-align:top;
 	padding-right:5px;
 } 
-/*---*/
-/* HELPINLINE [originalName: INLINE HELP]*/
-.inlineFieldHelp@THEME_CSS@ {
-	padding:2px 0 0 0;
-}
 /*---*/
 
 /* PROPERTY SHEET */
@@ -593,7 +586,8 @@ div.ConTblCl2Div@THEME_CSS@ .CbSpn@THEME_CSS@ input[type=checkbox] {
 	margin:15px 0px 0px 15px;
 }
 /*---*/
-/* CONTENTPAGETITLE [originalName: PAGE TITLE]*/
+
+/* CONTENT PAGE TITLE */
 .TtlTxtDiv@THEME_CSS@ {
 	margin:12px 0px 0px 10px;
 } 
@@ -604,7 +598,6 @@ div.ConTblCl2Div@THEME_CSS@ .CbSpn@THEME_CSS@ input[type=checkbox] {
 .TtlTxt@THEME_CSS@ {
 	margin:0px;
 }
-
 .TtlActDiv@THEME_CSS@, .TtlVewDiv@THEME_CSS@  {
 	margin:8px 10px 0px 10px;
 }
@@ -619,7 +612,7 @@ div.ConTblCl2Div@THEME_CSS@ .CbSpn@THEME_CSS@ input[type=checkbox] {
 }
 /*---*/
 
-/* SCHEDULER [originalName: DATE AND TIME]*/
+/* SCHEDULER */
 .DatCalDiv@THEME_CSS@ {
 	border-right-width:1px;
 	border-right-style:solid;
@@ -639,7 +632,6 @@ div.ConTblCl2Div@THEME_CSS@ .CbSpn@THEME_CSS@ input[type=checkbox] {
 	float:left;
 	clear:none;
 }
-
 .DatCalDiv@THEME_CSS@ .DatCalLeft@THEME_CSS@ img {
 	vertical-align:middle;
 }
@@ -647,7 +639,6 @@ div.ConTblCl2Div@THEME_CSS@ .CbSpn@THEME_CSS@ input[type=checkbox] {
 	margin:2px 1px 2px 2px;
 	vertical-align:top;
 }
-
 .DatCalDiv@THEME_CSS@ .DatCalRight@THEME_CSS@ {
 	float:right;
 	clear:right;
@@ -656,7 +647,6 @@ div.ConTblCl2Div@THEME_CSS@ .CbSpn@THEME_CSS@ input[type=checkbox] {
 	margin:2px 1px 2px 0;
 	vertical-align:top;
 }
-
 .DatCalDiv@THEME_CSS@ .DatCalDiv@THEME_CSS@ {
 	border:0;
 	padding:0;
@@ -733,7 +723,8 @@ a.DatOthBldLnk@THEME_CSS@:link, a.DatOthBldLnk@THEME_CSS@:visited {
 	padding:1px 0;
 }
 /*---*/
-/*CALENDAR */
+
+/* CALENDAR */
 .CalPopDiv@THEME_CSS@ {
 	padding:0 4px 0 0;
 	display:block;
@@ -853,7 +844,6 @@ a.DatOthBldLnk@THEME_CSS@:link, a.DatOthBldLnk@THEME_CSS@:visited {
 }
 /*---*/
 
-
 /* TEXT, TEXTAREAS AND PASSWORD FIELDS */
 .TxtFld@THEME_CSS@, .TxtFldDis@THEME_CSS@, .TxtAra@THEME_CSS@, .TxtAraDis@THEME_CSS@ {
 	border-style:solid;
@@ -867,12 +857,7 @@ a.DatOthBldLnk@THEME_CSS@:link, a.DatOthBldLnk@THEME_CSS@:visited {
 .TxtAra@THEME_CSS@, .TxtAraDis@THEME_CSS@ {
 	padding-left:2px;
 }
-
-
 .TxtAraLabel@THEME_CSS@ span , .TxtAraLabel@THEME_CSS@ span > img { vertical-align: top; }
-
-
-
 /*---*/
 
 /* EDITABLE FIELDS */
@@ -894,16 +879,12 @@ a.DatOthBldLnk@THEME_CSS@:link, a.DatOthBldLnk@THEME_CSS@:visited {
 	padding:1px 0 0 2px;
         background-color: #DDDDDD;        
 }
-
 /*---*/
-
 
 /* MENUS */
 .MnuJmpOpt@THEME_CSS@:hover {text-decoration:underline;}
 .MnuJmp@THEME_CSS@, .MnuStd@THEME_CSS@, .MnuJmp@THEME_CSS@Dis, .MnuStdDis@THEME_CSS@ {
-
 	border-width:1px;
-
 	border-style:solid;
 }
 .MnuJmpOptSel@THEME_CSS@ {font-weight:normal;}
@@ -1025,10 +1006,9 @@ a.MstLnkLft@THEME_CSS@:link, a.MstLnkLft@THEME_CSS@:visited, a.MstLnkRt@THEME_CS
 	vertical-align:middle;
 	white-space:nowrap;
 }
-
 /*---*/
 
-/* TABSET [originalName: LEVEL TABS]*/
+/* TABSET */
 .Tab1Div@THEME_CSS@ td {
 	border-style:solid;
 	border-width:1px;
@@ -1204,9 +1184,9 @@ table.MniTabTbl@THEME_CSS@ td.MniTabTblSelTd@THEME_CSS@ {
 .TabGrp@THEME_CSS@ .MniTabDiv@THEME_CSS@ td.hidden@THEME_CSS@ {
 	display:none;
 }
-
 /*---*/
-/* TABLE [originalName: ACTION TABLE] */
+
+/* TABLE */
 table.Tbl@THEME_CSS@ {
 	border-style:solid;
 	border-width:1px;
@@ -1587,7 +1567,7 @@ table.Tbl@THEME_CSS@ .TblColFtr@THEME_CSS@ {
 .TblMgn@THEME_CSS@ {
 	margin:0px 10px;
 }
-/*Other Table Content Styles*/
+/* Other Table Content Styles*/
 table.Tbl@THEME_CSS@ .TblTdLyt@THEME_CSS@ img, 
 table.Tbl@THEME_CSS@ .TblTdSrt@THEME_CSS@ img, 
 table.Tbl@THEME_CSS@ .TblTdAlm@THEME_CSS@ img,  
@@ -1679,16 +1659,6 @@ table.Tbl@THEME_CSS@ div.TblPnlDiv@THEME_CSS@ td {
 .TtldBoxInrDiv@THEME_CSS@ .TblMgn@THEME_CSS@ {
 	margin:0px;
 }
-/*---*/
-
-/* LIGHTWEIGHT TABLE DESIGN */
-/* Table Caption/Title 
-table.Tbl@THEME_CSS@ .TblLt@THEME_CSS@ .TblTtlTxt@THEME_CSS@ {
-	padding:5px 5px 5px 0px;
-}
-.TblLt@THEME_CSS@ .TblTtlTxt@THEME_CSS@ .TblTtlMsgSpn@THEME_CSS@ {
-	margin-top:1px;
-}*/
 /*---*/
 
 /* LIGHTWEIGHT TABLE DESIGN */
@@ -1853,62 +1823,50 @@ table.TblLt@THEME_CSS@ td.TblPnlTd@THEME_CSS@ {
 .TreBdy@THEME_CSS@ {	
 	margin:0px;
 }
-
 .Tree@THEME_CSS@ {
 	/*	width:500px;*/
 }
-
 .TreeImg@THEME_CSS@ {	
 	padding-top:2px;
 	padding-bottom:1px;
 }
-
 .TreeImgHeight@THEME_CSS@ {
 	display:inline;	
 	line-height:22px;
 }
-
 .TreeContent@THEME_CSS@ {
 	display:inline;	
 	vertical-align:middle;	
 	padding-left:5px;
 	white-space:nowrap;
 }
-
 .TreeLinkSpace@THEME_CSS@ {
 	margin-left:3px;
 }
-
 .TreeRootRow@THEME_CSS@, .TreeRootSelRow@THEME_CSS@ {
 	height:28px;
 }
-
 .TreeRootRowHeader@THEME_CSS@ {
-	height:9px;}
-
+	height:9px;
+}
 .TreeRow@THEME_CSS@ {
 	white-space:nowrap;
 	clear:both;
 }
-
 .TreeRow@THEME_CSS@ .float@THEME_CSS@ {
 	padding-left:5px;
 }
-
-
-.TreeRootRow@THEME_CSS@ .float@THEME_CSS@, .TreeRootSelRow@THEME_CSS@ .float@THEME_CSS@ {	padding-left:7px;
-
+.TreeRootRow@THEME_CSS@ .float@THEME_CSS@, .TreeRootSelRow@THEME_CSS@ .float@THEME_CSS@ {
+	padding-left:7px;
 }
-
 .TreeSelRow@THEME_CSS@ {
 	white-space:nowrap;
 }
-
 .TreeSelRow@THEME_CSS@ .float@THEME_CSS@ {
 	padding-left:5px;
 }
-
 /*---*/
+
 /* VERSION DIALOG */
 .VrsMstBdy@THEME_CSS@ {
 	float:left;
@@ -1960,6 +1918,7 @@ table.TblLt@THEME_CSS@ td.TblPnlTd@THEME_CSS@ {
 	margin:20px 25px 7px;
 }
 /*---*/
+
 /* WIZARD */
 .WizBar@THEME_CSS@ {
 	height:30px;
@@ -2073,18 +2032,15 @@ table.TblLt@THEME_CSS@ td.TblPnlTd@THEME_CSS@ {
     width:20em;
     z-index:99;    
 }
-
 .BubbleShadow@THEME_CSS@ {
     display: block;
 }
-
 .Bubble@THEME_CSS@ {
     position: relative; 
     padding: 0px;
     left: -5px;
     top: -5px;
 }
-
 .Bubble@THEME_CSS@ .topLeftArrow@THEME_CSS@, 
 .Bubble@THEME_CSS@ .topRightArrow@THEME_CSS@ {
     margin: 0px;
@@ -2093,7 +2049,6 @@ table.TblLt@THEME_CSS@ td.TblPnlTd@THEME_CSS@ {
     position: relative;
     display: none;
 }
-
 .Bubble@THEME_CSS@ .bottomLeftArrow@THEME_CSS@,
 .Bubble@THEME_CSS@ .bottomRightArrow@THEME_CSS@ {
     margin: 0px;
@@ -2102,34 +2057,28 @@ table.TblLt@THEME_CSS@ td.TblPnlTd@THEME_CSS@ {
     position: relative;
     display: none;
 }
-
 .Bubble@THEME_CSS@ .bottomLeftArrow@THEME_CSS@ {
     top:0px;
     left:5px;
     float:left;
 }
-
 .Bubble@THEME_CSS@ .bottomRightArrow@THEME_CSS@ {
     top:0px;
     left:-5px;
     float:right;
 }
-
 .Bubble@THEME_CSS@ .topLeftArrow@THEME_CSS@ {
     left:5px;
     float:left;
 }
-
 .Bubble@THEME_CSS@ .topRightArrow@THEME_CSS@ {
     left:-5px;
     float:right;
 }
-
 .BubbleHeader@THEME_CSS@ {  /* Note override for IE6 in ie.css */
     overflow: auto;
     margin-right: 1px;
 }
-
 .BubbleTitle@THEME_CSS@ {
     float: left;
     width: 75%;
@@ -2139,7 +2088,6 @@ table.TblLt@THEME_CSS@ td.TblPnlTd@THEME_CSS@ {
     margin-left: 10px;
     margin-right: 10px;
 }
-
 .BubbleCloseBtn@THEME_CSS@, .NoBubbleCloseBtn@THEME_CSS@ {
     float: right;
     margin-top: 4px;
@@ -2148,11 +2096,9 @@ table.TblLt@THEME_CSS@ td.TblPnlTd@THEME_CSS@ {
     width: 15px;
     height: 14px;
 }
-
 .BubbleContent@THEME_CSS@ {
     margin:10px;
 }
-
 .BubbleContent@THEME_CSS@ {
     clear: both;
 }
@@ -2164,21 +2110,18 @@ table.TblLt@THEME_CSS@ td.TblPnlTd@THEME_CSS@ {
     width: 100%;  /* default, can be overridden by supplying a style attribute */
     overflow: hidden;
 }
-
 .AccdHeader@THEME_CSS@ {
     border-style: none solid solid solid;
     border-width: 1px;
     overflow: hidden;
     height: 25px;
 }
-
 .AccdHeader@THEME_CSS@ .AccdRefreshBtn@THEME_CSS@ img, .AccdHeader@THEME_CSS@ .AccdOpenAllBtn@THEME_CSS@ img, .AccdHeader@THEME_CSS@ .AccdCloseAllBtn@THEME_CSS@ img {
     float:right;
     margin-top: 2px;
     margin-right: 2px;
     margin-left: 2px;
 }
-
 .AccdHeader@THEME_CSS@ .AccdRefreshBtnFocus@THEME_CSS@ img, .AccdHeader@THEME_CSS@ .AccdOpenAllBtnFocus@THEME_CSS@ img, .AccdHeader@THEME_CSS@ .AccdCloseAllBtnFocus@THEME_CSS@ img {
     float:right;
     margin-top: 2px;
@@ -2187,7 +2130,6 @@ table.TblLt@THEME_CSS@ td.TblPnlTd@THEME_CSS@ {
     border-style: solid solid solid solid;
     border-width: 1px;
 }
-
 .AccdDivider@THEME_CSS@ {
     float: right;
     height:15px;
@@ -2196,19 +2138,16 @@ table.TblLt@THEME_CSS@ td.TblPnlTd@THEME_CSS@ {
     margin-right: 2px;
     margin-left: 2px;
 }
-
 .AccdTabExpanded@THEME_CSS@, .AccdTabCollapsed@THEME_CSS@,
 .AccdTabExpanded_Focus@THEME_CSS@, .AccdTabCollapsed_Focus@THEME_CSS@ {
     border-style: none solid solid solid;
     border-width: 1px;
 }
-
 .AccdTabExpanded@THEME_CSS@ a, .AccdTabCollapsed@THEME_CSS@ a, 
 .AccdTabExpanded_Focus@THEME_CSS@ a, .AccdTabCollapsed_Focus@THEME_CSS@ a {
     display: block;
     padding: 3px 6px 3px 6px;
 }
-
 .AccdDownTurner@THEME_CSS@, .AccdRightTurner@THEME_CSS@ {
     display: block;
     margin-top:3px;
@@ -2218,7 +2157,6 @@ table.TblLt@THEME_CSS@ td.TblPnlTd@THEME_CSS@ {
     width: 16px;
     height: 15px;
 }
-
 .AccdTabMenuCue@THEME_CSS@ {
     margin-top: 0px;
     margin-right: 2px;
@@ -2226,22 +2164,20 @@ table.TblLt@THEME_CSS@ td.TblPnlTd@THEME_CSS@ {
     height: 16px;
     width: 16px;
 }
-
 .AccdTabContent@THEME_CSS@ {
     border-style: solid solid solid solid;
     border-width: 1px;
     padding: 5px;
     overflow: auto;
     height: 100px;   /* default height, but can be overridden */
- }
-
+}
 .AccdTabContent_Focus@THEME_CSS@ {
     border-style: solid solid solid solid;
     border-width: 2px;
     padding: 5px;
     overflow: auto;
     height: 100px;   /* default height, but can be overridden */
- }
+}
 /*---*/
 
 /* PROGRESS BAR */
@@ -2317,11 +2253,9 @@ table.TblLt@THEME_CSS@ td.TblPnlTd@THEME_CSS@ {
     position: absolute;
     z-index: 99;
 }
-
 .MenuShadow@THEME_CSS@ {
     display:block;
 }
-
 .Menu@THEME_CSS@ {
     position: relative; 
     padding: 1px 0px;
@@ -2331,27 +2265,22 @@ table.TblLt@THEME_CSS@ td.TblPnlTd@THEME_CSS@ {
     left: -5px;  /* horizontal offset from shadow */
     top: -5px;   /* vertical offset from shadow */
 }
-
 ul.MenuItems@THEME_CSS@, ul.MenuItems@THEME_CSS@ ul {
     margin: 0;
     padding: 0;
     list-style: none;
 }
-
 ul.MenuItems@THEME_CSS@ {
     position: relative;
     top: 0px;
     left: 0px;
 }
-
 ul.MenuItems@THEME_CSS@ li .MenuItemSeparator@THEME_CSS@ {
     margin:0 0.5em;
 }
-
 ul.MenuItems@THEME_CSS@ ul li {
     padding:0;
 }
-
 ul.MenuItems@THEME_CSS@ li .MenuItem@THEME_CSS@,          /* 1st-level menu item */ 
 ul.MenuItems@THEME_CSS@ li .MenuItemDisabled@THEME_CSS@,
 ul.MenuItems@THEME_CSS@ ul li .MenuItem@THEME_CSS@,       /* 2nd-level menu item in 1st-level optgroup */
@@ -2360,56 +2289,47 @@ ul.MenuItems@THEME_CSS@ li .MenuOptGroupHeader@THEME_CSS@ {  /* 1st-level optgro
     margin: 0.3em 0;
     height: 1.3em;
 }
-
 ul.MenuItems@THEME_CSS@ li .MenuItem@THEME_CSS@,             /* 1st-level menu item */
 ul.MenuItems@THEME_CSS@ li .MenuItemDisabled@THEME_CSS@,
 ul.MenuItems@THEME_CSS@ li .MenuOptGroupHeader@THEME_CSS@ {  /* 1st-level optgroup header */
     padding: 0px 5px;
 }
-
 .MenuItemWidget@THEME_CSS@, .NoMenuItemWidget@THEME_CSS@ {
     margin-top: 0.15em;  /* depends on final image height */
     width: 12px;
     float: left;
 }
-
 .MenuItemWidget@THEME_CSS@ {
     height: 14px;
 }
-
 .NoMenuItemWidget@THEME_CSS@ {
     height: 1px;
 }
-
 .MenuItemLabel@THEME_CSS@ {
     display: block;
     margin-left: 5px;
     float: left;
 }
-
 .MenuItemAccel@THEME_CSS@ {  /* Accelerators not currently supported */
     float: right;
 }
-
 .MenuItemSubmenu@THEME_CSS@, .NoMenuItemSubmenu@THEME_CSS@ {
     margin-top: .3em;
     margin-left: 5px;
     width: 7px;
     float: right;
 }
-
 .MenuItemSubmenu@THEME_CSS@ {
     height: 7px;
 }
-
 .NoMenuItemSubmenu@THEME_CSS@ {
     height: 1px;
 }
-
 ul.MenuItems@THEME_CSS@ ul li .MenuItem@THEME_CSS@ .MenuItemLabel@THEME_CSS@,  /* 2nd-level menu item label under 1st-level optgroup header */
 ul.MenuItems@THEME_CSS@ ul li .MenuItemDisabled@THEME_CSS@ .MenuItemLabel@THEME_CSS@ {
     margin: 0 1.0em;
 }
+/*---*/
 
 /* COMMON TASKS */
 .commonTaskSection_4@THEME_CSS@ {
@@ -2780,13 +2700,11 @@ span.rbcb@THEME_CSS@ input {
 	float:left;
 	margin:0 5px 0 0;
 }
-
 /* To use it as a horizontal list */
 .rbcb@THEME_CSS@.horizontal ul li {
 	float:left;
 	margin:0 10px 0 0;
 }
-/***/
 /* Tips */
 .table2@THEME_CSS@ .tip@THEME_CSS@ {
 	margin:8px 9px 7px 9px;
@@ -2804,8 +2722,6 @@ span.rbcb@THEME_CSS@ input {
 	border-bottom-width:1px;
 	border-bottom-style:solid;
 }
-
-/*---*/
 /* TABLE2 LITE */
 .table2@THEME_CSS@.lite@THEME_CSS@ .bg@THEME_CSS@, .table2@THEME_CSS@.lite@THEME_CSS@ .actionBar@THEME_CSS@ {
 	padding:0;
@@ -2839,9 +2755,9 @@ span.rbcb@THEME_CSS@ input {
 .table2@THEME_CSS@.lite@THEME_CSS@ .paginationButtons@THEME_CSS@ {
 	line-height:1.8
 }
+/*---*/
 
-
-/* Login related CSS */
+/* Login */
 .logLblSvrNam@THEME_CSS@ {margin:0px 0px 5px 15px}
 .logTxtSvrNam@THEME_CSS@ {margin:0px 0px 5px 10px}
 .logLblStxt@THEME_CSS@ {margin:0px 0px 5px 15px}
@@ -2862,6 +2778,4 @@ span.rbcb@THEME_CSS@ input {
 .LogCntTd@THEME_CSS@ {background-color:#fff;padding-top:120px}
 .LogBotBnd@THEME_CSS@ {background-color:#4A5C69}
 .LogMidBnd@THEME_CSS@ {background-color:#D4DCE1}
-
 /*---*/
-

@@ -1,25 +1,24 @@
-// formElements.js
-//
-// The contents of this file are subject to the terms
-// of the Common Development and Distribution License
-// (the License).  You may not use this file except in
-// compliance with the License.
-// 
-// You can obtain a copy of the license at
-// https://woodstock.dev.java.net/public/CDDLv1.0.html.
-// See the License for the specific language governing
-// permissions and limitations under the License.
-// 
-// When distributing Covered Code, include this CDDL
-// Header Notice in each file and include the License file
-// at https://woodstock.dev.java.net/public/CDDLv1.0.html.
-// If applicable, add the following below the CDDL Header,
-// with the fields enclosed by brackets [] replaced by
-// you own identifying information:
-// "Portions Copyrighted [year] [name of copyright owner]"
-// 
-// Copyright 2007 Sun Microsystems, Inc. All rights reserved.
-//
+/**
+ * The contents of this file are subject to the terms
+ * of the Common Development and Distribution License
+ * (the License).  You may not use this file except in
+ * compliance with the License.
+ * 
+ * You can obtain a copy of the license at
+ * https://woodstock.dev.java.net/public/CDDLv1.0.html.
+ * See the License for the specific language governing
+ * permissions and limitations under the License.
+ * 
+ * When distributing Covered Code, include this CDDL
+ * Header Notice in each file and include the License file
+ * at https://woodstock.dev.java.net/public/CDDLv1.0.html.
+ * If applicable, add the following below the CDDL Header,
+ * with the fields enclosed by brackets [] replaced by
+ * you own identifying information:
+ * "Portions Copyrighted [year] [name of copyright owner]"
+ * 
+ * Copyright 2008 Sun Microsystems, Inc. All rights reserved.
+ */
 
 webui.@THEME@.dojo.provide("webui.@THEME@.formElements");
 
@@ -35,7 +34,6 @@ webui.@THEME@.dojo.require("webui.@THEME@.common");
  * @static
  *
  * @deprecated See webui.@THEME@.widget.button
- * @ignore Until JsDoc supports deprecated tag.
  */
 webui.@THEME@.button = {
     /**
@@ -48,12 +46,15 @@ webui.@THEME@.button = {
      * @deprecated See webui.@THEME@.widget.button
      * @private
      */
-    init: function(props) {
+    _init: function(props) {
+        var message = "Cannot initialize button.";
         if (props == null || props.id == null) {
+            console.debug(message); // See Firebug console.
             return false;
         }
         var widget = webui.@THEME@.dijit.byId(props.id);
         if (widget == null) {
+            console.debug(message); // See Firebug console.
             return false;
         }
 
@@ -80,7 +81,6 @@ webui.@THEME@.button = {
      *
      * @return {boolean} true if successful; otherwise, false.
      * @deprecated Use document.getElementById(id).click();
-     * @ignore Until JsDoc supports deprecated tag.
      */
     click: function() {
         return this.click();
@@ -91,7 +91,6 @@ webui.@THEME@.button = {
      *
      * @return {String} The element value.
      * @deprecated Use document.getElementById(id).getProps().value;
-     * @ignore Until JsDoc supports deprecated tag.
      */
     getText: function() {
         return this.getProps().value;
@@ -103,7 +102,6 @@ webui.@THEME@.button = {
      * @param {String} text The element value
      * @return {boolean} true if successful; otherwise, false.
      * @deprecated Use document.getElementById(id).setProps({value: "text"});
-     * @ignore Until JsDoc supports deprecated tag.
      */
     setText: function(text) {
         return this.setProps({value: text});
@@ -115,7 +113,6 @@ webui.@THEME@.button = {
      * @param {boolean} show true to show the element, false to hide the element
      * @return {boolean} true if successful; otherwise, false.
      * @deprecated Use document.getElementById(id).setProps({visible: boolean});
-     * @ignore Until JsDoc supports deprecated tag.
      */
     setVisible: function(show) {
         if (show == null) {
@@ -130,7 +127,6 @@ webui.@THEME@.button = {
      *
      * @return {boolean} true if visible; otherwise, false
      * @deprecated Use document.getElementById(id).getProps().visible;
-     * @ignore Until JsDoc supports deprecated tag.
      */
     getVisible: function() {
         return this.getProps().visible;
@@ -141,7 +137,6 @@ webui.@THEME@.button = {
      *
      * @return {boolean} true if primary; otherwise, false for secondary
      * @deprecated Use document.getElementById(id).getProps().primary;
-     * @ignore Until JsDoc supports deprecated tag.
      */
     isPrimary: function() {
         return this.getProps().primary;
@@ -153,7 +148,6 @@ webui.@THEME@.button = {
      * @param {boolean} primary true for primary, false for secondary
      * @return {boolean} true if successful; otherwise, false.
      * @deprecated Use document.getElementById(id).setProps({primary: boolean});
-     * @ignore Until JsDoc supports deprecated tag.
      */
     setPrimary: function(primary) {
         if (primary == null) {
@@ -167,7 +161,6 @@ webui.@THEME@.button = {
      *
      * @return {boolean} true if secondary; otherwise, false for primary
      * @deprecated Use !(document.getElementById(id).getProps().primary);
-     * @ignore Until JsDoc supports deprecated tag.
      */
     isSecondary: function() {
         return !(this.getProps().primary);
@@ -179,7 +172,6 @@ webui.@THEME@.button = {
      * @param {boolean} secondary true for secondary, false for primary
      * @return {boolean} true if successful; otherwise, false.
      * @deprecated Use document.getElementById(id).setProps({primary: false});
-     * @ignore Until JsDoc supports deprecated tag.
      */
     setSecondary: function(secondary) {
         if (secondary == null) {
@@ -193,7 +185,6 @@ webui.@THEME@.button = {
      *
      * @return {boolean} true if mini; otherwise, false
      * @deprecated Use document.getElementById(id).getProps().mini;
-     * @ignore Until JsDoc supports deprecated tag.
      */
     isMini: function() {
         return this.getProps().mini;
@@ -204,7 +195,6 @@ webui.@THEME@.button = {
      *
      * @param {boolean} mini true for mini, false for standard button
      * @deprecated Use document.getElementById(id).setProps({mini: boolean});
-     * @ignore Until JsDoc supports deprecated tag.
      */
     setMini: function(mini) {
         if (mini == null) {
@@ -218,7 +208,6 @@ webui.@THEME@.button = {
      *
      * @return {boolean} true if disabled; otherwise, false
      * @deprecated Use document.getElementById(id).getProps().disabled;
-     * @ignore Until JsDoc supports deprecated tag.
      */
     getDisabled: function() {
         return this.getProps().disabled;
@@ -229,7 +218,6 @@ webui.@THEME@.button = {
      *
      * @param {boolean} disabled true if disabled; otherwise, false
      * @deprecated Use document.getElementById(id).setProps({disabled: boolean});
-     * @ignore Until JsDoc supports deprecated tag.
      */
     setDisabled: function(disabled) {
         if (disabled == null) {
@@ -248,7 +236,6 @@ webui.@THEME@.button = {
  * @static
  * 
  * @deprecated See webui.@THEME@.widget.checkbox
- * @ignore Until JsDoc supports deprecated tag.
  */
 webui.@THEME@.checkbox = {
     /**
@@ -259,7 +246,6 @@ webui.@THEME@.checkbox = {
      * @param {boolean} disabled true or false
      * @return {boolean} true if successful; otherwise, false.
      * @deprecated Use document.getElementById(id).setProps({disabled: boolean});
-     * @ignore Until JsDoc supports deprecated tag.
      */
     setDisabled: function(elementId, disabled) {
         return webui.@THEME@.rbcb.setDisabled(elementId, disabled,
@@ -275,7 +261,6 @@ webui.@THEME@.checkbox = {
      * @param {boolean} disabled true or false
      * @return {boolean} true if successful; otherwise, false.
      * @deprecated Use document.getElementById(id).setProps({disabled: boolean});
-     * @ignore Until JsDoc supports deprecated tag.
      */
     setGroupDisabled: function(controlName, disabled) {    
         return webui.@THEME@.rbcb.setGroupDisabled(controlName,
@@ -289,7 +274,6 @@ webui.@THEME@.checkbox = {
      * @param checked true or false
      * @return {boolean} true if successful; otherwise, false.
      * @deprecated Use document.getElementById(id).setProps({checked: boolean});
-     * @ignore Until JsDoc supports deprecated tag.
      */
     setChecked: function(elementId, checked) {
         return webui.@THEME@.rbcb.setChecked(elementId, checked,
@@ -306,7 +290,6 @@ webui.@THEME@.checkbox = {
  * @static
  * 
  * @deprecated See webui.@THEME@.widget.dropDown
- * @ignore Until JsDoc supports deprecated tag.
  */
 webui.@THEME@.dropDown = {
     /**
@@ -318,7 +301,6 @@ webui.@THEME@.dropDown = {
      * the dropDown).
      * @return {Node} a reference to the select element. 
      * @deprecated Use document.getElementById(elementId).setSelectElement()
-     * @ignore Until JsDoc supports deprecated tag.
      */
     getSelectElement: function(elementId) { 
         var widget = webui.@THEME@.dijit.byId(elementId);
@@ -340,7 +322,6 @@ webui.@THEME@.dropDown = {
      * the list).
      * @return {boolean} true if successful; otherwise, false.
      * @deprecated Use document.getElementById(elementId).changed();
-     * @ignore Until JsDoc supports deprecated tag.
      */
     changed: function(elementId) {         
         var widget = webui.@THEME@.dijit.byId(elementId);
@@ -363,7 +344,6 @@ webui.@THEME@.dropDown = {
      * @param {boolean} disabled true or false
      * @return {boolean} true if successful; otherwise, false.
      * @deprecated Use document.getElementById(elementId).setProps({disabled: boolean});
-     * @ignore Until JsDoc supports deprecated tag.
      */
     setDisabled: function(elementId, disabled) { 
         var widget = webui.@THEME@.dijit.byId(elementId);
@@ -384,7 +364,6 @@ webui.@THEME@.dropDown = {
      * @return {String} The value of the selected option, or null if none is
      * selected. 
      * @deprecated Use document.getElementById(elementId).getSelectedValue();
-     * @ignore Until JsDoc supports deprecated tag.
      */
     getSelectedValue: function(elementId) { 
         var widget = webui.@THEME@.dijit.byId(elementId);
@@ -405,7 +384,6 @@ webui.@THEME@.dropDown = {
      * @return {String} The label of the selected option, or null if none is
      * selected. 
      * @deprecated Use document.getElementById(elementId).getSelectedLabel();
-     * @ignore Until JsDoc supports deprecated tag.
      */
     getSelectedLabel: function(elementId) { 
         var widget = webui.@THEME@.dijit.byId(elementId);
@@ -425,7 +403,6 @@ webui.@THEME@.dropDown = {
  * @static
  *
  * @deprecated See webui.@THEME@.widget.field
- * @ignore Until JsDoc supports deprecated tag.
  */
 webui.@THEME@.field = {
     /**
@@ -436,7 +413,6 @@ webui.@THEME@.field = {
      * @param {String} elementId The element ID of the field 
      * @return {Node} the input or text area element associated with the field component
      * @deprecated Use document.getElementById(elementId).getInputElement()
-     * @ignore Until JsDoc supports deprecated tag.
      */
     getInputElement: function(elementId) {
         var widget = webui.@THEME@.dijit.byId(elementId);
@@ -453,7 +429,6 @@ webui.@THEME@.field = {
      * @param {String} elementId The element ID of the Field component
      * @return {String} the value of the HTML element corresponding to the Field component 
      * @deprecated Use document.getElementById(id).getProps().value;
-     * @ignore Until JsDoc supports deprecated tag.
      */
     getValue: function(elementId) {
         var widget = webui.@THEME@.dijit.byId(elementId);
@@ -471,7 +446,6 @@ webui.@THEME@.field = {
      * @param {String} newValue The new value to enter into the input element Field component 
      * @return {boolean} true if successful; otherwise, false.
      * @deprecated Use document.getElementById(id).setProps({value: "text"});
-     * @ignore Until JsDoc supports deprecated tag.
      */
     setValue: function(elementId, newValue) {
         var widget = webui.@THEME@.dijit.byId(elementId);
@@ -489,7 +463,6 @@ webui.@THEME@.field = {
      * @param {String} elementId The element ID of the Field component
      * @return {String} The style property of the field.
      * @deprecated Use document.getElementById(id).getProps().style;
-     * @ignore Until JsDoc supports deprecated tag.
      */
     getStyle: function(elementId) {
         var widget = webui.@THEME@.dijit.byId(elementId);
@@ -507,7 +480,6 @@ webui.@THEME@.field = {
      * @param {String} newStyle The new style to apply
      * @return {boolean} true if successful; otherwise, false.
      * @deprecated Use document.getElementById(id).setProps({style: newStyle});
-     * @ignore Until JsDoc supports deprecated tag.
      */
     setStyle: function(elementId, newStyle) { 
         var widget = webui.@THEME@.dijit.byId(elementId);
@@ -525,7 +497,6 @@ webui.@THEME@.field = {
      * @param {boolean} newDisabled true to disable the field, false to enable the field
      * @return {boolean} true if successful; otherwise, false.
      * @deprecated Use document.getElementById(id).setProps({disabled: boolean});
-     * @ignore Until JsDoc supports deprecated tag.
      */
     setDisabled: function(elementId, newDisabled) {  
         if (newDisabled == null) {
@@ -548,7 +519,6 @@ webui.@THEME@.field = {
  * @static
  *
  * @deprecated See webui.@THEME@.widget.hyperlink
- * @ignore Until JsDoc supports deprecated tag.
  */
 webui.@THEME@.hyperlink = {
     /**
@@ -563,7 +533,6 @@ webui.@THEME@.hyperlink = {
      * @params {Object} params Name value pairs
      * @return {boolean} true if successful; otherwise, false.
      * @deprecated See webui.@THEME@.widget.hyperlink
-     * @ignore Until JsDoc supports deprecated tag.
      */
     submit: function(hyperlink, formId, params) {
         // Need to test widget for tab and common task components. If a widget 
@@ -586,7 +555,6 @@ webui.@THEME@.hyperlink = {
      * assigned to the outter most tag enclosing the HTML img element).
      * @return {Node} The HTML image element.
      * @deprecated Use document.getElementById(elementId).getProps().enabledImage;
-     * @ignore Until JsDoc supports deprecated tag.
      */
     getImgElement: function(elementId) {
         // Need to test widget for alarmStatus, jobstatus, and notification phrase
@@ -623,7 +591,6 @@ webui.@THEME@.hyperlink = {
  * @static
  *
  * @deprecated See webui.@THEME@.widget.dropDown
- * @ignore Until JsDoc supports deprecated tag.
  */
 webui.@THEME@.jumpDropDown = {
     /**
@@ -638,7 +605,6 @@ webui.@THEME@.jumpDropDown = {
      * the list).
      * @return {boolean} true if successful; otherwise, false.
      * @deprecated Use document.getElementById(elementId).changed()
-     * @ignore Until JsDoc supports deprecated tag.
      */
     changed: function(elementId) {
         var widget = webui.@THEME@.dijit.byId(elementId);
@@ -658,7 +624,6 @@ webui.@THEME@.jumpDropDown = {
  * @static
  * 
  * @deprecated See webui.@THEME@.widget.listbox
- * @ignore Until JsDoc supports deprecated tag.
  */
 webui.@THEME@.listbox = {
     /**
@@ -670,7 +635,6 @@ webui.@THEME@.listbox = {
      * the list).
      * @return {Node} The HTML select element.
      * @deprecated Use document.getElementById(elementId).getSelectElement()
-     * @ignore Until JsDoc supports deprecated tag.
      */
     getSelectElement: function(elementId) { 
         var widget = webui.@THEME@.dijit.byId(elementId);
@@ -692,7 +656,6 @@ webui.@THEME@.listbox = {
      * the list).
      * @return {boolean} true if successful; otherwise, false.
      * @deprecated Use document.getElementById(elementId).changed();
-     * @ignore Until JsDoc supports deprecated tag.
      */
     changed: function(elementId) {         
         var widget = webui.@THEME@.dijit.byId(elementId);
@@ -716,7 +679,6 @@ webui.@THEME@.listbox = {
      * @param {boolean} disabled true or false
      * @return {boolean} true if successful; otherwise, false.
      * @deprecated Use document.getElementById(elementId).setProps({disabled: boolean});
-     * @ignore Until JsDoc supports deprecated tag.
      */
     setDisabled: function(elementId, disabled) { 
         var widget = webui.@THEME@.dijit.byId(elementId);
@@ -737,7 +699,6 @@ webui.@THEME@.listbox = {
      * @return {String} The value of the selected option, or null if none is
      * selected.
      * @deprecated Use document.getElementById(elementId).getSelectedValue();
-     * @ignore Until JsDoc supports deprecated tag.
      */
     getSelectedValue: function(elementId) { 
         var widget = webui.@THEME@.dijit.byId(elementId);
@@ -757,7 +718,6 @@ webui.@THEME@.listbox = {
      * the list).
      * @return {String} The label of the selected option, or null if none is selected.
      * @deprecated Use document.getElementById(elementId).getSelectedLabel();
-     * @ignore Until JsDoc supports deprecated tag.
      */
     getSelectedLabel: function(elementId) { 
         var widget = webui.@THEME@.dijit.byId(elementId);
@@ -777,7 +737,6 @@ webui.@THEME@.listbox = {
  * @static
  *
  * @deprecated See webui.@THEME@.widget.rbcbGroup
- * @ignore Until JsDoc supports deprecated tag.
  */
 webui.@THEME@.rbcb = {
     /**
@@ -787,7 +746,6 @@ webui.@THEME@.rbcb = {
      * @param {String} type
      * @return {boolean} true if successful; otherwise, false.
      * @deprecated Use document.getElementById(id).setProps({checked: boolean});
-     * @ignore Until JsDoc supports deprecated tag.
      */ 
     setChecked: function(elementId, checked, type) {
         var widget = webui.@THEME@.dijit.byId(elementId);
@@ -805,8 +763,7 @@ webui.@THEME@.rbcb = {
      * @param {String} enabledStyle
      * @param {String} disabledStyle
      * @return {boolean} true if successful; otherwise, false.
-     * @deprecated Use document.getElementById(id).setProps({disabled: boolean}); 
-     * @ignore Until JsDoc supports deprecated tag.
+     * @deprecated Use document.getElementById(id).setProps({disabled: boolean});
      */ 
     setDisabled: function(elementId, disabled, type, enabledStyle,
             disabledStyle) {
@@ -826,7 +783,6 @@ webui.@THEME@.rbcb = {
      * @param {boolean} disabled true or false
      * @return {boolean} true if successful; otherwise, false.
      * @deprecated Use document.getElementById(id).setProps({disabled: boolean});
-     * @ignore Until JsDoc supports deprecated tag.
      */
     setGroupDisabled: function(controlName, disabled, type, enabledStyle,
             disabledStyle) {
@@ -847,7 +803,6 @@ webui.@THEME@.rbcb = {
  * @static
  *
  * @deprecated See webui.@THEME@.widget.radioButton
- * @ignore Until JsDoc supports deprecated tag.
  */
 webui.@THEME@.radiobutton = {
     /**
@@ -858,7 +813,6 @@ webui.@THEME@.radiobutton = {
      * @param {boolean} disabled true or false
      * @return {boolean} true if successful; otherwise, false.
      * @deprecated Use document.getElementById(id).setProps({disabled: boolean});
-     * @ignore Until JsDoc supports deprecated tag.
      */
     setDisabled: function(elementId, disabled) {    
         return webui.@THEME@.rbcb.setDisabled(elementId, disabled, 
@@ -874,7 +828,6 @@ webui.@THEME@.radiobutton = {
      * @param {boolean} disabled true or false
      * @return {boolean} true if successful; otherwise, false.
      * @deprecated Use document.getElementById(id).setProps({disabled: boolean});
-     * @ignore Until JsDoc supports deprecated tag.
      */
     setGroupDisabled: function(controlName, disabled) {    
         return webui.@THEME@.rbcb.setGroupDisabled(controlName, disabled, 
@@ -888,7 +841,6 @@ webui.@THEME@.radiobutton = {
      * @param {boolean} checked true or false
      * @return {boolean} true if successful; otherwise, false.
      * @deprecated Use document.getElementById(id).setProps({checked: boolean});
-     * @ignore Until JsDoc supports deprecated tag.
      */
     setChecked: function(elementId, checked) {
         return webui.@THEME@.rbcb.setChecked(elementId, checked, "radio");

@@ -46,7 +46,22 @@ import org.json.JSONArray;
 public class JavaScriptUtilities {
     // The key used to enable JavaScript debugging.
     private static final String DEBUG_KEY = "com_sun_webui_jsf_util_debug";
- 
+
+    // Key used to include JSF Extensions.
+    private static final String JSFX_KEY = "com_sun_webui_jsf_util_jsfx";
+
+    // Key used to include style sheets.
+    private static final String STYLESHEET_KEY = "com_sun_webui_jsf_util_styleSheet";
+
+    // Key used to include all tag library functionality.
+    private static final String WEBUI_ALL_KEY = "com_sun_webui_jsf_util_webuiAll";
+
+    // Key used to include Ajax functionality based on JSF Extensions.
+    private static final String WEBUI_JSFX_KEY = "com_sun_webui_jsf_util_webuiJsfx";
+
+    // Key used to initialize tag library functionality on load.
+    private static final String WEBUI_ONLOAD_KEY = "com_sun_webui_jsf_util_webuiOnLoad";
+
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     // Global methods
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -57,11 +72,7 @@ public class JavaScriptUtilities {
      * @return true if enabled.
      */
     public static boolean isDebug() {
-        // Debugging is typically enabled via the head or themeLinks tags.
-        // However, "debug" may also be appended URLs as a query param. This
-        // allows quick testing when the JSP page cannot be edited directly.
-        return (getRequestMap().containsKey(DEBUG_KEY) 
-            || getRequestParameterMap().containsKey("debug"));
+        return isEnabled(DEBUG_KEY, "debug");
     }
 
     /**
@@ -70,7 +81,97 @@ public class JavaScriptUtilities {
      * @param enable Enable JavaScript debugging.
      */
     public static void setDebug(boolean enable) {
-        getRequestMap().put(DEBUG_KEY, (enable) ? Boolean.TRUE : null);
+        getRequestMap().put(DEBUG_KEY, (enable) ? Boolean.TRUE : Boolean.FALSE);
+    }
+
+    /**
+     * Test flag to include JSF Extensions.
+     * 
+     * @return true if included.
+     */
+    public static boolean isJsfx() {
+        return isEnabled(JSFX_KEY, "jsfx");
+    }
+
+    /**
+     * Set flag to include JSF Extensions.
+     *
+     * @param include Include JSF Extensions.
+     */
+    public static void setJsfx(boolean include) {
+        getRequestMap().put(JSFX_KEY, (include) ? Boolean.TRUE : Boolean.FALSE);
+    }
+
+    /**
+     * Test flag to include style sheets.
+     * 
+     * @return true if enabled.
+     */
+    public static boolean isStyleSheet() {
+        return isEnabled(STYLESHEET_KEY, "styleSheet");
+    }
+
+    /**
+     * Set flag to include style sheets.
+     *
+     * @param enable Include style sheets.
+     */
+    public static void setStyleSheet(boolean enable) {
+        getRequestMap().put(STYLESHEET_KEY, (enable) ? Boolean.TRUE : Boolean.FALSE);
+    }
+
+    /**
+     * Test flag to include all tag library functionality.
+     * 
+     * @return true if included.
+     */
+    public static boolean isWebuiAll() {
+        return isEnabled(WEBUI_ALL_KEY, "webuiAll");
+    }
+
+    /**
+     * Set flag to include all tag library functionality.
+     *
+     * @param include Include all tag library functionality.
+     */
+    public static void setWebuiAll(boolean include) {
+        getRequestMap().put(WEBUI_ALL_KEY, (include) ? Boolean.TRUE : Boolean.FALSE);
+    }
+
+    /**
+     * Test flag to include Ajax functionality based on JSF Extensions.
+     * 
+     * @return true if included.
+     */
+    public static boolean isWebuiJsfx() {
+        return isEnabled(WEBUI_JSFX_KEY, "webuiJsfx");
+    }
+
+    /**
+     * Set flag to include Ajax functionality based on JSF Extensions.
+     *
+     * @param include Include Ajax functionality based on JSF Extensions.
+     */
+    public static void setWebuiJsfx(boolean include) {
+        getRequestMap().put(WEBUI_JSFX_KEY, (include) ? Boolean.TRUE : Boolean.FALSE);
+    }
+
+    /**
+     * Test flag to initialize tag library functionality on load.
+     * 
+     * @return true if included.
+     */
+    public static boolean isWebuiOnLoad() {
+        return isEnabled(WEBUI_ONLOAD_KEY, "webuiOnLoad");
+    }
+
+    /**
+     * Set flag to initialize tag library functionality on load.
+     *
+     * @param include Initialize tag library functionality on load.
+     */
+    public static void setWebuiOnLoad(boolean include) {
+        getRequestMap().put(WEBUI_ONLOAD_KEY, (include) ? Boolean.TRUE : Boolean.FALSE);
     }
 
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -128,9 +229,11 @@ public class JavaScriptUtilities {
      */
     public static String getModuleName(String name) {
         StringBuffer buff = new StringBuffer(128);
-        buff.append(getTheme().getJSString(ThemeJavascript.MODULE))
-            .append(".")
-            .append(name);
+        buff.append(getTheme().getJSString(ThemeJavascript.MODULE));
+        if (name != null) {
+            buff.append(".")
+                .append(name);
+        }
         return buff.toString();
     }
 
@@ -161,24 +264,19 @@ public class JavaScriptUtilities {
      *
      * @param component UIComponent to be rendered.
      * @param writer ResponseWriter to which the component should be rendered.
-     * @param webuiAll Flag indicating to include all webui functionality.
-     * @param webuiJsfx Flag indicating to include default Ajax functionality.
-     * @param jsfx Flag indicating to include JSF Extensions resources.
      *
      * @exception IOException if an input/output error occurs.
      */
     public static void renderBootstrap(UIComponent component,
-            ResponseWriter writer, boolean webuiAll, boolean webuiJsfx, 
-            boolean jsfx) throws IOException, JSONException {
+            ResponseWriter writer) throws IOException, JSONException {
         // Render config.
-        renderJavaScript(component, writer, getBootstrapConfig(webuiAll,
-            webuiJsfx, jsfx));
+        renderJavaScript(component, writer, getBootstrapConfig());
 
-        // Render webui include.
-        renderWebuiInclude(component, writer, webuiAll, webuiJsfx);
+        // Render bootstrap include.
+        renderBootstrapInclude(component, writer);
 
         // Render JSF Extensions include.
-        if (jsfx && webuiJsfx) {
+        if (isJsfx() && isWebuiJsfx()) {
             renderPrototypeInclude(component, writer);
             renderJsfxInclude(component, writer);
         }
@@ -271,83 +369,41 @@ public class JavaScriptUtilities {
 
     /**
      * Get properties used to configure Ajax.
-     * 
-     * @param jsfx Flag indicating to include JSF Extensions resources.
      */
-    private static JSONObject getAjaxConfig(boolean jsfx)
-            throws JSONException {
+    private static JSONObject getAjaxConfig() throws JSONException {
         JSONObject json = new JSONObject();
-        json.put("module", getModuleName("widget.jsfx"))
-            .put("jsfx", jsfx);
+        json.put("module", getTheme().getPathToJSFile(ThemeJavascript.AJAX_MODULE))
+            .put("jsfx", isJsfx());
         return json;
     }
 
     /**
      * Helper method to render config.
-     * 
-     * @param webuiAll Flag indicating to include all webui functionality.
-     * @param webuiJsfx Flag indicating to include default Ajax functionality.
-     * @param jsfx Flag indicating to include JSF Extensions resources.
      */
-    private static String getBootstrapConfig(boolean webuiAll, 
-            boolean webuiJsfx, boolean jsfx) throws JSONException {
+    private static String getBootstrapConfig() throws JSONException {
         Theme theme = getTheme();
-        JSONObject webui = new JSONObject();
-
-        // Append JavaScript.
-        //
-        // var webui = {
-        //        suntheme: {
-        //            config: {
-        //                ...
-        //            }
-        //         }
-        //     };
-        //
-        StringTokenizer st = new StringTokenizer(getModuleName("config"), ".");
-        StringBuffer buff = new StringBuffer(256);
-        if (st.hasMoreTokens()) {
-            buff.append("var ")
-                .append(st.nextToken()) // var webui = {
-                .append("=");
-            
-            if (st.hasMoreTokens()) {
-                JSONObject suntheme = new JSONObject();
-                webui.put(st.nextToken(), suntheme); // suntheme: {
-                
-                if (st.hasMoreTokens()) {
-                    JSONObject config = new JSONObject();
-                    suntheme.put(st.nextToken(), config); // config: {
-
-                    // Add config properties.
-                    config.put("ajax", getAjaxConfig(jsfx))
-                        .put("djConfig", getDojoConfig())
-                        .put("module", theme.getJSString(ThemeJavascript.MODULE))
-                        .put("modulePath", theme.getPathToJSFile((isDebug())
-                            ? ThemeJavascript.MODULE_PATH_UNCOMPRESSED
-                            : ThemeJavascript.MODULE_PATH))
-                        .put("isDebug", isDebug())
-                        .put("theme", getThemeConfig(FacesContext.getCurrentInstance()))
-                        .put("webuiAll", webuiAll)
-                        .put("webuiJsfx", webuiJsfx);
-                }
-            }
-            buff.append(JSONUtilities.getString(webui))
-                .append(";");
-        }
-        return buff.toString();
-    }
-
-    /**
-     * Get properties used to configure Dojo.
-     */
-    private static JSONObject getDojoConfig() throws JSONException {
         JSONObject json = new JSONObject();
-        json.put("isDebug", isDebug())
-            .put("baseUrl", getTheme().getPathToJSFile((isDebug())
-                ? ThemeJavascript.DOJO_MODULE_PATH_UNCOMPRESSED
-                : ThemeJavascript.DOJO_MODULE_PATH));
-        return json;
+
+        StringBuffer buff = new StringBuffer(256);
+        buff.append("var ")
+            .append(getModuleName("config").replace('.', '_'))
+            .append("=");
+
+        // Add config properties.
+        json.put("ajax", getAjaxConfig())
+            .put("debug", isDebug())
+            .put("modulePath", theme.getPathToJSFile((isDebug())
+                ? ThemeJavascript.MODULE_PATH_UNCOMPRESSED
+                : ThemeJavascript.MODULE_PATH))
+            .put("theme", getThemeConfig(FacesContext.getCurrentInstance()))
+            .put("styleSheet", isStyleSheet())
+            .put("webuiAll", isWebuiAll())
+            .put("webuiJsfx", isWebuiJsfx())
+            .put("webuiOnLoad", isWebuiOnLoad());
+
+        buff.append(JSONUtilities.getString(json))
+            .append(";");
+        return buff.toString();
     }
 
     /**
@@ -365,19 +421,13 @@ public class JavaScriptUtilities {
      */
     private static JSONObject getThemeConfig(FacesContext context) 
             throws JSONException {
-
-	// This is the namespace for the js theme.
-	// It is webui.@THEME@.theme. It is the "module" parameter for
-	// webui.@THEME@.dojo.requireLocalization and 
-        // webui.@THEME@.dojo.i18n.getLocalization
-	//
-	String themeModule = getTheme().getJSString(ThemeJavascript.THEME_MODULE);
+        Theme theme = getTheme();
 
 	// The theme module path prefix.
 	//
-	String themeModulePath = isDebug()
-            ? getTheme().getJSString(ThemeJavascript.THEME_MODULE_PATH_UNCOMPRESSED)
-	    : getTheme().getJSString(ThemeJavascript.THEME_MODULE_PATH);
+	String themeModulePath = theme.getPathToJSFile((isDebug())
+            ? ThemeJavascript.THEME_MODULE_PATH_UNCOMPRESSED
+            : ThemeJavascript.THEME_MODULE_PATH);
 
 	// The "bundle" parameter for 
 	// webui.@THEME@.dojo.requireLocalization and 
@@ -385,7 +435,7 @@ public class JavaScriptUtilities {
 	// It is the base name for the theme properties js file in the 
 	// nls directories, @THEME@.js
 	//
-	String themeBundle = getTheme().getJSString(ThemeJavascript.THEME_BUNDLE);
+	String themeBundle = theme.getJSString(ThemeJavascript.THEME_BUNDLE);
 
 	// While "toString" is not supposed to be guaranteed, the javadoc
 	// says it returns the complete lang, country and variant
@@ -408,11 +458,11 @@ public class JavaScriptUtilities {
 	// by passing "", since we don't have path, we just want the
 	// prefix. This will have a trailing "/", so get rid of it.
 	//
-	String themePrefix = themeContext.getResourcePath("");
-	int lastSlash = themePrefix.lastIndexOf("/");
-	if (lastSlash > 0) {
-	    themePrefix = themePrefix.substring(0, lastSlash);
-	}
+//	String themePrefix = themeContext.getResourcePath("");
+//        int lastSlash = themePrefix.lastIndexOf("/");
+//        if (lastSlash > 0) {
+//            themePrefix = themePrefix.substring(0, lastSlash);
+//        }
 
 	// Get the application's custom theme package(s).
 	//
@@ -431,9 +481,8 @@ public class JavaScriptUtilities {
         json.put("bundle", themeBundle)
             .put("custom", customThemes)
             .put("locale", themeLocale)
-            .put("module", themeModule)
-            .put("modulePath", themeModulePath)
-            .put("prefix", themePrefix);
+            .put("modulePath", themeModulePath);
+//            .put("prefix", themePrefix);
 
         return json;
     }
@@ -459,9 +508,56 @@ public class JavaScriptUtilities {
             getRequestParameterMap();
     }
 
+    /**
+     * Test boolean values stored in request or parameter maps.
+     * 
+     * Note: Values are typically enabled via the head or themeLinks tags.
+     * However, "debug" may also be appended URLs as a query param. This allows
+     * quick testing when the JSP page cannot be edited directly.
+     * 
+     * @param requestKey A key in the request map.
+     * @param paramKey A key in the request parameters map.
+     * @return true if enabled.
+     */
+    private static boolean isEnabled(String requestKey, String paramKey) {
+        boolean result = false;
+
+        // Test if value set in request parameter map.
+        String s = (String) getRequestParameterMap().get(paramKey);
+        if (s != null) {
+            result = true; // Allow empty params (e.g., ?debug).
+            StringTokenizer st = new StringTokenizer(s, "=");
+            if (st.hasMoreTokens()) {
+                result = new Boolean(st.nextToken()).booleanValue();
+            }
+        } else {
+            // Test if value set in request map -- params take precedence.
+            Boolean b = (Boolean) getRequestMap().get(requestKey);
+            if (b != null ) {
+                result = b.booleanValue();
+            }
+        }
+        return result;
+    }
+
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     // JavaScript include methods
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+    /**
+     * Helper method to render JavaScript include.
+     *
+     * @param component UIComponent to be rendered.
+     * @param writer ResponseWriter to which the component should be rendered.
+     * 
+     * @exception IOException if an input/output error occurs.
+     */
+    private static void renderBootstrapInclude(UIComponent component,
+            ResponseWriter writer) throws IOException {
+        renderJavaScriptInclude(component, writer, (isDebug())
+            ? ThemeJavascript.BOOTSTRAP_UNCOMPRESSED
+            : ThemeJavascript.BOOTSTRAP);
+    }
 
     /**
      * Helper method to render JavaScript include.
@@ -567,43 +663,5 @@ public class JavaScriptUtilities {
 //                : ThemeJavascript.PROTOTYPE);
             map.put(ScriptsComponent.PROTOTYPE_JS_LINKED, Boolean.TRUE);
         }
-    }
-
-    /**
-     * Helper method to render JavaScript include.
-     *
-     * @param component UIComponent to be rendered.
-     * @param writer ResponseWriter to which the component should be rendered.
-     * @param webuiAll Flag indicating to include all webui functionality.
-     * @param webuiJsfx Flag indicating to include default Ajax functionality.
-     * 
-     * @exception IOException if an input/output error occurs.
-     */
-    private static void renderWebuiInclude(UIComponent component,
-        ResponseWriter writer, boolean webuiAll, boolean webuiJsfx)
-            throws IOException {
-        String webui = null;
-        if (webuiAll) {
-            if (webuiJsfx) {
-                webui = (isDebug())
-                    ? ThemeJavascript.WEBUI_JSFX_ALL_UNCOMPRESSED
-                    : ThemeJavascript.WEBUI_JSFX_ALL;
-            } else {
-                webui = (isDebug())
-                    ? ThemeJavascript.WEBUI_ALL_UNCOMPRESSED
-                    : ThemeJavascript.WEBUI_ALL;
-            }
-        } else {
-            if (webuiJsfx) {
-                webui = (isDebug())
-                    ? ThemeJavascript.WEBUI_JSFX_UNCOMPRESSED
-                    : ThemeJavascript.WEBUI_JSFX;
-            } else {
-                webui = (isDebug())
-                    ? ThemeJavascript.WEBUI_UNCOMPRESSED
-                    : ThemeJavascript.WEBUI;
-            }
-        }
-        renderJavaScriptInclude(component, writer, webui);
     }
 }

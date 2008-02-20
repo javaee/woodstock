@@ -220,14 +220,14 @@ public class OrderableListRenderer extends ListRendererBase {
             // Append JavaScript.
             buff.append(JavaScriptUtilities.getModule("orderableList"))
                 .append("\n") // NOI18N
-                .append(JavaScriptUtilities.getModuleName("orderableList.init")) // NOI18N
+                .append(JavaScriptUtilities.getModuleName("orderableList._init")) // NOI18N
                 .append("(") //NOI18N
                 .append(JSONUtilities.getString(json))
                 .append(");"); //NOI18N
         
             // Render JavaScript.
             JavaScriptUtilities.renderJavaScript(component, writer,
-                buff.toString(), true);
+                buff.toString(), JavaScriptUtilities.isWebuiOnLoad());
         } catch(JSONException e) {
             e.printStackTrace();
         }

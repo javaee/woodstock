@@ -202,13 +202,13 @@ public class CommonTasksSectionRenderer extends AbstractRenderer {
             StringBuffer buff = new StringBuffer();
             buff.append(JavaScriptUtilities.getModule("commonTasksSection"))
                 .append(JavaScriptUtilities.getModuleName(
-                    "commonTasksSection.init(")) // NOI18N
+                    "commonTasksSection._init(")) // NOI18N
                 .append(JSONUtilities.getString(json))
                 .append(");\n"); //NOI18N
 
             // Render JavaScript.
             JavaScriptUtilities.renderJavaScript(component, writer,
-                buff.toString(), true);
+                buff.toString(), JavaScriptUtilities.isWebuiOnLoad());
         } catch(JSONException e) {
             if (LogUtil.fineEnabled()) {
                 LogUtil.fine(e.getStackTrace().toString()); //NOI18N

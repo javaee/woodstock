@@ -422,7 +422,7 @@ public class WizardRenderer extends AbstractRenderer {
             // Append JavaScript.
             buff.append(JavaScriptUtilities.getModule("wizard"))
                 .append("\n") // NOI18N
-                .append(JavaScriptUtilities.getModuleName("wizard.init")) // NOI18N
+                .append(JavaScriptUtilities.getModuleName("wizard._init")) // NOI18N
                 .append("(") //NOI18N
                 .append(JSONUtilities.getString(json))
                 .append(");"); //NOI18N
@@ -434,7 +434,7 @@ public class WizardRenderer extends AbstractRenderer {
             
             // Render JavaScript.
             JavaScriptUtilities.renderJavaScript(component, writer,
-                buff.toString(), true);
+                buff.toString(), JavaScriptUtilities.isWebuiOnLoad());
         } catch(JSONException e) {
             e.printStackTrace();
         }

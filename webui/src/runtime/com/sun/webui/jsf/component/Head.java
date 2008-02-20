@@ -569,6 +569,50 @@ public class Head extends UIComponentBase {
     }
 
     /**
+     * Flag (true or false) indicating to initialize tag library functionality
+     * on load.
+     * <p>
+     * The document.getElementById() function and Level 0 DOM syntax can be 
+     * expensive calls, especially for large HTML tables. For better 
+     * performance, initialization is deferred until the page has loaded. This
+     * allows for progressive HTML rendering. However, partially rendered HTML
+     * may be displayed before JavaScript widgets have been created. Set the 
+     * webuiOnLoad property to false to initialize tags as the page is read by 
+     * the browser.
+     * </p>
+     */
+    @Property(name="webuiOnLoad", displayName="Initialize Tag Library On Load", category="Javascript")
+    private boolean webuiOnLoad = true; 
+    private boolean webuiOnLoad_set = false; 
+ 
+    /**
+     * Test flag indicating to include default Ajax functionality.
+     */
+    public boolean isWebuiOnLoad() { 
+        if (this.webuiOnLoad_set) {
+            return this.webuiOnLoad;
+        }
+        ValueExpression _vb = getValueExpression("webuiOnLoad");
+        if (_vb != null) {
+            Object _result = _vb.getValue(getFacesContext().getELContext());
+            if (_result == null) {
+                return false;
+            } else {
+                return ((Boolean) _result).booleanValue();
+            }
+        }
+        return this.webuiOnLoad;
+    } 
+
+    /**
+     * Set flag indicating to include default Ajax functionality.
+     */
+    public void setWebuiOnLoad(boolean webuiOnLoad) {
+        this.webuiOnLoad = webuiOnLoad;
+        this.webuiOnLoad_set = true;
+    }
+
+    /**
      * <p>Restore the state of this component.</p>
      */
     public void restoreState(FacesContext _context,Object _state) {
@@ -594,15 +638,17 @@ public class Head extends UIComponentBase {
         this.webuiAll_set = ((Boolean) _values[18]).booleanValue();
         this.webuiJsfx = ((Boolean) _values[19]).booleanValue();
         this.webuiJsfx_set = ((Boolean) _values[20]).booleanValue();
-        this.styleSheet = ((Boolean) _values[21]).booleanValue();
-        this.styleSheet_set = ((Boolean) _values[22]).booleanValue();
+        this.webuiOnLoad = ((Boolean) _values[20]).booleanValue();
+        this.webuiOnLoad_set = ((Boolean) _values[21]).booleanValue();
+        this.styleSheet = ((Boolean) _values[22]).booleanValue();
+        this.styleSheet_set = ((Boolean) _values[23]).booleanValue();
     }
 
     /**
      * <p>Save the state of this component.</p>
      */
     public Object saveState(FacesContext _context) {
-        Object _values[] = new Object[23];
+        Object _values[] = new Object[24];
         _values[0] = super.saveState(_context);
         _values[1] = this.defaultBase ? Boolean.TRUE : Boolean.FALSE;
         _values[2] = this.defaultBase_set ? Boolean.TRUE : Boolean.FALSE;
@@ -624,8 +670,10 @@ public class Head extends UIComponentBase {
         _values[18] = this.webuiAll_set ? Boolean.TRUE : Boolean.FALSE;
         _values[19] = this.webuiJsfx ? Boolean.TRUE : Boolean.FALSE;
         _values[20] = this.webuiJsfx_set ? Boolean.TRUE : Boolean.FALSE;
-        _values[21] = this.styleSheet ? Boolean.TRUE : Boolean.FALSE;
-        _values[22] = this.styleSheet_set ? Boolean.TRUE : Boolean.FALSE;
+        _values[20] = this.webuiOnLoad ? Boolean.TRUE : Boolean.FALSE;
+        _values[21] = this.webuiOnLoad_set ? Boolean.TRUE : Boolean.FALSE;
+        _values[22] = this.styleSheet ? Boolean.TRUE : Boolean.FALSE;
+        _values[23] = this.styleSheet_set ? Boolean.TRUE : Boolean.FALSE;
         return _values;
     }
 }

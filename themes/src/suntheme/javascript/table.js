@@ -1,24 +1,24 @@
-// table.js
-//
-// The contents of this file are subject to the terms
-// of the Common Development and Distribution License
-// (the License).  You may not use this file except in
-// compliance with the License.
-// 
-// You can obtain a copy of the license at
-// https://woodstock.dev.java.net/public/CDDLv1.0.html.
-// See the License for the specific language governing
-// permissions and limitations under the License.
-// 
-// When distributing Covered Code, include this CDDL
-// Header Notice in each file and include the License file
-// at https://woodstock.dev.java.net/public/CDDLv1.0.html.
-// If applicable, add the following below the CDDL Header,
-// with the fields enclosed by brackets [] replaced by
-// you own identifying information:
-// "Portions Copyrighted [year] [name of copyright owner]"
-// 
-// Copyright 2007 Sun Microsystems, Inc. All rights reserved.
+/**
+ * The contents of this file are subject to the terms
+ * of the Common Development and Distribution License
+ * (the License).  You may not use this file except in
+ * compliance with the License.
+ * 
+ * You can obtain a copy of the license at
+ * https://woodstock.dev.java.net/public/CDDLv1.0.html.
+ * See the License for the specific language governing
+ * permissions and limitations under the License.
+ * 
+ * When distributing Covered Code, include this CDDL
+ * Header Notice in each file and include the License file
+ * at https://woodstock.dev.java.net/public/CDDLv1.0.html.
+ * If applicable, add the following below the CDDL Header,
+ * with the fields enclosed by brackets [] replaced by
+ * you own identifying information:
+ * "Portions Copyrighted [year] [name of copyright owner]"
+ * 
+ * Copyright 2008 Sun Microsystems, Inc. All rights reserved.
+ */
 
 webui.@THEME@.dojo.provide("webui.@THEME@.table");
 
@@ -189,7 +189,7 @@ webui.@THEME@.table = {
 
         // For each group, get the row and select id.
         for (var i = 0; i < this.groupIds.length; i++) {
-            count = count + this.getGroupHiddenSelectedRowsCount(this.groupIds[i]);
+            count = count + this._getGroupHiddenSelectedRowsCount(this.groupIds[i]);
         }
         return count;
     },
@@ -212,7 +212,7 @@ webui.@THEME@.table = {
 
         // For each group, get the row and select id.
         for (var i = 0; i < this.groupIds.length; i++) {
-            count = count + this.getGroupRenderedSelectedRowsCount(this.groupIds[i]);
+            count = count + this._getGroupRenderedSelectedRowsCount(this.groupIds[i]);
         }
         return count;
     },
@@ -233,7 +233,7 @@ webui.@THEME@.table = {
 
         // For each group, get the row and select id.
         for (var i = 0; i < this.groupIds.length; i++) {
-            this.initGroupRows(this.groupIds[i]);
+            this._initGroupRows(this.groupIds[i]);
         }
         return true;
     },
@@ -253,9 +253,9 @@ webui.@THEME@.table = {
         }
 
         // Toggle filter panel.
-        this.togglePanel(this.panelIds[this.FILTER],
+        this._togglePanel(this.panelIds[this.FILTER],
         this.panelFocusIds[this.FILTER], this.panelToggleIds[this.FILTER]);
-        return this.resetFilterMenu(this.panelToggleIds[this.FILTER]); // Reset filter menu.
+        return this._resetFilterMenu(this.panelToggleIds[this.FILTER]); // Reset filter menu.
     },
 
     /**
@@ -271,9 +271,9 @@ webui.@THEME@.table = {
         }
 
         // Toggle preferences panel.
-        this.togglePanel(this.panelIds[this.PREFERENCES],
+        this._togglePanel(this.panelIds[this.PREFERENCES],
         this.panelFocusIds[this.PREFERENCES], this.panelToggleIds[this.PREFERENCES]);
-        return this.resetFilterMenu(this.panelToggleIds[this.FILTER]); // Reset filter menu.
+        return this._resetFilterMenu(this.panelToggleIds[this.FILTER]); // Reset filter menu.
     },
 
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -344,12 +344,15 @@ webui.@THEME@.table = {
      * @return {boolean} true if successful; otherwise, false.
      * @private
      */
-    init: function(props) {
+    _init: function(props) {
+        var message = "Cannot initialize table.";
         if (props == null || props.id == null) {
+            console.debug(message); // See Firebug console.
             return false;
         }
         var domNode = document.getElementById(props.id);
         if (domNode == null) {
+            console.debug(message); // See Firebug console.
             return false;
         }
 
@@ -377,10 +380,27 @@ webui.@THEME@.table = {
         domNode.deleteSelectionsMsg = props.deleteSelectionsMsg.replace(/\\n/g, "\n");
 
         // Private functions.
-        domNode.initSortOrderMenu = webui.@THEME@.table.initSortOrderMenu;
-        domNode.initSortOrderMenuToolTip = webui.@THEME@.table.initSortOrderMenuToolTip;
-        domNode.resetFilterMenu = webui.@THEME@.table.resetFilterMenu;
-        domNode.togglePanel = webui.@THEME@.table.togglePanel;
+        domNode._getGroupSelectedRowsCount = webui.@THEME@.table._getGroupSelectedRowsCount;
+        domNode._getGroupHiddenSelectedRowsCount = webui.@THEME@.table._getGroupHiddenSelectedRowsCount;
+        domNode._getGroupRenderedSelectedRowsCount = webui.@THEME@.table._getGroupRenderedSelectedRowsCount;
+        domNode._initGroupRows = webui.@THEME@.table._initGroupRows;
+        domNode._initPrimarySortOrderMenu = webui.@THEME@.table._initPrimarySortOrderMenu;
+        domNode._initPrimarySortOrderMenuToolTip = webui.@THEME@.table._initPrimarySortOrderMenuToolTip;
+        domNode._initSecondarySortOrderMenu = webui.@THEME@.table._initSecondarySortOrderMenu;
+        domNode._initSecondarySortOrderMenuToolTip = webui.@THEME@.table._initSecondarySortOrderMenuToolTip;
+        domNode._initSortColumnMenus = webui.@THEME@.table._initSortColumnMenus;
+        domNode._initSortOrderMenu = webui.@THEME@.table._initSortOrderMenu;
+        domNode._initSortOrderMenus = webui.@THEME@.table._initSortOrderMenus;
+        domNode._initSortOrderMenuToolTip = webui.@THEME@.table._initSortOrderMenuToolTip;
+        domNode._initTertiarySortOrderMenu = webui.@THEME@.table._initTertiarySortOrderMenu;
+        domNode._initTertiarySortOrderMenuToolTip = webui.@THEME@.table._initTertiarySortOrderMenuToolTip;
+        domNode._resetFilterMenu = webui.@THEME@.table._resetFilterMenu;
+        domNode._selectAllRows = webui.@THEME@.table._selectAllRows;
+        domNode._selectGroupRows = webui.@THEME@.table._selectGroupRows;
+        domNode._toggleGroupPanel = webui.@THEME@.table._toggleGroupPanel;
+        domNode._togglePanel = webui.@THEME@.table._togglePanel;
+        domNode._toggleSortPanel = webui.@THEME@.table._toggleSortPanel;
+        domNode._validateSortPanel = webui.@THEME@.table._validateSortPanel;
 
         // Public functions.
         domNode.confirmDeleteSelectedRows = webui.@THEME@.table.confirmDeleteSelectedRows;
@@ -389,26 +409,9 @@ webui.@THEME@.table = {
         domNode.getAllSelectedRowsCount = webui.@THEME@.table.getAllSelectedRowsCount;
         domNode.getAllHiddenSelectedRowsCount = webui.@THEME@.table.getAllHiddenSelectedRowsCount;
         domNode.getAllRenderedSelectedRowsCount = webui.@THEME@.table.getAllRenderedSelectedRowsCount;
-        domNode.getGroupSelectedRowsCount = webui.@THEME@.table.getGroupSelectedRowsCount;
-        domNode.getGroupHiddenSelectedRowsCount = webui.@THEME@.table.getGroupHiddenSelectedRowsCount;
-        domNode.getGroupRenderedSelectedRowsCount = webui.@THEME@.table.getGroupRenderedSelectedRowsCount;
         domNode.initAllRows = webui.@THEME@.table.initAllRows;
-        domNode.initGroupRows = webui.@THEME@.table.initGroupRows;
-        domNode.initPrimarySortOrderMenu = webui.@THEME@.table.initPrimarySortOrderMenu;
-        domNode.initPrimarySortOrderMenuToolTip = webui.@THEME@.table.initPrimarySortOrderMenuToolTip;
-        domNode.initSecondarySortOrderMenu = webui.@THEME@.table.initSecondarySortOrderMenu;
-        domNode.initSecondarySortOrderMenuToolTip = webui.@THEME@.table.initSecondarySortOrderMenuToolTip;
-        domNode.initSortColumnMenus = webui.@THEME@.table.initSortColumnMenus;
-        domNode.initSortOrderMenus = webui.@THEME@.table.initSortOrderMenus;
-        domNode.initTertiarySortOrderMenu = webui.@THEME@.table.initTertiarySortOrderMenu;
-        domNode.initTertiarySortOrderMenuToolTip = webui.@THEME@.table.initTertiarySortOrderMenuToolTip;
-        domNode.selectAllRows = webui.@THEME@.table.selectAllRows;
-        domNode.selectGroupRows = webui.@THEME@.table.selectGroupRows;
-        domNode.toggleSortPanel = webui.@THEME@.table.toggleSortPanel;
         domNode.toggleFilterPanel = webui.@THEME@.table.toggleFilterPanel;
         domNode.togglePreferencesPanel = webui.@THEME@.table.togglePreferencesPanel;
-        domNode.toggleGroupPanel = webui.@THEME@.table.toggleGroupPanel;
-        domNode.validateSortPanel = webui.@THEME@.table.validateSortPanel;
 
         return true;
     },
@@ -423,9 +426,9 @@ webui.@THEME@.table = {
      * @return {int} The number of components selected in the current page.
      * @private
      */
-    getGroupSelectedRowsCount: function(groupId) {
-        return this.getGroupHiddenSelectedRowsCount(groupId) + 
-            this.getGroupRenderedSelectedRowsCount(groupId);
+    _getGroupSelectedRowsCount: function(groupId) {
+        return this._getGroupHiddenSelectedRowsCount(groupId) + 
+            this._getGroupRenderedSelectedRowsCount(groupId);
     },
 
     /**
@@ -439,7 +442,7 @@ webui.@THEME@.table = {
      * @return {int} The number of selected components hidden from view.
      * @private
      */
-    getGroupHiddenSelectedRowsCount: function(groupId) {
+    _getGroupHiddenSelectedRowsCount: function(groupId) {
         var count = 0;
 
         // Validate group IDs.
@@ -469,7 +472,7 @@ webui.@THEME@.table = {
      * @return {int} The number of components selected in the current page.
      * @private
      */
-    getGroupRenderedSelectedRowsCount: function(groupId) {
+    _getGroupRenderedSelectedRowsCount: function(groupId) {
         var count = 0;
 
         // Validate group IDs.
@@ -516,7 +519,7 @@ webui.@THEME@.table = {
      * @return {boolean} true if successful; otherwise, false.
      * @private
      */
-    initGroupRows: function(groupId) {
+    _initGroupRows: function(groupId) {
         // Validate groupIDs.
         if (this.groupIds == null || this.groupIds.length == 0
                 || groupId == null) {
@@ -608,8 +611,8 @@ webui.@THEME@.table = {
      * @return {boolean} true if successful; otherwise, false.
      * @private
      */
-    initPrimarySortOrderMenu: function() {
-        return this.initSortOrderMenu(this.sortColumnMenuIds[this.PRIMARY], 
+    _initPrimarySortOrderMenu: function() {
+        return this._initSortOrderMenu(this.sortColumnMenuIds[this.PRIMARY], 
             this.sortOrderMenuIds[this.PRIMARY]);
     },  
 
@@ -620,7 +623,7 @@ webui.@THEME@.table = {
      * @return {boolean} true if successful; otherwise, false.
      * @private
      */
-    initPrimarySortOrderMenuToolTip: function() {
+    _initPrimarySortOrderMenuToolTip: function() {
         // Get sort order menu.
         var sortOrderMenu = webui.@THEME@.dropDown.getSelectElement(
             this.sortOrderMenuIds[this.PRIMARY]);
@@ -630,7 +633,7 @@ webui.@THEME@.table = {
                 sortOrderMenu.selectedIndex = 0;
             }
         }
-        return this.initSortOrderMenuToolTip(this.sortColumnMenuIds[this.PRIMARY], 
+        return this._initSortOrderMenuToolTip(this.sortColumnMenuIds[this.PRIMARY], 
             this.sortOrderMenuIds[this.PRIMARY]);
     },
 
@@ -641,8 +644,8 @@ webui.@THEME@.table = {
      * @return {boolean} true if successful; otherwise, false.
      * @private
      */
-    initSecondarySortOrderMenu: function() {
-        return this.initSortOrderMenu(this.sortColumnMenuIds[this.SECONDARY], 
+    _initSecondarySortOrderMenu: function() {
+        return this._initSortOrderMenu(this.sortColumnMenuIds[this.SECONDARY], 
             this.sortOrderMenuIds[this.SECONDARY]);
     },
 
@@ -653,7 +656,7 @@ webui.@THEME@.table = {
      * @return {boolean} true if successful; otherwise, false.
      * @private
      */
-    initSecondarySortOrderMenuToolTip: function() {
+    _initSecondarySortOrderMenuToolTip: function() {
         // Get sort order menu.
         var sortOrderMenu = webui.@THEME@.dropDown.getSelectElement(
             this.sortOrderMenuIds[this.SECONDARY]);
@@ -663,7 +666,7 @@ webui.@THEME@.table = {
                 sortOrderMenu.selectedIndex = 0;
             }
         }
-        return this.initSortOrderMenuToolTip(this.sortColumnMenuIds[this.SECONDARY], 
+        return this._initSortOrderMenuToolTip(this.sortColumnMenuIds[this.SECONDARY], 
             this.sortOrderMenuIds[this.SECONDARY]);
     },
 
@@ -674,7 +677,7 @@ webui.@THEME@.table = {
      * @return {boolean} true if successful; otherwise, false.
      * @private
      */
-    initSortColumnMenus: function() {
+    _initSortColumnMenus: function() {
         // Validate sort column menu IDs.
         if (this.sortColumnMenuIds == null || this.sortColumnMenuIds.length == 0) {
             return false;
@@ -712,7 +715,7 @@ webui.@THEME@.table = {
      * @return {boolean} true if successful; otherwise, false.
      * @private
      */
-    initSortOrderMenus: function() {
+    _initSortOrderMenus: function() {
         // Validate sort order menu IDs.
         if (this.sortOrderMenuIds == null || this.sortOrderMenuIds.length == 0) {
             return false;
@@ -756,7 +759,7 @@ webui.@THEME@.table = {
             webui.@THEME@.dropDown.changed(this.sortOrderMenuIds[i]);
 
             // Initialize tool tip.
-            this.initSortOrderMenuToolTip(this.sortColumnMenuIds[i], this.sortOrderMenuIds[i]);
+            this._initSortOrderMenuToolTip(this.sortColumnMenuIds[i], this.sortOrderMenuIds[i]);
         }
         return true;
     },
@@ -772,7 +775,7 @@ webui.@THEME@.table = {
      * @return {boolean} true if successful; otherwise, false.
      * @private
      */
-    initSortOrderMenu: function(sortColumnMenuId, sortOrderMenuId) {
+    _initSortOrderMenu: function(sortColumnMenuId, sortOrderMenuId) {
         if (sortColumnMenuId == null || sortOrderMenuId == null) {
             return false;
         }
@@ -869,7 +872,7 @@ webui.@THEME@.table = {
         webui.@THEME@.dropDown.changed(sortOrderMenuId);
 
         // Set sort order menu tool tip.
-        return this.initSortOrderMenuToolTip(sortColumnMenuId, sortOrderMenuId);
+        return this._initSortOrderMenuToolTip(sortColumnMenuId, sortOrderMenuId);
     },
 
     /**
@@ -883,7 +886,7 @@ webui.@THEME@.table = {
      * @return {boolean} true if successful; otherwise, false.
      * @private
      */
-    initSortOrderMenuToolTip: function(sortColumnMenuId, sortOrderMenuId) {
+    _initSortOrderMenuToolTip: function(sortColumnMenuId, sortOrderMenuId) {
         if (sortColumnMenuId == null || sortOrderMenuId == null) {
             return false;
         }
@@ -934,8 +937,8 @@ webui.@THEME@.table = {
      * @return {boolean} true if successful; otherwise, false.
      * @private
      */
-    initTertiarySortOrderMenu: function() {
-        return this.initSortOrderMenu(this.sortColumnMenuIds[this.TERTIARY], 
+    _initTertiarySortOrderMenu: function() {
+        return this._initSortOrderMenu(this.sortColumnMenuIds[this.TERTIARY], 
             this.sortOrderMenuIds[this.TERTIARY]);
     },
 
@@ -946,7 +949,7 @@ webui.@THEME@.table = {
      * @return {boolean} true if successful; otherwise, false.
      * @private
      */
-    initTertiarySortOrderMenuToolTip: function() {
+    _initTertiarySortOrderMenuToolTip: function() {
         // Get sort order menu.
         var sortOrderMenu = webui.@THEME@.dropDown.getSelectElement(
             this.sortOrderMenuIds[this.TERTIARY]);
@@ -956,7 +959,7 @@ webui.@THEME@.table = {
                 sortOrderMenu.selectedIndex = 0;
             }
         }
-        return this.initSortOrderMenuToolTip(this.sortColumnMenuIds[this.TERTIARY], 
+        return this._initSortOrderMenuToolTip(this.sortColumnMenuIds[this.TERTIARY], 
             this.sortOrderMenuIds[this.TERTIARY]);
     },
 
@@ -970,7 +973,7 @@ webui.@THEME@.table = {
      * @return {boolean} true if successful; otherwise, false.
      * @private
      */
-    resetFilterMenu: function(filterId) {
+    _resetFilterMenu: function(filterId) {
         if (filterId == null) {
             return false;
         }
@@ -1016,7 +1019,7 @@ webui.@THEME@.table = {
      * @return {boolean} true if successful; otherwise, false.
      * @private
      */
-    selectAllRows: function(selected) {
+    _selectAllRows: function(selected) {
         // Validate groupIDs.
         if (this.groupIds == null || this.groupIds.length == 0) {
             return false;
@@ -1024,7 +1027,7 @@ webui.@THEME@.table = {
 
         // For each group, get the row and select id.
         for (var i = 0; i < this.groupIds.length; i++) {
-            this.selectGroupRows(this.groupIds[i], selected);
+            this._selectGroupRows(this.groupIds[i], selected);
         }
         return true;
     },
@@ -1040,7 +1043,7 @@ webui.@THEME@.table = {
      * @return {boolean} true if successful; otherwise, false.
      * @private
      */
-    selectGroupRows: function(groupId, selected) {
+    _selectGroupRows: function(groupId, selected) {
         // Validate groupIDs.
         if (this.groupIds == null || this.groupIds.length == 0
                 || groupId == null) {
@@ -1072,7 +1075,7 @@ webui.@THEME@.table = {
             }
             select.setProps({checked: new Boolean(selected).valueOf()});
         }
-        return this.initGroupRows(groupId); // Set row highlighting.
+        return this._initGroupRows(groupId); // Set row highlighting.
     },
 
     /**
@@ -1082,7 +1085,7 @@ webui.@THEME@.table = {
      * @return {boolean} true if successful; otherwise, false.
      * @private
      */
-    toggleGroupPanel: function(groupId) {
+    _toggleGroupPanel: function(groupId) {
         // Validate groupIDs.
         if (this.groupIds == null || this.groupIds.length == 0
                 || groupId == null) {
@@ -1191,7 +1194,7 @@ webui.@THEME@.table = {
         if (hiddenField != null) {
             hiddenField.value = !collapsed;
         }
-        return this.initGroupRows(groupId); // Set next warning image.
+        return this._initGroupRows(groupId); // Set next warning image.
     },
 
     /**
@@ -1203,7 +1206,7 @@ webui.@THEME@.table = {
      * @return {boolean} true if successful; otherwise, false.
      * @private
      */
-    togglePanel: function(panelId, panelFocusIdOpen, panelFocusIdClose) {
+    _togglePanel: function(panelId, panelFocusIdOpen, panelFocusIdClose) {
         if (panelId == null) {
             return false;
         }
@@ -1262,20 +1265,20 @@ webui.@THEME@.table = {
      * @return {boolean} true if successful; otherwise, false.
      * @private
      */
-    toggleSortPanel: function() {
+    _toggleSortPanel: function() {
         // Validate panel IDs.
         if (this.panelIds == null || this.panelIds.length == 0) {
             return false;
         }
 
         // Initialize sort column and order menus.
-        this.initSortColumnMenus(); 
-        this.initSortOrderMenus();
+        this._initSortColumnMenus(); 
+        this._initSortOrderMenus();
 
         // Toggle sort panel.
-        this.togglePanel(this.panelIds[this.SORT], 
+        this._togglePanel(this.panelIds[this.SORT], 
         this.panelFocusIds[this.SORT], this.panelToggleIds[this.SORT]);
-        return this.resetFilterMenu(this.panelToggleIds[this.FILTER]); // Reset filter menu.
+        return this._resetFilterMenu(this.panelToggleIds[this.FILTER]); // Reset filter menu.
     },
 
     /**
@@ -1285,7 +1288,7 @@ webui.@THEME@.table = {
      * @return {boolean} true if successful; otherwise, false.
      * @private
      */
-    validateSortPanel: function() {
+    _validateSortPanel: function() {
         // Validate sort column menu IDs.
         if (this.sortColumnMenuIds == null || this.sortColumnMenuIds.length == 0) {
             return false;

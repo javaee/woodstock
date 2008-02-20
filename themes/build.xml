@@ -68,9 +68,6 @@
     <property name="jsdoc.template"
               value="${jsdoc.dir}/templates/suntheme"/>
 
-    <loadfile property="copyright" srcFile="${doc}/copyright.txt"/>
-    <loadfile property="copyright-css" srcFile="${doc}/copyright-css.txt"/>
-
     <!-- Default values. This build file will always build a "suntheme"
 	 if no ${theme.name} property or ${theme.name}.properties
 	 files are defined in a "${theme.name}.properties" properties
@@ -121,16 +118,17 @@
     <property name="theme.master.css" value="css_master.css"/>
     <property name="theme.master-all.css" value="css_master-all.css"/>
     <property name="theme.js-module-prefix" value="webui.${theme.name}"/>
+    <property name="theme.bootstrap.js" value="bootstrap.js"/>
     <property name="theme.dnd.js" value="dnd.js"/>
     <property name="theme.dojo.js" value="dojo/dojo.js"/>
-    <property name="theme.dojo-all.js" value="dojo/dojo-all.js"/>
-    <property name="theme.dojo-dnd.js" value="dojo/dojo-dnd.js"/>
+    <property name="theme.dojo-dnd.js" value="dojo/dnd.js"/>
     <property name="theme.webui.js" value="webui.js"/>
     <property name="theme.webui-all.js" value="webui-all.js"/>
     <property name="theme.webui-jsfx.js" value="webui-jsfx.js"/>
     <property name="theme.webui-jsfx-all.js" value="webui-jsfx-all.js"/>
     <property name="theme.combined-image" value="combinedImage.png"/>
-
+    <property name="theme.copyright" value="${doc}/copyright.txt"/>
+    <property name="theme.bootstrap-js-files" value="bootstrap-js-files"/>
     <property name="theme.dnd-js-files" value="dnd-js-files"/>
     <property name="theme.webui-js-files" value="webui-js-files"/>
     <property name="theme.webui-all-js-files" value="webui-all-js-files"/>
@@ -147,6 +145,7 @@
     <property name="theme.js-filter-set" value="js-filter-set"/>
     <property name="theme.jar-file-set" value="jar-file-set"/>
 
+    <loadfile property="copyright" srcFile="${theme.copyright}"/>
 
     <!-- L10n properties -->
     <property name="theme.l10n-build-dir"
@@ -174,7 +173,6 @@
     <!-- The Javascript files that are commonly included. -->
     <patternset id="include-js-files">
 	<include name="body.js" />
-        <include name="bootstrap.js" />
 	<include name="formElements.js" />
 	<include name="table.js" />
 	<include name="widget/anchor.js" />
@@ -185,10 +183,12 @@
 	<include name="widget/hiddenField.js" />
 	<include name="widget/hyperlink.js" />
 	<include name="widget/image.js" />
+        <include name="widget/imageButton.js" />
 	<include name="widget/imageHyperlink.js" />
 	<include name="widget/label.js" />
 	<include name="widget/listbox.js" />
 	<include name="widget/passwordField.js" />
+        <include name="widget/resetButton.js" />
 	<include name="widget/radioButton.js" />
         <include name="widget/radioButtonGroup.js" />
 	<include name="widget/staticText.js" />
@@ -207,10 +207,12 @@
 	<include name="widget/jsfx/hiddenField.js" />
 	<include name="widget/jsfx/hyperlink.js" />
 	<include name="widget/jsfx/image.js" />
+        <include name="widget/jsfx/imageButton.js" />
 	<include name="widget/jsfx/imageHyperlink.js" />
         <include name="widget/jsfx/label.js" />
 	<include name="widget/jsfx/listbox.js" />
 	<include name="widget/jsfx/passwordField.js" />
+        <include name="widget/jsfx/resetButton.js" />
 	<include name="widget/jsfx/radioButton.js" />
         <include name="widget/jsfx/radioButtonGroup.js" />
 	<include name="widget/jsfx/staticText.js" />
@@ -220,6 +222,7 @@
 
     <!-- The files that are commonly excluded. -->
     <patternset id="exclude-js-files">
+        <exclude name="bootstrap.js" /> <!-- Loaded separately -->
         <exclude name="calendar.js" /> <!-- Never include deprecated files -->
         <exclude name="dojo/" /> <!-- dojo.js must be included separately -->
 	<exclude name="theme/nls/"/>
@@ -227,6 +230,18 @@
 	<exclude name="webui-all.js"/>
 	<exclude name="webui-jsfx.js"/>
 	<exclude name="webui-jsfx-all.js"/>
+    </patternset>
+
+    <!-- "bootstrap.js"
+    
+    Note: This pattern set serves two purposes. First, it is used to create the
+    bootstrap.js file. Second, it is used to prevent files from being included
+    via dojo.require() statements when combining dnd.js and webui*.js. We don't
+    want to duplicate resources that are already available in the bootstrap file.
+
+    -->
+    <patternset id="bootstrap-js-files">
+        <include name="bootstrap.js" />
     </patternset>
 
     <!-- "dnd.js" -->
@@ -342,6 +357,7 @@
 	    <param name="_to-dir_" value="${theme.build-package-path}/css"/>
 	    <param name="_from-dir_" value="${theme.src-dir}/css"/>
 	    <param name="_files-to-combine_" value="${theme.master.css}"/>
+            <param name="_copyright-file_" value="${theme.copyright}"/>
 	    <param name="_combined-file_" 
 		value="${theme.build-package-path}/css/${theme.master-all.css}"/>
 	</antcall>
@@ -363,48 +379,68 @@
 	<antcall target="combineJavascript">
 	    <param name="_to-dir_" value="${js-dest-uncmp}"/>
 	    <param name="_from-dir_" value="${js-src}"/>
-            <param name="_base-file_" value="${js-src}/${theme.dojo.js}"/>
-	    <param name="_pattern-set_" value="${theme.webui-js-files}"/>
+            <param name="_copyright-file_" value="${theme.copyright}"/>
+	    <param name="_include-set_" value="${theme.webui-js-files}"/>
+            <param name="_exclude-set_" value="${theme.bootstrap-js-files}"/>
 	    <param name="_combined-file_" 
 		value="${js-dest-uncmp}/${theme.webui.js}"/>
 	</antcall>
 	<antcall target="combineJavascript">
 	    <param name="_to-dir_" value="${js-dest-uncmp}"/>
 	    <param name="_from-dir_" value="${js-src}"/>
-            <param name="_base-file_" value="${js-src}/${theme.dojo-all.js}"/>
-	    <param name="_pattern-set_"
+            <param name="_copyright-file_" value="${theme.copyright}"/>
+	    <param name="_include-set_"
 		value="${theme.webui-all-js-files}"/>
+            <param name="_exclude-set_" value="${theme.bootstrap-js-files}"/>
 	    <param name="_combined-file_" 
 		value="${js-dest-uncmp}/${theme.webui-all.js}"/>
 	</antcall>
 	<antcall target="combineJavascript">
 	    <param name="_to-dir_" value="${js-dest-uncmp}"/>
 	    <param name="_from-dir_" value="${js-src}"/>
-            <param name="_base-file_" value="${js-src}/${theme.dojo.js}"/>
-	    <param name="_pattern-set_"
+            <param name="_copyright-file_" value="${theme.copyright}"/>
+	    <param name="_include-set_"
 		value="${theme.webui-jsfx-js-files}"/>
+            <param name="_exclude-set_" value="${theme.bootstrap-js-files}"/>
 	    <param name="_combined-file_" 
 		value="${js-dest-uncmp}/${theme.webui-jsfx.js}"/>
 	</antcall>
 	<antcall target="combineJavascript">
 	    <param name="_to-dir_" value="${js-dest-uncmp}"/>
 	    <param name="_from-dir_" value="${js-src}"/>
-            <param name="_base-file_" value="${js-src}/${theme.dojo-all.js}"/>
-	    <param name="_pattern-set_"
+            <param name="_copyright-file_" value="${theme.copyright}"/>
+	    <param name="_include-set_"
 		value="${theme.webui-jsfx-all-js-files}"/>
+            <param name="_exclude-set_" value="${theme.bootstrap-js-files}"/>
 	    <param name="_combined-file_" 
 		value="${js-dest-uncmp}/${theme.webui-jsfx-all.js}"/>
 	</antcall>
+        
+        <!-- Call combineJavascript once for theme.dnd.js -->
 	<antcall target="combineJavascript">
 	    <param name="_to-dir_" value="${js-dest-uncmp}"/>
 	    <param name="_from-dir_" value="${js-src}"/>
-            <param name="_base-file_" value="${js-src}/${theme.dojo-dnd.js}"/>
-	    <param name="_pattern-set_" value="${theme.dnd-js-files}"/>
+            <param name="_copyright-file_" value="${theme.copyright}"/>
+	    <param name="_include-set_" value="${theme.dnd-js-files}"/>
 	    <param name="_combined-file_" 
-		value="${js-dest-uncmp}/_${theme.dnd.js}"/>
+		value="${js-dest-uncmp}/${theme.dnd.js}.tmp"/>
+            <param name="_exclude-set_" value="${theme.bootstrap-js-files}"/>
 	</antcall>
         <!-- file must be renamed because dnd.js already exists in src -->
-        <rename src="${js-dest-uncmp}/_${theme.dnd.js}" dest="${js-dest-uncmp}/${theme.dnd.js}"/>
+        <move file="${js-dest-uncmp}/${theme.dnd.js}.tmp" tofile="${js-dest-uncmp}/${theme.dnd.js}"/>
+        
+        <!-- Call combineJavascript once for theme.bootstrap.js -->
+	<antcall target="combineJavascript">
+	    <param name="_to-dir_" value="${js-dest-uncmp}"/>
+	    <param name="_from-dir_" value="${js-src}"/>
+            <param name="_copyright-file_" value="${theme.copyright}"/>
+	    <param name="_include-set_" value="${theme.bootstrap-js-files}"/>
+            <param name="_exclude-set_" value="${theme.dnd-js-files}"/> <!-- Have to provide something? -->
+	    <param name="_combined-file_" 
+		value="${js-dest-uncmp}/${theme.bootstrap.js}.tmp"/>
+	</antcall>
+        <!-- file must be renamed because bootstrap.js already exists in src -->
+        <move file="${js-dest-uncmp}/${theme.bootstrap.js}.tmp" tofile="${js-dest-uncmp}/${theme.bootstrap.js}"/>
 
         <antcall target="compressJavascript">
 	    <param name="_to-dir_" value="${js-dest-cmp}"/>
@@ -412,7 +448,6 @@
 	</antcall>
 
 	<antcall target="combineImages"/>
-
         <antcall target="createThemeJar"/>
 
     </target> 
@@ -706,6 +741,7 @@
 			In this case it is a list of files that contain
 			"import" statements.
 	_combined-file_ - the combined css file.
+        _copyright-file_ - the copyright file.
 
 	This also copies and filters CSS files from
 	"${_from-dir_}" to "${_to-dir_}".
@@ -740,14 +776,10 @@
 	  <arg value="${_files-to-combine_}"/>
 	  <arg value="-outFile"/>
 	  <arg value="${_combined-file_}"/>
+          <arg value="-copyrightFile"/>
+          <arg value="${_copyright-file_}"/>
 	  <arg value="-verbose"/>
 	</java>
-
-        <!-- Add copyright to combined file -->
-        <replaceregexp match="^" byline="false" replace="${copyright-css}"> 
-            <fileset file="${_combined-file_}"/>
-        </replaceregexp>
-
     </target>
 
     <!-- #############  Javascript targets ################### -->
@@ -816,9 +848,10 @@
 	_to-dir_ - root of the destination for combined files
 	_from-dir_ - the source of the javascipt files.
 			   This directory will be written into.
-        _base-file_ - the base file to include before all others.
-	_pattern-set_ - the patternset refid defining the files to combine.
+	_include-set_ - the patternset refid defining the files to combine.
+        _exclude-set_ - the patternset refid defining the files to exclude.
 	_combined-file_ - the combined js file.
+        _copyright-file_ - the copyright file.
 
     -->
     <target name="combineJavascript" depends="combined-js-uptodate" 
@@ -828,17 +861,19 @@
 	<echo message="Combining ${_combined-file_}"/>
         <delete file="${_combined-file_}"/>
 
-        <!-- create base file to ensure Dojo resources are included first -->
-        <copy file="${_base-file_}" tofile="${_combined-file_}">
-            <filterset refid="${theme.js-filter-set}"/>
-        </copy>
-
 	<!-- create a "location" for portability -->
 	<property name="__from-dir-loc__"
 		location="${_to-dir_}"/>
 	<pathconvert property="__files-to-combine__" pathsep=",">
 	    <fileset dir="${__from-dir-loc__}">
-		<patternset refid="${_pattern-set_}"/>
+		<patternset refid="${_include-set_}"/>
+	    </fileset>
+	    <mapper type="glob" 
+		from="${__from-dir-loc__}${file.separator}*" to="*"/>
+	</pathconvert>
+	<pathconvert property="__files-to-exclude__" pathsep=",">
+	    <fileset dir="${__from-dir-loc__}">
+		<patternset refid="${_exclude-set_}"/>
 	    </fileset>
 	    <mapper type="glob" 
 		from="${__from-dir-loc__}${file.separator}*" to="*"/>
@@ -850,18 +885,16 @@
 	  <arg value="${__from-dir-loc__}"/>
 	  <arg value="-fileList"/>
 	  <arg value="${__files-to-combine__}"/>
+	  <arg value="-excludeFileList"/>
+	  <arg value="${__files-to-exclude__}"/>
 	  <arg value="-modulePrefix"/>
 	  <arg value="${theme.js-module-prefix}"/>
 	  <arg value="-outFile"/>
 	  <arg value="${_combined-file_}"/>
-	  <arg value="-verbose"/>
+          <arg value="-copyrightFile"/>
+          <arg value="${_copyright-file_}"/>
+          <arg value="-verbose"/>
 	</java>
-
-        <!-- Add copyright to combined file -->
-        <replaceregexp match="^" byline="false" replace="${copyright}"> 
-            <fileset file="${_combined-file_}"/>
-        </replaceregexp>
-
     </target>
 
     <!-- Set the compressed-js-uptodate property if
@@ -930,8 +963,8 @@
 	  <arg value="-verbose"/>
 	</java>
 
-        <!-- Add copyrights stripped by compression tool -->
-        <replaceregexp match="^" byline="false" replace="${copyright}"> 
+        <!-- Add copyright text stripped by compression tool. -->
+        <replaceregexp match="^" byline="false" replace="${copyright}">
             <fileset dir="${__to-dir-loc__}"
 		includes="${__files-to-compress__}"/>
         </replaceregexp>
@@ -1014,6 +1047,7 @@
 	  <arg value="-d=${_to-dir_}"/>
 	  <arg value="-t=${jsdoc.template}"/>
           <arg value="-v"/>
+          <arg value="-p"/>
           <arg line="${__files-to-doc__}"/>
 	</java>
 

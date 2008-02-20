@@ -55,10 +55,10 @@ webui.@THEME@.dojo.experimental = function(/* String */ moduleName, /* String? *
 	//		|	console.log("my object", {foo:"bar"})
 	// example:
 	//		Option for console to open in popup window
-	//		|	var webui.@THEME@.config.djConfig = {isDebug: true, popup:true };
+	//		|	var webui_@THEME@_config.djConfig = {isDebug: true, popup:true };
 	// example:
 	//		Option for console height (ignored for popup)
-	//		|	var webui.@THEME@.config.djConfig = {isDebug: true, debugHeight:100 };
+	//		|	var webui_@THEME@_config.djConfig = {isDebug: true, debugHeight:100 };
 	
 if(
 	(
@@ -66,7 +66,7 @@ if(
 		(!("firebug" in console))
 	)&&
 	(
-		(webui.@THEME@.config.djConfig["noFirebugLite"] !== true)
+		(webui_@THEME@_config.djConfig["noFirebugLite"] !== true)
 	)
 ){
 (function(){
@@ -308,10 +308,10 @@ if(
 			return;
 		}
 		
-		if(webui.@THEME@.config.djConfig.popup){
+		if(webui_@THEME@_config.djConfig.popup){
 			_firebugWin = openWin();
 			_firebugDoc = _firebugWin.document;
-			webui.@THEME@.config.djConfig.debugContainerId = 'fb';
+			webui_@THEME@_config.djConfig.debugContainerId = 'fb';
 			var containerHeight = "100%";
 			
 			// connecting popup
@@ -320,7 +320,7 @@ if(
 
 		}else{
 			_firebugDoc = document;	
-			var containerHeight = (webui.@THEME@.config.djConfig.debugHeight) ? webui.@THEME@.config.djConfig.debugHeight + "px" :"300px";
+			var containerHeight = (webui_@THEME@_config.djConfig.debugHeight) ? webui_@THEME@_config.djConfig.debugHeight + "px" :"300px";
 		}
 		
 		var styleElement = _firebugDoc.createElement("link");
@@ -340,8 +340,8 @@ if(
 			styleParent.appendChild(styleElement);
 		}
 		
-		if(typeof webui.@THEME@.config.djConfig != "undefined" && webui.@THEME@.config.djConfig["debugContainerId"]){
-			consoleFrame = _firebugDoc.getElementById(webui.@THEME@.config.djConfig.debugContainerId);
+		if(typeof webui_@THEME@_config.djConfig != "undefined" && webui_@THEME@_config.djConfig["debugContainerId"]){
+			consoleFrame = _firebugDoc.getElementById(webui_@THEME@_config.djConfig.debugContainerId);
 		}
 		if(!consoleFrame){
 			consoleFrame = _firebugDoc.createElement("div");
@@ -351,7 +351,7 @@ if(
 		consoleFrame.style.height = containerHeight;
 		consoleFrame.style.display = (frameVisible ? "block" : "none");	  
 		
-		var closeStr = (webui.@THEME@.config.djConfig.popup) ? "" : '    <a href="#" onclick="console.close(); return false;">Close</a>';
+		var closeStr = (webui_@THEME@_config.djConfig.popup) ? "" : '    <a href="#" onclick="console.close(); return false;">Close</a>';
 		consoleFrame.innerHTML = 
 			  '<div id="firebugToolbar">'
 			+ '  <a href="#" onclick="console.clear(); return false;">Clear</a>'
@@ -901,7 +901,7 @@ if(
 	addEvent(document, webui.@THEME@.dojo.isIE || webui.@THEME@.dojo.isSafari ? "keydown" : "keypress", onKeyDown);
 	
 	if(	(document.documentElement.getAttribute("debug") == "true")||
-		(webui.@THEME@.config.djConfig.isDebug)
+		(webui_@THEME@_config.djConfig.isDebug)
 	){
 		toggleConsole(true);
 	}

@@ -36,6 +36,8 @@ public class Main {
      * @param args Command line arguments.
      */
     public static void combineCSS(String[] args) throws IOException {
+        String copyrightFile = null;
+        String[] excludeFileList = null;
 	String[] fileList = null;
 	String outFile = null;
         String sourceDir = null;
@@ -59,9 +61,11 @@ public class Main {
 	    usage();
 	    System.exit(-1);
 	}
+        copyrightFile = (String) map.get("copyrightFile");
+        excludeFileList = (String[]) map.get("excludeFileList");
 	verbose = ((Boolean) map.get("verbose")).booleanValue();
-	CombineCSS obj = new CombineCSS(sourceDir, outFile, verbose);
-	obj.combine(fileList);
+	CombineCSS obj = new CombineCSS(sourceDir, outFile, copyrightFile, verbose);
+	obj.combine(fileList, excludeFileList);
     }
 
     /**
@@ -70,7 +74,8 @@ public class Main {
      * @param args Command line arguments.
      */
     public static void combineJavaScript(String[] args) throws IOException {
-	String baseFile = null;
+        String copyrightFile = null;
+        String[] excludeFileList = null;
 	String[] fileList = null;
 	String modulePrefix = null;
 	String outFile = null;
@@ -100,14 +105,12 @@ public class Main {
 	    usage();
 	    System.exit(-1);
 	}
+        copyrightFile = (String) map.get("copyrightFile");
+        excludeFileList = (String[]) map.get("excludeFileList");
 	verbose = ((Boolean) map.get("verbose")).booleanValue();
 	CombineJavaScript obj = new CombineJavaScript(sourceDir, outFile,
-            modulePrefix, verbose);
-
-	if (null != (baseFile = (String) map.get("baseFile"))) {
-	    obj.combine(new String[]{baseFile});
-        }
-	obj.combine(fileList);
+            copyrightFile, modulePrefix, verbose);
+	obj.combine(fileList, excludeFileList);
     }
 
     /**
@@ -290,9 +293,13 @@ public class Main {
         System.out.println("\nOptions for -combineCSS include:");
 	System.out.println("-fileList <f0,...,fn>\t" +
 		"A comma separated list of relative file paths to combine.");
+	System.out.println("-excludeFileList <f0,...,fn>\t" +
+		"A comma separated list of relative file paths to exclude.");
         System.out.println("-outFile <outFile>\tFile path for combined output.");
 	System.out.println("-sourceDir <sourceDir>\t" +
 		"Directory containing the files in fileList.");
+        System.out.println("-copyrightFile <copyrightFile>\tFile path for copyright file. " +
+                "Duplicate text is omitted from the combined file.");
         System.out.println("-verbose\tEnable verbose output.");
 
         System.out.println("\nOptions for -combineImages include:");
@@ -304,14 +311,16 @@ public class Main {
         System.out.println("-outFile\tFile path for updated image properties file.");
 
         System.out.println("\nOptions for -combineJS include:");
-	System.out.println("-baseFile <baseFile>\t" +
-		"The relative file path to combine first.");
 	System.out.println("-fileList <f0,...,fn>\t" +
 		"A comma separated list of relative file paths to combine.");
+	System.out.println("-excludeFileList <f0,...,fn>\t" +
+		"A comma separated list of relative file paths to exclude.");
 	System.out.println("-modulePrefix <modulePrefix>\tThe JavaScript prefix for module sources.");
         System.out.println("-outFile <outFile>\tFile path for combined output.");
 	System.out.println("-sourceDir <sourceDir>\t" +
 		"Directory containing the files in fileList.");
+        System.out.println("-copyrightFile <copyrightFile>\tFile path for copyright file. " +
+                "Duplicate text is omitted from the combined file.");
         System.out.println("-verbose\tEnable verbose output.");
 
         System.out.println("\nOptions for -compressJS include:");
@@ -371,8 +380,9 @@ public class Main {
      * args. It is up to the caller to check.
      */
     private static Map parseFileListArgs(String[] args) {
-	String baseFile = null;
+        String copyrightFile = null;
 	String destDir = null;
+        String excludeFileList = null;
 	String fileList = null;
 	String modulePrefix = null;
 	String outFile = null;
@@ -390,11 +400,6 @@ public class Main {
 	//
 	for (int i = 1; i < args.length; ++i) {
 	    try {
-		if (args[i].equals("-baseFile")) {
-		    validString(baseFile = args[i + 1].trim());
-		    map.put("baseFile", baseFile);
-		    ++i;
-		} else
 		if (args[i].equals("-fileList")) {
 		    validString(fileList = args[i + 1].trim());
 		    ++i;
@@ -402,6 +407,10 @@ public class Main {
 		if (args[i].equals("-destDir")) {
 		    validString(destDir = args[i + 1].trim());
 		    map.put("destDir", destDir);
+		    ++i;
+		} else
+		if (args[i].equals("-excludeFileList")) {
+		    validString(excludeFileList = args[i + 1].trim());
 		    ++i;
 		} else
 		if (args[i].equals("-modulePrefix")) {
@@ -412,6 +421,11 @@ public class Main {
 		if (args[i].equals("-outFile")) {
 		    validString(outFile = args[i + 1].trim());
 		    map.put("outFile", outFile);
+		    ++i;
+		} else
+                if (args[i].equals("-copyrightFile")) {
+		    validString(copyrightFile = args[i + 1].trim());
+		    map.put("copyrightFile", copyrightFile);
 		    ++i;
 		} else
 		if (args[i].equals("-rhinoJar")) {
@@ -432,23 +446,32 @@ public class Main {
 	    }
 	}
 
+        // Get file lists.
+	map.put("fileList", getFileListArray(fileList));
+        map.put("excludeFileList", getFileListArray(excludeFileList));
+	return map;
+    }
+
+    private static String[] getFileListArray(String fileList) {
+        if (fileList == null) {
+            return null;
+        }
+
 	String[] fileListArray = null;
 	try {
 	    StringTokenizer fileListTokens = new StringTokenizer(fileList, ",");
 	    int count = fileListTokens.countTokens();
 	    if (count == 0) {
-		return map;
+		return null;
 	    }
 	    fileListArray = new String[count];
 	    for (int j = 0; fileListTokens.hasMoreTokens(); ++j) {
 		fileListArray[j] = fileListTokens.nextToken();
 	    }
 	} catch (Exception e) {
-	    return map;
-	}
-
-	map.put("fileList", fileListArray);
-	return map;
+            return null;
+        }
+        return fileListArray;
     }
 
     private static void validString(String s) throws Exception {

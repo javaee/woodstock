@@ -228,7 +228,7 @@ public class TreeRenderer extends TreeNodeRenderer {
             String jsObject = JavaScriptUtilities.getDomNode(context, node);
             buff.append(JavaScriptUtilities.getModule("tree"))
                 .append("\n") // NOI18N
-                .append(JavaScriptUtilities.getModuleName("tree.init")) // NOI18N
+                .append(JavaScriptUtilities.getModuleName("tree._init")) // NOI18N
                 .append("(") //NOI18N
                 .append(JSONUtilities.getString(json))
                 .append(");\n"); //NOI18N
@@ -247,7 +247,7 @@ public class TreeRenderer extends TreeNodeRenderer {
 
             // Render JavaScript.
             JavaScriptUtilities.renderJavaScript(component, writer, 
-                buff.toString(), true);
+                buff.toString(), JavaScriptUtilities.isWebuiOnLoad());
 
             // Render skip anchor.
             RenderingUtilities.renderAnchor(SKIPTREE_LINK, node, context);

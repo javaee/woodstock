@@ -22,6 +22,7 @@
 package com.sun.webui.jsf.renderkit.widget;
 
 import com.sun.webui.theme.Theme;
+import com.sun.webui.theme.ThemeImage;
 import com.sun.webui.jsf.util.JSONUtilities;
 import com.sun.webui.jsf.util.JavaScriptUtilities;
 import com.sun.webui.jsf.util.ThemeUtilities;
@@ -94,25 +95,17 @@ abstract public class RendererBase extends Renderer {
 
         // Note: Leading \n char causes grief with CSS float in tree.
 
-        // This id will be used as a temporary place holder to position the
-        // component in page -- ultimately replaced by the newly created widget.
+        // This id will be used as a temporary place holder to position the 
+        // component in page -- ultimately replaced by the newly created widget. 
         String id = context.getViewRoot().createUniqueId();
 
-        // Note: Adding the id to the script tag looked promising, but turned
-        // out to be problimatic for facet fragments. Unfortunately, IE will 
-        // not insert script tags when adding strings via innerHTML.
+        // Render enclosing tag.
         writer.startElement("span", component);
         writer.writeAttribute("id", id, null);
-
-        // Render enclosing tag.
         JavaScriptUtilities.renderJavaScriptBegin(component, writer, false);
-
-        // Render JavaScript to instantiate Dojo widget.
-        writer.write(JavaScriptUtilities.getModuleName(
-            "widget.common.createWidgetOnLoad"));
-        writer.write("(\"");
+        writer.write(JavaScriptUtilities.getModuleName("widget.common._createWidget('"));
         writer.write(id);
-        writer.write("\",");
+        writer.write("',");
     }
 
     /**
@@ -189,8 +182,8 @@ abstract public class RendererBase extends Renderer {
             return;
         }
 
-        // Note: Trailing \n char causes grief with CSS float.
-
+        // Note: Trailing \n char causes grief with CSS float.        
+        
         // Render enclosing tag.
         writer.write(");");
         JavaScriptUtilities.renderJavaScriptEnd(component, writer, false);

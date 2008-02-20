@@ -371,6 +371,7 @@ public class RenderingUtilities {
      * @param context containing theme
      * @param writer The current ResponseWriter
      * @param component The uicomponent
+     * @deprecated Style sheets output by bootstrap.js.
      */
     public static void renderStyleSheetLink(UIComponent component, Theme theme, 
             FacesContext context, ResponseWriter writer) throws IOException {
@@ -398,6 +399,8 @@ public class RenderingUtilities {
 
     /**
      * Render <code>link</code> elments for <code>css</code> files.
+     * 
+     * @deprecated Style sheets output by bootstrap.js.
      */
     public static void renderStylesheetLinks(String[] css,
 	    UIComponent component, ResponseWriter writer) throws IOException {
@@ -421,6 +424,7 @@ public class RenderingUtilities {
      * @param context containing theme
      * @param writer The current ResponseWriter
      * @param component The uicomponent
+     * @deprecated Not well supported by browsers.
      */
     public static void renderStyleSheetInline(UIComponent component, 
             Theme theme, FacesContext context, ResponseWriter writer) 
@@ -454,6 +458,8 @@ public class RenderingUtilities {
     
     /**
      * Render <code>import</code> directives for <code>imports</code>.
+     * 
+     * @deprecated Not well supported by browsers.
      */
     public static void renderImports(String[] imports, ResponseWriter writer)
             throws IOException {

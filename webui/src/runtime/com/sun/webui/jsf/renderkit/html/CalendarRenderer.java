@@ -362,14 +362,14 @@ public class CalendarRenderer extends FieldRenderer {
             // Append JavaScript.
             buff.append(JavaScriptUtilities.getModule("calendar"))
                 .append("\n") // NOI18N
-                .append(JavaScriptUtilities.getModuleName("calendar.init")) // NOI18N
+                .append(JavaScriptUtilities.getModuleName("calendar._init")) // NOI18N
                 .append("(") //NOI18N
                 .append(JSONUtilities.getString(json))
                 .append(");"); //NOI18N
             
             // Render JavaScript.
             JavaScriptUtilities.renderJavaScript(calendar, writer,
-                buff.toString(), true);
+                buff.toString(), JavaScriptUtilities.isWebuiOnLoad());
         } catch(JSONException e) {
             e.printStackTrace();
         }
