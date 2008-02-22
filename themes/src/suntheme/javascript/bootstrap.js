@@ -44,8 +44,8 @@ webui.@THEME@.bootstrap = {
      * This function is used to initialize the environment with Object literals.
      *
      * @param {Object} props Key-Value pairs of properties.
-     * @config {boolean} debug Flag indicating debug mode is enabled.
-     * @config {boolean} styleSheet Include style sheets.
+     * @config {boolean} isDebug Flag indicating debug mode is enabled.
+     * @config {boolean} isStyleSheets Include style sheets.
      * @config {boolean} webuiAll Include all webui functionality.
      * @config {boolean} webuiJsfx Include all Ajax functionality based on JSF Extensions.
      * @return {boolean} true if successful; otherwise, false.
@@ -58,7 +58,7 @@ webui.@THEME@.bootstrap = {
         }
         var bootstrap = webui.@THEME@.bootstrap;
         var theme = webui.@THEME@.theme.common;
-        var debug = new Boolean(props.debug).valueOf();
+        var isDebug = new Boolean(props.isDebug).valueOf();
         var webuiAll = new Boolean(props.webuiAll).valueOf();
         var webuiJsfx = new Boolean(props.webuiJsfx).valueOf();
 
@@ -69,20 +69,26 @@ webui.@THEME@.bootstrap = {
         } else {
             file = (webuiAll) ? "webuiAll" : "webui";
         }
-        if (debug) {
-            file += "Uncompressed";
-        }
 
         // Load webui file.
-        bootstrap.loadScript(theme.getJavaScript(file));
-
-        // Load style sheets.
-        if (new Boolean(props.styleSheet).valueOf() == true) {
-            bootstrap._loadStyleSheets();
-        }
+        bootstrap.loadScript(theme.getJavaScript((isDebug)
+            ? file + "Uncompressed" : file));
 
         // Load global scripts.
-        webui.@THEME@.bootstrap._loadGlobalScripts();     
+        var files = theme.getJavaScripts("Theme.javascript");
+        if (files != null) {
+            for (i = 0; i < files.length; i++) {
+                bootstrap.loadScript(files[i]);
+            }
+        }
+
+        // Load style sheets.
+        //
+        // Note: There appears to be a small performance gain loading after the
+        // JavaScript. It may be due to asyncronous loading?
+        if (new Boolean(props.isStyleSheet).valueOf() == true) {
+            bootstrap._loadStyleSheets();
+        }
         return true;
     },
 
@@ -91,7 +97,7 @@ webui.@THEME@.bootstrap = {
      *
      * @param {Object} props Key-Value pairs of properties.
      * @config {Object} djConfig Dojo config properties.
-     * @config {boolean} debug Flag indicating debug mode is enabled.
+     * @config {boolean} isDebug Flag indicating debug mode is enabled.
      * @config {String} modulePath The webui module path.
      * @config {Object} theme Key-Value pairs of theme properties.
      * @return {boolean} true if successful; otherwise, false.
@@ -118,7 +124,7 @@ webui.@THEME@.bootstrap = {
                     props.modulePath = src.substring(0, index + path.length);
 
                     // Set debug path.
-                    if (new Boolean(props.debug).valueOf() == true) {
+                    if (new Boolean(props.isDebug).valueOf() == true) {
                         props.modulePath += "_uncompressed"
                     }
                     break;
@@ -134,7 +140,7 @@ webui.@THEME@.bootstrap = {
 
         // Set Dojo debug mode.
         if (props.djConfig.isDebug == null) {
-            props.djConfig.isDebug = new Boolean(props.debug).valueOf();
+            props.djConfig.isDebug = new Boolean(props.isDebug).valueOf();
         }
 
         // Set theme module path.
@@ -154,34 +160,6 @@ webui.@THEME@.bootstrap = {
     },
 
     /**
-     * Load global scripts.
-     *
-     * @return {boolean} true if successful; otherwise, false.
-     * @private
-     */
-    _loadGlobalScripts: function() {
-        var bootstrap = webui.@THEME@.bootstrap;
-        var theme = webui.@THEME@.theme.common;
-
-        // Get the global list of keys for the style sheet files that should be
-        // included on every page (separated by spaces).
-        var global = theme.getProperty("javascript", "global");
-        if (global == null || global == "") {
-            return false;
-        }
-        // Get files array.
-        var files = global.split(" ");
-        if (files == null) {
-            return false;
-        }
-        // Load global links.
-        for (i = 0; i < files.length; i++) {
-            bootstrap.loadScript(theme.getJavaScript(files[i]));
-        }
-        return true;
-    },
-
-    /**
      * Load style sheets.
      *
      * @return {boolean} true if successful; otherwise, false.
@@ -192,38 +170,36 @@ webui.@THEME@.bootstrap = {
         var browser = webui.@THEME@.browser;
         var theme = webui.@THEME@.theme.common;
 
-        // Load master style sheet.
-        bootstrap.loadLink(theme.getStyleSheet("master"));
-
-        // Load browser specific style sheets.
-        var file = theme.getStyleSheet("default");
-        if (browser.isGecko()) {
-            file = theme.getStyleSheet("gecko");
-        } else if (browser.isIe7()) {
-            file = theme.getStyleSheet("ie7");
+        // Load master style sheet(s).
+        files = theme.getStyleSheets("master");
+        if (files != null) {
+            for (i = 0; i < files.length; i++) {
+                bootstrap.loadLink(files[i]);
+            }
+        }
+        // Load global style sheets.
+        files = theme.getStyleSheets("Theme.stylesheet");
+        if (files != null) {
+            for (i = 0; i < files.length; i++) {
+                bootstrap.loadLink(files[i]);
+            }
+        }
+        // Load browser specific style sheet(s).
+        if (browser.isIe7()) {
+            files = theme.getStyleSheets("ie7");
         } else if (browser.isIe6()) {
-            file = theme.getStyleSheet("ie6");
+            files = theme.getStyleSheets("ie6");
         } else if (browser.isSafari()) {
-            file = theme.getStyleSheet("safari");
+            files = theme.getStyleSheets("safari");
+        } else if (browser.isGecko()) {
+            files = theme.getStyleSheets("gecko");
+        } else {
+            files = theme.getStyleSheets("default");
         }
-        if (file != null && file != "") {
-            bootstrap.loadLink(theme.getStyleSheet(file));
-        }
-
-        // Get the global list of keys for the style sheet files that should be
-        // included on every page (separated by spaces).
-        var global = theme.getProperty("stylesheets", "global");
-        if (global == null || global == "") {
-            return false;
-        }
-        // Get files array.
-        var files = global.split(" ");
-        if (files == null) {
-            return false;
-        }
-        // Load global links.
-        for (i = 0; i < files.length; i++) {
-            bootstrap.loadLink(theme.getStyleSheet(files[i]));
+        if (files != null) {
+            for (i = 0; i < files.length; i++) {
+                bootstrap.loadLink(files[i]);
+            }
         }
         return true;
     },
@@ -233,7 +209,7 @@ webui.@THEME@.bootstrap = {
      *
      * @param {Object} props Key-Value pairs of properties.
      * @config {String} modulePath The webui module path.
-     * @config {boolean} webuiOnLoad Initialize webui functionality on load.
+     * @config {boolean} parseOnLoad Initialize webui functionality on load.
      * @return {boolean} true if successful; otherwise, false.
      * @private
      */
@@ -249,9 +225,16 @@ webui.@THEME@.bootstrap = {
         // Dojo inserts a div into body for HTML template rendering; therefore, 
         // we must wait until the window.onLoad event before creating widgets. 
         // Otherwise, IE will throw a security exception.
-        if (new Boolean(props.webuiOnLoad).valueOf() == true) {
+        if (new Boolean(props.parseOnLoad).valueOf() == true) {
             webui.@THEME@.dojo.addOnLoad(function() {
-                webui.@THEME@.widget.common._replaceElements(webui.@THEME@.dojo.body()); 
+                webui.@THEME@.widget.common._parseMarkup(webui.@THEME@.dojo.body());
+
+                // After the page has been parsed, there is no need to perform 
+                // this task again. Setting the parseOnLoad flag to false will 
+                // allow the ajaxZone tag of JSF Extensions to re-render widgets
+                // properly. That is, considering there will only ever be one 
+                // window.onLoad event.
+                webui.@THEME@.config.parseOnLoad = false;
             });
         }
         return true;
@@ -264,7 +247,7 @@ webui.@THEME@.bootstrap = {
      * @return {boolean} true if successful; otherwise, false.
      */
     loadLink: function(url) {
-        if (url == null || url == "") {
+        if (url == null || url.length == 0) {
             console.debug("Error: Cannot load link: " + url);
             return false;
         }
@@ -294,7 +277,7 @@ webui.@THEME@.bootstrap = {
      * @return {boolean} true if successful; otherwise, false.
      */
     loadScript: function(url, callback) {
-        if (url == null || url == "") {
+        if (url == null || url.length == 0) {
             console.debug("Error: Cannot load script: " + url);
             return false;
         }

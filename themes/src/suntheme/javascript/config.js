@@ -32,24 +32,26 @@ webui.@THEME@.dojo.require("webui.@THEME@.prototypejs");
 webui.@THEME@.config = {
     /** Ajax config properties. */
     ajax: {
-        /** Allow JSF Extensions to be loaded in page. */
-        jsfx: true,
+        /** Flag allowing JSF Extensions to be loaded in page. */
+        isJsfx: true,
         /** Ajax module. */
         module: "webui.@THEME@.widget.jsfx"
     },
-    /** Webui debug flag. */
-    debug: false,
+    /** Flag to enable webui debug mode. */
+    isDebug: false,
     /** Dojo config properties. */
     djConfig: {
         /** Dojo module path. */
         baseUrl: undefined,
-        /** Dojo debug flag. */
+        /** Flag to enable dojo debug mode. */
         isDebug: false
     },
     /** Webui module path. */
     modulePath: undefined,
-    /** Inlcude style sheets. */
-    styleSheet: true,
+    /** Flag to inlcude style sheet(s). */
+    isStyleSheet: true,
+    /** Flag to parse HTML markup onLoad. */
+    parseOnLoad: false,
     /** Theme config properties. */
     theme: {
         /** Theme bundle name. */
@@ -61,12 +63,10 @@ webui.@THEME@.config = {
         /** App context. */
         prefix: undefined
     },
-    /** Include all webui functionality. */
+    /** Flag to include all webui functionality. */
     webuiAll: false,
-    /** Include all Ajax functionality based on JSF Extensions. */
-    webuiJsfx: false,
-    /** Initialize webui functionality on load. */
-    webuiOnLoad: false
+    /** Flag to include all Ajax functionality based on JSF Extensions. */
+    webuiJsfx: false
 }
 
 // Override default config properties.

@@ -50,6 +50,9 @@ public class JavaScriptUtilities {
     // Key used to include JSF Extensions.
     private static final String JSFX_KEY = "com_sun_webui_jsf_util_jsfx";
 
+    // Key used to parse HTML markup on load.
+    private static final String PARSE_ONLOAD_KEY = "com_sun_webui_jsf_util_parseOnLoad";
+
     // Key used to include style sheets.
     private static final String STYLESHEET_KEY = "com_sun_webui_jsf_util_styleSheet";
 
@@ -58,9 +61,6 @@ public class JavaScriptUtilities {
 
     // Key used to include Ajax functionality based on JSF Extensions.
     private static final String WEBUI_JSFX_KEY = "com_sun_webui_jsf_util_webuiJsfx";
-
-    // Key used to initialize tag library functionality on load.
-    private static final String WEBUI_ONLOAD_KEY = "com_sun_webui_jsf_util_webuiOnLoad";
 
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     // Global methods
@@ -100,6 +100,24 @@ public class JavaScriptUtilities {
      */
     public static void setJsfx(boolean include) {
         getRequestMap().put(JSFX_KEY, (include) ? Boolean.TRUE : Boolean.FALSE);
+    }
+
+    /**
+     * Test flag indicating to parse HTML markup.
+     * 
+     * @return true if enabled.
+     */
+    public static boolean isParseOnLoad() {
+        return isEnabled(PARSE_ONLOAD_KEY, "parseOnLoad");
+    }
+
+    /**
+     * Set flag indicating to parse HTML markup
+     *
+     * @param enable indicating to parse HTML markup
+     */
+    public static void setParseOnLoad(boolean enable) {
+        getRequestMap().put(PARSE_ONLOAD_KEY, (enable) ? Boolean.TRUE : Boolean.FALSE);
     }
 
     /**
@@ -154,24 +172,6 @@ public class JavaScriptUtilities {
      */
     public static void setWebuiJsfx(boolean include) {
         getRequestMap().put(WEBUI_JSFX_KEY, (include) ? Boolean.TRUE : Boolean.FALSE);
-    }
-
-    /**
-     * Test flag to initialize tag library functionality on load.
-     * 
-     * @return true if included.
-     */
-    public static boolean isWebuiOnLoad() {
-        return isEnabled(WEBUI_ONLOAD_KEY, "webuiOnLoad");
-    }
-
-    /**
-     * Set flag to initialize tag library functionality on load.
-     *
-     * @param include Initialize tag library functionality on load.
-     */
-    public static void setWebuiOnLoad(boolean include) {
-        getRequestMap().put(WEBUI_ONLOAD_KEY, (include) ? Boolean.TRUE : Boolean.FALSE);
     }
 
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -373,7 +373,7 @@ public class JavaScriptUtilities {
     private static JSONObject getAjaxConfig() throws JSONException {
         JSONObject json = new JSONObject();
         json.put("module", getTheme().getPathToJSFile(ThemeJavascript.AJAX_MODULE))
-            .put("jsfx", isJsfx());
+            .put("isJsfx", isJsfx());
         return json;
     }
 
@@ -391,15 +391,15 @@ public class JavaScriptUtilities {
 
         // Add config properties.
         json.put("ajax", getAjaxConfig())
-            .put("debug", isDebug())
+            .put("isDebug", isDebug())
             .put("modulePath", theme.getPathToJSFile((isDebug())
                 ? ThemeJavascript.MODULE_PATH_UNCOMPRESSED
                 : ThemeJavascript.MODULE_PATH))
+            .put("parseOnLoad", isParseOnLoad())
             .put("theme", getThemeConfig(FacesContext.getCurrentInstance()))
-            .put("styleSheet", isStyleSheet())
+            .put("isStyleSheet", isStyleSheet())
             .put("webuiAll", isWebuiAll())
-            .put("webuiJsfx", isWebuiJsfx())
-            .put("webuiOnLoad", isWebuiOnLoad());
+            .put("webuiJsfx", isWebuiJsfx());
 
         buff.append(JSONUtilities.getString(json))
             .append(";");

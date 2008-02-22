@@ -276,10 +276,30 @@ webui.@THEME@.theme.common = {
     getJavaScript: function(key) {
         var theme = webui.@THEME@.theme.common;
 	var url = theme.getProperty("javascript", key);
-	if (url == null) {
+	if (url == null || url.length == 0) {
 	    return null;
 	}
 	return theme.getPrefix() + url;
+    },
+
+    /**
+     * This function is used to obtain a the literal "javascript"
+     * theme value for "key"
+     *
+     * @param {String} key A key defining a theme "javascript" property.
+     * @return {String} An array of javascript properties.
+     */
+    getJavaScripts: function(key) {
+        var theme = webui.@THEME@.theme.common;
+	var url = theme.getProperty("javascript", key);
+	if (url == null || url.length == 0) {
+	    return null;
+	}
+        var files = url.split(" ");
+        for (i = 0; i < files.length; i++) {
+            files[i] = theme.getPrefix() + files[i];
+        }
+	return files;
     },
 
     /**
@@ -287,15 +307,19 @@ webui.@THEME@.theme.common = {
      * theme value for "key"
      *
      * @param {String} key A key defining a theme "stylesheets" property.
-     * @return {String} The stylesheets property.
+     * @return {String} An array of style sheet properties.
      */
-    getStyleSheet: function(key) {
+    getStyleSheets: function(key) {
         var theme = webui.@THEME@.theme.common;
 	var url = theme.getProperty("stylesheets", key);
-	if (url == null) {
+	if (url == null || url.length == 0) {
 	    return null;
 	}
-	return theme.getPrefix() + url;
+        var files = url.split(" ");
+        for (i = 0; i < files.length; i++) {
+            files[i] = theme.getPrefix() + files[i];
+        }
+	return files;
     },
 
     /**

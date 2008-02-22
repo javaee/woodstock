@@ -434,7 +434,7 @@ public class WizardRenderer extends AbstractRenderer {
             
             // Render JavaScript.
             JavaScriptUtilities.renderJavaScript(component, writer,
-                buff.toString(), JavaScriptUtilities.isWebuiOnLoad());
+                buff.toString(), JavaScriptUtilities.isParseOnLoad());
         } catch(JSONException e) {
             e.printStackTrace();
         }

@@ -369,7 +369,7 @@ public class CalendarRenderer extends FieldRenderer {
             
             // Render JavaScript.
             JavaScriptUtilities.renderJavaScript(calendar, writer,
-                buff.toString(), JavaScriptUtilities.isWebuiOnLoad());
+                buff.toString(), JavaScriptUtilities.isParseOnLoad());
         } catch(JSONException e) {
             e.printStackTrace();
         }

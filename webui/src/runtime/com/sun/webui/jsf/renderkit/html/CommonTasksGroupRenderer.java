@@ -166,7 +166,7 @@ public class CommonTasksGroupRenderer extends AbstractRenderer {
 
             // Render JavaScript.
             JavaScriptUtilities.renderJavaScript(component, writer,
-                buff.toString(), JavaScriptUtilities.isWebuiOnLoad());
+                buff.toString(), JavaScriptUtilities.isParseOnLoad());
         } catch(JSONException e) {
             if (LogUtil.fineEnabled()) {
                 LogUtil.fine(e.getStackTrace().toString()); //NOI18N

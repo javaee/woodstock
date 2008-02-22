@@ -68,10 +68,10 @@ public class ThemeLinksRenderer extends javax.faces.render.Renderer {
         // Get global flags.
         JavaScriptUtilities.setDebug(themeLinks.isDebug());
         JavaScriptUtilities.setJsfx(themeLinks.isJsfx());
+        JavaScriptUtilities.setParseOnLoad(themeLinks.isParseOnLoad());
         JavaScriptUtilities.setStyleSheet(themeLinks.isStyleSheet());
         JavaScriptUtilities.setWebuiAll(themeLinks.isWebuiAll());
         JavaScriptUtilities.setWebuiJsfx(themeLinks.isWebuiJsfx());
-        JavaScriptUtilities.setWebuiOnLoad(themeLinks.isWebuiOnLoad());
 
         // Render bootstrap.
         if (themeLinks.isJavaScript()) {

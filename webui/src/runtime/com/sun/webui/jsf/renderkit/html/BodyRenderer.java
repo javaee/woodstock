@@ -256,7 +256,7 @@ public class BodyRenderer extends AbstractRenderer {
 
         // Render JavaScript.
         JavaScriptUtilities.renderJavaScript(component, writer,
-            buff.toString(), JavaScriptUtilities.isWebuiOnLoad());
+            buff.toString(), JavaScriptUtilities.isParseOnLoad());
 
         writer.endElement(HTMLElements.BODY);
     }

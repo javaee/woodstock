@@ -122,10 +122,10 @@ public class HeadRenderer extends AbstractRenderer {
             // Get global flags.
             JavaScriptUtilities.setDebug(head.isDebug());
             JavaScriptUtilities.setJsfx(head.isJsfx());
+            JavaScriptUtilities.setParseOnLoad(head.isParseOnLoad());
             JavaScriptUtilities.setStyleSheet(head.isStyleSheet());
             JavaScriptUtilities.setWebuiAll(head.isWebuiAll());
             JavaScriptUtilities.setWebuiJsfx(head.isWebuiJsfx());
-            JavaScriptUtilities.setWebuiOnLoad(head.isWebuiOnLoad());
 
             // Render bootstrap.
             if (head.isJavaScript()) {

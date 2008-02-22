@@ -967,7 +967,7 @@ public class FileChooserRenderer extends AbstractRenderer {
             
             // Render JavaScript.
             JavaScriptUtilities.renderJavaScript(chooser, writer,
-                buff.toString(), JavaScriptUtilities.isWebuiOnLoad());
+                buff.toString(), JavaScriptUtilities.isParseOnLoad());
         } catch(JSONException e) {
             e.printStackTrace();
         }

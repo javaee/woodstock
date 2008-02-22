@@ -342,21 +342,27 @@ public class Head extends UIComponentBase {
     }
 
     /**
-     * Flag (true or false) indicating that Dojo should parse markup. 
+     * Flag (true or false) indicating to parse HTML markup.
      * <p>
-     * For better performance, set parseOnLoad to true only when markup contains
-     * Dojo tag attributes. The default is false.
+     * For better performance, HTML markup is parsed in order to create widgets 
+     * more efficiently. Performance testing shows this approach is quicker than
+     * using the document.getElementById() function or Level 0 DOM syntax, 
+     * especially for large HTML tables. The underlying problem appears to be 
+     * the extra step taken to convert HTML element IDs to a UTF-16 character 
+     * encoding.
+     * </p><p>
+     * The parseOnLoad approach allows for progressive HTML rendering. However, 
+     * partially rendered HTML may be displayed before widgets have been 
+     * created. If this behavior is undesirable, set the parseOnLoad property to
+     * false and widgets shall be rendered inline.
      * </p>
-     * @deprecated Dojo is no longer included in the page.
      */
-    @Property(name="parseOnLoad", displayName="Enable Dojo Parsing", category="Javascript", isHidden=true)
-    private boolean parseOnLoad = false; 
+    @Property(name="parseOnLoad", displayName="Enable Dojo Parsing", category="Javascript")
+    private boolean parseOnLoad = true; 
     private boolean parseOnLoad_set = false; 
  
     /**
-     * Test flag indicating that Dojo should parse markup.
-     * 
-     * @deprecated Dojo is no longer included in the page.
+     * Test flag indicating to parse HTML markup.
      */
     public boolean isParseOnLoad() { 
         if (this.parseOnLoad_set) {
@@ -375,9 +381,7 @@ public class Head extends UIComponentBase {
     } 
 
     /**
-     * Set flag indicating that Dojo should parse markup.
-     * 
-     * @deprecated Dojo is no longer included in the page.
+     * Set flag indicating to parse HTML markup.
      */
     public void setParseOnLoad(boolean parseOnLoad) {
         this.parseOnLoad = parseOnLoad;
@@ -638,17 +642,15 @@ public class Head extends UIComponentBase {
         this.webuiAll_set = ((Boolean) _values[18]).booleanValue();
         this.webuiJsfx = ((Boolean) _values[19]).booleanValue();
         this.webuiJsfx_set = ((Boolean) _values[20]).booleanValue();
-        this.webuiOnLoad = ((Boolean) _values[20]).booleanValue();
-        this.webuiOnLoad_set = ((Boolean) _values[21]).booleanValue();
-        this.styleSheet = ((Boolean) _values[22]).booleanValue();
-        this.styleSheet_set = ((Boolean) _values[23]).booleanValue();
+        this.styleSheet = ((Boolean) _values[21]).booleanValue();
+        this.styleSheet_set = ((Boolean) _values[22]).booleanValue();
     }
 
     /**
      * <p>Save the state of this component.</p>
      */
     public Object saveState(FacesContext _context) {
-        Object _values[] = new Object[24];
+        Object _values[] = new Object[23];
         _values[0] = super.saveState(_context);
         _values[1] = this.defaultBase ? Boolean.TRUE : Boolean.FALSE;
         _values[2] = this.defaultBase_set ? Boolean.TRUE : Boolean.FALSE;
@@ -670,10 +672,8 @@ public class Head extends UIComponentBase {
         _values[18] = this.webuiAll_set ? Boolean.TRUE : Boolean.FALSE;
         _values[19] = this.webuiJsfx ? Boolean.TRUE : Boolean.FALSE;
         _values[20] = this.webuiJsfx_set ? Boolean.TRUE : Boolean.FALSE;
-        _values[20] = this.webuiOnLoad ? Boolean.TRUE : Boolean.FALSE;
-        _values[21] = this.webuiOnLoad_set ? Boolean.TRUE : Boolean.FALSE;
-        _values[22] = this.styleSheet ? Boolean.TRUE : Boolean.FALSE;
-        _values[23] = this.styleSheet_set ? Boolean.TRUE : Boolean.FALSE;
+        _values[21] = this.styleSheet ? Boolean.TRUE : Boolean.FALSE;
+        _values[22] = this.styleSheet_set ? Boolean.TRUE : Boolean.FALSE;
         return _values;
     }
 }

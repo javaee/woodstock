@@ -36,7 +36,7 @@ webui.@THEME@.widget.jsfx.dynaFaces = {
      *
      * @param {Object} props Key-Value pairs of properties.
      * @config {Object} ajax Key-Value pairs of Ajax properties.     
-     * @config {boolean} ajax.jsfx Flag indicating to include JSF Extensions.
+     * @config {boolean} ajax.isJsfx Flag indicating to include JSF Extensions.
      * @config {boolean} webuiJsfx Flag indicating to include default Ajax functionality.
      * @return {boolean} true if successful; otherwise, false.
      * @private
@@ -48,8 +48,8 @@ webui.@THEME@.widget.jsfx.dynaFaces = {
         }
 
         // Don't load JSF Extensions.
-        if (props.ajax && props.ajax.jsfx != null) {
-            if (new Boolean(props.ajax.jsfx).valueOf() == false) {
+        if (props.ajax && props.ajax.isJsfx != null) {
+            if (new Boolean(props.ajax.isJsfx).valueOf() == false) {
                 return false;
             }
         }
@@ -86,12 +86,12 @@ webui.@THEME@.widget.jsfx.dynaFaces = {
         }
         var bootstrap = webui.@THEME@.bootstrap;
         var theme = webui.@THEME@.theme.common;
-        var debug = new Boolean(webui.@THEME@.config.debug).valueOf();
+        var isDebug = new Boolean(webui.@THEME@.config.isDebug).valueOf();
 
         // Get script URLs.
-        var pUrl = theme.getJavaScript((debug == true)
+        var pUrl = theme.getJavaScript((isDebug == true)
             ? "prototypeUncompressed" : "prototype");
-        var jUrl = theme.getJavaScript((debug == true)
+        var jUrl = theme.getJavaScript((isDebug == true)
             ? "jsfxUncompressed" : "jsfx");
 
         // Ensure Prototype is loaded first using a callback.

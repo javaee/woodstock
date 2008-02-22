@@ -907,7 +907,7 @@ public class TableRenderer extends javax.faces.render.Renderer {
 
             // Render JavaScript.
             JavaScriptUtilities.renderJavaScript(component, writer,
-                buff.toString(), JavaScriptUtilities.isWebuiOnLoad());
+                buff.toString(), JavaScriptUtilities.isParseOnLoad());
         } catch(JSONException e) {
             e.printStackTrace();
         }

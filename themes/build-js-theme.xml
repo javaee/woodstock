@@ -22,7 +22,16 @@
 -->
 
 <project name="js-theme" default="all" basedir=".">
-    
+    <!-- 
+    Theme resources are cached using an "Expires" timestamp. In order for 
+    browsers to load new resources, without expiring or clearing the cache
+    manually, a new package path is used. This must be updated during each 
+    release and kept in sync with the internal suntheme-branded module.
+    -->
+    <tstamp>
+        <format property="CacheDate" pattern="yyMMdd"/>
+    </tstamp>
+
     <property file="../build.properties"/>
     <property file="build.properties"/>
 
@@ -77,7 +86,7 @@
     <!-- convert the package into a file path -->
     <pathconvert property="__js-pkgpath__" dirsep="/">
 	<path path="${_js-theme-package_}"/>
-	<unpackagemapper from="*" to="*${FullThemeVersion}"/>
+	<unpackagemapper from="*" to="*${CacheThemeVersion}"/>
 	<map from="${__js-basedir-pkg__}/" to=""/>
     </pathconvert>
 

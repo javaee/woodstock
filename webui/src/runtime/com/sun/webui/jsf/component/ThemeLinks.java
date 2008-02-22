@@ -272,21 +272,27 @@ public class ThemeLinks extends UIComponentBase {
     }
 
     /**
-     * Flag (true or false) indicating that Dojo should parse markup. 
+     * Flag (true or false) indicating to parse HTML markup.
      * <p>
-     * For better performance, set parseOnLoad to true only when markup contains
-     * Dojo tag attributes. The default is false.
+     * For better performance, HTML markup is parsed in order to create widgets 
+     * more efficiently. Performance testing shows this approach is quicker than
+     * using the document.getElementById() function or Level 0 DOM syntax, 
+     * especially for large HTML tables. The underlying problem appears to be 
+     * the extra step taken to convert HTML element IDs to a UTF-16 character 
+     * encoding.
+     * </p><p>
+     * The parseOnLoad approach allows for progressive HTML rendering. However, 
+     * partially rendered HTML may be displayed before widgets have been 
+     * created. If this behavior is undesirable, set the parseOnLoad property to
+     * false and widgets shall be rendered inline.
      * </p>
-     * @deprecated Dojo is no longer included in the page.
      */
-    @Property(name="parseOnLoad", displayName="Enable Dojo Parsing", category="Javascript", isHidden=true)
-    private boolean parseOnLoad = false; 
+    @Property(name="parseOnLoad", displayName="Enable Dojo Parsing", category="Javascript")
+    private boolean parseOnLoad = true; 
     private boolean parseOnLoad_set = false; 
  
     /**
-     * Test flag indicating that Dojo should parse markup.
-     * 
-     * @deprecated Dojo is no longer included in the page.
+     * Test flag indicating to parse HTML markup.
      */
     public boolean isParseOnLoad() { 
         if (this.parseOnLoad_set) {
@@ -305,9 +311,7 @@ public class ThemeLinks extends UIComponentBase {
     } 
 
     /**
-     * Set flag indicating that Dojo should parse markup.
-     * 
-     * @deprecated Dojo is no longer included in the page.
+     * Set flag indicating to parse HTML markup.
      */
     public void setParseOnLoad(boolean parseOnLoad) {
         this.parseOnLoad = parseOnLoad;
@@ -481,50 +485,6 @@ public class ThemeLinks extends UIComponentBase {
     }
 
     /**
-     * Flag (true or false) indicating to initialize tag library functionality
-     * on load.
-     * <p>
-     * The document.getElementById() function and Level 0 DOM syntax can be 
-     * expensive calls, especially for large HTML tables. For better 
-     * performance, initialization is deferred until the page has loaded. This
-     * allows for progressive HTML rendering. However, partially rendered HTML
-     * may be displayed before JavaScript widgets have been created. Set the 
-     * webuiOnLoad property to false to initialize tags as the page is read by 
-     * the browser.
-     * </p>
-     */
-    @Property(name="webuiOnLoad", displayName="Initialize Tag Library On Load", category="Javascript")
-    private boolean webuiOnLoad = true; 
-    private boolean webuiOnLoad_set = false; 
- 
-    /**
-     * Test flag indicating to include default Ajax functionality.
-     */
-    public boolean isWebuiOnLoad() { 
-        if (this.webuiOnLoad_set) {
-            return this.webuiOnLoad;
-        }
-        ValueExpression _vb = getValueExpression("webuiOnLoad");
-        if (_vb != null) {
-            Object _result = _vb.getValue(getFacesContext().getELContext());
-            if (_result == null) {
-                return false;
-            } else {
-                return ((Boolean) _result).booleanValue();
-            }
-        }
-        return this.webuiOnLoad;
-    } 
-
-    /**
-     * Set flag indicating to include default Ajax functionality.
-     */
-    public void setWebuiOnLoad(boolean webuiOnLoad) {
-        this.webuiOnLoad = webuiOnLoad;
-        this.webuiOnLoad_set = true;
-    }
-
-    /**
      * <p>Restore the state of this component.</p>
      */
     public void restoreState(FacesContext _context,Object _state) {
@@ -548,15 +508,13 @@ public class ThemeLinks extends UIComponentBase {
         this.webuiAll_set = ((Boolean) _values[16]).booleanValue();
         this.webuiJsfx = ((Boolean) _values[17]).booleanValue();
         this.webuiJsfx_set = ((Boolean) _values[18]).booleanValue();
-        this.webuiOnLoad = ((Boolean) _values[19]).booleanValue();
-        this.webuiOnLoad_set = ((Boolean) _values[20]).booleanValue();
     }
 
     /**
      * <p>Save the state of this component.</p>
      */
     public Object saveState(FacesContext _context) {
-        Object _values[] = new Object[21];
+        Object _values[] = new Object[19];
         _values[0] = super.saveState(_context);
         _values[1] = this.javaScript ? Boolean.TRUE : Boolean.FALSE;
         _values[2] = this.javaScript_set ? Boolean.TRUE : Boolean.FALSE;
@@ -576,8 +534,6 @@ public class ThemeLinks extends UIComponentBase {
         _values[16] = this.webuiAll_set ? Boolean.TRUE : Boolean.FALSE;
         _values[17] = this.webuiJsfx ? Boolean.TRUE : Boolean.FALSE;
         _values[18] = this.webuiJsfx_set ? Boolean.TRUE : Boolean.FALSE;
-        _values[19] = this.webuiOnLoad ? Boolean.TRUE : Boolean.FALSE;
-        _values[20] = this.webuiOnLoad_set ? Boolean.TRUE : Boolean.FALSE;
         return _values;
     }
 }

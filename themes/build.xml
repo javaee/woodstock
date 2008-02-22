@@ -26,7 +26,17 @@
     <tstamp>
         <format property="BuildNumber" pattern="yyyyMMddHHmm"/>
     </tstamp>
-    
+
+    <!-- 
+    Theme resources are cached using an "Expires" timestamp. In order for 
+    browsers to load new resources, without expiring or clearing the cache
+    manually, a new package path is used. This must be updated during each 
+    release and kept in sync with the internal suntheme-branded module.
+    -->
+    <tstamp>
+        <format property="CacheDate" pattern="yyMMdd"/>
+    </tstamp>
+
     <property file="../build.properties"/>
     <property file="build.properties"/>
 
@@ -89,7 +99,7 @@
 	 and map out the basedir package -->
     <pathconvert property="theme.package-path" dirsep="/">
 	<path path="${theme.package}"/>
-	<unpackagemapper from="*" to="*${FullThemeVersion}"/>
+	<unpackagemapper from="*" to="*${CacheThemeVersion}"/>
 	<map from="${__basedir-pkg__}/" to=""/>
     </pathconvert>
 
@@ -324,7 +334,7 @@
 		<filter token="SWAED_VERSION" value="${SWAEDVersion}"/>
                 <filter token="THEME_VERSION" value="${theme.version}"/>
                 <filter token="THEME_PACKAGE" 
-			value="${theme.package}${FullThemeVersion}"/>
+			value="${theme.package}${CacheThemeVersion}"/>
             </filterset>
         </copy>
 
@@ -1357,7 +1367,7 @@
 	<filterset id="_theme-service-filter_">
 	    <filter token="THEME" value="${theme.name}"/>
 	    <filter token="THEME_VERSION" value="${theme.version}"/>
-	    <filter token="THEME_PACKAGE" value="${theme.package}${FullThemeVersion}"/>
+	    <filter token="THEME_PACKAGE" value="${theme.package}${CacheThemeVersion}"/>
 	    <filter token="THEME_SERVICE_CLASS" value="${theme.service-class}"/>
 	</filterset>
 

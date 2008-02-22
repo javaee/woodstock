@@ -20,7 +20,7 @@
  * Copyright 2007 Sun Microsystems, Inc. All rights reserved.
  */
  /*
-  * $Id: UploadRenderer.java,v 1.6 2008-02-20 19:33:49 danl Exp $
+  * $Id: UploadRenderer.java,v 1.7 2008-02-22 19:30:11 danl Exp $
   */
 package com.sun.webui.jsf.renderkit.html;
 
@@ -251,7 +251,7 @@ public class UploadRenderer extends FieldRenderer {
 	}
         JavaScriptUtilities.renderJavaScript(upload, 
 	    context.getResponseWriter(), jsString.toString(), 
-            JavaScriptUtilities.isWebuiOnLoad());
+            JavaScriptUtilities.isParseOnLoad());
     }
 
     /**
