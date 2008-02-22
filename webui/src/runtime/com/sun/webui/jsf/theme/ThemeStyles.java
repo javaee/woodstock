@@ -716,7 +716,7 @@ public class ThemeStyles {
     /**
      * ProgressBar Styles.
      */
-    public static final String PROGRESSBAR_DIV = "PROGRESSBAR_DIV";
+    public static final String PROGRESSBAR = "PROGRESSBAR";
     public static final String PROGRESSBAR_CONTAINER = "PROGRESSBAR_CONTAINER";
 
     public static final String PROGRESSBAR_DETERMINATE = "PROGRESSBAR_DETERMINATE";
