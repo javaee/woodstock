@@ -421,7 +421,7 @@ webui.@THEME@.widget.bubble.prototype.setPosition = function() {
 
     // If this.style is not null that means developer has specified positioning
     // for component. 
-    if (this.domNode != null && this.style != null) {
+    if (this.domNode != null && this.style != null && this.style.length > 0) {
         if (bubble.style.length != null) {
             for (var i = 0; i < bubble.style.length; i++) {
                 if (bubble.style[i] == "top") {
