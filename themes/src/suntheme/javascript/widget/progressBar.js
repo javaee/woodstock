@@ -146,6 +146,27 @@ webui.@THEME@.widget.progressBar.prototype.getProps = function() {
 }
 
 /**
+ * This function is used to obtain the outermost HTML element class name.
+ * <p>
+ * Note: Selectors should be concatinated in order of precedence (e.g., the 
+ * user's className property is always appended last).
+ * </p>
+ * @return {String} The outermost HTML element class name.
+ */
+webui.@THEME@.widget.progressBar.prototype.getClassName = function() {
+    var key = "PROGRESSBAR"; 
+
+    // Get theme property.
+    var className = this.theme.getClassName(key);
+    if (className == null || className.length == 0) {
+	return this.className;
+    }
+    return (this.className)
+        ? className + " " + this.className
+        : className;
+}
+
+/**
  * This method displays the Bottom Controls if it was hidden.
  *
  * @return {boolean} true if successful; otherwise, false.

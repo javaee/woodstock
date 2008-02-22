@@ -66,7 +66,7 @@ public class ProgressBarDesignTimeRenderer extends AbstractDesignTimeRenderer {
         //default attributes for progressbar
         
         //component top level div class
-        String prgBarDivClassName = theme.getStyleClass(ThemeStyles.PROGRESSBAR_DIV);
+        String prgBarDivClassName = theme.getStyleClass(ThemeStyles.PROGRESSBAR);
         //progressbar container div class
         String prgBarContainerClassName = theme.getStyleClass(ThemeStyles.PROGRESSBAR_CONTAINER);
         //progressbar determinate div class

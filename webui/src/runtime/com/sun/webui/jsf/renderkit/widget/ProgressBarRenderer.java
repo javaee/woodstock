@@ -95,6 +95,7 @@ public class ProgressBarRenderer extends RendererBase {
                 ? progressBar.getToolTip()
                 : getTheme().getMessage("ProgressBar.toolTip"))
             .put("type", progressBar.getType())
+            .put("className", progressBar.getStyleClass())        
             .put("visible", progressBar.isVisible());
        
         // Add attributes.
