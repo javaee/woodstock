@@ -371,7 +371,6 @@ public class RenderingUtilities {
      * @param context containing theme
      * @param writer The current ResponseWriter
      * @param component The uicomponent
-     * @deprecated Style sheets output by bootstrap.js.
      */
     public static void renderStyleSheetLink(UIComponent component, Theme theme, 
             FacesContext context, ResponseWriter writer) throws IOException {
@@ -381,6 +380,12 @@ public class RenderingUtilities {
 	if (files != null &&  files.length != 0) {
 	    renderStylesheetLinks(files, component, writer);
 	}
+	// Global stylesheets
+	//
+        files = theme.getGlobalStylesheets();
+        if (files != null &&  files.length != 0) {
+	    renderStylesheetLinks(files, component, writer);
+	}
         // browser specific stylesheets
 	//
 	ClientType clientType = ClientSniffer.getClientType(context);
@@ -388,19 +393,10 @@ public class RenderingUtilities {
         if (files != null &&  files.length != 0) {
 	    renderStylesheetLinks(files, component, writer);
         }
-
-	// Global stylesheets
-	//
-        files = theme.getGlobalStylesheets();
-        if (files != null &&  files.length != 0) {
-	    renderStylesheetLinks(files, component, writer);
-	}
     }
 
     /**
      * Render <code>link</code> elments for <code>css</code> files.
-     * 
-     * @deprecated Style sheets output by bootstrap.js.
      */
     public static void renderStylesheetLinks(String[] css,
 	    UIComponent component, ResponseWriter writer) throws IOException {
@@ -409,10 +405,8 @@ public class RenderingUtilities {
                 writer.write("\n");
             }
             writer.startElement(HTMLElements.LINK, component); //NOI18N
-            writer.writeAttribute(HTMLAttributes.REL,
-		"stylesheet", null); //NOI18N
-            writer.writeAttribute(HTMLAttributes.TYPE,
-		"text/css", null); //NOI18N
+            writer.writeAttribute(HTMLAttributes.REL, "stylesheet", null); //NOI18N
+            writer.writeAttribute(HTMLAttributes.TYPE, "text/css", null); //NOI18N
             writer.writeURIAttribute(HTMLAttributes.HREF, css[i], null);
             writer.endElement(HTMLElements.LINK); //NOI18N
 	}

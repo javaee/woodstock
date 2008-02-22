@@ -30,6 +30,7 @@ import com.sun.webui.jsf.util.JavaScriptUtilities;
 import com.sun.webui.jsf.util.RenderingUtilities;
 import com.sun.webui.jsf.util.ThemeUtilities;
 
+import java.beans.Beans;
 import java.io.IOException;
 
 import javax.faces.component.UIComponent;
@@ -126,6 +127,13 @@ public class HeadRenderer extends AbstractRenderer {
             JavaScriptUtilities.setStyleSheet(head.isStyleSheet());
             JavaScriptUtilities.setWebuiAll(head.isWebuiAll());
             JavaScriptUtilities.setWebuiJsfx(head.isWebuiJsfx());
+
+            // Master stylesheet link.
+            Theme theme = ThemeUtilities.getTheme(context);
+            if (head.isStyleSheet() && Beans.isDesignTime()) {
+                RenderingUtilities.renderStyleSheetLink(head, theme, context, writer);
+                JavaScriptUtilities.setStyleSheet(false);
+            }
 
             // Render bootstrap.
             if (head.isJavaScript()) {

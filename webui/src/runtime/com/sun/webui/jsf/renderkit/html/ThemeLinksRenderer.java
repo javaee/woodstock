@@ -30,6 +30,7 @@ import com.sun.webui.jsf.util.JavaScriptUtilities;
 import com.sun.webui.jsf.util.RenderingUtilities;
 import com.sun.webui.jsf.util.ThemeUtilities;
 
+import java.beans.Beans;
 import java.io.IOException;
 
 import javax.faces.FacesException;
@@ -72,6 +73,13 @@ public class ThemeLinksRenderer extends javax.faces.render.Renderer {
         JavaScriptUtilities.setStyleSheet(themeLinks.isStyleSheet());
         JavaScriptUtilities.setWebuiAll(themeLinks.isWebuiAll());
         JavaScriptUtilities.setWebuiJsfx(themeLinks.isWebuiJsfx());
+
+        // Master stylesheet link.
+        Theme theme = ThemeUtilities.getTheme(context);
+        if (themeLinks.isStyleSheet() && Beans.isDesignTime()) {
+            RenderingUtilities.renderStyleSheetLink(themeLinks, theme, context, writer);
+            JavaScriptUtilities.setStyleSheet(false);
+        }
 
         // Render bootstrap.
         if (themeLinks.isJavaScript()) {

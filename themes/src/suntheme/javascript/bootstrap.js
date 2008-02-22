@@ -262,7 +262,7 @@ webui.@THEME@.bootstrap = {
         // Create link tag.
         var link = document.createElement("link");
         link.type = "text/css";
-        link.rel="stylesheet";
+        link.rel ="stylesheet";
         link.href = url;
 
         domNode.appendChild(link);
