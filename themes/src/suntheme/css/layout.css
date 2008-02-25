@@ -526,6 +526,27 @@ body.HlpBdy@THEME_CSS@ h2, body.HlpBdy@THEME_CSS@ h3, body.HlpBdy@THEME_CSS@ h4,
 	vertical-align:top;
 	padding-right:5px;
 } 
+/* This is required for correct alignment on safari and
+ * makes the look consistent across browsers.
+ */
+.LstBx@THEME_CSS@ span,
+.DrpDn@THEME_CSS@ span {
+    vertical-align: top;
+}
+
+/* LABEL INVALID AND REQUIRED IMAGES */
+
+.LstBx@THEME_CSS@  img.LblReqImg@THEME_CSS@,
+.DrpDn@THEME_CSS@ img.LblReqImg@THEME_CSS@ {
+    vertical-align: top;
+    margin-left: .25em
+}
+
+.LstBx@THEME_CSS@  img.LblInvImg@THEME_CSS@,
+.DrpDn@THEME_CSS@ img.LblReqImg@THEME_CSS@ {
+    vertical-align: top;
+    margin-right: .25em;
+}
 /*---*/
 
 /* PROPERTY SHEET */

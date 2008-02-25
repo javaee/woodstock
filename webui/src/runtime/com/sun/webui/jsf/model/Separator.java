@@ -17,7 +17,7 @@
  * you own identifying information:
  * "Portions Copyrighted [year] [name of copyright owner]"
  * 
- * Copyright 2007 Sun Microsystems, Inc. All rights reserved.
+ * Copyright 2008 Sun Microsystems, Inc. All rights reserved.
  */
 
 package com.sun.webui.jsf.model;
@@ -30,4 +30,8 @@ package com.sun.webui.jsf.model;
  */
 
 public class Separator extends Option {
+    public Separator() {
+	super();
+	this.setSeparator(true);
+    }
 }

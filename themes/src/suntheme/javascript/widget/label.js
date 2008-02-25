@@ -32,7 +32,7 @@ webui.@THEME@.dojo.require("webui.@THEME@.widget.widgetBase");
  */
 webui.@THEME@.dojo.declare("webui.@THEME@.widget.label", webui.@THEME@.widget.widgetBase, {
     // Set defaults.
-    level: 2,
+    level: webui.@THEME@.widget.common.getMessage("label.level", null, 2),
     required: false,
     valid: true,
     widgetName: "label" // Required for theme properties.
@@ -168,12 +168,14 @@ webui.@THEME@.widget.label.prototype.postCreate = function () {
     // instantiated via the props param. 
     if (this.errorImage == null) {
 	this.errorImage = this.widget.getImageProps("LABEL_INVALID_ICON", {
-            id: this.id + "_error"
+            id: this.id + "_error",
+	    className: this.widget.getClassName("LABEL_INVALID_IMAGE", null)
         });
     }
     if (this.requiredImage == null) {
 	this.requiredImage = this.widget.getImageProps("LABEL_REQUIRED_ICON", {
-            id: this.id + "_required"
+            id: this.id + "_required",
+	    className: this.widget.getClassName("LABEL_REQUIRED_IMAGE", null)
         });
     }
     return this.inherited("postCreate", arguments);

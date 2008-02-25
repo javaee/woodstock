@@ -212,8 +212,8 @@ webui.@THEME@.common = {
             return false;
         }
         
-        // For each styleClass, check if it's hidden and remove otherwise write 
-        // it back out to the class
+        // For each element of classes, compare it to styleClass.
+        // If it is not in the array, append it to the end.
         for (var i = 0; i < classes.length; i++) {
             if (classes[i] != null && classes[i] == styleClass) {
                 return true;

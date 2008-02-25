@@ -17,7 +17,7 @@
  * you own identifying information:
  * "Portions Copyrighted [year] [name of copyright owner]"
  * 
- * Copyright 2007 Sun Microsystems, Inc. All rights reserved.
+ * Copyright 2008 Sun Microsystems, Inc. All rights reserved.
  */
 
 package com.sun.webui.jsf.renderkit.widget;
@@ -31,6 +31,7 @@ import com.sun.webui.jsf.model.list.EndGroup;
 import com.sun.webui.jsf.model.list.ListItem;
 import com.sun.webui.jsf.model.list.StartGroup;
 import com.sun.webui.jsf.theme.ThemeStyles;
+import com.sun.webui.jsf.util.LogUtil;
 import com.sun.webui.jsf.util.ConversionUtilities;
 import com.sun.webui.jsf.util.WidgetUtilities;
 import com.sun.webui.theme.Theme;
@@ -116,22 +117,22 @@ abstract public class ListRendererBase extends RendererBase {
      * @param id The DOM id of the select element which represents the 
      * value of the list
      */
-    protected void decode(FacesContext context, UIComponent component, String id) {
+    protected void decode(FacesContext context, UIComponent component, 
+	    String id) {
         
         ListManager lmComponent = (ListManager)component;
-        
         if (lmComponent.isReadOnly()) {
             return;
         }
         
-        Map params = context.getExternalContext().getRequestParameterValuesMap();
+        Map params = context.getExternalContext().
+	    getRequestParameterValuesMap();
         
         String[] values = null; 
         Object p = params.get(id); 
-        if(p == null) { 
+        if (p == null) { 
             values = new String[0];
-        }
-        else {
+        } else {
             values = (String[])p;
         } 
             
@@ -146,7 +147,7 @@ abstract public class ListRendererBase extends RendererBase {
         if (values.length > 1) {
             // Need to remove any OptionTitle submitted values
             //
-            ArrayList newParams = new ArrayList();
+            ArrayList<String> newParams = new ArrayList<String>();
             for (int i = 0; i < values.length; ++i) {
                 if (OptionTitle.NONESELECTED.equals(values[i])) {
                     continue;
@@ -167,7 +168,6 @@ abstract public class ListRendererBase extends RendererBase {
         if (values.length > 0 || !lmComponent.isDisabled()) {
             lmComponent.setSubmittedValue(values);
         }
-      
     }
 
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -186,28 +186,32 @@ abstract public class ListRendererBase extends RendererBase {
         
         JSONObject json = new JSONObject();
         
-        UIComponent label = component.getLabelComponent();
-        
-        boolean labelOnTop = component.isLabelOnTop();
-        
-        if(label != null && !labelOnTop && component.getRows() > 1) {
-            Theme theme = getTheme();
-            String listAlign = theme.getStyleClass(ThemeStyles.LIST_ALIGN);
-            Map attributes = label.getAttributes();
-            Object styleClass = attributes.get("styleClass");
-            if(styleClass == null) {
-                attributes.put("styleClass", listAlign);
-            } else if(styleClass.toString().indexOf(listAlign) == -1) {
-                attributes.put("styleClass", styleClass + " " + listAlign);
-            }
-        }
-        
         // Append label properties.
-        json.put("label", WidgetUtilities.renderComponent(context, label));
+	//
+        UIComponent label = component.getFacet(ListSelector.LABEL_FACET);
+	if (label != null) {
+	    json.put("label", WidgetUtilities.renderComponent(context, label));
+	} else {
+	    String labelstring = component.getLabel();
+	    // We allow "" labels.
+	    //
+	    if (labelstring != null) {
+		JSONObject labelobj = new JSONObject();
+		labelobj.put("value", labelstring);
+		// We always get a default.
+		//
+		labelobj.put("level", component.getLabelLevel());
+		json.put("label", labelobj);
+	    }
+	}
         
         // StyleClass, labelOnTop
         json.put("className", component.getStyleClass());
-        json.put("labelOnTop", labelOnTop);
+
+	// Must always render labelOnTop since it is a theme'd property.
+	// 
+        boolean labelOnTop = component.isLabelOnTop();
+	json.put("labelOnTop", labelOnTop);
         
         // This needs to be called for supporting DB NULL values.
         recordRenderedValue(component);
@@ -232,183 +236,319 @@ abstract public class ListRendererBase extends RendererBase {
     private void getListProperties(JSONObject json, ListManager listManager, 
             FacesContext context)  throws JSONException {
 
-        json.put("disabled", listManager.isDisabled());
-        json.put("size", listManager.getRows());
-	String width = listManager.getWidth();
-	if (width != null && width.trim().length() != 0) {
-	    json.put("width", width.trim());
+	boolean boolprop = listManager.isDisabled();
+	if (boolprop) {
+	    json.put("disabled", boolprop);
 	}
-        json.put("multiple", listManager.isMultiple());
-        json.put("tabIndex", listManager.getTabIndex());
+
+	boolprop = listManager.isRequired();
+	json.put("required", boolprop);
+
+	boolprop = listManager.isValid();
+	json.put("valid", boolprop);
+
+        json.put("size", listManager.getRows());
+
+	String width = listManager.getWidth(); 
+	if (width != null && width.trim().length() != 0) { 
+	    json.put("width", width.trim()); 
+	}
+
+	json.put("multiple", listManager.isMultiple());
+	
+	// http://www.w3.org/TR/html4/interact/forms.html#adef-tabindex
+	//
+	int tabindex = listManager.getTabIndex();
+	if (tabindex > 0 && tabindex < 32767) {
+	    json.put("tabIndex", tabindex);
+	}
         json.put("title", listManager.getToolTip());
        
         // Get the properties for all the option elements
+	//
         getListOptionsProperties(json,(UIComponent)listManager, 
             listManager.getListItems(context, true));
     }
     
     /**
      * Obtains the properties for the option elements
+     * This method assumes only one level of nested options.
      *
      * @param json The JSONObject for adding the properties
      * @param component The List component
      * @param optionsIterator The iterator for looping through the options
      */
-    private void getListOptionsProperties(JSONObject json, UIComponent component, 
-            Iterator optionsIterator)  throws JSONException {
+    private void getListOptionsProperties(JSONObject json, 
+	    UIComponent component, Iterator optionsIterator)
+	    throws JSONException {
         
-        // Store the options in a JSONArray. The elements in the array are the JSONObject for 
-        // each option. Each option object contains the following properties;
+	// Unfortunately we have no alternative but to
+	// perform instanceof checks. The iterator returns
+	// ListItem, StartGroup and EndGroup instances
+	// which do not have a separator property, and
+	// instances of Separartor which is also an Option
+	// and does have a separator property but it is of
+	// no help since we don't know what instance we have.
+	// Make no assumptions about what is in the iterator
+	// and check for Separator too.
+	//
+
+        // Store the options in a JSONArray. The elements in the array are 
+	// the JSONObject for each option.
+	// Each option object contains the following properties;
         // - separator: true/false. To indicator if this is a separator
         // - diabled: to indicate whether the option is disabled or not. 
         // - selected: to indicate whether this opton is selected or not
         // - label: the label of this option
-        // - isTitle: to indicate whether this is a title option, such as "Please select one of the following:"
+        // - isTitle: to indicate whether this is a title option, such as 
+	//   "Please select one of the following:"
         // - value: the value of this option
         // - group: to indicate this is an optgroup
-        // - options: the options contained in the optgroup
+        // - options: the options contained in an optgroup
         
-        // Store the options Array for this List component
-        JSONArray optionsJsonArray = new JSONArray();
 
-        // Specific for the optgroup
-        JSONObject groupOptionJson = null;
+	// Determine separator status once
+	// Get just one separator properties JSON object
+	// Use separatorProps != null to indicate that separators
+	// are required.
+	//
+	JSONObject separatorProps = getSeparatorProperties(component);
 
-        // Options for the current optgroup
-        JSONArray groupOptionsJsonArray = null;
-        
-        // Lets build up the option array
-        Object option = null;
-        boolean noSeparator = true;
-        while(optionsIterator.hasNext()) {
+        // All the options for this List component
+	//
+        JSONArray allOptionsArray = new JSONArray();
+        json.put("options", allOptionsArray);
+
+	// This variable will change between the complete list
+	// "allOptionsArray" and an array for a Group's options.
+	//
+	JSONArray optionsArray = allOptionsArray;
+
+	// Flag, if false, says that EndGroup has added a separator
+	//
+	// This may not be necessary.
+        boolean addStartSeparator = false;
+        while (optionsIterator.hasNext()) {
             
-            option = optionsIterator.next();
+            Object option = optionsIterator.next();
             
-            if (option instanceof Separator) {
-                if (canGetSeparatorProperties(component)) {
-                    // Create a JSONObject for the separator
-                    JSONObject separatorJson = new JSONObject();
-                    getSeparatorProperties(separatorJson, component);
+	    // First look for ListItems since this is the
+	    // most common instance in the iterator
+	    //
+	    if (option instanceof ListItem) {
 
-                    if (groupOptionsJsonArray != null) {
-                        // That means this is for the optgroup we're working on
-                        groupOptionsJsonArray.put(separatorJson);
-                    } else {
-                        // This is just an option for the list component
-                        optionsJsonArray.put(separatorJson);
-                    }
-                }
-            } else if (option instanceof StartGroup) {
+                JSONObject optionJson = new JSONObject();
+                getListItemProperties(optionJson, (ListItem)option);
+		optionsArray.put(optionJson);
+
+		// In case we have initial listitems before the
+		// start of group
+		//
+		addStartSeparator = true;
+
+	    } else
+            if (option instanceof StartGroup) {
+
+		// If we are addinng separators, add the separator
+		// before the start of a group.
+		//
+		if (separatorProps != null && addStartSeparator) {
+		    optionsArray.put(separatorProps);
+		}
                 
                 StartGroup group = (StartGroup)option;
                 
-                if(!noSeparator && canGetSeparatorProperties(component)) {
-                    JSONObject separatorJson = new JSONObject();
-                    getSeparatorProperties(separatorJson, component);
-                    optionsJsonArray.put(separatorJson);
-                }
-                
-                groupOptionJson = new JSONObject();
+                JSONObject groupOptionJson = new JSONObject();
                 groupOptionJson.put("group", true);
                 groupOptionJson.put("label", group.getLabel());
                 
-                // Add this option group to the option array for the list component
-                optionsJsonArray.put(groupOptionJson);
+                // Add this option group to the option array for the 
+		// list component
+		//
+                optionsArray.put(groupOptionJson);
                 
-                // And allocate space for the options for this group
-                groupOptionsJsonArray = new JSONArray();
-                
-                noSeparator = true;
-            } else if(option instanceof EndGroup) {
-                
-                // Done with this group.
+                // Allocate space for the options for this group
+		//
+                JSONArray groupOptionsJsonArray = new JSONArray();
                 groupOptionJson.put("options", groupOptionsJsonArray);
-                groupOptionsJsonArray = null;
-                
-                if(optionsIterator.hasNext() && canGetSeparatorProperties(component)) {
-                    JSONObject separatorJson = new JSONObject();
-                    getSeparatorProperties(separatorJson, component);
-                    optionsJsonArray.put(separatorJson);
+
+		// Make sure all future items until EndGroup into the 
+		// Group's array
+		//
+		optionsArray = groupOptionsJsonArray;
+
+            } else if (option instanceof EndGroup) {
+
+		// switch arrays, from the group to all the options.
+		//
+		optionsArray = allOptionsArray;
+
+		// If this is the last instancce in the iterator
+		// don't add a separator after the group
+		//
+		if (separatorProps != null && optionsIterator.hasNext()) {
+		    optionsArray.put(separatorProps);
+		    addStartSeparator = false;
                 }
-                noSeparator = true;
-            } else { 
-                
-                // A regular option element
-                JSONObject optionJson = new JSONObject();
-                getListOptionProperties(optionJson, (ListItem)option);
-                
-                if (groupOptionsJsonArray != null) {
-                    // This means this option belongs to the optgroup we're working on
-                    groupOptionsJsonArray.put(optionJson);
-                } else {
-                    optionsJsonArray.put(optionJson);
-                }
-                noSeparator = false;
+	    } else
+            if (option instanceof Separator && separatorProps != null) {
+		optionsArray.put(separatorProps);
             }
-            
         }
         
-        // Add all the options to the json object
-        json.put("options", optionsJsonArray);
     }
     
     /**
-     * Adds the properties for the separator to the passed-in json object
+     * Return the properties for a separator.
+     * <code>component</code> must be a <code>ListSelector</code> 
+     * and <code>isSeparators</code> must be true or else
+     * null is returned.
      *
-     * @param json The JSONObject for adding the properties
      * @param component The List component
      */
-    private void getSeparatorProperties(JSONObject json, UIComponent component) 
+    private JSONObject getSeparatorProperties(UIComponent component) 
             throws JSONException {
-        if (!canGetSeparatorProperties(component)) {
-            return;
+
+        if(!(component instanceof ListSelector &&
+	    ((ListSelector)component).isSeparators())) {
+            return null;
         }
-        
         ListSelector selector = (ListSelector)component;
         
+	JSONObject json = new JSONObject();
+
         // Indicates this is a separator
+	//
         json.put("separator", true);
-        json.put("group", false);
-        json.put("disabled", true); // Always disabled for separator
+
+	// Always disabled for separator
+	// This could be assumed on the client.
+	//
+        json.put("disabled", true);
         
-        // The label for the separator. It is a series of dashes (-----------)
-        int numEms = selector.getSeparatorLength();
-        StringBuffer labelBuffer = new StringBuffer();
-        for(int em = 0; em < numEms; ++em) {
-            labelBuffer.append("-");                        
+        // The label for the separator. It is a series of en dashes
+	// in the suntheme, using \u2013 and therefore can be 
+	// escaped, i.e. it is not HTML markup.
+	//
+	// This is an issue, because it is hard to know if "escape"
+	// should be true or false. The theme has a corresponding
+	// property, "ListSelector.optionSeparatorCharEscape".
+	// 
+	// If this property is "false" then the string should be
+	// not be escaped and is assumed
+	// to be HTML markup to be rendered literally.
+	// If the key does not exist, for backward compatibility
+	// for older themes, assume that it should be is "false",
+	// since the old theme used entity references for the 
+	// character.
+	//
+	// If these keys do not exist then \u2013 is used
+	// and can be escaped.
+	// 
+	// However this should really be implemented using CSS
+	// to represent a separator "option" or "li" as a horizontal rule
+	// or whatever.
+	//
+	boolean escape = true;
+	String separatorString = 
+	    getMessage("ListSelector.optionSeparatorChar", null);
+	if (separatorString != null) {
+	    String escapeSeparator =
+		getMessage("ListSelector.optionSeparatorCharEscape", null);
+	    if (escapeSeparator != null) {
+		escape = Boolean.valueOf(escapeSeparator);
+	    }
+	} else {
+	    separatorString = "\u2014";
+	}
+	if (!escape) {
+	    json.put("escape", false);
+	}
+
+	// If this were done using CSS all this would not be necessary.
+	//
+        int numEns = selector.getSeparatorLength();
+        StringBuilder labelBuffer = new StringBuilder();
+        for(int en = 0; en < numEns; ++en) {
+            labelBuffer.append(separatorString);                        
         }
         json.put("label", labelBuffer.toString());
-    }
-    
-    private boolean canGetSeparatorProperties(UIComponent component) {
-        if(!(component instanceof ListSelector)) {
-            return false;
-        }
-        
-        ListSelector selector = (ListSelector)component;
-        if(!selector.isSeparators()) {
-            return false;
-        }
-        return true;
+
+	return json;
     }
     
     /**
-     * Adds the properties for the option to the passed-in json object
+     * Add the properties of <code>listItem</code> to the <code>json</code>.
+     * object. They are only added if they are different than
+     * the widget's default value.
      *
      * @param json The JSONObject for adding the properties
-     * @param listItem The list item for the option
+     * @param listItem The ListItem
      */
-    private void getListOptionProperties(JSONObject json, ListItem listItem) 
+    private void getListItemProperties(JSONObject json, ListItem listItem) 
             throws JSONException {
-        json.put("group", false); // Not a group
-        json.put("separator", false);  // Not a separator
-        json.put("disabled", listItem.isDisabled());
-        json.put("selected", listItem.isSelected());
+
+	if (listItem.isDisabled()) {
+	    json.put("disabled", listItem.isDisabled());
+	}
+	if (listItem.isSelected()) {
+	    json.put("selected", listItem.isSelected());
+	}
+
+	// The value was converted when ListItem was created.
+	// Well, actually, only if ListItem was created by 
+	// "processOptions" in ListSelector ;(
+	//
         json.put("value", listItem.getValue());
-        json.put("isTitle", listItem.isTitle());  // A title option
-        json.put("label", listItem.getLabel());
-        json.put("escape", listItem.isEscape());
-        return;
+
+	String titleLabel = listItem.getLabel();
+	boolean escapeTitle = true;
+
+	// If this option is a title get the theme decoration 
+	// pass that to the client.
+	//
+	if (listItem.isTitle() && titleLabel != null) {
+
+	    // The theme title decoration is leading and trailing
+	    // em dash. The suntheme, uses \u2014 and therefore can be 
+	    // escaped, i.e. it is not HTML markup.
+	    //
+	    // This is an issue, because it is hard to know if "escape"
+	    // should be true or false. The theme has a corresponding
+	    // property, "ListSelector.titleOptionLabelEscape".
+	    // 
+	    // If this property is "false" then the string should be
+	    // not be escaped and is assumed
+	    // to be HTML markup to be rendered literally.
+	    // If the key does not exist, for backward compatibility
+	    // for older themes, assume that it should be is "false",
+	    // since the old theme used entity references for the 
+	    // character. However if this ListItem has a contradictory
+	    // escape value, that is always used.
+	    //
+	    // If these keys do not exist the label text is just
+	    // rendered as is and uses the "escape" property of the
+	    // ListItem.
+	    //
+	    String tmp = getMessage("ListSelector.titleOptionLabel", 
+		new Object[] {titleLabel});
+	    if (tmp != null) {
+	        titleLabel = tmp;
+	        // See if this text needs to be escaped.
+	        //
+	        escapeTitle = getTheme().getMessageBoolean(
+		    "ListSelector.titleOptionLabelEscape", true);
+	    }
+	}
+	// No need to render "escape == true" since this is the
+	// widget assumed default.
+	//
+	if (!escapeTitle || !listItem.isEscape()) {
+	    json.put("escape", false);
+	}
+	if (titleLabel != null) {
+	    json.put("label", titleLabel);
+	}
     }
     
     /**
@@ -417,9 +557,31 @@ abstract public class ListRendererBase extends RendererBase {
      */
     private void recordRenderedValue(UIComponent component) {
 	if (component instanceof EditableValueHolder 
-                && ((EditableValueHolder)component).getSubmittedValue() == null) {
+	    && ((EditableValueHolder)component).getSubmittedValue() == null) {
 	    ConversionUtilities.setRenderedValue(component, 
 		((EditableValueHolder)component).getValue());
 	}
+    }
+
+    /**
+     * Return a message key value or null and log a message if the 
+     * property couldn't be obtained or the value is "".
+     */
+    private String getMessage(String key, Object[] params) {
+	String msg = null;
+	try {
+	    if (params != null) {
+		msg = getTheme().getMessage(key, params);
+	    } else {
+	        msg = getTheme().getMessage(key);
+	    }
+	} catch (Exception e) {
+	    if (LogUtil.finestEnabled()) {
+		LogUtil.finest(
+		    "ListRendererBase.getMessage: " +
+		    "Can't get message key" + key, e);
+	    }
+	}
+	return msg != null && msg.length() != 0 ? msg : null;
     }
 }

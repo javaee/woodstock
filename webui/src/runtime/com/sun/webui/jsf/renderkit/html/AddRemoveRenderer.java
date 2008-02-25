@@ -589,7 +589,8 @@ public class AddRemoveRenderer extends ListRendererBase {
         
         writer.writeText("\n", null); //NOI18N
         
-        renderListOptions(component, component.getListItems(context, true), 
+        renderListOptions(component, context,
+		component.getListItems(context, true), 
                           writer, styles);
         
         writer.endElement(HTMLElements.SELECT);  //NOI18N
@@ -705,7 +706,7 @@ public class AddRemoveRenderer extends ListRendererBase {
 	RenderingUtilities.writeStringAttributes(component, writer, 
 						 STRING_ATTRIBUTES); 
         writer.writeText("\n", null); //NOI18N
-        renderListOptions(component, component.getSelectedListItems(), 
+        renderListOptions(component, context, component.getSelectedListItems(), 
 			  writer, styles);
         writer.endElement(HTMLElements.SELECT);
         writer.writeText("\n", null); //NOI18N

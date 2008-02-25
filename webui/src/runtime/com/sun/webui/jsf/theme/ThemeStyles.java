@@ -17,7 +17,7 @@
  * you own identifying information:
  * "Portions Copyrighted [year] [name of copyright owner]"
  * 
- * Copyright 2007 Sun Microsystems, Inc. All rights reserved.
+ * Copyright 2008 Sun Microsystems, Inc. All rights reserved.
  */
 
 package com.sun.webui.jsf.theme;
@@ -174,6 +174,7 @@ public class ThemeStyles {
      * Drop Down Menu Styles.
      */
     public static final String MENU_JUMP                      = "MENU_JUMP";
+    public static final String MENU_JUMP_LABEL_ALIGN          = "MENU_JUMP_LABEL_ALIGN";
     public static final String MENU_JUMP_OPTION               = "MENU_JUMP_OPTION";
     public static final String MENU_JUMP_OPTION_DISABLED      = "MENU_JUMP_OPTION_DISABLED";
     public static final String MENU_JUMP_OPTION_GROUP         = "MENU_JUMP_OPTION_GROUP";
@@ -181,11 +182,18 @@ public class ThemeStyles {
     public static final String MENU_JUMP_OPTION_SEPARATOR     = "MENU_JUMP_OPTION_SEPARATOR";
     public static final String MENU_STANDARD                  = "MENU_STANDARD";
     public static final String MENU_STANDARD_DISABLED         = "MENU_STANDARD_DISABLED";
+    public static final String MENU_STANDARD_LABEL_ALIGN      = "MENU_STANDARD_LABEL_ALIGN";
     public static final String MENU_STANDARD_OPTION           = "MENU_STANDARD_OPTION";
     public static final String MENU_STANDARD_OPTION_DISABLED  = "MENU_STANDARD_OPTION_DISABLED";
     public static final String MENU_STANDARD_OPTION_GROUP     = "MENU_STANDARD_OPTION_GROUP";
     public static final String MENU_STANDARD_OPTION_SELECTED  = "MENU_STANDARD_OPTION_SELECTED";
     public static final String MENU_STANDARD_OPTION_SEPARATOR = "MENU_STANDARD_OPTION_SEPARATOR";
+
+    /**
+     * Listbox widget
+     */
+    public static final String LISTBOX                 = "LISTBOX";
+    public static final String LISTBOX_LABEL_ALIGN    = "LISTBOX_LABEL_ALIGN";
 
     /** 
      * Selectable List Styles.
@@ -199,6 +207,9 @@ public class ThemeStyles {
     public static final String LIST_OPTION_GROUP       = "LIST_OPTION_GROUP";
     public static final String LIST_OPTION_SELECTED    = "LIST_OPTION_SELECTED";
     public static final String LIST_OPTION_SEPARATOR   = "LIST_OPTION_SEPARATOR";
+    /**
+     * @deprecated
+     */
     public static final String LIST_ALIGN              = "LIST_ALIGN";
 
     /** 
@@ -378,6 +389,11 @@ public class ThemeStyles {
     public static final String ALERT_HEADER_TXT       = "ALERT_HEADER_TXT";
     public static final String ALERT_FORM_DIV         = "ALERT_FORM_DIV";
 
+    /**
+     * Label widget
+     */
+    public static final String LABEL_REQUIRED_IMAGE   = "LABEL_REQUIRED_IMAGE";
+    public static final String LABEL_INVALID_IMAGE    = "LABEL_INVALID_IMAGE";
     /** 
      * Label Styles.
      */
@@ -754,6 +770,10 @@ public class ThemeStyles {
     public static final String BUBBLE_TITLE = "BUBBLE_TITLE";
 
     
+    /**
+     * Dropdown widget
+     */
+    public static final String DROPDOWN = "DROPDOWN";
     /**
      * Menu Styles
      */

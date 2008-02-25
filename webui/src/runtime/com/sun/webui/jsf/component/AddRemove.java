@@ -288,6 +288,16 @@ public class AddRemove extends ListSelector implements ListManager {
      */	
     public static final String ADDREMOVE_LABEL_LEVEL =
 	"AddRemove.labelLevel"; //NOI18N
+    /**
+     * The rows. It is used to determine the default number of rows for
+     * the available and selected lists.
+     */	
+    // Note that the new way to define keys is to use the widget name
+    // and if possible use the attribute name of the HTML element
+    // attribute it is assigned to.
+    //
+    public static final String ADDREMOVE_ROWS =
+	"addRemove.size"; //NOI18N
 
     private TreeMap availableItems = null; 
     private TreeMap selectedItems = null; 
@@ -314,24 +324,27 @@ public class AddRemove extends ListSelector implements ListManager {
     }
 
     /**
-     * Get the number of rows to disaplay (the default is 12)
-     * @return the number of rows to disaplay
+     * Return the number of items to display in the available and
+     * selected lists.
+     * If no value has been set or is less than 1 or there is no value
+     * binding or the value binding evaluates to null, then the value of
+     * the <code>addRemove.size</code> theme key defined in the
+     * <code>messages</code> theme category, is returned. If the theme
+     * key is not defined, <code>12</code> is returned.
+     * @return The number of items to disaplay
      */
     public int getRows() {
 
-	int rows = super.getRows();
-	if(rows < 1) { 
-	    // FIXME: Should be in Theme
-	    //
-	    rows = 12; 
-	    // Don't alter the Bean value.
-	    //super.setRows(rows);
+	int sise = super.getRows();
+	if (sise < 1) { 
+	    sise = getTheme().getMessageInt(ADDREMOVE_ROWS, 12);
 	}
-	return rows;
+	return sise;
     }
 
     /**
-     * Get the separator string that is used to separate the selected values on the client.
+     * Get the separator string that is used to separate the selected 
+     * values on the client.
      * The default value is "|". When the AddRemove component is decoded, the 
      * value is taken from a hidden variable whose value is a list of the 
      * values of all the options in the list representing the selected items. 
@@ -895,8 +908,7 @@ public class AddRemove extends ListSelector implements ListManager {
 	// defines a label style for each specific label that can be
 	// used specifically for the HTML "class" attribute.
 	//
-        label.setLabelLevel(Integer.parseInt(getTheme().getMessage(
-		ADDREMOVE_LABEL_LEVEL)));
+        label.setLabelLevel(getTheme().getMessageInt(ADDREMOVE_LABEL_LEVEL, 0));
 	label.setText(labelText); 
 	label.setStyleClass(styleClass); 
 	label.setHideIndicators(hideIndicators);

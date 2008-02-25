@@ -17,7 +17,7 @@
  * you own identifying information:
  * "Portions Copyrighted [year] [name of copyright owner]"
  * 
- * Copyright 2007 Sun Microsystems, Inc. All rights reserved.
+ * Copyright 2008 Sun Microsystems, Inc. All rights reserved.
  */
 package com.sun.webui.jsf.component;
 
@@ -25,6 +25,7 @@ import com.sun.faces.annotation.Component;
 import com.sun.faces.annotation.Property;
 import com.sun.webui.jsf.util.ComponentUtilities;
 import com.sun.webui.jsf.util.ThemeUtilities;
+import com.sun.webui.theme.Theme;
 
 import javax.el.ValueExpression;
 import javax.faces.context.FacesContext;
@@ -99,16 +100,6 @@ public class Listbox extends ListSelector {
         this.htmlTemplate = htmlTemplate;
     }
 
-    public int getRows() {
-
-        int rows = super.getRows();
-        if(rows < 1) { 
-            rows = 12; 
-            super.setRows(rows);
-        }
-        return rows;
-    }
-
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     // Tag attribute methods
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -126,13 +117,33 @@ public class Listbox extends ListSelector {
     }
 
     /**
-     * <p>When set to true, this attribute causes the list items to be rendered 
-     * in a monospace font.</p>
+     * <p>
+     * When set to true, this attribute causes the list items to be rendered 
+     * in a monospace font.
+     * </p>
+     * <p>
+     * If this property is not set by the application, a themed default
+     * value will be sought, using the key <code>listbox.monospace</code>
+     * from the <code>messages.properties</code> file. If there is no
+     * value for the key, <code>false</code> is returned.
+     * </p>
      */
     @Property(name="monospace", displayName="Use Monospace Space", category="Appearance")
     private boolean monospace = false;
     private boolean monospace_set = false;
 
+    /**
+     * <p>
+     * When set to true, this attribute causes the list items to be rendered 
+     * in a monospace font.
+     * </p>
+     * <p>
+     * If this property is not set by the application, a themed default
+     * value will be sought, using the key <code>listbox.monospace</code>
+     * from the <code>messages.properties</code> file. If there is no
+     * value for the key, <code>false</code> is returned.
+     * </p>
+     */
     public boolean isMonospace() {
         if (this.monospace_set) {
             return this.monospace;
@@ -145,8 +156,13 @@ public class Listbox extends ListSelector {
             } else {
                 return ((Boolean) _result).booleanValue();
             }
-        }
-        return false;
+        } else {
+	    // Get a default value from the theme.
+	    //
+	    Theme theme = ThemeUtilities.getTheme(
+		FacesContext.getCurrentInstance());
+	    return theme.getMessageBoolean("listbox.monospace", false);
+	}
     }
 
     /**
@@ -160,13 +176,33 @@ public class Listbox extends ListSelector {
     }
 
     /**
-     * <p>Flag indicating that the application user can make select
-     * 	more than one option at a time from the listbox.</p>
+     * <p>
+     * Flag indicating that the application user can make select
+     * 	more than one option at a time from the listbox.
+     * </p>
+     * <p>
+     * If this property is not set by the application, a themed default
+     * value will be sought, using the key <code>listbox.multiple</code>
+     * from the <code>messages.properties</code> file. If there is no
+     * value for the key, <code>false</code> is returned.
+     * </p>
      */
     @Property(name="multiple", displayName="Multiple", category="Data")
     private boolean multiple = false;
     private boolean multiple_set = false;
 
+    /**
+     * <p>
+     * Flag indicating that the application user can make select
+     * 	more than one option at a time from the listbox.
+     * </p>
+     * <p>
+     * If this property is not set by the application, a themed default
+     * value will be sought, using the key <code>listbox.multiple</code>
+     * from the <code>messages.properties</code> file. If there is no
+     * value for the key, <code>false</code> is returned.
+     * </p>
+     */
     public boolean isMultiple() {
         if (this.multiple_set) {
             return this.multiple;
@@ -179,13 +215,20 @@ public class Listbox extends ListSelector {
             } else {
                 return ((Boolean) _result).booleanValue();
             }
-        }
-        return false;
+        } else {
+	    // Get a default value from the theme.
+	    //
+	    Theme theme = ThemeUtilities.getTheme(
+		FacesContext.getCurrentInstance());
+	    return theme.getMessageBoolean("listbox.multiple", false);
+	}
     }
 
     /**
-     * <p>Flag indicating that the application user can make select
-     * 	more than one option at a time from the listbox.</p>
+     * <p>
+     * Flag indicating that the application user can make select
+     * more than one option at a time from the listbox.
+     * </p>
      * @see #isMultiple()
      */
     public void setMultiple(boolean multiple) {
@@ -193,6 +236,98 @@ public class Listbox extends ListSelector {
         this.multiple_set = true;
     }
     
+    // "labelOnTop must be overridden from ListSelector because it is
+    // a themed property. The only way to support a boolean
+    // themed property it to test for the existence of a value binding.
+    // This is the only way to tell if the application has set a
+    // value for a boolean property.
+    /**
+     * <p>
+     * If true, the label is rendered above the
+     * component. If false, the label is rendered next to the
+     * component.
+     * </p>
+     * <p>
+     * If this property is not set by the application, a themed default
+     * value will be sought, using the key <code>listbox.labelOnTop</code>
+     * from the <code>messages.properties</code> file. If there is no
+     * value for the key, <code>false</code> is returned.
+     * </p>
+     */
+    @Property(name="labelOnTop", displayName="Label on Top", category="Appearance")
+    private boolean labelOnTop = false;
+    private boolean labelOnTop_set = false;
+
+    /**
+     * <p>
+     * If true, the label is rendered above the
+     * component. If false, the label is rendered next to the
+     * component.
+     * </p>
+     * <p>
+     * If this property is not set by the application, a themed default
+     * value will be sought, using the key <code>listbox.labelOnTop</code>
+     * from the <code>messages.properties</code> file. If there is no
+     * value for the key, <code>false</code> is returned.
+     * </p>
+     */
+    public boolean isLabelOnTop() {
+        if (this.labelOnTop_set) {
+            return this.labelOnTop;
+        }
+        ValueExpression _vb = getValueExpression("labelOnTop");
+        if (_vb != null) {
+            Object _result = _vb.getValue(getFacesContext().getELContext());
+            if (_result == null) {
+                return false;
+            } else {
+                return ((Boolean) _result).booleanValue();
+            }
+        } else {
+	    // Get a default value from the theme.
+	    //
+	    Theme theme = ThemeUtilities.getTheme(
+		FacesContext.getCurrentInstance());
+	    return theme.getMessageBoolean("listbox.labelOnTop", false);
+	}
+    }
+
+    /**
+     * <p>
+     * If true, the label is rendered above the
+     * component. If false, the label is rendered next to the
+     * component.
+     * </p>
+     * @see #isLabelOnTop()
+     */
+    public void setLabelOnTop(boolean labelOnTop) {
+        this.labelOnTop = labelOnTop;
+        this.labelOnTop_set = true;
+    }
+
+    // "rows must be overridden from ListSelector because it is
+    // a themed property.
+
+    /**
+     * The number of items to display.
+     * If this property is not set by the application, a themed default
+     * value will be sought, using the key <code>listbox.size</code>
+     * from the <code>messages.properties</code> file. If there is no
+     * value for the key, or the value is less than or equal to 0,
+     * 12 is returned. The <code>String</code> property value is coerced
+     * to <code>int</code> using <code>Integer.parseInt(String)</code>.
+     * If this fails 12 is returned.
+     * @return The number of items to display.
+     */
+    public int getRows() {
+        int size = super.getRows();
+	if (size < 1) {
+            size = ThemeUtilities.getTheme(FacesContext.getCurrentInstance())
+			 .getMessageInt("listbox.size", 12);
+        }
+	return size;
+    }
+
     /**
      * <p>If this attribute is set to true, the value of the component is
      * rendered as text, preceded by the label if one was defined.</p>
@@ -277,13 +412,15 @@ public class Listbox extends ListSelector {
         this.multiple_set = ((Boolean) _values[4]).booleanValue();
         this.toolTip = (String) _values[5];
         this.htmlTemplate = (String) _values[6];
+        this.labelOnTop = ((Boolean) _values[7]).booleanValue();
+        this.labelOnTop_set = ((Boolean) _values[8]).booleanValue();
     }
 
     /**
      * <p>Save the state of this component.</p>
      */
     public Object saveState(FacesContext _context) {
-        Object _values[] = new Object[7];
+        Object _values[] = new Object[9];
         _values[0] = super.saveState(_context);
         _values[1] = this.monospace ? Boolean.TRUE : Boolean.FALSE;
         _values[2] = this.monospace_set ? Boolean.TRUE : Boolean.FALSE;
@@ -291,6 +428,8 @@ public class Listbox extends ListSelector {
         _values[4] = this.multiple_set ? Boolean.TRUE : Boolean.FALSE;
         _values[5] = this.toolTip;
         _values[6] = this.htmlTemplate;
+        _values[7] = this.labelOnTop ? Boolean.TRUE : Boolean.FALSE;
+        _values[8] = this.labelOnTop_set ? Boolean.TRUE : Boolean.FALSE;
         return _values;
     }
 }

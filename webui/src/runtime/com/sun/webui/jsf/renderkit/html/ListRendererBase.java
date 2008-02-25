@@ -20,7 +20,7 @@
  * Copyright 2007 Sun Microsystems, Inc. All rights reserved.
  */
 /*
- * $Id: ListRendererBase.java,v 1.5 2008-02-20 16:29:23 rratta Exp $
+ * $Id: ListRendererBase.java,v 1.6 2008-02-25 17:45:34 rratta Exp $
  */
 package com.sun.webui.jsf.renderkit.html;
 
@@ -52,6 +52,7 @@ import com.sun.webui.jsf.model.list.ListItem;
 import com.sun.webui.jsf.model.list.StartGroup;
 import com.sun.webui.jsf.model.list.EndGroup;
 import com.sun.webui.jsf.util.ConversionUtilities;
+import com.sun.webui.jsf.util.LogUtil;
 import com.sun.webui.jsf.util.RenderingUtilities;
 import com.sun.webui.jsf.util.ThemeUtilities;
 import com.sun.webui.jsf.theme.ThemeStyles;
@@ -365,7 +366,7 @@ abstract public class ListRendererBase extends Renderer {
            
         writer.writeText("\n", null); //NOI18N
         
-        renderListOptions((UIComponent)listManager, 
+        renderListOptions((UIComponent)listManager, context,
                           listManager.getListItems(context, true),
                           writer, styles);
         
@@ -418,7 +419,7 @@ abstract public class ListRendererBase extends Renderer {
      * @throws java.io.IOException if the renderer fails to write to
      * the response
      */
-    void renderListOptions(UIComponent component,
+    void renderListOptions(UIComponent component, FacesContext context,
             Iterator optionsIterator,
             ResponseWriter writer,
             String[] styles)
@@ -470,7 +471,8 @@ abstract public class ListRendererBase extends Renderer {
                 }
                 noSeparator = true;
             } else {
-                renderListOption(component, (ListItem)option, writer, styles);
+                renderListOption(component, context,
+			(ListItem)option, writer, styles);
                 noSeparator = false;
             }
         }
@@ -496,7 +498,7 @@ abstract public class ListRendererBase extends Renderer {
      * @throws java.io.IOException if the renderer fails to write to
      * the response
      */
-    void renderListOption(UIComponent list,
+    void renderListOption(UIComponent list, FacesContext context,
             ListItem listItem,
             ResponseWriter writer,
             String[] styles)
@@ -549,14 +551,9 @@ abstract public class ListRendererBase extends Renderer {
             writer.writeAttribute("selected", "selected", null); //NOI18N
         }
         
-        boolean title = listItem.isTitle();
-        if(title) { 
-            writer.write("&#8212; "); 
-        } 
-        writer.write(listItem.getLabel());
-        if(title) { 
-            writer.write(" &#8212;"); 
-        } 
+	renderLabel(context, writer, listItem.getLabel(),
+		listItem.isEscape(), listItem.isTitle());
+
         writer.endElement("option");                             //NOI18N
         writer.writeText("\n", null);                            //NOI18N
         if(DEBUG) log("\trenderListOption() - END"); 
@@ -863,5 +860,97 @@ abstract public class ListRendererBase extends Renderer {
 	    sb.append(':').append(width).append(';');
 	    writer.writeAttribute("style", sb.toString(), null);
 	}
+    }
+
+    /**
+     * Render the label option value or a title option.
+     */
+    protected void renderLabel(FacesContext context,
+	    ResponseWriter writer, String label,
+	    boolean escape, boolean isTitle)
+	    throws IOException {
+
+	if (isTitle) {
+	    renderTitleLabel(context, writer, label, escape);
+	    return;
+	}
+
+	// Write an empty option if necessary
+	// Don't bother with an empty label attribute.
+	//
+	if (label == null) {
+	    writer.writeText("", null);
+	    return;
+	}
+	    
+	if (escape) {
+	    writer.writeText(label, null);
+	} else {
+	    writer.write(label);
+	}
+	return;
+    }
+
+    /**
+     * Render a label as a title. This method looks for the 
+     * <code>messages</code> theme property
+     * <code>ListSelector.titleOptionLabel</code> expecting it to be 
+     * in <code>MessageFormat</code> format where there is possibly a
+     * substitution parameter to accept the <code>titleLabel</code>
+     * text. If this property does not exist then <code>titleLabel</code>
+     * is rendered as is.
+     * </p>
+     * <p>
+     * If the theme property 
+     * <code>ListSelector.titleOptionLabelEscape</code> also exists it, 
+     * determines whether or not the string is escaped when rendered.
+     * If the escape theme property does not exist that
+     * <code>escape</code> determines whether the text is escaped or not.
+     * </p>
+     */
+    protected void renderTitleLabel(FacesContext context,
+	    ResponseWriter writer, String titleLabel,
+	    boolean escape) throws IOException {
+
+	String tmp = getMessage(context, "ListSelector.titleOptionLabel", 
+	    new Object[] {titleLabel == null ? "" : titleLabel});
+	if (tmp != null) {
+	    titleLabel = tmp;
+	}
+
+	// Until we integrate the new theme properties comment out the
+	// theme escape for the option title characters.
+	//
+	if (!escape || !ThemeUtilities.getTheme(context).
+	    getMessageBoolean("ListSelector.titleOptionLabelEscape", true)) {
+	    writer.write(titleLabel);
+	} else {
+	    writer.writeText(titleLabel, null);
+	}
+	return;
+    }
+
+    /**
+     * Return a message key value or null and log a message if the 
+     * property couldn't be obtained or the value is "".
+     */
+    private String getMessage(FacesContext context, String key,
+	    Object[] params) {
+	Theme theme = ThemeUtilities.getTheme(context);
+	String msg = null;
+	try {
+	    if (params != null) {
+		msg = theme.getMessage(key, params);
+	    } else {
+	        msg = theme.getMessage(key);
+	    }
+	} catch (Exception e) {
+	    if (LogUtil.finestEnabled()) {
+		LogUtil.finest(
+		    "ListRendererBase.getMessage: " +
+		    "Can't get message key" + key, e);
+	    }
+	}
+	return msg != null && msg.length() != 0 ? msg : null;
     }
 }

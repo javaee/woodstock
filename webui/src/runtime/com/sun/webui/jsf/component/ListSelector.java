@@ -17,7 +17,7 @@
  * you own identifying information:
  * "Portions Copyrighted [year] [name of copyright owner]"
  * 
- * Copyright 2007 Sun Microsystems, Inc. All rights reserved.
+ * Copyright 2008 Sun Microsystems, Inc. All rights reserved.
  */
 package com.sun.webui.jsf.component;
 
@@ -59,6 +59,11 @@ import javax.faces.convert.ConverterException;
 public class ListSelector extends Selector implements ListManager,
         NamingContainer {
 
+    /**
+     * The name of the label facet.
+     */
+    public static final String LABEL_FACET = "label"; //NOI18N
+
     // If true, debugging statements are printed to stdout
     private static final boolean DEBUG = false;
 
@@ -69,7 +74,7 @@ public class ListSelector extends Selector implements ListManager,
     private static final String READONLY_ID = "_readOnly"; //NOI18N
     private static final String LABEL_ID = "_label"; //NOI18N
     private static final String READONLY_FACET = "readOnly"; //NOI18N
-    private static final String LABEL_FACET = "label"; //NOI18N
+
 
     public static final String VALUE_ID = "_list_value";        //NOI18N
     public static final String VALUE_LABEL_ID = "_hiddenlabel"; //NOI18N
@@ -125,6 +130,7 @@ public class ListSelector extends Selector implements ListManager,
         throws FacesException {
         
         if(DEBUG) log("getListItems()"); //NOI18N
+
 
         listItems = new ArrayList();
         separatorLength = 0; 
@@ -245,19 +251,17 @@ public class ListSelector extends Selector implements ListManager,
 
                 OptionGroup selectionGroup = 
                     (OptionGroup)options[counter]; 
-
                 String groupLabel = selectionGroup.getLabel(); 
                 if (groupLabel == null) {
                     groupLabel = ""; //NOI18N
                 }
 		// Perform the heuristic in the setSeparatorLength
-		// method to hide the 1.5. Hopefully we can get 
+		// method to hide the 1.5. Hopefully we can get
 		// rid of it.
 		//
 		setSeparatorLength(groupLabel.length());
-                
-                listItems.add(new StartGroup(groupLabel)); 
 
+                listItems.add(new StartGroup(groupLabel)); 
                 processOptions(selectionGroup.getOptions());
                 listItems.add(new EndGroup()); 
             } 
@@ -482,7 +486,7 @@ public class ListSelector extends Selector implements ListManager,
 	setSeparatorLength(label.length());
 
         ListItem listItem = new ListItem(si.getValue(), label,
-		si.getDescription(), si.isDisabled(), si.isEscape());
+	    si.getDescription(), si.isDisabled(), si.isEscape());
 
         listItem.setValue(valueString); 
         if(si instanceof OptionTitle) { 
@@ -850,14 +854,19 @@ public class ListSelector extends Selector implements ListManager,
     }
 
     /**
-     * <p>The number of items to display. The default value is 12.</p>
+     * The number of items to display, <code>Integer.MIN_VALUE</code> 
+     * is returned if no value has been set, or there is no value binding.
+     * Subclasses should provide a reasonable default.
      */
     @Property(name="rows", displayName="Number of Items to Display", category="Appearance", editorClassName="com.sun.rave.propertyeditors.IntegerPropertyEditor")
     private int rows = Integer.MIN_VALUE;
     private boolean rows_set = false;
 
     /**
-     * <p>The number of items to display. The default value is 12.</p>
+     * The number of items to display, <code>Integer.MIN_VALUE</code> 
+     * is returned if no value has been set, or there is no value binding.
+     * Subclasses should provide a reasonable default.
+     * @return The number items to display.
      */
     public int getRows() {
         if (this.rows_set) {
@@ -872,11 +881,11 @@ public class ListSelector extends Selector implements ListManager,
                 return ((Integer) _result).intValue();
             }
         }
-        return 12;
+        return rows;
     }
 
     /**
-     * <p>The number of items to display. The default value is 12.</p>
+     * The number of items to display.
      * @see #getRows()
      */
     public void setRows(int rows) {
@@ -1070,7 +1079,7 @@ public class ListSelector extends Selector implements ListManager,
         this.separators_set = ((Boolean) _values[6]).booleanValue();
         this.visible = ((Boolean) _values[7]).booleanValue();
         this.visible_set = ((Boolean) _values[8]).booleanValue();
-        this.width = (String)_values[9];
+	this.width = (String)_values[9];
     }
 
     /**
@@ -1087,7 +1096,7 @@ public class ListSelector extends Selector implements ListManager,
         _values[6] = this.separators_set ? Boolean.TRUE : Boolean.FALSE;
         _values[7] = this.visible ? Boolean.TRUE : Boolean.FALSE;
         _values[8] = this.visible_set ? Boolean.TRUE : Boolean.FALSE;
-        _values[9] = this.width;
+	_values[9] = this.width;
         return _values;
     }
 }

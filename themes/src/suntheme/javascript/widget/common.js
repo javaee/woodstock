@@ -265,9 +265,8 @@ webui.@THEME@.widget.common = {
             widget = new obj(props);
         } catch (err) {
             var message = "Error: createWidget falied for id=" + props.id;
-            if (err && err.description != null) {
-                message += ", " + err.description;
-            }
+	    message = webui.@THEME@.widget.common.getExceptionString(err, 
+		message, true);
             console.debug(message); // See Firebug console.
             return null;
         }
@@ -400,6 +399,31 @@ webui.@THEME@.widget.common = {
     },
     
     /**
+     * Return a formatted string with the information about the exception error.
+     * @param {Error} err An exception <code>Error</code> instance.
+     * @param {String} synopsis A general message from the error call site.
+     * @param {boolean} verbose If true all possible information from the
+     * <code>err</code> is formatted into the returned String.
+     * @return {String} Formatted information from <code>err</code>.
+     */
+    getExceptionString : function(err, synopsis, verbose) {
+
+	var msg = (synopsis == null ? "" : synopsis) + "\n";
+	msg = msg + (err.name != null ? err.name : "Unnamed Error") + "\n";
+	msg = msg + (err.message != null ? err.message : "No message") + "\n";
+	if (verbose) {
+	    msg = msg + "\n" + 
+		(err.fileName != null ? err.fileName : "No filename" + "::") +
+		(err.lineNumber != null ? err.lineNumber : "No lineNumber");
+	    if (err.stack != null) {
+		var stack = err.stack.replace(/()@/g, "\n");
+		msg = msg + "\n" + stack;
+	    }
+	}
+	return msg;
+    },
+
+    /**
      * This function returns the closest form ancestor of the given DOM node.
      * <p>
      * Note: Traversing the DOM can be slow, but all HTML input elements have a
@@ -528,6 +552,74 @@ webui.@THEME@.widget.common = {
     },
 
     /**
+     * This function returns the theme value defined by <code>key</code>
+     * from the <code>messages</code> theme categpory. If the theme does 
+     * not define a value for <code>key</code>, <code>defaultValue</code>
+     * is returned. If <code>defaultValue</code> is not specified and
+     * <code>key</code> is not defined in the theme <code>null</code>
+     * is returned. The <code>args</code> if not null is assumed to be
+     * an array of strings used to format the theme message value.
+     * <p>
+     * Since the "messages" theme category can contain data
+     * as well as text messages, it is sometimes useful to provide a 
+     * default in case key is not defined.
+     * </p>
+     *
+     * @param {String} key A key defining a theme message property.
+     * @param {Array} Message format arguments
+     * @param {Object} defaultValue The value to return if "key" is not defined.
+     * @return {String} The theme message defined by "key" or "defaultValue".
+     */
+    getMessage: function(key, args, defaultValue) {
+        var msg =  webui.@THEME@.theme.common.getMessage(key, args);
+        return (msg != null) 
+	    ? msg 
+	    : (defaultValue)
+		? defaultValue
+		: null;                
+    },
+
+    /**
+     * This function returns a boolean value for the theme value defined
+     * by <code>key</code> from the <code>messages</code> theme categpory.
+     * If the theme does not define a value for <code>key</code>,
+     * <code>defaultValue</code> (which is assumed to be a boolean)
+     * is returned. If <code>defaultValue</code> is not specified
+     * and <code>key</code> is not defined in the theme, <code>false</code>
+     * is returned.
+     * <p>
+     * This method converts the theme value, if one exists to all lower
+     * case and then coerces the string to a boolean value as follows.<br/>
+     * "false" == <code>false</code><br/>
+     * "true" == <code>true</code><br/>
+     * All other strings == <code>defaultValue</code> or <code>false</code><br/>
+     * </p>
+     *
+     * @param {String} key A key defining a theme message property.
+     * @param {boolean} defaultValue The value to return if <code>key</code> is 
+     * not defined.
+     * @return {boolean} A theme value defined by <code>key</code>,
+     * <code>defaultValue</code>, or <code>false</code> if <code>key</code>
+     * is not defined.
+     */
+    getMessageBoolean: function(key, defaultValue) {
+	var result = defaultValue != null ? defaultValue : false;
+        var msg =  webui.@THEME@.theme.common.getMessage(key, null);
+	if (msg == null || msg == "") {
+	    return result;
+	}
+	var msg = msg.toLowerCase();
+	if (msg == "false") {
+	    return false;
+	} else 
+	if (msg == "true") {
+	    return true;
+	} else {
+	    return result;
+	}
+    },
+
+    /**
      * Get array containing the absolute left and top position of the given DOM
      * node relative to the browser window.
      *
@@ -642,6 +734,23 @@ webui.@THEME@.widget.common = {
             webui.@THEME@.prototypejs.extend(_props, props);
         }
         return _props;
+    },
+
+    /**
+     * Return <code>true</code> if <code>fragProps</code> defines a
+     * widget fragment. A widget fragment is a string (typically of HTML)
+     * or an object that defines the <code>widgetType</code> ort
+     * <code>id</code> properties.
+     * @param {Object} fragProps properties that may define a widget fragment.
+     * @return {boolean} true of <code>fragProps</code> is a widget fragment
+     * else false. If <code>fragProps</code> is null, false is returned.
+     */
+    isFragment : function(fragProps) {
+
+	return (fragProps != null && (typeof fragProps == "string" ||
+	    (typeof fragProps == "object" &&
+		(fragProps.widgetType != null && fragProps.widgetType != "") ||
+		(fragProps.id != null && fragProps.id != ""))));
     },
 
     /**

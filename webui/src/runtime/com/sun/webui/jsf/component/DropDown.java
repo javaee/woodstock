@@ -17,7 +17,7 @@
  * you own identifying information:
  * "Portions Copyrighted [year] [name of copyright owner]"
  *
- * Copyright 2007 Sun Microsystems, Inc. All rights reserved.
+ * Copyright 2008 Sun Microsystems, Inc. All rights reserved.
  */
 
 
@@ -30,7 +30,9 @@ import com.sun.webui.jsf.event.MethodExprActionListener;
 import com.sun.webui.jsf.util.ComponentUtilities;
 import com.sun.webui.jsf.util.MethodBindingMethodExpressionAdapter;
 import com.sun.webui.jsf.util.MethodExpressionMethodBindingAdapter;
+
 import com.sun.webui.jsf.util.ThemeUtilities;
+import com.sun.webui.theme.Theme;
 
 import java.util.Iterator;
 import java.util.Map;
@@ -441,7 +443,6 @@ public class DropDown extends ListSelector implements ActionSource2 {
         setRows(1);
     }
 
-
     // Hide value
     @Property(name="value", isHidden=true, isAttribute=false)
     public Object getValue() {
@@ -825,6 +826,75 @@ public class DropDown extends ListSelector implements ActionSource2 {
         this.toolTip = toolTip;
     }
 
+    // "labelOnTop must be overridden from ListSelector because it is
+    // a themed property. The only way to support a boolean
+    // themed property it to test for the existence of a value binding.
+    // This is the only way to tell if the application has set a
+    // value for a boolean property.
+    /**
+     * <p>
+     * If true, the label is rendered above the
+     * component. If false, the label is rendered next to the
+     * component.
+     * </p>
+     * <p>
+     * If this property is not set by the application, a themed default
+     * value will be sought, using the key <code>dropDown.labelOnTop</code>
+     * from the <code>messages.properties</code> file. If there is no
+     * value for the key, <code>false</code> is returned.
+     * </p>
+     */
+    @Property(name="labelOnTop", displayName="Label on Top", category="Appearance")
+    private boolean labelOnTop = false;
+    private boolean labelOnTop_set = false;
+
+    /**
+     * <p>
+     * If true, the label is rendered above the
+     * component. If false, the label is rendered next to the
+     * component.
+     * </p>
+     * <p>
+     * If this property is not set by the application, a themed default
+     * value will be sought, using the key <code>dropDown.labelOnTop</code>
+     * from the <code>messages.properties</code> file. If there is no
+     * value for the key, <code>false</code> is returned.
+     * </p>
+     */
+    public boolean isLabelOnTop() {
+        if (this.labelOnTop_set) {
+            return this.labelOnTop;
+        }
+        ValueExpression _vb = getValueExpression("labelOnTop");
+        if (_vb != null) {
+            Object _result = _vb.getValue(getFacesContext().getELContext());
+            if (_result == null) {
+                return false;
+            } else {
+                return ((Boolean) _result).booleanValue();
+            }
+        } else {
+	    // Get a default value from the theme.
+	    //
+	    Theme theme = ThemeUtilities.getTheme(
+		FacesContext.getCurrentInstance());
+	    return theme.getMessageBoolean("dropDown.labelOnTop", false);
+	}
+    }
+
+    /**
+     * <p>
+     * If true, the label is rendered above the
+     * component. If false, the label is rendered next to the
+     * component.
+     * </p>
+     * @see #isLabelOnTop()
+     */
+    public void setLabelOnTop(boolean labelOnTop) {
+        this.labelOnTop = labelOnTop;
+        this.labelOnTop_set = true;
+    }
+
     /**
      * <p>Restore the state of this component.</p>
      */
@@ -839,13 +909,15 @@ public class DropDown extends ListSelector implements ActionSource2 {
         this.submitForm_set = ((Boolean) _values[6]).booleanValue();
         this.toolTip = (String) _values[7];
         this.htmlTemplate = (String) _values[8];
+        this.labelOnTop = ((Boolean) _values[9]).booleanValue();
+        this.labelOnTop_set = ((Boolean) _values[10]).booleanValue();
     }
 
     /**
      * <p>Save the state of this component.</p>
      */
     private Object _saveState(FacesContext _context) {
-        Object _values[] = new Object[9];
+        Object _values[] = new Object[11];
         _values[0] = super.saveState(_context);
         _values[1] = this.forgetValue ? Boolean.TRUE : Boolean.FALSE;
         _values[2] = this.forgetValue_set ? Boolean.TRUE : Boolean.FALSE;
@@ -855,6 +927,8 @@ public class DropDown extends ListSelector implements ActionSource2 {
         _values[6] = this.submitForm_set ? Boolean.TRUE : Boolean.FALSE;
         _values[7] = this.toolTip;
         _values[8] = this.htmlTemplate;
+        _values[9] = this.labelOnTop ? Boolean.TRUE : Boolean.FALSE;
+        _values[10] = this.labelOnTop_set ? Boolean.TRUE : Boolean.FALSE;
         return _values;
     }
 }
