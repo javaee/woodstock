@@ -194,11 +194,10 @@ public abstract class AnchorRendererBase extends RendererBase{
             JSONObject json, String url) throws JSONException {
         if (url != null && url.length() > 0) {
             if (!(url.startsWith("#"))) { //NOI18N
-                url = context.getApplication().getViewHandler().getResourceURL(
-                    context, url);
                 url = WidgetUtilities.translateURL(context, component, url); //NOI18N                      
             }
-            json.put("href", url);
+            json.put("prefix", context.getExternalContext().getRequestContextPath())
+                .put("href", url);
         } 
     }
     

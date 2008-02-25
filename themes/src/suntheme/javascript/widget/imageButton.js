@@ -143,6 +143,7 @@ webui.@THEME@.widget.imageButton.prototype.getProps = function() {
  * @config {String} alt Alternate text for image input.
  * @config {String} align Alignment of image input.
  * @config {String} className CSS selector.
+ * @config {String} prefix The application context path of image 
  * @config {String} dir Specifies the directionality of text.
  * @config {boolean} disabled Disable element.
  * @config {String} escape HTML escape button text (default).
@@ -189,7 +190,16 @@ webui.@THEME@.widget.imageButton.prototype._setProps = function(props) {
     }
 
     // Set properties.
-    if (props.src) { this.domNode.src = props.src; }
+        if (props.src) {
+                
+            // If context path is provided, then check whether the image has
+            // context path already appended and if not, append it.
+            if (this.prefix) {
+                props.src = 
+                    webui.@THEME@.widget.common.appendPrefix(this.prefix, props.src);                
+            }
+            this.domNode.src = props.src; 
+        }
 
     // Set remaining properties.
     return this.inherited("_setProps", arguments);

@@ -217,24 +217,24 @@ webui.@THEME@.widget.popupMenu.prototype.open = function(event) {
     }
         
     // Check if developer defined styles are set on the widget.
-    if (this.style != null) {
+    if (this.style != null && this.style.length > 0) {
         // Mozilla browsers will tell us which styles are set.  If they're not
         // in the list, then the styles appear to be undefined.
         if (this.domNode.style.length != null) {
             for (var i = 0; i < this.domNode.style.length; i++) {
                     var x = this.domNode.style[i];
                 if (this.domNode.style[i] == "top")
-                    this.top = this.domNode.style.top;
+            this.top = this.domNode.style.top; 
                 if (this.domNode.style[i] == "left")
                     this.left = this.domNode.style.left;
-            }
+        }
         } else {
             // For IE, simply query the style attributes.
-            if (this.style.top != "")
+            if (this.domNode.style.top != "")
                 this.top = this.domNode.style.top;
             if (this.domNode.style.left != "")
-                this.left = this.domNode.style.left;
-        }    
+            this.left = this.domNode.style.left;
+        }
     }
 
     // Fix: Setting the menu visible here causes flashing. The menu is shown in
@@ -277,18 +277,6 @@ webui.@THEME@.widget.popupMenu.prototype.open = function(event) {
             menuLeft -= (rightEdge - pageWidth);
         }
         
-        // Shift menu to account for horizontal scrolling.
-        if ((window.pageXOffset != null) && (window.pageXOffset > 0)) {
-            menuLeft += window.pageXOffset;
-        }
-        if ((document.body.scrollLeft != null) && (document.body.scrollLeft > 0)) {
-            menuLeft += document.body.scrollLeft;
-        }
-        if ((document.documentElement.scrollLeft != null) && 
-            (document.documentElement.scrollLeft > 0)) {
-            menuLeft += document.documentElement.scrollLeft;        
-        }
-
         // If left edge of menu crosses left page boundary, then
         // shift menu right just enough to bring it into view.
         if (menuLeft < 0) {
@@ -298,18 +286,6 @@ webui.@THEME@.widget.popupMenu.prototype.open = function(event) {
         // Assume default vertical position is to position menu below target.
         var menuTop = targetTop + target.offsetHeight + this.bottomShadow;
         
-        // Shift menu to account for vertical scrolling.
-        if ((window.pageYOffset != null) && (window.pageYOffset > 0)) {
-            menuTop += window.pageYOffset;
-        }
-        if ((document.body.scrollTop != null) && (document.body.scrollTop > 0)) {
-            menuTop += document.body.scrollTop;
-        }
-        if ((document.documentElement.scrollTop != null) &&
-        (document.documentElement.scrollTop > 0)) {
-            menuTop += document.documentElement.scrollTop;
-        }
-
         // Check if bottom edge of menu exceeds page boundary.
         var bottomEdge = menuTop + this.domNode.offsetHeight - this.bottomShadow;
         if (bottomEdge > this.widget.getPageHeight()) {

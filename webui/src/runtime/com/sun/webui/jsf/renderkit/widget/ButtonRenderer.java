@@ -240,13 +240,11 @@ public class ButtonRenderer extends RendererBase {
      */
     private void setImageProperties(FacesContext context, Button component,
             JSONObject json) throws JSONException {
-        // Append context path to relative URLs.
-        String url = context.getApplication().getViewHandler().
-            getResourceURL(context, component.getImageURL()); 
-
+        
         // Set properties.
         json.put("alt", component.getAlt())
-            .put("src", url);
+            .put("prefix", context.getExternalContext().getRequestContextPath())
+            .put("src", component.getImageURL());
     }
 
     /** 

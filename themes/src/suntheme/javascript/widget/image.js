@@ -112,6 +112,7 @@ webui.@THEME@.widget.image.prototype.getProps = function() {
  * @config {String} align Alignment of image input.
  * @config {String} border
  * @config {String} className CSS selector.
+ * @config {String} prefix The application context path of image
  * @config {String} dir Specifies the directionality of text.
  * @config {String} height 
  * @config {String} hspace 
@@ -216,7 +217,16 @@ webui.@THEME@.widget.image.prototype._setProps = function(props) {
         // Icon properties take precedence.
         if (props.alt) { this.domNode.alt = props.alt; }
         if (props.height) { this.domNode.height = props.height; }
-        if (props.src) { this.domNode.src = props.src; } 
+        if (props.src) {
+                
+            // If context path is provided, then check whether the image has
+            // context path already appended and if not, append it.
+            if (this.prefix) {
+                props.src = 
+                    webui.@THEME@.widget.common.appendPrefix(this.prefix, props.src);                
+            }
+            this.domNode.src = props.src;  
+        } 
         if (props.width) { this.domNode.width = props.width; }
     }
     if (props.align) { this.domNode.align = props.align; }

@@ -175,7 +175,27 @@ webui.@THEME@.widget.common = {
         }
         return true;
     },
-
+    
+     /**
+      * This function is used to add the context path to a given property.
+      * The property could denote an url such as path to an image to be rendered
+      * or location of a resource to navigate to when a link is clicked. The
+      * property given has to start with a "/". Relative urls that start with 
+      * ".." will not have the context path appended. It also checks whether the
+      * context path has already been added to the property.
+      *
+      * @param (String} prefix The context path of the application
+      * @param (String} props The property for which the contextPath is to be appended
+      * @return {String} The property that has the contextPath appended
+      * @private
+      */
+     appendPrefix: function(prefix, props) {
+         if (props.charAt(0) == "/" && props.indexOf(prefix) == -1) {
+             props = prefix + props;                        
+         }        
+         return props;
+     },
+     
     /**
      * This function is used to create and append widgets as children of the
      * given HTML element. See the createWidget() function.

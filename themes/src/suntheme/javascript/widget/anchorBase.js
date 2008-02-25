@@ -185,7 +185,16 @@ webui.@THEME@.widget.anchorBase.prototype._setProps = function(props) {
     if (props.accessKey) { this.domNode.accesskey = props.accessKey; }
     if (props.charset) { this.domNode.charset = props.charset; }
     if (props.coords) { this.domNode.coords = props.coords; }
-    if (props.href) { this.domNode.href = props.href }
+        if (props.href) {
+                
+            // If context path is provided, then check whether the image has
+            // context path already appended and if not, append it.
+            if (this.prefix) {
+                props.href = 
+                    webui.@THEME@.widget.common.appendPrefix(this.prefix, props.href);
+            }
+            this.domNode.href = props.href; 
+        }
     if (props.hrefLang) { this.domNode.hrefLang =  props.hrefLang; }
     if (props.name) { this.domNode.name = props.name; }
     if (props.rev) { this.domNode.rev = props.rev; }

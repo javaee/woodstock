@@ -147,7 +147,6 @@ public class ImageRenderer extends RendererBase {
         String alt = image.getAlt();
         int height = image.getHeight();
         int width = image.getWidth();  
-        boolean urlFlag = false;
         
         // If an icon attribute is set and the url attribute is null,
         // render the image represented by the icon attribute.
@@ -186,15 +185,11 @@ public class ImageRenderer extends RendererBase {
                 LogUtil.warning(ImageRenderer.class, " No image was " +
                     "specified and generally should be"); // NOI18N                        
             }
-        } else {
-            // We do not want to invoke getResourceURL for an image represented
-            // by the icon attribute.
-              if (!(image instanceof Icon)) {
-                url = context.getApplication().getViewHandler().getResourceURL(
-                    context, url);
-                urlFlag = true;
-              }
-        }
+        } 
+
+        // Send the context path to the client side widget.
+        // This will be appended to the url of the image.
+        String prefix = context.getExternalContext().getRequestContextPath();        
 
         // must encode the url (even though we call the function later)!  
         url = (url != null && url.trim().length() != 0)
@@ -206,19 +201,18 @@ public class ImageRenderer extends RendererBase {
         json.put("visible", image.isVisible())
             .put("alt", alt)
             .put("title", image.getToolTip())
-            .put("style", style); // Overridden by setPngProperties.
+            .put("style", style) // Overridden by setPngProperties.
+            .put("prefix", prefix);        
 
-        // If url is specified, do not output icon attribute.
-        if (!urlFlag) {
+        // If the image object is an Icon instance, then dont output url.
+        if (image instanceof Icon) {
             json.put("icon", icon);
-        }
-
-        if (isPngAndIE(context, url)) {            
+        } else if (isPngAndIE(context, url)) {            
             setPngProperties(json, width, height, getTheme(), style, url);
-        } else if (urlFlag) {
+        } else {
             json.put("src", url); // Don't output when icon is used.
         }
-
+        
         if (width > 0) {
             json.put("width", width);
         }
