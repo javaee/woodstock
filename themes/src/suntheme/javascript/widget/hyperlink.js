@@ -214,8 +214,10 @@ webui.@THEME@.widget.hyperlink.prototype.submitFormData = function (formId, para
     }
 
     // Set new action URL.
-    theForm.action += "?" + link.id + "_submittedLink=" + link.id;               
-
+    var prefix;
+    (theForm.action.indexOf("?") == -1) ? prefix = "?" : prefix = "&";
+    theForm.action += prefix + link.id + "_submittedLink=" + link.id;               
+        
     // Set new target.
     if (link.target && link.target.length > 0) {
         theForm.target = link.target;
