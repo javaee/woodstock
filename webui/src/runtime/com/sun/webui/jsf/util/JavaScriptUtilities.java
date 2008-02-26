@@ -280,9 +280,6 @@ public class JavaScriptUtilities {
             renderPrototypeInclude(component, writer);
             renderJsfxInclude(component, writer);
         }
-
-        // Render global include.
-        renderGlobalInclude(component, writer);
     }
 
     /**
@@ -557,33 +554,6 @@ public class JavaScriptUtilities {
         renderJavaScriptInclude(component, writer, (isDebug())
             ? ThemeJavascript.BOOTSTRAP_UNCOMPRESSED
             : ThemeJavascript.BOOTSTRAP);
-    }
-
-    /**
-     * Helper method to render JavaScript include.
-     *
-     * @param component UIComponent to be rendered.
-     * @param writer ResponseWriter to which the component should be rendered.
-     */
-    private static void renderGlobalInclude(UIComponent component,
-            ResponseWriter writer) throws IOException {
-        String javascripts[] = getTheme().getGlobalJSFiles();
-        if (javascripts == null) {
-            return;
-        }
-        for (int i = 0; i < javascripts.length; i++) {
-            Object file = javascripts[i];
-            if (file == null) {
-                continue;
-            }
-            if (isDebug()) {
-                writer.write("\n");
-            }
-            writer.startElement("script", component);
-            writer.writeAttribute("type", "text/javascript", null);
-            writer.writeURIAttribute("src", file.toString(), null);
-            writer.endElement("script");
-        }
     }
 
     /**
