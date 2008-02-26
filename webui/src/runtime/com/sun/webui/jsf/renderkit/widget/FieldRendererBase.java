@@ -25,10 +25,15 @@ package com.sun.webui.jsf.renderkit.widget;
 import com.sun.webui.jsf.component.ComplexComponent;
 import com.sun.webui.jsf.component.Field;
 
+import java.io.IOException;
 import java.util.Map;
 import javax.faces.component.EditableValueHolder;
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 /** 
  * FieldRendererBase provides common functionality for field renderers,
@@ -82,7 +87,30 @@ public abstract class FieldRendererBase extends RendererBase {
         }
         field.setSubmittedValue(value);
     }
+
     
+    /**
+     * Helper method to return a <code>JSONObject</code> of label properties.
+     * This method retrieves label properties from specified field and puts them 
+     * in the label array. 
+     * 
+     * @param context FacesContext for the current request.
+     * @param component Field to be rendered.
+     */
+    protected JSONObject getLabel(FacesContext context, 
+            Field field) throws IOException, JSONException {
+        
+        if (field == null) {
+            throw new RuntimeException("field must not be null"); //NOI18N
+        }
+        JSONObject json = new JSONObject();
+
+        json.put("value", field.getLabel())
+            .put("level", field.getLabelLevel());
+
+        return json;
+    }
+
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     // Private methods
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~

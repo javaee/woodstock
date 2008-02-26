@@ -106,6 +106,15 @@ webui.@THEME@.widget.fieldBase.prototype.postCreate = function () {
         this.labelContainer.id = this.id + "_label";
     }
     
+    //initialize label
+    if (this.label && this.label.value != null &&
+	    !this.widget.isFragment(this.label)) {
+
+	this.label = this.widget.getWidgetProps("label", this.label);
+	this.label.id = this.labelContainer.id;
+    }
+
+    
     // Set public functions.
     this.domNode.getInputElement = function() { return webui.@THEME@.dijit.byId(this.id).getInputElement(); }
     
@@ -127,6 +136,8 @@ webui.@THEME@.widget.fieldBase.prototype._setProps = function(props) {
         return false;
     }
     
+
+    
     // Set properties.
     if (props.submitForm == false || props.submitForm == true ) { 
         // connect the keyPress event
@@ -139,24 +150,44 @@ webui.@THEME@.widget.fieldBase.prototype._setProps = function(props) {
     if (props.disabled != null) { 
         this.fieldNode.disabled = new Boolean(props.disabled).valueOf();
     }
+    if (props.valid != null) { 
+        this.valid = new Boolean(props.valid).valueOf();
+        if (props.label == null) props.label = {};
+        props.label.valid = this.valid;
+    }
+    if (props.required != null) { 
+        this.required = new Boolean(props.required).valueOf();
+        if (props.label == null) props.label = {};
+        props.label.required = this.required;
+    }
     if (props.readOnly != null) { 
         this.fieldNode.readOnly = new Boolean(props.readOnly).valueOf();
     }
     
-    // Set label properties.
-    if (props.label || (props.valid != null || props.required != null) && this.label) {
-        // Ensure property exists so we can call setProps just once.
-        if (props.label == null) {
-            props.label = {}; // Avoid updating all props using "this" keyword.
-        }
-        
-        // Set properties.
-        props.label.required = this.required;
-        props.label.valid = this.valid;
-        
-        // Update/add fragment.
-        this.widget.updateFragment(this.labelContainer, this.label.id, props.label);
+    // Set label properties.  
+    // If _setProps is called during initializat then we will be
+    // creating the label and props.label == this.label.
+    // If _setProps is called from setProps, then we are updating the
+    // label. The label needs to be updated if 
+    // required or valid properties are changed.
+    // The application may also be creating a label after the
+    // widget was created.
+    //
+    if (props.label) {
+	// Now update or create the label.
+	// If we don't have an existing label, this.label.id == null
+	// then call addFragment in case the application is
+	// creating the label after the selectBase widget was created.
+	//
+	if (this.label != null && this.label.id != null) {
+	    this.widget.updateFragment(this.labelContainer, this.label.id,
+		props.label);
+	} else {
+            console.log('creating label ' +this.labelContainer + ' label props:' + props.label );
+	    this.widget.addFragment(this.labelContainer, props.label);
+	}
     }
+      
     
     // Set HTML input element class name.
     this.fieldNode.className = this.getInputClassName();
