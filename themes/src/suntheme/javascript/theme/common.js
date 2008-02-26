@@ -367,12 +367,24 @@ webui.@THEME@.theme.common = {
             // If there is no module, i.e. just a bundle segment
             // create a module name in the theme namespace.
             //
+	    var modulePath = theme.getPrefix();
             if (module == null || module == "") {
                 theme.custom = {};
                 module = "webui.@THEME@.theme.common.custom";
-            }
-            var re = new RegExp("\\.", "g");
-            var modulePath = module.replace(re, "/");
+            } else {
+		// Only do this if the application did provided a
+		// module. When the application does not provide
+		// a module then ""webui.@THEME@.theme.common.custom"
+		// will be used as the module and then only
+		// the app context needs to be specified as the
+		// modulePath, the root of the resource files.
+		// Other wise the modulePath must include the
+		// appcontext and the module, since this is the
+		// root structure containing the resources.
+		//
+		var re = new RegExp("\\.", "g");
+		modulePath = modulePath + "/" + module.replace(re, "/");
+	    }
             webui.@THEME@.dojo.registerModulePath(module, modulePath);
             theme.requireLocalization(module, bundle, config.theme.locale);
         } catch(e) {
