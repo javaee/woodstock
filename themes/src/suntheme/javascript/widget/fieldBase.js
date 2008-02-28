@@ -183,7 +183,6 @@ webui.@THEME@.widget.fieldBase.prototype._setProps = function(props) {
 	    this.widget.updateFragment(this.labelContainer, this.label.id,
 		props.label);
 	} else {
-            console.log('creating label ' +this.labelContainer + ' label props:' + props.label );
 	    this.widget.addFragment(this.labelContainer, props.label);
 	}
     }
