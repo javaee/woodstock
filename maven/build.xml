@@ -118,8 +118,64 @@
         <echo message="repository.id is ${repository.id}"/>
         <echo message="repository.url is ${repository.url}"/>
     </target>
-    
-    <target name="-get-data">
+  
+	<target name="-get-data" depends="-get-data-locally,-get-data-remotely"/>
+
+	<target name="-get-data-remotely" depends="bootstrap" if="bits.location">
+		<!-- webui-jsf artifact -->
+		<mkdir dir="${upload.dir}/webui-jsf"/>
+		<copy todir="${upload.dir}/webui-jsf">
+			<fileset dir="${bits.location}/webui-jsf">
+				<include name="webui-jsf.jar"/>
+				<include name="webui-jsf_*.jar"/>
+			</fileset>
+		</copy>
+
+		<!-- webui-jsf artifact -->
+		<mkdir dir="${upload.dir}/webui-jsf-dt"/>
+		<copy todir="${upload.dir}/webui-jsf-dt">
+			<fileset dir="${bits.location}/webui-jsf-dt">
+				<include name="webui-jsf-dt.jar"/>
+				<include name="webui-jsf-dt_*.jar"/>
+			</fileset>
+		</copy>
+
+		<!-- suntheme artifact -->
+		<mkdir dir="${upload.dir}/webui-jsf-suntheme"/>
+		<copy todir="${upload.dir}/webui-jsf-suntheme">
+			<fileset dir="${bits.location}/webui-jsf-suntheme">
+				<include name="webui-jsf-suntheme.jar"/>
+				<include name="webui-jsf-suntheme_*.jar"/>
+			</fileset>
+		</copy>
+
+		<!-- dataprovider dependency -->
+		<mkdir dir="${upload.dir}/dataprovider"/>
+		<copy todir="${upload.dir}/dataprovider" file="${bits.location}/dataprovider/dataprovider.jar"/>
+
+		<!-- jh dependency -->
+		<mkdir dir="${upload.dir}/jh"/>
+		<copy todir="${upload.dir}/jh" file="${bits.location}/jh/jh.jar"/>
+
+		<!-- jhall dependency -->
+		<mkdir dir="${upload.dir}/jhall"/>
+		<copy todir="${upload.dir}/jhall" file="${bits.location}/jhall/jhall.jar"/>
+
+		<!-- jhbasic dependency -->
+		<mkdir dir="${upload.dir}/jhbasic"/>
+		<copy todir="${upload.dir}/jhbasic" file="${bits.location}/jhbasic/jhbasic.jar"/>
+
+		<!-- json dependency -->
+		<mkdir dir="${upload.dir}/json"/>
+		<copy tofile="${upload.dir}/json/json.jar" file="${bits.location}/json/json.jar"/>
+
+		<!-- portlet dependency -->
+		<mkdir dir="${upload.dir}/portlet"/>
+		<copy todir="${upload.dir}/portlet" file="${bits.location}/portlet/portlet.jar"/>
+
+	</target>
+ 
+	<target name="-get-data-locally" depends="bootstrap" unless="bits.location"> 
         <!-- webui-jsf artifact -->
         <mkdir dir="${upload.dir}/webui-jsf"/>
         <copy todir="${upload.dir}/webui-jsf">
