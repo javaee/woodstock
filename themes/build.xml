@@ -77,6 +77,8 @@
               value="${jsdoc.dir}/app/run.js"/>
     <property name="jsdoc.template"
               value="${jsdoc.dir}/templates/suntheme"/>
+    <property name="packer.dir" value="${tools}/packer/lib"/>
+    <property name="compressJs.js" value="${tools}/packer/compressJs.js"/>
 
     <!-- Default values. This build file will always build a "suntheme"
 	 if no ${theme.name} property or ${theme.name}.properties
@@ -175,6 +177,8 @@
     <fileset id="jar-file-set" dir="${theme.build-dir}">
 	<exclude name="${theme.package-path}/${theme.service-class}.java"/>
 	<exclude name="translatedFiles/**/*"/>
+        <exclude name="**/_${theme.bootstrap.js}**"/>
+        <exclude name="**/_${theme.dnd.js}**"/>
     </fileset>
 
     <!-- The patternsets for the combined javascript files. Additional files may 
@@ -232,9 +236,11 @@
 
     <!-- The files that are commonly excluded. -->
     <patternset id="exclude-js-files">
+        <exclude name="_bootstrap.js" /> <!-- Temporary build file -->
+        <exclude name="_dnd.js" /> <!-- Temporary build file -->
         <exclude name="bootstrap.js" /> <!-- Loaded separately -->
-        <exclude name="calendar.js" /> <!-- Never include deprecated files -->
-        <exclude name="dojo/" /> <!-- dojo.js must be included separately -->
+        <exclude name="calendar.js" /> <!-- Don't include deprecated files -->
+        <exclude name="dojo/" /> <!-- Loaded separately -->
 	<exclude name="theme/nls/"/>
 	<exclude name="webui.js"/>
 	<exclude name="webui-all.js"/>
@@ -251,12 +257,12 @@
 
     -->
     <patternset id="bootstrap-js-files">
-        <include name="bootstrap.js" />
+        <include name="_bootstrap.js" />
     </patternset>
 
     <!-- "dnd.js" -->
     <patternset id="dnd-js-files">
-	<include name="dnd.js" />
+	<include name="_dnd.js" />
     </patternset>
 
     <!-- "webui.js" -->
@@ -367,14 +373,12 @@
 	    <param name="_to-dir_" value="${theme.build-package-path}/css"/>
 	    <param name="_from-dir_" value="${theme.src-dir}/css"/>
 	    <param name="_files-to-combine_" value="${theme.master.css}"/>
-            <param name="_copyright-file_" value="${theme.copyright}"/>
 	    <param name="_combined-file_" 
 		value="${theme.build-package-path}/css/${theme.master-all.css}"/>
 	</antcall>
 
 	<!-- Call combineJavascript once for each of the 
 	     combined javascript files.
-            theme.dnd.js
 	    theme.webui.js
 	    theme.webui-all.js
 	    theme.webui-jsfx.js
@@ -389,7 +393,6 @@
 	<antcall target="combineJavascript">
 	    <param name="_to-dir_" value="${js-dest-uncmp}"/>
 	    <param name="_from-dir_" value="${js-src}"/>
-            <param name="_copyright-file_" value="${theme.copyright}"/>
 	    <param name="_include-set_" value="${theme.webui-js-files}"/>
             <param name="_exclude-set_" value="${theme.bootstrap-js-files}"/>
 	    <param name="_combined-file_" 
@@ -398,7 +401,6 @@
 	<antcall target="combineJavascript">
 	    <param name="_to-dir_" value="${js-dest-uncmp}"/>
 	    <param name="_from-dir_" value="${js-src}"/>
-            <param name="_copyright-file_" value="${theme.copyright}"/>
 	    <param name="_include-set_"
 		value="${theme.webui-all-js-files}"/>
             <param name="_exclude-set_" value="${theme.bootstrap-js-files}"/>
@@ -408,7 +410,6 @@
 	<antcall target="combineJavascript">
 	    <param name="_to-dir_" value="${js-dest-uncmp}"/>
 	    <param name="_from-dir_" value="${js-src}"/>
-            <param name="_copyright-file_" value="${theme.copyright}"/>
 	    <param name="_include-set_"
 		value="${theme.webui-jsfx-js-files}"/>
             <param name="_exclude-set_" value="${theme.bootstrap-js-files}"/>
@@ -418,7 +419,6 @@
 	<antcall target="combineJavascript">
 	    <param name="_to-dir_" value="${js-dest-uncmp}"/>
 	    <param name="_from-dir_" value="${js-src}"/>
-            <param name="_copyright-file_" value="${theme.copyright}"/>
 	    <param name="_include-set_"
 		value="${theme.webui-jsfx-all-js-files}"/>
             <param name="_exclude-set_" value="${theme.bootstrap-js-files}"/>
@@ -430,29 +430,32 @@
 	<antcall target="combineJavascript">
 	    <param name="_to-dir_" value="${js-dest-uncmp}"/>
 	    <param name="_from-dir_" value="${js-src}"/>
-            <param name="_copyright-file_" value="${theme.copyright}"/>
 	    <param name="_include-set_" value="${theme.dnd-js-files}"/>
 	    <param name="_combined-file_" 
-		value="${js-dest-uncmp}/${theme.dnd.js}.tmp"/>
+		value="${js-dest-uncmp}/${theme.dnd.js}"/>
             <param name="_exclude-set_" value="${theme.bootstrap-js-files}"/>
 	</antcall>
-        <!-- file must be renamed because dnd.js already exists in src -->
-        <move file="${js-dest-uncmp}/${theme.dnd.js}.tmp" tofile="${js-dest-uncmp}/${theme.dnd.js}"/>
         
         <!-- Call combineJavascript once for theme.bootstrap.js -->
 	<antcall target="combineJavascript">
 	    <param name="_to-dir_" value="${js-dest-uncmp}"/>
 	    <param name="_from-dir_" value="${js-src}"/>
-            <param name="_copyright-file_" value="${theme.copyright}"/>
 	    <param name="_include-set_" value="${theme.bootstrap-js-files}"/>
             <param name="_exclude-set_" value="${theme.dnd-js-files}"/> <!-- Have to provide something? -->
 	    <param name="_combined-file_" 
-		value="${js-dest-uncmp}/${theme.bootstrap.js}.tmp"/>
+		value="${js-dest-uncmp}/${theme.bootstrap.js}"/>
 	</antcall>
-        <!-- file must be renamed because bootstrap.js already exists in src -->
-        <move file="${js-dest-uncmp}/${theme.bootstrap.js}.tmp" tofile="${js-dest-uncmp}/${theme.bootstrap.js}"/>
 
+        <!-- Compress JavaScript without base62 encoding. -->
         <antcall target="compressJavascript">
+	    <param name="_to-dir_" value="${js-dest-cmp}"/>
+	    <param name="_from-dir_" value="${js-dest-uncmp}"/>
+	</antcall>
+
+        <!-- To do: Add antcall to GZIP here. -->
+
+        <!-- Compress JavaScript with base62 encoding. -->
+        <antcall target="compressJavascriptBase62">
 	    <param name="_to-dir_" value="${js-dest-cmp}"/>
 	    <param name="_from-dir_" value="${js-dest-uncmp}"/>
 	</antcall>
@@ -729,7 +732,6 @@
 
     </target>
 
-
     <!-- ################## CSS targets ##################### -->
 
     <!-- Set the "css-uptodate" property  if ${_combined-file_}" is 
@@ -751,12 +753,14 @@
 			In this case it is a list of files that contain
 			"import" statements.
 	_combined-file_ - the combined css file.
-        _copyright-file_ - the copyright file.
 
 	This also copies and filters CSS files from
 	"${_from-dir_}" to "${_to-dir_}".
 
-	Should depend on a copy CSS
+	Expects the following globals to be set.
+       
+        ${theme.copyright}
+        ${tools.jar}
     -->
     <target name="combineCSS" depends="css-uptodate"
 	    unless="css-uptodate">
@@ -780,15 +784,15 @@
 
 	<java jar="${tools.jar}" failonerror="true" fork="true">
 	  <arg value="-combineCSS"/>
-	  <arg value="-sourceDir"/>
-	  <arg value="${_to-dir_}"/>
+          <arg value="-copyrightFile"/>
+          <arg value="${theme.copyright}"/>
 	  <arg value="-fileList"/>
 	  <arg value="${_files-to-combine_}"/>
 	  <arg value="-outFile"/>
 	  <arg value="${_combined-file_}"/>
-          <arg value="-copyrightFile"/>
-          <arg value="${_copyright-file_}"/>
-	  <arg value="-verbose"/>
+	  <arg value="-sourceDir"/>
+	  <arg value="${_to-dir_}"/>
+          <arg value="-verbose"/>
 	</java>
     </target>
 
@@ -861,8 +865,12 @@
 	_include-set_ - the patternset refid defining the files to combine.
         _exclude-set_ - the patternset refid defining the files to exclude.
 	_combined-file_ - the combined js file.
-        _copyright-file_ - the copyright file.
 
+	Expects the following globals to be set.
+       
+        ${theme.copyright}
+        ${theme.js-module-prefix}
+        ${tools.jar}
     -->
     <target name="combineJavascript" depends="combined-js-uptodate" 
             unless="combined-js-uptodate"
@@ -891,18 +899,18 @@
 
 	<java jar="${tools.jar}" failonerror="true" fork="true">
 	  <arg value="-combineJS"/>
-	  <arg value="-sourceDir"/>
-	  <arg value="${__from-dir-loc__}"/>
-	  <arg value="-fileList"/>
-	  <arg value="${__files-to-combine__}"/>
+          <arg value="-copyrightFile"/>
+          <arg value="${theme.copyright}"/>
 	  <arg value="-excludeFileList"/>
 	  <arg value="${__files-to-exclude__}"/>
+	  <arg value="-fileList"/>
+	  <arg value="${__files-to-combine__}"/>
 	  <arg value="-modulePrefix"/>
 	  <arg value="${theme.js-module-prefix}"/>
 	  <arg value="-outFile"/>
-	  <arg value="${_combined-file_}"/>
-          <arg value="-copyrightFile"/>
-          <arg value="${_copyright-file_}"/>
+          <arg value="${_combined-file_}"/>
+	  <arg value="-sourceDir"/>
+	  <arg value="${__from-dir-loc__}"/>
           <arg value="-verbose"/>
 	</java>
     </target>
@@ -915,7 +923,7 @@
 	<uptodate property="compressed-js-uptodate">
 	    <srcfiles dir="${_from-dir_}" 
 		includes="**/*.js"
-		excludes="theme/nls/,**/${theme.webui.js},**/${theme.webui-all.js},**/${theme.webui-jsfx.js},**/${theme.webui-jsfx-all.js}"/>
+		excludes="theme/nls/,dojo/,${theme.bootstrap.js},${theme.dnd.js},${theme.webui.js},${theme.webui-all.js},${theme.webui-jsfx.js},${theme.webui-jsfx-all.js}"/>
 	    <mapper type="glob" from="*" to="${_to-dir_}/*"/>
 	</uptodate>
     </target>
@@ -933,7 +941,11 @@
 	there are files in "${_from-dir_}", so either "combineJavascript"
 	or "copyJavascript" should have been called.
 
-	Expects Global "${rhino.jar}" to be set.
+	Expects the following globals to be set.
+
+        ${rhino.jar}
+        ${copyright}
+        ${tools.jar}
     -->
     <target name="compressJavascript" if="build-compressJS" 
             depends="compressed-js-uptodate" unless="compressed-js-uptodate">
@@ -946,7 +958,7 @@
 	<property name="__from-dir-loc__" location="${_from-dir_}"/>
 	<property name="__to-dir-loc__" location="${_to-dir_}"/>
 
-	<!-- make sure to exclude the "nls" directory -->
+	<!-- Make sure to exclude the nls, dojo and combined files. -->
 	<pathconvert property="__files-to-compress__" pathsep=",">
 	    <fileset dir="${__from-dir-loc__}">
 		<exclude name="**/nls/"/>
@@ -959,7 +971,7 @@
 		from="${__from-dir-loc__}${file.separator}*" to="*"/>
 	</pathconvert>
 
-	<!-- Always add "webui.js" since it is always a generated file -->
+        <!-- Call Shrink Safe tool. -->
 	<java jar="${tools.jar}" failonerror="true" fork="true">
 	  <arg value="-compressJS"/>
 	  <arg value="-sourceDir"/>
@@ -979,6 +991,103 @@
 		includes="${__files-to-compress__}"/>
         </replaceregexp>
 
+        <!-- Trigger base62 JavaScript compression. -->
+        <antcall target="_compressed-js-timestamp_"/>
+    </target>
+
+    <!-- Touch time stamp to trigger base62 JavaScript compression.
+    	"${__to-dir-loc__}" Location of compressed files.
+	"${__files-to-compress__}" List of files to touch.
+    -->
+    <target name="_compressed-js-timestamp_" if="build-compressJS-base62">
+        <touch datetime="${BuildNumber}" pattern="yyyyMMddHHmm">
+            <fileset dir="${__to-dir-loc__}"
+                includes="${__files-to-compress__}"
+                excludes="theme/nls/,dojo/,${theme.bootstrap.js},${theme.dnd.js},${theme.webui.js},${theme.webui-all.js},${theme.webui-jsfx.js},${theme.webui-jsfx-all.js}"/>
+        </touch>
+    </target>
+
+    <!-- Set the compressed-js-base62-uptodate property if
+	"${_to-dir_}/**/*.js" files are newer than 
+	"${_from-dir_}/**/*.js"
+    -->
+    <target name="compressed-js-base62-uptodate">
+	<uptodate property="compressed-js-base62-uptodate">
+	    <srcfiles dir="${_from-dir_}" 
+		includes="**/*.js"
+		excludes="theme/nls/,dojo/,${theme.bootstrap.js},${theme.dnd.js},${theme.webui.js},${theme.webui-all.js},${theme.webui-jsfx.js},${theme.webui-jsfx-all.js}"/>
+            <mapper type="glob" from="*" to="${_to-dir_}/*"/>
+	</uptodate>
+    </target>
+
+    <!-- Parameters
+
+	_to-dir_ - root of the destination for compressed files
+	_from-dir_ - the source of the uncompressed and
+	             filtered javascript files.
+
+        Comment out build-compressJS-base62 in the build.properties file if you
+        don't want to compress when modifying JavaScript files
+
+	To simplify the dependency checking it is expected that
+	there are files in "${_from-dir_}", so either "combineJavascript"
+	or "copyJavascript" should have been called.
+
+	Expects the following globals to be set.
+
+        ${compressJs.js}
+        ${packer.dir}
+        ${rhino.jar}
+        ${theme.copyright}
+        ${tools.jar}
+    -->
+    <target name="compressJavascriptBase62" if="build-compressJS-base62"
+            depends="compressed-js-base62-uptodate" unless="compressed-js-base62-uptodate">
+
+	<mkdir dir="${_to-dir_}"/>
+
+	<!-- Use property location to overcome issues with
+	     Windows paths and pathconvert.
+	-->
+	<property name="__from-dir-loc__" location="${_from-dir_}"/>
+	<property name="__to-dir-loc__" location="${_to-dir_}"/>
+
+	<!-- Make sure to exclude the nls, dojo and combined files. -->
+	<pathconvert property="__files-to-compress__" pathsep=",">
+	    <fileset dir="${__from-dir-loc__}">
+		<exclude name="**/nls/"/>
+                <exclude name="dojo/"/>
+                <exclude name="${theme.bootstrap.js}"/>
+                <exclude name="${theme.dnd.js}"/>
+                <exclude name="${theme.webui.js}"/>
+                <exclude name="${theme.webui-all.js}"/>
+                <exclude name="${theme.webui-jsfx.js}"/>
+                <exclude name="${theme.webui-jsfx-all.js}"/>
+		<depend targetdir="${__to-dir-loc__}">
+		    <mapper type="glob" from="*" to="*"/>
+		</depend>
+	    </fileset>
+	    <mapper type="glob" 
+		from="${__from-dir-loc__}${file.separator}*" to="*"/>
+	</pathconvert>
+
+        <!-- Call Packer tool. -->
+        <java jar="${rhino.jar}" failonerror="true" fork="true">
+          <arg value="${compressJs.js}"/>
+          <arg value="-base62"/>
+	  <arg value="-copyrightFile"/>
+          <arg value="${theme.copyright}"/>
+	  <arg value="-destDir"/>
+	  <arg value="${__to-dir-loc__}"/>
+	  <arg value="-fileList"/>
+	  <arg value="${__files-to-compress__}"/>
+	  <arg value="-packerDir"/>
+	  <arg value="${packer.dir}"/>
+          <arg value="-shrink"/>
+	  <arg value="-sourceDir"/>
+	  <arg value="${__from-dir-loc__}"/>
+	  <arg value="-verbose"/>
+	</java>
     </target>
 
     <target name="buildJsTheme"
@@ -1003,7 +1112,7 @@
 	<uptodate property="jsdoc-uptodate">
 	    <srcfiles dir="${theme.build-package-path}/javascript_uncompressed"
 		includes="**/*.js"
-		excludes="dojo/,theme/nls/,**/${theme.webui.js},**/${theme.webui-all.js},**/${theme.webui-jsfx.js},**/${theme.webui-jsfx-all.js}"/>
+		excludes="theme/nls/,dojo/,${theme.bootstrap.js},${theme.dnd.js},${theme.webui.js},${theme.webui-all.js},${theme.webui-jsfx.js},${theme.webui-jsfx-all.js}"/>
 	    <mergemapper to="${jsdocs}/index.html"/>
 	</uptodate>
     </target>
@@ -1018,6 +1127,17 @@
 	or "copyJavascript" should have been called.
 
 	Expects Global "${rhino.jar}" to be set.
+
+        ${jsdoc.dir}
+        ${jsdoc.exec}
+        ${jsdoc.template}
+	${rhino.jar}
+        ${theme.bootstrap.js}
+        ${theme.dnd.js}
+        ${theme.webui.js}
+        ${theme.webui-all.js}
+        ${theme.webui-jsfx.js}
+        ${theme.webui-jsfx-all.js}
     -->
     <target name="jsdoc" if="build-jsdoc" depends="jsdoc-uptodate"
 	    unless="jsdoc-uptodate">
@@ -1034,11 +1154,13 @@
 	<property name="__from-dir-loc__" location="${_from-dir_}"/>
 	<property name="__to-dir-loc__" location="${_to-dir_}"/>
 
-	<!-- make sure to exclude the "nls" directory -->
+	<!-- Make sure to exclude the nls, dojo, and combined files. -->
 	<pathconvert property="__files-to-doc__" pathsep=" ">
 	    <fileset dir="${__from-dir-loc__}">
-                <exclude name="dojo/"/>
 		<exclude name="**/nls/"/>
+                <exclude name="dojo/"/>
+                <exclude name="${theme.bootstrap.js}"/>
+                <exclude name="${theme.dnd.js}"/>
                 <exclude name="${theme.webui.js}"/>
                 <exclude name="${theme.webui-all.js}"/>
                 <exclude name="${theme.webui-jsfx.js}"/>
@@ -1050,7 +1172,7 @@
 	    <mapper type="glob" from="*" to="*"/>
 	</pathconvert>
 
-	<!-- Always add "webui.js" since it is always a generated file -->
+        <!-- Call JsDoc toolkit. -->
 	<java jar="${rhino.jar}" failonerror="true" fork="true">
           <sysproperty key="jsdoc.dir" value="${jsdoc.dir}"/>
           <arg value="${jsdoc.exec}"/>
