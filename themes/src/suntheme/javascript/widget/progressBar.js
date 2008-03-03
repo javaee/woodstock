@@ -305,7 +305,8 @@ webui.@THEME@.widget.progressBar.prototype.postCreate = function () {
     this.domNode.setStatusTextVisible = function(show) { return webui.@THEME@.dijit.byId(this.id).setStatusTextVisible(show); };
 
     if (this.busyImage == null) {
-	this.busyImage = this.widget.getImageProps("PROGRESS_BUSY", {
+	this.busyImage = this.widget.getWidgetProps("image", {
+            icon: "PROGRESS_BUSY",
             id: this.id + "_busy"
         });
     }

@@ -318,35 +318,33 @@ webui.@THEME@.widget.table2RowGroup.prototype.postCreate = function () {
 
     // Set pagination controls.
     if (this.paginationPrevButton == null) {
-        this.paginationPrevButton = this.widget.getImageHyperlinkProps({
+        this.paginationPrevButton = this.widget.getWidgetProps("imageHyperlink", {
                 id: this.id + "_paginationPrevButton",
-                enabledImage: {
+                enabledImage: this.widget.getWidgetProps("image", {
+                    icon: "TABLE2_PAGINATION_PREV",
                     id: this.id + "_paginationPrevButtonImg"
-                },
-                disabledImage: {
+                }),
+                disabledImage: this.widget.getWidgetProps("image", {
+                    icon: "TABLE2_PAGINATION_PREV_DISABLED",
                     id: this.id + "_paginationPrevButtonImgDis"
-                },
+                }),
                 title: this.theme.getMessage("table2.pagination.previous")      
-            },
-            "TABLE2_PAGINATION_PREV",
-            "TABLE2_PAGINATION_PREV_DISABLED"
-        );
+            });
     }
       
     if (this.paginationNextButton == null) {
-        this.paginationNextButton = this.widget.getImageHyperlinkProps({
+        this.paginationNextButton = this.widget.getWidgetProps("imageHyperlink", {
                 id: this.id + "_paginationNextButton",
-                enabledImage: {
+                enabledImage: this.widget.getWidgetProps("image", {
+                    icon: "TABLE2_PAGINATION_NEXT",
                     id: this.id + "_paginationNextButtonImg"
-                },
-                disabledImage: {
+                }),
+                disabledImage: this.widget.getWidgetProps("image", {
+                    icon: "TABLE2_PAGINATION_NEXT_DISABLED",
                     id: this.id + "_paginationNextButtonImgDis"
-                },
+                }),
                 title: this.theme.getMessage("table2.pagination.next")          
-            },
-            "TABLE2_PAGINATION_NEXT",
-            "TABLE2_PAGINATION_NEXT_DISABLED"
-        );
+            });
     }
     
     // Resize hack for Moz/Firefox.

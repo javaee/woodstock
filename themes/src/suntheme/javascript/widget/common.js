@@ -131,7 +131,6 @@ webui.@THEME@.widget.common = {
                 setTimeout(function() {
                     // Eval not required for Mozilla/Firefox, but consistent.
                     webui.@THEME@.prototypejs.evalScripts(props);
-                    webui.@THEME@.widget.common._replaceElements(domNode);
                 }, 10);
             } else {
                 // Static strings must be HTML escaped by default.
@@ -360,34 +359,6 @@ webui.@THEME@.widget.common = {
     },
 
     /**
-     * This function returns Object literals for a drop down widget.
-     * <p>
-     * Note: In addition to widgetType and other theme properties, the values in props 
-     * param is added to the returned Object literals. The props param passed should
-     * contain the id of the element to be created. 
-     * </p>
-     * @param {Object} props Key-Value pairs of properties (optional).
-     * @config {String} id Uniquely identifies an element within a document.
-     * @return {Object} Key-Value pairs of properties.
-     */
-    getDropDownProps: function(props) {
-        if (props == null || props.options == null) {
-            return null;
-        }
-        
-        if (props.size == null) {
-            props.size = 1;
-        }
-        
-        // Set default widgetType.        
-        var _props = webui.@THEME@.widget.common.getWidgetProps("dropDown", _props);
-        
-        // Add extra properties        
-        webui.@THEME@.prototypejs.extend(_props, props);
-        return _props;
-    },
-
-    /**
      * Return the appropriate event object depending on the browser.
      *
      * @param {Event} event The client side event generated
@@ -408,7 +379,6 @@ webui.@THEME@.widget.common = {
      * @return {String} Formatted information from <code>err</code>.
      */
     getExceptionString : function(err, synopsis, verbose) {
-
 	var msg = (synopsis == null ? "" : synopsis) + "\n";
 	msg = msg + (err.name != null ? err.name : "Unnamed Error") + "\n";
 	msg = msg + (err.message != null ? err.message : "No message") + "\n";
@@ -445,99 +415,6 @@ webui.@THEME@.widget.common = {
             obj = obj.parentNode;
         }
         return form;
-    },
-    
-    /**
-     * This function returns Object literals for a hyperlink.
-     * <p>
-     * Note: In addition to widgetType and other theme properties, the props 
-     * param is add to the returned Object literals. If the given key doesn't 
-     * exist in the theme, null is returned.
-     * </p>
-     * @param {Object} props Key-Value pairs of properties (optional).
-     * @config {String} id Uniquely identifies an element within a document. 
-     * @return {Object} Key-Value pairs of properties.
-     */
-    getHyperlinkProps: function(props) {
-        if (props == null || props.id == null) {
-            return null;
-        }
-        var _props = {};
-       
-        //Set default module and widget name
-        _props = webui.@THEME@.widget.common.getWidgetProps("hyperlink", _props); 
-       
-        // Add extra properties               
-        if (props != null) {
-            webui.@THEME@.prototypejs.extend(_props, props);
-        }
-        return _props;
-    },
-
-    /**
-     * This function returns Object literals for an imageHyperlink.
-     * <p>
-     * Note: In addition to widgetType and other theme properties, the props 
-     * param is add to the returned Object literals. If the given key doesn't 
-     * exist in the theme, null is returned.
-     * </p><p>
-     * If properties are to be defined for the enabled and the disabled images
-     * then they should be defined as props.enabledImage and props.disabledImage
-     * object literals each with its own id.
-     * </p>
-     * @param {Object} props Key-Value pairs of properties
-     * @param {String} enabledImage A key defining a theme images property.
-     * @param {String} disabledImage A key defining a theme images property.
-     * @config {String} id Uniquely identifies an element within a document.
-     * @return {Object} Key-Value pairs of properties.
-     */    
-    getImageHyperlinkProps: function(props, enabledImage, disabledImage) {
-        if (props == null || props.id == null) {
-            return null;
-        }
-        // Set default module and widget name        
-        var _props = webui.@THEME@.widget.common.getWidgetProps(
-            "imageHyperlink", _props);        
-       
-        // Add the enabled image properties 
-        if (enabledImage != null) {
-            _props.enabledImage = webui.@THEME@.widget.common.getImageProps(
-                enabledImage, props.enabledImage);
-        }       
-        // Add the disabled image properties
-        if (disabledImage != null) {
-            _props.disabledImage = webui.@THEME@.widget.common.getImageProps(
-                disabledImage, props.disabledImage);
-        }
-        // Add extra properties.
-        webui.@THEME@.prototypejs.extend(_props, props);
-        return _props;
-    },    
-    
-    /**
-     * This function returns Object literals for a theme based image widget.
-     * <p>
-     * Note: In addition to widgetType and other theme properties, the props 
-     * param is add to the returned Object literals. If the given key doesn't 
-     * exist in the theme, null is returned.
-     * </p>
-     * @param {String} key A key defining a theme images property.
-     * @param {Object} props Key-Value pairs of properties (optional).
-     * @config {String} id Uniquely identifies an element within a document.
-     * @return {Object} Key-Value pairs of properties.
-     */
-    getImageProps: function(key, props) {
-        // Let image widget retrieve theme properties.
-        var _props = {"icon": key};
-
-        // Set default widgetType.
-        _props = webui.@THEME@.widget.common.getWidgetProps("image", _props);
-        
-        // Add extra properties
-        if (props != null) {
-            webui.@THEME@.prototypejs.extend(_props, props);
-        }
-        return _props;
     },
 
     /**
@@ -747,7 +624,6 @@ webui.@THEME@.widget.common = {
      * else false. If <code>fragProps</code> is null, false is returned.
      */
     isFragment : function(fragProps) {
-
 	return (fragProps != null && (typeof fragProps == "string" ||
 	    (typeof fragProps == "object" &&
 		(fragProps.widgetType != null && fragProps.widgetType != "") ||

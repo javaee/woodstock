@@ -711,88 +711,87 @@ webui.@THEME@.widget.calendar.prototype.postCreate = function () {
 
     // If toggle link is null, create the image hyperlink.
     if (this.toggleLink == null) {
-        this.toggleLink = this.widget.getImageHyperlinkProps({
+        this.toggleLink = this.widget.getWidgetProps("imageHyperlink", {
                 id: this.id + "_datePickerLink",
                 contents: [],
                 imagePosition: "left",
                 title: this.theme.getMessage("calendar.popupImageAlt"),
-                enabledImage: {
-                    id: this.id + "_datePickerLink_image",
-                    border:0
-                },
-                disabledImage:{
-                    id: this.id + "_datePickerLink_image_disabled", 
-                    border:0
-                },
+                enabledImage: this.widget.getWidgetProps("image", {
+                    border: 0,
+                    icon: "CALENDAR_BUTTON",
+                    id: this.id + "_datePickerLink_image"
+                }),
+                disabledImage: this.widget.getWidgetProps("image", {
+                    border: 0,
+                    icon: "CALENDAR_BUTTON_DISABLED",
+                    id: this.id + "_datePickerLink_image_disabled"
+                }),
                 align:"middle"
-            },            
-            "CALENDAR_BUTTON",
-            "CALENDAR_BUTTON_DISABLED"
-        );
+            });
     }
 
     // Create the spacer image.
     if (this.spacerImage == null) {
-        this.spacerImage = this.widget.getImageProps("DOT", {
+        this.spacerImage = this.widget.getWidgetProps("image", {
+            icon: "DOT",
             id: this.id + ":DOT"
         });
     }
     
     // Create the top left image.
     if (this.topLeftImage == null) {
-        this.topLeftImage = this.widget.getImageProps("SCHEDULER_TOP_LEFT", {
+        this.topLeftImage = this.widget.getWidgetProps("image", {
+            icon: "SCHEDULER_TOP_LEFT",
             id: this.id + ":topLeft"
         });        
     }        
         
     //Create the top right image.
     if (this.topRightImage == null) {
-        this.topRightImage = this.widget.getImageProps("SCHEDULER_TOP_RIGHT", {
+        this.topRightImage = this.widget.getWidgetProps("image", {
+            icon: "SCHEDULER_TOP_RIGHT",
             id: this.id + ":topRight"
         });        
     }
 
     // Create the increase link imageHyperlink widget.
     if (this.increaseLink == null) {
-        this.increaseLink = this.widget.getImageHyperlinkProps({
+        this.increaseLink = this.widget.getWidgetProps("imageHyperlink", {
                 id: this.id + ":nextMonthLink",
-                enabledImage: {
+                enabledImage: this.widget.getWidgetProps("image", {
                     border: 0,
+                    icon: "SCHEDULER_FORWARD",
                     id: this.id + ":nextMonthLink_image"
-                },
+                }),
                 title: this.theme.getMessage("CalendarMonth.goForward")             
-            },
-            "SCHEDULER_FORWARD"
-         );
+            });
     }   
     
     // Create the decrease link imageHyperlink widget.
     if (this.decreaseLink == null) {
-        this.decreaseLink = this.widget.getImageHyperlinkProps({
+        this.decreaseLink = this.widget.getWidgetProps("imageHyperlink", {
                 "id": this.id + ":previousMonthLink",
-                enabledImage: {
+                enabledImage: this.widget.getWidgetProps("image", {
                     border: 0,
+                    icon: "SCHEDULER_BACKWARD",
                     id: this.id + ":previousMonthLink_image"
-                },
+                }),
                 title: this.theme.getMessage("CalendarMonth.goBack")
-             },
-             "SCHEDULER_BACKWARD"                          
-         );
+            });
     }        
     
     // Create the close button link imageHyperlink widget
     if (this.closeButtonLink == null) {
-        this.closeButtonLink = this.widget.getImageHyperlinkProps({
+        this.closeButtonLink = this.widget.getWidgetProps("imageHyperlink", {
                 id: this.id + ":closeButtonLink",
-                enabledImage: {
+                enabledImage: this.widget.getWidgetProps("image", {
                     border: 0,
+                    icon: "CALENDAR_CLOSE_BUTTON",
                     id: this.id + "closeButtonLink_close"
-                },
+                }),
                 title: this.theme.getMessage("CalendarMonth.close"),
                 className: this.theme.getClassName("CALENDAR_CLOSE_BUTTON")            
-            },            
-            "CALENDAR_CLOSE_BUTTON"            
-        );    
+            });    
     }
     
     // If the dateFormatPattern is null, get one from the themes.
@@ -861,7 +860,7 @@ webui.@THEME@.widget.calendar.prototype.postCreate = function () {
 
     // Initialize the month menu if one does not exist.
     if (this.monthMenu == null) {                  
-        this.monthMenu = this.widget.getDropDownProps({
+        this.monthMenu = this.widget.getWidgetProps("dropDown", {
             id: this.id + ":monthMenu",
             options:this.getMonthOptions(),
             title: this.theme.getMessage("CalendarMonth.selectMonth")
@@ -870,7 +869,7 @@ webui.@THEME@.widget.calendar.prototype.postCreate = function () {
     
     // Initialize the year menu if one does not exist.
     if (this.yearMenu == null) {
-        this.yearMenu = this.widget.getDropDownProps({
+        this.yearMenu = this.widget.getWidgetProps("dropDown", {
             id: this.id + ":yearMenu",
             options: this.getYearOptions(minDate.getYear(), maxDate.getYear()),
             title: this.theme.getMessage("CalendarMonth.selectYear")   
@@ -1167,7 +1166,7 @@ webui.@THEME@.widget.calendar.prototype._setProps = function(props) {
         } 
         
         //Recalculate the year options with new minDate and maxDate values.
-        props.yearMenu = this.widget.getDropDownProps({
+        props.yearMenu = this.widget.getWidgetProps("dropDown", {
             id: this.id + ":yearMenu",
             options:this.getYearOptions(minDate.getFullYear(), maxDate.getFullYear()),
             title: this.theme.getMessage("CalendarMonth.selectYear")   

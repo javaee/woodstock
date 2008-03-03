@@ -298,7 +298,8 @@ webui.@THEME@.widget.login.prototype.postCreate = function () {
     // If login button and dot image are empty generate them on the
     // client side.
     if (this.dotImage == null) {
-	this.dotImage = this.widget.getImageProps("DOT", {
+	this.dotImage = this.widget.getWidgetProps("image", {
+            icon: "DOT",
             id: this.id + "_dotImage"
         });
     }

@@ -295,45 +295,42 @@ webui.@THEME@.widget.accordion.prototype.postCreate = function () {
     // Generate the accordion header icons on the client side.
     if (this.toggleControls && this.multipleSelect) {
         if (this.expandAllImage == null) {
-            this.expandAllImage = this.widget.getImageHyperlinkProps({
+            this.expandAllImage = this.widget.getWidgetProps("imageHyperlink", {
                     id: this.id + "_expandImageLink",
                     onClick: "return false;",
-                    enabledImage: {
+                    enabledImage: this.widget.getWidgetProps("image", {
+                        icon: "ACCORDION_EXPAND_ALL",
                         id: this.id + "_expandAll"
-                    },
+                    }),
                     title: this.theme.getMessage("Accordion.expandAll")            
-                },
-                "ACCORDION_EXPAND_ALL"
-             );
+                });
         }
         
         if (this.collapseAllImage == null) {
-            this.collapseAllImage = this.widget.getImageHyperlinkProps({
+            this.collapseAllImage = this.widget.getWidgetProps("imageHyperlink", {
                     id: this.id + "_collapseImageLink",
                     onClick: "return false;",
-                    enabledImage: {
+                    enabledImage: this.widget.getWidgetProps("image", {
+                        icon: "ACCORDION_COLLAPSE_ALL",
                         id: this.id + "_collapseAll"
-                    },
+                    }),
                     title: this.theme.getMessage("Accordion.collapseAll")            
-                },
-                "ACCORDION_COLLAPSE_ALL"
-             );
+                });
         }
     }
 
     // Set refresh image hyperlink properties.
     if (this.isRefreshIcon) {
         if (this.refreshImage == null) {
-            this.refreshImage = this.widget.getImageHyperlinkProps({
+            this.refreshImage = this.widget.getWidgetProps("imageHyperlink", {
                     id: this.id + "_refreshImageLink",
                     onClick: "return false;",
-                    enabledImage: {
+                    enabledImage: this.widget.getWidgetProps("image", {
+                        icon: "ACCORDION_REFRESH",
                         id: this.id + "_refresh"
-                    },
+                    }),
                     title: this.theme.getMessage("Accordion.refresh")            
-                },
-                "ACCORDION_REFRESH"
-             );
+                });
          }
     }
     
