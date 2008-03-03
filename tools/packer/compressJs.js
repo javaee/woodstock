@@ -230,7 +230,7 @@ if (parseArgs(arguments)) {
     // Initialize verbose message.
     var message = (base62 == true)
         ? (shrink == true) 
-            ? "Compressed (base62 & shrink) file stored in '"
+            ? "Compressed (base62/shrink) file stored in '"
             : "Compressed (base62) file stored in '"
         : "Compressed file stored in '";
 
