@@ -441,7 +441,7 @@ webui.@THEME@.common = {
         webui.@THEME@.common.deleteSubmittableArray(name, parentForm);
         
         if (values == null || values.length <= 0) {
-            return;
+            return null;
         }
         
         var selections = document.createElement('select');
@@ -538,4 +538,4 @@ webui.@THEME@.common = {
                 webui.@THEME@.theme.common.getClassName("HIDDEN"));
         }
     }
-}
+};

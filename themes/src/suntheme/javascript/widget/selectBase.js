@@ -124,7 +124,6 @@ webui.@THEME@.dojo.require("webui.@THEME@.widget.label");
  */
 webui.@THEME@.dojo.declare("webui.@THEME@.widget.selectBase", 
 	webui.@THEME@.widget.widgetBase, {
-
     disabled: false,
     required: false,
     valid: true,
@@ -141,7 +140,6 @@ webui.@THEME@.dojo.declare("webui.@THEME@.widget.selectBase",
      */
     _alreadyRemoved: false
 });
-
 
 /**
  * This function is called by the <code>_onChangeCallback</code>
@@ -163,7 +161,6 @@ webui.@THEME@.dojo.declare("webui.@THEME@.widget.selectBase",
  * @return {boolean} true if successful; otherwise, false.
  */
 webui.@THEME@.widget.selectBase.prototype.changed = function(ev) {
-
     var options = this.listContainer.options;
 
     // IE allows disabled options to be selected. Ensure that
@@ -190,8 +187,7 @@ webui.@THEME@.widget.selectBase.prototype.changed = function(ev) {
 	    if (cn != null && options[i].className != cn) {
 		options[i].className = cn;
 	    }
-	}
-	return true; 
+	} 
     } else {
 	for (var i = 0; i < options.length; ++i) { 
 	    // Only set the option if its value is different
@@ -204,9 +200,9 @@ webui.@THEME@.widget.selectBase.prototype.changed = function(ev) {
 		options[i].className = cn;
 	    }
 	}
-	return true; 
     }
-}
+    return true;
+};
 
 /**
  * This method copies option properties from <code>fromOption</code> to 
@@ -224,7 +220,6 @@ webui.@THEME@.widget.selectBase.prototype.changed = function(ev) {
  * @private
  */
 webui.@THEME@.widget.selectBase.prototype._copyOption = function(toOption, fromOption) {
-
     var domhandlers = [ "onblur", "onchange", "onclick", "ondblclick",
 	"onfocus", "onkeydown", "onkeypress", "onkeyup", "onmousedown",
 	"onmouseout", "onmouseover", "onmouseup", "onmousemove", "onresize"];
@@ -251,7 +246,7 @@ webui.@THEME@.widget.selectBase.prototype._copyOption = function(toOption, fromO
 	toOption.options = this._copyOptions(fromOption);
     }
     return true;
-}
+};
 
 /**
  * Returns an <code>options</code> array of <code>option</code> objects
@@ -280,13 +275,14 @@ webui.@THEME@.widget.selectBase.prototype._copyOptions = function(domNode) {
     }
     var len = domNode.childNodes.length;
     for (var j = 0; j < len; ++j) {
-	newoptions[j] = new Object()
+	newoptions[j] = new Object();
 	if (domNode.childNodes != null) {
 	    this._copyOption(newoptions[j], domNode.childNodes[j]);
 	}
     }
     return newoptions;
-}
+};
+
 /**
  * This function returns the CSS class name for an HTML <code>option</code> or
  * <code>optgroup</code> element.
@@ -303,7 +299,7 @@ webui.@THEME@.widget.selectBase.prototype.getOptionClassName = function(option) 
     // that it causes no change to option.
     //
     return option.className;
-}
+};
 
 /**
  * This function replaces all <code>option</code> and <code>optgroup</code>
@@ -340,7 +336,6 @@ webui.@THEME@.widget.selectBase.prototype.getOptionClassName = function(option) 
  * </p>
  */
 webui.@THEME@.widget.selectBase.prototype.setOptions = function(props) {
-
     if (props == null) {
 	return false;
     }
@@ -453,7 +448,7 @@ webui.@THEME@.widget.selectBase.prototype.setOptions = function(props) {
 	}
     }
     return true;
-}
+};
 
 /**
  * This function is used to get widget properties. Please see 
@@ -476,7 +471,6 @@ webui.@THEME@.widget.selectBase.prototype.setOptions = function(props) {
  * @return {Object} Key-Value pairs of properties.
  */
 webui.@THEME@.widget.selectBase.prototype.getProps = function() {
-
     var props = this.inherited("getProps", arguments);
 
     // Get properties.
@@ -506,9 +500,8 @@ webui.@THEME@.widget.selectBase.prototype.getProps = function() {
     } else if (this.options != null) {
         props.options = this.options;
     }
-
     return props;
-}
+};
 
 /**
  * This function is used to obtain the underlying HTML select element.
@@ -517,7 +510,7 @@ webui.@THEME@.widget.selectBase.prototype.getProps = function() {
  */
 webui.@THEME@.widget.selectBase.prototype.getSelectElement = function() {
     return this.listContainer;
-}
+};
 
 /**
  * This function is used to obtain the <code>label</code> attribute of
@@ -541,7 +534,7 @@ webui.@THEME@.widget.selectBase.prototype.getSelectedLabel = function() {
     } else { 
 	return this.listContainer.options[index].label;
     }
-}
+};
 
 /**
  * This function is used to obtain the <code>value</code> attribute
@@ -563,8 +556,7 @@ webui.@THEME@.widget.selectBase.prototype.getSelectedValue = function() {
     } else { 
         return this.listContainer.options[index].value; 
     }
-}
-
+};
 
 /**
  * This function is invoked for the select element's <code>onchange</code>
@@ -595,7 +587,7 @@ webui.@THEME@.widget.selectBase.prototype._onChangeCallback = function(event) {
 
     // Set style classes.
     return this.changed(event);
-}
+};
 
 /**
  * This function is used to fill in remaining template properties, after the
@@ -642,18 +634,18 @@ webui.@THEME@.widget.selectBase.prototype.postCreate = function () {
 
     // Set public functions.
     this.domNode.getSelectedValue = function() { 
-	return webui.@THEME@.dijit.byId(this.id).getSelectedValue(); }
+	return webui.@THEME@.dijit.byId(this.id).getSelectedValue(); };
     this.domNode.getSelectedLabel = function() { 
-	return webui.@THEME@.dijit.byId(this.id).getSelectedLabel(); }
+	return webui.@THEME@.dijit.byId(this.id).getSelectedLabel(); };
     this.domNode.getSelectElement = function() { 
-	return webui.@THEME@.dijit.byId(this.id).getSelectElement(); }
+	return webui.@THEME@.dijit.byId(this.id).getSelectElement(); };
 
     // Set events.
     this.dojo.connect(this.listContainer, "onchange", this, 
 	"_onChangeCallback");
 
     return this.inherited("postCreate", arguments);
-}
+};
 
 /**
  * Return an Object Literal of label properties desired
@@ -666,7 +658,7 @@ webui.@THEME@.widget.selectBase.prototype.postCreate = function () {
  */
 webui.@THEME@.widget.selectBase.prototype.getLabelProps = function() {
     return null;
-}
+};
 
 /**
  * This function is used to set the <code>option</code> properties on the
@@ -694,7 +686,6 @@ webui.@THEME@.widget.selectBase.prototype.getLabelProps = function() {
  */
 webui.@THEME@.widget.selectBase.prototype.setGroupOptionProps =
 	function(element, option) {
-
     element.label = option.label;
   
     if (option.disabled != null) {
@@ -724,9 +715,8 @@ webui.@THEME@.widget.selectBase.prototype.setGroupOptionProps =
     if (cn != null) {
 	element.className = cn;
     }
-
     return true;
-}
+};
 
 /**
  * This function is used to set the <code>option</code> properties on the
@@ -755,8 +745,7 @@ webui.@THEME@.widget.selectBase.prototype.setGroupOptionProps =
  * @return {boolean} true if successful; otherwise, false.
  */
 webui.@THEME@.widget.selectBase.prototype.setOptionProps =
-	function(element, option) {
-
+        function(element, option) {
     element.value = option.value;
 
     // If option.escape is true, we want the text to be displayed
@@ -858,9 +847,8 @@ webui.@THEME@.widget.selectBase.prototype.setOptionProps =
     if (cn != null) {
 	element.className = cn;
     }
-
     return true;
-}
+};
 
 /**
  * This function is used to set widget properties.
@@ -878,7 +866,6 @@ webui.@THEME@.widget.selectBase.prototype.setOptionProps =
  * @private
  */
 webui.@THEME@.widget.selectBase.prototype.setProps = function(props) {
-
     // Always call inherited setProps
     //
     if (props == null) {
@@ -953,7 +940,7 @@ webui.@THEME@.widget.selectBase.prototype.setProps = function(props) {
 	}
     }
     return this.inherited("setProps", arguments);
-}
+};
 
 /**
  * This function is used to set widget properties.
@@ -967,7 +954,6 @@ webui.@THEME@.widget.selectBase.prototype.setProps = function(props) {
  * @private
  */
 webui.@THEME@.widget.selectBase.prototype._setProps = function(props) {
-
     // Always call inherited _setProps
     //
     if (props == null) {
@@ -1029,4 +1015,4 @@ webui.@THEME@.widget.selectBase.prototype._setProps = function(props) {
     // Set remaining properties.
     //
     return this.inherited("_setProps", arguments);
-}
+};

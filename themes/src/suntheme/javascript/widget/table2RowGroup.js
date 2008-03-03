@@ -102,7 +102,7 @@ webui.@THEME@.widget.table2RowGroup.prototype.addColumns = function() {
         this.groupHeaderCell.colSpan = this.columns.length;
     }
     return true;
-}
+};
  
 /**
  * This function is used to add rows using the gieven array. Each row contains
@@ -176,7 +176,7 @@ webui.@THEME@.widget.table2RowGroup.prototype.addRows = function(rows) {
         webui.@THEME@.dijit.byId(_id).resize();
     }, 10);
     return true;
-}
+};
 
 /**
  * This object contains event topics.
@@ -254,7 +254,7 @@ webui.@THEME@.widget.table2RowGroup.event =
         /** State event topic for custom AJAX implementations to listen for. */
         endTopic: "webui_@THEME@_widget_table2RowGroup_event_state_end"
     }
-}
+};
 
 /**
  * This function is used to get widget properties. Please see the
@@ -283,7 +283,7 @@ webui.@THEME@.widget.table2RowGroup.prototype.getProps = function() {
     if (this.paginationPrevButton) {props.paginationPrevButton = this.paginationPrevButton;} 
 
     return props;
-}
+};
 
 /**
  * This function is used to fill in remaining template properties, after the
@@ -354,7 +354,7 @@ webui.@THEME@.widget.table2RowGroup.prototype.postCreate = function () {
         this.dojo.connect(window, "onresize", this, "resize");
     }        
     return this.inherited("postCreate", arguments);
-}
+};
 
 /**
  * Process resize event.
@@ -430,7 +430,7 @@ webui.@THEME@.widget.table2RowGroup.prototype.resize = function() {
             this.tableContainer.offsetHeight - 1) + 'px';
     }
     return true;
-}
+};
 
 /**
  * This function is used to set column properties with Object literals.
@@ -490,7 +490,7 @@ webui.@THEME@.widget.table2RowGroup.prototype.setColumnProps = function(domNode,
     this.setCoreProps(domNode, props);
 
     return true;
-}
+};
 
 /**
  * This function is used to set widget properties using Object literals.
@@ -553,7 +553,7 @@ webui.@THEME@.widget.table2RowGroup.prototype.setProps = function(props, notify)
 
     // Extend widget object for later updates.
     return this.inherited("setProps", arguments);
-}
+};
 
 /**
  * This function is used to set widget properties. Please see the setProps() 
@@ -627,7 +627,7 @@ webui.@THEME@.widget.table2RowGroup.prototype._setProps = function(props) {
    
     // Cannot call "superclass" here because properties are set on each row.
     return true;
-}
+};
 
 /**
  * Process scroll event.
@@ -656,7 +656,8 @@ webui.@THEME@.widget.table2RowGroup.prototype.scroll = function(event) {
     }   
     // Set rows text.    
     return this.updateRowsText();
-}
+};
+
 /**
  * Updates pagination control buttons enabled/disabled state.
  * 
@@ -681,7 +682,8 @@ webui.@THEME@.widget.table2RowGroup.prototype.updatePaginationControls = functio
             domNodeNext.setProps({visible:this.paginationControls});  
         }           
     }    
-}
+};
+
 /**
  * Process next control button.
  *
@@ -705,11 +707,10 @@ webui.@THEME@.widget.table2RowGroup.prototype.paginationNext = function(event) {
         this.currentRow = currentPage * this.maxRows;        
         // set scroll position to make the current row completely visible
         this.tableContainer.scrollTop =  
-                            document.getElementById(this.id + ":" + this.currentRow).offsetTop;
-    }
-         
+            document.getElementById(this.id + ":" + this.currentRow).offsetTop;
+    }       
     return this.updateRowsText();
-}
+};
 
 /**
  * Process previous control button.
@@ -725,10 +726,10 @@ webui.@THEME@.widget.table2RowGroup.prototype.paginationPrevious = function(even
         this.currentRow = (currentPage - 2) * this.maxRows;
         // set scroll position to make the current row completely visible
         this.tableContainer.scrollTop = 
-                            document.getElementById(this.id + ":" + this.currentRow).offsetTop;        
-     }    
+            document.getElementById(this.id + ":" + this.currentRow).offsetTop;        
+    }    
     return this.updateRowsText();
-}
+};
 
 /**
  * This function is used to set rows text (e.g., "1 - 5 of 20").
@@ -758,4 +759,4 @@ webui.@THEME@.widget.table2RowGroup.prototype.updateRowsText = function() {
      //set disabled/enabled state
     this.updatePaginationControls(); 
     return true;
-}
+};

@@ -67,7 +67,7 @@ webui.@THEME@.config = {
     webuiAll: false,
     /** Flag to include all Ajax functionality based on JSF Extensions. */
     webuiJsfx: false
-}
+};
 
 // Override default config properties.
 webui.@THEME@.prototypejs.extend(webui.@THEME@.config, webui_@THEME@_config);

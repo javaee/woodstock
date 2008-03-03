@@ -241,4 +241,4 @@ webui.@THEME@.wizard = {
         }
         return true;
     }
-}
+};

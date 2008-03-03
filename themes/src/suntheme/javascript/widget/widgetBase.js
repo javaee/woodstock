@@ -122,7 +122,7 @@ webui.@THEME@.widget.widgetBase.prototype.buildRendering = function () {
 
     // Template must be set prior to calling "superclass".
     return this.inherited("buildRendering", arguments);
-}
+};
 
 /**
  * This function is used to obtain the outermost HTML element class name.
@@ -134,7 +134,7 @@ webui.@THEME@.widget.widgetBase.prototype.buildRendering = function () {
  */
 webui.@THEME@.widget.widgetBase.prototype.getClassName = function() {
     return this.className;
-}
+};
 
 /**
  * This function is used to get common properties from the widget. Please see
@@ -153,7 +153,7 @@ webui.@THEME@.widget.widgetBase.prototype.getCommonProps = function() {
     if (this.title) { props.title = this.title; }
 
     return props;
-}
+};
 
 /**
  * This function is used to get core properties from the widget. Please see
@@ -171,7 +171,7 @@ webui.@THEME@.widget.widgetBase.prototype.getCoreProps = function() {
     if (this.visible != null) { props.visible = this.visible; }
 
     return props;
-}
+};
 
 /**
  * This function is used to get event properties from the widget. Please
@@ -199,7 +199,7 @@ webui.@THEME@.widget.widgetBase.prototype.getEventProps = function() {
     if (this.onSelect) { props.onSelect = this.onSelect; }
 
     return props;
-}
+};
 
 /**
  * This function is used to get widget properties. Please see the 
@@ -216,7 +216,7 @@ webui.@THEME@.widget.widgetBase.prototype.getProps = function() {
     this.prototypejs.extend(props, this.getEventProps(), false);
 
     return props;
-}
+};
 
 /**
  * This function is used to test if widget has been initialized.
@@ -237,7 +237,7 @@ webui.@THEME@.widget.widgetBase.prototype.isInitialized = function() {
         return true;
     }
     return false;
-}
+};
 
 /**
  * This is called after the buildRendering() function.
@@ -259,8 +259,8 @@ webui.@THEME@.widget.widgetBase.prototype.postCreate = function () {
     var _id = this.id;
 
     // Set public functions.
-    this.domNode.getProps = function() { return webui.@THEME@.dijit.byId(_id).getProps(); }
-    this.domNode.setProps = function(props, notify) { return webui.@THEME@.dijit.byId(_id).setProps(props, notify); }
+    this.domNode.getProps = function() { return webui.@THEME@.dijit.byId(_id).getProps(); };
+    this.domNode.setProps = function(props, notify) { return webui.@THEME@.dijit.byId(_id).setProps(props, notify); };
 
     // Initialize public events and functions.
     this.initEvents();
@@ -270,7 +270,7 @@ webui.@THEME@.widget.widgetBase.prototype.postCreate = function () {
 
     // All widget properties have been set.
     return this.initialized = true;
-}
+};
 
 /**
  * This function is used to set common properties for the given domNode.
@@ -304,7 +304,7 @@ webui.@THEME@.widget.widgetBase.prototype.setCommonProps = function(domNode, pro
         domNode.title = props.title;
     }
     return true;
-}
+};
 
 /**
  * This function is used to set core properties for the given domNode. These
@@ -341,7 +341,7 @@ webui.@THEME@.widget.widgetBase.prototype.setCoreProps = function(domNode, props
             new Boolean(props.visible).valueOf());
     }
     return true;
-}
+};
 
 /**
  * This function is used to set event properties for the given domNode.
@@ -442,7 +442,7 @@ webui.@THEME@.widget.widgetBase.prototype.setEventProps = function(domNode, prop
             : props.onSelect;
     }
     return true;
-}
+};
 
 /**
  * This function is used to set widget properties.
@@ -478,7 +478,7 @@ webui.@THEME@.widget.widgetBase.prototype.setProps = function(props, notify) {
         this.stateChanged(props);
     }
     return true;
-}
+};
 
 /**
  * This function is used to set widget properties. Please see the setProps() 
@@ -500,7 +500,7 @@ webui.@THEME@.widget.widgetBase.prototype._setProps = function(props) {
 
     // Set more properties.
     return this.setCoreProps(this.domNode, props);
-}
+};
 
 /**
  * This function is used to "start" the widget, after the widget has been
@@ -514,4 +514,4 @@ webui.@THEME@.widget.widgetBase.prototype.startup = function () {
     }
     this.inherited("startup", arguments);
     return this._started = true;
-}
+};

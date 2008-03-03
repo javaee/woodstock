@@ -208,4 +208,4 @@ webui.@THEME@.widget.jsfx.common = {
         }
         return true;
     }
-}
+};

@@ -91,7 +91,7 @@ webui.@THEME@.widget.listbox.event =
         /** event topic for custom AJAX implementations to listen for. */
         endTopic: "webui_@THEME@_widget_listbox_event_submit_end"
     }
-}
+};
 
 /**
  * This function is used to obtain the outermost HTML element CSS class name.
@@ -102,10 +102,9 @@ webui.@THEME@.widget.listbox.event =
  * @return {String} The outermost HTML element class name.
  */
 webui.@THEME@.widget.listbox.prototype.getClassName = function() {
-
     var cn = this.widget.getClassName("LISTBOX", "");
     return (this.className) ? cn + " " + this.className : cn;
-}
+};
 
 /**
  * Return an Object Literal of label properties desired
@@ -126,7 +125,6 @@ webui.@THEME@.widget.listbox.prototype.getClassName = function() {
  * @return {Object} label properties.
  */
 webui.@THEME@.widget.listbox.prototype.getLabelProps = function() {
-
     var cn = this.getLabelClassName(null);
     var lvl = this.widget.getMessage("listbox.labelLevel", null, 2);
     var props = {};
@@ -137,7 +135,7 @@ webui.@THEME@.widget.listbox.prototype.getLabelProps = function() {
     props.htmlFor = this.listContainer.id;
     this.prototypejs.extend(props, this.label);
     return props;
-}
+};
 
 /**
  * Return a CSS selector for the listbox label.
@@ -152,12 +150,11 @@ webui.@THEME@.widget.listbox.prototype.getLabelProps = function() {
  * @return {String} A CSS selector for the listbox label.
  */
 webui.@THEME@.widget.listbox.prototype.getLabelClassName = function(ontop) {
-
     var labelontop = ontop != null ? ontop : this.labelOnTop;
     return labelontop == true
 	? null
 	: this.widget.getClassName("LISTBOX_LABEL_ALIGN", null);
-}
+};
 
 /**
  * Return a CSS selector for listContainer HTML element.
@@ -193,7 +190,6 @@ webui.@THEME@.widget.listbox.prototype.getLabelClassName = function(ontop) {
  */
 webui.@THEME@.widget.listbox.prototype._getListContainerClassName =
 	function(disabled, monospace) {
-
     var key = "LIST";
     if (disabled == true) {
 	if (monospace == true) {
@@ -205,7 +201,7 @@ webui.@THEME@.widget.listbox.prototype._getListContainerClassName =
 	key = "LIST_MONOSPACE";
     }
     return this.widget.getClassName(key, null);
-}
+};
 
 /**
  * This function is used to get widget properties. Please see the 
@@ -228,7 +224,7 @@ webui.@THEME@.widget.listbox.prototype.getProps = function() {
 	props.monospace = this.monospace;
     }
     return props;
-}
+};
 
 /**
  * This function returns the CSS class name for an HTML option element,
@@ -266,7 +262,6 @@ webui.@THEME@.widget.listbox.prototype.getProps = function() {
  * @return {String} The HTML option element CSS class name.
  */
 webui.@THEME@.widget.listbox.prototype.getOptionClassName = function(element) {
-
     var key = "LIST_OPTION";
     if (element == null) {
 	return this.widget.getClassName(key, null);
@@ -288,7 +283,7 @@ webui.@THEME@.widget.listbox.prototype.getOptionClassName = function(element) {
 	key = "LIST_OPTION_DISABLED";
     }
     return this.widget.getClassName(key, null);
-}
+};
 
 /*
  * This function is used to fill in remaining template properties, after the
@@ -299,14 +294,13 @@ webui.@THEME@.widget.listbox.prototype.getOptionClassName = function(element) {
  * @return {boolean} true if successful; otherwise, false.
  */
 webui.@THEME@.widget.listbox.prototype.postCreate = function () {
-
     // Don't trash the template.
     //
     webui.@THEME@.common.addStyleClass(this.listContainer,
 	this._getListContainerClassName(
 		this.disabled == true, this.monospace == true));
     return this.inherited("postCreate", arguments);
-}
+};
 
 
 /**
@@ -360,7 +354,6 @@ webui.@THEME@.widget.listbox.prototype.postCreate = function () {
  * @return {boolean} true if successful; otherwise, false.
  */
 webui.@THEME@.widget.listbox.prototype.setProps = function(props, notify) {
-
     if (props == null) {
 	return this.inherited("setProps", arguments);
     }
@@ -392,9 +385,8 @@ webui.@THEME@.widget.listbox.prototype.setProps = function(props, notify) {
 	    toggleMonospace ? props.monospace == true : ismonospace);
 	webui.@THEME@.common.addStyleClass(this.listContainer, cn);
     }
-    
     return this.inherited("setProps", arguments);
-}
+};
 
 /**
  * This function sets properties specific to the listbox, the superclass
@@ -424,7 +416,6 @@ webui.@THEME@.widget.listbox.prototype.setProps = function(props, notify) {
  * @private
  */
 webui.@THEME@.widget.listbox.prototype._setProps = function(props) {
-
     // If props == null create one so that the superclass can 
     // handle "labelOnTop" or anything else that needs to be
     // set in props and handled in the superclass
@@ -448,6 +439,5 @@ webui.@THEME@.widget.listbox.prototype._setProps = function(props) {
 	    this.listContainer.multiple != props.multiple) {
 	this.listContainer.multiple = props.multiple;
     }
-
     return this.inherited("_setProps", arguments);
-}
+};

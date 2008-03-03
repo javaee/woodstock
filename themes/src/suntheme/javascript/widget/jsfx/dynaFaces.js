@@ -69,7 +69,7 @@ webui.@THEME@.widget.jsfx.dynaFaces = {
                     webui.@THEME@.dojo.publish(topic, props);
                     return true;
                 });
-            }
+            };
         }
         return true;
     },
@@ -110,7 +110,7 @@ webui.@THEME@.widget.jsfx.dynaFaces = {
         }
         return true;
     }
-}
+};
 
 // Initialize the environment.
 webui.@THEME@.widget.jsfx.dynaFaces._init(webui.@THEME@.config);

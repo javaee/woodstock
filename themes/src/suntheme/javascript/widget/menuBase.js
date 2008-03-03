@@ -70,7 +70,7 @@ webui.@THEME@.widget.menuBase.prototype.addOptions = function(menuNode, props) {
         }
     }
     return true;    
-}
+};
 
 /**
  * The callback function for clicking on a menu item.
@@ -105,8 +105,8 @@ webui.@THEME@.widget.menuBase.prototype.createOnClickCallback = function(optionI
         if (!dis && !group) {
             widget.processOnClickEvent(val);
         }         
-    }        
-}
+    };
+};
 
 /**
  * The callback function for key press on a menu item.
@@ -116,7 +116,7 @@ webui.@THEME@.widget.menuBase.prototype.createOnClickCallback = function(optionI
  */
 webui.@THEME@.widget.menuBase.prototype.createOnKeyDownCallBack = function(nodeId) {
     if (nodeId == null) {
-        return;
+        return null;
     }
     
     var id = this.id;
@@ -124,14 +124,14 @@ webui.@THEME@.widget.menuBase.prototype.createOnKeyDownCallBack = function(nodeI
     return function(event) {
        var elem = document.getElementById(nodeId);
        if (elem == null) {
-          return;
+          return false;
        }
         var widget = webui.@THEME@.dijit.byId(id);
 
         // If the menu is not visible, we do not need to capture
         // key press events.
         if (!this.common.isVisibleElement(widget.domNode)) {
-            return;
+            return false;
         }
         event = _widget.getEvent(event);
         var keyCode = _widget.getKeyCode(event);
@@ -146,8 +146,8 @@ webui.@THEME@.widget.menuBase.prototype.createOnKeyDownCallBack = function(nodeI
             widget.traverseMenu(keyCode, event, nodeId);
         }
         return true;
-    }
-}
+    };
+};
 
 /**
  * Handles the on mouse out for each menuitem.
@@ -161,17 +161,13 @@ webui.@THEME@.widget.menuBase.prototype.createOnMouseOutCallBack = function(menu
     }
     var _id = this.id;
  
-    /**
-     * New literals are created every time this function is called, and it's 
-     * saved by closure magic.
-     *
-     * @param {Event} event The JavaScript event.
-     */
+    // New literals are created every time this function is called, and it's 
+    // saved by closure magic.
     return function(event) {
         var widget = webui.@THEME@.dijit.byId(_id);
         menuItem.className = widget.theme.getClassName("MENU_GROUP_CONTAINER");
-    }
-}
+    };
+};
 
 /**
  * Handles the on mouse over for each menuitem.
@@ -195,24 +191,23 @@ webui.@THEME@.widget.menuBase.prototype.createOnMouseOverCallBack = function(men
         var widget = webui.@THEME@.dijit.byId(_id);
         menuItem.className = menuItem.className + " " + 
                     widget.theme.getClassName("MENU_ITEM_HOVER");            
-            if (widget != null) {
-                
-                //Mozilla browser (not firefox/seamonkey) do not support focus/blur
-                // for divs                
-                if (document.getElementById(widget.menuId[widget.focusPosition]).blur) {
-                    document.getElementById(widget.menuId[widget.focusPosition]).blur();
-                }                
-                if (!(menuItem.id == widget.menuId[widget.focusPosition])) {
-                    document.getElementById(widget.menuId[widget.focusPosition]).className =
-                        widget.theme.getClassName("MENU_GROUP_CONTAINER");
-                }
+        if (widget != null) {
+            // Mozilla browser (not firefox/seamonkey) do not support focus/blur
+            // for divs                
+            if (document.getElementById(widget.menuId[widget.focusPosition]).blur) {
+                document.getElementById(widget.menuId[widget.focusPosition]).blur();
+            }                
+            if (!(menuItem.id == widget.menuId[widget.focusPosition])) {
+                document.getElementById(widget.menuId[widget.focusPosition]).className =
+                    widget.theme.getClassName("MENU_GROUP_CONTAINER");
             }
-            if (webui.@THEME@.browser.isIe5up() ) {
-                menuItem.className = menuItem.className + " " + 
-                    widget.theme.getClassName("MENU_ITEM_HOVER");            
-            }
-    }
-}
+        }
+        if (webui.@THEME@.browser.isIe5up() ) {
+            menuItem.className = menuItem.className + " " + 
+                widget.theme.getClassName("MENU_ITEM_HOVER");            
+        }
+    };
+};
 
 /**
  * Calculate the maximum width of menu to be set.
@@ -241,7 +236,7 @@ webui.@THEME@.widget.menuBase.prototype.getMaxWidth = function(props) {
          }
     }
     return maxWidth;
-}
+};
 
 /**
  * This function is used to get widget properties. Please see the 
@@ -257,7 +252,7 @@ webui.@THEME@.widget.menuBase.prototype.getProps = function() {
     if (this.submitForm) { props.submitForm = this.submitForm; }  
 
     return props;
-}
+};
 
 /**
  * Returns the currently selected item in the menu.
@@ -270,7 +265,7 @@ webui.@THEME@.widget.menuBase.prototype.getSelectedValue = function() {
     } else {
         return null;
     }
-}
+};
 
 /**
  * This function is used to obtain the outermost HTML element style.
@@ -303,7 +298,7 @@ webui.@THEME@.widget.menuBase.prototype.getStyle = function() {
     return (this.style)
         ? style + this.style
         : style;
-}
+};
 
 /**
  * This function is used to fill in remaining template properties, after the
@@ -315,10 +310,10 @@ webui.@THEME@.widget.menuBase.prototype.getStyle = function() {
  */
 webui.@THEME@.widget.menuBase.prototype.postCreate = function () {
     // Set public functions.
-    this.domNode.getSelectedValue = function(props, optionNode) { return webui.@THEME@.dijit.byId(this.id).getSelectedValue(); }
+    this.domNode.getSelectedValue = function(props, optionNode) { return webui.@THEME@.dijit.byId(this.id).getSelectedValue(); };
     this.focusPosition = 0;        
     return this.inherited("postCreate", arguments);
-}
+};
 
 /**
  * Process the enter key press event.Evaluvate the keyPress/keyDown (for non-IE/IE browsers)
@@ -348,7 +343,7 @@ webui.@THEME@.widget.menuBase.prototype.processEnterKeyPressEvent = function(val
         }  
     }
     return true;
-}    
+};
     
 /**
  * This function executes the onchange and onclick event handlers if provided by 
@@ -382,7 +377,7 @@ webui.@THEME@.widget.menuBase.prototype.processOnClickEvent = function(value) {
         }  
     }
     return true;
-}
+};
 
 /**
  * Set the appropriate class name on the menu item container.
@@ -415,7 +410,7 @@ webui.@THEME@.widget.menuBase.prototype.setMenuNodeClassName = function(
             this.createOnMouseOutCallBack(menuItemContainer));
     }
     return true;
-}
+};
 
 /**
  * Helper function to set the properties of an option item. This is invoked
@@ -508,7 +503,7 @@ webui.@THEME@.widget.menuBase.prototype.setOptionNodeProps = function(optionNode
     // Append the div element to the li element.           
     menuItemContainer.appendChild(valueNode);
     return true;
-}
+};
 
 /**
  * This function is used to set widget properties using Object literals.
@@ -560,7 +555,7 @@ webui.@THEME@.widget.menuBase.prototype.setProps = function(props, notify) {
 
     // Extend widget object for later updates.
     return this.inherited("setProps", arguments);
-}
+};
 
 /**
  * This function is used to set widget properties. Please see the setProps() 
@@ -642,7 +637,7 @@ webui.@THEME@.widget.menuBase.prototype._setProps = function(props){
     
     // Set remaining properties.
     return this.inherited("_setProps", arguments);
-}
+};
 
 /**
  * Set the selected item on the widget.
@@ -653,7 +648,7 @@ webui.@THEME@.widget.menuBase.prototype._setProps = function(props){
 webui.@THEME@.widget.menuBase.prototype.setSelectedValue = function(item) {
     this.clickedItem = item;
     return true;
-}
+};
 
 /**
  * Submits the form. Appends the value of the selected item in the request url.
@@ -672,7 +667,7 @@ webui.@THEME@.widget.menuBase.prototype.submitFormData = function () {
     theForm.action = oldAction;
     theForm.target = oldTarget;
     return false;
-}
+};
 
 /**
  * This function takes care of traversing through the menu items depending
@@ -735,4 +730,4 @@ webui.@THEME@.widget.menuBase.prototype.traverseMenu = function(keyCode, event, 
         event.preventDefault();
     }
     return true;
-}
+};

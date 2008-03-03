@@ -87,7 +87,7 @@ webui.@THEME@.widget.jsfx.accordionTab = {
         webui.@THEME@.dojo.publish(webui.@THEME@.widget.accordionTab.event.load.endTopic, [json]);
         return true;
     }
-}
+};
 
 // Listen for Dojo Widget events.
 webui.@THEME@.dojo.subscribe(webui.@THEME@.widget.accordionTab.event.load.beginTopic,

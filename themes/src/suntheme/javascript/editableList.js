@@ -219,4 +219,4 @@ webui.@THEME@.editableList = {
         this.list.disabled = disabled; 
         return true;
     }
-}
+};

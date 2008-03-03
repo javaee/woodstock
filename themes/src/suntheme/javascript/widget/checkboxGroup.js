@@ -69,7 +69,7 @@ webui.@THEME@.widget.checkboxGroup.event =
         /** State event topic for custom AJAX implementations to listen for. */
         endTopic: "webui_@THEME@_widget_checkboxGroup_event_state_end"
     }
-}
+};
 
 /**
  * This function is used to obtain the outermost HTML element class name.
@@ -88,4 +88,4 @@ webui.@THEME@.widget.checkboxGroup.prototype.getClassName = function() {
     return (this.className)
         ? className + " " + this.className
         : className;
-}
+};

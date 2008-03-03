@@ -93,7 +93,7 @@ webui.@THEME@.widget.textField.event =
         /** Validation event topic for custom AJAX implementations to listen for. */
         endTopic: "webui_@THEME@_widget_textField_event_validation_end"
     }
-}
+};
 
 /**
  * Helper function to obtain HTML input element class names.
@@ -115,7 +115,7 @@ webui.@THEME@.widget.textField.prototype.getInputClassName = function() {
     return (this.disabled == true)
         ? this.widget.getClassName("TEXT_FIELD_DISABLED", "") 
         : this.widget.getClassName("TEXT_FIELD", "") + validStyle;
-}
+};
 
 /**
  * This function is used to get widget properties. Please see the 
@@ -130,7 +130,7 @@ webui.@THEME@.widget.textField.prototype.getProps = function() {
     if (this.autoValidate != null) { props.autoValidate = this.autoValidate; }
     
     return props;
-}
+};
 
 /**
  * This function is used to fill in remaining template properties, after the
@@ -147,7 +147,7 @@ webui.@THEME@.widget.textField.prototype.postCreate = function () {
         this.dojo.connect(this.fieldNode, "onblur", this, "validate");
     }
     return this.inherited("postCreate", arguments);
-}
+};
 
 /**
  * This function is used to set widget properties using Object literals.
@@ -199,7 +199,7 @@ webui.@THEME@.widget.textField.prototype.postCreate = function () {
 webui.@THEME@.widget.textField.prototype.setProps = function(props, notify) {
     // Note: This function is overridden for JsDoc.
     return this.inherited("setProps", arguments);
-}
+};
 
 /**
  * Process validation event.
@@ -222,4 +222,4 @@ webui.@THEME@.widget.textField.prototype.validate = function(event) {
         id: this.id
     }]);
     return true;
-}
+};

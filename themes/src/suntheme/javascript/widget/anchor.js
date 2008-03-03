@@ -69,7 +69,7 @@ webui.@THEME@.widget.anchor.event =
         /** State event topic for custom AJAX implementations to listen for. */
         endTopic: "webui_@THEME@_widget_anchor_event_state_end"
     }
-}
+};
 
 /**
  * This function is used to obtain the outermost HTML element class name.
@@ -88,7 +88,7 @@ webui.@THEME@.widget.anchor.prototype.getClassName = function() {
     return (this.className)
         ? className + " " + this.className
         : className;
-}
+};
 
 /**
  * This function is used to fill in remaining template properties, after the
@@ -103,4 +103,4 @@ webui.@THEME@.widget.anchor.prototype.postCreate = function () {
     this.dojo.connect(this.domNode, "onclick", this, "onClickCallback");
 
     return this.inherited("postCreate", arguments);
-}
+};

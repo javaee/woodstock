@@ -353,4 +353,4 @@ webui.@THEME@.browser = {
         var agent = webui.@THEME@.browser.getAgent();
         return (agent.indexOf("safari") != -1);
     }
-}
+};

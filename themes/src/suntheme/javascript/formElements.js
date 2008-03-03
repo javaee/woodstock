@@ -194,6 +194,7 @@ webui.@THEME@.button = {
      * Set button as "mini".
      *
      * @param {boolean} mini true for mini, false for standard button
+     * @return {boolean} true if successful; otherwise, false.
      * @deprecated Use document.getElementById(id).setProps({mini: boolean});
      */
     setMini: function(mini) {
@@ -217,6 +218,7 @@ webui.@THEME@.button = {
      * Test disabled state of button.
      *
      * @param {boolean} disabled true if disabled; otherwise, false
+     * @return {boolean} true if successful; otherwise, false.
      * @deprecated Use document.getElementById(id).setProps({disabled: boolean});
      */
     setDisabled: function(disabled) {
@@ -225,7 +227,7 @@ webui.@THEME@.button = {
         }
         return this.setProps({disabled: disabled});
     }
-}
+};
 
 // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 // checkbox functions
@@ -279,7 +281,7 @@ webui.@THEME@.checkbox = {
         return webui.@THEME@.rbcb.setChecked(elementId, checked,
             "checkbox");
     }
-}
+};
 
 // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 // dropdown functions
@@ -392,7 +394,7 @@ webui.@THEME@.dropDown = {
         }
         return null;
     }
-}
+};
 
 // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 // field functions
@@ -508,7 +510,7 @@ webui.@THEME@.field = {
         }
         return null;
     }
-}
+};
 
 // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 // hyperlink functions
@@ -580,7 +582,7 @@ webui.@THEME@.hyperlink = {
         }
         return document.getElementById(elementId + "_image");
     }
-}
+};
 
 // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 // jumpDropDown functions
@@ -613,7 +615,7 @@ webui.@THEME@.jumpDropDown = {
         }
         return false;
     }
-}
+};
 
 // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 // listbox functions
@@ -726,7 +728,7 @@ webui.@THEME@.listbox = {
         }
         return null;
     }
-}
+};
 
 // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 // Generic checkbox and radio button functions
@@ -792,7 +794,7 @@ webui.@THEME@.rbcb = {
         }
         return null;
     }
-}
+};
 
 // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 // radiobutton functions
@@ -845,7 +847,7 @@ webui.@THEME@.radiobutton = {
     setChecked: function(elementId, checked) {
         return webui.@THEME@.rbcb.setChecked(elementId, checked, "radio");
     }
-}
+};
 
 // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 // upload functions
@@ -1003,4 +1005,4 @@ webui.@THEME@.upload = {
 	}
 	return true;
     }
-}
+};

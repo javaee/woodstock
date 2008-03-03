@@ -76,7 +76,7 @@ webui.@THEME@.widget.dndContainer.prototype.createCreatorCallback = function(fun
         }
         return ret;
     };
-}
+};
 
 /**
  * Helper function to create callback for user's onDrop function.
@@ -97,8 +97,8 @@ webui.@THEME@.widget.dndContainer.prototype.createOnDndDropCallback = function()
             }
         }
         return true;
-    }
-}
+    };
+};
 
 /**
  * Helper function to obtain HTML container element class names.
@@ -108,7 +108,7 @@ webui.@THEME@.widget.dndContainer.prototype.createOnDndDropCallback = function()
 webui.@THEME@.widget.dndContainer.prototype.getContainerClassName = function() {   
     // Add default style.
     return  this.dndContainer.className;
-}
+};
 
 /**
  * This function is used to get widget properties. Please see the 
@@ -131,7 +131,7 @@ webui.@THEME@.widget.dndContainer.prototype.getProps = function() {
     if (this.title != null)     { this.dndContainer.title = this.title;}
     
     return props;
-}
+};
 
 /**
  * This function is used to fill in remaining template properties, after the
@@ -170,7 +170,7 @@ webui.@THEME@.widget.dndContainer.prototype.postCreate = function () {
     this.dragSource = new webui.@THEME@.dnd.Source(this.dndContainer, params);
 
     return this.inherited("postCreate", arguments);
-}
+};
 
 /**
  * This function is used to set widget properties using Object literals.
@@ -201,7 +201,7 @@ webui.@THEME@.widget.dndContainer.prototype.setProps = function(props, notify) {
         this.contents = null;
     }
     return this.inherited("setProps", arguments);
-}
+};
 
 /**
  * This function is used to set widget properties. Please see the setProps() 
@@ -263,4 +263,4 @@ webui.@THEME@.widget.dndContainer.prototype._setProps = function(props) {
 
     // Set remaining properties.
     return this.inherited("_setProps", arguments);
-}
+};

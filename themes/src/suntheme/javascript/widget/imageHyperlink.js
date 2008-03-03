@@ -57,7 +57,7 @@ webui.@THEME@.widget.imageHyperlink.prototype.addContents = function(props) {
         this.widget.addFragment(this.rightContentsContainer, props.contents[i], "last");
     }
     return true;
-}
+};
 
 /**
  * This object contains event topics.
@@ -93,7 +93,7 @@ webui.@THEME@.widget.imageHyperlink.event =
         /** State event topic for custom AJAX implementations to listen for. */
         endTopic: "webui_@THEME@_widget_imageHyperlink_event_state_end"
     }
-}
+};
 
 /**
  * This function is used to get widget properties. Please see the 
@@ -110,7 +110,7 @@ webui.@THEME@.widget.imageHyperlink.prototype.getProps = function() {
     if (this.imagePosition) { props.imagePosition = this.imagePosition; }
 
     return props;
-}
+};
 
 /**
  * This function is used to fill in remaining template properties, after the
@@ -129,7 +129,7 @@ webui.@THEME@.widget.imageHyperlink.prototype.postCreate = function () {
         this.rightContentsContainer.id = this.id + "_rightContents";
     }
     return this.inherited("postCreate", arguments);
-}
+};
 
 /**
  * This function is used to set widget properties using Object literals.
@@ -182,7 +182,7 @@ webui.@THEME@.widget.imageHyperlink.prototype.postCreate = function () {
 webui.@THEME@.widget.imageHyperlink.prototype.setProps = function(props, notify) {
     // Note: This function is overridden for JsDoc.
     return this.inherited("setProps", arguments);
-}
+};
 
 /**
  * This function is used to set widget properties. Please see the setProps() 
@@ -222,7 +222,7 @@ webui.@THEME@.widget.imageHyperlink.prototype._setProps = function(props) {
 
     // Set image position.
     if (props.imagePosition) {
-        var left = (props.imagePosition == "left") 
+        var left = (props.imagePosition == "left");
         this.common.setVisibleElement(this.leftContentsContainer, !left);
         this.common.setVisibleElement(this.rightContentsContainer, left);    
     }
@@ -232,4 +232,4 @@ webui.@THEME@.widget.imageHyperlink.prototype._setProps = function(props) {
 
     // Set remaining properties.
     return this.inherited("_setProps", arguments);
-}
+};

@@ -102,7 +102,7 @@ webui.@THEME@.widget.checkedGroupBase.prototype.addContents = function(props) {
         }
     }
     return true;
-}
+};
 
 /**
  * This function is used to get widget properties. Please see the 
@@ -123,7 +123,7 @@ webui.@THEME@.widget.checkedGroupBase.prototype.getProps = function() {
     if (this.readOnly != null) { props.readOnly = this.readOnly; }  
 
     return props;
-}
+};
 
 /**
  * This function is used to fill in remaining template properties, after the
@@ -150,7 +150,7 @@ webui.@THEME@.widget.checkedGroupBase.prototype.postCreate = function () {
         this.common.setVisibleElement(this.rowNode, true);
     }
     return this.inherited("postCreate", arguments);
-}
+};
 
 /**
  * This function is used to set widget properties using Object literals.
@@ -194,7 +194,7 @@ webui.@THEME@.widget.checkedGroupBase.prototype.setProps = function(props, notif
 
     // Extend widget object for later updates.
     return this.inherited("setProps", arguments);
-}
+};
 
 /**
  * This function is used to set widget properties. Please see the setProps() 
@@ -224,4 +224,4 @@ webui.@THEME@.widget.checkedGroupBase.prototype._setProps = function(props) {
 
     // Set remaining properties.
     return this.inherited("_setProps", arguments);
-}
+};

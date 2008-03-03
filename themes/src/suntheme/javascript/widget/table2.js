@@ -69,7 +69,7 @@ webui.@THEME@.widget.table2.event =
         /** State event topic for custom AJAX implementations to listen for. */
         endTopic: "webui_@THEME@_widget_table2_event_state_end"
     }
-}
+};
 
 /**
  * This function is used to get widget properties. Please see the 
@@ -96,7 +96,7 @@ webui.@THEME@.widget.table2.prototype.getProps = function() {
     if (this.width) { props.width = this.width; }
 
     return props;
-}
+};
 
 /**
  * This function is used to fill in remaining template properties, after the
@@ -119,7 +119,7 @@ webui.@THEME@.widget.table2.prototype.postCreate = function () {
         this.captionContainer.id = this.id + "_captionContainer";
     }
     return this.inherited("postCreate", arguments);
-}
+};
 
 /**
  * This function is used to set widget properties using Object literals.
@@ -182,7 +182,7 @@ webui.@THEME@.widget.table2.prototype.setProps = function(props, notify) {
 
     // Extend widget object for later updates.
     return this.inherited("setProps", arguments);
-}
+};
 
 /**
  * This function is used to set widget properties. Please see the setProps() 
@@ -243,7 +243,7 @@ webui.@THEME@.widget.table2.prototype._setProps = function(props) {
                 cellspacing: props.cellspacing,
                 frame: props.frame,
                 summary: props.summary
-            }
+            };
             this.widget.addFragment(this.rowGroupsContainer, props.rowGroups[i], "last");
 
             // To do: Fix me.
@@ -268,4 +268,4 @@ webui.@THEME@.widget.table2.prototype._setProps = function(props) {
 
     // Set remaining properties.
     return this.inherited("_setProps", arguments);
-}
+};

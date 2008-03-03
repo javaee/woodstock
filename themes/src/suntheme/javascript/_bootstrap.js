@@ -125,7 +125,7 @@ webui.@THEME@.bootstrap = {
 
                     // Set debug path.
                     if (new Boolean(props.isDebug).valueOf() == true) {
-                        props.modulePath += "_uncompressed"
+                        props.modulePath += "_uncompressed";
                     }
                     break;
                 }
@@ -303,7 +303,7 @@ webui.@THEME@.bootstrap = {
                             || script.readyState == "complete") {
                         callback();
                     }
-                }
+                };
             } else {
                 script.onload = callback;
             }
@@ -311,7 +311,7 @@ webui.@THEME@.bootstrap = {
         domNode.appendChild(script);
         return true;
     }
-}
+};
 
 // Initialize paths.
 webui.@THEME@.bootstrap._initPaths(webui_@THEME@_config);

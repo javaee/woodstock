@@ -43,7 +43,7 @@ webui.@THEME@.dojo.declare("webui.@THEME@.widget.checkedBase", webui.@THEME@.wid
  */
 webui.@THEME@.widget.checkedBase.prototype.getImageClassName = function() {
     return null; // Overridden by subclass.
-}
+};
 
 /**
  * Helper function to obtain input class names.
@@ -52,7 +52,7 @@ webui.@THEME@.widget.checkedBase.prototype.getImageClassName = function() {
  */
 webui.@THEME@.widget.checkedBase.prototype.getInputClassName = function() {
     return null; // Overridden by subclass.
-}
+};
 
 /**
  * Returns the HTML input element that makes up the chekcbox.
@@ -61,7 +61,7 @@ webui.@THEME@.widget.checkedBase.prototype.getInputClassName = function() {
  */
 webui.@THEME@.widget.checkedBase.prototype.getInputElement = function() {
     return this.inputNode;
-}
+};
 
 /**
  * Helper function to obtain label class names.
@@ -70,7 +70,7 @@ webui.@THEME@.widget.checkedBase.prototype.getInputElement = function() {
  */
 webui.@THEME@.widget.checkedBase.prototype.getLabelClassName = function() {
     return null; // Overridden by subclass.
-}
+};
 
 /**
  * This function is used to get widget properties. Please see the 
@@ -97,7 +97,7 @@ webui.@THEME@.widget.checkedBase.prototype.getProps = function() {
         props.checked = this.checked;
     }
     return props;
-}
+};
 
 /**
  * Helper function to create callback for onClick event.
@@ -119,7 +119,7 @@ webui.@THEME@.widget.checkedBase.prototype.onClickCallback = function(event) {
         return false;
     }
     return true;
-}
+};
 
 /**
  * This function is used to fill in remaining template properties, after the
@@ -149,7 +149,7 @@ webui.@THEME@.widget.checkedBase.prototype.postCreate = function () {
     this.dojo.connect(this.domNode, "onclick", this, "onClickCallback");
 
     return this.inherited("postCreate", arguments);
-}
+};
 
 /**
  * This function is used to set widget properties. Please see the setProps() 
@@ -238,4 +238,4 @@ webui.@THEME@.widget.checkedBase.prototype._setProps = function(props) {
 
     // Set remaining properties.
     return this.inherited("_setProps", arguments);
-}
+};

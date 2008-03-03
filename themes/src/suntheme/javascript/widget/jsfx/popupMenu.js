@@ -71,7 +71,7 @@ webui.@THEME@.widget.jsfx.popupMenu = {
         });
         return true;
     }
-}
+};
 
 // Listen for Dojo Widget events.
 webui.@THEME@.dojo.subscribe(webui.@THEME@.widget.popupMenu.event.refresh.beginTopic,

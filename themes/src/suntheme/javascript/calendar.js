@@ -339,7 +339,7 @@ webui.@THEME@.calendar = {
         // In JavaScript (unlike java.util.Calendar), Sunday is 0. 
         if(firstDay != this.firstDay) {
             var backDays = (firstDay - this.firstDay + 7) % 7;
-            var oneDayInMs = 86400000 // 1000 * 60 * 60 * 24;
+            var oneDayInMs = 86400000; // 1000 * 60 * 60 * 24;
             var day = new Date(first.getTime() - backDays * oneDayInMs);
             // assert day == first day of week of previous month
             while (day.getMonth() !=  month) {
@@ -552,7 +552,7 @@ webui.@THEME@.calendar = {
         var curleft = 0;
         if (obj.offsetParent) {
             while (obj.offsetParent) {
-                curleft += obj.offsetLeft
+                curleft += obj.offsetLeft;
                 obj = obj.offsetParent;
             }
         } else if (obj.x) {
@@ -571,7 +571,7 @@ webui.@THEME@.calendar = {
         var curtop = 0;
         if (obj.offsetParent) {
             while (obj.offsetParent) {
-                curtop += obj.offsetTop
+                curtop += obj.offsetTop;
                 obj = obj.offsetParent;
             }
         } else if (obj.y) {
@@ -664,6 +664,8 @@ webui.@THEME@.calendar = {
             return false;
         }
 
+        var tag;
+        var position;
         if (div.style.display == "block") {
             // This popup should be displayed
 
@@ -671,9 +673,9 @@ webui.@THEME@.calendar = {
             var divZIndex = div.currentStyle.zIndex;
 
             // Propogate the zIndex up the offsetParent tree
-            var tag = div.offsetParent;
+            tag = div.offsetParent;
             while (tag != null) {
-                var position = tag.currentStyle.position;
+                position = tag.currentStyle.position;
                 if (position == "relative" || position == "absolute") {
                     // Save any zIndex so it can be restored
                     tag.raveOldZIndex = tag.style.zIndex;
@@ -687,9 +689,9 @@ webui.@THEME@.calendar = {
             this.ieShowShim(div);
         } else {
             // This popup should be hidden so restore zIndex-s
-            var tag = div.offsetParent;
+            tag = div.offsetParent;
             while (tag != null) {
-                var position = tag.currentStyle.position;
+                position = tag.currentStyle.position;
                 if (position == "relative" || position == "absolute") {
                     if (tag.raveOldZIndex != null) {
                         tag.style.zIndex = tag.raveOldZIndex;
@@ -809,4 +811,4 @@ webui.@THEME@.calendar = {
         return this.redrawCalendar(false);
     }
 //    </RAVE>
-}
+};

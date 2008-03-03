@@ -69,7 +69,7 @@ webui.@THEME@.widget.imageButton.event =
         /** State event topic for custom AJAX implementations to listen for. */
         endTopic: "webui_@THEME@_widget_imageButton_event_state_end"
     }
-}
+};
 
 /**
  * This function is used to obtain the outermost HTML element class name.
@@ -91,7 +91,7 @@ webui.@THEME@.widget.imageButton.prototype.getClassName = function() {
     return (this.className)
         ? className + " " + this.className
         : className;
-}
+};
 
 /**
  * This function is used to obtain the outermost HTML element class name during
@@ -111,7 +111,7 @@ webui.@THEME@.widget.imageButton.prototype.getHoverClassName = function() {
     return (this.className)
         ? className + " " + this.className
         : className;
-}
+};
 
 /**
  * This function is used to get widget properties. Please see the 
@@ -126,7 +126,7 @@ webui.@THEME@.widget.imageButton.prototype.getProps = function() {
     if (this.src) { props.src = this.src; }
 
     return props;
-}
+};
 
 /**
  * This function is used to set widget properties using Object literals.
@@ -168,11 +168,12 @@ webui.@THEME@.widget.imageButton.prototype.getProps = function() {
  * @config {String} value Value of input.
  * @config {boolean} visible Hide or show element.
  * @param {boolean} notify Publish an event for custom AJAX implementations to listen for.
+ * @return {boolean} true if successful; otherwise, false.
  */
 webui.@THEME@.widget.imageButton.prototype.setProps = function(props, notify) {
     // Note: This function is overridden for JsDoc.
     return this.inherited("setProps", arguments);
-}
+};
 
 /**
  * This function is used to set widget properties. Please see the setProps() 
@@ -190,17 +191,16 @@ webui.@THEME@.widget.imageButton.prototype._setProps = function(props) {
     }
 
     // Set properties.
-        if (props.src) {
-                
-            // If context path is provided, then check whether the image has
-            // context path already appended and if not, append it.
-            if (this.prefix) {
-                props.src = 
-                    webui.@THEME@.widget.common.appendPrefix(this.prefix, props.src);                
-            }
-            this.domNode.src = props.src; 
+    if (props.src) {
+        // If context path is provided, then check whether the image has
+        // context path already appended and if not, append it.
+        if (this.prefix) {
+            props.src = 
+                webui.@THEME@.widget.common.appendPrefix(this.prefix, props.src);                
         }
+        this.domNode.src = props.src; 
+    }
 
     // Set remaining properties.
     return this.inherited("_setProps", arguments);
-}
+};

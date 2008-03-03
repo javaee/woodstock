@@ -53,7 +53,7 @@ webui.@THEME@.widget.calendarField.prototype.dayClicked = function(props) {
         this.domNode.setProps({value: props.date});
     }
     return false;
-}
+};
 
 /**
  * This object contains event topics.
@@ -89,7 +89,7 @@ webui.@THEME@.widget.calendarField.event =
         /** State event topic for custom AJAX implementations to listen for. */
         endTopic: "webui_@THEME@_widget_calendarField_event_state_end"
     }
-}
+};
 
 /**
  * This function is used to obtain the outermost HTML element class name.
@@ -106,7 +106,7 @@ webui.@THEME@.widget.calendarField.prototype.getClassName = function() {
     return (this.className)
         ? className + " " + this.className
         : className;
-}
+};
 
 /**
  * This function is used to get widget properties. Please see the 
@@ -123,7 +123,7 @@ webui.@THEME@.widget.calendarField.prototype.getProps = function() {
     if (this.patternHelp) { props.patternHelp = this.patternHelp; }   
 
     return props;
-}
+};
 
 /**
  * This function is used to fill in remaining template properties, after the
@@ -163,7 +163,7 @@ webui.@THEME@.widget.calendarField.prototype.postCreate = function () {
         this, "toggleCalendar");
         
     return this.inherited("postCreate", arguments);
-}
+};
 
 /**
  * This function is used to set widget properties using Object literals.
@@ -227,7 +227,7 @@ webui.@THEME@.widget.calendarField.prototype.setProps = function(props, notify) 
     
     // Set remaining properties.
     return this.inherited("setProps", arguments);
-}
+};
 
 /**
  * This function is used to set widget properties. Please see the setProps() 
@@ -270,7 +270,7 @@ webui.@THEME@.widget.calendarField.prototype._setProps = function(props) {
 
     // Set remaining properties.
     return this.inherited("_setProps", arguments);
-}
+};
 
 // Cannot do this in the postCreate or setProps as the dom element hasnt yet been
 // created on the page. So, offsetWidth would return zero. 
@@ -281,7 +281,7 @@ webui.@THEME@.widget.calendarField.prototype.startup = function () {
     var width = this.fieldNode.offsetWidth;
     this.inlineHelpNode.style.cssText ="width:"+width+"px;";
     return this.inherited("startup", arguments);
-}
+};
 
 /**
  * This function subscribes to the toggleCalendar function of the calendar widget.
@@ -298,4 +298,4 @@ webui.@THEME@.widget.calendarField.prototype.toggleCalendar = function(props) {
         widget.setProps({date: this.getProps().value});
     }
     return true;
-}
+};

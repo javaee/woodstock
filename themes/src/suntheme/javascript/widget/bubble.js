@@ -62,7 +62,7 @@ webui.@THEME@.widget.bubble.prototype.close = function() {
     }, this.defaultTime);
 
     return true;
-}
+};
 
 /**
  * This object contains event topics.
@@ -98,7 +98,7 @@ webui.@THEME@.widget.bubble.event =
         /** State event topic for custom AJAX implementations to listen for. */
         endTopic: "webui_@THEME@_widget_bubble_event_state_end"
     }
-}
+};
 
 /**
  * This function is used to get widget properties. Please see the 
@@ -122,7 +122,7 @@ webui.@THEME@.widget.bubble.prototype.getProps = function() {
     if (this.tabIndex != null) {props.tabIndex = this.tabIndex;}
     
     return props;
-}
+};
 
 /**
  * Helper function to create callback for onClick event.
@@ -152,7 +152,7 @@ webui.@THEME@.widget.bubble.prototype.onClickCallback = function(event) {
         this.srcElm.focus();
     }
     return true;
-}
+};
 
 /**
  * Helper function to create callback for close event.
@@ -177,7 +177,7 @@ webui.@THEME@.widget.bubble.prototype.onCloseCallback = function(event) {
         this.setProps({visible: false});
     }
     return true;
-}
+};
 
 /**
  * Helper function to create callback for shift + tab event.
@@ -205,9 +205,9 @@ webui.@THEME@.widget.bubble.prototype.onShftTabCallback = function(event) {
             event.stopPropagation();
             event.preventDefault(); 
         }
-     }       
-                           
-}
+     }
+     return true;
+};
 
 /**
  * Helper function to create callback for tab event.
@@ -235,7 +235,7 @@ webui.@THEME@.widget.bubble.prototype.onTabCallback = function(event) {
         event.preventDefault(); 
     }
     return true;
- } 
+};
     
 /**
  * Helper function to create callback for onMouseOver event.
@@ -246,7 +246,7 @@ webui.@THEME@.widget.bubble.prototype.onTabCallback = function(event) {
 webui.@THEME@.widget.bubble.prototype.onMouseOverCallback = function(event) {
     clearTimeout(this.timerId);
     return true;
-}
+};
 
 /**
  * Helper function to create callback for onMouseOut event.
@@ -260,7 +260,7 @@ webui.@THEME@.widget.bubble.prototype.onMouseOutCallback = function(event) {
         this.close();            
     }
     return true;
-}
+};
 
 /**
  * This function is use to invoke buuble help.
@@ -274,7 +274,7 @@ webui.@THEME@.widget.bubble.prototype.open = function(event) {
     // A11Y - open the bubble if its Ctrl key + F1
     if (evt.type == "keydown") {
         if (!(evt.ctrlKey && (evt.keyCode == 112))) {
-            return;
+            return false;
         }
         evt.stopPropagation();
         evt.preventDefault();  
@@ -317,7 +317,7 @@ webui.@THEME@.widget.bubble.prototype.open = function(event) {
         this.defaultTime = this.duration;
     } 
     return true;
-}
+};
 
 /**
  * This function is used to fill in remaining template properties, after the
@@ -337,8 +337,8 @@ webui.@THEME@.widget.bubble.prototype.postCreate = function () {
     }
 
     // Set public functions.
-    this.domNode.close = function() { return webui.@THEME@.dijit.byId(this.id).close(); }
-    this.domNode.open = function(event) { return webui.@THEME@.dijit.byId(this.id).open(event); }
+    this.domNode.close = function() { return webui.@THEME@.dijit.byId(this.id).close(); };
+    this.domNode.open = function(event) { return webui.@THEME@.dijit.byId(this.id).open(event); };
 
     // Set events.
 
@@ -375,7 +375,7 @@ webui.@THEME@.widget.bubble.prototype.postCreate = function () {
             "BUBBLE_TITLEWIDTH") + "%";
     }
     return this.inherited("postCreate", arguments);
-}
+};
 
 /**
  * This function is used to position the bubble.
@@ -532,7 +532,7 @@ webui.@THEME@.widget.bubble.prototype.setPosition = function() {
         }
     }
     return true;
-}
+};
 
 /**
  * This function is used to set widget properties using Object literals.
@@ -570,7 +570,7 @@ webui.@THEME@.widget.bubble.prototype.setProps = function(props, notify) {
 
     // Extend widget object for later updates.
     return this.inherited("setProps", arguments);
-}
+};
 
 /**
  * This function is used to set widget properties. Please see the setProps() 
@@ -634,4 +634,4 @@ webui.@THEME@.widget.bubble.prototype._setProps = function(props) {
 
     // Set remaining properties.
     return this.inherited("_setProps", arguments);
-}
+};

@@ -85,7 +85,7 @@ webui.@THEME@.widget.jsfx.table2RowGroup = {
         // Reject duplicate AJAX requests.
         var widget = webui.@THEME@.dijit.byId(id);
         if (widget.first != xjson.first) {
-            return;
+            return false;
         }        
         // Add rows.
         widget.addRows(props.rows);
@@ -95,7 +95,7 @@ webui.@THEME@.widget.jsfx.table2RowGroup = {
             webui.@THEME@.widget.table2RowGroup.event.scroll.endTopic, [props]);
         return true;
     }
-}
+};
     
 // Listen for Dojo Widget events.
 webui.@THEME@.dojo.subscribe(webui.@THEME@.widget.table2RowGroup.event.refresh.beginTopic,

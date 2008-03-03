@@ -144,7 +144,7 @@ webui.@THEME@.orderableList = {
         // If there aren't at least two more selected items, then there is
         // nothing to move 
         if (numOptions < 2) {
-            return;
+            return false;
         }
 
         // Start by examining the first item 
@@ -159,7 +159,7 @@ webui.@THEME@.orderableList = {
             if (index == numOptions) {
                 // We've reached the last item - no more items below it so
                 // we return
-                return;
+                return false;
             }
         }
 
@@ -198,7 +198,7 @@ webui.@THEME@.orderableList = {
         var numOptions = this.options.length;
         // If there aren't at least two items, there is nothing to move  
         if (numOptions < 2) {
-            return;
+            return false;
         }
 
         // Find the first open spot 
@@ -247,7 +247,7 @@ webui.@THEME@.orderableList = {
         // If this number is less than zero, there was nothing on the list
         // and we return
         if (index < 0) {
-            return;
+            return false;
         }
 
         for (var i = index - 1; i >= 0; i--) {
@@ -280,7 +280,7 @@ webui.@THEME@.orderableList = {
 
         // If there aren't at least two items, there is nothing to move  
         if (numOptions < 1) {
-            return;
+            return false;
         }
 
         // Find the last open spot 
@@ -445,4 +445,4 @@ webui.@THEME@.orderableList = {
         }
         return true;
     }
-}
+};

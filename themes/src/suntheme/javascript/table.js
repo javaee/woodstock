@@ -569,10 +569,11 @@ webui.@THEME@.table = {
         }
 
         // Set multiple select button state.
+        var title;
         var checkbox = document.getElementById(groupId + this.SEPARATOR + 
             this.selectMultipleToggleButtonId);
         if (checkbox != null) {
-            var title = (checked) 
+            title = (checked) 
                 ? this.selectMultipleToggleButtonToolTipSelected
                 : this.selectMultipleToggleButtonToolTip;
             checkbox.setProps({
@@ -589,7 +590,7 @@ webui.@THEME@.table = {
         var image = document.getElementById(prefix + this.warningIconId);
         if (image != null) {
             var src = this.warningIconOpen;
-            var title = this.warningIconToolTipOpen;
+            title = this.warningIconToolTipOpen;
 
             // Don't show icon when multiple select is checked.
             if (collapsed && selected && !checked) {
@@ -852,9 +853,9 @@ webui.@THEME@.table = {
 
                 // Find default selected index for the current sort order menu.
                 var defaultSelectedIndex = -1;
-                for (var k = 0; k < currentSortOrderMenu.options.length; k++) {
-                    if (currentSortOrderMenu.options[k].defaultSelected == true) {
-                        defaultSelectedIndex = k;
+                for (var c = 0; c < currentSortOrderMenu.options.length; c++) {
+                    if (currentSortOrderMenu.options[c].defaultSelected == true) {
+                        defaultSelectedIndex = c;
                         break;
                     }
                 }
@@ -1094,9 +1095,9 @@ webui.@THEME@.table = {
 
         // Get rowIds array associated with groupId.
         var rowIds = null;
-        for (var i = 0; i < this.groupIds.length; i++) {
-            if (groupId == this.groupIds[i]) {
-                rowIds = this.rowIds[i];
+        for (var c = 0; c < this.groupIds.length; c++) {
+            if (groupId == this.groupIds[c]) {
+                rowIds = this.rowIds[c];
                 break;
             }
         }
@@ -1112,13 +1113,16 @@ webui.@THEME@.table = {
 
         // Get the number of column headers and table column footers for all 
         // TableRowGroup children.
+        var _prefix;
+        var columnHeaderId;
+        var tableColumnFooterId;
         var columnHeadersCount = 0;
         var tableColumnFootersCount = 0;
         for (var i = 0; i < this.groupIds.length; i++) {
             // Only need to test first nested column header/footer; thus, index 0 is used.        
-            var _prefix = this.groupIds[i] + this.SEPARATOR;
-            var columnHeaderId = _prefix + this.columnHeaderId + this.SEPARATOR + "0";
-            var tableColumnFooterId = _prefix + this.tableColumnFooterId + this.SEPARATOR + "0";
+            _prefix = this.groupIds[i] + this.SEPARATOR;
+            columnHeaderId = _prefix + this.columnHeaderId + this.SEPARATOR + "0";
+            tableColumnFooterId = _prefix + this.tableColumnFooterId + this.SEPARATOR + "0";
             if (document.getElementById(columnHeaderId) != null) {
                 columnHeadersCount++;
             }
@@ -1129,8 +1133,9 @@ webui.@THEME@.table = {
 
         // Toggle nested column footer.
         var rowIndex = 0;
+        var columnFooterId;
         while (true) {
-            var columnFooterId = prefix + this.columnFooterId + 
+            columnFooterId = prefix + this.columnFooterId + 
                 this.SEPARATOR + rowIndex++;
             if (document.getElementById(columnFooterId) == null) {
                 break;
@@ -1142,7 +1147,7 @@ webui.@THEME@.table = {
         if (columnHeadersCount > 1) {
             rowIndex = 0;
             while (true) {
-                var columnHeaderId = prefix + this.columnHeaderId + 
+                columnHeaderId = prefix + this.columnHeaderId + 
                     this.SEPARATOR + rowIndex++;
                 if (document.getElementById(columnHeaderId) == null) {
                     break;
@@ -1155,7 +1160,7 @@ webui.@THEME@.table = {
         if (tableColumnFootersCount > 1) {
             rowIndex = 0;
             while (true) {
-                var tableColumnFooterId = prefix + this.tableColumnFooterId + 
+                tableColumnFooterId = prefix + this.tableColumnFooterId + 
                     this.SEPARATOR + rowIndex++;
                 if (document.getElementById(tableColumnFooterId) == null) {
                     break;
@@ -1165,8 +1170,9 @@ webui.@THEME@.table = {
         }
 
         // Toggle group rows.
+        var rowId;
         for (var k = 0; k < rowIds.length; k++) {
-            var rowId = prefix + rowIds[k];
+            rowId = prefix + rowIds[k];
             webui.@THEME@.common.setVisible(rowId, collapsed);
         }
 
@@ -1351,4 +1357,4 @@ webui.@THEME@.table = {
         }
         return true;
     }
-}
+};

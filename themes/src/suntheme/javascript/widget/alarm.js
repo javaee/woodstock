@@ -68,7 +68,7 @@ webui.@THEME@.widget.alarm.event =
         /** State event topic for custom AJAX implementations to listen for. */
         endTopic: "webui_@THEME@_widget_alarm_event_state_end"
     }
-}
+};
 
 /**
  * This function is used to get widget properties. Please see the 
@@ -86,7 +86,7 @@ webui.@THEME@.widget.alarm.prototype.getProps = function() {
     if (this.type != null) { props.type = this.type; }
     
     return props;
-}
+};
 
 /**
  * This function is used to fill in remaining template properties, after the
@@ -104,7 +104,7 @@ webui.@THEME@.widget.alarm.prototype.postCreate = function () {
         this.imageContainer.id = this.id + "_imageContainer";        
     }
     return this.inherited("postCreate", arguments);
-}
+};
 
 /**
  * This function is used to set widget properties using Object literals.
@@ -144,7 +144,7 @@ webui.@THEME@.widget.alarm.prototype.postCreate = function () {
 webui.@THEME@.widget.alarm.prototype.setProps = function(props, notify) {
     // Note: This function is overridden for JsDoc.
     return this.inherited("setProps", arguments);
-}
+};
 
 /**
  * This function is used to set widget properties. Please see the setProps() 
@@ -203,4 +203,4 @@ webui.@THEME@.widget.alarm.prototype._setProps = function(props) {
 
     // Set remaining properties.
     return this.inherited("_setProps", arguments);
-}
+};

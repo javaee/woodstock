@@ -52,7 +52,7 @@ webui.@THEME@.widget.anchorBase.prototype.addContents = function(props) {
         this.widget.addFragment(this.domNode, props.contents[i], "last");
     }
     return true;
-}
+};
 
 /**
  * This function is used to get widget properties. Please see the 
@@ -79,7 +79,7 @@ webui.@THEME@.widget.anchorBase.prototype.getProps = function() {
     if (this.disabled != null) { props.disabled = this.disabled; }
 
     return props;
-}
+};
 
 /**
  * Helper function to create callback for onClick event.
@@ -101,7 +101,7 @@ webui.@THEME@.widget.anchorBase.prototype.onClickCallback = function(event) {
         return false;
     }
     return true;
-}
+};
 
 /**
  * This function is used to set widget properties using Object literals.
@@ -161,7 +161,7 @@ webui.@THEME@.widget.anchorBase.prototype.setProps = function(props, notify) {
 
     // Extend widget object for later updates.
     return this.inherited("setProps", arguments);
-}
+};
 
 /**
  * This function is used to set widget properties. Please see the setProps() 
@@ -225,4 +225,4 @@ webui.@THEME@.widget.anchorBase.prototype._setProps = function(props) {
 
     // Set remaining properties.
     return this.inherited("_setProps", arguments);
-}
+};

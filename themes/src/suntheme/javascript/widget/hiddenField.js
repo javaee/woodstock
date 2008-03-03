@@ -82,7 +82,7 @@ webui.@THEME@.widget.hiddenField.event =
         /** Submit event topic for custom AJAX implementations to listen for. */
         endTopic: "webui_@THEME@_widget_hiddenField_event_submit_end"
     }
-}
+};
 
 /**
  * This function is used to get widget properties. Please see the 
@@ -99,7 +99,7 @@ webui.@THEME@.widget.hiddenField.prototype.getProps = function() {
     if (this.value) { props.value = this.value; }
 
     return props;
-}
+};
 
 /**
  * This function is used to set widget properties using Object literals.
@@ -123,7 +123,7 @@ webui.@THEME@.widget.hiddenField.prototype.getProps = function() {
 webui.@THEME@.widget.hiddenField.prototype.setProps = function(props, notify) {
     // Note: This function is overridden for JsDoc.
     return this.inherited("setProps", arguments);
-}
+};
 
 /**
  * This function is used to set widget properties. Please see the setProps() 
@@ -149,4 +149,4 @@ webui.@THEME@.widget.hiddenField.prototype._setProps = function(props) {
 
     // Set remaining properties.
     return this.inherited("_setProps", arguments);
-}
+};

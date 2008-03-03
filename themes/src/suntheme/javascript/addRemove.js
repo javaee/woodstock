@@ -207,7 +207,7 @@ webui.@THEME@.addRemove = {
     moveOption: function(moveFromOptions, moveToOptions, moveToList, sort) {
         var index = moveFromOptions.selectedIndex;
         if (index == -1) {
-            return;
+            return false;
         }
 
         // Keep moving selected items until there aren't any more valid ones
@@ -316,7 +316,7 @@ webui.@THEME@.addRemove = {
         // If there aren't at least two more selected items, then there is
         // nothing to move 
         if (numOptions < 2) {
-            return;
+            return false;
         }
 
         // Start by examining the first item 
@@ -331,7 +331,7 @@ webui.@THEME@.addRemove = {
             if (index == numOptions) {
                 // We've reached the last item - no more items below it so
                 // we return
-                return;
+                return false;
             }
         }
 
@@ -377,7 +377,7 @@ webui.@THEME@.addRemove = {
         // If this number is less than zero, there was nothing on the list
         // and we return
         if (index < 0) {
-            return;
+            return false;
         }
 
         // We're not going to move the last item. Instead, we will start
@@ -389,7 +389,7 @@ webui.@THEME@.addRemove = {
             if (index == 0) {
                 // We've reached the first item - no item above it so we
                 // return 
-                return;
+                return false;
             }
         }
 
@@ -475,7 +475,7 @@ webui.@THEME@.addRemove = {
         numOptions = this.selectedOptions.length - 1;
         
         if (this.removeAllButton != null) {
-            var counter = 0;
+            counter = 0;
             // If selected item list is disabled then RemoveAll button should be disabled 
             // irrespective of options element in list.  
             if (this.selectedList.disabled == false) {
@@ -767,4 +767,4 @@ webui.@THEME@.addRemove = {
         this.updateButtons();
         return false;
     }
-}
+};

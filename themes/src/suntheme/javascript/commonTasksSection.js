@@ -416,7 +416,7 @@ webui.@THEME@.commonTasksSection = {
                 this.getElementPosition2(this.image.id);
                 this.getElementPosition(this.spacer);        
                 this.info.style.top = (this.ttop + 12) +'px';
-                this.info.style.left =  (this.tleft - 1) + 'px'
+                this.info.style.left =  (this.tleft - 1) + 'px';
                 this.info.style.width = (this.ileft - this.tleft) + 29 + 'px';
                 this.close.focus();
                 this.image.src = cts.pic1URL;
@@ -469,5 +469,4 @@ webui.@THEME@.commonTasksSection = {
             return true;
         };
     }
-}
-
+};

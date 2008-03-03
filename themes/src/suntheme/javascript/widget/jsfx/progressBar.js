@@ -96,7 +96,7 @@ webui.@THEME@.widget.jsfx.progressBar =  {
             webui.@THEME@.widget.progressBar.event.progress.endTopic, [props]);
         return true;
     }
-}
+};
 
 // Listen for Dojo Widget events.
 webui.@THEME@.dojo.subscribe(webui.@THEME@.widget.progressBar.event.progress.beginTopic,

@@ -71,7 +71,7 @@ webui.@THEME@.json = {
             return String(x);
         },
         number: function (x) {
-            return isFinite(x) ? String(x) : 'null';
+            return isFinite(x) ? String(x) : null;
         },
         string: function (x) {
             if (/["\\\x00-\x1f]/.test(x)) {
@@ -129,11 +129,11 @@ webui.@THEME@.json = {
                     }
                     a[a.length] = '}';
                 } else {
-                    return;
+                    return null;
                 }
                 return a.join('');
             }
-            return 'null';
+            return null;
         }
     },
 
@@ -168,4 +168,4 @@ webui.@THEME@.json = {
             return false;
         }
     }
-}
+};

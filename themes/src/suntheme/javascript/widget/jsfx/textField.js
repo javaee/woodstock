@@ -105,7 +105,7 @@ webui.@THEME@.widget.jsfx.textField = {
             webui.@THEME@.widget.textField.event.validation.endTopic, [props]);
         return true;
     }
-}
+};
 
 // Listen for Dojo Widget events.
 webui.@THEME@.dojo.subscribe(webui.@THEME@.widget.textField.event.refresh.beginTopic,

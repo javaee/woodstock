@@ -81,7 +81,7 @@ webui.@THEME@.widget.eventBase.event =
         /** Submit event topic for custom AJAX implementations to listen for. */
         endTopic: null
     }
-}
+};
 
 /**
  * Initialize public events and functions.
@@ -141,10 +141,10 @@ webui.@THEME@.widget.eventBase.prototype.initEvents = function () {
     if (subscribe == true) {
         this.domNode.subscribe = function(topic, obj, func) {
             return webui.@THEME@.dijit.byId(_id).subscribe(topic, obj, func);
-        }
+        };
     }
     return true;
-}
+};
 
 /**
  * Publish an event topic.
@@ -161,7 +161,7 @@ webui.@THEME@.widget.eventBase.prototype.publish = function(topic, props) {
         webui.@THEME@.dojo.require(config.ajax.module + "." + this.widgetName);
     }
     return webui.@THEME@.widget.eventBase.prototype._publish(topic, props);
-}
+};
 
 /**
  * Publish an event topic.
@@ -179,7 +179,7 @@ webui.@THEME@.widget.eventBase.prototype._publish = function(topic, props) {
     // Publish an event for custom AJAX implementations to listen for.
     webui.@THEME@.dojo.publish(topic, props);
     return true;
-}
+};
 
 /**
  * Subscribe to an event topic.
@@ -194,7 +194,7 @@ webui.@THEME@.widget.eventBase.prototype._publish = function(topic, props) {
 webui.@THEME@.widget.eventBase.prototype.subscribe = function(topic, obj, func) {
     webui.@THEME@.dojo.subscribe(topic, obj, func);
     return true;
-}
+};
 
 /**
  * Process refresh event.
@@ -222,7 +222,7 @@ webui.@THEME@.widget.eventBase.prototype.refresh = function(execute) {
         endTopic: this.event.refresh.endTopic
     }]);
     return true;
-}
+};
 
 /**
  * Process state event.
@@ -248,7 +248,7 @@ webui.@THEME@.widget.eventBase.prototype.stateChanged = function(props) {
         props: props
     }]);
     return true;
-}
+};
 
 /**
  * Process submit event.
@@ -276,4 +276,4 @@ webui.@THEME@.widget.eventBase.prototype.submit = function(execute) {
         endTopic: this.event.submit.endTopic
     }]);
     return true;
-}
+};

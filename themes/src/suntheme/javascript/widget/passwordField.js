@@ -54,7 +54,7 @@ webui.@THEME@.widget.passwordField.prototype.getInputClassName = function() {
     return (this.disabled == true)
         ? this.widget.getClassName("PASSWORD_FIELD_DISABLED", "") 
         : this.widget.getClassName("PASSWORD_FIELD", "") + validStyle;
-}
+};
 
 /**
  * This function is used to set widget properties using Object literals.
@@ -104,4 +104,4 @@ webui.@THEME@.widget.passwordField.prototype.getInputClassName = function() {
 webui.@THEME@.widget.passwordField.prototype.setProps = function(props) {
     // Note: This function is overridden for JsDoc.
     return this.inherited("setProps", arguments);
-}
+};

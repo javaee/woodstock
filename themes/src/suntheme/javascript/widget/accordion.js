@@ -76,7 +76,7 @@ webui.@THEME@.widget.accordion.prototype.addControls = function(props) {
             this.refreshImage.id, props.refreshImage);
     }
     return true;
-}
+};
 
 /**
  * Close all open accordions and leave the others as is.
@@ -94,28 +94,22 @@ webui.@THEME@.widget.accordion.prototype.collapseAllTabs = function(event) {
     }
     this.updateFocus(this.collapseAllContainer);
     return true;
-}
+};
 
 /**
  * The callback function for key press on the accordion header.
  *
- * @param {String} id The id of the accordion widget.
  * @return {boolean} true if successful; otherwise, false.
  */
-webui.@THEME@.widget.accordion.prototype.createOnKeyDownCallBack = function(id) {
-    if (id == null) {
-        return;
-    }
-
-    var id = this.id;
+webui.@THEME@.widget.accordion.prototype.createOnKeyDownCallBack = function() {
+    var _id = this.id;
     var _widget = this.widget;
     return function(event) {
-        
-        var elem = document.getElementById(id);
+        var elem = document.getElementById(_id);
         if (elem == null) {
-            return;
+            return false;
         }
-        var widget = webui.@THEME@.dijit.byId(id);
+        var widget = webui.@THEME@.dijit.byId(_id);
 
         event = _widget.getEvent(event);
         var keyCode = _widget.getKeyCode(event);
@@ -127,12 +121,11 @@ webui.@THEME@.widget.accordion.prototype.createOnKeyDownCallBack = function(id) 
         }        
        
         if (keyPressResult != false) {
-            widget.traverseMenu(keyCode, event, id);
+            widget.traverseMenu(keyCode, event, _id);
         }
         return true;
-   }
-}
-
+   };
+};
 
 /**
  * This object contains event topics.
@@ -168,7 +161,7 @@ webui.@THEME@.widget.accordion.event =
         /** State event topic for custom AJAX implementations to listen for. */
         endTopic: "webui_@THEME@_widget_accordion_event_state_end"
     }
-}
+};
 
 /**
  * Open all closed tabs and leave the others as is.
@@ -186,7 +179,7 @@ webui.@THEME@.widget.accordion.prototype.expandAllTabs = function(event) {
     }
     this.updateFocus(this.expandAllContainer);
     return true;
-}
+};
 
 /**
  * Set the appropriate focus before invoking tabSelected. This
@@ -207,7 +200,7 @@ webui.@THEME@.widget.accordion.prototype.focusAndSelectTab = function(props) {
         }
     }
     this.tabSelected(props);
-}
+};
 
 /**
  * This function is used to get widget properties. Please see the 
@@ -231,7 +224,7 @@ webui.@THEME@.widget.accordion.prototype.getProps = function() {
     if (this.type) { props.type = this.type; }
  
     return props;
-}
+};
 
 /**
  * This function is used to obtain the outermost HTML element class name.
@@ -247,7 +240,7 @@ webui.@THEME@.widget.accordion.prototype.getClassName = function() {
     return (this.className)
         ? className + " " + this.className
         : className;
-}
+};
 
 /**
  * This function is used to fill in remaining template properties, after the
@@ -258,13 +251,6 @@ webui.@THEME@.widget.accordion.prototype.getClassName = function() {
  * @return {boolean} true if successful; otherwise, false.
  */
 webui.@THEME@.widget.accordion.prototype.postCreate = function () {
-    with (this.domNode.style) {
-        if (position != "absolute") {
-            position = "relative";
-        }
-        overflow = "hidden";
-    }
-
     // Set ids.
     if (this.id) {
         this.domNode.id = this.id;
@@ -299,18 +285,15 @@ webui.@THEME@.widget.accordion.prototype.postCreate = function () {
         return false;
     });
     
-    //Create callback function for onkeydown event.
-    this.dojo.connect(this.domNode, "onkeydown", 
-        this.createOnKeyDownCallBack(this.id));
+    // Create callback function for onkeydown event.
+    this.dojo.connect(this.domNode, "onkeydown", this.createOnKeyDownCallBack());
     
     // Subscribe to the "tabSelected" event present in the accordion widget.
     this.subscribe(webui.@THEME@.widget.accordionTab.event.title.selectedTopic,
         this, "focusAndSelectTab");
 
     // Generate the accordion header icons on the client side.
-
     if (this.toggleControls && this.multipleSelect) {
-
         if (this.expandAllImage == null) {
             this.expandAllImage = this.widget.getImageHyperlinkProps({
                     id: this.id + "_expandImageLink",
@@ -337,6 +320,7 @@ webui.@THEME@.widget.accordion.prototype.postCreate = function () {
              );
         }
     }
+
     // Set refresh image hyperlink properties.
     if (this.isRefreshIcon) {
         if (this.refreshImage == null) {
@@ -355,21 +339,25 @@ webui.@THEME@.widget.accordion.prototype.postCreate = function () {
     
     if (this.isRefreshIcon) {
         this.refreshNodeContainer.tabIndex = this.tabIndex;
-    }    
-    
+    }
     if (this.toggleControls && this.multipleSelect) {
             this.expandAllContainer.tabIndex = this.tabIndex;
             this.collapseAllContainer.tabIndex = this.tabIndex;
     }
-    
     if (this.tabs.length > 0) {
         for (var i=0; i< this.tabs.length; i++) {
             this.tabs[i].tabIndex = this.tabIndex;
         }
     }
-                
+
+    with (this.domNode.style) {
+        if (position != "absolute") {
+            position = "relative";
+        }
+        overflow = "hidden";
+    }
     return this.inherited("postCreate", arguments);
-}
+};
 
 /**
  * This function is used to set widget properties using Object literals.
@@ -409,7 +397,7 @@ webui.@THEME@.widget.accordion.prototype.setProps = function(props, notify) {
 
     // Extend widget object for later updates.
     return this.inherited("setProps", arguments);
-}
+};
 
 /**
  * This function is used to set widget properties. Please see the setProps() 
@@ -464,7 +452,7 @@ webui.@THEME@.widget.accordion.prototype._setProps = function(props) {
 
     // Set remaining properties.
     return this.inherited("_setProps", arguments);
-}
+};
 
 /**
  * Set a different look for refresh/expand/collapse icons when focus is set
@@ -485,7 +473,7 @@ webui.@THEME@.widget.accordion.prototype.setFocusStyleClass = function(nodeId) {
         this.refreshNodeContainer.className = this.theme.getClassName("ACCORDION_HDR_REFRESH_FOCUS");
     }
     return true;
-}
+};
 
 /**
  * Reset the styles asscociated with refresh/expand/collapse icons when these 
@@ -506,7 +494,7 @@ webui.@THEME@.widget.accordion.prototype.setBlurStyleClass = function(nodeId) {
         this.refreshNodeContainer.className = this.theme.getClassName("ACCORDION_HDR_REFRESH");
     }
     return true;
-}
+};
 
 /**
  * Set appropriate styles when a tab is in focus.
@@ -528,7 +516,7 @@ webui.@THEME@.widget.accordion.prototype.setTabFocus = function(nodeId) {
     }
     tabWidget.domNode.focus();
     return true;
-}
+};
 
 /**
  * Set appropriate styles when a tab loses focus.
@@ -552,7 +540,7 @@ webui.@THEME@.widget.accordion.prototype.setTabBlur = function(nodeId) {
         tabWidget.titleContainer.blur();
     }
     return true;
-}
+};
 
 /**
  * Process tab selected events.
@@ -589,8 +577,7 @@ webui.@THEME@.widget.accordion.prototype.tabSelected = function(props) {
         }
     }
     return true;
-}
-
+};
 
 /**
  * This function traverses through the accordion depending
@@ -902,7 +889,7 @@ webui.@THEME@.widget.accordion.prototype.traverseMenu = function(keyCode, event,
         } 
     } 
     return true;
-}
+};
 
 /**
  * This function updates the focused node within the accordion.
@@ -949,4 +936,4 @@ webui.@THEME@.widget.accordion.prototype.updateFocus = function(newFocusNode) {
         }
     }
     return true;
-}
+};

@@ -119,9 +119,10 @@ webui.@THEME@.cookie = {
         document.cookie = cookieString;
         return true;
     }
-}
+};
 
 /**
+ * @class This class contains functionality for scrolling.
  * @constructor This function is used to construct a javascript object for
  * maintaining scroll position via cookie.
  * @param {String} viewId
@@ -167,7 +168,7 @@ webui.@THEME@.scrollCookie = function(viewId, path) {
         return true;
     };
     return true;
-}
+};
 
 // Inherit cookie properties.
 webui.@THEME@.scrollCookie.prototype = webui.@THEME@.cookie;

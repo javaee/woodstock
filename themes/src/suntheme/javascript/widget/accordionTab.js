@@ -42,22 +42,17 @@ webui.@THEME@.dojo.declare("webui.@THEME@.widget.accordionTab", webui.@THEME@.wi
 /**
  * The callback function for key press on the accordion tabs.
  *
- * @param {String} id The id of the accordion.
  * @return {boolean} true if successful; otherwise, false.
  */
-webui.@THEME@.widget.accordionTab.prototype.createOnKeyDownCallBack = function(id) {
-    if (id == null) {
-        return;
-    }
-
-    var id = this.id;
+webui.@THEME@.widget.accordionTab.prototype.createOnKeyDownCallBack = function() {
+    var _id = this.id;
     var _widget = this.widget;
     return function(event) {
-        var elem = document.getElementById(id);
+        var elem = document.getElementById(_id);
         if (elem == null) {
-            return;
+            return false;
         }
-        var widget = webui.@THEME@.dijit.byId(id);
+        var widget = webui.@THEME@.dijit.byId(_id);
 
         event = _widget.getEvent(event);
         var keyCode = _widget.getKeyCode(event);
@@ -69,11 +64,11 @@ webui.@THEME@.widget.accordionTab.prototype.createOnKeyDownCallBack = function(i
         }        
        
         if (keyPressResult != false) {
-            widget.traverseMenu(keyCode, event, id);
+            widget.traverseMenu(keyCode, event, _id);
         }
         return true;
-   }
-}
+   };
+};
 
 /**
  * This object contains event topics.
@@ -130,7 +125,7 @@ webui.@THEME@.widget.accordionTab.event =
         /** Action event topic for custom AJAX implementations to listen for. */
         selectedTopic: "webui_@THEME@_widget_accordionTab_event_tab_selected"
     }
-}
+};
 
 /**
  * Process load event.
@@ -146,7 +141,7 @@ webui.@THEME@.widget.accordionTab.prototype.loadContent = function(execute) {
         id: this.id
     }]);
     return true;
-}
+};
 
 /**
  * This function is used to get widget properties. Please see the 
@@ -172,7 +167,7 @@ webui.@THEME@.widget.accordionTab.prototype.getProps = function() {
     if (this.type) { props.type = this.type; }
 
     return props;
-}
+};
 
 /**
  * Get title height.
@@ -182,7 +177,7 @@ webui.@THEME@.widget.accordionTab.prototype.getProps = function() {
 webui.@THEME@.widget.accordionTab.prototype.getTitleHeight = function () {
     // Warning: This function has been made private.
     return this.dojo._getMarginBox(this.titleContainer).height;
-}
+};
 
 /**
  * Handle menu onClick event.
@@ -193,7 +188,7 @@ webui.@THEME@.widget.accordionTab.prototype.getTitleHeight = function () {
 webui.@THEME@.widget.accordionTab.prototype.onMenuClickCallback = function(event) {
     this.dojo.stopEvent(event);
     return true;
-}
+};
 
 /**
  * Handle title onClick event.
@@ -213,7 +208,7 @@ webui.@THEME@.widget.accordionTab.prototype.onTitleClickCallback = function (eve
         this.titleContainer.focus();
     }
     return true;
-}
+};
 
 /**
  * Handle title onMouseOut event.
@@ -233,7 +228,7 @@ webui.@THEME@.widget.accordionTab.prototype.onTitleMouseOutCallback = function(e
     this.titleContainer.className = this.theme.getClassName("ACCORDION_TABCOLLAPSED");
     this.turnerContainer.className = this.theme.getClassName("ACCORDION_RIGHTTURNER");
     return true;
-}
+};
 
 /**
  * Handle title onMouseOver event.
@@ -251,7 +246,7 @@ webui.@THEME@.widget.accordionTab.prototype.onTitleMouseOverCallback = function(
         this.titleContainer.focus();
     }
     return true;
-}
+};
 
 /**
  * Handle the case when the contentNode is about to lose focus. The tabIndex for the tab 
@@ -264,8 +259,7 @@ webui.@THEME@.widget.accordionTab.prototype.onTitleMouseOverCallback = function(
 webui.@THEME@.widget.accordionTab.prototype.onContentEndCallback = function(event) {
     this.focusState = "end";
     return true;
-}
-
+};
 
 /**
  * This function is used to fill in remaining template properties, after the
@@ -310,11 +304,10 @@ webui.@THEME@.widget.accordionTab.prototype.postCreate = function () {
     this.dojo.connect(this.menuContainer, "onmouseout", this, "onTitleMouseOutCallback");
     this.dojo.connect(this.contentEnd, "onblur", this, "onContentEndCallback");
     //Create callback function for onkeydown event.
-    this.dojo.connect(this.domNode, "onkeydown", 
-        this.createOnKeyDownCallBack(this.id)); 
+    this.dojo.connect(this.domNode, "onkeydown", this.createOnKeyDownCallBack()); 
     
     return this.inherited("postCreate", arguments);
-}
+};
 
 /**
  * This function is used to set widget properties using Object literals.
@@ -351,7 +344,7 @@ webui.@THEME@.widget.accordionTab.prototype.setProps = function(props, notify) {
 
     // Extend widget object for later updates.
     return this.inherited("setProps", arguments);
-}
+};
 
 /**
  * This function is used to set widget properties. Please see the setProps() 
@@ -421,10 +414,9 @@ webui.@THEME@.widget.accordionTab.prototype._setProps = function(props) {
             this.focusState = "title";
         }
     }
-
     // Set remaining properties.
     return this.inherited("_setProps", arguments);
-}
+};
 
 /**
  * Set tab selected.
@@ -459,7 +451,7 @@ webui.@THEME@.widget.accordionTab.prototype.setSelected = function (isSelected) 
         this.contentNode.style.display = "none";
     }
     return true;
-}
+};
 
 /**
  * Set the contents of the accordion tab.
@@ -474,7 +466,7 @@ webui.@THEME@.widget.accordionTab.prototype.setTabContent = function(content) {
         }
     }
     return true;
-}
+};
 
 /**
  * Set the title associated with the accordion tab.
@@ -497,7 +489,7 @@ webui.@THEME@.widget.accordionTab.prototype.setTitle = function (title) {
         this.widget.addFragment(this.titleNode, titleHref);
     }
     return true;
-}
+};
 
 /**
  * This function takes care of traversing through the accordionTab depending
@@ -610,4 +602,4 @@ webui.@THEME@.widget.accordionTab.prototype.traverseMenu = function(keyCode, eve
         }
     }
     return true;
-}
+};

@@ -66,7 +66,7 @@ webui.@THEME@.widget.login.prototype.authenticate = function() {
         endTopic: webui.@THEME@.widget.login.event.authenticate.endTopic
     }]);
     return true;
-}
+};
 
 /**
  * This function executes the steps that need to be followed when the 
@@ -75,8 +75,8 @@ webui.@THEME@.widget.login.prototype.authenticate = function() {
  * @private
  */
 webui.@THEME@.widget.login.prototype._buttonClicked = function() {
-    this.authenticate();
-}
+    return this.authenticate();
+};
 
 /**
  * This object contains event topics.
@@ -154,7 +154,7 @@ webui.@THEME@.widget.login.event =
          */
         endTopic: "webui_@THEME@_widget_login_event_state_end"
     }
-}
+};
 
 /**
  * This function performs error handling on the client side
@@ -177,7 +177,8 @@ webui.@THEME@.widget.login.prototype._handleFailure = function(props) {
     // initialize the state so that subsequent requests can start afresh
     this.loginState = "INIT";
     props.loginState = "INIT";
-}
+    return true;
+};
 
 /**
  * This function is used to obtain the outermost HTML element class name.
@@ -198,7 +199,7 @@ webui.@THEME@.widget.login.prototype.getClassName = function() {
     return (this.className)
         ? className + " " + this.className
         : className;
-}
+};
 
 /**
  * This function is used to get widget properties. Please see the 
@@ -216,7 +217,7 @@ webui.@THEME@.widget.login.prototype.getProps = function() {
     if (this.dotImage != null) {props.dotImage = this.dotImage;}
     if (this.loginButton != null) {props.loginButton = this.loginButton;}
     return props;
-}
+};
 
 /**
  * This is a private function that creates a client side widget based on the 
@@ -244,7 +245,7 @@ webui.@THEME@.widget.login.prototype._getWidgetProps = function(props) {
     // Add extra properties               
     this.prototypejs.extend(_props, props);
     return _props;
-}
+};
 
 /**
  * This function handles the case where authentication is complete
@@ -278,7 +279,8 @@ webui.@THEME@.widget.login.prototype._handleSuccess = function(props) {
         newURL = newURL + props.redirectURL;
         document.location.href = newURL;
     }
-}
+    return true;
+};
 
 /**
  * This function is used to fill in remaining template properties, after the
@@ -312,7 +314,7 @@ webui.@THEME@.widget.login.prototype.postCreate = function () {
         this.loginButton = _props;
     }
     return this.inherited("postCreate", arguments);
-} 
+};
 
 /**
  * This function is used to set widget properties using Object literals.
@@ -339,7 +341,7 @@ webui.@THEME@.widget.login.prototype.postCreate = function () {
 webui.@THEME@.widget.login.prototype.setProps = function(props, notify) {
     // Extend widget object for later updates.
     return this.inherited("setProps", arguments);
-}
+};
 
 /**
  * This function is used to set widget properties. Please see the setProps() 
@@ -372,10 +374,9 @@ webui.@THEME@.widget.login.prototype._setProps = function(props) {
     } else if (props.loginState == "CONTINUE") {
         this._updateLoginTable(props);
     }
-
     // Set remaining properties.
     return this.inherited("_setProps", arguments);
-}
+};
 
 /**
  * This function adds or updates the alert widget displayed as part of the
@@ -420,9 +421,9 @@ webui.@THEME@.widget.login.prototype._setAlert = function(alertProps) {
         } else {
             this.widget.addFragment(td, _props); 
         }
-        return true;
     }
-}
+    return true;
+};
 
 /**
  * This function is used to "start" the widget, after the widget has been
@@ -445,7 +446,7 @@ webui.@THEME@.widget.login.prototype.startup = function () {
         }
     }
     return this.inherited("startup", arguments);
-}
+};
 
 /**
  * This function is used to update the login section of the DOM tree with
@@ -534,8 +535,9 @@ webui.@THEME@.widget.login.prototype._updateLoginTable = function(props) {
         this.loginButton.onClick = function() {
             _this._buttonClicked(props);
             return false;
-        }
+        };
         td2.appendChild(spanNode);
         this.widget.addFragment(spanNode, this.loginButton, "last");
     }
-}
+    return true;
+};

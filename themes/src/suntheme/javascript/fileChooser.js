@@ -937,4 +937,4 @@ webui.@THEME@.fileChooser = {
 	justTheFileName = arrayOfPaths[arrayOfPaths.length -1];
         return justTheFileName;
     }
-}
+};

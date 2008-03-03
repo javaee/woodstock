@@ -82,7 +82,7 @@ webui.@THEME@.widget.checkbox.event =
         /** event topic for custom AJAX implementations to listen for. */
         endTopic: "webui_@THEME@_widget_checkbox_event_submit_end"
     }
-}
+};
 
 /**
  * This function is used to obtain the outermost HTML element class name.
@@ -101,7 +101,7 @@ webui.@THEME@.widget.checkbox.prototype.getClassName = function() {
     return (this.className)
         ? className + " " + this.className
         : className;
-}
+};
 
 /**
  * Helper function to obtain image class names.
@@ -112,7 +112,7 @@ webui.@THEME@.widget.checkbox.prototype.getImageClassName = function() {
     return (this.disabled == true)
         ? this.widget.getClassName("CHECKBOX_IMAGE_DISABLED", "")
         : this.widget.getClassName("CHECKBOX_IMAGE", "");  
-}
+};
 
 /**
  * Helper function to obtain input class names.
@@ -129,7 +129,7 @@ webui.@THEME@.widget.checkbox.prototype.getInputClassName = function() {
     return (this.disabled == true)
         ? this.widget.getClassName("CHECKBOX_DISABLED", "")
         : this.widget.getClassName("CHECKBOX", "");  
-}
+};
 
 /**
  * Helper function to obtain label class names.
@@ -140,7 +140,7 @@ webui.@THEME@.widget.checkbox.prototype.getLabelClassName = function() {
     return (this.disabled == true)
         ? this.widget.getClassName("CHECKBOX_LABEL_DISABLED", "")
         : this.widget.getClassName("CHECKBOX_LABEL", "");  
-}
+};
 
 /**
  * This function is used to set widget properties using Object literals.
@@ -190,4 +190,4 @@ webui.@THEME@.widget.checkbox.prototype.getLabelClassName = function() {
 webui.@THEME@.widget.checkbox.prototype.setProps = function(props, notify) {
     // Note: This function is overridden for JsDoc.
     return this.inherited("setProps", arguments);
-}
+};

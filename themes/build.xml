@@ -187,7 +187,6 @@
     <!-- The Javascript files that are commonly included. -->
     <patternset id="include-js-files">
 	<include name="body.js" />
-	<include name="formElements.js" />
 	<include name="table.js" />
 	<include name="widget/anchor.js" />
 	<include name="widget/button.js" />

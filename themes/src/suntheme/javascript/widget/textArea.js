@@ -60,7 +60,7 @@ webui.@THEME@.widget.textArea.prototype.createSubmitCallback = function() {
         }
         return true;
     };
-}
+};
 
 /**
  * This object contains event topics.
@@ -108,7 +108,7 @@ webui.@THEME@.widget.textArea.event =
         /** Submit event topic for custom AJAX implementations to listen for. */
         endTopic: "webui_@THEME@_widget_textArea_event_submit_end"
     }
-}
+};
 
 /**
  * Helper function to obtain HTML input element class names.
@@ -130,7 +130,7 @@ webui.@THEME@.widget.textArea.prototype.getInputClassName = function() {
     return (this.disabled == true)
         ? this.widget.getClassName("TEXT_AREA_DISABLED", "") 
         : this.widget.getClassName("TEXT_AREA", "") + validStyle;    
-}
+};
 
 /**
  * This function is used to get widget properties. Please see the 
@@ -147,7 +147,7 @@ webui.@THEME@.widget.textArea.prototype.getProps = function() {
     if (this.autoSave > 0 ) { props.autoSave = this.autoSave; }
    
     return props;
-}
+};
 
 /**
  * This function is used to fill in remaining template properties, after the
@@ -164,7 +164,7 @@ webui.@THEME@.widget.textArea.prototype.postCreate = function () {
             this.autoSave);  
     }
     return this.inherited("postCreate", arguments);
-}
+};
 
 /**
  * This function is used to set widget properties using Object literals.
@@ -213,7 +213,7 @@ webui.@THEME@.widget.textArea.prototype.postCreate = function () {
 webui.@THEME@.widget.textArea.prototype.setProps = function(props, notify) {
     // Note: This function is overridden for JsDoc.
     return this.inherited("setProps", arguments);
-}
+};
 
 /**
  * This function is used to set widget properties. Please see the setProps() 
@@ -249,4 +249,4 @@ webui.@THEME@.widget.textArea.prototype._setProps = function(props) {
 
     // Set remaining properties.
     return this.inherited("_setProps", arguments);
-}
+};

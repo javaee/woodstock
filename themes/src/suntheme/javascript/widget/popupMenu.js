@@ -53,7 +53,7 @@ webui.@THEME@.widget.popupMenu.prototype.close = function() {
         return this.setProps({visible: false});
     }
     return false;    
-}
+};
 
 /**
  * This object contains event topics.
@@ -101,7 +101,7 @@ webui.@THEME@.widget.popupMenu.event =
         /** Submit event topic for custom AJAX implementations to listen for. */
         endTopic: "webui_@THEME@_widget_popupMenu_event_submit_end"
     }
-}
+};
 
 /**
  * Helper function to create callback to close menu.
@@ -160,13 +160,13 @@ webui.@THEME@.widget.popupMenu.prototype.onCloseMenuCallBack = function(event) {
     }
     if ((eventX >= menuLeft) && (eventX <= menuRight) && (eventY >= menuTop) && 
             (eventY <= menuBottom)) {
-        return;
+        return false;
     }
     if ((evt.type == "keydown" && evt.keyCode == 27) || evt.type == "click") {
         this.close();
     }
     return true;
-}
+};
 
 /**
  * Use this function to make the menu visible. It takes an event parameter
@@ -332,7 +332,7 @@ webui.@THEME@.widget.popupMenu.prototype.open = function(event) {
         menuNode.focus();
     }
     return true;        
-}
+};
 
 /**
  * This function is used to fill in remaining template properties, after the
@@ -344,8 +344,8 @@ webui.@THEME@.widget.popupMenu.prototype.open = function(event) {
  */
 webui.@THEME@.widget.popupMenu.prototype.postCreate = function () {
     // Set public functions.
-    this.domNode.open = function(event) { return webui.@THEME@.dijit.byId(this.id).open(event); }
-    this.domNode.close = function() { return webui.@THEME@.dijit.byId(this.id).close(); }
+    this.domNode.open = function(event) { return webui.@THEME@.dijit.byId(this.id).open(event); };
+    this.domNode.close = function() { return webui.@THEME@.dijit.byId(this.id).close(); };
 
     // Set events.s
     this.dojo.connect(document, "onclick", this, "onCloseMenuCallBack"); 
@@ -361,7 +361,7 @@ webui.@THEME@.widget.popupMenu.prototype.postCreate = function () {
     this.shadowContainer.className = this.theme.getClassName("MENU_SHADOW_CONTAINER"); 
 
     return this.inherited("postCreate", arguments);
-}
+};
 
 /**
  * Override the "super class" processKeyPressEvent functionality and close the menu.
@@ -373,7 +373,7 @@ webui.@THEME@.widget.popupMenu.prototype.processEnterKeyPressEvent = function(va
     this.inherited("processEnterKeyPressEvent", arguments);
     this.close();
     return true;
-}
+};
 
 /**
  * Override the "super class" processOnClickEvent functionality and close the menu.
@@ -385,7 +385,7 @@ webui.@THEME@.widget.popupMenu.prototype.processOnClickEvent = function(value) {
     this.inherited("processOnClickEvent", arguments);
     this.close();
     return true;
-}
+};
 
 /**
  * Traverse through the menu items. This overrides the superclass implementation
@@ -435,7 +435,7 @@ webui.@THEME@.widget.popupMenu.prototype.traverseMenu = function(keyCode, event,
     }    
     this.inherited("traverseMenu", arguments);
     return true;
-}
+};
 
 /**
  * Process submit event.
@@ -454,4 +454,4 @@ webui.@THEME@.widget.popupMenu.prototype.submit = function(execute) {
         endTopic: webui.@THEME@.widget.popupMenu.event.submit.endTopic
     }]);
     return true;
-}
+};

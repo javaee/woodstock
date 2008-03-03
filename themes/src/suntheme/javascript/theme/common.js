@@ -239,10 +239,10 @@ webui.@THEME@.theme.common = {
 	if (value != null) {
 	    imageObj["height"] = value;
 	}
-        var value = theme._getImageProp(srcProperty + "_MAP", false);
+        value = theme._getImageProp(srcProperty + "_MAP", false);
         if (value != null) {
             imageObj["map_key"] = value;
-            var value = theme._getImageProp(srcProperty + "_MAP_WIDTH", false);
+            value = theme._getImageProp(srcProperty + "_MAP_WIDTH", false);
             if (value != null) {
                 imageObj["actual_width"] = value;
             }
@@ -571,7 +571,7 @@ webui.@THEME@.theme.common = {
         }
         return true;
     }
-}
+};
 
 // Initialize the theme.
 webui.@THEME@.theme.common._init(webui.@THEME@.config.theme);

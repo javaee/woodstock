@@ -179,4 +179,4 @@ webui.@THEME@.prototypejs = {
         div.innerHTML = webui.@THEME@.prototypejs.stripTags(str);
         return div.childNodes[0] ? div.childNodes[0].nodeValue : '';
     }
-}
+};

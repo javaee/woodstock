@@ -22,7 +22,6 @@
 
 webui.@THEME@.dojo.provide("webui.@THEME@.widget.button");
 
-webui.@THEME@.dojo.require("webui.@THEME@.formElements");
 webui.@THEME@.dojo.require("webui.@THEME@.widget.widgetBase");
  
 /**
@@ -74,7 +73,7 @@ webui.@THEME@.widget.button.event =
         /** State event topic for custom AJAX implementations to listen for. */
         endTopic: "webui_@THEME@_widget_button_event_state_end"
     }
-}
+};
 
 /**
  * This function is used to obtain the outermost HTML element class name.
@@ -109,7 +108,7 @@ webui.@THEME@.widget.button.prototype.getClassName = function() {
     return (this.className)
         ? className + " " + this.className
         : className;
-}
+};
 
 /**
  * This function is used to obtain the outermost HTML element class name during
@@ -137,7 +136,7 @@ webui.@THEME@.widget.button.prototype.getHoverClassName = function() {
     return (this.className)
         ? className + " " + this.className
         : className;
-}
+};
     
 /**
  * This function is used to get widget properties. Please see the 
@@ -158,7 +157,7 @@ webui.@THEME@.widget.button.prototype.getProps = function() {
     if (this.value) { props.value = this.value; }
 
     return props;
-}
+};
 
 /**
  * Helper function to create callback for onBlur event.
@@ -176,7 +175,7 @@ webui.@THEME@.widget.button.prototype.onBlurCallback = function(event) {
         this.domNode.className = this.getClassName();
     } catch (err) {}
     return true;
-}
+};
 
 /**
  * Helper function to create callback for onFocus event.
@@ -194,7 +193,7 @@ webui.@THEME@.widget.button.prototype.onFocusCallback = function(event) {
         this.domNode.className = this.getHoverClassName();
     } catch (err) {}
     return true;
-}
+};
 
 /**
  * This function is used to fill in remaining template properties, after the
@@ -210,12 +209,24 @@ webui.@THEME@.widget.button.prototype.postCreate = function () {
         this.domNode.name = this.id;
     }
 
-    // Initialize the deprecated functions in formElements.js. 
+    // Initialize deprecated public functions. 
     // 
     // Note: Although we now have a setProps function to update properties,
     // these functions were previously added to the DOM node; thus, we must
     // continue to be backward compatible.
-    webui.@THEME@.button._init({id: this.id});
+    this.domNode.isSecondary = function() { return !(webui.@THEME@.dijit.byId(this.id).getProps().primary); };
+    this.domNode.setSecondary = function(secondary) { return webui.@THEME@.dijit.byId(this.id).setProps({primary: !secondary}); };
+    this.domNode.isPrimary = function() { return webui.@THEME@.dijit.byId(this.id).getProps().primary; };
+    this.domNode.setPrimary = function(primary) { return webui.@THEME@.dijit.byId(this.id).setProps({primary: primary}); };
+    this.domNode.isMini = function() { return webui.@THEME@.dijit.byId(this.id).getProps().mini; };
+    this.domNode.setMini = function(mini) { return webui.@THEME@.dijit.byId(this.id).setProps({mini: mini}); };
+    this.domNode.getDisabled = function() { return webui.@THEME@.dijit.byId(this.id).getProps().disabled; };
+    this.domNode.setDisabled = function(disabled) { return webui.@THEME@.dijit.byId(this.id).setProps({disabled: disabled}); };
+    this.domNode.getVisible = function() { return webui.@THEME@.dijit.byId(this.id).getProps().visible; };
+    this.domNode.setVisible = function(show) { return webui.@THEME@.dijit.byId(this.id).setProps({visible: show}); };
+    this.domNode.getText = function() { return webui.@THEME@.dijit.byId(this.id).getProps().value; };
+    this.domNode.setText = function(text) { return webui.@THEME@.dijit.byId(this.id).setProps({value: text}); };
+    this.domNode.doClick = this.domNode.click;
 
     // Set events.
     this.dojo.connect(this.domNode, "onblur", this, "onBlurCallback");
@@ -224,7 +235,7 @@ webui.@THEME@.widget.button.prototype.postCreate = function () {
     this.dojo.connect(this.domNode, "onmouseover", this, "onFocusCallback");
 
     return this.inherited("postCreate", arguments);
-}
+};
 
 /**
  * This function is used to set widget properties using Object literals.
@@ -271,7 +282,7 @@ webui.@THEME@.widget.button.prototype.postCreate = function () {
 webui.@THEME@.widget.button.prototype.setProps = function(props, notify) {
     // Note: This function is overridden for JsDoc.
     return this.inherited("setProps", arguments);
-}
+};
 
 /**
  * This function is used to set widget properties. Please see the setProps() 
@@ -315,4 +326,4 @@ webui.@THEME@.widget.button.prototype._setProps = function(props) {
 
     // Set remaining properties.
     return this.inherited("_setProps", arguments);
-}
+};

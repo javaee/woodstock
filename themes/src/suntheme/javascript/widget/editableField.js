@@ -72,7 +72,7 @@ webui.@THEME@.widget.editableField.prototype.disableEdit = function(acceptChange
     this.fieldNode.className = this.getInputClassName();   
     this.fieldNode.readOnly = true;
     return true;
-}
+};
 
 /**
  * Helper function to enable edit mode.
@@ -89,7 +89,7 @@ webui.@THEME@.widget.editableField.prototype.enableEdit = function() {
     this.fieldNode.focus(); // In case function has been called programmatically, not by event.
     this.fieldNode.select();
     return true;
-}
+};
 
 /**
  * This object contains event topics.
@@ -137,7 +137,7 @@ webui.@THEME@.widget.editableField.event =
         /** Submit event topic for custom AJAX implementations to listen for. */
         endTopic: "webui_@THEME@_widget_editableField_event_submit_end"
     }
-}
+};
 
 /**
  * Helper function to obtain HTML input element class names.
@@ -158,7 +158,7 @@ webui.@THEME@.widget.editableField.prototype.getInputClassName = function() {
     return (this.edit == true)
         ? this.widget.getClassName("EDITABLE_FIELD_EDIT","") + validStyle
         : this.widget.getClassName("EDITABLE_FIELD_DEFAULT","") + validStyle;
-}
+};
 
 /**
  * This function is used to get widget properties. Please see the 
@@ -173,7 +173,7 @@ webui.@THEME@.widget.editableField.prototype.getProps = function() {
     if (this.autoSave!= null) { props.autoSave = this.autoSave; }
 
     return props;
-}
+};
 
 /**
  * Process user gesture events on the field, such as dblclick, onblur, 
@@ -209,7 +209,7 @@ webui.@THEME@.widget.editableField.prototype.onEditCallback = function(event) {
         return true;
     }
     return true;    
-}
+};
 
 /**
  * This function is used to fill in remaining template properties, after the
@@ -229,7 +229,7 @@ webui.@THEME@.widget.editableField.prototype.postCreate = function () {
     this.dojo.connect(this.fieldNode, "onkeyup", this, "onEditCallback");
 
     return this.inherited("postCreate", arguments);
-}
+};
 
 /**
  * This function is used to set widget properties using Object literals.
@@ -278,7 +278,7 @@ webui.@THEME@.widget.editableField.prototype.postCreate = function () {
 webui.@THEME@.widget.editableField.prototype.setProps = function(props, notify) {
     // Note: This function is overridden for JsDoc.
     return this.inherited("setProps", arguments);
-}
+};
 
 /**
  * This function is used to set widget properties. Please see the setProps() 
@@ -303,4 +303,4 @@ webui.@THEME@.widget.editableField.prototype._setProps = function(props) {
 
     // Set remaining properties.
     return this.inherited("_setProps", arguments);
-}
+};

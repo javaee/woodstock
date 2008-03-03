@@ -69,7 +69,7 @@ webui.@THEME@.widget.hyperlink.event =
         /** State event topic for custom AJAX implementations to listen for. */
         endTopic: "webui_@THEME@_widget_hyperlink_event_state_end"
     }
-}
+};
 
 /**
  * This function is used to obtain the outermost HTML element class name.
@@ -88,7 +88,7 @@ webui.@THEME@.widget.hyperlink.prototype.getClassName = function() {
     return (this.className)
         ? className + " " + this.className
         : className;
-}
+};
 
 /**
  * Helper function to create callback for onClick event.
@@ -121,7 +121,7 @@ webui.@THEME@.widget.hyperlink.prototype.onClickCallback = function(event) {
         this.formId = (form) ? form.id : null;
     }
     return this.submitFormData(this.formId, this.params);
-}
+};
 
 /**
  * This function is used to fill in remaining template properties, after the
@@ -140,7 +140,7 @@ webui.@THEME@.widget.hyperlink.prototype.postCreate = function () {
     this.dojo.connect(this.domNode, "onclick", this, "onClickCallback");
 
     return this.inherited("postCreate", arguments);
-}
+};
 
 /**
  * This function is used to set widget properties using Object literals.
@@ -193,7 +193,7 @@ webui.@THEME@.widget.hyperlink.prototype.postCreate = function () {
 webui.@THEME@.widget.hyperlink.prototype.setProps = function(props, notify) {
     // Note: This function is overridden for JsDoc.
     return this.inherited("setProps", arguments);
-}
+};
 
 /**
  * This function submits the hyperlink if the hyperlink is enabled.
@@ -244,4 +244,4 @@ webui.@THEME@.widget.hyperlink.prototype.submitFormData = function (formId, para
         theForm.action = oldAction;
     }
     return false;        
-}
+};

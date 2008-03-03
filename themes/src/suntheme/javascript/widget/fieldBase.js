@@ -45,7 +45,7 @@ webui.@THEME@.dojo.declare("webui.@THEME@.widget.fieldBase", webui.@THEME@.widge
  */
 webui.@THEME@.widget.fieldBase.prototype.getInputClassName = function() {   
     return null; // Overridden by subclass.
-}
+};
 
 /**
  * Returns the HTML input element that makes up the text field.
@@ -54,7 +54,7 @@ webui.@THEME@.widget.fieldBase.prototype.getInputClassName = function() {
  */
 webui.@THEME@.widget.fieldBase.prototype.getInputElement = function() {
     return this.fieldNode;
-}
+};
 
 /**
  * This function is used to get widget properties. Please see the 
@@ -88,7 +88,7 @@ webui.@THEME@.widget.fieldBase.prototype.getProps = function() {
         props.value = this.value;
     }
     return props;
-}
+};
 
 /**
  * This function is used to fill in remaining template properties, after the
@@ -116,10 +116,10 @@ webui.@THEME@.widget.fieldBase.prototype.postCreate = function () {
 
     
     // Set public functions.
-    this.domNode.getInputElement = function() { return webui.@THEME@.dijit.byId(this.id).getInputElement(); }
+    this.domNode.getInputElement = function() { return webui.@THEME@.dijit.byId(this.id).getInputElement(); };
     
     return this.inherited("postCreate", arguments);
-}
+};
 
 /**
  * This function is used to set widget properties. Please see the setProps() 
@@ -135,11 +135,9 @@ webui.@THEME@.widget.fieldBase.prototype._setProps = function(props) {
     if (props == null) {
         return false;
     }
-    
 
-    
     // Set properties.
-    if (props.submitForm == false || props.submitForm == true ) { 
+    if (props.submitForm == false || props.submitForm == true) { 
         // connect the keyPress event
         this.dojo.connect(this.fieldNode, "onkeypress", this, "submitFormData");
     }
@@ -197,7 +195,7 @@ webui.@THEME@.widget.fieldBase.prototype._setProps = function(props) {
     
     // Set remaining properties.
     return this.inherited("_setProps", arguments);
-}
+};
 
 /**
  * Process keyPress events on the field, which enforces/disables 
@@ -229,4 +227,4 @@ webui.@THEME@.widget.fieldBase.prototype.submitFormData = function(event) {
         }
     }
     return true;    
-}
+};

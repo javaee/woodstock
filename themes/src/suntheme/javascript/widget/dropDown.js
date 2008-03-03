@@ -82,7 +82,7 @@ webui.@THEME@.widget.dropDown.prototype.changed = function() {
         }
     }
     return true; 
-}
+};
 
 /**
  * The dropDown defines the following event topics. The submit topics
@@ -137,7 +137,7 @@ webui.@THEME@.widget.dropDown.event =
 	 */
         endTopic: "webui_@THEME@_widget_dropDown_event_submit_end"
     }
-}
+};
 
 /**
  * This function is used to obtain the outermost HTML element CSS class name.
@@ -151,7 +151,7 @@ webui.@THEME@.widget.dropDown.prototype.getClassName = function() {
 
     var cn = this.widget.getClassName("DROPDOWN", "");
     return (this.className) ? cn + " " + this.className : cn;
-}
+};
 
 /**
  * Return an Object Literal of label properties desired
@@ -183,7 +183,7 @@ webui.@THEME@.widget.dropDown.prototype.getLabelProps = function() {
     props.htmlFor = this.listContainer.id;
     this.prototypejs.extend(props, this.label);
     return props;
-}
+};
 
 /**
  * Return a CSS selector for the dropDown label.
@@ -212,7 +212,7 @@ webui.@THEME@.widget.dropDown.prototype.getLabelClassName = function(ontop) {
     return (this.submitForm != null && this.submitForm == true)
 	? this.widget.getClassName("MENU_JUMP_LABEL_ALIGN", null)
         : this.widget.getClassName("MENU_STANDARD_LABEL_ALIGN", null);
-}
+};
 
 /**
  * Return a CSS selector for listContainer HTML element.
@@ -255,13 +255,13 @@ webui.@THEME@.widget.dropDown.prototype._getListContainerClassName =
 	if (jumpmenu == true) {
 	    key = "MENU_JUMP_DISABLED";
 	} else {
-	    key = "MENU_STANDARD_DISABLED"
+	    key = "MENU_STANDARD_DISABLED";
 	}
     } else if (jumpmenu == true) {
 	key = "MENU_JUMP";
     }
     return this.widget.getClassName(key, null);
-}
+};
 
 /**
  * This function is used to get widget properties.
@@ -277,7 +277,7 @@ webui.@THEME@.widget.dropDown.prototype.getProps = function() {
     if (this.submitForm != null) { props.submitForm = this.submitForm; }
 
     return props;
-}
+};
 
 /**
  * This function returns the CSS class name for an HTML option element,
@@ -363,7 +363,7 @@ webui.@THEME@.widget.dropDown.prototype.getOptionClassName = function(element) {
 	}
     }
     return this.widget.getClassName(key);
-}
+};
 
 
 /*
@@ -375,7 +375,6 @@ webui.@THEME@.widget.dropDown.prototype.getOptionClassName = function(element) {
  * @return {boolean} true if successful; otherwise, false.
  */
 webui.@THEME@.widget.dropDown.prototype.postCreate = function () {
-
     // Set ids.
     if (this.id) {
         this.submitterHiddenNode.id = this.id + "_submitter";
@@ -390,7 +389,7 @@ webui.@THEME@.widget.dropDown.prototype.postCreate = function () {
 	this._getListContainerClassName(disabled, jumpmenu));
     
     return this.inherited("postCreate", arguments);
-}
+};
 
 /**
  * This function is used to set widget properties defined in the
@@ -441,7 +440,6 @@ webui.@THEME@.widget.dropDown.prototype.postCreate = function () {
  * @return {boolean} true if successful; otherwise, false.
  */
 webui.@THEME@.widget.dropDown.prototype.setProps = function(props, notify) {
-
     if (props == null) {
 	return this.inherited("setProps", arguments);
     }
@@ -478,9 +476,8 @@ webui.@THEME@.widget.dropDown.prototype.setProps = function(props, notify) {
 	    toggleJumpmenu ? props.jumpmenu == true : isjumpmenu);
 	webui.@THEME@.common.addStyleClass(this.listContainer, cn);
     }
-    
     return this.inherited("setProps", arguments);
-}
+};
 
 /**
  * This function is used to set widget properties. Please see the setProps() 
@@ -493,7 +490,6 @@ webui.@THEME@.widget.dropDown.prototype.setProps = function(props, notify) {
  * @private
  */
 webui.@THEME@.widget.dropDown.prototype._setProps = function(props) {
-
     // If props is null, create one to pass default theme values
     // to the superClass via props.
     //
@@ -515,4 +511,4 @@ webui.@THEME@.widget.dropDown.prototype._setProps = function(props) {
 
     // Set remaining properties.
     return this.inherited("_setProps", arguments);
-}
+};

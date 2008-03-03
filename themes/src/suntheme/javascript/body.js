@@ -440,4 +440,4 @@ webui.@THEME@.body = function(viewId, path, defaultFocusElementId,
     if (this.preserveScroll == true) {
         webui.@THEME@.dojo.addOnUnload(this, "onUnloadListener");
     }
-}
+};

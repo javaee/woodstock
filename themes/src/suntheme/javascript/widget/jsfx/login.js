@@ -91,8 +91,9 @@ webui.@THEME@.widget.jsfx.login =  {
                 keys: (props.keys) ? props.keys : "none"
             }
         });
+        return true;
     }
-}
+};
 
 // Listen for Dojo Widget events.
 webui.@THEME@.dojo.subscribe(webui.@THEME@.widget.login.event.authenticate.beginTopic,

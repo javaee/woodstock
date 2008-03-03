@@ -69,4 +69,4 @@ webui.@THEME@.widget.resetButton.event =
         /** State event topic for custom AJAX implementations to listen for. */
         endTopic: "webui_@THEME@_widget_resetButton_event_state_end"
     }
-}
+};

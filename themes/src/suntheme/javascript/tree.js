@@ -441,7 +441,7 @@ webui.@THEME@.tree = {
      * @return {boolean} true if successful; otherwise, false.
      */
     updateHighlight: function(cookieId) {
-        var selNode = this.getSelectedTreeNode(cookieId)
+        var selNode = this.getSelectedTreeNode(cookieId);
         this.highlight(selNode);
 
         // FIXME: This doesn't work if the TreeNode element doesn't exist 
@@ -514,7 +514,7 @@ webui.@THEME@.tree = {
         var result;
         for (var count = 0; count<nodeList.length; count++) {
             // Recurse
-            return this.findNodeByTypeAndProp(nodeList[count]);
+            result = this.findNodeByTypeAndProp(nodeList[count]);
             if (result) {
                 // Propagate the result
                 return result;
@@ -711,4 +711,4 @@ webui.@THEME@.tree = {
 	// inspect and expand the corresponding node if necessary
 	return this.setCookieValue(tree.id + "-expand", nodeId);
     }
-}
+};

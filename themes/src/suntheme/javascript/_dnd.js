@@ -47,7 +47,7 @@ webui.@THEME@.dnd.Manager.prototype.startDrag = function(source, nodes, copy) {
         }
     );
     return this.inherited("startDrag", arguments);    
-}
+};
 
 /**
  * Processes stopDrag event to cleanup dragging styles.
@@ -61,7 +61,7 @@ webui.@THEME@.dnd.Manager.prototype.stopDrag = function() {
         }
     );
     return this.inherited("stopDrag", arguments);    
-}
+};
 
 /**
  * @name webui.@THEME@.dnd.Source
@@ -145,7 +145,7 @@ webui.@THEME@.dnd.Source.prototype.addItem = function(nodeContent, dragType, dra
     });
     this.parent.appendChild(t.node);
     return t.node;
-}
+};
 
 /**
  * Dojo implementation relies either on html markup to describe which items are
@@ -185,7 +185,7 @@ webui.@THEME@.dnd.Source.prototype.makeNodeDraggable = function(node, dragType, 
     });
     this._addItemClass(node, "");
     return true;
-}
+};
 
 /** 
  * Makes use of webui.@THEME.dnd.Source for markup processing.
@@ -198,7 +198,7 @@ webui.@THEME@.dnd.Source.prototype.makeNodeDraggable = function(node, dragType, 
 webui.@THEME@.dnd.Source.prototype.markupFactory = function(props, node) {
     props._skipStartup = true;
     return new webui.@THEME@.dnd.Source(node, props);
-}
+};
 
 /** 
  * Processes dndDrop event by providing transparency treatment for source
@@ -231,7 +231,7 @@ webui.@THEME@.dnd.Source.prototype.onDndDrop = function(source, nodes, copy) {
         } catch (err) {}
     }
     return ret; // Return from this method is actually ignored.
-}
+};
 
 /**
  * This creator-wrapper function ensures that user provided creator function
@@ -254,7 +254,7 @@ webui.@THEME@.dnd.Source.prototype._normalizedCreator = function(data, hint) {
     }
     webui.@THEME@.dojo.addClass(t.node, "dojoDndItem");           
     return t;
-}
+};
 
 /** 
  * Util method to trim the string. 
@@ -267,4 +267,4 @@ webui.@THEME@.dnd.Source.prototype.trim = function(str){
     // TODO make a String.prototype in common.js out of this.
     str = str.replace(/^\s\s*/, '').replace(/\s\s*$/, ''); 
     return str;
-}
+};

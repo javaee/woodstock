@@ -367,11 +367,12 @@ webui.@THEME@.widget.common = {
      * contain the id of the element to be created. 
      * </p>
      * @param {Object} props Key-Value pairs of properties (optional).
-     * @config {String} id Uniquely identifies an element within a document.   
+     * @config {String} id Uniquely identifies an element within a document.
+     * @return {Object} Key-Value pairs of properties.
      */
     getDropDownProps: function(props) {
         if (props == null || props.options == null) {
-            return;
+            return null;
         }
         
         if (props.size == null) {
@@ -459,7 +460,7 @@ webui.@THEME@.widget.common = {
      */
     getHyperlinkProps: function(props) {
         if (props == null || props.id == null) {
-            return;
+            return null;
         }
         var _props = {};
        
@@ -492,7 +493,7 @@ webui.@THEME@.widget.common = {
      */    
     getImageHyperlinkProps: function(props, enabledImage, disabledImage) {
         if (props == null || props.id == null) {
-            return;
+            return null;
         }
         // Set default module and widget name        
         var _props = webui.@THEME@.widget.common.getWidgetProps(
@@ -631,7 +632,7 @@ webui.@THEME@.widget.common = {
         if (domNode.offsetParent) {
             leftPos = domNode.offsetLeft;
             topPos = domNode.offsetTop;
-            while (domNode = domNode.offsetParent) {
+            while ((domNode = domNode.offsetParent) != null) {
                 leftPos += domNode.offsetLeft;
                 topPos += domNode.offsetTop;
             }
@@ -759,10 +760,6 @@ webui.@THEME@.widget.common = {
      * @return {boolean} true if high contrast mode.
      */
     isHighContrastMode:  function() {
-        //TEST
-        return false;
-        alert("SHOULD NOT BE HERE!");
-
         var common = webui.@THEME@.widget.common;
         if (common._isHighContrastMode != null) {
             return common._isHighContrastMode;
@@ -813,7 +810,7 @@ webui.@THEME@.widget.common = {
 
         // IE throws security exception if domNode isn't removed.
         // This allows widgets to be created before the window.onLoad event.
-        webui.@THEME@.dojo.body().removeChild(div);
+        webui.@THEME@.dojo.body().removeChild(domNode);
         return common._isHighContrastMode;    
     },
     
@@ -825,7 +822,7 @@ webui.@THEME@.widget.common = {
      * is null or the empty string.
      * </p>
      * @param {String} template The template string to test.
-     * @return boolean true if string is an HTML template.
+     * @return {boolean} true if string is an HTML template.
      */
     isTemplatePath: function(template) {
         return (template != null && template.charAt(0) != '<');
@@ -979,4 +976,4 @@ webui.@THEME@.widget.common = {
         }
         return true;
     }
-}
+};

@@ -120,7 +120,7 @@ webui.@THEME@.scheduler = {
         if (link.className == this.dateClass || 
             link.className == this.todayClass) {	
             link.className = this.selectedClass;
-        } else if (link.className = this.edgeClass) {
+        } else if (link.className == this.edgeClass) {
             link.className = this.edgeSelectedClass;
         }
         this.currentSelection = link;
@@ -150,4 +150,4 @@ webui.@THEME@.scheduler = {
         }
         return false;
     }
-}
+};

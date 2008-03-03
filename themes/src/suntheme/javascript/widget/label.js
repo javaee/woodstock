@@ -72,7 +72,7 @@ webui.@THEME@.widget.label.event =
         /** State event topic for custom AJAX implementations to listen for. */
         endTopic: "webui_@THEME@_widget_label_event_state_end"
     }
-}
+};
 
 /**
  * This function is used to obtain the outermost HTML element class name.
@@ -101,7 +101,7 @@ webui.@THEME@.widget.label.prototype.getClassName = function() {
     return (this.className)
         ? className + " " + this.className
         : className;
-}
+};
 
 /**
  * This function is used to process notification events with Object
@@ -122,7 +122,7 @@ webui.@THEME@.widget.label.prototype.notify = function(props) {
             title: props.detail
         }
     });
-}
+};
 
 /**
  * This function is used to get widget properties. Please see the 
@@ -144,7 +144,7 @@ webui.@THEME@.widget.label.prototype.getProps = function() {
     if (this.value) { props.value = this.value; }
 
     return props;
-}
+};
 
 /**
  * This function is used to fill in remaining template properties, after the
@@ -179,7 +179,7 @@ webui.@THEME@.widget.label.prototype.postCreate = function () {
         });
     }
     return this.inherited("postCreate", arguments);
-}
+};
 
 /**
  * This function is used to set widget properties using Object literals.
@@ -235,7 +235,7 @@ webui.@THEME@.widget.label.prototype.setProps = function(props, notify) {
 
     // Extend widget object for later updates.
     return this.inherited("setProps", arguments);
-}
+};
 
 /**
  * This function is used to set widget properties. Please see the setProps() 
@@ -304,4 +304,4 @@ webui.@THEME@.widget.label.prototype._setProps = function(props) {
 
     // Set remaining properties.
     return this.inherited("_setProps", arguments);
-}
+};
