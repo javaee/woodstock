@@ -189,6 +189,7 @@ public class ThemeServlet extends HttpServlet {
 	respType.put("avi", "video/msvideo"); 
 	respType.put("flc", "video/flc"); 
 	respType.put("mp4", "video/mpeg4"); 
+        respType.put("gzip", "application/octet-stream");          
     }
 
     /**
@@ -205,20 +206,16 @@ public class ThemeServlet extends HttpServlet {
 	String resourceName = request.getPathInfo();
 	InputStream inStream = null;
 	OutputStream outStream = null;
+        
+        
 	try {
-	    // The issue here is, do we try and get the resource
+            // The issue here is, do we try and get the resource
 	    // from the jar that defined this resource ?
 	    // Or hope that it is unique enough to come from the
 	    // jar it was defined in.
 	    //
-	    // Get InputStream
-	    inStream = this.getClass().getResourceAsStream(resourceName);
-	    if (inStream == null) {
-		response.sendError(404, request.getRequestURI());
-		return;
-	    }
-	    inStream = new BufferedInputStream(inStream, 4096);
 
+           
             // Ask the container to resolve the MIME type if possible
             String type = getServletContext().getMimeType(resourceName);
             if (type == null) {
@@ -229,10 +226,34 @@ public class ThemeServlet extends HttpServlet {
                     type = (String) respType.get(suffix.toLowerCase());
                 }
             }
+
             // Set the content type of this response
             if (type != null) {
                 response.setContentType(type);
             }
+
+            // if the browser doesn't support our brand of compression
+            // we need to change the resource path so it points to an
+            // an uncompressed copy of the css, we need to do this before
+            // we set up the input stream
+            if (supportsCompression(request, "gzip")){
+                
+                // make sure the resource is available
+               if (this.getClass().getResource(resourceName + ".gz") != null) { 
+                    // set the header that shows the content is gzip encoded
+                    // and switch the resource to the zipped resource
+                    response.addHeader("Content-Encoding", "gzip");
+                    resourceName = resourceName.concat(".gz");
+                }
+            } 
+
+	    // Get InputStream
+	    inStream = this.getClass().getResourceAsStream(resourceName);
+	    if (inStream == null) {
+		response.sendError(404, request.getRequestURI());
+		return;
+	    }
+	    inStream = new BufferedInputStream(inStream, 4096);
 
             // Enable caching.
             if (!isCache()) {
@@ -243,7 +264,10 @@ public class ThemeServlet extends HttpServlet {
 
                 // Allow authenticated responses to be cacheable.
                 response.addHeader("Cache-Control", getCacheControl(request));
+                
             }
+
+  
 
             // Get the OutputStream
 	    outStream = response.getOutputStream();
@@ -398,4 +422,20 @@ public class ThemeServlet extends HttpServlet {
         }
         return cache.booleanValue();
     }
+
+    /** 
+     * Test flag indicating that the browser supports
+     * the given compression
+     * @return true if browser supportes compression; otherwise, false.
+     */
+    private boolean supportsCompression(
+            HttpServletRequest req, String compType) {
+        boolean value = false;
+        String encodingHdr = req.getHeader("accept-encoding");
+        if ( encodingHdr != null && encodingHdr.indexOf(compType) != -1) {
+            value = true;
+        }
+        return value;
+    }
+    
 }

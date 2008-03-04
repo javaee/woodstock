@@ -36,6 +36,9 @@
     <property file="build.properties"/>
 
     <property name="components.home" value="${basedir}/../webui"/>
+    <property name="tools" value="${basedir}/../tools"/>
+    <property name="tools.jar"
+              value="${tools}/woodstock/lib/webui-tools.jar"/>
     
     <!-- Building a javascript theme depends on ${webui-jar}
          In the future it will depend on just the theme implementation
@@ -216,11 +219,23 @@
 	    </classpath>
 	</java>
 
+        <!-- call gzip the theme js file-->
+        <java jar="${tools.jar}" failonerror="true" fork="true">
+	  <arg value="-gzipFiles"/>
+	  <arg value="-sourceDir"/>
+	  <arg value="${_js-to-dir_}/${__js-cmp-nlsdir__}"/>
+	  <arg value="-fileList"/>
+	  <arg value="${_js-theme-name_}.js"/>
+	  <arg value="-destDir"/>
+	  <arg value="${_js-to-dir_}/${__js-cmp-nlsdir__}"/>
+	  <arg value="-verbose"/>
+        </java>
+
         <!-- Add the javascript theme to the theme jar -->
 	<jar destfile="${_js-theme-jar_}"
 	     update="true"
 	     basedir="${_js-to-dir_}"
-	     includes="${__js-cmp-nlsdir__}/${_js-theme-name_}.js,${__js-uncmp-nlsdir__}/${_js-theme-name_}.js">
+	     includes="${__js-cmp-nlsdir__}/${_js-theme-name_}.js.gz,${__js-cmp-nlsdir__}/${_js-theme-name_}.js,${__js-uncmp-nlsdir__}/${_js-theme-name_}.js">
 	</jar>
 
     </target>

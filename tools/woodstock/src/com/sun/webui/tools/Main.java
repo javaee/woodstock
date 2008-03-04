@@ -276,6 +276,45 @@ public class Main {
 	ci.combine();
     }
 
+    private static void gzipFiles(String[] args) {
+
+	String[] fileList = null;
+        String sourceDir = null;
+        String destDir = null;
+        boolean verbose = false;
+
+        // Parse arguments.
+        Map map = parseFileListArgs(args);
+	if (null == (fileList = (String[]) map.get("fileList")) ||
+	        fileList.length == 0) {
+	    System.out.println("A non emtpy file list is required.");
+	    usage();
+	    System.exit(-1);
+	}
+	if (null == (sourceDir = (String) map.get("sourceDir"))) {
+	    System.out.println("-sourceDir is required.");
+	    usage();
+	    System.exit(-1);
+	}
+
+	if (null == (destDir = (String) map.get("destDir"))) {
+	    System.out.println("-destDir is required.");
+	    usage();
+	    System.exit(-1);
+	}
+	verbose = ((Boolean) map.get("verbose")).booleanValue();
+
+        try {
+            GzipFiles obj = new GzipFiles(sourceDir, destDir, verbose);
+            obj.gzipFiles(fileList);
+       } catch (Exception e) {
+	    System.out.println(e.getMessage());
+	    e.printStackTrace();
+	    System.exit(-1);
+       }
+
+    }
+
     /**
      * Helper function to show usage.
      *
@@ -289,6 +328,7 @@ public class Main {
         System.out.println("-combineJavaScript <args...>\t\tCombine JavaScript directory or file.");
         System.out.println("-compressJavaScript <args...>\t\tCompress JavaScript directory or file.");
         System.out.println("-native2ascii <args...>\t\tConvert native encoded file to unicode escapes or vice versa.");
+        System.out.println("-gzipFiles <args...>\t\tCompress a list of files using the gzip compression format.");
 
         System.out.println("\nOptions for -combineCSS include:");
 	System.out.println("-fileList <f0,...,fn>\t" +
@@ -345,6 +385,18 @@ public class Main {
 		"UTF-8 is the default encoding");
 	System.out.println("[-reverse]\t" +
 		"Convert fileList to encoding");
+
+        // gzip usage
+        System.out.println("\nOptions for -gzipFiles include:");
+	System.out.println("-fileList <f0,...,fn>\t" +
+		"A comma separated list of relative file paths to compress.");
+        System.out.println("-destDir <outFile> <destinationDir>\t" 
+                + "Directory where compressed files will created.");
+	System.out.println("-sourceDir <sourceDir>\t" +
+		"Directory containing the files in fileList.");
+        System.out.println("-verbose\tEnable verbose output.");
+
+
     }
 
     /**
@@ -364,6 +416,8 @@ public class Main {
                 native2ascii(args);
             } else if (args[0].equals("-combineImages")) {
                 combineImages(args);
+            } else if (args[0].equals("-gzipFiles")) {
+                gzipFiles(args);
             } else {
                 usage();
             }
@@ -403,39 +457,39 @@ public class Main {
 		if (args[i].equals("-fileList")) {
 		    validString(fileList = args[i + 1].trim());
 		    ++i;
-		} else
+                } else
 		if (args[i].equals("-destDir")) {
 		    validString(destDir = args[i + 1].trim());
 		    map.put("destDir", destDir);
 		    ++i;
-		} else
+                } else
 		if (args[i].equals("-excludeFileList")) {
 		    validString(excludeFileList = args[i + 1].trim());
 		    ++i;
-		} else
+                } else
 		if (args[i].equals("-modulePrefix")) {
 		    validString(modulePrefix = args[i + 1].trim());
 		    map.put("modulePrefix", modulePrefix);
 		    ++i;
-		} else
+                } else
 		if (args[i].equals("-outFile")) {
 		    validString(outFile = args[i + 1].trim());
 		    map.put("outFile", outFile);
 		    ++i;
-		} else
+                } else
                 if (args[i].equals("-copyrightFile")) {
 		    validString(copyrightFile = args[i + 1].trim());
 		    map.put("copyrightFile", copyrightFile);
-		    ++i;
+                    ++i;
 		} else
 		if (args[i].equals("-rhinoJar")) {
 		    validString(rhinoJar = args[i + 1].trim());
 		    map.put("rhinoJar", rhinoJar);
 		    ++i;
-		} else
+                } else
 		if (args[i].equals("-sourceDir")) {
-		    validString(sourceDir = args[i + 1].trim());
-		    map.put("sourceDir", sourceDir);
+                    validString(sourceDir = args[i + 1].trim());
+                    map.put("sourceDir", sourceDir);
 		    ++i;
 		} else
 		if (args[i].equals("-verbose")) {

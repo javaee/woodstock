@@ -369,11 +369,17 @@
 
         <!-- Combine CSS -->
         <antcall target="combineCSS">
-	    <param name="_to-dir_" value="${theme.build-package-path}/css"/>
+	    <param name="_to-dir_" value="${theme.build-package-path}/css_uncompressed"/>
 	    <param name="_from-dir_" value="${theme.src-dir}/css"/>
 	    <param name="_files-to-combine_" value="${theme.master.css}"/>
 	    <param name="_combined-file_" 
-		value="${theme.build-package-path}/css/${theme.master-all.css}"/>
+		value="${theme.build-package-path}/css_uncompressed/${theme.master-all.css}"/>
+	</antcall>
+
+        <!-- gzip CSS -->                
+        <antcall target="gzipCSS">
+	    <param name="_to-dir_" value="${theme.build-package-path}/css"/>
+	    <param name="_from-dir_" value="${theme.build-package-path}/css_uncompressed"/>
 	</antcall>
 
 	<!-- Call combineJavascript once for each of the 
@@ -450,8 +456,14 @@
 	    <param name="_to-dir_" value="${js-dest-cmp}"/>
 	    <param name="_from-dir_" value="${js-dest-uncmp}"/>
 	</antcall>
+        
+        <!-- gzip JavaScript without base62 encoding. -->
+        <!-- to and from dir are the same -->
+        <antcall target="gzipJavascript">
+	    <param name="_to-dir_" value="${js-dest-cmp}"/>
+	    <param name="_from-dir_" value="${js-dest-cmp}"/>
+	</antcall>
 
-        <!-- To do: Add antcall to GZIP here. -->
 
         <!-- Compress JavaScript with base62 encoding. -->
         <antcall target="compressJavascriptBase62">
@@ -795,6 +807,49 @@
 	</java>
     </target>
 
+    <target name="gzipcss-uptodate" >
+        <uptodate property="gzipcss-uptodate">
+                <srcfiles dir="${_from-dir_}"
+                    includes="**/*.css"/>
+                <mapper type="glob" from="*" to="${_to-dir_}/*.gz"/>
+        </uptodate>
+    </target>
+        
+    <target name="gzipCSS" depends="gzipcss-uptodate" unless="gzipcss-uptodate">
+
+	<mkdir dir="${_to-dir_}"/>
+
+	<!-- Use property location to overcome issues with
+	     Windows paths and pathconvert. These are simply
+             local copies of the paths that have been formatted
+             to work within all environments including windows.
+	-->
+	<property name="__from-dir-loc__" location="${_from-dir_}"/>
+	<property name="__to-dir-loc__" location="${_to-dir_}"/>
+	
+	<pathconvert property="__files-to-compress__" pathsep=",">
+	    <fileset dir="${__from-dir-loc__}">
+                
+		<depend targetdir="${__to-dir-loc__}">
+		    <mapper type="glob" from="*" to="*"/>
+		</depend>
+	    </fileset>
+	    <mapper type="glob" 
+		from="${__from-dir-loc__}${file.separator}*" to="*"/>
+	</pathconvert>
+                
+        <java jar="${tools.jar}" failonerror="true" fork="true">
+	  <arg value="-gzipFiles"/>
+	  <arg value="-sourceDir"/>
+	  <arg value="${__from-dir-loc__}"/>
+	  <arg value="-fileList"/>
+	  <arg value="${__files-to-compress__}"/>
+	  <arg value="-destDir"/>
+	  <arg value="${__to-dir-loc__}"/>
+	  <arg value="-verbose"/>
+	</java>
+    </target>
+
     <!-- #############  Javascript targets ################### -->
 
     <!-- Sets the "javascript-uptodate" property if
@@ -971,6 +1026,7 @@
 	</pathconvert>
 
         <!-- Call Shrink Safe tool. -->
+
 	<java jar="${tools.jar}" failonerror="true" fork="true">
 	  <arg value="-compressJS"/>
 	  <arg value="-sourceDir"/>
@@ -989,7 +1045,7 @@
             <fileset dir="${__to-dir-loc__}"
 		includes="${__files-to-compress__}"/>
         </replaceregexp>
-
+                
         <!-- Trigger base62 JavaScript compression. -->
         <antcall target="_compressed-js-timestamp_"/>
     </target>
@@ -1040,6 +1096,72 @@
         ${theme.copyright}
         ${tools.jar}
     -->
+    
+    <!-- Set the compressed-js-uptodate property if
+	"${_to-dir_}/**/*.js" files are newer than 
+	"${_from-dir_}/**/*.js"
+    -->
+
+    <target name="gzip-js-uptodate">
+	<uptodate property="gzip-js-uptodate">
+	    <srcfiles dir="${_from-dir_}" 
+		includes="**/*.js"
+		excludes="dojo/,${theme.bootstrap.js},${theme.dnd.js},${theme.webui.js},${theme.webui-all.js},${theme.webui-jsfx.js},${theme.webui-jsfx-all.js}"/>
+	    <mapper type="glob" from="*" to="${_to-dir_}/*.gz"/>
+	</uptodate>
+    </target>
+
+    <!-- Parameters
+
+	_to-dir_ - root of the destination for compressed files
+	_from-dir_ - the source of the uncompressed and
+	             filtered javascript files.
+
+        Comment out build-compressJS in the build.properties file if you
+        don't want to compress when modifying JavaScript files
+
+	To simplify the dependency checking it is expected that
+	there are files in "${_from-dir_}", so either "combineJavascript"
+	or "copyJavascript" should have been called.
+
+	Expects the following globals to be set.
+
+        ${tools.jar}
+    -->
+    <target name="gzipJavascript" if="build-gzipJS" 
+            depends="gzip-js-uptodate" unless="gzip-js-uptodate">
+	<!-- Use property location to overcome issues with
+	     Windows paths and pathconvert.
+	-->
+	<property name="__from-dir-loc__" location="${_from-dir_}"/>
+	<property name="__to-dir-loc__" location="${_to-dir_}"/>
+
+	<!-- Make sure to exclude the nls, dojo and combined files. -->
+	<pathconvert property="__files-to-compress__" pathsep=",">
+	    <fileset dir="${__from-dir-loc__}">
+                <exclude name="dojo/_firebug/"/>
+		<depend targetdir="${__to-dir-loc__}">
+		    <mapper type="glob" from="*" to="*.gz"/>
+		</depend>
+	    </fileset>
+	    <mapper type="glob" 
+		from="${__from-dir-loc__}${file.separator}*" to="*"/>
+	</pathconvert>
+
+    
+        <!-- call gzip tool from and to dir are the same-->
+        <java jar="${tools.jar}" failonerror="true" fork="true">
+	  <arg value="-gzipFiles"/>
+	  <arg value="-sourceDir"/>
+	  <arg value="${__from-dir-loc__}"/>
+	  <arg value="-fileList"/>
+	  <arg value="${__files-to-compress__}"/>
+	  <arg value="-destDir"/>
+	  <arg value="${__to-dir-loc__}"/>
+	  <arg value="-verbose"/>
+        </java>
+    </target>
+
     <target name="compressJavascriptBase62" if="build-compressJS-base62"
             depends="compressed-js-base62-uptodate" unless="compressed-js-base62-uptodate">
 
@@ -1370,7 +1492,7 @@
             <filterset refid="${__css-name-filter__}"/>
         </copy>
 
-        <copy todir="${_to-dir_}/css"
+        <copy todir="${_to-dir_}/css_uncompressed"
 		failonerror="${_fail-on-error_}">
             <fileset dir="${_from-dir_}/css">
                 <exclude name="**/CVS/**" /> 
