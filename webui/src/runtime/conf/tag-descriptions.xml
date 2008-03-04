@@ -10730,7 +10730,7 @@ server. </li>
 <h3>Code Examples</h3>
 <code></code>
 <h4>Example 1: Creating a Pop-Up Menu </h4>
-        <pre>&lt;webuijsf:actionenu id="popup1" items="#{popUp.optionItems1}" eventListener="#{popUp.selectedItem}"  onChange="setTimeout('changeEvent();', 0);"/&gt;
+        <pre>&lt;webuijsf:menu id="popup1" items="#{popUp.optionItems1}" eventListenerExpression="#{popUp.selectedItem}"  onChange="setTimeout('changeEvent();', 0);"/&gt;
          &lt;webuijsf:textField id="verifier" label="Selected item:" text="#{popUp.selectedItem}" disabled="true"/&gt;
 <br />
     &lt;webuijsf:button id="button3" style="position:absolute;top:400px;left:600px" text="Change option for this menu" onClick="clientUpdate();return false;"/&gt;
