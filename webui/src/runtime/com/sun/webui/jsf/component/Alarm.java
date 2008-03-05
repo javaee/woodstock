@@ -261,12 +261,14 @@ public class Alarm extends ImageComponent implements NamingContainer, Comparator
      * If type is null return null.
      */
     private Indicator getIndicator(List<Indicator> indList, String type) {
-	Iterator<Indicator> iter = indList.iterator();
-	if (type != null) {
-            while (iter.hasNext()) {
-                Indicator ind = (Indicator)iter.next();
-                if (type.equals(ind.getType())) {
-                    return ind;
+	if (indList != null) {
+            Iterator<Indicator> iter = indList.iterator();
+            if (type != null) {
+                while (iter.hasNext()) {
+                    Indicator ind = (Indicator)iter.next();
+                    if (type.equals(ind.getType())) {
+                        return ind;
+                    }
                 }
             }
         }
@@ -351,10 +353,10 @@ public class Alarm extends ImageComponent implements NamingContainer, Comparator
             return (List<Indicator>) _vb.getValue(getFacesContext().getELContext());
         }
 	// If we get here we know that the developer has not
-	// assigned a list of indicators. Return the default
-	// alarm indicators
+	// assigned a list of indicators. Return null, client-side widget creates 
+	// the default alarm indicators
 	//
-	return getDefaultIndicators();
+	return null;
     }
 
     /**

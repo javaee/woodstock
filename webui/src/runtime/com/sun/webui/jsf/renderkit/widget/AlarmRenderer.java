@@ -145,28 +145,34 @@ public class AlarmRenderer extends RendererBase {
 		hspace, vspace, align, alt, longDesc, toolTip, border,
 		alarmImage);
 	}
-	    
-        List<Indicator> indicators = (List<Indicator>) alarm.getIndicators();
-        Iterator<Indicator> iterator = indicators.iterator();
-        
-	// Use an different method than WidgetUtilities.getIndicators
-	// to optimize a little. This method may only be useful for
-	// alarms so it is private to this class.
-	//
-	JSONArray jArray = getAndEditIndicators(context, iterator, ignoreType, 
-            theme, alarm, severity, height, width, hspace, vspace, border, 
-            toolTip, longDesc, alt, align);
-                
         JSONObject jsonIcon = new JSONObject();
-        
-        if (alarmImage != null) {
-            jsonIcon.put("type", severity);
-            jsonIcon.put("image", WidgetUtilities.renderComponent(context, 
-                alarmImage));
-            jArray.put(jsonIcon);
+            if (alarmImage != null) {
+                jsonIcon.put("type", severity);
+                jsonIcon.put("image", WidgetUtilities.renderComponent(context, 
+                    alarmImage));                
+            }
+	if (alarm.getIndicators() != null) {    
+            List<Indicator> indicators = (List<Indicator>) alarm.getIndicators();
+            Iterator<Indicator> iterator = indicators.iterator();
+
+            // Use an different method than WidgetUtilities.getIndicators
+            // to optimize a little. This method may only be useful for
+            // alarms so it is private to this class.
+            //
+            JSONArray jArray = getAndEditIndicators(context, iterator, ignoreType, 
+                theme, alarm, severity, height, width, hspace, vspace, border, 
+                toolTip, longDesc, alt, align);
+            
+            if (alarmImage != null) {                
+                jArray.put(jsonIcon);
+            }
+
+            json.put("indicators", jArray);
+        } else if (alarmImage != null) {
+            JSONArray jsonFacetArr = new JSONArray();
+            jsonFacetArr.put(jsonIcon);
+            json.put("indicators", jsonFacetArr);
         }
-        
-        json.put("indicators", jArray);
                        
         // Add attributes.
         JSONUtilities.addStringProperties(stringAttributes, component, json);
