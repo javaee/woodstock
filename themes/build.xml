@@ -464,7 +464,6 @@
 	    <param name="_from-dir_" value="${js-dest-cmp}"/>
 	</antcall>
 
-
         <!-- Compress JavaScript with base62 encoding. -->
         <antcall target="compressJavascriptBase62">
 	    <param name="_to-dir_" value="${js-dest-cmp}"/>

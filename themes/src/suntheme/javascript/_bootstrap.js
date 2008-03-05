@@ -234,7 +234,9 @@ webui.@THEME@.bootstrap = {
                 // allow the ajaxZone tag of JSF Extensions to re-render widgets
                 // properly. That is, considering there will only ever be one 
                 // window.onLoad event.
-                webui.@THEME@.config.parseOnLoad = false;
+                setTimeout(function() {
+                    webui.@THEME@.config.parseOnLoad = false;
+                }, 10); // To do: This is set too early for fragments.
             });
         }
         return true;

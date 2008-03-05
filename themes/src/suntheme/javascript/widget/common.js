@@ -131,6 +131,9 @@ webui.@THEME@.widget.common = {
                 setTimeout(function() {
                     // Eval not required for Mozilla/Firefox, but consistent.
                     webui.@THEME@.prototypejs.evalScripts(props);
+                    if (new Boolean(webui.@THEME@.config.parseOnLoad).valueOf() == true) {
+                        webui.@THEME@.widget.common._parseMarkup(domNode);
+                    }
                 }, 10);
             } else {
                 // Static strings must be HTML escaped by default.
@@ -216,9 +219,6 @@ webui.@THEME@.widget.common = {
      * @private
      */
     _appendWidget: function(domNode, props) {
-        if (domNode == null || props == null) {
-            return false;
-        }
         // Set timeout to allow for progressive rendering.
         setTimeout(function() {
             webui.@THEME@.widget.common.createWidget(domNode, props, "last");
@@ -246,6 +246,7 @@ webui.@THEME@.widget.common = {
     createWidget: function(domNode, props, position) {
         var widget = null;
         if (props == null || props.id == null || props.widgetType == null) {
+            console.debug("Error: createWidget has null props"); // See Firebug console.
             return widget;
         }
 
@@ -705,33 +706,6 @@ webui.@THEME@.widget.common = {
     },
 
     /**
-     * This function is used to remove child nodes from given DOM node.
-     * <p>
-     * Note: Child nodes may be cleared using the innerHTML property. However,
-     * IE fails when this property is set via the widget's fillInTemplate 
-     * function. In this case, DOM nodes shall be removed manually using the 
-     * Node APIs.
-     * </p>
-     * @param {Node} domNode The DOM node to remove child nodes.
-     * @return {boolean} true if successful; otherwise, false.
-     */
-    removeChildNodes: function(domNode) {
-        if (domNode == null) {
-            return false;
-        }
-        try {
-            domNode.innerHTML = ""; // Cannot be null on IE.
-        } catch (e) {
-            // Iterate over child nodes.
-            while (domNode.hasChildNodes()) {
-                var node = domNode.childNodes[0];
-                domNode.removeChild(node);
-            }
-        }
-        return true;
-    },
-
-    /**
      * This function is used to parse HTML markup in order to create widgets
      * more efficiently. See the createWidget() function.
      * <p>
@@ -781,19 +755,46 @@ webui.@THEME@.widget.common = {
             if (nodes.length == 0) {
                 return false;
             }
-            // Match widget props with node id.
+            // Match span id with props.
             for (var i = 0; i < nodes.length; i++) {
                 appendWidget(nodes[i], props[nodes[i].id]);
                 props[nodes[i].id] = null; // Clean up.
             }
         } else {
-            // Match parent id from props.
+            // Match script parent id with props.
             for (var i = 0; i < nodes.length; i++) {
                 var parent = nodes[i].parentNode;
-                if (parent) {
+                if (parent && parent.tagName.toLowerCase() == "span") {
                     appendWidget(parent, props[parent.id]);
                     props[parent.id] = null; // Clean up.
                 }
+            }
+        }
+        return true;
+    },
+
+    /**
+     * This function is used to remove child nodes from given DOM node.
+     * <p>
+     * Note: Child nodes may be cleared using the innerHTML property. However,
+     * IE fails when this property is set via the widget's fillInTemplate 
+     * function. In this case, DOM nodes shall be removed manually using the 
+     * Node APIs.
+     * </p>
+     * @param {Node} domNode The DOM node to remove child nodes.
+     * @return {boolean} true if successful; otherwise, false.
+     */
+    removeChildNodes: function(domNode) {
+        if (domNode == null) {
+            return false;
+        }
+        try {
+            domNode.innerHTML = ""; // Cannot be null on IE.
+        } catch (e) {
+            // Iterate over child nodes.
+            while (domNode.hasChildNodes()) {
+                var node = domNode.childNodes[0];
+                domNode.removeChild(node);
             }
         }
         return true;

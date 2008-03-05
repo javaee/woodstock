@@ -172,7 +172,7 @@ webui.@THEME@.wizard = {
     closeAndForward: function(submitForm, submitPage, clearState) {
         var f = window.opener.document.getElementById(submitForm);
         if (f == null) {
-            alert("Can't find form " + submitForm);
+            console.debug("Can't find form " + submitForm); // See Firebug console.
             window.close();
         }
 
