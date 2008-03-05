@@ -14345,7 +14345,8 @@ appearance. The <code>mini</code> attribute can be used
 to make smaller tabs. The <code>lite</code> attribute can be used with the 
 <code>mini</code> attribute to create small tabs that have less shading and 
 bolding. Note that mini tab sets will not display properly if more than one level of 
-tabs are specified.</p> 
+tabs are specified. If mini and lite tabs are used, then a border will be shown
+around the content area panel</p> 
 <p>If you specify an <code>actionListener</code> attribute for the TabSet 
 component, the specified listener is applied to the action listener list of 
 each of the child Tab components.</p>
