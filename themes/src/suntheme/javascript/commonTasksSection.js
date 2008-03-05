@@ -25,6 +25,7 @@ webui.@THEME@.dojo.provide("webui.@THEME@.commonTasksSection");
 webui.@THEME@.dojo.require("webui.@THEME@.browser");
 webui.@THEME@.dojo.require("webui.@THEME@.common");
 webui.@THEME@.dojo.require("webui.@THEME@.prototypejs");
+webui.@THEME@.dojo.require("webui.@THEME@.theme.common");
 
 /** 
  * @class This class contains functions for commonTasksSection components.
@@ -193,6 +194,8 @@ webui.@THEME@.commonTasksSection = {
         this.task = task;
         this.bottomInfoLink = bottomInfoLink;
         this.spacer = spacer;
+        this.theme = webui.@THEME@.theme.common;
+        
         var that = this;
 
         // Handle the keypress event for the "more" link if one is present.
@@ -414,8 +417,8 @@ webui.@THEME@.commonTasksSection = {
             if (!webui.@THEME@.common.isVisibleElement(this.info)) {
                 webui.@THEME@.common.setVisibleElement(this.info, true);
                 this.getElementPosition2(this.image.id);
-                this.getElementPosition(this.spacer);        
-                this.info.style.top = (this.ttop + 12) +'px';
+                this.getElementPosition(this.task.id);        
+                this.info.style.top = (this.ttop + parseInt(this.theme.getMessage("commonTasks.infoPanelOffsetTop"))) +'px';
                 this.info.style.left =  (this.tleft - 1) + 'px';
                 this.info.style.width = (this.ileft - this.tleft) + 29 + 'px';
                 this.close.focus();

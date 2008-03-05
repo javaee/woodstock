@@ -68,7 +68,7 @@
                               <webuijsf:hyperlink url="#" tabIndex="1" id="link1" 
                                   text="#{msgs.popupMenu_link1}" 
                                   onClick="displayMenuOne(event);return false;" 
-                                  onKeyPress="displayMenuOne(event);"/>                            
+                                  onKeyDown="displayMenuOne(event);"/>                            
                               <br/><br/>
                              
                               <!-- Label for the second menu-->
@@ -82,7 +82,7 @@
                               <webuijsf:hyperlink url="#" style="position:absolute;top:480px;left:10px" 
                                   tabIndex="1" id="link2" text="#{msgs.popupMenu_link1}" 
                                   onClick="displayMenuTwo(event);return false;" 
-                                  onKeyPress="displayMenuTwo(event);"/>                                                                     
+                                  onKeyDown="displayMenuTwo(event);"/>                                                                     
 
                               <!-- Menu which is used for asynchronous submits -->
                               <webuijsf:menu id="popup1"  items="#{popupBean.optionItems}" 

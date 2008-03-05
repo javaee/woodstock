@@ -192,7 +192,7 @@ webui.@THEME@.widget.common = {
       * @private
       */
      appendPrefix: function(prefix, props) {
-         if (props.charAt(0) == "/" && props.indexOf(prefix) == -1) {
+         if (props.charAt(0) == "/" && props.indexOf(prefix+"/") == -1) {
              props = prefix + props;                        
          }        
          return props;
