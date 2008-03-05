@@ -827,10 +827,9 @@ public class Alert extends WebuiOutput implements NamingContainer, Comparator {
             return (List<Indicator>) _vb.getValue(getFacesContext().getELContext());
         }
 	// If we get here we know that the developer has not
-	// assigned a list of indicators. Return the default
-	// alert indicators
-	//
-	return getDefaultIndicators();
+	// assigned a list of indicators. Return null, client-side widget creates the
+        // default indicators.	
+	return null;
     }
     /**
      * Set the list of indicators supported by this alert. If this
@@ -941,12 +940,14 @@ public class Alert extends WebuiOutput implements NamingContainer, Comparator {
      * If type is null return null.
      */
     private Indicator getIndicator(List<Indicator> indList, String type) {
-	Iterator<Indicator> iter1 = indList.iterator();
-	if (type != null) {
-            while (iter1.hasNext()) {
-                Indicator ind = (Indicator)iter1.next();
-                if (type.equals(ind.getType())) {
-                    return ind;
+	if (indList != null) {
+            Iterator<Indicator> iter1 = indList.iterator();
+            if (type != null) {
+                while (iter1.hasNext()) {
+                    Indicator ind = (Indicator)iter1.next();
+                    if (type.equals(ind.getType())) {
+                        return ind;
+                    }
                 }
             }
         }

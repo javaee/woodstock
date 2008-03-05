@@ -108,54 +108,54 @@ public class AlertRenderer extends RendererBase {
                 alert.getDetail()))
             .put("visible", (summary == null || summary.trim().length() == 0) 
                              ? false : alert.isVisible())
-            .put("type", type)
-            .put("className", alert.getStyleClass());    
-                       
-        List<Indicator> indicators = (List<Indicator>) alert.getIndicators();        
-        Iterator<Indicator> iter1 = indicators.iterator();
+            .put("type", type)            
+            .put("className", alert.getStyleClass());       
 
         //Check for the facet
         UIComponent imageFacet = alert.getFacet(ALERT_IMAGE_FACET);
         String ignoreType = null;
+        JSONObject jsonFacet = null;
         if (imageFacet != null) {
             ignoreType = type;
-        }
-       
-        JSONArray jArray = WidgetUtilities.getIndicators(context, 
-                iter1, ignoreType, theme, alert);
-                
-        // if ignoreType is not null then add facet image
-        JSONObject jsonFacet = new JSONObject();
-        
-        if (ignoreType != null) {
+            jsonFacet = new JSONObject();
             jsonFacet.put("type", ignoreType);
             jsonFacet.put("image", WidgetUtilities.renderComponent(context, 
-                imageFacet));
-            jArray.put(jsonFacet);
+                    imageFacet));
         }
         
-        json.put("indicators", jArray);
-                
-        // Append moreInfo image properties.
-        // Adding it separately as it is not the part of indicator.
-        json.put("moreInfo", WidgetUtilities.renderComponent(context, 
-            alert.getAlertLink()));
-        
-        ImageComponent dotImg = null;
-        dotImg = (ImageComponent) ThemeUtilities.getIcon(theme, ThemeImages.DOT);
+        if (alert.getIndicators() != null) {
+            List<Indicator> indicators = (List<Indicator>) alert.getIndicators();        
+            Iterator<Indicator> iter1 = indicators.iterator();
+            JSONArray jArray = WidgetUtilities.getIndicators(context, 
+                    iter1, ignoreType, theme, alert);            
 
-        //set Id for dot image
-        if (dotImg.getId() == null) {
-            dotImg.setId("DOT");
+            if (ignoreType != null) {                
+                jArray.put(jsonFacet);
+            } 
+            json.put("indicators", jArray);
+        } else if (imageFacet != null) {
+            JSONArray jsonFacetArr = new JSONArray();
+            jsonFacetArr.put(jsonFacet);
+            json.put("indicators", jsonFacetArr);
+        }       
+        UIComponent linkFacet =  alert.getFacet(Alert.ALERT_LINK_FACET);
+	if (linkFacet != null) {
+            // Append moreInfo image properties.
+            // Adding it separately as it is not the part of indicator.
+            json.put("moreInfo", WidgetUtilities.renderComponent(context, 
+                linkFacet)); 
+	} else {
+            UIComponent alertLink = alert.getAlertLink();
+            if (alertLink != null) {
+                JSONObject link = new JSONObject();
+                    link.put("value", alert.getLinkText())
+                        .put("target", alert.getLinkTarget())
+                        .put("url", alert.getLinkURL())
+                        .put("tooltip", alert.getLinkToolTip()) ;
+                    json.put("moreInfo", link);
+            }
         }
-
-        //set parent for dot image
-        if (dotImg.getParent() == null) {
-            dotImg.setParent(alert);
-        }
-            
-        // Append spacerImage image properties.        
-        json.put("spacerImage", WidgetUtilities.renderComponent(context, dotImg));
+               
         
         // Add attributes.
         JSONUtilities.addStringProperties(stringAttributes, component, json);

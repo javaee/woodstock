@@ -86,8 +86,7 @@ webui.@THEME@.widget.alert.prototype.getProps = function() {
     if (this.summary != null) { props.summary = this.summary; }
     if (this.type != null) { props.type = this.type; }
     if (this.moreInfo != null) { props.moreInfo = this.moreInfo; }
-    if (this.spacerImage != null) { props.spacerImage = this.spacerImage; }
-    
+    if (this.spacerImage != null) { props.spacerImage = this.spacerImage; }    
     return props;
 };
 
@@ -137,6 +136,82 @@ webui.@THEME@.widget.alert.prototype.postCreate = function () {
         this.topRightContainer.id = this.id + "_topRightContainer";
         this.detailContainerLink.id = this.id + "_detailContainerLink";
     }
+        //create default indicators.   
+        var  defaultIndicators =[{
+                    "type": "error",
+                    "image": this.widget.getWidgetProps("image", {
+                    id: this.id + "_error",
+                    icon: "ERROR_ALERT_INDICATOR"
+                    })
+                },
+            {
+                    "type": "warning",
+                    "image": this.widget.getWidgetProps("image", {
+                    id: this.id + "_warning",
+                    icon: "WARNING_ALERT_INDICATOR"
+                })
+                },
+            {
+                    "type": "success",
+                    "image": this.widget.getWidgetProps("image", {
+                    id: this.id + "_success",
+                    icon: "SUCCESS_ALERT_INDICATOR"
+                })
+                },
+            {
+                    "type": "information",
+                    "image": this.widget.getWidgetProps("image", {
+                    id: this.id + "_info",
+                    icon: "INFORMATION_ALERT_INDICATOR"
+                })
+            }];           
+    
+        
+    if (this.indicators == null) {
+        this.indicators = defaultIndicators;    
+    } else {
+      for (var i = 0; i < this.indicators.length; i++) {          
+          for (var j = 0; j < defaultIndicators.length; j++) {
+              if (this.indicators[i].type == defaultIndicators[j].type) {
+                  defaultIndicators[j].image = this.indicators[i].image;
+                  this.indicators[i] = null;                  
+                  break;
+              }
+          }          
+      }
+      
+      // merge the indicators (defaultset + custom set)
+      for (var i = 0; i < this.indicators.length; i++) {   
+          if (this.indicators[i] != null) {                         
+                defaultIndicators = defaultIndicators.concat(this.indicators[i]);
+          }      
+      }
+      this.indicators = defaultIndicators;     
+    }
+    
+    //spacer image
+    if (this.spacerImage == null) {
+        this.spacerImage = this.widget.getWidgetProps("image", {
+             icon: "DOT",
+             id: this.id + "_dot"
+        }); 
+    }
+    // moreInfo link
+    if (this.moreInfo != null && this.moreInfo.id == null && this.moreInfo.widgetType == null) {
+        this.moreInfo = this.widget.getWidgetProps("imageHyperlink",{
+                    id: this.id + "_" + "alertLink",
+                    enabledImage: this.widget.getWidgetProps("image", {
+                            id: this.id + "_moreInfoLinkImg",
+                            icon: "HREF_LINK"
+                    }),     
+                    target: this.moreInfo.target,
+                    href: this.moreInfo.url,
+                    contents: [this.moreInfo.value],
+                    imagePosition: "right",                   
+                    title: this.moreInfo.tooltip    
+                }                            
+            );
+    }    
     return this.inherited("postCreate", arguments);
 };
 
