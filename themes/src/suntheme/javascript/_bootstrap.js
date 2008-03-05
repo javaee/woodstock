@@ -87,7 +87,7 @@ webui.@THEME@.bootstrap = {
         // Note: There appears to be a small performance gain loading after the
         // JavaScript. It may be due to asyncronous loading?
         if (new Boolean(props.isStyleSheet).valueOf() == true) {
-            bootstrap._loadStyleSheets();
+            bootstrap._loadStyleSheets(props);
         }
         return true;
     },
@@ -162,16 +162,23 @@ webui.@THEME@.bootstrap = {
     /**
      * Load style sheets.
      *
+     * @param {Object} props Key-Value pairs of properties.
+     * @config {boolean} isDebug Flag indicating debug mode is enabled.
      * @return {boolean} true if successful; otherwise, false.
      * @private
      */
-    _loadStyleSheets: function() {
+    _loadStyleSheets: function(props) {
+        if (props == null) {
+            console.debug("Cannot initialize stylesheets."); // See Firebug console.
+            return false;
+        }
         var bootstrap = webui.@THEME@.bootstrap;
         var browser = webui.@THEME@.browser;
+        var isDebug = new Boolean(props.isDebug).valueOf();
         var theme = webui.@THEME@.theme.common;
 
         // Load master style sheet(s).
-        files = theme.getStyleSheets("master");
+        files = theme.getStyleSheets((isDebug) ? "masterUncompressed" : "master");
         if (files != null) {
             for (i = 0; i < files.length; i++) {
                 bootstrap.loadLink(files[i]);
@@ -186,15 +193,15 @@ webui.@THEME@.bootstrap = {
         }
         // Load browser specific style sheet(s).
         if (browser.isIe7()) {
-            files = theme.getStyleSheets("ie7");
+            files = theme.getStyleSheets((isDebug) ? "ie7Uncompressed" : "ie7");
         } else if (browser.isIe6()) {
-            files = theme.getStyleSheets("ie6");
+            files = theme.getStyleSheets((isDebug) ? "ie6Uncompressed" : "ie6");
         } else if (browser.isSafari()) {
-            files = theme.getStyleSheets("safari");
+            files = theme.getStyleSheets((isDebug) ? "safariUncompressed" : "safari");
         } else if (browser.isGecko()) {
-            files = theme.getStyleSheets("gecko");
+            files = theme.getStyleSheets((isDebug) ? "geckoUncompressed" : "gecko");
         } else {
-            files = theme.getStyleSheets("default");
+            files = theme.getStyleSheets((isDebug) ? "defaultUncompressed" : "default");
         }
         if (files != null) {
             for (i = 0; i < files.length; i++) {
