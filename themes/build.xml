@@ -847,6 +847,12 @@
 	  <arg value="${__to-dir-loc__}"/>
 	  <arg value="-verbose"/>
 	</java>
+
+	<!-- copy in the uncompressed css -->
+	<copy todir="${__to-dir-loc__}">
+	    <fileset dir="${__from-dir-loc__}"/>
+	</copy>
+
     </target>
 
     <!-- #############  Javascript targets ################### -->
