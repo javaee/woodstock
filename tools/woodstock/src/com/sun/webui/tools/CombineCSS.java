@@ -17,7 +17,7 @@
  * you own identifying information:
  * "Portions Copyrighted [year] [name of copyright owner]"
  * 
- * Copyright 2007 Sun Microsystems, Inc. All rights reserved.
+ * Copyright 2008 Sun Microsystems, Inc. All rights reserved.
  */
 package com.sun.webui.tools;
 
@@ -31,27 +31,27 @@ public class CombineCSS extends CombineJavaScript {
      * Constructor.
      *
      * @param sourceDir Directory containing the files in fileList.
-     * @param outFile File path for combined output.
-     * @param copyrightFile File path for copyright file.
      * @param verbose Enable verbose output.
+     * @param copyrightFile File path for copyright file.
+     * @param outFile File path for combined output.
      */
-    public CombineCSS(String sourceDir, String outFile, String copyrightFile,
-            boolean verbose) {
-        super(sourceDir, outFile, copyrightFile, null, verbose);
+    public CombineCSS(String sourceDir, boolean verbose, String copyrightFile,
+            String outFile) {
+        super(sourceDir, verbose, copyrightFile, outFile, null);
     }
 
     /**
-     * Combine CSS file.
+     * Process file.
      *
-     * @param file The CSS file to combine.
+     * @param file The file to process.
      */
-    protected boolean combineFile(File file) throws IOException {
+    protected boolean processFile(File file) throws IOException {
         if (!isFileAvailable(file)) {
             return false;
         }
 
         BufferedReader input = new BufferedReader(new FileReader(file));
-        StringBuffer buff = getOutputBuffer();
+        StringBuffer buff = getOutBuffer();
         String line = null;
 
         // readLine is a bit quirky:
@@ -69,7 +69,7 @@ public class CombineCSS extends CombineJavaScript {
                 String fileName = getSourceDir() + File.separatorChar +
                     line.substring(first + 1, last);
 
-                omitLine = combineFile(new File(fileName));
+                omitLine = processFile(new File(fileName));
             }
  
             // Omit line if and only if file was included sucessfully.

@@ -17,7 +17,7 @@
  * you own identifying information:
  * "Portions Copyrighted [year] [name of copyright owner]"
  * 
- * Copyright 2007 Sun Microsystems, Inc. All rights reserved.
+ * Copyright 2008 Sun Microsystems, Inc. All rights reserved.
  */
 package com.sun.webui.tools;
 
@@ -64,8 +64,44 @@ public class Main {
         copyrightFile = (String) map.get("copyrightFile");
         excludeFileList = (String[]) map.get("excludeFileList");
 	verbose = ((Boolean) map.get("verbose")).booleanValue();
-	CombineCSS obj = new CombineCSS(sourceDir, outFile, copyrightFile, verbose);
-	obj.combine(fileList, excludeFileList);
+	CombineCSS obj = new CombineCSS(sourceDir, verbose, copyrightFile, outFile);
+	obj.process(fileList, excludeFileList);
+    }
+
+    /**
+     * Helper function to compress CSS.
+     *
+     * @param args Command line arguments.
+     */
+    public static void compressCSS(String[] args) throws IOException {
+        String copyrightFile = null;
+        String destDir = null;
+	String[] fileList = null;
+        String sourceDir = null;
+        boolean verbose = false;
+
+        // Parse arguments.
+        Map map = parseFileListArgs(args);
+	if (null == (destDir = (String) map.get("destDir"))) {
+	    System.out.println("-destDir is required.");
+	    usage();
+	    System.exit(-1);
+	}
+	if (null == (fileList = (String[]) map.get("fileList")) ||
+	        fileList.length == 0) {
+	    System.out.println("A non emtpy file list is required.");
+	    usage();
+	    System.exit(-1);
+	}
+	if (null == (sourceDir = (String) map.get("sourceDir"))) {
+	    System.out.println("-sourceDir is required.");
+	    usage();
+	    System.exit(-1);
+	}
+        copyrightFile = (String) map.get("copyrightFile");
+	verbose = ((Boolean) map.get("verbose")).booleanValue();
+	CompressCSS obj = new CompressCSS(sourceDir, verbose, copyrightFile, destDir);
+	obj.process(fileList);
     }
 
     /**
@@ -108,9 +144,9 @@ public class Main {
         copyrightFile = (String) map.get("copyrightFile");
         excludeFileList = (String[]) map.get("excludeFileList");
 	verbose = ((Boolean) map.get("verbose")).booleanValue();
-	CombineJavaScript obj = new CombineJavaScript(sourceDir, outFile,
-            copyrightFile, modulePrefix, verbose);
-	obj.combine(fileList, excludeFileList);
+	CombineJavaScript obj = new CombineJavaScript(sourceDir, verbose, 
+            copyrightFile, outFile, modulePrefix);
+	obj.process(fileList, excludeFileList);
     }
 
     /**
@@ -119,6 +155,7 @@ public class Main {
      * @param args Command line arguments.
      */
     public static void compressJavaScript(String[] args) throws IOException {
+        String copyrightFile = null;
 	String destDir = null;
 	String[] fileList = null;
         String rhinoJar = null;
@@ -148,19 +185,20 @@ public class Main {
 	    usage();
 	    System.exit(-1);
 	}
+        copyrightFile = (String) map.get("copyrightFile");
 	verbose = ((Boolean) map.get("verbose")).booleanValue();
-	CompressJavaScript obj = new CompressJavaScript(sourceDir, destDir,
-            rhinoJar, verbose);
-        obj.compress(fileList);
+	CompressJavaScript obj = new CompressJavaScript(sourceDir, verbose,
+            copyrightFile, destDir, rhinoJar);
+        obj.process(fileList);
     }
 
     private final static String n2aUsage =
-    "Usage: java com.sun.webui.tools.Native2ascii [-encoding <encoding>]\n" +
-    "[-reverse] -sourceDir <sourceDir> -destDir <destDir>\n " +
-    "-fileList <f0, ... fn>\n" +
-    "UTF-8 is the default encoding";
-    public static void native2ascii(String[] args) {
+        "Usage: java com.sun.webui.tools.Native2ascii [-encoding <encoding>]\n" +
+        "[-reverse] -sourceDir <sourceDir> -destDir <destDir>\n " +
+        "-fileList <f0, ... fn>\n" +
+        "UTF-8 is the default encoding";
 
+    public static void native2ascii(String[] args) {
 	String sourceDir = null;
 	String destDir = null;
 	String fileList[] = null;
@@ -236,7 +274,6 @@ public class Main {
     }
 
     private static void combineImages(String[] args) {
-
 	String sourceDir = null;
 	String imageFile = null;
 	String imagePropertyFile = null;
@@ -270,14 +307,12 @@ public class Main {
 		System.exit(-1);
 	    }
 	}
-
 	CombineImages ci = new CombineImages(sourceDir, imagePropertyFile,
-		imageFile, outFile);
-	ci.combine();
+            imageFile, outFile);
+	ci.process();
     }
 
     private static void gzipFiles(String[] args) {
-
 	String[] fileList = null;
         String sourceDir = null;
         String destDir = null;
@@ -296,7 +331,6 @@ public class Main {
 	    usage();
 	    System.exit(-1);
 	}
-
 	if (null == (destDir = (String) map.get("destDir"))) {
 	    System.out.println("-destDir is required.");
 	    usage();
@@ -305,14 +339,13 @@ public class Main {
 	verbose = ((Boolean) map.get("verbose")).booleanValue();
 
         try {
-            GzipFiles obj = new GzipFiles(sourceDir, destDir, verbose);
-            obj.gzipFiles(fileList);
+            GzipFiles obj = new GzipFiles(sourceDir, verbose, destDir);
+            obj.process(fileList);
        } catch (Exception e) {
 	    System.out.println(e.getMessage());
 	    e.printStackTrace();
 	    System.exit(-1);
        }
-
     }
 
     /**
@@ -325,6 +358,7 @@ public class Main {
 
         System.out.println("\nwhere options include:");
         System.out.println("-combineCSS <args...>\t\tCombine CSS directory or file.");
+        System.out.println("-compressCSS <args...>\t\tCompress CSS directory or file.");
         System.out.println("-combineJavaScript <args...>\t\tCombine JavaScript directory or file.");
         System.out.println("-compressJavaScript <args...>\t\tCompress JavaScript directory or file.");
         System.out.println("-native2ascii <args...>\t\tConvert native encoded file to unicode escapes or vice versa.");
@@ -342,13 +376,16 @@ public class Main {
                 "Duplicate text is omitted from the combined file.");
         System.out.println("-verbose\tEnable verbose output.");
 
-        System.out.println("\nOptions for -combineImages include:");
+        System.out.println("\nOptions for -compressCSS include:");
+	System.out.println("-fileList <f0,...,fn>\t" +
+		"A comma separated list of relative file paths to combine.");
+	System.out.println("-excludeFileList <f0,...,fn>\t" +
+		"A comma separated list of relative file paths to exclude.");
 	System.out.println("-sourceDir <sourceDir>\t" +
-		"Directory containing the image files.");
-        System.out.println("-imageFile\tFile path for combined image output.");
-	System.out.println("-imagePropertyFile\t" +
-		"File path for image properties file.");
-        System.out.println("-outFile\tFile path for updated image properties file.");
+		"Directory containing the files in fileList.");
+        System.out.println("-copyrightFile <copyrightFile>\tFile path for copyright file. " +
+                "Duplicate text is omitted from the combined file.");
+        System.out.println("-verbose\tEnable verbose output.");
 
         System.out.println("\nOptions for -combineJS include:");
 	System.out.println("-fileList <f0,...,fn>\t" +
@@ -373,6 +410,14 @@ public class Main {
 		"Directory containing the files in fileList.");
         System.out.println("-verbose\tEnable verbose output.");
 
+        System.out.println("\nOptions for -combineImages include:");
+	System.out.println("-sourceDir <sourceDir>\t" +
+		"Directory containing the image files.");
+        System.out.println("-imageFile\tFile path for combined image output.");
+	System.out.println("-imagePropertyFile\t" +
+		"File path for image properties file.");
+        System.out.println("-outFile\tFile path for updated image properties file.");
+
 	System.out.println("\nOptions for -native2ascii include:");
 	System.out.println("-sourceDir <sourceDir>\t" +
 		"Directory containing files in fileList.");
@@ -395,8 +440,6 @@ public class Main {
 	System.out.println("-sourceDir <sourceDir>\t" +
 		"Directory containing the files in fileList.");
         System.out.println("-verbose\tEnable verbose output.");
-
-
     }
 
     /**
@@ -408,6 +451,8 @@ public class Main {
         if (args.length > 0) {
             if (args[0].equals("-combineCSS")) {
                 combineCSS(args);
+            } else if (args[0].equals("-compressCSS")) {
+                compressCSS(args);
             } else if (args[0].equals("-combineJS")) {
                 combineJavaScript(args);
             } else if (args[0].equals("-compressJS")) {

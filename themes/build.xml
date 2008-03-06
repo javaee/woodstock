@@ -376,10 +376,17 @@
 		value="${theme.build-package-path}/css_uncompressed/${theme.master-all.css}"/>
 	</antcall>
 
-        <!-- gzip CSS -->                
-        <antcall target="gzipCSS">
+        <!-- Compress CSS -->
+        <antcall target="compressCSS">
 	    <param name="_to-dir_" value="${theme.build-package-path}/css"/>
 	    <param name="_from-dir_" value="${theme.build-package-path}/css_uncompressed"/>
+	</antcall>
+
+        <!-- gzip CSS -->
+        <!-- to and from dir are the same -->
+        <antcall target="gzipCSS">
+	    <param name="_to-dir_" value="${theme.build-package-path}/css"/>
+	    <param name="_from-dir_" value="${theme.build-package-path}/css"/>
 	</antcall>
 
 	<!-- Call combineJavascript once for each of the 
@@ -806,15 +813,96 @@
 	</java>
     </target>
 
+    <!-- Set the compressed-css-uptodate property if
+	"${_to-dir_}/**/*.css" files are newer than 
+	"${_from-dir_}/**/*.css"
+    -->
+    <target name="compressed-css-uptodate">
+	<uptodate property="compressed-css-uptodate">
+	    <srcfiles dir="${_from-dir_}" 
+		includes="**/*.css"/>
+	    <mapper type="glob" from="*" to="${_to-dir_}/*"/>
+	</uptodate>
+    </target>
+
+    <!-- Parameters
+
+	_to-dir_ - root of the destination for compressed files
+	_from-dir_ - the source of the uncompressed and
+	             filtered css files.
+
+        Comment out build-compressCSS in the build.properties file if you
+        don't want to compress when modifying JavaScript files
+
+	To simplify the dependency checking it is expected that
+	there are files in "${_from-dir_}", so either "combineJavascript"
+	or "copyJavascript" should have been called.
+
+	Expects the following globals to be set.
+
+        ${copyright}
+        ${tools.jar}
+    -->
+    <target name="compressCSS" if="build-compressCSS"
+            depends="compressed-css-uptodate" unless="compressed-css-uptodate">
+
+	<mkdir dir="${_to-dir_}"/>
+
+	<!-- Use property location to overcome issues with
+	     Windows paths and pathconvert.
+	-->
+	<property name="__from-dir-loc__" location="${_from-dir_}"/>
+	<property name="__to-dir-loc__" location="${_to-dir_}"/>
+
+	<pathconvert property="__files-to-compress__" pathsep=",">
+	    <fileset dir="${__from-dir-loc__}">
+		<depend targetdir="${__to-dir-loc__}">
+		    <mapper type="glob" from="*" to="*"/>
+		</depend>
+	    </fileset>
+	    <mapper type="glob" 
+		from="${__from-dir-loc__}${file.separator}*" to="*"/>
+	</pathconvert>
+
+        <!-- Call compress CSS tool. -->
+	<java jar="${tools.jar}" failonerror="true" fork="true">
+	  <arg value="-compressCSS"/>
+          <arg value="-copyrightFile"/>
+          <arg value="${theme.copyright}"/>
+	  <arg value="-sourceDir"/>
+	  <arg value="${__from-dir-loc__}"/>
+	  <arg value="-destDir"/>
+	  <arg value="${__to-dir-loc__}"/>
+	  <arg value="-fileList"/>
+	  <arg value="${__files-to-compress__}"/>
+	  <arg value="-verbose"/>
+	</java>
+
+        <!-- Trigger gzip CSS compression. -->
+        <antcall target="_compressed-css-timestamp_"/>
+    </target>
+
+    <!-- Touch time stamp to trigger base62 JavaScript compression.
+    	"${__to-dir-loc__}" Location of compressed files.
+	"${__files-to-compress__}" List of files to touch.
+    -->
+    <target name="_compressed-css-timestamp_" if="build-gzipCSS">
+        <touch datetime="${BuildNumber}" pattern="yyyyMMddHHmm">
+            <fileset dir="${__to-dir-loc__}"
+                includes="${__files-to-compress__}"/>
+        </touch>
+    </target>
+
     <target name="gzipcss-uptodate" >
         <uptodate property="gzipcss-uptodate">
-                <srcfiles dir="${_from-dir_}"
-                    includes="**/*.css"/>
-                <mapper type="glob" from="*" to="${_to-dir_}/*.gz"/>
+            <srcfiles dir="${_from-dir_}"
+                includes="**/*.css"/>
+            <mapper type="glob" from="*" to="${_to-dir_}/*.gz"/>
         </uptodate>
     </target>
         
-    <target name="gzipCSS" depends="gzipcss-uptodate" unless="gzipcss-uptodate">
+    <target name="gzipCSS" if="build-gzipCSS" 
+            depends="gzipcss-uptodate" unless="gzipcss-uptodate">
 
 	<mkdir dir="${_to-dir_}"/>
 
@@ -828,15 +916,15 @@
 	
 	<pathconvert property="__files-to-compress__" pathsep=",">
 	    <fileset dir="${__from-dir-loc__}">
-                
 		<depend targetdir="${__to-dir-loc__}">
-		    <mapper type="glob" from="*" to="*"/>
+		    <mapper type="glob" from="*" to="*.gz"/>
 		</depend>
 	    </fileset>
 	    <mapper type="glob" 
 		from="${__from-dir-loc__}${file.separator}*" to="*"/>
 	</pathconvert>
-                
+
+        <!-- Call gzip tool. -->
         <java jar="${tools.jar}" failonerror="true" fork="true">
 	  <arg value="-gzipFiles"/>
 	  <arg value="-sourceDir"/>
@@ -847,12 +935,6 @@
 	  <arg value="${__to-dir-loc__}"/>
 	  <arg value="-verbose"/>
 	</java>
-
-	<!-- copy in the uncompressed css -->
-	<copy todir="${__to-dir-loc__}">
-	    <fileset dir="${__from-dir-loc__}"/>
-	</copy>
-
     </target>
 
     <!-- #############  Javascript targets ################### -->
@@ -956,6 +1038,7 @@
 		from="${__from-dir-loc__}${file.separator}*" to="*"/>
 	</pathconvert>
 
+        <!-- Call combine JavaScript tool. -->
 	<java jar="${tools.jar}" failonerror="true" fork="true">
 	  <arg value="-combineJS"/>
           <arg value="-copyrightFile"/>
@@ -1031,9 +1114,10 @@
 	</pathconvert>
 
         <!-- Call Shrink Safe tool. -->
-
 	<java jar="${tools.jar}" failonerror="true" fork="true">
 	  <arg value="-compressJS"/>
+          <arg value="-copyrightFile"/>
+          <arg value="${theme.copyright}"/>
 	  <arg value="-sourceDir"/>
 	  <arg value="${__from-dir-loc__}"/>
 	  <arg value="-destDir"/>
@@ -1044,12 +1128,6 @@
 	  <arg value="${rhino.jar}"/>
 	  <arg value="-verbose"/>
 	</java>
-
-        <!-- Add copyright text stripped by compression tool. -->
-        <replaceregexp match="^" byline="false" replace="${copyright}">
-            <fileset dir="${__to-dir-loc__}"
-		includes="${__files-to-compress__}"/>
-        </replaceregexp>
                 
         <!-- Trigger base62 JavaScript compression. -->
         <antcall target="_compressed-js-timestamp_"/>
@@ -1152,9 +1230,8 @@
 	    <mapper type="glob" 
 		from="${__from-dir-loc__}${file.separator}*" to="*"/>
 	</pathconvert>
-
     
-        <!-- call gzip tool from and to dir are the same-->
+        <!-- Call gzip tool. -->
         <java jar="${tools.jar}" failonerror="true" fork="true">
 	  <arg value="-gzipFiles"/>
 	  <arg value="-sourceDir"/>

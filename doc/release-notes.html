@@ -26,6 +26,27 @@ Copyright 2007 Sun Microsystems, Inc. All rights reserved.
 <body>
 <h1><u>Project Woodstock&nbsp;Components Release Notes</u></h1>
 <br>
+<h2><u><a name="4.2_Build_4">4.2 Build 4</a></u>&nbsp;
+(03/04/2008)</h2>
+<h3> New Features</h3>
+<ul>
+  <li>Although JavaScript files have always been minimized using Dojo's
+ShrinkSafe approach, most files are also run through the Dean Edwards
+Packer
+tool using base62 encoding. This approach shall be used when browsers
+do not support gzip.</li>
+  <li>To decrease the overall footprint even further, gzip is applied
+to Woodstock CSS and JavaScript resources. To
+disable gzip completely, the
+following parameters may be added to the web application web.xml file.<br>
+    <br>
+    <code>&lt;context-param&gt;<br>
+&nbsp;&nbsp;
+&lt;param-name&gt;com.sun.webui.theme.GZIP_DISABLED&lt;/param-name&gt;<br>
+&nbsp;&nbsp;
+&lt;param-value&gt;true&lt;/param-value&gt;</code><code><br>
+&lt;/context-param&gt;</code></li>
+</ul>
 <h2><u><a name="4.2_Build_3">4.2 Build 3</a></u>&nbsp;
 (02/25/2008)</h2>
 <h3> New Features</h3>
@@ -102,8 +123,8 @@ Dojo and only includes resources necessary to support its widgets. Not
 only does this reduce the number of requests in the page, but it allows
 Woodstock to apply better compression for a smaller footprint. This
 also allows Woodstock to change how widgets are rendered in the page,
-instead of being forced to wait until the window onLoad event. (Not
-implemented.) If you are using Dojo directly, please see the
+instead of being forced to wait until the window onLoad event. If you
+are using Dojo directly, please see the
 instructions at http://www.dojotoolkit.org for including Dojo in the
 page. The dojo-1.0.1.jar file is no longer a dependency for Woodstock.<br>
   </li>
@@ -175,10 +196,11 @@ uri="http://java.sun.com/jsf/extensions/dynafaces" %&gt;</code><br>
 <h3>Deprecated attributes</h3>
 <ul>
   <li>The dijitAll attribute of the Head and ThemeLinks tags have
-been deprecated. Dojo is no longer be output in th page.</li>
-  <li>The parseOnLoad attribute of the Head and ThemeLinks tags
-have
-been deprecated. Dojo is no longer be output in th page.</li>
+been deprecated. Dojo is no longer be output in the page.</li>
+  <li>The parseOnLoad attribute of the Head and ThemeLinks tags no
+longer affect Dojo; however, it does affect when Woodstock widgets are
+created.<br>
+  </li>
 </ul>
 <h3>Bugs Resolved/Fixed</h3>
 <ul>

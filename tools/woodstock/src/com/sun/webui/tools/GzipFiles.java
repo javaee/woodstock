@@ -17,7 +17,7 @@
  * you own identifying information:
  * "Portions Copyrighted [year] [name of copyright owner]"
  * 
- * Copyright 2007 Sun Microsystems, Inc. All rights reserved.
+ * Copyright 2008 Sun Microsystems, Inc. All rights reserved.
  */
 package com.sun.webui.tools;
 
@@ -40,37 +40,37 @@ public class GzipFiles extends ToolsBase {
      * Constructor.
      *
      * @param sourceDir Directory containing the files in fileList.
-     * @param destDir Directory path for gzip'd files
      * @param verbose Enable verbose output.
+     * @param destDir Directory path for gzip'd files
      */
-    public GzipFiles(String sourceDir, String destDir, boolean verbose) {
-        super(sourceDir, destDir, null, verbose);
-
+    public GzipFiles(String sourceDir, boolean verbose, String destDir) {
+        super(sourceDir, verbose, null);
+        setDestDir(destDir);
     }
 
     /**
-     * Gzip files found in fileList
+     * Process a list of files found in sourceDir
+     * and write the outpout to destDir.
      *
-     * @param fileList <f0,...,fn> A comma separated list of relative file paths to compress.
+     * @param fileList <f0,...,fn> A comma separated list of relative file paths to process.
      */
-    public void gzipFiles(String[] fileList) throws IOException {
+    public void process(String[] fileList) throws IOException {
         String srcFilePath = "";
         String destFilePath = "";
         for (int i = 0; i < fileList.length; i++) {
             // build a path for the gzipp'd file
             srcFilePath = getSourceDir() + File.separator + fileList[i];
             destFilePath = getDestDir() + File.separator + fileList[i] + GZ_EXT;
-            gzipFile(srcFilePath, destFilePath);            
+            processFile(srcFilePath, destFilePath);            
         }
     }
 
     /**
-     * Combine JavaScript file.
+     * Process file.
      *
-     * @param file The JavaScript file to combine.
+     * @param file The file to process.
      */
-    protected void gzipFile(String src, String dest) throws IOException {
-
+    protected void processFile(String src, String dest) throws IOException {
         // create file objects for input and output streams
         File srcFile = new File (src);
         File destFile = new File(dest);
@@ -83,7 +83,6 @@ public class GzipFiles extends ToolsBase {
         // the GZip output stream
         FileOutputStream destOut = new FileOutputStream(destFile);
         GZIPOutputStream gzOut = new GZIPOutputStream(destOut);
-        
 
 	try {
             input = new BufferedReader(new FileReader(srcFile));
@@ -119,5 +118,4 @@ public class GzipFiles extends ToolsBase {
 	    System.out.println("GZIP'ed file '" + destFile.getCanonicalPath() + "'");
 	}
     }
-
 }

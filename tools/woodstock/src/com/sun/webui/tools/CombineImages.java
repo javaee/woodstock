@@ -17,7 +17,7 @@
  * you own identifying information:
  * "Portions Copyrighted [year] [name of copyright owner]"
  * 
- * Copyright 2007 Sun Microsystems, Inc. All rights reserved.
+ * Copyright 2008 Sun Microsystems, Inc. All rights reserved.
  */
 
 package com.sun.webui.tools;
@@ -63,18 +63,18 @@ public class CombineImages extends ToolsBase {
      */
     public CombineImages(String sourceDir, String imagePropertyFile,
 		String imageFile, String outFile) {
-        super(sourceDir, null, outFile, false);
+        super(sourceDir, false, null);
+        setOutFile(outFile);
         this.imagePropertyFile = imagePropertyFile;
         this.imageFile = imageFile;
         
     }
     
     /**
-     * Combine all the images and creates a single image file.
+     * Process all the images and creates a single image file.
      * Also creates an updated image properties file.          
      */
-    public void combine() {
-
+    public void process() {
 	Properties imageProps = readImageProperties(imagePropertyFile);
 	Map imagePaths = getImagePaths(imageProps);
 	combineImages(imageProps, imagePaths);

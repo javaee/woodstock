@@ -117,6 +117,12 @@ public class ThemeServlet extends HttpServlet {
     protected final static String CACHE_EXPIRES =
 	"com.sun.webui.theme.CACHE_EXPIRES"; //NOI18N
 
+    /**
+     * Flag indicating that the gzip is disabled.
+     */
+    protected final static String GZIP_DISABLED =
+	"com.sun.webui.theme.GZIP_DISABLED"; //NOI18N
+
     // Some mime-types... by extension
     static {
 	// There is no IANA registered type for JS files. See 
@@ -232,12 +238,11 @@ public class ThemeServlet extends HttpServlet {
                 response.setContentType(type);
             }
 
-            // if the browser doesn't support our brand of compression
+            // If the browser doesn't support our brand of compression
             // we need to change the resource path so it points to an
             // an uncompressed copy of the css, we need to do this before
             // we set up the input stream
-            if (supportsCompression(request, "gzip")){
-                
+            if (!isGzip() && supportsCompression(request, "gzip")){
                 // make sure the resource is available
                if (this.getClass().getResource(resourceName + ".gz") != null) { 
                     // set the header that shows the content is gzip encoded
@@ -266,8 +271,6 @@ public class ThemeServlet extends HttpServlet {
                 response.addHeader("Cache-Control", getCacheControl(request));
                 
             }
-
-  
 
             // Get the OutputStream
 	    outStream = response.getOutputStream();
@@ -423,6 +426,22 @@ public class ThemeServlet extends HttpServlet {
         return cache.booleanValue();
     }
 
+    // Flag (true or false) indicating that gzip is enabled.
+    private Boolean gzip = null;
+
+    /** 
+     * Test flag indicating that gzip is enabled.
+     * 
+     * @return true if gzip is enabled; otherwise, false.
+     */
+    private boolean isGzip() {
+        if (gzip == null) {
+            gzip = new Boolean((String) getServletContext().getInitParameter(
+                GZIP_DISABLED));
+        }
+        return gzip.booleanValue();
+    }
+
     /** 
      * Test flag indicating that the browser supports
      * the given compression
@@ -432,10 +451,9 @@ public class ThemeServlet extends HttpServlet {
             HttpServletRequest req, String compType) {
         boolean value = false;
         String encodingHdr = req.getHeader("accept-encoding");
-        if ( encodingHdr != null && encodingHdr.indexOf(compType) != -1) {
+        if (encodingHdr != null && encodingHdr.indexOf(compType) != -1) {
             value = true;
         }
         return value;
-    }
-    
+    }   
 }
