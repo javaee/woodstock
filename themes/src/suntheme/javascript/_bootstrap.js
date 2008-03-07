@@ -235,16 +235,48 @@ webui.@THEME@.bootstrap = {
         if (new Boolean(props.parseOnLoad).valueOf() == true) {
             webui.@THEME@.dojo.addOnLoad(function() {
                 webui.@THEME@.widget.common._parseMarkup(webui.@THEME@.dojo.body());
-
-                // After the page has been parsed, there is no need to perform 
-                // this task again. Setting the parseOnLoad flag to false will 
-                // allow the ajaxZone tag of JSF Extensions to re-render widgets
-                // properly. That is, considering there will only ever be one 
-                // window.onLoad event.
-                setTimeout(function() {
+                webui.@THEME@.bootstrap._onWidgetReady(function() {
+                    // After the page has been parsed, there is no need to 
+                    // perform this task again. Setting the parseOnLoad flag to
+                    // false will allow the ajaxZone tag of JSF Extensions to 
+                    // re-render widgets properly. That is, considering there 
+                    // will only ever be one window.onLoad event.
                     webui.@THEME@.config.parseOnLoad = false;
-                }, 10); // To do: This is set too early for fragments.
+                });
             });
+        }
+        return true;
+    },
+
+    /**
+     * This function is used to determine when all widgets have been created.
+     * <p>
+     * Note: Currently, this function is only useful when the parseOnLoad 
+     * feature is used.
+     * </p>
+     * @param {Function} func The function to execute after widgets are ready.
+     * @return {boolean} true if successful; otherwise, false.
+     * @private
+     */
+    _onWidgetReady: function(func) {        
+        var props = webui.@THEME@.widget.common._props;
+        var count = 0;
+
+        // Count stored widget properties. Object literals are deleted as 
+        // widgets are created.
+        for (var property in props) {
+            count++;
+            break; // At least one widget has not been created.
+        }
+        if (count > 0) {
+            // Wait for widgets to complete.
+            setTimeout(function() {
+                webui.@THEME@.bootstrap._onWidgetReady(func);
+            }, 100);
+            return false;
+        } else {
+            // All widgets have been created.
+            func();
         }
         return true;
     },

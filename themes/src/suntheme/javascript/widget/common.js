@@ -134,7 +134,10 @@ webui.@THEME@.widget.common = {
                     if (new Boolean(webui.@THEME@.config.parseOnLoad).valueOf() == true) {
                         webui.@THEME@.widget.common._parseMarkup(domNode);
                     }
+                    delete(webui.@THEME@.widget.common._props[domNode.id]); // Clean up.
                 }, 10);
+                // Force _onWidgetReady() function to wait for widget completion.
+                webui.@THEME@.widget.common._props[domNode.id] = "_onWidgetReady";
             } else {
                 // Static strings must be HTML escaped by default.
                 webui.@THEME@.widget.common._appendHTML(domNode,
@@ -222,6 +225,7 @@ webui.@THEME@.widget.common = {
         // Set timeout to allow for progressive rendering.
         setTimeout(function() {
             webui.@THEME@.widget.common.createWidget(domNode, props, "last");
+            delete(webui.@THEME@.widget.common._props[domNode.id]); // Clean up.
         }, 0);
         return true;
     },
@@ -758,7 +762,6 @@ webui.@THEME@.widget.common = {
             // Match span id with props.
             for (var i = 0; i < nodes.length; i++) {
                 appendWidget(nodes[i], props[nodes[i].id]);
-                props[nodes[i].id] = null; // Clean up.
             }
         } else {
             // Match script parent id with props.
@@ -766,7 +769,6 @@ webui.@THEME@.widget.common = {
                 var parent = nodes[i].parentNode;
                 if (parent && parent.tagName.toLowerCase() == "span") {
                     appendWidget(parent, props[parent.id]);
-                    props[parent.id] = null; // Clean up.
                 }
             }
         }
