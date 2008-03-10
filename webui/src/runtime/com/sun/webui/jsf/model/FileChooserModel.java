@@ -55,7 +55,7 @@ import com.sun.webui.jsf.util.FilterUtil;
 public class FileChooserModel implements ResourceModel, Serializable {
 
     private static final String WINDOWS_OS = "window";
-    private static final String SPACE = "&nbsp;"; //NOI18N
+    private static final String SPACE = String.valueOf('\u00a0');
 
     // These need to be configurable in the Theme
     //
