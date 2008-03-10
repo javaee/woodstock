@@ -28,6 +28,7 @@ import com.sun.webui.jsf.util.ComponentUtilities;
 import java.beans.Beans;
 import javax.el.ValueExpression;
 import javax.faces.context.FacesContext;
+import javax.faces.convert.Converter;
 import javax.faces.el.ValueBinding;
 
 /**
@@ -91,6 +92,18 @@ public class Bubble extends WebuiOutput {
         this.htmlTemplate = htmlTemplate;
     }
    
+    // Hide Value
+    @Property(isHidden=true, isAttribute=false)
+    public Object getValue() {
+        return super.getValue();
+    }
+    
+    // Hide converter
+    @Property(isHidden=true, isAttribute=false)
+    public Converter getConverter() {
+        return super.getConverter();
+    }
+    
     /**
      * <p>CSS style or styles to be applied to the outermost HTML element when this 
      * component is rendered.</p>
