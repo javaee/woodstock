@@ -1,5 +1,5 @@
 <jsp:root version="2.0" xmlns:f="http://java.sun.com/jsf/core" xmlns:h="http://java.sun.com/jsf/html" xmlns:jsp="http://java.sun.com/JSP/Page" xmlns:webuijsf="http://www.sun.com/webui/webuijsf">
-    <jsp:directive.page contentType="text/html;charset=ISO-8859-1" pageEncoding="UTF-8"/>
+    <jsp:directive.page contentType="text/html" pageEncoding="UTF-8"/>
     <f:view>    
         <!--
       The contents of this file are subject to the terms

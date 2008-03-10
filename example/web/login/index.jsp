@@ -2,8 +2,7 @@
           xmlns:f="http://java.sun.com/jsf/core" 
           xmlns:jsp="http://java.sun.com/JSP/Page" 
           xmlns:webuijsf="http://www.sun.com/webui/webuijsf">
-    <jsp:directive.page contentType="text/html;charset=ISO-8859-1" 
-                        pageEncoding="UTF-8"/>
+    <jsp:directive.page contentType="text/html" pageEncoding="UTF-8"/>
 
 <f:view>
    <webuijsf:page >
