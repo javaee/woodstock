@@ -141,6 +141,7 @@ webui.@THEME@.widget.progressBar.prototype.getProps = function() {
     if (this.toolTip) { props.toolTip = this.toolTip; }
     if (this.topText) { props.topText = this.topText; }
     if (this.type) { props.type = this.type; }
+    if (this.prefix) {props.prefix = this.prefix;}
 
     return props;
 };
@@ -307,7 +308,7 @@ webui.@THEME@.widget.progressBar.prototype.postCreate = function () {
     if (this.busyImage == null) {
 	this.busyImage = this.widget.getWidgetProps("image", {
             icon: "PROGRESS_BUSY",
-            id: this.id + "_busy"
+            id: this.id + "_busy"             
         });
     }
     return this.inherited("postCreate", arguments);
@@ -737,13 +738,20 @@ webui.@THEME@.widget.progressBar.prototype._setProps = function(props) {
             if (props.height > 0) {
                 props.busyImage.height = props.height;
             }
+            if (props.progressImageUrl != null ) {                                
+                if (props.prefix) {               
+                    props.busyImage.icon = null;     
+                    props.busyImage.src = 
+                        webui.@THEME@.widget.common.appendPrefix(props.prefix, props.progressImageUrl);               
+                }    
+            }
             this.widget.addFragment(this.busyImageContainer, props.busyImage);
             this.common.setVisibleElement(this.busyImageContainer, true);
         }
     }
 
     // Set developer specified image.
-    if (props.progressImageUrl != null ) {
+    if (props.progressImageUrl != null && (props.type != this.busy)) {
         this.innerBarContainer.style.backgroundImage = 'url(' + props.progressImageUrl + ')';
     }
 

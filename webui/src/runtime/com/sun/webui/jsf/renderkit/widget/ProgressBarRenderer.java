@@ -84,6 +84,9 @@ public class ProgressBarRenderer extends RendererBase {
         ProgressBar progressBar = (ProgressBar) component;
 
         JSONObject json = new JSONObject();
+        // Send the context path to the client side widget.
+        // This will be appended to the url of the image.
+        String prefix = context.getExternalContext().getRequestContextPath();    
         
             json.put("failedStateText", progressBar.getFailedStateText())
             .put("logMessage",progressBar.getLogMessage())
@@ -95,7 +98,8 @@ public class ProgressBarRenderer extends RendererBase {
                 ? progressBar.getToolTip()
                 : getTheme().getMessage("ProgressBar.toolTip"))
             .put("type", progressBar.getType())
-            .put("className", progressBar.getStyleClass())        
+            .put("className", progressBar.getStyleClass())
+            .put("prefix", prefix)        
             .put("visible", progressBar.isVisible());
        
         // Add attributes.
