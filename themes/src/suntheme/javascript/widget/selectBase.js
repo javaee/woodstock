@@ -456,16 +456,20 @@ webui.@THEME@.widget.selectBase.prototype.setOptions = function(props) {
  * <br/>
  * This base class handles the following properties.
  * <ul>
- * <li><code>labelOnTop</code> - If true the label appears above the select
- * element.</li>
  * <li><code>disabled</code> - If true the select element is disabled.</li>
  * <li><code>label</code> - This object defines the widget and properties
- * for a label.
- * <code>selectBase</code> overview.</li>
+ * for a label.</li>
+ * <li><code>labelOnTop</code> - If true the label appears above the select
+ * element.</li>
  * <li><code>options</code> - This array object contains the select element 
  * options and their attributes. See <code>setOptions</code> and the 
- * <code>selectBase</code> * overview for details on the <code>options</code> 
+ * <code>selectBase</code> overview for details on the <code>options</code> 
  * array.</li>
+ * <li><code>required</code> - If true the a selection is required.</li>
+ * <li><code>valid</code> - If true the widget has a valid selection.</li>
+ * <li><code>width</code> - This value will be assigned to the 
+ * <code>listContainer.style.width</code> attribute to set the width of the
+ * select element.</li>
  * </ul>
  *
  * @return {Object} Key-Value pairs of properties.
@@ -482,6 +486,7 @@ webui.@THEME@.widget.selectBase.prototype.getProps = function() {
     if (this.label) { props.label = this.label; }
     if (this.required != null) { props.required = this.required; }
     if (this.valid != null) { props.valid = this.valid; }
+    if (this.width != null) { props.width = this.width; }
 
     // After widget has been initialized, get actual select element state
     // Note that the options that exist on the select element will
@@ -856,12 +861,18 @@ webui.@THEME@.widget.selectBase.prototype.setOptionProps =
  * Note: This function should only be invoked through setProps().
  * </p>
  * @param {Object} props Key-Value pairs of properties.
+ * @config {boolean} disabled If true the select element is disabled.
  * @config {Object} label The properties for a label widget.
+ * @config {boolean} labelOnTop If false the label will appear to the left
+ * of the <code>select</code> element, aligned with the first list option. 
  * @config {Object} options An array of Objects that represent the 
  * <code>select</code> element's <code>option</code> and 
  * <code>optgroup</code> elements. @see #setOptions.
- * @config {boolean} labelOnTop If false the label will appear to the left
- * of the <code>select</code> element, aligned with the first list option. 
+ * @config {boolean} required If true the a selection is required.
+ * @config {boolean} valid If true the widget has a valid selection.
+ * @config {String} width This value will be assigned to the 
+ * <code>listContainer.style.width</code> attribute to set the width of the
+ * select element.
  * @return {boolean} true if successful; otherwise, false.
  * @private
  */
@@ -985,6 +996,11 @@ webui.@THEME@.widget.selectBase.prototype._setProps = function(props) {
     if (props.options) {
         this.setOptions(props);
     }
+
+    if (props.width != null && props.width != "") {
+	this.listContainer.style.width = props.width;
+    }
+
 
     // If _setProps is called during initializat then we will be
     // creating the label and props.label == this.label.
