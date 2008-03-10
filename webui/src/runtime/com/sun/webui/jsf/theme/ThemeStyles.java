@@ -823,6 +823,24 @@ public class ThemeStyles {
     public static final String ACCORDION_RIGHTTURNER = "ACCORDION_RIGHTTURNER";
 
     /**
+     * Rating Styles
+     */
+    public static final String RATING_TEXT_AREA = "RATING_TEXT_AREA";
+    public static final String RATING_CONTROL_AREA = "RATING_CONTROL_AREA";
+    public static final String RATING_SPACER_AREA = "RATING_SPACER_AREA";
+    public static final String RATING_GRADE_AVG_FULL_IMAGE = "RATING_GRADE_AVG_FULL_IMAGE";
+    public static final String RATING_GRADE_AVG_HALF_IMAGE = "RATING_GRADE_AVG_HALF_IMAGE";
+    public static final String RATING_GRADE_FULL_IMAGE = "RATING_GRADE_FULL_IMAGE";
+    public static final String RATING_GRADE_EMPTY_IMAGE = "RATING_GRADE_EMPTY_IMAGE";
+    public static final String RATING_NOT_INTERESTED_ON_IMAGE = "RATING_NOT_INTERESTED_ON_IMAGE";
+    public static final String RATING_NOT_INTERESTED_OFF_IMAGE = "RATING_NOT_INTERESTED_OFF_IMAGE";
+    public static final String RATING_CLEAR_ON_IMAGE = "RATING_CLEAR_ON_IMAGE";
+    public static final String RATING_CLEAR_OFF_IMAGE = "RATING_CLEAR_OFF_IMAGE";
+    public static final String RATING_MODE_NORMAL_IMAGE = "RATING_MODE_NORMAL_IMAGE";
+    public static final String RATING_MODE_AVERAGE_IMAGE = "RATING_MODE_AVERAGE_IMAGE";
+
+
+    /**
      * This private constructor prevents this class from being instantiated
      * directly as its only purpose is to provide image constants.
      */

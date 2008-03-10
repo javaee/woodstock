@@ -2800,3 +2800,38 @@ span.rbcb@THEME_CSS@ input {
 .LogBotBnd@THEME_CSS@ {background-color:#4A5C69}
 .LogMidBnd@THEME_CSS@ {background-color:#D4DCE1}
 /*---*/
+
+/* Rating */
+.RatingTextContainer@THEME_CSS@ {
+    text-align: center;
+}
+
+.RatingControlContainer@THEME_CSS@ {
+}
+
+.RatingSpacerNode@THEME_CSS@ {
+    float: left;
+    width: 10px;
+    height: 15px;
+}
+
+.RatingGradeAvgFullImage@THEME_CSS@, .RatingGradeAvgHalfImage@THEME_CSS@,
+.RatingGradeFullImage@THEME_CSS@, .RatingGradeEmptyImage@THEME_CSS@,
+.RatingNotInterestedImageOn@THEME_CSS@, .RatingNotInterestedImageOff@THEME_CSS@,
+.RatingClearImageOn@THEME_CSS@, .RatingClearImageOff@THEME_CSS@ {
+    float: left;
+    margin-right: 1px;
+    width: 17px;
+    height: 15px;
+    border: none;
+    background-repeat: no-repeat;
+}
+
+.RatingModeNormalImage@THEME_CSS@, .RatingModeAverageImage@THEME_CSS@ {
+    float: left;
+    width: 30px;
+    height: 15px;
+    border: none;
+    background-repeat: no-repeat;
+}
+/*---*/

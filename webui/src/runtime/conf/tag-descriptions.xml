@@ -24043,4 +24043,354 @@ components are used in the page.</p>
 ]]></description>
     </tag>
 
+    <tag>
+        <name>rating</name>
+
+        <description><![CDATA[
+<p>Use the <code>webuijsf:rating</code> tag to present a row of stars indicating a rating assigned to an item. When the user assigns a new rating to an item, an Ajax request transmits the rating to the server. 
+<h3><a name="facets"></a>Facets</h3>
+None.<br>
+<h3>Theme Identifiers</h3>
+<p>None.</p>
+<h3>Client Side Javascript Functions</h3>
+<p>When the rating component is rendered, a DOM object corresponding to the rating component is created. To manipulate the component on the client side, you can call functions on the DOM object. For example, with reference to the DOM ID, to deny the user from selecting a grade, invoke <code>document.getElementById(id).setProps({"gradeReadOnly": true})</code>.</p>
+<table style="text-align: left; width: 100%; height: 100%;" border="1" cellpadding="2" cellspacing="2">
+  <tbody>
+    <tr>
+      <td style="vertical-align: top; font-weight: bold; font-style: italic;">Function</td>
+      <td style="vertical-align: top;"><span style="font-weight: bold; font-style: italic;">Description</span><br>
+</td>
+    </tr>
+    <tr>
+      <td><code>domNode.getProps()</code></td>
+      <td>Use this function to get widget properties. See <code>setProps()</code> function for a list of supported properties.&nbsp; </td>
+    </tr>
+    <tr>
+      <td><code>domNode.refresh(execute)</code></td>
+      <td>Use this function to asynchronously refresh the component.<br>
+        <ul><li>[optional] execute: Comma separated string containing a list of client ids against which the <code>execute</code> portion of the request processing lifecycle must be run.</li></ul>
+      </td>
+    </tr>
+    <tr>
+      <td><code>domNode.setProps(props)</code></td>
+      <td>Use this function to change any of the following supported properties:<br>
+        <ul>
+          <li>autoSubmit</li><li>averageGrade</li>
+          <li>clearAcknowledgedText</li>
+          <li>clearHoverText</li>
+          <li>grade</li>
+          <li>gradeAcknowledgedText</li>
+          <li>gradeHoverTexts</li>
+          <li>gradeReadOnly</li>
+          <li>inAverageMode</li>
+          <li>includeClear</li>
+          <li>includeModeToggle</li>
+          <li>includeNotInterested</li>
+          <li>includeText</li>
+          <li>maxGrade</li>
+          <li>modeReadOnly</li>
+          <li>modeToggleAcknowledgedTexts</li>
+          <li>modeToggleHoverTexts</li>
+          <li>notInterestedAcknowledgedText</li>
+          <li>notInterestedHoverText</li>
+          <li>tabIndex</li>
+          <li>id</li>
+          <li>visible</li>
+        </ul>
+      </td>
+    </tr>
+    <tr>
+      <td><code>domNode.submit(execute)</code></td>
+      <td>Use this function to asynchronously submit the selected grade.<br>
+        <ul>
+	  <li>[optional] execute: Comma separated string containing a list of client ids against which the <code>execute</code> portion of the request processing lifecycle must be run.</li>
+       </ul>
+      </td>
+    </tr>
+    <tr>
+      <td><code>domNode.subscribe(topic, obj, func)</code></td>
+      <td>Use this function to subscribe to an event topic.<br>
+        <ul>
+          <li>topic: The event topic to subscribe to</li>
+          <li>obj: The object in which a function will be invoked, or null for default scope</li>
+          <li>func: The name of a function on context, or a function reference to invoke when event topic is published</li>
+        </ul>
+      </td>
+    </tr>
+</tbody>
+</table>
+<h3>Client Side JavaScript Events</h3>
+<p>
+When the component is manipulated on the client side, some functions might publish event topics for custom AJAX implementations to listen for. For example, you can listen for the submit event topic by using:
+<pre>
+&lt;webuijsf:script&gt;
+    var processEvents = {                       
+        update: function(props) {
+	    // Do something...
+        }
+    }
+
+    // Subscribe to submit event.
+    var domNode = document.getElementById("form1:rating");
+    domNode.subscribe(domNode.event.submit.endTopic, processEvents, "update");
+
+&lt;/webuijsf:script&gt;
+</pre>
+
+<p>The following events are supported.</p><br/>
+
+<table style="text-align: left; width: 100%;" border="1" cellpadding="2" cellspacing="2">
+<tbody>
+  <tr>
+    <td><b>Event</b></td>
+    <td><b>Description</b></td>
+  </tr>  
+  <tr>
+    <td>&lt;Node&gt;.event.refresh.beginTopic</td>
+    <td>Event topic published before asynchronously refreshing the component. Supported properties include:
+      <ul>
+        <li>[optional] execute - list of the components to be executed along with this component</li>
+        <li>id - The client id to process the event for</li>
+      </ul>
+    </td>
+  </tr>
+  <tr>
+    <td>&lt;Node&gt;.event.refresh.endTopic</td>
+    <td>Event topic published after asynchronously refreshing the component. Supported properties include:
+      <ul>
+	<li> props - JSON object containing properties of the component. See setProps() function for details on properties and their usage.</li>
+      </ul>
+    </td>
+  </tr>
+  <tr>
+    <td>&lt;Node&gt;.event.submit.beginTopic</td>
+    <td>Event topic published before asynchronously submitting the selected grade. Supported properties include:
+      <ul>
+        <li>[optional] execute - list of the components to be executed along with this component</li>
+        <li>id - The client id of the rating component</li>
+        <li>value - The value (grade) of the rating component</li>
+      </ul>
+    </td>
+  </tr>
+  <tr>
+    <td>&lt;Node&gt;.event.submit.endTopic</td>
+    <td>Event topic published after asynchronously submitting the selected grade. Supported properties include:
+      <ul>
+        <li>id - The client id of the rating component</li>
+        <li>averageGrade - The updated average grade of the rating component</li>
+      </ul>
+    </td>
+  </tr>
+  <tr>
+    <td>&lt;Node&gt;.event.state.beginTopic</td>
+    <td>Event topic published before changing the state of the rating component due to the user clicking on the component. Supported properties include:
+      <ul>
+        <li>id - The client id of the rating component</li>
+      </ul>
+    </td>
+  </tr>
+  <tr>
+    <td>&lt;Node&gt;.event.state.endTopic</td>
+    <td>Event topic published after changing the state of the rating component due to the user clicking on the component. Supported properties include:
+      <ul>
+        <li>id - The client id of the rating component</li>
+      </ul>
+    </td>
+  </tr>
+</tbody>
+</table>
+<h3>Code Examples</h3>
+<h4>Example 1: </h4>
+In this example, the component includes the <i>clear</i> and <i>not interested</i> controls, but not <i>mode toggle</i>.  Hover text displays over all controls.  The initial grade is cleared.  The selected grade is automatically submitted asynchronously.
+<pre>
+    &lt;webuijsf:rating id="rating"
+        autoSubmit="true"
+        averageGrade="#{RatingBean.averageGrade}"
+        clearHoverText="Clear Rating"
+        grade="#{RatingBean.grade}"
+        gradeHoverTexts="#{RatingBean.gradeHoverTexts}"
+        notInterestedHoverText="Not Interested"
+        maxGrade="5"&gt;
+    &lt;/webuijsf:rating&gt;
+</pre>
+<p>The corresponding backing bean would be something like this:
+<pre>
+    import com.sun.webui.jsf.component.Rating;
+    
+    public class RatingBackingBean {
+    
+        private double averageGrade = 0.0;
+        private int grade = Rating.CLEAR_GRADE;
+        private String[] gradeHoverTexts = {
+            "Hate It",
+            "Below Average",
+            "Average",
+            "Above Average",
+            "Love It"
+        };
+        private int gradeSum = 0;
+        private int numGrades = 0;
+        private int numNotInterested = 0;
+        
+        public RatingBackingBean() {
+        }
+    
+        public int getNumNotInterested() {
+            return this.numNotInterested;
+        }
+    
+        public void setNumNotInterested(int numNotInterested) {
+            this.numNotInterested = numNotInterested;
+        }
+        
+        public int getGrade() {
+            return grade;
+        }
+        
+        public void setGrade(int grade) {
+            this.grade = grade;
+    
+            // Not interested grade does not factor into average grade
+            if (this.grade == Rating.NOT_INTERESTED_GRADE) {
+                this.numNotInterested++;
+                return;
+            }
+    
+            // Clear grade does not factor into average grade
+            if (this.grade == Rating.CLEAR_GRADE) {
+                return;
+            }
+    
+            gradeSum += grade;
+            numGrades++;
+        }
+        
+        public double getAverageGrade() {
+            if (numGrades == 0)
+                return 0.0;
+    
+            // Compute average grade, rounded to neaest .001
+            averageGrade = (double)gradeSum / numGrades;
+            averageGrade = Math.rint(averageGrade * 1000) / 1000;
+            return averageGrade;
+        }
+        
+        public void setAverageGrade(double averageGrade) {
+            this.averageGrade = averageGrade;
+        }
+            
+        public String[] getGradeHoverTexts() {
+            return this.gradeHoverTexts;
+        }
+    
+        public void setGradeHoverTexts(String[] gradeHoverTexts) {
+            this.gradeHoverTexts = gradeHoverTexts;
+        }
+    }
+</pre>
+<h4>Example 2: </h4>
+In this example, the component includes the <i>clear</i>, <i>not interested</i>, and <i>mode toggle</i> controls.  Hover text displays over all controls.  Initial displayed grade is cleared.  Initially renders in average mode with average grade of 2.5.  Acknowledgements appear in text area when clicking on controls.  autoSubmit is disabled, but widget state change is tracked and the grade is asynchronously submitted from the jsp only if the selected grade changes.
+<pre>
+    &lt;webuijsf:rating id="rating"
+        averageGrade="#{RatingBean.averageGrade}"
+        clearHoverText="Clear Rating"
+        clearAcknowledgedText="Rating cleared"
+        grade="#{RatingBean.grade}"
+        gradeAcknowledgedText="Thank you!"
+        gradeHoverTexts="#{RatingBean.gradeHoverTexts}"
+        inAverageMode="true"
+        includeModeToggle="true"
+        modeToggleAcknowledgedTexts="#{RatingBean.modeToggleAcknowledgedTexts}"
+        modeToggleHoverTexts="#{RatingBean.modeToggleHoverTexts}"
+        notInterestedAcknowledgedText="Sorry to hear"
+        notInterestedHoverText="Not Interested"
+        maxGrade="5"&gt;
+    &lt;/webuijsf:rating&gt;
+</pre>
+<p>
+<p>The corresponding backing bean would be similar to the one in Example 1 but with the following changes:
+<pre>
+        private int gradeSum = 5;
+        private int numGrades = 2;
+    
+        private String[] modeToggleHoverTexts = {
+           "Show user's rating",
+           "Show average rating"
+        };
+    
+        private String[] modeToggleAcknowledgedTexts = {
+           "Normal rating shown",
+           "Average rating shown"
+        };
+        
+        public String[] getModeToggleHoverTexts() {
+            return this.modeToggleHoverTexts;
+        }
+
+        public String[] getModeToggleAcknowledgedTexts() {
+            return this.modeToggleAcknowledgedTexts;
+        }
+</pre>
+<p>The application's javascript to manage the submit might look like this:
+<pre>
+    &lt;webuijsf:script type="text/javascript"&gt;
+        function RatingListener(id) {
+            this.ratingID = id;
+            this.previousGrade = null;
+        }
+
+        // Callback for after state change
+        function AfterStateChange(props) {
+            if (props.id != this.ratingID)
+                return;
+
+            // Get rating node
+            var ratingNode = document.getElementById(this.ratingID);
+            if (ratingNode == null)
+                return;
+
+            // Get properties for the node
+            props = ratingNode.getProps();
+
+            // Submit only if the grade has changed from it's previous value.
+            if ((this.previousGrade != null) && (this.previousGrade != props.grade)) {
+                ratingNode.submit();
+                this.previousGrade = null;
+            }
+        }
+        RatingListener.prototype.afterStateChange = AfterStateChange;
+
+        // Callback for start of state change.  We save off the current grade
+        // before it changes.
+        // 
+        function StartStateChange(props) {
+            if (props.id != this.ratingID)
+                return;
+            var ratingNode = document.getElementById(this.ratingID);
+            if (ratingNode == null)
+                return;
+            props = ratingNode.getProps();
+            this.previousGrade = props.grade;
+        }
+        RatingListener.prototype.startStateChange = StartStateChange;
+
+        function rating_init() {
+            var domNode = document.getElementById("rating");
+            if (domNode == null || domNode.event == null) {
+                return setTimeout('rating_init();', 10);
+            }
+            var listener = new RatingListener("rating");
+
+            // Subscribe to pre/post state change events
+            domNode.subscribe(domNode.event.state.beginTopic, listener, listener.startStateChange);
+            domNode.subscribe(domNode.event.state.endTopic, listener, listener.afterStateChange);
+        }
+    &lt;/webuijsf:script&gt;
+
+    &lt;webuijsf:body onLoad="rating_init();"&gt;
+    ...
+</pre>
+]]></description>
+    </tag>
+
 </taglib>
