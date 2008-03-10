@@ -863,6 +863,9 @@ a.DatOthBldLnk@THEME_CSS@:link, a.DatOthBldLnk@THEME_CSS@:visited {
         padding-right:8px;
         padding-left:4px;
 }
+.CalPopTxt@THEME_CSS@ .inlineFieldHelp@THEME_CSS@ {
+	display: inline;
+}
 /*---*/
 
 /* TEXT, TEXTAREAS AND PASSWORD FIELDS */
