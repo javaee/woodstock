@@ -84,6 +84,7 @@ body {
 }
 .AddRmvVrtDiv@THEME_CSS@ {
 	clear:left;
+         margin-top:5px;
 }
 .AddRmvHrzLst@THEME_CSS@ {
 	clear:both;
