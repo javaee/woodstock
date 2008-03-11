@@ -314,11 +314,12 @@ webui.@THEME@.common = {
         // If the elementId exists just modifiy its value
         // instead of creating and appending.
         //
-        var element = document.getElementById(elementId);
+        
+        var element = document.forms[parentForm.id].elements[elementId];
         if (element != null) {
-            element.value = elementValue;
-            return true;
-        }
+            elements[i].value = elementValue;            
+            return true;            
+        } 
         
         var newElement = document.createElement('input');
         newElement.type = 'hidden';

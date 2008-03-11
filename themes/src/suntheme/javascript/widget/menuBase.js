@@ -452,8 +452,10 @@ webui.@THEME@.widget.menuBase.prototype.setOptionNodeProps = function(optionNode
     menuItemContainer.selectValue = props.value;
     menuItemContainer.disabled = props.disabled;
     menuItemContainer.group = props.group;
-    menuItemContainer.title = props.label;
-    valueNode.title = props.label;
+    if (props.title != null) {
+        menuItemContainer.title = props.title;
+        valueNode.title = props.title;
+    }
     
     if (valueNode.setAttributeNS) {
         valueNode.setAttributeNS(

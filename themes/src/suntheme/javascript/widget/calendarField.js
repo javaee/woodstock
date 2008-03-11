@@ -142,16 +142,19 @@ webui.@THEME@.widget.calendarField.prototype.postCreate = function () {
     }     
 
     // If a patternHelp is not specified by the developer
-    // try to get one from the themes. If not, the dateFormatPattern
-    // will be used as the help.
+    // try to get one from the themes. 
     if (this.patternHelp == null) {
-        var pattern = this.theme.getMessage("calendar.dateFormat");
+        
+        var pattern;
+        if (this.calendar != null && this.calendar.dateFormat != null) {
+            pattern = this.calendar.dateFormat;
+        } else {        
+            pattern = this.theme.getMessage("calendar.dateFormat");
+        }
         var help = this.theme.getMessage("calendar."+pattern);
         if (help != null) {
             this.patternHelp = help;
-        } else {
-            this.patternHelp = pattern;
-        }
+        } 
     }
     // Set events.
 

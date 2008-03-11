@@ -202,7 +202,7 @@ public class PageAlert extends UIComponentBase implements NamingContainer {
     private String getIconIdentifier() {
         String type = getType();
         if (type != null) {
-            type.toLowerCase();
+            type = type.toLowerCase();
 
             if (type.startsWith("warn")) { // NOI18N
                 return ThemeImages.ALERT_WARNING_LARGE;
