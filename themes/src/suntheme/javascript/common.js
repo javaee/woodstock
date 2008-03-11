@@ -317,7 +317,7 @@ webui.@THEME@.common = {
         
         var element = document.forms[parentForm.id].elements[elementId];
         if (element != null) {
-            elements[i].value = elementValue;            
+            element.value = elementValue;            
             return true;            
         } 
         
