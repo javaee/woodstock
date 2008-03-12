@@ -632,8 +632,9 @@ webui.@THEME@.widget.selectBase.prototype.postCreate = function () {
 	if (this.valid != null && this.valid != true) {
 	    this.label.valid = false;
 	}
-	if (this._labelOnTopClassName != null) {
-	    webui.@THEME@.common.addStyleClass(this.label, labelOnTopClassName);
+	if (this._lastLabelOnTopClassName != null) {
+	    webui.@THEME@.common.addStyleClass(this.label, 
+		this._lastLabelOnTopClassName);
 	}
     }
 
