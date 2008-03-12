@@ -243,8 +243,6 @@
     <target name="buildL10nJsTheme" if="build-l10n">
 
 	<!-- supported locales the contents of the dist directory -->
-	<!-- Don't create localized theme until l10n files are commited.
-	-->
 	<antcall target="localizeJSTheme">
 	    <param name="_l10n-locale_" value="de"/>
 	    <param name="_l10n-nls-locale_" value="de"/>

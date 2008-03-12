@@ -98,6 +98,18 @@
     </pathconvert>
 
     <!-- convert the package into a dest file path
+	 and map out the basedir package.
+	 We don't want the "cache" information in this path.
+	 this path is for class files -->
+    <pathconvert property="theme.package-nocache-path" dirsep="/">
+	<path path="${theme.package}"/>
+	<unpackagemapper from="*" to="*"/>
+	<map from="${__basedir-pkg__}/" to=""/>
+    </pathconvert>
+    <property name="theme.build-package-nocache-path"
+	location="${theme.build-dir}/${theme.package-nocache-path}"/>
+
+    <!-- convert the package into a dest file path
 	 and map out the basedir package -->
     <pathconvert property="theme.package-path" dirsep="/">
 	<path path="${theme.package}"/>
@@ -358,6 +370,8 @@
         <antcall target="compile-theme-service">
             <param name="_cmpl-java-src_" 
 		value="${theme.build-package-path}"/>
+            <param name="_cmpl-java-class_" 
+		value="${theme.build-package-nocache-path}"/>
             <param name="_cmpl-dest-dir_" value="${theme.build-dir}"/>
             <param name="_cmpl-service-class_" value="${theme.service-class}"/>
         </antcall>
@@ -917,7 +931,7 @@
 	<pathconvert property="__files-to-compress__" pathsep=",">
 	    <fileset dir="${__from-dir-loc__}">
 		<depend targetdir="${__to-dir-loc__}">
-		    <mapper type="glob" from="*" to="*.gz"/>
+		    <mapper type="glob" from="*.css" to="*.css.gz"/>
 		</depend>
 	    </fileset>
 	    <mapper type="glob" 
@@ -1190,7 +1204,7 @@
 	    <srcfiles dir="${_from-dir_}" 
 		includes="**/*.js"
 		excludes="dojo/,${theme.bootstrap.js},${theme.dnd.js},${theme.webui.js},${theme.webui-all.js},${theme.webui-jsfx.js},${theme.webui-jsfx-all.js}"/>
-	    <mapper type="glob" from="*" to="${_to-dir_}/*.gz"/>
+	    <mapper type="glob" from="*.js" to="${_to-dir_}/*.js.gz"/>
 	</uptodate>
     </target>
 
@@ -1224,7 +1238,7 @@
 	    <fileset dir="${__from-dir-loc__}">
                 <exclude name="dojo/_firebug/"/>
 		<depend targetdir="${__to-dir-loc__}">
-		    <mapper type="glob" from="*" to="*.gz"/>
+		    <mapper type="glob" from="*.js" to="*.js.gz"/>
 		</depend>
 	    </fileset>
 	    <mapper type="glob" 
@@ -1398,13 +1412,14 @@
 
     <!-- Parameters defined in compile-theme-service
 	_cmpl-java-src_
+	_cmpl-java-class_
 	_cmpl-dest-dir_
 	_cmpl-serice-class_
     -->
     <target name="theme-service-uptodate">
         <uptodate property="theme-service-uptodate"
 	  srcfile="${_cmpl-java-src_}/${_cmpl-service-class_}.java"
-	  targetfile="${_cmpl-java-src_}/${_cmpl-service-class_}.class"/>
+	  targetfile="${_cmpl-java-class_}/${_cmpl-service-class_}.class"/>
     </target>
 
     <!-- Parameters
