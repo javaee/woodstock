@@ -1972,11 +1972,11 @@ ul.MenuItems@THEME_CSS@ li .MenuItem@THEME_CSS@:hover{     /* standard hover */
 /*---*/
 
 /* Rating */
-.RatingNotInterestedImageOn@THEME_CSS@ {
+.RatingNotInterestedOnImage@THEME_CSS@ {
     background-image: url(../images/rating/notInterestedOn.gif);
 }
 
-.RatingNotInterestedImageOff@THEME_CSS@ {
+.RatingNotInterestedOffImage@THEME_CSS@ {
     background-image: url(../images/rating/notInterestedOff.gif);
 }
 
@@ -2001,11 +2001,11 @@ ul.MenuItems@THEME_CSS@ li .MenuItem@THEME_CSS@:hover{     /* standard hover */
     background-image: url(../images/rating/whoAvg.gif);
 }
 
-.RatingClearImageOn@THEME_CSS@ {
+.RatingClearOnImage@THEME_CSS@ {
     background-image: url(../images/rating/clearOn.gif);
 }
 
-.RatingClearImageOff@THEME_CSS@ {
+.RatingClearOffImage@THEME_CSS@ {
     background-image: url(../images/rating/clearOff.gif);
 }
 /*---*/

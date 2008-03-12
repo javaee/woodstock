@@ -825,9 +825,9 @@ public class ThemeStyles {
     /**
      * Rating Styles
      */
-    public static final String RATING_TEXT_AREA = "RATING_TEXT_AREA";
-    public static final String RATING_CONTROL_AREA = "RATING_CONTROL_AREA";
-    public static final String RATING_SPACER_AREA = "RATING_SPACER_AREA";
+    public static final String RATING_TEXT_CONTAINER = "RATING_TEXT_CONTAINER";
+    public static final String RATING_CONTROL_CONTAINER = "RATING_CONTROL_CONTAINER";
+    public static final String RATING_SPACER_NODE = "RATING_SPACER_NODE";
     public static final String RATING_GRADE_AVG_FULL_IMAGE = "RATING_GRADE_AVG_FULL_IMAGE";
     public static final String RATING_GRADE_AVG_HALF_IMAGE = "RATING_GRADE_AVG_HALF_IMAGE";
     public static final String RATING_GRADE_FULL_IMAGE = "RATING_GRADE_FULL_IMAGE";
