@@ -883,6 +883,15 @@ a.DatOthBldLnk@THEME_CSS@:link, a.DatOthBldLnk@THEME_CSS@:visited {
 	padding-left:2px;
 }
 .TxtAraLabel@THEME_CSS@ span , .TxtAraLabel@THEME_CSS@ span > img { vertical-align: top; }
+
+.TxtFldAutoCompListSpan@THEME_CSS@ {   
+    position: absolute;
+    z-index:999;
+}
+.TxtFldAutoCompAlignContainer@THEME_CSS@ {   
+    position: relative;
+}
+
 /*---*/
 
 /* EDITABLE FIELDS */

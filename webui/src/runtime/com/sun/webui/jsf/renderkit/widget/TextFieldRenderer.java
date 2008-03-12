@@ -24,6 +24,7 @@ package com.sun.webui.jsf.renderkit.widget;
 
 import com.sun.faces.annotation.Renderer;
 import com.sun.webui.jsf.component.TextField;
+import com.sun.webui.jsf.model.Option;
 import com.sun.webui.jsf.util.WidgetUtilities;
 import com.sun.webui.jsf.theme.ThemeTemplates;
 import com.sun.webui.jsf.util.ConversionUtilities;
@@ -31,8 +32,11 @@ import com.sun.webui.jsf.util.JSONUtilities;
 import com.sun.webui.jsf.util.JavaScriptUtilities;
 
 import java.io.IOException;
+import java.util.Collection;
+import java.util.Map;
 import java.util.StringTokenizer;
 
+import javax.el.MethodExpression;
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 
@@ -120,6 +124,7 @@ public class TextFieldRenderer extends FieldRendererBase {
         .put("size", field.getColumns())
         .put("visible", field.isVisible())
         .put("title", field.getToolTip())
+        .put("autoComplete", field.isAutoComplete())
         .put("autoValidate", field.isAutoValidate());
 
         if (field.isSubmitFormSet())
@@ -137,9 +142,8 @@ public class TextFieldRenderer extends FieldRendererBase {
             if (field.getLabel() != null) {
                 json.put("label",getLabel(context, field));
             }
-        }                
+        }                        
         
-       
         // Add attributes.
         JSONUtilities.addStringProperties(stringAttributes, component, json);
         JSONUtilities.addIntegerProperties(intAttributes, component, json);
@@ -159,6 +163,61 @@ public class TextFieldRenderer extends FieldRendererBase {
         return JavaScriptUtilities.getModuleName("widget.textField");
     }
 
+    /** 
+     * Helper function to return an iterator over options as provided from autoCompleteExpression.
+     * This method will return normalized iterator that contains elements
+     * of underlying array, Collection, or Map(values).
+     * 
+     * If getAutoCompleteExpression returns an object of something other than 
+     * array, Collection, or Map(values), this method will return null
+     * 
+     * @return iterator over options elements, or null otherwise
+     */
+    protected Option[] getListItems(TextField field, String value, FacesContext context) { 
+       
+         if (field == null || context == null)
+             return null;
+        
+        Object optionsObject = null;
+        
+        MethodExpression filterMethod = field.getAutoCompleteExpression();
+        if (filterMethod != null) {
+            optionsObject = filterMethod.invoke(context.getELContext(), new Object[] { value });
+        } else {
+            throw new RuntimeException("autoCompleteExpression must not be null"); 
+        }
+
+        
+        if (optionsObject == null)
+            return null;
+
+
+        if(optionsObject instanceof Option[]) { 
+            return (Option[])optionsObject;            
+        } 
+        
+        
+        if(optionsObject instanceof Collection) { 
+            try {
+                return (Option[]) ((Collection)optionsObject).toArray(new Option[0]);
+            } catch ( Exception e) {
+                return null;
+            }
+        } 
+        
+        if(optionsObject instanceof Map) { 
+            try {
+                return (Option[]) ((Map)optionsObject).values().toArray(new Option[0]);
+            } catch ( Exception e) {
+                return null;
+            }
+
+        } 
+
+        return null;
+    } 
+  
+    
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     // Property methods
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~

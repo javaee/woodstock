@@ -518,6 +518,29 @@ webui.@THEME@.widget.selectBase.prototype.getSelectElement = function() {
 };
 
 /**
+ * This function is used to obtain the index 
+ * of the selected option.
+ *
+ * @return {Integer} The selected index of underlying select element
+ */
+webui.@THEME@.widget.selectBase.prototype.getSelectedIndex = function() { 
+    return this.listContainer.selectedIndex; 
+};
+
+/**
+ * This function is used to directly set selected index on the underlying select box
+ * of the selected option.
+ *
+ * @return {Boolean} true
+ */
+webui.@THEME@.widget.selectBase.prototype.setSelectedIndex = function(index) { 
+    if (index >=0 && index < this.listContainer.options.length) {
+        this.listContainer.selectedIndex = index;
+    }
+    return true;
+};
+
+/**
  * This function is used to obtain the <code>label</code> attribute of
  * the selected option.
  * <p>
@@ -643,6 +666,10 @@ webui.@THEME@.widget.selectBase.prototype.postCreate = function () {
 	return webui.@THEME@.dijit.byId(this.id).getSelectedValue(); };
     this.domNode.getSelectedLabel = function() { 
 	return webui.@THEME@.dijit.byId(this.id).getSelectedLabel(); };
+    this.domNode.getSelectedIndex = function() { 
+	return webui.@THEME@.dijit.byId(this.id).getSelectedIndex(); };
+    this.domNode.setSelectedIndex = function(index) { 
+	return webui.@THEME@.dijit.byId(this.id).setSelectedIndex(index); };
     this.domNode.getSelectElement = function() { 
 	return webui.@THEME@.dijit.byId(this.id).getSelectElement(); };
 

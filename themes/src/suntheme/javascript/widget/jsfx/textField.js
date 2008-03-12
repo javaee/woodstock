@@ -104,7 +104,64 @@ webui.@THEME@.widget.jsfx.textField = {
         webui.@THEME@.dojo.publish(
             webui.@THEME@.widget.textField.event.validation.endTopic, [props]);
         return true;
-    }
+    },
+
+    /**
+     * This function is used to process autoComplete events.
+     *
+     * @param props Key-Value pairs of properties.
+     * @config {String} id The HTML element Id.
+     * @return {boolean} true if successful; otherwise, false.
+     */
+    processAutoCompleteEvent: function(props) {
+        if (props == null) {
+            return false;
+        }
+        
+        // Dynamic Faces requires a DOM node as the source property.
+        var domNode = document.getElementById(props.id);
+        
+        // Generate AJAX request using the JSF Extensions library.
+        DynaFaces.fireAjaxTransaction(
+            (domNode) ? domNode : document.forms[0], {
+            execute: props.id,
+            render: props.id,
+            replaceElement: webui.@THEME@.widget.jsfx.textField.autoCompleteCallback,
+            xjson: {
+                id : props.id,
+                event: "autocomplete"
+            }
+        });
+        return true;
+    },  
+
+    /**
+     * This function is used to update widgets with new autoComplete options list.
+     *
+     * @param {String} elementId The HTML element Id.
+     * @param {String} content The content returned by the AJAX response.
+     * @param {Object} closure The closure argument provided to DynaFaces.fireAjaxTransaction.
+     * @param {Object} xjson The xjson argument provided to DynaFaces.fireAjaxTransaction.
+     * @return {boolean} true if successful; otherwise, false.
+     */
+    autoCompleteCallback: function(elementId, content, closure, xjson) {
+        if (elementId == null || content == null) {
+            return false;
+        }
+        
+        // Parse JSON text.
+        var props = webui.@THEME@.json.parse(content);
+
+        // Update text field.
+        var widget = webui.@THEME@.dijit.byId(elementId);
+        widget.setProps(props);       
+
+
+        // Publish an event for custom AJAX implementations to listen for.
+        webui.@THEME@.dojo.publish(
+            webui.@THEME@.widget.textField.event.autoComplete.endTopic, [props]);
+        return true;
+    }    
 };
 
 // Listen for Dojo Widget events.
@@ -116,3 +173,5 @@ webui.@THEME@.dojo.subscribe(webui.@THEME@.widget.textField.event.submit.beginTo
     webui.@THEME@.widget.jsfx.common, "processSubmitEvent");
 webui.@THEME@.dojo.subscribe(webui.@THEME@.widget.textField.event.validation.beginTopic,
     webui.@THEME@.widget.jsfx.textField, "processValidationEvent");
+webui.@THEME@.dojo.subscribe(webui.@THEME@.widget.textField.event.autoComplete.beginTopic,
+    webui.@THEME@.widget.jsfx.textField, "processAutoCompleteEvent");

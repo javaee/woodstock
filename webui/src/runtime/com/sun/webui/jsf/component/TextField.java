@@ -31,6 +31,8 @@ import javax.el.ValueExpression;
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 
+import javax.el.MethodExpression;
+
 /**
  * The TextField component renders input HTML element.
  * <br>
@@ -40,6 +42,23 @@ import javax.faces.context.FacesContext;
  * entered data is automatically validated through the ajax call to the server.
  * When validating data through the ajax-based mechanism, the UPDATE_MODEL_VALUES
  * stage of the lifecycle is skipped ( see processUpdates).
+ * <p>
+ * 
+ * Another dynamic feature of TextField is an autoComplete. If autoComplete attribute is 
+ * specified as <code>true</code>, this list will be rendered under the text input to allow user to pick 
+ * a selection from the list instead of ( or in addition to ) typing it. Once autoComplete is activated,
+ * every time the content of the TextField is changed, the updated text field value is used to fetch 
+ * autocomplete list with Ajax call. Developer must provide bean method ( see attribute autoCompleteExpression) 
+ * to filter and retrieve options on every Ajax call. Such bean must implement <code>AutoComplete</code> interface.</p>
+ * 
+ * Thus the following pattern is followed for autoComplete:
+ * <ul>
+ * <li>set autoComplete = true
+ * <li>set autoCompleteExpression to be bound to a bean method that filters and returns a list of options
+ * <li>every time the textField value is changed, the autoComplete method is called
+ * <li>new set of autoCompleteExpression is retrieved by the component after such filtering
+ * </ul>
+ * 
  */
 @Component(type="com.sun.webui.jsf.TextField", 
     family="com.sun.webui.jsf.TextField", displayName="Text Field",
@@ -98,6 +117,109 @@ public class TextField extends Field {
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     // Tag attribute methods
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    /**
+     * Use the autoCompleteExpression to specify the method that will filter
+     * an autoCompleteExpression list, i.e. to produce new set of options to be rendered as
+     * autoComplete prompts ( see autoCompleteExpression) . When autoComplete mechanism is enabled
+     * ( by specifying autoComplete attribute), autoCompleteExpression method will be called using the 
+     * Ajax mechanism in the background every time user changes the content of the 
+     * field. Note that this requires autoCompleteExpression method to perform well. 
+     * Also, it is recommended to limit number of 
+     * options available to user as the return of this method - both for usability and in order 
+     * to increase download speed.
+     * <br>
+     * The value of autoCompleteExpression must be an EL expression and it must evaluate to the
+     * name of a public method that is defined by <code>com.sun.webui.jsf.model.AutoComplete</code>, something like: 
+     * <code>
+     *     public Options[] getOptions(String filter) {
+     *      ...
+     *     }      
+     * </code>
+     * In this example, expression would look like this:
+     * <code>
+     *         &lt; webuijsf:textField
+                    autoComplete = "true"
+                    autoCompleteExpression ="#{AutoCompleteBean.getOptions}"
+                    text="#{AutoCompleteBean.text}"
+                    label = "AutoComplete" 
+                    id = "tf"  
+                    
+                /&gt;         
+     * </code>
+     * </br>
+     */
+    @Property(name="autoCompleteExpression", displayName="Auto Complete List Filter Expression", category="Advanced", editorClassName="com.sun.rave.propertyeditors.MethodBindingPropertyEditor")
+    @Property.Method(signature="void processAction(java.lang.String)")
+    private MethodExpression autoCompleteExpression;
+    
+    /**
+     * <p>Returns the stored <code>autoCompleteExpression</code>.
+     */
+    public MethodExpression getAutoCompleteExpression() {
+       return this.autoCompleteExpression;
+    }
+    
+    /**
+     * <p>Stores the <code>autoCompleteExpression</code>.
+     */
+    public void setAutoCompleteExpression(MethodExpression me) {
+        this.autoCompleteExpression = me;
+    }
+    
+    
+    /**
+     * Attribute indicating to turn on/off the autocomplete functionality of the TextField.
+     * Autocomplete would trigger the AJAX request to the component.
+     * <br>
+     * Autocomplete will submit the content of the text field for server side processing that
+     * will be processed using JSFX partial lifecycle cycle. Providing of autoComplete options remains
+     * responsibility of the developer. Specifically, autoCompleteExpression needs to be set
+     * <br>
+     * By default autocomplete is off.
+     */
+    @Property(name="autoComplete", displayName="AutoComplete", category="Behavior")
+    private boolean autoComplete = false;
+    private boolean autoComplete_set = false;
+    
+    /**
+     * Test if default Ajax functionality should be turned off.
+     */
+    public boolean isAutoComplete() {
+        if (this.autoComplete_set) {
+            return this.autoComplete;
+        }
+        ValueExpression _vb = getValueExpression("autoComplete");
+        if (_vb != null) {
+            Object _result = _vb.getValue(getFacesContext().getELContext());
+            if (_result == null) {
+                return false;
+            } else {
+                return ((Boolean) _result).booleanValue();
+            }
+        }
+        return false;
+    }
+    
+    /**
+     * Set attribute indicating to turn on/off default Ajax functionality.
+     * When on, autocomplete options will be displayed as user types in data. <br>
+     * AutoComplete requires autoCompleteExpression to be set.
+     * <pre>
+     *                    &lt; webuijsf:textField
+     *                        id="textFieldA"
+     *                        size="20"
+     *                        required="true"
+     *                        autoComplete="true"
+     *                        autoCompleteExpression="#{MyBean.autoCompleteExpression}"
+     *                    / &gt;
+     * </pre>
+     */
+    public void setAutoComplete(boolean autoComplete) {
+        this.autoComplete = autoComplete;
+        this.autoComplete_set = true;        
+    }
+          
+    
     
     /**
      * Attribute indicating to turn on/off the autovalidate functionality of the TextField.
@@ -300,22 +422,29 @@ public class TextField extends Field {
         super.restoreState(_context, _values[0]);
         this.autoValidate =     ((Boolean) _values[1]).booleanValue();
         this.autoValidate_set = ((Boolean) _values[2]).booleanValue();
-        this.notify = (String) _values[3];
-        this.submitForm = ((Boolean) _values[4]).booleanValue();
-        this.submitForm_set = ((Boolean) _values[5]).booleanValue();
+        this.autoComplete =     ((Boolean) _values[3]).booleanValue();
+        this.autoComplete_set = ((Boolean) _values[4]).booleanValue();
+        this.notify = (String) _values[5];
+        this.submitForm = ((Boolean) _values[6]).booleanValue();
+        this.submitForm_set = ((Boolean) _values[7]).booleanValue();
+        this.autoCompleteExpression = (javax.el.MethodExpression) restoreAttachedState(_context, _values[8]);
+        
  }
 
     /**
      * Save the state of this component.
      */
     public Object saveState(FacesContext _context) {
-        Object _values[] = new Object[6];
+        Object _values[] = new Object[9];
         _values[0] = super.saveState(_context);
         _values[1] = this.autoValidate ? Boolean.TRUE : Boolean.FALSE;
         _values[2] = this.autoValidate_set ? Boolean.TRUE : Boolean.FALSE;
-        _values[3] = this.notify;
-        _values[4] = this.submitForm ? Boolean.TRUE : Boolean.FALSE;
-        _values[5] = this.submitForm_set ? Boolean.TRUE : Boolean.FALSE;
+        _values[3] = this.autoComplete ? Boolean.TRUE : Boolean.FALSE;
+        _values[4] = this.autoComplete_set ? Boolean.TRUE : Boolean.FALSE;
+        _values[5] = this.notify;
+        _values[6] = this.submitForm ? Boolean.TRUE : Boolean.FALSE;
+        _values[7] = this.submitForm_set ? Boolean.TRUE : Boolean.FALSE;
+        _values[8] = saveAttachedState(_context, autoCompleteExpression);
         return _values;
     }
 

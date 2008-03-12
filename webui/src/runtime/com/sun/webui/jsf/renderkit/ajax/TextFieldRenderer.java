@@ -25,6 +25,7 @@ import com.sun.faces.annotation.Renderer;
 import com.sun.webui.jsf.component.TextField;
 import com.sun.webui.jsf.util.ComponentUtilities;
 
+import com.sun.webui.jsf.util.WidgetUtilities;
 import java.io.IOException;
 import java.util.Iterator;
 
@@ -38,15 +39,12 @@ import org.json.JSONObject;
 /**
  * This class responds to Ajax requests made to ProgressBar components.
  */
-@Renderer(@Renderer.Renders(
-    rendererType="com.sun.webui.jsf.ajax.TextField",
-    componentFamily="com.sun.webui.jsf.TextField"))
+@Renderer(@Renderer.Renders(rendererType = "com.sun.webui.jsf.ajax.TextField", componentFamily = "com.sun.webui.jsf.TextField"))
 public class TextFieldRenderer
-        extends com.sun.webui.jsf.renderkit.widget.TextFieldRenderer  {
+        extends com.sun.webui.jsf.renderkit.widget.TextFieldRenderer {
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     // Renderer methods
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    
     /**
      * Render the beginning of the specified UIComponent to the output stream or
      * writer associated with the response we are creating.
@@ -58,9 +56,9 @@ public class TextFieldRenderer
      * @exception NullPointerException if context or component is null.
      */
     public void encodeBegin(FacesContext context, UIComponent component) {
-        // Do nothing...
+    // Do nothing...
     }
-    
+
     /**
      * Render the children of the specified UIComponent to the output stream or
      * writer associated with the response we are creating.
@@ -76,21 +74,20 @@ public class TextFieldRenderer
         if (context == null || component == null) {
             throw new NullPointerException();
         }
-        
+
         // Output component properties if Ajax request and is refresh event.
         if (ComponentUtilities.isAjaxRequest(context, component, "refresh")) {
             super.encodeChildren(context, component);
         }
-                
+
         // Process validate and submit events.
-        if (ComponentUtilities.isAjaxRequest(context, component, "validate")
-                || ComponentUtilities.isAjaxRequest(context, component, "submit")) {            
+        if (ComponentUtilities.isAjaxRequest(context, component, "validate") || ComponentUtilities.isAjaxRequest(context, component, "submit")) {
             try {
                 boolean valid = ((TextField) component).isValid();
                 JSONObject json = new JSONObject();
                 json.put("valid", valid);
                 json.put("id", component.getClientId(context));
-                
+
                 if (!valid) {
                     Iterator msgs = context.getMessages(component.getClientId(context));
                     if (msgs.hasNext()) {
@@ -101,13 +98,42 @@ public class TextFieldRenderer
                     }
                 }
                 json.write(context.getResponseWriter());
-            } catch(JSONException e) {
+            } catch (JSONException e) {
                 e.printStackTrace();
             }
             return;
         }
-    }
     
+        //AUTOCOMPLETE
+            
+        if (ComponentUtilities.isAjaxRequest(context, component, "autocomplete")) {
+            TextField field = (TextField) component;
+            String value = (String) field.getSubmittedValue();
+            
+            if (value != null) {
+                //filter event
+                try {
+                    JSONObject json = new JSONObject();
+                    json.put("id", component.getClientId(context));
+                    //filter the list
+
+                    
+                    //render the list to the client
+                    json.put("autoComplete", field.isAutoComplete())
+                        .put("autoCompleteOptions",
+                            WidgetUtilities.getOptions(context, field, getListItems(field, value, context)));
+
+                    json.write(context.getResponseWriter());
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+                return;
+
+            }
+        }
+
+    }
+
     /**
      * Render the ending of the specified UIComponent to the output stream or
      * writer associated with the response we are creating.
@@ -119,6 +145,6 @@ public class TextFieldRenderer
      * @exception NullPointerException if context or component is null.
      */
     public void encodeEnd(FacesContext context, UIComponent component) {
-        // Do nothing...
+    // Do nothing...
     }
 }

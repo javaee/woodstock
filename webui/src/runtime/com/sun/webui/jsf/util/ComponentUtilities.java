@@ -21,7 +21,7 @@
  */
 
 /*
- * $Id: ComponentUtilities.java,v 1.7 2007-05-22 21:05:05 danl Exp $
+ * $Id: ComponentUtilities.java,v 1.8 2008-03-12 20:27:04 dkushner Exp $
  */
 
 package com.sun.webui.jsf.util;
@@ -285,5 +285,5 @@ public class ComponentUtilities {
             }            
         }
         return false;
-    }
+    }  
 }

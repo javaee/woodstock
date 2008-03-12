@@ -708,7 +708,10 @@ webui.@THEME@.widget.common = {
     isTemplatePath: function(template) {
         return (template != null && template.charAt(0) != '<');
     },
-
+ 
+    /* Keyboard key code as stored in browser events */
+    keyCodes : webui.@THEME@.dojo.keys,
+ 
     /**
      * This function is used to parse HTML markup in order to create widgets
      * more efficiently. See the createWidget() function.

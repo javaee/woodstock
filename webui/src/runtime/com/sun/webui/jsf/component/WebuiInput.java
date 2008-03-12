@@ -294,7 +294,7 @@ public class WebuiInput extends UIInput {
             return;
         }
         // Skip processing in case of "refresh" ajax request.
-        if (ComponentUtilities.isAjaxRequest(getFacesContext(), this, "refresh")
+        if ( ComponentUtilities.isAjaxRequest(getFacesContext(), this, "refresh")
                 && !ComponentUtilities.isAjaxExecuteRequest(getFacesContext(), this)) {
             return;
         }
@@ -315,8 +315,11 @@ public class WebuiInput extends UIInput {
         if (context == null) {
             return;
         }
+        if ( ComponentUtilities.isAjaxRequest(getFacesContext(), this, "autocomplete"))   {
+            return; // Skip processing for ajax based autocomplete events.
+        }
         // Skip procesing in case of "refresh" ajax request.
-        if (ComponentUtilities.isAjaxRequest(getFacesContext(), this, "refresh")
+        if ( ComponentUtilities.isAjaxRequest(getFacesContext(), this, "refresh") 
                 && !ComponentUtilities.isAjaxExecuteRequest(getFacesContext(), this)) {
             return; // Skip processing for ajax based validation events.
         }

@@ -787,6 +787,9 @@ table.MniTabTbl@THEME_CSS@ td.MniTabTblSelTd@THEME_CSS@ {
 .TxtFldVld@THEME_CSS@ , .TxtAraVld@THEME_CSS@ {
 	background:#FFFFFF url(../images/field/bg_gradient.gif) repeat-x top;
 }
+.TxtFldAutoCompList@THEME_CSS@ {
+    background:#FFFFFF;   
+}
 /*---*/
 
 /* MENUS */
