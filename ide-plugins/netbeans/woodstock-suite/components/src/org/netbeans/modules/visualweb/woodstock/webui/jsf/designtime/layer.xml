@@ -287,6 +287,9 @@ made subject to such option by the copyright holder.
 	    <file name="WoodstockEditableField.comp_palette_item" url="resources/WoodstockEditableField.comp_palette_item">
                 <attr name="position" intvalue="1500"/>
 	    </file>
+	    <file name="WoodstockLogin.comp_palette_item" url="resources/WoodstockLogin.comp_palette_item">
+                <attr name="position" intvalue="1600"/>
+	    </file>
          </folder>           
             <!-- End fo Woodstock components not included in VWP -->
 
