@@ -825,6 +825,7 @@ public class ThemeStyles {
     /**
      * Rating Styles
      */
+    public static final String RATING = "RATING";
     public static final String RATING_TEXT_CONTAINER = "RATING_TEXT_CONTAINER";
     public static final String RATING_CONTROL_CONTAINER = "RATING_CONTROL_CONTAINER";
     public static final String RATING_SPACER_NODE = "RATING_SPACER_NODE";

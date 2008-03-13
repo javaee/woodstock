@@ -641,6 +641,8 @@ webui.@THEME@.widget.rating.prototype.postCreate = function () {
     this.imageWidths["modeToggle"] = 0;
 
     // Set classes on elements that don't change.
+    this.common.addStyleClass(this.domNode,
+        this.theme.getClassName("RATING"));
     this.common.addStyleClass(this.textContainer,
         this.theme.getClassName("RATING_TEXT_CONTAINER"));
     this.common.addStyleClass(this.controlContainer,

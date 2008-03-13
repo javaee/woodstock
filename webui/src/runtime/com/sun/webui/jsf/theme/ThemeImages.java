@@ -1193,6 +1193,40 @@ public class ThemeImages {
     public static final String ACCORDION_TAB_MENU_ICON_WIDTH = "ACCORDION_TAB_MENU_ICON_WIDTH";
     public static final String ACCORDION_TAB_MENU_ICON_HEIGHT = "ACCORDION_TAB_MENU_ICON_HEIGHT";
     public static final String ACCORDION_TAB_MENU_ICON_ALT = "ACCORDION_TAB_MENU_ICON_ALT";
+        
+    /**
+     * Rating Images.
+     */
+    public static final String RATING_AVG_GRADE_FULL = "RATING_AVG_GRADE_FULL";
+    public static final String RATING_AVG_GRADE_FULL_WIDTH = "RATING_AVG_GRADE_FULL_WIDTH";
+    public static final String RATING_AVG_GRADE_FULL_HEIGHT = "RATING_AVG_GRADE_FULL_HEIGHT";
+    public static final String RATING_AVG_GRADE_HALF = "RATING_AVG_GRADE_HALF";
+    public static final String RATING_AVG_GRADE_HALF_WIDTH = "RATING_AVG_GRADE_HALF_WIDTH";
+    public static final String RATING_AVG_GRADE_HALF_HEIGHT = "RATING_AVG_GRADE_HALF_HEIGHT";
+    public static final String RATING_CLEAR_OFF = "RATING_CLEAR_OFF";
+    public static final String RATING_CLEAR_OFF_WIDTH = "RATING_CLEAR_OFF_WIDTH";
+    public static final String RATING_CLEAR_OFF_HEIGHT = "RATING_CLEAR_OFF_HEIGHT";
+    public static final String RATING_CLEAR_ON = "RATING_CLEAR_ON";
+    public static final String RATING_CLEAR_ON_WIDTH = "RATING_CLEAR_ON_WIDTH";
+    public static final String RATING_CLEAR_ON_HEIGHT = "RATING_CLEAR_ON_HEIGHT";
+    public static final String RATING_NOT_INTERESTED_OFF = "RATING_NOT_INTERESTED_OFF";
+    public static final String RATING_NOT_INTERESTED_OFF_WIDTH = "RATING_NOT_INTERESTED_OFF_WIDTH";
+    public static final String RATING_NOT_INTERESTED_OFF_HEIGHT = "RATING_NOT_INTERESTED_OFF_HEIGHT";
+    public static final String RATING_NOT_INTERESTED_ON = "RATING_NOT_INTERESTED_ON=";
+    public static final String RATING_NOT_INTERESTED_ON_WIDTH = "RATING_NOT_INTERESTED_ON_WIDTH";
+    public static final String RATING_NOT_INTERESTED_ON_HEIGHT = "RATING_NOT_INTERESTED_ON_HEIGHT";
+    public static final String RATING_GRADE_EMPTY = "RATING_GRADE_EMPTY";
+    public static final String RATING_GRADE_EMPTY_WIDTH = "RATING_GRADE_EMPTY_WIDTH";
+    public static final String RATING_GRADE_EMPTY_HEIGHT = "RATING_GRADE_EMPTY_HEIGHT";
+    public static final String RATING_GRADE_FULL = "RATING_GRADE_FULL";
+    public static final String RATING_GRADE_FULL_WIDTH = "RATING_GRADE_FULL_WIDTH";
+    public static final String RATING_GRADE_FULL_HEIGHT = "RATING_GRADE_FULL_HEIGHT";
+    public static final String RATING_MODE_AVG = "RATING_MODE_AVG";
+    public static final String RATING_MODE_AVG_WIDTH = "RATING_MODE_AVG_WIDTH";
+    public static final String RATING_MODE_AVG_HEIGHT = "RATING_MODE_AVG_HEIGHT";
+    public static final String RATING_MODE_NORMAL = "RATING_MODE_NORMAL";
+    public static final String RATING_MODE_NORMAL_WIDTH = "RATING_MODE_NORMAL_WIDTH";
+    public static final String RATING_MODE_NORMAL_HEIGHT = "RATING_MODE_NORMAL_HEIGHT";
             
      /**
      * This private constructor prevents this class from being instantiated

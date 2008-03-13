@@ -176,6 +176,11 @@ public class ThemeTemplates {
      * A template file that contains HTML for the Login component.
      */
     public static final String LOGIN = "login";
+
+    /**
+     * A template file that contains HTML for the rating component.
+     */
+    public static final String RATING = "rating";
     
     /**
      * This private constructor prevents this class from being instantiated
