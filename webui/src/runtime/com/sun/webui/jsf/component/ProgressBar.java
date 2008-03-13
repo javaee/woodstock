@@ -538,7 +538,7 @@ public class ProgressBar extends javax.faces.component.UIOutput
                 return ((Integer) _result).intValue();
             }
         }
-        return Integer.MIN_VALUE;
+        return this.refreshRate;
     }
     
     /**

@@ -99,7 +99,8 @@ public class ProgressBarRenderer extends RendererBase {
                 : getTheme().getMessage("ProgressBar.toolTip"))
             .put("type", progressBar.getType())
             .put("className", progressBar.getStyleClass())
-            .put("prefix", prefix)        
+            .put("prefix", prefix)
+            .put("refreshRate", progressBar.getRefreshRate())        
             .put("visible", progressBar.isVisible());
        
         // Add attributes.
