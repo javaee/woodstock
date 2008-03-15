@@ -188,6 +188,7 @@
     <!-- The default file set for the theme jar. -->
     <fileset id="jar-file-set" dir="${theme.build-dir}">
 	<exclude name="${theme.package-path}/${theme.service-class}.java"/>
+	<exclude name="translatedFiles/"/>
 	<exclude name="translatedFiles/**/*"/>
         <exclude name="**/_${theme.bootstrap.js}**"/>
         <exclude name="**/_${theme.dnd.js}**"/>
@@ -259,21 +260,61 @@
 	<exclude name="webui-jsfx-all.js"/>
     </patternset>
 
+    <!-- exclude files for compression dependencies -->
+    <patternset id="generated-js-files">
+	<exclude name="theme/nls/"/>
+	<exclude name="dojo/"/>
+	<exclude name="${theme.bootstrap.js}"/>
+	<exclude name="${theme.dnd.js}"/>
+	<exclude name="${theme.webui.js}"/>
+	<exclude name="${theme.webui-all.js}"/>
+	<exclude name="${theme.webui-jsfx.js}"/>
+	<exclude name="${theme.webui-jsfx-all.js}"/>
+    </patternset>
+
+    <!-- The "compressJavascript" compressed files that need to be
+	 copied, from the cmp-tmp area. These files are not
+	 base62 compressed and that's why they need to be copied
+    -->
+    <patternset id="nobase62-js-files">
+	<include name="dojo/dnd.js"/>
+	<include name="dojo/dojo.js"/>
+	<include name="${theme.bootstrap.js}"/>
+	<include name="${theme.dnd.js}"/>
+	<include name="${theme.webui.js}"/>
+	<include name="${theme.webui-all.js}"/>
+	<include name="${theme.webui-jsfx.js}"/>
+	<include name="${theme.webui-jsfx-all.js}"/>
+    </patternset>
+
     <!-- "bootstrap.js"
-    
     Note: This pattern set serves two purposes. First, it is used to create the
     bootstrap.js file. Second, it is used to prevent files from being included
     via dojo.require() statements when combining dnd.js and webui*.js. We don't
-    want to duplicate resources that are already available in the bootstrap file.
-
+    want to duplicate resources that are already available in the bootstrap 
+    file.
     -->
     <patternset id="bootstrap-js-files">
         <include name="_bootstrap.js" />
     </patternset>
 
+    <!-- "dojo,require" files to exclude when combining files -->
+    <patternset id="combined-excludes">
+	<include name="_bootstrap.js" />
+	<include name="bootstrap.js" />
+	<include name="_dnd.js" />
+	<include name="dnd.js" />
+	<include name="dojo/dojo.js"/>
+	<include name="dojo/dnd.js"/>
+    </patternset>
+
     <!-- "dnd.js" -->
     <patternset id="dnd-js-files">
 	<include name="_dnd.js" />
+    </patternset>
+    <!-- "dnd.js exclude set -->
+    <patternset id="dnd-js-exclude">
+	<include name="_bootstrap.js" />
     </patternset>
 
     <!-- "webui.js" -->
@@ -301,6 +342,15 @@
     <patternset id="webui-jsfx-all-js-files">
 	<include name="**/*.js"/>
         <patternset refid="${theme.exclude-js-files}"/>
+    </patternset>
+
+    <!-- use this patternset for the combineJavascript tool
+	 "exclude-set" option when there are no known files to exclude.
+	 Can be any file in the uncompressed directory, except
+	 "bootstrap.js" and "_bootstrap.js"
+    -->
+    <patternset id="bootstrap-excludes">
+	<include name="dnd.js"/>
     </patternset>
 
     <!-- Public Targets -->
@@ -383,17 +433,21 @@
 
         <!-- Combine CSS -->
         <antcall target="combineCSS">
-	    <param name="_to-dir_" value="${theme.build-package-path}/css_uncompressed"/>
+	    <param name="_to-dir_" 
+		value="${theme.build-package-path}/css_uncompressed"/>
 	    <param name="_from-dir_" value="${theme.src-dir}/css"/>
 	    <param name="_files-to-combine_" value="${theme.master.css}"/>
 	    <param name="_combined-file_" 
 		value="${theme.build-package-path}/css_uncompressed/${theme.master-all.css}"/>
 	</antcall>
 
+	<property name="css-src" 
+	    location="${theme.src-dir}${file.separator}css"/>
         <!-- Compress CSS -->
         <antcall target="compressCSS">
 	    <param name="_to-dir_" value="${theme.build-package-path}/css"/>
-	    <param name="_from-dir_" value="${theme.build-package-path}/css_uncompressed"/>
+	    <param name="_from-dir_" 
+		value="${theme.build-package-path}/css_uncompressed"/>
 	</antcall>
 
         <!-- gzip CSS -->
@@ -420,7 +474,7 @@
 	    <param name="_to-dir_" value="${js-dest-uncmp}"/>
 	    <param name="_from-dir_" value="${js-src}"/>
 	    <param name="_include-set_" value="${theme.webui-js-files}"/>
-            <param name="_exclude-set_" value="${theme.bootstrap-js-files}"/>
+            <param name="_exclude-set_" value="combined-excludes"/>
 	    <param name="_combined-file_" 
 		value="${js-dest-uncmp}/${theme.webui.js}"/>
 	</antcall>
@@ -429,7 +483,7 @@
 	    <param name="_from-dir_" value="${js-src}"/>
 	    <param name="_include-set_"
 		value="${theme.webui-all-js-files}"/>
-            <param name="_exclude-set_" value="${theme.bootstrap-js-files}"/>
+            <param name="_exclude-set_" value="combined-excludes"/>
 	    <param name="_combined-file_" 
 		value="${js-dest-uncmp}/${theme.webui-all.js}"/>
 	</antcall>
@@ -438,7 +492,7 @@
 	    <param name="_from-dir_" value="${js-src}"/>
 	    <param name="_include-set_"
 		value="${theme.webui-jsfx-js-files}"/>
-            <param name="_exclude-set_" value="${theme.bootstrap-js-files}"/>
+            <param name="_exclude-set_" value="combined-excludes"/>
 	    <param name="_combined-file_" 
 		value="${js-dest-uncmp}/${theme.webui-jsfx.js}"/>
 	</antcall>
@@ -447,7 +501,7 @@
 	    <param name="_from-dir_" value="${js-src}"/>
 	    <param name="_include-set_"
 		value="${theme.webui-jsfx-all-js-files}"/>
-            <param name="_exclude-set_" value="${theme.bootstrap-js-files}"/>
+            <param name="_exclude-set_" value="combined-excludes"/>
 	    <param name="_combined-file_" 
 		value="${js-dest-uncmp}/${theme.webui-jsfx-all.js}"/>
 	</antcall>
@@ -457,9 +511,9 @@
 	    <param name="_to-dir_" value="${js-dest-uncmp}"/>
 	    <param name="_from-dir_" value="${js-src}"/>
 	    <param name="_include-set_" value="${theme.dnd-js-files}"/>
+            <param name="_exclude-set_" value="dnd-js-exclude"/>
 	    <param name="_combined-file_" 
 		value="${js-dest-uncmp}/${theme.dnd.js}"/>
-            <param name="_exclude-set_" value="${theme.bootstrap-js-files}"/>
 	</antcall>
         
         <!-- Call combineJavascript once for theme.bootstrap.js -->
@@ -467,23 +521,37 @@
 	    <param name="_to-dir_" value="${js-dest-uncmp}"/>
 	    <param name="_from-dir_" value="${js-src}"/>
 	    <param name="_include-set_" value="${theme.bootstrap-js-files}"/>
-            <param name="_exclude-set_" value="${theme.dnd-js-files}"/> <!-- Have to provide something? -->
+            <param name="_exclude-set_" value="bootstrap-excludes"/>
 	    <param name="_combined-file_" 
 		value="${js-dest-uncmp}/${theme.bootstrap.js}"/>
 	</antcall>
+
+	<!-- Create a temporary directory for the intermediate compressed
+	     "js" files. -->
+	<property name="cmp-tmp" location="${build}${file.separator}cmp-tmp"/>
+	<mkdir dir="${cmp-tmp}"/>
+	<mkdir dir="${cmp-tmp}/dojo"/>
+	<mkdir dir="${cmp-tmp}/dojo/_firebug"/>
+	<mkdir dir="${cmp-tmp}/widget"/>
+	<mkdir dir="${cmp-tmp}/widget/jsfx"/>
+	<mkdir dir="${cmp-tmp}/theme"/>
 
         <!-- Compress JavaScript without base62 encoding. -->
         <antcall target="compressJavascript">
 	    <param name="_to-dir_" value="${js-dest-cmp}"/>
 	    <param name="_from-dir_" value="${js-dest-uncmp}"/>
+	    <param name="_cmp-tmp_" value="${cmp-tmp}"/>
 	</antcall>
         
         <!-- gzip JavaScript without base62 encoding. -->
-        <!-- to and from dir are the same -->
         <antcall target="gzipJavascript">
 	    <param name="_to-dir_" value="${js-dest-cmp}"/>
-	    <param name="_from-dir_" value="${js-dest-cmp}"/>
+	    <param name="_from-dir_" value="${cmp-tmp}"/>
+	    <param name="_js-uncmp-dir_" value="${js-dest-uncmp}"/>
 	</antcall>
+
+	<!-- delete the cmp-tmp dir, we don't need it anymore -->
+	<delete dir="${cmp-tmp}"/>
 
         <!-- Compress JavaScript with base62 encoding. -->
         <antcall target="compressJavascriptBase62">
@@ -828,8 +896,8 @@
     </target>
 
     <!-- Set the compressed-css-uptodate property if
-	"${_to-dir_}/**/*.css" files are newer than 
-	"${_from-dir_}/**/*.css"
+	"${_from-dir_}/**/*.css" files are newer than 
+	"${_to-dir_}/**/*.css"
     -->
     <target name="compressed-css-uptodate">
 	<uptodate property="compressed-css-uptodate">
@@ -892,26 +960,15 @@
 	  <arg value="-verbose"/>
 	</java>
 
-        <!-- Trigger gzip CSS compression. -->
-        <antcall target="_compressed-css-timestamp_"/>
-    </target>
-
-    <!-- Touch time stamp to trigger base62 JavaScript compression.
-    	"${__to-dir-loc__}" Location of compressed files.
-	"${__files-to-compress__}" List of files to touch.
-    -->
-    <target name="_compressed-css-timestamp_" if="build-gzipCSS">
-        <touch datetime="${BuildNumber}" pattern="yyyyMMddHHmm">
-            <fileset dir="${__to-dir-loc__}"
-                includes="${__files-to-compress__}"/>
-        </touch>
     </target>
 
     <target name="gzipcss-uptodate" >
         <uptodate property="gzipcss-uptodate">
-            <srcfiles dir="${_from-dir_}"
-                includes="**/*.css"/>
-            <mapper type="glob" from="*" to="${_to-dir_}/*.gz"/>
+            <srcfiles dir="${_from-dir_}">
+		<include name="*.css"/>
+		<exclude name="*.css.gz"/>
+	    </srcfiles>
+            <mapper type="glob" from="*.css" to="${_to-dir_}/*.css.gz"/>
         </uptodate>
     </target>
         
@@ -930,6 +987,7 @@
 	
 	<pathconvert property="__files-to-compress__" pathsep=",">
 	    <fileset dir="${__from-dir-loc__}">
+		<exclude name="*.css.gz"/>
 		<depend targetdir="${__to-dir-loc__}">
 		    <mapper type="glob" from="*.css" to="*.css.gz"/>
 		</depend>
@@ -1071,15 +1129,25 @@
 	</java>
     </target>
 
+    <!-- Note that this dependency check agains ".js" files
+	 in "_to-dir_" will be comparing against base62
+	 compressed files, since the first pass compressed files
+	 are created in "_cmp-tmp_". But this is ok since 
+	 changed sources will be a later date than any compressed file.
+    -->
     <!-- Set the compressed-js-uptodate property if
 	"${_to-dir_}/**/*.js" files are newer than 
 	"${_from-dir_}/**/*.js"
     -->
     <target name="compressed-js-uptodate">
 	<uptodate property="compressed-js-uptodate">
-	    <srcfiles dir="${_from-dir_}" 
-		includes="**/*.js"
-		excludes="theme/nls/,dojo/,${theme.bootstrap.js},${theme.dnd.js},${theme.webui.js},${theme.webui-all.js},${theme.webui-jsfx.js},${theme.webui-jsfx-all.js}"/>
+	    <srcfiles dir="${_from-dir_}">
+		<exclude name="**/*.js.gz"/>
+		<exclude name="*.js.gz"/>
+		<include name="**/*.js"/>
+		<include name="*.js"/>
+		<patternset refid="generated-js-files"/>
+	    </srcfiles>
 	    <mapper type="glob" from="*" to="${_to-dir_}/*"/>
 	</uptodate>
     </target>
@@ -1089,6 +1157,8 @@
 	_to-dir_ - root of the destination for compressed files
 	_from-dir_ - the source of the uncompressed and
 	             filtered javascript files.
+	_cmp-tmp_ - a intermediate location to place first pass
+		    compressed files in.
 
         Comment out build-compressJS in the build.properties file if you
         don't want to compress when modifying JavaScript files
@@ -1114,7 +1184,11 @@
 	<property name="__from-dir-loc__" location="${_from-dir_}"/>
 	<property name="__to-dir-loc__" location="${_to-dir_}"/>
 
-	<!-- Make sure to exclude the nls, dojo and combined files. -->
+	<!-- Note that this dependency check agains ".js" files
+	     in "__to-dir-loc__" will be comparing against base62
+	     compressed 
+	-->
+	<!-- Make sure to exclude the nls, and dojo. -->
 	<pathconvert property="__files-to-compress__" pathsep=",">
 	    <fileset dir="${__from-dir-loc__}">
 		<exclude name="**/nls/"/>
@@ -1135,75 +1209,35 @@
 	  <arg value="-sourceDir"/>
 	  <arg value="${__from-dir-loc__}"/>
 	  <arg value="-destDir"/>
-	  <arg value="${__to-dir-loc__}"/>
+	  <arg value="${_cmp-tmp_}"/>
 	  <arg value="-fileList"/>
 	  <arg value="${__files-to-compress__}"/>
 	  <arg value="-rhinoJar"/>
 	  <arg value="${rhino.jar}"/>
 	  <arg value="-verbose"/>
 	</java>
+
+	<!-- Since we are not base62 compressing the combined files
+	     we need to copy them to the dest dir. -->
+        <copy todir="${__to-dir-loc__}">
+	    <fileset dir="${_cmp-tmp_}">
+		<patternset refid="nobase62-js-files"/>
+	    </fileset>
+	</copy>
                 
-        <!-- Trigger base62 JavaScript compression. -->
-        <antcall target="_compressed-js-timestamp_"/>
     </target>
 
-    <!-- Touch time stamp to trigger base62 JavaScript compression.
-    	"${__to-dir-loc__}" Location of compressed files.
-	"${__files-to-compress__}" List of files to touch.
+    <!-- Set the gzip-js-uptodate property if
+	"${_to-dir_}/**/*.js.gz" files are newer than 
+	"${_js-uncmp-dir_}/**/*.js"
     -->
-    <target name="_compressed-js-timestamp_" if="build-compressJS-base62">
-        <touch datetime="${BuildNumber}" pattern="yyyyMMddHHmm">
-            <fileset dir="${__to-dir-loc__}"
-                includes="${__files-to-compress__}"
-                excludes="theme/nls/,dojo/,${theme.bootstrap.js},${theme.dnd.js},${theme.webui.js},${theme.webui-all.js},${theme.webui-jsfx.js},${theme.webui-jsfx-all.js}"/>
-        </touch>
-    </target>
-
-    <!-- Set the compressed-js-base62-uptodate property if
-	"${_to-dir_}/**/*.js" files are newer than 
-	"${_from-dir_}/**/*.js"
-    -->
-    <target name="compressed-js-base62-uptodate">
-	<uptodate property="compressed-js-base62-uptodate">
-	    <srcfiles dir="${_from-dir_}" 
-		includes="**/*.js"
-		excludes="theme/nls/,dojo/,${theme.bootstrap.js},${theme.dnd.js},${theme.webui.js},${theme.webui-all.js},${theme.webui-jsfx.js},${theme.webui-jsfx-all.js}"/>
-            <mapper type="glob" from="*" to="${_to-dir_}/*"/>
-	</uptodate>
-    </target>
-
-    <!-- Parameters
-
-	_to-dir_ - root of the destination for compressed files
-	_from-dir_ - the source of the uncompressed and
-	             filtered javascript files.
-
-        Comment out build-compressJS-base62 in the build.properties file if you
-        don't want to compress when modifying JavaScript files
-
-	To simplify the dependency checking it is expected that
-	there are files in "${_from-dir_}", so either "combineJavascript"
-	or "copyJavascript" should have been called.
-
-	Expects the following globals to be set.
-
-        ${compressJs.js}
-        ${packer.dir}
-        ${rhino.jar}
-        ${theme.copyright}
-        ${tools.jar}
-    -->
-    
-    <!-- Set the compressed-js-uptodate property if
-	"${_to-dir_}/**/*.js" files are newer than 
-	"${_from-dir_}/**/*.js"
-    -->
-
     <target name="gzip-js-uptodate">
 	<uptodate property="gzip-js-uptodate">
-	    <srcfiles dir="${_from-dir_}" 
-		includes="**/*.js"
-		excludes="dojo/,${theme.bootstrap.js},${theme.dnd.js},${theme.webui.js},${theme.webui-all.js},${theme.webui-jsfx.js},${theme.webui-jsfx-all.js}"/>
+	    <srcfiles dir="${_js-uncmp-dir_}">
+		<include name="**/*.js"/>
+		<include name="*.js"/>
+		<patternset refid="generated-js-files"/>
+	    </srcfiles>
 	    <mapper type="glob" from="*.js" to="${_to-dir_}/*.js.gz"/>
 	</uptodate>
     </target>
@@ -1213,6 +1247,7 @@
 	_to-dir_ - root of the destination for compressed files
 	_from-dir_ - the source of the uncompressed and
 	             filtered javascript files.
+	_js-uncmp-dir_ - the source files for the dependency check.
 
         Comment out build-compressJS in the build.properties file if you
         don't want to compress when modifying JavaScript files
@@ -1258,8 +1293,45 @@
         </java>
     </target>
 
+    <!-- Set the compressed-js-base62-uptodate property if
+	"${_to-dir_}/**/*.js" files are newer than 
+	"${_from-dir_}/**/*.js"
+    -->
+    <target name="compressed-js-base62-uptodate">
+	<uptodate property="compressed-js-base62-uptodate">
+	    <srcfiles dir="${_from-dir_}">
+		<include name="**/*.js"/>
+		<include name="*.js"/>
+		<patternset refid="generated-js-files"/>
+	    </srcfiles>
+            <mapper type="glob" from="*" to="${_to-dir_}/*"/>
+	</uptodate>
+    </target>
+
+    <!-- Parameters
+
+	_to-dir_ - root of the destination for compressed files
+	_from-dir_ - the source of the uncompressed and
+	             filtered javascript files.
+
+        Comment out build-compressJS-base62 in the build.properties file if you
+        don't want to compress when modifying JavaScript files
+
+	To simplify the dependency checking it is expected that
+	there are files in "${_from-dir_}", so either "combineJavascript"
+	or "copyJavascript" should have been called.
+
+	Expects the following globals to be set.
+
+        ${compressJs.js}
+        ${packer.dir}
+        ${rhino.jar}
+        ${theme.copyright}
+        ${tools.jar}
+    -->
     <target name="compressJavascriptBase62" if="build-compressJS-base62"
-            depends="compressed-js-base62-uptodate" unless="compressed-js-base62-uptodate">
+            depends="compressed-js-base62-uptodate" 
+	    unless="compressed-js-base62-uptodate">
 
 	<mkdir dir="${_to-dir_}"/>
 
