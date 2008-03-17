@@ -882,7 +882,7 @@ webui.@THEME@.widget.rating.prototype._setProps = function(props) {
     if (props == null)
         return false;
 
-    var gradeRightMargin = parseInt(this.theme.getProperty("styles", "RATING_GRADE_MARGIN_RIGHT"));
+    var gradeRightMargin = parseInt(this.theme.getMessage("rating.gradeMarginRight"));
     var hiddenClass = this.theme.getClassName("HIDDEN");
     var hoverClass = this.theme.getClassName("RATING_HOVER");
 
@@ -1135,7 +1135,7 @@ webui.@THEME@.widget.rating.prototype._setProps = function(props) {
 
         // Record spacer width if changing and flag that control container width must be recomputed.
         if (this.imageWidths["spacer"] == 0) {
-            this.imageWidths["spacer"] = parseInt(this.theme.getProperty("styles", "RATING_SPACER_WIDTH"));
+            this.imageWidths["spacer"] = parseInt(this.theme.getMessage("rating.spacerWidth"));
             changeControlWidth = true;
         }
     } else {
