@@ -61,7 +61,7 @@ webui.@THEME@.dojo.declare("webui.@THEME@.widget.rating", webui.@THEME@.widget.w
     currentText: null,
     clicked: false,
     mousedover: false,
-    oldMaxGrade: 0,
+    createGradeControls: true,
     gradeNodes: null,
 
     widgetName: "rating" // Required for theme properties.
@@ -311,6 +311,7 @@ webui.@THEME@.widget.rating.prototype._previewState = function(code, isMouseOver
         displayingGrade = code;
     
 
+    var hoverClass = this.theme.getClassName("RATING_HOVER");
     var hoverText = null;
 
     // ModeToggle image
@@ -320,6 +321,10 @@ webui.@THEME@.widget.rating.prototype._previewState = function(code, isMouseOver
             this.modeToggleNode.className = this.theme.getClassName("RATING_MODE_AVERAGE_IMAGE");
         else
             this.modeToggleNode.className = this.theme.getClassName("RATING_MODE_NORMAL_IMAGE");
+
+        // Since we reset the className above, we may need to add back the hover class.
+        if (!this.modeReadOnly)
+            this.common.addStyleClass(this.modeToggleNode, hoverClass);
 
         // If mouseover on modeToggle, set the hover text to display
         if ((code == this.CODE_MODETOGGLE) && isMouseOver && (this.modeToggleHoverTexts != null)) {
@@ -337,6 +342,10 @@ webui.@THEME@.widget.rating.prototype._previewState = function(code, isMouseOver
         else
             this.notInterestedNode.className = this.theme.getClassName("RATING_NOT_INTERESTED_OFF_IMAGE");
 
+        // Since we reset the className above, we may need to add back the hover class.
+        if (!this.gradeReadOnly)
+            this.common.addStyleClass(this.notInterestedNode, hoverClass);
+
         // If mouseover on notInterested, set the hover text to display
         if (code == this.CODE_NOTINTERESTED && isMouseOver && this.notInterestedHoverText != null)
             hoverText = this.notInterestedHoverText;
@@ -353,6 +362,10 @@ webui.@THEME@.widget.rating.prototype._previewState = function(code, isMouseOver
         }
         else
             this.clearNode.className = this.theme.getClassName("RATING_CLEAR_OFF_IMAGE");
+
+        // Since we reset the className above, we may need to add back the hover class.
+        if (!this.gradeReadOnly)
+            this.common.addStyleClass(this.clearNode, hoverClass);
     }
 
     // Grade images
@@ -369,6 +382,10 @@ webui.@THEME@.widget.rating.prototype._previewState = function(code, isMouseOver
         // Set appropriate class for this grade image
         var imageInfo = this._getGradeImageInfo(displayingAvg, displayingGrade, i);
         this.gradeNodes[i-1].className = imageInfo[0];
+
+        // Since we reset the className above, we may need to add back the hover class.
+        if (!this.gradeReadOnly)
+            this.common.addStyleClass(this.gradeNodes[i-1], hoverClass);
     }
 
     // Set hover text in textContainer
@@ -793,8 +810,60 @@ webui.@THEME@.widget.rating.prototype.setProps = function(props, notify) {
     if (props == null)
         return false;
 
+    // We are trying to deal with a state change which requires
+    // knowing what the current state of the widget is and the
+    // state as defined in props. In order to compare the states
+    // it must be done in setProps before the "props" are extended
+    // onto the widget. At that point there is no difference between
+    // "props" and "this".
+    //
+    if (props.gradeReadOnly != null) {
+        if (props.gradeReadOnly != this.gradeReadOnly)
+            this.createGradeControls = true;
+    }
+    if (props.modeReadOnly != null) {
+        if (props.modeReadOnly != this.modeReadOnly)
+            this.createGradeControls = true;
+    }
+    if (props.inAverageMode != null) {
+        if (props.inAverageMode != this.inAverageMode)
+            this.createGradeControls = true;
+    }
+    if (props.maxGrade != null) {
+        if (props.maxGrade != this.maxGrade)
+            this.createGradeControls = true;
+    }
+    if (props.averageGrade != null) {
+        var f = parseFloat(props.averageGrade);
+        if (!isNaN(f) && (f != this.averageGrade))
+            this.createGradeControls = true;
+    }
+    if (props.grade != null) {
+        var newGrade = this.grade;
+	if (props.grade == "notInterested")
+            newGrade = this.CODE_NOTINTERESTED;
+        else if (props.grade == "clear")
+            newGrade = this.CODE_CLEAR;
+        else {
+            var n = parseInt(props.grade);
+            if (!isNaN(n))
+                newGrade = n;
+        }
+        if (newGrade != this.grade)
+            this.createGradeControls = true;
+    }
+    if (props.maxGrade != null) {
+        if (props.maxGrade != this.maxGrade)
+            this.createGradeControls = true;
+    }
+
     // Extend widget object for later updates.
-    return this.inherited("setProps", arguments);
+    var retVal = this.inherited("setProps", arguments);
+
+    // Reset indicators that were dependent on state change.
+    this.createGradeControls = false;
+
+    return retVal;
 
 }; // setProps
 
@@ -815,55 +884,14 @@ webui.@THEME@.widget.rating.prototype._setProps = function(props) {
 
     var gradeRightMargin = parseInt(this.theme.getProperty("styles", "RATING_GRADE_MARGIN_RIGHT"));
     var hiddenClass = this.theme.getClassName("HIDDEN");
-
-    // Assume we will NOT (re)-build grade controls, prove otherwise based on properties that change.
-    var createGradeControls = false;
+    var hoverClass = this.theme.getClassName("RATING_HOVER");
 
     // Assume width of control container does NOT need to be recalculated, prove otherwise based on 
     // properties that change.
     var changeControlWidth = false;
 
-    // In average mode
-    if (props.inAverageMode != null) {
-        if (props.inAverageMode != this.inAverageMode) {
-            createGradeControls = true;
-            this.inAverageMode = props.inAverageMode;
-        }
-    }
-
-    // User's grade
-    if (props.grade != null) {
-        var newGrade = this.grade;
-	if (props.grade == "notInterested")
-            newGrade = this.CODE_NOTINTERESTED;
-        else if (props.grade == "clear")
-            newGrade = this.CODE_CLEAR;
-        else {
-            var n = parseInt(props.grade);
-            if (!isNaN(n))
-                newGrade = n;
-        }
-        if (newGrade != this.grade) {
-            createGradeControls = true;
-            this.grade = newGrade;
-        }
-    }
-
-    // Average grade
-    if (props.averageGrade != null) {
-        var newAvg = this.averageGrade;
-        var f = parseFloat(props.averageGrade);
-        if (!isNaN(f))
-            newAvg = f;
-        if (newAvg != this.averageGrade) {
-            createGradeControls = true;
-            this.averageGrade = newAvg;
-        }
-    }
-
     // Text area
     if (props.includeText != null) {
-        this.includeText = props.includeText;
         this.textContainer.id = this.textID;
         var classNames = this.textContainer.className.split(" ");
         if (props.includeText == true) {
@@ -879,7 +907,6 @@ webui.@THEME@.widget.rating.prototype._setProps = function(props) {
 
     // Not Interested control
     if (props.includeNotInterested != null) {
-        this.includeNotInterested = props.includeNotInterested;
         this.notInterestedNode.id = this.notInterestedID;
         var classNames = this.notInterestedNode.className.split(" ");
         var imageWidth = 0;
@@ -932,27 +959,26 @@ webui.@THEME@.widget.rating.prototype._setProps = function(props) {
             changeControlWidth = true;
         }
     }
-
-    // Maximum grade
-    if ((props.maxGrade != null) && (props.maxGrade != this.oldMaxGrade)) {
-        createGradeControls = true;
-        this.maxGrade = props.maxGrade;
+    if (this.includeNotInterested) {
+        if (this.gradeReadOnly)
+            this.common.stripStyleClass(this.notInterestedNode, hoverClass);
+        else
+            this.common.addStyleClass(this.notInterestedNode, hoverClass);
     }
 
     // If creating grade controls, delete existing ones if they exist
-    if (createGradeControls == true) {
-        for (var i = 1; i <= this.oldMaxGrade; i++) {
+    if (this.createGradeControls == true) {
+        for (var i = 1; (this.gradeNodes != null) && (i <= this.gradeNodes.length); i++) {
             var node = this.gradeNodes[i-1];
             if (node != null)
                 node.parentNode.removeChild(node);
         }
         this.gradeNodes = null;
         this.imageWidths["grades"] = 0;
-        this.oldMaxGrade = this.maxGrade;
     }
 
     // Grade controls
-    if (createGradeControls == true) {
+    if ((this.createGradeControls == true) && (this.maxGrade > 0)) {
         var imageWidths = 0;
         this.gradeNodes = new Array(this.maxGrade);
 
@@ -970,6 +996,8 @@ webui.@THEME@.widget.rating.prototype._setProps = function(props) {
 
             // Set class for this grade control
             clone.className = imageInfo[0];
+            if (!this.gradeReadOnly)
+                this.common.addStyleClass(clone, hoverClass);
 
             // Maintain running image width for grades
             imageWidths += (imageInfo[1] + gradeRightMargin);
@@ -998,7 +1026,6 @@ webui.@THEME@.widget.rating.prototype._setProps = function(props) {
 
     // Clear grade control
     if (props.includeClear != null) {
-        this.includeClear = props.includeClear;
         this.clearNode.id = this.clearID;
         var classNames = this.clearNode.className.split(" ");
         var imageWidth = 0;
@@ -1034,10 +1061,15 @@ webui.@THEME@.widget.rating.prototype._setProps = function(props) {
             changeControlWidth = true;
         }
     }
+    if (this.includeClear) {
+        if (this.gradeReadOnly)
+            this.common.stripStyleClass(this.clearNode, hoverClass);
+        else
+            this.common.addStyleClass(this.clearNode, hoverClass);
+    }
 
     // Mode toggle control
     if (props.includeModeToggle != null) {
-        this.includeModeToggle = props.includeModeToggle;
         this.modeToggleNode.id = this.modeToggleID;
         var classNames = this.modeToggleNode.className.split(" ");
         var imageWidth = 0;
@@ -1086,6 +1118,12 @@ webui.@THEME@.widget.rating.prototype._setProps = function(props) {
             this.imageWidths["modeToggle"] = imageWidth;
             changeControlWidth = true;
         }
+    }
+    if (this.includeModeToggle) {
+        if (this.modeReadOnly)
+            this.common.stripStyleClass(this.modeToggleNode, hoverClass);
+        else
+            this.common.addStyleClass(this.modeToggleNode, hoverClass);
     }
 
     // Spacer between grade controls and clear/modeToggle controls

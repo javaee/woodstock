@@ -839,6 +839,7 @@ public class ThemeStyles {
     public static final String RATING_CLEAR_OFF_IMAGE = "RATING_CLEAR_OFF_IMAGE";
     public static final String RATING_MODE_NORMAL_IMAGE = "RATING_MODE_NORMAL_IMAGE";
     public static final String RATING_MODE_AVERAGE_IMAGE = "RATING_MODE_AVERAGE_IMAGE";
+    public static final String RATING_HOVER = "RATING_HOVER";
 
 
     /**
