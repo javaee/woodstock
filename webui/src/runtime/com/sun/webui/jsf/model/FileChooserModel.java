@@ -42,8 +42,9 @@ import javax.faces.context.FacesContext;
 import com.sun.webui.jsf.component.FileChooser;
 
 import com.sun.webui.theme.Theme;
-import com.sun.webui.jsf.util.ThemeUtilities;
+import com.sun.webui.jsf.util.ComponentUtilities;
 import com.sun.webui.jsf.util.FilterUtil;
+import com.sun.webui.jsf.util.ThemeUtilities;
 
 // FIXME: Should be logging errors that don't have
 // a way of bubbling up, like messages that don't accept arguments.
@@ -492,34 +493,47 @@ public class FileChooserModel implements ResourceModel, Serializable {
         
         Locale locale = context.getViewRoot().getLocale();
        
-        DateFormat dateFormat = 
-           SimpleDateFormat.getDateInstance(DateFormat.SHORT, locale);
-        String defaultPattern =
-                        ((SimpleDateFormat)dateFormat).toLocalizedPattern();
-        if(defaultPattern.indexOf("yyyy") == -1) {
-            defaultPattern = defaultPattern.replaceFirst("yy", "yyyy"); //NOI18N
-        }
-        if(defaultPattern.indexOf("MM") == -1) {
-            defaultPattern = defaultPattern.replaceFirst("M", "MM"); //NOI18N
-        }
-        if(defaultPattern.indexOf("dd") == -1) {
-            defaultPattern = defaultPattern.replaceFirst("d", "dd"); //NOI18N
-        }
-        
-        try {  
-                defaultPattern = ThemeUtilities.getTheme(context)
-                                 .getMessage("filechooser.".concat(defaultPattern)); 
-            }
-            catch(MissingResourceException mre) { 
-                defaultPattern = "MM/dd/yyyy"; //NOI18N
-            }
-        
-        ((SimpleDateFormat)dateFormat).applyPattern(defaultPattern);
+        SimpleDateFormat dateFormat = null;
+	// If there is a default localized pattern in the theme use it.
+	//
+	try {
+	    String defaultPattern = ThemeUtilities.getTheme(context).getMessage(
+		"filechooser.dateFormat");
+	    dateFormat = new SimpleDateFormat(defaultPattern, locale);
+	} catch (Exception e) {
+	    // Either the property is not defined in the theme
+	    // or it was an invalid format.
+	    //
+	    dateFormat = (SimpleDateFormat)
+		SimpleDateFormat.getDateInstance(DateFormat.SHORT, locale);
+	    String pattern = ComponentUtilities.getDefaultDatePattern(
+		dateFormat.toPattern(), locale);
+	    dateFormat.applyPattern(pattern);
+	}
                 
-        SimpleDateFormat timeFormat =
-                new SimpleDateFormat(theme
-                .getMessage("filechooser.timeFormat"), locale);
-        
+	// If the themed time format fails, from bad formatting
+	// just use "HH:mm".
+	//
+	SimpleDateFormat timeFormat = null;
+	try {
+	    String tf = theme.getMessage("filechooser.timeFormat");
+	    timeFormat = new SimpleDateFormat(tf, locale);
+	} catch (Exception e) {
+	    // Either the property is not defined in the theme
+	    // or it was an invalid format.
+	    //
+	    timeFormat = (SimpleDateFormat)
+		SimpleDateFormat.getTimeInstance(DateFormat.SHORT, locale);
+	    // We need to remove the "AM/PM" marker.
+	    // This is not a "generic" time format like the date format
+	    // above so we do it here vs. as a helper.
+	    //
+	    String pattern = timeFormat.toPattern();
+	    pattern = pattern.replaceFirst("[ ]*a[ ]*", "");
+	    pattern = pattern.replaceFirst("[hH]+", "HH");
+	    timeFormat.applyPattern(pattern);
+	}
+
         String name = file.getName();
         String value = null;
         if (file.isDirectory()) {

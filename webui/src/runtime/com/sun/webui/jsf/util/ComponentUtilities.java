@@ -21,7 +21,7 @@
  */
 
 /*
- * $Id: ComponentUtilities.java,v 1.8 2008-03-12 20:27:04 dkushner Exp $
+ * $Id: ComponentUtilities.java,v 1.9 2008-03-18 21:24:19 rratta Exp $
  */
 
 package com.sun.webui.jsf.util;
@@ -30,6 +30,9 @@ import com.sun.faces.extensions.avatar.lifecycle.AsyncResponse;
 
 import java.util.Map;
 import java.util.StringTokenizer;
+import java.util.Locale;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
@@ -286,4 +289,49 @@ public class ComponentUtilities {
         }
         return false;
     }  
+
+    /**
+     * Return a date pattern that ensures it contains "yyyy",
+     * "MM", and "dd".
+     * <p>
+     * <code>pattern</code> is assumed to be
+     * obtained from a call to <code>toPattern</code> on an instance
+     * of <code>DateFormat</code> and not <code>toLocalizedPattern</code>.
+     * </p>
+     * <p>
+     * If pattern is null, <code>SimpleDateFormat</code> using the
+     * <code>DateFormat.SHORT</code> format for the current locale
+     * to return the pattern.
+     * </p>
+     */
+    public static String getDefaultDatePattern(String pattern, Locale locale) {
+
+	if (locale == null) {
+	    locale = 
+		FacesContext.getCurrentInstance().getViewRoot().getLocale();
+	}
+
+	String resultPattern = null;
+	if (pattern != null) {
+	    resultPattern = new String(pattern);
+	} else {
+	    SimpleDateFormat dateFormat = (SimpleDateFormat)
+		SimpleDateFormat.getDateInstance(DateFormat.SHORT, locale);
+	    resultPattern = dateFormat.toPattern();
+	}
+	    
+	// We don't want pattern to derived from "toLocalizedPattern"
+	// here since the characters may not be "MM" or "dd" or "yyyy"
+	//
+	if (resultPattern.indexOf("yyyy") == -1) {
+	    resultPattern = resultPattern.replaceFirst("yy", "yyyy");
+	}
+	if (resultPattern.indexOf("MM") == -1) {
+	    resultPattern = resultPattern.replaceFirst("M", "MM");
+	}
+	if (resultPattern.indexOf("dd") == -1) {
+	    resultPattern = resultPattern.replaceFirst("d", "dd");
+	}
+	return resultPattern;
+    }
 }
