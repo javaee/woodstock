@@ -1640,6 +1640,20 @@
 		<exclude name="**/CVS/**" /> 
 	    </fileset>
 	</copy>
+	<!-- We need to include an empty "_en" properties file for
+	     properties files that can have variants.
+	     This is because the fallback is "messages" or "style"
+	     etc. properties files without variants. However
+	     in a JSF environment where a "default" language must
+	     be configured, an "_en" variant must exist since all
+	     ResourceBundle requests will have "language1" as the
+	     JSF default and "language2" as the server locale.
+	     See the javadoc for ResourceBundle.getBundle for the
+	     meaning of "language1" and "language2".
+	     See below where the other "known" *.properties files
+	     are handled.
+	-->
+	<touch file="${_to-dir_}/messages/messages_en.properties"/>
 
 	<!-- templates, css files, styles, stylesheet, properties files
 	     must be filtered if ${_filter_} is true.
@@ -1687,6 +1701,12 @@
             <filterset refid="${__theme-filter__}"/>
             <filterset refid="${__css-name-filter__}"/>
         </copy>
+	<!-- Assume we know what the properties/*.properties files are -->
+	<touch file="${_to-dir_}/properties/styles_en.properties"/>
+	<touch file="${_to-dir_}/properties/stylesheets_en.properties"/>
+	<touch file="${_to-dir_}/properties/javascript_en.properties"/>
+	<touch file="${_to-dir_}/properties/templates_en.properties"/>
+	<touch file="${_to-dir_}/properties/images_en.properties"/>
 
 	<!-- the null fileset 
 	  It must have a "dir" so exclude all files
