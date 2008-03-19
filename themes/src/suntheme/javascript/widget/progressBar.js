@@ -713,7 +713,10 @@ webui.@THEME@.widget.progressBar.prototype._setProps = function(props) {
 
         // Add overlay.
         if (props.overlayAnimation == true) {
-            // NOTE: If you set this value manually, text must be HTML escaped.
+            if (props.width != null && props.width > 0) {
+                this.innerBarOverlayContainer.style.width = props.width + "px;";
+            }
+            // NOTE: If you set this value manually, text must be HTML escaped.            
             this.widget.addFragment(this.innerBarOverlayContainer, this.progress + "%");
             this.common.setVisibleElement(this.innerBarOverlayContainer, true);
         }
