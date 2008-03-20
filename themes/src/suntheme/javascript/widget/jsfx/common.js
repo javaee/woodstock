@@ -20,17 +20,17 @@
  * Copyright 2008 Sun Microsystems, Inc. All rights reserved.
  */
 
-webui.@THEME@.dojo.provide("webui.@THEME@.widget.jsfx.common");
+webui.@THEME_JS@.dojo.provide("webui.@THEME_JS@.widget.jsfx.common");
 
-webui.@THEME@.dojo.require("webui.@THEME@.json");
-webui.@THEME@.dojo.require("webui.@THEME@.widget.jsfx.dynaFaces");
+webui.@THEME_JS@.dojo.require("webui.@THEME_JS@.json");
+webui.@THEME_JS@.dojo.require("webui.@THEME_JS@.widget.jsfx.dynaFaces");
 
 /**
  * @class This class contains functions to obtain data asynchronously using JSF
  * Extensions as the underlying transfer protocol.
  * @static
  */
-webui.@THEME@.widget.jsfx.common = {
+webui.@THEME_JS@.widget.jsfx.common = {
     /**
      * This function is used to process refresh events with Object literals.
      *
@@ -55,7 +55,7 @@ webui.@THEME@.widget.jsfx.common = {
             (domNode) ? domNode : document.forms[0], {
             execute: (props.execute) ? props.execute : "none",
             render: props.id,
-            replaceElement: webui.@THEME@.widget.jsfx.common.refreshCallback,
+            replaceElement: webui.@THEME_JS@.widget.jsfx.common.refreshCallback,
             xjson: {
                 id: props.id,
                 endTopic: props.endTopic,
@@ -86,7 +86,7 @@ webui.@THEME@.widget.jsfx.common = {
         DynaFaces.fireAjaxTransaction(
             (domNode) ? domNode : document.forms[0], {
             render: props.id,
-            replaceElement: webui.@THEME@.widget.jsfx.common.stateCallback,
+            replaceElement: webui.@THEME_JS@.widget.jsfx.common.stateCallback,
             xjson: {
                 id: props.id,
                 endTopic: props.endTopic,
@@ -121,7 +121,7 @@ webui.@THEME@.widget.jsfx.common = {
             (domNode) ? domNode : document.forms[0], {
             execute: (props.execute) ? props.execute : props.id,
             render: props.id,
-            replaceElement: webui.@THEME@.widget.jsfx.common.submitCallback,
+            replaceElement: webui.@THEME_JS@.widget.jsfx.common.submitCallback,
             xjson: {
                 id: props.id,
                 endTopic: props.endTopic,
@@ -146,15 +146,15 @@ webui.@THEME@.widget.jsfx.common = {
         }
 
         // Parse JSON text.
-        var props = webui.@THEME@.json.parse(content);
+        var props = webui.@THEME_JS@.json.parse(content);
 
         // Add rows.
-        var widget = webui.@THEME@.dijit.byId(id);
+        var widget = webui.@THEME_JS@.dijit.byId(id);
         widget.setProps(props);
 
         // Publish an event for custom AJAX implementations to listen for.
         if (xjson.endTopic) {
-            webui.@THEME@.dojo.publish(xjson.endTopic, [props]);
+            webui.@THEME_JS@.dojo.publish(xjson.endTopic, [props]);
         }
         return true;
     },
@@ -175,11 +175,11 @@ webui.@THEME@.widget.jsfx.common = {
         }
 
         // Parse JSON text.
-        var props = webui.@THEME@.json.parse(content);
+        var props = webui.@THEME_JS@.json.parse(content);
             
         // Publish an event for custom AJAX implementations to listen for.
         if (xjson.endTopic) {
-            webui.@THEME@.dojo.publish(xjson.endTopic, [props]);
+            webui.@THEME_JS@.dojo.publish(xjson.endTopic, [props]);
         }
         return true;
     },
@@ -200,11 +200,11 @@ webui.@THEME@.widget.jsfx.common = {
         }
 
         // Parse JSON text.
-        var props = webui.@THEME@.json.parse(content);
+        var props = webui.@THEME_JS@.json.parse(content);
             
         // Publish an event for custom AJAX implementations to listen for.
         if (xjson.endTopic) {
-            webui.@THEME@.dojo.publish(xjson.endTopic, [props]);
+            webui.@THEME_JS@.dojo.publish(xjson.endTopic, [props]);
         }
         return true;
     }

@@ -20,18 +20,18 @@
  * Copyright 2008 Sun Microsystems, Inc. All rights reserved.
  */
 
-webui.@THEME@.dojo.provide("webui.@THEME@.widget.dndContainer");
+webui.@THEME_JS@.dojo.provide("webui.@THEME_JS@.widget.dndContainer");
 
-webui.@THEME@.dojo.require("webui.@THEME@.dnd");
-webui.@THEME@.dojo.require("webui.@THEME@.widget.widgetBase");
+webui.@THEME_JS@.dojo.require("webui.@THEME_JS@.dnd");
+webui.@THEME_JS@.dojo.require("webui.@THEME_JS@.widget.widgetBase");
 
  /**
-  * @name webui.@THEME@.widget.dndContainer
-  * @extends webui.@THEME@.widget.widgetBase
+  * @name webui.@THEME_JS@.widget.dndContainer
+  * @extends webui.@THEME_JS@.widget.widgetBase
   * @class This class contains functions for the dndContainer widget
   * @constructor This function is used to construct a dndContainer widget.
   */
-webui.@THEME@.dojo.declare("webui.@THEME@.widget.dndContainer", webui.@THEME@.widget.widgetBase, {
+webui.@THEME_JS@.dojo.declare("webui.@THEME_JS@.widget.dndContainer", webui.@THEME_JS@.widget.widgetBase, {
     // Set defaults.
     widgetName: "dndContainer" // Required for theme properties.
 });
@@ -43,7 +43,7 @@ webui.@THEME@.dojo.declare("webui.@THEME@.widget.dndContainer", webui.@THEME@.wi
  * signature function(data, hint).
  * @return {Function} function to be called for node creation.
  */
-webui.@THEME@.widget.dndContainer.prototype.createCreatorCallback = function(funcName) {
+webui.@THEME_JS@.widget.dndContainer.prototype.createCreatorCallback = function(funcName) {
     var dragTypes = this.dragTypes ? this.dragTypes : "";
     var dragSource = this.dragSource;
     var func = new Function("data", "hint", "return " + funcName + "(data, hint)");
@@ -83,7 +83,7 @@ webui.@THEME@.widget.dndContainer.prototype.createCreatorCallback = function(fun
  *
  * @return {Function} function to be called upon drop.
  */
-webui.@THEME@.widget.dndContainer.prototype.createOnDndDropCallback = function() {
+webui.@THEME_JS@.widget.dndContainer.prototype.createOnDndDropCallback = function() {
     var containerWidget = this;
  
     return function(source, nodes, copy){
@@ -105,7 +105,7 @@ webui.@THEME@.widget.dndContainer.prototype.createOnDndDropCallback = function()
  *
  * @return {String} calculated class name of the container node.
  */
-webui.@THEME@.widget.dndContainer.prototype.getContainerClassName = function() {   
+webui.@THEME_JS@.widget.dndContainer.prototype.getContainerClassName = function() {   
     // Add default style.
     return  this.dndContainer.className;
 };
@@ -116,7 +116,7 @@ webui.@THEME@.widget.dndContainer.prototype.getContainerClassName = function() {
  *
  * @return {Object} Key-Value pairs of properties.
  */
-webui.@THEME@.widget.dndContainer.prototype.getProps = function() {
+webui.@THEME_JS@.widget.dndContainer.prototype.getProps = function() {
     var props = this.inherited("getProps", arguments);
     
     // Set properties.
@@ -141,7 +141,7 @@ webui.@THEME@.widget.dndContainer.prototype.getProps = function() {
  * </p>
  * @return {boolean} true if successful; otherwise, false.
  */
-webui.@THEME@.widget.dndContainer.prototype.postCreate = function () {
+webui.@THEME_JS@.widget.dndContainer.prototype.postCreate = function () {
     // Set ids.
     if (this.id) {
         this.dndContainer.id = this.id + "_container";
@@ -167,7 +167,7 @@ webui.@THEME@.widget.dndContainer.prototype.postCreate = function () {
     }
     params.onDropFunction = this.createOnDndDropCallback();
     
-    this.dragSource = new webui.@THEME@.dnd.Source(this.dndContainer, params);
+    this.dragSource = new webui.@THEME_JS@.dnd.Source(this.dndContainer, params);
 
     return this.inherited("postCreate", arguments);
 };
@@ -191,7 +191,7 @@ webui.@THEME@.widget.dndContainer.prototype.postCreate = function () {
  * @config {boolean} visible Hide or show element.
  * @return {Boolean} true if operation was successfull, false otherwise.
  */
-webui.@THEME@.widget.dndContainer.prototype.setProps = function(props, notify) {
+webui.@THEME_JS@.widget.dndContainer.prototype.setProps = function(props, notify) {
     if (props == null) {
         return false;
     }
@@ -213,7 +213,7 @@ webui.@THEME@.widget.dndContainer.prototype.setProps = function(props, notify) {
  * @return {boolean} true if successful; otherwise, false.
  * @private
  */
-webui.@THEME@.widget.dndContainer.prototype._setProps = function(props) {
+webui.@THEME_JS@.widget.dndContainer.prototype._setProps = function(props) {
     if (props == null) {
         return false;
     }      

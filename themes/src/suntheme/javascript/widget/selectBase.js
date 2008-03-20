@@ -20,16 +20,16 @@
  * Copyright 2008 Sun Microsystems, Inc. All rights reserved.
  */
 
-webui.@THEME@.dojo.provide("webui.@THEME@.widget.selectBase");
+webui.@THEME_JS@.dojo.provide("webui.@THEME_JS@.widget.selectBase");
 
-webui.@THEME@.dojo.require("webui.@THEME@.browser");
-webui.@THEME@.dojo.require("webui.@THEME@.common");
-webui.@THEME@.dojo.require("webui.@THEME@.widget.widgetBase");
-webui.@THEME@.dojo.require("webui.@THEME@.widget.label");
+webui.@THEME_JS@.dojo.require("webui.@THEME_JS@.browser");
+webui.@THEME_JS@.dojo.require("webui.@THEME_JS@.common");
+webui.@THEME_JS@.dojo.require("webui.@THEME_JS@.widget.widgetBase");
+webui.@THEME_JS@.dojo.require("webui.@THEME_JS@.widget.label");
 
 /**
- * @name webui.@THEME@.widget.selectBase
- * @extends webui.@THEME@.widget.widgetBase
+ * @name webui.@THEME_JS@.widget.selectBase
+ * @extends webui.@THEME_JS@.widget.widgetBase
  * @class This class defines functions and properties for
  * widgets based on the "select" HTML element.
  *
@@ -55,11 +55,11 @@ webui.@THEME@.dojo.require("webui.@THEME@.widget.label");
  * the <code>selectBase</code> widget to render a label. If only the
  * <code>value</code> property is specified the following default
  * values will be used to create an instance of 
- * <code>webui.@THEME@.widget.label</code>.
+ * <code>webui.@THEME_JS@.widget.label</code>.
  * <p>
  * <ul>
  * <li><code>widgetType</code> -
- * <code>webui.@THEME@.widget.label</code></li>
+ * <code>webui.@THEME_JS@.widget.label</code></li>
  * <li><code>id</code> - this.id + "_label"</li>
  * <li><code>htmlFor</code> - this.listContainer.id</li>
  * </ul>
@@ -122,8 +122,8 @@ webui.@THEME@.dojo.require("webui.@THEME@.widget.label");
  * </p>
  * @static
  */
-webui.@THEME@.dojo.declare("webui.@THEME@.widget.selectBase", 
-	webui.@THEME@.widget.widgetBase, {
+webui.@THEME_JS@.dojo.declare("webui.@THEME_JS@.widget.selectBase", 
+	webui.@THEME_JS@.widget.widgetBase, {
     disabled: false,
     required: false,
     valid: true,
@@ -160,13 +160,13 @@ webui.@THEME@.dojo.declare("webui.@THEME@.widget.selectBase",
  * </p>
  * @return {boolean} true if successful; otherwise, false.
  */
-webui.@THEME@.widget.selectBase.prototype.changed = function(ev) {
+webui.@THEME_JS@.widget.selectBase.prototype.changed = function(ev) {
     var options = this.listContainer.options;
 
     // IE allows disabled options to be selected. Ensure that
     // disabled options never appear as selected options.
     //
-    if (webui.@THEME@.browser.isIe()) {
+    if (webui.@THEME_JS@.browser.isIe()) {
 	for (var i = 0; i < options.length; ++i) {
 	    if (options[i].disabled == true && options[i].selected == true) {
 		if (this.listContainer.multiple == true) {
@@ -219,7 +219,7 @@ webui.@THEME@.widget.selectBase.prototype.changed = function(ev) {
  * @return {boolean} Returns true.
  * @private
  */
-webui.@THEME@.widget.selectBase.prototype._copyOption = function(toOption, fromOption) {
+webui.@THEME_JS@.widget.selectBase.prototype._copyOption = function(toOption, fromOption) {
     var domhandlers = [ "onblur", "onchange", "onclick", "ondblclick",
 	"onfocus", "onkeydown", "onkeypress", "onkeyup", "onmousedown",
 	"onmouseout", "onmouseover", "onmouseup", "onmousemove", "onresize"];
@@ -268,7 +268,7 @@ webui.@THEME@.widget.selectBase.prototype._copyOption = function(toOption, fromO
  * <code>domNode</code> has no child nodes, an empty array is returned.
  * @private
  */
-webui.@THEME@.widget.selectBase.prototype._copyOptions = function(domNode) {
+webui.@THEME_JS@.widget.selectBase.prototype._copyOptions = function(domNode) {
     var newoptions = [];
     if (!domNode.hasChildNodes()) {
 	return newoptions;
@@ -294,7 +294,7 @@ webui.@THEME@.widget.selectBase.prototype._copyOptions = function(domNode) {
  * @param {Object} option Key-Value pairs of properties.
  * @return {String} The HTML option element class name.
  */
-webui.@THEME@.widget.selectBase.prototype.getOptionClassName = function(option) {
+webui.@THEME_JS@.widget.selectBase.prototype.getOptionClassName = function(option) {
     // Make sure that if a subclass does not implement this method
     // that it causes no change to option.
     //
@@ -335,7 +335,7 @@ webui.@THEME@.widget.selectBase.prototype.getOptionClassName = function(option) 
  * an <code>option</code> or <code>optGroup</code> HTML element.
  * </p>
  */
-webui.@THEME@.widget.selectBase.prototype.setOptions = function(props) {
+webui.@THEME_JS@.widget.selectBase.prototype.setOptions = function(props) {
     if (props == null) {
 	return false;
     }
@@ -364,7 +364,7 @@ webui.@THEME@.widget.selectBase.prototype.setOptions = function(props) {
 
 	var pOption = props.options[i];
 
-	var isie = webui.@THEME@.browser.isIe();
+	var isie = webui.@THEME_JS@.browser.isIe();
 	if (pOption.group == null || pOption.group == false) {
 
 	    // For some reason, ie is prone to painting problems (esp. after a 
@@ -474,7 +474,7 @@ webui.@THEME@.widget.selectBase.prototype.setOptions = function(props) {
  *
  * @return {Object} Key-Value pairs of properties.
  */
-webui.@THEME@.widget.selectBase.prototype.getProps = function() {
+webui.@THEME_JS@.widget.selectBase.prototype.getProps = function() {
     var props = this.inherited("getProps", arguments);
 
     // Get properties.
@@ -513,7 +513,7 @@ webui.@THEME@.widget.selectBase.prototype.getProps = function() {
  *
  * @return {Node} The HTML select element.
  */
-webui.@THEME@.widget.selectBase.prototype.getSelectElement = function() {
+webui.@THEME_JS@.widget.selectBase.prototype.getSelectElement = function() {
     return this.listContainer;
 };
 
@@ -523,7 +523,7 @@ webui.@THEME@.widget.selectBase.prototype.getSelectElement = function() {
  *
  * @return {Integer} The selected index of underlying select element
  */
-webui.@THEME@.widget.selectBase.prototype.getSelectedIndex = function() { 
+webui.@THEME_JS@.widget.selectBase.prototype.getSelectedIndex = function() { 
     return this.listContainer.selectedIndex; 
 };
 
@@ -533,7 +533,7 @@ webui.@THEME@.widget.selectBase.prototype.getSelectedIndex = function() {
  *
  * @return {Boolean} true
  */
-webui.@THEME@.widget.selectBase.prototype.setSelectedIndex = function(index) { 
+webui.@THEME_JS@.widget.selectBase.prototype.setSelectedIndex = function(index) { 
     if (index >=0 && index < this.listContainer.options.length) {
         this.listContainer.selectedIndex = index;
     }
@@ -554,7 +554,7 @@ webui.@THEME@.widget.selectBase.prototype.setSelectedIndex = function(index) {
  * @return The label of the selected option, or null if none is selected. 
  * @return {String} The label attribute of the selected option.
  */
-webui.@THEME@.widget.selectBase.prototype.getSelectedLabel = function() { 
+webui.@THEME_JS@.widget.selectBase.prototype.getSelectedLabel = function() { 
     var index = this.listContainer.selectedIndex; 
 
     if (index == -1) { 
@@ -577,7 +577,7 @@ webui.@THEME@.widget.selectBase.prototype.getSelectedLabel = function() {
  *
  * @return {String} The selected option value or null if none is selected. 
  */
-webui.@THEME@.widget.selectBase.prototype.getSelectedValue = function() { 
+webui.@THEME_JS@.widget.selectBase.prototype.getSelectedValue = function() { 
     var index = this.listContainer.selectedIndex; 
     if (index == -1) { 
         return null; 
@@ -600,7 +600,7 @@ webui.@THEME@.widget.selectBase.prototype.getSelectedValue = function() {
  * @return {boolean} true if successful; otherwise, false.
  * @private
  */
-webui.@THEME@.widget.selectBase.prototype._onChangeCallback = function(event) {
+webui.@THEME_JS@.widget.selectBase.prototype._onChangeCallback = function(event) {
     if (this.disabled == true) {
         return false;
     }
@@ -625,7 +625,7 @@ webui.@THEME@.widget.selectBase.prototype._onChangeCallback = function(event) {
  * </p>
  * @return {boolean} true if successful; otherwise, false.
  */
-webui.@THEME@.widget.selectBase.prototype.postCreate = function () {
+webui.@THEME_JS@.widget.selectBase.prototype.postCreate = function () {
     // Set ids.
     if (this.id) {
         this.labelContainer.id = this.id + "_label";
@@ -637,7 +637,7 @@ webui.@THEME@.widget.selectBase.prototype.postCreate = function () {
     // make the br node visible else hide it.
     //
     if (this.labelOnTop != null) {
-	webui.@THEME@.common.setVisibleElement(this.brNode, this.labelOnTop);
+	webui.@THEME_JS@.common.setVisibleElement(this.brNode, this.labelOnTop);
 	this._lastLabelOnTopClassName = this.getLabelClassName(null);
     }
 
@@ -656,22 +656,22 @@ webui.@THEME@.widget.selectBase.prototype.postCreate = function () {
 	    this.label.valid = false;
 	}
 	if (this._lastLabelOnTopClassName != null) {
-	    webui.@THEME@.common.addStyleClass(this.label, 
+	    webui.@THEME_JS@.common.addStyleClass(this.label, 
 		this._lastLabelOnTopClassName);
 	}
     }
 
     // Set public functions.
     this.domNode.getSelectedValue = function() { 
-	return webui.@THEME@.dijit.byId(this.id).getSelectedValue(); };
+	return webui.@THEME_JS@.dijit.byId(this.id).getSelectedValue(); };
     this.domNode.getSelectedLabel = function() { 
-	return webui.@THEME@.dijit.byId(this.id).getSelectedLabel(); };
+	return webui.@THEME_JS@.dijit.byId(this.id).getSelectedLabel(); };
     this.domNode.getSelectedIndex = function() { 
-	return webui.@THEME@.dijit.byId(this.id).getSelectedIndex(); };
+	return webui.@THEME_JS@.dijit.byId(this.id).getSelectedIndex(); };
     this.domNode.setSelectedIndex = function(index) { 
-	return webui.@THEME@.dijit.byId(this.id).setSelectedIndex(index); };
+	return webui.@THEME_JS@.dijit.byId(this.id).setSelectedIndex(index); };
     this.domNode.getSelectElement = function() { 
-	return webui.@THEME@.dijit.byId(this.id).getSelectElement(); };
+	return webui.@THEME_JS@.dijit.byId(this.id).getSelectElement(); };
 
     // Set events.
     this.dojo.connect(this.listContainer, "onchange", this, 
@@ -689,7 +689,7 @@ webui.@THEME@.widget.selectBase.prototype.postCreate = function () {
  * </p>
  * @return {Object} This implementation returns null;
  */
-webui.@THEME@.widget.selectBase.prototype.getLabelProps = function() {
+webui.@THEME_JS@.widget.selectBase.prototype.getLabelProps = function() {
     return null;
 };
 
@@ -717,7 +717,7 @@ webui.@THEME@.widget.selectBase.prototype.getLabelProps = function() {
  * as HTML markup.
  * @return {boolean} true if successful; otherwise, false.
  */
-webui.@THEME@.widget.selectBase.prototype.setGroupOptionProps =
+webui.@THEME_JS@.widget.selectBase.prototype.setGroupOptionProps =
 	function(element, option) {
     element.label = option.label;
   
@@ -777,7 +777,7 @@ webui.@THEME@.widget.selectBase.prototype.setGroupOptionProps =
  * @config {boolean} separator If true this option acts as a separator.
  * @return {boolean} true if successful; otherwise, false.
  */
-webui.@THEME@.widget.selectBase.prototype.setOptionProps =
+webui.@THEME_JS@.widget.selectBase.prototype.setOptionProps =
         function(element, option) {
     element.value = option.value;
 
@@ -904,7 +904,7 @@ webui.@THEME@.widget.selectBase.prototype.setOptionProps =
  * @return {boolean} true if successful; otherwise, false.
  * @private
  */
-webui.@THEME@.widget.selectBase.prototype.setProps = function(props) {
+webui.@THEME_JS@.widget.selectBase.prototype.setProps = function(props) {
     // Always call inherited setProps
     //
     if (props == null) {
@@ -925,7 +925,7 @@ webui.@THEME@.widget.selectBase.prototype.setProps = function(props) {
 	// If the state is "ontop" then make the br node 
 	// visible else hide it.
 	//
-	webui.@THEME@.common.setVisibleElement(this.brNode, props.labelOnTop);
+	webui.@THEME_JS@.common.setVisibleElement(this.brNode, props.labelOnTop);
 
 	// Remember the new ontop selector.
 	//
@@ -938,7 +938,7 @@ webui.@THEME@.widget.selectBase.prototype.setProps = function(props) {
 	if (havelabel) {
 
 	    var labelnode = document.getElementById(this.label.id);
-	    webui.@THEME@.common.stripStyleClass(labelnode,
+	    webui.@THEME_JS@.common.stripStyleClass(labelnode,
 		this._lastLabelOnTopClassName);
 
 	    // If we are toggling ontop for an existing label or the
@@ -951,7 +951,7 @@ webui.@THEME@.widget.selectBase.prototype.setProps = function(props) {
 
 	} else if (props.label && this._lastLabelOnTopClassName != null) {
 	    labelProps = props.label;
-	    webui.@THEME@.common.addStyleClass(labelProps, 
+	    webui.@THEME_JS@.common.addStyleClass(labelProps, 
 		this._lastLabelOnTopClassName);
 	}
     }
@@ -992,7 +992,7 @@ webui.@THEME@.widget.selectBase.prototype.setProps = function(props) {
  * @return {boolean} true if successful; otherwise, false.
  * @private
  */
-webui.@THEME@.widget.selectBase.prototype._setProps = function(props) {
+webui.@THEME_JS@.widget.selectBase.prototype._setProps = function(props) {
     // Always call inherited _setProps
     //
     if (props == null) {

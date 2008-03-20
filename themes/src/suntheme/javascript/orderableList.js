@@ -20,15 +20,15 @@
  * Copyright 2008 Sun Microsystems, Inc. All rights reserved.
  */
 
-webui.@THEME@.dojo.provide("webui.@THEME@.orderableList");
+webui.@THEME_JS@.dojo.provide("webui.@THEME_JS@.orderableList");
 
-webui.@THEME@.dojo.require("webui.@THEME@.prototypejs");
+webui.@THEME_JS@.dojo.require("webui.@THEME_JS@.prototypejs");
 
 /** 
  * @class This class contains functions for orderableList components.
  * @static
  */
-webui.@THEME@.orderableList = {
+webui.@THEME_JS@.orderableList = {
     /**
      * This function is used to initialize HTML element properties with Object
      * literals.
@@ -102,12 +102,12 @@ webui.@THEME@.orderableList = {
                 || domNode.moveBottomButton == null 
                 || domNode.values == null) {
             return setTimeout(function() {
-                webui.@THEME@.orderableList._init(props);
+                webui.@THEME_JS@.orderableList._init(props);
             }, 10);
         }
 
         // Set given properties on domNode.
-        webui.@THEME@.prototypejs.extend(domNode, props, false);
+        webui.@THEME_JS@.prototypejs.extend(domNode, props, false);
 
         // The options of the select element from which selections are made 
         domNode.options = domNode.list.options;
@@ -118,13 +118,13 @@ webui.@THEME@.orderableList = {
         }
 
         // Set functions.
-        domNode.moveUp = webui.@THEME@.orderableList.moveUp;
-        domNode.moveDown = webui.@THEME@.orderableList.moveDown;
-        domNode.moveTop = webui.@THEME@.orderableList.moveTop;
-        domNode.moveBottom = webui.@THEME@.orderableList.moveBottom;
-        domNode.updateButtons = webui.@THEME@.orderableList.updateButtons;
-        domNode.updateValue = webui.@THEME@.orderableList.updateValue;
-        domNode.onChange = webui.@THEME@.orderableList.updateButtons;
+        domNode.moveUp = webui.@THEME_JS@.orderableList.moveUp;
+        domNode.moveDown = webui.@THEME_JS@.orderableList.moveDown;
+        domNode.moveTop = webui.@THEME_JS@.orderableList.moveTop;
+        domNode.moveBottom = webui.@THEME_JS@.orderableList.moveBottom;
+        domNode.updateButtons = webui.@THEME_JS@.orderableList.updateButtons;
+        domNode.updateValue = webui.@THEME_JS@.orderableList.updateValue;
+        domNode.onChange = webui.@THEME_JS@.orderableList.updateButtons;
 
         // Initialize buttons.
         domNode.updateButtons();

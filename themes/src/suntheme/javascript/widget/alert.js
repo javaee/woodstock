@@ -20,17 +20,17 @@
  * Copyright 2008 Sun Microsystems, Inc. All rights reserved.
  */
 
-webui.@THEME@.dojo.provide("webui.@THEME@.widget.alert");
+webui.@THEME_JS@.dojo.provide("webui.@THEME_JS@.widget.alert");
 
-webui.@THEME@.dojo.require("webui.@THEME@.widget.widgetBase");
+webui.@THEME_JS@.dojo.require("webui.@THEME_JS@.widget.widgetBase");
 
 /**
- * @name webui.@THEME@.widget.alert
- * @extends webui.@THEME@.widget.widgetBase
+ * @name webui.@THEME_JS@.widget.alert
+ * @extends webui.@THEME_JS@.widget.widgetBase
  * @class This class contains functions for the alert widget.
  * @constructor This function is used to construct an alert widget.
  */
-webui.@THEME@.dojo.declare("webui.@THEME@.widget.alert", webui.@THEME@.widget.widgetBase, {
+webui.@THEME_JS@.dojo.declare("webui.@THEME_JS@.widget.alert", webui.@THEME_JS@.widget.widgetBase, {
     // Set defaults.
     widgetName: "alert" // Required for theme properties.
 });
@@ -44,18 +44,18 @@ webui.@THEME@.dojo.declare("webui.@THEME@.widget.alert", webui.@THEME@.widget.wi
  * </p>
  * @ignore
  */
-webui.@THEME@.widget.alert.event =
-        webui.@THEME@.widget.alert.prototype.event = {
+webui.@THEME_JS@.widget.alert.event =
+        webui.@THEME_JS@.widget.alert.prototype.event = {
     /**
      * This object contains refresh event topics.
      * @ignore
      */
     refresh: {
         /** Refresh event topic for custom AJAX implementations to listen for. */
-        beginTopic: "webui_@THEME@_widget_alert_event_refresh_begin",
+        beginTopic: "webui_@THEME_JS@_widget_alert_event_refresh_begin",
 
         /** Refresh event topic for custom AJAX implementations to listen for. */
-        endTopic: "webui_@THEME@_widget_alert_event_refresh_end"
+        endTopic: "webui_@THEME_JS@_widget_alert_event_refresh_end"
     },
 
     /**
@@ -64,10 +64,10 @@ webui.@THEME@.widget.alert.event =
      */
     state: {
         /** State event topic for custom AJAX implementations to listen for. */
-        beginTopic: "webui_@THEME@_widget_alert_event_state_begin",
+        beginTopic: "webui_@THEME_JS@_widget_alert_event_state_begin",
 
         /** State event topic for custom AJAX implementations to listen for. */
-        endTopic: "webui_@THEME@_widget_alert_event_state_end"
+        endTopic: "webui_@THEME_JS@_widget_alert_event_state_end"
     }
 };
 
@@ -77,7 +77,7 @@ webui.@THEME@.widget.alert.event =
  *
  * @return {Object} Key-Value pairs of properties.
  */
-webui.@THEME@.widget.alert.prototype.getProps = function() {
+webui.@THEME_JS@.widget.alert.prototype.getProps = function() {
     var props = this.inherited("getProps", arguments);
 
     // Set properties.
@@ -100,7 +100,7 @@ webui.@THEME@.widget.alert.prototype.getProps = function() {
  * @config {boolean} valid Flag indicating validation state.
  * @return {boolean} true if successful; otherwise, false.
  */
-webui.@THEME@.widget.alert.prototype.notify = function(props) {
+webui.@THEME_JS@.widget.alert.prototype.notify = function(props) {
     if (props == null) {
         return false;
     }
@@ -120,7 +120,7 @@ webui.@THEME@.widget.alert.prototype.notify = function(props) {
  * </p>
  * @return {boolean} true if successful; otherwise, false.
  */
-webui.@THEME@.widget.alert.prototype.postCreate = function () {
+webui.@THEME_JS@.widget.alert.prototype.postCreate = function () {
     // Set ids.
     if (this.id) {
         this.bottomLeftContainer.id = this.id + "_bottomLeftContainer";
@@ -241,7 +241,7 @@ webui.@THEME@.widget.alert.prototype.postCreate = function () {
  * @param {boolean} notify Publish an event for custom AJAX implementations to listen for.
  * @return {boolean} true if successful; otherwise, false.
  */
-webui.@THEME@.widget.alert.prototype.setProps = function(props, notify) {
+webui.@THEME_JS@.widget.alert.prototype.setProps = function(props, notify) {
     // Note: This function is overridden for JsDoc.
     return this.inherited("setProps", arguments);
 };
@@ -256,7 +256,7 @@ webui.@THEME@.widget.alert.prototype.setProps = function(props, notify) {
  * @return {boolean} true if successful; otherwise, false.
  * @private
  */
-webui.@THEME@.widget.alert.prototype._setProps = function(props) {
+webui.@THEME_JS@.widget.alert.prototype._setProps = function(props) {
     if (props == null) {
         return false;
     }
@@ -298,7 +298,7 @@ webui.@THEME@.widget.alert.prototype._setProps = function(props) {
                 props.spacerImage.id = this.id + "_spacerImage" + i;
             }
             // Replace container with image.
-            if (!webui.@THEME@.dijit.byId(props.spacerImage.id)) {
+            if (!webui.@THEME_JS@.dijit.byId(props.spacerImage.id)) {
                 this.widget.addFragment(containers[i], props.spacerImage);
             }
         }

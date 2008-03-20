@@ -20,7 +20,7 @@
  * Copyright 2008 Sun Microsystems, Inc. All rights reserved.
  */
 
-webui.@THEME@.dojo.provide("webui.@THEME@.json");
+webui.@THEME_JS@.dojo.provide("webui.@THEME_JS@.json");
 
 //
 // Copyright (c) 2005 JSON.org
@@ -47,7 +47,7 @@ webui.@THEME@.dojo.provide("webui.@THEME@.json");
  * @class This class contains functions for parsing JSON.
  * @static
  */
-webui.@THEME@.json = {
+webui.@THEME_JS@.json = {
     /**
      * JSON escape chars.
      * @private
@@ -76,7 +76,7 @@ webui.@THEME@.json = {
         string: function (x) {
             if (/["\\\x00-\x1f]/.test(x)) {
                 x = x.replace(/([\x00-\x1f\\"])/g, function(a, b) {
-                    var c = webui.@THEME@.json._m[b];
+                    var c = webui.@THEME_JS@.json._m[b];
                     if (c) {
                         return c;
                     }
@@ -96,7 +96,7 @@ webui.@THEME@.json = {
                     l = x.length;
                     for (i = 0; i < l; i += 1) {
                         v = x[i];
-                        f = webui.@THEME@.json._s[typeof v];
+                        f = webui.@THEME_JS@.json._s[typeof v];
                         if (f) {
                             v = f(v);
                             if (typeof v == 'string') {
@@ -114,14 +114,14 @@ webui.@THEME@.json = {
                     for (i in x) {
                         if (x.hasOwnProperty(i)) {
                             v = x[i];
-                            f = webui.@THEME@.json._s[typeof v];
+                            f = webui.@THEME_JS@.json._s[typeof v];
                             if (f) {
                                 v = f(v);
                                 if (typeof v == 'string') {
                                     if (b) {
                                         a[a.length] = ',';
                                     }
-                                    a.push(webui.@THEME@.json._s.string(i), ':', v);
+                                    a.push(webui.@THEME_JS@.json._s.string(i), ':', v);
                                     b = true;
                                 }
                             }
@@ -144,7 +144,7 @@ webui.@THEME@.json = {
      * @return {boolean} true if successful; otherwise, false.
      */
     stringify: function (v) {
-        var f = webui.@THEME@.json._s[typeof v];
+        var f = webui.@THEME_JS@.json._s[typeof v];
         if (f) {
             v = f(v);
             if (typeof v == 'string') {

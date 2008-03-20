@@ -20,17 +20,17 @@
  * Copyright 2008 Sun Microsystems, Inc. All rights reserved.
  */
 
-webui.@THEME@.dojo.provide("webui.@THEME@.widget.fieldBase");
+webui.@THEME_JS@.dojo.provide("webui.@THEME_JS@.widget.fieldBase");
 
-webui.@THEME@.dojo.require("webui.@THEME@.widget.widgetBase");
+webui.@THEME_JS@.dojo.require("webui.@THEME_JS@.widget.widgetBase");
 
 /**
- * @name webui.@THEME@.widget.fieldBase
- * @extends webui.@THEME@.widget.widgetBase
+ * @name webui.@THEME_JS@.widget.fieldBase
+ * @extends webui.@THEME_JS@.widget.widgetBase
  * @class This class contains functions for widgets that extend fieldBase.
  * @static
  */
-webui.@THEME@.dojo.declare("webui.@THEME@.widget.fieldBase", webui.@THEME@.widget.widgetBase, {
+webui.@THEME_JS@.dojo.declare("webui.@THEME_JS@.widget.fieldBase", webui.@THEME_JS@.widget.widgetBase, {
     // Set defaults.
     disabled: false,
     required: false,
@@ -43,7 +43,7 @@ webui.@THEME@.dojo.declare("webui.@THEME@.widget.fieldBase", webui.@THEME@.widge
  *
  * @return {String} The HTML input element class name.
  */
-webui.@THEME@.widget.fieldBase.prototype.getInputClassName = function() {   
+webui.@THEME_JS@.widget.fieldBase.prototype.getInputClassName = function() {   
     return null; // Overridden by subclass.
 };
 
@@ -52,7 +52,7 @@ webui.@THEME@.widget.fieldBase.prototype.getInputClassName = function() {
  *
  * @return {Node} The HTML input element.
  */
-webui.@THEME@.widget.fieldBase.prototype.getInputElement = function() {
+webui.@THEME_JS@.widget.fieldBase.prototype.getInputElement = function() {
     return this.fieldNode;
 };
 
@@ -62,7 +62,7 @@ webui.@THEME@.widget.fieldBase.prototype.getInputElement = function() {
  *
  * @return {Object} Key-Value pairs of properties.
  */
-webui.@THEME@.widget.fieldBase.prototype.getProps = function() {
+webui.@THEME_JS@.widget.fieldBase.prototype.getProps = function() {
     var props = this.inherited("getProps", arguments);
     
     // Set properties.
@@ -98,7 +98,7 @@ webui.@THEME@.widget.fieldBase.prototype.getProps = function() {
  * </p>
  * @return {boolean} true if successful; otherwise, false.
  */
-webui.@THEME@.widget.fieldBase.prototype.postCreate = function () {
+webui.@THEME_JS@.widget.fieldBase.prototype.postCreate = function () {
     // Set ids.
     if (this.id) {
         this.fieldNode.id = this.id + "_field";
@@ -116,7 +116,7 @@ webui.@THEME@.widget.fieldBase.prototype.postCreate = function () {
 
     
     // Set public functions.
-    this.domNode.getInputElement = function() { return webui.@THEME@.dijit.byId(this.id).getInputElement(); };
+    this.domNode.getInputElement = function() { return webui.@THEME_JS@.dijit.byId(this.id).getInputElement(); };
     
     return this.inherited("postCreate", arguments);
 };
@@ -131,7 +131,7 @@ webui.@THEME@.widget.fieldBase.prototype.postCreate = function () {
  * @return {boolean} true if successful; otherwise, false.
  * @private
  */
-webui.@THEME@.widget.fieldBase.prototype._setProps = function(props) {
+webui.@THEME_JS@.widget.fieldBase.prototype._setProps = function(props) {
     if (props == null) {
         return false;
     }
@@ -204,7 +204,7 @@ webui.@THEME@.widget.fieldBase.prototype._setProps = function(props) {
  * @param {Event} event The JavaScript event.
  * @return {boolean} true if successful; otherwise, false.
  */
-webui.@THEME@.widget.fieldBase.prototype.submitFormData = function(event) {
+webui.@THEME_JS@.widget.fieldBase.prototype.submitFormData = function(event) {
     if (event == null) {
         return false;
     }

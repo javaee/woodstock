@@ -20,18 +20,18 @@
  * Copyright 2008 Sun Microsystems, Inc. All rights reserved.
  */
 
-webui.@THEME@.dojo.provide("webui.@THEME@.widget.checkedBase");
+webui.@THEME_JS@.dojo.provide("webui.@THEME_JS@.widget.checkedBase");
 
-webui.@THEME@.dojo.require("webui.@THEME@.browser");
-webui.@THEME@.dojo.require("webui.@THEME@.widget.widgetBase");
+webui.@THEME_JS@.dojo.require("webui.@THEME_JS@.browser");
+webui.@THEME_JS@.dojo.require("webui.@THEME_JS@.widget.widgetBase");
 
 /**
- * @name webui.@THEME@.widget.checkedBase
- * @extends webui.@THEME@.widget.widgetBase
+ * @name webui.@THEME_JS@.widget.checkedBase
+ * @extends webui.@THEME_JS@.widget.widgetBase
  * @class This class contains functions for widgets that extend checkedBase.
  * @static
  */
-webui.@THEME@.dojo.declare("webui.@THEME@.widget.checkedBase", webui.@THEME@.widget.widgetBase, {
+webui.@THEME_JS@.dojo.declare("webui.@THEME_JS@.widget.checkedBase", webui.@THEME_JS@.widget.widgetBase, {
     // Set defaults.
     idSuffix: "" // Overridden by subclass
 });
@@ -41,7 +41,7 @@ webui.@THEME@.dojo.declare("webui.@THEME@.widget.checkedBase", webui.@THEME@.wid
  *
  * @return {String} The HTML image element class name.
  */
-webui.@THEME@.widget.checkedBase.prototype.getImageClassName = function() {
+webui.@THEME_JS@.widget.checkedBase.prototype.getImageClassName = function() {
     return null; // Overridden by subclass.
 };
 
@@ -50,7 +50,7 @@ webui.@THEME@.widget.checkedBase.prototype.getImageClassName = function() {
  *
  * @return {String} The HTML input element class name.
  */
-webui.@THEME@.widget.checkedBase.prototype.getInputClassName = function() {
+webui.@THEME_JS@.widget.checkedBase.prototype.getInputClassName = function() {
     return null; // Overridden by subclass.
 };
 
@@ -59,7 +59,7 @@ webui.@THEME@.widget.checkedBase.prototype.getInputClassName = function() {
  *
  * @return {Node} The HTML input element. 
  */
-webui.@THEME@.widget.checkedBase.prototype.getInputElement = function() {
+webui.@THEME_JS@.widget.checkedBase.prototype.getInputElement = function() {
     return this.inputNode;
 };
 
@@ -68,7 +68,7 @@ webui.@THEME@.widget.checkedBase.prototype.getInputElement = function() {
  *
  * @return {String} The HTML label element class name.
  */
-webui.@THEME@.widget.checkedBase.prototype.getLabelClassName = function() {
+webui.@THEME_JS@.widget.checkedBase.prototype.getLabelClassName = function() {
     return null; // Overridden by subclass.
 };
 
@@ -78,7 +78,7 @@ webui.@THEME@.widget.checkedBase.prototype.getLabelClassName = function() {
  *
  * @return {Object} Key-Value pairs of properties.
  */
-webui.@THEME@.widget.checkedBase.prototype.getProps = function() {
+webui.@THEME_JS@.widget.checkedBase.prototype.getProps = function() {
     var props = this.inherited("getProps", arguments);
 
     // Set properties.  
@@ -105,7 +105,7 @@ webui.@THEME@.widget.checkedBase.prototype.getProps = function() {
  * @param {Event} event The JavaScript event.
  * @return {boolean} true if successful; otherwise, false.
  */
-webui.@THEME@.widget.checkedBase.prototype.onClickCallback = function(event) {
+webui.@THEME_JS@.widget.checkedBase.prototype.onClickCallback = function(event) {
     if (this.readOnly == true) {
         event.preventDefault();
         return false;
@@ -129,7 +129,7 @@ webui.@THEME@.widget.checkedBase.prototype.onClickCallback = function(event) {
  * </p>
  * @return {boolean} true if successful; otherwise, false.
  */
-webui.@THEME@.widget.checkedBase.prototype.postCreate = function () {
+webui.@THEME_JS@.widget.checkedBase.prototype.postCreate = function () {
     // Set ids.
     if (this.id) {
         this.inputNode.id = this.id + this.idSuffix;
@@ -143,7 +143,7 @@ webui.@THEME@.widget.checkedBase.prototype.postCreate = function () {
     }
 
     // Set public functions.
-    this.domNode.getInputElement = function() { return webui.@THEME@.dijit.byId(this.id).getInputElement(); }
+    this.domNode.getInputElement = function() { return webui.@THEME_JS@.dijit.byId(this.id).getInputElement(); }
     
     // Create callback function for onclick event.
     this.dojo.connect(this.domNode, "onclick", this, "onClickCallback");
@@ -161,7 +161,7 @@ webui.@THEME@.widget.checkedBase.prototype.postCreate = function () {
  * @return {boolean} true if successful; otherwise, false.
  * @private
  */
-webui.@THEME@.widget.checkedBase.prototype._setProps = function(props) {
+webui.@THEME_JS@.widget.checkedBase.prototype._setProps = function(props) {
     if (props == null) {
         return false;
     }
@@ -191,12 +191,12 @@ webui.@THEME@.widget.checkedBase.prototype._setProps = function(props) {
         // the HTML input element has been added to the DOM. As a work around, 
         // we shall use a timeout to set the property during initialization.
         if (this.isInitialized() != true &&
-                webui.@THEME@.browser.isIe()) {
+                webui.@THEME_JS@.browser.isIe()) {
             var _id = this.id;
             setTimeout(function() {
                 // New literals are created every time this function
                 // is called, and it's saved by closure magic.
-                var widget = webui.@THEME@.dijit.byId(_id);
+                var widget = webui.@THEME_JS@.dijit.byId(_id);
                 widget.inputNode.checked = checked;
             }, 0); // (n) milliseconds delay.
         } else {

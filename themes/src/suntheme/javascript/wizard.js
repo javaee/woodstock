@@ -20,11 +20,11 @@
  * Copyright 2008 Sun Microsystems, Inc. All rights reserved.
  */
 
-webui.@THEME@.dojo.provide("webui.@THEME@.wizard");
+webui.@THEME_JS@.dojo.provide("webui.@THEME_JS@.wizard");
 
-webui.@THEME@.dojo.require("webui.@THEME@.browser");
-webui.@THEME@.dojo.require("webui.@THEME@.common");
-webui.@THEME@.dojo.require("webui.@THEME@.prototypejs");
+webui.@THEME_JS@.dojo.require("webui.@THEME_JS@.browser");
+webui.@THEME_JS@.dojo.require("webui.@THEME_JS@.common");
+webui.@THEME_JS@.dojo.require("webui.@THEME_JS@.prototypejs");
 
 /** 
  * @class This class contains functions for wizard components.
@@ -43,7 +43,7 @@ webui.@THEME@.dojo.require("webui.@THEME@.prototypejs");
  * </code></p>
  * @static
  */
-webui.@THEME@.wizard = {
+webui.@THEME_JS@.wizard = {
     /**
      * This function is used to initialize HTML element properties with Object
      * literals.
@@ -66,19 +66,19 @@ webui.@THEME@.wizard = {
         }
 
         // Set given properties on domNode.
-        webui.@THEME@.prototypejs.extend(domNode, props, false);
+        webui.@THEME_JS@.prototypejs.extend(domNode, props, false);
 
         // Set functions.
-        domNode.nextClicked = webui.@THEME@.wizard.nextClicked;
-        domNode.previousClicked = webui.@THEME@.wizard.previousClicked;
-        domNode.cancelClicked = webui.@THEME@.wizard.cancelClicked;
-        domNode.finishClicked = webui.@THEME@.wizard.finishClicked;
-        domNode.closeClicked = webui.@THEME@.wizard.closeClicked;
-        domNode.gotoStepClicked = webui.@THEME@.wizard.gotoStepClicked;
-        domNode.closePopup = webui.@THEME@.wizard.closePopup;
-        domNode.closeAndForward = webui.@THEME@.wizard.closeAndForward;
-        domNode.wizOnLoad = webui.@THEME@.wizard.wizOnLoad;
-        domNode.resize_hack = webui.@THEME@.wizard.resize_hack;
+        domNode.nextClicked = webui.@THEME_JS@.wizard.nextClicked;
+        domNode.previousClicked = webui.@THEME_JS@.wizard.previousClicked;
+        domNode.cancelClicked = webui.@THEME_JS@.wizard.cancelClicked;
+        domNode.finishClicked = webui.@THEME_JS@.wizard.finishClicked;
+        domNode.closeClicked = webui.@THEME_JS@.wizard.closeClicked;
+        domNode.gotoStepClicked = webui.@THEME_JS@.wizard.gotoStepClicked;
+        domNode.closePopup = webui.@THEME_JS@.wizard.closePopup;
+        domNode.closeAndForward = webui.@THEME_JS@.wizard.closeAndForward;
+        domNode.wizOnLoad = webui.@THEME_JS@.wizard.wizOnLoad;
+        domNode.resize_hack = webui.@THEME_JS@.wizard.resize_hack;
 
         return true;
     },
@@ -219,7 +219,7 @@ webui.@THEME@.wizard = {
      * @return {boolean} true if successful; otherwise, false.
      */
     resize_hack: function(helpid, stepsid, wizbdyid) {
-        if (webui.@THEME@.browser.isIe5up()) {
+        if (webui.@THEME_JS@.browser.isIe5up()) {
             var bdy = document.getElementById(wizbdyid);
 
             if (bdy != null) {

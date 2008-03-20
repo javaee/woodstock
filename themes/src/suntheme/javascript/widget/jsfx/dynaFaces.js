@@ -20,17 +20,17 @@
  * Copyright 2008 Sun Microsystems, Inc. All rights reserved.
  */
 
-webui.@THEME@.dojo.provide("webui.@THEME@.widget.jsfx.dynaFaces");
+webui.@THEME_JS@.dojo.provide("webui.@THEME_JS@.widget.jsfx.dynaFaces");
 
-webui.@THEME@.dojo.require("webui.@THEME@.config");
-webui.@THEME@.dojo.require("webui.@THEME@.theme.common");
-webui.@THEME@.dojo.require("webui.@THEME@.widget.eventBase");
+webui.@THEME_JS@.dojo.require("webui.@THEME_JS@.config");
+webui.@THEME_JS@.dojo.require("webui.@THEME_JS@.theme.common");
+webui.@THEME_JS@.dojo.require("webui.@THEME_JS@.widget.eventBase");
 
 /**
  * @class This class contains functions to obtain JSF Extensions resources.
  * @static
  */
-webui.@THEME@.widget.jsfx.dynaFaces = {
+webui.@THEME_JS@.widget.jsfx.dynaFaces = {
     /**
      * This function is used to initialize the environment with Object literals.
      *
@@ -56,17 +56,17 @@ webui.@THEME@.widget.jsfx.dynaFaces = {
         
         // Load JSF Extensions immediately.
         if (new Boolean(props.webuiJsfx).valueOf() == true) {
-            webui.@THEME@.widget.jsfx.dynaFaces.loadJsfx();
+            webui.@THEME_JS@.widget.jsfx.dynaFaces.loadJsfx();
         } else {
             // Override default publish functionality to lazily load JSFX.
-            webui.@THEME@.widget.eventBase.prototype._publish = 
+            webui.@THEME_JS@.widget.eventBase.prototype._publish = 
                 function(topic, props) {
                     // Load JSF Extensions and publish event via a callback, 
                     // ensuring all resources have been loaded.
-                    webui.@THEME@.widget.jsfx.dynaFaces.loadJsfx(function() {
+                    webui.@THEME_JS@.widget.jsfx.dynaFaces.loadJsfx(function() {
 
                     // Publish an event for custom AJAX implementations to listen for.
-                    webui.@THEME@.dojo.publish(topic, props);
+                    webui.@THEME_JS@.dojo.publish(topic, props);
                     return true;
                 });
             };
@@ -84,9 +84,9 @@ webui.@THEME@.widget.jsfx.dynaFaces = {
         if (typeof DynaFaces != "undefined") {
             return callback();
         }
-        var bootstrap = webui.@THEME@.bootstrap;
-        var theme = webui.@THEME@.theme.common;
-        var isDebug = new Boolean(webui.@THEME@.config.isDebug).valueOf();
+        var bootstrap = webui.@THEME_JS@.bootstrap;
+        var theme = webui.@THEME_JS@.theme.common;
+        var isDebug = new Boolean(webui.@THEME_JS@.config.isDebug).valueOf();
 
         // Get script URLs.
         var pUrl = theme.getJavaScript((isDebug == true)
@@ -113,4 +113,4 @@ webui.@THEME@.widget.jsfx.dynaFaces = {
 };
 
 // Initialize the environment.
-webui.@THEME@.widget.jsfx.dynaFaces._init(webui.@THEME@.config);
+webui.@THEME_JS@.widget.jsfx.dynaFaces._init(webui.@THEME_JS@.config);

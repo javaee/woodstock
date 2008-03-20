@@ -20,7 +20,7 @@
  * Copyright 2008 Sun Microsystems, Inc. All rights reserved.
  */
 
-webui.@THEME@.dojo.provide("webui.@THEME@.prototypejs");
+webui.@THEME_JS@.dojo.provide("webui.@THEME_JS@.prototypejs");
 
 //
 // Prototype JavaScript framework, based on version 1.5.0_rc1 
@@ -32,14 +32,14 @@ webui.@THEME@.dojo.provide("webui.@THEME@.prototypejs");
 
 /**
  * @class This class contains functions from the Prototype JavaScript framework.
- * @name webui.@THEME@.prototypejs
+ * @name webui.@THEME_JS@.prototypejs
  * @static
  */
 
 /**
- * @scope webui.@THEME@.prototypejs
+ * @scope webui.@THEME_JS@.prototypejs
  */
-webui.@THEME@.prototypejs = {
+webui.@THEME_JS@.prototypejs = {
     /** 
      * A RegExp pattern used to match scrip tags.
      * @private
@@ -66,7 +66,7 @@ webui.@THEME@.prototypejs = {
      * @return {Object|boolean} The result of the evaluated script.
      */
     evalScripts: function(str) {
-        var prototypejs = webui.@THEME@.prototypejs;
+        var prototypejs = webui.@THEME_JS@.prototypejs;
         return prototypejs.map(prototypejs.extractScripts(str), function(script) { 
             return eval(script);
         });
@@ -94,7 +94,7 @@ webui.@THEME@.prototypejs = {
 
         // If recursive is true and property is an non-null object, call this
         // function again.
-        var prototypejs = webui.@THEME@.prototypejs;
+        var prototypejs = webui.@THEME_JS@.prototypejs;
         for (var property in props) {
             if (obj[property] && typeof obj[property] == "object" 
                     && recursive != false) {
@@ -113,7 +113,7 @@ webui.@THEME@.prototypejs = {
      * @return {Object} The string containing only script.
      */
     extractScripts: function(str) {
-        var prototypejs = webui.@THEME@.prototypejs;
+        var prototypejs = webui.@THEME_JS@.prototypejs;
         var matchAll = new RegExp(prototypejs._scriptFragment, 'img');
         var matchOne = new RegExp(prototypejs._scriptFragment, 'im');
 
@@ -155,7 +155,7 @@ webui.@THEME@.prototypejs = {
      * @return {Object} The string minus any script tags.
      */
     stripScripts: function(str) {
-        return str.replace(new RegExp(webui.@THEME@.prototypejs._scriptFragment, 'img'), ''); 
+        return str.replace(new RegExp(webui.@THEME_JS@.prototypejs._scriptFragment, 'img'), ''); 
     },
 
     /**
@@ -176,7 +176,7 @@ webui.@THEME@.prototypejs = {
      */
     unescapeHTML: function(str) {
         var div = document.createElement('div');
-        div.innerHTML = webui.@THEME@.prototypejs.stripTags(str);
+        div.innerHTML = webui.@THEME_JS@.prototypejs.stripTags(str);
         return div.childNodes[0] ? div.childNodes[0].nodeValue : '';
     }
 };

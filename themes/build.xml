@@ -141,7 +141,7 @@
     <!-- Not currently documented for cloning -->
     <property name="theme.master.css" value="css_master.css"/>
     <property name="theme.master-all.css" value="css_master-all.css"/>
-    <property name="theme.js-module-prefix" value="webui.${theme.name}"/>
+    <property name="theme.js-module-prefix" value="webui.${theme.name}${CacheVersion}"/>
     <property name="theme.bootstrap.js" value="bootstrap.js"/>
     <property name="theme.dnd.js" value="dnd.js"/>
     <property name="theme.dojo.js" value="dojo/dojo.js"/>
@@ -179,7 +179,8 @@
 
     <!-- The default filter set for Javascript files. -->
     <filterset id="js-filter-set">
-	<filter token="THEME" value="${theme.name}"/> 
+	<filter token="THEME" value="${theme.name}"/>
+        <filter token="THEME_JS" value="${theme.name}${CacheVersion}"/> 
 	<filter token="THEME_CSS" value="${theme.css-name}"/>
 	<filter token="THEME_VERSION" value="${theme.version}"/>
         <filter token="THEME_PATH" value="/${theme.package-path}"/>
@@ -1689,6 +1690,7 @@
 
 	<filterset id="_theme-filter_">
 	    <filter token="THEME" value="${theme.name}"/>
+            <filter token="THEME_JS" value="${theme.name}${CacheVersion}"/>
 	    <filter token="THEME_PATH" value="/${theme.package-path}"/>
 	</filterset>
 

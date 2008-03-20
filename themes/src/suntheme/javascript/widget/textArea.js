@@ -20,17 +20,17 @@
  * Copyright 2008 Sun Microsystems, Inc. All rights reserved.
  */
 
-webui.@THEME@.dojo.provide("webui.@THEME@.widget.textArea");
+webui.@THEME_JS@.dojo.provide("webui.@THEME_JS@.widget.textArea");
 
-webui.@THEME@.dojo.require("webui.@THEME@.widget.textField");
+webui.@THEME_JS@.dojo.require("webui.@THEME_JS@.widget.textField");
 
 /**
- * @name webui.@THEME@.widget.textArea
- * @extends webui.@THEME@.widget.textField
+ * @name webui.@THEME_JS@.widget.textArea
+ * @extends webui.@THEME_JS@.widget.textField
  * @class This class contains functions for the textArea widget.
  * @constructor This function is used to construct a textArea widget.
  */
-webui.@THEME@.dojo.declare("webui.@THEME@.widget.textArea", webui.@THEME@.widget.textField, {
+webui.@THEME_JS@.dojo.declare("webui.@THEME_JS@.widget.textArea", webui.@THEME_JS@.widget.textField, {
     // Set defaults.
     autoSave: 0,
     cols: 20,
@@ -43,13 +43,13 @@ webui.@THEME@.dojo.declare("webui.@THEME@.widget.textArea", webui.@THEME@.widget
  *
  * @return {Function} The callback function.
  */
-webui.@THEME@.widget.textArea.prototype.createSubmitCallback = function() {
+webui.@THEME_JS@.widget.textArea.prototype.createSubmitCallback = function() {
     var _id = this.id;
 
     // New literals are created every time this function
     // is called, and it's saved by closure magic.
     return function(event) { 
-        var widget = webui.@THEME@.dijit.byId(_id);
+        var widget = webui.@THEME_JS@.dijit.byId(_id);
         if (widget == null) {
             return false;
         }
@@ -71,18 +71,18 @@ webui.@THEME@.widget.textArea.prototype.createSubmitCallback = function() {
  * </p>
  * @ignore
  */
-webui.@THEME@.widget.textArea.event =
-        webui.@THEME@.widget.textArea.prototype.event = {
+webui.@THEME_JS@.widget.textArea.event =
+        webui.@THEME_JS@.widget.textArea.prototype.event = {
     /**
      * This object contains refresh event topics.
      * @ignore
      */
     refresh: {
         /** Refresh event topic for custom AJAX implementations to listen for. */
-        beginTopic: "webui_@THEME@_widget_textArea_event_refresh_begin",
+        beginTopic: "webui_@THEME_JS@_widget_textArea_event_refresh_begin",
 
         /** Refresh event topic for custom AJAX implementations to listen for. */
-        endTopic: "webui_@THEME@_widget_textArea_event_refresh_end"
+        endTopic: "webui_@THEME_JS@_widget_textArea_event_refresh_end"
     },
 
     /**
@@ -91,10 +91,10 @@ webui.@THEME@.widget.textArea.event =
      */
     state: {
         /** State event topic for custom AJAX implementations to listen for. */
-        beginTopic: "webui_@THEME@_widget_textArea_event_state_begin",
+        beginTopic: "webui_@THEME_JS@_widget_textArea_event_state_begin",
 
         /** State event topic for custom AJAX implementations to listen for. */
-        endTopic: "webui_@THEME@_widget_textArea_event_state_end"
+        endTopic: "webui_@THEME_JS@_widget_textArea_event_state_end"
     },
 
     /**
@@ -103,10 +103,10 @@ webui.@THEME@.widget.textArea.event =
      */
     submit: {
         /** Submit event topic for custom AJAX implementations to listen for. */
-        beginTopic: "webui_@THEME@_widget_textArea_event_submit_begin",
+        beginTopic: "webui_@THEME_JS@_widget_textArea_event_submit_begin",
 
         /** Submit event topic for custom AJAX implementations to listen for. */
-        endTopic: "webui_@THEME@_widget_textArea_event_submit_end"
+        endTopic: "webui_@THEME_JS@_widget_textArea_event_submit_end"
     }
 };
 
@@ -115,7 +115,7 @@ webui.@THEME@.widget.textArea.event =
  *
  * @return {String} The HTML input element class name.
  */
-webui.@THEME@.widget.textArea.prototype.getInputClassName = function() {
+webui.@THEME_JS@.widget.textArea.prototype.getInputClassName = function() {
     // Set readOnly style
     if (this.fieldNode.readOnly) {
         return this.widget.getClassName("TEXT_AREA_READONLY", "");
@@ -138,7 +138,7 @@ webui.@THEME@.widget.textArea.prototype.getInputClassName = function() {
  *
  * @return {Object} Key-Value pairs of properties.
  */
-webui.@THEME@.widget.textArea.prototype.getProps = function() {
+webui.@THEME_JS@.widget.textArea.prototype.getProps = function() {
     var props = this.inherited("getProps", arguments);
     
     // Set properties.
@@ -157,7 +157,7 @@ webui.@THEME@.widget.textArea.prototype.getProps = function() {
  * </p>
  * @return {boolean} true if successful; otherwise, false.
  */
-webui.@THEME@.widget.textArea.prototype.postCreate = function () {
+webui.@THEME_JS@.widget.textArea.prototype.postCreate = function () {
     // Set events.                
     if (this.autoSave > 0) {
         this.autoSaveTimerId = setInterval(this.createSubmitCallback(), 
@@ -210,7 +210,7 @@ webui.@THEME@.widget.textArea.prototype.postCreate = function () {
  * @param {boolean} notify Publish an event for custom AJAX implementations to listen for.
  * @return {boolean} true if successful; otherwise, false.
  */
-webui.@THEME@.widget.textArea.prototype.setProps = function(props, notify) {
+webui.@THEME_JS@.widget.textArea.prototype.setProps = function(props, notify) {
     // Note: This function is overridden for JsDoc.
     return this.inherited("setProps", arguments);
 };
@@ -225,7 +225,7 @@ webui.@THEME@.widget.textArea.prototype.setProps = function(props, notify) {
  * @return {boolean} true if successful; otherwise, false.
  * @private
  */
-webui.@THEME@.widget.textArea.prototype._setProps = function(props) {
+webui.@THEME_JS@.widget.textArea.prototype._setProps = function(props) {
     if (props == null) {
         return false;
     }

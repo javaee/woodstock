@@ -20,20 +20,20 @@
  * Copyright 2008 Sun Microsystems, Inc. All rights reserved.
  */
 
-webui.@THEME@.dojo.provide("webui.@THEME@.widget.eventBase");
+webui.@THEME_JS@.dojo.provide("webui.@THEME_JS@.widget.eventBase");
 
-webui.@THEME@.dojo.require("webui.@THEME@.config");
-webui.@THEME@.dojo.require("webui.@THEME@.dijit._Widget"); 
-webui.@THEME@.dojo.require("webui.@THEME@.dijit._Templated");
+webui.@THEME_JS@.dojo.require("webui.@THEME_JS@.config");
+webui.@THEME_JS@.dojo.require("webui.@THEME_JS@.dijit._Widget"); 
+webui.@THEME_JS@.dojo.require("webui.@THEME_JS@.dijit._Templated");
 
 /**
- * @name webui.@THEME@.widget.eventBase
- * @extends webui.@THEME@.dijit._Widget, webui.@THEME@.dijit._Templated
+ * @name webui.@THEME_JS@.widget.eventBase
+ * @extends webui.@THEME_JS@.dijit._Widget, webui.@THEME_JS@.dijit._Templated
  * @class This class contains functions for widgets that extend eventBase.
  * @static
  */
-webui.@THEME@.dojo.declare("webui.@THEME@.widget.eventBase", [
-    webui.@THEME@.dijit._Widget, webui.@THEME@.dijit._Templated]);
+webui.@THEME_JS@.dojo.declare("webui.@THEME_JS@.widget.eventBase", [
+    webui.@THEME_JS@.dijit._Widget, webui.@THEME_JS@.dijit._Templated]);
 
 /**
  * This object contains event topics.
@@ -44,8 +44,8 @@ webui.@THEME@.dojo.declare("webui.@THEME@.widget.eventBase", [
  * </p>
  * @ignore
  */
-webui.@THEME@.widget.eventBase.event =
-        webui.@THEME@.widget.eventBase.prototype.event = {
+webui.@THEME_JS@.widget.eventBase.event =
+        webui.@THEME_JS@.widget.eventBase.prototype.event = {
     /**
      * This object contains refresh event topics.
      * @ignore
@@ -92,7 +92,7 @@ webui.@THEME@.widget.eventBase.event =
  * </p>
  * @return {boolean} true if successful; otherwise, false.
  */
-webui.@THEME@.widget.eventBase.prototype.initEvents = function () {
+webui.@THEME_JS@.widget.eventBase.prototype.initEvents = function () {
     if (this.event == null) {
         return false;
     }
@@ -112,7 +112,7 @@ webui.@THEME@.widget.eventBase.prototype.initEvents = function () {
     if (this.event.refresh != null) {
         // Set public function.
         this.domNode.refresh = function(execute) {
-            return webui.@THEME@.dijit.byId(_id).refresh(execute);
+            return webui.@THEME_JS@.dijit.byId(_id).refresh(execute);
         };
         subscribe = true;
     } else {
@@ -123,7 +123,7 @@ webui.@THEME@.widget.eventBase.prototype.initEvents = function () {
     if (this.event.submit != null) {
         // Set public function.
         this.domNode.submit = function(execute) {
-            return webui.@THEME@.dijit.byId(_id).submit(execute);    
+            return webui.@THEME_JS@.dijit.byId(_id).submit(execute);    
         };
         subscribe = true;
     } else {
@@ -140,7 +140,7 @@ webui.@THEME@.widget.eventBase.prototype.initEvents = function () {
     // Subscribe.
     if (subscribe == true) {
         this.domNode.subscribe = function(topic, obj, func) {
-            return webui.@THEME@.dijit.byId(_id).subscribe(topic, obj, func);
+            return webui.@THEME_JS@.dijit.byId(_id).subscribe(topic, obj, func);
         };
     }
     return true;
@@ -154,13 +154,13 @@ webui.@THEME@.widget.eventBase.prototype.initEvents = function () {
  * to each topic subscriber.
  * @return {boolean} true if successful; otherwise, false.
  */
-webui.@THEME@.widget.eventBase.prototype.publish = function(topic, props) {
+webui.@THEME_JS@.widget.eventBase.prototype.publish = function(topic, props) {
     // Obtain the Ajax module associated with this widget.
-    var config = webui.@THEME@.config;
+    var config = webui.@THEME_JS@.config;
     if (config.ajax.module) {
-        webui.@THEME@.dojo.require(config.ajax.module + "." + this.widgetName);
+        webui.@THEME_JS@.dojo.require(config.ajax.module + "." + this.widgetName);
     }
-    return webui.@THEME@.widget.eventBase.prototype._publish(topic, props);
+    return webui.@THEME_JS@.widget.eventBase.prototype._publish(topic, props);
 };
 
 /**
@@ -175,9 +175,9 @@ webui.@THEME@.widget.eventBase.prototype.publish = function(topic, props) {
  * @return {boolean} true if successful; otherwise, false.
  * @private
  */
-webui.@THEME@.widget.eventBase.prototype._publish = function(topic, props) {
+webui.@THEME_JS@.widget.eventBase.prototype._publish = function(topic, props) {
     // Publish an event for custom AJAX implementations to listen for.
-    webui.@THEME@.dojo.publish(topic, props);
+    webui.@THEME_JS@.dojo.publish(topic, props);
     return true;
 };
 
@@ -191,8 +191,8 @@ webui.@THEME@.widget.eventBase.prototype._publish = function(topic, props) {
  * function reference to invoke when topic is published. 
  * @return {boolean} true if successful; otherwise, false.
  */
-webui.@THEME@.widget.eventBase.prototype.subscribe = function(topic, obj, func) {
-    webui.@THEME@.dojo.subscribe(topic, obj, func);
+webui.@THEME_JS@.widget.eventBase.prototype.subscribe = function(topic, obj, func) {
+    webui.@THEME_JS@.dojo.subscribe(topic, obj, func);
     return true;
 };
 
@@ -208,7 +208,7 @@ webui.@THEME@.widget.eventBase.prototype.subscribe = function(topic, obj, func) 
  * processing lifecycle must be run.
  * @return {boolean} true if successful; otherwise, false.
  */
-webui.@THEME@.widget.eventBase.prototype.refresh = function(execute) {
+webui.@THEME_JS@.widget.eventBase.prototype.refresh = function(execute) {
     if (this.event.refresh == null) {
         console.debug("Error: Refresh event topics not implemented for " + 
             this.widgetName); // See Firebug console.
@@ -234,7 +234,7 @@ webui.@THEME@.widget.eventBase.prototype.refresh = function(execute) {
  * @param {Object} props Key-Value pairs of widget properties to update.
  * @return {boolean} true if successful; otherwise, false.
  */
-webui.@THEME@.widget.eventBase.prototype.stateChanged = function(props) {
+webui.@THEME_JS@.widget.eventBase.prototype.stateChanged = function(props) {
     if (this.event.state == null) {
         console.debug("Error: State event topics not implemented for " + 
             this.widgetName); // See Firebug console.
@@ -262,7 +262,7 @@ webui.@THEME@.widget.eventBase.prototype.stateChanged = function(props) {
  * processing lifecycle must be run.
  * @return {boolean} true if successful; otherwise, false.
  */
-webui.@THEME@.widget.eventBase.prototype.submit = function(execute) {
+webui.@THEME_JS@.widget.eventBase.prototype.submit = function(execute) {
     if (this.event.submit == null) {
         console.debug("Error: Submit event topics not implemented for " + 
             this.widgetName); // See Firebug console.

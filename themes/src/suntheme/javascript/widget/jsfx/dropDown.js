@@ -20,13 +20,13 @@
  * Copyright 2008 Sun Microsystems, Inc. All rights reserved.
  */
 
-webui.@THEME@.dojo.provide("webui.@THEME@.widget.jsfx.dropDown");
+webui.@THEME_JS@.dojo.provide("webui.@THEME_JS@.widget.jsfx.dropDown");
 
-webui.@THEME@.dojo.require("webui.@THEME@.widget.jsfx.common");
-webui.@THEME@.dojo.require("webui.@THEME@.widget.dropDown");
+webui.@THEME_JS@.dojo.require("webui.@THEME_JS@.widget.jsfx.common");
+webui.@THEME_JS@.dojo.require("webui.@THEME_JS@.widget.dropDown");
 
 // Listen for Dojo Widget events.
-webui.@THEME@.dojo.subscribe(webui.@THEME@.widget.dropDown.event.refresh.beginTopic,
-    webui.@THEME@.widget.jsfx.common, "processRefreshEvent");
-webui.@THEME@.dojo.subscribe(webui.@THEME@.widget.dropDown.event.submit.beginTopic,
-    webui.@THEME@.widget.jsfx.common, "processSubmitEvent");
+webui.@THEME_JS@.dojo.subscribe(webui.@THEME_JS@.widget.dropDown.event.refresh.beginTopic,
+    webui.@THEME_JS@.widget.jsfx.common, "processRefreshEvent");
+webui.@THEME_JS@.dojo.subscribe(webui.@THEME_JS@.widget.dropDown.event.submit.beginTopic,
+    webui.@THEME_JS@.widget.jsfx.common, "processSubmitEvent");

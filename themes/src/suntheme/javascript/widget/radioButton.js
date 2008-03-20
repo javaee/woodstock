@@ -20,17 +20,17 @@
  * Copyright 2008 Sun Microsystems, Inc. All rights reserved.
  */
 
-webui.@THEME@.dojo.provide("webui.@THEME@.widget.radioButton");
+webui.@THEME_JS@.dojo.provide("webui.@THEME_JS@.widget.radioButton");
 
-webui.@THEME@.dojo.require("webui.@THEME@.widget.checkedBase");
+webui.@THEME_JS@.dojo.require("webui.@THEME_JS@.widget.checkedBase");
 
 /**
- * @name webui.@THEME@.widget.radioButton
- * @extends webui.@THEME@.widget.checkedBase
+ * @name webui.@THEME_JS@.widget.radioButton
+ * @extends webui.@THEME_JS@.widget.checkedBase
  * @class This class contains functions for the radioButton widget.
  * @constructor This function is used to construct a radioButton widget.
  */
-webui.@THEME@.dojo.declare("webui.@THEME@.widget.radioButton", webui.@THEME@.widget.checkedBase, {
+webui.@THEME_JS@.dojo.declare("webui.@THEME_JS@.widget.radioButton", webui.@THEME_JS@.widget.checkedBase, {
     // Set defaults.
     idSuffix: "_rb",
     widgetName: "radioButton" // Required for theme properties.
@@ -45,18 +45,18 @@ webui.@THEME@.dojo.declare("webui.@THEME@.widget.radioButton", webui.@THEME@.wid
  * </p>
  * @ignore
  */
-webui.@THEME@.widget.radioButton.event =
-        webui.@THEME@.widget.radioButton.prototype.event = {
+webui.@THEME_JS@.widget.radioButton.event =
+        webui.@THEME_JS@.widget.radioButton.prototype.event = {
     /**
      * This object contains refresh event topics.
      * @ignore
      */
     refresh: {
         /** Refresh event topic for custom AJAX implementations to listen for. */
-        beginTopic: "webui_@THEME@_widget_radioButton_event_refresh_begin",
+        beginTopic: "webui_@THEME_JS@_widget_radioButton_event_refresh_begin",
 
         /** Refresh event topic for custom AJAX implementations to listen for. */
-        endTopic: "webui_@THEME@_widget_radioButton_event_refresh_end"
+        endTopic: "webui_@THEME_JS@_widget_radioButton_event_refresh_end"
     },
 
     /**
@@ -65,10 +65,10 @@ webui.@THEME@.widget.radioButton.event =
      */
     state: {
         /** State event topic for custom AJAX implementations to listen for. */
-        beginTopic: "webui_@THEME@_widget_radioButton_event_state_begin",
+        beginTopic: "webui_@THEME_JS@_widget_radioButton_event_state_begin",
 
         /** State event topic for custom AJAX implementations to listen for. */
-        endTopic: "webui_@THEME@_widget_radioButton_event_state_end"
+        endTopic: "webui_@THEME_JS@_widget_radioButton_event_state_end"
     },
 
     /**
@@ -77,10 +77,10 @@ webui.@THEME@.widget.radioButton.event =
      */
     submit: {
         /** Submit event topic for custom AJAX implementations to listen for. */
-        beginTopic: "webui_@THEME@_widget_radioButton_event_submit_begin",
+        beginTopic: "webui_@THEME_JS@_widget_radioButton_event_submit_begin",
 
         /** Submit event topic for custom AJAX implementations to listen for. */
-        endTopic: "webui_@THEME@_widget_radioButton_event_submit_end"
+        endTopic: "webui_@THEME_JS@_widget_radioButton_event_submit_end"
     }
 };
 
@@ -92,7 +92,7 @@ webui.@THEME@.widget.radioButton.event =
  * </p>
  * @return {String} The outermost HTML element class name.
  */
-webui.@THEME@.widget.radioButton.prototype.getClassName = function() {
+webui.@THEME_JS@.widget.radioButton.prototype.getClassName = function() {
     // Set default style.
     var className = (this.disabled == true)
         ? this.widget.getClassName("RADIOBUTTON_SPAN_DISABLED", "")
@@ -108,7 +108,7 @@ webui.@THEME@.widget.radioButton.prototype.getClassName = function() {
  *
  * @return {String} The HTML image element class name.
  */
-webui.@THEME@.widget.radioButton.prototype.getImageClassName = function() {
+webui.@THEME_JS@.widget.radioButton.prototype.getImageClassName = function() {
     return (this.disabled == true)
         ? this.widget.getClassName("RADIOBUTTON_IMAGE_DISABLED", "")
         : this.widget.getClassName("RADIOBUTTON_IMAGE", "");  
@@ -119,7 +119,7 @@ webui.@THEME@.widget.radioButton.prototype.getImageClassName = function() {
  *
  * @return {String} The HTML input element class name.
  */
-webui.@THEME@.widget.radioButton.prototype.getInputClassName = function() {
+webui.@THEME_JS@.widget.radioButton.prototype.getInputClassName = function() {
     // Set readOnly style.
     if (this.readOnly == true) {
         return this.widget.getClassName("RADIOBUTTON_READONLY", "");
@@ -136,7 +136,7 @@ webui.@THEME@.widget.radioButton.prototype.getInputClassName = function() {
  *
  * @return {String} The HTML label element class name.
  */
-webui.@THEME@.widget.radioButton.prototype.getLabelClassName = function() {
+webui.@THEME_JS@.widget.radioButton.prototype.getLabelClassName = function() {
     return (this.disabled == true)
         ? this.widget.getClassName("RADIOBUTTON_LABEL_DISABLED", "")
         : this.widget.getClassName("RADIOBUTTON_LABEL", "");  
@@ -187,7 +187,7 @@ webui.@THEME@.widget.radioButton.prototype.getLabelClassName = function() {
  * @param {boolean} notify Publish an event for custom AJAX implementations to listen for.
  * @return {boolean} true if successful; otherwise, false.
  */
-webui.@THEME@.widget.radioButton.prototype.setProps = function(props, notify) {
+webui.@THEME_JS@.widget.radioButton.prototype.setProps = function(props, notify) {
     // Note: This function is overridden for JsDoc.
     return this.inherited("setProps", arguments);
 };
@@ -202,7 +202,7 @@ webui.@THEME@.widget.radioButton.prototype.setProps = function(props, notify) {
  * @return {boolean} true if successful; otherwise, false.
  * @private
  */
-webui.@THEME@.widget.radioButton.prototype._setProps = function(props) {
+webui.@THEME_JS@.widget.radioButton.prototype._setProps = function(props) {
     if (props == null) {
         return false;
     }

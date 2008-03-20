@@ -20,17 +20,17 @@
  * Copyright 2008 Sun Microsystems, Inc. All rights reserved.
  */
 
-webui.@THEME@.dojo.provide("webui.@THEME@.widget.hiddenField");
+webui.@THEME_JS@.dojo.provide("webui.@THEME_JS@.widget.hiddenField");
 
-webui.@THEME@.dojo.require("webui.@THEME@.widget.widgetBase");
+webui.@THEME_JS@.dojo.require("webui.@THEME_JS@.widget.widgetBase");
 
 /**
- * @name webui.@THEME@.widget.hiddenField
- * @extends webui.@THEME@.widget.widgetBase
+ * @name webui.@THEME_JS@.widget.hiddenField
+ * @extends webui.@THEME_JS@.widget.widgetBase
  * @class This class contains functions for the hiddenField widget.
  * @constructor This function is used to construct a hiddenField widget.
  */
-webui.@THEME@.dojo.declare("webui.@THEME@.widget.hiddenField", webui.@THEME@.widget.widgetBase, {
+webui.@THEME_JS@.dojo.declare("webui.@THEME_JS@.widget.hiddenField", webui.@THEME_JS@.widget.widgetBase, {
     // Set defaults.
     disabled: false,
     widgetName: "hiddenField" // Required for theme properties.
@@ -45,18 +45,18 @@ webui.@THEME@.dojo.declare("webui.@THEME@.widget.hiddenField", webui.@THEME@.wid
  * </p>
  * @ignore
  */
-webui.@THEME@.widget.hiddenField.event =
-        webui.@THEME@.widget.hiddenField.prototype.event = {
+webui.@THEME_JS@.widget.hiddenField.event =
+        webui.@THEME_JS@.widget.hiddenField.prototype.event = {
     /**
      * This object contains refresh event topics.
      * @ignore
      */
     refresh: {
         /** Refresh event topic for custom AJAX implementations to listen for. */
-        beginTopic: "webui_@THEME@_widget_hiddenField_event_refresh_begin",
+        beginTopic: "webui_@THEME_JS@_widget_hiddenField_event_refresh_begin",
 
         /** Refresh event topic for custom AJAX implementations to listen for. */
-        endTopic: "webui_@THEME@_widget_hiddenField_event_refresh_end"
+        endTopic: "webui_@THEME_JS@_widget_hiddenField_event_refresh_end"
     },
 
     /**
@@ -65,10 +65,10 @@ webui.@THEME@.widget.hiddenField.event =
      */
     state: {
         /** State event topic for custom AJAX implementations to listen for. */
-        beginTopic: "webui_@THEME@_widget_hiddenField_event_state_begin",
+        beginTopic: "webui_@THEME_JS@_widget_hiddenField_event_state_begin",
 
         /** State event topic for custom AJAX implementations to listen for. */
-        endTopic: "webui_@THEME@_widget_hiddenField_event_state_end"
+        endTopic: "webui_@THEME_JS@_widget_hiddenField_event_state_end"
     },
 
     /**
@@ -77,10 +77,10 @@ webui.@THEME@.widget.hiddenField.event =
      */
     submit: {
         /** Submit event topic for custom AJAX implementations to listen for. */
-        beginTopic: "webui_@THEME@_widget_hiddenField_event_submit_begin",
+        beginTopic: "webui_@THEME_JS@_widget_hiddenField_event_submit_begin",
 
         /** Submit event topic for custom AJAX implementations to listen for. */
-        endTopic: "webui_@THEME@_widget_hiddenField_event_submit_end"
+        endTopic: "webui_@THEME_JS@_widget_hiddenField_event_submit_end"
     }
 };
 
@@ -90,7 +90,7 @@ webui.@THEME@.widget.hiddenField.event =
  *
  * @return {Object} Key-Value pairs of properties.
  */
-webui.@THEME@.widget.hiddenField.prototype.getProps = function() {
+webui.@THEME_JS@.widget.hiddenField.prototype.getProps = function() {
     var props = this.inherited("getProps", arguments);
 
     // Set properties.
@@ -120,7 +120,7 @@ webui.@THEME@.widget.hiddenField.prototype.getProps = function() {
  * @param {boolean} notify Publish an event for custom AJAX implementations to listen for.
  * @return {boolean} true if successful; otherwise, false.
  */
-webui.@THEME@.widget.hiddenField.prototype.setProps = function(props, notify) {
+webui.@THEME_JS@.widget.hiddenField.prototype.setProps = function(props, notify) {
     // Note: This function is overridden for JsDoc.
     return this.inherited("setProps", arguments);
 };
@@ -135,7 +135,7 @@ webui.@THEME@.widget.hiddenField.prototype.setProps = function(props, notify) {
  * @return {boolean} true if successful; otherwise, false.
  * @private
  */
-webui.@THEME@.widget.hiddenField.prototype._setProps = function(props) {
+webui.@THEME_JS@.widget.hiddenField.prototype._setProps = function(props) {
     if (props == null) {
         return false;
     }

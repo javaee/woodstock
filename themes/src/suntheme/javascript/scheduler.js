@@ -20,16 +20,16 @@
  * Copyright 2008 Sun Microsystems, Inc. All rights reserved.
  */
 
-webui.@THEME@.dojo.provide("webui.@THEME@.scheduler");
+webui.@THEME_JS@.dojo.provide("webui.@THEME_JS@.scheduler");
 
-webui.@THEME@.dojo.require("webui.@THEME@.formElements");
-webui.@THEME@.dojo.require("webui.@THEME@.prototypejs");
+webui.@THEME_JS@.dojo.require("webui.@THEME_JS@.formElements");
+webui.@THEME_JS@.dojo.require("webui.@THEME_JS@.prototypejs");
 
 /** 
  * @class This class contains functions for scheduler components.
  * @static
  */
-webui.@THEME@.scheduler = {
+webui.@THEME_JS@.scheduler = {
     /**
      * This function is used to initialize HTML element properties with Object
      * literals.
@@ -60,13 +60,13 @@ webui.@THEME@.scheduler = {
         }
 
         // Set given properties on domNode.
-        webui.@THEME@.prototypejs.extend(domNode, props, false);
+        webui.@THEME_JS@.prototypejs.extend(domNode, props, false);
         domNode.dateLinkId = props.datePickerId + ":dateLink"; 
 
         // Set functions.
-        domNode.setSelected = webui.@THEME@.scheduler.setSelected;
-        domNode.setDateValue = webui.@THEME@.scheduler.setDateValue; 
-        domNode.isToday = webui.@THEME@.scheduler.isToday;
+        domNode.setSelected = webui.@THEME_JS@.scheduler.setSelected;
+        domNode.setDateValue = webui.@THEME_JS@.scheduler.setDateValue; 
+        domNode.isToday = webui.@THEME_JS@.scheduler.isToday;
 
         return true;
     },
@@ -79,7 +79,7 @@ webui.@THEME@.scheduler = {
      * @return {boolean} true if successful; otherwise, false.
      */
     setDateValue: function(value, link) {
-        webui.@THEME@.field.setValue(this.dateFieldId, value); 
+        webui.@THEME_JS@.field.setValue(this.dateFieldId, value); 
         return this.setSelected(link);	
     },
 

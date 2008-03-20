@@ -20,18 +20,18 @@
  * Copyright 2008 Sun Microsystems, Inc. All rights reserved.
  */
 
-webui.@THEME@.dojo.provide("webui.@THEME@.widget.jsfx.login");
+webui.@THEME_JS@.dojo.provide("webui.@THEME_JS@.widget.jsfx.login");
 
-webui.@THEME@.dojo.require("webui.@THEME@.json");
-webui.@THEME@.dojo.require("webui.@THEME@.widget.login");
-webui.@THEME@.dojo.require("webui.@THEME@.widget.jsfx.dynaFaces");
+webui.@THEME_JS@.dojo.require("webui.@THEME_JS@.json");
+webui.@THEME_JS@.dojo.require("webui.@THEME_JS@.widget.login");
+webui.@THEME_JS@.dojo.require("webui.@THEME_JS@.widget.jsfx.dynaFaces");
 
 /**
  * @class This class contains functions to authenticate data asynchronously 
  * using JSF Extensions as the underlying transfer protocol.
  * @static
  */
-webui.@THEME@.widget.jsfx.login =  {
+webui.@THEME_JS@.widget.jsfx.login =  {
     /**
      * This function is used to pass on the authentication data sent from 
      * the server callback object to the client. It calls the appropriate 
@@ -46,16 +46,16 @@ webui.@THEME@.widget.jsfx.login =  {
      */
     loginCallback : function(id, content, closure, xjson) {
         // Parse JSON text and update login widget.
-        var props = webui.@THEME@.json.parse(content);
+        var props = webui.@THEME_JS@.json.parse(content);
 
         // Publish an event for custom AJAX implementations 
 	// to listen for.
-        var widget = webui.@THEME@.dijit.byId(id);
+        var widget = webui.@THEME_JS@.dijit.byId(id);
         widget.setProps(props);
         
         // Publish an event for custom AJAX implementations to listen for.
         if (xjson.endTopic) {
-            webui.@THEME@.dojo.publish(xjson.endTopic, props);
+            webui.@THEME_JS@.dojo.publish(xjson.endTopic, props);
         }
         return true;
     },
@@ -83,7 +83,7 @@ webui.@THEME@.widget.jsfx.login =  {
             (domNode) ? domNode : document.forms[0], {
             execute: props.id,
             render: props.id,
-            replaceElement: webui.@THEME@.widget.jsfx.login.loginCallback,
+            replaceElement: webui.@THEME_JS@.widget.jsfx.login.loginCallback,
             xjson: {
                 id: props.id,
                 loginState: props.loginState,
@@ -96,5 +96,5 @@ webui.@THEME@.widget.jsfx.login =  {
 };
 
 // Listen for Dojo Widget events.
-webui.@THEME@.dojo.subscribe(webui.@THEME@.widget.login.event.authenticate.beginTopic,
-    webui.@THEME@.widget.jsfx.login, "processLoginEvent");
+webui.@THEME_JS@.dojo.subscribe(webui.@THEME_JS@.widget.login.event.authenticate.beginTopic,
+    webui.@THEME_JS@.widget.jsfx.login, "processLoginEvent");

@@ -20,15 +20,15 @@
  * Copyright 2008 Sun Microsystems, Inc. All rights reserved.
  */
 
-webui.@THEME@.dojo.provide("webui.@THEME@.addRemove");
+webui.@THEME_JS@.dojo.provide("webui.@THEME_JS@.addRemove");
 
-webui.@THEME@.dojo.require("webui.@THEME@.prototypejs");
+webui.@THEME_JS@.dojo.require("webui.@THEME_JS@.prototypejs");
 
 /** 
  * @class This class contains functions for addRemove components.
  * @static
  */
-webui.@THEME@.addRemove = {
+webui.@THEME_JS@.addRemove = {
     /**
      * This function is used to initialize HTML element properties with Object 
      * literals.
@@ -115,12 +115,12 @@ webui.@THEME@.addRemove = {
                 || (new Boolean(props.moveButtons).valueOf() == true
                     && (domNode.moveUpButton == null || domNode.moveDownButton == null))) {
             return setTimeout(function() {
-                webui.@THEME@.addRemove._init(props);
+                webui.@THEME_JS@.addRemove._init(props);
             }, 10);
         }
 
         // Set given properties on domNode.
-        webui.@THEME@.prototypejs.extend(domNode, props, false);
+        webui.@THEME_JS@.prototypejs.extend(domNode, props, false);
 
         // Calculate the value indices
         if (itemString != null) {
@@ -137,19 +137,19 @@ webui.@THEME@.addRemove = {
         domNode.selectedOptions = domNode.selectedList.options;
 
         // Set functions.
-        domNode.add = webui.@THEME@.addRemove.add;
-        domNode.addAll = webui.@THEME@.addRemove.addAll;
-        domNode.remove = webui.@THEME@.addRemove.remove;
-        domNode.removeAll = webui.@THEME@.addRemove.removeAll;
-        domNode.moveUp = webui.@THEME@.addRemove.moveUp;
-        domNode.moveDown = webui.@THEME@.addRemove.moveDown;
-        domNode.updateButtons = webui.@THEME@.addRemove.updateButtons;
-        domNode.calculateIndex = webui.@THEME@.addRemove.calculateIndex;
-        domNode.moveOption = webui.@THEME@.addRemove.moveOption;
-        domNode.updateValue = webui.@THEME@.addRemove.updateValue;
-        domNode.allowMultipleAdditions = webui.@THEME@.addRemove.allowMultipleAdditions;
-        domNode.availableOnChange = webui.@THEME@.addRemove.availableOnChange;
-        domNode.selectedOnChange = webui.@THEME@.addRemove.selectedOnChange;
+        domNode.add = webui.@THEME_JS@.addRemove.add;
+        domNode.addAll = webui.@THEME_JS@.addRemove.addAll;
+        domNode.remove = webui.@THEME_JS@.addRemove.remove;
+        domNode.removeAll = webui.@THEME_JS@.addRemove.removeAll;
+        domNode.moveUp = webui.@THEME_JS@.addRemove.moveUp;
+        domNode.moveDown = webui.@THEME_JS@.addRemove.moveDown;
+        domNode.updateButtons = webui.@THEME_JS@.addRemove.updateButtons;
+        domNode.calculateIndex = webui.@THEME_JS@.addRemove.calculateIndex;
+        domNode.moveOption = webui.@THEME_JS@.addRemove.moveOption;
+        domNode.updateValue = webui.@THEME_JS@.addRemove.updateValue;
+        domNode.allowMultipleAdditions = webui.@THEME_JS@.addRemove.allowMultipleAdditions;
+        domNode.availableOnChange = webui.@THEME_JS@.addRemove.availableOnChange;
+        domNode.selectedOnChange = webui.@THEME_JS@.addRemove.selectedOnChange;
 
         // Enable multiple buttons.
         if (new Boolean(props.duplicateSelections).valueOf() == true) {
@@ -633,8 +633,8 @@ webui.@THEME@.addRemove = {
     allowMultipleAdditions: function() {
         // Replace the add and remove functions with functions which 
         // leave the available items as they are
-        this.add = webui.@THEME@.addRemove.multipleAdd;
-        this.remove = webui.@THEME@.addRemove.multipleRemove;
+        this.add = webui.@THEME_JS@.addRemove.multipleAdd;
+        this.remove = webui.@THEME_JS@.addRemove.multipleRemove;
         return true;
     },
 

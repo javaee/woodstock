@@ -20,13 +20,13 @@
  * Copyright 2008 Sun Microsystems, Inc. All rights reserved.
  */
 
-webui.@THEME@.dojo.provide("webui.@THEME@.cookie");
+webui.@THEME_JS@.dojo.provide("webui.@THEME_JS@.cookie");
 
 /**
  * @class This class contains functions to manipulate cookies.
  * @static
  */
-webui.@THEME@.cookie = {
+webui.@THEME_JS@.cookie = {
     /**
      * This function will get the cookie value.
      *
@@ -36,7 +36,7 @@ webui.@THEME@.cookie = {
         // Get document cookie.
         var cookie = document.cookie;
 
-        // Parse webui_ScrollCookie value.
+        // Parse cookie value.
         var pos = cookie.indexOf(this.$cookieName + "=");
         if (pos == -1) {
             return null;
@@ -129,7 +129,7 @@ webui.@THEME@.cookie = {
  * @param {String} path
  * @return {boolean} true if successful; otherwise, false.
  */
-webui.@THEME@.scrollCookie = function(viewId, path) {    
+webui.@THEME_JS@.scrollCookie = function(viewId, path) {    
     // All predefined properties of this object begin with '$' because
     // we don't want to store these values in the cookie.
     this.$cookieName = viewId;
@@ -171,4 +171,4 @@ webui.@THEME@.scrollCookie = function(viewId, path) {
 };
 
 // Inherit cookie properties.
-webui.@THEME@.scrollCookie.prototype = webui.@THEME@.cookie;
+webui.@THEME_JS@.scrollCookie.prototype = webui.@THEME_JS@.cookie;

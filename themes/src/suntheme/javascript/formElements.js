@@ -20,10 +20,10 @@
  * Copyright 2008 Sun Microsystems, Inc. All rights reserved.
  */
 
-webui.@THEME@.dojo.provide("webui.@THEME@.formElements");
+webui.@THEME_JS@.dojo.provide("webui.@THEME_JS@.formElements");
 
-webui.@THEME@.dojo.require("webui.@THEME@.browser");
-webui.@THEME@.dojo.require("webui.@THEME@.common");
+webui.@THEME_JS@.dojo.require("webui.@THEME_JS@.browser");
+webui.@THEME_JS@.dojo.require("webui.@THEME_JS@.common");
 
 // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 // button functions
@@ -33,9 +33,9 @@ webui.@THEME@.dojo.require("webui.@THEME@.common");
  * @class This class contains functions for button components.
  * @static
  *
- * @deprecated See webui.@THEME@.widget.button
+ * @deprecated See webui.@THEME_JS@.widget.button
  */
-webui.@THEME@.button = {
+webui.@THEME_JS@.button = {
     /**
      * This function is used to initialize HTML element properties with Object
      * literals.
@@ -43,7 +43,7 @@ webui.@THEME@.button = {
      * @param {Object} props Key-Value pairs of properties.
      * @config {String} id The element id.
      * @return {boolean} true if successful; otherwise, false.
-     * @deprecated See webui.@THEME@.widget.button
+     * @deprecated See webui.@THEME_JS@.widget.button
      * @private
      */
     _init: function(props) {
@@ -52,26 +52,26 @@ webui.@THEME@.button = {
             console.debug(message); // See Firebug console.
             return false;
         }
-        var widget = webui.@THEME@.dijit.byId(props.id);
+        var widget = webui.@THEME_JS@.dijit.byId(props.id);
         if (widget == null) {
             console.debug(message); // See Firebug console.
             return false;
         }
 
         // Set functions
-        widget.domNode.isSecondary = webui.@THEME@.button.isSecondary;
-        widget.domNode.setSecondary = webui.@THEME@.button.setSecondary;
-        widget.domNode.isPrimary = webui.@THEME@.button.isPrimary;
-        widget.domNode.setPrimary = webui.@THEME@.button.setPrimary;
-        widget.domNode.isMini = webui.@THEME@.button.isMini;
-        widget.domNode.setMini = webui.@THEME@.button.setMini;
-        widget.domNode.getDisabled = webui.@THEME@.button.getDisabled;
-        widget.domNode.setDisabled = webui.@THEME@.button.setDisabled;
-        widget.domNode.getVisible = webui.@THEME@.button.getVisible;
-        widget.domNode.setVisible = webui.@THEME@.button.setVisible;
-        widget.domNode.getText = webui.@THEME@.button.getText;
-        widget.domNode.setText = webui.@THEME@.button.setText;
-        widget.domNode.doClick = webui.@THEME@.button.click;
+        widget.domNode.isSecondary = webui.@THEME_JS@.button.isSecondary;
+        widget.domNode.setSecondary = webui.@THEME_JS@.button.setSecondary;
+        widget.domNode.isPrimary = webui.@THEME_JS@.button.isPrimary;
+        widget.domNode.setPrimary = webui.@THEME_JS@.button.setPrimary;
+        widget.domNode.isMini = webui.@THEME_JS@.button.isMini;
+        widget.domNode.setMini = webui.@THEME_JS@.button.setMini;
+        widget.domNode.getDisabled = webui.@THEME_JS@.button.getDisabled;
+        widget.domNode.setDisabled = webui.@THEME_JS@.button.setDisabled;
+        widget.domNode.getVisible = webui.@THEME_JS@.button.getVisible;
+        widget.domNode.setVisible = webui.@THEME_JS@.button.setVisible;
+        widget.domNode.getText = webui.@THEME_JS@.button.getText;
+        widget.domNode.setText = webui.@THEME_JS@.button.setText;
+        widget.domNode.doClick = webui.@THEME_JS@.button.click;
 
         return true;
     },
@@ -237,9 +237,9 @@ webui.@THEME@.button = {
  * @class This class contains functions for checkbox components.
  * @static
  * 
- * @deprecated See webui.@THEME@.widget.checkbox
+ * @deprecated See webui.@THEME_JS@.widget.checkbox
  */
-webui.@THEME@.checkbox = {
+webui.@THEME_JS@.checkbox = {
     /**
      * Set the disabled state for the given checkbox element Id. If the disabled 
      * state is set to true, the element is shown with disabled styles.
@@ -250,7 +250,7 @@ webui.@THEME@.checkbox = {
      * @deprecated Use document.getElementById(id).setProps({disabled: boolean});
      */
     setDisabled: function(elementId, disabled) {
-        return webui.@THEME@.rbcb.setDisabled(elementId, disabled,
+        return webui.@THEME_JS@.rbcb.setDisabled(elementId, disabled,
             "checkbox", "Cb", "CbDis");
     },
 
@@ -265,7 +265,7 @@ webui.@THEME@.checkbox = {
      * @deprecated Use document.getElementById(id).setProps({disabled: boolean});
      */
     setGroupDisabled: function(controlName, disabled) {    
-        return webui.@THEME@.rbcb.setGroupDisabled(controlName,
+        return webui.@THEME_JS@.rbcb.setGroupDisabled(controlName,
             disabled, "checkbox", "Cb", "CbDis");
     },
 
@@ -278,7 +278,7 @@ webui.@THEME@.checkbox = {
      * @deprecated Use document.getElementById(id).setProps({checked: boolean});
      */
     setChecked: function(elementId, checked) {
-        return webui.@THEME@.rbcb.setChecked(elementId, checked,
+        return webui.@THEME_JS@.rbcb.setChecked(elementId, checked,
             "checkbox");
     }
 };
@@ -291,9 +291,9 @@ webui.@THEME@.checkbox = {
  * @class This class contains functions for dropDown components.
  * @static
  * 
- * @deprecated See webui.@THEME@.widget.dropDown
+ * @deprecated See webui.@THEME_JS@.widget.dropDown
  */
-webui.@THEME@.dropDown = {
+webui.@THEME_JS@.dropDown = {
     /**
      * Use this function to access the HTML select element that makes up
      * the dropDown.
@@ -305,7 +305,7 @@ webui.@THEME@.dropDown = {
      * @deprecated Use document.getElementById(elementId).setSelectElement()
      */
     getSelectElement: function(elementId) { 
-        var widget = webui.@THEME@.dijit.byId(elementId);
+        var widget = webui.@THEME_JS@.dijit.byId(elementId);
         if (widget) {
             return widget.getSelectElement();
         }
@@ -326,7 +326,7 @@ webui.@THEME@.dropDown = {
      * @deprecated Use document.getElementById(elementId).changed();
      */
     changed: function(elementId) {         
-        var widget = webui.@THEME@.dijit.byId(elementId);
+        var widget = webui.@THEME_JS@.dijit.byId(elementId);
         if (widget) {
             return widget.changed();
         }
@@ -348,7 +348,7 @@ webui.@THEME@.dropDown = {
      * @deprecated Use document.getElementById(elementId).setProps({disabled: boolean});
      */
     setDisabled: function(elementId, disabled) { 
-        var widget = webui.@THEME@.dijit.byId(elementId);
+        var widget = webui.@THEME_JS@.dijit.byId(elementId);
         if (widget) {
             return widget.setProps({ disabled: disabled});
         }
@@ -368,7 +368,7 @@ webui.@THEME@.dropDown = {
      * @deprecated Use document.getElementById(elementId).getSelectedValue();
      */
     getSelectedValue: function(elementId) { 
-        var widget = webui.@THEME@.dijit.byId(elementId);
+        var widget = webui.@THEME_JS@.dijit.byId(elementId);
         if (widget) {
             return widget.getSelectedValue();
         }
@@ -388,7 +388,7 @@ webui.@THEME@.dropDown = {
      * @deprecated Use document.getElementById(elementId).getSelectedLabel();
      */
     getSelectedLabel: function(elementId) { 
-        var widget = webui.@THEME@.dijit.byId(elementId);
+        var widget = webui.@THEME_JS@.dijit.byId(elementId);
         if (widget) {
             return widget.getSelectedLabel();
         }
@@ -404,9 +404,9 @@ webui.@THEME@.dropDown = {
  * @class This class contains functions for field components.
  * @static
  *
- * @deprecated See webui.@THEME@.widget.field
+ * @deprecated See webui.@THEME_JS@.widget.field
  */
-webui.@THEME@.field = {
+webui.@THEME_JS@.field = {
     /**
      * Use this function to get the HTML input or textarea element
      * associated with a TextField, PasswordField, HiddenField or TextArea
@@ -417,7 +417,7 @@ webui.@THEME@.field = {
      * @deprecated Use document.getElementById(elementId).getInputElement()
      */
     getInputElement: function(elementId) {
-        var widget = webui.@THEME@.dijit.byId(elementId);
+        var widget = webui.@THEME_JS@.dijit.byId(elementId);
         if (widget) {
             return widget.getInputElement();
         }
@@ -433,7 +433,7 @@ webui.@THEME@.field = {
      * @deprecated Use document.getElementById(id).getProps().value;
      */
     getValue: function(elementId) {
-        var widget = webui.@THEME@.dijit.byId(elementId);
+        var widget = webui.@THEME_JS@.dijit.byId(elementId);
         if (widget) {
             return widget.getProps().value;
         }
@@ -450,7 +450,7 @@ webui.@THEME@.field = {
      * @deprecated Use document.getElementById(id).setProps({value: "text"});
      */
     setValue: function(elementId, newValue) {
-        var widget = webui.@THEME@.dijit.byId(elementId);
+        var widget = webui.@THEME_JS@.dijit.byId(elementId);
         if (widget) {
             return widget.setProps({value: newValue});
         }
@@ -467,7 +467,7 @@ webui.@THEME@.field = {
      * @deprecated Use document.getElementById(id).getProps().style;
      */
     getStyle: function(elementId) {
-        var widget = webui.@THEME@.dijit.byId(elementId);
+        var widget = webui.@THEME_JS@.dijit.byId(elementId);
         if (widget) {
             return widget.getProps().style;
         }
@@ -484,7 +484,7 @@ webui.@THEME@.field = {
      * @deprecated Use document.getElementById(id).setProps({style: newStyle});
      */
     setStyle: function(elementId, newStyle) { 
-        var widget = webui.@THEME@.dijit.byId(elementId);
+        var widget = webui.@THEME_JS@.dijit.byId(elementId);
         if (widget) {
             return widget.setProps({style: newStyle});
         }
@@ -504,7 +504,7 @@ webui.@THEME@.field = {
         if (newDisabled == null) {
             return null;
         }
-        var widget = webui.@THEME@.dijit.byId(elementId);
+        var widget = webui.@THEME_JS@.dijit.byId(elementId);
         if (widget) {
             return widget.setProps({disabled: newDisabled});
         }
@@ -520,9 +520,9 @@ webui.@THEME@.field = {
  * @class This class contains functions for hyperlink components.
  * @static
  *
- * @deprecated See webui.@THEME@.widget.hyperlink
+ * @deprecated See webui.@THEME_JS@.widget.hyperlink
  */
-webui.@THEME@.hyperlink = {
+webui.@THEME_JS@.hyperlink = {
     /**
      * This function is used to submit a hyperlink.
      * <p>
@@ -534,17 +534,17 @@ webui.@THEME@.hyperlink = {
      * @params {String} formId The form id
      * @params {Object} params Name value pairs
      * @return {boolean} true if successful; otherwise, false.
-     * @deprecated See webui.@THEME@.widget.hyperlink
+     * @deprecated See webui.@THEME_JS@.widget.hyperlink
      */
     submit: function(hyperlink, formId, params) {
         // Need to test widget for tab and common task components. If a widget 
         // does not exist, fall back to the old code.
-	var widget = webui.@THEME@.dijit.byId(hyperlink.id);
+	var widget = webui.@THEME_JS@.dijit.byId(hyperlink.id);
 	if (widget == null) {
             // If a widget does not exist, we shall create one in order to call
             // the submit function directly.
-            webui.@THEME@.dojo.require("webui.@THEME@.widget.hyperlink");
-            widget = new webui.@THEME@.widget.hyperlink({id: hyperlink.id});
+            webui.@THEME_JS@.dojo.require("webui.@THEME_JS@.widget.hyperlink");
+            widget = new webui.@THEME_JS@.widget.hyperlink({id: hyperlink.id});
 	}
         return widget.submitFormData(formId, params);
     },
@@ -561,10 +561,10 @@ webui.@THEME@.hyperlink = {
     getImgElement: function(elementId) {
         // Need to test widget for alarmStatus, jobstatus, and notification phrase
         // components. If a widget does not exist, fall back to the old code.
-        var widget = webui.@THEME@.dijit.byId(elementId);
+        var widget = webui.@THEME_JS@.dijit.byId(elementId);
         var props = (widget) ? widget.getProps() : null;
         if (props && props.enabledImage) {
-            var imgWidget = webui.@THEME@.dijit.byId(props.enabledImage.id);
+            var imgWidget = webui.@THEME_JS@.dijit.byId(props.enabledImage.id);
             if (imgWidget != null) {
                 return imgWidget.domNode;    
             }
@@ -592,9 +592,9 @@ webui.@THEME@.hyperlink = {
  * @class This class contains functions for jumpDropDown components.
  * @static
  *
- * @deprecated See webui.@THEME@.widget.dropDown
+ * @deprecated See webui.@THEME_JS@.widget.dropDown
  */
-webui.@THEME@.jumpDropDown = {
+webui.@THEME_JS@.jumpDropDown = {
     /**
      * This function is invoked by the jumpdropdown onchange action to set the
      * form action and then submit the form.
@@ -609,7 +609,7 @@ webui.@THEME@.jumpDropDown = {
      * @deprecated Use document.getElementById(elementId).changed()
      */
     changed: function(elementId) {
-        var widget = webui.@THEME@.dijit.byId(elementId);
+        var widget = webui.@THEME_JS@.dijit.byId(elementId);
         if (widget) {
             return widget.changed();
         }
@@ -625,9 +625,9 @@ webui.@THEME@.jumpDropDown = {
  * @class This class contains functions for listbox components.
  * @static
  * 
- * @deprecated See webui.@THEME@.widget.listbox
+ * @deprecated See webui.@THEME_JS@.widget.listbox
  */
-webui.@THEME@.listbox = {
+webui.@THEME_JS@.listbox = {
     /**
      * Use this function to access the HTML select element that makes up
      * the list. 
@@ -639,7 +639,7 @@ webui.@THEME@.listbox = {
      * @deprecated Use document.getElementById(elementId).getSelectElement()
      */
     getSelectElement: function(elementId) { 
-        var widget = webui.@THEME@.dijit.byId(elementId);
+        var widget = webui.@THEME_JS@.dijit.byId(elementId);
         if (widget) {
             return widget.getSelectElement();
         }
@@ -660,7 +660,7 @@ webui.@THEME@.listbox = {
      * @deprecated Use document.getElementById(elementId).changed();
      */
     changed: function(elementId) {         
-        var widget = webui.@THEME@.dijit.byId(elementId);
+        var widget = webui.@THEME_JS@.dijit.byId(elementId);
         if (widget) {
             return widget.changed();
         }
@@ -683,7 +683,7 @@ webui.@THEME@.listbox = {
      * @deprecated Use document.getElementById(elementId).setProps({disabled: boolean});
      */
     setDisabled: function(elementId, disabled) { 
-        var widget = webui.@THEME@.dijit.byId(elementId);
+        var widget = webui.@THEME_JS@.dijit.byId(elementId);
         if (widget) {
             return widget.setProps({disabled: disabled});
         }
@@ -703,7 +703,7 @@ webui.@THEME@.listbox = {
      * @deprecated Use document.getElementById(elementId).getSelectedValue();
      */
     getSelectedValue: function(elementId) { 
-        var widget = webui.@THEME@.dijit.byId(elementId);
+        var widget = webui.@THEME_JS@.dijit.byId(elementId);
         if (widget) {
             return widget.getSelectedValue();
         }
@@ -722,7 +722,7 @@ webui.@THEME@.listbox = {
      * @deprecated Use document.getElementById(elementId).getSelectedLabel();
      */
     getSelectedLabel: function(elementId) { 
-        var widget = webui.@THEME@.dijit.byId(elementId);
+        var widget = webui.@THEME_JS@.dijit.byId(elementId);
         if (widget) {
             return widget.getSelectedLabel();
         }
@@ -738,9 +738,9 @@ webui.@THEME@.listbox = {
  * @class This class contains functions for rbcbGroup components.
  * @static
  *
- * @deprecated See webui.@THEME@.widget.rbcbGroup
+ * @deprecated See webui.@THEME_JS@.widget.rbcbGroup
  */
-webui.@THEME@.rbcb = {
+webui.@THEME_JS@.rbcb = {
     /**
      * 
      * @param {String} elementId The element Id.
@@ -750,7 +750,7 @@ webui.@THEME@.rbcb = {
      * @deprecated Use document.getElementById(id).setProps({checked: boolean});
      */ 
     setChecked: function(elementId, checked, type) {
-        var widget = webui.@THEME@.dijit.byId(elementId);
+        var widget = webui.@THEME_JS@.dijit.byId(elementId);
         if (widget) {
             return widget.setProps({checked: checked});
         }
@@ -769,7 +769,7 @@ webui.@THEME@.rbcb = {
      */ 
     setDisabled: function(elementId, disabled, type, enabledStyle,
             disabledStyle) {
-        var widget = webui.@THEME@.dijit.byId(elementId);
+        var widget = webui.@THEME_JS@.dijit.byId(elementId);
         if (widget) {
             return widget.setProps({disabled: disabled});
         }
@@ -788,7 +788,7 @@ webui.@THEME@.rbcb = {
      */
     setGroupDisabled: function(controlName, disabled, type, enabledStyle,
             disabledStyle) {
-        var widget = webui.@THEME@.dijit.byId(elementId);
+        var widget = webui.@THEME_JS@.dijit.byId(elementId);
         if (widget) {
             return widget.setProps({disabled: disabled});
         }
@@ -804,9 +804,9 @@ webui.@THEME@.rbcb = {
  * @class This class contains functions for radioButton components.
  * @static
  *
- * @deprecated See webui.@THEME@.widget.radioButton
+ * @deprecated See webui.@THEME_JS@.widget.radioButton
  */
-webui.@THEME@.radiobutton = {
+webui.@THEME_JS@.radiobutton = {
     /**
      * Set the disabled state for the given radiobutton element Id. If the disabled 
      * state is set to true, the element is shown with disabled styles.
@@ -817,7 +817,7 @@ webui.@THEME@.radiobutton = {
      * @deprecated Use document.getElementById(id).setProps({disabled: boolean});
      */
     setDisabled: function(elementId, disabled) {    
-        return webui.@THEME@.rbcb.setDisabled(elementId, disabled, 
+        return webui.@THEME_JS@.rbcb.setDisabled(elementId, disabled, 
             "radio", "Rb", "RbDis");
     },
 
@@ -832,7 +832,7 @@ webui.@THEME@.radiobutton = {
      * @deprecated Use document.getElementById(id).setProps({disabled: boolean});
      */
     setGroupDisabled: function(controlName, disabled) {    
-        return webui.@THEME@.rbcb.setGroupDisabled(controlName, disabled, 
+        return webui.@THEME_JS@.rbcb.setGroupDisabled(controlName, disabled, 
             "radio", "Rb", "RbDis");
     },
 
@@ -845,7 +845,7 @@ webui.@THEME@.radiobutton = {
      * @deprecated Use document.getElementById(id).setProps({checked: boolean});
      */
     setChecked: function(elementId, checked) {
-        return webui.@THEME@.rbcb.setChecked(elementId, checked, "radio");
+        return webui.@THEME_JS@.rbcb.setChecked(elementId, checked, "radio");
     }
 };
 
@@ -857,7 +857,7 @@ webui.@THEME@.radiobutton = {
  * @class This class contains functions for upload components.
  * @static
  */
-webui.@THEME@.upload = {
+webui.@THEME_JS@.upload = {
     /**
      * Use this function to get the HTML input element associated with the
      * Upload component.  
@@ -901,7 +901,7 @@ webui.@THEME@.upload = {
             // must supply an elementId && state
             return false;
         }
-        var input = webui.@THEME@.upload.getInputElement(elementId); 
+        var input = webui.@THEME_JS@.upload.getInputElement(elementId); 
         if (input == null) {
             // specified elementId not found
             return false;
@@ -922,14 +922,14 @@ webui.@THEME@.upload = {
 	    return false;
 	}
 
-        var upload = webui.@THEME@.upload.getInputElement(elementId); 
+        var upload = webui.@THEME_JS@.upload.getInputElement(elementId); 
         var form = upload != null ? upload.form : null;
 	if (form != null) {
 
             // form.enctype does not work for IE, but works Safari
             // form.encoding works on both IE and Firefox
 	    //
-            if (webui.@THEME@.browser.isSafari()) {
+            if (webui.@THEME_JS@.browser.isSafari()) {
                 form.enctype = "multipart/form-data";
             } else {
                 form.encoding = "multipart/form-data";
@@ -959,7 +959,7 @@ webui.@THEME@.upload = {
 	// If there is no upload component, don't do anything.
 	// I'm not sure if there is a timing issue here.
 	//
-	var uploadElement = webui.@THEME@.upload.getInputElement(uploadId);
+	var uploadElement = webui.@THEME_JS@.upload.getInputElement(uploadId);
 	if (uploadElement == null) {
 	    return false;
 	}
@@ -992,7 +992,7 @@ webui.@THEME@.upload = {
 	    if (preservePath != null) {
 		preservePath.value = node.value;
 	    } else {
-		webui.@THEME@.common.insertHiddenField(preservePathId, 
+		webui.@THEME_JS@.common.insertHiddenField(preservePathId, 
 			node.value, theForm);
 	    }
 	    return true;

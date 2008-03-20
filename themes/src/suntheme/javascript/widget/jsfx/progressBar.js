@@ -20,19 +20,19 @@
  * Copyright 2008 Sun Microsystems, Inc. All rights reserved.
  */
 
-webui.@THEME@.dojo.provide("webui.@THEME@.widget.jsfx.progressBar");
+webui.@THEME_JS@.dojo.provide("webui.@THEME_JS@.widget.jsfx.progressBar");
 
-webui.@THEME@.dojo.require("webui.@THEME@.json");
-webui.@THEME@.dojo.require("webui.@THEME@.widget.jsfx.common");
-webui.@THEME@.dojo.require("webui.@THEME@.widget.jsfx.dynaFaces");
-webui.@THEME@.dojo.require("webui.@THEME@.widget.progressBar");
+webui.@THEME_JS@.dojo.require("webui.@THEME_JS@.json");
+webui.@THEME_JS@.dojo.require("webui.@THEME_JS@.widget.jsfx.common");
+webui.@THEME_JS@.dojo.require("webui.@THEME_JS@.widget.jsfx.dynaFaces");
+webui.@THEME_JS@.dojo.require("webui.@THEME_JS@.widget.progressBar");
 
 /**
  * @class This class contains functions to obtain data asynchronously using JSF
  * Extensions as the underlying transfer protocol.
  * @static
  */
-webui.@THEME@.widget.jsfx.progressBar =  {
+webui.@THEME_JS@.widget.jsfx.progressBar =  {
     /**
      * This function is used to process progress events with Object literals.
      *
@@ -53,7 +53,7 @@ webui.@THEME@.widget.jsfx.progressBar =  {
             (domNode) ? domNode : document.forms[0], {
             execute: props.id, // Need to decode hidden field.
             render: props.id,
-            replaceElement: webui.@THEME@.widget.jsfx.progressBar.progressCallback,
+            replaceElement: webui.@THEME_JS@.widget.jsfx.progressBar.progressCallback,
             xjson: {
                 id: props.id,
                 event: "progress"
@@ -78,10 +78,10 @@ webui.@THEME@.widget.jsfx.progressBar =  {
         }
 
         // Parse JSON text.
-        var props = webui.@THEME@.json.parse(content);
+        var props = webui.@THEME_JS@.json.parse(content);
 
         // Set progress.
-        var widget = webui.@THEME@.dijit.byId(id);
+        var widget = webui.@THEME_JS@.dijit.byId(id);
         widget.setProgress({
             failedStateText : props.failedStateText,
             logMessage : props.logMessage,
@@ -92,14 +92,14 @@ webui.@THEME@.widget.jsfx.progressBar =  {
         });
 
         // Publish an event for custom AJAX implementations to listen for.
-        webui.@THEME@.dojo.publish(
-            webui.@THEME@.widget.progressBar.event.progress.endTopic, [props]);
+        webui.@THEME_JS@.dojo.publish(
+            webui.@THEME_JS@.widget.progressBar.event.progress.endTopic, [props]);
         return true;
     }
 };
 
 // Listen for Dojo Widget events.
-webui.@THEME@.dojo.subscribe(webui.@THEME@.widget.progressBar.event.progress.beginTopic,
-    webui.@THEME@.widget.jsfx.progressBar, "processProgressEvent");
-webui.@THEME@.dojo.subscribe(webui.@THEME@.widget.progressBar.event.refresh.beginTopic,
-    webui.@THEME@.widget.jsfx.common, "processRefreshEvent");
+webui.@THEME_JS@.dojo.subscribe(webui.@THEME_JS@.widget.progressBar.event.progress.beginTopic,
+    webui.@THEME_JS@.widget.jsfx.progressBar, "processProgressEvent");
+webui.@THEME_JS@.dojo.subscribe(webui.@THEME_JS@.widget.progressBar.event.refresh.beginTopic,
+    webui.@THEME_JS@.widget.jsfx.common, "processRefreshEvent");

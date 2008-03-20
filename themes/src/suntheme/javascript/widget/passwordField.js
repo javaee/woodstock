@@ -20,17 +20,17 @@
  * Copyright 2008 Sun Microsystems, Inc. All rights reserved.
  */
 
-webui.@THEME@.dojo.provide("webui.@THEME@.widget.passwordField");
+webui.@THEME_JS@.dojo.provide("webui.@THEME_JS@.widget.passwordField");
 
-webui.@THEME@.dojo.require("webui.@THEME@.widget.fieldBase");
+webui.@THEME_JS@.dojo.require("webui.@THEME_JS@.widget.fieldBase");
 
 /**
- * @name webui.@THEME@.widget.passwordField
- * @extends webui.@THEME@.widget.fieldBase
+ * @name webui.@THEME_JS@.widget.passwordField
+ * @extends webui.@THEME_JS@.widget.fieldBase
  * @class This class contains functions for the passwordField widget.
  * @constructor This function is used to construct a passwordField widget.
  */
-webui.@THEME@.dojo.declare("webui.@THEME@.widget.passwordField", webui.@THEME@.widget.fieldBase, {
+webui.@THEME_JS@.dojo.declare("webui.@THEME_JS@.widget.passwordField", webui.@THEME_JS@.widget.fieldBase, {
     // Set defaults.
     widgetName: "passwordField" // Required for theme properties.
 });
@@ -40,7 +40,7 @@ webui.@THEME@.dojo.declare("webui.@THEME@.widget.passwordField", webui.@THEME@.w
  *
  * @return {String} The HTML input element class name.
  */
-webui.@THEME@.widget.passwordField.prototype.getInputClassName = function() {
+webui.@THEME_JS@.widget.passwordField.prototype.getInputClassName = function() {
     if (this.fieldNode.readOnly) {
         return this.widget.getClassName("PASSWORD_FIELD_READONLY", "");
     }
@@ -101,7 +101,7 @@ webui.@THEME@.widget.passwordField.prototype.getInputClassName = function() {
  * @config {boolean} visible Hide or show element.
  * @return {boolean} true if successful; otherwise, false.
  */
-webui.@THEME@.widget.passwordField.prototype.setProps = function(props) {
+webui.@THEME_JS@.widget.passwordField.prototype.setProps = function(props) {
     // Note: This function is overridden for JsDoc.
     return this.inherited("setProps", arguments);
 };

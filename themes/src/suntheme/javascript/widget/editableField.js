@@ -20,17 +20,17 @@
  * Copyright 2008 Sun Microsystems, Inc. All rights reserved.
  */
 
-webui.@THEME@.dojo.provide("webui.@THEME@.widget.editableField");
+webui.@THEME_JS@.dojo.provide("webui.@THEME_JS@.widget.editableField");
 
-webui.@THEME@.dojo.require("webui.@THEME@.widget.textField");
+webui.@THEME_JS@.dojo.require("webui.@THEME_JS@.widget.textField");
 
 /**
- * @name webui.@THEME@.widget.editableField
- * @extends webui.@THEME@.widget.textField
+ * @name webui.@THEME_JS@.widget.editableField
+ * @extends webui.@THEME_JS@.widget.textField
  * @class This class contains functions for the editableField widget.
  * @constructor This function is used to construct a editableField widget.
  */
-webui.@THEME@.dojo.declare("webui.@THEME@.widget.editableField", webui.@THEME@.widget.textField, {
+webui.@THEME_JS@.dojo.declare("webui.@THEME_JS@.widget.editableField", webui.@THEME_JS@.widget.textField, {
     // Set defaults.
     edit: false,
     widgetName: "editableField" // Required for theme properties.
@@ -55,7 +55,7 @@ webui.@THEME@.dojo.declare("webui.@THEME@.widget.editableField", webui.@THEME@.w
  * </p>
  * @return {boolean} true if successful; otherwise, false.
  */
-webui.@THEME@.widget.editableField.prototype.disableEdit = function(acceptChanges) {
+webui.@THEME_JS@.widget.editableField.prototype.disableEdit = function(acceptChanges) {
     if (acceptChanges == true) {
         // If savedValue does not exist, we have not edited the field yet
         if (this.autoSave == true && this.savedValue && 
@@ -79,7 +79,7 @@ webui.@THEME@.widget.editableField.prototype.disableEdit = function(acceptChange
  *
  * @return {boolean} true if successful; otherwise, false.
  */
-webui.@THEME@.widget.editableField.prototype.enableEdit = function() {
+webui.@THEME_JS@.widget.editableField.prototype.enableEdit = function() {
     // Save the current value.
     this.savedValue = this.fieldNode.value;
         
@@ -100,18 +100,18 @@ webui.@THEME@.widget.editableField.prototype.enableEdit = function() {
  * </p>
  * @ignore
  */
-webui.@THEME@.widget.editableField.event =
-        webui.@THEME@.widget.editableField.prototype.event = {
+webui.@THEME_JS@.widget.editableField.event =
+        webui.@THEME_JS@.widget.editableField.prototype.event = {
     /**
      * This object contains refresh event topics.
      * @ignore
      */
     refresh: {
         /** Refresh event topic for custom AJAX implementations to listen for. */
-        beginTopic: "webui_@THEME@_widget_editableField_event_refresh_begin",
+        beginTopic: "webui_@THEME_JS@_widget_editableField_event_refresh_begin",
 
         /** Refresh event topic for custom AJAX implementations to listen for. */
-        endTopic: "webui_@THEME@_widget_editableField_event_refresh_end"
+        endTopic: "webui_@THEME_JS@_widget_editableField_event_refresh_end"
     },
 
     /**
@@ -120,10 +120,10 @@ webui.@THEME@.widget.editableField.event =
      */
     state: {
         /** State event topic for custom AJAX implementations to listen for. */
-        beginTopic: "webui_@THEME@_widget_editableField_event_state_begin",
+        beginTopic: "webui_@THEME_JS@_widget_editableField_event_state_begin",
 
         /** State event topic for custom AJAX implementations to listen for. */
-        endTopic: "webui_@THEME@_widget_editableField_event_state_end"
+        endTopic: "webui_@THEME_JS@_widget_editableField_event_state_end"
     },
 
     /**
@@ -132,10 +132,10 @@ webui.@THEME@.widget.editableField.event =
      */
     submit: {
         /** Submit event topic for custom AJAX implementations to listen for. */
-        beginTopic: "webui_@THEME@_widget_editableField_event_submit_begin",
+        beginTopic: "webui_@THEME_JS@_widget_editableField_event_submit_begin",
 
         /** Submit event topic for custom AJAX implementations to listen for. */
-        endTopic: "webui_@THEME@_widget_editableField_event_submit_end"
+        endTopic: "webui_@THEME_JS@_widget_editableField_event_submit_end"
     }
 };
 
@@ -144,7 +144,7 @@ webui.@THEME@.widget.editableField.event =
  *
  * @return {String} The HTML input element class name.
  */
-webui.@THEME@.widget.editableField.prototype.getInputClassName = function() {    
+webui.@THEME_JS@.widget.editableField.prototype.getInputClassName = function() {    
     // Set default style.
     if (this.disabled == true) {
         return  this.widget.getClassName("EDITABLE_FIELD_DISABLED","");
@@ -166,7 +166,7 @@ webui.@THEME@.widget.editableField.prototype.getInputClassName = function() {
  *
  * @return {Object} Key-Value pairs of properties.
  */
-webui.@THEME@.widget.editableField.prototype.getProps = function() {
+webui.@THEME_JS@.widget.editableField.prototype.getProps = function() {
     var props = this.inherited("getProps", arguments);
 
     // Set properties.
@@ -182,7 +182,7 @@ webui.@THEME@.widget.editableField.prototype.getProps = function() {
  * @param {Event} event The JavaScript event
  * @return {boolean} true if successful; otherwise, false.
  */
-webui.@THEME@.widget.editableField.prototype.onEditCallback = function(event) {
+webui.@THEME_JS@.widget.editableField.prototype.onEditCallback = function(event) {
     if (event == null) {
         return false;
     }
@@ -219,7 +219,7 @@ webui.@THEME@.widget.editableField.prototype.onEditCallback = function(event) {
  * </p>
  * @return {boolean} true if successful; otherwise, false.
  */
-webui.@THEME@.widget.editableField.prototype.postCreate = function () {
+webui.@THEME_JS@.widget.editableField.prototype.postCreate = function () {
     // Set Initial readOnly state.
     this.fieldNode.readOnly = true;
 
@@ -275,7 +275,7 @@ webui.@THEME@.widget.editableField.prototype.postCreate = function () {
  * @param {boolean} notify Publish an event for custom AJAX implementations to listen for.
  * @return {boolean} true if successful; otherwise, false.
  */
-webui.@THEME@.widget.editableField.prototype.setProps = function(props, notify) {
+webui.@THEME_JS@.widget.editableField.prototype.setProps = function(props, notify) {
     // Note: This function is overridden for JsDoc.
     return this.inherited("setProps", arguments);
 };
@@ -290,7 +290,7 @@ webui.@THEME@.widget.editableField.prototype.setProps = function(props, notify) 
  * @return {boolean} true if successful; otherwise, false.
  * @private
  */
-webui.@THEME@.widget.editableField.prototype._setProps = function(props) {
+webui.@THEME_JS@.widget.editableField.prototype._setProps = function(props) {
     if (props == null) {
         return false;
     }

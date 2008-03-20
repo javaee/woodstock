@@ -20,16 +20,16 @@
  * Copyright 2008 Sun Microsystems, Inc. All rights reserved.
  */
 
-webui.@THEME@.dojo.provide("webui.@THEME@.editableList");
+webui.@THEME_JS@.dojo.provide("webui.@THEME_JS@.editableList");
 
-webui.@THEME@.dojo.require("webui.@THEME@.formElements");
-webui.@THEME@.dojo.require("webui.@THEME@.prototypejs");
+webui.@THEME_JS@.dojo.require("webui.@THEME_JS@.formElements");
+webui.@THEME_JS@.dojo.require("webui.@THEME_JS@.prototypejs");
 
 /** 
  * @class This class contains functions for editableList components.
  * @static
  */
-webui.@THEME@.editableList = {
+webui.@THEME_JS@.editableList = {
     /**
      * This function is used to initialize HTML element properties with Object
      * literals.
@@ -94,7 +94,7 @@ webui.@THEME@.editableList = {
         // because only it knows about the underlying structure
         // of the rendered field component
         //
-        domNode.field = webui.@THEME@.field.getInputElement(facetid + "_field");
+        domNode.field = webui.@THEME_JS@.field.getInputElement(facetid + "_field");
         domNode.addButton = document.getElementById(facetid + "_addButton"); 
         domNode.removeButton = document.getElementById(facetid + "_removeButton"); 
 
@@ -104,21 +104,21 @@ webui.@THEME@.editableList = {
                 || domNode.addButton == null 
                 || domNode.removeButton == null) {
             return setTimeout(function() {
-                webui.@THEME@.editableList._init(props);
+                webui.@THEME_JS@.editableList._init(props);
             }, 10);
         }
 
         // Set given properties on domNode.
-        webui.@THEME@.prototypejs.extend(domNode, props, false);
+        webui.@THEME_JS@.prototypejs.extend(domNode, props, false);
 
         // attach methods
-        domNode.add = webui.@THEME@.editableList.add;
-        domNode.enableAdd = webui.@THEME@.editableList.enableAdd;
-        domNode.enableRemove = webui.@THEME@.editableList.enableRemove;
-        domNode.setAddDisabled = webui.@THEME@.editableList.setAddDisabled;
-        domNode.setRemoveDisabled = webui.@THEME@.editableList.setRemoveDisabled; 
-        domNode.updateButtons = webui.@THEME@.editableList.updateButtons;
-        domNode.setDisabled = webui.@THEME@.editableList.setDisabled;
+        domNode.add = webui.@THEME_JS@.editableList.add;
+        domNode.enableAdd = webui.@THEME_JS@.editableList.enableAdd;
+        domNode.enableRemove = webui.@THEME_JS@.editableList.enableRemove;
+        domNode.setAddDisabled = webui.@THEME_JS@.editableList.setAddDisabled;
+        domNode.setRemoveDisabled = webui.@THEME_JS@.editableList.setRemoveDisabled; 
+        domNode.updateButtons = webui.@THEME_JS@.editableList.updateButtons;
+        domNode.setDisabled = webui.@THEME_JS@.editableList.setDisabled;
 
         // Initialize buttons.
         domNode.updateButtons();

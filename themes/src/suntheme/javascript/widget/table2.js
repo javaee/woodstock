@@ -20,17 +20,17 @@
  * Copyright 2008 Sun Microsystems, Inc. All rights reserved.
  */
 
-webui.@THEME@.dojo.provide("webui.@THEME@.widget.table2");
+webui.@THEME_JS@.dojo.provide("webui.@THEME_JS@.widget.table2");
 
-webui.@THEME@.dojo.require("webui.@THEME@.widget.widgetBase");
+webui.@THEME_JS@.dojo.require("webui.@THEME_JS@.widget.widgetBase");
 
 /**
- * @name webui.@THEME@.widget.table2
- * @extends webui.@THEME@.widget.widgetBase
+ * @name webui.@THEME_JS@.widget.table2
+ * @extends webui.@THEME_JS@.widget.widgetBase
  * @class This class contains functions for the table2 widget.
  * @constructor This function is used to construct a table2 widget.
  */
-webui.@THEME@.dojo.declare("webui.@THEME@.widget.table2", webui.@THEME@.widget.widgetBase, {
+webui.@THEME_JS@.dojo.declare("webui.@THEME_JS@.widget.table2", webui.@THEME_JS@.widget.widgetBase, {
     // Set defaults.
     widgetName: "table2" // Required for theme properties.
 });
@@ -44,18 +44,18 @@ webui.@THEME@.dojo.declare("webui.@THEME@.widget.table2", webui.@THEME@.widget.w
  * </p>
  * @ignore
  */
-webui.@THEME@.widget.table2.event =
-        webui.@THEME@.widget.table2.prototype.event = {
+webui.@THEME_JS@.widget.table2.event =
+        webui.@THEME_JS@.widget.table2.prototype.event = {
     /**
      * This object contains refresh event topics.
      * @ignore
      */
     refresh: {
         /** Refresh event topic for custom AJAX implementations to listen for. */
-        beginTopic: "webui_@THEME@_widget_table2_event_refresh_begin",
+        beginTopic: "webui_@THEME_JS@_widget_table2_event_refresh_begin",
 
         /** Refresh event topic for custom AJAX implementations to listen for. */
-        endTopic: "webui_@THEME@_widget_table2_event_refresh_end"
+        endTopic: "webui_@THEME_JS@_widget_table2_event_refresh_end"
     },
 
     /**
@@ -64,10 +64,10 @@ webui.@THEME@.widget.table2.event =
      */
     state: {
         /** State event topic for custom AJAX implementations to listen for. */
-        beginTopic: "webui_@THEME@_widget_table2_event_state_begin",
+        beginTopic: "webui_@THEME_JS@_widget_table2_event_state_begin",
 
         /** State event topic for custom AJAX implementations to listen for. */
-        endTopic: "webui_@THEME@_widget_table2_event_state_end"
+        endTopic: "webui_@THEME_JS@_widget_table2_event_state_end"
     }
 };
 
@@ -77,7 +77,7 @@ webui.@THEME@.widget.table2.event =
  *
  * @return {Object} Key-Value pairs of properties.
  */
-webui.@THEME@.widget.table2.prototype.getProps = function() {
+webui.@THEME_JS@.widget.table2.prototype.getProps = function() {
     var props = this.inherited("getProps", arguments);
 
     // Set properties.
@@ -106,7 +106,7 @@ webui.@THEME@.widget.table2.prototype.getProps = function() {
  * </p>
  * @return {boolean} true if successful; otherwise, false.
  */
-webui.@THEME@.widget.table2.prototype.postCreate = function () {
+webui.@THEME_JS@.widget.table2.prototype.postCreate = function () {
     // Set ids.
     if (this.id) {
         this.actionsContainer.id = this.id + "_actionsContainer";
@@ -165,7 +165,7 @@ webui.@THEME@.widget.table2.prototype.postCreate = function () {
  * @param {boolean} notify Publish an event for custom AJAX implementations to listen for.
  * @return {boolean} true if successful; otherwise, false.
  */
-webui.@THEME@.widget.table2.prototype.setProps = function(props, notify) {
+webui.@THEME_JS@.widget.table2.prototype.setProps = function(props, notify) {
     if (props == null) {
         return false;
     }
@@ -194,7 +194,7 @@ webui.@THEME@.widget.table2.prototype.setProps = function(props, notify) {
  * @return {boolean} true if successful; otherwise, false.
  * @private
  */
-webui.@THEME@.widget.table2.prototype._setProps = function(props) {
+webui.@THEME_JS@.widget.table2.prototype._setProps = function(props) {
     if (props == null) {
         return false;
     }
@@ -257,7 +257,7 @@ webui.@THEME@.widget.table2.prototype._setProps = function(props) {
             setTimeout(function() {
                 // New literals are created every time this function is called, 
                 // and it's saved by closure magic.
-                webui.@THEME@.dijit.byId(_id).resize();
+                webui.@THEME_JS@.dijit.byId(_id).resize();
             }, 2000);
         }
     }

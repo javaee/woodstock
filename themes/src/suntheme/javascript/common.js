@@ -20,15 +20,15 @@
  * Copyright 2008 Sun Microsystems, Inc. All rights reserved.
  */
 
-webui.@THEME@.dojo.provide("webui.@THEME@.common");
+webui.@THEME_JS@.dojo.provide("webui.@THEME_JS@.common");
 
-webui.@THEME@.dojo.require("webui.@THEME@.theme.common");
+webui.@THEME_JS@.dojo.require("webui.@THEME_JS@.theme.common");
 
 /**
  * @class This class contains functions common to HTML elements.
  * @static
  */
-webui.@THEME@.common = {
+webui.@THEME_JS@.common = {
     /**
      * Variables needed when submitting form so timeout will work properly.
      * @private
@@ -177,7 +177,7 @@ webui.@THEME@.common = {
         // Now replace escaped delimiters
         // i.e.  "\," with ","
         for (i = 0; i < selections.length; ++i) {
-            unescapedArray[i] = webui.@THEME@.common.unescapeString(
+            unescapedArray[i] = webui.@THEME_JS@.common.unescapeString(
             selections[i], delimiter, escapeChar);
         }
         return unescapedArray;
@@ -207,7 +207,7 @@ webui.@THEME@.common = {
         }
         
         // break out style classes into an array  
-        var classes = webui.@THEME@.common.splitStyleClasses(element);
+        var classes = webui.@THEME_JS@.common.splitStyleClasses(element);
         if (classes == null) {
             return false;
         }
@@ -270,7 +270,7 @@ webui.@THEME@.common = {
         }
         
         // break out style classes into an array  
-        var classes = webui.@THEME@.common.splitStyleClasses(element);
+        var classes = webui.@THEME_JS@.common.splitStyleClasses(element);
         if (classes == null) {
             return false;
         }
@@ -342,16 +342,16 @@ webui.@THEME@.common = {
         // "submissionComponentId" is a component id (not client id).
         // the virtual form implementation uses _submissionComponentId
         // to determine which virtual form (if any) was submitted.
-        if (webui.@THEME@.common._formToSubmit == null) {
+        if (webui.@THEME_JS@.common._formToSubmit == null) {
             return false;
         }
-        if (webui.@THEME@.common._submissionComponentId != null &&
-                webui.@THEME@.common._submissionComponentId.length > 0) {
-            webui.@THEME@.common.insertHiddenField('_submissionComponentId', 
-                webui.@THEME@.common._submissionComponentId,
-                webui.@THEME@.common._formToSubmit);
+        if (webui.@THEME_JS@.common._submissionComponentId != null &&
+                webui.@THEME_JS@.common._submissionComponentId.length > 0) {
+            webui.@THEME_JS@.common.insertHiddenField('_submissionComponentId', 
+                webui.@THEME_JS@.common._submissionComponentId,
+                webui.@THEME_JS@.common._formToSubmit);
         }
-        webui.@THEME@.common._formToSubmit.submit();
+        webui.@THEME_JS@.common._formToSubmit.submit();
         return false;
     },
     
@@ -364,9 +364,9 @@ webui.@THEME@.common = {
      * @private
      */
     timeoutSubmitForm: function(form, submissionComponentId) {
-        webui.@THEME@.common._formToSubmit = form;
-        webui.@THEME@.common._submissionComponentId = submissionComponentId;
-        setTimeout('webui.@THEME@.common.submitForm()', 0);
+        webui.@THEME_JS@.common._formToSubmit = form;
+        webui.@THEME_JS@.common._submissionComponentId = submissionComponentId;
+        setTimeout('webui.@THEME_JS@.common.submitForm()', 0);
         return true;
     },
     
@@ -386,7 +386,7 @@ webui.@THEME@.common = {
         // no way of knowing that a virtual form was submitted.
         if (form != null && submissionComponentId != null && 
                 submissionComponentId.length > 0) {
-            webui.@THEME@.common.insertHiddenField('_submissionComponentId',
+            webui.@THEME_JS@.common.insertHiddenField('_submissionComponentId',
             submissionComponentId, form);
         }
         return true;
@@ -439,14 +439,14 @@ webui.@THEME@.common = {
     createSubmittableArray: function(name, parentForm, labels, values) {
         // An attempt is made to remove a possibly previously created element
         // by this name. It always deletes an element of name from parentForm.
-        webui.@THEME@.common.deleteSubmittableArray(name, parentForm);
+        webui.@THEME_JS@.common.deleteSubmittableArray(name, parentForm);
         
         if (values == null || values.length <= 0) {
             return null;
         }
         
         var selections = document.createElement('select');
-        selections.className = webui.@THEME@.theme.common.getClassName("HIDDEN");
+        selections.className = webui.@THEME_JS@.theme.common.getClassName("HIDDEN");
         selections.name = name;
         selections.id = name;
         selections.multiple = true;
@@ -484,7 +484,7 @@ webui.@THEME@.common = {
         }
         // Get element.
         var element = document.getElementById(elementId);
-        return webui.@THEME@.common.isVisibleElement(element);
+        return webui.@THEME_JS@.common.isVisibleElement(element);
     },
     
     /**
@@ -499,9 +499,9 @@ webui.@THEME@.common = {
             return false;
         }
         // Test for the hidden style class.
-        var styleClasses = webui.@THEME@.common.splitStyleClasses(element); 
-        return !webui.@THEME@.common.checkStyleClasses(styleClasses,
-            webui.@THEME@.theme.common.getClassName("HIDDEN"));
+        var styleClasses = webui.@THEME_JS@.common.splitStyleClasses(element); 
+        return !webui.@THEME_JS@.common.checkStyleClasses(styleClasses,
+            webui.@THEME_JS@.theme.common.getClassName("HIDDEN"));
     },
     
     /**
@@ -517,7 +517,7 @@ webui.@THEME@.common = {
         }
         // Get element.
         var element = document.getElementById(elementId);
-        return webui.@THEME@.common.setVisibleElement(element, visible);
+        return webui.@THEME_JS@.common.setVisibleElement(element, visible);
     },
     
     /**
@@ -532,11 +532,11 @@ webui.@THEME@.common = {
             return false;
         }
         if (visible) {
-            return webui.@THEME@.common.stripStyleClass(element,
-                webui.@THEME@.theme.common.getClassName("HIDDEN"));
+            return webui.@THEME_JS@.common.stripStyleClass(element,
+                webui.@THEME_JS@.theme.common.getClassName("HIDDEN"));
         } else {
-            return webui.@THEME@.common.addStyleClass(element,
-                webui.@THEME@.theme.common.getClassName("HIDDEN"));
+            return webui.@THEME_JS@.common.addStyleClass(element,
+                webui.@THEME_JS@.theme.common.getClassName("HIDDEN"));
         }
     }
 };

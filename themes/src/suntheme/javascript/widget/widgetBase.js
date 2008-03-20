@@ -20,22 +20,22 @@
  * Copyright 2008 Sun Microsystems, Inc. All rights reserved.
  */
 
-webui.@THEME@.dojo.provide("webui.@THEME@.widget.widgetBase");
+webui.@THEME_JS@.dojo.provide("webui.@THEME_JS@.widget.widgetBase");
  
-webui.@THEME@.dojo.require("webui.@THEME@.common");
-webui.@THEME@.dojo.require("webui.@THEME@.prototypejs");
-webui.@THEME@.dojo.require("webui.@THEME@.theme.common");
-webui.@THEME@.dojo.require("webui.@THEME@.widget.common");
-webui.@THEME@.dojo.require("webui.@THEME@.widget.eventBase");
+webui.@THEME_JS@.dojo.require("webui.@THEME_JS@.common");
+webui.@THEME_JS@.dojo.require("webui.@THEME_JS@.prototypejs");
+webui.@THEME_JS@.dojo.require("webui.@THEME_JS@.theme.common");
+webui.@THEME_JS@.dojo.require("webui.@THEME_JS@.widget.common");
+webui.@THEME_JS@.dojo.require("webui.@THEME_JS@.widget.eventBase");
 
 /**
- * @name webui.@THEME@.widget.widgetBase
- * @extends webui.@THEME@.widget.eventBase
+ * @name webui.@THEME_JS@.widget.widgetBase
+ * @extends webui.@THEME_JS@.widget.eventBase
  * @class This class contains functions used for base functionality in all 
  * widgets. 
  * <p>
- * The widgetBase class inherits from webui.@THEME@.dijit._Widget and 
- * webui.@THEME@.dijit._Templated. The webui.@THEME@.dijit._Widget class is 
+ * The widgetBase class inherits from webui.@THEME_JS@.dijit._Widget and 
+ * webui.@THEME_JS@.dijit._Templated. The webui.@THEME_JS@.dijit._Widget class is 
  * responsible for calling the buildRendering() and postCreate() functions in 
  * that order. The dijit_Templated function overrides the buildRendering() 
  * functon to fill in template properties.
@@ -82,24 +82,24 @@ webui.@THEME@.dojo.require("webui.@THEME@.widget.eventBase");
  * not a direct child of the BODY element. If there is any Javascript
  * running inside the body that is a direct child of body, IE will throw
  * an "Internet Explorer cannot open the Internet site" error. For example,
- * webui.@THEME@.dijit._Templated._createNodesFromText generates such an error by calling
+ * webui.@THEME_JS@.dijit._Templated._createNodesFromText generates such an error by calling
  * appendChild(). Therefore, widget creation must be deferred to the
  * window.onLoad event. See http://trac.dojotoolkit.org/ticket/4631
  * </p>
  * @static
  */
-webui.@THEME@.dojo.declare("webui.@THEME@.widget.widgetBase", webui.@THEME@.widget.eventBase, {
+webui.@THEME_JS@.dojo.declare("webui.@THEME_JS@.widget.widgetBase", webui.@THEME_JS@.widget.eventBase, {
     // Note: If your class contains arrays or other objects, they should be
     // declared in the constructor function so that each instance gets it's own
     // copy. Simple types (literal strings and numbers) are fine to declare in 
     // the class directly.
 
     // Set defaults.
-    common: webui.@THEME@.common, // Common utils.
-    dojo: webui.@THEME@.dojo, // Dojo utils.
-    prototypejs: webui.@THEME@.prototypejs, // Prototype utils.
-    theme: webui.@THEME@.theme.common, // Theme utils.
-    widget: webui.@THEME@.widget.common // Widget utils. 
+    common: webui.@THEME_JS@.common, // Common utils.
+    dojo: webui.@THEME_JS@.dojo, // Dojo utils.
+    prototypejs: webui.@THEME_JS@.prototypejs, // Prototype utils.
+    theme: webui.@THEME_JS@.theme.common, // Theme utils.
+    widget: webui.@THEME_JS@.widget.common // Widget utils. 
 });
 
 /**
@@ -107,7 +107,7 @@ webui.@THEME@.dojo.declare("webui.@THEME@.widget.widgetBase", webui.@THEME@.widg
  *
  * @return {boolean} true if successful; otherwise, false.
  */
-webui.@THEME@.widget.widgetBase.prototype.buildRendering = function () {
+webui.@THEME_JS@.widget.widgetBase.prototype.buildRendering = function () {
     // Get default templates.
     if (this.templatePath == null && this.templateString == null) {
         this.templatePath = this.widget.getTemplatePath(this.widgetName);
@@ -132,7 +132,7 @@ webui.@THEME@.widget.widgetBase.prototype.buildRendering = function () {
  * </p>
  * @return {String} The outermost HTML element class name.
  */
-webui.@THEME@.widget.widgetBase.prototype.getClassName = function() {
+webui.@THEME_JS@.widget.widgetBase.prototype.getClassName = function() {
     return this.className;
 };
 
@@ -142,7 +142,7 @@ webui.@THEME@.widget.widgetBase.prototype.getClassName = function() {
  *
  * @return {Object} Key-Value pairs of properties.
  */
-webui.@THEME@.widget.widgetBase.prototype.getCommonProps = function() {
+webui.@THEME_JS@.widget.widgetBase.prototype.getCommonProps = function() {
     var props = {};
 
     // Set properties.
@@ -161,7 +161,7 @@ webui.@THEME@.widget.widgetBase.prototype.getCommonProps = function() {
  *
  * @return {Object} Key-Value pairs of properties.
  */
-webui.@THEME@.widget.widgetBase.prototype.getCoreProps = function() {
+webui.@THEME_JS@.widget.widgetBase.prototype.getCoreProps = function() {
     var props = {};
 
     // Set properties.
@@ -179,7 +179,7 @@ webui.@THEME@.widget.widgetBase.prototype.getCoreProps = function() {
  *
  * @return {Object} Key-Value pairs of properties.
  */
-webui.@THEME@.widget.widgetBase.prototype.getEventProps = function() {
+webui.@THEME_JS@.widget.widgetBase.prototype.getEventProps = function() {
     var props = {};
 
     // Set properties.
@@ -207,7 +207,7 @@ webui.@THEME@.widget.widgetBase.prototype.getEventProps = function() {
  *
  * @return {Object} Key-Value pairs of properties.
  */
-webui.@THEME@.widget.widgetBase.prototype.getProps = function() {
+webui.@THEME_JS@.widget.widgetBase.prototype.getProps = function() {
     var props = {};
 
     // Set properties.
@@ -226,7 +226,7 @@ webui.@THEME@.widget.widgetBase.prototype.getProps = function() {
  * </p>
  * @return {boolean} true if widget is initialized.
  */
-webui.@THEME@.widget.widgetBase.prototype.isInitialized = function() {
+webui.@THEME_JS@.widget.widgetBase.prototype.isInitialized = function() {
     // Testing if the outermost DOM node has been added to the document and
     // ensuring a Dojo attach point exists works fine for JSP. However, the 
     // following code always returns null for facelets.
@@ -246,7 +246,7 @@ webui.@THEME@.widget.widgetBase.prototype.isInitialized = function() {
  * </p>
  * @return {boolean} true if successful; otherwise, false.
  */
-webui.@THEME@.widget.widgetBase.prototype.postCreate = function () {
+webui.@THEME_JS@.widget.widgetBase.prototype.postCreate = function () {
     this.inherited("postCreate", arguments);
 
     // In order to register widgets properly, the DOM node id must be set prior 
@@ -259,8 +259,8 @@ webui.@THEME@.widget.widgetBase.prototype.postCreate = function () {
     var _id = this.id;
 
     // Set public functions.
-    this.domNode.getProps = function() { return webui.@THEME@.dijit.byId(_id).getProps(); };
-    this.domNode.setProps = function(props, notify) { return webui.@THEME@.dijit.byId(_id).setProps(props, notify); };
+    this.domNode.getProps = function() { return webui.@THEME_JS@.dijit.byId(_id).getProps(); };
+    this.domNode.setProps = function(props, notify) { return webui.@THEME_JS@.dijit.byId(_id).setProps(props, notify); };
 
     // Initialize public events and functions.
     this.initEvents();
@@ -284,7 +284,7 @@ webui.@THEME@.widget.widgetBase.prototype.postCreate = function () {
  * @config {String} title Provides a title for element.
  * @return {boolean} true if successful; otherwise, false.
  */
-webui.@THEME@.widget.widgetBase.prototype.setCommonProps = function(domNode, props) {
+webui.@THEME_JS@.widget.widgetBase.prototype.setCommonProps = function(domNode, props) {
     if (domNode == null || props == null) {
         return false;
     }
@@ -323,7 +323,7 @@ webui.@THEME@.widget.widgetBase.prototype.setCommonProps = function(domNode, pro
  * @config {boolean} visible Hide or show element.
  * @return {boolean} true if successful; otherwise, false.
  */
-webui.@THEME@.widget.widgetBase.prototype.setCoreProps = function(domNode, props) {
+webui.@THEME_JS@.widget.widgetBase.prototype.setCoreProps = function(domNode, props) {
     if (domNode == null || props == null) {
         return false;
     }
@@ -364,7 +364,7 @@ webui.@THEME@.widget.widgetBase.prototype.setCoreProps = function(domNode, props
  * @config {String} onSelect Element text selected.
  * @return {boolean} true if successful; otherwise, false.
  */
-webui.@THEME@.widget.widgetBase.prototype.setEventProps = function(domNode, props) {
+webui.@THEME_JS@.widget.widgetBase.prototype.setEventProps = function(domNode, props) {
     if (domNode == null || props == null) {
         return false;
     }
@@ -461,7 +461,7 @@ webui.@THEME@.widget.widgetBase.prototype.setEventProps = function(domNode, prop
  * @config {boolean} visible Hide or show element.
  * @return {boolean} true if successful; otherwise, false.
  */
-webui.@THEME@.widget.widgetBase.prototype.setProps = function(props, notify) {
+webui.@THEME_JS@.widget.widgetBase.prototype.setProps = function(props, notify) {
     if (props == null) {
         return false;
     }
@@ -490,7 +490,7 @@ webui.@THEME@.widget.widgetBase.prototype.setProps = function(props, notify) {
  * @return {boolean} true if successful; otherwise, false.
  * @private
  */
-webui.@THEME@.widget.widgetBase.prototype._setProps = function(props) {
+webui.@THEME_JS@.widget.widgetBase.prototype._setProps = function(props) {
     if (props == null) {
         return false;
     }
@@ -508,7 +508,7 @@ webui.@THEME@.widget.widgetBase.prototype._setProps = function(props) {
  *
  * @return {boolean} true if successful; otherwise, false.
  */
-webui.@THEME@.widget.widgetBase.prototype.startup = function () {
+webui.@THEME_JS@.widget.widgetBase.prototype.startup = function () {
     if (this._started) {
         return false;
     }

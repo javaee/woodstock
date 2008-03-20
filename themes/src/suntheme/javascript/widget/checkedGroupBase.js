@@ -20,17 +20,17 @@
  * Copyright 2008 Sun Microsystems, Inc. All rights reserved.
  */
 
-webui.@THEME@.dojo.provide("webui.@THEME@.widget.checkedGroupBase");
+webui.@THEME_JS@.dojo.provide("webui.@THEME_JS@.widget.checkedGroupBase");
 
-webui.@THEME@.dojo.require("webui.@THEME@.widget.widgetBase");
+webui.@THEME_JS@.dojo.require("webui.@THEME_JS@.widget.widgetBase");
 
 /**
- * @name webui.@THEME@.widget.checkedGroupBase
- * @extends webui.@THEME@.widget.widgetBase
+ * @name webui.@THEME_JS@.widget.checkedGroupBase
+ * @extends webui.@THEME_JS@.widget.widgetBase
  * @class This class contains functions for widgets that extend checkedGroupBase.
  * @static
  */
-webui.@THEME@.dojo.declare("webui.@THEME@.widget.checkedGroupBase", webui.@THEME@.widget.widgetBase);
+webui.@THEME_JS@.dojo.declare("webui.@THEME_JS@.widget.checkedGroupBase", webui.@THEME_JS@.widget.widgetBase);
 
 /**
  * Helper function to add elements with Object literals.
@@ -42,7 +42,7 @@ webui.@THEME@.dojo.declare("webui.@THEME@.widget.checkedGroupBase", webui.@THEME
  * @config {Object} label
  * @return {boolean} true if successful; otherwise, false.
  */
-webui.@THEME@.widget.checkedGroupBase.prototype.addContents = function(props) {   
+webui.@THEME_JS@.widget.checkedGroupBase.prototype.addContents = function(props) {   
     if (props == null) {
         return false;
     }
@@ -94,7 +94,7 @@ webui.@THEME@.widget.checkedGroupBase.prototype.addContents = function(props) {
         // Update the disabled property client side
         if (props.disabled != null && this.contents) {
             for (var i = 0; i < this.contents.length; i++) {
-                var contentWidget = webui.@THEME@.dijit.byId(this.contents[i].id);
+                var contentWidget = webui.@THEME_JS@.dijit.byId(this.contents[i].id);
                 if (contentWidget) {
                     contentWidget.setProps({disabled: props.disabled});
                 }
@@ -110,7 +110,7 @@ webui.@THEME@.widget.checkedGroupBase.prototype.addContents = function(props) {
  *
  * @return {Object} Key-Value pairs of properties.
  */
-webui.@THEME@.widget.checkedGroupBase.prototype.getProps = function() {
+webui.@THEME_JS@.widget.checkedGroupBase.prototype.getProps = function() {
     var props = this.inherited("getProps", arguments);
 
     // Set properties.     
@@ -133,7 +133,7 @@ webui.@THEME@.widget.checkedGroupBase.prototype.getProps = function() {
  * </p>
  * @return {boolean} true if successful; otherwise, false.
  */
-webui.@THEME@.widget.checkedGroupBase.prototype.postCreate = function () {
+webui.@THEME_JS@.widget.checkedGroupBase.prototype.postCreate = function () {
     // Set ids.
     if (this.id) {                    
         this.contentsRowNode.id = this.id + "_contentsRowNode";
@@ -182,7 +182,7 @@ webui.@THEME@.widget.checkedGroupBase.prototype.postCreate = function () {
  * @param {boolean} notify Publish an event for custom AJAX implementations to listen for.
  * @return {boolean} true if successful; otherwise, false.
  */
-webui.@THEME@.widget.checkedGroupBase.prototype.setProps = function(props, notify) {
+webui.@THEME_JS@.widget.checkedGroupBase.prototype.setProps = function(props, notify) {
     if (props == null) {
         return false;
     }
@@ -206,7 +206,7 @@ webui.@THEME@.widget.checkedGroupBase.prototype.setProps = function(props, notif
  * @return {boolean} true if successful; otherwise, false.
  * @private
  */
-webui.@THEME@.widget.checkedGroupBase.prototype._setProps = function(props) {
+webui.@THEME_JS@.widget.checkedGroupBase.prototype._setProps = function(props) {
     if (props == null) {
         return false;
     }

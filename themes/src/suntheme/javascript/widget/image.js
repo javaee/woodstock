@@ -20,17 +20,17 @@
  * Copyright 2008 Sun Microsystems, Inc. All rights reserved.
  */
 
-webui.@THEME@.dojo.provide("webui.@THEME@.widget.image");
+webui.@THEME_JS@.dojo.provide("webui.@THEME_JS@.widget.image");
 
-webui.@THEME@.dojo.require("webui.@THEME@.widget.widgetBase");
+webui.@THEME_JS@.dojo.require("webui.@THEME_JS@.widget.widgetBase");
 
 /**
- * @name webui.@THEME@.widget.image
- * @extends webui.@THEME@.widget.widgetBase
+ * @name webui.@THEME_JS@.widget.image
+ * @extends webui.@THEME_JS@.widget.widgetBase
  * @class This class contains functions for the image widget.
  * @constructor This function is used to construct a image widget.
  */
-webui.@THEME@.dojo.declare("webui.@THEME@.widget.image", webui.@THEME@.widget.widgetBase, {
+webui.@THEME_JS@.dojo.declare("webui.@THEME_JS@.widget.image", webui.@THEME_JS@.widget.widgetBase, {
     // Set defaults.
     border: 0,
     widgetName: "image" // Required for theme properties.
@@ -45,18 +45,18 @@ webui.@THEME@.dojo.declare("webui.@THEME@.widget.image", webui.@THEME@.widget.wi
  * </p>
  * @ignore
  */
-webui.@THEME@.widget.image.event =
-        webui.@THEME@.widget.image.prototype.event = {
+webui.@THEME_JS@.widget.image.event =
+        webui.@THEME_JS@.widget.image.prototype.event = {
     /**
      * This object contains refresh event topics.
      * @ignore
      */
     refresh: {
         /** Refresh event topic for custom AJAX implementations to listen for. */
-        beginTopic: "webui_@THEME@_widget_image_event_refresh_begin",
+        beginTopic: "webui_@THEME_JS@_widget_image_event_refresh_begin",
 
         /** Refresh event topic for custom AJAX implementations to listen for. */
-        endTopic: "webui_@THEME@_widget_image_event_refresh_end"
+        endTopic: "webui_@THEME_JS@_widget_image_event_refresh_end"
     },
 
     /**
@@ -65,10 +65,10 @@ webui.@THEME@.widget.image.event =
      */
     state: {
         /** State event topic for custom AJAX implementations to listen for. */
-        beginTopic: "webui_@THEME@_widget_image_event_state_begin",
+        beginTopic: "webui_@THEME_JS@_widget_image_event_state_begin",
 
         /** State event topic for custom AJAX implementations to listen for. */
-        endTopic: "webui_@THEME@_widget_image_event_state_end"
+        endTopic: "webui_@THEME_JS@_widget_image_event_state_end"
     }
 };
 
@@ -78,7 +78,7 @@ webui.@THEME@.widget.image.event =
  *
  * @return {Object} Key-Value pairs of properties.
  */
-webui.@THEME@.widget.image.prototype.getProps = function() {
+webui.@THEME_JS@.widget.image.prototype.getProps = function() {
     var props = this.inherited("getProps", arguments);
 
     // Set properties.
@@ -139,7 +139,7 @@ webui.@THEME@.widget.image.prototype.getProps = function() {
  * @param {boolean} notify Publish an event for custom AJAX implementations to listen for.
  * @return {boolean} true if successful; otherwise, false.
  */
-webui.@THEME@.widget.image.prototype.setProps = function(props, notify) {
+webui.@THEME_JS@.widget.image.prototype.setProps = function(props, notify) {
     // Note: This function is overridden for JsDoc.
     return this.inherited("setProps", arguments);
 };
@@ -154,7 +154,7 @@ webui.@THEME@.widget.image.prototype.setProps = function(props, notify) {
  * @return {boolean} true if successful; otherwise, false.
  * @private
  */
-webui.@THEME@.widget.image.prototype._setProps = function(props) {
+webui.@THEME_JS@.widget.image.prototype._setProps = function(props) {
     if (props == null) {
         return false;
     }
@@ -186,16 +186,16 @@ webui.@THEME@.widget.image.prototype._setProps = function(props) {
         //
         // For now, skipping the combined image approach for IE6. Also need fix 
         // for Safari.
-        var iconProps = webui.@THEME@.theme.common.getImage(props.icon);
+        var iconProps = webui.@THEME_JS@.theme.common.getImage(props.icon);
         var mapKey = iconProps['map_key'];
-        if (mapKey != null && !webui.@THEME@.browser.isIe6()
-                && !webui.@THEME@.widget.common.isHighContrastMode()) {
+        if (mapKey != null && !webui.@THEME_JS@.browser.isIe6()
+                && !webui.@THEME_JS@.widget.common.isHighContrastMode()) {
             // Note: Comparing height/width against "actual" properties is not a
             // valid test -- DOT images don't have a default size, for example.
             if (iconProps['top'] != null && iconProps['actual_height'] != null 
                     && iconProps['actual_width'] != null) {               
-                var transImage = webui.@THEME@.theme.common.getImage("DOT");
-                var combinedImage = webui.@THEME@.theme.common.getImage(mapKey);
+                var transImage = webui.@THEME_JS@.theme.common.getImage("DOT");
+                var combinedImage = webui.@THEME_JS@.theme.common.getImage(mapKey);
 
                 // Set style properties.
                 this.domNode.style.border = "0";
@@ -223,7 +223,7 @@ webui.@THEME@.widget.image.prototype._setProps = function(props) {
             // context path already appended and if not, append it.
             if (this.prefix) {
                 props.src = 
-                    webui.@THEME@.widget.common.appendPrefix(this.prefix, props.src);                
+                    webui.@THEME_JS@.widget.common.appendPrefix(this.prefix, props.src);                
             }
             this.domNode.src = props.src;  
         } 

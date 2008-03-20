@@ -20,18 +20,18 @@
  * Copyright 2008 Sun Microsystems, Inc. All rights reserved.
  */
 
-webui.@THEME@.dojo.provide("webui.@THEME@.widget.menuBase");
+webui.@THEME_JS@.dojo.provide("webui.@THEME_JS@.widget.menuBase");
 
-webui.@THEME@.dojo.require("webui.@THEME@.browser");
-webui.@THEME@.dojo.require("webui.@THEME@.widget.widgetBase");
+webui.@THEME_JS@.dojo.require("webui.@THEME_JS@.browser");
+webui.@THEME_JS@.dojo.require("webui.@THEME_JS@.widget.widgetBase");
 
 /**
- * @name webui.@THEME@.widget.menuBase
- * @extends webui.@THEME@.widget.widgetBase
+ * @name webui.@THEME_JS@.widget.menuBase
+ * @extends webui.@THEME_JS@.widget.widgetBase
  * @class This class contains functions for widgets that extend menuBase.
  * @static
  */
-webui.@THEME@.dojo.declare("webui.@THEME@.widget.menuBase", webui.@THEME@.widget.widgetBase);
+webui.@THEME_JS@.dojo.declare("webui.@THEME_JS@.widget.menuBase", webui.@THEME_JS@.widget.widgetBase);
 
 /**
  * Add the specified options to the dom element.
@@ -41,7 +41,7 @@ webui.@THEME@.dojo.declare("webui.@THEME@.widget.menuBase", webui.@THEME@.widget
  * @config {Array} options 
  * @return {boolean} true if successful; otherwise, false.
  */
-webui.@THEME@.widget.menuBase.prototype.addOptions = function(menuNode, props) {
+webui.@THEME_JS@.widget.menuBase.prototype.addOptions = function(menuNode, props) {
     var groupNode, optionNode, separator, sepNode;
     for (var i = 0; i < props.options.length; i++) {
         
@@ -61,7 +61,7 @@ webui.@THEME@.widget.menuBase.prototype.addOptions = function(menuNode, props) {
         
         if (props.options[i].separator == true) {
             separator = this.menuSeparatorContainer.cloneNode(true);
-            if (webui.@THEME@.browser.isIe5up()) {
+            if (webui.@THEME_JS@.browser.isIe5up()) {
                 var sep = this.menuSeparator.cloneNode(true);
                 separator.appendChild(sep);
             }
@@ -78,7 +78,7 @@ webui.@THEME@.widget.menuBase.prototype.addOptions = function(menuNode, props) {
  * @param {String} optionId The id of the option element that is clicked.
  * @return {Function} The callback function.
  */
-webui.@THEME@.widget.menuBase.prototype.createOnClickCallback = function(optionId) {
+webui.@THEME_JS@.widget.menuBase.prototype.createOnClickCallback = function(optionId) {
     var _id = this.id;
 
     /**
@@ -95,7 +95,7 @@ webui.@THEME@.widget.menuBase.prototype.createOnClickCallback = function(optionI
         }        
 
         // Get hold of the menu element.
-        var widget = webui.@THEME@.dijit.byId(_id);                
+        var widget = webui.@THEME_JS@.dijit.byId(_id);                
         var val = elem.selectValue;
         var dis = elem.disabled;       
         var group = elem.group;
@@ -114,7 +114,7 @@ webui.@THEME@.widget.menuBase.prototype.createOnClickCallback = function(optionI
  * @param {String} nodeId The id of the option element that is clicked
  * @return {Function} The callback function. 
  */
-webui.@THEME@.widget.menuBase.prototype.createOnKeyDownCallBack = function(nodeId) {
+webui.@THEME_JS@.widget.menuBase.prototype.createOnKeyDownCallBack = function(nodeId) {
     if (nodeId == null) {
         return null;
     }
@@ -126,7 +126,7 @@ webui.@THEME@.widget.menuBase.prototype.createOnKeyDownCallBack = function(nodeI
        if (elem == null) {
           return false;
        }
-        var widget = webui.@THEME@.dijit.byId(id);
+        var widget = webui.@THEME_JS@.dijit.byId(id);
 
         // If the menu is not visible, we do not need to capture
         // key press events.
@@ -155,7 +155,7 @@ webui.@THEME@.widget.menuBase.prototype.createOnKeyDownCallBack = function(nodeI
  * @param {Node} menuItem The DOM node associated with the menu item.
  * @return {Function} The callback function.
  */
-webui.@THEME@.widget.menuBase.prototype.createOnMouseOutCallBack = function(menuItem) {
+webui.@THEME_JS@.widget.menuBase.prototype.createOnMouseOutCallBack = function(menuItem) {
     if (menuItem == null) {
         return null;
     }
@@ -164,7 +164,7 @@ webui.@THEME@.widget.menuBase.prototype.createOnMouseOutCallBack = function(menu
     // New literals are created every time this function is called, and it's 
     // saved by closure magic.
     return function(event) {
-        var widget = webui.@THEME@.dijit.byId(_id);
+        var widget = webui.@THEME_JS@.dijit.byId(_id);
         menuItem.className = widget.theme.getClassName("MENU_GROUP_CONTAINER");
     };
 };
@@ -175,7 +175,7 @@ webui.@THEME@.widget.menuBase.prototype.createOnMouseOutCallBack = function(menu
  * @param {Node} menuItem The DOM node associated with the menu item.
  * @return {Function} The callback function.
  */
-webui.@THEME@.widget.menuBase.prototype.createOnMouseOverCallBack = function(menuItem) {
+webui.@THEME_JS@.widget.menuBase.prototype.createOnMouseOverCallBack = function(menuItem) {
     if (menuItem == null) {
         return null;
     }
@@ -188,7 +188,7 @@ webui.@THEME@.widget.menuBase.prototype.createOnMouseOverCallBack = function(men
      * @param {Event} event The JavaScript event.
      */
     return function(event) {
-        var widget = webui.@THEME@.dijit.byId(_id);
+        var widget = webui.@THEME_JS@.dijit.byId(_id);
         menuItem.className = menuItem.className + " " + 
                     widget.theme.getClassName("MENU_ITEM_HOVER");            
         if (widget != null) {
@@ -202,7 +202,7 @@ webui.@THEME@.widget.menuBase.prototype.createOnMouseOverCallBack = function(men
                     widget.theme.getClassName("MENU_GROUP_CONTAINER");
             }
         }
-        if (webui.@THEME@.browser.isIe5up() ) {
+        if (webui.@THEME_JS@.browser.isIe5up() ) {
             menuItem.className = menuItem.className + " " + 
                 widget.theme.getClassName("MENU_ITEM_HOVER");            
         }
@@ -219,7 +219,7 @@ webui.@THEME@.widget.menuBase.prototype.createOnMouseOverCallBack = function(men
  * @param {Array} props 
  * @return {int} The max menu width.
  */
-webui.@THEME@.widget.menuBase.prototype.getMaxWidth = function(props) {
+webui.@THEME_JS@.widget.menuBase.prototype.getMaxWidth = function(props) {
     var menuWidth = 0;
     var maxWidth = 0;
     for (var i = 0; i < props.length; i++) {
@@ -244,7 +244,7 @@ webui.@THEME@.widget.menuBase.prototype.getMaxWidth = function(props) {
  *
  * @return {Object} Key-Value pairs of properties.
  */
-webui.@THEME@.widget.menuBase.prototype.getProps = function() {
+webui.@THEME_JS@.widget.menuBase.prototype.getProps = function() {
     var props = this.inherited("getProps", arguments);
 
     if (this.options) { props.options = this.options; }
@@ -259,7 +259,7 @@ webui.@THEME@.widget.menuBase.prototype.getProps = function() {
  *
  * @return {String} The selected item.
  */
-webui.@THEME@.widget.menuBase.prototype.getSelectedValue = function() {
+webui.@THEME_JS@.widget.menuBase.prototype.getSelectedValue = function() {
     if (this.clickedItem) {
         return this.clickedItem;
     } else {
@@ -275,7 +275,7 @@ webui.@THEME@.widget.menuBase.prototype.getSelectedValue = function() {
  * </p>
  * @return {String} The outermost HTML element style.
  */
-webui.@THEME@.widget.menuBase.prototype.getStyle = function() {
+webui.@THEME_JS@.widget.menuBase.prototype.getStyle = function() {
     var style = "width:" + this.maxWidth + "em;";
 
     // Since the style has to be recalculated each and every time the options
@@ -308,9 +308,9 @@ webui.@THEME@.widget.menuBase.prototype.getStyle = function() {
  * </p>
  * @return {boolean} true if successful; otherwise, false.
  */
-webui.@THEME@.widget.menuBase.prototype.postCreate = function () {
+webui.@THEME_JS@.widget.menuBase.prototype.postCreate = function () {
     // Set public functions.
-    this.domNode.getSelectedValue = function(props, optionNode) { return webui.@THEME@.dijit.byId(this.id).getSelectedValue(); };
+    this.domNode.getSelectedValue = function(props, optionNode) { return webui.@THEME_JS@.dijit.byId(this.id).getSelectedValue(); };
     this.focusPosition = 0;        
     return this.inherited("postCreate", arguments);
 };
@@ -323,7 +323,7 @@ webui.@THEME@.widget.menuBase.prototype.postCreate = function () {
  * @param (String) value The "value" of the selected option. 
  * @return {boolean} true The enter key press event completed successfully
  */
-webui.@THEME@.widget.menuBase.prototype.processEnterKeyPressEvent = function(value) {
+webui.@THEME_JS@.widget.menuBase.prototype.processEnterKeyPressEvent = function(value) {
     var changeResult = true;
 
     // Check whether the selected value is different than the one previously selected
@@ -353,7 +353,7 @@ webui.@THEME@.widget.menuBase.prototype.processEnterKeyPressEvent = function(val
  * @param {String} value The selected value.
  * @return {boolean} true if successful; otherwise, false.
  */
-webui.@THEME@.widget.menuBase.prototype.processOnClickEvent = function(value) {
+webui.@THEME_JS@.widget.menuBase.prototype.processOnClickEvent = function(value) {
     var clickResult = true;
     var changeResult = true;
     
@@ -388,7 +388,7 @@ webui.@THEME@.widget.menuBase.prototype.processOnClickEvent = function(value) {
  * @config {boolean} group
  * @return {boolean} true if successful; otherwise, false.
  */
-webui.@THEME@.widget.menuBase.prototype.setMenuNodeClassName = function(
+webui.@THEME_JS@.widget.menuBase.prototype.setMenuNodeClassName = function(
         menuItemContainer, props) {        
     if (new Boolean(props.group).valueOf() == true) {
         menuItemContainer.className = this.theme.getClassName("MENU_GROUP_HEADER");
@@ -427,7 +427,7 @@ webui.@THEME@.widget.menuBase.prototype.setMenuNodeClassName = function(
  * @config {String} value
  * @return {boolean} true if successful; otherwise, false.
  */
-webui.@THEME@.widget.menuBase.prototype.setOptionNodeProps = function(optionNode, props, number) {
+webui.@THEME_JS@.widget.menuBase.prototype.setOptionNodeProps = function(optionNode, props, number) {
     optionNode.id = this.id + "_" + props.value + "_container";
     var menuItemContainer = this.menuItemContainer.cloneNode(false);
     menuItemContainer.id = optionNode.id + "_label";
@@ -545,7 +545,7 @@ webui.@THEME@.widget.menuBase.prototype.setOptionNodeProps = function(optionNode
  * @param {boolean} notify Publish an event for custom AJAX implementations to listen for.
  * @return {boolean} true if successful; otherwise, false.
  */
-webui.@THEME@.widget.menuBase.prototype.setProps = function(props, notify) {
+webui.@THEME_JS@.widget.menuBase.prototype.setProps = function(props, notify) {
     if (props == null) {
         return false;
     }
@@ -569,7 +569,7 @@ webui.@THEME@.widget.menuBase.prototype.setProps = function(props, notify) {
  * @return {boolean} true if successful; otherwise, false.
  * @private
  */
-webui.@THEME@.widget.menuBase.prototype._setProps = function(props){
+webui.@THEME_JS@.widget.menuBase.prototype._setProps = function(props){
     if (props == null) {
         return false;
     }
@@ -647,7 +647,7 @@ webui.@THEME@.widget.menuBase.prototype._setProps = function(props){
  * @param {String} item The selected value.
  * @return {boolean} true if successful; otherwise, false.
  */
-webui.@THEME@.widget.menuBase.prototype.setSelectedValue = function(item) {
+webui.@THEME_JS@.widget.menuBase.prototype.setSelectedValue = function(item) {
     this.clickedItem = item;
     return true;
 };
@@ -657,7 +657,7 @@ webui.@THEME@.widget.menuBase.prototype.setSelectedValue = function(item) {
  *
  * @return {boolean} false to cancel the JavaScript event.
  */
-webui.@THEME@.widget.menuBase.prototype.submitFormData = function () {
+webui.@THEME_JS@.widget.menuBase.prototype.submitFormData = function () {
     var theForm = document.getElementById(this.formId);
     var oldAction = theForm.action;
     var oldTarget = theForm.target;
@@ -680,7 +680,7 @@ webui.@THEME@.widget.menuBase.prototype.submitFormData = function () {
  * @param (String) nodeId The id of the menu item. 
  * @return {boolean} true Propagate the javascript event
  */
-webui.@THEME@.widget.menuBase.prototype.traverseMenu = function(keyCode, event, nodeId) {
+webui.@THEME_JS@.widget.menuBase.prototype.traverseMenu = function(keyCode, event, nodeId) {
     var arr = this.menuId;
     var elem = document.getElementById(nodeId);
     var focusElem = document.getElementById(arr[this.focusPosition]);
@@ -724,7 +724,7 @@ webui.@THEME@.widget.menuBase.prototype.traverseMenu = function(keyCode, event, 
         this.processEnterKeyPressEvent(val);
        
     }    
-    if (webui.@THEME@.browser.isIe5up()) {
+    if (webui.@THEME_JS@.browser.isIe5up()) {
         window.event.cancelBubble = true;
         window.event.returnValue = false;
     } else {

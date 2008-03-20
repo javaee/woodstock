@@ -20,16 +20,16 @@
  * Copyright 2008 Sun Microsystems, Inc. All rights reserved.
  */
 
-webui.@THEME@.dojo.provide("webui.@THEME@.tree");
+webui.@THEME_JS@.dojo.provide("webui.@THEME_JS@.tree");
 
-webui.@THEME@.dojo.require("webui.@THEME@.prototypejs");
-webui.@THEME@.dojo.require("webui.@THEME@.theme.common");
+webui.@THEME_JS@.dojo.require("webui.@THEME_JS@.prototypejs");
+webui.@THEME_JS@.dojo.require("webui.@THEME_JS@.theme.common");
 
 /** 
  * @class This class contains functions for tree components.
  * @static
  */ 
-webui.@THEME@.tree = {
+webui.@THEME_JS@.tree = {
     /**
      * This function is used to initialize HTML element properties with Object
      * literals.
@@ -52,33 +52,33 @@ webui.@THEME@.tree = {
         }
 
         // Set given properties on domNode.
-        webui.@THEME@.prototypejs.extend(domNode, props, false);
+        webui.@THEME_JS@.prototypejs.extend(domNode, props, false);
 
 	// Set functions.
-        domNode.clearAllHighlight = webui.@THEME@.tree.clearAllHighlight;
-        domNode.clearHighlight = webui.@THEME@.tree.clearHighlight;
-        domNode.expandCollapse = webui.@THEME@.tree.expandCollapse;
-        domNode.expandTurner = webui.@THEME@.tree.expandTurner;
-        domNode.findContainingTreeNode = webui.@THEME@.tree.findContainingTreeNode;
-        domNode.findNodeByTypeAndProp = webui.@THEME@.tree.findNodeByTypeAndProp;
-        domNode.getCookieValue = webui.@THEME@.tree.getCookieValue;
-        domNode.getHighlightTreeBgColor = webui.@THEME@.tree.getHighlightTreeBgColor;
-        domNode.getHighlightTreeTextColor = webui.@THEME@.tree.getHighlightTreeTextColor;
-        domNode.getNormalTreeTextColor = webui.@THEME@.tree.getNormalTreeTextColor;
-        domNode.getParentTreeNode = webui.@THEME@.tree.getParentTreeNode;
-        domNode.getSelectedTreeNode = webui.@THEME@.tree.getSelectedTreeNode;
-        domNode.getTree = webui.@THEME@.tree.getTree;
-        domNode.highlight = webui.@THEME@.tree.highlight;
-        domNode.highlightParent = webui.@THEME@.tree.highlightParent;
-        domNode.isAnHref = webui.@THEME@.tree.isAnHref;
-        domNode.isTreeHandle = webui.@THEME@.tree.isTreeHandle;
-        domNode.onTreeNodeClick = webui.@THEME@.tree.onTreeNodeClick;
-        domNode.selectTreeNode = webui.@THEME@.tree.selectTreeNode;
-        domNode.setCookieValue = webui.@THEME@.tree.setCookieValue;
-        domNode.treecontent_submit = webui.@THEME@.tree.treecontent_submit;
-        domNode.treeNodeIsExpanded = webui.@THEME@.tree.treeNodeIsExpanded;
-        domNode.unhighlightParent = webui.@THEME@.tree.unhighlightParent;
-        domNode.updateHighlight = webui.@THEME@.tree.updateHighlight;
+        domNode.clearAllHighlight = webui.@THEME_JS@.tree.clearAllHighlight;
+        domNode.clearHighlight = webui.@THEME_JS@.tree.clearHighlight;
+        domNode.expandCollapse = webui.@THEME_JS@.tree.expandCollapse;
+        domNode.expandTurner = webui.@THEME_JS@.tree.expandTurner;
+        domNode.findContainingTreeNode = webui.@THEME_JS@.tree.findContainingTreeNode;
+        domNode.findNodeByTypeAndProp = webui.@THEME_JS@.tree.findNodeByTypeAndProp;
+        domNode.getCookieValue = webui.@THEME_JS@.tree.getCookieValue;
+        domNode.getHighlightTreeBgColor = webui.@THEME_JS@.tree.getHighlightTreeBgColor;
+        domNode.getHighlightTreeTextColor = webui.@THEME_JS@.tree.getHighlightTreeTextColor;
+        domNode.getNormalTreeTextColor = webui.@THEME_JS@.tree.getNormalTreeTextColor;
+        domNode.getParentTreeNode = webui.@THEME_JS@.tree.getParentTreeNode;
+        domNode.getSelectedTreeNode = webui.@THEME_JS@.tree.getSelectedTreeNode;
+        domNode.getTree = webui.@THEME_JS@.tree.getTree;
+        domNode.highlight = webui.@THEME_JS@.tree.highlight;
+        domNode.highlightParent = webui.@THEME_JS@.tree.highlightParent;
+        domNode.isAnHref = webui.@THEME_JS@.tree.isAnHref;
+        domNode.isTreeHandle = webui.@THEME_JS@.tree.isTreeHandle;
+        domNode.onTreeNodeClick = webui.@THEME_JS@.tree.onTreeNodeClick;
+        domNode.selectTreeNode = webui.@THEME_JS@.tree.selectTreeNode;
+        domNode.setCookieValue = webui.@THEME_JS@.tree.setCookieValue;
+        domNode.treecontent_submit = webui.@THEME_JS@.tree.treecontent_submit;
+        domNode.treeNodeIsExpanded = webui.@THEME_JS@.tree.treeNodeIsExpanded;
+        domNode.unhighlightParent = webui.@THEME_JS@.tree.unhighlightParent;
+        domNode.updateHighlight = webui.@THEME_JS@.tree.updateHighlight;
 
         return true;
     },
@@ -155,7 +155,7 @@ webui.@THEME@.tree = {
             // get the image widget to compare the actual icon values
             // as opposed to checking the name of the final rendered image.
             
-            var imgWidget = webui.@THEME@.dijit.byId(imageId);
+            var imgWidget = webui.@THEME_JS@.dijit.byId(imageId);
             var imgProps = imgWidget.getProps();
             var nodeIcon = imgProps.icon;
             
@@ -347,7 +347,7 @@ webui.@THEME@.tree = {
     clearHighlight: function(node) {
         if (node) {
 	    node.className = 
-                webui.@THEME@.theme.common.getClassName("TREE_ROW");
+                webui.@THEME_JS@.theme.common.getClassName("TREE_ROW");
         }
         return true;
     },
@@ -373,7 +373,7 @@ webui.@THEME@.tree = {
         // Ignore Tree Handles b/c they should not update highlighting
         
         if (elt.nodeName == "IMG") {
-            var imgWidget = webui.@THEME@.dijit.byId(elt.id);
+            var imgWidget = webui.@THEME_JS@.dijit.byId(elt.id);
             var imgProps = imgWidget.getProps();
             var nodeIcon = imgProps.icon;
             if (nodeIcon.indexOf("TREE_HANDLE_") != -1) {
@@ -461,7 +461,7 @@ webui.@THEME@.tree = {
     highlight: function(node) {
         if (node) {
 	    node.className = 
-                webui.@THEME@.theme.common.getClassName("TREE_SELECTED_ROW");
+                webui.@THEME_JS@.theme.common.getClassName("TREE_SELECTED_ROW");
             return true;
         }
         return false;
@@ -486,7 +486,7 @@ webui.@THEME@.tree = {
         // type indicates the node is not expanded.
         if (node.nodeName == "IMG") {
         
-            var imgWidget = webui.@THEME@.dijit.byId(node.id);
+            var imgWidget = webui.@THEME_JS@.dijit.byId(node.id);
             var imgProps = imgWidget.getProps();
             var nodeIcon = imgProps.icon;
 

@@ -20,17 +20,17 @@
  * Copyright 2008 Sun Microsystems, Inc. All rights reserved.
  */
 
-webui.@THEME@.dojo.provide("webui.@THEME@.widget.button");
+webui.@THEME_JS@.dojo.provide("webui.@THEME_JS@.widget.button");
 
-webui.@THEME@.dojo.require("webui.@THEME@.widget.widgetBase");
+webui.@THEME_JS@.dojo.require("webui.@THEME_JS@.widget.widgetBase");
  
 /**
- * @name webui.@THEME@.widget.button
- * @extends webui.@THEME@.widget.widgetBase
+ * @name webui.@THEME_JS@.widget.button
+ * @extends webui.@THEME_JS@.widget.widgetBase
  * @class This class contains functions for the button widget.
  * @constructor This function is used to construct a button widget.
  */
-webui.@THEME@.dojo.declare("webui.@THEME@.widget.button", webui.@THEME@.widget.widgetBase, {
+webui.@THEME_JS@.dojo.declare("webui.@THEME_JS@.widget.button", webui.@THEME_JS@.widget.widgetBase, {
     // Set defaults.
     disabled: false,
     escape: true,
@@ -48,18 +48,18 @@ webui.@THEME@.dojo.declare("webui.@THEME@.widget.button", webui.@THEME@.widget.w
  * </p>
  * @ignore
  */
-webui.@THEME@.widget.button.event =
-        webui.@THEME@.widget.button.prototype.event = {
+webui.@THEME_JS@.widget.button.event =
+        webui.@THEME_JS@.widget.button.prototype.event = {
     /**
      * This object contains refresh event topics.
      * @ignore
      */
     refresh: {
         /** Refresh event topic for custom AJAX implementations to listen for. */
-        beginTopic: "webui_@THEME@_widget_button_event_refresh_begin",
+        beginTopic: "webui_@THEME_JS@_widget_button_event_refresh_begin",
 
         /** Refresh event topic for custom AJAX implementations to listen for. */
-        endTopic: "webui_@THEME@_widget_button_event_refresh_end"
+        endTopic: "webui_@THEME_JS@_widget_button_event_refresh_end"
     },
 
     /**
@@ -68,10 +68,10 @@ webui.@THEME@.widget.button.event =
      */
     state: {
         /** State event topic for custom AJAX implementations to listen for. */
-        beginTopic: "webui_@THEME@_widget_button_event_state_begin",
+        beginTopic: "webui_@THEME_JS@_widget_button_event_state_begin",
 
         /** State event topic for custom AJAX implementations to listen for. */
-        endTopic: "webui_@THEME@_widget_button_event_state_end"
+        endTopic: "webui_@THEME_JS@_widget_button_event_state_end"
     }
 };
 
@@ -83,7 +83,7 @@ webui.@THEME@.widget.button.event =
  * </p>
  * @return {String} The outermost HTML element class name.
  */
-webui.@THEME@.widget.button.prototype.getClassName = function() {
+webui.@THEME_JS@.widget.button.prototype.getClassName = function() {
     var key = null;
 
     if (this.mini == true && this.primary == true) {
@@ -119,7 +119,7 @@ webui.@THEME@.widget.button.prototype.getClassName = function() {
  * </p>
  * @return {String} The outermost HTML element class name.
  */
-webui.@THEME@.widget.button.prototype.getHoverClassName = function() {
+webui.@THEME_JS@.widget.button.prototype.getHoverClassName = function() {
     var key = null;
 
     if (this.mini == true && this.primary == true) {
@@ -144,7 +144,7 @@ webui.@THEME@.widget.button.prototype.getHoverClassName = function() {
  *
  * @return {Object} Key-Value pairs of properties.
  */
-webui.@THEME@.widget.button.prototype.getProps = function() {
+webui.@THEME_JS@.widget.button.prototype.getProps = function() {
     var props = this.inherited("getProps", arguments);
 
     // Set properties.
@@ -165,7 +165,7 @@ webui.@THEME@.widget.button.prototype.getProps = function() {
  * @param {Event} event The JavaScript event.
  * @return {boolean} true if successful; otherwise, false.
  */
-webui.@THEME@.widget.button.prototype.onBlurCallback = function(event) {
+webui.@THEME_JS@.widget.button.prototype.onBlurCallback = function(event) {
     if (this.disabled == true) {
         return true;
     }
@@ -183,7 +183,7 @@ webui.@THEME@.widget.button.prototype.onBlurCallback = function(event) {
  * @param {Event} event The JavaScript event.
  * @return {boolean} true if successful; otherwise, false.
  */
-webui.@THEME@.widget.button.prototype.onFocusCallback = function(event) {
+webui.@THEME_JS@.widget.button.prototype.onFocusCallback = function(event) {
     if (this.disabled == true) {
         return true;
     }
@@ -203,7 +203,7 @@ webui.@THEME@.widget.button.prototype.onFocusCallback = function(event) {
  * </p>
  * @return {boolean} true if successful; otherwise, false.
  */
-webui.@THEME@.widget.button.prototype.postCreate = function () {
+webui.@THEME_JS@.widget.button.prototype.postCreate = function () {
     // Set ids.
     if (this.id) {
         this.domNode.name = this.id;
@@ -214,18 +214,18 @@ webui.@THEME@.widget.button.prototype.postCreate = function () {
     // Note: Although we now have a setProps function to update properties,
     // these functions were previously added to the DOM node; thus, we must
     // continue to be backward compatible.
-    this.domNode.isSecondary = function() { return !(webui.@THEME@.dijit.byId(this.id).getProps().primary); };
-    this.domNode.setSecondary = function(secondary) { return webui.@THEME@.dijit.byId(this.id).setProps({primary: !secondary}); };
-    this.domNode.isPrimary = function() { return webui.@THEME@.dijit.byId(this.id).getProps().primary; };
-    this.domNode.setPrimary = function(primary) { return webui.@THEME@.dijit.byId(this.id).setProps({primary: primary}); };
-    this.domNode.isMini = function() { return webui.@THEME@.dijit.byId(this.id).getProps().mini; };
-    this.domNode.setMini = function(mini) { return webui.@THEME@.dijit.byId(this.id).setProps({mini: mini}); };
-    this.domNode.getDisabled = function() { return webui.@THEME@.dijit.byId(this.id).getProps().disabled; };
-    this.domNode.setDisabled = function(disabled) { return webui.@THEME@.dijit.byId(this.id).setProps({disabled: disabled}); };
-    this.domNode.getVisible = function() { return webui.@THEME@.dijit.byId(this.id).getProps().visible; };
-    this.domNode.setVisible = function(show) { return webui.@THEME@.dijit.byId(this.id).setProps({visible: show}); };
-    this.domNode.getText = function() { return webui.@THEME@.dijit.byId(this.id).getProps().value; };
-    this.domNode.setText = function(text) { return webui.@THEME@.dijit.byId(this.id).setProps({value: text}); };
+    this.domNode.isSecondary = function() { return !(webui.@THEME_JS@.dijit.byId(this.id).getProps().primary); };
+    this.domNode.setSecondary = function(secondary) { return webui.@THEME_JS@.dijit.byId(this.id).setProps({primary: !secondary}); };
+    this.domNode.isPrimary = function() { return webui.@THEME_JS@.dijit.byId(this.id).getProps().primary; };
+    this.domNode.setPrimary = function(primary) { return webui.@THEME_JS@.dijit.byId(this.id).setProps({primary: primary}); };
+    this.domNode.isMini = function() { return webui.@THEME_JS@.dijit.byId(this.id).getProps().mini; };
+    this.domNode.setMini = function(mini) { return webui.@THEME_JS@.dijit.byId(this.id).setProps({mini: mini}); };
+    this.domNode.getDisabled = function() { return webui.@THEME_JS@.dijit.byId(this.id).getProps().disabled; };
+    this.domNode.setDisabled = function(disabled) { return webui.@THEME_JS@.dijit.byId(this.id).setProps({disabled: disabled}); };
+    this.domNode.getVisible = function() { return webui.@THEME_JS@.dijit.byId(this.id).getProps().visible; };
+    this.domNode.setVisible = function(show) { return webui.@THEME_JS@.dijit.byId(this.id).setProps({visible: show}); };
+    this.domNode.getText = function() { return webui.@THEME_JS@.dijit.byId(this.id).getProps().value; };
+    this.domNode.setText = function(text) { return webui.@THEME_JS@.dijit.byId(this.id).setProps({value: text}); };
     this.domNode.doClick = this.domNode.click;
 
     // Set events.
@@ -279,7 +279,7 @@ webui.@THEME@.widget.button.prototype.postCreate = function () {
  * @param {boolean} notify Publish an event for custom AJAX implementations to listen for.
  * @return {boolean} true if successful; otherwise, false.
  */
-webui.@THEME@.widget.button.prototype.setProps = function(props, notify) {
+webui.@THEME_JS@.widget.button.prototype.setProps = function(props, notify) {
     // Note: This function is overridden for JsDoc.
     return this.inherited("setProps", arguments);
 };
@@ -294,7 +294,7 @@ webui.@THEME@.widget.button.prototype.setProps = function(props, notify) {
  * @return {boolean} true if successful; otherwise, false.
  * @private
  */
-webui.@THEME@.widget.button.prototype._setProps = function(props) {
+webui.@THEME_JS@.widget.button.prototype._setProps = function(props) {
     if (props == null) {
         return false;
     }

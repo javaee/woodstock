@@ -20,17 +20,17 @@
  * Copyright 2008 Sun Microsystems, Inc. All rights reserved.
  */
 
-webui.@THEME@.dojo.provide("webui.@THEME@.widget.staticText");
+webui.@THEME_JS@.dojo.provide("webui.@THEME_JS@.widget.staticText");
 
-webui.@THEME@.dojo.require("webui.@THEME@.widget.widgetBase");
+webui.@THEME_JS@.dojo.require("webui.@THEME_JS@.widget.widgetBase");
 
 /**
- * @name webui.@THEME@.widget.staticText
- * @extends webui.@THEME@.widget.widgetBase
+ * @name webui.@THEME_JS@.widget.staticText
+ * @extends webui.@THEME_JS@.widget.widgetBase
  * @class This class contains functions for the staticText widget.
  * @constructor This function is used to construct a staticText widget.
  */
-webui.@THEME@.dojo.declare("webui.@THEME@.widget.staticText", webui.@THEME@.widget.widgetBase, {
+webui.@THEME_JS@.dojo.declare("webui.@THEME_JS@.widget.staticText", webui.@THEME_JS@.widget.widgetBase, {
     // Set defaults.
     escape: true,
     widgetName: "staticText" // Required for theme properties.
@@ -45,18 +45,18 @@ webui.@THEME@.dojo.declare("webui.@THEME@.widget.staticText", webui.@THEME@.widg
  * </p>
  * @ignore
  */
-webui.@THEME@.widget.staticText.event =
-        webui.@THEME@.widget.staticText.prototype.event = {
+webui.@THEME_JS@.widget.staticText.event =
+        webui.@THEME_JS@.widget.staticText.prototype.event = {
     /**
      * This object contains refresh event topics.
      * @ignore
      */
     refresh: {
         /** Refresh event topic for custom AJAX implementations to listen for. */
-        beginTopic: "webui_@THEME@_widget_staticText_event_refresh_begin",
+        beginTopic: "webui_@THEME_JS@_widget_staticText_event_refresh_begin",
 
         /** Refresh event topic for custom AJAX implementations to listen for. */
-        endTopic: "webui_@THEME@_widget_staticText_event_refresh_end"
+        endTopic: "webui_@THEME_JS@_widget_staticText_event_refresh_end"
     },
 
     /**
@@ -65,10 +65,10 @@ webui.@THEME@.widget.staticText.event =
      */
     state: {
         /** State event topic for custom AJAX implementations to listen for. */
-        beginTopic: "webui_@THEME@_widget_staticText_event_state_begin",
+        beginTopic: "webui_@THEME_JS@_widget_staticText_event_state_begin",
 
         /** State event topic for custom AJAX implementations to listen for. */
-        endTopic: "webui_@THEME@_widget_staticText_event_state_end"
+        endTopic: "webui_@THEME_JS@_widget_staticText_event_state_end"
     }
 };
 
@@ -78,7 +78,7 @@ webui.@THEME@.widget.staticText.event =
  *
  * @return {Object} Key-Value pairs of properties.
  */
-webui.@THEME@.widget.staticText.prototype.getProps = function() {
+webui.@THEME_JS@.widget.staticText.prototype.getProps = function() {
     var props = this.inherited("getProps", arguments);
 
     // Set properties.
@@ -122,7 +122,7 @@ webui.@THEME@.widget.staticText.prototype.getProps = function() {
  * @param {boolean} notify Publish an event for custom AJAX implementations to listen for.
  * @return {boolean} true if successful; otherwise, false.
  */
-webui.@THEME@.widget.staticText.prototype.setProps = function(props, notify) {
+webui.@THEME_JS@.widget.staticText.prototype.setProps = function(props, notify) {
     // Note: This function is overridden for JsDoc.
     return this.inherited("setProps", arguments);
 };
@@ -137,7 +137,7 @@ webui.@THEME@.widget.staticText.prototype.setProps = function(props, notify) {
  * @return {boolean} true if successful; otherwise, false.
  * @private
  */
-webui.@THEME@.widget.staticText.prototype._setProps = function(props) {
+webui.@THEME_JS@.widget.staticText.prototype._setProps = function(props) {
     if (props == null) {
         return false;
     }

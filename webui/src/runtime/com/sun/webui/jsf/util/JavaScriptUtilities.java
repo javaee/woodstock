@@ -383,7 +383,7 @@ public class JavaScriptUtilities {
 
         StringBuffer buff = new StringBuffer(256);
         buff.append("var ")
-            .append(getModuleName("config").replace('.', '_'))
+            .append(getModuleName(null).replace('.', '_'))
             .append("=");
 
         // Add config properties.

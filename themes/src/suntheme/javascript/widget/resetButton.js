@@ -20,17 +20,17 @@
  * Copyright 2008 Sun Microsystems, Inc. All rights reserved.
  */
 
-webui.@THEME@.dojo.provide("webui.@THEME@.widget.resetButton");
+webui.@THEME_JS@.dojo.provide("webui.@THEME_JS@.widget.resetButton");
 
-webui.@THEME@.dojo.require("webui.@THEME@.widget.button");
+webui.@THEME_JS@.dojo.require("webui.@THEME_JS@.widget.button");
 
 /**
- * @name webui.@THEME@.widget.resetButton
- * @extends webui.@THEME@.widget.button
+ * @name webui.@THEME_JS@.widget.resetButton
+ * @extends webui.@THEME_JS@.widget.button
  * @class This class contains functions for the resetButton widget.
  * @constructor This function is used to construct a resetButton widget.
  */
-webui.@THEME@.dojo.declare("webui.@THEME@.widget.resetButton", webui.@THEME@.widget.button, {
+webui.@THEME_JS@.dojo.declare("webui.@THEME_JS@.widget.resetButton", webui.@THEME_JS@.widget.button, {
     // Set defaults.
     widgetName: "resetButton"  // Required for theme properties.
 });
@@ -44,18 +44,18 @@ webui.@THEME@.dojo.declare("webui.@THEME@.widget.resetButton", webui.@THEME@.wid
  * </p>
  * @ignore
  */
-webui.@THEME@.widget.resetButton.event =
-        webui.@THEME@.widget.resetButton.prototype.event = {
+webui.@THEME_JS@.widget.resetButton.event =
+        webui.@THEME_JS@.widget.resetButton.prototype.event = {
     /**
      * This object contains refresh event topics.
      * @ignore
      */
     refresh: {
         /** Refresh event topic for custom AJAX implementations to listen for. */
-        beginTopic: "webui_@THEME@_widget_resetButton_event_refresh_begin",
+        beginTopic: "webui_@THEME_JS@_widget_resetButton_event_refresh_begin",
 
         /** Refresh event topic for custom AJAX implementations to listen for. */
-        endTopic: "webui_@THEME@_widget_resetButton_event_refresh_end"
+        endTopic: "webui_@THEME_JS@_widget_resetButton_event_refresh_end"
     },
 
     /**
@@ -64,9 +64,9 @@ webui.@THEME@.widget.resetButton.event =
      */
     state: {
         /** State event topic for custom AJAX implementations to listen for. */
-        beginTopic: "webui_@THEME@_widget_resetButton_event_state_begin",
+        beginTopic: "webui_@THEME_JS@_widget_resetButton_event_state_begin",
 
         /** State event topic for custom AJAX implementations to listen for. */
-        endTopic: "webui_@THEME@_widget_resetButton_event_state_end"
+        endTopic: "webui_@THEME_JS@_widget_resetButton_event_state_end"
     }
 };

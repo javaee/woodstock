@@ -20,18 +20,18 @@
  * Copyright 2008 Sun Microsystems, Inc. All rights reserved.
  */
 
-webui.@THEME@.dojo.provide("webui.@THEME@.widget.jsfx.popupMenu");
+webui.@THEME_JS@.dojo.provide("webui.@THEME_JS@.widget.jsfx.popupMenu");
 
-webui.@THEME@.dojo.require("webui.@THEME@.widget.jsfx.common");
-webui.@THEME@.dojo.require("webui.@THEME@.widget.jsfx.dynaFaces");
-webui.@THEME@.dojo.require("webui.@THEME@.widget.popupMenu");
+webui.@THEME_JS@.dojo.require("webui.@THEME_JS@.widget.jsfx.common");
+webui.@THEME_JS@.dojo.require("webui.@THEME_JS@.widget.jsfx.dynaFaces");
+webui.@THEME_JS@.dojo.require("webui.@THEME_JS@.widget.popupMenu");
 
 /**
  * @class This class contains functions to obtain data asynchronously using JSF
  * Extensions as the underlying transfer protocol.
  * @static
  */
-webui.@THEME@.widget.jsfx.popupMenu = {
+webui.@THEME_JS@.widget.jsfx.popupMenu = {
     /**
      * This function is used to process submit events with Object literals. 
      * <p>
@@ -61,7 +61,7 @@ webui.@THEME@.widget.jsfx.popupMenu = {
             (domNode) ? domNode : document.forms[0], {
             execute: (props.execute) ? props.execute : props.id,
             render: props.id,
-            replaceElement: webui.@THEME@.widget.jsfx.common.submitCallback,
+            replaceElement: webui.@THEME_JS@.widget.jsfx.common.submitCallback,
             xjson: {
                 id: props.id,
                 endTopic: props.endTopic,
@@ -74,7 +74,7 @@ webui.@THEME@.widget.jsfx.popupMenu = {
 };
 
 // Listen for Dojo Widget events.
-webui.@THEME@.dojo.subscribe(webui.@THEME@.widget.popupMenu.event.refresh.beginTopic,
-    webui.@THEME@.widget.jsfx.common, "processRefreshEvent");
-webui.@THEME@.dojo.subscribe(webui.@THEME@.widget.popupMenu.event.submit.beginTopic,
-    webui.@THEME@.widget.jsfx.popupMenu, "processSubmitEvent");
+webui.@THEME_JS@.dojo.subscribe(webui.@THEME_JS@.widget.popupMenu.event.refresh.beginTopic,
+    webui.@THEME_JS@.widget.jsfx.common, "processRefreshEvent");
+webui.@THEME_JS@.dojo.subscribe(webui.@THEME_JS@.widget.popupMenu.event.submit.beginTopic,
+    webui.@THEME_JS@.widget.jsfx.popupMenu, "processSubmitEvent");

@@ -20,16 +20,16 @@
  * Copyright 2008 Sun Microsystems, Inc. All rights reserved.
  */
 
-webui.@THEME@.dojo.provide("webui.@THEME@.widget.common");
+webui.@THEME_JS@.dojo.provide("webui.@THEME_JS@.widget.common");
 
-webui.@THEME@.dojo.require("webui.@THEME@.config");
-webui.@THEME@.dojo.require("webui.@THEME@.theme.common");
+webui.@THEME_JS@.dojo.require("webui.@THEME_JS@.config");
+webui.@THEME_JS@.dojo.require("webui.@THEME_JS@.theme.common");
 
 /**
  * @class This class contains functions common to all widgets.
  * @static
  */
-webui.@THEME@.widget.common = {
+webui.@THEME_JS@.widget.common = {
     /**
      * Object to temporarily store widget properties.
      * @private
@@ -73,7 +73,7 @@ webui.@THEME@.widget.common = {
         // If position is null, remove existing nodes. The contents shall be
         // replaced by the newly created widget.
         if (position == null) {
-            webui.@THEME@.widget.common.removeChildNodes(domNode);
+            webui.@THEME_JS@.widget.common.removeChildNodes(domNode);
 
             // Note: To ensure Dojo does not replace the given domNode, always
             // provide a default position to the createWidget function. The
@@ -124,31 +124,31 @@ webui.@THEME@.widget.common = {
             //
             if (escape != null && new Boolean(escape).valueOf() == false) {
                 // Note: IE does not insert script tags via innerHTML.
-                webui.@THEME@.widget.common._appendHTML(domNode, 
-                    webui.@THEME@.prototypejs.stripScripts(props));
+                webui.@THEME_JS@.widget.common._appendHTML(domNode, 
+                    webui.@THEME_JS@.prototypejs.stripScripts(props));
 
                 // Evaluate JavaScript.
                 setTimeout(function() {
                     // Eval not required for Mozilla/Firefox, but consistent.
-                    webui.@THEME@.prototypejs.evalScripts(props);
-                    if (new Boolean(webui.@THEME@.config.parseOnLoad).valueOf() == true) {
-                        webui.@THEME@.widget.common._parseMarkup(domNode);
+                    webui.@THEME_JS@.prototypejs.evalScripts(props);
+                    if (new Boolean(webui.@THEME_JS@.config.parseOnLoad).valueOf() == true) {
+                        webui.@THEME_JS@.widget.common._parseMarkup(domNode);
                     }
-                    delete(webui.@THEME@.widget.common._props[domNode.id]); // Clean up.
+                    delete(webui.@THEME_JS@.widget.common._props[domNode.id]); // Clean up.
                 }, 10);
                 // Force _onWidgetReady() function to wait for widget completion.
-                webui.@THEME@.widget.common._props[domNode.id] = "_onWidgetReady";
+                webui.@THEME_JS@.widget.common._props[domNode.id] = "_onWidgetReady";
             } else {
                 // Static strings must be HTML escaped by default.
-                webui.@THEME@.widget.common._appendHTML(domNode,
-                    webui.@THEME@.prototypejs.escapeHTML(props));
+                webui.@THEME_JS@.widget.common._appendHTML(domNode,
+                    webui.@THEME_JS@.prototypejs.escapeHTML(props));
             }
         } else if (props.fragment) {
             // Add fragment -- do not HTML escape.
-            webui.@THEME@.widget.common.addFragment(domNode, props.fragment, position, false);
+            webui.@THEME_JS@.widget.common.addFragment(domNode, props.fragment, position, false);
         } else {
             // Create widget.
-            webui.@THEME@.widget.common.createWidget(domNode, props, position, false);
+            webui.@THEME_JS@.widget.common.createWidget(domNode, props, position, false);
         }
         return true;
     },
@@ -224,8 +224,8 @@ webui.@THEME@.widget.common = {
     _appendWidget: function(domNode, props) {
         // Set timeout to allow for progressive rendering.
         setTimeout(function() {
-            webui.@THEME@.widget.common.createWidget(domNode, props, "last");
-            delete(webui.@THEME@.widget.common._props[domNode.id]); // Clean up.
+            webui.@THEME_JS@.widget.common.createWidget(domNode, props, "last");
+            delete(webui.@THEME_JS@.widget.common._props[domNode.id]); // Clean up.
         }, 0);
         return true;
     },
@@ -255,21 +255,21 @@ webui.@THEME@.widget.common = {
         }
 
         // Destroy previously created widgets, events, etc.
-        webui.@THEME@.widget.common.destroyWidget(props.id);
+        webui.@THEME_JS@.widget.common.destroyWidget(props.id);
 
         // Retrieve required module.
-        webui.@THEME@.dojo.require(props.widgetType);
+        webui.@THEME_JS@.dojo.require(props.widgetType);
         
         try {
             // Get widget object.
-            var obj = webui.@THEME@.dojo.getObject(props.widgetType);
+            var obj = webui.@THEME_JS@.dojo.getObject(props.widgetType);
 
             // Instantiate widget. 
             // Note: Dojo mixes attributes, if domNode is provided.
             widget = new obj(props);
         } catch (err) {
             var message = "Error: createWidget falied for id=" + props.id;
-	    message = webui.@THEME@.widget.common.getExceptionString(err, 
+	    message = webui.@THEME_JS@.widget.common.getExceptionString(err, 
 		message, true);
             console.debug(message); // See Firebug console.
             return null;
@@ -313,13 +313,13 @@ webui.@THEME@.widget.common = {
         // Extensions cannot make use of the parseOnLoad feature while 
         // re-rendering widgets. In this case, we shall call 
         // document.getElementById() even though it is not as efficient.
-        if (new Boolean(webui.@THEME@.config.parseOnLoad).valueOf() == false) {
+        if (new Boolean(webui.@THEME_JS@.config.parseOnLoad).valueOf() == false) {
             var domNode = document.getElementById(elementId);
-            webui.@THEME@.widget.common.createWidget(domNode, props, "last");
+            webui.@THEME_JS@.widget.common.createWidget(domNode, props, "last");
             return true;
         }
         // Store widget properties for window.onLoad event.
-        webui.@THEME@.widget.common._props[elementId] = props;
+        webui.@THEME_JS@.widget.common._props[elementId] = props;
         return true;
     },
 
@@ -337,7 +337,7 @@ webui.@THEME@.widget.common = {
             return false;
         }
         // Destroy previously created widgets, events, etc.
-        var widget = webui.@THEME@.dijit.byId(id);
+        var widget = webui.@THEME_JS@.dijit.byId(id);
         if (widget) {
             return widget.destroyRecursive();
         }
@@ -355,7 +355,7 @@ webui.@THEME@.widget.common = {
      * @return {boolean} The style class name for a specified selector.
      */
     getClassName: function(key, defaultValue) {
-        var className =  webui.@THEME@.theme.common.getClassName(key);
+        var className =  webui.@THEME_JS@.theme.common.getClassName(key);
         return (className != null) 
             ? className
             : (defaultValue) 
@@ -454,7 +454,7 @@ webui.@THEME@.widget.common = {
      * @return {String} The theme message defined by "key" or "defaultValue".
      */
     getMessage: function(key, args, defaultValue) {
-        var msg =  webui.@THEME@.theme.common.getMessage(key, args);
+        var msg =  webui.@THEME_JS@.theme.common.getMessage(key, args);
         return (msg != null) 
 	    ? msg 
 	    : (defaultValue)
@@ -487,7 +487,7 @@ webui.@THEME@.widget.common = {
      */
     getMessageBoolean: function(key, defaultValue) {
 	var result = defaultValue != null ? defaultValue : false;
-        var msg =  webui.@THEME@.theme.common.getMessage(key, null);
+        var msg =  webui.@THEME_JS@.theme.common.getMessage(key, null);
 	if (msg == null || msg == "") {
 	    return result;
 	}
@@ -574,9 +574,9 @@ webui.@THEME@.widget.common = {
      * @return {String} The template path.
      */
     getTemplatePath: function(key) {
-        var template = webui.@THEME@.theme.common.getTemplate(key);
-        if (webui.@THEME@.widget.common.isTemplatePath(template)) {
-            return webui.@THEME@.theme.common.getPrefix() + "/" + template;
+        var template = webui.@THEME_JS@.theme.common.getTemplate(key);
+        if (webui.@THEME_JS@.widget.common.isTemplatePath(template)) {
+            return webui.@THEME_JS@.theme.common.getPrefix() + "/" + template;
         } else {
             return null;
         }
@@ -590,8 +590,8 @@ webui.@THEME@.widget.common = {
      * @return {String} The template string.
      */
     getTemplateString: function(key) {
-        var template = webui.@THEME@.theme.common.getTemplate(key);
-        if (!webui.@THEME@.widget.common.isTemplatePath(template)) {
+        var template = webui.@THEME_JS@.theme.common.getTemplate(key);
+        if (!webui.@THEME_JS@.widget.common.isTemplatePath(template)) {
             return template;
         } else {
             return null;
@@ -610,11 +610,11 @@ webui.@THEME@.widget.common = {
         var _props = {};
 
         // Set default widgetType.
-        _props.widgetType = "webui.@THEME@.widget."  + widgetName;    
+        _props.widgetType = "webui.@THEME_JS@.widget."  + widgetName;    
 
         // Add extra properties
         if (props != null) {
-            webui.@THEME@.prototypejs.extend(_props, props);
+            webui.@THEME_JS@.prototypejs.extend(_props, props);
         }
         return _props;
     },
@@ -641,7 +641,7 @@ webui.@THEME@.widget.common = {
      * @return {boolean} true if high contrast mode.
      */
     isHighContrastMode:  function() {
-        var common = webui.@THEME@.widget.common;
+        var common = webui.@THEME_JS@.widget.common;
         if (common._isHighContrastMode != null) {
             return common._isHighContrastMode;
         }
@@ -655,11 +655,11 @@ webui.@THEME@.widget.common = {
 
         // Currently high contrast mode check is supported for firefox and ie on
         // windows. High contrast mode is not supported for Safari.
-        if (webui.@THEME@.browser.isSafari()) {
+        if (webui.@THEME_JS@.browser.isSafari()) {
             return false;            
         }
         // Get icon properties.
-        var props = webui.@THEME@.theme.common.getImage("DOT");
+        var props = webui.@THEME_JS@.theme.common.getImage("DOT");
         if (props == null) {
             return false;
         }
@@ -673,7 +673,7 @@ webui.@THEME@.widget.common = {
             'height: 5px;' +
             'top: -999px;' +
             'background-image: url("' + props.src + '");'; 
-        webui.@THEME@.dojo.body().appendChild(domNode);
+        webui.@THEME_JS@.dojo.body().appendChild(domNode);
 
         // Detect the high contrast mode.
         var bImg = null;
@@ -691,7 +691,7 @@ webui.@THEME@.widget.common = {
 
         // IE throws security exception if domNode isn't removed.
         // This allows widgets to be created before the window.onLoad event.
-        webui.@THEME@.dojo.body().removeChild(domNode);
+        webui.@THEME_JS@.dojo.body().removeChild(domNode);
         return common._isHighContrastMode;    
     },
     
@@ -710,7 +710,7 @@ webui.@THEME@.widget.common = {
     },
  
     /* Keyboard key code as stored in browser events */
-    keyCodes : webui.@THEME@.dojo.keys,
+    keyCodes : webui.@THEME_JS@.dojo.keys,
  
     /**
      * This function is used to parse HTML markup in order to create widgets
@@ -723,11 +723,11 @@ webui.@THEME@.widget.common = {
      * </p><p><pre>
      * &lt;span id="j_id1"&gt;&lt;/span&gt;
      * &lt;script type="text/javascript"&gt;
-     *   webui.@THEME@.widget.common._createWidget('j_id1',{
+     *   webui.@THEME_JS@.widget.common._createWidget('j_id1',{
      *     "id": "form:image1",
      *     "icon": "DOT",
      *     "height": 1,
-     *     "widgetType": "webui.@THEME@.widget.image",
+     *     "widgetType": "webui.@THEME_JS@.widget.image",
      *   });
      * &lt;/script&gt;
      * </pre></p><p>
@@ -750,8 +750,8 @@ webui.@THEME@.widget.common = {
         }
         // Note: Using document.getElementById() results in poor perfromance. 
         var nodes = domNode.getElementsByTagName("script");
-        var props = webui.@THEME@.widget.common._props;
-        var appendWidget = webui.@THEME@.widget.common._appendWidget;
+        var props = webui.@THEME_JS@.widget.common._props;
+        var appendWidget = webui.@THEME_JS@.widget.common._appendWidget;
         if (props == null) {
             return false;
         }
@@ -833,7 +833,7 @@ webui.@THEME@.widget.common = {
      * does not exist, the widget object is instantiated via the addFragment()
      * function -- all params are passed through.
      * </p><p>
-     * See webui.@THEME@.widget.label._setProps for example.
+     * See webui.@THEME_JS@.widget.label._setProps for example.
      * </p>
      * @param {Node} domNode The DOM node used to add widget (default).
      * @param {String} id The id of the widget to update, if available.
@@ -848,13 +848,13 @@ webui.@THEME@.widget.common = {
         }
         // Ensure props is not a string.
         var widget = (typeof props != 'string') 
-            ? webui.@THEME@.dijit.byId(id) : null;
+            ? webui.@THEME_JS@.dijit.byId(id) : null;
 
         // Update widget or add fragment.
         if (widget && typeof widget.setProps == "function") {
             widget.setProps(props);
         } else {
-            webui.@THEME@.widget.common.addFragment(domNode, props, position, escape);
+            webui.@THEME_JS@.widget.common.addFragment(domNode, props, position, escape);
         }
         return true;
     }

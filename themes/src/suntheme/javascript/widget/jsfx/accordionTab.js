@@ -20,19 +20,19 @@
  * Copyright 2008 Sun Microsystems, Inc. All rights reserved.
  */
 
-webui.@THEME@.dojo.provide("webui.@THEME@.widget.jsfx.accordionTab");
+webui.@THEME_JS@.dojo.provide("webui.@THEME_JS@.widget.jsfx.accordionTab");
 
-webui.@THEME@.dojo.require("webui.@THEME@.json");
-webui.@THEME@.dojo.require("webui.@THEME@.widget.accordionTab");
-webui.@THEME@.dojo.require("webui.@THEME@.widget.jsfx.common");
-webui.@THEME@.dojo.require("webui.@THEME@.widget.jsfx.dynaFaces");
+webui.@THEME_JS@.dojo.require("webui.@THEME_JS@.json");
+webui.@THEME_JS@.dojo.require("webui.@THEME_JS@.widget.accordionTab");
+webui.@THEME_JS@.dojo.require("webui.@THEME_JS@.widget.jsfx.common");
+webui.@THEME_JS@.dojo.require("webui.@THEME_JS@.widget.jsfx.dynaFaces");
 
 /**
  * @class This class contains functions to obtain data asynchronously using JSF
  * Extensions as the underlying transfer protocol.
  * @static
  */
-webui.@THEME@.widget.jsfx.accordionTab = {
+webui.@THEME_JS@.widget.jsfx.accordionTab = {
     /**
      * This function is used to load a tab content asynchronously.
      *
@@ -53,7 +53,7 @@ webui.@THEME@.widget.jsfx.accordionTab = {
             (domNode) ? domNode : document.forms[0], {
             execute: props.id, // Need to decode hidden field.
             render: props.id,
-            replaceElement: webui.@THEME@.widget.jsfx.progressBar.loadContentCallback,
+            replaceElement: webui.@THEME_JS@.widget.jsfx.progressBar.loadContentCallback,
             xjson: {
                 id: props.id,
                 event: "loadContent"
@@ -77,20 +77,20 @@ webui.@THEME@.widget.jsfx.accordionTab = {
         }
 
         // Parse JSON text.
-        var json = webui.@THEME@.json.parse(content);
+        var json = webui.@THEME_JS@.json.parse(content);
 
         // Set progress.
-        var widget = webui.@THEME@.dijit.byId(id);
+        var widget = webui.@THEME_JS@.dijit.byId(id);
         widget.setProps(json);
 
         // Publish an event for custom AJAX implementations to listen for.
-        webui.@THEME@.dojo.publish(webui.@THEME@.widget.accordionTab.event.load.endTopic, [json]);
+        webui.@THEME_JS@.dojo.publish(webui.@THEME_JS@.widget.accordionTab.event.load.endTopic, [json]);
         return true;
     }
 };
 
 // Listen for Dojo Widget events.
-webui.@THEME@.dojo.subscribe(webui.@THEME@.widget.accordionTab.event.load.beginTopic,
-    webui.@THEME@.widget.jsfx.accordionTab, "processLoadContentEvent");
-webui.@THEME@.dojo.subscribe(webui.@THEME@.widget.accordionTab.event.refresh.beginTopic,
-    webui.@THEME@.widget.jsfx.common, "processRefreshEvent");
+webui.@THEME_JS@.dojo.subscribe(webui.@THEME_JS@.widget.accordionTab.event.load.beginTopic,
+    webui.@THEME_JS@.widget.jsfx.accordionTab, "processLoadContentEvent");
+webui.@THEME_JS@.dojo.subscribe(webui.@THEME_JS@.widget.accordionTab.event.refresh.beginTopic,
+    webui.@THEME_JS@.widget.jsfx.common, "processRefreshEvent");

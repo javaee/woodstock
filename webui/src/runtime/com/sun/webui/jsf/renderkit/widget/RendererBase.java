@@ -96,8 +96,10 @@ abstract public class RendererBase extends Renderer {
         // Note: Leading \n char causes grief with CSS float in tree.
 
         // This id will be used as a temporary place holder to position the 
-        // component in page -- ultimately replaced by the newly created widget. 
-        String id = context.getViewRoot().createUniqueId();
+        // component in page -- ultimately replaced by the newly created widget.
+        //
+        // Note: The createUniqueId method of ViewRoot is not unique in a portal.
+        String id = "_" + component.getClientId(context);
 
         // Render enclosing tag.
         writer.startElement("span", component);

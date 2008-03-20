@@ -20,22 +20,24 @@
  * Copyright 2008 Sun Microsystems, Inc. All rights reserved.
  */
 
-webui.@THEME@.dojo.provide("webui.@THEME@.config");
+webui.@THEME_JS@.dojo.provide("webui.@THEME_JS@.config");
 
-webui.@THEME@.dojo.require("webui.@THEME@.prototypejs");
+webui.@THEME_JS@.dojo.require("webui.@THEME_JS@.prototypejs");
 
 /**
  * @class This class contains config properties to initialize the environment.
- * Properties shall be ovrridden by the global webui_@THEME@_config variable.
+ * Properties shall be ovrridden by the global webui_@THEME_JS@ config variable.
+ * If this variable does not exist, webui_@THEME@ will be used for backward 
+ * compatibility without the version number.
  * @static
  */
-webui.@THEME@.config = {
+webui.@THEME_JS@.config = {
     /** Ajax config properties. */
     ajax: {
         /** Flag allowing JSF Extensions to be loaded in page. */
         isJsfx: true,
         /** Ajax module. */
-        module: "webui.@THEME@.widget.jsfx"
+        module: "webui.@THEME_JS@.widget.jsfx"
     },
     /** Flag to enable webui debug mode. */
     isDebug: false,
@@ -70,4 +72,4 @@ webui.@THEME@.config = {
 };
 
 // Override default config properties.
-webui.@THEME@.prototypejs.extend(webui.@THEME@.config, webui_@THEME@_config);
+webui.@THEME_JS@.prototypejs.extend(webui.@THEME_JS@.config, webui_@THEME_JS@);

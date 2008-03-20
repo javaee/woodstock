@@ -20,17 +20,17 @@
  * Copyright 2008 Sun Microsystems, Inc. All rights reserved.
  */
 
-webui.@THEME@.dojo.provide("webui.@THEME@.widget.hyperlink");
+webui.@THEME_JS@.dojo.provide("webui.@THEME_JS@.widget.hyperlink");
 
-webui.@THEME@.dojo.require("webui.@THEME@.widget.anchorBase");
+webui.@THEME_JS@.dojo.require("webui.@THEME_JS@.widget.anchorBase");
 
 /**
- * @name webui.@THEME@.widget.hyperlink
- * @extends webui.@THEME@.widget.anchorBase
+ * @name webui.@THEME_JS@.widget.hyperlink
+ * @extends webui.@THEME_JS@.widget.anchorBase
  * @class This class contains functions for the hyperlink widget.
  * @constructor This function is used to construct a hyperlink widget.
  */
-webui.@THEME@.dojo.declare("webui.@THEME@.widget.hyperlink", webui.@THEME@.widget.anchorBase, {
+webui.@THEME_JS@.dojo.declare("webui.@THEME_JS@.widget.hyperlink", webui.@THEME_JS@.widget.anchorBase, {
     // Set defaults.
     widgetName: "hyperlink" // Required for theme properties.
 });
@@ -44,18 +44,18 @@ webui.@THEME@.dojo.declare("webui.@THEME@.widget.hyperlink", webui.@THEME@.widge
  * </p>
  * @ignore
  */
-webui.@THEME@.widget.hyperlink.event =
-        webui.@THEME@.widget.hyperlink.prototype.event = {
+webui.@THEME_JS@.widget.hyperlink.event =
+        webui.@THEME_JS@.widget.hyperlink.prototype.event = {
     /**
      * This object contains refresh event topics.
      * @ignore
      */
     refresh: {
         /** Refresh event topic for custom AJAX implementations to listen for. */
-        beginTopic: "webui_@THEME@_widget_hyperlink_event_refresh_begin",
+        beginTopic: "webui_@THEME_JS@_widget_hyperlink_event_refresh_begin",
 
         /** Refresh event topic for custom AJAX implementations to listen for. */
-        endTopic: "webui_@THEME@_widget_hyperlink_event_refresh_end"
+        endTopic: "webui_@THEME_JS@_widget_hyperlink_event_refresh_end"
     },
 
     /**
@@ -64,10 +64,10 @@ webui.@THEME@.widget.hyperlink.event =
      */
     state: {
         /** State event topic for custom AJAX implementations to listen for. */
-        beginTopic: "webui_@THEME@_widget_hyperlink_event_state_begin",
+        beginTopic: "webui_@THEME_JS@_widget_hyperlink_event_state_begin",
 
         /** State event topic for custom AJAX implementations to listen for. */
-        endTopic: "webui_@THEME@_widget_hyperlink_event_state_end"
+        endTopic: "webui_@THEME_JS@_widget_hyperlink_event_state_end"
     }
 };
 
@@ -79,7 +79,7 @@ webui.@THEME@.widget.hyperlink.event =
  * </p>
  * @return {String} The outermost HTML element class name.
  */
-webui.@THEME@.widget.hyperlink.prototype.getClassName = function() {
+webui.@THEME_JS@.widget.hyperlink.prototype.getClassName = function() {
     // Set default style.
     var className = (this.disabled == true)
         ? this.widget.getClassName("HYPERLINK_DISABLED","")
@@ -96,7 +96,7 @@ webui.@THEME@.widget.hyperlink.prototype.getClassName = function() {
  * @param {Event} event The JavaScript event.
  * @return {boolean} true if successful; otherwise, false.
  */
-webui.@THEME@.widget.hyperlink.prototype.onClickCallback = function(event) {
+webui.@THEME_JS@.widget.hyperlink.prototype.onClickCallback = function(event) {
     if (this.disabled == true) {
         event.preventDefault();
         return false;
@@ -131,7 +131,7 @@ webui.@THEME@.widget.hyperlink.prototype.onClickCallback = function(event) {
  * </p>
  * @return {boolean} true if successful; otherwise, false.
  */
-webui.@THEME@.widget.hyperlink.prototype.postCreate = function () {
+webui.@THEME_JS@.widget.hyperlink.prototype.postCreate = function () {
     // If the href attribute does not exist, set "#" as the default value of the
     // DOM node.
     this.domNode.href = "#";
@@ -190,7 +190,7 @@ webui.@THEME@.widget.hyperlink.prototype.postCreate = function () {
  * @param {boolean} notify Publish an event for custom AJAX implementations to listen for.
  * @return {boolean} true if successful; otherwise, false.
  */
-webui.@THEME@.widget.hyperlink.prototype.setProps = function(props, notify) {
+webui.@THEME_JS@.widget.hyperlink.prototype.setProps = function(props, notify) {
     // Note: This function is overridden for JsDoc.
     return this.inherited("setProps", arguments);
 };
@@ -202,7 +202,7 @@ webui.@THEME@.widget.hyperlink.prototype.setProps = function(props, notify) {
  * @param {Array} params The parameters to be passed during request.
  * @return {boolean} false to cancel the JavaScript event.
  */
-webui.@THEME@.widget.hyperlink.prototype.submitFormData = function (formId, params) {
+webui.@THEME_JS@.widget.hyperlink.prototype.submitFormData = function (formId, params) {
     var theForm = document.getElementById(formId);
     var oldTarget = theForm.target;
     var oldAction = theForm.action;

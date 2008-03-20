@@ -20,17 +20,17 @@
  * Copyright 2008 Sun Microsystems, Inc. All rights reserved.
  */
 
-webui.@THEME@.dojo.provide("webui.@THEME@.widget.anchor");
+webui.@THEME_JS@.dojo.provide("webui.@THEME_JS@.widget.anchor");
 
-webui.@THEME@.dojo.require("webui.@THEME@.widget.anchorBase");
+webui.@THEME_JS@.dojo.require("webui.@THEME_JS@.widget.anchorBase");
 
 /**
- * @name webui.@THEME@.widget.anchor
- * @extends webui.@THEME@.widget.anchorBase
+ * @name webui.@THEME_JS@.widget.anchor
+ * @extends webui.@THEME_JS@.widget.anchorBase
  * @class This class contains functions for the anchor widget.
  * @constructor This function is used to construct an anchor widget.
  */
-webui.@THEME@.dojo.declare("webui.@THEME@.widget.anchor", webui.@THEME@.widget.anchorBase, {
+webui.@THEME_JS@.dojo.declare("webui.@THEME_JS@.widget.anchor", webui.@THEME_JS@.widget.anchorBase, {
     // Set defaults.
     widgetName: "anchor" // Required for theme properties.
 });
@@ -44,18 +44,18 @@ webui.@THEME@.dojo.declare("webui.@THEME@.widget.anchor", webui.@THEME@.widget.a
  * </p>
  * @ignore
  */
-webui.@THEME@.widget.anchor.event =
-        webui.@THEME@.widget.anchor.prototype.event = {
+webui.@THEME_JS@.widget.anchor.event =
+        webui.@THEME_JS@.widget.anchor.prototype.event = {
     /**
      * This object contains refresh event topics.
      * @ignore
      */
     refresh: {
         /** Refresh event topic for custom AJAX implementations to listen for. */
-        beginTopic: "webui_@THEME@_widget_anchor_event_refresh_begin",
+        beginTopic: "webui_@THEME_JS@_widget_anchor_event_refresh_begin",
         
         /** Refresh event topic for custom AJAX implementations to listen for. */
-        endTopic: "webui_@THEME@_widget_anchor_event_refresh_end"
+        endTopic: "webui_@THEME_JS@_widget_anchor_event_refresh_end"
     },
 
     /**
@@ -64,10 +64,10 @@ webui.@THEME@.widget.anchor.event =
      */
     state: {
         /** State event topic for custom AJAX implementations to listen for. */
-        beginTopic: "webui_@THEME@_widget_anchor_event_state_begin",
+        beginTopic: "webui_@THEME_JS@_widget_anchor_event_state_begin",
         
         /** State event topic for custom AJAX implementations to listen for. */
-        endTopic: "webui_@THEME@_widget_anchor_event_state_end"
+        endTopic: "webui_@THEME_JS@_widget_anchor_event_state_end"
     }
 };
 
@@ -79,7 +79,7 @@ webui.@THEME@.widget.anchor.event =
  * </p>
  * @return {String} The outermost HTML element class name.
  */
-webui.@THEME@.widget.anchor.prototype.getClassName = function() {
+webui.@THEME_JS@.widget.anchor.prototype.getClassName = function() {
     // Set default style.
     var className = (this.href && this.disabled == false)
         ? this.widget.getClassName("ANCHOR","")
@@ -98,7 +98,7 @@ webui.@THEME@.widget.anchor.prototype.getClassName = function() {
  * </p>
  * @return {boolean} true if successful; otherwise, false.
  */
-webui.@THEME@.widget.anchor.prototype.postCreate = function () {
+webui.@THEME_JS@.widget.anchor.prototype.postCreate = function () {
     // Create callback function for onclick event.
     this.dojo.connect(this.domNode, "onclick", this, "onClickCallback");
 

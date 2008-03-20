@@ -20,11 +20,11 @@
  * Copyright 2008 Sun Microsystems, Inc. All rights reserved.
  */
 
-webui.@THEME@.dojo.provide("webui.@THEME@.body");
+webui.@THEME_JS@.dojo.provide("webui.@THEME_JS@.body");
 
-webui.@THEME@.dojo.require("webui.@THEME@.browser");
-webui.@THEME@.dojo.require("webui.@THEME@.common");
-webui.@THEME@.dojo.require("webui.@THEME@.cookie");
+webui.@THEME_JS@.dojo.require("webui.@THEME_JS@.browser");
+webui.@THEME_JS@.dojo.require("webui.@THEME_JS@.common");
+webui.@THEME_JS@.dojo.require("webui.@THEME_JS@.cookie");
 
 /**
  * @class This class contains functions used to maintain focus and scroll position.
@@ -63,7 +63,7 @@ webui.@THEME@.dojo.require("webui.@THEME@.cookie");
  * @param {boolean} preserveScroll if true or not defined the scroll position is 
  * maintained else scroll is not maintained.
  */
-webui.@THEME@.body = function(viewId, path, defaultFocusElementId, 
+webui.@THEME_JS@.body = function(viewId, path, defaultFocusElementId, 
 	focusElementId, focusElementFieldId, preserveScroll)  {
     /**
      * The id of the HTML element to receive the focus, if the
@@ -98,7 +98,7 @@ webui.@THEME@.body = function(viewId, path, defaultFocusElementId,
      * Create the scroll cookie object.
      */
     if (this.preserveScroll == true) {
-	this.scrollCookie = new webui.@THEME@.scrollCookie(viewId, path);
+	this.scrollCookie = new webui.@THEME_JS@.scrollCookie(viewId, path);
     }
 
     /**
@@ -118,7 +118,7 @@ webui.@THEME@.body = function(viewId, path, defaultFocusElementId,
 	try {
 	    result = element != null && element.focus && !element.disabled
 		&& element.type != "hidden"
-		&& webui.@THEME@.common.isVisible(element.id);
+		&& webui.@THEME_JS@.common.isVisible(element.id);
 	} catch(err) {}
 	return result;
     };
@@ -179,10 +179,10 @@ webui.@THEME@.body = function(viewId, path, defaultFocusElementId,
 	// Add the focus listener, in the onload to prevent
 	// recursive calls from calling setDefaultFocus.
 	//
-        if (webui.@THEME@.browser.isIe()) {
-            webui.@THEME@.dojo.connect(document, "onfocusin", this, "focusListener");
+        if (webui.@THEME_JS@.browser.isIe()) {
+            webui.@THEME_JS@.dojo.connect(document, "onfocusin", this, "focusListener");
         } else {
-            webui.@THEME@.dojo.connect(window, "onfocus", this, "focusListener");
+            webui.@THEME_JS@.dojo.connect(window, "onfocus", this, "focusListener");
         }
 
         // Rely on the focus listener to update the focus
@@ -438,6 +438,6 @@ webui.@THEME@.body = function(viewId, path, defaultFocusElementId,
 
     // If we are not preserving scroll don't add the unload listener.
     if (this.preserveScroll == true) {
-        webui.@THEME@.dojo.addOnUnload(this, "onUnloadListener");
+        webui.@THEME_JS@.dojo.addOnUnload(this, "onUnloadListener");
     }
 };

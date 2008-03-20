@@ -1,8 +1,8 @@
-if(!webui.@THEME@.dojo._hasResource["webui.@THEME@.dojo._firebug.firebug"]){ //_hasResource checks added by build. Do not use _hasResource directly in your code.
-webui.@THEME@.dojo._hasResource["webui.@THEME@.dojo._firebug.firebug"] = true;
-webui.@THEME@.dojo.provide("webui.@THEME@.dojo._firebug.firebug");
+if(!webui.@THEME_JS@.dojo._hasResource["webui.@THEME_JS@.dojo._firebug.firebug"]){ //_hasResource checks added by build. Do not use _hasResource directly in your code.
+webui.@THEME_JS@.dojo._hasResource["webui.@THEME_JS@.dojo._firebug.firebug"] = true;
+webui.@THEME_JS@.dojo.provide("webui.@THEME_JS@.dojo._firebug.firebug");
 
-webui.@THEME@.dojo.deprecated = function(/*String*/ behaviour, /*String?*/ extra, /*String?*/ removal){
+webui.@THEME_JS@.dojo.deprecated = function(/*String*/ behaviour, /*String?*/ extra, /*String?*/ removal){
 	// summary: 
 	//		Log a debug message to indicate that a behavior has been
 	//		deprecated.
@@ -15,7 +15,7 @@ webui.@THEME@.dojo.deprecated = function(/*String*/ behaviour, /*String?*/ extra
 	console.debug(message);
 }
 
-webui.@THEME@.dojo.experimental = function(/* String */ moduleName, /* String? */ extra){
+webui.@THEME_JS@.dojo.experimental = function(/* String */ moduleName, /* String? */ extra){
 	// summary: Marks code as experimental.
 	// description: 
 	//		This can be used to mark a function, file, or module as
@@ -29,9 +29,9 @@ webui.@THEME@.dojo.experimental = function(/* String */ moduleName, /* String? *
 	// extra: 
 	//		some additional message for the user
 	// example:
-	//	|	webui.@THEME@.dojo.experimental("webui.@THEME@.dojo.data.Result");
+	//	|	webui.@THEME_JS@.dojo.experimental("webui.@THEME_JS@.dojo.data.Result");
 	// example:
-	//	|	webui.@THEME@.dojo.experimental("webui.@THEME@.dojo.weather.toKelvin()", "PENDING approval from NOAA");
+	//	|	webui.@THEME_JS@.dojo.experimental("webui.@THEME_JS@.dojo.weather.toKelvin()", "PENDING approval from NOAA");
 	var message = "EXPERIMENTAL: " + moduleName + " -- APIs subject to change without notice.";
 	if(extra){ message += " " + extra; }
 	console.debug(message);
@@ -45,7 +45,7 @@ webui.@THEME@.dojo.experimental = function(/* String */ moduleName, /* String? *
 	//	NOTE: 
 	//			Firebug is a Firefox extension created by Joe Hewitt (see license). You do not need Dojo to run Firebug.
 	//			Firebug Lite is included in Dojo by permission from Joe Hewitt
-	//			If you are new to Firebug, or used to the Dojo 0.4 webui.@THEME@.dojo.debug, you can learn Firebug 
+	//			If you are new to Firebug, or used to the Dojo 0.4 webui.@THEME_JS@.dojo.debug, you can learn Firebug 
 	//				functionality by reading the function comments below or visiting http://www.getfirebug.com/docs.html
 	//	NOTE:
 	//		To test Firebug Lite in Firefox, set console = null;
@@ -55,10 +55,10 @@ webui.@THEME@.dojo.experimental = function(/* String */ moduleName, /* String? *
 	//		|	console.log("my object", {foo:"bar"})
 	// example:
 	//		Option for console to open in popup window
-	//		|	var webui_@THEME@_config.djConfig = {isDebug: true, popup:true };
+	//		|	var webui_@THEME_JS@.djConfig = {isDebug: true, popup:true };
 	// example:
 	//		Option for console height (ignored for popup)
-	//		|	var webui_@THEME@_config.djConfig = {isDebug: true, debugHeight:100 };
+	//		|	var webui_@THEME_JS@.djConfig = {isDebug: true, debugHeight:100 };
 	
 if(
 	(
@@ -66,7 +66,7 @@ if(
 		(!("firebug" in console))
 	)&&
 	(
-		(webui_@THEME@_config.djConfig["noFirebugLite"] !== true)
+		(webui_@THEME_JS@.djConfig["noFirebugLite"] !== true)
 	)
 ){
 (function(){
@@ -292,7 +292,7 @@ if(
 		HTMLstring='<html><head><title>Firebug Lite</title></head>\n';
 		HTMLstring+='<body bgColor="#CCCCCC">\n';
 		//Testing access to dojo from the popup window
-		/*HTMLstring+='<button onclick="(function(){ console.log(webui.@THEME@.dojo.version.toString()); })()">Test Parent Dojo</button>\n';*/
+		/*HTMLstring+='<button onclick="(function(){ console.log(webui.@THEME_JS@.dojo.version.toString()); })()">Test Parent Dojo</button>\n';*/
 		HTMLstring+='<div id="fb"></div>';
 		HTMLstring+='</body></html>';
 	
@@ -308,23 +308,23 @@ if(
 			return;
 		}
 		
-		if(webui_@THEME@_config.djConfig.popup){
+		if(webui_@THEME_JS@.djConfig.popup){
 			_firebugWin = openWin();
 			_firebugDoc = _firebugWin.document;
-			webui_@THEME@_config.djConfig.debugContainerId = 'fb';
+			webui_@THEME_JS@.djConfig.debugContainerId = 'fb';
 			var containerHeight = "100%";
 			
 			// connecting popup
 			_firebugWin.console = window.console;
-			_firebugWin.webui.@THEME@.dojo = window.webui.@THEME@.dojo;
+			_firebugWin.webui.@THEME_JS@.dojo = window.webui.@THEME_JS@.dojo;
 
 		}else{
 			_firebugDoc = document;	
-			var containerHeight = (webui_@THEME@_config.djConfig.debugHeight) ? webui_@THEME@_config.djConfig.debugHeight + "px" :"300px";
+			var containerHeight = (webui_@THEME_JS@.djConfig.debugHeight) ? webui_@THEME_JS@.djConfig.debugHeight + "px" :"300px";
 		}
 		
 		var styleElement = _firebugDoc.createElement("link");
-		styleElement.href = webui.@THEME@.dojo.moduleUrl("webui.@THEME@.dojo._firebug", "firebug.css");
+		styleElement.href = webui.@THEME_JS@.dojo.moduleUrl("webui.@THEME_JS@.dojo._firebug", "firebug.css");
 		styleElement.rel = "stylesheet";
 		styleElement.type = "text/css";
 		var styleParent = _firebugDoc.getElementsByTagName("head");
@@ -334,14 +334,14 @@ if(
 		if(!styleParent){
 			styleParent = _firebugDoc.getElementsByTagName("html")[0];
 		}
-		if(webui.@THEME@.dojo.isIE){
+		if(webui.@THEME_JS@.dojo.isIE){
 			window.setTimeout(function(){ styleParent.appendChild(styleElement); }, 0);
 		}else{
 			styleParent.appendChild(styleElement);
 		}
 		
-		if(typeof webui_@THEME@_config.djConfig != "undefined" && webui_@THEME@_config.djConfig["debugContainerId"]){
-			consoleFrame = _firebugDoc.getElementById(webui_@THEME@_config.djConfig.debugContainerId);
+		if(typeof webui_@THEME_JS@.djConfig != "undefined" && webui_@THEME_JS@.djConfig["debugContainerId"]){
+			consoleFrame = _firebugDoc.getElementById(webui_@THEME_JS@.djConfig.debugContainerId);
 		}
 		if(!consoleFrame){
 			consoleFrame = _firebugDoc.createElement("div");
@@ -351,7 +351,7 @@ if(
 		consoleFrame.style.height = containerHeight;
 		consoleFrame.style.display = (frameVisible ? "block" : "none");	  
 		
-		var closeStr = (webui_@THEME@_config.djConfig.popup) ? "" : '    <a href="#" onclick="console.close(); return false;">Close</a>';
+		var closeStr = (webui_@THEME_JS@.djConfig.popup) ? "" : '    <a href="#" onclick="console.close(); return false;">Close</a>';
 		consoleFrame.innerHTML = 
 			  '<div id="firebugToolbar">'
 			+ '  <a href="#" onclick="console.clear(); return false;">Clear</a>'
@@ -370,7 +370,7 @@ if(
 		commandLine = _firebugDoc.getElementById("firebugCommandLine");
 		addEvent(commandLine, "keydown", onCommandLineKeyDown);
 
-		addEvent(_firebugDoc, webui.@THEME@.dojo.isIE || webui.@THEME@.dojo.isSafari ? "keydown" : "keypress", onKeyDown);
+		addEvent(_firebugDoc, webui.@THEME_JS@.dojo.isIE || webui.@THEME_JS@.dojo.isSafari ? "keydown" : "keypress", onKeyDown);
 		
 		consoleBody = _firebugDoc.getElementById("firebugLog");
 		consoleObjectInspector = _firebugDoc.getElementById("objectLog");
@@ -379,7 +379,7 @@ if(
 		flush();
 	}
 
-	webui.@THEME@.dojo.addOnLoad(createFrame);
+	webui.@THEME_JS@.dojo.addOnLoad(createFrame);
 
 	function evalCommandLine(){
 		var text = commandLine.value;
@@ -529,7 +529,7 @@ if(
 			// avoid parsing these objects unless necessary
 			btn.obj = obs[i];
 	
-			webui.@THEME@.dojo.connect(btn, "onclick", function(){
+			webui.@THEME_JS@.dojo.connect(btn, "onclick", function(){
 				// hide rows
 				consoleBody.style.display = "none";
 				consoleObjectInspector.style.display = "block";
@@ -752,8 +752,8 @@ if(
 	function onKeyDown(event){
 		var timestamp = (new Date()).getTime();
 		if(timestamp > onKeyDownTime + 200){
-			var event = webui.@THEME@.dojo.fixEvent(event);
-			var keys = webui.@THEME@.dojo.keys;
+			var event = webui.@THEME_JS@.dojo.fixEvent(event);
+			var keys = webui.@THEME_JS@.dojo.keys;
 			var ekc = event.keyCode;
 			onKeyDownTime = timestamp;
 			if(ekc == keys.F12){
@@ -773,7 +773,7 @@ if(
 
 
 	function onSplitterMouseDown(event){
-		if(webui.@THEME@.dojo.isSafari || webui.@THEME@.dojo.isOpera){
+		if(webui.@THEME_JS@.dojo.isSafari || webui.@THEME_JS@.dojo.isOpera){
 			return;
 		}
 		
@@ -824,7 +824,7 @@ if(
 	// Print Object Helpers
 	getAtts = function(o){
 		//Get amount of items in an object
-		if(webui.@THEME@.dojo.isArray(o)) { 
+		if(webui.@THEME_JS@.dojo.isArray(o)) { 
 			return "[array with " + o.length + " slots]"; 
 		}else{
 			var i = 0;
@@ -870,7 +870,7 @@ if(
 
 		if(isError){
 			nm = "[ Error: "+(obj["message"]||obj["description"]||obj)+" ]";
-		}else if(webui.@THEME@.dojo.isArray(obj)){
+		}else if(webui.@THEME_JS@.dojo.isArray(obj)){
 			nm ="[";
 			for(var i=0;i<obj.length;i++){
 				nm+=obj[i]+","
@@ -880,7 +880,7 @@ if(
 				}
 			}
 			nm+="]";
-		}else if((!webui.@THEME@.dojo.isObject(obj))||webui.@THEME@.dojo.isString(obj)){
+		}else if((!webui.@THEME_JS@.dojo.isObject(obj))||webui.@THEME_JS@.dojo.isString(obj)){
 			nm = obj+"";
 		}else{
 			nm = "{";
@@ -898,10 +898,10 @@ if(
 	//*************************************************************************************
 	
 	window.onerror = onError;
-	addEvent(document, webui.@THEME@.dojo.isIE || webui.@THEME@.dojo.isSafari ? "keydown" : "keypress", onKeyDown);
+	addEvent(document, webui.@THEME_JS@.dojo.isIE || webui.@THEME_JS@.dojo.isSafari ? "keydown" : "keypress", onKeyDown);
 	
 	if(	(document.documentElement.getAttribute("debug") == "true")||
-		(webui_@THEME@_config.djConfig.isDebug)
+		(webui_@THEME_JS@.djConfig.isDebug)
 	){
 		toggleConsole(true);
 	}

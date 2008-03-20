@@ -20,17 +20,17 @@
  * Copyright 2008 Sun Microsystems, Inc. All rights reserved.
  */
 
-webui.@THEME@.dojo.provide("webui.@THEME@.widget.imageHyperlink");
+webui.@THEME_JS@.dojo.provide("webui.@THEME_JS@.widget.imageHyperlink");
 
-webui.@THEME@.dojo.require("webui.@THEME@.widget.hyperlink");
+webui.@THEME_JS@.dojo.require("webui.@THEME_JS@.widget.hyperlink");
 
 /**
- * @name webui.@THEME@.widget.imageHyperlink
- * @extends webui.@THEME@.widget.hyperlink
+ * @name webui.@THEME_JS@.widget.imageHyperlink
+ * @extends webui.@THEME_JS@.widget.hyperlink
  * @class This class contains functions for the imageHyperlink widget.
  * @constructor This function is used to construct a imageHyperlink widget.
  */
-webui.@THEME@.dojo.declare("webui.@THEME@.widget.imageHyperlink", webui.@THEME@.widget.hyperlink, {
+webui.@THEME_JS@.dojo.declare("webui.@THEME_JS@.widget.imageHyperlink", webui.@THEME_JS@.widget.hyperlink, {
     // Set defaults.
     widgetName: "imageHyperlink" // Required for theme properties.
 });
@@ -42,7 +42,7 @@ webui.@THEME@.dojo.declare("webui.@THEME@.widget.imageHyperlink", webui.@THEME@.
  * @config {Array} contents The contents of the anchor body.
  * @return {boolean} true if successful; otherwise, false.
  */
-webui.@THEME@.widget.imageHyperlink.prototype.addContents = function(props) {
+webui.@THEME_JS@.widget.imageHyperlink.prototype.addContents = function(props) {
     if (props.contents == null) {
         return false;
     }
@@ -68,18 +68,18 @@ webui.@THEME@.widget.imageHyperlink.prototype.addContents = function(props) {
  * </p>
  * @ignore
  */
-webui.@THEME@.widget.imageHyperlink.event =
-        webui.@THEME@.widget.imageHyperlink.prototype.event = {
+webui.@THEME_JS@.widget.imageHyperlink.event =
+        webui.@THEME_JS@.widget.imageHyperlink.prototype.event = {
     /**
      * This object contains refresh event topics.
      * @ignore
      */
     refresh: {
         /** Refresh event topic for custom AJAX implementations to listen for. */
-        beginTopic: "webui_@THEME@_widget_imageHyperlink_event_refresh_begin",
+        beginTopic: "webui_@THEME_JS@_widget_imageHyperlink_event_refresh_begin",
 
         /** Refresh event topic for custom AJAX implementations to listen for. */
-        endTopic: "webui_@THEME@_widget_imageHyperlink_event_refresh_end"
+        endTopic: "webui_@THEME_JS@_widget_imageHyperlink_event_refresh_end"
     },
 
     /**
@@ -88,10 +88,10 @@ webui.@THEME@.widget.imageHyperlink.event =
      */
     state: {
         /** State event topic for custom AJAX implementations to listen for. */
-        beginTopic: "webui_@THEME@_widget_imageHyperlink_event_state_begin",
+        beginTopic: "webui_@THEME_JS@_widget_imageHyperlink_event_state_begin",
 
         /** State event topic for custom AJAX implementations to listen for. */
-        endTopic: "webui_@THEME@_widget_imageHyperlink_event_state_end"
+        endTopic: "webui_@THEME_JS@_widget_imageHyperlink_event_state_end"
     }
 };
 
@@ -101,7 +101,7 @@ webui.@THEME@.widget.imageHyperlink.event =
  *
  * @return {Object} Key-Value pairs of properties.
  */
-webui.@THEME@.widget.imageHyperlink.prototype.getProps = function() {
+webui.@THEME_JS@.widget.imageHyperlink.prototype.getProps = function() {
     var props = this.inherited("getProps", arguments);
 
     // Set properties.
@@ -120,7 +120,7 @@ webui.@THEME@.widget.imageHyperlink.prototype.getProps = function() {
  * </p>
  * @return {boolean} true if successful; otherwise, false.
  */
-webui.@THEME@.widget.imageHyperlink.prototype.postCreate = function () {
+webui.@THEME_JS@.widget.imageHyperlink.prototype.postCreate = function () {
     // Set ids.
     if (this.id) {
         this.enabledImageContainer.id = this.id + "_enabled";
@@ -179,7 +179,7 @@ webui.@THEME@.widget.imageHyperlink.prototype.postCreate = function () {
  * @param {boolean} notify Publish an event for custom AJAX implementations to listen for.
  * @return {boolean} true if successful; otherwise, false.
  */
-webui.@THEME@.widget.imageHyperlink.prototype.setProps = function(props, notify) {
+webui.@THEME_JS@.widget.imageHyperlink.prototype.setProps = function(props, notify) {
     // Note: This function is overridden for JsDoc.
     return this.inherited("setProps", arguments);
 };
@@ -194,7 +194,7 @@ webui.@THEME@.widget.imageHyperlink.prototype.setProps = function(props, notify)
  * @return {boolean} true if successful; otherwise, false.
  * @private
  */
-webui.@THEME@.widget.imageHyperlink.prototype._setProps = function(props) {
+webui.@THEME_JS@.widget.imageHyperlink.prototype._setProps = function(props) {
     if (props == null) {
         return false;
     }

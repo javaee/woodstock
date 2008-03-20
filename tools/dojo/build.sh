@@ -79,7 +79,7 @@ JUNK=`rm -rf $DOJO_DIR`
 # Modify the djConfig variable.
 #
 OLD=djConfig
-NEW=webui_@THEME@_config\\.djConfig
+NEW=webui_@THEME_JS@\\.djConfig
 for F in `find $BUILD_DIR/javascript -name \*.js`
 do
     sed -e "s|$OLD\.|$NEW\.|g" \
@@ -94,7 +94,7 @@ done
 # Modify the dojo name space.
 #
 OLD=dojo
-NEW=webui\\.@THEME@\\.dojo
+NEW=webui\\.@THEME_JS@\\.dojo
 for F in `find $BUILD_DIR/javascript -name \*.js`
 do
     sed -e "s|$OLD\.|$NEW\.|g" \
@@ -112,7 +112,7 @@ done
 # Modify the dijit name space.
 #
 OLD=dijit
-NEW=webui\\.@THEME@\\.dijit
+NEW=webui\\.@THEME_JS@\\.dijit
 for F in `find $BUILD_DIR/javascript -name \*.js`
 do
     sed -e "s|$OLD\.|$NEW\.|g" \
