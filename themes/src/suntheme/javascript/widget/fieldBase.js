@@ -32,9 +32,11 @@ webui.@THEME_JS@.dojo.require("webui.@THEME_JS@.widget.widgetBase");
  */
 webui.@THEME_JS@.dojo.declare("webui.@THEME_JS@.widget.fieldBase", webui.@THEME_JS@.widget.widgetBase, {
     // Set defaults.
-    disabled: false,
-    required: false,
-    size: 20,
+    constructor: function() {
+        this.disabled = false;
+        this.required = false;
+        this.size = 20;
+    },
     valid: true
 });
 

@@ -33,8 +33,10 @@ webui.@THEME_JS@.dojo.require("webui.@THEME_JS@.widget.widgetBase");
  */
 webui.@THEME_JS@.dojo.declare("webui.@THEME_JS@.widget.table2RowGroup", webui.@THEME_JS@.widget.widgetBase, {
     // Set defaults.
-    currentRow: 0, // Current row in view.
-    first: 0, // Index used to obtain rows.
+    constructor: function() {
+        this.currentRow = 0; // Current row in view.
+        this.first = 0; // Index used to obtain rows.
+    },
     widgetName: "table2RowGroup" // Required for theme properties.
 });
 

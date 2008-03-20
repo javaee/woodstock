@@ -32,10 +32,12 @@ webui.@THEME_JS@.dojo.require("webui.@THEME_JS@.widget.widgetBase");
  */
 webui.@THEME_JS@.dojo.declare("webui.@THEME_JS@.widget.button", webui.@THEME_JS@.widget.widgetBase, {
     // Set defaults.
-    disabled: false,
-    escape: true,
-    mini: false,
-    primary: true,
+    constructor: function() {
+        this.disabled = false;
+        this.escape = true;
+        this.mini = false;
+        this.primary = true;
+    },
     widgetName: "button" // Required for theme properties.
 });
 

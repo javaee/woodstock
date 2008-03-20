@@ -32,7 +32,9 @@ webui.@THEME_JS@.dojo.require("webui.@THEME_JS@.widget.widgetBase");
  */
 webui.@THEME_JS@.dojo.declare("webui.@THEME_JS@.widget.staticText", webui.@THEME_JS@.widget.widgetBase, {
     // Set defaults.
-    escape: true,
+    constructor: function() {
+        this.escape = true;
+    },
     widgetName: "staticText" // Required for theme properties.
 });
 

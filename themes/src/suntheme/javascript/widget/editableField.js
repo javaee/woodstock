@@ -32,7 +32,9 @@ webui.@THEME_JS@.dojo.require("webui.@THEME_JS@.widget.textField");
  */
 webui.@THEME_JS@.dojo.declare("webui.@THEME_JS@.widget.editableField", webui.@THEME_JS@.widget.textField, {
     // Set defaults.
-    edit: false,
+    constructor: function() {
+        this.edit = false;
+    },
     widgetName: "editableField" // Required for theme properties.
 });
    

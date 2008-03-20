@@ -33,10 +33,12 @@ webui.@THEME_JS@.dojo.require("webui.@THEME_JS@.widget.widgetBase");
  */
 webui.@THEME_JS@.dojo.declare("webui.@THEME_JS@.widget.bubble", webui.@THEME_JS@.widget.widgetBase, {
     // Set defaults.
-    defaultTime: 2000,
-    openDelayTime: 500,
-    bubbleLeftConst: 5,
-    topConst: 2,    
+    constructor: function() {
+        this.defaultTime = 2000;
+        this.openDelayTime = 500;
+        this.bubbleLeftConst = 5;
+        this.topConst = 2;
+    },   
     widgetName: "bubble" // Required for theme properties.
 });
 

@@ -32,7 +32,9 @@ webui.@THEME_JS@.dojo.require("webui.@THEME_JS@.widget.widgetBase");
  */
 webui.@THEME_JS@.dojo.declare("webui.@THEME_JS@.widget.hiddenField", webui.@THEME_JS@.widget.widgetBase, {
     // Set defaults.
-    disabled: false,
+    constructor: function() {
+        this.disabled = false;
+    },
     widgetName: "hiddenField" // Required for theme properties.
 });
 

@@ -32,9 +32,11 @@ webui.@THEME_JS@.dojo.require("webui.@THEME_JS@.widget.widgetBase");
  */
 webui.@THEME_JS@.dojo.declare("webui.@THEME_JS@.widget.label", webui.@THEME_JS@.widget.widgetBase, {
     // Set defaults.
-    level: webui.@THEME_JS@.widget.common.getMessage("label.level", null, 2),
-    required: false,
-    valid: true,
+    constructor: function() {
+        this.level = webui.@THEME_JS@.widget.common.getMessage("label.level", null, 2);
+        this.required = false;
+        this.valid = true;
+    },
     widgetName: "label" // Required for theme properties.
 });
 

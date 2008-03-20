@@ -32,9 +32,11 @@ webui.@THEME_JS@.dojo.require("webui.@THEME_JS@.widget.widgetBase");
  */
 webui.@THEME_JS@.dojo.declare("webui.@THEME_JS@.widget.progressBar", webui.@THEME_JS@.widget.widgetBase, {
     // Set defaults.
-    percentChar: "%",
-    progress: 0,
-    type: "DETERMINATE",
+    constructor: function() {
+        this.progress = 0;
+        this.percentChar = "%";
+        this.type = this.determinate;
+    },
     busy: "BUSY",
     canceled: "canceled",
     completed: "completed",

@@ -33,11 +33,13 @@ webui.@THEME_JS@.dojo.require("webui.@THEME_JS@.widget.widgetBase");
  */
 webui.@THEME_JS@.dojo.declare("webui.@THEME_JS@.widget.accordion", webui.@THEME_JS@.widget.widgetBase, {
     // Set defaults.
-    duration: 250,
-    isContainer: true,
-    loadOnSelect: false,
-    multipleSelect: false,
-    focusElement: null,
+    constructor: function() {
+        this.duration = 250;
+        this.isContainern = true;
+        this.loadOnSelect = false;
+        this.multipleSelect = false;
+        this.focusElement = null;
+    },
     widgetName: "accordion" // Required for theme properties.
 });
 

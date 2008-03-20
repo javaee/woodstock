@@ -32,7 +32,9 @@ webui.@THEME_JS@.dojo.require("webui.@THEME_JS@.widget.widgetBase");
  */
 webui.@THEME_JS@.dojo.declare("webui.@THEME_JS@.widget.image", webui.@THEME_JS@.widget.widgetBase, {
     // Set defaults.
-    border: 0,
+    constructor: function() {
+        this.border = 0;
+    },
     widgetName: "image" // Required for theme properties.
 });
 

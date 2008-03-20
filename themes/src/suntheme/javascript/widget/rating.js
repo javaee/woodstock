@@ -1,32 +1,28 @@
-// widget/rating.js
-//
-// The contents of this file are subject to the terms
-// of the Common Development and Distribution License
-// (the License).  You may not use this file except in
-// compliance with the License.
-// 
-// You can obtain a copy of the license at
-// https://woodstock.dev.java.net/public/CDDLv1.0.html.
-// See the License for the specific language governing
-// permissions and limitations under the License.
-// 
-// When distributing Covered Code, include this CDDL
-// Header Notice in each file and include the License file
-// at https://woodstock.dev.java.net/public/CDDLv1.0.html.
-// If applicable, add the following below the CDDL Header,
-// with the fields enclosed by brackets [] replaced by
-// you own identifying information:
-// "Portions Copyrighted [year] [name of copyright owner]"
-// 
-// Copyright 2008 Sun Microsystems, Inc. All rights reserved.
-//
+/**
+ * The contents of this file are subject to the terms
+ * of the Common Development and Distribution License
+ * (the License).  You may not use this file except in
+ * compliance with the License.
+ * 
+ * You can obtain a copy of the license at
+ * https://woodstock.dev.java.net/public/CDDLv1.0.html.
+ * See the License for the specific language governing
+ * permissions and limitations under the License.
+ * 
+ * When distributing Covered Code, include this CDDL
+ * Header Notice in each file and include the License file
+ * at https://woodstock.dev.java.net/public/CDDLv1.0.html.
+ * If applicable, add the following below the CDDL Header,
+ * with the fields enclosed by brackets [] replaced by
+ * you own identifying information:
+ * "Portions Copyrighted [year] [name of copyright owner]"
+ * 
+ * Copyright 2008 Sun Microsystems, Inc. All rights reserved.
+ */
 
 webui.@THEME_JS@.dojo.provide("webui.@THEME_JS@.widget.rating");
 
-webui.@THEME_JS@.dojo.require("webui.@THEME_JS@.browser");
-webui.@THEME_JS@.dojo.require("webui.@THEME_JS@.common");
 webui.@THEME_JS@.dojo.require("webui.@THEME_JS@.widget.widgetBase");
-
 
 /**
  * @name webui.@THEME_JS@.widget.rating
@@ -35,38 +31,37 @@ webui.@THEME_JS@.dojo.require("webui.@THEME_JS@.widget.widgetBase");
  * @constructor This function is used to construct a rating widget.
  */
 webui.@THEME_JS@.dojo.declare("webui.@THEME_JS@.widget.rating", webui.@THEME_JS@.widget.widgetBase, {
+    // Set defaults.
+    constructor: function() {
+        // Set defaults for public properties that can be modified.
+        this.autoSubmit = false;
+        this.includeText = true;
+        this.includeNotInterested = true;
+        this.includeClear = true;
+        this.includeModeToggle = false;
+        this.inAverageMode = false;
+        this.grade = this.CODE_CLEAR;
+        this.averageGrade = 0.0;
+        this.maxGrade = 0;
+        this.gradeReadOnly = false;
+        this.modeReadOnly = false;
+        this.tabIndex = -1;
 
-    browser: webui.@THEME_JS@.browser, // Browser utils
-
-    // Set defaults for public properties that can be modified.
-    autoSubmit: false,
-    includeText: true,
-    includeNotInterested: true,
-    includeClear: true,
-    includeModeToggle: false,
-    inAverageMode: false,
-    grade: this.CODE_CLEAR,
-    averageGrade: 0.0,
-    maxGrade: 0,
-    gradeReadOnly: false,
-    modeReadOnly: false,
-    tabIndex: -1,
+        // Set defaults for private data used internally by the widget.
+        this.currentText = null;
+        this.clicked = false;
+        this.mousedover = false;
+        this.createGradeControls = true;
+        this.gradeNodes = null;
+    },
 
     // Class constants - must have different values and must be <= 0
     CODE_NOTINTERESTED: -1, // Must match NOT_INTERESTED_GRADE in component/Rating.java
     CODE_MODETOGGLE: -2,
-    CODE_CLEAR: 0,    // Need not be 0, but must match CLEAR_GRADE in component/Rating.java
-
-    // Set defaults for private data used internally by the widget.
-    currentText: null,
-    clicked: false,
-    mousedover: false,
-    createGradeControls: true,
-    gradeNodes: null,
+    CODE_CLEAR: 0, // Need not be 0, but must match CLEAR_GRADE in component/Rating.java
 
     widgetName: "rating" // Required for theme properties.
-
-}); // constructor
+});
 
 /**
  * This object contains event topics.
@@ -79,7 +74,6 @@ webui.@THEME_JS@.dojo.declare("webui.@THEME_JS@.widget.rating", webui.@THEME_JS@
  */
 webui.@THEME_JS@.widget.rating.event =
         webui.@THEME_JS@.widget.rating.prototype.event = {
-
     /** 
      * This closure is used to process refresh events.
      * @ignore
@@ -119,7 +113,6 @@ webui.@THEME_JS@.widget.rating.event =
         /** State event topic for custom AJAX implementations to listen for. */
         endTopic: "webui_@THEME_JS@_widget_rating_event_state_end"
     }
-
 };
 
 /**
@@ -129,7 +122,6 @@ webui.@THEME_JS@.widget.rating.event =
  * @return {Object} Key-Value pairs of properties.
  */
 webui.@THEME_JS@.widget.rating.prototype.getProps = function() {
-
     var props = this.inherited("getProps", arguments);
 
     if (this.autoSubmit != null)
@@ -174,7 +166,6 @@ webui.@THEME_JS@.widget.rating.prototype.getProps = function() {
         props.tabIndex = this.tabIndex;
 
     return props;
-
 }; // getProps
 
 /**
@@ -186,7 +177,6 @@ webui.@THEME_JS@.widget.rating.prototype.getProps = function() {
  * @private
  */
 webui.@THEME_JS@.widget.rating.prototype._setText = function(text) {
-
     if (this.textContainer != null) {
         if (text != null && (text.replace(/^\s+/g, '').replace(/\s+$/g, '') == "" ))
             text = null;
@@ -194,7 +184,6 @@ webui.@THEME_JS@.widget.rating.prototype._setText = function(text) {
         this.currentText = this.textContainer.innerHTML;
     }
     return true;
-
 }; // _setText
 
 /**
@@ -211,51 +200,45 @@ webui.@THEME_JS@.widget.rating.prototype._setText = function(text) {
  *           the 2nd element is the image width.
  * @private
  */
-webui.@THEME_JS@.widget.rating.prototype._getGradeImageInfo = function(averageMode, grade, rank) {
+webui.@THEME_JS@.widget.rating.prototype._getGradeImageInfo = function(
+            averageMode, grade, rank) {
+    var className = null;
+    var width = null;
 
-        var className = null;
-        var width = null;
+    if (averageMode == true) {
+        // Compute the difference between the grade being displayed and the grade rank
+        // associated with this image.
+        var diff = grade - rank;
 
-        if (averageMode == true) {
-
-            // Compute the difference between the grade being displayed and the grade rank
-            // associated with this image.
-            var diff = grade - rank;
-
-            // Show correct image based on diff
-            if (diff < (0 -.5)) {
-                // Difference is more than half-grade below zero.
-                // Show empty grade.
-                className = this.theme.getClassName("RATING_GRADE_EMPTY_IMAGE");
-                width = parseInt(this.theme.getProperty("images", "RATING_GRADE_EMPTY_WIDTH"));
-            }
-            else if (diff < 0) {
-                // Difference is less than a half-grade below 0.
-                // Show average half-full grade
-                className = this.theme.getClassName("RATING_GRADE_AVG_HALF_IMAGE");
-                width = parseInt(this.theme.getProperty("images", "RATING_AVG_GRADE_HALF_WIDTH"));
-            }
-            else {
-                // Difference is 0 or higher.
-                // Show average full grade
-                className = this.theme.getClassName("RATING_GRADE_AVG_FULL_IMAGE");
-                width = parseInt(this.theme.getProperty("images", "RATING_AVG_GRADE_FULL_WIDTH"));
-            }
-
+        // Show correct image based on diff
+        if (diff < (0 -.5)) {
+            // Difference is more than half-grade below zero.
+            // Show empty grade.
+            className = this.theme.getClassName("RATING_GRADE_EMPTY_IMAGE");
+            width = parseInt(this.theme.getProperty("images", "RATING_GRADE_EMPTY_WIDTH"));
+        } else if (diff < 0) {
+            // Difference is less than a half-grade below 0.
+            // Show average half-full grade
+            className = this.theme.getClassName("RATING_GRADE_AVG_HALF_IMAGE");
+            width = parseInt(this.theme.getProperty("images", "RATING_AVG_GRADE_HALF_WIDTH"));
         } else {
-            if (rank <= grade) {
-                // Show full user's grade
-                className = this.theme.getClassName("RATING_GRADE_FULL_IMAGE");
-                width = parseInt(this.theme.getProperty("images", "RATING_GRADE_FULL_WIDTH"));
-            } else {
-                // Show empty grade
-                className = this.theme.getClassName("RATING_GRADE_EMPTY_IMAGE");
-                width = parseInt(this.theme.getProperty("images", "RATING_GRADE_EMPTY_WIDTH"));
-            }
+            // Difference is 0 or higher.
+            // Show average full grade
+            className = this.theme.getClassName("RATING_GRADE_AVG_FULL_IMAGE");
+            width = parseInt(this.theme.getProperty("images", "RATING_AVG_GRADE_FULL_WIDTH"));
         }
-
-        return [className, width];
-
+    } else {
+        if (rank <= grade) {
+            // Show full user's grade
+            className = this.theme.getClassName("RATING_GRADE_FULL_IMAGE");
+            width = parseInt(this.theme.getProperty("images", "RATING_GRADE_FULL_WIDTH"));
+        } else {
+            // Show empty grade
+            className = this.theme.getClassName("RATING_GRADE_EMPTY_IMAGE");
+            width = parseInt(this.theme.getProperty("images", "RATING_GRADE_EMPTY_WIDTH"));
+        }
+    }
+    return [className, width];
 }; // _getGradeImageInfo
 
 /**
@@ -271,7 +254,6 @@ webui.@THEME_JS@.widget.rating.prototype._getGradeImageInfo = function(averageMo
  * @private
  */
 webui.@THEME_JS@.widget.rating.prototype._previewState = function(code, isMouseOver) {
-
     // Determine if we will be displaying average grade.
     //
     var displayingAvg = false;
@@ -392,7 +374,6 @@ webui.@THEME_JS@.widget.rating.prototype._previewState = function(code, isMouseO
     this._setText(hoverText);
 
     return true;
-
 }; // _previewState
 
 /**
@@ -407,7 +388,6 @@ webui.@THEME_JS@.widget.rating.prototype._previewState = function(code, isMouseO
  * @private
  */
 webui.@THEME_JS@.widget.rating.prototype._modifyState = function(code) {
-
     if (code == this.CODE_MODETOGGLE) {
         // Toggle mode
         this.inAverageMode = !this.inAverageMode;
@@ -444,9 +424,7 @@ webui.@THEME_JS@.widget.rating.prototype._modifyState = function(code) {
         if (this.autoSubmit)
             this.submit();
     }
-
     return true;
-
 }; // _modifyState
 
 /**
@@ -461,7 +439,6 @@ webui.@THEME_JS@.widget.rating.prototype._modifyState = function(code) {
  * @private
  */
 webui.@THEME_JS@.widget.rating.prototype._onMouseCallback = function(code, isMouseOver) {
-
     // Return if either:
     //   1. this is a mouse over, or
     //   2. this is a mouse out, and the component is not considered in a "mousedover" state.
@@ -479,9 +456,7 @@ webui.@THEME_JS@.widget.rating.prototype._onMouseCallback = function(code, isMou
     // Remember we just processed a mouseover/mouseout (ie., non-click) event
     this.mousedover = isMouseOver; 
     this.clicked = false; 
-
     return true;
-
 }; // _onMouseCallback
 
 /**
@@ -495,7 +470,6 @@ webui.@THEME_JS@.widget.rating.prototype._onMouseCallback = function(code, isMou
  * @private
  */
 webui.@THEME_JS@.widget.rating.prototype._onClickCallback = function(code) {
-
     // Return if either:
     //   1. clicked on a grade control when gradeReadOnly is true, or
     //   2. clicked on modeTogglecontrol, but modeReadOnly is true, or
@@ -521,9 +495,7 @@ webui.@THEME_JS@.widget.rating.prototype._onClickCallback = function(code) {
     this.publish(webui.@THEME_JS@.widget.rating.event.state.endTopic, [{
         id: this.id
     }]);
-
     return true;
-
 }; // _onClickCallback
 
 /**
@@ -537,12 +509,9 @@ webui.@THEME_JS@.widget.rating.prototype._onClickCallback = function(code) {
  * @private
  */
 webui.@THEME_JS@.widget.rating.prototype._onFocusCallback = function(code) {
-
     // TBD
-    console.log("_onFocusCallback: code=" + code);
-
+//    console.log("_onFocusCallback: code=" + code);
     return true;
-
 }; // _onFocusCallback
 
 /**
@@ -555,13 +524,11 @@ webui.@THEME_JS@.widget.rating.prototype._onFocusCallback = function(code) {
  * @private
  */
 webui.@THEME_JS@.widget.rating.prototype._createOnMouseOverCallback = function(code) {
-
     var _code = code;
     var _this = this;
     return function(event) {
         _this._onMouseCallback(_code, true);
     }
-
 }; // _createOnMouseOverCallback
 
 /**
@@ -574,13 +541,11 @@ webui.@THEME_JS@.widget.rating.prototype._createOnMouseOverCallback = function(c
  * @private
  */
 webui.@THEME_JS@.widget.rating.prototype._createOnMouseOutCallback = function(code) {
-
     var _code = code;
     var _this = this;
     return function(event) {
         _this._onMouseCallback(_code, false);
     }
-
 }; // _createOnMouseOutCallback
 
 /**
@@ -593,13 +558,11 @@ webui.@THEME_JS@.widget.rating.prototype._createOnMouseOutCallback = function(co
  * @private
  */
 webui.@THEME_JS@.widget.rating.prototype._createOnClickCallback = function(code) {
-
     var _code = code;
     var _this = this;
     return function(event) {
         _this._onClickCallback(_code);
     }
-
 }; // _createOnClickCallback
 
 /**
@@ -612,13 +575,11 @@ webui.@THEME_JS@.widget.rating.prototype._createOnClickCallback = function(code)
  * @private
  */
 webui.@THEME_JS@.widget.rating.prototype._createOnFocusCallback = function(code) {
-
     var _code = code;
     var _this = this;
     return function(event) {
         _this._onFocusCallback(_code);
     }
-
 }; // _createOnFocusCallback
 
 /**
@@ -630,7 +591,6 @@ webui.@THEME_JS@.widget.rating.prototype._createOnFocusCallback = function(code)
  * @return {boolean} true if successful; otherwise, false.
  */
 webui.@THEME_JS@.widget.rating.prototype.postCreate = function () {
-
     // Set IDs for the controls
     this.notInterestedID = this.id + "_notInterested";
     this.clearID = this.id + "_clear";
@@ -708,9 +668,7 @@ webui.@THEME_JS@.widget.rating.prototype.postCreate = function () {
     this.dojo.connect(this.domNode,
         "onfocus", this._createOnFocusCallback(99));
 */
-
     return this.inherited("postCreate", arguments);
-
 }; // postCreate
 
 /**
@@ -806,9 +764,9 @@ webui.@THEME_JS@.widget.rating.prototype.postCreate = function () {
  * @return {boolean} true if successful; otherwise, false.
  */
 webui.@THEME_JS@.widget.rating.prototype.setProps = function(props, notify) {
-
-    if (props == null)
+    if (props == null) {
         return false;
+    }
 
     // We are trying to deal with a state change which requires
     // knowing what the current state of the widget is and the
@@ -878,9 +836,9 @@ webui.@THEME_JS@.widget.rating.prototype.setProps = function(props, notify) {
  * @private
  */
 webui.@THEME_JS@.widget.rating.prototype._setProps = function(props) {
-
-    if (props == null)
+    if (props == null) {
         return false;
+    }
 
     var gradeRightMargin = parseInt(this.theme.getMessage("rating.gradeMarginRight"));
     var hiddenClass = this.theme.getClassName("HIDDEN");
@@ -1164,7 +1122,6 @@ webui.@THEME_JS@.widget.rating.prototype._setProps = function(props) {
 
     // Set remaining properties.
     return this.inherited("_setProps", arguments);
-
 }; // _setProps
 
 /**
@@ -1177,7 +1134,6 @@ webui.@THEME_JS@.widget.rating.prototype._setProps = function(props) {
  * @return {boolean} true if successful; otherwise, false.
  */
 webui.@THEME_JS@.widget.rating.prototype.submit = function(execute) {
-
     // Publish an event for custom AJAX implementations to listen for.
     // Note that the current grade value is placed in a hidden input field which 
     // is automatically submitted, and so we don't need to explicitly include
@@ -1203,11 +1159,8 @@ webui.@THEME_JS@.widget.rating.prototype.submit = function(execute) {
  * @private
  */
 webui.@THEME_JS@.widget.rating.prototype._submitCallback = function(props) {
-
     // Clear hidden field after each asynch submit, otherwise a subsequent
     // page submit would re-submit the same value again.
     this.hiddenFieldNode.value = null;
-
     return true;
-
 }; // _submitCallback

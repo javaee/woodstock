@@ -32,11 +32,13 @@ webui.@THEME_JS@.dojo.require("webui.@THEME_JS@.widget.selectBase");
  */
 webui.@THEME_JS@.dojo.declare("webui.@THEME_JS@.widget.dropDown", webui.@THEME_JS@.widget.selectBase, {
     // Set defaults.
-    labelOnTop : webui.@THEME_JS@.widget.common.getMessageBoolean(
-	    "dropDown.labelOnTop", false),
-    submitForm: false,
-    widgetName: "dropDown", // Required for theme properties.
-    width: webui.@THEME_JS@.theme.common.getMessage("dropDown.width", null)
+    constructor: function() {
+        this.labelOnTop = webui.@THEME_JS@.widget.common.getMessageBoolean(
+	    "dropDown.labelOnTop", false);
+        this.submitForm = false;
+        this.width = webui.@THEME_JS@.theme.common.getMessage("dropDown.width", null);
+    },
+    widgetName: "dropDown" // Required for theme properties.
 });
 
 /**

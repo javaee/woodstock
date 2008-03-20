@@ -33,16 +33,18 @@ webui.@THEME_JS@.dojo.require("webui.@THEME_JS@.widget.selectBase");
 webui.@THEME_JS@.dojo.declare("webui.@THEME_JS@.widget.listbox", 
 	webui.@THEME_JS@.widget.selectBase, {
     // Set defaults.
-    // Or defer to setProps 
-    labelOnTop : webui.@THEME_JS@.widget.common.getMessageBoolean(
-	"listbox.labelOnTop", false),
-    monospace : webui.@THEME_JS@.widget.common.getMessageBoolean(
-	"listbox.monospace", false),
-    multiple : webui.@THEME_JS@.widget.common.getMessageBoolean(
-	"listbox.multiple", false),
-    size : webui.@THEME_JS@.widget.common.getMessage("listbox.size", null, 12),
-    widgetName: "listbox", // Required for theme properties.
-    width: webui.@THEME_JS@.theme.common.getMessage("listbox.width", null)
+    constructor: function() {
+        // Or defer to setProps 
+        this.labelOnTop = webui.@THEME_JS@.widget.common.getMessageBoolean(
+            "listbox.labelOnTop", false);
+        this.monospace = webui.@THEME_JS@.widget.common.getMessageBoolean(
+            "listbox.monospace", false);
+        this.multiple = webui.@THEME_JS@.widget.common.getMessageBoolean(
+            "listbox.multiple", false);
+        this.size = webui.@THEME_JS@.widget.common.getMessage("listbox.size", null, 12);
+        this.width = webui.@THEME_JS@.theme.common.getMessage("listbox.width", null);
+    },
+    widgetName: "listbox" // Required for theme properties.
 });
 
 /**

@@ -32,7 +32,9 @@ webui.@THEME_JS@.dojo.require("webui.@THEME_JS@.widget.widgetBase");
  */
 webui.@THEME_JS@.dojo.declare("webui.@THEME_JS@.widget.login", webui.@THEME_JS@.widget.widgetBase, {
     // Set defaults.
-    loginState: "INIT",
+    constructor: function() {
+        this.loginState = "INIT";
+    },
     widgetName: "login" // Required for theme properties.    
 });
 

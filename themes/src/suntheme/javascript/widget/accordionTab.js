@@ -32,12 +32,13 @@ webui.@THEME_JS@.dojo.require("webui.@THEME_JS@.widget.widgetBase");
  */
 webui.@THEME_JS@.dojo.declare("webui.@THEME_JS@.widget.accordionTab", webui.@THEME_JS@.widget.widgetBase, {
     // Set defaults.
-    isContainer: true,
-    selected: false,
-    focusState: "title",
+    constructor: function() {
+        this.isContainer = true;
+        this.selected = false;
+        this.focusState = "title";
+    },
     widgetName: "accordionTab" // Required for theme properties.    
 });
-
 
 /**
  * The callback function for key press on the accordion tabs.

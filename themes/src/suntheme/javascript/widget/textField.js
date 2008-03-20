@@ -32,9 +32,13 @@ webui.@THEME_JS@.dojo.require("webui.@THEME_JS@.widget.fieldBase");
  */
 webui.@THEME_JS@.dojo.declare("webui.@THEME_JS@.widget.textField", webui.@THEME_JS@.widget.fieldBase, {
     // Set defaults.
-    autoCompleteOptions : null, //array of list values; may be empty; if null - then no autocomplete functionality is provided
-    autoCompleteSize: 15,
-    autoCompleteCloseDelayTime: 100,                    
+    constructor: function() {
+        // Array of list values; may be empty; if null - then no autocomplete 
+        // functionality is provided
+        this.autoCompleteOptions = null; 
+        this.autoCompleteSize = 15;
+        this.autoCompleteCloseDelayTime = 100;
+    },                  
     widgetName: "textField" // Required for theme properties.
 });
 

@@ -40,7 +40,7 @@ webui.@THEME_JS@.dojo.require("webui.@THEME_JS@.widget.label");
  * <li><code>listContainer</code> - the <code>select</code> element.</li>
  * <li><code>brNode</code> - the element that controls the label postion.
  * <li><code>optionNode</code> - the element to clone for an
- <code>option</code> element.
+ * <code>option</code> element.
  * </li>
  * <li><code>optionGroupContainer</code> - the element to clone for an
  * <code>optGroup</code> element.</li>
@@ -124,21 +124,19 @@ webui.@THEME_JS@.dojo.require("webui.@THEME_JS@.widget.label");
  */
 webui.@THEME_JS@.dojo.declare("webui.@THEME_JS@.widget.selectBase", 
 	webui.@THEME_JS@.widget.widgetBase, {
-    disabled: false,
-    required: false,
-    valid: true,
+    // Set defaults.
+    constructor: function() {
+        this.disabled = false;
+        this.required = false;
+        this.valid = true;
 
-    /** private flag to remember that last label style class.
-     * @ignore
-     */
-    _lastLabelOnTopClassName: null, // never been set
+        // Flag to remember that last label style class.
+        this._lastLabelOnTopClassName = null; // never been set
 
-    /** flag to prevent blank entries in the 
-     *  drop down for the original empty dojo attach point nodes.
-     * see "setOptions"
-     * @ignore
-     */
-    _alreadyRemoved: false
+        // Flag to prevent blank entries in the drop down for the original 
+        // empty dojo attach point nodes -- see "setOptions".
+        this._alreadyRemoved = false;
+    }
 });
 
 /**

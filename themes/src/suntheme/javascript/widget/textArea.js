@@ -32,9 +32,11 @@ webui.@THEME_JS@.dojo.require("webui.@THEME_JS@.widget.textField");
  */
 webui.@THEME_JS@.dojo.declare("webui.@THEME_JS@.widget.textArea", webui.@THEME_JS@.widget.textField, {
     // Set defaults.
-    autoSave: 0,
-    cols: 20,
-    rows: 3,
+    constructor: function() {
+        this.autoSave = 0;
+        this.cols = 20;
+        this.rows = 3;
+    },
     widgetName: "textArea" // Required for theme properties.
 });
 
