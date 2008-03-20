@@ -1653,7 +1653,11 @@
 	     See below where the other "known" *.properties files
 	     are handled.
 	-->
-	<touch file="${_to-dir_}/messages/messages_en.properties"/>
+        <antcall target="_touch-fallback-properties_">
+	    <param name="_prop-file_" value="messages"/>
+	    <param name="_prop-dir_" value="${_to-dir_}/messages"/>
+	    <param name="_touch-prop-file_" value="touch-messages"/>
+	</antcall>
 
 	<!-- templates, css files, styles, stylesheet, properties files
 	     must be filtered if ${_filter_} is true.
@@ -1701,12 +1705,33 @@
             <filterset refid="${__theme-filter__}"/>
             <filterset refid="${__css-name-filter__}"/>
         </copy>
+
 	<!-- Assume we know what the properties/*.properties files are -->
-	<touch file="${_to-dir_}/properties/styles_en.properties"/>
-	<touch file="${_to-dir_}/properties/stylesheets_en.properties"/>
-	<touch file="${_to-dir_}/properties/javascript_en.properties"/>
-	<touch file="${_to-dir_}/properties/templates_en.properties"/>
-	<touch file="${_to-dir_}/properties/images_en.properties"/>
+        <antcall target="_touch-fallback-properties_">
+	    <param name="_prop-file_" value="styles"/>
+	    <param name="_prop-dir_" value="${_to-dir_}/properties"/>
+	    <param name="_touch-prop-file_" value="touch-styles"/>
+	</antcall>
+        <antcall target="_touch-fallback-properties_">
+	    <param name="_prop-file_" value="stylesheets"/>
+	    <param name="_prop-dir_" value="${_to-dir_}/properties"/>
+	    <param name="_touch-prop-file_" value="touch-stylesheets"/>
+	</antcall>
+        <antcall target="_touch-fallback-properties_">
+	    <param name="_prop-file_" value="javascript"/>
+	    <param name="_prop-dir_" value="${_to-dir_}/properties"/>
+	    <param name="_touch-prop-file_" value="touch-javascript"/>
+	</antcall>
+        <antcall target="_touch-fallback-properties_">
+	    <param name="_prop-file_" value="images"/>
+	    <param name="_prop-dir_" value="${_to-dir_}/properties"/>
+	    <param name="_touch-prop-file_" value="touch-images"/>
+	</antcall>
+        <antcall target="_touch-fallback-properties_">
+	    <param name="_prop-file_" value="templates"/>
+	    <param name="_prop-dir_" value="${_to-dir_}/properties"/>
+	    <param name="_touch-prop-file_" value="touch-templates"/>
+	</antcall>
 
 	<!-- the null fileset 
 	  It must have a "dir" so exclude all files
@@ -1734,6 +1759,17 @@
 
     </target>
 
+    <target name="touch-propfile">
+	<available property="${_touch-prop-file_}" type="file"
+	    file="${_prop-dir_}/${_prop-file_}.properties"/>
+    </target>
+
+    <target name="_touch-fallback-properties_" 
+	    depends="touch-propfile" if="${_touch-prop-file_}">
+	<mkdir dir="${_prop-dir_}"/>
+	<touch file="${_prop-dir_}/${_prop-file_}_en.properties"/>
+    </target>
+	    
     <!-- Set "${theme-service-templates-uptodate}" if the template file
 	 and the service java file is up to date
 
