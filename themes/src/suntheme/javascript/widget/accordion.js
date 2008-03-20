@@ -35,7 +35,7 @@ webui.@THEME_JS@.dojo.declare("webui.@THEME_JS@.widget.accordion", webui.@THEME_
     // Set defaults.
     constructor: function() {
         this.duration = 250;
-        this.isContainern = true;
+        this.isContainer = true;
         this.loadOnSelect = false;
         this.multipleSelect = false;
         this.focusElement = null;

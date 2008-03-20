@@ -93,6 +93,9 @@ webui.@THEME_JS@.dojo.declare("webui.@THEME_JS@.widget.widgetBase", webui.@THEME
     // declared in the constructor function so that each instance gets it's own
     // copy. Simple types (literal strings and numbers) are fine to declare in 
     // the class directly.
+    constructor: function() {
+        // Do nothing...
+    },
 
     // Set defaults.
     common: webui.@THEME_JS@.common, // Common utils.

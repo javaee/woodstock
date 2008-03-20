@@ -113,25 +113,20 @@ webui.@THEME_JS@.widget.textField.event =
     }
 };
 
-
-/** Utility function to adjust input and list widths to match
-    the one of surrounding domNode node    
-    @return {boolean} true if successful; otherwise, false.
+/**
+ * Utility function to adjust input and list widths to match
+ * the one of surrounding domNode node    
+ *
+ * @return {boolean} true if successful; otherwise, false.
  */
 webui.@THEME_JS@.widget.textField.prototype.adjustListGeometry = function () {
-
     this.listContainer.style.width = this.fieldNode.offsetWidth;
     this.listContainer.style.left = this.fieldNode.offsetLeft;
     this.listContainer.style.top = this.fieldNode.offsetTop + this.fieldNode.offsetHeight;
-
     this.listNode.style.width = this.fieldNode.offsetWidth;
-
     this.listContainer.style.zIndex = "999";
-    
     return true;
-
 };
-
 
 /**
  * Helper function to obtain HTML input element class names.
@@ -181,13 +176,11 @@ webui.@THEME_JS@.widget.textField.prototype.getProps = function() {
  * @return {boolean} true if successful; otherwise, false.
  */
 webui.@THEME_JS@.widget.textField.prototype.postCreate = function () {
-    
     // Set events.
     if (this.autoValidate == true) {
         // Generate the following event ONLY when 'autoValidate' == true.
         this.dojo.connect(this.fieldNode, "onblur", this, "validate");
     }
-    
     return this.inherited("postCreate", arguments);;
 };
 
@@ -243,32 +236,23 @@ webui.@THEME_JS@.widget.textField.prototype.setProps = function(props, notify) {
     return this.inherited("setProps", arguments);
 };
 
-
 /**
  * Helper function to create callback for autoComplete list closing event.
  *
  * @return {Function} The callback function.
  */
 webui.@THEME_JS@.widget.textField.prototype.createCloseListCallback = function() {
-    
     var _id = this.id;
-
     return function(event) { 
-
         var widget = webui.@THEME_JS@.dijit.byId(_id);
         if (widget == null) {
             return false;
         }
-
         widget.showAutoComplete = false;
         widget.updateListView();
-        
         return true;
     };
-    
 };
-
-
 
 /**
  * Publishes event to filter the options list according to specified 
@@ -279,20 +263,18 @@ webui.@THEME_JS@.widget.textField.prototype.createCloseListCallback = function()
  * @return {boolean} true if successful; otherwise, false.
  */
 webui.@THEME_JS@.widget.textField.prototype.filterOptions = function() {    
-
     // Publish the event for custom AJAX implementations to listen for.
     // The implementation of this Ajax call will retrieve the value of the filter
     // and will obtain an updated lookup list ( either locally, or by submit to the server)
     // Data returned from Ajax call will be pushed into this.listWidget 
     //
     // @see javascript.widget.jsfx.autoComplete for default Ajax implementation
-
     this.dojo.publish(webui.@THEME_JS@.widget.textField.event.autoComplete.beginTopic, [{
         id: this.id
     }]);
-    
     return true;        
 };
+
 /**
  * This function is used to set widget properties. Please see the setProps() 
  * function for a list of supported properties.
@@ -358,7 +340,6 @@ webui.@THEME_JS@.widget.textField.prototype._setProps = function(props) {
         
         //additional logic applied to ENTER, ESCAPE, ARROWs on keydown in order to cancel the event bubble
         this.dojo.connect(this.fieldNode, "onkeydown", this, "processFieldKeyDownEvent");
-                
     }        
     
     if (this.autoComplete && props.autoCompleteOptions != null && this.listWidget != null ) {
@@ -387,7 +368,6 @@ webui.@THEME_JS@.widget.textField.prototype._setProps = function(props) {
         this.showAutoComplete = true;        
         */
         this.updateListView();
-
     }   
 
     // Set remaining properties.
@@ -396,11 +376,8 @@ webui.@THEME_JS@.widget.textField.prototype._setProps = function(props) {
     if (props.autoComplete && props.autoCompleteOptions != null && this.listWidget != null ) {
         this.adjustListGeometry();  //even if autocomplete options are not defined in this set of props
     }
-    
     return ret;
 };
-
-
 
 /**
  * Process the blur  event - activate delayed timer to close the list.
@@ -410,23 +387,17 @@ webui.@THEME_JS@.widget.textField.prototype._setProps = function(props) {
  * @param {Event} event The JavaScript event.
  * @return {boolean} true if successful; otherwise, false.
  */
-webui.@THEME_JS@.widget.textField.prototype.processBlurEvent = function(event) {
-
-    
+webui.@THEME_JS@.widget.textField.prototype.processBlurEvent = function(event) {    
     //clear timeout for list closing, thereby preventing list from being closed    
     if (this.closingTimerId) {
         clearTimeout(this.closingTimerId);
         this.closingTimerId = null;
     }
-    
-
-     this.closingTimerId = setTimeout( 
-         this.createCloseListCallback(), this.autoCompleteCloseDelayTime);   
+    this.closingTimerId = setTimeout( 
+        this.createCloseListCallback(), this.autoCompleteCloseDelayTime);   
 
     return true;
-    
 };
-
 
 /**
  * Process keyPress events on the field, which enforces/disables 
@@ -436,10 +407,10 @@ webui.@THEME_JS@.widget.textField.prototype.processBlurEvent = function(event) {
  * @return {boolean} true if successful; otherwise, false.
  */
 webui.@THEME_JS@.widget.textField.prototype.processFieldKeyDownEvent = function(event) {
-
     event = this.widget.getEvent(event);
-    if (event == null)
+    if (event == null) {
         return false;
+    }
 
     if (event.keyCode == this.widget.keyCodes.ENTER && this.autoCompleteIsOpen) {               
         // Disable form submission. Note that form submission is disabled
@@ -497,13 +468,9 @@ webui.@THEME_JS@.widget.textField.prototype.processFieldKeyDownEvent = function(
             this.processListChange(event);
             return true;
         } catch (doNothing) {}
-    }    
-        
-    
-    return true;    
-    
+    }
+    return true;
 };
-
 
 /**
  * Process keyPress events on the filter, which chages the filter
@@ -512,8 +479,7 @@ webui.@THEME_JS@.widget.textField.prototype.processFieldKeyDownEvent = function(
  * @param {Event} event The JavaScript event.
  * @return {boolean} true if successful; otherwise, false.
  */
-webui.@THEME_JS@.widget.textField.prototype.processFieldKeyUpEvent = function(event) {
-    
+webui.@THEME_JS@.widget.textField.prototype.processFieldKeyUpEvent = function(event) {    
     event = this.widget.getEvent(event);
 
     if (event != null &&
@@ -527,16 +493,10 @@ webui.@THEME_JS@.widget.textField.prototype.processFieldKeyUpEvent = function(ev
         //these special keys are processed somewhere else - no filtering
         return false; 
     }
-    
     this.showAutoComplete = true;
-
     this.filterOptions();
-
-    return true;        
-    
+    return true;
 };
-
-
 
 /**
  * Process the focus event - turn on the flag for autoComplete list display
@@ -548,19 +508,13 @@ webui.@THEME_JS@.widget.textField.prototype.processFieldKeyUpEvent = function(ev
  * @return {boolean} true if successful; otherwise, false.
  */
 webui.@THEME_JS@.widget.textField.prototype.processFocusEvent = function(event) {
-    
     //clear timeout for list closing, thereby preventing list from being closed
     if (this.closingTimerId) {
         clearTimeout(this.closingTimerId);
         this.closingTimerId = null;
     }
-    
     return true;
-    
 };
-
-
-
 
 /**
  * Process onChange event on the select list, which results in filter being
@@ -569,8 +523,7 @@ webui.@THEME_JS@.widget.textField.prototype.processFocusEvent = function(event) 
  * @param {Event} event The JavaScript event.
  * @return {boolean} true if successful; otherwise, false.
  */
-webui.@THEME_JS@.widget.textField.prototype.processListChange = function(event) {
-    
+webui.@THEME_JS@.widget.textField.prototype.processListChange = function(event) {    
     event = this.widget.getEvent(event);
 
     if (event.type == "change") {               
@@ -588,12 +541,9 @@ webui.@THEME_JS@.widget.textField.prototype.processListChange = function(event) 
 
     // else - usually from selection movement with the arrow keys 
     this.fieldNode.value = this.listWidget.getSelectedValue();
-    
-   this.fieldNode.focus(); //keep the focus on filter field so that user can incrementally type additional data
-    return true;        
-    
+    this.fieldNode.focus(); //keep the focus on filter field so that user can incrementally type additional data
+    return true;
 };
-
 
 /**
  * Helper function to update the view of the component ( what is commonly known
@@ -604,10 +554,7 @@ webui.@THEME_JS@.widget.textField.prototype.processListChange = function(event) 
  * @return {boolean} true if successful; otherwise, false.
  */
 webui.@THEME_JS@.widget.textField.prototype.updateListView = function() {
- 
     if ( this.showAutoComplete == true && this.autoCompleteOptions.length >= 1) {
-        
-        
         //TODO a place for optimization here - not to adjust geometry each time
         this.adjustListGeometry();    
 
@@ -623,10 +570,8 @@ webui.@THEME_JS@.widget.textField.prototype.updateListView = function() {
         this.listNode.className = this.theme.getClassName("HIDDEN");
         //this.listWidget.setProps(visible: 'false');
         this.autoCompleteIsOpen = false;
-    }      
-
+    }
     return true;
-
 };
 
 /**
@@ -642,7 +587,6 @@ webui.@THEME_JS@.widget.textField.prototype.updateListView = function() {
  * @return {boolean} true if successful; otherwise, false.
  */
 webui.@THEME_JS@.widget.textField.prototype.validate = function(event) {
-
     // Publish an event for custom AJAX implementations to listen for.
     this.publish(webui.@THEME_JS@.widget.textField.event.validation.beginTopic, [{
         id: this.id
