@@ -220,18 +220,21 @@ made subject to such option by the copyright holder.
             <file name="WoodstockCommonTask.comp_palette_item" url="resources/WoodstockCommonTask.comp_palette_item">
                 <attr name="position" intvalue="1100"/>
             </file> 
-		<file name="WoodstockBubble.comp_palette_item" url="resources/WoodstockBubble.comp_palette_item">
+            <file name="WoodstockBubble.comp_palette_item" url="resources/WoodstockBubble.comp_palette_item">
                 <attr name="position" intvalue="2400"/>
             </file> 
-		<file name="WoodstockAccordion.comp_palette_item" url="resources/WoodstockAccordion.comp_palette_item">
+            <file name="WoodstockAccordion.comp_palette_item" url="resources/WoodstockAccordion.comp_palette_item">
                 <attr name="position" intvalue="2500"/>
             </file> 
-		<file name="WoodstockAccordionTab.comp_palette_item" url="resources/WoodstockAccordionTab.comp_palette_item">
+            <file name="WoodstockAccordionTab.comp_palette_item" url="resources/WoodstockAccordionTab.comp_palette_item">
                 <attr name="position" intvalue="2600"/>
             </file>           
             <file name="WoodstockMenu.comp_palette_item" url="resources/WoodstockMenu.comp_palette_item">
 	         <attr name="position" intvalue="2700"/>
             </file>   
+            <file name="WoodstockRating.comp_palette_item" url="resources/WoodstockRating.comp_palette_item">
+                <attr name="position" intvalue="2800"/>
+            </file> 
         </folder>
             
             <!-- Woodstock components not included in VWP. Add them here so that people can test the designtime code -->

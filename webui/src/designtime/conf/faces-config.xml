@@ -268,6 +268,12 @@
     </renderer>
     
     <renderer>
+      <component-family>com.sun.webui.jsf.Rating</component-family>
+      <renderer-type>com.sun.webui.jsf.widget.RatingDesignTime</renderer-type>
+      <renderer-class>com.sun.webui.jsf.renderkit.html.RatingDesignTimeRenderer</renderer-class>
+    </renderer>
+    
+    <renderer>
       <component-family>com.sun.webui.jsf.StaticText</component-family>
       <renderer-type>com.sun.webui.jsf.widget.StaticTextDesignTime</renderer-type>
       <renderer-class>com.sun.webui.jsf.renderkit.html.StaticTextDesignTimeRenderer</renderer-class>
