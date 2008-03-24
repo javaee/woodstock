@@ -25,7 +25,7 @@ webui.@THEME_JS@.dojo.provide("webui.@THEME_JS@.widget.selectBase");
 webui.@THEME_JS@.dojo.require("webui.@THEME_JS@.browser");
 webui.@THEME_JS@.dojo.require("webui.@THEME_JS@.common");
 webui.@THEME_JS@.dojo.require("webui.@THEME_JS@.widget.widgetBase");
-webui.@THEME_JS@.dojo.require("webui.@THEME_JS@.widget.label");
+webui.@THEME_JS@.dojo.require("webui.@THEME_JS@.widget.labeledBase");
 
 /**
  * @name webui.@THEME_JS@.widget.selectBase
@@ -38,7 +38,6 @@ webui.@THEME_JS@.dojo.require("webui.@THEME_JS@.widget.label");
  * define the following attach point identifiers.
  * <ul>
  * <li><code>listContainer</code> - the <code>select</code> element.</li>
- * <li><code>brNode</code> - the element that controls the label postion.
  * <li><code>optionNode</code> - the element to clone for an
  * <code>option</code> element.
  * </li>
@@ -47,24 +46,6 @@ webui.@THEME_JS@.dojo.require("webui.@THEME_JS@.widget.label");
  * <li><code>memberOptionNode</code> - the element to clone for an
  * <code>option</code> in an <code>optGroup</code> element.</li>
  * </ul>
- * <h3>The <code>label</code> object property</h3>
- * The <code>label</code> property is an object that defines the properties
- * for a widget that is rendered by the <code>selectBase</code>
- * class to represent a label. Minimally, only the <code>value</code> 
- * property of the label object property must be non null for 
- * the <code>selectBase</code> widget to render a label. If only the
- * <code>value</code> property is specified the following default
- * values will be used to create an instance of 
- * <code>webui.@THEME_JS@.widget.label</code>.
- * <p>
- * <ul>
- * <li><code>widgetType</code> -
- * <code>webui.@THEME_JS@.widget.label</code></li>
- * <li><code>id</code> - this.id + "_label"</li>
- * <li><code>htmlFor</code> - this.listContainer.id</li>
- * </ul>
- * <p>See <code>postCreate</code> and <code>getLabelProps</code>
- * </p>
  * <h3>The <code>options</code> array property</h3>
  * The <code>options</code> array property defines the contents of the
  * <code>select</code> HTML element. The contents of the array are 
@@ -123,19 +104,17 @@ webui.@THEME_JS@.dojo.require("webui.@THEME_JS@.widget.label");
  * @static
  */
 webui.@THEME_JS@.dojo.declare("webui.@THEME_JS@.widget.selectBase", 
-	webui.@THEME_JS@.widget.widgetBase, {
-    // Set defaults.
+	webui.@THEME_JS@.widget.labeledBase, {
+    // Set defaults
     constructor: function() {
-        this.disabled = false;
-        this.required = false;
-        this.valid = true;
-
-        // Flag to remember that last label style class.
-        this._lastLabelOnTopClassName = null; // never been set
-
-        // Flag to prevent blank entries in the drop down for the original 
-        // empty dojo attach point nodes -- see "setOptions".
-        this._alreadyRemoved = false;
+	this.disabled = false;
+	/** 
+	 * flag to prevent blank entries in the 
+	 * drop down for the original empty dojo attach point nodes.
+	 * see "setOptions"
+	 * @ignore
+	 */
+	this._alreadyRemoved = false;
     }
 });
 
@@ -479,11 +458,7 @@ webui.@THEME_JS@.widget.selectBase.prototype.getProps = function() {
     // Should we return the default theme value for labelOnTop
     // if "this.labelOnTop" has not been set ?
     //
-    if (this.labelOnTop != null) { props.labelOnTop = this.labelOnTop; }
     if (this.disabled != null) { props.disabled = this.disabled; }
-    if (this.label) { props.label = this.label; }
-    if (this.required != null) { props.required = this.required; }
-    if (this.valid != null) { props.valid = this.valid; }
     if (this.width != null) { props.width = this.width; }
 
     // After widget has been initialized, get actual select element state
@@ -497,9 +472,6 @@ webui.@THEME_JS@.widget.selectBase.prototype.getProps = function() {
 	//
 	var opts = this._copyOptions(this.listContainer);
         props.options = opts;
-	// It's not clear if we should do this.
-	//
-	// this.options = opts;
     } else if (this.options != null) {
         props.options = this.options;
     }
@@ -513,29 +485,6 @@ webui.@THEME_JS@.widget.selectBase.prototype.getProps = function() {
  */
 webui.@THEME_JS@.widget.selectBase.prototype.getSelectElement = function() {
     return this.listContainer;
-};
-
-/**
- * This function is used to obtain the index 
- * of the selected option.
- *
- * @return {Integer} The selected index of underlying select element
- */
-webui.@THEME_JS@.widget.selectBase.prototype.getSelectedIndex = function() { 
-    return this.listContainer.selectedIndex; 
-};
-
-/**
- * This function is used to directly set selected index on the underlying select box
- * of the selected option.
- *
- * @return {Boolean} true
- */
-webui.@THEME_JS@.widget.selectBase.prototype.setSelectedIndex = function(index) { 
-    if (index >=0 && index < this.listContainer.options.length) {
-        this.listContainer.selectedIndex = index;
-    }
-    return true;
 };
 
 /**
@@ -626,37 +575,8 @@ webui.@THEME_JS@.widget.selectBase.prototype._onChangeCallback = function(event)
 webui.@THEME_JS@.widget.selectBase.prototype.postCreate = function () {
     // Set ids.
     if (this.id) {
-        this.labelContainer.id = this.id + "_label";
         this.listContainer.id = this.id + "_list";
 	this.listContainer.name = this.listContainer.id;
-    }
-
-    // Subclasses have set this property
-    // make the br node visible else hide it.
-    //
-    if (this.labelOnTop != null) {
-	webui.@THEME_JS@.common.setVisibleElement(this.brNode, this.labelOnTop);
-	this._lastLabelOnTopClassName = this.getLabelClassName(null);
-    }
-
-    if (this.label && this.label.value != null &&
-	    !this.widget.isFragment(this.label)) {
-
-	this.label = this.widget.getWidgetProps("label", this.getLabelProps());
-	this.label.id = this.id + "_label";
-    }
-
-    if (this.label != null) {
-	if (this.required != null && this.required == true) {
-	    this.label.required = true;
-	}
-	if (this.valid != null && this.valid != true) {
-	    this.label.valid = false;
-	}
-	if (this._lastLabelOnTopClassName != null) {
-	    webui.@THEME_JS@.common.addStyleClass(this.label, 
-		this._lastLabelOnTopClassName);
-	}
     }
 
     // Set public functions.
@@ -664,10 +584,6 @@ webui.@THEME_JS@.widget.selectBase.prototype.postCreate = function () {
 	return webui.@THEME_JS@.dijit.byId(this.id).getSelectedValue(); };
     this.domNode.getSelectedLabel = function() { 
 	return webui.@THEME_JS@.dijit.byId(this.id).getSelectedLabel(); };
-    this.domNode.getSelectedIndex = function() { 
-	return webui.@THEME_JS@.dijit.byId(this.id).getSelectedIndex(); };
-    this.domNode.setSelectedIndex = function(index) { 
-	return webui.@THEME_JS@.dijit.byId(this.id).setSelectedIndex(index); };
     this.domNode.getSelectElement = function() { 
 	return webui.@THEME_JS@.dijit.byId(this.id).getSelectElement(); };
 
@@ -682,13 +598,23 @@ webui.@THEME_JS@.widget.selectBase.prototype.postCreate = function () {
  * Return an Object Literal of label properties desired
  * by the selectBase widget.
  * <p>
- * This implementation returns null. This method should be implemented
- * in subclasses to return label properties desired by the subclass.
+ * This implementation adds the <code>htmlFor</code> property with
+ * <code>this.listContainer.id</code>.
  * </p>
- * @return {Object} This implementation returns null;
+ * @param {Object} props Properties contributed by the caller,which can
+ * be overridden as necessary.
+ * @return {Object} object with the <code>htmlFor</code>
+ * property set.
  */
-webui.@THEME_JS@.widget.selectBase.prototype.getLabelProps = function() {
-    return null;
+webui.@THEME_JS@.widget.selectBase.prototype.getLabelProps = function(props) {
+    // Let the super class contribute
+    //
+    var allprops = this.inherited("getLabelProps", arguments);
+    if (allprops == null) {
+	allprops = {};
+    }
+    allprops.htmlFor = this.listContainer.id;
+    return allprops;
 };
 
 /**
@@ -903,78 +829,8 @@ webui.@THEME_JS@.widget.selectBase.prototype.setOptionProps =
  * @private
  */
 webui.@THEME_JS@.widget.selectBase.prototype.setProps = function(props) {
-    // Always call inherited setProps
-    //
     if (props == null) {
 	return null;
-    }
-
-    // Set a flag indicating there is a label
-    //
-    var havelabel = this.label != null && this.label.id != null;
-
-    // Always update the brNode state, even if there isn't a label
-    // but only if it is changing.
-    //
-    var labelProps = null;
-    if (props.labelOnTop != null && props.labelOnTop != this.labelOnTop) {
-
-	// The ontop state is changing
-	// If the state is "ontop" then make the br node 
-	// visible else hide it.
-	//
-	webui.@THEME_JS@.common.setVisibleElement(this.brNode, props.labelOnTop);
-
-	// Remember the new ontop selector.
-	//
-	this._lastLabelOnTopClassName = this.getLabelClassName(
-	    props.labelOnTop);
-
-	// If we have a label remove the last ontop selector from the label.
-	// We must strip it from the dom node.
-	//
-	if (havelabel) {
-
-	    var labelnode = document.getElementById(this.label.id);
-	    webui.@THEME_JS@.common.stripStyleClass(labelnode,
-		this._lastLabelOnTopClassName);
-
-	    // If we are toggling ontop for an existing label or the
-	    // application is updating or creating a label, add the
-	    // correct ontop selector to props.
-	    //
-	    var labelProps = props.label != null 
-		? props.label 
-		: (props.label = {});
-
-	} else if (props.label && this._lastLabelOnTopClassName != null) {
-	    labelProps = props.label;
-	    webui.@THEME_JS@.common.addStyleClass(labelProps, 
-		this._lastLabelOnTopClassName);
-	}
-    }
-
-    var togglerequired = props.required != null && 
-	props.required != this.required;
-    var togglevalid = props.valid != null && props.valid != this.valid;
-
-    // Update the label required and valid properties if necessary.
-    // If labelProps is not null, then the labelOnTop property is changing.
-    // If labelProps is null, then if there is an existing label and
-    // the required or valid attributes is changing, make sure label.props
-    // is updated with the new required and valid states.
-    //
-    if (labelProps == null && havelabel && (togglerequired || togglevalid)) {
-	labelProps = props.label != null ? props.label : (props.label = {});
-    }
-
-    if (labelProps != null) {
-	if (togglerequired) {
-	    labelProps.required = props.required;
-	}
-	if (togglevalid) {
-	    labelProps.valid = props.valid;
-	}
     }
     return this.inherited("setProps", arguments);
 };
@@ -991,8 +847,6 @@ webui.@THEME_JS@.widget.selectBase.prototype.setProps = function(props) {
  * @private
  */
 webui.@THEME_JS@.widget.selectBase.prototype._setProps = function(props) {
-    // Always call inherited _setProps
-    //
     if (props == null) {
 	return null;
     }
@@ -1026,30 +880,6 @@ webui.@THEME_JS@.widget.selectBase.prototype._setProps = function(props) {
     if (props.width != null && props.width != "") {
 	this.listContainer.style.width = props.width;
     }
-
-
-    // If _setProps is called during initializat then we will be
-    // creating the label and props.label == this.label.
-    // If _setProps is called from setProps, then we are updating the
-    // label. The label needs to be updated if the labelOnTop or
-    // or required or valid properties are changed.
-    // The application may also be creating a label after the
-    // selectBase widget was created.
-    //
-    if (props.label) {
-	// Now update or create the label.
-	// If we don't have an existing label, this.label.id == null
-	// then call addFragment in case the application is
-	// creating the label after the selectBase widget was created.
-	//
-	if (this.label != null && this.label.id != null) {
-	    this.widget.updateFragment(this.labelContainer, this.label.id,
-		props.label);
-	} else {
-	    this.widget.addFragment(this.labelContainer, props.label);
-	}
-    }
-
     // Set more properties.
     this.setCommonProps(this.listContainer, props);
     this.setEventProps(this.listContainer, props);

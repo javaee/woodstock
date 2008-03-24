@@ -33,16 +33,18 @@ webui.@THEME_JS@.dojo.require("webui.@THEME_JS@.widget.selectBase");
 webui.@THEME_JS@.dojo.declare("webui.@THEME_JS@.widget.listbox", 
 	webui.@THEME_JS@.widget.selectBase, {
     // Set defaults.
-    constructor: function() {
-        // Or defer to setProps 
-        this.labelOnTop = webui.@THEME_JS@.widget.common.getMessageBoolean(
-            "listbox.labelOnTop", false);
-        this.monospace = webui.@THEME_JS@.widget.common.getMessageBoolean(
-            "listbox.monospace", false);
-        this.multiple = webui.@THEME_JS@.widget.common.getMessageBoolean(
-            "listbox.multiple", false);
-        this.size = webui.@THEME_JS@.widget.common.getMessage("listbox.size", null, 12);
-        this.width = webui.@THEME_JS@.theme.common.getMessage("listbox.width", null);
+    //
+    constructor : function() {
+	this.labelOnTop = webui.@THEME_JS@.widget.common.getMessageBoolean(
+	    "listbox.labelOnTop", false);
+	this.monospace = webui.@THEME_JS@.widget.common.getMessageBoolean(
+	    "listbox.monospace", false);
+	this.multiple = webui.@THEME_JS@.widget.common.getMessageBoolean(
+	    "listbox.multiple", false);
+	this.size = 
+	    webui.@THEME_JS@.widget.common.getMessage("listbox.size", null, 12);
+	this.width =
+	    webui.@THEME_JS@.theme.common.getMessage("listbox.width", null);
     },
     widgetName: "listbox" // Required for theme properties.
 });
@@ -124,19 +126,29 @@ webui.@THEME_JS@.widget.listbox.prototype.getClassName = function() {
  * These properties are extended with <code>this.label</code> and the
  * resulting properties are returned.
  * </p>
+ * @param {Object} props Properties contributed by the caller,which can
+ * be overridden as necessary.
  * @return {Object} label properties.
  */
-webui.@THEME_JS@.widget.listbox.prototype.getLabelProps = function() {
+webui.@THEME_JS@.widget.listbox.prototype.getLabelProps = function(props) {
+
+    // First see if the super class wants to contribute to the props.
+    // Let selectBase add the htmlFor property
+    //
+    var allprops = this.inherited("getLabelProps", arguments);
+
+    // We can override anything that it has set.
+    //
     var cn = this.getLabelClassName(null);
     var lvl = this.widget.getMessage("listbox.labelLevel", null, 2);
-    var props = {};
-    if (cn != null) {
-       props.className = cn;
+    if (allprops == null) {
+	allprops = {};
     }
-    props.level = lvl;
-    props.htmlFor = this.listContainer.id;
-    this.prototypejs.extend(props, this.label);
-    return props;
+    if (cn != null) {
+       allprops.className = cn;
+    }
+    allprops.level = lvl;
+    return allprops;
 };
 
 /**
@@ -152,8 +164,9 @@ webui.@THEME_JS@.widget.listbox.prototype.getLabelProps = function() {
  * @return {String} A CSS selector for the listbox label.
  */
 webui.@THEME_JS@.widget.listbox.prototype.getLabelClassName = function(ontop) {
-    var labelontop = ontop != null ? ontop : this.labelOnTop;
-    return labelontop == true
+    //var labelontop = ontop != null ? ontop : this.labelOnTop;
+    //return labelontop == true
+    return ontop != null && ontop == true
 	? null
 	: this.widget.getClassName("LISTBOX_LABEL_ALIGN", null);
 };
@@ -301,6 +314,7 @@ webui.@THEME_JS@.widget.listbox.prototype.postCreate = function () {
     webui.@THEME_JS@.common.addStyleClass(this.listContainer,
 	this._getListContainerClassName(
 		this.disabled == true, this.monospace == true));
+
     return this.inherited("postCreate", arguments);
 };
 

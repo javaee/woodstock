@@ -32,11 +32,13 @@ webui.@THEME_JS@.dojo.require("webui.@THEME_JS@.widget.selectBase");
  */
 webui.@THEME_JS@.dojo.declare("webui.@THEME_JS@.widget.dropDown", webui.@THEME_JS@.widget.selectBase, {
     // Set defaults.
-    constructor: function() {
-        this.labelOnTop = webui.@THEME_JS@.widget.common.getMessageBoolean(
-	    "dropDown.labelOnTop", false);
-        this.submitForm = false;
-        this.width = webui.@THEME_JS@.theme.common.getMessage("dropDown.width", null);
+    //
+    constructor : function() {
+	this.labelOnTop = webui.@THEME_JS@.widget.common.getMessageBoolean(
+    	    "dropDown.labelOnTop", false);
+	this.submitForm =  false;
+	this.width =
+	    webui.@THEME_JS@.theme.common.getMessage("dropDown.width", null);
     },
     widgetName: "dropDown" // Required for theme properties.
 });
@@ -171,20 +173,25 @@ webui.@THEME_JS@.widget.dropDown.prototype.getClassName = function() {
  * These properties are extended with <code>this.label</code> and the
  * resulting properties are returned.
  * </p>
+ * @param {Object} props Properties contributed by the caller,which can
+ * be overridden as necessary.
  * @return {Object} label properties.
  */
-webui.@THEME_JS@.widget.dropDown.prototype.getLabelProps = function() {
+webui.@THEME_JS@.widget.dropDown.prototype.getLabelProps = function(props) {
+
+    var allprops = this.inherited("getLabelProps", arguments);
 
     var cn = this.getLabelClassName(null);
     var lvl = this.widget.getMessage("dropDown.labelLevel", null, 2);
-    var props = {};
-    if (cn != null) {
-       props.className = cn;
+
+    if (allprops == null) {
+	allprops = {};
     }
-    props.labelLevel = lvl;
-    props.htmlFor = this.listContainer.id;
-    this.prototypejs.extend(props, this.label);
-    return props;
+    if (cn != null) {
+       allprops.className = cn;
+    }
+    allprops.labelLevel = lvl;
+    return allprops;
 };
 
 /**
@@ -205,8 +212,7 @@ webui.@THEME_JS@.widget.dropDown.prototype.getLabelProps = function() {
  */
 webui.@THEME_JS@.widget.dropDown.prototype.getLabelClassName = function(ontop) {
 
-    var labelontop = ontop != null ? ontop : this.labelOnTop;
-    if (labelontop == true) {
+    if (ontop != null && ontop == true) {
 	return null;
     }
     // Jumpmenu ?
@@ -442,10 +448,10 @@ webui.@THEME_JS@.widget.dropDown.prototype.postCreate = function () {
  * @return {boolean} true if successful; otherwise, false.
  */
 webui.@THEME_JS@.widget.dropDown.prototype.setProps = function(props, notify) {
+
     if (props == null) {
 	return this.inherited("setProps", arguments);
     }
-
 	
     // We are trying to deal with a state change which requires
     // knowing what the current state of the widget is and the
@@ -497,7 +503,6 @@ webui.@THEME_JS@.widget.dropDown.prototype._setProps = function(props) {
     //
     if (props == null) {
 	return this.inherited("_setProps", arguments);
-	//props = {};
     }
 
     var jumpmenu = props.submitForm != null && props.submitForm == true;

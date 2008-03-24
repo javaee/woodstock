@@ -30,14 +30,12 @@ webui.@THEME_JS@.dojo.require("webui.@THEME_JS@.widget.widgetBase");
  * @class This class contains functions for widgets that extend fieldBase.
  * @static
  */
-webui.@THEME_JS@.dojo.declare("webui.@THEME_JS@.widget.fieldBase", webui.@THEME_JS@.widget.widgetBase, {
+webui.@THEME_JS@.dojo.declare("webui.@THEME_JS@.widget.fieldBase", webui.@THEME_JS@.widget.labeledBase, {
     // Set defaults.
     constructor: function() {
-        this.disabled = false;
-        this.required = false;
-        this.size = 20;
-    },
-    valid: true
+	this.disabled = false;
+	this.size = 20;
+    }
 });
 
 /**
@@ -59,6 +57,29 @@ webui.@THEME_JS@.widget.fieldBase.prototype.getInputElement = function() {
 };
 
 /**
+ * Return an Object Literal of label properties desired
+ * by the fieldBase widget.
+ * <p>
+ * This implementation adds the <code>htmlFor</code> property with
+ * <code>this.fieldNode.id</code>.
+ * </p>
+ * @param {Object} props Properties contributed by the caller,which can
+ * be overridden as necessary.
+ * @return {Object} an object with the <code>htmlFor</code>
+ * property set.
+ */
+webui.@THEME_JS@.widget.fieldBase.prototype.getLabelProps = function(props) {
+    // Let the super class contribute
+    //
+    var allprops = this.inherited("getLabelProps", arguments);
+    if (allprops == null) {
+	allprops = {};
+    }
+    allprops.htmlFor = this.fieldNode.id;
+    return allprops;
+};
+
+/**
  * This function is used to get widget properties. Please see the 
  * setProps() function for a list of supported properties.
  *
@@ -70,7 +91,6 @@ webui.@THEME_JS@.widget.fieldBase.prototype.getProps = function() {
     // Set properties.
     if (this.alt) { props.alt = this.alt; }
     if (this.disabled != null) { props.disabled = this.disabled; }
-    if (this.label) { props.label= this.label; }
     if (this.maxLength > 0) { props.maxLength = this.maxLength; }    
     if (this.notify) { props.notify = this.notify; }
     if (this.submitForm != null) { props.submitForm = this.submitForm; }
@@ -78,10 +98,8 @@ webui.@THEME_JS@.widget.fieldBase.prototype.getProps = function() {
     if (this.title != null) { props.title = this.title; }
     if (this.type) { props.type= this.type; }
     if (this.readOnly != null) { props.readOnly = this.readOnly; }
-    if (this.required != null) { props.required = this.required; }
     if (this.size > 0) { props.size = this.size; }
     if (this.style != null) { props.style = this.style; }
-    if (this.valid != null) { props.valid = this.valid; }
     
     // After widget has been initialized, get user's input.
     if (this.isInitialized() == true && this.fieldNode.value != null) {
@@ -105,17 +123,7 @@ webui.@THEME_JS@.widget.fieldBase.prototype.postCreate = function () {
     if (this.id) {
         this.fieldNode.id = this.id + "_field";
         this.fieldNode.name = this.id + "_field";
-        this.labelContainer.id = this.id + "_label";
     }
-    
-    //initialize label
-    if (this.label && this.label.value != null &&
-	    !this.widget.isFragment(this.label)) {
-
-	this.label = this.widget.getWidgetProps("label", this.label);
-	this.label.id = this.labelContainer.id;
-    }
-
     
     // Set public functions.
     this.domNode.getInputElement = function() { return webui.@THEME_JS@.dijit.byId(this.id).getInputElement(); };
@@ -150,43 +158,9 @@ webui.@THEME_JS@.widget.fieldBase.prototype._setProps = function(props) {
     if (props.disabled != null) { 
         this.fieldNode.disabled = new Boolean(props.disabled).valueOf();
     }
-    if (props.valid != null) { 
-        this.valid = new Boolean(props.valid).valueOf();
-        if (props.label == null) props.label = {};
-        props.label.valid = this.valid;
-    }
-    if (props.required != null) { 
-        this.required = new Boolean(props.required).valueOf();
-        if (props.label == null) props.label = {};
-        props.label.required = this.required;
-    }
     if (props.readOnly != null) { 
         this.fieldNode.readOnly = new Boolean(props.readOnly).valueOf();
     }
-    
-    // Set label properties.  
-    // If _setProps is called during initializat then we will be
-    // creating the label and props.label == this.label.
-    // If _setProps is called from setProps, then we are updating the
-    // label. The label needs to be updated if 
-    // required or valid properties are changed.
-    // The application may also be creating a label after the
-    // widget was created.
-    //
-    if (props.label) {
-	// Now update or create the label.
-	// If we don't have an existing label, this.label.id == null
-	// then call addFragment in case the application is
-	// creating the label after the selectBase widget was created.
-	//
-	if (this.label != null && this.label.id != null) {
-	    this.widget.updateFragment(this.labelContainer, this.label.id,
-		props.label);
-	} else {
-	    this.widget.addFragment(this.labelContainer, props.label);
-	}
-    }
-      
     
     // Set HTML input element class name.
     this.fieldNode.className = this.getInputClassName();
