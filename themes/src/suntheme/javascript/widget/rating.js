@@ -205,6 +205,9 @@ webui.@THEME_JS@.widget.rating.prototype._getGradeImageInfo = function(
     var className = null;
     var width = null;
 
+    if (grade == this.CODE_CLEAR)
+        grade = 0;
+
     if (averageMode == true) {
         // Compute the difference between the grade being displayed and the grade rank
         // associated with this image.
@@ -287,7 +290,7 @@ webui.@THEME_JS@.widget.rating.prototype._previewState = function(code, isMouseO
 
     else if (code == this.CODE_CLEAR)
         // Mouseover clear, so no grade to display.
-        displayingGrade = 0;
+        displayingGrade = code;
     else
         // Display the grade associated with the control on which the event occurred.
         displayingGrade = code;
@@ -335,19 +338,18 @@ webui.@THEME_JS@.widget.rating.prototype._previewState = function(code, isMouseO
 
     // Clear image
     if ((this.includeClear == true) && (this.clearNode != null)) {
-        // Set style class and hover text for this image.  It will always be off unless mouseover
-        // of the clear control.
-        if (code == this.CODE_CLEAR && isMouseOver) {
+        if (displayingGrade == this.CODE_CLEAR)
             this.clearNode.className = this.theme.getClassName("RATING_CLEAR_ON_IMAGE");
-            if (this.clearHoverText != null)
-                hoverText = this.clearHoverText;
-        }
         else
             this.clearNode.className = this.theme.getClassName("RATING_CLEAR_OFF_IMAGE");
 
         // Since we reset the className above, we may need to add back the hover class.
         if (!this.gradeReadOnly)
             this.common.addStyleClass(this.clearNode, hoverClass);
+
+        // If mouseover on clear, set the hover text to display
+        if (code == this.CODE_CLEAR && isMouseOver && this.clearHoverText != null)
+            hoverText = this.clearHoverText;
     }
 
     // Grade images
@@ -356,7 +358,8 @@ webui.@THEME_JS@.widget.rating.prototype._previewState = function(code, isMouseO
             break;
 
         // If this grade image is the one moused over, then get it's hover text.
-        if (isMouseOver && (code != this.CODE_MODETOGGLE) && (i == displayingGrade)) {
+        if (isMouseOver && (code != this.CODE_MODETOGGLE) && 
+                (code != this.CODE_CLEAR) && (i == displayingGrade)) {
             if ((this.gradeHoverTexts != null) && (i <= this.gradeHoverTexts.length))
                 hoverText = this.gradeHoverTexts[i-1];
         }
@@ -996,16 +999,34 @@ webui.@THEME_JS@.widget.rating.prototype._setProps = function(props) {
             if (this.common.checkStyleClasses(classNames, hiddenClass))
                 this.common.stripStyleClass(this.clearNode, hiddenClass);
 
-            // Remove clear ON class.  Shouldn't need to since it's only on upon hover, but Murphy's Law ...
-            if (this.common.checkStyleClasses(classNames, clearOn))
-                this.common.stripStyleClass(this.clearNode, clearOn);
+            if (this.grade == this.CODE_CLEAR) {
+                // Remove clear OFF class
+                if (this.common.checkStyleClasses(classNames, clearOff))
+                    this.common.stripStyleClass(this.clearNode, clearOff);
 
-            // Add clear OFF class
-            if (!this.common.checkStyleClasses(classNames, clearOff))
-                this.common.addStyleClass(this.clearNode, clearOff);
+                // Add clear ON class
+                if (!this.common.checkStyleClasses(classNames, clearOn))
+                    this.common.addStyleClass(this.clearNode, clearOn);
 
-            // Get image width
-            imageWidth = parseInt(this.theme.getProperty("images", "RATING_CLEAR_OFF_WIDTH")) + gradeRightMargin;
+                // Get image width
+                imageWidth = parseInt(this.theme.getProperty("images", "RATING_CLEAR_ON_WIDTH"));
+
+            } else {
+
+                // Remove clear ON class.
+                if (this.common.checkStyleClasses(classNames, clearOn))
+                    this.common.stripStyleClass(this.clearNode, clearOn);
+
+                // Add clear OFF class
+                if (!this.common.checkStyleClasses(classNames, clearOff))
+                    this.common.addStyleClass(this.clearNode, clearOff);
+
+                // Get image width
+                imageWidth = parseInt(this.theme.getProperty("images", "RATING_CLEAR_OFF_WIDTH"));
+            }
+
+            // Add right margin
+            imageWidth += gradeRightMargin;
 
         } else {
             // Add hidden class
