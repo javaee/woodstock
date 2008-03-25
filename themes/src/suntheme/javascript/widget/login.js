@@ -20,9 +20,10 @@
  * Copyright 2008 Sun Microsystems, Inc. All rights reserved.
  */
 
-webui.@THEME_JS@.dojo.provide("webui.@THEME_JS@.widget.login");
+webui.@THEME_JS@._dojo.provide("webui.@THEME_JS@.widget.login");
 
-webui.@THEME_JS@.dojo.require("webui.@THEME_JS@.widget.widgetBase");
+webui.@THEME_JS@._dojo.require("webui.@THEME_JS@.widget.common");
+webui.@THEME_JS@._dojo.require("webui.@THEME_JS@.widget.widgetBase");
 
 /**
  * @name webui.@THEME_JS@.widget.login
@@ -30,7 +31,7 @@ webui.@THEME_JS@.dojo.require("webui.@THEME_JS@.widget.widgetBase");
  * @class This class contains functions for the login widget.
  * @constructor This function is used to construct a login widget.
  */
-webui.@THEME_JS@.dojo.declare("webui.@THEME_JS@.widget.login", webui.@THEME_JS@.widget.widgetBase, {
+webui.@THEME_JS@._dojo.declare("webui.@THEME_JS@.widget.login", webui.@THEME_JS@.widget.widgetBase, {
     // Set defaults.
     constructor: function() {
         this.loginState = "INIT";
@@ -45,8 +46,8 @@ webui.@THEME_JS@.dojo.declare("webui.@THEME_JS@.widget.login", webui.@THEME_JS@.
  */
 webui.@THEME_JS@.widget.login.prototype.authenticate = function() {
     if (this.keys) {
-        for (var i=0; i<this.keys.length; i++) {
-            var widget = webui.@THEME_JS@.dijit.byId(this.keys[i][0]);
+        for (var i = 0; i < this.keys.length; i++) {
+            var widget = this.widget.getWidget(this.keys[i][0]);
             var keyVal;
             if (widget) {
                 var name = widget.widgetName;
@@ -61,7 +62,7 @@ webui.@THEME_JS@.widget.login.prototype.authenticate = function() {
     }
                     
     // Publish an event for custom AJAX implementations to listen for.
-    this.publish(webui.@THEME_JS@.widget.login.event.authenticate.beginTopic, [{
+    this._publish(webui.@THEME_JS@.widget.login.event.authenticate.beginTopic, [{
         id: this.id,
         loginState: this.loginState,
         keys: this.keys,
@@ -172,7 +173,7 @@ webui.@THEME_JS@.widget.login.event =
  */
 webui.@THEME_JS@.widget.login.prototype._handleFailure = function(props) {
     this._setAlert(props.alert);
-    this.publish(webui.@THEME_JS@.widget.login.event.result.failureTopic, [{
+    this._publish(webui.@THEME_JS@.widget.login.event.result.failureTopic, [{
         id: props.id
     }]);
 
@@ -267,7 +268,7 @@ webui.@THEME_JS@.widget.login.prototype._handleSuccess = function(props) {
     // contain any alert information.
     // Clear out the loginTable.
     this._setAlert(props.alert);
-    this.publish(webui.@THEME_JS@.widget.login.event.result.successTopic, [{
+    this._publish(webui.@THEME_JS@.widget.login.event.result.successTopic, [{
         id: props.id
     }]);
 
@@ -307,7 +308,6 @@ webui.@THEME_JS@.widget.login.prototype.postCreate = function () {
     }
     
     if (this.loginButton == null) {
-
         var _props = {};
 	_props.id = this.id + "_loginButton";
         _props.tabIndex = this.tabIndex;
@@ -418,7 +418,7 @@ webui.@THEME_JS@.widget.login.prototype._setAlert = function(alertProps) {
         this.loginTbody.appendChild(tr);
         var td = this.alertCellContainer.cloneNode(false);
         tr.appendChild(td);
-        var widget = webui.@THEME_JS@.dijit.byId(_props.id);
+        var widget = this.widget.getWidget(_props.id);
         if (widget) {
             widget.setProps(_props);
         } else {
@@ -444,7 +444,7 @@ webui.@THEME_JS@.widget.login.prototype.startup = function () {
         var id = this.id;
         if (this.autoStart) {
             setTimeout(function() {
-                webui.@THEME_JS@.dijit.byId(id).authenticate();
+                webui.@THEME_JS@.widget.common.getWidget(id).authenticate();
             }, 10);    
         }
     }

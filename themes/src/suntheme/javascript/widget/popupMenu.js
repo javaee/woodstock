@@ -20,9 +20,10 @@
  * Copyright 2008 Sun Microsystems, Inc. All rights reserved.
  */
 
-webui.@THEME_JS@.dojo.provide("webui.@THEME_JS@.widget.popupMenu");
+webui.@THEME_JS@._dojo.provide("webui.@THEME_JS@.widget.popupMenu");
 
-webui.@THEME_JS@.dojo.require("webui.@THEME_JS@.widget.menuBase");
+webui.@THEME_JS@._dojo.require("webui.@THEME_JS@.widget.common");
+webui.@THEME_JS@._dojo.require("webui.@THEME_JS@.widget.menuBase");
 
 /**
  * @name webui.@THEME_JS@.widget.popupMenu
@@ -30,7 +31,7 @@ webui.@THEME_JS@.dojo.require("webui.@THEME_JS@.widget.menuBase");
  * @class This class contains functions for the popupMenu widget.
  * @constructor This function is used to construct a popupMenu widget.
  */
-webui.@THEME_JS@.dojo.declare("webui.@THEME_JS@.widget.popupMenu", webui.@THEME_JS@.widget.menuBase, {
+webui.@THEME_JS@._dojo.declare("webui.@THEME_JS@.widget.popupMenu", webui.@THEME_JS@.widget.menuBase, {
     // Set defaults.
     widgetName: "popupMenu" // Required for theme properties.
 });
@@ -179,8 +180,7 @@ webui.@THEME_JS@.widget.popupMenu.prototype.onCloseMenuCallBack = function(event
 webui.@THEME_JS@.widget.popupMenu.prototype.open = function(event) {    
     var evt = this.widget.getEvent(event);
     var keyCode = this.widget.getKeyCode(evt);
-    if(evt.type == "keydown" || evt.type == "keypress") {
-
+    if (evt.type == "keydown" || evt.type == "keypress") {
         if (!(evt.shiftKey && keyCode == 121)) {
             return false;
         }
@@ -192,10 +192,10 @@ webui.@THEME_JS@.widget.popupMenu.prototype.open = function(event) {
             evt.stopPropagation();
             evt.preventDefault();
         }         
-     }
+    }
          
     // Only one menu can be open at a time. Hence, close the previous menu.
-    var widget = webui.@THEME_JS@.dijit.byId(webui.@THEME_JS@.widget.popupMenu.activeMenuId);
+    var widget = this.widget.getWidget(webui.@THEME_JS@.widget.popupMenu.activeMenuId);
     if (widget) {
         widget.close();
     }
@@ -344,8 +344,8 @@ webui.@THEME_JS@.widget.popupMenu.prototype.open = function(event) {
  */
 webui.@THEME_JS@.widget.popupMenu.prototype.postCreate = function () {
     // Set public functions.
-    this.domNode.open = function(event) { return webui.@THEME_JS@.dijit.byId(this.id).open(event); };
-    this.domNode.close = function() { return webui.@THEME_JS@.dijit.byId(this.id).close(); };
+    this.domNode.open = function(event) { return webui.@THEME_JS@.widget.common.getWidget(this.id).open(event); };
+    this.domNode.close = function() { return webui.@THEME_JS@.widget.common.getWidget(this.id).close(); };
 
     // Set events.s
     this.dojo.connect(document, "onclick", this, "onCloseMenuCallBack"); 
@@ -447,7 +447,7 @@ webui.@THEME_JS@.widget.popupMenu.prototype.traverseMenu = function(keyCode, eve
  */
 webui.@THEME_JS@.widget.popupMenu.prototype.submit = function(execute) {
     // Publish an event for custom AJAX implementations to listen for.
-    this.publish(webui.@THEME_JS@.widget.popupMenu.event.submit.beginTopic, [{
+    this._publish(webui.@THEME_JS@.widget.popupMenu.event.submit.beginTopic, [{
         id: this.id,
         execute: execute,
         value: this.getSelectedValue(),

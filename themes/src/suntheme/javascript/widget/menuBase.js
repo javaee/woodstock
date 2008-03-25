@@ -20,10 +20,11 @@
  * Copyright 2008 Sun Microsystems, Inc. All rights reserved.
  */
 
-webui.@THEME_JS@.dojo.provide("webui.@THEME_JS@.widget.menuBase");
+webui.@THEME_JS@._dojo.provide("webui.@THEME_JS@.widget.menuBase");
 
-webui.@THEME_JS@.dojo.require("webui.@THEME_JS@.browser");
-webui.@THEME_JS@.dojo.require("webui.@THEME_JS@.widget.widgetBase");
+webui.@THEME_JS@._dojo.require("webui.@THEME_JS@.browser");
+webui.@THEME_JS@._dojo.require("webui.@THEME_JS@.widget.common");
+webui.@THEME_JS@._dojo.require("webui.@THEME_JS@.widget.widgetBase");
 
 /**
  * @name webui.@THEME_JS@.widget.menuBase
@@ -31,7 +32,7 @@ webui.@THEME_JS@.dojo.require("webui.@THEME_JS@.widget.widgetBase");
  * @class This class contains functions for widgets that extend menuBase.
  * @static
  */
-webui.@THEME_JS@.dojo.declare("webui.@THEME_JS@.widget.menuBase", webui.@THEME_JS@.widget.widgetBase);
+webui.@THEME_JS@._dojo.declare("webui.@THEME_JS@.widget.menuBase", webui.@THEME_JS@.widget.widgetBase);
 
 /**
  * Add the specified options to the dom element.
@@ -95,7 +96,7 @@ webui.@THEME_JS@.widget.menuBase.prototype.createOnClickCallback = function(opti
         }        
 
         // Get hold of the menu element.
-        var widget = webui.@THEME_JS@.dijit.byId(_id);                
+        var widget = webui.@THEME_JS@.widget.common.getWidget(_id);                
         var val = elem.selectValue;
         var dis = elem.disabled;       
         var group = elem.group;
@@ -126,7 +127,7 @@ webui.@THEME_JS@.widget.menuBase.prototype.createOnKeyDownCallBack = function(no
        if (elem == null) {
           return false;
        }
-        var widget = webui.@THEME_JS@.dijit.byId(id);
+        var widget = webui.@THEME_JS@.widget.common.getWidget(id);
 
         // If the menu is not visible, we do not need to capture
         // key press events.
@@ -164,7 +165,7 @@ webui.@THEME_JS@.widget.menuBase.prototype.createOnMouseOutCallBack = function(m
     // New literals are created every time this function is called, and it's 
     // saved by closure magic.
     return function(event) {
-        var widget = webui.@THEME_JS@.dijit.byId(_id);
+        var widget = webui.@THEME_JS@.widget.common.getWidget(_id);
         menuItem.className = widget.theme.getClassName("MENU_GROUP_CONTAINER");
     };
 };
@@ -188,7 +189,7 @@ webui.@THEME_JS@.widget.menuBase.prototype.createOnMouseOverCallBack = function(
      * @param {Event} event The JavaScript event.
      */
     return function(event) {
-        var widget = webui.@THEME_JS@.dijit.byId(_id);
+        var widget = webui.@THEME_JS@.widget.common.getWidget(_id);
         menuItem.className = menuItem.className + " " + 
                     widget.theme.getClassName("MENU_ITEM_HOVER");            
         if (widget != null) {
@@ -310,7 +311,7 @@ webui.@THEME_JS@.widget.menuBase.prototype.getStyle = function() {
  */
 webui.@THEME_JS@.widget.menuBase.prototype.postCreate = function () {
     // Set public functions.
-    this.domNode.getSelectedValue = function(props, optionNode) { return webui.@THEME_JS@.dijit.byId(this.id).getSelectedValue(); };
+    this.domNode.getSelectedValue = function(props, optionNode) { return webui.@THEME_JS@.widget.common.getWidget(this.id).getSelectedValue(); };
     this.focusPosition = 0;        
     return this.inherited("postCreate", arguments);
 };

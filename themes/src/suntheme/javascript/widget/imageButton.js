@@ -20,9 +20,9 @@
  * Copyright 2008 Sun Microsystems, Inc. All rights reserved.
  */
 
-webui.@THEME_JS@.dojo.provide("webui.@THEME_JS@.widget.imageButton");
+webui.@THEME_JS@._dojo.provide("webui.@THEME_JS@.widget.imageButton");
 
-webui.@THEME_JS@.dojo.require("webui.@THEME_JS@.widget.button");
+webui.@THEME_JS@._dojo.require("webui.@THEME_JS@.widget.button");
 
 /**
  * @name webui.@THEME_JS@.widget.imageButton
@@ -30,7 +30,7 @@ webui.@THEME_JS@.dojo.require("webui.@THEME_JS@.widget.button");
  * @class This class contains functions for the imageButton widget.
  * @constructor This function is used to construct a imageButton widget.
  */
-webui.@THEME_JS@.dojo.declare("webui.@THEME_JS@.widget.imageButton", webui.@THEME_JS@.widget.button, {
+webui.@THEME_JS@._dojo.declare("webui.@THEME_JS@.widget.imageButton", webui.@THEME_JS@.widget.button, {
     // Set defaults.
     widgetName: "imageButton"  // Required for theme properties.
 });

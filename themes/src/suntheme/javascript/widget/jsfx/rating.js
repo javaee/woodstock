@@ -20,11 +20,12 @@
  * Copyright 2008 Sun Microsystems, Inc. All rights reserved.
  */
 
-webui.@THEME_JS@.dojo.provide("webui.@THEME_JS@.widget.jsfx.rating");
+webui.@THEME_JS@._dojo.provide("webui.@THEME_JS@.widget.jsfx.rating");
 
-webui.@THEME_JS@.dojo.require("webui.@THEME_JS@.widget.jsfx.common");
-webui.@THEME_JS@.dojo.require("webui.@THEME_JS@.widget.jsfx.dynaFaces")
-webui.@THEME_JS@.dojo.require("webui.@THEME_JS@.widget.rating");
+webui.@THEME_JS@._dojo.require("webui.@THEME_JS@.widget.common");
+webui.@THEME_JS@._dojo.require("webui.@THEME_JS@.widget.jsfx.common");
+webui.@THEME_JS@._dojo.require("webui.@THEME_JS@.widget.jsfx.dynaFaces")
+webui.@THEME_JS@._dojo.require("webui.@THEME_JS@.widget.rating");
 
 /**
  * @class This class contains functions to obtain data asynchronously using JSF
@@ -50,12 +51,12 @@ webui.@THEME_JS@.widget.jsfx.rating = {
         var props = webui.@THEME_JS@.json.parse(content);
 
         // Update rating widget
-        var widget = webui.@THEME_JS@.dijit.byId(id);
+        var widget = webui.@THEME_JS@.widget.common.getWidget(id);
         widget.setProps(props);
             
         // Publish an event for custom AJAX implementations to listen for.
         if (xjson.endTopic) {
-            webui.@THEME_JS@.dojo.publish(xjson.endTopic, [props]);
+            webui.@THEME_JS@._dojo.publish(xjson.endTopic, [props]);
         }
         return true;
     },
@@ -101,7 +102,7 @@ webui.@THEME_JS@.widget.jsfx.rating = {
 }
 
 // Listen for Dojo Widget events.
-webui.@THEME_JS@.dojo.subscribe(webui.@THEME_JS@.widget.rating.event.refresh.beginTopic,
+webui.@THEME_JS@._dojo.subscribe(webui.@THEME_JS@.widget.rating.event.refresh.beginTopic,
     webui.@THEME_JS@.widget.jsfx.common, "processRefreshEvent");
-webui.@THEME_JS@.dojo.subscribe(webui.@THEME_JS@.widget.rating.event.submit.beginTopic,
+webui.@THEME_JS@._dojo.subscribe(webui.@THEME_JS@.widget.rating.event.submit.beginTopic,
     webui.@THEME_JS@.widget.jsfx.rating, "processSubmitEvent");

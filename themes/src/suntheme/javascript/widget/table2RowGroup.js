@@ -20,10 +20,11 @@
  * Copyright 2008 Sun Microsystems, Inc. All rights reserved.
  */
 
-webui.@THEME_JS@.dojo.provide("webui.@THEME_JS@.widget.table2RowGroup");
+webui.@THEME_JS@._dojo.provide("webui.@THEME_JS@.widget.table2RowGroup");
 
-webui.@THEME_JS@.dojo.require("webui.@THEME_JS@.browser");
-webui.@THEME_JS@.dojo.require("webui.@THEME_JS@.widget.widgetBase");
+webui.@THEME_JS@._dojo.require("webui.@THEME_JS@.browser");
+webui.@THEME_JS@._dojo.require("webui.@THEME_JS@.widget.common");
+webui.@THEME_JS@._dojo.require("webui.@THEME_JS@.widget.widgetBase");
 
 /**
  * @name webui.@THEME_JS@.widget.table2RowGroup
@@ -31,7 +32,7 @@ webui.@THEME_JS@.dojo.require("webui.@THEME_JS@.widget.widgetBase");
  * @class This class contains functions for the table2RowGroup widget.
  * @constructor This function is used to construct a table2RowGroup widget.
  */
-webui.@THEME_JS@.dojo.declare("webui.@THEME_JS@.widget.table2RowGroup", webui.@THEME_JS@.widget.widgetBase, {
+webui.@THEME_JS@._dojo.declare("webui.@THEME_JS@.widget.table2RowGroup", webui.@THEME_JS@.widget.widgetBase, {
     // Set defaults.
     constructor: function() {
         this.currentRow = 0; // Current row in view.
@@ -175,7 +176,7 @@ webui.@THEME_JS@.widget.table2RowGroup.prototype.addRows = function(rows) {
     setTimeout(function() {
         // New literals are created every time this function is called, and it's 
         // saved by closure magic.
-        webui.@THEME_JS@.dijit.byId(_id).resize();
+        webui.@THEME_JS@.widget.common.getWidget(_id).resize();
     }, 10);
     return true;
 };
@@ -593,13 +594,13 @@ webui.@THEME_JS@.widget.table2RowGroup.prototype._setProps = function(props) {
     if (props.paginationPrevButton) {
         // set onclick for previous button.
         props.paginationPrevButton.onClick = 
-            "webui.@THEME_JS@.dijit.byId('" + this.id + "').paginationPrevious();return false;";        
+            "webui.@THEME_JS@.widget.common.getWidget('" + this.id + "').paginationPrevious();return false;";        
         this.widget.addFragment(this.paginationButtonsNode, props.paginationPrevButton,"last");
     }
     if (props.paginationNextButton) {
         // set onclick for next button.
         props.paginationNextButton.onClick = 
-            "webui.@THEME_JS@.dijit.byId('" + this.id + "').paginationNext();return false;";
+            "webui.@THEME_JS@.widget.common.getWidget('" + this.id + "').paginationNext();return false;";
         this.widget.addFragment(this.paginationButtonsNode, props.paginationNextButton,"last");
     }
     if (props.paginationControls != null) {        
@@ -640,7 +641,7 @@ webui.@THEME_JS@.widget.table2RowGroup.prototype.scroll = function(event) {
     if (this.first < this.totalRows
             && this.currentRow % this.maxRows == 0) {
         // Publish an event for custom AJAX implementations to listen for.
-        this.publish(webui.@THEME_JS@.widget.table2RowGroup.event.scroll.beginTopic, [{
+        this._publish(webui.@THEME_JS@.widget.table2RowGroup.event.scroll.beginTopic, [{
             id: this.id,
             first: this.first
         }]);
@@ -664,8 +665,8 @@ webui.@THEME_JS@.widget.table2RowGroup.prototype.scroll = function(event) {
  */
 webui.@THEME_JS@.widget.table2RowGroup.prototype.updatePaginationControls = function() {
     if (this.paginationPrevButton && this.paginationNextButton) {
-        var domNodePrev = webui.@THEME_JS@.dijit.byId(this.paginationPrevButton.id);
-        var domNodeNext = webui.@THEME_JS@.dijit.byId(this.paginationNextButton.id);
+        var domNodePrev = this.widget.getWidget(this.paginationPrevButton.id);
+        var domNodeNext = this.widget.getWidget(this.paginationNextButton.id);
 
         if (domNodePrev != null && domNodeNext != null) {
             if (this.currentRow / this.maxRows == 0) {
@@ -697,7 +698,7 @@ webui.@THEME_JS@.widget.table2RowGroup.prototype.paginationNext = function(event
     if (this.first < this.totalRows
             && currentPage < totalPage) {
         // Publish an event for custom AJAX implementations to listen for.
-        this.publish(webui.@THEME_JS@.widget.table2RowGroup.event.pagination.next.beginTopic, [{
+        this._publish(webui.@THEME_JS@.widget.table2RowGroup.event.pagination.next.beginTopic, [{
             id: this.id,
             first: this.first 
         }]);

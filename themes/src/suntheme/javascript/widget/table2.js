@@ -20,9 +20,10 @@
  * Copyright 2008 Sun Microsystems, Inc. All rights reserved.
  */
 
-webui.@THEME_JS@.dojo.provide("webui.@THEME_JS@.widget.table2");
+webui.@THEME_JS@._dojo.provide("webui.@THEME_JS@.widget.table2");
 
-webui.@THEME_JS@.dojo.require("webui.@THEME_JS@.widget.widgetBase");
+webui.@THEME_JS@._dojo.require("webui.@THEME_JS@.widget.common");
+webui.@THEME_JS@._dojo.require("webui.@THEME_JS@.widget.widgetBase");
 
 /**
  * @name webui.@THEME_JS@.widget.table2
@@ -30,7 +31,7 @@ webui.@THEME_JS@.dojo.require("webui.@THEME_JS@.widget.widgetBase");
  * @class This class contains functions for the table2 widget.
  * @constructor This function is used to construct a table2 widget.
  */
-webui.@THEME_JS@.dojo.declare("webui.@THEME_JS@.widget.table2", webui.@THEME_JS@.widget.widgetBase, {
+webui.@THEME_JS@._dojo.declare("webui.@THEME_JS@.widget.table2", webui.@THEME_JS@.widget.widgetBase, {
     // Set defaults.
     widgetName: "table2" // Required for theme properties.
 });
@@ -257,7 +258,7 @@ webui.@THEME_JS@.widget.table2.prototype._setProps = function(props) {
             setTimeout(function() {
                 // New literals are created every time this function is called, 
                 // and it's saved by closure magic.
-                webui.@THEME_JS@.dijit.byId(_id).resize();
+                webui.@THEME_JS@.widget.common.getWidget(_id).resize();
             }, 2000);
         }
     }

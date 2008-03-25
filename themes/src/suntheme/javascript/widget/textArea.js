@@ -20,9 +20,10 @@
  * Copyright 2008 Sun Microsystems, Inc. All rights reserved.
  */
 
-webui.@THEME_JS@.dojo.provide("webui.@THEME_JS@.widget.textArea");
+webui.@THEME_JS@._dojo.provide("webui.@THEME_JS@.widget.textArea");
 
-webui.@THEME_JS@.dojo.require("webui.@THEME_JS@.widget.textField");
+webui.@THEME_JS@._dojo.require("webui.@THEME_JS@.widget.common");
+webui.@THEME_JS@._dojo.require("webui.@THEME_JS@.widget.textField");
 
 /**
  * @name webui.@THEME_JS@.widget.textArea
@@ -30,7 +31,7 @@ webui.@THEME_JS@.dojo.require("webui.@THEME_JS@.widget.textField");
  * @class This class contains functions for the textArea widget.
  * @constructor This function is used to construct a textArea widget.
  */
-webui.@THEME_JS@.dojo.declare("webui.@THEME_JS@.widget.textArea", webui.@THEME_JS@.widget.textField, {
+webui.@THEME_JS@._dojo.declare("webui.@THEME_JS@.widget.textArea", webui.@THEME_JS@.widget.textField, {
     // Set defaults.
     constructor: function() {
         this.autoSave = 0;
@@ -51,7 +52,7 @@ webui.@THEME_JS@.widget.textArea.prototype.createSubmitCallback = function() {
     // New literals are created every time this function
     // is called, and it's saved by closure magic.
     return function(event) { 
-        var widget = webui.@THEME_JS@.dijit.byId(_id);
+        var widget = webui.@THEME_JS@.widget.common.getWidget(_id);
         if (widget == null) {
             return false;
         }

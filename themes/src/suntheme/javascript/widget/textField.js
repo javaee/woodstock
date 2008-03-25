@@ -20,9 +20,10 @@
  * Copyright 2008 Sun Microsystems, Inc. All rights reserved.
  */
 
-webui.@THEME_JS@.dojo.provide("webui.@THEME_JS@.widget.textField");
+webui.@THEME_JS@._dojo.provide("webui.@THEME_JS@.widget.textField");
 
-webui.@THEME_JS@.dojo.require("webui.@THEME_JS@.widget.fieldBase");
+webui.@THEME_JS@._dojo.require("webui.@THEME_JS@.widget.common");
+webui.@THEME_JS@._dojo.require("webui.@THEME_JS@.widget.fieldBase");
 
 /**
  * @name webui.@THEME_JS@.widget.textField
@@ -30,7 +31,7 @@ webui.@THEME_JS@.dojo.require("webui.@THEME_JS@.widget.fieldBase");
  * @class This class contains functions for the textField widget.
  * @constructor This function is used to construct a textField widget.
  */
-webui.@THEME_JS@.dojo.declare("webui.@THEME_JS@.widget.textField", webui.@THEME_JS@.widget.fieldBase, {
+webui.@THEME_JS@._dojo.declare("webui.@THEME_JS@.widget.textField", webui.@THEME_JS@.widget.fieldBase, {
     // Set defaults.
     constructor: function() {
         // Array of list values; may be empty; if null - then no autocomplete 
@@ -244,7 +245,7 @@ webui.@THEME_JS@.widget.textField.prototype.setProps = function(props, notify) {
 webui.@THEME_JS@.widget.textField.prototype.createCloseListCallback = function() {
     var _id = this.id;
     return function(event) { 
-        var widget = webui.@THEME_JS@.dijit.byId(_id);
+        var widget = webui.@THEME_JS@.widget.common.getWidget(_id);
         if (widget == null) {
             return false;
         }
@@ -269,7 +270,7 @@ webui.@THEME_JS@.widget.textField.prototype.filterOptions = function() {
     // Data returned from Ajax call will be pushed into this.listWidget 
     //
     // @see javascript.widget.jsfx.autoComplete for default Ajax implementation
-    this.dojo.publish(webui.@THEME_JS@.widget.textField.event.autoComplete.beginTopic, [{
+    this._publish(webui.@THEME_JS@.widget.textField.event.autoComplete.beginTopic, [{
         id: this.id
     }]);
     return true;        
@@ -300,16 +301,16 @@ webui.@THEME_JS@.widget.textField.prototype._setProps = function(props) {
         //create and populate props for listbox
         this.listWidgetProps = this.widget.getWidgetProps("listbox", {
            id: this.id + "_list",
-           onFocus: "webui.@THEME_JS@.dijit.byId('" + this.id + "').processFocusEvent(this.event);", 
-           onBlur: "webui.@THEME_JS@.dijit.byId('" + this.id + "').processBlurEvent(this.event);"
+           onFocus: "webui.@THEME_JS@.widget.common.getWidget('" + this.id + "').processFocusEvent(this.event);", 
+           onBlur: "webui.@THEME_JS@.widget.common.getWidget('" + this.id + "').processBlurEvent(this.event);"
         });         
         //?? use of event registration as in following disables field processing keys 
-        //onChange: "webui.@THEME_JS@.dijit.byId('" + this.id + "').processListChange(this.event);"
+        //onChange: "webui.@THEME_JS@.widget.common.getWidget('" + this.id + "').processListChange(this.event);"
 
         this.widget.addFragment(this.listContainer, this.listWidgetProps);
         
         //store reference to the list
-        this.listWidget = webui.@THEME_JS@.dijit.byId(this.listWidgetProps.id);
+        this.listWidget = this.widget.getWidget(this.listWidgetProps.id);
         this.listNode = this.listWidget.getSelectElement();
         
         //since original list box is created empty, make sure it is not shown
@@ -588,7 +589,7 @@ webui.@THEME_JS@.widget.textField.prototype.updateListView = function() {
  */
 webui.@THEME_JS@.widget.textField.prototype.validate = function(event) {
     // Publish an event for custom AJAX implementations to listen for.
-    this.publish(webui.@THEME_JS@.widget.textField.event.validation.beginTopic, [{
+    this._publish(webui.@THEME_JS@.widget.textField.event.validation.beginTopic, [{
         id: this.id
     }]);
     return true;

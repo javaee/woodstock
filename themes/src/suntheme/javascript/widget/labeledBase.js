@@ -20,7 +20,7 @@
  * Copyright 2008 Sun Microsystems, Inc. All rights reserved.
  */
 
-webui.@THEME_JS@.dojo.provide("webui.@THEME_JS@.widget.labeledBase");
+webui.@THEME_JS@._dojo.provide("webui.@THEME_JS@.widget.labeledBase");
 
 /**
  * @name webui.@THEME_JS@.widget.labeledBase
@@ -62,7 +62,7 @@ webui.@THEME_JS@.dojo.provide("webui.@THEME_JS@.widget.labeledBase");
  * </p>
  * @static
  */
-webui.@THEME_JS@.dojo.declare( "webui.@THEME_JS@.widget.labeledBase", webui.@THEME_JS@.widget.widgetBase, {
+webui.@THEME_JS@._dojo.declare("webui.@THEME_JS@.widget.labeledBase", webui.@THEME_JS@.widget.widgetBase, {
     // Set defaults.
     constructor: function() {
 	/**
@@ -95,7 +95,7 @@ webui.@THEME_JS@.dojo.declare( "webui.@THEME_JS@.widget.labeledBase", webui.@THE
  * @return {Object} Key-Value pairs of properties.
  */
 webui.@THEME_JS@.widget.labeledBase.prototype.getProps = function() {
-    var props = {};
+    var props = this.inherited("getProps", arguments);
 
     if (this.label != null) { props.label = this.label; };
     if (this.labelOnTop != null) { props.labelOnTop = this.labelOnTop; };

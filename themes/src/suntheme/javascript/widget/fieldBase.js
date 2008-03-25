@@ -20,9 +20,10 @@
  * Copyright 2008 Sun Microsystems, Inc. All rights reserved.
  */
 
-webui.@THEME_JS@.dojo.provide("webui.@THEME_JS@.widget.fieldBase");
+webui.@THEME_JS@._dojo.provide("webui.@THEME_JS@.widget.fieldBase");
 
-webui.@THEME_JS@.dojo.require("webui.@THEME_JS@.widget.widgetBase");
+webui.@THEME_JS@._dojo.require("webui.@THEME_JS@.widget.common");
+webui.@THEME_JS@._dojo.require("webui.@THEME_JS@.widget.widgetBase");
 
 /**
  * @name webui.@THEME_JS@.widget.fieldBase
@@ -30,7 +31,7 @@ webui.@THEME_JS@.dojo.require("webui.@THEME_JS@.widget.widgetBase");
  * @class This class contains functions for widgets that extend fieldBase.
  * @static
  */
-webui.@THEME_JS@.dojo.declare("webui.@THEME_JS@.widget.fieldBase", webui.@THEME_JS@.widget.labeledBase, {
+webui.@THEME_JS@._dojo.declare("webui.@THEME_JS@.widget.fieldBase", webui.@THEME_JS@.widget.labeledBase, {
     // Set defaults.
     constructor: function() {
 	this.disabled = false;
@@ -126,7 +127,7 @@ webui.@THEME_JS@.widget.fieldBase.prototype.postCreate = function () {
     }
     
     // Set public functions.
-    this.domNode.getInputElement = function() { return webui.@THEME_JS@.dijit.byId(this.id).getInputElement(); };
+    this.domNode.getInputElement = function() { return webui.@THEME_JS@.widget.common.getWidget(this.id).getInputElement(); };
     
     return this.inherited("postCreate", arguments);
 };

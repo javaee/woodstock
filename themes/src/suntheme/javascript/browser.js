@@ -20,7 +20,7 @@
  * Copyright 2008 Sun Microsystems, Inc. All rights reserved.
  */
 
-webui.@THEME_JS@.dojo.provide("webui.@THEME_JS@.browser");
+webui.@THEME_JS@._dojo.provide("webui.@THEME_JS@.browser");
 
 /**
  * @class This class contains functions for testing browser properties.

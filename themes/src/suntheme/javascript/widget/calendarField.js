@@ -20,10 +20,10 @@
  * Copyright 2008 Sun Microsystems, Inc. All rights reserved.
  */
 
-webui.@THEME_JS@.dojo.provide("webui.@THEME_JS@.widget.calendarField");
+webui.@THEME_JS@._dojo.provide("webui.@THEME_JS@.widget.calendarField");
 
-webui.@THEME_JS@.dojo.require("webui.@THEME_JS@.widget.calendar");
-webui.@THEME_JS@.dojo.require("webui.@THEME_JS@.widget.textField");
+webui.@THEME_JS@._dojo.require("webui.@THEME_JS@.widget.calendar");
+webui.@THEME_JS@._dojo.require("webui.@THEME_JS@.widget.textField");
 
 /**
  * @name webui.@THEME_JS@.widget.calendarField
@@ -31,7 +31,7 @@ webui.@THEME_JS@.dojo.require("webui.@THEME_JS@.widget.textField");
  * @class This class contains functions for the calendarField widget.
  * @constructor This function is used to construct a calendarField widget.
  */
-webui.@THEME_JS@.dojo.declare("webui.@THEME_JS@.widget.calendarField", webui.@THEME_JS@.widget.textField, {
+webui.@THEME_JS@._dojo.declare("webui.@THEME_JS@.widget.calendarField", webui.@THEME_JS@.widget.textField, {
     // Set defaults.
     widgetName: "calendarField" // Required for theme properties.
 });
@@ -159,10 +159,10 @@ webui.@THEME_JS@.widget.calendarField.prototype.postCreate = function () {
     // Set events.
 
     // Subscribe to the "dayClicked" event present in the calendar widget.
-    this.subscribe(webui.@THEME_JS@.widget.calendar.event.day.selectedTopic,
+    this.widget.subscribe(webui.@THEME_JS@.widget.calendar.event.day.selectedTopic,
         this, "dayClicked");
     // Subscribe to the "toggle" event that occurs whenever the calendar is opened.
-    this.subscribe(webui.@THEME_JS@.widget.calendar.event.toggle.openTopic,
+    this.widget.subscribe(webui.@THEME_JS@.widget.calendar.event.toggle.openTopic,
         this, "toggleCalendar");
         
     return this.inherited("postCreate", arguments);
@@ -222,7 +222,7 @@ webui.@THEME_JS@.widget.calendarField.prototype.setProps = function(props, notif
     // If the popup calendar is visible, prevent disabling of the calendar.
     // The widget can only be disabled if the popup calendar is not visible.
     if (props.disabled != null) { 
-        var widget = webui.@THEME_JS@.dijit.byId(this.calendar.id); 
+        var widget = this.widget.getWidget(this.calendar.id); 
         if (widget != null && !(widget.calendarContainer.style.display != "block")) {
             props.disabled = this.disabled;
         }        
@@ -297,7 +297,7 @@ webui.@THEME_JS@.widget.calendarField.prototype.startup = function () {
  */
 webui.@THEME_JS@.widget.calendarField.prototype.toggleCalendar = function(props) {   
     if (props.id != null && props.id == this.calendar.id) {
-        var widget = webui.@THEME_JS@.dijit.byId(props.id);
+        var widget = this.widget.getWidget(props.id);
         widget.setProps({date: this.getProps().value});
     }
     return true;

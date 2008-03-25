@@ -20,10 +20,10 @@
  * Copyright 2008 Sun Microsystems, Inc. All rights reserved.
  */
 
-webui.@THEME_JS@.dojo.provide("webui.@THEME_JS@.widget.common");
+webui.@THEME_JS@._dojo.provide("webui.@THEME_JS@.widget.common");
 
-webui.@THEME_JS@.dojo.require("webui.@THEME_JS@.config");
-webui.@THEME_JS@.dojo.require("webui.@THEME_JS@.theme.common");
+webui.@THEME_JS@._dojo.require("webui.@THEME_JS@.config");
+webui.@THEME_JS@._dojo.require("webui.@THEME_JS@.theme.common");
 
 /**
  * @class This class contains functions common to all widgets.
@@ -258,11 +258,11 @@ webui.@THEME_JS@.widget.common = {
         webui.@THEME_JS@.widget.common.destroyWidget(props.id);
 
         // Retrieve required module.
-        webui.@THEME_JS@.dojo.require(props.widgetType);
+        webui.@THEME_JS@._dojo.require(props.widgetType);
         
         try {
             // Get widget object.
-            var obj = webui.@THEME_JS@.dojo.getObject(props.widgetType);
+            var obj = webui.@THEME_JS@._dojo.getObject(props.widgetType);
 
             // Instantiate widget. 
             // Note: Dojo mixes attributes, if domNode is provided.
@@ -337,7 +337,7 @@ webui.@THEME_JS@.widget.common = {
             return false;
         }
         // Destroy previously created widgets, events, etc.
-        var widget = webui.@THEME_JS@.dijit.byId(id);
+        var widget = webui.@THEME_JS@.widget.common.getWidget(id);
         if (widget) {
             return widget.destroyRecursive();
         }
@@ -599,6 +599,19 @@ webui.@THEME_JS@.widget.common = {
     },
 
     /**
+     * This function is used to obtain a widget.
+     *
+     * @param {String} id The widget id.
+     * @return {Object} The widget object.
+     */
+    getWidget: function(id) {
+        if (id == null) {
+            return null;
+        }
+        return webui.@THEME_JS@._dijit.byId(id);
+    },
+
+    /**
      * This function returns common Object literals used by widgets. For 
      * example, it adds the necessary widgetType.
      *
@@ -673,7 +686,7 @@ webui.@THEME_JS@.widget.common = {
             'height: 5px;' +
             'top: -999px;' +
             'background-image: url("' + props.src + '");'; 
-        webui.@THEME_JS@.dojo.body().appendChild(domNode);
+        webui.@THEME_JS@._dojo.body().appendChild(domNode);
 
         // Detect the high contrast mode.
         var bImg = null;
@@ -691,7 +704,7 @@ webui.@THEME_JS@.widget.common = {
 
         // IE throws security exception if domNode isn't removed.
         // This allows widgets to be created before the window.onLoad event.
-        webui.@THEME_JS@.dojo.body().removeChild(domNode);
+        webui.@THEME_JS@._dojo.body().removeChild(domNode);
         return common._isHighContrastMode;    
     },
     
@@ -709,8 +722,12 @@ webui.@THEME_JS@.widget.common = {
         return (template != null && template.charAt(0) != '<');
     },
  
-    /* Keyboard key code as stored in browser events */
-    keyCodes : webui.@THEME_JS@.dojo.keys,
+    /** 
+     * Keyboard key code as stored in browser events 
+     *
+     * @private
+     */
+    keyCodes : webui.@THEME_JS@._dojo.keys,
  
     /**
      * This function is used to parse HTML markup in order to create widgets
@@ -779,6 +796,20 @@ webui.@THEME_JS@.widget.common = {
     },
 
     /**
+     * Publish an event topic.
+     *
+     * @param {String} topic The event topic to publish.
+     * @param {Object} props Key-Value pairs of properties. This will be applied
+     * to each topic subscriber.
+     * @return {boolean} true if successful; otherwise, false.
+     */
+    publish: function(topic, props) {
+        // Publish an event for custom AJAX implementations to listen for.
+        webui.@THEME_JS@._dojo.publish(topic, props);
+        return true;
+    },
+
+    /**
      * This function is used to remove child nodes from given DOM node.
      * <p>
      * Note: Child nodes may be cleared using the innerHTML property. However,
@@ -823,7 +854,22 @@ webui.@THEME_JS@.widget.common = {
         }
         return false;
     },
-        
+
+    /**
+     * Subscribe to an event topic.
+     *
+     * @param {String} topic The event topic to subscribe to.
+     * @param {Object} obj The object in which a function will be invoked, or
+     * null for default scope.
+     * @param {String|Function} func The name of a function in context, or a 
+     * function reference to invoke when topic is published. 
+     * @return {boolean} true if successful; otherwise, false.
+     */
+    subscribe: function(topic, obj, func) {
+        webui.@THEME_JS@._dojo.subscribe(topic, obj, func);
+        return true;
+    },
+
     /**
      * This function is used to update a widget, HTML fragment, or static
      * string for the given domNode.
@@ -848,7 +894,7 @@ webui.@THEME_JS@.widget.common = {
         }
         // Ensure props is not a string.
         var widget = (typeof props != 'string') 
-            ? webui.@THEME_JS@.dijit.byId(id) : null;
+            ? webui.@THEME_JS@.widget.common.getWidget(id) : null;
 
         // Update widget or add fragment.
         if (widget && typeof widget.setProps == "function") {

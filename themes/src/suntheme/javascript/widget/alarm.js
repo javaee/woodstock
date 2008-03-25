@@ -20,9 +20,9 @@
  * Copyright 2008 Sun Microsystems, Inc. All rights reserved.
  */
 
-webui.@THEME_JS@.dojo.provide("webui.@THEME_JS@.widget.alarm");
+webui.@THEME_JS@._dojo.provide("webui.@THEME_JS@.widget.alarm");
 
-webui.@THEME_JS@.dojo.require("webui.@THEME_JS@.widget.widgetBase");
+webui.@THEME_JS@._dojo.require("webui.@THEME_JS@.widget.widgetBase");
 
 /**
  * @name webui.@THEME_JS@.widget.alarm
@@ -30,7 +30,7 @@ webui.@THEME_JS@.dojo.require("webui.@THEME_JS@.widget.widgetBase");
  * @class This class contains functions for the alarm widget.
  * @constructor This function is used to construct an alarm widget.
  */
-webui.@THEME_JS@.dojo.declare("webui.@THEME_JS@.widget.alarm", webui.@THEME_JS@.widget.widgetBase, {
+webui.@THEME_JS@._dojo.declare("webui.@THEME_JS@.widget.alarm", webui.@THEME_JS@.widget.widgetBase, {
     widgetName: "alarm" // Required for theme properties.
 });
 
@@ -104,65 +104,59 @@ webui.@THEME_JS@.widget.alarm.prototype.postCreate = function () {
         this.imageContainer.id = this.id + "_imageContainer";        
     }
     // default set of indicators
-        
-       var  defaultIndicators =[ {
-                "type": "down",
-                "image": this.widget.getWidgetProps("image", {
-                id: this.id + "_down",
-                icon: "DOWN_ALARM_INDICATOR"
-                })
-            },
-        {
-                "type": "critical",
-                "image": this.widget.getWidgetProps("image", {
-                id: this.id + "_critical",
-                icon: "CRITICAL_ALARM_INDICATOR"
-            })
-            },
-        {
-                "type": "major",
-                "image": this.widget.getWidgetProps("image", {
-                id: this.id + "_major",
-                icon: "MAJOR_ALARM_INDICATOR"
-            })
-            },
-        {
-                "type": "minor",
-                "image": this.widget.getWidgetProps("image", {
-                id: this.id + "_minor",
-                icon: "MINOR_ALARM_INDICATOR"
-            })
-            },
-        {
-                "type": "ok",
-                "image": this.widget.getWidgetProps("image", {
-                id: this.id + "_ok",
-                icon: "OK_ALARM_INDICATOR"
-            })
-        }];
-        
+    var  defaultIndicators = [{
+        "type": "down",
+        "image": this.widget.getWidgetProps("image", {
+            id: this.id + "_down",
+            icon: "DOWN_ALARM_INDICATOR"
+        })
+    }, {
+        "type": "critical",
+        "image": this.widget.getWidgetProps("image", {
+            id: this.id + "_critical",
+            icon: "CRITICAL_ALARM_INDICATOR"
+        })
+    }, {
+        "type": "major",
+        "image": this.widget.getWidgetProps("image", {
+            id: this.id + "_major",
+            icon: "MAJOR_ALARM_INDICATOR"
+        })
+    }, {
+        "type": "minor",
+        "image": this.widget.getWidgetProps("image", {
+            id: this.id + "_minor",
+            icon: "MINOR_ALARM_INDICATOR"
+        })
+    }, {
+        "type": "ok",
+        "image": this.widget.getWidgetProps("image", {
+            id: this.id + "_ok",
+            icon: "OK_ALARM_INDICATOR"
+        })
+    }];
+
     if (this.indicators == null) {
         this.indicators = defaultIndicators;    
     } else {
-      for (var i = 0; i < this.indicators.length; i++) {          
-          for (var j = 0; j < defaultIndicators.length; j++) {
-              if (this.indicators[i].type == defaultIndicators[j].type) {
-                  defaultIndicators[j].image = this.indicators[i].image;
-                  this.indicators[i] = null;                  
-                  break;
-              }
-          }          
-      }
+        for (var i = 0; i < this.indicators.length; i++) {          
+            for (var j = 0; j < defaultIndicators.length; j++) {
+                if (this.indicators[i].type == defaultIndicators[j].type) {
+                    defaultIndicators[j].image = this.indicators[i].image;
+                    this.indicators[i] = null;                  
+                    break;
+                }
+            }
+        }
       
-      // merge the indicators (defaultset + custom set)
-      for (var i = 0; i < this.indicators.length; i++) {   
-          if (this.indicators[i] != null) {                         
+        // merge the indicators (defaultset + custom set)
+        for (var i = 0; i < this.indicators.length; i++) {   
+            if (this.indicators[i] != null) {                         
                 defaultIndicators = defaultIndicators.concat(this.indicators[i]);
-          }      
-      }
-      this.indicators = defaultIndicators;     
+            }
+        }
+        this.indicators = defaultIndicators;     
     }
-    
     return this.inherited("postCreate", arguments);
 };
 

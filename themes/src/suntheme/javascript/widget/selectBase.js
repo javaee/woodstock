@@ -20,12 +20,13 @@
  * Copyright 2008 Sun Microsystems, Inc. All rights reserved.
  */
 
-webui.@THEME_JS@.dojo.provide("webui.@THEME_JS@.widget.selectBase");
+webui.@THEME_JS@._dojo.provide("webui.@THEME_JS@.widget.selectBase");
 
-webui.@THEME_JS@.dojo.require("webui.@THEME_JS@.browser");
-webui.@THEME_JS@.dojo.require("webui.@THEME_JS@.common");
-webui.@THEME_JS@.dojo.require("webui.@THEME_JS@.widget.widgetBase");
-webui.@THEME_JS@.dojo.require("webui.@THEME_JS@.widget.labeledBase");
+webui.@THEME_JS@._dojo.require("webui.@THEME_JS@.browser");
+webui.@THEME_JS@._dojo.require("webui.@THEME_JS@.common");
+webui.@THEME_JS@._dojo.require("webui.@THEME_JS@.widget.common");
+webui.@THEME_JS@._dojo.require("webui.@THEME_JS@.widget.labeledBase");
+webui.@THEME_JS@._dojo.require("webui.@THEME_JS@.widget.widgetBase");
 
 /**
  * @name webui.@THEME_JS@.widget.selectBase
@@ -103,7 +104,7 @@ webui.@THEME_JS@.dojo.require("webui.@THEME_JS@.widget.labeledBase");
  * </p>
  * @static
  */
-webui.@THEME_JS@.dojo.declare("webui.@THEME_JS@.widget.selectBase", 
+webui.@THEME_JS@._dojo.declare("webui.@THEME_JS@.widget.selectBase", 
 	webui.@THEME_JS@.widget.labeledBase, {
     // Set defaults
     constructor: function() {
@@ -581,11 +582,11 @@ webui.@THEME_JS@.widget.selectBase.prototype.postCreate = function () {
 
     // Set public functions.
     this.domNode.getSelectedValue = function() { 
-	return webui.@THEME_JS@.dijit.byId(this.id).getSelectedValue(); };
+	return webui.@THEME_JS@.widget.common.getWidget(this.id).getSelectedValue(); };
     this.domNode.getSelectedLabel = function() { 
-	return webui.@THEME_JS@.dijit.byId(this.id).getSelectedLabel(); };
+	return webui.@THEME_JS@.widget.common.getWidget(this.id).getSelectedLabel(); };
     this.domNode.getSelectElement = function() { 
-	return webui.@THEME_JS@.dijit.byId(this.id).getSelectElement(); };
+	return webui.@THEME_JS@.widget.common.getWidget(this.id).getSelectElement(); };
 
     // Set events.
     this.dojo.connect(this.listContainer, "onchange", this, 

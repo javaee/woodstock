@@ -20,9 +20,9 @@
  * Copyright 2008 Sun Microsystems, Inc. All rights reserved.
  */
 
-webui.@THEME_JS@.dojo.provide("webui.@THEME_JS@.widget.editableField");
+webui.@THEME_JS@._dojo.provide("webui.@THEME_JS@.widget.editableField");
 
-webui.@THEME_JS@.dojo.require("webui.@THEME_JS@.widget.textField");
+webui.@THEME_JS@._dojo.require("webui.@THEME_JS@.widget.textField");
 
 /**
  * @name webui.@THEME_JS@.widget.editableField
@@ -30,7 +30,7 @@ webui.@THEME_JS@.dojo.require("webui.@THEME_JS@.widget.textField");
  * @class This class contains functions for the editableField widget.
  * @constructor This function is used to construct a editableField widget.
  */
-webui.@THEME_JS@.dojo.declare("webui.@THEME_JS@.widget.editableField", webui.@THEME_JS@.widget.textField, {
+webui.@THEME_JS@._dojo.declare("webui.@THEME_JS@.widget.editableField", webui.@THEME_JS@.widget.textField, {
     // Set defaults.
     constructor: function() {
         this.edit = false;

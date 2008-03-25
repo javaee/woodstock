@@ -20,10 +20,11 @@
  * Copyright 2008 Sun Microsystems, Inc. All rights reserved.
  */
 
-webui.@THEME_JS@.dojo.provide("webui.@THEME_JS@.tree");
+webui.@THEME_JS@._dojo.provide("webui.@THEME_JS@.tree");
 
-webui.@THEME_JS@.dojo.require("webui.@THEME_JS@.prototypejs");
-webui.@THEME_JS@.dojo.require("webui.@THEME_JS@.theme.common");
+webui.@THEME_JS@._dojo.require("webui.@THEME_JS@.prototypejs");
+webui.@THEME_JS@._dojo.require("webui.@THEME_JS@.theme.common");
+webui.@THEME_JS@._dojo.require("webui.@THEME_JS@.widget.common");
 
 /** 
  * @class This class contains functions for tree components.
@@ -155,7 +156,7 @@ webui.@THEME_JS@.tree = {
             // get the image widget to compare the actual icon values
             // as opposed to checking the name of the final rendered image.
             
-            var imgWidget = webui.@THEME_JS@.dijit.byId(imageId);
+            var imgWidget = webui.@THEME_JS@.widget.common.getWidget(imageId);
             var imgProps = imgWidget.getProps();
             var nodeIcon = imgProps.icon;
             
@@ -373,7 +374,7 @@ webui.@THEME_JS@.tree = {
         // Ignore Tree Handles b/c they should not update highlighting
         
         if (elt.nodeName == "IMG") {
-            var imgWidget = webui.@THEME_JS@.dijit.byId(elt.id);
+            var imgWidget = webui.@THEME_JS@.widget.common.getWidget(elt.id);
             var imgProps = imgWidget.getProps();
             var nodeIcon = imgProps.icon;
             if (nodeIcon.indexOf("TREE_HANDLE_") != -1) {
@@ -486,7 +487,7 @@ webui.@THEME_JS@.tree = {
         // type indicates the node is not expanded.
         if (node.nodeName == "IMG") {
         
-            var imgWidget = webui.@THEME_JS@.dijit.byId(node.id);
+            var imgWidget = webui.@THEME_JS@.widget.common.getWidget(node.id);
             var imgProps = imgWidget.getProps();
             var nodeIcon = imgProps.icon;
 

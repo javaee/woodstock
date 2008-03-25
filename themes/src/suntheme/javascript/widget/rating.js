@@ -20,9 +20,9 @@
  * Copyright 2008 Sun Microsystems, Inc. All rights reserved.
  */
 
-webui.@THEME_JS@.dojo.provide("webui.@THEME_JS@.widget.rating");
+webui.@THEME_JS@._dojo.provide("webui.@THEME_JS@.widget.rating");
 
-webui.@THEME_JS@.dojo.require("webui.@THEME_JS@.widget.widgetBase");
+webui.@THEME_JS@._dojo.require("webui.@THEME_JS@.widget.widgetBase");
 
 /**
  * @name webui.@THEME_JS@.widget.rating
@@ -30,7 +30,7 @@ webui.@THEME_JS@.dojo.require("webui.@THEME_JS@.widget.widgetBase");
  * @class This class contains functions for the rating widget.
  * @constructor This function is used to construct a rating widget.
  */
-webui.@THEME_JS@.dojo.declare("webui.@THEME_JS@.widget.rating", webui.@THEME_JS@.widget.widgetBase, {
+webui.@THEME_JS@._dojo.declare("webui.@THEME_JS@.widget.rating", webui.@THEME_JS@.widget.widgetBase, {
     // Set defaults.
     constructor: function() {
         // Set defaults for public properties that can be modified.
@@ -483,7 +483,7 @@ webui.@THEME_JS@.widget.rating.prototype._onClickCallback = function(code) {
         return true;
 
     // Publish event prior to changing widget state.
-    this.publish(webui.@THEME_JS@.widget.rating.event.state.beginTopic, [{
+    this._publish(webui.@THEME_JS@.widget.rating.event.state.beginTopic, [{
         id: this.id
     }]);
 
@@ -495,7 +495,7 @@ webui.@THEME_JS@.widget.rating.prototype._onClickCallback = function(code) {
     this.mousedover = false; 
 
     // Publish event after changing widget state.
-    this.publish(webui.@THEME_JS@.widget.rating.event.state.endTopic, [{
+    this._publish(webui.@THEME_JS@.widget.rating.event.state.endTopic, [{
         id: this.id
     }]);
     return true;
@@ -606,7 +606,7 @@ webui.@THEME_JS@.widget.rating.prototype.postCreate = function () {
     this.hiddenFieldNode.name = this.hiddenFieldNode.id;
 
     // Listen for post-submit events
-    this.subscribe(this.event.submit.endTopic, this, "_submitCallback");
+    this.widget.subscribe(this.event.submit.endTopic, this, "_submitCallback");
 
     // Initialize maintenance of width dimensions for controlContainer images.
     // Required because we will always need to maintain the width of the control
@@ -1160,7 +1160,7 @@ webui.@THEME_JS@.widget.rating.prototype.submit = function(execute) {
     // is automatically submitted, and so we don't need to explicitly include
     // the grade value in the props payload associated with beginTopic.
     //
-    this.publish(webui.@THEME_JS@.widget.rating.event.submit.beginTopic, [{
+    this._publish(webui.@THEME_JS@.widget.rating.event.submit.beginTopic, [{
         id: this.id,
         execute: execute,
         endTopic: webui.@THEME_JS@.widget.rating.event.submit.endTopic

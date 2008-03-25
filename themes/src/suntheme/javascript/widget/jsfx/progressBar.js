@@ -20,12 +20,13 @@
  * Copyright 2008 Sun Microsystems, Inc. All rights reserved.
  */
 
-webui.@THEME_JS@.dojo.provide("webui.@THEME_JS@.widget.jsfx.progressBar");
+webui.@THEME_JS@._dojo.provide("webui.@THEME_JS@.widget.jsfx.progressBar");
 
-webui.@THEME_JS@.dojo.require("webui.@THEME_JS@.json");
-webui.@THEME_JS@.dojo.require("webui.@THEME_JS@.widget.jsfx.common");
-webui.@THEME_JS@.dojo.require("webui.@THEME_JS@.widget.jsfx.dynaFaces");
-webui.@THEME_JS@.dojo.require("webui.@THEME_JS@.widget.progressBar");
+webui.@THEME_JS@._dojo.require("webui.@THEME_JS@.json");
+webui.@THEME_JS@._dojo.require("webui.@THEME_JS@.widget.common");
+webui.@THEME_JS@._dojo.require("webui.@THEME_JS@.widget.jsfx.common");
+webui.@THEME_JS@._dojo.require("webui.@THEME_JS@.widget.jsfx.dynaFaces");
+webui.@THEME_JS@._dojo.require("webui.@THEME_JS@.widget.progressBar");
 
 /**
  * @class This class contains functions to obtain data asynchronously using JSF
@@ -81,7 +82,7 @@ webui.@THEME_JS@.widget.jsfx.progressBar =  {
         var props = webui.@THEME_JS@.json.parse(content);
 
         // Set progress.
-        var widget = webui.@THEME_JS@.dijit.byId(id);
+        var widget = webui.@THEME_JS@.widget.common.getWidget(id);
         widget.setProgress({
             failedStateText : props.failedStateText,
             logMessage : props.logMessage,
@@ -92,14 +93,14 @@ webui.@THEME_JS@.widget.jsfx.progressBar =  {
         });
 
         // Publish an event for custom AJAX implementations to listen for.
-        webui.@THEME_JS@.dojo.publish(
+        webui.@THEME_JS@._dojo.publish(
             webui.@THEME_JS@.widget.progressBar.event.progress.endTopic, [props]);
         return true;
     }
 };
 
 // Listen for Dojo Widget events.
-webui.@THEME_JS@.dojo.subscribe(webui.@THEME_JS@.widget.progressBar.event.progress.beginTopic,
+webui.@THEME_JS@._dojo.subscribe(webui.@THEME_JS@.widget.progressBar.event.progress.beginTopic,
     webui.@THEME_JS@.widget.jsfx.progressBar, "processProgressEvent");
-webui.@THEME_JS@.dojo.subscribe(webui.@THEME_JS@.widget.progressBar.event.refresh.beginTopic,
+webui.@THEME_JS@._dojo.subscribe(webui.@THEME_JS@.widget.progressBar.event.refresh.beginTopic,
     webui.@THEME_JS@.widget.jsfx.common, "processRefreshEvent");

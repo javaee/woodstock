@@ -144,8 +144,8 @@
     <property name="theme.js-module-prefix" value="webui.${theme.name}${CacheVersion}"/>
     <property name="theme.bootstrap.js" value="bootstrap.js"/>
     <property name="theme.dnd.js" value="dnd.js"/>
-    <property name="theme.dojo.js" value="dojo/dojo.js"/>
-    <property name="theme.dojo-dnd.js" value="dojo/dnd.js"/>
+    <property name="theme.dojo.js" value="dojo/_dojo.js"/>
+    <property name="theme.dojo-dnd.js" value="dojo/_dnd.js"/>
     <property name="theme.webui.js" value="webui.js"/>
     <property name="theme.webui-all.js" value="webui-all.js"/>
     <property name="theme.webui-jsfx.js" value="webui-jsfx.js"/>
@@ -278,8 +278,8 @@
 	 base62 compressed and that's why they need to be copied
     -->
     <patternset id="nobase62-js-files">
-	<include name="dojo/dnd.js"/>
-	<include name="dojo/dojo.js"/>
+	<include name="${theme.dojo.js}"/>
+	<include name="${theme.dojo-dnd.js}"/>
 	<include name="${theme.bootstrap.js}"/>
 	<include name="${theme.dnd.js}"/>
 	<include name="${theme.webui.js}"/>
@@ -305,8 +305,8 @@
 	<include name="bootstrap.js" />
 	<include name="_dnd.js" />
 	<include name="dnd.js" />
-	<include name="dojo/dojo.js"/>
-	<include name="dojo/dnd.js"/>
+	<include name="${theme.dojo.js}"/>
+	<include name="${theme.dojo-dnd.js}"/>
     </patternset>
 
     <!-- "dnd.js" -->

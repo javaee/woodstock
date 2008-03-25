@@ -20,9 +20,9 @@
  * Copyright 2008 Sun Microsystems, Inc. All rights reserved.
  */
 
-webui.@THEME_JS@.dojo.provide("webui.@THEME_JS@.widget.alert");
+webui.@THEME_JS@._dojo.provide("webui.@THEME_JS@.widget.alert");
 
-webui.@THEME_JS@.dojo.require("webui.@THEME_JS@.widget.widgetBase");
+webui.@THEME_JS@._dojo.require("webui.@THEME_JS@.widget.widgetBase");
 
 /**
  * @name webui.@THEME_JS@.widget.alert
@@ -30,7 +30,7 @@ webui.@THEME_JS@.dojo.require("webui.@THEME_JS@.widget.widgetBase");
  * @class This class contains functions for the alert widget.
  * @constructor This function is used to construct an alert widget.
  */
-webui.@THEME_JS@.dojo.declare("webui.@THEME_JS@.widget.alert", webui.@THEME_JS@.widget.widgetBase, {
+webui.@THEME_JS@._dojo.declare("webui.@THEME_JS@.widget.alert", webui.@THEME_JS@.widget.widgetBase, {
     // Set defaults.
     widgetName: "alert" // Required for theme properties.
 });
@@ -298,7 +298,7 @@ webui.@THEME_JS@.widget.alert.prototype._setProps = function(props) {
                 props.spacerImage.id = this.id + "_spacerImage" + i;
             }
             // Replace container with image.
-            if (!webui.@THEME_JS@.dijit.byId(props.spacerImage.id)) {
+            if (!this.widget.getWidget(props.spacerImage.id)) {
                 this.widget.addFragment(containers[i], props.spacerImage);
             }
         }

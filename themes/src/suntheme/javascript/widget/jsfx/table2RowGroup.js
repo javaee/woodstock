@@ -20,12 +20,13 @@
  * Copyright 2008 Sun Microsystems, Inc. All rights reserved.
  */
 
-webui.@THEME_JS@.dojo.provide("webui.@THEME_JS@.widget.jsfx.table2RowGroup");
+webui.@THEME_JS@._dojo.provide("webui.@THEME_JS@.widget.jsfx.table2RowGroup");
 
-webui.@THEME_JS@.dojo.require("webui.@THEME_JS@.json");
-webui.@THEME_JS@.dojo.require("webui.@THEME_JS@.widget.jsfx.common");
-webui.@THEME_JS@.dojo.require("webui.@THEME_JS@.widget.jsfx.dynaFaces");
-webui.@THEME_JS@.dojo.require("webui.@THEME_JS@.widget.table2RowGroup");
+webui.@THEME_JS@._dojo.require("webui.@THEME_JS@.json");
+webui.@THEME_JS@._dojo.require("webui.@THEME_JS@.widget.common");
+webui.@THEME_JS@._dojo.require("webui.@THEME_JS@.widget.jsfx.common");
+webui.@THEME_JS@._dojo.require("webui.@THEME_JS@.widget.jsfx.dynaFaces");
+webui.@THEME_JS@._dojo.require("webui.@THEME_JS@.widget.table2RowGroup");
 
 /**
  * @class This class contains functions to obtain data asynchronously using JSF
@@ -83,7 +84,7 @@ webui.@THEME_JS@.widget.jsfx.table2RowGroup = {
         var props = webui.@THEME_JS@.json.parse(content);
 
         // Reject duplicate AJAX requests.
-        var widget = webui.@THEME_JS@.dijit.byId(id);
+        var widget = webui.@THEME_JS@.widget.common.getWidget(id);
         if (widget.first != xjson.first) {
             return false;
         }        
@@ -91,16 +92,16 @@ webui.@THEME_JS@.widget.jsfx.table2RowGroup = {
         widget.addRows(props.rows);
 
         // Publish an event for custom AJAX implementations to listen for.
-        webui.@THEME_JS@.dojo.publish(
+        webui.@THEME_JS@._dojo.publish(
             webui.@THEME_JS@.widget.table2RowGroup.event.scroll.endTopic, [props]);
         return true;
     }
 };
     
 // Listen for Dojo Widget events.
-webui.@THEME_JS@.dojo.subscribe(webui.@THEME_JS@.widget.table2RowGroup.event.refresh.beginTopic,
+webui.@THEME_JS@._dojo.subscribe(webui.@THEME_JS@.widget.table2RowGroup.event.refresh.beginTopic,
     webui.@THEME_JS@.widget.jsfx.common, "processRefreshEvent");
-webui.@THEME_JS@.dojo.subscribe(webui.@THEME_JS@.widget.table2RowGroup.event.scroll.beginTopic,
+webui.@THEME_JS@._dojo.subscribe(webui.@THEME_JS@.widget.table2RowGroup.event.scroll.beginTopic,
     webui.@THEME_JS@.widget.jsfx.table2RowGroup, "processScrollEvent");
-webui.@THEME_JS@.dojo.subscribe(webui.@THEME_JS@.widget.table2RowGroup.event.pagination.next.beginTopic,
+webui.@THEME_JS@._dojo.subscribe(webui.@THEME_JS@.widget.table2RowGroup.event.pagination.next.beginTopic,
     webui.@THEME_JS@.widget.jsfx.table2RowGroup, "processScrollEvent");

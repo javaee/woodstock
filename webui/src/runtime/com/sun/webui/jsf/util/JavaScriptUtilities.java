@@ -206,14 +206,14 @@ public class JavaScriptUtilities {
     /**
      * Returns JavaScript used to require a Dojo module. For example, a value of
      * For example, a value of "widget.*" will return
-     * "webui.suntheme.dojo.require('webui.suntheme.widget.*')" for a theme, 
+     * "webui.suntheme._dojo.require('webui.suntheme.widget.*')" for a theme, 
      * named "suntheme".
      *
      * @param name The JavaScript object name to append.
      */
     public static String getModule(String name) {
         StringBuffer buff = new StringBuffer(128);
-        buff.append(getModuleName("dojo"))
+        buff.append(getModuleName("_dojo"))
             .append(".require('")
             .append(getModuleName(name))
             .append("');");
@@ -240,7 +240,7 @@ public class JavaScriptUtilities {
     /**
      * Returns JavaScript to obtain the widget associated with the 
      * component. Providing a component, with a client id of "form1:btn1",
-     * will return "webui.@THEME@.dojo.widget.byId('form1:btn1');".
+     * will return "webui.@THEME@._dojo.widget.byId('form1:btn1');".
      *       
      * @param context The current FacesContext.
      * @param component The current component being rendered.
@@ -248,7 +248,7 @@ public class JavaScriptUtilities {
     public static String getWidget(FacesContext context,
             UIComponent component) {
         StringBuffer buff = new StringBuffer(128);
-        buff.append(getModuleName("dojo"))
+        buff.append(getModuleName("_dojo"))
             .append(".widget.byId('")
             .append(component.getClientId(context))
             .append("')");
@@ -334,11 +334,11 @@ public class JavaScriptUtilities {
         writer.writeAttribute("type", "text/javascript", null);
 
         if (defer) {
-            // The webui.@THEME@.dojo.addOnLoad function starts scripts after 
+            // The webui.@THEME@._dojo.addOnLoad function starts scripts after 
             // the DOM has loaded but before all of the page elements have 
             // loaded, which means your script doesn't have to wait for images 
             // and other large resources before it manipulates page structure.
-            writer.write(getModuleName("dojo"));
+            writer.write(getModuleName("_dojo"));
             writer.write(".addOnLoad(function() {");
         }
     }
@@ -427,8 +427,8 @@ public class JavaScriptUtilities {
             : ThemeJavascript.THEME_MODULE_PATH);
 
 	// The "bundle" parameter for 
-	// webui.@THEME@.dojo.requireLocalization and 
-        // webui.@THEME@.dojo.i18n.getLocalization.
+	// webui.@THEME@._dojo.requireLocalization and 
+        // webui.@THEME@._dojo.i18n.getLocalization.
 	// It is the base name for the theme properties js file in the 
 	// nls directories, @THEME@.js
 	//

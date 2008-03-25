@@ -20,9 +20,10 @@
  * Copyright 2008 Sun Microsystems, Inc. All rights reserved.
  */
 
-webui.@THEME_JS@.dojo.provide("webui.@THEME_JS@.widget.button");
+webui.@THEME_JS@._dojo.provide("webui.@THEME_JS@.widget.button");
 
-webui.@THEME_JS@.dojo.require("webui.@THEME_JS@.widget.widgetBase");
+webui.@THEME_JS@._dojo.require("webui.@THEME_JS@.widget.common");
+webui.@THEME_JS@._dojo.require("webui.@THEME_JS@.widget.widgetBase");
  
 /**
  * @name webui.@THEME_JS@.widget.button
@@ -30,7 +31,7 @@ webui.@THEME_JS@.dojo.require("webui.@THEME_JS@.widget.widgetBase");
  * @class This class contains functions for the button widget.
  * @constructor This function is used to construct a button widget.
  */
-webui.@THEME_JS@.dojo.declare("webui.@THEME_JS@.widget.button", webui.@THEME_JS@.widget.widgetBase, {
+webui.@THEME_JS@._dojo.declare("webui.@THEME_JS@.widget.button", webui.@THEME_JS@.widget.widgetBase, {
     // Set defaults.
     constructor: function() {
         this.disabled = false;
@@ -216,18 +217,18 @@ webui.@THEME_JS@.widget.button.prototype.postCreate = function () {
     // Note: Although we now have a setProps function to update properties,
     // these functions were previously added to the DOM node; thus, we must
     // continue to be backward compatible.
-    this.domNode.isSecondary = function() { return !(webui.@THEME_JS@.dijit.byId(this.id).getProps().primary); };
-    this.domNode.setSecondary = function(secondary) { return webui.@THEME_JS@.dijit.byId(this.id).setProps({primary: !secondary}); };
-    this.domNode.isPrimary = function() { return webui.@THEME_JS@.dijit.byId(this.id).getProps().primary; };
-    this.domNode.setPrimary = function(primary) { return webui.@THEME_JS@.dijit.byId(this.id).setProps({primary: primary}); };
-    this.domNode.isMini = function() { return webui.@THEME_JS@.dijit.byId(this.id).getProps().mini; };
-    this.domNode.setMini = function(mini) { return webui.@THEME_JS@.dijit.byId(this.id).setProps({mini: mini}); };
-    this.domNode.getDisabled = function() { return webui.@THEME_JS@.dijit.byId(this.id).getProps().disabled; };
-    this.domNode.setDisabled = function(disabled) { return webui.@THEME_JS@.dijit.byId(this.id).setProps({disabled: disabled}); };
-    this.domNode.getVisible = function() { return webui.@THEME_JS@.dijit.byId(this.id).getProps().visible; };
-    this.domNode.setVisible = function(show) { return webui.@THEME_JS@.dijit.byId(this.id).setProps({visible: show}); };
-    this.domNode.getText = function() { return webui.@THEME_JS@.dijit.byId(this.id).getProps().value; };
-    this.domNode.setText = function(text) { return webui.@THEME_JS@.dijit.byId(this.id).setProps({value: text}); };
+    this.domNode.isSecondary = function() { return !(webui.@THEME_JS@.widget.common.getWidget(this.id).getProps().primary); };
+    this.domNode.setSecondary = function(secondary) { return webui.@THEME_JS@.widget.common.getWidget(this.id).setProps({primary: !secondary}); };
+    this.domNode.isPrimary = function() { return webui.@THEME_JS@.widget.common.getWidget(this.id).getProps().primary; };
+    this.domNode.setPrimary = function(primary) { return webui.@THEME_JS@.widget.common.getWidget(this.id).setProps({primary: primary}); };
+    this.domNode.isMini = function() { return webui.@THEME_JS@.widget.common.getWidget(this.id).getProps().mini; };
+    this.domNode.setMini = function(mini) { return webui.@THEME_JS@.widget.common.getWidget(this.id).setProps({mini: mini}); };
+    this.domNode.getDisabled = function() { return webui.@THEME_JS@.widget.common.getWidget(this.id).getProps().disabled; };
+    this.domNode.setDisabled = function(disabled) { return webui.@THEME_JS@.widget.common.getWidget(this.id).setProps({disabled: disabled}); };
+    this.domNode.getVisible = function() { return webui.@THEME_JS@.widget.common.getWidget(this.id).getProps().visible; };
+    this.domNode.setVisible = function(show) { return webui.@THEME_JS@.widget.common.getWidget(this.id).setProps({visible: show}); };
+    this.domNode.getText = function() { return webui.@THEME_JS@.widget.common.getWidget(this.id).getProps().value; };
+    this.domNode.setText = function(text) { return webui.@THEME_JS@.widget.common.getWidget(this.id).setProps({value: text}); };
     this.domNode.doClick = this.domNode.click;
 
     // Set events.

@@ -60,8 +60,8 @@ copyTests=false internStrings=false
 # Copy custom resources.
 #
 mkdir -p $BUILD_DIR/javascript/dojo
-cp $DOJO_RELEASE_DIR/dojo/dojo/dojo.js.uncompressed.js $BUILD_DIR/javascript/dojo/dojo.js
-cp $DOJO_RELEASE_DIR/dojo/dojo/dnd.js.uncompressed.js $BUILD_DIR/javascript/dojo/dnd.js
+cp $DOJO_RELEASE_DIR/dojo/dojo/dojo.js.uncompressed.js $BUILD_DIR/javascript/dojo/_dojo.js
+cp $DOJO_RELEASE_DIR/dojo/dojo/dnd.js.uncompressed.js $BUILD_DIR/javascript/dojo/_dnd.js
 
 #
 # Copy firebug resources.
@@ -94,7 +94,7 @@ done
 # Modify the dojo name space.
 #
 OLD=dojo
-NEW=webui\\.@THEME_JS@\\.dojo
+NEW=webui\\.@THEME_JS@\\._dojo
 for F in `find $BUILD_DIR/javascript -name \*.js`
 do
     sed -e "s|$OLD\.|$NEW\.|g" \
@@ -112,7 +112,7 @@ done
 # Modify the dijit name space.
 #
 OLD=dijit
-NEW=webui\\.@THEME_JS@\\.dijit
+NEW=webui\\.@THEME_JS@\\._dijit
 for F in `find $BUILD_DIR/javascript -name \*.js`
 do
     sed -e "s|$OLD\.|$NEW\.|g" \

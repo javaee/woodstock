@@ -20,9 +20,9 @@
  * Copyright 2008 Sun Microsystems, Inc. All rights reserved.
  */
 
-webui.@THEME_JS@.dojo.provide("webui.@THEME_JS@.widget.label");
+webui.@THEME_JS@._dojo.provide("webui.@THEME_JS@.widget.label");
 
-webui.@THEME_JS@.dojo.require("webui.@THEME_JS@.widget.widgetBase");
+webui.@THEME_JS@._dojo.require("webui.@THEME_JS@.widget.widgetBase");
 
 /**
  * @name webui.@THEME_JS@.widget.label
@@ -30,7 +30,7 @@ webui.@THEME_JS@.dojo.require("webui.@THEME_JS@.widget.widgetBase");
  * @class This class contains functions for the label widget.
  * @constructor This function is used to construct a label widget.
  */
-webui.@THEME_JS@.dojo.declare("webui.@THEME_JS@.widget.label", webui.@THEME_JS@.widget.widgetBase, {
+webui.@THEME_JS@._dojo.declare("webui.@THEME_JS@.widget.label", webui.@THEME_JS@.widget.widgetBase, {
     // Set defaults.
     constructor: function() {
         this.level = webui.@THEME_JS@.widget.common.getMessage("label.level", null, 2);

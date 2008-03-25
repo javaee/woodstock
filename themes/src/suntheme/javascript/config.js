@@ -20,9 +20,9 @@
  * Copyright 2008 Sun Microsystems, Inc. All rights reserved.
  */
 
-webui.@THEME_JS@.dojo.provide("webui.@THEME_JS@.config");
+webui.@THEME_JS@._dojo.provide("webui.@THEME_JS@.config");
 
-webui.@THEME_JS@.dojo.require("webui.@THEME_JS@.prototypejs");
+webui.@THEME_JS@._dojo.require("webui.@THEME_JS@.prototypejs");
 
 /**
  * @class This class contains config properties to initialize the environment.

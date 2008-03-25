@@ -20,10 +20,11 @@
  * Copyright 2008 Sun Microsystems, Inc. All rights reserved.
  */
 
-webui.@THEME_JS@.dojo.provide("webui.@THEME_JS@.widget.bubble");
+webui.@THEME_JS@._dojo.provide("webui.@THEME_JS@.widget.bubble");
 
-webui.@THEME_JS@.dojo.require("webui.@THEME_JS@.browser");
-webui.@THEME_JS@.dojo.require("webui.@THEME_JS@.widget.widgetBase");
+webui.@THEME_JS@._dojo.require("webui.@THEME_JS@.browser");
+webui.@THEME_JS@._dojo.require("webui.@THEME_JS@.widget.common");
+webui.@THEME_JS@._dojo.require("webui.@THEME_JS@.widget.widgetBase");
 
 /**
  * @name webui.@THEME_JS@.widget.bubble
@@ -31,7 +32,7 @@ webui.@THEME_JS@.dojo.require("webui.@THEME_JS@.widget.widgetBase");
  * @class This class contains functions for the bubble widget.
  * @constructor This function is used to construct a bubble widget.
  */
-webui.@THEME_JS@.dojo.declare("webui.@THEME_JS@.widget.bubble", webui.@THEME_JS@.widget.widgetBase, {
+webui.@THEME_JS@._dojo.declare("webui.@THEME_JS@.widget.bubble", webui.@THEME_JS@.widget.widgetBase, {
     // Set defaults.
     constructor: function() {
         this.defaultTime = 2000;
@@ -59,8 +60,9 @@ webui.@THEME_JS@.widget.bubble.prototype.close = function() {
     this.timerId = setTimeout(function() {
         // New literals are created every time this function is called, and it's 
         // saved by closure magic.
-        webui.@THEME_JS@.dijit.byId(_id).setProps({visible: false});
-        webui.@THEME_JS@.dijit.byId(_id).srcElm.focus();
+        var getWidget = webui.@THEME_JS@.widget.common.getWidget;
+        getWidget(_id).setProps({visible: false});
+        getWidget(_id).srcElm.focus();
     }, this.defaultTime);
 
     return true;
@@ -303,16 +305,18 @@ webui.@THEME_JS@.widget.bubble.prototype.open = function(event) {
     
     var id = this.id; // Closure magic.
     this.openTimerId = setTimeout(function() {
+        var getWidget = webui.@THEME_JS@.widget.common.getWidget;
+
         // Store the active bubble id to form element.
         // Check for the id if its available then close the pending bubble.
         if (webui.@THEME_JS@.widget.bubble.activeBubbleId && webui.@THEME_JS@.widget.bubble.activeBubbleId != id) {                
-            clearTimeout(webui.@THEME_JS@.dijit.byId(webui.@THEME_JS@.widget.bubble.activeBubbleId).timerId);
-            webui.@THEME_JS@.dijit.byId(webui.@THEME_JS@.widget.bubble.activeBubbleId).setProps({visible: false});
+            clearTimeout(getWidget(webui.@THEME_JS@.widget.bubble.activeBubbleId).timerId);
+            getWidget(webui.@THEME_JS@.widget.bubble.activeBubbleId).setProps({visible: false});
             webui.@THEME_JS@.widget.bubble.activeBubbleId = null;                
         }     
         webui.@THEME_JS@.widget.bubble.activeBubbleId = id;            
-        webui.@THEME_JS@.dijit.byId(id).setProps({visible: true});
-        webui.@THEME_JS@.dijit.byId(id).setPosition();
+        getWidget(id).setProps({visible: true});
+        getWidget(id).setPosition();
     }, this.openDelayTime);           
     
     if (this.duration != null && this.duration >= 0) {
@@ -339,8 +343,8 @@ webui.@THEME_JS@.widget.bubble.prototype.postCreate = function () {
     }
 
     // Set public functions.
-    this.domNode.close = function() { return webui.@THEME_JS@.dijit.byId(this.id).close(); };
-    this.domNode.open = function(event) { return webui.@THEME_JS@.dijit.byId(this.id).open(event); };
+    this.domNode.close = function() { return webui.@THEME_JS@.widget.common.getWidget(this.id).close(); };
+    this.domNode.open = function(event) { return webui.@THEME_JS@.widget.common.getWidget(this.id).open(event); };
 
     // Set events.
 

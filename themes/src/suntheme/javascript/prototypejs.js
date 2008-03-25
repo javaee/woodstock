@@ -20,7 +20,7 @@
  * Copyright 2008 Sun Microsystems, Inc. All rights reserved.
  */
 
-webui.@THEME_JS@.dojo.provide("webui.@THEME_JS@.prototypejs");
+webui.@THEME_JS@._dojo.provide("webui.@THEME_JS@.prototypejs");
 
 //
 // Prototype JavaScript framework, based on version 1.5.0_rc1 

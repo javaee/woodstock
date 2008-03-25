@@ -20,11 +20,11 @@
  * Copyright 2008 Sun Microsystems, Inc. All rights reserved.
  */
 
-webui.@THEME_JS@.dojo.provide("webui.@THEME_JS@.theme.common");
+webui.@THEME_JS@._dojo.provide("webui.@THEME_JS@.theme.common");
 
-webui.@THEME_JS@.dojo.require("webui.@THEME_JS@.config");
-webui.@THEME_JS@.dojo.require("webui.@THEME_JS@.dojo.i18n");
-webui.@THEME_JS@.dojo.require("webui.@THEME_JS@.prototypejs");
+webui.@THEME_JS@._dojo.require("webui.@THEME_JS@.config");
+webui.@THEME_JS@._dojo.require("webui.@THEME_JS@._dojo.i18n");
+webui.@THEME_JS@._dojo.require("webui.@THEME_JS@.prototypejs");
 
 /**
  * @class This class contains common functions to obtain theme properties.
@@ -42,7 +42,7 @@ webui.@THEME_JS@.dojo.require("webui.@THEME_JS@.prototypejs");
  * Each category has a set of properties. See the methods in
  * webui.@THEME_JS@.theme.common for obtaining the theme property values.
  * </p><p>
- * webui.@THEME_JS@.dojo.requireLocalization is reimplemented here in order to perform
+ * webui.@THEME_JS@._dojo.requireLocalization is reimplemented here in order to perform
  * hierarchical extension of the theme for application theme overrides.
  * </p>
  * @static
@@ -73,7 +73,7 @@ webui.@THEME_JS@.theme.common = {
 
         // Register module path.
 	if (props.modulePath) {
-	    webui.@THEME_JS@.dojo.registerModulePath(module, props.modulePath);
+	    webui.@THEME_JS@._dojo.registerModulePath(module, props.modulePath);
 	}
 
         // Load the javascript theme.
@@ -83,7 +83,7 @@ webui.@THEME_JS@.theme.common = {
         theme.requireLocalization(module, props.bundle, 
             (props.locale == "en" || props.locale == "en-us") ? "ROOT" : props.locale);
 
-        theme.baseTheme = webui.@THEME_JS@.dojo.i18n.getLocalization(module,
+        theme.baseTheme = webui.@THEME_JS@._dojo.i18n.getLocalization(module,
             props.bundle, props.locale);
 
         if (props.custom instanceof Array) {
@@ -385,14 +385,14 @@ webui.@THEME_JS@.theme.common = {
 		var re = new RegExp("\\.", "g");
 		modulePath = modulePath + "/" + module.replace(re, "/");
 	    }
-            webui.@THEME_JS@.dojo.registerModulePath(module, modulePath);
+            webui.@THEME_JS@._dojo.registerModulePath(module, modulePath);
             theme.requireLocalization(module, bundle, config.theme.locale);
         } catch(e) {
 	    return false;
         }
         var newTheme = null;
         try {
-            newTheme = webui.@THEME_JS@.dojo.i18n.getLocalization(module, bundle, 
+            newTheme = webui.@THEME_JS@._dojo.i18n.getLocalization(module, bundle, 
                 config.theme.locale);
         } catch(e) {
 	    return false;
@@ -408,9 +408,9 @@ webui.@THEME_JS@.theme.common = {
 
     /**
      * Declares translated resources and loads them if necessary, in the same 
-     * style as webui.@THEME_JS@.dojo.require. Contents of the resource bundle are typically 
+     * style as webui.@THEME_JS@._dojo.require. Contents of the resource bundle are typically 
      * strings, but may be any name/value pair, represented in JSON format. 
-     * See also webui.@THEME_JS@.dojo.i18n.getLocalization.
+     * See also webui.@THEME_JS@._dojo.i18n.getLocalization.
      * <p>
      * Load translated resource bundles provided underneath the "nls" directory
      * within a package. Translated resources may be located in different
@@ -468,7 +468,7 @@ webui.@THEME_JS@.theme.common = {
      * directory in which the bundle is found.
      * @param {String} bundleName The bundle name, i.e. the filename without the
      * '.js' suffix locale: the locale to load (optional). By default, the 
-     * browser's user locale as defined by webui.@THEME_JS@.dojo.locale
+     * browser's user locale as defined by webui.@THEME_JS@._dojo.locale
      * @param {String} locale The current locale.
      * @param {String} availableFlatLocales A comma-separated list of the 
      * available, flattened locales for this bundle.
@@ -476,10 +476,10 @@ webui.@THEME_JS@.theme.common = {
      */
     requireLocalization: function(moduleName, bundleName, locale, 
             availableFlatLocales) {
-        // Taken from webui.@THEME_JS@.dojo.js in order to override the callback function that is 
+        // Taken from webui.@THEME_JS@._dojo.js in order to override the callback function that is 
         // passed to loadPath, in to perform hierarchical "extension" of properties.
 
-        var targetLocale = webui.@THEME_JS@.dojo.i18n.normalizeLocale(locale);
+        var targetLocale = webui.@THEME_JS@._dojo.i18n.normalizeLocale(locale);
         var bundlePackage = [moduleName, "nls", bundleName].join(".");
         
         // Find the best-match locale to load if we have available flat locales.
@@ -501,7 +501,7 @@ webui.@THEME_JS@.theme.common = {
 
         // See if the desired locale is already loaded.
         var tempLocale = availableFlatLocales ? bestLocale : targetLocale;
-        var bundle = webui.@THEME_JS@.dojo._loadedModules[bundlePackage];
+        var bundle = webui.@THEME_JS@._dojo._loadedModules[bundlePackage];
         var localizedBundle = null;
         if (bundle) {
             if (webui_@THEME_JS@_config.djConfig.localizationComplete && bundle._built) {
@@ -509,31 +509,31 @@ webui.@THEME_JS@.theme.common = {
             }
             var jsLoc = tempLocale.replace(/-/g, '_');
             var translationPackage = bundlePackage+"."+jsLoc;
-            localizedBundle = webui.@THEME_JS@.dojo._loadedModules[translationPackage];
+            localizedBundle = webui.@THEME_JS@._dojo._loadedModules[translationPackage];
         }
 
         if (!localizedBundle) {
-            bundle = webui.@THEME_JS@.dojo["provide"](bundlePackage);
-            var syms = webui.@THEME_JS@.dojo._getModuleSymbols(moduleName);
+            bundle = webui.@THEME_JS@._dojo["provide"](bundlePackage);
+            var syms = webui.@THEME_JS@._dojo._getModuleSymbols(moduleName);
             var modpath = syms.concat("nls").join("/");
             var parent;
 
-            webui.@THEME_JS@.dojo.i18n._searchLocalePath(tempLocale, availableFlatLocales, function(loc) {
+            webui.@THEME_JS@._dojo.i18n._searchLocalePath(tempLocale, availableFlatLocales, function(loc) {
                 var jsLoc = loc.replace(/-/g, '_');
                 var translationPackage = bundlePackage + "." + jsLoc;
                 var loaded = false;
-                if (!webui.@THEME_JS@.dojo._loadedModules[translationPackage]) {
+                if (!webui.@THEME_JS@._dojo._loadedModules[translationPackage]) {
                     // Mark loaded whether it's found or not, 
                     // so that further load attempts will not 
                     // be made
-                    webui.@THEME_JS@.dojo["provide"](translationPackage);
+                    webui.@THEME_JS@._dojo["provide"](translationPackage);
                     var module = [modpath];
                     if (loc != "ROOT") {
                         module.push(loc);    
                     }
                     module.push(bundleName);
                     var filespec = module.join("/") + '.js';
-                    loaded = webui.@THEME_JS@.dojo._loadPath(filespec, null, function(hash) {
+                    loaded = webui.@THEME_JS@._dojo._loadPath(filespec, null, function(hash) {
                         // Use singleton with prototype to point to parent
                         // bundle, then mix-in result from loadPath
                         var clazz = function() {};

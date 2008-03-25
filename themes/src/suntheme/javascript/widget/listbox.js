@@ -20,9 +20,9 @@
  * Copyright 2008 Sun Microsystems, Inc. All rights reserved.
  */
 
-webui.@THEME_JS@.dojo.provide("webui.@THEME_JS@.widget.listbox");
+webui.@THEME_JS@._dojo.provide("webui.@THEME_JS@.widget.listbox");
 
-webui.@THEME_JS@.dojo.require("webui.@THEME_JS@.widget.selectBase");
+webui.@THEME_JS@._dojo.require("webui.@THEME_JS@.widget.selectBase");
 
 /**
  * @name webui.@THEME_JS@.widget.listbox
@@ -30,7 +30,7 @@ webui.@THEME_JS@.dojo.require("webui.@THEME_JS@.widget.selectBase");
  * @class This class contains functions for the listbox widget.
  * @constructor This function is used to construct a listbox widget.
  */
-webui.@THEME_JS@.dojo.declare("webui.@THEME_JS@.widget.listbox", 
+webui.@THEME_JS@._dojo.declare("webui.@THEME_JS@.widget.listbox", 
 	webui.@THEME_JS@.widget.selectBase, {
     // Set defaults.
     //

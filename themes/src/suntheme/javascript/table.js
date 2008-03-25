@@ -20,11 +20,11 @@
  * Copyright 2008 Sun Microsystems, Inc. All rights reserved.
  */
 
-webui.@THEME_JS@.dojo.provide("webui.@THEME_JS@.table");
+webui.@THEME_JS@._dojo.provide("webui.@THEME_JS@.table");
 
-webui.@THEME_JS@.dojo.require("webui.@THEME_JS@.common");
-webui.@THEME_JS@.dojo.require("webui.@THEME_JS@.formElements");
-webui.@THEME_JS@.dojo.require("webui.@THEME_JS@.prototypejs");
+webui.@THEME_JS@._dojo.require("webui.@THEME_JS@.common");
+webui.@THEME_JS@._dojo.require("webui.@THEME_JS@.formElements");
+webui.@THEME_JS@._dojo.require("webui.@THEME_JS@.prototypejs");
 
 /** 
  * @class This class contains functions for table components.

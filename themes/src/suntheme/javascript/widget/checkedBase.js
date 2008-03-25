@@ -20,10 +20,11 @@
  * Copyright 2008 Sun Microsystems, Inc. All rights reserved.
  */
 
-webui.@THEME_JS@.dojo.provide("webui.@THEME_JS@.widget.checkedBase");
+webui.@THEME_JS@._dojo.provide("webui.@THEME_JS@.widget.checkedBase");
 
-webui.@THEME_JS@.dojo.require("webui.@THEME_JS@.browser");
-webui.@THEME_JS@.dojo.require("webui.@THEME_JS@.widget.widgetBase");
+webui.@THEME_JS@._dojo.require("webui.@THEME_JS@.browser");
+webui.@THEME_JS@._dojo.require("webui.@THEME_JS@.widget.common");
+webui.@THEME_JS@._dojo.require("webui.@THEME_JS@.widget.widgetBase");
 
 /**
  * @name webui.@THEME_JS@.widget.checkedBase
@@ -31,7 +32,7 @@ webui.@THEME_JS@.dojo.require("webui.@THEME_JS@.widget.widgetBase");
  * @class This class contains functions for widgets that extend checkedBase.
  * @static
  */
-webui.@THEME_JS@.dojo.declare("webui.@THEME_JS@.widget.checkedBase", webui.@THEME_JS@.widget.widgetBase, {
+webui.@THEME_JS@._dojo.declare("webui.@THEME_JS@.widget.checkedBase", webui.@THEME_JS@.widget.widgetBase, {
     // Set defaults.
     idSuffix: "" // Overridden by subclass
 });
@@ -143,7 +144,7 @@ webui.@THEME_JS@.widget.checkedBase.prototype.postCreate = function () {
     }
 
     // Set public functions.
-    this.domNode.getInputElement = function() { return webui.@THEME_JS@.dijit.byId(this.id).getInputElement(); }
+    this.domNode.getInputElement = function() { return webui.@THEME_JS@.widget.common.getWidget(this.id).getInputElement(); }
     
     // Create callback function for onclick event.
     this.dojo.connect(this.domNode, "onclick", this, "onClickCallback");
@@ -196,7 +197,7 @@ webui.@THEME_JS@.widget.checkedBase.prototype._setProps = function(props) {
             setTimeout(function() {
                 // New literals are created every time this function
                 // is called, and it's saved by closure magic.
-                var widget = webui.@THEME_JS@.dijit.byId(_id);
+                var widget = webui.@THEME_JS@.widget.common.getWidget(_id);
                 widget.inputNode.checked = checked;
             }, 0); // (n) milliseconds delay.
         } else {

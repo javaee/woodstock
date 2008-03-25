@@ -20,9 +20,10 @@
  * Copyright 2008 Sun Microsystems, Inc. All rights reserved.
  */
 
-webui.@THEME_JS@.dojo.provide("webui.@THEME_JS@.widget.accordionTab");
+webui.@THEME_JS@._dojo.provide("webui.@THEME_JS@.widget.accordionTab");
 
-webui.@THEME_JS@.dojo.require("webui.@THEME_JS@.widget.widgetBase");
+webui.@THEME_JS@._dojo.require("webui.@THEME_JS@.widget.common");
+webui.@THEME_JS@._dojo.require("webui.@THEME_JS@.widget.widgetBase");
 
 /**
  * @name webui.@THEME_JS@.widget.accordionTab
@@ -30,7 +31,7 @@ webui.@THEME_JS@.dojo.require("webui.@THEME_JS@.widget.widgetBase");
  * @class This class contains functions for the accordionTab widget.
  * @constructor This function is used to construct an accordionTab widget.
  */
-webui.@THEME_JS@.dojo.declare("webui.@THEME_JS@.widget.accordionTab", webui.@THEME_JS@.widget.widgetBase, {
+webui.@THEME_JS@._dojo.declare("webui.@THEME_JS@.widget.accordionTab", webui.@THEME_JS@.widget.widgetBase, {
     // Set defaults.
     constructor: function() {
         this.isContainer = true;
@@ -53,7 +54,7 @@ webui.@THEME_JS@.widget.accordionTab.prototype.createOnKeyDownCallBack = functio
         if (elem == null) {
             return false;
         }
-        var widget = webui.@THEME_JS@.dijit.byId(_id);
+        var widget = webui.@THEME_JS@.widget.common.getWidget(_id);
 
         event = _widget.getEvent(event);
         var keyCode = _widget.getKeyCode(event);
@@ -138,7 +139,7 @@ webui.@THEME_JS@.widget.accordionTab.event =
  */
 webui.@THEME_JS@.widget.accordionTab.prototype.loadContent = function(execute) {
     // Publish event.
-    this.publish(webui.@THEME_JS@.widget.accordionTab.event.load.beginTopic, [{
+    this._publish(webui.@THEME_JS@.widget.accordionTab.event.load.beginTopic, [{
         id: this.id
     }]);
     return true;
@@ -202,7 +203,7 @@ webui.@THEME_JS@.widget.accordionTab.prototype.onMenuClickCallback = function(ev
  * @return {boolean} true if successful; otherwise, false.
  */
 webui.@THEME_JS@.widget.accordionTab.prototype.onTitleClickCallback = function (event) {
-    this.publish(webui.@THEME_JS@.widget.accordionTab.event.title.selectedTopic, [{
+    this._publish(webui.@THEME_JS@.widget.accordionTab.event.title.selectedTopic, [{
         id: this.id
     }]);
     if (this.titleContainer.focus) {
@@ -476,10 +477,9 @@ webui.@THEME_JS@.widget.accordionTab.prototype.setTabContent = function(content)
  * @return {boolean} true if successful; otherwise, false.
  */
 webui.@THEME_JS@.widget.accordionTab.prototype.setTitle = function (title) {
-    
     if (title) {
         // NOTE: If you set this value manually, text must be HTML escaped.
-        var titleHref = webui.@THEME_JS@.widget.common.getWidgetProps("hyperlink", {
+        var titleHref = this.widget.getWidgetProps("hyperlink", {
                 id: this.id + "_titleLink",
                 title: title,
                 onClick: "return false;",

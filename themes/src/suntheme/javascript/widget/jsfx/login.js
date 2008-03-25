@@ -20,11 +20,12 @@
  * Copyright 2008 Sun Microsystems, Inc. All rights reserved.
  */
 
-webui.@THEME_JS@.dojo.provide("webui.@THEME_JS@.widget.jsfx.login");
+webui.@THEME_JS@._dojo.provide("webui.@THEME_JS@.widget.jsfx.login");
 
-webui.@THEME_JS@.dojo.require("webui.@THEME_JS@.json");
-webui.@THEME_JS@.dojo.require("webui.@THEME_JS@.widget.login");
-webui.@THEME_JS@.dojo.require("webui.@THEME_JS@.widget.jsfx.dynaFaces");
+webui.@THEME_JS@._dojo.require("webui.@THEME_JS@.json");
+webui.@THEME_JS@._dojo.require("webui.@THEME_JS@.widget.common");
+webui.@THEME_JS@._dojo.require("webui.@THEME_JS@.widget.login");
+webui.@THEME_JS@._dojo.require("webui.@THEME_JS@.widget.jsfx.dynaFaces");
 
 /**
  * @class This class contains functions to authenticate data asynchronously 
@@ -50,12 +51,12 @@ webui.@THEME_JS@.widget.jsfx.login =  {
 
         // Publish an event for custom AJAX implementations 
 	// to listen for.
-        var widget = webui.@THEME_JS@.dijit.byId(id);
+        var widget = webui.@THEME_JS@.widget.common.getWidget(id);
         widget.setProps(props);
         
         // Publish an event for custom AJAX implementations to listen for.
         if (xjson.endTopic) {
-            webui.@THEME_JS@.dojo.publish(xjson.endTopic, props);
+            webui.@THEME_JS@._dojo.publish(xjson.endTopic, props);
         }
         return true;
     },
@@ -96,5 +97,5 @@ webui.@THEME_JS@.widget.jsfx.login =  {
 };
 
 // Listen for Dojo Widget events.
-webui.@THEME_JS@.dojo.subscribe(webui.@THEME_JS@.widget.login.event.authenticate.beginTopic,
+webui.@THEME_JS@._dojo.subscribe(webui.@THEME_JS@.widget.login.event.authenticate.beginTopic,
     webui.@THEME_JS@.widget.jsfx.login, "processLoginEvent");

@@ -20,10 +20,11 @@
  * Copyright 2008 Sun Microsystems, Inc. All rights reserved.
  */
 
-webui.@THEME_JS@.dojo.provide("webui.@THEME_JS@.widget.calendar");
+webui.@THEME_JS@._dojo.provide("webui.@THEME_JS@.widget.calendar");
 
-webui.@THEME_JS@.dojo.require("webui.@THEME_JS@.browser");
-webui.@THEME_JS@.dojo.require("webui.@THEME_JS@.widget.widgetBase");
+webui.@THEME_JS@._dojo.require("webui.@THEME_JS@.browser");
+webui.@THEME_JS@._dojo.require("webui.@THEME_JS@.widget.common");
+webui.@THEME_JS@._dojo.require("webui.@THEME_JS@.widget.widgetBase");
 
 /**
  * @name webui.@THEME_JS@.widget.calendar
@@ -31,7 +32,7 @@ webui.@THEME_JS@.dojo.require("webui.@THEME_JS@.widget.widgetBase");
  * @class This class contains functions for the calendar widget.
  * @constructor This function is used to construct a calendar widget.
  */
-webui.@THEME_JS@.dojo.declare("webui.@THEME_JS@.widget.calendar", webui.@THEME_JS@.widget.widgetBase, {
+webui.@THEME_JS@._dojo.declare("webui.@THEME_JS@.widget.calendar", webui.@THEME_JS@.widget.widgetBase, {
     // Set defaults.
     widgetName: "calendar" // Required for theme properties.
 });
@@ -68,16 +69,15 @@ webui.@THEME_JS@.widget.calendar.prototype.addDayLink = function(rowNodeClone, d
 
     var widgetId = this.id;
     linkNodeClone.onclick = function() { 
-        webui.@THEME_JS@.dijit.byId(widgetId).daySelected(formattedDate); 
+        webui.@THEME_JS@.widget.common.getWidget(widgetId).daySelected(formattedDate); 
         return false;
     };  
     
     // If the setFocus is set to true, then when you tab out of the linkNode,
     // the focus should go to the close button. 
     if (setFocus) {
-        var node = webui.@THEME_JS@.dijit.byId(linkNodeClone.id);        
         linkNodeClone.onkeydown = function(event) {
-            var widget = webui.@THEME_JS@.dijit.byId(widgetId);
+            var widget = webui.@THEME_JS@.widget.common.getWidget(widgetId);
             
             // Get hold of the close button and set focus on it.
             var evt = (event) ? event : ((window.event) ? window.event : null);
@@ -147,8 +147,8 @@ webui.@THEME_JS@.widget.calendar.prototype.addDaysInMonth = function(currentValu
     }
     
     // Get month and year menu widgets.
-    var monthMenuWidget = webui.@THEME_JS@.dijit.byId(this.monthMenu.id);        
-    var yearMenuWidget = webui.@THEME_JS@.dijit.byId(this.yearMenu.id);
+    var monthMenuWidget = this.widget.getWidget(this.monthMenu.id);        
+    var yearMenuWidget = this.widget.getWidget(this.yearMenu.id);
     if (monthMenuWidget == null || yearMenuWidget == null) {
         return false;
     }
@@ -365,7 +365,7 @@ webui.@THEME_JS@.widget.calendar.prototype.closeCalendar = function(event) {
  */
 webui.@THEME_JS@.widget.calendar.prototype.daySelected = function(formattedDate) {
     this.toggleCalendar();    
-    this.publish(webui.@THEME_JS@.widget.calendar.event.day.selectedTopic, [{
+    this._publish(webui.@THEME_JS@.widget.calendar.event.day.selectedTopic, [{
         id: this.id,
         date:formattedDate
     }]);
@@ -378,7 +378,7 @@ webui.@THEME_JS@.widget.calendar.prototype.daySelected = function(formattedDate)
  * @return {boolean} true if successful; otherwise, false.
  */
 webui.@THEME_JS@.widget.calendar.prototype.decreaseMonth = function() {
-    var monthMenu = webui.@THEME_JS@.dijit.byId(this.monthMenu.id).getSelectElement();
+    var monthMenu = this.widget.getWidget(this.monthMenu.id).getSelectElement();
     // If the monthMenu has no value, set it to January (that's what
     // it will have appeared like in the browser). Can happen on IE.  
     if (monthMenu.value == null) {
@@ -387,7 +387,7 @@ webui.@THEME_JS@.widget.calendar.prototype.decreaseMonth = function() {
     
     var month = parseInt(monthMenu.value);
     if (month == 1) {
-        var yearMenu = webui.@THEME_JS@.dijit.byId(this.yearMenu.id).getSelectElement();        
+        var yearMenu = this.widget.getWidget(this.yearMenu.id).getSelectElement();        
          if (yearMenu.value == null) {
              // If the yearMenu has no value, set it to the first available year            
              // (that's what it will have appeared like in the browser). Can happen on IE.
@@ -602,7 +602,7 @@ webui.@THEME_JS@.widget.calendar.prototype.ieHideShim = function() {
  * @return {boolean} true if successful; otherwise, false.
  */
 webui.@THEME_JS@.widget.calendar.prototype.increaseMonth = function() {            
-    var monthMenu = webui.@THEME_JS@.dijit.byId(this.monthMenu.id).getSelectElement();          
+    var monthMenu = this.widget.getWidget(this.monthMenu.id).getSelectElement();          
     
     // If the monthMenu has no value, set it to January (that's what
     // it will have appeared like in the browser). Can happen on IE. 
@@ -612,7 +612,7 @@ webui.@THEME_JS@.widget.calendar.prototype.increaseMonth = function() {
     
     var month = parseInt(monthMenu.value);
     if (month == 12) {
-        var yearMenu = webui.@THEME_JS@.dijit.byId(this.yearMenu.id).getSelectElement();
+        var yearMenu = this.widget.getWidget(this.yearMenu.id).getSelectElement();
         var numOptions = yearMenu.options.length;
         if (yearMenu.value == null) {
             // If the yearMenu has no value, set it to the first available year            
@@ -921,7 +921,7 @@ webui.@THEME_JS@.widget.calendar.prototype.convertStringToDate = function(inputD
                 if (yearCheck == true) {
                     var index = 0;
                     var foundYear = false;                               
-                    yearMenu = webui.@THEME_JS@.dijit.byId(this.yearMenu.id).getSelectElement();
+                    yearMenu = this.widget.getWidget(this.yearMenu.id).getSelectElement();
                     while (index < yearMenu.length) {
                         if (number == yearMenu.options[index].value) {
                             selectedDate.setFullYear(number);
@@ -1000,7 +1000,7 @@ webui.@THEME_JS@.widget.calendar.prototype.setInitialFocus = function() {
     //    var yearMenu = document.getElementById(this.calendarMonth.yearMenu.id).getSelectElement();
     //    yearMenu.focus();                 
     // } else {
-        var monthMenu = webui.@THEME_JS@.dijit.byId(this.monthMenu.id).getSelectElement();          
+        var monthMenu = this.widget.getWidget(this.monthMenu.id).getSelectElement();          
         monthMenu.focus();
     // }
     return true;
@@ -1081,19 +1081,19 @@ webui.@THEME_JS@.widget.calendar.prototype._setProps = function(props) {
     }
 
     if (props.spacerImage) {
-        if (!webui.@THEME_JS@.dijit.byId(this.spacerImage.id)) {
+        if (!this.widget.getWidget(this.spacerImage.id)) {
             this.widget.addFragment(this.spacerImageContainer, props.spacerImage);
         }
     }
 
     if (props.topLeftImage) {
-        if (!webui.@THEME_JS@.dijit.byId(this.topLeftImage.id)) {
+        if (!this.widget.getWidget(this.topLeftImage.id)) {
             this.widget.addFragment(this.topLeftImageContainer, props.topLeftImage);
         }
     }
 
     if (props.topRightImage) {
-        if (!webui.@THEME_JS@.dijit.byId(this.topRightImage.id)) {
+        if (!this.widget.getWidget(this.topRightImage.id)) {
             this.widget.addFragment(this.topRightImageContainer, props.topRightImage);
         }
     }
@@ -1109,9 +1109,9 @@ webui.@THEME_JS@.widget.calendar.prototype._setProps = function(props) {
     if (props.closeButtonLink) {
         // Set properties.
         props.closeButtonLink.onClick = 
-            "webui.@THEME_JS@.dijit.byId('" + this.id + "').toggleCalendar();return false;";
+            "webui.@THEME_JS@.widget.common.getWidget('" + this.id + "').toggleCalendar();return false;";
         props.closeButtonLink.onKeyDown = 
-            "webui.@THEME_JS@.dijit.byId('" + this.id + "').closeCalendar(event);return false;";       
+            "webui.@THEME_JS@.widget.common.getWidget('" + this.id + "').closeCalendar(event);return false;";       
 
         // Update/add fragment.
         this.widget.updateFragment(this.closeButtonContainer, 
@@ -1122,7 +1122,7 @@ webui.@THEME_JS@.widget.calendar.prototype._setProps = function(props) {
     if (props.decreaseLink) {
         // Set properties.
         props.decreaseLink.onClick = 
-            "webui.@THEME_JS@.dijit.byId('" + this.id + "').decreaseMonth();return false;";
+            "webui.@THEME_JS@.widget.common.getWidget('" + this.id + "').decreaseMonth();return false;";
 
         // Update/add fragment.
         this.widget.updateFragment(this.previousLinkContainer, 
@@ -1133,7 +1133,7 @@ webui.@THEME_JS@.widget.calendar.prototype._setProps = function(props) {
     if (props.increaseLink) {
         // Set properties.
         props.increaseLink.onClick = 
-            "webui.@THEME_JS@.dijit.byId('" + this.id + "').increaseMonth();return false;";
+            "webui.@THEME_JS@.widget.common.getWidget('" + this.id + "').increaseMonth();return false;";
 
         // Update/add fragment.
         this.widget.updateFragment(this.nextLinkContainer, this.increaseLink.id, 
@@ -1180,7 +1180,7 @@ webui.@THEME_JS@.widget.calendar.prototype._setProps = function(props) {
     if (props.monthMenu) {                        
         // Set properties.
         props.monthMenu.onChange =
-            "webui.@THEME_JS@.dijit.byId('" + this.id + "').updateMonth(false);return false;";
+            "webui.@THEME_JS@.widget.common.getWidget('" + this.id + "').updateMonth(false);return false;";
                          
         // Update/add fragment.
         this.widget.updateFragment(this.monthMenuContainer, this.monthMenu.id,
@@ -1191,7 +1191,7 @@ webui.@THEME_JS@.widget.calendar.prototype._setProps = function(props) {
     if (props.yearMenu) {        
         // Set properties.
         props.yearMenu.onChange =
-            "webui.@THEME_JS@.dijit.byId('" + this.id + "').updateMonth(false);return false;";
+            "webui.@THEME_JS@.widget.common.getWidget('" + this.id + "').updateMonth(false);return false;";
 
         // Update/add fragment.
         this.widget.updateFragment(this.yearMenuContainer, this.yearMenu.id,
@@ -1216,7 +1216,7 @@ webui.@THEME_JS@.widget.calendar.prototype._setProps = function(props) {
         // Set properties.
         props.toggleLink.disabled = this.disabled;
         props.toggleLink.onClick =
-            "webui.@THEME_JS@.dijit.byId('" + this.id + "').toggleCalendar();return false;";
+            "webui.@THEME_JS@.widget.common.getWidget('" + this.id + "').toggleCalendar();return false;";
 
         // Update/add fragment.
         this.widget.updateFragment(this.linkNode, this.toggleLink.id, props.toggleLink); 
@@ -1261,14 +1261,14 @@ webui.@THEME_JS@.widget.calendar.prototype.toggleCalendar = function() {
     //
     // Note: This must be done before the calendar is opened so user
     // input can be applied to the current date.
-    this.publish(webui.@THEME_JS@.widget.calendar.event.toggle.openTopic, [{
+    this._publish(webui.@THEME_JS@.widget.calendar.event.toggle.openTopic, [{
         id: this.id
     }]);
 
     // Open the calendar.
     if (this.calendarContainer.style.display != "block") {
         if (webui.@THEME_JS@.widget.calendar.activeCalendarId != null) {
-            var cal = webui.@THEME_JS@.dijit.byId(webui.@THEME_JS@.widget.calendar.activeCalendarId);
+            var cal = this.widget.getWidget(webui.@THEME_JS@.widget.calendar.activeCalendarId);
             cal.toggleCalendar();
         }
         webui.@THEME_JS@.widget.calendar.activeCalendarId = this.id;        

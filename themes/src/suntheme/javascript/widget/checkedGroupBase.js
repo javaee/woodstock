@@ -20,9 +20,9 @@
  * Copyright 2008 Sun Microsystems, Inc. All rights reserved.
  */
 
-webui.@THEME_JS@.dojo.provide("webui.@THEME_JS@.widget.checkedGroupBase");
+webui.@THEME_JS@._dojo.provide("webui.@THEME_JS@.widget.checkedGroupBase");
 
-webui.@THEME_JS@.dojo.require("webui.@THEME_JS@.widget.widgetBase");
+webui.@THEME_JS@._dojo.require("webui.@THEME_JS@.widget.widgetBase");
 
 /**
  * @name webui.@THEME_JS@.widget.checkedGroupBase
@@ -30,7 +30,7 @@ webui.@THEME_JS@.dojo.require("webui.@THEME_JS@.widget.widgetBase");
  * @class This class contains functions for widgets that extend checkedGroupBase.
  * @static
  */
-webui.@THEME_JS@.dojo.declare("webui.@THEME_JS@.widget.checkedGroupBase", webui.@THEME_JS@.widget.widgetBase);
+webui.@THEME_JS@._dojo.declare("webui.@THEME_JS@.widget.checkedGroupBase", webui.@THEME_JS@.widget.widgetBase);
 
 /**
  * Helper function to add elements with Object literals.
@@ -94,7 +94,7 @@ webui.@THEME_JS@.widget.checkedGroupBase.prototype.addContents = function(props)
         // Update the disabled property client side
         if (props.disabled != null && this.contents) {
             for (var i = 0; i < this.contents.length; i++) {
-                var contentWidget = webui.@THEME_JS@.dijit.byId(this.contents[i].id);
+                var contentWidget = this.widget.getWidget(this.contents[i].id);
                 if (contentWidget) {
                     contentWidget.setProps({disabled: props.disabled});
                 }

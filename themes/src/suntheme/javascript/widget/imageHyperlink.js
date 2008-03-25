@@ -20,9 +20,9 @@
  * Copyright 2008 Sun Microsystems, Inc. All rights reserved.
  */
 
-webui.@THEME_JS@.dojo.provide("webui.@THEME_JS@.widget.imageHyperlink");
+webui.@THEME_JS@._dojo.provide("webui.@THEME_JS@.widget.imageHyperlink");
 
-webui.@THEME_JS@.dojo.require("webui.@THEME_JS@.widget.hyperlink");
+webui.@THEME_JS@._dojo.require("webui.@THEME_JS@.widget.hyperlink");
 
 /**
  * @name webui.@THEME_JS@.widget.imageHyperlink
@@ -30,7 +30,7 @@ webui.@THEME_JS@.dojo.require("webui.@THEME_JS@.widget.hyperlink");
  * @class This class contains functions for the imageHyperlink widget.
  * @constructor This function is used to construct a imageHyperlink widget.
  */
-webui.@THEME_JS@.dojo.declare("webui.@THEME_JS@.widget.imageHyperlink", webui.@THEME_JS@.widget.hyperlink, {
+webui.@THEME_JS@._dojo.declare("webui.@THEME_JS@.widget.imageHyperlink", webui.@THEME_JS@.widget.hyperlink, {
     // Set defaults.
     widgetName: "imageHyperlink" // Required for theme properties.
 });

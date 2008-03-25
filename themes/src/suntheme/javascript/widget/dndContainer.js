@@ -20,10 +20,10 @@
  * Copyright 2008 Sun Microsystems, Inc. All rights reserved.
  */
 
-webui.@THEME_JS@.dojo.provide("webui.@THEME_JS@.widget.dndContainer");
+webui.@THEME_JS@._dojo.provide("webui.@THEME_JS@.widget.dndContainer");
 
-webui.@THEME_JS@.dojo.require("webui.@THEME_JS@.dnd");
-webui.@THEME_JS@.dojo.require("webui.@THEME_JS@.widget.widgetBase");
+webui.@THEME_JS@._dojo.require("webui.@THEME_JS@.dnd");
+webui.@THEME_JS@._dojo.require("webui.@THEME_JS@.widget.widgetBase");
 
  /**
   * @name webui.@THEME_JS@.widget.dndContainer
@@ -31,7 +31,7 @@ webui.@THEME_JS@.dojo.require("webui.@THEME_JS@.widget.widgetBase");
   * @class This class contains functions for the dndContainer widget
   * @constructor This function is used to construct a dndContainer widget.
   */
-webui.@THEME_JS@.dojo.declare("webui.@THEME_JS@.widget.dndContainer", webui.@THEME_JS@.widget.widgetBase, {
+webui.@THEME_JS@._dojo.declare("webui.@THEME_JS@.widget.dndContainer", webui.@THEME_JS@.widget.widgetBase, {
     // Set defaults.
     widgetName: "dndContainer" // Required for theme properties.
 });
