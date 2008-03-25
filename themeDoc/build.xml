@@ -22,17 +22,28 @@
 
 <project name="themeDoc" default="netbeans" basedir=".">
 
+  <!--  See woodstock/themes/build.properties and woodstock/themes/build.xml
+  Theme resources are cached using an "Expires" timestamp. In order for 
+  browsers to load new resources, without expiring or clearing the cache
+  manually, a new package path is used. This must be updated during each 
+  release and kept in sync with the internal suntheme-branded module.
+  -->
+  <tstamp>
+    <format property="CacheDate" pattern="yyMMdd"/>
+  </tstamp>
+
   <!-- Get release time overrides forom ../build.properties -->
   <property file="../build.properties"/>
 
   <!-- Initialize property values -->
   <property file="build.properties"/>
 
-  <!--
-  <property name="DOCHOSTPORT" value="localhost:8080"/>
-  -->
-  <property name="DOCHOSTPORT" value="webdev2.sun.com"/>
+  <property name="DOCHOSTPORT" value="${dochostandport}"/>
   <property name="DOCAPPCONTEXT" value="woodstock-theme-doc"/>
+
+  <!-- see above "CacheDate" -->
+  <property name="SUNTHEMEPKGDIR"
+	    value="suntheme${CacheThemeVersion}"/>
 
   <property name="ws" value=".."/>
   <property name="webui" value="${ws}/webui"/>
@@ -262,6 +273,8 @@
 	  <filterset>
 	      <filter token="HOST_APPCONTEXT"
 		    value="${DOCHOSTPORT}/${DOCAPPCONTEXT}"/>
+	      <filter token="SUNTHEMEPKGDIR"
+		    value="${SUNTHEMEPKGDIR}"/>
 	  </filterset>
       </copy>
       <copy todir="${build}/web">

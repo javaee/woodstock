@@ -23,7 +23,7 @@
  Copyright 2007 Sun Microsystems, Inc. All rights reserved.
 -->
 
-<title>2. Customizing the Theme - The Theme and Woodstock Web Applications - Version 4.1</title>
+<title>2. Customizing the Theme - The Theme and Woodstock Web Applications - Version 4.2</title>
 
 <meta name="COPYRIGHT" 
     content="Woodstock Web Components Theme Documentation">
@@ -31,10 +31,7 @@
 
 <link href="css/browser-uispec.css" type="text/css" rel="stylesheet">
 <script src="javascript/uispec_js.js" type="text/javascript"></script>
-<base href="href="http://localhost:8080/woodstock-theme-doc/redefining-theme-properties.html">
-<!--
-<base href="href="http://localhost:8080/woods-theme-doc/redefining-theme-properties.html">
--->
+<base href="href="http://@HOST_APPCONTEXT@/redefining-theme-properties.html">
 
 </head>
 <body bgcolor="#ffffff">
@@ -45,7 +42,7 @@
 	<tr>
 	<td class="MstTdTtl"><div class="MstDivTtl">
 	<div class="Mst1TtlTxt">
-	The Theme and Woodstock Web Applications - Version 4.1
+	The Theme and Woodstock Web Applications - Version 4.2
 	</div>
 	</div>
 	<!--
@@ -240,7 +237,7 @@ Properties file, <a href="example/apptheme.properties">
 <code>
 <pre>
 <iframe src="example/apptheme.properties"
-	width="100%" height="280" frameborder="0">
+	width="100%" height="290" frameborder="0">
 </iframe>
 </pre>
 </code>
@@ -265,22 +262,24 @@ renders the following in the response.
 <div class="codebox">
 <code>
 <pre>
-    &lt;span id="form1:discuss"&gt;&lt;/span&gt;
-    &lt;script type="text/javascript"&gt;
-	webui.suntheme.widget.common.replaceElement(
-	    { "value":"This is suntheme static text. The following button is a suntheme primary button.",
-	      "visible":true,
-	      "escape":true,
-	      "widgetName":"webui.suntheme:staticText",
-	      "module":"webui.suntheme.widget.staticText",
-	      "id":"form1:discuss"}
-	);
-    &lt;/script&gt;
+
+&lt;span id="_form1:discuss"&gt;
+&lt;script type="text/javascript"&gt;
+    webui.suntheme4_2.widget.common._createWidget('_form1:discuss',
+	{"widgetType":"webui.suntheme4_2.widget.staticText",
+	 "value":"This is suntheme static text. The following button is a suntheme primary button.",
+	 "visible":true,
+	 "escape":true,
+	 "id":"form1:discuss"}
+    );
+&lt;/script&gt;
+&lt;/span&gt;
+
 </pre>
 </code>
 </div>
 Notice the first argument to the Javascript function
-<code>webui.suntheme.widget.common.replaceElement</code>. This is an 
+<code>webui.suntheme4_2.widget.common._createWidget</code>. This is an 
 example of a <a href="http://json.org">JSON</a>
 object and also called an "object literal".
 <p>
@@ -291,7 +290,7 @@ The following is the Javascript equivalent of the
 <code>
 <pre>
 <iframe src="example/apptheme.js"
-	width="100%" height="125" frameborder="0">
+	width="100%" height="130" frameborder="0">
 </iframe>
 </pre>
 </code>
@@ -325,9 +324,58 @@ only recognize the theme's Java ResourceBundle properties files. The
 <a href="theme-properties-table.html">theme properties table</a> identifies
 all component properties and indicates which components
 have "widget" renderers. See 
-<a href="theme/com/sun/webui/jsf/suntheme/javascript_uncompressed/theme/nls/suntheme.js"><code>suntheme.js</code></a> for the actual Javascript theme.
+<a href="theme/com/sun/webui/jsf/@SUNTHEMEPKGDIR@/javascript_uncompressed/theme/nls/suntheme.js"><code>suntheme.js</code></a> for the actual Javascript theme.
 </li>
 </ol>
+</p>
+
+<h3><a name="3.2.1"></a>3.2.1 Issues with JSF and the Default Locale</h3>
+<p>
+There is special case that must be handled when the JSF default locale
+is &quot;en&quot; and the server locale is not.
+</p>
+<p>
+The <code>Locale</code> instance returned by JSF from a call to 
+<code>FacesContext.getCurrentInstance().getViewRoot().getLocale()</code>
+sets the <code>faces-config.xml</code> default locale, as the
+preferred locale. The default locale in the returned <code>Locale</code>
+instance is the web server's or the JVM's locale.
+</p>
+<p>
+The <code>java.util.ResourceBundle.getBundle()</code> fallback algorithm
+will defer to the &quot;default&quot; locale before returning the
+bundle defined with no variant. For example. If properties files,
+<code>org.app.theme</code> and <code>org.app.theme_fr</code> exist
+and the default JSF locale is &quot;en&quot; and the server's locale is 
+&quot;fr&quot;
+<code>java.util.ResourceBundle.getBundle()</code> will return
+<code>org.app.theme_fr</code> when called with the <code>Locale</code>
+instance returned by
+<code>FacesContext.getCurrentInstance().getViewRoot().getLocale()</code>.
+</p>
+<p>
+In order for an application's theme properties file
+to be referenced in the above fallback case, the application must create an
+empty &quot;en&quot; properties file. That way if the default 
+JSF locale or the server's locale is &quot;en&quot; the application
+defined properties will be found for locales that the application
+does not provide a locale variant for.
+</p>
+<p>
+Note that &quot;en&quot is identified in this section as the 
+fallback language, because the Woodstock components use &quot;en&quot;
+as the fallback language. But if your application does not use
+&quot;en&quot; as the fallback language then you need an empty
+properties file variant consistent with the locale environments
+your application will run in.
+</p>
+<p>
+For example if your fallback language
+is &quot;fr&quot; and <code>org.app.theme</code>  is in &quot;fr&quot;
+then you need an empty <code>org.app.theme_fr</code> properties file
+when the default JSF locale is &quot;fr&quot; but the server's locale is not.
+or if the default locale is not &quot;fr&quot; but the server's locale
+is &quot;fr&quot;.
 </p>
 
 <h2><a name="3.3"></a>3.3 Localization</h2>
@@ -412,13 +460,13 @@ context.  For example, the following could be the definition of the
 <code>stylesheets.properties</code> file.
 <div class="codebox">
 <code>
-Theme.stylesheet=com/sun/webui/jsf/suntheme/css/master.css</code>
+Theme.stylesheet=com/sun/webui/jsf/@SUNTHEMEPKGDIR@/css/master.css</code>
 <code>
 </div>
 At runtime it might have the following URL, 
 <div class="codebox">
 <code>
-http://foohost:80/application-foo/theme/com/sun/webui/jsf/suntheme/css/master.css
+http://foohost:80/application-foo/theme/com/sun/webui/jsf/@SUNTHEMEPKGDIR@/css/master.css
 </code> 
 </div>
 </p>

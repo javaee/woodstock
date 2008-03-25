@@ -23,7 +23,7 @@
  Copyright 2007 Sun Microsystems, Inc. All rights reserved.
 -->
 
-<title>0. Revision History - The Theme and Woodstock Web Applications - Version 4.1</title>
+<title>0. Revision History - The Theme and Woodstock Web Applications - Version 4.2</title>
 
 <meta name="COPYRIGHT" 
     content="Woodstock Web Components Theme Documentation">
@@ -31,9 +31,6 @@
 
 <link href="css/browser-uispec.css" type="text/css" rel="stylesheet">
 <base href="href="http://@HOST_APPCONTEXT@/revision.html">
-<!--
-<base href="href="http://localhost:8080/woods-theme-doc/revision.html">
--->
 <script src="javascript/uispec_js.js" type="text/javascript"></script>
 
 </head>
@@ -45,7 +42,7 @@
 	<tr>
 	<td class="MstTdTtl"><div class="MstDivTtl">
 	<div class="Mst1TtlTxt">
-	The Theme and Woodstock Web Applications - Version 4.1
+	The Theme and Woodstock Web Applications - Version 4.2
 	</div>
 	</div>
 	<!--
@@ -129,17 +126,25 @@
 <a name="skipnav"></a>
 <p class="toc-level0"><a href="revision.html#0">0. Revision History</a></p>
 <p class="toc-level1"><a href="revision.html#0.1">
-0.1 What's New -  Additions and Changes Since Revision 4.0 </a></p>
+    0.1 What's New -  Additions and Changes Since Revision 4.0 </a></p>
 <p class="toc-level2"><a href="revision.html#0.1.1">
-0.1.1 Theme Support for &quot;Third Party&quot; Component Jars</a></p>
+    0.1.1 Theme Support for &quot;Third Party&quot; Component Jars</a></p>
 <p class="toc-level2"><a href="revision.html#0.1.2">
-0.1.2 Application Level Customization</a></p>
+    0.1.2 Application Level Customization</a></p>
 <p class="toc-level2"><a href="revision.html#0.1.3">
-0.1.3 Theme SPI</a></p>
+    0.1.3 Theme SPI</a></p>
 <p class="toc-level2"><a href="revision.html#0.1.4">
-0.1.4 Them Javascript Theme</a></p>
+    0.1.4 Them Javascript Theme</a></p>
 <p class="toc-level2"><a href="revision.html#0.1.5">
-0.1.5 Cloning a Theme</a><br></p>
+    0.1.5 Cloning a Theme</a><br></p>
+
+<p class="toc-level1"><a href="revision.html#0.2">
+    0.2 What's New -  Additions and Changes Since Revision 4.1 </a></p>
+<p class="toc-level2"><a href="revision.html#0.2.1">
+    0.2.1 Boostrap Javascript</a></p>
+<p class="toc-level2"><a href="revision.html#0.2.1">
+    0.2.2 Localization Corrections</a></p>
+
 
 <h1><a name="0"></a>0. Revision History</h1>
 <table class="dkblue" border="0" cellpadding="1" cellspacing="0">
@@ -168,6 +173,11 @@
           <td class="white" align="center">4.1.1</td>
           <td class="white">09//12/2007</td>
           <td class="white">Minor edits and corrections</td>
+        </tr>
+        <tr class="white" valign="top"> 
+          <td class="white" align="center">4.2</td>
+          <td class="white">03/21/2008</td>
+          <td class="white">Bootstrap Javascript/Create theme properties files corrections</td>
         </tr>
         </tbody> 
       </table>
@@ -261,7 +271,30 @@ has been cloned it can be modified and maintained without affecting
 the "suntheme". The clone can be created and maintained external to the
 "themes" directory if so desired.
 </p>
+<h2><a name="0.2"></a>
+0.1 What's New - Additions and Changes Since Revision 4.1 </h2>
 
+<h3><a name="0.2.1"></a>
+0.2.1 Bootstrap Javascript</h3>
+<p>
+The <code>&lt;webuijsf:head&gt;</code> no longer renders script and
+link tags explicitly to load javascript files and style sheets. 
+It renders information about the theme and configuration as a javascript
+object that results in a &quot;boostrap&quot; process where the javascript and
+style sheets are loaded dynamically by executing some javascript code.
+</p>
+
+<h3><a name="0.2.2"></a>
+0.2.2 Creating theme properties files corrections</h3>
+<p>
+Section <a href="redefining-theme-properties.html#3">
+3 Creating Theme Properties Files</a>
+neglected to include information necessary to successfully provided
+application level theme properties files when the JSF default 
+locale was "en" and the web container server locale was not "en".
+See <a href="redefining-theme-properties.html#3.2.1">
+3.2.1 Issues with JSF and the Default Locale</a>.
+</p>
 <!-- ################################################### -->
 <!-- End Document Title Block begin Navigation Bar Block -->
 <table class="NavTbl" border="0" cellpadding="10" cellspacing="0"

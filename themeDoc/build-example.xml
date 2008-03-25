@@ -29,7 +29,7 @@
   <!-- Initialize property values -->
   <property file="build.properties"/>
 
-  <property name="webui-dist" value="../webui/netbeans/modules/autoload/ext"/>
+  <property name="webui-dist" value="../webui/dist"/>
   <property name="theme-dist" value="../themes/dist"/>
 
   <property name="build" value="${basedir}/build"/>

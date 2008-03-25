@@ -23,26 +23,18 @@
  Copyright 2007 Sun Microsystems, Inc. All rights reserved.
 -->
 
-<title>5. Creating Themes - The Theme and Woodstock Web Applications - Version 4.1</title>
+<title>5. Creating Themes - The Theme and Woodstock Web Applications - Version 4.2</title>
 
 <meta name="COPYRIGHT" 
     content="Woodstock Web Components Theme Documentation">
 <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
 
 <base href="href="http://@HOST_APPCONTEXT@/woodstock-theme-doc/creating-themes.html">
-<!--
-<base href="href="http://localhost:8080/woods-theme-doc/creating-themes.html">
--->
 <link href="css/browser-uispec.css" type="text/css" rel="stylesheet">
 <script src="javascript/uispec_js.js" type="text/javascript"></script>
 
 </head>
 <body bgcolor="#ffffff">
-    <div class="security-text" align="right">
-	<a href="#skipnav" title="Skip Navigation Links">
-	    </a>
-	    "Woodstock Web Components Theme Documentation"
-    </div>
     <div class="MstDiv">
     <table class="MstTblBot" title="" border="0" cellpadding="0"
 	cellspacing="0" width="100%">
@@ -50,7 +42,7 @@
 	<tr>
 	<td class="MstTdTtl"><div class="MstDivTtl">
 	<div class="Mst1TtlTxt">
-	The Theme and Woodstock Web Applications - Version 4.1
+	The Theme and Woodstock Web Applications - Version 4.2
 	</div>
 	</div>
 	<!--
@@ -274,11 +266,13 @@ The temporary build destination for theme files.
 <tr><td>
 theme.l10n-dir
 </td><td>
-./l10n (Currently in transition)
+./src/suntheme/translatedFiles
 </td><td>
-The directory that contains locale specific jars that contain
-translations and locale dependent resources. Used for constructing
-the locale specific Javascript theme files.
+The directory that contains locale dependent resources. The subdirectory
+structure reflects the directory structured of src/suntheme with respect
+to the resource paths. For example for a "ja" locale there would be
+a "messages/messages_ja.properties" file under this directory. Only under
+rare circumstances are resources, other than messages.properties localized.
 </td></tr>
 
 <tr><td>
@@ -292,7 +286,7 @@ The destination path including the jar name for the theme jar.
 <tr><td>
 <b>theme.version</b>
 </td><td>
-4.1
+4.2
 </td><td>
 The theme version as reported by the ThemeService implementation. This
 value must be the same as the theme that is being cloned.
@@ -468,7 +462,7 @@ However internally in the
 <a href="javadoc/webui/com/sun/webui/jsf/theme/ThemeUtilities.html">
 <code>ThemeUtilities</code></a> class, used by all Woodstock components, a
 specific version is always spefied in calls to <code>getTheme</code>.
-(As of this writing it is "4.1").
+(As of this writing it is "4.2").
 Therefore, the first theme that satisfies the version requirement is used
 by the components.
 </p>

@@ -23,7 +23,7 @@
  Copyright 2007 Sun Microsystems, Inc. All rights reserved.
 -->
 
-<title>11. Javascript Theme - The Theme and Woodstock Web Applications - Version 4.1</title>
+<title>11. Javascript Theme - The Theme and Woodstock Web Applications - Version 4.2</title>
 
 <meta name="COPYRIGHT" 
     content="Woodstock Web Components Theme Documentation">
@@ -31,9 +31,6 @@
 
 <link href="css/browser-uispec.css" type="text/css" rel="stylesheet">
 <base href="href="http://@HOST_APPCONTEXT@/javascript-theme.html">
-<!--
-<base href="href="http://localhost:8080/woods-theme-doc/javascript-theme.html">
--->
 
 <script src="javascript/uispec_js.js" type="text/javascript"></script>
 
@@ -46,7 +43,7 @@
 	<tr>
 	<td class="MstTdTtl"><div class="MstDivTtl">
 	<div class="Mst1TtlTxt">
-	The Theme and Woodstock Web Applications - Version 4.1
+	The Theme and Woodstock Web Applications - Version 4.2
 	</div>
 	</div>
 	<!--
@@ -151,7 +148,7 @@
 <h1><a name="11"></a>11 The Javascript Theme</h1>
 <p>
 The Javascript theme is a Javascript file formatted as a 
-<a href="http://json.og">JSON</a> object that contains all the
+<a href="http://json.org">JSON</a> object that contains all the
 theme properties from all the theme properties files. This format
 is required in order to use the <a href="http://dojotoolkit.org/">DOJO</a>
 localized Javascript resource file interfaces.
@@ -204,7 +201,7 @@ If '-themeModule' is not specified the 'ThemeJavascript.THEME_MODULE' theme
     property is used as the theme name space.
 If '-theme' is not specified 'suntheme' is used. This theme is used as the
     source of the properties files.
-If '-version' is not specified then '4.1' is used.
+If '-version' is not specified then '4.2' is used.
 
 The webui-jsf.jar and webui-jsf-suntheme.jar or equivalent theme jar
     must appear in the class path.
@@ -222,22 +219,21 @@ This operation is performed by the <code>themes/build.xml</code> file after
 the <code>webui-jsf-suntheme.jar</code> file is created.
 The <code>webui-jsf-suntheme.jar</code> file is updated with the resulting 
 Javascript theme file
-<a href="theme/com/sun/webui/jsf/suntheme/javascript_uncompressed/theme/nls/suntheme.js"><code>suntheme.js</code></a>.
+<a href="theme/com/sun/webui/jsf/@SUNTHEMEPKGDI@/javascript_uncompressed/theme/nls/suntheme.js"><code>suntheme.js</code></a>.
 <div class="codebox">
 <code>
 <pre>
-% java -classpath ../webui/lib/external/json.jar:../webui/netbeans/modules/autoload/ext/webui-jsf.jar:\
+% java -classpath ../webui/lib/external/json-2.jar:../webui/dist/webui-jsf.jar:\
 ./dist/webui-jsf-suntheme.jar com.sun.webui.theme.ResourceBundleTheme \
--dir build/suntheme/com/sun/webui/jsf/suntheme/javascript/theme/nls \
+-dir build/suntheme/com/sun/webui/jsf/@SUNTHEMEPKGDIR@/javascript/theme/nls \
 -theme suntheme
 </pre>
 </code>
 </div>
 This process transforms the theme properties into a syntactically
 correct form for use in Javascript. This means that the parameter replacement
-format defined for properties files must be converted to a syntax that
-is recognized by <a href="http://dojotoolkit.org">
-<code>dojo.string.substituteParams</code></a>.
+format defined for properties files must be converted to a syntax suitable for
+the javascript stirng &quot;replace&quot; method.
 <p>
 The contents of the "widget" HTML template files are used as the value of the
 templates properties so that a request does not have to be made 
@@ -245,7 +241,7 @@ for the "widget" template HTML files.
 For the example the contents of the <code>textField.html</code> template
 becomes the value of the "templates" "textField" property instead of the
 resource location
-<code>/com/sun/webui/jsf/suntheme/templates/textField.html</code>.<br>
+<code>/com/sun/webui/jsf/@SUNTHEMEPKGDIR@/templates/textField.html</code>.<br>
 From "suntheme.js"
 <div class="codebox">
 <code>
@@ -272,7 +268,7 @@ Unicode escape sequences are used for non-ascii characters.
 The <a href="http://dojotoolkit.org">DOJO</a> localized resource file
 interfaces recognize resource files based on a bundle name, a module name
 and a path associated with that module. These properties are defined in
-<a href="theme/com/sun/webui/jsf/suntheme/properties/javascript.properties"><code>javascript.properties</code></a>.
+<a href="theme/com/sun/webui/jsf/@SUNTHEMEPKGDIR@/properties/javascript.properties"><code>javascript.properties</code></a>.
 </p>
 <h3><a name="11.2.1"></a>11.2.1 themeBundle</h3>
 <p>
@@ -323,9 +319,9 @@ For example:
 
 For the Woodstock suntheme and a "ja" and "zh_CN" translation.
 
-com/sun/webui/jsf/suntheme/javascript/theme/nls/suntheme.js
-com/sun/webui/jsf/suntheme/javascript/theme/nls/ja/suntheme.js
-com/sun/webui/jsf/suntheme/javascript/theme/nls/zh-cn/suntheme.js
+com/sun/webui/jsf/@SUNTHEMEPKGDIR@/javascript/theme/nls/suntheme.js
+com/sun/webui/jsf/@SUNTHEMEPKGDIR@/javascript/theme/nls/ja/suntheme.js
+com/sun/webui/jsf/@SUNTHEMEPKGDIR@/javascript/theme/nls/zh-cn/suntheme.js
 
 Note that these paths would require the web application and theme
 servlet context in order to download them. They are supplied at 

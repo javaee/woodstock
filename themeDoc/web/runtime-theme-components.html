@@ -23,7 +23,7 @@
  Copyright 2007 Sun Microsystems, Inc. All rights reserved.
 -->
 
-<title>7. Runtime Theme Components - The Theme and Woodstock Web Applications - Version 4.1</title>
+<title>7. Runtime Theme Components - The Theme and Woodstock Web Applications - Version 4.2</title>
 
 <meta name="COPYRIGHT" 
     content="Woodstock Web Components Theme Documentation">
@@ -31,9 +31,6 @@
 
 <link href="css/browser-uispec.css" type="text/css" rel="stylesheet">
 <base href="href="http://@HOST_APPCONTEXT@/runtime-theme-components.html">
-<!--
-<base href="href="http://localhost:8080/woods-theme-doc/runtime-theme-componentsindex.html">
--->
 <script src="javascript/uispec_js.js" type="text/javascript"></script>
 
 </head>
@@ -45,7 +42,7 @@
 	<tr>
 	<td class="MstTdTtl"><div class="MstDivTtl">
 	<div class="Mst1TtlTxt">
-	The Theme and Woodstock Web Applications - Version 4.1
+	The Theme and Woodstock Web Applications - Version 4.2
 	</div>
 	</div>
 	<!--
@@ -152,62 +149,28 @@ for rendering the markup to include all the necessary theme related files
 in every application page.
 <h2><a name="7.1"></a>7.1 The Head Component</h2>
 The <code>Head</code> component renders the "HEAD" HTML element
-and includes all the configured theme files that must be 
-included in every web application page. An example of a rendered 
+and includes the javascript bootstrap code that must be 
+included in every Woodstock web application page. An example of a rendered 
 <code>Head</code> component looks like:
 <div class="codebox">
 <code>
 <pre>
+
 &lt;head&gt;
-&lt;meta content="no-cache" http-equiv="Pragma" /&gt;
-&lt;meta content="no-cache" http-equiv="Cache-Control" /&gt;
-&lt;meta content="no-store" http-equiv="Cache-Control" /&gt;
-&lt;meta content="max-age=0" http-equiv="Cache-Control" /&gt;
-&lt;meta content="1" http-equiv="Expires" /&gt;
-&lt;title&gt;index page&lt;/title&gt;
-&lt;link rel="stylesheet" type="text/css"
-href="/woods-theme-doc/theme/com/sun/webui/jsf/suntheme/css/css_master.css" /&gt;
-
-&lt;!-- The third party component jar that implements the "boxcomponent" --&gt;
-&lt;link rel="stylesheet" type="text/css"
-href="/woods-theme-doc/theme/org/theme/sunBox.css" /&gt;
-
-&lt;!-- The application defined css file specified in its apptheme.properties file --&gt;
-&lt;link rel="stylesheet" type="text/css" href="/woods-theme-doc/theme/app.css" /&gt;
-
-&lt;script type="text/javascript"&gt;
-var djConfig = {
- "parseWidgets":false,
- "webui.suntheme.theme":{
-     "locale":"en",
-     "prefix":"/woods-theme-doc/theme",
-     "modulePath":"",
-     "custom":["apptheme"],
-     "bundle":"suntheme",
-     "module":"webui.suntheme.theme"
- },
- "isDebug":false,
- "debugAtAllCosts":false
-};
-&lt;/script&gt;
+&lt;title&gt;&lt;/title&gt;
+&lt;script type="text/javascript"&gt;var webui_suntheme4_2={
+    "webuiAll": false,
+    "parseOnLoad": true,
+    "theme": {"locale": "en"},
+    "isStyleSheet": true,
+    "isDebug": false,
+    "webuiJsfx": false,
+    "ajax": {"isJsfx": true}
+};&lt;/script&gt;
 &lt;script type="text/javascript"
-src="/woods-theme-doc/theme/META-INF/dojo/dojo.js"&gt;&lt;/script&gt;
-
-&lt;script type="text/javascript"
-src="/woods-theme-doc/theme/META-INF/json/json.js"&gt;&lt;/script&gt;
-&lt;script type="text/javascript"
-src="/woods-theme-doc/theme/META-INF/prototype/prototype.js"&gt;&lt;/script&gt;
-&lt;script type="text/javascript"
-src="/woods-theme-doc/theme/META-INF/com_sun_faces_ajax.js"&gt;&lt;/script&gt;
-&lt;script type="text/javascript"&gt;
-dojo.hostenv.setModulePrefix("webui.suntheme",
-"/woods-theme-doc/theme/com/sun/webui/jsf/suntheme/javascript");
-dojo.require('webui.suntheme.*');
-dojo.require('webui.suntheme.theme.*');
-dojo.require('webui.suntheme.widget.*');
-dojo.require('webui.suntheme.widget.jsfx.*');
-&lt;/script&gt;
+src="/woods-testapp/theme/com/sun/webui/jsf/@SUNTHEMEPKGDIR@/javascript/bootstrap.js"&gt;&lt;/script&gt;
 &lt;/head&gt;
+
 </pre>
 </code>
 </div>
