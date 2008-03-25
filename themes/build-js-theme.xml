@@ -76,7 +76,7 @@
 	 Note that clean will not remove entries from update jars -->
 
     <!-- Windows unpackagemapper does not behave the same when there is a
-	 dot in the basedir path like woodstock-build-4.1
+	 dot in the basedir path like woodstock-build-4.3
 	 therefore we have to create a "unpackage" version of the
 	 basedir and then "map" it out -->
 

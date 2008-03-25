@@ -1107,7 +1107,7 @@ public class ResourceBundleTheme implements Theme {
 "    is used to create a URLClassLoader restricting the class path to this jar.\n" +
 "If '-theme' is not specified 'suntheme' is used. This theme is used as the\n" +
 "    source of the properties files.\n" +
-"If '-version' is not specified then '4.1' is used.\n" +
+"If '-version' is not specified then '4.3' is used.\n" +
 "\n" +
 "The webui-jsf.jar and webui-jsf-suntheme.jar or equivalent theme jar\n" +
 "    must appear in the classpath.\n" +
@@ -1156,7 +1156,7 @@ public class ResourceBundleTheme implements Theme {
 	String dir = ".";
 	String factoryClass = null;
 	String themeName = "suntheme";
-	String version = "4.2";
+	String version = "4.3";
 	String locale = null;
 	String l10nJar = null;
 	int indent = 0;
