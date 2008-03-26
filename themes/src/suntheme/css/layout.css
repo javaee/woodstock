@@ -2817,6 +2817,7 @@ span.rbcb@THEME_CSS@ input {
 /* Rating */
 .RatingTextContainer@THEME_CSS@ {
     text-align: center;
+    white-space: nowrap;
 }
 
 .RatingControlContainer@THEME_CSS@ {
