@@ -319,6 +319,13 @@
     <managed-bean-class>com.sun.webui.jsf.example.popupMenu.PopupMenuBackingBean</managed-bean-class>
     <managed-bean-scope>session</managed-bean-scope>
   </managed-bean>
+    
+    <managed-bean>
+        <description>The backing bean for the Rating example</description>
+        <managed-bean-name>RatingBean</managed-bean-name>
+        <managed-bean-class>com.sun.webui.jsf.example.rating.RatingBackingBean</managed-bean-class>
+        <managed-bean-scope>session</managed-bean-scope>
+    </managed-bean>     
 
     <navigation-rule>    
       <from-view-id>/*</from-view-id>      
@@ -540,6 +547,19 @@
       <navigation-case>
         <from-outcome>showLabelResults</from-outcome>
         <to-view-id>/label/LabelResults.jsp</to-view-id>
+        <redirect/>
+      </navigation-case>                  
+   
+      <!-- Navigation Cases for Rating Example -->     
+      <navigation-case>
+        <from-outcome>showRating</from-outcome>
+        <to-view-id>/rating/rating.jsp</to-view-id>
+        <redirect/>
+      </navigation-case>   
+
+      <navigation-case>
+        <from-outcome>showRatingResults</from-outcome>
+        <to-view-id>/rating/results.jsp</to-view-id>
         <redirect/>
       </navigation-case>                  
       
@@ -782,6 +802,13 @@
         <redirect/>
       </navigation-case>            
       
+      <!-- Navigation Case for Rating Example-->
+      <navigation-case>
+        <from-outcome>showRating</from-outcome>
+        <to-view-id>/rating/rating.jsp</to-view-id>
+        <redirect/>
+      </navigation-case>            
+      
       <!-- Navigation Case for Checkbox and Radio Button Example-->
       <navigation-case>
         <from-outcome>showCheckboxRadiobutton</from-outcome>
@@ -956,4 +983,5 @@
         <redirect/>
       </navigation-case>   
    </navigation-rule>         
+
 </faces-config>

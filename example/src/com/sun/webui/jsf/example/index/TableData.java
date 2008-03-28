@@ -280,7 +280,14 @@ public class TableData {
                     "login/TestLoginModule.java",
                     "login/TestLoginModule2.java",
                     "login/TestLoginModule3.java"}
-        )
+        ),
+        new AppData("index_rating", "index_ratingConcepts", "showRating",
+                new String[] {
+                    "rating/rating.js",
+                    "rating/rating.jsp",
+                    "rating/results.jsp",
+                    "rating/RatingBackingBean.java"}
+	),
     };    
     
     /** Default constructor */
