@@ -100,18 +100,6 @@ webui.@THEME_JS@.widget.rating.event =
 
         /** Submit event topic for custom AJAX implementations to listen for. */
         endTopic: "webui_@THEME_JS@_widget_rating_event_submit_end"
-    },
-
-    /**
-     * This object contains state event topics.
-     * @ignore
-     */
-    state: {
-        /** State event topic for custom AJAX implementations to listen for. */
-        beginTopic: "webui_@THEME_JS@_widget_rating_event_state_begin",
-
-        /** State event topic for custom AJAX implementations to listen for. */
-        endTopic: "webui_@THEME_JS@_widget_rating_event_state_end"
     }
 };
 
@@ -411,11 +399,6 @@ webui.@THEME_JS@.widget.rating.prototype._modifyState = function(code) {
         // Normal (not average) mode
         this.inAverageMode = false;
 
-        // Update the widget grade, as well as post it to the hidden input
-        // field so it's available to be submitted if the page is submitted.
-        this.grade = code;
-        this.hiddenFieldNode.value = this.grade;
-
         // Render acknowledged text for image clicked
         var acknowledgedText = null;
         if (code == this.CODE_CLEAR)
@@ -426,8 +409,19 @@ webui.@THEME_JS@.widget.rating.prototype._modifyState = function(code) {
             acknowledgedText = this.gradeAcknowledgedText;
         this._setText(acknowledgedText);
 
-        if (this.autoSubmit)
-            this.submit();
+        // Do nothing unless the grade is changing.
+        if (this.grade != code) {
+            // Update the widget grade
+            this.grade = code;
+
+            // Post new grade to the hidden input field so it's available to be submitted 
+            // for autoSubmit or when the page is submitted.
+            this.hiddenFieldNode.value = this.grade;
+
+            // If autoSubmit enabled, then submit
+            if (this.autoSubmit)
+                this.submit();
+        }
     }
     return true;
 }; // _modifyState
@@ -484,11 +478,6 @@ webui.@THEME_JS@.widget.rating.prototype._onClickCallback = function(code) {
         || this.clicked)
         return true;
 
-    // Publish event prior to changing widget state.
-    this._publish(webui.@THEME_JS@.widget.rating.event.state.beginTopic, [{
-        id: this.id
-    }]);
-
     // Modify the component state permanently
     this._modifyState(code);
     
@@ -496,10 +485,6 @@ webui.@THEME_JS@.widget.rating.prototype._onClickCallback = function(code) {
     this.clicked = true;
     this.mousedover = false; 
 
-    // Publish event after changing widget state.
-    this._publish(webui.@THEME_JS@.widget.rating.event.state.endTopic, [{
-        id: this.id
-    }]);
     return true;
 }; // _onClickCallback
 
