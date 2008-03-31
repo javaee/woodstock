@@ -188,28 +188,6 @@ webui.@THEME_JS@.common = {
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
     /**
-     * Convenience function to check if an array of styles 
-     * contains a specific style.
-     *
-     * @param {Array} styleArray  array of styles to check, each in "attr:value" format.
-     * @param {String} styleAttr  the style attribute to check
-     * @return {boolean} true if the style if found, otherwise false.
-     */
-    checkStyle: function(styleArray, styleAttr) {
-        if ((styleArray == null) || (styleAttr == null))
-            return false;
-    
-        var pattern = new RegExp("(^|\\s)"+styleAttr+"(\\s|$)");
-        for (var i = 0; i < styleArray.length; i++) {
-            var attr = (styleArray[i].split(":"))[0];
-            if (pattern.test(attr))
-                return true;
-        }
-    
-        return false;
-    },
-    
-    /**
      * Use this function add any styleClass to an html tag
      *
      * @param {Node} element the dom html tag element

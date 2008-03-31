@@ -247,6 +247,7 @@ public class RatingDesignTimeRenderer extends AbstractDesignTimeRenderer {
 	    writer.startElement("div", component);  // NO18N
 	    writer.writeAttribute("id", clientId + "_text", null);  //NOI18N
 	    writer.writeAttribute("class", textContainerClassName, null);  //NOI18N
+	    writer.writeAttribute("style", "width:" + controlContainerWidth + "px", "style");
 	    writer.write("&nbsp;");
             writer.endElement("div");
 	    writer.write("\n");
