@@ -24181,22 +24181,6 @@ When the component is manipulated on the client side, some functions might publi
       </ul>
     </td>
   </tr>
-  <tr>
-    <td>&lt;Node&gt;.event.state.beginTopic</td>
-    <td>Event topic published before changing the state of the rating component due to the user clicking on the component. Supported properties include:
-      <ul>
-        <li>id - The client id of the rating component</li>
-      </ul>
-    </td>
-  </tr>
-  <tr>
-    <td>&lt;Node&gt;.event.state.endTopic</td>
-    <td>Event topic published after changing the state of the rating component due to the user clicking on the component. Supported properties include:
-      <ul>
-        <li>id - The client id of the rating component</li>
-      </ul>
-    </td>
-  </tr>
 </tbody>
 </table>
 <h3>Code Examples</h3>
@@ -24289,90 +24273,58 @@ In this example, the component includes the <i>clear</i> and <i>not interested</
     }
 </pre>
 <h4>Example 2: </h4>
-In this example, the component includes the <i>clear</i>, <i>not interested</i>, and <i>mode toggle</i> controls.  Hover text displays over all controls.  Initial displayed grade is cleared.  Initially renders in average mode with average grade of 2.5.  Acknowledgements appear in text area when clicking on controls.  autoSubmit is disabled, but widget state change is tracked and the grade is asynchronously submitted from the jsp only if the selected grade changes.
+In this example, 2 rating components are used to display the user's grade and the average grade seperately. By excluding the <i>mode toggle</i> control, the average grade cannot be shown in the 1st component. The 2nd component is configured to show only the average grade. Both components have their "grade" and "averageGrade" properties bound to the same backing bean methods. Thus when the updated average grade is returned to the browser, the 2nd rating component can simply be refreshed.
 <pre>
     &lt;webuijsf:rating id="rating"
+        autoSubmit="true"
         averageGrade="#{RatingBean.averageGrade}"
         clearHoverText="Clear Rating"
         clearAcknowledgedText="Rating cleared"
         grade="#{RatingBean.grade}"
         gradeAcknowledgedText="Thank you!"
         gradeHoverTexts="#{RatingBean.gradeHoverTexts}"
-        inAverageMode="true"
-        includeModeToggle="true"
-        modeToggleAcknowledgedTexts="#{RatingBean.modeToggleAcknowledgedTexts}"
-        modeToggleHoverTexts="#{RatingBean.modeToggleHoverTexts}"
+        includeModeToggle="false"
         notInterestedAcknowledgedText="Sorry to hear"
         notInterestedHoverText="Not Interested"
         maxGrade="5"&gt;
     &lt;/webuijsf:rating&gt;
+
+    &lt;webuijsf:rating id="ratingAvg"
+        autoSubmit="false"
+	includeNotInterested="false"
+	includeText="false"
+	includeClear="false"
+	includeModeToggle="false"
+	inAverageMode="true"
+	gradeReadOnly="true"
+	modeReadOnly="true"
+        averageGrade="#{RatingBean.averageGrade}"
+        grade="#{RatingBean.grade}"
+        maxGrade="5"&gt;
+    &lt;/webuijsf:rating&gt;
 </pre>
 <p>
-<p>The corresponding backing bean would be similar to the one in Example 1 but with the following changes:
-<pre>
-        private int gradeSum = 5;
-        private int numGrades = 2;
-    
-        private String[] modeToggleHoverTexts = {
-           "Show user's rating",
-           "Show average rating"
-        };
-    
-        private String[] modeToggleAcknowledgedTexts = {
-           "Normal rating shown",
-           "Average rating shown"
-        };
-        
-        public String[] getModeToggleHoverTexts() {
-            return this.modeToggleHoverTexts;
-        }
-
-        public String[] getModeToggleAcknowledgedTexts() {
-            return this.modeToggleAcknowledgedTexts;
-        }
-</pre>
+<p>The corresponding backing bean would be similar to the one in Example 1.
+<p>
 <p>The application's javascript to manage the submit might look like this:
 <pre>
     &lt;webuijsf:script type="text/javascript"&gt;
         function RatingListener(id) {
             this.ratingID = id;
-            this.previousGrade = null;
         }
 
-        // Callback for after state change
-        function AfterStateChange(props) {
-            if (props.id != this.ratingID)
-                return;
-
-            // Get rating node
-            var ratingNode = document.getElementById(this.ratingID);
-            if (ratingNode == null)
-                return;
-
-            // Get properties for the node
-            props = ratingNode.getProps();
-
-            // Submit only if the grade has changed from it's previous value.
-            if ((this.previousGrade != null) && (this.previousGrade != props.grade)) {
-                ratingNode.submit();
-                this.previousGrade = null;
-            }
-        }
-        RatingListener.prototype.afterStateChange = AfterStateChange;
-
-        // Callback for start of state change.  We save off the current grade
-        // before it changes.
-        // 
-        function StartStateChange(props) {
+        // Callback for after submit
+        function OnSubmit(props) {
             if (props.id != this.ratingID)
                 return;
             var ratingNode = document.getElementById(this.ratingID);
             if (ratingNode == null)
                 return;
-            props = ratingNode.getProps();
-            this.previousGrade = props.grade;
+            var ratingAvgNode = document.getElementById(this.ratingID + "Avg");
+            if (ratingNode != null)
+	        ratingAvgNode.refresh();
         }
-        RatingListener.prototype.startStateChange = StartStateChange;
+        RatingListener.prototype.onSubmit = OnSubmit;
 
         function rating_init() {
             var domNode = document.getElementById("rating");
@@ -24381,9 +24333,8 @@ In this example, the component includes the <i>clear</i>, <i>not interested</i>,
             }
             var listener = new RatingListener("rating");
 
-            // Subscribe to pre/post state change events
-            domNode.subscribe(domNode.event.state.beginTopic, listener, listener.startStateChange);
-            domNode.subscribe(domNode.event.state.endTopic, listener, listener.afterStateChange);
+            // Subscribe to post-submit event
+            domNode.subscribe(domNode.event.submit.endTopic, listener, listener.onSubmit);
         }
     &lt;/webuijsf:script&gt;
 

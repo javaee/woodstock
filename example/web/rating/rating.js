@@ -28,7 +28,6 @@
 function RatingListener(n) {
     this.ratingID = "form:rating" + n;
     this.avgtextID = "form:avgtext" + n;
-    this.notinttextID = "form:notinttext" + n;
 }
 
 // Callback for after state change
@@ -53,12 +52,7 @@ function OnSubmit(props) {
     if (textNode != null)
         textNode.refresh();
 
-    // Get text node for not interested count and refresh
-    textNode = document.getElementById(this.notinttextID);
-    if (textNode != null)
-        textNode.refresh();
-
-    // Get text node for average grade and refresh
+    // Get rating node for average grade and refresh
     var ratingAvgNode = document.getElementById(this.ratingID + "Avg");
     if (ratingAvgNode != null)
         ratingAvgNode.refresh();

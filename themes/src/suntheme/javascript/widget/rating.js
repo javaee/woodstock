@@ -154,8 +154,6 @@ webui.@THEME_JS@.widget.rating.prototype.getProps = function() {
         props.tabIndex = this.tabIndex;
     if (this.style != null)
         props.style = this.style;
-    if (this.width != null)
-        props.width = this.width;
 
     return props;
 }; // getProps
@@ -756,9 +754,6 @@ webui.@THEME_JS@.widget.rating.prototype.postCreate = function () {
  * @config {String}  style
  *                   CSS style or styles to be applied to the outermost HTML element 
  *                   when this component is rendered.
- * </p><p>
- * @config {String}  width
- *                   CSS style width to be applied to the ...
  * </p><p>
  * @return {boolean} true if successful; otherwise, false.
  */
