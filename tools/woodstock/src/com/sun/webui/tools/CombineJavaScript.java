@@ -64,7 +64,7 @@ public class CombineJavaScript extends ToolsBase {
         String line = null;
         while ((line = input.readLine()) != null) {
             // Test for required module.
-            if (line.indexOf(modulePrefix + "._dojo.require") == 0) {
+            if (line.indexOf(modulePrefix + "._base.dojo.require") == 0) {
                 int first = line.indexOf("\"") + modulePrefix.length();
 		int last = line.indexOf("\"", first + 1);
 
@@ -149,7 +149,7 @@ public class CombineJavaScript extends ToolsBase {
             boolean omitLine = false;
 
             // Test for required module.
-            if (line.indexOf(modulePrefix + "._dojo.require") == 0) {
+            if (line.indexOf(modulePrefix + "._base.dojo.require") == 0) {
                 int first = line.indexOf("\"") + modulePrefix.length();
 		int last = line.indexOf("\"", first + 1);
 

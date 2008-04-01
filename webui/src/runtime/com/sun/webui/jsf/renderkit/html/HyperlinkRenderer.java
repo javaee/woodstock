@@ -279,8 +279,7 @@ public class HyperlinkRenderer extends AbstractRenderer {
                         }
                     }
                     buff.append("return ") //NOI18N
-                        .append(JavaScriptUtilities.getModuleName(
-                            "hyperlink.submit")) //NOI18N
+                        .append(JavaScriptUtilities.getModuleName("_html.hyperlink.submit")) //NOI18N
                         .append("(this, '") //NOI18N
                         .append(formClientId)
                         .append("', "); //NOI18N

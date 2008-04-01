@@ -142,10 +142,12 @@
     <property name="theme.master.css" value="css_master.css"/>
     <property name="theme.master-all.css" value="css_master-all.css"/>
     <property name="theme.js-module-prefix" value="webui.${theme.name}${CacheVersion}"/>
+    <property name="theme._bootstrap_.js" value="_base/_bootstrap_.js"/>
     <property name="theme.bootstrap.js" value="bootstrap.js"/>
-    <property name="theme.dnd.js" value="dnd.js"/>
-    <property name="theme.dojo.js" value="dojo/_dojo.js"/>
-    <property name="theme.dojo-dnd.js" value="dojo/_dnd.js"/>
+    <property name="theme._dnd_.js" value="_base/_dnd_.js"/>
+    <property name="theme.dnd.js" value="_base/dnd.js"/>
+    <property name="theme.dojo.js" value="_base/dojo/dojo.js"/>
+    <property name="theme.dojo-dnd.js" value="_base/dojo/dnd.js"/>
     <property name="theme.webui.js" value="webui.js"/>
     <property name="theme.webui-all.js" value="webui-all.js"/>
     <property name="theme.webui-jsfx.js" value="webui-jsfx.js"/>
@@ -191,8 +193,8 @@
 	<exclude name="${theme.package-path}/${theme.service-class}.java"/>
 	<exclude name="translatedFiles/"/>
 	<exclude name="translatedFiles/**/*"/>
-        <exclude name="**/_${theme.bootstrap.js}**"/>
-        <exclude name="**/_${theme.dnd.js}**"/>
+        <exclude name="**/${theme._bootstrap_.js}"/>
+        <exclude name="**/${theme._dnd_.js}"/>
     </fileset>
 
     <!-- The patternsets for the combined javascript files. Additional files may 
@@ -200,8 +202,9 @@
 
     <!-- The Javascript files that are commonly included. -->
     <patternset id="include-js-files">
-	<include name="body.js" />
-	<include name="table.js" />
+	<include name="_base/body.js" />
+	<include name="_html/table.js" />
+        <include name="formElements.js" />
 	<include name="widget/anchor.js" />
 	<include name="widget/button.js" />
 	<include name="widget/checkbox.js" />
@@ -226,34 +229,34 @@
     <!-- The JSF Extension files that are commonly included. Additional files
         may be included via dependencies. -->
     <patternset id="include-jsfx-files">
-	<include name="widget/jsfx/anchor.js" />
-        <include name="widget/jsfx/button.js" />
-	<include name="widget/jsfx/checkbox.js" />
-        <include name="widget/jsfx/checkboxGroup.js" />
-	<include name="widget/jsfx/dropDown.js" />
-	<include name="widget/jsfx/hiddenField.js" />
-	<include name="widget/jsfx/hyperlink.js" />
-	<include name="widget/jsfx/image.js" />
-        <include name="widget/jsfx/imageButton.js" />
-	<include name="widget/jsfx/imageHyperlink.js" />
-        <include name="widget/jsfx/label.js" />
-	<include name="widget/jsfx/listbox.js" />
-	<include name="widget/jsfx/passwordField.js" />
-        <include name="widget/jsfx/resetButton.js" />
-	<include name="widget/jsfx/radioButton.js" />
-        <include name="widget/jsfx/radioButtonGroup.js" />
-	<include name="widget/jsfx/staticText.js" />
-	<include name="widget/jsfx/textArea.js" />
-	<include name="widget/jsfx/textField.js" />
+	<include name="widget/_jsfx/anchor.js" />
+        <include name="widget/_jsfx/button.js" />
+	<include name="widget/_jsfx/checkbox.js" />
+        <include name="widget/_jsfx/checkboxGroup.js" />
+	<include name="widget/_jsfx/dropDown.js" />
+	<include name="widget/_jsfx/hiddenField.js" />
+	<include name="widget/_jsfx/hyperlink.js" />
+	<include name="widget/_jsfx/image.js" />
+        <include name="widget/_jsfx/imageButton.js" />
+	<include name="widget/_jsfx/imageHyperlink.js" />
+        <include name="widget/_jsfx/label.js" />
+	<include name="widget/_jsfx/listbox.js" />
+	<include name="widget/_jsfx/passwordField.js" />
+        <include name="widget/_jsfx/resetButton.js" />
+	<include name="widget/_jsfx/radioButton.js" />
+        <include name="widget/_jsfx/radioButtonGroup.js" />
+	<include name="widget/_jsfx/staticText.js" />
+	<include name="widget/_jsfx/textArea.js" />
+	<include name="widget/_jsfx/textField.js" />
     </patternset>
 
     <!-- The files that are commonly excluded. -->
     <patternset id="exclude-js-files">
-        <exclude name="_bootstrap.js" /> <!-- Temporary build file -->
-        <exclude name="_dnd.js" /> <!-- Temporary build file -->
-        <exclude name="bootstrap.js" /> <!-- Loaded separately -->
-        <exclude name="calendar.js" /> <!-- Don't include deprecated files -->
-        <exclude name="dojo/" /> <!-- Loaded separately -->
+        <exclude name="${theme._dnd_.js}" /> <!-- Temporary build file. -->
+        <exclude name="${theme._bootstrap_.js}" /> <!-- Temporary build file. -->
+        <exclude name="${theme.bootstrap.js}" /> <!-- Generated file. -->
+        <exclude name="_base/dojo/" /> <!-- Loaded separately. -->
+        <exclude name="_html/calendar.js" /> <!-- Not supported. -->
 	<exclude name="theme/nls/"/>
 	<exclude name="webui.js"/>
 	<exclude name="webui-all.js"/>
@@ -264,7 +267,7 @@
     <!-- exclude files for compression dependencies -->
     <patternset id="generated-js-files">
 	<exclude name="theme/nls/"/>
-	<exclude name="dojo/"/>
+	<exclude name="_base/dojo/"/>
 	<exclude name="${theme.bootstrap.js}"/>
 	<exclude name="${theme.dnd.js}"/>
 	<exclude name="${theme.webui.js}"/>
@@ -296,31 +299,31 @@
     file.
     -->
     <patternset id="bootstrap-js-files">
-        <include name="_bootstrap.js" />
+        <include name="${theme._bootstrap_.js}" />
     </patternset>
 
-    <!-- "dojo,require" files to exclude when combining files -->
+    <!-- "dojo.require" files to exclude when combining files -->
     <patternset id="combined-excludes">
-	<include name="_bootstrap.js" />
-	<include name="bootstrap.js" />
-	<include name="_dnd.js" />
-	<include name="dnd.js" />
+        <!-- Note: Generated dnd.js file is okay to combine. -->
+        <include name="${theme.bootstrap.js}" />
+	<include name="${theme._bootstrap_.js}" />
+	<include name="${theme._dnd_.js}" />
 	<include name="${theme.dojo.js}"/>
 	<include name="${theme.dojo-dnd.js}"/>
     </patternset>
 
     <!-- "dnd.js" -->
     <patternset id="dnd-js-files">
-	<include name="_dnd.js" />
+	<include name="${theme._dnd_.js}" />
     </patternset>
     <!-- "dnd.js exclude set -->
     <patternset id="dnd-js-exclude">
-	<include name="_bootstrap.js" />
+	<include name="${theme._bootstrap_.js}" />
     </patternset>
 
     <!-- "webui.js" -->
     <patternset id="webui-js-files">
-	<exclude name="widget/jsfx/**" />
+	<exclude name="widget/_jsfx/**" />
         <patternset refid="${theme.include-js-files}"/>
 	<patternset refid="${theme.exclude-js-files}"/>
     </patternset>
@@ -328,7 +331,7 @@
     <!-- "webui-all.js" -->
     <patternset id="webui-all-js-files">
         <include name="**/*.js"/>
-        <exclude name="widget/jsfx/**" />
+        <exclude name="widget/_jsfx/**" />
 	<patternset refid="${theme.exclude-js-files}"/>
     </patternset>
 
@@ -351,7 +354,7 @@
 	 "bootstrap.js" and "_bootstrap.js"
     -->
     <patternset id="bootstrap-excludes">
-	<include name="dnd.js"/>
+	<include name="${theme.dnd.js}"/>
     </patternset>
 
     <!-- Public Targets -->
@@ -531,10 +534,12 @@
 	     "js" files. -->
 	<property name="cmp-tmp" location="${build}${file.separator}cmp-tmp"/>
 	<mkdir dir="${cmp-tmp}"/>
-	<mkdir dir="${cmp-tmp}/dojo"/>
-	<mkdir dir="${cmp-tmp}/dojo/_firebug"/>
+	<mkdir dir="${cmp-tmp}/_base/dojo"/>
+	<mkdir dir="${cmp-tmp}/_base/dojo/_firebug"/>
+        <mkdir dir="${cmp-tmp}/_html"/>
 	<mkdir dir="${cmp-tmp}/widget"/>
-	<mkdir dir="${cmp-tmp}/widget/jsfx"/>
+        <mkdir dir="${cmp-tmp}/widget/_base"/>
+	<mkdir dir="${cmp-tmp}/widget/_jsfx"/>
 	<mkdir dir="${cmp-tmp}/theme"/>
 
         <!-- Compress JavaScript without base62 encoding. -->
@@ -1193,7 +1198,7 @@
 	<pathconvert property="__files-to-compress__" pathsep=",">
 	    <fileset dir="${__from-dir-loc__}">
 		<exclude name="**/nls/"/>
-                <exclude name="dojo/_firebug/"/>
+                <exclude name="_base/dojo/_firebug/"/>
 		<depend targetdir="${__to-dir-loc__}">
 		    <mapper type="glob" from="*" to="*"/>
 		</depend>
@@ -1272,7 +1277,7 @@
 	<!-- Make sure to exclude the nls, dojo and combined files. -->
 	<pathconvert property="__files-to-compress__" pathsep=",">
 	    <fileset dir="${__from-dir-loc__}">
-                <exclude name="dojo/_firebug/"/>
+                <exclude name="_base/dojo/_firebug/"/>
 		<depend targetdir="${__to-dir-loc__}">
 		    <mapper type="glob" from="*.js" to="*.js.gz"/>
 		</depend>
@@ -1346,7 +1351,7 @@
 	<pathconvert property="__files-to-compress__" pathsep=",">
 	    <fileset dir="${__from-dir-loc__}">
 		<exclude name="**/nls/"/>
-                <exclude name="dojo/"/>
+                <exclude name="_base/dojo/"/>
                 <exclude name="${theme.bootstrap.js}"/>
                 <exclude name="${theme.dnd.js}"/>
                 <exclude name="${theme.webui.js}"/>
@@ -1402,7 +1407,7 @@
 	<uptodate property="jsdoc-uptodate">
 	    <srcfiles dir="${theme.build-package-path}/javascript_uncompressed"
 		includes="**/*.js"
-		excludes="theme/nls/,dojo/,${theme.bootstrap.js},${theme.dnd.js},${theme.webui.js},${theme.webui-all.js},${theme.webui-jsfx.js},${theme.webui-jsfx-all.js}"/>
+		excludes="theme/nls/,_base/dojo/,${theme.bootstrap.js},${theme.dnd.js},${theme.webui.js},${theme.webui-all.js},${theme.webui-jsfx.js},${theme.webui-jsfx-all.js}"/>
 	    <mergemapper to="${jsdocs}/index.html"/>
 	</uptodate>
     </target>
@@ -1448,7 +1453,7 @@
 	<pathconvert property="__files-to-doc__" pathsep=" ">
 	    <fileset dir="${__from-dir-loc__}">
 		<exclude name="**/nls/"/>
-                <exclude name="dojo/"/>
+                <exclude name="_base/dojo/"/>
                 <exclude name="${theme.bootstrap.js}"/>
                 <exclude name="${theme.dnd.js}"/>
                 <exclude name="${theme.webui.js}"/>
@@ -1469,7 +1474,7 @@
 	  <arg value="-d=${_to-dir_}"/>
 	  <arg value="-t=${jsdoc.template}"/>
           <arg value="-v"/>
-          <arg value="-p"/>
+          <arg value="${build-jsdoc-private}"/>
           <arg line="${__files-to-doc__}"/>
 	</java>
 

@@ -20,22 +20,23 @@
  * Copyright 2008 Sun Microsystems, Inc. All rights reserved.
  */
 
-webui.@THEME_JS@._dojo.provide("webui.@THEME_JS@.widget.hiddenField");
+webui.@THEME_JS@._base.dojo.provide("webui.@THEME_JS@.widget.hiddenField");
 
-webui.@THEME_JS@._dojo.require("webui.@THEME_JS@.widget.widgetBase");
+webui.@THEME_JS@._base.dojo.require("webui.@THEME_JS@.widget._base.widgetBase");
 
 /**
  * @name webui.@THEME_JS@.widget.hiddenField
- * @extends webui.@THEME_JS@.widget.widgetBase
+ * @extends webui.@THEME_JS@.widget._base.widgetBase
  * @class This class contains functions for the hiddenField widget.
  * @constructor This function is used to construct a hiddenField widget.
  */
-webui.@THEME_JS@._dojo.declare("webui.@THEME_JS@.widget.hiddenField", webui.@THEME_JS@.widget.widgetBase, {
+webui.@THEME_JS@._base.dojo.declare("webui.@THEME_JS@.widget.hiddenField",
+        webui.@THEME_JS@.widget._base.widgetBase, {
     // Set defaults.
     constructor: function() {
         this.disabled = false;
     },
-    widgetName: "hiddenField" // Required for theme properties.
+    _widgetName: "hiddenField" // Required for theme properties.
 });
 
 /**
@@ -93,7 +94,7 @@ webui.@THEME_JS@.widget.hiddenField.event =
  * @return {Object} Key-Value pairs of properties.
  */
 webui.@THEME_JS@.widget.hiddenField.prototype.getProps = function() {
-    var props = this.inherited("getProps", arguments);
+    var props = this._inherited("getProps", arguments);
 
     // Set properties.
     if (this.disabled != null) { props.disabled = this.disabled; }
@@ -124,7 +125,7 @@ webui.@THEME_JS@.widget.hiddenField.prototype.getProps = function() {
  */
 webui.@THEME_JS@.widget.hiddenField.prototype.setProps = function(props, notify) {
     // Note: This function is overridden for JsDoc.
-    return this.inherited("setProps", arguments);
+    return this._inherited("setProps", arguments);
 };
 
 /**
@@ -150,5 +151,5 @@ webui.@THEME_JS@.widget.hiddenField.prototype._setProps = function(props) {
     }
 
     // Set remaining properties.
-    return this.inherited("_setProps", arguments);
+    return this._inherited("_setProps", arguments);
 };

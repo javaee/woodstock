@@ -20,40 +20,42 @@
  * Copyright 2008 Sun Microsystems, Inc. All rights reserved.
  */
 
-webui.@THEME_JS@._dojo.provide("webui.@THEME_JS@.widget.passwordField");
+webui.@THEME_JS@._base.dojo.provide("webui.@THEME_JS@.widget.passwordField");
 
-webui.@THEME_JS@._dojo.require("webui.@THEME_JS@.widget.fieldBase");
+webui.@THEME_JS@._base.dojo.require("webui.@THEME_JS@.widget._base.fieldBase");
 
 /**
  * @name webui.@THEME_JS@.widget.passwordField
- * @extends webui.@THEME_JS@.widget.fieldBase
+ * @extends webui.@THEME_JS@.widget._base.fieldBase
  * @class This class contains functions for the passwordField widget.
  * @constructor This function is used to construct a passwordField widget.
  */
-webui.@THEME_JS@._dojo.declare("webui.@THEME_JS@.widget.passwordField", webui.@THEME_JS@.widget.fieldBase, {
+webui.@THEME_JS@._base.dojo.declare("webui.@THEME_JS@.widget.passwordField",
+        webui.@THEME_JS@.widget._base.fieldBase, {
     // Set defaults.
-    widgetName: "passwordField" // Required for theme properties.
+    _widgetName: "passwordField" // Required for theme properties.
 });
 
 /**
  * Helper function to obtain HTML input element class names.
  *
  * @return {String} The HTML input element class name.
+ * @private
  */
-webui.@THEME_JS@.widget.passwordField.prototype.getInputClassName = function() {
+webui.@THEME_JS@.widget.passwordField.prototype._getInputClassName = function() {
     if (this.fieldNode.readOnly) {
-        return this.widget.getClassName("PASSWORD_FIELD_READONLY", "");
+        return this._theme._getClassName("PASSWORD_FIELD_READONLY", "");
     }
 
     //invalid style
     var validStyle =  (this.valid == false) 
-        ? " " + this.widget.getClassName("PASSWORD_FIELD_INVALID", "")
-        : " " + this.widget.getClassName("PASSWORD_FIELD_VALID", "");
+        ? " " + this._theme._getClassName("PASSWORD_FIELD_INVALID", "")
+        : " " + this._theme._getClassName("PASSWORD_FIELD_VALID", "");
     
     // Set default style.    
     return (this.disabled == true)
-        ? this.widget.getClassName("PASSWORD_FIELD_DISABLED", "") 
-        : this.widget.getClassName("PASSWORD_FIELD", "") + validStyle;
+        ? this._theme._getClassName("PASSWORD_FIELD_DISABLED", "") 
+        : this._theme._getClassName("PASSWORD_FIELD", "") + validStyle;
 };
 
 /**
@@ -103,5 +105,5 @@ webui.@THEME_JS@.widget.passwordField.prototype.getInputClassName = function() {
  */
 webui.@THEME_JS@.widget.passwordField.prototype.setProps = function(props) {
     // Note: This function is overridden for JsDoc.
-    return this.inherited("setProps", arguments);
+    return this._inherited("setProps", arguments);
 };

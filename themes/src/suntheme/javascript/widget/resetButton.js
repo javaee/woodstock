@@ -20,9 +20,9 @@
  * Copyright 2008 Sun Microsystems, Inc. All rights reserved.
  */
 
-webui.@THEME_JS@._dojo.provide("webui.@THEME_JS@.widget.resetButton");
+webui.@THEME_JS@._base.dojo.provide("webui.@THEME_JS@.widget.resetButton");
 
-webui.@THEME_JS@._dojo.require("webui.@THEME_JS@.widget.button");
+webui.@THEME_JS@._base.dojo.require("webui.@THEME_JS@.widget.button");
 
 /**
  * @name webui.@THEME_JS@.widget.resetButton
@@ -30,9 +30,10 @@ webui.@THEME_JS@._dojo.require("webui.@THEME_JS@.widget.button");
  * @class This class contains functions for the resetButton widget.
  * @constructor This function is used to construct a resetButton widget.
  */
-webui.@THEME_JS@._dojo.declare("webui.@THEME_JS@.widget.resetButton", webui.@THEME_JS@.widget.button, {
+webui.@THEME_JS@._base.dojo.declare("webui.@THEME_JS@.widget.resetButton",
+        webui.@THEME_JS@.widget.button, {
     // Set defaults.
-    widgetName: "resetButton"  // Required for theme properties.
+    _widgetName: "resetButton"  // Required for theme properties.
 });
 
 /**

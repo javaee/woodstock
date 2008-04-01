@@ -20,18 +20,19 @@
  * Copyright 2008 Sun Microsystems, Inc. All rights reserved.
  */
 
-webui.@THEME_JS@._dojo.provide("webui.@THEME_JS@.widget.textField");
+webui.@THEME_JS@._base.dojo.provide("webui.@THEME_JS@.widget.textField");
 
-webui.@THEME_JS@._dojo.require("webui.@THEME_JS@.widget.common");
-webui.@THEME_JS@._dojo.require("webui.@THEME_JS@.widget.fieldBase");
+webui.@THEME_JS@._base.dojo.require("webui.@THEME_JS@.widget.common");
+webui.@THEME_JS@._base.dojo.require("webui.@THEME_JS@.widget._base.fieldBase");
 
 /**
  * @name webui.@THEME_JS@.widget.textField
- * @extends webui.@THEME_JS@.widget.fieldBase
+ * @extends webui.@THEME_JS@.widget._base.fieldBase
  * @class This class contains functions for the textField widget.
  * @constructor This function is used to construct a textField widget.
  */
-webui.@THEME_JS@._dojo.declare("webui.@THEME_JS@.widget.textField", webui.@THEME_JS@.widget.fieldBase, {
+webui.@THEME_JS@._base.dojo.declare("webui.@THEME_JS@.widget.textField",
+        webui.@THEME_JS@.widget._base.fieldBase, {
     // Set defaults.
     constructor: function() {
         // Array of list values; may be empty; if null - then no autocomplete 
@@ -40,7 +41,7 @@ webui.@THEME_JS@._dojo.declare("webui.@THEME_JS@.widget.textField", webui.@THEME
         this.autoCompleteSize = 15;
         this.autoCompleteCloseDelayTime = 100;
     },                  
-    widgetName: "textField" // Required for theme properties.
+    _widgetName: "textField" // Required for theme properties.
 });
 
 /**
@@ -133,22 +134,23 @@ webui.@THEME_JS@.widget.textField.prototype.adjustListGeometry = function () {
  * Helper function to obtain HTML input element class names.
  *
  * @return {String} The HTML input element class name.
+ * @private
  */
-webui.@THEME_JS@.widget.textField.prototype.getInputClassName = function() {          
+webui.@THEME_JS@.widget.textField.prototype._getInputClassName = function() {          
     // Set readOnly style.
     if (this.fieldNode.readOnly) {
-        return this.widget.getClassName("TEXT_FIELD_READONLY", "");
+        return this._theme._getClassName("TEXT_FIELD_READONLY", "");
     }
 
     // Apply invalid style.
     var validStyle =  (this.valid == false) 
-        ? " " + this.widget.getClassName("TEXT_FIELD_INVALID", "")
-        : " " + this.widget.getClassName("TEXT_FIELD_VALID", "");
+        ? " " + this._theme._getClassName("TEXT_FIELD_INVALID", "")
+        : " " + this._theme._getClassName("TEXT_FIELD_VALID", "");
     
     // Set default style.    
     return (this.disabled == true)
-        ? this.widget.getClassName("TEXT_FIELD_DISABLED", "") 
-        : this.widget.getClassName("TEXT_FIELD", "") + validStyle;
+        ? this._theme._getClassName("TEXT_FIELD_DISABLED", "") 
+        : this._theme._getClassName("TEXT_FIELD", "") + validStyle;
 };
 
 /**
@@ -158,7 +160,7 @@ webui.@THEME_JS@.widget.textField.prototype.getInputClassName = function() {
  * @return {Object} Key-Value pairs of properties.
  */
 webui.@THEME_JS@.widget.textField.prototype.getProps = function() {
-    var props = this.inherited("getProps", arguments);
+    var props = this._inherited("getProps", arguments);
 
     // Set properties.
     if (this.autoValidate != null) { props.autoValidate = this.autoValidate; }
@@ -170,19 +172,20 @@ webui.@THEME_JS@.widget.textField.prototype.getProps = function() {
 
 /**
  * This function is used to fill in remaining template properties, after the
- * buildRendering() function has been processed.
+ * _buildRendering() function has been processed.
  * <p>
  * Note: Unlike Dojo 0.4, the DOM nodes don't exist in the document, yet. 
  * </p>
  * @return {boolean} true if successful; otherwise, false.
+ * @private
  */
-webui.@THEME_JS@.widget.textField.prototype.postCreate = function () {
+webui.@THEME_JS@.widget.textField.prototype._postCreate = function () {
     // Set events.
     if (this.autoValidate == true) {
         // Generate the following event ONLY when 'autoValidate' == true.
-        this.dojo.connect(this.fieldNode, "onblur", this, "validate");
+        this._dojo.connect(this.fieldNode, "onblur", this, "validate");
     }
-    return this.inherited("postCreate", arguments);;
+    return this._inherited("_postCreate", arguments);;
 };
 
 /**
@@ -234,7 +237,7 @@ webui.@THEME_JS@.widget.textField.prototype.postCreate = function () {
  */
 webui.@THEME_JS@.widget.textField.prototype.setProps = function(props, notify) {
     // Note: This function is overridden for JsDoc.
-    return this.inherited("setProps", arguments);
+    return this._inherited("setProps", arguments);
 };
 
 /**
@@ -299,7 +302,7 @@ webui.@THEME_JS@.widget.textField.prototype._setProps = function(props) {
     //be introduced as part of dynamic options on setProps
     if (this.autoComplete && this.listWidget == null) {
         //create and populate props for listbox
-        this.listWidgetProps = this.widget.getWidgetProps("listbox", {
+        this.listWidgetProps = this._widget._getWidgetProps("listbox", {
            id: this.id + "_list",
            onFocus: "webui.@THEME_JS@.widget.common.getWidget('" + this.id + "').processFocusEvent(this.event);", 
            onBlur: "webui.@THEME_JS@.widget.common.getWidget('" + this.id + "').processBlurEvent(this.event);"
@@ -307,10 +310,10 @@ webui.@THEME_JS@.widget.textField.prototype._setProps = function(props) {
         //?? use of event registration as in following disables field processing keys 
         //onChange: "webui.@THEME_JS@.widget.common.getWidget('" + this.id + "').processListChange(this.event);"
 
-        this.widget.addFragment(this.listContainer, this.listWidgetProps);
+        this._widget._addFragment(this.listContainer, this.listWidgetProps);
         
         //store reference to the list
-        this.listWidget = this.widget.getWidget(this.listWidgetProps.id);
+        this.listWidget = this._widget.getWidget(this.listWidgetProps.id);
         this.listNode = this.listWidget.getSelectElement();
         
         //since original list box is created empty, make sure it is not shown
@@ -325,22 +328,22 @@ webui.@THEME_JS@.widget.textField.prototype._setProps = function(props) {
         this.fieldNode.setAttribute("autocomplete", "off");
         
         //use focus event to open the list
-        this.dojo.connect(this.fieldNode, "onfocus", this, "processFocusEvent");
+        this._dojo.connect(this.fieldNode, "onfocus", this, "processFocusEvent");
  
         //use blur events to close the list
-        this.dojo.connect(this.fieldNode, "onblur", this, "processBlurEvent");        
+        this._dojo.connect(this.fieldNode, "onblur", this, "processBlurEvent");        
          
         // onChange event of the list will change the content of the input field
-        this.dojo.connect(this.listNode, "onchange", this, "processListChange");
+        this._dojo.connect(this.listNode, "onchange", this, "processListChange");
  
         //onclick will allow to reopen options list after it has been closed with ESC
-        this.dojo.connect(this.fieldNode, "onclick", this, "processFocusEvent");
+        this._dojo.connect(this.fieldNode, "onclick", this, "processFocusEvent");
 
         // input field changes will trigger updates to the autoComplete list options
-        this.dojo.connect(this.fieldNode, "onkeyup", this, "processFieldKeyUpEvent");
+        this._dojo.connect(this.fieldNode, "onkeyup", this, "processFieldKeyUpEvent");
         
         //additional logic applied to ENTER, ESCAPE, ARROWs on keydown in order to cancel the event bubble
-        this.dojo.connect(this.fieldNode, "onkeydown", this, "processFieldKeyDownEvent");
+        this._dojo.connect(this.fieldNode, "onkeydown", this, "processFieldKeyDownEvent");
     }        
     
     if (this.autoComplete && props.autoCompleteOptions != null && this.listWidget != null ) {
@@ -372,7 +375,7 @@ webui.@THEME_JS@.widget.textField.prototype._setProps = function(props) {
     }   
 
     // Set remaining properties.
-    var ret = this.inherited("_setProps", arguments);
+    var ret = this._inherited("_setProps", arguments);
     
     if (props.autoComplete && props.autoCompleteOptions != null && this.listWidget != null ) {
         this.adjustListGeometry();  //even if autocomplete options are not defined in this set of props
@@ -408,12 +411,12 @@ webui.@THEME_JS@.widget.textField.prototype.processBlurEvent = function(event) {
  * @return {boolean} true if successful; otherwise, false.
  */
 webui.@THEME_JS@.widget.textField.prototype.processFieldKeyDownEvent = function(event) {
-    event = this.widget.getEvent(event);
+    event = this._widget.getEvent(event);
     if (event == null) {
         return false;
     }
 
-    if (event.keyCode == this.widget.keyCodes.ENTER && this.autoCompleteIsOpen) {               
+    if (event.keyCode == this._widget._keyCodes.ENTER && this.autoCompleteIsOpen) {               
         // Disable form submission. Note that form submission is disabled
         // only once when listbox is open. If it closed, form will be submitted
         // according to submitForm flag
@@ -434,7 +437,7 @@ webui.@THEME_JS@.widget.textField.prototype.processFieldKeyDownEvent = function(
     }   
 
     //close the list in case of ESCAPE pressed
-    if (event.keyCode == this.widget.keyCodes.ESCAPE  ) {               
+    if (event.keyCode == this._widget._keyCodes.ESCAPE  ) {               
         this.fieldNode.value = ""; //Warning: IE empties all fields on the page on 2nd ESC independently of setting value here
         this.showAutoComplete = false;
         this.updateListView();     
@@ -444,7 +447,7 @@ webui.@THEME_JS@.widget.textField.prototype.processFieldKeyDownEvent = function(
       
     //even when the text field is in focus, we want arrow keys ( up and down)
     //navigate through options in the select list
-    if (event.keyCode == this.widget.keyCodes.DOWN_ARROW && this.listWidget.getSelectedIndex() < this.listNode.options.length) {               
+    if (event.keyCode == this._widget._keyCodes.DOWN_ARROW && this.listWidget.getSelectedIndex() < this.listNode.options.length) {               
         try {
             this.showAutoComplete = true;
 
@@ -461,7 +464,7 @@ webui.@THEME_JS@.widget.textField.prototype.processFieldKeyDownEvent = function(
             return true;
        } catch (doNothing) {}
     }
-    if (event.keyCode == this.widget.keyCodes.UP_ARROW && this.listWidget.getSelectedIndex() > 0) {               
+    if (event.keyCode == this._widget._keyCodes.UP_ARROW && this.listWidget.getSelectedIndex() > 0) {               
         try {
             this.showAutoComplete = true;
 
@@ -481,15 +484,15 @@ webui.@THEME_JS@.widget.textField.prototype.processFieldKeyDownEvent = function(
  * @return {boolean} true if successful; otherwise, false.
  */
 webui.@THEME_JS@.widget.textField.prototype.processFieldKeyUpEvent = function(event) {    
-    event = this.widget.getEvent(event);
+    event = this._widget.getEvent(event);
 
     if (event != null &&
-        ( event.keyCode == this.widget.keyCodes.ESCAPE ||
-          event.keyCode == this.widget.keyCodes.ENTER ||
-          event.keyCode == this.widget.keyCodes.DOWN_ARROW ||
-          event.keyCode == this.widget.keyCodes.UP_ARROW  ||
-          event.keyCode == this.widget.keyCodes.SHIFT  ||
-          event.keyCode == this.widget.keyCodes.TAB
+        ( event.keyCode == this._widget._keyCodes.ESCAPE ||
+          event.keyCode == this._widget._keyCodes.ENTER ||
+          event.keyCode == this._widget._keyCodes.DOWN_ARROW ||
+          event.keyCode == this._widget._keyCodes.UP_ARROW  ||
+          event.keyCode == this._widget._keyCodes.SHIFT  ||
+          event.keyCode == this._widget._keyCodes.TAB
         )) {
         //these special keys are processed somewhere else - no filtering
         return false; 
@@ -525,7 +528,7 @@ webui.@THEME_JS@.widget.textField.prototype.processFocusEvent = function(event) 
  * @return {boolean} true if successful; otherwise, false.
  */
 webui.@THEME_JS@.widget.textField.prototype.processListChange = function(event) {    
-    event = this.widget.getEvent(event);
+    event = this._widget.getEvent(event);
 
     if (event.type == "change") {               
         try {
@@ -560,15 +563,15 @@ webui.@THEME_JS@.widget.textField.prototype.updateListView = function() {
         this.adjustListGeometry();    
 
         //optionally we could add check for this.listNode.options.length >0
-        this.listNode.className = this.widget.getClassName("TEXT_FIELD_AUTO_COMPLETE_LIST", "");
+        this.listNode.className = this._theme._getClassName("TEXT_FIELD_AUTO_COMPLETE_LIST", "");
 
         // the following is preferred way of setting class, but it does not work
-        //this.listWidget.setProps({className: this.widget.getClassName("TEXT_FIELD_AUTO_COMPLETE_LIST", "")}) ;
+        //this.listWidget.setProps({className: this._theme._getClassName("TEXT_FIELD_AUTO_COMPLETE_LIST", "")}) ;
         
         //this.autoCompleteIsOpen flag indicates whether list box is open or not
         this.autoCompleteIsOpen = true;
     } else {
-        this.listNode.className = this.theme.getClassName("HIDDEN");
+        this.listNode.className = this._theme.getClassName("HIDDEN");
         //this.listWidget.setProps(visible: 'false');
         this.autoCompleteIsOpen = false;
     }

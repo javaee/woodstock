@@ -20,10 +20,10 @@
  * Copyright 2008 Sun Microsystems, Inc. All rights reserved.
  */
 
-webui.@THEME_JS@._dojo.provide("webui.@THEME_JS@.widget.textArea");
+webui.@THEME_JS@._base.dojo.provide("webui.@THEME_JS@.widget.textArea");
 
-webui.@THEME_JS@._dojo.require("webui.@THEME_JS@.widget.common");
-webui.@THEME_JS@._dojo.require("webui.@THEME_JS@.widget.textField");
+webui.@THEME_JS@._base.dojo.require("webui.@THEME_JS@.widget.common");
+webui.@THEME_JS@._base.dojo.require("webui.@THEME_JS@.widget.textField");
 
 /**
  * @name webui.@THEME_JS@.widget.textArea
@@ -31,14 +31,15 @@ webui.@THEME_JS@._dojo.require("webui.@THEME_JS@.widget.textField");
  * @class This class contains functions for the textArea widget.
  * @constructor This function is used to construct a textArea widget.
  */
-webui.@THEME_JS@._dojo.declare("webui.@THEME_JS@.widget.textArea", webui.@THEME_JS@.widget.textField, {
+webui.@THEME_JS@._base.dojo.declare("webui.@THEME_JS@.widget.textArea",
+        webui.@THEME_JS@.widget.textField, {
     // Set defaults.
     constructor: function() {
         this.autoSave = 0;
         this.cols = 20;
         this.rows = 3;
     },
-    widgetName: "textArea" // Required for theme properties.
+    _widgetName: "textArea" // Required for theme properties.
 });
 
 /**
@@ -117,22 +118,23 @@ webui.@THEME_JS@.widget.textArea.event =
  * Helper function to obtain HTML input element class names.
  *
  * @return {String} The HTML input element class name.
+ * @private
  */
-webui.@THEME_JS@.widget.textArea.prototype.getInputClassName = function() {
+webui.@THEME_JS@.widget.textArea.prototype._getInputClassName = function() {
     // Set readOnly style
     if (this.fieldNode.readOnly) {
-        return this.widget.getClassName("TEXT_AREA_READONLY", "");
+        return this._theme._getClassName("TEXT_AREA_READONLY", "");
     }
 
     // Apply invalid style.
     var validStyle =  (this.valid == false) 
-        ? " " + this.widget.getClassName("TEXT_AREA_INVALID", "")
-        : " " + this.widget.getClassName("TEXT_AREA_VALID", "");
+        ? " " + this._theme._getClassName("TEXT_AREA_INVALID", "")
+        : " " + this._theme._getClassName("TEXT_AREA_VALID", "");
 
     // Set default style.    
     return (this.disabled == true)
-        ? this.widget.getClassName("TEXT_AREA_DISABLED", "") 
-        : this.widget.getClassName("TEXT_AREA", "") + validStyle;    
+        ? this._theme._getClassName("TEXT_AREA_DISABLED", "") 
+        : this._theme._getClassName("TEXT_AREA", "") + validStyle;    
 };
 
 /**
@@ -142,7 +144,7 @@ webui.@THEME_JS@.widget.textArea.prototype.getInputClassName = function() {
  * @return {Object} Key-Value pairs of properties.
  */
 webui.@THEME_JS@.widget.textArea.prototype.getProps = function() {
-    var props = this.inherited("getProps", arguments);
+    var props = this._inherited("getProps", arguments);
     
     // Set properties.
     if (this.cols > 0 ) { props.cols = this.cols; }
@@ -154,19 +156,20 @@ webui.@THEME_JS@.widget.textArea.prototype.getProps = function() {
 
 /**
  * This function is used to fill in remaining template properties, after the
- * buildRendering() function has been processed.
+ * _buildRendering() function has been processed.
  * <p>
  * Note: Unlike Dojo 0.4, the DOM nodes don't exist in the document, yet. 
  * </p>
  * @return {boolean} true if successful; otherwise, false.
+ * @private
  */
-webui.@THEME_JS@.widget.textArea.prototype.postCreate = function () {
+webui.@THEME_JS@.widget.textArea.prototype._postCreate = function () {
     // Set events.                
     if (this.autoSave > 0) {
         this.autoSaveTimerId = setInterval(this.createSubmitCallback(), 
             this.autoSave);  
     }
-    return this.inherited("postCreate", arguments);
+    return this._inherited("_postCreate", arguments);
 };
 
 /**
@@ -215,7 +218,7 @@ webui.@THEME_JS@.widget.textArea.prototype.postCreate = function () {
  */
 webui.@THEME_JS@.widget.textArea.prototype.setProps = function(props, notify) {
     // Note: This function is overridden for JsDoc.
-    return this.inherited("setProps", arguments);
+    return this._inherited("setProps", arguments);
 };
 
 /**
@@ -246,10 +249,10 @@ webui.@THEME_JS@.widget.textArea.prototype._setProps = function(props) {
     // Set label className -- must be set before calling superclass.
     if (props.label) {
         props.label.className = (props.label.className)
-            ? this.widget.getClassName("TEXT_AREA_TOPLABELALIGN", "")  + " " + props.label.className
-            : this.widget.getClassName("TEXT_AREA_TOPLABELALIGN", "") ;
+            ? this._theme._getClassName("TEXT_AREA_TOPLABELALIGN", "")  + " " + props.label.className
+            : this._theme._getClassName("TEXT_AREA_TOPLABELALIGN", "") ;
     }
 
     // Set remaining properties.
-    return this.inherited("_setProps", arguments);
+    return this._inherited("_setProps", arguments);
 };

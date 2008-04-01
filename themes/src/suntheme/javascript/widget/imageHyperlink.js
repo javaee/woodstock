@@ -20,9 +20,9 @@
  * Copyright 2008 Sun Microsystems, Inc. All rights reserved.
  */
 
-webui.@THEME_JS@._dojo.provide("webui.@THEME_JS@.widget.imageHyperlink");
+webui.@THEME_JS@._base.dojo.provide("webui.@THEME_JS@.widget.imageHyperlink");
 
-webui.@THEME_JS@._dojo.require("webui.@THEME_JS@.widget.hyperlink");
+webui.@THEME_JS@._base.dojo.require("webui.@THEME_JS@.widget.hyperlink");
 
 /**
  * @name webui.@THEME_JS@.widget.imageHyperlink
@@ -30,9 +30,10 @@ webui.@THEME_JS@._dojo.require("webui.@THEME_JS@.widget.hyperlink");
  * @class This class contains functions for the imageHyperlink widget.
  * @constructor This function is used to construct a imageHyperlink widget.
  */
-webui.@THEME_JS@._dojo.declare("webui.@THEME_JS@.widget.imageHyperlink", webui.@THEME_JS@.widget.hyperlink, {
+webui.@THEME_JS@._base.dojo.declare("webui.@THEME_JS@.widget.imageHyperlink",
+        webui.@THEME_JS@.widget.hyperlink, {
     // Set defaults.
-    widgetName: "imageHyperlink" // Required for theme properties.
+    _widgetName: "imageHyperlink" // Required for theme properties.
 });
 
 /**
@@ -41,20 +42,21 @@ webui.@THEME_JS@._dojo.declare("webui.@THEME_JS@.widget.imageHyperlink", webui.@
  * @param props Key-Value pairs of properties.
  * @config {Array} contents The contents of the anchor body.
  * @return {boolean} true if successful; otherwise, false.
+ * @private
  */
-webui.@THEME_JS@.widget.imageHyperlink.prototype.addContents = function(props) {
+webui.@THEME_JS@.widget.imageHyperlink.prototype._addContents = function(props) {
     if (props.contents == null) {
         return false;
     }
 
     // Remove child nodes.
-    this.widget.removeChildNodes(this.leftContentsContainer);
-    this.widget.removeChildNodes(this.rightContentsContainer);
+    this._widget._removeChildNodes(this.leftContentsContainer);
+    this._widget._removeChildNodes(this.rightContentsContainer);
 
     // Add contents.
     for (i = 0; i <props.contents.length; i++) {
-        this.widget.addFragment(this.leftContentsContainer, props.contents[i], "last");
-        this.widget.addFragment(this.rightContentsContainer, props.contents[i], "last");
+        this._widget._addFragment(this.leftContentsContainer, props.contents[i], "last");
+        this._widget._addFragment(this.rightContentsContainer, props.contents[i], "last");
     }
     return true;
 };
@@ -102,7 +104,7 @@ webui.@THEME_JS@.widget.imageHyperlink.event =
  * @return {Object} Key-Value pairs of properties.
  */
 webui.@THEME_JS@.widget.imageHyperlink.prototype.getProps = function() {
-    var props = this.inherited("getProps", arguments);
+    var props = this._inherited("getProps", arguments);
 
     // Set properties.
     if (this.enabledImage) { props.enabledImage = this.enabledImage; }
@@ -114,13 +116,14 @@ webui.@THEME_JS@.widget.imageHyperlink.prototype.getProps = function() {
 
 /**
  * This function is used to fill in remaining template properties, after the
- * buildRendering() function has been processed.
+ * _buildRendering() function has been processed.
  * <p>
  * Note: Unlike Dojo 0.4, the DOM nodes don't exist in the document, yet. 
  * </p>
  * @return {boolean} true if successful; otherwise, false.
+ * @private
  */
-webui.@THEME_JS@.widget.imageHyperlink.prototype.postCreate = function () {
+webui.@THEME_JS@.widget.imageHyperlink.prototype._postCreate = function () {
     // Set ids.
     if (this.id) {
         this.enabledImageContainer.id = this.id + "_enabled";
@@ -128,7 +131,7 @@ webui.@THEME_JS@.widget.imageHyperlink.prototype.postCreate = function () {
         this.leftContentsContainer.id = this.id + "_leftContents";
         this.rightContentsContainer.id = this.id + "_rightContents";
     }
-    return this.inherited("postCreate", arguments);
+    return this._inherited("_postCreate", arguments);
 };
 
 /**
@@ -181,7 +184,7 @@ webui.@THEME_JS@.widget.imageHyperlink.prototype.postCreate = function () {
  */
 webui.@THEME_JS@.widget.imageHyperlink.prototype.setProps = function(props, notify) {
     // Note: This function is overridden for JsDoc.
-    return this.inherited("setProps", arguments);
+    return this._inherited("setProps", arguments);
 };
 
 /**
@@ -205,31 +208,35 @@ webui.@THEME_JS@.widget.imageHyperlink.prototype._setProps = function(props) {
 
         // We need to hide/show images only when the disabed image is specified.
         if (this.disabledImage) { 
-            this.common.setVisibleElement(this.enabledImageContainer, !disabled);
-            this.common.setVisibleElement(this.disabledImageContainer, disabled);
+            this._common.setVisibleElement(this.enabledImageContainer, !disabled);
+            this._common.setVisibleElement(this.disabledImageContainer, disabled);
         }
     }
 
     // Add enabled image.
     if (props.enabledImage) {
-        this.widget.addFragment(this.enabledImageContainer, props.enabledImage);
+        // Update/add fragment.
+        this._widget._updateFragment(this.enabledImageContainer, this.enabledImage.id, 
+            props.enabledImage);
     }
 
     // Add disabled image.
     if (props.disabledImage) {
-        this.widget.addFragment(this.disabledImageContainer, props.disabledImage);
+        // Update/add fragment.
+        this._widget._updateFragment(this.disabledImageContainer, this.disabledImage.id, 
+            props.disabledImage);
     }
 
     // Set image position.
     if (props.imagePosition) {
         var left = (props.imagePosition == "left");
-        this.common.setVisibleElement(this.leftContentsContainer, !left);
-        this.common.setVisibleElement(this.rightContentsContainer, left);    
+        this._common.setVisibleElement(this.leftContentsContainer, !left);
+        this._common.setVisibleElement(this.rightContentsContainer, left);    
     }
 
     // Add contents.
-    this.addContents(props);
+    this._addContents(props);
 
     // Set remaining properties.
-    return this.inherited("_setProps", arguments);
+    return this._inherited("_setProps", arguments);
 };

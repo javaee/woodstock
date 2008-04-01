@@ -20,9 +20,9 @@
  * Copyright 2008 Sun Microsystems, Inc. All rights reserved.
  */
 
-webui.@THEME_JS@._dojo.provide("webui.@THEME_JS@.widget.imageButton");
+webui.@THEME_JS@._base.dojo.provide("webui.@THEME_JS@.widget.imageButton");
 
-webui.@THEME_JS@._dojo.require("webui.@THEME_JS@.widget.button");
+webui.@THEME_JS@._base.dojo.require("webui.@THEME_JS@.widget.button");
 
 /**
  * @name webui.@THEME_JS@.widget.imageButton
@@ -30,9 +30,10 @@ webui.@THEME_JS@._dojo.require("webui.@THEME_JS@.widget.button");
  * @class This class contains functions for the imageButton widget.
  * @constructor This function is used to construct a imageButton widget.
  */
-webui.@THEME_JS@._dojo.declare("webui.@THEME_JS@.widget.imageButton", webui.@THEME_JS@.widget.button, {
+webui.@THEME_JS@._base.dojo.declare("webui.@THEME_JS@.widget.imageButton",
+        webui.@THEME_JS@.widget.button, {
     // Set defaults.
-    widgetName: "imageButton"  // Required for theme properties.
+    _widgetName: "imageButton"  // Required for theme properties.
 });
 
 /**
@@ -78,8 +79,9 @@ webui.@THEME_JS@.widget.imageButton.event =
  * user's className property is always appended last).
  * </p>
  * @return {String} The outermost HTML element class name.
+ * @private
  */
-webui.@THEME_JS@.widget.imageButton.prototype.getClassName = function() {
+webui.@THEME_JS@.widget.imageButton.prototype._getClassName = function() {
     // If it is an image button, only the BUTTON3 selectors are used.
     // Note that the "mini" and "primary" values can still be set but
     // have no effect on image buttons by policy, vs by theme.
@@ -87,7 +89,7 @@ webui.@THEME_JS@.widget.imageButton.prototype.getClassName = function() {
 	? "BUTTON3_DISABLED"
 	: "BUTTON3";
 
-    var className = this.widget.getClassName(key, "");
+    var className = this._theme._getClassName(key, "");
     return (this.className)
         ? className + " " + this.className
         : className;
@@ -107,7 +109,7 @@ webui.@THEME_JS@.widget.imageButton.prototype.getHoverClassName = function() {
     // Note that the "mini" and "primary" values can still be set but
     // have no effect on image buttons by policy, vs by theme.
     var key = "BUTTON3_HOVER";
-    var className = this.widget.getClassName(key, "");
+    var className = this._theme._getClassName(key, "");
     return (this.className)
         ? className + " " + this.className
         : className;
@@ -120,7 +122,7 @@ webui.@THEME_JS@.widget.imageButton.prototype.getHoverClassName = function() {
  * @return {Object} Key-Value pairs of properties.
  */
 webui.@THEME_JS@.widget.imageButton.prototype.getProps = function() {
-    var props = this.inherited("getProps", arguments);
+    var props = this._inherited("getProps", arguments);
 
     // Set properties.
     if (this.src) { props.src = this.src; }
@@ -172,7 +174,7 @@ webui.@THEME_JS@.widget.imageButton.prototype.getProps = function() {
  */
 webui.@THEME_JS@.widget.imageButton.prototype.setProps = function(props, notify) {
     // Note: This function is overridden for JsDoc.
-    return this.inherited("setProps", arguments);
+    return this._inherited("setProps", arguments);
 };
 
 /**
@@ -196,11 +198,11 @@ webui.@THEME_JS@.widget.imageButton.prototype._setProps = function(props) {
         // context path already appended and if not, append it.
         if (this.prefix) {
             props.src = 
-                webui.@THEME_JS@.widget.common.appendPrefix(this.prefix, props.src);                
+                webui.@THEME_JS@.widget.common._appendPrefix(this.prefix, props.src);                
         }
         this.domNode.src = props.src; 
     }
 
     // Set remaining properties.
-    return this.inherited("_setProps", arguments);
+    return this._inherited("_setProps", arguments);
 };

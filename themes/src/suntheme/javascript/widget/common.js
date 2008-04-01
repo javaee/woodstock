@@ -20,10 +20,11 @@
  * Copyright 2008 Sun Microsystems, Inc. All rights reserved.
  */
 
-webui.@THEME_JS@._dojo.provide("webui.@THEME_JS@.widget.common");
+webui.@THEME_JS@._base.dojo.provide("webui.@THEME_JS@.widget.common");
 
-webui.@THEME_JS@._dojo.require("webui.@THEME_JS@.config");
-webui.@THEME_JS@._dojo.require("webui.@THEME_JS@.theme.common");
+webui.@THEME_JS@._base.dojo.require("webui.@THEME_JS@._base.config");
+webui.@THEME_JS@._base.dojo.require("webui.@THEME_JS@.browser");
+webui.@THEME_JS@._base.dojo.require("webui.@THEME_JS@.theme.common");
 
 /**
  * @class This class contains functions common to all widgets.
@@ -64,16 +65,18 @@ webui.@THEME_JS@.widget.common = {
      * @param {boolean} position The position to add widget.
      * @param {boolean} escape HTML escape strings (default).
      * @return {boolean} true if successful; otherwise, false.
+     * @private
      */
-    addFragment: function(domNode, props, position, escape) {
+    _addFragment: function(domNode, props, position, escape) {
         if (domNode == null || props == null) {
             return false;
         }
+        var common = webui.@THEME_JS@.widget.common;
 
         // If position is null, remove existing nodes. The contents shall be
         // replaced by the newly created widget.
         if (position == null) {
-            webui.@THEME_JS@.widget.common.removeChildNodes(domNode);
+            common._removeChildNodes(domNode);
 
             // Note: To ensure Dojo does not replace the given domNode, always
             // provide a default position to the createWidget function. The
@@ -124,31 +127,31 @@ webui.@THEME_JS@.widget.common = {
             //
             if (escape != null && new Boolean(escape).valueOf() == false) {
                 // Note: IE does not insert script tags via innerHTML.
-                webui.@THEME_JS@.widget.common._appendHTML(domNode, 
-                    webui.@THEME_JS@.prototypejs.stripScripts(props));
+                common._appendHTML(domNode, 
+                    webui.@THEME_JS@._base.proto.stripScripts(props));
 
                 // Evaluate JavaScript.
                 setTimeout(function() {
                     // Eval not required for Mozilla/Firefox, but consistent.
-                    webui.@THEME_JS@.prototypejs.evalScripts(props);
-                    if (new Boolean(webui.@THEME_JS@.config.parseOnLoad).valueOf() == true) {
-                        webui.@THEME_JS@.widget.common._parseMarkup(domNode);
+                    webui.@THEME_JS@._base.proto.evalScripts(props);
+                    if (new Boolean(webui.@THEME_JS@._base.config.parseOnLoad).valueOf() == true) {
+                        common._parseMarkup(domNode);
                     }
-                    delete(webui.@THEME_JS@.widget.common._props[domNode.id]); // Clean up.
+                    delete(common._props[domNode.id]); // Clean up.
                 }, 10);
                 // Force _onWidgetReady() function to wait for widget completion.
-                webui.@THEME_JS@.widget.common._props[domNode.id] = "_onWidgetReady";
+                common._props[domNode.id] = "_onWidgetReady";
             } else {
                 // Static strings must be HTML escaped by default.
-                webui.@THEME_JS@.widget.common._appendHTML(domNode,
-                    webui.@THEME_JS@.prototypejs.escapeHTML(props));
+                common._appendHTML(domNode,
+                    webui.@THEME_JS@._base.proto.escapeHTML(props));
             }
         } else if (props.fragment) {
             // Add fragment -- do not HTML escape.
-            webui.@THEME_JS@.widget.common.addFragment(domNode, props.fragment, position, false);
+            common._addFragment(domNode, props.fragment, position, false);
         } else {
             // Create widget.
-            webui.@THEME_JS@.widget.common.createWidget(domNode, props, position, false);
+            common.createWidget(domNode, props, position, false);
         }
         return true;
     },
@@ -181,25 +184,26 @@ webui.@THEME_JS@.widget.common = {
         return true;
     },
     
-     /**
-      * This function is used to add the context path to a given property.
-      * The property could denote an url such as path to an image to be rendered
-      * or location of a resource to navigate to when a link is clicked. The
-      * property given has to start with a "/". Relative urls that start with 
-      * ".." will not have the context path appended. It also checks whether the
-      * context path has already been added to the property.
-      *
-      * @param (String} prefix The context path of the application
-      * @param (String} props The property for which the contextPath is to be appended
-      * @return {String} The property that has the contextPath appended
-      * @private
-      */
-     appendPrefix: function(prefix, props) {
-         if (props.charAt(0) == "/" && props.indexOf(prefix+"/") == -1) {
-             props = prefix + props;                        
-         }        
-         return props;
-     },
+    /**
+     * This function is used to add the context path to a given property.
+     * The property could denote an url such as path to an image to be rendered
+     * or location of a resource to navigate to when a link is clicked. The
+     * property given has to start with a "/". Relative urls that start with 
+     * ".." will not have the context path appended. It also checks whether the
+     * context path has already been added to the property.
+     *
+     * @param (String} prefix The context path of the application.
+     * @param (String} url The URL to which contextPath is to be appended.
+     * @return {String} The property that has the contextPath appended.
+     * @private
+     */
+    _appendPrefix: function(prefix, url) {
+        if (prefix == null || url == null) {
+            return null;
+        }
+        return (url.charAt(0) == "/" && url.indexOf(prefix + "/") == -1)
+            ? prefix + url : url;
+    },
      
     /**
      * This function is used to create and append widgets as children of the
@@ -224,8 +228,9 @@ webui.@THEME_JS@.widget.common = {
     _appendWidget: function(domNode, props) {
         // Set timeout to allow for progressive rendering.
         setTimeout(function() {
-            webui.@THEME_JS@.widget.common.createWidget(domNode, props, "last");
-            delete(webui.@THEME_JS@.widget.common._props[domNode.id]); // Clean up.
+            var common = webui.@THEME_JS@.widget.common;
+            common.createWidget(domNode, props, "last");
+            delete(common._props[domNode.id]); // Clean up.
         }, 0);
         return true;
     },
@@ -242,7 +247,7 @@ webui.@THEME_JS@.widget.common = {
      * Note: Minimally, the props argument must be a JSON object containing an 
      * id and widgetType property so the correct widget may be created.
      * </p>
-     * @param {Node} domNode The DOM node to add widget.
+     * @param {Node|String} domNode The DOM node (or HTML element id) to add widget.
      * @param {Object} props Key-Value pairs of properties.
      * @param {boolean} position The position to add widget.
      * @returns {Object} The newly created widget.
@@ -255,41 +260,45 @@ webui.@THEME_JS@.widget.common = {
         }
 
         // Destroy previously created widgets, events, etc.
-        webui.@THEME_JS@.widget.common.destroyWidget(props.id);
+        var common = webui.@THEME_JS@.widget.common;
+        common.destroyWidget(props.id);
 
         // Retrieve required module.
-        webui.@THEME_JS@._dojo.require(props.widgetType);
+        webui.@THEME_JS@._base.dojo.require(props.widgetType);
         
         try {
             // Get widget object.
-            var obj = webui.@THEME_JS@._dojo.getObject(props.widgetType);
+            var obj = webui.@THEME_JS@._base.dojo.getObject(props.widgetType);
 
             // Instantiate widget. 
             // Note: Dojo mixes attributes, if domNode is provided.
             widget = new obj(props);
         } catch (err) {
             var message = "Error: createWidget falied for id=" + props.id;
-	    message = webui.@THEME_JS@.widget.common.getExceptionString(err, 
-		message, true);
+	    message = common._getExceptionString(err, message, true);
             console.debug(message); // See Firebug console.
             return null;
         }
 
         // Add widget to DOM.
-        if (domNode) {
+        var _domNode = (typeof domNode == "string")
+            ? document.getElementById(domNode) : domNode;
+
+        // Add widget to DOM.
+        if (_domNode) {
             if (position == "last") {
                 // Append widget as the last child of the given DOM node.
-                domNode.appendChild(widget.domNode);
+                _domNode.appendChild(widget.domNode);
             } else if (position == "before") {
                 // Append widget before given DOM node.
-                domNode.parentNode.insertBefore(widget.domNode, domNode);
+                _domNode.parentNode.insertBefore(widget.domNode, _domNode);
             } else if (domNode.parentNode) {
                 // Replace given DOM node with widget.
-                domNode.parentNode.replaceChild(widget.domNode, domNode);
+                _domNode.parentNode.replaceChild(widget.domNode, _domNode);
             }
         }
         // Start widget.
-        widget.startup();
+        widget._start();
         return widget;
     },
 
@@ -309,17 +318,19 @@ webui.@THEME_JS@.widget.common = {
         if (elementId == null || props == null) {
             return false;
         }
+        var common = webui.@THEME_JS@.widget.common;
+
         // Since there is only one window.onLoad event, the ajaxZone tag of JSF
         // Extensions cannot make use of the parseOnLoad feature while 
         // re-rendering widgets. In this case, we shall call 
         // document.getElementById() even though it is not as efficient.
-        if (new Boolean(webui.@THEME_JS@.config.parseOnLoad).valueOf() == false) {
+        if (new Boolean(webui.@THEME_JS@._base.config.parseOnLoad).valueOf() == false) {
             var domNode = document.getElementById(elementId);
-            webui.@THEME_JS@.widget.common.createWidget(domNode, props, "last");
+            common.createWidget(domNode, props, "last");
             return true;
         }
         // Store widget properties for window.onLoad event.
-        webui.@THEME_JS@.widget.common._props[elementId] = props;
+        common._props[elementId] = props;
         return true;
     },
 
@@ -345,31 +356,13 @@ webui.@THEME_JS@.widget.common = {
     },
 
     /**
-     * This function returns style class name for a specified selector.
-     * <p>
-     * Note: If the given key doesn't exist in the theme, the method returns the
-     * defaultValue param or null.
-     * </p>
-     * @param {String} key A key defining a theme class name property.
-     * @param {Object} defaultValue Value returned if specified key is not found.
-     * @return {boolean} The style class name for a specified selector.
-     */
-    getClassName: function(key, defaultValue) {
-        var className =  webui.@THEME_JS@.theme.common.getClassName(key);
-        return (className != null) 
-            ? className
-            : (defaultValue) 
-                ? defaultValue
-                : null;                
-    },
-
-    /**
      * Return the appropriate event object depending on the browser.
      *
      * @param {Event} event The client side event generated
-     * @return {Event} The appropriate event object 
+     * @return {Event} The appropriate event object
+     * @private
      */
-    getEvent: function(event) {
+    _getEvent: function(event) {
         return (event) 
             ? event 
             : ((window.event) ? window.event : null);          
@@ -382,8 +375,9 @@ webui.@THEME_JS@.widget.common = {
      * @param {boolean} verbose If true all possible information from the
      * <code>err</code> is formatted into the returned String.
      * @return {String} Formatted information from <code>err</code>.
+     * @private
      */
-    getExceptionString : function(err, synopsis, verbose) {
+    _getExceptionString: function(err, synopsis, verbose) {
 	var msg = (synopsis == null ? "" : synopsis) + "\n";
 	msg = msg + (err.name != null ? err.name : "Unnamed Error") + "\n";
 	msg = msg + (err.message != null ? err.message : "No message") + "\n";
@@ -408,8 +402,9 @@ webui.@THEME_JS@.widget.common = {
      * </p>
      * @param {Node} domNode A DOM node contained in the form.
      * @return {Node} The HTML form element or null if not found.
+     * @private
      */
-    getForm: function(domNode) {
+    _getForm: function(domNode) {
         var form = null;
         var obj = domNode;
         while (obj != null) {
@@ -426,80 +421,13 @@ webui.@THEME_JS@.widget.common = {
      * Return the key code of the key which generated the event.
      *
      * @param {Event} event The client side event generated
-     * @return {String} The key code of the key which generated the event     
+     * @return {String} The key code of the key which generated the event
+     * @private
      */
-    getKeyCode: function(event) {    
+    _getKeyCode: function(event) {    
         return (event.keyCode) 
             ? event.keyCode 
             : ((event.which) ? event.which : event.charCode);              
-    },
-
-    /**
-     * This function returns the theme value defined by <code>key</code>
-     * from the <code>messages</code> theme categpory. If the theme does 
-     * not define a value for <code>key</code>, <code>defaultValue</code>
-     * is returned. If <code>defaultValue</code> is not specified and
-     * <code>key</code> is not defined in the theme <code>null</code>
-     * is returned. The <code>args</code> if not null is assumed to be
-     * an array of strings used to format the theme message value.
-     * <p>
-     * Since the "messages" theme category can contain data
-     * as well as text messages, it is sometimes useful to provide a 
-     * default in case key is not defined.
-     * </p>
-     *
-     * @param {String} key A key defining a theme message property.
-     * @param {Array} Message format arguments
-     * @param {Object} defaultValue The value to return if "key" is not defined.
-     * @return {String} The theme message defined by "key" or "defaultValue".
-     */
-    getMessage: function(key, args, defaultValue) {
-        var msg =  webui.@THEME_JS@.theme.common.getMessage(key, args);
-        return (msg != null) 
-	    ? msg 
-	    : (defaultValue)
-		? defaultValue
-		: null;                
-    },
-
-    /**
-     * This function returns a boolean value for the theme value defined
-     * by <code>key</code> from the <code>messages</code> theme categpory.
-     * If the theme does not define a value for <code>key</code>,
-     * <code>defaultValue</code> (which is assumed to be a boolean)
-     * is returned. If <code>defaultValue</code> is not specified
-     * and <code>key</code> is not defined in the theme, <code>false</code>
-     * is returned.
-     * <p>
-     * This method converts the theme value, if one exists to all lower
-     * case and then coerces the string to a boolean value as follows.<br/>
-     * "false" == <code>false</code><br/>
-     * "true" == <code>true</code><br/>
-     * All other strings == <code>defaultValue</code> or <code>false</code><br/>
-     * </p>
-     *
-     * @param {String} key A key defining a theme message property.
-     * @param {boolean} defaultValue The value to return if <code>key</code> is 
-     * not defined.
-     * @return {boolean} A theme value defined by <code>key</code>,
-     * <code>defaultValue</code>, or <code>false</code> if <code>key</code>
-     * is not defined.
-     */
-    getMessageBoolean: function(key, defaultValue) {
-	var result = defaultValue != null ? defaultValue : false;
-        var msg =  webui.@THEME_JS@.theme.common.getMessage(key, null);
-	if (msg == null || msg == "") {
-	    return result;
-	}
-	var msg = msg.toLowerCase();
-	if (msg == "false") {
-	    return false;
-	} else 
-	if (msg == "true") {
-	    return true;
-	} else {
-	    return result;
-	}
     },
 
     /**
@@ -508,8 +436,9 @@ webui.@THEME_JS@.widget.common = {
      *
      * @param {Node} domNode The DOM node compute position for.
      * @return {Array} Array containing the absolute left and top position.
+     * @private
      */
-    getPosition: function(domNode) {
+    _getPosition: function(domNode) {
         var leftPos = topPos = 0;
         if (domNode.offsetParent) {
             leftPos = domNode.offsetLeft;
@@ -527,8 +456,9 @@ webui.@THEME_JS@.widget.common = {
      * differences.
      *
      * @return {int} The page height or null if not available.
+     * @private
      */
-    getPageHeight: function() {
+    _getPageHeight: function() {
         // Mozilla browsers.
         if (window.innerHeight) {
             return window.innerHeight;
@@ -549,8 +479,9 @@ webui.@THEME_JS@.widget.common = {
      * differences.
      *
      * @return {int} The page height or null if not available.
+     * @private
      */
-    getPageWidth: function() {
+    _getPageWidth: function() {
         // Mozilla browsers.
         if (window.innerWidth) {
             return window.innerWidth;
@@ -567,38 +498,6 @@ webui.@THEME_JS@.widget.common = {
     },
 
     /**
-     * This function is used to obtain a template path, or returns null
-     * if key is not found or is not a path, i.e. begins with "<".
-     * 
-     * @param {String} key A key defining a theme "templates" property.
-     * @return {String} The template path.
-     */
-    getTemplatePath: function(key) {
-        var template = webui.@THEME_JS@.theme.common.getTemplate(key);
-        if (webui.@THEME_JS@.widget.common.isTemplatePath(template)) {
-            return webui.@THEME_JS@.theme.common.getPrefix() + "/" + template;
-        } else {
-            return null;
-        }
-    },
-
-    /**
-     * This function is used to obtain a template string, or returns null
-     * if key is not found or is not a string, i.e. does not begin with "<".
-     *
-     * @param {String} key A key defining a theme "templates" property.
-     * @return {String} The template string.
-     */
-    getTemplateString: function(key) {
-        var template = webui.@THEME_JS@.theme.common.getTemplate(key);
-        if (!webui.@THEME_JS@.widget.common.isTemplatePath(template)) {
-            return template;
-        } else {
-            return null;
-        }
-    },
-
-    /**
      * This function is used to obtain a widget.
      *
      * @param {String} id The widget id.
@@ -608,7 +507,7 @@ webui.@THEME_JS@.widget.common = {
         if (id == null) {
             return null;
         }
-        return webui.@THEME_JS@._dijit.byId(id);
+        return webui.@THEME_JS@._base.dijit.byId(id);
     },
 
     /**
@@ -618,8 +517,9 @@ webui.@THEME_JS@.widget.common = {
      * @param {String} widgetName The widget name to add properties for.
      * @param {Object} props Key-Value pairs of properties (optional).
      * @return {Object} Key-Value pairs of properties.
+     * @private
      */
-    getWidgetProps: function(widgetName, props) {
+    _getWidgetProps: function(widgetName, props) {
         var _props = {};
 
         // Set default widgetType.
@@ -627,36 +527,38 @@ webui.@THEME_JS@.widget.common = {
 
         // Add extra properties
         if (props != null) {
-            webui.@THEME_JS@.prototypejs.extend(_props, props);
+            webui.@THEME_JS@._base.proto.extend(_props, props);
         }
         return _props;
     },
 
     /**
-     * Return <code>true</code> if <code>fragProps</code> defines a
+     * Return <code>true</code> if <code>props</code> defines a
      * widget fragment. A widget fragment is a string (typically of HTML)
      * or an object that defines the <code>widgetType</code> ort
      * <code>id</code> properties.
-     * @param {Object} fragProps properties that may define a widget fragment.
-     * @return {boolean} true of <code>fragProps</code> is a widget fragment
-     * else false. If <code>fragProps</code> is null, false is returned.
+     * @param {Object} props properties that may define a widget fragment.
+     * @return {boolean} true of <code>props</code> is a widget fragment
+     * else false. If <code>props</code> is null, false is returned.
+     * @private
      */
-    isFragment : function(fragProps) {
-	return (fragProps != null && (typeof fragProps == "string" ||
-	    (typeof fragProps == "object" &&
-		(fragProps.widgetType != null && fragProps.widgetType != "") ||
-		(fragProps.id != null && fragProps.id != ""))));
+    _isFragment: function(props) {
+	return (props != null && (typeof props == "string" ||
+	    (typeof props == "object" &&
+		(props.widgetType != null && props.widgetType != "") ||
+		(props.id != null && props.id != ""))));
     },
 
     /**
-     * This function checks for the high contrast mode.
+     * This function tests for high contrast mode.
      *  
      * @return {boolean} true if high contrast mode.
+     * @private
      */
-    isHighContrastMode:  function() {
-        var common = webui.@THEME_JS@.widget.common;
-        if (common._isHighContrastMode != null) {
-            return common._isHighContrastMode;
+    _isHighContrastMode:  function() {
+        var config = webui.@THEME_JS@._base.config;
+        if (config.isHighContrastMode != undefined) {
+            return config.isHighContrastMode;
         }
 
         // Dojo appends the following div tag in body tag for a11y support.
@@ -685,8 +587,10 @@ webui.@THEME_JS@.widget.common = {
             'position: absolute;' +
             'height: 5px;' +
             'top: -999px;' +
-            'background-image: url("' + props.src + '");'; 
-        webui.@THEME_JS@._dojo.body().appendChild(domNode);
+            'background-image: url("' + props.src + '");';
+
+        var body = webui.@THEME_JS@._base.dojo.body();
+        body.appendChild(domNode);
 
         // Detect the high contrast mode.
         var bImg = null;
@@ -697,37 +601,23 @@ webui.@THEME_JS@.widget.common = {
             bImg = domNode.currentStyle.backgroundImage;
         }
         if (bImg != null && (bImg == "none" || bImg == "url(invalid-url:)" )) {
-            common._isHighContrastMode = true; // High Contrast Mode
+            config.isHighContrastMode = true; // High Contrast Mode
         } else {
-            common._isHighContrastMode = false;
+            config.isHighContrastMode = false;
         }
 
         // IE throws security exception if domNode isn't removed.
         // This allows widgets to be created before the window.onLoad event.
-        webui.@THEME_JS@._dojo.body().removeChild(domNode);
-        return common._isHighContrastMode;    
+        body.removeChild(domNode);
+        return config.isHighContrastMode;    
     },
-    
-    /**
-     * This function is used to test HTML template strings. 
-     * <p>
-     * Note: This function returns true if the "template" is a template path, 
-     * and false if it is a template String. False is also returned if the value
-     * is null or the empty string.
-     * </p>
-     * @param {String} template The template string to test.
-     * @return {boolean} true if string is an HTML template.
-     */
-    isTemplatePath: function(template) {
-        return (template != null && template.charAt(0) != '<');
-    },
- 
+
     /** 
      * Keyboard key code as stored in browser events 
      *
      * @private
      */
-    keyCodes : webui.@THEME_JS@._dojo.keys,
+    _keyCodes: webui.@THEME_JS@._base.dojo.keys,
  
     /**
      * This function is used to parse HTML markup in order to create widgets
@@ -805,7 +695,7 @@ webui.@THEME_JS@.widget.common = {
      */
     publish: function(topic, props) {
         // Publish an event for custom AJAX implementations to listen for.
-        webui.@THEME_JS@._dojo.publish(topic, props);
+        webui.@THEME_JS@._base.dojo.publish(topic, props);
         return true;
     },
 
@@ -819,8 +709,9 @@ webui.@THEME_JS@.widget.common = {
      * </p>
      * @param {Node} domNode The DOM node to remove child nodes.
      * @return {boolean} true if successful; otherwise, false.
+     * @private
      */
-    removeChildNodes: function(domNode) {
+    _removeChildNodes: function(domNode) {
         if (domNode == null) {
             return false;
         }
@@ -841,8 +732,9 @@ webui.@THEME_JS@.widget.common = {
      * 
      * @param {int} delay The amount to delay.
      * @return {boolean} true if current time is greater than the exit time.
+     * @private
      */
-    sleep:  function(delay) {
+    _sleep: function(delay) {
         var start = new Date();
         var exitTime = start.getTime() + delay;
 
@@ -866,7 +758,7 @@ webui.@THEME_JS@.widget.common = {
      * @return {boolean} true if successful; otherwise, false.
      */
     subscribe: function(topic, obj, func) {
-        webui.@THEME_JS@._dojo.subscribe(topic, obj, func);
+        webui.@THEME_JS@._base.dojo.subscribe(topic, obj, func);
         return true;
     },
 
@@ -876,7 +768,7 @@ webui.@THEME_JS@.widget.common = {
      * <p>
      * Note: If the widget associated with props.id already exists, the widget's 
      * setProps() function is invoked with the given props param. If the widget 
-     * does not exist, the widget object is instantiated via the addFragment()
+     * does not exist, the widget object is instantiated via the _addFragment()
      * function -- all params are passed through.
      * </p><p>
      * See webui.@THEME_JS@.widget.label._setProps for example.
@@ -887,20 +779,22 @@ webui.@THEME_JS@.widget.common = {
      * @param {String} position The position (e.g., "first", "last", etc.) to add widget.
      * @param {boolean} escape HTML escape static strings -- default is true.
      * @return {boolean} true if successful; otherwise, false.
+     * @private
      */
-    updateFragment: function(domNode, id, props, position, escape) {
+    _updateFragment: function(domNode, id, props, position, escape) {
         if (props == null) {
             return false;
         }
         // Ensure props is not a string.
+        var common = webui.@THEME_JS@.widget.common;
         var widget = (typeof props != 'string') 
-            ? webui.@THEME_JS@.widget.common.getWidget(id) : null;
+            ? common.getWidget(id) : null;
 
         // Update widget or add fragment.
         if (widget && typeof widget.setProps == "function") {
             widget.setProps(props);
         } else {
-            webui.@THEME_JS@.widget.common.addFragment(domNode, props, position, escape);
+            common._addFragment(domNode, props, position, escape);
         }
         return true;
     }

@@ -39,6 +39,13 @@
             }
             domNode.wizOnLoad();
         }
+        function setDisabled(elementId, disabled, value) {
+            var domNode = document.getElementById(elementId);
+            domNode.setProps({
+                disabled: disabled,
+                value: (value) ? value : null
+            });
+        }
       </webuijsf:script>
       </webuijsf:head>
       <webuijsf:body id="body" onLoad="init();">
@@ -120,16 +127,14 @@
 		</td><td>
                 <webuijsf:radioButton id="radio1" name="radiouid"
                   label="#{msgs.wiz_user_uidAutoGenerate}"
-                  onClick="javascript:
-                    webui.suntheme.field.setDisabled('form1:wizard1:step1:uid1',true);
-                    webui.suntheme.field.setValue('form1:wizard1:step1:uid1','');"
+                  onClick="setDisabled('form1:wizard1:step1:uid1', true, '');"
                   selected="#{SimpleWizardBean.uidAutoGenerate}"/>
 		</td></tr>
 		<tr><td>
 		</td><td>
                 <webuijsf:radioButton id="radio2" name="radiouid"
                   label="#{msgs.wiz_user_uidSet}"
-                  onClick="javascript:webui.suntheme.field.setDisabled('form1:wizard1:step1:uid1',false);"
+                  onClick="setDisabled('form1:wizard1:step1:uid1', false);"
                   selected="#{SimpleWizardBean.uidSet}"/>
 		</td></tr>
 
@@ -182,29 +187,22 @@
 		</td><td>
                 <webuijsf:radioButton id="radio3" name="radiopswd"
                   label="#{msgs.wiz_user_pswdLocked}"
-                  onClick="javascript:
-                    webui.suntheme.field.setDisabled('form1:wizard1:step2:pswd1',true);
-                    webui.suntheme.field.setValue('form1:wizard1:step2:pswd1','');
-                    webui.suntheme.field.setDisabled('form1:wizard1:step2:pswd2',true);
-                    webui.suntheme.field.setValue('form1:wizard1:step2:pswd2','');"
+                  onClick="setDisabled('form1:wizard1:step2:pswd1', true, '');
+                    setDisabled('form1:wizard1:step2:pswd2', true, '');"
                   selected="#{SimpleWizardBean.pswdLocked}"/>
 		</td></tr>
 		<tr><td></td><td>
                 <webuijsf:radioButton id="radio4" name="radiopswd"
                   label="#{msgs.wiz_user_pswdFirstLogin}"
-                  onClick="javascript:
-                    webui.suntheme.field.setDisabled('form1:wizard1:step2:pswd1',true);
-                    webui.suntheme.field.setValue('form1:wizard1:step2:pswd1','');
-                    webui.suntheme.field.setDisabled('form1:wizard1:step2:pswd2',true);
-                    webui.suntheme.field.setValue('form1:wizard1:step2:pswd2','');"
+                  onClick="setDisabled('form1:wizard1:step2:pswd1', true, '');
+                    setDisabled('form1:wizard1:step2:pswd2', true, '');"
                   selected="#{SimpleWizardBean.pswdFirstLogin}"/>
 		</td></tr>
 		<tr><td></td><td>
                 <webuijsf:radioButton id="radio5" name="radiopswd"
                   label="#{msgs.wiz_user_pswdNow}"
-                  onClick="javascript:
-                    webui.suntheme.field.setDisabled('form1:wizard1:step2:pswd1',false);
-                    webui.suntheme.field.setDisabled('form1:wizard1:step2:pswd2',false);"
+                  onClick="setDisabled('form1:wizard1:step2:pswd1', false);
+                    setDisabled('form1:wizard1:step2:pswd2', false);"
                   selected="#{SimpleWizardBean.pswdNow}"/>
 		</td></tr>
 

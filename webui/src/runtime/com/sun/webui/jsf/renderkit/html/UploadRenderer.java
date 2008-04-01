@@ -20,7 +20,7 @@
  * Copyright 2007 Sun Microsystems, Inc. All rights reserved.
  */
  /*
-  * $Id: UploadRenderer.java,v 1.7 2008-02-22 19:30:11 danl Exp $
+  * $Id: UploadRenderer.java,v 1.8 2008-04-01 17:08:27 danl Exp $
   */
 package com.sun.webui.jsf.renderkit.html;
 
@@ -228,8 +228,9 @@ public class UploadRenderer extends FieldRenderer {
 	// hardcoded in the javascript. This is a "better" alternative.
 	//
 	StringBuilder jsString = new StringBuilder(128);
-        jsString.append(JavaScriptUtilities.getModuleName(
-		"upload.setEncodingType"))
+        jsString.append(JavaScriptUtilities.getModule("_html.upload"))
+            .append("\n")
+            .append(JavaScriptUtilities.getModuleName("_html.upload._setEncodingType"))
 	    .append("('")
 	    .append(id)
 	    .append("');\n");
@@ -240,13 +241,11 @@ public class UploadRenderer extends FieldRenderer {
 	// changes to the file input field.
 	//
 	if (upload.isPreservePath()) {
-	    jsString.append(JavaScriptUtilities.getModuleName(
-		"upload.preservePath"))
+	    jsString.append(JavaScriptUtilities.getModuleName("_html.upload._preservePath"))
 		.append("('")
 		.append(id)
 		.append("','")
-		.append(id.concat(Upload.INPUT_ID).
-			concat(Upload.PRESERVE_PATH_ID))
+		.append(id.concat(Upload.INPUT_ID).concat(Upload.PRESERVE_PATH_ID))
 		.append("');\n");
 	}
         JavaScriptUtilities.renderJavaScript(upload, 

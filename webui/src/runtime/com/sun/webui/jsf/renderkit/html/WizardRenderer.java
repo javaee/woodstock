@@ -242,7 +242,7 @@ public class WizardRenderer extends AbstractRenderer {
 
 	if (onPopupDismiss == null || onPopupDismiss.length() == 0) {
             Object[] args = new Object[] { 
-                JavaScriptUtilities.getModuleName("wizard")
+                JavaScriptUtilities.getModuleName("_html.wizard")
             };
 	    onPopupDismiss = MessageFormat.format(CLOSEPOPUPJS, args);
 	}
@@ -420,9 +420,9 @@ public class WizardRenderer extends AbstractRenderer {
 		javax.faces.render.ResponseStateManager.VIEW_STATE_PARAM);
 
             // Append JavaScript.
-            buff.append(JavaScriptUtilities.getModule("wizard"))
+            buff.append(JavaScriptUtilities.getModule("_html.wizard"))
                 .append("\n") // NOI18N
-                .append(JavaScriptUtilities.getModuleName("wizard._init")) // NOI18N
+                .append(JavaScriptUtilities.getModuleName("_html.wizard._init")) // NOI18N
                 .append("(") //NOI18N
                 .append(JSONUtilities.getString(json))
                 .append(");"); //NOI18N

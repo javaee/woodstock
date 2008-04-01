@@ -20,20 +20,21 @@
  * Copyright 2008 Sun Microsystems, Inc. All rights reserved.
  */
 
-webui.@THEME_JS@._dojo.provide("webui.@THEME_JS@.widget.radioButton");
+webui.@THEME_JS@._base.dojo.provide("webui.@THEME_JS@.widget.radioButton");
 
-webui.@THEME_JS@._dojo.require("webui.@THEME_JS@.widget.checkedBase");
+webui.@THEME_JS@._base.dojo.require("webui.@THEME_JS@.widget._base.checkedBase");
 
 /**
  * @name webui.@THEME_JS@.widget.radioButton
- * @extends webui.@THEME_JS@.widget.checkedBase
+ * @extends webui.@THEME_JS@.widget._base.checkedBase
  * @class This class contains functions for the radioButton widget.
  * @constructor This function is used to construct a radioButton widget.
  */
-webui.@THEME_JS@._dojo.declare("webui.@THEME_JS@.widget.radioButton", webui.@THEME_JS@.widget.checkedBase, {
+webui.@THEME_JS@._base.dojo.declare("webui.@THEME_JS@.widget.radioButton",
+        webui.@THEME_JS@.widget._base.checkedBase, {
     // Set defaults.
-    idSuffix: "_rb",
-    widgetName: "radioButton" // Required for theme properties.
+    _idSuffix: "_rb",
+    _widgetName: "radioButton" // Required for theme properties.
 });
 
 /**
@@ -91,12 +92,13 @@ webui.@THEME_JS@.widget.radioButton.event =
  * user's className property is always appended last).
  * </p>
  * @return {String} The outermost HTML element class name.
+ * @private
  */
-webui.@THEME_JS@.widget.radioButton.prototype.getClassName = function() {
+webui.@THEME_JS@.widget.radioButton.prototype._getClassName = function() {
     // Set default style.
     var className = (this.disabled == true)
-        ? this.widget.getClassName("RADIOBUTTON_SPAN_DISABLED", "")
-        : this.widget.getClassName("RADIOBUTTON_SPAN", "");
+        ? this._theme._getClassName("RADIOBUTTON_SPAN_DISABLED", "")
+        : this._theme._getClassName("RADIOBUTTON_SPAN", "");
 
     return (this.className)
         ? className + " " + this.className
@@ -107,39 +109,42 @@ webui.@THEME_JS@.widget.radioButton.prototype.getClassName = function() {
  * Helper function to obtain image class names.
  *
  * @return {String} The HTML image element class name.
+ * @private
  */
-webui.@THEME_JS@.widget.radioButton.prototype.getImageClassName = function() {
+webui.@THEME_JS@.widget.radioButton.prototype._getImageClassName = function() {
     return (this.disabled == true)
-        ? this.widget.getClassName("RADIOBUTTON_IMAGE_DISABLED", "")
-        : this.widget.getClassName("RADIOBUTTON_IMAGE", "");  
+        ? this._theme._getClassName("RADIOBUTTON_IMAGE_DISABLED", "")
+        : this._theme._getClassName("RADIOBUTTON_IMAGE", "");  
 };
 
 /**
  * Helper function to obtain input class names.
  *
  * @return {String} The HTML input element class name.
+ * @private
  */
-webui.@THEME_JS@.widget.radioButton.prototype.getInputClassName = function() {
+webui.@THEME_JS@.widget.radioButton.prototype._getInputClassName = function() {
     // Set readOnly style.
     if (this.readOnly == true) {
-        return this.widget.getClassName("RADIOBUTTON_READONLY", "");
+        return this._theme._getClassName("RADIOBUTTON_READONLY", "");
     }
 
     // Disabled style.
     return (this.disabled == true)
-        ? this.widget.getClassName("RADIOBUTTON_DISABLED", "")
-        : this.widget.getClassName("RADIOBUTTON", "");  
+        ? this._theme._getClassName("RADIOBUTTON_DISABLED", "")
+        : this._theme._getClassName("RADIOBUTTON", "");  
 };
 
 /**
  * Helper function to obtain label class names.
  *
  * @return {String} The HTML label element class name.
+ * @private
  */
-webui.@THEME_JS@.widget.radioButton.prototype.getLabelClassName = function() {
+webui.@THEME_JS@.widget.radioButton.prototype._getLabelClassName = function() {
     return (this.disabled == true)
-        ? this.widget.getClassName("RADIOBUTTON_LABEL_DISABLED", "")
-        : this.widget.getClassName("RADIOBUTTON_LABEL", "");  
+        ? this._theme._getClassName("RADIOBUTTON_LABEL_DISABLED", "")
+        : this._theme._getClassName("RADIOBUTTON_LABEL", "");  
 };
 
 /**
@@ -189,7 +194,7 @@ webui.@THEME_JS@.widget.radioButton.prototype.getLabelClassName = function() {
  */
 webui.@THEME_JS@.widget.radioButton.prototype.setProps = function(props, notify) {
     // Note: This function is overridden for JsDoc.
-    return this.inherited("setProps", arguments);
+    return this._inherited("setProps", arguments);
 };
 
 /**
@@ -224,5 +229,5 @@ webui.@THEME_JS@.widget.radioButton.prototype._setProps = function(props) {
     }
 
     // Set remaining properties.
-    return this.inherited("_setProps", arguments);
+    return this._inherited("_setProps", arguments);
 };

@@ -20,10 +20,10 @@
  * Copyright 2008 Sun Microsystems, Inc. All rights reserved.
  */
 
-webui.@THEME_JS@._dojo.provide("webui.@THEME_JS@.widget.calendarField");
+webui.@THEME_JS@._base.dojo.provide("webui.@THEME_JS@.widget.calendarField");
 
-webui.@THEME_JS@._dojo.require("webui.@THEME_JS@.widget.calendar");
-webui.@THEME_JS@._dojo.require("webui.@THEME_JS@.widget.textField");
+webui.@THEME_JS@._base.dojo.require("webui.@THEME_JS@.widget.calendar");
+webui.@THEME_JS@._base.dojo.require("webui.@THEME_JS@.widget.textField");
 
 /**
  * @name webui.@THEME_JS@.widget.calendarField
@@ -31,9 +31,10 @@ webui.@THEME_JS@._dojo.require("webui.@THEME_JS@.widget.textField");
  * @class This class contains functions for the calendarField widget.
  * @constructor This function is used to construct a calendarField widget.
  */
-webui.@THEME_JS@._dojo.declare("webui.@THEME_JS@.widget.calendarField", webui.@THEME_JS@.widget.textField, {
+webui.@THEME_JS@._base.dojo.declare("webui.@THEME_JS@.widget.calendarField",
+        webui.@THEME_JS@.widget.textField, {
     // Set defaults.
-    widgetName: "calendarField" // Required for theme properties.
+    _widgetName: "calendarField" // Required for theme properties.
 });
 
 /**
@@ -98,10 +99,11 @@ webui.@THEME_JS@.widget.calendarField.event =
  * user's className property is always appended last).
  * </p>
  * @return {String} The outermost HTML element class name.
+ * @private
  */
-webui.@THEME_JS@.widget.calendarField.prototype.getClassName = function() {
+webui.@THEME_JS@.widget.calendarField.prototype._getClassName = function() {
     // Set default style.
-    var className = this.widget.getClassName("CALENDAR_ROOT_TABLE","");
+    var className = this._theme._getClassName("CALENDAR_ROOT_TABLE","");
 
     return (this.className)
         ? className + " " + this.className
@@ -115,7 +117,7 @@ webui.@THEME_JS@.widget.calendarField.prototype.getClassName = function() {
  * @return {Object} Key-Value pairs of properties.
  */
 webui.@THEME_JS@.widget.calendarField.prototype.getProps = function() {
-    var props = this.inherited("getProps", arguments);
+    var props = this._inherited("getProps", arguments);
 
     // Set properties.  
     if (this.align) { props.align = this.align; }
@@ -127,13 +129,14 @@ webui.@THEME_JS@.widget.calendarField.prototype.getProps = function() {
 
 /**
  * This function is used to fill in remaining template properties, after the
- * buildRendering() function has been processed.
+ * _buildRendering() function has been processed.
  * <p>
  * Note: Unlike Dojo 0.4, the DOM nodes don't exist in the document, yet. 
  * </p>
  * @return {boolean} true if successful; otherwise, false.
+ * @private
  */
-webui.@THEME_JS@.widget.calendarField.prototype.postCreate = function () {
+webui.@THEME_JS@.widget.calendarField.prototype._postCreate = function () {
     // Set ids.
     if (this.id) {
         this.inlineHelpNode.id = this.id + "_pattern";
@@ -149,9 +152,9 @@ webui.@THEME_JS@.widget.calendarField.prototype.postCreate = function () {
         if (this.calendar != null && this.calendar.dateFormat != null) {
             pattern = this.calendar.dateFormat;
         } else {        
-            pattern = this.theme.getMessage("calendar.dateFormat");
+            pattern = this._theme.getMessage("calendar.dateFormat");
         }
-        var help = this.theme.getMessage("calendar."+pattern);
+        var help = this._theme.getMessage("calendar."+pattern);
         if (help != null) {
             this.patternHelp = help;
         } 
@@ -159,13 +162,13 @@ webui.@THEME_JS@.widget.calendarField.prototype.postCreate = function () {
     // Set events.
 
     // Subscribe to the "dayClicked" event present in the calendar widget.
-    this.widget.subscribe(webui.@THEME_JS@.widget.calendar.event.day.selectedTopic,
+    this._widget.subscribe(webui.@THEME_JS@.widget.calendar.event.day.selectedTopic,
         this, "dayClicked");
     // Subscribe to the "toggle" event that occurs whenever the calendar is opened.
-    this.widget.subscribe(webui.@THEME_JS@.widget.calendar.event.toggle.openTopic,
+    this._widget.subscribe(webui.@THEME_JS@.widget.calendar.event.toggle.openTopic,
         this, "toggleCalendar");
         
-    return this.inherited("postCreate", arguments);
+    return this._inherited("_postCreate", arguments);
 };
 
 /**
@@ -222,14 +225,14 @@ webui.@THEME_JS@.widget.calendarField.prototype.setProps = function(props, notif
     // If the popup calendar is visible, prevent disabling of the calendar.
     // The widget can only be disabled if the popup calendar is not visible.
     if (props.disabled != null) { 
-        var widget = this.widget.getWidget(this.calendar.id); 
+        var widget = this._widget.getWidget(this.calendar.id); 
         if (widget != null && !(widget.calendarContainer.style.display != "block")) {
             props.disabled = this.disabled;
         }        
     }
     
     // Set remaining properties.
-    return this.inherited("setProps", arguments);
+    return this._inherited("setProps", arguments);
 };
 
 /**
@@ -261,29 +264,40 @@ webui.@THEME_JS@.widget.calendarField.prototype._setProps = function(props) {
         props.calendar.disabled = this.disabled;
         
         // Update/add fragment.
-        this.widget.updateFragment(this.calendarContainer, this.calendar.id,
+        this._widget._updateFragment(this.calendarContainer, this.calendar.id,
             props.calendar); 
     }
     
     // Set date format pattern help.
     if (props.patternHelp) {                            
         // NOTE: If you set this value manually, text must be HTML escaped.
-        this.widget.addFragment(this.inlineHelpNode, props.patternHelp);
+        this._widget._addFragment(this.inlineHelpNode, props.patternHelp);
     }
 
     // Set remaining properties.
-    return this.inherited("_setProps", arguments);
+    return this._inherited("_setProps", arguments);
 };
 
-// Cannot do this in the postCreate or setProps as the dom element hasnt yet been
-// created on the page. So, offsetWidth would return zero. 
-webui.@THEME_JS@.widget.calendarField.prototype.startup = function () {
-    
+/**
+ * This function is used to "start" the widget, after the widget has been
+ * instantiated.
+ *
+ * @return {boolean} true if successful; otherwise, false.
+ * @private
+ */
+webui.@THEME_JS@.widget.calendarField.prototype._start = function () {
+    if (typeof this._started == "undefined") {
+        return false;
+    }
+
     // Adjust the size of the inline help text so that it fits to the
-    // size of the text field     
+    // size of the text field.
+    //
+    // Note: Cannot do this in the _postCreate or setProps as nodes have not
+    // been added to the DOM. So, offsetWidth would return zero. 
     var width = this.fieldNode.offsetWidth;
-    this.inlineHelpNode.style.cssText ="width:"+width+"px;";
-    return this.inherited("startup", arguments);
+    this.inlineHelpNode.style.cssText = "width:" + width + "px;";
+    return this._inherited("_start", arguments);
 };
 
 /**
@@ -297,7 +311,7 @@ webui.@THEME_JS@.widget.calendarField.prototype.startup = function () {
  */
 webui.@THEME_JS@.widget.calendarField.prototype.toggleCalendar = function(props) {   
     if (props.id != null && props.id == this.calendar.id) {
-        var widget = this.widget.getWidget(props.id);
+        var widget = this._widget.getWidget(props.id);
         widget.setProps({date: this.getProps().value});
     }
     return true;

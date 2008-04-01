@@ -161,9 +161,9 @@ public class AddRemoveRenderer extends ListRendererBase {
             String jsObject = JavaScriptUtilities.getDomNode(context, component);
 
             // Append JavaScript.
-            buff.append(JavaScriptUtilities.getModule("addRemove"))
+            buff.append(JavaScriptUtilities.getModule("_html.addRemove"))
                 .append("\n") // NOI18N
-                .append(JavaScriptUtilities.getModuleName("addRemove._init")) // NOI18N
+                .append(JavaScriptUtilities.getModuleName("_html.addRemove._init")) // NOI18N
                 .append("(") //NOI18N
                 .append(JSONUtilities.getString(json))
                 .append(");"); //NOI18N
@@ -688,13 +688,6 @@ public class AddRemoveRenderer extends ListRendererBase {
         */ 
 
         if(DEBUG) log("Setting onchange event handler"); 
-	/*
-        String script = 
-	    getJavaScript(component.getOnChange(), 
-			  styles[0], 
-			  id);
-        writer.writeAttribute("onchange", script, null);    //NOI18N
-        */
 
         int tabindex = component.getTabIndex(); 
         if(tabindex > 0 && tabindex < 32767) { 
@@ -744,7 +737,7 @@ public class AddRemoveRenderer extends ListRendererBase {
         Theme theme = ThemeUtilities.getTheme(context); 
         
         String[] styles = new String[23]; 
-        styles[0] = JavaScriptUtilities.getModuleName("listbox.changed"); //NOI18N
+        styles[0] = JavaScriptUtilities.getModuleName("_html.listbox.changed"); //NOI18N
 	styles[1] = theme.getStyleClass(ThemeStyles.LIST);
 	styles[2] = theme.getStyleClass(ThemeStyles.LIST_DISABLED);
         styles[3] = theme.getStyleClass(ThemeStyles.LIST_OPTION);

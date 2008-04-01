@@ -20,22 +20,23 @@
  * Copyright 2008 Sun Microsystems, Inc. All rights reserved.
  */
 
-webui.@THEME_JS@._dojo.provide("webui.@THEME_JS@.widget.staticText");
+webui.@THEME_JS@._base.dojo.provide("webui.@THEME_JS@.widget.staticText");
 
-webui.@THEME_JS@._dojo.require("webui.@THEME_JS@.widget.widgetBase");
+webui.@THEME_JS@._base.dojo.require("webui.@THEME_JS@.widget._base.widgetBase");
 
 /**
  * @name webui.@THEME_JS@.widget.staticText
- * @extends webui.@THEME_JS@.widget.widgetBase
+ * @extends webui.@THEME_JS@.widget._base.widgetBase
  * @class This class contains functions for the staticText widget.
  * @constructor This function is used to construct a staticText widget.
  */
-webui.@THEME_JS@._dojo.declare("webui.@THEME_JS@.widget.staticText", webui.@THEME_JS@.widget.widgetBase, {
+webui.@THEME_JS@._base.dojo.declare("webui.@THEME_JS@.widget.staticText",
+        webui.@THEME_JS@.widget._base.widgetBase, {
     // Set defaults.
     constructor: function() {
         this.escape = true;
     },
-    widgetName: "staticText" // Required for theme properties.
+    _widgetName: "staticText" // Required for theme properties.
 });
 
 /**
@@ -81,7 +82,7 @@ webui.@THEME_JS@.widget.staticText.event =
  * @return {Object} Key-Value pairs of properties.
  */
 webui.@THEME_JS@.widget.staticText.prototype.getProps = function() {
-    var props = this.inherited("getProps", arguments);
+    var props = this._inherited("getProps", arguments);
 
     // Set properties.
     if (this.escape) { props.escape = this.escape; }
@@ -126,7 +127,7 @@ webui.@THEME_JS@.widget.staticText.prototype.getProps = function() {
  */
 webui.@THEME_JS@.widget.staticText.prototype.setProps = function(props, notify) {
     // Note: This function is overridden for JsDoc.
-    return this.inherited("setProps", arguments);
+    return this._inherited("setProps", arguments);
 };
 
 /**
@@ -147,13 +148,13 @@ webui.@THEME_JS@.widget.staticText.prototype._setProps = function(props) {
     // Set text value.
     if (props.value) {
         // NOTE: If you set this value manually, text must be HTML escaped.
-        this.widget.addFragment(this.domNode, props.value, null, this.escape);
+        this._widget._addFragment(this.domNode, props.value, null, this.escape);
     }
 
     // Set more properties.
-    this.setCommonProps(this.domNode, props);
-    this.setEventProps(this.domNode, props);
+    this._setCommonProps(this.domNode, props);
+    this._setEventProps(this.domNode, props);
 
     // Set remaining properties.
-    return this.inherited("_setProps", arguments);
+    return this._inherited("_setProps", arguments);
 };

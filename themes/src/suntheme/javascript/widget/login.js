@@ -20,23 +20,24 @@
  * Copyright 2008 Sun Microsystems, Inc. All rights reserved.
  */
 
-webui.@THEME_JS@._dojo.provide("webui.@THEME_JS@.widget.login");
+webui.@THEME_JS@._base.dojo.provide("webui.@THEME_JS@.widget.login");
 
-webui.@THEME_JS@._dojo.require("webui.@THEME_JS@.widget.common");
-webui.@THEME_JS@._dojo.require("webui.@THEME_JS@.widget.widgetBase");
+webui.@THEME_JS@._base.dojo.require("webui.@THEME_JS@.widget.common");
+webui.@THEME_JS@._base.dojo.require("webui.@THEME_JS@.widget._base.widgetBase");
 
 /**
  * @name webui.@THEME_JS@.widget.login
- * @extends webui.@THEME_JS@.widget.widgetBase
+ * @extends webui.@THEME_JS@.widget._base.widgetBase
  * @class This class contains functions for the login widget.
  * @constructor This function is used to construct a login widget.
  */
-webui.@THEME_JS@._dojo.declare("webui.@THEME_JS@.widget.login", webui.@THEME_JS@.widget.widgetBase, {
+webui.@THEME_JS@._base.dojo.declare("webui.@THEME_JS@.widget.login",
+        webui.@THEME_JS@.widget._base.widgetBase, {
     // Set defaults.
     constructor: function() {
         this.loginState = "INIT";
     },
-    widgetName: "login" // Required for theme properties.    
+    _widgetName: "login" // Required for theme properties.    
 });
 
 /**
@@ -47,10 +48,10 @@ webui.@THEME_JS@._dojo.declare("webui.@THEME_JS@.widget.login", webui.@THEME_JS@
 webui.@THEME_JS@.widget.login.prototype.authenticate = function() {
     if (this.keys) {
         for (var i = 0; i < this.keys.length; i++) {
-            var widget = this.widget.getWidget(this.keys[i][0]);
+            var widget = this._widget.getWidget(this.keys[i][0]);
             var keyVal;
             if (widget) {
-                var name = widget.widgetName;
+                var name = widget._widgetName;
                 if (name == "textField" || name == "passwordField") {
                     keyVal = widget.getProps().value;
                 } else if (name == "dropDown" || name == "listbox") {
@@ -190,12 +191,13 @@ webui.@THEME_JS@.widget.login.prototype._handleFailure = function(props) {
  * user's className property is always appended last).
  * </p>
  * @return {String} The outermost HTML element class name.
+ * @private
  */
-webui.@THEME_JS@.widget.login.prototype.getClassName = function() {
+webui.@THEME_JS@.widget.login.prototype._getClassName = function() {
     var key = "LOGIN_DIV";
 
     // Get theme property.
-    var className = this.theme.getClassName(key);
+    var className = this._theme.getClassName(key);
     if (className == null || className.length == 0) {
 	return this.className;
     }
@@ -211,7 +213,7 @@ webui.@THEME_JS@.widget.login.prototype.getClassName = function() {
  * @return {Object} Key-Value pairs of properties.
  */
 webui.@THEME_JS@.widget.login.prototype.getProps = function() {
-    var props = this.inherited("getProps", arguments);
+    var props = this._inherited("getProps", arguments);
 
     // var props = webui.@THEME_JS@.widget.login.superclass.getProps.call(this);
     if (this.loginState) {props.loginState = this.loginState; }    
@@ -243,10 +245,10 @@ webui.@THEME_JS@.widget.login.prototype._getWidgetProps = function(props) {
     var _props = {};
             
     // Set default module and widget name
-    _props = this.widget.getWidgetProps(type, _props); 
+    _props = this._widget._getWidgetProps(type, _props); 
         
     // Add extra properties               
-    this.prototypejs.extend(_props, props);
+    this._proto.extend(_props, props);
     return _props;
 };
 
@@ -272,7 +274,7 @@ webui.@THEME_JS@.widget.login.prototype._handleSuccess = function(props) {
         id: props.id
     }]);
 
-    this.widget.removeChildNodes(this.loginTable);
+    this._widget._removeChildNodes(this.loginTable);
     this.loginState = "INIT";
     props.loginState = "INIT";
 
@@ -287,13 +289,14 @@ webui.@THEME_JS@.widget.login.prototype._handleSuccess = function(props) {
 
 /**
  * This function is used to fill in remaining template properties, after the
- * buildRendering() function has been processed.
+ * _buildRendering() function has been processed.
  * <p>
  * Note: Unlike Dojo 0.4, the DOM nodes don't exist in the document, yet. 
  * </p>
  * @return {boolean} true if successful; otherwise, false.
+ * @private
  */
-webui.@THEME_JS@.widget.login.prototype.postCreate = function () {
+webui.@THEME_JS@.widget.login.prototype._postCreate = function () {
     if (this.tabIndex == null) {
         this.tabIndex = -1;
     }
@@ -301,7 +304,7 @@ webui.@THEME_JS@.widget.login.prototype.postCreate = function () {
     // If login button and dot image are empty generate them on the
     // client side.
     if (this.dotImage == null) {
-	this.dotImage = this.widget.getWidgetProps("image", {
+	this.dotImage = this._widget._getWidgetProps("image", {
             icon: "DOT",
             id: this.id + "_dotImage"
         });
@@ -311,12 +314,12 @@ webui.@THEME_JS@.widget.login.prototype.postCreate = function () {
         var _props = {};
 	_props.id = this.id + "_loginButton";
         _props.tabIndex = this.tabIndex;
-        _props.alt = this.theme.getMessage("login.buttonAlt");
-        _props.value = this.theme.getMessage("login.buttonTitle");
-        _props = this.widget.getWidgetProps("button", _props);
+        _props.alt = this._theme.getMessage("login.buttonAlt");
+        _props.value = this._theme.getMessage("login.buttonTitle");
+        _props = this._widget._getWidgetProps("button", _props);
         this.loginButton = _props;
     }
-    return this.inherited("postCreate", arguments);
+    return this._inherited("_postCreate", arguments);
 };
 
 /**
@@ -343,7 +346,7 @@ webui.@THEME_JS@.widget.login.prototype.postCreate = function () {
  */
 webui.@THEME_JS@.widget.login.prototype.setProps = function(props, notify) {
     // Extend widget object for later updates.
-    return this.inherited("setProps", arguments);
+    return this._inherited("setProps", arguments);
 };
 
 /**
@@ -362,7 +365,7 @@ webui.@THEME_JS@.widget.login.prototype._setProps = function(props) {
     }
 
     // Handle the success and failure and continue states here.
-    // The init state is handled in the postCreate function
+    // The init state is handled in the _postCreate function
     // as there needs to be a minimal delay the first time this
     // widget is  being rendered - otherwise only the initial <span>
     // element representing the login widget gets transmitted causing
@@ -378,7 +381,7 @@ webui.@THEME_JS@.widget.login.prototype._setProps = function(props) {
         this._updateLoginTable(props);
     }
     // Set remaining properties.
-    return this.inherited("_setProps", arguments);
+    return this._inherited("_setProps", arguments);
 };
 
 /**
@@ -394,35 +397,35 @@ webui.@THEME_JS@.widget.login.prototype._setProps = function(props) {
  */
 webui.@THEME_JS@.widget.login.prototype._setAlert = function(alertProps) {
     if (alertProps == null) {
-        this.widget.removeChildNodes(this.alertContainer);
+        this._widget._removeChildNodes(this.alertContainer);
         return false;
     } else {
         var _props = {};
             
         // Set default module and widget name
-        _props = this.widget.getWidgetProps("alert", _props); 
+        _props = this._widget._getWidgetProps("alert", _props); 
         _props.id = this.id + "_alert";
 
         // Add extra properties               
         if (alertProps != null) {
-            this.prototypejs.extend(_props, alertProps);
+            this._proto.extend(_props, alertProps);
         }
         if (_props.summary == null) {
-            _props.summary = this.theme.getMessage("login.errorSummary");
+            _props.summary = this._theme.getMessage("login.errorSummary");
         }
         if (_props.detail == null) {
-            _props.detail = this.theme.getMessage("login.errorDetail");;
+            _props.detail = this._theme.getMessage("login.errorDetail");;
         }
 
         var tr = this.alertRowContainer.cloneNode(false);
         this.loginTbody.appendChild(tr);
         var td = this.alertCellContainer.cloneNode(false);
         tr.appendChild(td);
-        var widget = this.widget.getWidget(_props.id);
+        var widget = this._widget.getWidget(_props.id);
         if (widget) {
             widget.setProps(_props);
         } else {
-            this.widget.addFragment(td, _props); 
+            this._widget._addFragment(td, _props); 
         }
     }
     return true;
@@ -433,9 +436,10 @@ webui.@THEME_JS@.widget.login.prototype._setAlert = function(alertProps) {
  * instantiated.
  *
  * @return {boolean} true if successful; otherwise, false.
+ * @private
  */
-webui.@THEME_JS@.widget.login.prototype.startup = function () {
-    if (this._started) {
+webui.@THEME_JS@.widget.login.prototype._start = function () {
+    if (typeof this._started == "undefined") {
         return false;
     }
     // If widget set to "autoStart" fire up the authentication process.
@@ -448,7 +452,7 @@ webui.@THEME_JS@.widget.login.prototype.startup = function () {
             }, 10);    
         }
     }
-    return this.inherited("startup", arguments);
+    return this._inherited("_start", arguments);
 };
 
 /**
@@ -469,7 +473,7 @@ webui.@THEME_JS@.widget.login.prototype._updateLoginTable = function(props) {
     // Remove existing data entries before adding the new ones.
     // This involves destroying the widgets and also deleting
     // the table rows.
-    this.widget.removeChildNodes(this.loginTbody);
+    this._widget._removeChildNodes(this.loginTbody);
         
     var rowNum = 1;
 
@@ -499,7 +503,7 @@ webui.@THEME_JS@.widget.login.prototype._updateLoginTable = function(props) {
                     td.appendChild(divNode);
                     var widgetProps = this._getWidgetProps(dataRow[j]);
                     if (widgetProps) {
-                        this.widget.addFragment(divNode, widgetProps, "last"); 
+                        this._widget._addFragment(divNode, widgetProps, "last"); 
                     }
                 } else {
                     td = this.dataContainerCell.cloneNode(false);
@@ -516,7 +520,7 @@ webui.@THEME_JS@.widget.login.prototype._updateLoginTable = function(props) {
                     td.appendChild(divNode);
                     var widgetProps = this._getWidgetProps(dataRow[j]);
                     if (widgetProps) {
-                        this.widget.addFragment(divNode, widgetProps, "last"); 
+                        this._widget._addFragment(divNode, widgetProps, "last"); 
                     }
                 }
             }
@@ -528,7 +532,7 @@ webui.@THEME_JS@.widget.login.prototype._updateLoginTable = function(props) {
         var td1 = this.dotImageContainer.cloneNode(false);
         buttonTR.appendChild(td1);
         if (this.dotImage) {
-            this.widget.addFragment(td1, this.dotImage, "last");
+            this._widget._addFragment(td1, this.dotImage, "last");
         }
 
         var td2 = this.buttonContainer.cloneNode(false);
@@ -540,7 +544,7 @@ webui.@THEME_JS@.widget.login.prototype._updateLoginTable = function(props) {
             return false;
         };
         td2.appendChild(spanNode);
-        this.widget.addFragment(spanNode, this.loginButton, "last");
+        this._widget._addFragment(spanNode, this.loginButton, "last");
     }
     return true;
 };

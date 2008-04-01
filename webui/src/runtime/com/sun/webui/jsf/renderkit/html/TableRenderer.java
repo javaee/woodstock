@@ -898,9 +898,9 @@ public class TableRenderer extends javax.faces.render.Renderer {
             appendGroupPanelProperties(context, component, json);
 
             // Append JavaScript.
-            buff.append(JavaScriptUtilities.getModule("table"))
+            buff.append(JavaScriptUtilities.getModule("_html.table"))
                 .append("\n") // NOI18N
-                .append(JavaScriptUtilities.getModuleName("table._init")) // NOI18N
+                .append(JavaScriptUtilities.getModuleName("_html.table._init")) // NOI18N
                 .append("(") //NOI18N
                 .append(JSONUtilities.getString(json))
                 .append(");"); //NOI18N

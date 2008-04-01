@@ -196,7 +196,7 @@ public class BodyRenderer extends AbstractRenderer {
         Theme theme = ThemeUtilities.getTheme(context);
         StringBuffer buff = new StringBuffer(128);
         buff.append("new ")
-            .append(JavaScriptUtilities.getModuleName("body"))
+            .append(JavaScriptUtilities.getModuleName("_base.body"))
             .append("('")
             .append(viewId)
             .append("', '")

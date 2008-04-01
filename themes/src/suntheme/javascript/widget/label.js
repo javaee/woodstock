@@ -20,24 +20,25 @@
  * Copyright 2008 Sun Microsystems, Inc. All rights reserved.
  */
 
-webui.@THEME_JS@._dojo.provide("webui.@THEME_JS@.widget.label");
+webui.@THEME_JS@._base.dojo.provide("webui.@THEME_JS@.widget.label");
 
-webui.@THEME_JS@._dojo.require("webui.@THEME_JS@.widget.widgetBase");
+webui.@THEME_JS@._base.dojo.require("webui.@THEME_JS@.widget._base.widgetBase");
 
 /**
  * @name webui.@THEME_JS@.widget.label
- * @extends webui.@THEME_JS@.widget.widgetBase
+ * @extends webui.@THEME_JS@.widget._base.widgetBase
  * @class This class contains functions for the label widget.
  * @constructor This function is used to construct a label widget.
  */
-webui.@THEME_JS@._dojo.declare("webui.@THEME_JS@.widget.label", webui.@THEME_JS@.widget.widgetBase, {
+webui.@THEME_JS@._base.dojo.declare("webui.@THEME_JS@.widget.label",
+        webui.@THEME_JS@.widget._base.widgetBase, {
     // Set defaults.
     constructor: function() {
-        this.level = webui.@THEME_JS@.widget.common.getMessage("label.level", null, 2);
+        this.level = this._theme._getMessage("label.level", null, 2);
         this.required = false;
         this.valid = true;
     },
-    widgetName: "label" // Required for theme properties.
+    _widgetName: "label" // Required for theme properties.
 });
 
 /**
@@ -83,8 +84,9 @@ webui.@THEME_JS@.widget.label.event =
  * user's className property is always appended last).
  * </p>
  * @return {String} The outermost HTML element class name.
+ * @private
  */
-webui.@THEME_JS@.widget.label.prototype.getClassName = function() {
+webui.@THEME_JS@.widget.label.prototype._getClassName = function() {
     var key = "LABEL_LEVEL_TWO_TEXT";
 
     if (this.valid == false) {
@@ -96,7 +98,7 @@ webui.@THEME_JS@.widget.label.prototype.getClassName = function() {
     }
 
     // Get theme property.
-    var className = this.theme.getClassName(key);
+    var className = this._theme.getClassName(key);
     if (className == null || className.length == 0) {
 	return this.className;
     }
@@ -133,7 +135,7 @@ webui.@THEME_JS@.widget.label.prototype.notify = function(props) {
  * @return {Object} Key-Value pairs of properties.
  */
 webui.@THEME_JS@.widget.label.prototype.getProps = function() {
-    var props = this.inherited("getProps", arguments);
+    var props = this._inherited("getProps", arguments);
 
     // Set properties.
     if (this.contents) { props.contents = this.contents; }
@@ -150,13 +152,14 @@ webui.@THEME_JS@.widget.label.prototype.getProps = function() {
 
 /**
  * This function is used to fill in remaining template properties, after the
- * buildRendering() function has been processed.
+ * _buildRendering() function has been processed.
  * <p>
  * Note: Unlike Dojo 0.4, the DOM nodes don't exist in the document, yet. 
  * </p>
  * @return {boolean} true if successful; otherwise, false.
+ * @private
  */
-webui.@THEME_JS@.widget.label.prototype.postCreate = function () {
+webui.@THEME_JS@.widget.label.prototype._postCreate = function () {
     // Set ids.
     if (this.id) {
         this.contentsContainer.id = this.id + "_contentsContainer";
@@ -169,20 +172,20 @@ webui.@THEME_JS@.widget.label.prototype.postCreate = function () {
     // When the _setProps() function is called, image widgets will be
     // instantiated via the props param. 
     if (this.errorImage == null) {
-	this.errorImage = this.widget.getWidgetProps("image", {
+	this.errorImage = this._widget._getWidgetProps("image", {
             icon: "LABEL_INVALID_ICON",
             id: this.id + "_error",
-	    className: this.widget.getClassName("LABEL_INVALID_IMAGE", null)
+	    className: this._theme._getClassName("LABEL_INVALID_IMAGE", null)
         });
     }
     if (this.requiredImage == null) {
-	this.requiredImage = this.widget.getWidgetProps("image", {
+	this.requiredImage = this._widget._getWidgetProps("image", {
             icon: "LABEL_REQUIRED_ICON",
             id: this.id + "_required",
-	    className: this.widget.getClassName("LABEL_REQUIRED_IMAGE", null)
+	    className: this._theme._getClassName("LABEL_REQUIRED_IMAGE", null)
         });
     }
-    return this.inherited("postCreate", arguments);
+    return this._inherited("_postCreate", arguments);
 };
 
 /**
@@ -238,7 +241,7 @@ webui.@THEME_JS@.widget.label.prototype.setProps = function(props, notify) {
     }
 
     // Extend widget object for later updates.
-    return this.inherited("setProps", arguments);
+    return this._inherited("setProps", arguments);
 };
 
 /**
@@ -260,7 +263,7 @@ webui.@THEME_JS@.widget.label.prototype._setProps = function(props) {
     if (props.htmlFor) { this.domNode.htmlFor = props.htmlFor; }
     if (props.valid != null) { this.valid = new Boolean(props.valid).valueOf(); }
     if (props.required != null) { this.required = new Boolean(props.required).valueOf(); }
-    if (props.value) { this.widget.addFragment(this.valueContainer, props.value); }
+    if (props.value) { this._widget._addFragment(this.valueContainer, props.value); }
 
     // Set error image properties.
     if (props.errorImage || props.valid != null) {
@@ -273,7 +276,7 @@ webui.@THEME_JS@.widget.label.prototype._setProps = function(props) {
         props.errorImage.visible = !this.valid;
 
         // Update/add fragment.
-        this.widget.updateFragment(this.errorImageContainer, this.errorImage.id, 
+        this._widget._updateFragment(this.errorImageContainer, this.errorImage.id, 
             props.errorImage);
     }
 
@@ -288,24 +291,24 @@ webui.@THEME_JS@.widget.label.prototype._setProps = function(props) {
         props.requiredImage.visible = this.required;
 
         // Update/add fragment.
-        this.widget.updateFragment(this.requiredImageContainer, 
+        this._widget._updateFragment(this.requiredImageContainer, 
             this.requiredImage.id, props.requiredImage);
     }
 
     // Set contents.
     if (props.contents) {
         // Remove child nodes.
-        this.widget.removeChildNodes(this.contentsContainer);
+        this._widget._removeChildNodes(this.contentsContainer);
 
 	for (var i = 0; i < props.contents.length; i++) {
-            this.widget.addFragment(this.contentsContainer, props.contents[i], "last");
+            this._widget._addFragment(this.contentsContainer, props.contents[i], "last");
         }
     }
 
     // Set more properties.
-    this.setCommonProps(this.domNode, props);
-    this.setEventProps(this.domNode, props);
+    this._setCommonProps(this.domNode, props);
+    this._setEventProps(this.domNode, props);
 
     // Set remaining properties.
-    return this.inherited("_setProps", arguments);
+    return this._inherited("_setProps", arguments);
 };

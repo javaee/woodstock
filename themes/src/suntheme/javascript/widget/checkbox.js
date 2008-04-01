@@ -20,20 +20,21 @@
  * Copyright 2008 Sun Microsystems, Inc. All rights reserved.
  */
 
-webui.@THEME_JS@._dojo.provide("webui.@THEME_JS@.widget.checkbox");
+webui.@THEME_JS@._base.dojo.provide("webui.@THEME_JS@.widget.checkbox");
 
-webui.@THEME_JS@._dojo.require("webui.@THEME_JS@.widget.checkedBase");
+webui.@THEME_JS@._base.dojo.require("webui.@THEME_JS@.widget._base.checkedBase");
 
 /**
  * @name webui.@THEME_JS@.widget.checkbox
- * @extends webui.@THEME_JS@.widget.checkedBase
+ * @extends webui.@THEME_JS@.widget._base.checkedBase
  * @class This class contains functions for the checkbox widget.
  * @constructor This function is used to construct a checkbox widget.
  */
-webui.@THEME_JS@._dojo.declare("webui.@THEME_JS@.widget.checkbox", webui.@THEME_JS@.widget.checkedBase, {
+webui.@THEME_JS@._base.dojo.declare("webui.@THEME_JS@.widget.checkbox",
+        webui.@THEME_JS@.widget._base.checkedBase, {
     // Set defaults.
-    idSuffix: "_cb",
-    widgetName: "checkbox" // Required for theme properties.
+    _idSuffix: "_cb",
+    _widgetName: "checkbox" // Required for theme properties.
 });
 
 /**
@@ -91,12 +92,13 @@ webui.@THEME_JS@.widget.checkbox.event =
  * user's className property is always appended last).
  * </p>
  * @return {String} The outermost HTML element class name.
+ * @private
  */
-webui.@THEME_JS@.widget.checkbox.prototype.getClassName = function() {
+webui.@THEME_JS@.widget.checkbox.prototype._getClassName = function() {
     // Set default style.
     var className = (this.disabled == true)
-        ? this.widget.getClassName("CHECKBOX_SPAN_DISABLED", "")
-        : this.widget.getClassName("CHECKBOX_SPAN", ""); 
+        ? this._theme._getClassName("CHECKBOX_SPAN_DISABLED", "")
+        : this._theme._getClassName("CHECKBOX_SPAN", ""); 
 
     return (this.className)
         ? className + " " + this.className
@@ -107,39 +109,42 @@ webui.@THEME_JS@.widget.checkbox.prototype.getClassName = function() {
  * Helper function to obtain image class names.
  *
  * @return {String} The HTML image element class name.
+ * @private
  */
-webui.@THEME_JS@.widget.checkbox.prototype.getImageClassName = function() {
+webui.@THEME_JS@.widget.checkbox.prototype._getImageClassName = function() {
     return (this.disabled == true)
-        ? this.widget.getClassName("CHECKBOX_IMAGE_DISABLED", "")
-        : this.widget.getClassName("CHECKBOX_IMAGE", "");  
+        ? this._theme._getClassName("CHECKBOX_IMAGE_DISABLED", "")
+        : this._theme._getClassName("CHECKBOX_IMAGE", "");  
 };
 
 /**
  * Helper function to obtain input class names.
  *
  * @return {String} The HTML input element class name.
+ * @private
  */
-webui.@THEME_JS@.widget.checkbox.prototype.getInputClassName = function() {
+webui.@THEME_JS@.widget.checkbox.prototype._getInputClassName = function() {
     // readOnly style.
     if (this.readOnly == true) {
-        return this.widget.getClassName("CHECKBOX_READONLY", "");        
+        return this._theme._getClassName("CHECKBOX_READONLY", "");        
     }
 
     // disabled style.
     return (this.disabled == true)
-        ? this.widget.getClassName("CHECKBOX_DISABLED", "")
-        : this.widget.getClassName("CHECKBOX", "");  
+        ? this._theme._getClassName("CHECKBOX_DISABLED", "")
+        : this._theme._getClassName("CHECKBOX", "");  
 };
 
 /**
  * Helper function to obtain label class names.
  *
  * @return {String} The HTML label element class name.
+ * @private
  */
-webui.@THEME_JS@.widget.checkbox.prototype.getLabelClassName = function() {
+webui.@THEME_JS@.widget.checkbox.prototype._getLabelClassName = function() {
     return (this.disabled == true)
-        ? this.widget.getClassName("CHECKBOX_LABEL_DISABLED", "")
-        : this.widget.getClassName("CHECKBOX_LABEL", "");  
+        ? this._theme._getClassName("CHECKBOX_LABEL_DISABLED", "")
+        : this._theme._getClassName("CHECKBOX_LABEL", "");  
 };
 
 /**
@@ -189,5 +194,5 @@ webui.@THEME_JS@.widget.checkbox.prototype.getLabelClassName = function() {
  */
 webui.@THEME_JS@.widget.checkbox.prototype.setProps = function(props, notify) {
     // Note: This function is overridden for JsDoc.
-    return this.inherited("setProps", arguments);
+    return this._inherited("setProps", arguments);
 };

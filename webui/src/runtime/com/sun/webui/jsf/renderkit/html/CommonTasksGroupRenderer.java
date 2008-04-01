@@ -158,9 +158,8 @@ public class CommonTasksGroupRenderer extends AbstractRenderer {
         try {
              JSONObject json = getJSONProperties(context, theme, component);
 
-            buff.append(JavaScriptUtilities.getModule("commonTasksSection"))
-                .append(JavaScriptUtilities.getModuleName(
-                    "commonTasksSection._init(")) // NOI18N
+            buff.append(JavaScriptUtilities.getModule("_html.commonTasksSection"))
+                .append(JavaScriptUtilities.getModuleName("_html.commonTasksSection._init(")) // NOI18N
                 .append(JSONUtilities.getString(json))
                 .append(");\n"); //NOI18N
 

@@ -20,33 +20,28 @@
  * Copyright 2008 Sun Microsystems, Inc. All rights reserved.
  */
 
-webui.@THEME_JS@._dojo.provide("webui.@THEME_JS@.widget.listbox");
+webui.@THEME_JS@._base.dojo.provide("webui.@THEME_JS@.widget.listbox");
 
-webui.@THEME_JS@._dojo.require("webui.@THEME_JS@.widget.selectBase");
+webui.@THEME_JS@._base.dojo.require("webui.@THEME_JS@.widget._base.selectBase");
 
 /**
  * @name webui.@THEME_JS@.widget.listbox
- * @extends webui.@THEME_JS@.widget.selectBase
+ * @extends webui.@THEME_JS@.widget._base.selectBase
  * @class This class contains functions for the listbox widget.
  * @constructor This function is used to construct a listbox widget.
  */
-webui.@THEME_JS@._dojo.declare("webui.@THEME_JS@.widget.listbox", 
-	webui.@THEME_JS@.widget.selectBase, {
+webui.@THEME_JS@._base.dojo.declare("webui.@THEME_JS@.widget.listbox", 
+	webui.@THEME_JS@.widget._base.selectBase, {
     // Set defaults.
     //
     constructor : function() {
-	this.labelOnTop = webui.@THEME_JS@.widget.common.getMessageBoolean(
-	    "listbox.labelOnTop", false);
-	this.monospace = webui.@THEME_JS@.widget.common.getMessageBoolean(
-	    "listbox.monospace", false);
-	this.multiple = webui.@THEME_JS@.widget.common.getMessageBoolean(
-	    "listbox.multiple", false);
-	this.size = 
-	    webui.@THEME_JS@.widget.common.getMessage("listbox.size", null, 12);
-	this.width =
-	    webui.@THEME_JS@.theme.common.getMessage("listbox.width", null);
+	this.labelOnTop = this._theme._getMessageBoolean("listbox.labelOnTop", false);
+	this.monospace = this._theme._getMessageBoolean("listbox.monospace", false);
+	this.multiple = this._theme._getMessageBoolean("listbox.multiple", false);
+	this.size = this._theme._getMessage("listbox.size", null, 12);
+	this.width = this._theme._getMessage("listbox.width", null);
     },
-    widgetName: "listbox" // Required for theme properties.
+    _widgetName: "listbox" // Required for theme properties.
 });
 
 /**
@@ -104,15 +99,15 @@ webui.@THEME_JS@.widget.listbox.event =
  * user's className property is always appended last).
  * </p>
  * @return {String} The outermost HTML element class name.
+ * @private
  */
-webui.@THEME_JS@.widget.listbox.prototype.getClassName = function() {
-    var cn = this.widget.getClassName("LISTBOX", "");
+webui.@THEME_JS@.widget.listbox.prototype._getClassName = function() {
+    var cn = this._theme._getClassName("LISTBOX", "");
     return (this.className) ? cn + " " + this.className : cn;
 };
 
 /**
- * Return an Object Literal of label properties desired
- * by the listbox widget.
+ * Return an Object Literal of label properties desired by this widget.
  * <p>
  * This implementation sets
  * the <code>listbox.labelLevel</code> and <code>listbox.labelAlign</code>
@@ -126,21 +121,22 @@ webui.@THEME_JS@.widget.listbox.prototype.getClassName = function() {
  * These properties are extended with <code>this.label</code> and the
  * resulting properties are returned.
  * </p>
- * @param {Object} props Properties contributed by the caller,which can
+ * @param {Object} props Properties contributed by the caller, which can
  * be overridden as necessary.
  * @return {Object} label properties.
+ * @private
  */
-webui.@THEME_JS@.widget.listbox.prototype.getLabelProps = function(props) {
+webui.@THEME_JS@.widget.listbox.prototype._getLabelProps = function(props) {
 
     // First see if the super class wants to contribute to the props.
     // Let selectBase add the htmlFor property
     //
-    var allprops = this.inherited("getLabelProps", arguments);
+    var allprops = this._inherited("_getLabelProps", arguments);
 
     // We can override anything that it has set.
     //
-    var cn = this.getLabelClassName(null);
-    var lvl = this.widget.getMessage("listbox.labelLevel", null, 2);
+    var cn = this._getLabelClassName(null);
+    var lvl = this._theme._getMessage("listbox.labelLevel", null, 2);
     if (allprops == null) {
 	allprops = {};
     }
@@ -162,13 +158,14 @@ webui.@THEME_JS@.widget.listbox.prototype.getLabelProps = function(props) {
  * must be passed to the method, for example when called from the 
  * <code>selectBase.setProps</code> method.
  * @return {String} A CSS selector for the listbox label.
+ * @private
  */
-webui.@THEME_JS@.widget.listbox.prototype.getLabelClassName = function(ontop) {
+webui.@THEME_JS@.widget.listbox.prototype._getLabelClassName = function(ontop) {
     //var labelontop = ontop != null ? ontop : this.labelOnTop;
     //return labelontop == true
     return ontop != null && ontop == true
 	? null
-	: this.widget.getClassName("LISTBOX_LABEL_ALIGN", null);
+	: this._theme._getClassName("LISTBOX_LABEL_ALIGN", null);
 };
 
 /**
@@ -215,7 +212,7 @@ webui.@THEME_JS@.widget.listbox.prototype._getListContainerClassName =
     } else if (monospace == true) {
 	key = "LIST_MONOSPACE";
     }
-    return this.widget.getClassName(key, null);
+    return this._theme._getClassName(key, null);
 };
 
 /**
@@ -225,7 +222,7 @@ webui.@THEME_JS@.widget.listbox.prototype._getListContainerClassName =
  * @return {Object} Key-Value pairs of properties.
  */
 webui.@THEME_JS@.widget.listbox.prototype.getProps = function() {
-    var props = this.inherited("getProps", arguments);
+    var props = this._inherited("getProps", arguments);
 
     // Get properties.
     //
@@ -275,11 +272,12 @@ webui.@THEME_JS@.widget.listbox.prototype.getProps = function() {
  * @config {boolean} disabled If true the element is disabled.
  * @config {boolean} selected If true the element is selected.
  * @return {String} The HTML option element CSS class name.
+ * @private
  */
-webui.@THEME_JS@.widget.listbox.prototype.getOptionClassName = function(element) {
+webui.@THEME_JS@.widget.listbox.prototype._getOptionClassName = function(element) {
     var key = "LIST_OPTION";
     if (element == null) {
-	return this.widget.getClassName(key, null);
+	return this._theme._getClassName(key, null);
     }
 
     if (element.separator == true) {
@@ -297,25 +295,26 @@ webui.@THEME_JS@.widget.listbox.prototype.getOptionClassName = function(element)
     if (element.disabled == true) {
 	key = "LIST_OPTION_DISABLED";
     }
-    return this.widget.getClassName(key, null);
+    return this._theme._getClassName(key, null);
 };
 
 /*
  * This function is used to fill in remaining template properties, after the
- * <code>buildRendering</code> function has been processed.
+ * <code>_buildRendering</code> function has been processed.
  * <p>
  * Note: Unlike Dojo 0.4, the DOM nodes don't exist in the document, yet. 
  * </p>
  * @return {boolean} true if successful; otherwise, false.
+ * @private
  */
-webui.@THEME_JS@.widget.listbox.prototype.postCreate = function () {
+webui.@THEME_JS@.widget.listbox.prototype._postCreate = function () {
     // Don't trash the template.
     //
     webui.@THEME_JS@.common.addStyleClass(this.listContainer,
 	this._getListContainerClassName(
 		this.disabled == true, this.monospace == true));
 
-    return this.inherited("postCreate", arguments);
+    return this._inherited("_postCreate", arguments);
 };
 
 
@@ -331,7 +330,7 @@ webui.@THEME_JS@.widget.listbox.prototype.postCreate = function () {
  * server.
  * </p>
  * <p>
- * See <code>selectBase.setOptions</code> or overview for the properties
+ * See <code>selectBase._setOptions</code> or overview for the properties
  * of option objects in the <code>options</code> array property.
  *
  * @param {Object} props Key-Value pairs of properties.
@@ -359,7 +358,7 @@ webui.@THEME_JS@.widget.listbox.prototype.postCreate = function () {
  * @config {String} onMouseUp Mouse button is released over element.
  * @config {String} onMouseMove Mouse is moved while over element.
  * @config {String} onSelect Option text is highlighted.
- * @config {Array} options See selectBase.setOptions or selectBase overview
+ * @config {Array} options See selectBase._setOptions or selectBase overview
  * for details on the elements of this array.
  * @config {int} size The number of option rows to display.
  * @config {String} style Specify style rules inline. 
@@ -371,7 +370,7 @@ webui.@THEME_JS@.widget.listbox.prototype.postCreate = function () {
  */
 webui.@THEME_JS@.widget.listbox.prototype.setProps = function(props, notify) {
     if (props == null) {
-	return this.inherited("setProps", arguments);
+	return this._inherited("setProps", arguments);
     }
 
     // We are trying to deal with a state change which requires
@@ -401,7 +400,7 @@ webui.@THEME_JS@.widget.listbox.prototype.setProps = function(props, notify) {
 	    toggleMonospace ? props.monospace == true : ismonospace);
 	webui.@THEME_JS@.common.addStyleClass(this.listContainer, cn);
     }
-    return this.inherited("setProps", arguments);
+    return this._inherited("setProps", arguments);
 };
 
 /**
@@ -437,14 +436,14 @@ webui.@THEME_JS@.widget.listbox.prototype._setProps = function(props) {
     // set in props and handled in the superclass
     //
     if (props == null) {
-	return this.inherited("_setProps", arguments);
+	return this._inherited("_setProps", arguments);
 	//props = {};
     }
 
     if (props.size != null) {
 	var size = props.size;
 	if (size < 1) {
-	    size = this.theme.getMessage("listbox.size", null, 12);
+	    size = this._theme.getMessage("listbox.size", null, 12);
 	}
 	if (this.listContainer.size != size) {
 	    this.listContainer.size = size;
@@ -455,5 +454,5 @@ webui.@THEME_JS@.widget.listbox.prototype._setProps = function(props) {
 	    this.listContainer.multiple != props.multiple) {
 	this.listContainer.multiple = props.multiple;
     }
-    return this.inherited("_setProps", arguments);
+    return this._inherited("_setProps", arguments);
 };

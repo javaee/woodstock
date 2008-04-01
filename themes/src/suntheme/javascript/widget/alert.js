@@ -20,19 +20,20 @@
  * Copyright 2008 Sun Microsystems, Inc. All rights reserved.
  */
 
-webui.@THEME_JS@._dojo.provide("webui.@THEME_JS@.widget.alert");
+webui.@THEME_JS@._base.dojo.provide("webui.@THEME_JS@.widget.alert");
 
-webui.@THEME_JS@._dojo.require("webui.@THEME_JS@.widget.widgetBase");
+webui.@THEME_JS@._base.dojo.require("webui.@THEME_JS@.widget._base.widgetBase");
 
 /**
  * @name webui.@THEME_JS@.widget.alert
- * @extends webui.@THEME_JS@.widget.widgetBase
+ * @extends webui.@THEME_JS@.widget._base.widgetBase
  * @class This class contains functions for the alert widget.
  * @constructor This function is used to construct an alert widget.
  */
-webui.@THEME_JS@._dojo.declare("webui.@THEME_JS@.widget.alert", webui.@THEME_JS@.widget.widgetBase, {
+webui.@THEME_JS@._base.dojo.declare("webui.@THEME_JS@.widget.alert",
+        webui.@THEME_JS@.widget._base.widgetBase, {
     // Set defaults.
-    widgetName: "alert" // Required for theme properties.
+    _widgetName: "alert" // Required for theme properties.
 });
 
 /**
@@ -78,7 +79,7 @@ webui.@THEME_JS@.widget.alert.event =
  * @return {Object} Key-Value pairs of properties.
  */
 webui.@THEME_JS@.widget.alert.prototype.getProps = function() {
-    var props = this.inherited("getProps", arguments);
+    var props = this._inherited("getProps", arguments);
 
     // Set properties.
     if (this.detail != null) { props.detail = this.detail; }
@@ -114,13 +115,14 @@ webui.@THEME_JS@.widget.alert.prototype.notify = function(props) {
 
 /**
  * This function is used to fill in remaining template properties, after the
- * buildRendering() function has been processed.
+ * _buildRendering() function has been processed.
  * <p>
  * Note: Unlike Dojo 0.4, the DOM nodes don't exist in the document, yet. 
  * </p>
  * @return {boolean} true if successful; otherwise, false.
+ * @private
  */
-webui.@THEME_JS@.widget.alert.prototype.postCreate = function () {
+webui.@THEME_JS@.widget.alert.prototype._postCreate = function () {
     // Set ids.
     if (this.id) {
         this.bottomLeftContainer.id = this.id + "_bottomLeftContainer";
@@ -139,28 +141,28 @@ webui.@THEME_JS@.widget.alert.prototype.postCreate = function () {
         //create default indicators.   
         var  defaultIndicators =[{
                     "type": "error",
-                    "image": this.widget.getWidgetProps("image", {
+                    "image": this._widget._getWidgetProps("image", {
                     id: this.id + "_error",
                     icon: "ERROR_ALERT_INDICATOR"
                     })
                 },
             {
                     "type": "warning",
-                    "image": this.widget.getWidgetProps("image", {
+                    "image": this._widget._getWidgetProps("image", {
                     id: this.id + "_warning",
                     icon: "WARNING_ALERT_INDICATOR"
                 })
                 },
             {
                     "type": "success",
-                    "image": this.widget.getWidgetProps("image", {
+                    "image": this._widget._getWidgetProps("image", {
                     id: this.id + "_success",
                     icon: "SUCCESS_ALERT_INDICATOR"
                 })
                 },
             {
                     "type": "information",
-                    "image": this.widget.getWidgetProps("image", {
+                    "image": this._widget._getWidgetProps("image", {
                     id: this.id + "_info",
                     icon: "INFORMATION_ALERT_INDICATOR"
                 })
@@ -191,16 +193,16 @@ webui.@THEME_JS@.widget.alert.prototype.postCreate = function () {
     
     //spacer image
     if (this.spacerImage == null) {
-        this.spacerImage = this.widget.getWidgetProps("image", {
+        this.spacerImage = this._widget._getWidgetProps("image", {
              icon: "DOT",
              id: this.id + "_dot"
         }); 
     }
     // moreInfo link
     if (this.moreInfo != null && this.moreInfo.id == null && this.moreInfo.widgetType == null) {
-        this.moreInfo = this.widget.getWidgetProps("imageHyperlink",{
+        this.moreInfo = this._widget._getWidgetProps("imageHyperlink",{
                     id: this.id + "_" + "alertLink",
-                    enabledImage: this.widget.getWidgetProps("image", {
+                    enabledImage: this._widget._getWidgetProps("image", {
                             id: this.id + "_moreInfoLinkImg",
                             icon: "HREF_LINK"
                     }),     
@@ -212,7 +214,7 @@ webui.@THEME_JS@.widget.alert.prototype.postCreate = function () {
                 }                            
             );
     }    
-    return this.inherited("postCreate", arguments);
+    return this._inherited("_postCreate", arguments);
 };
 
 /**
@@ -243,7 +245,7 @@ webui.@THEME_JS@.widget.alert.prototype.postCreate = function () {
  */
 webui.@THEME_JS@.widget.alert.prototype.setProps = function(props, notify) {
     // Note: This function is overridden for JsDoc.
-    return this.inherited("setProps", arguments);
+    return this._inherited("setProps", arguments);
 };
 
 /**
@@ -267,17 +269,17 @@ webui.@THEME_JS@.widget.alert.prototype._setProps = function(props) {
     
     // Set summary.
     if (props.summary) {
-        this.widget.addFragment(this.summaryContainer, props.summary);
+        this._widget._addFragment(this.summaryContainer, props.summary);
     }
 
     // Set detail.
     if (props.detail) {
-        this.widget.addFragment(this.detailContainer, props.detail);
+        this._widget._addFragment(this.detailContainer, props.detail);
     }
 
     // Set moreInfo.
     if (props.moreInfo) {
-        this.widget.addFragment(this.detailContainerLink, props.moreInfo);
+        this._widget._addFragment(this.detailContainerLink, props.moreInfo);
     }
 
     // Set spacer image.
@@ -298,8 +300,8 @@ webui.@THEME_JS@.widget.alert.prototype._setProps = function(props) {
                 props.spacerImage.id = this.id + "_spacerImage" + i;
             }
             // Replace container with image.
-            if (!this.widget.getWidget(props.spacerImage.id)) {
-                this.widget.addFragment(containers[i], props.spacerImage);
+            if (!this._widget.getWidget(props.spacerImage.id)) {
+                this._widget._addFragment(containers[i], props.spacerImage);
             }
         }
     }
@@ -319,13 +321,13 @@ webui.@THEME_JS@.widget.alert.prototype._setProps = function(props) {
             indicator.image.tabIndex = this.tabIndex;
 
             // Update/add fragment.
-            this.widget.updateFragment(this.imageContainer, indicator.image.id, 
+            this._widget._updateFragment(this.imageContainer, indicator.image.id, 
                 indicator.image, "last");
         }
     }
 
-    // Do not call setCommonProps() here. 
+    // Do not call _setCommonProps() here. 
 
     // Set remaining properties.
-    return this.inherited("_setProps", arguments);
+    return this._inherited("_setProps", arguments);
 };

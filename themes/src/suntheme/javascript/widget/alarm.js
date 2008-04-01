@@ -20,18 +20,19 @@
  * Copyright 2008 Sun Microsystems, Inc. All rights reserved.
  */
 
-webui.@THEME_JS@._dojo.provide("webui.@THEME_JS@.widget.alarm");
+webui.@THEME_JS@._base.dojo.provide("webui.@THEME_JS@.widget.alarm");
 
-webui.@THEME_JS@._dojo.require("webui.@THEME_JS@.widget.widgetBase");
+webui.@THEME_JS@._base.dojo.require("webui.@THEME_JS@.widget._base.widgetBase");
 
 /**
  * @name webui.@THEME_JS@.widget.alarm
- * @extends webui.@THEME_JS@.widget.widgetBase
+ * @extends webui.@THEME_JS@.widget._base.widgetBase
  * @class This class contains functions for the alarm widget.
  * @constructor This function is used to construct an alarm widget.
  */
-webui.@THEME_JS@._dojo.declare("webui.@THEME_JS@.widget.alarm", webui.@THEME_JS@.widget.widgetBase, {
-    widgetName: "alarm" // Required for theme properties.
+webui.@THEME_JS@._base.dojo.declare("webui.@THEME_JS@.widget.alarm",
+        webui.@THEME_JS@.widget._base.widgetBase, {
+    _widgetName: "alarm" // Required for theme properties.
 });
 
 /**
@@ -77,7 +78,7 @@ webui.@THEME_JS@.widget.alarm.event =
  * @return {Object} Key-Value pairs of properties.
  */
 webui.@THEME_JS@.widget.alarm.prototype.getProps = function() {
-    var props = this.inherited("getProps", arguments);
+    var props = this._inherited("getProps", arguments);
 
     // Set properties.
     if (this.text != null) { props.text = this.text; }
@@ -90,13 +91,14 @@ webui.@THEME_JS@.widget.alarm.prototype.getProps = function() {
 
 /**
  * This function is used to fill in remaining template properties, after the
- * buildRendering() function has been processed.
+ * _buildRendering() function has been processed.
  * <p>
  * Note: Unlike Dojo 0.4, the DOM nodes don't exist in the document, yet. 
  * </p>
  * @return {boolean} true if successful; otherwise, false.
+ * @private
  */
-webui.@THEME_JS@.widget.alarm.prototype.postCreate = function () {
+webui.@THEME_JS@.widget.alarm.prototype._postCreate = function () {
     // Set ids.
     if (this.id) {
         this.rightText.id = this.id + "_rightText";
@@ -106,31 +108,31 @@ webui.@THEME_JS@.widget.alarm.prototype.postCreate = function () {
     // default set of indicators
     var  defaultIndicators = [{
         "type": "down",
-        "image": this.widget.getWidgetProps("image", {
+        "image": this._widget._getWidgetProps("image", {
             id: this.id + "_down",
             icon: "DOWN_ALARM_INDICATOR"
         })
     }, {
         "type": "critical",
-        "image": this.widget.getWidgetProps("image", {
+        "image": this._widget._getWidgetProps("image", {
             id: this.id + "_critical",
             icon: "CRITICAL_ALARM_INDICATOR"
         })
     }, {
         "type": "major",
-        "image": this.widget.getWidgetProps("image", {
+        "image": this._widget._getWidgetProps("image", {
             id: this.id + "_major",
             icon: "MAJOR_ALARM_INDICATOR"
         })
     }, {
         "type": "minor",
-        "image": this.widget.getWidgetProps("image", {
+        "image": this._widget._getWidgetProps("image", {
             id: this.id + "_minor",
             icon: "MINOR_ALARM_INDICATOR"
         })
     }, {
         "type": "ok",
-        "image": this.widget.getWidgetProps("image", {
+        "image": this._widget._getWidgetProps("image", {
             id: this.id + "_ok",
             icon: "OK_ALARM_INDICATOR"
         })
@@ -157,7 +159,7 @@ webui.@THEME_JS@.widget.alarm.prototype.postCreate = function () {
         }
         this.indicators = defaultIndicators;     
     }
-    return this.inherited("postCreate", arguments);
+    return this._inherited("_postCreate", arguments);
 };
 
 /**
@@ -197,7 +199,7 @@ webui.@THEME_JS@.widget.alarm.prototype.postCreate = function () {
  */
 webui.@THEME_JS@.widget.alarm.prototype.setProps = function(props, notify) {
     // Note: This function is overridden for JsDoc.
-    return this.inherited("setProps", arguments);
+    return this._inherited("setProps", arguments);
 };
 
 /**
@@ -221,14 +223,14 @@ webui.@THEME_JS@.widget.alarm.prototype._setProps = function(props) {
     
     // Set right text.
     if (props.textPosition == "right" || props.textPosition == null && props.text != null) {
-        this.common.setVisibleElement(this.leftText, false);
-        this.widget.addFragment(this.rightText, props.text);
+        this._common.setVisibleElement(this.leftText, false);
+        this._widget._addFragment(this.rightText, props.text);
     }
 
     // Set left text.
     if (props.textPosition == "left" && props.text != null) {
-        this.common.setVisibleElement(this.rightText, false);
-        this.widget.addFragment(this.leftText, props.text);
+        this._common.setVisibleElement(this.rightText, false);
+        this._widget._addFragment(this.leftText, props.text);
     }    
     
     // Set indicator properties.
@@ -245,16 +247,16 @@ webui.@THEME_JS@.widget.alarm.prototype._setProps = function(props) {
             indicator.image.visible = (indicator.type == this.type) ? true: false;
 
             // Update/add fragment.
-            this.widget.updateFragment(this.imageContainer, indicator.image.id, 
+            this._widget._updateFragment(this.imageContainer, indicator.image.id, 
                 indicator.image, "last");
         }
     }
 
-    // Do not call setCommonProps() here. 
+    // Do not call _setCommonProps() here. 
 
     // Set more properties.
-    this.setEventProps(this.domNode, props);
+    this._setEventProps(this.domNode, props);
 
     // Set remaining properties.
-    return this.inherited("_setProps", arguments);
+    return this._inherited("_setProps", arguments);
 };

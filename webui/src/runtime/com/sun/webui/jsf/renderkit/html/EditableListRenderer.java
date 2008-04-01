@@ -442,9 +442,9 @@ public class EditableListRenderer extends ListRendererBase {
             json.put("id", component.getClientId(context));
 
             // Append JavaScript.
-            buff.append(JavaScriptUtilities.getModule("editableList"))
+            buff.append(JavaScriptUtilities.getModule("_html.editableList"))
                 .append("\n") // NOI18N
-                .append(JavaScriptUtilities.getModuleName("editableList._init")) // NOI18N
+                .append(JavaScriptUtilities.getModuleName("_html.editableList._init")) // NOI18N
                 .append("(") //NOI18N
                 .append(JSONUtilities.getString(json))
                 .append(");"); //NOI18N
@@ -476,7 +476,7 @@ public class EditableListRenderer extends ListRendererBase {
            
         StringBuffer onchangeBuffer = new StringBuffer(128);
         onchangeBuffer.append(((EditableList)component).getOnChange()); 
-        onchangeBuffer.append(JavaScriptUtilities.getModuleName("listbox.changed")); //NOI18N
+        onchangeBuffer.append(JavaScriptUtilities.getModuleName("_html.listbox.changed")); //NOI18N
         onchangeBuffer.append("('"); //NOI18N
         onchangeBuffer.append(component.getClientId(context));
         onchangeBuffer.append("'); return false;"); //NOI18N

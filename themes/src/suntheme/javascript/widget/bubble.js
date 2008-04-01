@@ -20,19 +20,20 @@
  * Copyright 2008 Sun Microsystems, Inc. All rights reserved.
  */
 
-webui.@THEME_JS@._dojo.provide("webui.@THEME_JS@.widget.bubble");
+webui.@THEME_JS@._base.dojo.provide("webui.@THEME_JS@.widget.bubble");
 
-webui.@THEME_JS@._dojo.require("webui.@THEME_JS@.browser");
-webui.@THEME_JS@._dojo.require("webui.@THEME_JS@.widget.common");
-webui.@THEME_JS@._dojo.require("webui.@THEME_JS@.widget.widgetBase");
+webui.@THEME_JS@._base.dojo.require("webui.@THEME_JS@.browser");
+webui.@THEME_JS@._base.dojo.require("webui.@THEME_JS@.widget.common");
+webui.@THEME_JS@._base.dojo.require("webui.@THEME_JS@.widget._base.widgetBase");
 
 /**
  * @name webui.@THEME_JS@.widget.bubble
- * @extends webui.@THEME_JS@.widget.widgetBase
+ * @extends webui.@THEME_JS@.widget._base.widgetBase
  * @class This class contains functions for the bubble widget.
  * @constructor This function is used to construct a bubble widget.
  */
-webui.@THEME_JS@._dojo.declare("webui.@THEME_JS@.widget.bubble", webui.@THEME_JS@.widget.widgetBase, {
+webui.@THEME_JS@._base.dojo.declare("webui.@THEME_JS@.widget.bubble",
+        webui.@THEME_JS@.widget._base.widgetBase, {
     // Set defaults.
     constructor: function() {
         this.defaultTime = 2000;
@@ -40,7 +41,7 @@ webui.@THEME_JS@._dojo.declare("webui.@THEME_JS@.widget.bubble", webui.@THEME_JS
         this.bubbleLeftConst = 5;
         this.topConst = 2;
     },   
-    widgetName: "bubble" // Required for theme properties.
+    _widgetName: "bubble" // Required for theme properties.
 });
 
 /**
@@ -111,7 +112,7 @@ webui.@THEME_JS@.widget.bubble.event =
  * @return {Object} Key-Value pairs of properties.
  */
 webui.@THEME_JS@.widget.bubble.prototype.getProps = function() {
-    var props = this.inherited("getProps", arguments);
+    var props = this._inherited("getProps", arguments);
 
     // Set properties.
     if (this.title != null) { props.title = this.title; }
@@ -136,7 +137,7 @@ webui.@THEME_JS@.widget.bubble.prototype.getProps = function() {
  */
 webui.@THEME_JS@.widget.bubble.prototype.onClickCallback = function(event) {
     // Close the popup if close button is clicked.
-    event = this.widget.getEvent(event);
+    event = this._widget._getEvent(event);
 
     var target = (event.target)
         ? event.target 
@@ -193,7 +194,7 @@ webui.@THEME_JS@.widget.bubble.prototype.onShftTabCallback = function(event) {
     if (event == null) {
         return false;
     }
-    event = this.widget.getEvent(event);
+    event = this._widget._getEvent(event);
 
     var target = (event.target)
         ? event.target 
@@ -223,7 +224,7 @@ webui.@THEME_JS@.widget.bubble.prototype.onTabCallback = function(event) {
     if (event == null) {
         return false;
     }
-    event = this.widget.getEvent(event);
+    event = this._widget._getEvent(event);
 
     var target = (event.target)
         ? event.target 
@@ -274,7 +275,7 @@ webui.@THEME_JS@.widget.bubble.prototype.onMouseOutCallback = function(event) {
  */
 webui.@THEME_JS@.widget.bubble.prototype.open = function(event) {
     // Get the absolute position of the target.
-    var evt = this.widget.getEvent(event);
+    var evt = this._widget._getEvent(event);
     // A11Y - open the bubble if its Ctrl key + F1
     if (evt.type == "keydown") {
         if (!(evt.ctrlKey && (evt.keyCode == 112))) {
@@ -287,7 +288,7 @@ webui.@THEME_JS@.widget.bubble.prototype.open = function(event) {
         ? evt.target : ((evt.srcElement) 
             ? evt.srcElement : null);
 
-    var absPos = this.widget.getPosition(this.srcElm);
+    var absPos = this._widget._getPosition(this.srcElm);
     this.srcElm.targetLeft = absPos[0];
     this.srcElm.targetTop = absPos[1];
    
@@ -327,13 +328,14 @@ webui.@THEME_JS@.widget.bubble.prototype.open = function(event) {
 
 /**
  * This function is used to fill in remaining template properties, after the
- * buildRendering() function has been processed.
+ * _buildRendering() function has been processed.
  * <p>
  * Note: Unlike Dojo 0.4, the DOM nodes don't exist in the document, yet. 
  * </p>
  * @return {boolean} true if successful; otherwise, false.
+ * @private
  */
-webui.@THEME_JS@.widget.bubble.prototype.postCreate = function () {
+webui.@THEME_JS@.widget.bubble.prototype._postCreate = function () {
     // Set ids.
     if (this.id) {
         this.bottomLeftArrow.id = this.id + "_bottomLeftArrow";
@@ -349,38 +351,38 @@ webui.@THEME_JS@.widget.bubble.prototype.postCreate = function () {
     // Set events.
 
     // The onClick on window should close bubble.
-    this.dojo.connect(document, "onclick", this, "onCloseCallback");
+    this._dojo.connect(document, "onclick", this, "onCloseCallback");
 
     // The escape key should also close bubble.
-    this.dojo.connect(document, "onkeydown", this, "onCloseCallback");
+    this._dojo.connect(document, "onkeydown", this, "onCloseCallback");
 
     // The onClick event for component body. Closes the bubble only when
     // close button is clicked.
-    this.dojo.connect(this.domNode, "onclick", this, "onClickCallback");
+    this._dojo.connect(this.domNode, "onclick", this, "onClickCallback");
 
     // Do not close the popup if mouseover on bubble if mouseover on bubble 
     // component then clear the timer and do not close bubble.
-    this.dojo.connect(this.domNode, "onmouseover", this, "onMouseOverCallback");
+    this._dojo.connect(this.domNode, "onmouseover", this, "onMouseOverCallback");
 
     // Close the popup if mouseout and autoClose is true if onmouseout and 
     // autoClose is true then close the bubble.
-    this.dojo.connect(this.domNode, "onmouseout", this, "onMouseOutCallback");
+    this._dojo.connect(this.domNode, "onmouseout", this, "onMouseOutCallback");
     
     // The onfocus event for contentEnd. This is needed to handle tab event. 
-    this.dojo.connect(this.contentEnd, "onfocus", this, "onTabCallback");
+    this._dojo.connect(this.contentEnd, "onfocus", this, "onTabCallback");
     
     // The onkeydown event for bubbleHeader. This is needed to handle tab event. 
-    this.dojo.connect(this.bubbleHeader, "onkeydown", this, "onTabCallback");
+    this._dojo.connect(this.bubbleHeader, "onkeydown", this, "onTabCallback");
     
     // The onkeydown event for component body. This is needed to handle shift+tab event.
-    this.dojo.connect(this.domNode, "onkeydown", this, "onShftTabCallback");
+    this._dojo.connect(this.domNode, "onkeydown", this, "onShftTabCallback");
     
     // Initialize the BubbleTitle width as a percentage of the bubble header.    
     if (this.bubbleTitle != null) {
-        this.bubbleTitle.style.width = this.theme.getProperty("styles", 
+        this.bubbleTitle.style.width = this._theme.getProperty("styles", 
             "BUBBLE_TITLEWIDTH") + "%";
     }
-    return this.inherited("postCreate", arguments);
+    return this._inherited("_postCreate", arguments);
 };
 
 /**
@@ -397,13 +399,13 @@ webui.@THEME_JS@.widget.bubble.prototype.setPosition = function() {
     // RESULTING IN LAYOUT MISALIGNMENT IN THE HEADER.
 
     // Assume BubbleTitle width max percentage of the bubble header.
-    var maxPercent = this.theme.getProperty("styles", "BUBBLE_TITLEWIDTH");
+    var maxPercent = this._theme.getProperty("styles", "BUBBLE_TITLEWIDTH");
 
     // Sum of widths of all elements in the header BUT the title.  This includes
     // the width of the close button icon, and the margins around the button and
     // the title.  This should be a themeable parameter that matches the left/right
     // margins specified in the stylesheet for "BubbleTitle" and "BubbleCloseBtn".
-    var nonTitleWidth = this.theme.getProperty("styles", "BUBBLE_NONTITLEWIDTH");
+    var nonTitleWidth = this._theme.getProperty("styles", "BUBBLE_NONTITLEWIDTH");
 
     // Get the widths (in pixels) of the bubble header and title
     var headerWidth = this.bubbleHeader.offsetWidth;
@@ -458,10 +460,10 @@ webui.@THEME_JS@.widget.bubble.prototype.setPosition = function() {
         var bottomLeftArrow = document.getElementById(this.bottomLeftArrow.id);
         var bottomRightArrow = document.getElementById(this.bottomRightArrow.id);
         // hide all callout arrows.
-        this.common.setVisible(bottomLeftArrow, false);
-        this.common.setVisible(bottomRightArrow, false);
-        this.common.setVisible(topLeftArrow, false);
-        this.common.setVisible(topRightArrow, false);
+        this._common.setVisible(bottomLeftArrow, false);
+        this._common.setVisible(bottomRightArrow, false);
+        this._common.setVisible(topLeftArrow, false);
+        this._common.setVisible(topRightArrow, false);
 
         bottomLeftArrow.style.display = "none";
         bottomRightArrow.style.display = "none";
@@ -479,7 +481,7 @@ webui.@THEME_JS@.widget.bubble.prototype.setPosition = function() {
 
         // Check if right edge of bubble exceeds page boundary.
         var rightEdge = bubbleLeft + bubble.offsetWidth;
-        if (rightEdge > this.widget.getPageWidth()) {
+        if (rightEdge > this._widget._getPageWidth()) {
 
             // Shift bubble to left side of target;  implies a bottomRight arrow.
             bubbleLeft = this.srcElm.targetLeft - bubble.offsetWidth;
@@ -520,7 +522,7 @@ webui.@THEME_JS@.widget.bubble.prototype.setPosition = function() {
         // If rendering a callout arrow, set it's position relative to the bubble.
         if (this.arrow != null) {
            this.arrow.style.display = "block";
-           this.common.setVisible(this.arrow, true);
+           this._common.setVisible(this.arrow, true);
 
            if (this.arrow == topLeftArrow) {
                this.arrow.style.top = -(bubble.offsetHeight - this.topConst) + "px";               
@@ -575,7 +577,7 @@ webui.@THEME_JS@.widget.bubble.prototype.setProps = function(props, notify) {
     }
 
     // Extend widget object for later updates.
-    return this.inherited("setProps", arguments);
+    return this._inherited("setProps", arguments);
 };
 
 /**
@@ -604,22 +606,22 @@ webui.@THEME_JS@.widget.bubble.prototype._setProps = function(props) {
     }
     // Set title.
     if (props.title) {
-        this.widget.addFragment(this.titleNode, props.title);
+        this._widget._addFragment(this.titleNode, props.title);
     }
 
     // hide/display close button
     if (props.closeButton != null) {
         var classNames = this.closeBtn.className.split(" ");
-        var closeButtonClass = this.theme.getClassName("BUBBLE_CLOSEBTN");
-        var noCloseButtonClass = this.theme.getClassName("BUBBLE_NOCLOSEBTN");
+        var closeButtonClass = this._theme.getClassName("BUBBLE_CLOSEBTN");
+        var noCloseButtonClass = this._theme.getClassName("BUBBLE_NOCLOSEBTN");
 
         if (props.closeButton == false) {
-            this.common.stripStyleClass(this.closeBtn, closeButtonClass);
-            if (!this.common.checkStyleClasses(classNames, noCloseButtonClass))
-             this.common.addStyleClass(this.closeBtn, noCloseButtonClass);
+            this._common.stripStyleClass(this.closeBtn, closeButtonClass);
+            if (!this._common.checkStyleClasses(classNames, noCloseButtonClass))
+             this._common.addStyleClass(this.closeBtn, noCloseButtonClass);
         } else {          
-          if (!this.common.checkStyleClasses(classNames, closeButtonClass))
-             this.common.addStyleClass(this.closeBtn, closeButtonClass);
+          if (!this._common.checkStyleClasses(classNames, closeButtonClass))
+             this._common.addStyleClass(this.closeBtn, closeButtonClass);
         }
     }
 
@@ -631,13 +633,13 @@ webui.@THEME_JS@.widget.bubble.prototype._setProps = function(props) {
     // Set contents.
     if (props.contents) {
         // Remove child nodes.
-        this.widget.removeChildNodes(this.childNode);
+        this._widget._removeChildNodes(this.childNode);
 
         for (var i = 0; i < props.contents.length; i++) {
-            this.widget.addFragment(this.childNode, props.contents[i], "last");
+            this._widget._addFragment(this.childNode, props.contents[i], "last");
         }
     }
 
     // Set remaining properties.
-    return this.inherited("_setProps", arguments);
+    return this._inherited("_setProps", arguments);
 };

@@ -958,9 +958,9 @@ public class FileChooserRenderer extends AbstractRenderer {
                 .put("currentFolder", currentFolder);
 
             // Append JavaScript.
-            buff.append(JavaScriptUtilities.getModule("fileChooser"))
+            buff.append(JavaScriptUtilities.getModule("_html.fileChooser"))
                 .append("\n") // NOI18N
-                .append(JavaScriptUtilities.getModuleName("fileChooser._init")) // NOI18N
+                .append(JavaScriptUtilities.getModuleName("_html.fileChooser._init")) // NOI18N
                 .append("(") //NOI18N
                 .append(JSONUtilities.getString(json))
                 .append(");"); //NOI18N

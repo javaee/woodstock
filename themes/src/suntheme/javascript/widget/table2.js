@@ -20,20 +20,21 @@
  * Copyright 2008 Sun Microsystems, Inc. All rights reserved.
  */
 
-webui.@THEME_JS@._dojo.provide("webui.@THEME_JS@.widget.table2");
+webui.@THEME_JS@._base.dojo.provide("webui.@THEME_JS@.widget.table2");
 
-webui.@THEME_JS@._dojo.require("webui.@THEME_JS@.widget.common");
-webui.@THEME_JS@._dojo.require("webui.@THEME_JS@.widget.widgetBase");
+webui.@THEME_JS@._base.dojo.require("webui.@THEME_JS@.widget.common");
+webui.@THEME_JS@._base.dojo.require("webui.@THEME_JS@.widget._base.widgetBase");
 
 /**
  * @name webui.@THEME_JS@.widget.table2
- * @extends webui.@THEME_JS@.widget.widgetBase
+ * @extends webui.@THEME_JS@.widget._base.widgetBase
  * @class This class contains functions for the table2 widget.
  * @constructor This function is used to construct a table2 widget.
  */
-webui.@THEME_JS@._dojo.declare("webui.@THEME_JS@.widget.table2", webui.@THEME_JS@.widget.widgetBase, {
+webui.@THEME_JS@._base.dojo.declare("webui.@THEME_JS@.widget.table2",
+        webui.@THEME_JS@.widget._base.widgetBase, {
     // Set defaults.
-    widgetName: "table2" // Required for theme properties.
+    _widgetName: "table2" // Required for theme properties.
 });
 
 /**
@@ -79,7 +80,7 @@ webui.@THEME_JS@.widget.table2.event =
  * @return {Object} Key-Value pairs of properties.
  */
 webui.@THEME_JS@.widget.table2.prototype.getProps = function() {
-    var props = this.inherited("getProps", arguments);
+    var props = this._inherited("getProps", arguments);
 
     // Set properties.
     if (this.actions) { props.actions = this.actions; }
@@ -101,13 +102,14 @@ webui.@THEME_JS@.widget.table2.prototype.getProps = function() {
 
 /**
  * This function is used to fill in remaining template properties, after the
- * buildRendering() function has been processed.
+ * _buildRendering() function has been processed.
  * <p>
  * Note: Unlike Dojo 0.4, the DOM nodes don't exist in the document, yet. 
  * </p>
  * @return {boolean} true if successful; otherwise, false.
+ * @private
  */
-webui.@THEME_JS@.widget.table2.prototype.postCreate = function () {
+webui.@THEME_JS@.widget.table2.prototype._postCreate = function () {
     // Set ids.
     if (this.id) {
         this.actionsContainer.id = this.id + "_actionsContainer";
@@ -119,7 +121,7 @@ webui.@THEME_JS@.widget.table2.prototype.postCreate = function () {
         this.rowGroupsContainer.id = this.id + "_rowGroupsContainer";
         this.captionContainer.id = this.id + "_captionContainer";
     }
-    return this.inherited("postCreate", arguments);
+    return this._inherited("_postCreate", arguments);
 };
 
 /**
@@ -182,7 +184,7 @@ webui.@THEME_JS@.widget.table2.prototype.setProps = function(props, notify) {
     }
 
     // Extend widget object for later updates.
-    return this.inherited("setProps", arguments);
+    return this._inherited("setProps", arguments);
 };
 
 /**
@@ -211,28 +213,28 @@ webui.@THEME_JS@.widget.table2.prototype._setProps = function(props) {
     if (props.caption || props.filterText && this.caption) {       
         var filterText = null;
         if (props.filterText) {
-            filterText = this.theme.getMessage("table.title.filterApplied", [
+            filterText = this._theme.getMessage("table.title.filterApplied", [
                 props.filterText
             ]);
         }
 
         // To do: Create a new title message.
         
-        this.widget.addFragment(this.captionContainer, (filterText) 
+        this._widget._addFragment(this.captionContainer, (filterText) 
             ? props.caption + filterText : props.caption);
-        this.common.setVisibleElement(this.captionContainer, true);
+        this._common.setVisibleElement(this.captionContainer, true);
     }
 
     // Add actions.
     if (props.actions) {
-        this.widget.addFragment(this.actionsNode, props.actions);
-        this.common.setVisibleElement(this.actionsContainer, true);
+        this._widget._addFragment(this.actionsNode, props.actions);
+        this._common.setVisibleElement(this.actionsContainer, true);
     }
 
     // Add row groups.
     if (props.rowGroups) {
         // Remove child nodes.
-        this.widget.removeChildNodes(this.rowGroupsContainer);
+        this._widget._removeChildNodes(this.rowGroupsContainer);
  
         // Add row group.
         for (var i = 0; i < props.rowGroups.length; i++) {
@@ -245,7 +247,7 @@ webui.@THEME_JS@.widget.table2.prototype._setProps = function(props) {
                 frame: props.frame,
                 summary: props.summary
             };
-            this.widget.addFragment(this.rowGroupsContainer, props.rowGroups[i], "last");
+            this._widget._addFragment(this.rowGroupsContainer, props.rowGroups[i], "last");
 
             // To do: Fix me.
             // Actions my be rendered after column headers are positioned. When 
@@ -264,9 +266,9 @@ webui.@THEME_JS@.widget.table2.prototype._setProps = function(props) {
     }
 
     // Set more properties.
-    this.setCommonProps(this.domNode, props);
-    this.setEventProps(this.domNode, props);
+    this._setCommonProps(this.domNode, props);
+    this._setEventProps(this.domNode, props);
 
     // Set remaining properties.
-    return this.inherited("_setProps", arguments);
+    return this._inherited("_setProps", arguments);
 };

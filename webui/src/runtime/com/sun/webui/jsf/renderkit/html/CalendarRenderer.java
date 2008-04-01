@@ -360,9 +360,9 @@ public class CalendarRenderer extends FieldRenderer {
                 .put("hiddenClass", styles[2]);
 
             // Append JavaScript.
-            buff.append(JavaScriptUtilities.getModule("calendar"))
+            buff.append(JavaScriptUtilities.getModule("_html.calendar"))
                 .append("\n") // NOI18N
-                .append(JavaScriptUtilities.getModuleName("calendar._init")) // NOI18N
+                .append(JavaScriptUtilities.getModuleName("_html.calendar._init")) // NOI18N
                 .append("(") //NOI18N
                 .append(JSONUtilities.getString(json))
                 .append(");"); //NOI18N

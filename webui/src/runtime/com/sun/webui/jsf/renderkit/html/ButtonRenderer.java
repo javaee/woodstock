@@ -248,7 +248,9 @@ public class ButtonRenderer extends AbstractRenderer {
                     || button.getIcon() != null));
 
             // Append JavaScript.
-            buff.append(JavaScriptUtilities.getModuleName("button._init"))
+            buff.append(JavaScriptUtilities.getModule("_html.button"))
+                .append("\n")
+                .append(JavaScriptUtilities.getModuleName("_html.button._init"))
                 .append("(")
                 .append(JSONUtilities.getString(json))
                 .append(");");

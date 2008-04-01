@@ -20,19 +20,20 @@
  * Copyright 2008 Sun Microsystems, Inc. All rights reserved.
  */
 
-webui.@THEME_JS@._dojo.provide("webui.@THEME_JS@.widget.hyperlink");
+webui.@THEME_JS@._base.dojo.provide("webui.@THEME_JS@.widget.hyperlink");
 
-webui.@THEME_JS@._dojo.require("webui.@THEME_JS@.widget.anchorBase");
+webui.@THEME_JS@._base.dojo.require("webui.@THEME_JS@.widget._base.anchorBase");
 
 /**
  * @name webui.@THEME_JS@.widget.hyperlink
- * @extends webui.@THEME_JS@.widget.anchorBase
+ * @extends webui.@THEME_JS@.widget._base.anchorBase
  * @class This class contains functions for the hyperlink widget.
  * @constructor This function is used to construct a hyperlink widget.
  */
-webui.@THEME_JS@._dojo.declare("webui.@THEME_JS@.widget.hyperlink", webui.@THEME_JS@.widget.anchorBase, {
+webui.@THEME_JS@._base.dojo.declare("webui.@THEME_JS@.widget.hyperlink",
+        webui.@THEME_JS@.widget._base.anchorBase, {
     // Set defaults.
-    widgetName: "hyperlink" // Required for theme properties.
+    _widgetName: "hyperlink" // Required for theme properties.
 });
 
 /**
@@ -78,12 +79,13 @@ webui.@THEME_JS@.widget.hyperlink.event =
  * user's className property is always appended last).
  * </p>
  * @return {String} The outermost HTML element class name.
+ * @private
  */
-webui.@THEME_JS@.widget.hyperlink.prototype.getClassName = function() {
+webui.@THEME_JS@.widget.hyperlink.prototype._getClassName = function() {
     // Set default style.
     var className = (this.disabled == true)
-        ? this.widget.getClassName("HYPERLINK_DISABLED","")
-        : this.widget.getClassName("HYPERLINK","");
+        ? this._theme._getClassName("HYPERLINK_DISABLED","")
+        : this._theme._getClassName("HYPERLINK","");
 
     return (this.className)
         ? className + " " + this.className
@@ -95,8 +97,9 @@ webui.@THEME_JS@.widget.hyperlink.prototype.getClassName = function() {
  *
  * @param {Event} event The JavaScript event.
  * @return {boolean} true if successful; otherwise, false.
+ * @private
  */
-webui.@THEME_JS@.widget.hyperlink.prototype.onClickCallback = function(event) {
+webui.@THEME_JS@.widget.hyperlink.prototype._onClickCallback = function(event) {
     if (this.disabled == true) {
         event.preventDefault();
         return false;
@@ -117,7 +120,7 @@ webui.@THEME_JS@.widget.hyperlink.prototype.onClickCallback = function(event) {
     // If a form id isnt provided, use the utility function to
     // obtain the form id.
     if (this.formId == null) {
-        var form = this.widget.getForm(this.domNode);
+        var form = this._widget._getForm(this.domNode);
         this.formId = (form) ? form.id : null;
     }
     return this.submitFormData(this.formId, this.params);
@@ -125,21 +128,22 @@ webui.@THEME_JS@.widget.hyperlink.prototype.onClickCallback = function(event) {
 
 /**
  * This function is used to fill in remaining template properties, after the
- * buildRendering() function has been processed.
+ * _buildRendering() function has been processed.
  * <p>
  * Note: Unlike Dojo 0.4, the DOM nodes don't exist in the document, yet. 
  * </p>
  * @return {boolean} true if successful; otherwise, false.
+ * @private
  */
-webui.@THEME_JS@.widget.hyperlink.prototype.postCreate = function () {
+webui.@THEME_JS@.widget.hyperlink.prototype._postCreate = function () {
     // If the href attribute does not exist, set "#" as the default value of the
     // DOM node.
     this.domNode.href = "#";
 
     // Create callback function for onClick event.
-    this.dojo.connect(this.domNode, "onclick", this, "onClickCallback");
+    this._dojo.connect(this.domNode, "onclick", this, "_onClickCallback");
 
-    return this.inherited("postCreate", arguments);
+    return this._inherited("_postCreate", arguments);
 };
 
 /**
@@ -192,7 +196,7 @@ webui.@THEME_JS@.widget.hyperlink.prototype.postCreate = function () {
  */
 webui.@THEME_JS@.widget.hyperlink.prototype.setProps = function(props, notify) {
     // Note: This function is overridden for JsDoc.
-    return this.inherited("setProps", arguments);
+    return this._inherited("setProps", arguments);
 };
 
 /**

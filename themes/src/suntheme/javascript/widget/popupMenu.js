@@ -20,20 +20,21 @@
  * Copyright 2008 Sun Microsystems, Inc. All rights reserved.
  */
 
-webui.@THEME_JS@._dojo.provide("webui.@THEME_JS@.widget.popupMenu");
+webui.@THEME_JS@._base.dojo.provide("webui.@THEME_JS@.widget.popupMenu");
 
-webui.@THEME_JS@._dojo.require("webui.@THEME_JS@.widget.common");
-webui.@THEME_JS@._dojo.require("webui.@THEME_JS@.widget.menuBase");
+webui.@THEME_JS@._base.dojo.require("webui.@THEME_JS@.widget.common");
+webui.@THEME_JS@._base.dojo.require("webui.@THEME_JS@.widget._base.menuBase");
 
 /**
  * @name webui.@THEME_JS@.widget.popupMenu
- * @extends webui.@THEME_JS@.widget.menuBase
+ * @extends webui.@THEME_JS@.widget._base.menuBase
  * @class This class contains functions for the popupMenu widget.
  * @constructor This function is used to construct a popupMenu widget.
  */
-webui.@THEME_JS@._dojo.declare("webui.@THEME_JS@.widget.popupMenu", webui.@THEME_JS@.widget.menuBase, {
+webui.@THEME_JS@._base.dojo.declare("webui.@THEME_JS@.widget.popupMenu",
+        webui.@THEME_JS@.widget._base.menuBase, {
     // Set defaults.
-    widgetName: "popupMenu" // Required for theme properties.
+    _widgetName: "popupMenu" // Required for theme properties.
 });
 
 /**
@@ -42,7 +43,7 @@ webui.@THEME_JS@._dojo.declare("webui.@THEME_JS@.widget.popupMenu", webui.@THEME
  * @return {boolean} false to cancel the JavaScript event.
  */
 webui.@THEME_JS@.widget.popupMenu.prototype.close = function() {
-    if (this.common.isVisibleElement(this.domNode)) {
+    if (this._common.isVisibleElement(this.domNode)) {
         if (webui.@THEME_JS@.widget.popupMenu.activeMenuId) {
             webui.@THEME_JS@.widget.popupMenu.activeMenuId = null;
         }
@@ -178,8 +179,8 @@ webui.@THEME_JS@.widget.popupMenu.prototype.onCloseMenuCallBack = function(event
  * @return {boolean} true if successful; otherwise, false.
  */
 webui.@THEME_JS@.widget.popupMenu.prototype.open = function(event) {    
-    var evt = this.widget.getEvent(event);
-    var keyCode = this.widget.getKeyCode(evt);
+    var evt = this._widget._getEvent(event);
+    var keyCode = this._widget._getKeyCode(evt);
     if (evt.type == "keydown" || evt.type == "keypress") {
         if (!(evt.shiftKey && keyCode == 121)) {
             return false;
@@ -195,7 +196,7 @@ webui.@THEME_JS@.widget.popupMenu.prototype.open = function(event) {
     }
          
     // Only one menu can be open at a time. Hence, close the previous menu.
-    var widget = this.widget.getWidget(webui.@THEME_JS@.widget.popupMenu.activeMenuId);
+    var widget = this._widget.getWidget(webui.@THEME_JS@.widget.popupMenu.activeMenuId);
     if (widget) {
         widget.close();
     }
@@ -212,7 +213,7 @@ webui.@THEME_JS@.widget.popupMenu.prototype.open = function(event) {
     }
 
     // If menu already rendered, do nothing.
-    if (this.common.isVisibleElement(this.domNode)) {
+    if (this._common.isVisibleElement(this.domNode)) {
         return false;
     }
         
@@ -260,7 +261,7 @@ webui.@THEME_JS@.widget.popupMenu.prototype.open = function(event) {
             ? evt.target 
             : ((evt.srcElement) 
                 ? evt.srcElement : null);
-        var absPos = this.widget.getPosition(target);
+        var absPos = this._widget._getPosition(target);
         var targetLeft = absPos[0];
         var targetTop = absPos[1];
 
@@ -271,7 +272,7 @@ webui.@THEME_JS@.widget.popupMenu.prototype.open = function(event) {
         // But can be overridden to align right edges.
         // Check if right edge of menu exceeds page boundary.
         var rightEdge = menuLeft + this.domNode.offsetWidth;
-        var pageWidth = this.widget.getPageWidth();
+        var pageWidth = this._widget._getPageWidth();
         if (rightEdge > pageWidth) {
             // Shift menu left just enough to bring it into view.
             menuLeft -= (rightEdge - pageWidth);
@@ -288,7 +289,7 @@ webui.@THEME_JS@.widget.popupMenu.prototype.open = function(event) {
         
         // Check if bottom edge of menu exceeds page boundary.
         var bottomEdge = menuTop + this.domNode.offsetHeight - this.bottomShadow;
-        if (bottomEdge > this.widget.getPageHeight()) {
+        if (bottomEdge > this._widget._getPageHeight()) {
             // Shift menu to top of target.
             menuTop = targetTop - this.domNode.offsetHeight;
 
@@ -320,13 +321,13 @@ webui.@THEME_JS@.widget.popupMenu.prototype.open = function(event) {
     if (this.focusPosition > 0) {
         var menuNode = document.getElementById(this.menuId[this.focusPosition]); 
         if (menuNode) {
-            menuNode.className = this.theme.getClassName("MENU_GROUP_CONTAINER");
+            menuNode.className = this._theme.getClassName("MENU_GROUP_CONTAINER");
         }
     }
     this.focusPosition = 0;
     menuNode = document.getElementById(this.menuId[0]);
     menuNode.className = menuNode.className + " " + 
-        this.theme.getClassName("MENU_FOCUS");  
+        this._theme.getClassName("MENU_FOCUS");  
         
     if (menuNode.focus) {
         menuNode.focus();
@@ -336,53 +337,56 @@ webui.@THEME_JS@.widget.popupMenu.prototype.open = function(event) {
 
 /**
  * This function is used to fill in remaining template properties, after the
- * buildRendering() function has been processed.
+ * _buildRendering() function has been processed.
  * <p>
  * Note: Unlike Dojo 0.4, the DOM nodes don't exist in the document, yet. 
  * </p>
  * @return {boolean} true if successful; otherwise, false.
+ * @private
  */
-webui.@THEME_JS@.widget.popupMenu.prototype.postCreate = function () {
+webui.@THEME_JS@.widget.popupMenu.prototype._postCreate = function () {
     // Set public functions.
     this.domNode.open = function(event) { return webui.@THEME_JS@.widget.common.getWidget(this.id).open(event); };
     this.domNode.close = function() { return webui.@THEME_JS@.widget.common.getWidget(this.id).close(); };
 
     // Set events.s
-    this.dojo.connect(document, "onclick", this, "onCloseMenuCallBack"); 
+    this._dojo.connect(document, "onclick", this, "onCloseMenuCallBack"); 
             
     // escape key should also close menu.
-    this.dojo.connect(document, "onkeydown", this, "onCloseMenuCallBack");  
+    this._dojo.connect(document, "onkeydown", this, "onCloseMenuCallBack");  
 
     // Default widths of the drop shadow on each side of the menu.  These MUST 
     // be in pixel units and MUST match the absolute values of the left/top 
     // styles of the "Menu" style class in the CSS.
-    this.rightShadow = parseFloat(this.theme.getMessage("Menu.rightShadow"));
-    this.bottomShadow = parseFloat(this.theme.getMessage("Menu.bottomShadow"));
-    this.shadowContainer.className = this.theme.getClassName("MENU_SHADOW_CONTAINER"); 
+    this.rightShadow = parseFloat(this._theme.getMessage("Menu.rightShadow"));
+    this.bottomShadow = parseFloat(this._theme.getMessage("Menu.bottomShadow"));
+    this.shadowContainer.className = this._theme.getClassName("MENU_SHADOW_CONTAINER"); 
 
-    return this.inherited("postCreate", arguments);
+    return this._inherited("_postCreate", arguments);
 };
 
 /**
  * Override the "super class" processKeyPressEvent functionality and close the menu.
  *
  * @param (String) value The "value" of the selected option.  
- * @return {boolean} true The enter key press event completed successfully 
+ * @return {boolean} true The enter key press event completed successfully
+ * @private
  */
-webui.@THEME_JS@.widget.popupMenu.prototype.processEnterKeyPressEvent = function(value) {
-    this.inherited("processEnterKeyPressEvent", arguments);
+webui.@THEME_JS@.widget.popupMenu.prototype._processEnterKeyPressEvent = function(value) {
+    this._inherited("_processEnterKeyPressEvent", arguments);
     this.close();
     return true;
 };
 
 /**
- * Override the "super class" processOnClickEvent functionality and close the menu.
+ * Override the "super class" _processOnClickEvent functionality and close the menu.
  *
  * @param {String} value The selected value.
  * @return {boolean} true if successful; otherwise, false.
+ * @private
  */
-webui.@THEME_JS@.widget.popupMenu.prototype.processOnClickEvent = function(value) {
-    this.inherited("processOnClickEvent", arguments);
+webui.@THEME_JS@.widget.popupMenu.prototype._processOnClickEvent = function(value) {
+    this._inherited("_processOnClickEvent", arguments);
     this.close();
     return true;
 };
@@ -394,19 +398,20 @@ webui.@THEME_JS@.widget.popupMenu.prototype.processOnClickEvent = function(value
  * @param (String) keyCode The valye of the key which was pressed
  * @param (Event) event The key press event.
  * @param (String) nodeId The id of the menu item. 
- * @return {boolean} true Propagate the javascript event 
+ * @return {boolean} true Propagate the javascript event
+ * @private
  */
-webui.@THEME_JS@.widget.popupMenu.prototype.traverseMenu = function(keyCode, event, nodeId) {
+webui.@THEME_JS@.widget.popupMenu.prototype._traverseMenu = function(keyCode, event, nodeId) {
     
     // Handle the escape key and tab key press
     if (keyCode == 27 || keyCode == 9) {
         var focusElem = document.getElementById(this.menuId[this.focusPosition]);
-        focusElem.className = this.theme.getClassName("MENU_GROUP_CONTAINER");        
+        focusElem.className = this._theme.getClassName("MENU_GROUP_CONTAINER");        
         this.close();
         return true;
     } else if(keyCode >= 33 && keyCode <= 36) {
         focusElem = document.getElementById(this.menuId[this.focusPosition]);        
-        focusElem.className = this.theme.getClassName("MENU_GROUP_CONTAINER");
+        focusElem.className = this._theme.getClassName("MENU_GROUP_CONTAINER");
         
         // Handle the home and page Up keys. Focus is set on the first element.
         if (keyCode == 33 || keyCode == 36) {
@@ -423,7 +428,7 @@ webui.@THEME_JS@.widget.popupMenu.prototype.traverseMenu = function(keyCode, eve
             focusElem.focus();
         }                        
         focusElem.className = focusElem.className + " " +
-            this.theme.getClassName("MENU_FOCUS"); 
+            this._theme.getClassName("MENU_FOCUS"); 
         if (webui.@THEME_JS@.browser.isIe5up()) {
             window. event.cancelBubble = true;
             window.event.returnValue = false;
@@ -433,7 +438,7 @@ webui.@THEME_JS@.widget.popupMenu.prototype.traverseMenu = function(keyCode, eve
         }   
         return true;                 
     }    
-    this.inherited("traverseMenu", arguments);
+    this._inherited("_traverseMenu", arguments);
     return true;
 };
 

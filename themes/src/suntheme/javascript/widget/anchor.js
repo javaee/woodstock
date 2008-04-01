@@ -20,19 +20,20 @@
  * Copyright 2008 Sun Microsystems, Inc. All rights reserved.
  */
 
-webui.@THEME_JS@._dojo.provide("webui.@THEME_JS@.widget.anchor");
+webui.@THEME_JS@._base.dojo.provide("webui.@THEME_JS@.widget.anchor");
 
-webui.@THEME_JS@._dojo.require("webui.@THEME_JS@.widget.anchorBase");
+webui.@THEME_JS@._base.dojo.require("webui.@THEME_JS@.widget._base.anchorBase");
 
 /**
  * @name webui.@THEME_JS@.widget.anchor
- * @extends webui.@THEME_JS@.widget.anchorBase
+ * @extends webui.@THEME_JS@.widget._base.anchorBase
  * @class This class contains functions for the anchor widget.
  * @constructor This function is used to construct an anchor widget.
  */
-webui.@THEME_JS@._dojo.declare("webui.@THEME_JS@.widget.anchor", webui.@THEME_JS@.widget.anchorBase, {
+webui.@THEME_JS@._base.dojo.declare("webui.@THEME_JS@.widget.anchor",
+        webui.@THEME_JS@.widget._base.anchorBase, {
     // Set defaults.
-    widgetName: "anchor" // Required for theme properties.
+    _widgetName: "anchor" // Required for theme properties.
 });
 
 /**
@@ -78,12 +79,13 @@ webui.@THEME_JS@.widget.anchor.event =
  * user's className property is always appended last).
  * </p>
  * @return {String} The outermost HTML element class name.
+ * @private
  */
-webui.@THEME_JS@.widget.anchor.prototype.getClassName = function() {
+webui.@THEME_JS@.widget.anchor.prototype._getClassName = function() {
     // Set default style.
     var className = (this.href && this.disabled == false)
-        ? this.widget.getClassName("ANCHOR","")
-        : this.widget.getClassName("ANCHOR_DISABLED","");
+        ? this._theme._getClassName("ANCHOR","")
+        : this._theme._getClassName("ANCHOR_DISABLED","");
 
     return (this.className)
         ? className + " " + this.className
@@ -92,15 +94,16 @@ webui.@THEME_JS@.widget.anchor.prototype.getClassName = function() {
 
 /**
  * This function is used to fill in remaining template properties, after the
- * buildRendering() function has been processed.
+ * _buildRendering() function has been processed.
  * <p>
  * Note: Unlike Dojo 0.4, the DOM nodes don't exist in the document, yet. 
  * </p>
  * @return {boolean} true if successful; otherwise, false.
+ * @private
  */
-webui.@THEME_JS@.widget.anchor.prototype.postCreate = function () {
+webui.@THEME_JS@.widget.anchor.prototype._postCreate = function () {
     // Create callback function for onclick event.
-    this.dojo.connect(this.domNode, "onclick", this, "onClickCallback");
+    this._dojo.connect(this.domNode, "onclick", this, "_onClickCallback");
 
-    return this.inherited("postCreate", arguments);
+    return this._inherited("_postCreate", arguments);
 };

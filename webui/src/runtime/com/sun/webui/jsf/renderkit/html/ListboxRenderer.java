@@ -21,7 +21,7 @@
  */
 
  /*
-  * $Id: ListboxRenderer.java,v 1.1 2007-02-16 01:40:15 bob_yennaco Exp $
+  * $Id: ListboxRenderer.java,v 1.2 2008-04-01 17:08:26 danl Exp $
   */
 
 package com.sun.webui.jsf.renderkit.html;
@@ -119,7 +119,7 @@ public class ListboxRenderer extends ListRendererBase {
         
         String[] styles = new String[10]; 
         styles[0] = getOnChangeJavaScript((ListManager) component,
-            JavaScriptUtilities.getModuleName("listbox.changed"), //NOI18N
+            JavaScriptUtilities.getModuleName("_html.listbox.changed"), //NOI18N
             context);
 	if(monospace) { 
 	    styles[1] = theme.getStyleClass(ThemeStyles.LIST_MONOSPACE);

@@ -20,27 +20,26 @@
  * Copyright 2008 Sun Microsystems, Inc. All rights reserved.
  */
 
-webui.@THEME_JS@._dojo.provide("webui.@THEME_JS@.widget.dropDown");
+webui.@THEME_JS@._base.dojo.provide("webui.@THEME_JS@.widget.dropDown");
 
-webui.@THEME_JS@._dojo.require("webui.@THEME_JS@.widget.selectBase");
+webui.@THEME_JS@._base.dojo.require("webui.@THEME_JS@.widget._base.selectBase");
 
 /**
  * @name webui.@THEME_JS@.widget.dropDown
- * @extends webui.@THEME_JS@.widget.selectBase
+ * @extends webui.@THEME_JS@.widget._base.selectBase
  * @class This class contains functions for the dropDown widget.
  * @constructor This function is used to construct a dropDown widget.
  */
-webui.@THEME_JS@._dojo.declare("webui.@THEME_JS@.widget.dropDown", webui.@THEME_JS@.widget.selectBase, {
+webui.@THEME_JS@._base.dojo.declare("webui.@THEME_JS@.widget.dropDown",
+        webui.@THEME_JS@.widget._base.selectBase, {
     // Set defaults.
     //
     constructor : function() {
-	this.labelOnTop = webui.@THEME_JS@.widget.common.getMessageBoolean(
-    	    "dropDown.labelOnTop", false);
+	this.labelOnTop = this._theme._getMessageBoolean("dropDown.labelOnTop", false);
 	this.submitForm =  false;
-	this.width =
-	    webui.@THEME_JS@.theme.common.getMessage("dropDown.width", null);
+	this.width = this._theme._getMessage("dropDown.width", null);
     },
-    widgetName: "dropDown" // Required for theme properties.
+    _widgetName: "dropDown" // Required for theme properties.
 });
 
 /**
@@ -52,20 +51,21 @@ webui.@THEME_JS@._dojo.declare("webui.@THEME_JS@.widget.dropDown", webui.@THEME_
  * </p>
  * <p>
  * If this instance is configured as a standard "dropdown" menu, then
- * the superclass's <code>changed</code> method is called.
- * See <code>selectBase.changed</code>.<br/>
+ * the superclass's <code>_changed</code> method is called.
+ * See <code>selectBase._changed</code>.<br/>
  * See <code>selectBase.onChangeCallback</code>
  * </p>
  *
  * @return {boolean} true if successful; otherwise, false.
+ * @private
  */
-webui.@THEME_JS@.widget.dropDown.prototype.changed = function() {
+webui.@THEME_JS@.widget.dropDown.prototype._changed = function() {
 
     // A null submitForm is the same as a standard menu.
     //
     if (this.submitForm != true) {
         // Drop down changed.
-        return this.inherited("changed", arguments);
+        return this._inherited("_changed", arguments);
     } else {
 
         // Jump drop down changed.
@@ -80,7 +80,7 @@ webui.@THEME_JS@.widget.dropDown.prototype.changed = function() {
             // Set style classes.
             var options = jumpDropdown.options;
             for (var i = 0; i < options.length; i++) { 
-                options[i].className = this.getOptionClassName(options[i]);
+                options[i].className = this._getOptionClassName(options[i]);
             }
             form.submit();
         }
@@ -150,16 +150,16 @@ webui.@THEME_JS@.widget.dropDown.event =
  * user's className property is always appended last).
  * </p>
  * @return {String} The outermost HTML element class name.
+ * @private
  */
-webui.@THEME_JS@.widget.dropDown.prototype.getClassName = function() {
+webui.@THEME_JS@.widget.dropDown.prototype._getClassName = function() {
 
-    var cn = this.widget.getClassName("DROPDOWN", "");
+    var cn = this._theme._getClassName("DROPDOWN", "");
     return (this.className) ? cn + " " + this.className : cn;
 };
 
 /**
- * Return an Object Literal of label properties desired
- * by the dropdown widget.
+ * Return an Object Literal of label properties desired by this widget.
  * <p>
  * This implementation sets
  * the <code>dropDown.labelLevel</code> and <code>dropDown.labelAlign</code>
@@ -173,16 +173,17 @@ webui.@THEME_JS@.widget.dropDown.prototype.getClassName = function() {
  * These properties are extended with <code>this.label</code> and the
  * resulting properties are returned.
  * </p>
- * @param {Object} props Properties contributed by the caller,which can
+ * @param {Object} props Properties contributed by the caller, which can
  * be overridden as necessary.
  * @return {Object} label properties.
+ * @private
  */
-webui.@THEME_JS@.widget.dropDown.prototype.getLabelProps = function(props) {
+webui.@THEME_JS@.widget.dropDown.prototype._getLabelProps = function(props) {
 
-    var allprops = this.inherited("getLabelProps", arguments);
+    var allprops = this._inherited("_getLabelProps", arguments);
 
-    var cn = this.getLabelClassName(null);
-    var lvl = this.widget.getMessage("dropDown.labelLevel", null, 2);
+    var cn = this._getLabelClassName(null);
+    var lvl = this._theme._getMessage("dropDown.labelLevel", null, 2);
 
     if (allprops == null) {
 	allprops = {};
@@ -209,8 +210,9 @@ webui.@THEME_JS@.widget.dropDown.prototype.getLabelProps = function(props) {
  * must be passed to the method, for example when called from the 
  * <code>selectBase.setProps</code> method.
  * @return {String} A CSS selector for the dropDown label.
+ * @private
  */
-webui.@THEME_JS@.widget.dropDown.prototype.getLabelClassName = function(ontop) {
+webui.@THEME_JS@.widget.dropDown.prototype._getLabelClassName = function(ontop) {
 
     if (ontop != null && ontop == true) {
 	return null;
@@ -218,8 +220,8 @@ webui.@THEME_JS@.widget.dropDown.prototype.getLabelClassName = function(ontop) {
     // Jumpmenu ?
     //
     return (this.submitForm != null && this.submitForm == true)
-	? this.widget.getClassName("MENU_JUMP_LABEL_ALIGN", null)
-        : this.widget.getClassName("MENU_STANDARD_LABEL_ALIGN", null);
+	? this._theme._getClassName("MENU_JUMP_LABEL_ALIGN", null)
+        : this._theme._getClassName("MENU_STANDARD_LABEL_ALIGN", null);
 };
 
 /**
@@ -268,7 +270,7 @@ webui.@THEME_JS@.widget.dropDown.prototype._getListContainerClassName =
     } else if (jumpmenu == true) {
 	key = "MENU_JUMP";
     }
-    return this.widget.getClassName(key, null);
+    return this._theme._getClassName(key, null);
 };
 
 /**
@@ -279,7 +281,7 @@ webui.@THEME_JS@.widget.dropDown.prototype._getListContainerClassName =
  * @return {Object} Key-Value pairs of properties.
  */
 webui.@THEME_JS@.widget.dropDown.prototype.getProps = function() {
-    var props = this.inherited("getProps", arguments);
+    var props = this._inherited("getProps", arguments);
 
     // Get properties.
     if (this.submitForm != null) { props.submitForm = this.submitForm; }
@@ -325,8 +327,9 @@ webui.@THEME_JS@.widget.dropDown.prototype.getProps = function() {
  * @config {boolean} disabled If true the element is disabled.
  * @config {boolean} selected If true the element is selected.
  * @return {String} The HTML option element CSS class name.
+ * @private
  */
-webui.@THEME_JS@.widget.dropDown.prototype.getOptionClassName = function(element) {
+webui.@THEME_JS@.widget.dropDown.prototype._getOptionClassName = function(element) {
 
     var jumpmenu = this.submitForm != null && this.submitForm == true;
 
@@ -370,19 +373,20 @@ webui.@THEME_JS@.widget.dropDown.prototype.getOptionClassName = function(element
 	    }
 	}
     }
-    return this.widget.getClassName(key);
+    return this._theme._getClassName(key);
 };
 
 
 /*
  * This function is used to fill in remaining template properties, after the
- * <code>buildRendering</code> function has been processed.
+ * <code>_buildRendering</code> function has been processed.
  * <p>
  * Note: Unlike Dojo 0.4, the DOM nodes don't exist in the document, yet. 
  * </p>
  * @return {boolean} true if successful; otherwise, false.
+ * @private
  */
-webui.@THEME_JS@.widget.dropDown.prototype.postCreate = function () {
+webui.@THEME_JS@.widget.dropDown.prototype._postCreate = function () {
     // Set ids.
     if (this.id) {
         this.submitterHiddenNode.id = this.id + "_submitter";
@@ -396,7 +400,7 @@ webui.@THEME_JS@.widget.dropDown.prototype.postCreate = function () {
     webui.@THEME_JS@.common.addStyleClass(this.listContainer, 
 	this._getListContainerClassName(disabled, jumpmenu));
     
-    return this.inherited("postCreate", arguments);
+    return this._inherited("_postCreate", arguments);
 };
 
 /**
@@ -434,7 +438,7 @@ webui.@THEME_JS@.widget.dropDown.prototype.postCreate = function () {
  * @config {String} onMouseUp Mouse button is released over element.
  * @config {String} onMouseMove Mouse is moved while over element.
  * @config {String} onSelect Option text is highlighted.
- * @config {Array} options See <code>selectBase.setOptions</code> or
+ * @config {Array} options See <code>selectBase._setOptions</code> or
  * <code>selectBase</code> overview for details on the elements of this array.
  * @config {int} size The number of option rows to display.
  * @config {String} style Specify style rules inline.
@@ -450,7 +454,7 @@ webui.@THEME_JS@.widget.dropDown.prototype.postCreate = function () {
 webui.@THEME_JS@.widget.dropDown.prototype.setProps = function(props, notify) {
 
     if (props == null) {
-	return this.inherited("setProps", arguments);
+	return this._inherited("setProps", arguments);
     }
 	
     // We are trying to deal with a state change which requires
@@ -484,7 +488,7 @@ webui.@THEME_JS@.widget.dropDown.prototype.setProps = function(props, notify) {
 	    toggleJumpmenu ? props.jumpmenu == true : isjumpmenu);
 	webui.@THEME_JS@.common.addStyleClass(this.listContainer, cn);
     }
-    return this.inherited("setProps", arguments);
+    return this._inherited("setProps", arguments);
 };
 
 /**
@@ -502,7 +506,7 @@ webui.@THEME_JS@.widget.dropDown.prototype._setProps = function(props) {
     // to the superClass via props.
     //
     if (props == null) {
-	return this.inherited("_setProps", arguments);
+	return this._inherited("_setProps", arguments);
     }
 
     var jumpmenu = props.submitForm != null && props.submitForm == true;
@@ -517,5 +521,5 @@ webui.@THEME_JS@.widget.dropDown.prototype._setProps = function(props) {
     }
 
     // Set remaining properties.
-    return this.inherited("_setProps", arguments);
+    return this._inherited("_setProps", arguments);
 };

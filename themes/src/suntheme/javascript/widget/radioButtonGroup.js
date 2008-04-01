@@ -20,19 +20,20 @@
  * Copyright 2008 Sun Microsystems, Inc. All rights reserved.
  */
 
-webui.@THEME_JS@._dojo.provide("webui.@THEME_JS@.widget.radioButtonGroup");
+webui.@THEME_JS@._base.dojo.provide("webui.@THEME_JS@.widget.radioButtonGroup");
 
-webui.@THEME_JS@._dojo.require("webui.@THEME_JS@.widget.checkedGroupBase");
+webui.@THEME_JS@._base.dojo.require("webui.@THEME_JS@.widget._base.checkedGroupBase");
 
 /**
  * @name webui.@THEME_JS@.widget.radioButtonGroup
- * @extends webui.@THEME_JS@.widget.checkedGroupBase
+ * @extends webui.@THEME_JS@.widget._base.checkedGroupBase
  * @class This class contains functions for the radioButtonGroup widget.
  * @constructor This function is used to construct a radioButtonGroup widget.
  */
-webui.@THEME_JS@._dojo.declare("webui.@THEME_JS@.widget.radioButtonGroup", webui.@THEME_JS@.widget.checkedGroupBase, {
+webui.@THEME_JS@._base.dojo.declare("webui.@THEME_JS@.widget.radioButtonGroup",
+        webui.@THEME_JS@.widget._base.checkedGroupBase, {
     // Set defaults.
-    widgetName: "radioButtonGroup" // Required for theme properties.
+    _widgetName: "radioButtonGroup" // Required for theme properties.
 });
 
 /**
@@ -78,12 +79,13 @@ webui.@THEME_JS@.widget.radioButtonGroup.event =
  * user's className property is always appended last).
  * </p>
  * @return {String} The outermost HTML element class name.
+ * @private
  */
-webui.@THEME_JS@.widget.radioButtonGroup.prototype.getClassName = function() {
+webui.@THEME_JS@.widget.radioButtonGroup.prototype._getClassName = function() {
     // Set default style.
     var className = (this.columns > 1)
-        ? this.widget.getClassName("RBGRP_HORIZ", "")
-        : this.widget.getClassName("RBGRP_VERT", "");
+        ? this._theme._getClassName("RBGRP_HORIZ", "")
+        : this._theme._getClassName("RBGRP_VERT", "");
 
     return (this.className)
         ? className + " " + this.className

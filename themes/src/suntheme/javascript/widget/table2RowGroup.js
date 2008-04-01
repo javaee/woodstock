@@ -20,25 +20,26 @@
  * Copyright 2008 Sun Microsystems, Inc. All rights reserved.
  */
 
-webui.@THEME_JS@._dojo.provide("webui.@THEME_JS@.widget.table2RowGroup");
+webui.@THEME_JS@._base.dojo.provide("webui.@THEME_JS@.widget.table2RowGroup");
 
-webui.@THEME_JS@._dojo.require("webui.@THEME_JS@.browser");
-webui.@THEME_JS@._dojo.require("webui.@THEME_JS@.widget.common");
-webui.@THEME_JS@._dojo.require("webui.@THEME_JS@.widget.widgetBase");
+webui.@THEME_JS@._base.dojo.require("webui.@THEME_JS@.browser");
+webui.@THEME_JS@._base.dojo.require("webui.@THEME_JS@.widget.common");
+webui.@THEME_JS@._base.dojo.require("webui.@THEME_JS@.widget._base.widgetBase");
 
 /**
  * @name webui.@THEME_JS@.widget.table2RowGroup
- * @extends webui.@THEME_JS@.widget.widgetBase
+ * @extends webui.@THEME_JS@.widget._base.widgetBase
  * @class This class contains functions for the table2RowGroup widget.
  * @constructor This function is used to construct a table2RowGroup widget.
  */
-webui.@THEME_JS@._dojo.declare("webui.@THEME_JS@.widget.table2RowGroup", webui.@THEME_JS@.widget.widgetBase, {
+webui.@THEME_JS@._base.dojo.declare("webui.@THEME_JS@.widget.table2RowGroup",
+        webui.@THEME_JS@.widget._base.widgetBase, {
     // Set defaults.
     constructor: function() {
         this.currentRow = 0; // Current row in view.
         this.first = 0; // Index used to obtain rows.
     },
-    widgetName: "table2RowGroup" // Required for theme properties.
+    _widgetName: "table2RowGroup" // Required for theme properties.
 });
 
 /**
@@ -48,8 +49,8 @@ webui.@THEME_JS@._dojo.declare("webui.@THEME_JS@.widget.table2RowGroup", webui.@
  */
 webui.@THEME_JS@.widget.table2RowGroup.prototype.addColumns = function() {
     // Clear column headers/footers.
-    this.widget.removeChildNodes(this.thead);
-    this.widget.removeChildNodes(this.tfoot);
+    this._widget._removeChildNodes(this.thead);
+    this._widget._removeChildNodes(this.tfoot);
 
     // Clone dojo attach points.
     var headerRowClone = this.colHeaderRow.cloneNode(false);
@@ -78,8 +79,8 @@ webui.@THEME_JS@.widget.table2RowGroup.prototype.addColumns = function() {
             // StaticText widget adds span to match styles.
             //
             // To do: Create utility to help create client-side widgets.
-            this.widget.addFragment(headerCellClone,
-                this.widget.getWidgetProps("staticText", {
+            this._widget._addFragment(headerCellClone,
+                this._widget._getWidgetProps("staticText", {
                     id: headerCellClone.id + "Text",
                     value: col.headerText
                 }));
@@ -89,8 +90,8 @@ webui.@THEME_JS@.widget.table2RowGroup.prototype.addColumns = function() {
             // StaticText widget adds span to match styles.
             //
             // To do: Create utility to help create client-side widgets.
-            this.widget.addFragment(footerCellClone,
-                this.widget.getWidgetProps("staticText", {
+            this._widget._addFragment(footerCellClone,
+                this._widget._getWidgetProps("staticText", {
                     id: footerCellClone.id + "Text",
                     value: col.footerText
                 }));
@@ -141,9 +142,9 @@ webui.@THEME_JS@.widget.table2RowGroup.prototype.addRows = function(rows) {
             props.className = classNames[i % classNames.length];
         }
 
-        this.setCommonProps(rowClone, props);
-        this.setEventProps(rowClone, props);
-        this.setCoreProps(rowClone, props);
+        this._setCommonProps(rowClone, props);
+        this._setEventProps(rowClone, props);
+        this._setCoreProps(rowClone, props);
 
         // For each column found, clone the tableDataCell attach point.
         for (var k = 0; k < cols.length; k++) {
@@ -156,10 +157,10 @@ webui.@THEME_JS@.widget.table2RowGroup.prototype.addRows = function(rows) {
 
             // Set properties.
             this.setColumnProps(cellClone, col);
-            cellClone.id = colId; // Override id set by setCoreProps.
+            cellClone.id = colId; // Override id set by _setCoreProps.
 
             // Add cell data.
-            this.widget.addFragment(cellClone, cols[k], "last");
+            this._widget._addFragment(cellClone, cols[k], "last");
         }
 
         // Save row for destroy() function.
@@ -266,7 +267,7 @@ webui.@THEME_JS@.widget.table2RowGroup.event =
  * @return {Object} Key-Value pairs of properties.
  */
 webui.@THEME_JS@.widget.table2RowGroup.prototype.getProps = function() {
-    var props = this.inherited("getProps", arguments);
+    var props = this._inherited("getProps", arguments);
 
     // Set properties.
     if (this.align) { props.align = this.align; }
@@ -290,13 +291,14 @@ webui.@THEME_JS@.widget.table2RowGroup.prototype.getProps = function() {
 
 /**
  * This function is used to fill in remaining template properties, after the
- * buildRendering() function has been processed.
+ * _buildRendering() function has been processed.
  * <p>
  * Note: Unlike Dojo 0.4, the DOM nodes don't exist in the document, yet. 
  * </p>
  * @return {boolean} true if successful; otherwise, false.
+ * @private
  */
-webui.@THEME_JS@.widget.table2RowGroup.prototype.postCreate = function () {
+webui.@THEME_JS@.widget.table2RowGroup.prototype._postCreate = function () {
     // Set ids.    
     if (this.id) {
         this.colFooterRow.id = this.id + "_colFooterRow";
@@ -317,44 +319,44 @@ webui.@THEME_JS@.widget.table2RowGroup.prototype.postCreate = function () {
     }
 
     // Set events.
-    this.dojo.connect(this.tableContainer, "onscroll", this, "scroll");
+    this._dojo.connect(this.tableContainer, "onscroll", this, "scroll");
 
     // Set pagination controls.
     if (this.paginationPrevButton == null) {
-        this.paginationPrevButton = this.widget.getWidgetProps("imageHyperlink", {
+        this.paginationPrevButton = this._widget._getWidgetProps("imageHyperlink", {
                 id: this.id + "_paginationPrevButton",
-                enabledImage: this.widget.getWidgetProps("image", {
+                enabledImage: this._widget._getWidgetProps("image", {
                     icon: "TABLE2_PAGINATION_PREV",
                     id: this.id + "_paginationPrevButtonImg"
                 }),
-                disabledImage: this.widget.getWidgetProps("image", {
+                disabledImage: this._widget._getWidgetProps("image", {
                     icon: "TABLE2_PAGINATION_PREV_DISABLED",
                     id: this.id + "_paginationPrevButtonImgDis"
                 }),
-                title: this.theme.getMessage("table2.pagination.previous")      
+                title: this._theme.getMessage("table2.pagination.previous")      
             });
     }
       
     if (this.paginationNextButton == null) {
-        this.paginationNextButton = this.widget.getWidgetProps("imageHyperlink", {
+        this.paginationNextButton = this._widget._getWidgetProps("imageHyperlink", {
                 id: this.id + "_paginationNextButton",
-                enabledImage: this.widget.getWidgetProps("image", {
+                enabledImage: this._widget._getWidgetProps("image", {
                     icon: "TABLE2_PAGINATION_NEXT",
                     id: this.id + "_paginationNextButtonImg"
                 }),
-                disabledImage: this.widget.getWidgetProps("image", {
+                disabledImage: this._widget._getWidgetProps("image", {
                     icon: "TABLE2_PAGINATION_NEXT_DISABLED",
                     id: this.id + "_paginationNextButtonImgDis"
                 }),
-                title: this.theme.getMessage("table2.pagination.next")          
+                title: this._theme.getMessage("table2.pagination.next")          
             });
     }
     
     // Resize hack for Moz/Firefox.
     if (webui.@THEME_JS@.browser.isNav()) {
-        this.dojo.connect(window, "onresize", this, "resize");
+        this._dojo.connect(window, "onresize", this, "resize");
     }        
-    return this.inherited("postCreate", arguments);
+    return this._inherited("_postCreate", arguments);
 };
 
 /**
@@ -486,9 +488,9 @@ webui.@THEME_JS@.widget.table2RowGroup.prototype.setColumnProps = function(domNo
     if (this.width) { domNode.width = this.width; }
 
     // Set more properties.
-    this.setCommonProps(domNode, props);
-    this.setEventProps(domNode, props);
-    this.setCoreProps(domNode, props);
+    this._setCommonProps(domNode, props);
+    this._setEventProps(domNode, props);
+    this._setCoreProps(domNode, props);
 
     return true;
 };
@@ -553,7 +555,7 @@ webui.@THEME_JS@.widget.table2RowGroup.prototype.setProps = function(props, noti
     }
 
     // Extend widget object for later updates.
-    return this.inherited("setProps", arguments);
+    return this._inherited("setProps", arguments);
 };
 
 /**
@@ -587,21 +589,21 @@ webui.@THEME_JS@.widget.table2RowGroup.prototype._setProps = function(props) {
 
     // Add header.
     if (props.headerText) {
-        this.widget.addFragment(this.groupHeaderText, props.headerText);
-        this.common.setVisibleElement(this.groupHeaderContainer, true);
+        this._widget._addFragment(this.groupHeaderText, props.headerText);
+        this._common.setVisibleElement(this.groupHeaderContainer, true);
     }
     // Add paginationControl.    
     if (props.paginationPrevButton) {
         // set onclick for previous button.
         props.paginationPrevButton.onClick = 
             "webui.@THEME_JS@.widget.common.getWidget('" + this.id + "').paginationPrevious();return false;";        
-        this.widget.addFragment(this.paginationButtonsNode, props.paginationPrevButton,"last");
+        this._widget._addFragment(this.paginationButtonsNode, props.paginationPrevButton,"last");
     }
     if (props.paginationNextButton) {
         // set onclick for next button.
         props.paginationNextButton.onClick = 
             "webui.@THEME_JS@.widget.common.getWidget('" + this.id + "').paginationNext();return false;";
-        this.widget.addFragment(this.paginationButtonsNode, props.paginationNextButton,"last");
+        this._widget._addFragment(this.paginationButtonsNode, props.paginationNextButton,"last");
     }
     if (props.paginationControls != null) {        
         this.paginationControls = props.paginationControls;
@@ -622,7 +624,7 @@ webui.@THEME_JS@.widget.table2RowGroup.prototype._setProps = function(props) {
         this.currentRow = 0; // Reset current row in view.
 
         // Clear rows.
-        this.widget.removeChildNodes(this.tbody);
+        this._widget._removeChildNodes(this.tbody);
         this.addRows(props.rows);
     }
    
@@ -665,8 +667,8 @@ webui.@THEME_JS@.widget.table2RowGroup.prototype.scroll = function(event) {
  */
 webui.@THEME_JS@.widget.table2RowGroup.prototype.updatePaginationControls = function() {
     if (this.paginationPrevButton && this.paginationNextButton) {
-        var domNodePrev = this.widget.getWidget(this.paginationPrevButton.id);
-        var domNodeNext = this.widget.getWidget(this.paginationNextButton.id);
+        var domNodePrev = this._widget.getWidget(this.paginationPrevButton.id);
+        var domNodeNext = this._widget.getWidget(this.paginationNextButton.id);
 
         if (domNodePrev != null && domNodeNext != null) {
             if (this.currentRow / this.maxRows == 0) {
@@ -745,7 +747,7 @@ webui.@THEME_JS@.widget.table2RowGroup.prototype.updateRowsText = function() {
     // To do: Need to create a new rows message.
 
     // NOTE: If you set this value manually, text must be HTML escaped.
-    var msg = this.theme.getMessage("table.title.paginated", [
+    var msg = this._theme.getMessage("table.title.paginated", [
         "", 
         firstRow, 
         lastRow, 
@@ -755,7 +757,7 @@ webui.@THEME_JS@.widget.table2RowGroup.prototype.updateRowsText = function() {
 
     // "Items: " + firstRow + " - " + lastRow + " of " + this.totalRows);
     if (msg) {
-        this.widget.addFragment(this.rowsText, msg);
+        this._widget._addFragment(this.rowsText, msg);
     }
      //set disabled/enabled state
     this.updatePaginationControls(); 

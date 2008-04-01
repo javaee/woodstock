@@ -20,19 +20,20 @@
  * Copyright 2008 Sun Microsystems, Inc. All rights reserved.
  */
 
-webui.@THEME_JS@._dojo.provide("webui.@THEME_JS@.widget.accordion");
+webui.@THEME_JS@._base.dojo.provide("webui.@THEME_JS@.widget.accordion");
 
-webui.@THEME_JS@._dojo.require("webui.@THEME_JS@.widget.accordionTab");
-webui.@THEME_JS@._dojo.require("webui.@THEME_JS@.widget.common");
-webui.@THEME_JS@._dojo.require("webui.@THEME_JS@.widget.widgetBase");
+webui.@THEME_JS@._base.dojo.require("webui.@THEME_JS@.widget.accordionTab");
+webui.@THEME_JS@._base.dojo.require("webui.@THEME_JS@.widget.common");
+webui.@THEME_JS@._base.dojo.require("webui.@THEME_JS@.widget._base.widgetBase");
 
 /**
  * @name webui.@THEME_JS@.widget.accordion
- * @extends webui.@THEME_JS@.widget.widgetBase
+ * @extends webui.@THEME_JS@.widget._base.widgetBase
  * @class This class contains functions for the accordion widget.
  * @constructor This function is used to construct an accordion widget.
  */
-webui.@THEME_JS@._dojo.declare("webui.@THEME_JS@.widget.accordion", webui.@THEME_JS@.widget.widgetBase, {
+webui.@THEME_JS@._base.dojo.declare("webui.@THEME_JS@.widget.accordion",
+        webui.@THEME_JS@.widget._base.widgetBase, {
     // Set defaults.
     constructor: function() {
         this.duration = 250;
@@ -41,7 +42,7 @@ webui.@THEME_JS@._dojo.declare("webui.@THEME_JS@.widget.accordion", webui.@THEME
         this.multipleSelect = false;
         this.focusElement = null;
     },
-    widgetName: "accordion" // Required for theme properties.
+    _widgetName: "accordion" // Required for theme properties.
 });
 
 /**
@@ -57,25 +58,25 @@ webui.@THEME_JS@.widget.accordion.prototype.addControls = function(props) {
         // Set expand all image properties.
         if (props.expandAllImage) {
             // Update/add fragment.
-            this.widget.updateFragment(this.expandAllImgContainer, 
+            this._widget._updateFragment(this.expandAllImgContainer, 
                 this.expandAllImage.id, props.expandAllImage);
         }
 
         // Set collapse all image properties.
         if (props.collapseAllImage) {
             // Update/add fragment.
-            this.widget.updateFragment(this.collapseAllImgContainer,
+            this._widget._updateFragment(this.collapseAllImgContainer,
                 this.collapseAllImage.id, props.collapseAllImage);
         }
         
         // a divider should only be added if expand/collapse icons exist.
-        this.dividerNodeContainer.className = this.theme.getClassName("ACCORDION_HDR_DIVIDER");
+        this.dividerNodeContainer.className = this._theme.getClassName("ACCORDION_HDR_DIVIDER");
     }
 
     // Set refresh image properties.
     if (props.isRefreshIcon && props.refreshImage) {
         // Update/add fragment.
-        this.widget.updateFragment(this.refreshImgContainer,
+        this._widget._updateFragment(this.refreshImgContainer,
             this.refreshImage.id, props.refreshImage);
     }
     return true;
@@ -90,7 +91,7 @@ webui.@THEME_JS@.widget.accordion.prototype.addControls = function(props) {
 webui.@THEME_JS@.widget.accordion.prototype.collapseAllTabs = function(event) {
     // Iterate over all tabs.
     for (var i = 0; i < this.tabs.length; i++) {
-        var widget = this.widget.getWidget(this.tabs[i].id);
+        var widget = this._widget.getWidget(this.tabs[i].id);
         if (widget && widget.selected) {
             widget.setSelected(false);
         }
@@ -106,16 +107,16 @@ webui.@THEME_JS@.widget.accordion.prototype.collapseAllTabs = function(event) {
  */
 webui.@THEME_JS@.widget.accordion.prototype.createOnKeyDownCallBack = function() {
     var _id = this.id;
-    var _widget = this.widget;
     return function(event) {
         var elem = document.getElementById(_id);
         if (elem == null) {
             return false;
         }
-        var widget = webui.@THEME_JS@.widget.common.getWidget(_id);
+        var common = webui.@THEME_JS@.widget.common;
+        var widget = common.getWidget(_id);
 
-        event = _widget.getEvent(event);
-        var keyCode = _widget.getKeyCode(event);
+        event = common._getEvent(event);
+        var keyCode = common._getKeyCode(event);
         
         // if onkeypress returns false, we do not traverse the accordion
         var keyPressResult = true;
@@ -175,7 +176,7 @@ webui.@THEME_JS@.widget.accordion.event =
 webui.@THEME_JS@.widget.accordion.prototype.expandAllTabs = function(event) {
     // Iterate over all tabs.
     for (var i = 0; i < this.tabs.length; i++) {
-        var widget = this.widget.getWidget(this.tabs[i].id);
+        var widget = this._widget.getWidget(this.tabs[i].id);
         if (widget && !widget.selected) {
             widget.setSelected(true);
         }
@@ -212,7 +213,7 @@ webui.@THEME_JS@.widget.accordion.prototype.focusAndSelectTab = function(props) 
  * @return {Object} Key-Value pairs of properties.
  */
 webui.@THEME_JS@.widget.accordion.prototype.getProps = function() {
-    var props = this.inherited("getProps", arguments);
+    var props = this._inherited("getProps", arguments);
 
     // Set properties.
     if (this.collapseAllImage != null) { props.collapseAllImage = this.collapseAllImage; }
@@ -236,10 +237,11 @@ webui.@THEME_JS@.widget.accordion.prototype.getProps = function() {
  * user's className property is always appended last).
  * </p>
  * @return {String} The outermost HTML element class name.
+ * @private
  */
-webui.@THEME_JS@.widget.accordion.prototype.getClassName = function() {
+webui.@THEME_JS@.widget.accordion.prototype._getClassName = function() {
     // Get theme property.
-    var className = this.theme.getClassName("ACCORDION_DIV", "");
+    var className = this._theme.getClassName("ACCORDION_DIV", "");
     return (this.className)
         ? className + " " + this.className
         : className;
@@ -247,13 +249,14 @@ webui.@THEME_JS@.widget.accordion.prototype.getClassName = function() {
 
 /**
  * This function is used to fill in remaining template properties, after the
- * buildRendering() function has been processed.
+ * _buildRendering() function has been processed.
  * <p>
  * Note: Unlike Dojo 0.4, the DOM nodes don't exist in the document, yet. 
  * </p>
  * @return {boolean} true if successful; otherwise, false.
+ * @private
  */
-webui.@THEME_JS@.widget.accordion.prototype.postCreate = function () {
+webui.@THEME_JS@.widget.accordion.prototype._postCreate = function () {
     // Set ids.
     if (this.id) {
         this.domNode.id = this.id;
@@ -267,19 +270,19 @@ webui.@THEME_JS@.widget.accordion.prototype.postCreate = function () {
     }
 
     // Set class names.
-    this.headerContainer.className = this.theme.getClassName("ACCORDION_HDR");
-    this.collapseAllContainer.className = this.theme.getClassName("ACCORDION_HDR_CLOSEALL");
-    this.expandAllContainer.className = this.theme.getClassName("ACCORDION_HDR_OPENALL");
+    this.headerContainer.className = this._theme.getClassName("ACCORDION_HDR");
+    this.collapseAllContainer.className = this._theme.getClassName("ACCORDION_HDR_CLOSEALL");
+    this.expandAllContainer.className = this._theme.getClassName("ACCORDION_HDR_OPENALL");
     
     // the divider should initially be hidden
-    this.dividerNodeContainer.className = this.theme.getClassName("HIDDEN");
-    this.refreshNodeContainer.className = this.theme.getClassName("ACCORDION_HDR_REFRESH");
+    this.dividerNodeContainer.className = this._theme.getClassName("HIDDEN");
+    this.refreshNodeContainer.className = this._theme.getClassName("ACCORDION_HDR_REFRESH");
 
     // Set events.
     var _id = this.id;
-    this.dojo.connect(this.collapseAllContainer, "onclick", this, "collapseAllTabs");
-    this.dojo.connect(this.expandAllContainer, "onclick", this, "expandAllTabs");
-    this.dojo.connect(this.refreshNodeContainer, "onclick", function(event) {
+    this._dojo.connect(this.collapseAllContainer, "onclick", this, "collapseAllTabs");
+    this._dojo.connect(this.expandAllContainer, "onclick", this, "expandAllTabs");
+    this._dojo.connect(this.refreshNodeContainer, "onclick", function(event) {
         // New literals are created every time this function is called, and it's 
         // saved by closure magic.
         var widget = webui.@THEME_JS@.widget.common.getWidget(_id);
@@ -289,35 +292,35 @@ webui.@THEME_JS@.widget.accordion.prototype.postCreate = function () {
     });
     
     // Create callback function for onkeydown event.
-    this.dojo.connect(this.domNode, "onkeydown", this.createOnKeyDownCallBack());
+    this._dojo.connect(this.domNode, "onkeydown", this.createOnKeyDownCallBack());
     
     // Subscribe to the "tabSelected" event present in the accordion widget.
-    this.widget.subscribe(webui.@THEME_JS@.widget.accordionTab.event.title.selectedTopic,
+    this._widget.subscribe(webui.@THEME_JS@.widget.accordionTab.event.title.selectedTopic,
         this, "focusAndSelectTab");
 
     // Generate the accordion header icons on the client side.
     if (this.toggleControls && this.multipleSelect) {
         if (this.expandAllImage == null) {
-            this.expandAllImage = this.widget.getWidgetProps("imageHyperlink", {
+            this.expandAllImage = this._widget._getWidgetProps("imageHyperlink", {
                     id: this.id + "_expandImageLink",
                     onClick: "return false;",
-                    enabledImage: this.widget.getWidgetProps("image", {
+                    enabledImage: this._widget._getWidgetProps("image", {
                         icon: "ACCORDION_EXPAND_ALL",
                         id: this.id + "_expandAll"
                     }),
-                    title: this.theme.getMessage("Accordion.expandAll")            
+                    title: this._theme.getMessage("Accordion.expandAll")            
                 });
         }
         
         if (this.collapseAllImage == null) {
-            this.collapseAllImage = this.widget.getWidgetProps("imageHyperlink", {
+            this.collapseAllImage = this._widget._getWidgetProps("imageHyperlink", {
                     id: this.id + "_collapseImageLink",
                     onClick: "return false;",
-                    enabledImage: this.widget.getWidgetProps("image", {
+                    enabledImage: this._widget._getWidgetProps("image", {
                         icon: "ACCORDION_COLLAPSE_ALL",
                         id: this.id + "_collapseAll"
                     }),
-                    title: this.theme.getMessage("Accordion.collapseAll")            
+                    title: this._theme.getMessage("Accordion.collapseAll")            
                 });
         }
     }
@@ -325,14 +328,14 @@ webui.@THEME_JS@.widget.accordion.prototype.postCreate = function () {
     // Set refresh image hyperlink properties.
     if (this.isRefreshIcon) {
         if (this.refreshImage == null) {
-            this.refreshImage = this.widget.getWidgetProps("imageHyperlink", {
+            this.refreshImage = this._widget._getWidgetProps("imageHyperlink", {
                     id: this.id + "_refreshImageLink",
                     onClick: "return false;",
-                    enabledImage: this.widget.getWidgetProps("image", {
+                    enabledImage: this._widget._getWidgetProps("image", {
                         icon: "ACCORDION_REFRESH",
                         id: this.id + "_refresh"
                     }),
-                    title: this.theme.getMessage("Accordion.refresh")            
+                    title: this._theme.getMessage("Accordion.refresh")            
                 });
          }
     }
@@ -356,7 +359,7 @@ webui.@THEME_JS@.widget.accordion.prototype.postCreate = function () {
         }
         overflow = "hidden";
     }
-    return this.inherited("postCreate", arguments);
+    return this._inherited("_postCreate", arguments);
 };
 
 /**
@@ -396,7 +399,7 @@ webui.@THEME_JS@.widget.accordion.prototype.setProps = function(props, notify) {
     }
 
     // Extend widget object for later updates.
-    return this.inherited("setProps", arguments);
+    return this._inherited("setProps", arguments);
 };
 
 /**
@@ -425,11 +428,11 @@ webui.@THEME_JS@.widget.accordion.prototype._setProps = function(props) {
     // If we are coming here for
     // the first time there will be no children. The other case is when 
     // the accordion is being rerendered because of a refresh in which 
-    // we want to use the latest set of children. addFragment is supposed
+    // we want to use the latest set of children. _addFragment is supposed
     // to do that.
     if (props.tabs) {
         // Remove child nodes.
-        this.widget.removeChildNodes(this.tabsContainer);
+        this._widget._removeChildNodes(this.tabsContainer);
 
         // set the tab focus 
         var tabFocus = true;
@@ -442,16 +445,16 @@ webui.@THEME_JS@.widget.accordion.prototype._setProps = function(props) {
        
         // Add tabs.
         for (var i = 0; i < props.tabs.length; i++) {
-            this.widget.addFragment(this.tabsContainer, props.tabs[i], "last");
+            this._widget._addFragment(this.tabsContainer, props.tabs[i], "last");
         }
     }
 
     // Set more properties.
-    this.setCommonProps(this.domNode, props);
-    this.setEventProps(this.domNode, props);
+    this._setCommonProps(this.domNode, props);
+    this._setEventProps(this.domNode, props);
 
     // Set remaining properties.
-    return this.inherited("_setProps", arguments);
+    return this._inherited("_setProps", arguments);
 };
 
 /**
@@ -464,13 +467,13 @@ webui.@THEME_JS@.widget.accordion.prototype._setProps = function(props) {
 webui.@THEME_JS@.widget.accordion.prototype.setFocusStyleClass = function(nodeId) {
     if (nodeId == this.collapseAllContainer.id) {
         //set focus style on collapseNode
-        this.collapseAllContainer.className = this.theme.getClassName("ACCORDION_HDR_CLOSEALL_FOCUS");
+        this.collapseAllContainer.className = this._theme.getClassName("ACCORDION_HDR_CLOSEALL_FOCUS");
     } else if (nodeId == this.expandAllContainer.id) {
         //set focus style on expandNode
-        this.expandAllContainer.className = this.theme.getClassName("ACCORDION_HDR_OPENALL_FOCUS");
+        this.expandAllContainer.className = this._theme.getClassName("ACCORDION_HDR_OPENALL_FOCUS");
     } else if (nodeId == this.refreshNodeContainer.id) {
         //set focus style on refreshNode
-        this.refreshNodeContainer.className = this.theme.getClassName("ACCORDION_HDR_REFRESH_FOCUS");
+        this.refreshNodeContainer.className = this._theme.getClassName("ACCORDION_HDR_REFRESH_FOCUS");
     }
     return true;
 };
@@ -485,13 +488,13 @@ webui.@THEME_JS@.widget.accordion.prototype.setFocusStyleClass = function(nodeId
 webui.@THEME_JS@.widget.accordion.prototype.setBlurStyleClass = function(nodeId) {
     if (nodeId == this.collapseAllContainer.id) {
         //set normal className on collapseNode
-        this.collapseAllContainer.className = this.theme.getClassName("ACCORDION_HDR_CLOSEALL");
+        this.collapseAllContainer.className = this._theme.getClassName("ACCORDION_HDR_CLOSEALL");
     } else if (nodeId == this.expandAllContainer.id) {
         //set normal className on expandNode
-        this.expandAllContainer.className = this.theme.getClassName("ACCORDION_HDR_OPENALL");
+        this.expandAllContainer.className = this._theme.getClassName("ACCORDION_HDR_OPENALL");
     } else if (nodeId == this.refreshNodeContainer.id) {
         //set normal className on refreshNode
-        this.refreshNodeContainer.className = this.theme.getClassName("ACCORDION_HDR_REFRESH");
+        this.refreshNodeContainer.className = this._theme.getClassName("ACCORDION_HDR_REFRESH");
     }
     return true;
 };
@@ -504,15 +507,15 @@ webui.@THEME_JS@.widget.accordion.prototype.setBlurStyleClass = function(nodeId)
  */
 webui.@THEME_JS@.widget.accordion.prototype.setTabFocus = function(nodeId) {
     // update the tab with the appropriate tabIndex
-    var tabWidget = this.widget.getWidget(nodeId);
+    var tabWidget = this._widget.getWidget(nodeId);
     var props = {tabIndex: this.tabIndex};
-    this.widget.updateFragment(this.tabsContainer, nodeId, props);
+    this._widget._updateFragment(this.tabsContainer, nodeId, props);
 
     // set the style class to indicate that the tab is in focus.
     if (tabWidget.selected) {
-        tabWidget.titleContainer.className = this.theme.getClassName("ACCORDION_TABEXPANDED_FOCUS");
+        tabWidget.titleContainer.className = this._theme.getClassName("ACCORDION_TABEXPANDED_FOCUS");
     } else {
-        tabWidget.titleContainer.className = this.theme.getClassName("ACCORDION_TABCOLLAPSED_FOCUS");
+        tabWidget.titleContainer.className = this._theme.getClassName("ACCORDION_TABCOLLAPSED_FOCUS");
     }
     tabWidget.domNode.focus();
     return true;
@@ -526,14 +529,14 @@ webui.@THEME_JS@.widget.accordion.prototype.setTabFocus = function(nodeId) {
  */
 webui.@THEME_JS@.widget.accordion.prototype.setTabBlur = function(nodeId) {
     // update the tab with the appropriate tabIndex
-    var tabWidget = this.widget.getWidget(nodeId);
+    var tabWidget = this._widget.getWidget(nodeId);
     
     if (tabWidget.selected) {
-        tabWidget.titleContainer.className = this.theme.getClassName("ACCORDION_TABEXPANDED");
-        tabWidget.turnerContainer.className = this.theme.getClassName("ACCORDION_DOWNTURNER");
+        tabWidget.titleContainer.className = this._theme.getClassName("ACCORDION_TABEXPANDED");
+        tabWidget.turnerContainer.className = this._theme.getClassName("ACCORDION_DOWNTURNER");
     } else { 
-        tabWidget.titleContainer.className = this.theme.getClassName("ACCORDION_TABCOLLAPSED");
-        tabWidget.turnerContainer.className = this.theme.getClassName("ACCORDION_RIGHTTURNER");
+        tabWidget.titleContainer.className = this._theme.getClassName("ACCORDION_TABCOLLAPSED");
+        tabWidget.turnerContainer.className = this._theme.getClassName("ACCORDION_RIGHTTURNER");
     }    
 
     if (tabWidget) {
@@ -555,7 +558,7 @@ webui.@THEME_JS@.widget.accordion.prototype.tabSelected = function(props) {
     // Iterate over all tabs to ensure id is valid.
     for (var i = 0; i < this.tabs.length; i++) {
         if (props.id == this.tabs[i].id) {
-            widget = this.widget.getWidget(this.tabs[i].id);
+            widget = this._widget.getWidget(this.tabs[i].id);
             break;   
         }
     }
@@ -569,7 +572,7 @@ webui.@THEME_JS@.widget.accordion.prototype.tabSelected = function(props) {
         widget.setSelected(true);
     } else {
         for (var i = 0; i < this.tabs.length; i++) {
-            widget = this.widget.getWidget(this.tabs[i].id);
+            widget = this._widget.getWidget(this.tabs[i].id);
             if (widget) {
                 widget.setSelected(props.id == this.tabs[i].id);
                 this.tabs[i] = widget.getProps();
@@ -725,7 +728,7 @@ webui.@THEME_JS@.widget.accordion.prototype.traverseMenu = function(keyCode, eve
         var actionComplete = false;
         if (this.isRefreshIcon) {
             if (this.focusElement.id == this.refreshNodeContainer.id) {
-                var accWidget = this.widget.getWidget(nodeId);
+                var accWidget = this._widget.getWidget(nodeId);
                 accWidget.refresh(nodeId);
                 actionComplete = true;
             }    
@@ -744,10 +747,10 @@ webui.@THEME_JS@.widget.accordion.prototype.traverseMenu = function(keyCode, eve
             if (this.focusElement) {
                 var props;
                 if (this.focusElement.selected) {
-                    var widget = this.widget.getWidget(this.focusElement.id);
+                    var widget = this._widget.getWidget(this.focusElement.id);
                     widget.setSelected(false);
                 } else {
-                    var widget = this.widget.getWidget(this.focusElement.id);
+                    var widget = this._widget.getWidget(this.focusElement.id);
                     widget.setSelected(true);
                 }
              
@@ -830,7 +833,7 @@ webui.@THEME_JS@.widget.accordion.prototype.traverseMenu = function(keyCode, eve
 
             if (!focusSet) { // focus is on a tab
                 if (forward) {  
-                    var widget = this.widget.getWidget(this.focusElement.id);
+                    var widget = this._widget.getWidget(this.focusElement.id);
                     if ((widget.getProps().selected == false) ||
                         (widget.focusState == "end")) {
                         

@@ -20,18 +20,19 @@
  * Copyright 2008 Sun Microsystems, Inc. All rights reserved.
  */
 
-webui.@THEME_JS@._dojo.provide("webui.@THEME_JS@.widget.progressBar");
+webui.@THEME_JS@._base.dojo.provide("webui.@THEME_JS@.widget.progressBar");
 
-webui.@THEME_JS@._dojo.require("webui.@THEME_JS@.widget.common");
-webui.@THEME_JS@._dojo.require("webui.@THEME_JS@.widget.widgetBase");
+webui.@THEME_JS@._base.dojo.require("webui.@THEME_JS@.widget.common");
+webui.@THEME_JS@._base.dojo.require("webui.@THEME_JS@.widget._base.widgetBase");
 
 /**
  * @name webui.@THEME_JS@.widget.progressBar
- * @extends webui.@THEME_JS@.widget.widgetBase
+ * @extends webui.@THEME_JS@.widget._base.widgetBase
  * @class This class contains functions for the progressBar widget.
  * @constructor This function is used to construct a progressBar widget.
  */
-webui.@THEME_JS@._dojo.declare("webui.@THEME_JS@.widget.progressBar", webui.@THEME_JS@.widget.widgetBase, {
+webui.@THEME_JS@._base.dojo.declare("webui.@THEME_JS@.widget.progressBar",
+        webui.@THEME_JS@.widget._base.widgetBase, {
     // Set defaults.
     constructor: function() {
         this.progress = 0;
@@ -48,7 +49,7 @@ webui.@THEME_JS@._dojo.declare("webui.@THEME_JS@.widget.progressBar", webui.@THE
     paused: "paused",
     resumed: "resumed",
     stopped: "stopped",
-    widgetName: "progressBar"
+    _widgetName: "progressBar"
 });
 
 /**
@@ -121,7 +122,7 @@ webui.@THEME_JS@.widget.progressBar.event =
  * @return {Object} Key-Value pairs of properties.
  */
 webui.@THEME_JS@.widget.progressBar.prototype.getProps = function() {
-    var props = this.inherited("getProps", arguments);
+    var props = this._inherited("getProps", arguments);
 
     // Set properties.
     if (this.height) { props.height = this.height; }
@@ -156,12 +157,13 @@ webui.@THEME_JS@.widget.progressBar.prototype.getProps = function() {
  * user's className property is always appended last).
  * </p>
  * @return {String} The outermost HTML element class name.
+ * @private
  */
-webui.@THEME_JS@.widget.progressBar.prototype.getClassName = function() {
+webui.@THEME_JS@.widget.progressBar.prototype._getClassName = function() {
     var key = "PROGRESSBAR"; 
 
     // Get theme property.
-    var className = this.theme.getClassName(key);
+    var className = this._theme.getClassName(key);
     if (className == null || className.length == 0) {
 	return this.className;
     }
@@ -176,7 +178,7 @@ webui.@THEME_JS@.widget.progressBar.prototype.getClassName = function() {
  * @return {boolean} true if successful; otherwise, false.
  */
 webui.@THEME_JS@.widget.progressBar.prototype.isBottomControlVisible = function() {
-    return this.common.isVisibleElement(this.bottomControlsContainer);
+    return this._common.isVisibleElement(this.bottomControlsContainer);
 };
 
 /**
@@ -185,7 +187,7 @@ webui.@THEME_JS@.widget.progressBar.prototype.isBottomControlVisible = function(
 * @return {boolean} true if successful; otherwise, false.
  */
 webui.@THEME_JS@.widget.progressBar.prototype.isFailedStateMessageVisible = function() {
-    return this.common.isVisibleElement(this.failedStateContainer);
+    return this._common.isVisibleElement(this.failedStateContainer);
 };
 
 /**
@@ -194,7 +196,7 @@ webui.@THEME_JS@.widget.progressBar.prototype.isFailedStateMessageVisible = func
 * @return {boolean} true if successful; otherwise, false.
  */
 webui.@THEME_JS@.widget.progressBar.prototype.isLogMsgVisible = function() {
-    return this.common.isVisibleElement(this.logContainer);
+    return this._common.isVisibleElement(this.logContainer);
 };
 
 /**
@@ -203,7 +205,7 @@ webui.@THEME_JS@.widget.progressBar.prototype.isLogMsgVisible = function() {
 * @return {boolean} true if successful; otherwise, false.
  */
 webui.@THEME_JS@.widget.progressBar.prototype.isOperationTextVisible = function() {
-    return this.common.isVisibleElement(this.topTextContainer);
+    return this._common.isVisibleElement(this.topTextContainer);
 };
 
 /**
@@ -212,7 +214,7 @@ webui.@THEME_JS@.widget.progressBar.prototype.isOperationTextVisible = function(
 * @return {boolean} true if successful; otherwise, false.
  */
 webui.@THEME_JS@.widget.progressBar.prototype.isProgressBarContainerVisible = function() {
-    return this.common.isVisibleElement(this.barContainer);
+    return this._common.isVisibleElement(this.barContainer);
 };
 
 /**
@@ -221,7 +223,7 @@ webui.@THEME_JS@.widget.progressBar.prototype.isProgressBarContainerVisible = fu
 * @return {boolean} true if successful; otherwise, false.
  */
 webui.@THEME_JS@.widget.progressBar.prototype.isProgressBarVisible = function() {
-    return this.common.isVisibleElement(this); 
+    return this._common.isVisibleElement(this); 
 };
 
 /**
@@ -230,7 +232,7 @@ webui.@THEME_JS@.widget.progressBar.prototype.isProgressBarVisible = function() 
 * @return {boolean} true if successful; otherwise, false.
  */
 webui.@THEME_JS@.widget.progressBar.prototype.isRightControlVisible = function() {
-    return this.common.isVisibleElement(this.rightControlsContainer);
+    return this._common.isVisibleElement(this.rightControlsContainer);
 };
 
 /**
@@ -239,7 +241,7 @@ webui.@THEME_JS@.widget.progressBar.prototype.isRightControlVisible = function()
 * @return {boolean} true if successful; otherwise, false.
  */
 webui.@THEME_JS@.widget.progressBar.prototype.isStatusTextVisible = function() {
-    return this.common.isVisibleElement(this.bottomTextContainer);
+    return this._common.isVisibleElement(this.bottomTextContainer);
 };
 
 /**
@@ -253,20 +255,21 @@ webui.@THEME_JS@.widget.progressBar.prototype.pause = function() {
     this.hiddenFieldNode.value = this.paused;
     if (this.type == this.indeterminate) {
         this.innerBarContainer.className =
-            this.theme.getClassName("PROGRESSBAR_INDETERMINATE_PAUSED");
+            this._theme.getClassName("PROGRESSBAR_INDETERMINATE_PAUSED");
     }
     return this.updateProgress();
 };
 
 /**
  * This function is used to fill in remaining template properties, after the
- * buildRendering() function has been processed.
+ * _buildRendering() function has been processed.
  * <p>
  * Note: Unlike Dojo 0.4, the DOM nodes don't exist in the document, yet. 
  * </p>
  * @return {boolean} true if successful; otherwise, false.
+ * @private
  */
-webui.@THEME_JS@.widget.progressBar.prototype.postCreate = function () {
+webui.@THEME_JS@.widget.progressBar.prototype._postCreate = function () {
     // Set ids.
     if (this.id) {
         this.barContainer.id = this.id + "_barContainer";
@@ -309,12 +312,12 @@ webui.@THEME_JS@.widget.progressBar.prototype.postCreate = function () {
     this.domNode.setStatusTextVisible = function(show) { return webui.@THEME_JS@.widget.common.getWidget(this.id).setStatusTextVisible(show); };
 
     if (this.busyImage == null) {
-	this.busyImage = this.widget.getWidgetProps("image", {
+	this.busyImage = this._widget._getWidgetProps("image", {
             icon: "PROGRESS_BUSY",
             id: this.id + "_busy"             
         });
     }
-    return this.inherited("postCreate", arguments);
+    return this._inherited("_postCreate", arguments);
 };
 
 /**
@@ -328,7 +331,7 @@ webui.@THEME_JS@.widget.progressBar.prototype.resume = function() {
     this.hiddenFieldNode.value = this.resumed;
     if (this.type == this.indeterminate) {
         this.innerBarContainer.className = 
-            this.theme.getClassName("PROGRESSBAR_INDETERMINATE");
+            this._theme.getClassName("PROGRESSBAR_INDETERMINATE");
             
     }
     return this.updateProgress();
@@ -344,7 +347,7 @@ webui.@THEME_JS@.widget.progressBar.prototype.setBottomControlVisible = function
     if (show == null) {
         return false;
     }
-    this.common.setVisibleElement(this.bottomControlsContainer, show);
+    this._common.setVisibleElement(this.bottomControlsContainer, show);
     return true;
 };
 
@@ -358,7 +361,7 @@ webui.@THEME_JS@.widget.progressBar.prototype.setFailedStateMessageVisible = fun
     if (show == null) {
         return false;
     }
-    this.common.setVisibleElement(this.failedStateContainer, show);
+    this._common.setVisibleElement(this.failedStateContainer, show);
     return true;
 };
 
@@ -372,7 +375,7 @@ webui.@THEME_JS@.widget.progressBar.prototype.setLogMsgVisible = function(show) 
     if (show == null) {
         return false;
     }
-    this.common.setVisibleElement(this.logContainer, show);
+    this._common.setVisibleElement(this.logContainer, show);
     return true;
 };
 
@@ -425,7 +428,7 @@ webui.@THEME_JS@.widget.progressBar.prototype.setOperationTextVisible = function
     if (show == null) {
         return false;
     }
-    this.common.setVisibleElement(this.topTextContainer, show);
+    this._common.setVisibleElement(this.topTextContainer, show);
     return true;
 };
 
@@ -454,17 +457,17 @@ webui.@THEME_JS@.widget.progressBar.prototype.setProgress = function(props) {
     }
 
     // Save properties for later updates.
-    this.prototypejs.extend(this, props);    
+    this._proto.extend(this, props);    
 
     // Set status.
     if (props.status) {
-        this.widget.addFragment(this.bottomTextContainer, props.status);
+        this._widget._addFragment(this.bottomTextContainer, props.status);
     }
 
     // If top text doesnt get change, dont update.
     if (props.topText) {
         if (props.topText != this.topText) {
-            this.widget.addFragment(this.topTextContainer, props.topText);
+            this._widget._addFragment(this.topTextContainer, props.topText);
         }
     }
 
@@ -475,7 +478,7 @@ webui.@THEME_JS@.widget.progressBar.prototype.setProgress = function(props) {
         }
 
         if (props.logMessage) {
-            var field = this.widget.getWidget(this.logId).getInputElement();
+            var field = this._widget.getWidget(this.logId).getInputElement();
             if (field != null) {
                 field.value = (field.value)
                    ? field.value + props.logMessage + "\n"
@@ -486,14 +489,14 @@ webui.@THEME_JS@.widget.progressBar.prototype.setProgress = function(props) {
         // Add overlay text.
         if (this.overlayAnimation == true) {
             // NOTE: If you set this value manually, text must be HTML escaped.
-            this.widget.addFragment(this.innerBarOverlayContainer, props.progress + "%");
+            this._widget._addFragment(this.innerBarOverlayContainer, props.progress + "%");
         }
     } 
 
     // Failed state.
     if (props.taskState == this.failed) {
         clearTimeout(this.timeoutId);
-        this.widget.sleep(1000);
+        this._widget._sleep(1000);
         this.setProgressBarContainerVisible(false);
         this.setBottomControlVisible(false);
         this.setRightControlVisible(false);
@@ -501,11 +504,11 @@ webui.@THEME_JS@.widget.progressBar.prototype.setProgress = function(props) {
 
         if (props.failedStateText != null) {
             // NOTE: If you set this value manually, text must be HTML escaped.
-            this.widget.addFragment(this.failedLabelContainer,
+            this._widget._addFragment(this.failedLabelContainer,
                 props.failedStateText + " " + props.progress + this.percentChar);
 
-            this.common.setVisibleElement(this.failedLabelContainer, true);
-            this.common.setVisibleElement(this.failedStateContainer, true);
+            this._common.setVisibleElement(this.failedLabelContainer, true);
+            this._common.setVisibleElement(this.failedStateContainer, true);
         }
         if (this.funcFailed != null) {
             (this.funcFailed)();
@@ -516,7 +519,7 @@ webui.@THEME_JS@.widget.progressBar.prototype.setProgress = function(props) {
     // Cancel state.
     if (props.taskState == this.canceled) {
         clearTimeout(this.timeoutId);
-        this.widget.sleep(1000);
+        this._widget._sleep(1000);
         this.setOperationTextVisible(false);
         this.setStatusTextVisible(false);
         this.setProgressBarContainerVisible(false);
@@ -550,7 +553,7 @@ webui.@THEME_JS@.widget.progressBar.prototype.setProgress = function(props) {
         clearTimeout(this.timeoutId);
         if (this.type == this.indeterminate) {
             this.innerBarContainer.className =
-                this.theme.getClassName("PROGRESSBAR_INDETERMINATE_PAUSED");
+                this._theme.getClassName("PROGRESSBAR_INDETERMINATE_PAUSED");
         }
         if (this.type == this.busy) {
             this.setProgressBarContainerVisible(false);
@@ -599,7 +602,7 @@ webui.@THEME_JS@.widget.progressBar.prototype.setProgressBarVisible = function(s
     if (show == null) {
         return false;
     }
-    this.common.setVisibleElement(this, show);
+    this._common.setVisibleElement(this, show);
     return true; 
 };
 
@@ -639,7 +642,7 @@ webui.@THEME_JS@.widget.progressBar.prototype.setProgressBarVisible = function(s
  */
 webui.@THEME_JS@.widget.progressBar.prototype.setProps = function(props, notify) {
     // Note: This function is overridden for JsDoc.
-    return this.inherited("setProps", arguments);
+    return this._inherited("setProps", arguments);
 };
 
 /**
@@ -664,21 +667,21 @@ webui.@THEME_JS@.widget.progressBar.prototype._setProps = function(props) {
 
     // Add top text.
     if (props.topText) {
-        this.widget.addFragment(this.topTextContainer, props.topText); 
-        this.common.setVisibleElement(this.topTextContainer, true);
+        this._widget._addFragment(this.topTextContainer, props.topText); 
+        this._common.setVisibleElement(this.topTextContainer, true);
     }
 
     // Add bottom text.
     if (props.bottomText) {
-        this.widget.addFragment(this.bottomTextContainer, props.bottomText);
-        this.common.setVisibleElement(this.bottomTextContainer, true);
+        this._widget._addFragment(this.bottomTextContainer, props.bottomText);
+        this._common.setVisibleElement(this.bottomTextContainer, true);
     }
 
     if (props.type == this.determinate 
             || props.type == this.indeterminate) {
         // Set style class.
         this.barContainer.className =
-            this.theme.getClassName("PROGRESSBAR_CONTAINER");
+            this._theme.getClassName("PROGRESSBAR_CONTAINER");
 
         // Set height.
         if (props.height != null && props.height > 0) {
@@ -693,21 +696,21 @@ webui.@THEME_JS@.widget.progressBar.prototype._setProps = function(props) {
 
         // Add right controls.
         if (props.progressControlRight != null) {
-            this.widget.addFragment(this.rightControlsContainer, props.progressControlRight);
-            this.common.setVisibleElement(this.rightControlsContainer, true);
+            this._widget._addFragment(this.rightControlsContainer, props.progressControlRight);
+            this._common.setVisibleElement(this.rightControlsContainer, true);
         }
 
         // Add bottom controls.
         if (props.progressControlBottom != null) {
-            this.widget.addFragment(this.bottomControlsContainer, props.progressControlBottom);
-            this.common.setVisibleElement(this.bottomControlsContainer, true);
+            this._widget._addFragment(this.bottomControlsContainer, props.progressControlBottom);
+            this._common.setVisibleElement(this.bottomControlsContainer, true);
         }
     }
 
     if (props.type == this.determinate) {
         // Set style class.
         this.innerBarContainer.className =
-            this.theme.getClassName("PROGRESSBAR_DETERMINATE");
+            this._theme.getClassName("PROGRESSBAR_DETERMINATE");
 
         // Set width.
         if (this.progress != null && this.progress >= 0) {
@@ -720,21 +723,21 @@ webui.@THEME_JS@.widget.progressBar.prototype._setProps = function(props) {
                 this.innerBarOverlayContainer.style.width = props.width + "px;";
             }
             // NOTE: If you set this value manually, text must be HTML escaped.            
-            this.widget.addFragment(this.innerBarOverlayContainer, this.progress + "%");
-            this.common.setVisibleElement(this.innerBarOverlayContainer, true);
+            this._widget._addFragment(this.innerBarOverlayContainer, this.progress + "%");
+            this._common.setVisibleElement(this.innerBarOverlayContainer, true);
         }
 
         // Add log.
         if (props.log != null && props.overlayAnimation == false) { 
-            this.widget.addFragment(this.logContainer, props.log);
-            this.common.setVisibleElement(this.logContainer, true);
+            this._widget._addFragment(this.logContainer, props.log);
+            this._common.setVisibleElement(this.logContainer, true);
         }  
     } else if (props.type == this.indeterminate) {
         // Set style class.
         this.barContainer.className = 
-            this.theme.getClassName("PROGRESSBAR_CONTAINER");
+            this._theme.getClassName("PROGRESSBAR_CONTAINER");
         this.innerBarContainer.className = 
-            this.theme.getClassName("PROGRESSBAR_INDETERMINATE");
+            this._theme.getClassName("PROGRESSBAR_INDETERMINATE");
     } else if (props.type == this.busy) {
         // Add busy image.
         if (props.busyImage) {
@@ -748,11 +751,11 @@ webui.@THEME_JS@.widget.progressBar.prototype._setProps = function(props) {
                 if (props.prefix) {               
                     props.busyImage.icon = null;     
                     props.busyImage.src = 
-                        webui.@THEME_JS@.widget.common.appendPrefix(props.prefix, props.progressImageUrl);               
+                        webui.@THEME_JS@.widget.common._appendPrefix(props.prefix, props.progressImageUrl);               
                 }    
             }
-            this.widget.addFragment(this.busyImageContainer, props.busyImage);
-            this.common.setVisibleElement(this.busyImageContainer, true);
+            this._widget._addFragment(this.busyImageContainer, props.busyImage);
+            this._common.setVisibleElement(this.busyImageContainer, true);
         }
     }
 
@@ -770,10 +773,10 @@ webui.@THEME_JS@.widget.progressBar.prototype._setProps = function(props) {
     }
 
     // Set more properties.
-    this.setCommonProps(this.domNode, props);
+    this._setCommonProps(this.domNode, props);
 
     // Set remaining properties.
-    return this.inherited("_setProps", arguments);
+    return this._inherited("_setProps", arguments);
 };
 
 /**
@@ -786,7 +789,7 @@ webui.@THEME_JS@.widget.progressBar.prototype.setRightControlVisible = function(
     if (show == null) {
         return false;
     }
-    this.common.setVisibleElement(this.rightControlsContainer, show);
+    this._common.setVisibleElement(this.rightControlsContainer, show);
     return true;
 };
 
@@ -800,7 +803,7 @@ webui.@THEME_JS@.widget.progressBar.prototype.setStatusTextVisible = function(sh
     if (show == null) {
         return false;
     }
-    this.common.setVisibleElement(this.bottomTextContainer, show);
+    this._common.setVisibleElement(this.bottomTextContainer, show);
     return true;
 };
 
@@ -809,14 +812,15 @@ webui.@THEME_JS@.widget.progressBar.prototype.setStatusTextVisible = function(sh
  * instantiated.
  *
  * @return {boolean} true if successful; otherwise, false.
+ * @private
  */
-webui.@THEME_JS@.widget.progressBar.prototype.startup = function () {
-    if (this._started) {
+webui.@THEME_JS@.widget.progressBar.prototype._start = function () {
+    if (typeof this._started == "undefined") {
         return false;
     }
     // Start a timer used to periodically publish progress events.
     this.updateProgress();  
-    return this.inherited("startup", arguments);
+    return this._inherited("_start", arguments);
 };
 
 /**
@@ -830,7 +834,7 @@ webui.@THEME_JS@.widget.progressBar.prototype.stop = function() {
     this.hiddenFieldNode.value = this.stopped;
     if (this.type == this.indeterminate) {
         this.innerBarIdContainer.className =
-            this.theme.getClassName("PROGRESSBAR_INDETERMINATE_PAUSED");
+            this._theme.getClassName("PROGRESSBAR_INDETERMINATE_PAUSED");
     }
     return this.updateProgress();
 };

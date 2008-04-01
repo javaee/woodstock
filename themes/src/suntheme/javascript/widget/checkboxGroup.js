@@ -20,19 +20,20 @@
  * Copyright 2008 Sun Microsystems, Inc. All rights reserved.
  */
 
-webui.@THEME_JS@._dojo.provide("webui.@THEME_JS@.widget.checkboxGroup");
+webui.@THEME_JS@._base.dojo.provide("webui.@THEME_JS@.widget.checkboxGroup");
 
-webui.@THEME_JS@._dojo.require("webui.@THEME_JS@.widget.checkedGroupBase");
+webui.@THEME_JS@._base.dojo.require("webui.@THEME_JS@.widget._base.checkedGroupBase");
 
 /**
  * @name webui.@THEME_JS@.widget.checkboxGroup
- * @extends webui.@THEME_JS@.widget.checkedGroupBase
+ * @extends webui.@THEME_JS@.widget._base.checkedGroupBase
  * @class This class contains functions for the checkboxGroup widget.
  * @constructor This function is used to construct a checkboxGroup widget.
  */
-webui.@THEME_JS@._dojo.declare("webui.@THEME_JS@.widget.checkboxGroup", webui.@THEME_JS@.widget.checkedGroupBase, {
+webui.@THEME_JS@._base.dojo.declare("webui.@THEME_JS@.widget.checkboxGroup",
+        webui.@THEME_JS@.widget._base.checkedGroupBase, {
     // Set defaults.
-    widgetName: "checkboxGroup" // Required for theme properties.
+    _widgetName: "checkboxGroup" // Required for theme properties.
 });
 
 /**
@@ -78,12 +79,13 @@ webui.@THEME_JS@.widget.checkboxGroup.event =
  * user's className property is always appended last).
  * </p>
  * @return {String} The outermost HTML element class name.
+ * @private
  */
-webui.@THEME_JS@.widget.checkboxGroup.prototype.getClassName = function() {
+webui.@THEME_JS@.widget.checkboxGroup.prototype._getClassName = function() {
     // Set default style.
     var className = (this.columns > 1)
-        ? this.widget.getClassName("CBGRP_HORIZ", "")
-        : this.widget.getClassName("CBGRP_VERT", "");
+        ? this._theme._getClassName("CBGRP_HORIZ", "")
+        : this._theme._getClassName("CBGRP_VERT", "");
 
     return (this.className)
         ? className + " " + this.className

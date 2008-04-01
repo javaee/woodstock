@@ -20,9 +20,9 @@
  * Copyright 2008 Sun Microsystems, Inc. All rights reserved.
  */
 
-webui.@THEME_JS@._dojo.provide("webui.@THEME_JS@.widget.editableField");
+webui.@THEME_JS@._base.dojo.provide("webui.@THEME_JS@.widget.editableField");
 
-webui.@THEME_JS@._dojo.require("webui.@THEME_JS@.widget.textField");
+webui.@THEME_JS@._base.dojo.require("webui.@THEME_JS@.widget.textField");
 
 /**
  * @name webui.@THEME_JS@.widget.editableField
@@ -30,12 +30,13 @@ webui.@THEME_JS@._dojo.require("webui.@THEME_JS@.widget.textField");
  * @class This class contains functions for the editableField widget.
  * @constructor This function is used to construct a editableField widget.
  */
-webui.@THEME_JS@._dojo.declare("webui.@THEME_JS@.widget.editableField", webui.@THEME_JS@.widget.textField, {
+webui.@THEME_JS@._base.dojo.declare("webui.@THEME_JS@.widget.editableField",
+        webui.@THEME_JS@.widget.textField, {
     // Set defaults.
     constructor: function() {
         this.edit = false;
     },
-    widgetName: "editableField" // Required for theme properties.
+    _widgetName: "editableField" // Required for theme properties.
 });
    
 /**
@@ -71,7 +72,7 @@ webui.@THEME_JS@.widget.editableField.prototype.disableEdit = function(acceptCha
     }
     this.edit = false;
     this.savedValue = null;
-    this.fieldNode.className = this.getInputClassName();   
+    this.fieldNode.className = this._getInputClassName();   
     this.fieldNode.readOnly = true;
     return true;
 };
@@ -86,7 +87,7 @@ webui.@THEME_JS@.widget.editableField.prototype.enableEdit = function() {
     this.savedValue = this.fieldNode.value;
         
     this.edit = true;
-    this.fieldNode.className = this.getInputClassName();   
+    this.fieldNode.className = this._getInputClassName();   
     this.fieldNode.readOnly = false;
     this.fieldNode.focus(); // In case function has been called programmatically, not by event.
     this.fieldNode.select();
@@ -145,21 +146,22 @@ webui.@THEME_JS@.widget.editableField.event =
  * Helper function to obtain HTML input element class names.
  *
  * @return {String} The HTML input element class name.
+ * @private
  */
-webui.@THEME_JS@.widget.editableField.prototype.getInputClassName = function() {    
+webui.@THEME_JS@.widget.editableField.prototype._getInputClassName = function() {    
     // Set default style.
     if (this.disabled == true) {
-        return  this.widget.getClassName("EDITABLE_FIELD_DISABLED","");
+        return  this._theme._getClassName("EDITABLE_FIELD_DISABLED","");
     }
 
     // Apply invalid style.
     var validStyle =  (this.valid == false) 
-        ? " " + this.widget.getClassName("EDITABLE_FIELD_INVALID","")
+        ? " " + this._theme._getClassName("EDITABLE_FIELD_INVALID","")
         : ""; 
 
     return (this.edit == true)
-        ? this.widget.getClassName("EDITABLE_FIELD_EDIT","") + validStyle
-        : this.widget.getClassName("EDITABLE_FIELD_DEFAULT","") + validStyle;
+        ? this._theme._getClassName("EDITABLE_FIELD_EDIT","") + validStyle
+        : this._theme._getClassName("EDITABLE_FIELD_DEFAULT","") + validStyle;
 };
 
 /**
@@ -169,7 +171,7 @@ webui.@THEME_JS@.widget.editableField.prototype.getInputClassName = function() {
  * @return {Object} Key-Value pairs of properties.
  */
 webui.@THEME_JS@.widget.editableField.prototype.getProps = function() {
-    var props = this.inherited("getProps", arguments);
+    var props = this._inherited("getProps", arguments);
 
     // Set properties.
     if (this.autoSave!= null) { props.autoSave = this.autoSave; }
@@ -215,22 +217,23 @@ webui.@THEME_JS@.widget.editableField.prototype.onEditCallback = function(event)
 
 /**
  * This function is used to fill in remaining template properties, after the
- * buildRendering() function has been processed.
+ * _buildRendering() function has been processed.
  * <p>
  * Note: Unlike Dojo 0.4, the DOM nodes don't exist in the document, yet. 
  * </p>
  * @return {boolean} true if successful; otherwise, false.
+ * @private
  */
-webui.@THEME_JS@.widget.editableField.prototype.postCreate = function () {
+webui.@THEME_JS@.widget.editableField.prototype._postCreate = function () {
     // Set Initial readOnly state.
     this.fieldNode.readOnly = true;
 
     // Set events.
-    this.dojo.connect(this.fieldNode, "ondblclick", this, "onEditCallback");
-    this.dojo.connect(this.fieldNode, "onblur", this, "onEditCallback");
-    this.dojo.connect(this.fieldNode, "onkeyup", this, "onEditCallback");
+    this._dojo.connect(this.fieldNode, "ondblclick", this, "onEditCallback");
+    this._dojo.connect(this.fieldNode, "onblur", this, "onEditCallback");
+    this._dojo.connect(this.fieldNode, "onkeyup", this, "onEditCallback");
 
-    return this.inherited("postCreate", arguments);
+    return this._inherited("_postCreate", arguments);
 };
 
 /**
@@ -279,7 +282,7 @@ webui.@THEME_JS@.widget.editableField.prototype.postCreate = function () {
  */
 webui.@THEME_JS@.widget.editableField.prototype.setProps = function(props, notify) {
     // Note: This function is overridden for JsDoc.
-    return this.inherited("setProps", arguments);
+    return this._inherited("setProps", arguments);
 };
 
 /**
@@ -304,5 +307,5 @@ webui.@THEME_JS@.widget.editableField.prototype._setProps = function(props) {
     if (props.autoSave != null) { this.autoSave = props.autoSave; }
 
     // Set remaining properties.
-    return this.inherited("_setProps", arguments);
+    return this._inherited("_setProps", arguments);
 };

@@ -643,9 +643,9 @@ public class SchedulerRenderer extends javax.faces.render.Renderer {
                 .put("dateFormat", scheduler.getDatePicker().getDateFormatPattern());
 
             // Append JavaScript.
-            buff.append(JavaScriptUtilities.getModule("scheduler"))
+            buff.append(JavaScriptUtilities.getModule("_html.scheduler"))
                 .append("\n") // NOI18N
-                .append(JavaScriptUtilities.getModuleName("scheduler._init")) // NOI18N
+                .append(JavaScriptUtilities.getModuleName("_html.scheduler._init")) // NOI18N
                 .append("(") //NOI18N
                 .append(JSONUtilities.getString(json))
                 .append(");"); //NOI18N

@@ -226,9 +226,9 @@ public class TreeRenderer extends TreeNodeRenderer {
             
             // Append JavaScript.
             String jsObject = JavaScriptUtilities.getDomNode(context, node);
-            buff.append(JavaScriptUtilities.getModule("tree"))
+            buff.append(JavaScriptUtilities.getModule("_html.tree"))
                 .append("\n") // NOI18N
-                .append(JavaScriptUtilities.getModuleName("tree._init")) // NOI18N
+                .append(JavaScriptUtilities.getModuleName("_html.tree._init")) // NOI18N
                 .append("(") //NOI18N
                 .append(JSONUtilities.getString(json))
                 .append(");\n"); //NOI18N

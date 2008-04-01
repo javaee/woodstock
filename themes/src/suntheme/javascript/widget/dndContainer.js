@@ -20,20 +20,21 @@
  * Copyright 2008 Sun Microsystems, Inc. All rights reserved.
  */
 
-webui.@THEME_JS@._dojo.provide("webui.@THEME_JS@.widget.dndContainer");
+webui.@THEME_JS@._base.dojo.provide("webui.@THEME_JS@.widget.dndContainer");
 
-webui.@THEME_JS@._dojo.require("webui.@THEME_JS@.dnd");
-webui.@THEME_JS@._dojo.require("webui.@THEME_JS@.widget.widgetBase");
+webui.@THEME_JS@._base.dojo.require("webui.@THEME_JS@._base.dnd");
+webui.@THEME_JS@._base.dojo.require("webui.@THEME_JS@.widget._base.widgetBase");
 
  /**
   * @name webui.@THEME_JS@.widget.dndContainer
-  * @extends webui.@THEME_JS@.widget.widgetBase
+  * @extends webui.@THEME_JS@.widget._base.widgetBase
   * @class This class contains functions for the dndContainer widget
   * @constructor This function is used to construct a dndContainer widget.
   */
-webui.@THEME_JS@._dojo.declare("webui.@THEME_JS@.widget.dndContainer", webui.@THEME_JS@.widget.widgetBase, {
+webui.@THEME_JS@._base.dojo.declare("webui.@THEME_JS@.widget.dndContainer",
+        webui.@THEME_JS@.widget._base.widgetBase, {
     // Set defaults.
-    widgetName: "dndContainer" // Required for theme properties.
+    _widgetName: "dndContainer" // Required for theme properties.
 });
 
 /**
@@ -117,7 +118,7 @@ webui.@THEME_JS@.widget.dndContainer.prototype.getContainerClassName = function(
  * @return {Object} Key-Value pairs of properties.
  */
 webui.@THEME_JS@.widget.dndContainer.prototype.getProps = function() {
-    var props = this.inherited("getProps", arguments);
+    var props = this._inherited("getProps", arguments);
     
     // Set properties.
     if (this.dropTypes != null) { props.dropTypes= this.dropTypes; }
@@ -135,13 +136,14 @@ webui.@THEME_JS@.widget.dndContainer.prototype.getProps = function() {
 
 /**
  * This function is used to fill in remaining template properties, after the
- * buildRendering() function has been processed.
+ * _buildRendering() function has been processed.
  * <p>
  * Note: Unlike Dojo 0.4, the DOM nodes don't exist in the document, yet. 
  * </p>
  * @return {boolean} true if successful; otherwise, false.
+ * @private
  */
-webui.@THEME_JS@.widget.dndContainer.prototype.postCreate = function () {
+webui.@THEME_JS@.widget.dndContainer.prototype._postCreate = function () {
     // Set ids.
     if (this.id) {
         this.dndContainer.id = this.id + "_container";
@@ -167,9 +169,9 @@ webui.@THEME_JS@.widget.dndContainer.prototype.postCreate = function () {
     }
     params.onDropFunction = this.createOnDndDropCallback();
     
-    this.dragSource = new webui.@THEME_JS@.dnd.Source(this.dndContainer, params);
+    this.dragSource = new webui.@THEME_JS@._base.dnd.Source(this.dndContainer, params);
 
-    return this.inherited("postCreate", arguments);
+    return this._inherited("_postCreate", arguments);
 };
 
 /**
@@ -200,7 +202,7 @@ webui.@THEME_JS@.widget.dndContainer.prototype.setProps = function(props, notify
     if (props.contents) {
         this.contents = null;
     }
-    return this.inherited("setProps", arguments);
+    return this._inherited("setProps", arguments);
 };
 
 /**
@@ -238,7 +240,7 @@ webui.@THEME_JS@.widget.dndContainer.prototype._setProps = function(props) {
             && props.contents.length == props.contentsDragData.length 
             && this.dragSource) {                   
         // Remove child nodes.
-        this.widget.removeChildNodes(this.dndContainer);
+        this._widget._removeChildNodes(this.dndContainer);
         
 	for (var i = 0; i < props.contents.length; i++) {
             if (this.dragTypes) {
@@ -246,21 +248,21 @@ webui.@THEME_JS@.widget.dndContainer.prototype._setProps = function(props) {
                 // normalized creator function (this will allow for consistent 
                 // internal placement of container elements within container)
                 // which will be an element of the container and at the same 
-                // time will contain the output of addFragment. Add the rendered
+                // time will contain the output of _addFragment. Add the rendered
                 // content into the span.             
                 var node = this.dragSource.addItem([""], this.dragTypes, 
                     props.contentsDragData[i]); //empty data content
-                this.widget.addFragment(node, props.contents[i], "last");
+                this._widget._addFragment(node, props.contents[i], "last");
             } else {
                 // Simply add data, without making it draggable
-                this.widget.addFragment(this.dndContainer, props.contents[i], "last");            
+                this._widget._addFragment(this.dndContainer, props.contents[i], "last");            
             }
         }
     }
     
     // Set more properties.
-    this.setCommonProps(this.dndContainer, props);
+    this._setCommonProps(this.dndContainer, props);
 
     // Set remaining properties.
-    return this.inherited("_setProps", arguments);
+    return this._inherited("_setProps", arguments);
 };

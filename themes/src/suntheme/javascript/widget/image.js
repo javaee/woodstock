@@ -20,22 +20,25 @@
  * Copyright 2008 Sun Microsystems, Inc. All rights reserved.
  */
 
-webui.@THEME_JS@._dojo.provide("webui.@THEME_JS@.widget.image");
+webui.@THEME_JS@._base.dojo.provide("webui.@THEME_JS@.widget.image");
 
-webui.@THEME_JS@._dojo.require("webui.@THEME_JS@.widget.widgetBase");
+webui.@THEME_JS@._base.dojo.require("webui.@THEME_JS@.browser");
+webui.@THEME_JS@._base.dojo.require("webui.@THEME_JS@.widget._base.widgetBase");
 
 /**
  * @name webui.@THEME_JS@.widget.image
- * @extends webui.@THEME_JS@.widget.widgetBase
+ * @extends webui.@THEME_JS@.widget._base.widgetBase
  * @class This class contains functions for the image widget.
  * @constructor This function is used to construct a image widget.
  */
-webui.@THEME_JS@._dojo.declare("webui.@THEME_JS@.widget.image", webui.@THEME_JS@.widget.widgetBase, {
+webui.@THEME_JS@._base.dojo.declare("webui.@THEME_JS@.widget.image",
+        webui.@THEME_JS@.widget._base.widgetBase, {
     // Set defaults.
     constructor: function() {
         this.border = 0;
     },
-    widgetName: "image" // Required for theme properties.
+    _highContrastMode: null, // Must be available to all image widgets.
+    _widgetName: "image" // Required for theme properties.
 });
 
 /**
@@ -81,7 +84,7 @@ webui.@THEME_JS@.widget.image.event =
  * @return {Object} Key-Value pairs of properties.
  */
 webui.@THEME_JS@.widget.image.prototype.getProps = function() {
-    var props = this.inherited("getProps", arguments);
+    var props = this._inherited("getProps", arguments);
 
     // Set properties.
     if (this.alt) { props.alt = this.alt; }
@@ -143,7 +146,7 @@ webui.@THEME_JS@.widget.image.prototype.getProps = function() {
  */
 webui.@THEME_JS@.widget.image.prototype.setProps = function(props, notify) {
     // Note: This function is overridden for JsDoc.
-    return this.inherited("setProps", arguments);
+    return this._inherited("setProps", arguments);
 };
 
 /**
@@ -163,7 +166,7 @@ webui.@THEME_JS@.widget.image.prototype._setProps = function(props) {
 
     // Style must be set first (e.g., for absolute positioning) -- some style
     // properties may be overridden later by the combined image.
-    this.setCommonProps(this.domNode, props);
+    this._setCommonProps(this.domNode, props);
 
     // Clear style properties if icon was previously set.
     if (props.src && this.icon) {
@@ -189,32 +192,36 @@ webui.@THEME_JS@.widget.image.prototype._setProps = function(props) {
         // For now, skipping the combined image approach for IE6. Also need fix 
         // for Safari.
         var iconProps = webui.@THEME_JS@.theme.common.getImage(props.icon);
-        var mapKey = iconProps['map_key'];
-        if (mapKey != null && !webui.@THEME_JS@.browser.isIe6()
-                && !webui.@THEME_JS@.widget.common.isHighContrastMode()) {
-            // Note: Comparing height/width against "actual" properties is not a
-            // valid test -- DOT images don't have a default size, for example.
-            if (iconProps['top'] != null && iconProps['actual_height'] != null 
-                    && iconProps['actual_width'] != null) {               
-                var transImage = webui.@THEME_JS@.theme.common.getImage("DOT");
-                var combinedImage = webui.@THEME_JS@.theme.common.getImage(mapKey);
+        if (iconProps == null) {
+            console.debug("Error: theme icon '" + props.icon + "' not found.");
+        } else {
+            var mapKey = iconProps['map_key'];
+            if (mapKey != null && !webui.@THEME_JS@.browser.isIe6()
+                    && !this._widget._isHighContrastMode()) {
+                // Note: Comparing height/width against "actual" properties is not a
+                // valid test -- DOT images don't have a default size, for example.
+                if (iconProps['top'] != null && iconProps['actual_height'] != null 
+                        && iconProps['actual_width'] != null) {               
+                    var transImage = webui.@THEME_JS@.theme.common.getImage("DOT");
+                    var combinedImage = webui.@THEME_JS@.theme.common.getImage(mapKey);
 
-                // Set style properties.
-                this.domNode.style.border = "0";
-                this.domNode.style.backgroundImage = "url(" + combinedImage['src'] + ")";
-                this.domNode.style.backgroundPosition = "0px " + iconProps['top'] + "px";
-                this.domNode.style.height = iconProps['actual_height'] + "px";
-                this.domNode.style.width = iconProps['actual_width'] + "px";
+                    // Set style properties.
+                    this.domNode.style.border = "0";
+                    this.domNode.style.backgroundImage = "url(" + combinedImage['src'] + ")";
+                    this.domNode.style.backgroundPosition = "0px " + iconProps['top'] + "px";
+                    this.domNode.style.height = iconProps['actual_height'] + "px";
+                    this.domNode.style.width = iconProps['actual_width'] + "px";
 
-                // Set transparent image.
-                iconProps.src = transImage['src'];
+                    // Set transparent image.
+                    iconProps.src = transImage['src'];
+                }
             }
+            // Assign icon properties, even if combined image is not used.
+            if (iconProps.alt) { this.domNode.alt = iconProps.alt; }
+            if (iconProps.height) { this.domNode.height = iconProps.height; }
+            if (iconProps.src) { this.domNode.src = iconProps.src; }
+            if (iconProps.width) { this.domNode.width = iconProps.width; }
         }
-        // Assign icon properties, even if combined image is not used.
-        if (iconProps.alt) { this.domNode.alt = iconProps.alt; }
-        if (iconProps.height) { this.domNode.height = iconProps.height; }
-        if (iconProps.src) { this.domNode.src = iconProps.src; }
-        if (iconProps.width) { this.domNode.width = iconProps.width; }
     } else {
         // Icon properties take precedence.
         if (props.alt) { this.domNode.alt = props.alt; }
@@ -225,7 +232,7 @@ webui.@THEME_JS@.widget.image.prototype._setProps = function(props) {
             // context path already appended and if not, append it.
             if (this.prefix) {
                 props.src = 
-                    webui.@THEME_JS@.widget.common.appendPrefix(this.prefix, props.src);                
+                    webui.@THEME_JS@.widget.common._appendPrefix(this.prefix, props.src);                
             }
             this.domNode.src = props.src;  
         } 
@@ -238,8 +245,8 @@ webui.@THEME_JS@.widget.image.prototype._setProps = function(props) {
     if (props.vspace) { this.domNode.vspace = props.vspace; }
 
     // Set more properties.
-    this.setEventProps(this.domNode, props);
+    this._setEventProps(this.domNode, props);
 
     // Set remaining properties.
-    return this.inherited("_setProps", arguments);
+    return this._inherited("_setProps", arguments);
 };

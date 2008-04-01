@@ -20,18 +20,49 @@
  * Copyright 2008 Sun Microsystems, Inc. All rights reserved.
  */
 
-webui.@THEME_JS@._dojo.provide("webui.@THEME_JS@.widget.button");
+webui.@THEME_JS@._base.dojo.provide("webui.@THEME_JS@.widget.button");
 
-webui.@THEME_JS@._dojo.require("webui.@THEME_JS@.widget.common");
-webui.@THEME_JS@._dojo.require("webui.@THEME_JS@.widget.widgetBase");
+webui.@THEME_JS@._base.dojo.require("webui.@THEME_JS@.widget.common");
+webui.@THEME_JS@._base.dojo.require("webui.@THEME_JS@.widget._base.widgetBase");
  
 /**
+ * This function is used to construct a button widget.
+ *
  * @name webui.@THEME_JS@.widget.button
- * @extends webui.@THEME_JS@.widget.widgetBase
+ * @extends webui.@THEME_JS@.widget._base.widgetBase
  * @class This class contains functions for the button widget.
- * @constructor This function is used to construct a button widget.
+ * @constructor
+ * @param {Object} props Key-Value pairs of properties.
+ * @config {String} alt Alternate text for image input.
+ * @config {String} align Alignment of image input.
+ * @config {String} className CSS selector.
+ * @config {String} dir Specifies the directionality of text.
+ * @config {boolean} disabled Disable element.
+ * @config {String} escape HTML escape value (default).
+ * @config {String} id Uniquely identifies an element within a document.
+ * @config {String} lang Specifies the language of attribute values and content.
+ * @config {boolean} mini Set button as mini if true.
+ * @config {String} onBlur Element lost focus.
+ * @config {String} onClick Mouse button is clicked on element.
+ * @config {String} onDblClick Mouse button is double-clicked on element.
+ * @config {String} onFocus Element received focus.
+ * @config {String} onKeyDown Key is pressed down over element.
+ * @config {String} onKeyPress Key is pressed and released over element.
+ * @config {String} onKeyUp Key is released over element.
+ * @config {String} onMouseDown Mouse button is pressed over element.
+ * @config {String} onMouseOut Mouse is moved away from element.
+ * @config {String} onMouseOver Mouse is moved onto element.
+ * @config {String} onMouseUp Mouse button is released over element.
+ * @config {String} onMouseMove Mouse is moved while over element.
+ * @config {boolean} primary Set button as primary if true.
+ * @config {String} style Specify style rules inline.
+ * @config {int} tabIndex Position in tabbing order.
+ * @config {String} title Provides a title for element.
+ * @config {String} value Value of input.
+ * @config {boolean} visible Hide or show element.
  */
-webui.@THEME_JS@._dojo.declare("webui.@THEME_JS@.widget.button", webui.@THEME_JS@.widget.widgetBase, {
+webui.@THEME_JS@._base.dojo.declare("webui.@THEME_JS@.widget.button", 
+      webui.@THEME_JS@.widget._base.widgetBase, {
     // Set defaults.
     constructor: function() {
         this.disabled = false;
@@ -39,7 +70,7 @@ webui.@THEME_JS@._dojo.declare("webui.@THEME_JS@.widget.button", webui.@THEME_JS
         this.mini = false;
         this.primary = true;
     },
-    widgetName: "button" // Required for theme properties.
+    _widgetName: "button" // Required for theme properties.
 });
 
 /**
@@ -85,8 +116,9 @@ webui.@THEME_JS@.widget.button.event =
  * user's className property is always appended last).
  * </p>
  * @return {String} The outermost HTML element class name.
+ * @private
  */
-webui.@THEME_JS@.widget.button.prototype.getClassName = function() {
+webui.@THEME_JS@.widget.button.prototype._getClassName = function() {
     var key = null;
 
     if (this.mini == true && this.primary == true) {
@@ -107,7 +139,7 @@ webui.@THEME_JS@.widget.button.prototype.getClassName = function() {
             : "BUTTON2";	      // secondaryClassName
     }
 
-    var className = this.widget.getClassName(key, "");
+    var className = this._theme._getClassName(key, "");
     return (this.className)
         ? className + " " + this.className
         : className;
@@ -121,8 +153,9 @@ webui.@THEME_JS@.widget.button.prototype.getClassName = function() {
  * user's className property is always appended last).
  * </p>
  * @return {String} The outermost HTML element class name.
+ * @private
  */
-webui.@THEME_JS@.widget.button.prototype.getHoverClassName = function() {
+webui.@THEME_JS@.widget.button.prototype._getHoverClassName = function() {
     var key = null;
 
     if (this.mini == true && this.primary == true) {
@@ -135,7 +168,7 @@ webui.@THEME_JS@.widget.button.prototype.getHoverClassName = function() {
         key = "BUTTON2_HOVER";		// secondaryHovClassName;
     }
 
-    var className = this.widget.getClassName(key, "");
+    var className = this._theme._getClassName(key, "");
     return (this.className)
         ? className + " " + this.className
         : className;
@@ -143,12 +176,12 @@ webui.@THEME_JS@.widget.button.prototype.getHoverClassName = function() {
     
 /**
  * This function is used to get widget properties. Please see the 
- * setProps() function for a list of supported properties.
+ * constructor detail for a list of supported properties.
  *
  * @return {Object} Key-Value pairs of properties.
  */
 webui.@THEME_JS@.widget.button.prototype.getProps = function() {
-    var props = this.inherited("getProps", arguments);
+    var props = this._inherited("getProps", arguments);
 
     // Set properties.
     if (this.alt) { props.alt = this.alt; }
@@ -167,15 +200,16 @@ webui.@THEME_JS@.widget.button.prototype.getProps = function() {
  *
  * @param {Event} event The JavaScript event.
  * @return {boolean} true if successful; otherwise, false.
+ * @private
  */
-webui.@THEME_JS@.widget.button.prototype.onBlurCallback = function(event) {
+webui.@THEME_JS@.widget.button.prototype._onBlurCallback = function(event) {
     if (this.disabled == true) {
         return true;
     }
     // Prevent errors during page submit, when modules have not been loaded.
     try {
         // Set style class.
-        this.domNode.className = this.getClassName();
+        this.domNode.className = this._getClassName();
     } catch (err) {}
     return true;
 };
@@ -185,28 +219,30 @@ webui.@THEME_JS@.widget.button.prototype.onBlurCallback = function(event) {
  *
  * @param {Event} event The JavaScript event.
  * @return {boolean} true if successful; otherwise, false.
+ * @private
  */
-webui.@THEME_JS@.widget.button.prototype.onFocusCallback = function(event) {
+webui.@THEME_JS@.widget.button.prototype._onFocusCallback = function(event) {
     if (this.disabled == true) {
         return true;
     }
     // Prevent errors during page submit, when modules have not been loaded.
     try {
         // Set style class.
-        this.domNode.className = this.getHoverClassName();
+        this.domNode.className = this._getHoverClassName();
     } catch (err) {}
     return true;
 };
 
 /**
  * This function is used to fill in remaining template properties, after the
- * buildRendering() function has been processed.
+ * _buildRendering() function has been processed.
  * <p>
  * Note: Unlike Dojo 0.4, the DOM nodes don't exist in the document, yet. 
  * </p>
  * @return {boolean} true if successful; otherwise, false.
+ * @private
  */
-webui.@THEME_JS@.widget.button.prototype.postCreate = function () {
+webui.@THEME_JS@.widget.button.prototype._postCreate = function () {
     // Set ids.
     if (this.id) {
         this.domNode.name = this.id;
@@ -232,64 +268,17 @@ webui.@THEME_JS@.widget.button.prototype.postCreate = function () {
     this.domNode.doClick = this.domNode.click;
 
     // Set events.
-    this.dojo.connect(this.domNode, "onblur", this, "onBlurCallback");
-    this.dojo.connect(this.domNode, "onfocus", this, "onFocusCallback");
-    this.dojo.connect(this.domNode, "onmouseout", this, "onBlurCallback");
-    this.dojo.connect(this.domNode, "onmouseover", this, "onFocusCallback");
+    this._dojo.connect(this.domNode, "onblur", this, "_onBlurCallback");
+    this._dojo.connect(this.domNode, "onfocus", this, "_onFocusCallback");
+    this._dojo.connect(this.domNode, "onmouseout", this, "_onBlurCallback");
+    this._dojo.connect(this.domNode, "onmouseover", this, "_onFocusCallback");
 
-    return this.inherited("postCreate", arguments);
+    return this._inherited("_postCreate", arguments);
 };
 
 /**
- * This function is used to set widget properties using Object literals.
- * <p>
- * Note: This function extends the widget object for later updates. Further, the
- * widget shall be updated only for the given key-value pairs.
- * </p><p>
- * If the notify param is true, the widget's state change event shall be
- * published. This is typically used to keep client-side state in sync with the
- * server.
- * </p>
- *
- * @param {Object} props Key-Value pairs of properties.
- * @config {String} alt Alternate text for image input.
- * @config {String} align Alignment of image input.
- * @config {String} className CSS selector.
- * @config {String} dir Specifies the directionality of text.
- * @config {boolean} disabled Disable element.
- * @config {String} escape HTML escape value (default).
- * @config {String} id Uniquely identifies an element within a document.
- * @config {String} lang Specifies the language of attribute values and content.
- * @config {boolean} mini Set button as mini if true.
- * @config {String} onBlur Element lost focus.
- * @config {String} onClick Mouse button is clicked on element.
- * @config {String} onDblClick Mouse button is double-clicked on element.
- * @config {String} onFocus Element received focus.
- * @config {String} onKeyDown Key is pressed down over element.
- * @config {String} onKeyPress Key is pressed and released over element.
- * @config {String} onKeyUp Key is released over element.
- * @config {String} onMouseDown Mouse button is pressed over element.
- * @config {String} onMouseOut Mouse is moved away from element.
- * @config {String} onMouseOver Mouse is moved onto element.
- * @config {String} onMouseUp Mouse button is released over element.
- * @config {String} onMouseMove Mouse is moved while over element.
- * @config {boolean} primary Set button as primary if true.
- * @config {String} style Specify style rules inline.
- * @config {int} tabIndex Position in tabbing order.
- * @config {String} title Provides a title for element.
- * @config {String} value Value of input.
- * @config {boolean} visible Hide or show element.
- * @param {boolean} notify Publish an event for custom AJAX implementations to listen for.
- * @return {boolean} true if successful; otherwise, false.
- */
-webui.@THEME_JS@.widget.button.prototype.setProps = function(props, notify) {
-    // Note: This function is overridden for JsDoc.
-    return this.inherited("setProps", arguments);
-};
-
-/**
- * This function is used to set widget properties. Please see the setProps() 
- * function for a list of supported properties.
+ * This function is used to set widget properties. Please see the 
+ * constructor detail for a list of supported properties.
  * <p>
  * Note: This function should only be invoked through setProps().
  * </p>
@@ -319,14 +308,14 @@ webui.@THEME_JS@.widget.button.prototype._setProps = function(props) {
         // If escape is false, we want any special sequences in the text 
         // (e.g., "&nbsp;") to be displayed as evaluated (i.e., unescaped).
         this.domNode.value = (new Boolean(this.escape).valueOf() == false)
-            ? this.prototypejs.unescapeHTML(props.value)
+            ? this._proto.unescapeHTML(props.value)
             : props.value;
     }
 
     // Set more properties.
-    this.setCommonProps(this.domNode, props);
-    this.setEventProps(this.domNode, props);
+    this._setCommonProps(this.domNode, props);
+    this._setEventProps(this.domNode, props);
 
     // Set remaining properties.
-    return this.inherited("_setProps", arguments);
+    return this._inherited("_setProps", arguments);
 };

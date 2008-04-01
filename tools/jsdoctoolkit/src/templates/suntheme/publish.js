@@ -69,7 +69,16 @@ function publish(fileGroup, context) {
 	
 	output = classTemplate.process([globals]); // expects an array
 	IO.saveFile(context.d, "globals.html", output);
-	
+
+        // Don't show private classes in index template unless -p option is used.
+        if (JsDoc.opt.p != true) {
+            for (var c in allClasses) {
+                if (c.indexOf("._") != -1) {
+                    delete(allClasses[c]);
+                }
+            }
+        }
+
 	var output = indexTemplate.process(allClasses);
 	IO.saveFile(context.d, "allclasses-frame.html", output);
 	IO.copyFile(context.t+"index.html", context.d);

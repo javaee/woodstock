@@ -218,9 +218,9 @@ public class OrderableListRenderer extends ListRendererBase {
                 .put("moveMessage", styles[14]);
 
             // Append JavaScript.
-            buff.append(JavaScriptUtilities.getModule("orderableList"))
+            buff.append(JavaScriptUtilities.getModule("_html.orderableList"))
                 .append("\n") // NOI18N
-                .append(JavaScriptUtilities.getModuleName("orderableList._init")) // NOI18N
+                .append(JavaScriptUtilities.getModuleName("_html.orderableList._init")) // NOI18N
                 .append("(") //NOI18N
                 .append(JSONUtilities.getString(json))
                 .append(");"); //NOI18N

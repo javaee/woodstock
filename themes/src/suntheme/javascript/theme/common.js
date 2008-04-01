@@ -20,11 +20,11 @@
  * Copyright 2008 Sun Microsystems, Inc. All rights reserved.
  */
 
-webui.@THEME_JS@._dojo.provide("webui.@THEME_JS@.theme.common");
+webui.@THEME_JS@._base.dojo.provide("webui.@THEME_JS@.theme.common");
 
-webui.@THEME_JS@._dojo.require("webui.@THEME_JS@.config");
-webui.@THEME_JS@._dojo.require("webui.@THEME_JS@._dojo.i18n");
-webui.@THEME_JS@._dojo.require("webui.@THEME_JS@.prototypejs");
+webui.@THEME_JS@._base.dojo.require("webui.@THEME_JS@._base.config");
+webui.@THEME_JS@._base.dojo.require("webui.@THEME_JS@._base.dojo.i18n");
+webui.@THEME_JS@._base.dojo.require("webui.@THEME_JS@._base.proto");
 
 /**
  * @class This class contains common functions to obtain theme properties.
@@ -41,9 +41,6 @@ webui.@THEME_JS@._dojo.require("webui.@THEME_JS@.prototypejs");
  * <p>
  * Each category has a set of properties. See the methods in
  * webui.@THEME_JS@.theme.common for obtaining the theme property values.
- * </p><p>
- * webui.@THEME_JS@._dojo.requireLocalization is reimplemented here in order to perform
- * hierarchical extension of the theme for application theme overrides.
  * </p>
  * @static
  */
@@ -73,112 +70,121 @@ webui.@THEME_JS@.theme.common = {
 
         // Register module path.
 	if (props.modulePath) {
-	    webui.@THEME_JS@._dojo.registerModulePath(module, props.modulePath);
+	    webui.@THEME_JS@._base.dojo.registerModulePath(module, props.modulePath);
 	}
 
         // Load the javascript theme.
         //
         // Note: Default to "ROOT" for base locales so multiple requests are not
         // generated.
-        theme.requireLocalization(module, props.bundle, 
+        theme._requireLocalization(module, props.bundle, 
             (props.locale == "en" || props.locale == "en-us") ? "ROOT" : props.locale);
 
-        theme.baseTheme = webui.@THEME_JS@._dojo.i18n.getLocalization(module,
+        theme.baseTheme = webui.@THEME_JS@._base.dojo.i18n.getLocalization(module,
             props.bundle, props.locale);
 
         if (props.custom instanceof Array) {
             for (var i = 0; i < props.custom.length; ++i) {
-                theme.extendBaseTheme(props.custom[i]);
+                theme._extendBaseTheme(props.custom[i]);
             }
         } else if (typeof(props.custom) == "string") {
-            theme.extendBaseTheme(props.custom);
+            theme._extendBaseTheme(props.custom);
         }
         return true;
     },
 
     /**
-     * Return the theme prefix, this is the application context
-     * concatenated with the theme servlet context.
+     * Merge the baseTheme with an application's theme overrides
+     * "themePackage" is a "dot" separated string. The "bundle"
+     * is the last segment and the prefix segments are the module.
+     * Return true if the base theme was extended else false.
      *
-     * @return {String} The theme prefix.
-     */
-    getPrefix: function() {
-	return webui.@THEME_JS@.config.theme.prefix;
-    },
-
-    /**
-     * Returns a theme property "theme[category][key]" or null, never "".
-     *
-     * @param {String} category
-     * @param {String} key
-     * @return {String} The theme property.
-     */
-    getProperty: function(category, key) {
-        try {
-            var p = webui.@THEME_JS@.theme.common.baseTheme[category][key];
-            return p == null || p == "" ? null : p;
-        } catch (e) {
-            return null;
-        }
-    },
-
-    /**
-     * Returns the theme properties for a theme category or null.
-     *
-     * @param {String} category
-     * @return {Object} Key-Value pairs of properties.
-     */
-    getProperties: function(category) {
-        try {
-            var p = webui.@THEME_JS@.theme.common.baseTheme[category];
-            return p == null || p == "" ? null : p;
-        } catch (e) {
-            return null;
-        }
-    },
-
-    /**
-     * Returns a formatted message if "params" is not null, else
-     * the literal value of "getProperty("messages", prop) or
-     * null if there is no value for key.
-     *
-     * @param {String} key
-     * @param {Array} params
-     * @return {String} A formatted message.
-     */
-    getMessage: function(key, params) {
-	var msg = webui.@THEME_JS@.theme.common.getProperty("messages", key);
-	if (msg == null) {
-	    return null;
-	}
-	if (params != null) {
-            return msg.replace(/\$\{(\w+)\}/g, function(match, key){
-                if (typeof(params[key]) != "undefined" && params[key] != null) {
-                    return params[key];
-                }
-            });
-	} else {
-	    return msg;
-	}
-    },
-
-    /**
+     * @param {String} themePackage
+     * @return {boolean} true if successful; otherwise, false.
      * @private
-     * @return {Object} Key-Value pairs of properties.
      */
-    _getImageProp: function(prop, isText) {
+    _extendBaseTheme: function(themePackage) {
+        if (themePackage == null) {
+            return false;
+        }
+        var config = webui.@THEME_JS@._base.config;
         var theme = webui.@THEME_JS@.theme.common;
-	var value = theme.getProperty("images", prop);
-	if (value == null || value.length == 0) {
-	    return null;
-	}
-	if (isText) {
-	    var msg = theme.getMessage(value, null);
-	    if (msg != null && msg.length != 0) {
-		value = msg;
+        var segments = themePackage.split(".");
+        var bundle = segments[segments.length - 1];
+        var module = segments.slice(0, segments.length - 1).join(".");
+
+        try {
+            // If there is no module, i.e. just a bundle segment
+            // create a module name in the theme namespace.
+            //
+	    var modulePath = theme._getPrefix();
+            if (module == null || module == "") {
+                theme.custom = {};
+                module = "webui.@THEME_JS@.theme.common.custom";
+            } else {
+		// Only do this if the application did provided a
+		// module. When the application does not provide
+		// a module then ""webui.@THEME_JS@.theme.common.custom"
+		// will be used as the module and then only
+		// the app context needs to be specified as the
+		// modulePath, the root of the resource files.
+		// Other wise the modulePath must include the
+		// appcontext and the module, since this is the
+		// root structure containing the resources.
+		//
+		var re = new RegExp("\\.", "g");
+		modulePath = modulePath + "/" + module.replace(re, "/");
 	    }
-	}
-	return value;
+            webui.@THEME_JS@._base.dojo.registerModulePath(module, modulePath);
+            theme._requireLocalization(module, bundle, config.theme.locale);
+        } catch(e) {
+	    return false;
+        }
+        var newTheme = null;
+        try {
+            newTheme = webui.@THEME_JS@._base.dojo.i18n.getLocalization(module, bundle, 
+                config.theme.locale);
+        } catch(e) {
+	    return false;
+        }
+        // Not sure if we should do the "prototype" magic like
+        // dojo, vs. just replacing the orginal baseTheme values.
+        //
+        if (newTheme != null) {
+            webui.@THEME_JS@._base.proto.extend(theme.baseTheme, newTheme);
+        }
+        return true;
+    },
+
+    /**
+     * Return the selector from the "styles" theme category for key
+     * else null.
+     *
+     * @param {String} key A key defining a theme "styles" property.
+     * @return {String} The selector property.
+     */
+    getClassName: function(key) {
+	return webui.@THEME_JS@.theme.common.getProperty("styles", key);
+    },
+
+    /**
+     * This function returns style class name for a specified selector.
+     * <p>
+     * Note: If the given key doesn't exist in the theme, the method returns the
+     * defaultValue param or null.
+     * </p>
+     * @param {String} key A key defining a theme class name property.
+     * @param {Object} defaultValue Value returned if specified key is not found.
+     * @return {boolean} The style class name for a specified selector.
+     * @private
+     */
+    _getClassName: function(key, defaultValue) {
+        var className =  webui.@THEME_JS@.theme.common.getClassName(key);
+        return (className != null) 
+            ? className
+            : (defaultValue) 
+                ? defaultValue
+                : null;                
     },
 
     /**
@@ -229,7 +235,7 @@ webui.@THEME_JS@.theme.common = {
 	    return null;
 	}
 	var imageObj = {};
-	imageObj["src"] = theme.getPrefix() + src;
+	imageObj["src"] = theme._getPrefix() + src;
 
 	var value = theme._getImageProp(srcProperty + "_WIDTH", false);
 	if (value != null) {
@@ -267,6 +273,25 @@ webui.@THEME_JS@.theme.common = {
     },
 
     /**
+     * @private
+     * @return {Object} Key-Value pairs of properties.
+     */
+    _getImageProp: function(prop, isText) {
+        var theme = webui.@THEME_JS@.theme.common;
+	var value = theme.getProperty("images", prop);
+	if (value == null || value.length == 0) {
+	    return null;
+	}
+	if (isText) {
+	    var msg = theme.getMessage(value, null);
+	    if (msg != null && msg.length != 0) {
+		value = msg;
+	    }
+	}
+	return value;
+    },
+
+    /**
      * This function is used to obtain a the literal "javascript"
      * theme value for "key"
      *
@@ -279,7 +304,7 @@ webui.@THEME_JS@.theme.common = {
 	if (url == null || url.length == 0) {
 	    return null;
 	}
-	return theme.getPrefix() + url;
+	return theme._getPrefix() + url;
     },
 
     /**
@@ -288,8 +313,9 @@ webui.@THEME_JS@.theme.common = {
      *
      * @param {String} key A key defining a theme "javascript" property.
      * @return {String} An array of javascript properties.
+     * @private
      */
-    getJavaScripts: function(key) {
+    _getJavaScripts: function(key) {
         var theme = webui.@THEME_JS@.theme.common;
 	var url = theme.getProperty("javascript", key);
 	if (url == null || url.length == 0) {
@@ -297,9 +323,162 @@ webui.@THEME_JS@.theme.common = {
 	}
         var files = url.split(" ");
         for (i = 0; i < files.length; i++) {
-            files[i] = theme.getPrefix() + files[i];
+            files[i] = theme._getPrefix() + files[i];
         }
 	return files;
+    },
+
+    /**
+     * Returns a formatted message if "params" is not null, else
+     * the literal value of "getProperty("messages", prop) or
+     * null if there is no value for key.
+     *
+     * @param {String} key
+     * @param {Array} params
+     * @return {String} A formatted message.
+     */
+    getMessage: function(key, params) {
+	var msg = webui.@THEME_JS@.theme.common.getProperty("messages", key);
+	if (msg == null) {
+	    return null;
+	}
+	if (params != null) {
+            return msg.replace(/\$\{(\w+)\}/g, function(match, key){
+                if (typeof(params[key]) != "undefined" && params[key] != null) {
+                    return params[key];
+                }
+            });
+	} else {
+	    return msg;
+	}
+    },
+
+    /**
+     * This function returns the theme value defined by <code>key</code>
+     * from the <code>messages</code> theme categpory. If the theme does 
+     * not define a value for <code>key</code>, <code>defaultValue</code>
+     * is returned. If <code>defaultValue</code> is not specified and
+     * <code>key</code> is not defined in the theme <code>null</code>
+     * is returned. The <code>args</code> if not null is assumed to be
+     * an array of strings used to format the theme message value.
+     * <p>
+     * Since the "messages" theme category can contain data
+     * as well as text messages, it is sometimes useful to provide a 
+     * default in case key is not defined.
+     * </p>
+     *
+     * @param {String} key A key defining a theme message property.
+     * @param {Array} Message format arguments
+     * @param {Object} defaultValue The value to return if "key" is not defined.
+     * @return {String} The theme message defined by "key" or "defaultValue".
+     * @private
+     */
+    _getMessage: function(key, args, defaultValue) {
+        var msg =  webui.@THEME_JS@.theme.common.getMessage(key, args);
+        return (msg != null) 
+	    ? msg 
+	    : (defaultValue)
+		? defaultValue
+		: null;                
+    },
+
+    /**
+     * This function returns a boolean value for the theme value defined
+     * by <code>key</code> from the <code>messages</code> theme categpory.
+     * If the theme does not define a value for <code>key</code>,
+     * <code>defaultValue</code> (which is assumed to be a boolean)
+     * is returned. If <code>defaultValue</code> is not specified
+     * and <code>key</code> is not defined in the theme, <code>false</code>
+     * is returned.
+     * <p>
+     * This method converts the theme value, if one exists to all lower
+     * case and then coerces the string to a boolean value as follows.<br/>
+     * "false" == <code>false</code><br/>
+     * "true" == <code>true</code><br/>
+     * All other strings == <code>defaultValue</code> or <code>false</code><br/>
+     * </p>
+     *
+     * @param {String} key A key defining a theme message property.
+     * @param {boolean} defaultValue The value to return if <code>key</code> is 
+     * not defined.
+     * @return {boolean} A theme value defined by <code>key</code>,
+     * <code>defaultValue</code>, or <code>false</code> if <code>key</code>
+     * is not defined.
+     * @private
+     */
+    _getMessageBoolean: function(key, defaultValue) {
+	var result = defaultValue != null ? defaultValue : false;
+        var msg =  webui.@THEME_JS@.theme.common.getMessage(key, null);
+	if (msg == null || msg == "") {
+	    return result;
+	}
+	var msg = msg.toLowerCase();
+	if (msg == "false") {
+	    return false;
+	} else 
+	if (msg == "true") {
+	    return true;
+	} else {
+	    return result;
+	}
+    },
+
+    /**
+     * Return the theme prefix, this is the application context
+     * concatenated with the theme servlet context.
+     *
+     * @return {String} The theme prefix.
+     * @private
+     */
+    _getPrefix: function() {
+	return webui.@THEME_JS@._base.config.theme.prefix;
+    },
+
+    /**
+     * Returns the theme properties for a theme category or null.
+     *
+     * @param {String} category
+     * @return {Object} Key-Value pairs of properties.
+     */
+    getProperties: function(category) {
+        try {
+            var p = webui.@THEME_JS@.theme.common.baseTheme[category];
+            return p == null || p == "" ? null : p;
+        } catch (e) {
+            return null;
+        }
+    },
+
+    /**
+     * Returns a theme property "theme[category][key]" or null, never "".
+     *
+     * @param {String} category
+     * @param {String} key
+     * @return {String} The theme property.
+     */
+    getProperty: function(category, key) {
+        try {
+            var p = webui.@THEME_JS@.theme.common.baseTheme[category][key];
+            return p == null || p == "" ? null : p;
+        } catch (e) {
+            return null;
+        }
+    },
+
+    /**
+     * This function is used to obtain a the literal "stylesheets"
+     * theme value for "key"
+     *
+     * @param {String} key A key defining a theme "stylesheets" property.
+     * @return {String} The javascript property.
+     */
+    getStyleSheets: function(key) {
+        var theme = webui.@THEME_JS@.theme.common;
+	var url = theme.getProperty("stylesheets", key);
+	if (url == null || url.length == 0) {
+	    return null;
+	}
+	return theme._getPrefix() + url;
     },
 
     /**
@@ -308,8 +487,9 @@ webui.@THEME_JS@.theme.common = {
      *
      * @param {String} key A key defining a theme "stylesheets" property.
      * @return {String} An array of style sheet properties.
+     * @private
      */
-    getStyleSheets: function(key) {
+    _getStyleSheets: function(key) {
         var theme = webui.@THEME_JS@.theme.common;
 	var url = theme.getProperty("stylesheets", key);
 	if (url == null || url.length == 0) {
@@ -317,20 +497,9 @@ webui.@THEME_JS@.theme.common = {
 	}
         var files = url.split(" ");
         for (i = 0; i < files.length; i++) {
-            files[i] = theme.getPrefix() + files[i];
+            files[i] = theme._getPrefix() + files[i];
         }
 	return files;
-    },
-
-    /**
-     * Return the selector from the "styles" theme category for key
-     * else null.
-     *
-     * @param {String} key A key defining a theme "styles" property.
-     * @return {String} The selector property.
-     */
-    getClassName: function(key) {
-	return webui.@THEME_JS@.theme.common.getProperty("styles", key);
     },
 
     /**
@@ -345,72 +514,61 @@ webui.@THEME_JS@.theme.common = {
     },
 
     /**
-     * Merge the baseTheme with an application's theme overrides
-     * "themePackage" is a "dot" separated string. The "bundle"
-     * is the last segment and the prefix segments are the module.
-     * Return true if the base theme was extended else false.
-     *
-     * @param {String} themePackage
-     * @return {boolean} true if successful; otherwise, false.
+     * This function is used to obtain a template path, or returns null
+     * if key is not found or is not a path, i.e. begins with "<".
+     * 
+     * @param {String} key A key defining a theme "templates" property.
+     * @return {String} The template path.
+     * @private
      */
-    extendBaseTheme: function(themePackage) {
-        if (themePackage == null) {
-            return false;
-        }
-        var config = webui.@THEME_JS@.config;
+    _getTemplatePath: function(key) {
         var theme = webui.@THEME_JS@.theme.common;
-        var segments = themePackage.split(".");
-        var bundle = segments[segments.length - 1];
-        var module = segments.slice(0, segments.length - 1).join(".");
+        var template = theme.getTemplate(key);
+        if (theme._isTemplatePath(template)) {
+            return theme._getPrefix() + "/" + template;
+        } else {
+            return null;
+        }
+    },
 
-        try {
-            // If there is no module, i.e. just a bundle segment
-            // create a module name in the theme namespace.
-            //
-	    var modulePath = theme.getPrefix();
-            if (module == null || module == "") {
-                theme.custom = {};
-                module = "webui.@THEME_JS@.theme.common.custom";
-            } else {
-		// Only do this if the application did provided a
-		// module. When the application does not provide
-		// a module then ""webui.@THEME_JS@.theme.common.custom"
-		// will be used as the module and then only
-		// the app context needs to be specified as the
-		// modulePath, the root of the resource files.
-		// Other wise the modulePath must include the
-		// appcontext and the module, since this is the
-		// root structure containing the resources.
-		//
-		var re = new RegExp("\\.", "g");
-		modulePath = modulePath + "/" + module.replace(re, "/");
-	    }
-            webui.@THEME_JS@._dojo.registerModulePath(module, modulePath);
-            theme.requireLocalization(module, bundle, config.theme.locale);
-        } catch(e) {
-	    return false;
+    /**
+     * This function is used to obtain a template string, or returns null
+     * if key is not found or is not a string, i.e. does not begin with "<".
+     *
+     * @param {String} key A key defining a theme "templates" property.
+     * @return {String} The template string.
+     * @private
+     */
+    _getTemplateString: function(key) {
+        var theme = webui.@THEME_JS@.theme.common;
+        var template = theme.getTemplate(key);
+        if (!theme._isTemplatePath(template)) {
+            return template;
+        } else {
+            return null;
         }
-        var newTheme = null;
-        try {
-            newTheme = webui.@THEME_JS@._dojo.i18n.getLocalization(module, bundle, 
-                config.theme.locale);
-        } catch(e) {
-	    return false;
-        }
-        // Not sure if we should do the "prototype" magic like
-        // dojo, vs. just replacing the orginal baseTheme values.
-        //
-        if (newTheme != null) {
-            webui.@THEME_JS@.prototypejs.extend(theme.baseTheme, newTheme);
-        }
-        return true;
+    },
+
+    /**
+     * This function is used to test HTML template strings. 
+     * <p>
+     * Note: This function returns true if the "template" is a template path, 
+     * and false if it is a template String. False is also returned if the value
+     * is null or the empty string.
+     * </p>
+     * @param {String} template The template string to test.
+     * @return {boolean} true if string is an HTML template.
+     * @private
+     */
+    _isTemplatePath: function(template) {
+        return (template != null && template.charAt(0) != '<');
     },
 
     /**
      * Declares translated resources and loads them if necessary, in the same 
-     * style as webui.@THEME_JS@._dojo.require. Contents of the resource bundle are typically 
+     * style as webui.@THEME_JS@._base.dojo.require. Contents of the resource bundle are typically 
      * strings, but may be any name/value pair, represented in JSON format. 
-     * See also webui.@THEME_JS@._dojo.i18n.getLocalization.
+     * See also webui.@THEME_JS@._base.dojo.i18n.getLocalization.
      * <p>
      * Load translated resource bundles provided underneath the "nls" directory
      * within a package. Translated resources may be located in different
@@ -468,18 +626,19 @@ webui.@THEME_JS@.theme.common = {
      * directory in which the bundle is found.
      * @param {String} bundleName The bundle name, i.e. the filename without the
      * '.js' suffix locale: the locale to load (optional). By default, the 
-     * browser's user locale as defined by webui.@THEME_JS@._dojo.locale
+     * browser's user locale as defined by webui.@THEME_JS@._base.dojo.locale
      * @param {String} locale The current locale.
      * @param {String} availableFlatLocales A comma-separated list of the 
      * available, flattened locales for this bundle.
      * @return {boolean} true if successful; otherwise, false.
+     * @private
      */
-    requireLocalization: function(moduleName, bundleName, locale, 
+    _requireLocalization: function(moduleName, bundleName, locale, 
             availableFlatLocales) {
-        // Taken from webui.@THEME_JS@._dojo.js in order to override the callback function that is 
+        // Taken from webui.@THEME_JS@._base.dojo.js in order to override the callback function that is 
         // passed to loadPath, in to perform hierarchical "extension" of properties.
 
-        var targetLocale = webui.@THEME_JS@._dojo.i18n.normalizeLocale(locale);
+        var targetLocale = webui.@THEME_JS@._base.dojo.i18n.normalizeLocale(locale);
         var bundlePackage = [moduleName, "nls", bundleName].join(".");
         
         // Find the best-match locale to load if we have available flat locales.
@@ -501,39 +660,39 @@ webui.@THEME_JS@.theme.common = {
 
         // See if the desired locale is already loaded.
         var tempLocale = availableFlatLocales ? bestLocale : targetLocale;
-        var bundle = webui.@THEME_JS@._dojo._loadedModules[bundlePackage];
+        var bundle = webui.@THEME_JS@._base.dojo._loadedModules[bundlePackage];
         var localizedBundle = null;
         if (bundle) {
-            if (webui_@THEME_JS@_config.djConfig.localizationComplete && bundle._built) {
+            if (webui.@THEME_JS@._base.config.djConfig.localizationComplete && bundle._built) {
                 return false;    
             }
             var jsLoc = tempLocale.replace(/-/g, '_');
             var translationPackage = bundlePackage+"."+jsLoc;
-            localizedBundle = webui.@THEME_JS@._dojo._loadedModules[translationPackage];
+            localizedBundle = webui.@THEME_JS@._base.dojo._loadedModules[translationPackage];
         }
 
         if (!localizedBundle) {
-            bundle = webui.@THEME_JS@._dojo["provide"](bundlePackage);
-            var syms = webui.@THEME_JS@._dojo._getModuleSymbols(moduleName);
+            bundle = webui.@THEME_JS@._base.dojo["provide"](bundlePackage);
+            var syms = webui.@THEME_JS@._base.dojo._getModuleSymbols(moduleName);
             var modpath = syms.concat("nls").join("/");
             var parent;
 
-            webui.@THEME_JS@._dojo.i18n._searchLocalePath(tempLocale, availableFlatLocales, function(loc) {
+            webui.@THEME_JS@._base.dojo.i18n._searchLocalePath(tempLocale, availableFlatLocales, function(loc) {
                 var jsLoc = loc.replace(/-/g, '_');
                 var translationPackage = bundlePackage + "." + jsLoc;
                 var loaded = false;
-                if (!webui.@THEME_JS@._dojo._loadedModules[translationPackage]) {
+                if (!webui.@THEME_JS@._base.dojo._loadedModules[translationPackage]) {
                     // Mark loaded whether it's found or not, 
                     // so that further load attempts will not 
                     // be made
-                    webui.@THEME_JS@._dojo["provide"](translationPackage);
+                    webui.@THEME_JS@._base.dojo["provide"](translationPackage);
                     var module = [modpath];
                     if (loc != "ROOT") {
                         module.push(loc);    
                     }
                     module.push(bundleName);
                     var filespec = module.join("/") + '.js';
-                    loaded = webui.@THEME_JS@._dojo._loadPath(filespec, null, function(hash) {
+                    loaded = webui.@THEME_JS@._base.dojo._loadPath(filespec, null, function(hash) {
                         // Use singleton with prototype to point to parent
                         // bundle, then mix-in result from loadPath
                         var clazz = function() {};
@@ -541,7 +700,7 @@ webui.@THEME_JS@.theme.common = {
                         bundle[jsLoc] = new clazz();
                         // Use "hierarchical" extend.
                         // for (var j in hash){ bundle[jsLoc][j] = hash[j]; }
-                        webui.@THEME_JS@.prototypejs.extend(bundle[jsLoc], hash);
+                        webui.@THEME_JS@._base.proto.extend(bundle[jsLoc], hash);
                     });
                 } else {
                     loaded = true;
@@ -574,4 +733,4 @@ webui.@THEME_JS@.theme.common = {
 };
 
 // Initialize the theme.
-webui.@THEME_JS@.theme.common._init(webui.@THEME_JS@.config.theme);
+webui.@THEME_JS@.theme.common._init(webui.@THEME_JS@._base.config.theme);
