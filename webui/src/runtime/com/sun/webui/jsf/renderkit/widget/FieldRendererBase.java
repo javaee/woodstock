@@ -24,6 +24,7 @@ package com.sun.webui.jsf.renderkit.widget;
 
 import com.sun.webui.jsf.component.ComplexComponent;
 import com.sun.webui.jsf.component.Field;
+import com.sun.webui.jsf.util.WidgetUtilities;
 
 import java.io.IOException;
 import java.util.Map;
@@ -91,11 +92,15 @@ public abstract class FieldRendererBase extends RendererBase {
     
     /**
      * Helper method to return a <code>JSONObject</code> of label properties.
-     * This method retrieves label properties from specified field and puts them 
-     * in the label array. 
+     * If a <code>Field.LABEL_FACET</code> exists return the
+     * <code>JSONObject</code> representing that facet. If there is no facet
+     * and <code>field.getLabel()</code> returns non null, return a
+     * <code>JSONObject</code> containing <code>value</code>
+     * and <code>level</code> properties.
+     * If there is no label return <code>null</code>.
      * 
      * @param context FacesContext for the current request.
-     * @param component Field to be rendered.
+     * @param field Field to be rendered.
      */
     protected JSONObject getLabel(FacesContext context, 
             Field field) throws IOException, JSONException {
@@ -103,12 +108,25 @@ public abstract class FieldRendererBase extends RendererBase {
         if (field == null) {
             throw new RuntimeException("field must not be null"); //NOI18N
         }
-        JSONObject json = new JSONObject();
 
-        json.put("value", field.getLabel())
-            .put("level", field.getLabelLevel());
-
-        return json;
+        UIComponent labelFacet = field.getFacet(field.LABEL_FACET);
+        if (labelFacet != null) {
+	    return WidgetUtilities.renderComponent(context, labelFacet);
+        } else {
+	    // "" is a valid label.
+	    //
+	    String lvalue = field.getLabel();
+            if (lvalue != null) {
+		JSONObject json = new JSONObject();
+		// allow client-side to render widget by providing
+		// required values to it
+		//
+		json.put("value", lvalue);
+		json.put("level", field.getLabelLevel());
+		return json;
+	    }
+        }                
+        return null;
     }
 
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~

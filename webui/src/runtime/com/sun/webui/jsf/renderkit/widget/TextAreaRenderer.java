@@ -122,17 +122,10 @@ public class TextAreaRenderer extends FieldRendererBase {
             .put("title", field.getToolTip())        
             .put("autoSave", autoSave);
         
-        //check if facet label has been provided
-        UIComponent labelFacet = field.getFacet(field.LABEL_FACET);
-        if (labelFacet != null) {
-            json.put("label", WidgetUtilities.renderComponent(context, 
-            labelFacet));
-        } else {
-            // allow client-side to render widget by providing required values to it            
-            if (field.getLabel() != null) {
-                json.put("label", getLabel(context, field));
-            }
-        }                
+	JSONObject jlabel = getLabel(context, field);
+	if (jlabel != null) {
+	    json.put("label", jlabel);
+	}
         
         // Add attributes.
         JSONUtilities.addStringProperties(stringAttributes, component, json);
