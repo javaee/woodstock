@@ -275,6 +275,10 @@
 		    value="${DOCHOSTPORT}/${DOCAPPCONTEXT}"/>
 	      <filter token="SUNTHEMEPKGDIR"
 		    value="${SUNTHEMEPKGDIR}"/>
+	      <filter token="THEMEVERSION"
+		    value="${ThemeVersion}"/>
+	      <filter token="CACHEVERSION"
+		    value="${CacheVersion}"/>
 	  </filterset>
       </copy>
       <copy todir="${build}/web">

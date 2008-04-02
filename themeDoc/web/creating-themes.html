@@ -23,7 +23,7 @@
  Copyright 2007 Sun Microsystems, Inc. All rights reserved.
 -->
 
-<title>5. Creating Themes - The Theme and Woodstock Web Applications - Version 4.2</title>
+<title>5. Creating Themes - The Theme and Woodstock Web Applications - Version @THEMEVERSION@</title>
 
 <meta name="COPYRIGHT" 
     content="Woodstock Web Components Theme Documentation">
@@ -42,7 +42,7 @@
 	<tr>
 	<td class="MstTdTtl"><div class="MstDivTtl">
 	<div class="Mst1TtlTxt">
-	The Theme and Woodstock Web Applications - Version 4.2
+	The Theme and Woodstock Web Applications - Version @THEMEVERSION@
 	</div>
 	</div>
 	<!--
@@ -286,7 +286,7 @@ The destination path including the jar name for the theme jar.
 <tr><td>
 <b>theme.version</b>
 </td><td>
-4.2
+@THEMEVERSION@
 </td><td>
 The theme version as reported by the ThemeService implementation. This
 value must be the same as the theme that is being cloned.
@@ -462,7 +462,7 @@ However internally in the
 <a href="javadoc/webui/com/sun/webui/jsf/theme/ThemeUtilities.html">
 <code>ThemeUtilities</code></a> class, used by all Woodstock components, a
 specific version is always spefied in calls to <code>getTheme</code>.
-(As of this writing it is "4.2").
+(As of this writing it is "@THEMEVERSION@").
 Therefore, the first theme that satisfies the version requirement is used
 by the components.
 </p>

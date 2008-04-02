@@ -106,11 +106,20 @@
       <fileset dir="${src}">
         <include name="**/*.gif"/>
         <include name="**/*.png"/>
+      </fileset>
+    </copy>
+
+    <copy todir="${build}/classes">
+      <fileset dir="${src}">
         <include name="**/*.txt"/>
         <include name="**/*.properties"/>
         <include name="**/*.css"/>
         <include name="**/*.js"/>
       </fileset>
+      <filterset>
+	  <filter token="THEMEVERSION"
+		value="${ThemeVersion}"/>
+      </filterset>
     </copy>
 
     <copy todir="${build}/classes">
