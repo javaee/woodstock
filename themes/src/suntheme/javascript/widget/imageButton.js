@@ -63,7 +63,7 @@ webui.@THEME_JS@._base.dojo.require("webui.@THEME_JS@.widget.button");
 webui.@THEME_JS@._base.dojo.declare("webui.@THEME_JS@.widget.imageButton",
         webui.@THEME_JS@.widget.button, {
     // Set defaults.
-    _widgetName: "imageButton"  // Required for theme properties.
+    _widgetType: "imageButton"  // Required for theme properties.
 });
 
 /**

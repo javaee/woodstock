@@ -39,8 +39,8 @@ if(typeof webui.@THEME_JS@._base.dojo == "undefined"){
 
 (function(){
 	// make sure djConfig is defined
-	if(typeof this.webui_@THEME_JS@.djConfig == "undefined"){ // Woodstock: Modified for custom name space.
-		this.webui_@THEME_JS@.djConfig = {};
+	if(typeof this.webui_@THEME_JS@._djConfig == "undefined"){ // Woodstock: Modified for custom name space.
+		this.webui_@THEME_JS@._djConfig = {};
 	}
 
 	// firebug stubs
@@ -76,7 +76,7 @@ if(typeof webui.@THEME_JS@._base.dojo == "undefined"){
 	//		code runs correctly in contexts other than web browsers (eg: Rhino on a server).
 	webui.@THEME_JS@._base.dojo.global = this;
 
-	var _config =/*===== webui_@THEME_JS@.djConfig = =====*/{
+	var _config =/*===== webui_@THEME_JS@._djConfig = =====*/{
 		isDebug: false,
 		libraryScriptUri: "",
 		preventBackButtonFix: true,
@@ -84,8 +84,8 @@ if(typeof webui.@THEME_JS@._base.dojo == "undefined"){
 	};
 
 	for(var option in _config){
-		if(typeof webui_@THEME_JS@.djConfig[option] == "undefined"){
-			webui_@THEME_JS@.djConfig[option] = _config[option];
+		if(typeof webui_@THEME_JS@._djConfig[option] == "undefined"){
+			webui_@THEME_JS@._djConfig[option] = _config[option];
 		}
 	}
 
@@ -96,7 +96,7 @@ if(typeof webui.@THEME_JS@._base.dojo == "undefined"){
 	}
 
 	// Override locale setting, if specified
-	webui.@THEME_JS@._base.dojo.locale = webui_@THEME_JS@.djConfig.locale;
+	webui.@THEME_JS@._base.dojo.locale = webui_@THEME_JS@._djConfig.locale;
 
 	//TODOC:  HOW TO DOC THIS?
 	webui.@THEME_JS@._base.dojo.version = {
@@ -340,8 +340,8 @@ if(typeof webui.@THEME_JS@._base.dojo == "undefined"){
 		//		a callback function to pass the result of evaluating the script
 
 		var uri = (((relpath.charAt(0) == '/' || relpath.match(/^\w+:/))) ? "" : this.baseUrl) + relpath;
-		if(webui_@THEME_JS@.djConfig.cacheBust && d.isBrowser){
-			uri += "?" + String(webui_@THEME_JS@.djConfig.cacheBust).replace(/\W+/g,"");
+		if(webui_@THEME_JS@._djConfig.cacheBust && d.isBrowser){
+			uri += "?" + String(webui_@THEME_JS@._djConfig.cacheBust).replace(/\W+/g,"");
 		}
 		try{
 			return !module ? this._loadUri(uri, cb) : this._loadUriAndCheck(uri, module, cb); // Boolean
@@ -489,7 +489,7 @@ if(typeof webui.@THEME_JS@._base.dojo == "undefined"){
 		//still for non-browser environments though). This might also help the issue with
 		//FF 2.0 and freezing issues where we try to do sync xhr while background css images
 		//are being loaded (trac #2572)? Consider for 0.9.
-		if(typeof setTimeout == "object" || (webui_@THEME_JS@.djConfig["useXDomain"] && d.isOpera)){
+		if(typeof setTimeout == "object" || (webui_@THEME_JS@._djConfig["useXDomain"] && d.isOpera)){
 			setTimeout("webui.@THEME_JS@._base.dojo.loaded();", 0);
 		}else{
 			d.loaded();
@@ -904,15 +904,15 @@ if(typeof window != 'undefined'){
 //				var m = src.match(rePkg);
 //				if(m){
 //					// find out where we came from
-//					if(!webui_@THEME_JS@.djConfig["baseUrl"]){
-//						webui_@THEME_JS@.djConfig["baseUrl"] = src.substring(0, m.index);
+//					if(!webui_@THEME_JS@._djConfig["baseUrl"]){
+//						webui_@THEME_JS@._djConfig["baseUrl"] = src.substring(0, m.index);
 //					}
 //					// and find out if we need to modify our behavior
 //					var cfg = scripts[i].getAttribute("djConfig");
 //					if(cfg){
 //						var cfgo = eval("({ "+cfg+" })");
 //						for(var x in cfgo){
-//							webui_@THEME_JS@.djConfig[x] = cfgo[x];
+//							webui_@THEME_JS@._djConfig[x] = cfgo[x];
 //						}
 //					}
 //					break; // "first Dojo wins"
@@ -921,10 +921,10 @@ if(typeof window != 'undefined'){
 //		}
 
 		// Woodstock: Append slash typically left by parsing script tag.
-                if (webui_@THEME_JS@.djConfig["baseUrl"].charAt(webui_@THEME_JS@.djConfig["baseUrl"].length) != '/') {
-			webui_@THEME_JS@.djConfig["baseUrl"] += "/";
+                if (webui_@THEME_JS@._djConfig["baseUrl"].charAt(webui_@THEME_JS@._djConfig["baseUrl"].length) != '/') {
+			webui_@THEME_JS@._djConfig["baseUrl"] += "/";
 		}
-		d.baseUrl = webui_@THEME_JS@.djConfig["baseUrl"];
+		d.baseUrl = webui_@THEME_JS@._djConfig["baseUrl"];
 
 		// fill in the rendering support information in webui.@THEME_JS@._base.dojo.render.*
 		var n = navigator;
@@ -953,14 +953,14 @@ if(typeof window != 'undefined'){
 		//Workaround to get local file loads of dojo to work on IE 7
 		//by forcing to not use native xhr.
 		if(webui.@THEME_JS@._base.dojo.isIE && (window.location.protocol === "file:")){
-			webui_@THEME_JS@.djConfig.ieForceActiveXXhr=true;
+			webui_@THEME_JS@._djConfig.ieForceActiveXXhr=true;
 		}
 
 		var cm = document["compatMode"];
 		d.isQuirks = (cm == "BackCompat")||(cm == "QuirksMode")||(d.isIE < 6);
 
 		// TODO: is the HTML LANG attribute relevant?
-		d.locale = webui_@THEME_JS@.djConfig.locale || (d.isIE ? n.userLanguage : n.language).toLowerCase();
+		d.locale = webui_@THEME_JS@._djConfig.locale || (d.isIE ? n.userLanguage : n.language).toLowerCase();
 
 		d._println = console.debug;
 
@@ -973,7 +973,7 @@ if(typeof window != 'undefined'){
 			//		object.
 			var http = null;
 			var last_e = null;
-			if(!webui.@THEME_JS@._base.dojo.isIE || !webui_@THEME_JS@.djConfig.ieForceActiveXXhr){
+			if(!webui.@THEME_JS@._base.dojo.isIE || !webui_@THEME_JS@._djConfig.ieForceActiveXXhr){
 				try{ http = new XMLHttpRequest(); }catch(e){}
 			}
 			if(!http){
@@ -1090,7 +1090,7 @@ if(typeof window != 'undefined'){
 		//		due to a threading issue in Firefox 2.0, we can't enable
 		//		DOMContentLoaded on that platform. For more information, see:
 		//		http://trac.dojotoolkit.org/ticket/1704
-		if(webui.@THEME_JS@._base.dojo.isOpera|| (webui.@THEME_JS@._base.dojo.isMoz && (webui_@THEME_JS@.djConfig["enableMozDomContentLoaded"] === true))){
+		if(webui.@THEME_JS@._base.dojo.isOpera|| (webui.@THEME_JS@._base.dojo.isMoz && (webui_@THEME_JS@._djConfig["enableMozDomContentLoaded"] === true))){
 			document.addEventListener("DOMContentLoaded", webui.@THEME_JS@._base.dojo._loadInit, null);
 		}
 
@@ -1173,20 +1173,20 @@ if(typeof window != 'undefined'){
 } //if (typeof window != 'undefined')
 
 //Load debug code if necessary.
-// webui.@THEME_JS@._base.dojo.requireIf((webui_@THEME_JS@.djConfig["isDebug"] || webui_@THEME_JS@.djConfig["debugAtAllCosts"]), "webui.@THEME_JS@._base.dojo.debug");
+// webui.@THEME_JS@._base.dojo.requireIf((webui_@THEME_JS@._djConfig["isDebug"] || webui_@THEME_JS@._djConfig["debugAtAllCosts"]), "webui.@THEME_JS@._base.dojo.debug");
 
 //window.widget is for Dashboard detection
 //The full conditionals are spelled out to avoid issues during builds.
 //Builds may be looking for require/requireIf statements and processing them.
-// webui.@THEME_JS@._base.dojo.requireIf(webui_@THEME_JS@.djConfig["debugAtAllCosts"] && !window.widget && !webui_@THEME_JS@.djConfig["useXDomain"], "webui.@THEME_JS@._base.dojo.browser_debug");
-// webui.@THEME_JS@._base.dojo.requireIf(webui_@THEME_JS@.djConfig["debugAtAllCosts"] && !window.widget && webui_@THEME_JS@.djConfig["useXDomain"], "webui.@THEME_JS@._base.dojo.browser_debug_xd");
+// webui.@THEME_JS@._base.dojo.requireIf(webui_@THEME_JS@._djConfig["debugAtAllCosts"] && !window.widget && !webui_@THEME_JS@._djConfig["useXDomain"], "webui.@THEME_JS@._base.dojo.browser_debug");
+// webui.@THEME_JS@._base.dojo.requireIf(webui_@THEME_JS@._djConfig["debugAtAllCosts"] && !window.widget && webui_@THEME_JS@._djConfig["useXDomain"], "webui.@THEME_JS@._base.dojo.browser_debug_xd");
 
-if(webui_@THEME_JS@.djConfig.isDebug){
+if(webui_@THEME_JS@._djConfig.isDebug){
 		webui.@THEME_JS@._base.dojo.require("webui.@THEME_JS@._base.dojo._firebug.firebug");
 }
 
-if(webui_@THEME_JS@.djConfig.debugAtAllCosts){
-	webui_@THEME_JS@.djConfig.useXDomain = true;
+if(webui_@THEME_JS@._djConfig.debugAtAllCosts){
+	webui_@THEME_JS@._djConfig.useXDomain = true;
 	webui.@THEME_JS@._base.dojo.require("webui.@THEME_JS@._base.dojo._base._loader.loader_xd");
 	webui.@THEME_JS@._base.dojo.require("webui.@THEME_JS@._base.dojo._base._loader.loader_debug");
 	
@@ -2107,9 +2107,9 @@ webui.@THEME_JS@._base.dojo.provide("webui.@THEME_JS@._base.dojo._base");
 //webui.@THEME_JS@._base.dojo.requireIf(webui.@THEME_JS@._base.dojo.isBrowser, "webui.@THEME_JS@._base.dojo._base.fx"); // Woodstock: Unused.
 
 (function(){
-	if(webui_@THEME_JS@.djConfig.require){
-		for(var x=0; x<webui_@THEME_JS@.djConfig.require.length; x++){
-			webui.@THEME_JS@._base.dojo["require"](webui_@THEME_JS@.djConfig.require[x]);
+	if(webui_@THEME_JS@._djConfig.require){
+		for(var x=0; x<webui_@THEME_JS@._djConfig.require.length; x++){
+			webui.@THEME_JS@._base.dojo["require"](webui_@THEME_JS@._djConfig.require[x]);
 		}
 	}
 })();
@@ -2250,11 +2250,11 @@ webui.@THEME_JS@._base.dojo.withDoc = function(	/*Object*/documentObject,
 	return rval;
 };
 
-//Register any module paths set up in webui_@THEME_JS@.djConfig. Need to do this
+//Register any module paths set up in webui_@THEME_JS@._djConfig. Need to do this
 //in the hostenvs since hostenv_browser can read djConfig from a
 //script tag's attribute.
 (function(){
-	var mp = webui_@THEME_JS@.djConfig["modulePaths"];
+	var mp = webui_@THEME_JS@._djConfig["modulePaths"];
 	if(mp){
 		for(var param in mp){
 			webui.@THEME_JS@._base.dojo.registerModulePath(param, mp[param]);
@@ -2468,7 +2468,7 @@ webui.@THEME_JS@._base.dojo.provide("webui.@THEME_JS@._base.dojo._base.event");
 		// by default, use the standard listener
 		var iel = webui.@THEME_JS@._base.dojo._listener;
 		// dispatcher tracking property
-		if(!webui_@THEME_JS@.djConfig._allow_leaks){
+		if(!webui_@THEME_JS@._djConfig._allow_leaks){
 			// custom listener that handles leak protection for DOM events
 			node_listener = iel = webui.@THEME_JS@._base.dojo._ie_listener = {
 				// support handler indirection: event handler functions are 
@@ -5397,7 +5397,7 @@ webui.@THEME_JS@._base.dojo.i18n.normalizeLocale = function(/*String?*/locale){
 	//  description:
 	//		All variants are case-insensitive and are separated by '-' as specified in RFC 3066.
 	//		If no locale is specified, the webui.@THEME_JS@._base.dojo.locale is returned.  webui.@THEME_JS@._base.dojo.locale is defined by
-	//		the user agent's locale unless overridden by webui_@THEME_JS@.djConfig.
+	//		the user agent's locale unless overridden by webui_@THEME_JS@._djConfig.
 
 	var result = locale ? locale.toLowerCase() : webui.@THEME_JS@._base.dojo.locale;
 	if(result == "root"){
@@ -5448,7 +5448,7 @@ webui.@THEME_JS@._base.dojo.i18n._requireLocalization = function(/*String*/modul
 	var bundle = webui.@THEME_JS@._base.dojo._loadedModules[bundlePackage];
 	var localizedBundle = null;
 	if(bundle){
-		if(webui_@THEME_JS@.djConfig.localizationComplete && bundle._built){return;}
+		if(webui_@THEME_JS@._djConfig.localizationComplete && bundle._built){return;}
 		var jsLoc = tempLocale.replace(/-/g, '_');
 		var translationPackage = bundlePackage+"."+jsLoc;
 		localizedBundle = webui.@THEME_JS@._base.dojo._loadedModules[translationPackage];
@@ -5510,7 +5510,7 @@ webui.@THEME_JS@._base.dojo.i18n._requireLocalization = function(/*String*/modul
 	// iterate through the extraLocale list and load those translations as
 	// well, unless a particular locale was requested.
 
-	var extra = webui_@THEME_JS@.djConfig.extraLocale;
+	var extra = webui_@THEME_JS@._djConfig.extraLocale;
 	if(extra){
 		if(!extra instanceof Array){
 			extra = [extra];
@@ -5569,7 +5569,7 @@ webui.@THEME_JS@._base.dojo.i18n._preloadLocalizations = function(/*String*/bund
 		});
 	}
 	preload();
-	var extra = webui_@THEME_JS@.djConfig.extraLocale||[];
+	var extra = webui_@THEME_JS@._djConfig.extraLocale||[];
 	for(var i=0; i<extra.length; i++){
 		preload(extra[i]);
 	}

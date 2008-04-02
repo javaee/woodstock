@@ -56,7 +56,7 @@ webui.@THEME_JS@._base.dojo.declare("webui.@THEME_JS@.widget.accordion",
         this.multipleSelect = false;
         this.focusElement = null;
     },
-    _widgetName: "accordion" // Required for theme properties.
+    _widgetType: "accordion" // Required for theme properties.
 });
 
 /**
@@ -85,7 +85,7 @@ webui.@THEME_JS@.widget.accordion.prototype._addControls = function(props) {
         }
         
         // a divider should only be added if expand/collapse icons exist.
-        this.dividerNodeContainer.className = this._theme.getClassName("ACCORDION_HDR_DIVIDER");
+        this.dividerNodeContainer.className = this._theme._getClassName("ACCORDION_HDR_DIVIDER");
     }
 
     // Set refresh image properties.
@@ -259,7 +259,7 @@ webui.@THEME_JS@.widget.accordion.prototype.getProps = function() {
  */
 webui.@THEME_JS@.widget.accordion.prototype._getClassName = function() {
     // Get theme property.
-    var className = this._theme.getClassName("ACCORDION_DIV", "");
+    var className = this._theme._getClassName("ACCORDION_DIV", "");
     return (this.className)
         ? className + " " + this.className
         : className;
@@ -288,13 +288,13 @@ webui.@THEME_JS@.widget.accordion.prototype._postCreate = function () {
     }
 
     // Set class names.
-    this.headerContainer.className = this._theme.getClassName("ACCORDION_HDR");
-    this.collapseAllContainer.className = this._theme.getClassName("ACCORDION_HDR_CLOSEALL");
-    this.expandAllContainer.className = this._theme.getClassName("ACCORDION_HDR_OPENALL");
+    this.headerContainer.className = this._theme._getClassName("ACCORDION_HDR");
+    this.collapseAllContainer.className = this._theme._getClassName("ACCORDION_HDR_CLOSEALL");
+    this.expandAllContainer.className = this._theme._getClassName("ACCORDION_HDR_OPENALL");
     
     // the divider should initially be hidden
-    this.dividerNodeContainer.className = this._theme.getClassName("HIDDEN");
-    this.refreshNodeContainer.className = this._theme.getClassName("ACCORDION_HDR_REFRESH");
+    this.dividerNodeContainer.className = this._theme._getClassName("HIDDEN");
+    this.refreshNodeContainer.className = this._theme._getClassName("ACCORDION_HDR_REFRESH");
 
     // Set events.
     var _id = this.id;
@@ -319,42 +319,48 @@ webui.@THEME_JS@.widget.accordion.prototype._postCreate = function () {
     // Generate the accordion header icons on the client side.
     if (this.toggleControls && this.multipleSelect) {
         if (this.expandAllImage == null) {
-            this.expandAllImage = this._widget._getWidgetProps("imageHyperlink", {
-                    id: this.id + "_expandImageLink",
-                    onClick: "return false;",
-                    enabledImage: this._widget._getWidgetProps("image", {
-                        icon: "ACCORDION_EXPAND_ALL",
-                        id: this.id + "_expandAll"
-                    }),
-                    title: this._theme.getMessage("Accordion.expandAll")            
-                });
+            this.expandAllImage = {
+                id: this.id + "_expandImageLink",
+                onClick: "return false;",
+                enabledImage: {
+                    icon: "ACCORDION_EXPAND_ALL",
+                    id: this.id + "_expandAll",
+                    widgetType: "image"
+                },
+                title: this._theme._getMessage("Accordion.expandAll"),
+                widgetType: "imageHyperlink"
+            };
         }
         
         if (this.collapseAllImage == null) {
-            this.collapseAllImage = this._widget._getWidgetProps("imageHyperlink", {
-                    id: this.id + "_collapseImageLink",
-                    onClick: "return false;",
-                    enabledImage: this._widget._getWidgetProps("image", {
-                        icon: "ACCORDION_COLLAPSE_ALL",
-                        id: this.id + "_collapseAll"
-                    }),
-                    title: this._theme.getMessage("Accordion.collapseAll")            
-                });
+            this.collapseAllImage = {
+                id: this.id + "_collapseImageLink",
+                onClick: "return false;",
+                enabledImage: {
+                    icon: "ACCORDION_COLLAPSE_ALL",
+                    id: this.id + "_collapseAll",
+                    widgetType: "image"
+                },
+                title: this._theme._getMessage("Accordion.collapseAll"),
+                widgetType: "imageHyperlink"
+            };
         }
     }
 
     // Set refresh image hyperlink properties.
     if (this.isRefreshIcon) {
         if (this.refreshImage == null) {
-            this.refreshImage = this._widget._getWidgetProps("imageHyperlink", {
-                    id: this.id + "_refreshImageLink",
-                    onClick: "return false;",
-                    enabledImage: this._widget._getWidgetProps("image", {
-                        icon: "ACCORDION_REFRESH",
-                        id: this.id + "_refresh"
-                    }),
-                    title: this._theme.getMessage("Accordion.refresh")            
-                });
+            this.refreshImage = {
+                id: this.id + "_refreshImageLink",
+                onClick: "return false;",
+                enabledImage: {
+                    icon: "ACCORDION_REFRESH",
+                    id: this.id + "_refresh",
+                    widgetType: "image"
+                },
+                title: this._theme._getMessage("Accordion.refresh"),
+                widgetType: "imageHyperlink"
+            };
          }
     }
     
@@ -475,13 +481,13 @@ webui.@THEME_JS@.widget.accordion.prototype._setProps = function(props) {
 webui.@THEME_JS@.widget.accordion.prototype._setFocusStyleClass = function(nodeId) {
     if (nodeId == this.collapseAllContainer.id) {
         //set focus style on collapseNode
-        this.collapseAllContainer.className = this._theme.getClassName("ACCORDION_HDR_CLOSEALL_FOCUS");
+        this.collapseAllContainer.className = this._theme._getClassName("ACCORDION_HDR_CLOSEALL_FOCUS");
     } else if (nodeId == this.expandAllContainer.id) {
         //set focus style on expandNode
-        this.expandAllContainer.className = this._theme.getClassName("ACCORDION_HDR_OPENALL_FOCUS");
+        this.expandAllContainer.className = this._theme._getClassName("ACCORDION_HDR_OPENALL_FOCUS");
     } else if (nodeId == this.refreshNodeContainer.id) {
         //set focus style on refreshNode
-        this.refreshNodeContainer.className = this._theme.getClassName("ACCORDION_HDR_REFRESH_FOCUS");
+        this.refreshNodeContainer.className = this._theme._getClassName("ACCORDION_HDR_REFRESH_FOCUS");
     }
     return true;
 };
@@ -497,13 +503,13 @@ webui.@THEME_JS@.widget.accordion.prototype._setFocusStyleClass = function(nodeI
 webui.@THEME_JS@.widget.accordion.prototype._setBlurStyleClass = function(nodeId) {
     if (nodeId == this.collapseAllContainer.id) {
         //set normal className on collapseNode
-        this.collapseAllContainer.className = this._theme.getClassName("ACCORDION_HDR_CLOSEALL");
+        this.collapseAllContainer.className = this._theme._getClassName("ACCORDION_HDR_CLOSEALL");
     } else if (nodeId == this.expandAllContainer.id) {
         //set normal className on expandNode
-        this.expandAllContainer.className = this._theme.getClassName("ACCORDION_HDR_OPENALL");
+        this.expandAllContainer.className = this._theme._getClassName("ACCORDION_HDR_OPENALL");
     } else if (nodeId == this.refreshNodeContainer.id) {
         //set normal className on refreshNode
-        this.refreshNodeContainer.className = this._theme.getClassName("ACCORDION_HDR_REFRESH");
+        this.refreshNodeContainer.className = this._theme._getClassName("ACCORDION_HDR_REFRESH");
     }
     return true;
 };
@@ -523,9 +529,9 @@ webui.@THEME_JS@.widget.accordion.prototype._setTabFocus = function(nodeId) {
 
     // set the style class to indicate that the tab is in focus.
     if (tabWidget.selected) {
-        tabWidget.titleContainer.className = this._theme.getClassName("ACCORDION_TABEXPANDED_FOCUS");
+        tabWidget.titleContainer.className = this._theme._getClassName("ACCORDION_TABEXPANDED_FOCUS");
     } else {
-        tabWidget.titleContainer.className = this._theme.getClassName("ACCORDION_TABCOLLAPSED_FOCUS");
+        tabWidget.titleContainer.className = this._theme._getClassName("ACCORDION_TABCOLLAPSED_FOCUS");
     }
     tabWidget.domNode.focus();
     return true;
@@ -543,11 +549,11 @@ webui.@THEME_JS@.widget.accordion.prototype._setTabBlur = function(nodeId) {
     var tabWidget = this._widget.getWidget(nodeId);
     
     if (tabWidget.selected) {
-        tabWidget.titleContainer.className = this._theme.getClassName("ACCORDION_TABEXPANDED");
-        tabWidget.turnerContainer.className = this._theme.getClassName("ACCORDION_DOWNTURNER");
+        tabWidget.titleContainer.className = this._theme._getClassName("ACCORDION_TABEXPANDED");
+        tabWidget.turnerContainer.className = this._theme._getClassName("ACCORDION_DOWNTURNER");
     } else { 
-        tabWidget.titleContainer.className = this._theme.getClassName("ACCORDION_TABCOLLAPSED");
-        tabWidget.turnerContainer.className = this._theme.getClassName("ACCORDION_RIGHTTURNER");
+        tabWidget.titleContainer.className = this._theme._getClassName("ACCORDION_TABCOLLAPSED");
+        tabWidget.turnerContainer.className = this._theme._getClassName("ACCORDION_RIGHTTURNER");
     }    
 
     if (tabWidget) {

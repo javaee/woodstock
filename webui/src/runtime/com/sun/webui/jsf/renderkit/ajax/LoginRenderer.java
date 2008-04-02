@@ -25,11 +25,9 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Iterator;
-import javax.faces.FacesException;
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.context.ExternalContext;
-import javax.faces.context.ResponseWriter;
 import javax.faces.application.FacesMessage;
 
 import com.sun.faces.annotation.Renderer;
@@ -37,31 +35,11 @@ import com.sun.faces.extensions.avatar.lifecycle.AsyncResponse;
 import com.sun.webui.theme.Theme;
 import com.sun.webui.jsf.util.ThemeUtilities;
 import com.sun.webui.jsf.component.Login;
-import com.sun.webui.jsf.component.Icon;
-import com.sun.webui.jsf.component.Alert;
-import com.sun.webui.jsf.component.Button;
-import com.sun.webui.jsf.component.StaticText;
-import com.sun.webui.jsf.component.TextField;
-import com.sun.webui.jsf.component.PasswordField;
-import com.sun.webui.jsf.component.Label;
-import com.sun.webui.jsf.component.DropDown;
-import com.sun.webui.jsf.component.Listbox;
-import com.sun.webui.jsf.component.ImageComponent;
-import com.sun.webui.jsf.model.Option;
-import com.sun.webui.jsf.util.RenderingUtilities;
-import com.sun.webui.jsf.util.ComponentUtilities;
-import com.sun.webui.jsf.util.WidgetUtilities;
-import com.sun.webui.jsf.util.JSONUtilities;
 import com.sun.webui.jsf.util.LogUtil;
 
-import com.sun.webui.jsf.model.login.JaasController;
-import com.sun.webui.jsf.model.login.LoginCallbackHandler;
-import com.sun.webui.jsf.model.login.LoginController;
-import com.sun.webui.jsf.model.login.JaasLoginController;
 import com.sun.webui.jsf.model.login.LoginCallback;
 import com.sun.webui.jsf.model.login.LoginConstants;
 
-import javax.servlet.http.Cookie;
 import javax.servlet.http.*;
 import javax.servlet.*;
 
@@ -96,8 +74,8 @@ import org.json.JSONArray;
  * </p>
  */
 @Renderer(@Renderer.Renders(
-rendererType="com.sun.webui.jsf.ajax.Login",
-        componentFamily="com.sun.webui.jsf.Login"))
+    rendererType="com.sun.webui.jsf.ajax.Login",
+    componentFamily="com.sun.webui.jsf.Login"))
 public class LoginRenderer extends com.sun.webui.jsf.renderkit.widget.LoginRenderer {
     
     /**
@@ -343,7 +321,7 @@ public class LoginRenderer extends com.sun.webui.jsf.renderkit.widget.LoginRende
         setLabelData(labelData, contentArray, login, key, context);   
         
         JSONObject props = new JSONObject();
-        props.put("type", widgetType);
+        props.put("widgetType", widgetType);
         props.put("id", key);
         
         if (widgetType.equalsIgnoreCase("staticText")) {

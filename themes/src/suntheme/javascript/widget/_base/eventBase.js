@@ -165,7 +165,7 @@ webui.@THEME_JS@.widget._base.eventBase.prototype._publish = function(topic, pro
     // Obtain the Ajax module associated with this widget.
     var config = webui.@THEME_JS@._base.config;
     if (new Boolean(config.ajax.isAjax).valueOf() == true && config.ajax.module) {
-        webui.@THEME_JS@._base.dojo.require(config.ajax.module + "." + this._widgetName);
+        webui.@THEME_JS@._base.dojo.require(config.ajax.module + "." + this._widgetType);
     }
     return webui.@THEME_JS@.widget.common.publish(topic, props);
 };
@@ -185,7 +185,7 @@ webui.@THEME_JS@.widget._base.eventBase.prototype._publish = function(topic, pro
 webui.@THEME_JS@.widget._base.eventBase.prototype.refresh = function(execute) {
     if (this.event.refresh == null) {
         console.debug("Error: Refresh event topics not implemented for " + 
-            this._widgetName); // See Firebug console.
+            this._widgetType); // See Firebug console.
         return false;
     }
 
@@ -212,7 +212,7 @@ webui.@THEME_JS@.widget._base.eventBase.prototype.refresh = function(execute) {
 webui.@THEME_JS@.widget._base.eventBase.prototype._stateChanged = function(props) {
     if (this.event.state == null) {
         console.debug("Error: State event topics not implemented for " + 
-            this._widgetName); // See Firebug console.
+            this._widgetType); // See Firebug console.
         return false;
     }
 
@@ -240,7 +240,7 @@ webui.@THEME_JS@.widget._base.eventBase.prototype._stateChanged = function(props
 webui.@THEME_JS@.widget._base.eventBase.prototype.submit = function(execute) {
     if (this.event.submit == null) {
         console.debug("Error: Submit event topics not implemented for " + 
-            this._widgetName); // See Firebug console.
+            this._widgetType); // See Firebug console.
         return false;
     }
 

@@ -256,8 +256,8 @@
         <exclude name="${theme._bootstrap_.js}" /> <!-- Temporary build file. -->
         <exclude name="${theme.bootstrap.js}" /> <!-- Generated file. -->
         <exclude name="_base/dojo/" /> <!-- Loaded separately. -->
+        <exclude name="_base/theme/nls/"/>
         <exclude name="_html/calendar.js" /> <!-- Not supported. -->
-	<exclude name="theme/nls/"/>
 	<exclude name="webui.js"/>
 	<exclude name="webui-all.js"/>
 	<exclude name="webui-jsfx.js"/>
@@ -266,8 +266,8 @@
 
     <!-- exclude files for compression dependencies -->
     <patternset id="generated-js-files">
-	<exclude name="theme/nls/"/>
 	<exclude name="_base/dojo/"/>
+	<exclude name="_base/theme/nls/"/>
 	<exclude name="${theme.bootstrap.js}"/>
 	<exclude name="${theme.dnd.js}"/>
 	<exclude name="${theme.webui.js}"/>
@@ -536,11 +536,11 @@
 	<mkdir dir="${cmp-tmp}"/>
 	<mkdir dir="${cmp-tmp}/_base/dojo"/>
 	<mkdir dir="${cmp-tmp}/_base/dojo/_firebug"/>
+        <mkdir dir="${cmp-tmp}/_base/theme"/>
         <mkdir dir="${cmp-tmp}/_html"/>
 	<mkdir dir="${cmp-tmp}/widget"/>
         <mkdir dir="${cmp-tmp}/widget/_base"/>
 	<mkdir dir="${cmp-tmp}/widget/_jsfx"/>
-	<mkdir dir="${cmp-tmp}/theme"/>
 
         <!-- Compress JavaScript without base62 encoding. -->
         <antcall target="compressJavascript">
@@ -1069,7 +1069,7 @@
     <target name="combined-js-uptodate" depends="copyJavascript">
 	<uptodate property="combined-js-uptodate">
 	    <srcfiles dir="${_from-dir_}" includes="**/*.js"
-		excludes="theme/nls/"/>
+		excludes="_base/theme/nls/"/>
 	    <mergemapper to="${_combined-file_}"/>
 	</uptodate>
     </target>
@@ -1407,7 +1407,7 @@
 	<uptodate property="jsdoc-uptodate">
 	    <srcfiles dir="${theme.build-package-path}/javascript_uncompressed"
 		includes="**/*.js"
-		excludes="theme/nls/,_base/dojo/,${theme.bootstrap.js},${theme.dnd.js},${theme.webui.js},${theme.webui-all.js},${theme.webui-jsfx.js},${theme.webui-jsfx-all.js}"/>
+		excludes="_base/theme/nls/,_base/dojo/,${theme.bootstrap.js},${theme.dnd.js},${theme.webui.js},${theme.webui-all.js},${theme.webui-jsfx.js},${theme.webui-jsfx-all.js}"/>
 	    <mergemapper to="${jsdocs}/index.html"/>
 	</uptodate>
     </target>

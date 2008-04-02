@@ -22,15 +22,12 @@
 
 package com.sun.webui.jsf.renderkit.widget;
 
-import com.sun.faces.annotation.Renderer;
-
 import com.sun.data.provider.RowKey;
+import com.sun.faces.annotation.Renderer;
 import com.sun.webui.jsf.component.Table2Column;
 import com.sun.webui.jsf.component.Table2RowGroup;
 import com.sun.webui.jsf.util.JSONUtilities;
 import com.sun.webui.jsf.util.WidgetUtilities;
-import com.sun.webui.jsf.theme.ThemeTemplates;
-import com.sun.webui.jsf.util.JavaScriptUtilities;
 
 import java.io.IOException;
 import java.util.Iterator;
@@ -118,7 +115,6 @@ public class Table2RowGroupRenderer extends RendererBase {
         return json;
     }
 
-
     /**
      * Get the type of widget represented by this component.
      *
@@ -126,7 +122,7 @@ public class Table2RowGroupRenderer extends RendererBase {
      * @param component UIComponent to be rendered.
      */
     protected String getWidgetType(FacesContext context, UIComponent component) {
-        return JavaScriptUtilities.getModuleName("widget.table2RowGroup");
+        return "table2RowGroup";
     }
 
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~

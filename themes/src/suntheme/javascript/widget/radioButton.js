@@ -67,7 +67,7 @@ webui.@THEME_JS@._base.dojo.declare("webui.@THEME_JS@.widget.radioButton",
         webui.@THEME_JS@.widget._base.checkedBase, {
     // Set defaults.
     _idSuffix: "_rb",
-    _widgetName: "radioButton" // Required for theme properties.
+    _widgetType: "radioButton" // Required for theme properties.
 });
 
 /**

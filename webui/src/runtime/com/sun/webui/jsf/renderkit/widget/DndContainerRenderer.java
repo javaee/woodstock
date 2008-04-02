@@ -25,17 +25,15 @@ package com.sun.webui.jsf.renderkit.widget;
 import com.sun.faces.annotation.Renderer;
 import com.sun.webui.jsf.component.DndContainer;
 import com.sun.webui.jsf.util.WidgetUtilities;
-import com.sun.webui.jsf.theme.ThemeTemplates;
-import com.sun.webui.jsf.util.ConversionUtilities;
 import com.sun.webui.jsf.util.JSONUtilities;
-import com.sun.webui.jsf.util.JavaScriptUtilities;
+
 import java.io.IOException;
 import java.util.Iterator;
-import java.util.Map;
 import java.util.StringTokenizer;
+
 import javax.faces.component.UIComponent;
-import javax.faces.component.ValueHolder;
 import javax.faces.context.FacesContext;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -107,7 +105,7 @@ public class DndContainerRenderer extends RendererBase {
      * @param component UIComponent to be rendered.
      */
     protected String getWidgetType(FacesContext context, UIComponent component) {
-        return JavaScriptUtilities.getModuleName("widget.dndContainer");
+        return "dndContainer";
     }
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     // Property methods

@@ -67,7 +67,7 @@ webui.@THEME_JS@._base.dojo.require("webui.@THEME_JS@.widget._base.anchorBase");
 webui.@THEME_JS@._base.dojo.declare("webui.@THEME_JS@.widget.anchor",
         webui.@THEME_JS@.widget._base.anchorBase, {
     // Set defaults.
-    _widgetName: "anchor" // Required for theme properties.
+    _widgetType: "anchor" // Required for theme properties.
 });
 
 /**

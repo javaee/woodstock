@@ -55,10 +55,10 @@ webui.@THEME_JS@._base.dojo.experimental = function(/* String */ moduleName, /* 
 	//		|	console.log("my object", {foo:"bar"})
 	// example:
 	//		Option for console to open in popup window
-	//		|	var webui_@THEME_JS@.djConfig = {isDebug: true, popup:true };
+	//		|	var webui_@THEME_JS@._djConfig = {isDebug: true, popup:true };
 	// example:
 	//		Option for console height (ignored for popup)
-	//		|	var webui_@THEME_JS@.djConfig = {isDebug: true, debugHeight:100 };
+	//		|	var webui_@THEME_JS@._djConfig = {isDebug: true, debugHeight:100 };
 	
 if(
 	(
@@ -66,7 +66,7 @@ if(
 		(!("firebug" in console))
 	)&&
 	(
-		(webui_@THEME_JS@.djConfig["noFirebugLite"] !== true)
+		(webui_@THEME_JS@._djConfig["noFirebugLite"] !== true)
 	)
 ){
 (function(){
@@ -308,10 +308,10 @@ if(
 			return;
 		}
 		
-		if(webui_@THEME_JS@.djConfig.popup){
+		if(webui_@THEME_JS@._djConfig.popup){
 			_firebugWin = openWin();
 			_firebugDoc = _firebugWin.document;
-			webui_@THEME_JS@.djConfig.debugContainerId = 'fb';
+			webui_@THEME_JS@._djConfig.debugContainerId = 'fb';
 			var containerHeight = "100%";
 			
 			// connecting popup
@@ -320,7 +320,7 @@ if(
 
 		}else{
 			_firebugDoc = document;	
-			var containerHeight = (webui_@THEME_JS@.djConfig.debugHeight) ? webui_@THEME_JS@.djConfig.debugHeight + "px" :"300px";
+			var containerHeight = (webui_@THEME_JS@._djConfig.debugHeight) ? webui_@THEME_JS@._djConfig.debugHeight + "px" :"300px";
 		}
 		
 		var styleElement = _firebugDoc.createElement("link");
@@ -340,8 +340,8 @@ if(
 			styleParent.appendChild(styleElement);
 		}
 		
-		if(typeof webui_@THEME_JS@.djConfig != "undefined" && webui_@THEME_JS@.djConfig["debugContainerId"]){
-			consoleFrame = _firebugDoc.getElementById(webui_@THEME_JS@.djConfig.debugContainerId);
+		if(typeof webui_@THEME_JS@._djConfig != "undefined" && webui_@THEME_JS@._djConfig["debugContainerId"]){
+			consoleFrame = _firebugDoc.getElementById(webui_@THEME_JS@._djConfig.debugContainerId);
 		}
 		if(!consoleFrame){
 			consoleFrame = _firebugDoc.createElement("div");
@@ -351,7 +351,7 @@ if(
 		consoleFrame.style.height = containerHeight;
 		consoleFrame.style.display = (frameVisible ? "block" : "none");	  
 		
-		var closeStr = (webui_@THEME_JS@.djConfig.popup) ? "" : '    <a href="#" onclick="console.close(); return false;">Close</a>';
+		var closeStr = (webui_@THEME_JS@._djConfig.popup) ? "" : '    <a href="#" onclick="console.close(); return false;">Close</a>';
 		consoleFrame.innerHTML = 
 			  '<div id="firebugToolbar">'
 			+ '  <a href="#" onclick="console.clear(); return false;">Clear</a>'
@@ -901,7 +901,7 @@ if(
 	addEvent(document, webui.@THEME_JS@._base.dojo.isIE || webui.@THEME_JS@._base.dojo.isSafari ? "keydown" : "keypress", onKeyDown);
 	
 	if(	(document.documentElement.getAttribute("debug") == "true")||
-		(webui_@THEME_JS@.djConfig.isDebug)
+		(webui_@THEME_JS@._djConfig.isDebug)
 	){
 		toggleConsole(true);
 	}

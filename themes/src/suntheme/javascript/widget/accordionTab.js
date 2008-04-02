@@ -50,7 +50,7 @@ webui.@THEME_JS@._base.dojo.declare("webui.@THEME_JS@.widget.accordionTab",
         this.selected = false;
         this.focusState = "title";
     },
-    _widgetName: "accordionTab" // Required for theme properties.    
+    _widgetType: "accordionTab" // Required for theme properties.    
 });
 
 /**
@@ -227,15 +227,15 @@ webui.@THEME_JS@.widget.accordionTab.prototype._onTitleClickCallback = function 
  */
 webui.@THEME_JS@.widget.accordionTab.prototype._onTitleMouseOutCallback = function(event) {
     if (this.selected) {
-        this.titleContainer.className = this._theme.getClassName("ACCORDION_TABEXPANDED");
-        this.turnerContainer.className = this._theme.getClassName("ACCORDION_DOWNTURNER");
+        this.titleContainer.className = this._theme._getClassName("ACCORDION_TABEXPANDED");
+        this.turnerContainer.className = this._theme._getClassName("ACCORDION_DOWNTURNER");
         if (this.titleContainer.focus) {
             this.titleContainer.focus();
         }
         return true;
     }
-    this.titleContainer.className = this._theme.getClassName("ACCORDION_TABCOLLAPSED");
-    this.turnerContainer.className = this._theme.getClassName("ACCORDION_RIGHTTURNER");
+    this.titleContainer.className = this._theme._getClassName("ACCORDION_TABCOLLAPSED");
+    this.turnerContainer.className = this._theme._getClassName("ACCORDION_RIGHTTURNER");
     return true;
 };
 
@@ -248,9 +248,9 @@ webui.@THEME_JS@.widget.accordionTab.prototype._onTitleMouseOutCallback = functi
  */
 webui.@THEME_JS@.widget.accordionTab.prototype._onTitleMouseOverCallback = function(event) {
     if (this.selected) {
-        this.turnerContainer.className = this._theme.getClassName("ACCORDION_DOWNTURNER");
+        this.turnerContainer.className = this._theme._getClassName("ACCORDION_DOWNTURNER");
     } else {
-        this.turnerContainer.className = this._theme.getClassName("ACCORDION_RIGHTTURNER");
+        this.turnerContainer.className = this._theme._getClassName("ACCORDION_RIGHTTURNER");
     }
     if (this.titleContainer.focus) {
         this.titleContainer.focus();
@@ -294,11 +294,11 @@ webui.@THEME_JS@.widget.accordionTab.prototype._postCreate = function () {
     }
 
     // Set style classes.
-    this.titleContainer.className = this._theme.getClassName("ACCORDION_TABCOLLAPSED");
-    this.turnerContainer.className = this._theme.getClassName("ACCORDION_RIGHTTURNER");
-    this.menuContainer.className = this._theme.getClassName("HIDDEN");
-    this.titleNode.className = this._theme.getClassName("ACCORDION_TABTITLE");
-    this.contentNode.className = this._theme.getClassName("ACCORDION_TABCONTENT");
+    this.titleContainer.className = this._theme._getClassName("ACCORDION_TABCOLLAPSED");
+    this.turnerContainer.className = this._theme._getClassName("ACCORDION_RIGHTTURNER");
+    this.menuContainer.className = this._theme._getClassName("HIDDEN");
+    this.titleNode.className = this._theme._getClassName("ACCORDION_TABTITLE");
+    this.contentNode.className = this._theme._getClassName("ACCORDION_TABCONTENT");
 
     // Set public functions.
     // TBD...
@@ -389,13 +389,13 @@ webui.@THEME_JS@.widget.accordionTab.prototype._setProps = function(props) {
         this._setTabContent(props.tabContent);
         if (this.selected) {
             this.hiddenFieldNode.value = "true";
-            this.titleContainer.className = this._theme.getClassName("ACCORDION_TABEXPANDED");
-            this.turnerContainer.className = this._theme.getClassName("ACCORDION_DOWNTURNER");
+            this.titleContainer.className = this._theme._getClassName("ACCORDION_TABEXPANDED");
+            this.turnerContainer.className = this._theme._getClassName("ACCORDION_DOWNTURNER");
             this.contentNode.style.display = "block";
         } else {
             this.hiddenFieldNode.value = "false";
-            this.titleContainer.className = this._theme.getClassName("ACCORDION_TABCOLLAPSED");
-            this.turnerContainer.className = this._theme.getClassName("ACCORDION_RIGHTTURNER");
+            this.titleContainer.className = this._theme._getClassName("ACCORDION_TABCOLLAPSED");
+            this.turnerContainer.className = this._theme._getClassName("ACCORDION_RIGHTTURNER");
             this.contentNode.style.display = "none";
         }
     }
@@ -437,8 +437,8 @@ webui.@THEME_JS@.widget.accordionTab.prototype._setSelected = function (isSelect
 
     if (this.selected) {
         this.hiddenFieldNode.value = "true";
-        this.titleContainer.className = this._theme.getClassName("ACCORDION_TABEXPANDED");
-        this.turnerContainer.className = this._theme.getClassName("ACCORDION_DOWNTURNER");
+        this.titleContainer.className = this._theme._getClassName("ACCORDION_TABEXPANDED");
+        this.turnerContainer.className = this._theme._getClassName("ACCORDION_DOWNTURNER");
         this.contentNode.style.display = "block";
 
         // if the tab does not have content and "loadOnSelect" is set
@@ -450,8 +450,8 @@ webui.@THEME_JS@.widget.accordionTab.prototype._setSelected = function (isSelect
         }
     } else {
         this.hiddenFieldNode.value = "false";
-        this.titleContainer.className = this._theme.getClassName("ACCORDION_TABCOLLAPSED");
-        this.turnerContainer.className = this._theme.getClassName("ACCORDION_RIGHTTURNER");
+        this.titleContainer.className = this._theme._getClassName("ACCORDION_TABCOLLAPSED");
+        this.turnerContainer.className = this._theme._getClassName("ACCORDION_RIGHTTURNER");
         this.contentNode.style.display = "none";
     }
     return true;
@@ -483,14 +483,14 @@ webui.@THEME_JS@.widget.accordionTab.prototype._setTabContent = function(content
 webui.@THEME_JS@.widget.accordionTab.prototype._setTitle = function (title) {
     if (title) {
         // NOTE: If you set this value manually, text must be HTML escaped.
-        var titleHref = this._widget._getWidgetProps("hyperlink", {
+        var titleHref = {
                 id: this.id + "_titleLink",
                 title: title,
                 onClick: "return false;",
                 className: "",
-                contents: [title]
-                
-        });
+                contents: [title],
+                widgetType: "hyperlink"
+        };
         this._widget._addFragment(this.titleNode, titleHref);
     }
     return true;

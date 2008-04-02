@@ -24,7 +24,7 @@ webui.@THEME_JS@._base.dojo.provide("webui.@THEME_JS@.widget._base.widgetBase");
  
 webui.@THEME_JS@._base.dojo.require("webui.@THEME_JS@.common");
 webui.@THEME_JS@._base.dojo.require("webui.@THEME_JS@._base.proto");
-webui.@THEME_JS@._base.dojo.require("webui.@THEME_JS@.theme.common");
+webui.@THEME_JS@._base.dojo.require("webui.@THEME_JS@._base.theme.common");
 webui.@THEME_JS@._base.dojo.require("webui.@THEME_JS@.widget.common");
 webui.@THEME_JS@._base.dojo.require("webui.@THEME_JS@.widget._base.eventBase");
 
@@ -105,7 +105,7 @@ webui.@THEME_JS@._base.dojo.declare("webui.@THEME_JS@.widget._base.widgetBase",
     _common: webui.@THEME_JS@.common, // Common utils.
     _dojo: webui.@THEME_JS@._base.dojo, // Dojo utils.
     _proto: webui.@THEME_JS@._base.proto, // Prototype utils.
-    _theme: webui.@THEME_JS@.theme.common, // Theme utils.
+    _theme: webui.@THEME_JS@._base.theme.common, // Theme utils.
     _widget: webui.@THEME_JS@.widget.common // Widget utils.
 });
 
@@ -126,8 +126,8 @@ webui.@THEME_JS@.widget._base.widgetBase.prototype.buildRendering = function () 
 webui.@THEME_JS@.widget._base.widgetBase.prototype._buildRendering = function () {
     // Get default templates.
     if (this.templatePath == null && this.templateString == null) {
-        this.templatePath = this._theme._getTemplatePath(this._widgetName);
-        this.templateString = this._theme._getTemplateString(this._widgetName);
+        this.templatePath = this._theme._getTemplatePath(this._widgetType);
+        this.templateString = this._theme._getTemplateString(this._widgetType);
     }
 
     // The templatePath should have precedence. Therefore, in order for the 

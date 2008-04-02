@@ -76,7 +76,7 @@ webui.@THEME_JS@._base.dojo.declare("webui.@THEME_JS@.widget.textField",
         this.autoCompleteSize = 15;
         this.autoCompleteCloseDelayTime = 100;
     },                  
-    _widgetName: "textField" // Required for theme properties.
+    _widgetType: "textField" // Required for theme properties.
 });
 
 /**
@@ -221,7 +221,7 @@ webui.@THEME_JS@.widget.textField.prototype._postCreate = function () {
         // Generate the following event ONLY when 'autoValidate' == true.
         this._dojo.connect(this.fieldNode, "onblur", this, "_validate");
     }
-    return this._inherited("_postCreate", arguments);;
+    return this._inherited("_postCreate", arguments);
 };
 
 /**
@@ -288,11 +288,15 @@ webui.@THEME_JS@.widget.textField.prototype._setProps = function(props) {
     //be introduced as part of dynamic options on setProps
     if (this.autoComplete && this.listWidget == null) {
         //create and populate props for listbox
-        this.listWidgetProps = this._widget._getWidgetProps("listbox", {
+        this.listWidgetProps = {
            id: this.id + "_list",
-           onFocus: "webui.@THEME_JS@.widget.common.getWidget('" + this.id + "')._processFocusEvent(this.event);", 
-           onBlur: "webui.@THEME_JS@.widget.common.getWidget('" + this.id + "')._processBlurEvent(this.event);"
-        });         
+           onFocus: "webui.@THEME_JS@.widget.common.getWidget('" + this.id + 
+                "')._processFocusEvent(this.event);", 
+           onBlur: "webui.@THEME_JS@.widget.common.getWidget('" + this.id + 
+                "')._processBlurEvent(this.event);",
+           widgetType: "listbox"
+        };
+
         //?? use of event registration as in following disables field processing keys 
         //onChange: "webui.@THEME_JS@.widget.common.getWidget('" + this.id + "')._processListChange(this.event);"
 
@@ -563,7 +567,7 @@ webui.@THEME_JS@.widget.textField.prototype._updateListView = function() {
         //this.autoCompleteIsOpen flag indicates whether list box is open or not
         this.autoCompleteIsOpen = true;
     } else {
-        this.listNode.className = this._theme.getClassName("HIDDEN");
+        this.listNode.className = this._theme._getClassName("HIDDEN");
         //this.listWidget.setProps(visible: 'false');
         this.autoCompleteIsOpen = false;
     }

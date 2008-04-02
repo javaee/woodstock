@@ -70,7 +70,7 @@ webui.@THEME_JS@._base.dojo.declare("webui.@THEME_JS@.widget.button",
         this.mini = false;
         this.primary = true;
     },
-    _widgetName: "button" // Required for theme properties.
+    _widgetType: "button" // Required for theme properties.
 });
 
 /**

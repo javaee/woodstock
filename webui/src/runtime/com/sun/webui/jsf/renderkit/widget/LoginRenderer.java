@@ -21,45 +21,28 @@
  */
 package com.sun.webui.jsf.renderkit.widget;
 
-import java.io.IOException;
-import javax.faces.FacesException;
-import javax.faces.component.UIComponent;
-import javax.faces.context.FacesContext;
-import javax.faces.context.ResponseWriter;
-import com.sun.webui.theme.Theme;
-import com.sun.webui.theme.ThemeImage;
-import com.sun.webui.jsf.theme.ThemeImages;
-import com.sun.webui.jsf.theme.ThemeStyles;
-import com.sun.webui.jsf.theme.ThemeTemplates;
-import com.sun.webui.jsf.util.JavaScriptUtilities;
-import com.sun.webui.jsf.util.RenderingUtilities;
-import com.sun.webui.jsf.util.ThemeUtilities;
-import com.sun.webui.jsf.component.Icon;
-import com.sun.webui.jsf.component.Login;
-import com.sun.webui.jsf.component.Button;
-import com.sun.webui.jsf.component.Login;
-import com.sun.webui.jsf.util.RenderingUtilities;
-import com.sun.webui.jsf.util.ComponentUtilities;
-import com.sun.webui.jsf.util.WidgetUtilities;
-import com.sun.webui.jsf.util.JSONUtilities;
 import com.sun.faces.annotation.Renderer;
+import com.sun.webui.jsf.component.Login;
+import com.sun.webui.jsf.model.login.LoginConstants;
+import com.sun.webui.jsf.theme.ThemeStyles;
+import com.sun.webui.jsf.util.JavaScriptUtilities;
+import com.sun.webui.jsf.util.JSONUtilities;
+import com.sun.webui.theme.Theme;
+
+import java.io.IOException;
 
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
-import javax.faces.context.ResponseWriter;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.json.JSONArray;
 
-import com.sun.webui.jsf.component.Login;
-import com.sun.webui.jsf.model.login.LoginConstants;
-
 /**
  * <p>Renderer for a {@link Login} component.</p>
  */
 @Renderer(@Renderer.Renders(
-rendererType="com.sun.webui.jsf.widget.Login",
+    rendererType="com.sun.webui.jsf.widget.Login",
     componentFamily="com.sun.webui.jsf.Login"))
 public class LoginRenderer extends RendererBase {
 
@@ -82,16 +65,6 @@ public class LoginRenderer extends RendererBase {
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     // Renderer methods
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-    /**
-     * Get the Dojo modules required to instantiate the widget.
-     *
-     * @param context FacesContext for the current request.
-     * @param component UIComponent to be rendered.
-     */
-    protected String getModule(FacesContext context, UIComponent component) {
-        return JavaScriptUtilities.getModuleName("widget.login");
-    }
     
     /**
      * Get the type of widget represented by this component.
@@ -103,7 +76,7 @@ public class LoginRenderer extends RendererBase {
      *   "accordion" in this case.
      */
     protected String getWidgetType(FacesContext context, UIComponent component) {
-        return JavaScriptUtilities.getModuleName("widget.login");
+        return "login";
     }
     
     /**

@@ -25,9 +25,6 @@ package com.sun.webui.jsf.renderkit.widget;
 import com.sun.webui.jsf.component.Calendar;
 import com.sun.webui.jsf.component.CalendarMonth;
 import com.sun.webui.jsf.component.ImageHyperlink;
-import com.sun.webui.jsf.theme.ThemeImages;
-import com.sun.webui.jsf.theme.ThemeTemplates;
-import com.sun.webui.jsf.util.JavaScriptUtilities;
 import com.sun.webui.jsf.util.WidgetUtilities;
 import com.sun.webui.theme.Theme;
 
@@ -35,8 +32,6 @@ import com.sun.faces.annotation.Renderer;
 import com.sun.webui.jsf.util.ConversionUtilities;
 
 import java.io.IOException;
-import java.text.SimpleDateFormat;
-import java.util.MissingResourceException;
 
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
@@ -130,7 +125,7 @@ public class CalendarRenderer extends TextFieldRenderer {
      * @param component UIComponent to be rendered.
      */
     protected String getWidgetType(FacesContext context, UIComponent component) {
-        return JavaScriptUtilities.getModuleName("widget.calendarField");
+        return "calendarField";
     }
 
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~

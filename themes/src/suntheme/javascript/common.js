@@ -22,7 +22,7 @@
 
 webui.@THEME_JS@._base.dojo.provide("webui.@THEME_JS@.common");
 
-webui.@THEME_JS@._base.dojo.require("webui.@THEME_JS@.theme.common");
+webui.@THEME_JS@._base.dojo.require("webui.@THEME_JS@._base.theme.common");
 
 /**
  * @class This class contains functions common to HTML elements.
@@ -446,7 +446,7 @@ webui.@THEME_JS@.common = {
         }
         
         var selections = document.createElement('select');
-        selections.className = webui.@THEME_JS@.theme.common.getClassName("HIDDEN");
+        selections.className = webui.@THEME_JS@._base.theme.common._getClassName("HIDDEN");
         selections.name = name;
         selections.id = name;
         selections.multiple = true;
@@ -501,7 +501,7 @@ webui.@THEME_JS@.common = {
         // Test for the hidden style class.
         var styleClasses = webui.@THEME_JS@.common.splitStyleClasses(element); 
         return !webui.@THEME_JS@.common.checkStyleClasses(styleClasses,
-            webui.@THEME_JS@.theme.common.getClassName("HIDDEN"));
+            webui.@THEME_JS@._base.theme.common._getClassName("HIDDEN"));
     },
     
     /**
@@ -533,10 +533,10 @@ webui.@THEME_JS@.common = {
         }
         if (visible) {
             return webui.@THEME_JS@.common.stripStyleClass(element,
-                webui.@THEME_JS@.theme.common.getClassName("HIDDEN"));
+                webui.@THEME_JS@._base.theme.common._getClassName("HIDDEN"));
         } else {
             return webui.@THEME_JS@.common.addStyleClass(element,
-                webui.@THEME_JS@.theme.common.getClassName("HIDDEN"));
+                webui.@THEME_JS@._base.theme.common._getClassName("HIDDEN"));
         }
     }
 };

@@ -24,12 +24,8 @@ package com.sun.webui.jsf.renderkit.widget;
 
 import com.sun.faces.annotation.Renderer;
 import com.sun.webui.jsf.component.Rating;
-import com.sun.webui.jsf.theme.ThemeTemplates;
 import com.sun.webui.jsf.util.JSONUtilities;
-import com.sun.webui.jsf.util.JavaScriptUtilities;
-import com.sun.webui.jsf.util.WidgetUtilities;
 import java.io.IOException;
-import java.util.Iterator;
 import java.util.Map;
 
 import javax.faces.component.UIComponent;
@@ -171,7 +167,7 @@ public class RatingRenderer extends RendererBase {
      * @param component UIComponent to be rendered.
      */
     protected String getWidgetType(FacesContext context, UIComponent component) {
-        return JavaScriptUtilities.getModuleName("widget.rating");
+        return "rating";
     }
 
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~

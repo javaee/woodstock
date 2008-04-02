@@ -67,7 +67,7 @@ webui.@THEME_JS@._base.dojo.declare("webui.@THEME_JS@.widget.checkbox",
         webui.@THEME_JS@.widget._base.checkedBase, {
     // Set defaults.
     _idSuffix: "_cb",
-    _widgetName: "checkbox" // Required for theme properties.
+    _widgetType: "checkbox" // Required for theme properties.
 });
 
 /**

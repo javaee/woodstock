@@ -27,11 +27,9 @@ import com.sun.webui.jsf.component.ComplexComponent;
 import com.sun.webui.jsf.component.Label;
 import com.sun.webui.jsf.util.WidgetUtilities;
 import com.sun.webui.theme.Theme;
-import com.sun.webui.jsf.theme.ThemeTemplates;
 import com.sun.webui.jsf.util.ConversionUtilities;
 import com.sun.webui.jsf.util.FacesMessageUtils;
 import com.sun.webui.jsf.util.JSONUtilities;
-import com.sun.webui.jsf.util.JavaScriptUtilities;
 
 import java.io.IOException;
 import java.text.MessageFormat;
@@ -224,7 +222,7 @@ public class LabelRenderer extends RendererBase {
      * @param component UIComponent to be rendered.
      */
     protected String getWidgetType(FacesContext context, UIComponent component) {
-	return JavaScriptUtilities.getModuleName("widget.label");
+	return "label";
     }
 
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~

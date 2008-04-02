@@ -27,9 +27,7 @@ import com.sun.faces.annotation.Renderer;
 import com.sun.webui.jsf.component.Table2;
 import com.sun.webui.jsf.component.Table2RowGroup;
 import com.sun.webui.jsf.util.WidgetUtilities;
-import com.sun.webui.jsf.theme.ThemeTemplates;
 import com.sun.webui.jsf.util.JSONUtilities;
-import com.sun.webui.jsf.util.JavaScriptUtilities;
 
 import java.io.IOException;
 import java.util.Iterator;
@@ -130,7 +128,7 @@ public class Table2Renderer extends RendererBase {
      * @param component UIComponent to be rendered.
      */
     protected String getWidgetType(FacesContext context, UIComponent component) {
-        return JavaScriptUtilities.getModuleName("widget.table2");
+        return "table2";
     }
 
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~

@@ -25,11 +25,8 @@ package com.sun.webui.jsf.renderkit.widget;
 import com.sun.faces.annotation.Renderer;
 import com.sun.webui.jsf.component.Checkbox;
 import com.sun.webui.jsf.component.ComplexComponent;
-import com.sun.webui.jsf.theme.ThemeTemplates;
 import com.sun.webui.jsf.util.ComponentUtilities;
 import com.sun.webui.jsf.util.ConversionUtilities;
-
-import com.sun.webui.jsf.util.JavaScriptUtilities;
 
 import java.util.Map;
 
@@ -196,7 +193,7 @@ public class CheckboxRenderer extends RbCbRendererBase {
      * @param component UIComponent to be rendered.
      */
     protected String getWidgetType(FacesContext context, UIComponent component) {
-        return JavaScriptUtilities.getModuleName("widget.checkbox");
+        return "checkbox";
     }
     
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~

@@ -71,7 +71,7 @@ webui.@THEME_JS@._base.dojo.declare("webui.@THEME_JS@.widget.textArea",
         this.cols = 20;
         this.rows = 3;
     },
-    _widgetName: "textArea" // Required for theme properties.
+    _widgetType: "textArea" // Required for theme properties.
 });
 
 /**

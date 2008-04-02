@@ -53,7 +53,7 @@ webui.@THEME_JS@._base.dojo.declare("webui.@THEME_JS@.widget.bubble",
         this.bubbleLeftConst = 5;
         this.topConst = 2;
     },   
-    _widgetName: "bubble" // Required for theme properties.
+    _widgetType: "bubble" // Required for theme properties.
 });
 
 /**
@@ -397,7 +397,7 @@ webui.@THEME_JS@.widget.bubble.prototype._postCreate = function () {
     
     // Initialize the BubbleTitle width as a percentage of the bubble header.    
     if (this.bubbleTitle != null) {
-        this.bubbleTitle.style.width = this._theme.getProperty("styles", 
+        this.bubbleTitle.style.width = this._theme._getProperty("styles", 
             "BUBBLE_TITLEWIDTH") + "%";
     }
     return this._inherited("_postCreate", arguments);
@@ -417,13 +417,13 @@ webui.@THEME_JS@.widget.bubble.prototype._setPosition = function() {
     // RESULTING IN LAYOUT MISALIGNMENT IN THE HEADER.
 
     // Assume BubbleTitle width max percentage of the bubble header.
-    var maxPercent = this._theme.getProperty("styles", "BUBBLE_TITLEWIDTH");
+    var maxPercent = this._theme._getProperty("styles", "BUBBLE_TITLEWIDTH");
 
     // Sum of widths of all elements in the header BUT the title.  This includes
     // the width of the close button icon, and the margins around the button and
     // the title.  This should be a themeable parameter that matches the left/right
     // margins specified in the stylesheet for "BubbleTitle" and "BubbleCloseBtn".
-    var nonTitleWidth = this._theme.getProperty("styles", "BUBBLE_NONTITLEWIDTH");
+    var nonTitleWidth = this._theme._getProperty("styles", "BUBBLE_NONTITLEWIDTH");
 
     // Get the widths (in pixels) of the bubble header and title
     var headerWidth = this.bubbleHeader.offsetWidth;
@@ -621,8 +621,8 @@ webui.@THEME_JS@.widget.bubble.prototype._setProps = function(props) {
     // hide/display close button
     if (props.closeButton != null) {
         var classNames = this.closeBtn.className.split(" ");
-        var closeButtonClass = this._theme.getClassName("BUBBLE_CLOSEBTN");
-        var noCloseButtonClass = this._theme.getClassName("BUBBLE_NOCLOSEBTN");
+        var closeButtonClass = this._theme._getClassName("BUBBLE_CLOSEBTN");
+        var noCloseButtonClass = this._theme._getClassName("BUBBLE_NOCLOSEBTN");
 
         if (props.closeButton == false) {
             this._common.stripStyleClass(this.closeBtn, closeButtonClass);

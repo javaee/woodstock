@@ -25,7 +25,7 @@ webui.@THEME_JS@._base.dojo.provide("webui.@THEME_JS@._html.commonTasksSection")
 webui.@THEME_JS@._base.dojo.require("webui.@THEME_JS@.browser");
 webui.@THEME_JS@._base.dojo.require("webui.@THEME_JS@.common");
 webui.@THEME_JS@._base.dojo.require("webui.@THEME_JS@._base.proto");
-webui.@THEME_JS@._base.dojo.require("webui.@THEME_JS@.theme.common");
+webui.@THEME_JS@._base.dojo.require("webui.@THEME_JS@._base.theme.common");
 
 /** 
  * @class This class contains functions for commonTasksSection components.
@@ -195,7 +195,7 @@ webui.@THEME_JS@._html.commonTasksSection = {
         this.task = task;
         this.bottomInfoLink = bottomInfoLink;
         this.spacer = spacer;
-        this.theme = webui.@THEME_JS@.theme.common;
+        this._theme = webui.@THEME_JS@._base.theme.common;
         
         var that = this;
 
@@ -419,7 +419,7 @@ webui.@THEME_JS@._html.commonTasksSection = {
                 webui.@THEME_JS@.common.setVisibleElement(this.info, true);
                 this.getElementPosition2(this.image.id);
                 this.getElementPosition(this.task.id);        
-                this.info.style.top = (this.ttop + parseInt(this.theme.getMessage("commonTasks.infoPanelOffsetTop"))) +'px';
+                this.info.style.top = (this.ttop + parseInt(this._theme._getMessage("commonTasks.infoPanelOffsetTop"))) +'px';
                 this.info.style.left =  (this.tleft - 1) + 'px';
                 this.info.style.width = (this.ileft - this.tleft) + 29 + 'px';
                 this.close.focus();

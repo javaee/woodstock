@@ -24,7 +24,6 @@ package com.sun.webui.jsf.renderkit.widget;
 
 import com.sun.faces.annotation.Renderer;
 import com.sun.webui.jsf.component.EditableField;
-import com.sun.webui.jsf.util.JavaScriptUtilities;
 
 import java.io.IOException;
 
@@ -77,7 +76,7 @@ public class EditableFieldRenderer extends TextFieldRenderer {
      * @param component UIComponent to be rendered.
      */
     protected String getWidgetType(FacesContext context, UIComponent component) {
-        return JavaScriptUtilities.getModuleName("widget.editableField");
+        return "editableField";
     }
     
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~

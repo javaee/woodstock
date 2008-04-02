@@ -47,7 +47,7 @@ webui.@THEME_JS@._base.dojo.require("webui.@THEME_JS@.widget._base.widgetBase");
 webui.@THEME_JS@._base.dojo.declare("webui.@THEME_JS@.widget.alert",
         webui.@THEME_JS@.widget._base.widgetBase, {
     // Set defaults.
-    _widgetName: "alert" // Required for theme properties.
+    _widgetType: "alert" // Required for theme properties.
 });
 
 /**
@@ -153,36 +153,37 @@ webui.@THEME_JS@.widget.alert.prototype._postCreate = function () {
         this.topRightContainer.id = this.id + "_topRightContainer";
         this.detailContainerLink.id = this.id + "_detailContainerLink";
     }
-        //create default indicators.   
-        var  defaultIndicators =[{
-                    "type": "error",
-                    "image": this._widget._getWidgetProps("image", {
-                    id: this.id + "_error",
-                    icon: "ERROR_ALERT_INDICATOR"
-                    })
-                },
-            {
-                    "type": "warning",
-                    "image": this._widget._getWidgetProps("image", {
-                    id: this.id + "_warning",
-                    icon: "WARNING_ALERT_INDICATOR"
-                })
-                },
-            {
-                    "type": "success",
-                    "image": this._widget._getWidgetProps("image", {
-                    id: this.id + "_success",
-                    icon: "SUCCESS_ALERT_INDICATOR"
-                })
-                },
-            {
-                    "type": "information",
-                    "image": this._widget._getWidgetProps("image", {
-                    id: this.id + "_info",
-                    icon: "INFORMATION_ALERT_INDICATOR"
-                })
-            }];           
-    
+
+    // Create default indicators.   
+    var  defaultIndicators = [{
+        "type": "error",
+        "image": {
+            id: this.id + "_error",
+            icon: "ERROR_ALERT_INDICATOR",
+            widgetType: "image"
+        }
+    }, {
+        "type": "warning",
+        "image": {
+            id: this.id + "_warning",
+            icon: "WARNING_ALERT_INDICATOR",
+            widgetType: "image"
+        }
+    }, {
+        "type": "success",
+        "image": {
+            id: this.id + "_success",
+            icon: "SUCCESS_ALERT_INDICATOR",
+            widgetType: "image"
+        }
+    }, {
+        "type": "information",
+        "image": {
+            id: this.id + "_info",
+            icon: "INFORMATION_ALERT_INDICATOR",
+            widgetType: "image"
+        }
+    }];
         
     if (this.indicators == null) {
         this.indicators = defaultIndicators;    
@@ -208,26 +209,29 @@ webui.@THEME_JS@.widget.alert.prototype._postCreate = function () {
     
     //spacer image
     if (this.spacerImage == null) {
-        this.spacerImage = this._widget._getWidgetProps("image", {
+        this.spacerImage = {
              icon: "DOT",
-             id: this.id + "_dot"
-        }); 
+             id: this.id + "_dot",
+             widgetType: "image"
+        };
     }
     // moreInfo link
-    if (this.moreInfo != null && this.moreInfo.id == null && this.moreInfo.widgetType == null) {
-        this.moreInfo = this._widget._getWidgetProps("imageHyperlink",{
-                    id: this.id + "_" + "alertLink",
-                    enabledImage: this._widget._getWidgetProps("image", {
-                            id: this.id + "_moreInfoLinkImg",
-                            icon: "HREF_LINK"
-                    }),     
-                    target: this.moreInfo.target,
-                    href: this.moreInfo.url,
-                    contents: [this.moreInfo.value],
-                    imagePosition: "right",                   
-                    title: this.moreInfo.tooltip    
-                }                            
-            );
+    if (this.moreInfo != null && this.moreInfo.id == null 
+            && this.moreInfo.widgetType == null) {
+        this.moreInfo = {
+            id: this.id + "_" + "alertLink",
+            enabledImage:  {
+                id: this.id + "_moreInfoLinkImg",
+                icon: "HREF_LINK",
+                widgetType: "image"
+            },     
+            target: this.moreInfo.target,
+            href: this.moreInfo.url,
+            contents: [this.moreInfo.value],
+            imagePosition: "right",                   
+            title: this.moreInfo.tooltip,
+            widgetType: "imageHyperlink"
+        };
     }    
     return this._inherited("_postCreate", arguments);
 };

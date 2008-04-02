@@ -23,7 +23,7 @@
 webui.@THEME_JS@._base.dojo.provide("webui.@THEME_JS@._html.tree");
 
 webui.@THEME_JS@._base.dojo.require("webui.@THEME_JS@._base.proto");
-webui.@THEME_JS@._base.dojo.require("webui.@THEME_JS@.theme.common");
+webui.@THEME_JS@._base.dojo.require("webui.@THEME_JS@._base.theme.common");
 webui.@THEME_JS@._base.dojo.require("webui.@THEME_JS@.widget.common");
 
 /** 
@@ -349,7 +349,7 @@ webui.@THEME_JS@._html.tree = {
     clearHighlight: function(node) {
         if (node) {
 	    node.className = 
-                webui.@THEME_JS@.theme.common.getClassName("TREE_ROW");
+                webui.@THEME_JS@._base.theme.common._getClassName("TREE_ROW");
         }
         return true;
     },
@@ -463,7 +463,7 @@ webui.@THEME_JS@._html.tree = {
     highlight: function(node) {
         if (node) {
 	    node.className = 
-                webui.@THEME_JS@.theme.common.getClassName("TREE_SELECTED_ROW");
+                webui.@THEME_JS@._base.theme.common._getClassName("TREE_SELECTED_ROW");
             return true;
         }
         return false;

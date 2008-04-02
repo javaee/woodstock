@@ -36,7 +36,6 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import com.sun.webui.jsf.util.JavaScriptUtilities;
 import com.sun.faces.annotation.Renderer;
 
 /**
@@ -108,7 +107,7 @@ public class HyperlinkRenderer extends AnchorRendererBase{
      * @param component UIComponent to be rendered.
      */
     protected String getWidgetType(FacesContext context, UIComponent component) {
-            return JavaScriptUtilities.getModuleName("widget.hyperlink");          
+        return "hyperlink";
     }
 
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~

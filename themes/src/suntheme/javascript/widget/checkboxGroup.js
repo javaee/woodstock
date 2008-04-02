@@ -51,7 +51,7 @@ webui.@THEME_JS@._base.dojo.require("webui.@THEME_JS@.widget._base.checkedGroupB
 webui.@THEME_JS@._base.dojo.declare("webui.@THEME_JS@.widget.checkboxGroup",
         webui.@THEME_JS@.widget._base.checkedGroupBase, {
     // Set defaults.
-    _widgetName: "checkboxGroup" // Required for theme properties.
+    _widgetType: "checkboxGroup" // Required for theme properties.
 });
 
 /**

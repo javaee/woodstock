@@ -79,7 +79,7 @@ JUNK=`rm -rf $DOJO_DIR`
 # Modify the djConfig variable.
 #
 OLD=djConfig
-NEW=webui_@THEME_JS@\\.djConfig
+NEW=webui_@THEME_JS@\\._djConfig
 for F in `find $BUILD_DIR/javascript -name \*.js`
 do
     sed -e "s|$OLD\.|$NEW\.|g" \

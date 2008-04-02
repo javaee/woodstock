@@ -68,7 +68,7 @@ webui.@THEME_JS@._base.dojo.require("webui.@THEME_JS@.widget.textField");
 webui.@THEME_JS@._base.dojo.declare("webui.@THEME_JS@.widget.calendarField",
         webui.@THEME_JS@.widget.textField, {
     // Set defaults.
-    _widgetName: "calendarField" // Required for theme properties.
+    _widgetType: "calendarField" // Required for theme properties.
 });
 
 /**
@@ -187,9 +187,9 @@ webui.@THEME_JS@.widget.calendarField.prototype._postCreate = function () {
         if (this.calendar != null && this.calendar.dateFormat != null) {
             pattern = this.calendar.dateFormat;
         } else {        
-            pattern = this._theme.getMessage("calendar.dateFormat");
+            pattern = this._theme._getMessage("calendar.dateFormat");
         }
-        var help = this._theme.getMessage("calendar." + pattern);
+        var help = this._theme._getMessage("calendar." + pattern);
         if (help != null) {
             this.patternHelp = help;
         } 

@@ -26,10 +26,8 @@ import com.sun.faces.annotation.Renderer;
 
 import com.sun.webui.jsf.component.Button;
 import com.sun.webui.jsf.component.Icon;
-import com.sun.webui.jsf.theme.ThemeTemplates;
 import com.sun.webui.jsf.util.ConversionUtilities;
 import com.sun.webui.jsf.util.JSONUtilities;
-import com.sun.webui.jsf.util.JavaScriptUtilities;
 import com.sun.webui.jsf.util.ThemeUtilities;
 
 import java.io.IOException;
@@ -185,11 +183,11 @@ public class ButtonRenderer extends RendererBase {
         // Get type.
         String type = getType((Button) component);
         if (type.equals(TYPE_ICON) || type.equals(TYPE_IMAGE)) {
-            return JavaScriptUtilities.getModuleName("widget.imageButton");
+            return "imageButton";
         } else if (type.equals(TYPE_RESET)) {
-            return JavaScriptUtilities.getModuleName("widget.resetButton");
+            return "resetButton";
         } else {
-            return JavaScriptUtilities.getModuleName("widget.button");
+            return "button";
         }
     }
 

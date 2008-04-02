@@ -112,13 +112,11 @@ webui.@THEME_JS@.widget._base.labeledBase.prototype.getProps = function() {
  * This implementation returns null. This method should be implemented
  * in subclasses to return label properties desired by the subclass.
  * </p>
- * @param {Object} props Properties contributed by the caller, which can
- * be overridden as necessary.
- * @return {Object} This implementation returns props;
+ * @return {Object} Key-Value pairs of properties.
  * @private
  */
-webui.@THEME_JS@.widget._base.labeledBase.prototype._getLabelProps = function(props) {
-    return props;
+webui.@THEME_JS@.widget._base.labeledBase.prototype._getLabelProps = function() {
+    return {};
 };
 
 /**
@@ -147,7 +145,6 @@ webui.@THEME_JS@.widget._base.labeledBase.prototype._getLabelClassName = functio
  * @private
  */
 webui.@THEME_JS@.widget._base.labeledBase.prototype._postCreate = function () {
-
     // A widget that has inherited from labeledBase must have
     // "this.labelContainer", but check anyway.
     //
@@ -169,14 +166,12 @@ webui.@THEME_JS@.widget._base.labeledBase.prototype._postCreate = function () {
     // 
     if (this.label && this.label.value != null
             && !this._widget._isFragment(this.label)) {
+	this.label.id = this.id + "_label";
+        this.label.widgetType = "label";
 
 	// Get subclass label preferences
 	//
-	var labelprops = this._getLabelProps({});
-	this._proto.extend(labelprops, this.label);
-
-	this.label = this._widget._getWidgetProps("label", labelprops);
-	this.label.id = this.id + "_label";
+	this._proto.extend(this.label, this._getLabelProps());
     }
     return this._inherited("_postCreate", arguments);
 };

@@ -69,7 +69,7 @@ webui.@THEME_JS@._base.dojo.require("webui.@THEME_JS@.widget._base.anchorBase");
 webui.@THEME_JS@._base.dojo.declare("webui.@THEME_JS@.widget.hyperlink",
         webui.@THEME_JS@.widget._base.anchorBase, {
     // Set defaults.
-    _widgetName: "hyperlink" // Required for theme properties.
+    _widgetType: "hyperlink" // Required for theme properties.
 });
 
 /**

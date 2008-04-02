@@ -23,7 +23,7 @@
 webui.@THEME_JS@._base.dojo.provide("webui.@THEME_JS@.widget._jsfx.dynaFaces");
 
 webui.@THEME_JS@._base.dojo.require("webui.@THEME_JS@._base.config");
-webui.@THEME_JS@._base.dojo.require("webui.@THEME_JS@.theme.common");
+webui.@THEME_JS@._base.dojo.require("webui.@THEME_JS@._base.theme.common");
 webui.@THEME_JS@._base.dojo.require("webui.@THEME_JS@.widget._base.eventBase");
 
 /**
@@ -84,13 +84,13 @@ webui.@THEME_JS@.widget._jsfx.dynaFaces = {
             return callback();
         }
         var bootstrap = webui.@THEME_JS@._base.bootstrap;
-        var theme = webui.@THEME_JS@.theme.common;
+        var theme = webui.@THEME_JS@._base.theme.common;
         var isDebug = new Boolean(webui.@THEME_JS@._base.config.isDebug).valueOf();
 
         // Get script URLs.
-        var pUrl = theme.getJavaScript((isDebug == true)
+        var pUrl = theme._getJavaScript((isDebug == true)
             ? "prototypeUncompressed" : "prototype");
-        var jUrl = theme.getJavaScript((isDebug == true)
+        var jUrl = theme._getJavaScript((isDebug == true)
             ? "jsfxUncompressed" : "jsfx");
 
         // Ensure Prototype is loaded first using a callback.

@@ -29,11 +29,9 @@ import com.sun.webui.jsf.component.Icon;
 import com.sun.webui.theme.Theme;
 import com.sun.webui.theme.ThemeImage;
 import com.sun.webui.jsf.theme.ThemeImages;
-import com.sun.webui.jsf.theme.ThemeTemplates;
 
 import com.sun.webui.jsf.util.LogUtil;
 import com.sun.webui.jsf.util.JSONUtilities;
-import com.sun.webui.jsf.util.JavaScriptUtilities;
 import com.sun.webui.jsf.util.WidgetUtilities;
 import com.sun.webui.jsf.util.ClientSniffer;
 
@@ -239,7 +237,7 @@ public class ImageRenderer extends RendererBase {
      * @param component UIComponent to be rendered.
      */
     protected String getWidgetType(FacesContext context, UIComponent component) {
-        return JavaScriptUtilities.getModuleName("widget.image");
+        return "image";
     }
 
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~

@@ -51,7 +51,7 @@ webui.@THEME_JS@._base.dojo.require("webui.@THEME_JS@.widget._base.checkedGroupB
 webui.@THEME_JS@._base.dojo.declare("webui.@THEME_JS@.widget.radioButtonGroup",
         webui.@THEME_JS@.widget._base.checkedGroupBase, {
     // Set defaults.
-    _widgetName: "radioButtonGroup" // Required for theme properties.
+    _widgetType: "radioButtonGroup" // Required for theme properties.
 });
 
 /**

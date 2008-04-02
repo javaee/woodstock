@@ -58,7 +58,7 @@ webui.@THEME_JS@._base.dojo.declare("webui.@THEME_JS@.widget.staticText",
     constructor: function() {
         this.escape = true;
     },
-    _widgetName: "staticText" // Required for theme properties.
+    _widgetType: "staticText" // Required for theme properties.
 });
 
 /**

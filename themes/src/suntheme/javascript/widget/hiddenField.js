@@ -43,7 +43,7 @@ webui.@THEME_JS@._base.dojo.declare("webui.@THEME_JS@.widget.hiddenField",
     constructor: function() {
         this.disabled = false;
     },
-    _widgetName: "hiddenField" // Required for theme properties.
+    _widgetType: "hiddenField" // Required for theme properties.
 });
 
 /**

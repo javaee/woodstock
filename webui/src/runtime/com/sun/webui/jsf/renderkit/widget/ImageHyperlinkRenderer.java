@@ -25,9 +25,7 @@ package com.sun.webui.jsf.renderkit.widget;
 import com.sun.faces.annotation.Renderer;
 import com.sun.webui.jsf.component.ImageComponent;
 import com.sun.webui.jsf.component.ImageHyperlink;
-import com.sun.webui.jsf.theme.ThemeTemplates;
 import com.sun.webui.jsf.util.ConversionUtilities;
-import com.sun.webui.jsf.util.JavaScriptUtilities;
 import com.sun.webui.jsf.util.WidgetUtilities;
 
 import java.util.Iterator;
@@ -75,7 +73,7 @@ public class ImageHyperlinkRenderer extends HyperlinkRenderer {
      * @param component UIComponent to be rendered.
      */
     protected String getWidgetType(FacesContext context, UIComponent component) {
-            return JavaScriptUtilities.getModuleName("widget.imageHyperlink");            
+        return "imageHyperlink";
     }
 
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~

@@ -71,7 +71,7 @@ webui.@THEME_JS@._base.dojo.declare("webui.@THEME_JS@.widget.table2RowGroup",
         this.currentRow = 0; // Current row in view.
         this.first = 0; // Index used to obtain rows.
     },
-    _widgetName: "table2RowGroup" // Required for theme properties.
+    _widgetType: "table2RowGroup" // Required for theme properties.
 });
 
 /**
@@ -112,22 +112,22 @@ webui.@THEME_JS@.widget.table2RowGroup.prototype._addColumns = function() {
             // StaticText widget adds span to match styles.
             //
             // To do: Create utility to help create client-side widgets.
-            this._widget._addFragment(headerCellClone,
-                this._widget._getWidgetProps("staticText", {
-                    id: headerCellClone.id + "Text",
-                    value: col.headerText
-                }));
+            this._widget._addFragment(headerCellClone, {
+                id: headerCellClone.id + "Text",
+                value: col.headerText,
+                widgetType: "staticText"
+            });
             headerVisible = true;
         }
         if (col.footerText) {
             // StaticText widget adds span to match styles.
             //
             // To do: Create utility to help create client-side widgets.
-            this._widget._addFragment(footerCellClone,
-                this._widget._getWidgetProps("staticText", {
-                    id: footerCellClone.id + "Text",
-                    value: col.footerText
-                }));
+            this._widget._addFragment(footerCellClone, {
+                id: footerCellClone.id + "Text",
+                value: col.footerText,
+                widgetType: "staticText"
+            });
             footerVisible = true;
         }
 
@@ -404,33 +404,39 @@ webui.@THEME_JS@.widget.table2RowGroup.prototype._postCreate = function () {
 
     // Set pagination controls.
     if (this.paginationPrevButton == null) {
-        this.paginationPrevButton = this._widget._getWidgetProps("imageHyperlink", {
-                id: this.id + "_paginationPrevButton",
-                enabledImage: this._widget._getWidgetProps("image", {
-                    icon: "TABLE2_PAGINATION_PREV",
-                    id: this.id + "_paginationPrevButtonImg"
-                }),
-                disabledImage: this._widget._getWidgetProps("image", {
-                    icon: "TABLE2_PAGINATION_PREV_DISABLED",
-                    id: this.id + "_paginationPrevButtonImgDis"
-                }),
-                title: this._theme.getMessage("table2.pagination.previous")      
-            });
+        this.paginationPrevButton = {
+            id: this.id + "_paginationPrevButton",
+            enabledImage: {
+                icon: "TABLE2_PAGINATION_PREV",
+                id: this.id + "_paginationPrevButtonImg",
+                widgetType: "image"
+            },
+            disabledImage: {
+                icon: "TABLE2_PAGINATION_PREV_DISABLED",
+                id: this.id + "_paginationPrevButtonImgDis",
+                widgetType: "image"
+            },
+            title: this._theme._getMessage("table2.pagination.previous"),
+            widgetType: "imageHyperlink"
+        };
     }
       
     if (this.paginationNextButton == null) {
-        this.paginationNextButton = this._widget._getWidgetProps("imageHyperlink", {
-                id: this.id + "_paginationNextButton",
-                enabledImage: this._widget._getWidgetProps("image", {
-                    icon: "TABLE2_PAGINATION_NEXT",
-                    id: this.id + "_paginationNextButtonImg"
-                }),
-                disabledImage: this._widget._getWidgetProps("image", {
-                    icon: "TABLE2_PAGINATION_NEXT_DISABLED",
-                    id: this.id + "_paginationNextButtonImgDis"
-                }),
-                title: this._theme.getMessage("table2.pagination.next")          
-            });
+        this.paginationNextButton = {
+            id: this.id + "_paginationNextButton",
+            enabledImage: {
+                icon: "TABLE2_PAGINATION_NEXT",
+                id: this.id + "_paginationNextButtonImg",
+                widgetType: "image"
+            },
+            disabledImage: {
+                icon: "TABLE2_PAGINATION_NEXT_DISABLED",
+                id: this.id + "_paginationNextButtonImgDis",
+                widgetType: "image"
+            },
+            title: this._theme._getMessage("table2.pagination.next"),
+            widgetType: "imageHyperlink"
+        };
     }
     
     // Resize hack for Moz/Firefox.
@@ -759,7 +765,7 @@ webui.@THEME_JS@.widget.table2RowGroup.prototype._updateRowsText = function() {
     // To do: Need to create a new rows message.
 
     // NOTE: If you set this value manually, text must be HTML escaped.
-    var msg = this._theme.getMessage("table.title.paginated", [
+    var msg = this._theme._getMessage("table.title.paginated", [
         "", 
         firstRow, 
         lastRow, 

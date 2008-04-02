@@ -30,12 +30,6 @@ if (typeof webui.@THEME_JS@ == "undefined") {
     this.webui.@THEME_JS@ = {};
     this.webui.@THEME_JS@._base = {};
 
-    // Initialize the webui.@THEME@ name space (without the version number) for 
-    // backward compatibility.
-    if (typeof webui.@THEME@ == "undefined") {
-        this.webui.@THEME@ = webui.@THEME_JS@;
-    }
-
     // Initialize the webui.@THEME_JS@ config variable. If this is not defined, 
     // webui_@THEME@ will be used for backward compatibility without the 
     // version number.
@@ -67,7 +61,7 @@ if (typeof webui.@THEME_JS@ == "undefined") {
                 return false;
             }
             var bootstrap = webui.@THEME_JS@._base.bootstrap;
-            var theme = webui.@THEME_JS@.theme.common;
+            var theme = webui.@THEME_JS@._base.theme.common;
             var isDebug = new Boolean(props.isDebug).valueOf();
             var webuiAll = new Boolean(props.webuiAll).valueOf();
             var webuiJsfx = new Boolean(props.webuiJsfx).valueOf();
@@ -81,7 +75,7 @@ if (typeof webui.@THEME_JS@ == "undefined") {
             }
 
             // Load webui file.
-            bootstrap._loadScript(theme.getJavaScript((isDebug)
+            bootstrap._loadScript(theme._getJavaScript((isDebug)
                 ? file + "Uncompressed" : file));
 
             // Load global scripts.
@@ -107,7 +101,7 @@ if (typeof webui.@THEME_JS@ == "undefined") {
          * literals.
          *
          * @param {Object} props Key-Value pairs of properties.
-         * @config {Object} djConfig Dojo config properties.
+         * @config {Object} _djConfig Dojo config properties.
          * @config {boolean} isDebug Flag indicating debug mode is enabled.
          * @config {String} modulePath The webui module path.
          * @config {Object} theme Key-Value pairs of theme properties.
@@ -144,20 +138,20 @@ if (typeof webui.@THEME_JS@ == "undefined") {
             }
 
             // Set Dojo base URL.
-            if (props.djConfig == null) { props.djConfig = {}; }
-            if (props.djConfig.baseUrl == null) {
-                props.djConfig.baseUrl = props.modulePath + "/_base/dojo";
+            if (props._djConfig == null) { props._djConfig = {}; }
+            if (props._djConfig.baseUrl == null) {
+                props._djConfig.baseUrl = props.modulePath + "/_base/dojo";
             }
 
             // Set Dojo debug mode.
-            if (props.djConfig.isDebug == null) {
-                props.djConfig.isDebug = new Boolean(props.isDebug).valueOf();
+            if (props._djConfig.isDebug == null) {
+                props._djConfig.isDebug = new Boolean(props.isDebug).valueOf();
             }
 
             // Set theme module path.
             if (props.theme == null) { props.theme = {}; }
             if (props.theme.modulePath == null) {
-                props.theme.modulePath = props.modulePath + "/theme";
+                props.theme.modulePath = props.modulePath + "/_base/theme";
             }
 
             // Set application context.
@@ -297,7 +291,7 @@ if (typeof webui.@THEME_JS@ == "undefined") {
             var bootstrap = webui.@THEME_JS@._base.bootstrap;
             var browser = webui.@THEME_JS@.browser;
             var isDebug = new Boolean(props.isDebug).valueOf();
-            var theme = webui.@THEME_JS@.theme.common;
+            var theme = webui.@THEME_JS@._base.theme.common;
 
             // Load master style sheet(s).
             files = theme._getStyleSheets((isDebug) ? "masterUncompressed" : "master");
@@ -367,23 +361,26 @@ if (typeof webui.@THEME_JS@ == "undefined") {
         }
     };
 
+    // Initialize paths.
+    webui.@THEME_JS@._base.bootstrap._initPaths(webui_@THEME_JS@);
+
 // Note: The following require statements must be located at the beginning of 
 // each line in order to be replaced by the build.
-
-// Initialize paths.
-webui.@THEME_JS@._base.bootstrap._initPaths(webui_@THEME_JS@);
-
 webui.@THEME_JS@._base.dojo.require("webui.@THEME_JS@._base.dojo.dojo"); // Replaced by build.
 
-// Initialize webui.
-webui.@THEME_JS@._base.bootstrap._initWebui(webui_@THEME_JS@);
+    // Initialize webui.
+    webui.@THEME_JS@._base.bootstrap._initWebui(webui_@THEME_JS@);
 
 webui.@THEME_JS@._base.dojo.require("webui.@THEME_JS@.browser"); // Replaced by build.
 webui.@THEME_JS@._base.dojo.require("webui.@THEME_JS@._base.config"); // Replaced by build.
-webui.@THEME_JS@._base.dojo.require("webui.@THEME_JS@.theme.common"); // Replaced by build.
+webui.@THEME_JS@._base.dojo.require("webui.@THEME_JS@._base.theme.common"); // Replaced by build.
 webui.@THEME_JS@._base.dojo.require("webui.@THEME_JS@.widget.common"); // Replaced by build.
 
-// Initialize files.
-webui.@THEME_JS@._base.bootstrap._initFiles(webui.@THEME_JS@._base.config);
+    // Initialize files.
+    webui.@THEME_JS@._base.bootstrap._initFiles(webui.@THEME_JS@._base.config);
 
+    // Map custom name space to webui.@THEME_JS@.
+    if (webui.@THEME_JS@._base.config.namespace) {
+        eval("this." + webui.@THEME_JS@._base.config.namespace + "=webui.@THEME_JS@");
+    }
 }

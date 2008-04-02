@@ -28,8 +28,6 @@ import com.sun.webui.jsf.component.Accordion;
 import com.sun.webui.jsf.util.JSONUtilities;
 import com.sun.webui.jsf.util.WidgetUtilities;
 import com.sun.webui.theme.Theme;
-import com.sun.webui.jsf.theme.ThemeTemplates;
-import com.sun.webui.jsf.util.JavaScriptUtilities;
 
 import java.io.IOException;
 
@@ -56,7 +54,8 @@ public class AccordionRenderer extends RendererBase {
      * The set of pass-through attributes to be rendered.
      */
     private static final String stringAttributes[] = {
-        "style"};
+        "style"
+    };
 
     private static final String intAttributes[] = {        
         "tabIndex"
@@ -112,7 +111,7 @@ public class AccordionRenderer extends RendererBase {
      *   "accordion" in this case.
      */
     protected String getWidgetType(FacesContext context, UIComponent component) {
-        return JavaScriptUtilities.getModuleName("widget.accordion");
+        return "accordion";
     }
 
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~

@@ -67,7 +67,7 @@ webui.@THEME_JS@._base.dojo.require("webui.@THEME_JS@.widget._base.fieldBase");
 webui.@THEME_JS@._base.dojo.declare("webui.@THEME_JS@.widget.passwordField",
         webui.@THEME_JS@.widget._base.fieldBase, {
     // Set defaults.
-    _widgetName: "passwordField" // Required for theme properties.
+    _widgetType: "passwordField" // Required for theme properties.
 });
 
 /**

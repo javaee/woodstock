@@ -67,20 +67,14 @@ webui.@THEME_JS@.widget._base.fieldBase.prototype.getInputElement = function() {
  * This implementation adds the <code>htmlFor</code> property with
  * <code>this.fieldNode.id</code>.
  * </p>
- * @param {Object} props Properties contributed by the caller, which can
- * be overridden as necessary.
- * @return {Object} an object with the <code>htmlFor</code> property set.
+ * @return {Object} Key-Value pairs of properties.
  * @private
  */
-webui.@THEME_JS@.widget._base.fieldBase.prototype._getLabelProps = function(props) {
-    // Let the super class contribute
-    //
-    var allprops = this._inherited("_getLabelProps", arguments);
-    if (allprops == null) {
-	allprops = {};
-    }
-    allprops.htmlFor = this.fieldNode.id;
-    return allprops;
+webui.@THEME_JS@.widget._base.fieldBase.prototype._getLabelProps = function() {
+    var props = this._inherited("_getLabelProps", arguments);
+
+    props.htmlFor = this.fieldNode.id;
+    return props;
 };
 
 /**

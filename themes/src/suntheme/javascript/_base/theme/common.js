@@ -20,7 +20,7 @@
  * Copyright 2008 Sun Microsystems, Inc. All rights reserved.
  */
 
-webui.@THEME_JS@._base.dojo.provide("webui.@THEME_JS@.theme.common");
+webui.@THEME_JS@._base.dojo.provide("webui.@THEME_JS@._base.theme.common");
 
 webui.@THEME_JS@._base.dojo.require("webui.@THEME_JS@._base.config");
 webui.@THEME_JS@._base.dojo.require("webui.@THEME_JS@._base.dojo.i18n");
@@ -40,11 +40,11 @@ webui.@THEME_JS@._base.dojo.require("webui.@THEME_JS@._base.proto");
  * </ul>
  * <p>
  * Each category has a set of properties. See the methods in
- * webui.@THEME_JS@.theme.common for obtaining the theme property values.
+ * webui.@THEME_JS@._base.theme.common for obtaining the theme property values.
  * </p>
  * @static
  */
-webui.@THEME_JS@.theme.common = {
+webui.@THEME_JS@._base.theme.common = {
     /**
      * This function is used to set widget properties with Object literals.
      *
@@ -66,7 +66,7 @@ webui.@THEME_JS@.theme.common = {
             return false;
         }
         var module = "webui.@THEME_JS@.theme";
-        var theme = webui.@THEME_JS@.theme.common;
+        var theme = webui.@THEME_JS@._base.theme.common;
 
         // Register module path.
 	if (props.modulePath) {
@@ -108,7 +108,7 @@ webui.@THEME_JS@.theme.common = {
             return false;
         }
         var config = webui.@THEME_JS@._base.config;
-        var theme = webui.@THEME_JS@.theme.common;
+        var theme = webui.@THEME_JS@._base.theme.common;
         var segments = themePackage.split(".");
         var bundle = segments[segments.length - 1];
         var module = segments.slice(0, segments.length - 1).join(".");
@@ -120,11 +120,11 @@ webui.@THEME_JS@.theme.common = {
 	    var modulePath = theme._getPrefix();
             if (module == null || module == "") {
                 theme.custom = {};
-                module = "webui.@THEME_JS@.theme.common.custom";
+                module = "webui.@THEME_JS@._base.theme.common.custom";
             } else {
 		// Only do this if the application did provided a
 		// module. When the application does not provide
-		// a module then ""webui.@THEME_JS@.theme.common.custom"
+		// a module then ""webui.@THEME_JS@._base.theme.common.custom"
 		// will be used as the module and then only
 		// the app context needs to be specified as the
 		// modulePath, the root of the resource files.
@@ -159,27 +159,17 @@ webui.@THEME_JS@.theme.common = {
     /**
      * Return the selector from the "styles" theme category for key
      * else null.
-     *
-     * @param {String} key A key defining a theme "styles" property.
-     * @return {String} The selector property.
-     */
-    getClassName: function(key) {
-	return webui.@THEME_JS@.theme.common.getProperty("styles", key);
-    },
-
-    /**
-     * This function returns style class name for a specified selector.
      * <p>
      * Note: If the given key doesn't exist in the theme, the method returns the
      * defaultValue param or null.
      * </p>
-     * @param {String} key A key defining a theme class name property.
+     * @param {String} key A key defining a theme "styles" property.
      * @param {Object} defaultValue Value returned if specified key is not found.
-     * @return {boolean} The style class name for a specified selector.
+     * @return {String} The selector property.
      * @private
      */
     _getClassName: function(key, defaultValue) {
-        var className =  webui.@THEME_JS@.theme.common.getClassName(key);
+        var className = webui.@THEME_JS@._base.theme.common._getProperty("styles", key);
         return (className != null) 
             ? className
             : (defaultValue) 
@@ -200,16 +190,17 @@ webui.@THEME_JS@.theme.common = {
      * the property is resolved to its message value.
      * This method should be called with the actual message property
      * and not one of its variants like "ALARM_CRITICAL_ALT". Use
-     * "webui.@THEME_JS@.theme.common.getProperty("images", "ALARM_CRITICAL_ALT")"
+     * "webui.@THEME_JS@._base.theme.common._getProperty("images", "ALARM_CRITICAL_ALT")"
      * to get individual values if desired.
      * If the literal path is desired, without the prefix, use
-     * "webui.@THEME_JS@.theme.common.getProperty("images", imageprop)"
+     * "webui.@THEME_JS@._base.theme.common._getProperty("images", imageprop)"
      * where imageprop is the actual image property like "ALARM_CRITICAL".
      *
      * @param {String} srcProperty the image theme key, the image key without any suffix.
      * @return {Object} Key-Value pairs of properties.
+     * @private
      */
-    getImage: function(srcProperty) {
+    _getImage: function(srcProperty) {
 	if (srcProperty == null || srcProperty.length == 0) {
 	    return null;
 	}
@@ -229,7 +220,7 @@ webui.@THEME_JS@.theme.common = {
 	// If this key does not have a value the image is not defined
 	// in the theme
 	//
-        var theme = webui.@THEME_JS@.theme.common;
+        var theme = webui.@THEME_JS@._base.theme.common;
 	var src = theme._getImageProp(srcProperty, false);
 	if (src == null) {
 	    return null;
@@ -273,17 +264,21 @@ webui.@THEME_JS@.theme.common = {
     },
 
     /**
-     * @private
+     * Get a specific image property.
+     *
+     * @param {String} prop The image theme key with suffix (e.g., "_WIDTH").
+     * @param {boolean} isText Flag indicating property is a message key.
      * @return {Object} Key-Value pairs of properties.
+     * @private
      */
     _getImageProp: function(prop, isText) {
-        var theme = webui.@THEME_JS@.theme.common;
-	var value = theme.getProperty("images", prop);
+        var theme = webui.@THEME_JS@._base.theme.common;
+	var value = theme._getProperty("images", prop);
 	if (value == null || value.length == 0) {
 	    return null;
 	}
-	if (isText) {
-	    var msg = theme.getMessage(value, null);
+	if (isText == true) {
+	    var msg = theme._getMessage(value, null);
 	    if (msg != null && msg.length != 0) {
 		value = msg;
 	    }
@@ -297,10 +292,11 @@ webui.@THEME_JS@.theme.common = {
      *
      * @param {String} key A key defining a theme "javascript" property.
      * @return {String} The javascript property.
+     * @private
      */
-    getJavaScript: function(key) {
-        var theme = webui.@THEME_JS@.theme.common;
-	var url = theme.getProperty("javascript", key);
+    _getJavaScript: function(key) {
+        var theme = webui.@THEME_JS@._base.theme.common;
+	var url = theme._getProperty("javascript", key);
 	if (url == null || url.length == 0) {
 	    return null;
 	}
@@ -316,8 +312,8 @@ webui.@THEME_JS@.theme.common = {
      * @private
      */
     _getJavaScripts: function(key) {
-        var theme = webui.@THEME_JS@.theme.common;
-	var url = theme.getProperty("javascript", key);
+        var theme = webui.@THEME_JS@._base.theme.common;
+	var url = theme._getProperty("javascript", key);
 	if (url == null || url.length == 0) {
 	    return null;
 	}
@@ -326,31 +322,6 @@ webui.@THEME_JS@.theme.common = {
             files[i] = theme._getPrefix() + files[i];
         }
 	return files;
-    },
-
-    /**
-     * Returns a formatted message if "params" is not null, else
-     * the literal value of "getProperty("messages", prop) or
-     * null if there is no value for key.
-     *
-     * @param {String} key
-     * @param {Array} params
-     * @return {String} A formatted message.
-     */
-    getMessage: function(key, params) {
-	var msg = webui.@THEME_JS@.theme.common.getProperty("messages", key);
-	if (msg == null) {
-	    return null;
-	}
-	if (params != null) {
-            return msg.replace(/\$\{(\w+)\}/g, function(match, key){
-                if (typeof(params[key]) != "undefined" && params[key] != null) {
-                    return params[key];
-                }
-            });
-	} else {
-	    return msg;
-	}
     },
 
     /**
@@ -374,7 +345,17 @@ webui.@THEME_JS@.theme.common = {
      * @private
      */
     _getMessage: function(key, args, defaultValue) {
-        var msg =  webui.@THEME_JS@.theme.common.getMessage(key, args);
+	var msg = webui.@THEME_JS@._base.theme.common._getProperty("messages", key);
+	if (msg == null) {
+	    return null;
+	}
+	if (args != null) {
+            msg = msg.replace(/\$\{(\w+)\}/g, function(match, key){
+                if (typeof(args[key]) != "undefined" && args[key] != null) {
+                    return args[key];
+                }
+            });
+	}
         return (msg != null) 
 	    ? msg 
 	    : (defaultValue)
@@ -408,7 +389,7 @@ webui.@THEME_JS@.theme.common = {
      */
     _getMessageBoolean: function(key, defaultValue) {
 	var result = defaultValue != null ? defaultValue : false;
-        var msg =  webui.@THEME_JS@.theme.common.getMessage(key, null);
+        var msg =  webui.@THEME_JS@._base.theme.common._getMessage(key, null);
 	if (msg == null || msg == "") {
 	    return result;
 	}
@@ -435,50 +416,20 @@ webui.@THEME_JS@.theme.common = {
     },
 
     /**
-     * Returns the theme properties for a theme category or null.
-     *
-     * @param {String} category
-     * @return {Object} Key-Value pairs of properties.
-     */
-    getProperties: function(category) {
-        try {
-            var p = webui.@THEME_JS@.theme.common.baseTheme[category];
-            return p == null || p == "" ? null : p;
-        } catch (e) {
-            return null;
-        }
-    },
-
-    /**
      * Returns a theme property "theme[category][key]" or null, never "".
      *
      * @param {String} category
      * @param {String} key
      * @return {String} The theme property.
+     * @private
      */
-    getProperty: function(category, key) {
+    _getProperty: function(category, key) {
         try {
-            var p = webui.@THEME_JS@.theme.common.baseTheme[category][key];
+            var p = webui.@THEME_JS@._base.theme.common.baseTheme[category][key];
             return p == null || p == "" ? null : p;
         } catch (e) {
             return null;
         }
-    },
-
-    /**
-     * This function is used to obtain a the literal "stylesheets"
-     * theme value for "key"
-     *
-     * @param {String} key A key defining a theme "stylesheets" property.
-     * @return {String} The javascript property.
-     */
-    getStyleSheets: function(key) {
-        var theme = webui.@THEME_JS@.theme.common;
-	var url = theme.getProperty("stylesheets", key);
-	if (url == null || url.length == 0) {
-	    return null;
-	}
-	return theme._getPrefix() + url;
     },
 
     /**
@@ -490,8 +441,8 @@ webui.@THEME_JS@.theme.common = {
      * @private
      */
     _getStyleSheets: function(key) {
-        var theme = webui.@THEME_JS@.theme.common;
-	var url = theme.getProperty("stylesheets", key);
+        var theme = webui.@THEME_JS@._base.theme.common;
+	var url = theme._getProperty("stylesheets", key);
 	if (url == null || url.length == 0) {
 	    return null;
 	}
@@ -508,9 +459,10 @@ webui.@THEME_JS@.theme.common = {
      *
      * @param {String} key A key defining a theme "templates" property.
      * @return {String} The template property.
+     * @private
      */
-    getTemplate: function(key) {
-        return webui.@THEME_JS@.theme.common.getProperty("templates", key);
+    _getTemplate: function(key) {
+        return webui.@THEME_JS@._base.theme.common._getProperty("templates", key);
     },
 
     /**
@@ -522,8 +474,8 @@ webui.@THEME_JS@.theme.common = {
      * @private
      */
     _getTemplatePath: function(key) {
-        var theme = webui.@THEME_JS@.theme.common;
-        var template = theme.getTemplate(key);
+        var theme = webui.@THEME_JS@._base.theme.common;
+        var template = theme._getTemplate(key);
         if (theme._isTemplatePath(template)) {
             return theme._getPrefix() + "/" + template;
         } else {
@@ -540,8 +492,8 @@ webui.@THEME_JS@.theme.common = {
      * @private
      */
     _getTemplateString: function(key) {
-        var theme = webui.@THEME_JS@.theme.common;
-        var template = theme.getTemplate(key);
+        var theme = webui.@THEME_JS@._base.theme.common;
+        var template = theme._getTemplate(key);
         if (!theme._isTemplatePath(template)) {
             return template;
         } else {
@@ -733,4 +685,4 @@ webui.@THEME_JS@.theme.common = {
 };
 
 // Initialize the theme.
-webui.@THEME_JS@.theme.common._init(webui.@THEME_JS@._base.config.theme);
+webui.@THEME_JS@._base.theme.common._init(webui.@THEME_JS@._base.config.theme);

@@ -71,7 +71,7 @@ webui.@THEME_JS@._base.dojo.declare("webui.@THEME_JS@.widget.progressBar",
     paused: "paused",
     resumed: "resumed",
     stopped: "stopped",
-    _widgetName: "progressBar"
+    _widgetType: "progressBar"
 });
 
 /**
@@ -185,7 +185,7 @@ webui.@THEME_JS@.widget.progressBar.prototype._getClassName = function() {
     var key = "PROGRESSBAR"; 
 
     // Get theme property.
-    var className = this._theme.getClassName(key);
+    var className = this._theme._getClassName(key);
     if (className == null || className.length == 0) {
 	return this.className;
     }
@@ -277,7 +277,7 @@ webui.@THEME_JS@.widget.progressBar.prototype.pause = function() {
     this.hiddenFieldNode.value = this.paused;
     if (this.type == this.indeterminate) {
         this.innerBarContainer.className =
-            this._theme.getClassName("PROGRESSBAR_INDETERMINATE_PAUSED");
+            this._theme._getClassName("PROGRESSBAR_INDETERMINATE_PAUSED");
     }
     return this._updateProgress();
 };
@@ -334,10 +334,11 @@ webui.@THEME_JS@.widget.progressBar.prototype._postCreate = function () {
     this.domNode.setStatusTextVisible = function(show) { return webui.@THEME_JS@.widget.common.getWidget(this.id).setStatusTextVisible(show); };
 
     if (this.busyImage == null) {
-	this.busyImage = this._widget._getWidgetProps("image", {
+	this.busyImage = {
             icon: "PROGRESS_BUSY",
-            id: this.id + "_busy"             
-        });
+            id: this.id + "_busy",
+            widgetType: "image"
+        };
     }
     return this._inherited("_postCreate", arguments);
 };
@@ -353,7 +354,7 @@ webui.@THEME_JS@.widget.progressBar.prototype.resume = function() {
     this.hiddenFieldNode.value = this.resumed;
     if (this.type == this.indeterminate) {
         this.innerBarContainer.className = 
-            this._theme.getClassName("PROGRESSBAR_INDETERMINATE");
+            this._theme._getClassName("PROGRESSBAR_INDETERMINATE");
             
     }
     return this._updateProgress();
@@ -575,7 +576,7 @@ webui.@THEME_JS@.widget.progressBar.prototype.setProgress = function(props) {
         clearTimeout(this.timeoutId);
         if (this.type == this.indeterminate) {
             this.innerBarContainer.className =
-                this._theme.getClassName("PROGRESSBAR_INDETERMINATE_PAUSED");
+                this._theme._getClassName("PROGRESSBAR_INDETERMINATE_PAUSED");
         }
         if (this.type == this.busy) {
             this.setProgressBarContainerVisible(false);
@@ -664,7 +665,7 @@ webui.@THEME_JS@.widget.progressBar.prototype._setProps = function(props) {
             || props.type == this.indeterminate) {
         // Set style class.
         this.barContainer.className =
-            this._theme.getClassName("PROGRESSBAR_CONTAINER");
+            this._theme._getClassName("PROGRESSBAR_CONTAINER");
 
         // Set height.
         if (props.height != null && props.height > 0) {
@@ -693,7 +694,7 @@ webui.@THEME_JS@.widget.progressBar.prototype._setProps = function(props) {
     if (props.type == this.determinate) {
         // Set style class.
         this.innerBarContainer.className =
-            this._theme.getClassName("PROGRESSBAR_DETERMINATE");
+            this._theme._getClassName("PROGRESSBAR_DETERMINATE");
 
         // Set width.
         if (this.progress != null && this.progress >= 0) {
@@ -718,9 +719,9 @@ webui.@THEME_JS@.widget.progressBar.prototype._setProps = function(props) {
     } else if (props.type == this.indeterminate) {
         // Set style class.
         this.barContainer.className = 
-            this._theme.getClassName("PROGRESSBAR_CONTAINER");
+            this._theme._getClassName("PROGRESSBAR_CONTAINER");
         this.innerBarContainer.className = 
-            this._theme.getClassName("PROGRESSBAR_INDETERMINATE");
+            this._theme._getClassName("PROGRESSBAR_INDETERMINATE");
     } else if (props.type == this.busy) {
         // Add busy image.
         if (props.busyImage) {
@@ -817,7 +818,7 @@ webui.@THEME_JS@.widget.progressBar.prototype.stop = function() {
     this.hiddenFieldNode.value = this.stopped;
     if (this.type == this.indeterminate) {
         this.innerBarIdContainer.className =
-            this._theme.getClassName("PROGRESSBAR_INDETERMINATE_PAUSED");
+            this._theme._getClassName("PROGRESSBAR_INDETERMINATE_PAUSED");
     }
     return this._updateProgress();
 };

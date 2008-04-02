@@ -24,21 +24,14 @@ package com.sun.webui.jsf.renderkit.widget;
 
 import com.sun.faces.annotation.Renderer;
 
-import com.sun.webui.jsf.util.JavaScriptUtilities;
 import com.sun.webui.jsf.component.CalendarMonth;
 import com.sun.webui.jsf.component.DateManager;
 import com.sun.webui.jsf.component.DropDown;
-import com.sun.webui.jsf.component.Icon;
-import com.sun.webui.jsf.model.Option;
-import com.sun.webui.jsf.theme.ThemeImages;
-import com.sun.webui.jsf.theme.ThemeTemplates;
 import com.sun.webui.jsf.util.JSONUtilities;
-import com.sun.webui.jsf.util.ThemeUtilities;
 import com.sun.webui.jsf.util.WidgetUtilities;
 import com.sun.webui.theme.Theme;
 
 import java.io.IOException;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.TimeZone;
 import java.text.DateFormat;
@@ -110,7 +103,6 @@ public class CalendarMonthRenderer extends RendererBase {
         String[] param = {df.format(today)};
         String todayDateMsg = theme.getMessage("CalendarMonth.todayIs", param);                
 
-
         JSONObject json = new JSONObject();           
         
         // Initialize children -- must be called after "today" and
@@ -134,7 +126,7 @@ public class CalendarMonthRenderer extends RendererBase {
      * @param component UIComponent to be rendered.
      */
     protected String getWidgetType(FacesContext context, UIComponent component) {
-        return JavaScriptUtilities.getModuleName("widget.calendar");
+        return "calendar";
     }
     
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~

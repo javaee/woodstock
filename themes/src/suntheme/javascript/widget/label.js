@@ -68,7 +68,7 @@ webui.@THEME_JS@._base.dojo.declare("webui.@THEME_JS@.widget.label",
         this.required = false;
         this.valid = true;
     },
-    _widgetName: "label" // Required for theme properties.
+    _widgetType: "label" // Required for theme properties.
 });
 
 /**
@@ -128,7 +128,7 @@ webui.@THEME_JS@.widget.label.prototype._getClassName = function() {
     }
 
     // Get theme property.
-    var className = this._theme.getClassName(key);
+    var className = this._theme._getClassName(key);
     if (className == null || className.length == 0) {
 	return this.className;
     }
@@ -203,18 +203,20 @@ webui.@THEME_JS@.widget.label.prototype._postCreate = function () {
     // When the _setProps() function is called, image widgets will be
     // instantiated via the props param. 
     if (this.errorImage == null) {
-	this.errorImage = this._widget._getWidgetProps("image", {
+	this.errorImage = {
             icon: "LABEL_INVALID_ICON",
             id: this.id + "_error",
-	    className: this._theme._getClassName("LABEL_INVALID_IMAGE", null)
-        });
+	    className: this._theme._getClassName("LABEL_INVALID_IMAGE", null),
+            widgetType: "image"
+        };
     }
     if (this.requiredImage == null) {
-	this.requiredImage = this._widget._getWidgetProps("image", {
+        this.requiredImage = {
             icon: "LABEL_REQUIRED_ICON",
             id: this.id + "_required",
-	    className: this._theme._getClassName("LABEL_REQUIRED_IMAGE", null)
-        });
+	    className: this._theme._getClassName("LABEL_REQUIRED_IMAGE", null),
+            widgetType: "image"
+        };
     }
     return this._inherited("_postCreate", arguments);
 };

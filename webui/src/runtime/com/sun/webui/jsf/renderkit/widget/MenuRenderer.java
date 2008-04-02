@@ -22,36 +22,23 @@
 
 package com.sun.webui.jsf.renderkit.widget;
 
-import com.sun.webui.jsf.component.ImageComponent;
-import com.sun.webui.jsf.model.Option;
-import com.sun.webui.jsf.model.OptionGroup;
-import com.sun.webui.jsf.theme.ThemeTemplates;
-
-import java.io.IOException;
-import java.util.Iterator;
-import java.util.Map;
-
-import javax.faces.context.FacesContext;
-import javax.faces.context.ResponseWriter;
-import javax.faces.component.UIComponent;
-
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
 import com.sun.faces.annotation.Renderer;
 import com.sun.webui.jsf.component.Menu;
 import com.sun.webui.jsf.component.util.Util;
 import com.sun.webui.jsf.event.ValueEvent;
 import com.sun.webui.jsf.model.Option;
 import com.sun.webui.jsf.model.OptionGroup;
-import com.sun.webui.theme.Theme;
-
-import com.sun.webui.jsf.util.ConversionUtilities;
-import com.sun.webui.jsf.util.JavaScriptUtilities;
 import com.sun.webui.jsf.util.WidgetUtilities;
-import com.sun.webui.jsf.util.ThemeUtilities;
 import com.sun.webui.jsf.util.JSONUtilities;
+
+import java.io.IOException;
+
+import javax.faces.context.FacesContext;
+import javax.faces.component.UIComponent;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 /**
  * This class renders an instance of the Menu component.
@@ -177,7 +164,7 @@ public class MenuRenderer extends RendererBase {
      * @param component UIComponent to be rendered.
      */
     protected String getWidgetType(FacesContext context, UIComponent component) {
-        return JavaScriptUtilities.getModuleName("widget.popupMenu");
+        return "popupMenu";
     }        
     
     /**
@@ -206,4 +193,3 @@ public class MenuRenderer extends RendererBase {
     // Private methods
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 }
-    

@@ -47,7 +47,7 @@ webui.@THEME_JS@._base.dojo.require("webui.@THEME_JS@.widget._base.widgetBase");
 webui.@THEME_JS@._base.dojo.declare("webui.@THEME_JS@.widget.dndContainer",
         webui.@THEME_JS@.widget._base.widgetBase, {
     // Set defaults.
-    _widgetName: "dndContainer" // Required for theme properties.
+    _widgetType: "dndContainer" // Required for theme properties.
 });
 
 /**

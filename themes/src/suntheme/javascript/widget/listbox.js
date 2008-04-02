@@ -75,7 +75,7 @@ webui.@THEME_JS@._base.dojo.declare("webui.@THEME_JS@.widget.listbox",
 	this.size = this._theme._getMessage("listbox.size", null, 12);
 	this.width = this._theme._getMessage("listbox.width", null);
     },
-    _widgetName: "listbox" // Required for theme properties.
+    _widgetType: "listbox" // Required for theme properties.
 });
 
 /**
@@ -155,30 +155,18 @@ webui.@THEME_JS@.widget.listbox.prototype._getClassName = function() {
  * These properties are extended with <code>this.label</code> and the
  * resulting properties are returned.
  * </p>
- * @param {Object} props Properties contributed by the caller, which can
- * be overridden as necessary.
- * @return {Object} label properties.
+ * @return {Object} Key-Value pairs of properties.
  * @private
  */
-webui.@THEME_JS@.widget.listbox.prototype._getLabelProps = function(props) {
+webui.@THEME_JS@.widget.listbox.prototype._getLabelProps = function() {
+    var props = this._inherited("_getLabelProps", arguments);
 
-    // First see if the super class wants to contribute to the props.
-    // Let selectBase add the htmlFor property
-    //
-    var allprops = this._inherited("_getLabelProps", arguments);
-
-    // We can override anything that it has set.
-    //
     var cn = this._getLabelClassName(null);
-    var lvl = this._theme._getMessage("listbox.labelLevel", null, 2);
-    if (allprops == null) {
-	allprops = {};
-    }
     if (cn != null) {
-       allprops.className = cn;
+       props.className = cn;
     }
-    allprops.level = lvl;
-    return allprops;
+    props.level = this._theme._getMessage("listbox.labelLevel", null, 2);
+    return props;
 };
 
 /**
@@ -441,7 +429,7 @@ webui.@THEME_JS@.widget.listbox.prototype._setProps = function(props) {
     if (props.size != null) {
 	var size = props.size;
 	if (size < 1) {
-	    size = this._theme.getMessage("listbox.size", null, 12);
+	    size = this._theme._getMessage("listbox.size", null, 12);
 	}
 	if (this.listContainer.size != size) {
 	    this.listContainer.size = size;

@@ -66,7 +66,7 @@ webui.@THEME_JS@._base.dojo.require("webui.@THEME_JS@.widget._base.widgetBase");
 webui.@THEME_JS@._base.dojo.declare("webui.@THEME_JS@.widget.table2",
         webui.@THEME_JS@.widget._base.widgetBase, {
     // Set defaults.
-    _widgetName: "table2" // Required for theme properties.
+    _widgetType: "table2" // Required for theme properties.
 });
 
 /**
@@ -216,7 +216,7 @@ webui.@THEME_JS@.widget.table2.prototype._setProps = function(props) {
     if (props.caption || props.filterText && this.caption) {       
         var filterText = null;
         if (props.filterText) {
-            filterText = this._theme.getMessage("table.title.filterApplied", [
+            filterText = this._theme._getMessage("table.title.filterApplied", [
                 props.filterText
             ]);
         }

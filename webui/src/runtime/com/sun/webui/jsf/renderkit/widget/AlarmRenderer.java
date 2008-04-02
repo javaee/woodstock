@@ -74,8 +74,7 @@ public class AlarmRenderer extends RendererBase {
         "onMouseOut",
         "onMouseOver",
         "onMouseUp",
-        "onMouseMove",
-        
+        "onMouseMove"
     };
 
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -179,7 +178,6 @@ public class AlarmRenderer extends RendererBase {
 
         return json;
     }
-    
 
     /**
      * Get the type of widget represented by this component.
@@ -188,7 +186,7 @@ public class AlarmRenderer extends RendererBase {
      * @param component UIComponent to be rendered.
      */
     protected String getWidgetType(FacesContext context, UIComponent component) {
-        return JavaScriptUtilities.getModuleName("widget.alarm");
+        return "alarm";
     }
     
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~

@@ -24,7 +24,7 @@ webui.@THEME_JS@._base.dojo.provide("webui.@THEME_JS@.widget.common");
 
 webui.@THEME_JS@._base.dojo.require("webui.@THEME_JS@._base.config");
 webui.@THEME_JS@._base.dojo.require("webui.@THEME_JS@.browser");
-webui.@THEME_JS@._base.dojo.require("webui.@THEME_JS@.theme.common");
+webui.@THEME_JS@._base.dojo.require("webui.@THEME_JS@._base.theme.common");
 
 /**
  * @class This class contains functions common to all widgets.
@@ -264,11 +264,12 @@ webui.@THEME_JS@.widget.common = {
         common.destroyWidget(props.id);
 
         // Retrieve required module.
-        webui.@THEME_JS@._base.dojo.require(props.widgetType);
+        var _widgetType = "webui.@THEME_JS@.widget."  + props.widgetType;
+        webui.@THEME_JS@._base.dojo.require(_widgetType);
         
         try {
             // Get widget object.
-            var obj = webui.@THEME_JS@._base.dojo.getObject(props.widgetType);
+            var obj = webui.@THEME_JS@._base.dojo.getObject(_widgetType);
 
             // Instantiate widget. 
             // Note: Dojo mixes attributes, if domNode is provided.
@@ -511,28 +512,6 @@ webui.@THEME_JS@.widget.common = {
     },
 
     /**
-     * This function returns common Object literals used by widgets. For 
-     * example, it adds the necessary widgetType.
-     *
-     * @param {String} widgetName The widget name to add properties for.
-     * @param {Object} props Key-Value pairs of properties (optional).
-     * @return {Object} Key-Value pairs of properties.
-     * @private
-     */
-    _getWidgetProps: function(widgetName, props) {
-        var _props = {};
-
-        // Set default widgetType.
-        _props.widgetType = "webui.@THEME_JS@.widget."  + widgetName;    
-
-        // Add extra properties
-        if (props != null) {
-            webui.@THEME_JS@._base.proto.extend(_props, props);
-        }
-        return _props;
-    },
-
-    /**
      * Return <code>true</code> if <code>props</code> defines a
      * widget fragment. A widget fragment is a string (typically of HTML)
      * or an object that defines the <code>widgetType</code> ort
@@ -557,8 +536,8 @@ webui.@THEME_JS@.widget.common = {
      */
     _isHighContrastMode:  function() {
         var config = webui.@THEME_JS@._base.config;
-        if (config.isHighContrastMode != undefined) {
-            return config.isHighContrastMode;
+        if (config._isHighContrastMode != undefined) {
+            return config._isHighContrastMode;
         }
 
         // Dojo appends the following div tag in body tag for a11y support.
@@ -574,7 +553,7 @@ webui.@THEME_JS@.widget.common = {
             return false;            
         }
         // Get icon properties.
-        var props = webui.@THEME_JS@.theme.common.getImage("DOT");
+        var props = webui.@THEME_JS@._base.theme.common._getImage("DOT");
         if (props == null) {
             return false;
         }
@@ -601,15 +580,15 @@ webui.@THEME_JS@.widget.common = {
             bImg = domNode.currentStyle.backgroundImage;
         }
         if (bImg != null && (bImg == "none" || bImg == "url(invalid-url:)" )) {
-            config.isHighContrastMode = true; // High Contrast Mode
+            config._isHighContrastMode = true; // High Contrast Mode
         } else {
-            config.isHighContrastMode = false;
+            config._isHighContrastMode = false;
         }
 
         // IE throws security exception if domNode isn't removed.
         // This allows widgets to be created before the window.onLoad event.
         body.removeChild(domNode);
-        return config.isHighContrastMode;    
+        return config._isHighContrastMode;    
     },
 
     /** 

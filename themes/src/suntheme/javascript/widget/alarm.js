@@ -55,7 +55,7 @@ webui.@THEME_JS@._base.dojo.require("webui.@THEME_JS@.widget._base.widgetBase");
  */
 webui.@THEME_JS@._base.dojo.declare("webui.@THEME_JS@.widget.alarm",
         webui.@THEME_JS@.widget._base.widgetBase, {
-    _widgetName: "alarm" // Required for theme properties.
+    _widgetType: "alarm" // Required for theme properties.
 });
 
 /**
@@ -131,34 +131,39 @@ webui.@THEME_JS@.widget.alarm.prototype._postCreate = function () {
     // default set of indicators
     var  defaultIndicators = [{
         "type": "down",
-        "image": this._widget._getWidgetProps("image", {
+        "image": {
             id: this.id + "_down",
-            icon: "DOWN_ALARM_INDICATOR"
-        })
+            icon: "DOWN_ALARM_INDICATOR",
+            widgetType: "image"
+        }
     }, {
         "type": "critical",
-        "image": this._widget._getWidgetProps("image", {
+        "image": {
             id: this.id + "_critical",
-            icon: "CRITICAL_ALARM_INDICATOR"
-        })
+            icon: "CRITICAL_ALARM_INDICATOR",
+            widgetType: "image"
+        }
     }, {
         "type": "major",
-        "image": this._widget._getWidgetProps("image", {
+        "image": {
             id: this.id + "_major",
-            icon: "MAJOR_ALARM_INDICATOR"
-        })
+            icon: "MAJOR_ALARM_INDICATOR",
+            widgetType: "image"
+        }
     }, {
         "type": "minor",
-        "image": this._widget._getWidgetProps("image", {
+        "image": {
             id: this.id + "_minor",
-            icon: "MINOR_ALARM_INDICATOR"
-        })
+            icon: "MINOR_ALARM_INDICATOR",
+            widgetType: "image"
+        }
     }, {
         "type": "ok",
-        "image": this._widget._getWidgetProps("image", {
+        "image": {
             id: this.id + "_ok",
-            icon: "OK_ALARM_INDICATOR"
-        })
+            icon: "OK_ALARM_INDICATOR",
+            widgetType: "image"
+        }
     }];
 
     if (this.indicators == null) {

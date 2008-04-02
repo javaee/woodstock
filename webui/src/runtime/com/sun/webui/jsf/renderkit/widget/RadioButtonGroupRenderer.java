@@ -23,18 +23,13 @@
 package com.sun.webui.jsf.renderkit.widget;
 
 import com.sun.faces.annotation.Renderer;
-import com.sun.webui.jsf.component.ComplexComponent;
 import com.sun.webui.jsf.component.Selector;
 import com.sun.webui.jsf.model.Option;
 import com.sun.webui.jsf.component.RadioButton;
 import com.sun.webui.jsf.component.RadioButtonGroup;
 import com.sun.webui.jsf.component.RbCbSelector;
-import com.sun.webui.jsf.theme.ThemeTemplates;
-import com.sun.webui.jsf.util.JavaScriptUtilities;
-import com.sun.webui.jsf.util.ConversionUtilities;
 
 import java.io.IOException;
-import java.util.Map;
 
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
@@ -76,7 +71,7 @@ public class RadioButtonGroupRenderer extends SelectorGroupRenderer {
      * @param component UIComponent to be rendered.
      */
     protected String getWidgetType(FacesContext context, UIComponent component) {
-        return JavaScriptUtilities.getModuleName("widget.radioButtonGroup");
+        return "radioButtonGroup";
     }
     
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~

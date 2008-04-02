@@ -35,7 +35,7 @@ webui.@THEME_JS@._base.dojo.require("webui.@THEME_JS@.widget.button");
 webui.@THEME_JS@._base.dojo.declare("webui.@THEME_JS@.widget.resetButton",
         webui.@THEME_JS@.widget.button, {
     // Set defaults.
-    _widgetName: "resetButton"  // Required for theme properties.
+    _widgetType: "resetButton"  // Required for theme properties.
 });
 
 /**

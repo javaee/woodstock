@@ -25,11 +25,8 @@ package com.sun.webui.jsf.renderkit.widget;
 import com.sun.faces.annotation.Renderer;
 import com.sun.webui.jsf.component.TextField;
 import com.sun.webui.jsf.model.Option;
-import com.sun.webui.jsf.util.WidgetUtilities;
-import com.sun.webui.jsf.theme.ThemeTemplates;
 import com.sun.webui.jsf.util.ConversionUtilities;
 import com.sun.webui.jsf.util.JSONUtilities;
-import com.sun.webui.jsf.util.JavaScriptUtilities;
 
 import java.io.IOException;
 import java.util.Collection;
@@ -145,7 +142,6 @@ public class TextFieldRenderer extends FieldRendererBase {
         
         return json;
     }
-
     
     /**
      * Get the type of widget represented by this component.
@@ -154,7 +150,7 @@ public class TextFieldRenderer extends FieldRendererBase {
      * @param component UIComponent to be rendered.
      */
     protected String getWidgetType(FacesContext context, UIComponent component) {
-        return JavaScriptUtilities.getModuleName("widget.textField");
+        return "textField";
     }
 
     /** 

@@ -68,7 +68,7 @@ webui.@THEME_JS@._base.dojo.declare("webui.@THEME_JS@.widget.editableField",
     constructor: function() {
         this.edit = false;
     },
-    _widgetName: "editableField" // Required for theme properties.
+    _widgetType: "editableField" // Required for theme properties.
 });
    
 /**

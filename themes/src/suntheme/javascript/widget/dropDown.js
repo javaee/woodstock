@@ -73,7 +73,7 @@ webui.@THEME_JS@._base.dojo.declare("webui.@THEME_JS@.widget.dropDown",
 	this.submitForm =  false;
 	this.width = this._theme._getMessage("dropDown.width", null);
     },
-    _widgetName: "dropDown" // Required for theme properties.
+    _widgetType: "dropDown" // Required for theme properties.
 });
 
 /**
@@ -206,25 +206,18 @@ webui.@THEME_JS@.widget.dropDown.prototype._getClassName = function() {
  * These properties are extended with <code>this.label</code> and the
  * resulting properties are returned.
  * </p>
- * @param {Object} props Properties contributed by the caller, which can
- * be overridden as necessary.
- * @return {Object} label properties.
+ * @return {Object} Key-Value pairs of properties.
  * @private
  */
-webui.@THEME_JS@.widget.dropDown.prototype._getLabelProps = function(props) {
-    var allprops = this._inherited("_getLabelProps", arguments);
+webui.@THEME_JS@.widget.dropDown.prototype._getLabelProps = function() {
+    var props = this._inherited("_getLabelProps", arguments);
 
     var cn = this._getLabelClassName(null);
-    var lvl = this._theme._getMessage("dropDown.labelLevel", null, 2);
-
-    if (allprops == null) {
-	allprops = {};
-    }
     if (cn != null) {
-       allprops.className = cn;
+       props.className = cn;
     }
-    allprops.labelLevel = lvl;
-    return allprops;
+    props.labelLevel = this._theme._getMessage("dropDown.labelLevel", null, 2);
+    return props;
 };
 
 /**

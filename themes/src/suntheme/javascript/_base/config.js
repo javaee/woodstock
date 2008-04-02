@@ -35,8 +35,13 @@ webui.@THEME_JS@._base.dojo.require("webui.@THEME_JS@._base.proto");
  *    isDebug: false,
  *    // Flag to inlcude style sheet(s).
  *    isStyleSheet: true,
- *    // Flag to parse HTML markup onLoad.
- *    parseOnLoad: true,
+ *    // Custom name space to map as webui.@THEME_JS@.
+ *    namespace: "foo",
+ *    // Theme config properties.
+ *    theme: {
+ *      // Theme locale.
+ *      locale: "en"
+ *    },
  *    // Flag to include all webui functionality.
  *    webuiAll: false,
  *    // Flag to include all Ajax functionality based on JSF Extensions.
@@ -68,9 +73,9 @@ webui.@THEME_JS@._base.config = {
     /** Flag to enable webui debug mode. */
     isDebug: false,
     /** Flag to enable high contrast mode. */
-    isHighContrastMode: undefined,
+    _isHighContrastMode: undefined,
     /** Dojo config properties. */
-    djConfig: {
+    _djConfig: {
         /** Dojo module path. */
         baseUrl: undefined,
         /** Flag to enable dojo debug mode. */
@@ -82,6 +87,8 @@ webui.@THEME_JS@._base.config = {
     isStyleSheet: true,
     /** Flag to parse HTML markup onLoad. */
     parseOnLoad: false,
+    /** Custom name space to map as webui.@THEME_JS@. */
+    namespace: "webui.@THEME@",
     /** Theme config properties. */
     theme: {
         /** Theme bundle name. */

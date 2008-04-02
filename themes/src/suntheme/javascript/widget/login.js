@@ -48,7 +48,7 @@ webui.@THEME_JS@._base.dojo.declare("webui.@THEME_JS@.widget.login",
     constructor: function() {
         this.loginState = "INIT";
     },
-    _widgetName: "login" // Required for theme properties.    
+    _widgetType: "login" // Required for theme properties.    
 });
 
 /**
@@ -62,7 +62,7 @@ webui.@THEME_JS@.widget.login.prototype.authenticate = function() {
             var widget = this._widget.getWidget(this.keys[i][0]);
             var keyVal;
             if (widget) {
-                var name = widget._widgetName;
+                var name = widget._widgetType;
                 if (name == "textField" || name == "passwordField") {
                     keyVal = widget.getProps().value;
                 } else if (name == "dropDown" || name == "listbox") {
@@ -208,7 +208,7 @@ webui.@THEME_JS@.widget.login.prototype._getClassName = function() {
     var key = "LOGIN_DIV";
 
     // Get theme property.
-    var className = this._theme.getClassName(key);
+    var className = this._theme._getClassName(key);
     if (className == null || className.length == 0) {
 	return this.className;
     }
@@ -233,34 +233,6 @@ webui.@THEME_JS@.widget.login.prototype.getProps = function() {
     if (this.dotImage != null) {props.dotImage = this.dotImage;}
     if (this.loginButton != null) {props.loginButton = this.loginButton;}
     return props;
-};
-
-/**
- * This is a private function that creates a client side widget based on the 
- * widgetType and other properties supplied. 
- *
- * @param {Object} props Key-Value pairs of properties of the widget.
- * @return {boolean} the widget props if successful; false, otherwise.
- * @private
- */
-webui.@THEME_JS@.widget.login.prototype._getWidgetProps = function(props) {
-    if (props == null) {
-        return false;
-    }
-        
-    var type = props.type;
-    if (type == null) {
-        return false;
-    }
-        
-    var _props = {};
-            
-    // Set default module and widget name
-    _props = this._widget._getWidgetProps(type, _props); 
-        
-    // Add extra properties               
-    this._proto.extend(_props, props);
-    return _props;
 };
 
 /**
@@ -315,20 +287,21 @@ webui.@THEME_JS@.widget.login.prototype._postCreate = function () {
     // If login button and dot image are empty generate them on the
     // client side.
     if (this.dotImage == null) {
-	this.dotImage = this._widget._getWidgetProps("image", {
+	this.dotImage = {
             icon: "DOT",
-            id: this.id + "_dotImage"
-        });
+            id: this.id + "_dotImage",
+            widgetType: "image"
+        };
     }
     
     if (this.loginButton == null) {
-        var _props = {};
-	_props.id = this.id + "_loginButton";
-        _props.tabIndex = this.tabIndex;
-        _props.alt = this._theme.getMessage("login.buttonAlt");
-        _props.value = this._theme.getMessage("login.buttonTitle");
-        _props = this._widget._getWidgetProps("button", _props);
-        this.loginButton = _props;
+        this.loginButton = {
+            alt: this._theme._getMessage("login.buttonAlt"),
+            id: this.id + "_loginButton",
+            tabIndex: this.tabIndex,
+            value: this._theme._getMessage("login.buttonTitle"),
+            widgetType: "button"
+        };
     }
     return this._inherited("_postCreate", arguments);
 };
@@ -372,45 +345,40 @@ webui.@THEME_JS@.widget.login.prototype._setProps = function(props) {
  * This function adds or updates the alert widget displayed as part of the
  * login widget.
  *
- * @param {Object} alertProps Key-Value pairs of properties.
+ * @param {Object} props Key-Value pairs of properties.
  * @config {String} type The alert type.
  * @config {String} summary The alert summary.
  * @config {String} detail The alert detail.
  * @return {boolean} true if successful; otherwise, false.
  * @private
  */
-webui.@THEME_JS@.widget.login.prototype._setAlert = function(alertProps) {
-    if (alertProps == null) {
+webui.@THEME_JS@.widget.login.prototype._setAlert = function(props) {
+    if (props == null) {
         this._widget._removeChildNodes(this.alertContainer);
         return false;
     } else {
-        var _props = {};
-            
-        // Set default module and widget name
-        _props = this._widget._getWidgetProps("alert", _props); 
-        _props.id = this.id + "_alert";
+        var _props = {
+            id: this.id + "_alert",
+            widgetType: "alert"
+        };
 
-        // Add extra properties               
-        if (alertProps != null) {
-            this._proto.extend(_props, alertProps);
+        // Add extra properties.
+        if (props != null) {
+            this._proto.extend(_props, props);
         }
         if (_props.summary == null) {
-            _props.summary = this._theme.getMessage("login.errorSummary");
+            _props.summary = this._theme._getMessage("login.errorSummary");
         }
         if (_props.detail == null) {
-            _props.detail = this._theme.getMessage("login.errorDetail");;
+            _props.detail = this._theme._getMessage("login.errorDetail");
         }
 
         var tr = this.alertRowContainer.cloneNode(false);
-        this.loginTbody.appendChild(tr);
         var td = this.alertCellContainer.cloneNode(false);
+        this.loginTbody.appendChild(tr);
         tr.appendChild(td);
-        var widget = this._widget.getWidget(_props.id);
-        if (widget) {
-            widget.setProps(_props);
-        } else {
-            this._widget._addFragment(td, _props); 
-        }
+
+        this._widget.updateFragment(td, _props.id, _props);
     }
     return true;
 };
@@ -485,9 +453,8 @@ webui.@THEME_JS@.widget.login.prototype._updateLoginTable = function(props) {
                         divNode = this.labelContainer.cloneNode(true);
                     }
                     td.appendChild(divNode);
-                    var widgetProps = this._getWidgetProps(dataRow[j]);
-                    if (widgetProps) {
-                        this._widget._addFragment(divNode, widgetProps, "last"); 
+                    if (dataRow[j].widgetType != null) {
+                        this._widget._addFragment(divNode, dataRow[j], "last"); 
                     }
                 } else {
                     td = this.dataContainerCell.cloneNode(false);
@@ -502,9 +469,8 @@ webui.@THEME_JS@.widget.login.prototype._updateLoginTable = function(props) {
                         divNode = this.inputContainer.cloneNode(true);
                     }
                     td.appendChild(divNode);
-                    var widgetProps = this._getWidgetProps(dataRow[j]);
-                    if (widgetProps) {
-                        this._widget._addFragment(divNode, widgetProps, "last"); 
+                    if (dataRow[j].widgetType != null) {
+                        this._widget._addFragment(divNode, dataRow[j], "last"); 
                     }
                 }
             }

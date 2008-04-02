@@ -774,7 +774,7 @@ webui.@THEME_JS@._base.dojo.parser = new function(){
 
 (function(){
 	var parseRunner = function(){ 
-		if(webui_@THEME_JS@.djConfig["parseOnLoad"] == true){
+		if(webui_@THEME_JS@._djConfig["parseOnLoad"] == true){
 			webui.@THEME_JS@._base.dojo.parser.parse(); 
 		}
 	};

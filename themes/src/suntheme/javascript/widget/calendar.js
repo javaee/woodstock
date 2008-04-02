@@ -51,7 +51,7 @@ webui.@THEME_JS@._base.dojo.require("webui.@THEME_JS@.widget._base.widgetBase");
 webui.@THEME_JS@._base.dojo.declare("webui.@THEME_JS@.widget.calendar",
         webui.@THEME_JS@.widget._base.widgetBase, {
     // Set defaults.
-    _widgetName: "calendar" // Required for theme properties.
+    _widgetType: "calendar" // Required for theme properties.
 });
 
 /**
@@ -211,7 +211,7 @@ webui.@THEME_JS@.widget.calendar.prototype._addDaysInMonth = function(currentVal
     // Calculate the first of the main month to display in "first" row.
     var first = new Date(year, month, 1);                         
     var firstDay = first.getDay();    
-    var className = this._theme.getClassName("DATE_TIME_OTHER_LINK");
+    var className = this._theme._getClassName("DATE_TIME_OTHER_LINK");
     if (firstDay == this.firstDayOfWeek - 1) {
         // First cell on first row is the first of the current month
         day = first;
@@ -236,11 +236,11 @@ webui.@THEME_JS@.widget.calendar.prototype._addDaysInMonth = function(currentVal
     while (column < 7) {
         // Set appropriate class name.
         if (day.getDate() == selected) {
-            className = this._theme.getClassName("DATE_TIME_BOLD_LINK");
+            className = this._theme._getClassName("DATE_TIME_BOLD_LINK");
         } else if (day.getDate() == today) {
-            className = this._theme.getClassName("DATE_TIME_TODAY_LINK");
+            className = this._theme._getClassName("DATE_TIME_TODAY_LINK");
         } else {
-           className = this._theme.getClassName("DATE_TIME_LINK");
+           className = this._theme._getClassName("DATE_TIME_LINK");
         }
             
         linkId = id + linkNum;
@@ -266,11 +266,11 @@ webui.@THEME_JS@.widget.calendar.prototype._addDaysInMonth = function(currentVal
         while (column < 7 && day.getDate() != 1) {            
             // Set appropriate class name.
             if (day.getDate() == selected) {
-                className = this._theme.getClassName("DATE_TIME_BOLD_LINK");
+                className = this._theme._getClassName("DATE_TIME_BOLD_LINK");
             } else if (day.getDate() == today) {
-                className = this._theme.getClassName("DATE_TIME_TODAY_LINK");
+                className = this._theme._getClassName("DATE_TIME_TODAY_LINK");
             } else {
-                className = this._theme.getClassName("DATE_TIME_LINK");
+                className = this._theme._getClassName("DATE_TIME_LINK");
             }
                  
             linkId = id + linkNum;
@@ -300,7 +300,7 @@ webui.@THEME_JS@.widget.calendar.prototype._addDaysInMonth = function(currentVal
     
     // Add any cells in the last row of the following month
     while (column < 7) {
-        var className = this._theme.getClassName("DATE_TIME_OTHER_LINK");
+        var className = this._theme._getClassName("DATE_TIME_OTHER_LINK");
         linkId = id + linkNum;
         
         // Check whether this is the last date in the calendar and if so
@@ -675,7 +675,7 @@ webui.@THEME_JS@.widget.calendar.prototype._getMonthOptions = function() {
     
     // Get the number of months in a calendar year.
     // Some calendars may have more than 12 months a year.
-    var numOfMonths = parseInt(this._theme.getMessage("calendar.numOfMonths"));
+    var numOfMonths = parseInt(this._theme._getMessage("calendar.numOfMonths"));
     
     for ( var i = 0; i < numOfMonths; i++ ) {
         monthMenu[i] = {};
@@ -684,7 +684,7 @@ webui.@THEME_JS@.widget.calendar.prototype._getMonthOptions = function() {
         monthMenu[i].separator = false;
         monthMenu[i].escape = true;
         monthMenu[i].group = false;
-        monthMenu[i].label=this._theme.getMessage("calendar."+i);
+        monthMenu[i].label=this._theme._getMessage("calendar."+i);
     }    
     return monthMenu;
 };
@@ -742,92 +742,104 @@ webui.@THEME_JS@.widget.calendar.prototype._postCreate = function () {
 
     // If toggle link is null, create the image hyperlink.
     if (this.toggleLink == null) {
-        this.toggleLink = this._widget._getWidgetProps("imageHyperlink", {
-                id: this.id + "_datePickerLink",
-                contents: [],
-                imagePosition: "left",
-                title: this._theme.getMessage("calendar.popupImageAlt"),
-                enabledImage: this._widget._getWidgetProps("image", {
-                    border: 0,
-                    icon: "CALENDAR_BUTTON",
-                    id: this.id + "_datePickerLink_image"
-                }),
-                disabledImage: this._widget._getWidgetProps("image", {
-                    border: 0,
-                    icon: "CALENDAR_BUTTON_DISABLED",
-                    id: this.id + "_datePickerLink_image_disabled"
-                }),
-                align:"middle"
-            });
+        this.toggleLink = {
+            id: this.id + "_datePickerLink",
+            contents: [],
+            imagePosition: "left",
+            title: this._theme._getMessage("calendar.popupImageAlt"),
+            enabledImage: {
+                border: 0,
+                icon: "CALENDAR_BUTTON",
+                id: this.id + "_datePickerLink_image",
+                widgetType: "image"
+            },
+            disabledImage: {
+                border: 0,
+                icon: "CALENDAR_BUTTON_DISABLED",
+                id: this.id + "_datePickerLink_image_disabled",
+                widgetType: "image"
+            },
+            align:"middle",
+            widgetType: "imageHyperlink"
+        };
     }
 
     // Create the spacer image.
     if (this.spacerImage == null) {
-        this.spacerImage = this._widget._getWidgetProps("image", {
+        this.spacerImage = {
             icon: "DOT",
-            id: this.id + ":DOT"
-        });
+            id: this.id + ":DOT",
+            widgetType: "image"
+        };
     }
     
     // Create the top left image.
     if (this.topLeftImage == null) {
-        this.topLeftImage = this._widget._getWidgetProps("image", {
+        this.topLeftImage = {
             icon: "SCHEDULER_TOP_LEFT",
-            id: this.id + ":topLeft"
-        });        
+            id: this.id + ":topLeft",
+            widgetType: "image"
+        };        
     }        
         
     //Create the top right image.
     if (this.topRightImage == null) {
-        this.topRightImage = this._widget._getWidgetProps("image", {
+        this.topRightImage = {
             icon: "SCHEDULER_TOP_RIGHT",
-            id: this.id + ":topRight"
-        });        
+            id: this.id + ":topRight",
+            widgetType: "image"
+        };        
     }
 
     // Create the increase link imageHyperlink widget.
     if (this.increaseLink == null) {
-        this.increaseLink = this._widget._getWidgetProps("imageHyperlink", {
-                id: this.id + ":nextMonthLink",
-                enabledImage: this._widget._getWidgetProps("image", {
-                    border: 0,
-                    icon: "SCHEDULER_FORWARD",
-                    id: this.id + ":nextMonthLink_image"
-                }),
-                title: this._theme.getMessage("CalendarMonth.goForward")             
-            });
+        this.increaseLink = {
+            id: this.id + ":nextMonthLink",
+            enabledImage: {
+                border: 0,
+                icon: "SCHEDULER_FORWARD",
+                id: this.id + ":nextMonthLink_image",
+                widgetType: "image"
+            },
+            title: this._theme._getMessage("CalendarMonth.goForward"),
+            widgetType: "imageHyperlink"
+        };
     }   
     
     // Create the decrease link imageHyperlink widget.
     if (this.decreaseLink == null) {
-        this.decreaseLink = this._widget._getWidgetProps("imageHyperlink", {
-                "id": this.id + ":previousMonthLink",
-                enabledImage: this._widget._getWidgetProps("image", {
-                    border: 0,
-                    icon: "SCHEDULER_BACKWARD",
-                    id: this.id + ":previousMonthLink_image"
-                }),
-                title: this._theme.getMessage("CalendarMonth.goBack")
-            });
+        this.decreaseLink = {
+            "id": this.id + ":previousMonthLink",
+            enabledImage: {
+                border: 0,
+                icon: "SCHEDULER_BACKWARD",
+                id: this.id + ":previousMonthLink_image",
+                widgetType: "image"
+            },
+            title: this._theme._getMessage("CalendarMonth.goBack"),
+            widgetType: "imageHyperlink"
+        };
     }        
     
     // Create the close button link imageHyperlink widget
     if (this.closeButtonLink == null) {
-        this.closeButtonLink = this._widget._getWidgetProps("imageHyperlink", {
-                id: this.id + ":closeButtonLink",
-                enabledImage: this._widget._getWidgetProps("image", {
-                    border: 0,
-                    icon: "CALENDAR_CLOSE_BUTTON",
-                    id: this.id + "closeButtonLink_close"
-                }),
-                title: this._theme.getMessage("CalendarMonth.close"),
-                className: this._theme.getClassName("CALENDAR_CLOSE_BUTTON")            
-            });    
+        this.closeButtonLink = {
+            id: this.id + ":closeButtonLink",
+            enabledImage: {
+                border: 0,
+                icon: "CALENDAR_CLOSE_BUTTON",
+                id: this.id + "closeButtonLink_close",
+                widgetType: "image"
+            },
+            title: this._theme._getMessage("CalendarMonth.close"),
+            className: this._theme._getClassName("CALENDAR_CLOSE_BUTTON"),
+            widgetType: "imageHyperlink"
+        };    
     }
     
     // If the dateFormatPattern is null, get one from the themes.
     if (this.dateFormat == null) {
-        this.dateFormat = this._theme.getMessage("calendar.dateFormat");
+        this.dateFormat = this._theme._getMessage("calendar.dateFormat");
     }
     
     // If the minDate and maxDate are not specified, create a default values.
@@ -854,31 +866,31 @@ webui.@THEME_JS@.widget.calendar.prototype._postCreate = function () {
     // Initialize the days of the week.
     if (this.weekDays == null) {
         this.weekDays = new Array();
-        this.weekDays[0] = this._theme.getMessage("CalendarMonth.weekdaySun");
-        this.weekDays[1] = this._theme.getMessage("CalendarMonth.weekdayMon");
-        this.weekDays[2] = this._theme.getMessage("CalendarMonth.weekdayTue");                
-        this.weekDays[3] = this._theme.getMessage("CalendarMonth.weekdayWed");
-        this.weekDays[4] = this._theme.getMessage("CalendarMonth.weekdayThu");
-        this.weekDays[5] = this._theme.getMessage("CalendarMonth.weekdayFri");
-        this.weekDays[6] = this._theme.getMessage("CalendarMonth.weekdaySat");
+        this.weekDays[0] = this._theme._getMessage("CalendarMonth.weekdaySun");
+        this.weekDays[1] = this._theme._getMessage("CalendarMonth.weekdayMon");
+        this.weekDays[2] = this._theme._getMessage("CalendarMonth.weekdayTue");                
+        this.weekDays[3] = this._theme._getMessage("CalendarMonth.weekdayWed");
+        this.weekDays[4] = this._theme._getMessage("CalendarMonth.weekdayThu");
+        this.weekDays[5] = this._theme._getMessage("CalendarMonth.weekdayFri");
+        this.weekDays[6] = this._theme._getMessage("CalendarMonth.weekdaySat");
     }           
     
     // Get the first day of week for that particular locale.
     if (this.firstDayOfWeek == null) {
-        this.firstDayOfWeek = parseInt(this._theme.getMessage("calendar.firstDayOfWeek"));
+        this.firstDayOfWeek = parseInt(this._theme._getMessage("calendar.firstDayOfWeek"));
     }
     
     // This will append a localized string along with the
     // today's date
     if (this.todayDateMsg == null) {        
         var d = new Date();
-        var todayDateMsg = this._theme.getMessage("CalendarMonth.todayIs");
+        var todayDateMsg = this._theme._getMessage("CalendarMonth.todayIs");
         
         // Remove the "$0" argument used for the server side param
         var index = todayDateMsg.indexOf(":");
         this.todayDateMsg = todayDateMsg.substr(0, index+1);
         
-        var month = this._theme.getMessage(
+        var month = this._theme._getMessage(
                         "calendar." + (d.getMonth()));
         month=month.substr(0,3);
         if (this.dateFormat.indexOf("MM") == 0) {
@@ -891,20 +903,22 @@ webui.@THEME_JS@.widget.calendar.prototype._postCreate = function () {
 
     // Initialize the month menu if one does not exist.
     if (this.monthMenu == null) {                  
-        this.monthMenu = this._widget._getWidgetProps("dropDown", {
+        this.monthMenu = {
             id: this.id + ":monthMenu",
             options:this._getMonthOptions(),
-            title: this._theme.getMessage("CalendarMonth.selectMonth")
-        });                  
+            title: this._theme._getMessage("CalendarMonth.selectMonth"),
+            widgetType: "dropDown"
+        };                  
     }
     
     // Initialize the year menu if one does not exist.
     if (this.yearMenu == null) {
-        this.yearMenu = this._widget._getWidgetProps("dropDown", {
+        this.yearMenu = {
             id: this.id + ":yearMenu",
             options: this._getYearOptions(minDate.getYear(), maxDate.getYear()),
-            title: this._theme.getMessage("CalendarMonth.selectYear")   
-        });          
+            title: this._theme._getMessage("CalendarMonth.selectYear"),
+            widgetType: "dropDown"
+        };          
     }
     return this._inherited("_postCreate", arguments);
 };
@@ -1165,11 +1179,12 @@ webui.@THEME_JS@.widget.calendar.prototype._setProps = function(props) {
         } 
         
         //Recalculate the year options with new minDate and maxDate values.
-        props.yearMenu = this._widget._getWidgetProps("dropDown", {
+        props.yearMenu = {
             id: this.id + ":yearMenu",
             options:this._getYearOptions(minDate.getFullYear(), maxDate.getFullYear()),
-            title: this._theme.getMessage("CalendarMonth.selectYear")   
-        });  
+            title: this._theme._getMessage("CalendarMonth.selectYear"),
+            widgetType: "dropDown"
+        };  
         
         // update the value of yearMenu
         this.yearMenu = props.yearMenu;                                          

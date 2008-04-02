@@ -94,14 +94,14 @@
     </pathconvert>
 
     <property name="__js-cmp-nlsdir__"
-	value="${__js-pkgpath__}/javascript/theme/nls"/>
+	value="${__js-pkgpath__}/javascript/_base/theme/nls"/>
     <property name="__js-uncmp-nlsdir__"
-	value="${__js-pkgpath__}/javascript_uncompressed/theme/nls"/>
+	value="${__js-pkgpath__}/javascript_uncompressed/_base/theme/nls"/>
 
     <!-- Javascript theme properties 
 	The javascript theme uses dojo to load localizations
 	using the "requireLocalization" method. This requires that a
-	defined module path "com/sun/webui/jsf/suntheme/javascript/theme"
+	defined module path "com/sun/webui/jsf/suntheme/javascript/_base/theme"
 	exists and under this path the following "nls" structure.
 
 	     "nls/suntheme.js"
