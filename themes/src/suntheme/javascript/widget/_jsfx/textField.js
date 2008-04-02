@@ -98,8 +98,8 @@ webui.@THEME_JS@.widget._jsfx.textField = {
             for (var i = 0; i < widget.notify.length; i++) {
                 // Get widget associated with client ID.
                 var curWidget = webui.@THEME_JS@.widget.common.getWidget(widget.notify[i]);
-                if (curWidget && typeof curWidget.notify == "function") {
-                    curWidget.notify(props);
+                if (curWidget && typeof curWidget._notify == "function") {
+                    curWidget._notify(props);
                 }
             }
         }

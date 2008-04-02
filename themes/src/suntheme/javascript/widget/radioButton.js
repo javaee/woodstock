@@ -25,10 +25,43 @@ webui.@THEME_JS@._base.dojo.provide("webui.@THEME_JS@.widget.radioButton");
 webui.@THEME_JS@._base.dojo.require("webui.@THEME_JS@.widget._base.checkedBase");
 
 /**
+ * This function is used to construct a radioButton widget.
+ *
  * @name webui.@THEME_JS@.widget.radioButton
  * @extends webui.@THEME_JS@.widget._base.checkedBase
  * @class This class contains functions for the radioButton widget.
- * @constructor This function is used to construct a radioButton widget.
+ * @constructor
+ * @param {Object} props Key-Value pairs of properties.
+ * @config {String} alt Alternate text for image input.
+ * @config {String} align Alignment of image input.
+ * @config {boolean} checked 
+ * @config {String} className CSS selector.
+ * @config {String} dir Specifies the directionality of text.
+ * @config {boolean} disabled Disable element.
+ * @config {String} id Uniquely identifies an element within a document.
+ * @config {Object} image 
+ * @config {String} label 
+ * @config {String} lang Specifies the language of attribute values and content.
+ * @config {String} name 
+ * @config {String} onBlur Element lost focus.
+ * @config {String} onClick Mouse button is clicked on element.
+ * @config {String} onDblClick Mouse button is double-clicked on element.
+ * @config {String} onFocus Element received focus.
+ * @config {String} onKeyDown Key is pressed down over element.
+ * @config {String} onKeyPress Key is pressed and released over element.
+ * @config {String} onKeyUp Key is released over element.
+ * @config {String} onMouseDown Mouse button is pressed over element.
+ * @config {String} onMouseOut Mouse is moved away from element.
+ * @config {String} onMouseOver Mouse is moved onto element.
+ * @config {String} onMouseUp Mouse button is released over element.
+ * @config {String} onMouseMove Mouse is moved while over element.
+ * @config {String} onSelect 
+ * @config {boolean} readOnly 
+ * @config {String} style Specify style rules inline.
+ * @config {int} tabIndex Position in tabbing order.
+ * @config {String} title Provides a title for element.
+ * @config {String} value Value of input.
+ * @config {boolean} visible Hide or show element.
  */
 webui.@THEME_JS@._base.dojo.declare("webui.@THEME_JS@.widget.radioButton",
         webui.@THEME_JS@.widget._base.checkedBase, {
@@ -148,58 +181,8 @@ webui.@THEME_JS@.widget.radioButton.prototype._getLabelClassName = function() {
 };
 
 /**
- * This function is used to set widget properties using Object literals.
- * <p>
- * Note: This function extends the widget object for later updates. Further, the
- * widget shall be updated only for the given key-value pairs.
- * </p><p>
- * If the notify param is true, the widget's state change event shall be
- * published. This is typically used to keep client-side state in sync with the
- * server.
- * </p>
- *
- * @param {Object} props Key-Value pairs of properties.
- * @config {String} alt Alternate text for image input.
- * @config {String} align Alignment of image input.
- * @config {boolean} checked 
- * @config {String} className CSS selector.
- * @config {String} dir Specifies the directionality of text.
- * @config {boolean} disabled Disable element.
- * @config {String} id Uniquely identifies an element within a document.
- * @config {Object} image 
- * @config {String} label 
- * @config {String} lang Specifies the language of attribute values and content.
- * @config {String} name 
- * @config {String} onBlur Element lost focus.
- * @config {String} onClick Mouse button is clicked on element.
- * @config {String} onDblClick Mouse button is double-clicked on element.
- * @config {String} onFocus Element received focus.
- * @config {String} onKeyDown Key is pressed down over element.
- * @config {String} onKeyPress Key is pressed and released over element.
- * @config {String} onKeyUp Key is released over element.
- * @config {String} onMouseDown Mouse button is pressed over element.
- * @config {String} onMouseOut Mouse is moved away from element.
- * @config {String} onMouseOver Mouse is moved onto element.
- * @config {String} onMouseUp Mouse button is released over element.
- * @config {String} onMouseMove Mouse is moved while over element.
- * @config {String} onSelect 
- * @config {boolean} readOnly 
- * @config {String} style Specify style rules inline.
- * @config {int} tabIndex Position in tabbing order.
- * @config {String} title Provides a title for element.
- * @config {String} value Value of input.
- * @config {boolean} visible Hide or show element.
- * @param {boolean} notify Publish an event for custom AJAX implementations to listen for.
- * @return {boolean} true if successful; otherwise, false.
- */
-webui.@THEME_JS@.widget.radioButton.prototype.setProps = function(props, notify) {
-    // Note: This function is overridden for JsDoc.
-    return this._inherited("setProps", arguments);
-};
-
-/**
- * This function is used to set widget properties. Please see the setProps() 
- * function for a list of supported properties.
+ * This function is used to set widget properties. Please see the constructor 
+ * detail for a list of supported properties.
  * <p>
  * Note: This function should only be invoked through setProps().
  * </p>

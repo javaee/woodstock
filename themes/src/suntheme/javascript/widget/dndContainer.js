@@ -25,12 +25,25 @@ webui.@THEME_JS@._base.dojo.provide("webui.@THEME_JS@.widget.dndContainer");
 webui.@THEME_JS@._base.dojo.require("webui.@THEME_JS@._base.dnd");
 webui.@THEME_JS@._base.dojo.require("webui.@THEME_JS@.widget._base.widgetBase");
 
- /**
-  * @name webui.@THEME_JS@.widget.dndContainer
-  * @extends webui.@THEME_JS@.widget._base.widgetBase
-  * @class This class contains functions for the dndContainer widget
-  * @constructor This function is used to construct a dndContainer widget.
-  */
+/**
+ * This function is used to construct a dndContainer widget.
+ *
+ * @name webui.@THEME_JS@.widget.dndContainer
+ * @extends webui.@THEME_JS@.widget._base.widgetBase
+ * @class This class contains functions for the dndContainer widget
+ * @constructor
+ * @param {Object} props Key-Value pairs of properties.
+ * @config {Array} dragTypes list of space-trimmed strings representing 
+ * types of the drag element.
+ * @config {String} contents children of the container.
+ * @config {String} className CSS selector.
+ * @config {String} id Uniquely identifies an element within a document.
+ * @config {String} onNodeCreateFunc Javascript code to create new item.
+ * @config {Array} dropTypes list of space-trimmed strings accepted by this 
+ * container as a drop.
+ * @config {String} style Specify style rules inline.
+ * @config {boolean} visible Hide or show element.
+ */
 webui.@THEME_JS@._base.dojo.declare("webui.@THEME_JS@.widget.dndContainer",
         webui.@THEME_JS@.widget._base.widgetBase, {
     // Set defaults.
@@ -43,8 +56,9 @@ webui.@THEME_JS@._base.dojo.declare("webui.@THEME_JS@.widget.dndContainer",
  * @param {String} name of the function to be called for node creation, with 
  * signature function(data, hint).
  * @return {Function} function to be called for node creation.
+ * @private
  */
-webui.@THEME_JS@.widget.dndContainer.prototype.createCreatorCallback = function(funcName) {
+webui.@THEME_JS@.widget.dndContainer.prototype._createCreatorCallback = function(funcName) {
     var dragTypes = this.dragTypes ? this.dragTypes : "";
     var dragSource = this.dragSource;
     var func = new Function("data", "hint", "return " + funcName + "(data, hint)");
@@ -83,8 +97,9 @@ webui.@THEME_JS@.widget.dndContainer.prototype.createCreatorCallback = function(
  * Helper function to create callback for user's onDrop function.
  *
  * @return {Function} function to be called upon drop.
+ * @private
  */
-webui.@THEME_JS@.widget.dndContainer.prototype.createOnDndDropCallback = function() {
+webui.@THEME_JS@.widget.dndContainer.prototype._createOnDndDropCallback = function() {
     var containerWidget = this;
  
     return function(source, nodes, copy){
@@ -105,15 +120,16 @@ webui.@THEME_JS@.widget.dndContainer.prototype.createOnDndDropCallback = functio
  * Helper function to obtain HTML container element class names.
  *
  * @return {String} calculated class name of the container node.
+ * @private
  */
-webui.@THEME_JS@.widget.dndContainer.prototype.getContainerClassName = function() {   
+webui.@THEME_JS@.widget.dndContainer.prototype._getContainerClassName = function() {   
     // Add default style.
     return  this.dndContainer.className;
 };
 
 /**
- * This function is used to get widget properties. Please see the 
- * setProps() function for a list of supported properties.
+ * This function is used to get widget properties. Please see the constructor 
+ * detail for a list of supported properties.
  *
  * @return {Object} Key-Value pairs of properties.
  */
@@ -152,7 +168,7 @@ webui.@THEME_JS@.widget.dndContainer.prototype._postCreate = function () {
     // Make things draggable.
     var params = {};
     if (this.onNodeCreateFunc) {
-        params.creator = this.createCreatorCallback(this.onNodeCreateFunc);                   
+        params.creator = this._createCreatorCallback(this.onNodeCreateFunc);                   
     }
     if (this.copyOnly) {
         params.copyOnly = this.copyOnly;
@@ -167,7 +183,7 @@ webui.@THEME_JS@.widget.dndContainer.prototype._postCreate = function () {
     if (this.dragTypes == null) {        
         params.isSource = false;
     }
-    params.onDropFunction = this.createOnDndDropCallback();
+    params.onDropFunction = this._createOnDndDropCallback();
     
     this.dragSource = new webui.@THEME_JS@._base.dnd.Source(this.dndContainer, params);
 
@@ -175,23 +191,19 @@ webui.@THEME_JS@.widget.dndContainer.prototype._postCreate = function () {
 };
 
 /**
- * This function is used to set widget properties using Object literals.
+ * This function is used to set widget properties using Object literals. Please
+ * see the constructor detail for a list of supported properties.
  * <p>
  * Note: This function extends the widget object for later updates. Further, the
  * widget shall be updated only for the given key-value pairs.
+ * </p><p>
+ * If the notify param is true, the widget's state change event shall be
+ * published. This is typically used to keep client-side state in sync with the
+ * server.
  * </p>
  * @param {Object} props Key-Value pairs of properties.
- * @config {Array} dragTypes list of space-trimmed strings representing 
- * types of the drag element.
- * @config {String} contents children of the container.
- * @config {String} className CSS selector.
- * @config {String} id Uniquely identifies an element within a document.
- * @config {String} onNodeCreateFunc Javascript code to create new item.
- * @config {Array} dropTypes list of space-trimmed strings accepted by this 
- * container as a drop.
- * @config {String} style Specify style rules inline.
- * @config {boolean} visible Hide or show element.
- * @return {Boolean} true if operation was successfull, false otherwise.
+ * @param {boolean} notify Publish an event for custom AJAX implementations to listen for.
+ * @return {boolean} true if successful; otherwise, false.
  */
 webui.@THEME_JS@.widget.dndContainer.prototype.setProps = function(props, notify) {
     if (props == null) {
@@ -206,8 +218,8 @@ webui.@THEME_JS@.widget.dndContainer.prototype.setProps = function(props, notify
 };
 
 /**
- * This function is used to set widget properties. Please see the setProps() 
- * function for a list of supported properties.
+ * This function is used to set widget properties. Please see the constructor 
+ * detail for a list of supported properties.
  * <p>
  * Note: This function should only be invoked through setProps().
  * </p>
@@ -232,7 +244,7 @@ webui.@THEME_JS@.widget.dndContainer.prototype._setProps = function(props) {
     }
     
     // Set container class name.
-    this.dndContainer.className = this.getContainerClassName();
+    this.dndContainer.className = this._getContainerClassName();
     
     // Set contents.         
     // Assert there is a dragData and id entry for each fragment

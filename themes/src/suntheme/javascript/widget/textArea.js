@@ -26,10 +26,42 @@ webui.@THEME_JS@._base.dojo.require("webui.@THEME_JS@.widget.common");
 webui.@THEME_JS@._base.dojo.require("webui.@THEME_JS@.widget.textField");
 
 /**
+ * This function is used to construct a textArea widget.
+ *
  * @name webui.@THEME_JS@.widget.textArea
  * @extends webui.@THEME_JS@.widget.textField
  * @class This class contains functions for the textArea widget.
- * @constructor This function is used to construct a textArea widget.
+ * @constructor
+ * @param {Object} props Key-Value pairs of properties.
+ * @config {String} accesskey 
+ * @config {boolean} autoSave 
+ * @config {String} className CSS selector.
+ * @config {String} dir Specifies the directionality of text.
+ * @config {boolean} disabled Disable element.
+ * @config {String} id Uniquely identifies an element within a document.
+ * @config {String} label
+ * @config {String} lang Specifies the language of attribute values and content.
+ * @config {String} onBlur Element lost focus.
+ * @config {String} onClick Mouse button is clicked on element.
+ * @config {String} onDblClick Mouse button is double-clicked on element.
+ * @config {String} onFocus Element received focus.
+ * @config {String} onKeyDown Key is pressed down over element.
+ * @config {String} onKeyPress Key is pressed and released over element.
+ * @config {String} onKeyUp Key is released over element.
+ * @config {String} onMouseDown Mouse button is pressed over element.
+ * @config {String} onMouseOut Mouse is moved away from element.
+ * @config {String} onMouseOver Mouse is moved onto element.
+ * @config {String} onMouseUp Mouse button is released over element.
+ * @config {String} onMouseMove Mouse is moved while over element.
+ * @config {boolean} readOnly 
+ * @config {boolean} required 
+ * @config {int} rows 
+ * @config {String} style Specify style rules inline.
+ * @config {int} tabIndex Position in tabbing order.
+ * @config {String} title Provides a title for element.
+ * @config {boolean} valid
+ * @config {String} value Value of input.
+ * @config {boolean} visible Hide or show element.
  */
 webui.@THEME_JS@._base.dojo.declare("webui.@THEME_JS@.widget.textArea",
         webui.@THEME_JS@.widget.textField, {
@@ -46,8 +78,9 @@ webui.@THEME_JS@._base.dojo.declare("webui.@THEME_JS@.widget.textArea",
  * Helper function to create callback for timer event.
  *
  * @return {Function} The callback function.
+ * @private
  */
-webui.@THEME_JS@.widget.textArea.prototype.createSubmitCallback = function() {
+webui.@THEME_JS@.widget.textArea.prototype._createSubmitCallback = function() {
     var _id = this.id;
 
     // New literals are created every time this function
@@ -138,8 +171,8 @@ webui.@THEME_JS@.widget.textArea.prototype._getInputClassName = function() {
 };
 
 /**
- * This function is used to get widget properties. Please see the 
- * setProps() function for a list of supported properties.
+ * This function is used to get widget properties. Please see the constructor 
+ * detail for a list of supported properties.
  *
  * @return {Object} Key-Value pairs of properties.
  */
@@ -166,64 +199,15 @@ webui.@THEME_JS@.widget.textArea.prototype.getProps = function() {
 webui.@THEME_JS@.widget.textArea.prototype._postCreate = function () {
     // Set events.                
     if (this.autoSave > 0) {
-        this.autoSaveTimerId = setInterval(this.createSubmitCallback(), 
+        this.autoSaveTimerId = setInterval(this._createSubmitCallback(), 
             this.autoSave);  
     }
     return this._inherited("_postCreate", arguments);
 };
 
 /**
- * This function is used to set widget properties using Object literals.
- * <p>
- * Note: This function extends the widget object for later updates. Further, the
- * widget shall be updated only for the given key-value pairs.
- * </p><p>
- * If the notify param is true, the widget's state change event shall be
- * published. This is typically used to keep client-side state in sync with the
- * server.
- * </p>
- *
- * @param {Object} props Key-Value pairs of properties.
- * @config {String} accesskey 
- * @config {boolean} autoSave 
- * @config {String} className CSS selector.
- * @config {String} dir Specifies the directionality of text.
- * @config {boolean} disabled Disable element.
- * @config {String} id Uniquely identifies an element within a document.
- * @config {String} label
- * @config {String} lang Specifies the language of attribute values and content.
- * @config {String} onBlur Element lost focus.
- * @config {String} onClick Mouse button is clicked on element.
- * @config {String} onDblClick Mouse button is double-clicked on element.
- * @config {String} onFocus Element received focus.
- * @config {String} onKeyDown Key is pressed down over element.
- * @config {String} onKeyPress Key is pressed and released over element.
- * @config {String} onKeyUp Key is released over element.
- * @config {String} onMouseDown Mouse button is pressed over element.
- * @config {String} onMouseOut Mouse is moved away from element.
- * @config {String} onMouseOver Mouse is moved onto element.
- * @config {String} onMouseUp Mouse button is released over element.
- * @config {String} onMouseMove Mouse is moved while over element.
- * @config {boolean} readOnly 
- * @config {boolean} required 
- * @config {int} rows 
- * @config {String} style Specify style rules inline.
- * @config {int} tabIndex Position in tabbing order.
- * @config {String} title Provides a title for element.
- * @config {boolean} valid
- * @config {String} value Value of input.
- * @config {boolean} visible Hide or show element.
- * @param {boolean} notify Publish an event for custom AJAX implementations to listen for.
- * @return {boolean} true if successful; otherwise, false.
- */
-webui.@THEME_JS@.widget.textArea.prototype.setProps = function(props, notify) {
-    // Note: This function is overridden for JsDoc.
-    return this._inherited("setProps", arguments);
-};
-
-/**
- * This function is used to set widget properties. Please see the setProps() 
- * function for a list of supported properties.
+ * This function is used to set widget properties. Please see the constructor 
+ * detail for a list of supported properties.
  * <p>
  * Note: This function should only be invoked through setProps().
  * </p>

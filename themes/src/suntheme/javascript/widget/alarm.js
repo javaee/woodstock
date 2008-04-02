@@ -25,10 +25,33 @@ webui.@THEME_JS@._base.dojo.provide("webui.@THEME_JS@.widget.alarm");
 webui.@THEME_JS@._base.dojo.require("webui.@THEME_JS@.widget._base.widgetBase");
 
 /**
+ * This function is used to construct an alarm widget.
+ *
  * @name webui.@THEME_JS@.widget.alarm
  * @extends webui.@THEME_JS@.widget._base.widgetBase
  * @class This class contains functions for the alarm widget.
- * @constructor This function is used to construct an alarm widget.
+ * @constructor
+ * @param {Object} props Key-Value pairs of properties.
+ * @config {String} className CSS selector.
+ * @config {String} id Uniquely identifies an element within a document.
+ * @config {Array} indicators 
+ * @config {String} lang Specifies the language of attribute values and content.
+ * @config {String} onClick Mouse button is clicked on element.
+ * @config {String} onDblClick Mouse button is double-clicked on element.
+ * @config {String} onKeyDown Key is pressed down over element.
+ * @config {String} onKeyPress Key is pressed and released over element.
+ * @config {String} onKeyUp Key is released over element.
+ * @config {String} onMouseDown Mouse button is pressed over element.
+ * @config {String} onMouseOut Mouse is moved away from element.
+ * @config {String} onMouseOver Mouse is moved onto element.
+ * @config {String} onMouseUp Mouse button is released over element.
+ * @config {String} onMouseMove Mouse is moved while over element.
+ * @config {String} style Specify style rules inline.
+ * @config {String} text 
+ * @config {String} textPosition
+ * @config {String} title Provides a title for element.
+ * @config {String} type Provides a title for element.
+ * @config {boolean} visible Hide or show element.
  */
 webui.@THEME_JS@._base.dojo.declare("webui.@THEME_JS@.widget.alarm",
         webui.@THEME_JS@.widget._base.widgetBase, {
@@ -72,8 +95,8 @@ webui.@THEME_JS@.widget.alarm.event =
 };
 
 /**
- * This function is used to get widget properties. Please see the 
- * setProps() function for a list of supported properties.
+ * This function is used to get widget properties. Please see the constructor 
+ * detail for a list of supported properties.
  *
  * @return {Object} Key-Value pairs of properties.
  */
@@ -163,48 +186,8 @@ webui.@THEME_JS@.widget.alarm.prototype._postCreate = function () {
 };
 
 /**
- * This function is used to set widget properties using Object literals.
- * <p>
- * Note: This function extends the widget object for later updates. Further, the
- * widget shall be updated only for the given key-value pairs.
- * </p><p>
- * If the notify param is true, the widget's state change event shall be
- * published. This is typically used to keep client-side state in sync with the
- * server.
- * </p>
- *
- * @param {Object} props Key-Value pairs of properties.
- * @config {String} className CSS selector.
- * @config {String} id Uniquely identifies an element within a document.
- * @config {Array} indicators 
- * @config {String} lang Specifies the language of attribute values and content.
- * @config {String} onClick Mouse button is clicked on element.
- * @config {String} onDblClick Mouse button is double-clicked on element.
- * @config {String} onKeyDown Key is pressed down over element.
- * @config {String} onKeyPress Key is pressed and released over element.
- * @config {String} onKeyUp Key is released over element.
- * @config {String} onMouseDown Mouse button is pressed over element.
- * @config {String} onMouseOut Mouse is moved away from element.
- * @config {String} onMouseOver Mouse is moved onto element.
- * @config {String} onMouseUp Mouse button is released over element.
- * @config {String} onMouseMove Mouse is moved while over element.
- * @config {String} style Specify style rules inline.
- * @config {String} text 
- * @config {String} textPosition
- * @config {String} title Provides a title for element.
- * @config {String} type Provides a title for element.
- * @config {boolean} visible Hide or show element.
- * @param {boolean} notify Publish an event for custom AJAX implementations to listen for.
- * @return {boolean} true if successful; otherwise, false.
- */
-webui.@THEME_JS@.widget.alarm.prototype.setProps = function(props, notify) {
-    // Note: This function is overridden for JsDoc.
-    return this._inherited("setProps", arguments);
-};
-
-/**
- * This function is used to set widget properties. Please see the setProps() 
- * function for a list of supported properties.
+ * This function is used to set widget properties. Please see the constructor 
+ * detail for a list of supported properties.
  * <p>
  * Note: This function should only be invoked through setProps().
  * </p>

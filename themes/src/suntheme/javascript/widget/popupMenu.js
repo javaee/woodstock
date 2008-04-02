@@ -26,10 +26,12 @@ webui.@THEME_JS@._base.dojo.require("webui.@THEME_JS@.widget.common");
 webui.@THEME_JS@._base.dojo.require("webui.@THEME_JS@.widget._base.menuBase");
 
 /**
+ * This function is used to construct a popupMenu widget.
+ *
  * @name webui.@THEME_JS@.widget.popupMenu
  * @extends webui.@THEME_JS@.widget._base.menuBase
  * @class This class contains functions for the popupMenu widget.
- * @constructor This function is used to construct a popupMenu widget.
+ * @constructor
  */
 webui.@THEME_JS@._base.dojo.declare("webui.@THEME_JS@.widget.popupMenu",
         webui.@THEME_JS@.widget._base.menuBase, {
@@ -110,8 +112,9 @@ webui.@THEME_JS@.widget.popupMenu.event =
  *
  * @param {Event} event The JavaScript event.
  * @return {boolean} true if successful; otherwise, false.
+ * @private
  */
-webui.@THEME_JS@.widget.popupMenu.prototype.onCloseMenuCallBack = function(event) {
+webui.@THEME_JS@.widget.popupMenu.prototype._onCloseMenuCallBack = function(event) {
     // Capture the click and see whether it falls within the boundary of the menu
     // if so do not close the menu.
     var evt = (event) 
@@ -350,10 +353,10 @@ webui.@THEME_JS@.widget.popupMenu.prototype._postCreate = function () {
     this.domNode.close = function() { return webui.@THEME_JS@.widget.common.getWidget(this.id).close(); };
 
     // Set events.s
-    this._dojo.connect(document, "onclick", this, "onCloseMenuCallBack"); 
+    this._dojo.connect(document, "onclick", this, "_onCloseMenuCallBack"); 
             
     // escape key should also close menu.
-    this._dojo.connect(document, "onkeydown", this, "onCloseMenuCallBack");  
+    this._dojo.connect(document, "onkeydown", this, "_onCloseMenuCallBack");  
 
     // Default widths of the drop shadow on each side of the menu.  These MUST 
     // be in pixel units and MUST match the absolute values of the left/top 
@@ -402,7 +405,6 @@ webui.@THEME_JS@.widget.popupMenu.prototype._processOnClickEvent = function(valu
  * @private
  */
 webui.@THEME_JS@.widget.popupMenu.prototype._traverseMenu = function(keyCode, event, nodeId) {
-    
     // Handle the escape key and tab key press
     if (keyCode == 27 || keyCode == 9) {
         var focusElem = document.getElementById(this.menuId[this.focusPosition]);

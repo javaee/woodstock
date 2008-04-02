@@ -32,6 +32,7 @@ webui.@THEME_JS@._base.dojo.require("webui.@THEME_JS@.widget._base.widgetBase");
  * @name webui.@THEME_JS@.widget._base.menuBase
  * @extends webui.@THEME_JS@.widget._base.widgetBase
  * @class This class contains functions for widgets that extend menuBase.
+ * @constructor
  * @param {Object} props Key-Value pairs of properties.
  * @config {String} accessKey 
  * @config {String} className CSS selector.
@@ -56,7 +57,6 @@ webui.@THEME_JS@._base.dojo.require("webui.@THEME_JS@.widget._base.widgetBase");
  * @config {int} tabIndex Position in tabbing order.
  * @config {String} title Provides a title for element.
  * @config {boolean} visible Hide or show element.
- * @constructor
  */
 webui.@THEME_JS@._base.dojo.declare("webui.@THEME_JS@.widget._base.menuBase",
     webui.@THEME_JS@.widget._base.widgetBase);

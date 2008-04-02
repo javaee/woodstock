@@ -25,10 +25,28 @@ webui.@THEME_JS@._base.dojo.provide("webui.@THEME_JS@.widget.radioButtonGroup");
 webui.@THEME_JS@._base.dojo.require("webui.@THEME_JS@.widget._base.checkedGroupBase");
 
 /**
+ * This function is used to construct a radioButtonGroup widget.
+ *
  * @name webui.@THEME_JS@.widget.radioButtonGroup
  * @extends webui.@THEME_JS@.widget._base.checkedGroupBase
  * @class This class contains functions for the radioButtonGroup widget.
- * @constructor This function is used to construct a radioButtonGroup widget.
+ * @constructor
+ * @param {Object} props Key-Value pairs of properties.
+ * @config {String} align Alignment of image input.
+ * @config {String} className CSS selector.
+ * @config {int} columns 
+ * @config {Array} contents 
+ * @config {String} dir Specifies the directionality of text.
+ * @config {boolean} disabled Disable element.
+ * @config {String} id Uniquely identifies an element within a document.
+ * @config {String} label
+ * @config {String} lang Specifies the language of attribute values and content.
+ * @config {String} name 
+ * @config {boolean} readOnly Set button as primary if true.
+ * @config {String} style Specify style rules inline.
+ * @config {int} tabIndex Position in tabbing order.
+ * @config {String} title Provides a title for element.
+ * @config {boolean} visible Hide or show element.
  */
 webui.@THEME_JS@._base.dojo.declare("webui.@THEME_JS@.widget.radioButtonGroup",
         webui.@THEME_JS@.widget._base.checkedGroupBase, {

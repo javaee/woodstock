@@ -27,10 +27,22 @@ webui.@THEME_JS@._base.dojo.require("webui.@THEME_JS@.widget.common");
 webui.@THEME_JS@._base.dojo.require("webui.@THEME_JS@.widget._base.widgetBase");
 
 /**
+ * This function is used to construct a bubble widget.
+ *
  * @name webui.@THEME_JS@.widget.bubble
  * @extends webui.@THEME_JS@.widget._base.widgetBase
  * @class This class contains functions for the bubble widget.
- * @constructor This function is used to construct a bubble widget.
+ * @constructor
+ * @param {Object} props Key-Value pairs of properties.
+ * @config {boolean} autoClose 
+ * @config {Object} closeButton 
+ * @config {Array} contents 
+ * @config {int} duration 
+ * @config {String} id Uniquely identifies an element within a document.
+ * @config {int} openDelay 
+ * @config {String} title Provides a title for element.
+ * @config {int} width 
+ * @config {boolean} visible Hide or show element.
  */
 webui.@THEME_JS@._base.dojo.declare("webui.@THEME_JS@.widget.bubble",
         webui.@THEME_JS@.widget._base.widgetBase, {
@@ -106,8 +118,8 @@ webui.@THEME_JS@.widget.bubble.event =
 };
 
 /**
- * This function is used to get widget properties. Please see the 
- * setProps() function for a list of supported properties.
+ * This function is used to get widget properties. Please see the constructor 
+ * detail for a list of supported properties.
  *
  * @return {Object} Key-Value pairs of properties.
  */
@@ -134,8 +146,9 @@ webui.@THEME_JS@.widget.bubble.prototype.getProps = function() {
  *
  * @param {Event} event The JavaScript event.
  * @return {boolean} true if successful; otherwise, false.
+ * @private
  */
-webui.@THEME_JS@.widget.bubble.prototype.onClickCallback = function(event) {
+webui.@THEME_JS@.widget.bubble.prototype._onClickCallback = function(event) {
     // Close the popup if close button is clicked.
     event = this._widget._getEvent(event);
 
@@ -164,8 +177,9 @@ webui.@THEME_JS@.widget.bubble.prototype.onClickCallback = function(event) {
  *
  * @param {Event} event The JavaScript event.
  * @return {boolean} true if successful; otherwise, false.
+ * @private
  */
-webui.@THEME_JS@.widget.bubble.prototype.onCloseCallback = function(event) {
+webui.@THEME_JS@.widget.bubble.prototype._onCloseCallback = function(event) {
     if (event == null) {
         return false;
     }
@@ -189,8 +203,9 @@ webui.@THEME_JS@.widget.bubble.prototype.onCloseCallback = function(event) {
  * Shift+Tab should not allow user to tab out of bubble component.
  * @param {Event} event The JavaScript event.
  * @return {boolean} true if successful; otherwise, false.
+ * @private
  */
-webui.@THEME_JS@.widget.bubble.prototype.onShftTabCallback = function(event) {
+webui.@THEME_JS@.widget.bubble.prototype._onShiftTabCallback = function(event) {
     if (event == null) {
         return false;
     }
@@ -219,8 +234,9 @@ webui.@THEME_JS@.widget.bubble.prototype.onShftTabCallback = function(event) {
  * Cyclic tabbing behavior is implemented for bubble to prevent tab out of bubble component. 
  * @param {Event} event The JavaScript event.
  * @return {boolean} true if successful; otherwise, false.
+ * @private
  */
-webui.@THEME_JS@.widget.bubble.prototype.onTabCallback = function(event) {
+webui.@THEME_JS@.widget.bubble.prototype._onTabCallback = function(event) {
     if (event == null) {
         return false;
     }
@@ -247,8 +263,9 @@ webui.@THEME_JS@.widget.bubble.prototype.onTabCallback = function(event) {
  *
  * @param {Event} event The JavaScript event.
  * @return {boolean} true if successful; otherwise, false.
+ * @private
  */
-webui.@THEME_JS@.widget.bubble.prototype.onMouseOverCallback = function(event) {
+webui.@THEME_JS@.widget.bubble.prototype._onMouseOverCallback = function(event) {
     clearTimeout(this.timerId);
     return true;
 };
@@ -258,8 +275,9 @@ webui.@THEME_JS@.widget.bubble.prototype.onMouseOverCallback = function(event) {
  *
  * @param {Event} event The JavaScript event.
  * @return {boolean} true if successful; otherwise, false.
+ * @private
  */
-webui.@THEME_JS@.widget.bubble.prototype.onMouseOutCallback = function(event) {
+webui.@THEME_JS@.widget.bubble.prototype._onMouseOutCallback = function(event) {
     if (this.autoClose == true) {
         clearTimeout(this.timerId);            
         this.close();            
@@ -317,7 +335,7 @@ webui.@THEME_JS@.widget.bubble.prototype.open = function(event) {
         }     
         webui.@THEME_JS@.widget.bubble.activeBubbleId = id;            
         getWidget(id).setProps({visible: true});
-        getWidget(id).setPosition();
+        getWidget(id)._setPosition();
     }, this.openDelayTime);           
     
     if (this.duration != null && this.duration >= 0) {
@@ -351,31 +369,31 @@ webui.@THEME_JS@.widget.bubble.prototype._postCreate = function () {
     // Set events.
 
     // The onClick on window should close bubble.
-    this._dojo.connect(document, "onclick", this, "onCloseCallback");
+    this._dojo.connect(document, "onclick", this, "_onCloseCallback");
 
     // The escape key should also close bubble.
-    this._dojo.connect(document, "onkeydown", this, "onCloseCallback");
+    this._dojo.connect(document, "onkeydown", this, "_onCloseCallback");
 
     // The onClick event for component body. Closes the bubble only when
     // close button is clicked.
-    this._dojo.connect(this.domNode, "onclick", this, "onClickCallback");
+    this._dojo.connect(this.domNode, "onclick", this, "_onClickCallback");
 
     // Do not close the popup if mouseover on bubble if mouseover on bubble 
     // component then clear the timer and do not close bubble.
-    this._dojo.connect(this.domNode, "onmouseover", this, "onMouseOverCallback");
+    this._dojo.connect(this.domNode, "onmouseover", this, "_onMouseOverCallback");
 
     // Close the popup if mouseout and autoClose is true if onmouseout and 
     // autoClose is true then close the bubble.
-    this._dojo.connect(this.domNode, "onmouseout", this, "onMouseOutCallback");
+    this._dojo.connect(this.domNode, "onmouseout", this, "_onMouseOutCallback");
     
     // The onfocus event for contentEnd. This is needed to handle tab event. 
-    this._dojo.connect(this.contentEnd, "onfocus", this, "onTabCallback");
+    this._dojo.connect(this.contentEnd, "onfocus", this, "_onTabCallback");
     
     // The onkeydown event for bubbleHeader. This is needed to handle tab event. 
-    this._dojo.connect(this.bubbleHeader, "onkeydown", this, "onTabCallback");
+    this._dojo.connect(this.bubbleHeader, "onkeydown", this, "_onTabCallback");
     
     // The onkeydown event for component body. This is needed to handle shift+tab event.
-    this._dojo.connect(this.domNode, "onkeydown", this, "onShftTabCallback");
+    this._dojo.connect(this.domNode, "onkeydown", this, "_onShiftTabCallback");
     
     // Initialize the BubbleTitle width as a percentage of the bubble header.    
     if (this.bubbleTitle != null) {
@@ -389,9 +407,9 @@ webui.@THEME_JS@.widget.bubble.prototype._postCreate = function () {
  * This function is used to position the bubble.
  *
  * @return {boolean} true if successful; otherwise, false.
+ * @private
  */
-webui.@THEME_JS@.widget.bubble.prototype.setPosition = function() {
-    
+webui.@THEME_JS@.widget.bubble.prototype._setPosition = function() {
     // THIS CODE BLOCK IS NECESSARY WHEN THE PAGE FONT IS VERY SMALL,
     // AND WHICH OTHERWISE CAUSES THE PERCENTAGE OF THE HEADER WIDTH
     // ALLOCATED TO THE BUBBLE TITLE TO BE TOO LARGE SUCH THAT IT
@@ -543,7 +561,8 @@ webui.@THEME_JS@.widget.bubble.prototype.setPosition = function() {
 };
 
 /**
- * This function is used to set widget properties using Object literals.
+ * This function is used to set widget properties using Object literals. Please
+ * see the constructor detail for a list of supported properties.
  * <p>
  * Note: This function extends the widget object for later updates. Further, the
  * widget shall be updated only for the given key-value pairs.
@@ -552,17 +571,7 @@ webui.@THEME_JS@.widget.bubble.prototype.setPosition = function() {
  * published. This is typically used to keep client-side state in sync with the
  * server.
  * </p>
- *
  * @param {Object} props Key-Value pairs of properties.
- * @config {boolean} autoClose 
- * @config {Object} closeButton 
- * @config {Array} contents 
- * @config {int} duration 
- * @config {String} id Uniquely identifies an element within a document.
- * @config {int} openDelay 
- * @config {String} title Provides a title for element.
- * @config {int} width 
- * @config {boolean} visible Hide or show element.
  * @param {boolean} notify Publish an event for custom AJAX implementations to listen for.
  * @return {boolean} true if successful; otherwise, false.
  */
@@ -581,8 +590,8 @@ webui.@THEME_JS@.widget.bubble.prototype.setProps = function(props, notify) {
 };
 
 /**
- * This function is used to set widget properties. Please see the setProps() 
- * function for a list of supported properties.
+ * This function is used to set widget properties. Please see the constructor 
+ * detail for a list of supported properties.
  * <p>
  * Note: This function should only be invoked through setProps().
  * </p>

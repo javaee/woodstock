@@ -25,10 +25,40 @@ webui.@THEME_JS@._base.dojo.provide("webui.@THEME_JS@.widget.label");
 webui.@THEME_JS@._base.dojo.require("webui.@THEME_JS@.widget._base.widgetBase");
 
 /**
+ * This function is used to construct a label widget.
+ *
  * @name webui.@THEME_JS@.widget.label
  * @extends webui.@THEME_JS@.widget._base.widgetBase
  * @class This class contains functions for the label widget.
- * @constructor This function is used to construct a label widget.
+ * @constructor
+ * @param {Object} props Key-Value pairs of properties.
+ * @config {String} accesskey
+ * @config {String} className CSS selector.
+ * @config {String} contents 
+ * @config {String} dir Specifies the directionality of text.
+ * @config {Object} errorImage 
+ * @config {String} htmlFor 
+ * @config {String} id Uniquely identifies an element within a document.
+ * @config {String} lang Specifies the language of attribute values and content.
+ * @config {int} level 
+ * @config {String} onClick Mouse button is clicked on element.
+ * @config {String} onDblClick Mouse button is double-clicked on element.
+ * @config {String} onKeyDown Key is pressed down over element.
+ * @config {String} onKeyPress Key is pressed and released over element.
+ * @config {String} onKeyUp Key is released over element.
+ * @config {String} onMouseDown Mouse button is pressed over element.
+ * @config {String} onMouseOut Mouse is moved away from element.
+ * @config {String} onMouseOver Mouse is moved onto element.
+ * @config {String} onMouseUp Mouse button is released over element.
+ * @config {String} onMouseMove Mouse is moved while over element.
+ * @config {boolean} primary Set button as primary if true.
+ * @config {boolean} required
+ * @config {Object} requiredImage
+ * @config {String} style Specify style rules inline.
+ * @config {String} title Provides a title for element.
+ * @config {boolean} valid
+ * @config {String} value Value of input.
+ * @config {boolean} visible Hide or show element.
  */
 webui.@THEME_JS@._base.dojo.declare("webui.@THEME_JS@.widget.label",
         webui.@THEME_JS@.widget._base.widgetBase, {
@@ -115,8 +145,9 @@ webui.@THEME_JS@.widget.label.prototype._getClassName = function() {
  * @config {String} detail Message detail text.
  * @config {boolean} valid Flag indicating validation state.
  * @return {boolean} true if successful; otherwise, false.
+ * @private
  */
-webui.@THEME_JS@.widget.label.prototype.notify = function(props) {
+webui.@THEME_JS@.widget.label.prototype._notify = function(props) {
     if (props == null) {
         return false;
     }
@@ -129,8 +160,8 @@ webui.@THEME_JS@.widget.label.prototype.notify = function(props) {
 };
 
 /**
- * This function is used to get widget properties. Please see the 
- * setProps() function for a list of supported properties.
+ * This function is used to get widget properties. Please see the constructor 
+ * detail for a list of supported properties.
  *
  * @return {Object} Key-Value pairs of properties.
  */
@@ -189,7 +220,8 @@ webui.@THEME_JS@.widget.label.prototype._postCreate = function () {
 };
 
 /**
- * This function is used to set widget properties using Object literals.
+ * This function is used to set widget properties using Object literals. Please
+ * see the constructor detail for a list of supported properties.
  * <p>
  * Note: This function extends the widget object for later updates. Further, the
  * widget shall be updated only for the given key-value pairs.
@@ -198,35 +230,7 @@ webui.@THEME_JS@.widget.label.prototype._postCreate = function () {
  * published. This is typically used to keep client-side state in sync with the
  * server.
  * </p>
- *
  * @param {Object} props Key-Value pairs of properties.
- * @config {String} accesskey
- * @config {String} className CSS selector.
- * @config {String} contents 
- * @config {String} dir Specifies the directionality of text.
- * @config {Object} errorImage 
- * @config {String} htmlFor 
- * @config {String} id Uniquely identifies an element within a document.
- * @config {String} lang Specifies the language of attribute values and content.
- * @config {int} level 
- * @config {String} onClick Mouse button is clicked on element.
- * @config {String} onDblClick Mouse button is double-clicked on element.
- * @config {String} onKeyDown Key is pressed down over element.
- * @config {String} onKeyPress Key is pressed and released over element.
- * @config {String} onKeyUp Key is released over element.
- * @config {String} onMouseDown Mouse button is pressed over element.
- * @config {String} onMouseOut Mouse is moved away from element.
- * @config {String} onMouseOver Mouse is moved onto element.
- * @config {String} onMouseUp Mouse button is released over element.
- * @config {String} onMouseMove Mouse is moved while over element.
- * @config {boolean} primary Set button as primary if true.
- * @config {boolean} required
- * @config {Object} requiredImage
- * @config {String} style Specify style rules inline.
- * @config {String} title Provides a title for element.
- * @config {boolean} valid
- * @config {String} value Value of input.
- * @config {boolean} visible Hide or show element.
  * @param {boolean} notify Publish an event for custom AJAX implementations to listen for.
  * @return {boolean} true if successful; otherwise, false.
  */
@@ -245,8 +249,8 @@ webui.@THEME_JS@.widget.label.prototype.setProps = function(props, notify) {
 };
 
 /**
- * This function is used to set widget properties. Please see the setProps() 
- * function for a list of supported properties.
+ * This function is used to set widget properties. Please see the constructor 
+ * detail for a list of supported properties.
  * <p>
  * Note: This function should only be invoked through setProps().
  * </p>

@@ -25,10 +25,73 @@ webui.@THEME_JS@._base.dojo.provide("webui.@THEME_JS@.widget.rating");
 webui.@THEME_JS@._base.dojo.require("webui.@THEME_JS@.widget._base.widgetBase");
 
 /**
+ * This function is used to construct a rating widget.
+ *
  * @name webui.@THEME_JS@.widget.rating
  * @extends webui.@THEME_JS@.widget._base.widgetBase
  * @class This class contains functions for the rating widget.
- * @constructor This function is used to construct a rating widget.
+ * @constructor
+ * @param {Object} props Key-Value pairs of properties.
+ * @config {boolean} autoSubmit Indicates whether the grade is automatically 
+ * submitted to the server via an Ajax request immediately after the grade is 
+ * selected.  The default is false - it is NOT automatically submitted.
+ * @config {double} averageGrade The average grade the general user population 
+ * has assigned to the item. Must be between 0 and the maximum grade. The 
+ * default is 0.
+ * @config {String} clearAcknowledgedText The acknowledged text for the clear 
+ * control. There is no default.
+ * @config {String} clearHoverText The hover text for the clear control. There 
+ * is no default.
+ * @config {int} grade The grade (number of "stars") the user has assigned the 
+ * item. Use the keyword "notInterested" for a not interested grade and the 
+ * keyword "clear" to clear the grade (effective, set it to 0). The default is 
+ * "clear".
+ * @config {String} gradeAcknowledgedText The text that is displayed after 
+ * clicking on a grade component. There is no default.
+ * @config {Array} gradeHoverTexts The hover texts that will be used for the 
+ * grade controls, ordered from lowest to highest rating.  That is, hoverTexts[0]
+ * will be the hover text associated with the lowest rating; 
+ * hoverTexts[hoverTexts.length-1] with the highest rating. Null can be 
+ * specified as a member of the array. There are no defaults.
+ * @config {boolean} gradeReadOnly Indicates whether the grade of this rating 
+ * component can be changed by the user. The default is false - it is NOT 
+ * read-only, and therefore can be changed by the user.
+ * @config {boolean} inAverageMode Indicates whether the component will be 
+ * rendered displaying the average grade. The default is false, the component 
+ * will be rendered showing the user's rating (normal mode).
+ * @config {boolean} includeClear Indicates whether a control to clear the 
+ * user's rating should be displayed. The default is true.
+ * @config {boolean} includeModeToggle Indicates whether a control to toggle the
+ * mode (to show the average rating or the user's rating) should be rendered. 
+ * The default is false.
+ * @config {boolean} includeNotInterested Indicates whether a control to allow
+ * the user to assign a "not interested" rating should be rendered. The default
+ * is true.
+ * @config {boolean} includeText Indicates whether an area for hover or 
+ * post-click acknowledeged text should be rendered. The default is true.
+ * @config {int} maxGrade The maximum grade (number of "stars") this rating 
+ * instance allows. There is no default, and so must be set.
+ * @config {boolean} modeReadOnly Indicates whether the mode of this rating 
+ * component can be changed by the user. The default is false - it is NOT 
+ * read-only, and therefore can be changed by the user.
+ * @config {Array} modeToggleAcknowledgedTexts The acknowledged texts to be used
+ * for the mode toggle control. The first element of the array is the 
+ * acknowledged text displayed after clicking on the mode toggle control to 
+ * preview the user's rating (normal mode).  The second element is the text 
+ * displayed after clicking to preview the average rating (average mode). Null 
+ * can be specified as a member of the array.
+ * @config {Array} modeToggleHoverTexts The hover texts to be used for the mode
+ * toggle control. The first element of the array is the hover text displayed 
+ * when hovering over the mode toggle control to preview the user's rating 
+ * (normal mode). The second element is the text displayed when hovering to 
+ * preview the average rating (normal mode). Null can be specified as a member 
+ * of the array.
+ * @config {String} notInterestedAcknowledgedText The acknowledged text for the
+ * "not interested" control. There is no default.
+ * @config {String} notInterestedHoverText The hover text for the "not 
+ * interested" control. There is no default.
+ * @config {String} style CSS style or styles to be applied to the outermost 
+ * HTML element when this component is rendered.
  */
 webui.@THEME_JS@._base.dojo.declare("webui.@THEME_JS@.widget.rating",
         webui.@THEME_JS@.widget._base.widgetBase, {
@@ -101,8 +164,8 @@ webui.@THEME_JS@.widget.rating.event =
 };
 
 /**
- * This function is used to get widget properties. Please see the 
- * setProps() function for a list of supported properties.
+ * This function is used to get widget properties. Please see the constructor 
+ * detail for a list of supported properties.
  *
  * @return {Object} Key-Value pairs of properties.
  */
@@ -660,99 +723,18 @@ webui.@THEME_JS@.widget.rating.prototype._postCreate = function () {
 }; // _postCreate
 
 /**
- * This function is used to set widget properties using Object literals.
+ * This function is used to set widget properties using Object literals. Please
+ * see the constructor detail for a list of supported properties.
  * <p>
  * Note: This function extends the widget object for later updates. Further, the
  * widget shall be updated only for the given key-value pairs.
+ * </p><p>
+ * If the notify param is true, the widget's state change event shall be
+ * published. This is typically used to keep client-side state in sync with the
+ * server.
  * </p>
  * @param {Object} props Key-Value pairs of properties.
- * <p>
- * @config {boolean} autoSubmit
- *                   Indicates whether the grade is automatically submitted to the 
- *                   server via an Ajax request immediately after the grade is 
- *                   selected.  The default is false - it is NOT automatically submitted.
- * </p><p>
- * @config {double}  averageGrade
- *                   The average grade the general user population has assigned to the item.
- *                   Must be between 0 and the maximum grade.  The default is 0.
- * </p><p>
- * @config {String}  clearAcknowledgedText
- *                   The acknowledged text for the clear control.  There is no default.
- * </p><p>
- * @config {String}  clearHoverText
- *                   The hover text for the clear control.  There is no default.
- * </p><p>
- * @config {int}     grade
- *                   The grade (number of "stars") the user has assigned the item.
- *                   Use the keyword "notInterested" for a not interested grade
- *                   and the keyword "clear" to clear the grade (effective, set it to 0).
- *                   The default is "clear".
- * </p><p>
- * @config {String}  gradeAcknowledgedText
- *                   The text that is displayed after clicking on a grade component.  There is no default.
- * </p><p>
- * @config {Array}   gradeHoverTexts
- *                   The hover texts that will be used for the grade controls, ordered from lowest 
- *                   to highest rating.  That is, hoverTexts[0] will be the hover text associated 
- *                   with the lowest rating;  hoverTexts[hoverTexts.length-1] with the highest rating.
- *                   Null can be specified as a member of the array.  There are no defaults.
- * </p><p>
- * @config {boolean} gradeReadOnly
- *                   Indicates whether the grade of this rating component can be changed by the user.
- *                   The default is false - it is NOT read-only, and therefore can be changed by the user.
- * </p><p>
- * @config {boolean} inAverageMode
- *                   Indicates whether the component will be rendered displaying the average grade.
- *                   The default is false, the component will be rendered showing the user's rating (normal mode).
- * </p><p>
- * @config {boolean} includeClear
- *                   Indicates whether a control to clear the user's rating should be displayed.
-                     The default is true.
- * </p><p>
- * @config {boolean} includeModeToggle
- *                   Indicates whether a control to toggle the mode (to show the average 
-                     rating or the user's rating) should be rendered.  The default is false.
- * </p><p>
- * @config {boolean} includeNotInterested
- *                   Indicates whether a control to allow the user to assign a
- *                   "not interested" rating should be rendered.  The default is true.
- * </p><p>
- * @config {boolean} includeText
- *                   Indicates whether an area for hover or post-click acknowledeged
- *                   text should be rendered.  The default is true.
- * </p><p>
- * @config {int}     maxGrade
- *                   The maximum grade (number of "stars") this rating instance allows.
- *                   There is no default, and so must be set.
- * </p><p>
- * @config {boolean} modeReadOnly
- *                   Indicates whether the mode of this rating component can be changed by the user.
- *                   The default is false - it is NOT read-only, and therefore can be changed by the user.
- * </p><p>
- * @config {Array}   modeToggleAcknowledgedTexts
- *                   The acknowledged texts to be used for the mode toggle control.  The first element
- *                   of the array is the acknowledged text displayed after clicking on the mode toggle 
- *                   control to preview the user's rating (normal mode).  The second element is 
- *                   the text displayed after clicking to preview the average rating (average mode).
- *                   Null can be specified as a member of the array.
- * </p><p>
- * @config {Array}   modeToggleHoverTexts
- *                   The hover texts to be used for the mode toggle control.  The first element 
- *                   of the array is the hover text displayed when hovering over the mode toggle 
- *                   control to preview the user's rating (normal mode).  The second element is 
- *                   the text displayed when hovering to preview the average rating (normal mode).
- *                   Null can be specified as a member of the array.
- * </p><p>
- * @config {String}  notInterestedAcknowledgedText
- *                   The acknowledged text for the "not interested" control.  There is no default.
- * </p><p>
- * @config {String}  notInterestedHoverText
- *                   The hover text for the "not interested" control.  There is no default.
- * </p><p>
- * @config {String}  style
- *                   CSS style or styles to be applied to the outermost HTML element 
- *                   when this component is rendered.
- * </p><p>
+ * @param {boolean} notify Publish an event for custom AJAX implementations to listen for.
  * @return {boolean} true if successful; otherwise, false.
  */
 webui.@THEME_JS@.widget.rating.prototype.setProps = function(props, notify) {
@@ -818,8 +800,8 @@ webui.@THEME_JS@.widget.rating.prototype.setProps = function(props, notify) {
 }; // setProps
 
 /**
- * This function is used to set widget properties. Please see the setProps() 
- * function for a list of supported properties.
+ * This function is used to set widget properties. Please see the constructor 
+ * detail for a list of supported properties.
  * <p>
  * Note: This function should only be invoked through setProps().
  * </p>

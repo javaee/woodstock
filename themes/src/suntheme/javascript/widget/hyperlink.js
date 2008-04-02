@@ -25,10 +25,46 @@ webui.@THEME_JS@._base.dojo.provide("webui.@THEME_JS@.widget.hyperlink");
 webui.@THEME_JS@._base.dojo.require("webui.@THEME_JS@.widget._base.anchorBase");
 
 /**
+ * This function is used to construct a hyperlink widget.
+ *
  * @name webui.@THEME_JS@.widget.hyperlink
  * @extends webui.@THEME_JS@.widget._base.anchorBase
  * @class This class contains functions for the hyperlink widget.
- * @constructor This function is used to construct a hyperlink widget.
+ * @constructor
+ * @param {Object} props Key-Value pairs of properties.
+ * @config {String} accessKey
+ * @config {String} charset
+ * @config {String} className CSS selector.
+ * @config {Array} contents
+ * @config {String} coords
+ * @config {String} dir Specifies the directionality of text.
+ * @config {boolean} disabled Disable element.
+ * @config {String} formId The id of the HTML form element.
+ * @config {String} href
+ * @config {String} hrefLang
+ * @config {String} id Uniquely identifies an element within a document.
+ * @config {String} lang Specifies the language of attribute values and content.
+ * @config {String} name 
+ * @config {String} onBlur Element lost focus.
+ * @config {String} onClick Mouse button is clicked on element.
+ * @config {String} onDblClick Mouse button is double-clicked on element.
+ * @config {String} onFocus Element received focus.
+ * @config {String} onKeyDown Key is pressed down over element.
+ * @config {String} onKeyPress Key is pressed and released over element.
+ * @config {String} onKeyUp Key is released over element.
+ * @config {String} onMouseDown Mouse button is pressed over element.
+ * @config {String} onMouseOut Mouse is moved away from element.
+ * @config {String} onMouseOver Mouse is moved onto element.
+ * @config {String} onMouseUp Mouse button is released over element.
+ * @config {String} onMouseMove Mouse is moved while over element.
+ * @config {Array} params The parameters to be passed during request.
+ * @config {String} rel
+ * @config {String} rev
+ * @config {String} shape
+ * @config {String} style Specify style rules inline.
+ * @config {int} tabIndex Position in tabbing order.
+ * @config {String} title Provides a title for element.
+ * @config {boolean} visible Hide or show element.
  */
 webui.@THEME_JS@._base.dojo.declare("webui.@THEME_JS@.widget.hyperlink",
         webui.@THEME_JS@.widget._base.anchorBase, {
@@ -123,7 +159,7 @@ webui.@THEME_JS@.widget.hyperlink.prototype._onClickCallback = function(event) {
         var form = this._widget._getForm(this.domNode);
         this.formId = (form) ? form.id : null;
     }
-    return this.submitFormData(this.formId, this.params);
+    return this._submitFormData(this.formId, this.params);
 };
 
 /**
@@ -147,66 +183,14 @@ webui.@THEME_JS@.widget.hyperlink.prototype._postCreate = function () {
 };
 
 /**
- * This function is used to set widget properties using Object literals.
- * <p>
- * Note: This function extends the widget object for later updates. Further, the
- * widget shall be updated only for the given key-value pairs.
- * </p><p>
- * If the notify param is true, the widget's state change event shall be
- * published. This is typically used to keep client-side state in sync with the
- * server.
- * </p>
- *
- * @param {Object} props Key-Value pairs of properties.
- * @config {String} accessKey
- * @config {String} charset
- * @config {String} className CSS selector.
- * @config {Array} contents
- * @config {String} coords
- * @config {String} dir Specifies the directionality of text.
- * @config {boolean} disabled Disable element.
- * @config {String} formId The id of the HTML form element.
- * @config {String} href
- * @config {String} hrefLang
- * @config {String} id Uniquely identifies an element within a document.
- * @config {String} lang Specifies the language of attribute values and content.
- * @config {String} name 
- * @config {String} onBlur Element lost focus.
- * @config {String} onClick Mouse button is clicked on element.
- * @config {String} onDblClick Mouse button is double-clicked on element.
- * @config {String} onFocus Element received focus.
- * @config {String} onKeyDown Key is pressed down over element.
- * @config {String} onKeyPress Key is pressed and released over element.
- * @config {String} onKeyUp Key is released over element.
- * @config {String} onMouseDown Mouse button is pressed over element.
- * @config {String} onMouseOut Mouse is moved away from element.
- * @config {String} onMouseOver Mouse is moved onto element.
- * @config {String} onMouseUp Mouse button is released over element.
- * @config {String} onMouseMove Mouse is moved while over element.
- * @config {Array} params The parameters to be passed during request.
- * @config {String} rel
- * @config {String} rev
- * @config {String} shape
- * @config {String} style Specify style rules inline.
- * @config {int} tabIndex Position in tabbing order.
- * @config {String} title Provides a title for element.
- * @config {boolean} visible Hide or show element.
- * @param {boolean} notify Publish an event for custom AJAX implementations to listen for.
- * @return {boolean} true if successful; otherwise, false.
- */
-webui.@THEME_JS@.widget.hyperlink.prototype.setProps = function(props, notify) {
-    // Note: This function is overridden for JsDoc.
-    return this._inherited("setProps", arguments);
-};
-
-/**
  * This function submits the hyperlink if the hyperlink is enabled.
  *
  * @param {String} formId The id of the HTML form element.
  * @param {Array} params The parameters to be passed during request.
  * @return {boolean} false to cancel the JavaScript event.
+ * @private
  */
-webui.@THEME_JS@.widget.hyperlink.prototype.submitFormData = function (formId, params) {
+webui.@THEME_JS@.widget.hyperlink.prototype._submitFormData = function (formId, params) {
     var theForm = document.getElementById(formId);
     var oldTarget = theForm.target;
     var oldAction = theForm.action;

@@ -25,10 +25,42 @@ webui.@THEME_JS@._base.dojo.provide("webui.@THEME_JS@.widget.editableField");
 webui.@THEME_JS@._base.dojo.require("webui.@THEME_JS@.widget.textField");
 
 /**
+ * This function is used to construct a editableField widget.
+ *
  * @name webui.@THEME_JS@.widget.editableField
  * @extends webui.@THEME_JS@.widget.textField
  * @class This class contains functions for the editableField widget.
- * @constructor This function is used to construct a editableField widget.
+ * @constructor
+ * @param {Object} props Key-Value pairs of properties.
+ * @config {String} accesskey 
+ * @config {boolean} autoSave
+ * @config {String} className CSS selector.
+ * @config {String} dir Specifies the directionality of text.
+ * @config {boolean} disabled Disable element.
+ * @config {String} escape HTML escape button text (default).
+ * @config {String} id Uniquely identifies an element within a document.
+ * @config {String} label
+ * @config {String} lang Specifies the language of attribute values and content.
+ * @config {int} maxLength 
+ * @config {Array} notify
+ * @config {String} onClick Mouse button is clicked on element.
+ * @config {String} onDblClick Mouse button is double-clicked on element.
+ * @config {String} onKeyDown Key is pressed down over element.
+ * @config {String} onKeyPress Key is pressed and released over element.
+ * @config {String} onKeyUp Key is released over element.
+ * @config {String} onMouseDown Mouse button is pressed over element.
+ * @config {String} onMouseOut Mouse is moved away from element.
+ * @config {String} onMouseOver Mouse is moved onto element.
+ * @config {String} onMouseUp Mouse button is released over element.
+ * @config {String} onMouseMove Mouse is moved while over element.
+ * @config {boolean} required 
+ * @config {int} size
+ * @config {String} style Specify style rules inline.
+ * @config {int} tabIndex Position in tabbing order.
+ * @config {String} title Provides a title for element.
+ * @config {String} valid Value of input.
+ * @config {String} value Value of input.
+ * @config {boolean} visible Hide or show element.
  */
 webui.@THEME_JS@._base.dojo.declare("webui.@THEME_JS@.widget.editableField",
         webui.@THEME_JS@.widget.textField, {
@@ -57,8 +89,9 @@ webui.@THEME_JS@._base.dojo.declare("webui.@THEME_JS@.widget.editableField",
  * will be modified.
  * </p>
  * @return {boolean} true if successful; otherwise, false.
+ * @private
  */
-webui.@THEME_JS@.widget.editableField.prototype.disableEdit = function(acceptChanges) {
+webui.@THEME_JS@.widget.editableField.prototype._disableEdit = function(acceptChanges) {
     if (acceptChanges == true) {
         // If savedValue does not exist, we have not edited the field yet
         if (this.autoSave == true && this.savedValue && 
@@ -81,8 +114,9 @@ webui.@THEME_JS@.widget.editableField.prototype.disableEdit = function(acceptCha
  * Helper function to enable edit mode.
  *
  * @return {boolean} true if successful; otherwise, false.
+ * @private
  */
-webui.@THEME_JS@.widget.editableField.prototype.enableEdit = function() {
+webui.@THEME_JS@.widget.editableField.prototype._enableEdit = function() {
     // Save the current value.
     this.savedValue = this.fieldNode.value;
         
@@ -165,8 +199,8 @@ webui.@THEME_JS@.widget.editableField.prototype._getInputClassName = function() 
 };
 
 /**
- * This function is used to get widget properties. Please see the 
- * setProps() function for a list of supported properties.
+ * This function is used to get widget properties. Please see the constructor 
+ * detail for a list of supported properties.
  *
  * @return {Object} Key-Value pairs of properties.
  */
@@ -185,17 +219,18 @@ webui.@THEME_JS@.widget.editableField.prototype.getProps = function() {
  *
  * @param {Event} event The JavaScript event
  * @return {boolean} true if successful; otherwise, false.
+ * @private
  */
-webui.@THEME_JS@.widget.editableField.prototype.onEditCallback = function(event) {
+webui.@THEME_JS@.widget.editableField.prototype._onEditCallback = function(event) {
     if (event == null) {
         return false;
     }
     if (event.type == "dblclick") {
-        this.enableEdit();
+        this._enableEdit();
         return true;
     }
     if (event.type == "blur") {
-        this.disableEdit(true);
+        this._disableEdit(true);
         return true;
     }
     if (event.type == "keyup") {
@@ -203,11 +238,11 @@ webui.@THEME_JS@.widget.editableField.prototype.onEditCallback = function(event)
             // Currently in readOnly state.
             // Allow <SPACE> key.
             if (event.keyCode == 32) {
-                this.enableEdit();
+                this._enableEdit();
             }
         } else {
             // Currently in edit state.
-            if (event.keyCode == 27) this.disableEdit(false); // ESC
+            if (event.keyCode == 27) this._disableEdit(false); // ESC
         }
         // Otherwise do not do anything.
         return true;
@@ -229,65 +264,16 @@ webui.@THEME_JS@.widget.editableField.prototype._postCreate = function () {
     this.fieldNode.readOnly = true;
 
     // Set events.
-    this._dojo.connect(this.fieldNode, "ondblclick", this, "onEditCallback");
-    this._dojo.connect(this.fieldNode, "onblur", this, "onEditCallback");
-    this._dojo.connect(this.fieldNode, "onkeyup", this, "onEditCallback");
+    this._dojo.connect(this.fieldNode, "ondblclick", this, "_onEditCallback");
+    this._dojo.connect(this.fieldNode, "onblur", this, "_onEditCallback");
+    this._dojo.connect(this.fieldNode, "onkeyup", this, "_onEditCallback");
 
     return this._inherited("_postCreate", arguments);
 };
 
 /**
- * This function is used to set widget properties using Object literals.
- * <p>
- * Note: This function extends the widget object for later updates. Further, the
- * widget shall be updated only for the given key-value pairs.
- * </p><p>
- * If the notify param is true, the widget's state change event shall be
- * published. This is typically used to keep client-side state in sync with the
- * server.
- * </p>
- *
- * @param {Object} props Key-Value pairs of properties.
- * @config {String} accesskey 
- * @config {boolean} autoSave
- * @config {String} className CSS selector.
- * @config {String} dir Specifies the directionality of text.
- * @config {boolean} disabled Disable element.
- * @config {String} escape HTML escape button text (default).
- * @config {String} id Uniquely identifies an element within a document.
- * @config {String} label
- * @config {String} lang Specifies the language of attribute values and content.
- * @config {int} maxLength 
- * @config {Array} notify
- * @config {String} onClick Mouse button is clicked on element.
- * @config {String} onDblClick Mouse button is double-clicked on element.
- * @config {String} onKeyDown Key is pressed down over element.
- * @config {String} onKeyPress Key is pressed and released over element.
- * @config {String} onKeyUp Key is released over element.
- * @config {String} onMouseDown Mouse button is pressed over element.
- * @config {String} onMouseOut Mouse is moved away from element.
- * @config {String} onMouseOver Mouse is moved onto element.
- * @config {String} onMouseUp Mouse button is released over element.
- * @config {String} onMouseMove Mouse is moved while over element.
- * @config {boolean} required 
- * @config {int} size
- * @config {String} style Specify style rules inline.
- * @config {int} tabIndex Position in tabbing order.
- * @config {String} title Provides a title for element.
- * @config {String} valid Value of input.
- * @config {String} value Value of input.
- * @config {boolean} visible Hide or show element.
- * @param {boolean} notify Publish an event for custom AJAX implementations to listen for.
- * @return {boolean} true if successful; otherwise, false.
- */
-webui.@THEME_JS@.widget.editableField.prototype.setProps = function(props, notify) {
-    // Note: This function is overridden for JsDoc.
-    return this._inherited("setProps", arguments);
-};
-
-/**
- * This function is used to set widget properties. Please see the setProps() 
- * function for a list of supported properties.
+ * This function is used to set widget properties. Please see the constructor 
+ * detail for a list of supported properties.
  * <p>
  * Note: This function should only be invoked through setProps().
  * </p>

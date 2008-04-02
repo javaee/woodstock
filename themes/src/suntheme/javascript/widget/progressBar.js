@@ -26,10 +26,32 @@ webui.@THEME_JS@._base.dojo.require("webui.@THEME_JS@.widget.common");
 webui.@THEME_JS@._base.dojo.require("webui.@THEME_JS@.widget._base.widgetBase");
 
 /**
+ * This function is used to construct a progressBar widget.
+ *
  * @name webui.@THEME_JS@.widget.progressBar
  * @extends webui.@THEME_JS@.widget._base.widgetBase
  * @class This class contains functions for the progressBar widget.
- * @constructor This function is used to construct a progressBar widget.
+ * @constructor
+ * @param {Object} props Key-Value pairs of properties.
+ * @config {String} bottomText 
+ * @config {Object} busyImage 
+ * @config {String} failedStateText
+ * @config {String} id Uniquely identifies an element within a document.
+ * @config {String} logId 
+ * @config {boolean} logMessage 
+ * @config {String} overlayAnimation 
+ * @config {String} percentChar 
+ * @config {int} progress 
+ * @config {String} progressImageUrl 
+ * @config {String} progressControlBottom
+ * @config {String} progressControlRight 
+ * @config {int} refreshRate 
+ * @config {String} taskState
+ * @config {String} toolTip 
+ * @config {String} topText 
+ * @config {String} type 
+ * @config {boolean} visible Hide or show element.
+ * @config {int} width 
  */
 webui.@THEME_JS@._base.dojo.declare("webui.@THEME_JS@.widget.progressBar",
         webui.@THEME_JS@.widget._base.widgetBase, {
@@ -64,7 +86,7 @@ webui.@THEME_JS@.widget.progressBar.prototype.cancel = function() {
     if (this.type == this.determinate) {
         this.innerBarContainer.style.width = "0%";
     }
-    return this.updateProgress();
+    return this._updateProgress();
 };
 
 /**
@@ -116,8 +138,8 @@ webui.@THEME_JS@.widget.progressBar.event =
 };
 
 /**
- * This function is used to get widget properties. Please see the 
- * setProps() function for a list of supported properties.
+ * This function is used to get widget properties. Please see the constructor 
+ * detail for a list of supported properties.
  *
  * @return {Object} Key-Value pairs of properties.
  */
@@ -257,7 +279,7 @@ webui.@THEME_JS@.widget.progressBar.prototype.pause = function() {
         this.innerBarContainer.className =
             this._theme.getClassName("PROGRESSBAR_INDETERMINATE_PAUSED");
     }
-    return this.updateProgress();
+    return this._updateProgress();
 };
 
 /**
@@ -334,7 +356,7 @@ webui.@THEME_JS@.widget.progressBar.prototype.resume = function() {
             this._theme.getClassName("PROGRESSBAR_INDETERMINATE");
             
     }
-    return this.updateProgress();
+    return this._updateProgress();
 };
 
 /**
@@ -607,47 +629,8 @@ webui.@THEME_JS@.widget.progressBar.prototype.setProgressBarVisible = function(s
 };
 
 /**
- * This function is used to set widget properties using Object literals.
- * <p>
- * Note: This function extends the widget object for later updates. Further, the
- * widget shall be updated only for the given key-value pairs.
- * </p><p>
- * If the notify param is true, the widget's state change event shall be
- * published. This is typically used to keep client-side state in sync with the
- * server.
- * </p>
- *
- * @param {Object} props Key-Value pairs of properties.
- * @config {String} bottomText 
- * @config {Object} busyImage 
- * @config {String} failedStateText
- * @config {String} id Uniquely identifies an element within a document.
- * @config {String} logId 
- * @config {boolean} logMessage 
- * @config {String} overlayAnimation 
- * @config {String} percentChar 
- * @config {int} progress 
- * @config {String} progressImageUrl 
- * @config {String} progressControlBottom
- * @config {String} progressControlRight 
- * @config {int} refreshRate 
- * @config {String} taskState
- * @config {String} toolTip 
- * @config {String} topText 
- * @config {String} type 
- * @config {boolean} visible Hide or show element.
- * @config {int} width 
- * @param {boolean} notify Publish an event for custom AJAX implementations to listen for.
- * @return {boolean} true if successful; otherwise, false.
- */
-webui.@THEME_JS@.widget.progressBar.prototype.setProps = function(props, notify) {
-    // Note: This function is overridden for JsDoc.
-    return this._inherited("setProps", arguments);
-};
-
-/**
- * This function is used to set widget properties. Please see the setProps() 
- * function for a list of supported properties.
+ * This function is used to set widget properties. Please see the constructor 
+ * detail for a list of supported properties.
  * <p>
  * Note: This function should only be invoked through setProps().
  * </p>
@@ -819,7 +802,7 @@ webui.@THEME_JS@.widget.progressBar.prototype._start = function () {
         return false;
     }
     // Start a timer used to periodically publish progress events.
-    this.updateProgress();  
+    this._updateProgress();  
     return this._inherited("_start", arguments);
 };
 
@@ -836,15 +819,16 @@ webui.@THEME_JS@.widget.progressBar.prototype.stop = function() {
         this.innerBarIdContainer.className =
             this._theme.getClassName("PROGRESSBAR_INDETERMINATE_PAUSED");
     }
-    return this.updateProgress();
+    return this._updateProgress();
 };
 
 /**
  * Process progress event.
  *
  * @return {boolean} true if successful; otherwise, false.
+ * @private
  */
-webui.@THEME_JS@.widget.progressBar.prototype.updateProgress = function() {
+webui.@THEME_JS@.widget.progressBar.prototype._updateProgress = function() {
     // Publish event.
     if (this.refreshRate > 0) {
         // Publish an event for custom AJAX implementations to listen for.
@@ -858,7 +842,7 @@ webui.@THEME_JS@.widget.progressBar.prototype.updateProgress = function() {
     this.timeoutId = setTimeout(function() {
         // New literals are created every time this function is called, and it's 
         // saved by closure magic.
-        webui.@THEME_JS@.widget.common.getWidget(_id).updateProgress();
+        webui.@THEME_JS@.widget.common.getWidget(_id)._updateProgress();
     }, this.refreshRate);
     return true;
 };

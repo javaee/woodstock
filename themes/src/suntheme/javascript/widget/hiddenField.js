@@ -25,10 +25,17 @@ webui.@THEME_JS@._base.dojo.provide("webui.@THEME_JS@.widget.hiddenField");
 webui.@THEME_JS@._base.dojo.require("webui.@THEME_JS@.widget._base.widgetBase");
 
 /**
+ * This function is used to construct a hiddenField widget.
+ *
  * @name webui.@THEME_JS@.widget.hiddenField
  * @extends webui.@THEME_JS@.widget._base.widgetBase
  * @class This class contains functions for the hiddenField widget.
- * @constructor This function is used to construct a hiddenField widget.
+ * @constructor
+ * @param {Object} props Key-Value pairs of properties.
+ * @config {boolean} disabled Disable element.
+ * @config {String} id Uniquely identifies an element within a document.
+ * @config {String} name
+ * @config {String} value Value of input.
  */
 webui.@THEME_JS@._base.dojo.declare("webui.@THEME_JS@.widget.hiddenField",
         webui.@THEME_JS@.widget._base.widgetBase, {
@@ -88,8 +95,8 @@ webui.@THEME_JS@.widget.hiddenField.event =
 };
 
 /**
- * This function is used to get widget properties. Please see the 
- * setProps() function for a list of supported properties.
+ * This function is used to get widget properties. Please see the constructor 
+ * detail for a list of supported properties.
  *
  * @return {Object} Key-Value pairs of properties.
  */
@@ -105,32 +112,8 @@ webui.@THEME_JS@.widget.hiddenField.prototype.getProps = function() {
 };
 
 /**
- * This function is used to set widget properties using Object literals.
- * <p>
- * Note: This function extends the widget object for later updates. Further, the
- * widget shall be updated only for the given key-value pairs.
- * </p><p>
- * If the notify param is true, the widget's state change event shall be
- * published. This is typically used to keep client-side state in sync with the
- * server.
- * </p>
- *
- * @param {Object} props Key-Value pairs of properties.
- * @config {boolean} disabled Disable element.
- * @config {String} id Uniquely identifies an element within a document.
- * @config {String} name
- * @config {String} value Value of input.
- * @param {boolean} notify Publish an event for custom AJAX implementations to listen for.
- * @return {boolean} true if successful; otherwise, false.
- */
-webui.@THEME_JS@.widget.hiddenField.prototype.setProps = function(props, notify) {
-    // Note: This function is overridden for JsDoc.
-    return this._inherited("setProps", arguments);
-};
-
-/**
- * This function is used to set widget properties. Please see the setProps() 
- * function for a list of supported properties.
+ * This function is used to set widget properties. Please see the constructor 
+ * detail for a list of supported properties.
  * <p>
  * Note: This function should only be invoked through setProps().
  * </p>

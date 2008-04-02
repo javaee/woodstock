@@ -25,10 +25,44 @@ webui.@THEME_JS@._base.dojo.provide("webui.@THEME_JS@.widget.listbox");
 webui.@THEME_JS@._base.dojo.require("webui.@THEME_JS@.widget._base.selectBase");
 
 /**
+ * This function is used to construct a listbox widget.
+ *
  * @name webui.@THEME_JS@.widget.listbox
  * @extends webui.@THEME_JS@.widget._base.selectBase
  * @class This class contains functions for the listbox widget.
- * @constructor This function is used to construct a listbox widget.
+ * @constructor
+ * @param {Object} props Key-Value pairs of properties.
+ * @config {String} className CSS selector.
+ * @config {String} dir Specifies the directionality of text.
+ * @config {boolean} disabled Disable element.
+ * @config {String} id Uniquely identifies an element within a document.
+ * @config {Object} label Defines the widget and its properties to use for a
+ * label.
+ * @config {String} labelOnTop If true the label appears above the listbox.
+ * @config {String} lang Specifies the language of attribute values and content.
+ * @config {boolean} multiple If true allow multiple selections
+ * @config {boolean} monospace If true use monospace font styling.
+ * @config {String} onBlur Element lost focus.
+ * @config {String} onChange Option selection is changed.
+ * @config {String} onClick Mouse button is clicked on element.
+ * @config {String} onDblClick Mouse button is double-clicked on element.
+ * @config {String} onFocus Element received focus.
+ * @config {String} onKeyDown Key is pressed down over element.
+ * @config {String} onKeyPress Key is pressed and released over element.
+ * @config {String} onKeyUp Key is released over element.
+ * @config {String} onMouseDown Mouse button is pressed over element.
+ * @config {String} onMouseOut Mouse is moved away from element.
+ * @config {String} onMouseOver Mouse is moved onto element.
+ * @config {String} onMouseUp Mouse button is released over element.
+ * @config {String} onMouseMove Mouse is moved while over element.
+ * @config {String} onSelect Option text is highlighted.
+ * @config {Array} options See selectBase._setOptions or selectBase overview
+ * for details on the elements of this array.
+ * @config {int} size The number of option rows to display.
+ * @config {String} style Specify style rules inline. 
+ * @config {int} tabIndex Position in tabbing order.
+ * @config {String} title Provides a title for element.
+ * @config {boolean} visible Hide or show element.
  */
 webui.@THEME_JS@._base.dojo.declare("webui.@THEME_JS@.widget.listbox", 
 	webui.@THEME_JS@.widget._base.selectBase, {
@@ -216,8 +250,8 @@ webui.@THEME_JS@.widget.listbox.prototype._getListContainerClassName =
 };
 
 /**
- * This function is used to get widget properties. Please see the 
- * setProps() function for a list of supported properties.
+ * This function is used to get widget properties. Please see the constructor 
+ * detail for a list of supported properties.
  *
  * @return {Object} Key-Value pairs of properties.
  */
@@ -317,10 +351,9 @@ webui.@THEME_JS@.widget.listbox.prototype._postCreate = function () {
     return this._inherited("_postCreate", arguments);
 };
 
-
 /**
- * This function is used to set widget properties defined in the
- * <code>props</code> Object literal.
+ * This function is used to set widget properties using Object literals. Please
+ * see the constructor detail for a list of supported properties.
  * <p>
  * Note: This function extends the widget object for later updates. Further, the
  * widget shall be updated only for the given key-value pairs.
@@ -329,42 +362,7 @@ webui.@THEME_JS@.widget.listbox.prototype._postCreate = function () {
  * published. This is typically used to keep client-side state in sync with the
  * server.
  * </p>
- * <p>
- * See <code>selectBase._setOptions</code> or overview for the properties
- * of option objects in the <code>options</code> array property.
- *
  * @param {Object} props Key-Value pairs of properties.
- * @config {String} className CSS selector.
- * @config {String} dir Specifies the directionality of text.
- * @config {boolean} disabled Disable element.
- * @config {String} id Uniquely identifies an element within a document.
- * @config {Object} label Defines the widget and its properties to use for a
- * label.
- * @config {String} labelOnTop If true the label appears above the listbox.
- * @config {String} lang Specifies the language of attribute values and content.
- * @config {boolean} multiple If true allow multiple selections
- * @config {boolean} monospace If true use monospace font styling.
- * @config {String} onBlur Element lost focus.
- * @config {String} onChange Option selection is changed.
- * @config {String} onClick Mouse button is clicked on element.
- * @config {String} onDblClick Mouse button is double-clicked on element.
- * @config {String} onFocus Element received focus.
- * @config {String} onKeyDown Key is pressed down over element.
- * @config {String} onKeyPress Key is pressed and released over element.
- * @config {String} onKeyUp Key is released over element.
- * @config {String} onMouseDown Mouse button is pressed over element.
- * @config {String} onMouseOut Mouse is moved away from element.
- * @config {String} onMouseOver Mouse is moved onto element.
- * @config {String} onMouseUp Mouse button is released over element.
- * @config {String} onMouseMove Mouse is moved while over element.
- * @config {String} onSelect Option text is highlighted.
- * @config {Array} options See selectBase._setOptions or selectBase overview
- * for details on the elements of this array.
- * @config {int} size The number of option rows to display.
- * @config {String} style Specify style rules inline. 
- * @config {int} tabIndex Position in tabbing order.
- * @config {String} title Provides a title for element.
- * @config {boolean} visible Hide or show element.
  * @param {boolean} notify Publish an event for custom AJAX implementations to listen for.
  * @return {boolean} true if successful; otherwise, false.
  */

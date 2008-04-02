@@ -175,8 +175,8 @@ webui.@THEME_JS@.widget.button.prototype._getHoverClassName = function() {
 };
     
 /**
- * This function is used to get widget properties. Please see the 
- * constructor detail for a list of supported properties.
+ * This function is used to get widget properties. Please see the constructor 
+ * detail for a list of supported properties.
  *
  * @return {Object} Key-Value pairs of properties.
  */
@@ -277,8 +277,8 @@ webui.@THEME_JS@.widget.button.prototype._postCreate = function () {
 };
 
 /**
- * This function is used to set widget properties. Please see the 
- * constructor detail for a list of supported properties.
+ * This function is used to set widget properties. Please see the constructor 
+ * detail for a list of supported properties.
  * <p>
  * Note: This function should only be invoked through setProps().
  * </p>

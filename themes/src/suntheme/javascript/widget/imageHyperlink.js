@@ -25,10 +25,46 @@ webui.@THEME_JS@._base.dojo.provide("webui.@THEME_JS@.widget.imageHyperlink");
 webui.@THEME_JS@._base.dojo.require("webui.@THEME_JS@.widget.hyperlink");
 
 /**
+ * This function is used to construct a imageHyperlink widget.
+ *
  * @name webui.@THEME_JS@.widget.imageHyperlink
  * @extends webui.@THEME_JS@.widget.hyperlink
  * @class This class contains functions for the imageHyperlink widget.
- * @constructor This function is used to construct a imageHyperlink widget.
+ * @constructor
+ * @param {Object} props Key-Value pairs of properties.
+ * @config {String} accessKey
+ * @config {String} charset
+ * @config {String} className CSS selector.
+ * @config {Array} contents
+ * @config {String} coords
+ * @config {String} dir Specifies the directionality of text.
+ * @config {boolean} disabled Disable element.
+ * @config {Object} disabledImage
+ * @config {Object} enabledImage
+ * @config {String} href
+ * @config {String} hrefLang
+ * @config {String} id Uniquely identifies an element within a document.
+ * @config {String} imagePosition
+ * @config {String} lang Specifies the language of attribute values and content.
+ * @config {String} onBlur Element lost focus.
+ * @config {String} onClick Mouse button is clicked on element.
+ * @config {String} onDblClick Mouse button is double-clicked on element.
+ * @config {String} onFocus Element received focus.
+ * @config {String} onKeyDown Key is pressed down over element.
+ * @config {String} onKeyPress Key is pressed and released over element.
+ * @config {String} onKeyUp Key is released over element.
+ * @config {String} onMouseDown Mouse button is pressed over element.
+ * @config {String} onMouseOut Mouse is moved away from element.
+ * @config {String} onMouseOver Mouse is moved onto element.
+ * @config {String} onMouseUp Mouse button is released over element.
+ * @config {String} onMouseMove Mouse is moved while over element.
+ * @config {String} rel
+ * @config {String} rev
+ * @config {String} shape
+ * @config {String} style Specify style rules inline.
+ * @config {int} tabIndex Position in tabbing order.
+ * @config {String} title Provides a title for element.
+ * @config {boolean} visible Hide or show element.
  */
 webui.@THEME_JS@._base.dojo.declare("webui.@THEME_JS@.widget.imageHyperlink",
         webui.@THEME_JS@.widget.hyperlink, {
@@ -98,8 +134,8 @@ webui.@THEME_JS@.widget.imageHyperlink.event =
 };
 
 /**
- * This function is used to get widget properties. Please see the 
- * setProps() function for a list of supported properties.
+ * This function is used to get widget properties. Please see the constructor 
+ * detail for a list of supported properties.
  *
  * @return {Object} Key-Value pairs of properties.
  */
@@ -135,61 +171,8 @@ webui.@THEME_JS@.widget.imageHyperlink.prototype._postCreate = function () {
 };
 
 /**
- * This function is used to set widget properties using Object literals.
- * <p>
- * Note: This function extends the widget object for later updates. Further, the
- * widget shall be updated only for the given key-value pairs.
- * </p><p>
- * If the notify param is true, the widget's state change event shall be
- * published. This is typically used to keep client-side state in sync with the
- * server.
- * </p>
- *
- * @param {Object} props Key-Value pairs of properties.
- * @config {String} accessKey
- * @config {String} charset
- * @config {String} className CSS selector.
- * @config {Array} contents
- * @config {String} coords
- * @config {String} dir Specifies the directionality of text.
- * @config {boolean} disabled Disable element.
- * @config {Object} disabledImage
- * @config {Object} enabledImage
- * @config {String} href
- * @config {String} hrefLang
- * @config {String} id Uniquely identifies an element within a document.
- * @config {String} imagePosition
- * @config {String} lang Specifies the language of attribute values and content.
- * @config {String} onBlur Element lost focus.
- * @config {String} onClick Mouse button is clicked on element.
- * @config {String} onDblClick Mouse button is double-clicked on element.
- * @config {String} onFocus Element received focus.
- * @config {String} onKeyDown Key is pressed down over element.
- * @config {String} onKeyPress Key is pressed and released over element.
- * @config {String} onKeyUp Key is released over element.
- * @config {String} onMouseDown Mouse button is pressed over element.
- * @config {String} onMouseOut Mouse is moved away from element.
- * @config {String} onMouseOver Mouse is moved onto element.
- * @config {String} onMouseUp Mouse button is released over element.
- * @config {String} onMouseMove Mouse is moved while over element.
- * @config {String} rel
- * @config {String} rev
- * @config {String} shape
- * @config {String} style Specify style rules inline.
- * @config {int} tabIndex Position in tabbing order.
- * @config {String} title Provides a title for element.
- * @config {boolean} visible Hide or show element.
- * @param {boolean} notify Publish an event for custom AJAX implementations to listen for.
- * @return {boolean} true if successful; otherwise, false.
- */
-webui.@THEME_JS@.widget.imageHyperlink.prototype.setProps = function(props, notify) {
-    // Note: This function is overridden for JsDoc.
-    return this._inherited("setProps", arguments);
-};
-
-/**
- * This function is used to set widget properties. Please see the setProps() 
- * function for a list of supported properties.
+ * This function is used to set widget properties. Please see the constructor 
+ * detail for a list of supported properties.
  * <p>
  * Note: This function should only be invoked through setProps().
  * </p>

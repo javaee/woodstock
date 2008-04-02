@@ -27,10 +27,42 @@ webui.@THEME_JS@._base.dojo.require("webui.@THEME_JS@.widget.common");
 webui.@THEME_JS@._base.dojo.require("webui.@THEME_JS@.widget._base.widgetBase");
 
 /**
+ * This function is used to construct a table2RowGroup widget.
+ *
  * @name webui.@THEME_JS@.widget.table2RowGroup
  * @extends webui.@THEME_JS@.widget._base.widgetBase
  * @class This class contains functions for the table2RowGroup widget.
- * @constructor This function is used to construct a table2RowGroup widget.
+ * @constructor
+ * @param {Object} props Key-Value pairs of properties.
+ * @config {String} align Alignment of image input.
+ * @config {String} bgColor
+ * @config {String} char
+ * @config {String} charOff
+ * @config {String} className CSS selector.
+ * @config {Array} columns
+ * @config {String} dir Specifies the directionality of text.
+ * @config {int} first
+ * @config {String} headerText
+ * @config {int} height
+ * @config {String} id Uniquely identifies an element within a document.
+ * @config {String} lang Specifies the language of attribute values and content.
+ * @config {int} maxRows 
+ * @config {String} onClick Mouse button is clicked on element.
+ * @config {String} onDblClick Mouse button is double-clicked on element.
+ * @config {String} onKeyDown Key is pressed down over element.
+ * @config {String} onKeyPress Key is pressed and released over element.
+ * @config {String} onKeyUp Key is released over element.
+ * @config {String} onMouseDown Mouse button is pressed over element.
+ * @config {String} onMouseOut Mouse is moved away from element.
+ * @config {String} onMouseOver Mouse is moved onto element.
+ * @config {String} onMouseUp Mouse button is released over element.
+ * @config {String} onMouseMove Mouse is moved while over element.
+ * @config {Array} rows 
+ * @config {String} style Specify style rules inline.
+ * @config {String} title Provides a title for element.
+ * @config {int} totalRows 
+ * @config {String} valign 
+ * @config {boolean} visible Hide or show element.
  */
 webui.@THEME_JS@._base.dojo.declare("webui.@THEME_JS@.widget.table2RowGroup",
         webui.@THEME_JS@.widget._base.widgetBase, {
@@ -46,8 +78,9 @@ webui.@THEME_JS@._base.dojo.declare("webui.@THEME_JS@.widget.table2RowGroup",
  * This function is used to set column headers and footers.
  *
  * @return {boolean} true if successful; otherwise, false.
+ * @private
  */
-webui.@THEME_JS@.widget.table2RowGroup.prototype.addColumns = function() {
+webui.@THEME_JS@.widget.table2RowGroup.prototype._addColumns = function() {
     // Clear column headers/footers.
     this._widget._removeChildNodes(this.thead);
     this._widget._removeChildNodes(this.tfoot);
@@ -156,7 +189,7 @@ webui.@THEME_JS@.widget.table2RowGroup.prototype.addRows = function(rows) {
             rowClone.appendChild(cellClone);
 
             // Set properties.
-            this.setColumnProps(cellClone, col);
+            this._setColumnProps(cellClone, col);
             cellClone.id = colId; // Override id set by _setCoreProps.
 
             // Add cell data.
@@ -177,7 +210,7 @@ webui.@THEME_JS@.widget.table2RowGroup.prototype.addRows = function(rows) {
     setTimeout(function() {
         // New literals are created every time this function is called, and it's 
         // saved by closure magic.
-        webui.@THEME_JS@.widget.common.getWidget(_id).resize();
+        webui.@THEME_JS@.widget.common.getWidget(_id)._resize();
     }, 10);
     return true;
 };
@@ -261,8 +294,8 @@ webui.@THEME_JS@.widget.table2RowGroup.event =
 };
 
 /**
- * This function is used to get widget properties. Please see the
- * setProps() function for a list of supported properties.
+ * This function is used to get widget properties. Please see the constructor 
+ * detail for a list of supported properties.
  *
  * @return {Object} Key-Value pairs of properties.
  */
@@ -287,6 +320,54 @@ webui.@THEME_JS@.widget.table2RowGroup.prototype.getProps = function() {
     if (this.paginationPrevButton) {props.paginationPrevButton = this.paginationPrevButton;} 
 
     return props;
+};
+
+/**
+ * Process next control button.
+ *
+ * @param {Event} event The JavaScript event.
+ * @return {boolean} true if successful; otherwise, false.
+ * @private
+ */
+webui.@THEME_JS@.widget.table2RowGroup.prototype._paginationNext = function(event) {
+    // Publish event to retrieve data.
+    var currentPage = Math.floor(this.currentRow / this.maxRows) + 1;
+    var totalPage = Math.floor(this.totalRows / this.maxRows);
+    if (this.first < this.totalRows
+            && currentPage < totalPage) {
+        // Publish an event for custom AJAX implementations to listen for.
+        this._publish(webui.@THEME_JS@.widget.table2RowGroup.event.pagination.next.beginTopic, [{
+            id: this.id,
+            first: this.first 
+        }]);
+    }     
+    if (currentPage < totalPage) {          
+        // Calculate current row.          
+        this.currentRow = currentPage * this.maxRows;        
+        // set scroll position to make the current row completely visible
+        this.tableContainer.scrollTop =  
+            document.getElementById(this.id + ":" + this.currentRow).offsetTop;
+    }       
+    return this._updateRowsText();
+};
+
+/**
+ * Process previous control button.
+ *
+ * @param {Event} event The JavaScript event.
+ * @return {boolean} true if successful; otherwise, false.
+ * @private
+ */
+webui.@THEME_JS@.widget.table2RowGroup.prototype._paginationPrevious = function(event) {
+    var currentPage = Math.ceil(this.currentRow / this.maxRows) + 1;
+    var totalPage = Math.floor(this.totalRows / this.maxRows);
+    if (currentPage > 1) {                 
+        this.currentRow = (currentPage - 2) * this.maxRows;
+        // set scroll position to make the current row completely visible
+        this.tableContainer.scrollTop = 
+            document.getElementById(this.id + ":" + this.currentRow).offsetTop;        
+    }    
+    return this._updateRowsText();
 };
 
 /**
@@ -319,7 +400,7 @@ webui.@THEME_JS@.widget.table2RowGroup.prototype._postCreate = function () {
     }
 
     // Set events.
-    this._dojo.connect(this.tableContainer, "onscroll", this, "scroll");
+    this._dojo.connect(this.tableContainer, "onscroll", this, "_scroll");
 
     // Set pagination controls.
     if (this.paginationPrevButton == null) {
@@ -354,7 +435,7 @@ webui.@THEME_JS@.widget.table2RowGroup.prototype._postCreate = function () {
     
     // Resize hack for Moz/Firefox.
     if (webui.@THEME_JS@.browser.isNav()) {
-        this._dojo.connect(window, "onresize", this, "resize");
+        this._dojo.connect(window, "onresize", this, "_resize");
     }        
     return this._inherited("_postCreate", arguments);
 };
@@ -363,10 +444,11 @@ webui.@THEME_JS@.widget.table2RowGroup.prototype._postCreate = function () {
  * Process resize event.
  *
  * @return {boolean} true if successful; otherwise, false.
+ * @private
  */
-webui.@THEME_JS@.widget.table2RowGroup.prototype.resize = function() {
+webui.@THEME_JS@.widget.table2RowGroup.prototype._resize = function() {
     // Update rows text.
-    this.updateRowsText();
+    this._updateRowsText();
 
     // Get height offset of each row.
     var offset = 0;
@@ -470,8 +552,9 @@ webui.@THEME_JS@.widget.table2RowGroup.prototype.resize = function() {
  * @config {boolean} visible Hide or show element.
  * @config {String} width
  * @return {boolean} true if successful; otherwise, false.
+ * @private
  */
-webui.@THEME_JS@.widget.table2RowGroup.prototype.setColumnProps = function(domNode, props) {
+webui.@THEME_JS@.widget.table2RowGroup.prototype._setColumnProps = function(domNode, props) {
     // Set properties.
     if (this.abbr) { domNode.abbr = this.abbr; }
     if (this.axis) { domNode.axis = this.axis; }
@@ -496,7 +579,8 @@ webui.@THEME_JS@.widget.table2RowGroup.prototype.setColumnProps = function(domNo
 };
 
 /**
- * This function is used to set widget properties using Object literals.
+ * This function is used to set widget properties using Object literals. Please
+ * see the constructor detail for a list of supported properties.
  * <p>
  * Note: This function extends the widget object for later updates. Further, the
  * widget shall be updated only for the given key-value pairs.
@@ -505,37 +589,7 @@ webui.@THEME_JS@.widget.table2RowGroup.prototype.setColumnProps = function(domNo
  * published. This is typically used to keep client-side state in sync with the
  * server.
  * </p>
- *
  * @param {Object} props Key-Value pairs of properties.
- * @config {String} align Alignment of image input.
- * @config {String} bgColor
- * @config {String} char
- * @config {String} charOff
- * @config {String} className CSS selector.
- * @config {Array} columns
- * @config {String} dir Specifies the directionality of text.
- * @config {int} first
- * @config {String} headerText
- * @config {int} height
- * @config {String} id Uniquely identifies an element within a document.
- * @config {String} lang Specifies the language of attribute values and content.
- * @config {int} maxRows 
- * @config {String} onClick Mouse button is clicked on element.
- * @config {String} onDblClick Mouse button is double-clicked on element.
- * @config {String} onKeyDown Key is pressed down over element.
- * @config {String} onKeyPress Key is pressed and released over element.
- * @config {String} onKeyUp Key is released over element.
- * @config {String} onMouseDown Mouse button is pressed over element.
- * @config {String} onMouseOut Mouse is moved away from element.
- * @config {String} onMouseOver Mouse is moved onto element.
- * @config {String} onMouseUp Mouse button is released over element.
- * @config {String} onMouseMove Mouse is moved while over element.
- * @config {Array} rows 
- * @config {String} style Specify style rules inline.
- * @config {String} title Provides a title for element.
- * @config {int} totalRows 
- * @config {String} valign 
- * @config {boolean} visible Hide or show element.
  * @param {boolean} notify Publish an event for custom AJAX implementations to listen for.
  * @return {boolean} true if successful; otherwise, false.
  */
@@ -559,8 +613,8 @@ webui.@THEME_JS@.widget.table2RowGroup.prototype.setProps = function(props, noti
 };
 
 /**
- * This function is used to set widget properties. Please see the setProps() 
- * function for a list of supported properties.
+ * This function is used to set widget properties. Please see the constructor 
+ * detail for a list of supported properties.
  * <p>
  * Note: This function should only be invoked through setProps().
  * </p>
@@ -596,24 +650,24 @@ webui.@THEME_JS@.widget.table2RowGroup.prototype._setProps = function(props) {
     if (props.paginationPrevButton) {
         // set onclick for previous button.
         props.paginationPrevButton.onClick = 
-            "webui.@THEME_JS@.widget.common.getWidget('" + this.id + "').paginationPrevious();return false;";        
+            "webui.@THEME_JS@.widget.common.getWidget('" + this.id + "')._paginationPrevious();return false;";        
         this._widget._addFragment(this.paginationButtonsNode, props.paginationPrevButton,"last");
     }
     if (props.paginationNextButton) {
         // set onclick for next button.
         props.paginationNextButton.onClick = 
-            "webui.@THEME_JS@.widget.common.getWidget('" + this.id + "').paginationNext();return false;";
+            "webui.@THEME_JS@.widget.common.getWidget('" + this.id + "')._paginationNext();return false;";
         this._widget._addFragment(this.paginationButtonsNode, props.paginationNextButton,"last");
     }
     if (props.paginationControls != null) {        
         this.paginationControls = props.paginationControls;
     }
     //set enabled/disabled state for pagination controls
-    this.updatePaginationControls(); 
+    this._updatePaginationControls(); 
         
     // Set columns.
     if (props.columns && this.refreshCols != false) {
-        this.addColumns();
+        this._addColumns();
         // To Do: Cannot refresh column headers/footers due to poor CSS styles.
         this.refreshCols = false;
     }
@@ -637,8 +691,9 @@ webui.@THEME_JS@.widget.table2RowGroup.prototype._setProps = function(props) {
  *
  * @param {Event} event The JavaScript event.
  * @return {boolean} true if successful; otherwise, false.
+ * @private
  */
-webui.@THEME_JS@.widget.table2RowGroup.prototype.scroll = function(event) {
+webui.@THEME_JS@.widget.table2RowGroup.prototype._scroll = function(event) {
     // Publish event to retrieve data.    
     if (this.first < this.totalRows
             && this.currentRow % this.maxRows == 0) {
@@ -658,14 +713,16 @@ webui.@THEME_JS@.widget.table2RowGroup.prototype.scroll = function(event) {
         this.currentRow = this.currentRow + 1;   
     }   
     // Set rows text.    
-    return this.updateRowsText();
+    return this._updateRowsText();
 };
 
 /**
  * Updates pagination control buttons enabled/disabled state.
  * 
+ * @return {boolean} true if successful; otherwise, false.
+ * @private
  */
-webui.@THEME_JS@.widget.table2RowGroup.prototype.updatePaginationControls = function() {
+webui.@THEME_JS@.widget.table2RowGroup.prototype._updatePaginationControls = function() {
     if (this.paginationPrevButton && this.paginationNextButton) {
         var domNodePrev = this._widget.getWidget(this.paginationPrevButton.id);
         var domNodeNext = this._widget.getWidget(this.paginationNextButton.id);
@@ -684,62 +741,17 @@ webui.@THEME_JS@.widget.table2RowGroup.prototype.updatePaginationControls = func
             domNodePrev.setProps({visible:this.paginationControls});
             domNodeNext.setProps({visible:this.paginationControls});  
         }           
-    }    
-};
-
-/**
- * Process next control button.
- *
- * @param {Event} event The JavaScript event.
- * @return {boolean} true if successful; otherwise, false.
- */
-webui.@THEME_JS@.widget.table2RowGroup.prototype.paginationNext = function(event) {
-    // Publish event to retrieve data.
-    var currentPage = Math.floor(this.currentRow / this.maxRows) + 1;
-    var totalPage = Math.floor(this.totalRows / this.maxRows);
-    if (this.first < this.totalRows
-            && currentPage < totalPage) {
-        // Publish an event for custom AJAX implementations to listen for.
-        this._publish(webui.@THEME_JS@.widget.table2RowGroup.event.pagination.next.beginTopic, [{
-            id: this.id,
-            first: this.first 
-        }]);
-    }     
-    if (currentPage < totalPage) {          
-        // Calculate current row.          
-        this.currentRow = currentPage * this.maxRows;        
-        // set scroll position to make the current row completely visible
-        this.tableContainer.scrollTop =  
-            document.getElementById(this.id + ":" + this.currentRow).offsetTop;
-    }       
-    return this.updateRowsText();
-};
-
-/**
- * Process previous control button.
- *
- * @param {Event} event The JavaScript event.
- * @return {boolean} true if successful; otherwise, false.
- */
-webui.@THEME_JS@.widget.table2RowGroup.prototype.paginationPrevious = function(event) {
-   
-    var currentPage = Math.ceil(this.currentRow / this.maxRows) + 1;
-    var totalPage = Math.floor(this.totalRows / this.maxRows);
-    if (currentPage > 1) {                 
-        this.currentRow = (currentPage - 2) * this.maxRows;
-        // set scroll position to make the current row completely visible
-        this.tableContainer.scrollTop = 
-            document.getElementById(this.id + ":" + this.currentRow).offsetTop;        
-    }    
-    return this.updateRowsText();
+    }
+    return true;
 };
 
 /**
  * This function is used to set rows text (e.g., "1 - 5 of 20").
  *
  * @return {boolean} true if successful; otherwise, false.
+ * @private
  */
-webui.@THEME_JS@.widget.table2RowGroup.prototype.updateRowsText = function() {
+webui.@THEME_JS@.widget.table2RowGroup.prototype._updateRowsText = function() {
     // Add title augment.
     var firstRow = this.currentRow + 1;
     var lastRow = Math.min(this.totalRows, this.currentRow + this.maxRows);
@@ -760,6 +772,6 @@ webui.@THEME_JS@.widget.table2RowGroup.prototype.updateRowsText = function() {
         this._widget._addFragment(this.rowsText, msg);
     }
      //set disabled/enabled state
-    this.updatePaginationControls(); 
+    this._updatePaginationControls(); 
     return true;
 };

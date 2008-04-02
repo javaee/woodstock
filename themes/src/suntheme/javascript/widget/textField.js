@@ -26,10 +26,45 @@ webui.@THEME_JS@._base.dojo.require("webui.@THEME_JS@.widget.common");
 webui.@THEME_JS@._base.dojo.require("webui.@THEME_JS@.widget._base.fieldBase");
 
 /**
+ * This function is used to construct a textField widget.
+ *
  * @name webui.@THEME_JS@.widget.textField
  * @extends webui.@THEME_JS@.widget._base.fieldBase
  * @class This class contains functions for the textField widget.
- * @constructor This function is used to construct a textField widget.
+ * @constructor
+ * @param {Object} props Key-Value pairs of properties.
+ * @config {String} accesskey 
+ * @config {boolean} autoValidate
+ * @config {String} className CSS selector.
+ * @config {String} dir Specifies the directionality of text.
+ * @config {boolean} disabled Disable element.
+ * @config {String} id Uniquely identifies an element within a document.
+ * @config {String} label
+ * @config {String} lang Specifies the language of attribute values and content.
+ * @config {int} maxLength 
+ * @config {Array} notify 
+ * @config {String} onBlur Element lost focus.
+ * @config {String} onClick Mouse button is clicked on element.
+ * @config {String} onDblClick Mouse button is double-clicked on element.
+ * @config {String} onFocus Element received focus.
+ * @config {String} onKeyDown Key is pressed down over element.
+ * @config {String} onKeyPress Key is pressed and released over element.
+ * @config {String} onKeyUp Key is released over element.
+ * @config {String} onMouseDown Mouse button is pressed over element.
+ * @config {String} onMouseOut Mouse is moved away from element.
+ * @config {String} onMouseOver Mouse is moved onto element.
+ * @config {String} onMouseUp Mouse button is released over element.
+ * @config {String} onMouseMove Mouse is moved while over element.
+ * @config {boolean} readOnly 
+ * @config {boolean} required 
+ * @config {int} size 
+ * @config {String} style Specify style rules inline.
+ * @config {boolean} submitForm
+ * @config {int} tabIndex Position in tabbing order.
+ * @config {String} title Provides a title for element.
+ * @config {boolean} valid
+ * @config {String} value Value of input.
+ * @config {boolean} visible Hide or show element.
  */
 webui.@THEME_JS@._base.dojo.declare("webui.@THEME_JS@.widget.textField",
         webui.@THEME_JS@.widget._base.fieldBase, {
@@ -120,8 +155,9 @@ webui.@THEME_JS@.widget.textField.event =
  * the one of surrounding domNode node    
  *
  * @return {boolean} true if successful; otherwise, false.
+ * @private
  */
-webui.@THEME_JS@.widget.textField.prototype.adjustListGeometry = function () {
+webui.@THEME_JS@.widget.textField.prototype._adjustListGeometry = function () {
     this.listContainer.style.width = this.fieldNode.offsetWidth;
     this.listContainer.style.left = this.fieldNode.offsetLeft;
     this.listContainer.style.top = this.fieldNode.offsetTop + this.fieldNode.offsetHeight;
@@ -154,8 +190,8 @@ webui.@THEME_JS@.widget.textField.prototype._getInputClassName = function() {
 };
 
 /**
- * This function is used to get widget properties. Please see the 
- * setProps() function for a list of supported properties.
+ * This function is used to get widget properties. Please see the constructor 
+ * detail for a list of supported properties.
  *
  * @return {Object} Key-Value pairs of properties.
  */
@@ -183,69 +219,18 @@ webui.@THEME_JS@.widget.textField.prototype._postCreate = function () {
     // Set events.
     if (this.autoValidate == true) {
         // Generate the following event ONLY when 'autoValidate' == true.
-        this._dojo.connect(this.fieldNode, "onblur", this, "validate");
+        this._dojo.connect(this.fieldNode, "onblur", this, "_validate");
     }
     return this._inherited("_postCreate", arguments);;
-};
-
-/**
- * This function is used to set widget properties using Object literals.
- * <p>
- * Note: This function extends the widget object for later updates. Further, the
- * widget shall be updated only for the given key-value pairs.
- * </p><p>
- * If the notify param is true, the widget's state change event shall be
- * published. This is typically used to keep client-side state in sync with the
- * server.
- * </p>
- *
- * @param {Object} props Key-Value pairs of properties.
- * @config {String} accesskey 
- * @config {boolean} autoValidate
- * @config {String} className CSS selector.
- * @config {String} dir Specifies the directionality of text.
- * @config {boolean} disabled Disable element.
- * @config {String} id Uniquely identifies an element within a document.
- * @config {String} label
- * @config {String} lang Specifies the language of attribute values and content.
- * @config {int} maxLength 
- * @config {Array} notify 
- * @config {String} onBlur Element lost focus.
- * @config {String} onClick Mouse button is clicked on element.
- * @config {String} onDblClick Mouse button is double-clicked on element.
- * @config {String} onFocus Element received focus.
- * @config {String} onKeyDown Key is pressed down over element.
- * @config {String} onKeyPress Key is pressed and released over element.
- * @config {String} onKeyUp Key is released over element.
- * @config {String} onMouseDown Mouse button is pressed over element.
- * @config {String} onMouseOut Mouse is moved away from element.
- * @config {String} onMouseOver Mouse is moved onto element.
- * @config {String} onMouseUp Mouse button is released over element.
- * @config {String} onMouseMove Mouse is moved while over element.
- * @config {boolean} readOnly 
- * @config {boolean} required 
- * @config {int} size 
- * @config {String} style Specify style rules inline.
- * @config {boolean} submitForm
- * @config {int} tabIndex Position in tabbing order.
- * @config {String} title Provides a title for element.
- * @config {boolean} valid
- * @config {String} value Value of input.
- * @config {boolean} visible Hide or show element.
- * @param {boolean} notify Publish an event for custom AJAX implementations to listen for.
- * @return {boolean} true if successful; otherwise, false.
- */
-webui.@THEME_JS@.widget.textField.prototype.setProps = function(props, notify) {
-    // Note: This function is overridden for JsDoc.
-    return this._inherited("setProps", arguments);
 };
 
 /**
  * Helper function to create callback for autoComplete list closing event.
  *
  * @return {Function} The callback function.
+ * @private
  */
-webui.@THEME_JS@.widget.textField.prototype.createCloseListCallback = function() {
+webui.@THEME_JS@.widget.textField.prototype._createCloseListCallback = function() {
     var _id = this.id;
     return function(event) { 
         var widget = webui.@THEME_JS@.widget.common.getWidget(_id);
@@ -253,7 +238,7 @@ webui.@THEME_JS@.widget.textField.prototype.createCloseListCallback = function()
             return false;
         }
         widget.showAutoComplete = false;
-        widget.updateListView();
+        widget._updateListView();
         return true;
     };
 };
@@ -265,8 +250,9 @@ webui.@THEME_JS@.widget.textField.prototype.createCloseListCallback = function()
  *
  * @param {String} filter
  * @return {boolean} true if successful; otherwise, false.
+ * @private
  */
-webui.@THEME_JS@.widget.textField.prototype.filterOptions = function() {    
+webui.@THEME_JS@.widget.textField.prototype._filterOptions = function() {    
     // Publish the event for custom AJAX implementations to listen for.
     // The implementation of this Ajax call will retrieve the value of the filter
     // and will obtain an updated lookup list ( either locally, or by submit to the server)
@@ -280,8 +266,8 @@ webui.@THEME_JS@.widget.textField.prototype.filterOptions = function() {
 };
 
 /**
- * This function is used to set widget properties. Please see the setProps() 
- * function for a list of supported properties.
+ * This function is used to set widget properties. Please see the constructor 
+ * detail for a list of supported properties.
  * <p>
  * Note: This function should only be invoked through setProps().
  * </p>
@@ -304,11 +290,11 @@ webui.@THEME_JS@.widget.textField.prototype._setProps = function(props) {
         //create and populate props for listbox
         this.listWidgetProps = this._widget._getWidgetProps("listbox", {
            id: this.id + "_list",
-           onFocus: "webui.@THEME_JS@.widget.common.getWidget('" + this.id + "').processFocusEvent(this.event);", 
-           onBlur: "webui.@THEME_JS@.widget.common.getWidget('" + this.id + "').processBlurEvent(this.event);"
+           onFocus: "webui.@THEME_JS@.widget.common.getWidget('" + this.id + "')._processFocusEvent(this.event);", 
+           onBlur: "webui.@THEME_JS@.widget.common.getWidget('" + this.id + "')._processBlurEvent(this.event);"
         });         
         //?? use of event registration as in following disables field processing keys 
-        //onChange: "webui.@THEME_JS@.widget.common.getWidget('" + this.id + "').processListChange(this.event);"
+        //onChange: "webui.@THEME_JS@.widget.common.getWidget('" + this.id + "')._processListChange(this.event);"
 
         this._widget._addFragment(this.listContainer, this.listWidgetProps);
         
@@ -317,7 +303,7 @@ webui.@THEME_JS@.widget.textField.prototype._setProps = function(props) {
         this.listNode = this.listWidget.getSelectElement();
         
         //since original list box is created empty, make sure it is not shown
-        this.updateListView();
+        this._updateListView();
   
          //disable browser autocomplete
          
@@ -328,22 +314,22 @@ webui.@THEME_JS@.widget.textField.prototype._setProps = function(props) {
         this.fieldNode.setAttribute("autocomplete", "off");
         
         //use focus event to open the list
-        this._dojo.connect(this.fieldNode, "onfocus", this, "processFocusEvent");
+        this._dojo.connect(this.fieldNode, "onfocus", this, "_processFocusEvent");
  
         //use blur events to close the list
-        this._dojo.connect(this.fieldNode, "onblur", this, "processBlurEvent");        
+        this._dojo.connect(this.fieldNode, "onblur", this, "_processBlurEvent");        
          
         // onChange event of the list will change the content of the input field
-        this._dojo.connect(this.listNode, "onchange", this, "processListChange");
+        this._dojo.connect(this.listNode, "onchange", this, "_processListChange");
  
         //onclick will allow to reopen options list after it has been closed with ESC
-        this._dojo.connect(this.fieldNode, "onclick", this, "processFocusEvent");
+        this._dojo.connect(this.fieldNode, "onclick", this, "_processFocusEvent");
 
         // input field changes will trigger updates to the autoComplete list options
-        this._dojo.connect(this.fieldNode, "onkeyup", this, "processFieldKeyUpEvent");
+        this._dojo.connect(this.fieldNode, "onkeyup", this, "_processFieldKeyUpEvent");
         
         //additional logic applied to ENTER, ESCAPE, ARROWs on keydown in order to cancel the event bubble
-        this._dojo.connect(this.fieldNode, "onkeydown", this, "processFieldKeyDownEvent");
+        this._dojo.connect(this.fieldNode, "onkeydown", this, "_processFieldKeyDownEvent");
     }        
     
     if (this.autoComplete && props.autoCompleteOptions != null && this.listWidget != null ) {
@@ -371,14 +357,14 @@ webui.@THEME_JS@.widget.textField.prototype._setProps = function(props) {
         /* // display list on initiation
         this.showAutoComplete = true;        
         */
-        this.updateListView();
+        this._updateListView();
     }   
 
     // Set remaining properties.
     var ret = this._inherited("_setProps", arguments);
     
     if (props.autoComplete && props.autoCompleteOptions != null && this.listWidget != null ) {
-        this.adjustListGeometry();  //even if autocomplete options are not defined in this set of props
+        this._adjustListGeometry();  //even if autocomplete options are not defined in this set of props
     }
     return ret;
 };
@@ -390,15 +376,16 @@ webui.@THEME_JS@.widget.textField.prototype._setProps = function(props) {
  *
  * @param {Event} event The JavaScript event.
  * @return {boolean} true if successful; otherwise, false.
+ * @private
  */
-webui.@THEME_JS@.widget.textField.prototype.processBlurEvent = function(event) {    
+webui.@THEME_JS@.widget.textField.prototype._processBlurEvent = function(event) {    
     //clear timeout for list closing, thereby preventing list from being closed    
     if (this.closingTimerId) {
         clearTimeout(this.closingTimerId);
         this.closingTimerId = null;
     }
     this.closingTimerId = setTimeout( 
-        this.createCloseListCallback(), this.autoCompleteCloseDelayTime);   
+        this._createCloseListCallback(), this.autoCompleteCloseDelayTime);   
 
     return true;
 };
@@ -409,8 +396,9 @@ webui.@THEME_JS@.widget.textField.prototype.processBlurEvent = function(event) {
  *
  * @param {Event} event The JavaScript event.
  * @return {boolean} true if successful; otherwise, false.
+ * @private
  */
-webui.@THEME_JS@.widget.textField.prototype.processFieldKeyDownEvent = function(event) {
+webui.@THEME_JS@.widget.textField.prototype._processFieldKeyDownEvent = function(event) {
     event = this._widget.getEvent(event);
     if (event == null) {
         return false;
@@ -431,7 +419,7 @@ webui.@THEME_JS@.widget.textField.prototype.processFieldKeyDownEvent = function(
 
         //force close the list box
         this.showAutoComplete = false;
-        this.updateListView();    
+        this._updateListView();    
         
         return true;
     }   
@@ -440,8 +428,8 @@ webui.@THEME_JS@.widget.textField.prototype.processFieldKeyDownEvent = function(
     if (event.keyCode == this._widget._keyCodes.ESCAPE  ) {               
         this.fieldNode.value = ""; //Warning: IE empties all fields on the page on 2nd ESC independently of setting value here
         this.showAutoComplete = false;
-        this.updateListView();     
-        this.filterOptions();
+        this._updateListView();     
+        this._filterOptions();
         return true;
     }
       
@@ -452,15 +440,15 @@ webui.@THEME_JS@.widget.textField.prototype.processFieldKeyDownEvent = function(
             this.showAutoComplete = true;
 
             if (!this.autoCompleteIsOpen || this.listNode.options.length <=1) {
-                this.filterOptions();
+                this._filterOptions();
                 this.listWidget.setSelectedIndex(0) ;
             } else {     
                 //list already open
                 this.listWidget.setSelectedIndex(this.listWidget.getSelectedIndex() + 1) ;
-                this.updateListView();     
+                this._updateListView();     
                 
             }
-            this.processListChange(event);
+            this._processListChange(event);
             return true;
        } catch (doNothing) {}
     }
@@ -469,7 +457,7 @@ webui.@THEME_JS@.widget.textField.prototype.processFieldKeyDownEvent = function(
             this.showAutoComplete = true;
 
                 this.listWidget.setSelectedIndex(this.listWidget.getSelectedIndex() - 1) ;
-            this.processListChange(event);
+            this._processListChange(event);
             return true;
         } catch (doNothing) {}
     }
@@ -482,8 +470,9 @@ webui.@THEME_JS@.widget.textField.prototype.processFieldKeyDownEvent = function(
  *
  * @param {Event} event The JavaScript event.
  * @return {boolean} true if successful; otherwise, false.
+ * @private
  */
-webui.@THEME_JS@.widget.textField.prototype.processFieldKeyUpEvent = function(event) {    
+webui.@THEME_JS@.widget.textField.prototype._processFieldKeyUpEvent = function(event) {    
     event = this._widget.getEvent(event);
 
     if (event != null &&
@@ -498,7 +487,7 @@ webui.@THEME_JS@.widget.textField.prototype.processFieldKeyUpEvent = function(ev
         return false; 
     }
     this.showAutoComplete = true;
-    this.filterOptions();
+    this._filterOptions();
     return true;
 };
 
@@ -510,8 +499,9 @@ webui.@THEME_JS@.widget.textField.prototype.processFieldKeyUpEvent = function(ev
  *
  * @param {Event} event The JavaScript event.
  * @return {boolean} true if successful; otherwise, false.
+ * @private
  */
-webui.@THEME_JS@.widget.textField.prototype.processFocusEvent = function(event) {
+webui.@THEME_JS@.widget.textField.prototype._processFocusEvent = function(event) {
     //clear timeout for list closing, thereby preventing list from being closed
     if (this.closingTimerId) {
         clearTimeout(this.closingTimerId);
@@ -526,8 +516,9 @@ webui.@THEME_JS@.widget.textField.prototype.processFocusEvent = function(event) 
  *
  * @param {Event} event The JavaScript event.
  * @return {boolean} true if successful; otherwise, false.
+ * @private
  */
-webui.@THEME_JS@.widget.textField.prototype.processListChange = function(event) {    
+webui.@THEME_JS@.widget.textField.prototype._processListChange = function(event) {    
     event = this._widget.getEvent(event);
 
     if (event.type == "change") {               
@@ -536,7 +527,7 @@ webui.@THEME_JS@.widget.textField.prototype.processListChange = function(event) 
             
             //close the list
             this.showAutoComplete = false;
-            this.updateListView();  
+            this._updateListView();  
             this.fieldNode.focus(); 
                            
             return true;
@@ -556,11 +547,12 @@ webui.@THEME_JS@.widget.textField.prototype.processListChange = function(event) 
  *  - if size of the list box <1, hides autocomplete list box.
  * 
  * @return {boolean} true if successful; otherwise, false.
+ * @private
  */
-webui.@THEME_JS@.widget.textField.prototype.updateListView = function() {
+webui.@THEME_JS@.widget.textField.prototype._updateListView = function() {
     if ( this.showAutoComplete == true && this.autoCompleteOptions.length >= 1) {
         //TODO a place for optimization here - not to adjust geometry each time
-        this.adjustListGeometry();    
+        this._adjustListGeometry();    
 
         //optionally we could add check for this.listNode.options.length >0
         this.listNode.className = this._theme._getClassName("TEXT_FIELD_AUTO_COMPLETE_LIST", "");
@@ -589,8 +581,9 @@ webui.@THEME_JS@.widget.textField.prototype.updateListView = function() {
  *
  * @param {Event} event The JavaScript event.
  * @return {boolean} true if successful; otherwise, false.
+ * @private
  */
-webui.@THEME_JS@.widget.textField.prototype.validate = function(event) {
+webui.@THEME_JS@.widget.textField.prototype._validate = function(event) {
     // Publish an event for custom AJAX implementations to listen for.
     this._publish(webui.@THEME_JS@.widget.textField.event.validation.beginTopic, [{
         id: this.id

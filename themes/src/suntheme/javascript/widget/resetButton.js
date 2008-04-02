@@ -25,10 +25,12 @@ webui.@THEME_JS@._base.dojo.provide("webui.@THEME_JS@.widget.resetButton");
 webui.@THEME_JS@._base.dojo.require("webui.@THEME_JS@.widget.button");
 
 /**
+ * This function is used to construct a resetButton widget.
+ *
  * @name webui.@THEME_JS@.widget.resetButton
  * @extends webui.@THEME_JS@.widget.button
  * @class This class contains functions for the resetButton widget.
- * @constructor This function is used to construct a resetButton widget.
+ * @constructor
  */
 webui.@THEME_JS@._base.dojo.declare("webui.@THEME_JS@.widget.resetButton",
         webui.@THEME_JS@.widget.button, {

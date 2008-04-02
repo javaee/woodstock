@@ -26,10 +26,21 @@ webui.@THEME_JS@._base.dojo.require("webui.@THEME_JS@.widget.common");
 webui.@THEME_JS@._base.dojo.require("webui.@THEME_JS@.widget._base.widgetBase");
 
 /**
+ * This function is used to construct a login widget.
+ *
  * @name webui.@THEME_JS@.widget.login
  * @extends webui.@THEME_JS@.widget._base.widgetBase
  * @class This class contains functions for the login widget.
- * @constructor This function is used to construct a login widget.
+ * @constructor
+ * @param {Object} props Key-Value pairs of properties.
+ * @config {String} id ID of the login widget.
+ * @config {String} loginState State of the authentication process. Set to "INIT" at the beginning.
+ * @config {boolean} autoStart Flag indicating if authentication process should start on page load.
+ * @config {String} style Specify style rules inline.
+ * @config {String} className CSS selector of outermost DOM node for this widget.
+ * @config {String} tabIndex Attribute required to support tabbed navigation.
+ * @config {Object} userData JSON object containing user data that needs to be displayed as user prompt.
+ * @config {Object} keys JSON object representing the key value mapping for user data fields.
  */
 webui.@THEME_JS@._base.dojo.declare("webui.@THEME_JS@.widget.login",
         webui.@THEME_JS@.widget._base.widgetBase, {
@@ -207,8 +218,8 @@ webui.@THEME_JS@.widget.login.prototype._getClassName = function() {
 };
 
 /**
- * This function is used to get widget properties. Please see the 
- * setProps() function for a list of supported properties.
+ * This function is used to get widget properties. Please see the constructor 
+ * detail for a list of supported properties.
  *
  * @return {Object} Key-Value pairs of properties.
  */
@@ -323,35 +334,8 @@ webui.@THEME_JS@.widget.login.prototype._postCreate = function () {
 };
 
 /**
- * This function is used to set widget properties using Object literals.
- * <p>
- * Note: This function extends the widget object for later updates. Further, the
- * widget shall be updated only for the given key-value pairs.
- * </p><p>
- * If the notify param is true, the widget's state change event shall be
- * published. This is typically used to keep client-side state in sync with the
- * server.
- * </p>
- *
- * @param {Object} props Key-Value pairs of properties.
- * @config {String} id ID of the login widget.
- * @config {String} loginState State of the authentication process. Set to "INIT" at the beginning.
- * @config {boolean} autoStart Flag indicating if authentication process should start on page load.
- * @config {String} style Specify style rules inline.
- * @config {String} className CSS selector of outermost DOM node for this widget.
- * @config {String} tabIndex Attribute required to support tabbed navigation.
- * @config {Object} userData JSON object containing user data that needs to be displayed as user prompt.
- * @config {Object} keys JSON object representing the key value mapping for user data fields.
- * @return {boolean} true if successful; otherwise, false.
- */
-webui.@THEME_JS@.widget.login.prototype.setProps = function(props, notify) {
-    // Extend widget object for later updates.
-    return this._inherited("setProps", arguments);
-};
-
-/**
- * This function is used to set widget properties. Please see the setProps() 
- * function for a list of supported properties.
+ * This function is used to set widget properties. Please see the constructor 
+ * detail for a list of supported properties.
  * <p>
  * Note: This function should only be invoked through setProps().
  * </p>

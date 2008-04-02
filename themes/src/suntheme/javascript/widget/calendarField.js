@@ -26,10 +26,44 @@ webui.@THEME_JS@._base.dojo.require("webui.@THEME_JS@.widget.calendar");
 webui.@THEME_JS@._base.dojo.require("webui.@THEME_JS@.widget.textField");
 
 /**
+ * This function is used to construct a calendarField widget.
+ *
  * @name webui.@THEME_JS@.widget.calendarField
  * @extends webui.@THEME_JS@.widget.textField
  * @class This class contains functions for the calendarField widget.
- * @constructor This function is used to construct a calendarField widget.
+ * @constructor
+ * @param {Object} props Key-Value pairs of properties.
+ * @config {String} alt Alternate text for image input.
+ * @config {String} align Alignment of image input.
+ * @config {Object} calendar 
+ * @config {String} className CSS selector.
+ * @config {String} dir Specifies the directionality of text.
+ * @config {boolean} disabled Disable element.
+ * @config {String} id Uniquely identifies an element within a document.
+ * @config {String} label
+ * @config {String} lang Specifies the language of attribute values and content.
+ * @config {Array} notify 
+ * @config {String} onBlur Element lost focus.
+ * @config {String} onClick Mouse button is clicked on element.
+ * @config {String} onDblClick Mouse button is double-clicked on element.
+ * @config {String} onFocus Element received focus.
+ * @config {String} onKeyDown Key is pressed down over element.
+ * @config {String} onKeyPress Key is pressed and released over element.
+ * @config {String} onKeyUp Key is released over element.
+ * @config {String} onMouseDown Mouse button is pressed over element.
+ * @config {String} onMouseOut Mouse is moved away from element.
+ * @config {String} onMouseOver Mouse is moved onto element.
+ * @config {String} onMouseUp Mouse button is released over element.
+ * @config {String} onMouseMove Mouse is moved while over element.
+ * @config {String} patternHelp 
+ * @config {boolean} readOnly 
+ * @config {boolean} required 
+ * @config {String} style Specify style rules inline.
+ * @config {int} tabIndex Position in tabbing order.
+ * @config {String} title Provides a title for element.
+ * @config {boolean} valid 
+ * @config {String} value Value of input.
+ * @config {boolean} visible Hide or show element.
  */
 webui.@THEME_JS@._base.dojo.declare("webui.@THEME_JS@.widget.calendarField",
         webui.@THEME_JS@.widget.textField, {
@@ -45,8 +79,9 @@ webui.@THEME_JS@._base.dojo.declare("webui.@THEME_JS@.widget.calendarField",
  * @config {String} id 
  * @config {String} date
  * @return {boolean} false to cancel JavaScript event.
+ * @private
  */
-webui.@THEME_JS@.widget.calendarField.prototype.dayClicked = function(props) {
+webui.@THEME_JS@.widget.calendarField.prototype._dayClicked = function(props) {
     // Check whether the calendar associated with this particular calendarField
     // broadcasted the event.
     if (props.date != null && props.id == this.calendar.id) {
@@ -111,8 +146,8 @@ webui.@THEME_JS@.widget.calendarField.prototype._getClassName = function() {
 };
 
 /**
- * This function is used to get widget properties. Please see the 
- * setProps() function for a list of supported properties.
+ * This function is used to get widget properties. Please see the constructor 
+ * detail for a list of supported properties.
  *
  * @return {Object} Key-Value pairs of properties.
  */
@@ -154,25 +189,26 @@ webui.@THEME_JS@.widget.calendarField.prototype._postCreate = function () {
         } else {        
             pattern = this._theme.getMessage("calendar.dateFormat");
         }
-        var help = this._theme.getMessage("calendar."+pattern);
+        var help = this._theme.getMessage("calendar." + pattern);
         if (help != null) {
             this.patternHelp = help;
         } 
     }
     // Set events.
 
-    // Subscribe to the "dayClicked" event present in the calendar widget.
+    // Subscribe to the "day clicked" event present in the calendar widget.
     this._widget.subscribe(webui.@THEME_JS@.widget.calendar.event.day.selectedTopic,
-        this, "dayClicked");
+        this, "_dayClicked");
     // Subscribe to the "toggle" event that occurs whenever the calendar is opened.
     this._widget.subscribe(webui.@THEME_JS@.widget.calendar.event.toggle.openTopic,
-        this, "toggleCalendar");
+        this, "_toggleCalendar");
         
     return this._inherited("_postCreate", arguments);
 };
 
 /**
- * This function is used to set widget properties using Object literals.
+ * This function is used to set widget properties using Object literals. Please
+ * see the constructor detail for a list of supported properties.
  * <p>
  * Note: This function extends the widget object for later updates. Further, the
  * widget shall be updated only for the given key-value pairs.
@@ -181,39 +217,7 @@ webui.@THEME_JS@.widget.calendarField.prototype._postCreate = function () {
  * published. This is typically used to keep client-side state in sync with the
  * server.
  * </p>
- *
  * @param {Object} props Key-Value pairs of properties.
- * @config {String} alt Alternate text for image input.
- * @config {String} align Alignment of image input.
- * @config {Object} calendar 
- * @config {String} className CSS selector.
- * @config {String} dir Specifies the directionality of text.
- * @config {boolean} disabled Disable element.
- * @config {String} id Uniquely identifies an element within a document.
- * @config {String} label
- * @config {String} lang Specifies the language of attribute values and content.
- * @config {Array} notify 
- * @config {String} onBlur Element lost focus.
- * @config {String} onClick Mouse button is clicked on element.
- * @config {String} onDblClick Mouse button is double-clicked on element.
- * @config {String} onFocus Element received focus.
- * @config {String} onKeyDown Key is pressed down over element.
- * @config {String} onKeyPress Key is pressed and released over element.
- * @config {String} onKeyUp Key is released over element.
- * @config {String} onMouseDown Mouse button is pressed over element.
- * @config {String} onMouseOut Mouse is moved away from element.
- * @config {String} onMouseOver Mouse is moved onto element.
- * @config {String} onMouseUp Mouse button is released over element.
- * @config {String} onMouseMove Mouse is moved while over element.
- * @config {String} patternHelp 
- * @config {boolean} readOnly 
- * @config {boolean} required 
- * @config {String} style Specify style rules inline.
- * @config {int} tabIndex Position in tabbing order.
- * @config {String} title Provides a title for element.
- * @config {boolean} valid 
- * @config {String} value Value of input.
- * @config {boolean} visible Hide or show element.
  * @param {boolean} notify Publish an event for custom AJAX implementations to listen for.
  * @return {boolean} true if successful; otherwise, false.
  */
@@ -236,8 +240,8 @@ webui.@THEME_JS@.widget.calendarField.prototype.setProps = function(props, notif
 };
 
 /**
- * This function is used to set widget properties. Please see the setProps() 
- * function for a list of supported properties.
+ * This function is used to set widget properties. Please see the constructor 
+ * detail for a list of supported properties.
  * <p>
  * Note: This function should only be invoked through setProps().
  * </p>
@@ -301,15 +305,16 @@ webui.@THEME_JS@.widget.calendarField.prototype._start = function () {
 };
 
 /**
- * This function subscribes to the toggleCalendar function of the calendar widget.
+ * This function is used with the _toggleCalendar function of the calendar widget.
  * Whenever the calendar is opened, it updates the value of the calendar with
  * the value present in the field.
  * 
  * @param props Key-Value pairs of properties.
  * @config {String} id
  * @return {boolean} true if successful; otherwise, false.
+ * @private
  */
-webui.@THEME_JS@.widget.calendarField.prototype.toggleCalendar = function(props) {   
+webui.@THEME_JS@.widget.calendarField.prototype._toggleCalendar = function(props) {   
     if (props.id != null && props.id == this.calendar.id) {
         var widget = this._widget.getWidget(props.id);
         widget.setProps({date: this.getProps().value});
