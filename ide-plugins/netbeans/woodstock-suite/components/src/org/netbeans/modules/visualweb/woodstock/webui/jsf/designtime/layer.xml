@@ -232,9 +232,6 @@ made subject to such option by the copyright holder.
             <file name="WoodstockMenu.comp_palette_item" url="resources/WoodstockMenu.comp_palette_item">
 	         <attr name="position" intvalue="2700"/>
             </file>   
-            <file name="WoodstockRating.comp_palette_item" url="resources/WoodstockRating.comp_palette_item">
-                <attr name="position" intvalue="2800"/>
-            </file> 
         </folder>
             
             <!-- Woodstock components not included in VWP. Add them here so that people can test the designtime code -->
@@ -293,6 +290,9 @@ made subject to such option by the copyright holder.
 	    <file name="WoodstockLogin.comp_palette_item" url="resources/WoodstockLogin.comp_palette_item">
                 <attr name="position" intvalue="1600"/>
 	    </file>
+            <file name="WoodstockRating.comp_palette_item" url="resources/WoodstockRating.comp_palette_item">
+                <attr name="position" intvalue="1700"/>
+            </file> 
          </folder>           
             <!-- End fo Woodstock components not included in VWP -->
 
