@@ -263,7 +263,7 @@ webui.@THEME_JS@.widget.table2.prototype._setProps = function(props) {
             setTimeout(function() {
                 // New literals are created every time this function is called, 
                 // and it's saved by closure magic.
-                webui.@THEME_JS@.widget.common.getWidget(_id).resize();
+                webui.@THEME_JS@.widget.common.getWidget(_id)._resize();
             }, 2000);
         }
     }

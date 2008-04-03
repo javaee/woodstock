@@ -25,6 +25,7 @@ webui.@THEME_JS@._base.dojo.provide("webui.@THEME_JS@.widget.table2RowGroup");
 webui.@THEME_JS@._base.dojo.require("webui.@THEME_JS@.browser");
 webui.@THEME_JS@._base.dojo.require("webui.@THEME_JS@.widget.common");
 webui.@THEME_JS@._base.dojo.require("webui.@THEME_JS@.widget._base.widgetBase");
+webui.@THEME_JS@._base.dojo.require("webui.@THEME_JS@._base.theme.common");
 
 /**
  * This function is used to construct a table2RowGroup widget.
@@ -70,7 +71,76 @@ webui.@THEME_JS@._base.dojo.declare("webui.@THEME_JS@.widget.table2RowGroup",
     constructor: function() {
         this.currentRow = 0; // Current row in view.
         this.first = 0; // Index used to obtain rows.
+        this.sortCount = 0; // sort count 
+        this.colSortLevel = new Array(); // Array used to store sortLevel
     },
+    //default sorting options
+    primarySortOptions: [
+                    {
+                        "group": false,
+                        "value": "sort",
+                        "label": webui.@THEME_JS@._base.theme.common._getMessage("table2.sortByThisColumn"),
+                        "disabled": true,
+                        "separator": false,
+                        "escape": true
+                    },
+                    {
+                        "group": false,
+                        "value": "primaryAscending",
+                        "label": webui.@THEME_JS@._base.theme.common._getMessage("table2.sortAscending"),
+                        "disabled": false,
+                        "separator": false,
+                        "escape": true
+                    },
+                    {
+                        "group": false,
+                        "value": "primaryDescending",
+                        "label": webui.@THEME_JS@._base.theme.common._getMessage("table2.sortDescending"),
+                        "disabled": false,
+                        "separator": true,
+                        "escape": true
+                    }
+                ],
+    
+    clearSortOptions: [
+                    
+                    {
+                        "group": false,
+                        "value": "clear",
+                        "label": webui.@THEME_JS@._base.theme.common._getMessage("table2.clearSort"),
+                        "disabled": false,
+                        "separator": false,
+                        "escape": true
+                    }
+                ],
+                
+                secondarySortOptions: [
+                    {
+                        "group": false,
+                        "value": "sort",
+                        "label": webui.@THEME_JS@._base.theme.common._getMessage("table2.addColumnSort"),
+                        "disabled": true,
+                        "separator": false,
+                        "escape": true
+                    },
+                    {
+                        "group": false,
+                        "value": "ascending",
+                        "label": webui.@THEME_JS@._base.theme.common._getMessage("table2.sortAscending"),
+                        "disabled": false,
+                        "separator": false,
+                        "escape": true
+                    },
+                    {
+                        "group": false,
+                        "value": "descending",
+                        "label": webui.@THEME_JS@._base.theme.common._getMessage("table2.sortDescending"),
+                        "disabled": false,
+                        "separator": true,
+                        "escape": true
+                    }
+                    
+                ],
     _widgetType: "table2RowGroup" // Required for theme properties.
 });
 
@@ -96,29 +166,45 @@ webui.@THEME_JS@.widget.table2RowGroup.prototype._addColumns = function() {
     // Append cell nodes.
     for (var i = 0; i < this.columns.length; i++) {
         var col = this.columns[i];
-        var headerCellClone = this.colHeaderCell.cloneNode(true);
+        var headerCellClone = this.colHeaderCell.cloneNode(false);
         var footerCellClone = this.colFooterCell.cloneNode(true);
+        
+        var colHeaderLink = this.colHeaderLink.cloneNode(false);
+        colHeaderLink.id = col.id + "_colHeaderLink";
 
         // Set properties.
         headerCellClone.id = col.id + "_colHeader";
         footerCellClone.id = col.id + "_colFooter";
+        headerCellClone.appendChild(colHeaderLink);
         if (col.width) {
             headerCellClone.style.width = col.width;
             footerCellClone.style.width = col.width;
         }
-
+        if (!col.sortLevel) col.sortLevel = -1;
         // Add text.
-        if (col.headerText) {
+        if (col.headerText && col.sort == true) {
             // StaticText widget adds span to match styles.
             //
-            // To do: Create utility to help create client-side widgets.
-            this._widget._addFragment(headerCellClone, {
-                id: headerCellClone.id + "Text",
-                value: col.headerText,
-                widgetType: "staticText"
-            });
-            headerVisible = true;
-        }
+            // To do: Create utility to help create client-side widgets.                      
+            if (colHeaderLink != null) {
+                this._widget._addFragment(colHeaderLink, {
+                        id: headerCellClone.id + "_Text",
+                        onClick: "webui.@THEME_JS@.widget.common.getWidget('" + this.id + "')._openSortMenu(event, '" + col.id + "', '" + col.sortLevel + "');",
+                        value: col.headerText,
+                        widgetType: "staticText"
+                    }, "last");
+            }        
+            
+            } else if(col.headerText && col.sort == false) {            
+                if (colHeaderLink != null) {
+                    this._widget._updateFragment(colHeaderLink, colHeaderLink.id, {
+                            id: headerCellClone.id + "_Text",                    
+                            value: col.headerText,
+                            widgetType: "staticText"
+                        });
+                }    
+            }
+        
         if (col.footerText) {
             // StaticText widget adds span to match styles.
             //
@@ -191,6 +277,9 @@ webui.@THEME_JS@.widget.table2RowGroup.prototype.addRows = function(rows) {
             // Set properties.
             this._setColumnProps(cellClone, col);
             cellClone.id = colId; // Override id set by _setCoreProps.
+            if (col.sortLevel == 1) {
+                cellClone.className = this._theme._getClassName("TABLE2_PRIMARYSORT");            
+            }
 
             // Add cell data.
             this._widget._addFragment(cellClone, cols[k], "last");
@@ -278,6 +367,7 @@ webui.@THEME_JS@.widget.table2RowGroup.event =
             /** Scroll event topic for custom AJAX implementations to listen for. */
             endTopic: "webui_@THEME_JS@_widget_table2RowGroup_event_pagination_previous_end"
         }
+        
     },
 
     /**
@@ -290,6 +380,18 @@ webui.@THEME_JS@.widget.table2RowGroup.event =
 
         /** State event topic for custom AJAX implementations to listen for. */
         endTopic: "webui_@THEME_JS@_widget_table2RowGroup_event_state_end"
+    },
+    
+    /**
+     * This object contains state event topics.
+     * @ignore
+     */
+    sort: {
+        /** sort event topic for custom AJAX implementations to listen for. */
+        beginTopic: "webui_@THEME_JS@_widget_table2RowGroup_event_sort_begin",
+
+        /** sort event topic for custom AJAX implementations to listen for. */
+        endTopic: "webui_@THEME_JS@_widget_table2RowGroup_event_sort_end"
     }
 };
 
@@ -317,7 +419,8 @@ webui.@THEME_JS@.widget.table2RowGroup.prototype.getProps = function() {
     if (this.valign) { props.valign = this.valign; }
     if (this.paginationControls != null) {props.paginationControls = this.paginationControls;}
     if (this.paginationNextButton) {props.paginationNextButton = this.paginationNextButton;}
-    if (this.paginationPrevButton) {props.paginationPrevButton = this.paginationPrevButton;} 
+    if (this.paginationPrevButton) {props.paginationPrevButton = this.paginationPrevButton;}
+    if (this.sortPopupMenu) {props.sortPopupMenu = this.sortPopupMenu;}
 
     return props;
 };
@@ -386,6 +489,7 @@ webui.@THEME_JS@.widget.table2RowGroup.prototype._postCreate = function () {
         this.colFooterCell.id = this.id + "_colFooterCell";
         this.colHeaderRow.id = this.id + "_colHeaderRow";
         this.colHeaderCell.id = this.id + "_colHeaderCell";
+        this.colHeaderLink.id = this.id + "_colHeaderLink";
         this.groupHeaderControls.id = this.id + "_groupHeaderControls";
         this.groupHeaderText.id = this.id + "_groupHeaderText";        
         this.rowsText.id = this.id + "_rowsText";
@@ -438,7 +542,15 @@ webui.@THEME_JS@.widget.table2RowGroup.prototype._postCreate = function () {
             widgetType: "imageHyperlink"
         };
     }
-    
+ 
+    if (this.sortPopupMenu == null) {
+        this.sortPopupMenu = {
+                    id: this.id + "_popupMenu",
+                    visible: false,
+                    options: this.primarySortOptions,
+                    widgetType: "popupMenu"
+        };
+    }
     // Resize hack for Moz/Firefox.
     if (webui.@THEME_JS@.browser.isNav()) {
         this._dojo.connect(window, "onresize", this, "_resize");
@@ -649,7 +761,7 @@ webui.@THEME_JS@.widget.table2RowGroup.prototype._setProps = function(props) {
 
     // Add header.
     if (props.headerText) {
-        this._widget._addFragment(this.groupHeaderText, props.headerText);
+        this._widget._updateFragment(this.groupHeaderText, this.groupHeaderText.id, props.headerText);
         this._common.setVisibleElement(this.groupHeaderContainer, true);
     }
     // Add paginationControl.    
@@ -670,6 +782,10 @@ webui.@THEME_JS@.widget.table2RowGroup.prototype._setProps = function(props) {
     }
     //set enabled/disabled state for pagination controls
     this._updatePaginationControls(); 
+    //popup menu
+    if (props.sortPopupMenu) {
+        webui.@THEME_JS@.widget.common._updateFragment(this.sortMenu, props.sortPopupMenu.id, props.sortPopupMenu);
+    }
         
     // Set columns.
     if (props.columns && this.refreshCols != false) {
@@ -677,12 +793,21 @@ webui.@THEME_JS@.widget.table2RowGroup.prototype._setProps = function(props) {
         // To Do: Cannot refresh column headers/footers due to poor CSS styles.
         this.refreshCols = false;
     }
+    
+    //update the sortLevel values client-side
+    if (props.columns) {        
+        for (var i=0; i < this.colSortLevel.length; i++) {
+            if (props.columns[i].sortLevel == null) {
+                props.columns[i].sortLevel = this.colSortLevel[i];
+            }  
+        }    
+    }
 
     // Add rows.
     if (props.rows) {
         this.first = 0; // Reset index used to obtain rows.
         this.currentRow = 0; // Reset current row in view.
-
+        this.tableContainer.scrollTop = 0; 
         // Clear rows.
         this._widget._removeChildNodes(this.tbody);
         this.addRows(props.rows);
@@ -781,3 +906,91 @@ webui.@THEME_JS@.widget.table2RowGroup.prototype._updateRowsText = function() {
     this._updatePaginationControls(); 
     return true;
 };
+
+/**
+ * This function is used to set sorting options.
+ * @param {Event} event The JavaScript event.
+ * @param {String} colId The column id for the sorted column.
+ * @param {int} sortLevel The sortLevel for column. 
+ * @return {boolean} true if successful; otherwise, false.
+ * @private
+ */
+webui.@THEME_JS@.widget.table2RowGroup.prototype._openSortMenu = function(event, colId, sortLevel) {    
+    var menu = webui.@THEME_JS@.widget.common.getWidget(this.sortPopupMenu.id);    
+    for (var i = 0; i < this.columns.length; i++) {
+        var col = this.columns[i];
+        if (col.id == colId) {
+            sortLevel = col.sortLevel;            
+            break;
+        }    
+    }
+    
+    if (menu) {
+        if (sortLevel == -1 && this.sortCount == 0) {
+            menu.setProps({options:this.primarySortOptions});
+        } else if (sortLevel == 1) {
+            var menuOptions = (this.primarySortOptions).concat(this.clearSortOptions);
+            menu.setProps({options:menuOptions});
+        } else if ((sortLevel == -1 || sortLevel > 1) && this.sortCount >= 1) {
+	    var menuOptions = ((this.primarySortOptions).concat(this.secondarySortOptions)).concat(this.clearSortOptions);
+            menu.setProps({options:menuOptions});
+        }
+        menu.setProps({onClick: "webui.@THEME_JS@.widget.common.getWidget('" + this.id + "')._sort('" + colId + "');"});          
+        menu.open(event);        
+    }
+    return true;
+};
+
+/**
+ * This function is used to publish event for sorting
+ * 
+ * @param {String} colId The column id for the sorted column.
+ * @return {boolean} true if successful; otherwise, false.
+ * @private
+ */
+webui.@THEME_JS@.widget.table2RowGroup.prototype._sort = function(colId) {          
+    var menu = webui.@THEME_JS@.widget.common.getWidget(this.sortPopupMenu.id);   
+    var value = menu.getSelectedValue();    
+    var sortLevel = -1;
+    
+    // Publish an event for custom AJAX implementations to listen for.
+        this._publish(webui.@THEME_JS@.widget.table2RowGroup.event.sort.beginTopic, [{
+            id: this.id,
+            table2colId: colId,
+            sortOrder: menu.getSelectedValue()
+        }]);
+    //update sortCount and sortLevel values client-side    
+    if ((value == "primaryAscending" || value == "primaryDescending")) {
+        sortLevel = 1;
+        this.sortCount = 1;
+    } else if ((value == "ascending" || value == "descending")) {
+        this.sortCount++;
+        sortLevel = this.sortCount;
+    } else if (value == "clear") {
+        this.sortCount = 0;
+        for (var i = 0; i < this.columns.length; i++) {
+            var col = this.columns[i];
+                col.sortLevel = -1;                                            
+        }
+    } 
+    //update sortLevel value for column
+    for (var i = 0; i < this.columns.length; i++) {
+        var col = this.columns[i];
+        //clear other sort if primary sort is selected
+        if (sortLevel == 1) {
+            col.sortLevel = -1;
+        }
+        if (col.id == colId) {
+            col.sortLevel = sortLevel;            
+            //break;
+        }    
+        if (col.sortLevel) {
+            this.colSortLevel[i] = col.sortLevel;
+        } else {
+            this.colSortLevel[i] = -1;
+        }    
+    }
+    
+    return true;    
+};
+

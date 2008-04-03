@@ -303,7 +303,10 @@ webui.@THEME_JS@.widget.popupMenu.prototype.open = function(event) {
                 menuTop = targetTop + target.offsetHeight - this.bottomShadow;
             }
         }
-
+        // Adjust to account for parent container.
+        var parentPos = this._widget._getPosition(this.domNode.offsetParent);
+        menuLeft -= parentPos[0];
+        menuTop -= parentPos[1]; 
         // Set new menu position.
         this.domNode.style.left = menuLeft + "px";
         this.domNode.style.top = menuTop + "px";

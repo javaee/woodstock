@@ -97,6 +97,67 @@ webui.@THEME_JS@.widget._jsfx.table2RowGroup = {
         webui.@THEME_JS@._base.dojo.publish(
             webui.@THEME_JS@.widget.table2RowGroup.event.scroll.endTopic, [props]);
         return true;
+    },
+    
+    /**
+     * This function is used to process scroll events with Object literals.
+     *
+     * @param props Key-Value pairs of properties.
+     * @config {String} id The HTML element Id.
+     * @config {int} row The first row to be rendered.
+     * @return {boolean} true if successful; otherwise, false.
+     * @private
+     */
+    _processSortEvent: function(props) {
+        if (props == null) {
+            return false;
+        }
+
+        // Dynamic Faces requires a DOM node as the source property.
+        var domNode = document.getElementById(props.id);
+
+        // Generate AJAX request using the JSF Extensions library.
+        DynaFaces.fireAjaxTransaction(
+            (domNode) ? domNode : document.forms[0], {
+            execute: "none",
+            render: props.id,
+            replaceElement: webui.@THEME_JS@.widget._jsfx.table2RowGroup._sortCallback,
+            xjson: {
+                id: props.id,                
+                event: "sort",
+                colId: props.table2colId,
+                sortOrder: props.sortOrder
+            }
+        });        
+        return true;
+    },
+    
+    /**
+     * This function is used to update widgets.
+     *
+     * @param {String} elementId The HTML element Id.
+     * @param {String} content The content returned by the AJAX response.
+     * @param {Object} closure The closure argument provided to DynaFaces.fireAjaxTransaction.
+     * @param {Object} xjson The xjson argument provided to DynaFaces.fireAjaxTransaction.
+     * @return {boolean} true if successful; otherwise, false.
+     * @private
+     */
+    _sortCallback: function(id, content, closure, xjson) {
+        
+        if (id == null || content == null) {
+            return false;
+        }
+
+        // Parse JSON text.
+        var props = webui.@THEME_JS@.json.parse(content);
+        // Reject duplicate AJAX requests.
+        var widget = webui.@THEME_JS@.widget.common.getWidget(id); 
+        widget.setProps(props);
+  
+        // Publish an event for custom AJAX implementations to listen for.
+        webui.@THEME_JS@._base.dojo.publish(
+            webui.@THEME_JS@.widget.table2RowGroup.event.sort.endTopic, [props]);
+        return true;
     }
 };
     
@@ -107,3 +168,5 @@ webui.@THEME_JS@._base.dojo.subscribe(webui.@THEME_JS@.widget.table2RowGroup.eve
     webui.@THEME_JS@.widget._jsfx.table2RowGroup, "_processScrollEvent");
 webui.@THEME_JS@._base.dojo.subscribe(webui.@THEME_JS@.widget.table2RowGroup.event.pagination.next.beginTopic,
     webui.@THEME_JS@.widget._jsfx.table2RowGroup, "_processScrollEvent");
+webui.@THEME_JS@._base.dojo.subscribe(webui.@THEME_JS@.widget.table2RowGroup.event.sort.beginTopic,
+    webui.@THEME_JS@.widget._jsfx.table2RowGroup, "_processSortEvent");

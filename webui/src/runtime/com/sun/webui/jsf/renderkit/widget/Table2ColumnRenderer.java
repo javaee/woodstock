@@ -105,12 +105,15 @@ public class Table2ColumnRenderer extends RendererBase {
 	    throw new IllegalArgumentException(
                 "Table2ColumnRenderer can only render Table2Column components.");
         }
+        
         Table2Column col = (Table2Column) component;
         JSONObject json = new JSONObject();
         json.put("className", col.getStyleClass())
             .put("footerText", col.getFooterText())
             .put("headerText", col.getHeaderText())
             .put("title", col.getToolTip())
+            .put("sort", col.getSort() != null ? true : false)
+            .put("sortLevel", col.getSortLevel())
             .put("visible", col.isVisible());
 
         // Add attributes.

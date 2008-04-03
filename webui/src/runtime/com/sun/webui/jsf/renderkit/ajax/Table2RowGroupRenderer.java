@@ -21,8 +21,10 @@
  */
 package com.sun.webui.jsf.renderkit.ajax;
 
+import com.sun.data.provider.SortCriteria;
 import com.sun.faces.annotation.Renderer;
 import com.sun.faces.extensions.avatar.lifecycle.AsyncResponse;
+import com.sun.webui.jsf.component.Table2Column;
 import com.sun.webui.jsf.component.Table2RowGroup;
 import com.sun.webui.jsf.util.ComponentUtilities;
 
@@ -80,32 +82,74 @@ public class Table2RowGroupRenderer
         // Output component properties if Ajax request and is refresh event.
         if (ComponentUtilities.isAjaxRequest(context, component, "refresh")) {
             super.encodeChildren(context, component);
-        }
-
-        // Return if Ajax request and is not scroll event.
-        if (!ComponentUtilities.isAjaxRequest(context, component, "scroll")) {
-            return;
-        }
+        }       
 
         try {
+            if (ComponentUtilities.isAjaxRequest(context, component, "scroll") ||
+                    ComponentUtilities.isAjaxRequest(context, component, "sort")) {
             // Get XJSON header.
             Map map = context.getExternalContext().getRequestHeaderMap();
             JSONObject xjson = new JSONObject((String)
                 map.get(AsyncResponse.XJSON_HEADER));
-
-            // Set first row.
             Table2RowGroup group = (Table2RowGroup) component;
-            group.setFirst(xjson.getInt("first")); // To do: move to decode method?
-
-            // Get properties.
             JSONObject json = new JSONObject();
-            json.put("id", group.getClientId(context)); // For publishEndEvent.
-            setRowProperties(context, group, json);
-
+            if (ComponentUtilities.isAjaxRequest(context, component, "scroll")) {            // Set first row.
+            
+            group.setFirst(xjson.getInt("first")); // To do: move to decode method?
+            // Get properties.            
+                 
+            } else if (ComponentUtilities.isAjaxRequest(context, component, "sort")) {
+                String colid = xjson.getString("colId");
+                String sortOrder = xjson.getString("sortOrder");                
+                setSort(component, colid, sortOrder);
+                
+                setColumnProperties(context, group, json);
+                // sortCount 
+                json.put("sortCount", group.getSortCount());
+            }
+             json.put("id", group.getClientId(context)); // For publishEndEvent.      
+             setRowProperties(context, group, json);
             json.write(context.getResponseWriter());
+            }
         } catch(JSONException e) {
             e.printStackTrace();
         }
+    }
+    
+    /**
+     * Helper method to handle sorting.
+     *
+     * @param component UIComponent to be rendered.
+     * @param id String column id.
+     * @param value String value for sorting option.
+     * 
+     */
+    public void setSort(UIComponent component, String id, String value) {
+        UIComponent col = component.findComponent(":"+id);
+        if (col != null) {
+            Table2RowGroup table2RowGroup = (Table2RowGroup) component;            
+            Table2Column table2col = (Table2Column) col;
+            SortCriteria criteria = table2col.getSortCriteria();  
+            if (criteria != null) {
+                // if not the primary sort, add the sort criteria to existing criteria
+                if (value.equals("ascending") || value.equals("descending")) {
+                    table2RowGroup.addSort(criteria);
+                } else {                    
+                    if (value.equals("primaryAscending")) {
+                        table2RowGroup.clearSort();
+                        criteria.setAscending(true);
+                    } else if (value.equals("primaryDescending")) {
+                        table2RowGroup.clearSort();
+                        criteria.setAscending(false);
+                    } 
+                    table2RowGroup.addSort(criteria);
+                    if (value.equals("clear")) {           
+                        table2RowGroup.clearSort(); 
+                    }
+                    
+                } 
+            }
+        }        
     }
 
     /**
