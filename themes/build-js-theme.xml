@@ -22,15 +22,6 @@
 -->
 
 <project name="js-theme" default="all" basedir=".">
-    <!-- 
-    Theme resources are cached using an "Expires" timestamp. In order for 
-    browsers to load new resources, without expiring or clearing the cache
-    manually, a new package path is used. This must be updated during each 
-    release and kept in sync with the internal suntheme-branded module.
-    -->
-    <tstamp>
-        <format property="CacheDate" pattern="yyMMdd"/>
-    </tstamp>
 
     <property file="../build.properties"/>
     <property file="build.properties"/>

@@ -55,7 +55,7 @@ webui.@THEME_JS@._html.hyperlink = {
             webui.@THEME_JS@._base.dojo.require("webui.@THEME_JS@.widget.hyperlink");
             widget = new webui.@THEME_JS@.widget.hyperlink({id: hyperlink.id});
 	}
-        return widget.submitFormData(formId, params);
+        return widget._submitFormData(formId, params);
     },
 
     /**
