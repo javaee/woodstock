@@ -430,6 +430,9 @@ public class TabSetRenderer extends AbstractRenderer {
             // each tab goes in its own table cell
             writer.startElement("td", tabSet);
             
+            if (!tab.isVisible()){
+                writer.writeAttribute("class",theme.getStyleClass(ThemeStyles.HIDDEN), null);
+            }
             String newSelectedClass = styles[3];
             
             if (selectedTabId != null && isSelected(tab, selectedTabId)) {
