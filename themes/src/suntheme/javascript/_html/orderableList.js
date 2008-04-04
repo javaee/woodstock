@@ -108,7 +108,7 @@ webui.@THEME_JS@._html.orderableList = {
         }
 
         // Set given properties on domNode.
-        webui.@THEME_JS@._base.proto.extend(domNode, props, false);
+        webui.@THEME_JS@._base.proto._extend(domNode, props, false);
 
         // The options of the select element from which selections are made 
         domNode.options = domNode.list.options;

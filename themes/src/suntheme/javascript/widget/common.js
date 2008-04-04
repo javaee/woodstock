@@ -128,12 +128,12 @@ webui.@THEME_JS@.widget.common = {
             if (escape != null && new Boolean(escape).valueOf() == false) {
                 // Note: IE does not insert script tags via innerHTML.
                 common._appendHTML(domNode, 
-                    webui.@THEME_JS@._base.proto.stripScripts(props));
+                    webui.@THEME_JS@._base.proto._stripScripts(props));
 
                 // Evaluate JavaScript.
                 setTimeout(function() {
                     // Eval not required for Mozilla/Firefox, but consistent.
-                    webui.@THEME_JS@._base.proto.evalScripts(props);
+                    webui.@THEME_JS@._base.proto._evalScripts(props);
                     if (new Boolean(webui.@THEME_JS@._base.config.parseOnLoad).valueOf() == true) {
                         common._parseMarkup(domNode);
                     }
@@ -144,7 +144,7 @@ webui.@THEME_JS@.widget.common = {
             } else {
                 // Static strings must be HTML escaped by default.
                 common._appendHTML(domNode,
-                    webui.@THEME_JS@._base.proto.escapeHTML(props));
+                    webui.@THEME_JS@._base.proto._escapeHTML(props));
             }
         } else if (props.fragment) {
             // Add fragment -- do not HTML escape.

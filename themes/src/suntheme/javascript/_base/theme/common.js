@@ -151,7 +151,7 @@ webui.@THEME_JS@._base.theme.common = {
         // dojo, vs. just replacing the orginal baseTheme values.
         //
         if (newTheme != null) {
-            webui.@THEME_JS@._base.proto.extend(theme.baseTheme, newTheme);
+            webui.@THEME_JS@._base.proto._extend(theme.baseTheme, newTheme);
         }
         return true;
     },
@@ -652,7 +652,7 @@ webui.@THEME_JS@._base.theme.common = {
                         bundle[jsLoc] = new clazz();
                         // Use "hierarchical" extend.
                         // for (var j in hash){ bundle[jsLoc][j] = hash[j]; }
-                        webui.@THEME_JS@._base.proto.extend(bundle[jsLoc], hash);
+                        webui.@THEME_JS@._base.proto._extend(bundle[jsLoc], hash);
                     });
                 } else {
                     loaded = true;

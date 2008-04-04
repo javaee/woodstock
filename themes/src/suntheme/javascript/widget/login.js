@@ -364,7 +364,7 @@ webui.@THEME_JS@.widget.login.prototype._setAlert = function(props) {
 
         // Add extra properties.
         if (props != null) {
-            this._proto.extend(_props, props);
+            this._proto._extend(_props, props);
         }
         if (_props.summary == null) {
             _props.summary = this._theme._getMessage("login.errorSummary");

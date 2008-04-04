@@ -60,7 +60,7 @@ webui.@THEME_JS@._base.dojo.declare("webui.@THEME_JS@.widget.dndContainer",
  */
 webui.@THEME_JS@.widget.dndContainer.prototype._createCreatorCallback = function(funcName) {
     var dragTypes = this.dragTypes ? this.dragTypes : "";
-    var dragSource = this.dragSource;
+    var dragSource = this._dragSource;
     var func = new Function("data", "hint", "return " + funcName + "(data, hint)");
 
     // This function will invoke user provided creator function (onNodeCreateFunc) 
@@ -185,7 +185,7 @@ webui.@THEME_JS@.widget.dndContainer.prototype._postCreate = function () {
     }
     params.onDropFunction = this._createOnDndDropCallback();
     
-    this.dragSource = new webui.@THEME_JS@._base.dnd.Source(this.dndContainer, params);
+    this._dragSource = new webui.@THEME_JS@._base.dnd.Source(this.dndContainer, params);
 
     return this._inherited("_postCreate", arguments);
 };
@@ -250,7 +250,7 @@ webui.@THEME_JS@.widget.dndContainer.prototype._setProps = function(props) {
     // Assert there is a dragData and id entry for each fragment
     if (props.contents && props.contentsDragData 
             && props.contents.length == props.contentsDragData.length 
-            && this.dragSource) {                   
+            && this._dragSource) {                   
         // Remove child nodes.
         this._widget._removeChildNodes(this.dndContainer);
         
@@ -262,7 +262,7 @@ webui.@THEME_JS@.widget.dndContainer.prototype._setProps = function(props) {
                 // which will be an element of the container and at the same 
                 // time will contain the output of _addFragment. Add the rendered
                 // content into the span.             
-                var node = this.dragSource.addItem([""], this.dragTypes, 
+                var node = this._dragSource._addItem([""], this.dragTypes, 
                     props.contentsDragData[i]); //empty data content
                 this._widget._addFragment(node, props.contents[i], "last");
             } else {

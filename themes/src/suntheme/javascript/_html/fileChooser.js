@@ -180,7 +180,7 @@ webui.@THEME_JS@._html.fileChooser = {
         }
 
         // Set given properties on domNode.
-        webui.@THEME_JS@._base.proto.extend(domNode, props, false);
+        webui.@THEME_JS@._base.proto._extend(domNode, props, false);
 
         // boolean identifying the chooser mode.
         domNode.folderChooser = (props.chooserType == "folderChooser");

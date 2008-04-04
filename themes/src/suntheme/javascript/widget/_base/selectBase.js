@@ -717,7 +717,7 @@ webui.@THEME_JS@.widget._base.selectBase.prototype._setOptionProps = function(el
     var textToUse = option.label;
     if (option.escape != null && option.escape == false) {
 	// Prototype method.
-	element.text = this._proto.unescapeHTML(textToUse);
+	element.text = this._proto._unescapeHTML(textToUse);
     } else {
 	element.text = textToUse;
     }

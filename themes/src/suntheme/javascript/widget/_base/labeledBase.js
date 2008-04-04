@@ -171,7 +171,7 @@ webui.@THEME_JS@.widget._base.labeledBase.prototype._postCreate = function () {
 
 	// Get subclass label preferences
 	//
-	this._proto.extend(this.label, this._getLabelProps());
+	this._proto._extend(this.label, this._getLabelProps());
     }
     return this._inherited("_postCreate", arguments);
 };

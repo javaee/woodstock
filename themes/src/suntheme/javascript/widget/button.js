@@ -308,7 +308,7 @@ webui.@THEME_JS@.widget.button.prototype._setProps = function(props) {
         // If escape is false, we want any special sequences in the text 
         // (e.g., "&nbsp;") to be displayed as evaluated (i.e., unescaped).
         this.domNode.value = (new Boolean(this.escape).valueOf() == false)
-            ? this._proto.unescapeHTML(props.value)
+            ? this._proto._unescapeHTML(props.value)
             : props.value;
     }
 

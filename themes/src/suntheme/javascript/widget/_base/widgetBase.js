@@ -229,9 +229,9 @@ webui.@THEME_JS@.widget._base.widgetBase.prototype.getProps = function() {
     var props = {};
 
     // Set properties.
-    this._proto.extend(props, this._getCommonProps(), false);
-    this._proto.extend(props, this._getCoreProps(), false);
-    this._proto.extend(props, this._getEventProps(), false);
+    this._proto._extend(props, this._getCommonProps(), false);
+    this._proto._extend(props, this._getCoreProps(), false);
+    this._proto._extend(props, this._getEventProps(), false);
 
     return props;
 };
@@ -526,7 +526,7 @@ webui.@THEME_JS@.widget._base.widgetBase.prototype.setProps = function(props, no
     }
 
     // Extend widget object for later updates.
-    this._proto.extend(this, props);
+    this._proto._extend(this, props);
 
     // Set properties.
     this._setProps(props);

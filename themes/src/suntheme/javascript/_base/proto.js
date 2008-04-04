@@ -47,8 +47,9 @@ webui.@THEME_JS@._base.proto = {
      *
      * @param {String} str The string to escape.
      * @return {boolean} The HTML escaped string.
+     * @private
      */
-    escapeHTML: function(str) {
+    _escapeHTML: function(str) {
         var div = document.createElement('div');
         var text = document.createTextNode(str);
         div.appendChild(text);
@@ -60,10 +61,11 @@ webui.@THEME_JS@._base.proto = {
      *
      * @param {String} str The string to extract script from.
      * @return {Object|boolean} The result of the evaluated script.
+     * @private
      */
-    evalScripts: function(str) {
-        var prototypejs = webui.@THEME_JS@._base.proto;
-        return prototypejs.map(prototypejs.extractScripts(str), function(script) { 
+    _evalScripts: function(str) {
+        var proto = webui.@THEME_JS@._base.proto;
+        return proto._map(proto._extractScripts(str), function(script) { 
             return eval(script);
         });
     },
@@ -82,19 +84,20 @@ webui.@THEME_JS@._base.proto = {
      * @param {Object} props Key-Value pairs of properties.
      * @param {Object} recursive If true, properties are extended recursively (default).
      * @return {boolean} true if successful; otherwise, false.
+     * @private
      */
-    extend: function(obj, props, recursive) {
+    _extend: function(obj, props, recursive) {
         if (obj == null || props == null) {
             return false;
         }      
 
         // If recursive is true and property is an non-null object, call this
         // function again.
-        var prototypejs = webui.@THEME_JS@._base.proto;
+        var proto = webui.@THEME_JS@._base.proto;
         for (var property in props) {
             if (obj[property] && typeof obj[property] == "object" 
                     && recursive != false) {
-                prototypejs.extend(obj[property], props[property], recursive);
+                proto._extend(obj[property], props[property], recursive);
             } else {
                 obj[property] = props[property];
             }
@@ -107,13 +110,14 @@ webui.@THEME_JS@._base.proto = {
      *
      * @param {String} str The string to extract script from.
      * @return {Object} The string containing only script.
+     * @private
      */
-    extractScripts: function(str) {
-        var prototypejs = webui.@THEME_JS@._base.proto;
-        var matchAll = new RegExp(prototypejs._scriptFragment, 'img');
-        var matchOne = new RegExp(prototypejs._scriptFragment, 'im');
+    _extractScripts: function(str) {
+        var proto = webui.@THEME_JS@._base.proto;
+        var matchAll = new RegExp(proto._scriptFragment, 'img');
+        var matchOne = new RegExp(proto._scriptFragment, 'im');
 
-        return prototypejs.map(str.match(matchAll) || [], function(scriptTag) {
+        return proto._map(str.match(matchAll) || [], function(scriptTag) {
             return (scriptTag.match(matchOne) || ['', ''])[1];
         });
     },
@@ -127,8 +131,10 @@ webui.@THEME_JS@._base.proto = {
      * </p>
      * @param {Array} array The array to map function on.
      * @param {Function} The function used to map array.
+     * @return {Object} The result of the mapped function.
+     * @private
      */
-    map: function(array, func) {
+    _map: function(array, func) {
         var len = array.length;
         if (typeof func != "function") {
             throw new TypeError();
@@ -149,8 +155,9 @@ webui.@THEME_JS@._base.proto = {
      *
      * @param {String} str The string to strip tags from.
      * @return {Object} The string minus any script tags.
+     * @private
      */
-    stripScripts: function(str) {
+    _stripScripts: function(str) {
         return str.replace(new RegExp(webui.@THEME_JS@._base.proto._scriptFragment, 'img'), ''); 
     },
 
@@ -159,8 +166,9 @@ webui.@THEME_JS@._base.proto = {
      *
      * @param {String} str The string to strip tags from.
      * @return {Object} The string minus any HTML tags.
+     * @private
      */
-    stripTags: function(str) {
+    _stripTags: function(str) {
         return str.replace(/<\/?[^>]+>/gi, '');
     },
 
@@ -169,10 +177,11 @@ webui.@THEME_JS@._base.proto = {
      *
      * @param {String} str The string to unescape.
      * @return {boolean} The unescaped string.
+     * @private
      */
-    unescapeHTML: function(str) {
+    _unescapeHTML: function(str) {
         var div = document.createElement('div');
-        div.innerHTML = webui.@THEME_JS@._base.proto.stripTags(str);
+        div.innerHTML = webui.@THEME_JS@._base.proto._stripTags(str);
         return div.childNodes[0] ? div.childNodes[0].nodeValue : '';
     }
 };

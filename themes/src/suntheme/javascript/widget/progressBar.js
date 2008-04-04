@@ -480,7 +480,7 @@ webui.@THEME_JS@.widget.progressBar.prototype.setProgress = function(props) {
     }
 
     // Save properties for later updates.
-    this._proto.extend(this, props);    
+    this._proto._extend(this, props);    
 
     // Set status.
     if (props.status) {

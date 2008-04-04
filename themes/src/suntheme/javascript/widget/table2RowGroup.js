@@ -74,73 +74,61 @@ webui.@THEME_JS@._base.dojo.declare("webui.@THEME_JS@.widget.table2RowGroup",
         this.sortCount = 0; // sort count 
         this.colSortLevel = new Array(); // Array used to store sortLevel
     },
-    //default sorting options
-    primarySortOptions: [
-                    {
-                        "group": false,
-                        "value": "sort",
-                        "label": webui.@THEME_JS@._base.theme.common._getMessage("table2.sortByThisColumn"),
-                        "disabled": true,
-                        "separator": false,
-                        "escape": true
-                    },
-                    {
-                        "group": false,
-                        "value": "primaryAscending",
-                        "label": webui.@THEME_JS@._base.theme.common._getMessage("table2.sortAscending"),
-                        "disabled": false,
-                        "separator": false,
-                        "escape": true
-                    },
-                    {
-                        "group": false,
-                        "value": "primaryDescending",
-                        "label": webui.@THEME_JS@._base.theme.common._getMessage("table2.sortDescending"),
-                        "disabled": false,
-                        "separator": true,
-                        "escape": true
-                    }
-                ],
-    
-    clearSortOptions: [
-                    
-                    {
-                        "group": false,
-                        "value": "clear",
-                        "label": webui.@THEME_JS@._base.theme.common._getMessage("table2.clearSort"),
-                        "disabled": false,
-                        "separator": false,
-                        "escape": true
-                    }
-                ],
-                
-                secondarySortOptions: [
-                    {
-                        "group": false,
-                        "value": "sort",
-                        "label": webui.@THEME_JS@._base.theme.common._getMessage("table2.addColumnSort"),
-                        "disabled": true,
-                        "separator": false,
-                        "escape": true
-                    },
-                    {
-                        "group": false,
-                        "value": "ascending",
-                        "label": webui.@THEME_JS@._base.theme.common._getMessage("table2.sortAscending"),
-                        "disabled": false,
-                        "separator": false,
-                        "escape": true
-                    },
-                    {
-                        "group": false,
-                        "value": "descending",
-                        "label": webui.@THEME_JS@._base.theme.common._getMessage("table2.sortDescending"),
-                        "disabled": false,
-                        "separator": true,
-                        "escape": true
-                    }
-                    
-                ],
+    // Default sorting options.
+    _primarySortOptions: [{
+        "group": false,
+        "value": "sort",
+        "label": webui.@THEME_JS@._base.theme.common._getMessage("table2.sortByThisColumn"),
+        "disabled": true,
+        "separator": false,
+        "escape": true
+    }, {
+        "group": false,
+        "value": "primaryAscending",
+        "label": webui.@THEME_JS@._base.theme.common._getMessage("table2.sortAscending"),
+        "disabled": false,
+        "separator": false,
+        "escape": true
+    }, {
+        "group": false,
+        "value": "primaryDescending",
+        "label": webui.@THEME_JS@._base.theme.common._getMessage("table2.sortDescending"),
+        "disabled": false,
+        "separator": true,
+        "escape": true
+    }],
+    // Clear sorting options.
+    _clearSortOptions: [{
+        "group": false,
+        "value": "clear",
+        "label": webui.@THEME_JS@._base.theme.common._getMessage("table2.clearSort"),
+        "disabled": false,
+        "separator": false,
+        "escape": true
+    }],
+    // Secondary sorting options.
+    _secondarySortOptions: [{
+        "group": false,
+        "value": "sort",
+        "label": webui.@THEME_JS@._base.theme.common._getMessage("table2.addColumnSort"),
+        "disabled": true,
+        "separator": false,
+        "escape": true
+    }, {
+        "group": false,
+        "value": "ascending",
+        "label": webui.@THEME_JS@._base.theme.common._getMessage("table2.sortAscending"),
+        "disabled": false,
+        "separator": false,
+        "escape": true
+    }, {
+        "group": false,
+        "value": "descending",
+        "label": webui.@THEME_JS@._base.theme.common._getMessage("table2.sortDescending"),
+        "disabled": false,
+        "separator": true,
+        "escape": true
+    }],
     _widgetType: "table2RowGroup" // Required for theme properties.
 });
 
@@ -547,7 +535,7 @@ webui.@THEME_JS@.widget.table2RowGroup.prototype._postCreate = function () {
         this.sortPopupMenu = {
                     id: this.id + "_popupMenu",
                     visible: false,
-                    options: this.primarySortOptions,
+                    options: this._primarySortOptions,
                     widgetType: "popupMenu"
         };
     }
@@ -915,7 +903,8 @@ webui.@THEME_JS@.widget.table2RowGroup.prototype._updateRowsText = function() {
  * @return {boolean} true if successful; otherwise, false.
  * @private
  */
-webui.@THEME_JS@.widget.table2RowGroup.prototype._openSortMenu = function(event, colId, sortLevel) {    
+webui.@THEME_JS@.widget.table2RowGroup.prototype._openSortMenu = function(event, 
+        colId, sortLevel) {    
     var menu = webui.@THEME_JS@.widget.common.getWidget(this.sortPopupMenu.id);    
     for (var i = 0; i < this.columns.length; i++) {
         var col = this.columns[i];
@@ -924,18 +913,19 @@ webui.@THEME_JS@.widget.table2RowGroup.prototype._openSortMenu = function(event,
             break;
         }    
     }
-    
     if (menu) {
         if (sortLevel == -1 && this.sortCount == 0) {
-            menu.setProps({options:this.primarySortOptions});
+            menu.setProps({options:this._primarySortOptions});
         } else if (sortLevel == 1) {
-            var menuOptions = (this.primarySortOptions).concat(this.clearSortOptions);
+            var menuOptions = (this._primarySortOptions).concat(this._clearSortOptions);
             menu.setProps({options:menuOptions});
         } else if ((sortLevel == -1 || sortLevel > 1) && this.sortCount >= 1) {
-	    var menuOptions = ((this.primarySortOptions).concat(this.secondarySortOptions)).concat(this.clearSortOptions);
+	    var menuOptions = ((this._primarySortOptions).concat(
+                 this._secondarySortOptions)).concat(this._clearSortOptions);
             menu.setProps({options:menuOptions});
         }
-        menu.setProps({onClick: "webui.@THEME_JS@.widget.common.getWidget('" + this.id + "')._sort('" + colId + "');"});          
+        menu.setProps({onClick: "webui.@THEME_JS@.widget.common.getWidget('" + 
+            this.id + "')._sort('" + colId + "');"});          
         menu.open(event);        
     }
     return true;
@@ -954,12 +944,13 @@ webui.@THEME_JS@.widget.table2RowGroup.prototype._sort = function(colId) {
     var sortLevel = -1;
     
     // Publish an event for custom AJAX implementations to listen for.
-        this._publish(webui.@THEME_JS@.widget.table2RowGroup.event.sort.beginTopic, [{
-            id: this.id,
-            table2colId: colId,
-            sortOrder: menu.getSelectedValue()
-        }]);
-    //update sortCount and sortLevel values client-side    
+    this._publish(webui.@THEME_JS@.widget.table2RowGroup.event.sort.beginTopic, [{
+        id: this.id,
+        table2colId: colId,
+        sortOrder: menu.getSelectedValue()
+    }]);
+
+    // Update sortCount and sortLevel values client-side    
     if ((value == "primaryAscending" || value == "primaryDescending")) {
         sortLevel = 1;
         this.sortCount = 1;
@@ -973,7 +964,7 @@ webui.@THEME_JS@.widget.table2RowGroup.prototype._sort = function(colId) {
                 col.sortLevel = -1;                                            
         }
     } 
-    //update sortLevel value for column
+    // Update sortLevel value for column
     for (var i = 0; i < this.columns.length; i++) {
         var col = this.columns[i];
         //clear other sort if primary sort is selected
@@ -989,8 +980,6 @@ webui.@THEME_JS@.widget.table2RowGroup.prototype._sort = function(colId) {
         } else {
             this.colSortLevel[i] = -1;
         }    
-    }
-    
+    }    
     return true;    
 };
-

@@ -27,49 +27,68 @@ webui.@THEME_JS@._base.dojo.require("webui.@THEME_JS@._base.dojo.dnd.Manager");
 webui.@THEME_JS@._base.dojo.require("webui.@THEME_JS@._base.dojo.dnd.Source");
 
 /**
+ * This function is used to construct a dnd manager.
+ * 
  * @name webui.@THEME_JS@._base.dnd.Manager
  * @extends webui.@THEME_JS@._base.dojo.dnd.Manager
- * @class This class extends webui.@THEME_JS@._base.dojo.dnd.Manager to support additional features of
- * Woodstock drag and drop.
+ * @class This class supports additional features of Woodstock drag and drop.
+ * @constructor
  * @private
  */
 webui.@THEME_JS@._base.dojo.declare("webui.@THEME_JS@._base.dnd.Manager",
     webui.@THEME_JS@._base.dojo.dnd.Manager);
 
 /** 
- * Processes startDrag event to insert dragging styles.
+ * Processes start drag event to insert dragging styles.
  *
  * @return {boolean} true if successful; otherwise, false.
+ * @private
  */
-webui.@THEME_JS@._base.dnd.Manager.prototype.startDrag = function(source, nodes, copy) {
+webui.@THEME_JS@._base.dnd.Manager.prototype._startDrag = function(source, nodes, copy) {
     webui.@THEME_JS@._base.dojo.forEach(nodes,
         function(node) {
             webui.@THEME_JS@._base.dojo.addClass(node, "dojoDndWebuiItemDragged");
         }
     );
-    return this.inherited("startDrag", arguments);    
+    return true;
 };
 
+// Override Manager. Note: This function should not appear in the jsDoc.
+webui.@THEME_JS@._base.dnd.Manager.prototype.startDrag = function () {
+    this._startDrag();
+    return this.inherited("startDrag", arguments);
+}
+
 /**
- * Processes stopDrag event to cleanup dragging styles.
+ * Processes stop drag event to cleanup dragging styles.
  *
  * @return {boolean} true if successful; otherwise, false.
+ * @private
  */
-webui.@THEME_JS@._base.dnd.Manager.prototype.stopDrag = function() {
+webui.@THEME_JS@._base.dnd.Manager.prototype._stopDrag = function() {
     webui.@THEME_JS@._base.dojo.forEach(this.nodes,
         function(node) {
             webui.@THEME_JS@._base.dojo.removeClass(node, "dojoDndWebuiItemDragged");
         }
     );
-    return this.inherited("stopDrag", arguments);    
+    return true;
 };
 
+// Override Manager. Note: This function should not appear in the jsDoc.
+webui.@THEME_JS@._base.dnd.Manager.prototype.stopDrag = function () {
+    this._stopDrag();
+    return this.inherited("stopDrag", arguments);
+}
+
 /**
+ * This function is used to construct a dnd source.
+ *
  * @name webui.@THEME_JS@._base.dnd.Source
  * @extends webui.@THEME_JS@._base.dojo.dnd.Source
  * @class This class extends webui.@THEME_JS@._base.dojo.dnd.Source to support additional features of
  * Woodstock drag and drop.
- * @constructor This function is used to construct a dnd source.
+ * @constructor
+ * @param {Node} node DOM node
  * @param {Object} props Key-Value pairs of properties.
  * @config {boolean} isSource Can be used as a DnD source, if true; assumed to
  * be "true" if omitted.
@@ -93,16 +112,6 @@ webui.@THEME_JS@._base.dnd.Manager.prototype.stopDrag = function() {
  */
 webui.@THEME_JS@._base.dojo.declare("webui.@THEME_JS@._base.dnd.Source",
         webui.@THEME_JS@._base.dojo.dnd.Source, {
-    defaultTypes: [ "default" ], // default types for the source
-    
-    /**
-     * Constructor
-     *
-     * @param {Node} node DOM node
-     * @param {Object} props Key-Value pairs of properties as described above.
-     * @return {boolean} true if successful; otherwise, false.
-     * @private
-     */  
     constructor: function(node, props) {
         // Replace the drag manager
         if (webui.@THEME_JS@._base.dojo.dnd._manager == null) {
@@ -130,7 +139,7 @@ webui.@THEME_JS@._base.dojo.declare("webui.@THEME_JS@._base.dnd.Source",
  * <p><pre>
  * - explicitely provide drag item type and data to overcome limitation of dojo
  *   _normalizedCreator
- * - unlike another helper function here ( makeNodeDraggable) allow to add 
+ * - unlike another helper function here ( _makeNodeDraggable) allow to add 
  *   items to the container uniformly, wrapping the type of item added ( i.e. 
  *   nested items may be span, div, img, etc.)
  * </pre></p>
@@ -139,8 +148,9 @@ webui.@THEME_JS@._base.dojo.declare("webui.@THEME_JS@._base.dnd.Source",
  * @param {Array} dragType An array of types with no spaces ( TRIMMED!).
  * @param {Object} dragData Payload data to be associated with the drag item.
  * @return {Node} The created node.
+ * @private
  */
-webui.@THEME_JS@._base.dnd.Source.prototype.addItem = function(nodeContent, dragType, dragData) { 
+webui.@THEME_JS@._base.dnd.Source.prototype._addItem = function(nodeContent, dragType, dragData) { 
     var t = this._normalizedCreator([nodeContent]);        
     this.setItem(t.node.id, {
         data: dragData, 
@@ -149,6 +159,12 @@ webui.@THEME_JS@._base.dnd.Source.prototype.addItem = function(nodeContent, drag
     this.parent.appendChild(t.node);
     return t.node;
 };
+
+// Override Source. Note: This function should not appear in the jsDoc.
+webui.@THEME_JS@._base.dnd.Manager.prototype.addItem = function () {
+    this.inherited("addItem", arguments);
+    return this._addItem();
+}
 
 /**
  * Dojo implementation relies either on html markup to describe which items are
@@ -161,8 +177,9 @@ webui.@THEME_JS@._base.dnd.Source.prototype.addItem = function(nodeContent, drag
  * @param (Array) dragType Array of types.
  * @param (String) dragData Data associated with dragItem.
  * @return {boolean} true if successful; otherwise, false.
+ * @private
  */
-webui.@THEME_JS@._base.dnd.Source.prototype.makeNodeDraggable = function(node, dragType, dragData) {
+webui.@THEME_JS@._base.dnd.Source.prototype._makeNodeDraggable = function(node, dragType, dragData) {
     if (webui.@THEME_JS@._base.dojo.byId(node)) {
         node = webui.@THEME_JS@._base.dojo.byId(node);  
     } else { 
@@ -179,7 +196,7 @@ webui.@THEME_JS@._base.dnd.Source.prototype.makeNodeDraggable = function(node, d
         type = this.DEFAULT_TYPES;
     }
     type = (type instanceof Array) ? type : type = type.split(',');
-    webui.@THEME_JS@._base.dojo.forEach(type, this.trim);
+    webui.@THEME_JS@._base.dojo.forEach(type, this._trim);
 
     var data = dragData ? dragData : node.getAttribute("dndData");
     this.setItem(node.id, {
@@ -198,10 +215,15 @@ webui.@THEME_JS@._base.dnd.Source.prototype.makeNodeDraggable = function(node, d
  * @return {webui.@THEME_JS@._base.dnd.Source} The Source object.
  * @private
  */
-webui.@THEME_JS@._base.dnd.Source.prototype.markupFactory = function(props, node) {
+webui.@THEME_JS@._base.dnd.Source.prototype._markupFactory = function(props, node) {
     props._skipStartup = true;
     return new webui.@THEME_JS@._base.dnd.Source(node, props);
 };
+
+// Override Source. Note: This function should not appear in the jsDoc.
+webui.@THEME_JS@._base.dnd.Manager.prototype.markupFactory = function () {
+    return this._markupFactory();
+}
 
 /** 
  * Processes dndDrop event by providing transparency treatment for source
@@ -211,12 +233,11 @@ webui.@THEME_JS@._base.dnd.Source.prototype.markupFactory = function(props, node
  * @param (Object) nodes Array of nodes to be dropped.
  * @param (boolean) copy A flag indicating copy is desired.
  * @return {boolean} The result of user's onDropFunction.
+ * @private
  */
-webui.@THEME_JS@._base.dnd.Source.prototype.onDndDrop = function(source, nodes, copy) {
-    this.inherited("onDndDrop", arguments);
-    
+webui.@THEME_JS@._base.dnd.Source.prototype._onDndDrop = function(source, nodes, copy) {   
     // We have to remove class onDndDrop here as well as in mgr
-    // because onDndDrop is called before mgr.stopDrag, and transparency 
+    // because _onDndDrop is called before mgr.stopDrag, and transparency 
     // needs to be removed before clone is made.
     webui.@THEME_JS@._base.dojo.forEach(nodes,
         function(node) {
@@ -236,6 +257,12 @@ webui.@THEME_JS@._base.dnd.Source.prototype.onDndDrop = function(source, nodes, 
     return ret; // Return from this method is actually ignored.
 };
 
+// Override Source. Note: This function should not appear in the jsDoc.
+webui.@THEME_JS@._base.dnd.Manager.prototype.onDndDrop = function () {
+    this.inherited("onDndDrop", arguments);
+    return this._onDndDrop();
+}
+
 /**
  * This creator-wrapper function ensures that user provided creator function
  * results in providing all neccessary information for the newly created node.
@@ -245,6 +272,7 @@ webui.@THEME_JS@._base.dnd.Source.prototype.onDndDrop = function(source, nodes, 
  * @param (String) hint hint that takes value of "avatar" when avatar is 
  * created, null otherwise.
  * @return {Node} The created node.
+ * @private
  */ 
 webui.@THEME_JS@._base.dnd.Source.prototype._normalizedCreator = function(data, hint) {
     // Adds all necessary data to the output of user-supplied creator function.
@@ -266,7 +294,7 @@ webui.@THEME_JS@._base.dnd.Source.prototype._normalizedCreator = function(data, 
  * @return {String} The trimmed string.
  * @private
  */    
-webui.@THEME_JS@._base.dnd.Source.prototype.trim = function(str){ 
+webui.@THEME_JS@._base.dnd.Source.prototype._trim = function(str){ 
     // TODO make a String.prototype in common.js out of this.
     str = str.replace(/^\s\s*/, '').replace(/\s\s*$/, ''); 
     return str;

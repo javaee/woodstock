@@ -32,18 +32,19 @@ webui.@THEME_JS@._base.cookie = {
      * This function will get the cookie value.
      *
      * @return {String} The cookie value.
+     * @private
      */
-    get: function() {
+    _get: function() {
         // Get document cookie.
         var cookie = document.cookie;
 
         // Parse cookie value.
-        var pos = cookie.indexOf(this.$cookieName + "=");
+        var pos = cookie.indexOf(this._cookieName + "=");
         if (pos == -1) {
             return null;
         }
 
-        var start = pos + this.$cookieName.length + 1;
+        var start = pos + this._cookieName.length + 1;
         var end = cookie.indexOf(";", start);
         if (end == -1) {
             end = cookie.length;
@@ -57,10 +58,11 @@ webui.@THEME_JS@._base.cookie = {
      * This function will load the cookie value.
      *
      * @return {boolean} true if successful; otherwise, false.
+     * @private
      */
-    load: function() {
+    _load: function() {
         // Get document cookie.
-        var cookieVal = this.get();
+        var cookieVal = this._get();
         if (cookieVal == null) {
             return false;
         }
@@ -84,10 +86,11 @@ webui.@THEME_JS@._base.cookie = {
      * This function will reset the cookie value.
      *
      * @return {boolean} true if successful; otherwise, false.
+     * @private
      */
-    reset: function() {
+    _reset: function() {
         // Clear cookie value.
-        document.cookie = this.$cookieName + "=";
+        document.cookie = this._cookieName + "=";
         return true;
     },
 
@@ -95,8 +98,9 @@ webui.@THEME_JS@._base.cookie = {
      * This function will store the cookie value.
      *
      * @return {boolean} true if successful; otherwise, false.
+     * @private
      */
-    store: function() {
+    _store: function() {
         // Create cookie value by looping through object properties
         var cookieVal = "";
 
@@ -112,9 +116,9 @@ webui.@THEME_JS@._base.cookie = {
             }
             cookieVal += prop + ':' + escape(this[prop]);
         }
-        var cookieString = this.$cookieName + "=" + cookieVal;
-        if (this.$path != null) {
-            cookieString += ";path=" + this.$path;
+        var cookieString = this._cookieName + "=" + cookieVal;
+        if (this._path != null) {
+            cookieString += ";path=" + this._path;
         }
         // Store cookie value.
         document.cookie = cookieString;
@@ -134,39 +138,49 @@ webui.@THEME_JS@._base.cookie = {
 webui.@THEME_JS@._base.scrollCookie = function(viewId, path) {    
     // All predefined properties of this object begin with '$' because
     // we don't want to store these values in the cookie.
-    this.$cookieName = viewId;
-    this.$path = path;
+    this._cookieName = viewId;
+    this._path = path;
 
     // Default properties.
-    this.left = "0";
-    this.top  = "0";
+    this._left = "0";
+    this._top  = "0";
 
-    // This function will load the cookie and restore scroll position.
-    this.restore = function() {
+    /**
+     * This function will load the cookie and restore scroll position.
+     *
+     * @return {boolean} true if successful; otherwise, false.
+     * @private
+     */
+    this._restore = function() {
         // Load cookie value.
-        this.load();
-        scrollTo(this.left, this.top);
+        this._load();
+        scrollTo(this._left, this._top);
         return true;
     };
 
-    // This function will set the cookie value.
-    this.set = function() {
+    /**
+     * This function will set the cookie value.
+     *
+     * @return {boolean} true if successful; otherwise, false.
+     * @private
+     */
+    this._set = function() {
         var documentElement = window.document.documentElement;
         if (documentElement && documentElement.scrollTop) {
-            this.left = documentElement.scrollLeft;
-            this.top  = documentElement.scrollTop;
+            this._left = documentElement.scrollLeft;
+            this._top  = documentElement.scrollTop;
         } else {
-            this.left = window.document.body.scrollLeft;
-            this.top  = window.document.body.scrollTop;
+            this._left = window.document.body.scrollLeft;
+            this._top  = window.document.body.scrollTop;
         }
         // if the left and top scroll values are still null
         // try to extract it assuming the browser is IE
-        if (this.left == null && this.top == null) {
-            this.left = window.pageXOffset;
-            this.top = window.pageYOffset;
+        if (this._left == null && this._top == null) {
+            this._left = window.pageXOffset;
+            this._top = window.pageYOffset;
         }
         // Store cookie value.
-        this.store();
+        this._store();
         return true;
     };
     return true;

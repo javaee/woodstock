@@ -59,7 +59,7 @@ webui.@THEME_JS@._html.scheduler = {
         }
 
         // Set given properties on domNode.
-        webui.@THEME_JS@._base.proto.extend(domNode, props, false);
+        webui.@THEME_JS@._base.proto._extend(domNode, props, false);
         domNode.dateLinkId = props.datePickerId + ":dateLink"; 
 
         // Set functions.

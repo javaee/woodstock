@@ -107,4 +107,4 @@ webui.@THEME_JS@._base.config = {
 };
 
 // Override default config properties.
-webui.@THEME_JS@._base.proto.extend(webui.@THEME_JS@._base.config, webui_@THEME_JS@);
+webui.@THEME_JS@._base.proto._extend(webui.@THEME_JS@._base.config, webui_@THEME_JS@);
