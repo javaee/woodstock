@@ -196,8 +196,8 @@ webui.@THEME_JS@.widget.table2RowGroup.prototype._addColumns = function() {
             }        
             
             } else if(col.headerText && col.sort == false) {            
-                if (colHeaderLink != null) {
-                    this._widget._updateFragment(colHeaderLink, colHeaderLink.id, {
+                if (headerCellClone != null) {
+                    this._widget._updateFragment(headerCellClone, headerCellClone.id, {
                             id: headerCellClone.id + "_Text",                    
                             value: col.headerText,
                             widgetType: "staticText"
