@@ -38,6 +38,12 @@ webui.@THEME_JS@._base.dojo.require("webui.@THEME_JS@._base.dojo.dnd.Source");
 webui.@THEME_JS@._base.dojo.declare("webui.@THEME_JS@._base.dnd.Manager",
     webui.@THEME_JS@._base.dojo.dnd.Manager);
 
+// This function is not public and should not appear in the jsDoc.
+webui.@THEME_JS@._base.dnd.Manager.prototype.startDrag = function () {
+    this.inherited("startDrag", arguments);
+    return this._startDrag();
+}
+
 /** 
  * Processes start drag event to insert dragging styles.
  *
@@ -53,10 +59,10 @@ webui.@THEME_JS@._base.dnd.Manager.prototype._startDrag = function(source, nodes
     return true;
 };
 
-// Override Manager. Note: This function should not appear in the jsDoc.
-webui.@THEME_JS@._base.dnd.Manager.prototype.startDrag = function () {
-    this._startDrag();
-    return this.inherited("startDrag", arguments);
+// This function is not public and should not appear in the jsDoc.
+webui.@THEME_JS@._base.dnd.Manager.prototype.stopDrag = function () {
+    this.inherited("stopDrag", arguments);
+    return this._stopDrag();
 }
 
 /**
@@ -73,12 +79,6 @@ webui.@THEME_JS@._base.dnd.Manager.prototype._stopDrag = function() {
     );
     return true;
 };
-
-// Override Manager. Note: This function should not appear in the jsDoc.
-webui.@THEME_JS@._base.dnd.Manager.prototype.stopDrag = function () {
-    this._stopDrag();
-    return this.inherited("stopDrag", arguments);
-}
 
 /**
  * This function is used to construct a dnd source.
@@ -115,7 +115,8 @@ webui.@THEME_JS@._base.dojo.declare("webui.@THEME_JS@._base.dnd.Source",
     constructor: function(node, props) {
         // Replace the drag manager
         if (webui.@THEME_JS@._base.dojo.dnd._manager == null) {
-            webui.@THEME_JS@._base.dojo.dnd._manager = new webui.@THEME_JS@._base.dnd.Manager();
+            webui.@THEME_JS@._base.dojo.dnd._manager = 
+                new webui.@THEME_JS@._base.dnd.Manager();
         }
 
         // Disable source functionality
@@ -131,6 +132,12 @@ webui.@THEME_JS@._base.dojo.declare("webui.@THEME_JS@._base.dnd.Source",
         return true;
     }
 });
+
+// This function is not public and should not appear in the jsDoc.
+webui.@THEME_JS@._base.dnd.Manager.prototype.addItem = function () {
+    this.inherited("addItem", arguments);
+    return this._addItem();
+}
 
 /**
  * This helper method will create a node using _normalizedCreator (which in turn 
@@ -150,7 +157,8 @@ webui.@THEME_JS@._base.dojo.declare("webui.@THEME_JS@._base.dnd.Source",
  * @return {Node} The created node.
  * @private
  */
-webui.@THEME_JS@._base.dnd.Source.prototype._addItem = function(nodeContent, dragType, dragData) { 
+webui.@THEME_JS@._base.dnd.Source.prototype._addItem = function(nodeContent,
+        dragType, dragData) {
     var t = this._normalizedCreator([nodeContent]);        
     this.setItem(t.node.id, {
         data: dragData, 
@@ -159,12 +167,6 @@ webui.@THEME_JS@._base.dnd.Source.prototype._addItem = function(nodeContent, dra
     this.parent.appendChild(t.node);
     return t.node;
 };
-
-// Override Source. Note: This function should not appear in the jsDoc.
-webui.@THEME_JS@._base.dnd.Manager.prototype.addItem = function () {
-    this.inherited("addItem", arguments);
-    return this._addItem();
-}
 
 /**
  * Dojo implementation relies either on html markup to describe which items are
@@ -207,6 +209,11 @@ webui.@THEME_JS@._base.dnd.Source.prototype._makeNodeDraggable = function(node, 
     return true;
 };
 
+// This function is not public and should not appear in the jsDoc.
+webui.@THEME_JS@._base.dnd.Manager.prototype.markupFactory = function () {
+    return this._markupFactory();
+}
+
 /** 
  * Makes use of webui.@THEME.dnd.Source for markup processing.
  *
@@ -220,9 +227,10 @@ webui.@THEME_JS@._base.dnd.Source.prototype._markupFactory = function(props, nod
     return new webui.@THEME_JS@._base.dnd.Source(node, props);
 };
 
-// Override Source. Note: This function should not appear in the jsDoc.
-webui.@THEME_JS@._base.dnd.Manager.prototype.markupFactory = function () {
-    return this._markupFactory();
+// This function is not public and should not appear in the jsDoc.
+webui.@THEME_JS@._base.dnd.Manager.prototype.onDndDrop = function () {
+    this.inherited("onDndDrop", arguments);
+    return this._onDndDrop();
 }
 
 /** 
@@ -256,12 +264,6 @@ webui.@THEME_JS@._base.dnd.Source.prototype._onDndDrop = function(source, nodes,
     }
     return ret; // Return from this method is actually ignored.
 };
-
-// Override Source. Note: This function should not appear in the jsDoc.
-webui.@THEME_JS@._base.dnd.Manager.prototype.onDndDrop = function () {
-    this.inherited("onDndDrop", arguments);
-    return this._onDndDrop();
-}
 
 /**
  * This creator-wrapper function ensures that user provided creator function

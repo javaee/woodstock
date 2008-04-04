@@ -109,11 +109,10 @@ webui.@THEME_JS@._base.dojo.declare("webui.@THEME_JS@.widget._base.widgetBase",
     _widget: webui.@THEME_JS@.widget.common // Widget utils.
 });
 
-// Override _Templated. Note: This function should not appear in the jsDoc.
+// This function is not public and should not appear in the jsDoc.
 webui.@THEME_JS@.widget._base.widgetBase.prototype.buildRendering = function () {
-    this._buildRendering();
-
     // Template must be set prior to calling "superclass".
+    this._buildRendering();
     return this._inherited("buildRendering", arguments);
 }
 
@@ -287,9 +286,8 @@ webui.@THEME_JS@.widget._base.widgetBase.prototype._isInitialized = function() {
     return false;
 };
 
-// Override _Widget. Note: This function should not appear in the jsDoc.
+// This function is not public and should not appear in the jsDoc.
 webui.@THEME_JS@.widget._base.widgetBase.prototype.postCreate = function () {
-    this._inherited("postCreate", arguments);
     return this._postCreate();
 }
 
@@ -326,8 +324,7 @@ webui.@THEME_JS@.widget._base.widgetBase.prototype._postCreate = function () {
     this._setProps(this.getProps());
 
     // All widget properties have been set.
-    this.initialized = true;
-    return true;
+    return this.initialized = true;
 };
 
 /**
@@ -561,9 +558,8 @@ webui.@THEME_JS@.widget._base.widgetBase.prototype._setProps = function(props) {
     return this._setCoreProps(this.domNode, props);
 };
 
-// Override _Widget. Note: This function should not appear in the jsDoc.
+// This function is not public and should not appear in the jsDoc.
 webui.@THEME_JS@.widget._base.widgetBase.prototype.startup = function () {
-    this._inherited("startup", arguments);
     return this._start();
 }
 
