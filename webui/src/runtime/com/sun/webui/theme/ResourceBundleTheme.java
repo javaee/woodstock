@@ -1083,6 +1083,7 @@ public class ResourceBundleTheme implements Theme {
 "styles]\n" +
 "[-factory <ThemeFactory implementation class name>]\n" +
 "[-dir destination-directory]\n" +
+"[-outfile destination-javascript-theme-file]\n" +
 "[-theme <theme name>]\n" +
 "[-version <theme version>]\n" +
 "[-locale <lang>[_<country>[_<variant>]]]\n" +
@@ -1097,12 +1098,13 @@ public class ResourceBundleTheme implements Theme {
 "'-factory' - the ThemeFactory implementation to use, to obtain a Theme\n" +
 "    instance. If not specified the 'com.sun.webui.theme.SPIThemeFactory'\n" +
 "    implementation is used.\n" +
-"'-dir' - the destination directory for the theme javascript file. The file\n" +
-"    created is named from the 'ThemeJavascript.THEME_BUNDLE' theme " +
-"property \n" +
-"    with an extension of '.js' If not specified the file is created in the\n" +
-"    current directory.\n" +
-"\n" +
+"'-dir' - the destination directory for the theme javascript file.\n" +
+"    If not specified the file is created in the current directory.\n" +
+"'-outfile - the javascript theme file name created in '-dir'. If not \n" +
+"    specified the file name created is named from the " +
+"    'ThemeJavascript.THEME_BUNDLE' theme property \n" +
+"    with an extension of '.js'. If the theme property is not set \n" +
+"    '<theme name>.js' is used.\n" +
 "-l10nJar - the URI includling the full path to l10n jar file. This value\n" +
 "    is used to create a URLClassLoader restricting the class path to this jar.\n" +
 "If '-theme' is not specified 'suntheme' is used. This theme is used as the\n" +
@@ -1194,6 +1196,9 @@ public class ResourceBundleTheme implements Theme {
 	    if (args[i].equals("-prettyprint")) {
 		indent = Integer.parseInt(args[++i]);
 	    } else
+	    if (args[i].equals("-outfile")) {
+		outfile = args[++i];
+	    } else
 	    if (args[i].equals("-help")) {
 		System.out.println(usage);
 		System.exit(0);
@@ -1258,12 +1263,12 @@ public class ResourceBundleTheme implements Theme {
 	//
 	if (outfile == null) {
 	    outfile = theme.getJSString(
-		com.sun.webui.jsf.theme.ThemeJavascript.THEME_BUNDLE);
+		    com.sun.webui.jsf.theme.ThemeJavascript.THEME_BUNDLE);
 	    if (outfile == null || outfile.length() == 0) {
-		outfile = "suntheme";
+		outfile = themeName;
 	    }
+	    outfile = outfile.concat(EXT);
 	}
-	outfile = outfile.concat(EXT);
 
 	java.io.BufferedWriter out = null;
 	try {

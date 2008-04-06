@@ -88,18 +88,6 @@
     </pathconvert>
 
     <!-- convert the package into a dest file path
-	 and map out the basedir package.
-	 We don't want the "cache" information in this path.
-	 this path is for class files -->
-    <pathconvert property="theme.package-nocache-path" dirsep="/">
-	<path path="${theme.package}"/>
-	<unpackagemapper from="*" to="*"/>
-	<map from="${__basedir-pkg__}/" to=""/>
-    </pathconvert>
-    <property name="theme.build-package-nocache-path"
-	location="${theme.build-dir}/${theme.package-nocache-path}"/>
-
-    <!-- convert the package into a dest file path
 	 and map out the basedir package -->
     <pathconvert property="theme.package-path" dirsep="/">
 	<path path="${theme.package}"/>
@@ -131,7 +119,8 @@
     <!-- Not currently documented for cloning -->
     <property name="theme.master.css" value="css_master.css"/>
     <property name="theme.master-all.css" value="css_master-all.css"/>
-    <property name="theme.js-module-prefix" value="webui.${theme.name}${CacheThemeVersion}"/>
+    <property name="theme.js-module-prefix"
+	value="webui.${theme.name}${CacheThemeVersion}"/>
     <property name="theme._bootstrap_.js" value="_base/_bootstrap_.js"/>
     <property name="theme.bootstrap.js" value="bootstrap.js"/>
     <property name="theme._dnd_.js" value="_base/_dnd_.js"/>
@@ -374,8 +363,10 @@
 	    <param name="_filter_" value="true"/>
 	    <param name="_fail-on-error_" value="true"/>
 
-	    <!-- we copy js during combining -->
+	    <!-- we copy js and css during combining -->
+	    <!-- Set these to true when cloning -->
 	    <param name="_copy-javascript_" value="false"/>
+	    <param name="_copy-css_" value="false"/>
         </antcall>
 
         <antcall target="_copyThemeService-internal_">
@@ -395,7 +386,7 @@
 		<filter token="SWAED_VERSION" value="${SWAEDVersion}"/>
                 <filter token="THEME_VERSION" value="${theme.version}"/>
                 <filter token="THEME_PACKAGE" 
-			value="${theme.package}${CacheThemeVersion}${CacheVersion}"/>
+		value="${theme.package}${CacheThemeVersion}${CacheVersion}"/>
             </filterset>
         </copy>
 
@@ -404,7 +395,8 @@
                 <include name="services/com.sun.webui.theme.ThemeService" /> 
             </fileset>
             <filterset>
-                <filter token="THEME_PACKAGE" value="${theme.package}"/>
+                <filter token="THEME_PACKAGE"
+		value="${theme.package}${CacheThemeVersion}${CacheVersion}"/>
                 <filter token="THEME_SERVICE_CLASS"
 			value="${theme.service-class}"/>
             </filterset>
@@ -415,7 +407,7 @@
             <param name="_cmpl-java-src_" 
 		value="${theme.build-package-path}"/>
             <param name="_cmpl-java-class_" 
-		value="${theme.build-package-nocache-path}"/>
+		value="${theme.build-package-path}"/>
             <param name="_cmpl-dest-dir_" value="${theme.build-dir}"/>
             <param name="_cmpl-service-class_" value="${theme.service-class}"/>
         </antcall>
@@ -864,9 +856,7 @@
 
 	<delete file="${_combined-file_}"/>
 
-	<!-- Should be a separate "copyCSS" -->
-	<!-- Copy and filter files into the temporary dir -->
-	<!--
+	<!-- Copy and filter files -->
 	<copy todir="${_to-dir_}">
 	    <fileset dir="${_from-dir_}">
               <exclude name="**/CVS/**" />
@@ -875,7 +865,6 @@
                 <filter token="THEME_CSS" value="${theme.css-name}"/>
             </filterset>
 	</copy>
-	-->
 
 	<java jar="${tools.jar}" failonerror="true" fork="true">
 	  <arg value="-combineCSS"/>
@@ -1570,9 +1559,23 @@
 	    <param name="_from-dir_" value="${theme.clone-src-dir}" />
 	    <param name="_filter_" value="${__clone-filter__}"/>
 	    <param name="_copy-javascript_" value="true"/>
+	    <param name="_copy-css_" value="true"/>
 	    <param name="_fail-on-error_" value="true"/>
         </antcall>
 
+        <antcall target="_copyThemeFiles-internal_">
+
+	    <param name="_to-dir_" 
+		value="${theme.clone-dir}/translatedFiles" />
+	    <param name="_from-dir_" 
+		value="${theme.clone-src-dir}/translatedFiles" />
+
+	    <param name="_filter_" value="${__clone-filter__}"/>
+	    <param name="_copy-javascript_" value="true"/>
+	    <param name="_copy-css_" value="true"/>
+	    <param name="_fail-on-error_" value="false"/>
+
+        </antcall>
 
         <antcall target="_copyThemeService-internal_">
 	    <param name="_to-dir_" 
@@ -1610,9 +1613,14 @@
 	_filter__ - If "true" then files are filtered as they are copied,
 		   if "false" or not set, then files are just copied.
 	_copy-javascript_ - If "true" javascript files are copied as is. If
-		       false javascript files are not copied. This is 
+		       false javascript files are not copied. This is to
 		       accommodate cloning and building. When cloning
 		       _copy-javascript_ should be true, and false when 
+		       building.
+	_copy-css_ - If "true" css files are copied as is. If
+		       false css files are not copied. This is to
+		       accommodate cloning and building. When cloning
+		       _copy-css_ should be true, and false when 
 		       building.
 	_fail-on-error_ - passed to the copy task's "failonerror"
 			     attribute.
@@ -1675,13 +1683,29 @@
             <filterset refid="${__css-name-filter__}"/>
         </copy>
 
-        <copy todir="${_to-dir_}/css_uncompressed"
+	<!-- the null css fileset 
+	  It must have a "dir" so exclude all files
+	-->
+	<fileset id="null-css-fileset" dir="${_from-dir_}/css">
+	    <exclude name="**/CVS/**" />
+	    <exclude name="**/*.css" />
+	    <exclude name="*.css" />
+	</fileset>
+
+	<fileset id="_css-fileset_" dir="${_from-dir_}/css">
+	    <exclude name="**/CVS/**" />
+	</fileset>
+
+	<condition property="__css-fileset__"
+		value="_css-fileset_" else="null-css-fileset">
+	    <istrue value="${_copy-css_}"/>
+	</condition>
+
+	<copy todir="${_to-dir_}/css"
 		failonerror="${_fail-on-error_}">
-            <fileset dir="${_from-dir_}/css">
-                <exclude name="**/CVS/**" /> 
-            </fileset>
+            <fileset refid="${__css-fileset__}"/>
             <filterset refid="${__css-name-filter__}"/>
-        </copy>
+	</copy>
 
 	<filterset id="_theme-filter_">
 	    <filter token="THEME" value="${theme.name}"/>
@@ -1730,10 +1754,10 @@
 	    <param name="_touch-prop-file_" value="touch-templates"/>
 	</antcall>
 
-	<!-- the null fileset 
+	<!-- the null js fileset 
 	  It must have a "dir" so exclude all files
 	-->
-	<fileset id="null-fileset" dir="${_from-dir_}/javascript">
+	<fileset id="null-js-fileset" dir="${_from-dir_}/javascript">
 	    <exclude name="**/CVS/**" />
 	    <exclude name="**/*.js" />
 	    <exclude name="*.js" />
@@ -1744,7 +1768,7 @@
 	</fileset>
 
 	<condition property="__js-fileset__"
-		value="_js-fileset_" else="null-fileset">
+		value="_js-fileset_" else="null-js-fileset">
 	    <istrue value="${_copy-javascript_}"/>
 	</condition>
 
@@ -1832,7 +1856,8 @@
 	<filterset id="_theme-service-filter_">
 	    <filter token="THEME" value="${theme.name}"/>
 	    <filter token="THEME_VERSION" value="${theme.version}"/>
-	    <filter token="THEME_PACKAGE" value="${theme.package}${CacheThemeVersion}${CacheVersion}"/>
+	    <filter token="THEME_PACKAGE"
+		value="${theme.package}${CacheThemeVersion}${CacheVersion}"/>
 	    <filter token="THEME_SERVICE_CLASS" value="${theme.service-class}"/>
 	</filterset>
 

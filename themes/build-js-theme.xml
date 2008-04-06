@@ -187,6 +187,10 @@
 	    <arg value="${_js-theme-name_}"/>
 	    <arg value="-prettyprint"/>
 	    <arg value="4"/>
+	    <arg value="-outfile"/>
+	    <arg value="${_js-theme-name_}.js"/>
+	    <arg value="-version"/>
+	    <arg value="${ThemeVersion}"/>
 	    <classpath>
 		 <pathelement path="${json-jar}"/>
 		 <pathelement path="${webui.jar}"/>
@@ -203,6 +207,10 @@
 	    <arg value="${_to-cmpdir-loc_}"/>
 	    <arg value="-theme"/>
 	    <arg value="${_js-theme-name_}"/>
+	    <arg value="-outfile"/>
+	    <arg value="${_js-theme-name_}.js"/>
+	    <arg value="-version"/>
+	    <arg value="${ThemeVersion}"/>
 	    <classpath>
 		 <pathelement path="${json-jar}"/>
 		 <pathelement path="${webui-jar}"/>

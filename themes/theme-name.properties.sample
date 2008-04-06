@@ -30,7 +30,7 @@
 # this properties file to ./mojave.properties or ../mojave.properties
 # and invoke ant as 
 #
-# % ant -Dtheme.name=mojave cloneTheme buildTheme buildJsTheme
+# % ant -Dtheme.name=mojave cloneTheme buildTheme buildJsTheme buildL10nTheme buildL10nJars buildL10nJsTheme jsdoc
 #
 # A theme called mojave will be cloned in src/mojave and built in
 # in build/mojave and a jar will be produced in dist/webui-jsf-mojave.jar.
@@ -134,10 +134,9 @@ theme.name=mojave
 theme.src-dir=${basedir}/src/${theme.name}
 theme.clone-src-dir=${basedir}/src/suntheme
 theme.build-dir=${basedir}/build/${theme.name}
-theme.l10n-dir=l10n
 theme.jar=${basedir}/dist/webui-jsf-${theme.name}.jar
 # Must be the same as the cloned theme
-theme.version=4.2
+theme.version=4.3
 theme.package=org.deserts.${theme.name}
 theme.css-name=_mjv4
 theme.service-class=MojaveThemeService

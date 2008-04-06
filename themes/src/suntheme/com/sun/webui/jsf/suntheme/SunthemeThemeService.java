@@ -19,7 +19,7 @@
  * 
  * Copyright 2007 Sun Microsystems, Inc. All rights reserved.
  */
-package com.sun.webui.jsf.suntheme;
+package @THEME_PACKAGE@;
 
 import com.sun.webui.theme.ThemeService;
 
