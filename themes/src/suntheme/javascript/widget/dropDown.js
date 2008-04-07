@@ -20,9 +20,9 @@
  * Copyright 2008 Sun Microsystems, Inc. All rights reserved.
  */
 
-webui.@THEME_JS@._base.dojo.provide("webui.@THEME_JS@.widget.dropDown");
+webui.@THEME_JS@._dojo.provide("webui.@THEME_JS@.widget.dropDown");
 
-webui.@THEME_JS@._base.dojo.require("webui.@THEME_JS@.widget._base.selectBase");
+webui.@THEME_JS@._dojo.require("webui.@THEME_JS@.widget._base.selectBase");
 
 /**
  * This function is used to construct a dropDown widget.
@@ -64,7 +64,7 @@ webui.@THEME_JS@._base.dojo.require("webui.@THEME_JS@.widget._base.selectBase");
  * @config {String} title The a HTML title attribue for the <code>select</code> element.
  * @config {boolean} visible Hide or show element.
  */
-webui.@THEME_JS@._base.dojo.declare("webui.@THEME_JS@.widget.dropDown",
+webui.@THEME_JS@._dojo.declare("webui.@THEME_JS@.widget.dropDown",
         webui.@THEME_JS@.widget._base.selectBase, {
     // Set defaults.
     //

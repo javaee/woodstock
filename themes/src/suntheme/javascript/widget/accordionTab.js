@@ -20,10 +20,10 @@
  * Copyright 2008 Sun Microsystems, Inc. All rights reserved.
  */
 
-webui.@THEME_JS@._base.dojo.provide("webui.@THEME_JS@.widget.accordionTab");
+webui.@THEME_JS@._dojo.provide("webui.@THEME_JS@.widget.accordionTab");
 
-webui.@THEME_JS@._base.dojo.require("webui.@THEME_JS@.widget.common");
-webui.@THEME_JS@._base.dojo.require("webui.@THEME_JS@.widget._base.widgetBase");
+webui.@THEME_JS@._dojo.require("webui.@THEME_JS@.widget.common");
+webui.@THEME_JS@._dojo.require("webui.@THEME_JS@.widget._base.widgetBase");
 
 /**
  * This function is used to construct an accordionTab widget.
@@ -42,7 +42,7 @@ webui.@THEME_JS@._base.dojo.require("webui.@THEME_JS@.widget._base.widgetBase");
  * @config {String} title Provides a title for element.
  * @config {boolean} visible Hide or show element.
  */
-webui.@THEME_JS@._base.dojo.declare("webui.@THEME_JS@.widget.accordionTab",
+webui.@THEME_JS@._dojo.declare("webui.@THEME_JS@.widget.accordionTab",
         webui.@THEME_JS@.widget._base.widgetBase, {
     // Set defaults.
     constructor: function() {

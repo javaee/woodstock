@@ -20,11 +20,11 @@
  * Copyright 2008 Sun Microsystems, Inc. All rights reserved.
  */
 
-webui.@THEME_JS@._base.dojo.provide("webui.@THEME_JS@.widget._jsfx.dynaFaces");
+webui.@THEME_JS@._dojo.provide("webui.@THEME_JS@.widget._jsfx.dynaFaces");
 
-webui.@THEME_JS@._base.dojo.require("webui.@THEME_JS@._base.config");
-webui.@THEME_JS@._base.dojo.require("webui.@THEME_JS@._base.theme.common");
-webui.@THEME_JS@._base.dojo.require("webui.@THEME_JS@.widget._base.eventBase");
+webui.@THEME_JS@._dojo.require("webui.@THEME_JS@._base.config");
+webui.@THEME_JS@._dojo.require("webui.@THEME_JS@._theme.common");
+webui.@THEME_JS@._dojo.require("webui.@THEME_JS@.widget._base.eventBase");
 
 /**
  * @class This class contains functions to obtain JSF Extensions resources.
@@ -65,7 +65,7 @@ webui.@THEME_JS@.widget._jsfx.dynaFaces = {
                 // ensuring all resources have been loaded.
                 webui.@THEME_JS@.widget._jsfx.dynaFaces._loadJsfx(function() {
                     // Publish an event for custom AJAX implementations to listen for.
-                    return webui.@THEME_JS@._base.dojo.publish(topic, props);
+                    return webui.@THEME_JS@._dojo.publish(topic, props);
                 });
             };
         }
@@ -84,7 +84,7 @@ webui.@THEME_JS@.widget._jsfx.dynaFaces = {
             return callback();
         }
         var bootstrap = webui.@THEME_JS@._base.bootstrap;
-        var theme = webui.@THEME_JS@._base.theme.common;
+        var theme = webui.@THEME_JS@._theme.common;
         var isDebug = new Boolean(webui.@THEME_JS@._base.config.isDebug).valueOf();
 
         // Get script URLs.

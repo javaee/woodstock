@@ -20,12 +20,12 @@
  * Copyright 2008 Sun Microsystems, Inc. All rights reserved.
  */
 
-webui.@THEME_JS@._base.dojo.provide("webui.@THEME_JS@.widget._jsfx.rating");
+webui.@THEME_JS@._dojo.provide("webui.@THEME_JS@.widget._jsfx.rating");
 
-webui.@THEME_JS@._base.dojo.require("webui.@THEME_JS@.widget.common");
-webui.@THEME_JS@._base.dojo.require("webui.@THEME_JS@.widget._jsfx.common");
-webui.@THEME_JS@._base.dojo.require("webui.@THEME_JS@.widget._jsfx.dynaFaces")
-webui.@THEME_JS@._base.dojo.require("webui.@THEME_JS@.widget.rating");
+webui.@THEME_JS@._dojo.require("webui.@THEME_JS@.widget.common");
+webui.@THEME_JS@._dojo.require("webui.@THEME_JS@.widget._jsfx.common");
+webui.@THEME_JS@._dojo.require("webui.@THEME_JS@.widget._jsfx.dynaFaces")
+webui.@THEME_JS@._dojo.require("webui.@THEME_JS@.widget.rating");
 
 /**
  * @class This class contains functions to obtain data asynchronously using JSF
@@ -58,7 +58,7 @@ webui.@THEME_JS@.widget._jsfx.rating = {
             
         // Publish an event for custom AJAX implementations to listen for.
         if (xjson.endTopic) {
-            webui.@THEME_JS@._base.dojo.publish(xjson.endTopic, [props]);
+            webui.@THEME_JS@._dojo.publish(xjson.endTopic, [props]);
         }
         return true;
     },
@@ -105,7 +105,7 @@ webui.@THEME_JS@.widget._jsfx.rating = {
 }
 
 // Listen for Dojo Widget events.
-webui.@THEME_JS@._base.dojo.subscribe(webui.@THEME_JS@.widget.rating.event.refresh.beginTopic,
+webui.@THEME_JS@._dojo.subscribe(webui.@THEME_JS@.widget.rating.event.refresh.beginTopic,
     webui.@THEME_JS@.widget._jsfx.common, "_processRefreshEvent");
-webui.@THEME_JS@._base.dojo.subscribe(webui.@THEME_JS@.widget.rating.event.submit.beginTopic,
+webui.@THEME_JS@._dojo.subscribe(webui.@THEME_JS@.widget.rating.event.submit.beginTopic,
     webui.@THEME_JS@.widget._jsfx.rating, "_processSubmitEvent");

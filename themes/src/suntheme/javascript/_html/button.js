@@ -20,10 +20,10 @@
  * Copyright 2008 Sun Microsystems, Inc. All rights reserved.
  */
 
-webui.@THEME_JS@._base.dojo.provide("webui.@THEME_JS@._html.button");
+webui.@THEME_JS@._dojo.provide("webui.@THEME_JS@._html.button");
 
-webui.@THEME_JS@._base.dojo.require("webui.@THEME_JS@._base.browser");
-webui.@THEME_JS@._base.dojo.require("webui.@THEME_JS@.widget.common");
+webui.@THEME_JS@._dojo.require("webui.@THEME_JS@._base.browser");
+webui.@THEME_JS@._dojo.require("webui.@THEME_JS@.widget.common");
 
 /**
  * @class This class contains functions for button components.

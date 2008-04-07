@@ -20,23 +20,23 @@
  * Copyright 2008 Sun Microsystems, Inc. All rights reserved.
  */
 
-webui.@THEME_JS@._base.dojo.provide("webui.@THEME_JS@.widget._base.eventBase");
+webui.@THEME_JS@._dojo.provide("webui.@THEME_JS@.widget._base.eventBase");
 
-webui.@THEME_JS@._base.dojo.require("webui.@THEME_JS@._base.config");
-webui.@THEME_JS@._base.dojo.require("webui.@THEME_JS@._base.dijit._Widget"); 
-webui.@THEME_JS@._base.dojo.require("webui.@THEME_JS@._base.dijit._Templated");
-webui.@THEME_JS@._base.dojo.require("webui.@THEME_JS@.widget.common");
+webui.@THEME_JS@._dojo.require("webui.@THEME_JS@._base.config");
+webui.@THEME_JS@._dojo.require("webui.@THEME_JS@._dijit._Widget"); 
+webui.@THEME_JS@._dojo.require("webui.@THEME_JS@._dijit._Templated");
+webui.@THEME_JS@._dojo.require("webui.@THEME_JS@.widget.common");
 
 /** 
  * This function is used to construct a base class.
  *
  * @name webui.@THEME_JS@.widget._base.eventBase
- * @extends webui.@THEME_JS@._base.dijit._Widget, webui.@THEME_JS@._base.dijit._Templated
+ * @extends webui.@THEME_JS@._dijit._Widget, webui.@THEME_JS@._dijit._Templated
  * @class This class contains functions for widgets that extend eventBase.
  * @constructor
  */
-webui.@THEME_JS@._base.dojo.declare("webui.@THEME_JS@.widget._base.eventBase", [
-    webui.@THEME_JS@._base.dijit._Widget, webui.@THEME_JS@._base.dijit._Templated]);
+webui.@THEME_JS@._dojo.declare("webui.@THEME_JS@.widget._base.eventBase", [
+    webui.@THEME_JS@._dijit._Widget, webui.@THEME_JS@._dijit._Templated]);
 
 /**
  * This object contains event topics.
@@ -165,7 +165,7 @@ webui.@THEME_JS@.widget._base.eventBase.prototype._publish = function(topic, pro
     // Obtain the Ajax module associated with this widget.
     var config = webui.@THEME_JS@._base.config;
     if (new Boolean(config.ajax.isAjax).valueOf() == true && config.ajax.module) {
-        webui.@THEME_JS@._base.dojo.require(config.ajax.module + "." + this._widgetType);
+        webui.@THEME_JS@._dojo.require(config.ajax.module + "." + this._widgetType);
     }
     return webui.@THEME_JS@.widget.common.publish(topic, props);
 };

@@ -20,9 +20,9 @@
  * Copyright 2008 Sun Microsystems, Inc. All rights reserved.
  */
 
-webui.@THEME_JS@._base.dojo.provide("webui.@THEME_JS@.widget.checkboxGroup");
+webui.@THEME_JS@._dojo.provide("webui.@THEME_JS@.widget.checkboxGroup");
 
-webui.@THEME_JS@._base.dojo.require("webui.@THEME_JS@.widget._base.checkedGroupBase");
+webui.@THEME_JS@._dojo.require("webui.@THEME_JS@.widget._base.checkedGroupBase");
 
 /**
  * This function is used to construct a checkboxGroup widget.
@@ -48,7 +48,7 @@ webui.@THEME_JS@._base.dojo.require("webui.@THEME_JS@.widget._base.checkedGroupB
  * @config {String} title Provides a title for element.
  * @config {boolean} visible Hide or show element.
  */
-webui.@THEME_JS@._base.dojo.declare("webui.@THEME_JS@.widget.checkboxGroup",
+webui.@THEME_JS@._dojo.declare("webui.@THEME_JS@.widget.checkboxGroup",
         webui.@THEME_JS@.widget._base.checkedGroupBase, {
     // Set defaults.
     _widgetType: "checkboxGroup" // Required for theme properties.

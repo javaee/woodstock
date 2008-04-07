@@ -20,10 +20,10 @@
  * Copyright 2008 Sun Microsystems, Inc. All rights reserved.
  */
 
-webui.@THEME_JS@._base.dojo.provide("webui.@THEME_JS@.widget.calendarField");
+webui.@THEME_JS@._dojo.provide("webui.@THEME_JS@.widget.calendarField");
 
-webui.@THEME_JS@._base.dojo.require("webui.@THEME_JS@.widget.calendar");
-webui.@THEME_JS@._base.dojo.require("webui.@THEME_JS@.widget.textField");
+webui.@THEME_JS@._dojo.require("webui.@THEME_JS@.widget.calendar");
+webui.@THEME_JS@._dojo.require("webui.@THEME_JS@.widget.textField");
 
 /**
  * This function is used to construct a calendarField widget.
@@ -65,7 +65,7 @@ webui.@THEME_JS@._base.dojo.require("webui.@THEME_JS@.widget.textField");
  * @config {String} value Value of input.
  * @config {boolean} visible Hide or show element.
  */
-webui.@THEME_JS@._base.dojo.declare("webui.@THEME_JS@.widget.calendarField",
+webui.@THEME_JS@._dojo.declare("webui.@THEME_JS@.widget.calendarField",
         webui.@THEME_JS@.widget.textField, {
     // Set defaults.
     _widgetType: "calendarField" // Required for theme properties.

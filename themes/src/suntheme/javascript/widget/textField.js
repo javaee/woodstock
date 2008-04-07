@@ -20,10 +20,10 @@
  * Copyright 2008 Sun Microsystems, Inc. All rights reserved.
  */
 
-webui.@THEME_JS@._base.dojo.provide("webui.@THEME_JS@.widget.textField");
+webui.@THEME_JS@._dojo.provide("webui.@THEME_JS@.widget.textField");
 
-webui.@THEME_JS@._base.dojo.require("webui.@THEME_JS@.widget.common");
-webui.@THEME_JS@._base.dojo.require("webui.@THEME_JS@.widget._base.fieldBase");
+webui.@THEME_JS@._dojo.require("webui.@THEME_JS@.widget.common");
+webui.@THEME_JS@._dojo.require("webui.@THEME_JS@.widget._base.fieldBase");
 
 /**
  * This function is used to construct a textField widget.
@@ -66,7 +66,7 @@ webui.@THEME_JS@._base.dojo.require("webui.@THEME_JS@.widget._base.fieldBase");
  * @config {String} value Value of input.
  * @config {boolean} visible Hide or show element.
  */
-webui.@THEME_JS@._base.dojo.declare("webui.@THEME_JS@.widget.textField",
+webui.@THEME_JS@._dojo.declare("webui.@THEME_JS@.widget.textField",
         webui.@THEME_JS@.widget._base.fieldBase, {
     // Set defaults.
     constructor: function() {

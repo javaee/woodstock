@@ -20,8 +20,8 @@
  * Copyright 2008 Sun Microsystems, Inc. All rights reserved.
  */
 
-webui.@THEME_JS@._base.dojo.provide("webui.@THEME_JS@._html.scheduler");
-webui.@THEME_JS@._base.dojo.require("webui.@THEME_JS@._base.proto");
+webui.@THEME_JS@._dojo.provide("webui.@THEME_JS@._html.scheduler");
+webui.@THEME_JS@._dojo.require("webui.@THEME_JS@._base.proto");
 
 /** 
  * @class This class contains functions for scheduler components.

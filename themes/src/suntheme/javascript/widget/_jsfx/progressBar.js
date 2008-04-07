@@ -20,13 +20,13 @@
  * Copyright 2008 Sun Microsystems, Inc. All rights reserved.
  */
 
-webui.@THEME_JS@._base.dojo.provide("webui.@THEME_JS@.widget._jsfx.progressBar");
+webui.@THEME_JS@._dojo.provide("webui.@THEME_JS@.widget._jsfx.progressBar");
 
-webui.@THEME_JS@._base.dojo.require("webui.@THEME_JS@.json");
-webui.@THEME_JS@._base.dojo.require("webui.@THEME_JS@.widget.common");
-webui.@THEME_JS@._base.dojo.require("webui.@THEME_JS@.widget._jsfx.common");
-webui.@THEME_JS@._base.dojo.require("webui.@THEME_JS@.widget._jsfx.dynaFaces");
-webui.@THEME_JS@._base.dojo.require("webui.@THEME_JS@.widget.progressBar");
+webui.@THEME_JS@._dojo.require("webui.@THEME_JS@.json");
+webui.@THEME_JS@._dojo.require("webui.@THEME_JS@.widget.common");
+webui.@THEME_JS@._dojo.require("webui.@THEME_JS@.widget._jsfx.common");
+webui.@THEME_JS@._dojo.require("webui.@THEME_JS@.widget._jsfx.dynaFaces");
+webui.@THEME_JS@._dojo.require("webui.@THEME_JS@.widget.progressBar");
 
 /**
  * @class This class contains functions to obtain data asynchronously using JSF
@@ -96,14 +96,14 @@ webui.@THEME_JS@.widget._jsfx.progressBar =  {
         });
 
         // Publish an event for custom AJAX implementations to listen for.
-        webui.@THEME_JS@._base.dojo.publish(
+        webui.@THEME_JS@._dojo.publish(
             webui.@THEME_JS@.widget.progressBar.event.progress.endTopic, [props]);
         return true;
     }
 };
 
 // Listen for Dojo Widget events.
-webui.@THEME_JS@._base.dojo.subscribe(webui.@THEME_JS@.widget.progressBar.event.progress.beginTopic,
+webui.@THEME_JS@._dojo.subscribe(webui.@THEME_JS@.widget.progressBar.event.progress.beginTopic,
     webui.@THEME_JS@.widget._jsfx.progressBar, "_processProgressEvent");
-webui.@THEME_JS@._base.dojo.subscribe(webui.@THEME_JS@.widget.progressBar.event.refresh.beginTopic,
+webui.@THEME_JS@._dojo.subscribe(webui.@THEME_JS@.widget.progressBar.event.refresh.beginTopic,
     webui.@THEME_JS@.widget._jsfx.common, "_processRefreshEvent");

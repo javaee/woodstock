@@ -20,7 +20,7 @@
  * Copyright 2008 Sun Microsystems, Inc. All rights reserved.
  */
 
-webui.@THEME_JS@._base.dojo.provide("webui.@THEME_JS@.json");
+webui.@THEME_JS@._dojo.provide("webui.@THEME_JS@.json");
 
 //
 // Copyright (c) 2005 JSON.org

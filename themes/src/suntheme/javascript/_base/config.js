@@ -20,9 +20,9 @@
  * Copyright 2008 Sun Microsystems, Inc. All rights reserved.
  */
 
-webui.@THEME_JS@._base.dojo.provide("webui.@THEME_JS@._base.config");
+webui.@THEME_JS@._dojo.provide("webui.@THEME_JS@._base.config");
 
-webui.@THEME_JS@._base.dojo.require("webui.@THEME_JS@._base.proto");
+webui.@THEME_JS@._dojo.require("webui.@THEME_JS@._base.proto");
 
 /**
  * This optional variable contains config properties to initialize the 

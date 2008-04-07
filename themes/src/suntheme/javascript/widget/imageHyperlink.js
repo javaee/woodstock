@@ -20,9 +20,9 @@
  * Copyright 2008 Sun Microsystems, Inc. All rights reserved.
  */
 
-webui.@THEME_JS@._base.dojo.provide("webui.@THEME_JS@.widget.imageHyperlink");
+webui.@THEME_JS@._dojo.provide("webui.@THEME_JS@.widget.imageHyperlink");
 
-webui.@THEME_JS@._base.dojo.require("webui.@THEME_JS@.widget.hyperlink");
+webui.@THEME_JS@._dojo.require("webui.@THEME_JS@.widget.hyperlink");
 
 /**
  * This function is used to construct a imageHyperlink widget.
@@ -66,7 +66,7 @@ webui.@THEME_JS@._base.dojo.require("webui.@THEME_JS@.widget.hyperlink");
  * @config {String} title Provides a title for element.
  * @config {boolean} visible Hide or show element.
  */
-webui.@THEME_JS@._base.dojo.declare("webui.@THEME_JS@.widget.imageHyperlink",
+webui.@THEME_JS@._dojo.declare("webui.@THEME_JS@.widget.imageHyperlink",
         webui.@THEME_JS@.widget.hyperlink, {
     // Set defaults.
     _widgetType: "imageHyperlink" // Required for theme properties.

@@ -20,10 +20,10 @@
  * Copyright 2008 Sun Microsystems, Inc. All rights reserved.
  */
 
-webui.@THEME_JS@._base.dojo.provide("webui.@THEME_JS@.widget.login");
+webui.@THEME_JS@._dojo.provide("webui.@THEME_JS@.widget.login");
 
-webui.@THEME_JS@._base.dojo.require("webui.@THEME_JS@.widget.common");
-webui.@THEME_JS@._base.dojo.require("webui.@THEME_JS@.widget._base.widgetBase");
+webui.@THEME_JS@._dojo.require("webui.@THEME_JS@.widget.common");
+webui.@THEME_JS@._dojo.require("webui.@THEME_JS@.widget._base.widgetBase");
 
 /**
  * This function is used to construct a login widget.
@@ -42,7 +42,7 @@ webui.@THEME_JS@._base.dojo.require("webui.@THEME_JS@.widget._base.widgetBase");
  * @config {Object} userData JSON object containing user data that needs to be displayed as user prompt.
  * @config {Object} keys JSON object representing the key value mapping for user data fields.
  */
-webui.@THEME_JS@._base.dojo.declare("webui.@THEME_JS@.widget.login",
+webui.@THEME_JS@._dojo.declare("webui.@THEME_JS@.widget.login",
         webui.@THEME_JS@.widget._base.widgetBase, {
     // Set defaults.
     constructor: function() {

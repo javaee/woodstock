@@ -20,7 +20,7 @@
  * Copyright 2008 Sun Microsystems, Inc. All rights reserved.
  */
 
-webui.@THEME_JS@._base.dojo.provide("webui.@THEME_JS@.widget._base.labeledBase");
+webui.@THEME_JS@._dojo.provide("webui.@THEME_JS@.widget._base.labeledBase");
 
 /**
  * This function is used to construct a base class.
@@ -71,7 +71,7 @@ webui.@THEME_JS@._base.dojo.provide("webui.@THEME_JS@.widget._base.labeledBase")
  * widget that is labeled.
  * @constructor
  */
-webui.@THEME_JS@._base.dojo.declare("webui.@THEME_JS@.widget._base.labeledBase",
+webui.@THEME_JS@._dojo.declare("webui.@THEME_JS@.widget._base.labeledBase",
         webui.@THEME_JS@.widget._base.widgetBase, {
     // Set defaults.
     constructor: function() {

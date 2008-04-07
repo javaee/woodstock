@@ -20,12 +20,12 @@
  * Copyright 2008 Sun Microsystems, Inc. All rights reserved.
  */
 
-webui.@THEME_JS@._base.dojo.provide("webui.@THEME_JS@._html.commonTasksSection");
+webui.@THEME_JS@._dojo.provide("webui.@THEME_JS@._html.commonTasksSection");
 
-webui.@THEME_JS@._base.dojo.require("webui.@THEME_JS@._base.browser");
-webui.@THEME_JS@._base.dojo.require("webui.@THEME_JS@._base.common");
-webui.@THEME_JS@._base.dojo.require("webui.@THEME_JS@._base.proto");
-webui.@THEME_JS@._base.dojo.require("webui.@THEME_JS@._base.theme.common");
+webui.@THEME_JS@._dojo.require("webui.@THEME_JS@._base.browser");
+webui.@THEME_JS@._dojo.require("webui.@THEME_JS@._base.common");
+webui.@THEME_JS@._dojo.require("webui.@THEME_JS@._base.proto");
+webui.@THEME_JS@._dojo.require("webui.@THEME_JS@._theme.common");
 
 /** 
  * @class This class contains functions for commonTasksSection components.
@@ -74,7 +74,7 @@ webui.@THEME_JS@._html.commonTasksSection = {
         domNode.count = 0;
 
         // Hide panels on resize.
-        webui.@THEME_JS@._base.dojo.connect(window, 'onresize', domNode, domNode.windowResize);
+        webui.@THEME_JS@._dojo.connect(window, 'onresize', domNode, domNode.windowResize);
 
         return true;
     },
@@ -195,7 +195,7 @@ webui.@THEME_JS@._html.commonTasksSection = {
         this.task = task;
         this.bottomInfoLink = bottomInfoLink;
         this.spacer = spacer;
-        this._theme = webui.@THEME_JS@._base.theme.common;
+        this._theme = webui.@THEME_JS@._theme.common;
         
         var that = this;
 

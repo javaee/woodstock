@@ -20,9 +20,9 @@
  * Copyright 2008 Sun Microsystems, Inc. All rights reserved.
  */
 
-webui.@THEME_JS@._base.dojo.provide("webui.@THEME_JS@._html.hyperlink");
+webui.@THEME_JS@._dojo.provide("webui.@THEME_JS@._html.hyperlink");
 
-webui.@THEME_JS@._base.dojo.require("webui.@THEME_JS@.widget.common");
+webui.@THEME_JS@._dojo.require("webui.@THEME_JS@.widget.common");
 
 /**
  * @class This class contains functions for hyperlink components.
@@ -52,7 +52,7 @@ webui.@THEME_JS@._html.hyperlink = {
 	if (widget == null) {
             // If a widget does not exist, we shall create one in order to call
             // the submit function directly.
-            webui.@THEME_JS@._base.dojo.require("webui.@THEME_JS@.widget.hyperlink");
+            webui.@THEME_JS@._dojo.require("webui.@THEME_JS@.widget.hyperlink");
             widget = new webui.@THEME_JS@.widget.hyperlink({id: hyperlink.id});
 	}
         return widget._submitFormData(formId, params);

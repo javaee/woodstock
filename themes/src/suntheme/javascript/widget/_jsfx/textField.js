@@ -20,13 +20,13 @@
  * Copyright 2008 Sun Microsystems, Inc. All rights reserved.
  */
 
-webui.@THEME_JS@._base.dojo.provide("webui.@THEME_JS@.widget._jsfx.textField");
+webui.@THEME_JS@._dojo.provide("webui.@THEME_JS@.widget._jsfx.textField");
 
-webui.@THEME_JS@._base.dojo.require("webui.@THEME_JS@.json");
-webui.@THEME_JS@._base.dojo.require("webui.@THEME_JS@.widget.common");
-webui.@THEME_JS@._base.dojo.require("webui.@THEME_JS@.widget._jsfx.common");
-webui.@THEME_JS@._base.dojo.require("webui.@THEME_JS@.widget._jsfx.dynaFaces");
-webui.@THEME_JS@._base.dojo.require("webui.@THEME_JS@.widget.textField");
+webui.@THEME_JS@._dojo.require("webui.@THEME_JS@.json");
+webui.@THEME_JS@._dojo.require("webui.@THEME_JS@.widget.common");
+webui.@THEME_JS@._dojo.require("webui.@THEME_JS@.widget._jsfx.common");
+webui.@THEME_JS@._dojo.require("webui.@THEME_JS@.widget._jsfx.dynaFaces");
+webui.@THEME_JS@._dojo.require("webui.@THEME_JS@.widget.textField");
 
 /**
  * @class This class contains functions to obtain data asynchronously using JSF
@@ -105,7 +105,7 @@ webui.@THEME_JS@.widget._jsfx.textField = {
         }
 
         // Publish an event for custom AJAX implementations to listen for.
-        webui.@THEME_JS@._base.dojo.publish(
+        webui.@THEME_JS@._dojo.publish(
             webui.@THEME_JS@.widget.textField.event.validation.endTopic, [props]);
         return true;
     },
@@ -164,20 +164,20 @@ webui.@THEME_JS@.widget._jsfx.textField = {
 
 
         // Publish an event for custom AJAX implementations to listen for.
-        webui.@THEME_JS@._base.dojo.publish(
+        webui.@THEME_JS@._dojo.publish(
             webui.@THEME_JS@.widget.textField.event.autoComplete.endTopic, [props]);
         return true;
     }    
 };
 
 // Listen for Dojo Widget events.
-webui.@THEME_JS@._base.dojo.subscribe(webui.@THEME_JS@.widget.textField.event.refresh.beginTopic,
+webui.@THEME_JS@._dojo.subscribe(webui.@THEME_JS@.widget.textField.event.refresh.beginTopic,
     webui.@THEME_JS@.widget._jsfx.common, "_processRefreshEvent");
-webui.@THEME_JS@._base.dojo.subscribe(webui.@THEME_JS@.widget.textField.event.state.beginTopic,
+webui.@THEME_JS@._dojo.subscribe(webui.@THEME_JS@.widget.textField.event.state.beginTopic,
     webui.@THEME_JS@.widget._jsfx.common, "_processStateEvent");
-webui.@THEME_JS@._base.dojo.subscribe(webui.@THEME_JS@.widget.textField.event.submit.beginTopic,
+webui.@THEME_JS@._dojo.subscribe(webui.@THEME_JS@.widget.textField.event.submit.beginTopic,
     webui.@THEME_JS@.widget._jsfx.common, "_processSubmitEvent");
-webui.@THEME_JS@._base.dojo.subscribe(webui.@THEME_JS@.widget.textField.event.validation.beginTopic,
+webui.@THEME_JS@._dojo.subscribe(webui.@THEME_JS@.widget.textField.event.validation.beginTopic,
     webui.@THEME_JS@.widget._jsfx.textField, "_processValidationEvent");
-webui.@THEME_JS@._base.dojo.subscribe(webui.@THEME_JS@.widget.textField.event.autoComplete.beginTopic,
+webui.@THEME_JS@._dojo.subscribe(webui.@THEME_JS@.widget.textField.event.autoComplete.beginTopic,
     webui.@THEME_JS@.widget._jsfx.textField, "_processAutoCompleteEvent");

@@ -20,10 +20,10 @@
  * Copyright 2008 Sun Microsystems, Inc. All rights reserved.
  */
 
-webui.@THEME_JS@._base.dojo.provide("webui.@THEME_JS@.widget.popupMenu");
+webui.@THEME_JS@._dojo.provide("webui.@THEME_JS@.widget.popupMenu");
 
-webui.@THEME_JS@._base.dojo.require("webui.@THEME_JS@.widget.common");
-webui.@THEME_JS@._base.dojo.require("webui.@THEME_JS@.widget._base.menuBase");
+webui.@THEME_JS@._dojo.require("webui.@THEME_JS@.widget.common");
+webui.@THEME_JS@._dojo.require("webui.@THEME_JS@.widget._base.menuBase");
 
 /**
  * This function is used to construct a popupMenu widget.
@@ -33,7 +33,7 @@ webui.@THEME_JS@._base.dojo.require("webui.@THEME_JS@.widget._base.menuBase");
  * @class This class contains functions for the popupMenu widget.
  * @constructor
  */
-webui.@THEME_JS@._base.dojo.declare("webui.@THEME_JS@.widget.popupMenu",
+webui.@THEME_JS@._dojo.declare("webui.@THEME_JS@.widget.popupMenu",
         webui.@THEME_JS@.widget._base.menuBase, {
     // Set defaults.
     _widgetType: "popupMenu" // Required for theme properties.

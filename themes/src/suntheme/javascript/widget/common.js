@@ -20,11 +20,11 @@
  * Copyright 2008 Sun Microsystems, Inc. All rights reserved.
  */
 
-webui.@THEME_JS@._base.dojo.provide("webui.@THEME_JS@.widget.common");
+webui.@THEME_JS@._dojo.provide("webui.@THEME_JS@.widget.common");
 
-webui.@THEME_JS@._base.dojo.require("webui.@THEME_JS@._base.config");
-webui.@THEME_JS@._base.dojo.require("webui.@THEME_JS@._base.browser");
-webui.@THEME_JS@._base.dojo.require("webui.@THEME_JS@._base.theme.common");
+webui.@THEME_JS@._dojo.require("webui.@THEME_JS@._base.config");
+webui.@THEME_JS@._dojo.require("webui.@THEME_JS@._base.browser");
+webui.@THEME_JS@._dojo.require("webui.@THEME_JS@._theme.common");
 
 /**
  * @class This class contains functions common to all widgets.
@@ -265,11 +265,11 @@ webui.@THEME_JS@.widget.common = {
 
         // Retrieve required module.
         var _widgetType = "webui.@THEME_JS@.widget."  + props.widgetType;
-        webui.@THEME_JS@._base.dojo.require(_widgetType);
+        webui.@THEME_JS@._dojo.require(_widgetType);
         
         try {
             // Get widget object.
-            var obj = webui.@THEME_JS@._base.dojo.getObject(_widgetType);
+            var obj = webui.@THEME_JS@._dojo.getObject(_widgetType);
 
             // Instantiate widget. 
             // Note: Dojo mixes attributes, if domNode is provided.
@@ -508,7 +508,7 @@ webui.@THEME_JS@.widget.common = {
         if (id == null) {
             return null;
         }
-        return webui.@THEME_JS@._base.dijit.byId(id);
+        return webui.@THEME_JS@._dijit.byId(id);
     },
 
     /**
@@ -553,7 +553,7 @@ webui.@THEME_JS@.widget.common = {
             return false;            
         }
         // Get icon properties.
-        var props = webui.@THEME_JS@._base.theme.common._getImage("DOT");
+        var props = webui.@THEME_JS@._theme.common._getImage("DOT");
         if (props == null) {
             return false;
         }
@@ -568,7 +568,7 @@ webui.@THEME_JS@.widget.common = {
             'top: -999px;' +
             'background-image: url("' + props.src + '");';
 
-        var body = webui.@THEME_JS@._base.dojo.body();
+        var body = webui.@THEME_JS@._dojo.body();
         body.appendChild(domNode);
 
         // Detect the high contrast mode.
@@ -596,7 +596,7 @@ webui.@THEME_JS@.widget.common = {
      *
      * @private
      */
-    _keyCodes: webui.@THEME_JS@._base.dojo.keys,
+    _keyCodes: webui.@THEME_JS@._dojo.keys,
  
     /**
      * This function is used to parse HTML markup in order to create widgets
@@ -674,7 +674,7 @@ webui.@THEME_JS@.widget.common = {
      */
     publish: function(topic, props) {
         // Publish an event for custom AJAX implementations to listen for.
-        webui.@THEME_JS@._base.dojo.publish(topic, props);
+        webui.@THEME_JS@._dojo.publish(topic, props);
         return true;
     },
 
@@ -737,7 +737,7 @@ webui.@THEME_JS@.widget.common = {
      * @return {boolean} true if successful; otherwise, false.
      */
     subscribe: function(topic, obj, func) {
-        webui.@THEME_JS@._base.dojo.subscribe(topic, obj, func);
+        webui.@THEME_JS@._dojo.subscribe(topic, obj, func);
         return true;
     },
 

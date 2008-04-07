@@ -20,9 +20,9 @@
  * Copyright 2008 Sun Microsystems, Inc. All rights reserved.
  */
 
-webui.@THEME_JS@._base.dojo.provide("webui.@THEME_JS@.widget.hiddenField");
+webui.@THEME_JS@._dojo.provide("webui.@THEME_JS@.widget.hiddenField");
 
-webui.@THEME_JS@._base.dojo.require("webui.@THEME_JS@.widget._base.widgetBase");
+webui.@THEME_JS@._dojo.require("webui.@THEME_JS@.widget._base.widgetBase");
 
 /**
  * This function is used to construct a hiddenField widget.
@@ -37,7 +37,7 @@ webui.@THEME_JS@._base.dojo.require("webui.@THEME_JS@.widget._base.widgetBase");
  * @config {String} name
  * @config {String} value Value of input.
  */
-webui.@THEME_JS@._base.dojo.declare("webui.@THEME_JS@.widget.hiddenField",
+webui.@THEME_JS@._dojo.declare("webui.@THEME_JS@.widget.hiddenField",
         webui.@THEME_JS@.widget._base.widgetBase, {
     // Set defaults.
     constructor: function() {

@@ -20,13 +20,13 @@
  * Copyright 2008 Sun Microsystems, Inc. All rights reserved.
  */
 
-webui.@THEME_JS@._base.dojo.provide("webui.@THEME_JS@.widget._base.widgetBase");
+webui.@THEME_JS@._dojo.provide("webui.@THEME_JS@.widget._base.widgetBase");
  
-webui.@THEME_JS@._base.dojo.require("webui.@THEME_JS@._base.common");
-webui.@THEME_JS@._base.dojo.require("webui.@THEME_JS@._base.proto");
-webui.@THEME_JS@._base.dojo.require("webui.@THEME_JS@._base.theme.common");
-webui.@THEME_JS@._base.dojo.require("webui.@THEME_JS@.widget.common");
-webui.@THEME_JS@._base.dojo.require("webui.@THEME_JS@.widget._base.eventBase");
+webui.@THEME_JS@._dojo.require("webui.@THEME_JS@._base.common");
+webui.@THEME_JS@._dojo.require("webui.@THEME_JS@._base.proto");
+webui.@THEME_JS@._dojo.require("webui.@THEME_JS@._theme.common");
+webui.@THEME_JS@._dojo.require("webui.@THEME_JS@.widget.common");
+webui.@THEME_JS@._dojo.require("webui.@THEME_JS@.widget._base.eventBase");
 
 /**
  * This function is used to construct a base class.
@@ -36,8 +36,8 @@ webui.@THEME_JS@._base.dojo.require("webui.@THEME_JS@.widget._base.eventBase");
  * @class This class contains functions used for base functionality in all 
  * widgets. 
  * <p>
- * The widgetBase class inherits from webui.@THEME_JS@._base.dijit._Widget and 
- * webui.@THEME_JS@._base.dijit._Templated. The webui.@THEME_JS@._base.dijit._Widget class
+ * The widgetBase class inherits from webui.@THEME_JS@._dijit._Widget and 
+ * webui.@THEME_JS@._dijit._Templated. The webui.@THEME_JS@._dijit._Widget class
  * is responsible for calling the _buildRendering() and _postCreate() functions 
  * in that order. The dijit_Templated function overrides the _buildRendering() 
  * functon to fill in template properties.
@@ -84,13 +84,13 @@ webui.@THEME_JS@._base.dojo.require("webui.@THEME_JS@.widget._base.eventBase");
  * not a direct child of the BODY element. If there is any Javascript
  * running inside the body that is a direct child of body, IE will throw
  * an "Internet Explorer cannot open the Internet site" error. For example,
- * webui.@THEME_JS@._base.dijit._Templated._createNodesFromText generates such an 
+ * webui.@THEME_JS@._dijit._Templated._createNodesFromText generates such an 
  * error by calling appendChild(). Therefore, widget creation must be deferred
  * to the window.onLoad event. See http://trac.dojotoolkit.org/ticket/4631
  * </p>
  * @constructor
  */
-webui.@THEME_JS@._base.dojo.declare("webui.@THEME_JS@.widget._base.widgetBase", 
+webui.@THEME_JS@._dojo.declare("webui.@THEME_JS@.widget._base.widgetBase", 
         webui.@THEME_JS@.widget._base.eventBase, {
     // Note: If your class contains arrays or other objects, they should be
     // declared in the constructor function so that each instance gets it's own
@@ -103,9 +103,9 @@ webui.@THEME_JS@._base.dojo.declare("webui.@THEME_JS@.widget._base.widgetBase",
 
     // Set defaults.
     _common: webui.@THEME_JS@._base.common, // Common utils.
-    _dojo: webui.@THEME_JS@._base.dojo, // Dojo utils.
+    _dojo: webui.@THEME_JS@._dojo, // Dojo utils.
     _proto: webui.@THEME_JS@._base.proto, // Prototype utils.
-    _theme: webui.@THEME_JS@._base.theme.common, // Theme utils.
+    _theme: webui.@THEME_JS@._theme.common, // Theme utils.
     _widget: webui.@THEME_JS@.widget.common // Widget utils.
 });
 

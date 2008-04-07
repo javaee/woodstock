@@ -125,8 +125,8 @@
     <property name="theme.bootstrap.js" value="bootstrap.js"/>
     <property name="theme._dnd_.js" value="_base/_dnd_.js"/>
     <property name="theme.dnd.js" value="_base/dnd.js"/>
-    <property name="theme.dojo.js" value="_base/dojo/dojo.js"/>
-    <property name="theme.dojo-dnd.js" value="_base/dojo/dnd.js"/>
+    <property name="theme.dojo.js" value="_dojo/dojo.js"/>
+    <property name="theme.dojo-dnd.js" value="_dojo/dnd.js"/>
     <property name="theme.webui.js" value="webui.js"/>
     <property name="theme.webui-all.js" value="webui-all.js"/>
     <property name="theme.webui-jsfx.js" value="webui-jsfx.js"/>
@@ -235,8 +235,8 @@
         <exclude name="${theme._dnd_.js}" /> <!-- Temporary build file. -->
         <exclude name="${theme._bootstrap_.js}" /> <!-- Temporary build file. -->
         <exclude name="${theme.bootstrap.js}" /> <!-- Generated file. -->
-        <exclude name="_base/dojo/" /> <!-- Loaded separately. -->
-        <exclude name="_base/theme/nls/"/>
+        <exclude name="_dojo/" /> <!-- Loaded separately. -->
+        <exclude name="_theme/nls/"/>
         <exclude name="_html/calendar.js" /> <!-- Not supported. -->
 	<exclude name="webui.js"/>
 	<exclude name="webui-all.js"/>
@@ -246,8 +246,8 @@
 
     <!-- exclude files for compression dependencies -->
     <patternset id="generated-js-files">
-	<exclude name="_base/dojo/"/>
-	<exclude name="_base/theme/nls/"/>
+	<exclude name="_dojo/"/>
+	<exclude name="_theme/nls/"/>
 	<exclude name="${theme.bootstrap.js}"/>
 	<exclude name="${theme.dnd.js}"/>
 	<exclude name="${theme.webui.js}"/>
@@ -517,10 +517,11 @@
 	     "js" files. -->
 	<property name="cmp-tmp" location="${build}${file.separator}cmp-tmp"/>
 	<mkdir dir="${cmp-tmp}"/>
-	<mkdir dir="${cmp-tmp}/_base/dojo"/>
-	<mkdir dir="${cmp-tmp}/_base/dojo/_firebug"/>
-        <mkdir dir="${cmp-tmp}/_base/theme"/>
+        <mkdir dir="${cmp-tmp}/_base"/>
+	<mkdir dir="${cmp-tmp}/_dojo"/>
+	<mkdir dir="${cmp-tmp}/_dojo/_firebug"/>
         <mkdir dir="${cmp-tmp}/_html"/>
+        <mkdir dir="${cmp-tmp}/_theme"/>
 	<mkdir dir="${cmp-tmp}/widget"/>
         <mkdir dir="${cmp-tmp}/widget/_base"/>
 	<mkdir dir="${cmp-tmp}/widget/_jsfx"/>
@@ -1049,7 +1050,7 @@
     <target name="combined-js-uptodate" depends="copyJavascript">
 	<uptodate property="combined-js-uptodate">
 	    <srcfiles dir="${_from-dir_}" includes="**/*.js"
-		excludes="_base/theme/nls/"/>
+		excludes="_theme/nls/"/>
 	    <mergemapper to="${_combined-file_}"/>
 	</uptodate>
     </target>
@@ -1178,7 +1179,7 @@
 	<pathconvert property="__files-to-compress__" pathsep=",">
 	    <fileset dir="${__from-dir-loc__}">
 		<exclude name="**/nls/"/>
-                <exclude name="_base/dojo/_firebug/"/>
+                <exclude name="_dojo/_firebug/"/>
 		<depend targetdir="${__to-dir-loc__}">
 		    <mapper type="glob" from="*" to="*"/>
 		</depend>
@@ -1257,7 +1258,7 @@
 	<!-- Make sure to exclude the nls, dojo and combined files. -->
 	<pathconvert property="__files-to-compress__" pathsep=",">
 	    <fileset dir="${__from-dir-loc__}">
-                <exclude name="_base/dojo/_firebug/"/>
+                <exclude name="_dojo/_firebug/"/>
 		<depend targetdir="${__to-dir-loc__}">
 		    <mapper type="glob" from="*.js" to="*.js.gz"/>
 		</depend>
@@ -1331,7 +1332,7 @@
 	<pathconvert property="__files-to-compress__" pathsep=",">
 	    <fileset dir="${__from-dir-loc__}">
 		<exclude name="**/nls/"/>
-                <exclude name="_base/dojo/"/>
+                <exclude name="_dojo/"/>
                 <exclude name="${theme.bootstrap.js}"/>
                 <exclude name="${theme.dnd.js}"/>
                 <exclude name="${theme.webui.js}"/>
@@ -1387,7 +1388,7 @@
 	<uptodate property="jsdoc-uptodate">
 	    <srcfiles dir="${theme.build-package-path}/javascript_uncompressed"
 		includes="**/*.js"
-		excludes="_base/theme/nls/,_base/dojo/,${theme.bootstrap.js},${theme.dnd.js},${theme.webui.js},${theme.webui-all.js},${theme.webui-jsfx.js},${theme.webui-jsfx-all.js}"/>
+		excludes="_theme/nls/,_dojo/,${theme.bootstrap.js},${theme.dnd.js},${theme.webui.js},${theme.webui-all.js},${theme.webui-jsfx.js},${theme.webui-jsfx-all.js}"/>
 	    <mergemapper to="${jsdocs}/index.html"/>
 	</uptodate>
     </target>
@@ -1433,7 +1434,7 @@
 	<pathconvert property="__files-to-doc__" pathsep=" ">
 	    <fileset dir="${__from-dir-loc__}">
 		<exclude name="**/nls/"/>
-                <exclude name="_base/dojo/"/>
+                <exclude name="_dojo/"/>
                 <exclude name="${theme.bootstrap.js}"/>
                 <exclude name="${theme.dnd.js}"/>
                 <exclude name="${theme.webui.js}"/>

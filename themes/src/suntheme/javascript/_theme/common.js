@@ -20,11 +20,11 @@
  * Copyright 2008 Sun Microsystems, Inc. All rights reserved.
  */
 
-webui.@THEME_JS@._base.dojo.provide("webui.@THEME_JS@._base.theme.common");
+webui.@THEME_JS@._dojo.provide("webui.@THEME_JS@._theme.common");
 
-webui.@THEME_JS@._base.dojo.require("webui.@THEME_JS@._base.config");
-webui.@THEME_JS@._base.dojo.require("webui.@THEME_JS@._base.dojo.i18n");
-webui.@THEME_JS@._base.dojo.require("webui.@THEME_JS@._base.proto");
+webui.@THEME_JS@._dojo.require("webui.@THEME_JS@._base.config");
+webui.@THEME_JS@._dojo.require("webui.@THEME_JS@._base.proto");
+webui.@THEME_JS@._dojo.require("webui.@THEME_JS@._dojo.i18n");
 
 /**
  * @class This class contains common functions to obtain theme properties.
@@ -40,11 +40,11 @@ webui.@THEME_JS@._base.dojo.require("webui.@THEME_JS@._base.proto");
  * </ul>
  * <p>
  * Each category has a set of properties. See the methods in
- * webui.@THEME_JS@._base.theme.common for obtaining the theme property values.
+ * webui.@THEME_JS@._theme.common for obtaining the theme property values.
  * </p>
  * @static
  */
-webui.@THEME_JS@._base.theme.common = {
+webui.@THEME_JS@._theme.common = {
     /**
      * This function is used to set widget properties with Object literals.
      *
@@ -66,11 +66,11 @@ webui.@THEME_JS@._base.theme.common = {
             return false;
         }
         var module = "webui.@THEME_JS@.theme";
-        var theme = webui.@THEME_JS@._base.theme.common;
+        var theme = webui.@THEME_JS@._theme.common;
 
         // Register module path.
 	if (props.modulePath) {
-	    webui.@THEME_JS@._base.dojo.registerModulePath(module, props.modulePath);
+	    webui.@THEME_JS@._dojo.registerModulePath(module, props.modulePath);
 	}
 
         // Load the javascript theme.
@@ -80,7 +80,7 @@ webui.@THEME_JS@._base.theme.common = {
         theme._requireLocalization(module, props.bundle, 
             (props.locale == "en" || props.locale == "en-us") ? "ROOT" : props.locale);
 
-        theme.baseTheme = webui.@THEME_JS@._base.dojo.i18n.getLocalization(module,
+        theme.baseTheme = webui.@THEME_JS@._dojo.i18n.getLocalization(module,
             props.bundle, props.locale);
 
         if (props.custom instanceof Array) {
@@ -108,7 +108,7 @@ webui.@THEME_JS@._base.theme.common = {
             return false;
         }
         var config = webui.@THEME_JS@._base.config;
-        var theme = webui.@THEME_JS@._base.theme.common;
+        var theme = webui.@THEME_JS@._theme.common;
         var segments = themePackage.split(".");
         var bundle = segments[segments.length - 1];
         var module = segments.slice(0, segments.length - 1).join(".");
@@ -120,11 +120,11 @@ webui.@THEME_JS@._base.theme.common = {
 	    var modulePath = theme._getPrefix();
             if (module == null || module == "") {
                 theme.custom = {};
-                module = "webui.@THEME_JS@._base.theme.common.custom";
+                module = "webui.@THEME_JS@._theme.common.custom";
             } else {
 		// Only do this if the application did provided a
 		// module. When the application does not provide
-		// a module then ""webui.@THEME_JS@._base.theme.common.custom"
+		// a module then ""webui.@THEME_JS@._theme.common.custom"
 		// will be used as the module and then only
 		// the app context needs to be specified as the
 		// modulePath, the root of the resource files.
@@ -135,14 +135,14 @@ webui.@THEME_JS@._base.theme.common = {
 		var re = new RegExp("\\.", "g");
 		modulePath = modulePath + "/" + module.replace(re, "/");
 	    }
-            webui.@THEME_JS@._base.dojo.registerModulePath(module, modulePath);
+            webui.@THEME_JS@._dojo.registerModulePath(module, modulePath);
             theme._requireLocalization(module, bundle, config.theme.locale);
         } catch(e) {
 	    return false;
         }
         var newTheme = null;
         try {
-            newTheme = webui.@THEME_JS@._base.dojo.i18n.getLocalization(module, bundle, 
+            newTheme = webui.@THEME_JS@._dojo.i18n.getLocalization(module, bundle, 
                 config.theme.locale);
         } catch(e) {
 	    return false;
@@ -169,7 +169,7 @@ webui.@THEME_JS@._base.theme.common = {
      * @private
      */
     _getClassName: function(key, defaultValue) {
-        var className = webui.@THEME_JS@._base.theme.common._getProperty("styles", key);
+        var className = webui.@THEME_JS@._theme.common._getProperty("styles", key);
         return (className != null) 
             ? className
             : (defaultValue) 
@@ -190,10 +190,10 @@ webui.@THEME_JS@._base.theme.common = {
      * the property is resolved to its message value.
      * This method should be called with the actual message property
      * and not one of its variants like "ALARM_CRITICAL_ALT". Use
-     * "webui.@THEME_JS@._base.theme.common._getProperty("images", "ALARM_CRITICAL_ALT")"
+     * "webui.@THEME_JS@._theme.common._getProperty("images", "ALARM_CRITICAL_ALT")"
      * to get individual values if desired.
      * If the literal path is desired, without the prefix, use
-     * "webui.@THEME_JS@._base.theme.common._getProperty("images", imageprop)"
+     * "webui.@THEME_JS@._theme.common._getProperty("images", imageprop)"
      * where imageprop is the actual image property like "ALARM_CRITICAL".
      *
      * @param {String} srcProperty the image theme key, the image key without any suffix.
@@ -220,7 +220,7 @@ webui.@THEME_JS@._base.theme.common = {
 	// If this key does not have a value the image is not defined
 	// in the theme
 	//
-        var theme = webui.@THEME_JS@._base.theme.common;
+        var theme = webui.@THEME_JS@._theme.common;
 	var src = theme._getImageProp(srcProperty, false);
 	if (src == null) {
 	    return null;
@@ -272,7 +272,7 @@ webui.@THEME_JS@._base.theme.common = {
      * @private
      */
     _getImageProp: function(prop, isText) {
-        var theme = webui.@THEME_JS@._base.theme.common;
+        var theme = webui.@THEME_JS@._theme.common;
 	var value = theme._getProperty("images", prop);
 	if (value == null || value.length == 0) {
 	    return null;
@@ -295,7 +295,7 @@ webui.@THEME_JS@._base.theme.common = {
      * @private
      */
     _getJavaScript: function(key) {
-        var theme = webui.@THEME_JS@._base.theme.common;
+        var theme = webui.@THEME_JS@._theme.common;
 	var url = theme._getProperty("javascript", key);
 	if (url == null || url.length == 0) {
 	    return null;
@@ -312,7 +312,7 @@ webui.@THEME_JS@._base.theme.common = {
      * @private
      */
     _getJavaScripts: function(key) {
-        var theme = webui.@THEME_JS@._base.theme.common;
+        var theme = webui.@THEME_JS@._theme.common;
 	var url = theme._getProperty("javascript", key);
 	if (url == null || url.length == 0) {
 	    return null;
@@ -345,7 +345,7 @@ webui.@THEME_JS@._base.theme.common = {
      * @private
      */
     _getMessage: function(key, args, defaultValue) {
-	var msg = webui.@THEME_JS@._base.theme.common._getProperty("messages", key);
+	var msg = webui.@THEME_JS@._theme.common._getProperty("messages", key);
 	if (msg == null) {
 	    return null;
 	}
@@ -389,7 +389,7 @@ webui.@THEME_JS@._base.theme.common = {
      */
     _getMessageBoolean: function(key, defaultValue) {
 	var result = defaultValue != null ? defaultValue : false;
-        var msg =  webui.@THEME_JS@._base.theme.common._getMessage(key, null);
+        var msg =  webui.@THEME_JS@._theme.common._getMessage(key, null);
 	if (msg == null || msg == "") {
 	    return result;
 	}
@@ -425,7 +425,7 @@ webui.@THEME_JS@._base.theme.common = {
      */
     _getProperty: function(category, key) {
         try {
-            var p = webui.@THEME_JS@._base.theme.common.baseTheme[category][key];
+            var p = webui.@THEME_JS@._theme.common.baseTheme[category][key];
             return p == null || p == "" ? null : p;
         } catch (e) {
             return null;
@@ -441,7 +441,7 @@ webui.@THEME_JS@._base.theme.common = {
      * @private
      */
     _getStyleSheets: function(key) {
-        var theme = webui.@THEME_JS@._base.theme.common;
+        var theme = webui.@THEME_JS@._theme.common;
 	var url = theme._getProperty("stylesheets", key);
 	if (url == null || url.length == 0) {
 	    return null;
@@ -462,7 +462,7 @@ webui.@THEME_JS@._base.theme.common = {
      * @private
      */
     _getTemplate: function(key) {
-        return webui.@THEME_JS@._base.theme.common._getProperty("templates", key);
+        return webui.@THEME_JS@._theme.common._getProperty("templates", key);
     },
 
     /**
@@ -474,7 +474,7 @@ webui.@THEME_JS@._base.theme.common = {
      * @private
      */
     _getTemplatePath: function(key) {
-        var theme = webui.@THEME_JS@._base.theme.common;
+        var theme = webui.@THEME_JS@._theme.common;
         var template = theme._getTemplate(key);
         if (theme._isTemplatePath(template)) {
             return theme._getPrefix() + "/" + template;
@@ -492,7 +492,7 @@ webui.@THEME_JS@._base.theme.common = {
      * @private
      */
     _getTemplateString: function(key) {
-        var theme = webui.@THEME_JS@._base.theme.common;
+        var theme = webui.@THEME_JS@._theme.common;
         var template = theme._getTemplate(key);
         if (!theme._isTemplatePath(template)) {
             return template;
@@ -518,9 +518,9 @@ webui.@THEME_JS@._base.theme.common = {
 
     /**
      * Declares translated resources and loads them if necessary, in the same 
-     * style as webui.@THEME_JS@._base.dojo.require. Contents of the resource bundle are typically 
+     * style as webui.@THEME_JS@._dojo.require. Contents of the resource bundle are typically 
      * strings, but may be any name/value pair, represented in JSON format. 
-     * See also webui.@THEME_JS@._base.dojo.i18n.getLocalization.
+     * See also webui.@THEME_JS@._dojo.i18n.getLocalization.
      * <p>
      * Load translated resource bundles provided underneath the "nls" directory
      * within a package. Translated resources may be located in different
@@ -578,7 +578,7 @@ webui.@THEME_JS@._base.theme.common = {
      * directory in which the bundle is found.
      * @param {String} bundleName The bundle name, i.e. the filename without the
      * '.js' suffix locale: the locale to load (optional). By default, the 
-     * browser's user locale as defined by webui.@THEME_JS@._base.dojo.locale
+     * browser's user locale as defined by webui.@THEME_JS@._dojo.locale
      * @param {String} locale The current locale.
      * @param {String} availableFlatLocales A comma-separated list of the 
      * available, flattened locales for this bundle.
@@ -587,10 +587,10 @@ webui.@THEME_JS@._base.theme.common = {
      */
     _requireLocalization: function(moduleName, bundleName, locale, 
             availableFlatLocales) {
-        // Taken from webui.@THEME_JS@._base.dojo.js in order to override the callback function that is 
+        // Taken from webui.@THEME_JS@._dojo.js in order to override the callback function that is 
         // passed to loadPath, in to perform hierarchical "extension" of properties.
 
-        var targetLocale = webui.@THEME_JS@._base.dojo.i18n.normalizeLocale(locale);
+        var targetLocale = webui.@THEME_JS@._dojo.i18n.normalizeLocale(locale);
         var bundlePackage = [moduleName, "nls", bundleName].join(".");
         
         // Find the best-match locale to load if we have available flat locales.
@@ -612,7 +612,7 @@ webui.@THEME_JS@._base.theme.common = {
 
         // See if the desired locale is already loaded.
         var tempLocale = availableFlatLocales ? bestLocale : targetLocale;
-        var bundle = webui.@THEME_JS@._base.dojo._loadedModules[bundlePackage];
+        var bundle = webui.@THEME_JS@._dojo._loadedModules[bundlePackage];
         var localizedBundle = null;
         if (bundle) {
             if (webui.@THEME_JS@._base.config.djConfig.localizationComplete && bundle._built) {
@@ -620,31 +620,31 @@ webui.@THEME_JS@._base.theme.common = {
             }
             var jsLoc = tempLocale.replace(/-/g, '_');
             var translationPackage = bundlePackage+"."+jsLoc;
-            localizedBundle = webui.@THEME_JS@._base.dojo._loadedModules[translationPackage];
+            localizedBundle = webui.@THEME_JS@._dojo._loadedModules[translationPackage];
         }
 
         if (!localizedBundle) {
-            bundle = webui.@THEME_JS@._base.dojo["provide"](bundlePackage);
-            var syms = webui.@THEME_JS@._base.dojo._getModuleSymbols(moduleName);
+            bundle = webui.@THEME_JS@._dojo["provide"](bundlePackage);
+            var syms = webui.@THEME_JS@._dojo._getModuleSymbols(moduleName);
             var modpath = syms.concat("nls").join("/");
             var parent;
 
-            webui.@THEME_JS@._base.dojo.i18n._searchLocalePath(tempLocale, availableFlatLocales, function(loc) {
+            webui.@THEME_JS@._dojo.i18n._searchLocalePath(tempLocale, availableFlatLocales, function(loc) {
                 var jsLoc = loc.replace(/-/g, '_');
                 var translationPackage = bundlePackage + "." + jsLoc;
                 var loaded = false;
-                if (!webui.@THEME_JS@._base.dojo._loadedModules[translationPackage]) {
+                if (!webui.@THEME_JS@._dojo._loadedModules[translationPackage]) {
                     // Mark loaded whether it's found or not, 
                     // so that further load attempts will not 
                     // be made
-                    webui.@THEME_JS@._base.dojo["provide"](translationPackage);
+                    webui.@THEME_JS@._dojo["provide"](translationPackage);
                     var module = [modpath];
                     if (loc != "ROOT") {
                         module.push(loc);    
                     }
                     module.push(bundleName);
                     var filespec = module.join("/") + '.js';
-                    loaded = webui.@THEME_JS@._base.dojo._loadPath(filespec, null, function(hash) {
+                    loaded = webui.@THEME_JS@._dojo._loadPath(filespec, null, function(hash) {
                         // Use singleton with prototype to point to parent
                         // bundle, then mix-in result from loadPath
                         var clazz = function() {};
@@ -685,4 +685,4 @@ webui.@THEME_JS@._base.theme.common = {
 };
 
 // Initialize the theme.
-webui.@THEME_JS@._base.theme.common._init(webui.@THEME_JS@._base.config.theme);
+webui.@THEME_JS@._theme.common._init(webui.@THEME_JS@._base.config.theme);

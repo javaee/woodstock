@@ -20,12 +20,12 @@
  * Copyright 2008 Sun Microsystems, Inc. All rights reserved.
  */
 
-webui.@THEME_JS@._base.dojo.provide("webui.@THEME_JS@.widget.table2RowGroup");
+webui.@THEME_JS@._dojo.provide("webui.@THEME_JS@.widget.table2RowGroup");
 
-webui.@THEME_JS@._base.dojo.require("webui.@THEME_JS@._base.browser");
-webui.@THEME_JS@._base.dojo.require("webui.@THEME_JS@.widget.common");
-webui.@THEME_JS@._base.dojo.require("webui.@THEME_JS@.widget._base.widgetBase");
-webui.@THEME_JS@._base.dojo.require("webui.@THEME_JS@._base.theme.common");
+webui.@THEME_JS@._dojo.require("webui.@THEME_JS@._base.browser");
+webui.@THEME_JS@._dojo.require("webui.@THEME_JS@.widget.common");
+webui.@THEME_JS@._dojo.require("webui.@THEME_JS@.widget._base.widgetBase");
+webui.@THEME_JS@._dojo.require("webui.@THEME_JS@._theme.common");
 
 /**
  * This function is used to construct a table2RowGroup widget.
@@ -65,7 +65,7 @@ webui.@THEME_JS@._base.dojo.require("webui.@THEME_JS@._base.theme.common");
  * @config {String} valign 
  * @config {boolean} visible Hide or show element.
  */
-webui.@THEME_JS@._base.dojo.declare("webui.@THEME_JS@.widget.table2RowGroup",
+webui.@THEME_JS@._dojo.declare("webui.@THEME_JS@.widget.table2RowGroup",
         webui.@THEME_JS@.widget._base.widgetBase, {
     // Set defaults.
     constructor: function() {
@@ -78,21 +78,21 @@ webui.@THEME_JS@._base.dojo.declare("webui.@THEME_JS@.widget.table2RowGroup",
     _primarySortOptions: [{
         "group": false,
         "value": "sort",
-        "label": webui.@THEME_JS@._base.theme.common._getMessage("table2.sortByThisColumn"),
+        "label": webui.@THEME_JS@._theme.common._getMessage("table2.sortByThisColumn"),
         "disabled": true,
         "separator": false,
         "escape": true
     }, {
         "group": false,
         "value": "primaryAscending",
-        "label": webui.@THEME_JS@._base.theme.common._getMessage("table2.sortAscending"),
+        "label": webui.@THEME_JS@._theme.common._getMessage("table2.sortAscending"),
         "disabled": false,
         "separator": false,
         "escape": true
     }, {
         "group": false,
         "value": "primaryDescending",
-        "label": webui.@THEME_JS@._base.theme.common._getMessage("table2.sortDescending"),
+        "label": webui.@THEME_JS@._theme.common._getMessage("table2.sortDescending"),
         "disabled": false,
         "separator": true,
         "escape": true
@@ -101,7 +101,7 @@ webui.@THEME_JS@._base.dojo.declare("webui.@THEME_JS@.widget.table2RowGroup",
     _clearSortOptions: [{
         "group": false,
         "value": "clear",
-        "label": webui.@THEME_JS@._base.theme.common._getMessage("table2.clearSort"),
+        "label": webui.@THEME_JS@._theme.common._getMessage("table2.clearSort"),
         "disabled": false,
         "separator": false,
         "escape": true
@@ -110,21 +110,21 @@ webui.@THEME_JS@._base.dojo.declare("webui.@THEME_JS@.widget.table2RowGroup",
     _secondarySortOptions: [{
         "group": false,
         "value": "sort",
-        "label": webui.@THEME_JS@._base.theme.common._getMessage("table2.addColumnSort"),
+        "label": webui.@THEME_JS@._theme.common._getMessage("table2.addColumnSort"),
         "disabled": true,
         "separator": false,
         "escape": true
     }, {
         "group": false,
         "value": "ascending",
-        "label": webui.@THEME_JS@._base.theme.common._getMessage("table2.sortAscending"),
+        "label": webui.@THEME_JS@._theme.common._getMessage("table2.sortAscending"),
         "disabled": false,
         "separator": false,
         "escape": true
     }, {
         "group": false,
         "value": "descending",
-        "label": webui.@THEME_JS@._base.theme.common._getMessage("table2.sortDescending"),
+        "label": webui.@THEME_JS@._theme.common._getMessage("table2.sortDescending"),
         "disabled": false,
         "separator": true,
         "escape": true

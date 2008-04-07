@@ -20,11 +20,11 @@
  * Copyright 2008 Sun Microsystems, Inc. All rights reserved.
  */
 
-webui.@THEME_JS@._base.dojo.provide("webui.@THEME_JS@.widget._jsfx.imageHyperlink");
+webui.@THEME_JS@._dojo.provide("webui.@THEME_JS@.widget._jsfx.imageHyperlink");
 
-webui.@THEME_JS@._base.dojo.require("webui.@THEME_JS@.widget._jsfx.common");
-webui.@THEME_JS@._base.dojo.require("webui.@THEME_JS@.widget.imageHyperlink");
+webui.@THEME_JS@._dojo.require("webui.@THEME_JS@.widget._jsfx.common");
+webui.@THEME_JS@._dojo.require("webui.@THEME_JS@.widget.imageHyperlink");
 
 // Listen for Dojo Widget events.
-webui.@THEME_JS@._base.dojo.subscribe(webui.@THEME_JS@.widget.imageHyperlink.event.refresh.beginTopic,
+webui.@THEME_JS@._dojo.subscribe(webui.@THEME_JS@.widget.imageHyperlink.event.refresh.beginTopic,
     webui.@THEME_JS@.widget._jsfx.common, "_processRefreshEvent");

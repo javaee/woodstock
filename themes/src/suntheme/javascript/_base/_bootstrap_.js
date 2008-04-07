@@ -61,7 +61,7 @@ if (typeof webui.@THEME_JS@ == "undefined") {
                 return false;
             }
             var bootstrap = webui.@THEME_JS@._base.bootstrap;
-            var theme = webui.@THEME_JS@._base.theme.common;
+            var theme = webui.@THEME_JS@._theme.common;
             var isDebug = new Boolean(props.isDebug).valueOf();
             var webuiAll = new Boolean(props.webuiAll).valueOf();
             var webuiJsfx = new Boolean(props.webuiJsfx).valueOf();
@@ -140,7 +140,7 @@ if (typeof webui.@THEME_JS@ == "undefined") {
             // Set Dojo base URL.
             if (props._djConfig == null) { props._djConfig = {}; }
             if (props._djConfig.baseUrl == null) {
-                props._djConfig.baseUrl = props.modulePath + "/_base/dojo";
+                props._djConfig.baseUrl = props.modulePath + "/_dojo";
             }
 
             // Set Dojo debug mode.
@@ -151,7 +151,7 @@ if (typeof webui.@THEME_JS@ == "undefined") {
             // Set theme module path.
             if (props.theme == null) { props.theme = {}; }
             if (props.theme.modulePath == null) {
-                props.theme.modulePath = props.modulePath + "/_base/theme";
+                props.theme.modulePath = props.modulePath + "/_theme";
             }
 
             // Set application context.
@@ -180,14 +180,14 @@ if (typeof webui.@THEME_JS@ == "undefined") {
             }
 
             // Register module path.
-            webui.@THEME_JS@._base.dojo.registerModulePath("webui.@THEME_JS@", props.modulePath);
+            webui.@THEME_JS@._dojo.registerModulePath("webui.@THEME_JS@", props.modulePath);
 
             // Dojo inserts a div into body for HTML template rendering; therefore, 
             // we must wait until the window.onLoad event before creating widgets. 
             // Otherwise, IE will throw a security exception.
             if (new Boolean(props.parseOnLoad).valueOf() == true) {
-                webui.@THEME_JS@._base.dojo.addOnLoad(function() {
-                    webui.@THEME_JS@.widget.common._parseMarkup(webui.@THEME_JS@._base.dojo.body());
+                webui.@THEME_JS@._dojo.addOnLoad(function() {
+                    webui.@THEME_JS@.widget.common._parseMarkup(webui.@THEME_JS@._dojo.body());
                     webui.@THEME_JS@._base.bootstrap._onWidgetReady(function() {
                         // After the page has been parsed, there is no need to 
                         // perform this task again. Setting the parseOnLoad flag
@@ -291,7 +291,7 @@ if (typeof webui.@THEME_JS@ == "undefined") {
             var bootstrap = webui.@THEME_JS@._base.bootstrap;
             var browser = webui.@THEME_JS@._base.browser;
             var isDebug = new Boolean(props.isDebug).valueOf();
-            var theme = webui.@THEME_JS@._base.theme.common;
+            var theme = webui.@THEME_JS@._theme.common;
 
             // Load master style sheet(s).
             files = theme._getStyleSheets((isDebug) ? "masterUncompressed" : "master");
@@ -366,15 +366,15 @@ if (typeof webui.@THEME_JS@ == "undefined") {
 
 // Note: The following require statements must be located at the beginning of 
 // each line in order to be replaced by the build.
-webui.@THEME_JS@._base.dojo.require("webui.@THEME_JS@._base.dojo.dojo"); // Replaced by build.
+webui.@THEME_JS@._dojo.require("webui.@THEME_JS@._dojo.dojo"); // Replaced by build.
 
     // Initialize webui.
     webui.@THEME_JS@._base.bootstrap._initWebui(webui_@THEME_JS@);
 
-webui.@THEME_JS@._base.dojo.require("webui.@THEME_JS@._base.browser"); // Replaced by build.
-webui.@THEME_JS@._base.dojo.require("webui.@THEME_JS@._base.config"); // Replaced by build.
-webui.@THEME_JS@._base.dojo.require("webui.@THEME_JS@._base.theme.common"); // Replaced by build.
-webui.@THEME_JS@._base.dojo.require("webui.@THEME_JS@.widget.common"); // Replaced by build.
+webui.@THEME_JS@._dojo.require("webui.@THEME_JS@._base.browser"); // Replaced by build.
+webui.@THEME_JS@._dojo.require("webui.@THEME_JS@._base.config"); // Replaced by build.
+webui.@THEME_JS@._dojo.require("webui.@THEME_JS@._theme.common"); // Replaced by build.
+webui.@THEME_JS@._dojo.require("webui.@THEME_JS@.widget.common"); // Replaced by build.
 
     // Initialize files.
     webui.@THEME_JS@._base.bootstrap._initFiles(webui.@THEME_JS@._base.config);

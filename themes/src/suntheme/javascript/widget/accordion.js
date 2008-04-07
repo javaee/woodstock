@@ -20,11 +20,11 @@
  * Copyright 2008 Sun Microsystems, Inc. All rights reserved.
  */
 
-webui.@THEME_JS@._base.dojo.provide("webui.@THEME_JS@.widget.accordion");
+webui.@THEME_JS@._dojo.provide("webui.@THEME_JS@.widget.accordion");
 
-webui.@THEME_JS@._base.dojo.require("webui.@THEME_JS@.widget.accordionTab");
-webui.@THEME_JS@._base.dojo.require("webui.@THEME_JS@.widget.common");
-webui.@THEME_JS@._base.dojo.require("webui.@THEME_JS@.widget._base.widgetBase");
+webui.@THEME_JS@._dojo.require("webui.@THEME_JS@.widget.accordionTab");
+webui.@THEME_JS@._dojo.require("webui.@THEME_JS@.widget.common");
+webui.@THEME_JS@._dojo.require("webui.@THEME_JS@.widget._base.widgetBase");
 
 /**
  * This function is used to construct an accordion widget.
@@ -46,7 +46,7 @@ webui.@THEME_JS@._base.dojo.require("webui.@THEME_JS@.widget._base.widgetBase");
  * @config {boolean} toggleControls Set to true if expand/collapse icons should be set.
  * @config {boolean} visible Hide or show element.
  */
-webui.@THEME_JS@._base.dojo.declare("webui.@THEME_JS@.widget.accordion",
+webui.@THEME_JS@._dojo.declare("webui.@THEME_JS@.widget.accordion",
         webui.@THEME_JS@.widget._base.widgetBase, {
     // Set defaults.
     constructor: function() {

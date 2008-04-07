@@ -17,32 +17,32 @@
 	for documentation and information on getting the source.
 */
 
-if(!webui.@THEME_JS@._base.dojo._hasResource["webui.@THEME_JS@._base.dojo.dnd.common"]){ //_hasResource checks added by build. Do not use _hasResource directly in your code.
-webui.@THEME_JS@._base.dojo._hasResource["webui.@THEME_JS@._base.dojo.dnd.common"] = true;
-webui.@THEME_JS@._base.dojo.provide("webui.@THEME_JS@._base.dojo.dnd.common");
+if(!webui.@THEME_JS@._dojo._hasResource["webui.@THEME_JS@._dojo.dnd.common"]){ //_hasResource checks added by build. Do not use _hasResource directly in your code.
+webui.@THEME_JS@._dojo._hasResource["webui.@THEME_JS@._dojo.dnd.common"] = true;
+webui.@THEME_JS@._dojo.provide("webui.@THEME_JS@._dojo.dnd.common");
 
-webui.@THEME_JS@._base.dojo.dnd._copyKey = navigator.appVersion.indexOf("Macintosh") < 0 ? "ctrlKey" : "metaKey";
+webui.@THEME_JS@._dojo.dnd._copyKey = navigator.appVersion.indexOf("Macintosh") < 0 ? "ctrlKey" : "metaKey";
 
-webui.@THEME_JS@._base.dojo.dnd.getCopyKeyState = function(e) {
+webui.@THEME_JS@._dojo.dnd.getCopyKeyState = function(e) {
 	// summary: abstracts away the difference between selection on Mac and PC,
 	//	and returns the state of the "copy" key to be pressed.
 	// e: Event: mouse event
-	return e[webui.@THEME_JS@._base.dojo.dnd._copyKey];	// Boolean
+	return e[webui.@THEME_JS@._dojo.dnd._copyKey];	// Boolean
 };
 
-webui.@THEME_JS@._base.dojo.dnd._uniqueId = 0;
-webui.@THEME_JS@._base.dojo.dnd.getUniqueId = function(){
+webui.@THEME_JS@._dojo.dnd._uniqueId = 0;
+webui.@THEME_JS@._dojo.dnd.getUniqueId = function(){
 	// summary: returns a unique string for use with any DOM element
 	var id;
 	do{
-		id = "dojoUnique" + (++webui.@THEME_JS@._base.dojo.dnd._uniqueId);
-	}while(webui.@THEME_JS@._base.dojo.byId(id));
+		id = "dojoUnique" + (++webui.@THEME_JS@._dojo.dnd._uniqueId);
+	}while(webui.@THEME_JS@._dojo.byId(id));
 	return id;
 };
 
-webui.@THEME_JS@._base.dojo.dnd._empty = {};
+webui.@THEME_JS@._dojo.dnd._empty = {};
 
-webui.@THEME_JS@._base.dojo.dnd.isFormElement = function(/*Event*/ e){
+webui.@THEME_JS@._dojo.dnd.isFormElement = function(/*Event*/ e){
 	// summary: returns true, if user clicked on a form element
 	var t = e.target;
 	if(t.nodeType == 3 /*TEXT_NODE*/){
@@ -53,20 +53,20 @@ webui.@THEME_JS@._base.dojo.dnd.isFormElement = function(/*Event*/ e){
 
 }
 
-if(!webui.@THEME_JS@._base.dojo._hasResource["webui.@THEME_JS@._base.dojo.dnd.autoscroll"]){ //_hasResource checks added by build. Do not use _hasResource directly in your code.
-webui.@THEME_JS@._base.dojo._hasResource["webui.@THEME_JS@._base.dojo.dnd.autoscroll"] = true;
-webui.@THEME_JS@._base.dojo.provide("webui.@THEME_JS@._base.dojo.dnd.autoscroll");
+if(!webui.@THEME_JS@._dojo._hasResource["webui.@THEME_JS@._dojo.dnd.autoscroll"]){ //_hasResource checks added by build. Do not use _hasResource directly in your code.
+webui.@THEME_JS@._dojo._hasResource["webui.@THEME_JS@._dojo.dnd.autoscroll"] = true;
+webui.@THEME_JS@._dojo.provide("webui.@THEME_JS@._dojo.dnd.autoscroll");
 
-webui.@THEME_JS@._base.dojo.dnd.getViewport = function(){
+webui.@THEME_JS@._dojo.dnd.getViewport = function(){
 	// summary: returns a viewport size (visible part of the window)
 
 	// FIXME: need more docs!!
-	var d = webui.@THEME_JS@._base.dojo.doc, dd = d.documentElement, w = window, b = webui.@THEME_JS@._base.dojo.body();
-	if(webui.@THEME_JS@._base.dojo.isMozilla){
+	var d = webui.@THEME_JS@._dojo.doc, dd = d.documentElement, w = window, b = webui.@THEME_JS@._dojo.body();
+	if(webui.@THEME_JS@._dojo.isMozilla){
 		return {w: dd.clientWidth, h: w.innerHeight};	// Object
-	}else if(!webui.@THEME_JS@._base.dojo.isOpera && w.innerWidth){
+	}else if(!webui.@THEME_JS@._dojo.isOpera && w.innerWidth){
 		return {w: w.innerWidth, h: w.innerHeight};		// Object
-	}else if (!webui.@THEME_JS@._base.dojo.isOpera && dd && dd.clientWidth){
+	}else if (!webui.@THEME_JS@._dojo.isOpera && dd && dd.clientWidth){
 		return {w: dd.clientWidth, h: dd.clientHeight};	// Object
 	}else if (b.clientWidth){
 		return {w: b.clientWidth, h: b.clientHeight};	// Object
@@ -74,13 +74,13 @@ webui.@THEME_JS@._base.dojo.dnd.getViewport = function(){
 	return null;	// Object
 };
 
-webui.@THEME_JS@._base.dojo.dnd.V_TRIGGER_AUTOSCROLL = 32;
-webui.@THEME_JS@._base.dojo.dnd.H_TRIGGER_AUTOSCROLL = 32;
+webui.@THEME_JS@._dojo.dnd.V_TRIGGER_AUTOSCROLL = 32;
+webui.@THEME_JS@._dojo.dnd.H_TRIGGER_AUTOSCROLL = 32;
 
-webui.@THEME_JS@._base.dojo.dnd.V_AUTOSCROLL_VALUE = 16;
-webui.@THEME_JS@._base.dojo.dnd.H_AUTOSCROLL_VALUE = 16;
+webui.@THEME_JS@._dojo.dnd.V_AUTOSCROLL_VALUE = 16;
+webui.@THEME_JS@._dojo.dnd.H_AUTOSCROLL_VALUE = 16;
 
-webui.@THEME_JS@._base.dojo.dnd.autoScroll = function(e){
+webui.@THEME_JS@._dojo.dnd.autoScroll = function(e){
 	// summary:
 	//		a handler for onmousemove event, which scrolls the window, if
 	//		necesary
@@ -88,55 +88,55 @@ webui.@THEME_JS@._base.dojo.dnd.autoScroll = function(e){
 	//		onmousemove event
 
 	// FIXME: needs more docs!
-	var v = webui.@THEME_JS@._base.dojo.dnd.getViewport(), dx = 0, dy = 0;
-	if(e.clientX < webui.@THEME_JS@._base.dojo.dnd.H_TRIGGER_AUTOSCROLL){
-		dx = -webui.@THEME_JS@._base.dojo.dnd.H_AUTOSCROLL_VALUE;
-	}else if(e.clientX > v.w - webui.@THEME_JS@._base.dojo.dnd.H_TRIGGER_AUTOSCROLL){
-		dx = webui.@THEME_JS@._base.dojo.dnd.H_AUTOSCROLL_VALUE;
+	var v = webui.@THEME_JS@._dojo.dnd.getViewport(), dx = 0, dy = 0;
+	if(e.clientX < webui.@THEME_JS@._dojo.dnd.H_TRIGGER_AUTOSCROLL){
+		dx = -webui.@THEME_JS@._dojo.dnd.H_AUTOSCROLL_VALUE;
+	}else if(e.clientX > v.w - webui.@THEME_JS@._dojo.dnd.H_TRIGGER_AUTOSCROLL){
+		dx = webui.@THEME_JS@._dojo.dnd.H_AUTOSCROLL_VALUE;
 	}
-	if(e.clientY < webui.@THEME_JS@._base.dojo.dnd.V_TRIGGER_AUTOSCROLL){
-		dy = -webui.@THEME_JS@._base.dojo.dnd.V_AUTOSCROLL_VALUE;
-	}else if(e.clientY > v.h - webui.@THEME_JS@._base.dojo.dnd.V_TRIGGER_AUTOSCROLL){
-		dy = webui.@THEME_JS@._base.dojo.dnd.V_AUTOSCROLL_VALUE;
+	if(e.clientY < webui.@THEME_JS@._dojo.dnd.V_TRIGGER_AUTOSCROLL){
+		dy = -webui.@THEME_JS@._dojo.dnd.V_AUTOSCROLL_VALUE;
+	}else if(e.clientY > v.h - webui.@THEME_JS@._dojo.dnd.V_TRIGGER_AUTOSCROLL){
+		dy = webui.@THEME_JS@._dojo.dnd.V_AUTOSCROLL_VALUE;
 	}
 	window.scrollBy(dx, dy);
 };
 
-webui.@THEME_JS@._base.dojo.dnd._validNodes = {"div": 1, "p": 1, "td": 1};
-webui.@THEME_JS@._base.dojo.dnd._validOverflow = {"auto": 1, "scroll": 1};
+webui.@THEME_JS@._dojo.dnd._validNodes = {"div": 1, "p": 1, "td": 1};
+webui.@THEME_JS@._dojo.dnd._validOverflow = {"auto": 1, "scroll": 1};
 
-webui.@THEME_JS@._base.dojo.dnd.autoScrollNodes = function(e){
+webui.@THEME_JS@._dojo.dnd.autoScrollNodes = function(e){
 	// summary:
 	//		a handler for onmousemove event, which scrolls the first avaialble
-	//		Dom element, it falls back to webui.@THEME_JS@._base.dojo.dnd.autoScroll()
+	//		Dom element, it falls back to webui.@THEME_JS@._dojo.dnd.autoScroll()
 	// e: Event:
 	//		onmousemove event
 
 	// FIXME: needs more docs!
 	for(var n = e.target; n;){
-		if(n.nodeType == 1 && (n.tagName.toLowerCase() in webui.@THEME_JS@._base.dojo.dnd._validNodes)){
-			var s = webui.@THEME_JS@._base.dojo.getComputedStyle(n);
-			if(s.overflow.toLowerCase() in webui.@THEME_JS@._base.dojo.dnd._validOverflow){
-				var b = webui.@THEME_JS@._base.dojo._getContentBox(n, s), t = webui.@THEME_JS@._base.dojo._abs(n, true);
+		if(n.nodeType == 1 && (n.tagName.toLowerCase() in webui.@THEME_JS@._dojo.dnd._validNodes)){
+			var s = webui.@THEME_JS@._dojo.getComputedStyle(n);
+			if(s.overflow.toLowerCase() in webui.@THEME_JS@._dojo.dnd._validOverflow){
+				var b = webui.@THEME_JS@._dojo._getContentBox(n, s), t = webui.@THEME_JS@._dojo._abs(n, true);
 				// console.debug(b.l, b.t, t.x, t.y, n.scrollLeft, n.scrollTop);
 				b.l += t.x + n.scrollLeft;
 				b.t += t.y + n.scrollTop;
-				var w = Math.min(webui.@THEME_JS@._base.dojo.dnd.H_TRIGGER_AUTOSCROLL, b.w / 2), 
-					h = Math.min(webui.@THEME_JS@._base.dojo.dnd.V_TRIGGER_AUTOSCROLL, b.h / 2),
+				var w = Math.min(webui.@THEME_JS@._dojo.dnd.H_TRIGGER_AUTOSCROLL, b.w / 2), 
+					h = Math.min(webui.@THEME_JS@._dojo.dnd.V_TRIGGER_AUTOSCROLL, b.h / 2),
 					rx = e.pageX - b.l, ry = e.pageY - b.t, dx = 0, dy = 0;
 				if(rx > 0 && rx < b.w){
 					if(rx < w){
-						dx = -webui.@THEME_JS@._base.dojo.dnd.H_AUTOSCROLL_VALUE;
+						dx = -webui.@THEME_JS@._dojo.dnd.H_AUTOSCROLL_VALUE;
 					}else if(rx > b.w - w){
-						dx = webui.@THEME_JS@._base.dojo.dnd.H_AUTOSCROLL_VALUE;
+						dx = webui.@THEME_JS@._dojo.dnd.H_AUTOSCROLL_VALUE;
 					}
 				}
 				//console.debug("ry =", ry, "b.h =", b.h, "h =", h);
 				if(ry > 0 && ry < b.h){
 					if(ry < h){
-						dy = -webui.@THEME_JS@._base.dojo.dnd.V_AUTOSCROLL_VALUE;
+						dy = -webui.@THEME_JS@._dojo.dnd.V_AUTOSCROLL_VALUE;
 					}else if(ry > b.h - h){
-						dy = webui.@THEME_JS@._base.dojo.dnd.V_AUTOSCROLL_VALUE;
+						dy = webui.@THEME_JS@._dojo.dnd.V_AUTOSCROLL_VALUE;
 					}
 				}
 				var oldLeft = n.scrollLeft, oldTop = n.scrollTop;
@@ -152,47 +152,47 @@ webui.@THEME_JS@._base.dojo.dnd.autoScrollNodes = function(e){
 			n = null;
 		}
 	}
-	webui.@THEME_JS@._base.dojo.dnd.autoScroll(e);
+	webui.@THEME_JS@._dojo.dnd.autoScroll(e);
 };
 
 }
 
-if(!webui.@THEME_JS@._base.dojo._hasResource["webui.@THEME_JS@._base.dojo.dnd.Avatar"]){ //_hasResource checks added by build. Do not use _hasResource directly in your code.
-webui.@THEME_JS@._base.dojo._hasResource["webui.@THEME_JS@._base.dojo.dnd.Avatar"] = true;
-webui.@THEME_JS@._base.dojo.provide("webui.@THEME_JS@._base.dojo.dnd.Avatar");
+if(!webui.@THEME_JS@._dojo._hasResource["webui.@THEME_JS@._dojo.dnd.Avatar"]){ //_hasResource checks added by build. Do not use _hasResource directly in your code.
+webui.@THEME_JS@._dojo._hasResource["webui.@THEME_JS@._dojo.dnd.Avatar"] = true;
+webui.@THEME_JS@._dojo.provide("webui.@THEME_JS@._dojo.dnd.Avatar");
 
 
 
-webui.@THEME_JS@._base.dojo.dnd.Avatar = function(manager){
+webui.@THEME_JS@._dojo.dnd.Avatar = function(manager){
 	// summary: an object, which represents transferred DnD items visually
 	// manager: Object: a DnD manager object
 	this.manager = manager;
 	this.construct();
 };
 
-webui.@THEME_JS@._base.dojo.extend(webui.@THEME_JS@._base.dojo.dnd.Avatar, {
+webui.@THEME_JS@._dojo.extend(webui.@THEME_JS@._dojo.dnd.Avatar, {
 	construct: function(){
 		// summary: a constructor function;
 		//	it is separate so it can be (dynamically) overwritten in case of need
-		var a = webui.@THEME_JS@._base.dojo.doc.createElement("table");
+		var a = webui.@THEME_JS@._dojo.doc.createElement("table");
 		a.className = "dojoDndAvatar";
 		a.style.position = "absolute";
 		a.style.zIndex = 1999;
-		a.style.margin = "0px"; // to avoid webui.@THEME_JS@._base.dojo.marginBox() problems with table's margins
-		var b = webui.@THEME_JS@._base.dojo.doc.createElement("tbody");
-		var tr = webui.@THEME_JS@._base.dojo.doc.createElement("tr");
+		a.style.margin = "0px"; // to avoid webui.@THEME_JS@._dojo.marginBox() problems with table's margins
+		var b = webui.@THEME_JS@._dojo.doc.createElement("tbody");
+		var tr = webui.@THEME_JS@._dojo.doc.createElement("tr");
 		tr.className = "dojoDndAvatarHeader";
-		var td = webui.@THEME_JS@._base.dojo.doc.createElement("td");
+		var td = webui.@THEME_JS@._dojo.doc.createElement("td");
 		td.innerHTML = this._generateText();
 		tr.appendChild(td);
-		webui.@THEME_JS@._base.dojo.style(tr, "opacity", 0.9);
+		webui.@THEME_JS@._dojo.style(tr, "opacity", 0.9);
 		b.appendChild(tr);
 		var k = Math.min(5, this.manager.nodes.length);
 		var source = this.manager.source;
 		for(var i = 0; i < k; ++i){
-			tr = webui.@THEME_JS@._base.dojo.doc.createElement("tr");
+			tr = webui.@THEME_JS@._dojo.doc.createElement("tr");
 			tr.className = "dojoDndAvatarItem";
-			td = webui.@THEME_JS@._base.dojo.doc.createElement("td");
+			td = webui.@THEME_JS@._dojo.doc.createElement("td");
 			var node = source.creator ?
 				// create an avatar representation of the node
 				node = source._normalizedCreator(source.getItem(this.manager.nodes[i].id).data, "avatar").node :
@@ -201,7 +201,7 @@ webui.@THEME_JS@._base.dojo.extend(webui.@THEME_JS@._base.dojo.dnd.Avatar, {
 			node.id = "";
 			td.appendChild(node);
 			tr.appendChild(td);
-			webui.@THEME_JS@._base.dojo.style(tr, "opacity", (9 - i) / 10);
+			webui.@THEME_JS@._dojo.style(tr, "opacity", (9 - i) / 10);
 			b.appendChild(tr);
 		}
 		a.appendChild(b);
@@ -209,17 +209,17 @@ webui.@THEME_JS@._base.dojo.extend(webui.@THEME_JS@._base.dojo.dnd.Avatar, {
 	},
 	destroy: function(){
 		// summary: a desctructor for the avatar, called to remove all references so it can be garbage-collected
-		webui.@THEME_JS@._base.dojo._destroyElement(this.node);
+		webui.@THEME_JS@._dojo._destroyElement(this.node);
 		this.node = false;
 	},
 	update: function(){
 		// summary: updates the avatar to reflect the current DnD state
-		webui.@THEME_JS@._base.dojo[(this.manager.canDropFlag ? "add" : "remove") + "Class"](this.node, "dojoDndAvatarCanDrop");
+		webui.@THEME_JS@._dojo[(this.manager.canDropFlag ? "add" : "remove") + "Class"](this.node, "dojoDndAvatarCanDrop");
 		// replace text
 		var t = this.node.getElementsByTagName("td");
 		for(var i = 0; i < t.length; ++i){
 			var n = t[i];
-			if(webui.@THEME_JS@._base.dojo.hasClass(n.parentNode, "dojoDndAvatarHeader")){
+			if(webui.@THEME_JS@._dojo.hasClass(n.parentNode, "dojoDndAvatarHeader")){
 				n.innerHTML = this._generateText();
 				break;
 			}
@@ -233,15 +233,15 @@ webui.@THEME_JS@._base.dojo.extend(webui.@THEME_JS@._base.dojo.dnd.Avatar, {
 
 }
 
-if(!webui.@THEME_JS@._base.dojo._hasResource["webui.@THEME_JS@._base.dojo.dnd.Manager"]){ //_hasResource checks added by build. Do not use _hasResource directly in your code.
-webui.@THEME_JS@._base.dojo._hasResource["webui.@THEME_JS@._base.dojo.dnd.Manager"] = true;
-webui.@THEME_JS@._base.dojo.provide("webui.@THEME_JS@._base.dojo.dnd.Manager");
+if(!webui.@THEME_JS@._dojo._hasResource["webui.@THEME_JS@._dojo.dnd.Manager"]){ //_hasResource checks added by build. Do not use _hasResource directly in your code.
+webui.@THEME_JS@._dojo._hasResource["webui.@THEME_JS@._dojo.dnd.Manager"] = true;
+webui.@THEME_JS@._dojo.provide("webui.@THEME_JS@._dojo.dnd.Manager");
 
 
 
 
 
-webui.@THEME_JS@._base.dojo.dnd.Manager = function(){
+webui.@THEME_JS@._dojo.dnd.Manager = function(){
 	// summary: the manager of DnD operations (usually a singleton)
 	this.avatar  = null;
 	this.source = null;
@@ -252,7 +252,7 @@ webui.@THEME_JS@._base.dojo.dnd.Manager = function(){
 	this.events = [];
 };
 
-webui.@THEME_JS@._base.dojo.extend(webui.@THEME_JS@._base.dojo.dnd.Manager, {
+webui.@THEME_JS@._dojo.extend(webui.@THEME_JS@._dojo.dnd.Manager, {
 	// avatar's offset from the mouse
 	OFFSET_X: 16,
 	OFFSET_Y: 16,
@@ -264,7 +264,7 @@ webui.@THEME_JS@._base.dojo.extend(webui.@THEME_JS@._base.dojo.dnd.Manager, {
 			this.target = (source && source.targetState != "Disabled") ? source : null;
 			this.avatar.update();
 		}
-		webui.@THEME_JS@._base.dojo.publish("/dnd/source/over", [source]);
+		webui.@THEME_JS@._dojo.publish("/dnd/source/over", [source]);
 	},
 	outSource: function(source){
 		// summary: called when a source detected a mouse-out conditiion
@@ -274,10 +274,10 @@ webui.@THEME_JS@._base.dojo.extend(webui.@THEME_JS@._base.dojo.dnd.Manager, {
 				this.target = null;
 				this.canDropFlag = false;
 				this.avatar.update();
-				webui.@THEME_JS@._base.dojo.publish("/dnd/source/over", [null]);
+				webui.@THEME_JS@._dojo.publish("/dnd/source/over", [null]);
 			}
 		}else{
-			webui.@THEME_JS@._base.dojo.publish("/dnd/source/over", [null]);
+			webui.@THEME_JS@._dojo.publish("/dnd/source/over", [null]);
 		}
 	},
 	startDrag: function(source, nodes, copy){
@@ -289,16 +289,16 @@ webui.@THEME_JS@._base.dojo.extend(webui.@THEME_JS@._base.dojo.dnd.Manager, {
 		this.nodes  = nodes;
 		this.copy   = Boolean(copy); // normalizing to true boolean
 		this.avatar = this.makeAvatar();
-		webui.@THEME_JS@._base.dojo.body().appendChild(this.avatar.node);
-		webui.@THEME_JS@._base.dojo.publish("/dnd/start", [source, nodes, this.copy]);
+		webui.@THEME_JS@._dojo.body().appendChild(this.avatar.node);
+		webui.@THEME_JS@._dojo.publish("/dnd/start", [source, nodes, this.copy]);
 		this.events = [
-			webui.@THEME_JS@._base.dojo.connect(webui.@THEME_JS@._base.dojo.doc, "onmousemove", this, "onMouseMove"),
-			webui.@THEME_JS@._base.dojo.connect(webui.@THEME_JS@._base.dojo.doc, "onmouseup",   this, "onMouseUp"),
-			webui.@THEME_JS@._base.dojo.connect(webui.@THEME_JS@._base.dojo.doc, "onkeydown",   this, "onKeyDown"),
-			webui.@THEME_JS@._base.dojo.connect(webui.@THEME_JS@._base.dojo.doc, "onkeyup",     this, "onKeyUp")
+			webui.@THEME_JS@._dojo.connect(webui.@THEME_JS@._dojo.doc, "onmousemove", this, "onMouseMove"),
+			webui.@THEME_JS@._dojo.connect(webui.@THEME_JS@._dojo.doc, "onmouseup",   this, "onMouseUp"),
+			webui.@THEME_JS@._dojo.connect(webui.@THEME_JS@._dojo.doc, "onkeydown",   this, "onKeyDown"),
+			webui.@THEME_JS@._dojo.connect(webui.@THEME_JS@._dojo.doc, "onkeyup",     this, "onKeyUp")
 		];
 		var c = "dojoDnd" + (copy ? "Copy" : "Move");
-		webui.@THEME_JS@._base.dojo.addClass(webui.@THEME_JS@._base.dojo.body(), c); 
+		webui.@THEME_JS@._dojo.addClass(webui.@THEME_JS@._dojo.body(), c); 
 	},
 	canDrop: function(flag){
 		// summary: called to notify if the current target can accept items
@@ -310,9 +310,9 @@ webui.@THEME_JS@._base.dojo.extend(webui.@THEME_JS@._base.dojo.dnd.Manager, {
 	},
 	stopDrag: function(){
 		// summary: stop the DnD in progress
-		webui.@THEME_JS@._base.dojo.removeClass(webui.@THEME_JS@._base.dojo.body(), "dojoDndCopy");
-		webui.@THEME_JS@._base.dojo.removeClass(webui.@THEME_JS@._base.dojo.body(), "dojoDndMove");
-		webui.@THEME_JS@._base.dojo.forEach(this.events, webui.@THEME_JS@._base.dojo.disconnect);
+		webui.@THEME_JS@._dojo.removeClass(webui.@THEME_JS@._dojo.body(), "dojoDndCopy");
+		webui.@THEME_JS@._dojo.removeClass(webui.@THEME_JS@._dojo.body(), "dojoDndMove");
+		webui.@THEME_JS@._dojo.forEach(this.events, webui.@THEME_JS@._dojo.disconnect);
 		this.events = [];
 		this.avatar.destroy();
 		this.avatar = null;
@@ -321,7 +321,7 @@ webui.@THEME_JS@._base.dojo.extend(webui.@THEME_JS@._base.dojo.dnd.Manager, {
 	},
 	makeAvatar: function(){
 		// summary: makes the avatar, it is separate to be overwritten dynamically, if needed
-		return new webui.@THEME_JS@._base.dojo.dnd.Avatar(this);
+		return new webui.@THEME_JS@._dojo.dnd.Avatar(this);
 	},
 	updateAvatar: function(){
 		// summary: updates the avatar, it is separate to be overwritten dynamically, if needed
@@ -333,10 +333,10 @@ webui.@THEME_JS@._base.dojo.extend(webui.@THEME_JS@._base.dojo.dnd.Manager, {
 		// e: Event: mouse event
 		var a = this.avatar;
 		if(a){
-			//webui.@THEME_JS@._base.dojo.dnd.autoScrollNodes(e);
-			webui.@THEME_JS@._base.dojo.dnd.autoScroll(e);
-			webui.@THEME_JS@._base.dojo.marginBox(a.node, {l: e.pageX + this.OFFSET_X, t: e.pageY + this.OFFSET_Y});
-			var copy = Boolean(this.source.copyState(webui.@THEME_JS@._base.dojo.dnd.getCopyKeyState(e)));
+			//webui.@THEME_JS@._dojo.dnd.autoScrollNodes(e);
+			webui.@THEME_JS@._dojo.dnd.autoScroll(e);
+			webui.@THEME_JS@._dojo.marginBox(a.node, {l: e.pageX + this.OFFSET_X, t: e.pageY + this.OFFSET_Y});
+			var copy = Boolean(this.source.copyState(webui.@THEME_JS@._dojo.dnd.getCopyKeyState(e)));
 			if(this.copy != copy){ 
 				this._setCopyStatus(copy);
 			}
@@ -347,11 +347,11 @@ webui.@THEME_JS@._base.dojo.extend(webui.@THEME_JS@._base.dojo.dnd.Manager, {
 		// e: Event: mouse event
 		if(this.avatar && (!("mouseButton" in this.source) || this.source.mouseButton == e.button)){
 			if(this.target && this.canDropFlag){
-				var params = [this.source, this.nodes, Boolean(this.source.copyState(webui.@THEME_JS@._base.dojo.dnd.getCopyKeyState(e))), this.target];
-				webui.@THEME_JS@._base.dojo.publish("/dnd/drop/before", params);
-				webui.@THEME_JS@._base.dojo.publish("/dnd/drop", params);
+				var params = [this.source, this.nodes, Boolean(this.source.copyState(webui.@THEME_JS@._dojo.dnd.getCopyKeyState(e))), this.target];
+				webui.@THEME_JS@._dojo.publish("/dnd/drop/before", params);
+				webui.@THEME_JS@._dojo.publish("/dnd/drop", params);
 			}else{
-				webui.@THEME_JS@._base.dojo.publish("/dnd/cancel");
+				webui.@THEME_JS@._dojo.publish("/dnd/cancel");
 			}
 			this.stopDrag();
 		}
@@ -363,14 +363,14 @@ webui.@THEME_JS@._base.dojo.extend(webui.@THEME_JS@._base.dojo.dnd.Manager, {
 		// e: Event: keyboard event
 		if(this.avatar){
 			switch(e.keyCode){
-				case webui.@THEME_JS@._base.dojo.keys.CTRL:
+				case webui.@THEME_JS@._dojo.keys.CTRL:
 					var copy = Boolean(this.source.copyState(true));
 					if(this.copy != copy){ 
 						this._setCopyStatus(copy);
 					}
 					break;
-				case webui.@THEME_JS@._base.dojo.keys.ESCAPE:
-					webui.@THEME_JS@._base.dojo.publish("/dnd/cancel");
+				case webui.@THEME_JS@._dojo.keys.ESCAPE:
+					webui.@THEME_JS@._dojo.publish("/dnd/cancel");
 					this.stopDrag();
 					break;
 			}
@@ -379,7 +379,7 @@ webui.@THEME_JS@._base.dojo.extend(webui.@THEME_JS@._base.dojo.dnd.Manager, {
 	onKeyUp: function(e){
 		// summary: event processor for onkeyup, watching for CTRL for copy/move status
 		// e: Event: keyboard event
-		if(this.avatar && e.keyCode == webui.@THEME_JS@._base.dojo.keys.CTRL){
+		if(this.avatar && e.keyCode == webui.@THEME_JS@._dojo.keys.CTRL){
 			var copy = Boolean(this.source.copyState(false));
 			if(this.copy != copy){ 
 				this._setCopyStatus(copy);
@@ -393,31 +393,31 @@ webui.@THEME_JS@._base.dojo.extend(webui.@THEME_JS@._base.dojo.dnd.Manager, {
 		this.copy = copy;
 		this.source._markDndStatus(this.copy);
 		this.updateAvatar();
-		webui.@THEME_JS@._base.dojo.removeClass(webui.@THEME_JS@._base.dojo.body(), "dojoDnd" + (this.copy ? "Move" : "Copy"));
-		webui.@THEME_JS@._base.dojo.addClass(webui.@THEME_JS@._base.dojo.body(), "dojoDnd" + (this.copy ? "Copy" : "Move"));
+		webui.@THEME_JS@._dojo.removeClass(webui.@THEME_JS@._dojo.body(), "dojoDnd" + (this.copy ? "Move" : "Copy"));
+		webui.@THEME_JS@._dojo.addClass(webui.@THEME_JS@._dojo.body(), "dojoDnd" + (this.copy ? "Copy" : "Move"));
 	}
 });
 
 // summary: the manager singleton variable, can be overwritten, if needed
-webui.@THEME_JS@._base.dojo.dnd._manager = null;
+webui.@THEME_JS@._dojo.dnd._manager = null;
 
-webui.@THEME_JS@._base.dojo.dnd.manager = function(){
+webui.@THEME_JS@._dojo.dnd.manager = function(){
 	// summary: returns the current DnD manager, creates one if it is not created yet
-	if(!webui.@THEME_JS@._base.dojo.dnd._manager){
-		webui.@THEME_JS@._base.dojo.dnd._manager = new webui.@THEME_JS@._base.dojo.dnd.Manager();
+	if(!webui.@THEME_JS@._dojo.dnd._manager){
+		webui.@THEME_JS@._dojo.dnd._manager = new webui.@THEME_JS@._dojo.dnd.Manager();
 	}
-	return webui.@THEME_JS@._base.dojo.dnd._manager;	// Object
+	return webui.@THEME_JS@._dojo.dnd._manager;	// Object
 };
 
 }
 
-if(!webui.@THEME_JS@._base.dojo._hasResource["webui.@THEME_JS@._base.dojo.date.stamp"]){ //_hasResource checks added by build. Do not use _hasResource directly in your code.
-webui.@THEME_JS@._base.dojo._hasResource["webui.@THEME_JS@._base.dojo.date.stamp"] = true;
-webui.@THEME_JS@._base.dojo.provide("webui.@THEME_JS@._base.dojo.date.stamp");
+if(!webui.@THEME_JS@._dojo._hasResource["webui.@THEME_JS@._dojo.date.stamp"]){ //_hasResource checks added by build. Do not use _hasResource directly in your code.
+webui.@THEME_JS@._dojo._hasResource["webui.@THEME_JS@._dojo.date.stamp"] = true;
+webui.@THEME_JS@._dojo.provide("webui.@THEME_JS@._dojo.date.stamp");
 
 // Methods to convert dates to or from a wire (string) format using well-known conventions
 
-webui.@THEME_JS@._base.dojo.date.stamp.fromISOString = function(/*String*/formattedString, /*Number?*/defaultTime){
+webui.@THEME_JS@._dojo.date.stamp.fromISOString = function(/*String*/formattedString, /*Number?*/defaultTime){
 	//	summary:
 	//		Returns a Date object given a string formatted according to a subset of the ISO-8601 standard.
 	//
@@ -447,13 +447,13 @@ webui.@THEME_JS@._base.dojo.date.stamp.fromISOString = function(/*String*/format
 	//		Used for defaults for fields omitted in the formattedString.
 	//		Uses 1970-01-01T00:00:00.0Z by default.
 
-	if(!webui.@THEME_JS@._base.dojo.date.stamp._isoRegExp){
-		webui.@THEME_JS@._base.dojo.date.stamp._isoRegExp =
+	if(!webui.@THEME_JS@._dojo.date.stamp._isoRegExp){
+		webui.@THEME_JS@._dojo.date.stamp._isoRegExp =
 //TODO: could be more restrictive and check for 00-59, etc.
 			/^(?:(\d{4})(?:-(\d{2})(?:-(\d{2}))?)?)?(?:T(\d{2}):(\d{2})(?::(\d{2})(.\d+)?)?((?:[+-](\d{2}):(\d{2}))|Z)?)?$/;
 	}
 
-	var match = webui.@THEME_JS@._base.dojo.date.stamp._isoRegExp.exec(formattedString);
+	var match = webui.@THEME_JS@._dojo.date.stamp._isoRegExp.exec(formattedString);
 	var result = null;
 
 	if(match){
@@ -464,7 +464,7 @@ webui.@THEME_JS@._base.dojo.date.stamp.fromISOString = function(/*String*/format
 		if(defaultTime){
 			// mix in defaultTime.  Relatively expensive, so use || operators for the fast path of defaultTime === 0
 			defaultTime = new Date(defaultTime);
-			webui.@THEME_JS@._base.dojo.map(["FullYear", "Month", "Date", "Hours", "Minutes", "Seconds", "Milliseconds"], function(prop){
+			webui.@THEME_JS@._dojo.map(["FullYear", "Month", "Date", "Hours", "Minutes", "Seconds", "Milliseconds"], function(prop){
 				return defaultTime["get" + prop]();
 			}).forEach(function(value, index){
 				if(match[index] === undefined){
@@ -491,7 +491,7 @@ webui.@THEME_JS@._base.dojo.date.stamp.fromISOString = function(/*String*/format
 	return result; // Date or null
 }
 
-webui.@THEME_JS@._base.dojo.date.stamp.toISOString = function(/*Date*/dateObject, /*Object?*/options){
+webui.@THEME_JS@._dojo.date.stamp.toISOString = function(/*Date*/dateObject, /*Object?*/options){
 	//	summary:
 	//		Format a Date object as a string according a subset of the ISO-8601 standard
 	//
@@ -539,14 +539,14 @@ webui.@THEME_JS@._base.dojo.date.stamp.toISOString = function(/*Date*/dateObject
 
 }
 
-if(!webui.@THEME_JS@._base.dojo._hasResource["webui.@THEME_JS@._base.dojo.parser"]){ //_hasResource checks added by build. Do not use _hasResource directly in your code.
-webui.@THEME_JS@._base.dojo._hasResource["webui.@THEME_JS@._base.dojo.parser"] = true;
-webui.@THEME_JS@._base.dojo.provide("webui.@THEME_JS@._base.dojo.parser");
+if(!webui.@THEME_JS@._dojo._hasResource["webui.@THEME_JS@._dojo.parser"]){ //_hasResource checks added by build. Do not use _hasResource directly in your code.
+webui.@THEME_JS@._dojo._hasResource["webui.@THEME_JS@._dojo.parser"] = true;
+webui.@THEME_JS@._dojo.provide("webui.@THEME_JS@._dojo.parser");
 
 
-webui.@THEME_JS@._base.dojo.parser = new function(){
+webui.@THEME_JS@._dojo.parser = new function(){
 
-	var d = webui.@THEME_JS@._base.dojo;
+	var d = webui.@THEME_JS@._dojo;
 
 	function val2type(/*Object*/ value){
 		// summary:
@@ -604,17 +604,17 @@ webui.@THEME_JS@._base.dojo.parser = new function(){
 	}
 
 	var instanceClasses = {
-		// map from fully qualified name (like "webui.@THEME_JS@._base.dijit.Button") to structure like
-		// { cls: webui.@THEME_JS@._base.dijit.Button, params: {label: "string", disabled: "boolean"} }
+		// map from fully qualified name (like "webui.@THEME_JS@._dijit.Button") to structure like
+		// { cls: webui.@THEME_JS@._dijit.Button, params: {label: "string", disabled: "boolean"} }
 	};
 	
 	function getClassInfo(/*String*/ className){
 		// className:
-		//		fully qualified name (like "webui.@THEME_JS@._base.dijit.Button")
+		//		fully qualified name (like "webui.@THEME_JS@._dijit.Button")
 		// returns:
 		//		structure like
 		//			{ 
-		//				cls: webui.@THEME_JS@._base.dijit.Button, 
+		//				cls: webui.@THEME_JS@._dijit.Button, 
 		//				params: { label: "string", disabled: "boolean"}
 		//			}
 
@@ -623,7 +623,7 @@ webui.@THEME_JS@._base.dojo.parser = new function(){
 			var cls = d.getObject(className);
 			if(!d.isFunction(cls)){
 				throw new Error("Could not load class '" + className +
-					"'. Did you spell the name correctly and use a full path, like 'webui.@THEME_JS@._base.dijit.form.Button'?");
+					"'. Did you spell the name correctly and use a full path, like 'webui.@THEME_JS@._dijit.form.Button'?");
 			}
 			var proto = cls.prototype;
 	
@@ -679,7 +679,7 @@ webui.@THEME_JS@._base.dojo.parser = new function(){
 			var attributes = node.attributes;
 			for(var name in clsInfo.params){
 				var item = attributes.getNamedItem(name);
-				if(!item || (!item.specified && (!webui.@THEME_JS@._base.dojo.isIE || name.toLowerCase()!="value"))){ continue; }
+				if(!item || (!item.specified && (!webui.@THEME_JS@._dojo.isIE || name.toLowerCase()!="value"))){ continue; }
 				var value = item.value;
 				// Deal with IE quirks for 'class' and 'style'
 				switch(name){
@@ -697,7 +697,7 @@ webui.@THEME_JS@._base.dojo.parser = new function(){
 			// <script type="dojo/method" event="foo"> tags are added to params, and passed to
 			// the widget on instantiation.
 			// <script type="dojo/method"> tags (with no event) are executed after instantiation
-			// <script type="dojo/connect" event="foo"> tags are webui.@THEME_JS@._base.dojo.connected after instantiation
+			// <script type="dojo/connect" event="foo"> tags are webui.@THEME_JS@._dojo.connected after instantiation
 			if(!ps){
 				var connects = [],	// functions to connect after instantiation
 					calls = [];		// functions to call after instantiation
@@ -734,10 +734,10 @@ webui.@THEME_JS@._base.dojo.parser = new function(){
 
 			// process connections and startup functions
 			if(!ps){
-				webui.@THEME_JS@._base.dojo.forEach(connects, function(connect){
-					webui.@THEME_JS@._base.dojo.connect(instance, connect.event, null, connect.func);
+				webui.@THEME_JS@._dojo.forEach(connects, function(connect){
+					webui.@THEME_JS@._dojo.connect(instance, connect.event, null, connect.func);
 				});
-				webui.@THEME_JS@._base.dojo.forEach(calls, function(func){
+				webui.@THEME_JS@._dojo.forEach(calls, function(func){
 					func.call(instance);
 				});
 			}
@@ -775,36 +775,36 @@ webui.@THEME_JS@._base.dojo.parser = new function(){
 (function(){
 	var parseRunner = function(){ 
 		if(webui_@THEME_JS@._djConfig["parseOnLoad"] == true){
-			webui.@THEME_JS@._base.dojo.parser.parse(); 
+			webui.@THEME_JS@._dojo.parser.parse(); 
 		}
 	};
 
 	// FIXME: need to clobber cross-dependency!!
-	if(webui.@THEME_JS@._base.dojo.exists("webui.@THEME_JS@._base.dijit.wai.onload") && (webui.@THEME_JS@._base.dijit.wai.onload === webui.@THEME_JS@._base.dojo._loaders[0])){
-		webui.@THEME_JS@._base.dojo._loaders.splice(1, 0, parseRunner);
+	if(webui.@THEME_JS@._dojo.exists("webui.@THEME_JS@._dijit.wai.onload") && (webui.@THEME_JS@._dijit.wai.onload === webui.@THEME_JS@._dojo._loaders[0])){
+		webui.@THEME_JS@._dojo._loaders.splice(1, 0, parseRunner);
 	}else{
-		webui.@THEME_JS@._base.dojo._loaders.unshift(parseRunner);
+		webui.@THEME_JS@._dojo._loaders.unshift(parseRunner);
 	}
 })();
 
 //TODO: ported from 0.4.x Dojo.  Can we reduce this?
-webui.@THEME_JS@._base.dojo.parser._anonCtr = 0;
-webui.@THEME_JS@._base.dojo.parser._anon = {}; // why is this property required?
-webui.@THEME_JS@._base.dojo.parser._nameAnonFunc = function(/*Function*/anonFuncPtr, /*Object*/thisObj){
+webui.@THEME_JS@._dojo.parser._anonCtr = 0;
+webui.@THEME_JS@._dojo.parser._anon = {}; // why is this property required?
+webui.@THEME_JS@._dojo.parser._nameAnonFunc = function(/*Function*/anonFuncPtr, /*Object*/thisObj){
 	// summary:
 	//		Creates a reference to anonFuncPtr in thisObj with a completely
 	//		unique name. The new name is returned as a String. 
 	var jpn = "$joinpoint";
-	var nso = (thisObj|| webui.@THEME_JS@._base.dojo.parser._anon);
-	if(webui.@THEME_JS@._base.dojo.isIE){
+	var nso = (thisObj|| webui.@THEME_JS@._dojo.parser._anon);
+	if(webui.@THEME_JS@._dojo.isIE){
 		var cn = anonFuncPtr["__dojoNameCache"];
 		if(cn && nso[cn] === anonFuncPtr){
 			return anonFuncPtr["__dojoNameCache"];
 		}
 	}
-	var ret = "__"+webui.@THEME_JS@._base.dojo.parser._anonCtr++;
+	var ret = "__"+webui.@THEME_JS@._dojo.parser._anonCtr++;
 	while(typeof nso[ret] != "undefined"){
-		ret = "__"+webui.@THEME_JS@._base.dojo.parser._anonCtr++;
+		ret = "__"+webui.@THEME_JS@._dojo.parser._anonCtr++;
 	}
 	nso[ret] = anonFuncPtr;
 	return ret; // String
@@ -812,9 +812,9 @@ webui.@THEME_JS@._base.dojo.parser._nameAnonFunc = function(/*Function*/anonFunc
 
 }
 
-if(!webui.@THEME_JS@._base.dojo._hasResource["webui.@THEME_JS@._base.dojo.dnd.Container"]){ //_hasResource checks added by build. Do not use _hasResource directly in your code.
-webui.@THEME_JS@._base.dojo._hasResource["webui.@THEME_JS@._base.dojo.dnd.Container"] = true;
-webui.@THEME_JS@._base.dojo.provide("webui.@THEME_JS@._base.dojo.dnd.Container");
+if(!webui.@THEME_JS@._dojo._hasResource["webui.@THEME_JS@._dojo.dnd.Container"]){ //_hasResource checks added by build. Do not use _hasResource directly in your code.
+webui.@THEME_JS@._dojo._hasResource["webui.@THEME_JS@._dojo.dnd.Container"] = true;
+webui.@THEME_JS@._dojo.provide("webui.@THEME_JS@._dojo.dnd.Container");
 
 
 
@@ -828,7 +828,7 @@ webui.@THEME_JS@._base.dojo.provide("webui.@THEME_JS@._base.dojo.dnd.Container")
 		"Over"	- mouse over a container item
 */
 
-webui.@THEME_JS@._base.dojo.declare("webui.@THEME_JS@._base.dojo.dnd.Container", null, {
+webui.@THEME_JS@._dojo.declare("webui.@THEME_JS@._dojo.dnd.Container", null, {
 	// summary: a Container object, which knows when mouse hovers over it, 
 	//	and know over which element it hovers
 	
@@ -844,11 +844,11 @@ webui.@THEME_JS@._base.dojo.declare("webui.@THEME_JS@._base.dojo.dnd.Container",
 		//	skipForm: Boolean: don't start the drag operation, if clicked on form elements
 		//	_skipStartup: Boolean: skip startup(), which collects children, for deferred initialization
 		//		(this is used in the markup mode)
-		this.node = webui.@THEME_JS@._base.dojo.byId(node);
+		this.node = webui.@THEME_JS@._dojo.byId(node);
 		if(!params){ params = {}; }
 		this.creator = params.creator || null;
 		this.skipForm = params.skipForm;
-		this.defaultCreator = webui.@THEME_JS@._base.dojo.dnd._defaultCreator(this.node);
+		this.defaultCreator = webui.@THEME_JS@._dojo.dnd._defaultCreator(this.node);
 
 		// class-specific variables
 		this.map = {};
@@ -856,7 +856,7 @@ webui.@THEME_JS@._base.dojo.declare("webui.@THEME_JS@._base.dojo.dnd.Container",
 
 		// states
 		this.containerState = "";
-		webui.@THEME_JS@._base.dojo.addClass(this.node, "dojoDndContainer");
+		webui.@THEME_JS@._dojo.addClass(this.node, "dojoDndContainer");
 		
 		// mark up children
 		if(!(params && params._skipStartup)){
@@ -865,11 +865,11 @@ webui.@THEME_JS@._base.dojo.declare("webui.@THEME_JS@._base.dojo.dnd.Container",
 
 		// set up events
 		this.events = [
-			webui.@THEME_JS@._base.dojo.connect(this.node, "onmouseover", this, "onMouseOver"),
-			webui.@THEME_JS@._base.dojo.connect(this.node, "onmouseout",  this, "onMouseOut"),
+			webui.@THEME_JS@._dojo.connect(this.node, "onmouseover", this, "onMouseOver"),
+			webui.@THEME_JS@._dojo.connect(this.node, "onmouseout",  this, "onMouseOut"),
 			// cancel text selection and text dragging
-			webui.@THEME_JS@._base.dojo.connect(this.node, "ondragstart",   this, "onSelectStart"),
-			webui.@THEME_JS@._base.dojo.connect(this.node, "onselectstart", this, "onSelectStart")
+			webui.@THEME_JS@._dojo.connect(this.node, "ondragstart",   this, "onSelectStart"),
+			webui.@THEME_JS@._dojo.connect(this.node, "onselectstart", this, "onSelectStart")
 		];
 	},
 	
@@ -892,8 +892,8 @@ webui.@THEME_JS@._base.dojo.declare("webui.@THEME_JS@._base.dojo.dnd.Container",
 	forInItems: function(/*Function*/ f, /*Object?*/ o){
 		// summary: iterates over a data map skipping members, which 
 		//	are present in the empty object (IE and/or 3rd-party libraries).
-		o = o || webui.@THEME_JS@._base.dojo.global;
-		var m = this.map, e = webui.@THEME_JS@._base.dojo.dnd._empty;
+		o = o || webui.@THEME_JS@._dojo.global;
+		var m = this.map, e = webui.@THEME_JS@._dojo.dnd._empty;
 		for(var i in this.map){
 			if(i in e){ continue; }
 			f.call(o, m[i], i, m);
@@ -907,7 +907,7 @@ webui.@THEME_JS@._base.dojo.declare("webui.@THEME_JS@._base.dojo.dnd.Container",
 	// methods
 	getAllNodes: function(){
 		// summary: returns a list (an array) of all valid child nodes
-		return webui.@THEME_JS@._base.dojo.query("> .dojoDndItem", this.parent);	// NodeList
+		return webui.@THEME_JS@._dojo.query("> .dojoDndItem", this.parent);	// NodeList
 	},
 	insertNodes: function(data, before, anchor){
 		// summary: inserts an array of new nodes before/after an anchor node
@@ -942,7 +942,7 @@ webui.@THEME_JS@._base.dojo.declare("webui.@THEME_JS@._base.dojo.dnd.Container",
 	},
 	destroy: function(){
 		// summary: prepares the object to be garbage-collected
-		webui.@THEME_JS@._base.dojo.forEach(this.events, webui.@THEME_JS@._base.dojo.disconnect);
+		webui.@THEME_JS@._dojo.forEach(this.events, webui.@THEME_JS@._dojo.disconnect);
 		this.clearItems();
 		this.node = this.parent = this.current;
 	},
@@ -950,7 +950,7 @@ webui.@THEME_JS@._base.dojo.declare("webui.@THEME_JS@._base.dojo.dnd.Container",
 	// markup methods
 	markupFactory: function(params, node){
 		params._skipStartup = true;
-		return new webui.@THEME_JS@._base.dojo.dnd.Container(node, params);
+		return new webui.@THEME_JS@._dojo.dnd.Container(node, params);
 	},
 	startup: function(){
 		// summary: collects valid child items and populate the map
@@ -963,8 +963,8 @@ webui.@THEME_JS@._base.dojo.declare("webui.@THEME_JS@._base.dojo.dnd.Container",
 		}
 
 		// process specially marked children
-		webui.@THEME_JS@._base.dojo.query("> .dojoDndItem", this.parent).forEach(function(node){
-			if(!node.id){ node.id = webui.@THEME_JS@._base.dojo.dnd.getUniqueId(); }
+		webui.@THEME_JS@._dojo.query("> .dojoDndItem", this.parent).forEach(function(node){
+			if(!node.id){ node.id = webui.@THEME_JS@._dojo.dnd.getUniqueId(); }
 			var type = node.getAttribute("dndType"),
 				data = node.getAttribute("dndData");
 			this.setItem(node.id, {
@@ -1018,8 +1018,8 @@ webui.@THEME_JS@._base.dojo.declare("webui.@THEME_JS@._base.dojo.dnd.Container",
 	onSelectStart: function(e){
 		// summary: event processor for onselectevent and ondragevent
 		// e: Event: mouse event
-		if(!this.skipForm || !webui.@THEME_JS@._base.dojo.dnd.isFormElement(e)){
-			webui.@THEME_JS@._base.dojo.stopEvent(e);
+		if(!this.skipForm || !webui.@THEME_JS@._dojo.dnd.isFormElement(e)){
+			webui.@THEME_JS@._dojo.stopEvent(e);
 		}
 	},
 	
@@ -1036,22 +1036,22 @@ webui.@THEME_JS@._base.dojo.declare("webui.@THEME_JS@._base.dojo.dnd.Container",
 		// newState: String: new state
 		var prefix = "dojoDnd" + type;
 		var state  = type.toLowerCase() + "State";
-		//webui.@THEME_JS@._base.dojo.replaceClass(this.node, prefix + newState, prefix + this[state]);
-		webui.@THEME_JS@._base.dojo.removeClass(this.node, prefix + this[state]);
-		webui.@THEME_JS@._base.dojo.addClass(this.node, prefix + newState);
+		//webui.@THEME_JS@._dojo.replaceClass(this.node, prefix + newState, prefix + this[state]);
+		webui.@THEME_JS@._dojo.removeClass(this.node, prefix + this[state]);
+		webui.@THEME_JS@._dojo.addClass(this.node, prefix + newState);
 		this[state] = newState;
 	},
 	_addItemClass: function(node, type){
 		// summary: adds a class with prefix "dojoDndItem"
 		// node: Node: a node
 		// type: String: a variable suffix for a class name
-		webui.@THEME_JS@._base.dojo.addClass(node, "dojoDndItem" + type);
+		webui.@THEME_JS@._dojo.addClass(node, "dojoDndItem" + type);
 	},
 	_removeItemClass: function(node, type){
 		// summary: removes a class with prefix "dojoDndItem"
 		// node: Node: a node
 		// type: String: a variable suffix for a class name
-		webui.@THEME_JS@._base.dojo.removeClass(node, "dojoDndItem" + type);
+		webui.@THEME_JS@._dojo.removeClass(node, "dojoDndItem" + type);
 	},
 	_getChildByEvent: function(e){
 		// summary: gets a child, which is under the mouse at the moment, or null
@@ -1059,7 +1059,7 @@ webui.@THEME_JS@._base.dojo.declare("webui.@THEME_JS@._base.dojo.dnd.Container",
 		var node = e.target;
 		if(node){
 			for(var parent = node.parentNode; parent; node = parent, parent = node.parentNode){
-				if(parent == this.parent && webui.@THEME_JS@._base.dojo.hasClass(node, "dojoDndItem")){ return node; }
+				if(parent == this.parent && webui.@THEME_JS@._dojo.hasClass(node, "dojoDndItem")){ return node; }
 			}
 		}
 		return null;
@@ -1067,66 +1067,66 @@ webui.@THEME_JS@._base.dojo.declare("webui.@THEME_JS@._base.dojo.dnd.Container",
 	_normalizedCreator: function(item, hint){
 		// summary: adds all necessary data to the output of the user-supplied creator function
 		var t = (this.creator ? this.creator : this.defaultCreator)(item, hint);
-		if(!webui.@THEME_JS@._base.dojo.isArray(t.type)){ t.type = ["text"]; }
-		if(!t.node.id){ t.node.id = webui.@THEME_JS@._base.dojo.dnd.getUniqueId(); }
-		webui.@THEME_JS@._base.dojo.addClass(t.node, "dojoDndItem");
+		if(!webui.@THEME_JS@._dojo.isArray(t.type)){ t.type = ["text"]; }
+		if(!t.node.id){ t.node.id = webui.@THEME_JS@._dojo.dnd.getUniqueId(); }
+		webui.@THEME_JS@._dojo.addClass(t.node, "dojoDndItem");
 		return t;
 	}
 });
 
-webui.@THEME_JS@._base.dojo.dnd._createNode = function(tag){
+webui.@THEME_JS@._dojo.dnd._createNode = function(tag){
 	// summary: returns a function, which creates an element of given tag 
 	//	(SPAN by default) and sets its innerHTML to given text
 	// tag: String: a tag name or empty for SPAN
-	if(!tag){ return webui.@THEME_JS@._base.dojo.dnd._createSpan; }
+	if(!tag){ return webui.@THEME_JS@._dojo.dnd._createSpan; }
 	return function(text){	// Function
-		var n = webui.@THEME_JS@._base.dojo.doc.createElement(tag);
+		var n = webui.@THEME_JS@._dojo.doc.createElement(tag);
 		n.innerHTML = text;
 		return n;
 	};
 };
 
-webui.@THEME_JS@._base.dojo.dnd._createTrTd = function(text){
+webui.@THEME_JS@._dojo.dnd._createTrTd = function(text){
 	// summary: creates a TR/TD structure with given text as an innerHTML of TD
 	// text: String: a text for TD
-	var tr = webui.@THEME_JS@._base.dojo.doc.createElement("tr");
-	var td = webui.@THEME_JS@._base.dojo.doc.createElement("td");
+	var tr = webui.@THEME_JS@._dojo.doc.createElement("tr");
+	var td = webui.@THEME_JS@._dojo.doc.createElement("td");
 	td.innerHTML = text;
 	tr.appendChild(td);
 	return tr;	// Node
 };
 
-webui.@THEME_JS@._base.dojo.dnd._createSpan = function(text){
+webui.@THEME_JS@._dojo.dnd._createSpan = function(text){
 	// summary: creates a SPAN element with given text as its innerHTML
 	// text: String: a text for SPAN
-	var n = webui.@THEME_JS@._base.dojo.doc.createElement("span");
+	var n = webui.@THEME_JS@._dojo.doc.createElement("span");
 	n.innerHTML = text;
 	return n;	// Node
 };
 
-// webui.@THEME_JS@._base.dojo.dnd._defaultCreatorNodes: Object: a dicitionary, which maps container tag names to child tag names
-webui.@THEME_JS@._base.dojo.dnd._defaultCreatorNodes = {ul: "li", ol: "li", div: "div", p: "div"};
+// webui.@THEME_JS@._dojo.dnd._defaultCreatorNodes: Object: a dicitionary, which maps container tag names to child tag names
+webui.@THEME_JS@._dojo.dnd._defaultCreatorNodes = {ul: "li", ol: "li", div: "div", p: "div"};
 
-webui.@THEME_JS@._base.dojo.dnd._defaultCreator = function(node){
+webui.@THEME_JS@._dojo.dnd._defaultCreator = function(node){
 	// summary: takes a container node, and returns an appropriate creator function
 	// node: Node: a container node
 	var tag = node.tagName.toLowerCase();
-	var c = tag == "table" ? webui.@THEME_JS@._base.dojo.dnd._createTrTd : webui.@THEME_JS@._base.dojo.dnd._createNode(webui.@THEME_JS@._base.dojo.dnd._defaultCreatorNodes[tag]);
+	var c = tag == "table" ? webui.@THEME_JS@._dojo.dnd._createTrTd : webui.@THEME_JS@._dojo.dnd._createNode(webui.@THEME_JS@._dojo.dnd._defaultCreatorNodes[tag]);
 	return function(item, hint){	// Function
-		var isObj = webui.@THEME_JS@._base.dojo.isObject(item) && item;
+		var isObj = webui.@THEME_JS@._dojo.isObject(item) && item;
 		var data = (isObj && item.data) ? item.data : item;
 		var type = (isObj && item.type) ? item.type : ["text"];
-		var t = String(data), n = (hint == "avatar" ? webui.@THEME_JS@._base.dojo.dnd._createSpan : c)(t);
-		n.id = webui.@THEME_JS@._base.dojo.dnd.getUniqueId();
+		var t = String(data), n = (hint == "avatar" ? webui.@THEME_JS@._dojo.dnd._createSpan : c)(t);
+		n.id = webui.@THEME_JS@._dojo.dnd.getUniqueId();
 		return {node: n, data: data, type: type};
 	};
 };
 
 }
 
-if(!webui.@THEME_JS@._base.dojo._hasResource["webui.@THEME_JS@._base.dojo.dnd.Selector"]){ //_hasResource checks added by build. Do not use _hasResource directly in your code.
-webui.@THEME_JS@._base.dojo._hasResource["webui.@THEME_JS@._base.dojo.dnd.Selector"] = true;
-webui.@THEME_JS@._base.dojo.provide("webui.@THEME_JS@._base.dojo.dnd.Selector");
+if(!webui.@THEME_JS@._dojo._hasResource["webui.@THEME_JS@._dojo.dnd.Selector"]){ //_hasResource checks added by build. Do not use _hasResource directly in your code.
+webui.@THEME_JS@._dojo._hasResource["webui.@THEME_JS@._dojo.dnd.Selector"] = true;
+webui.@THEME_JS@._dojo.provide("webui.@THEME_JS@._dojo.dnd.Selector");
 
 
 
@@ -1138,7 +1138,7 @@ webui.@THEME_JS@._base.dojo.provide("webui.@THEME_JS@._base.dojo.dnd.Selector");
 		"Anchor"	- an item is selected, and is an anchor for a "shift" selection
 */
 
-webui.@THEME_JS@._base.dojo.declare("webui.@THEME_JS@._base.dojo.dnd.Selector", webui.@THEME_JS@._base.dojo.dnd.Container, {
+webui.@THEME_JS@._dojo.declare("webui.@THEME_JS@._dojo.dnd.Selector", webui.@THEME_JS@._dojo.dnd.Container, {
 	// summary: a Selector object, which knows how to select its children
 	
 	constructor: function(node, params){
@@ -1155,8 +1155,8 @@ webui.@THEME_JS@._base.dojo.declare("webui.@THEME_JS@._base.dojo.dnd.Selector", 
 		this.simpleSelection = false;
 		// set up events
 		this.events.push(
-			webui.@THEME_JS@._base.dojo.connect(this.node, "onmousedown", this, "onMouseDown"),
-			webui.@THEME_JS@._base.dojo.connect(this.node, "onmouseup",   this, "onMouseUp"));
+			webui.@THEME_JS@._dojo.connect(this.node, "onmousedown", this, "onMouseDown"),
+			webui.@THEME_JS@._dojo.connect(this.node, "onmouseup",   this, "onMouseUp"));
 	},
 	
 	// object attributes (for markup)
@@ -1165,11 +1165,11 @@ webui.@THEME_JS@._base.dojo.declare("webui.@THEME_JS@._base.dojo.dnd.Selector", 
 	// methods
 	getSelectedNodes: function(){
 		// summary: returns a list (an array) of selected nodes
-		var t = new webui.@THEME_JS@._base.dojo.NodeList();
-		var e = webui.@THEME_JS@._base.dojo.dnd._empty;
+		var t = new webui.@THEME_JS@._dojo.NodeList();
+		var e = webui.@THEME_JS@._dojo.dnd._empty;
 		for(var i in this.selection){
 			if(i in e){ continue; }
-			t.push(webui.@THEME_JS@._base.dojo.byId(i));
+			t.push(webui.@THEME_JS@._dojo.byId(i));
 		}
 		return t;	// Array
 	},
@@ -1180,19 +1180,19 @@ webui.@THEME_JS@._base.dojo.declare("webui.@THEME_JS@._base.dojo.dnd.Selector", 
 	selectAll: function(){
 		// summary: selects all items
 		this.forInItems(function(data, id){
-			this._addItemClass(webui.@THEME_JS@._base.dojo.byId(id), "Selected");
+			this._addItemClass(webui.@THEME_JS@._dojo.byId(id), "Selected");
 			this.selection[id] = 1;
 		}, this);
 		return this._removeAnchor();	// self
 	},
 	deleteSelectedNodes: function(){
 		// summary: deletes all selected items
-		var e = webui.@THEME_JS@._base.dojo.dnd._empty;
+		var e = webui.@THEME_JS@._dojo.dnd._empty;
 		for(var i in this.selection){
 			if(i in e){ continue; }
-			var n = webui.@THEME_JS@._base.dojo.byId(i);
+			var n = webui.@THEME_JS@._dojo.byId(i);
 			this.delItem(i);
-			webui.@THEME_JS@._base.dojo._destroyElement(n);
+			webui.@THEME_JS@._dojo._destroyElement(n);
 		}
 		this.anchor = null;
 		this.selection = {};
@@ -1223,20 +1223,20 @@ webui.@THEME_JS@._base.dojo.declare("webui.@THEME_JS@._base.dojo.dnd.Selector", 
 			}
 			return t;
 		};
-		webui.@THEME_JS@._base.dojo.dnd.Selector.superclass.insertNodes.call(this, data, before, anchor);
+		webui.@THEME_JS@._dojo.dnd.Selector.superclass.insertNodes.call(this, data, before, anchor);
 		this._normalizedCreator = oldCreator;
 		return this;	// self
 	},
 	destroy: function(){
 		// summary: prepares the object to be garbage-collected
-		webui.@THEME_JS@._base.dojo.dnd.Selector.superclass.destroy.call(this);
+		webui.@THEME_JS@._dojo.dnd.Selector.superclass.destroy.call(this);
 		this.selection = this.anchor = null;
 	},
 
 	// markup methods
 	markupFactory: function(params, node){
 		params._skipStartup = true;
-		return new webui.@THEME_JS@._base.dojo.dnd.Selector(node, params);
+		return new webui.@THEME_JS@._dojo.dnd.Selector(node, params);
 	},
 
 	// mouse events
@@ -1244,16 +1244,16 @@ webui.@THEME_JS@._base.dojo.declare("webui.@THEME_JS@._base.dojo.dnd.Selector", 
 		// summary: event processor for onmousedown
 		// e: Event: mouse event
 		if(!this.current){ return; }
-		if(!this.singular && !webui.@THEME_JS@._base.dojo.dnd.getCopyKeyState(e) && !e.shiftKey && (this.current.id in this.selection)){
+		if(!this.singular && !webui.@THEME_JS@._dojo.dnd.getCopyKeyState(e) && !e.shiftKey && (this.current.id in this.selection)){
 			this.simpleSelection = true;
-			webui.@THEME_JS@._base.dojo.stopEvent(e);
+			webui.@THEME_JS@._dojo.stopEvent(e);
 			return;
 		}
 		if(!this.singular && e.shiftKey){
-			if(!webui.@THEME_JS@._base.dojo.dnd.getCopyKeyState(e)){
+			if(!webui.@THEME_JS@._dojo.dnd.getCopyKeyState(e)){
 				this._removeSelection();
 			}
-			var c = webui.@THEME_JS@._base.dojo.query("> .dojoDndItem", this.parent);
+			var c = webui.@THEME_JS@._dojo.query("> .dojoDndItem", this.parent);
 			if(c.length){
 				if(!this.anchor){
 					this.anchor = c[0];
@@ -1279,7 +1279,7 @@ webui.@THEME_JS@._base.dojo.declare("webui.@THEME_JS@._base.dojo.dnd.Selector", 
 		}else{
 			if(this.singular){
 				if(this.anchor == this.current){
-					if(webui.@THEME_JS@._base.dojo.dnd.getCopyKeyState(e)){
+					if(webui.@THEME_JS@._dojo.dnd.getCopyKeyState(e)){
 						this.selectNone();
 					}
 				}else{
@@ -1289,7 +1289,7 @@ webui.@THEME_JS@._base.dojo.declare("webui.@THEME_JS@._base.dojo.dnd.Selector", 
 					this.selection[this.current.id] = 1;
 				}
 			}else{
-				if(webui.@THEME_JS@._base.dojo.dnd.getCopyKeyState(e)){
+				if(webui.@THEME_JS@._dojo.dnd.getCopyKeyState(e)){
 					if(this.anchor == this.current){
 						delete this.selection[this.anchor.id];
 						this._removeAnchor();
@@ -1317,7 +1317,7 @@ webui.@THEME_JS@._base.dojo.declare("webui.@THEME_JS@._base.dojo.dnd.Selector", 
 				}
 			}
 		}
-		webui.@THEME_JS@._base.dojo.stopEvent(e);
+		webui.@THEME_JS@._dojo.stopEvent(e);
 	},
 	onMouseUp: function(e){
 		// summary: event processor for onmouseup
@@ -1340,19 +1340,19 @@ webui.@THEME_JS@._base.dojo.declare("webui.@THEME_JS@._base.dojo.dnd.Selector", 
 	// utilities
 	onOverEvent: function(){
 		// summary: this function is called once, when mouse is over our container
-		this.onmousemoveEvent = webui.@THEME_JS@._base.dojo.connect(this.node, "onmousemove", this, "onMouseMove");
+		this.onmousemoveEvent = webui.@THEME_JS@._dojo.connect(this.node, "onmousemove", this, "onMouseMove");
 	},
 	onOutEvent: function(){
 		// summary: this function is called once, when mouse is out of our container
-		webui.@THEME_JS@._base.dojo.disconnect(this.onmousemoveEvent);
+		webui.@THEME_JS@._dojo.disconnect(this.onmousemoveEvent);
 		delete this.onmousemoveEvent;
 	},
 	_removeSelection: function(){
 		// summary: unselects all items
-		var e = webui.@THEME_JS@._base.dojo.dnd._empty;
+		var e = webui.@THEME_JS@._dojo.dnd._empty;
 		for(var i in this.selection){
 			if(i in e){ continue; }
-			var node = webui.@THEME_JS@._base.dojo.byId(i);
+			var node = webui.@THEME_JS@._dojo.byId(i);
 			if(node){ this._removeItemClass(node, "Selected"); }
 		}
 		this.selection = {};
@@ -1369,9 +1369,9 @@ webui.@THEME_JS@._base.dojo.declare("webui.@THEME_JS@._base.dojo.dnd.Selector", 
 
 }
 
-if(!webui.@THEME_JS@._base.dojo._hasResource["webui.@THEME_JS@._base.dojo.dnd.Source"]){ //_hasResource checks added by build. Do not use _hasResource directly in your code.
-webui.@THEME_JS@._base.dojo._hasResource["webui.@THEME_JS@._base.dojo.dnd.Source"] = true;
-webui.@THEME_JS@._base.dojo.provide("webui.@THEME_JS@._base.dojo.dnd.Source");
+if(!webui.@THEME_JS@._dojo._hasResource["webui.@THEME_JS@._dojo.dnd.Source"]){ //_hasResource checks added by build. Do not use _hasResource directly in your code.
+webui.@THEME_JS@._dojo._hasResource["webui.@THEME_JS@._dojo.dnd.Source"] = true;
+webui.@THEME_JS@._dojo.provide("webui.@THEME_JS@._dojo.dnd.Source");
 
 
 
@@ -1392,7 +1392,7 @@ webui.@THEME_JS@._base.dojo.provide("webui.@THEME_JS@._base.dojo.dnd.Source");
 		"After"		- insert point is after the anchor
 */
 
-webui.@THEME_JS@._base.dojo.declare("webui.@THEME_JS@._base.dojo.dnd.Source", webui.@THEME_JS@._base.dojo.dnd.Selector, {
+webui.@THEME_JS@._dojo.declare("webui.@THEME_JS@._dojo.dnd.Source", webui.@THEME_JS@._dojo.dnd.Selector, {
 	// summary: a Source object, which can be used as a DnD source, or a DnD target
 	
 	// object attributes (for markup)
@@ -1435,21 +1435,21 @@ webui.@THEME_JS@._base.dojo.declare("webui.@THEME_JS@._base.dojo.dnd.Source", we
 		// states
 		this.sourceState  = "";
 		if(this.isSource){
-			webui.@THEME_JS@._base.dojo.addClass(this.node, "dojoDndSource");
+			webui.@THEME_JS@._dojo.addClass(this.node, "dojoDndSource");
 		}
 		this.targetState  = "";
 		if(this.accept){
-			webui.@THEME_JS@._base.dojo.addClass(this.node, "dojoDndTarget");
+			webui.@THEME_JS@._dojo.addClass(this.node, "dojoDndTarget");
 		}
 		if(this.horizontal){
-			webui.@THEME_JS@._base.dojo.addClass(this.node, "dojoDndHorizontal");
+			webui.@THEME_JS@._dojo.addClass(this.node, "dojoDndHorizontal");
 		}
 		// set up events
 		this.topics = [
-			webui.@THEME_JS@._base.dojo.subscribe("/dnd/source/over", this, "onDndSourceOver"),
-			webui.@THEME_JS@._base.dojo.subscribe("/dnd/start",  this, "onDndStart"),
-			webui.@THEME_JS@._base.dojo.subscribe("/dnd/drop",   this, "onDndDrop"),
-			webui.@THEME_JS@._base.dojo.subscribe("/dnd/cancel", this, "onDndCancel")
+			webui.@THEME_JS@._dojo.subscribe("/dnd/source/over", this, "onDndSourceOver"),
+			webui.@THEME_JS@._dojo.subscribe("/dnd/start",  this, "onDndStart"),
+			webui.@THEME_JS@._dojo.subscribe("/dnd/drop",   this, "onDndDrop"),
+			webui.@THEME_JS@._dojo.subscribe("/dnd/cancel", this, "onDndCancel")
 		];
 	},
 	
@@ -1483,15 +1483,15 @@ webui.@THEME_JS@._base.dojo.declare("webui.@THEME_JS@._base.dojo.dnd.Source", we
 	},
 	destroy: function(){
 		// summary: prepares the object to be garbage-collected
-		webui.@THEME_JS@._base.dojo.dnd.Source.superclass.destroy.call(this);
-		webui.@THEME_JS@._base.dojo.forEach(this.topics, webui.@THEME_JS@._base.dojo.unsubscribe);
+		webui.@THEME_JS@._dojo.dnd.Source.superclass.destroy.call(this);
+		webui.@THEME_JS@._dojo.forEach(this.topics, webui.@THEME_JS@._dojo.unsubscribe);
 		this.targetAnchor = null;
 	},
 
 	// markup methods
 	markupFactory: function(params, node){
 		params._skipStartup = true;
-		return new webui.@THEME_JS@._base.dojo.dnd.Source(node, params);
+		return new webui.@THEME_JS@._dojo.dnd.Source(node, params);
 	},
 
 	// mouse event processors
@@ -1499,15 +1499,15 @@ webui.@THEME_JS@._base.dojo.declare("webui.@THEME_JS@._base.dojo.dnd.Source", we
 		// summary: event processor for onmousemove
 		// e: Event: mouse event
 		if(this.isDragging && this.targetState == "Disabled"){ return; }
-		webui.@THEME_JS@._base.dojo.dnd.Source.superclass.onMouseMove.call(this, e);
-		var m = webui.@THEME_JS@._base.dojo.dnd.manager();
+		webui.@THEME_JS@._dojo.dnd.Source.superclass.onMouseMove.call(this, e);
+		var m = webui.@THEME_JS@._dojo.dnd.manager();
 		if(this.isDragging){
 			// calculate before/after
 			var before = false;
 			if(this.current){
 				if(!this.targetBox || this.targetAnchor != this.current){
 					this.targetBox = {
-						xy: webui.@THEME_JS@._base.dojo.coords(this.current, true),
+						xy: webui.@THEME_JS@._dojo.coords(this.current, true),
 						w: this.current.offsetWidth,
 						h: this.current.offsetHeight
 					};
@@ -1526,7 +1526,7 @@ webui.@THEME_JS@._base.dojo.declare("webui.@THEME_JS@._base.dojo.dnd.Source", we
 			if(this.mouseDown && this.isSource){
 				var nodes = this.getSelectedNodes();
 				if(nodes.length){
-					m.startDrag(this, nodes, this.copyState(webui.@THEME_JS@._base.dojo.dnd.getCopyKeyState(e)));
+					m.startDrag(this, nodes, this.copyState(webui.@THEME_JS@._dojo.dnd.getCopyKeyState(e)));
 				}
 			}
 		}
@@ -1534,10 +1534,10 @@ webui.@THEME_JS@._base.dojo.declare("webui.@THEME_JS@._base.dojo.dnd.Source", we
 	onMouseDown: function(e){
 		// summary: event processor for onmousedown
 		// e: Event: mouse event
-		if(this._legalMouseDown(e) && (!this.skipForm || !webui.@THEME_JS@._base.dojo.dnd.isFormElement(e))){
+		if(this._legalMouseDown(e) && (!this.skipForm || !webui.@THEME_JS@._dojo.dnd.isFormElement(e))){
 			this.mouseDown = true;
 			this.mouseButton = e.button;
-			webui.@THEME_JS@._base.dojo.dnd.Source.superclass.onMouseDown.call(this, e);
+			webui.@THEME_JS@._dojo.dnd.Source.superclass.onMouseDown.call(this, e);
 		}
 	},
 	onMouseUp: function(e){
@@ -1545,7 +1545,7 @@ webui.@THEME_JS@._base.dojo.declare("webui.@THEME_JS@._base.dojo.dnd.Source", we
 		// e: Event: mouse event
 		if(this.mouseDown){
 			this.mouseDown = false;
-			webui.@THEME_JS@._base.dojo.dnd.Source.superclass.onMouseUp.call(this, e);
+			webui.@THEME_JS@._dojo.dnd.Source.superclass.onMouseUp.call(this, e);
 		}
 	},
 	
@@ -1559,7 +1559,7 @@ webui.@THEME_JS@._base.dojo.declare("webui.@THEME_JS@._base.dojo.dnd.Source", we
 				this._unmarkTargetAnchor();
 			}
 		}else if(this.isDragging){
-			var m = webui.@THEME_JS@._base.dojo.dnd.manager();
+			var m = webui.@THEME_JS@._dojo.dnd.manager();
 			m.canDrop(this.targetState != "Disabled" && (!this.current || m.source != this || !(this.current.id in this.selection)));
 		}
 	},
@@ -1574,7 +1574,7 @@ webui.@THEME_JS@._base.dojo.declare("webui.@THEME_JS@._base.dojo.dnd.Source", we
 		var accepted = this.accept && this.checkAcceptance(source, nodes);
 		this._changeState("Target", accepted ? "" : "Disabled");
 		if(accepted && this == source){
-			webui.@THEME_JS@._base.dojo.dnd.manager().overSource(this);
+			webui.@THEME_JS@._dojo.dnd.manager().overSource(this);
 		}
 		this.isDragging = true;
 	},
@@ -1600,7 +1600,7 @@ webui.@THEME_JS@._base.dojo.declare("webui.@THEME_JS@._base.dojo.dnd.Source", we
 						this._normalizedCreator = function(node, hint){
 							var t = source.getItem(node.id);
 							var n = node.cloneNode(true);
-							n.id = webui.@THEME_JS@._base.dojo.dnd.getUniqueId();
+							n.id = webui.@THEME_JS@._dojo.dnd.getUniqueId();
 							return {node: n, data: t.data, type: t.type};
 						};
 					}else{
@@ -1637,7 +1637,7 @@ webui.@THEME_JS@._base.dojo.declare("webui.@THEME_JS@._base.dojo.dnd.Source", we
 						this._normalizedCreator = function(node, hint){
 							var t = source.getItem(node.id);
 							var n = node.cloneNode(true);
-							n.id = webui.@THEME_JS@._base.dojo.dnd.getUniqueId();
+							n.id = webui.@THEME_JS@._dojo.dnd.getUniqueId();
 							return {node: n, data: t.data, type: t.type};
 						};
 					}else{
@@ -1682,13 +1682,13 @@ webui.@THEME_JS@._base.dojo.declare("webui.@THEME_JS@._base.dojo.dnd.Source", we
 	// utilities
 	onOverEvent: function(){
 		// summary: this function is called once, when mouse is over our container
-		webui.@THEME_JS@._base.dojo.dnd.Source.superclass.onOverEvent.call(this);
-		webui.@THEME_JS@._base.dojo.dnd.manager().overSource(this);
+		webui.@THEME_JS@._dojo.dnd.Source.superclass.onOverEvent.call(this);
+		webui.@THEME_JS@._dojo.dnd.manager().overSource(this);
 	},
 	onOutEvent: function(){
 		// summary: this function is called once, when mouse is out of our container
-		webui.@THEME_JS@._base.dojo.dnd.Source.superclass.onOutEvent.call(this);
-		webui.@THEME_JS@._base.dojo.dnd.manager().outSource(this);
+		webui.@THEME_JS@._dojo.dnd.Source.superclass.onOutEvent.call(this);
+		webui.@THEME_JS@._dojo.dnd.manager().outSource(this);
 	},
 	_markTargetAnchor: function(before){
 		// summary: assigns a class to the current target anchor based on "before" status
@@ -1720,26 +1720,26 @@ webui.@THEME_JS@._base.dojo.declare("webui.@THEME_JS@._base.dojo.dnd.Source", we
 		// summary: checks if user clicked on "approved" items
 		// e: Event: mouse event
 		if(!this.withHandles){ return true; }
-		for(var node = e.target; node && !webui.@THEME_JS@._base.dojo.hasClass(node, "dojoDndItem"); node = node.parentNode){
-			if(webui.@THEME_JS@._base.dojo.hasClass(node, "dojoDndHandle")){ return true; }
+		for(var node = e.target; node && !webui.@THEME_JS@._dojo.hasClass(node, "dojoDndItem"); node = node.parentNode){
+			if(webui.@THEME_JS@._dojo.hasClass(node, "dojoDndHandle")){ return true; }
 		}
 		return false;	// Boolean
 	}
 });
 
-webui.@THEME_JS@._base.dojo.declare("webui.@THEME_JS@._base.dojo.dnd.Target", webui.@THEME_JS@._base.dojo.dnd.Source, {
+webui.@THEME_JS@._dojo.declare("webui.@THEME_JS@._dojo.dnd.Target", webui.@THEME_JS@._dojo.dnd.Source, {
 	// summary: a Target object, which can be used as a DnD target
 	
 	constructor: function(node, params){
 		// summary: a constructor of the Target --- see the Source constructor for details
 		this.isSource = false;
-		webui.@THEME_JS@._base.dojo.removeClass(this.node, "dojoDndSource");
+		webui.@THEME_JS@._dojo.removeClass(this.node, "dojoDndSource");
 	},
 
 	// markup methods
 	markupFactory: function(params, node){
 		params._skipStartup = true;
-		return new webui.@THEME_JS@._base.dojo.dnd.Target(node, params);
+		return new webui.@THEME_JS@._dojo.dnd.Target(node, params);
 	}
 });
 

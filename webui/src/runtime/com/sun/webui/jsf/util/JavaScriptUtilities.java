@@ -213,7 +213,7 @@ public class JavaScriptUtilities {
      */
     public static String getModule(String name) {
         StringBuffer buff = new StringBuffer(128);
-        buff.append(getModuleName("_base.dojo"))
+        buff.append(getModuleName("_dojo"))
             .append(".require('")
             .append(getModuleName(name))
             .append("');");
@@ -248,7 +248,7 @@ public class JavaScriptUtilities {
     public static String getWidget(FacesContext context,
             UIComponent component) {
         StringBuffer buff = new StringBuffer(128);
-        buff.append(getModuleName("_base.dojo"))
+        buff.append(getModuleName("_dojo"))
             .append(".widget.byId('")
             .append(component.getClientId(context))
             .append("')");
@@ -338,7 +338,7 @@ public class JavaScriptUtilities {
             // the DOM has loaded but before all of the page elements have 
             // loaded, which means your script doesn't have to wait for images 
             // and other large resources before it manipulates page structure.
-            writer.write(getModuleName("_base.dojo"));
+            writer.write(getModuleName("_dojo"));
             writer.write(".addOnLoad(function() {");
         }
     }
