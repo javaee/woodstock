@@ -23,8 +23,8 @@
 webui.@THEME_JS@._base.dojo.provide("webui.@THEME_JS@._base.body");
 
 webui.@THEME_JS@._base.dojo.require("webui.@THEME_JS@._base.cookie");
-webui.@THEME_JS@._base.dojo.require("webui.@THEME_JS@.browser");
-webui.@THEME_JS@._base.dojo.require("webui.@THEME_JS@.common");
+webui.@THEME_JS@._base.dojo.require("webui.@THEME_JS@._base.browser");
+webui.@THEME_JS@._base.dojo.require("webui.@THEME_JS@._base.common");
 
 /**
  * @class This class contains functions used to maintain focus and scroll position.
@@ -114,7 +114,7 @@ webui.@THEME_JS@._base.body = function(viewId, path, defaultFocusElementId,
      * However just check for a non null "focus" or 
      * catch the exception when trying to reference it.
      * Returns true if the element has a "focus" method, is not
-     * disabled, and isVisible, else false.
+     * disabled, and is visible, else false.
      *
      * @param {Node} element The DOM node to have focus.
      * @return {boolean} true if DOM Node can have focus.
@@ -125,7 +125,7 @@ webui.@THEME_JS@._base.body = function(viewId, path, defaultFocusElementId,
 	try {
 	    result = element != null && element.focus && !element.disabled
 		&& element.type != "hidden"
-		&& webui.@THEME_JS@.common.isVisible(element.id);
+		&& webui.@THEME_JS@._base.common._isVisible(element.id);
 	} catch(err) {}
 	return result;
     };
@@ -188,7 +188,7 @@ webui.@THEME_JS@._base.body = function(viewId, path, defaultFocusElementId,
 	// Add the focus listener, in the onload to prevent
 	// recursive calls from calling _setDefaultFocus.
 	//
-        if (webui.@THEME_JS@.browser.isIe()) {
+        if (webui.@THEME_JS@._base.browser._isIe()) {
             webui.@THEME_JS@._base.dojo.connect(document, "onfocusin", this, "_focusListener");
         } else {
             webui.@THEME_JS@._base.dojo.connect(window, "onfocus", this, "_focusListener");

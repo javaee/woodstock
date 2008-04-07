@@ -22,7 +22,7 @@
 
 webui.@THEME_JS@._base.dojo.provide("webui.@THEME_JS@.widget._base.menuBase");
 
-webui.@THEME_JS@._base.dojo.require("webui.@THEME_JS@.browser");
+webui.@THEME_JS@._base.dojo.require("webui.@THEME_JS@._base.browser");
 webui.@THEME_JS@._base.dojo.require("webui.@THEME_JS@.widget.common");
 webui.@THEME_JS@._base.dojo.require("webui.@THEME_JS@.widget._base.widgetBase");
 
@@ -90,11 +90,11 @@ webui.@THEME_JS@.widget._base.menuBase.prototype._addOptions = function(menuNode
         
         if (props.options[i].separator == true) {
             separator = this.menuSeparatorContainer.cloneNode(true);
-            if (webui.@THEME_JS@.browser.isIe5up()) {
+            if (webui.@THEME_JS@._base.browser._isIe5up()) {
                 var sep = this.menuSeparator.cloneNode(true);
                 separator.appendChild(sep);
             }
-            this._common.setVisibleElement(separator, true);             
+            this._common._setVisibleElement(separator, true);             
             menuNode.appendChild(separator);
         }
     }
@@ -160,7 +160,7 @@ webui.@THEME_JS@.widget._base.menuBase.prototype._createOnKeyDownCallBack = func
 
         // If the menu is not visible, we do not need to capture
         // key press events.
-        if (!webui.@THEME_JS@.common.isVisibleElement(widget.domNode)) {
+        if (!webui.@THEME_JS@._base.common._isVisibleElement(widget.domNode)) {
             return false;
         }
         event = common._getEvent(event);
@@ -233,7 +233,7 @@ webui.@THEME_JS@.widget._base.menuBase.prototype._createOnMouseOverCallBack = fu
                     widget._theme._getClassName("MENU_GROUP_CONTAINER");
             }
         }
-        if (webui.@THEME_JS@.browser.isIe5up() ) {
+        if (webui.@THEME_JS@._base.browser._isIe5up() ) {
             menuItem.className = menuItem.className + " " + 
                 widget._theme._getClassName("MENU_ITEM_HOVER");            
         }
@@ -742,7 +742,7 @@ webui.@THEME_JS@.widget._base.menuBase.prototype._traverseMenu = function(keyCod
         this._processEnterKeyPressEvent(val);
        
     }    
-    if (webui.@THEME_JS@.browser.isIe5up()) {
+    if (webui.@THEME_JS@._base.browser._isIe5up()) {
         window.event.cancelBubble = true;
         window.event.returnValue = false;
     } else {

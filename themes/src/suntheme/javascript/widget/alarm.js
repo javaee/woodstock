@@ -211,13 +211,13 @@ webui.@THEME_JS@.widget.alarm.prototype._setProps = function(props) {
     
     // Set right text.
     if (props.textPosition == "right" || props.textPosition == null && props.text != null) {
-        this._common.setVisibleElement(this.leftText, false);
+        this._common._setVisibleElement(this.leftText, false);
         this._widget._addFragment(this.rightText, props.text);
     }
 
     // Set left text.
     if (props.textPosition == "left" && props.text != null) {
-        this._common.setVisibleElement(this.rightText, false);
+        this._common._setVisibleElement(this.rightText, false);
         this._widget._addFragment(this.leftText, props.text);
     }    
     

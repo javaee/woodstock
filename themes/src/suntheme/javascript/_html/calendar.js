@@ -22,7 +22,7 @@
 
 webui.@THEME_JS@._base.dojo.provide("webui.@THEME_JS@._html.calendar");
 
-webui.@THEME_JS@._base.dojo.require("webui.@THEME_JS@.common");
+webui.@THEME_JS@._base.dojo.require("webui.@THEME_JS@._base.common");
 webui.@THEME_JS@._base.dojo.require("webui.@THEME_JS@._base.proto");
 
 /** 
@@ -607,9 +607,9 @@ webui.@THEME_JS@._html.calendar = {
             span.style.display = "block";
         }
         if(disabled) {
-            webui.@THEME_JS@.common.addStyleClass(this.pattern, this.hiddenClass);
+            webui.@THEME_JS@._base.common._addStyleClass(this.pattern, this.hiddenClass);
         } else {
-            webui.@THEME_JS@.common.stripStyleClass(this.pattern, this.hiddenClass);
+            webui.@THEME_JS@._base.common._stripStyleClass(this.pattern, this.hiddenClass);
         }
         return true;
     },

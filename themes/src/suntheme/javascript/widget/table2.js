@@ -225,13 +225,13 @@ webui.@THEME_JS@.widget.table2.prototype._setProps = function(props) {
         
         this._widget._addFragment(this.captionContainer, (filterText) 
             ? props.caption + filterText : props.caption);
-        this._common.setVisibleElement(this.captionContainer, true);
+        this._common._setVisibleElement(this.captionContainer, true);
     }
 
     // Add actions.
     if (props.actions) {
         this._widget._addFragment(this.actionsNode, props.actions);
-        this._common.setVisibleElement(this.actionsContainer, true);
+        this._common._setVisibleElement(this.actionsContainer, true);
     }
 
     // Add row groups.

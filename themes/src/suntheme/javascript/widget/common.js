@@ -23,7 +23,7 @@
 webui.@THEME_JS@._base.dojo.provide("webui.@THEME_JS@.widget.common");
 
 webui.@THEME_JS@._base.dojo.require("webui.@THEME_JS@._base.config");
-webui.@THEME_JS@._base.dojo.require("webui.@THEME_JS@.browser");
+webui.@THEME_JS@._base.dojo.require("webui.@THEME_JS@._base.browser");
 webui.@THEME_JS@._base.dojo.require("webui.@THEME_JS@._base.theme.common");
 
 /**
@@ -549,7 +549,7 @@ webui.@THEME_JS@.widget.common = {
 
         // Currently high contrast mode check is supported for firefox and ie on
         // windows. High contrast mode is not supported for Safari.
-        if (webui.@THEME_JS@.browser.isSafari()) {
+        if (webui.@THEME_JS@._base.browser._isSafari()) {
             return false;            
         }
         // Get icon properties.

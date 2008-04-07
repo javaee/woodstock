@@ -191,8 +191,8 @@ webui.@THEME_JS@.widget.imageHyperlink.prototype._setProps = function(props) {
 
         // We need to hide/show images only when the disabed image is specified.
         if (this.disabledImage) { 
-            this._common.setVisibleElement(this.enabledImageContainer, !disabled);
-            this._common.setVisibleElement(this.disabledImageContainer, disabled);
+            this._common._setVisibleElement(this.enabledImageContainer, !disabled);
+            this._common._setVisibleElement(this.disabledImageContainer, disabled);
         }
     }
 
@@ -213,8 +213,8 @@ webui.@THEME_JS@.widget.imageHyperlink.prototype._setProps = function(props) {
     // Set image position.
     if (props.imagePosition) {
         var left = (props.imagePosition == "left");
-        this._common.setVisibleElement(this.leftContentsContainer, !left);
-        this._common.setVisibleElement(this.rightContentsContainer, left);    
+        this._common._setVisibleElement(this.leftContentsContainer, !left);
+        this._common._setVisibleElement(this.rightContentsContainer, left);    
     }
 
     // Add contents.

@@ -259,7 +259,7 @@ if (typeof webui.@THEME_JS@ == "undefined") {
 
             // Set callback.
             if (callback) {
-                if (webui.@THEME_JS@.browser.isIe()) {
+                if (webui.@THEME_JS@._base.browser._isIe()) {
                     script.onreadystatechange = function () {
                         // IE 7 won't return 'complete', but 'loaded' works.
                         if (script.readyState == "loaded"
@@ -289,7 +289,7 @@ if (typeof webui.@THEME_JS@ == "undefined") {
                 return false;
             }
             var bootstrap = webui.@THEME_JS@._base.bootstrap;
-            var browser = webui.@THEME_JS@.browser;
+            var browser = webui.@THEME_JS@._base.browser;
             var isDebug = new Boolean(props.isDebug).valueOf();
             var theme = webui.@THEME_JS@._base.theme.common;
 
@@ -308,13 +308,13 @@ if (typeof webui.@THEME_JS@ == "undefined") {
                 }
             }
             // Load browser specific style sheet(s).
-            if (browser.isIe7()) {
+            if (browser._isIe7()) {
                 files = theme._getStyleSheets((isDebug) ? "ie7Uncompressed" : "ie7");
-            } else if (browser.isIe6()) {
+            } else if (browser._isIe6()) {
                 files = theme._getStyleSheets((isDebug) ? "ie6Uncompressed" : "ie6");
-            } else if (browser.isSafari()) {
+            } else if (browser._isSafari()) {
                 files = theme._getStyleSheets((isDebug) ? "safariUncompressed" : "safari");
-            } else if (browser.isGecko()) {
+            } else if (browser._isGecko()) {
                 files = theme._getStyleSheets((isDebug) ? "geckoUncompressed" : "gecko");
             } else {
                 files = theme._getStyleSheets((isDebug) ? "defaultUncompressed" : "default");
@@ -371,7 +371,7 @@ webui.@THEME_JS@._base.dojo.require("webui.@THEME_JS@._base.dojo.dojo"); // Repl
     // Initialize webui.
     webui.@THEME_JS@._base.bootstrap._initWebui(webui_@THEME_JS@);
 
-webui.@THEME_JS@._base.dojo.require("webui.@THEME_JS@.browser"); // Replaced by build.
+webui.@THEME_JS@._base.dojo.require("webui.@THEME_JS@._base.browser"); // Replaced by build.
 webui.@THEME_JS@._base.dojo.require("webui.@THEME_JS@._base.config"); // Replaced by build.
 webui.@THEME_JS@._base.dojo.require("webui.@THEME_JS@._base.theme.common"); // Replaced by build.
 webui.@THEME_JS@._base.dojo.require("webui.@THEME_JS@.widget.common"); // Replaced by build.

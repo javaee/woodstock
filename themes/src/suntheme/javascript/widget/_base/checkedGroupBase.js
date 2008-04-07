@@ -167,7 +167,7 @@ webui.@THEME_JS@.widget._base.checkedGroupBase.prototype._postCreate = function 
 
     // Show label.
     if (this.label) {
-        this._common.setVisibleElement(this.rowNode, true);
+        this._common._setVisibleElement(this.rowNode, true);
     }
     return this._inherited("_postCreate", arguments);
 };

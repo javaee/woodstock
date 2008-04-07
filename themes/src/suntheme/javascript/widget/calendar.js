@@ -22,7 +22,7 @@
 
 webui.@THEME_JS@._base.dojo.provide("webui.@THEME_JS@.widget.calendar");
 
-webui.@THEME_JS@._base.dojo.require("webui.@THEME_JS@.browser");
+webui.@THEME_JS@._base.dojo.require("webui.@THEME_JS@._base.browser");
 webui.@THEME_JS@._base.dojo.require("webui.@THEME_JS@.widget.common");
 webui.@THEME_JS@._base.dojo.require("webui.@THEME_JS@.widget._base.widgetBase");
 
@@ -1298,7 +1298,7 @@ webui.@THEME_JS@.widget.calendar.prototype._toggleCalendar = function() {
     }
 
     // Test for IE 
-    if (webui.@THEME_JS@.browser.isIe5up()) {
+    if (webui.@THEME_JS@._base.browser._isIe5up()) {
         this._ieStackingContextFix();
     }          
     return false;

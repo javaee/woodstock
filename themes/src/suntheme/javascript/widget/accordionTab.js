@@ -598,7 +598,7 @@ webui.@THEME_JS@.widget.accordionTab.prototype._traverseMenu = function(keyCode,
             if (this.titleContainer.focus) {
                 this.titleContainer.focus();
             }
-            if (webui.@THEME_JS@.browser.isIe5up()) {
+            if (webui.@THEME_JS@._base.browser._isIe5up()) {
                 window. event.cancelBubble = true;
                 window.event.returnValue = false;
             } else {

@@ -22,7 +22,7 @@
 
 webui.@THEME_JS@._base.dojo.provide("webui.@THEME_JS@._html.fileChooser");
 
-webui.@THEME_JS@._base.dojo.require("webui.@THEME_JS@.common");
+webui.@THEME_JS@._base.dojo.require("webui.@THEME_JS@._base.common");
 webui.@THEME_JS@._base.dojo.require("webui.@THEME_JS@._base.proto");
 
 /** 
@@ -294,7 +294,7 @@ webui.@THEME_JS@._html.fileChooser = {
 	// or dbl click in the list.
 	if (this.selectedfield && element.id == this.selectedfield.id) {
 	    var escapedSelections = this.selectedfield.value;
-	    var selections = webui.@THEME_JS@.common.unescapeStrings(escapedSelections,
+	    var selections = webui.@THEME_JS@._base.common._unescapeStrings(escapedSelections,
 		    this.delimiter, this.escapeChar);
 
 	    // If a choose button has been defined call its click method
@@ -554,7 +554,7 @@ webui.@THEME_JS@._html.fileChooser = {
 	// Make sure the hidden select option array is up
 	// to date in case there isn't a selectedFileField.
 	if (!this.setSelectedFieldValue(selections)) {
-	    webui.@THEME_JS@.common.createSubmittableArray(
+	    webui.@THEME_JS@._base.common._createSubmittableArray(
                 this.selectionsId, this.listentries.form, null, selections);
 	}
 
@@ -749,14 +749,14 @@ webui.@THEME_JS@._html.fileChooser = {
 	if (selections == null || selections.length == 0) {
 	    return false;
 	} else {
-	    value = webui.@THEME_JS@.common.escapeString(
+	    value = webui.@THEME_JS@._base.common._escapeString(
                 this.getFileNameOnly(selections[0]), this.delimiter,
                 this.escapeChar);
 	}
 
 	for (var j = 1; j < selections.length; j++) {
 	    value = value + ',' + 
-                webui.@THEME_JS@.common.escapeString(
+                webui.@THEME_JS@._base.common._escapeString(
                     this.getFileNameOnly(selections[j]), this.delimiter,
                     this.escapeChar);
 	} 

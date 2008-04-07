@@ -22,8 +22,8 @@
 
 webui.@THEME_JS@._base.dojo.provide("webui.@THEME_JS@._html.wizard");
 
-webui.@THEME_JS@._base.dojo.require("webui.@THEME_JS@.browser");
-webui.@THEME_JS@._base.dojo.require("webui.@THEME_JS@.common");
+webui.@THEME_JS@._base.dojo.require("webui.@THEME_JS@._base.browser");
+webui.@THEME_JS@._base.dojo.require("webui.@THEME_JS@._base.common");
 webui.@THEME_JS@._base.dojo.require("webui.@THEME_JS@._base.proto");
 
 /** 
@@ -220,7 +220,7 @@ webui.@THEME_JS@._html.wizard = {
      * @return {boolean} true if successful; otherwise, false.
      */
     resize_hack: function(helpid, stepsid, wizbdyid) {
-        if (webui.@THEME_JS@.browser.isIe5up()) {
+        if (webui.@THEME_JS@._base.browser._isIe5up()) {
             var bdy = document.getElementById(wizbdyid);
 
             if (bdy != null) {

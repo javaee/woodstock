@@ -332,7 +332,7 @@ webui.@THEME_JS@.widget.listbox.prototype._getOptionClassName = function(element
 webui.@THEME_JS@.widget.listbox.prototype._postCreate = function () {
     // Don't trash the template.
     //
-    webui.@THEME_JS@.common.addStyleClass(this.listContainer,
+    webui.@THEME_JS@._base.common._addStyleClass(this.listContainer,
 	this._getListContainerClassName(
 		this.disabled == true, this.monospace == true));
 
@@ -379,12 +379,12 @@ webui.@THEME_JS@.widget.listbox.prototype.setProps = function(props, notify) {
     //
     if (toggleMonospace || toggleDisabled) {
 	var cn = this._getListContainerClassName(isdisabled, ismonospace);
-	webui.@THEME_JS@.common.stripStyleClass(this.listContainer, cn);
+	webui.@THEME_JS@._base.common._stripStyleClass(this.listContainer, cn);
 
 	cn = this._getListContainerClassName(
 	    toggleDisabled ? props.disabled == true : isdisabled,
 	    toggleMonospace ? props.monospace == true : ismonospace);
-	webui.@THEME_JS@.common.addStyleClass(this.listContainer, cn);
+	webui.@THEME_JS@._base.common._addStyleClass(this.listContainer, cn);
     }
     return this._inherited("setProps", arguments);
 };

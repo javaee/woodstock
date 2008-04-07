@@ -195,11 +195,11 @@ webui.@THEME_JS@.widget._base.labeledBase.prototype._setProps = function(props) 
     // If there is no brNode the subclass does not support labelOnTop.
     //
     if (this.brNode && props.labelOnTop != null) {
-	this._common.setVisibleElement(this.brNode, props.labelOnTop);
+	this._common._setVisibleElement(this.brNode, props.labelOnTop);
 
 	// Always remove the last label on top selector.
 	// 
-	this._common.stripStyleClass(this.labelContainer,
+	this._common._stripStyleClass(this.labelContainer,
 	    this._lastLabelOnTopClassName);
 
 	// Get the label selector from the subclass
@@ -210,7 +210,7 @@ webui.@THEME_JS@.widget._base.labeledBase.prototype._setProps = function(props) 
 
 	// Add the "ontop" selector.
 	//
-	this._common.addStyleClass(this.labelContainer,
+	this._common._addStyleClass(this.labelContainer,
 	    this._lastLabelOnTopClassName);
     }
 

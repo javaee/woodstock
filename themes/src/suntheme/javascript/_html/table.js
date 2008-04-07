@@ -22,7 +22,7 @@
 
 webui.@THEME_JS@._base.dojo.provide("webui.@THEME_JS@._html.table");
 
-webui.@THEME_JS@._base.dojo.require("webui.@THEME_JS@.common");
+webui.@THEME_JS@._base.dojo.require("webui.@THEME_JS@._base.common");
 webui.@THEME_JS@._base.dojo.require("webui.@THEME_JS@._base.proto");
 webui.@THEME_JS@._base.dojo.require("webui.@THEME_JS@.widget.common");
 
@@ -577,11 +577,11 @@ webui.@THEME_JS@._html.table = {
                 this.SEPARATOR + rowIds[k]);
             var props = select.getProps();
             if (select.getProps().checked == true) {
-                webui.@THEME_JS@.common.addStyleClass(row, 
+                webui.@THEME_JS@._base.common._addStyleClass(row, 
                     this.selectRowStyleClass);
                 selected = true;
             } else {
-                webui.@THEME_JS@.common.stripStyleClass(row, 
+                webui.@THEME_JS@._base.common._stripStyleClass(row, 
                     this.selectRowStyleClass);
                 checked = false;
             }
@@ -603,7 +603,7 @@ webui.@THEME_JS@._html.table = {
 
         // Get flag indicating groupis collapsed.
         var prefix = groupId + this.SEPARATOR;
-        var collapsed = !webui.@THEME_JS@.common.isVisible(prefix + rowIds[0]);
+        var collapsed = !webui.@THEME_JS@._base.common._isVisible(prefix + rowIds[0]);
 
         // Set next warning image.
         var image = document.getElementById(prefix + this.warningIconId);
@@ -1025,9 +1025,9 @@ webui.@THEME_JS@._html.table = {
         }
 
         // Set selected style.
-        if (webui.@THEME_JS@.common.isVisibleElement(div)) {
-            webui.@THEME_JS@.common.stripStyleClass(menu, this.basicFilterStyleClass);
-            webui.@THEME_JS@.common.addStyleClass(menu, this.customFilterStyleClass);
+        if (webui.@THEME_JS@._base.common._isVisibleElement(div)) {
+            webui.@THEME_JS@._base.common._stripStyleClass(menu, this.basicFilterStyleClass);
+            webui.@THEME_JS@._base.common._addStyleClass(menu, this.customFilterStyleClass);
         } else {
             // Reset default selected option.
             menu.selectedIndex = 0;
@@ -1037,8 +1037,8 @@ webui.@THEME_JS@._html.table = {
                     break;
                 }
             }
-            webui.@THEME_JS@.common.stripStyleClass(menu, this.customFilterStyleClass);
-            webui.@THEME_JS@.common.addStyleClass(menu, this.basicFilterStyleClass);
+            webui.@THEME_JS@._base.common._stripStyleClass(menu, this.customFilterStyleClass);
+            webui.@THEME_JS@._base.common._addStyleClass(menu, this.basicFilterStyleClass);
         }
         return true;
     },
@@ -1142,7 +1142,7 @@ webui.@THEME_JS@._html.table = {
 
         // Get flag indicating group is collapsed.
         var prefix = groupId + this.SEPARATOR;
-        var collapsed = !webui.@THEME_JS@.common.isVisible(prefix + rowIds[0]);
+        var collapsed = !webui.@THEME_JS@._base.common._isVisible(prefix + rowIds[0]);
 
         // Get the number of column headers and table column footers for all 
         // TableRowGroup children.
@@ -1173,7 +1173,7 @@ webui.@THEME_JS@._html.table = {
             if (document.getElementById(columnFooterId) == null) {
                 break;
             }
-            webui.@THEME_JS@.common.setVisible(columnFooterId, collapsed);
+            webui.@THEME_JS@._base.common._setVisible(columnFooterId, collapsed);
         }
 
         // Toggle column header only if multiple column headers are shown.
@@ -1185,7 +1185,7 @@ webui.@THEME_JS@._html.table = {
                 if (document.getElementById(columnHeaderId) == null) {
                     break;
                 }            
-                webui.@THEME_JS@.common.setVisible(columnHeaderId, collapsed);
+                webui.@THEME_JS@._base.common._setVisible(columnHeaderId, collapsed);
             }
         }
 
@@ -1198,7 +1198,7 @@ webui.@THEME_JS@._html.table = {
                 if (document.getElementById(tableColumnFooterId) == null) {
                     break;
                 }
-                webui.@THEME_JS@.common.setVisible(tableColumnFooterId, collapsed);
+                webui.@THEME_JS@._base.common._setVisible(tableColumnFooterId, collapsed);
             }
         }
 
@@ -1206,11 +1206,11 @@ webui.@THEME_JS@._html.table = {
         var rowId;
         for (var k = 0; k < rowIds.length; k++) {
             rowId = prefix + rowIds[k];
-            webui.@THEME_JS@.common.setVisible(rowId, collapsed);
+            webui.@THEME_JS@._base.common._setVisible(rowId, collapsed);
         }
 
         // Toggle group footers.
-        webui.@THEME_JS@.common.setVisible(prefix + this.groupFooterId, collapsed);
+        webui.@THEME_JS@._base.common._setVisible(prefix + this.groupFooterId, collapsed);
 
         // Set next toggle button image.
         var groupPanelToggleButtonId = prefix + this.groupPanelToggleButtonId;
@@ -1269,11 +1269,11 @@ webui.@THEME_JS@._html.table = {
                 // Set focus when panel is toggled -- bugtraq 6316565.
                 var focusElement = null;
 
-                if (webui.@THEME_JS@.common.isVisibleElement(div)) {
-                    webui.@THEME_JS@.common.setVisibleElement(div, false); // Hide panel.
+                if (webui.@THEME_JS@._base.common._isVisibleElement(div)) {
+                    webui.@THEME_JS@._base.common._setVisibleElement(div, false); // Hide panel.
                     focusElement = document.getElementById(panelFocusIdClose);
                 } else {
-                    webui.@THEME_JS@.common.setVisibleElement(div, true); // Show panel.
+                    webui.@THEME_JS@._base.common._setVisibleElement(div, true); // Show panel.
                     focusElement = document.getElementById(panelFocusIdOpen);
                 }
 
@@ -1283,7 +1283,7 @@ webui.@THEME_JS@._html.table = {
                 }
             } else {
                 // Panels are hidden by default.
-                webui.@THEME_JS@.common.setVisibleElement(div, false);
+                webui.@THEME_JS@._base.common._setVisibleElement(div, false);
             }
 
             // Get image from icon hyperlink component.
@@ -1293,7 +1293,7 @@ webui.@THEME_JS@._html.table = {
             }
 
             // Set image.
-            if (webui.@THEME_JS@.common.isVisibleElement(div)) {
+            if (webui.@THEME_JS@._base.common._isVisibleElement(div)) {
                 imgHyperlink.setProps({
                     enabledImage: {
                         src: this.panelToggleIconsOpen[i]

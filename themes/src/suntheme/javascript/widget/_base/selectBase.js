@@ -22,8 +22,8 @@
 
 webui.@THEME_JS@._base.dojo.provide("webui.@THEME_JS@.widget._base.selectBase");
 
-webui.@THEME_JS@._base.dojo.require("webui.@THEME_JS@.browser");
-webui.@THEME_JS@._base.dojo.require("webui.@THEME_JS@.common");
+webui.@THEME_JS@._base.dojo.require("webui.@THEME_JS@._base.browser");
+webui.@THEME_JS@._base.dojo.require("webui.@THEME_JS@._base.common");
 webui.@THEME_JS@._base.dojo.require("webui.@THEME_JS@.widget.common");
 webui.@THEME_JS@._base.dojo.require("webui.@THEME_JS@.widget._base.labeledBase");
 webui.@THEME_JS@._base.dojo.require("webui.@THEME_JS@.widget._base.widgetBase");
@@ -156,7 +156,7 @@ webui.@THEME_JS@.widget._base.selectBase.prototype._changed = function(ev) {
     // IE allows disabled options to be selected. Ensure that
     // disabled options never appear as selected options.
     //
-    if (webui.@THEME_JS@.browser.isIe()) {
+    if (webui.@THEME_JS@._base.browser._isIe()) {
 	for (var i = 0; i < options.length; ++i) {
 	    if (options[i].disabled == true && options[i].selected == true) {
 		if (this.listContainer.multiple == true) {
@@ -356,7 +356,7 @@ webui.@THEME_JS@.widget._base.selectBase.prototype._setOptions = function(props)
 
 	var pOption = props.options[i];
 
-	var isie = webui.@THEME_JS@.browser.isIe();
+	var isie = webui.@THEME_JS@._base.browser._isIe();
 	if (pOption.group == null || pOption.group == false) {
 
 	    // For some reason, ie is prone to painting problems (esp. after a 

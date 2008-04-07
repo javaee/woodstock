@@ -174,7 +174,7 @@ webui.@THEME_JS@._base.scrollCookie = function(viewId, path) {
             this._top  = window.document.body.scrollTop;
         }
         // if the left and top scroll values are still null
-        // try to extract it assuming the browser is IE
+        // try to extract it assuming the browser is IE.
         if (this._left == null && this._top == null) {
             this._left = window.pageXOffset;
             this._top = window.pageYOffset;

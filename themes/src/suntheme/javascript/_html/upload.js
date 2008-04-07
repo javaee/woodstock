@@ -22,8 +22,8 @@
 
 webui.@THEME_JS@._base.dojo.provide("webui.@THEME_JS@._html.upload");
 
-webui.@THEME_JS@._base.dojo.require("webui.@THEME_JS@.browser");
-webui.@THEME_JS@._base.dojo.require("webui.@THEME_JS@.common");
+webui.@THEME_JS@._base.dojo.require("webui.@THEME_JS@._base.browser");
+webui.@THEME_JS@._base.dojo.require("webui.@THEME_JS@._base.common");
 
 /**
  * @class This class contains functions for upload components.
@@ -112,7 +112,7 @@ webui.@THEME_JS@._html.upload = {
 	    if (preservePath != null) {
 		preservePath.value = node.value;
 	    } else {
-		webui.@THEME_JS@.common.insertHiddenField(preservePathId, 
+		webui.@THEME_JS@._base.common._insertHiddenField(preservePathId, 
                     node.value, theForm);
 	    }
 	    return true;
@@ -167,7 +167,7 @@ webui.@THEME_JS@._html.upload = {
             // form.enctype does not work for IE, but works Safari
             // form.encoding works on both IE and Firefox
 	    //
-            if (webui.@THEME_JS@.browser.isSafari()) {
+            if (webui.@THEME_JS@._base.browser._isSafari()) {
                 form.enctype = "multipart/form-data";
             } else {
                 form.encoding = "multipart/form-data";

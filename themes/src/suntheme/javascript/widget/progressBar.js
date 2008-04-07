@@ -200,7 +200,7 @@ webui.@THEME_JS@.widget.progressBar.prototype._getClassName = function() {
  * @return {boolean} true if successful; otherwise, false.
  */
 webui.@THEME_JS@.widget.progressBar.prototype.isBottomControlVisible = function() {
-    return this._common.isVisibleElement(this.bottomControlsContainer);
+    return this._common._isVisibleElement(this.bottomControlsContainer);
 };
 
 /**
@@ -209,7 +209,7 @@ webui.@THEME_JS@.widget.progressBar.prototype.isBottomControlVisible = function(
 * @return {boolean} true if successful; otherwise, false.
  */
 webui.@THEME_JS@.widget.progressBar.prototype.isFailedStateMessageVisible = function() {
-    return this._common.isVisibleElement(this.failedStateContainer);
+    return this._common._isVisibleElement(this.failedStateContainer);
 };
 
 /**
@@ -218,7 +218,7 @@ webui.@THEME_JS@.widget.progressBar.prototype.isFailedStateMessageVisible = func
 * @return {boolean} true if successful; otherwise, false.
  */
 webui.@THEME_JS@.widget.progressBar.prototype.isLogMsgVisible = function() {
-    return this._common.isVisibleElement(this.logContainer);
+    return this._common._isVisibleElement(this.logContainer);
 };
 
 /**
@@ -227,7 +227,7 @@ webui.@THEME_JS@.widget.progressBar.prototype.isLogMsgVisible = function() {
 * @return {boolean} true if successful; otherwise, false.
  */
 webui.@THEME_JS@.widget.progressBar.prototype.isOperationTextVisible = function() {
-    return this._common.isVisibleElement(this.topTextContainer);
+    return this._common._isVisibleElement(this.topTextContainer);
 };
 
 /**
@@ -236,7 +236,7 @@ webui.@THEME_JS@.widget.progressBar.prototype.isOperationTextVisible = function(
 * @return {boolean} true if successful; otherwise, false.
  */
 webui.@THEME_JS@.widget.progressBar.prototype.isProgressBarContainerVisible = function() {
-    return this._common.isVisibleElement(this.barContainer);
+    return this._common._isVisibleElement(this.barContainer);
 };
 
 /**
@@ -245,7 +245,7 @@ webui.@THEME_JS@.widget.progressBar.prototype.isProgressBarContainerVisible = fu
 * @return {boolean} true if successful; otherwise, false.
  */
 webui.@THEME_JS@.widget.progressBar.prototype.isProgressBarVisible = function() {
-    return this._common.isVisibleElement(this); 
+    return this._common._isVisibleElement(this); 
 };
 
 /**
@@ -254,7 +254,7 @@ webui.@THEME_JS@.widget.progressBar.prototype.isProgressBarVisible = function() 
 * @return {boolean} true if successful; otherwise, false.
  */
 webui.@THEME_JS@.widget.progressBar.prototype.isRightControlVisible = function() {
-    return this._common.isVisibleElement(this.rightControlsContainer);
+    return this._common._isVisibleElement(this.rightControlsContainer);
 };
 
 /**
@@ -263,7 +263,7 @@ webui.@THEME_JS@.widget.progressBar.prototype.isRightControlVisible = function()
 * @return {boolean} true if successful; otherwise, false.
  */
 webui.@THEME_JS@.widget.progressBar.prototype.isStatusTextVisible = function() {
-    return this._common.isVisibleElement(this.bottomTextContainer);
+    return this._common._isVisibleElement(this.bottomTextContainer);
 };
 
 /**
@@ -370,7 +370,7 @@ webui.@THEME_JS@.widget.progressBar.prototype.setBottomControlVisible = function
     if (show == null) {
         return false;
     }
-    this._common.setVisibleElement(this.bottomControlsContainer, show);
+    this._common._setVisibleElement(this.bottomControlsContainer, show);
     return true;
 };
 
@@ -384,7 +384,7 @@ webui.@THEME_JS@.widget.progressBar.prototype.setFailedStateMessageVisible = fun
     if (show == null) {
         return false;
     }
-    this._common.setVisibleElement(this.failedStateContainer, show);
+    this._common._setVisibleElement(this.failedStateContainer, show);
     return true;
 };
 
@@ -398,7 +398,7 @@ webui.@THEME_JS@.widget.progressBar.prototype.setLogMsgVisible = function(show) 
     if (show == null) {
         return false;
     }
-    this._common.setVisibleElement(this.logContainer, show);
+    this._common._setVisibleElement(this.logContainer, show);
     return true;
 };
 
@@ -451,7 +451,7 @@ webui.@THEME_JS@.widget.progressBar.prototype.setOperationTextVisible = function
     if (show == null) {
         return false;
     }
-    this._common.setVisibleElement(this.topTextContainer, show);
+    this._common._setVisibleElement(this.topTextContainer, show);
     return true;
 };
 
@@ -530,8 +530,8 @@ webui.@THEME_JS@.widget.progressBar.prototype.setProgress = function(props) {
             this._widget._addFragment(this.failedLabelContainer,
                 props.failedStateText + " " + props.progress + this.percentChar);
 
-            this._common.setVisibleElement(this.failedLabelContainer, true);
-            this._common.setVisibleElement(this.failedStateContainer, true);
+            this._common._setVisibleElement(this.failedLabelContainer, true);
+            this._common._setVisibleElement(this.failedStateContainer, true);
         }
         if (this.funcFailed != null) {
             (this.funcFailed)();
@@ -625,7 +625,7 @@ webui.@THEME_JS@.widget.progressBar.prototype.setProgressBarVisible = function(s
     if (show == null) {
         return false;
     }
-    this._common.setVisibleElement(this, show);
+    this._common._setVisibleElement(this, show);
     return true; 
 };
 
@@ -652,13 +652,13 @@ webui.@THEME_JS@.widget.progressBar.prototype._setProps = function(props) {
     // Add top text.
     if (props.topText) {
         this._widget._addFragment(this.topTextContainer, props.topText); 
-        this._common.setVisibleElement(this.topTextContainer, true);
+        this._common._setVisibleElement(this.topTextContainer, true);
     }
 
     // Add bottom text.
     if (props.bottomText) {
         this._widget._addFragment(this.bottomTextContainer, props.bottomText);
-        this._common.setVisibleElement(this.bottomTextContainer, true);
+        this._common._setVisibleElement(this.bottomTextContainer, true);
     }
 
     if (props.type == this.determinate 
@@ -681,13 +681,13 @@ webui.@THEME_JS@.widget.progressBar.prototype._setProps = function(props) {
         // Add right controls.
         if (props.progressControlRight != null) {
             this._widget._addFragment(this.rightControlsContainer, props.progressControlRight);
-            this._common.setVisibleElement(this.rightControlsContainer, true);
+            this._common._setVisibleElement(this.rightControlsContainer, true);
         }
 
         // Add bottom controls.
         if (props.progressControlBottom != null) {
             this._widget._addFragment(this.bottomControlsContainer, props.progressControlBottom);
-            this._common.setVisibleElement(this.bottomControlsContainer, true);
+            this._common._setVisibleElement(this.bottomControlsContainer, true);
         }
     }
 
@@ -708,13 +708,13 @@ webui.@THEME_JS@.widget.progressBar.prototype._setProps = function(props) {
             }
             // NOTE: If you set this value manually, text must be HTML escaped.            
             this._widget._addFragment(this.innerBarOverlayContainer, this.progress + "%");
-            this._common.setVisibleElement(this.innerBarOverlayContainer, true);
+            this._common._setVisibleElement(this.innerBarOverlayContainer, true);
         }
 
         // Add log.
         if (props.log != null && props.overlayAnimation == false) { 
             this._widget._addFragment(this.logContainer, props.log);
-            this._common.setVisibleElement(this.logContainer, true);
+            this._common._setVisibleElement(this.logContainer, true);
         }  
     } else if (props.type == this.indeterminate) {
         // Set style class.
@@ -739,7 +739,7 @@ webui.@THEME_JS@.widget.progressBar.prototype._setProps = function(props) {
                 }    
             }
             this._widget._addFragment(this.busyImageContainer, props.busyImage);
-            this._common.setVisibleElement(this.busyImageContainer, true);
+            this._common._setVisibleElement(this.busyImageContainer, true);
         }
     }
 
@@ -773,7 +773,7 @@ webui.@THEME_JS@.widget.progressBar.prototype.setRightControlVisible = function(
     if (show == null) {
         return false;
     }
-    this._common.setVisibleElement(this.rightControlsContainer, show);
+    this._common._setVisibleElement(this.rightControlsContainer, show);
     return true;
 };
 
@@ -787,7 +787,7 @@ webui.@THEME_JS@.widget.progressBar.prototype.setStatusTextVisible = function(sh
     if (show == null) {
         return false;
     }
-    this._common.setVisibleElement(this.bottomTextContainer, show);
+    this._common._setVisibleElement(this.bottomTextContainer, show);
     return true;
 };
 

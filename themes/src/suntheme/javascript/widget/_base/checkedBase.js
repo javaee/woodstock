@@ -22,7 +22,7 @@
 
 webui.@THEME_JS@._base.dojo.provide("webui.@THEME_JS@.widget._base.checkedBase");
 
-webui.@THEME_JS@._base.dojo.require("webui.@THEME_JS@.browser");
+webui.@THEME_JS@._base.dojo.require("webui.@THEME_JS@._base.browser");
 webui.@THEME_JS@._base.dojo.require("webui.@THEME_JS@.widget.common");
 webui.@THEME_JS@._base.dojo.require("webui.@THEME_JS@.widget._base.widgetBase");
 
@@ -200,7 +200,7 @@ webui.@THEME_JS@.widget._base.checkedBase.prototype._setProps = function(props) 
         // the HTML input element has been added to the DOM. As a work around, 
         // we shall use a timeout to set the property during initialization.
         if (this._isInitialized() != true &&
-                webui.@THEME_JS@.browser.isIe()) {
+                webui.@THEME_JS@._base.browser._isIe()) {
             var _id = this.id;
             setTimeout(function() {
                 // New literals are created every time this function

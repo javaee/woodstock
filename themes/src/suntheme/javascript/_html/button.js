@@ -22,7 +22,7 @@
 
 webui.@THEME_JS@._base.dojo.provide("webui.@THEME_JS@._html.button");
 
-webui.@THEME_JS@._base.dojo.require("webui.@THEME_JS@.browser");
+webui.@THEME_JS@._base.dojo.require("webui.@THEME_JS@._base.browser");
 webui.@THEME_JS@._base.dojo.require("webui.@THEME_JS@.widget.common");
 
 /**

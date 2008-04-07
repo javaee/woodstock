@@ -419,7 +419,7 @@ webui.@THEME_JS@.widget.dropDown.prototype._postCreate = function () {
     var jumpmenu = this.submitForm != null && this.submitForm == true;
     var disabled = this.disabled != null && this.disabled == true;
 
-    webui.@THEME_JS@.common.addStyleClass(this.listContainer, 
+    webui.@THEME_JS@._base.common._addStyleClass(this.listContainer, 
 	this._getListContainerClassName(disabled, jumpmenu));
     
     return this._inherited("_postCreate", arguments);
@@ -469,12 +469,12 @@ webui.@THEME_JS@.widget.dropDown.prototype.setProps = function(props, notify) {
     //
     if (toggleJumpmenu || toggleDisabled) {
 	var cn = this._getListContainerClassName(isdisabled, isjumpmenu);
-	webui.@THEME_JS@.common.stripStyleClass(this.listContainer, cn);
+	webui.@THEME_JS@._base.common._stripStyleClass(this.listContainer, cn);
 
 	cn = this._getListContainerClassName(
 	    toggleDisabled ? props.disabled == true : isdisabled,
 	    toggleJumpmenu ? props.jumpmenu == true : isjumpmenu);
-	webui.@THEME_JS@.common.addStyleClass(this.listContainer, cn);
+	webui.@THEME_JS@._base.common._addStyleClass(this.listContainer, cn);
     }
     return this._inherited("setProps", arguments);
 };

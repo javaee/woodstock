@@ -45,7 +45,7 @@ webui.@THEME_JS@._base.dojo.declare("webui.@THEME_JS@.widget.popupMenu",
  * @return {boolean} false to cancel the JavaScript event.
  */
 webui.@THEME_JS@.widget.popupMenu.prototype.close = function() {
-    if (this._common.isVisibleElement(this.domNode)) {
+    if (this._common._isVisibleElement(this.domNode)) {
         if (webui.@THEME_JS@.widget.popupMenu.activeMenuId) {
             webui.@THEME_JS@.widget.popupMenu.activeMenuId = null;
         }
@@ -189,7 +189,7 @@ webui.@THEME_JS@.widget.popupMenu.prototype.open = function(event) {
             return false;
         }
 
-        if (webui.@THEME_JS@.browser.isIe5up()) {
+        if (webui.@THEME_JS@._base.browser._isIe5up()) {
             window.event.cancelBubble = true;
             window.event.returnValue = false;
         } else {
@@ -216,7 +216,7 @@ webui.@THEME_JS@.widget.popupMenu.prototype.open = function(event) {
     }
 
     // If menu already rendered, do nothing.
-    if (this._common.isVisibleElement(this.domNode)) {
+    if (this._common._isVisibleElement(this.domNode)) {
         return false;
     }
         
@@ -434,7 +434,7 @@ webui.@THEME_JS@.widget.popupMenu.prototype._traverseMenu = function(keyCode, ev
         }                        
         focusElem.className = focusElem.className + " " +
             this._theme._getClassName("MENU_FOCUS"); 
-        if (webui.@THEME_JS@.browser.isIe5up()) {
+        if (webui.@THEME_JS@._base.browser._isIe5up()) {
             window. event.cancelBubble = true;
             window.event.returnValue = false;
         } else {

@@ -22,7 +22,7 @@
 
 webui.@THEME_JS@._base.dojo.provide("webui.@THEME_JS@.widget.table2RowGroup");
 
-webui.@THEME_JS@._base.dojo.require("webui.@THEME_JS@.browser");
+webui.@THEME_JS@._base.dojo.require("webui.@THEME_JS@._base.browser");
 webui.@THEME_JS@._base.dojo.require("webui.@THEME_JS@.widget.common");
 webui.@THEME_JS@._base.dojo.require("webui.@THEME_JS@.widget._base.widgetBase");
 webui.@THEME_JS@._base.dojo.require("webui.@THEME_JS@._base.theme.common");
@@ -540,7 +540,7 @@ webui.@THEME_JS@.widget.table2RowGroup.prototype._postCreate = function () {
         };
     }
     // Resize hack for Moz/Firefox.
-    if (webui.@THEME_JS@.browser.isNav()) {
+    if (webui.@THEME_JS@._base.browser._isNav()) {
         this._dojo.connect(window, "onresize", this, "_resize");
     }        
     return this._inherited("_postCreate", arguments);
@@ -750,7 +750,7 @@ webui.@THEME_JS@.widget.table2RowGroup.prototype._setProps = function(props) {
     // Add header.
     if (props.headerText) {
         this._widget._updateFragment(this.groupHeaderText, this.groupHeaderText.id, props.headerText);
-        this._common.setVisibleElement(this.groupHeaderContainer, true);
+        this._common._setVisibleElement(this.groupHeaderContainer, true);
     }
     // Add paginationControl.    
     if (props.paginationPrevButton) {

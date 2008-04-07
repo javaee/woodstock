@@ -22,7 +22,7 @@
 
 webui.@THEME_JS@._base.dojo.provide("webui.@THEME_JS@.widget.image");
 
-webui.@THEME_JS@._base.dojo.require("webui.@THEME_JS@.browser");
+webui.@THEME_JS@._base.dojo.require("webui.@THEME_JS@._base.browser");
 webui.@THEME_JS@._base.dojo.require("webui.@THEME_JS@.widget._base.widgetBase");
 
 /**
@@ -179,7 +179,7 @@ webui.@THEME_JS@.widget.image.prototype._setProps = function(props) {
             console.debug("Error: theme icon '" + props.icon + "' not found.");
         } else {
             var mapKey = iconProps['map_key'];
-            if (mapKey != null && !webui.@THEME_JS@.browser.isIe6()
+            if (mapKey != null && !webui.@THEME_JS@._base.browser._isIe6()
                     && !this._widget._isHighContrastMode()) {
                 // Note: Comparing height/width against "actual" properties is not a
                 // valid test -- DOT images don't have a default size, for example.

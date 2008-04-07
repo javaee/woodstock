@@ -22,7 +22,7 @@
 
 webui.@THEME_JS@._base.dojo.provide("webui.@THEME_JS@.widget._base.widgetBase");
  
-webui.@THEME_JS@._base.dojo.require("webui.@THEME_JS@.common");
+webui.@THEME_JS@._base.dojo.require("webui.@THEME_JS@._base.common");
 webui.@THEME_JS@._base.dojo.require("webui.@THEME_JS@._base.proto");
 webui.@THEME_JS@._base.dojo.require("webui.@THEME_JS@._base.theme.common");
 webui.@THEME_JS@._base.dojo.require("webui.@THEME_JS@.widget.common");
@@ -102,7 +102,7 @@ webui.@THEME_JS@._base.dojo.declare("webui.@THEME_JS@.widget._base.widgetBase",
     },
 
     // Set defaults.
-    _common: webui.@THEME_JS@.common, // Common utils.
+    _common: webui.@THEME_JS@._base.common, // Common utils.
     _dojo: webui.@THEME_JS@._base.dojo, // Dojo utils.
     _proto: webui.@THEME_JS@._base.proto, // Prototype utils.
     _theme: webui.@THEME_JS@._base.theme.common, // Theme utils.
@@ -394,7 +394,7 @@ webui.@THEME_JS@.widget._base.widgetBase.prototype._setCoreProps = function(domN
         domNode.style.cssText = props.style;
     }
     if (props.visible != null) {
-        this._common.setVisibleElement(domNode, 
+        this._common._setVisibleElement(domNode, 
             new Boolean(props.visible).valueOf());
     }
     return true;

@@ -22,7 +22,7 @@
 
 webui.@THEME_JS@._base.dojo.provide("webui.@THEME_JS@.widget.bubble");
 
-webui.@THEME_JS@._base.dojo.require("webui.@THEME_JS@.browser");
+webui.@THEME_JS@._base.dojo.require("webui.@THEME_JS@._base.browser");
 webui.@THEME_JS@._base.dojo.require("webui.@THEME_JS@.widget.common");
 webui.@THEME_JS@._base.dojo.require("webui.@THEME_JS@.widget._base.widgetBase");
 
@@ -157,7 +157,7 @@ webui.@THEME_JS@.widget.bubble.prototype._onClickCallback = function(event) {
         : ((event.srcElement) 
             ? event.srcElement : null);
 
-    if (webui.@THEME_JS@.browser.isIe5up()) {
+    if (webui.@THEME_JS@._base.browser._isIe5up()) {
         if (window.event != null) {
             window.event.cancelBubble = true;
         }
@@ -216,7 +216,7 @@ webui.@THEME_JS@.widget.bubble.prototype._onShiftTabCallback = function(event) {
         : ((event.srcElement) 
             ? event.srcElement : null);
     if (target == this.bubbleHeader) {                    
-        if (webui.@THEME_JS@.browser.isFirefox() && (event.shiftKey && (event.keyCode == 9))) {
+        if (webui.@THEME_JS@._base.browser._isFirefox() && (event.shiftKey && (event.keyCode == 9))) {
             if (this.focusId != null) {
                 document.getElementById(this.focusId).focus();        
             } else {                
@@ -246,7 +246,7 @@ webui.@THEME_JS@.widget.bubble.prototype._onTabCallback = function(event) {
         ? event.target 
         : ((event.srcElement) 
             ? event.srcElement : null);
-    if (webui.@THEME_JS@.browser.isFirefox()) {        
+    if (webui.@THEME_JS@._base.browser._isFirefox()) {        
         if (this.contentEnd == target) {
             this.bubbleHeader.focus();
         } else if (this.bubbleHeader == target && this.focusId != null && (event.keyCode == 9)) {
@@ -478,10 +478,10 @@ webui.@THEME_JS@.widget.bubble.prototype._setPosition = function() {
         var bottomLeftArrow = document.getElementById(this.bottomLeftArrow.id);
         var bottomRightArrow = document.getElementById(this.bottomRightArrow.id);
         // hide all callout arrows.
-        this._common.setVisible(bottomLeftArrow, false);
-        this._common.setVisible(bottomRightArrow, false);
-        this._common.setVisible(topLeftArrow, false);
-        this._common.setVisible(topRightArrow, false);
+        this._common._setVisible(bottomLeftArrow, false);
+        this._common._setVisible(bottomRightArrow, false);
+        this._common._setVisible(topLeftArrow, false);
+        this._common._setVisible(topRightArrow, false);
 
         bottomLeftArrow.style.display = "none";
         bottomRightArrow.style.display = "none";
@@ -540,7 +540,7 @@ webui.@THEME_JS@.widget.bubble.prototype._setPosition = function() {
         // If rendering a callout arrow, set it's position relative to the bubble.
         if (this.arrow != null) {
            this.arrow.style.display = "block";
-           this._common.setVisible(this.arrow, true);
+           this._common._setVisible(this.arrow, true);
 
            if (this.arrow == topLeftArrow) {
                this.arrow.style.top = -(bubble.offsetHeight - this.topConst) + "px";               
@@ -553,7 +553,7 @@ webui.@THEME_JS@.widget.bubble.prototype._setPosition = function() {
     if (this.focusId != null) {
         document.getElementById(this.focusId).focus();        
     } else {
-        if (webui.@THEME_JS@.browser.isFirefox()) {
+        if (webui.@THEME_JS@._base.browser._isFirefox()) {
             this.bubbleHeader.focus();
         }
     }
@@ -606,7 +606,7 @@ webui.@THEME_JS@.widget.bubble.prototype._setProps = function(props) {
     //Cyclic focus behavior is supported for firefox browser only.
     //If tabIndex values are provided for elements inside bubble then developer needs to set a valid tabIndex 
     //value for bubble component to achieve cyclic focus behavior. 
-    if (webui.@THEME_JS@.browser.isFirefox()) {
+    if (webui.@THEME_JS@._base.browser._isFirefox()) {
         if (this.getProps().tabIndex >= 0) {
             this.contentEnd.tabIndex = this.getProps().tabIndex;
         } else {
@@ -625,12 +625,12 @@ webui.@THEME_JS@.widget.bubble.prototype._setProps = function(props) {
         var noCloseButtonClass = this._theme._getClassName("BUBBLE_NOCLOSEBTN");
 
         if (props.closeButton == false) {
-            this._common.stripStyleClass(this.closeBtn, closeButtonClass);
-            if (!this._common.checkStyleClasses(classNames, noCloseButtonClass))
-             this._common.addStyleClass(this.closeBtn, noCloseButtonClass);
+            this._common._stripStyleClass(this.closeBtn, closeButtonClass);
+            if (!this._common._checkStyleClasses(classNames, noCloseButtonClass))
+             this._common._addStyleClass(this.closeBtn, noCloseButtonClass);
         } else {          
-          if (!this._common.checkStyleClasses(classNames, closeButtonClass))
-             this._common.addStyleClass(this.closeBtn, closeButtonClass);
+          if (!this._common._checkStyleClasses(classNames, closeButtonClass))
+             this._common._addStyleClass(this.closeBtn, closeButtonClass);
         }
     }
 
