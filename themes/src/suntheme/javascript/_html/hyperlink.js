@@ -93,5 +93,5 @@ webui.@THEME_JS@._html.hyperlink = {
     }
 };
 
-// Extend for backward compatibility.
+// Extend for backward compatibility with JSF based components.
 webui.@THEME_JS@.hyperlink = webui.@THEME_JS@._html.hyperlink;

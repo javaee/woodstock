@@ -137,5 +137,5 @@ webui.@THEME_JS@._html.field = {
     }
 };
 
-// Extend for backward compatibility.
+// Extend for backward compatibility with JSF based components.
 webui.@THEME_JS@.field = webui.@THEME_JS@._html.field;

@@ -30,6 +30,7 @@ webui.@THEME_JS@._dojo.require("webui.@THEME_JS@._base.proto");
  * @deprecated See webui.@THEME_JS@.widget.calendar
  * @static
  * @private
+ * @deprecated See webui.@THEME_JS@.widget.calendar
  */ 
 webui.@THEME_JS@._html.calendar = {
     /**

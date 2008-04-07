@@ -226,5 +226,5 @@ webui.@THEME_JS@._html.button = {
     }
 };
 
-// Extend for backward compatibility.
+// Extend for backward compatibility with JSF based components.
 webui.@THEME_JS@.button = webui.@THEME_JS@._html.button;

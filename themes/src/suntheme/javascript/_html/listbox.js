@@ -134,5 +134,5 @@ webui.@THEME_JS@._html.listbox = {
     }
 };
 
-// Extend for backward compatibility.
+// Extend for backward compatibility with JSF based components.
 webui.@THEME_JS@.listbox = webui.@THEME_JS@._html.listbox;

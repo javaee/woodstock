@@ -564,7 +564,7 @@ webui.@THEME_JS@._base.common = {
     }
 };
 
-// Extend for backward compatibility.
+// Extend for backward compatibility with JSF based components.
 webui.@THEME_JS@.common = {
     escapeString: webui.@THEME_JS@._base.common._escapeString,
     unescapeString: webui.@THEME_JS@._base.common._unescapeString,

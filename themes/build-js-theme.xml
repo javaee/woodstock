@@ -60,7 +60,7 @@
     <property name="_js-theme-jar_" 
 	value="${basedir}/dist/webui-jsf-suntheme.jar"/>
     <property name="_js-theme-name_" value="suntheme"/>
-    <property name="_js-theme-package_" value="com.sun.webui.jsf.suntheme"/>
+    <property name="_js-theme-package_" value="com.sun.webui.suntheme"/>
     <property name="_js-l10n-dir_" value="${basedir}/dist"/>
 
     <!-- Need these paths defined at this scope for clean 
@@ -92,7 +92,7 @@
     <!-- Javascript theme properties 
 	The javascript theme uses dojo to load localizations
 	using the "requireLocalization" method. This requires that a
-	defined module path "com/sun/webui/jsf/suntheme/javascript/_theme"
+	defined module path "com/sun/webui/suntheme<version>/javascript/_theme"
 	exists and under this path the following "nls" structure.
 
 	     "nls/suntheme.js"

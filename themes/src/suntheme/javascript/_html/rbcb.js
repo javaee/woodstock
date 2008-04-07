@@ -87,5 +87,5 @@ webui.@THEME_JS@._html.rbcb = {
     }
 };
 
-// Extend for backward compatibility.
+// Extend for backward compatibility with JSF based components.
 webui.@THEME_JS@.rbcb = webui.@THEME_JS@._html.rbcb;

@@ -75,5 +75,5 @@ webui.@THEME_JS@._html.checkbox = {
     }
 };
 
-// Extend for backward compatibility.
+// Extend for backward compatibility with JSF based components.
 webui.@THEME_JS@.checkbox = webui.@THEME_JS@._html.checkbox;

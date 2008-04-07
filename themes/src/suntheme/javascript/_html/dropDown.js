@@ -134,5 +134,5 @@ webui.@THEME_JS@._html.dropDown = {
     }
 };
 
-// Extend for backward compatibility.
+// Extend for backward compatibility with JSF based components.
 webui.@THEME_JS@.dropDown = webui.@THEME_JS@._html.dropDown;

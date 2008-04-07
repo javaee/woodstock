@@ -74,5 +74,5 @@ webui.@THEME_JS@._html.radiobutton = {
     }
 };
 
-// Extend for backward compatibility.
+// Extend for backward compatibility with JSF based components.
 webui.@THEME_JS@.radiobutton = webui.@THEME_JS@._html.radiobutton;

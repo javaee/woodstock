@@ -54,5 +54,5 @@ webui.@THEME_JS@._html.jumpDropDown = {
     }
 };
 
-// Extend for backward compatibility.
+// Extend for backward compatibility with JSF based components.
 webui.@THEME_JS@.jumpDropDown = webui.@THEME_JS@._html.jumpDropDown;
