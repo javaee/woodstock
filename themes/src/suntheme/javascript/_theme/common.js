@@ -46,6 +46,14 @@ webui.@THEME_JS@._dojo.require("webui.@THEME_JS@._dojo.i18n");
  */
 webui.@THEME_JS@._theme.common = {
     /**
+     * Object containing base theme properties.
+     *
+     * @private
+     * @ignore
+     */
+    _baseTheme: {},
+
+    /**
      * This function is used to set widget properties with Object literals.
      *
      * @param props Key-Value pairs of properties.
@@ -80,7 +88,7 @@ webui.@THEME_JS@._theme.common = {
         theme._requireLocalization(module, props.bundle, 
             (props.locale == "en" || props.locale == "en-us") ? "ROOT" : props.locale);
 
-        theme.baseTheme = webui.@THEME_JS@._dojo.i18n.getLocalization(module,
+        theme._baseTheme = webui.@THEME_JS@._dojo.i18n.getLocalization(module,
             props.bundle, props.locale);
 
         if (props.custom instanceof Array) {
@@ -94,11 +102,12 @@ webui.@THEME_JS@._theme.common = {
     },
 
     /**
-     * Merge the baseTheme with an application's theme overrides
-     * "themePackage" is a "dot" separated string. The "bundle"
+     * Merge the _baseTheme with an application's theme overrides.
+     * <p>
+     * Note: "themePackage" is a "dot" separated string. The "bundle"
      * is the last segment and the prefix segments are the module.
      * Return true if the base theme was extended else false.
-     *
+     * </p>
      * @param {String} themePackage
      * @return {boolean} true if successful; otherwise, false.
      * @private
@@ -148,10 +157,10 @@ webui.@THEME_JS@._theme.common = {
 	    return false;
         }
         // Not sure if we should do the "prototype" magic like
-        // dojo, vs. just replacing the orginal baseTheme values.
+        // dojo, vs. just replacing the orginal _baseTheme values.
         //
         if (newTheme != null) {
-            webui.@THEME_JS@._base.proto._extend(theme.baseTheme, newTheme);
+            webui.@THEME_JS@._base.proto._extend(theme._baseTheme, newTheme);
         }
         return true;
     },
@@ -416,6 +425,23 @@ webui.@THEME_JS@._theme.common = {
     },
 
     /**
+     * Returns the theme properties for a theme category or null.
+     *
+     * @param {String} category
+     * @return {Object} Key-Value pairs of properties.
+     * @private
+     */
+    _getProperties: function(category) {
+        try {
+            var props = webui.@THEME_JS@._theme.common._baseTheme[category];
+            return props == null || props == "" ? null : props;
+        } catch (e) {
+            console.debug("Cannot find theme category: " + category); // See Firebug console.
+        }
+        return null;
+    },
+
+    /**
      * Returns a theme property "theme[category][key]" or null, never "".
      *
      * @param {String} category
@@ -425,11 +451,18 @@ webui.@THEME_JS@._theme.common = {
      */
     _getProperty: function(category, key) {
         try {
-            var p = webui.@THEME_JS@._theme.common.baseTheme[category][key];
-            return p == null || p == "" ? null : p;
+            var props = webui.@THEME_JS@._theme.common._getProperties(category);
+            if (props) {
+                var props = props[key];
+                return props == null || props == "" ? null : props;
+            } else {
+                console.debug("Cannot find theme category: " + category); // See Firebug console.
+            }
         } catch (e) {
-            return null;
+            console.debug("Cannot find theme key: " + category + 
+                "[" + key + "]"); // See Firebug console.
         }
+        return null;
     },
 
     /**
