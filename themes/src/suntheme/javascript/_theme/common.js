@@ -455,8 +455,6 @@ webui.@THEME_JS@._theme.common = {
             if (props) {
                 var props = props[key];
                 return props == null || props == "" ? null : props;
-            } else {
-                console.debug("Cannot find theme category: " + category); // See Firebug console.
             }
         } catch (e) {
             console.debug("Cannot find theme key: " + category + 
