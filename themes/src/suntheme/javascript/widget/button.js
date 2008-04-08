@@ -209,7 +209,7 @@ webui.@THEME_JS@.widget.button.prototype._onBlurCallback = function(event) {
     // Prevent errors during page submit, when modules have not been loaded.
     try {
         // Set style class.
-        this.domNode.className = this._getClassName();
+        this._domNode.className = this._getClassName();
     } catch (err) {}
     return true;
 };
@@ -228,7 +228,7 @@ webui.@THEME_JS@.widget.button.prototype._onFocusCallback = function(event) {
     // Prevent errors during page submit, when modules have not been loaded.
     try {
         // Set style class.
-        this.domNode.className = this._getHoverClassName();
+        this._domNode.className = this._getHoverClassName();
     } catch (err) {}
     return true;
 };
@@ -245,7 +245,7 @@ webui.@THEME_JS@.widget.button.prototype._onFocusCallback = function(event) {
 webui.@THEME_JS@.widget.button.prototype._postCreate = function () {
     // Set ids.
     if (this.id) {
-        this.domNode.name = this.id;
+        this._domNode.name = this.id;
     }
 
     // Initialize deprecated public functions. 
@@ -253,25 +253,25 @@ webui.@THEME_JS@.widget.button.prototype._postCreate = function () {
     // Note: Although we now have a setProps function to update properties,
     // these functions were previously added to the DOM node; thus, we must
     // continue to be backward compatible.
-    this.domNode.isSecondary = function() { return !(webui.@THEME_JS@.widget.common.getWidget(this.id).getProps().primary); };
-    this.domNode.setSecondary = function(secondary) { return webui.@THEME_JS@.widget.common.getWidget(this.id).setProps({primary: !secondary}); };
-    this.domNode.isPrimary = function() { return webui.@THEME_JS@.widget.common.getWidget(this.id).getProps().primary; };
-    this.domNode.setPrimary = function(primary) { return webui.@THEME_JS@.widget.common.getWidget(this.id).setProps({primary: primary}); };
-    this.domNode.isMini = function() { return webui.@THEME_JS@.widget.common.getWidget(this.id).getProps().mini; };
-    this.domNode.setMini = function(mini) { return webui.@THEME_JS@.widget.common.getWidget(this.id).setProps({mini: mini}); };
-    this.domNode.getDisabled = function() { return webui.@THEME_JS@.widget.common.getWidget(this.id).getProps().disabled; };
-    this.domNode.setDisabled = function(disabled) { return webui.@THEME_JS@.widget.common.getWidget(this.id).setProps({disabled: disabled}); };
-    this.domNode.getVisible = function() { return webui.@THEME_JS@.widget.common.getWidget(this.id).getProps().visible; };
-    this.domNode.setVisible = function(show) { return webui.@THEME_JS@.widget.common.getWidget(this.id).setProps({visible: show}); };
-    this.domNode.getText = function() { return webui.@THEME_JS@.widget.common.getWidget(this.id).getProps().value; };
-    this.domNode.setText = function(text) { return webui.@THEME_JS@.widget.common.getWidget(this.id).setProps({value: text}); };
-    this.domNode.doClick = this.domNode.click;
+    this._domNode.isSecondary = function() { return !(webui.@THEME_JS@.widget.common.getWidget(this.id).getProps().primary); };
+    this._domNode.setSecondary = function(secondary) { return webui.@THEME_JS@.widget.common.getWidget(this.id).setProps({primary: !secondary}); };
+    this._domNode.isPrimary = function() { return webui.@THEME_JS@.widget.common.getWidget(this.id).getProps().primary; };
+    this._domNode.setPrimary = function(primary) { return webui.@THEME_JS@.widget.common.getWidget(this.id).setProps({primary: primary}); };
+    this._domNode.isMini = function() { return webui.@THEME_JS@.widget.common.getWidget(this.id).getProps().mini; };
+    this._domNode.setMini = function(mini) { return webui.@THEME_JS@.widget.common.getWidget(this.id).setProps({mini: mini}); };
+    this._domNode.getDisabled = function() { return webui.@THEME_JS@.widget.common.getWidget(this.id).getProps().disabled; };
+    this._domNode.setDisabled = function(disabled) { return webui.@THEME_JS@.widget.common.getWidget(this.id).setProps({disabled: disabled}); };
+    this._domNode.getVisible = function() { return webui.@THEME_JS@.widget.common.getWidget(this.id).getProps().visible; };
+    this._domNode.setVisible = function(show) { return webui.@THEME_JS@.widget.common.getWidget(this.id).setProps({visible: show}); };
+    this._domNode.getText = function() { return webui.@THEME_JS@.widget.common.getWidget(this.id).getProps().value; };
+    this._domNode.setText = function(text) { return webui.@THEME_JS@.widget.common.getWidget(this.id).setProps({value: text}); };
+    this._domNode.doClick = this._domNode.click;
 
     // Set events.
-    this._dojo.connect(this.domNode, "onblur", this, "_onBlurCallback");
-    this._dojo.connect(this.domNode, "onfocus", this, "_onFocusCallback");
-    this._dojo.connect(this.domNode, "onmouseout", this, "_onBlurCallback");
-    this._dojo.connect(this.domNode, "onmouseover", this, "_onFocusCallback");
+    this._dojo.connect(this._domNode, "onblur", this, "_onBlurCallback");
+    this._dojo.connect(this._domNode, "onfocus", this, "_onFocusCallback");
+    this._dojo.connect(this._domNode, "onmouseout", this, "_onBlurCallback");
+    this._dojo.connect(this._domNode, "onmouseover", this, "_onFocusCallback");
 
     return this._inherited("_postCreate", arguments);
 };
@@ -292,12 +292,12 @@ webui.@THEME_JS@.widget.button.prototype._setProps = function(props) {
     }
 
     // Set properties.
-    if (props.alt) { this.domNode.alt = props.alt; }
-    if (props.align) { this.domNode.align = props.align; }
+    if (props.alt) { this._domNode.alt = props.alt; }
+    if (props.align) { this._domNode.align = props.align; }
 
     // Set disabled.
     if (props.disabled != null) { 
-        this.domNode.disabled = new Boolean(props.disabled).valueOf();
+        this._domNode.disabled = new Boolean(props.disabled).valueOf();
     }
 
     // Set value (i.e., button text).
@@ -307,14 +307,14 @@ webui.@THEME_JS@.widget.button.prototype._setProps = function(props) {
         //
         // If escape is false, we want any special sequences in the text 
         // (e.g., "&nbsp;") to be displayed as evaluated (i.e., unescaped).
-        this.domNode.value = (new Boolean(this.escape).valueOf() == false)
+        this._domNode.value = (new Boolean(this.escape).valueOf() == false)
             ? this._proto._unescapeHTML(props.value)
             : props.value;
     }
 
     // Set more properties.
-    this._setCommonProps(this.domNode, props);
-    this._setEventProps(this.domNode, props);
+    this._setCommonProps(this._domNode, props);
+    this._setEventProps(this._domNode, props);
 
     // Set remaining properties.
     return this._inherited("_setProps", arguments);

@@ -36,8 +36,8 @@ webui.@THEME_JS@._dojo.provide("webui.@THEME_JS@.widget._base.labeledBase");
  * A <code>labeledBase</code> subclass's templates are expected to
  * define following attachpoint identifiers.
  * <ul>
- * <li>labelContainer - the attachpoint for the label. (mandatory)</li>
- * <li>brNode - the attachpoint for a <code>br</code> element to
+ * <li>_labelContainer - the attachpoint for the label. (mandatory)</li>
+ * <li>_brNode - the attachpoint for a <code>br</code> element to
  * implement <code>labelOnTop</code> behavior. (optional)</li>
  * </ul>
  * </p>
@@ -54,7 +54,7 @@ webui.@THEME_JS@._dojo.provide("webui.@THEME_JS@.widget._base.labeledBase");
  * <li><code>widgetType</code> -
  * <code>webui.@THEME_JS@.widget.label</code></li>
  * <li><code>id</code> - this.id + "_label"</li>
- * <li><code>htmlFor</code> - this.listContainer.id</li>
+ * <li><code>htmlFor</code> - this._listContainer.id</li>
  * </ul>
  * <p>See <code>_postCreate</code> and <code>_getLabelProps</code>
  * </p>
@@ -146,16 +146,16 @@ webui.@THEME_JS@.widget._base.labeledBase.prototype._getLabelClassName = functio
  */
 webui.@THEME_JS@.widget._base.labeledBase.prototype._postCreate = function () {
     // A widget that has inherited from labeledBase must have
-    // "this.labelContainer", but check anyway.
+    // "this._labelContainer", but check anyway.
     //
-    if (!this.labelContainer) {
+    if (!this._labelContainer) {
        return this._inherited("_postCreate", arguments);
     }
 
     // We should probably set and id anyway, even if it is just "_label".
     //
     if (this.id) {
-	this.labelContainer.id = this.id + "_label";
+	this._labelContainer.id = this.id + "_label";
     }
 
     // If the application is creating a label on construction
@@ -191,15 +191,15 @@ webui.@THEME_JS@.widget._base.labeledBase.prototype._setProps = function(props) 
         return false;
     }
 
-    // Always update the brNode state, even if there isn't a label.
-    // If there is no brNode the subclass does not support labelOnTop.
+    // Always update the _brNode state, even if there isn't a label.
+    // If there is no _brNode the subclass does not support labelOnTop.
     //
-    if (this.brNode && props.labelOnTop != null) {
-	this._common._setVisibleElement(this.brNode, props.labelOnTop);
+    if (this._brNode && props.labelOnTop != null) {
+	this._common._setVisibleElement(this._brNode, props.labelOnTop);
 
 	// Always remove the last label on top selector.
 	// 
-	this._common._stripStyleClass(this.labelContainer,
+	this._common._stripStyleClass(this._labelContainer,
 	    this._lastLabelOnTopClassName);
 
 	// Get the label selector from the subclass
@@ -210,7 +210,7 @@ webui.@THEME_JS@.widget._base.labeledBase.prototype._setProps = function(props) 
 
 	// Add the "ontop" selector.
 	//
-	this._common._addStyleClass(this.labelContainer,
+	this._common._addStyleClass(this._labelContainer,
 	    this._lastLabelOnTopClassName);
     }
 
@@ -254,7 +254,7 @@ webui.@THEME_JS@.widget._base.labeledBase.prototype._setProps = function(props) 
 	    props.label.valid = props.valid;
 	}
 
-	this._widget._updateFragment(this.labelContainer, this.label.id,
+	this._widget._updateFragment(this._labelContainer, this.label.id,
             props.label);
     }
 

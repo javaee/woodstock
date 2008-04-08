@@ -193,10 +193,10 @@ webui.@THEME_JS@.widget.label.prototype.getProps = function() {
 webui.@THEME_JS@.widget.label.prototype._postCreate = function () {
     // Set ids.
     if (this.id) {
-        this.contentsContainer.id = this.id + "_contentsContainer";
-        this.errorImageContainer.id = this.id + "_errorImageContainer";
-        this.requiredImageContainer.id = this.id + "_requiredImageContainer";
-        this.valueContainer.id = this.id + "_valueContainer";
+        this._contentsContainer.id = this.id + "_contentsContainer";
+        this._errorImageContainer.id = this.id + "_errorImageContainer";
+        this._requiredImageContainer.id = this.id + "_requiredImageContainer";
+        this._valueContainer.id = this.id + "_valueContainer";
     }
 
     // If errorImage or requiredImage are null, create images from the theme.
@@ -266,10 +266,10 @@ webui.@THEME_JS@.widget.label.prototype._setProps = function(props) {
     }
 
     // Set properties.
-    if (props.htmlFor) { this.domNode.htmlFor = props.htmlFor; }
+    if (props.htmlFor) { this._domNode.htmlFor = props.htmlFor; }
     if (props.valid != null) { this.valid = new Boolean(props.valid).valueOf(); }
     if (props.required != null) { this.required = new Boolean(props.required).valueOf(); }
-    if (props.value) { this._widget._addFragment(this.valueContainer, props.value); }
+    if (props.value) { this._widget._addFragment(this._valueContainer, props.value); }
 
     // Set error image properties.
     if (props.errorImage || props.valid != null) {
@@ -282,7 +282,7 @@ webui.@THEME_JS@.widget.label.prototype._setProps = function(props) {
         props.errorImage.visible = !this.valid;
 
         // Update/add fragment.
-        this._widget._updateFragment(this.errorImageContainer, this.errorImage.id, 
+        this._widget._updateFragment(this._errorImageContainer, this.errorImage.id, 
             props.errorImage);
     }
 
@@ -297,23 +297,23 @@ webui.@THEME_JS@.widget.label.prototype._setProps = function(props) {
         props.requiredImage.visible = this.required;
 
         // Update/add fragment.
-        this._widget._updateFragment(this.requiredImageContainer, 
+        this._widget._updateFragment(this._requiredImageContainer, 
             this.requiredImage.id, props.requiredImage);
     }
 
     // Set contents.
     if (props.contents) {
         // Remove child nodes.
-        this._widget._removeChildNodes(this.contentsContainer);
+        this._widget._removeChildNodes(this._contentsContainer);
 
 	for (var i = 0; i < props.contents.length; i++) {
-            this._widget._addFragment(this.contentsContainer, props.contents[i], "last");
+            this._widget._addFragment(this._contentsContainer, props.contents[i], "last");
         }
     }
 
     // Set more properties.
-    this._setCommonProps(this.domNode, props);
-    this._setEventProps(this.domNode, props);
+    this._setCommonProps(this._domNode, props);
+    this._setEventProps(this._domNode, props);
 
     // Set remaining properties.
     return this._inherited("_setProps", arguments);

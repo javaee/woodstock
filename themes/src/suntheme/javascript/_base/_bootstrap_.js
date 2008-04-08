@@ -182,22 +182,21 @@ if (typeof webui.@THEME_JS@ == "undefined") {
             // Register module path.
             webui.@THEME_JS@._dojo.registerModulePath("webui.@THEME_JS@", props.modulePath);
 
-            // Dojo inserts a div into body for HTML template rendering; therefore, 
-            // we must wait until the window.onLoad event before creating widgets. 
-            // Otherwise, IE will throw a security exception.
-            if (new Boolean(props.parseOnLoad).valueOf() == true) {
-                webui.@THEME_JS@._dojo.addOnLoad(function() {
-                    webui.@THEME_JS@.widget.common._parseMarkup(webui.@THEME_JS@._dojo.body());
-                    webui.@THEME_JS@._base.bootstrap._onWidgetReady(function() {
-                        // After the page has been parsed, there is no need to 
-                        // perform this task again. Setting the parseOnLoad flag
-                        // to false will allow the ajaxZone tag of JSF Extensions 
-                        // to re-render widgets properly. That is, considering 
-                        // there will only ever be one window.onLoad event.
-                        webui.@THEME_JS@._base.config.parseOnLoad = false;
-                    });
+            // Defer widget creation until the window.onLoad event.
+            webui.@THEME_JS@._dojo.addOnLoad(function() {
+                if (new Boolean(props.parseOnLoad).valueOf() == true) {
+                    webui.@THEME_JS@.widget.common._parseMarkup(
+                        webui.@THEME_JS@._dojo.body());
+                }
+                // After the page has been parsed, there is no need to 
+                // perform this task again. Setting the parseOnLoad flag
+                // to false will allow the ajaxZone tag of JSF Extensions 
+                // to re-render widgets properly. That is, considering 
+                // there will only ever be one window.onLoad event.
+                webui.@THEME_JS@._base.bootstrap._onWidgetReady(function() {
+                    webui.@THEME_JS@._base.config.parseOnLoad = false;
                 });
-            }
+            });
             return true;
         },
 
@@ -330,8 +329,8 @@ if (typeof webui.@THEME_JS@ == "undefined") {
         /**
          * This function is used to determine when all widgets have been created.
          * <p>
-         * Note: Currently, this function is only useful when the parseOnLoad 
-         * feature is used.
+         * Note: Currently, this function is only useful with the parseOnLoad 
+         * feature where we can count how many widgets have yet to be created.
          * </p>
          * @param {Function} func The function to execute after widgets are ready.
          * @return {boolean} true if successful; otherwise, false.

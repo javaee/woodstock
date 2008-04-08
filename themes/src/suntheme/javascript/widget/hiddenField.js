@@ -127,10 +127,10 @@ webui.@THEME_JS@.widget.hiddenField.prototype._setProps = function(props) {
     }
 
     // Set properties.
-    if (props.name) { this.domNode.name = props.name; }
-    if (props.value) { this.domNode.value = props.value; }
+    if (props.name) { this._domNode.name = props.name; }
+    if (props.value) { this._domNode.value = props.value; }
     if (props.disabled != null) { 
-        this.domNode.disabled = new Boolean(props.disabled).valueOf();
+        this._domNode.disabled = new Boolean(props.disabled).valueOf();
     }
 
     // Set remaining properties.

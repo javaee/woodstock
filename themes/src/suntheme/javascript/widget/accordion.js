@@ -73,25 +73,25 @@ webui.@THEME_JS@.widget.accordion.prototype._addControls = function(props) {
         // Set expand all image properties.
         if (props.expandAllImage) {
             // Update/add fragment.
-            this._widget._updateFragment(this.expandAllImgContainer, 
+            this._widget._updateFragment(this._expandAllImgContainer, 
                 this.expandAllImage.id, props.expandAllImage);
         }
 
         // Set collapse all image properties.
         if (props.collapseAllImage) {
             // Update/add fragment.
-            this._widget._updateFragment(this.collapseAllImgContainer,
+            this._widget._updateFragment(this._collapseAllImgContainer,
                 this.collapseAllImage.id, props.collapseAllImage);
         }
         
         // a divider should only be added if expand/collapse icons exist.
-        this.dividerNodeContainer.className = this._theme._getClassName("ACCORDION_HDR_DIVIDER");
+        this._dividerNodeContainer.className = this._theme._getClassName("ACCORDION_HDR_DIVIDER");
     }
 
     // Set refresh image properties.
     if (props.isRefreshIcon && props.refreshImage) {
         // Update/add fragment.
-        this._widget._updateFragment(this.refreshImgContainer,
+        this._widget._updateFragment(this._refreshImgContainer,
             this.refreshImage.id, props.refreshImage);
     }
     return true;
@@ -112,7 +112,7 @@ webui.@THEME_JS@.widget.accordion.prototype._collapseAllTabs = function(event) {
             widget._setSelected(false);
         }
     }
-    this._updateFocus(this.collapseAllContainer);
+    this._updateFocus(this._collapseAllContainer);
     return true;
 };
 
@@ -199,7 +199,7 @@ webui.@THEME_JS@.widget.accordion.prototype._expandAllTabs = function(event) {
             widget._setSelected(true);
         }
     }
-    this._updateFocus(this.expandAllContainer);
+    this._updateFocus(this._expandAllContainer);
     return true;
 };
 
@@ -277,40 +277,40 @@ webui.@THEME_JS@.widget.accordion.prototype._getClassName = function() {
 webui.@THEME_JS@.widget.accordion.prototype._postCreate = function () {
     // Set ids.
     if (this.id) {
-        this.domNode.id = this.id;
-        this.headerContainer.id = this.id + "_accHeader";
-        this.expandAllContainer.id = this.id + "_expandAllNode";
-        this.expandAllImgContainer.id = this.expandAllContainer.id + "_expandAllImage";
-        this.collapseAllContainer.id = this.id + "_collapseAllNode";
-        this.collapseAllImgContainer.id = this.collapseAllImgContainer.id + "_collapseAllImage";
-        this.dividerNodeContainer.id = this.id + "_dividerNode";
-        this.refreshNodeContainer.id = this.id + "_refreshNode";
+        this._domNode.id = this.id;
+        this._headerContainer.id = this.id + "_accHeader";
+        this._expandAllContainer.id = this.id + "_expandAllNode";
+        this._expandAllImgContainer.id = this._expandAllContainer.id + "_expandAllImage";
+        this._collapseAllContainer.id = this.id + "_collapseAllNode";
+        this._collapseAllImgContainer.id = this._collapseAllImgContainer.id + "_collapseAllImage";
+        this._dividerNodeContainer.id = this.id + "_dividerNode";
+        this._refreshNodeContainer.id = this.id + "_refreshNode";
     }
 
     // Set class names.
-    this.headerContainer.className = this._theme._getClassName("ACCORDION_HDR");
-    this.collapseAllContainer.className = this._theme._getClassName("ACCORDION_HDR_CLOSEALL");
-    this.expandAllContainer.className = this._theme._getClassName("ACCORDION_HDR_OPENALL");
+    this._headerContainer.className = this._theme._getClassName("ACCORDION_HDR");
+    this._collapseAllContainer.className = this._theme._getClassName("ACCORDION_HDR_CLOSEALL");
+    this._expandAllContainer.className = this._theme._getClassName("ACCORDION_HDR_OPENALL");
     
     // the divider should initially be hidden
-    this.dividerNodeContainer.className = this._theme._getClassName("HIDDEN");
-    this.refreshNodeContainer.className = this._theme._getClassName("ACCORDION_HDR_REFRESH");
+    this._dividerNodeContainer.className = this._theme._getClassName("HIDDEN");
+    this._refreshNodeContainer.className = this._theme._getClassName("ACCORDION_HDR_REFRESH");
 
     // Set events.
     var _id = this.id;
-    this._dojo.connect(this.collapseAllContainer, "onclick", this, "_collapseAllTabs");
-    this._dojo.connect(this.expandAllContainer, "onclick", this, "_expandAllTabs");
-    this._dojo.connect(this.refreshNodeContainer, "onclick", function(event) {
+    this._dojo.connect(this._collapseAllContainer, "onclick", this, "_collapseAllTabs");
+    this._dojo.connect(this._expandAllContainer, "onclick", this, "_expandAllTabs");
+    this._dojo.connect(this._refreshNodeContainer, "onclick", function(event) {
         // New literals are created every time this function is called, and it's 
         // saved by closure magic.
         var widget = webui.@THEME_JS@.widget.common.getWidget(_id);
-        widget._updateFocus(this.refreshNodeContainer);
+        widget._updateFocus(this._refreshNodeContainer);
         widget.refresh(_id);
         return false;
     });
     
     // Create callback function for onkeydown event.
-    this._dojo.connect(this.domNode, "onkeydown", this._createOnKeyDownCallBack());
+    this._dojo.connect(this._domNode, "onkeydown", this._createOnKeyDownCallBack());
     
     // Subscribe to the "tab selected" event present in the accordion widget.
     this._widget.subscribe(webui.@THEME_JS@.widget.accordionTab.event.title.selectedTopic,
@@ -365,11 +365,11 @@ webui.@THEME_JS@.widget.accordion.prototype._postCreate = function () {
     }
     
     if (this.isRefreshIcon) {
-        this.refreshNodeContainer.tabIndex = this.tabIndex;
+        this._refreshNodeContainer.tabIndex = this.tabIndex;
     }
     if (this.toggleControls && this.multipleSelect) {
-            this.expandAllContainer.tabIndex = this.tabIndex;
-            this.collapseAllContainer.tabIndex = this.tabIndex;
+            this._expandAllContainer.tabIndex = this.tabIndex;
+            this._collapseAllContainer.tabIndex = this.tabIndex;
     }
     if (this.tabs.length > 0) {
         for (var i=0; i< this.tabs.length; i++) {
@@ -377,7 +377,7 @@ webui.@THEME_JS@.widget.accordion.prototype._postCreate = function () {
         }
     }
 
-    with (this.domNode.style) {
+    with (this._domNode.style) {
         if (position != "absolute") {
             position = "relative";
         }
@@ -445,7 +445,7 @@ webui.@THEME_JS@.widget.accordion.prototype._setProps = function(props) {
     // to do that.
     if (props.tabs) {
         // Remove child nodes.
-        this._widget._removeChildNodes(this.tabsContainer);
+        this._widget._removeChildNodes(this._tabsContainer);
 
         // set the tab focus 
         var tabFocus = true;
@@ -458,13 +458,13 @@ webui.@THEME_JS@.widget.accordion.prototype._setProps = function(props) {
        
         // Add tabs.
         for (var i = 0; i < props.tabs.length; i++) {
-            this._widget._addFragment(this.tabsContainer, props.tabs[i], "last");
+            this._widget._addFragment(this._tabsContainer, props.tabs[i], "last");
         }
     }
 
     // Set more properties.
-    this._setCommonProps(this.domNode, props);
-    this._setEventProps(this.domNode, props);
+    this._setCommonProps(this._domNode, props);
+    this._setEventProps(this._domNode, props);
 
     // Set remaining properties.
     return this._inherited("_setProps", arguments);
@@ -479,15 +479,15 @@ webui.@THEME_JS@.widget.accordion.prototype._setProps = function(props) {
  * @private
  */
 webui.@THEME_JS@.widget.accordion.prototype._setFocusStyleClass = function(nodeId) {
-    if (nodeId == this.collapseAllContainer.id) {
+    if (nodeId == this._collapseAllContainer.id) {
         //set focus style on collapseNode
-        this.collapseAllContainer.className = this._theme._getClassName("ACCORDION_HDR_CLOSEALL_FOCUS");
-    } else if (nodeId == this.expandAllContainer.id) {
+        this._collapseAllContainer.className = this._theme._getClassName("ACCORDION_HDR_CLOSEALL_FOCUS");
+    } else if (nodeId == this._expandAllContainer.id) {
         //set focus style on expandNode
-        this.expandAllContainer.className = this._theme._getClassName("ACCORDION_HDR_OPENALL_FOCUS");
-    } else if (nodeId == this.refreshNodeContainer.id) {
+        this._expandAllContainer.className = this._theme._getClassName("ACCORDION_HDR_OPENALL_FOCUS");
+    } else if (nodeId == this._refreshNodeContainer.id) {
         //set focus style on refreshNode
-        this.refreshNodeContainer.className = this._theme._getClassName("ACCORDION_HDR_REFRESH_FOCUS");
+        this._refreshNodeContainer.className = this._theme._getClassName("ACCORDION_HDR_REFRESH_FOCUS");
     }
     return true;
 };
@@ -501,15 +501,15 @@ webui.@THEME_JS@.widget.accordion.prototype._setFocusStyleClass = function(nodeI
  * @private
  */
 webui.@THEME_JS@.widget.accordion.prototype._setBlurStyleClass = function(nodeId) {
-    if (nodeId == this.collapseAllContainer.id) {
+    if (nodeId == this._collapseAllContainer.id) {
         //set normal className on collapseNode
-        this.collapseAllContainer.className = this._theme._getClassName("ACCORDION_HDR_CLOSEALL");
-    } else if (nodeId == this.expandAllContainer.id) {
+        this._collapseAllContainer.className = this._theme._getClassName("ACCORDION_HDR_CLOSEALL");
+    } else if (nodeId == this._expandAllContainer.id) {
         //set normal className on expandNode
-        this.expandAllContainer.className = this._theme._getClassName("ACCORDION_HDR_OPENALL");
-    } else if (nodeId == this.refreshNodeContainer.id) {
+        this._expandAllContainer.className = this._theme._getClassName("ACCORDION_HDR_OPENALL");
+    } else if (nodeId == this._refreshNodeContainer.id) {
         //set normal className on refreshNode
-        this.refreshNodeContainer.className = this._theme._getClassName("ACCORDION_HDR_REFRESH");
+        this._refreshNodeContainer.className = this._theme._getClassName("ACCORDION_HDR_REFRESH");
     }
     return true;
 };
@@ -525,15 +525,15 @@ webui.@THEME_JS@.widget.accordion.prototype._setTabFocus = function(nodeId) {
     // update the tab with the appropriate tabIndex
     var tabWidget = this._widget.getWidget(nodeId);
     var props = {tabIndex: this.tabIndex};
-    this._widget._updateFragment(this.tabsContainer, nodeId, props);
+    this._widget._updateFragment(this._tabsContainer, nodeId, props);
 
     // set the style class to indicate that the tab is in focus.
     if (tabWidget.selected) {
-        tabWidget.titleContainer.className = this._theme._getClassName("ACCORDION_TABEXPANDED_FOCUS");
+        tabWidget._titleContainer.className = this._theme._getClassName("ACCORDION_TABEXPANDED_FOCUS");
     } else {
-        tabWidget.titleContainer.className = this._theme._getClassName("ACCORDION_TABCOLLAPSED_FOCUS");
+        tabWidget._titleContainer.className = this._theme._getClassName("ACCORDION_TABCOLLAPSED_FOCUS");
     }
-    tabWidget.domNode.focus();
+    tabWidget._domNode.focus();
     return true;
 };
 
@@ -549,15 +549,15 @@ webui.@THEME_JS@.widget.accordion.prototype._setTabBlur = function(nodeId) {
     var tabWidget = this._widget.getWidget(nodeId);
     
     if (tabWidget.selected) {
-        tabWidget.titleContainer.className = this._theme._getClassName("ACCORDION_TABEXPANDED");
-        tabWidget.turnerContainer.className = this._theme._getClassName("ACCORDION_DOWNTURNER");
+        tabWidget._titleContainer.className = this._theme._getClassName("ACCORDION_TABEXPANDED");
+        tabWidget._turnerContainer.className = this._theme._getClassName("ACCORDION_DOWNTURNER");
     } else { 
-        tabWidget.titleContainer.className = this._theme._getClassName("ACCORDION_TABCOLLAPSED");
-        tabWidget.turnerContainer.className = this._theme._getClassName("ACCORDION_RIGHTTURNER");
+        tabWidget._titleContainer.className = this._theme._getClassName("ACCORDION_TABCOLLAPSED");
+        tabWidget._turnerContainer.className = this._theme._getClassName("ACCORDION_RIGHTTURNER");
     }    
 
     if (tabWidget) {
-        tabWidget.titleContainer.blur();
+        tabWidget._titleContainer.blur();
     }
     return true;
 };
@@ -640,9 +640,9 @@ webui.@THEME_JS@.widget.accordion.prototype._traverseMenu = function(keyCode, ev
         var focusSet = false;
         if (forward) {  // handling the down and right arrow keys
             if (this.isRefreshIcon) {
-                if (this.focusElement.id == this.refreshNodeContainer.id) {
+                if (this.focusElement.id == this._refreshNodeContainer.id) {
                     if (this.toggleControls && this.multipleSelect) {
-                        this._updateFocus(this.collapseAllContainer);
+                        this._updateFocus(this._collapseAllContainer);
                         focusSet = true;
                     } else {
                         this._updateFocus(this.tabs[0]);
@@ -653,11 +653,11 @@ webui.@THEME_JS@.widget.accordion.prototype._traverseMenu = function(keyCode, ev
             
             if (!focusSet && this.toggleControls && this.multipleSelect) {
                 
-                if (this.focusElement.id == this.collapseAllContainer.id) {
-                    this._updateFocus(this.expandAllContainer);
+                if (this.focusElement.id == this._collapseAllContainer.id) {
+                    this._updateFocus(this._expandAllContainer);
                     focusSet = true;
 
-                } else if (this.focusElement.id == this.expandAllContainer.id) {
+                } else if (this.focusElement.id == this._expandAllContainer.id) {
                     this._updateFocus(this.tabs[0]);
                     focusSet = true;
                 
@@ -689,7 +689,7 @@ webui.@THEME_JS@.widget.accordion.prototype._traverseMenu = function(keyCode, ev
          } else {  // traverse backward
 
             if (this.isRefreshIcon) {
-                if (this.focusElement.id == this.refreshNodeContainer.id) {
+                if (this.focusElement.id == this._refreshNodeContainer.id) {
                     var index = this.tabs.length;
                     this._updateFocus(this.tabs[index-1]);
                     focusSet = true;
@@ -697,9 +697,9 @@ webui.@THEME_JS@.widget.accordion.prototype._traverseMenu = function(keyCode, ev
             }
             
             if (!focusSet && this.toggleControls && this.multipleSelect) {
-                if (this.focusElement.id == this.collapseAllContainer.id) {
+                if (this.focusElement.id == this._collapseAllContainer.id) {
                     if (this.isRefreshIcon) {
-                        this._updateFocus(this.refreshNodeContainer);
+                        this._updateFocus(this._refreshNodeContainer);
                         focusSet = true;
                     } else {
                         var index = this.tabs.length;
@@ -707,8 +707,8 @@ webui.@THEME_JS@.widget.accordion.prototype._traverseMenu = function(keyCode, ev
                         this._updateFocus(this.tabs[index-1]);
                     }
  
-                } else if (this.focusElement.id == this.expandAllContainer.id) {
-                    this._updateFocus(this.collapseAllContainer);
+                } else if (this.focusElement.id == this._expandAllContainer.id) {
+                    this._updateFocus(this._collapseAllContainer);
                     focusSet = true;
                 }
             }
@@ -746,18 +746,18 @@ webui.@THEME_JS@.widget.accordion.prototype._traverseMenu = function(keyCode, ev
     } else if(keyCode == 13 || keyCode == 32) {  // handle enter and space bar
         var actionComplete = false;
         if (this.isRefreshIcon) {
-            if (this.focusElement.id == this.refreshNodeContainer.id) {
+            if (this.focusElement.id == this._refreshNodeContainer.id) {
                 var accWidget = this._widget.getWidget(nodeId);
                 accWidget.refresh(nodeId);
                 actionComplete = true;
             }    
         }
         if (!actionComplete && this.toggleControls && this.multipleSelect) {
-            if (this.focusElement.id == this.collapseAllContainer.id) {
+            if (this.focusElement.id == this._collapseAllContainer.id) {
                 this._collapseAllTabs();
                 actionComplete = true;
                 
-            } else if (this.focusElement.id == this.expandAllContainer.id) {
+            } else if (this.focusElement.id == this._expandAllContainer.id) {
                 this._expandAllTabs();
                 actionComplete = true;
             }
@@ -797,24 +797,24 @@ webui.@THEME_JS@.widget.accordion.prototype._traverseMenu = function(keyCode, ev
         if (this.focusElement) {
             var focusSet = false;
             if (this.isRefreshIcon) {
-                if (this.focusElement.id == this.refreshNodeContainer.id) {
+                if (this.focusElement.id == this._refreshNodeContainer.id) {
                     if (forward) {
                         if (this.toggleControls && this.multipleSelect) {
-                            this.focusElement = this.collapseAllContainer;
-                            this._setFocusStyleClass(this.collapseAllContainer.id);
-                            this._setBlurStyleClass(this.refreshNodeContainer.id);
+                            this.focusElement = this._collapseAllContainer;
+                            this._setFocusStyleClass(this._collapseAllContainer.id);
+                            this._setBlurStyleClass(this._refreshNodeContainer.id);
                             focusSet = true;
                             return true;
                         } else {
                             this.focusElement = this.tabs[0];
-                            this._setBlurStyleClass(this.refreshNodeContainer.id);
+                            this._setBlurStyleClass(this._refreshNodeContainer.id);
                             this._setTabFocus(this.focusElement.id);
                             focusSet = true;
                             return true;
                         }
                     } else {
                         this.focusElement = null;
-                        this._setBlurStyleClass(this.refreshNodeContainer.id);
+                        this._setBlurStyleClass(this._refreshNodeContainer.id);
                         focusSet = true;
                         return true;
                     }
@@ -823,28 +823,28 @@ webui.@THEME_JS@.widget.accordion.prototype._traverseMenu = function(keyCode, ev
 
             if (!focusSet && this.toggleControls && this.multipleSelect) {
 
-                if (this.focusElement.id == this.collapseAllContainer.id) {
+                if (this.focusElement.id == this._collapseAllContainer.id) {
                     if (forward) {
-                        this.focusElement = this.expandAllContainer;
-                        this._setBlurStyleClass(this.collapseAllContainer.id);
-                        this._setFocusStyleClass(this.expandAllContainer.id);
+                        this.focusElement = this._expandAllContainer;
+                        this._setBlurStyleClass(this._collapseAllContainer.id);
+                        this._setFocusStyleClass(this._expandAllContainer.id);
                         focusSet = true;
                     } else {
-                        this.focusElement = this.refreshNodeContainer;
-                        this._setFocusStyleClass(this.refreshNodeContainer.id);
-                        this._setBlurStyleClass(this.collapseAllContainer.id);
+                        this.focusElement = this._refreshNodeContainer;
+                        this._setFocusStyleClass(this._refreshNodeContainer.id);
+                        this._setBlurStyleClass(this._collapseAllContainer.id);
                         focusSet = true;
                     }
-                } else if (this.focusElement.id == this.expandAllContainer.id) {
+                } else if (this.focusElement.id == this._expandAllContainer.id) {
                     if (forward) {
                         this.focusElement = this.tabs[0];
                         this._setTabFocus(this.focusElement.id);
-                        this._setBlurStyleClass(this.expandAllContainer.id);
+                        this._setBlurStyleClass(this._expandAllContainer.id);
                         focusSet = true;
                     } else {
-                        this.focusElement = this.collapseAllContainer;
-                        this._setFocusStyleClass(this.collapseAllContainer.id);
-                        this._setBlurStyleClass(this.expandAllContainer.id);
+                        this.focusElement = this._collapseAllContainer;
+                        this._setFocusStyleClass(this._collapseAllContainer.id);
+                        this._setBlurStyleClass(this._expandAllContainer.id);
                         focusSet = true;
                     }
                 } 
@@ -880,11 +880,11 @@ webui.@THEME_JS@.widget.accordion.prototype._traverseMenu = function(keyCode, ev
                     
                     this._setTabBlur(this.focusElement.id);
                     if (this.toggleControls && this.multipleSelect) {
-                        this.focusElement = this.expandAllContainer;
-                        this._setFocusStyleClass(this.expandAllContainer.id);
+                        this.focusElement = this._expandAllContainer;
+                        this._setFocusStyleClass(this._expandAllContainer.id);
                     } else { 
-                        this.focusElement = this.refreshNodeContainer;
-                        this._setFocusStyleClass(this.refreshNodeContainer.id);
+                        this.focusElement = this._refreshNodeContainer;
+                        this._setFocusStyleClass(this._refreshNodeContainer.id);
                     }
                     focusSet = true;
                     return true;
@@ -894,13 +894,13 @@ webui.@THEME_JS@.widget.accordion.prototype._traverseMenu = function(keyCode, ev
         } else { //get focus to the first element
             var focusSet = false;
             if (this.isRefreshIcon) {
-               this.focusElement = this.refreshNodeContainer;
-               this._setFocusStyleClass(this.refreshNodeContainer.id);
+               this.focusElement = this._refreshNodeContainer;
+               this._setFocusStyleClass(this._refreshNodeContainer.id);
                focusSet = true;
             }
             if (!focusSet && this.toggleControls && this.multipleSelect) {
-                this.focusElement = this.collapseAllContainer;
-                this._setFocusStyleClass(this.collapseAllContainer.id);
+                this.focusElement = this._collapseAllContainer;
+                this._setFocusStyleClass(this._collapseAllContainer.id);
                 focusSet = true;
             } 
             if (!focusSet) {
@@ -923,12 +923,12 @@ webui.@THEME_JS@.widget.accordion.prototype._traverseMenu = function(keyCode, ev
  */
 webui.@THEME_JS@.widget.accordion.prototype._updateFocus = function(newFocusNode) {
     if (this.focusElement) {
-        if (this.focusElement.id == this.refreshNodeContainer.id) {
-            this._setBlurStyleClass(this.refreshNodeContainer.id);
-        } else if (this.focusElement.id == this.collapseAllContainer.id) {
-            this._setBlurStyleClass(this.collapseAllContainer.id);
-        } else if (this.focusElement.id == this.expandAllContainer.id) {
-            this._setBlurStyleClass(this.expandAllContainer.id);
+        if (this.focusElement.id == this._refreshNodeContainer.id) {
+            this._setBlurStyleClass(this._refreshNodeContainer.id);
+        } else if (this.focusElement.id == this._collapseAllContainer.id) {
+            this._setBlurStyleClass(this._collapseAllContainer.id);
+        } else if (this.focusElement.id == this._expandAllContainer.id) {
+            this._setBlurStyleClass(this._expandAllContainer.id);
         } else {
             for (var i = 0; i < this.tabs.length; i++) {
                 if (this.tabs[i].id == this.focusElement.id) {
@@ -942,12 +942,12 @@ webui.@THEME_JS@.widget.accordion.prototype._updateFocus = function(newFocusNode
     // set the new focusElement and then the associate syles etc.
     if (newFocusNode) {
         this.focusElement = newFocusNode;
-        if (this.focusElement.id == this.refreshNodeContainer.id) {
-                this._setFocusStyleClass(this.refreshNodeContainer.id);
-        } else if (this.focusElement.id == this.collapseAllContainer.id) {
-                this._setFocusStyleClass(this.collapseAllContainer.id);
-        } else if (this.focusElement.id == this.expandAllContainer.id) {
-                this._setFocusStyleClass(this.expandAllContainer.id);
+        if (this.focusElement.id == this._refreshNodeContainer.id) {
+                this._setFocusStyleClass(this._refreshNodeContainer.id);
+        } else if (this.focusElement.id == this._collapseAllContainer.id) {
+                this._setFocusStyleClass(this._collapseAllContainer.id);
+        } else if (this.focusElement.id == this._expandAllContainer.id) {
+                this._setFocusStyleClass(this._expandAllContainer.id);
         } else {
             for (var i = 0; i < this.tabs.length; i++) {
                 if (this.tabs[i].id == this.focusElement.id) {

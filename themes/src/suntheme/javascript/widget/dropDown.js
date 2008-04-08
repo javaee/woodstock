@@ -103,13 +103,13 @@ webui.@THEME_JS@.widget.dropDown.prototype._changed = function() {
     } else {
 
         // Jump drop down changed.
-        var jumpDropdown = this.listContainer; 
+        var jumpDropdown = this._listContainer; 
 
         // Find the <form> for this drop down
         var form = jumpDropdown.form; 
 
         if (typeof form != "undefined" && form != null) { 
-            this.submitterHiddenNode.value = "true";
+            this._submitterHiddenNode.value = "true";
 
             // Set style classes.
             var options = jumpDropdown.options;
@@ -200,7 +200,7 @@ webui.@THEME_JS@.widget.dropDown.prototype._getClassName = function() {
  * theme categories to the
  * label's <code>level</code> and <code>className</code> properties 
  * respectively. It sets the <code>htmlFor</code> attribute to 
- * <code>listContainer.id</code>.
+ * <code>_listContainer.id</code>.
  * </p>
  * <p>
  * These properties are extended with <code>this.label</code> and the
@@ -249,7 +249,7 @@ webui.@THEME_JS@.widget.dropDown.prototype._getLabelClassName = function(ontop) 
 };
 
 /**
- * Return a CSS selector for listContainer HTML element.
+ * Return a CSS selector for _listContainer HTML element.
  * The chosen CSS selector is a function of 
  * the <code>disabled</code> property and whether or not the dropDown
  * is a "jump" dropDown. The returned selector is the value of a 
@@ -278,7 +278,7 @@ webui.@THEME_JS@.widget.dropDown.prototype._getLabelClassName = function(ontop) 
  * <td>true</td>
  * </tr>
  * </table>
- * @return {String} A CSS selector for the listContainer HTML element.
+ * @return {String} A CSS selector for the _listContainer HTML element.
  * @private
  */
 webui.@THEME_JS@.widget.dropDown.prototype._getListContainerClassName =
@@ -411,7 +411,7 @@ webui.@THEME_JS@.widget.dropDown.prototype._getOptionClassName = function(elemen
 webui.@THEME_JS@.widget.dropDown.prototype._postCreate = function () {
     // Set ids.
     if (this.id) {
-        this.submitterHiddenNode.id = this.id + "_submitter";
+        this._submitterHiddenNode.id = this.id + "_submitter";
     }
 
     // Set the CSS class name for the select element.
@@ -419,7 +419,7 @@ webui.@THEME_JS@.widget.dropDown.prototype._postCreate = function () {
     var jumpmenu = this.submitForm != null && this.submitForm == true;
     var disabled = this.disabled != null && this.disabled == true;
 
-    webui.@THEME_JS@._base.common._addStyleClass(this.listContainer, 
+    webui.@THEME_JS@._base.common._addStyleClass(this._listContainer, 
 	this._getListContainerClassName(disabled, jumpmenu));
     
     return this._inherited("_postCreate", arguments);
@@ -452,7 +452,7 @@ webui.@THEME_JS@.widget.dropDown.prototype.setProps = function(props, notify) {
     // onto the widget. At that point there is no difference between
     // "props" and "this".
     //
-    // We need to clear the selector of the listContainer
+    // We need to clear the selector of the _listContainer
     // when state changes from disabled to non disabled state
     // or from submitForm to standard dropdown.
     //
@@ -469,12 +469,12 @@ webui.@THEME_JS@.widget.dropDown.prototype.setProps = function(props, notify) {
     //
     if (toggleJumpmenu || toggleDisabled) {
 	var cn = this._getListContainerClassName(isdisabled, isjumpmenu);
-	webui.@THEME_JS@._base.common._stripStyleClass(this.listContainer, cn);
+	webui.@THEME_JS@._base.common._stripStyleClass(this._listContainer, cn);
 
 	cn = this._getListContainerClassName(
 	    toggleDisabled ? props.disabled == true : isdisabled,
 	    toggleJumpmenu ? props.jumpmenu == true : isjumpmenu);
-	webui.@THEME_JS@._base.common._addStyleClass(this.listContainer, cn);
+	webui.@THEME_JS@._base.common._addStyleClass(this._listContainer, cn);
     }
     return this._inherited("setProps", arguments);
 };
@@ -501,11 +501,11 @@ webui.@THEME_JS@.widget.dropDown.prototype._setProps = function(props) {
 
     // Add attributes to the hidden input for jump drop down.
     //
-    if ((jumpmenu && this.submitterHiddenNode.name == null) || (jumpmenu &&
-	    this.submitterHiddenNode.name != this.submitterHiddenNode.id)) {
+    if ((jumpmenu && this._submitterHiddenNode.name == null) || (jumpmenu &&
+	    this._submitterHiddenNode.name != this._submitterHiddenNode.id)) {
 
-	this.submitterHiddenNode.name = this.submitterHiddenNode.id;
-	this.submitterHiddenNode.value = "false";
+	this._submitterHiddenNode.name = this._submitterHiddenNode.id;
+	this._submitterHiddenNode.value = "false";
     }
 
     // Set remaining properties.

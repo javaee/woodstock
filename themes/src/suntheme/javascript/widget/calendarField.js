@@ -86,7 +86,7 @@ webui.@THEME_JS@.widget.calendarField.prototype._dayClicked = function(props) {
     // broadcasted the event.
     if (props.date != null && props.id == this.calendar.id) {
         // Set the selected date on the field.
-        this.domNode.setProps({value: props.date});
+        this._domNode.setProps({value: props.date});
     }
     return false;
 };
@@ -174,9 +174,9 @@ webui.@THEME_JS@.widget.calendarField.prototype.getProps = function() {
 webui.@THEME_JS@.widget.calendarField.prototype._postCreate = function () {
     // Set ids.
     if (this.id) {
-        this.inlineHelpNode.id = this.id + "_pattern";
-        this.linkContainer.id = this.id + "_linkContainer";
-        this.calendarContainer.id = this.id + "_calendarContainer";
+        this._inlineHelpNode.id = this.id + "_pattern";
+        this._linkContainer.id = this.id + "_linkContainer";
+        this._calendarContainer.id = this.id + "_calendarContainer";
     }     
 
     // If a patternHelp is not specified by the developer
@@ -230,7 +230,7 @@ webui.@THEME_JS@.widget.calendarField.prototype.setProps = function(props, notif
     // The widget can only be disabled if the popup calendar is not visible.
     if (props.disabled != null) { 
         var widget = this._widget.getWidget(this.calendar.id); 
-        if (widget != null && !(widget.calendarContainer.style.display != "block")) {
+        if (widget != null && !(widget._calendarContainer.style.display != "block")) {
             props.disabled = this.disabled;
         }        
     }
@@ -268,14 +268,14 @@ webui.@THEME_JS@.widget.calendarField.prototype._setProps = function(props) {
         props.calendar.disabled = this.disabled;
         
         // Update/add fragment.
-        this._widget._updateFragment(this.calendarContainer, this.calendar.id,
+        this._widget._updateFragment(this._calendarContainer, this.calendar.id,
             props.calendar); 
     }
     
     // Set date format pattern help.
     if (props.patternHelp) {                            
         // NOTE: If you set this value manually, text must be HTML escaped.
-        this._widget._addFragment(this.inlineHelpNode, props.patternHelp);
+        this._widget._addFragment(this._inlineHelpNode, props.patternHelp);
     }
 
     // Set remaining properties.
@@ -299,8 +299,8 @@ webui.@THEME_JS@.widget.calendarField.prototype._start = function () {
     //
     // Note: Cannot do this in the _postCreate or setProps as nodes have not
     // been added to the DOM. So, offsetWidth would return zero. 
-    var width = this.fieldNode.offsetWidth;
-    this.inlineHelpNode.style.cssText = "width:" + width + "px;";
+    var width = this._fieldNode.offsetWidth;
+    this._inlineHelpNode.style.cssText = "width:" + width + "px;";
     return this._inherited("_start", arguments);
 };
 

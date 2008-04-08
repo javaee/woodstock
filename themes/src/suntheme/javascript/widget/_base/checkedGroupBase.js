@@ -67,13 +67,13 @@ webui.@THEME_JS@.widget._base.checkedGroupBase.prototype._addContents = function
         return false;
     }
     if (props.contents) {
-        this._widget._removeChildNodes(this.tbodyContainer);
-        var rowContainerCloneNode = this.rowContainer.cloneNode(false);
-        this.tbodyContainer.appendChild(rowContainerCloneNode);
+        this._widget._removeChildNodes(this._tbodyContainer);
+        var rowContainerCloneNode = this._rowContainer.cloneNode(false);
+        this._tbodyContainer.appendChild(rowContainerCloneNode);
         if (props.label) {
-            var rowNodeClone = this.rowNode.cloneNode(false);
+            var rowNodeClone = this._rowNode.cloneNode(false);
             rowContainerCloneNode.appendChild(rowNodeClone);
-            var labelContainerClone = this.labelContainer.cloneNode(false);
+            var labelContainerClone = this._labelContainer.cloneNode(false);
             rowNodeClone.appendChild(labelContainerClone);
             this._widget._addFragment(labelContainerClone, props.label, "last");            
               
@@ -87,7 +87,7 @@ webui.@THEME_JS@.widget._base.checkedGroupBase.prototype._addContents = function
             for (var column = 0; column < columns; column++) {
                 if (itemN < length) {
                     // Clone < td> node.
-                    var contentsRowNodeClone = this.contentsRowNode.cloneNode(false);
+                    var contentsRowNodeClone = this._contentsRowNode.cloneNode(false);
                     rowContainerCloneNode.appendChild(contentsRowNodeClone);
                     // Set disabled.                   
                     props.contents[itemN].disabled = propsdisabledvalue;
@@ -98,12 +98,12 @@ webui.@THEME_JS@.widget._base.checkedGroupBase.prototype._addContents = function
                 }
             }
             if (row + 1 <= rows) {
-                rowContainerCloneNode = this.rowContainer.cloneNode(false);
-                this.tbodyContainer.appendChild(rowContainerCloneNode);
+                rowContainerCloneNode = this._rowContainer.cloneNode(false);
+                this._tbodyContainer.appendChild(rowContainerCloneNode);
                 // This check is required here. Else the elements won't be
                 // aligned properly when there is no label.
                 if (props.label != null) {
-                    var contentsRowNodeClone = this.contentsRowNode.cloneNode(false);
+                    var contentsRowNodeClone = this._contentsRowNode.cloneNode(false);
                     rowContainerCloneNode.appendChild(contentsRowNodeClone);
                 }
               
@@ -156,18 +156,18 @@ webui.@THEME_JS@.widget._base.checkedGroupBase.prototype.getProps = function() {
 webui.@THEME_JS@.widget._base.checkedGroupBase.prototype._postCreate = function () {
     // Set ids.
     if (this.id) {                    
-        this.contentsRowNode.id = this.id + "_contentsRowNode";
-        this.divContainer.id = this.id + "_divContainer";
-        this.labelContainer.id = this.id + "_labelContainer";                            
-        this.rowContainer.id = this.id + "_rowContainer";
-        this.rowNode.id = this.id + "_rowNode";
-        this.tableContainer.id = this.id + "_tableContainer";   
-        this.tbodyContainer.id = this.id + "_tbodyContainer";     
+        this._contentsRowNode.id = this.id + "_contentsRowNode";
+        this._divContainer.id = this.id + "_divContainer";
+        this._labelContainer.id = this.id + "_labelContainer";                            
+        this._rowContainer.id = this.id + "_rowContainer";
+        this._rowNode.id = this.id + "_rowNode";
+        this._tableContainer.id = this.id + "_tableContainer";   
+        this._tbodyContainer.id = this.id + "_tbodyContainer";     
     }
 
     // Show label.
     if (this.label) {
-        this._common._setVisibleElement(this.rowNode, true);
+        this._common._setVisibleElement(this._rowNode, true);
     }
     return this._inherited("_postCreate", arguments);
 };
@@ -219,7 +219,7 @@ webui.@THEME_JS@.widget._base.checkedGroupBase.prototype._setProps = function(pr
     // Set label properties.
     if (props.label) {
         // Update/add fragment.
-        this._widget._updateFragment(this.labelContainer, this.label.id, props.label);
+        this._widget._updateFragment(this._labelContainer, this.label.id, props.label);
     }
 
     // Set contents.    

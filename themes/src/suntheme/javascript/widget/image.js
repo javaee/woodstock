@@ -149,15 +149,15 @@ webui.@THEME_JS@.widget.image.prototype._setProps = function(props) {
 
     // Style must be set first (e.g., for absolute positioning) -- some style
     // properties may be overridden later by the combined image.
-    this._setCommonProps(this.domNode, props);
+    this._setCommonProps(this._domNode, props);
 
     // Clear style properties if icon was previously set.
     if (props.src && this.icon) {
-        this.domNode.style.border = "";
-        this.domNode.style.backgroundImage = "";
-        this.domNode.style.backgroundPosition = "";
-        this.domNode.style.height = "";
-        this.domNode.style.width = "";
+        this._domNode.style.border = "";
+        this._domNode.style.backgroundImage = "";
+        this._domNode.style.backgroundPosition = "";
+        this._domNode.style.height = "";
+        this._domNode.style.width = "";
     }
 
     // Set properties.
@@ -189,26 +189,26 @@ webui.@THEME_JS@.widget.image.prototype._setProps = function(props) {
                     var combinedImage = this._theme._getImage(mapKey);
 
                     // Set style properties.
-                    this.domNode.style.border = "0";
-                    this.domNode.style.backgroundImage = "url(" + combinedImage['src'] + ")";
-                    this.domNode.style.backgroundPosition = "0px " + iconProps['top'] + "px";
-                    this.domNode.style.height = iconProps['actual_height'] + "px";
-                    this.domNode.style.width = iconProps['actual_width'] + "px";
+                    this._domNode.style.border = "0";
+                    this._domNode.style.backgroundImage = "url(" + combinedImage['src'] + ")";
+                    this._domNode.style.backgroundPosition = "0px " + iconProps['top'] + "px";
+                    this._domNode.style.height = iconProps['actual_height'] + "px";
+                    this._domNode.style.width = iconProps['actual_width'] + "px";
 
                     // Set transparent image.
                     iconProps.src = transImage['src'];
                 }
             }
             // Assign icon properties, even if combined image is not used.
-            if (iconProps.alt) { this.domNode.alt = iconProps.alt; }
-            if (iconProps.height) { this.domNode.height = iconProps.height; }
-            if (iconProps.src) { this.domNode.src = iconProps.src; }
-            if (iconProps.width) { this.domNode.width = iconProps.width; }
+            if (iconProps.alt) { this._domNode.alt = iconProps.alt; }
+            if (iconProps.height) { this._domNode.height = iconProps.height; }
+            if (iconProps.src) { this._domNode.src = iconProps.src; }
+            if (iconProps.width) { this._domNode.width = iconProps.width; }
         }
     } else {
         // Icon properties take precedence.
-        if (props.alt) { this.domNode.alt = props.alt; }
-        if (props.height) { this.domNode.height = props.height; }
+        if (props.alt) { this._domNode.alt = props.alt; }
+        if (props.height) { this._domNode.height = props.height; }
         if (props.src) {
                 
             // If context path is provided, then check whether the image has
@@ -217,18 +217,18 @@ webui.@THEME_JS@.widget.image.prototype._setProps = function(props) {
                 props.src = 
                     webui.@THEME_JS@.widget.common._appendPrefix(this.prefix, props.src);                
             }
-            this.domNode.src = props.src;  
+            this._domNode.src = props.src;  
         } 
-        if (props.width) { this.domNode.width = props.width; }
+        if (props.width) { this._domNode.width = props.width; }
     }
-    if (props.align) { this.domNode.align = props.align; }
-    if (props.border != null) { this.domNode.border = props.border; }
-    if (props.hspace) { this.domNode.hspace = props.hspace; }
-    if (props.longDesc) { this.domNode.longDesc = props.longDesc; }    
-    if (props.vspace) { this.domNode.vspace = props.vspace; }
+    if (props.align) { this._domNode.align = props.align; }
+    if (props.border != null) { this._domNode.border = props.border; }
+    if (props.hspace) { this._domNode.hspace = props.hspace; }
+    if (props.longDesc) { this._domNode.longDesc = props.longDesc; }    
+    if (props.vspace) { this._domNode.vspace = props.vspace; }
 
     // Set more properties.
-    this._setEventProps(this.domNode, props);
+    this._setEventProps(this._domNode, props);
 
     // Set remaining properties.
     return this._inherited("_setProps", arguments);

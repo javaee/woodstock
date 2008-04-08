@@ -77,7 +77,7 @@ webui.@THEME_JS@._dojo.declare("webui.@THEME_JS@.widget.passwordField",
  * @private
  */
 webui.@THEME_JS@.widget.passwordField.prototype._getInputClassName = function() {
-    if (this.fieldNode.readOnly) {
+    if (this._fieldNode.readOnly) {
         return this._theme._getClassName("PASSWORD_FIELD_READONLY", "");
     }
 

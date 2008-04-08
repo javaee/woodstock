@@ -37,6 +37,8 @@ webui.@THEME_JS@._dojo.require("webui.@THEME_JS@._base.proto");
  *    isStyleSheet: true,
  *    // Custom name space to map as webui.@THEME_JS@.
  *    namespace: "foo",
+ *    // Flag to parse HTML markup onLoad.
+ *    parseOnLoad: true,
  *    // Theme config properties.
  *    theme: {
  *      // Theme locale.
@@ -86,7 +88,7 @@ webui.@THEME_JS@._base.config = {
     /** Flag to inlcude style sheet(s). */
     isStyleSheet: true,
     /** Flag to parse HTML markup onLoad. */
-    parseOnLoad: false,
+    parseOnLoad: true,
     /** Custom name space to map as webui.@THEME_JS@. */
     namespace: "webui.@THEME@",
     /** Theme config properties. */

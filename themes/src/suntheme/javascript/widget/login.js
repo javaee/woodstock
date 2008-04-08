@@ -251,13 +251,13 @@ webui.@THEME_JS@.widget.login.prototype._handleSuccess = function(props) {
     // Publish the success event topic
     // Remove the alert message if props does not
     // contain any alert information.
-    // Clear out the loginTable.
+    // Clear out the _loginTable.
     this._setAlert(props.alert);
     this._publish(webui.@THEME_JS@.widget.login.event.result.successTopic, [{
         id: props.id
     }]);
 
-    this._widget._removeChildNodes(this.loginTable);
+    this._widget._removeChildNodes(this._loginTable);
     this.loginState = "INIT";
     props.loginState = "INIT";
 
@@ -354,7 +354,7 @@ webui.@THEME_JS@.widget.login.prototype._setProps = function(props) {
  */
 webui.@THEME_JS@.widget.login.prototype._setAlert = function(props) {
     if (props == null) {
-        this._widget._removeChildNodes(this.alertContainer);
+        this._widget._removeChildNodes(this._alertContainer);
         return false;
     } else {
         var _props = {
@@ -373,9 +373,9 @@ webui.@THEME_JS@.widget.login.prototype._setAlert = function(props) {
             _props.detail = this._theme._getMessage("login.errorDetail");
         }
 
-        var tr = this.alertRowContainer.cloneNode(false);
-        var td = this.alertCellContainer.cloneNode(false);
-        this.loginTbody.appendChild(tr);
+        var tr = this._alertRowContainer.cloneNode(false);
+        var td = this._alertCellContainer.cloneNode(false);
+        this._loginTbody.appendChild(tr);
         tr.appendChild(td);
 
         this._widget.updateFragment(td, _props.id, _props);
@@ -425,7 +425,7 @@ webui.@THEME_JS@.widget.login.prototype._updateLoginTable = function(props) {
     // Remove existing data entries before adding the new ones.
     // This involves destroying the widgets and also deleting
     // the table rows.
-    this._widget._removeChildNodes(this.loginTbody);
+    this._widget._removeChildNodes(this._loginTbody);
         
     var rowNum = 1;
 
@@ -439,34 +439,34 @@ webui.@THEME_JS@.widget.login.prototype._updateLoginTable = function(props) {
 
         for (var i=0; i < rowCount; i++) {
             var dataRow = props.userData[i];
-            var tr = this.inputDataRowContainer.cloneNode(false);
-            this.loginTbody.appendChild(tr);
+            var tr = this._inputDataRowContainer.cloneNode(false);
+            this._loginTbody.appendChild(tr);
             for (var j=0; j<dataRow.length; j++) {
                 var td;
                 var divNode;
                 if (j==0) {
-                    td = this.labelContainerCell.cloneNode(false);
+                    td = this._labelContainerCell.cloneNode(false);
                     tr.appendChild(td);
                     if (i+1 == rowCount) {
-                        divNode = this.lastLabelContainer.cloneNode(true);
+                        divNode = this._lastLabelContainer.cloneNode(true);
                     } else {
-                        divNode = this.labelContainer.cloneNode(true);
+                        divNode = this._labelContainer.cloneNode(true);
                     }
                     td.appendChild(divNode);
                     if (dataRow[j].widgetType != null) {
                         this._widget._addFragment(divNode, dataRow[j], "last"); 
                     }
                 } else {
-                    td = this.dataContainerCell.cloneNode(false);
+                    td = this._dataContainerCell.cloneNode(false);
                     tr.appendChild(td);
                     if (i+1 == rowCount) {
-                        divNode = this.lastInputContainer.cloneNode(true);
+                        divNode = this._lastInputContainer.cloneNode(true);
                     } else if (dataRow[j].type == "staticText") {
-                        divNode = this.stxtContainer.cloneNode(true);
+                        divNode = this._stxtContainer.cloneNode(true);
                     } else if (dataRow[j].type == "textField") {
-                        divNode = this.textContainer.cloneNode(true);
+                        divNode = this._textContainer.cloneNode(true);
                     } else {
-                        divNode = this.inputContainer.cloneNode(true);
+                        divNode = this._inputContainer.cloneNode(true);
                     }
                     td.appendChild(divNode);
                     if (dataRow[j].widgetType != null) {
@@ -477,17 +477,17 @@ webui.@THEME_JS@.widget.login.prototype._updateLoginTable = function(props) {
             rowNum++;
         }
         // add table row for spacer image followed by the login button.
-        var buttonTR = this.buttonRowContainer.cloneNode(false);
-        this.loginTbody.appendChild(buttonTR);
-        var td1 = this.dotImageContainer.cloneNode(false);
+        var buttonTR = this._buttonRowContainer.cloneNode(false);
+        this._loginTbody.appendChild(buttonTR);
+        var td1 = this._dotImageContainer.cloneNode(false);
         buttonTR.appendChild(td1);
         if (this.dotImage) {
             this._widget._addFragment(td1, this.dotImage, "last");
         }
 
-        var td2 = this.buttonContainer.cloneNode(false);
+        var td2 = this._buttonContainer.cloneNode(false);
         buttonTR.appendChild(td2);
-        var spanNode = this.loginButtonContainer.cloneNode(true);
+        var spanNode = this._loginButtonContainer.cloneNode(true);
         var _this = this;
         this.loginButton.onClick = function() {
             _this._buttonClicked(props);

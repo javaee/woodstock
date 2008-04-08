@@ -66,7 +66,7 @@ webui.@THEME_JS@.widget._base.checkedBase.prototype._getInputClassName = functio
  * @return {Node} The HTML input element. 
  */
 webui.@THEME_JS@.widget._base.checkedBase.prototype.getInputElement = function() {
-    return this.inputNode;
+    return this._inputNode;
 };
 
 /**
@@ -98,8 +98,8 @@ webui.@THEME_JS@.widget._base.checkedBase.prototype.getProps = function() {
     if (this.value) { props.value = this.value; }
 
     // After widget has been initialized, get user's input.
-    if (this._isInitialized() == true && this.inputNode.checked != null) {
-        props.checked = this.inputNode.checked;
+    if (this._isInitialized() == true && this._inputNode.checked != null) {
+        props.checked = this._inputNode.checked;
     } else if (this.checked != null) {
         props.checked = this.checked;
     }
@@ -120,8 +120,8 @@ webui.@THEME_JS@.widget._base.checkedBase.prototype._onClickCallback = function(
     }
 
     // If function returns false, we must prevent the request.
-    var result = (this.domNode._onclick)
-        ? this.domNode._onclick(event) : true;
+    var result = (this._domNode._onclick)
+        ? this._domNode._onclick(event) : true;
     if (result == false) {
         event.preventDefault();
         return false;
@@ -141,21 +141,21 @@ webui.@THEME_JS@.widget._base.checkedBase.prototype._onClickCallback = function(
 webui.@THEME_JS@.widget._base.checkedBase.prototype._postCreate = function () {
     // Set ids.
     if (this.id) {
-        this.inputNode.id = this.id + this._idSuffix;
-        this.imageContainer.id = this.id + "_imageContainer";
-        this.labelContainer.id = this.id + "_labelContainer";
+        this._inputNode.id = this.id + this._idSuffix;
+        this._imageContainer.id = this.id + "_imageContainer";
+        this._labelContainer.id = this.id + "_labelContainer";
 
         // If null, use HTML input id.
         if (this.name == null) {
-            this.name = this.inputNode.id;
+            this.name = this._inputNode.id;
         }
     }
 
     // Set public functions.
-    this.domNode.getInputElement = function() { return webui.@THEME_JS@.widget.common.getWidget(this.id).getInputElement(); }
+    this._domNode.getInputElement = function() { return webui.@THEME_JS@.widget.common.getWidget(this.id).getInputElement(); }
     
     // Create callback function for onclick event.
-    this._dojo.connect(this.domNode, "onclick", this, "_onClickCallback");
+    this._dojo.connect(this._domNode, "onclick", this, "_onClickCallback");
 
     return this._inherited("_postCreate", arguments);
 };
@@ -177,20 +177,20 @@ webui.@THEME_JS@.widget._base.checkedBase.prototype._setProps = function(props) 
 
     // Set properties.
     if (props.value) { 
-        this.inputNode.value = props.value;
+        this._inputNode.value = props.value;
     }
     if (props.readOnly != null) { 
-        this.inputNode.readOnly = new Boolean(props.readOnly).valueOf();       
+        this._inputNode.readOnly = new Boolean(props.readOnly).valueOf();       
     }
     if (props.disabled != null) {
-        this.inputNode.disabled = new Boolean(props.disabled).valueOf();        
+        this._inputNode.disabled = new Boolean(props.disabled).valueOf();        
     }
     
     // Set HTML input element class name.
-    this.inputNode.className = this._getInputClassName();
+    this._inputNode.className = this._getInputClassName();
     
     if (props.name) { 
-        this.inputNode.name = props.name;
+        this._inputNode.name = props.name;
     }
 
     if (props.checked != null) {
@@ -206,10 +206,10 @@ webui.@THEME_JS@.widget._base.checkedBase.prototype._setProps = function(props) 
                 // New literals are created every time this function
                 // is called, and it's saved by closure magic.
                 var widget = webui.@THEME_JS@.widget.common.getWidget(_id);
-                widget.inputNode.checked = checked;
+                widget._inputNode.checked = checked;
             }, 0); // (n) milliseconds delay.
         } else {
-            this.inputNode.checked = checked;
+            this._inputNode.checked = checked;
         }
     }
 
@@ -224,7 +224,7 @@ webui.@THEME_JS@.widget._base.checkedBase.prototype._setProps = function(props) 
         props.image.className = this._getImageClassName();
 
         // Update/add fragment.
-        this._widget._updateFragment(this.imageContainer, this.image.id, props.image);
+        this._widget._updateFragment(this._imageContainer, this.image.id, props.image);
     } 
 
     // Set label properties.
@@ -238,12 +238,12 @@ webui.@THEME_JS@.widget._base.checkedBase.prototype._setProps = function(props) 
         props.label.className = this._getLabelClassName();
 
         // Update/add fragment.
-        this._widget._updateFragment(this.labelContainer, this.label.id, props.label);
+        this._widget._updateFragment(this._labelContainer, this.label.id, props.label);
     }
 
     // Set more properties.
-    this._setCommonProps(this.inputNode, props);
-    this._setEventProps(this.inputNode, props);
+    this._setCommonProps(this._inputNode, props);
+    this._setEventProps(this._inputNode, props);
 
     // Set remaining properties.
     return this._inherited("_setProps", arguments);

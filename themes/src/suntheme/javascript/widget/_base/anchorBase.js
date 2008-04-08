@@ -81,11 +81,11 @@ webui.@THEME_JS@.widget._base.anchorBase.prototype._addContents = function(props
     }
 
     // Remove child nodes.
-    this._widget._removeChildNodes(this.domNode);
+    this._widget._removeChildNodes(this._domNode);
 
     // Add contents.
     for (i = 0; i < props.contents.length; i++) {
-        this._widget._addFragment(this.domNode, props.contents[i], "last");
+        this._widget._addFragment(this._domNode, props.contents[i], "last");
     }
     return true;
 };
@@ -131,8 +131,8 @@ webui.@THEME_JS@.widget._base.anchorBase.prototype._onClickCallback = function(e
     }
 
     // If function returns false, we must prevent the request.
-    var result = (this.domNode._onclick)
-        ? this.domNode._onclick(event) : true;
+    var result = (this._domNode._onclick)
+        ? this._domNode._onclick(event) : true;
     if (result == false) {
         event.preventDefault();
         return false;
@@ -188,9 +188,9 @@ webui.@THEME_JS@.widget._base.anchorBase.prototype._setProps = function(props) {
     this._addContents(props);
 
     // Set properties.
-    if (props.accessKey) { this.domNode.accesskey = props.accessKey; }
-    if (props.charset) { this.domNode.charset = props.charset; }
-    if (props.coords) { this.domNode.coords = props.coords; }
+    if (props.accessKey) { this._domNode.accesskey = props.accessKey; }
+    if (props.charset) { this._domNode.charset = props.charset; }
+    if (props.coords) { this._domNode.coords = props.coords; }
         if (props.href) {
                 
             // If context path is provided, then check whether the image has
@@ -199,15 +199,15 @@ webui.@THEME_JS@.widget._base.anchorBase.prototype._setProps = function(props) {
                 props.href = 
                     webui.@THEME_JS@.widget.common._appendPrefix(this.prefix, props.href);
             }
-            this.domNode.href = props.href; 
+            this._domNode.href = props.href; 
         }
-    if (props.hrefLang) { this.domNode.hrefLang =  props.hrefLang; }
-    if (props.name) { this.domNode.name = props.name; }
-    if (props.rev) { this.domNode.rev = props.rev; }
-    if (props.rel) { this.domNode.rel = props.rel; }
-    if (props.shape) { this.domNode.shape = props.shape; }
-    if (props.target) { this.domNode.target = props.target; }
-    if (props.type) { this.domNode.type = props.type; }
+    if (props.hrefLang) { this._domNode.hrefLang =  props.hrefLang; }
+    if (props.name) { this._domNode.name = props.name; }
+    if (props.rev) { this._domNode.rev = props.rev; }
+    if (props.rel) { this._domNode.rel = props.rel; }
+    if (props.shape) { this._domNode.shape = props.shape; }
+    if (props.target) { this._domNode.target = props.target; }
+    if (props.type) { this._domNode.type = props.type; }
 
     // Set id -- anchors must have the same id and name on IE.
     if (props.name) {
@@ -218,7 +218,7 @@ webui.@THEME_JS@.widget._base.anchorBase.prototype._setProps = function(props) {
     // submit. Thus, we will handle this event via the onClick call back.
     if (props.onClick) {
         // Set private function scope on DOM node.
-        this.domNode._onclick = (typeof props.onClick == 'string')
+        this._domNode._onclick = (typeof props.onClick == 'string')
             ? new Function("event", props.onClick) : props.onClick;
 
         // Must be cleared before calling _setEventProps() below.
@@ -226,8 +226,8 @@ webui.@THEME_JS@.widget._base.anchorBase.prototype._setProps = function(props) {
     }
 
     // Set more properties.
-    this._setCommonProps(this.domNode, props);
-    this._setEventProps(this.domNode, props);
+    this._setCommonProps(this._domNode, props);
+    this._setEventProps(this._domNode, props);
 
     // Set remaining properties.
     return this._inherited("_setProps", arguments);

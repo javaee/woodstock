@@ -184,7 +184,7 @@ webui.@THEME_JS@.widget.imageButton.prototype._setProps = function(props) {
             props.src = 
                 webui.@THEME_JS@.widget.common._appendPrefix(this.prefix, props.src);                
         }
-        this.domNode.src = props.src; 
+        this._domNode.src = props.src; 
     }
 
     // Set remaining properties.

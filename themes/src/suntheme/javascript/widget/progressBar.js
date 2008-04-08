@@ -82,9 +82,9 @@ webui.@THEME_JS@._dojo.declare("webui.@THEME_JS@.widget.progressBar",
 webui.@THEME_JS@.widget.progressBar.prototype.cancel = function() {
     clearTimeout(this.timeoutId);
 
-    this.hiddenFieldNode.value = this.canceled;
+    this._hiddenFieldNode.value = this.canceled;
     if (this.type == this.determinate) {
-        this.innerBarContainer.style.width = "0%";
+        this._innerBarContainer.style.width = "0%";
     }
     return this._updateProgress();
 };
@@ -200,7 +200,7 @@ webui.@THEME_JS@.widget.progressBar.prototype._getClassName = function() {
  * @return {boolean} true if successful; otherwise, false.
  */
 webui.@THEME_JS@.widget.progressBar.prototype.isBottomControlVisible = function() {
-    return this._common._isVisibleElement(this.bottomControlsContainer);
+    return this._common._isVisibleElement(this._bottomControlsContainer);
 };
 
 /**
@@ -209,7 +209,7 @@ webui.@THEME_JS@.widget.progressBar.prototype.isBottomControlVisible = function(
 * @return {boolean} true if successful; otherwise, false.
  */
 webui.@THEME_JS@.widget.progressBar.prototype.isFailedStateMessageVisible = function() {
-    return this._common._isVisibleElement(this.failedStateContainer);
+    return this._common._isVisibleElement(this._failedStateContainer);
 };
 
 /**
@@ -218,7 +218,7 @@ webui.@THEME_JS@.widget.progressBar.prototype.isFailedStateMessageVisible = func
 * @return {boolean} true if successful; otherwise, false.
  */
 webui.@THEME_JS@.widget.progressBar.prototype.isLogMsgVisible = function() {
-    return this._common._isVisibleElement(this.logContainer);
+    return this._common._isVisibleElement(this._logContainer);
 };
 
 /**
@@ -227,7 +227,7 @@ webui.@THEME_JS@.widget.progressBar.prototype.isLogMsgVisible = function() {
 * @return {boolean} true if successful; otherwise, false.
  */
 webui.@THEME_JS@.widget.progressBar.prototype.isOperationTextVisible = function() {
-    return this._common._isVisibleElement(this.topTextContainer);
+    return this._common._isVisibleElement(this._topTextContainer);
 };
 
 /**
@@ -236,7 +236,7 @@ webui.@THEME_JS@.widget.progressBar.prototype.isOperationTextVisible = function(
 * @return {boolean} true if successful; otherwise, false.
  */
 webui.@THEME_JS@.widget.progressBar.prototype.isProgressBarContainerVisible = function() {
-    return this._common._isVisibleElement(this.barContainer);
+    return this._common._isVisibleElement(this._barContainer);
 };
 
 /**
@@ -254,7 +254,7 @@ webui.@THEME_JS@.widget.progressBar.prototype.isProgressBarVisible = function() 
 * @return {boolean} true if successful; otherwise, false.
  */
 webui.@THEME_JS@.widget.progressBar.prototype.isRightControlVisible = function() {
-    return this._common._isVisibleElement(this.rightControlsContainer);
+    return this._common._isVisibleElement(this._rightControlsContainer);
 };
 
 /**
@@ -263,7 +263,7 @@ webui.@THEME_JS@.widget.progressBar.prototype.isRightControlVisible = function()
 * @return {boolean} true if successful; otherwise, false.
  */
 webui.@THEME_JS@.widget.progressBar.prototype.isStatusTextVisible = function() {
-    return this._common._isVisibleElement(this.bottomTextContainer);
+    return this._common._isVisibleElement(this._bottomTextContainer);
 };
 
 /**
@@ -274,9 +274,9 @@ webui.@THEME_JS@.widget.progressBar.prototype.isStatusTextVisible = function() {
 webui.@THEME_JS@.widget.progressBar.prototype.pause = function() {
     clearTimeout(this.timeoutId);
 
-    this.hiddenFieldNode.value = this.paused;
+    this._hiddenFieldNode.value = this.paused;
     if (this.type == this.indeterminate) {
-        this.innerBarContainer.className =
+        this._innerBarContainer.className =
             this._theme._getClassName("PROGRESSBAR_INDETERMINATE_PAUSED");
     }
     return this._updateProgress();
@@ -294,44 +294,44 @@ webui.@THEME_JS@.widget.progressBar.prototype.pause = function() {
 webui.@THEME_JS@.widget.progressBar.prototype._postCreate = function () {
     // Set ids.
     if (this.id) {
-        this.barContainer.id = this.id + "_barContainer";
-        this.bottomControlsContainer.id = this.id + "_bottomControlsContainer";
-        this.bottomTextContainer.id = this.id + "_bottomTextContainer"; 
-        this.failedStateContainer.id = this.id + "_failedStateContainer";
-        this.failedLabelContainer.id = this.id + "_failedLabelContainer";
-        this.hiddenFieldNode.id = this.id + "_" + "controlType";
-        this.hiddenFieldNode.name = this.hiddenFieldNode.id;
-        this.innerBarContainer.id = this.id + "_innerBarContainer";
-        this.innerBarOverlayContainer.id = this.id + "_innerBarOverlayContainer";
-        this.logContainer.id = this.id + "_logContainer";
-        this.rightControlsContainer.id = this.id + "_rightControlsContainer";
-        this.topTextContainer.id = this.id + "_topTextContainer"; 
+        this._barContainer.id = this.id + "_barContainer";
+        this._bottomControlsContainer.id = this.id + "_bottomControlsContainer";
+        this._bottomTextContainer.id = this.id + "_bottomTextContainer"; 
+        this._failedStateContainer.id = this.id + "_failedStateContainer";
+        this._failedLabelContainer.id = this.id + "_failedLabelContainer";
+        this._hiddenFieldNode.id = this.id + "_" + "controlType";
+        this._hiddenFieldNode.name = this._hiddenFieldNode.id;
+        this._innerBarContainer.id = this.id + "_innerBarContainer";
+        this._innerBarOverlayContainer.id = this.id + "_innerBarOverlayContainer";
+        this._logContainer.id = this.id + "_logContainer";
+        this._rightControlsContainer.id = this.id + "_rightControlsContainer";
+        this._topTextContainer.id = this.id + "_topTextContainer"; 
     }
 
     // Set public functions
-    this.domNode.cancel = function() { return webui.@THEME_JS@.widget.common.getWidget(this.id).cancel(); };
-    this.domNode.isBottomControlVisible = function() { return webui.@THEME_JS@.widget.common.getWidget(this.id).isBottomControlVisible(); };
-    this.domNode.isFailedStateMessageVisible = function() { return webui.@THEME_JS@.widget.common.getWidget(this.id).isFailedStateMessageVisible(); };
-    this.domNode.isLogMsgVisible = function() { return webui.@THEME_JS@.widget.common.getWidget(this.id).isLogMsgVisible(); };
-    this.domNode.isOperationTextVisible = function() { return webui.@THEME_JS@.widget.common.getWidget(this.id).isOperationTextVisible(); };
-    this.domNode.isProgressBarContainerVisible = function() { return webui.@THEME_JS@.widget.common.getWidget(this.id).isProgressBarContainerVisible(); };
-    this.domNode.isProgressBarVisible = function() { return webui.@THEME_JS@.widget.common.getWidget(this.id).isProgressBarVisible(); };
-    this.domNode.isRightControlVisible = function() { return webui.@THEME_JS@.widget.common.getWidget(this.id).isRightControlVisible(); };
-    this.domNode.isStatusTextVisible = function() { return webui.@THEME_JS@.widget.common.getWidget(this.id).isStatusTextVisible(); };
-    this.domNode.pause = function() { return webui.@THEME_JS@.widget.common.getWidget(this.id).pause(); };
-    this.domNode.resume = function() { return webui.@THEME_JS@.widget.common.getWidget(this.id).resume(); };
-    this.domNode.stop = function() { return webui.@THEME_JS@.widget.common.getWidget(this.id).stop(); };
-    this.domNode.setOnCancel = function(func) { return webui.@THEME_JS@.widget.common.getWidget(this.id).setOnCancel(func); };
-    this.domNode.setOnComplete = function(func) { return webui.@THEME_JS@.widget.common.getWidget(this.id).setOnComplete(func); };
-    this.domNode.setOnFail = function(func) { return webui.@THEME_JS@.widget.common.getWidget(this.id).setOnFail(func); };
-    this.domNode.setBottomControlVisible = function(show) { return webui.@THEME_JS@.widget.common.getWidget(this.id).setBottomControlVisible(show); };
-    this.domNode.setFailedStateMessageVisible = function(show) { return webui.@THEME_JS@.widget.common.getWidget(this.id).setFailedStateMessageVisible(show); };
-    this.domNode.setLogMsgVisible = function(show) { return webui.@THEME_JS@.widget.common.getWidget(this.id).setLogMsgVisible(show); };
-    this.domNode.setOperationTextVisible = function(show) { return webui.@THEME_JS@.widget.common.getWidget(this.id).setOperationTextVisible(show); };
-    this.domNode.setProgressBarContainerVisible = function(show) { return webui.@THEME_JS@.widget.common.getWidget(this.id).setProgressBarContainerVisible(show); };
-    this.domNode.setProgressBarVisible = function(show) { return webui.@THEME_JS@.widget.common.getWidget(this.id).setProgressBarVisible(show); };
-    this.domNode.setRightControlVisible = function(show) { return webui.@THEME_JS@.widget.common.getWidget(this.id).setRightControlVisible(show); };
-    this.domNode.setStatusTextVisible = function(show) { return webui.@THEME_JS@.widget.common.getWidget(this.id).setStatusTextVisible(show); };
+    this._domNode.cancel = function() { return webui.@THEME_JS@.widget.common.getWidget(this.id).cancel(); };
+    this._domNode.isBottomControlVisible = function() { return webui.@THEME_JS@.widget.common.getWidget(this.id).isBottomControlVisible(); };
+    this._domNode.isFailedStateMessageVisible = function() { return webui.@THEME_JS@.widget.common.getWidget(this.id).isFailedStateMessageVisible(); };
+    this._domNode.isLogMsgVisible = function() { return webui.@THEME_JS@.widget.common.getWidget(this.id).isLogMsgVisible(); };
+    this._domNode.isOperationTextVisible = function() { return webui.@THEME_JS@.widget.common.getWidget(this.id).isOperationTextVisible(); };
+    this._domNode.isProgressBarContainerVisible = function() { return webui.@THEME_JS@.widget.common.getWidget(this.id).isProgressBarContainerVisible(); };
+    this._domNode.isProgressBarVisible = function() { return webui.@THEME_JS@.widget.common.getWidget(this.id).isProgressBarVisible(); };
+    this._domNode.isRightControlVisible = function() { return webui.@THEME_JS@.widget.common.getWidget(this.id).isRightControlVisible(); };
+    this._domNode.isStatusTextVisible = function() { return webui.@THEME_JS@.widget.common.getWidget(this.id).isStatusTextVisible(); };
+    this._domNode.pause = function() { return webui.@THEME_JS@.widget.common.getWidget(this.id).pause(); };
+    this._domNode.resume = function() { return webui.@THEME_JS@.widget.common.getWidget(this.id).resume(); };
+    this._domNode.stop = function() { return webui.@THEME_JS@.widget.common.getWidget(this.id).stop(); };
+    this._domNode.setOnCancel = function(func) { return webui.@THEME_JS@.widget.common.getWidget(this.id).setOnCancel(func); };
+    this._domNode.setOnComplete = function(func) { return webui.@THEME_JS@.widget.common.getWidget(this.id).setOnComplete(func); };
+    this._domNode.setOnFail = function(func) { return webui.@THEME_JS@.widget.common.getWidget(this.id).setOnFail(func); };
+    this._domNode.setBottomControlVisible = function(show) { return webui.@THEME_JS@.widget.common.getWidget(this.id).setBottomControlVisible(show); };
+    this._domNode.setFailedStateMessageVisible = function(show) { return webui.@THEME_JS@.widget.common.getWidget(this.id).setFailedStateMessageVisible(show); };
+    this._domNode.setLogMsgVisible = function(show) { return webui.@THEME_JS@.widget.common.getWidget(this.id).setLogMsgVisible(show); };
+    this._domNode.setOperationTextVisible = function(show) { return webui.@THEME_JS@.widget.common.getWidget(this.id).setOperationTextVisible(show); };
+    this._domNode.setProgressBarContainerVisible = function(show) { return webui.@THEME_JS@.widget.common.getWidget(this.id).setProgressBarContainerVisible(show); };
+    this._domNode.setProgressBarVisible = function(show) { return webui.@THEME_JS@.widget.common.getWidget(this.id).setProgressBarVisible(show); };
+    this._domNode.setRightControlVisible = function(show) { return webui.@THEME_JS@.widget.common.getWidget(this.id).setRightControlVisible(show); };
+    this._domNode.setStatusTextVisible = function(show) { return webui.@THEME_JS@.widget.common.getWidget(this.id).setStatusTextVisible(show); };
 
     if (this.busyImage == null) {
 	this.busyImage = {
@@ -351,9 +351,9 @@ webui.@THEME_JS@.widget.progressBar.prototype._postCreate = function () {
 webui.@THEME_JS@.widget.progressBar.prototype.resume = function() {
     clearTimeout(this.timeoutId);
 
-    this.hiddenFieldNode.value = this.resumed;
+    this._hiddenFieldNode.value = this.resumed;
     if (this.type == this.indeterminate) {
-        this.innerBarContainer.className = 
+        this._innerBarContainer.className = 
             this._theme._getClassName("PROGRESSBAR_INDETERMINATE");
             
     }
@@ -370,7 +370,7 @@ webui.@THEME_JS@.widget.progressBar.prototype.setBottomControlVisible = function
     if (show == null) {
         return false;
     }
-    this._common._setVisibleElement(this.bottomControlsContainer, show);
+    this._common._setVisibleElement(this._bottomControlsContainer, show);
     return true;
 };
 
@@ -384,7 +384,7 @@ webui.@THEME_JS@.widget.progressBar.prototype.setFailedStateMessageVisible = fun
     if (show == null) {
         return false;
     }
-    this._common._setVisibleElement(this.failedStateContainer, show);
+    this._common._setVisibleElement(this._failedStateContainer, show);
     return true;
 };
 
@@ -398,7 +398,7 @@ webui.@THEME_JS@.widget.progressBar.prototype.setLogMsgVisible = function(show) 
     if (show == null) {
         return false;
     }
-    this._common._setVisibleElement(this.logContainer, show);
+    this._common._setVisibleElement(this._logContainer, show);
     return true;
 };
 
@@ -451,7 +451,7 @@ webui.@THEME_JS@.widget.progressBar.prototype.setOperationTextVisible = function
     if (show == null) {
         return false;
     }
-    this._common._setVisibleElement(this.topTextContainer, show);
+    this._common._setVisibleElement(this._topTextContainer, show);
     return true;
 };
 
@@ -484,20 +484,20 @@ webui.@THEME_JS@.widget.progressBar.prototype.setProgress = function(props) {
 
     // Set status.
     if (props.status) {
-        this._widget._addFragment(this.bottomTextContainer, props.status);
+        this._widget._addFragment(this._bottomTextContainer, props.status);
     }
 
     // If top text doesnt get change, dont update.
     if (props.topText) {
         if (props.topText != this.topText) {
-            this._widget._addFragment(this.topTextContainer, props.topText);
+            this._widget._addFragment(this._topTextContainer, props.topText);
         }
     }
 
     // Update log messages.
     if (this.type == this.determinate) { 
         if (props.progress != null && props.progress >= 0 ) {
-            this.innerBarContainer.style.width = props.progress + '%';
+            this._innerBarContainer.style.width = props.progress + '%';
         }
 
         if (props.logMessage) {
@@ -512,7 +512,7 @@ webui.@THEME_JS@.widget.progressBar.prototype.setProgress = function(props) {
         // Add overlay text.
         if (this.overlayAnimation == true) {
             // NOTE: If you set this value manually, text must be HTML escaped.
-            this._widget._addFragment(this.innerBarOverlayContainer, props.progress + "%");
+            this._widget._addFragment(this._innerBarOverlayContainer, props.progress + "%");
         }
     } 
 
@@ -527,11 +527,11 @@ webui.@THEME_JS@.widget.progressBar.prototype.setProgress = function(props) {
 
         if (props.failedStateText != null) {
             // NOTE: If you set this value manually, text must be HTML escaped.
-            this._widget._addFragment(this.failedLabelContainer,
+            this._widget._addFragment(this._failedLabelContainer,
                 props.failedStateText + " " + props.progress + this.percentChar);
 
-            this._common._setVisibleElement(this.failedLabelContainer, true);
-            this._common._setVisibleElement(this.failedStateContainer, true);
+            this._common._setVisibleElement(this._failedLabelContainer, true);
+            this._common._setVisibleElement(this._failedStateContainer, true);
         }
         if (this.funcFailed != null) {
             (this.funcFailed)();
@@ -551,7 +551,7 @@ webui.@THEME_JS@.widget.progressBar.prototype.setProgress = function(props) {
         this.setLogMsgVisible(false);
 
         if (this.type == this.determinate) {
-            this.innerBarContainer.style.width = "0%";
+            this._innerBarContainer.style.width = "0%";
         }
         if (this.funcCanceled != null) {
            (this.funcCanceled)(); 
@@ -575,7 +575,7 @@ webui.@THEME_JS@.widget.progressBar.prototype.setProgress = function(props) {
             || props.taskState == this.completed) {
         clearTimeout(this.timeoutId);
         if (this.type == this.indeterminate) {
-            this.innerBarContainer.className =
+            this._innerBarContainer.className =
                 this._theme._getClassName("PROGRESSBAR_INDETERMINATE_PAUSED");
         }
         if (this.type == this.busy) {
@@ -588,8 +588,8 @@ webui.@THEME_JS@.widget.progressBar.prototype.setProgress = function(props) {
 
     // Set progress for A11Y.
     if (props.progress) {
-        if (this.bottomTextContainer.setAttributeNS) {
-            this.bottomTextContainer.setAttributeNS("http://www.w3.org/2005/07/aaa",
+        if (this._bottomTextContainer.setAttributeNS) {
+            this._bottomTextContainer.setAttributeNS("http://www.w3.org/2005/07/aaa",
                 "valuenow", props.progress);
         }
     }
@@ -608,9 +608,9 @@ webui.@THEME_JS@.widget.progressBar.prototype.setProgressBarContainerVisible = f
     }
 
     if (show == false) {
-        this.barContainer.style.display = "none";
+        this._barContainer.style.display = "none";
     } else {
-        this.barContainer.style.display = '';
+        this._barContainer.style.display = '';
     }
     return true; 
 };
@@ -646,81 +646,81 @@ webui.@THEME_JS@.widget.progressBar.prototype._setProps = function(props) {
 
     // Set tool tip.
     if (props.toolTip) {
-        this.barContainer.title = props.toolTip;
+        this._barContainer.title = props.toolTip;
     }
 
     // Add top text.
     if (props.topText) {
-        this._widget._addFragment(this.topTextContainer, props.topText); 
-        this._common._setVisibleElement(this.topTextContainer, true);
+        this._widget._addFragment(this._topTextContainer, props.topText); 
+        this._common._setVisibleElement(this._topTextContainer, true);
     }
 
     // Add bottom text.
     if (props.bottomText) {
-        this._widget._addFragment(this.bottomTextContainer, props.bottomText);
-        this._common._setVisibleElement(this.bottomTextContainer, true);
+        this._widget._addFragment(this._bottomTextContainer, props.bottomText);
+        this._common._setVisibleElement(this._bottomTextContainer, true);
     }
 
     if (props.type == this.determinate 
             || props.type == this.indeterminate) {
         // Set style class.
-        this.barContainer.className =
+        this._barContainer.className =
             this._theme._getClassName("PROGRESSBAR_CONTAINER");
 
         // Set height.
         if (props.height != null && props.height > 0) {
-            this.barContainer.style.height = props.height + "px;"; 
-            this.innerBarContainer.style.height = props.height + "px;";
+            this._barContainer.style.height = props.height + "px;"; 
+            this._innerBarContainer.style.height = props.height + "px;";
         }
 
         // Set width.
         if (props.width != null && props.width > 0) {
-            this.barContainer.style.width = props.width + "px;";
+            this._barContainer.style.width = props.width + "px;";
         }
 
         // Add right controls.
         if (props.progressControlRight != null) {
-            this._widget._addFragment(this.rightControlsContainer, props.progressControlRight);
-            this._common._setVisibleElement(this.rightControlsContainer, true);
+            this._widget._addFragment(this._rightControlsContainer, props.progressControlRight);
+            this._common._setVisibleElement(this._rightControlsContainer, true);
         }
 
         // Add bottom controls.
         if (props.progressControlBottom != null) {
-            this._widget._addFragment(this.bottomControlsContainer, props.progressControlBottom);
-            this._common._setVisibleElement(this.bottomControlsContainer, true);
+            this._widget._addFragment(this._bottomControlsContainer, props.progressControlBottom);
+            this._common._setVisibleElement(this._bottomControlsContainer, true);
         }
     }
 
     if (props.type == this.determinate) {
         // Set style class.
-        this.innerBarContainer.className =
+        this._innerBarContainer.className =
             this._theme._getClassName("PROGRESSBAR_DETERMINATE");
 
         // Set width.
         if (this.progress != null && this.progress >= 0) {
-            this.innerBarContainer.style.width = this.progress + '%';
+            this._innerBarContainer.style.width = this.progress + '%';
         }    
 
         // Add overlay.
         if (props.overlayAnimation == true) {
             if (props.width != null && props.width > 0) {
-                this.innerBarOverlayContainer.style.width = props.width + "px;";
+                this._innerBarOverlayContainer.style.width = props.width + "px;";
             }
             // NOTE: If you set this value manually, text must be HTML escaped.            
-            this._widget._addFragment(this.innerBarOverlayContainer, this.progress + "%");
-            this._common._setVisibleElement(this.innerBarOverlayContainer, true);
+            this._widget._addFragment(this._innerBarOverlayContainer, this.progress + "%");
+            this._common._setVisibleElement(this._innerBarOverlayContainer, true);
         }
 
         // Add log.
         if (props.log != null && props.overlayAnimation == false) { 
-            this._widget._addFragment(this.logContainer, props.log);
-            this._common._setVisibleElement(this.logContainer, true);
+            this._widget._addFragment(this._logContainer, props.log);
+            this._common._setVisibleElement(this._logContainer, true);
         }  
     } else if (props.type == this.indeterminate) {
         // Set style class.
-        this.barContainer.className = 
+        this._barContainer.className = 
             this._theme._getClassName("PROGRESSBAR_CONTAINER");
-        this.innerBarContainer.className = 
+        this._innerBarContainer.className = 
             this._theme._getClassName("PROGRESSBAR_INDETERMINATE");
     } else if (props.type == this.busy) {
         // Add busy image.
@@ -738,26 +738,26 @@ webui.@THEME_JS@.widget.progressBar.prototype._setProps = function(props) {
                         webui.@THEME_JS@.widget.common._appendPrefix(props.prefix, props.progressImageUrl);               
                 }    
             }
-            this._widget._addFragment(this.busyImageContainer, props.busyImage);
-            this._common._setVisibleElement(this.busyImageContainer, true);
+            this._widget._addFragment(this._busyImageContainer, props.busyImage);
+            this._common._setVisibleElement(this._busyImageContainer, true);
         }
     }
 
     // Set developer specified image.
     if (props.progressImageUrl != null && (props.type != this.busy)) {
-        this.innerBarContainer.style.backgroundImage = 'url(' + props.progressImageUrl + ')';
+        this._innerBarContainer.style.backgroundImage = 'url(' + props.progressImageUrl + ')';
     }
 
     // Set A11Y properties.
     if (props.progress != null) {
-        if (this.bottomTextContainer.setAttributeNS) {
-            this.bottomTextContainer.setAttributeNS(
+        if (this._bottomTextContainer.setAttributeNS) {
+            this._bottomTextContainer.setAttributeNS(
                 "http://www.w3.org/2005/07/aaa", "valuenow", this.progress);
         }
     }
 
     // Set more properties.
-    this._setCommonProps(this.domNode, props);
+    this._setCommonProps(this._domNode, props);
 
     // Set remaining properties.
     return this._inherited("_setProps", arguments);
@@ -773,7 +773,7 @@ webui.@THEME_JS@.widget.progressBar.prototype.setRightControlVisible = function(
     if (show == null) {
         return false;
     }
-    this._common._setVisibleElement(this.rightControlsContainer, show);
+    this._common._setVisibleElement(this._rightControlsContainer, show);
     return true;
 };
 
@@ -787,7 +787,7 @@ webui.@THEME_JS@.widget.progressBar.prototype.setStatusTextVisible = function(sh
     if (show == null) {
         return false;
     }
-    this._common._setVisibleElement(this.bottomTextContainer, show);
+    this._common._setVisibleElement(this._bottomTextContainer, show);
     return true;
 };
 
@@ -815,7 +815,7 @@ webui.@THEME_JS@.widget.progressBar.prototype._start = function () {
 webui.@THEME_JS@.widget.progressBar.prototype.stop = function() {
     clearTimeout(this.timeoutId);
 
-    this.hiddenFieldNode.value = this.stopped;
+    this._hiddenFieldNode.value = this.stopped;
     if (this.type == this.indeterminate) {
         this.innerBarIdContainer.className =
             this._theme._getClassName("PROGRESSBAR_INDETERMINATE_PAUSED");

@@ -56,19 +56,19 @@ webui.@THEME_JS@._html.button = {
         }
 
         // Set functions
-        widget.domNode.isSecondary = webui.@THEME_JS@._html.button.isSecondary;
-        widget.domNode.setSecondary = webui.@THEME_JS@._html.button.setSecondary;
-        widget.domNode.isPrimary = webui.@THEME_JS@._html.button.isPrimary;
-        widget.domNode.setPrimary = webui.@THEME_JS@._html.button.setPrimary;
-        widget.domNode.isMini = webui.@THEME_JS@._html.button.isMini;
-        widget.domNode.setMini = webui.@THEME_JS@._html.button.setMini;
-        widget.domNode.getDisabled = webui.@THEME_JS@._html.button.getDisabled;
-        widget.domNode.setDisabled = webui.@THEME_JS@._html.button.setDisabled;
-        widget.domNode.getVisible = webui.@THEME_JS@._html.button.getVisible;
-        widget.domNode.setVisible = webui.@THEME_JS@._html.button.setVisible;
-        widget.domNode.getText = webui.@THEME_JS@._html.button.getText;
-        widget.domNode.setText = webui.@THEME_JS@._html.button.setText;
-        widget.domNode.doClick = webui.@THEME_JS@._html.button.click;
+        widget._domNode.isSecondary = webui.@THEME_JS@._html.button.isSecondary;
+        widget._domNode.setSecondary = webui.@THEME_JS@._html.button.setSecondary;
+        widget._domNode.isPrimary = webui.@THEME_JS@._html.button.isPrimary;
+        widget._domNode.setPrimary = webui.@THEME_JS@._html.button.setPrimary;
+        widget._domNode.isMini = webui.@THEME_JS@._html.button.isMini;
+        widget._domNode.setMini = webui.@THEME_JS@._html.button.setMini;
+        widget._domNode.getDisabled = webui.@THEME_JS@._html.button.getDisabled;
+        widget._domNode.setDisabled = webui.@THEME_JS@._html.button.setDisabled;
+        widget._domNode.getVisible = webui.@THEME_JS@._html.button.getVisible;
+        widget._domNode.setVisible = webui.@THEME_JS@._html.button.setVisible;
+        widget._domNode.getText = webui.@THEME_JS@._html.button.getText;
+        widget._domNode.setText = webui.@THEME_JS@._html.button.setText;
+        widget._domNode.doClick = webui.@THEME_JS@._html.button.click;
 
         return true;
     },

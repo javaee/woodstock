@@ -75,7 +75,7 @@ webui.@THEME_JS@._html.hyperlink = {
         if (props && props.enabledImage) {
             var imgWidget = webui.@THEME_JS@.widget.common.getWidget(props.enabledImage.id);
             if (imgWidget != null) {
-                return imgWidget.domNode;    
+                return imgWidget._domNode;    
             }
         }
 

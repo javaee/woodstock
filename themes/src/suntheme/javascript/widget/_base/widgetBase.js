@@ -302,7 +302,7 @@ webui.@THEME_JS@.widget._base.widgetBase.prototype.postCreate = function () {
 webui.@THEME_JS@.widget._base.widgetBase.prototype._postCreate = function () {
     // In order to register widgets properly, the DOM node id must be set prior 
     // to creating any widget children. Otherwise, widgets may not be destroyed.
-    this.domNode.id = this.id;
+    this._domNode.id = this.id;
 
     // Since the anchor id and name must be the same on IE, we cannot obtain the
     // widget using the DOM node ID via the public functions below. Therefore, 
@@ -310,10 +310,10 @@ webui.@THEME_JS@.widget._base.widgetBase.prototype._postCreate = function () {
     var _id = this.id;
 
     // Set public functions.
-    this.domNode.getProps = function() { 
+    this._domNode.getProps = function() { 
         return webui.@THEME_JS@.widget.common.getWidget(_id).getProps();
     };
-    this.domNode.setProps = function(props, notify) { 
+    this._domNode.setProps = function(props, notify) { 
         return webui.@THEME_JS@.widget.common.getWidget(_id).setProps(props, notify);
     };
 
@@ -555,7 +555,7 @@ webui.@THEME_JS@.widget._base.widgetBase.prototype._setProps = function(props) {
     props.className = this._getClassName();
 
     // Set more properties.
-    return this._setCoreProps(this.domNode, props);
+    return this._setCoreProps(this._domNode, props);
 };
 
 // This function is not public and should not appear in the jsDoc.

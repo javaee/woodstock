@@ -164,7 +164,7 @@ webui.@THEME_JS@.widget.bubble.prototype._onClickCallback = function(event) {
     } else {
         event.stopPropagation();
     }
-    if (this.closeBtn == target) {
+    if (this._closeBtn == target) {
         clearTimeout(this.timerId);
         this.setProps({visible: false});
         this.srcElm.focus();
@@ -215,12 +215,12 @@ webui.@THEME_JS@.widget.bubble.prototype._onShiftTabCallback = function(event) {
         ? event.target 
         : ((event.srcElement) 
             ? event.srcElement : null);
-    if (target == this.bubbleHeader) {                    
+    if (target == this._bubbleHeader) {                    
         if (webui.@THEME_JS@._base.browser._isFirefox() && (event.shiftKey && (event.keyCode == 9))) {
             if (this.focusId != null) {
                 document.getElementById(this.focusId).focus();        
             } else {                
-                 this.bubbleHeader.focus();
+                 this._bubbleHeader.focus();
             }
             event.stopPropagation();
             event.preventDefault(); 
@@ -247,9 +247,9 @@ webui.@THEME_JS@.widget.bubble.prototype._onTabCallback = function(event) {
         : ((event.srcElement) 
             ? event.srcElement : null);
     if (webui.@THEME_JS@._base.browser._isFirefox()) {        
-        if (this.contentEnd == target) {
-            this.bubbleHeader.focus();
-        } else if (this.bubbleHeader == target && this.focusId != null && (event.keyCode == 9)) {
+        if (this._contentEnd == target) {
+            this._bubbleHeader.focus();
+        } else if (this._bubbleHeader == target && this.focusId != null && (event.keyCode == 9)) {
             document.getElementById(this.focusId).focus();            
         }
         event.stopPropagation();
@@ -356,15 +356,15 @@ webui.@THEME_JS@.widget.bubble.prototype.open = function(event) {
 webui.@THEME_JS@.widget.bubble.prototype._postCreate = function () {
     // Set ids.
     if (this.id) {
-        this.bottomLeftArrow.id = this.id + "_bottomLeftArrow";
-        this.bottomRightArrow.id = this.id + "_bottomRightArrow";
-        this.topLeftArrow.id = this.id + "_topLeftArrow";
-        this.topRightArrow.id = this.id + "_topRightArrow";
+        this._bottomLeftArrow.id = this.id + "_bottomLeftArrow";
+        this._bottomRightArrow.id = this.id + "_bottomRightArrow";
+        this._topLeftArrow.id = this.id + "_topLeftArrow";
+        this._topRightArrow.id = this.id + "_topRightArrow";
     }
 
     // Set public functions.
-    this.domNode.close = function() { return webui.@THEME_JS@.widget.common.getWidget(this.id).close(); };
-    this.domNode.open = function(event) { return webui.@THEME_JS@.widget.common.getWidget(this.id).open(event); };
+    this._domNode.close = function() { return webui.@THEME_JS@.widget.common.getWidget(this.id).close(); };
+    this._domNode.open = function(event) { return webui.@THEME_JS@.widget.common.getWidget(this.id).open(event); };
 
     // Set events.
 
@@ -376,28 +376,28 @@ webui.@THEME_JS@.widget.bubble.prototype._postCreate = function () {
 
     // The onClick event for component body. Closes the bubble only when
     // close button is clicked.
-    this._dojo.connect(this.domNode, "onclick", this, "_onClickCallback");
+    this._dojo.connect(this._domNode, "onclick", this, "_onClickCallback");
 
     // Do not close the popup if mouseover on bubble if mouseover on bubble 
     // component then clear the timer and do not close bubble.
-    this._dojo.connect(this.domNode, "onmouseover", this, "_onMouseOverCallback");
+    this._dojo.connect(this._domNode, "onmouseover", this, "_onMouseOverCallback");
 
     // Close the popup if mouseout and autoClose is true if onmouseout and 
     // autoClose is true then close the bubble.
-    this._dojo.connect(this.domNode, "onmouseout", this, "_onMouseOutCallback");
+    this._dojo.connect(this._domNode, "onmouseout", this, "_onMouseOutCallback");
     
-    // The onfocus event for contentEnd. This is needed to handle tab event. 
-    this._dojo.connect(this.contentEnd, "onfocus", this, "_onTabCallback");
+    // The onfocus event for _contentEnd. This is needed to handle tab event. 
+    this._dojo.connect(this._contentEnd, "onfocus", this, "_onTabCallback");
     
-    // The onkeydown event for bubbleHeader. This is needed to handle tab event. 
-    this._dojo.connect(this.bubbleHeader, "onkeydown", this, "_onTabCallback");
+    // The onkeydown event for _bubbleHeader. This is needed to handle tab event. 
+    this._dojo.connect(this._bubbleHeader, "onkeydown", this, "_onTabCallback");
     
     // The onkeydown event for component body. This is needed to handle shift+tab event.
-    this._dojo.connect(this.domNode, "onkeydown", this, "_onShiftTabCallback");
+    this._dojo.connect(this._domNode, "onkeydown", this, "_onShiftTabCallback");
     
-    // Initialize the BubbleTitle width as a percentage of the bubble header.    
-    if (this.bubbleTitle != null) {
-        this.bubbleTitle.style.width = this._theme._getProperty("styles", 
+    // Initialize the bubble title width as a percentage of the bubble header.    
+    if (this._bubbleTitle != null) {
+        this._bubbleTitle.style.width = this._theme._getProperty("styles", 
             "BUBBLE_TITLEWIDTH") + "%";
     }
     return this._inherited("_postCreate", arguments);
@@ -416,7 +416,7 @@ webui.@THEME_JS@.widget.bubble.prototype._setPosition = function() {
     // ENCROACHES ON THE SPACE ALLOCATED FOR THE CLOSE BUTTON ICON,
     // RESULTING IN LAYOUT MISALIGNMENT IN THE HEADER.
 
-    // Assume BubbleTitle width max percentage of the bubble header.
+    // Assume bubble title width max percentage of the bubble header.
     var maxPercent = this._theme._getProperty("styles", "BUBBLE_TITLEWIDTH");
 
     // Sum of widths of all elements in the header BUT the title.  This includes
@@ -426,8 +426,8 @@ webui.@THEME_JS@.widget.bubble.prototype._setPosition = function() {
     var nonTitleWidth = this._theme._getProperty("styles", "BUBBLE_NONTITLEWIDTH");
 
     // Get the widths (in pixels) of the bubble header and title
-    var headerWidth = this.bubbleHeader.offsetWidth;
-    var titleWidth = this.bubbleTitle.offsetWidth;
+    var headerWidth = this._bubbleHeader.offsetWidth;
+    var titleWidth = this._bubbleTitle.offsetWidth;
 
     // Revise the aforementioned percentage downward until the title no longer
     // encroaches on the space allocated for the close button.  We decrement by
@@ -437,17 +437,17 @@ webui.@THEME_JS@.widget.bubble.prototype._setPosition = function() {
     if (headerWidth > nonTitleWidth) {
         while ((maxPercent > 5) && (titleWidth > (headerWidth - nonTitleWidth))) {
             maxPercent -= 5;
-            this.bubbleTitle.style.width = maxPercent + "%";
-            titleWidth = this.bubbleTitle.offsetWidth;
+            this._bubbleTitle.style.width = maxPercent + "%";
+            titleWidth = this._bubbleTitle.offsetWidth;
         }
     }
 
     // Get DOM bubble object associated with this Bubble instance.
-    var bubble = this.domNode;
+    var bubble = this._domNode;
 
     // If this.style is not null that means developer has specified positioning
     // for component. 
-    if (this.domNode != null && this.style != null && this.style.length > 0) {
+    if (this._domNode != null && this.style != null && this.style.length > 0) {
         if (bubble.style.length != null) {
             for (var i = 0; i < bubble.style.length; i++) {
                 if (bubble.style[i] == "top") {
@@ -471,12 +471,13 @@ webui.@THEME_JS@.widget.bubble.prototype._setPosition = function() {
     if ((this.top != null) && (this.left != null)) {
         bubble.style.left = this.left;
         bubble.style.top = this.top;    
-    } else {        
+    } else {
+        // Why are we calling getElementById here instead of using the dojoAttachPoint?
+        var topLeftArrow = document.getElementById(this._topLeftArrow.id);
+        var topRightArrow = document.getElementById(this._topRightArrow.id);
+        var bottomLeftArrow = document.getElementById(this._bottomLeftArrow.id);
+        var bottomRightArrow = document.getElementById(this._bottomRightArrow.id);
 
-        var topLeftArrow = document.getElementById(this.topLeftArrow.id);
-        var topRightArrow = document.getElementById(this.topRightArrow.id);
-        var bottomLeftArrow = document.getElementById(this.bottomLeftArrow.id);
-        var bottomRightArrow = document.getElementById(this.bottomRightArrow.id);
         // hide all callout arrows.
         this._common._setVisible(bottomLeftArrow, false);
         this._common._setVisible(bottomRightArrow, false);
@@ -554,7 +555,7 @@ webui.@THEME_JS@.widget.bubble.prototype._setPosition = function() {
         document.getElementById(this.focusId).focus();        
     } else {
         if (webui.@THEME_JS@._base.browser._isFirefox()) {
-            this.bubbleHeader.focus();
+            this._bubbleHeader.focus();
         }
     }
     return true;
@@ -608,44 +609,44 @@ webui.@THEME_JS@.widget.bubble.prototype._setProps = function(props) {
     //value for bubble component to achieve cyclic focus behavior. 
     if (webui.@THEME_JS@._base.browser._isFirefox()) {
         if (this.getProps().tabIndex >= 0) {
-            this.contentEnd.tabIndex = this.getProps().tabIndex;
+            this._contentEnd.tabIndex = this.getProps().tabIndex;
         } else {
-            this.contentEnd.tabIndex = 0;
+            this._contentEnd.tabIndex = 0;
         }   
     }
     // Set title.
     if (props.title) {
-        this._widget._addFragment(this.titleNode, props.title);
+        this._widget._addFragment(this._titleNode, props.title);
     }
 
     // hide/display close button
     if (props.closeButton != null) {
-        var classNames = this.closeBtn.className.split(" ");
+        var classNames = this._closeBtn.className.split(" ");
         var closeButtonClass = this._theme._getClassName("BUBBLE_CLOSEBTN");
         var noCloseButtonClass = this._theme._getClassName("BUBBLE_NOCLOSEBTN");
 
         if (props.closeButton == false) {
-            this._common._stripStyleClass(this.closeBtn, closeButtonClass);
+            this._common._stripStyleClass(this._closeBtn, closeButtonClass);
             if (!this._common._checkStyleClasses(classNames, noCloseButtonClass))
-             this._common._addStyleClass(this.closeBtn, noCloseButtonClass);
+             this._common._addStyleClass(this._closeBtn, noCloseButtonClass);
         } else {          
           if (!this._common._checkStyleClasses(classNames, closeButtonClass))
-             this._common._addStyleClass(this.closeBtn, closeButtonClass);
+             this._common._addStyleClass(this._closeBtn, closeButtonClass);
         }
     }
 
     // Set width.
     if (props.width > 0) {                    
-        this.domNode.style.width = props.width + "px";        
+        this._domNode.style.width = props.width + "px";        
     }
 
     // Set contents.
     if (props.contents) {
         // Remove child nodes.
-        this._widget._removeChildNodes(this.childNode);
+        this._widget._removeChildNodes(this._childNode);
 
         for (var i = 0; i < props.contents.length; i++) {
-            this._widget._addFragment(this.childNode, props.contents[i], "last");
+            this._widget._addFragment(this._childNode, props.contents[i], "last");
         }
     }
 

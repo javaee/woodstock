@@ -142,8 +142,8 @@ webui.@THEME_JS@.widget.hyperlink.prototype._onClickCallback = function(event) {
     }
 
     // If function returns false, we must prevent the submit.
-    var result = (this.domNode._onclick)
-        ? this.domNode._onclick(event) : true;
+    var result = (this._domNode._onclick)
+        ? this._domNode._onclick(event) : true;
     if (result == false) {
         event.preventDefault();
         return false;
@@ -156,7 +156,7 @@ webui.@THEME_JS@.widget.hyperlink.prototype._onClickCallback = function(event) {
     // If a form id isnt provided, use the utility function to
     // obtain the form id.
     if (this.formId == null) {
-        var form = this._widget._getForm(this.domNode);
+        var form = this._widget._getForm(this._domNode);
         this.formId = (form) ? form.id : null;
     }
     return this._submitFormData(this.formId, this.params);
@@ -174,10 +174,10 @@ webui.@THEME_JS@.widget.hyperlink.prototype._onClickCallback = function(event) {
 webui.@THEME_JS@.widget.hyperlink.prototype._postCreate = function () {
     // If the href attribute does not exist, set "#" as the default value of the
     // DOM node.
-    this.domNode.href = "#";
+    this._domNode.href = "#";
 
     // Create callback function for onClick event.
-    this._dojo.connect(this.domNode, "onclick", this, "_onClickCallback");
+    this._dojo.connect(this._domNode, "onclick", this, "_onClickCallback");
 
     return this._inherited("_postCreate", arguments);
 };
@@ -198,7 +198,7 @@ webui.@THEME_JS@.widget.hyperlink.prototype._submitFormData = function (formId, 
     // Obtain HTML element for tab and common task components.
     var link = document.getElementById(this.id);
     if (link == null) {
-        link = this.domNode;
+        link = this._domNode;
     }
 
     // Set new action URL.

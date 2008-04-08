@@ -22,9 +22,9 @@
 package com.sun.webui.jsf.renderkit.widget;
 
 import com.sun.webui.theme.Theme;
-import com.sun.webui.theme.ThemeImage;
 import com.sun.webui.jsf.util.JSONUtilities;
 import com.sun.webui.jsf.util.JavaScriptUtilities;
+import com.sun.webui.jsf.util.RenderingUtilities;
 import com.sun.webui.jsf.util.ThemeUtilities;
 
 import java.io.IOException;
@@ -96,16 +96,23 @@ abstract public class RendererBase extends Renderer {
         // Note: Leading \n char causes grief with CSS float in tree.
 
         // This id will be used as a temporary place holder to position the 
-        // component in page -- ultimately replaced by the newly created widget.
-        //
-        // Note: The createUniqueId method of ViewRoot is not unique in a portal.
-        String id = "_" + component.getClientId(context);
+        // component in page.
+        String id;
+
+        // Note: We want to keep IDs short due to an UTF-16 conversion during
+        // string lookups. However, the createUniqueId method of ViewRoot is not
+        // unique between portlets.
+        if (RenderingUtilities.isPortlet(context)) {
+            id = "_" + component.getClientId(context);
+        } else {
+            id = context.getViewRoot().createUniqueId();
+        }
 
         // Render enclosing tag.
         writer.startElement("span", component);
         writer.writeAttribute("id", id, null);
         JavaScriptUtilities.renderJavaScriptBegin(component, writer, false);
-        writer.write(JavaScriptUtilities.getModuleName("widget.common._createWidget('"));
+        writer.write(JavaScriptUtilities.getModuleName("widget.common.createWidget('"));
         writer.write(id);
         writer.write("',");
     }

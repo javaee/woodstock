@@ -1,25 +1,25 @@
-<div dojoAttachPoint="domNode" class="MenuDiv@THEME_CSS@" role="wairole:menu">
-    <div dojoAttachPoint="shadowContainer">
-	<div dojoAttachPoint="outerMenuContainer" class="Menu@THEME_CSS@">
+<div dojoAttachPoint="_domNode" class="MenuDiv@THEME_CSS@" role="wairole:menu">
+    <div dojoAttachPoint="_shadowContainer">
+	<div dojoAttachPoint="_outerMenuContainer" class="Menu@THEME_CSS@">
             <!-- The groupOptionContainer acts as an outermost container for the 
             whole menu and also for "groups" inside the menu. -->
-            <ul dojoAttachPoint="groupOptionContainer">
-                <li dojoAttachPoint="optionContainer">
-                    <div dojoAttachPoint="menuItemContainer">
-                        <span dojoAttachPoint="menuItemImageContainer"></span>
+            <ul dojoAttachPoint="_groupOptionContainer">
+                <li dojoAttachPoint="_optionContainer">
+                    <div dojoAttachPoint="_menuItemContainer">
+                        <span dojoAttachPoint="_menuItemImageContainer"></span>
 			   <!-- We need to use an img tag over here instead of an ordinary span because
 			   IE does not seem to honor the width present in the styleclass unless an img is used -->                        
-                        <img class="NoMenuItemWidget@THEME_CSS@"dojoAttachPoint="menuItemNoImageContainer"></img>
-                        <img class="NoMenuItemSubmenu@THEME_CSS@" dojoAttachPoint="menuItemSubMenu"></img>                            
-                        <div dojoAttachPoint="menuItemNode" class="MenuItemLabel@THEME_CSS@" role="wairole:menuitem" waistate:posinset="0"
+                        <img class="NoMenuItemWidget@THEME_CSS@"dojoAttachPoint="_menuItemNoImageContainer"></img>
+                        <img class="NoMenuItemSubmenu@THEME_CSS@" dojoAttachPoint="_menuItemSubMenu"></img>                            
+                        <div dojoAttachPoint="_menuItemNode" class="MenuItemLabel@THEME_CSS@" role="wairole:menuitem" waistate:posinset="0"
                             waistate:disabled="false">     
                         </div>
                     </div>                            
                 </li>                        
                 <!-- Option separator that gets appended if the separator property 
                 has been set to true for the particular menu option -->
-                <li dojoAttachPoint="menuSeparatorContainer" class="hidden@THEME_CSS@" role="wairole:separator">
-                    <div dojoAttachPoint="menuSeparator"  class="MenuItemSeparator@THEME_CSS@" ></div>
+                <li dojoAttachPoint="_menuSeparatorContainer" class="hidden@THEME_CSS@" role="wairole:separator">
+                    <div dojoAttachPoint="_menuSeparator"  class="MenuItemSeparator@THEME_CSS@" ></div>
                 </li>                        
             </ul>
         </div> 

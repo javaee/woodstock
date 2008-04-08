@@ -140,18 +140,18 @@ webui.@THEME_JS@.widget.alert.prototype._notify = function(props) {
 webui.@THEME_JS@.widget.alert.prototype._postCreate = function () {
     // Set ids.
     if (this.id) {
-        this.bottomLeftContainer.id = this.id + "_bottomLeftContainer";
-        this.bottomMiddleContainer.id = this.id + "_bottomMiddleContainer";
-        this.bottomRightContainer.id = this.id + "_bottomRightContainer";
-        this.detailContainer.id = this.id + "_detailContainer";
-        this.imageContainer.id = this.id + "_imageContainer";
-        this.leftMiddleContainer.id = this.id + "_leftMiddleContainer";
-        this.rightMiddleContainer.id = this.id + "_rightMiddleContainer";
-        this.summaryContainer.id = this.id + "_summaryContainer";
-        this.topLeftContainer.id = this.id + "_topLeftContainer";
-        this.topMiddleContainer.id = this.id + "_topMiddleContainer";
-        this.topRightContainer.id = this.id + "_topRightContainer";
-        this.detailContainerLink.id = this.id + "_detailContainerLink";
+        this._bottomLeftContainer.id = this.id + "_bottomLeftContainer";
+        this._bottomMiddleContainer.id = this.id + "_bottomMiddleContainer";
+        this._bottomRightContainer.id = this.id + "_bottomRightContainer";
+        this._detailContainer.id = this.id + "_detailContainer";
+        this._imageContainer.id = this.id + "_imageContainer";
+        this._leftMiddleContainer.id = this.id + "_leftMiddleContainer";
+        this._rightMiddleContainer.id = this.id + "_rightMiddleContainer";
+        this._summaryContainer.id = this.id + "_summaryContainer";
+        this._topLeftContainer.id = this.id + "_topLeftContainer";
+        this._topMiddleContainer.id = this.id + "_topMiddleContainer";
+        this._topRightContainer.id = this.id + "_topRightContainer";
+        this._detailContainerLink.id = this.id + "_detailContainerLink";
     }
 
     // Create default indicators.   
@@ -252,35 +252,35 @@ webui.@THEME_JS@.widget.alert.prototype._setProps = function(props) {
     }
 
     // Set properties.
-    if (props.dir) { this.domNode.dir = props.dir; }
-    if (props.lang) { this.domNode.lang = props.lang; }    
+    if (props.dir) { this._domNode.dir = props.dir; }
+    if (props.lang) { this._domNode.lang = props.lang; }    
     
     // Set summary.
     if (props.summary) {
-        this._widget._addFragment(this.summaryContainer, props.summary);
+        this._widget._addFragment(this._summaryContainer, props.summary);
     }
 
     // Set detail.
     if (props.detail) {
-        this._widget._addFragment(this.detailContainer, props.detail);
+        this._widget._addFragment(this._detailContainer, props.detail);
     }
 
     // Set moreInfo.
     if (props.moreInfo) {
-        this._widget._addFragment(this.detailContainerLink, props.moreInfo);
+        this._widget._addFragment(this._detailContainerLink, props.moreInfo);
     }
 
     // Set spacer image.
     if (props.spacerImage) {
         var containers = [
-            this.bottomLeftContainer,
-            this.bottomMiddleContainer,
-            this.bottomRightContainer,
-            this.leftMiddleContainer,
-            this.rightMiddleContainer,
-            this.topLeftContainer,
-            this.topMiddleContainer,
-            this.topRightContainer];
+            this._bottomLeftContainer,
+            this._bottomMiddleContainer,
+            this._bottomRightContainer,
+            this._leftMiddleContainer,
+            this._rightMiddleContainer,
+            this._topLeftContainer,
+            this._topMiddleContainer,
+            this._topRightContainer];
 
         // Avoid widget ID collisions.
         for (var i = 0; i < containers.length; i++) {
@@ -309,7 +309,7 @@ webui.@THEME_JS@.widget.alert.prototype._setProps = function(props) {
             indicator.image.tabIndex = this.tabIndex;
 
             // Update/add fragment.
-            this._widget._updateFragment(this.imageContainer, indicator.image.id, 
+            this._widget._updateFragment(this._imageContainer, indicator.image.id, 
                 indicator.image, "last");
         }
     }

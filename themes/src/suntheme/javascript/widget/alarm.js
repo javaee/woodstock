@@ -124,9 +124,9 @@ webui.@THEME_JS@.widget.alarm.prototype.getProps = function() {
 webui.@THEME_JS@.widget.alarm.prototype._postCreate = function () {
     // Set ids.
     if (this.id) {
-        this.rightText.id = this.id + "_rightText";
-        this.leftText.id = this.id + "_leftText";
-        this.imageContainer.id = this.id + "_imageContainer";        
+        this._rightText.id = this.id + "_rightText";
+        this._leftText.id = this.id + "_leftText";
+        this._imageContainer.id = this.id + "_imageContainer";        
     }
     // default set of indicators
     var  defaultIndicators = [{
@@ -206,19 +206,19 @@ webui.@THEME_JS@.widget.alarm.prototype._setProps = function(props) {
     }
 
     // Set properties.
-    if (props.dir) { this.domNode.dir = props.dir; }
-    if (props.lang) { this.domNode.lang = props.lang; }    
+    if (props.dir) { this._domNode.dir = props.dir; }
+    if (props.lang) { this._domNode.lang = props.lang; }    
     
     // Set right text.
     if (props.textPosition == "right" || props.textPosition == null && props.text != null) {
-        this._common._setVisibleElement(this.leftText, false);
-        this._widget._addFragment(this.rightText, props.text);
+        this._common._setVisibleElement(this._leftText, false);
+        this._widget._addFragment(this._rightText, props.text);
     }
 
     // Set left text.
     if (props.textPosition == "left" && props.text != null) {
-        this._common._setVisibleElement(this.rightText, false);
-        this._widget._addFragment(this.leftText, props.text);
+        this._common._setVisibleElement(this._rightText, false);
+        this._widget._addFragment(this._leftText, props.text);
     }    
     
     // Set indicator properties.
@@ -235,7 +235,7 @@ webui.@THEME_JS@.widget.alarm.prototype._setProps = function(props) {
             indicator.image.visible = (indicator.type == this.type) ? true: false;
 
             // Update/add fragment.
-            this._widget._updateFragment(this.imageContainer, indicator.image.id, 
+            this._widget._updateFragment(this._imageContainer, indicator.image.id, 
                 indicator.image, "last");
         }
     }
@@ -243,7 +243,7 @@ webui.@THEME_JS@.widget.alarm.prototype._setProps = function(props) {
     // Do not call _setCommonProps() here. 
 
     // Set more properties.
-    this._setEventProps(this.domNode, props);
+    this._setEventProps(this._domNode, props);
 
     // Set remaining properties.
     return this._inherited("_setProps", arguments);

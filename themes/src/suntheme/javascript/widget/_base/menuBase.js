@@ -75,7 +75,7 @@ webui.@THEME_JS@.widget._base.menuBase.prototype._addOptions = function(menuNode
     for (var i = 0; i < props.options.length; i++) {
         
         // create an li node which will represent an option element.
-        optionNode = this.optionContainer.cloneNode(false);   
+        optionNode = this._optionContainer.cloneNode(false);   
         optionNode.id = this.id + "_" + props.options[i].label + "_container";                
         this._setOptionNodeProps(optionNode, props.options[i], i);
 
@@ -83,15 +83,15 @@ webui.@THEME_JS@.widget._base.menuBase.prototype._addOptions = function(menuNode
         menuNode.appendChild(optionNode);
         if (props.options[i].group == true) {
             optionNode.group = true;
-            groupNode = this.groupOptionContainer.cloneNode(false);
+            groupNode = this._groupOptionContainer.cloneNode(false);
             menuNode.appendChild(groupNode);
             this._addOptions(groupNode, props.options[i]);
         }
         
         if (props.options[i].separator == true) {
-            separator = this.menuSeparatorContainer.cloneNode(true);
+            separator = this._menuSeparatorContainer.cloneNode(true);
             if (webui.@THEME_JS@._base.browser._isIe5up()) {
-                var sep = this.menuSeparator.cloneNode(true);
+                var sep = this._menuSeparator.cloneNode(true);
                 separator.appendChild(sep);
             }
             this._common._setVisibleElement(separator, true);             
@@ -344,7 +344,7 @@ webui.@THEME_JS@.widget._base.menuBase.prototype._getStyle = function() {
  */
 webui.@THEME_JS@.widget._base.menuBase.prototype._postCreate = function () {
     // Set public functions.
-    this.domNode.getSelectedValue = function(props, optionNode) { return webui.@THEME_JS@.widget.common.getWidget(this.id).getSelectedValue(); };
+    this._domNode.getSelectedValue = function(props, optionNode) { return webui.@THEME_JS@.widget.common.getWidget(this.id).getSelectedValue(); };
     this.focusPosition = 0;        
     return this._inherited("_postCreate", arguments);
 };
@@ -467,7 +467,7 @@ webui.@THEME_JS@.widget._base.menuBase.prototype._setMenuNodeClassName = functio
  */
 webui.@THEME_JS@.widget._base.menuBase.prototype._setOptionNodeProps = function(optionNode, props, number) {
     optionNode.id = this.id + "_" + props.value + "_container";
-    var menuItemContainer = this.menuItemContainer.cloneNode(false);
+    var menuItemContainer = this._menuItemContainer.cloneNode(false);
     menuItemContainer.id = optionNode.id + "_label";
 
     // depending on the kind of node, assign the appropriate style
@@ -476,7 +476,7 @@ webui.@THEME_JS@.widget._base.menuBase.prototype._setOptionNodeProps = function(
     optionNode.appendChild(menuItemContainer);
     
     // valueNode contains a div element which will hold the option.
-    var valueNode = this.menuItemNode.cloneNode(false);  
+    var valueNode = this._menuItemNode.cloneNode(false);  
     valueNode.id = this.id + "_" + props.value;
 
     if (!(new Boolean(props.group).valueOf() == true) && 
@@ -527,10 +527,10 @@ webui.@THEME_JS@.widget._base.menuBase.prototype._setOptionNodeProps = function(
     // If an image is present, then replace that with the span
     // placeholder for the image.
     if (new Boolean(this.hasImage).valueOf() == true) {
-        var imageNode = this.menuItemNoImageContainer.cloneNode(false);
+        var imageNode = this._menuItemNoImageContainer.cloneNode(false);
         if (props.image != null) {
             // Add the widget
-            imageNode = this.menuItemImageContainer.cloneNode(false);
+            imageNode = this._menuItemImageContainer.cloneNode(false);
             props.image.className = this._theme._getClassName("MENU_ITEM_IMAGE");
             this._widget._addFragment(imageNode, props.image);
         } 
@@ -538,7 +538,7 @@ webui.@THEME_JS@.widget._base.menuBase.prototype._setOptionNodeProps = function(
     }
     
     // Append the placeholder image node.
-    menuItemContainer.appendChild(this.menuItemSubMenu.cloneNode(false));
+    menuItemContainer.appendChild(this._menuItemSubMenu.cloneNode(false));
 
     // Append the div element to the li element.           
     menuItemContainer.appendChild(valueNode);
@@ -631,14 +631,14 @@ webui.@THEME_JS@.widget._base.menuBase.prototype._setProps = function(props){
             this.maxWidth += 1;
         }
              
-        this._widget._removeChildNodes(this.outerMenuContainer);
+        this._widget._removeChildNodes(this._outerMenuContainer);
         this.menuId = [];
         this.menuItemCount = 0;
         
         // Clone the menu node and add it to the outer container.
-        var menuNode = this.groupOptionContainer.cloneNode(false);
+        var menuNode = this._groupOptionContainer.cloneNode(false);
         menuNode.className = this._theme._getClassName("MENU_CONTAINER");
-        this.outerMenuContainer.appendChild(menuNode);         
+        this._outerMenuContainer.appendChild(menuNode);         
         this._addOptions(menuNode, props);
     }
 
@@ -649,8 +649,8 @@ webui.@THEME_JS@.widget._base.menuBase.prototype._setProps = function(props){
     }
 
     // Set more properties.
-    this._setCommonProps(this.domNode, props);
-    this._setEventProps(this.domNode, props);
+    this._setCommonProps(this._domNode, props);
+    this._setEventProps(this._domNode, props);
     
     // Set remaining properties.
     return this._inherited("_setProps", arguments);

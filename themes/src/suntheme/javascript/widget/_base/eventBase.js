@@ -109,40 +109,40 @@ webui.@THEME_JS@.widget._base.eventBase.prototype._initEvents = function () {
     var subscribe = false;
 
     // Add event topics.
-    this.domNode.event = this.event;
+    this._domNode.event = this.event;
 
     // Refresh.
     if (this.event.refresh != null) {
         // Set public function.
-        this.domNode.refresh = function(execute) {
+        this._domNode.refresh = function(execute) {
             return webui.@THEME_JS@.widget.common.getWidget(_id).refresh(execute);
         };
         subscribe = true;
     } else {
-        this.domNode.event.refresh = null; // clean.
+        this._domNode.event.refresh = null; // clean.
     }
 
     // Submit.
     if (this.event.submit != null) {
         // Set public function.
-        this.domNode.submit = function(execute) {
+        this._domNode.submit = function(execute) {
             return webui.@THEME_JS@.widget.common.getWidget(_id).submit(execute);    
         };
         subscribe = true;
     } else {
-        this.domNode.event.submit = null; // clean.
+        this._domNode.event.submit = null; // clean.
     }
 
     // State.
     if (this.event.state == null) {
         // Remove prototyped function.
         this._stateChanged = null;
-        this.domNode.event.state = null; // clean.
+        this._domNode.event.state = null; // clean.
     }
 
     // Subscribe.
     if (subscribe == true) {
-        this.domNode.subscribe = function(topic, obj, func) {
+        this._domNode.subscribe = function(topic, obj, func) {
             return webui.@THEME_JS@.widget.common.subscribe(topic, obj, func);
         };
     }

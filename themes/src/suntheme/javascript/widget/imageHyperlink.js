@@ -86,13 +86,13 @@ webui.@THEME_JS@.widget.imageHyperlink.prototype._addContents = function(props) 
     }
 
     // Remove child nodes.
-    this._widget._removeChildNodes(this.leftContentsContainer);
-    this._widget._removeChildNodes(this.rightContentsContainer);
+    this._widget._removeChildNodes(this._leftContentsContainer);
+    this._widget._removeChildNodes(this._rightContentsContainer);
 
     // Add contents.
     for (i = 0; i <props.contents.length; i++) {
-        this._widget._addFragment(this.leftContentsContainer, props.contents[i], "last");
-        this._widget._addFragment(this.rightContentsContainer, props.contents[i], "last");
+        this._widget._addFragment(this._leftContentsContainer, props.contents[i], "last");
+        this._widget._addFragment(this._rightContentsContainer, props.contents[i], "last");
     }
     return true;
 };
@@ -162,10 +162,10 @@ webui.@THEME_JS@.widget.imageHyperlink.prototype.getProps = function() {
 webui.@THEME_JS@.widget.imageHyperlink.prototype._postCreate = function () {
     // Set ids.
     if (this.id) {
-        this.enabledImageContainer.id = this.id + "_enabled";
-        this.disabledImageContainer.id = this.id + "_disabled";
-        this.leftContentsContainer.id = this.id + "_leftContents";
-        this.rightContentsContainer.id = this.id + "_rightContents";
+        this._enabledImageContainer.id = this.id + "_enabled";
+        this._disabledImageContainer.id = this.id + "_disabled";
+        this._leftContentsContainer.id = this.id + "_leftContents";
+        this._rightContentsContainer.id = this.id + "_rightContents";
     }
     return this._inherited("_postCreate", arguments);
 };
@@ -191,30 +191,30 @@ webui.@THEME_JS@.widget.imageHyperlink.prototype._setProps = function(props) {
 
         // We need to hide/show images only when the disabed image is specified.
         if (this.disabledImage) { 
-            this._common._setVisibleElement(this.enabledImageContainer, !disabled);
-            this._common._setVisibleElement(this.disabledImageContainer, disabled);
+            this._common._setVisibleElement(this._enabledImageContainer, !disabled);
+            this._common._setVisibleElement(this._disabledImageContainer, disabled);
         }
     }
 
     // Add enabled image.
     if (props.enabledImage) {
         // Update/add fragment.
-        this._widget._updateFragment(this.enabledImageContainer, this.enabledImage.id, 
+        this._widget._updateFragment(this._enabledImageContainer, this.enabledImage.id, 
             props.enabledImage);
     }
 
     // Add disabled image.
     if (props.disabledImage) {
         // Update/add fragment.
-        this._widget._updateFragment(this.disabledImageContainer, this.disabledImage.id, 
+        this._widget._updateFragment(this._disabledImageContainer, this.disabledImage.id, 
             props.disabledImage);
     }
 
     // Set image position.
     if (props.imagePosition) {
         var left = (props.imagePosition == "left");
-        this._common._setVisibleElement(this.leftContentsContainer, !left);
-        this._common._setVisibleElement(this.rightContentsContainer, left);    
+        this._common._setVisibleElement(this._leftContentsContainer, !left);
+        this._common._setVisibleElement(this._rightContentsContainer, left);    
     }
 
     // Add contents.

@@ -131,12 +131,12 @@ webui.@THEME_JS@.widget.staticText.prototype._setProps = function(props) {
     // Set text value.
     if (props.value) {
         // NOTE: If you set this value manually, text must be HTML escaped.
-        this._widget._addFragment(this.domNode, props.value, null, this.escape);
+        this._widget._addFragment(this._domNode, props.value, null, this.escape);
     }
 
     // Set more properties.
-    this._setCommonProps(this.domNode, props);
-    this._setEventProps(this.domNode, props);
+    this._setCommonProps(this._domNode, props);
+    this._setEventProps(this._domNode, props);
 
     // Set remaining properties.
     return this._inherited("_setProps", arguments);

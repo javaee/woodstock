@@ -68,9 +68,9 @@ webui.@THEME_JS@._dojo.declare("webui.@THEME_JS@.widget.calendar",
 webui.@THEME_JS@.widget.calendar.prototype._addDayLink = function(rowNodeClone, day, 
         id, className, setFocus) {
     // Clone <td> and <a> elements. 
-    var colNodeClone = this.dayColumnContainer.cloneNode(false);
+    var colNodeClone = this._dayColumnContainer.cloneNode(false);
     rowNodeClone.appendChild(colNodeClone);    
-    var linkNodeClone = this.dayLinkContainer.cloneNode(false);            
+    var linkNodeClone = this._dayLinkContainer.cloneNode(false);            
     colNodeClone.appendChild(linkNodeClone);
     
     // Format the date.      
@@ -201,8 +201,8 @@ webui.@THEME_JS@.widget.calendar.prototype._addDaysInMonth = function(currentVal
     }
     
     // Add first week data row.
-    var rowNodeClone = this.weekRowContainer.cloneNode(false);
-    this.tbodyContainer.appendChild(rowNodeClone); 
+    var rowNodeClone = this._weekRowContainer.cloneNode(false);
+    this._tbodyContainer.appendChild(rowNodeClone); 
     rowNodeClone.id = this.id + ":row" + rowNum;
     
     // Convert to javascript month numbering.
@@ -258,8 +258,8 @@ webui.@THEME_JS@.widget.calendar.prototype._addDaysInMonth = function(currentVal
     while (day.getDate() != 1) {
         rowNum++;
         // Clone a <tr> node
-        rowNodeClone = this.weekRowContainer.cloneNode(false);
-        this.tbodyContainer.appendChild(rowNodeClone); 
+        rowNodeClone = this._weekRowContainer.cloneNode(false);
+        this._tbodyContainer.appendChild(rowNodeClone); 
         rowNodeClone.id = this.id + ":row" + rowNum;
 
         column = 0;
@@ -332,16 +332,16 @@ webui.@THEME_JS@.widget.calendar.prototype._addWeekDays = function() {
     var firstDay = this.firstDayOfWeek - 1;
     
     // Clone the <tr> node and append it to <tbody>
-    var rowNodeClone = this.weekDayRow.cloneNode(false);
-    this.tbodyContainer.appendChild(rowNodeClone);
+    var rowNodeClone = this._weekDayRow.cloneNode(false);
+    this._tbodyContainer.appendChild(rowNodeClone);
         
     for (var i = 0; i < 7; i++) {
         // Clone the <th> node and append it to <tr>
-        colNodeClone = this.weekDayColumn.cloneNode(false);
+        colNodeClone = this._weekDayColumn.cloneNode(false);
         rowNodeClone.appendChild(colNodeClone);
                
         // Clone the <span> node and append it to <th>
-        spanNodeClone = this.weekDayContainer.cloneNode(false);
+        spanNodeClone = this._weekDayContainer.cloneNode(false);
         colNodeClone.appendChild(spanNodeClone);
         
         // NOTE: If you set this value manually, text must be HTML escaped.
@@ -550,7 +550,7 @@ webui.@THEME_JS@.widget.calendar.prototype.getProps = function() {
  * @private
  */
 webui.@THEME_JS@.widget.calendar.prototype._ieStackingContextFix = function() {
-    var div = this.calendarContainer;
+    var div = this._calendarContainer;
     if (div.style.display == "block") {
         // This popup should be displayed
         // Get the current zIndex for the div
@@ -597,8 +597,8 @@ webui.@THEME_JS@.widget.calendar.prototype._ieStackingContextFix = function() {
  * @private
  */
 webui.@THEME_JS@.widget.calendar.prototype._ieShowShim = function() {  
-    var popup = this.calendarContainer;
-    var shim = this.shimContainer;
+    var popup = this._calendarContainer;
+    var shim = this._shimContainer;
     
     shim.style.position = "absolute";
     shim.style.left = popup.style.left;
@@ -618,7 +618,7 @@ webui.@THEME_JS@.widget.calendar.prototype._ieShowShim = function() {
  * @private
  */
 webui.@THEME_JS@.widget.calendar.prototype._ieHideShim = function() {
-    var shim = this.shimContainer;
+    var shim = this._shimContainer;
     shim.style.display = "none";
     return true;
 };
@@ -725,15 +725,15 @@ webui.@THEME_JS@.widget.calendar.prototype._getYearOptions = function(minYear, m
 webui.@THEME_JS@.widget.calendar.prototype._postCreate = function () {
     // Set ids. 
     if (this.id) {
-        this.calendarMenuContainer.id = this.id + "_calendarMenuContainer";
-        this.linkNode.id = this.id + "_linkNodeContainer";
-        this.todayDateContainer.id = this.id + "_todayDateContainer";
-        this.closeButtonContainer.id = this.id + "_closeButtonContainer";
-        this.previousLinkContainer.id = this.id + "_previousLinkContainer";
-        this.monthMenuContainer.id = this.id + "_monthMenuContainer";
-        this.nextLinkContainer.id = this.id + "_nextLinkContainer";
-        this.yearMenuContainer.id = this.id + "_yearMenuContainer";
-        this.shimContainer.id = this.id + "_shim";
+        this._calendarMenuContainer.id = this.id + "_calendarMenuContainer";
+        this._linkNode.id = this.id + "_linkNodeContainer";
+        this._todayDateContainer.id = this.id + "_todayDateContainer";
+        this._closeButtonContainer.id = this.id + "_closeButtonContainer";
+        this._previousLinkContainer.id = this.id + "_previousLinkContainer";
+        this._monthMenuContainer.id = this.id + "_monthMenuContainer";
+        this._nextLinkContainer.id = this.id + "_nextLinkContainer";
+        this._yearMenuContainer.id = this.id + "_yearMenuContainer";
+        this._shimContainer.id = this.id + "_shim";
     }
 
     // Create client side widgets for the calendar.
@@ -1092,24 +1092,24 @@ webui.@THEME_JS@.widget.calendar.prototype._setProps = function(props) {
     // Set properties.        
     if (props.todayDateMsg) {
         // NOTE: If you set this value manually, text must be HTML escaped.
-        this._widget._addFragment(this.todayDateContainer, props.todayDateMsg);
+        this._widget._addFragment(this._todayDateContainer, props.todayDateMsg);
     }
 
     if (props.spacerImage) {
         if (!this._widget.getWidget(this.spacerImage.id)) {
-            this._widget._addFragment(this.spacerImageContainer, props.spacerImage);
+            this._widget._addFragment(this._spacerImageContainer, props.spacerImage);
         }
     }
 
     if (props.topLeftImage) {
         if (!this._widget.getWidget(this.topLeftImage.id)) {
-            this._widget._addFragment(this.topLeftImageContainer, props.topLeftImage);
+            this._widget._addFragment(this._topLeftImageContainer, props.topLeftImage);
         }
     }
 
     if (props.topRightImage) {
         if (!this._widget.getWidget(this.topRightImage.id)) {
-            this._widget._addFragment(this.topRightImageContainer, props.topRightImage);
+            this._widget._addFragment(this._topRightImageContainer, props.topRightImage);
         }
     }
 
@@ -1129,7 +1129,7 @@ webui.@THEME_JS@.widget.calendar.prototype._setProps = function(props) {
             "webui.@THEME_JS@.widget.common.getWidget('" + this.id + "')._closeCalendar(event);return false;";       
 
         // Update/add fragment.
-        this._widget._updateFragment(this.closeButtonContainer, 
+        this._widget._updateFragment(this._closeButtonContainer, 
             this.closeButtonLink.id, props.closeButtonLink);
     }
 
@@ -1140,7 +1140,7 @@ webui.@THEME_JS@.widget.calendar.prototype._setProps = function(props) {
             "webui.@THEME_JS@.widget.common.getWidget('" + this.id + "')._decreaseMonth();return false;";
 
         // Update/add fragment.
-        this._widget._updateFragment(this.previousLinkContainer, 
+        this._widget._updateFragment(this._previousLinkContainer, 
             this.decreaseLink.id, props.decreaseLink);
     }
 
@@ -1151,7 +1151,7 @@ webui.@THEME_JS@.widget.calendar.prototype._setProps = function(props) {
             "webui.@THEME_JS@.widget.common.getWidget('" + this.id + "')._increaseMonth();return false;";
 
         // Update/add fragment.
-        this._widget._updateFragment(this.nextLinkContainer, this.increaseLink.id, 
+        this._widget._updateFragment(this._nextLinkContainer, this.increaseLink.id, 
             props.increaseLink);
     }
     
@@ -1197,7 +1197,7 @@ webui.@THEME_JS@.widget.calendar.prototype._setProps = function(props) {
             "webui.@THEME_JS@.widget.common.getWidget('" + this.id + "')._updateMonth(false);return false;";
                          
         // Update/add fragment.
-        this._widget._updateFragment(this.monthMenuContainer, this.monthMenu.id,
+        this._widget._updateFragment(this._monthMenuContainer, this.monthMenu.id,
             props.monthMenu);
     }
 
@@ -1208,7 +1208,7 @@ webui.@THEME_JS@.widget.calendar.prototype._setProps = function(props) {
             "webui.@THEME_JS@.widget.common.getWidget('" + this.id + "')._updateMonth(false);return false;";
 
         // Update/add fragment.
-        this._widget._updateFragment(this.yearMenuContainer, this.yearMenu.id,
+        this._widget._updateFragment(this._yearMenuContainer, this.yearMenu.id,
             props.yearMenu);
     }
 
@@ -1220,7 +1220,7 @@ webui.@THEME_JS@.widget.calendar.prototype._setProps = function(props) {
     // If the popup calendar is still being shown, prevent disabling of the calendar.
     // The widget can only be disabled if the popup calendar is not shown.
     if (props.toggleLink || 
-        (props.disabled != null && this.calendarContainer.style.display != "block")) {
+        (props.disabled != null && this._calendarContainer.style.display != "block")) {
 
         // Ensure property exists so we can call setProps just once.
         if (props.toggleLink == null) {
@@ -1233,11 +1233,11 @@ webui.@THEME_JS@.widget.calendar.prototype._setProps = function(props) {
             "webui.@THEME_JS@.widget.common.getWidget('" + this.id + "')._toggleCalendar();return false;";
 
         // Update/add fragment.
-        this._widget._updateFragment(this.linkNode, this.toggleLink.id, props.toggleLink); 
+        this._widget._updateFragment(this._linkNode, this.toggleLink.id, props.toggleLink); 
     }
 
     // Set more properties.
-    this._setCommonProps(this.domNode, props);
+    this._setCommonProps(this._domNode, props);
 
     // Set remaining properties.
     return this._inherited("_setProps", arguments);
@@ -1269,7 +1269,7 @@ webui.@THEME_JS@.widget.calendar.prototype._setSelectedValue = function(select, 
  * @private
  */
 webui.@THEME_JS@.widget.calendar.prototype._toggleCalendar = function() {
-    var topic = (this.calendarContainer.style.display != "block")
+    var topic = (this._calendarContainer.style.display != "block")
         ? webui.@THEME_JS@.widget.calendar.event.toggle.openTopic
         : webui.@THEME_JS@.widget.calendar.event.toggle.closeTopic;
 
@@ -1282,18 +1282,18 @@ webui.@THEME_JS@.widget.calendar.prototype._toggleCalendar = function() {
     }]);
 
     // Open the calendar.
-    if (this.calendarContainer.style.display != "block") {
+    if (this._calendarContainer.style.display != "block") {
         if (webui.@THEME_JS@.widget.calendar.activeCalendarId != null) {
             var cal = this._widget.getWidget(webui.@THEME_JS@.widget.calendar.activeCalendarId);
             cal._toggleCalendar();
         }
         webui.@THEME_JS@.widget.calendar.activeCalendarId = this.id;        
-        this.calendarContainer.style.display = "block";
+        this._calendarContainer.style.display = "block";
         this._setInitialFocus();
         this._updateMonth(true);    
     } else {
         // Hide the calendar popup
-        this.calendarContainer.style.display = "none";
+        this._calendarContainer.style.display = "none";
         webui.@THEME_JS@.widget.calendar.activeCalendarId = null;
     }
 
@@ -1316,7 +1316,7 @@ webui.@THEME_JS@.widget.calendar.prototype._toggleCalendar = function() {
  */
 webui.@THEME_JS@.widget.calendar.prototype._updateMonth = function(initialize) {
     // Remove all the nodes of <tbody> before cloning its children.
-    this._widget._removeChildNodes(this.tbodyContainer);    
+    this._widget._removeChildNodes(this._tbodyContainer);    
     // Add week days
     this._addWeekDays();    
     

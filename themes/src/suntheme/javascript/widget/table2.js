@@ -144,14 +144,14 @@ webui.@THEME_JS@.widget.table2.prototype.getProps = function() {
 webui.@THEME_JS@.widget.table2.prototype._postCreate = function () {
     // Set ids.
     if (this.id) {
-        this.actionsContainer.id = this.id + "_actionsContainer";
-        this.actionsNode.id = this.id + "_actionsNode";
-        this.controlsNode.id = this.id + "_controlsNode";
-        this.filterPanelContainer.id = this.id + "_filterPanelContainer";
-        this.preferencesPanelContainer.id = this.id + "_preferencesPanelContainer";
-        this.sortPanelContainer.id = this.id + "_sortPanelContainer";
-        this.rowGroupsContainer.id = this.id + "_rowGroupsContainer";
-        this.captionContainer.id = this.id + "_captionContainer";
+        this._actionsContainer.id = this.id + "_actionsContainer";
+        this._actionsNode.id = this.id + "_actionsNode";
+        this._controlsNode.id = this.id + "_controlsNode";
+        this._filterPanelContainer.id = this.id + "_filterPanelContainer";
+        this._preferencesPanelContainer.id = this.id + "_preferencesPanelContainer";
+        this._sortPanelContainer.id = this.id + "_sortPanelContainer";
+        this._rowGroupsContainer.id = this.id + "_rowGroupsContainer";
+        this._captionContainer.id = this.id + "_captionContainer";
     }
     return this._inherited("_postCreate", arguments);
 };
@@ -209,8 +209,8 @@ webui.@THEME_JS@.widget.table2.prototype._setProps = function(props) {
     props.tabIndex = null;
 
     // Set properties.
-    if (props.align) { this.domNode.align = props.align; }
-    if (props.width) { this.domNode.style.width = props.width; }
+    if (props.align) { this._domNode.align = props.align; }
+    if (props.width) { this._domNode.style.width = props.width; }
 
     // Add caption.
     if (props.caption || props.filterText && this.caption) {       
@@ -223,21 +223,21 @@ webui.@THEME_JS@.widget.table2.prototype._setProps = function(props) {
 
         // To do: Create a new title message.
         
-        this._widget._addFragment(this.captionContainer, (filterText) 
+        this._widget._addFragment(this._captionContainer, (filterText) 
             ? props.caption + filterText : props.caption);
-        this._common._setVisibleElement(this.captionContainer, true);
+        this._common._setVisibleElement(this._captionContainer, true);
     }
 
     // Add actions.
     if (props.actions) {
-        this._widget._addFragment(this.actionsNode, props.actions);
-        this._common._setVisibleElement(this.actionsContainer, true);
+        this._widget._addFragment(this._actionsNode, props.actions);
+        this._common._setVisibleElement(this._actionsContainer, true);
     }
 
     // Add row groups.
     if (props.rowGroups) {
         // Remove child nodes.
-        this._widget._removeChildNodes(this.rowGroupsContainer);
+        this._widget._removeChildNodes(this._rowGroupsContainer);
  
         // Add row group.
         for (var i = 0; i < props.rowGroups.length; i++) {
@@ -250,7 +250,7 @@ webui.@THEME_JS@.widget.table2.prototype._setProps = function(props) {
                 frame: props.frame,
                 summary: props.summary
             };
-            this._widget._addFragment(this.rowGroupsContainer, props.rowGroups[i], "last");
+            this._widget._addFragment(this._rowGroupsContainer, props.rowGroups[i], "last");
 
             // To do: Fix me.
             // Actions my be rendered after column headers are positioned. When 
@@ -269,8 +269,8 @@ webui.@THEME_JS@.widget.table2.prototype._setProps = function(props) {
     }
 
     // Set more properties.
-    this._setCommonProps(this.domNode, props);
-    this._setEventProps(this.domNode, props);
+    this._setCommonProps(this._domNode, props);
+    this._setEventProps(this._domNode, props);
 
     // Set remaining properties.
     return this._inherited("_setProps", arguments);

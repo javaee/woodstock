@@ -91,8 +91,8 @@ webui.@THEME_JS@.widget.textArea.prototype._createSubmitCallback = function() {
             return false;
         }
         //Create a submit request only if field has been modified
-        if (widget.lastSaved != widget.fieldNode.value) {
-            widget.lastSaved = widget.fieldNode.value;
+        if (widget.lastSaved != widget._fieldNode.value) {
+            widget.lastSaved = widget._fieldNode.value;
             widget.submit();
         }
         return true;
@@ -155,7 +155,7 @@ webui.@THEME_JS@.widget.textArea.event =
  */
 webui.@THEME_JS@.widget.textArea.prototype._getInputClassName = function() {
     // Set readOnly style
-    if (this.fieldNode.readOnly) {
+    if (this._fieldNode.readOnly) {
         return this._theme._getClassName("TEXT_AREA_READONLY", "");
     }
 
@@ -221,8 +221,8 @@ webui.@THEME_JS@.widget.textArea.prototype._setProps = function(props) {
     }
 
     // Set properties.   
-    if (props.cols > 0) { this.fieldNode.cols = props.cols; }
-    if (props.rows > 0) { this.fieldNode.rows = props.rows; }
+    if (props.cols > 0) { this._fieldNode.cols = props.cols; }
+    if (props.rows > 0) { this._fieldNode.rows = props.rows; }
     
     // Cancel autosave if it has been changed to <=0
     if (props.autoSave <= 0 && this.autoSaveTimerId && this.autoSaveTimerId != null ) {

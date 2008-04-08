@@ -137,7 +137,7 @@ webui.@THEME_JS@.widget.anchor.prototype._getClassName = function() {
  */
 webui.@THEME_JS@.widget.anchor.prototype._postCreate = function () {
     // Create callback function for onclick event.
-    this._dojo.connect(this.domNode, "onclick", this, "_onClickCallback");
+    this._dojo.connect(this._domNode, "onclick", this, "_onClickCallback");
 
     return this._inherited("_postCreate", arguments);
 };

@@ -40,13 +40,13 @@ webui.@THEME_JS@._dojo.require("webui.@THEME_JS@.widget._base.widgetBase");
  * A <code>selectBase</code>  subclass's template must
  * define the following attach point identifiers.
  * <ul>
- * <li><code>listContainer</code> - the <code>select</code> element.</li>
- * <li><code>optionNode</code> - the element to clone for an
+ * <li><code>_listContainer</code> - the <code>select</code> element.</li>
+ * <li><code>_optionNode</code> - the element to clone for an
  * <code>option</code> element.
  * </li>
- * <li><code>optionGroupContainer</code> - the element to clone for an
+ * <li><code>_optionGroupContainer</code> - the element to clone for an
  * <code>optGroup</code> element.</li>
- * <li><code>memberOptionNode</code> - the element to clone for an
+ * <li><code>_memberOptionNode</code> - the element to clone for an
  * <code>option</code> in an <code>optGroup</code> element.</li>
  * </ul>
  * <h3>The <code>options</code> array property</h3>
@@ -115,7 +115,7 @@ webui.@THEME_JS@._dojo.require("webui.@THEME_JS@.widget._base.widgetBase");
  * @config {boolean} required If true the a selection is required.
  * @config {boolean} valid If true the widget has a valid selection.
  * @config {String} width This value will be assigned to the 
- * <code>listContainer.style.width</code> attribute to set the width of the
+ * <code>_listContainer.style.width</code> attribute to set the width of the
  * select element.
  * @constructor
  */
@@ -151,7 +151,7 @@ webui.@THEME_JS@._dojo.declare("webui.@THEME_JS@.widget._base.selectBase",
  * @private
  */
 webui.@THEME_JS@.widget._base.selectBase.prototype._changed = function(ev) {
-    var options = this.listContainer.options;
+    var options = this._listContainer.options;
 
     // IE allows disabled options to be selected. Ensure that
     // disabled options never appear as selected options.
@@ -159,13 +159,13 @@ webui.@THEME_JS@.widget._base.selectBase.prototype._changed = function(ev) {
     if (webui.@THEME_JS@._base.browser._isIe()) {
 	for (var i = 0; i < options.length; ++i) {
 	    if (options[i].disabled == true && options[i].selected == true) {
-		if (this.listContainer.multiple == true) {
+		if (this._listContainer.multiple == true) {
 		    options[i].selected = false;
 		} else {
 		    // Don't we need to set the disabled option's
 		    // selected to false too ?
 		    //
-		    this.listContainer.selectedIndex = -1;
+		    this._listContainer.selectedIndex = -1;
 		}
 	    }
 	    // Only set the option if its value is different
@@ -295,7 +295,7 @@ webui.@THEME_JS@.widget._base.selectBase.prototype._getOptionClassName = functio
 /**
  * This function replaces all <code>option</code> and <code>optgroup</code>
  * elements in the HTML <code>select</code> element,
- * <code>this.listContainer</code>.
+ * <code>this._listContainer</code>.
  * <p>
  * All options are replaced with the options specified in <code>props</code>.
  * If <code>props</code> is null, <code>false</code>
@@ -339,16 +339,16 @@ webui.@THEME_JS@.widget._base.selectBase.prototype._setOptions = function(props)
     //
 
     if (!this._alreadyRemoved) {
-        this.listContainer.removeChild(this.optionNode); 
-        this.optionGroupContainer.removeChild(this.memberOptionNode);
-        this.listContainer.removeChild(this.optionGroupContainer);
+        this._listContainer.removeChild(this._optionNode); 
+        this._optionGroupContainer.removeChild(this._memberOptionNode);
+        this._listContainer.removeChild(this._optionGroupContainer);
         this._alreadyRemoved = true;
     }
 
     // Cleaning up the old options
     //
-    while (this.listContainer.firstChild) {
-        this.listContainer.removeChild(this.listContainer.firstChild);
+    while (this._listContainer.firstChild) {
+        this._listContainer.removeChild(this._listContainer.firstChild);
     }
 
     var thisNode;
@@ -372,18 +372,18 @@ webui.@THEME_JS@.widget._base.selectBase.prototype._setOptions = function(props)
 	    //
 	    if (isie) {
 		thisNode = new Option();
-		var len = this.optionNode.attributes.length;
+		var len = this._optionNode.attributes.length;
 		for (var j = 0; j < len; ++j) {
-		    thisNode.setAttribute(this.optionNode.attributes[j].name,
-			    this.optionNode.attributes[j].value);
+		    thisNode.setAttribute(this._optionNode.attributes[j].name,
+			    this._optionNode.attributes[j].value);
 		}
 		// Need to manually do text, although this is likely null
 		// in the template.
 		//
-		thisNode.text = this.optionNode.text;
+		thisNode.text = this._optionNode.text;
 
 	    } else {
-		thisNode = this.optionNode.cloneNode(true);
+		thisNode = this._optionNode.cloneNode(true);
 	    }
 
 	    // Set the properties on this option element
@@ -399,9 +399,9 @@ webui.@THEME_JS@.widget._base.selectBase.prototype._setOptions = function(props)
 	    // Append this option node to the select
 	    //
 	    if (isie) {
-		var idx = this.listContainer.options.length;
+		var idx = this._listContainer.options.length;
 		var isSelected = thisNode.selected;
-		this.listContainer.options[idx] = thisNode;
+		this._listContainer.options[idx] = thisNode;
 
 		// VERIFY THAT WE STILL NEED THIS
 		//
@@ -410,14 +410,14 @@ webui.@THEME_JS@.widget._base.selectBase.prototype._setOptions = function(props)
 		// this is necessary to work around a defect in 
 		// some versions of IE6
 		//
-		this.listContainer.options[idx].selected = isSelected;
+		this._listContainer.options[idx].selected = isSelected;
 	    } else {
-		this.listContainer.appendChild(thisNode);
+		this._listContainer.appendChild(thisNode);
 	    }
 	} else {
 	    // group option optgroup
 	    //
-	    thisNode = this.optionGroupContainer.cloneNode(true);
+	    thisNode = this._optionGroupContainer.cloneNode(true);
 	    
 	    // Set the properties on this optgroup element
 	    //
@@ -428,7 +428,7 @@ webui.@THEME_JS@.widget._base.selectBase.prototype._setOptions = function(props)
 	    //
 	    var thisSubNode;
 	    for (var ix = 0; ix < pOption.options.length; ix++) {
-		thisSubNode = this.memberOptionNode.cloneNode(true);
+		thisSubNode = this._memberOptionNode.cloneNode(true);
 		this._setOptionProps(thisSubNode, pOption.options[ix]);
 		thisNode.appendChild(thisSubNode); 
 	    }
@@ -436,7 +436,7 @@ webui.@THEME_JS@.widget._base.selectBase.prototype._setOptions = function(props)
 	    // Append this optgroup node to the select element
 	    // only after constructing its option children
 	    //
-	    this.listContainer.appendChild(thisNode);
+	    this._listContainer.appendChild(thisNode);
 	}
     }
     return true;
@@ -463,11 +463,11 @@ webui.@THEME_JS@.widget._base.selectBase.prototype.getProps = function() {
     // not include the original "options" props that are not
     // HTML option or HTML optgroup attributes.
     //
-    if (this._isInitialized() == true && this.listContainer != null) {
-	// We need to copy the options from this.listContainer
+    if (this._isInitialized() == true && this._listContainer != null) {
+	// We need to copy the options from this._listContainer
 	// or else they will be destroyed if passed back to addProps.
 	//
-	var opts = this._copyOptions(this.listContainer);
+	var opts = this._copyOptions(this._listContainer);
         props.options = opts;
     } else if (this.options != null) {
         props.options = this.options;
@@ -481,7 +481,7 @@ webui.@THEME_JS@.widget._base.selectBase.prototype.getProps = function() {
  * @return {Node} The HTML select element.
  */
 webui.@THEME_JS@.widget._base.selectBase.prototype.getSelectElement = function() {
-    return this.listContainer;
+    return this._listContainer;
 };
 
 /**
@@ -499,12 +499,12 @@ webui.@THEME_JS@.widget._base.selectBase.prototype.getSelectElement = function()
  * @return {String} The label attribute of the selected option.
  */
 webui.@THEME_JS@.widget._base.selectBase.prototype.getSelectedLabel = function() { 
-    var index = this.listContainer.selectedIndex; 
+    var index = this._listContainer.selectedIndex; 
 
     if (index == -1) { 
         return null; 
     } else { 
-	return this.listContainer.options[index].label;
+	return this._listContainer.options[index].label;
     }
 };
 
@@ -522,11 +522,11 @@ webui.@THEME_JS@.widget._base.selectBase.prototype.getSelectedLabel = function()
  * @return {String} The selected option value or null if none is selected. 
  */
 webui.@THEME_JS@.widget._base.selectBase.prototype.getSelectedValue = function() { 
-    var index = this.listContainer.selectedIndex; 
+    var index = this._listContainer.selectedIndex; 
     if (index == -1) { 
         return null; 
     } else { 
-        return this.listContainer.options[index].value; 
+        return this._listContainer.options[index].value; 
     }
 };
 
@@ -551,8 +551,8 @@ webui.@THEME_JS@.widget._base.selectBase.prototype._onChangeCallback = function(
 
     // If function returns false, we must prevent the auto-submit.
     //
-    var result = (this.listContainer._onchange)
-        ? this.listContainer._onchange(event) : true;
+    var result = (this._listContainer._onchange)
+        ? this._listContainer._onchange(event) : true;
     if (result == false) {
         return false;
     }
@@ -573,20 +573,20 @@ webui.@THEME_JS@.widget._base.selectBase.prototype._onChangeCallback = function(
 webui.@THEME_JS@.widget._base.selectBase.prototype._postCreate = function () {
     // Set ids.
     if (this.id) {
-        this.listContainer.id = this.id + "_list";
-	this.listContainer.name = this.listContainer.id;
+        this._listContainer.id = this.id + "_list";
+	this._listContainer.name = this._listContainer.id;
     }
 
     // Set public functions.
-    this.domNode.getSelectedValue = function() { 
+    this._domNode.getSelectedValue = function() { 
 	return webui.@THEME_JS@.widget.common.getWidget(this.id).getSelectedValue(); };
-    this.domNode.getSelectedLabel = function() { 
+    this._domNode.getSelectedLabel = function() { 
 	return webui.@THEME_JS@.widget.common.getWidget(this.id).getSelectedLabel(); };
-    this.domNode.getSelectElement = function() { 
+    this._domNode.getSelectElement = function() { 
 	return webui.@THEME_JS@.widget.common.getWidget(this.id).getSelectElement(); };
 
     // Set events.
-    this._dojo.connect(this.listContainer, "onchange", this, 
+    this._dojo.connect(this._listContainer, "onchange", this, 
 	"_onChangeCallback");
 
     return this._inherited("_postCreate", arguments);
@@ -596,7 +596,7 @@ webui.@THEME_JS@.widget._base.selectBase.prototype._postCreate = function () {
  * Return an Object Literal of label properties desired by this widget.
  * <p>
  * This implementation adds the <code>htmlFor</code> property with
- * <code>this.listContainer.id</code>.
+ * <code>this._listContainer.id</code>.
  * </p>
  * @return {Object} Key-Value pairs of properties.
  * @private
@@ -604,7 +604,7 @@ webui.@THEME_JS@.widget._base.selectBase.prototype._postCreate = function () {
 webui.@THEME_JS@.widget._base.selectBase.prototype._getLabelProps = function() {
     var props = this._inherited("_getLabelProps", arguments);
 
-    props.htmlFor = this.listContainer.id;
+    props.htmlFor = this._listContainer.id;
     return props;
 };
 
@@ -820,7 +820,7 @@ webui.@THEME_JS@.widget._base.selectBase.prototype._setProps = function(props) {
     //
     if (props.onChange) {
         // Set private function scope on DOM node.
-        this.listContainer._onchange = (typeof props.onChange == 'string')
+        this._listContainer._onchange = (typeof props.onChange == 'string')
 	    ? new Function("event", props.onChange) 
 	    : props.onChange;
 
@@ -829,8 +829,8 @@ webui.@THEME_JS@.widget._base.selectBase.prototype._setProps = function(props) {
     }
 
     if (props.disabled != null) {
-	if (this.listContainer.disabled != props.disabled) {
-	    this.listContainer.disabled = props.disabled;
+	if (this._listContainer.disabled != props.disabled) {
+	    this._listContainer.disabled = props.disabled;
 	}
     }
 
@@ -841,11 +841,11 @@ webui.@THEME_JS@.widget._base.selectBase.prototype._setProps = function(props) {
     }
 
     if (props.width != null && props.width != "") {
-	this.listContainer.style.width = props.width;
+	this._listContainer.style.width = props.width;
     }
     // Set more properties.
-    this._setCommonProps(this.listContainer, props);
-    this._setEventProps(this.listContainer, props);
+    this._setCommonProps(this._listContainer, props);
+    this._setEventProps(this._listContainer, props);
 
     // Set remaining properties.
     //

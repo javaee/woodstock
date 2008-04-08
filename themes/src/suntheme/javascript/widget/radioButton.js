@@ -208,7 +208,7 @@ webui.@THEME_JS@.widget.radioButton.prototype._setProps = function(props) {
         // to obtain the correct value, the name property must be provided to 
         // the widget. Although we're resetting the name below, as the default,
         // this has no affect on IE. 
-        this.inputNode.name = props.name;
+        this._inputNode.name = props.name;
     }
 
     // Set remaining properties.

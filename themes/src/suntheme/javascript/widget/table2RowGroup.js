@@ -140,24 +140,24 @@ webui.@THEME_JS@._dojo.declare("webui.@THEME_JS@.widget.table2RowGroup",
  */
 webui.@THEME_JS@.widget.table2RowGroup.prototype._addColumns = function() {
     // Clear column headers/footers.
-    this._widget._removeChildNodes(this.thead);
-    this._widget._removeChildNodes(this.tfoot);
+    this._widget._removeChildNodes(this._thead);
+    this._widget._removeChildNodes(this._tfoot);
 
     // Clone dojo attach points.
-    var headerRowClone = this.colHeaderRow.cloneNode(false);
-    var footerRowClone = this.colFooterRow.cloneNode(false);
+    var headerRowClone = this._colHeaderRow.cloneNode(false);
+    var footerRowClone = this._colFooterRow.cloneNode(false);
 
     // Append row nodes.
-    this.thead.appendChild(headerRowClone);
-    this.tfoot.appendChild(footerRowClone);
+    this._thead.appendChild(headerRowClone);
+    this._tfoot.appendChild(footerRowClone);
 
     // Append cell nodes.
     for (var i = 0; i < this.columns.length; i++) {
         var col = this.columns[i];
-        var headerCellClone = this.colHeaderCell.cloneNode(false);
-        var footerCellClone = this.colFooterCell.cloneNode(true);
+        var headerCellClone = this._colHeaderCell.cloneNode(false);
+        var footerCellClone = this._colFooterCell.cloneNode(true);
         
-        var colHeaderLink = this.colHeaderLink.cloneNode(false);
+        var colHeaderLink = this._colHeaderLink.cloneNode(false);
         colHeaderLink.id = col.id + "_colHeaderLink";
 
         // Set properties.
@@ -210,7 +210,7 @@ webui.@THEME_JS@.widget.table2RowGroup.prototype._addColumns = function() {
         footerRowClone.appendChild(footerCellClone);
 
         // Set colspan.
-        this.groupHeaderCell.colSpan = this.columns.length;
+        this._groupHeaderCell.colSpan = this.columns.length;
     }
     return true;
 };
@@ -238,8 +238,8 @@ webui.@THEME_JS@.widget.table2RowGroup.prototype.addRows = function(rows) {
         var rowId = this.id + ":" + (this.first + i); // Get row id.
 
         // Clone table data row without cells.
-        var rowClone = this.tableDataRow.cloneNode(false);
-        this.tbody.appendChild(rowClone);
+        var rowClone = this._tableDataRow.cloneNode(false);
+        this._tbody.appendChild(rowClone);
 
         // Set properties.
         props.id = rowId;
@@ -259,7 +259,7 @@ webui.@THEME_JS@.widget.table2RowGroup.prototype.addRows = function(rows) {
             var colId = col.id.replace(this.id, rowId); // Get col id.
 
             // Clone node.
-            var cellClone = this.tableDataCell.cloneNode(true);
+            var cellClone = this._tableDataCell.cloneNode(true);
             rowClone.appendChild(cellClone);
 
             // Set properties.
@@ -436,7 +436,7 @@ webui.@THEME_JS@.widget.table2RowGroup.prototype._paginationNext = function(even
         // Calculate current row.          
         this.currentRow = currentPage * this.maxRows;        
         // set scroll position to make the current row completely visible
-        this.tableContainer.scrollTop =  
+        this._tableContainer.scrollTop =  
             document.getElementById(this.id + ":" + this.currentRow).offsetTop;
     }       
     return this._updateRowsText();
@@ -455,7 +455,7 @@ webui.@THEME_JS@.widget.table2RowGroup.prototype._paginationPrevious = function(
     if (currentPage > 1) {                 
         this.currentRow = (currentPage - 2) * this.maxRows;
         // set scroll position to make the current row completely visible
-        this.tableContainer.scrollTop = 
+        this._tableContainer.scrollTop = 
             document.getElementById(this.id + ":" + this.currentRow).offsetTop;        
     }    
     return this._updateRowsText();
@@ -473,26 +473,26 @@ webui.@THEME_JS@.widget.table2RowGroup.prototype._paginationPrevious = function(
 webui.@THEME_JS@.widget.table2RowGroup.prototype._postCreate = function () {
     // Set ids.    
     if (this.id) {
-        this.colFooterRow.id = this.id + "_colFooterRow";
-        this.colFooterCell.id = this.id + "_colFooterCell";
-        this.colHeaderRow.id = this.id + "_colHeaderRow";
-        this.colHeaderCell.id = this.id + "_colHeaderCell";
-        this.colHeaderLink.id = this.id + "_colHeaderLink";
-        this.groupHeaderControls.id = this.id + "_groupHeaderControls";
-        this.groupHeaderText.id = this.id + "_groupHeaderText";        
-        this.rowsText.id = this.id + "_rowsText";
-        this.table.id = this.id + "_table";
-        this.tableContainer.id = this.id + "_tableContainer";
-        this.tableDataRow.id = this.id + "_tableDataRow";
-        this.tableDataCell.id = this.id + "_tableDataCell";
-        this.tbody.id = this.id + "_tbody";
-        this.tfoot.id = this.id + "_tfoot";
-        this.thead.id = this.id + "_thead";        
-        this.paginationButtonsNode.id = this.id + "_paginationButtonsNode";           
+        this._colFooterRow.id = this.id + "_colFooterRow";
+        this._colFooterCell.id = this.id + "_colFooterCell";
+        this._colHeaderRow.id = this.id + "_colHeaderRow";
+        this._colHeaderCell.id = this.id + "_colHeaderCell";
+        this._colHeaderLink.id = this.id + "_colHeaderLink";
+        this._groupHeaderControls.id = this.id + "_groupHeaderControls";
+        this._groupHeaderText.id = this.id + "_groupHeaderText";        
+        this._rowsText.id = this.id + "_rowsText";
+        this._table.id = this.id + "_table";
+        this._tableContainer.id = this.id + "_tableContainer";
+        this._tableDataRow.id = this.id + "_tableDataRow";
+        this._tableDataCell.id = this.id + "_tableDataCell";
+        this._tbody.id = this.id + "_tbody";
+        this._tfoot.id = this.id + "_tfoot";
+        this._thead.id = this.id + "_thead";        
+        this._paginationButtonsNode.id = this.id + "_paginationButtonsNode";           
     }
 
     // Set events.
-    this._dojo.connect(this.tableContainer, "onscroll", this, "_scroll");
+    this._dojo.connect(this._tableContainer, "onscroll", this, "_scroll");
 
     // Set pagination controls.
     if (this.paginationPrevButton == null) {
@@ -569,7 +569,7 @@ webui.@THEME_JS@.widget.table2RowGroup.prototype._resize = function() {
 
     // Set the scrollable height.
     if (offset > 0) {
-        this.tableContainer.style.height = offset + "px";
+        this._tableContainer.style.height = offset + "px";
     }
 
     // Set width of each column header & footer.
@@ -606,19 +606,19 @@ webui.@THEME_JS@.widget.table2RowGroup.prototype._resize = function() {
     var headerHeight = (colHeaderRow) ? colHeaderRow.offsetHeight : 0;
     var footerHeight = (colFooterRow) ? colFooterRow.offsetHeight : 0;
 
-    this.tableContainer.style.marginTop = (headerHeight - 1) + 'px';
-    this.tableContainer.style.marginBottom = footerHeight + 'px';
+    this._tableContainer.style.marginTop = (headerHeight - 1) + 'px';
+    this._tableContainer.style.marginBottom = footerHeight + 'px';
 
     // Column header height plus offset for border.
     if (colHeaderRow) {
-        colHeaderRow.style.top = (this.tableContainer.offsetTop - 
+        colHeaderRow.style.top = (this._tableContainer.offsetTop - 
             headerHeight + 1) + 'px';
     }
 
     // Column footer height plus offset for border.
     if (colFooterRow) {
-        colFooterRow.style.top = (this.tableContainer.offsetTop + 
-            this.tableContainer.offsetHeight - 1) + 'px';
+        colFooterRow.style.top = (this._tableContainer.offsetTop + 
+            this._tableContainer.offsetHeight - 1) + 'px';
     }
     return true;
 };
@@ -734,22 +734,22 @@ webui.@THEME_JS@.widget.table2RowGroup.prototype._setProps = function(props) {
     }
 
     // Set properties.
-    if (props.id) { this.domNode.id = props.id; }
+    if (props.id) { this._domNode.id = props.id; }
 
     // Set private properties for table widget.
     if (props._table) {
-        if (props._table.bgColor) { this.table.bgColor = props._table.bgColor; }
-        if (props._table.border) { this.table.border = props._table.border; }
-        if (props._table.cellpadding) { this.table.cellpadding = props._table.cellpadding; }
-        if (props._table.cellspacing) { this.table.cellspacing = props._table.cellspacing; }
-        if (props._table.frame) { this.table.frame = props._table.frame; }
-        if (props._table.rules) { this.table.rules = props._table.rules; }
-        if (props._table.summary) { this.table.summary = props._table.summary; }
+        if (props._table.bgColor) { this._table.bgColor = props._table.bgColor; }
+        if (props._table.border) { this._table.border = props._table.border; }
+        if (props._table.cellpadding) { this._table.cellpadding = props._table.cellpadding; }
+        if (props._table.cellspacing) { this._table.cellspacing = props._table.cellspacing; }
+        if (props._table.frame) { this._table.frame = props._table.frame; }
+        if (props._table.rules) { this._table.rules = props._table.rules; }
+        if (props._table.summary) { this._table.summary = props._table.summary; }
     }
 
     // Add header.
     if (props.headerText) {
-        this._widget._updateFragment(this.groupHeaderText, this.groupHeaderText.id, props.headerText);
+        this._widget._updateFragment(this._groupHeaderText, this._groupHeaderText.id, props.headerText);
         this._common._setVisibleElement(this.groupHeaderContainer, true);
     }
     // Add paginationControl.    
@@ -757,13 +757,13 @@ webui.@THEME_JS@.widget.table2RowGroup.prototype._setProps = function(props) {
         // set onclick for previous button.
         props.paginationPrevButton.onClick = 
             "webui.@THEME_JS@.widget.common.getWidget('" + this.id + "')._paginationPrevious();return false;";        
-        this._widget._addFragment(this.paginationButtonsNode, props.paginationPrevButton,"last");
+        this._widget._addFragment(this._paginationButtonsNode, props.paginationPrevButton,"last");
     }
     if (props.paginationNextButton) {
         // set onclick for next button.
         props.paginationNextButton.onClick = 
             "webui.@THEME_JS@.widget.common.getWidget('" + this.id + "')._paginationNext();return false;";
-        this._widget._addFragment(this.paginationButtonsNode, props.paginationNextButton,"last");
+        this._widget._addFragment(this._paginationButtonsNode, props.paginationNextButton,"last");
     }
     if (props.paginationControls != null) {        
         this.paginationControls = props.paginationControls;
@@ -772,7 +772,7 @@ webui.@THEME_JS@.widget.table2RowGroup.prototype._setProps = function(props) {
     this._updatePaginationControls(); 
     //popup menu
     if (props.sortPopupMenu) {
-        webui.@THEME_JS@.widget.common._updateFragment(this.sortMenu, props.sortPopupMenu.id, props.sortPopupMenu);
+        webui.@THEME_JS@.widget.common._updateFragment(this._sortMenu, props.sortPopupMenu.id, props.sortPopupMenu);
     }
         
     // Set columns.
@@ -795,9 +795,9 @@ webui.@THEME_JS@.widget.table2RowGroup.prototype._setProps = function(props) {
     if (props.rows) {
         this.first = 0; // Reset index used to obtain rows.
         this.currentRow = 0; // Reset current row in view.
-        this.tableContainer.scrollTop = 0; 
+        this._tableContainer.scrollTop = 0; 
         // Clear rows.
-        this._widget._removeChildNodes(this.tbody);
+        this._widget._removeChildNodes(this._tbody);
         this.addRows(props.rows);
     }
    
@@ -822,11 +822,11 @@ webui.@THEME_JS@.widget.table2RowGroup.prototype._scroll = function(event) {
             first: this.first
         }]);
     }    
-    var scrollTop = this.tableContainer.scrollTop;
+    var scrollTop = this._tableContainer.scrollTop;
     var rowHeight =  document.getElementById(this.id + ":" + (this.currentRow + 1)).offsetTop -
                     document.getElementById(this.id + ":" + this.currentRow).offsetTop;
     var moveScroll = scrollTop % rowHeight;
-    this.currentRow = Math.floor((this.tableContainer.scrollTop) / rowHeight);    
+    this.currentRow = Math.floor((this._tableContainer.scrollTop) / rowHeight);    
     
     if (moveScroll > (rowHeight / 2)) {
         this.currentRow = this.currentRow + 1;   
@@ -888,7 +888,7 @@ webui.@THEME_JS@.widget.table2RowGroup.prototype._updateRowsText = function() {
 
     // "Items: " + firstRow + " - " + lastRow + " of " + this.totalRows);
     if (msg) {
-        this._widget._addFragment(this.rowsText, msg);
+        this._widget._addFragment(this._rowsText, msg);
     }
      //set disabled/enabled state
     this._updatePaginationControls(); 

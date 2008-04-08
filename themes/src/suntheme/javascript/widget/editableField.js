@@ -79,10 +79,10 @@ webui.@THEME_JS@._dojo.declare("webui.@THEME_JS@.widget.editableField",
  *
  * @param {boolean} acceptChanges Optional parameter. 
  * <p>
- * If true, the entered data (fieldNode value) will be commited through the Ajax
+ * If true, the entered data (_fieldNode value) will be commited through the Ajax
  * submit() request. 
  * </p><p>
- * If false, the entered data (fieldNode value) will be rolled back to previos 
+ * If false, the entered data (_fieldNode value) will be rolled back to previos 
  * state (value is saved before field enters editable state).
  * </p><p>
  * If not specified, no changes to the field value will made, and only styles 
@@ -95,18 +95,18 @@ webui.@THEME_JS@.widget.editableField.prototype._disableEdit = function(acceptCh
     if (acceptChanges == true) {
         // If savedValue does not exist, we have not edited the field yet
         if (this.autoSave == true && this.savedValue && 
-                this.savedValue != this.fieldNode.value) {
+                this.savedValue != this._fieldNode.value) {
             this.submit();
         }
     } else if (acceptChanges == false) {
         if (this.savedValue)   {
-            this.fieldNode.value = this.savedValue;
+            this._fieldNode.value = this.savedValue;
         }
     }
     this.edit = false;
     this.savedValue = null;
-    this.fieldNode.className = this._getInputClassName();   
-    this.fieldNode.readOnly = true;
+    this._fieldNode.className = this._getInputClassName();   
+    this._fieldNode.readOnly = true;
     return true;
 };
 
@@ -118,13 +118,13 @@ webui.@THEME_JS@.widget.editableField.prototype._disableEdit = function(acceptCh
  */
 webui.@THEME_JS@.widget.editableField.prototype._enableEdit = function() {
     // Save the current value.
-    this.savedValue = this.fieldNode.value;
+    this.savedValue = this._fieldNode.value;
         
     this.edit = true;
-    this.fieldNode.className = this._getInputClassName();   
-    this.fieldNode.readOnly = false;
-    this.fieldNode.focus(); // In case function has been called programmatically, not by event.
-    this.fieldNode.select();
+    this._fieldNode.className = this._getInputClassName();   
+    this._fieldNode.readOnly = false;
+    this._fieldNode.focus(); // In case function has been called programmatically, not by event.
+    this._fieldNode.select();
     return true;
 };
 
@@ -261,12 +261,12 @@ webui.@THEME_JS@.widget.editableField.prototype._onEditCallback = function(event
  */
 webui.@THEME_JS@.widget.editableField.prototype._postCreate = function () {
     // Set Initial readOnly state.
-    this.fieldNode.readOnly = true;
+    this._fieldNode.readOnly = true;
 
     // Set events.
-    this._dojo.connect(this.fieldNode, "ondblclick", this, "_onEditCallback");
-    this._dojo.connect(this.fieldNode, "onblur", this, "_onEditCallback");
-    this._dojo.connect(this.fieldNode, "onkeyup", this, "_onEditCallback");
+    this._dojo.connect(this._fieldNode, "ondblclick", this, "_onEditCallback");
+    this._dojo.connect(this._fieldNode, "onblur", this, "_onEditCallback");
+    this._dojo.connect(this._fieldNode, "onkeyup", this, "_onEditCallback");
 
     return this._inherited("_postCreate", arguments);
 };

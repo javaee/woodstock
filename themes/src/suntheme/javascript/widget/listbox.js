@@ -149,7 +149,7 @@ webui.@THEME_JS@.widget.listbox.prototype._getClassName = function() {
  * theme categories to the
  * label's <code>level</code> and <code>className</code> properties 
  * respectively. It sets the <code>htmlFor</code> attribute to 
- * <code>listContainer.id</code>
+ * <code>_listContainer.id</code>
  * </p>
  * <p>
  * These properties are extended with <code>this.label</code> and the
@@ -191,7 +191,7 @@ webui.@THEME_JS@.widget.listbox.prototype._getLabelClassName = function(ontop) {
 };
 
 /**
- * Return a CSS selector for listContainer HTML element.
+ * Return a CSS selector for _listContainer HTML element.
  * The chosen CSS selector is a function of 
  * the <code>disabled</code> and <code>monospace</code>properties.
  * The returned selector is the value of a property defined in the
@@ -219,7 +219,7 @@ webui.@THEME_JS@.widget.listbox.prototype._getLabelClassName = function(ontop) {
  * <td>true</td>
  * </tr>
  * </table>
- * @return {String} A CSS selector for the listContainer HTML element.
+ * @return {String} A CSS selector for the _listContainer HTML element.
  * @private
  */
 webui.@THEME_JS@.widget.listbox.prototype._getListContainerClassName =
@@ -332,7 +332,7 @@ webui.@THEME_JS@.widget.listbox.prototype._getOptionClassName = function(element
 webui.@THEME_JS@.widget.listbox.prototype._postCreate = function () {
     // Don't trash the template.
     //
-    webui.@THEME_JS@._base.common._addStyleClass(this.listContainer,
+    webui.@THEME_JS@._base.common._addStyleClass(this._listContainer,
 	this._getListContainerClassName(
 		this.disabled == true, this.monospace == true));
 
@@ -379,12 +379,12 @@ webui.@THEME_JS@.widget.listbox.prototype.setProps = function(props, notify) {
     //
     if (toggleMonospace || toggleDisabled) {
 	var cn = this._getListContainerClassName(isdisabled, ismonospace);
-	webui.@THEME_JS@._base.common._stripStyleClass(this.listContainer, cn);
+	webui.@THEME_JS@._base.common._stripStyleClass(this._listContainer, cn);
 
 	cn = this._getListContainerClassName(
 	    toggleDisabled ? props.disabled == true : isdisabled,
 	    toggleMonospace ? props.monospace == true : ismonospace);
-	webui.@THEME_JS@._base.common._addStyleClass(this.listContainer, cn);
+	webui.@THEME_JS@._base.common._addStyleClass(this._listContainer, cn);
     }
     return this._inherited("setProps", arguments);
 };
@@ -431,14 +431,14 @@ webui.@THEME_JS@.widget.listbox.prototype._setProps = function(props) {
 	if (size < 1) {
 	    size = this._theme._getMessage("listbox.size", null, 12);
 	}
-	if (this.listContainer.size != size) {
-	    this.listContainer.size = size;
+	if (this._listContainer.size != size) {
+	    this._listContainer.size = size;
 	}
     }
 
     if (props.multiple != null && 
-	    this.listContainer.multiple != props.multiple) {
-	this.listContainer.multiple = props.multiple;
+	    this._listContainer.multiple != props.multiple) {
+	this._listContainer.multiple = props.multiple;
     }
     return this._inherited("_setProps", arguments);
 };

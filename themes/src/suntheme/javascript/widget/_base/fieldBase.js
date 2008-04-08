@@ -58,14 +58,14 @@ webui.@THEME_JS@.widget._base.fieldBase.prototype._getInputClassName = function(
  * @return {Node} The HTML input element.
  */
 webui.@THEME_JS@.widget._base.fieldBase.prototype.getInputElement = function() {
-    return this.fieldNode;
+    return this._fieldNode;
 };
 
 /**
  * Return an Object Literal of label properties desired by this widget.
  * <p>
  * This implementation adds the <code>htmlFor</code> property with
- * <code>this.fieldNode.id</code>.
+ * <code>this._fieldNode.id</code>.
  * </p>
  * @return {Object} Key-Value pairs of properties.
  * @private
@@ -73,7 +73,7 @@ webui.@THEME_JS@.widget._base.fieldBase.prototype.getInputElement = function() {
 webui.@THEME_JS@.widget._base.fieldBase.prototype._getLabelProps = function() {
     var props = this._inherited("_getLabelProps", arguments);
 
-    props.htmlFor = this.fieldNode.id;
+    props.htmlFor = this._fieldNode.id;
     return props;
 };
 
@@ -100,8 +100,8 @@ webui.@THEME_JS@.widget._base.fieldBase.prototype.getProps = function() {
     if (this.style != null) { props.style = this.style; }
     
     // After widget has been initialized, get user's input.
-    if (this._isInitialized() == true && this.fieldNode.value != null) {
-        props.value = this.fieldNode.value;
+    if (this._isInitialized() == true && this._fieldNode.value != null) {
+        props.value = this._fieldNode.value;
     } else if (this.value != null) {
         props.value = this.value;
     }
@@ -120,12 +120,12 @@ webui.@THEME_JS@.widget._base.fieldBase.prototype.getProps = function() {
 webui.@THEME_JS@.widget._base.fieldBase.prototype._postCreate = function () {
     // Set ids.
     if (this.id) {
-        this.fieldNode.id = this.id + "_field";
-        this.fieldNode.name = this.id + "_field";
+        this._fieldNode.id = this.id + "_field";
+        this._fieldNode.name = this.id + "_field";
     }
     
     // Set public functions.
-    this.domNode.getInputElement = function() { return webui.@THEME_JS@.widget.common.getWidget(this.id).getInputElement(); };
+    this._domNode.getInputElement = function() { return webui.@THEME_JS@.widget.common.getWidget(this.id).getInputElement(); };
     
     return this._inherited("_postCreate", arguments);
 };
@@ -148,25 +148,25 @@ webui.@THEME_JS@.widget._base.fieldBase.prototype._setProps = function(props) {
     // Set properties.
     if (props.submitForm == false || props.submitForm == true) { 
         // connect the keyPress event
-        this._dojo.connect(this.fieldNode, "onkeypress", this, "_submitFormData");
+        this._dojo.connect(this._fieldNode, "onkeypress", this, "_submitFormData");
     }
-    if (props.maxLength > 0) { this.fieldNode.maxLength = props.maxLength; }
-    if (props.size > 0) { this.fieldNode.size = props.size;  }
-    if (props.value != null) { this.fieldNode.value = props.value; }
-    if (props.title != null) { this.fieldNode.title = props.title; }   
+    if (props.maxLength > 0) { this._fieldNode.maxLength = props.maxLength; }
+    if (props.size > 0) { this._fieldNode.size = props.size;  }
+    if (props.value != null) { this._fieldNode.value = props.value; }
+    if (props.title != null) { this._fieldNode.title = props.title; }   
     if (props.disabled != null) { 
-        this.fieldNode.disabled = new Boolean(props.disabled).valueOf();
+        this._fieldNode.disabled = new Boolean(props.disabled).valueOf();
     }
     if (props.readOnly != null) { 
-        this.fieldNode.readOnly = new Boolean(props.readOnly).valueOf();
+        this._fieldNode.readOnly = new Boolean(props.readOnly).valueOf();
     }
     
     // Set HTML input element class name.
-    this.fieldNode.className = this._getInputClassName();
+    this._fieldNode.className = this._getInputClassName();
     
     // Set more properties.
-    this._setCommonProps(this.fieldNode, props);
-    this._setEventProps(this.fieldNode, props);
+    this._setCommonProps(this._fieldNode, props);
+    this._setEventProps(this._fieldNode, props);
     
     // Set remaining properties.
     return this._inherited("_setProps", arguments);

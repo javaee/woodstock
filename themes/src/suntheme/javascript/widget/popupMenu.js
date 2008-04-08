@@ -45,7 +45,7 @@ webui.@THEME_JS@._dojo.declare("webui.@THEME_JS@.widget.popupMenu",
  * @return {boolean} false to cancel the JavaScript event.
  */
 webui.@THEME_JS@.widget.popupMenu.prototype.close = function() {
-    if (this._common._isVisibleElement(this.domNode)) {
+    if (this._common._isVisibleElement(this._domNode)) {
         if (webui.@THEME_JS@.widget.popupMenu.activeMenuId) {
             webui.@THEME_JS@.widget.popupMenu.activeMenuId = null;
         }
@@ -143,12 +143,12 @@ webui.@THEME_JS@.widget.popupMenu.prototype._onCloseMenuCallBack = function(even
 
     // The above will not catch events on IE which occur on menuitem seperators
     // or empty space between menuitems.
-    var menuLeft = this.domNode.offsetLeft;        
-    var menuTop = this.domNode.offsetTop;        
+    var menuLeft = this._domNode.offsetLeft;        
+    var menuTop = this._domNode.offsetTop;        
     var tmp;
 
-    var menuRight = menuLeft + this.domNode.offsetWidth - this.rightShadow;
-    var menuBottom = menuTop + this.domNode.offsetHeight - this.bottomShadow;
+    var menuRight = menuLeft + this._domNode.offsetWidth - this.rightShadow;
+    var menuBottom = menuTop + this._domNode.offsetHeight - this.bottomShadow;
 
     // Having problems with document.body.scrollTop/scrollLeft in firefox.
     // It always seems to return 0. But window.pageXOffset works fine.
@@ -216,7 +216,7 @@ webui.@THEME_JS@.widget.popupMenu.prototype.open = function(event) {
     }
 
     // If menu already rendered, do nothing.
-    if (this._common._isVisibleElement(this.domNode)) {
+    if (this._common._isVisibleElement(this._domNode)) {
         return false;
     }
         
@@ -224,20 +224,20 @@ webui.@THEME_JS@.widget.popupMenu.prototype.open = function(event) {
     if (this.style != null && this.style.length > 0) {
         // Mozilla browsers will tell us which styles are set.  If they're not
         // in the list, then the styles appear to be undefined.
-        if (this.domNode.style.length != null) {
-            for (var i = 0; i < this.domNode.style.length; i++) {
-                    var x = this.domNode.style[i];
-                if (this.domNode.style[i] == "top")
-            this.top = this.domNode.style.top; 
-                if (this.domNode.style[i] == "left")
-                    this.left = this.domNode.style.left;
+        if (this._domNode.style.length != null) {
+            for (var i = 0; i < this._domNode.style.length; i++) {
+                    var x = this._domNode.style[i];
+                if (this._domNode.style[i] == "top")
+            this.top = this._domNode.style.top; 
+                if (this._domNode.style[i] == "left")
+                    this.left = this._domNode.style.left;
         }
         } else {
             // For IE, simply query the style attributes.
-            if (this.domNode.style.top != "")
-                this.top = this.domNode.style.top;
-            if (this.domNode.style.left != "")
-            this.left = this.domNode.style.left;
+            if (this._domNode.style.top != "")
+                this.top = this._domNode.style.top;
+            if (this._domNode.style.left != "")
+            this.left = this._domNode.style.left;
         }
     }
 
@@ -251,8 +251,8 @@ webui.@THEME_JS@.widget.popupMenu.prototype.open = function(event) {
     // If specific positioning specified, then simply use it.  This means
     // no provisions are made to guarantee the menu renders in the viewable area.
     if ((this.top != null) && (this.left != null)) {
-        this.domNode.style.left = this.left;
-        this.domNode.style.top = this.top;
+        this._domNode.style.left = this.left;
+        this._domNode.style.top = this.top;
     } else {
         if (evt == null) {
             return false;
@@ -274,7 +274,7 @@ webui.@THEME_JS@.widget.popupMenu.prototype.open = function(event) {
 
         // But can be overridden to align right edges.
         // Check if right edge of menu exceeds page boundary.
-        var rightEdge = menuLeft + this.domNode.offsetWidth;
+        var rightEdge = menuLeft + this._domNode.offsetWidth;
         var pageWidth = this._widget._getPageWidth();
         if (rightEdge > pageWidth) {
             // Shift menu left just enough to bring it into view.
@@ -291,10 +291,10 @@ webui.@THEME_JS@.widget.popupMenu.prototype.open = function(event) {
         var menuTop = targetTop + target.offsetHeight + this.bottomShadow;
         
         // Check if bottom edge of menu exceeds page boundary.
-        var bottomEdge = menuTop + this.domNode.offsetHeight - this.bottomShadow;
+        var bottomEdge = menuTop + this._domNode.offsetHeight - this.bottomShadow;
         if (bottomEdge > this._widget._getPageHeight()) {
             // Shift menu to top of target.
-            menuTop = targetTop - this.domNode.offsetHeight;
+            menuTop = targetTop - this._domNode.offsetHeight;
 
             // If top edge of menu cross top page boundary, then
             // reposition menu back to below target.
@@ -304,12 +304,12 @@ webui.@THEME_JS@.widget.popupMenu.prototype.open = function(event) {
             }
         }
         // Adjust to account for parent container.
-        var parentPos = this._widget._getPosition(this.domNode.offsetParent);
+        var parentPos = this._widget._getPosition(this._domNode.offsetParent);
         menuLeft -= parentPos[0];
         menuTop -= parentPos[1]; 
         // Set new menu position.
-        this.domNode.style.left = menuLeft + "px";
-        this.domNode.style.top = menuTop + "px";
+        this._domNode.style.left = menuLeft + "px";
+        this._domNode.style.top = menuTop + "px";
     }
 
     // Keep track of the element that opened the popup menu.
@@ -352,8 +352,8 @@ webui.@THEME_JS@.widget.popupMenu.prototype.open = function(event) {
  */
 webui.@THEME_JS@.widget.popupMenu.prototype._postCreate = function () {
     // Set public functions.
-    this.domNode.open = function(event) { return webui.@THEME_JS@.widget.common.getWidget(this.id).open(event); };
-    this.domNode.close = function() { return webui.@THEME_JS@.widget.common.getWidget(this.id).close(); };
+    this._domNode.open = function(event) { return webui.@THEME_JS@.widget.common.getWidget(this.id).open(event); };
+    this._domNode.close = function() { return webui.@THEME_JS@.widget.common.getWidget(this.id).close(); };
 
     // Set events.s
     this._dojo.connect(document, "onclick", this, "_onCloseMenuCallBack"); 
@@ -366,7 +366,7 @@ webui.@THEME_JS@.widget.popupMenu.prototype._postCreate = function () {
     // styles of the "Menu" style class in the CSS.
     this.rightShadow = parseFloat(this._theme._getMessage("Menu.rightShadow"));
     this.bottomShadow = parseFloat(this._theme._getMessage("Menu.bottomShadow"));
-    this.shadowContainer.className = this._theme._getClassName("MENU_SHADOW_CONTAINER"); 
+    this._shadowContainer.className = this._theme._getClassName("MENU_SHADOW_CONTAINER"); 
 
     return this._inherited("_postCreate", arguments);
 };

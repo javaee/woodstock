@@ -79,7 +79,7 @@ webui.@THEME_JS@.widget.common = {
             common._removeChildNodes(domNode);
 
             // Note: To ensure Dojo does not replace the given domNode, always
-            // provide a default position to the createWidget function. The
+            // provide a default position to the _createWidget() function. The
             // domNode may be used as a place holder for later updates.
             position = "last";            
         }
@@ -151,7 +151,7 @@ webui.@THEME_JS@.widget.common = {
             common._addFragment(domNode, props.fragment, position, false);
         } else {
             // Create widget.
-            common.createWidget(domNode, props, position, false);
+            common._createWidget(domNode, props, position, false);
         }
         return true;
     },
@@ -207,9 +207,9 @@ webui.@THEME_JS@.widget.common = {
      
     /**
      * This function is used to create and append widgets as children of the
-     * given HTML element. See the createWidget() function.
+     * given HTML element. See the _createWidget() function.
      * <p>
-     * Unlike the createWidget() function, setTimeout() is called to allow for
+     * Unlike the _createWidget() function, setTimeout() is called to allow for
      * progressive rendering. Performance testing shows that the download is
      * quicker with the setTimout() call than without. 
      * </p><p>
@@ -219,6 +219,7 @@ webui.@THEME_JS@.widget.common = {
      * up the amount of JavaScript run at any given time and completes each 
      * segment within the browser's alloted time.
      * </p>
+     *
      * @param {Node} domNode The HTML element to replace.
      * @param {Object} props Key-Value pairs of properties.
      * @config {String} id The widget id.
@@ -229,9 +230,65 @@ webui.@THEME_JS@.widget.common = {
         // Set timeout to allow for progressive rendering.
         setTimeout(function() {
             var common = webui.@THEME_JS@.widget.common;
-            common.createWidget(domNode, props, "last");
+            common._createWidget(domNode, props, "last");
             delete(common._props[domNode.id]); // Clean up.
         }, 0);
+        return true;
+    },
+
+    /**
+     * This function is used to create and start a widget. If the parseOnLoad
+     * property is true, widget creation is deferred to the window.onLoad event.
+     * <p>
+     * Typically, an HTML tag is used as a temporary place holder for the newly
+     * created widget. This allows widgets to be added to the document in the 
+     * proper location. For example, the expected HTML markup to create an image
+     * widget looks like so:
+     * </p><p><pre>
+     * &lt;span id="j_id1"&gt;&lt;/span&gt;
+     * &lt;script type="text/javascript"&gt;
+     *   webui.@THEME_JS@.widget.common.createWidget('j_id1',{
+     *     "id": "form:image1",
+     *     "height": "32px",
+     *     "width": "32px",
+     *     "src": "/example/images/dice1.gif",
+     *     "widgetType": "image",
+     *   });
+     * &lt;/script&gt;
+     * </pre></p><p>
+     * For better lookup performance, it is assumed that script tags are located
+     * immediately after an HTML span element. Ultimately, the newly created
+     * widget is added as a child of the HTML span element.
+     * </p><p>
+     * Performance testing shows this approach is quicker than using the 
+     * document.getElementById() function or Level 0 DOM syntax, especially for 
+     * large HTML tables. The underlying problem appears to be the extra step
+     * taken to convert HTML element IDs to a UTF-16 character encoding.
+     * </p>
+     *
+     * @param {String} elementId The HTML element id to replace.
+     * @param {Object} props Key-Value pairs of properties.
+     * @config {String} id The ID of the widget to create.
+     * @config {String} widgetType The widget type to create.
+     * @return {boolean} true if successful; otherwise, false.
+     */
+    createWidget: function(elementId, props) {
+        if (elementId == null || props == null) {
+            return false;
+        }
+        var common = webui.@THEME_JS@.widget.common;
+
+        // Since there is only one window.onLoad event, the ajaxZone tag of JSF
+        // Extensions cannot make use of the parseOnLoad feature while 
+        // re-rendering widgets. In this case, we shall call 
+        // document.getElementById() even though it is not as efficient.
+        if (new Boolean(webui.@THEME_JS@._base.config.parseOnLoad).valueOf() == false) {
+            var domNode = document.getElementById(elementId);
+            var widget = common._createWidget(domNode, props, "last");
+            return (widget != null);
+        }
+        // Store widget properties for window.onLoad event.
+        common._props[elementId] = props;
         return true;
     },
 
@@ -243,19 +300,20 @@ webui.@THEME_JS@.widget.common = {
      * the the given domNode. If the position is "last", the widget is appended
      * after the given domNode. If the position is null, the given domNode is 
      * replaced by the resulting HTML.
-     * </p><p>
-     * Note: Minimally, the props argument must be a JSON object containing an 
-     * id and widgetType property so the correct widget may be created.
      * </p>
-     * @param {Node|String} domNode The DOM node (or HTML element id) to add widget.
+     *
+     * @param {Node} domNode The DOM node to add widget.
      * @param {Object} props Key-Value pairs of properties.
-     * @param {boolean} position The position to add widget.
+     * @config {String} id The ID of the widget to create.
+     * @config {String} widgetType The widget type to create.
+     * @param {String} position The widget position within given domNode.
      * @returns {Object} The newly created widget.
+     * @private
      */
-    createWidget: function(domNode, props, position) {
+    _createWidget: function(domNode, props, position) {
         var widget = null;
         if (props == null || props.id == null || props.widgetType == null) {
-            console.debug("Error: createWidget has null props"); // See Firebug console.
+            console.debug("Error: _createWidget has null props"); // See Firebug console.
             return widget;
         }
 
@@ -275,64 +333,26 @@ webui.@THEME_JS@.widget.common = {
             // Note: Dojo mixes attributes, if domNode is provided.
             widget = new obj(props);
         } catch (err) {
-            var message = "Error: createWidget falied for id=" + props.id;
+            var message = "Error: _createWidget falied for id=" + props.id;
 	    message = common._getExceptionString(err, message, true);
             console.debug(message); // See Firebug console.
             return null;
         }
 
         // Add widget to DOM.
-        var _domNode = (typeof domNode == "string")
-            ? document.getElementById(domNode) : domNode;
-
-        // Add widget to DOM.
-        if (_domNode) {
-            if (position == "last") {
-                // Append widget as the last child of the given DOM node.
-                _domNode.appendChild(widget.domNode);
-            } else if (position == "before") {
-                // Append widget before given DOM node.
-                _domNode.parentNode.insertBefore(widget.domNode, _domNode);
-            } else if (domNode.parentNode) {
-                // Replace given DOM node with widget.
-                _domNode.parentNode.replaceChild(widget.domNode, _domNode);
-            }
+        if (position == "last") {
+            // Append widget as the last child of the given DOM node.
+            domNode.appendChild(widget._domNode);
+        } else if (position == "before") {
+            // Append widget before given DOM node.
+            domNode.parentNode.insertBefore(widget._domNode, _domNode);
+        } else if (domNode.parentNode) {
+            // Replace given DOM node with widget.
+            domNode.parentNode.replaceChild(widget._domNode, _domNode);
         }
         // Start widget.
         widget._start();
         return widget;
-    },
-
-    /**
-     * This function is used to create and start a widget. If the parseOnLoad
-     * property is true, widget creation is deferred to the window.onLoad event. 
-     * See the _parseMarkup() function.
-     *
-     * @param {String} elementId The HTML element id to replace.
-     * @param {Object} props Key-Value pairs of properties.
-     * @config {String} id The widget id.
-     * @config {String} widgetType The widget type to create.
-     * @return {boolean} true if successful; otherwise, false.
-     * @private
-     */
-    _createWidget: function(elementId, props) {
-        if (elementId == null || props == null) {
-            return false;
-        }
-        var common = webui.@THEME_JS@.widget.common;
-
-        // Since there is only one window.onLoad event, the ajaxZone tag of JSF
-        // Extensions cannot make use of the parseOnLoad feature while 
-        // re-rendering widgets. In this case, we shall call 
-        // document.getElementById() even though it is not as efficient.
-        if (new Boolean(webui.@THEME_JS@._base.config.parseOnLoad).valueOf() == false) {
-            var domNode = document.getElementById(elementId);
-            common.createWidget(domNode, props, "last");
-            return true;
-        }
-        // Store widget properties for window.onLoad event.
-        common._props[elementId] = props;
-        return true;
     },
 
     /**
@@ -601,31 +621,7 @@ webui.@THEME_JS@.widget.common = {
     /**
      * This function is used to parse HTML markup in order to create widgets
      * more efficiently. See the createWidget() function.
-     * <p>
-     * Typically, an HTML tag is used as a temporary place holder for the newly
-     * created widget. This allows widgets to be added to the document in the 
-     * proper location. For example, the expected HTML markup to create an image
-     * widget looks like so:
-     * </p><p><pre>
-     * &lt;span id="j_id1"&gt;&lt;/span&gt;
-     * &lt;script type="text/javascript"&gt;
-     *   webui.@THEME_JS@.widget.common._createWidget('j_id1',{
-     *     "id": "form:image1",
-     *     "icon": "DOT",
-     *     "height": 1,
-     *     "widgetType": "webui.@THEME_JS@.widget.image",
-     *   });
-     * &lt;/script&gt;
-     * </pre></p><p>
-     * For better lookup performance, it is assumed that script tags are located
-     * immediately after an HTML span element. Ultimately, the newly created
-     * widget is added as a child of the HTML span element. 
-     * </p><p>
-     * Performance testing shows this approach is quicker than using the 
-     * document.getElementById() function or Level 0 DOM syntax, especially for 
-     * large HTML tables. The underlying problem appears to be the extra step
-     * taken to convert HTML element IDs to a UTF-16 character encoding.
-     * </p>
+     *
      * @param {Node} domNode The DOM node containing HTML elements to replace.
      * @return {boolean} true if successful; otherwise, false.
      * @private
