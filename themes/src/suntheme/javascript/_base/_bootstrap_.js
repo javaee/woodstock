@@ -45,60 +45,8 @@ if (typeof webui.@THEME_JS@ == "undefined") {
      */
     webui.@THEME_JS@._base.bootstrap = {
         /**
-         * This function is used to initialize the environment with Object literals.
-         *
-         * @param {Object} props Key-Value pairs of properties.
-         * @config {boolean} isDebug Flag indicating debug mode is enabled.
-         * @config {boolean} isStyleSheets Include style sheets.
-         * @config {boolean} webuiAll Include all webui functionality.
-         * @config {boolean} webuiJsfx Include all Ajax functionality based on JSF Extensions.
-         * @return {boolean} true if successful; otherwise, false.
-         * @private
-         */
-        _initFiles: function(props) {
-            if (props == null) {
-                console.debug("Cannot initialize files."); // See Firebug console.
-                return false;
-            }
-            var bootstrap = webui.@THEME_JS@._base.bootstrap;
-            var theme = webui.@THEME_JS@._theme.common;
-            var isDebug = new Boolean(props.isDebug).valueOf();
-            var webuiAll = new Boolean(props.webuiAll).valueOf();
-            var webuiJsfx = new Boolean(props.webuiJsfx).valueOf();
-
-            // Get webui file.
-            var file;
-            if (webuiJsfx) {
-                file = (webuiAll) ? "webuiJsfxAll" : "webuiJsfx";
-            } else {
-                file = (webuiAll) ? "webuiAll" : "webui";
-            }
-
-            // Load webui file.
-            bootstrap._loadScript(theme._getJavaScript((isDebug)
-                ? file + "Uncompressed" : file));
-
-            // Load global scripts.
-            var files = theme._getJavaScripts("Theme.javascript");
-            if (files != null) {
-                for (i = 0; i < files.length; i++) {
-                    bootstrap._loadScript(files[i]);
-                }
-            }
-
-            // Load style sheets.
-            //
-            // Note: There appears to be a small performance gain loading after
-            // the JavaScript. It may be due to asyncronous loading?
-            if (new Boolean(props.isStyleSheet).valueOf() == true) {
-                bootstrap._loadStyleSheets(props);
-            }
-            return true;
-        },
-
-        /**
          * This function is used to initialize the environment with Object
-         * literals.
+         * literals. In particular, webui and dojo resource paths.
          *
          * @param {Object} props Key-Value pairs of properties.
          * @config {Object} _djConfig Dojo config properties.
@@ -165,22 +113,92 @@ if (typeof webui.@THEME_JS@ == "undefined") {
         },
 
         /**
-         * This function is used to initialize the environment with Object literals.
+         * This function is used to initialize the environment with Object
+         * literals. In particular, JavaScript and style sheet resources.
+         *
+         * @param {Object} props Key-Value pairs of properties.
+         * @config {boolean} isDebug Flag indicating debug mode is enabled.
+         * @config {boolean} isStyleSheets Include style sheets.
+         * @config {boolean} webuiAll Include all webui functionality.
+         * @config {boolean} webuiJsfx Include all Ajax functionality based on JSF Extensions.
+         * @return {boolean} true if successful; otherwise, false.
+         * @private
+         */
+        _initResources: function(props) {
+            if (props == null) {
+                console.debug("Cannot initialize resources."); // See Firebug console.
+                return false;
+            }
+            var bootstrap = webui.@THEME_JS@._base.bootstrap;
+            var theme = webui.@THEME_JS@._theme.common;
+            var isDebug = new Boolean(props.isDebug).valueOf();
+            var webuiAll = new Boolean(props.webuiAll).valueOf();
+            var webuiJsfx = new Boolean(props.webuiJsfx).valueOf();
+
+            // Get webui file.
+            var file;
+            if (webuiJsfx) {
+                file = (webuiAll) ? "webuiJsfxAll" : "webuiJsfx";
+            } else {
+                file = (webuiAll) ? "webuiAll" : "webui";
+            }
+
+            // Load webui file.
+            bootstrap._loadScript(theme._getJavaScript((isDebug)
+                ? file + "Uncompressed" : file));
+
+            // Load global scripts.
+            var files = theme._getJavaScripts("Theme.javascript");
+            if (files != null) {
+                for (i = 0; i < files.length; i++) {
+                    bootstrap._loadScript(files[i]);
+                }
+            }
+
+            // Load style sheets.
+            //
+            // Note: There appears to be a small performance gain loading after
+            // the JavaScript. It may be due to asyncronous loading?
+            if (new Boolean(props.isStyleSheet).valueOf() == true) {
+                bootstrap._loadStyleSheets(props);
+            }
+            return true;
+        },
+
+        /**
+         * This function is used to initialize the environment with Object
+         * literals. In particular, register the webui name space.
          *
          * @param {Object} props Key-Value pairs of properties.
          * @config {String} modulePath The webui module path.
-         * @config {boolean} parseOnLoad Initialize webui functionality on load.
          * @return {boolean} true if successful; otherwise, false.
          * @private
          */
         _initWebui: function(props) {
             if (props == null || props.modulePath == null) {
-                console.debug("Cannot initialize webui."); // See Firebug console.
+                console.debug("Cannot initialize webui module."); // See Firebug console.
                 return false;
             }
 
             // Register module path.
             webui.@THEME_JS@._dojo.registerModulePath("webui.@THEME_JS@", props.modulePath);
+            return true;
+        },
+
+        /**
+         * This function is used to initialize the environment with Object
+         * literals. In particular, the widget parseOnLoad functionality.
+         *
+         * @param {Object} props Key-Value pairs of properties.
+         * @config {boolean} parseOnLoad Initialize webui functionality on load.
+         * @return {boolean} true if successful; otherwise, false.
+         * @private
+         */
+        _initWidget: function(props) {
+            if (props == null || props.parseOnLoad == null) {
+                console.debug("Cannot initialize widget module."); // See Firebug console.
+                return false;
+            }
 
             // Defer widget creation until the window.onLoad event.
             webui.@THEME_JS@._dojo.addOnLoad(function() {
@@ -293,7 +311,7 @@ if (typeof webui.@THEME_JS@ == "undefined") {
             var theme = webui.@THEME_JS@._theme.common;
 
             // Load master style sheet(s).
-            files = theme._getStyleSheets((isDebug) ? "masterUncompressed" : "master");
+            var files = theme._getStyleSheets((isDebug) ? "masterUncompressed" : "master");
             if (files != null) {
                 for (i = 0; i < files.length; i++) {
                     bootstrap._loadLink(files[i]);
@@ -360,14 +378,14 @@ if (typeof webui.@THEME_JS@ == "undefined") {
         }
     };
 
-    // Initialize paths.
+    // Initialize webui and dojo paths.
     webui.@THEME_JS@._base.bootstrap._initPaths(webui_@THEME_JS@);
 
 // Note: The following require statements must be located at the beginning of 
 // each line in order to be replaced by the build.
 webui.@THEME_JS@._dojo.require("webui.@THEME_JS@._dojo.dojo"); // Replaced by build.
 
-    // Initialize webui.
+    // Initialize webui module.
     webui.@THEME_JS@._base.bootstrap._initWebui(webui_@THEME_JS@);
 
 webui.@THEME_JS@._dojo.require("webui.@THEME_JS@._base.browser"); // Replaced by build.
@@ -375,8 +393,11 @@ webui.@THEME_JS@._dojo.require("webui.@THEME_JS@._base.config"); // Replaced by 
 webui.@THEME_JS@._dojo.require("webui.@THEME_JS@._theme.common"); // Replaced by build.
 webui.@THEME_JS@._dojo.require("webui.@THEME_JS@.widget.common"); // Replaced by build.
 
-    // Initialize files.
-    webui.@THEME_JS@._base.bootstrap._initFiles(webui.@THEME_JS@._base.config);
+    // Initialize javascript and style sheet resources.
+    webui.@THEME_JS@._base.bootstrap._initResources(webui.@THEME_JS@._base.config);
+
+    // Initialize widget module.
+    webui.@THEME_JS@._base.bootstrap._initWidget(webui.@THEME_JS@._base.config);
 
     // Map custom name space to webui.@THEME_JS@.
     if (webui.@THEME_JS@._base.config.namespace) {

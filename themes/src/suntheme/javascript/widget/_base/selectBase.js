@@ -274,6 +274,22 @@ webui.@THEME_JS@.widget._base.selectBase.prototype._copyOptions = function(domNo
 };
 
 /**
+ * Return an Object Literal of label properties desired by this widget.
+ * <p>
+ * This implementation adds the <code>htmlFor</code> property with
+ * <code>this._listContainer.id</code>.
+ * </p>
+ * @return {Object} Key-Value pairs of properties.
+ * @private
+ */
+webui.@THEME_JS@.widget._base.selectBase.prototype._getLabelProps = function() {
+    var props = this._inherited("_getLabelProps", arguments);
+
+    props.htmlFor = this._listContainer.id;
+    return props;
+};
+
+/**
  * This function returns the CSS class name for an HTML <code>option</code> or
  * <code>optgroup</code> element.
  * <p>
@@ -290,156 +306,6 @@ webui.@THEME_JS@.widget._base.selectBase.prototype._getOptionClassName = functio
     // that it causes no change to option.
     //
     return option.className;
-};
-
-/**
- * This function replaces all <code>option</code> and <code>optgroup</code>
- * elements in the HTML <code>select</code> element,
- * <code>this._listContainer</code>.
- * <p>
- * All options are replaced with the options specified in <code>props</code>.
- * If <code>props</code> is null, <code>false</code>
- * is returned and no change to the <code>select</code> element occurs. If
- * <code>props</code> contains no properties all options in the 
- * <code>select</code> element are removed.
- * </p>
- * @param {Object} props Key-Value pairs of option properties.
- * @config {String} label The text that appears as the choice in the 
- * rendered <code>option</code>.
- * @config {String} value The value for this option, which is submitted
- * in a request if this option is selected.
- * @config {boolean} separator If true this option represents a separator and
- * cannot be selected.
- * @config {boolean} group If true this option represents a group and
- * cannot be selected.
- * @config {boolean} escape If false the label string will be evaluated as
- * HTML markup.
- * @config {boolean} selected If true this option will be initially
- * selected.
- * @config {boolean} disabled If true this option will be initially 
- * disabled and cannot be selected.
- * @config {String} title The HTML title attribute text.
- * @return {boolean} true if successful; otherwise, false.
- * </p>
- * <p>
- * The option object may also define javascript event properties suitable for
- * an <code>option</code> or <code>optGroup</code> HTML element.
- * </p>
- * @private
- */
-webui.@THEME_JS@.widget._base.selectBase.prototype._setOptions = function(props) {
-    if (props == null) {
-	return false;
-    }
-
-    // Remove all existing options
-    //
-    // Note: this has to be done. Otherwise, you'll get blank entries in the 
-    // drop down for the original empty dojo attach point nodes.
-    //
-
-    if (!this._alreadyRemoved) {
-        this._listContainer.removeChild(this._optionNode); 
-        this._optionGroupContainer.removeChild(this._memberOptionNode);
-        this._listContainer.removeChild(this._optionGroupContainer);
-        this._alreadyRemoved = true;
-    }
-
-    // Cleaning up the old options
-    //
-    while (this._listContainer.firstChild) {
-        this._listContainer.removeChild(this._listContainer.firstChild);
-    }
-
-    var thisNode;
-    for (var i = 0; i < props.options.length; i++) {
-
-	var pOption = props.options[i];
-
-	var isie = webui.@THEME_JS@._base.browser._isIe();
-	if (pOption.group == null || pOption.group == false) {
-
-	    // For some reason, ie is prone to painting problems (esp. after a 
-	    // style change) when using the DOM to populate options, but 
-	    // apparently not when the options are in a group
-	    //
-	    // There is no working "clone" on "option" nodes in IE
-	    // Manually get the attributes and then the "text"
-	    // DOM attribute. I don't think an option can have HTML
-	    // markup in the body, at least literally in the template
-	    // so this strategy should be be sufficient enough to get
-	    // the template's option attributes
-	    //
-	    if (isie) {
-		thisNode = new Option();
-		var len = this._optionNode.attributes.length;
-		for (var j = 0; j < len; ++j) {
-		    thisNode.setAttribute(this._optionNode.attributes[j].name,
-			    this._optionNode.attributes[j].value);
-		}
-		// Need to manually do text, although this is likely null
-		// in the template.
-		//
-		thisNode.text = this._optionNode.text;
-
-	    } else {
-		thisNode = this._optionNode.cloneNode(true);
-	    }
-
-	    // Set the properties on this option element
-	    this._setOptionProps(thisNode, pOption);
-	    
-	    // Would it be better to create all the nodes and then
-	    // add them to the "options" array or append then ?
-	    // Granted this would mean iterating twice.
-	    // But it might be better if something fails
-	    // and if so leave the original list alone.
-	    //
-
-	    // Append this option node to the select
-	    //
-	    if (isie) {
-		var idx = this._listContainer.options.length;
-		var isSelected = thisNode.selected;
-		this._listContainer.options[idx] = thisNode;
-
-		// VERIFY THAT WE STILL NEED THIS
-		//
-
-		// explicitly set the selected property again!
-		// this is necessary to work around a defect in 
-		// some versions of IE6
-		//
-		this._listContainer.options[idx].selected = isSelected;
-	    } else {
-		this._listContainer.appendChild(thisNode);
-	    }
-	} else {
-	    // group option optgroup
-	    //
-	    thisNode = this._optionGroupContainer.cloneNode(true);
-	    
-	    // Set the properties on this optgroup element
-	    //
-	    this._setGroupOptionProps(thisNode, pOption);
-	    
-	    // Add the option elements to this group
-	    // Supports only one level
-	    //
-	    var thisSubNode;
-	    for (var ix = 0; ix < pOption.options.length; ix++) {
-		thisSubNode = this._memberOptionNode.cloneNode(true);
-		this._setOptionProps(thisSubNode, pOption.options[ix]);
-		thisNode.appendChild(thisSubNode); 
-	    }
-
-	    // Append this optgroup node to the select element
-	    // only after constructing its option children
-	    //
-	    this._listContainer.appendChild(thisNode);
-	}
-    }
-    return true;
 };
 
 /**
@@ -482,6 +348,15 @@ webui.@THEME_JS@.widget._base.selectBase.prototype.getProps = function() {
  */
 webui.@THEME_JS@.widget._base.selectBase.prototype.getSelectElement = function() {
     return this._listContainer;
+};
+
+/**
+ * This function is used to obtain the index of the selected option.
+ *
+ * @return {int} The selected index of underlying HTML select element.
+ */
+webui.@THEME_JS@.widget._base.selectBase.prototype.getSelectedIndex = function() {
+    return this._listContainer.selectedIndex;
 };
 
 /**
@@ -590,22 +465,6 @@ webui.@THEME_JS@.widget._base.selectBase.prototype._postCreate = function () {
 	"_onChangeCallback");
 
     return this._inherited("_postCreate", arguments);
-};
-
-/**
- * Return an Object Literal of label properties desired by this widget.
- * <p>
- * This implementation adds the <code>htmlFor</code> property with
- * <code>this._listContainer.id</code>.
- * </p>
- * @return {Object} Key-Value pairs of properties.
- * @private
- */
-webui.@THEME_JS@.widget._base.selectBase.prototype._getLabelProps = function() {
-    var props = this._inherited("_getLabelProps", arguments);
-
-    props.htmlFor = this._listContainer.id;
-    return props;
 };
 
 /**
@@ -800,6 +659,156 @@ webui.@THEME_JS@.widget._base.selectBase.prototype._setOptionProps = function(el
 };
 
 /**
+ * This function replaces all <code>option</code> and <code>optgroup</code>
+ * elements in the HTML <code>select</code> element,
+ * <code>this._listContainer</code>.
+ * <p>
+ * All options are replaced with the options specified in <code>props</code>.
+ * If <code>props</code> is null, <code>false</code>
+ * is returned and no change to the <code>select</code> element occurs. If
+ * <code>props</code> contains no properties all options in the 
+ * <code>select</code> element are removed.
+ * </p>
+ * @param {Object} props Key-Value pairs of option properties.
+ * @config {String} label The text that appears as the choice in the 
+ * rendered <code>option</code>.
+ * @config {String} value The value for this option, which is submitted
+ * in a request if this option is selected.
+ * @config {boolean} separator If true this option represents a separator and
+ * cannot be selected.
+ * @config {boolean} group If true this option represents a group and
+ * cannot be selected.
+ * @config {boolean} escape If false the label string will be evaluated as
+ * HTML markup.
+ * @config {boolean} selected If true this option will be initially
+ * selected.
+ * @config {boolean} disabled If true this option will be initially 
+ * disabled and cannot be selected.
+ * @config {String} title The HTML title attribute text.
+ * @return {boolean} true if successful; otherwise, false.
+ * </p>
+ * <p>
+ * The option object may also define javascript event properties suitable for
+ * an <code>option</code> or <code>optGroup</code> HTML element.
+ * </p>
+ * @private
+ */
+webui.@THEME_JS@.widget._base.selectBase.prototype._setOptions = function(props) {
+    if (props == null) {
+	return false;
+    }
+
+    // Remove all existing options
+    //
+    // Note: this has to be done. Otherwise, you'll get blank entries in the 
+    // drop down for the original empty dojo attach point nodes.
+    //
+
+    if (!this._alreadyRemoved) {
+        this._listContainer.removeChild(this._optionNode); 
+        this._optionGroupContainer.removeChild(this._memberOptionNode);
+        this._listContainer.removeChild(this._optionGroupContainer);
+        this._alreadyRemoved = true;
+    }
+
+    // Cleaning up the old options
+    //
+    while (this._listContainer.firstChild) {
+        this._listContainer.removeChild(this._listContainer.firstChild);
+    }
+
+    var thisNode;
+    for (var i = 0; i < props.options.length; i++) {
+
+	var pOption = props.options[i];
+
+	var isie = webui.@THEME_JS@._base.browser._isIe();
+	if (pOption.group == null || pOption.group == false) {
+
+	    // For some reason, ie is prone to painting problems (esp. after a 
+	    // style change) when using the DOM to populate options, but 
+	    // apparently not when the options are in a group
+	    //
+	    // There is no working "clone" on "option" nodes in IE
+	    // Manually get the attributes and then the "text"
+	    // DOM attribute. I don't think an option can have HTML
+	    // markup in the body, at least literally in the template
+	    // so this strategy should be be sufficient enough to get
+	    // the template's option attributes
+	    //
+	    if (isie) {
+		thisNode = new Option();
+		var len = this._optionNode.attributes.length;
+		for (var j = 0; j < len; ++j) {
+		    thisNode.setAttribute(this._optionNode.attributes[j].name,
+			    this._optionNode.attributes[j].value);
+		}
+		// Need to manually do text, although this is likely null
+		// in the template.
+		//
+		thisNode.text = this._optionNode.text;
+
+	    } else {
+		thisNode = this._optionNode.cloneNode(true);
+	    }
+
+	    // Set the properties on this option element
+	    this._setOptionProps(thisNode, pOption);
+	    
+	    // Would it be better to create all the nodes and then
+	    // add them to the "options" array or append then ?
+	    // Granted this would mean iterating twice.
+	    // But it might be better if something fails
+	    // and if so leave the original list alone.
+	    //
+
+	    // Append this option node to the select
+	    //
+	    if (isie) {
+		var idx = this._listContainer.options.length;
+		var isSelected = thisNode.selected;
+		this._listContainer.options[idx] = thisNode;
+
+		// VERIFY THAT WE STILL NEED THIS
+		//
+
+		// explicitly set the selected property again!
+		// this is necessary to work around a defect in 
+		// some versions of IE6
+		//
+		this._listContainer.options[idx].selected = isSelected;
+	    } else {
+		this._listContainer.appendChild(thisNode);
+	    }
+	} else {
+	    // group option optgroup
+	    //
+	    thisNode = this._optionGroupContainer.cloneNode(true);
+	    
+	    // Set the properties on this optgroup element
+	    //
+	    this._setGroupOptionProps(thisNode, pOption);
+	    
+	    // Add the option elements to this group
+	    // Supports only one level
+	    //
+	    var thisSubNode;
+	    for (var ix = 0; ix < pOption.options.length; ix++) {
+		thisSubNode = this._memberOptionNode.cloneNode(true);
+		this._setOptionProps(thisSubNode, pOption.options[ix]);
+		thisNode.appendChild(thisSubNode); 
+	    }
+
+	    // Append this optgroup node to the select element
+	    // only after constructing its option children
+	    //
+	    this._listContainer.appendChild(thisNode);
+	}
+    }
+    return true;
+};
+
+/**
  * This function is used to set widget properties. Please see the constructor 
  * detail for a list of supported properties.
  * <p>
@@ -850,4 +859,17 @@ webui.@THEME_JS@.widget._base.selectBase.prototype._setProps = function(props) {
     // Set remaining properties.
     //
     return this._inherited("_setProps", arguments);
+};
+
+/** 
+ * This function is used to set the selected option.
+ *
+ * @param {int} index The selected index of underlying HTML select element.
+ * @return {boolean} true if successful; otherwise, false.
+ */
+webui.@THEME_JS@.widget._base.selectBase.prototype.setSelectedIndex = function(index) {
+    if (index >= 0 && index < this._listContainer.options.length) {
+        this._listContainer.selectedIndex = index;
+    }
+    return true;
 };

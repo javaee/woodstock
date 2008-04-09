@@ -300,6 +300,8 @@ webui.@THEME_JS@.widget.textField.prototype._setProps = function(props) {
         //?? use of event registration as in following disables field processing keys 
         //onChange: "webui.@THEME_JS@.widget.common.getWidget('" + this.id + "')._processListChange(this.event);"
 
+        // Fix: Properties should be initialized via postCreate. Then, the list
+        // can be updated here instead of recreating the widget each time.
         this._widget._addFragment(this._listContainer, listWidgetProps);
         
         //store reference to the list
@@ -403,7 +405,7 @@ webui.@THEME_JS@.widget.textField.prototype._processBlurEvent = function(event) 
  * @private
  */
 webui.@THEME_JS@.widget.textField.prototype._processFieldKeyDownEvent = function(event) {
-    event = this._widget.getEvent(event);
+    event = this._widget._getEvent(event);
     if (event == null) {
         return false;
     }
@@ -439,7 +441,8 @@ webui.@THEME_JS@.widget.textField.prototype._processFieldKeyDownEvent = function
       
     //even when the text field is in focus, we want arrow keys ( up and down)
     //navigate through options in the select list
-    if (event.keyCode == this._widget._keyCodes.DOWN_ARROW && this._listWidget.getSelectedIndex() < this._listNode.options.length) {               
+    if (event.keyCode == this._widget._keyCodes.DOWN_ARROW 
+            && this._listWidget.getSelectedIndex() < this._listNode.options.length) {               
         try {
             this.showAutoComplete = true;
 
@@ -449,8 +452,7 @@ webui.@THEME_JS@.widget.textField.prototype._processFieldKeyDownEvent = function
             } else {     
                 //list already open
                 this._listWidget.setSelectedIndex(this._listWidget.getSelectedIndex() + 1) ;
-                this._updateListView();     
-                
+                this._updateListView();
             }
             this._processListChange(event);
             return true;
@@ -459,8 +461,7 @@ webui.@THEME_JS@.widget.textField.prototype._processFieldKeyDownEvent = function
     if (event.keyCode == this._widget._keyCodes.UP_ARROW && this._listWidget.getSelectedIndex() > 0) {               
         try {
             this.showAutoComplete = true;
-
-                this._listWidget.setSelectedIndex(this._listWidget.getSelectedIndex() - 1) ;
+            this._listWidget.setSelectedIndex(this._listWidget.getSelectedIndex() - 1) ;
             this._processListChange(event);
             return true;
         } catch (doNothing) {}
@@ -477,7 +478,7 @@ webui.@THEME_JS@.widget.textField.prototype._processFieldKeyDownEvent = function
  * @private
  */
 webui.@THEME_JS@.widget.textField.prototype._processFieldKeyUpEvent = function(event) {    
-    event = this._widget.getEvent(event);
+    event = this._widget._getEvent(event);
 
     if (event != null &&
         ( event.keyCode == this._widget._keyCodes.ESCAPE ||
@@ -523,7 +524,7 @@ webui.@THEME_JS@.widget.textField.prototype._processFocusEvent = function(event)
  * @private
  */
 webui.@THEME_JS@.widget.textField.prototype._processListChange = function(event) {    
-    event = this._widget.getEvent(event);
+    event = this._widget._getEvent(event);
 
     if (event.type == "change") {               
         try {

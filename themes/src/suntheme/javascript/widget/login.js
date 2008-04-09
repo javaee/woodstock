@@ -378,7 +378,7 @@ webui.@THEME_JS@.widget.login.prototype._setAlert = function(props) {
         this._loginTbody.appendChild(tr);
         tr.appendChild(td);
 
-        this._widget.updateFragment(td, _props.id, _props);
+        this._widget._updateFragment(td, _props.id, _props);
     }
     return true;
 };
