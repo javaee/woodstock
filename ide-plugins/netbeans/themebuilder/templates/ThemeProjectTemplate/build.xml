@@ -48,28 +48,15 @@ made subject to such option by the copyright holder.
     <description>Builds, tests, and runs the project</description>
     <import file="nbproject/build-impl.xml"/>
     <!--
-
-    There exist several targets which are by default empty and which can be 
-    used for execution of your tasks. These targets are usually executed 
-    before and after some main targets. They are: 
-
-      -pre-init:                 called before initialization of project properties
-      -post-init:                called after initialization of project properties
-      -pre-jar:                  called before JAR building
-      -post-jar:                 called after JAR building
-      -post-clean:               called after cleaning build products
-
-    (Targets beginning with '-' are not intended to be called on their own.)
-
-    Example of inserting an obfuscator after compilation could look like this:
-
-        <target name="-post-compile">
-            <obfuscate>
-                <fileset dir="${build.classes.dir}"/>
-            </obfuscate>
-        </target>
-
-    For list of available properties check the imported 
-    nbproject/build-impl.xml file. 
+       Available targets
+         clone-theme - To clone a theme from template directory
+         build-theme - To build the theme
+         build-l10n - To build L10N jars
+         build-jsdoc - Build Javascript Docs
+       Uncomment the following target to build with all targets  
+    -->
+    
+    <!--
+    <target name="jar" depends="init,build-theme,build-js-theme,build-l10n,build-jsdoc" description="Build JAR."/>
     -->
 </project>

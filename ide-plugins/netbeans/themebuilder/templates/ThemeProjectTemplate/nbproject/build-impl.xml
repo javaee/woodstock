@@ -12,98 +12,79 @@ is divided into following sections:
 
 -->
 <project name="theme-impl" default="jar" basedir="..">
-    <!-- 
-    ======================
-    INITIALIZATION SECTION 
-    ======================
-    -->
-    <target name="-pre-init">
-        <!-- Empty placeholder for easier customization. -->
-        <!-- You can override this target in the ../build.xml file. -->
-    </target>
-    <target name="-init-private" depends="-pre-init">
+    
+    <!-- Initialization target -->
+    
+    <target name="init" description="Initialize the build script">
         <property file="nbproject/private/private.properties"/>
-    </target>
-    <target name="-init-user" depends="-pre-init,-init-private">
         <property file="${user.properties.file}"/>
+        <property file="nbproject/project.properties"/>
     </target>
-    <target name="-init-project" depends="-pre-init,-init-private,-init-user">
-        <property file="nbproject/project.properties"/>        
-    </target>
-    <target name="-do-init" depends="-pre-init,-init-private,-init-user,-init-project">
-    </target>
-    <target name="-post-init">
-        <!-- Empty placeholder for easier customization. -->
-        <!-- You can override this target in the ../build.xml file. -->
-    </target>
-    <target name="-init-check" depends="-pre-init,-init-private,-init-user,-init-project,-do-init">
-        <fail unless="src.dir">Must set src.dir
-        </fail>
-        <fail unless="dist.dir">Must set dist.dir
-        </fail>
-        <fail unless="build.dir">Must set build.dir
-        </fail>
-    </target>
-    <target name="-init" depends="-pre-init,-do-init,-post-init"/>
     
-    <!--
-    ====================
-    JAR BUILDING SECTION
-    ====================
-    -->
-    <target name="-pre-jar">
-        <!-- Empty placeholder for easier customization. -->
-        <!-- You can override this target in the ../build.xml file. -->
-    </target>
-    <target name="-post-jar">
-        <!-- Empty placeholder for easier customization. -->
-        <!-- You can override this target in the ../build.xml file. -->
-    </target>
-    <target name="jar" depends="-init,-pre-jar, -build-theme, -post-jar" description="Build JAR."/>
+    <!-- Build targets -->
     
-    <!--
-    ===============
-    CLEANUP SECTION
-    ===============
-    -->
-    <target name="-do-clean" depends="-init">
-        <delete dir="${build.dir}"/>
-        <delete dir="${dist.dir}"/>
-    </target>
-    <target name="-post-clean">
-        <!-- Empty placeholder for easier customization. -->
-        <!-- You can override this target in the ../build.xml file. -->
-    </target>
-    <target name="clean" depends="-init,-do-clean,-post-clean" description="Clean build products."/>
+    <target name="jar" depends="init,build-theme,build-js-theme" description="Build JAR."/>
     
-    <!--
-    ===================
-    Theme Build targets
-    ===================
-    -->
-	
-	<target name="clone-theme" description="Cloning the Theme">
-	    <ant antfile="build.xml"  target="cloneTheme" dir="template" inheritAll="true" >
-		    <property file="${basedir}/nbproject/project.properties"/>
-	    </ant>		
-	</target>
-	
-    <target name="-build-theme" description="Building the Theme">
+    <target name="clone-theme" description="Cloning the Theme">
+        <ant antfile="build.xml"  target="cloneTheme" dir="template" inheritAll="true" >
+            <property file="${basedir}/nbproject/project.properties"/>
+        </ant>
+    </target>
+    
+    <target name="build-theme" description="Building the Theme">
                  
-        <!-- See build-theme.xml for parameters to its target -->
-        <!-- call build-js-theme.xml to build the javascript theme -->
+        <!-- call build.xml in the template directory to build the theme -->
         <ant antfile="build.xml"  target="buildTheme" dir="template" inheritAll="true">
             <property file="${basedir}/nbproject/project.properties"/>
-			<property name="webui.jar" value="${libs.woodstock-components.classpath}"/>
+            <property name="webui.jar" value="${libs.woodstock-components.classpath}"/>
         </ant>
-        
-         <!-- See build-js-theme.xml for parameters to its target -->
-        <!-- call build-js-theme.xml to build the javascript theme -->
+    </target>
+    
+    <target name="build-js-theme" description="Building the Javascript Theme">
+                 
+        <!-- call build.xml in the template directory to build the javascript theme -->
         <ant antfile="build.xml" target="buildJsTheme" dir="template" inheritAll="true">
-             <property file="${basedir}/nbproject/project.properties"/>
-			 <property name="webui.jar" value="${libs.woodstock-components.classpath}"/>
-			 <property name="json-jar" value="${libs.woodstock-components.classpath}"/>
+            <property file="${basedir}/nbproject/project.properties"/>
+            <property name="webui.jar" value="${libs.woodstock-components.classpath}"/>
+            <property name="json-jar" value="${libs.woodstock-components.classpath}"/>
         </ant>
+    </target>
+    
+    <target name="build-l10n" description="Building the L10N jars">
+                 
+        <!-- call build.xml in the template directory to build the L10N jars -->
+        <ant antfile="build.xml" target="buildL10nTheme" dir="template" inheritAll="true">
+            <property file="${basedir}/nbproject/project.properties"/>
+            <property name="webui.jar" value="${libs.woodstock-components.classpath}"/>
+            <property name="json-jar" value="${libs.woodstock-components.classpath}"/>
+        </ant>
+        <ant antfile="build.xml" target="buildL10nJars" dir="template" inheritAll="true">
+            <property file="${basedir}/nbproject/project.properties"/>
+            <property name="webui.jar" value="${libs.woodstock-components.classpath}"/>
+            <property name="json-jar" value="${libs.woodstock-components.classpath}"/>
+        </ant>
+        <ant antfile="build.xml" target="buildL10nJsTheme" dir="template" inheritAll="true">
+            <property file="${basedir}/nbproject/project.properties"/>
+            <property name="webui.jar" value="${libs.woodstock-components.classpath}"/>
+            <property name="json-jar" value="${libs.woodstock-components.classpath}"/>
+        </ant>
+    </target>
+    
+    <target name="build-jsdoc" description="Building the Javascript Docs">
+                 
+        <!-- call build.xml in the template directory to build the javascript theme -->
+        <ant antfile="build.xml" target="jsdoc" dir="template" inheritAll="true">
+            <property file="${basedir}/nbproject/project.properties"/>
+            <property name="webui.jar" value="${libs.woodstock-components.classpath}"/>
+            <property name="json-jar" value="${libs.woodstock-components.classpath}"/>
+        </ant>
+    </target>
+    
+    <!-- Clean target -->
+    
+    <target name="clean" description="Clean build products.">
+        <delete dir="${build.dir}"/>
+        <delete dir="${dist.dir}"/>
     </target>
 </project>
    

@@ -125,23 +125,9 @@ public final class ThemeBuilderProjectWizardIterator implements WizardDescriptor
         // Initialize file template replacement parameters with project metadata
         Map<String, String> paramMap = new HashMap<String, String>();
 
-//        String full_version = "DEV_4.1.1";
-//        String version = "DEV_4.1.1";
-//        String theme_version = "4.1";
-//        String full_theme_version = "4_1_1";
         paramMap.put(ThemeBuilderProjectConstants.PROJECT_NAME, projectName);
         paramMap.put(ThemeBuilderProjectConstants.THEME, themeName);
-        paramMap.put(ThemeBuilderProjectConstants.THEME_PACKAGE, themePackage);
-        
-//        paramMap.put(ThemeBuilderProjectConstants.THEME_CSS, "_sun4");
-//        paramMap.put(ThemeBuilderProjectConstants.THEME_PATH, "/" + themePackage.replace('.', '/'));
-//        paramMap.put(ThemeBuilderProjectConstants.DATESTAMP, new Date().toString());
-//        paramMap.put(ThemeBuilderProjectConstants.FULL_VERSION, full_version);
-//        paramMap.put(ThemeBuilderProjectConstants.VERSION, version);
-//        paramMap.put(ThemeBuilderProjectConstants.THEME_VERSION, theme_version);
-//        paramMap.put(ThemeBuilderProjectConstants.FULL_THEME_VERSION, full_theme_version);
-//        paramMap.put(ThemeBuilderProjectConstants.THEME_SERVICE_CLASS, "ThemeServiceImpl");
-//        paramMap.put(ThemeBuilderProjectConstants.THEME_SERVICE_PROPERTIES, "ThemeService");
+        paramMap.put(ThemeBuilderProjectConstants.THEME_PACKAGE, themePackage);       
 
         FileObject template = Templates.getTemplate(wizard);
         unZipFile(template.getInputStream(), projectRootDir, paramMap);
@@ -150,7 +136,6 @@ public final class ThemeBuilderProjectWizardIterator implements WizardDescriptor
         String themeDataPath;
         //Theme.Version themeVersionProperty = (Theme.Version) wizard.getProperty(ThemeBuilderProjectConstants.THEME_VERSION);
         themeDataPath = "org/netbeans/modules/themebuilder/resources/WoodstockThemeTemplate.zip";
-
 
         // Unpack project template into project directory
         ClassLoader classLoader = this.getClass().getClassLoader();
@@ -319,17 +304,9 @@ public final class ThemeBuilderProjectWizardIterator implements WizardDescriptor
             while ((zipEntry = zipInputStream.getNextEntry()) != null) {
                 String entryName = zipEntry.getName();
                 if (zipEntry.isDirectory()) {
-//                    String srcRoot = "src";
-//                    if (entryName.startsWith(srcRoot) && paramMap != null) {
-//                        entryName = srcRoot + paramMap.get(ThemeBuilderProjectConstants.THEME_PATH) + entryName.replaceFirst(srcRoot, "");
-//                    }
                     File newFolder = new File(projectRoot, entryName);
                     newFolder.mkdirs();
                 } else {
-//                    String srcRoot = "src";
-//                    if (entryName.startsWith(srcRoot) && paramMap != null) {
-//                        entryName = srcRoot + paramMap.get(ThemeBuilderProjectConstants.THEME_PATH) + entryName.replaceFirst(srcRoot, "");
-//                    }
                     File file = new File(projectRoot, entryName);
                     FileChannel channel = new RandomAccessFile(file, "rw").getChannel();
                     FileLock lock = channel.lock();

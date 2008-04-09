@@ -166,10 +166,8 @@ public final class ThemeBuilderProject implements Project{
     }
     
     public FileObject getSrcFolder() {
-        System.out.println(projectDir.getName());
         FileObject[] children = projectDir.getChildren();
         for(FileObject child : children){
-            System.out.println(child.getName());
             if (child.isFolder()){
                 if (child.getName().equals(SRC_DIR)){
                     return child;
