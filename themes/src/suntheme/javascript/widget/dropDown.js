@@ -216,7 +216,7 @@ webui.@THEME_JS@.widget.dropDown.prototype._getLabelProps = function() {
     if (cn != null) {
        props.className = cn;
     }
-    props.labelLevel = this._theme._getMessage("dropDown.labelLevel", null, 2);
+    props.level = this._theme._getMessage("dropDown.labelLevel", null, 2);
     return props;
 };
 
