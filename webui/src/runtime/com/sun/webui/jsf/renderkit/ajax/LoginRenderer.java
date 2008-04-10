@@ -387,7 +387,7 @@ public class LoginRenderer extends com.sun.webui.jsf.renderkit.widget.LoginRende
         
         if (labelData != null && labelData.length() > 0) {
                 JSONObject stObject = new JSONObject();
-                stObject.put("type", "label");
+                stObject.put("widgetType", "label");
                 stObject.put("id", login.getClientId(context) + "_" + key + "_label");
                 stObject.put("value", labelData);
                 contentArray.put(stObject);
@@ -401,6 +401,7 @@ public class LoginRenderer extends com.sun.webui.jsf.renderkit.widget.LoginRende
         Theme theme = ThemeUtilities.getTheme(context);
         
         try {
+            // Add alert type.
             if (type != null && type.length() > 0) {
                 json.put("type", type);
             }
