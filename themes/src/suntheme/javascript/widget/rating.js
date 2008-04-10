@@ -661,7 +661,7 @@ webui.@THEME_JS@.widget.rating.prototype._postCreate = function () {
     // area, which depends on the number of images to be rendered.  The computed
     // width will be a "best fit" - just enough to encompass the required
     // image controls.
-    this.imageWidths = new Array();
+    this.imageWidths = new Object();
     this.imageWidths["notInterested"] = 0;
     this.imageWidths["grades"] = 0;
     this.imageWidths["spacer"] = 0;
@@ -1103,7 +1103,7 @@ webui.@THEME_JS@.widget.rating.prototype._setProps = function(props) {
     // Set width on control container, but only if it's changing.
     if (changeControlWidth == true) {
         var controlContainerWidth = 0;
-        for (key in this.imageWidths) {
+        for (var key in this.imageWidths) {
             controlContainerWidth += this.imageWidths[key];
         }
         this._controlContainer.style.width = controlContainerWidth + "px";
