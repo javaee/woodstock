@@ -104,7 +104,7 @@ webui.@THEME_JS@._dojo.declare("webui.@THEME_JS@.widget.rating",
         this.includeClear = true;
         this.includeModeToggle = false;
         this.inAverageMode = false;
-        this.grade = this.CODE_CLEAR;
+        this.grade = this._CODE_CLEAR;
         this.averageGrade = 0.0;
         this.maxGrade = 0;
         this.gradeReadOnly = false;
@@ -112,17 +112,17 @@ webui.@THEME_JS@._dojo.declare("webui.@THEME_JS@.widget.rating",
         this.tabIndex = -1;
 
         // Set defaults for private data used internally by the widget.
-        this.currentText = null;
-        this.clicked = false;
-        this.mousedover = false;
-        this.createGradeControls = true;
-        this.gradeNodes = null;
+        this._currentText = null;
+        this._clicked = false;
+        this._mousedover = false;
+        this._createGradeControls = true;
+        this._gradeNodes = null;
     },
 
     // Class constants - must have different values and must be <= 0
-    CODE_NOTINTERESTED: -1, // Must match NOT_INTERESTED_GRADE in component/Rating.java
-    CODE_MODETOGGLE: -2,
-    CODE_CLEAR: 0, // Need not be 0, but must match CLEAR_GRADE in component/Rating.java
+    _CODE_NOTINTERESTED: -1, // Must match NOT_INTERESTED_GRADE in component/Rating.java
+    _CODE_MODETOGGLE: -2,
+    _CODE_CLEAR: 0, // Need not be 0, but must match CLEAR_GRADE in component/Rating.java
 
     _widgetType: "rating" // Required for theme properties.
 });
@@ -231,7 +231,7 @@ webui.@THEME_JS@.widget.rating.prototype._setText = function(text) {
         if (text != null && (text.replace(/^\s+/g, '').replace(/\s+$/g, '') == "" ))
             text = null;
         this._textContainer.innerHTML = (text == null ? "&nbsp;" : text);
-        this.currentText = this._textContainer.innerHTML;
+        this._currentText = this._textContainer.innerHTML;
     }
     return true;
 }; // _setText
@@ -255,7 +255,7 @@ webui.@THEME_JS@.widget.rating.prototype._getGradeImageInfo = function(
     var className = null;
     var width = null;
 
-    if (grade == this.CODE_CLEAR)
+    if (grade == this._CODE_CLEAR)
         grade = 0;
 
     if (averageMode == true) {
@@ -299,7 +299,7 @@ webui.@THEME_JS@.widget.rating.prototype._getGradeImageInfo = function(
  *
  * @param {int} code indicates on which image the event occurs.
  *              Can be one of the widget constants:
- *                  CODE_NOTINTERESTED, CODE_MODETOGGLE, or CODE_CLEAR
+ *                  _CODE_NOTINTERESTED, _CODE_MODETOGGLE, or _CODE_CLEAR
  *              or 1->maxGrade
  * @param {boolean} isMouseOver  true if mouseover event, otherwise false.
  *                  false implies an "undo" of the preview state.
@@ -310,7 +310,7 @@ webui.@THEME_JS@.widget.rating.prototype._previewState = function(code, isMouseO
     // Determine if we will be displaying average grade.
     //
     var displayingAvg = false;
-    if ((code == this.CODE_MODETOGGLE) && isMouseOver)
+    if ((code == this._CODE_MODETOGGLE) && isMouseOver)
         // Moused over modeToggle control, so we will preview the inverse mode of
         // current display mode.
         displayingAvg = !this.inAverageMode;
@@ -334,11 +334,11 @@ webui.@THEME_JS@.widget.rating.prototype._previewState = function(code, isMouseO
         displayingGrade = this.inAverageMode ? this.averageGrade : this.grade;
     }
 
-    else if (code == this.CODE_MODETOGGLE)
+    else if (code == this._CODE_MODETOGGLE)
         // Mouseover modeToggle.  Display either the average grade or the user's grade.
         displayingGrade = displayingAvg ? this.averageGrade : this.grade;
 
-    else if (code == this.CODE_CLEAR)
+    else if (code == this._CODE_CLEAR)
         // Mouseover clear, so no grade to display.
         displayingGrade = code;
     else
@@ -362,7 +362,7 @@ webui.@THEME_JS@.widget.rating.prototype._previewState = function(code, isMouseO
             this._common._addStyleClass(this._modeToggleNode, hoverClass);
 
         // If mouseover on modeToggle, set the hover text to display
-        if ((code == this.CODE_MODETOGGLE) && isMouseOver && (this.modeToggleHoverTexts != null)) {
+        if ((code == this._CODE_MODETOGGLE) && isMouseOver && (this.modeToggleHoverTexts != null)) {
             hoverText = (displayingAvg
                 ? (this.modeToggleHoverTexts.length == 2 ? this.modeToggleHoverTexts[1] : null)
                 : this.modeToggleHoverTexts[0]);
@@ -372,7 +372,7 @@ webui.@THEME_JS@.widget.rating.prototype._previewState = function(code, isMouseO
     // Not interested image
     if ((this.includeNotInterested == true) && (this._notInterestedNode != null)) {
         // Set style class for this image
-        if (displayingGrade == this.CODE_NOTINTERESTED)
+        if (displayingGrade == this._CODE_NOTINTERESTED)
             this._notInterestedNode.className = this._theme._getClassName("RATING_NOT_INTERESTED_ON_IMAGE");
         else
             this._notInterestedNode.className = this._theme._getClassName("RATING_NOT_INTERESTED_OFF_IMAGE");
@@ -382,13 +382,13 @@ webui.@THEME_JS@.widget.rating.prototype._previewState = function(code, isMouseO
             this._common._addStyleClass(this._notInterestedNode, hoverClass);
 
         // If mouseover on notInterested, set the hover text to display
-        if (code == this.CODE_NOTINTERESTED && isMouseOver && this.notInterestedHoverText != null)
+        if (code == this._CODE_NOTINTERESTED && isMouseOver && this.notInterestedHoverText != null)
             hoverText = this.notInterestedHoverText;
     }
 
     // Clear image
     if ((this.includeClear == true) && (this._clearNode != null)) {
-        if (displayingGrade == this.CODE_CLEAR)
+        if (displayingGrade == this._CODE_CLEAR)
             this._clearNode.className = this._theme._getClassName("RATING_CLEAR_ON_IMAGE");
         else
             this._clearNode.className = this._theme._getClassName("RATING_CLEAR_OFF_IMAGE");
@@ -398,29 +398,29 @@ webui.@THEME_JS@.widget.rating.prototype._previewState = function(code, isMouseO
             this._common._addStyleClass(this._clearNode, hoverClass);
 
         // If mouseover on clear, set the hover text to display
-        if (code == this.CODE_CLEAR && isMouseOver && this.clearHoverText != null)
+        if (code == this._CODE_CLEAR && isMouseOver && this.clearHoverText != null)
             hoverText = this.clearHoverText;
     }
 
     // Grade images
     for (var i = 1; i <= this.maxGrade; i++) {
-        if (i > this.gradeNodes.length)
+        if (i > this._gradeNodes.length)
             break;
 
         // If this grade image is the one moused over, then get it's hover text.
-        if (isMouseOver && (code != this.CODE_MODETOGGLE) && 
-                (code != this.CODE_CLEAR) && (i == displayingGrade)) {
+        if (isMouseOver && (code != this._CODE_MODETOGGLE) && 
+                (code != this._CODE_CLEAR) && (i == displayingGrade)) {
             if ((this.gradeHoverTexts != null) && (i <= this.gradeHoverTexts.length))
                 hoverText = this.gradeHoverTexts[i-1];
         }
 
         // Set appropriate class for this grade image
         var imageInfo = this._getGradeImageInfo(displayingAvg, displayingGrade, i);
-        this.gradeNodes[i-1].className = imageInfo[0];
+        this._gradeNodes[i-1].className = imageInfo[0];
 
         // Since we reset the className above, we may need to add back the hover class.
         if (!this.gradeReadOnly)
-            this._common._addStyleClass(this.gradeNodes[i-1], hoverClass);
+            this._common._addStyleClass(this._gradeNodes[i-1], hoverClass);
     }
 
     // Set hover text in _textContainer.
@@ -435,13 +435,13 @@ webui.@THEME_JS@.widget.rating.prototype._previewState = function(code, isMouseO
  *
  * @param {int} code indicates on which image the event occurs.
  *              Can be one of the object constants:
- *                  CODE_NOTINTERESTED, CODE_MODETOGGLE, or CODE_CLEAR
+ *                  _CODE_NOTINTERESTED, _CODE_MODETOGGLE, or _CODE_CLEAR
  *              or 1->maxGrade
  * @return {boolean} true if successful; otherwise, false.
  * @private
  */
 webui.@THEME_JS@.widget.rating.prototype._modifyState = function(code) {
-    if (code == this.CODE_MODETOGGLE) {
+    if (code == this._CODE_MODETOGGLE) {
         // Toggle mode
         this.inAverageMode = !this.inAverageMode;
 
@@ -461,9 +461,9 @@ webui.@THEME_JS@.widget.rating.prototype._modifyState = function(code) {
 
         // Render acknowledged text for image clicked
         var acknowledgedText = null;
-        if (code == this.CODE_CLEAR)
+        if (code == this._CODE_CLEAR)
             acknowledgedText = this.clearAcknowledgedText;
-        else if (code == this.CODE_NOTINTERESTED)
+        else if (code == this._CODE_NOTINTERESTED)
             acknowledgedText = this.notInterestedAcknowledgedText;
         else
             acknowledgedText = this.gradeAcknowledgedText;
@@ -491,7 +491,7 @@ webui.@THEME_JS@.widget.rating.prototype._modifyState = function(code) {
  *
  * @param {int} code indicates on which image the event occurs.
  *              Can be one of the object constants:
- *                  CODE_NOTINTERESTED, CODE_MODETOGGLE, or CODE_CLEAR
+ *                  _CODE_NOTINTERESTED, _CODE_MODETOGGLE, or _CODE_CLEAR
  *              or 1->maxGrade
  * @param {boolean} isMouseOver  true if mouseover event, otherwise false
  * @return {boolean} true if successful; otherwise, false.
@@ -503,9 +503,9 @@ webui.@THEME_JS@.widget.rating.prototype._onMouseCallback = function(code, isMou
     //   2. this is a mouse out, and the component is not considered in a "mousedover" state.
     //      (this occurs if we moused in to a grade control, but gradeReadOnly was true,
     //       or if we moused into the modeToggle control, but modeReadOnly was true)
-    if ( (this.gradeReadOnly && (code != this.CODE_MODETOGGLE))
-        || (this.modeReadOnly && (code == this.CODE_MODETOGGLE)) ) {
-        if (isMouseOver || !this.mousedover)
+    if ( (this.gradeReadOnly && (code != this._CODE_MODETOGGLE))
+        || (this.modeReadOnly && (code == this._CODE_MODETOGGLE)) ) {
+        if (isMouseOver || !this._mousedover)
             return true;
     }
 
@@ -513,8 +513,8 @@ webui.@THEME_JS@.widget.rating.prototype._onMouseCallback = function(code, isMou
     this._previewState(code, isMouseOver);
     
     // Remember we just processed a mouseover/mouseout (ie., non-click) event
-    this.mousedover = isMouseOver; 
-    this.clicked = false; 
+    this._mousedover = isMouseOver; 
+    this._clicked = false; 
     return true;
 }; // _onMouseCallback
 
@@ -523,7 +523,7 @@ webui.@THEME_JS@.widget.rating.prototype._onMouseCallback = function(code, isMou
  *
  * @param {int} code indicates on which image the event occurs:
  *              Can be one of the object constants:
- *                  CODE_NOTINTERESTED, CODE_MODETOGGLE, or CODE_CLEAR
+ *                  _CODE_NOTINTERESTED, _CODE_MODETOGGLE, or _CODE_CLEAR
  *              or 1->maxGrade
  * @return {boolean} true if successful; otherwise, false.
  * @private
@@ -533,17 +533,17 @@ webui.@THEME_JS@.widget.rating.prototype._onClickCallback = function(code) {
     //   1. clicked on a grade control when gradeReadOnly is true, or
     //   2. clicked on modeTogglecontrol, but modeReadOnly is true, or
     //   3. We just processed a click and there's been no new mouse event
-    if ( (this.gradeReadOnly && (code != this.CODE_MODETOGGLE)) 
-        || (this.modeReadOnly && (code == this.CODE_MODETOGGLE))
-        || this.clicked)
+    if ( (this.gradeReadOnly && (code != this._CODE_MODETOGGLE)) 
+        || (this.modeReadOnly && (code == this._CODE_MODETOGGLE))
+        || this._clicked)
         return true;
 
     // Modify the component state permanently
     this._modifyState(code);
     
     // Remember we just processed a click (ie, non-mouseover/mouseout) event
-    this.clicked = true;
-    this.mousedover = false; 
+    this._clicked = true;
+    this._mousedover = false; 
 
     return true;
 }; // _onClickCallback
@@ -553,7 +553,7 @@ webui.@THEME_JS@.widget.rating.prototype._onClickCallback = function(code) {
  *
  * @param {int} code indicates on which image the event occurs:
  *              Can be one of the object constants:
- *                  CODE_NOTINTERESTED, CODE_MODETOGGLE, or CODE_CLEAR
+ *                  _CODE_NOTINTERESTED, _CODE_MODETOGGLE, or _CODE_CLEAR
  *              or 1->maxGrade
  * @return {boolean} true if successful; otherwise, false.
  * @private
@@ -680,38 +680,38 @@ webui.@THEME_JS@.widget.rating.prototype._postCreate = function () {
 
     // Configure event handlers for the notInterested control
     this._dojo.connect(this._notInterestedNode,
-        "onmouseover", this._createOnMouseOverCallback(this.CODE_NOTINTERESTED));
+        "onmouseover", this._createOnMouseOverCallback(this._CODE_NOTINTERESTED));
     this._dojo.connect(this._notInterestedNode,
-        "onclick", this._createOnClickCallback(this.CODE_NOTINTERESTED));
+        "onclick", this._createOnClickCallback(this._CODE_NOTINTERESTED));
     this._dojo.connect(this._notInterestedNode,
-        "onmouseout", this._createOnMouseOutCallback(this.CODE_NOTINTERESTED));
+        "onmouseout", this._createOnMouseOutCallback(this._CODE_NOTINTERESTED));
 /* TBD
     this._dojo.connect(this._notInterestedNode,
-        "onfocus", this._createOnFocusCallback(this.CODE_NOTINTERESTED));
+        "onfocus", this._createOnFocusCallback(this._CODE_NOTINTERESTED));
 */
 
     // Configure event handlers for the clear control
     this._dojo.connect(this._clearNode,
-        "onmouseover", this._createOnMouseOverCallback(this.CODE_CLEAR));
+        "onmouseover", this._createOnMouseOverCallback(this._CODE_CLEAR));
     this._dojo.connect(this._clearNode,
-        "onclick", this._createOnClickCallback(this.CODE_CLEAR));
+        "onclick", this._createOnClickCallback(this._CODE_CLEAR));
     this._dojo.connect(this._clearNode,
-        "onmouseout", this._createOnMouseOutCallback(this.CODE_CLEAR));
+        "onmouseout", this._createOnMouseOutCallback(this._CODE_CLEAR));
 /* TBD
     this._dojo.connect(this._clearNode,
-        "onfocus", this._createOnFocusCallback(this.CODE_CLEAR));
+        "onfocus", this._createOnFocusCallback(this._CODE_CLEAR));
 */
 
     // Configure event handlers for the modeToggle control
     this._dojo.connect(this._modeToggleNode,
-        "onmouseover", this._createOnMouseOverCallback(this.CODE_MODETOGGLE));
+        "onmouseover", this._createOnMouseOverCallback(this._CODE_MODETOGGLE));
     this._dojo.connect(this._modeToggleNode,
-        "onclick", this._createOnClickCallback(this.CODE_MODETOGGLE));
+        "onclick", this._createOnClickCallback(this._CODE_MODETOGGLE));
     this._dojo.connect(this._modeToggleNode,
-        "onmouseout", this._createOnMouseOutCallback(this.CODE_MODETOGGLE));
+        "onmouseout", this._createOnMouseOutCallback(this._CODE_MODETOGGLE));
 /* TBD
     this._dojo.connect(this._modeToggleNode,
-        "onfocus", this._createOnFocusCallback(this.CODE_MODETOGGLE));
+        "onfocus", this._createOnFocusCallback(this._CODE_MODETOGGLE));
 */
 
 /* TBD
@@ -751,49 +751,49 @@ webui.@THEME_JS@.widget.rating.prototype.setProps = function(props, notify) {
     //
     if (props.gradeReadOnly != null) {
         if (props.gradeReadOnly != this.gradeReadOnly)
-            this.createGradeControls = true;
+            this._createGradeControls = true;
     }
     if (props.modeReadOnly != null) {
         if (props.modeReadOnly != this.modeReadOnly)
-            this.createGradeControls = true;
+            this._createGradeControls = true;
     }
     if (props.inAverageMode != null) {
         if (props.inAverageMode != this.inAverageMode)
-            this.createGradeControls = true;
+            this._createGradeControls = true;
     }
     if (props.maxGrade != null) {
         if (props.maxGrade != this.maxGrade)
-            this.createGradeControls = true;
+            this._createGradeControls = true;
     }
     if (props.averageGrade != null) {
         var f = parseFloat(props.averageGrade);
         if (!isNaN(f) && (f != this.averageGrade))
-            this.createGradeControls = true;
+            this._createGradeControls = true;
     }
     if (props.grade != null) {
         var newGrade = this.grade;
 	if (props.grade == "notInterested")
-            newGrade = this.CODE_NOTINTERESTED;
+            newGrade = this._CODE_NOTINTERESTED;
         else if (props.grade == "clear")
-            newGrade = this.CODE_CLEAR;
+            newGrade = this._CODE_CLEAR;
         else {
             var n = parseInt(props.grade);
             if (!isNaN(n))
                 newGrade = n;
         }
         if (newGrade != this.grade)
-            this.createGradeControls = true;
+            this._createGradeControls = true;
     }
     if (props.maxGrade != null) {
         if (props.maxGrade != this.maxGrade)
-            this.createGradeControls = true;
+            this._createGradeControls = true;
     }
 
     // Extend widget object for later updates.
     var retVal = this._inherited("setProps", arguments);
 
     // Reset indicators that were dependent on state change.
-    this.createGradeControls = false;
+    this._createGradeControls = false;
 
     return retVal;
 
@@ -851,7 +851,7 @@ webui.@THEME_JS@.widget.rating.prototype._setProps = function(props) {
             if (this._common._checkStyleClasses(classNames, hiddenClass))
                 this._common._stripStyleClass(this._notInterestedNode, hiddenClass);
 
-            if (this.grade == this.CODE_NOTINTERESTED) {
+            if (this.grade == this._CODE_NOTINTERESTED) {
                 // Remove notInterested OFF class
                 if (this._common._checkStyleClasses(classNames, notInterestedOff))
                     this._common._stripStyleClass(this._notInterestedNode, notInterestedOff);
@@ -899,20 +899,20 @@ webui.@THEME_JS@.widget.rating.prototype._setProps = function(props) {
     }
 
     // If creating grade controls, delete existing ones if they exist
-    if (this.createGradeControls == true) {
-        for (var i = 1; (this.gradeNodes != null) && (i <= this.gradeNodes.length); i++) {
-            var node = this.gradeNodes[i-1];
+    if (this._createGradeControls == true) {
+        for (var i = 1; (this._gradeNodes != null) && (i <= this._gradeNodes.length); i++) {
+            var node = this._gradeNodes[i-1];
             if (node != null)
                 node.parentNode.removeChild(node);
         }
-        this.gradeNodes = null;
+        this._gradeNodes = null;
         this.imageWidths["grades"] = 0;
     }
 
     // Grade controls
-    if ((this.createGradeControls == true) && (this.maxGrade > 0)) {
+    if ((this._createGradeControls == true) && (this.maxGrade > 0)) {
         var imageWidths = 0;
-        this.gradeNodes = new Array(this.maxGrade);
+        this._gradeNodes = new Array(this.maxGrade);
 
         for (var i = 1; i <= this.maxGrade; i++) {
             // Clone the gradeNode element and assign ID
@@ -938,7 +938,7 @@ webui.@THEME_JS@.widget.rating.prototype._setProps = function(props) {
             this._gradeContainer.appendChild(clone);
 
             // Save handle to cloned node for quick access later on.
-            this.gradeNodes[i-1] = clone;
+            this._gradeNodes[i-1] = clone;
 
             // Configure event handlers for this grade control
             this._dojo.connect(clone, "onmouseover", this._createOnMouseOverCallback(i));
@@ -970,7 +970,7 @@ webui.@THEME_JS@.widget.rating.prototype._setProps = function(props) {
             if (this._common._checkStyleClasses(classNames, hiddenClass))
                 this._common._stripStyleClass(this._clearNode, hiddenClass);
 
-            if (this.grade == this.CODE_CLEAR) {
+            if (this.grade == this._CODE_CLEAR) {
                 // Remove clear OFF class
                 if (this._common._checkStyleClasses(classNames, clearOff))
                     this._common._stripStyleClass(this._clearNode, clearOff);

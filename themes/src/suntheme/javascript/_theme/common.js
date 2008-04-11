@@ -355,16 +355,13 @@ webui.@THEME_JS@._theme.common = {
      */
     _getMessage: function(key, args, defaultValue) {
 	var msg = webui.@THEME_JS@._theme.common._getProperty("messages", key);
-	if (msg == null) {
-	    return null;
-	}
-	if (args != null) {
-            msg = msg.replace(/\$\{(\w+)\}/g, function(match, key){
+	if (msg != null && args != null) {
+            msg = msg.replace(/\$\{(\w+)\}/g, function(match, key) {
                 if (typeof(args[key]) != "undefined" && args[key] != null) {
                     return args[key];
                 }
             });
-	}
+        }
         return (msg != null) 
 	    ? msg 
 	    : (defaultValue)
