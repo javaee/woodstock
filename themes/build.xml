@@ -2,7 +2,7 @@
 <!--
  The contents of this file are subject to the terms
  of the Common Development and Distribution License
- (the License).  You may not use this file except in
+ (the License). You may not use this file except in
  compliance with the License.
  
  You can obtain a copy of the license at
@@ -18,7 +18,7 @@
  you own identifying information:
  "Portions Copyrighted [year] [name of copyright owner]"
  
- Copyright 2007 Sun Microsystems, Inc. All rights reserved.
+ Copyright 2008 Sun Microsystems, Inc. All rights reserved.
 -->
 
 <project name="themes" default="all" basedir=".">
@@ -127,6 +127,8 @@
     <property name="theme.dnd.js" value="_base/dnd.js"/>
     <property name="theme.dojo.js" value="_dojo/dojo.js"/>
     <property name="theme.dojo-dnd.js" value="_dojo/dnd.js"/>
+    <property name="theme.everything.sdoc" value="everything.sdoc"/>
+    <property name="theme.everything-js-files" value="everything-js-files"/>
     <property name="theme.webui.js" value="webui.js"/>
     <property name="theme.webui-all.js" value="webui-all.js"/>
     <property name="theme.webui-jsfx.js" value="webui-jsfx.js"/>
@@ -301,6 +303,13 @@
 	<include name="${theme._bootstrap_.js}" />
     </patternset>
 
+    <!-- "everything.sdoc" -->
+    <patternset id="everything-js-files">
+        <include name="json.js"/>
+        <include name="widget/*.js"/>
+        <include name="widget/_base/*.js"/>
+    </patternset>
+
     <!-- "webui.js" -->
     <patternset id="webui-js-files">
 	<exclude name="widget/_jsfx/**" />
@@ -345,7 +354,7 @@
     <!-- Note that that L10n jars must exist for buildL10nJsTheme to succeed
     -->
     <target name="all" 
-	depends="buildTheme,buildJsTheme,buildL10nTheme,buildL10nJars,buildL10nJsTheme,jsdoc" />
+	depends="buildTheme,buildJsTheme,buildL10nTheme,buildL10nJars,buildL10nJsTheme,jsdoc,sdoc" />
 
     <!-- Parameters
 	See the default "theme.*" properties above.
@@ -456,7 +465,7 @@
 	<property name="js-dest-cmp"
 		location="${theme.build-package-path}/javascript"/>
 	<property name="js-src" value="${theme.src-dir}/javascript"/>
-        
+
 	<antcall target="combineJavascript">
 	    <param name="_to-dir_" value="${js-dest-uncmp}"/>
 	    <param name="_from-dir_" value="${js-src}"/>
@@ -532,7 +541,7 @@
 	    <param name="_from-dir_" value="${js-dest-uncmp}"/>
 	    <param name="_cmp-tmp_" value="${cmp-tmp}"/>
 	</antcall>
-        
+
         <!-- gzip JavaScript without base62 encoding. -->
         <antcall target="gzipJavascript">
 	    <param name="_to-dir_" value="${js-dest-cmp}"/>
@@ -551,7 +560,6 @@
 
 	<antcall target="combineImages"/>
         <antcall target="createThemeJar"/>
-
     </target> 
 
     <!-- General internal targets -->
@@ -1116,6 +1124,65 @@
 	</java>
     </target>
 
+    <!-- Set the combined-sdoc-uptodate property if
+	"${_combined-file_}" is newer than "${_from-dir_}/**/*.js"
+    -->
+    <target name="combined-sdoc-uptodate" depends="copyJavascript">
+	<uptodate property="combined-sdoc-uptodate">
+	    <srcfiles dir="${_from-dir_}" includes="json.js,widget/*.js,widget/_base/*.js"/>
+	    <mergemapper to="${_combined-file_}"/>
+	</uptodate>
+    </target>
+
+    <!--  Create the combined file ${_combined-file_}.
+
+	Parameters
+
+	_to-dir_ - root of the destination for combined files
+	_from-dir_ - the source of the javascipt files.
+			   This directory will be written into.
+	_include-set_ - the patternset refid defining the files to combine.
+        _exclude-set_ - the patternset refid defining the files to exclude.
+	_combined-file_ - the combined js file.
+
+	Expects the following globals to be set.
+       
+        ${theme.copyright}
+        ${tools.jar}
+    -->
+    <target name="combineSdoc" depends="combined-sdoc-uptodate"
+            unless="combined-sdoc-uptodate" 
+            description="Create a combined sdoc file.">
+
+	<echo message="Combining sdoc file: ${_combined-file_}"/>
+        <delete file="${_combined-file_}"/>
+
+	<!-- create a "location" for portability -->
+	<property name="__from-dir-loc__"
+		location="${_to-dir_}"/>
+	<pathconvert property="__files-to-combine__" pathsep=",">
+	    <fileset dir="${__from-dir-loc__}">
+		<patternset refid="${_include-set_}"/>
+	    </fileset>
+	    <mapper type="glob" 
+		from="${__from-dir-loc__}${file.separator}*" to="*"/>
+	</pathconvert>
+
+        <!-- Call combine sdoc tool. -->
+	<java jar="${tools.jar}" failonerror="true" fork="true">
+	  <arg value="-combineSdoc"/>
+          <arg value="-copyrightFile"/>
+          <arg value="${theme.copyright}"/>
+	  <arg value="-fileList"/>
+	  <arg value="${__files-to-combine__}"/>
+	  <arg value="-outFile"/>
+          <arg value="${_combined-file_}"/>
+	  <arg value="-sourceDir"/>
+	  <arg value="${__from-dir-loc__}"/>
+          <arg value="-verbose"/>
+	</java>
+    </target>
+
     <!-- Note that this dependency check agains ".js" files
 	 in "_to-dir_" will be comparing against base62
 	 compressed files, since the first pass compressed files
@@ -1465,6 +1532,61 @@
         <delete>
             <fileset dir="${_to-dir_}" includes="**/*.src.html"/>
         </delete>
+    </target>
+
+    <!-- Parameters
+
+        Comment out build-sdoc in the build.properties file if you
+        don't want sDoc to build when modifying JavaScript files
+
+	To simplify the dependency checking it is expected that
+	there are files in "${_from-dir_}", so either "combineJavascript"
+	or "copyJavascript" should have been called.
+
+	Expects Global "${rhino.jar}" to be set.
+
+	${rhino.jar}
+    -->
+    <target name="sdoc" if="build-sdoc">
+
+	<property name="_js-dest-uncmp_"
+		location="${theme.build-package-path}/javascript_uncompressed"/>
+	<property name="_js-dest-cmp_"
+		location="${theme.build-package-path}/javascript"/>
+	<property name="_js-src_" value="${theme.src-dir}/javascript"/>
+
+        <!-- Call combine sdoc once for theme.everything.sdoc.
+             This file should not be included with the compressed JavaScript. -->
+	<antcall target="combineSdoc">
+	    <param name="_to-dir_" value="${_js-dest-uncmp_}"/>
+	    <param name="_from-dir_" value="${_js-src_}"/>
+	    <param name="_include-set_" value="${theme.everything-js-files}"/>
+	    <param name="_combined-file_" value="${_js-dest-uncmp_}/${theme.everything.sdoc}"/>
+	</antcall>
+
+        <!-- Create empty sdoc files to prevent NB editor from reading js files. -->
+        <touch file="${_js-dest-cmp_}/${theme.everything.sdoc}"/>
+        <touch file="${_js-dest-cmp_}/_base/${theme.everything.sdoc}"/>        
+	<touch file="${_js-dest-cmp_}/_dojo/${theme.everything.sdoc}"/>
+	<touch file="${_js-dest-cmp_}/_dojo/_firebug/${theme.everything.sdoc}"/>
+        <touch file="${_js-dest-cmp_}/_html/${theme.everything.sdoc}"/>
+        <touch file="${_js-dest-cmp_}/_theme/${theme.everything.sdoc}"/>
+        <touch file="${_js-dest-cmp_}/_theme/nls/${theme.everything.sdoc}"/>
+	<touch file="${_js-dest-cmp_}/widget/${theme.everything.sdoc}"/>
+        <touch file="${_js-dest-cmp_}/widget/_base/${theme.everything.sdoc}"/>
+	<touch file="${_js-dest-cmp_}/widget/_jsfx/${theme.everything.sdoc}"/>
+
+        <!-- Create empty sdoc files to prevent NB editor from reading js files. -->
+        <touch file="${_js-dest-uncmp_}/${theme.everything.sdoc}"/>
+        <touch file="${_js-dest-uncmp_}/_base/${theme.everything.sdoc}"/>        
+	<touch file="${_js-dest-uncmp_}/_dojo/${theme.everything.sdoc}"/>
+	<touch file="${_js-dest-uncmp_}/_dojo/_firebug/${theme.everything.sdoc}"/>
+        <touch file="${_js-dest-uncmp_}/_html/${theme.everything.sdoc}"/>
+        <touch file="${_js-dest-uncmp_}/_theme/${theme.everything.sdoc}"/>
+        <touch file="${_js-dest-uncmp_}/_theme/nls/${theme.everything.sdoc}"/>
+	<touch file="${_js-dest-uncmp_}/widget/${theme.everything.sdoc}"/>
+        <touch file="${_js-dest-uncmp_}/widget/_base/${theme.everything.sdoc}"/>
+	<touch file="${_js-dest-uncmp_}/widget/_jsfx/${theme.everything.sdoc}"/>
     </target>
 
     <!-- ################ theme service targets ################# -->

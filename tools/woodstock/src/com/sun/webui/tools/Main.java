@@ -1,7 +1,7 @@
 /*
  * The contents of this file are subject to the terms
  * of the Common Development and Distribution License
- * (the License).  You may not use this file except in
+ * (the License). You may not use this file except in
  * compliance with the License.
  * 
  * You can obtain a copy of the license at
@@ -147,6 +147,43 @@ public class Main {
 	CombineJavaScript obj = new CombineJavaScript(sourceDir, verbose, 
             copyrightFile, outFile, modulePrefix);
 	obj.process(fileList, excludeFileList);
+    }
+
+    /**
+     * Helper function to combine sdoc files.
+     *
+     * @param args Command line arguments.
+     */
+    public static void combineSdoc(String[] args) throws IOException {
+        String copyrightFile = null;
+	String[] fileList = null;
+	String outFile = null;
+        String sourceDir = null;
+        boolean verbose = false;
+
+        // Parse arguments.
+        Map map = parseFileListArgs(args);
+	if (null == (fileList = (String[]) map.get("fileList")) ||
+	        fileList.length == 0) {
+	    System.out.println("A non emtpy file list is required.");
+	    usage();
+	    System.exit(-1);
+	}
+	if (null == (outFile = (String) map.get("outFile"))) {
+	    System.out.println("-outFile is required.");
+	    usage();
+	    System.exit(-1);
+	}
+	if (null == (sourceDir = (String) map.get("sourceDir"))) {
+	    System.out.println("-sourceDir is required.");
+	    usage();
+	    System.exit(-1);
+	}
+        copyrightFile = (String) map.get("copyrightFile");
+	verbose = ((Boolean) map.get("verbose")).booleanValue();
+	CombineSdoc obj = new CombineSdoc(sourceDir, verbose, 
+            copyrightFile, outFile);
+	obj.process(fileList, null);
     }
 
     /**
@@ -400,6 +437,16 @@ public class Main {
                 "Duplicate text is omitted from the combined file.");
         System.out.println("-verbose\tEnable verbose output.");
 
+        System.out.println("\nOptions for -combineSdoc include:");
+	System.out.println("-fileList <f0,...,fn>\t" +
+		"A comma separated list of relative file paths to combine.");
+        System.out.println("-outFile <outFile>\tFile path for combined output.");
+	System.out.println("-sourceDir <sourceDir>\t" +
+		"Directory containing the files in fileList.");
+        System.out.println("-copyrightFile <copyrightFile>\tFile path for copyright file. " +
+                "Duplicate text is omitted from the combined file.");
+        System.out.println("-verbose\tEnable verbose output.");
+
         System.out.println("\nOptions for -compressJS include:");
 	System.out.println("-fileList <f0,...,fn>\t" +
 		"A comma separated list of relative file paths to compress.");
@@ -455,6 +502,8 @@ public class Main {
                 compressCSS(args);
             } else if (args[0].equals("-combineJS")) {
                 combineJavaScript(args);
+            } else if (args[0].equals("-combineSdoc")) {
+                combineSdoc(args);
             } else if (args[0].equals("-compressJS")) {
                 compressJavaScript(args);
             } else if (args[0].equals("-native2ascii")) {
