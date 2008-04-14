@@ -1571,7 +1571,6 @@
 	<touch file="${_js-dest-cmp_}/_dojo/_firebug/${theme.everything.sdoc}"/>
         <touch file="${_js-dest-cmp_}/_html/${theme.everything.sdoc}"/>
         <touch file="${_js-dest-cmp_}/_theme/${theme.everything.sdoc}"/>
-        <touch file="${_js-dest-cmp_}/_theme/nls/${theme.everything.sdoc}"/>
 	<touch file="${_js-dest-cmp_}/widget/${theme.everything.sdoc}"/>
         <touch file="${_js-dest-cmp_}/widget/_base/${theme.everything.sdoc}"/>
 	<touch file="${_js-dest-cmp_}/widget/_jsfx/${theme.everything.sdoc}"/>
@@ -1583,7 +1582,6 @@
 	<touch file="${_js-dest-uncmp_}/_dojo/_firebug/${theme.everything.sdoc}"/>
         <touch file="${_js-dest-uncmp_}/_html/${theme.everything.sdoc}"/>
         <touch file="${_js-dest-uncmp_}/_theme/${theme.everything.sdoc}"/>
-        <touch file="${_js-dest-uncmp_}/_theme/nls/${theme.everything.sdoc}"/>
 	<touch file="${_js-dest-uncmp_}/widget/${theme.everything.sdoc}"/>
         <touch file="${_js-dest-uncmp_}/widget/_base/${theme.everything.sdoc}"/>
 	<touch file="${_js-dest-uncmp_}/widget/_jsfx/${theme.everything.sdoc}"/>
