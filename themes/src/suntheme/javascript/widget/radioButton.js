@@ -174,43 +174,36 @@ webui.@THEME_JS@.widget.radioButton.prototype._getInputClassName = function() {
  * @return {String} The HTML label element class name.
  * @private
  */
-webui.@THEME_JS@.widget.radioButton.prototype._getLabelClassName = function() {
-    return (this.disabled == true)
+webui.@THEME_JS@.widget.radioButton.prototype._getLabelDisabledClassName = function(disabled) {
+    return (disabled == true)
         ? this._theme._getClassName("RADIOBUTTON_LABEL_DISABLED", "")
         : this._theme._getClassName("RADIOBUTTON_LABEL", "");  
 };
 
 /**
- * This function is used to set widget properties. Please see the constructor 
- * detail for a list of supported properties.
+ * Return an Object Literal of label properties desired
+ * by the radioButton widget.
  * <p>
- * Note: This function should only be invoked through setProps().
+ * This implementation sets
+ * the <code>radioButton.labelLevel</code> 
+ * theme values from the <code>messages</code> and <code>styles</code>
+ * theme categories to the
+ * label's <code>level</code> and <code>className</code> properties 
+ * respectively.
  * </p>
- * @param {Object} props Key-Value pairs of properties.
- * @return {boolean} true if successful; otherwise, false.
+ * <p>
+ * These properties are extended with <code>this.label</code> and the
+ * resulting properties are returned.
+ * </p>
+ * @return {Object} label properties.
  * @private
  */
-webui.@THEME_JS@.widget.radioButton.prototype._setProps = function(props) {
-    if (props == null) {
-        return false;
-    }
+webui.@THEME_JS@.widget.radioButton.prototype._getLabelProps = function() {
 
-    if (props.name) {
-        // IE does not support the name attribute being set dynamically as 
-        // documented at:
-        //
-        // http://msdn.microsoft.com/workshop/author/dhtml/reference/properties/name_2.asp
-        //
-        // In order to create an HTML element with a name attribute, the name
-        // and value must be provided when using the inner HTML property or the
-        // document.createElement() function. As a work around, we shall set the
-        // attribute via the HTML template using name="${this.name}". In order
-        // to obtain the correct value, the name property must be provided to 
-        // the widget. Although we're resetting the name below, as the default,
-        // this has no affect on IE. 
-        this._inputNode.name = props.name;
-    }
-
-    // Set remaining properties.
-    return this._inherited("_setProps", arguments);
+    // First see if the super class wants to contribute to the props.
+    // Let selectBase add the htmlFor property
+    //
+    var props = this.inherited("_getLabelProps", arguments);
+    props.level = this._theme._getMessage("radioButton.labelLevel", null, 3);
+    return props;
 };

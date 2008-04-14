@@ -54,21 +54,23 @@ webui.@THEME_JS@._dojo.provide("webui.@THEME_JS@.widget._base.labeledBase");
  * <li><code>widgetType</code> -
  * <code>webui.@THEME_JS@.widget.label</code></li>
  * <li><code>id</code> - this.id + "_label"</li>
- * <li><code>htmlFor</code> - this._listContainer.id</li>
+ * <li><code>htmlFor</code> - subclasses determine the appropriate value
+ * for this property in their implementation of <code>_getLabelProps</code>.
+ * </li>
  * </ul>
  * <p>See <code>_postCreate</code> and <code>_getLabelProps</code>
  * </p>
  * <p>
  * This class is meant to be subclassed and not instantiated.
- * Therefore it has no widget name.
+ * Therefore it has no <code>_widgetType</code> property.
  * </p>
  * @param {Object} props Key-Value pairs of properties.
  * @config {boolean} required If true the widget that is labeled requires
- * input. If no input is provided an indicator will appear near the label.
+ * input, and indicator will appear near the label.
  * @config {boolean} valid If true the widget that is labeled has valid 
  * input. If false an indicator will appear near the label.
  * @config {boolean} labelOnTop If true the label appears above the
- * widget that is labeled.
+ * widget that is labeled. Subclasses may or may not implement this property.
  * @constructor
  */
 webui.@THEME_JS@._dojo.declare("webui.@THEME_JS@.widget._base.labeledBase",
@@ -86,6 +88,9 @@ webui.@THEME_JS@._dojo.declare("webui.@THEME_JS@.widget._base.labeledBase",
 
 	// Private flag to remember that last label style class.
 	this._lastLabelOnTopClassName =  null;
+
+	// Private flag to remember that last disabled label style class.
+	this._lastLabelDisabledClassName =  null;
     }
 });
 
@@ -107,16 +112,19 @@ webui.@THEME_JS@.widget._base.labeledBase.prototype.getProps = function() {
 };
 
 /**
- * Return label properties desired by this widget.
+ * Return a CSS selector to be used for the label widget when the widget
+ * is disabled.
  * <p>
  * This implementation returns null. This method should be implemented
- * in subclasses to return label properties desired by the subclass.
+ * in subclasses to return the appropriate selector desired by the subclass.
  * </p>
- * @return {Object} Key-Value pairs of properties.
- * @private
+ * @param {boolean} disabled If <code>disabled</code> is true, return the 
+ * selector for the label when the widget is "disabled", else return the
+ * selector for the label when widget is enabled.
+ * @return {String} This implementation returns null;
  */
-webui.@THEME_JS@.widget._base.labeledBase.prototype._getLabelProps = function() {
-    return {};
+webui.@THEME_JS@.widget._base.labeledBase.prototype._getLabelDisabledClassName = function(disabled) {
+    return null;
 };
 
 /**
@@ -131,8 +139,31 @@ webui.@THEME_JS@.widget._base.labeledBase.prototype._getLabelProps = function() 
  * @return {String} This implementation returns null;
  * @private
  */
-webui.@THEME_JS@.widget._base.labeledBase.prototype._getLabelClassName = function(ontop) {
+webui.@THEME_JS@.widget._base.labeledBase.prototype._getLabelOnTopClassName = function(ontop) {
     return null;
+};
+
+/**
+ * Return label properties desired by this widget.
+ * <p>
+ * This implementation returns null. This method should be implemented
+ * in subclasses to return label properties desired by the subclass.
+ * </p>
+ * @return {Object} Key-Value pairs of label properties.
+ * @private
+ */
+webui.@THEME_JS@.widget._base.labeledBase.prototype._getLabelProps = function() {
+    var props = {};
+    
+    var cn = this._getLabelOnTopClassName(this.labelOnTop);
+    if (cn != null) {
+	this._common._addStyleClass(props, cn);
+    }
+    cn = this._getLabelDisabledClassName(this.disabled);
+    if (cn != null) {
+	this._common._addStyleClass(props, cn);
+    }
+    return props;
 };
 
 /**
@@ -206,7 +237,7 @@ webui.@THEME_JS@.widget._base.labeledBase.prototype._setProps = function(props) 
 	// and remember the new ontop selector.
 	//
 	this._lastLabelOnTopClassName = 
-	    this._getLabelClassName(props.labelOnTop);
+	    this._getLabelOnTopClassName(props.labelOnTop);
 
 	// Add the "ontop" selector.
 	//
@@ -238,7 +269,17 @@ webui.@THEME_JS@.widget._base.labeledBase.prototype._setProps = function(props) 
     // "{ label : { value : 'foo'}}" i.e. no id is specified.
     // 
     if (this.label != null && this.label.id != null && (props.label != null 
-            || props.required != null || props.valid != null)) {
+            || props.required != null || props.valid != null
+	    || props.disabled != null)) {
+
+	if (props.disabled != null) {
+	    this._common._stripStyleClass(this._labelContainer,
+		this._lastLabelDisabledClassName);
+	    this._lastLabelDisabledClassName =
+		this._getLabelDisabledClassName(props.disabled);
+	    this._common._addStyleClass(this._labelContainer,
+		this._lastLabelDisabledClassName);
+	}
 
 	// Make sure we have an object to hang properties on.
 	// This is the case where the widget's "required" and "valid"

@@ -198,9 +198,11 @@ abstract class RbCbRendererBase extends RendererBase {
         json.put("image", WidgetUtilities.renderComponent(context, 
             rbcbSelector.getImageComponent()));
         
-        // Append label properties.
-        json.put("label", WidgetUtilities.renderComponent(context, 
-            rbcbSelector.getLabelComponent()));
+	JSONObject jlabel = getLabel(context, rbcbSelector);
+	if (jlabel != null) {
+	    // Append label properties.
+	    json.put("label", jlabel);
+	}
         
         // Add attributes.
         JSONUtilities.addStringProperties(stringAttributes, component, json);
@@ -222,6 +224,45 @@ abstract class RbCbRendererBase extends RendererBase {
     protected abstract boolean isSelected(FacesContext context,
 	UIComponent component);
     
+    /**
+     * Helper method to return a <code>JSONObject</code> of label properties.
+     * If a <code>RbCbSelector.LABEL_FACET</code> exists return the
+     * <code>JSONObject</code> representing that facet. If there is no facet
+     * and <code>rbcb.getLabel()</code> returns non null, return a
+     * <code>JSONObject</code> containing <code>value</code>
+     * and <code>level</code> properties.
+     * If there is no label return <code>null</code>.
+     * 
+     * @param context FacesContext for the current request.
+     * @param rbcb RbCbSelector component to be rendered.
+     */
+    protected JSONObject getLabel(FacesContext context, 
+            RbCbSelector rbcb) throws IOException, JSONException {
+        
+        if (rbcb == null) {
+            throw new RuntimeException("rbcb must not be null"); //NOI18N
+        }
+
+        UIComponent labelFacet = rbcb.getFacet(rbcb.LABEL_FACET);
+        if (labelFacet != null) {
+	    return WidgetUtilities.renderComponent(context, labelFacet);
+        } else {
+	    // "" is a valid label.
+	    //
+	    String lvalue = rbcb.getLabel();
+            if (lvalue != null) {
+		JSONObject json = new JSONObject();
+		// allow client-side to render widget by providing
+		// required values to it
+		//
+		json.put("value", lvalue);
+		json.put("level", rbcb.getLabelLevel());
+		return json;
+	    }
+        }                
+        return null;
+    }
+
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     // Private methods
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~

@@ -46,30 +46,10 @@ public class RbCbSelector extends Selector implements NamingContainer,
      */
     public final static String IMAGE_FACET = "image"; //NOI18N
 
-    // Properties to transfer from "this" to the image subcomponent
-    //
-    private final static String IMAGE_URL_PROP = "imageURL";
-    private final static String URL_PROP = "url";
-    private final static String ALT_PROP = "alt";
-
     /**
      * Label facet name.
      */
     public final static String LABEL_FACET = "label"; //NOI18N
-
-    // Properties to transfer from "this" to the label subcomponent
-    //
-    private final static String LABEL_PROP = "label";
-    private final static String TEXT_PROP = "text";
-    private final static String LABEL_LEVEL_PROP = "labelLevel";
-
-    // Props for both subcomponents
-    //
-    private final static String TOOLTIP_PROP = "toolTip";
-    private final static String VISIBLE_PROP = "visible";
-    private final static String RENDERED_PROP = "rendered";
-
-    private final static String ID_SEPARATOR = "_"; //NOI18N
 
     // This is the default value for selectedValue.
     // Because of the generation and alias of "items"

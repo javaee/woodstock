@@ -148,14 +148,24 @@ table.EdtLstTbl@THEME_CSS@ td.EdtLstAddLblTd@THEME_CSS@ span.LblLev2Txt@THEME_CS
 /*---*/
 
 /* LABEL */
-.LblLev2Txt@THEME_CSS@, .LblLev2smTxt@THEME_CSS@, .LblRqdDiv@THEME_CSS@, .LblLev3Txt@THEME_CSS@, .LblLev3TxtDis@THEME_CSS@ {
+.LblLev2Txt@THEME_CSS@, .LblLev2smTxt@THEME_CSS@, .LblRqdDiv@THEME_CSS@ {
 	font-size:1.0em;
 }
 .LblLev1Txt@THEME_CSS@ {
 	font-size:1.3em;
 }
+
+.LblLev3Txt@THEME_CSS@, .LblLev3TxtDis@THEME_CSS@ {
+	font-weight: normal;
+}
+
+.LblLev3Txt@THEME_CSS@, .LblLev3TxtDis@THEME_CSS@,
+.RbLblDis@THEME_CSS@, .CbLblDis@THEME_CSS@ {
+	font-size:.9em;
+}
+
 .LblLev1Txt@THEME_CSS@, .LblLev2Txt@THEME_CSS@, .LblLev2smTxt@THEME_CSS@,
-.LblLev1TxtDis@THEME_CSS@, .LblLev2TxtDis@THEME_CSS@, .LblLev2smTxtDis@THEME_CSS@, .LblLev3Txt@THEME_CSS@, .LblLev3TxtDis@THEME_CSS@ {
+.LblLev1TxtDis@THEME_CSS@, .LblLev2TxtDis@THEME_CSS@, .LblLev2smTxtDis@THEME_CSS@ {
 	font-weight:bold;
 }
 /*---*/

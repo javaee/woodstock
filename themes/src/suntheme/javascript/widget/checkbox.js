@@ -174,8 +174,36 @@ webui.@THEME_JS@.widget.checkbox.prototype._getInputClassName = function() {
  * @return {String} The HTML label element class name.
  * @private
  */
-webui.@THEME_JS@.widget.checkbox.prototype._getLabelClassName = function() {
-    return (this.disabled == true)
+webui.@THEME_JS@.widget.checkbox.prototype._getLabelDisabledClassName = function(disabled) {
+    return (disabled == true)
         ? this._theme._getClassName("CHECKBOX_LABEL_DISABLED", "")
         : this._theme._getClassName("CHECKBOX_LABEL", "");  
+};
+
+/**
+ * Return an Object Literal of label properties desired
+ * by the checkbox widget.
+ * <p>
+ * This implementation sets
+ * the <code>checkbox.labelLevel</code> 
+ * theme values from the <code>messages</code> and <code>styles</code>
+ * theme categories to the
+ * label's <code>level</code> and <code>className</code> properties 
+ * respectively.
+ * </p>
+ * <p>
+ * These properties are extended with <code>this.label</code> and the
+ * resulting properties are returned.
+ * </p>
+ * @return {Object} label properties.
+ * @private
+ */
+webui.@THEME_JS@.widget.checkbox.prototype._getLabelProps = function() {
+
+    // First see if the super class wants to contribute to the props.
+    // Let selectBase add the htmlFor property
+    //
+    var props = this.inherited("_getLabelProps", arguments);
+    props.level = this._theme._getMessage("checkbox.labelLevel", null, 3);
+    return props;
 };

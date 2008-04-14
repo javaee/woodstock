@@ -210,12 +210,8 @@ webui.@THEME_JS@.widget.dropDown.prototype._getClassName = function() {
  * @private
  */
 webui.@THEME_JS@.widget.dropDown.prototype._getLabelProps = function() {
-    var props = this._inherited("_getLabelProps", arguments);
 
-    var cn = this._getLabelClassName(null);
-    if (cn != null) {
-       props.className = cn;
-    }
+    var props = this._inherited("_getLabelProps", arguments);
     props.level = this._theme._getMessage("dropDown.labelLevel", null, 2);
     return props;
 };
@@ -237,7 +233,7 @@ webui.@THEME_JS@.widget.dropDown.prototype._getLabelProps = function() {
  * @return {String} A CSS selector for the dropDown label.
  * @private
  */
-webui.@THEME_JS@.widget.dropDown.prototype._getLabelClassName = function(ontop) {
+webui.@THEME_JS@.widget.dropDown.prototype._getLabelOnTopClassName = function(ontop) {
     if (ontop != null && ontop == true) {
 	return null;
     }
@@ -419,7 +415,7 @@ webui.@THEME_JS@.widget.dropDown.prototype._postCreate = function () {
     var jumpmenu = this.submitForm != null && this.submitForm == true;
     var disabled = this.disabled != null && this.disabled == true;
 
-    webui.@THEME_JS@._base.common._addStyleClass(this._listContainer, 
+    this._common._addStyleClass(this._listContainer, 
 	this._getListContainerClassName(disabled, jumpmenu));
     
     return this._inherited("_postCreate", arguments);
@@ -469,12 +465,12 @@ webui.@THEME_JS@.widget.dropDown.prototype.setProps = function(props, notify) {
     //
     if (toggleJumpmenu || toggleDisabled) {
 	var cn = this._getListContainerClassName(isdisabled, isjumpmenu);
-	webui.@THEME_JS@._base.common._stripStyleClass(this._listContainer, cn);
+	this._common._stripStyleClass(this._listContainer, cn);
 
 	cn = this._getListContainerClassName(
 	    toggleDisabled ? props.disabled == true : isdisabled,
 	    toggleJumpmenu ? props.jumpmenu == true : isjumpmenu);
-	webui.@THEME_JS@._base.common._addStyleClass(this._listContainer, cn);
+	this._common._addStyleClass(this._listContainer, cn);
     }
     return this._inherited("setProps", arguments);
 };

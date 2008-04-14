@@ -60,7 +60,8 @@
 .CbReadOnly@THEME_CSS@,.RbReadOnly@THEME_CSS@ {
          filter: alpha(opacity=45); 
 }
-.CbDis@THEME_CSS@, .RbDis@THEME_CSS@ {
+.CbDis@THEME_CSS@, .RbDis@THEME_CSS@,
+.RbImgDis@THEME_CSS@, CbImgDis@THEME_CSS@ {
          filter: alpha(opacity=40);
 }
 /*---*/

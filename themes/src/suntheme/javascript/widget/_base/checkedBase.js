@@ -24,18 +24,18 @@ webui.@THEME_JS@._dojo.provide("webui.@THEME_JS@.widget._base.checkedBase");
 
 webui.@THEME_JS@._dojo.require("webui.@THEME_JS@._base.browser");
 webui.@THEME_JS@._dojo.require("webui.@THEME_JS@.widget.common");
-webui.@THEME_JS@._dojo.require("webui.@THEME_JS@.widget._base.widgetBase");
+webui.@THEME_JS@._dojo.require("webui.@THEME_JS@.widget._base.labeledBase");
 
 /**
  * This function is used to construct a base class.
  *
  * @name webui.@THEME_JS@.widget._base.checkedBase
- * @extends webui.@THEME_JS@.widget._base.widgetBase
+ * @extends webui.@THEME_JS@.widget._base.labeledBase
  * @class This class contains functions for widgets that extend checkedBase.
  * @constructor
  */
 webui.@THEME_JS@._dojo.declare("webui.@THEME_JS@.widget._base.checkedBase",
-        webui.@THEME_JS@.widget._base.widgetBase, {
+        webui.@THEME_JS@.widget._base.labeledBase, {
     // Set defaults.
     _idSuffix: "" // Overridden by subclass
 });
@@ -70,13 +70,25 @@ webui.@THEME_JS@.widget._base.checkedBase.prototype.getInputElement = function()
 };
 
 /**
- * Helper function to obtain label class names.
- *
- * @return {String} The HTML label element class name.
+ * Return an Object Literal of label properties desired
+ * by the checkedBase widget.
+ * <p>
+ * This implementation adds the <code>htmlFor</code> property with
+ * <code>this._inputNode.id</code>.
+ * </p>
+ * @return {Object} object with the <code>htmlFor</code>
+ * property set.
  * @private
  */
-webui.@THEME_JS@.widget._base.checkedBase.prototype._getLabelClassName = function() {
-    return null; // Overridden by subclass.
+webui.@THEME_JS@.widget._base.checkedBase.prototype._getLabelProps = function() {
+    // Let the super class contribute
+    //
+    var props = this.inherited("_getLabelProps", arguments);
+    // Subclasses can override this value
+    //
+    props.level = 3;
+    props.htmlFor = this._inputNode.id;
+    return props;
 };
 
 /**
@@ -92,7 +104,6 @@ webui.@THEME_JS@.widget._base.checkedBase.prototype.getProps = function() {
     if (this.align) { props.align = this.align; }
     if (this.disabled != null) { props.disabled = this.disabled; }   
     if (this.image) { props.image = this.image; }
-    if (this.label) { props.label = this.label; }
     if (this.name) { props.name = this.name; }        
     if (this.readOnly != null) { props.readOnly = this.readOnly; }
     if (this.value) { props.value = this.value; }
@@ -143,7 +154,6 @@ webui.@THEME_JS@.widget._base.checkedBase.prototype._postCreate = function () {
     if (this.id) {
         this._inputNode.id = this.id + this._idSuffix;
         this._imageContainer.id = this.id + "_imageContainer";
-        this._labelContainer.id = this.id + "_labelContainer";
 
         // If null, use HTML input id.
         if (this.name == null) {
@@ -152,7 +162,10 @@ webui.@THEME_JS@.widget._base.checkedBase.prototype._postCreate = function () {
     }
 
     // Set public functions.
-    this._domNode.getInputElement = function() { return webui.@THEME_JS@.widget.common.getWidget(this.id).getInputElement(); }
+    this._domNode.getInputElement = function() {
+	var widget = webui.@THEME_JS@.widget;
+	return widget.common.getWidget(this.id).getInputElement();
+    }
     
     // Create callback function for onclick event.
     this._dojo.connect(this._domNode, "onclick", this, "_onClickCallback");
@@ -190,6 +203,18 @@ webui.@THEME_JS@.widget._base.checkedBase.prototype._setProps = function(props) 
     this._inputNode.className = this._getInputClassName();
     
     if (props.name) { 
+        // IE does not support the name attribute being set dynamically as 
+        // documented at:
+        //
+        // http://msdn.microsoft.com/workshop/author/dhtml/reference/properties/name_2.asp
+        //
+        // In order to create an HTML element with a name attribute, the name
+        // and value must be provided when using the inner HTML property or the
+        // document.createElement() function. As a work around, we shall set the
+        // attribute via the HTML template using name="${this.name}". In order
+        // to obtain the correct value, the name property must be provided to 
+        // the widget. Although we're resetting the name below, as the default,
+        // this has no affect on IE. 
         this._inputNode.name = props.name;
     }
 
@@ -226,20 +251,6 @@ webui.@THEME_JS@.widget._base.checkedBase.prototype._setProps = function(props) 
         // Update/add fragment.
         this._widget._updateFragment(this._imageContainer, this.image.id, props.image);
     } 
-
-    // Set label properties.
-    if (props.label || props.disabled != null && this.label) {     
-        // Ensure property exists so we can call setProps just once.
-        if (props.label == null) {
-            props.label = {}; // Avoid updating all props using "this" keyword.
-        }
-
-        // Set properties.
-        props.label.className = this._getLabelClassName();
-
-        // Update/add fragment.
-        this._widget._updateFragment(this._labelContainer, this.label.id, props.label);
-    }
 
     // Set more properties.
     this._setCommonProps(this._inputNode, props);

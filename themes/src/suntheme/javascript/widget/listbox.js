@@ -155,16 +155,12 @@ webui.@THEME_JS@.widget.listbox.prototype._getClassName = function() {
  * These properties are extended with <code>this.label</code> and the
  * resulting properties are returned.
  * </p>
- * @return {Object} Key-Value pairs of properties.
+ * @return {Object} Key-Value pairs of label properties.
  * @private
  */
 webui.@THEME_JS@.widget.listbox.prototype._getLabelProps = function() {
-    var props = this._inherited("_getLabelProps", arguments);
 
-    var cn = this._getLabelClassName(null);
-    if (cn != null) {
-       props.className = cn;
-    }
+    var props = this._inherited("_getLabelProps", arguments);
     props.level = this._theme._getMessage("listbox.labelLevel", null, 2);
     return props;
 };
@@ -332,7 +328,7 @@ webui.@THEME_JS@.widget.listbox.prototype._getOptionClassName = function(element
 webui.@THEME_JS@.widget.listbox.prototype._postCreate = function () {
     // Don't trash the template.
     //
-    webui.@THEME_JS@._base.common._addStyleClass(this._listContainer,
+    this._common._addStyleClass(this._listContainer,
 	this._getListContainerClassName(
 		this.disabled == true, this.monospace == true));
 
@@ -379,12 +375,12 @@ webui.@THEME_JS@.widget.listbox.prototype.setProps = function(props, notify) {
     //
     if (toggleMonospace || toggleDisabled) {
 	var cn = this._getListContainerClassName(isdisabled, ismonospace);
-	webui.@THEME_JS@._base.common._stripStyleClass(this._listContainer, cn);
+	this._common._stripStyleClass(this._listContainer, cn);
 
 	cn = this._getListContainerClassName(
 	    toggleDisabled ? props.disabled == true : isdisabled,
 	    toggleMonospace ? props.monospace == true : ismonospace);
-	webui.@THEME_JS@._base.common._addStyleClass(this._listContainer, cn);
+	this._common._addStyleClass(this._listContainer, cn);
     }
     return this._inherited("setProps", arguments);
 };

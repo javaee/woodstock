@@ -499,6 +499,18 @@ body.HlpBdy@THEME_CSS@ {
 .CbDis@THEME_CSS@, .RbDis@THEME_CSS@ {
 	color:#848687;
 }
+
+.CbReadOnly@THEME_CSS@, .RbReadOnly@THEME_CSS@,
+.CbDis@THEME_CSS@, .RbDis@THEME_CSS@ {
+        opacity:.45;
+	-moz-opacity: 0.45;
+}
+
+.RbLblDis@THEME_CSS@, .CbLblDis@THEME_CSS@,
+.RbImgDis@THEME_CSS@, .CbImgDis@THEME_CSS@ {
+	opacity:.40;  -moz-opacity: 0.4;
+}
+
 /*---*/
 
 /* Editable Field*/    
