@@ -308,29 +308,53 @@ webui.@THEME_JS@.widget.progressBar.prototype._postCreate = function () {
         this._topTextContainer.id = this.id + "_topTextContainer"; 
     }
 
-    // Set public functions
+    // Set public functions.
+
+    /** @ignore */
     this._domNode.cancel = function() { return webui.@THEME_JS@.widget.common.getWidget(this.id).cancel(); };
+    /** @ignore */
     this._domNode.isBottomControlVisible = function() { return webui.@THEME_JS@.widget.common.getWidget(this.id).isBottomControlVisible(); };
+    /** @ignore */
     this._domNode.isFailedStateMessageVisible = function() { return webui.@THEME_JS@.widget.common.getWidget(this.id).isFailedStateMessageVisible(); };
+    /** @ignore */
     this._domNode.isLogMsgVisible = function() { return webui.@THEME_JS@.widget.common.getWidget(this.id).isLogMsgVisible(); };
+    /** @ignore */
     this._domNode.isOperationTextVisible = function() { return webui.@THEME_JS@.widget.common.getWidget(this.id).isOperationTextVisible(); };
+    /** @ignore */
     this._domNode.isProgressBarContainerVisible = function() { return webui.@THEME_JS@.widget.common.getWidget(this.id).isProgressBarContainerVisible(); };
+    /** @ignore */
     this._domNode.isProgressBarVisible = function() { return webui.@THEME_JS@.widget.common.getWidget(this.id).isProgressBarVisible(); };
+    /** @ignore */
     this._domNode.isRightControlVisible = function() { return webui.@THEME_JS@.widget.common.getWidget(this.id).isRightControlVisible(); };
+    /** @ignore */
     this._domNode.isStatusTextVisible = function() { return webui.@THEME_JS@.widget.common.getWidget(this.id).isStatusTextVisible(); };
+    /** @ignore */
     this._domNode.pause = function() { return webui.@THEME_JS@.widget.common.getWidget(this.id).pause(); };
+    /** @ignore */
     this._domNode.resume = function() { return webui.@THEME_JS@.widget.common.getWidget(this.id).resume(); };
+    /** @ignore */
     this._domNode.stop = function() { return webui.@THEME_JS@.widget.common.getWidget(this.id).stop(); };
+    /** @ignore */
     this._domNode.setOnCancel = function(func) { return webui.@THEME_JS@.widget.common.getWidget(this.id).setOnCancel(func); };
+    /** @ignore */
     this._domNode.setOnComplete = function(func) { return webui.@THEME_JS@.widget.common.getWidget(this.id).setOnComplete(func); };
+    /** @ignore */
     this._domNode.setOnFail = function(func) { return webui.@THEME_JS@.widget.common.getWidget(this.id).setOnFail(func); };
+    /** @ignore */
     this._domNode.setBottomControlVisible = function(show) { return webui.@THEME_JS@.widget.common.getWidget(this.id).setBottomControlVisible(show); };
+    /** @ignore */
     this._domNode.setFailedStateMessageVisible = function(show) { return webui.@THEME_JS@.widget.common.getWidget(this.id).setFailedStateMessageVisible(show); };
+    /** @ignore */
     this._domNode.setLogMsgVisible = function(show) { return webui.@THEME_JS@.widget.common.getWidget(this.id).setLogMsgVisible(show); };
+    /** @ignore */
     this._domNode.setOperationTextVisible = function(show) { return webui.@THEME_JS@.widget.common.getWidget(this.id).setOperationTextVisible(show); };
+    /** @ignore */
     this._domNode.setProgressBarContainerVisible = function(show) { return webui.@THEME_JS@.widget.common.getWidget(this.id).setProgressBarContainerVisible(show); };
+    /** @ignore */
     this._domNode.setProgressBarVisible = function(show) { return webui.@THEME_JS@.widget.common.getWidget(this.id).setProgressBarVisible(show); };
+    /** @ignore */
     this._domNode.setRightControlVisible = function(show) { return webui.@THEME_JS@.widget.common.getWidget(this.id).setRightControlVisible(show); };
+    /** @ignore */
     this._domNode.setStatusTextVisible = function(show) { return webui.@THEME_JS@.widget.common.getWidget(this.id).setStatusTextVisible(show); };
 
     if (this.busyImage == null) {

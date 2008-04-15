@@ -110,6 +110,7 @@ webui.@THEME_JS@._dojo.declare("webui.@THEME_JS@.widget._base.widgetBase",
 });
 
 // This function is not public and should not appear in the jsDoc.
+/** @ignore */
 webui.@THEME_JS@.widget._base.widgetBase.prototype.buildRendering = function () {
     // Template must be set prior to calling "superclass".
     this._buildRendering();
@@ -222,6 +223,7 @@ webui.@THEME_JS@.widget._base.widgetBase.prototype._getEventProps = function() {
  * This function is used to get widget properties. Please see the constructor 
  * detail for a list of supported properties.
  *
+ * @id webui.@THEME_JS@.widget._base.widgetBase.getProps
  * @return {Object} Key-Value pairs of properties.
  */
 webui.@THEME_JS@.widget._base.widgetBase.prototype.getProps = function() {
@@ -287,6 +289,7 @@ webui.@THEME_JS@.widget._base.widgetBase.prototype._isInitialized = function() {
 };
 
 // This function is not public and should not appear in the jsDoc.
+/** @ignore */
 webui.@THEME_JS@.widget._base.widgetBase.prototype.postCreate = function () {
     return this._postCreate();
 }
@@ -310,9 +313,12 @@ webui.@THEME_JS@.widget._base.widgetBase.prototype._postCreate = function () {
     var _id = this.id;
 
     // Set public functions.
+
+    /** @ignore */
     this._domNode.getProps = function() { 
         return webui.@THEME_JS@.widget.common.getWidget(_id).getProps();
     };
+    /** @ignore */
     this._domNode.setProps = function(props, notify) { 
         return webui.@THEME_JS@.widget.common.getWidget(_id).setProps(props, notify);
     };
@@ -513,6 +519,7 @@ webui.@THEME_JS@.widget._base.widgetBase.prototype._setEventProps = function(dom
  * published. This is typically used to keep client-side state in sync with the
  * server.
  * </p>
+ * @id webui.@THEME_JS@.widget._base.widgetBase.setProps
  * @param {Object} props Key-Value pairs of properties.
  * @param {boolean} notify Publish an event for custom AJAX implementations to listen for.
  * @return {boolean} true if successful; otherwise, false.
@@ -559,6 +566,7 @@ webui.@THEME_JS@.widget._base.widgetBase.prototype._setProps = function(props) {
 };
 
 // This function is not public and should not appear in the jsDoc.
+/** @ignore */
 webui.@THEME_JS@.widget._base.widgetBase.prototype.startup = function () {
     return this._start();
 }

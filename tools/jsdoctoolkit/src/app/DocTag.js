@@ -2,8 +2,8 @@
  * @fileOverview
  * @name DocTag
  * @author Michael Mathews micmath@gmail.com
- * @url $HeadURL: https://jsdoc-toolkit.googlecode.com/svn/tags/jsdoc_toolkit-1.4.0/app/DocTag.js $
- * @revision $Id: DocTag.js,v 1.2 2008-02-06 21:58:29 danl Exp $
+ * @url $HeadURL: https://jsdoc-toolkit.googlecode.com/svn/trunk/app/DocTag.js $
+ * @revision $Id: DocTag.js,v 1.3 2008-04-15 20:54:07 danl Exp $
  * @license <a href="http://en.wikipedia.org/wiki/MIT_License">X11/MIT License</a>
  *          (See the accompanying README file for full details.)
  */
@@ -39,6 +39,12 @@ function DocTag(src) {
 	 */
 	this.desc = "";
 	
+	/**
+	 * Like @title {type} [name=defaultValue] description goes here...
+	 * @type string
+	 */
+	this.defaultValue = "";
+	
 	if (typeof(src) != "undefined") {
 		var parts = src.match(/^(\S+)(?:\s+\{\s*([\S\s]+?)\s*\})?\s*([\S\s]*\S)?/);
 		
@@ -63,27 +69,48 @@ function DocTag(src) {
 		
 		if (this.desc) {
 			if (this.title == "param") { // long tags like {type} [name] desc
-				var m = this.desc.match(/^\s*(\[?)([a-zA-Z0-9.$_]+)(\]?)(?:\s+\{\s*([\S\s]+?)\s*\})?(?:\s+([\S\s]*\S))?/);
-				if (m) {
-					this.isOptional = (!!m[1] && !!m[3]); // bracketed name means optional
-					this.name = (m[2] || "");
-					this.type = (m[4] || this.type);
-					this.desc = (m[5] || "");
+				var m = this.desc.match(/^\s*\[([a-zA-Z0-9.$_]+)(?:\s*=([^\]]+))?\](?:\s+\{\s*([\S\s]+?)\s*\})?(?:\s+([\S\s]*\S))?/);
+				if (m) { // optional parameter
+					this.isOptional = true; // bracketed name means optional
+					this.name = (m[1] || "");
+					this.defaultValue = (m[2] || "");
+					this.type = (m[3] || this.type);
+					this.desc = (m[4] || "");
+				}
+				else { // required parameter
+					var m = this.desc.match(/^\s*([a-zA-Z0-9.$_]+)(?:\s+\{\s*([\S\s]+?)\s*\})?(?:\s+([\S\s]*\S))?/);
+					if (m) {
+						this.isOptional = false;
+						this.name = (m[1] || "");
+						this.type = (m[2] || this.type);
+						this.desc = (m[3] || "");
+					}
 				}
 			}
 			else if (this.title == "property") {
-				m = this.desc.match(/^\s*([a-zA-Z0-9.$_]+)(?:\s+([\S\s]*\S))?/);
+				var m = this.desc.match(/^\s*([a-zA-Z0-9.$_]+)(?:\s+([\S\s]*\S))?/);
 				if (m) {
 					this.name = (m[1] || "");
 					this.desc = (m[2] || "");
 				}
 			}
 			else if (this.title == "config") {
-				m = this.desc.match(/^\s*(\[?)([a-zA-Z0-9.$_]+)(\]?)(?:\s+([\S\s]*\S))?/);
-				if (m) {
-					this.isOptional = (!!m[1] && !!m[3]); // bracketed name means optional
-					this.name = (m[2] || "");
+				var m = this.desc.match(/^\s*\[([a-zA-Z0-9.$_]+)(?:\s*=([^\]]+))?\](?:\s+\{\s*([\S\s]+?)\s*\})?(?:\s+([\S\s]*\S))?/);
+				if (m) { // optional parameter
+					this.isOptional = true; // bracketed name means optional
+					this.name = (m[1] || "");
+					this.defaultValue = (m[2] || "");
+					this.type = (m[3] || this.type);
 					this.desc = (m[4] || "");
+				}
+				else { // required parameter
+					m = this.desc.match(/^\s*([a-zA-Z0-9.$_]+)(?:\s+\{\s*([\S\s]+?)\s*\})?(?:\s+([\S\s]*\S))?/);
+					if (m) {
+						this.isOptional = false;
+						this.name = (m[1] || "");
+						this.type = (m[2] || this.type);
+						this.desc = (m[3] || "");
+					}
 				}
 			}
 		}

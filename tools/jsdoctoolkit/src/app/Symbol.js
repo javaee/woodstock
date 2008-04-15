@@ -2,8 +2,8 @@
  * @fileOverview
  * @name Symbol
  * @author Michael Mathews micmath@gmail.com
- * @url $HeadURL: https://jsdoc-toolkit.googlecode.com/svn/tags/jsdoc_toolkit-1.4.0/app/Symbol.js $
- * @revision $Id: Symbol.js,v 1.2 2008-02-06 21:58:30 danl Exp $
+ * @url $HeadURL: https://jsdoc-toolkit.googlecode.com/svn/trunk/app/Symbol.js $
+ * @revision $Id: Symbol.js,v 1.3 2008-04-15 20:54:08 danl Exp $
  * @license <a href="http://en.wikipedia.org/wiki/MIT_License">X11/MIT License</a>
  *          (See the accompanying README file for full details.)
  */
@@ -16,6 +16,10 @@ SYM = {
     EVENT:          "EVENT"
 };
 
+RegExp.escapeMeta = function(str) {
+	return str.replace(/([$^\\\/()|?+*\[\]{}.-])/g, "\\$1");
+}
+
 /**
 	@class Represents an atomic unit of code.
 	@constructor
@@ -25,12 +29,24 @@ function Symbol(name, params, isa, comment) {
 		if (comment.indexOf("/**#@+") == 0) { // start of shared doclet
 			Symbol.shared = Doclet.unwrapComment(comment.replace("/**#@+", "/**"));
 		}
+		else if (comment.indexOf("/**#=+") == 0) { // start of shortcut doclet
+			eval('Symbol.shortcuts = '+Doclet.unwrapComment(comment).replace('#=+', '').replace(/[\n\r\f]/g, ' '));
+		}
+		else if (comment.indexOf("/**#=-") == 0) { // end of shortcut doclet
+			Symbol.shortcuts = {};
+		}
 		else if (comment.indexOf("/**#@-") == 0) { // end of shared doclet
 			Symbol.shared = "";
 		}
 		return;
 	}
 	comment = Symbol.shared+"\n"+Doclet.unwrapComment(comment);
+	for (var n in Symbol.shortcuts) {
+		var pat = RegExp.escapeMeta(n);
+		var re = new RegExp("^"+pat+"\\b");
+		name = name.replace(re, Symbol.shortcuts[n]);
+	}
+	name = name.replace(/\.prototype\.?/, '/');
 	
 	this.name = name;
 	this.params = (params || []);
@@ -53,6 +69,7 @@ function Symbol(name, params, isa, comment) {
 	this.exceptions = [];
     this.events = [];
 	this.doc = new Doclet(comment);
+	this.comment = comment;
 	this.see = [];
 	
 	// move certain data out of the tags and into the Symbol
@@ -195,7 +212,16 @@ function Symbol(name, params, isa, comment) {
 		var inherits;
 		if ((inherits = this.doc.getTag("inherits")) && inherits.length) {
 			for (var i = 0; i < inherits.length; i++) {
-				this.inherits.push(inherits[i].desc);
+				if (/^\s*([a-z$0-9_.#]+)(?:\s+as\s+([a-z$0-9_.#]+))?/i.test(inherits[i].desc)) {
+					var inAlias = RegExp.$1;
+					var inAs = RegExp.$2 || inAlias;
+					if (inAs.indexOf(this.alias) != 0) {
+						inAs = this.alias+"."+inAs;
+					}
+					inAs = inAs.replace(/\.this\.?/, "/");
+				}
+
+				this.inherits.push({alias: inAlias, as: inAs});
 			}
 			this.doc._dropTag("inherits");
 		}
@@ -212,7 +238,9 @@ function Symbol(name, params, isa, comment) {
 	}
 }
 Symbol.shared = ""; // holds shared doclets
+Symbol.shortcuts = {}; // holds map of shortcut names to full names
 Symbol.index = {};
+Symbol.builtins = ['Array', 'Boolean', 'Date', 'Function', 'Math', 'Number', 'Object', 'RegExp', 'String'];
 
 Symbol.prototype.is = function(what) {
     return this.isa === SYM[what];
@@ -258,11 +286,7 @@ function isUnique(arr) {
 }
 
 Symbol.prototype.getInheritedMethods = function(r) {
-	var inherited = [];
-	for(var i = 0; i < this.inherits.length; i++) {
-		inherited.push(this.file.fileGroup.getSymbol(this.inherits[i]));
-	}
-	var result = this.methods.concat(inherited);
+	var result = this.methods;
 	for(var i = 0; i < this.augments.length; i++) {
 		var contributer = this.file.fileGroup.getSymbol(this.augments[i]);
 		if (contributer) {
@@ -293,4 +317,16 @@ Symbol.prototype.getInheritedMethods = function(r) {
 		result = result.filter(notLocal);
 	}
 	return result;
+}
+
+Symbol.prototype.clone = function() {
+	var dop = new Symbol(this.name, [], this.isa, this.comment);
+	
+	for (var i in this.params) {
+		for (var j in this.params[i]) {
+			if (this.params[i][j].constructor == String)
+				dop.params[i][j] = this.params[i][j];
+		}
+	}
+	return dop;
 }

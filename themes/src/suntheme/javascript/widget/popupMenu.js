@@ -324,13 +324,13 @@ webui.@THEME_JS@.widget.popupMenu.prototype.open = function(event) {
     }
     
     // Always set the focus on the first element of the menu.
-    if (this.focusPosition > 0) {
-        var menuNode = document.getElementById(this.menuId[this.focusPosition]); 
+    if (this._focusPosition > 0) {
+        var menuNode = document.getElementById(this.menuId[this._focusPosition]); 
         if (menuNode) {
             menuNode.className = this._theme._getClassName("MENU_GROUP_CONTAINER");
         }
     }
-    this.focusPosition = 0;
+    this._focusPosition = 0;
     menuNode = document.getElementById(this.menuId[0]);
     menuNode.className = menuNode.className + " " + 
         this._theme._getClassName("MENU_FOCUS");  
@@ -352,10 +352,13 @@ webui.@THEME_JS@.widget.popupMenu.prototype.open = function(event) {
  */
 webui.@THEME_JS@.widget.popupMenu.prototype._postCreate = function () {
     // Set public functions.
+
+    /** @ignore */
     this._domNode.open = function(event) { return webui.@THEME_JS@.widget.common.getWidget(this.id).open(event); };
+    /** @ignore */
     this._domNode.close = function() { return webui.@THEME_JS@.widget.common.getWidget(this.id).close(); };
 
-    // Set events.s
+    // Set events.
     this._dojo.connect(document, "onclick", this, "_onCloseMenuCallBack"); 
             
     // escape key should also close menu.
@@ -410,24 +413,24 @@ webui.@THEME_JS@.widget.popupMenu.prototype._processOnClickEvent = function(valu
 webui.@THEME_JS@.widget.popupMenu.prototype._traverseMenu = function(keyCode, event, nodeId) {
     // Handle the escape key and tab key press
     if (keyCode == 27 || keyCode == 9) {
-        var focusElem = document.getElementById(this.menuId[this.focusPosition]);
+        var focusElem = document.getElementById(this.menuId[this._focusPosition]);
         focusElem.className = this._theme._getClassName("MENU_GROUP_CONTAINER");        
         this.close();
         return true;
     } else if(keyCode >= 33 && keyCode <= 36) {
-        focusElem = document.getElementById(this.menuId[this.focusPosition]);        
+        focusElem = document.getElementById(this.menuId[this._focusPosition]);        
         focusElem.className = this._theme._getClassName("MENU_GROUP_CONTAINER");
         
         // Handle the home and page Up keys. Focus is set on the first element.
         if (keyCode == 33 || keyCode == 36) {
-            this.focusPosition = 0;
-            focusElem = document.getElementById(this.menuId[this.focusPosition]);        
+            this._focusPosition = 0;
+            focusElem = document.getElementById(this.menuId[this._focusPosition]);        
         }
         
         // Handle Page Down and End keys. Focus is set on the last element.
         if (keyCode == 34 || keyCode == 35) {
-            this.focusPosition = this.menuId.length - 1;
-            focusElem = document.getElementById(this.menuId[this.focusPosition]);        
+            this._focusPosition = this.menuId.length - 1;
+            focusElem = document.getElementById(this.menuId[this._focusPosition]);        
         }
         if (focusElem.focus) {
             focusElem.focus();

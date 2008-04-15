@@ -41,7 +41,7 @@ Dumper = {
 		if (obj.circularReference) obj.circularReference++;
 		switch (type) {
 			case 'circular':
-				out = '{/*circularReference*/}';
+				out = "{ //circularReference\n}";
 				break;
 			case 'object':
 				var pairs = new Array;

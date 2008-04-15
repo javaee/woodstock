@@ -2,8 +2,8 @@
  * @fileOverview
  * @name JsDoc Toolkit
  * @author Michael Mathews micmath@gmail.com
- * @url $HeadURL: https://jsdoc-toolkit.googlecode.com/svn/tags/jsdoc_toolkit-1.4.0/app/JsDoc.js $
- * @revision $Id: JsDoc.js,v 1.2 2008-02-06 21:58:30 danl Exp $
+ * @url $HeadURL: https://jsdoc-toolkit.googlecode.com/svn/trunk/app/JsDoc.js $
+ * @revision $Id: JsDoc.js,v 1.3 2008-04-15 20:54:07 danl Exp $
  * @license <a href="http://en.wikipedia.org/wiki/MIT_License">X11/MIT License</a>
  *          (See the accompanying README file for full details.)
  */
@@ -36,7 +36,7 @@ LOG.warnings = [];
 */
 JsDoc = {
 	/** The version number of this release. */
-	VERSION: "1.4.0",
+	VERSION: "1.4.1",
 	
 	/**
 	 * Print out the expected usage syntax for this script on the command

@@ -111,9 +111,11 @@ webui.@THEME_JS@.widget._base.eventBase.prototype._initEvents = function () {
     // Add event topics.
     this._domNode.event = this.event;
 
+    // Set public functions.
+
     // Refresh.
     if (this.event.refresh != null) {
-        // Set public function.
+        /** @ignore */
         this._domNode.refresh = function(execute) {
             return webui.@THEME_JS@.widget.common.getWidget(_id).refresh(execute);
         };
@@ -124,7 +126,7 @@ webui.@THEME_JS@.widget._base.eventBase.prototype._initEvents = function () {
 
     // Submit.
     if (this.event.submit != null) {
-        // Set public function.
+        /** @ignore */
         this._domNode.submit = function(execute) {
             return webui.@THEME_JS@.widget.common.getWidget(_id).submit(execute);    
         };
@@ -142,6 +144,7 @@ webui.@THEME_JS@.widget._base.eventBase.prototype._initEvents = function () {
 
     // Subscribe.
     if (subscribe == true) {
+        /** @ignore */
         this._domNode.subscribe = function(topic, obj, func) {
             return webui.@THEME_JS@.widget.common.subscribe(topic, obj, func);
         };

@@ -192,7 +192,6 @@ webui.@THEME_JS@.widget._base.anchorBase.prototype._setProps = function(props) {
     if (props.charset) { this._domNode.charset = props.charset; }
     if (props.coords) { this._domNode.coords = props.coords; }
         if (props.href) {
-                
             // If context path is provided, then check whether the image has
             // context path already appended and if not, append it.
             if (this.prefix) {

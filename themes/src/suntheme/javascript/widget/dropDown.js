@@ -394,10 +394,9 @@ webui.@THEME_JS@.widget.dropDown.prototype._getOptionClassName = function(elemen
     return this._theme._getClassName(key);
 };
 
-
-/*
+/**
  * This function is used to fill in remaining template properties, after the
- * <code>_buildRendering</code> function has been processed.
+ * _buildRendering() function has been processed.
  * <p>
  * Note: Unlike Dojo 0.4, the DOM nodes don't exist in the document, yet. 
  * </p>

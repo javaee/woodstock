@@ -125,6 +125,8 @@ webui.@THEME_JS@.widget._base.fieldBase.prototype._postCreate = function () {
     }
     
     // Set public functions.
+
+    /** @ignore */
     this._domNode.getInputElement = function() { return webui.@THEME_JS@.widget.common.getWidget(this.id).getInputElement(); };
     
     return this._inherited("_postCreate", arguments);

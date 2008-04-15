@@ -2,8 +2,8 @@
  * @fileOverview
  * @name Doclet
  * @author Michael Mathews micmath@gmail.com
- * @url $HeadURL: https://jsdoc-toolkit.googlecode.com/svn/tags/jsdoc_toolkit-1.4.0/app/Doclet.js $
- * @revision $Id: Doclet.js,v 1.2 2008-02-06 21:58:30 danl Exp $
+ * @url $HeadURL: https://jsdoc-toolkit.googlecode.com/svn/trunk/app/Doclet.js $
+ * @revision $Id: Doclet.js,v 1.3 2008-04-15 20:54:07 danl Exp $
  * @license <a href="http://en.wikipedia.org/wiki/MIT_License">X11/MIT License</a>
  *          (See the accompanying README file for full details.)
  */
@@ -42,7 +42,7 @@ Doclet.unwrapComment = function(comment) {
 	if (!comment) comment = "/** @desc undocumented */";
 
 	var unwrapped = comment.replace(/(^\/\*\*|\*\/$)/g, "").replace(/^\s*\* ?/gm, "");
-	if (unwrapped.match(/^\s*[^@\s]/)) unwrapped = "@desc "+unwrapped;
+	if (unwrapped.match(/^\s*[^@#\s]/)) unwrapped = "@desc "+unwrapped;
 	return unwrapped;
 }
 

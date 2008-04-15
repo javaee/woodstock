@@ -489,6 +489,8 @@ webui.@THEME_JS@.widget.login.prototype._updateLoginTable = function(props) {
         buttonTR.appendChild(td2);
         var spanNode = this._loginButtonContainer.cloneNode(true);
         var _this = this;
+
+        /** @ignore */
         this.loginButton.onClick = function() {
             _this._buttonClicked(props);
             return false;

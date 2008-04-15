@@ -43,6 +43,7 @@ webui.@THEME_JS@._dojo.require("webui.@THEME_JS@._dojo.i18n");
  * webui.@THEME_JS@._theme.common for obtaining the theme property values.
  * </p>
  * @static
+ * @private
  */
 webui.@THEME_JS@._theme.common = {
     /**

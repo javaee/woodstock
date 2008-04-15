@@ -200,7 +200,7 @@ webui.@THEME_JS@._html.fileChooser = {
             domNode.chooser = 'file';
         }
 
-        // Set functions.
+        // Set public functions.
         domNode.enterKeyPressed = webui.@THEME_JS@._html.fileChooser.enterKeyPressed;
         domNode.handleDblClick = webui.@THEME_JS@._html.fileChooser.handleDblClick;
         domNode.handleOnChange = webui.@THEME_JS@._html.fileChooser.handleOnChange;
@@ -938,7 +938,7 @@ webui.@THEME_JS@._html.fileChooser = {
 	return this.listOptions;
     },
 
-    /*
+    /**
      * Convenience function to get the list of selected option elements
      * Return an array of selected values or a 0 length array if there
      * are no selections.
@@ -956,7 +956,7 @@ webui.@THEME_JS@._html.fileChooser = {
 	return selections;
     },
 
-    /*
+    /**
      * Convenience function to get the file or folder name when 
      * the entire path name is supplied.
      *

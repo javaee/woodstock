@@ -123,15 +123,20 @@ public class CombineSdoc extends CombineJavaScript {
 
                                             if (is.read(_byte) != -1) {
                                                 bytes[offset++] = _byte[0];
-
-                                                // Found @private tag.
                                                 if (_byte[0] == 'r') {
-                                                    // Clear comment.
-						    for (int i = start; i < offset; i++) {
-                                                        bytes[i] = '\0';
+                                                    if (is.read(_byte) != -1) {
+                                                        bytes[offset++] = _byte[0];
+
+                                                        // Found @private tag.
+                                                        if (_byte[0] == 'i') {
+                                                            // Clear comment.
+	                                                    for (int i = start; i < offset; i++) {
+                                                                bytes[i] = '\0';
+                                                            }
+                                                            offset = start;
+                                                            break;
+                                                        }
                                                     }
-                                                    offset = start;
-                                                    break;
                                                 }
                                             }
                                         } else if (_byte[0] == 'i') {

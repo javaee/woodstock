@@ -363,7 +363,10 @@ webui.@THEME_JS@.widget.bubble.prototype._postCreate = function () {
     }
 
     // Set public functions.
+
+    /** @ignore */
     this._domNode.close = function() { return webui.@THEME_JS@.widget.common.getWidget(this.id).close(); };
+    /** @ignore */
     this._domNode.open = function(event) { return webui.@THEME_JS@.widget.common.getWidget(this.id).open(event); };
 
     // Set events.

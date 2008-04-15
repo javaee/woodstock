@@ -264,9 +264,11 @@ if (thisClass.events) thisClass.events.sort(byName);
 	<ul>
 		<if test="property.deprecated"><br/><b>Deprecated {+property.deprecated.desc+}</b><br/></if>
 		{+property.desc+}
+		<if test="property.doc">
 		<for each="since" in="property.doc.getTag('since')">
 			<br><b>Since:</b> {+since+}<br/>
 		</for>
+		</if>
 	</ul>
 	<hr>
 </for>
@@ -300,7 +302,8 @@ if (thisClass.events) thisClass.events.sort(byName);
 		<b>Parameters:</b>
 		<for each="param" in="cn.params">
 		<ul>
-			<code><if test="param.type"><i>{+linkToType(param.type)+}</i>&nbsp;</if>{+param.name+}</code><if test="param.isOptional"><a title="optional parameter" class="optional">?</a></if><if test="param.desc"> - {+param.desc+}</if> 
+			<code><if test="param.type"><i>{+linkToType(param.type)+}</i>&nbsp;</if>{+param.name+}</code><if test="param.isOptional"><a title="optional parameter" class="optional">?</a></if>
+			<if test="param.defaultValue != ''"><span class="optional">= {+param.defaultValue+}</span></if><if test="param.desc"> - {+param.desc+}</if> 
 		</ul>
 		</for>
 	</ul>
@@ -337,7 +340,8 @@ if (thisClass.events) thisClass.events.sort(byName);
 	<if test="method.params.length"><ul>
 		<b>Parameters:</b><for each="param" in="method.params">
 		<ul>
-			<code><if test="param.type"><i>{+linkToType(param.type)+}</i>&nbsp;</if>{+param.name+}</code><if test="param.isOptional"><a title="optional parameter" class="optional">?</a></if><if test="param.desc"> - {+param.desc+}</if> 
+			<code><if test="param.type"><i>{+linkToType(param.type)+}</i>&nbsp;</if>{+param.name+}</code><if test="param.isOptional"><a title="optional parameter" class="optional">?</a></if>
+			<if test="param.defaultValue != ''"><span class="optional">= {+param.defaultValue+}</span></if><if test="param.desc"> - {+param.desc+}</if> 
 		</ul></for>
 	</ul></if>
 	<!-- METHOD PARAMETERS END -->
@@ -386,7 +390,8 @@ if (thisClass.events) thisClass.events.sort(byName);
 	<if test="event.params.length"><ul>
 		<b>Parameters:</b><for each="param" in="event.params">
 		<ul>
-			<code><if test="param.type"><i>{+linkToType(param.type)+}</i>&nbsp;</if>{+param.name+}</code><if test="param.isOptional"><a title="optional parameter" class="optional">?</a></if><if test="param.desc"> - {+param.desc+}</if> 
+			<code><if test="param.type"><i>{+linkToType(param.type)+}</i>&nbsp;</if>{+param.name+}</code><if test="param.isOptional"><a title="optional parameter" class="optional">?</a></if>
+			<if test="param.defaultValue != ''"><span class="optional">= {+param.defaultValue+}</span></if><if test="param.desc"> - {+param.desc+}</if> 
 		</ul></for>
 	</ul></if>
 	<!-- EVENT PARAMETERS END -->

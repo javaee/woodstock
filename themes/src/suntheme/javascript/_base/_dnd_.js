@@ -39,6 +39,7 @@ webui.@THEME_JS@._dojo.declare("webui.@THEME_JS@._base.dnd.Manager",
     webui.@THEME_JS@._dojo.dnd.Manager);
 
 // This function is not public and should not appear in the jsDoc.
+/** @ignore */
 webui.@THEME_JS@._base.dnd.Manager.prototype.startDrag = function () {
     this.inherited("startDrag", arguments);
     return this._startDrag();
@@ -60,6 +61,7 @@ webui.@THEME_JS@._base.dnd.Manager.prototype._startDrag = function(source, nodes
 };
 
 // This function is not public and should not appear in the jsDoc.
+/** @ignore */
 webui.@THEME_JS@._base.dnd.Manager.prototype.stopDrag = function () {
     this.inherited("stopDrag", arguments);
     return this._stopDrag();
@@ -126,7 +128,7 @@ webui.@THEME_JS@._dojo.declare("webui.@THEME_JS@._base.dnd.Source",
         }
 
         // Set user's onDrop function
-        this.onDropFunction  = props.onDropFunction 
+        this.onDropFunction = props.onDropFunction 
             ? props.onDropFunction : null;
 
         return true;
@@ -134,6 +136,7 @@ webui.@THEME_JS@._dojo.declare("webui.@THEME_JS@._base.dnd.Source",
 });
 
 // This function is not public and should not appear in the jsDoc.
+/** @ignore */
 webui.@THEME_JS@._base.dnd.Manager.prototype.addItem = function () {
     this.inherited("addItem", arguments);
     return this._addItem();
@@ -210,6 +213,7 @@ webui.@THEME_JS@._base.dnd.Source.prototype._makeNodeDraggable = function(node, 
 };
 
 // This function is not public and should not appear in the jsDoc.
+/** @ignore */
 webui.@THEME_JS@._base.dnd.Manager.prototype.markupFactory = function () {
     return this._markupFactory();
 }
@@ -228,6 +232,7 @@ webui.@THEME_JS@._base.dnd.Source.prototype._markupFactory = function(props, nod
 };
 
 // This function is not public and should not appear in the jsDoc.
+/** @ignore */
 webui.@THEME_JS@._base.dnd.Manager.prototype.onDndDrop = function () {
     this.inherited("onDndDrop", arguments);
     return this._onDndDrop();

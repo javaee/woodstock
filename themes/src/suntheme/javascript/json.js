@@ -67,12 +67,15 @@ webui.@THEME_JS@.json = {
      * @private
      */
     _s: {
+        /** @ignore */
         'boolean': function (x) {
             return String(x);
         },
+        /** @ignore */
         number: function (x) {
             return isFinite(x) ? String(x) : null;
         },
+        /** @ignore */
         string: function (x) {
             if (/["\\\x00-\x1f]/.test(x)) {
                 x = x.replace(/([\x00-\x1f\\"])/g, function(a, b) {
@@ -88,6 +91,7 @@ webui.@THEME_JS@.json = {
             }
             return '"' + x + '"';
         },
+        /** @ignore */
         object: function (x) {
             if (x) {
                 var a = [], b, f, i, l, v;

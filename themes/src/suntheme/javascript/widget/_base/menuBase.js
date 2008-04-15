@@ -59,7 +59,12 @@ webui.@THEME_JS@._dojo.require("webui.@THEME_JS@.widget._base.widgetBase");
  * @config {boolean} visible Hide or show element.
  */
 webui.@THEME_JS@._dojo.declare("webui.@THEME_JS@.widget._base.menuBase",
-    webui.@THEME_JS@.widget._base.widgetBase);
+        webui.@THEME_JS@.widget._base.widgetBase, {
+    // Set defaults.
+    constructor: function() {
+        this._focusPosition = 0;
+    }
+});
 
 /**
  * Add the specified options to the dom element.
@@ -225,11 +230,11 @@ webui.@THEME_JS@.widget._base.menuBase.prototype._createOnMouseOverCallBack = fu
         if (widget != null) {
             // Mozilla browser (not firefox/seamonkey) do not support focus/blur
             // for divs                
-            if (document.getElementById(widget.menuId[widget.focusPosition]).blur) {
-                document.getElementById(widget.menuId[widget.focusPosition]).blur();
+            if (document.getElementById(widget.menuId[widget._focusPosition]).blur) {
+                document.getElementById(widget.menuId[widget._focusPosition]).blur();
             }                
-            if (!(menuItem.id == widget.menuId[widget.focusPosition])) {
-                document.getElementById(widget.menuId[widget.focusPosition]).className =
+            if (!(menuItem.id == widget.menuId[widget._focusPosition])) {
+                document.getElementById(widget.menuId[widget._focusPosition]).className =
                     widget._theme._getClassName("MENU_GROUP_CONTAINER");
             }
         }
@@ -344,8 +349,10 @@ webui.@THEME_JS@.widget._base.menuBase.prototype._getStyle = function() {
  */
 webui.@THEME_JS@.widget._base.menuBase.prototype._postCreate = function () {
     // Set public functions.
+
+    /** @ignore */
     this._domNode.getSelectedValue = function(props, optionNode) { return webui.@THEME_JS@.widget.common.getWidget(this.id).getSelectedValue(); };
-    this.focusPosition = 0;        
+        
     return this._inherited("_postCreate", arguments);
 };
 
@@ -701,7 +708,7 @@ webui.@THEME_JS@.widget._base.menuBase.prototype._submitFormData = function () {
 webui.@THEME_JS@.widget._base.menuBase.prototype._traverseMenu = function(keyCode, event, nodeId) {
     var arr = this.menuId;
     var elem = document.getElementById(nodeId);
-    var focusElem = document.getElementById(arr[this.focusPosition]);
+    var focusElem = document.getElementById(arr[this._focusPosition]);
     
     if (focusElem.blur) {
         focusElem.blur();
@@ -712,21 +719,21 @@ webui.@THEME_JS@.widget._base.menuBase.prototype._traverseMenu = function(keyCod
         // Check whether up arrow was pressed.
         if (keyCode == 38) {
             focusElem.className = this._theme._getClassName("MENU_GROUP_CONTAINER");
-            this.focusPosition--;
-            if (this.focusPosition < 0) {
-                this.focusPosition = arr.length-1;
+            this._focusPosition--;
+            if (this._focusPosition < 0) {
+                this._focusPosition = arr.length-1;
             }
-            focusElem = document.getElementById(arr[this.focusPosition]); 
+            focusElem = document.getElementById(arr[this._focusPosition]); 
 
         // Check whether down arrow was pressed
         } else if (keyCode == 40) {
             focusElem.className = 
                 this._theme._getClassName("MENU_GROUP_CONTAINER");
-            this.focusPosition++;
-            if (this.focusPosition == arr.length) {
-                this.focusPosition = 0;
+            this._focusPosition++;
+            if (this._focusPosition == arr.length) {
+                this._focusPosition = 0;
             }
-            focusElem = document.getElementById(arr[this.focusPosition]);
+            focusElem = document.getElementById(arr[this._focusPosition]);
         }   
         
     if (focusElem.focus) {

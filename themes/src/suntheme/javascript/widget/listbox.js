@@ -316,9 +316,9 @@ webui.@THEME_JS@.widget.listbox.prototype._getOptionClassName = function(element
     return this._theme._getClassName(key, null);
 };
 
-/*
+/**
  * This function is used to fill in remaining template properties, after the
- * <code>_buildRendering</code> function has been processed.
+ * _buildRendering() function has been processed.
  * <p>
  * Note: Unlike Dojo 0.4, the DOM nodes don't exist in the document, yet. 
  * </p>
@@ -327,10 +327,9 @@ webui.@THEME_JS@.widget.listbox.prototype._getOptionClassName = function(element
  */
 webui.@THEME_JS@.widget.listbox.prototype._postCreate = function () {
     // Don't trash the template.
-    //
     this._common._addStyleClass(this._listContainer,
 	this._getListContainerClassName(
-		this.disabled == true, this.monospace == true));
+          this.disabled == true, this.monospace == true));
 
     return this._inherited("_postCreate", arguments);
 };

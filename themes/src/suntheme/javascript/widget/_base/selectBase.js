@@ -453,12 +453,19 @@ webui.@THEME_JS@.widget._base.selectBase.prototype._postCreate = function () {
     }
 
     // Set public functions.
+
+    /** @ignore */
     this._domNode.getSelectedValue = function() { 
-	return webui.@THEME_JS@.widget.common.getWidget(this.id).getSelectedValue(); };
+	return webui.@THEME_JS@.widget.common.getWidget(this.id).getSelectedValue();
+    };
+    /** @ignore */
     this._domNode.getSelectedLabel = function() { 
-	return webui.@THEME_JS@.widget.common.getWidget(this.id).getSelectedLabel(); };
+	return webui.@THEME_JS@.widget.common.getWidget(this.id).getSelectedLabel();
+    };
+    /** @ignore */
     this._domNode.getSelectElement = function() { 
-	return webui.@THEME_JS@.widget.common.getWidget(this.id).getSelectElement(); };
+	return webui.@THEME_JS@.widget.common.getWidget(this.id).getSelectElement();
+    };
 
     // Set events.
     this._dojo.connect(this._listContainer, "onchange", this, 

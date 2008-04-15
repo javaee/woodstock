@@ -1521,6 +1521,7 @@
           <arg value="${jsdoc.exec}"/>
 	  <arg value="-d=${_to-dir_}"/>
 	  <arg value="-t=${jsdoc.template}"/>
+          <arg value="-A"/>
           <arg value="-v"/>
           <arg value="${build-jsdoc-private}"/>
           <arg line="${__files-to-doc__}"/>

@@ -2,8 +2,8 @@
  * @fileOverview
  * @name DocFile
  * @author Michael Mathews micmath@gmail.com
- * @url $HeadURL: https://jsdoc-toolkit.googlecode.com/svn/tags/jsdoc_toolkit-1.4.0/app/DocFile.js $
- * @revision $Id: DocFile.js,v 1.2 2008-02-06 21:58:29 danl Exp $
+ * @url $HeadURL: https://jsdoc-toolkit.googlecode.com/svn/trunk/app/DocFile.js $
+ * @revision $Id: DocFile.js,v 1.3 2008-04-15 20:54:07 danl Exp $
  * @license <a href="http://en.wikipedia.org/wiki/MIT_License">X11/MIT License</a>
  *          (See the accompanying README file for full details.)
  */
@@ -59,13 +59,30 @@ function DocFile(path) {
  * @param {object} opt Passed in from the command line.
  */
 DocFile.prototype.addSymbols = function(symbols, opt) {
+
 	for (var s = 0; s < symbols.length; s++) {
 		if (symbols[s].doc.getTag("ignore").length)
 			continue;
 			
 		if (symbols[s].isPrivate && !opt.p)
 			continue;
-			
+		
+		
+		if (symbols[s].inherits.length) {
+			for (var i = 0; i < symbols[s].inherits.length; i++) {
+				var inherited = symbols.filter(function($){return $.alias == symbols[s].inherits[i].alias});
+				var inheritedAs = symbols[s].inherits[i].as;
+				if (inherited && inherited[0]) {
+					inherited = inherited[0];
+					inheritedAs = inheritedAs.replace(/\.prototype\.?/g, "/");
+					var copy = inherited.clone();
+					copy.name = copy.alias = inheritedAs;
+					symbols.push(copy);
+				}
+			}
+		}
+		
+		
 		if (symbols[s].isStatic && symbols[s].isa == "CONSTRUCTOR") {
 			this.namespaces.push(symbols[s].alias);
 		}
@@ -97,15 +114,6 @@ DocFile.prototype.addSymbols = function(symbols, opt) {
 			symbols[s].doc._dropTag("memberof");
 		}
 		
-		if (symbols[s].desc == "undocumented") {
-			if (/(^_|[.\/]_)/.test(symbols[s].name) && !opt.A) {
-				continue;
-			}
-			if (!opt.a && !opt.A) {
-				continue;
-			}
-		}
-		
 		// is this a member of another object?
 		// TODO this relationship may span files, so should move into DocFileGroup?
 		var parts = null;
@@ -122,8 +130,18 @@ DocFile.prototype.addSymbols = function(symbols, opt) {
 
 			// is the parent defined?
 			var parent = this.getSymbol(parentName);
-
-			if (!parent) LOG.warn("Member '"+childName+"' documented but no documentation exists for parent object '"+parentName+"'.");
+			
+			if (!parent) {
+				if (Symbol.builtins.indexOf(parentName) > -1) {
+					LOG.warn("Adding reference to builtin object '"+parentName+"'.");
+					this.addSymbols([new Symbol(parentName, [], "CONSTRUCTOR", "/** [built-in] */")]);
+				}
+				parent = this.getSymbol(parentName);
+			}
+			
+			if (!parent) {
+				LOG.warn("Member '"+childName+"' documented but no documentation exists for parent object '"+parentName+"'.");
+			}
 			else {
 				if (symbols[s].is("OBJECT")) {
 					parent.properties.push(symbols[s]);
@@ -139,6 +157,21 @@ DocFile.prototype.addSymbols = function(symbols, opt) {
 		
 		this.symbols.push(symbols[s]);
 	}
+	
+	this.symbols = this.symbols.filter(
+		function($) {
+			if (!opt) return true;
+			if (/(^_|[.\/]_)/.test($.name) && !opt.A) {
+				return false;
+			}
+			if ($.desc == "undocumented") {
+				if (!opt.a && !opt.A) {
+					return false;
+				}
+			}
+			return true;
+		}
+	);
 }
 
 /**

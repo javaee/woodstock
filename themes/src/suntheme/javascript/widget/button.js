@@ -62,7 +62,7 @@ webui.@THEME_JS@._dojo.require("webui.@THEME_JS@.widget._base.widgetBase");
  * @config {boolean} visible Hide or show element.
  */
 webui.@THEME_JS@._dojo.declare("webui.@THEME_JS@.widget.button", 
-      webui.@THEME_JS@.widget._base.widgetBase, {
+        webui.@THEME_JS@.widget._base.widgetBase, {
     // Set defaults.
     constructor: function() {
         this.disabled = false;
@@ -89,10 +89,20 @@ webui.@THEME_JS@.widget.button.event =
      * @ignore
      */
     refresh: {
-        /** Refresh event topic for custom AJAX implementations to listen for. */
+        /** 
+         * Refresh event topic for custom AJAX implementations to listen for.
+         * 
+         * @id webui.@THEME_JS@.widget.button.event.beginTopic
+         * @property {String} beginTopic
+         */
         beginTopic: "webui_@THEME_JS@_widget_button_event_refresh_begin",
 
-        /** Refresh event topic for custom AJAX implementations to listen for. */
+        /** 
+         * Refresh event topic for custom AJAX implementations to listen for.
+         * 
+         * @id webui.@THEME_JS@.widget.button.event.endTopic
+         * @property {String} endTopic
+         */
         endTopic: "webui_@THEME_JS@_widget_button_event_refresh_end"
     },
 
@@ -178,6 +188,7 @@ webui.@THEME_JS@.widget.button.prototype._getHoverClassName = function() {
  * This function is used to get widget properties. Please see the constructor 
  * detail for a list of supported properties.
  *
+ * @id webui.@THEME_JS@.widget.button.getProps
  * @return {Object} Key-Value pairs of properties.
  */
 webui.@THEME_JS@.widget.button.prototype.getProps = function() {
@@ -249,21 +260,34 @@ webui.@THEME_JS@.widget.button.prototype._postCreate = function () {
     }
 
     // Initialize deprecated public functions. 
-    // 
+    //
     // Note: Although we now have a setProps function to update properties,
     // these functions were previously added to the DOM node; thus, we must
     // continue to be backward compatible.
+    
+    /** @ignore */
     this._domNode.isSecondary = function() { return !(webui.@THEME_JS@.widget.common.getWidget(this.id).getProps().primary); };
+    /** @ignore */
     this._domNode.setSecondary = function(secondary) { return webui.@THEME_JS@.widget.common.getWidget(this.id).setProps({primary: !secondary}); };
+    /** @ignore */
     this._domNode.isPrimary = function() { return webui.@THEME_JS@.widget.common.getWidget(this.id).getProps().primary; };
+    /** @ignore */
     this._domNode.setPrimary = function(primary) { return webui.@THEME_JS@.widget.common.getWidget(this.id).setProps({primary: primary}); };
+    /** @ignore */
     this._domNode.isMini = function() { return webui.@THEME_JS@.widget.common.getWidget(this.id).getProps().mini; };
+    /** @ignore */
     this._domNode.setMini = function(mini) { return webui.@THEME_JS@.widget.common.getWidget(this.id).setProps({mini: mini}); };
+    /** @ignore */
     this._domNode.getDisabled = function() { return webui.@THEME_JS@.widget.common.getWidget(this.id).getProps().disabled; };
+    /** @ignore */
     this._domNode.setDisabled = function(disabled) { return webui.@THEME_JS@.widget.common.getWidget(this.id).setProps({disabled: disabled}); };
+    /** @ignore */
     this._domNode.getVisible = function() { return webui.@THEME_JS@.widget.common.getWidget(this.id).getProps().visible; };
+    /** @ignore */
     this._domNode.setVisible = function(show) { return webui.@THEME_JS@.widget.common.getWidget(this.id).setProps({visible: show}); };
+    /** @ignore */
     this._domNode.getText = function() { return webui.@THEME_JS@.widget.common.getWidget(this.id).getProps().value; };
+    /** @ignore */
     this._domNode.setText = function(text) { return webui.@THEME_JS@.widget.common.getWidget(this.id).setProps({value: text}); };
     this._domNode.doClick = this._domNode.click;
 

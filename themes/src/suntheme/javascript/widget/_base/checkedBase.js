@@ -162,6 +162,8 @@ webui.@THEME_JS@.widget._base.checkedBase.prototype._postCreate = function () {
     }
 
     // Set public functions.
+
+    /** @ignore */
     this._domNode.getInputElement = function() {
 	var widget = webui.@THEME_JS@.widget;
 	return widget.common.getWidget(this.id).getInputElement();
