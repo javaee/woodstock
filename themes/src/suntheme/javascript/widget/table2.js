@@ -216,7 +216,7 @@ webui.@THEME_JS@.widget.table2.prototype._setProps = function(props) {
     if (props.caption || props.filterText && this.caption) {       
         var filterText = null;
         if (props.filterText) {
-            filterText = this._theme._getMessage("table.title.filterApplied", [
+            filterText = this._theme.getMessage("table.title.filterApplied", [
                 props.filterText
             ]);
         }

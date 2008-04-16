@@ -24,7 +24,7 @@ webui.@THEME_JS@._dojo.provide("webui.@THEME_JS@.widget._base.widgetBase");
  
 webui.@THEME_JS@._dojo.require("webui.@THEME_JS@._base.common");
 webui.@THEME_JS@._dojo.require("webui.@THEME_JS@._base.proto");
-webui.@THEME_JS@._dojo.require("webui.@THEME_JS@._theme.common");
+webui.@THEME_JS@._dojo.require("webui.@THEME_JS@.theme.common");
 webui.@THEME_JS@._dojo.require("webui.@THEME_JS@.widget.common");
 webui.@THEME_JS@._dojo.require("webui.@THEME_JS@.widget._base.eventBase");
 
@@ -105,7 +105,7 @@ webui.@THEME_JS@._dojo.declare("webui.@THEME_JS@.widget._base.widgetBase",
     _common: webui.@THEME_JS@._base.common, // Common utils.
     _dojo: webui.@THEME_JS@._dojo, // Dojo utils.
     _proto: webui.@THEME_JS@._base.proto, // Prototype utils.
-    _theme: webui.@THEME_JS@._theme.common, // Theme utils.
+    _theme: webui.@THEME_JS@.theme.common, // Theme utils.
     _widget: webui.@THEME_JS@.widget.common // Widget utils.
 });
 

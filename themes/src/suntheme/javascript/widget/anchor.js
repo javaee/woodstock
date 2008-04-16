@@ -118,8 +118,8 @@ webui.@THEME_JS@.widget.anchor.event =
 webui.@THEME_JS@.widget.anchor.prototype._getClassName = function() {
     // Set default style.
     var className = (this.href && this.disabled == false)
-        ? this._theme._getClassName("ANCHOR","")
-        : this._theme._getClassName("ANCHOR_DISABLED","");
+        ? this._theme.getClassName("ANCHOR","")
+        : this._theme.getClassName("ANCHOR_DISABLED","");
 
     return (this.className)
         ? className + " " + this.className

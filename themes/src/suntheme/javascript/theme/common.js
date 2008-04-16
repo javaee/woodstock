@@ -20,7 +20,7 @@
  * Copyright 2008 Sun Microsystems, Inc. All rights reserved.
  */
 
-webui.@THEME_JS@._dojo.provide("webui.@THEME_JS@._theme.common");
+webui.@THEME_JS@._dojo.provide("webui.@THEME_JS@.theme.common");
 
 webui.@THEME_JS@._dojo.require("webui.@THEME_JS@._base.config");
 webui.@THEME_JS@._dojo.require("webui.@THEME_JS@._base.proto");
@@ -40,12 +40,11 @@ webui.@THEME_JS@._dojo.require("webui.@THEME_JS@._dojo.i18n");
  * </ul>
  * <p>
  * Each category has a set of properties. See the methods in
- * webui.@THEME_JS@._theme.common for obtaining the theme property values.
+ * webui.@THEME_JS@.theme.common for obtaining the theme property values.
  * </p>
  * @static
- * @private
  */
-webui.@THEME_JS@._theme.common = {
+webui.@THEME_JS@.theme.common = {
     /**
      * Object containing base theme properties.
      *
@@ -75,7 +74,7 @@ webui.@THEME_JS@._theme.common = {
             return false;
         }
         var module = "webui.@THEME_JS@.theme";
-        var theme = webui.@THEME_JS@._theme.common;
+        var theme = webui.@THEME_JS@.theme.common;
 
         // Register module path.
 	if (props.modulePath) {
@@ -118,7 +117,7 @@ webui.@THEME_JS@._theme.common = {
             return false;
         }
         var config = webui.@THEME_JS@._base.config;
-        var theme = webui.@THEME_JS@._theme.common;
+        var theme = webui.@THEME_JS@.theme.common;
         var segments = themePackage.split(".");
         var bundle = segments[segments.length - 1];
         var module = segments.slice(0, segments.length - 1).join(".");
@@ -127,14 +126,14 @@ webui.@THEME_JS@._theme.common = {
             // If there is no module, i.e. just a bundle segment
             // create a module name in the theme namespace.
             //
-	    var modulePath = theme._getPrefix();
+	    var modulePath = theme.getPrefix();
             if (module == null || module == "") {
                 theme.custom = {};
-                module = "webui.@THEME_JS@._theme.common.custom";
+                module = "webui.@THEME_JS@.theme.common.custom";
             } else {
 		// Only do this if the application did provided a
 		// module. When the application does not provide
-		// a module then ""webui.@THEME_JS@._theme.common.custom"
+		// a module then ""webui.@THEME_JS@.theme.common.custom"
 		// will be used as the module and then only
 		// the app context needs to be specified as the
 		// modulePath, the root of the resource files.
@@ -176,10 +175,9 @@ webui.@THEME_JS@._theme.common = {
      * @param {String} key A key defining a theme "styles" property.
      * @param {Object} defaultValue Value returned if specified key is not found.
      * @return {String} The selector property.
-     * @private
      */
-    _getClassName: function(key, defaultValue) {
-        var className = webui.@THEME_JS@._theme.common._getProperty("styles", key);
+    getClassName: function(key, defaultValue) {
+        var className = webui.@THEME_JS@.theme.common.getProperty("styles", key);
         return (className != null) 
             ? className
             : (defaultValue) 
@@ -200,17 +198,16 @@ webui.@THEME_JS@._theme.common = {
      * the property is resolved to its message value.
      * This method should be called with the actual message property
      * and not one of its variants like "ALARM_CRITICAL_ALT". Use
-     * "webui.@THEME_JS@._theme.common._getProperty("images", "ALARM_CRITICAL_ALT")"
+     * "webui.@THEME_JS@.theme.common.getProperty("images", "ALARM_CRITICAL_ALT")"
      * to get individual values if desired.
      * If the literal path is desired, without the prefix, use
-     * "webui.@THEME_JS@._theme.common._getProperty("images", imageprop)"
+     * "webui.@THEME_JS@.theme.common.getProperty("images", imageprop)"
      * where imageprop is the actual image property like "ALARM_CRITICAL".
      *
      * @param {String} srcProperty the image theme key, the image key without any suffix.
      * @return {Object} Key-Value pairs of properties.
-     * @private
      */
-    _getImage: function(srcProperty) {
+    getImage: function(srcProperty) {
 	if (srcProperty == null || srcProperty.length == 0) {
 	    return null;
 	}
@@ -230,43 +227,43 @@ webui.@THEME_JS@._theme.common = {
 	// If this key does not have a value the image is not defined
 	// in the theme
 	//
-        var theme = webui.@THEME_JS@._theme.common;
-	var src = theme._getImageProp(srcProperty, false);
+        var theme = webui.@THEME_JS@.theme.common;
+	var src = theme.getImageProp(srcProperty, false);
 	if (src == null) {
 	    return null;
 	}
 	var imageObj = {};
-	imageObj["src"] = theme._getPrefix() + src;
+	imageObj["src"] = theme.getPrefix() + src;
 
-	var value = theme._getImageProp(srcProperty + "_WIDTH", false);
+	var value = theme.getImageProp(srcProperty + "_WIDTH", false);
 	if (value != null) {
 	    imageObj["width"] = value;
 	}
-	value = theme._getImageProp(srcProperty + "_HEIGHT", false);
+	value = theme.getImageProp(srcProperty + "_HEIGHT", false);
 	if (value != null) {
 	    imageObj["height"] = value;
 	}
-        value = theme._getImageProp(srcProperty + "_MAP", false);
+        value = theme.getImageProp(srcProperty + "_MAP", false);
         if (value != null) {
             imageObj["map_key"] = value;
-            value = theme._getImageProp(srcProperty + "_MAP_WIDTH", false);
+            value = theme.getImageProp(srcProperty + "_MAP_WIDTH", false);
             if (value != null) {
                 imageObj["actual_width"] = value;
             }
-            value = theme._getImageProp(srcProperty + "_MAP_HEIGHT", false);
+            value = theme.getImageProp(srcProperty + "_MAP_HEIGHT", false);
             if (value != null) {
                 imageObj["actual_height"] = value;
             }
-            value = theme._getImageProp(srcProperty + "_MAP_TOP", false);
+            value = theme.getImageProp(srcProperty + "_MAP_TOP", false);
             if (value != null) {
                 imageObj["top"] = value;
             }
         }
-	value = theme._getImageProp(srcProperty + "_ALT", true);
+	value = theme.getImageProp(srcProperty + "_ALT", true);
 	if (value != null) {
 	    imageObj["alt"] = value;
 	}
-	value = theme._getImageProp(srcProperty + "_TITLE", true);
+	value = theme.getImageProp(srcProperty + "_TITLE", true);
 	if (value != null) {
 	    imageObj["title"] = value;
 	}
@@ -282,13 +279,13 @@ webui.@THEME_JS@._theme.common = {
      * @private
      */
     _getImageProp: function(prop, isText) {
-        var theme = webui.@THEME_JS@._theme.common;
-	var value = theme._getProperty("images", prop);
+        var theme = webui.@THEME_JS@.theme.common;
+	var value = theme.getProperty("images", prop);
 	if (value == null || value.length == 0) {
 	    return null;
 	}
 	if (isText == true) {
-	    var msg = theme._getMessage(value, null);
+	    var msg = theme.getMessage(value, null);
 	    if (msg != null && msg.length != 0) {
 		value = msg;
 	    }
@@ -305,12 +302,12 @@ webui.@THEME_JS@._theme.common = {
      * @private
      */
     _getJavaScript: function(key) {
-        var theme = webui.@THEME_JS@._theme.common;
-	var url = theme._getProperty("javascript", key);
+        var theme = webui.@THEME_JS@.theme.common;
+	var url = theme.getProperty("javascript", key);
 	if (url == null || url.length == 0) {
 	    return null;
 	}
-	return theme._getPrefix() + url;
+	return theme.getPrefix() + url;
     },
 
     /**
@@ -322,14 +319,14 @@ webui.@THEME_JS@._theme.common = {
      * @private
      */
     _getJavaScripts: function(key) {
-        var theme = webui.@THEME_JS@._theme.common;
-	var url = theme._getProperty("javascript", key);
+        var theme = webui.@THEME_JS@.theme.common;
+	var url = theme.getProperty("javascript", key);
 	if (url == null || url.length == 0) {
 	    return null;
 	}
         var files = url.split(" ");
         for (i = 0; i < files.length; i++) {
-            files[i] = theme._getPrefix() + files[i];
+            files[i] = theme.getPrefix() + files[i];
         }
 	return files;
     },
@@ -352,10 +349,9 @@ webui.@THEME_JS@._theme.common = {
      * @param {Array} Message format arguments
      * @param {Object} defaultValue The value to return if "key" is not defined.
      * @return {String} The theme message defined by "key" or "defaultValue".
-     * @private
      */
-    _getMessage: function(key, args, defaultValue) {
-	var msg = webui.@THEME_JS@._theme.common._getProperty("messages", key);
+    getMessage: function(key, args, defaultValue) {
+	var msg = webui.@THEME_JS@.theme.common.getProperty("messages", key);
 	if (msg != null && args != null) {
             msg = msg.replace(/\$\{(\w+)\}/g, function(match, key) {
                 if (typeof(args[key]) != "undefined" && args[key] != null) {
@@ -396,7 +392,7 @@ webui.@THEME_JS@._theme.common = {
      */
     _getMessageBoolean: function(key, defaultValue) {
 	var result = defaultValue != null ? defaultValue : false;
-        var msg =  webui.@THEME_JS@._theme.common._getMessage(key, null);
+        var msg =  webui.@THEME_JS@.theme.common.getMessage(key, null);
 	if (msg == null || msg == "") {
 	    return result;
 	}
@@ -416,9 +412,8 @@ webui.@THEME_JS@._theme.common = {
      * concatenated with the theme servlet context.
      *
      * @return {String} The theme prefix.
-     * @private
      */
-    _getPrefix: function() {
+    getPrefix: function() {
 	return webui.@THEME_JS@._base.config.theme.prefix;
     },
 
@@ -427,11 +422,10 @@ webui.@THEME_JS@._theme.common = {
      *
      * @param {String} category
      * @return {Object} Key-Value pairs of properties.
-     * @private
      */
-    _getProperties: function(category) {
+    getProperties: function(category) {
         try {
-            var props = webui.@THEME_JS@._theme.common._baseTheme[category];
+            var props = webui.@THEME_JS@.theme.common._baseTheme[category];
             return props == null || props == "" ? null : props;
         } catch (e) {
             console.debug("Cannot find theme category: " + category); // See Firebug console.
@@ -445,11 +439,10 @@ webui.@THEME_JS@._theme.common = {
      * @param {String} category
      * @param {String} key
      * @return {String} The theme property.
-     * @private
      */
-    _getProperty: function(category, key) {
+    getProperty: function(category, key) {
         try {
-            var props = webui.@THEME_JS@._theme.common._getProperties(category);
+            var props = webui.@THEME_JS@.theme.common.getProperties(category);
             if (props) {
                 var props = props[key];
                 return props == null || props == "" ? null : props;
@@ -470,14 +463,14 @@ webui.@THEME_JS@._theme.common = {
      * @private
      */
     _getStyleSheets: function(key) {
-        var theme = webui.@THEME_JS@._theme.common;
-	var url = theme._getProperty("stylesheets", key);
+        var theme = webui.@THEME_JS@.theme.common;
+	var url = theme.getProperty("stylesheets", key);
 	if (url == null || url.length == 0) {
 	    return null;
 	}
         var files = url.split(" ");
         for (i = 0; i < files.length; i++) {
-            files[i] = theme._getPrefix() + files[i];
+            files[i] = theme.getPrefix() + files[i];
         }
 	return files;
     },
@@ -491,7 +484,7 @@ webui.@THEME_JS@._theme.common = {
      * @private
      */
     _getTemplate: function(key) {
-        return webui.@THEME_JS@._theme.common._getProperty("templates", key);
+        return webui.@THEME_JS@.theme.common.getProperty("templates", key);
     },
 
     /**
@@ -503,10 +496,10 @@ webui.@THEME_JS@._theme.common = {
      * @private
      */
     _getTemplatePath: function(key) {
-        var theme = webui.@THEME_JS@._theme.common;
+        var theme = webui.@THEME_JS@.theme.common;
         var template = theme._getTemplate(key);
         if (theme._isTemplatePath(template)) {
-            return theme._getPrefix() + "/" + template;
+            return theme.getPrefix() + "/" + template;
         } else {
             return null;
         }
@@ -521,7 +514,7 @@ webui.@THEME_JS@._theme.common = {
      * @private
      */
     _getTemplateString: function(key) {
-        var theme = webui.@THEME_JS@._theme.common;
+        var theme = webui.@THEME_JS@.theme.common;
         var template = theme._getTemplate(key);
         if (!theme._isTemplatePath(template)) {
             return template;
@@ -714,4 +707,4 @@ webui.@THEME_JS@._theme.common = {
 };
 
 // Initialize the theme.
-webui.@THEME_JS@._theme.common._init(webui.@THEME_JS@._base.config.theme);
+webui.@THEME_JS@.theme.common._init(webui.@THEME_JS@._base.config.theme);

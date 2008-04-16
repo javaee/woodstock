@@ -156,18 +156,18 @@ webui.@THEME_JS@.widget.textArea.event =
 webui.@THEME_JS@.widget.textArea.prototype._getInputClassName = function() {
     // Set readOnly style
     if (this._fieldNode.readOnly) {
-        return this._theme._getClassName("TEXT_AREA_READONLY", "");
+        return this._theme.getClassName("TEXT_AREA_READONLY", "");
     }
 
     // Apply invalid style.
     var validStyle =  (this.valid == false) 
-        ? " " + this._theme._getClassName("TEXT_AREA_INVALID", "")
-        : " " + this._theme._getClassName("TEXT_AREA_VALID", "");
+        ? " " + this._theme.getClassName("TEXT_AREA_INVALID", "")
+        : " " + this._theme.getClassName("TEXT_AREA_VALID", "");
 
     // Set default style.    
     return (this.disabled == true)
-        ? this._theme._getClassName("TEXT_AREA_DISABLED", "") 
-        : this._theme._getClassName("TEXT_AREA", "") + validStyle;    
+        ? this._theme.getClassName("TEXT_AREA_DISABLED", "") 
+        : this._theme.getClassName("TEXT_AREA", "") + validStyle;    
 };
 
 /**
@@ -233,8 +233,8 @@ webui.@THEME_JS@.widget.textArea.prototype._setProps = function(props) {
     // Set label className -- must be set before calling superclass.
     if (props.label) {
         props.label.className = (props.label.className)
-            ? this._theme._getClassName("TEXT_AREA_TOPLABELALIGN", "")  + " " + props.label.className
-            : this._theme._getClassName("TEXT_AREA_TOPLABELALIGN", "") ;
+            ? this._theme.getClassName("TEXT_AREA_TOPLABELALIGN", "")  + " " + props.label.className
+            : this._theme.getClassName("TEXT_AREA_TOPLABELALIGN", "") ;
     }
 
     // Set remaining properties.

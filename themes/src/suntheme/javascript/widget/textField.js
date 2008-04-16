@@ -175,18 +175,18 @@ webui.@THEME_JS@.widget.textField.prototype._adjustListGeometry = function () {
 webui.@THEME_JS@.widget.textField.prototype._getInputClassName = function() {          
     // Set readOnly style.
     if (this._fieldNode.readOnly) {
-        return this._theme._getClassName("TEXT_FIELD_READONLY", "");
+        return this._theme.getClassName("TEXT_FIELD_READONLY", "");
     }
 
     // Apply invalid style.
     var validStyle =  (this.valid == false) 
-        ? " " + this._theme._getClassName("TEXT_FIELD_INVALID", "")
-        : " " + this._theme._getClassName("TEXT_FIELD_VALID", "");
+        ? " " + this._theme.getClassName("TEXT_FIELD_INVALID", "")
+        : " " + this._theme.getClassName("TEXT_FIELD_VALID", "");
     
     // Set default style.    
     return (this.disabled == true)
-        ? this._theme._getClassName("TEXT_FIELD_DISABLED", "") 
-        : this._theme._getClassName("TEXT_FIELD", "") + validStyle;
+        ? this._theme.getClassName("TEXT_FIELD_DISABLED", "") 
+        : this._theme.getClassName("TEXT_FIELD", "") + validStyle;
 };
 
 /**
@@ -560,15 +560,15 @@ webui.@THEME_JS@.widget.textField.prototype._updateListView = function() {
         this._adjustListGeometry();    
 
         //optionally we could add check for this._listNode.options.length >0
-        this._listNode.className = this._theme._getClassName("TEXT_FIELD_AUTO_COMPLETE_LIST", "");
+        this._listNode.className = this._theme.getClassName("TEXT_FIELD_AUTO_COMPLETE_LIST", "");
 
         // the following is preferred way of setting class, but it does not work
-        //this._listWidget.setProps({className: this._theme._getClassName("TEXT_FIELD_AUTO_COMPLETE_LIST", "")}) ;
+        //this._listWidget.setProps({className: this._theme.getClassName("TEXT_FIELD_AUTO_COMPLETE_LIST", "")}) ;
         
         //this.autoCompleteIsOpen flag indicates whether list box is open or not
         this.autoCompleteIsOpen = true;
     } else {
-        this._listNode.className = this._theme._getClassName("HIDDEN");
+        this._listNode.className = this._theme.getClassName("HIDDEN");
         //this._listWidget.setProps(visible: 'false');
         this.autoCompleteIsOpen = false;
     }

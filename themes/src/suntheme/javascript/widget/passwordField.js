@@ -78,16 +78,16 @@ webui.@THEME_JS@._dojo.declare("webui.@THEME_JS@.widget.passwordField",
  */
 webui.@THEME_JS@.widget.passwordField.prototype._getInputClassName = function() {
     if (this._fieldNode.readOnly) {
-        return this._theme._getClassName("PASSWORD_FIELD_READONLY", "");
+        return this._theme.getClassName("PASSWORD_FIELD_READONLY", "");
     }
 
     //invalid style
     var validStyle =  (this.valid == false) 
-        ? " " + this._theme._getClassName("PASSWORD_FIELD_INVALID", "")
-        : " " + this._theme._getClassName("PASSWORD_FIELD_VALID", "");
+        ? " " + this._theme.getClassName("PASSWORD_FIELD_INVALID", "")
+        : " " + this._theme.getClassName("PASSWORD_FIELD_VALID", "");
     
     // Set default style.    
     return (this.disabled == true)
-        ? this._theme._getClassName("PASSWORD_FIELD_DISABLED", "") 
-        : this._theme._getClassName("PASSWORD_FIELD", "") + validStyle;
+        ? this._theme.getClassName("PASSWORD_FIELD_DISABLED", "") 
+        : this._theme.getClassName("PASSWORD_FIELD", "") + validStyle;
 };

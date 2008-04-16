@@ -25,7 +25,7 @@ webui.@THEME_JS@._dojo.provide("webui.@THEME_JS@.widget.table2RowGroup");
 webui.@THEME_JS@._dojo.require("webui.@THEME_JS@._base.browser");
 webui.@THEME_JS@._dojo.require("webui.@THEME_JS@.widget.common");
 webui.@THEME_JS@._dojo.require("webui.@THEME_JS@.widget._base.widgetBase");
-webui.@THEME_JS@._dojo.require("webui.@THEME_JS@._theme.common");
+webui.@THEME_JS@._dojo.require("webui.@THEME_JS@.theme.common");
 
 /**
  * This function is used to construct a table2RowGroup widget.
@@ -78,21 +78,21 @@ webui.@THEME_JS@._dojo.declare("webui.@THEME_JS@.widget.table2RowGroup",
     _primarySortOptions: [{
         "group": false,
         "value": "sort",
-        "label": webui.@THEME_JS@._theme.common._getMessage("table2.sortByThisColumn"),
+        "label": webui.@THEME_JS@.theme.common.getMessage("table2.sortByThisColumn"),
         "disabled": true,
         "separator": false,
         "escape": true
     }, {
         "group": false,
         "value": "primaryAscending",
-        "label": webui.@THEME_JS@._theme.common._getMessage("table2.sortAscending"),
+        "label": webui.@THEME_JS@.theme.common.getMessage("table2.sortAscending"),
         "disabled": false,
         "separator": false,
         "escape": true
     }, {
         "group": false,
         "value": "primaryDescending",
-        "label": webui.@THEME_JS@._theme.common._getMessage("table2.sortDescending"),
+        "label": webui.@THEME_JS@.theme.common.getMessage("table2.sortDescending"),
         "disabled": false,
         "separator": true,
         "escape": true
@@ -101,7 +101,7 @@ webui.@THEME_JS@._dojo.declare("webui.@THEME_JS@.widget.table2RowGroup",
     _clearSortOptions: [{
         "group": false,
         "value": "clear",
-        "label": webui.@THEME_JS@._theme.common._getMessage("table2.clearSort"),
+        "label": webui.@THEME_JS@.theme.common.getMessage("table2.clearSort"),
         "disabled": false,
         "separator": false,
         "escape": true
@@ -110,21 +110,21 @@ webui.@THEME_JS@._dojo.declare("webui.@THEME_JS@.widget.table2RowGroup",
     _secondarySortOptions: [{
         "group": false,
         "value": "sort",
-        "label": webui.@THEME_JS@._theme.common._getMessage("table2.addColumnSort"),
+        "label": webui.@THEME_JS@.theme.common.getMessage("table2.addColumnSort"),
         "disabled": true,
         "separator": false,
         "escape": true
     }, {
         "group": false,
         "value": "ascending",
-        "label": webui.@THEME_JS@._theme.common._getMessage("table2.sortAscending"),
+        "label": webui.@THEME_JS@.theme.common.getMessage("table2.sortAscending"),
         "disabled": false,
         "separator": false,
         "escape": true
     }, {
         "group": false,
         "value": "descending",
-        "label": webui.@THEME_JS@._theme.common._getMessage("table2.sortDescending"),
+        "label": webui.@THEME_JS@.theme.common.getMessage("table2.sortDescending"),
         "disabled": false,
         "separator": true,
         "escape": true
@@ -266,7 +266,7 @@ webui.@THEME_JS@.widget.table2RowGroup.prototype.addRows = function(rows) {
             this._setColumnProps(cellClone, col);
             cellClone.id = colId; // Override id set by _setCoreProps.
             if (col.sortLevel == 1) {
-                cellClone.className = this._theme._getClassName("TABLE2_PRIMARYSORT");            
+                cellClone.className = this._theme.getClassName("TABLE2_PRIMARYSORT");            
             }
 
             // Add cell data.
@@ -508,7 +508,7 @@ webui.@THEME_JS@.widget.table2RowGroup.prototype._postCreate = function () {
                 id: this.id + "_paginationPrevButtonImgDis",
                 widgetType: "image"
             },
-            title: this._theme._getMessage("table2.pagination.previous"),
+            title: this._theme.getMessage("table2.pagination.previous"),
             widgetType: "imageHyperlink"
         };
     }
@@ -526,7 +526,7 @@ webui.@THEME_JS@.widget.table2RowGroup.prototype._postCreate = function () {
                 id: this.id + "_paginationNextButtonImgDis",
                 widgetType: "image"
             },
-            title: this._theme._getMessage("table2.pagination.next"),
+            title: this._theme.getMessage("table2.pagination.next"),
             widgetType: "imageHyperlink"
         };
     }
@@ -878,7 +878,7 @@ webui.@THEME_JS@.widget.table2RowGroup.prototype._updateRowsText = function() {
     // To do: Need to create a new rows message.
 
     // NOTE: If you set this value manually, text must be HTML escaped.
-    var msg = this._theme._getMessage("table.title.paginated", [
+    var msg = this._theme.getMessage("table.title.paginated", [
         "", 
         firstRow, 
         lastRow, 

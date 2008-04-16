@@ -71,7 +71,7 @@ webui.@THEME_JS@._dojo.declare("webui.@THEME_JS@.widget.dropDown",
     constructor : function() {
 	this.labelOnTop = this._theme._getMessageBoolean("dropDown.labelOnTop", false);
 	this.submitForm =  false;
-	this.width = this._theme._getMessage("dropDown.width", null);
+	this.width = this._theme.getMessage("dropDown.width", null);
     },
     _widgetType: "dropDown" // Required for theme properties.
 });
@@ -187,7 +187,7 @@ webui.@THEME_JS@.widget.dropDown.event =
  * @private
  */
 webui.@THEME_JS@.widget.dropDown.prototype._getClassName = function() {
-    var cn = this._theme._getClassName("DROPDOWN", "");
+    var cn = this._theme.getClassName("DROPDOWN", "");
     return (this.className) ? cn + " " + this.className : cn;
 };
 
@@ -212,7 +212,7 @@ webui.@THEME_JS@.widget.dropDown.prototype._getClassName = function() {
 webui.@THEME_JS@.widget.dropDown.prototype._getLabelProps = function() {
 
     var props = this._inherited("_getLabelProps", arguments);
-    props.level = this._theme._getMessage("dropDown.labelLevel", null, 2);
+    props.level = this._theme.getMessage("dropDown.labelLevel", null, 2);
     return props;
 };
 
@@ -240,8 +240,8 @@ webui.@THEME_JS@.widget.dropDown.prototype._getLabelOnTopClassName = function(on
     // Jumpmenu ?
     //
     return (this.submitForm != null && this.submitForm == true)
-	? this._theme._getClassName("MENU_JUMP_LABEL_ALIGN", null)
-        : this._theme._getClassName("MENU_STANDARD_LABEL_ALIGN", null);
+	? this._theme.getClassName("MENU_JUMP_LABEL_ALIGN", null)
+        : this._theme.getClassName("MENU_STANDARD_LABEL_ALIGN", null);
 };
 
 /**
@@ -289,7 +289,7 @@ webui.@THEME_JS@.widget.dropDown.prototype._getListContainerClassName =
     } else if (jumpmenu == true) {
 	key = "MENU_JUMP";
     }
-    return this._theme._getClassName(key, null);
+    return this._theme.getClassName(key, null);
 };
 
 /**
@@ -391,7 +391,7 @@ webui.@THEME_JS@.widget.dropDown.prototype._getOptionClassName = function(elemen
 	    }
 	}
     }
-    return this._theme._getClassName(key);
+    return this._theme.getClassName(key);
 };
 
 /**

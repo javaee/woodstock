@@ -102,8 +102,8 @@ webui.@THEME_JS@.widget.checkboxGroup.event =
 webui.@THEME_JS@.widget.checkboxGroup.prototype._getClassName = function() {
     // Set default style.
     var className = (this.columns > 1)
-        ? this._theme._getClassName("CBGRP_HORIZ", "")
-        : this._theme._getClassName("CBGRP_VERT", "");
+        ? this._theme.getClassName("CBGRP_HORIZ", "")
+        : this._theme.getClassName("CBGRP_VERT", "");
 
     return (this.className)
         ? className + " " + this.className

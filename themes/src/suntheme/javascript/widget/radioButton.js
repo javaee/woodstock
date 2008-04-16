@@ -130,8 +130,8 @@ webui.@THEME_JS@.widget.radioButton.event =
 webui.@THEME_JS@.widget.radioButton.prototype._getClassName = function() {
     // Set default style.
     var className = (this.disabled == true)
-        ? this._theme._getClassName("RADIOBUTTON_SPAN_DISABLED", "")
-        : this._theme._getClassName("RADIOBUTTON_SPAN", "");
+        ? this._theme.getClassName("RADIOBUTTON_SPAN_DISABLED", "")
+        : this._theme.getClassName("RADIOBUTTON_SPAN", "");
 
     return (this.className)
         ? className + " " + this.className
@@ -146,8 +146,8 @@ webui.@THEME_JS@.widget.radioButton.prototype._getClassName = function() {
  */
 webui.@THEME_JS@.widget.radioButton.prototype._getImageClassName = function() {
     return (this.disabled == true)
-        ? this._theme._getClassName("RADIOBUTTON_IMAGE_DISABLED", "")
-        : this._theme._getClassName("RADIOBUTTON_IMAGE", "");  
+        ? this._theme.getClassName("RADIOBUTTON_IMAGE_DISABLED", "")
+        : this._theme.getClassName("RADIOBUTTON_IMAGE", "");  
 };
 
 /**
@@ -159,13 +159,13 @@ webui.@THEME_JS@.widget.radioButton.prototype._getImageClassName = function() {
 webui.@THEME_JS@.widget.radioButton.prototype._getInputClassName = function() {
     // Set readOnly style.
     if (this.readOnly == true) {
-        return this._theme._getClassName("RADIOBUTTON_READONLY", "");
+        return this._theme.getClassName("RADIOBUTTON_READONLY", "");
     }
 
     // Disabled style.
     return (this.disabled == true)
-        ? this._theme._getClassName("RADIOBUTTON_DISABLED", "")
-        : this._theme._getClassName("RADIOBUTTON", "");  
+        ? this._theme.getClassName("RADIOBUTTON_DISABLED", "")
+        : this._theme.getClassName("RADIOBUTTON", "");  
 };
 
 /**
@@ -176,8 +176,8 @@ webui.@THEME_JS@.widget.radioButton.prototype._getInputClassName = function() {
  */
 webui.@THEME_JS@.widget.radioButton.prototype._getLabelDisabledClassName = function(disabled) {
     return (disabled == true)
-        ? this._theme._getClassName("RADIOBUTTON_LABEL_DISABLED", "")
-        : this._theme._getClassName("RADIOBUTTON_LABEL", "");  
+        ? this._theme.getClassName("RADIOBUTTON_LABEL_DISABLED", "")
+        : this._theme.getClassName("RADIOBUTTON_LABEL", "");  
 };
 
 /**
@@ -204,6 +204,6 @@ webui.@THEME_JS@.widget.radioButton.prototype._getLabelProps = function() {
     // Let selectBase add the htmlFor property
     //
     var props = this.inherited("_getLabelProps", arguments);
-    props.level = this._theme._getMessage("radioButton.labelLevel", null, 3);
+    props.level = this._theme.getMessage("radioButton.labelLevel", null, 3);
     return props;
 };

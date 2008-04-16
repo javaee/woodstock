@@ -130,8 +130,8 @@ webui.@THEME_JS@.widget.checkbox.event =
 webui.@THEME_JS@.widget.checkbox.prototype._getClassName = function() {
     // Set default style.
     var className = (this.disabled == true)
-        ? this._theme._getClassName("CHECKBOX_SPAN_DISABLED", "")
-        : this._theme._getClassName("CHECKBOX_SPAN", ""); 
+        ? this._theme.getClassName("CHECKBOX_SPAN_DISABLED", "")
+        : this._theme.getClassName("CHECKBOX_SPAN", ""); 
 
     return (this.className)
         ? className + " " + this.className
@@ -146,8 +146,8 @@ webui.@THEME_JS@.widget.checkbox.prototype._getClassName = function() {
  */
 webui.@THEME_JS@.widget.checkbox.prototype._getImageClassName = function() {
     return (this.disabled == true)
-        ? this._theme._getClassName("CHECKBOX_IMAGE_DISABLED", "")
-        : this._theme._getClassName("CHECKBOX_IMAGE", "");  
+        ? this._theme.getClassName("CHECKBOX_IMAGE_DISABLED", "")
+        : this._theme.getClassName("CHECKBOX_IMAGE", "");  
 };
 
 /**
@@ -159,13 +159,13 @@ webui.@THEME_JS@.widget.checkbox.prototype._getImageClassName = function() {
 webui.@THEME_JS@.widget.checkbox.prototype._getInputClassName = function() {
     // readOnly style.
     if (this.readOnly == true) {
-        return this._theme._getClassName("CHECKBOX_READONLY", "");        
+        return this._theme.getClassName("CHECKBOX_READONLY", "");        
     }
 
     // disabled style.
     return (this.disabled == true)
-        ? this._theme._getClassName("CHECKBOX_DISABLED", "")
-        : this._theme._getClassName("CHECKBOX", "");  
+        ? this._theme.getClassName("CHECKBOX_DISABLED", "")
+        : this._theme.getClassName("CHECKBOX", "");  
 };
 
 /**
@@ -176,8 +176,8 @@ webui.@THEME_JS@.widget.checkbox.prototype._getInputClassName = function() {
  */
 webui.@THEME_JS@.widget.checkbox.prototype._getLabelDisabledClassName = function(disabled) {
     return (disabled == true)
-        ? this._theme._getClassName("CHECKBOX_LABEL_DISABLED", "")
-        : this._theme._getClassName("CHECKBOX_LABEL", "");  
+        ? this._theme.getClassName("CHECKBOX_LABEL_DISABLED", "")
+        : this._theme.getClassName("CHECKBOX_LABEL", "");  
 };
 
 /**
@@ -204,6 +204,6 @@ webui.@THEME_JS@.widget.checkbox.prototype._getLabelProps = function() {
     // Let selectBase add the htmlFor property
     //
     var props = this.inherited("_getLabelProps", arguments);
-    props.level = this._theme._getMessage("checkbox.labelLevel", null, 3);
+    props.level = this._theme.getMessage("checkbox.labelLevel", null, 3);
     return props;
 };

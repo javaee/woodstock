@@ -267,28 +267,28 @@ webui.@THEME_JS@.widget.rating.prototype._getGradeImageInfo = function(
         if (diff < (0 -.5)) {
             // Difference is more than half-grade below zero.
             // Show empty grade.
-            className = this._theme._getClassName("RATING_GRADE_EMPTY_IMAGE");
-            width = parseInt(this._theme._getProperty("images", "RATING_GRADE_EMPTY_WIDTH"));
+            className = this._theme.getClassName("RATING_GRADE_EMPTY_IMAGE");
+            width = parseInt(this._theme.getProperty("images", "RATING_GRADE_EMPTY_WIDTH"));
         } else if (diff < 0) {
             // Difference is less than a half-grade below 0.
             // Show average half-full grade
-            className = this._theme._getClassName("RATING_GRADE_AVG_HALF_IMAGE");
-            width = parseInt(this._theme._getProperty("images", "RATING_AVG_GRADE_HALF_WIDTH"));
+            className = this._theme.getClassName("RATING_GRADE_AVG_HALF_IMAGE");
+            width = parseInt(this._theme.getProperty("images", "RATING_AVG_GRADE_HALF_WIDTH"));
         } else {
             // Difference is 0 or higher.
             // Show average full grade
-            className = this._theme._getClassName("RATING_GRADE_AVG_FULL_IMAGE");
-            width = parseInt(this._theme._getProperty("images", "RATING_AVG_GRADE_FULL_WIDTH"));
+            className = this._theme.getClassName("RATING_GRADE_AVG_FULL_IMAGE");
+            width = parseInt(this._theme.getProperty("images", "RATING_AVG_GRADE_FULL_WIDTH"));
         }
     } else {
         if (rank <= grade) {
             // Show full user's grade
-            className = this._theme._getClassName("RATING_GRADE_FULL_IMAGE");
-            width = parseInt(this._theme._getProperty("images", "RATING_GRADE_FULL_WIDTH"));
+            className = this._theme.getClassName("RATING_GRADE_FULL_IMAGE");
+            width = parseInt(this._theme.getProperty("images", "RATING_GRADE_FULL_WIDTH"));
         } else {
             // Show empty grade
-            className = this._theme._getClassName("RATING_GRADE_EMPTY_IMAGE");
-            width = parseInt(this._theme._getProperty("images", "RATING_GRADE_EMPTY_WIDTH"));
+            className = this._theme.getClassName("RATING_GRADE_EMPTY_IMAGE");
+            width = parseInt(this._theme.getProperty("images", "RATING_GRADE_EMPTY_WIDTH"));
         }
     }
     return [className, width];
@@ -346,16 +346,16 @@ webui.@THEME_JS@.widget.rating.prototype._previewState = function(code, isMouseO
         displayingGrade = code;
     
 
-    var hoverClass = this._theme._getClassName("RATING_HOVER");
+    var hoverClass = this._theme.getClassName("RATING_HOVER");
     var hoverText = null;
 
     // ModeToggle image
     if ((this.includeModeToggle == true) && (this._modeToggleNode != null)) {
         // Set style class for this image
         if (displayingAvg)
-            this._modeToggleNode.className = this._theme._getClassName("RATING_MODE_AVERAGE_IMAGE");
+            this._modeToggleNode.className = this._theme.getClassName("RATING_MODE_AVERAGE_IMAGE");
         else
-            this._modeToggleNode.className = this._theme._getClassName("RATING_MODE_NORMAL_IMAGE");
+            this._modeToggleNode.className = this._theme.getClassName("RATING_MODE_NORMAL_IMAGE");
 
         // Since we reset the className above, we may need to add back the hover class.
         if (!this.modeReadOnly)
@@ -373,9 +373,9 @@ webui.@THEME_JS@.widget.rating.prototype._previewState = function(code, isMouseO
     if ((this.includeNotInterested == true) && (this._notInterestedNode != null)) {
         // Set style class for this image
         if (displayingGrade == this._CODE_NOTINTERESTED)
-            this._notInterestedNode.className = this._theme._getClassName("RATING_NOT_INTERESTED_ON_IMAGE");
+            this._notInterestedNode.className = this._theme.getClassName("RATING_NOT_INTERESTED_ON_IMAGE");
         else
-            this._notInterestedNode.className = this._theme._getClassName("RATING_NOT_INTERESTED_OFF_IMAGE");
+            this._notInterestedNode.className = this._theme.getClassName("RATING_NOT_INTERESTED_OFF_IMAGE");
 
         // Since we reset the className above, we may need to add back the hover class.
         if (!this.gradeReadOnly)
@@ -389,9 +389,9 @@ webui.@THEME_JS@.widget.rating.prototype._previewState = function(code, isMouseO
     // Clear image
     if ((this.includeClear == true) && (this._clearNode != null)) {
         if (displayingGrade == this._CODE_CLEAR)
-            this._clearNode.className = this._theme._getClassName("RATING_CLEAR_ON_IMAGE");
+            this._clearNode.className = this._theme.getClassName("RATING_CLEAR_ON_IMAGE");
         else
-            this._clearNode.className = this._theme._getClassName("RATING_CLEAR_OFF_IMAGE");
+            this._clearNode.className = this._theme.getClassName("RATING_CLEAR_OFF_IMAGE");
 
         // Since we reset the className above, we may need to add back the hover class.
         if (!this.gradeReadOnly)
@@ -670,13 +670,13 @@ webui.@THEME_JS@.widget.rating.prototype._postCreate = function () {
 
     // Set classes on elements that don't change.
     this._common._addStyleClass(this._domNode,
-        this._theme._getClassName("RATING"));
+        this._theme.getClassName("RATING"));
     this._common._addStyleClass(this._textContainer,
-        this._theme._getClassName("RATING_TEXT_CONTAINER"));
+        this._theme.getClassName("RATING_TEXT_CONTAINER"));
     this._common._addStyleClass(this._controlContainer,
-        this._theme._getClassName("RATING_CONTROL_CONTAINER"));
+        this._theme.getClassName("RATING_CONTROL_CONTAINER"));
     this._common._addStyleClass(this._spacerNode,
-        this._theme._getClassName("RATING_SPACER_NODE"));
+        this._theme.getClassName("RATING_SPACER_NODE"));
 
     // Configure event handlers for the notInterested control
     this._dojo.connect(this._notInterestedNode,
@@ -814,9 +814,9 @@ webui.@THEME_JS@.widget.rating.prototype._setProps = function(props) {
         return false;
     }
 
-    var gradeRightMargin = parseInt(this._theme._getMessage("rating.gradeMarginRight"));
-    var hiddenClass = this._theme._getClassName("HIDDEN");
-    var hoverClass = this._theme._getClassName("RATING_HOVER");
+    var gradeRightMargin = parseInt(this._theme.getMessage("rating.gradeMarginRight"));
+    var hiddenClass = this._theme.getClassName("HIDDEN");
+    var hoverClass = this._theme.getClassName("RATING_HOVER");
 
     // Assume width of control container does NOT need to be recalculated, prove otherwise based on 
     // properties that change.
@@ -844,8 +844,8 @@ webui.@THEME_JS@.widget.rating.prototype._setProps = function(props) {
         var imageWidth = 0;
 
         if (this.includeNotInterested == true) {
-            var notInterestedOff = this._theme._getClassName("RATING_NOT_INTERESTED_OFF_IMAGE");
-            var notInterestedOn = this._theme._getClassName("RATING_NOT_INTERESTED_ON_IMAGE");
+            var notInterestedOff = this._theme.getClassName("RATING_NOT_INTERESTED_OFF_IMAGE");
+            var notInterestedOn = this._theme.getClassName("RATING_NOT_INTERESTED_ON_IMAGE");
 
             // Remove hidden class
             if (this._common._checkStyleClasses(classNames, hiddenClass))
@@ -861,7 +861,7 @@ webui.@THEME_JS@.widget.rating.prototype._setProps = function(props) {
                     this._common._addStyleClass(this._notInterestedNode, notInterestedOn);
 
                 // Get image width
-                imageWidth = parseInt(this._theme._getProperty("images", "RATING_NOT_INTERESTED_ON_WIDTH"));
+                imageWidth = parseInt(this._theme.getProperty("images", "RATING_NOT_INTERESTED_ON_WIDTH"));
 
             } else {
                 // Remove notInterested ON class
@@ -873,7 +873,7 @@ webui.@THEME_JS@.widget.rating.prototype._setProps = function(props) {
                     this._common._addStyleClass(this._notInterestedNode, notInterestedOff);
 
                 // Get image width
-                imageWidth = parseInt(this._theme._getProperty("images", "RATING_NOT_INTERESTED_OFF_WIDTH"));
+                imageWidth = parseInt(this._theme.getProperty("images", "RATING_NOT_INTERESTED_OFF_WIDTH"));
             }
 
             // Add right margin
@@ -963,8 +963,8 @@ webui.@THEME_JS@.widget.rating.prototype._setProps = function(props) {
         var imageWidth = 0;
 
         if (props.includeClear == true) {
-            var clearOff = this._theme._getClassName("RATING_CLEAR_OFF_IMAGE");
-            var clearOn = this._theme._getClassName("RATING_CLEAR_ON_IMAGE");
+            var clearOff = this._theme.getClassName("RATING_CLEAR_OFF_IMAGE");
+            var clearOn = this._theme.getClassName("RATING_CLEAR_ON_IMAGE");
 
             // Remove hidden class
             if (this._common._checkStyleClasses(classNames, hiddenClass))
@@ -980,7 +980,7 @@ webui.@THEME_JS@.widget.rating.prototype._setProps = function(props) {
                     this._common._addStyleClass(this._clearNode, clearOn);
 
                 // Get image width
-                imageWidth = parseInt(this._theme._getProperty("images", "RATING_CLEAR_ON_WIDTH"));
+                imageWidth = parseInt(this._theme.getProperty("images", "RATING_CLEAR_ON_WIDTH"));
 
             } else {
 
@@ -993,7 +993,7 @@ webui.@THEME_JS@.widget.rating.prototype._setProps = function(props) {
                     this._common._addStyleClass(this._clearNode, clearOff);
 
                 // Get image width
-                imageWidth = parseInt(this._theme._getProperty("images", "RATING_CLEAR_OFF_WIDTH"));
+                imageWidth = parseInt(this._theme.getProperty("images", "RATING_CLEAR_OFF_WIDTH"));
             }
 
             // Add right margin
@@ -1025,8 +1025,8 @@ webui.@THEME_JS@.widget.rating.prototype._setProps = function(props) {
         var imageWidth = 0;
 
         if (props.includeModeToggle == true) {
-            var normalMode = this._theme._getClassName("RATING_MODE_NORMAL_IMAGE");
-            var averageMode = this._theme._getClassName("RATING_MODE_AVERAGE_IMAGE");
+            var normalMode = this._theme.getClassName("RATING_MODE_NORMAL_IMAGE");
+            var averageMode = this._theme.getClassName("RATING_MODE_AVERAGE_IMAGE");
 
             // Remove hidden class
             if (this._common._checkStyleClasses(classNames, hiddenClass))
@@ -1042,7 +1042,7 @@ webui.@THEME_JS@.widget.rating.prototype._setProps = function(props) {
                     this._common._addStyleClass(this._modeToggleNode, averageMode);
 
                 // Get image width
-                imageWidth = parseInt(this._theme._getProperty("images", "RATING_MODE_AVG_WIDTH"));
+                imageWidth = parseInt(this._theme.getProperty("images", "RATING_MODE_AVG_WIDTH"));
             }
             else {
                 // Remove average mode class
@@ -1054,7 +1054,7 @@ webui.@THEME_JS@.widget.rating.prototype._setProps = function(props) {
                     this._common._addStyleClass(this._modeToggleNode, normalMode);
 
                 // Get image width
-                imageWidth = parseInt(this._theme._getProperty("images", "RATING_MODE_NORMAL_WIDTH"));
+                imageWidth = parseInt(this._theme.getProperty("images", "RATING_MODE_NORMAL_WIDTH"));
             }
 
         } else {
@@ -1085,7 +1085,7 @@ webui.@THEME_JS@.widget.rating.prototype._setProps = function(props) {
 
         // Record spacer width if changing and flag that control container width must be recomputed.
         if (this.imageWidths["spacer"] == 0) {
-            this.imageWidths["spacer"] = parseInt(this._theme._getMessage("rating.spacerWidth"));
+            this.imageWidths["spacer"] = parseInt(this._theme.getMessage("rating.spacerWidth"));
             changeControlWidth = true;
         }
     } else {

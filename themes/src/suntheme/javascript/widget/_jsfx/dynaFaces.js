@@ -23,7 +23,7 @@
 webui.@THEME_JS@._dojo.provide("webui.@THEME_JS@.widget._jsfx.dynaFaces");
 
 webui.@THEME_JS@._dojo.require("webui.@THEME_JS@._base.config");
-webui.@THEME_JS@._dojo.require("webui.@THEME_JS@._theme.common");
+webui.@THEME_JS@._dojo.require("webui.@THEME_JS@.theme.common");
 webui.@THEME_JS@._dojo.require("webui.@THEME_JS@.widget._base.eventBase");
 
 /**
@@ -84,7 +84,7 @@ webui.@THEME_JS@.widget._jsfx.dynaFaces = {
             return callback();
         }
         var bootstrap = webui.@THEME_JS@._base.bootstrap;
-        var theme = webui.@THEME_JS@._theme.common;
+        var theme = webui.@THEME_JS@.theme.common;
         var isDebug = new Boolean(webui.@THEME_JS@._base.config.isDebug).valueOf();
 
         // Get script URLs.

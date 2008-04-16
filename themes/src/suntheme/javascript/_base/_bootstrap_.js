@@ -130,7 +130,7 @@ if (typeof webui.@THEME_JS@ == "undefined") {
                 return false;
             }
             var bootstrap = webui.@THEME_JS@._base.bootstrap;
-            var theme = webui.@THEME_JS@._theme.common;
+            var theme = webui.@THEME_JS@.theme.common;
             var isDebug = new Boolean(props.isDebug).valueOf();
             var webuiAll = new Boolean(props.webuiAll).valueOf();
             var webuiJsfx = new Boolean(props.webuiJsfx).valueOf();
@@ -308,7 +308,7 @@ if (typeof webui.@THEME_JS@ == "undefined") {
             var bootstrap = webui.@THEME_JS@._base.bootstrap;
             var browser = webui.@THEME_JS@._base.browser;
             var isDebug = new Boolean(props.isDebug).valueOf();
-            var theme = webui.@THEME_JS@._theme.common;
+            var theme = webui.@THEME_JS@.theme.common;
 
             // Load master style sheet(s).
             var files = theme._getStyleSheets((isDebug) ? "masterUncompressed" : "master");
@@ -390,7 +390,7 @@ webui.@THEME_JS@._dojo.require("webui.@THEME_JS@._dojo.dojo"); // Replaced by bu
 
 webui.@THEME_JS@._dojo.require("webui.@THEME_JS@._base.browser"); // Replaced by build.
 webui.@THEME_JS@._dojo.require("webui.@THEME_JS@._base.config"); // Replaced by build.
-webui.@THEME_JS@._dojo.require("webui.@THEME_JS@._theme.common"); // Replaced by build.
+webui.@THEME_JS@._dojo.require("webui.@THEME_JS@.theme.common"); // Replaced by build.
 webui.@THEME_JS@._dojo.require("webui.@THEME_JS@.widget.common"); // Replaced by build.
 
     // Initialize javascript and style sheet resources.

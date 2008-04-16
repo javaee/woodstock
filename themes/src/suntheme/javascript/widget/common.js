@@ -24,7 +24,7 @@ webui.@THEME_JS@._dojo.provide("webui.@THEME_JS@.widget.common");
 
 webui.@THEME_JS@._dojo.require("webui.@THEME_JS@._base.config");
 webui.@THEME_JS@._dojo.require("webui.@THEME_JS@._base.browser");
-webui.@THEME_JS@._dojo.require("webui.@THEME_JS@._theme.common");
+webui.@THEME_JS@._dojo.require("webui.@THEME_JS@.theme.common");
 
 /**
  * @class This class contains functions common to all widgets.
@@ -573,7 +573,7 @@ webui.@THEME_JS@.widget.common = {
             return false;            
         }
         // Get icon properties.
-        var props = webui.@THEME_JS@._theme.common._getImage("DOT");
+        var props = webui.@THEME_JS@.theme.common.getImage("DOT");
         if (props == null) {
             return false;
         }

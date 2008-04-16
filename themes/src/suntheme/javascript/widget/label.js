@@ -64,7 +64,7 @@ webui.@THEME_JS@._dojo.declare("webui.@THEME_JS@.widget.label",
         webui.@THEME_JS@.widget._base.widgetBase, {
     // Set defaults.
     constructor: function() {
-        this.level = this._theme._getMessage("label.level", null, 2);
+        this.level = this._theme.getMessage("label.level", null, 2);
         this.required = false;
         this.valid = true;
     },
@@ -128,7 +128,7 @@ webui.@THEME_JS@.widget.label.prototype._getClassName = function() {
     }
 
     // Get theme property.
-    var className = this._theme._getClassName(key);
+    var className = this._theme.getClassName(key);
     if (className == null || className.length == 0) {
 	return this.className;
     }
@@ -206,7 +206,7 @@ webui.@THEME_JS@.widget.label.prototype._postCreate = function () {
 	this.errorImage = {
             icon: "LABEL_INVALID_ICON",
             id: this.id + "_error",
-	    className: this._theme._getClassName("LABEL_INVALID_IMAGE", null),
+	    className: this._theme.getClassName("LABEL_INVALID_IMAGE", null),
             widgetType: "image"
         };
     }
@@ -214,7 +214,7 @@ webui.@THEME_JS@.widget.label.prototype._postCreate = function () {
         this.requiredImage = {
             icon: "LABEL_REQUIRED_ICON",
             id: this.id + "_required",
-	    className: this._theme._getClassName("LABEL_REQUIRED_IMAGE", null),
+	    className: this._theme.getClassName("LABEL_REQUIRED_IMAGE", null),
             widgetType: "image"
         };
     }

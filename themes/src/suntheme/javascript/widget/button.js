@@ -149,7 +149,7 @@ webui.@THEME_JS@.widget.button.prototype._getClassName = function() {
             : "BUTTON2";	      // secondaryClassName
     }
 
-    var className = this._theme._getClassName(key, "");
+    var className = this._theme.getClassName(key, "");
     return (this.className)
         ? className + " " + this.className
         : className;
@@ -178,7 +178,7 @@ webui.@THEME_JS@.widget.button.prototype._getHoverClassName = function() {
         key = "BUTTON2_HOVER";		// secondaryHovClassName;
     }
 
-    var className = this._theme._getClassName(key, "");
+    var className = this._theme.getClassName(key, "");
     return (this.className)
         ? className + " " + this.className
         : className;

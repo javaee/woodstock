@@ -72,8 +72,8 @@ webui.@THEME_JS@._dojo.declare("webui.@THEME_JS@.widget.listbox",
 	this.labelOnTop = this._theme._getMessageBoolean("listbox.labelOnTop", false);
 	this.monospace = this._theme._getMessageBoolean("listbox.monospace", false);
 	this.multiple = this._theme._getMessageBoolean("listbox.multiple", false);
-	this.size = this._theme._getMessage("listbox.size", null, 12);
-	this.width = this._theme._getMessage("listbox.width", null);
+	this.size = this._theme.getMessage("listbox.size", null, 12);
+	this.width = this._theme.getMessage("listbox.width", null);
     },
     _widgetType: "listbox" // Required for theme properties.
 });
@@ -136,7 +136,7 @@ webui.@THEME_JS@.widget.listbox.event =
  * @private
  */
 webui.@THEME_JS@.widget.listbox.prototype._getClassName = function() {
-    var cn = this._theme._getClassName("LISTBOX", "");
+    var cn = this._theme.getClassName("LISTBOX", "");
     return (this.className) ? cn + " " + this.className : cn;
 };
 
@@ -161,7 +161,7 @@ webui.@THEME_JS@.widget.listbox.prototype._getClassName = function() {
 webui.@THEME_JS@.widget.listbox.prototype._getLabelProps = function() {
 
     var props = this._inherited("_getLabelProps", arguments);
-    props.level = this._theme._getMessage("listbox.labelLevel", null, 2);
+    props.level = this._theme.getMessage("listbox.labelLevel", null, 2);
     return props;
 };
 
@@ -183,7 +183,7 @@ webui.@THEME_JS@.widget.listbox.prototype._getLabelClassName = function(ontop) {
     //return labelontop == true
     return ontop != null && ontop == true
 	? null
-	: this._theme._getClassName("LISTBOX_LABEL_ALIGN", null);
+	: this._theme.getClassName("LISTBOX_LABEL_ALIGN", null);
 };
 
 /**
@@ -230,7 +230,7 @@ webui.@THEME_JS@.widget.listbox.prototype._getListContainerClassName =
     } else if (monospace == true) {
 	key = "LIST_MONOSPACE";
     }
-    return this._theme._getClassName(key, null);
+    return this._theme.getClassName(key, null);
 };
 
 /**
@@ -295,7 +295,7 @@ webui.@THEME_JS@.widget.listbox.prototype.getProps = function() {
 webui.@THEME_JS@.widget.listbox.prototype._getOptionClassName = function(element) {
     var key = "LIST_OPTION";
     if (element == null) {
-	return this._theme._getClassName(key, null);
+	return this._theme.getClassName(key, null);
     }
 
     if (element.separator == true) {
@@ -313,7 +313,7 @@ webui.@THEME_JS@.widget.listbox.prototype._getOptionClassName = function(element
     if (element.disabled == true) {
 	key = "LIST_OPTION_DISABLED";
     }
-    return this._theme._getClassName(key, null);
+    return this._theme.getClassName(key, null);
 };
 
 /**
@@ -424,7 +424,7 @@ webui.@THEME_JS@.widget.listbox.prototype._setProps = function(props) {
     if (props.size != null) {
 	var size = props.size;
 	if (size < 1) {
-	    size = this._theme._getMessage("listbox.size", null, 12);
+	    size = this._theme.getMessage("listbox.size", null, 12);
 	}
 	if (this._listContainer.size != size) {
 	    this._listContainer.size = size;

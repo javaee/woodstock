@@ -174,7 +174,7 @@ webui.@THEME_JS@.widget.image.prototype._setProps = function(props) {
         //
         // For now, skipping the combined image approach for IE6. Also need fix 
         // for Safari.
-        var iconProps = this._theme._getImage(props.icon);
+        var iconProps = this._theme.getImage(props.icon);
         if (iconProps == null) {
             console.debug("Error: theme icon '" + props.icon + "' not found.");
         } else {
@@ -185,8 +185,8 @@ webui.@THEME_JS@.widget.image.prototype._setProps = function(props) {
                 // valid test -- DOT images don't have a default size, for example.
                 if (iconProps['top'] != null && iconProps['actual_height'] != null 
                         && iconProps['actual_width'] != null) {               
-                    var transImage = this._theme._getImage("DOT");
-                    var combinedImage = this._theme._getImage(mapKey);
+                    var transImage = this._theme.getImage("DOT");
+                    var combinedImage = this._theme.getImage(mapKey);
 
                     // Set style properties.
                     this._domNode.style.border = "0";

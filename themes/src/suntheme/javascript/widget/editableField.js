@@ -185,17 +185,17 @@ webui.@THEME_JS@.widget.editableField.event =
 webui.@THEME_JS@.widget.editableField.prototype._getInputClassName = function() {    
     // Set default style.
     if (this.disabled == true) {
-        return  this._theme._getClassName("EDITABLE_FIELD_DISABLED","");
+        return  this._theme.getClassName("EDITABLE_FIELD_DISABLED","");
     }
 
     // Apply invalid style.
     var validStyle =  (this.valid == false) 
-        ? " " + this._theme._getClassName("EDITABLE_FIELD_INVALID","")
+        ? " " + this._theme.getClassName("EDITABLE_FIELD_INVALID","")
         : ""; 
 
     return (this.edit == true)
-        ? this._theme._getClassName("EDITABLE_FIELD_EDIT","") + validStyle
-        : this._theme._getClassName("EDITABLE_FIELD_DEFAULT","") + validStyle;
+        ? this._theme.getClassName("EDITABLE_FIELD_EDIT","") + validStyle
+        : this._theme.getClassName("EDITABLE_FIELD_DEFAULT","") + validStyle;
 };
 
 /**

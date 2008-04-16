@@ -120,8 +120,8 @@ webui.@THEME_JS@.widget.hyperlink.event =
 webui.@THEME_JS@.widget.hyperlink.prototype._getClassName = function() {
     // Set default style.
     var className = (this.disabled == true)
-        ? this._theme._getClassName("HYPERLINK_DISABLED","")
-        : this._theme._getClassName("HYPERLINK","");
+        ? this._theme.getClassName("HYPERLINK_DISABLED","")
+        : this._theme.getClassName("HYPERLINK","");
 
     return (this.className)
         ? className + " " + this.className

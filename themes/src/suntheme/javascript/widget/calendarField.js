@@ -138,7 +138,7 @@ webui.@THEME_JS@.widget.calendarField.event =
  */
 webui.@THEME_JS@.widget.calendarField.prototype._getClassName = function() {
     // Set default style.
-    var className = this._theme._getClassName("CALENDAR_ROOT_TABLE","");
+    var className = this._theme.getClassName("CALENDAR_ROOT_TABLE","");
 
     return (this.className)
         ? className + " " + this.className
@@ -187,9 +187,9 @@ webui.@THEME_JS@.widget.calendarField.prototype._postCreate = function () {
         if (this.calendar != null && this.calendar.dateFormat != null) {
             pattern = this.calendar.dateFormat;
         } else {        
-            pattern = this._theme._getMessage("calendar.dateFormat");
+            pattern = this._theme.getMessage("calendar.dateFormat");
         }
-        var help = this._theme._getMessage("calendar." + pattern);
+        var help = this._theme.getMessage("calendar." + pattern);
         if (help != null) {
             this.patternHelp = help;
         } 

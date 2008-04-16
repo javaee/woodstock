@@ -327,13 +327,13 @@ webui.@THEME_JS@.widget.popupMenu.prototype.open = function(event) {
     if (this._focusPosition > 0) {
         var menuNode = document.getElementById(this.menuId[this._focusPosition]); 
         if (menuNode) {
-            menuNode.className = this._theme._getClassName("MENU_GROUP_CONTAINER");
+            menuNode.className = this._theme.getClassName("MENU_GROUP_CONTAINER");
         }
     }
     this._focusPosition = 0;
     menuNode = document.getElementById(this.menuId[0]);
     menuNode.className = menuNode.className + " " + 
-        this._theme._getClassName("MENU_FOCUS");  
+        this._theme.getClassName("MENU_FOCUS");  
         
     if (menuNode.focus) {
         menuNode.focus();
@@ -367,9 +367,9 @@ webui.@THEME_JS@.widget.popupMenu.prototype._postCreate = function () {
     // Default widths of the drop shadow on each side of the menu.  These MUST 
     // be in pixel units and MUST match the absolute values of the left/top 
     // styles of the "Menu" style class in the CSS.
-    this.rightShadow = parseFloat(this._theme._getMessage("Menu.rightShadow"));
-    this.bottomShadow = parseFloat(this._theme._getMessage("Menu.bottomShadow"));
-    this._shadowContainer.className = this._theme._getClassName("MENU_SHADOW_CONTAINER"); 
+    this.rightShadow = parseFloat(this._theme.getMessage("Menu.rightShadow"));
+    this.bottomShadow = parseFloat(this._theme.getMessage("Menu.bottomShadow"));
+    this._shadowContainer.className = this._theme.getClassName("MENU_SHADOW_CONTAINER"); 
 
     return this._inherited("_postCreate", arguments);
 };
@@ -414,12 +414,12 @@ webui.@THEME_JS@.widget.popupMenu.prototype._traverseMenu = function(keyCode, ev
     // Handle the escape key and tab key press
     if (keyCode == 27 || keyCode == 9) {
         var focusElem = document.getElementById(this.menuId[this._focusPosition]);
-        focusElem.className = this._theme._getClassName("MENU_GROUP_CONTAINER");        
+        focusElem.className = this._theme.getClassName("MENU_GROUP_CONTAINER");        
         this.close();
         return true;
     } else if(keyCode >= 33 && keyCode <= 36) {
         focusElem = document.getElementById(this.menuId[this._focusPosition]);        
-        focusElem.className = this._theme._getClassName("MENU_GROUP_CONTAINER");
+        focusElem.className = this._theme.getClassName("MENU_GROUP_CONTAINER");
         
         // Handle the home and page Up keys. Focus is set on the first element.
         if (keyCode == 33 || keyCode == 36) {
@@ -436,7 +436,7 @@ webui.@THEME_JS@.widget.popupMenu.prototype._traverseMenu = function(keyCode, ev
             focusElem.focus();
         }                        
         focusElem.className = focusElem.className + " " +
-            this._theme._getClassName("MENU_FOCUS"); 
+            this._theme.getClassName("MENU_FOCUS"); 
         if (webui.@THEME_JS@._base.browser._isIe5up()) {
             window. event.cancelBubble = true;
             window.event.returnValue = false;

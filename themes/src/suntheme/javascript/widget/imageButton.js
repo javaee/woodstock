@@ -119,7 +119,7 @@ webui.@THEME_JS@.widget.imageButton.prototype._getClassName = function() {
 	? "BUTTON3_DISABLED"
 	: "BUTTON3";
 
-    var className = this._theme._getClassName(key, "");
+    var className = this._theme.getClassName(key, "");
     return (this.className)
         ? className + " " + this.className
         : className;
@@ -140,7 +140,7 @@ webui.@THEME_JS@.widget.imageButton.prototype._getHoverClassName = function() {
     // Note that the "mini" and "primary" values can still be set but
     // have no effect on image buttons by policy, vs by theme.
     var key = "BUTTON3_HOVER";
-    var className = this._theme._getClassName(key, "");
+    var className = this._theme.getClassName(key, "");
     return (this.className)
         ? className + " " + this.className
         : className;

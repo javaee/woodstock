@@ -200,7 +200,7 @@ webui.@THEME_JS@.widget._base.menuBase.prototype._createOnMouseOutCallBack = fun
     // saved by closure magic.
     return function(event) {
         var widget = webui.@THEME_JS@.widget.common.getWidget(_id);
-        menuItem.className = widget._theme._getClassName("MENU_GROUP_CONTAINER");
+        menuItem.className = widget._theme.getClassName("MENU_GROUP_CONTAINER");
     };
 };
 
@@ -226,7 +226,7 @@ webui.@THEME_JS@.widget._base.menuBase.prototype._createOnMouseOverCallBack = fu
     return function(event) {
         var widget = webui.@THEME_JS@.widget.common.getWidget(_id);
         menuItem.className = menuItem.className + " " + 
-            widget._theme._getClassName("MENU_ITEM_HOVER");            
+            widget._theme.getClassName("MENU_ITEM_HOVER");            
         if (widget != null) {
             // Mozilla browser (not firefox/seamonkey) do not support focus/blur
             // for divs                
@@ -235,12 +235,12 @@ webui.@THEME_JS@.widget._base.menuBase.prototype._createOnMouseOverCallBack = fu
             }                
             if (!(menuItem.id == widget.menuId[widget._focusPosition])) {
                 document.getElementById(widget.menuId[widget._focusPosition]).className =
-                    widget._theme._getClassName("MENU_GROUP_CONTAINER");
+                    widget._theme.getClassName("MENU_GROUP_CONTAINER");
             }
         }
         if (webui.@THEME_JS@._base.browser._isIe5up() ) {
             menuItem.className = menuItem.className + " " + 
-                widget._theme._getClassName("MENU_ITEM_HOVER");            
+                widget._theme.getClassName("MENU_ITEM_HOVER");            
         }
     };
 };
@@ -435,11 +435,11 @@ webui.@THEME_JS@.widget._base.menuBase.prototype._processOnClickEvent = function
 webui.@THEME_JS@.widget._base.menuBase.prototype._setMenuNodeClassName = function(
         menuItemContainer, props) {        
     if (new Boolean(props.group).valueOf() == true) {
-        menuItemContainer.className = this._theme._getClassName("MENU_GROUP_HEADER");
+        menuItemContainer.className = this._theme.getClassName("MENU_GROUP_HEADER");
     } else if (new Boolean(props.disabled).valueOf() == true) {
-        menuItemContainer.className = this._theme._getClassName("MENU_ITEM_DISABLED");
+        menuItemContainer.className = this._theme.getClassName("MENU_ITEM_DISABLED");
     } else {
-        menuItemContainer.className = this._theme._getClassName("MENU_GROUP_CONTAINER");        
+        menuItemContainer.className = this._theme.getClassName("MENU_GROUP_CONTAINER");        
 
         // Whenever mouse over/out happens, focus must be set on the menu accordingly.
         // Apply an hack for IE for mouse hover on the div element since div:hover type
@@ -538,7 +538,7 @@ webui.@THEME_JS@.widget._base.menuBase.prototype._setOptionNodeProps = function(
         if (props.image != null) {
             // Add the widget
             imageNode = this._menuItemImageContainer.cloneNode(false);
-            props.image.className = this._theme._getClassName("MENU_ITEM_IMAGE");
+            props.image.className = this._theme.getClassName("MENU_ITEM_IMAGE");
             this._widget._addFragment(imageNode, props.image);
         } 
         menuItemContainer.appendChild(imageNode);
@@ -628,7 +628,7 @@ webui.@THEME_JS@.widget._base.menuBase.prototype._setProps = function(props){
         // Account for image width if one exists. This property can be got from the
 	// theme
         if (this.hasImage) {
-            var placeHolderWidth = parseFloat(this._theme._getMessage("Menu.placeHolderImageWidth"));
+            var placeHolderWidth = parseFloat(this._theme.getMessage("Menu.placeHolderImageWidth"));
             this.maxWidth += placeHolderWidth; 
         }       
    
@@ -644,7 +644,7 @@ webui.@THEME_JS@.widget._base.menuBase.prototype._setProps = function(props){
         
         // Clone the menu node and add it to the outer container.
         var menuNode = this._groupOptionContainer.cloneNode(false);
-        menuNode.className = this._theme._getClassName("MENU_CONTAINER");
+        menuNode.className = this._theme.getClassName("MENU_CONTAINER");
         this._outerMenuContainer.appendChild(menuNode);         
         this._addOptions(menuNode, props);
     }
@@ -718,7 +718,7 @@ webui.@THEME_JS@.widget._base.menuBase.prototype._traverseMenu = function(keyCod
         
         // Check whether up arrow was pressed.
         if (keyCode == 38) {
-            focusElem.className = this._theme._getClassName("MENU_GROUP_CONTAINER");
+            focusElem.className = this._theme.getClassName("MENU_GROUP_CONTAINER");
             this._focusPosition--;
             if (this._focusPosition < 0) {
                 this._focusPosition = arr.length-1;
@@ -728,7 +728,7 @@ webui.@THEME_JS@.widget._base.menuBase.prototype._traverseMenu = function(keyCod
         // Check whether down arrow was pressed
         } else if (keyCode == 40) {
             focusElem.className = 
-                this._theme._getClassName("MENU_GROUP_CONTAINER");
+                this._theme.getClassName("MENU_GROUP_CONTAINER");
             this._focusPosition++;
             if (this._focusPosition == arr.length) {
                 this._focusPosition = 0;
@@ -740,11 +740,11 @@ webui.@THEME_JS@.widget._base.menuBase.prototype._traverseMenu = function(keyCod
         focusElem.focus();
     }        
         focusElem.className = focusElem.className + " "+
-            this._theme._getClassName("MENU_FOCUS");           
+            this._theme.getClassName("MENU_FOCUS");           
     // Check if enter key was pressed    
     } else if(keyCode == 13){
         focusElem.className =
-            this._theme._getClassName("MENU_GROUP_CONTAINER");
+            this._theme.getClassName("MENU_GROUP_CONTAINER");
         var val = elem.selectValue;
         this._processEnterKeyPressEvent(val);
        

@@ -208,7 +208,7 @@ webui.@THEME_JS@.widget.login.prototype._getClassName = function() {
     var key = "LOGIN_DIV";
 
     // Get theme property.
-    var className = this._theme._getClassName(key);
+    var className = this._theme.getClassName(key);
     if (className == null || className.length == 0) {
 	return this.className;
     }
@@ -296,10 +296,10 @@ webui.@THEME_JS@.widget.login.prototype._postCreate = function () {
     
     if (this.loginButton == null) {
         this.loginButton = {
-            alt: this._theme._getMessage("login.buttonAlt"),
+            alt: this._theme.getMessage("login.buttonAlt"),
             id: this.id + "_loginButton",
             tabIndex: this.tabIndex,
-            value: this._theme._getMessage("login.buttonTitle"),
+            value: this._theme.getMessage("login.buttonTitle"),
             widgetType: "button"
         };
     }
@@ -367,10 +367,10 @@ webui.@THEME_JS@.widget.login.prototype._setAlert = function(props) {
             this._proto._extend(_props, props);
         }
         if (_props.summary == null) {
-            _props.summary = this._theme._getMessage("login.errorSummary");
+            _props.summary = this._theme.getMessage("login.errorSummary");
         }
         if (_props.detail == null) {
-            _props.detail = this._theme._getMessage("login.errorDetail");
+            _props.detail = this._theme.getMessage("login.errorDetail");
         }
 
         var tr = this._alertRowContainer.cloneNode(false);
